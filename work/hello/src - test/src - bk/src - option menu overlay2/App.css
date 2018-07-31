@@ -1,0 +1,118 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);
+@@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+body{
+	padding: 10px;
+	margin: 0px;
+	font-family: 'Open Sans';
+}
+ul, ul li{
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+}
+.container{
+	position: relative;
+	padding: 15px 0 32px 0;
+}
+.form{
+	display: table;
+	margin: 0 0 10px 0;
+}
+.form input{
+	float: left;
+	outline: none;
+}
+.form button{
+	float: left;
+}
+
+.optionPopup{
+	diplay: none;
+}
+.optionPopupActive{ 
+	display: block;
+	top: 0px;
+	right: 0px;
+	bottom: 30px;
+	left: 0px;
+	position: fixed;
+	background-color: rgba(0,0,0,0.6);
+	z-index: 999;
+}
+.optionMenu{
+	top: 161px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	position: absolute;
+	background-color: #fff;
+	z-index: 9999;
+}
+.optionMenu li, .optionMenuHome li{	
+	padding: 0 12px 0 0;
+	text-align: right;
+	line-height: 32px;
+	border-bottom: 1px solid #f2f2f2;
+}
+.optionMenu li:last-child{ border-bottom:0px; }
+.optionMenu li.active{
+	color: #fff;
+	background: #17a791;
+}
+.optionMenuHome li{
+	text-align: center;
+}
+.optionMenuHome li.focus{
+	color: #333;
+	background: #ccc;
+}
+.focus{
+	color: #333;
+	background: #ccc;
+}
+
+/* Start footer */
+.footer-title{
+	color: #fff;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	top: 0px;
+	left: 0;
+	right: 0px;
+	position: fixed;
+	z-index: 11;
+	background: #17a791;
+}
+.App-footer { 
+  height: 66px;
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  right: 0px;
+  z-index: 99;
+}
+.footerMsg{ background-color: #CCCCCC; padding: 6px; }
+.footerMsg input{
+	width: calc(100% - 12px);
+    height:20px;
+    padding: 0 5px;
+    border-radius: 0px;
+    font-size: 14px;
+    color: #545454;
+	outline: 0px;
+	float: none;
+}
+.textmsg { 
+	height: 30px; 
+	background-color: #000; 
+	color: #fff; 
+	line-height: 30px;
+}
+.textmsg div{ float: left; }
+.lsk{ padding: 0 0 0 6px; width: 100px; text-align: left; }
+.lsk img{ float: left; }
+.csk{ width: 25px; }
+.rsk{ padding: 0 6px 0 0; width: 100px; text-align: right;}
+.rsk img{ float: right; }
+

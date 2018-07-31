@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-family: sans-serif;
+  background: #fff;
+}
+.container{
+	padding: 25px;
+}
+.navigation{
+	margin: 20px 0 0 0;
+	padding: 0px;
+}
+.navigation li{
+	margin: 0px;
+	padding: 10px 10px;
+	list-style-type: none;
+	cursor: pointer;
+	background: #fff;
+	border-bottom: 1px dashed #ebebeb;
+}
+.navigation li.focus, .focus{
+	color: #333;
+	background: #ebebeb;
+	border-bottom: 1px dashed #fff;
+}
+input{
+	padding: 6px 10px;
+	border: 1px solid #ebebeb;
+	outline: none;
+}
+button{
+	padding: 6px 10px;
+	border: 1px solid #333;
+	outline: none;
+	background: #333;
+	color: #fff;
+	cursor: pointer;
+}
+.btn_delete{
+	float: right;
+	margin: -7px 0 0 0;
+}
+.btn_edit{
+	float: right;
+	margin: -7px 4px 0 0;
+}

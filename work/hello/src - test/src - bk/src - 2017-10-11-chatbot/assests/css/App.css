@@ -1,0 +1,88 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.elemSelected{
+  background-color: #37B54B;
+}
+
+
+
+.bot{
+	text-align: center;
+}
+
+.botimg img{
+width: 50px;
+  height: 50px;
+}
+.botname{
+	  font-weight: bold;
+    font-size: 14px
+}
+.errScreen {
+  margin-top: 35px;
+  font-size: 22px;
+  padding: 5px;
+  font-family: "Shadows Into Light", Arial;
+  text-align: center;
+}
+
+
+#nav-page {
+	padding: 8px;
+}
+#nav-page-list {
+	margin-top: 0px;
+	padding: 0;
+
+	height:240px;
+}
+
+#nav-page-list li {
+	color: #323232;
+	background: #fff;
+	float: left;
+	width: 48%;
+  height:35%;
+	margin: 2px 0px 10px 1px;
+  padding-top: 8px;
+}
+
+
+#nav-page-list li.selected{
+	border:0px solid grey;
+  background-color: rgba(33, 150, 243, 0.24);
+
+}
+
+#nav-page-list li.unselected{
+	background-color:white;
+
+}
+
+
+ul {
+  list-style-type:none;
+}
+
+
+
+h1{
+	text-align:center;
+
+}

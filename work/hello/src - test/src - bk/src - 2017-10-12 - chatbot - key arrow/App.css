@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+#root{
+	padding: 15px;
+	border: 1px solid red;
+	width: 320px;
+	margin: 0 auto; 	
+}
+
+
+
+
+
+.hide {
+  display: none;
+}
+
+.image {
+    width: 90px;
+    height: 70px;
+    border-radius: 5px;
+}
+
+.card {
+  width: 90px;
+  height: 100px;
+  background-color: #e8e8e8;
+  border: 2px solid #e8e8e8;
+  margin: 5px;
+}
+
+.cardTitle {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 4px;
+  font-size:12px;
+  color: #323232;
+}
+
+.slick-slide slick-active{
+  width:0 !important;
+}
+.carousalHeader {
+  color: #323232;
+  padding: 10px 0 5px 5px;
+  font: bold 12px "Open Sans";
+}
