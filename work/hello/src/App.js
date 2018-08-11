@@ -4,13 +4,13 @@ import axios from 'axios';
 export default class App extends React.Component {
   state = {
     name: '',
-  }
+  }   
 
   handleChange = event => {
     this.setState({ name: event.target.value });
   }
 
-  handleSubmit = event => {
+    handleSubmit = event => {
     event.preventDefault();
 
     const user = {
