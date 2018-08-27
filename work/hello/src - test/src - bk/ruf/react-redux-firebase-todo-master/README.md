@@ -1,1 +1,0 @@
-Todo with Authentication done with React on JSX using Redux.
