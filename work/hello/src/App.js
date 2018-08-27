@@ -32,7 +32,7 @@ export default class App extends React.Component {
             Person Name:
             <input type="text" name="name" onChange={this.handleChange} />
           </label>
-          <button type="submit">Add</button>
+          <button type="submit">Add ello</button>
         </form>
       </div>
     )
