@@ -74,14 +74,12 @@
       // multipli(3,6)
 
       // How to write Anoumous Function ==========================================================
-      // (function helloWorld() {
-      //   console.log('Hello World');
-      // });
-      // ();
+      (hello = (ee) =>{
+        // console.log("Hello")
+      })()
 
       // How to write Callback fcuntions =========================================================
       function callFunc() {
-        
         setTimeout(() => {
           console.log("Hello World.")
         },1000)
@@ -91,11 +89,15 @@
         console.log("Sentu Biswas");
        
       }
-       callBackFunc(callFunc);
+      // callBackFunc(callFunc);
 
       // How to write HOC function ================================================================
       function hocFunc(component) {
-        
+        return function Hello ( props) {
+            return(
+              <component data={props}/>
+            )
+        }
       }
 
       // How to to Promise ===============
