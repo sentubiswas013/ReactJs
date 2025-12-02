@@ -21,7 +21,7 @@
 
   Angular 18 introduces several notable features and improvements aimed at enhancing developer productivity, performance, and the overall user experience:
 
-### 3. **What are new feature added in angular 18?**
+### 2. **What are new feature added in angular 18?**
 
 1. **Zoneless Change Detection**: A significant shift in Angular 18 is the experimental introduction of zoneless change detection, allowing developers to remove `Zone.js`. This reduces application complexity, improves debugging, and decreases bundle size, resulting in faster loading times and better performance.
 
@@ -45,7 +45,7 @@
 
 These updates reflect Angular's commitment to addressing developer feedback and optimizing both the framework and application development experience. For more details, check out the updates from sources like RadixWeb, Bacancy Technology, and JS Panther.
 
-### 4. What are the key components of Angular?
+5. ### What are the key components of Angular?
 
    Angular has the key components below,
 
@@ -136,7 +136,7 @@ These updates reflect Angular's commitment to addressing developer feedback and 
    3. **@Directive**: Marks a class as an Angular directive.
    4. **@NgModule**: Defines an Angular module and its components, directives, and services.
 
-### 5. **What is data binding in Angular? Explain the different types of data binding.**
+### 7. **What is data binding in Angular? Explain the different types of data binding.**
 
 **Data binding** in Angular is the mechanism that allows data to flow between the component class and the view (template). There are several types of data binding:
 
@@ -149,7 +149,7 @@ These updates reflect Angular's commitment to addressing developer feedback and 
 - **Two-way data binding**:
   - **Two-way binding** (`[(ngModel)]`): Binds both the data and the view, ensuring changes in one are reflected in the other. Commonly used in forms.
 
-### 6. **What is an Angular lifecycle hook? Can you name some common lifecycle hooks?**
+### 11. **What is an Angular lifecycle hook? Can you name some common lifecycle hooks?**
 
 **Lifecycle hooks** in Angular are methods that are called at different stages of a component's lifecycle, from creation to destruction. These hooks allow you to run custom code during specific phases of the component's lifecycle, such as initialization or changes in data.
 
@@ -162,7 +162,7 @@ Some common lifecycle hooks in Angular include:
 - **`ngAfterViewChecked()`**: Called after the component's view and child views have been checked.
 - **`ngOnDestroy()`**: Called just before Angular destroys the component. It is useful for cleanup tasks like unsubscribing from observables or removing event listeners.
 
-### 7. **What is a Decorators in Angular?**
+### 6. **What is a Decorators in Angular?**
 
 In Angular, **decorators** are special functions that add metadata to classes, methods, properties, or parameters. These metadata inform Angular how to process those elements, such as how to handle components, services, or directives.
 
@@ -173,7 +173,7 @@ Some common Angular decorators are:
 3.  **@Directive**: Marks a class as an Angular directive.
 4.  **@NgModule**: Defines an Angular module and its components, directives, and services.
 
-### 8. **What is a directive in Angular? Can you name the different types of directives?**
+### 5. **What is a directive in Angular? Can you name the different types of directives?**
 
 **Directives** are special markers in Angular that modify the behavior of DOM elements. They can be used to change the appearance, structure, or behavior of elements in the view.
 
@@ -191,7 +191,7 @@ There are three main types of directives:
   - `ngStyle`: Adds or removes inline styles dynamically.
   - `ngModel`: Two-way data binding between the model and the view in forms.
 
-### 9. What are components?
+7. ### What are components?
 
    A **component** in Angular is a building block of the user interface (UI). It controls a part of the screen (a view) and contains the logic to manage that view. Components are responsible for rendering the UI, handling user input, and interacting with services or other parts of the application.
 
@@ -222,7 +222,7 @@ There are three main types of directives:
 
    A **component** in Angular is a self-contained unit that defines a part of the user interface and the logic for that part. It includes a template (HTML), a class (TypeScript), and styles, all working together to display and control a section of the app's UI.
 
-### 10. **What are modules in Angular?**
+### 4. **What are modules in Angular?**
 
 In Angular, a **module** is a fundamental building block that organizes an Angular application into cohesive blocks of functionality. It is defined by the `@NgModule` decorator and helps in grouping related components, services, directives, and pipes together. Modules are crucial for managing dependencies, organizing the application structure, and improving performance.
 
@@ -250,7 +250,7 @@ The NgModule decorator has five important (among all) options:
 4.  The providers option is used to configure a set of injectable objects that are available in the injector of this module.
 5.  The entryComponents option is a set of components dynamically loaded into the view.
 
-### 11. **What is a service in Angular?**
+### 6. **What is a service in Angular?**
 
 In Angular, a **service** is a class that provides specific functionality that can be used across the application. Services in Angular are typically used to encapsulate logic that doesn't directly relate to the view (like business logic, data fetching, etc.) and can be shared across components. They are a key part of Angular's **dependency injection** system, which allows services to be injected into components, other services, or directives.
 
@@ -272,13 +272,13 @@ export class RepoService{
 }
 ```
 
-### 12. **What is dependency injection in Angular?**
+### 8. **What is dependency injection in Angular?**
 
 **Dependency Injection (DI)** is a design pattern used in Angular to inject dependencies (such as services) into a class (like a component or another service). Instead of a component creating its own dependencies, they are provided by Angular's DI system. This promotes modularity, testability, and reusability.
 
 For example, if a component requires a service, Angular's DI system will create and inject the service into the component, avoiding the need for the component to manually instantiate the service.
 
-### 13. **What are Observables and how are they used in Angular?**
+### 9. **What are Observables and how are they used in Angular?**
 
 **Observables** are a core part of Angular and the RxJS (Reactive Extensions for JavaScript) library. An observable is a stream of data that can be subscribed to, and it can emit values over time, making it ideal for handling asynchronous operations like HTTP requests, event handling, and user input.
 
@@ -289,7 +289,7 @@ For example, if a component requires a service, Angular's DI system will create 
 
 Observables allow you to handle async tasks like HTTP calls in a cleaner, more flexible way compared to callbacks or promises.
 
-### 14. What is a provider?
+232. ### What is a provider?
      A **provider** in Angular is a mechanism that tells Angular how to create a service or value to be injected into components or other services. It is a key part of the **dependency injection** system in Angular, allowing you to manage the creation and sharing of services.
 
 
@@ -310,7 +310,7 @@ Observables allow you to handle async tasks like HTTP calls in a cleaner, more f
  }
 ```
 
-### 15. **What are pipes in Angular? Can you create custom pipes?**
+### 12. **What are pipes in Angular? Can you create custom pipes?**
 
 **Pipes** in Angular are used to transform data before displaying it in the template. They are commonly used to format data, like dates, currency, or custom transformations (e.g., filtering a list). Angular comes with several built-in pipes like `date`, `currency`, `json`, and `uppercase`.
 
@@ -337,7 +337,7 @@ Usage in the template:
 <div>{{ 2 | exponentialStrength:10 }}</div>
 ```
 
-### 16. What is an observable?
+42. ### What is an observable?
 
     An **observable** is a way to manage and work with asynchronous data or events in Angular. It represents a stream of data that can emit multiple values over time, like data from an HTTP request, user input, or a timer. You "subscribe" to an observable to receive the emitted values and react to them as they come in.
 
@@ -370,7 +370,7 @@ Usage in the template:
       });
       ```
 
-### 17. What is an observer?
+43. ### What is an observer?
 
     Observer is an interface for a consumer of push-based notifications delivered by an Observable. It has below structure,
 
@@ -391,7 +391,7 @@ Usage in the template:
 
 **Note:** If you don't supply a handler for a notification type, the observer ignores notifications of that type.
 
-### 18. What is the steps to update Angular older version to current version?
+45. ### What is the steps to update Angular older version to current version?
   - **Check current version**: `ng --version`.
   - **Use the Angular Doc Update Guide** to understand the migration steps.
   - **Update global CLI**: `npm install -g @angular/cli@latest`.
@@ -405,7 +405,7 @@ Usage in the template:
   - **Test your app** and fix any issues.
   - **Commit your changes**.
 
-### 19. What is multicasting?
+45. ### What is multicasting?
 
     **Multicasting** is a way of sharing a single data stream (like an HTTP request or event) with multiple subscribers without triggering the operation multiple times. This makes the process more efficient, as all subscribers receive the same data from a single execution.
 
@@ -443,7 +443,7 @@ Usage in the template:
 
     **Multicasting** in Angular allows multiple subscribers to share the same observable execution, reducing redundant operations and making the application more efficient. You can achieve multicasting using operators like `share()` or `publish()`.
 
-### 20. What is a bootstrapping module?
+46. ### What is a bootstrapping module?
 
     In Angular, a **bootstrapping module** is the module responsible for initializing and starting up an Angular application. It is the entry point of the application and tells Angular which component to load first when the application starts.
 
@@ -465,17 +465,17 @@ Usage in the template:
     .catch(err => console.error(err));
     ```
 
-### 21. Which file load first in angular application
+47. ### Which file load first in angular application
 
     In an Angular application, the first file that is loaded and executed is `index.html`. Here's the sequence of how Angular starts:
 
-    #### 22. **`index.html`**
+    #### 1. **`index.html`**
 
     - **Location**: `src/index.html`
     - This file is the entry point for the application in the browser. When you run the Angular app (for example, using `ng serve`), the browser loads this HTML file first.
     - It contains essential meta tags, links to stylesheets, and the `<app-root></app-root>` tag (or another root component tag depending on your configuration), which acts as the placeholder where Angular will render the application.
 
-    #### 23. **`main.ts`**
+    #### 2. **`main.ts`**
 
     - **Location**: `src/main.ts`
     - After the browser loads `index.html`, Angular bootstraps the application by executing the `main.ts` file.
@@ -485,14 +485,14 @@ Usage in the template:
         .catch(err => console.error(err));
       ```
 
-    #### 24. **`app.module.ts`**
+    #### 3. **`app.module.ts`**
 
     - **Location**: `src/app/app.module.ts`
     - Once `main.ts` runs and the root module (`AppModule`) is bootstrapped, Angular looks for the `AppModule` class, which defines the core module of the app.
     - `AppModule` is the starting point for loading other components, services, and other Angular features.
     - It imports necessary Angular modules (like `BrowserModule`, `FormsModule`, etc.) and declares components (like `AppComponent`).
 
-    #### 25. **`app.component.ts`**
+    #### 4. **`app.component.ts`**
 
     - **Location**: `src/app/app.component.ts`
     - After the root module is initialized, Angular loads the root component (`AppComponent` by default) and renders its template (`app.component.html`).
@@ -507,13 +507,13 @@ Usage in the template:
 
     In summary, `index.html` is the first file loaded, followed by `main.ts`, which bootstraps `AppModule`, and then `AppComponent` is rendered as the root of the application.
 
-### 26. If I rename `main.ts`, will application load
+48. ### If I rename `main.ts`, will application load
 
     No, the application will not load if you rename `main.ts` unless you update the `angular.json` file to point to the new file name.
 
     Here's why:
 
-    #### 27. **The Role of `main.ts`**
+    #### 1. **The Role of `main.ts`**
 
     - `main.ts` is the **entry point** of your Angular application. It is responsible for bootstrapping the root module (`AppModule`) using the Angular platform browser dynamic method:
       ```typescript
@@ -522,11 +522,11 @@ Usage in the template:
       ```
     - This file is essential for Angular to start the application. If it is renamed, Angular will not be able to find it and will fail to bootstrap the app.
 
-    #### 28. **What Happens if You Rename `main.ts`**
+    #### 2. **What Happens if You Rename `main.ts`**
 
     - When you rename `main.ts`, the Angular CLI and build process will not automatically know about this change. The application will fail to load because the Angular CLI will still expect to find a file named `main.ts` to begin bootstrapping.
 
-    #### 29. **How to Fix It**
+    #### 3. **How to Fix It**
 
     - If you rename `main.ts`, you need to update the `angular.json` configuration file to let the build system know about the new entry file.
     - **Steps to rename `main.ts` and update the configuration:**
@@ -550,7 +550,7 @@ Usage in the template:
          }
          ```
 
-    #### 30. **Additional Considerations**
+    #### 4. **Additional Considerations**
 
     - The `angular.json` file specifies various build and configuration options for your Angular project. By default, it assumes the existence of `main.ts` as the entry point. If you rename it, this configuration file needs to be updated accordingly.
     - After updating `angular.json`, the Angular CLI will use your renamed file to bootstrap the application, and the application should load correctly.
@@ -559,20 +559,20 @@ Usage in the template:
 
     If you rename `main.ts`, the application will **not load** unless you also update the Angular CLI configuration (in `angular.json`) to point to the new file.
 
-### 31. Default project files and folder details
+49. ### Default project files and folder details
 
     When you create a new Angular project using the Angular CLI (`ng new <project-name>`), several default files and folders are generated in your project directory. These files and folders provide a basic structure for developing Angular applications. Here's a breakdown of the most important files:
 
-    #### 32. **`e2e/` (End-to-End Testing Folder)**
+    #### 1. **`e2e/` (End-to-End Testing Folder)**
 
     - **`src/app.e2e-spec.ts`**: Contains the end-to-end test cases for the application. These tests use Protractor to simulate user interactions and test the application from an end-user's perspective.
     - **`src/app.po.ts`**: Page Object model that defines how to interact with the elements on a page.
 
-    #### 33. **`node_modules/`**
+    #### 2. **`node_modules/`**
 
     - This folder contains all the npm packages installed for the project, including Angular libraries and any other dependencies you install using `npm install`.
 
-    #### 34. **`src/` (Source Folder)**
+    #### 3. **`src/` (Source Folder)**
 
     - This is where all your application code lives. It includes several important subfolders and files.
 
@@ -603,39 +603,39 @@ Usage in the template:
 
     #### h. **`src/test.ts`**: The main entry point for running unit tests with the Angular testing framework (Jasmine and Karma).
 
-    ### 35. **`angular.json`**
+    ### 4. **`angular.json`**
 
     - This file contains the configuration settings for the Angular CLI. It defines how the application should be built and served, what assets to include, and other settings like file replacements for different environments.
 
-    ### 36. **`package-lock.json` or `yarn.lock`**
+    ### 9. **`package-lock.json` or `yarn.lock`**
 
 - **Purpose**: These files lock the versions of dependencies in a Node.js project to ensure consistency across environments. They specify the exact versions of dependencies and sub-dependencies that were installed when the project was set up.
 
-  #### 37. **`package.json`**
+  #### 5. **`package.json`**
 
   - Defines the project's dependencies, scripts, and other metadata. It includes all the npm packages the project relies on (like Angular itself) and scripts like `ng serve`, `ng build`, etc.
 
-  #### 38. **`tsconfig.json`**
+  #### 6. **`tsconfig.json`**
 
   - The TypeScript configuration file. It defines how TypeScript compiles the application, including compiler options and file includes/excludes.
 
-  #### 39. **`tsconfig.app.json`**
+  #### 7. **`tsconfig.app.json`**
 
   - This file contains TypeScript settings that are specific to the application. It includes the source files to be compiled and some specific settings for the Angular project.
 
-  #### 40. **`tsconfig.spec.json`**
+  #### 8. **`tsconfig.spec.json`**
 
   - This file contains TypeScript settings for unit testing. It includes the files required for testing and ensures the right environment for test execution.
 
-  #### 41. **`karma.conf.js`**
+  #### 9. **`karma.conf.js`**
 
   - This is the configuration file for Karma, the test runner used by Angular CLI. It defines the testing environment, which browsers to run tests on, and how to execute tests.
 
-  #### 42. **`protractor.conf.js`**
+  #### 10. **`protractor.conf.js`**
 
   - This is the configuration file for Protractor, the end-to-end testing framework. It defines the test framework, the settings for running tests, and other Protractor-related settings.
 
-  #### 43. **`webpack.config.js`** (Optional for Advanced Users)
+  #### 11. **`webpack.config.js`** (Optional for Advanced Users)
 
   - If you're using custom Webpack configurations (typically in a more advanced Angular setup), this file is where you can define those settings.
 
@@ -649,7 +649,7 @@ Usage in the template:
 
   These files form the foundation of an Angular project and help manage building, testing, and serving the application.
 
-### 44. What is a template?
+9. ### What is a template?
 
    A template is a HTML view where you can display data by binding controls to properties of an Angular component. You can store your component's template in one of two places. You can define it inline using the template property, or you can define the template in a separate HTML file and link to it in the component metadata using the @Component decorator's templateUrl property.
 
@@ -673,7 +673,7 @@ Usage in the template:
    }
    ```
 
-### 45. What is the difference between promise and observable?
+10. ### What is the difference between promise and observable?
 
     Below are the list of differences between promise and observable:
 
@@ -684,7 +684,7 @@ Usage in the template:
     | Subscribe method is used for error handling that facilitates centralized and predictable error handling  | Push errors to the child promises |
     | Provides chaining and subscription to handle complex applications                                        | Uses only `.then()` clause        |
 
-### 46. **What is an Angular router and why is it used?**
+### 10. **What is an Angular router and why is it used?**
 
 The **Angular Router** is a module that enables navigation between different views or components within a single-page application (SPA). It maps URLs to components, allowing users to move between different pages or sections of an application without reloading the page.
 
@@ -695,7 +695,7 @@ The router also supports:
 - **Route guards** to control access based on authentication or other conditions.
 - **Nested routes** for hierarchical navigation structures.
 
-### 47. **What is the purpose of the `ngOnInit` method in Angular components?**
+### 13. **What is the purpose of the `ngOnInit` method in Angular components?**
 
 The **`ngOnInit`** method is a lifecycle hook called after the component's constructor and after Angular has initialized all data-bound properties. It is typically used for initialization tasks such as:
 
@@ -711,7 +711,7 @@ ngOnInit() {
 }
 ```
 
-### 48. **How does Angular handle event binding?**
+### 14. **How does Angular handle event binding?**
 
 **Event binding** in Angular is the mechanism that allows the component to respond to events (like mouse clicks, keyboard input, etc.) from the view (template). You can bind events in the template to component methods or properties by using the `(event)` syntax.
 
@@ -731,7 +731,7 @@ You can also pass data to the method or prevent default behavior:
 
 Here, `$event` refers to the native DOM event that is passed to the `onKey` method.
 
-### 49. **How can you make an HTTP request in Angular?**
+### 15. **How can you make an HTTP request in Angular?**
 
 In Angular, HTTP requests are made using the **HttpClient** service, which is part of the `@angular/common/http` module. You can make GET, POST, PUT, DELETE, and other HTTP requests using `HttpClient`.
 
@@ -766,7 +766,7 @@ export class AppComponent {
 
 Here, `http.get()` makes a GET request to the provided URL, and `subscribe()` listens for the response or error.
 
-### 50. **What is the `ngIf` directive used for in Angular?**
+### 16. **What is the `ngIf` directive used for in Angular?**
 
 The **`ngIf`** directive in Angular is a structural directive used to conditionally add or remove an element from the DOM based on an expression. If the expression evaluates to true, the element is rendered; otherwise, it is removed.
 
@@ -783,7 +783,7 @@ You can also use `ngIf` with an `else` clause:
 <ng-template #hiddenMessage><div>Hidden message</div></ng-template>
 ```
 
-### 51. **What is the `ngFor` directive used for in Angular?**
+### 17. **What is the `ngFor` directive used for in Angular?**
 
 The **`ngFor`** directive is a structural directive that is used to loop over a collection (like an array or a list) and repeat an HTML element for each item in the collection.
 
@@ -797,7 +797,7 @@ Example:
 
 In this example, `ngFor` will create an `<li>` element for each item in the `items` array. You can also access the index of the current item or use a trackBy function to optimize performance.
 
-### 52. **What is the `ngClass` directive used for in Angular?**
+### 18. **What is the `ngClass` directive used for in Angular?**
 
 The **`ngClass`** directive in Angular is used to dynamically assign CSS classes to an HTML element. It can accept a string, an array, or an object to apply conditional classes.
 
@@ -815,7 +815,7 @@ You can also pass an array or string of class names:
 <div [ngClass]="['class1', 'class2']">Text</div>
 ```
 
-### 53. **What is a template reference variable in Angular?**
+### 19. **What is a template reference variable in Angular?**
 
 A **template reference variable** is a reference to a DOM element or directive within the template. It is defined by prefixing a variable name with a hash (`#`) symbol and can be used to access the DOM element or component in the template.
 
@@ -830,7 +830,7 @@ Here, `#myInput` is a reference to the `<input>` element. You can access its val
 
 ### **Intermediate Angular Questions:**
 
-### 54. **What are Angular forms? What are the two types of forms in Angular?**
+### 21. **What are Angular forms? What are the two types of forms in Angular?**
 
 **Angular forms** are used for gathering and validating user input. Angular provides two approaches to work with forms:
 
@@ -875,7 +875,7 @@ Here, `#myInput` is a reference to the `<input>` element. You can access its val
 
 Template-driven forms are simpler and often used for small forms, while reactive forms are more scalable and suitable for complex forms.
 
-### 55. **What is the purpose of the `ngModel` directive in Angular?**
+### 22. **What is the purpose of the `ngModel` directive in Angular?**
 
 The **`ngModel`** directive is used for two-way data binding in Angular. It binds the value of an input element (like a textbox, checkbox, or select) to a property in the component. Any changes to the input field are automatically reflected in the component property, and vice versa.
 
@@ -889,7 +889,7 @@ Example:
 
 In this example, changes made in the input field will update the `userName` property in the component, and any updates to `userName` will automatically reflect in the input field.
 
-### 56. **What is the `async` pipe in Angular, and how does it work with Observables?**
+### 23. **What is the `async` pipe in Angular, and how does it work with Observables?**
 
 The **`async` pipe** in Angular is used to subscribe to an **Observable** or **Promise** in the template and automatically update the view whenever the data changes. It is particularly useful for dealing with asynchronous data (e.g., HTTP requests, timers, etc.), as it automatically handles subscribing and unsubscribing from the Observable.
 
@@ -903,7 +903,7 @@ Example:
 
 In this example, `data$` is an Observable, and the `async` pipe will automatically subscribe to it and display the emitted values. When the component is destroyed, the pipe will automatically unsubscribe from the Observable to avoid memory leaks.
 
-### 57. **What is lazy loading in Angular? How does it improve application performance?**
+### 24. **What is lazy loading in Angular? How does it improve application performance?**
 
 **Lazy loading** is a design pattern used in Angular to load modules only when they are needed, instead of loading all modules upfront when the application starts. This helps reduce the initial load time, improving application performance, especially in large applications.
 
@@ -919,7 +919,7 @@ const routes: Routes = [
 
 By using lazy loading, Angular only loads the required modules when the user navigates to a specific path, reducing the size of the initial bundle and improving the app's startup time.
 
-### 58. **What is change detection in Angular? How does it work?**
+### 25. **What is change detection in Angular? How does it work?**
 
 **Change detection** in Angular refers to the process of checking and updating the view whenever the application's state (the model) changes. Angular uses a mechanism to detect changes in component properties and update the view automatically.
 
@@ -952,7 +952,7 @@ export class MyComponent {
 }
 ```
 
-### 59. **Explain the concept of zones in Angular.**
+### 46. **Explain the concept of zones in Angular.**
 
 In Angular, **Zones** are an execution context that helps track asynchronous operations (like HTTP requests, user interactions, setTimeout, etc.) and their completion. The concept of zones is implemented using **Zone.js**, a library that provides an API to execute asynchronous code within a specific context, called a **zone**.
 
@@ -991,7 +991,7 @@ export class MyComponent {
 
 **Zones** are important because they allow Angular to know when async tasks are completed, ensuring the view is always in sync with the data model.
 
-### 60. **What are `@Input` and `@Output` decorators in Angular?**
+### 26. **What are `@Input` and `@Output` decorators in Angular?**
 
 **`@Input`** and **`@Output`** are decorators used for passing data between components, specifically from a parent to a child component and vice versa.
 
@@ -1039,7 +1039,7 @@ export class MyComponent {
   <app-child (change)="receiveChange($event)"></app-child>
   ```
 
-### 61. **What is the difference between `localStorage` and `sessionStorage` in Angular?**
+### 27. **What is the difference between `localStorage` and `sessionStorage` in Angular?**
 
 Both `localStorage` and `sessionStorage` are web storage APIs that allow data to be stored in the browser. The key differences between them are related to their scope, persistence, and lifespan:
 
@@ -1075,7 +1075,7 @@ In summary:
 - **`localStorage`** is for persistent data storage across sessions.
 - **`sessionStorage`** is for temporary storage that lasts only during a page session.
 
-### 62. **How does Angular handle cross-site request forgery (CSRF)?**
+### 28. **How does Angular handle cross-site request forgery (CSRF)?**
 
 **Cross-Site Request Forgery (CSRF)** is a type of security vulnerability where an attacker tricks a user into making an unwanted request to a different site using the user's credentials. Angular provides several mechanisms to prevent CSRF attacks, but it doesn't handle CSRF out-of-the-box directly. Instead, Angular works in conjunction with server-side protection to mitigate these risks.
 
@@ -1102,7 +1102,7 @@ export class MyHttpInterceptor {
 }
 ```
 
-### 63. **What are Angular modules and how do they help in organizing an application?**
+### 29. **What are Angular modules and how do they help in organizing an application?**
 
 **Angular modules** (`NgModule`) are a key concept in Angular, serving as containers for the components, services, and other code files that make up an Angular application. An Angular module helps to organize the application into cohesive blocks of code, making it more maintainable and modular.
 
@@ -1119,7 +1119,7 @@ Angular modules provide:
 - **Dependency injection**: Defines the context for services, making dependency injection more efficient.
 - **Routing**: Manages routes and navigation within the application.
 
-### 64. **What is a custom directive, and how do you create one?**
+### 30. **What is a custom directive, and how do you create one?**
 
 A **custom directive** in Angular allows you to create custom behavior for DOM elements. Directives are used to extend the functionality of HTML elements by adding custom behavior.
 
@@ -1156,7 +1156,7 @@ Usage in the template:
 <p appHighlight>Text will be highlighted in blue</p>
 ```
 
-### 65. **How do you create and use services in Angular?**
+### 31. **How do you create and use services in Angular?**
 
 **Services** in Angular are used to encapsulate business logic, data retrieval, or other reusable functionality that can be shared across components. Services are typically used to interact with back-end APIs, handle user authentication, and manage application data.
 
@@ -1211,7 +1211,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### 66. **What is the role of the `RouterModule` in Angular?**
+### 32. **What is the role of the `RouterModule` in Angular?**
 
 The **`RouterModule`** is an essential module in Angular that provides routing functionality for navigating between different views or components within the application. It enables the definition of routes and the handling of navigation based on user input (e.g., clicking links or buttons).
 
@@ -1242,7 +1242,7 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-### 67. **How would you handle HTTP errors in Angular?**
+### 33. **How would you handle HTTP errors in Angular?**
 
 Handling HTTP errors in Angular is typically done using the **HttpClient**'s `catchError` operator within an Observable's pipe. You can use this operator to catch and handle errors such as 404, 500, or network issues.
 
@@ -1281,7 +1281,7 @@ this.myService.fetchData().subscribe(
 );
 ```
 
-### 68. **How can you optimize the performance of an Angular application?**
+### 34. **How can you optimize the performance of an Angular application?**
 
 Performance optimization in Angular involves improving both the loading time and runtime performance of an application. Some strategies include:
 
@@ -1296,7 +1296,7 @@ Performance optimization in Angular involves improving both the loading time and
 
 These techniques ensure a faster and more efficient
 
-### 69. **What is the role of the Angular CLI in the development process?**
+### 35. **What is the role of the Angular CLI in the development process?**
 
 The **Angular CLI** (Command Line Interface) is a powerful tool that helps developers automate tasks during the Angular application development process. It provides commands for creating, testing, building, and deploying Angular projects, significantly improving developer productivity and standardizing workflows.
 
@@ -1332,7 +1332,7 @@ The CLI simplifies many tasks and ensures Angular applications follow best pract
 
 ---
 
-### 70. **How can you handle routing with route guards in Angular?**
+### 36. **How can you handle routing with route guards in Angular?**
 
 **Route guards** in Angular are used to control access to different routes based on certain conditions, such as user authentication, role-based access, or unsaved changes in a form. Route guards can be used to prevent navigation to a route or to prompt the user before navigating away from a route.
 
@@ -1431,7 +1431,7 @@ To implement an interceptor, create a service that implements the `HttpIntercept
    export class AppModule { }
    ```
 
-### 71. **What is the purpose of the `ng-content` and `ng-template` directive in Angular?**
+### 37. **What is the purpose of the `ng-content` and `ng-template` directive in Angular?**
 
 The **`ng-content`** directive is used in Angular to implement **content projection**. It allows the embedding of external content into the component's template. This directive is primarily used in **component-based reusable UI components** (such as modal dialogs, tabs, or cards) where you want to allow users to pass content into the component's template.
 
@@ -1478,7 +1478,7 @@ The `app-card` component might look like this:
 
 In this example, the `ng-content` directive allows the parent content (i.e., the `<h1>` and `<p>` tags) to be projected into the `<app-card>` component.
 
-### 72. **What is a resolver in Angular, and when would you use one?**
+### 39. **What is a resolver in Angular, and when would you use one?**
 
 A **resolver** in Angular is used to pre-fetch data before a route is activated. Resolvers are part of the Angular Router and are typically used when you want to ensure that required data is fetched and available before a component is loaded.
 
@@ -1519,7 +1519,7 @@ The component will receive the data from the resolver as a part of the route’s
 
 ---
 
-### 73. **How does Angular support internationalization (i18n)?**
+### 40. **How does Angular support internationalization (i18n)?**
 
 **Internationalization (i18n)** in Angular is the process of designing your application so that it can be easily adapted to different languages and regions without engineering changes. Angular provides built-in tools for internationalization, making it easier to translate and format data (such as dates, numbers, and currencies) based on the user's locale.
 
@@ -1560,7 +1560,7 @@ Angular’s i18n system allows the application to switch between languages, hand
 
 ### **Advanced Angular Questions:**
 
-### 74. **What is a singleton service in Angular?**
+### 41. **What is a singleton service in Angular?**
 
 In Angular, a **singleton service** refers to a service that is created once and shared throughout the lifetime of the application. This ensures that there is only one instance of the service for the entire application, and that instance is reused by all components or other services that inject it.
 
@@ -1594,7 +1594,7 @@ In this example, the `AuthService` is a singleton and will maintain a single ins
 
 ---
 
-### 75. **Explain the difference between `ngOnInit` and `constructor` in Angular components.**
+### 42. **Explain the difference between `ngOnInit` and `constructor` in Angular components.**
 
 Both the **`constructor`** and **`ngOnInit`** are used in Angular components, but they serve different purposes and are called at different stages of the component lifecycle.
 
@@ -1638,7 +1638,7 @@ In summary:
 
 ---
 
-### 76. **What is the `RxJS` library, and how is it used in Angular?**
+### 43. **What is the `RxJS` library, and how is it used in Angular?**
 
 **RxJS** (Reactive Extensions for JavaScript) is a library for reactive programming using **Observables**, which allows you to compose asynchronous and event-based programs using operators like `map`, `filter`, `merge`, and `switchMap`.
 
@@ -1699,11 +1699,11 @@ myObservable.subscribe({
 });
 ```
 
-### 77. **Explain operators like `map`, `filter`, `merge`, and `switchMap`**
+### 43. **Explain operators like `map`, `filter`, `merge`, and `switchMap`**
 
 In **RxJS**, operators like `map`, `filter`, `merge`, and `switchMap` are used to manipulate, transform, and combine streams of data in a reactive programming style. Here's a simple explanation of each:
 
-### 78. **`map`**
+### 1. **`map`**
 
 - **Purpose**: Transforms the values emitted by an observable by applying a function to each value.
 - **How it works**: It takes each emitted value from the observable, applies a transformation function, and returns the transformed value.
@@ -1721,7 +1721,7 @@ numbers$.pipe(
 // Output: 2, 4, 6
 ```
 
-### 79. **`filter`**
+### 2. **`filter`**
 
 - **Purpose**: Filters the emitted values by applying a condition (predicate function) to each value. Only values that pass the condition are emitted.
 - **How it works**: It checks each emitted value, and if the condition returns `true`, the value is emitted; otherwise, it’s ignored.
@@ -1739,7 +1739,7 @@ numbers$.pipe(
 // Output: 2, 4
 ```
 
-### 80. **`merge`**
+### 3. **`merge`**
 
 - **Purpose**: Combines multiple observables into a single observable, emitting all values from the source observables as they arrive.
 - **How it works**: It subscribes to multiple observables and merges their emitted values into one stream. The order of the emitted values is maintained.
@@ -1758,7 +1758,7 @@ obs1$.pipe(
 // Output: 1, 2, 3, 4
 ```
 
-### 81. **`switchMap`**
+### 4. **`switchMap`**
 
 - **Purpose**: Switches to a new observable, discarding the previous observable's emissions, whenever a new value is emitted by the source observable.
 - **How it works**: When a new value is emitted by the source observable, it cancels the previous inner observable and subscribes to the new one. This is useful when you need to cancel ongoing operations (like HTTP requests) when a new event happens.
@@ -1786,7 +1786,7 @@ source$.pipe(
 - **`merge`**: Combines multiple observables, emitting values from all of them.
 - **`switchMap`**: Switches to a new observable and cancels the previous one whenever a new value is emitted.
 
-### 82. **How do you handle error handling in RxJS streams?**
+### 55. **How do you handle error handling in RxJS streams?**
 
 In RxJS, error handling can be done using the following strategies:
 
@@ -1814,7 +1814,7 @@ In this example, if an error occurs during the HTTP request, it is caught by `ca
 
 ---
 
-### 83. **What is the difference between `switchMap`, `concatMap`, and `mergeMap` in RxJS? Provide examples of when to use each.**
+### 56. **What is the difference between `switchMap`, `concatMap`, and `mergeMap` in RxJS? Provide examples of when to use each.**
 
 These operators are used to manage the inner observables in higher-order mapping operations. They transform the values emitted by an observable into another observable. The difference lies in how they handle concurrency and the order of emissions.
 
@@ -1858,13 +1858,13 @@ These operators are used to manage the inner observables in higher-order mapping
 
 Here are some advanced Angular interview questions that may be asked by companies like TalentRank, which assess a deeper understanding of Angular concepts and the ability to implement complex features in real-world applications:
 
-### 84. **How to Handle parallel Service Calls in angular?**
+### 43. **How to Handle parallel Service Calls in angular?**
 
 To handle parallel service calls in Angular, you can use **RxJS operators** to manage multiple HTTP requests simultaneously. Here's a simple explanation of how to do it:
 
 #### Step-by-Step Guide
 
-#### 85. **Using `forkJoin` (Most Common)**
+#### 1. **Using `forkJoin` (Most Common)**
 
 `forkJoin` is used when you want to make multiple HTTP requests at the same time and wait until **all of them finish**. It will emit the results **only when all requests are successful**.
 
@@ -1916,7 +1916,7 @@ export class ParallelRequestsComponent implements OnInit {
 - **`forkJoin`** takes an array of observables (requests) and waits for **all** of them to finish. It then emits the results as an array.
 - If one request fails, the entire operation will fail.
 
-#### 86. **Using `combineLatest` (When You Want Latest Results)**
+#### 2. **Using `combineLatest` (When You Want Latest Results)**
 
 `combineLatest` is used when you want to get the **latest values** from each request as soon as they emit. It does not wait for all requests to complete.
 
@@ -1980,7 +1980,7 @@ This approach helps keep your code clean and efficient when working with multipl
 
 ---
 
-### 87. **How does Angular handle state management, and what libraries can be used for state management in Angular applications?**
+### 44. **How does Angular handle state management, and what libraries can be used for state management in Angular applications?**
 
 **State management** in Angular refers to managing the state (data, UI state, etc.) of the application, especially as it grows in complexity. Angular does not provide built-in state management solutions, but there are several common approaches and libraries to handle application state:
 
@@ -2020,7 +2020,7 @@ In large-scale applications, NgRx or similar libraries provide a more predictabl
 
 ---
 
-### 88. **What is Ahead-of-Time (AOT) compilation, and how does it differ from Just-in-Time (JIT) compilation?**
+### 45. **What is Ahead-of-Time (AOT) compilation, and how does it differ from Just-in-Time (JIT) compilation?**
 
 **Ahead-of-Time (AOT) compilation** and **Just-in-Time (JIT) compilation** are two different methods Angular uses to compile TypeScript and templates into executable JavaScript.
 
@@ -2070,7 +2070,7 @@ In large-scale applications, NgRx or similar libraries provide a more predictabl
 - AOT is preferred for production environments because it produces optimized code and better performance.
 - JIT is typically used during development for faster iteration.
 
-### 89. **What are Angular Universal applications, and how does server-side rendering work in Angular?**
+### 47. **What are Angular Universal applications, and how does server-side rendering work in Angular?**
 
 **Angular Universal** is a technology used for **server-side rendering (SSR)** of Angular applications. It allows Angular apps to be rendered on the server, and then sent to the client as fully rendered HTML, instead of loading an empty shell and rendering the page on the client side. This results in faster initial page loads and better SEO, as search engines can crawl and index the fully rendered HTML.
 
@@ -2097,7 +2097,7 @@ ng add @nguniversal/express-engine
 
 ---
 
-### 90. **What are Angular decorators, and what role do they play in Angular development?**
+### 48. **What are Angular decorators, and what role do they play in Angular development?**
 
 **Decorators** in Angular are special functions used to add metadata to classes, properties, methods, and parameters. They provide a way to define configuration or behavior for various Angular entities such as components, directives, services, pipes, etc.
 
@@ -2128,7 +2128,7 @@ export class MyComponent {
 
 ---
 
-### 91. **How do you configure Angular to work with environment-specific settings (e.g., production vs development)?**
+### 49. **How do you configure Angular to work with environment-specific settings (e.g., production vs development)?**
 
 Angular allows you to configure environment-specific settings using **environment files**. These files contain settings that change depending on the build environment, such as API URLs, logging levels, feature flags, etc.
 
@@ -2182,7 +2182,7 @@ console.log(environment.apiUrl); // Logs the appropriate API URL based on the en
 
 ---
 
-### 92. **What are the advantages and disadvantages of using Angular for web development?**
+### 50. **What are the advantages and disadvantages of using Angular for web development?**
 
 Angular is a powerful and full-featured framework that can be an excellent choice for building complex web applications. However, it comes with both advantages and disadvantages depending on the requirements of the project.
 
@@ -2206,13 +2206,13 @@ Angular is a powerful and full-featured framework that can be an excellent choic
 
 **In summary**, Angular is best suited for large-scale, enterprise-level applications that require a robust and well-organized framework. For smaller projects or applications requiring more flexibility, other frameworks like React or Vue might be better suited.
 
-### 93. **How to implement authgaurd n angular?**
+### 52. **How to implement authgaurd n angular?**
 
 In Angular, an `AuthGuard` is used to protect routes from unauthorized access by ensuring the user is authenticated before they can access specific parts of the application. If the user is not authenticated, the guard can redirect them to a login page or a specific route.
 
 Here's a step-by-step guide to implement an `AuthGuard` in Angular:
 
-#### 94. Create an Authentication Service
+#### 1. Create an Authentication Service
 
 First, you need a service to handle authentication. This service should manage user login status, store tokens, and provide a method to check if a user is authenticated.
 
@@ -2255,7 +2255,7 @@ export class AuthService {
 }
 ```
 
-#### 95. Create an AuthGuard
+#### 2. Create an AuthGuard
 
 Now, you need to create the `AuthGuard` that will protect your routes.
 
@@ -2289,7 +2289,7 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-#### 96. Define Routes and Protect with the AuthGuard
+#### 3. Define Routes and Protect with the AuthGuard
 
 Next, you need to apply the `AuthGuard` to specific routes in your routing module. The `AuthGuard` will ensure that users who are not logged in cannot access those routes.
 
@@ -2315,10 +2315,10 @@ const routes: Routes = [
 })
 export class AppRoutingModule {}
 ```
-### 97. **Difference between Authentication and Authorization**
+### 53. **Difference between Authentication and Authorization**
   In the context of **Angular** (or any web application), **authentication** and **authorization** are two critical concepts that deal with security, but they serve different purposes. Here’s the key difference between **authentication** and **authorization**:
 
-  ### 98. **Authentication**
+  ### 1. **Authentication**
   **Authentication** is the process of verifying the identity of a user or system. In simple terms, it answers the question: **"Who are you?"** It ensures that the user is who they claim to be.
 
   - **Purpose**: To confirm the identity of the user.
@@ -2352,7 +2352,7 @@ export class AppRoutingModule {}
   }
   ```
 
-  ### 99. **Authorization**
+  ### 2. **Authorization**
   **Authorization** is the process of determining whether a user has permission to perform a certain action or access a resource. In simple terms, it answers the question: **"What are you allowed to do?"** 
 
   - **Purpose**: To grant or restrict access to resources or actions based on the authenticated user's roles, permissions, or other attributes.
@@ -2403,7 +2403,7 @@ export class AppRoutingModule {}
   1. **Authentication** to verify the user’s identity.
   2. **Authorization** to determine what parts of the app the authenticated user is allowed to access.
 
-### 100. **Implement Login and Logout Functionality**
+### 53. **Implement Login and Logout Functionality**
 
 You need to handle user login and logout in your components. The login form will use the `AuthService` to authenticate the user, and the logout button will log the user out and redirect them to the login page.
 
@@ -2454,7 +2454,7 @@ export class DashboardComponent {
 }
 ```
 
-### 101. Test the Application
+### 5. Test the Application
 
 - If the user is authenticated (i.e., logged in), they should be able to access protected routes (e.g., `/dashboard`).
 - If the user is not authenticated, they will be redirected to the login page.
@@ -2465,7 +2465,7 @@ export class DashboardComponent {
 - **AuthGuard** checks if the user is authenticated before allowing access to specific routes.
 - Routes are configured in the **app-routing.module.ts**, with `canActivate` using the `AuthGuard` to protect routes.
 
-### 102. **How would you troubleshoot performance issues in Angular? What tools and techniques would you use?**
+### 54. **How would you troubleshoot performance issues in Angular? What tools and techniques would you use?**
 
 To troubleshoot performance issues in an Angular application, the following steps and tools are commonly used:
 
@@ -2483,7 +2483,7 @@ To troubleshoot performance issues in an Angular application, the following step
 
 ---
 
-### 103. **How do you handle error handling in RxJS streams?**
+### 55. **How do you handle error handling in RxJS streams?**
 
 In RxJS, error handling can be done using the following strategies:
 
@@ -2509,21 +2509,21 @@ this.dataService.getData().pipe(
 
 In this example, if an error occurs during the HTTP request, it is caught by `catchError`, and a fallback empty array is returned.
 
-### 104. **What is a `Subject` and `BehaviorSubject` in Angular RxJS? How are they different?**
+### 63. **What is a `Subject` and `BehaviorSubject` in Angular RxJS? How are they different?**
 
 - **Answer**:
   - A **`Subject`** is a special type of `Observable` that allows values to be multicast to many Observers. It doesn't store the last emitted value.
   - A **`BehaviorSubject`** is a type of `Subject` that requires an initial value and always returns the current value to new subscribers. Unlike a `Subject`, it maintains the last value emitted, making it useful for state management or components that need to know the current state on subscription.
 
-### 105. **Explain the difference between `ngOnInit()` and `constructor()` in Angular. When would you use each one?**
+### 57. **Explain the difference between `ngOnInit()` and `constructor()` in Angular. When would you use each one?**
 
 - **Answer**: `ngOnInit()` is a lifecycle hook that is called after Angular has initialized all data-bound properties of a component. It is typically used for logic that requires data binding or initialization of data that may come from services. The `constructor()` is a standard TypeScript feature used to initialize a class instance, but Angular recommends placing component initialization logic (such as fetching data or subscriptions) inside `ngOnInit()` instead of the `constructor()`.
 
-### 106. **What is the difference between `ngFor` and `ngForOf`?**
+### 58. **What is the difference between `ngFor` and `ngForOf`?**
 
 - **Answer**: `ngFor` is an alias for `ngForOf` directive. `ngForOf` is a lower-level implementation of the directive that works with iterable objects, like arrays. While they are functionally equivalent, `ngFor` is the preferred shorthand for most applications.
 
-### 107. **What are Angular decorators and name a few common ones?**
+### 60. **What are Angular decorators and name a few common ones?**
 
 - **Answer**: Decorators are special functions in Angular that are used to attach metadata to classes. Common Angular decorators include:
   - `@Component()`: Defines a component.
@@ -2532,23 +2532,23 @@ In this example, if an error occurs during the HTTP request, it is caught by `ca
   - `@Input()` and `@Output()`: Used for passing data between components.
   - `@ViewChild()` and `@ContentChild()`: Used to access child components or elements.
 
-### 108. **What is the role of `ngZone` in Angular, and how does it help with performance optimization?**
+### 61. **What is the role of `ngZone` in Angular, and how does it help with performance optimization?**
 
 - **Answer**: `ngZone` is an Angular service that allows you to run code inside or outside Angular’s change detection mechanism. It is particularly useful for optimizing performance by ensuring that Angular’s change detection cycle runs only when necessary. For example, if you are working with external libraries or performing long-running tasks, you can execute them outside of Angular's zone to avoid unnecessary change detection cycles.
 
-### 109. **What is the purpose of the `ngModule` and how does it work in Angular?**
+### 64. **What is the purpose of the `ngModule` and how does it work in Angular?**
 
 - **Answer**: An `NgModule` in Angular is a container that holds the components, directives, pipes, and services for a specific part of the application. It provides a way to organize and structure the application into cohesive blocks of functionality. Every Angular app has at least one module, the root module (`AppModule`), which bootstraps the application and declares other modules, components, and services.
 
-### 110. **What is Dependency Injection (DI) in Angular? Explain how it works.**
+### 65. **What is Dependency Injection (DI) in Angular? Explain how it works.**
 
 - **Answer**: Dependency Injection (DI) is a design pattern used in Angular to manage how services and objects are created and injected into components, directives, or other services. Angular’s DI system allows you to define the dependencies that a class needs, and Angular will automatically provide those dependencies, either from its internal DI container or from external sources. This promotes loose coupling and makes the application more modular and testable.
 
-### 111. **What are interceptors in Angular? How do you use them?**
+### 70. **What are interceptors in Angular? How do you use them?**
 
 - **Answer**: Interceptors are Angular services that can modify HTTP requests and responses. They can be used to add authentication tokens, log request and response details, handle errors globally, and more. Interceptors are implemented by creating a class that implements the `HttpInterceptor` interface and using `HttpClientModule` to configure them globally.
 
-### 112. **How do you implement routing in Angular, and what are the different navigation methods available?**
+### 71. **How do you implement routing in Angular, and what are the different navigation methods available?**
 
 - **Answer**: Angular provides a powerful routing module to navigate between views or components. You define routes in the routing module by associating paths with components. There are several navigation methods:
 
@@ -2558,7 +2558,7 @@ In this example, if an error occurs during the HTTP request, it is caught by `ca
 
   You can also implement route guards to protect certain routes based on user roles or authentication status.
 
-### 113. **What are Angular Guards? Explain the different types of guards.**
+### 72. **What are Angular Guards? Explain the different types of guards.**
 
 - **Answer**: Angular Guards are used to prevent or allow navigation to a route based on certain conditions. There are four types of guards:
   - **CanActivate**: Determines if a route can be activated.
@@ -2566,7 +2566,7 @@ In this example, if an error occurs during the HTTP request, it is caught by `ca
   - **CanDeactivate**: Determines if a user can leave the current route.
   - **Resolve**: Used to resolve data before a route is activated.
 
-### 114. **How would you optimize performance in an Angular application?**
+### 73. **How would you optimize performance in an Angular application?**
 
 - **Answer**: Some techniques to optimize Angular application performance include:
   - **Lazy Loading**: Load modules only when needed.
@@ -2576,11 +2576,11 @@ In this example, if an error occurs during the HTTP request, it is caught by `ca
   - **Avoid Complex Computations in Templates**: Perform complex operations in the component rather than in the template to avoid recalculating on every change detection cycle.
   - **Tree Shaking**: Remove unused code during build time.
 
-### 115. **What is the purpose of Angular’s `Renderer2`?**
+### 74. **What is the purpose of Angular’s `Renderer2`?**
 
 - **Answer**: `Renderer2` is a service that allows safe manipulation of the DOM, abstracting away direct access to DOM elements. It provides methods like `createElement`, `setAttribute`, `appendChild`, and `removeChild`, ensuring that the DOM manipulation remains platform-agnostic (e.g., server-side rendering).
 
-### 116. **Explain the difference between `ngOnChanges` and `ngDoCheck`.**
+### 75. **Explain the difference between `ngOnChanges` and `ngDoCheck`.**
 
 - **Answer**:
   - **`ngOnChanges`** is called whenever an input property of a component changes. It receives a `SimpleChanges` object which contains the current and previous values of the properties.
