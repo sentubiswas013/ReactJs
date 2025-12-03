@@ -290,25 +290,25 @@ For example, if a component requires a service, Angular's DI system will create 
 Observables allow you to handle async tasks like HTTP calls in a cleaner, more flexible way compared to callbacks or promises.
 
 ### 14. What is a provider?
-     A **provider** in Angular is a mechanism that tells Angular how to create a service or value to be injected into components or other services. It is a key part of the **dependency injection** system in Angular, allowing you to manage the creation and sharing of services.
+  A **provider** in Angular is a mechanism that tells Angular how to create a service or value to be injected into components or other services. It is a key part of the **dependency injection** system in Angular, allowing you to manage the creation and sharing of services.
 
 
-    In an Angular application, you define a provider for a service in the `@NgModule` or `@Component` decorator.
+In an Angular application, you define a provider for a service in the `@NgModule` or `@Component` decorator.
 
-```typescript
- import { Injectable } from '@angular/core';
+  ```typescript
+  import { Injectable } from '@angular/core';
 
- @Injectable({
-   providedIn: 'root', // This makes the service globally available
- })
- export class MyService {
-   constructor() { }
+  @Injectable({
+    providedIn: 'root', // This makes the service globally available
+  })
+  export class MyService {
+    constructor() { }
 
-   getServiceData() {
-     return 'Some data from the service';
-   }
- }
-```
+    getServiceData() {
+      return 'Some data from the service';
+    }
+  }
+  ```
 
 ### 15. **What are pipes in Angular? Can you create custom pipes?**
 
@@ -339,55 +339,55 @@ Usage in the template:
 
 ### 16. What is an observable?
 
-    An **observable** is a way to manage and work with asynchronous data or events in Angular. It represents a stream of data that can emit multiple values over time, like data from an HTTP request, user input, or a timer. You "subscribe" to an observable to receive the emitted values and react to them as they come in.
+An **observable** is a way to manage and work with asynchronous data or events in Angular. It represents a stream of data that can emit multiple values over time, like data from an HTTP request, user input, or a timer. You "subscribe" to an observable to receive the emitted values and react to them as they come in.
 
-    In simple terms, an observable is like a TV channel that you can tune into (subscribe) to receive updates (data or events).
+In simple terms, an observable is like a TV channel that you can tune into (subscribe) to receive updates (data or events).
 
-    #### Key Points:
+#### Key Points:
 
-    - **Asynchronous**: Observables can handle data that comes in over time, like the result of an HTTP request or events triggered by the user.
-    - **Emit Values**: An observable can emit multiple values (e.g., data, events) over time.
-    - **Subscribe**: To receive the values emitted by an observable, you **subscribe** to it. Once subscribed, the observer (subscriber) will receive data updates automatically.
+- **Asynchronous**: Observables can handle data that comes in over time, like the result of an HTTP request or events triggered by the user.
+- **Emit Values**: An observable can emit multiple values (e.g., data, events) over time.
+- **Subscribe**: To receive the values emitted by an observable, you **subscribe** to it. Once subscribed, the observer (subscriber) will receive data updates automatically.
 
-      Let see the simple example of observable,
+  Let see the simple example of observable,
 
-      #### Example of an Observable:
+  #### Example of an Observable:
 
-      ```typescript
-      import { Observable } from 'rxjs';
+  ```typescript
+  import { Observable } from 'rxjs';
 
-      // Create a simple observable
-      const myObservable = new Observable(subscriber => {
-        subscriber.next('Hello');
-        subscriber.next('World');
-        subscriber.complete();  // Marks the observable as complete
-      });
+  // Create a simple observable
+  const myObservable = new Observable(subscriber => {
+    subscriber.next('Hello');
+    subscriber.next('World');
+    subscriber.complete();  // Marks the observable as complete
+  });
 
-      // Subscribe to the observable
-      myObservable.subscribe({
-        next: (value) => console.log(value),
-        complete: () => console.log('Done')
-      });
-      ```
+  // Subscribe to the observable
+  myObservable.subscribe({
+    next: (value) => console.log(value),
+    complete: () => console.log('Done')
+  });
+  ```
 
 ### 17. What is an observer?
 
-    Observer is an interface for a consumer of push-based notifications delivered by an Observable. It has below structure,
+Observer is an interface for a consumer of push-based notifications delivered by an Observable. It has below structure,
 
-    ```javascript
-    interface Observer<T> {
-      closed?: boolean;
-      next: (value: T) => void;
-      error: (err: any) => void;
-      complete: () => void;
-    }
-    ```
+```javascript
+interface Observer<T> {
+  closed?: boolean;
+  next: (value: T) => void;
+  error: (err: any) => void;
+  complete: () => void;
+}
+```
 
-    A handler that implements the Observer interface for receiving observable notifications will be passed as a parameter for observable as below,
+A handler that implements the Observer interface for receiving observable notifications will be passed as a parameter for observable as below,
 
-    ```javascript
-    myObservable.subscribe(myObserver);
-    ```
+```javascript
+myObservable.subscribe(myObserver);
+```
 
 **Note:** If you don't supply a handler for a notification type, the observer ignores notifications of that type.
 
@@ -407,205 +407,205 @@ Usage in the template:
 
 ### 19. What is multicasting?
 
-    **Multicasting** is a way of sharing a single data stream (like an HTTP request or event) with multiple subscribers without triggering the operation multiple times. This makes the process more efficient, as all subscribers receive the same data from a single execution.
+**Multicasting** is a way of sharing a single data stream (like an HTTP request or event) with multiple subscribers without triggering the operation multiple times. This makes the process more efficient, as all subscribers receive the same data from a single execution.
 
-    Here's an example that demonstrates multicasting with the `share()` operator.
+Here's an example that demonstrates multicasting with the `share()` operator.
 
-    ```typescript
-    import { Observable } from 'rxjs';
-    import { share } from 'rxjs/operators';
+```typescript
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
 
-    const dataObservable = new Observable(observer => {
-      console.log('HTTP request made');
-      observer.next('data');
-      observer.complete();
-    }).pipe(
-      share()  // Share the same observable for multiple subscribers
-    );
+const dataObservable = new Observable(observer => {
+  console.log('HTTP request made');
+  observer.next('data');
+  observer.complete();
+}).pipe(
+  share()  // Share the same observable for multiple subscribers
+);
 
-    dataObservable.subscribe(data => {
-      console.log('Subscriber 1:', data);
-    });
+dataObservable.subscribe(data => {
+  console.log('Subscriber 1:', data);
+});
 
-    dataObservable.subscribe(data => {
-      console.log('Subscriber 2:', data);
-    });
-    ```
+dataObservable.subscribe(data => {
+  console.log('Subscriber 2:', data);
+});
+```
 
-    In this case, "HTTP request made" will be logged **only once**, even though there are two subscribers, because of the `share()` operator.
+In this case, "HTTP request made" will be logged **only once**, even though there are two subscribers, because of the `share()` operator.
 
-    #### Why Use Multicasting:
+#### Why Use Multicasting:
 
-    - **Efficiency**: Multicasting reduces unnecessary executions of expensive operations, like HTTP requests or complex calculations.
-    - **Shared Data**: It allows multiple parts of the application to listen to and act on the same data stream, such as user input or real-time updates.
+- **Efficiency**: Multicasting reduces unnecessary executions of expensive operations, like HTTP requests or complex calculations.
+- **Shared Data**: It allows multiple parts of the application to listen to and act on the same data stream, such as user input or real-time updates.
 
-    #### In Summary:
+#### In Summary:
 
-    **Multicasting** in Angular allows multiple subscribers to share the same observable execution, reducing redundant operations and making the application more efficient. You can achieve multicasting using operators like `share()` or `publish()`.
+**Multicasting** in Angular allows multiple subscribers to share the same observable execution, reducing redundant operations and making the application more efficient. You can achieve multicasting using operators like `share()` or `publish()`.
 
 ### 20. What is a bootstrapping module?
 
-    In Angular, a **bootstrapping module** is the module responsible for initializing and starting up an Angular application. It is the entry point of the application and tells Angular which component to load first when the application starts.
+In Angular, a **bootstrapping module** is the module responsible for initializing and starting up an Angular application. It is the entry point of the application and tells Angular which component to load first when the application starts.
 
-    #### Key Points:
+#### Key Points:
 
-    1. **Root Module**: The bootstrapping module is usually the **root module** (often named `AppModule`).
-    2. **Bootstrapping**: During the bootstrapping process, Angular loads the root component (usually `AppComponent`) and sets up the application for rendering.
-    3. **`platformBrowserDynamic().bootstrapModule()`**: This is the function Angular uses to start the bootstrapping process in the browser. It bootstraps the root module (`AppModule`) and starts the Angular application.
+1. **Root Module**: The bootstrapping module is usually the **root module** (often named `AppModule`).
+2. **Bootstrapping**: During the bootstrapping process, Angular loads the root component (usually `AppComponent`) and sets up the application for rendering.
+3. **`platformBrowserDynamic().bootstrapModule()`**: This is the function Angular uses to start the bootstrapping process in the browser. It bootstraps the root module (`AppModule`) and starts the Angular application.
 
-    #### Example:
+#### Example:
 
-    In the `main.ts` file of an Angular application, you’ll typically see something like this:
+In the `main.ts` file of an Angular application, you’ll typically see something like this:
 
-    ```typescript
-    import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-    import { AppModule } from './app/app.module';
+```typescript
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
 
-    platformBrowserDynamic().bootstrapModule(AppModule)
-    .catch(err => console.error(err));
-    ```
+platformBrowserDynamic().bootstrapModule(AppModule)
+.catch(err => console.error(err));
+```
 
 ### 21. Which file load first in angular application
 
-    In an Angular application, the first file that is loaded and executed is `index.html`. Here's the sequence of how Angular starts:
+In an Angular application, the first file that is loaded and executed is `index.html`. Here's the sequence of how Angular starts:
 
-    #### 22. **`index.html`**
+#### 22. **`index.html`**
 
-    - **Location**: `src/index.html`
-    - This file is the entry point for the application in the browser. When you run the Angular app (for example, using `ng serve`), the browser loads this HTML file first.
-    - It contains essential meta tags, links to stylesheets, and the `<app-root></app-root>` tag (or another root component tag depending on your configuration), which acts as the placeholder where Angular will render the application.
+- **Location**: `src/index.html`
+- This file is the entry point for the application in the browser. When you run the Angular app (for example, using `ng serve`), the browser loads this HTML file first.
+- It contains essential meta tags, links to stylesheets, and the `<app-root></app-root>` tag (or another root component tag depending on your configuration), which acts as the placeholder where Angular will render the application.
 
-    #### 23. **`main.ts`**
+#### 23. **`main.ts`**
 
-    - **Location**: `src/main.ts`
-    - After the browser loads `index.html`, Angular bootstraps the application by executing the `main.ts` file.
-    - This TypeScript file is the **main entry point** of the Angular application. It imports and bootstraps the root module (`AppModule`).
-      ```typescript
-      platformBrowserDynamic().bootstrapModule(AppModule)
-        .catch(err => console.error(err));
-      ```
+- **Location**: `src/main.ts`
+- After the browser loads `index.html`, Angular bootstraps the application by executing the `main.ts` file.
+- This TypeScript file is the **main entry point** of the Angular application. It imports and bootstraps the root module (`AppModule`).
+  ```typescript
+  platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch(err => console.error(err));
+  ```
 
-    #### 24. **`app.module.ts`**
+#### 24. **`app.module.ts`**
 
-    - **Location**: `src/app/app.module.ts`
-    - Once `main.ts` runs and the root module (`AppModule`) is bootstrapped, Angular looks for the `AppModule` class, which defines the core module of the app.
-    - `AppModule` is the starting point for loading other components, services, and other Angular features.
-    - It imports necessary Angular modules (like `BrowserModule`, `FormsModule`, etc.) and declares components (like `AppComponent`).
+- **Location**: `src/app/app.module.ts`
+- Once `main.ts` runs and the root module (`AppModule`) is bootstrapped, Angular looks for the `AppModule` class, which defines the core module of the app.
+- `AppModule` is the starting point for loading other components, services, and other Angular features.
+- It imports necessary Angular modules (like `BrowserModule`, `FormsModule`, etc.) and declares components (like `AppComponent`).
 
-    #### 25. **`app.component.ts`**
+#### 25. **`app.component.ts`**
 
-    - **Location**: `src/app/app.component.ts`
-    - After the root module is initialized, Angular loads the root component (`AppComponent` by default) and renders its template (`app.component.html`).
-    - The root component becomes the basis for the rest of the application's component tree, and Angular's change detection mechanism begins.
+- **Location**: `src/app/app.component.ts`
+- After the root module is initialized, Angular loads the root component (`AppComponent` by default) and renders its template (`app.component.html`).
+- The root component becomes the basis for the rest of the application's component tree, and Angular's change detection mechanism begins.
 
-    #### Key Load Order:
+#### Key Load Order:
 
-    1. **`index.html`**: Loaded by the browser as the entry point.
-    2. **`main.ts`**: Bootstraps the Angular application.
-    3. **`AppModule` (`app.module.ts`)**: Defines the application structure and configuration.
-    4. **`AppComponent` (`app.component.ts`)**: The root component that renders the view.
+1. **`index.html`**: Loaded by the browser as the entry point.
+2. **`main.ts`**: Bootstraps the Angular application.
+3. **`AppModule` (`app.module.ts`)**: Defines the application structure and configuration.
+4. **`AppComponent` (`app.component.ts`)**: The root component that renders the view.
 
-    In summary, `index.html` is the first file loaded, followed by `main.ts`, which bootstraps `AppModule`, and then `AppComponent` is rendered as the root of the application.
+In summary, `index.html` is the first file loaded, followed by `main.ts`, which bootstraps `AppModule`, and then `AppComponent` is rendered as the root of the application.
 
 ### 26. If I rename `main.ts`, will application load
 
-    No, the application will not load if you rename `main.ts` unless you update the `angular.json` file to point to the new file name.
+No, the application will not load if you rename `main.ts` unless you update the `angular.json` file to point to the new file name.
 
-    Here's why:
+Here's why:
 
-    #### 27. **The Role of `main.ts`**
+#### 27. **The Role of `main.ts`**
 
-    - `main.ts` is the **entry point** of your Angular application. It is responsible for bootstrapping the root module (`AppModule`) using the Angular platform browser dynamic method:
-      ```typescript
-      platformBrowserDynamic().bootstrapModule(AppModule)
-        .catch(err => console.error(err));
+- `main.ts` is the **entry point** of your Angular application. It is responsible for bootstrapping the root module (`AppModule`) using the Angular platform browser dynamic method:
+  ```typescript
+  platformBrowserDynamic().bootstrapModule(AppModule)
+    .catch(err => console.error(err));
+  ```
+- This file is essential for Angular to start the application. If it is renamed, Angular will not be able to find it and will fail to bootstrap the app.
+
+#### 28. **What Happens if You Rename `main.ts`**
+
+- When you rename `main.ts`, the Angular CLI and build process will not automatically know about this change. The application will fail to load because the Angular CLI will still expect to find a file named `main.ts` to begin bootstrapping.
+
+#### 29. **How to Fix It**
+
+- If you rename `main.ts`, you need to update the `angular.json` configuration file to let the build system know about the new entry file.
+- **Steps to rename `main.ts` and update the configuration:**
+  1. Rename `main.ts` to your preferred name (e.g., `startup.ts`).
+  2. Open `angular.json` in the project root.
+  3. In the `angular.json` file, locate the `"sourceRoot"` section under the `"projects"` -> `"architect"` -> `"build"` configuration.
+  4. Update the `main` entry in the `"scripts"` or `"build"` section to point to the new file. For example:
+      ```json
+      "projects": {
+        "your-project-name": {
+          "architect": {
+            "build": {
+              "options": {
+                "main": "src/startup.ts",
+                "index": "src/index.html",
+                ...
+              }
+            }
+          }
+        }
+      }
       ```
-    - This file is essential for Angular to start the application. If it is renamed, Angular will not be able to find it and will fail to bootstrap the app.
 
-    #### 28. **What Happens if You Rename `main.ts`**
+#### 30. **Additional Considerations**
 
-    - When you rename `main.ts`, the Angular CLI and build process will not automatically know about this change. The application will fail to load because the Angular CLI will still expect to find a file named `main.ts` to begin bootstrapping.
+- The `angular.json` file specifies various build and configuration options for your Angular project. By default, it assumes the existence of `main.ts` as the entry point. If you rename it, this configuration file needs to be updated accordingly.
+- After updating `angular.json`, the Angular CLI will use your renamed file to bootstrap the application, and the application should load correctly.
 
-    #### 29. **How to Fix It**
+#### Conclusion:
 
-    - If you rename `main.ts`, you need to update the `angular.json` configuration file to let the build system know about the new entry file.
-    - **Steps to rename `main.ts` and update the configuration:**
-      1. Rename `main.ts` to your preferred name (e.g., `startup.ts`).
-      2. Open `angular.json` in the project root.
-      3. In the `angular.json` file, locate the `"sourceRoot"` section under the `"projects"` -> `"architect"` -> `"build"` configuration.
-      4. Update the `main` entry in the `"scripts"` or `"build"` section to point to the new file. For example:
-         ```json
-         "projects": {
-           "your-project-name": {
-             "architect": {
-               "build": {
-                 "options": {
-                   "main": "src/startup.ts",
-                   "index": "src/index.html",
-                   ...
-                 }
-               }
-             }
-           }
-         }
-         ```
-
-    #### 30. **Additional Considerations**
-
-    - The `angular.json` file specifies various build and configuration options for your Angular project. By default, it assumes the existence of `main.ts` as the entry point. If you rename it, this configuration file needs to be updated accordingly.
-    - After updating `angular.json`, the Angular CLI will use your renamed file to bootstrap the application, and the application should load correctly.
-
-    #### Conclusion:
-
-    If you rename `main.ts`, the application will **not load** unless you also update the Angular CLI configuration (in `angular.json`) to point to the new file.
+If you rename `main.ts`, the application will **not load** unless you also update the Angular CLI configuration (in `angular.json`) to point to the new file.
 
 ### 31. Default project files and folder details
 
-    When you create a new Angular project using the Angular CLI (`ng new <project-name>`), several default files and folders are generated in your project directory. These files and folders provide a basic structure for developing Angular applications. Here's a breakdown of the most important files:
+When you create a new Angular project using the Angular CLI (`ng new <project-name>`), several default files and folders are generated in your project directory. These files and folders provide a basic structure for developing Angular applications. Here's a breakdown of the most important files:
 
-    #### 32. **`e2e/` (End-to-End Testing Folder)**
+#### 32. **`e2e/` (End-to-End Testing Folder)**
 
-    - **`src/app.e2e-spec.ts`**: Contains the end-to-end test cases for the application. These tests use Protractor to simulate user interactions and test the application from an end-user's perspective.
-    - **`src/app.po.ts`**: Page Object model that defines how to interact with the elements on a page.
+- **`src/app.e2e-spec.ts`**: Contains the end-to-end test cases for the application. These tests use Protractor to simulate user interactions and test the application from an end-user's perspective.
+- **`src/app.po.ts`**: Page Object model that defines how to interact with the elements on a page.
 
-    #### 33. **`node_modules/`**
+#### 33. **`node_modules/`**
 
-    - This folder contains all the npm packages installed for the project, including Angular libraries and any other dependencies you install using `npm install`.
+- This folder contains all the npm packages installed for the project, including Angular libraries and any other dependencies you install using `npm install`.
 
-    #### 34. **`src/` (Source Folder)**
+#### 34. **`src/` (Source Folder)**
 
-    - This is where all your application code lives. It includes several important subfolders and files.
+- This is where all your application code lives. It includes several important subfolders and files.
 
-    #### a. **`src/app/` (Main Application Code)**
+#### a. **`src/app/` (Main Application Code)**
 
-    - **`app.module.ts`**: The root module of your Angular application. It defines the root component and imports other Angular modules that your app requires.
-    - **`app.component.ts`**: The root component of the application. It includes the logic for the main component, typically the one shown when the application starts. It includes a template (`app.component.html`) and styling (`app.component.css`).
-    - **`app.component.html`**: The HTML template for the root component.
-    - **`app.component.css`**: The CSS styles for the root component.
-    - **`app.component.spec.ts`**: Contains unit tests for the `AppComponent`.
+- **`app.module.ts`**: The root module of your Angular application. It defines the root component and imports other Angular modules that your app requires.
+- **`app.component.ts`**: The root component of the application. It includes the logic for the main component, typically the one shown when the application starts. It includes a template (`app.component.html`) and styling (`app.component.css`).
+- **`app.component.html`**: The HTML template for the root component.
+- **`app.component.css`**: The CSS styles for the root component.
+- **`app.component.spec.ts`**: Contains unit tests for the `AppComponent`.
 
-    #### b. **`src/assets/` (Static Files)**
+#### b. **`src/assets/` (Static Files)**
 
-    - This folder is for static files such as images, fonts, icons, or any other assets your application needs.
+- This folder is for static files such as images, fonts, icons, or any other assets your application needs.
 
-    #### c. **`src/environments/` (Environment Configuration)**
+#### c. **`src/environments/` (Environment Configuration)**
 
-    - **`environment.ts`**: Configuration file for development settings.
-    - **`environment.prod.ts`**: Configuration file for production settings. It typically contains settings like API URLs that should differ between environments (development, production, etc.).
+- **`environment.ts`**: Configuration file for development settings.
+- **`environment.prod.ts`**: Configuration file for production settings. It typically contains settings like API URLs that should differ between environments (development, production, etc.).
 
-    #### d. **`src/favicon.ico`**: The default favicon for your application.
+#### d. **`src/favicon.ico`**: The default favicon for your application.
 
-    #### e. **`src/index.html`**: The main HTML file that serves as the entry point for the Angular application. It includes the `<app-root></app-root>` tag where the root component is injected.
+#### e. **`src/index.html`**: The main HTML file that serves as the entry point for the Angular application. It includes the `<app-root></app-root>` tag where the root component is injected.
 
-    #### f. **`src/main.ts`**: The main entry point for your application. It bootstraps the root module (`AppModule`).
+#### f. **`src/main.ts`**: The main entry point for your application. It bootstraps the root module (`AppModule`).
 
-    #### g. **`src/styles.css`**: Global styles for your application. You can add global CSS or include third-party styles here.
+#### g. **`src/styles.css`**: Global styles for your application. You can add global CSS or include third-party styles here.
 
-    #### h. **`src/test.ts`**: The main entry point for running unit tests with the Angular testing framework (Jasmine and Karma).
+#### h. **`src/test.ts`**: The main entry point for running unit tests with the Angular testing framework (Jasmine and Karma).
 
-    ### 35. **`angular.json`**
+### 35. **`angular.json`**
 
-    - This file contains the configuration settings for the Angular CLI. It defines how the application should be built and served, what assets to include, and other settings like file replacements for different environments.
+- This file contains the configuration settings for the Angular CLI. It defines how the application should be built and served, what assets to include, and other settings like file replacements for different environments.
 
     ### 36. **`package-lock.json` or `yarn.lock`**
 
