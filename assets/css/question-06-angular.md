@@ -675,14 +675,14 @@ When you create a new Angular project using the Angular CLI (`ng new <project-na
 
 ### 45. What is the difference between promise and observable?
 
-    Below are the list of differences between promise and observable:
+Below are the list of differences between promise and observable:
 
-    | Observable                                                                                               | Promise                           |
-    | -------------------------------------------------------------------------------------------------------- | --------------------------------- |
-    | Declarative: Computation does not start until subscription, so they can run whenever you need the result | Executes immediately on creation  |
-    | Provides multiple values over time                                                                       | Provides only one                 |
-    | Subscribe method is used for error handling that facilitates centralized and predictable error handling  | Push errors to the child promises |
-    | Provides chaining and subscription to handle complex applications                                        | Uses only `.then()` clause        |
+| Observable                                                                                               | Promise                           |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| Declarative: Computation does not start until subscription, so they can run whenever you need the result | Executes immediately on creation  |
+| Provides multiple values over time                                                                       | Provides only one                 |
+| Subscribe method is used for error handling that facilitates centralized and predictable error handling  | Push errors to the child promises |
+| Provides chaining and subscription to handle complex applications                                        | Uses only `.then()` clause        |
 
 ### 46. **What is an Angular router and why is it used?**
 
