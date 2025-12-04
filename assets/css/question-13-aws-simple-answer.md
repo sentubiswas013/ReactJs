@@ -1,19 +1,3 @@
-# AWS Interview Questions - Comprehensive Guide
-
-## Table of Contents
-1. [AWS Core Services](#aws-core-services)
-2. [Deployment & CI/CD](#deployment--cicd)
-3. [Compute Services](#compute-services)
-4. [Infrastructure as Code](#infrastructure-as-code)
-5. [Networking & DNS](#networking--dns)
-6. [High Availability & Scaling](#high-availability--scaling)
-7. [Node.js on AWS](#nodejs-on-aws)
-8. [Angular & Full-Stack Deployment](#angular--full-stack-deployment)
-9. [Security & Environment Management](#security--environment-management)
-10. [Monitoring & Troubleshooting](#monitoring--troubleshooting)
-
----
-
 ## AWS Core Services
 
 ### 1. What is AWS, and how is it used for deployment?
