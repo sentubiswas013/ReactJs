@@ -1,6 +1,5 @@
-# Spring Boot Interview Answers (Questions 1-10)
 
-## 1. What is Spring Boot, and why is it used?
+### 1. What is Spring Boot, and why is it used?
 
 Spring Boot is a framework that simplifies Spring application development by providing auto-configuration and embedded servers. It eliminates boilerplate code and XML configuration.
 
@@ -18,7 +17,7 @@ public class MyApp {
 }
 ```
 
-## 2. What are the main features of Spring Boot?
+### 2. What are the main features of Spring Boot?
 
 **Key features:**
 - **Auto-configuration** - Automatically configures beans based on classpath
@@ -34,7 +33,7 @@ public class MyApp {
 </dependency>
 ```
 
-## 3. How does Spring Boot differ from the traditional Spring Framework?
+### 3. How does Spring Boot differ from the traditional Spring Framework?
 
 **Traditional Spring:**
 - Manual configuration with XML or Java config
@@ -58,7 +57,7 @@ public class WebConfig implements WebMvcConfigurer { }
 public class App { }
 ```
 
-## 4. What is the purpose of `@SpringBootApplication` annotation?
+### 4. What is the purpose of `@SpringBootApplication` annotation?
 
 `@SpringBootApplication` is a convenience annotation that combines three annotations:
 
@@ -78,7 +77,7 @@ public class Application {
 - `@EnableAutoConfiguration` - Enables auto-configuration
 - `@ComponentScan` - Scans for components in current package
 
-## 5. What are Spring Boot starters? Give some examples.
+### 5. What are Spring Boot starters? Give some examples.
 
 Starters are dependency descriptors that include all necessary dependencies for a specific functionality.
 
@@ -103,7 +102,7 @@ Starters are dependency descriptors that include all necessary dependencies for 
 </dependency>
 ```
 
-## 6. What is the difference between `application.properties` and `application.yml` files?
+### 6. What is the difference between `application.properties` and `application.yml` files?
 
 Both are configuration files, but with different formats:
 
@@ -129,7 +128,7 @@ spring:
 - Properties file is simpler for basic configurations
 - Both serve the same purpose
 
-## 7. What is the role of `@EnableAutoConfiguration` in Spring Boot?
+### 7. What is the role of `@EnableAutoConfiguration` in Spring Boot?
 
 `@EnableAutoConfiguration` tells Spring Boot to automatically configure beans based on classpath dependencies.
 
@@ -147,7 +146,7 @@ public class Config {
 - Applies conditional configurations
 - Creates beans automatically (e.g., DataSource if H2 is present)
 
-## 8. How do you create a Spring Boot application from scratch?
+### 8. How do you create a Spring Boot application from scratch?
 
 **Step 1:** Use Spring Initializr (start.spring.io) or IDE
 
@@ -177,7 +176,7 @@ public class MyApplication {
 }
 ```
 
-## 9. What are some commonly used Spring Boot starters?
+### 9. What are some commonly used Spring Boot starters?
 
 **Most popular starters:**
 
@@ -201,7 +200,7 @@ public class MyApplication {
 <artifactId>spring-boot-starter-actuator</artifactId>
 ```
 
-## 10. How can you run a Spring Boot application from the command line?
+### 10. How can you run a Spring Boot application from the command line?
 
 **Method 1:** Using Maven:
 ```bash
@@ -227,9 +226,7 @@ java -jar target/myapp-1.0.jar
 java -jar myapp.jar --server.port=9090
 ```
 
-# Spring Boot Interview Answers (Questions 11-20)
-
-## 11. How can you externalize configuration in Spring Boot?
+### 11. How can you externalize configuration in Spring Boot?
 
 Spring Boot supports multiple ways to externalize configuration, allowing you to use the same code across different environments.
 
@@ -251,7 +248,7 @@ export APP_NAME=MyApp
 java -jar app.jar --app.name=MyApp
 ```
 
-## 12. What are profiles in Spring Boot, and how are they used?
+### 12. What are profiles in Spring Boot, and how are they used?
 
 Profiles allow you to segregate parts of your application configuration for different environments like dev, test, and production.
 
@@ -276,7 +273,7 @@ public class DevDataLoader {
 }
 ```
 
-## 13. How do you inject properties from `application.properties` into Spring Beans?
+### 13. How do you inject properties from `application.properties` into Spring Beans?
 
 Use `@Value` annotation to inject individual properties or `@ConfigurationProperties` for grouped properties.
 
@@ -297,7 +294,7 @@ public class AppService {
 }
 ```
 
-## 14. Explain the difference between `@Value` and `@ConfigurationProperties`.
+### 14. Explain the difference between `@Value` and `@ConfigurationProperties`.
 
 `@Value` injects individual properties, while `@ConfigurationProperties` binds a group of related properties to a class.
 
@@ -325,7 +322,7 @@ public class DatabaseProperties {
 
 `@ConfigurationProperties` is better for grouped properties and provides type safety.
 
-## 15. How do you manage multiple configuration files in Spring Boot?
+### 15. How do you manage multiple configuration files in Spring Boot?
 
 Spring Boot automatically loads configuration files in this order: application.properties, then profile-specific files.
 
@@ -346,7 +343,7 @@ public class MyTest { }
 spring.profiles.active=dev,debug
 ```
 
-## 16. How can you create a custom configuration in Spring Boot?
+### 16. How can you create a custom configuration in Spring Boot?
 
 Create custom configuration using `@Configuration` and `@Bean` annotations.
 
@@ -372,7 +369,7 @@ public class AppConfig {
 app.cache.enabled=true
 ```
 
-## 17. What is the purpose of `application.properties` or `application.yml` files in Spring Boot?
+### 17. What is the purpose of `application.properties` or `application.yml` files in Spring Boot?
 
 These files contain application configuration that Spring Boot automatically loads at startup. They replace XML configuration files.
 
@@ -396,7 +393,7 @@ spring.jpa.show-sql=true
 - Environment-specific overrides
 - No code changes needed for different environments
 
-## 18. How do you configure logging in Spring Boot?
+### 18. How do you configure logging in Spring Boot?
 
 Spring Boot uses Logback by default. Configure logging levels and patterns in application.properties.
 
@@ -427,7 +424,7 @@ public class UserController {
 }
 ```
 
-## 19. How can you configure different profiles for different environments (e.g., dev, prod)?
+### 19. How can you configure different profiles for different environments (e.g., dev, prod)?
 
 Create separate property files for each environment and activate profiles based on deployment.
 
@@ -461,7 +458,7 @@ java -jar app.jar --spring.profiles.active=prod
 export SPRING_PROFILES_ACTIVE=prod
 ```
 
-## 20. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
+### 20. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
 
 Configure logging levels in application.properties for different packages and classes.
 
@@ -501,9 +498,7 @@ public class UserService {
 }
 ```
 
-# Spring Boot Interview Answers (Questions 21-30)
-
-## 21. What is Spring Boot auto-configuration, and how does it work?
+### 21. What is Spring Boot auto-configuration, and how does it work?
 
 Auto-configuration automatically configures Spring beans based on the dependencies present in your classpath. It uses conditional annotations to decide what to configure.
 
@@ -525,7 +520,7 @@ public class DataSourceAutoConfiguration {
 }
 ```
 
-## 22. How can you disable specific auto-configurations in Spring Boot?
+### 22. How can you disable specific auto-configurations in Spring Boot?
 
 Use `@SpringBootApplication(exclude)` or `spring.autoconfigure.exclude` property to disable unwanted auto-configurations.
 
@@ -546,7 +541,7 @@ public class Application {
 spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 ```
 
-## 23. How do you create a custom auto-configuration in Spring Boot?
+### 23. How do you create a custom auto-configuration in Spring Boot?
 
 Create a configuration class with conditional annotations and register it in `META-INF/spring.factories`.
 
@@ -570,7 +565,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.MyAutoConfiguration
 ```
 
-## 24. What is `@ConditionalOnProperty` in Spring Boot?
+### 24. What is `@ConditionalOnProperty` in Spring Boot?
 
 `@ConditionalOnProperty` creates beans only when specific properties have certain values. It's used for feature toggles and conditional configuration.
 
@@ -598,7 +593,7 @@ app.cache.enabled=true
 app.cache.type=redis
 ```
 
-## 25. Explain `@ConditionalOnClass` and `@ConditionalOnMissingBean` in Spring Boot auto-configuration.
+### 25. Explain `@ConditionalOnClass` and `@ConditionalOnMissingBean` in Spring Boot auto-configuration.
 
 These annotations control when beans are created based on classpath presence and existing bean definitions.
 
@@ -622,7 +617,7 @@ public class DatabaseConfig {
 
 This creates H2 DataSource only if H2 driver is present and no other DataSource exists.
 
-## 26. What is the role of `@RestController` and `@Controller` in Spring Boot?
+### 26. What is the role of `@RestController` and `@Controller` in Spring Boot?
 
 Both handle HTTP requests, but `@RestController` automatically serializes return values to JSON/XML, while `@Controller` returns view names.
 
@@ -646,7 +641,7 @@ public class ApiController {
 
 `@RestController` = `@Controller` + `@ResponseBody`
 
-## 27. How does `@RequestMapping` differ from `@GetMapping`, `@PostMapping`, etc.?
+### 27. How does `@RequestMapping` differ from `@GetMapping`, `@PostMapping`, etc.?
 
 `@RequestMapping` is generic and can handle any HTTP method, while `@GetMapping`, `@PostMapping` are specialized shortcuts for specific methods.
 
@@ -670,7 +665,7 @@ public class UserController {
 }
 ```
 
-## 28. What is the difference between `@RequestParam` and `@PathVariable`?
+### 28. What is the difference between `@RequestParam` and `@PathVariable`?
 
 `@RequestParam` extracts query parameters, while `@PathVariable` extracts values from the URL path.
 
@@ -702,7 +697,7 @@ public class SearchController {
 }
 ```
 
-## 29. What are the key uses of `@Component`, `@Service`, `@Repository`, and `@Controller` annotations?
+### 29. What are the key uses of `@Component`, `@Service`, `@Repository`, and `@Controller` annotations?
 
 These are stereotype annotations that mark classes for Spring's component scanning. They're all specializations of `@Component`.
 
@@ -734,7 +729,7 @@ public class UserController {
 - `@Controller`: Web requests, view resolution
 - `@Component`: Generic components
 
-## 30. What is the purpose of `@Autowired` in Spring Boot?
+### 30. What is the purpose of `@Autowired` in Spring Boot?
 
 `@Autowired` enables automatic dependency injection. Spring automatically injects matching beans into fields, constructors, or methods.
 
@@ -775,9 +770,7 @@ public class UserService {
 }
 ```
 
-# Spring Boot Interview Answers (Questions 31-40)
-
-## 31. How does Spring Boot handle dependency injection?
+### 31. How does Spring Boot handle dependency injection?
 
 Spring Boot uses the IoC (Inversion of Control) container to manage dependencies automatically. It supports constructor, setter, and field injection with `@Autowired`.
 
@@ -807,7 +800,7 @@ public class UserService {
 
 Spring automatically resolves dependencies by type and injects them at runtime.
 
-## 32. What is the purpose of `@Value` annotation in Spring Boot?
+### 32. What is the purpose of `@Value` annotation in Spring Boot?
 
 `@Value` injects values from properties files, environment variables, or expressions into Spring beans.
 
@@ -836,7 +829,7 @@ server.port=9090
 app.features=auth,logging,cache
 ```
 
-## 33. Explain `@Bean` and `@Configuration` in Spring Boot.
+### 33. Explain `@Bean` and `@Configuration` in Spring Boot.
 
 `@Configuration` marks a class as a source of bean definitions. `@Bean` defines individual beans that Spring should manage.
 
@@ -866,7 +859,7 @@ public class AppConfig {
 
 `@Configuration` classes replace XML configuration files and provide type-safe bean definitions.
 
-## 34. What is `@PostConstruct` and `@PreDestroy` in Spring Boot?
+### 34. What is `@PostConstruct` and `@PreDestroy` in Spring Boot?
 
 These annotations define lifecycle callbacks that execute after bean initialization and before destruction.
 
@@ -896,7 +889,7 @@ public class DatabaseService {
 
 **Lifecycle order:** Constructor → Dependency Injection → @PostConstruct → Bean Ready → @PreDestroy → Destruction
 
-## 35. What is the `@Scope` annotation in Spring Boot?
+### 35. What is the `@Scope` annotation in Spring Boot?
 
 `@Scope` defines the lifecycle and visibility of Spring beans. It controls how many instances Spring creates.
 
@@ -928,7 +921,7 @@ public class UserSession {
 
 **Common scopes:** singleton (default), prototype, request, session, application.
 
-## 36. How do you manage Spring Beans in Spring Boot?
+### 36. How do you manage Spring Beans in Spring Boot?
 
 Spring Boot automatically manages beans through component scanning and auto-configuration. You can also define custom beans explicitly.
 
@@ -959,7 +952,7 @@ public class BeanConfig {
 
 Spring manages the entire lifecycle: creation, dependency injection, initialization, and destruction.
 
-## 37. What is the default bean scope in Spring Boot?
+### 37. What is the default bean scope in Spring Boot?
 
 The default bean scope in Spring Boot is **singleton**. This means Spring creates only one instance of the bean per Spring container.
 
@@ -984,7 +977,7 @@ public class EmailService {
 - Shared across all injection points
 - Created at startup (eager) or first use (lazy)
 
-## 38. Explain the difference between `@Singleton`, `@Prototype`, and `@RequestScope`.
+### 38. Explain the difference between `@Singleton`, `@Prototype`, and `@RequestScope`.
 
 These annotations control bean creation patterns and lifecycle management.
 
@@ -1023,7 +1016,7 @@ public class UserController {
 - **Prototype:** New instance per injection
 - **Request:** New instance per HTTP request
 
-## 39. How does Spring Boot handle the lifecycle of beans?
+### 39. How does Spring Boot handle the lifecycle of beans?
 
 Spring Boot manages bean lifecycle through several phases with hooks for customization.
 
@@ -1059,7 +1052,7 @@ public class LifecycleBean implements InitializingBean, DisposableBean {
 
 **Lifecycle phases:** Instantiation → Dependency Injection → Initialization → Ready → Destruction
 
-## 40. What are `@Primary` and `@Qualifier` annotations used for?
+### 40. What are `@Primary` and `@Qualifier` annotations used for?
 
 These annotations resolve ambiguity when multiple beans of the same type exist.
 
@@ -1101,9 +1094,7 @@ public class NotificationController {
 **@Primary:** Default choice when multiple candidates exist
 **@Qualifier:** Specific selection by name or custom qualifier
 
-# Spring Boot Interview Answers (Questions 41-50)
-
-## 41. How do you manage circular dependencies in Spring Boot?
+### 41. How do you manage circular dependencies in Spring Boot?
 
 Circular dependencies occur when beans depend on each other. Spring Boot provides several solutions to resolve them.
 
@@ -1142,7 +1133,7 @@ public class OrderService {
 }
 ```
 
-## 42. How do you connect Spring Boot to a relational database?
+### 42. How do you connect Spring Boot to a relational database?
 
 Add database dependencies and configure connection properties. Spring Boot auto-configures DataSource and JPA.
 
@@ -1168,7 +1159,7 @@ spring.jpa.show-sql=true
 
 Spring Boot automatically creates DataSource, EntityManager, and TransactionManager beans.
 
-## 43. What is Spring Data JPA, and how does it integrate with Spring Boot?
+### 43. What is Spring Data JPA, and how does it integrate with Spring Boot?
 
 Spring Data JPA provides repository abstraction over JPA, eliminating boilerplate code. Spring Boot auto-configures it when JPA starter is present.
 
@@ -1195,7 +1186,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 No implementation needed - Spring Data generates it automatically based on method names.
 
-## 44. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
+### 44. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
 
 These annotations define JPA relationships between entities with different cardinalities.
 
@@ -1227,7 +1218,7 @@ public class Order {
 - `@ManyToOne`: Multiple entities relate to one entity
 - They're opposite sides of the same relationship
 
-## 45. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
+### 45. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
 
 Use `PagingAndSortingRepository` or `Pageable` parameter in repository methods for automatic pagination.
 
@@ -1257,7 +1248,7 @@ public class UserController {
 
 **URL example:** `/users?page=0&size=5&sortBy=name`
 
-## 46. What is `@Entity` and `@Table` in Spring Boot JPA?
+### 46. What is `@Entity` and `@Table` in Spring Boot JPA?
 
 `@Entity` marks a class as a JPA entity, while `@Table` specifies the database table details.
 
@@ -1288,7 +1279,7 @@ public class User {
 - `@Column`: Customizes column properties
 - `@Id`: Primary key field
 
-## 47. What is `@Transactional` used for in Spring Boot?
+### 47. What is `@Transactional` used for in Spring Boot?
 
 `@Transactional` ensures database operations execute within a transaction, providing ACID properties and automatic rollback on exceptions.
 
@@ -1323,7 +1314,7 @@ public class UserService {
 }
 ```
 
-## 48. How does Spring Boot handle database migrations (e.g., Flyway, Liquibase)?
+### 48. How does Spring Boot handle database migrations (e.g., Flyway, Liquibase)?
 
 Spring Boot auto-configures Flyway and Liquibase for database schema versioning and migrations.
 
@@ -1356,7 +1347,7 @@ ALTER TABLE users ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
 Flyway automatically runs migrations on application startup.
 
-## 49. How do you implement a many-to-many relationship using JPA in Spring Boot?
+### 49. How do you implement a many-to-many relationship using JPA in Spring Boot?
 
 Use `@ManyToMany` with a join table to represent many-to-many relationships between entities.
 
@@ -1392,7 +1383,7 @@ public class Role {
 - `roles` table  
 - `user_roles` join table with `user_id` and `role_id`
 
-## 50. What are `CrudRepository`, `JpaRepository`, and `PagingAndSortingRepository` in Spring Data JPA?
+### 50. What are `CrudRepository`, `JpaRepository`, and `PagingAndSortingRepository` in Spring Data JPA?
 
 These are repository interfaces providing different levels of functionality for data access.
 
@@ -1432,9 +1423,7 @@ public class UserController {
 
 **Hierarchy:** `CrudRepository` → `PagingAndSortingRepository` → `JpaRepository`
 
-# Spring Boot Interview Answers (Questions 51-60)
-
-## 51. How do you configure Spring Security in Spring Boot?
+### 51. How do you configure Spring Security in Spring Boot?
 
 Add Spring Security starter dependency and create a security configuration class. Spring Boot auto-configures basic security by default.
 
@@ -1464,7 +1453,7 @@ public class SecurityConfig {
 }
 ```
 
-## 52. What is `@PreAuthorize` annotation in Spring Security?
+### 52. What is `@PreAuthorize` annotation in Spring Security?
 
 `@PreAuthorize` provides method-level security by evaluating expressions before method execution. It's used for fine-grained access control.
 
@@ -1494,7 +1483,7 @@ public class UserController {
 
 Enable method security with `@EnableMethodSecurity` on configuration class.
 
-## 53. What are the steps to enable basic authentication in Spring Boot?
+### 53. What are the steps to enable basic authentication in Spring Boot?
 
 Basic authentication is enabled by default when Spring Security is added. Configure users and customize as needed.
 
@@ -1531,7 +1520,7 @@ public class BasicAuthConfig {
 }
 ```
 
-## 54. How can you configure JWT (JSON Web Tokens) authentication in Spring Boot?
+### 54. How can you configure JWT (JSON Web Tokens) authentication in Spring Boot?
 
 Implement JWT authentication using a custom filter and JWT utility class for token generation and validation.
 
@@ -1573,7 +1562,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 }
 ```
 
-## 55. What is OAuth2, and how do you implement it in Spring Boot?
+### 55. What is OAuth2, and how do you implement it in Spring Boot?
 
 OAuth2 is an authorization framework that allows third-party applications to access user resources. Spring Boot provides OAuth2 client and resource server support.
 
@@ -1608,7 +1597,7 @@ public class OAuth2Config {
 }
 ```
 
-## 56. How do you manage authorization and roles in Spring Security?
+### 56. How do you manage authorization and roles in Spring Security?
 
 Define roles and authorities, then use them in security configuration and method-level security.
 
@@ -1648,7 +1637,7 @@ public class SecurityConfig {
 }
 ```
 
-## 57. How can you protect REST APIs with Spring Security in Spring Boot?
+### 57. How can you protect REST APIs with Spring Security in Spring Boot?
 
 Configure stateless security with JWT or API keys for REST API protection without sessions.
 
@@ -1686,7 +1675,7 @@ public class ApiController {
 }
 ```
 
-## 58. How do you customize the login page in Spring Security with Spring Boot?
+### 58. How do you customize the login page in Spring Security with Spring Boot?
 
 Create a custom login page and configure Spring Security to use it instead of the default.
 
@@ -1731,7 +1720,7 @@ public class LoginController {
 </form>
 ```
 
-## 59. What is CSRF protection in Spring Boot, and how is it implemented?
+### 59. What is CSRF protection in Spring Boot, and how is it implemented?
 
 CSRF (Cross-Site Request Forgery) protection prevents unauthorized commands from being transmitted from a user that the web application trusts.
 
@@ -1764,7 +1753,7 @@ public class CsrfConfig {
 
 **For REST APIs:** Disable CSRF and use stateless authentication (JWT/API keys).
 
-## 60. How do you secure the Spring Boot Actuator endpoints?
+### 60. How do you secure the Spring Boot Actuator endpoints?
 
 Configure security for Actuator endpoints to restrict access to sensitive monitoring information.
 
@@ -1802,9 +1791,7 @@ public class ActuatorSecurityConfig {
 
 This restricts sensitive endpoints like `/actuator/metrics` to ADMIN role while keeping `/actuator/health` public.
 
-# Spring Boot Interview Answers (Questions 61-70)
-
-## 61. What is `@SpringBootTest` used for in testing Spring Boot applications?
+### 61. What is `@SpringBootTest` used for in testing Spring Boot applications?
 
 `@SpringBootTest` loads the complete Spring application context for integration testing. It starts the entire Spring Boot application with all configurations.
 
@@ -1843,7 +1830,7 @@ class WebIntegrationTest {
 }
 ```
 
-## 62. How do you test a Spring Boot controller using `MockMvc`?
+### 62. How do you test a Spring Boot controller using `MockMvc`?
 
 `MockMvc` allows testing controllers without starting a full HTTP server. It simulates HTTP requests and validates responses.
 
@@ -1882,7 +1869,7 @@ class UserControllerTest {
 }
 ```
 
-## 63. How do you mock services and repositories in Spring Boot tests?
+### 63. How do you mock services and repositories in Spring Boot tests?
 
 Use `@MockBean` to replace Spring beans with mocks in the application context, or `@Mock` for unit tests.
 
@@ -1930,7 +1917,7 @@ class UserServiceUnitTest {
 }
 ```
 
-## 64. What is the difference between `@WebMvcTest` and `@DataJpaTest`?
+### 64. What is the difference between `@WebMvcTest` and `@DataJpaTest`?
 
 These are slice tests that load only specific parts of the Spring context for focused testing.
 
@@ -1979,7 +1966,7 @@ class UserRepositoryTest {
 - `@WebMvcTest`: Web layer only, mocks services
 - `@DataJpaTest`: JPA layer only, uses in-memory database
 
-## 65. How can you write unit tests for Spring Boot services using `@MockBean`?
+### 65. How can you write unit tests for Spring Boot services using `@MockBean`?
 
 `@MockBean` replaces beans in the Spring context with Mockito mocks, perfect for testing services with mocked dependencies.
 
@@ -2019,7 +2006,7 @@ class OrderServiceTest {
 }
 ```
 
-## 66. What are the best practices for testing Spring Boot applications?
+### 66. What are the best practices for testing Spring Boot applications?
 
 Follow the testing pyramid with unit tests, integration tests, and end-to-end tests in appropriate proportions.
 
@@ -2058,7 +2045,7 @@ class DatabaseIntegrationTest {
 }
 ```
 
-## 67. How do you perform integration testing in Spring Boot?
+### 67. How do you perform integration testing in Spring Boot?
 
 Integration tests verify that different components work together correctly. Use `@SpringBootTest` with real or test configurations.
 
@@ -2106,7 +2093,7 @@ class DataIntegrationTest {
 }
 ```
 
-## 68. How do you use `@AutoConfigureMockMvc` for testing controllers in Spring Boot?
+### 68. How do you use `@AutoConfigureMockMvc` for testing controllers in Spring Boot?
 
 `@AutoConfigureMockMvc` configures MockMvc automatically when used with `@SpringBootTest`, enabling controller testing with full context.
 
@@ -2153,7 +2140,7 @@ class SecureControllerTest {
 }
 ```
 
-## 69. How do you handle database integration tests in Spring Boot without polluting the real database?
+### 69. How do you handle database integration tests in Spring Boot without polluting the real database?
 
 Use test-specific database configurations, in-memory databases, or TestContainers to isolate test data.
 
@@ -2200,7 +2187,7 @@ class TransactionalTest {
 }
 ```
 
-## 70. What is Spring Boot Actuator, and how does it enhance your application?
+### 70. What is Spring Boot Actuator, and how does it enhance your application?
 
 Spring Boot Actuator provides production-ready features like monitoring, metrics, and health checks out of the box.
 
@@ -2270,9 +2257,7 @@ public class UserController {
 - `/actuator/info` - Application information
 - `/actuator/prometheus` - Prometheus metrics format
 
-# Spring Boot Interview Answers (Questions 71-75)
-
-## 71. What are the default endpoints provided by Spring Boot Actuator?
+### 71. What are the default endpoints provided by Spring Boot Actuator?
 
 Spring Boot Actuator provides several built-in endpoints for monitoring and managing your application. Most are disabled by default for security.
 
@@ -2303,7 +2288,7 @@ curl http://localhost:8080/actuator/health
 curl http://localhost:8080/actuator/metrics/jvm.memory.used
 ```
 
-## 72. How can you expose custom Actuator endpoints in Spring Boot?
+### 72. How can you expose custom Actuator endpoints in Spring Boot?
 
 Create custom endpoints using `@Endpoint` annotation to expose application-specific monitoring information.
 
@@ -2347,7 +2332,7 @@ curl -X POST http://localhost:8080/actuator/custom
 curl -X DELETE http://localhost:8080/actuator/custom/userCache
 ```
 
-## 73. What is the role of `health` and `metrics` endpoints in Spring Boot Actuator?
+### 73. What is the role of `health` and `metrics` endpoints in Spring Boot Actuator?
 
 The `health` endpoint shows application health status, while `metrics` provides detailed performance and resource usage data.
 
@@ -2409,7 +2394,7 @@ management.endpoint.health.show-details=always
 management.endpoint.metrics.enabled=true
 ```
 
-## 74. How do you secure actuator endpoints in a production environment?
+### 74. How do you secure actuator endpoints in a production environment?
 
 Secure Actuator endpoints by restricting access, enabling authentication, and exposing only necessary endpoints.
 
@@ -2465,7 +2450,7 @@ management:
       base-path: /admin
 ```
 
-## 75. How can you monitor and gather metrics using Spring Boot Actuator?
+### 75. How can you monitor and gather metrics using Spring Boot Actuator?
 
 Use Actuator with monitoring systems like Prometheus, Grafana, or Micrometer for comprehensive application monitoring.
 
