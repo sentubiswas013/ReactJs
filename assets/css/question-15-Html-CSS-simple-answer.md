@@ -1,6 +1,6 @@
 # 🎯 **HTML Interview Questions & Answers**
 
-## **1. What is HTML and why is it used?**
+### **1. What is HTML and why is it used?**
 
 HTML stands for HyperText Markup Language. It's the standard markup language for creating web pages. HTML uses tags to structure content like headings, paragraphs, links, and images. It's the foundation of every website.
 
@@ -19,7 +19,7 @@ HTML stands for HyperText Markup Language. It's the standard markup language for
 
 ---
 
-## **2. What is the difference between HTML and HTML5?**
+### **2. What is the difference between HTML and HTML5?**
 
 HTML5 is the latest version with new semantic tags, multimedia support, and APIs. HTML5 added `<video>`, `<audio>`, `<canvas>`, local storage, and better form controls. It's more mobile-friendly and supports modern web applications.
 
@@ -34,7 +34,7 @@ HTML5 is the latest version with new semantic tags, multimedia support, and APIs
 
 ---
 
-## **3. What are semantic HTML tags? Give examples.**
+### **3. What are semantic HTML tags? Give examples.**
 
 Semantic tags clearly describe their meaning to both browsers and developers. They improve SEO and accessibility by providing structure and context to content.
 
@@ -50,7 +50,7 @@ Semantic tags clearly describe their meaning to both browsers and developers. Th
 
 ---
 
-## **4. What is the purpose of `<!DOCTYPE html>`?**
+### **4. What is the purpose of `<!DOCTYPE html>`?**
 
 DOCTYPE tells the browser which HTML version to use and ensures the page renders in standards mode. Without it, browsers might use quirks mode, causing layout issues.
 
@@ -63,7 +63,7 @@ DOCTYPE tells the browser which HTML version to use and ensures the page renders
 
 ---
 
-## **5. Difference between `<div>` and `<span>`?**
+### **5. Difference between `<div>` and `<span>`?**
 
 `<div>` is a block-level element that takes full width and starts on a new line. `<span>` is inline and only takes necessary space without breaking the line.
 
@@ -76,7 +76,7 @@ DOCTYPE tells the browser which HTML version to use and ensures the page renders
 
 ---
 
-## **6. What are block-level and inline elements?**
+### **6. What are block-level and inline elements?**
 
 Block elements take full width and start on new lines (div, p, h1). Inline elements take only necessary space and stay on the same line (span, a, strong).
 
@@ -91,7 +91,7 @@ Block elements take full width and start on new lines (div, p, h1). Inline eleme
 
 ---
 
-## **7. What is the use of `<meta>` tags?**
+### **7. What is the use of `<meta>` tags?**
 
 Meta tags provide metadata about the HTML document. They're used for SEO, responsive design, character encoding, and social media sharing.
 
@@ -104,7 +104,7 @@ Meta tags provide metadata about the HTML document. They're used for SEO, respon
 
 ---
 
-## **8. What is the `alt` attribute in images?**
+### **8. What is the `alt` attribute in images?**
 
 The `alt` attribute provides alternative text for images when they can't be displayed. It's crucial for accessibility and SEO, helping screen readers describe images to visually impaired users.
 
@@ -115,7 +115,7 @@ The `alt` attribute provides alternative text for images when they can't be disp
 
 ---
 
-## **9. What is the difference between ID and Class?**
+### **9. What is the difference between ID and Class?**
 
 ID is unique and used once per page, while Class can be used multiple times. ID has higher CSS specificity and is used for JavaScript targeting.
 
@@ -132,7 +132,7 @@ ID is unique and used once per page, while Class can be used multiple times. ID 
 
 ---
 
-## **10. What is the use of `<header>`, `<footer>`, `<section>`?**
+### **10. What is the use of `<header>`, `<footer>`, `<section>`?**
 
 These are semantic HTML5 tags. `<header>` contains introductory content, `<footer>` contains closing information, and `<section>` groups related content together.
 
@@ -152,7 +152,7 @@ These are semantic HTML5 tags. `<header>` contains introductory content, `<foote
 
 ---
 
-## **11. What are self-closing tags? Give examples.**
+### **11. What are self-closing tags? Give examples.**
 
 Self-closing tags don't need closing tags because they don't contain content. They're also called void elements.
 
@@ -167,7 +167,7 @@ Self-closing tags don't need closing tags because they don't contain content. Th
 
 ---
 
-## **12. How to link external CSS and JS in HTML?**
+### **12. How to link external CSS and JS in HTML?**
 
 Use `<link>` for CSS in the head section and `<script>` for JavaScript, preferably before closing body tag for better performance.
 
@@ -183,7 +183,7 @@ Use `<link>` for CSS in the head section and `<script>` for JavaScript, preferab
 
 ---
 
-## **13. What is the purpose of `<form>` and its attributes?**
+### **13. What is the purpose of `<form>` and its attributes?**
 
 Forms collect user input and send it to servers. Key attributes include action (where to send data), method (GET/POST), and various input types for different data.
 
@@ -198,7 +198,7 @@ Forms collect user input and send it to servers. Key attributes include action (
 
 ---
 
-## **14. Difference between `<b>` vs `<strong>`, `<i>` vs `<em>`?**
+### **14. Difference between `<b>` vs `<strong>`, `<i>` vs `<em>`?**
 
 `<b>` and `<i>` are presentational (just styling). `<strong>` and `<em>` are semantic (convey importance and emphasis), which is better for accessibility and SEO.
 
@@ -214,7 +214,7 @@ Forms collect user input and send it to servers. Key attributes include action (
 
 ---
 
-## **15. What are HTML5 local storage and session storage?**
+### **15. What are HTML5 local storage and session storage?**
 
 Both store data in the browser. localStorage persists until manually cleared, sessionStorage clears when the tab closes. They're used for offline functionality and user preferences.
 
@@ -232,7 +232,7 @@ let token = sessionStorage.getItem('token');
 
 ---
 
-## **16. What is the purpose of `<iframe>`?**
+### **16. What is the purpose of `<iframe>`?**
 
 iframe embeds another HTML document within the current page. It's used for embedding videos, maps, external content, or creating sandboxed environments.
 
@@ -249,7 +249,7 @@ iframe embeds another HTML document within the current page. It's used for embed
 
 ---
 
-## **17. What is lazy loading? How do you apply it?**
+### **17. What is lazy loading? How do you apply it?**
 
 Lazy loading delays loading of images until they're needed (when user scrolls near them). It improves page performance by reducing initial load time.
 
@@ -276,7 +276,7 @@ images.forEach(img => observer.observe(img));
 
 ---
 
-## **18. What is the `<canvas>` tag used for?**
+### **18. What is the `<canvas>` tag used for?**
 
 Canvas creates a drawing area for graphics, animations, games, and data visualizations using JavaScript. It's like a blank canvas where you can draw programmatically.
 
@@ -301,7 +301,7 @@ ctx.fill();
 
 ---
 
-## **19. What are data-* attributes in HTML?**
+### **19. What are data-* attributes in HTML?**
 
 Data attributes store custom data in HTML elements. They start with "data-" and can hold any information you need for JavaScript processing without affecting the page display.
 
@@ -323,7 +323,7 @@ element.dataset.status = 'active';
 
 ---
 
-## **20. What is ARIA and why is it used?**
+### **20. What is ARIA and why is it used?**
 
 ARIA (Accessible Rich Internet Applications) provides accessibility information to assistive technologies like screen readers. It helps make web content accessible to users with disabilities.
 
@@ -342,24 +342,9 @@ ARIA (Accessible Rich Internet Applications) provides accessibility information 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 ```
 
----
+## 🎯 **CSS Interview Questions & Answers**
 
-## **🎯 Quick Summary**
-
-These 20 questions cover the fundamentals of HTML that every web developer should know. Focus on understanding semantic HTML, accessibility, modern HTML5 features, and best practices. Practice writing clean, semantic code that works well across different browsers and devices.
-
-**Key takeaways:**
-- Use semantic HTML for better SEO and accessibility
-- Understand the difference between block and inline elements
-- Know when to use IDs vs Classes
-- Implement proper form handling and validation
-- Use modern HTML5 features like localStorage and lazy loading
-- Always consider accessibility with ARIA attributes
-
-
-# 🎯 **CSS Interview Questions & Answers**
-
-## **1. What is CSS and why is it used?**
+### **1. What is CSS and why is it used?**
 
 CSS stands for Cascading Style Sheets. It styles HTML elements - colors, fonts, layouts, animations. It separates content from presentation, making websites look good and maintainable.
 
@@ -370,7 +355,7 @@ h1 { color: blue; font-size: 24px; }
 
 ---
 
-## **2. What are the types of CSS (inline, internal, external)?**
+### **2. What are the types of CSS (inline, internal, external)?**
 
 Three types: Inline CSS uses style attribute, Internal CSS uses style tag in head, External CSS uses separate .css files. External is best for maintainability.
 
@@ -387,7 +372,7 @@ Three types: Inline CSS uses style attribute, Internal CSS uses style tag in hea
 
 ---
 
-## **3. What is the CSS Box Model?**
+### **3. What is the CSS Box Model?**
 
 Every element is a box with content, padding, border, and margin. Total width = content + padding + border + margin. Box-sizing controls how width is calculated.
 
@@ -403,7 +388,7 @@ Every element is a box with content, padding, border, and margin. Total width = 
 
 ---
 
-## **4. What is specificity in CSS?**
+### **4. What is specificity in CSS?**
 
 Specificity determines which CSS rule applies when multiple rules target the same element. Order: inline styles > IDs > classes > elements. Higher specificity wins.
 
@@ -415,7 +400,7 @@ p { color: black; }           /* specificity: 1 */
 
 ---
 
-## **5. What are pseudo-classes and pseudo-elements?**
+### **5. What are pseudo-classes and pseudo-elements?**
 
 Pseudo-classes target element states like :hover, :focus. Pseudo-elements target parts of elements like ::before, ::after. Single colon for classes, double for elements.
 
@@ -431,7 +416,7 @@ p::first-line { font-weight: bold; }
 
 ---
 
-## **6. Difference between `display: inline`, `block`, and `inline-block`?**
+### **6. Difference between `display: inline`, `block`, and `inline-block`?**
 
 Block takes full width, starts new line. Inline takes only needed space, no width/height. Inline-block combines both - respects width/height but stays inline.
 
@@ -443,7 +428,7 @@ Block takes full width, starts new line. Inline takes only needed space, no widt
 
 ---
 
-## **7. What is Flexbox? Why is it used?**
+### **7. What is Flexbox? Why is it used?**
 
 Flexbox is a layout method for arranging items in rows or columns. It handles alignment, spacing, and responsive design easily. Great for navigation bars and centering content.
 
@@ -458,7 +443,7 @@ Flexbox is a layout method for arranging items in rows or columns. It handles al
 
 ---
 
-## **8. What is CSS Grid?**
+### **8. What is CSS Grid?**
 
 CSS Grid creates two-dimensional layouts with rows and columns. It's perfect for complex layouts like dashboards, image galleries, and webpage structures.
 
@@ -473,7 +458,7 @@ CSS Grid creates two-dimensional layouts with rows and columns. It's perfect for
 
 ---
 
-## **9. What is `position` property? Explain all values.**
+### **9. What is `position` property? Explain all values.**
 
 Position controls element placement. Static is default, relative moves from normal position, absolute positions relative to parent, fixed stays on screen, sticky combines relative and fixed.
 
@@ -486,7 +471,7 @@ Position controls element placement. Static is default, relative moves from norm
 
 ---
 
-## **10. What is `z-index`?**
+### **10. What is `z-index`?**
 
 Z-index controls stacking order of positioned elements. Higher values appear on top. Only works with positioned elements (not static). Default is auto.
 
@@ -498,7 +483,7 @@ Z-index controls stacking order of positioned elements. Higher values appear on 
 
 ---
 
-## **11. What is the difference between `visibility: hidden` and `display: none`?**
+### **11. What is the difference between `visibility: hidden` and `display: none`?**
 
 Display none removes element completely from layout. Visibility hidden keeps space but makes element invisible. Display none affects layout, visibility doesn't.
 
@@ -509,7 +494,7 @@ Display none removes element completely from layout. Visibility hidden keeps spa
 
 ---
 
-## **12. What is the purpose of `overflow`?**
+### **12. What is the purpose of `overflow`?**
 
 Overflow controls what happens when content exceeds container size. Visible shows all, hidden clips content, scroll adds scrollbars, auto adds scrollbars when needed.
 
@@ -524,7 +509,7 @@ Overflow controls what happens when content exceeds container size. Visible show
 
 ---
 
-## **13. What are media queries?**
+### **13. What are media queries?**
 
 Media queries apply CSS based on device characteristics like screen size, orientation. They're essential for responsive design, allowing different styles for mobile, tablet, desktop.
 
@@ -543,7 +528,7 @@ Media queries apply CSS based on device characteristics like screen size, orient
 
 ---
 
-## **14. What is responsive design?**
+### **14. What is responsive design?**
 
 Responsive design makes websites work on all devices by adapting layout, images, and content to different screen sizes. Uses flexible grids, media queries, and relative units.
 
@@ -560,7 +545,7 @@ img { max-width: 100%; height: auto; }
 
 ---
 
-## **15. What is the difference between `rem`, `em`, and `px` units?**
+### **15. What is the difference between `rem`, `em`, and `px` units?**
 
 Px is fixed pixels. Em is relative to parent font size. Rem is relative to root font size. Rem is better for consistent scaling, em for component-based sizing.
 
@@ -577,7 +562,7 @@ html { font-size: 16px; }
 
 ---
 
-## **16. What is the `transition` property?**
+### **16. What is the `transition` property?**
 
 Transition creates smooth animations between CSS property changes. You specify which properties to animate, duration, timing function, and delay.
 
@@ -595,7 +580,7 @@ Transition creates smooth animations between CSS property changes. You specify w
 
 ---
 
-## **17. What is the `transform` property?**
+### **17. What is the `transform` property?**
 
 Transform applies 2D/3D transformations like rotate, scale, translate, skew without affecting document flow. Great for animations and interactive effects.
 
@@ -610,7 +595,7 @@ Transform applies 2D/3D transformations like rotate, scale, translate, skew with
 
 ---
 
-## **18. What are CSS variables?**
+### **18. What are CSS variables?**
 
 CSS variables (custom properties) store reusable values. Define with -- prefix, use with var(). Great for themes, consistent colors, and dynamic styling.
 
@@ -628,7 +613,7 @@ CSS variables (custom properties) store reusable values. Define with -- prefix, 
 
 ---
 
-## **19. What are vendor prefixes?**
+### **19. What are vendor prefixes?**
 
 Vendor prefixes are browser-specific CSS properties for experimental features. -webkit- for Chrome/Safari, -moz- for Firefox, -ms- for IE. Modern browsers need fewer prefixes.
 
@@ -643,7 +628,7 @@ Vendor prefixes are browser-specific CSS properties for experimental features. -
 
 ---
 
-## **20. What is the difference between Flexbox and Grid?**
+### **20. What is the difference between Flexbox and Grid?**
 
 Flexbox is one-dimensional (row or column), great for components and alignment. Grid is two-dimensional (rows and columns), perfect for page layouts and complex structures.
 
@@ -657,17 +642,3 @@ Flexbox is one-dimensional (row or column), great for components and alignment. 
   grid-template: "header header" "sidebar main" "footer footer";
 }
 ```
-
----
-
-## **🎯 Quick Summary**
-
-These 20 CSS questions cover essential concepts every developer needs. Focus on understanding layout methods (Flexbox/Grid), positioning, responsive design, and modern CSS features.
-
-**Key takeaways:**
-- Master the box model and positioning
-- Use Flexbox for components, Grid for layouts
-- Understand specificity and cascade rules
-- Practice responsive design with media queries
-- Learn modern features like CSS variables and transforms
-- Know when to use different display values and units
