@@ -1270,28 +1270,37 @@ codeuser$.pipe(
 
 Use forkJoin for parallel calls that must all complete, combineLatest for ongoing streams, or merge for independent parallel operations. Handle errors appropriately for each pattern.
 
-#### Summary
+**forkJoin** runs multiple HTTP requests **in parallel** but gives the result **only when all requests finish**. It's perfect when you want everything loaded together—for example, loading user details, orders, and profile data at once.
 
-1. **Use `forkJoin`** if you want to make multiple HTTP requests in parallel and need to wait until all of them complete successfully.
-2. **Use `combineLatest`** if you want to get the latest results from each service call as they complete, even if they finish at different times.
+**combineLatest** also runs calls in parallel, but it gives you the **latest values** whenever any request updates. It doesn’t wait for all to finish again. It's useful when you're working with live or continuously updating data.
 
 
-```typescript
-// Wait for all to complete
-loadUserData(userId: string) {
-  return forkJoin({
-    user: this.userService.getUser(userId),
-    posts: this.postService.getUserPosts(userId),
-    followers: this.userService.getFollowers(userId)
-  });
-}
+#### ✅ **1. forkJoin Example (Waits for all API calls)**
 
-// Independent parallel calls
-loadMultipleUsers(userIds: string[]) {
-  const requests = userIds.map(id => this.userService.getUser(id));
-  return forkJoin(requests);
-}
+```ts
+forkJoin({
+  user: this.http.get('/api/user'),
+  orders: this.http.get('/api/orders')
+}).subscribe(res => {
+  console.log(res.user);
+  console.log(res.orders);
+});
 ```
+
+**Use when:** You want all API results together.
+
+#### ✅ **2. combineLatest Example (Gives latest values)**
+
+```ts
+combineLatest([
+  this.http.get('/api/livePrice'),
+  this.http.get('/api/liveStock')
+]).subscribe(res => {
+  console.log(res[0], res[1]);
+});
+```
+
+**Use when:** You want updates whenever any request changes.
 
 ### 60. How does Angular handle state management, and what libraries can be used for state management in Angular applications?
 
