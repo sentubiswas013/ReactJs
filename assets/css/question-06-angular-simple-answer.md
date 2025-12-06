@@ -1572,6 +1572,15 @@ export class RoleGuard implements CanActivate {
 
 Use Angular DevTools for change detection profiling, Chrome DevTools for performance analysis, bundle analyzer for size optimization, and OnPush strategy for performance improvements.
 
+#### **Simple Summary (Interview-Friendly):**
+
+* **Use Angular DevTools** to check component tree, change detection cycles, and spot heavy components.
+* **Use Chrome DevTools Performance tab** to find slow JavaScript execution, long tasks, and rendering issues.
+* **Profile change detection** to see which components are running too often and causing unnecessary checks.
+* **Check for memory leaks** using Chrome DevTools Memory tab and clean up subscriptions in `ngOnDestroy`.
+* **Analyze API calls** in the Network tab to find slow, repeated, or unnecessary HTTP requests.
+* **Improve bundle size** using lazy loading, code splitting, and tools like webpack-bundle-analyzer.
+
 ```typescript
 // Performance debugging tools:
 // 1. Angular DevTools (Chrome extension)
