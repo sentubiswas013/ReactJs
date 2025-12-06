@@ -1270,6 +1270,12 @@ codeuser$.pipe(
 
 Use forkJoin for parallel calls that must all complete, combineLatest for ongoing streams, or merge for independent parallel operations. Handle errors appropriately for each pattern.
 
+#### Summary
+
+1. **Use `forkJoin`** if you want to make multiple HTTP requests in parallel and need to wait until all of them complete successfully.
+2. **Use `combineLatest`** if you want to get the latest results from each service call as they complete, even if they finish at different times.
+
+
 ```typescript
 // Wait for all to complete
 loadUserData(userId: string) {
