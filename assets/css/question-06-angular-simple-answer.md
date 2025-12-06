@@ -785,6 +785,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
+  constructor(private http: HttpClient) {}
   private users: User[] = [];
   
   getUsers(): Observable<User[]> {
