@@ -1018,6 +1018,7 @@ ng-content enables content projection (transclusion) to pass content from parent
 ```typescript
 // Child component with projection
 @Component({
+  selector: 'app-card;,
   template: `
     <div class="card">
       <ng-content select="[slot=header]"></ng-content>
@@ -1034,10 +1035,16 @@ export class CardComponent {}
   <h2 slot="header">Card Title</h2>
   <p>Card content goes here</p>
 </app-card>
+```
 
-<!-- ng-template usage -->
-<ng-template #loadingTemplate>
-  <div>Loading...</div>
+```html
+<!-- ng-template -->
+<div *ngIf="false; else noAccess">
+  <p>Admin Panel</p>
+</div>
+
+<ng-template #noAccess>
+  <p>You don’t have permission.</p>
 </ng-template>
 ```
 
