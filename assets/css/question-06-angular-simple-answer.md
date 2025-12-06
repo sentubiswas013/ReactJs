@@ -1078,7 +1078,7 @@ ngOnInit() {
 
 ### 52. How does Angular support internationalization (i18n)?
 
-Angular i18n extracts text for translation, supports multiple locales, and builds separate bundles for each language. Use i18n attributes and the Angular CLI for extraction and building.
+**Internationalization (i18n)** in Angular is the process of designing your application so that it can be easily adapted to different languages and regions without engineering changes. Angular provides built-in tools for internationalization, making it easier to translate and format data (such as dates, numbers, and currencies) based on the user's locale.
 
 ```html
 <!-- Mark text for translation -->
