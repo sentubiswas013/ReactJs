@@ -1175,6 +1175,14 @@ export class DataService {
 
 These RxJS operators transform data streams: map transforms values, filter selects values based on conditions, merge combines multiple streams, and switchMap switches to new inner observables.
 
+#### Summary:
+
+- **`map`**: Transforms emitted values.
+- **`filter`**: Filters emitted values based on a condition.
+- **`merge`**: Combines multiple observables, emitting values from all of them.
+- **`switchMap`**: Switches to a new observable and cancels the previous one whenever a new value is emitted.
+
+
 ```typescript
 // Transform data
 users$.pipe(map(users => users.length))
