@@ -1234,15 +1234,36 @@ switchMap cancels previous inner observables when new ones arrive, concatMap wai
 * **mergeMap:** Use when you want all tasks to run concurrently without waiting.
 
 
+**Use case**: Fetching the latest search results.
+
 ```typescript
-// switchMap - cancels previous requests (good for search)
-searchTerm$.pipe(switchMap(term => this.search(term)))
+codesearchTerm$ = new Subject<string>();
 
-// concatMap - maintains order (good for sequential operations)
-requests$.pipe(concatMap(req => this.processRequest(req)))
+this.searchTerm$.pipe(
+  switchMap(term => this.searchService.search(term))
+).subscribe(results => {
+  console.log(results);
+});
+```
 
-// mergeMap - concurrent execution (good for independent operations)
-userIds$.pipe(mergeMap(id => this.getUserDetails(id)))
+  **Use case**: Uploading files one after the other.
+
+```typescript
+codefileQueue$.pipe(
+  concatMap(file => this.uploadFile(file))
+).subscribe(response => {
+  console.log('File uploaded:', response);
+});
+```
+
+**Use case**: Fetching multiple resources concurrently (e.g., loading user data, comments, and posts in parallel).
+
+```typescript
+codeuser$.pipe(
+  mergeMap(user => this.loadUserPosts(user.id))
+).subscribe(posts => {
+  console.log(posts);
+});
 ```
 
 ### 59. How to handle parallel service calls in Angular?
