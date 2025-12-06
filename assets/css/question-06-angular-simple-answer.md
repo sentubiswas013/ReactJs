@@ -753,25 +753,22 @@ export class UserRoutingModule {}
 Custom directives add behavior to DOM elements. You create them using @Directive decorator and can make attribute directives (modify behavior) or structural directives (modify DOM structure).
 
 ```typescript
-// Attribute directive
+import { Directive, ElementRef, Renderer2 } from '@angular/core';
+
 @Directive({
-  selector: '[appTooltip]'
+  selector: '[appHighlight]'
 })
-export class TooltipDirective {
-  @Input('appTooltip') tooltipText: string;
-  
-  @HostListener('mouseenter') onMouseEnter() {
-    // Show tooltip logic
-  }
-  
-  @HostListener('mouseleave') onMouseLeave() {
-    // Hide tooltip logic
+export class HighlightDirective {
+  constructor(private el: ElementRef, private renderer: Renderer2) {
+    this.renderer.setStyle(this.el.nativeElement, 'color', 'blue');
   }
 }
 ```
 
+Usage in the template:
+
 ```html
-<button appTooltip="Click me for action">Hover for tooltip</button>
+<p appHighlight>Text will be highlighted in blue</p>
 ```
 
 ### 43. How do you create and use services in Angular?
