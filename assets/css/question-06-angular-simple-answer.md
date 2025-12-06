@@ -1018,7 +1018,7 @@ ng-content enables content projection (transclusion) to pass content from parent
 ```typescript
 // Child component with projection
 @Component({
-  selector: 'app-card;,
+  selector: 'app-card',
   template: `
     <div class="card">
       <ng-content select="[slot=header]"></ng-content>
