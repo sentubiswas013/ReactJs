@@ -774,8 +774,13 @@ Usage in the template:
 ### 43. How do you create and use services in Angular?
 
 Services are created with @Injectable decorator and handle business logic, data access, and shared functionality. They're injected into components through dependency injection.
-
+```bash
+ng generate service my-service
+```
 ```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
