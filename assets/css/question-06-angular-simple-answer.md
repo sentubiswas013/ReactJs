@@ -883,6 +883,15 @@ this.myService.fetchData().subscribe(
 
 Key optimizations include lazy loading modules, OnPush change detection strategy, trackBy functions in ngFor, preloading strategies, and tree shaking. Also use Angular DevTools to identify performance bottlenecks.
 
+1.  **Lazy Loading**: Load modules only when required, reducing the initial bundle size.
+2.  **Ahead-of-Time (AOT) Compilation**: Pre-compile Angular templates and components, resulting in faster application startup.
+3.  **Tree Shaking**: Eliminate unused code from the final bundle by ensuring only the necessary code is included.
+4.  **Change Detection Strategy**: Use `OnPush` change detection to reduce unnecessary checks for components with immutable input data.
+5.  **TrackBy in `ngFor`**: Use `trackBy` to improve the performance of list rendering by minimizing DOM manipulations.
+6.  **Use Web Workers**: Offload heavy computations to background threads using web workers.
+7.  **Optimizing Images and Assets**: Compress images and assets, use lazy loading for images, and serve them in modern formats like WebP.
+8.  **Service Workers and PWA**: Implement service workers for caching assets and making the app available offline.
+
 ```typescript
 // OnPush strategy
 @Component({
