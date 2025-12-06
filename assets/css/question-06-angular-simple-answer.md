@@ -1203,24 +1203,24 @@ searchTerm$.pipe(
 
 Use catchError operator to handle errors gracefully, retry for transient failures, and throwError to re-throw errors. Always provide fallback values or user-friendly error messages.
 
-```typescript
-getUsers(): Observable<User[]> {
-  return this.http.get<User[]>('/api/users').pipe(
-    retry(3),
-    catchError(error => {
-      console.error('Failed to load users:', error);
-      return of([]); // Return empty array as fallback
-    })
-  );
-}
+- **`catchError`**: This operator catches errors in the observable stream and allows you to recover from the error or return an alternative observable (e.g., an empty observable, a default value, etc.).
+- **`retry`**: Retries an operation a given number of times if it fails, useful for transient errors.
+- **`finalize`**: Executes cleanup code or logic when an observable completes or errors out.
 
-// Global error handling
-.pipe(
+#### Example: Using `catchError` for error handling
+
+```typescript
+import  { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+this.dataService.getData().pipe(
   catchError(error => {
-    this.notificationService.showError('Something went wrong');
-    return throwError(error);
+    console.error('Error occurred:', error);
+    return of([]); // Return an empty array as fallback data
   })
-)
+).subscribe(data => {
+  console.log(data);
+});
 ```
 
 ### 58. What is the difference between `switchMap`, `concatMap`, and `mergeMap` in RxJS?
