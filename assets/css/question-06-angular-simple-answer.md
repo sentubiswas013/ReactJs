@@ -933,21 +933,36 @@ ng e2e
 Route guards control navigation by implementing interfaces like CanActivate, CanDeactivate, or CanLoad. They're used for authentication, authorization, and preventing navigation from unsaved forms.
 
 ```typescript
-@Injectable()
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) {}
-  
-  canActivate(): boolean {
-    if (this.auth.isLoggedIn()) {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    if (this.authService.isAuthenticated()) {
       return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
     }
-    this.router.navigate(['/login']);
-    return false;
   }
 }
+```
 
-// Route configuration
-{ path: 'admin', component: AdminComponent, canActivate: [AuthGuard] }
+In the routing configuration:
+
+```typescript
+const routes: Routes = [
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+];
 ```
 
 ### 49. What are interceptors in Angular? How would you use them for adding headers or logging API requests?
