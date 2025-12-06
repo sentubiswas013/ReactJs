@@ -1150,14 +1150,24 @@ export class UserComponent implements OnInit {
 RxJS is a reactive programming library for handling asynchronous data streams. Angular uses it extensively for HTTP requests, event handling, and reactive programming patterns with Observables.
 
 ```typescript
-import { map, filter, debounceTime } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-export class SearchComponent {
-  searchResults$ = this.searchControl.valueChanges.pipe(
-    debounceTime(300),
-    filter(term => term.length > 2),
-    switchMap(term => this.searchService.search(term))
-  );
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  constructor(private http: HttpClient) {}
+
+  getData(): Observable<any> {
+    return this.http.get('https://api.example.com/data').pipe(
+      catchError(err => {
+        console.error('Error occurred:', err);
+        throw err;
+      })
+    );
+  }
 }
 ```
 
