@@ -1277,29 +1277,83 @@ Use forkJoin for parallel calls that must all complete, combineLatest for ongoin
 
 #### ✅ **1. forkJoin Example (Waits for all API calls)**
 
-```ts
-forkJoin({
-  user: this.http.get('/api/user'),
-  orders: this.http.get('/api/orders')
-}).subscribe(res => {
-  console.log(res.user);
-  console.log(res.orders);
-});
-```
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
+@Component({
+  selector: 'app-parallel-requests',
+  templateUrl: './parallel-requests.component.html',
+  styleUrls: ['./parallel-requests.component.css']
+})
+export class ParallelRequestsComponent implements OnInit {
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    this.getDataFromServices();
+  }
+
+  getDataFromServices() {
+    // Define the API calls (services)
+    const request1 = this.http.get('https://api.example.com/data1');
+    const request2 = this.http.get('https://api.example.com/data2');
+    const request3 = this.http.get('https://api.example.com/data3');
+
+    // Use forkJoin to make the requests in parallel
+    forkJoin([request1, request2, request3]).subscribe(
+      ([response1, response2, response3]) => {
+        console.log('Response from API 1:', response1);
+        console.log('Response from API 2:', response2);
+        console.log('Response from API 3:', response3);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+}
+```
 **Use when:** You want all API results together.
 
 #### ✅ **2. combineLatest Example (Gives latest values)**
 
-```ts
-combineLatest([
-  this.http.get('/api/livePrice'),
-  this.http.get('/api/liveStock')
-]).subscribe(res => {
-  console.log(res[0], res[1]);
-});
-```
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { combineLatest } from 'rxjs';
 
+@Component({
+  selector: 'app-combine-latest',
+  templateUrl: './combine-latest.component.html',
+  styleUrls: ['./combine-latest.component.css']
+})
+export class CombineLatestComponent implements OnInit {
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    this.getCombinedData();
+  }
+
+  getCombinedData() {
+    const request1 = this.http.get('https://api.example.com/data1');
+    const request2 = this.http.get('https://api.example.com/data2');
+
+    // Use combineLatest to get the latest data from both
+    combineLatest([request1, request2]).subscribe(
+      ([response1, response2]) => {
+        console.log('Response from API 1:', response1);
+        console.log('Response from API 2:', response2);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+}
+```
 **Use when:** You want updates whenever any request changes.
 
 ### 60. How does Angular handle state management, and what libraries can be used for state management in Angular applications?
