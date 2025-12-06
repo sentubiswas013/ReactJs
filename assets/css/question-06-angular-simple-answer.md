@@ -969,24 +969,47 @@ const routes: Routes = [
 
 Interceptors intercept HTTP requests and responses globally. They're perfect for adding authentication headers, logging, error handling, and request/response transformation.
 
-```typescript
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const authReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${this.getToken()}`)
-    });
-    
-    console.log('Request:', authReq.url);
-    return next.handle(authReq);
-  }
-}
+1. **Create the Interceptor**:
 
-// Register in module
-providers: [
-  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-]
-```
+   ```typescript
+   import  { Injectable } from '@angular/core';
+   import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+   import { Observable } from 'rxjs';
+
+   @Injectable()
+   export class AuthInterceptor implements HttpInterceptor {
+     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+       const token = localStorage.getItem('authToken');  // Retrieve token from storage
+
+       if (token) {
+         // Clone the request and add the Authorization header
+         const clonedRequest = req.clone({
+           setHeaders: {
+             Authorization: `Bearer ${token}`
+           }
+         });
+         return next.handle(clonedRequest);
+       }
+
+       return next.handle(req);  // Return the original request if no token
+     }
+   }
+   ```
+
+2. **Register the Interceptor**:
+
+   ```typescript
+   import  { NgModule } from '@angular/core';
+   import { HTTP_INTERCEPTORS } from '@angular/common/http';
+   import { AuthInterceptor } from './auth.interceptor';
+
+   @NgModule({
+     providers: [
+       { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+     ]
+   })
+   export class AppModule { }
+   ```
 
 ### 50. What is the purpose of the `ng-content` and `ng-template` directive in Angular?
 
