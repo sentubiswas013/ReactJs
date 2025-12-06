@@ -1229,23 +1229,10 @@ switchMap cancels previous inner observables when new ones arrive, concatMap wai
 
 #### ✅ **Summary: switchMap vs concatMap vs mergeMap**
 
-**switchMap**
+* **switchMap:** Use when you only care about the latest emitted value and want to cancel previous requests.
+* **concatMap:** Use when tasks must run one after another in a guaranteed order.
+* **mergeMap:** Use when you want all tasks to run concurrently without waiting.
 
-* Cancels the previous request when a new value arrives.
-* Keeps only the latest result.
-* **Use when:** You need only the latest data (e.g., search, auto-complete).
-
-**concatMap**
-
-* Runs each request **sequentially**, one after the other.
-* Maintains order and avoids concurrency.
-* **Use when:** Operations must happen in order (e.g., file uploads, step-wise API calls).
-
-**mergeMap**
-
-* Runs all requests **in parallel**.
-* Fastest overall, but no guaranteed order.
-* **Use when:** You want concurrency (e.g., load multiple resources at the same time).
 
 ```typescript
 // switchMap - cancels previous requests (good for search)
