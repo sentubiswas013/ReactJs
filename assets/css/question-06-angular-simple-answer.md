@@ -706,29 +706,24 @@ export class StorageService {
 
 ### 40. How does Angular handle cross-site request forgery (CSRF)?
 
-Angular's HttpClient automatically handles CSRF by reading the XSRF-TOKEN cookie and sending it as the X-XSRF-TOKEN header. The server must set the cookie for this protection to work.
+**Cross-Site Request Forgery (CSRF)** is a type of security vulnerability where an attacker tricks a user into making an unwanted request to a different site using the user's credentials. 
+
+To prevent CSRF, most servers generate a **CSRF token** that must be included with every request that alters data (e.g., POST, PUT, DELETE). This token is typically set as a cookie or in the response header.
 
 ```typescript
-// HttpClient automatically adds CSRF headers
-export class ApiService {
-  constructor(private http: HttpClient) {}
-  
-  // CSRF token automatically included
-  updateUser(user: User) {
-    return this.http.put('/api/users', user);
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+@Injectable()
+export class MyHttpInterceptor {
+  intercept(req, next) {
+    const token = localStorage.getItem('csrf_token');
+    const cloned = req.clone({
+      headers: req.headers.set('X-CSRF-TOKEN', token)
+    });
+    return next.handle(cloned);
   }
 }
-
-// Custom CSRF configuration
-@NgModule({
-  imports: [
-    HttpClientXsrfModule.withOptions({
-      cookieName: 'XSRF-TOKEN',
-      headerName: 'X-XSRF-TOKEN'
-    })
-  ]
-})
-export class AppModule {}
 ```
 
 ### 41. What are Angular modules and how do they help in organizing an application?
