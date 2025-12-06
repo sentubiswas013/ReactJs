@@ -1508,21 +1508,32 @@ Advantages: TypeScript support, comprehensive framework, strong CLI, excellent t
 
 AuthGuard implements CanActivate interface to protect routes based on authentication status. It checks user authentication and redirects to login if unauthorized.
 
-```typescript
-@Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+In Angular, an `AuthGuard` is used to protect routes from unauthorized access by ensuring the user is authenticated before they can access specific parts of the application. If the user is not authenticated, the guard can redirect them to a login page or a specific route.
 
-  canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
+```typescript
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    // Check if the user is authenticated
+    if (this.authService.isLoggedIn()) {
+      return true; // User is authenticated, allow access to the route
+    } else {
+      // User is not authenticated, redirect to login page
+      this.router.navigate(['/login']);
+      return false;
     }
-    
-    this.router.navigate(['/login']);
-    return false;
   }
 }
 
