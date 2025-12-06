@@ -1376,16 +1376,14 @@ export class AppStateService {
 }
 
 // NgRx example
-@Injectable()
-export class UserEffects {
-  loadUsers$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadUsers),
-      switchMap(() => this.userService.getUsers().pipe(
-        map(users => loadUsersSuccess({ users }))
-      ))
-    )
-  );
+import { Store } from '@ngrx/store';
+import { AppState } from './store/reducers';
+import { loadData } from './store/actions';
+
+constructor(private store: Store<AppState>) {}
+
+ngOnInit() {
+  this.store.dispatch(loadData());
 }
 ```
 
