@@ -1227,6 +1227,26 @@ this.dataService.getData().pipe(
 
 switchMap cancels previous inner observables when new ones arrive, concatMap waits for completion before processing next, and mergeMap runs all inner observables concurrently.
 
+#### ✅ **Summary: switchMap vs concatMap vs mergeMap**
+
+**switchMap**
+
+* Cancels the previous request when a new value arrives.
+* Keeps only the latest result.
+* **Use when:** You need only the latest data (e.g., search, auto-complete).
+
+**concatMap**
+
+* Runs each request **sequentially**, one after the other.
+* Maintains order and avoids concurrency.
+* **Use when:** Operations must happen in order (e.g., file uploads, step-wise API calls).
+
+**mergeMap**
+
+* Runs all requests **in parallel**.
+* Fastest overall, but no guaranteed order.
+* **Use when:** You want concurrency (e.g., load multiple resources at the same time).
+
 ```typescript
 // switchMap - cancels previous requests (good for search)
 searchTerm$.pipe(switchMap(term => this.search(term)))
