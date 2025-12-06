@@ -844,32 +844,39 @@ export class AppRoutingModule {}
 
 Handle HTTP errors using RxJS operators like catchError, or in the subscribe error callback. Create error interceptors for global error handling and user-friendly error messages.
 
-```typescript
-export class UserService {
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('/api/users').pipe(
-      catchError(error => {
-        console.error('Error loading users:', error);
-        return of([]); // Return empty array as fallback
-      })
-    );
-  }
-}
+Example of handling HTTP errors:
 
-// Global error interceptor
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError(error => {
-        if (error.status === 401) {
-          // Handle unauthorized
-        }
-        return throwError(error);
-      })
-    );
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MyService {
+  constructor(private http: HttpClient) {}
+
+  fetchData(): Observable<any> {
+    return this.http.get('https://api.example.com/data')
+      .pipe(
+        catchError(error => {
+          console.error('An error occurred:', error);
+          return throwError(error); // rethrow the error to be handled by the component
+        })
+      );
   }
 }
+```
+
+In the component:
+
+```typescript
+this.myService.fetchData().subscribe(
+  data => this.handleData(data),
+  error => this.handleError(error)
+);
 ```
 
 ### 46. How can you optimize the performance of an Angular application?
