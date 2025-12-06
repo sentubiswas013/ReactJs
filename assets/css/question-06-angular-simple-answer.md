@@ -1389,7 +1389,14 @@ ngOnInit() {
 
 ### 61. What is Ahead-of-Time (AOT) compilation, and how does it differ from Just-in-Time (JIT) compilation?
 
-AOT compiles templates and components during build time, while JIT compiles them in the browser at runtime. AOT provides better performance, smaller bundle sizes, early error detection, and better security.
+**AOT (Ahead-of-Time) compilation** means Angular compiles your code **during the build**, before it reaches the browser. This makes the app load faster, reduces bundle size, and catches template errors early. It's what we use for **production**.
+
+**JIT (Just-in-Time) compilation** compiles the app **in the browser at runtime**. It’s mainly used in **development** because builds are faster, but the app loads slower since the browser has to compile everything.
+
+**In short:**
+**AOT** → compiles at build time, faster runtime, better for production.
+**JIT** → compiles in the browser, faster development cycle.
+
 
 ```typescript
 // AOT benefits:
