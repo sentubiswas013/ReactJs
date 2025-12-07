@@ -1969,40 +1969,30 @@ export class UserComponent implements OnDestroy {
 
 Use FormData for file uploads, track upload progress, implement chunked uploads for large files, and validate file types/sizes. Use reactive forms for better control.
 
-```typescript
-@Component({
-  template: `
-    <input type="file" (change)="onFileSelect($event)" multiple>
-    <div *ngIf="uploadProgress">Upload: {{uploadProgress}}%</div>
-  `
-})
-export class FileUploadComponent {
-  uploadProgress = 0;
-  
-  onFileSelect(event: any) {
-    const files = event.target.files;
-    if (files.length > 0) {
-      this.uploadFiles(files);
-    }
-  }
-  
-  uploadFiles(files: FileList) {
-    const formData = new FormData();
-    Array.from(files).forEach(file => {
-      formData.append('files', file);
-    });
-    
-    this.http.post('/api/upload', formData, {
-      reportProgress: true,
-      observe: 'events'
-    }).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.uploadProgress = Math.round(100 * event.loaded / event.total!);
-      }
-    });
-  }
-}
-```
+1. **Basic File Upload**:
+
+   ```typescript
+   codeuploadFile(event: any) {
+     const file = event.target.files[0];
+     const formData = new FormData();
+     formData.append('file', file, file.name);
+
+     this.http.post('https://api.example.com/upload', formData).subscribe(
+       (response) => {
+         console.log('File uploaded successfully', response);
+       },
+       (error) => {
+         console.error('File upload error', error);
+       }
+     );
+   }
+   ```
+
+2. **HTML Input for File Selection**:
+
+   ```html
+   <input type="file" (change)="uploadFile($event)" />
+   ```
 
 ## **Security Questions**
 ### 82. What are common security concerns in Angular applications and how do you mitigate them?
