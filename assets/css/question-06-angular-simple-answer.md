@@ -86,8 +86,8 @@ Data binding connects component data to the template. Types include: Interpolati
 
 ### 6. What is an Angular lifecycle hook? Can you name some common lifecycle hooks?
 
-**Angular lifecycle hooks are special methods that run at different stages of a component’s life — from creation to destruction.
-They allow us to write code at the right moment, like initializing data, reacting to input changes, or cleaning up.**
+Angular lifecycle hooks are special methods that run at different stages of a component’s life — from creation to destruction.
+They allow us to write code at the right moment, like initializing data, reacting to input changes, or cleaning up.
 
 **Common lifecycle hooks:**
 
