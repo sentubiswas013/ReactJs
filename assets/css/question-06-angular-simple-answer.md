@@ -86,7 +86,28 @@ Data binding connects component data to the template. Types include: Interpolati
 
 ### 6. What is an Angular lifecycle hook? Can you name some common lifecycle hooks?
 
-Lifecycle hooks are methods that Angular calls at specific moments in a component's life. Common ones are ngOnInit (initialization), ngOnDestroy (cleanup), and ngOnChanges (input changes).
+**Angular lifecycle hooks are special methods that run at different stages of a component’s life — from creation to destruction.
+They allow us to write code at the right moment, like initializing data, reacting to input changes, or cleaning up.**
+
+**Common lifecycle hooks:**
+
+* **ngOnInit()** – Runs once when the component loads.
+  *Example:* Fetch API data → `this.getUsers();`
+
+* **ngOnChanges()** – Runs when an @Input() value changes.
+  *Example:* Update UI when parent sends new data.
+
+* **ngDoCheck()** – Runs on every change detection cycle.
+  *Example:* Manual change tracking.
+
+* **ngAfterViewInit()** – Runs after the view/child components are ready.
+  *Example:* Access a ViewChild and set focus.
+
+* **ngAfterViewChecked()** – Runs after Angular checks the view.
+  *Example:* Debug or adjust UI layout.
+
+* **ngOnDestroy()** – Runs before the component is removed.
+  *Example:* Unsubscribe from Observables or clear intervals.
 
 ```typescript
 export class MyComponent implements OnInit, OnDestroy {
