@@ -91,23 +91,23 @@ They allow us to write code at the right moment, like initializing data, reactin
 
 **Common lifecycle hooks:**
 
-* **ngOnInit()** – Runs once when the component loads.
-  *Example:* Fetch API data → `this.getUsers();`
+  * **ngOnInit()** – Runs once when the component loads.
+    *Example:* Fetch API data → `this.getUsers();`
 
-* **ngOnChanges()** – Runs when an @Input() value changes.
-  *Example:* Update UI when parent sends new data.
+  * **ngOnChanges()** – Runs when an @Input() value changes.
+    *Example:* Update UI when parent sends new data.
 
-* **ngDoCheck()** – Runs on every change detection cycle.
-  *Example:* Manual change tracking.
+  * **ngDoCheck()** – Runs on every change detection cycle.
+    *Example:* Manual change tracking.
 
-* **ngAfterViewInit()** – Runs after the view/child components are ready.
-  *Example:* Access a ViewChild and set focus.
+  * **ngAfterViewInit()** – Runs after the view/child components are ready.
+    *Example:* Access a ViewChild and set focus.
 
-* **ngAfterViewChecked()** – Runs after Angular checks the view.
-  *Example:* Debug or adjust UI layout.
+  * **ngAfterViewChecked()** – Runs after Angular checks the view.
+    *Example:* Debug or adjust UI layout.
 
-* **ngOnDestroy()** – Runs before the component is removed.
-  *Example:* Unsubscribe from Observables or clear intervals.
+  * **ngOnDestroy()** – Runs before the component is removed.
+    *Example:* Unsubscribe from Observables or clear intervals.
 
 ```typescript
 export class MyComponent implements OnInit, OnDestroy {
