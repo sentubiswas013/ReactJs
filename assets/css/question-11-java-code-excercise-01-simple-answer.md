@@ -2027,15 +2027,16 @@ class MinStack {
 // Min: 3
 ```
 
-### ✅ **71. Implement Trie (Insert / Search / StartsWith)**
+### ✅ **71. Trie – Full Working Code with `main()`**
 
 ```java
-class TrieNode {
-    TrieNode[] children = new TrieNode[26];
-    boolean endOfWord;
-}
-
 class Trie {
+
+    class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        boolean endOfWord;
+    }
+
     TrieNode root = new TrieNode();
 
     public void insert(String word) {
@@ -2068,24 +2069,31 @@ class Trie {
         }
         return true;
     }
-}
 
+    // -------- MAIN TEST --------
+    public static void main(String[] args) {
+        Trie trie = new Trie();
+
+        trie.insert("apple");
+        trie.insert("app");
+
+        System.out.println("Search apple: " + trie.search("apple"));   // true
+        System.out.println("Search app: " + trie.search("app"));       // true
+        System.out.println("Search bat: " + trie.search("bat"));       // false
+        System.out.println("StartsWith ap: " + trie.startsWith("ap")); // true
+    }
+}
 // Output:
+// Search apple: true
+// Search app: true
+// Search bat: false
+// StartsWith ap: true
 ```
 
-### ✅ **72. Detect and Remove Loop in Linked List (Floyd’s Algorithm)**
-
-### **Steps**
-
-1. Use **slow** and **fast** pointers to detect a loop.
-2. When they meet, reset slow to head.
-3. Move both pointers one step to find loop start.
-4. Break the loop.
-
-### **Java Code**
-
+### ✅ **72. Detect & Remove Loop – Full Working with `main()`**
 ```java
 class LinkedListLoop {
+
     static class Node {
         int data;
         Node next;
@@ -2094,7 +2102,6 @@ class LinkedListLoop {
 
     Node head;
 
-    // Detect & Remove Loop
     public void detectAndRemoveLoop() {
         Node slow = head, fast = head;
 
@@ -2103,15 +2110,16 @@ class LinkedListLoop {
             slow = slow.next;
             fast = fast.next.next;
 
-            if (slow == fast) break; // loop found
+            if (slow == fast) break;
         }
 
-        if (slow != fast) return; // no loop
+        // No loop
+        if (slow != fast) return;
 
-        // Reset slow to head
+        // Reset slow
         slow = head;
 
-        // Find loop start
+        // Find start
         while (slow.next != fast.next) {
             slow = slow.next;
             fast = fast.next;
@@ -2120,18 +2128,43 @@ class LinkedListLoop {
         // Remove loop
         fast.next = null;
     }
-}
 
-// Output:
+    // PRINT LIST
+    public void printList() {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    // ---- MAIN TEST ----
+    public static void main(String[] args) {
+        LinkedListLoop list = new LinkedListLoop();
+
+        list.head = new Node(1);
+        list.head.next = new Node(2);
+        list.head.next.next = new Node(3);
+        list.head.next.next.next = new Node(4);
+
+        // Create loop: 4 -> 2
+        list.head.next.next.next.next = list.head.next;
+
+        list.detectAndRemoveLoop();
+
+        System.out.print("After removing loop: ");
+        list.printList(); // 1 2 3 4
+    }
+}
+//Output:  After removing loop: 1 2 3 4 
 ```
 
-## Tree Operations
-### ✅ **73. Serialize and Deserialize a Binary Tree**
+### ✅ **73. Serialize & Deserialize Binary Tree – Full with `main()`**
 
 ```java
 import java.util.*;
 
-// Definition for binary tree
 class TreeNode {
     int val;
     TreeNode left, right;
@@ -2139,35 +2172,45 @@ class TreeNode {
 }
 
 class Codec {
-    // Serialize tree to string
+
     public String serialize(TreeNode root) {
         if (root == null) return "#";
         return root.val + "," + serialize(root.left) + "," + serialize(root.right);
     }
 
-    // Deserialize string to tree
     public TreeNode deserialize(String data) {
         Queue<String> q = new LinkedList<>(Arrays.asList(data.split(",")));
-        return buildTree(q);
+        return helper(q);
     }
 
-    private TreeNode buildTree(Queue<String> q) {
-        String val = q.poll();
-        if (val.equals("#")) return null;
-        TreeNode node = new TreeNode(Integer.parseInt(val));
-        node.left = buildTree(q);
-        node.right = buildTree(q);
+    private TreeNode helper(Queue<String> q) {
+        String s = q.poll();
+        if (s.equals("#")) return null;
+        TreeNode node = new TreeNode(Integer.parseInt(s));
+        node.left = helper(q);
+        node.right = helper(q);
         return node;
     }
+
+    // ---- MAIN TEST ----
+    public static void main(String[] args) {
+        Codec c = new Codec();
+
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+
+        String data = c.serialize(root);
+        System.out.println("Serialized: " + data);
+
+        TreeNode newRoot = c.deserialize(data);
+        System.out.println("Deserialized root val: " + newRoot.val);
+    }
 }
+// Output: 
 ```
 
-**Explanation:**
-
-* `#` represents `null`.
-* Preorder traversal is used for serialization and deserialization.
-
-### ✅ **74. Find the Diameter of a Binary Tree**
+### ✅ **74. Diameter of Binary Tree – Full with `main()`**
 
 ```java
 class TreeNodeDiameter {
@@ -2186,30 +2229,38 @@ class BinaryTree {
 
     private int height(TreeNodeDiameter node) {
         if (node == null) return 0;
+
         int left = height(node.left);
         int right = height(node.right);
 
-        // Update max diameter at this node
         maxDiameter = Math.max(maxDiameter, left + right);
+
         return 1 + Math.max(left, right);
+    }
+
+    // ---- MAIN TEST ----
+    public static void main(String[] args) {
+        TreeNodeDiameter root = new TreeNodeDiameter(1);
+        root.left = new TreeNodeDiameter(2);
+        root.right = new TreeNodeDiameter(3);
+        root.left.left = new TreeNodeDiameter(4);
+        root.left.right = new TreeNodeDiameter(5);
+
+        BinaryTree t = new BinaryTree();
+        System.out.println("Diameter: " + t.diameter(root)); // 3
     }
 }
 
 // Output:
 ```
 
-**Explanation:**
-
-* Diameter = longest path between any two nodes.
-* Recursively calculate height and update diameter at each node.
-
-## Graph Operations
-### ✅ **75. Find Number of Islands (DFS)**
-
+### ✅ **75. Number of Islands – Full with `main()`**
 ```java
 class NumberOfIslands {
+
     public int numIslands(char[][] grid) {
         int count = 0;
+
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] == '1') {
@@ -2221,23 +2272,31 @@ class NumberOfIslands {
         return count;
     }
 
-    private void dfs(char[][] grid, int i, int j) {
-        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] == '0') return;
-        grid[i][j] = '0'; // mark visited
-        dfs(grid, i + 1, j);
-        dfs(grid, i - 1, j);
-        dfs(grid, i, j + 1);
-        dfs(grid, i, j - 1);
+    private void dfs(char[][] g, int i, int j) {
+        if (i < 0 || j < 0 || i >= g.length || j >= g[0].length || g[i][j] == '0')
+            return;
+
+        g[i][j] = '0';
+        dfs(g, i+1, j);
+        dfs(g, i-1, j);
+        dfs(g, i, j+1);
+        dfs(g, i, j-1);
+    }
+
+    // ---- MAIN TEST ----
+    public static void main(String[] args) {
+        char[][] grid = {
+            {'1','1','0'},
+            {'1','0','0'},
+            {'0','0','1'}
+        };
+
+        NumberOfIslands obj = new NumberOfIslands();
+        System.out.println("Islands: " + obj.numIslands(grid)); // 2
     }
 }
-
 // Output:
 ```
-
-**Explanation:**
-
-* Traverse grid, start DFS on each '1', mark connected land as '0'.
-* Each DFS represents one island.
 
 ## Multithreading
 ### ✅ **76. Producer–Consumer Problem (Threads + wait/notify)**
@@ -2294,19 +2353,3 @@ class ProducerConsumer {
 // Output:
 // Produced: 0
 ```
-
-**Explanation:**
-
-* `buffer` = shared queue.
-* `wait()` → thread sleeps until notified.
-* `notify()` → wakes up waiting thread.
-* Ensures thread-safe production and consumption.
-
-I can continue with **next set of advanced Java problems**:
-
-* Graph algorithms (BFS, DFS, Dijkstra)
-* Dynamic Programming questions
-* More multithreading problems
-
-Do you want me to continue with that?
-
