@@ -853,13 +853,10 @@ public class GCD {
     }
 }
 
-// Output:
+// Output: GCD: 6
 ```
 
 ### ✅ **37. Find the LCM (Least Common Multiple) of Two Numbers**
-
-### ✔ Relation:
-
 **LCM(a, b) = (a × b) / GCD(a, b)**
 
 ```java
@@ -884,7 +881,7 @@ public class LCM {
     }
 }
 
-// Output:
+// Output: LCM: 36
 ```
 
 ### ✅ **38. Calculate the Power of a Number**
@@ -906,7 +903,7 @@ public class Power {
     }
 }
 
-// Output:
+// Output:  2⁵ = 32
 ```
 
 ### ✔ Using `Math.pow`
@@ -919,13 +916,12 @@ public class PowerUsingMath {
     }
 }
 
-// Output:
+// Output: 3⁴ = 81
 ```
 
 ### ✅ **39. Check if a Number is a Perfect Square**
 
 ### ✔ Logic:
-
 A number is a **perfect square** if
 `sqrt(n) * sqrt(n) == n`
 
@@ -944,18 +940,8 @@ public class PerfectSquare {
     }
 }
 
-// Output:
+// Output: 49 is perfect square? true
 ```
-
-If you want, I can prepare:
-
-✅ All 40 Java coding questions
-✅ One combined PDF
-✅ With explanations + optimized code
-
-Just say **"Make PDF"** or **"Combine all answers"**.
-
-Here are **clean and simple Java solutions** for problems **40–43**:
 
 ### ✅ **40. Check if a Number is a Fibonacci Number**
 
@@ -987,7 +973,7 @@ public class FibonacciCheck {
     }
 }
 
-// Output:
+// Output: 34 is Fibonacci? true
 ```
 
 ### ✅ **41. Convert String to Integer Without parseInt()**
@@ -1022,6 +1008,8 @@ public class StringToInt {
 }
 
 // Output:
+// 1234
+// -567
 ```
 
 ### ✅ **42. Convert Integer to String Without toString()**
@@ -1060,6 +1048,8 @@ public class IntToString {
 }
 
 // Output:
+// 1234
+// -987
 ```
 
 ### ✅ **43. Find All Prime Numbers up to N**
@@ -1090,7 +1080,7 @@ public class PrimeUpToN {
     }
 }
 
-// Output:
+// Output: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 
 ```
 
 ## Array Operations
@@ -1114,7 +1104,7 @@ public class LargestInArray {
     }
 }
 
-// Output:
+// Output: Largest: 47
 ```
 
 ### ✅ **45. Find the Smallest Element in an Array**
@@ -1136,7 +1126,7 @@ public class SmallestInArray {
     }
 }
 
-// Output:
+// Output: Smallest: 3
 ```
 
 ### ✅ **46. Find the Second-Highest Number in an Array**
@@ -1165,7 +1155,7 @@ public class SecondHighest {
     }
 }
 
-// Output:
+// Output: Second Highest: 30
 ```
 
 ### ✅ **47. Merge Two Arrays**
@@ -1193,21 +1183,14 @@ public class MergeArrays {
     }
 }
 
-// Output:
+// Output: Merged: [1, 3, 5, 2, 4, 6]
 ```
 
-If you want the next set of Java coding questions (48–60), just say **"next"**.
-
-
-Here are **clean, simple, and interview-friendly Java solutions** for questions **48–54**:
-
 ### ✅ **48. Sort an Array of Integers in Ascending Order**
-
 ```java
 import java.util.Arrays;
 
 public class SortArray {
-
     public static void main(String[] args) {
         int[] arr = {5, 2, 9, 1, 3};
         Arrays.sort(arr);
@@ -1215,11 +1198,10 @@ public class SortArray {
     }
 }
 
-// Output:
+// Output: Sorted Array: [1, 2, 3, 5, 9]
 ```
 
 ### ✅ **49. Sum All Elements of an Array**
-
 ```java
 public class SumArray {
 
@@ -1235,7 +1217,7 @@ public class SumArray {
     }
 }
 
-// Output:
+// Output: Sum: 20
 ```
 
 ### ✅ **50. Find the Median of an Array**
@@ -1259,7 +1241,7 @@ public class MedianArray {
     }
 }
 
-// Output:
+// Output: Median: 3.5
 ```
 
 ### ✅ **51. Remove Duplicates from an Array**
@@ -1288,7 +1270,7 @@ public class RemoveDuplicates {
     }
 }
 
-// Output:
+// Output: [1, 2, 3, 4, 5]
 ```
 
 ### ✅ **52. Convert an Array to a String**
@@ -1305,7 +1287,7 @@ public class ArrayToString {
     }
 }
 
-// Output:
+// Output: Array as String: [1, 2, 3, 4]
 ```
 
 ### ✅ **53. Find the Common Elements Between Two Arrays**
@@ -1333,7 +1315,7 @@ public class CommonElements {
     }
 }
 
-// Output:
+// Output: Common Elements: [3, 4]
 ```
 
 ### ✅ **54. Find Min and Max in Array (Single Loop)**
@@ -1358,166 +1340,8 @@ public class MinMaxSingleLoop {
 }
 
 // Output:
-```
-
-Here are **clean, simple, and interview-friendly Java solutions** for questions **48–54**:
-
-### ✅ **48. Sort an Array of Integers in Ascending Order**
-
-```java
-import java.util.Arrays;
-
-public class SortArray {
-
-    public static void main(String[] args) {
-        int[] arr = {5, 2, 9, 1, 3};
-        Arrays.sort(arr);
-        System.out.println("Sorted Array: " + Arrays.toString(arr));
-    }
-}
-
-// Output:
-```
-
-### ✅ **49. Sum All Elements of an Array**
-
-```java
-public class SumArray {
-
-    public static int sum(int[] arr) {
-        int total = 0;
-        for (int num : arr) total += num;
-        return total;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {5, 2, 9, 1, 3};
-        System.out.println("Sum: " + sum(arr));
-    }
-}
-
-
-// Output:
-```
-
-### ✅ **50. Find the Median of an Array**
-
-```java
-import java.util.Arrays;
-
-public class MedianArray {
-
-    public static double findMedian(int[] arr) {
-        Arrays.sort(arr);
-        int n = arr.length;
-        
-        if (n % 2 == 1) return arr[n/2];
-        else return (arr[n/2 - 1] + arr[n/2]) / 2.0;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {7, 3, 1, 4};
-        System.out.println("Median: " + findMedian(arr));
-    }
-}
-
-// Output:
-```
-
-### ✅ **51. Remove Duplicates from an Array**
-
-Using **LinkedHashSet** (keeps order):
-
-```java
-import java.util.*;
-
-public class RemoveDuplicates {
-
-    public static int[] removeDuplicates(int[] arr) {
-        Set<Integer> set = new LinkedHashSet<>();
-        for (int num : arr) set.add(num);
-
-        int[] result = new int[set.size()];
-        int i = 0;
-        for (int num : set) result[i++] = num;
-
-        return result;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 2, 3, 4, 4, 5};
-        System.out.println(Arrays.toString(removeDuplicates(arr)));
-    }
-}
-```
-
-### ✅ **52. Convert an Array to a String**
-
-```java
-import java.util.Arrays;
-
-public class ArrayToString {
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4};
-        String str = Arrays.toString(arr);
-        System.out.println("Array as String: " + str);
-    }
-}
-
-// Output:
-```
-
-### ✅ **53. Find the Common Elements Between Two Arrays**
-
-```java
-import java.util.*;
-
-public class CommonElements {
-
-    public static Set<Integer> findCommon(int[] a, int[] b) {
-        Set<Integer> set1 = new HashSet<>();
-        Set<Integer> common = new HashSet<>();
-
-        for (int num : a) set1.add(num);
-        for (int num : b) if (set1.contains(num)) common.add(num);
-
-        return common;
-    }
-
-    public static void main(String[] args) {
-        int[] arr1 = {1, 2, 3, 4};
-        int[] arr2 = {3, 4, 5, 6};
-
-        System.out.println("Common Elements: " + findCommon(arr1, arr2));
-    }
-}
-
-// Output:
-```
-
-### ✅ **54. Find Min and Max in Array (Single Loop)**
-
-```java
-public class MinMaxSingleLoop {
-
-    public static void main(String[] args) {
-        int[] arr = {8, 3, 10, 1, 6};
-
-        int min = arr[0];
-        int max = arr[0];
-
-        for (int num : arr) {
-            if (num < min) min = num;
-            if (num > max) max = num;
-        }
-
-        System.out.println("Min: " + min);
-        System.out.println("Max: " + max);
-    }
-}
-
-// Output:
+// Min: 1
+// Max: 10
 ```
 
 ### ✅ **55. Find Even & Odd Numbers in Array**
@@ -1535,12 +1359,12 @@ public class EvenOddArray {
         for (int n : arr) if (n % 2 != 0) System.out.print(n + " ");
     }
 }
+// Output:
+// Even: 2 8 14 
+// Odd: 5 11 
 ```
 
 ### ✅ **56. Merge Two Sorted Arrays Without Using Extra Space**
-
-This is the **Gap Method** (like Shell Sort).
-
 ```java
 import java.util.Arrays;
 
@@ -1599,6 +1423,9 @@ public class MergeSortedArrays {
         System.out.println("B: " + Arrays.toString(b));
     }
 }
+// Output:
+// A: [1, 2, 3, 4]
+// B: [7, 8, 9]
 ```
 
 ### ✅ **57. Find Majority Element (Boyer–Moore Algorithm)**
@@ -1624,11 +1451,11 @@ public class MajorityElement {
         System.out.println("Majority Element: " + findMajority(arr));
     }
 }
+// Output: Majority Element: 2
 ```
 
 ### ✅ **58. Rotate Array Left/Right by K Positions**
-
-### Rotate Right (Optimized)
+#### Rotate Right (Optimized)
 
 ```java
 import java.util.Arrays;
@@ -1659,10 +1486,10 @@ public class RotateArray {
         System.out.println("Rotated Right: " + Arrays.toString(arr));
     }
 }
+// Output: Rotated Right: [4, 5, 1, 2, 3]
 ```
 
 ### ✅ **59. Find All Subarrays With Given Sum (Sliding Window)**
-
 Works for **positive numbers**.
 
 ```java
@@ -1690,6 +1517,9 @@ public class SubarraySum {
         findSubarrays(arr, 12);
     }
 }
+// Output:
+// Subarray: [1, 3]
+// Subarray: [3, 4]
 ```
 
 ### ✅ **60. Top K Frequent Elements (HashMap + PriorityQueue)**
@@ -1723,13 +1553,12 @@ public class TopKFrequent {
         System.out.println(topK(nums, 2));
     }
 }
+// Output: [2, 1]
 ```
 
 ## Pattern Printing
 ### ✅ **61. Print a Triangle of Stars**
-
 ### **Input:** `n = 5`
-
 ### **Output:**
 
 ```
@@ -1757,6 +1586,11 @@ public class StarTriangle {
 }
 
 // Output:
+// *
+// **
+// ***
+// ****
+// *****
 ```
 
 ### ✅ **62. Create a Pattern of Numbers (1, 12, 123, 1234...)**
@@ -1764,7 +1598,6 @@ public class StarTriangle {
 ### **Input:** `n = 5`
 
 ### **Output:**
-
 ```
 1
 12
@@ -1790,13 +1623,16 @@ public class NumberPattern {
 }
 
 // Output:
+// 1
+// 12
+// 123
+// 1234
+// 1235
 ```
 
 ### ✅ **63. Print Right-Aligned Triangle**
-
-### **Input:** `n = 5`
-
-### **Output:**
+#### **Input:** `n = 5`
+#### **Output:**
 
 ```
     *
@@ -1806,7 +1642,7 @@ public class NumberPattern {
 *****
 ```
 
-### **Java Code**
+#### **Java Code**
 
 ```java
 public class RightTrianglePattern {
@@ -1831,11 +1667,15 @@ public class RightTrianglePattern {
 }
 
 // Output:
+//     *
+//    **
+//   ***
+//  ****
+// *****
 ```
 
 ## Collections (HashMap & ArrayList)
 ### ✅ **64. Iterate HashMap using While Loop and Advanced For Loop**
-
 ### **Java Code**
 
 ```java
@@ -1904,6 +1744,20 @@ public class ArrayListIteration {
 }
 
 // Output:
+// ---- Using Normal For Loop ----
+// Apple
+// Banana
+// Orange
+
+// ---- Using While Loop ----
+// Apple
+// Banana
+// Orange
+
+// ---- Using Advanced For Loop ----
+// Apple
+// Banana
+// Orange
 ```
 
 ## Data Structures
