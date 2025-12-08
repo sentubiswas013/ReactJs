@@ -221,11 +221,182 @@ public class ContainsSubstring {
 ```
 
 10. Replace a Character in a String Without Using `String.replace()`
+```java
+public class ReplaceCharacter {
+    public static void main(String[] args) {
+        String str = "Hello World";  // Example string
+        char oldChar = 'o';  // Character to replace
+        char newChar = 'a';  // New character to replace with
+
+        StringBuilder result = new StringBuilder();
+
+        // Loop through the string and replace characters
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == oldChar) {
+                result.append(newChar);  // Replace old character with new one
+            } else {
+                result.append(str.charAt(i));  // Keep the character as it is
+            }
+        }
+
+        System.out.println("Modified string: " + result.toString());
+    }
+}
+```
+
 11. Find the Longest Word in a Sentence
+```java
+public class LongestWord {
+    public static void main(String[] args) {
+        String sentence = "This is a Java programming challenge.";  // Example sentence
+        String[] words = sentence.split(" ");  // Split the sentence into words
+        String longestWord = "";
+
+        // Loop through the words and find the longest one
+        for (String word : words) {
+            if (word.length() > longestWord.length()) {
+                longestWord = word;
+            }
+        }
+
+        System.out.println("The longest word in the sentence is: " + longestWord);
+    }
+}
+```
+
 12. Count the Number of Occurrences of a Character in a String
+```java
+public class CountOccurrences {
+    public static void main(String[] args) {
+        String str = "programming";  // Example string
+        char targetChar = 'r';  // Character to count
+        int count = 0;
+
+        // Loop through the string and count occurrences
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == targetChar) {
+                count++;
+            }
+        }
+
+        System.out.println("The character '" + targetChar + "' occurs " + count + " times in the string.");
+    }
+}
+```
+
 13. Swap Two Strings
+```java
+public class SwapStrings {
+    public static void main(String[] args) {
+        String str1 = "Hello";  // First string
+        String str2 = "World";  // Second string
+
+        // Swap the strings
+        String temp = str1;
+        str1 = str2;
+        str2 = temp;
+
+        System.out.println("After swapping:");
+        System.out.println("str1: " + str1);
+        System.out.println("str2: " + str2);
+    }
+}
+```
+
 14. Remove All Special Characters From String
+```java
+public class RemoveSpecialChars {
+    public static void main(String[] args) {
+        String input = "Hell@o# Wo$r%ld!123";
+        
+        // Remove all characters except letters, numbers, and spaces
+        String output = input.replaceAll("[^a-zA-Z0-9 ]", "");
+
+        System.out.println(output); // Hello World123
+    }
+}
+```
+
 15. Reverse Words in a Sentence
+Input:
+`"Hello World Java"`
+Output:
+`"Java World Hello"`
+
+###✅ **Solution 1: Using Split (Most Common in Interviews)**
+
+```java
+public class ReverseWords {
+    public static void main(String[] args) {
+        String sentence = "Hello World Java";
+
+        String[] words = sentence.split(" ");
+        StringBuilder result = new StringBuilder();
+
+        for (int i = words.length - 1; i >= 0; i--) {
+            result.append(words[i]).append(" ");
+        }
+
+        System.out.println(result.toString().trim());
+    }
+}
+```
+
+---
+
+### 📝 **Explanation**
+
+1. Split the sentence into words using `" "`.
+2. Loop from the end to the beginning.
+3. Append words in reverse order.
+4. `trim()` removes the last extra space.
+
+---
+
+# ✅ **Solution 2: One-Line Using Collections**
+
+```java
+import java.util.*;
+
+public class ReverseWords {
+    public static void main(String[] args) {
+        String sentence = "Hello World Java";
+
+        List<String> list = Arrays.asList(sentence.split(" "));
+        Collections.reverse(list);
+
+        System.out.println(String.join(" ", list));
+    }
+}
+```
+
+---
+
+### ✅ **Solution 3: Using Stack (Asked in some interviews)**
+
+```java
+import java.util.Stack;
+
+public class ReverseWords {
+    public static void main(String[] args) {
+        String sentence = "I love programming";
+
+        Stack<String> stack = new Stack<>();
+        for (String word : sentence.split(" ")) {
+            stack.push(word);
+        }
+
+        StringBuilder result = new StringBuilder();
+        while (!stack.isEmpty()) {
+            result.append(stack.pop()).append(" ");
+        }
+
+        System.out.println(result.toString().trim());
+    }
+}
+```
+
+
 16. Remove Characters That Appear More Than Once
 17. Find First Non-Repeating Character in String
 18. Validate Email Format (Regex)
