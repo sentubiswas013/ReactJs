@@ -398,10 +398,145 @@ public class ReverseWords {
 
 
 16. Remove Characters That Appear More Than Once
+```java
+import java.util.*;
+
+public class RemoveRepeatedChars {
+    public static void main(String[] args) {
+        String input = "programming";
+
+        Map<Character, Integer> map = new LinkedHashMap<>();
+
+        // Count frequency
+        for (char c : input.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        // Add only characters that appear once
+        for (char c : input.toCharArray()) {
+            if (map.get(c) == 1) {
+                result.append(c);
+            }
+        }
+
+        System.out.println(result.toString()); // Output: poai
+    }
+}
+```
+
 17. Find First Non-Repeating Character in String
-18. Validate Email Format (Regex)
-19. Check if Two Strings Are Rotations of Each Other
-20. Longest Palindromic Substring
+```java
+import java.util.*;
+
+public class FirstNonRepeatingChar {
+    public static void main(String[] args) {
+        String input = "swiss";
+
+        Map<Character, Integer> map = new LinkedHashMap<>();
+
+        // Count frequency of each character
+        for (char c : input.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        // Find first char with frequency 1
+        for (char c : map.keySet()) {
+            if (map.get(c) == 1) {
+                System.out.println("First non-repeating character: " + c);
+                return;
+            }
+        }
+
+        System.out.println("No non-repeating character found");
+        // Output: w
+    }
+}
+```
+
+# ✅ **18. Validate Email Format (Regex)**
+```java
+public class ValidateEmail {
+    public static void main(String[] args) {
+        String email = "test@example.com";
+
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+        if (email.matches(regex)) {
+            System.out.println("Valid Email");
+        } else {
+            System.out.println("Invalid Email");
+        }
+    }
+}
+// Output: Valid Email
+```
+
+# ✅ **19. Check if Two Strings Are Rotations of Each Other**
+```java
+public class StringRotation {
+    public static void main(String[] args) {
+        String s1 = "ABCD";
+        String s2 = "CDAB";
+
+        if (s1.length() != s2.length()) {
+            System.out.println("Not Rotation");
+            return;
+        }
+
+        String temp = s1 + s1;
+
+        if (temp.contains(s2)) {
+            System.out.println("Strings are rotation of each other");
+        } else {
+            System.out.println("Not Rotation");
+        }
+    }
+}
+// Output: Strings are rotation of each other
+```
+
+# ✅ **20. Longest Palindromic Substring**
+```java
+public class LongestPalindrome {
+    
+    public static String longestPalindrome(String s) {
+        if (s == null || s.length() < 1)
+            return "";
+
+        int start = 0, end = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expand(s, i, i);       // odd
+            int len2 = expand(s, i, i + 1);   // even
+            int len = Math.max(len1, len2);
+
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+
+        return s.substring(start, end + 1);
+    }
+
+    private static int expand(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1; // palindrome length
+    }
+
+    public static void main(String[] args) {
+        String str = "babad";
+        System.out.println("Longest Palindrome: " + longestPalindrome(str));
+    }
+}
+
+// Output: Longest Palindrome: bab
+```
 
 ## Number Operations
 
