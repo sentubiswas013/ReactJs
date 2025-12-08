@@ -540,11 +540,106 @@ public class LongestPalindrome {
 
 ## Number Operations
 
-21. Swap Two Numbers Using the Third Variable
-22. Swap Two Numbers Without Using the Third Variable
-23. Find Whether a Number is Prime or Not
-24. Find Whether a Number is Palindrome or Not
-25. Fibonacci Series
+# ✅ **21. Swap Two Numbers Using the Third Variable**
+```java
+public class SwapWithThird {
+    public static void main(String[] args) {
+        int a = 10, b = 20;
+
+        int temp = a;
+        a = b;
+        b = temp;
+
+        System.out.println("a = " + a + ", b = "b);
+    }
+}
+
+// ✔ Output: a = 20, b = 10
+```
+
+# ✅ **22. Swap Two Numbers Without Using Third Variable**
+```java
+public class SwapWithoutThird {
+    public static void main(String[] args) {
+        int a = 10, b = 20;
+
+        a = a + b;
+        b = a - b;
+        a = a - b;
+
+        System.out.println("a = " + a + ", b = "b);
+    }
+}
+
+// Output:a = 20, b = 10
+```
+
+# ✅ **23. Find Whether a Number is Prime or Not**
+```java
+public class PrimeCheck {
+    public static void main(String[] args) {
+        int n = 29;
+        boolean isPrime = true;
+
+        if (n <= 1) {
+            isPrime = false;
+        } else {
+            for (int i = 2; i <= Math.sqrt(n); i++) {
+                if (n % i == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+        }
+
+        System.out.println(n + " is prime? " + isPrime);
+    }
+}
+// Output: 29 is prime? true
+```
+
+# ✅ **24. Find Whether a Number is Palindrome or Not**
+```java
+public class PalindromeNumber {
+    public static void main(String[] args) {
+        int num = 121, temp = num;
+        int rev = 0;
+
+        while (temp > 0) {
+            rev = rev * 10 + temp % 10;
+            temp = temp / 10;
+        }
+
+        if (num == rev)
+            System.out.println("Palindrome Number");
+        else
+            System.out.println("Not Palindrome");
+    }
+}
+// Output: Palindrome Number
+```
+
+# ✅ **25. Fibonacci Series**
+```java
+public class FibonacciSeries {
+    public static void main(String[] args) {
+        int n = 10;
+        int a = 0, b = 1;
+
+        System.out.print(a + " " + b + " ");
+
+        for (int i = 2; i < n; i++) {
+            int c = a + b;
+            System.out.print(c + " ");
+            a = b;
+            b = c;
+        }
+    }
+}
+
+// Output: 0 1 1 2 3 5 8 13 21 34
+```
+
 26. Find the Factorial of a Number
 27. Check if a Number is Even or Odd
 28. Find the Sum of Digits of a Number
