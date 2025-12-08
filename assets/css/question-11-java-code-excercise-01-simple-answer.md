@@ -23,13 +23,203 @@ public class ReverseString {
 ```
 
 2. Count the Number of Words in a String Using HashMap
+```java
+import java.util.HashMap;
+
+public class CountWordsWithHashMap {
+    public static void main(String[] args) {
+        String str = "This is a test string and this is great";  // Example string
+        String[] words = str.split(" ");  // Split string into words
+        
+        HashMap<String, Integer> wordCountMap = new HashMap<>();
+
+        // Count the frequency of each word using HashMap
+        for (String word : words) {
+            word = word.toLowerCase();  // Convert to lowercase to count case-insensitive
+            wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
+        }
+
+        // Display the word count
+        for (String word : wordCountMap.keySet()) {
+            System.out.println(word + ": " + wordCountMap.get(word));
+        }
+    }
+}
+```
+
 3. Find the Duplicate Characters in a String
+```java
+import java.util.HashMap;
+
+public class DuplicateCharacters {
+    public static void main(String[] args) {
+        String str = "programming";  // Example string
+        HashMap<Character, Integer> charCount = new HashMap<>();
+
+        // Count the frequency of each character
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            charCount.put(c, charCount.getOrDefault(c, 0) + 1);
+        }
+
+        // Print duplicate characters
+        System.out.println("Duplicate characters:");
+        for (char c : charCount.keySet()) {
+            if (charCount.get(c) > 1) {
+                System.out.println(c + ": " + charCount.get(c));
+            }
+        }
+    }
+}
+```
+
 4. Remove All White Spaces from a String Using `replace()`
+```java
+public class RemoveWhiteSpacesWithReplace {
+    public static void main(String[] args) {
+        String str = " Hello World! Java Programming ";  // Example string
+
+        // Remove white spaces using replace()
+        String result = str.replace(" ", "");
+
+        System.out.println("String without spaces: \"" + result + "\"");
+    }
+}
+```
+
 5. Remove All White Spaces from a String Without Using `replace()`
+```java
+public class RemoveWhiteSpacesWithoutReplace {
+    public static void main(String[] args) {
+        String str = " Hello World! Java Programming ";  // Example string
+
+        // Remove white spaces without using replace()
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != ' ') {
+                result.append(str.charAt(i));
+            }
+        }
+
+        System.out.println("String without spaces: \"" + result.toString() + "\"");
+    }
+}
+```
+
 6. Find Whether a String is Palindrome or Not
+```java
+public class Palindrome {
+    public static void main(String[] args) {
+        String str = "madam";
+        boolean isPalindrome = true;
+
+        // Check if string is palindrome
+        int length = str.length();
+        for (int i = 0; i < length / 2; i++) {
+            if (str.charAt(i) != str.charAt(length - 1 - i)) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        if (isPalindrome) {
+            System.out.println(str + " is a palindrome.");
+        } else {
+            System.out.println(str + " is not a palindrome.");
+        }
+
+        // Check for a number
+        int number = 121;
+        int originalNumber = number;
+        int reversedNumber = 0;
+
+        while (number != 0) {
+            int digit = number % 10;
+            reversedNumber = reversedNumber * 10 + digit;
+            number /= 10;
+        }
+
+        if (originalNumber == reversedNumber) {
+            System.out.println(originalNumber + " is a palindrome number.");
+        } else {
+            System.out.println(originalNumber + " is not a palindrome number.");
+        }
+    }
+}
+```
+
 7. Count Vowels and Consonants in a String
+```java
+public class VowelConsonantCount {
+    public static void main(String[] args) {
+        String str = "Hello World";  // Example string
+        int vowels = 0, consonants = 0;
+
+        // Convert the string to lowercase to make the check case-insensitive
+        str = str.toLowerCase();
+
+        // Loop through each character and count vowels and consonants
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch >= 'a' && ch <= 'z') {
+                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                    vowels++;
+                } else {
+                    consonants++;
+                }
+            }
+        }
+
+        System.out.println("Vowels: " + vowels);
+        System.out.println("Consonants: " + consonants);
+    }
+}
+```
+
 8. Check if Two Strings are Anagrams
+```java
+import java.util.Arrays;
+
+public class AnagramCheck {
+    public static void main(String[] args) {
+        String str1 = "listen";  // Example strings
+        String str2 = "silent";
+
+        // Convert strings to character arrays
+        char[] arr1 = str1.toCharArray();
+        char[] arr2 = str2.toCharArray();
+
+        // Sort the arrays
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+
+        // Compare sorted arrays
+        if (Arrays.equals(arr1, arr2)) {
+            System.out.println(str1 + " and " + str2 + " are anagrams.");
+        } else {
+            System.out.println(str1 + " and " + str2 + " are not anagrams.");
+        }
+    }
+}
+```
+
 9. Check if a String Contains a Substring
+```java
+public class ContainsSubstring {
+    public static void main(String[] args) {
+        String str = "Hello World";  // Example string
+        String substring = "World";  // Substring to check
+
+        // Check if the string contains the substring
+        if (str.contains(substring)) {
+            System.out.println("The string contains the substring.");
+        } else {
+            System.out.println("The string does not contain the substring.");
+        }
+    }
+}
+```
+
 10. Replace a Character in a String Without Using `String.replace()`
 11. Find the Longest Word in a Sentence
 12. Count the Number of Occurrences of a Character in a String
