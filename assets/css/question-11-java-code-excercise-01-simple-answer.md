@@ -20,31 +20,30 @@ public class ReverseString {
         System.out.println("Reversed string: " + new String(charArray));
     }
 }
+// Output: Reversed string: dlroW olleH
 ```
 
 ### ✅ **2. Count the Number of Words in a String Using HashMap**
 ```java
 import java.util.HashMap;
 
-public class CountWordsWithHashMap {
+public class WordCountUsingHashMap {
     public static void main(String[] args) {
-        String str = "This is a test string and this is great";  // Example string
-        String[] words = str.split(" ");  // Split string into words
-        
-        HashMap<String, Integer> wordCountMap = new HashMap<>();
+        String input = "hello world hello java world";
+        HashMap<String, Integer> wordCount = new HashMap<>();
 
-        // Count the frequency of each word using HashMap
+        // Split the string into words
+        String[] words = input.trim().split("\\s+");
+
         for (String word : words) {
-            word = word.toLowerCase();  // Convert to lowercase to count case-insensitive
-            wordCountMap.put(word, wordCountMap.getOrDefault(word, 0) + 1);
+            // Put word in map or update existing count
+            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
         }
-
-        // Display the word count
-        for (String word : wordCountMap.keySet()) {
-            System.out.println(word + ": " + wordCountMap.get(word));
-        }
+        // Print result
+        System.out.println("Word Count: " + wordCount);
     }
 }
+ // Output: Word Count: {java=1, world=2, hello=2}
 ```
 
 ### ✅ **3. Find the Duplicate Characters in a String**
@@ -71,6 +70,7 @@ public class DuplicateCharacters {
         }
     }
 }
+// Output: Duplicate characters: r: 2 g: 2 m: 2
 ```
 
 ### ✅ **4. Remove All White Spaces from a String Using `replace()`**
@@ -85,6 +85,7 @@ public class RemoveWhiteSpacesWithReplace {
         System.out.println("String without spaces: \"" + result + "\"");
     }
 }
+// Output: String without spaces: "HelloWorld!JavaProgramming"
 ```
 
 ### ✅ **5. Remove All White Spaces from a String Without Using `replace()**
@@ -104,6 +105,7 @@ public class RemoveWhiteSpacesWithoutReplace {
         System.out.println("String without spaces: \"" + result.toString() + "\"");
     }
 }
+// Output: String without spaces: "HelloWorld!JavaProgramming"
 ```
 
 ### ✅ **7. Find Whether a String is Palindrome or Not**
@@ -146,6 +148,9 @@ public class Palindrome {
         }
     }
 }
+// Output:
+// madam is a palindrome.
+// 121 is a palindrome number.
 ```
 
 ### ✅ **7. Count Vowels and Consonants in a String**
