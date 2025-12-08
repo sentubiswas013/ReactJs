@@ -179,6 +179,9 @@ public class VowelConsonantCount {
         System.out.println("Consonants: " + consonants);
     }
 }
+// Output: 
+// Vowels: 3
+// Consonants: 7
 ```
 
 ### ✅ **8. Check if Two Strings are Anagrams**
@@ -206,6 +209,7 @@ public class AnagramCheck {
         }
     }
 }
+// Output: listen and silent are anagrams.
 ```
 
 ### ✅ **9. Check if a String Contains a Substring**
@@ -223,6 +227,7 @@ public class ContainsSubstring {
         }
     }
 }
+// Output: The string contains the substring.
 ```
 
 ### ✅ **10. Replace a Character in a String Without Using `String.replace()`**
