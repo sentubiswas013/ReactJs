@@ -2,7 +2,7 @@
 
 ## String Manipulation
 
-# ✅ **1. Reverse a String without using String inbuilt function**
+### ✅ **1. Reverse a String without using String inbuilt function**
 ```java
 public class ReverseString {
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class ReverseString {
 }
 ```
 
-# ✅ **2. Count the Number of Words in a String Using HashMap**
+### ✅ **2. Count the Number of Words in a String Using HashMap**
 ```java
 import java.util.HashMap;
 
@@ -47,7 +47,7 @@ public class CountWordsWithHashMap {
 }
 ```
 
-# ✅ **3. Find the Duplicate Characters in a String**
+### ✅ **3. Find the Duplicate Characters in a String**
 ```java
 import java.util.HashMap;
 
@@ -73,7 +73,7 @@ public class DuplicateCharacters {
 }
 ```
 
-# ✅ **4. Remove All White Spaces from a String Using `replace()`**
+### ✅ **4. Remove All White Spaces from a String Using `replace()`**
 ```java
 public class RemoveWhiteSpacesWithReplace {
     public static void main(String[] args) {
@@ -87,7 +87,7 @@ public class RemoveWhiteSpacesWithReplace {
 }
 ```
 
-# ✅ **5. Remove All White Spaces from a String Without Using `replace()**
+### ✅ **5. Remove All White Spaces from a String Without Using `replace()**
 ```java
 public class RemoveWhiteSpacesWithoutReplace {
     public static void main(String[] args) {
@@ -106,7 +106,7 @@ public class RemoveWhiteSpacesWithoutReplace {
 }
 ```
 
-# ✅ **7. Find Whether a String is Palindrome or Not**
+### ✅ **7. Find Whether a String is Palindrome or Not**
 ```java
 public class Palindrome {
     public static void main(String[] args) {
@@ -148,7 +148,7 @@ public class Palindrome {
 }
 ```
 
-# ✅ **7. Count Vowels and Consonants in a String**
+### ✅ **7. Count Vowels and Consonants in a String**
 ```java
 public class VowelConsonantCount {
     public static void main(String[] args) {
@@ -176,7 +176,7 @@ public class VowelConsonantCount {
 }
 ```
 
-# ✅ **8. Check if Two Strings are Anagrams**
+### ✅ **8. Check if Two Strings are Anagrams**
 ```java
 import java.util.Arrays;
 
@@ -203,7 +203,7 @@ public class AnagramCheck {
 }
 ```
 
-# ✅ **9. Check if a String Contains a Substring**
+### ✅ **9. Check if a String Contains a Substring**
 ```java
 public class ContainsSubstring {
     public static void main(String[] args) {
@@ -220,7 +220,7 @@ public class ContainsSubstring {
 }
 ```
 
-# ✅ **10. Replace a Character in a String Without Using `String.replace()`**
+### ✅ **10. Replace a Character in a String Without Using `String.replace()`**
 ```java
 public class ReplaceCharacter {
     public static void main(String[] args) {
@@ -244,7 +244,7 @@ public class ReplaceCharacter {
 }
 ```
 
-# ✅ **11. Find the Longest Word in a Sentence**
+### ✅ **11. Find the Longest Word in a Sentence**
 ```java
 public class LongestWord {
     public static void main(String[] args) {
@@ -264,7 +264,7 @@ public class LongestWord {
 }
 ```
 
-# ✅ **12. Count the Number of Occurrences of a Character in a String**
+### ✅ **12. Count the Number of Occurrences of a Character in a String**
 ```java
 public class CountOccurrences {
     public static void main(String[] args) {
@@ -284,7 +284,7 @@ public class CountOccurrences {
 }
 ```
 
-# ✅ **13. Swap Two Strings**
+### ✅ **13. Swap Two Strings**
 ```java
 public class SwapStrings {
     public static void main(String[] args) {
@@ -303,7 +303,7 @@ public class SwapStrings {
 }
 ```
 
-# ✅ **14. Remove All Special Characters From String**
+### ✅ **14. Remove All Special Characters From String**
 ```java
 public class RemoveSpecialChars {
     public static void main(String[] args) {
@@ -317,7 +317,7 @@ public class RemoveSpecialChars {
 }
 ```
 
-# ✅ **15. Reverse Words in a Sentence**
+### ✅ **15. Reverse Words in a Sentence**
 Input:
 `"Hello World Java"`
 Output:
@@ -349,7 +349,7 @@ public class ReverseWords {
 3. Append words in reverse order.
 4. `trim()` removes the last extra space.
 
-# ✅ **Solution 2: One-Line Using Collections**
+### ✅ **Solution 2: One-Line Using Collections**
 
 ```java
 import java.util.*;
@@ -366,7 +366,7 @@ public class ReverseWords {
 }
 ```
 
-### ✅ **Solution 3: Using Stack (Asked in some interviews)**
+##### ✅ **Solution 3: Using Stack (Asked in some interviews)**
 
 ```java
 import java.util.Stack;
@@ -390,7 +390,7 @@ public class ReverseWords {
 }
 ```
 
-# ✅ **16. Remove Characters That Appear More Than Once**
+### ✅ **16. Remove Characters That Appear More Than Once**
 ```java
 import java.util.*;
 
@@ -419,7 +419,7 @@ public class RemoveRepeatedChars {
 }
 ```
 
-# ✅ **17. Find First Non-Repeating Character in String**
+### ✅ **17. Find First Non-Repeating Character in String**
 ```java
 import java.util.*;
 
@@ -448,7 +448,7 @@ public class FirstNonRepeatingChar {
 }
 ```
 
-# ✅ **18. Validate Email Format (Regex)**
+### ✅ **18. Validate Email Format (Regex)**
 ```java
 public class ValidateEmail {
     public static void main(String[] args) {
@@ -466,7 +466,7 @@ public class ValidateEmail {
 // Output: Valid Email
 ```
 
-# ✅ **19. Check if Two Strings Are Rotations of Each Other**
+### ✅ **19. Check if Two Strings Are Rotations of Each Other**
 ```java
 public class StringRotation {
     public static void main(String[] args) {
@@ -490,7 +490,7 @@ public class StringRotation {
 // Output: Strings are rotation of each other
 ```
 
-# ✅ **20. Longest Palindromic Substring**
+### ✅ **20. Longest Palindromic Substring**
 ```java
 public class LongestPalindrome {
     
@@ -533,7 +533,7 @@ public class LongestPalindrome {
 
 ## Number Operations
 
-# ✅ **21. Swap Two Numbers Using the Third Variable**
+### ✅ **21. Swap Two Numbers Using the Third Variable**
 ```java
 public class SwapWithThird {
     public static void main(String[] args) {
@@ -550,7 +550,7 @@ public class SwapWithThird {
 // ✔ Output: a = 20, b = 10
 ```
 
-# ✅ **22. Swap Two Numbers Without Using Third Variable**
+### ✅ **22. Swap Two Numbers Without Using Third Variable**
 ```java
 public class SwapWithoutThird {
     public static void main(String[] args) {
@@ -567,7 +567,7 @@ public class SwapWithoutThird {
 // Output:a = 20, b = 10
 ```
 
-# ✅ **23. Find Whether a Number is Prime or Not**
+### ✅ **23. Find Whether a Number is Prime or Not**
 ```java
 public class PrimeCheck {
     public static void main(String[] args) {
@@ -591,7 +591,7 @@ public class PrimeCheck {
 // Output: 29 is prime? true
 ```
 
-# ✅ **24. Find Whether a Number is Palindrome or Not**
+### ✅ **24. Find Whether a Number is Palindrome or Not**
 ```java
 public class PalindromeNumber {
     public static void main(String[] args) {
@@ -612,7 +612,7 @@ public class PalindromeNumber {
 // Output: Palindrome Number
 ```
 
-# ✅ **25. Fibonacci Series**
+### ✅ **25. Fibonacci Series**
 ```java
 public class FibonacciSeries {
     public static void main(String[] args) {
@@ -633,7 +633,7 @@ public class FibonacciSeries {
 // Output: 0 1 1 2 3 5 8 13 21 34
 ```
 
-# ✅ **26. Find the Factorial of a Number**
+### ✅ **26. Find the Factorial of a Number**
 
 ```java
 public class Factorial {
@@ -651,7 +651,7 @@ public class Factorial {
 // Output: Factorial = 120
 ```
 
-# ✅ **27. Check if a Number is Even or Odd**
+### ✅ **27. Check if a Number is Even or Odd**
 ```java
 public class EvenOdd {
     public static void main(String[] args) {
@@ -666,7 +666,7 @@ public class EvenOdd {
 // Output: Odd Number
 ```
 
-# ✅ **28. Find the Sum of Digits of a Number**
+### ✅ **28. Find the Sum of Digits of a Number**
 ```java
 public class SumOfDigits {
     public static void main(String[] args) {
@@ -684,7 +684,7 @@ public class SumOfDigits {
 // Output: Sum of digits = 24
 ```
 
-# ✅ **29. Print the Multiplication Table of a Number**
+### ✅ **29. Print the Multiplication Table of a Number**
 ```java
 public class MultiplicationTable {
     public static void main(String[] args) {
@@ -702,7 +702,7 @@ public class MultiplicationTable {
 // 5 x 3 = 15  
 ```
 
-# ✅ **30. Check Armstrong Number**
+### ✅ **30. Check Armstrong Number**
 ```java
 public class Armstrong {
     public static void main(String[] args) {
@@ -726,7 +726,7 @@ public class Armstrong {
 // Output: Armstrong Number
 ```
 
-# ✅ **31. Print Prime Numbers Between 1 and 100**
+### ✅ **31. Print Prime Numbers Between 1 and 100**
 ```java
 public class PrimeBetween1To100 {
     public static void main(String[] args) {
@@ -750,7 +750,7 @@ public class PrimeBetween1To100 {
 ```
 
 
-# ✅ **32. Reverse an Integer Number**
+### ✅ **32. Reverse an Integer Number**
 ```java
 public class ReverseInteger {
     public static void main(String[] args) {
@@ -769,7 +769,7 @@ public class ReverseInteger {
 // Output: Reversed Number = 54321
 ```
 
-# ✅ **33. Convert String to Integer**
+### ✅ **33. Convert String to Integer**
 
 ```java
 public class StringToInt {
@@ -783,7 +783,7 @@ public class StringToInt {
 // Output: Converted Integer = 1234
 ```
 
-# ✅ **34. Find the Sum of Natural Numbers**
+### ✅ **34. Find the Sum of Natural Numbers**
 ```java
 public class SumNaturalNumbers {
     public static void main(String[] args) {
@@ -796,7 +796,7 @@ public class SumNaturalNumbers {
 // Output: Sum = 55
 ```
 
-# ✅ **35. Check if a Number is a Perfect Number**
+### ✅ **35. Check if a Number is a Perfect Number**
 ```java
 public class PerfectNumber {
     public static void main(String[] args) {
@@ -818,7 +818,7 @@ public class PerfectNumber {
 // Output: Perfect Number
 ```
 
-# ✅ **36. Find the GCD (Greatest Common Divisor) of Two Numbers**
+### ✅ **36. Find the GCD (Greatest Common Divisor) of Two Numbers**
 
 ### ✔ Using Euclidean Algorithm
 
@@ -842,7 +842,7 @@ public class GCD {
 // Output:
 ```
 
-# ✅ **37. Find the LCM (Least Common Multiple) of Two Numbers**
+### ✅ **37. Find the LCM (Least Common Multiple) of Two Numbers**
 
 ### ✔ Relation:
 
@@ -873,7 +873,7 @@ public class LCM {
 // Output:
 ```
 
-# ✅ **38. Calculate the Power of a Number**
+### ✅ **38. Calculate the Power of a Number**
 
 ### ✔ Using a loop
 
@@ -908,7 +908,7 @@ public class PowerUsingMath {
 // Output:
 ```
 
-# ✅ **39. Check if a Number is a Perfect Square**
+### ✅ **39. Check if a Number is a Perfect Square**
 
 ### ✔ Logic:
 
@@ -943,7 +943,7 @@ Just say **"Make PDF"** or **"Combine all answers"**.
 
 Here are **clean and simple Java solutions** for problems **40–43**:
 
-# ✅ **40. Check if a Number is a Fibonacci Number**
+### ✅ **40. Check if a Number is a Fibonacci Number**
 
 ### ✔ Formula:
 
@@ -976,7 +976,7 @@ public class FibonacciCheck {
 // Output:
 ```
 
-# ✅ **41. Convert String to Integer Without parseInt()**
+### ✅ **41. Convert String to Integer Without parseInt()**
 
 ### ✔ Logic:
 
@@ -1010,7 +1010,7 @@ public class StringToInt {
 // Output:
 ```
 
-# ✅ **42. Convert Integer to String Without toString()**
+### ✅ **42. Convert Integer to String Without toString()**
 
 ### ✔ Logic:
 
@@ -1048,7 +1048,7 @@ public class IntToString {
 // Output:
 ```
 
-# ✅ **43. Find All Prime Numbers up to N**
+### ✅ **43. Find All Prime Numbers up to N**
 
 ### ✔ Simple loop-based method
 
@@ -1081,7 +1081,7 @@ public class PrimeUpToN {
 
 ## Array Operations
 
-# ✅ **44. Find the Largest Element in an Array**
+### ✅ **44. Find the Largest Element in an Array**
 
 ```java
 public class LargestInArray {
@@ -1103,7 +1103,7 @@ public class LargestInArray {
 // Output:
 ```
 
-# ✅ **45. Find the Smallest Element in an Array**
+### ✅ **45. Find the Smallest Element in an Array**
 
 ```java
 public class SmallestInArray {
@@ -1125,7 +1125,7 @@ public class SmallestInArray {
 // Output:
 ```
 
-# ✅ **46. Find the Second-Highest Number in an Array**
+### ✅ **46. Find the Second-Highest Number in an Array**
 
 ```java
 public class SecondHighest {
@@ -1154,7 +1154,7 @@ public class SecondHighest {
 // Output:
 ```
 
-# ✅ **47. Merge Two Arrays**
+### ✅ **47. Merge Two Arrays**
 
 ```java
 import java.util.Arrays;
@@ -1187,7 +1187,7 @@ If you want the next set of Java coding questions (48–60), just say **"next"**
 
 Here are **clean, simple, and interview-friendly Java solutions** for questions **48–54**:
 
-# ✅ **48. Sort an Array of Integers in Ascending Order**
+### ✅ **48. Sort an Array of Integers in Ascending Order**
 
 ```java
 import java.util.Arrays;
@@ -1204,7 +1204,7 @@ public class SortArray {
 // Output:
 ```
 
-# ✅ **49. Sum All Elements of an Array**
+### ✅ **49. Sum All Elements of an Array**
 
 ```java
 public class SumArray {
@@ -1224,7 +1224,7 @@ public class SumArray {
 // Output:
 ```
 
-# ✅ **50. Find the Median of an Array**
+### ✅ **50. Find the Median of an Array**
 
 ```java
 import java.util.Arrays;
@@ -1248,7 +1248,7 @@ public class MedianArray {
 // Output:
 ```
 
-# ✅ **51. Remove Duplicates from an Array**
+### ✅ **51. Remove Duplicates from an Array**
 
 Using **LinkedHashSet** (keeps order):
 
@@ -1277,7 +1277,7 @@ public class RemoveDuplicates {
 // Output:
 ```
 
-# ✅ **52. Convert an Array to a String**
+### ✅ **52. Convert an Array to a String**
 
 ```java
 import java.util.Arrays;
@@ -1294,7 +1294,7 @@ public class ArrayToString {
 // Output:
 ```
 
-# ✅ **53. Find the Common Elements Between Two Arrays**
+### ✅ **53. Find the Common Elements Between Two Arrays**
 
 ```java
 import java.util.*;
@@ -1322,7 +1322,7 @@ public class CommonElements {
 // Output:
 ```
 
-# ✅ **54. Find Min and Max in Array (Single Loop)**
+### ✅ **54. Find Min and Max in Array (Single Loop)**
 
 ```java
 public class MinMaxSingleLoop {
@@ -1348,7 +1348,7 @@ public class MinMaxSingleLoop {
 
 Here are **clean, simple, and interview-friendly Java solutions** for questions **48–54**:
 
-# ✅ **48. Sort an Array of Integers in Ascending Order**
+### ✅ **48. Sort an Array of Integers in Ascending Order**
 
 ```java
 import java.util.Arrays;
@@ -1365,7 +1365,7 @@ public class SortArray {
 // Output:
 ```
 
-# ✅ **49. Sum All Elements of an Array**
+### ✅ **49. Sum All Elements of an Array**
 
 ```java
 public class SumArray {
@@ -1386,7 +1386,7 @@ public class SumArray {
 // Output:
 ```
 
-# ✅ **50. Find the Median of an Array**
+### ✅ **50. Find the Median of an Array**
 
 ```java
 import java.util.Arrays;
@@ -1410,7 +1410,7 @@ public class MedianArray {
 // Output:
 ```
 
-# ✅ **51. Remove Duplicates from an Array**
+### ✅ **51. Remove Duplicates from an Array**
 
 Using **LinkedHashSet** (keeps order):
 
@@ -1437,7 +1437,7 @@ public class RemoveDuplicates {
 }
 ```
 
-# ✅ **52. Convert an Array to a String**
+### ✅ **52. Convert an Array to a String**
 
 ```java
 import java.util.Arrays;
@@ -1454,7 +1454,7 @@ public class ArrayToString {
 // Output:
 ```
 
-# ✅ **53. Find the Common Elements Between Two Arrays**
+### ✅ **53. Find the Common Elements Between Two Arrays**
 
 ```java
 import java.util.*;
@@ -1482,7 +1482,7 @@ public class CommonElements {
 // Output:
 ```
 
-# ✅ **54. Find Min and Max in Array (Single Loop)**
+### ✅ **54. Find Min and Max in Array (Single Loop)**
 
 ```java
 public class MinMaxSingleLoop {
@@ -1506,7 +1506,7 @@ public class MinMaxSingleLoop {
 // Output:
 ```
 
-# ✅ **55. Find Even & Odd Numbers in Array**
+### ✅ **55. Find Even & Odd Numbers in Array**
 
 ```java
 public class EvenOddArray {
@@ -1523,7 +1523,7 @@ public class EvenOddArray {
 }
 ```
 
-# ✅ **56. Merge Two Sorted Arrays Without Using Extra Space**
+### ✅ **56. Merge Two Sorted Arrays Without Using Extra Space**
 
 This is the **Gap Method** (like Shell Sort).
 
@@ -1587,7 +1587,7 @@ public class MergeSortedArrays {
 }
 ```
 
-# ✅ **57. Find Majority Element (Boyer–Moore Algorithm)**
+### ✅ **57. Find Majority Element (Boyer–Moore Algorithm)**
 
 Time: O(n), Space: O(1)
 
@@ -1612,7 +1612,7 @@ public class MajorityElement {
 }
 ```
 
-# ✅ **58. Rotate Array Left/Right by K Positions**
+### ✅ **58. Rotate Array Left/Right by K Positions**
 
 ### Rotate Right (Optimized)
 
@@ -1647,7 +1647,7 @@ public class RotateArray {
 }
 ```
 
-# ✅ **59. Find All Subarrays With Given Sum (Sliding Window)**
+### ✅ **59. Find All Subarrays With Given Sum (Sliding Window)**
 
 Works for **positive numbers**.
 
@@ -1678,7 +1678,7 @@ public class SubarraySum {
 }
 ```
 
-# ✅ **60. Top K Frequent Elements (HashMap + PriorityQueue)**
+### ✅ **60. Top K Frequent Elements (HashMap + PriorityQueue)**
 
 ```java
 import java.util.*;
@@ -1712,7 +1712,7 @@ public class TopKFrequent {
 ```
 
 ## Pattern Printing
-# ✅ **61. Print a Triangle of Stars**
+### ✅ **61. Print a Triangle of Stars**
 
 ### **Input:** `n = 5`
 
@@ -1745,7 +1745,7 @@ public class StarTriangle {
 // Output:
 ```
 
-# ✅ **62. Create a Pattern of Numbers (1, 12, 123, 1234...)**
+### ✅ **62. Create a Pattern of Numbers (1, 12, 123, 1234...)**
 
 ### **Input:** `n = 5`
 
@@ -1778,7 +1778,7 @@ public class NumberPattern {
 // Output:
 ```
 
-# ✅ **63. Print Right-Aligned Triangle**
+### ✅ **63. Print Right-Aligned Triangle**
 
 ### **Input:** `n = 5`
 
@@ -1820,7 +1820,7 @@ public class RightTrianglePattern {
 ```
 
 ## Collections (HashMap & ArrayList)
-# ✅ **64. Iterate HashMap using While Loop and Advanced For Loop**
+### ✅ **64. Iterate HashMap using While Loop and Advanced For Loop**
 
 ### **Java Code**
 
@@ -1854,7 +1854,7 @@ public class HashMapIteration {
 // Output:
 ```
 
-# ✅ **65. Iterate ArrayList Using For-loop, While-loop, and Advanced For-loop**
+### ✅ **65. Iterate ArrayList Using For-loop, While-loop, and Advanced For-loop**
 
 ### **Java Code**
 
@@ -1894,7 +1894,7 @@ public class ArrayListIteration {
 
 ## Data Structures
 
-# ✅ **66. Implement a Stack Using an Array**
+### ✅ **66. Implement a Stack Using an Array**
 
 ```java
 class StackArray {
@@ -1936,7 +1936,7 @@ class StackArray {
 // Output:
 ```
 
-# ✅ **67. Implement Queue Using LinkedList**
+### ✅ **67. Implement Queue Using LinkedList**
 
 ```java
 class QueueLL {
@@ -1971,7 +1971,7 @@ class QueueLL {
 // Output:
 ```
 
-# ✅ **68. Implement Binary Search (Iterative)**
+### ✅ **68. Implement Binary Search (Iterative)**
 
 ```java
 public class BinarySearch {
@@ -1992,7 +1992,7 @@ public class BinarySearch {
 // Output:
 ```
 
-# ✅ **69. Implement Binary Search Recursively**
+### ✅ **69. Implement Binary Search Recursively**
 
 ```java
 public class BinarySearchRecursive {
@@ -2012,7 +2012,7 @@ public class BinarySearchRecursive {
 // Output:
 ```
 
-# ✅ **70. Implement MinStack (getMin() in O(1))**
+### ✅ **70. Implement MinStack (getMin() in O(1))**
 
 Maintain two stacks:
 ✔ `mainStack` → stores values
@@ -2052,7 +2052,7 @@ class MinStack {
 // Output:
 ```
 
-# ✅ **71. Implement Trie (Insert / Search / StartsWith)**
+### ✅ **71. Implement Trie (Insert / Search / StartsWith)**
 
 ```java
 class TrieNode {
@@ -2098,7 +2098,7 @@ class Trie {
 // Output:
 ```
 
-# ✅ **72. Detect and Remove Loop in Linked List (Floyd’s Algorithm)**
+### ✅ **72. Detect and Remove Loop in Linked List (Floyd’s Algorithm)**
 
 ### **Steps**
 
@@ -2151,7 +2151,7 @@ class LinkedListLoop {
 ```
 
 ## Tree Operations
-# ✅ **73. Serialize and Deserialize a Binary Tree**
+### ✅ **73. Serialize and Deserialize a Binary Tree**
 
 ```java
 import java.util.*;
@@ -2192,7 +2192,7 @@ class Codec {
 * `#` represents `null`.
 * Preorder traversal is used for serialization and deserialization.
 
-# ✅ **74. Find the Diameter of a Binary Tree**
+### ✅ **74. Find the Diameter of a Binary Tree**
 
 ```java
 class TreeNodeDiameter {
@@ -2229,7 +2229,7 @@ class BinaryTree {
 * Recursively calculate height and update diameter at each node.
 
 ## Graph Operations
-# ✅ **75. Find Number of Islands (DFS)**
+### ✅ **75. Find Number of Islands (DFS)**
 
 ```java
 class NumberOfIslands {
@@ -2265,7 +2265,7 @@ class NumberOfIslands {
 * Each DFS represents one island.
 
 ## Multithreading
-# ✅ **76. Producer–Consumer Problem (Threads + wait/notify)**
+### ✅ **76. Producer–Consumer Problem (Threads + wait/notify)**
 
 ```java
 import java.util.*;
