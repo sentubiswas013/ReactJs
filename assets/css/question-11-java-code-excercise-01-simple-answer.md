@@ -2,7 +2,7 @@
 
 ## String Manipulation
 
-1. Reverse a String without using String inbuilt function
+# ✅ **1. Reverse a String without using String inbuilt function**
 ```java
 public class ReverseString {
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class ReverseString {
 }
 ```
 
-2. Count the Number of Words in a String Using HashMap
+# ✅ **2. Count the Number of Words in a String Using HashMap**
 ```java
 import java.util.HashMap;
 
@@ -47,7 +47,7 @@ public class CountWordsWithHashMap {
 }
 ```
 
-3. Find the Duplicate Characters in a String
+# ✅ **3. Find the Duplicate Characters in a String**
 ```java
 import java.util.HashMap;
 
@@ -73,7 +73,7 @@ public class DuplicateCharacters {
 }
 ```
 
-4. Remove All White Spaces from a String Using `replace()`
+# ✅ **4. Remove All White Spaces from a String Using `replace()`**
 ```java
 public class RemoveWhiteSpacesWithReplace {
     public static void main(String[] args) {
@@ -87,7 +87,7 @@ public class RemoveWhiteSpacesWithReplace {
 }
 ```
 
-5. Remove All White Spaces from a String Without Using `replace()`
+# ✅ **5. Remove All White Spaces from a String Without Using `replace()**
 ```java
 public class RemoveWhiteSpacesWithoutReplace {
     public static void main(String[] args) {
@@ -106,7 +106,7 @@ public class RemoveWhiteSpacesWithoutReplace {
 }
 ```
 
-6. Find Whether a String is Palindrome or Not
+# ✅ **7. Find Whether a String is Palindrome or Not**
 ```java
 public class Palindrome {
     public static void main(String[] args) {
@@ -148,7 +148,7 @@ public class Palindrome {
 }
 ```
 
-7. Count Vowels and Consonants in a String
+# ✅ **7. Count Vowels and Consonants in a String**
 ```java
 public class VowelConsonantCount {
     public static void main(String[] args) {
@@ -176,7 +176,7 @@ public class VowelConsonantCount {
 }
 ```
 
-8. Check if Two Strings are Anagrams
+# ✅ **8. Check if Two Strings are Anagrams**
 ```java
 import java.util.Arrays;
 
@@ -203,7 +203,7 @@ public class AnagramCheck {
 }
 ```
 
-9. Check if a String Contains a Substring
+# ✅ **9. Check if a String Contains a Substring**
 ```java
 public class ContainsSubstring {
     public static void main(String[] args) {
@@ -220,7 +220,7 @@ public class ContainsSubstring {
 }
 ```
 
-10. Replace a Character in a String Without Using `String.replace()`
+# ✅ **10. Replace a Character in a String Without Using `String.replace()`**
 ```java
 public class ReplaceCharacter {
     public static void main(String[] args) {
@@ -244,7 +244,7 @@ public class ReplaceCharacter {
 }
 ```
 
-11. Find the Longest Word in a Sentence
+# ✅ **11. Find the Longest Word in a Sentence**
 ```java
 public class LongestWord {
     public static void main(String[] args) {
@@ -264,7 +264,7 @@ public class LongestWord {
 }
 ```
 
-12. Count the Number of Occurrences of a Character in a String
+# ✅ **12. Count the Number of Occurrences of a Character in a String**
 ```java
 public class CountOccurrences {
     public static void main(String[] args) {
@@ -284,7 +284,7 @@ public class CountOccurrences {
 }
 ```
 
-13. Swap Two Strings
+# ✅ **13. Swap Two Strings**
 ```java
 public class SwapStrings {
     public static void main(String[] args) {
@@ -303,7 +303,7 @@ public class SwapStrings {
 }
 ```
 
-14. Remove All Special Characters From String
+# ✅ **14. Remove All Special Characters From String**
 ```java
 public class RemoveSpecialChars {
     public static void main(String[] args) {
@@ -317,7 +317,7 @@ public class RemoveSpecialChars {
 }
 ```
 
-15. Reverse Words in a Sentence
+# ✅ **15. Reverse Words in a Sentence**
 Input:
 `"Hello World Java"`
 Output:
@@ -396,8 +396,7 @@ public class ReverseWords {
 }
 ```
 
-
-16. Remove Characters That Appear More Than Once
+# ✅ **16. Remove Characters That Appear More Than Once**
 ```java
 import java.util.*;
 
@@ -426,7 +425,7 @@ public class RemoveRepeatedChars {
 }
 ```
 
-17. Find First Non-Repeating Character in String
+# ✅ **17. Find First Non-Repeating Character in String**
 ```java
 import java.util.*;
 
