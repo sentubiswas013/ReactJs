@@ -252,6 +252,7 @@ public class ReplaceCharacter {
         System.out.println("Modified string: " + result.toString());
     }
 }
+// Output: Modified string: Hella Warld
 ```
 
 ### ✅ **11. Find the Longest Word in a Sentence**
@@ -272,6 +273,7 @@ public class LongestWord {
         System.out.println("The longest word in the sentence is: " + longestWord);
     }
 }
+// Output: The longest word in the sentence is: programming
 ```
 
 ### ✅ **12. Count the Number of Occurrences of a Character in a String**
@@ -292,6 +294,7 @@ public class CountOccurrences {
         System.out.println("The character '" + targetChar + "' occurs " + count + " times in the string.");
     }
 }
+//Output: The character 'r' occurs 2 times in the string.
 ```
 
 ### ✅ **13. Swap Two Strings**
@@ -311,6 +314,10 @@ public class SwapStrings {
         System.out.println("str2: " + str2);
     }
 }
+// Output: 
+// After swapping:
+// str1: World
+// str2: Hello
 ```
 
 ### ✅ **14. Remove All Special Characters From String**
@@ -325,13 +332,10 @@ public class RemoveSpecialChars {
         System.out.println(output); // Hello World123
     }
 }
+// Output: Hello World123
 ```
 
 ### ✅ **15. Reverse Words in a Sentence**
-Input:
-`"Hello World Java"`
-Output:
-`"Java World Hello"`
 
 ###✅ **Solution 1: Using Split (Most Common in Interviews)**
 
@@ -350,14 +354,9 @@ public class ReverseWords {
         System.out.println(result.toString().trim());
     }
 }
+// Output:
+// `"Java World Hello"`
 ```
-
-### 📝 **Explanation**
-
-1. Split the sentence into words using `" "`.
-2. Loop from the end to the beginning.
-3. Append words in reverse order.
-4. `trim()` removes the last extra space.
 
 ### ✅ **Solution 2: One-Line Using Collections**
 
@@ -374,6 +373,8 @@ public class ReverseWords {
         System.out.println(String.join(" ", list));
     }
 }
+// Output:
+// `"Java World Hello"`
 ```
 
 ##### ✅ **Solution 3: Using Stack (Asked in some interviews)**
@@ -398,6 +399,7 @@ public class ReverseWords {
         System.out.println(result.toString().trim());
     }
 }
+// Output: programming love I
 ```
 
 ### ✅ **16. Remove Characters That Appear More Than Once**
@@ -427,6 +429,7 @@ public class RemoveRepeatedChars {
         System.out.println(result.toString()); // Output: poai
     }
 }
+// Output: poai
 ```
 
 ### ✅ **17. Find First Non-Repeating Character in String**
@@ -456,6 +459,7 @@ public class FirstNonRepeatingChar {
         // Output: w
     }
 }
+// Output: w
 ```
 
 ### ✅ **18. Validate Email Format (Regex)**
