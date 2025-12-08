@@ -1706,6 +1706,15 @@ public class HashMapIteration {
 }
 
 // Output:
+// ---- Using While Loop (Iterator) ----
+// 101 -> Amit
+// 102 -> Rahul
+// 103 -> Sneha
+
+// ---- Using Advanced For Loop ----
+// 101 -> Amit
+// 102 -> Rahul
+// 103 -> Sneha
 ```
 
 ### ✅ **65. Iterate ArrayList Using For-loop, While-loop, and Advanced For-loop**
@@ -1765,64 +1774,75 @@ public class ArrayListIteration {
 ### ✅ **66. Implement a Stack Using an Array**
 
 ```java
+import java.util.*;
 class StackArray {
-    private int[] arr;
-    private int top;
-    private int size;
-
-    public StackArray(int size) {
-        this.size = size;
-        arr = new int[size];
-        top = -1;
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 1, 2, 2, 3};
+        System.out.println(topK(nums, 2)); // Output example: [2, 1]
     }
 
-    public void push(int x) {
-        if (top == size - 1) {
-            System.out.println("Stack Overflow");
-            return;
+    public static List<Integer> topK(int[] nums, int k) {
+        // Step 1: Count frequency
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int n : nums) {
+            freq.put(n, freq.getOrDefault(n, 0) + 1);
         }
-        arr[++top] = x;
-    }
 
-    public int pop() {
-        if (top == -1) {
-            System.out.println("Stack Underflow");
-            return -1;
+        // Step 2: Min-heap based on frequency
+        PriorityQueue<Map.Entry<Integer, Integer>> heap =
+            new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            heap.add(entry);
+            if (heap.size() > k) {
+                heap.poll(); // remove lowest frequency
+            }
         }
-        return arr[top--];
-    }
 
-    public int peek() {
-        return (top == -1) ? -1 : arr[top];
-    }
+        // Step 3: Extract result from heap
+        List<Integer> result = new ArrayList<>();
+        while (!heap.isEmpty()) {
+            result.add(heap.poll().getKey());
+        }
 
-    public boolean isEmpty() {
-        return top == -1;
+        return result;
     }
 }
 
-// Output:
+// Output: [2, 1]
 ```
 
 ### ✅ **67. Implement Queue Using LinkedList**
 
 ```java
+import java.util.*;
+
 class QueueLL {
+
+    // Node class
     private static class Node {
         int val;
         Node next;
-        Node(int v) { val = v; }
+
+        Node(int v) { 
+            val = v; 
+        }
     }
 
-    Node front, rear;
+    private Node front, rear;
 
+    // Add element to queue
     public void enqueue(int x) {
         Node n = new Node(x);
-        if (rear != null) rear.next = n;
-        else front = n;
+        if (rear != null) {
+            rear.next = n;
+        } else {
+            front = n;
+        }
         rear = n;
     }
 
+    // Remove element from queue
     public int dequeue() {
         if (front == null) return -1;
         int val = front.val;
@@ -1831,18 +1851,63 @@ class QueueLL {
         return val;
     }
 
+    // Peek front element
+    public int peek() {
+        return (front == null) ? -1 : front.val;
+    }
+
+    // Check if queue is empty
     public boolean isEmpty() {
         return front == null;
     }
 }
 
+public class Main {
+    public static void main(String[] args) {
+
+        QueueLL q = new QueueLL();
+
+        // Enqueue elements
+        q.enqueue(10);
+        q.enqueue(20);
+        q.enqueue(30);
+
+        System.out.println("Front element: " + q.peek()); // 10
+
+        // Dequeue all elements
+        System.out.println("Dequeued: " + q.dequeue()); // 10
+        System.out.println("Dequeued: " + q.dequeue()); // 20
+        System.out.println("Dequeued: " + q.dequeue()); // 30
+
+        // Queue empty check
+        System.out.println("Is queue empty? " + q.isEmpty()); // true
+
+        // Try dequeue from empty queue
+        System.out.println("Dequeued from empty: " + q.dequeue()); // -1
+    }
+}
+
 // Output:
+// Front element: 10
+// Dequeued: 10
+// Dequeued: 20
+// Dequeued: 30
+// Is queue empty? true
+// Dequeued from empty: -1
 ```
 
 ### ✅ **68. Implement Binary Search (Iterative)**
 
 ```java
 public class BinarySearch {
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 5, 7, 9, 11};
+        int target = 7;
+
+        int index = search(arr, target);
+
+        System.out.println("Index: " + index);
+    }
     public static int search(int[] arr, int target) {
         int left = 0, right = arr.length - 1;
 
@@ -1857,13 +1922,24 @@ public class BinarySearch {
     }
 }
 
-// Output:
+// Output: Index: 3
 ```
 
 ### ✅ **69. Implement Binary Search Recursively**
 
 ```java
 public class BinarySearchRecursive {
+    public static void main(String[] args) {
+
+        int[] arr = {1, 3, 5, 7, 9, 11};
+        int target = 7;
+
+        int index = search(arr, target, 0, arr.length - 1);
+
+        System.out.println("Index: " + index);
+    }
+
+    // Recursive binary search
     public static int search(int[] arr, int target, int left, int right) {
         if (left > right) return -1;
 
@@ -1877,7 +1953,7 @@ public class BinarySearchRecursive {
     }
 }
 
-// Output:
+// Output: Index: 3
 ```
 
 ### ✅ **70. Implement MinStack (getMin() in O(1))**
@@ -1890,34 +1966,65 @@ Maintain two stacks:
 import java.util.Stack;
 
 class MinStack {
-    Stack<Integer> stack = new Stack<>();
-    Stack<Integer> minStack = new Stack<>();
+      // ---------------- MinStack (inside Main class) ----------------
+    static class MinStack {
+        Stack<Integer> stack = new Stack<>();
+        Stack<Integer> minStack = new Stack<>();
 
-    public void push(int x) {
-        stack.push(x);
-        if (minStack.isEmpty() || x <= minStack.peek()) {
-            minStack.push(x);
+        public void push(int x) {
+            stack.push(x);
+            if (minStack.isEmpty() || x <= minStack.peek()) {
+                minStack.push(x);
+            }
+        }
+
+        public int pop() {
+            if (stack.isEmpty()) return -1;
+
+            int removed = stack.pop();
+            if (removed == minStack.peek()) {
+                minStack.pop();
+            }
+            return removed;
+        }
+
+        public int top() {
+            return stack.isEmpty() ? -1 : stack.peek();
+        }
+
+        public int getMin() {
+            return minStack.isEmpty() ? -1 : minStack.peek();
         }
     }
 
-    public int pop() {
-        int removed = stack.pop();
-        if (removed == minStack.peek()) {
-            minStack.pop();
-        }
-        return removed;
-    }
+    // ---------------- Main Method ----------------
+    public static void main(String[] args) {
 
-    public int top() {
-        return stack.peek();
-    }
+        MinStack ms = new MinStack();
 
-    public int getMin() {
-        return minStack.peek();
+        ms.push(5);
+        ms.push(3);
+        ms.push(7);
+        ms.push(2);
+
+        System.out.println("Top: " + ms.top());        // 2
+        System.out.println("Min: " + ms.getMin());     // 2
+
+        ms.pop();  // removes 2
+        System.out.println("Min after pop: " + ms.getMin()); // 3
+
+        ms.pop();  // removes 7
+        System.out.println("Top: " + ms.top());        // 3
+        System.out.println("Min: " + ms.getMin());     // 3
     }
 }
 
 // Output:
+// Top: 2
+// Min: 2
+// Min after pop: 3
+// Top: 3
+// Min: 3
 ```
 
 ### ✅ **71. Implement Trie (Insert / Search / StartsWith)**
