@@ -2,7 +2,7 @@
 
 ## String Manipulation
 
-# ✅ **1. Reverse a String without using String inbuilt function**
+### ✅ **1. Reverse a String without using String inbuilt function**
 ```java
 public class ReverseString {
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class ReverseString {
 }
 ```
 
-# ✅ **2. Count the Number of Words in a String Using HashMap**
+### ✅ **2. Count the Number of Words in a String Using HashMap**
 ```java
 import java.util.HashMap;
 
@@ -47,7 +47,7 @@ public class CountWordsWithHashMap {
 }
 ```
 
-# ✅ **3. Find the Duplicate Characters in a String**
+### ✅ **3. Find the Duplicate Characters in a String**
 ```java
 import java.util.HashMap;
 
@@ -73,7 +73,7 @@ public class DuplicateCharacters {
 }
 ```
 
-# ✅ **4. Remove All White Spaces from a String Using `replace()`**
+### ✅ **4. Remove All White Spaces from a String Using `replace()`**
 ```java
 public class RemoveWhiteSpacesWithReplace {
     public static void main(String[] args) {
@@ -87,7 +87,7 @@ public class RemoveWhiteSpacesWithReplace {
 }
 ```
 
-# ✅ **5. Remove All White Spaces from a String Without Using `replace()**
+### ✅ **5. Remove All White Spaces from a String Without Using `replace()**
 ```java
 public class RemoveWhiteSpacesWithoutReplace {
     public static void main(String[] args) {
@@ -106,7 +106,7 @@ public class RemoveWhiteSpacesWithoutReplace {
 }
 ```
 
-# ✅ **7. Find Whether a String is Palindrome or Not**
+### ✅ **7. Find Whether a String is Palindrome or Not**
 ```java
 public class Palindrome {
     public static void main(String[] args) {
@@ -148,7 +148,7 @@ public class Palindrome {
 }
 ```
 
-# ✅ **7. Count Vowels and Consonants in a String**
+### ✅ **7. Count Vowels and Consonants in a String**
 ```java
 public class VowelConsonantCount {
     public static void main(String[] args) {
@@ -176,7 +176,7 @@ public class VowelConsonantCount {
 }
 ```
 
-# ✅ **8. Check if Two Strings are Anagrams**
+### ✅ **8. Check if Two Strings are Anagrams**
 ```java
 import java.util.Arrays;
 
@@ -203,7 +203,7 @@ public class AnagramCheck {
 }
 ```
 
-# ✅ **9. Check if a String Contains a Substring**
+### ✅ **9. Check if a String Contains a Substring**
 ```java
 public class ContainsSubstring {
     public static void main(String[] args) {
@@ -220,7 +220,7 @@ public class ContainsSubstring {
 }
 ```
 
-# ✅ **10. Replace a Character in a String Without Using `String.replace()`**
+### ✅ **10. Replace a Character in a String Without Using `String.replace()`**
 ```java
 public class ReplaceCharacter {
     public static void main(String[] args) {
@@ -244,7 +244,7 @@ public class ReplaceCharacter {
 }
 ```
 
-# ✅ **11. Find the Longest Word in a Sentence**
+### ✅ **11. Find the Longest Word in a Sentence**
 ```java
 public class LongestWord {
     public static void main(String[] args) {
@@ -264,7 +264,7 @@ public class LongestWord {
 }
 ```
 
-# ✅ **12. Count the Number of Occurrences of a Character in a String**
+### ✅ **12. Count the Number of Occurrences of a Character in a String**
 ```java
 public class CountOccurrences {
     public static void main(String[] args) {
@@ -284,7 +284,7 @@ public class CountOccurrences {
 }
 ```
 
-# ✅ **13. Swap Two Strings**
+### ✅ **13. Swap Two Strings**
 ```java
 public class SwapStrings {
     public static void main(String[] args) {
@@ -303,7 +303,7 @@ public class SwapStrings {
 }
 ```
 
-# ✅ **14. Remove All Special Characters From String**
+### ✅ **14. Remove All Special Characters From String**
 ```java
 public class RemoveSpecialChars {
     public static void main(String[] args) {
@@ -317,7 +317,7 @@ public class RemoveSpecialChars {
 }
 ```
 
-# ✅ **15. Reverse Words in a Sentence**
+### ✅ **15. Reverse Words in a Sentence**
 Input:
 `"Hello World Java"`
 Output:
@@ -353,7 +353,7 @@ public class ReverseWords {
 
 ---
 
-# ✅ **Solution 2: One-Line Using Collections**
+### ✅ **Solution 2: One-Line Using Collections**
 
 ```java
 import java.util.*;
@@ -372,7 +372,7 @@ public class ReverseWords {
 
 ---
 
-### ✅ **Solution 3: Using Stack (Asked in some interviews)**
+##### ✅ **Solution 3: Using Stack (Asked in some interviews)**
 
 ```java
 import java.util.Stack;
@@ -396,7 +396,7 @@ public class ReverseWords {
 }
 ```
 
-# ✅ **16. Remove Characters That Appear More Than Once**
+### ✅ **16. Remove Characters That Appear More Than Once**
 ```java
 import java.util.*;
 
@@ -425,7 +425,7 @@ public class RemoveRepeatedChars {
 }
 ```
 
-# ✅ **17. Find First Non-Repeating Character in String**
+### ✅ **17. Find First Non-Repeating Character in String**
 ```java
 import java.util.*;
 
@@ -454,7 +454,7 @@ public class FirstNonRepeatingChar {
 }
 ```
 
-# ✅ **18. Validate Email Format (Regex)**
+### ✅ **18. Validate Email Format (Regex)**
 ```java
 public class ValidateEmail {
     public static void main(String[] args) {
@@ -472,7 +472,7 @@ public class ValidateEmail {
 // Output: Valid Email
 ```
 
-# ✅ **19. Check if Two Strings Are Rotations of Each Other**
+### ✅ **19. Check if Two Strings Are Rotations of Each Other**
 ```java
 public class StringRotation {
     public static void main(String[] args) {
@@ -496,7 +496,7 @@ public class StringRotation {
 // Output: Strings are rotation of each other
 ```
 
-# ✅ **20. Longest Palindromic Substring**
+### ✅ **20. Longest Palindromic Substring**
 ```java
 public class LongestPalindrome {
     
@@ -539,7 +539,7 @@ public class LongestPalindrome {
 
 ## Number Operations
 
-# ✅ **21. Swap Two Numbers Using the Third Variable**
+### ✅ **21. Swap Two Numbers Using the Third Variable**
 ```java
 public class SwapWithThird {
     public static void main(String[] args) {
@@ -556,7 +556,7 @@ public class SwapWithThird {
 // ✔ Output: a = 20, b = 10
 ```
 
-# ✅ **22. Swap Two Numbers Without Using Third Variable**
+### ✅ **22. Swap Two Numbers Without Using Third Variable**
 ```java
 public class SwapWithoutThird {
     public static void main(String[] args) {
@@ -573,7 +573,7 @@ public class SwapWithoutThird {
 // Output:a = 20, b = 10
 ```
 
-# ✅ **23. Find Whether a Number is Prime or Not**
+### ✅ **23. Find Whether a Number is Prime or Not**
 ```java
 public class PrimeCheck {
     public static void main(String[] args) {
@@ -597,7 +597,7 @@ public class PrimeCheck {
 // Output: 29 is prime? true
 ```
 
-# ✅ **24. Find Whether a Number is Palindrome or Not**
+### ✅ **24. Find Whether a Number is Palindrome or Not**
 ```java
 public class PalindromeNumber {
     public static void main(String[] args) {
@@ -618,7 +618,7 @@ public class PalindromeNumber {
 // Output: Palindrome Number
 ```
 
-# ✅ **25. Fibonacci Series**
+### ✅ **25. Fibonacci Series**
 ```java
 public class FibonacciSeries {
     public static void main(String[] args) {
