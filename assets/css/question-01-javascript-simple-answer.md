@@ -1942,27 +1942,27 @@ const first = await Promise.any([
 promise.finally(() => console.log('Cleanup'));
 ```
 
-### `Promise.all` * Waits for **all** promises to fulfill. If any reject → it rejects immediately.
+#### `Promise.all` * Waits for **all** promises to fulfill. If any reject → it rejects immediately.
 ```js
 Promise.all([p1, p2]).then(values => ...).catch(err => ...);
 ```
 
-### `Promise.allSettled` * Waits for **all** to settle (either fulfilled or rejected), returns array of results with `{status, value/reason}`.
+#### `Promise.allSettled` * Waits for **all** to settle (either fulfilled or rejected), returns array of results with `{status, value/reason}`.
 ```js
 Promise.allSettled([p1, p2]).then(results => console.log(results));
 ```
 
-### `Promise.race` * Resolves or rejects as soon as **one** promise settles (first settled).
+#### `Promise.race` * Resolves or rejects as soon as **one** promise settles (first settled).
 ```js
 Promise.race([p1, p2]).then(first => ...).catch(err => ...);
 ```
 
-### `Promise.any` (ES2021) * Resolves as soon as **one** promise fulfills. If all reject → it rejects with `AggregateError`.
+#### `Promise.any` (ES2021) * Resolves as soon as **one** promise fulfills. If all reject → it rejects with `AggregateError`.
 ```js
 Promise.any([p1, p2]).then(value => console.log(value)).catch(err => console.error(err));
 ```
 
-### Practical notes to say:
+#### Practical notes to say:
 
 * Use `Promise.all` for parallel tasks where all results are required.
 * Use `allSettled` when you want results for all regardless of failures (reporting).
