@@ -751,24 +751,31 @@ Dog.prototype = Object.create(Animal.prototype);
 Dog.prototype.constructor = Dog;
 ```
 
-### 44. What are arrow functions, and how do they differ from regular functions?
+### 44. What are differ functions Arrow vs normal function?
 
-Arrow functions are a concise syntax for writing functions. They don't have their own `this`, `arguments`, or `super` binding. They inherit `this` from the enclosing scope and cannot be used as constructors.
+Arrow functions are a concise syntax for writing functions. They don't have their own `this`, `arguments`, or `super` binding. when you want lexical `this`; use normal functions when you need dynamic `this`, `arguments`, or to create instances..
 
-```javascript
-// Regular function
-function regular(x) {
-  return x * 2;
-}
-
-// Arrow function
-const arrow = x => x * 2;
-
+```js
 const obj = {
-  name: 'John',
-  regular: function() { return this.name; }, // 'John'
-  arrow: () => this.name // undefined (lexical this)
+  value: 10,
+  // arrow — inherits this (bad for methods)
+  arrowMethod: () => console.log(this.value),
+  // normal — has own this (good)
+  normalMethod() { console.log(this.value); }
 };
+```
+
+#### Generators & Iterators
+“**Iterators** are objects with `next()` returning `{value, done}`. **Generators** (`function*`) are a convenient way to create iterators — they can pause (`yield`) and resume, which is useful for lazy sequences or cooperative async flow.”
+
+```js
+// Generator
+function* count(n=3){
+  for(let i=1;i<=n;i++) yield i;
+}
+const it = count();
+console.log(it.next()); // {value:1, done:false}
+console.log([...count(5)]); // [1,2,3,4,5]
 ```
 
 ### 45. What are JavaScript's built-in objects?
