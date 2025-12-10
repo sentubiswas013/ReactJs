@@ -560,9 +560,6 @@ const expensiveFunction = memoize((n) => {
 ```
 
 ### 36. What is Debouncing and Throttling in JavaScript?
-
-Debouncing delays function execution until after a specified time has passed since the last call. Throttle limits function execution to once per specified time interval. Both optimize performance for frequent events.
-
 **Debouncing** means: *“Wait until the user stops doing something, then run the function.”*
 Example: Search input suggestions — don’t call API on every keystroke.
 
