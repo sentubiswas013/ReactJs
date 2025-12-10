@@ -178,7 +178,8 @@ processData("hello", function(result) {
 
 ### 14. What are closures in JavaScript, and why are they important?
 
-Closures allow functions to access variables from their outer scope even after the outer function returns. They're crucial for data privacy, module patterns, and maintaining state in functional programming.
+A closure happens when a function "remembers" variables from its outer scope even after the outer function has finished.
+They're crucial for data privacy, module patterns, and maintaining state in functional programming.
 
 ```javascript
 function createCounter() {
