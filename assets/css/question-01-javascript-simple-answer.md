@@ -598,6 +598,13 @@ const onScroll = throttle(() => console.log("scroll!"), 500);
 
 JavaScript supports four main OOP concepts: Encapsulation (bundling data and methods), Inheritance (extending functionality), Polymorphism (same interface, different implementations), and Abstraction (hiding complexity).
 
+* **Class** — blueprint for objects.
+* **Object** — instance of a class.
+* **Encapsulation** — hide internal state, expose methods.
+* **Inheritance** — subclass shares behavior from parent (`extends`).
+* **Polymorphism** — same interface, different implementations.
+* **Abstraction** — expose essential features, hide complexity.
+
 ```javascript
 class Animal {
   constructor(name) {
@@ -1944,6 +1951,40 @@ class Dog extends Animal {
 }
 ```
 
+### 103. Fetch vs Axios (quick comparison)
+
+* **Fetch**
+
+  * Built-in in browsers.
+  * Returns a `Promise` that resolves for network-level success — must check `response.ok`.
+  * No automatic JSON error handling; no request cancellation natively (AbortController available).
+* **Axios**
+
+  * Library with convenience: automatic JSON parsing, interceptors, timeouts, request cancellation, transforms, and better error objects.
+  * Works in Node + browser.
+
+When to use which:
+
+* Use `fetch` for small apps or when you want no dependency.
+* Use `axios` when you want easier interceptors, timeout, error handling, or older browser support.
+
+Fetch example:
+
+```js
+async function getJSON(url){
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(res.statusText);
+  return res.json();
+}
+```
+
+Axios example:
+
+```js
+// axios already does JSON parse and throws on non-2xx
+const { data } = await axios.get('/api/items');
+```
+
 ### 103. What is `class`, `constructor`, `super` in JavaScript?
 Classes provide cleaner syntax, automatic strict mode, built-in inheritance with `extends`, and better tooling support. Function constructors require manual prototype setup but offer more flexibility and are the underlying mechanism.
 
@@ -2571,6 +2612,17 @@ const user = getCookie('user');
 ### 130. What is functional programming in JavaScript? How is it different from object-oriented programming?
 
 Functional programming emphasizes pure functions, immutability, and function composition. OOP focuses on objects and classes with encapsulation and inheritance. FP avoids side effects, while OOP manages state through objects.
+
+* **FP**
+
+  * Pure functions, immutability, no side effects.
+  * Compose small functions (`map`, `reduce`, `filter`).
+  * Easier to reason about and test concurrent code.
+* **OOP**
+
+  * Encapsulates data and behavior in objects/classes.
+  * Use inheritance/composition, mutable state is common.
+  * Good for modeling domain entities and stateful systems.
 
 ```javascript
 // Functional Programming
