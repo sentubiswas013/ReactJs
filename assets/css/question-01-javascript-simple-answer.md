@@ -2679,6 +2679,15 @@ const add = withLogging((a, b) => a + b);
 
 Optimize by minimizing DOM manipulation, using efficient algorithms, lazy loading, code splitting, caching, debouncing events, and avoiding memory leaks. Profile with browser DevTools to identify bottlenecks.
 
+* **Minimize DOM work**: batch DOM reads/writes, use `DocumentFragment`, limit reflows.
+* **Debounce/throttle** expensive handlers (scroll, resize, input).
+* **Avoid long-running sync code** — split work with `requestIdleCallback`, `setTimeout`, or Web Workers.
+* **Use efficient data structures & algorithms** (avoid O(n²) loops when possible).
+* **Cache results** (memoization) for repeated computations.
+* **Use modern APIs**: `for...of`, `map/filter` where appropriate, but prefer simple loops for hot code.
+* **Bundle & ship less**: tree-shaking, code-splitting, compress assets, serve over HTTP/2.
+* **Profile** with browser DevTools and fix actual hotspots.
+
 ```javascript
 // Performance optimization techniques
 
