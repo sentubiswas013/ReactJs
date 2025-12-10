@@ -1218,6 +1218,9 @@ Object.assign(obj1, obj2); // Modifies obj1
 
 Shallow copy copies only the first level properties, sharing references to nested objects. Deep copy creates completely independent copies of all nested levels, preventing unintended mutations.
 
+**Shallow copy** copies top-level properties; nested objects are shared by reference.
+**Deep copy** recursively copies all nested structures so the new object is fully independent.
+
 ```javascript
 const original = {
   name: 'John',
@@ -1232,6 +1235,7 @@ shallow.hobbies.push('cooking'); // Affects original.hobbies
 const deep = JSON.parse(JSON.stringify(original));
 deep.hobbies.push('swimming'); // Doesn't affect original
 ```
+**When to use:** shallow copy is fine for flat objects or when you intentionally share nested refs; deep copy is needed when you must fully isolate the clone.
 
 ### 70. How do you check if an object is an array in JavaScript?
 
