@@ -490,22 +490,33 @@ document.getElementById('child').addEventListener('click', () => {
 // Clicking child logs: "Child clicked", "Parent clicked"
 ```
 
-### 32. What is event bubbling and capturing in JavaScript?
+### 32. What is event Bubbling, Capturing, Delegation in JavaScript?
 
 Event bubbling means events start at the target element and bubble up to parent elements. Event capturing is the opposite - events start at the root and capture down to the target element.
 
+**Bubbling** — event goes from the target element up the DOM tree (child → parent → document). Default behavior for most events.
+
+**Capturing** — event goes from the root down to the target (document → parent → child). To use it, pass `{ capture: true }` or `true` to `addEventListener`.
+
+**Event Delegation** — attach one handler to a parent and let it handle events for many child elements using `event.target` or `closest()`. Efficient for dynamic lists.
+
+```html
+<ul id="list">
+  <li data-id="1">Item 1</li>
+  <li data-id="2">Item 2</li>
+</ul>
+```
+
 ```javascript
-// Bubbling (default)
-element.addEventListener('click', handler);
-
-// Capturing
-element.addEventListener('click', handler, true);
-
-// Stop propagation
-element.addEventListener('click', (e) => {
-  e.stopPropagation(); // stops bubbling/capturing
+const list = document.getElementById('list');
+list.addEventListener('click', (e) => {
+  const li = e.target.closest('li');
+  if (!li) return;
+  console.log('clicked id:', li.dataset.id);
 });
 ```
+
+**How to say it aloud:** "Capturing goes top-down, bubbling goes bottom-up. Delegation uses one listener on a parent to manage many child events — great for performance and dynamic elements."
 
 ### 33. How do you prevent the default action of an event in JavaScript?
 
