@@ -306,7 +306,8 @@ console.log(rejected);  // Promise {<rejected>: "Error"}
 
 ### 22. What is the difference between `async/await` and promises?
 
-`async/await` is syntactic sugar over promises, making code more readable and easier to debug. Promises use `.then()` chains, while `async/await` uses try/catch for error handling and looks like synchronous code.
+**Promise** is the primitive — an object representing a future value. 
+**async/await** is syntax sugar over Promises that makes code easier to read and reason about; `await` pauses inside an `async` function and returns the resolved value or throws on rejection.
 
 ```javascript
 // Promises
@@ -2344,7 +2345,7 @@ The DOM is a programming interface that represents HTML/XML documents as a tree 
 
 **DOM vs BOM**
 
-“**DOM (Document Object Model)** is the API for HTML/XML document structure — nodes, elements, attributes. **BOM (Browser Object Model)** covers browser-specific objects not part of the page — `window`, `navigator`, `location`, `history`, `screen`. Use DOM to manipulate page content and BOM to interact with the browser environment.”
+**DOM (Document Object Model)** is the API for HTML/XML document structure — nodes, elements, attributes. **BOM (Browser Object Model)** covers browser-specific objects not part of the page — `window`, `navigator`, `location`, `history`, `screen`. Use DOM to manipulate page content and BOM to interact with the browser environment.
 
 ```js
 // DOM
