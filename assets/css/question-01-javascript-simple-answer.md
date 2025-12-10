@@ -559,31 +559,41 @@ const expensiveFunction = memoize((n) => {
 });
 ```
 
-### 36. What is debounce and throttle in JavaScript?
+### 36. What is Debouncing and Throttling in JavaScript?
 
-Debounce delays function execution until after a specified time has passed since the last call. Throttle limits function execution to once per specified time interval. Both optimize performance for frequent events.
+Debouncing delays function execution until after a specified time has passed since the last call. Throttle limits function execution to once per specified time interval. Both optimize performance for frequent events.
 
-```javascript
-// Debounce - waits for pause in calls
-function debounce(func, delay) {
-  let timeoutId;
-  return function(...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
+**Debouncing** means: *“Wait until the user stops doing something, then run the function.”*
+Example: Search input suggestions — don’t call API on every keystroke.
+
+```js
+function debounce(fn, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
   };
 }
 
-// Throttle - limits frequency
-function throttle(func, limit) {
-  let inThrottle;
-  return function(...args) {
-    if (!inThrottle) {
-      func.apply(this, args);
-      inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
+const search = debounce(() => console.log("API call"), 300);
+```
+
+**Throttling** means: *“Run the function only once in a fixed time window.”*
+Example: Handling scroll or resize events.
+
+```js
+function throttle(fn, delay) {
+  let last = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - last >= delay) {
+      fn.apply(this, args);
+      last = now;
     }
   };
 }
+
+const onScroll = throttle(() => console.log("scroll!"), 500);
 ```
 
 ## **Object-Oriented Programming in JavaScript**
