@@ -2342,6 +2342,18 @@ class Router {
 
 The DOM is a programming interface that represents HTML/XML documents as a tree structure. JavaScript can manipulate DOM elements to change content, structure, and styling dynamically, enabling interactive web pages.
 
+**31. DOM vs BOM**
+
+“**DOM (Document Object Model)** is the API for HTML/XML document structure — nodes, elements, attributes. **BOM (Browser Object Model)** covers browser-specific objects not part of the page — `window`, `navigator`, `location`, `history`, `screen`. Use DOM to manipulate page content and BOM to interact with the browser environment.”
+
+```js
+// DOM
+document.querySelector('#title').textContent = 'Hello';
+
+// BOM
+console.log(window.location.href);
+```
+
 ```javascript
 // DOM manipulation examples
 const element = document.getElementById('myElement');
