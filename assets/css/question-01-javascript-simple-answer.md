@@ -2,7 +2,7 @@
 ## **Basic JavaScript Concepts**
 ### 1. What are the different data types in JavaScript?
 
-JavaScript has 8 data types: 7 primitives and 1 non-primitive. Primitives are `string`, `number`, `boolean`, `undefined`, `null`, `symbol`, and `bigint`. The non-primitive is `object` which includes arrays, functions, and objects.
+JavaScript has 8 data types: 7 primitives and 1 non-primitive. Primitives are `string`, `number`, `boolean`, `undefined`, `null`, `symbol`, and `bigint`. The non-primitive is `object`, `arrays`, and `functions`.
 
 ```javascript
 let str = "Hello";        // string
@@ -152,6 +152,8 @@ function multiplier(factor) {
 
 const double = multiplier(2);
 console.log(double(5)); // 10
+
+[1,2,3].map(x => x*2); // map is a HOF
 ```
 
 ### 13. What is a callback function in JavaScript?
