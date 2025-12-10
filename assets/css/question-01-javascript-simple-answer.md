@@ -1944,34 +1944,31 @@ class Dog extends Animal {
 }
 ```
 
-### 103. What is `class` and `function` constructors and super in JavaScript?
-
+### 103. What is `class`, `constructor`, `super` in JavaScript?
 Classes provide cleaner syntax, automatic strict mode, built-in inheritance with `extends`, and better tooling support. Function constructors require manual prototype setup but offer more flexibility and are the underlying mechanism.
 
-```javascript
-// Function constructor : runs when creating an instance
-function Person(name) {
-  this.name = name;
-}
-Person.prototype.greet = function() {
-  return `Hello, I'm ${this.name}`;
-};
+* `class` defines a constructor + methods.
+* `constructor` runs when creating an instance.
+* `super(...)` calls parent class constructor (must do in subclass before `this`).
 
-// Class (syntactic sugar) : defines a constructor + methods.
-class Person {
-  constructor(name) {
-    this.name = name;
-  }
-  
-  greet() {
-    return `Hello, I'm ${this.name}`;
-  }
+Example:
+
+```js
+class Animal {
+  constructor(name){ this.name = name; }
+  speak(){ console.log(`${this.name} makes a noise`); }
 }
 
-super(...) calls parent class constructor (must do in subclass before this).
+class Dog extends Animal {
+  constructor(name, breed){
+    super(name);         // call parent constructor
+    this.breed = breed;
+  }
+  speak(){ console.log(`${this.name} barks`); }
+}
 
-// Both create similar objects
-const person1 = new Person('John');
+const d = new Dog('Rex', 'Beagle');
+d.speak(); // "Rex barks"
 ```
 
 ## **Error Handling and Debugging**
