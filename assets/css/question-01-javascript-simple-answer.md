@@ -1734,6 +1734,18 @@ function highlight(strings, ...values) {
 
 ES6 introduced let/const, arrow functions, classes, template literals, destructuring, spread/rest operators, modules, promises, Map/Set, symbols, and default parameters. These features modernized JavaScript development significantly.
 
+* `let` / `const` (block scope)
+* Arrow functions `=>`
+* Template literals `` `...${x}` ``
+* Destructuring `{a, b}` / `[x,y]`
+* Default params `fn(a=1)`
+* Rest/spread `...`
+* Classes (`class`)
+* Promises
+* `import` / `export` (modules)
+* `Map`, `Set`, `Symbol`
+  (Use these to write cleaner, safer modern JS.)
+
 ```javascript
 // Key ES6 features
 const [a, b] = [1, 2]; // Destructuring
