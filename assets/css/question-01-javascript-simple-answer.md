@@ -2180,7 +2180,12 @@ try {
 ## **JavaScript Modules**
 ### 109. What is the difference between `import` and `require` in JavaScript?
 
-`import` is ES6 module syntax that's statically analyzed and hoisted. `require` is CommonJS syntax that's dynamically loaded at runtime. Modern JavaScript prefers `import` for better tree-shaking and static analysis.
+* **`import` (ES6 modules):**
+  Statically analyzed, hoisted at compile time, supports tree-shaking, and preferred in modern JavaScript.
+
+* **`require` (CommonJS):**
+  Loaded dynamically at runtime, not hoisted, and mainly used in older Node.js/CommonJS environments.
+
 
 ```javascript
 // ES6 import (static)
