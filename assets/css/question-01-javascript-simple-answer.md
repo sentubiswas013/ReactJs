@@ -2222,26 +2222,29 @@ const utils = { format, validate };
 export { utils };
 ```
 
-### 111. What are JavaScript arrays and how do you manipulate them?
+### 111. What are JavaScript arrays `map`, `reduce`, `filter`, `forEach`?
 
 Arrays are ordered collections of elements. Manipulate them using methods like push/pop, shift/unshift, slice/splice, map/filter/reduce, and sort. Modern methods return new arrays for immutability.
 
-```javascript
-const arr = [1, 2, 3];
+* `map` — transform array → returns new array of same length.
+* `filter` — pick items that pass a test → returns new array (≤ length).
+* `reduce` — fold array to single value (or object) via accumulator.
+* `forEach` — iterate for side-effects, returns `undefined`.
 
-// Adding/removing
-arr.push(4); // [1, 2, 3, 4]
-arr.pop(); // [1, 2, 3]
-arr.unshift(0); // [0, 1, 2, 3]
+```js
+const nums = [1,2,3,4];
 
-// Transforming (immutable)
-const doubled = arr.map(x => x * 2);
-const evens = arr.filter(x => x % 2 === 0);
-const sum = arr.reduce((acc, x) => acc + x, 0);
+// map
+const doubled = nums.map(n => n*2); // [2,4,6,8]
 
-// Copying/slicing
-const copy = [...arr];
-const slice = arr.slice(1, 3);
+// filter
+const evens = nums.filter(n => n%2 === 0); // [2,4]
+
+// reduce (sum)
+const sum = nums.reduce((acc, n) => acc + n, 0); // 10
+
+// forEach
+nums.forEach(n => console.log(n)); // logs 1 2 3 4
 ```
 
 ### 112. How do you implement modules in JavaScript?
