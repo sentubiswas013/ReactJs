@@ -727,7 +727,30 @@ console.log(index)
 // output: `1`
 ```
 ------------------------------------------
-
+### Code 24: Fibonacci Series (0,1,1,2,3,5,8,13....)
+```javascript
+function fibonacciSeries(){
+   const number = parseInt(prompt('Enter the number of terms: '));
+   let n1 = 0, n2 = 1, nextTerm, arr=[]
+   arr.push(n1)
+   arr.push(n2)
+   for (let i = 1; i <= number; i++) 
+   {
+     console.log(n1);
+     nextTerm = n1 + n2;
+     n1 = n2;
+     n2 = nextTerm;
+     arr.push(nextTerm)
+   }
+   return arr
+}
+console.log(fibonacciSeries())
+// output: enter 3
+// 0
+// 1
+// 1
+// [0, 1, 1, 2, 3]
+```
 ------------------------------------------
 ### Code 35: Uppercase of each first letter of a words 
 ```javascript
@@ -2076,7 +2099,7 @@ var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 console.log(date)
 ```
 ------------------------------------------
-### Code 101: String Compression (Microsoft, Amazon etc)
+### Code 100: String Compression (Microsoft, Amazon etc)
 ```javascript
 function stringCompression (str) {
   if (str.length ==0) {
@@ -2101,7 +2124,22 @@ stringCompression('aaaa'); //a4
 stringCompression('aaaabbc'); //a4b2c1
 stringCompression('aaaabbcaabb'); //a4b2c1a2b2
 ```
-
+---------------------------------------------------------------
+```javascript
+function stringCompression (str) {
+  var output = '';
+  var count = 0; 
+  for (var i = 0; i < str.length; i++){
+    count++;
+    if (str[i] != str[i+1]) {
+      output += str[i] + count; 
+      count = 0; 
+    }
+  }
+  console.log(output);
+}
+stringCompression('aaaab');
+```
 ------------------------------------------
 ### Code 102: Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise
 ```javascript
@@ -2179,7 +2217,21 @@ function findTriplets(arr, n) {
 }
 var arr = [-1, -4, -9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 findTriplets(arr, 0);
-
+------------------------------------------------------------------------
+function findTriplets(arr, n) {
+ arr.sort((a, b) => a - b);
+ for (let i = 0; i < arr.length - 2; i++) {
+  for (let j = i + 1; j < arr.length - 1; j++) {
+   for (let k = j + 1; k < arr.length; k++) {
+    if (arr[i] + arr[j] + arr[k] === 0) {
+     console.log(`${arr[i]}, ${arr[j]}, ${arr[k]}`);
+    }
+   }
+  }
+ }
+}
+let arr = [1, 2, 5, 3, -2, 0, 1, -1, 5, 6, -2, -1];
+findTriplets(arr, 0);
  ```
 ------------------------------------------
 ### Code 104: Convert Array into object:-
@@ -2260,7 +2312,7 @@ var arr = ['a','b','c','d','e']
 console.log(arr.join()) //"a,b,c,d,e"
 ```
 ------------------------------------------
-### Code 113: JAVASCRIPT for loop iteration
+### Code 113: JAVASCRIPT join concept
 ```javascript
 var arr = ['a','b','c','d','e']
 for(var i=0; i<arr.length; i++){
