@@ -80,24 +80,15 @@
 
       // How to write Callback fcuntions =========================================================
       function callFunc() {
-        setTimeout(() => {
-          console.log("Hello World.")
-        },1000)
+       
       }
       function callBackFunc(callFunc) {
-        callFunc()
-        console.log("Sentu Biswas");
-       
+              
       }
       // callBackFunc(callFunc);
 
       // How to write HOC function ================================================================
       function hocFunc(component) {
-        return function Hello ( props) {
-            return(
-              <component data={props}/>
-            )
-        }
       }
 
       // How to to Promise ===============
@@ -151,14 +142,6 @@
       // removeDuplicateObj(); // Output: [ { "age": 40, "name": "fluffy" }, { "age": 15, "name": "spot" }, { "age": 32, "name": "toby" }, { "age": 19, "name": "John" } ]
 
       function removeDuplicateStr(array) {
-        let duplicates = [];
-        for (let index = 0; index < array.length; index++) {
-          console.log("array[index]----", array[index]);         
-          if(!duplicates.includes(array[index])) {
-            duplicates.push(array[index])
-          }          
-        }
-        console.log("duplicates=====", duplicates)
       }
       // removeDuplicateStr(['Volvo', 'Jeep', 'Volvo', 'Lincoln', 'TATA', 'Ford']); 
       // / Output: ["Volvo","Jeep","Lincoln","TATA","Ford"]
@@ -212,43 +195,17 @@
     // sortArrUsingBuble([2, 4, 3, 6, 9, 2, 1, 0, 9]); // Output: [0,1,2,2,3,4,6,9,9]
 
     // How to count vowels in string =========================
-    function countVowels(str2) {      
-      let vowel = 'aeiouAEIOU';
-      let Output = [];
-      for (let index = 0; index < str2.length; index++) {
-        const element = str2[index];
-        // console.log("element---", element);
-        if(vowel.includes(element)) {
-          Output.push(element)
-        } else {
-         //  Output.push(element)
-        }
-      }
-      console.log("Output---", Output)
+    function countVowels(str2) {  
     }
     // countVowels('Priya is a good girl and studing'); // Output: ["i","a","i","a","o","o","i","a","u","i"]
 
     // How to Sum from and to numbers =========================
     function sumNumbers(n1, n2) {
-      let Output = 0;
-
-      // Loop through each character of the string
-      for (let i = n1; i <= n2; i++) {
-         // console.log("i----", i);
-         Output += i
-      }
-      console.log("vowelList---", Output);
     }
     // sumNumbers(2,6); // Output: 20
 
     // How to create Fibonacci Series =========================
     function fibonacciSequence(n) {
-      let data = [0, 1];
-      for (let index = 0; index < n; index++) {
-        // console.log("----", data[index] + data[index+1]);
-        data.push(data[index] + data[index+1])
-      }
-      console.log("data----", data);
     }
     // fibonacciSequence(5); // [0,1,1,2,3,5,8]
 
