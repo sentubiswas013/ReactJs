@@ -2257,74 +2257,7 @@ A = [1.2,3,4,5];
 B = [4, 5, 6, 7, 8];
 console.log(commonElements(A, B)); //[4,5]
  ```
-------------------------------------------
-
-
-JAVASCRIPTS Inbuilt Functions:
-
-### Code 107: JAVASCRIPT substr concept
-```javascript
-var sentence ="I'm priya and having sounds kowledge."
-console.log(sentence.substr(0,5)) //(startigIndex, NoOfCharatersWants-->take 1 less)//I'm p
-console.log(sentence.substr(2,5)) //m pri
-console.log(sentence.substr(2))   //m priya and having sounds kowledge.
-console.log(sentence.substr(4))   //priya and having sounds kowledge.
-console.log(sentence.substr(-4))  //Negative goes From ending of the string //dge.
-console.log(sentence.substr(-5)) //edge.
-```
-### Code 108: JAVASCRIPT slice concept i.e, it doesn't change the original array
-```javascript
-var sentence ="I'm priya and having sounds kowledge."
-console.log(sentence.slice(0,5)) //"I'm p"
-console.log(sentence.slice(2,5)) //"m p"
-console.log(sentence.slice(2))   //"m priya and having sounds kowledge."
-console.log(sentence.slice(4))   //"priya and having sounds kowledge."
-console.log(sentence.slice(-4))  //"dge."
-console.log(sentence.slice(-5))  //"edge."
-
-var sentence =['a','b','c','d']
-console.log(sentence.slice(0,2)) //['a','b']
-console.log(sentence) //['a','b','c','d']
-```
-------------------------------------------
-### Code 109: JAVASCRIPT splice concept i.e, it changes the original array
-```javascript
-var sentence =['a','b','c','d']
-console.log(sentence.splice(0,2)) //['a','b']
-console.log(sentence) //['c','d']
-```
-------------------------------------------
-### Code 110: JAVASCRIPT indexOf concept
-```javascript
- var greeting = "Hello"
-console.log(greeting.indexOf("e")) //1
-```
-------------------------------------------
-### Code 111: JAVASCRIPT split concept
-```javascript
-var name ="Priya Bagde"
-console.log(name.split("")) //["P","r","i","y","a"," ","B","a","g","d","e"]
-console.log(name.split(" ")) //["Priya","Bagde"]
-------------------------------------------
-### Code 112: JAVASCRIPT join concept
-```javascript
-var arr = ['a','b','c','d','e']
-console.log(arr.join()) //"a,b,c,d,e"
-```
-------------------------------------------
-### Code 113: JAVASCRIPT join concept
-```javascript
-var arr = ['a','b','c','d','e']
-for(var i=0; i<arr.length; i++){
-  console.log(arr[i])
-}
-"a"
-"b"
-"c"
-"d"
-"e"
-```
-
+ 
 
 
 
