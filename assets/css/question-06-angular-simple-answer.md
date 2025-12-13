@@ -1197,6 +1197,19 @@ export class DataService {
 }
 ```
 
+Learn Operators like:
+ ✔ 𝘀𝘄𝗶𝘁𝗰𝗵𝗠𝗮𝗽 – For cancelling previous requests and switching to new ones.
+ ✔ 𝗺𝗲𝗿𝗴𝗲𝗠𝗮𝗽 – To handle multiple concurrent requests.
+ ✔ 𝗱𝗲𝗯𝗼𝘂𝗻𝗰𝗲𝗧𝗶𝗺𝗲 – For waiting before reacting to user input (perfect for search boxes).
+ ✔ 𝘁𝗮𝗸𝗲𝗨𝗻𝘁𝗶𝗹 – To unsubscribe cleanly when the component is destroyed.
+ ✔ 𝘀𝗵𝗮𝗿𝗲𝗥𝗲𝗽𝗹𝗮𝘆 – To share the same observable without re-subscribing multiple times.
+✔ 𝗰𝗼𝗺𝗯𝗶𝗻𝗲𝗟𝗮𝘁𝗲𝘀𝘁 – When you need the latest value from multiple observables.
+✔ 𝗳𝗼𝗿𝗸𝗝𝗼𝗶𝗻 – For executing multiple observables in parallel and waiting for all to complete.
+
+Mastering 𝗥𝘅𝗝𝗦 makes your Angular skills skyrocket.
+
+𝗥𝘅𝗝𝗦 isn’t just for making requests – it’s a whole mindset. Dive deep into it and your Angular apps will never be the same.
+
 ### 56. Explain operators like `map`, `filter`, `merge`, and `switchMap`
 
 These RxJS operators transform data streams: map transforms values, filter selects values based on conditions, merge combines multiple streams, and switchMap switches to new inner observables.

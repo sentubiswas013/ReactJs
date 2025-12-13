@@ -40,6 +40,7 @@
         address: function (address) {
           console.log(`Hello ${address}`);
         },
+		    num: [3,2,4]
       };
       var obj2 = {
         name: 'Pintu Biswas',
@@ -48,6 +49,7 @@
           console.log(`Hello ${address}`);
           return address;
         },
+		    num: [7,1,0]
       };
 
       // Write a closures function ===============================================================
@@ -58,30 +60,20 @@
 
       // Write a method for Call/Apply/Bind function ============================================
       function info(email, phone) {
-        console.log(this.name, this.age, this.address('Nazirpur'));
-        console.log(`Hello World ${email} ${phone}`);
+       
       }
-      // info.call(obj1, "abc@gmail", 5435435);
-      // info.apply(obj2, ["abc@gmial.com", 64564654])
-      // let info1 = info.bind(obj1);
-      // info1("abc@gmial.com", 64564654)
+      // info.call();
 
       // How to write Arrow function =============================================================
       add = (a, b) => console.log(a + b);
       // add(2, 6)
-
-      // multipli = (a ,b) => console .log(a * b);
-      // multipli(3,6)
 
       // How to write Anoumous Function ==========================================================
       (hello = (ee) =>{
         // console.log("Hello")
       })()
 
-      // How to write Callback fcuntions =========================================================
-      function callFunc() {
-       
-      }
+      // How to write Callback fcuntions =========================================================      
       function callBackFunc(callFunc) {
               
       }
@@ -90,6 +82,7 @@
       // How to write HOC function ================================================================
       function hocFunc(component) {
       }
+	  hocFunc();
 
       // How to to Promise ========================================================================
       function promiseFunc() {
@@ -98,10 +91,10 @@
       // promiseFunc()
 
       // How to write async/wait function
-      async function asyncData(params) {
+      async function asyncData() {
         
       }
-      // asyncData()
+      // asyncData();
 
       // How to write Set timeout ===============================================================
       function setTimeoutFunc(){
@@ -136,9 +129,10 @@
 
       // How to remove duplicates from an array of objects using JavaScript ? ======================
       function removeDuplicateObj() {
-        
+		    
       }
-      // removeDuplicateObj(); // Output: [ { "age": 40, "name": "fluffy" }, { "age": 15, "name": "spot" }, { "age": 32, "name": "toby" }, { "age": 19, "name": "John" } ]
+      // removeDuplicateObj(); 
+	  // Output: [ { "age": 40, "name": "fluffy" }, { "age": 15, "name": "spot" }, { "age": 32, "name": "toby" }, { "age": 19, "name": "John" } ]
 
       function removeDuplicateStr(array) {
       }
@@ -152,7 +146,7 @@
       // findDuplicateRemoveChar("Priya is a good girl and studing"); // output: Priya sgodlntu
 
       // String reverse without reverse method  =======================================================
-      function reverseStr(str2) {
+      function reverseStr(str) {
         
       } 
       // reverseStr("Priya is a good girl"); // output: lrig doog a si ayirP

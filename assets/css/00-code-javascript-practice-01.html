@@ -40,6 +40,7 @@
         address: function (address) {
           console.log(`Hello ${address}`);
         },
+		num: [3,2,4]
       };
       var obj2 = {
         name: 'Pintu Biswas',
@@ -48,112 +49,193 @@
           console.log(`Hello ${address}`);
           return address;
         },
+		num: [7,1,0]
       };
 
       // Write a closures function ===============================================================
       function clouseFunc() {
-        
+        var name = "Sentu Biswas";
+		var age = 2342;
+		function info () {
+			console.log("Hello...1", name);
+			console.log("Hello..2.", age);
+		}
+		return info();
       }
       // clouseFunc();
 
       // Write a method for Call/Apply/Bind function ============================================
       function info(email, phone) {
-        console.log(this.name, this.age, this.address('Nazirpur'));
-        console.log(`Hello World ${email} ${phone}`);
-      }
-      // info.call(obj1, "abc@gmail", 5435435);
-      // info.apply(obj2, ["abc@gmial.com", 64564654])
-      // let info1 = info.bind(obj1);
-      // info1("abc@gmial.com", 64564654)
+		    console.log("Hello : - ", this.name, this.address("Birnangar"), email, phone);
+      }      
 
-      // How to write Arrow function =============================================================
-      add = (a, b) => console.log(a + b);
-      // add(2, 6)
-
-      // multipli = (a ,b) => console .log(a * b);
-      // multipli(3,6)
+      // How to write Arrow function =============================================================			  
+	  mimus =(a, b)=> { console.log("Hello", a-b )}
+	  // mimus(10, 4);
 
       // How to write Anoumous Function ==========================================================
-      (hello = (ee) =>{
-        // console.log("Hello")
-      })()
+      (info =() => {
+		// console.log("Hello ===cc");
+	  }) 
+	  //();
 
       // How to write Callback fcuntions =========================================================
-      function callFunc() {
-       
-      }
+	  function infoDetails() {
+		console.log("Hello World");
+	  }
       function callBackFunc(callFunc) {
-              
+        callFunc(); 
       }
-      // callBackFunc(callFunc);
+     // callBackFunc(infoDetails);
 
       // How to write HOC function ================================================================
       function hocFunc(component) {
+		
       }
-
+	  // hocFunc (); 
+	  
       // How to to Promise ========================================================================
       function promiseFunc() {
-        
+       let PromiseData = new Promise((resolve, reject) => {
+			if(true) {
+				resolve("Success....");
+			} else {
+				reject("fail....");
+			}
+		}) 	
+		
+		PromiseData.then((data) => {
+			console.log(data);
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.finally(() => {
+			console.log("finally");
+		})	  
       }
       // promiseFunc()
 
       // How to write async/wait function
-      async function asyncData(params) {
-        
+      async function asyncData() {
+		try {
+			let data = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+			console.log("data---", data);
+		} 
+		catch (error) {
+			console.error("Error fetching:", error);
+		}
+		
       }
-      // asyncData()
+     // asyncData();
 
       // How to write Set timeout ===============================================================
-      function setTimeoutFunc(){
-       
-      }
+    function setTimeoutFunc(){
+      setTimeout( () =>{
+        console.log("Hello World");
+      },3000)
+    }
       // setTimeoutFunc();
 
       // How to merge two arr with unique data ===================================================
       function uniqueDataFromTwoArray() {
-        
+        console.log("left--", arrNum1);
+        let left = [...new Set(arrNum1)];
+        let right = [...new Set(arrNum2)];
+        let result = [...new Set([...left, ...right])]
+        console.log("result--", result);
       }
       // uniqueDataFromTwoArray(); // output: [2,4,3,6,9,1,0,5,7]
       
 
       // How to do shallow copy using Object.assign or spread operator ============================
       function shallowCopy() {
+        let dataTemp1 = {...obj1};
+        dataTemp1.name = "Pintu  Biswas";
+        dataTemp1.num.push(12)
+        console.log("dataTemp1----", dataTemp1);
         
+        let dataTemp2 = JSON.parse(JSON.stringify(obj1));
+        dataTemp2.name = "Hello  Biswas";
+        dataTemp2.num.push(12)
+        console.log("dataTemp2----", dataTemp2);
       }
       // shallowCopy();
 
       // How to swap two number ====================================================================
       function numSwap() {
-
+		a = a+b;
+		b = a-b;
+		a = a-b
+		console.log("--", a, b)
       }
       // numSwap(); //output: 20 10
 
       // How to swap three number ==================================================================
       function swapingABC(){
-        
+		c=a;
+		a=b;
+		b=c;
+        console.log("--", a, b, c)
       }
       // swapingABC(); // Output: 15 20 20
 
       // How to remove duplicates from an array of objects using JavaScript ? ======================
-      function removeDuplicateObj() {
-        
+      function removeDuplicateObj(arr) {
+		for(var i=0; i<arr.length; i++) {
+			console.log("Hello", arr[i]);
+
+			if(!left.includes(arr[i].name)) {
+				left.push(arr[i].name)
+				right.push(arr[i])	
+			}
+			
+		}      
+		console.log("left--", left);
+		console.log("right--", right);
       }
-      // removeDuplicateObj(); // Output: [ { "age": 40, "name": "fluffy" }, { "age": 15, "name": "spot" }, { "age": 32, "name": "toby" }, { "age": 19, "name": "John" } ]
+      // removeDuplicateObj(arrObj1);
+	  // Output: [ { "age": 40, "name": "fluffy" }, { "age": 15, "name": "spot" }, { "age": 32, "name": "toby" }, { "age": 19, "name": "John" } ]
 
       function removeDuplicateStr(array) {
+        for(var i = 0; i<array.length; i++ ) {
+          if(!left.includes(array[i])) {
+            left.push(array[i]);
+            right.push(array[i]);
+          }
+        }
+        console.log("right--", right);
       }
       // removeDuplicateStr(['Volvo', 'Jeep', 'Volvo', 'Lincoln', 'TATA', 'Ford']); 
       // / Output: ["Volvo","Jeep","Lincoln","TATA","Ford"]
-
       // Remove Duplicate characters from String  ====================================================
-      function findDuplicateRemoveChar(){
-        
+      function findDuplicateRemoveChar(str){
+	    let data = str.split(' ');
+		//console.log("data--", data);
+		let uplicate = '';
+		let unique = '';
+        for (var i = 0; i < str.length; i++) {
+			// console.log("Hello -", data[i]);
+			if(!uplicate.includes(str[i])) {
+				uplicate += str[i];				
+			} else {
+				unique += str[i]
+			}
+		}
+		console.log("uplicate--", uplicate);
+		console.log("unique--", unique);
+
       }
       // findDuplicateRemoveChar("Priya is a good girl and studing"); // output: Priya sgodlntu
 
       // String reverse without reverse method  =======================================================
-      function reverseStr(str2) {
-        
+      function reverseStr(str) {
+	    //for (var i = 0; i < str.length; i++) {
+        for(var i = str.length-1; i >= 0; i--) {
+		   console.log("resultStr---", i);
+			resultStr += str[i]
+		}
+		console.log("resultStr---", resultStr);
       } 
       // reverseStr("Priya is a good girl"); // output: lrig doog a si ayirP
 
