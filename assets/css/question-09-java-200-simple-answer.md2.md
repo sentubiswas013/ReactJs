@@ -110,8 +110,7 @@ System.out.println(cl);
 
 ---
 
-
-## Wrapper Classes (Interview-Ready Answers)
+## Wrapper Classes
 
 ### 7. What are Wrapper classes?
 
@@ -231,7 +230,7 @@ double d = 10.5;
 int a = (int) d;  // explicit casting
 ```
 
-## Java Strings (Interview-Ready Answers)
+## Java Strings
 
 ### 16. Are all Strings immutable?
 
@@ -335,7 +334,7 @@ System.out.println(s.substring(1)); // ava
 
 ---
 
-## Object Oriented Programming Basics (Interview-Ready Answers)
+## Object Oriented Programming Basics
 
 ### 23. What is a class?
 
@@ -464,7 +463,7 @@ public boolean equals(Object o) {
 
 ---
 
-## Inheritance, Polymorphism & Interfaces (Interview-Ready Answers)
+## Inheritance, Polymorphism & Interfaces
 
 ### 31. What is the `hashCode()` method used for in Java?
 
@@ -599,7 +598,7 @@ class Bird implements Flyable {
 
 ---
 
-## Abstraction & Interfaces (Interview-Ready Answers)
+## Abstraction & Interfaces
 
 ### 39. How do you implement an interface?
 
@@ -735,7 +734,7 @@ interface B {
 
 ---
 
-## Constructors (Interview-Ready Answers)
+## Constructors
 
 ### 47. What is a constructor?
 
@@ -848,7 +847,7 @@ class B extends A {
 
 ---
 
-## Advanced Object Oriented Concepts (Interview-Ready Answers)
+## Advanced Object Oriented Concepts
 
 ### 53. What is polymorphism?
 
@@ -980,13 +979,7 @@ Runnable r = new Runnable() {
 
 ---
 
-✅ **Interview Tip:**
-
-* Polymorphism = runtime behavior
-* Encapsulation = data hiding
-* High cohesion + loose coupling = good design
-
-## Modifiers (Interview-Ready Answers)
+## Modifiers
 
 ### 62. What is the default class modifier?
 
@@ -1087,14 +1080,7 @@ public class Service {
 
 ---
 
-✅ **Interview Tip:**
-
-* private → class only
-* default → package
-* protected → package + subclass
-* public → everywhere
-
-## Modifiers & Keywords (Interview-Ready Answers)
+## Modifiers & Keywords
 
 ### 69. Access types available from a subclass in the same package?
 
