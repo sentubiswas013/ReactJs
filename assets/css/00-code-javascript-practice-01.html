@@ -241,39 +241,96 @@
 
     // How to check the string or number is palindrome or not  =========================================
     function checkPalindrome() {
-      
+      const str = "121";
+	  let isPalindrome = true;
+	  let j = str.length-1;
+	  
+	  for(var i = 0; i <str.length/2; i++) {
+	  console.log("=== ", j, i, str[j-i])
+		if(str[i] !== str[j-i]) {
+			//isPalindrome = false;
+			//break;
+			console.log("Not Palindrome")
+			break
+		} else {
+			console.log(" Palindrome")
+		}
+		// j--
+	  }	  
+	  // console.log("isPalindrome--",isPalindrome)
     }
     // checkPalindrome(); // output: true
 
     // How to to get max num from a array  ==============================================================
     function maxValue(arrNum1) {
-       
+		let max = 0;
+        for(var i = 0; i <arrNum1.length; i++) {
+			// console.log(" max --- ", i)
+			if(arrNum1[i]  > max) {
+				max = arrNum1[i];
+			}
+		}
+		console.log(" max --- ", max)
     }
     // maxValue([2, 4, 3, 6, 9, 2, 1, 0, 9]); // Output: 9
 
     // How to get min num from a array  =================================================================
     function minValue(arr) {
-       
+       let min = 0;
+        for(var i = 0; i <arrNum1.length; i++) {
+			// console.log(" min --- ", i)
+			if(arr[i]  < min) {
+				min = arr[i];
+			}
+		}
+		console.log(" min --- ", min)
     }
     // minValue([2, 4, 3, 6, 9, 2, 1, 0, 9]); // Output: 0
 
     // How To find longest word from a string using custom code ==========================================
-    function longestWord(str2) {
-      
+    function longestWord(str) {
+	  let data = str.split(" ");
+      let longStr = "";
+	  
+	  for(var i=0; i<data.length; i++) {
+		if( data[i].length > longStr.length) {
+			longStr = data[i];
+		}
+	  }
+	  console.log("longStr --", longStr);
     }
     // longestWord('Priya is a good girl and studing'); // Output: studing
 
     // How To find shortesh word from a string using custom code ==========================================
-    function shortestWord(str2) {
-      
+    function shortestWord(str) {
+      let data = str.split(" ");
+      let minStr = "";
+	  let sortNum = Infinity;
+	  for(var i=0; i<data.length; i++) {
+		if( data[i].length < sortNum) {
+			sortNum = data[i].length;
+			minStr = data[i];
+		}
+	  }
+	  console.log("minStr --", minStr);
     }
     // shortestWord('Priya is a good girl and studing'); // Output: a
 
     // How to short array data using Bubble ================================================================
     function sortArrUsingBuble(arrNum1){
-      
+      for (var i = 0; i < arrNum1.length; i++) {
+      for(var j = 0; j < arrNum1.length - 1 - i; j++) {	
+        if (arrNum1[j] > arrNum1[j + 1]) {
+          let temp = arrNum1[j];
+          arrNum1[j] = arrNum1[j+1];
+          arrNum1[j+1] = temp;
+          }
+        }	  
+      } 
+      console.log("arrNum1---", arrNum1);
+	  
     }
-    // sortArrUsingBuble([2, 4, 3, 6, 9, 2, 1, 0, 9]); // Output: [0,1,2,2,3,4,6,9,9]
+    sortArrUsingBuble([2, 4, 3, 6, 9, 2, 1, 0, 9]); // Output: [0,1,2,2,3,4,6,9,9]
 
     // How to count vowels in string =======================================================================
     function countVowels(str2) {  
