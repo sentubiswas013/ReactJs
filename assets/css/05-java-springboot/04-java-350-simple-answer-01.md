@@ -3750,5 +3750,975 @@ class Person implements Cloneable {
 
 ---
 
+### Behavioral Patterns
+### **246. What is Observer pattern?**
+
+* Observer pattern defines a **one-to-many relationship**
+* When one object changes state, all dependent objects get **notified automatically**
+* Commonly used in **event systems, UI listeners, and messaging**
+
+```java
+observer.update();
+```
+
+---
+
+### **247. What is Strategy pattern?**
+
+* Strategy pattern allows selecting an **algorithm at runtime**
+* Each algorithm is placed in a separate class
+* It avoids large `if-else` or `switch` blocks
+
+```java
+PaymentStrategy strategy = new CreditCardPayment();
+strategy.pay();
+```
+
+---
+
+### **248. What is Command pattern?**
+
+* Command pattern **encapsulates a request as an object**
+* It separates the sender from the receiver
+* Used in **undo/redo operations and remote controls**
+
+```java
+Command cmd = new LightOnCommand(light);
+cmd.execute();
+```
+
+---
+
+### **249. What is Template Method pattern?**
+
+* Template Method defines the **skeleton of an algorithm**
+* Subclasses can override specific steps
+* Common in **frameworks**
+
+```java
+abstract class Game {
+    abstract void play();
+}
+```
+
+---
+
+### **250. What is State pattern?**
+
+* State pattern allows an object to **change behavior based on its state**
+* It avoids complex conditional logic
+* Each state is a separate class
+
+```java
+state.handle(context);
+```
+
+---
+
+### **251. What is Chain of Responsibility pattern?**
+
+* This pattern passes a request through a **chain of handlers**
+* Each handler decides to process or pass it on
+* Used in **logging, filters, and approval systems**
+
+```java
+handler.setNext(nextHandler);
+```
+
+---
+
+### **252. What is Iterator pattern?**
+
+* Iterator pattern provides a way to **traverse a collection**
+* It hides the internal structure
+* Java uses it heavily in collections
+
+```java
+Iterator<String> it = list.iterator();
+while (it.hasNext()) {
+    System.out.println(it.next());
+}
+```
+
+---
+
+### **253. What is Visitor pattern?**
+
+* Visitor pattern allows adding **new operations** without changing object structure
+* Logic is separated from the object
+* Useful when operations change frequently
+
+```java
+visitor.visit(element);
+```
+
+---
+
+### **254. When would you use behavioral patterns?**
+
+* When objects need to **communicate flexibly**
+* To reduce tight coupling between components
+* To make behavior **easy to extend and maintain**
+
+```text
+Used when behavior varies, not structure
+```
+
+---
+
+### **255. How do you implement Observer pattern in Java?**
+
+* Create `Observer` and `Subject` interfaces
+* Subject maintains a list of observers
+* Notify observers when state changes
+
+```java
+interface Observer {
+    void update();
+}
+
+class Subject {
+    List<Observer> observers = new ArrayList<>();
+    void notifyObservers() {
+        observers.forEach(Observer::update);
+    }
+}
+```
+
+---
+
+### Structural Patterns
+## **256. What is Adapter pattern?**
+
+* Adapter pattern is used to **make two incompatible interfaces work together**.
+* It acts like a **bridge between old and new code**.
+* Commonly used when **integrating third-party libraries**.
+* Also called a **wrapper pattern**.
+
+```java
+// Target
+interface Payment {
+    void pay();
+}
+
+// Adaptee
+class OldPayment {
+    void makePayment() {
+        System.out.println("Paid using old system");
+    }
+}
+
+// Adapter
+class PaymentAdapter implements Payment {
+    OldPayment oldPayment = new OldPayment();
+    public void pay() {
+        oldPayment.makePayment();
+    }
+}
+```
+
+---
+
+## **257. What is Decorator pattern?**
+
+* Decorator pattern is used to **add behavior to an object at runtime**.
+* It avoids subclass explosion.
+* Follows **Open-Closed Principle**.
+* Common example: **Java I/O streams**.
+
+```java
+interface Coffee {
+    int cost();
+}
+
+class SimpleCoffee implements Coffee {
+    public int cost() { return 50; }
+}
+
+class MilkDecorator implements Coffee {
+    Coffee coffee;
+    MilkDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+    public int cost() {
+        return coffee.cost() + 10;
+    }
+}
+```
+
+---
+
+## **258. What is Facade pattern?**
+
+* Facade provides a **simple interface** to a complex subsystem.
+* It hides internal complexity from the client.
+* Improves **readability and maintainability**.
+* Common in **service layers**.
+
+```java
+class OrderFacade {
+    void placeOrder() {
+        System.out.println("Payment done");
+        System.out.println("Order shipped");
+        System.out.println("Notification sent");
+    }
+}
+```
+
+---
+
+## **259. What is Proxy pattern?**
+
+* Proxy provides a **placeholder or wrapper** for another object.
+* Controls access to the real object.
+* Used for **security, logging, caching, lazy loading**.
+
+```java
+interface Service {
+    void execute();
+}
+
+class RealService implements Service {
+    public void execute() {
+        System.out.println("Executing service");
+    }
+}
+
+class ProxyService implements Service {
+    RealService real = new RealService();
+    public void execute() {
+        System.out.println("Logging...");
+        real.execute();
+    }
+}
+```
+
+---
+
+## **260. What is Composite pattern?**
+
+* Composite pattern lets you **treat individual objects and groups uniformly**.
+* Used to represent **tree structures**.
+* Common example: **file and folder system**.
+
+```java
+interface Component {
+    void show();
+}
+
+class File implements Component {
+    public void show() {
+        System.out.println("File");
+    }
+}
+
+class Folder implements Component {
+    List<Component> items = new ArrayList<>();
+    public void show() {
+        for (Component c : items) c.show();
+    }
+}
+```
+
+---
+
+## **261. What is Bridge pattern?**
+
+* Bridge pattern **decouples abstraction from implementation**.
+* Helps avoid **class explosion**.
+* Abstraction and implementation can **change independently**.
+
+```java
+interface Color {
+    void applyColor();
+}
+
+class Red implements Color {
+    public void applyColor() {
+        System.out.println("Red");
+    }
+}
+
+abstract class Shape {
+    Color color;
+    Shape(Color color) {
+        this.color = color;
+    }
+    abstract void draw();
+}
+```
+
+---
+
+## **262. What is Flyweight pattern?**
+
+* Flyweight pattern reduces **memory usage** by sharing objects.
+* Used when **many similar objects** are required.
+* Stores **common data externally**.
+
+```java
+class Circle {
+    String color;
+    Circle(String color) {
+        this.color = color;
+    }
+}
+
+class CircleFactory {
+    static Map<String, Circle> map = new HashMap<>();
+    static Circle getCircle(String color) {
+        return map.computeIfAbsent(color, c -> new Circle(c));
+    }
+}
+```
+
+---
+
+## **263. When would you use structural patterns?**
+
+* When you need to **organize relationships between classes and objects**.
+* To **reduce complexity** and improve flexibility.
+* Useful when integrating **legacy systems or third-party APIs**.
+* Helps follow **SOLID principles**.
+
+---
+
+## **264. How do you implement Decorator pattern?**
+
+* Create a **common interface**.
+* Create a **base concrete class**.
+* Create an **abstract decorator** implementing the same interface.
+* Add new behavior by **wrapping objects**.
+
+```java
+Coffee coffee = new MilkDecorator(new SimpleCoffee());
+System.out.println(coffee.cost());
+```
+
+---
+
+## **265. Difference between Adapter and Facade?**
+
+* Adapter is used to **make incompatible interfaces work together**.
+* Facade is used to **simplify a complex system**.
+* Adapter works at **interface level**.
+* Facade works at **system level**.
+
+```text
+Adapter → Compatibility
+Facade  → Simplicity
+```
+
+---
+
+## Spring Framework
+### Spring Core
+
+### 266. What is Spring Framework?
+
+* Spring is a **lightweight Java framework** for building enterprise apps.
+* Provides **IoC, AOP, transaction management, MVC**, and more.
+* Helps write **loosely coupled, testable code**.
+
+---
+
+### 267. What are the benefits of Spring?
+
+* **Loose coupling** with IoC/DI.
+* Easy **integration** with other frameworks (Hibernate, JPA).
+* **Transaction management** simplified.
+* Supports **AOP** and **modular architecture**.
+
+---
+
+### 268. What is Inversion of Control (IoC)?
+
+* IoC is when **control of object creation is shifted to the framework**.
+* Instead of `new` in your code, Spring **instantiates and injects objects**.
+
+```java
+@Service
+class ServiceA { }
+@Controller
+class MyController {
+    @Autowired
+    ServiceA serviceA;
+}
+```
+
+---
+
+### 269. What is Dependency Injection?
+
+* DI is a **technique to provide objects that a class depends on** from outside.
+* Promotes **loose coupling and easier testing**.
+
+```java
+@Component
+class Car { 
+    private Engine engine;
+    @Autowired
+    public Car(Engine engine){ this.engine = engine; }
+}
+```
+
+---
+
+### 270. What are the types of dependency injection?
+
+* **Constructor Injection:** Dependencies are provided via constructor.
+* **Setter Injection:** Dependencies are set via setter methods.
+* **Field Injection:** Dependencies injected directly into fields using `@Autowired`.
+
+---
+
+### 271. What is ApplicationContext?
+
+* `ApplicationContext` is **Spring’s advanced container**.
+* Provides **IoC, event propagation, AOP support, internationalization**, and more.
+
+```java
+ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+MyBean bean = context.getBean(MyBean.class);
+```
+
+---
+
+### 272. What is BeanFactory?
+
+* `BeanFactory` is **basic Spring container**.
+* Handles **lazy initialization** and **basic IoC**, but fewer features than ApplicationContext.
+
+```java
+BeanFactory factory = new XmlBeanFactory(new ClassPathResource("beans.xml"));
+```
+
+---
+
+### 273. What is the difference between BeanFactory and ApplicationContext?
+
+* **BeanFactory:** Lightweight, lazy initialization, basic IoC.
+* **ApplicationContext:** Rich features, eager initialization, supports AOP, events, i18n.
+* In modern apps, **ApplicationContext is preferred**.
+
+---
+
+### 274. What are Spring beans?
+
+* Spring beans are **objects managed by Spring container**.
+* Created, configured, and managed by Spring.
+
+```java
+@Component
+class MyBean { }
+```
+
+---
+
+### 275. What are the bean scopes in Spring?
+
+* **Singleton:** One shared instance per container (default).
+* **Prototype:** New instance every time requested.
+* **Request:** One instance per HTTP request (web apps).
+* **Session:** One instance per HTTP session.
+* **Application:** One instance per ServletContext.
+
+---
+
+### Spring Boot
+### **276. What is Spring Boot?**
+
+* Spring Boot is a framework that **simplifies building Spring applications**
+* It removes heavy configuration and XML setup
+* Comes with **embedded servers** like Tomcat
+* You can run apps using just a `main()` method
+
+```java
+@SpringBootApplication
+public class MyApp {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApp.class, args);
+    }
+}
+```
+
+---
+
+### **277. What are the advantages of Spring Boot?**
+
+* **No XML configuration**
+* **Auto-configuration** saves time
+* Embedded server → no WAR deployment
+* Production-ready features like **health checks**
+* Faster development and easier testing
+
+```java
+// Run app directly without external server
+mvn spring-boot:run
+```
+
+---
+
+### **278. What is auto-configuration in Spring Boot?**
+
+* Automatically configures beans based on dependencies
+* Reduces manual setup
+* Uses classpath scanning and defaults
+* Enabled by `@SpringBootApplication`
+
+```java
+// No DataSource config needed if MySQL is on classpath
+spring.datasource.url=jdbc:mysql://localhost/test
+```
+
+---
+
+### **279. What are Spring Boot starters?**
+
+* Predefined dependency bundles
+* Reduce dependency management
+* One starter pulls everything needed
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+---
+
+### **280. What is @SpringBootApplication annotation?**
+
+* Combines three annotations:
+
+  * `@Configuration`
+  * `@EnableAutoConfiguration`
+  * `@ComponentScan`
+* Marks the **main class**
+
+```java
+@SpringBootApplication
+public class Application {}
+```
+
+---
+
+### **281. What is application.properties file?**
+
+* Used to configure application settings
+* Supports database, server port, logging, etc.
+* Alternative: `application.yml`
+
+```properties
+server.port=8081
+spring.datasource.username=root
+```
+
+---
+
+### **282. Difference between @Component, @Service, @Repository?**
+
+* All are **Spring-managed beans**
+* Difference is **semantic purpose**
+* `@Repository` handles DB exceptions
+* `@Service` holds business logic
+
+```java
+@Component
+@Service
+@Repository
+```
+
+---
+
+### **283. What is @Autowired annotation?**
+
+* Used for **dependency injection**
+* Injects beans automatically
+* Can be used on fields, constructors, setters
+
+```java
+@Autowired
+private UserService userService;
+```
+
+---
+
+### **284. What is @Qualifier annotation?**
+
+* Used when **multiple beans** of same type exist
+* Helps Spring choose the correct bean
+
+```java
+@Autowired
+@Qualifier("emailService")
+private NotificationService service;
+```
+
+---
+
+### **285. How do you create REST APIs with Spring Boot?**
+
+* Use `@RestController`
+* Map URLs using `@GetMapping`, `@PostMapping`
+* Returns JSON automatically
+
+```java
+@RestController
+@RequestMapping("/api")
+public class UserController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello Spring Boot";
+    }
+}
+```
+
+---
+
+
+## Microservices and Web Services
+### RESTful Services
+
+### **286. What are RESTful web services?**
+
+* RESTful web services are APIs that follow REST principles and use HTTP to communicate.
+* They expose **resources** using URLs and exchange data usually in **JSON**.
+* They are **stateless**, scalable, and easy to consume by web and mobile apps.
+* Commonly used in microservices architecture.
+
+**Example (Spring Boot):**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable int id) {
+        return new User(id, "John");
+    }
+}
+```
+
+---
+
+### **287. What are the principles of REST?**
+
+* **Stateless** – server does not store client session.
+* **Client–Server separation** – UI and backend are independent.
+* **Uniform interface** – consistent URLs and HTTP methods.
+* **Resource-based** – everything is a resource.
+* **Cacheable** – responses can be cached.
+* **Layered system** – multiple layers allowed.
+
+---
+
+### **288. What are HTTP methods and their usage?**
+
+* **GET** – retrieve data.
+* **POST** – create new data.
+* **PUT** – update or replace existing data.
+* **PATCH** – partial update.
+* **DELETE** – remove data.
+
+**Example:**
+
+```java
+@PostMapping("/users")
+public User createUser(@RequestBody User user) {
+    return user;
+}
+```
+
+---
+
+### **289. What is the difference between PUT and POST?**
+
+* **POST** creates a new resource and is **not idempotent**.
+* **PUT** updates or replaces a resource and **is idempotent**.
+* POST usually lets the server generate the ID.
+* PUT uses a known resource ID.
+
+**Example:**
+
+```java
+@PostMapping("/users")
+public User create(User user) {}
+
+@PutMapping("/users/{id}")
+public User update(@PathVariable int id, User user) {}
+```
+
+---
+
+### **290. What is idempotency in REST?**
+
+* An operation is idempotent if **calling it multiple times gives the same result**.
+* **GET, PUT, DELETE** are idempotent.
+* **POST** is not idempotent.
+* Important for retries and fault tolerance.
+
+**Example:**
+
+```java
+@DeleteMapping("/users/{id}")
+public void deleteUser(@PathVariable int id) {
+    // Deleting again won't change result
+}
+```
+
+---
+
+### **291. What are HTTP status codes?**
+
+* They indicate the **result of an HTTP request**.
+* **2xx** – success (200 OK, 201 Created)
+* **4xx** – client error (400, 401, 404)
+* **5xx** – server error (500)
+
+**Example:**
+
+```java
+return ResponseEntity.status(HttpStatus.CREATED).body(user);
+```
+
+---
+
+### **292. What is content negotiation?**
+
+* It allows clients to request responses in a specific format like **JSON or XML**.
+* Done using HTTP headers such as `Accept`.
+* Server responds with the best supported format.
+
+**Example:**
+
+```http
+Accept: application/json
+```
+
+**Spring Boot:**
+
+```java
+@GetMapping(produces = "application/json")
+public User getUser() {}
+```
+
+---
+
+### **293. How do you handle versioning in REST APIs?**
+
+* **URL versioning** – `/api/v1/users`
+* **Header versioning** – custom headers.
+* **Query parameter versioning** – `?version=1`
+* URL versioning is most common and readable.
+
+**Example:**
+
+```java
+@RequestMapping("/api/v1/users")
+public class UserControllerV1 {}
+```
+
+---
+
+### **294. What is HATEOAS?**
+
+* HATEOAS means the response contains **links to related actions**.
+* It helps clients discover APIs dynamically.
+* Improves API navigability and decoupling.
+
+**Example:**
+
+```json
+{
+  "id": 1,
+  "name": "John",
+  "links": {
+    "self": "/users/1",
+    "orders": "/users/1/orders"
+  }
+}
+```
+
+---
+
+### **295. How do you secure REST APIs?**
+
+* Use **HTTPS** for encrypted communication.
+* Apply **JWT or OAuth2** for authentication.
+* Implement **role-based authorization**.
+* Validate inputs and rate-limit APIs.
+
+**Spring Security Example:**
+
+```java
+http
+  .authorizeHttpRequests()
+  .requestMatchers("/admin/**").hasRole("ADMIN")
+  .anyRequest().authenticated()
+  .and()
+  .oauth2ResourceServer().jwt();
+```
+
+---
+
+### Microservices
+### 296. What are microservices?
+
+* Microservices are an architectural style where an application is broken into small, independent services.
+* Each service does one thing well, can be deployed independently, and communicates over HTTP/REST, messaging, or gRPC.
+* Example: A shopping app could have separate services for `Order`, `Payment`, and `Inventory`.
+
+```java
+@RestController
+public class OrderService {
+    @GetMapping("/orders/{id}")
+    public Order getOrder(@PathVariable String id) {
+        return new Order(id, "Book");
+    }
+}
+```
+
+---
+
+### 297. What are the advantages of microservices?
+
+* **Independent deployment:** Update one service without touching others.
+* **Scalability:** Scale only the services under heavy load.
+* **Technology flexibility:** Each service can use the best tech for its job.
+* **Resilience:** Failure in one service doesn’t break the whole system.
+
+---
+
+### 298. What are the challenges of microservices?
+
+* **Complexity:** Managing many services, deployments, and communication.
+* **Data consistency:** Harder than in monoliths due to distributed nature.
+* **Monitoring & debugging:** Harder to trace issues across multiple services.
+* **Latency:** Inter-service calls can add network delays.
+
+---
+
+### 299. What is service discovery?
+
+* Mechanism to dynamically locate services in a microservice environment.
+* Instead of hardcoding URLs, services register themselves and can be discovered at runtime.
+* Example: Using **Eureka** in Spring Boot.
+
+```java
+@EnableEurekaClient
+@SpringBootApplication
+public class PaymentServiceApplication { }
+```
+
+---
+
+### 300. What is API Gateway?
+
+* A single entry point for all clients to access microservices.
+* Handles routing, authentication, rate limiting, and sometimes caching.
+* Example: **Spring Cloud Gateway** routing requests to different services.
+
+```java
+@Bean
+public RouteLocator routes(RouteLocatorBuilder builder) {
+    return builder.routes()
+        .route(r -> r.path("/orders/**")
+            .uri("lb://ORDER-SERVICE"))
+        .build();
+}
+```
+
+---
+
+### 301. What is circuit breaker pattern?
+
+* Protects a service from cascading failures.
+* If a service is failing, calls to it are short-circuited to prevent overload.
+* Example: Using **Resilience4j** in Spring Boot.
+
+```java
+@CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+public String makePayment() {
+    // call payment API
+}
+public String fallback(Throwable t) {
+    return "Payment service is down, try later.";
+}
+```
+
+---
+
+### 302. What is distributed tracing?
+
+* Helps track requests as they flow through multiple microservices.
+* Useful for debugging latency or failures in distributed systems.
+* Example tools: **Jaeger**, **Zipkin**.
+
+```java
+@Bean
+public Sampler defaultSampler() {
+    return Sampler.ALWAYS_SAMPLE;
+}
+```
+
+---
+
+### 303. How do you handle data consistency in microservices?
+
+* Use **eventual consistency** rather than immediate consistency.
+* Techniques:
+
+  * **Saga pattern** (choreography or orchestration)
+  * **Event-driven architecture** with messaging queues
+
+```java
+// Example event publishing
+kafkaTemplate.send("order-events", new OrderCreatedEvent(orderId));
+```
+
+---
+
+### 304. What is event-driven architecture?
+
+* Services communicate via events instead of direct API calls.
+* Decouples services and improves scalability.
+* Example: When an order is placed, `OrderService` publishes an event, and `InventoryService` listens and updates stock.
+
+```java
+@KafkaListener(topics = "order-events")
+public void handleOrderCreated(OrderCreatedEvent event) {
+    // update inventory
+}
+```
+
+---
+
+### 305. How do you test microservices?
+
+* **Unit testing:** Test service logic in isolation.
+* **Integration testing:** Test service endpoints and database interaction.
+* **Contract testing:** Ensure service contracts between services don’t break.
+* **End-to-end testing:** Test workflow across multiple services.
+
+```java
+@SpringBootTest
+@AutoConfigureMockMvc
+public class OrderServiceTest {
+    @Autowired private MockMvc mockMvc;
+
+    @Test
+    void testGetOrder() throws Exception {
+        mockMvc.perform(get("/orders/1"))
+               .andExpect(status().isOk());
+    }
+}
+```
+
+---
+
 
 
