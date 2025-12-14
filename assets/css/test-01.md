@@ -202,9 +202,3 @@
 162. What are the new features in Java 7?
 163. What are the new features in Java 8?
 
-## Notes:
-- This list contains 163 unique Java interview questions organized by category
-- Duplicate and similar questions have been removed
-- Questions cover fundamental to advanced Java concepts
-- Each category focuses on specific aspects of Java programming
-- The questions progress from basic concepts to more advanced topics
