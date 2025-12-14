@@ -4720,5 +4720,495 @@ public class OrderServiceTest {
 
 ---
 
+## Performance and Optimization
 
+### Performance Tuning
+### **306. How do you identify performance bottlenecks?**
+
+* First, I **measure**, not guess
+* Check CPU, memory, threads, and response time
+* Use logs, metrics, and profilers
+* Reproduce the issue under load
+
+```java
+long start = System.currentTimeMillis();
+// slow logic
+long time = System.currentTimeMillis() - start;
+System.out.println("Time taken: " + time);
+```
+
+---
+
+### **307. What are common performance issues in Java applications?**
+
+* Memory leaks due to unused objects
+* Slow database queries
+* Too many threads or blocking calls
+* Excessive object creation
+* Improper garbage collection tuning
+
+```java
+List<String> list = new ArrayList<>();
+// forgetting to clear large collections causes memory issues
+```
+
+---
+
+### **308. How do you optimize database queries?**
+
+* Use **indexes** on frequently searched columns
+* Avoid `SELECT *`
+* Use pagination
+* Reduce number of DB calls
+
+```sql
+CREATE INDEX idx_user_email ON users(email);
+
+SELECT name, email FROM users WHERE email = ?;
+```
+
+---
+
+### **309. What is connection pooling and why is it important?**
+
+* Reuses database connections
+* Avoids expensive connection creation
+* Improves performance and scalability
+* Used by default in Spring Boot (HikariCP)
+
+```properties
+spring.datasource.hikari.maximum-pool-size=10
+```
+
+---
+
+### **310. How do you optimize memory usage?**
+
+* Avoid unnecessary object creation
+* Clear collections after use
+* Use primitives instead of wrappers when possible
+* Monitor heap usage
+
+```java
+StringBuilder sb = new StringBuilder(); // better than String concatenation
+```
+
+---
+
+### **311. What is caching and when should you use it?**
+
+* Stores frequently used data in memory
+* Reduces database or API calls
+* Use when data is **read-heavy** and changes rarely
+
+```java
+@Cacheable("users")
+public User getUserById(Long id) {
+    return userRepository.findById(id).get();
+}
+```
+
+---
+
+### **312. What are the different caching strategies?**
+
+* **Cache-aside**: app manages cache
+* **Read-through**: cache loads data automatically
+* **Write-through**: writes go to cache and DB
+* **Write-behind**: async DB update
+
+```java
+// Cache-aside example
+User user = cache.get(id);
+if (user == null) {
+    user = db.getUser(id);
+    cache.put(id, user);
+}
+```
+
+---
+
+### **313. How do you optimize garbage collection?**
+
+* Choose correct GC algorithm
+* Reduce object creation
+* Tune heap size
+* Monitor GC logs
+
+```bash
+-XX:+UseG1GC
+-Xms512m
+-Xmx2g
+```
+
+---
+
+### **314. What is profiling and what tools do you use?**
+
+* Profiling analyzes CPU, memory, and threads
+* Helps find slow methods and memory leaks
+* Tools:
+
+  * JVisualVM
+  * JProfiler
+  * Java Flight Recorder
+
+```bash
+jvisualvm
+```
+
+---
+
+### **315. How do you optimize multithreaded applications?**
+
+* Avoid unnecessary synchronization
+* Use thread pools
+* Prevent deadlocks
+* Use concurrent collections
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(5);
+executor.submit(() -> processTask());
+```
+
+---
+
+### JVM Tuning
+### **316. What are important JVM parameters?**
+
+* Control memory, GC, logging, and performance
+* Common ones are heap size, GC type, and GC logs
+* Used to tune apps based on load
+
+```bash
+-Xms512m
+-Xmx2g
+-XX:+UseG1GC
+-XX:+PrintGCDetails
+```
+
+---
+
+### **317. How do you tune heap size?**
+
+* Start with realistic minimum and maximum values
+* Avoid frequent resizing
+* Base it on application memory usage
+* Monitor heap under load
+
+```bash
+-Xms1g   # initial heap
+-Xmx4g   # max heap
+```
+
+---
+
+### **318. What is the difference between -Xms and -Xmx?**
+
+* `-Xms` → initial heap size
+* `-Xmx` → maximum heap size
+* Setting them equal avoids resizing overhead
+
+```bash
+-Xms2g
+-Xmx2g
+```
+
+---
+
+### **319. How do you analyze heap dumps?**
+
+* Heap dumps show memory usage
+* Used to find memory leaks
+* Analyze with tools like:
+
+  * VisualVM
+  * Eclipse MAT
+
+```bash
+jmap -dump:live,format=b,file=heap.hprof <pid>
+```
+
+---
+
+### **320. How do you analyze thread dumps?**
+
+* Thread dumps show thread states
+* Used to detect deadlocks or blocked threads
+* Look for `BLOCKED` or `WAITING`
+
+```bash
+jstack <pid> > threaddump.txt
+```
+
+---
+
+### **321. What is JIT compilation?**
+
+* JIT = Just-In-Time compilation
+* Converts bytecode to native machine code
+* Improves performance at runtime
+* Hot methods are optimized automatically
+
+```java
+for(int i = 0; i < 1_000_000; i++) {
+    calculate(); // gets JIT optimized
+}
+```
+
+---
+
+### **322. How do you monitor JVM performance?**
+
+* Monitor CPU, memory, GC, and threads
+* Use built-in and external tools
+
+Tools:
+
+* JConsole
+* VisualVM
+* Java Flight Recorder
+* Prometheus + Grafana
+
+```bash
+jconsole
+```
+
+---
+
+### **323. Different garbage collectors and when to use them?**
+
+* **Serial GC** → small apps
+* **Parallel GC** → throughput focused
+* **G1 GC** → balanced, large heaps
+* **ZGC** → low-latency apps
+
+```bash
+-XX:+UseG1GC
+```
+
+---
+
+### **324. How do you tune garbage collection?**
+
+* Choose correct GC
+* Adjust heap size
+* Analyze GC logs
+* Reduce object creation
+
+```bash
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=200
+```
+
+---
+
+### **325. What is escape analysis?**
+
+* JVM checks if objects escape method scope
+* If not, objects are allocated on stack
+* Improves performance and reduces GC
+
+```java
+public void test() {
+    Point p = new Point(1, 2); // may not escape
+}
+```
+
+---
+
+## Modern Java Features
+### Recent Java Versions
+
+### 326. What are the new features in Java 8?
+
+* Introduced **Lambda expressions** for functional programming.
+* **Streams API** for processing collections in a functional way.
+* **Default and static methods** in interfaces.
+* **Optional** class to avoid `NullPointerException`.
+* Example:
+
+```java
+List<String> names = Arrays.asList("Alice", "Bob");
+names.stream()
+     .filter(n -> n.startsWith("A"))
+     .forEach(System.out::println);
+```
+
+---
+
+### 327. What are the new features in Java 11?
+
+* **Local-Variable Syntax for Lambda Parameters**.
+* **String methods**: `isBlank()`, `lines()`, `repeat()`, `strip()`.
+* **HTTP Client API** standardized for HTTP/2 support.
+* **Running single-file programs** with `java File.java`.
+* Example:
+
+```java
+String text = "  Hello  ";
+System.out.println(text.strip()); // "Hello"
+
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://example.com"))
+    .build();
+```
+
+---
+
+### 328. What are the new features in Java 17?
+
+* **Sealed classes** to restrict which classes can extend them.
+* **Pattern matching for `switch`** for more concise code.
+* **Enhanced `NullPointerException` messages**.
+* **New macOS rendering pipeline**, records, and strong encapsulation by default.
+* Example:
+
+```java
+sealed interface Shape permits Circle, Rectangle {}
+final class Circle implements Shape { double radius; }
+final class Rectangle implements Shape { double width, height; }
+
+switch (shape) {
+    case Circle c -> System.out.println(c.radius);
+    case Rectangle r -> System.out.println(r.width * r.height);
+}
+```
+
+---
+
+### 329. What are the new features in Java 21?
+
+* **Record patterns** and **pattern matching enhancements**.
+* **Virtual threads** (Project Loom) for lightweight concurrency.
+* **Scoped values** for better thread-local data handling.
+* **String templates preview** for easier string formatting.
+* Example:
+
+```java
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    executor.submit(() -> System.out.println("Running in virtual thread"));
+}
+```
+
+---
+
+### 330. What is the Java release cycle and LTS versions?
+
+* **Java follows a 6-month release cycle** (March & September).
+* **LTS (Long Term Support)** versions get extended support—stable for enterprises.
+* Current LTS versions: **Java 8, 11, 17**.
+* Non-LTS releases (like 9, 12, 18, 21) are for early adoption of features.
+
+---
+
+### Cloud and Containerization
+### **331. What is containerization?**
+
+* Containerization packages an application with its **dependencies, libraries, and config**.
+* Containers run consistently across dev, test, and production.
+* They are **lightweight** compared to virtual machines.
+* Widely used in microservices.
+
+**Example idea:**
+
+```text
+Java App + JDK + config → Container
+```
+
+---
+
+### **332. What is Docker?**
+
+* Docker is a tool to **build, run, and manage containers**.
+* Uses images to create isolated environments.
+* Ensures “**works on my machine**” problem is solved.
+* Commonly used with Spring Boot apps.
+
+**Dockerfile example:**
+
+```dockerfile
+FROM openjdk:17
+COPY app.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
+```
+
+---
+
+### **333. What is Kubernetes?**
+
+* Kubernetes is a **container orchestration platform**.
+* Manages container deployment, scaling, and healing.
+* Handles load balancing and service discovery.
+* Used for running containers in production.
+
+**Example command:**
+
+```bash
+kubectl get pods
+```
+
+---
+
+### **334. What is cloud computing?**
+
+* Cloud computing provides **on-demand servers, storage, and services**.
+* You pay only for what you use.
+* Examples include **AWS, Azure, GCP**.
+* Supports scalability, high availability, and disaster recovery.
+
+**Example:**
+
+```text
+Spring Boot app deployed on AWS EC2
+```
+
+---
+
+### **335. What is a distributed system?**
+
+* A distributed system is a group of **independent services working together**.
+* Services communicate over the network.
+* Provides scalability and fault tolerance.
+* Microservices are a common example.
+
+**Example:**
+
+```text
+User Service → Order Service → Payment Service
+```
+
+---
+
+### **336. What is load balancing?**
+
+* Load balancing distributes traffic across multiple servers.
+* Prevents overloading a single server.
+* Improves performance and availability.
+* Can be done at **application or infrastructure level**.
+
+**Example:**
+
+```text
+Client → Load Balancer → App Instance 1 / 2 / 3
+```
+
+---
+
+### **337. What is caching strategies?**
+
+* Caching stores frequently used data in fast storage.
+* Reduces database load and improves response time.
+* Common strategies: **Read-through, Write-through, TTL**.
+* Tools like **Redis** are often used.
+
+**Java example:**
+
+```java
+@Cacheable("users")
+public User getUser(int id) {
+    return userRepository.findById(id);
+}
+```
 
