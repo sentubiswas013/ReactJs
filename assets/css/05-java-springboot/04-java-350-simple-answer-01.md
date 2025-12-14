@@ -1650,7 +1650,7 @@ thread.interrupt();
 ```
 
 ---
-
+### Synchronization
 ## 106. What is synchronization in Java?
 - Synchronization is a way to **control access to shared resources** in a multithreaded program.
 - It ensures that **only one thread executes a critical section at a time**.
@@ -1817,6 +1817,7 @@ num.incrementAndGet();
 
 ---
 
+## Advanced Concurrency
 ## 116. What is `java.util.concurrent` package?
 - It’s a **high-level concurrency framework** introduced in Java 5.
 - It simplifies multithreading compared to low-level `Thread` and `synchronized`.
@@ -1986,7 +1987,7 @@ lock.unlock();
 
 ---
 
-
+## Memory Areas
 ### **126. What are the different memory areas in JVM?**
 
 * JVM divides memory to manage execution efficiently
@@ -2132,7 +2133,7 @@ long address = unsafe.allocateMemory(1024);
 ```
 
 ---
-
+### Garbage Collection
 ### **136. What is garbage collection?**
 
 * Garbage Collection (GC) is Java’s **automatic memory management** process.
@@ -2855,6 +2856,899 @@ public class MyProcessor extends AbstractProcessor {}
 ---
 
 
+
+### **186. What is reflection in Java?**
+
+* Reflection is a Java feature that lets you **inspect and use classes, methods, fields, and constructors at runtime**
+* You can work with classes **even if you don’t know them at compile time**
+* Commonly used in **frameworks like Spring, Hibernate, JUnit**
+
+```java
+Class<?> clazz = Class.forName("java.lang.String");
+System.out.println(clazz.getMethods().length);
+```
+
+---
+
+### **187. How do you get a Class object?**
+
+* There are **three main ways** to get a `Class` object
+* Use `.class`, `getClass()`, or `Class.forName()`
+* `Class.forName()` also **loads the class**
+
+```java
+Class<String> c1 = String.class;
+Class<?> c2 = "hello".getClass();
+Class<?> c3 = Class.forName("java.lang.String");
+```
+
+---
+
+### **188. How do you create objects using reflection?**
+
+* Use a **Constructor object**
+* First get the class, then the constructor, then call `newInstance()`
+* Useful when class name is dynamic
+
+```java
+Class<?> clazz = Class.forName("java.lang.String");
+Object obj = clazz.getConstructor(String.class).newInstance("Hello");
+```
+
+---
+
+### **189. How do you invoke methods using reflection?**
+
+* Get the `Method` object using `getMethod()` or `getDeclaredMethod()`
+* Call `invoke()` on it
+* You can pass arguments dynamically
+
+```java
+Method m = String.class.getMethod("toUpperCase");
+Object result = m.invoke("hello");
+System.out.println(result);
+```
+
+---
+
+### **190. How do you access private fields using reflection?**
+
+* Use `getDeclaredField()`
+* Call `setAccessible(true)` to bypass access checks
+* This should be used carefully
+
+```java
+Field field = MyClass.class.getDeclaredField("name");
+field.setAccessible(true);
+String value = (String) field.get(obj);
+```
+
+---
+
+### **191. What are the performance implications of reflection?**
+
+* Reflection is **slower than normal method calls**
+* JVM optimizations like inlining don’t work well
+* Should **not be used in performance-critical code**
+
+```java
+// Slower than direct call
+method.invoke(obj);
+```
+
+---
+
+### **192. When should you use reflection?**
+
+* When behavior needs to be **dynamic**
+* In **frameworks, plugins, dependency injection**
+* Avoid using it in regular business logic
+
+```java
+// Example: loading class dynamically
+Class<?> plugin = Class.forName(pluginName);
+```
+
+---
+
+### **193. What are the security implications of reflection?**
+
+* Reflection can **break encapsulation**
+* It can access private data and methods
+* SecurityManager (older Java) could restrict this
+
+```java
+field.setAccessible(true); // Can expose sensitive data
+```
+
+---
+
+### **194. Difference between Class.forName() and ClassLoader.loadClass()?**
+
+* `Class.forName()` **loads and initializes** the class
+* `loadClass()` **only loads**, does not initialize
+* Initialization means static blocks run
+
+```java
+Class.forName("MyClass");           // Loads + initializes
+classLoader.loadClass("MyClass");   // Loads only
+```
+
+---
+
+### **195. How do you handle exceptions in reflection?**
+
+* Reflection throws **checked exceptions**
+* Always use **try-catch**
+* Common ones: `ClassNotFoundException`, `NoSuchMethodException`
+
+```java
+try {
+    Class<?> c = Class.forName("Test");
+} catch (ClassNotFoundException e) {
+    e.printStackTrace();
+}
+```
+
+---
+
+## Lambda Expressions and Streams
+## **196. What are lambda expressions?**
+
+* Lambda expressions are a **shorter way to write implementations of functional interfaces**.
+* They remove **boilerplate code** like anonymous classes.
+* Introduced in **Java 8** to support **functional programming**.
+* Mainly used with **streams, collections, and callbacks**.
+
+```java
+// Without lambda
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println("Hello");
+    }
+};
+
+// With lambda
+Runnable r2 = () -> System.out.println("Hello");
+```
+
+---
+
+## **197. What is the syntax of lambda expressions?**
+
+* Syntax has **three parts**:
+
+  * Parameters
+  * Arrow operator `->`
+  * Body
+* Parentheses are optional for **single parameter**.
+* Curly braces optional for **single-line body**.
+
+```java
+// No parameter
+() -> System.out.println("Hi");
+
+// One parameter
+x -> x * 2
+
+// Multiple parameters
+(a, b) -> a + b
+```
+
+---
+
+## **198. What are functional interfaces?**
+
+* A functional interface has **exactly one abstract method**.
+* It can have **default and static methods**.
+* Required for **lambda expressions**.
+* Marked with `@FunctionalInterface` (optional but recommended).
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+
+Calculator c = (a, b) -> a + b;
+```
+
+---
+
+## **199. What are method references?**
+
+* Method references are a **shorter form of lambda expressions**.
+* Used when lambda **just calls an existing method**.
+* Improves **readability**.
+
+Types:
+
+* Static method
+* Instance method
+* Constructor
+
+```java
+// Lambda
+list.forEach(name -> System.out.println(name));
+
+// Method reference
+list.forEach(System.out::println);
+```
+
+---
+
+## **200. What are constructor references?**
+
+* Constructor references are used to **create objects using lambda style**.
+* Represented using `ClassName::new`.
+* Used with functional interfaces like `Supplier`.
+
+```java
+Supplier<List<String>> s1 = () -> new ArrayList<>();
+
+// Constructor reference
+Supplier<List<String>> s2 = ArrayList::new;
+```
+
+---
+
+## **201. Difference between lambda and anonymous class?**
+
+* Lambda is **shorter and cleaner**.
+* Lambda works only with **functional interfaces**.
+* Anonymous class can have **multiple methods**.
+* Lambda does **not create a new scope** for `this`.
+
+```java
+// Anonymous class
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println("Run");
+    }
+};
+
+// Lambda
+Runnable r2 = () -> System.out.println("Run");
+```
+
+---
+
+## **202. What are the built-in functional interfaces?**
+
+* Java provides functional interfaces in `java.util.function`.
+* Commonly used ones:
+
+  * `Predicate`
+  * `Function`
+  * `Consumer`
+  * `Supplier`
+* Avoids creating **custom interfaces**.
+
+```java
+Predicate<Integer> p = x -> x > 10;
+Function<Integer, String> f = x -> "Value: " + x;
+Consumer<String> c = s -> System.out.println(s);
+```
+
+---
+
+## **203. What is Predicate interface?**
+
+* `Predicate<T>` is used to **test a condition**.
+* Returns **boolean**.
+* Commonly used in **filtering streams**.
+* Method: `test()`.
+
+```java
+Predicate<Integer> isEven = n -> n % 2 == 0;
+
+System.out.println(isEven.test(10)); // true
+```
+
+---
+
+## **204. What is Function interface?**
+
+* `Function<T, R>` takes **one input** and returns **one output**.
+* Used for **transforming data**.
+* Method: `apply()`.
+
+```java
+Function<Integer, String> convert = n -> "Number: " + n;
+
+System.out.println(convert.apply(5));
+```
+
+---
+
+## **205. What is Consumer interface?**
+
+* `Consumer<T>` takes input but **returns nothing**.
+* Used for **printing, logging, saving data**.
+* Method: `accept()`.
+
+```java
+Consumer<String> print = s -> System.out.println(s);
+
+print.accept("Hello Java");
+```
+
+---
+
+### Streams API
+### 206. What is Stream API?
+
+* Stream API, introduced in Java 8, is a way to process collections of data **declaratively**.
+* It lets you perform operations like **filter, map, reduce, collect** without writing loops.
+* Example:
+
+```java
+List<Integer> nums = List.of(1,2,3,4,5);
+nums.stream().filter(n -> n % 2 == 0).forEach(System.out::println);
+```
+
+* Prints: `2 4`
+
+---
+
+### 207. What is the difference between Collection and Stream?
+
+* **Collection** stores data, **Stream** processes data.
+* Collection: **eager**, Stream: **lazy** evaluation.
+* Collection can be reused, Stream **cannot**; once consumed, it’s done.
+
+```java
+List<String> list = List.of("a","b");
+Stream<String> stream = list.stream(); // can’t reuse stream after terminal operation
+```
+
+---
+
+### 208. What are intermediate and terminal operations?
+
+* **Intermediate operations**: Transform streams, return another stream, **lazy** (e.g., `map()`, `filter()`).
+* **Terminal operations**: Produce result or side-effect, trigger processing (e.g., `collect()`, `forEach()`).
+
+```java
+List<Integer> nums = List.of(1,2,3);
+nums.stream().filter(n -> n>1).forEach(System.out::println);
+```
+
+* `filter()` → intermediate, `forEach()` → terminal
+
+---
+
+### 209. What is the difference between map() and flatMap()?
+
+* `map()` → **1:1 mapping**, transforms each element to another object.
+* `flatMap()` → **1:many mapping**, flattens nested structures into a single stream.
+
+```java
+List<List<Integer>> list = List.of(List.of(1,2), List.of(3,4));
+list.stream().flatMap(List::stream).forEach(System.out::println); // 1 2 3 4
+```
+
+---
+
+### 210. What is the difference between filter() and map()?
+
+* `filter()` → **selects elements**, returns only those matching a condition.
+* `map()` → **transforms elements**, changes each element into something else.
+
+```java
+List<Integer> nums = List.of(1,2,3);
+nums.stream().filter(n -> n>1).map(n -> n*10).forEach(System.out::println); // 20 30
+```
+
+---
+
+### 211. What is parallel stream?
+
+* A **parallel stream** splits the data into multiple chunks and processes them in **different threads**.
+* Useful for speeding up CPU-intensive operations.
+
+```java
+List<Integer> nums = List.of(1,2,3,4,5);
+nums.parallelStream().forEach(System.out::println);
+```
+
+---
+
+### 212. When should you use parallel streams?
+
+* Use parallel streams for **large collections** and **CPU-bound tasks**.
+* Avoid for **small collections** or operations with side-effects or order-dependency.
+
+---
+
+### 213. What is the difference between findFirst() and findAny()?
+
+* `findFirst()` → returns the **first element** of the stream (useful in ordered streams).
+* `findAny()` → returns **any element**, faster in parallel streams since it can pick whichever is ready.
+
+```java
+Optional<Integer> first = nums.stream().findFirst();
+Optional<Integer> any = nums.parallelStream().findAny();
+```
+
+---
+
+### 214. What is Optional class?
+
+* `Optional` is a container that may or may not contain a value, helps **avoid null pointer exceptions**.
+
+```java
+Optional<String> opt = Optional.ofNullable(null);
+System.out.println(opt.isPresent()); // false
+```
+
+---
+
+### 215. How do you handle null values with Optional?
+
+* Use `ofNullable()` to wrap potentially null values.
+* Methods: `isPresent()`, `orElse()`, `orElseGet()`, `ifPresent()`.
+
+```java
+String name = null;
+String result = Optional.ofNullable(name).orElse("Unknown");
+System.out.println(result); // Unknown
+```
+
+---
+
+
+### Advanced JDBC
+### **216. What is JDBC?**
+
+* JDBC stands for **Java Database Connectivity**
+* It is an API that allows Java applications to **connect and interact with databases**
+* It lets us execute SQL queries, retrieve results, and update data
+* JDBC is database-independent; only the driver changes
+
+```java
+Connection con = DriverManager.getConnection(url, user, pass);
+```
+
+---
+
+### **217. Steps to connect to a database using JDBC**
+
+* Load the JDBC driver
+* Create a database connection
+* Create a statement
+* Execute SQL query
+* Process the result
+* Close the connection
+
+```java
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection con = DriverManager.getConnection(url, user, pass);
+```
+
+---
+
+### **218. What are JDBC drivers?**
+
+* JDBC drivers are **software components** that enable Java to communicate with a database
+* They translate Java JDBC calls into database-specific calls
+* Each database vendor provides its own driver
+
+```java
+Class.forName("com.mysql.cj.jdbc.Driver");
+```
+
+---
+
+### **219. Types of JDBC drivers**
+
+* **Type 1:** JDBC-ODBC Bridge (deprecated)
+* **Type 2:** Native API driver
+* **Type 3:** Network Protocol driver
+* **Type 4:** Thin driver (most commonly used)
+
+```text
+Type 4 → Pure Java → Best performance
+```
+
+---
+
+### **220. What is Connection interface?**
+
+* `Connection` represents a **session between Java and the database**
+* It is used to create statements and manage transactions
+* Comes from `java.sql` package
+
+```java
+Connection con = DriverManager.getConnection(url, user, pass);
+```
+
+---
+
+### **221. What is Statement interface?**
+
+* `Statement` is used to **execute simple SQL queries**
+* It is suitable when query does not change
+* Not safe from SQL injection
+
+```java
+Statement stmt = con.createStatement();
+ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+```
+
+---
+
+### **222. What is PreparedStatement?**
+
+* `PreparedStatement` is used for **parameterized queries**
+* It is faster and more secure than `Statement`
+* Prevents SQL injection
+
+```java
+PreparedStatement ps = con.prepareStatement(
+    "SELECT * FROM users WHERE id = ?");
+ps.setInt(1, 1);
+```
+
+---
+
+### **223. What is CallableStatement?**
+
+* `CallableStatement` is used to **call stored procedures**
+* It supports IN, OUT, and INOUT parameters
+* Used for complex database logic
+
+```java
+CallableStatement cs = con.prepareCall("{call getUser(?)}");
+cs.setInt(1, 1);
+```
+
+---
+
+### **224. Difference between Statement and PreparedStatement**
+
+* `Statement` uses **static SQL queries**
+* `PreparedStatement` uses **dynamic and parameterized queries**
+* PreparedStatement is **faster, safer, and reusable**
+
+```java
+// Statement
+stmt.executeQuery("SELECT * FROM users");
+
+// PreparedStatement
+ps.setInt(1, 1);
+ps.executeQuery();
+```
+
+---
+
+### **225. What is ResultSet?**
+
+* `ResultSet` stores the **data returned from a SQL query**
+* It acts like a cursor pointing to rows
+* Used to read data row by row
+
+```java
+while (rs.next()) {
+    System.out.println(rs.getString("name"));
+}
+```
+
+---
+
+
+## Design Patterns
+
+### Creational Patterns
+## **226. What is connection pooling?**
+
+* Connection pooling means **reusing database connections** instead of creating a new one every time.
+* Creating a DB connection is **expensive**, so pooling improves **performance**.
+* Connections are **created once**, stored in a pool, and reused.
+* Common tools: **HikariCP, Apache DBCP, C3P0**.
+
+```java
+DataSource ds = new HikariDataSource();
+Connection con = ds.getConnection();
+```
+
+---
+
+## **227. What is transaction management in JDBC?**
+
+* Transaction management ensures **all operations succeed or none do**.
+* By default, JDBC uses **auto-commit mode**.
+* We disable auto-commit to **control commit and rollback** manually.
+* Used for **data consistency**.
+
+```java
+con.setAutoCommit(false);
+
+try {
+    stmt.executeUpdate(sql1);
+    stmt.executeUpdate(sql2);
+    con.commit();
+} catch (Exception e) {
+    con.rollback();
+}
+```
+
+---
+
+## **228. What is batch processing in JDBC?**
+
+* Batch processing allows **multiple SQL statements to be executed together**.
+* Reduces **database round trips**, improving performance.
+* Mainly used for **bulk insert/update**.
+
+```java
+PreparedStatement ps =
+    con.prepareStatement("INSERT INTO emp VALUES (?, ?)");
+
+ps.setInt(1, 1);
+ps.setString(2, "John");
+ps.addBatch();
+
+ps.setInt(1, 2);
+ps.setString(2, "Alex");
+ps.addBatch();
+
+ps.executeBatch();
+```
+
+---
+
+## **229. What is SQL injection and how to prevent it?**
+
+* SQL injection is a **security attack** where malicious SQL is injected via input.
+* Happens when queries are built using **string concatenation**.
+* Prevented by using **PreparedStatement**.
+* Also validate inputs and avoid dynamic SQL.
+
+```java
+PreparedStatement ps =
+    con.prepareStatement("SELECT * FROM users WHERE id = ?");
+ps.setInt(1, userId);
+```
+
+---
+
+## **230. Difference between execute(), executeQuery(), and executeUpdate()?**
+
+* `executeQuery()` → Used for **SELECT**, returns `ResultSet`.
+* `executeUpdate()` → Used for **INSERT, UPDATE, DELETE**, returns row count.
+* `execute()` → Used when SQL type is **unknown**, returns boolean.
+
+```java
+ResultSet rs = stmt.executeQuery("SELECT * FROM emp");
+int count = stmt.executeUpdate("DELETE FROM emp WHERE id=1");
+stmt.execute("CREATE TABLE test(id INT)");
+```
+
+---
+
+## **231. What is ResultSetMetaData?**
+
+* `ResultSetMetaData` gives **information about columns** in a ResultSet.
+* Used when **column details are not known at compile time**.
+* Helpful for **dynamic reports**.
+
+```java
+ResultSetMetaData rsmd = rs.getMetaData();
+int cols = rsmd.getColumnCount();
+String name = rsmd.getColumnName(1);
+```
+
+---
+
+## **232. What is DatabaseMetaData?**
+
+* `DatabaseMetaData` provides **information about the database itself**.
+* Includes DB name, version, tables, drivers, supported features.
+* Useful for **database-independent applications**.
+
+```java
+DatabaseMetaData dbmd = con.getMetaData();
+System.out.println(dbmd.getDatabaseProductName());
+```
+
+---
+
+## **233. How do you handle large objects (LOB) in JDBC?**
+
+* LOBs are **large data types** like `BLOB` (binary) and `CLOB` (text).
+* Used for **images, videos, documents**.
+* Handled using streams.
+
+```java
+// BLOB
+PreparedStatement ps =
+  con.prepareStatement("INSERT INTO files VALUES (?, ?)");
+
+ps.setInt(1, 1);
+ps.setBinaryStream(2, new FileInputStream("img.jpg"));
+ps.executeUpdate();
+```
+
+---
+
+## **234. What is scrollable ResultSet?**
+
+* A scrollable ResultSet allows **moving forward and backward**.
+* Default ResultSet is **forward-only**.
+* Useful for **pagination and reports**.
+
+```java
+Statement stmt = con.createStatement(
+    ResultSet.TYPE_SCROLL_INSENSITIVE,
+    ResultSet.CONCUR_READ_ONLY
+);
+
+ResultSet rs = stmt.executeQuery("SELECT * FROM emp");
+rs.last();
+rs.previous();
+```
+
+---
+
+## **235. What is updatable ResultSet?**
+
+* An updatable ResultSet allows **updating data directly** in the ResultSet.
+* Changes are **reflected in the database**.
+* Avoids writing separate UPDATE queries.
+
+```java
+Statement stmt = con.createStatement(
+    ResultSet.TYPE_SCROLL_INSENSITIVE,
+    ResultSet.CONCUR_UPDATABLE
+);
+
+ResultSet rs = stmt.executeQuery("SELECT * FROM emp");
+rs.next();
+rs.updateString("name", "Rahul");
+rs.updateRow();
+```
+
+---
+
+
+
+### Behavioral Patterns
+### 236. What are design patterns?
+
+* Design patterns are **reusable solutions** to common software problems.
+* They’re like templates for **writing clean, maintainable code**.
+* Example: Singleton, Factory, Observer, etc.
+* Think of them as **best practices** rather than exact code.
+
+---
+
+### 237. What is Singleton pattern?
+
+* Ensures a **class has only one instance** and provides a **global access point**.
+
+```java
+class Singleton {
+    private static Singleton instance;
+    private Singleton() {}
+    public static Singleton getInstance() {
+        if(instance == null) instance = new Singleton();
+        return instance;
+    }
+}
+```
+
+---
+
+### 238. How do you implement thread-safe Singleton?
+
+* Use **synchronized**, **eager initialization**, or **double-checked locking**.
+
+```java
+class Singleton {
+    private static volatile Singleton instance;
+    private Singleton() {}
+    public static Singleton getInstance() {
+        if(instance == null) {
+            synchronized(Singleton.class) {
+                if(instance == null) instance = new Singleton();
+            }
+        }
+        return instance;
+    }
+}
+```
+
+---
+
+### 239. What is Factory pattern?
+
+* Factory pattern **creates objects without exposing the creation logic**.
+* Lets you **instantiate classes through a common interface**.
+
+```java
+interface Shape { void draw(); }
+class Circle implements Shape { public void draw() { System.out.println("Circle"); } }
+class ShapeFactory {
+    public Shape getShape(String type) {
+        if(type.equals("circle")) return new Circle();
+        return null;
+    }
+}
+```
+
+---
+
+### 240. What is Abstract Factory pattern?
+
+* Abstract Factory **creates families of related objects** without specifying concrete classes.
+* Good for **cross-platform or UI components**.
+
+```java
+interface GUIFactory { Button createButton(); }
+class MacFactory implements GUIFactory { public Button createButton(){ return new MacButton(); } }
+```
+
+---
+
+### 241. What is Builder pattern?
+
+* Builder pattern **constructs complex objects step by step**, great for objects with many optional fields.
+
+```java
+class Car {
+    private String color; private int wheels;
+    public static class Builder {
+        private String color; private int wheels;
+        public Builder setColor(String c){ color=c; return this; }
+        public Builder setWheels(int w){ wheels=w; return this; }
+        public Car build(){ return new Car(this); }
+    }
+    private Car(Builder b){ color=b.color; wheels=b.wheels; }
+}
+Car car = new Car.Builder().setColor("Red").setWheels(4).build();
+```
+
+---
+
+### 242. What is Prototype pattern?
+
+* Prototype pattern **clones existing objects** instead of creating new ones.
+* Useful when object creation is **expensive**.
+
+```java
+class Person implements Cloneable {
+    String name;
+    public Person clone() throws CloneNotSupportedException { return (Person) super.clone(); }
+}
+```
+
+---
+
+### 243. When would you use each creational pattern?
+
+* **Singleton:** Single instance needed (config, logger).
+* **Factory:** Simple object creation with interface.
+* **Abstract Factory:** Families of objects, cross-platform UI.
+* **Builder:** Complex object construction with optional fields.
+* **Prototype:** Copying objects efficiently.
+
+---
+
+### 244. What are the pros and cons of Singleton pattern?
+
+* **Pros:** Controlled instance, global access, lazy initialization possible.
+* **Cons:** Hard to test, can hide dependencies, multi-thread issues if not implemented carefully.
+
+---
+
+### 245. How do you break Singleton pattern?
+
+* **Reflection:** Can call private constructor.
+* **Serialization:** Can create a new instance during deserialization.
+* **Cloning:** If `clone()` is not handled, you can copy the instance.
+
+---
 
 
 
