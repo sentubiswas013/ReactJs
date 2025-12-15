@@ -312,7 +312,7 @@ function Timer() {
 
 ---
 
-## **17. What is `useEffect` and how does it work?**
+## **17. What is the `useEffect` hook and how does it work?**
 
 * `useEffect` runs **after the component renders**
 * Used for API calls, timers, subscriptions
@@ -320,9 +320,17 @@ function Timer() {
 * Cleanup prevents memory leaks
 
 ```jsx
-useEffect(() => {
-  fetchData();
-}, []);
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    fetch(`/api/users/${userId}`)
+      .then(res => res.json())
+      .then(setUser);
+  }, [userId]);  // Runs when userId changes
+  
+  return <div>{user?.name}</div>;
+}
 ```
 
 ---
@@ -334,22 +342,43 @@ useEffect(() => {
 * Value persists between renders
 
 ```jsx
-const inputRef = useRef();
-
-<input ref={inputRef} />
+function FocusInput() {
+  const inputRef = useRef();
+  
+  const focusInput = () => {
+    inputRef.current.focus();  // Direct DOM access
+  };
+  
+  return (
+    <div>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Focus Input</button>
+    </div>
+  );
+}
 ```
 
 ---
 
-## **19. Purpose of `useMemo` and `useCallback`**
+## **19. What is the purpose of `useMemo` and `useCallback` hooks?**
 
 * Both are used for **performance optimization**
-* `useMemo` memoizes a **value**
-* `useCallback` memoizes a **function**
+* `useMemo` memoizes a **value** - useMemo memoizes expensive calculations to avoid recalculating on every render
+* `useCallback` memoizes a **function** - useCallback memoizes functions to prevent child components from re-rendering unnecessarily.
 * Helps avoid unnecessary re-renders
 
 ```jsx
-const memoValue = useMemo(() => compute(), [data]);
+function ExpensiveComponent({ items, onItemClick }) {
+  const expensiveValue = useMemo(() => {
+    return items.reduce((sum, item) => sum + item.value, 0);
+  }, [items]);  // Only recalculate when items change
+  
+  const handleClick = useCallback((id) => {
+    onItemClick(id);
+  }, [onItemClick]);  // Stable function reference
+  
+  return <div>{expensiveValue}</div>;
+}
 ```
 
 ---
