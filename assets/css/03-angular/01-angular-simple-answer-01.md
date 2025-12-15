@@ -114,6 +114,7 @@ They allow us to write code at the right moment, like initializing data, reactin
   * **ngOnDestroy()** – Runs before the component is removed.
     *Example:* 
     Unsubscribe from Observables or clear intervals.
+    
 ```typescript
 export class MyComponent implements OnInit, OnDestroy {
   ngOnInit() {

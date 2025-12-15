@@ -8,12 +8,15 @@
 * Angular provides built-in features like **routing, forms, HTTP, dependency injection**, and **state management**.
 * It follows a **component-based architecture**, which makes apps scalable and maintainable.
 
-```ts
+```typescript
+// Simple Angular component
 @Component({
-  selector: 'app-root',
-  template: `<h1>Hello Angular</h1>`
+  selector: 'app-hello',
+  template: '<h1>Hello {{name}}!</h1>'
 })
-export class AppComponent {}
+export class HelloComponent {
+  name = 'Angular';
+}
 ```
 
 ---
@@ -25,11 +28,18 @@ export class AppComponent {}
 * Angular uses **components**, AngularJS used **controllers and $scope**.
 * Angular is **faster**, more secure, and mobile-friendly.
 
-```ts
-// Angular component (modern)
-@Component({ template: `<p>{{name}}</p>` })
-export class TestComponent {
-  name = 'Angular';
+```typescript
+// AngularJS (1.x)
+angular.module('app').controller('MyCtrl', function($scope) {
+  $scope.message = 'Hello';
+});
+
+// Angular (2+)
+@Component({
+  template: '<p>{{message}}</p>'
+})
+export class MyComponent {
+  message = 'Hello';
 }
 ```
 
@@ -43,11 +53,14 @@ export class TestComponent {
 * Improved **SSR and hydration** performance.
 * Better developer experience and faster builds.
 
-```ts
-count = signal(0);
+```html
+<!-- New control flow syntax -->
+@if (user.isLoggedIn) {
+  <p>Welcome {{user.name}}</p>
+}
 
-increment() {
-  this.count.update(v => v + 1);
+@for (item of items; track item.id) {
+  <div>{{item.name}}</div>
 }
 ```
 
@@ -62,11 +75,18 @@ increment() {
 * **Modules** – app organization.
 * **Dependency Injection** – manages services.
 
-```ts
+```typescript
+// Component
+@Component({...})
+export class AppComponent {}
+
+// Service
 @Injectable()
-export class UserService {
-  getUser() { return 'John'; }
-}
+export class DataService {}
+
+// Module
+@NgModule({...})
+export class AppModule {}
 ```
 
 ---
@@ -82,8 +102,17 @@ export class UserService {
   * **Two-way binding** `[( )]`
 
 ```html
-<input [(ngModel)]="name">
-<p>{{ name }}</p>
+<!-- Interpolation -->
+<h1>{{title}}</h1>
+
+<!-- Property binding -->
+<img [src]="imageUrl">
+
+<!-- Event binding -->
+<button (click)="onClick()">Click</button>
+
+<!-- Two-way binding -->
+<input [(ngModel)]="username">
 ```
 
 ---
@@ -93,13 +122,39 @@ export class UserService {
 * Lifecycle hooks let you run code at **specific stages** of a component.
 * Common hooks:
 
-  * `ngOnInit()` – component initialization
-  * `ngOnChanges()` – input changes
-  * `ngOnDestroy()` – cleanup
+ * **ngOnInit()** – Runs once when the component loads.
+    *Example:* 
+    Fetch API data → `this.getUsers();`
 
-```ts
-ngOnInit() {
-  console.log('Component loaded');
+  * **ngOnChanges()** – Runs when an @Input() value changes.
+    *Example:* 
+    Update UI when parent sends new data.
+
+  * **ngDoCheck()** – Runs on every change detection cycle.
+    *Example:* 
+    Manual change tracking.
+
+  * **ngAfterViewInit()** – Runs after the view/child components are ready.
+    *Example:* 
+    Access a ViewChild and set focus.
+
+  * **ngAfterViewChecked()** – Runs after Angular checks the view.
+    *Example:* 
+    Debug or adjust UI layout.
+
+  * **ngOnDestroy()** – Runs before the component is removed.
+    *Example:* 
+    Unsubscribe from Observables or clear intervals.
+
+```typescript
+export class MyComponent implements OnInit, OnDestroy {
+  ngOnInit() {
+    console.log('Component initialized');
+  }
+  
+  ngOnDestroy() {
+    console.log('Component destroyed');
+  }
 }
 ```
 
@@ -116,12 +171,15 @@ ngOnInit() {
   * `@Directive`
   * `@Input`
 
-```ts
+```typescript
 @Component({
-  selector: 'app-demo',
-  template: `<p>Demo</p>`
+  selector: 'app-user',
+  templateUrl: './user.component.html'
 })
-export class DemoComponent {}
+export class UserComponent {
+  @Input() userId: string;
+  @Output() userSelected = new EventEmitter();
+}
 ```
 
 ---
