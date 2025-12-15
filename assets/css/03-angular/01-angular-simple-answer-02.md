@@ -66,7 +66,7 @@ export class MyComponent {
 
 ---
 
-## **4. Key components of Angular**
+## **4. What are the key components of Angular**
 
 * **Components** – UI building blocks.
 * **Templates** – HTML views.
