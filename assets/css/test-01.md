@@ -1,5 +1,3 @@
-## Core Java Fundamentals
-
 ### Basic Concepts
 1. What is Java and what are its key features?
 2. Explain the difference between JDK, JRE, and JVM.
@@ -30,8 +28,6 @@
 23. What is enhanced for loop (for-each)?
 24. When would you use switch vs if-else?
 25. What are the rules for switch statement in Java?
-
-## Object-Oriented Programming
 
 ### Classes and Objects
 26. What is a constructor in Java?
@@ -69,8 +65,6 @@
 54. What is functional interface?
 55. Can an interface extend another interface?
 
-## Exception Handling
-
 ### Exception Basics
 56. What is an exception in Java?
 57. What is the difference between error and exception?
@@ -89,8 +83,6 @@
 68. What is exception chaining?
 69. What is suppressed exception?
 70. How do you handle multiple exceptions in a single catch?
-
-## Collections Framework
 
 ### Collection Basics
 71. What is Java Collections Framework?
@@ -122,8 +114,6 @@
 93. What is the time complexity of TreeMap operations?
 94. How do you choose the right collection for your use case?
 95. What are the best practices for using collections?
-
-## Multithreading and Concurrency
 
 ### Thread Basics
 96. What is multithreading?
@@ -160,8 +150,6 @@
 123. What is Semaphore?
 124. What is ReentrantLock?
 125. What is the difference between ReentrantLock and synchronized?
-
-## Memory Management and Garbage Collection
 
 ### Memory Areas
 126. What are the different memory areas in JVM?
@@ -213,8 +201,6 @@
 164. What is NIO.2?
 165. What is asynchronous I/O?
 
-## Generics
-
 ### Generic Basics
 166. What are generics in Java?
 167. Why were generics introduced?
@@ -226,8 +212,6 @@
 173. Can you create generic arrays?
 174. What are generic methods?
 175. What are the limitations of generics?
-
-## Annotations and Reflection
 
 ### Annotations
 176. What are annotations in Java?
@@ -253,8 +237,6 @@
 194. What is the difference between Class.forName() and ClassLoader.loadClass()?
 195. How do you handle exceptions in reflection?
 
-## Lambda Expressions and Streams
-
 ### Lambda Expressions
 196. What are lambda expressions?
 197. What is the syntax of lambda expressions?
@@ -279,8 +261,6 @@
 214. What is Optional class?
 215. How do you handle null values with Optional?
 
-## Database Connectivity (JDBC)
-
 ### JDBC Basics
 216. What is JDBC?
 217. What are the steps to connect to a database using JDBC?
@@ -304,8 +284,6 @@
 233. How do you handle large objects (LOB) in JDBC?
 234. What is scrollable ResultSet?
 235. What is updatable ResultSet?
-
-## Design Patterns
 
 ### Creational Patterns
 236. What are design patterns?
@@ -343,8 +321,6 @@
 264. How do you implement Decorator pattern?
 265. What is the difference between Adapter and Facade?
 
-## Spring Framework
-
 ### Spring Core
 266. What is Spring Framework?
 267. What are the benefits of Spring?
@@ -368,8 +344,6 @@
 283. What is @Autowired annotation?
 284. What is @Qualifier annotation?
 285. How do you create REST APIs with Spring Boot?
-
-## Microservices and Web Services
 
 ### RESTful Services
 286. What are RESTful web services?
@@ -395,8 +369,6 @@
 304. What is event-driven architecture?
 305. How do you test microservices?
 
-## Performance and Optimization
-
 ### Performance Tuning
 306. How do you identify performance bottlenecks?
 307. What are common performance issues in Java applications?
@@ -420,8 +392,6 @@
 323. What are the different garbage collectors and when to use them?
 324. How do you tune garbage collection?
 325. What is escape analysis?
-
-## Modern Java Features
 
 ### Recent Java Versions
 346. What are the new features in Java 8?
