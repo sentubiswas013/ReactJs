@@ -421,32 +421,6 @@
 324. How do you tune garbage collection?
 325. What is escape analysis?
 
-## Testing
-
-### Unit Testing
-326. What is unit testing?
-327. What is JUnit?
-328. What are the important JUnit annotations?
-329. What is the difference between @Before and @BeforeEach?
-330. What is mocking?
-331. What is Mockito?
-332. How do you mock static methods?
-333. What is the difference between mock and spy?
-334. What is test-driven development (TDD)?
-335. What are testing best practices?
-
-### Integration Testing
-336. What is integration testing?
-337. How do you test Spring Boot applications?
-338. What is @SpringBootTest?
-339. How do you test REST APIs?
-340. How do you test database operations?
-341. What is TestContainers?
-342. How do you test microservices?
-343. What is contract testing?
-344. What is end-to-end testing?
-345. How do you handle test data management?
-
 ## Modern Java Features
 
 ### Recent Java Versions
