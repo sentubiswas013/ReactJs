@@ -1,8 +1,8 @@
 # Java Interview Question Bank
 *Top Questions Frequently Asked in Real-World Technical Interviews*
 
-### 1. Basic Concepts (6 Questions)
-## 1. What is Java and what are its key features?
+## 1. Basic Concepts (6 Questions)
+### 1. What is Java and what are its key features?
 
 * Java is a **high-level, object-oriented, platform-independent** programming language.
 * It follows **“Write Once, Run Anywhere”** using bytecode and the JVM.
@@ -19,7 +19,7 @@ public class Hello {
 
 ---
 
-## 2. Explain the difference between JDK, JRE, and JVM
+### 2. Explain the difference between JDK, JRE, and JVM
 
 * **JVM** runs Java bytecode and makes Java platform-independent.
 * **JRE** = JVM + core libraries → used to **run** Java programs.
@@ -32,7 +32,7 @@ JDK → JRE → JVM
 
 ---
 
-## 3. What are the main principles of Object-Oriented Programming?
+### 3. What are the main principles of Object-Oriented Programming?
 
 * **Encapsulation** – hide data using private fields.
 * **Inheritance** – reuse code using parent-child relationship.
@@ -49,7 +49,7 @@ class Car {
 
 ---
 
-## 4. What is polymorphism? Explain with examples.
+### 4. What is polymorphism? Explain with examples.
 
 * Polymorphism means **many forms**.
 * Achieved using **method overriding** and **method overloading**.
@@ -74,7 +74,7 @@ a.sound(); // Dog barks
 
 ---
 
-## 5. What is encapsulation and how is it implemented in Java?
+### 5. What is encapsulation and how is it implemented in Java?
 
 * Encapsulation means **binding data and methods together**.
 * Implemented using **private variables** and **public getters/setters**.
@@ -96,7 +96,7 @@ class Account {
 
 ---
 
-## 6. What is inheritance and what are its types?
+### 6. What is inheritance and what are its types?
 
 * Inheritance allows a class to **reuse properties of another class** using `extends`.
 * Promotes **code reuse** and **IS-A relationship**.
@@ -120,7 +120,7 @@ class Bike extends Vehicle {
 
 ---
 
-## 7. What is an abstract class?
+### 7. What is an abstract class?
 
 * An abstract class is a class that **cannot be instantiated**.
 * It can have **abstract and non-abstract methods**.
@@ -144,8 +144,8 @@ class Circle extends Shape {
 
 ---
 
-### 2. Data Types and Variables (8 Questions)
-## 1. What are primitive data types in Java?
+## 2. Data Types and Variables (8 Questions)
+### 1. What are primitive data types in Java?
 
 * Primitive data types store **actual values**, not objects.
 * Java has **8 primitive types**:
@@ -160,7 +160,7 @@ boolean active = true;
 
 ---
 
-## 2. What is the difference between primitive and reference types?
+### 2. What is the difference between primitive and reference types?
 
 * **Primitive types** store values directly.
 * **Reference types** store memory addresses of objects.
@@ -173,7 +173,7 @@ String name = "Java";   // reference
 
 ---
 
-## 3. What is autoboxing and unboxing?
+### 3. What is autoboxing and unboxing?
 
 * **Autoboxing**: converting primitive → wrapper object.
 * **Unboxing**: converting wrapper → primitive.
@@ -186,7 +186,7 @@ int b = a;       // unboxing
 
 ---
 
-## 4. What is the difference between `==` and `equals()` method?
+### 4. What is the difference between `==` and `equals()` method?
 
 * `==` compares **memory references**.
 * `equals()` compares **content/value**.
@@ -202,7 +202,7 @@ System.out.println(s1.equals(s2));  // true
 
 ---
 
-## 5. What is the difference between String, StringBuilder, and StringBuffer?
+### 5. What is the difference between String, StringBuilder, and StringBuffer?
 
 * **String** is immutable.
 * **StringBuilder** is mutable and **not thread-safe** (fast).
@@ -216,7 +216,7 @@ System.out.println(sb);
 
 ---
 
-## 6. Why are strings immutable in Java?
+### 6. Why are strings immutable in Java?
 
 * Improves **security** (used in passwords, URLs).
 * Enables **string pooling** for memory efficiency.
@@ -230,7 +230,7 @@ System.out.println(s); // Java
 
 ---
 
-## 7. What is string pooling?
+### 7. What is string pooling?
 
 * String literals are stored in a **special memory area called String Pool**.
 * Same literal shares the same object to save memory.
@@ -244,7 +244,7 @@ System.out.println(a == b); // true
 
 ---
 
-## 8. What is the difference between final, finally, and finalize?
+### 8. What is the difference between final, finally, and finalize?
 
 * **final** → prevents change (variable, method, class).
 * **finally** → block that always executes after try-catch.
@@ -263,8 +263,8 @@ try {
 ---
 
 
-### 3. Classes and Objects (7 Questions)
-## 1. What is a constructor in Java?
+## 3. Classes and Objects (7 Questions)
+### 1. What is a constructor in Java?
 
 * A constructor is a **special method** used to initialize objects.
 * It has the **same name as the class** and **no return type**.
@@ -282,7 +282,7 @@ Person p = new Person();
 
 ---
 
-## 2. What is constructor chaining?
+### 2. What is constructor chaining?
 
 * Constructor chaining means **calling one constructor from another**.
 * Done using `this()` within the same class.
@@ -302,7 +302,7 @@ class Demo {
 
 ---
 
-## 3. What is the difference between `this` and `super` keywords?
+### 3. What is the difference between `this` and `super` keywords?
 
 * `this` refers to the **current class object**.
 * `super` refers to the **parent class object**.
@@ -325,7 +325,7 @@ class B extends A {
 
 ---
 
-## 4. What is method overloading?
+### 4. What is method overloading?
 
 * Method overloading means **same method name, different parameters**.
 * Happens at **compile time**.
@@ -345,7 +345,7 @@ class Calc {
 
 ---
 
-## 5. What is method overriding?
+### 5. What is method overriding?
 
 * Method overriding means **child class provides its own implementation** of parent method.
 * Method signature must be **same**.
@@ -367,7 +367,7 @@ class Dog extends Animal {
 
 ---
 
-## 6. What is the difference between overloading and overriding?
+### 6. What is the difference between overloading and overriding?
 
 * **Overloading** → same class, different parameters, compile-time.
 * **Overriding** → different classes, same method, runtime.
@@ -383,7 +383,7 @@ void sound()
 
 ---
 
-## 7. What is dynamic method dispatch?
+### 7. What is dynamic method dispatch?
 
 * Dynamic method dispatch is **runtime method resolution**.
 * Parent reference points to child object.
@@ -396,8 +396,8 @@ a.sound(); // Dog barks
 
 ---
 
-### 4. Inheritance (6 Questions)
-## **1. Why doesn't Java support multiple inheritance?**
+## 4. Inheritance (6 Questions)
+### **1. Why doesn't Java support multiple inheritance?**
 
 * Java avoids multiple inheritance to prevent **ambiguity and complexity**
 * The main issue is **method conflict** when two parent classes have the same method
@@ -420,7 +420,7 @@ class B {
 
 ---
 
-## **2. What is the diamond problem?**
+### **2. What is the diamond problem?**
 
 * It occurs when a class inherits from **two classes that share a common parent**
 * The compiler gets confused about **which method to call**
@@ -443,7 +443,7 @@ class B {
 
 ---
 
-## **3. How does Java solve the diamond problem?**
+### **3. How does Java solve the diamond problem?**
 
 * Java **does not allow multiple inheritance with classes**
 * With **interfaces**, Java forces the class to **explicitly override** the method
@@ -473,7 +473,7 @@ class C implements A, B {
 
 ---
 
-## **4. Can you override static methods?**
+### **4. Can you override static methods?**
 
 * ❌ **No**, static methods **cannot be overridden**
 * Static methods belong to the **class**, not the object
@@ -504,7 +504,7 @@ p.display();  // Output: Parent
 
 ---
 
-## **5. What is covariant return type?**
+### **5. What is covariant return type?**
 
 * It allows an **overridden method** to return a **subclass type**
 * Introduced in **Java 5**
@@ -528,7 +528,7 @@ class Dog extends Animal {
 
 ---
 
-## **6. What is the difference between IS-A and HAS-A relationship?**
+### **6. What is the difference between IS-A and HAS-A relationship?**
 
 ### **IS-A (Inheritance)**
 
@@ -560,8 +560,8 @@ class Car {
 
 ---
 
-### 5. Interfaces and Abstract Classes (8 Questions)
-## **1. What is an interface in Java?**
+## 5. Interfaces and Abstract Classes (8 Questions)
+### **1. What is an interface in Java?**
 
 * An interface is a **contract** that defines *what a class must do*
 * It contains **method declarations** (and from Java 8, default & static methods)
@@ -584,7 +584,7 @@ class Car implements Vehicle {
 
 ---
 
-## **2. What is an abstract class?**
+### **2. What is an abstract class?**
 
 * An abstract class is a **partial abstraction**
 * It can have **abstract and concrete methods**
@@ -605,7 +605,7 @@ abstract class Animal {
 
 ---
 
-## **3. What is the difference between interface and abstract class?**
+### **3. What is the difference between interface and abstract class?**
 
 | Feature              | Interface                 | Abstract Class      |
 | -------------------- | ------------------------- | ------------------- |
@@ -622,7 +622,7 @@ abstract class Animal {
 
 ---
 
-## **4. What are default methods in interfaces?**
+### **4. What are default methods in interfaces?**
 
 * Introduced in **Java 8**
 * Allow adding new methods **without breaking existing classes**
@@ -640,7 +640,7 @@ interface Vehicle {
 
 ---
 
-## **5. What are static methods in interfaces?**
+### **5. What are static methods in interfaces?**
 
 * Introduced in **Java 8**
 * Belong to the **interface itself**
@@ -661,7 +661,7 @@ Utils.log();
 
 ---
 
-## **6. What is a marker interface?**
+### **6. What is a marker interface?**
 
 * An interface **with no methods**
 * Used to **mark a class** for special behavior
@@ -680,7 +680,7 @@ class Student implements Serializable {
 
 ---
 
-## **7. What is a functional interface?**
+### **7. What is a functional interface?**
 
 * An interface with **exactly one abstract method**
 * Used in **lambda expressions**
@@ -699,7 +699,7 @@ Calculator c = (a, b) -> a + b;
 
 ---
 
-## **8. Can an interface extend another interface?**
+### **8. Can an interface extend another interface?**
 
 * ✅ **Yes**
 * An interface can extend **one or multiple interfaces**
@@ -722,8 +722,8 @@ interface C extends A, B {
 
 ---
 
-### 6. Exception Handling (8 Questions)
-## **1. What is an exception in Java?**
+## 6. Exception Handling (8 Questions)
+### **1. What is an exception in Java?**
 
 * An exception is a **runtime problem** that **interrupts normal program flow**.
 * It happens when something unexpected occurs, like dividing by zero or file not found.
@@ -736,7 +736,7 @@ int a = 10 / 0;  // ArithmeticException
 
 ---
 
-## **2. What is the exception hierarchy in Java?**
+### **2. What is the exception hierarchy in Java?**
 
 * All exceptions come from the **Throwable** class.
 * It has two main branches:
@@ -756,7 +756,7 @@ Throwable
 
 ---
 
-## **3. What are checked and unchecked exceptions?**
+### **3. What are checked and unchecked exceptions?**
 
 * **Checked exceptions** are checked at compile time.
 * **Unchecked exceptions** happen at runtime.
@@ -773,7 +773,7 @@ int x = 10 / 0;
 
 ---
 
-## **4. Difference between throw and throws?**
+### **4. Difference between throw and throws?**
 
 * **throw** → used to **explicitly throw** an exception.
 * **throws** → used in method signature to **declare exceptions**.
@@ -790,7 +790,7 @@ void checkAge(int age) throws Exception {
 
 ---
 
-## **5. What is try-catch-finally block?**
+### **5. What is try-catch-finally block?**
 
 * **try** → code that may cause exception
 * **catch** → handles exception
@@ -810,7 +810,7 @@ try {
 
 ---
 
-## **6. What is try-with-resources?**
+### **6. What is try-with-resources?**
 
 * Automatically **closes resources** like files and streams.
 * No need for finally block.
@@ -825,7 +825,7 @@ try (FileReader fr = new FileReader("file.txt")) {
 
 ---
 
-## **7. How do you create custom exceptions?**
+### **7. How do you create custom exceptions?**
 
 * Extend the **Exception** or **RuntimeException** class.
 
@@ -847,7 +847,7 @@ throw new InvalidAgeException("Age is invalid");
 
 ---
 
-## **8. What is exception chaining?**
+### **8. What is exception chaining?**
 
 * Passing one exception as the **cause of another**.
 * Helps track root cause.
@@ -864,8 +864,8 @@ try {
 
 ---
 
-### 7. Collections Framework (8 Questions)
-## **1. What is Java Collections Framework?**
+## 7. Collections Framework (8 Questions)
+### **1. What is Java Collections Framework?**
 
 * It’s a **set of classes and interfaces** used to **store, manipulate, and retrieve data**.
 * It provides **ready-made data structures** like List, Set, Map, Queue.
@@ -880,7 +880,7 @@ list.add("Spring");
 
 ---
 
-## **2. Difference between ArrayList and LinkedList**
+### **2. Difference between ArrayList and LinkedList**
 
 * **ArrayList** uses a **dynamic array** → fast **read**, slow **insert/delete** in middle.
 * **LinkedList** uses **doubly linked list** → slow **read**, fast **insert/delete**.
@@ -893,7 +893,7 @@ List<Integer> l = new LinkedList<>();
 
 ---
 
-## **3. Difference between HashMap and TreeMap**
+### **3. Difference between HashMap and TreeMap**
 
 * **HashMap** stores data in **no order**.
 * **TreeMap** stores data in **sorted order** (natural or comparator).
@@ -906,7 +906,7 @@ Map<Integer, String> map2 = new TreeMap<>();
 
 ---
 
-## **4. Difference between HashMap and Hashtable**
+### **4. Difference between HashMap and Hashtable**
 
 * **HashMap** is **not synchronized**, faster.
 * **Hashtable** is **synchronized**, thread-safe but slower.
@@ -920,7 +920,7 @@ Hashtable<String, String> table = new Hashtable<>();
 
 ---
 
-## **5. How does HashMap work internally?**
+### **5. How does HashMap work internally?**
 
 * HashMap uses **hashing** to store key-value pairs.
 * Key’s `hashCode()` determines the **bucket index**.
@@ -933,7 +933,7 @@ map.put("A", 1); // hashCode → bucket → store entry
 
 ---
 
-## **6. What is hash collision and how is it handled?**
+### **6. What is hash collision and how is it handled?**
 
 * **Collision** happens when two keys have same hash value.
 * HashMap handles it using:
@@ -949,7 +949,7 @@ map.put("Ea", 2); // Same hashCode → collision
 
 ---
 
-## **7. Difference between fail-fast and fail-safe iterators**
+### **7. Difference between fail-fast and fail-safe iterators**
 
 * **Fail-fast** throws `ConcurrentModificationException`.
 * **Fail-safe** works on a **copy**, no exception.
@@ -965,7 +965,7 @@ Iterator it2 = new CopyOnWriteArrayList<>(list).iterator();
 
 ---
 
-## **8. Difference between Comparable and Comparator**
+### **8. Difference between Comparable and Comparator**
 
 * **Comparable** is used for **natural ordering**.
 * **Comparator** is used for **custom ordering**.
@@ -985,7 +985,7 @@ Comparator<Employee> comp =
 
 ---
 
-## **9. What are WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?**
+### **9. What are WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?**
 
 * **WeakHashMap**: Keys removed when no strong reference exists.
 * **IdentityHashMap**: Uses `==` instead of `equals()`.
@@ -1003,8 +1003,8 @@ pq.add(5);
 
 ---
 
-### 8. Multithreading and Synchronization (8 Questions)
-## 1. What is multithreading?
+## 8. Multithreading and Synchronization (8 Questions)
+### 1. What is multithreading?
 
 * Multithreading means **running multiple threads concurrently** within a single program
 * Helps improve **performance and responsiveness**
@@ -1022,7 +1022,7 @@ class MyTask extends Thread {
 
 ---
 
-## 2. How do you create threads in Java?
+### 2. How do you create threads in Java?
 
 **Two common ways:**
 
@@ -1050,7 +1050,7 @@ new Thread(new MyTask()).start();
 
 ---
 
-## 3. Difference between extending Thread and implementing Runnable?
+### 3. Difference between extending Thread and implementing Runnable?
 
 * `Thread`: you **cannot extend another class**
 * `Runnable`: allows **multiple inheritance**
@@ -1059,7 +1059,7 @@ new Thread(new MyTask()).start();
 
 ---
 
-## 4. What are the states of a thread?
+### 4. What are the states of a thread?
 
 * **NEW** – thread created but not started
 * **RUNNABLE** – ready or running
@@ -1070,7 +1070,7 @@ new Thread(new MyTask()).start();
 
 ---
 
-## 5. What is synchronization in Java?
+### 5. What is synchronization in Java?
 
 * Synchronization **controls access to shared resources**
 * Prevents **data inconsistency**
@@ -1086,7 +1086,7 @@ synchronized void increment() {
 
 ---
 
-## 6. What is deadlock and how do you prevent it?
+### 6. What is deadlock and how do you prevent it?
 
 * Deadlock happens when **two threads wait for each other forever**
 
@@ -1104,7 +1104,7 @@ synchronized void increment() {
 
 ---
 
-## 7. What is `volatile` keyword?
+### 7. What is `volatile` keyword?
 
 * Ensures **visibility of changes across threads**
 * Prevents **CPU cache issues**
@@ -1118,7 +1118,7 @@ volatile boolean running = true;
 
 ---
 
-## 8. Difference between `synchronized` and `volatile`?
+### 8. Difference between `synchronized` and `volatile`?
 
 | synchronized                   | volatile                |
 | ------------------------------ | ----------------------- |
@@ -1129,7 +1129,7 @@ volatile boolean running = true;
 
 ---
 
-## 9. What is race condition and atomic operation?
+### 9. What is race condition and atomic operation?
 
 ### Race Condition
 
@@ -1156,8 +1156,8 @@ count.incrementAndGet();
 
 ---
 
-### 9. Advanced Concurrency (6 Questions)
-## 1️⃣ What is **ExecutorService**?
+## 9. Advanced Concurrency (6 Questions)
+### 1️⃣ What is **ExecutorService**?
 
 * ExecutorService is a **framework to manage threads** for you.
 * You submit tasks → it handles **thread creation, reuse, and shutdown**.
@@ -1177,7 +1177,7 @@ executor.shutdown();
 
 ---
 
-## 2️⃣ What are the **types of thread pools**?
+### 2️⃣ What are the **types of thread pools**?
 
 * **Fixed Thread Pool** – fixed number of threads
 * **Cached Thread Pool** – creates threads as needed
@@ -1195,7 +1195,7 @@ Executors.newScheduledThreadPool(2);
 
 ---
 
-## 3️⃣ What is **Future** and **CompletableFuture**?
+### 3️⃣ What is **Future** and **CompletableFuture**?
 
 ### **Future**
 
@@ -1221,7 +1221,7 @@ CompletableFuture
 
 ---
 
-## 4️⃣ What is **CountDownLatch**?
+### 4️⃣ What is **CountDownLatch**?
 
 * Used to **wait until multiple threads finish**
 * Main thread waits until count reaches zero
@@ -1244,7 +1244,7 @@ System.out.println("All tasks completed");
 
 ---
 
-## 5️⃣ What is **ReentrantLock**?
+### 5️⃣ What is **ReentrantLock**?
 
 * A **manual locking mechanism**
 * Same thread can lock multiple times
@@ -1265,7 +1265,7 @@ try {
 
 ---
 
-## 6️⃣ Difference between **ReentrantLock** and **synchronized**
+### 6️⃣ Difference between **ReentrantLock** and **synchronized**
 
 | Feature       | synchronized | ReentrantLock |
 | ------------- | ------------ | ------------- |
@@ -1288,7 +1288,7 @@ if (lock.tryLock()) {
 
 ---
 
-### 10. JVM and Memory Management (8 Questions)
+## 10. JVM and Memory Management (8 Questions)
 ### 1. **What are the different memory areas in JVM?**
 
 * **Heap**: Stores objects and arrays (runtime data).
@@ -1432,7 +1432,7 @@ public class GCRootExample {
 class MyObject {}
 ```
 
-### 11. Input/Output (I/O) (6 Questions)
+## 11. Input/Output (I/O) (6 Questions)
 ### 1. **What are the different ways to read a file in Java?**
 
 * **FileInputStream**: Reads binary data.
@@ -1588,7 +1588,7 @@ lines.forEach(System.out::println);
   serverChannel.configureBlocking(false);  // Non-blocking mode
   ```
 
-### 12. Generics (6 Questions)
+## 12. Generics (6 Questions)
 ### 1. **What are generics in Java?**
 
 * Generics allow you to write **type-safe** and **reusable** code.
@@ -1715,7 +1715,7 @@ T obj = new T();
 static T value;
 ```
 
-### 13. Annotations and Reflection (6 Questions)
+## 13. Annotations and Reflection (6 Questions)
 ### 1. **What are annotations in Java?**
 
 * Annotations are metadata that provide additional information to the compiler or runtime.
@@ -1844,7 +1844,7 @@ static T value;
   }
   ```
 
-### 14. Lambda Expressions and Streams API (8 Questions)
+## 14. Lambda Expressions and Streams API (8 Questions)
 ### 1. **What are lambda expressions?**
 
 * Lambda expressions allow you to pass behavior as a parameter to methods or store it in variables.
@@ -1993,7 +1993,7 @@ static T value;
   System.out.println(name.orElse("Unknown")); // Outputs "Unknown"
   ```
 
-### 15. JDBC (6 Questions)
+## 15. JDBC (6 Questions)
 ### 1. **What is JDBC?**
 
 * JDBC stands for **Java Database Connectivity**.
@@ -2115,7 +2115,7 @@ try {
 
 ---
 
-### 16. Design Patterns (8 Questions)
+## 16. Design Patterns (8 Questions)
 ### 1. **What are design patterns?**
 
 * Design patterns are **proven solutions to common software design problems**.
@@ -2327,7 +2327,7 @@ class MilkDecorator implements Coffee {
 
 ---
 
-### 17. Spring Framework (8 Questions)
+## 17. Spring Framework (8 Questions)
 ### 1. **What is Spring Framework?**
 
 * A comprehensive, lightweight framework for Java that simplifies development, especially for enterprise applications.
@@ -2487,7 +2487,7 @@ class MilkDecorator implements Coffee {
   MyBean bean = context.getBean(MyBean.class);
   ```
 
-### 18. RESTful Services (6 Questions)
+## 18. RESTful Services (6 Questions)
 ### 1. **What are RESTful web services?**
 
 * RESTful web services are APIs that follow REST (Representational State Transfer) principles.
@@ -2594,7 +2594,7 @@ public ResponseEntity<User> getUser(@PathVariable int id) {
 }
 ```
 
-### 19. Microservices (6 Questions)
+## 19. Microservices (6 Questions)
 ### 1. **What are microservices?**
 
 * An architectural style where an application is split into small, independent services.
@@ -2686,7 +2686,7 @@ public String fallback(Exception e) {
 }
 ```
 
-### 20. Performance Tuning (8 Questions)
+## 20. Performance Tuning (8 Questions)
 ### 1. **How do you identify performance bottlenecks?**
 
 * **Profiling:** Use tools like JProfiler, VisualVM, or YourKit to track CPU usage, memory consumption, and thread activity.
@@ -2817,8 +2817,8 @@ public String fallback(Exception e) {
 
 ---
 
-### 21. Modern Java Features (4 Questions)
-## 1. What are the new features in **Java 8**?
+## 21. Modern Java Features (4 Questions)
+### 1. What are the new features in **Java 8**?
 
 * Biggest shift: **functional programming**
 * **Lambdas** reduce boilerplate code
@@ -2839,7 +2839,7 @@ names.stream()
 
 ---
 
-## 2. What are the new features in **Java 11**?
+### 2. What are the new features in **Java 11**?
 
 * It’s an **LTS version**
 * New **String utility methods**
@@ -2858,7 +2858,7 @@ System.out.println(s.strip());    // "Hello"
 
 ---
 
-## 3. What are the new features in **Java 17**?
+### 3. What are the new features in **Java 17**?
 
 * Another **LTS version**, widely used today
 * **Sealed classes** for controlled inheritance
@@ -2885,7 +2885,7 @@ final class Square extends Shape {}
 
 ---
 
-## 4. What is the Java release cycle and **LTS versions**?
+### 4. What is the Java release cycle and **LTS versions**?
 
 * Java follows a **6-month release cycle**
 * New versions in **March and September**
@@ -2903,7 +2903,7 @@ final class Square extends Shape {}
 
 ---
 
-## 5. How do you migrate an application from **Java 8 to Java 17**?
+### 5. How do you migrate an application from **Java 8 to Java 17**?
 
 * First, **upgrade JDK and build tools**
 * Upgrade **third-party libraries**
@@ -2975,8 +2975,8 @@ if (obj instanceof String s) {
 ---
 
 
-#### Cloud and Containerization
-## 1. What is **containerization**?
+## Cloud and Containerization
+### 1. What is **containerization**?
 
 * Containerization means **packing app + dependencies together**
 * Runs the same way in dev, test, and production
@@ -2991,7 +2991,7 @@ Java App + JDK + Config → One container → Runs anywhere
 
 ---
 
-## 2. What is **Docker**?
+### 2. What is **Docker**?
 
 * Docker is a **tool to create and run containers**
 * Uses **Dockerfile** to define app setup
@@ -3008,7 +3008,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ---
 
-## 3. What is **Kubernetes**?
+### 3. What is **Kubernetes**?
 
 * Kubernetes is a **container orchestration platform**
 * Manages deployment, scaling, and self-healing
@@ -3028,7 +3028,7 @@ spec:
 
 ---
 
-## 4. What is **cloud computing**?
+### 4. What is **cloud computing**?
 
 * Cloud computing means **using servers over the internet**
 * No need to manage physical hardware
@@ -3043,7 +3043,7 @@ Run Java app on AWS EC2 instead of local server
 
 ---
 
-## 5. What is a **distributed system**?
+### 5. What is a **distributed system**?
 
 * A system where **multiple services run on different machines**
 * They communicate over the network
@@ -3058,7 +3058,7 @@ User Service → Order Service → Payment Service
 
 ---
 
-## 6. What is **load balancing**?
+### 6. What is **load balancing**?
 
 * Load balancing **distributes traffic across servers**
 * Prevents one server from getting overloaded
@@ -3073,7 +3073,7 @@ Client → Load Balancer → Server1 / Server2 / Server3
 
 ---
 
-## 7. What are **caching strategies**?
+### 7. What are **caching strategies**?
 
 * Caching stores **frequently used data in fast memory**
 * Reduces database calls
