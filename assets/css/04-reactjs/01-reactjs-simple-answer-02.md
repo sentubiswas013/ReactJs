@@ -24,24 +24,29 @@ function App() {
 * Browsers don’t understand JSX, so it’s converted to JavaScript by Babel
 
 ```jsx
-const element = <h1>Welcome</h1>;
+const element = <h1>Hello, {name}!</h1>;
+// Becomes: React.createElement('h1', null, 'Hello, ', name, '!')
 ```
 
 ---
 
-## **3. Difference between React and ReactDOM**
+## **3. What is the difference between React and ReactDOM**
 
 * **React** is used to **create components and manage logic**
 * **ReactDOM** is used to **render React components to the browser**
 * React works behind the scenes, ReactDOM interacts with the DOM
 
 ```jsx
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
 ```
 
 ---
 
-## **4. React Development Workflow (npm, Webpack, Babel)**
+## **4. How does the React development workflow (npm start, Webpack, Babel) work?**
 
 * `npm start` runs the development server
 * **Webpack** bundles all JS, CSS, and assets into one optimized file
@@ -49,7 +54,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 * This setup gives fast reloads and optimized builds
 
 ```bash
-npm start
+npm start  # Starts development server
+npm run build  # Creates production bundle
 ```
 
 ---
@@ -68,7 +74,7 @@ function Header() {
 
 ---
 
-## **6. Types of components in React**
+## **6. What are the types of components in React?**
 
 * **Functional Components** – simple functions, most commonly used
 * **Class Components** – older style, uses classes and lifecycle methods
@@ -77,12 +83,20 @@ function Header() {
 ```jsx
 // Functional Component
 function Button() {
-  return <button>Click</button>;
+  return <button>Click me</button>;
+}
+
+// Class Component
+class Button extends React.Component {
+  render() {
+    return <button>Click me</button>;
+  }
+}
 ```
 
 ---
 
-## **7. Functional vs Class Components**
+## **7. What is the difference between functional and class components?**
 
 * Functional components are **simpler and cleaner**
 * Class components use `this` and lifecycle methods
@@ -90,8 +104,19 @@ function Button() {
 * Functional components are the modern standard
 
 ```jsx
-// Functional
-const App = () => <h1>Hello</h1>;
+// Functional with hooks
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Class component
+class Counter extends React.Component {
+  state = { count: 0 };
+  render() {
+    return <button onClick={() => this.setState({count: this.state.count + 1})}>{this.state.count}</button>;
+  }
+}
 ```
 
 ---
@@ -104,7 +129,16 @@ const App = () => <h1>Hello</h1>;
 * This makes React **fast and efficient**
 
 ```jsx
-setState({ count: count + 1 });
+// React efficiently updates only what changed
+function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <h1>Static title</h1>  {/* Won't re-render */}
+      <p>{count}</p>         {/* Only this updates */}
+    </div>
+  );
+}
 ```
 
 ---
@@ -116,14 +150,18 @@ setState({ count: count + 1 });
 * Props help make components **reusable and dynamic**
 
 ```jsx
-function Greeting({ name }) {
-  return <h1>Hello {name}</h1>;
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
 }
+
+// Usage
+<Greeting name="Alice" />
+<Greeting name="Bob" />
 ```
 
 ---
 
-## **10. State vs Props**
+## **10. What are state and how does it differ from props?**
 
 * **State** is managed inside a component
 * **Props** come from parent components
@@ -131,7 +169,16 @@ function Greeting({ name }) {
 * State is used for dynamic data like user input
 
 ```jsx
-const [count, setCount] = React.useState(0);
+function Counter() {
+  const [count, setCount] = useState(0); // State - internal, mutable
+  
+  return (
+    <div>
+      <Display value={count} />  {/* Props - external, read-only */}
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </div>
+  );
+}
 ```
 
 ---
@@ -144,12 +191,20 @@ const [count, setCount] = React.useState(0);
 * Usually, we use an **id**, not an index
 
 ```jsx
-items.map(item => <li key={item.id}>{item.name}</li>);
+function TodoList({ todos }) {
+  return (
+    <ul>
+      {todos.map(todo => 
+        <li key={todo.id}>{todo.text}</li>  // Use unique ID, not index
+      )}
+    </ul>
+  );
+}
 ```
 
 ---
 
-## **12. What are controlled components?**
+## **12. What are controlled components in React?**
 
 * Controlled components are form inputs **controlled by React state**
 * The input value comes from `useState`
@@ -157,14 +212,21 @@ items.map(item => <li key={item.id}>{item.name}</li>);
 * This gives better control and validation
 
 ```jsx
-const [name, setName] = useState("");
-
-<input value={name} onChange={e => setName(e.target.value)} />
+function LoginForm() {
+  const [email, setEmail] = useState('');
+  
+  return (
+    <input 
+      value={email}  // Controlled by React state
+      onChange={(e) => setEmail(e.target.value)}
+    />
+  );
+}
 ```
 
 ---
 
-## **13. What are uncontrolled components?**
+## **13. What are uncontrolled components in React?**
 
 * Uncontrolled components store form data **in the DOM, not state**
 * We use `useRef` to access values
@@ -172,14 +234,20 @@ const [name, setName] = useState("");
 * Useful for quick or simple forms
 
 ```jsx
-const inputRef = useRef();
-
-<input ref={inputRef} />
+function LoginForm() {
+  const emailRef = useRef();
+  
+  const handleSubmit = () => {
+    console.log(emailRef.current.value);  // Access via ref
+  };
+  
+  return <input ref={emailRef} />;  // Uncontrolled
+}
 ```
 
 ---
 
-## **14. Purpose of the `render()` method**
+## **14. What is the purpose of the `render()` method in React?**
 
 * `render()` defines **what UI should appear on the screen**
 * It returns JSX
@@ -187,14 +255,16 @@ const inputRef = useRef();
 * Used only in **class components**
 
 ```jsx
-render() {
-  return <h1>Hello</h1>;
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}!</h1>;  // Must return JSX
+  }
 }
 ```
 
 ---
 
-## **15. What are React Hooks? Name some**
+## **15. What are React hooks? Can you name some of them?**
 
 * Hooks let functional components **use state and lifecycle features**
 * They remove the need for class components
@@ -206,12 +276,21 @@ render() {
   * `useContext`
 
 ```jsx
-const [count, setCount] = useState(0);
+function MyComponent() {
+  const [count, setCount] = useState(0);        // State hook
+  const [name, setName] = useState('');
+  
+  useEffect(() => {                             // Effect hook
+    document.title = `Count: ${count}`;
+  }, [count]);
+  
+  return <div>{count}</div>;
+}
 ```
 
 ---
 
-## **16. Difference between `useState` and `useEffect`**
+## **16. What is the difference between `useState` and `useEffect` hooks?**
 
 * `useState` manages **data**
 * `useEffect` manages **side effects**
@@ -219,9 +298,16 @@ const [count, setCount] = useState(0);
 * `useEffect` runs code after render
 
 ```jsx
-useEffect(() => {
-  console.log("Component mounted");
-}, []);
+function Timer() {
+  const [count, setCount] = useState(0);  // State management
+  
+  useEffect(() => {                       // Side effect
+    const timer = setInterval(() => setCount(c => c + 1), 1000);
+    return () => clearInterval(timer);    // Cleanup
+  }, []);
+  
+  return <div>{count}</div>;
+}
 ```
 
 ---
