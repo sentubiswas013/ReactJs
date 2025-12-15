@@ -184,7 +184,7 @@ export class UserComponent {
 
 ---
 
-## **8. What is a directive? Types of directives**
+## **8. What is a directive in Angular? Can you name the different types of directives?**
 
 * Directives change the **behavior or appearance** of elements.
 * Types:
@@ -193,8 +193,22 @@ export class UserComponent {
   * **Attribute** – change styles/behavior (`ngClass`)
   * **Custom directives**
 
+```typescript
+// Attribute directive
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+  @HostListener('mouseenter') onMouseEnter() {
+    this.el.nativeElement.style.backgroundColor = 'yellow';
+  }
+}
+```
+
 ```html
-<p *ngIf="isLoggedIn">Welcome</p>
+<!-- Usage -->
+<p appHighlight>Hover me!</p>
+<div *ngIf="showContent">Content</div>
 ```
 
 ---
@@ -209,12 +223,20 @@ export class UserComponent {
   * TypeScript logic
 * Components are **reusable and independent**.
 
-```ts
+```typescript
 @Component({
-  selector: 'app-user',
-  template: `<h2>User Component</h2>`
+  selector: 'app-product',
+  template: `
+    <div class="product">
+      <h3>{{product.name}}</h3>
+      <p>Price: {{product.price | currency}}</p>
+    </div>
+  `,
+  styles: ['.product { border: 1px solid #ccc; }']
 })
-export class UserComponent {}
+export class ProductComponent {
+  product = { name: 'Laptop', price: 999 };
+}
 ```
 
 ---
@@ -226,10 +248,11 @@ export class UserComponent {}
 * Root module is `AppModule`.
 * Angular now also supports **standalone components** (less module usage).
 
-```ts
+```typescript
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule],
+  declarations: [AppComponent, HeaderComponent],
+  imports: [BrowserModule, FormsModule],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
@@ -243,13 +266,18 @@ export class AppModule {}
 * Services are usually injected into components using **dependency injection**.
 * Common use cases: HTTP requests, authentication, logging.
 
-```ts
-@Injectable({ providedIn: 'root' })
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
-  getUser() {
-    return 'John';
+  getUsers() {
+    return this.http.get<User[]>('/api/users');
   }
 }
+
+// Usage in component
+constructor(private userService: UserService) {}
 ```
 
 ---
@@ -260,8 +288,14 @@ export class UserService {
 * Instead of creating services manually, Angular **injects them where needed**.
 * This improves **code reusability, testing, and maintainability**.
 
-```ts
-constructor(private userService: UserService) {}
+```typescript
+@Component({...})
+export class OrderComponent {
+  constructor(
+    private orderService: OrderService,
+    private router: Router
+  ) {}
+}
 ```
 
 ---
@@ -273,26 +307,37 @@ constructor(private userService: UserService) {}
 * They can emit **multiple values over time**.
 * You subscribe to Observables to get data.
 
-```ts
-this.http.get('/api/users').subscribe(data => {
-  console.log(data);
+```typescript
+// HTTP request returns Observable
+getUsers(): Observable<User[]> {
+  return this.http.get<User[]>('/api/users');
+}
+
+// Subscribe to get data
+this.userService.getUsers().subscribe(users => {
+  this.users = users;
 });
-```
 
 ---
 
-## **14. What is a provider?**
+### 14. What is a provider?
 
 * A provider tells Angular **how to create or supply a service**.
 * It defines **where and how** a dependency is available.
-* Providers can be registered at:
+* Providers can be registered at
 
-  * Root level
-  * Module level
-  * Component level
-
-```ts
+```typescript
+// Class provider
 providers: [UserService]
+
+// Value provider
+providers: [{ provide: API_URL, useValue: 'https://api.example.com' }]
+
+// Factory provider
+providers: [{ 
+  provide: Logger, 
+  useFactory: () => new Logger(environment.production) 
+}]
 ```
 
 ---
@@ -303,17 +348,23 @@ providers: [UserService]
 * Angular provides built-in pipes like `date`, `uppercase`, `currency`.
 * Yes, we can create **custom pipes**.
 
-```ts
-@Pipe({ name: 'reverse' })
-export class ReversePipe implements PipeTransform {
-  transform(value: string) {
-    return value.split('').reverse().join('');
+```typescript
+// Built-in pipes
+{{ user.birthDate | date:'short' }}
+{{ product.price | currency:'USD' }}
+{{ message | uppercase }}
+
+// Custom pipe
+@Pipe({ name: 'truncate' })
+export class TruncatePipe implements PipeTransform {
+  transform(value: string, limit: number = 10): string {
+    return value.length > limit ? value.substring(0, limit) + '...' : value;
   }
 }
 ```
 
 ```html
-<p>{{ 'Angular' | reverse }}</p>
+<p>{{ 'longText' | truncate:20 }}</p>
 ```
 
 ---
@@ -328,10 +379,16 @@ export class ReversePipe implements PipeTransform {
   * Completion signals
 * Observables are **lazy** — they run only when subscribed.
 
-```ts
-const obs$ = new Observable(observer => {
+```typescript
+// Creating an observable
+const data$ = new Observable(observer => {
   observer.next('Hello');
+  observer.next('World');
+  observer.complete();
 });
+
+// Subscribe to receive data
+data$.subscribe(value => console.log(value));
 ```
 
 ---
@@ -346,12 +403,14 @@ const obs$ = new Observable(observer => {
   * `complete` – completion
 * Observers are passed into `subscribe()`.
 
-```ts
-obs$.subscribe({
-  next: val => console.log(val),
-  error: err => console.error(err),
-  complete: () => console.log('Done')
-});
+```typescript
+const observer = {
+  next: value => console.log('Received:', value),
+  error: err => console.error('Error:', err),
+  complete: () => console.log('Stream completed')
+};
+
+observable$.subscribe(observer);
 ```
 
 ---
@@ -380,7 +439,11 @@ subject.next(1);
 * It loads the **root component**.
 * Usually done in `AppModule` using `bootstrap`.
 
-```ts
+```typescript
+// main.ts
+platformBrowserDynamic().bootstrapModule(AppModule);
+
+// app.module.ts
 @NgModule({
   bootstrap: [AppComponent]
 })
@@ -395,9 +458,12 @@ export class AppModule {}
 * `main.ts` bootstraps the root module or root component.
 * From there, Angular loads the entire application.
 
-```ts
-platformBrowserDynamic()
-  .bootstrapModule(AppModule);
+```typescript
+// main.ts - Entry point
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
+
+platformBrowserDynamic().bootstrapModule(AppModule);
 ```
 
 ---
@@ -409,10 +475,13 @@ platformBrowserDynamic()
 * If renamed, Angular won’t know where to start unless we **update configuration**.
 * We’d need to update the build config to point to the new file.
 
-```ts
-// main.ts bootstraps the app
-platformBrowserDynamic()
-  .bootstrapModule(AppModule);
+```json
+// angular.json
+"build": {
+  "options": {
+    "main": "src/new-main.ts"
+  }
+}
 ```
 
 ---
@@ -427,27 +496,37 @@ platformBrowserDynamic()
   * Directives
   * Pipes
 
-```ts
+```typescript
 @Component({
-  template: `<h1>{{ title }}</h1>`
+  template: `
+    <h1>{{title}}</h1>
+    <button (click)="onClick()">Click me</button>
+    <div *ngIf="showMessage">{{message}}</div>
+  `
 })
-export class AppComponent {
-  title = 'Angular App';
+export class MyComponent {
+  title = 'Hello Angular';
+  showMessage = true;
 }
 ```
 
 ---
 
-## **23. Difference between Promise and Observable**
+## **23. What is the difference between promise and observable**
 
 * **Promise** handles a **single value** and executes immediately.
 * **Observable** can emit **multiple values over time**.
 * Observables are **cancelable** and support operators like `map`, `filter`.
 * Angular prefers Observables, especially with HTTP.
 
-```ts
-// Observable
-this.http.get('/api/data').subscribe();
+```typescript
+// Promise - single value, eager
+const promise = fetch('/api/data').then(res => res.json());
+
+// Observable - multiple values, lazy
+const observable$ = this.http.get('/api/data');
+const subscription = observable$.subscribe(data => console.log(data));
+subscription.unsubscribe(); // Can cancel
 ```
 
 ---
@@ -459,15 +538,21 @@ this.http.get('/api/data').subscribe();
 * It loads components **without reloading the page**.
 * Routes are defined using paths and components.
 
-```ts
-const routes = [
-  { path: 'home', component: HomeComponent }
+```typescript
+// Route configuration
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'users/:id', component: UserComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
+
+// Navigation
+this.router.navigate(['/users', userId]);
 ```
 
 ---
 
-## **25. Purpose of `ngOnInit`**
+## **25. What is the purpose of the `ngOnInit` method in Angular components?**
 
 * `ngOnInit` runs **once after component initialization**.
 * Used to:
@@ -476,9 +561,18 @@ const routes = [
   * Initialize variables
 * It runs **after input properties are set**.
 
-```ts
-ngOnInit() {
-  this.loadData();
+```typescript
+export class UserComponent implements OnInit {
+  users: User[] = [];
+  
+  ngOnInit() {
+    this.loadUsers();
+    this.setupSubscriptions();
+  }
+  
+  private loadUsers() {
+    this.userService.getUsers().subscribe(users => this.users = users);
+  }
 }
 ```
 
@@ -490,14 +584,23 @@ ngOnInit() {
 * Uses parentheses `( )`.
 * Common events: `click`, `keyup`, `submit`.
 
-```html
-<button (click)="save()">Save</button>
+```typescript
+// Component
+export class ButtonComponent {
+  onClick(event: Event) {
+    console.log('Button clicked!', event);
+  }
+  
+  onInputChange(value: string) {
+    console.log('Input changed:', value);
+  }
+}
 ```
 
-```ts
-save() {
-  console.log('Saved');
-}
+```html
+<!-- Template -->
+<button (click)="onClick($event)">Click me</button>
+<input (input)="onInputChange($event.target.value)">
 ```
 
 ---
@@ -508,10 +611,19 @@ save() {
 * It returns **Observables**.
 * First, import `HttpClientModule`.
 
-```ts
-this.http.get('/api/users').subscribe(data => {
-  console.log(data);
-});
+```typescript
+@Injectable()
+export class DataService {
+  constructor(private http: HttpClient) {}
+  
+  getUsers() {
+    return this.http.get<User[]>('/api/users');
+  }
+  
+  createUser(user: User) {
+    return this.http.post<User>('/api/users', user);
+  }
+}
 ```
 
 ---
@@ -523,52 +635,95 @@ this.http.get('/api/users').subscribe(data => {
 * Useful for showing or hiding content.
 
 ```html
-<p *ngIf="isLoggedIn">Welcome</p>
+<!-- Traditional syntax -->
+<div *ngIf="isLoggedIn">Welcome back!</div>
+<div *ngIf="users.length > 0; else noUsers">User list</div>
+
+<ng-template #noUsers>
+  <p>No users found</p>
+</ng-template>
+
+<!-- New control flow (Angular 17+) -->
+@if (isLoggedIn) {
+  <div>Welcome back!</div>
+}
 ```
 
 ---
 
-## **29. What is `ngFor` used for?**
+## **29. What is the `ngFor` directive used for in Angular**
 
 * `ngFor` is used to **loop through collections**.
 * It dynamically renders elements based on data.
 * Commonly used with arrays.
 
 ```html
-<li *ngFor="let user of users">
-  {{ user }}
+<!-- Basic usage -->
+<li *ngFor="let user of users">{{user.name}}</li>
+
+<!-- With index and tracking -->
+<li *ngFor="let user of users; let i = index; trackBy: trackByUserId">
+  {{i + 1}}. {{user.name}}
 </li>
+
+<!-- New control flow (Angular 17+) -->
+@for (user of users; track user.id) {
+  <li>{{user.name}}</li>
+}
+```
+
+```typescript
+trackByUserId(index: number, user: User) {
+  return user.id;
+}
 ```
 
 ---
 
-## **30. What is `ngClass` used for?**
+## **30. What is the `ngClass` directive used for in Angular?**
 
 * `ngClass` dynamically **adds or removes CSS classes**.
 * Used for conditional styling.
 * Helps keep templates clean.
 
 ```html
-<div [ngClass]="{ active: isActive }">Box</div>
+<!-- Object syntax -->
+<div [ngClass]="{'active': isActive, 'disabled': !isEnabled}">Content</div>
+
+<!-- Array syntax -->
+<div [ngClass]="['btn', isActive ? 'btn-primary' : 'btn-secondary']">Button</div>
+
+<!-- String syntax -->
+<div [ngClass]="getClasses()">Dynamic classes</div>
+```
+
+```typescript
+export class MyComponent {
+  isActive = true;
+  isEnabled = false;
+  
+  getClasses() {
+    return this.isActive ? 'highlight bold' : 'normal';
+  }
+}
 ```
 
 ---
 
-## **31. What is a template reference variable?**
+## **31. What is a template reference variable in Angular**
 
 * A template reference variable gives **direct access to a DOM element**.
 * Defined using `#`.
 * Useful for reading input values or element properties.
 
 ```html
-<input #userInput>
-<button (click)="print(userInput.value)">Click</button>
-```
+<!-- Reference to input element -->
+<input #nameInput type="text">
+<button (click)="greet(nameInput.value)">Greet</button>
 
-```ts
-print(value: string) {
-  console.log(value);
-}
+<!-- Reference to component -->
+<app-child #childComponent></app-child>
+<button (click)="childComponent.doSomething()">Call Child Method</button>
 ```
 
 ---
@@ -586,10 +741,26 @@ print(value: string) {
 
 **Example (Reactive Form):**
 
-```ts
-this.form = new FormGroup({
-  name: new FormControl('')
-});
+```typescript
+// Reactive Form
+export class UserComponent {
+  userForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email])
+  });
+}
+```
+
+```html
+<!-- Template-driven -->
+<form #userForm="ngForm">
+  <input [(ngModel)]="user.name" name="name" required>
+</form>
+
+<!-- Reactive -->
+<form [formGroup]="userForm">
+  <input formControlName="name">
+</form>
 ```
 
 ---
@@ -601,11 +772,18 @@ this.form = new FormGroup({
 * Commonly used in **template-driven forms**.
 * When the input value changes, the component updates, and vice versa.
 
-**Example:**
+
+```typescript
+export class LoginComponent {
+  username = '';
+  password = '';
+}
+```
 
 ```html
-<input [(ngModel)]="username">
-<p>{{ username }}</p>
+<input [(ngModel)]="username" placeholder="Username">
+<input [(ngModel)]="password" type="password" placeholder="Password">
+<p>Hello {{username}}!</p>
 ```
 
 ---
@@ -617,10 +795,17 @@ this.form = new FormGroup({
 * It also **handles unsubscribe automatically**, preventing memory leaks.
 * This reduces boilerplate code in components.
 
-**Example:**
+
+```typescript
+export class UserComponent {
+  users$ = this.userService.getUsers();
+  currentTime$ = interval(1000).pipe(map(() => new Date()));
+}
+```
 
 ```html
-<p>{{ user$ | async }}</p>
+<div *ngFor="let user of users$ | async">{{user.name}}</div>
+<p>Current time: {{currentTime$ | async | date:'medium'}}</p>
 ```
 
 ---
@@ -632,14 +817,19 @@ this.form = new FormGroup({
 * Commonly used for large feature modules like Admin or Dashboard.
 * Improves performance especially in big applications.
 
-**Example:**
 
-```ts
-{
-  path: 'admin',
-  loadChildren: () =>
-    import('./admin/admin.module').then(m => m.AdminModule)
-}
+```typescript
+// App routing
+const routes: Routes = [
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
+  }
+];
 ```
 
 ---
@@ -655,10 +845,23 @@ this.form = new FormGroup({
 * It compares previous and current values and updates the DOM if needed.
 * Uses a **tree-based mechanism** starting from the root component.
 
-**Example:**
 
-```ts
-this.count++;
+```typescript
+export class CounterComponent {
+  count = 0;
+  
+  // Angular detects this change automatically
+  increment() {
+    this.count++; // DOM updates automatically
+  }
+  
+  // Manual change detection
+  constructor(private cdr: ChangeDetectorRef) {}
+  
+  manualUpdate() {
+    this.cdr.detectChanges();
+  }
+}
 ```
 
 ---
@@ -670,12 +873,22 @@ this.count++;
 * This triggers **automatic change detection**.
 * Developers don’t need to manually refresh the UI after async tasks.
 
-**Example:**
 
-```ts
-setTimeout(() => {
-  this.message = 'Updated';
-}, 1000);
+```typescript
+import { NgZone } from '@angular/core';
+
+export class MyComponent {
+  constructor(private ngZone: NgZone) {}
+  
+  // Run outside Angular zone (no change detection)
+  heavyComputation() {
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        // Heavy work here
+      }, 1000);
+    });
+  }
+}
 ```
 
 ---
@@ -686,11 +899,25 @@ setTimeout(() => {
 * `@Output` allows **child to parent communication** using events.
 * Together, they enable **component interaction**.
 
-**Example:**
 
-```ts
-@Input() title: string;
-@Output() clicked = new EventEmitter<void>();
+```typescript
+// Child component
+export class ChildComponent {
+  @Input() message: string;
+  @Output() buttonClick = new EventEmitter<string>();
+  
+  onClick() {
+    this.buttonClick.emit('Button clicked!');
+  }
+}
+```
+
+```html
+<!-- Parent template -->
+<app-child 
+  [message]="parentMessage" 
+  (buttonClick)="handleChildClick($event)">
+</app-child>
 ```
 
 ---
@@ -706,7 +933,6 @@ setTimeout(() => {
   * Data is cleared when the tab is closed
 * Angular accesses them using standard Web APIs.
 
-**Example:**
 
 ```ts
 localStorage.setItem('token', 'abc123');
@@ -722,10 +948,21 @@ sessionStorage.setItem('user', 'John');
 * Angular reads it and sends it in HTTP headers automatically.
 * This ensures requests are coming from a trusted source.
 
-**Example:**
 
-```http
-X-XSRF-TOKEN: abc123
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+@Injectable()
+export class MyHttpInterceptor {
+  intercept(req, next) {
+    const token = localStorage.getItem('csrf_token');
+    const cloned = req.clone({
+      headers: req.headers.set('X-CSRF-TOKEN', token)
+    });
+    return next.handle(cloned);
+  }
+}
 ```
 
 ---
@@ -737,14 +974,23 @@ X-XSRF-TOKEN: abc123
 * Modules support **lazy loading**, improving performance.
 * Every Angular app has at least one module: `AppModule`.
 
-**Example:**
 
-```ts
+```typescript
 @NgModule({
-  declarations: [HomeComponent],
-  imports: [CommonModule]
+  declarations: [UserListComponent, UserDetailComponent],
+  imports: [CommonModule, FormsModule],
+  providers: [UserService],
+  exports: [UserListComponent]
 })
-export class HomeModule {}
+export class UserModule {}
+
+// Feature module with routing
+@NgModule({
+  imports: [RouterModule.forChild([
+    { path: '', component: UserListComponent }
+  ])]
+})
+export class UserRoutingModule {}
 ```
 
 ---
@@ -755,17 +1001,23 @@ export class HomeModule {}
 * Used when you want reusable UI logic.
 * Created using Angular CLI and decorated with `@Directive`.
 
-**Example:**
 
-```ts
+```typescript
+import { Directive, ElementRef, Renderer2 } from '@angular/core';
+
 @Directive({
   selector: '[appHighlight]'
 })
 export class HighlightDirective {
-  constructor(el: ElementRef) {
-    el.nativeElement.style.background = 'yellow';
+  constructor(private el: ElementRef, private renderer: Renderer2) {
+    this.renderer.setStyle(this.el.nativeElement, 'color', 'blue');
   }
 }
+```
+
+Usage in the template:
+```html
+<p appHighlight>Text will be highlighted in blue</p>
 ```
 
 ---
@@ -776,12 +1028,36 @@ export class HighlightDirective {
 * They promote **code reusability and separation of concerns**.
 * Created with `@Injectable` and injected using Dependency Injection.
 
-**Example:**
+```bash
+ng generate service my-service
+```
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-```ts
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
-  getUsers() { return ['John', 'Jane']; }
+  constructor(private http: HttpClient) {}
+  private users: User[] = [];
+  
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users');
+  }
+  
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>('/api/users', user);
+  }
+}
+
+// Usage in component
+export class UserComponent {
+  constructor(private userService: UserService) {}
+  
+  loadUsers() {
+    this.userService.getUsers().subscribe(users => this.users = users);
+  }
 }
 ```
 
@@ -793,12 +1069,33 @@ export class UserService {
 * It maps URLs to components.
 * Supports lazy loading, route guards, and parameters.
 
-**Example:**
 
-```ts
-RouterModule.forRoot([
-  { path: 'home', component: HomeComponent }
-]);
+```typescript
+// App routing module
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'users/:id', component: UserDetailComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}
+```
+
+```html
+<nav>
+  <a routerLink="/home" routerLinkActive="active">Home</a>
+  <a routerLink="/users" routerLinkActive="active">Users</a>
+</nav>
+<router-outlet></router-outlet>
 ```
 
 ---
@@ -809,14 +1106,37 @@ RouterModule.forRoot([
 * Errors can be handled globally using **HTTP interceptors**.
 * This ensures better user feedback and logging.
 
-**Example:**
 
-```ts
-this.http.get(url).pipe(
-  catchError(error => {
-    console.error(error);
-    return throwError(() => error);
-  })
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MyService {
+  constructor(private http: HttpClient) {}
+
+  fetchData(): Observable<any> {
+    return this.http.get('https://api.example.com/data')
+      .pipe(
+        catchError(error => {
+          console.error('An error occurred:', error);
+          return throwError(error); // rethrow the error to be handled by the component
+        })
+      );
+  }
+}
+```
+
+In the component:
+
+```typescript
+this.myService.fetchData().subscribe(
+  data => this.handleData(data),
+  error => this.handleError(error)
 );
 ```
 
@@ -824,15 +1144,32 @@ this.http.get(url).pipe(
 
 ### **46. How can you optimize the performance of an Angular application?**
 
-* Use **lazy loading** for feature modules.
-* Enable **OnPush change detection**.
-* Use **trackBy** in `*ngFor`.
-* Avoid unnecessary DOM updates.
+1.  **Lazy Loading**: Load modules only when required, reducing the initial bundle size.
+2.  **Ahead-of-Time (AOT) Compilation**: Pre-compile Angular templates and components, resulting in faster application startup.
+3.  **Tree Shaking**: Eliminate unused code from the final bundle by ensuring only the necessary code is included.
+4.  **Change Detection Strategy**: Use `OnPush` change detection to reduce unnecessary checks for components with immutable input data.
+5.  **TrackBy in `ngFor`**: Use `trackBy` to improve the performance of list rendering by minimizing DOM manipulations.
+6.  **Use Web Workers**: Offload heavy computations to background threads using web workers.
+7.  **Optimizing Images and Assets**: Compress images and assets, use lazy loading for images, and serve them in modern formats like WebP.
+8.  **Service Workers and PWA**: Implement service workers for caching assets and making the app available offline.
 
-**Example:**
 
-```ts
-changeDetection: ChangeDetectionStrategy.OnPush
+```typescript
+// OnPush strategy
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OptimizedComponent {}
+
+// TrackBy function
+trackByUserId(index: number, user: User) {
+  return user.id;
+}
+
+// Preloading strategy
+RouterModule.forRoot(routes, {
+  preloadingStrategy: PreloadAllModules
+})
 ```
 
 ---
@@ -843,10 +1180,19 @@ changeDetection: ChangeDetectionStrategy.OnPush
 * Used for generating components, services, and modules.
 * Handles build, test, and deployment efficiently.
 
-**Example:**
 
 ```bash
-ng generate component dashboard
+# Generate components and services
+ng generate component user-list
+ng generate service user
+
+# Build and serve
+ng serve --open
+ng build --prod
+
+# Run tests
+ng test
+ng e2e
 ```
 
 ---
@@ -857,12 +1203,38 @@ ng generate component dashboard
 * Used for authentication, authorization, and unsaved changes.
 * Common guards: `CanActivate`, `CanDeactivate`.
 
-**Example:**
 
-```ts
-canActivate(): boolean {
-  return this.authService.isLoggedIn();
+```typescript
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
+  }
 }
+```
+
+In the routing configuration:
+
+```typescript
+const routes: Routes = [
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+];
 ```
 
 ---
@@ -873,13 +1245,48 @@ canActivate(): boolean {
 * Used for adding auth headers, logging, or error handling.
 * Applied globally.
 
-**Example:**
 
-```ts
-req.clone({
-  headers: req.headers.set('Authorization', 'Bearer token')
-});
-```
+1. **Create the Interceptor**:
+
+   ```typescript
+   import  { Injectable } from '@angular/core';
+   import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+   import { Observable } from 'rxjs';
+
+   @Injectable()
+   export class AuthInterceptor implements HttpInterceptor {
+     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+       const token = localStorage.getItem('authToken');  // Retrieve token from storage
+
+       if (token) {
+         // Clone the request and add the Authorization header
+         const clonedRequest = req.clone({
+           setHeaders: {
+             Authorization: `Bearer ${token}`
+           }
+         });
+         return next.handle(clonedRequest);
+       }
+
+       return next.handle(req);  // Return the original request if no token
+     }
+   }
+   ```
+
+2. **Register the Interceptor**:
+
+   ```typescript
+   import  { NgModule } from '@angular/core';
+   import { HTTP_INTERCEPTORS } from '@angular/common/http';
+   import { AuthInterceptor } from './auth.interceptor';
+
+   @NgModule({
+     providers: [
+       { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+     ]
+   })
+   export class AppModule { }
+   ```
 
 ---
 
@@ -889,13 +1296,37 @@ req.clone({
 * `ng-template` defines **reusable or conditional templates**.
 * Useful for building reusable UI components.
 
-**Example:**
+
+```typescript
+// Child component with projection
+@Component({
+  selector: 'app-card',
+  template: `
+    <div class="card">
+      <ng-content select="[slot=header]"></ng-content>
+      <ng-content></ng-content>
+    </div>
+  `
+})
+export class CardComponent {}
+```
 
 ```html
-<ng-content></ng-content>
+<!-- Parent usage -->
+<app-card>
+  <h2 slot="header">Card Title</h2>
+  <p>Card content goes here</p>
+</app-card>
+```
 
-<ng-template #loading>
-  <p>Loading...</p>
+```html
+<!-- ng-template -->
+<div *ngIf="false; else noAccess">
+  <p>Admin Panel</p>
+</div>
+
+<ng-template #noAccess>
+  <p>You don’t have permission.</p>
 </ng-template>
 ```
 
@@ -907,11 +1338,28 @@ req.clone({
 * Ensures the component has data on initialization.
 * Improves user experience by avoiding empty screens.
 
-**Example:**
 
-```ts
-resolve() {
-  return this.userService.getUsers();
+```typescript
+@Injectable()
+export class UserResolver implements Resolve<User> {
+  constructor(private userService: UserService) {}
+  
+  resolve(route: ActivatedRouteSnapshot): Observable<User> {
+    const userId = route.params['id'];
+    return this.userService.getUser(userId);
+  }
+}
+
+// Route configuration
+{
+  path: 'user/:id',
+  component: UserDetailComponent,
+  resolve: { user: UserResolver }
+}
+
+// Access resolved data
+ngOnInit() {
+  this.user = this.route.snapshot.data['user'];
 }
 ```
 
@@ -923,10 +1371,21 @@ resolve() {
 * Text is marked using `i18n` attribute.
 * Translations are loaded based on locale.
 
-**Example:**
-
 ```html
-<h1 i18n>Welcome</h1>
+<!-- Mark text for translation -->
+<p i18n="@@welcome-message">Welcome to our app!</p>
+<p i18n="user.greeting">Hello {{name}}!</p>
+
+<!-- Pluralization -->
+<span i18n>{count, plural, =0 {no items} =1 {one item} other {{{count}} items}}</span>
+```
+
+```bash
+# Extract messages
+ng extract-i18n
+
+# Build for specific locale
+ng build --localize
 ```
 
 ---
@@ -939,11 +1398,22 @@ resolve() {
 * Achieved by providing the service at the **root level**.
 * Useful for shared state, caching, and authentication.
 
-**Example:**
 
-```ts
-@Injectable({ providedIn: 'root' })
-export class AuthService {}
+```typescript
+@Injectable({
+  providedIn: 'root' // Creates singleton
+})
+export class UserService {
+  private currentUser: User | null = null;
+  
+  setCurrentUser(user: User) {
+    this.currentUser = user; // Shared across app
+  }
+  
+  getCurrentUser(): User | null {
+    return this.currentUser;
+  }
+}
 ```
 
 ---
@@ -955,13 +1425,26 @@ export class AuthService {}
 * Business logic, API calls should go in `ngOnInit`.
 * `constructor` runs first, `ngOnInit` runs once after inputs are set.
 
-**Example:**
 
-```ts
-constructor(private service: DataService) {}
-
-ngOnInit() {
-  this.loadData();
+```typescript
+export class UserComponent implements OnInit {
+  @Input() userId: string;
+  user: User;
+  
+  constructor(private userService: UserService) {
+    // Only dependency injection here
+    console.log(this.userId); // undefined - inputs not set yet
+  }
+  
+  ngOnInit() {
+    // Component initialization logic
+    console.log(this.userId); // Available now
+    this.loadUser();
+  }
+  
+  private loadUser() {
+    this.userService.getUser(this.userId).subscribe(user => this.user = user);
+  }
 }
 ```
 
@@ -973,28 +1456,60 @@ ngOnInit() {
 * Angular uses RxJS heavily for **HTTP calls, events, and async data**.
 * It helps manage streams of data over time.
 
-**Example:**
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-```ts
-this.http.get(url).subscribe(data => console.log(data));
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  constructor(private http: HttpClient) {}
+
+  getData(): Observable<any> {
+    return this.http.get('https://api.example.com/data').pipe(
+      catchError(err => {
+        console.error('Error occurred:', err);
+        throw err;
+      })
+    );
+  }
+}
 ```
+
+Learn Operators like:
+- **`𝘀𝘄𝗶𝘁𝗰𝗵𝗠𝗮𝗽`** : For cancelling previous requests and switching to new ones.
+- **`𝗺𝗲𝗿𝗴𝗲𝗠𝗮𝗽`** : To handle multiple concurrent requests.
+- **`𝗱𝗲𝗯𝗼𝘂𝗻𝗰𝗲𝗧𝗶𝗺𝗲`** : For waiting before reacting to user input (perfect for search boxes).
+- **`𝘁𝗮𝗸𝗲𝗨𝗻𝘁𝗶𝗹`** : To unsubscribe cleanly when the component is destroyed.
+- **`𝘀𝗵𝗮𝗿𝗲𝗥𝗲𝗽𝗹𝗮𝘆`** : To share the same observable without re-subscribing multiple times.
+- **`𝗰𝗼𝗺𝗯𝗶𝗻𝗲𝗟𝗮𝘁𝗲𝘀𝘁`** : When you need the latest value from multiple observables.
+- **`𝗳𝗼𝗿𝗸𝗝𝗼𝗶𝗻`** : For executing multiple observables in parallel and waiting for all to complete.
 
 ---
 
 ### **56. Explain operators like `map`, `filter`, `merge`, and `switchMap`**
 
-* `map` transforms data.
-* `filter` removes unwanted values.
-* `merge` combines multiple streams.
-* `switchMap` switches to a new observable and cancels the previous one.
+- **`map`**: Transforms emitted values.
+- **`filter`**: Filters emitted values based on a condition.
+- **`merge`**: Combines multiple observables, emitting values from all of them.
+- **`switchMap`**: Switches to a new observable and cancels the previous one whenever a new value is emitted.
 
-**Example:**
+```typescript
+// Transform data
+users$.pipe(map(users => users.length))
 
-```ts
-source$.pipe(
-  filter(x => x > 5),
-  map(x => x * 2)
-);
+// Filter values
+numbers$.pipe(filter(n => n > 10))
+
+// Combine streams
+merge(stream1$, stream2$)
+
+// Switch to new observable
+searchTerm$.pipe(
+  switchMap(term => this.http.get(`/search?q=${term}`))
+)
 ```
 
 ---
@@ -1005,31 +1520,62 @@ source$.pipe(
 * Errors can be handled without breaking the app.
 * You can return a fallback value or rethrow the error.
 
-**Example:**
+- **`catchError`**: This operator catches errors in the observable stream and allows you to recover from the error or return an alternative observable (e.g., an empty observable, a default value, etc.).
+- **`retry`**: Retries an operation a given number of times if it fails, useful for transient errors.
+- **`finalize`**: Executes cleanup code or logic when an observable completes or errors out.
 
-```ts
-this.http.get(url).pipe(
-  catchError(err => {
-    console.error(err);
-    return of([]);
+```typescript
+import  { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+this.dataService.getData().pipe(
+  catchError(error => {
+    console.error('Error occurred:', error);
+    return of([]); // Return an empty array as fallback data
   })
-);
+).subscribe(data => {
+  console.log(data);
+});
 ```
 
 ---
 
 ### **58. Difference between `switchMap`, `concatMap`, and `mergeMap`**
 
-* `switchMap`: cancels previous request (search box)
-* `concatMap`: executes one after another (order matters)
-* `mergeMap`: runs in parallel (no order guarantee)
+* **switchMap:** Use when you only care about the latest emitted value and want to cancel previous requests.
+* **concatMap:** Use when tasks must run one after another in a guaranteed order.
+* **mergeMap:** Use when you want all tasks to run concurrently without waiting.
 
-**Example:**
+**Use case**: Fetching the latest search results.
 
-```ts
-search$.pipe(
-  switchMap(term => this.api.search(term))
-);
+```typescript
+codesearchTerm$ = new Subject<string>();
+
+this.searchTerm$.pipe(
+  switchMap(term => this.searchService.search(term))
+).subscribe(results => {
+  console.log(results);
+});
+```
+
+  **Use case**: Uploading files one after the other.
+
+```typescript
+codefileQueue$.pipe(
+  concatMap(file => this.uploadFile(file))
+).subscribe(response => {
+  console.log('File uploaded:', response);
+});
+```
+
+**Use case**: Fetching multiple resources concurrently (e.g., loading user data, comments, and posts in parallel).
+
+```typescript
+codeuser$.pipe(
+  mergeMap(user => this.loadUserPosts(user.id))
+).subscribe(posts => {
+  console.log(posts);
+});
 ```
 
 ---
@@ -1040,20 +1586,90 @@ search$.pipe(
 * All requests run together.
 * Emits result only when all complete.
 
-**Example:**
+**forkJoin** runs multiple HTTP requests **in parallel** but gives the result **only when all requests finish**. It's perfect when you want everything loaded together—for example, loading user details, orders, and profile data at once.
 
-```ts
-forkJoin({
-  users: this.userService.getUsers(),
-  orders: this.orderService.getOrders()
-}).subscribe(result => {
-  console.log(result.users, result.orders);
-});
+**combineLatest** also runs calls in parallel, but it gives you the **latest values** whenever any request updates. It doesn’t wait for all to finish again. It's useful when you're working with live or continuously updating data.
+
+#### ✅ **1. forkJoin Example (Waits for all API calls)**
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
+
+@Component({
+  selector: 'app-parallel-requests',
+  templateUrl: './parallel-requests.component.html',
+  styleUrls: ['./parallel-requests.component.css']
+})
+export class ParallelRequestsComponent implements OnInit {
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    this.getDataFromServices();
+  }
+
+  getDataFromServices() {
+    // Define the API calls (services)
+    const request1 = this.http.get('https://api.example.com/data1');
+    const request2 = this.http.get('https://api.example.com/data2');
+    const request3 = this.http.get('https://api.example.com/data3');
+
+    // Use forkJoin to make the requests in parallel
+    forkJoin([request1, request2, request3]).subscribe(
+      ([response1, response2, response3]) => {
+        console.log('Response from API 1:', response1);
+        console.log('Response from API 2:', response2);
+        console.log('Response from API 3:', response3);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+}
+```
+
+#### ✅ **2. combineLatest Example (Gives latest values)**
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { combineLatest } from 'rxjs';
+
+@Component({
+  selector: 'app-combine-latest',
+  templateUrl: './combine-latest.component.html',
+  styleUrls: ['./combine-latest.component.css']
+})
+export class CombineLatestComponent implements OnInit {
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    this.getCombinedData();
+  }
+
+  getCombinedData() {
+    const request1 = this.http.get('https://api.example.com/data1');
+    const request2 = this.http.get('https://api.example.com/data2');
+
+    // Use combineLatest to get the latest data from both
+    combineLatest([request1, request2]).subscribe(
+      ([response1, response2]) => {
+        console.log('Response from API 1:', response1);
+        console.log('Response from API 2:', response2);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+  }
+}
 ```
 
 ---
 
-## **Testing Questions**
 ### **60. How does Angular handle state management, and what libraries can be used?**
 
 * Angular itself manages **local state** using **services + RxJS (Observables/BehaviorSubject)**.
@@ -1066,10 +1682,30 @@ forkJoin({
 
 **Example (Service-based state):**
 
-```ts
+```typescript
+// Simple service-based state
 @Injectable({ providedIn: 'root' })
-export class UserService {
-  user$ = new BehaviorSubject<User | null>(null);
+export class AppStateService {
+  private state = new BehaviorSubject({ users: [], loading: false });
+  
+  getState() {
+    return this.state.asObservable();
+  }
+  
+  updateUsers(users: User[]) {
+    this.state.next({ ...this.state.value, users });
+  }
+}
+
+// NgRx example
+import { Store } from '@ngrx/store';
+import { AppState } from './store/reducers';
+import { loadData } from './store/actions';
+
+constructor(private store: Store<AppState>) {}
+
+ngOnInit() {
+  this.store.dispatch(loadData());
 }
 ```
 
@@ -1088,10 +1724,23 @@ export class UserService {
   * Slower startup
   * Mainly used during development
 
-**Example:**
+**AOT (Ahead-of-Time) compilation** means Angular compiles your code **during the build**, before it reaches the browser. This makes the app load faster, reduces bundle size, and catches template errors early. It's what we use for **production**.
 
-```bash
-ng build --aot
+**JIT (Just-in-Time) compilation** compiles the app **in the browser at runtime**. It’s mainly used in **development** because builds are faster, but the app loads slower since the browser has to compile everything.
+
+
+```typescript
+// AOT benefits:
+// - Templates compiled at build time
+// - Tree shaking removes unused code
+// - Early template error detection
+// - Better security (no eval() statements)
+
+// Build with AOT (default in production)
+ng build --prod
+
+// JIT compilation (deprecated in Angular 9+)
+// Templates compiled in browser at runtime
 ```
 
 ---
@@ -1106,10 +1755,33 @@ ng build --aot
   * Better SEO
   * Better performance on slow devices
 
+**In short:**
+Angular Universal provides **faster first load**, **better SEO**, and **better performance**, especially for content-heavy websites.
+
 **Flow:**
 
 ```
 Request → Server renders HTML → Browser hydrates Angular app
+```
+
+```typescript
+// Install Angular Universal
+ng add @nguniversal/express-engine
+
+// Build and serve SSR
+npm run build:ssr
+npm run serve:ssr
+
+// Check if running in browser
+import { isPlatformBrowser } from '@angular/common';
+
+constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+ngOnInit() {
+  if (isPlatformBrowser(this.platformId)) {
+    // Browser-only code
+  }
+}
 ```
 
 ---
@@ -1126,14 +1798,21 @@ Request → Server renders HTML → Browser hydrates Angular app
 * `@NgModule`
 * `@Input`, `@Output`
 
-**Example:**
 
-```ts
-@Component({
-  selector: 'app-header',
-  template: `<h1>Hello</h1>`
-})
-export class HeaderComponent {}
+```typescript
+// Class decorators
+@Component({ selector: 'app-user' })
+@Injectable({ providedIn: 'root' })
+@NgModule({ imports: [CommonModule] })
+
+// Property decorators
+@Input() userId: string;
+@Output() userSelected = new EventEmitter();
+@ViewChild('template') template: TemplateRef<any>;
+
+// Method decorators
+@HostListener('click', ['$event'])
+onClick(event: Event) {}
 ```
 
 ---
@@ -1143,26 +1822,28 @@ export class HeaderComponent {}
 * Angular uses **environment files**.
 * Different values for dev, test, and production.
 
-**Files:**
-
-```
-environment.ts
-environment.prod.ts
-```
-
-**Example:**
-
-```ts
+```typescript
+// environment.ts (development)
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000'
+  apiUrl: 'http://localhost:3000/api',
+  enableLogging: true
 };
-```
 
-**Usage:**
+// environment.prod.ts (production)
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.myapp.com',
+  enableLogging: false
+};
 
-```ts
-this.http.get(environment.apiUrl);
+// Usage in service
+import { environment } from '../environments/environment';
+
+@Injectable()
+export class ApiService {
+  private apiUrl = environment.apiUrl;
+}
 ```
 
 ---
@@ -1189,230 +1870,48 @@ this.http.get(environment.apiUrl);
 ### **66. How to implement AuthGuard in Angular?**
 
 * AuthGuard protects routes based on authentication.
+In Angular, an `AuthGuard` is used to protect routes from unauthorized access by ensuring the user is authenticated before they can access specific parts of the application. If the user is not authenticated, the guard can redirect them to a login page or a specific route.
 
-**Example:**
 
-```ts
-@Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
-  canActivate() {
-    return !!localStorage.getItem('token');
-  }
-}
-```
+```typescript
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
-**Routing:**
-
-```ts
-{
-  path: 'dashboard',
-  canActivate: [AuthGuard],
-  component: DashboardComponent
-}
-```
-
----
-
-### **67. Difference between Authentication and Authorization**
-
-* **Authentication** → *Who are you?*
-
-  * Login, credentials, tokens
-* **Authorization** → *What can you access?*
-
-  * Roles, permissions
-
-**Example:**
-
-* Authentication: User logs in
-* Authorization: Admin can access `/admin`, user cannot
-
----
-
-### **68. How would you troubleshoot performance issues in Angular?**
-
-**Tools:**
-
-* Angular DevTools
-* Chrome DevTools
-* Lighthouse
-* Webpack Bundle Analyzer
-
-**Techniques:**
-
-* Use **OnPush** change detection
-* Lazy load modules
-* TrackBy in `*ngFor`
-* Avoid heavy logic in templates
-* Unsubscribe from observables
-
-**Example:**
-
-```ts
-changeDetection: ChangeDetectionStrategy.OnPush
-```
-
----
-### **60. How does Angular handle state management, and what libraries can be used?**
-
-* Angular itself manages **local state** using **services + RxJS (Observables/BehaviorSubject)**.
-* For **large applications**, external state libraries are used.
-* Common libraries:
-
-  * **NgRx** (Redux pattern – actions, reducers, effects)
-  * **NGXS** (simpler, class-based)
-  * **Akita** (store-focused, less boilerplate)
-
-**Example (Service-based state):**
-
-```ts
-@Injectable({ providedIn: 'root' })
-export class UserService {
-  user$ = new BehaviorSubject<User | null>(null);
-}
-```
-
----
-
-### **61. What is AOT compilation vs JIT compilation?**
-
-* **AOT (Ahead-of-Time)**:
-
-  * Compiles Angular code **at build time**
-  * Faster app startup
-  * Smaller bundle, better security
-* **JIT (Just-in-Time)**:
-
-  * Compiles code **in the browser**
-  * Slower startup
-  * Mainly used during development
-
-**Example:**
-
-```bash
-ng build --aot
-```
-
----
-
-### **62. What are Angular Universal applications?**
-
-* Angular Universal enables **Server-Side Rendering (SSR)**.
-* HTML is rendered on the **server**, then sent to the browser.
-* Benefits:
-
-  * Faster first load
-  * Better SEO
-  * Better performance on slow devices
-
-**Flow:**
-
-```
-Request → Server renders HTML → Browser hydrates Angular app
-```
-
----
-
-### **63. What are Angular decorators and their role?**
-
-* Decorators are **metadata annotations** that tell Angular how to process a class.
-* They define components, services, modules, etc.
-
-**Common decorators:**
-
-* `@Component`
-* `@Injectable`
-* `@NgModule`
-* `@Input`, `@Output`
-
-**Example:**
-
-```ts
-@Component({
-  selector: 'app-header',
-  template: `<h1>Hello</h1>`
+@Injectable({
+  providedIn: 'root',
 })
-export class HeaderComponent {}
-```
-
----
-
-### **64. How do you configure environment-specific settings in Angular?**
-
-* Angular uses **environment files**.
-* Different values for dev, test, and production.
-
-**Files:**
-
-```
-environment.ts
-environment.prod.ts
-```
-
-**Example:**
-
-```ts
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000'
-};
-```
-
-**Usage:**
-
-```ts
-this.http.get(environment.apiUrl);
-```
-
----
-
-### **65. Advantages and disadvantages of Angular**
-
-**Advantages:**
-
-* Strong structure & scalability
-* TypeScript support
-* Two-way data binding
-* Built-in routing, forms, HTTP
-
-**Disadvantages:**
-
-* Steep learning curve
-* More boilerplate
-* Heavier compared to React/Vue
-
-**Best for:** Large enterprise applications
-
----
-
-### **66. How to implement AuthGuard in Angular?**
-
-* AuthGuard protects routes based on authentication.
-
-**Example:**
-
-```ts
-@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  canActivate() {
-    return !!localStorage.getItem('token');
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    // Check if the user is authenticated
+    if (this.authService.isLoggedIn()) {
+      return true; // User is authenticated, allow access to the route
+    } else {
+      // User is not authenticated, redirect to login page
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 }
-```
 
-**Routing:**
-
-```ts
+// Route configuration
 {
   path: 'dashboard',
-  canActivate: [AuthGuard],
-  component: DashboardComponent
+  component: DashboardComponent,
+  canActivate: [AuthGuard]
 }
 ```
 
 ---
 
 ### **67. Difference between Authentication and Authorization**
+Authentication verifies who the user is (login credentials), while Authorization determines what the user can access (permissions). Authentication comes first, then authorization checks permissions.
 
 * **Authentication** → *Who are you?*
 
@@ -1421,14 +1920,34 @@ export class AuthGuard implements CanActivate {
 
   * Roles, permissions
 
-**Example:**
+```typescript
+// Authentication - verify identity
+login(credentials: LoginCredentials) {
+  return this.http.post('/auth/login', credentials).pipe(
+    tap(response => this.storeToken(response.token))
+  );
+}
 
-* Authentication: User logs in
-* Authorization: Admin can access `/admin`, user cannot
+// Authorization - check permissions
+@Injectable()
+export class RoleGuard implements CanActivate {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const requiredRole = route.data['role'];
+    return this.authService.hasRole(requiredRole);
+  }
+}
+```
 
 ---
 
 ### **68. How would you troubleshoot performance issues in Angular?**
+
+* **Use Angular DevTools** to check component tree, change detection cycles, and spot heavy components.
+* **Use Chrome DevTools Performance tab** to find slow JavaScript execution, long tasks, and rendering issues.
+* **Profile change detection** to see which components are running too often and causing unnecessary checks.
+* **Check for memory leaks** using Chrome DevTools Memory tab and clean up subscriptions in `ngOnDestroy`.
+* **Analyze API calls** in the Network tab to find slow, repeated, or unnecessary HTTP requests.
+* **Improve bundle size** using lazy loading, code splitting, and tools like webpack-bundle-analyzer.
 
 **Tools:**
 
@@ -1445,11 +1964,25 @@ export class AuthGuard implements CanActivate {
 * Avoid heavy logic in templates
 * Unsubscribe from observables
 
-**Example:**
 
-```ts
-changeDetection: ChangeDetectionStrategy.OnPush
-```
+```typescript
+// Performance debugging tools:
+// 1. Angular DevTools (Chrome extension)
+// 2. ng build --stats-json && npx webpack-bundle-analyzer
+
+// Performance optimizations:
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OptimizedComponent {
+  // Use trackBy functions
+  trackByFn(index: number, item: any) {
+    return item.id;
+  }
+  
+  // Lazy load images
+  // Use virtual scrolling for large lists
+}
 
 ---
 
@@ -1465,7 +1998,6 @@ changeDetection: ChangeDetectionStrategy.OnPush
 * I mock dependencies to avoid real HTTP calls or services.
 * Goal is to test **logic, not UI behavior**.
 
-**Example:**
 
 ```ts
 it('should add numbers', () => {
@@ -1481,7 +2013,6 @@ it('should add numbers', () => {
 * It allows me to declare components, provide services, and import modules.
 * Used to create component instances for testing.
 
-**Example:**
 
 ```ts
 TestBed.configureTestingModule({
@@ -1497,7 +2028,6 @@ TestBed.configureTestingModule({
 * I mock services using **Jasmine spies**.
 * For HTTP calls, I use **HttpClientTestingModule** and `HttpTestingController`.
 
-**Example:**
 
 ```ts
 const spy = jasmine.createSpyObj('UserService', ['getUsers']);
@@ -1512,7 +2042,6 @@ spy.getUsers.and.returnValue(of([]));
 * For observables, I return mock data using `of()`.
 * Child components can be stubbed if needed.
 
-**Example:**
 
 ```ts
 providers: [
@@ -1527,7 +2056,6 @@ providers: [
 * A **spy** tracks function calls and controls return values.
 * Useful to verify if a method was called or not.
 
-**Example:**
 
 ```ts
 spyOn(service, 'getData').and.returnValue(of([]));
@@ -1565,10 +2093,31 @@ expect(service.getData).toHaveBeenCalled();
 * Simple state: Services + RxJS.
 * Large apps: **NgRx, NGXS, Akita**.
 
-**Example:**
+```typescript
+// Simple state service
+@Injectable({ providedIn: 'root' })
+export class AppStateService {
+  private state$ = new BehaviorSubject({
+    users: [],
+    loading: false,
+    error: null
+  });
 
-```ts
-user$ = new BehaviorSubject<User | null>(null);
+  getState() {
+    return this.state$.asObservable();
+  }
+
+  updateUsers(users: User[]) {
+    this.state$.next({
+      ...this.state$.value,
+      users,
+      loading: false
+    });
+  }
+}
+
+// NgRx for complex state
+// Actions, Reducers, Effects, Selectors
 ```
 
 ---
@@ -1580,7 +2129,6 @@ user$ = new BehaviorSubject<User | null>(null);
 * Add breakpoints in TypeScript files.
 * Use `console.log()` for quick checks.
 
-**Example:**
 
 ```ts
 debugger;
@@ -1588,17 +2136,30 @@ debugger;
 
 ---
 
-### **77. What is the Singleton pattern and Angular services?**
+### **77. What is the Singleton pattern and how does it relate to Angular services?**
 
 * Singleton means **only one instance** exists.
 * Angular services are singletons when provided in `root`.
 * Used for shared data and logic.
 
-**Example:**
+```typescript
+// Singleton service (default behavior)
+@Injectable({
+  providedIn: 'root' // Creates singleton
+})
+export class DataService {
+  private data: any[] = [];
+  
+  addData(item: any) {
+    this.data.push(item); // Shared across all components
+  }
+}
 
-```ts
-@Injectable({ providedIn: 'root' })
-export class AuthService {}
+// Non-singleton (provided at component level)
+@Component({
+  providers: [DataService] // New instance per component
+})
+export class MyComponent {}
 ```
 
 ---
@@ -1609,7 +2170,6 @@ export class AuthService {}
 * **Child → Parent:** `@Output()`
 * **Sibling / Unrelated:** Shared service with observables
 
-**Example:**
 
 ```ts
 @Input() title: string;
@@ -1635,10 +2195,40 @@ Login → Server returns JWT → Store token → Send token in headers
 
 **Example (Interceptor):**
 
-```ts
-req.clone({
-  headers: req.headers.set('Authorization', `Bearer ${token}`)
-});
+```typescript
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  login(credentials: any): Observable<any> {
+    return this.http.post('/auth/login', credentials).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.token);
+      })
+    );
+  }
+  
+  getToken(): string {
+    return localStorage.getItem('token') || '';
+  }
+  
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    return token && !this.isTokenExpired(token);
+  }
+}
+
+// HTTP Interceptor for JWT
+@Injectable()
+export class JwtInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const token = this.authService.getToken();
+    if (token) {
+      req = req.clone({
+        setHeaders: { Authorization: `Bearer ${token}` }
+      });
+    }
+    return next.handle(req);
+  }
+}
 ```
 
 ---
@@ -1651,15 +2241,44 @@ req.clone({
 * Handle errors using `catchError`.
 * Interceptors manage headers and logging globally.
 
-**Example:**
+```typescript
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  constructor(private http: HttpClient) {}
+  
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users').pipe(
+      retry(3),
+      catchError(error => {
+        console.error('API Error:', error);
+        return throwError(() => new Error('Failed to load users'));
+      })
+    );
+  }
+  
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>('/api/users', user);
+  }
+}
 
-```ts
-this.http.get('/api/users').pipe(
-  catchError(err => {
-    console.error(err);
-    return throwError(() => err);
-  })
-);
+// Component usage
+export class UserComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  
+  loadUsers() {
+    this.apiService.getUsers().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: users => this.users = users,
+      error: error => this.handleError(error)
+    });
+  }
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}
 ```
 
 ---
@@ -1671,7 +2290,6 @@ this.http.get('/api/users').pipe(
 * Validate file size and type before upload.
 * Use chunking or backend streaming for large files.
 
-**Example:**
 
 ```ts
 const formData = new FormData();
@@ -1696,6 +2314,35 @@ this.http.post('/upload', formData, { reportProgress: true });
 * Never trust frontend alone
 * Always validate on backend
 
+```typescript
+// Angular's built-in protections:
+// - Automatic HTML sanitization
+// - CSRF protection with HttpClient
+// - Content Security Policy (CSP)
+
+// Additional security measures:
+@Injectable()
+export class SecurityService {
+  // Sanitize user input
+  sanitizeHtml(html: string): SafeHtml {
+    return this.sanitizer.sanitize(SecurityContext.HTML, html) || '';
+  }
+  
+  // Validate file uploads
+  validateFile(file: File): boolean {
+    const allowedTypes = ['image/jpeg', 'image/png'];
+    return allowedTypes.includes(file.type) && file.size < 5000000;
+  }
+}
+
+// Environment-based security
+export const environment = {
+  production: true,
+  enableDevTools: false,
+  apiUrl: 'https://secure-api.com' // Always use HTTPS
+};
+```
+
 ---
 
 ## **83. How does Angular prevent Cross-Site Scripting (XSS)?**
@@ -1705,26 +2352,65 @@ this.http.post('/upload', formData, { reportProgress: true });
 * Prevents injecting malicious code into the DOM.
 * Direct DOM access is discouraged.
 
-**Example:**
 
-```html
-<p>{{ userInput }}</p> <!-- Safe by default -->
+```typescript
+// Angular automatically sanitizes:
+export class SafeComponent {
+  userInput = '<script>alert("XSS")</script>'; // Automatically escaped
+  
+  // Safe interpolation
+  template = `<div>{{userInput}}</div>`; // Script tags rendered as text
+  
+  // Bypass sanitization (use carefully)
+  constructor(private sanitizer: DomSanitizer) {}
+  
+  getTrustedHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+}
+
+// Content Security Policy (CSP)
+// Add to index.html:
+// <meta http-equiv="Content-Security-Policy" 
+//       content="default-src 'self'; script-src 'self'">
 ```
 
 ---
 
 ## **84. How do you secure an Angular application in production?**
 
-* Use **HTTPS only**
-* Enable **Content Security Policy (CSP)**
-* Remove debug tools and console logs
-* Use environment files for secrets
-* Secure APIs with authentication & authorization
+* **Use HTTPS** so all data between client and server is encrypted.
+* **Build in production mode** to minify and obfuscate code.
+* **Set up a strong Content Security Policy (CSP)** to prevent XSS attacks.
+* **Rely on Angular’s built-in XSS protection** by using safe data binding.
+* **Secure API communication** using JWT/OAuth, secure cookies (HttpOnly, Secure, SameSite), and rate limiting.
+* **Implement proper authentication and authorization** (MFA, RBAC/ABAC).
+* **Keep dependencies updated** and run security audits (npm audit).
+* **Validate all inputs on the server side**, not just in Angular.
 
-**Example:**
 
-```ts
-ng build --configuration production
+```typescript
+// Production build optimizations
+ng build --prod --aot --build-optimizer
+
+// Enable production mode
+import { enableProdMode } from '@angular/core';
+if (environment.production) {
+  enableProdMode();
+}
+
+// Security headers (server-side)
+// Content-Security-Policy
+// X-Frame-Options: DENY
+// X-Content-Type-Options: nosniff
+// Strict-Transport-Security
+
+// Environment security
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.example.com', // HTTPS only
+  enableLogging: false // Disable in production
+};
 ```
 
 ---
@@ -1765,14 +2451,29 @@ app.get('*', (req, res) => {
 * Used to configure **assets, styles, scripts, environments**, and optimizations.
 * Different configs for **dev, prod, staging**.
 
-**Example**
-
 ```json
-"build": {
-  "options": {
-    "outputPath": "dist/app",
-    "styles": ["src/styles.css"],
-    "scripts": []
+{
+  "projects": {
+    "my-app": {
+      "architect": {
+        "build": {
+          "options": {
+            "outputPath": "dist/my-app",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [{"type": "initial", "maximumWarning": "2mb"}],
+              "outputHashing": "all"
+            }
+          }
+        }
+      }
+    }
   }
 }
 ```
@@ -1786,19 +2487,32 @@ app.get('*', (req, res) => {
 * Helpful for large teams to keep consistency.
 * Created using **@angular-devkit/schematics**.
 
-**Example**
+```typescript
+// Install schematics CLI
+npm install -g @angular-devkit/schematics-cli
 
-```bash
-schematics blank --name=my-schematic
-```
+// Create schematic collection
+schematics blank my-schematic
 
-```ts
-export function mySchematic(): Rule {
-  return (tree: Tree) => {
-    tree.create('hello.txt', 'Hello Angular');
+// Define schematic rule
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+
+export function mySchematic(options: any): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    // Create component file
+    tree.create('/src/app/my-component.ts', `
+      @Component({
+        selector: 'app-${options.name}',
+        template: '<h1>${options.title}</h1>'
+      })
+      export class ${options.name}Component {}
+    `);
     return tree;
   };
 }
+
+// Use custom schematic
+ng generate my-schematic:component --name=user --title="User Page"
 ```
 
 ---
@@ -1810,29 +2524,66 @@ export function mySchematic(): Rule {
 * Embedded Angular into **legacy systems** gradually.
 * Used **WebSockets** for real-time updates.
 
-**Example**
+```typescript
+// Angular Elements for micro-frontends
+import { createCustomElement } from '@angular/elements';
 
-```ts
-this.http.get('/api/users').subscribe(data => {
-  this.users = data;
-});
+@NgModule({
+  declarations: [MyWidgetComponent],
+  entryComponents: [MyWidgetComponent]
+})
+export class MyWidgetModule {
+  constructor(private injector: Injector) {
+    const element = createCustomElement(MyWidgetComponent, { injector });
+    customElements.define('my-widget', element);
+  }
+}
+
+// Integration patterns:
+// - REST APIs with HttpClient
+// - GraphQL with Apollo
+// - WebSockets with Socket.io
+// - State management with NgRx
+// - UI libraries (Material, PrimeNG)
 ```
 
 ---
 
-### **89. Challenging Angular problems and solutions**
+### **89. What are some of the most challenging problems you've faced while working with Angular, and how did you solve them**
 
 * Biggest challenge: **performance with large data tables**.
 * Solved using **OnPush change detection**, **virtual scrolling**, and **lazy loading**.
 * Also faced **memory leaks**, fixed by unsubscribing properly.
 
-**Example**
+```typescript
+// Memory leak prevention
+export class MyComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  
+  ngOnInit() {
+    this.dataService.getData().pipe(
+      takeUntil(this.destroy$) // Automatic unsubscribe
+    ).subscribe(data => this.data = data);
+  }
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}
 
-```ts
+// Performance optimization
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent {}
+export class OptimizedComponent {
+  trackByFn = (index: number, item: any) => item.id;
+}
+
+// Migration strategies:
+// - ng update for automated updates
+// - Incremental migration approach
+// - Comprehensive testing after updates
 ```
 
 ---

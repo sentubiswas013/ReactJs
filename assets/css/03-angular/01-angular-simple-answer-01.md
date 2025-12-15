@@ -114,7 +114,7 @@ They allow us to write code at the right moment, like initializing data, reactin
   * **ngOnDestroy()** – Runs before the component is removed.
     *Example:* 
     Unsubscribe from Observables or clear intervals.
-    
+
 ```typescript
 export class MyComponent implements OnInit, OnDestroy {
   ngOnInit() {
@@ -801,6 +801,7 @@ Usage in the template:
 ### 43. How do you create and use services in Angular?
 
 Services are created with @Injectable decorator and handle business logic, data access, and shared functionality. They're injected into components through dependency injection.
+
 ```bash
 ng generate service my-service
 ```
