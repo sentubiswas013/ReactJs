@@ -383,23 +383,27 @@ function ExpensiveComponent({ items, onItemClick }) {
 
 ---
 
-## **20. React.createElement vs JSX**
+## **20. What is the difference between `React.createElement` and JSX?**
 
 * JSX is **syntactic sugar** for `React.createElement`
 * JSX is easier to read and write
 * Both do the same thing internally
 
 ```jsx
-// JSX
-<h1>Hello</h1>
+// JSX syntax
+const element = <h1 className="title">Hello World</h1>;
 
-// Without JSX
-React.createElement("h1", null, "Hello");
+// Equivalent React.createElement
+const element = React.createElement(
+  'h1',
+  { className: 'title' },
+  'Hello World'
+);
 ```
 
 ---
 
-## **21. Role of `React.StrictMode`**
+## **21. What is the role of `React.StrictMode`?**
 
 * `StrictMode` helps find **potential problems**
 * It runs checks in development only
@@ -407,9 +411,16 @@ React.createElement("h1", null, "Hello");
 * Does not affect production
 
 ```jsx
-<React.StrictMode>
-  <App />
-</React.StrictMode>
+function App() {
+  return (
+    <React.StrictMode>
+      <Header />
+      <Main />
+      <Footer />
+    </React.StrictMode>
+  );
+}
+// Enables extra checks for components inside StrictMode
 ```
 
 ---
@@ -422,9 +433,14 @@ React.createElement("h1", null, "Hello");
 * Common in older React codebases
 
 ```jsx
-const withAuth = (Component) => {
-  return () => <Component isLoggedIn={true} />;
-};
+function withAuth(Component) {
+  return function AuthenticatedComponent(props) {
+    const isLoggedIn = useAuth();
+    return isLoggedIn ? <Component {...props} /> : <Login />;
+  };
+}
+
+const ProtectedPage = withAuth(Dashboard);
 ```
 
 ---
@@ -437,25 +453,51 @@ const withAuth = (Component) => {
 * Makes global state easier to manage
 
 ```jsx
-const ThemeContext = React.createContext();
+const ThemeContext = createContext();
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Header />
+      <Main />
+    </ThemeContext.Provider>
+  );
+}
+
+function Header() {
+  const theme = useContext(ThemeContext);
+  return <div className={theme}>Header</div>;
+}
 ```
 
 ---
 
-## **24. Difference between `createContext` and `useContext`**
+## **24. What is the difference between `React.createContext` and `useContext`?**
 
-* `createContext` **creates** a context
-* `useContext` **consumes** the context inside a component
+* `createContext` **creates** a context - createContext creates the context object that holds the shared data
+* `useContext` **consumes** the context inside a component - useContext is a hook that consumes that context data inside components.
 * They work together
 * `useContext` makes code cleaner
 
 ```jsx
-const theme = useContext(ThemeContext);
+// Create the context
+const UserContext = createContext();
+
+// Provide the context
+<UserContext.Provider value={user}>
+  <App />
+</UserContext.Provider>
+
+// Consume the context
+function Profile() {
+  const user = useContext(UserContext);
+  return <div>{user.name}</div>;
+}
 ```
 
 ---
 
-## **25. Advantages of Functional Components**
+## **25. What are the advantages of using functional components over class components?**
 
 * Less code and easier to read
 * No `this` keyword confusion
@@ -463,12 +505,24 @@ const theme = useContext(ThemeContext);
 * Better performance and easier testing
 
 ```jsx
-const App = () => <h1>Hello</h1>;
+// Functional - cleaner and simpler
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Class - more verbose
+class Counter extends React.Component {
+  state = { count: 0 };
+  render() {
+    return <button onClick={() => this.setState({count: this.state.count + 1})}>{this.state.count}</button>;
+  }
+}
 ```
 
 ---
 
-## **26. What is `setState` and how does it work?**
+## **26. What is `setState` and how does it work in React?**
 
 * `setState` updates component state
 * It is **asynchronous**
@@ -476,12 +530,24 @@ const App = () => <h1>Hello</h1>;
 * Used mainly in class components
 
 ```jsx
-this.setState({ count: this.state.count + 1 });
+class Counter extends React.Component {
+  state = { count: 0 };
+  
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });  // Async update
+    // Or with function for safer updates
+    this.setState(prevState => ({ count: prevState.count + 1 }));
+  };
+  
+  render() {
+    return <button onClick={this.increment}>{this.state.count}</button>;
+  }
+}
 ```
 
 ---
 
-## **27. `componentDidMount` vs `useEffect`**
+## **27. What is the difference between `componentDidMount` and `useEffect`?**
 
 * `componentDidMount` runs **once after render** in class components
 * `useEffect` does the same in functional components
@@ -489,14 +555,24 @@ this.setState({ count: this.state.count + 1 });
 * Hooks are more flexible
 
 ```jsx
-useEffect(() => {
-  fetchData();
-}, []);
+// Class component
+class MyComponent extends React.Component {
+  componentDidMount() {
+    fetchData();  // Runs once after mount
+  }
+}
+
+// Functional component
+function MyComponent() {
+  useEffect(() => {
+    fetchData();  // Runs once after mount
+  }, []);  // Empty array = componentDidMount behavior
+}
 ```
 
 ---
 
-## **28. How to optimize performance in React**
+## **28. How can you optimize performance in React applications?**
 
 * Use `React.memo` to avoid unnecessary re-renders
 * Use `useMemo` and `useCallback`
@@ -504,7 +580,16 @@ useEffect(() => {
 * Use keys properly in lists
 
 ```jsx
-const MemoComp = React.memo(Component);
+// Memoize component
+const ExpensiveComponent = React.memo(({ data }) => {
+  return <div>{data.map(item => <Item key={item.id} {...item} />)}</div>;
+});
+
+// Memoize calculations
+const total = useMemo(() => items.reduce((sum, item) => sum + item.price, 0), [items]);
+
+// Lazy load components
+const LazyComponent = lazy(() => import('./LazyComponent'));
 ```
 
 ---
@@ -516,15 +601,30 @@ const MemoComp = React.memo(Component);
 * Useful when returning multiple elements
 
 ```jsx
-<>
-  <h1>Title</h1>
-  <p>Description</p>
-</>
+// Without Fragment - adds extra div
+function App() {
+  return (
+    <div>
+      <h1>Title</h1>
+      <p>Content</p>
+    </div>
+  );
+}
+
+// With Fragment - no extra DOM node
+function App() {
+  return (
+    <>
+      <h1>Title</h1>
+      <p>Content</p>
+    </>
+  );
+}
 ```
 
 ---
 
-## **30. What are error boundaries in React?**
+## ** 30.What are error boundaries in React?**
 
 * Error boundaries are components that **catch JavaScript errors** in child components
 * They prevent the entire app from crashing
@@ -533,18 +633,29 @@ const MemoComp = React.memo(Component);
 
 ```jsx
 class ErrorBoundary extends React.Component {
-  componentDidCatch(error) {
-    console.log(error);
+  state = { hasError: false };
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
   }
+  
   render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
     return this.props.children;
   }
 }
+
+// Usage
+<ErrorBoundary>
+  <MyComponent />
+</ErrorBoundary>
 ```
 
 ---
 
-## **31. Purpose of `shouldComponentUpdate`**
+## **31. What is the purpose of `shouldComponentUpdate`?**
 
 * Controls whether a component should **re-render**
 * Helps improve **performance**
@@ -552,9 +663,20 @@ class ErrorBoundary extends React.Component {
 * Used in class components only
 
 ```jsx
-shouldComponentUpdate(nextProps) {
-  return nextProps.value !== this.props.value;
+class MyComponent extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.id !== this.props.id || nextState.count !== this.state.count;
+  }
+  
+  render() {
+    return <div>{this.props.id}: {this.state.count}</div>;
+  }
 }
+
+// Modern equivalent: React.memo
+const MyComponent = React.memo(({ id, count }) => {
+  return <div>{id}: {count}</div>;
+});
 ```
 
 ---
@@ -566,10 +688,23 @@ shouldComponentUpdate(nextProps) {
 * Keeps UI logic clean
 
 ```jsx
-ReactDOM.createPortal(
-  <Modal />,
-  document.getElementById("modal-root")
-);
+import { createPortal } from 'react-dom';
+
+function Modal({ children, isOpen }) {
+  if (!isOpen) return null;
+  
+  return createPortal(
+    <div className="modal-overlay">
+      <div className="modal">{children}</div>
+    </div>,
+    document.getElementById('modal-root')
+  );
+}
+
+// Usage
+<Modal isOpen={showModal}>
+  <p>This renders outside the parent DOM tree!</p>
+</Modal>
 ```
 
 ---
@@ -581,7 +716,23 @@ ReactDOM.createPortal(
 * Uses synthetic events for consistency
 
 ```jsx
-<button onClick={handleClick}>Click</button>
+function Button() {
+  const handleClick = (event) => {
+    event.preventDefault();
+    console.log('Button clicked!', event.target);
+  };
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <button onClick={handleClick}>Click me</button>
+    </form>
+  );
+}
 ```
 
 ---
@@ -593,12 +744,29 @@ ReactDOM.createPortal(
 * Uses routes and links
 
 ```jsx
-<Route path="/about" element={<About />} />
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+      
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/users/:id" element={<UserProfile />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 ```
 
 ---
 
-## **35. `<Router>` components in React Router v6**
+## **35. What are the `<Router>` components of React Router v6?**
 
 * `BrowserRouter` – used for web apps
 * `Routes` – replaces `Switch`
@@ -606,11 +774,24 @@ ReactDOM.createPortal(
 * More simple and predictable than v5
 
 ```jsx
+import { BrowserRouter, HashRouter, MemoryRouter } from 'react-router-dom';
+
+// Standard web apps
 <BrowserRouter>
   <Routes>
     <Route path="/" element={<Home />} />
   </Routes>
 </BrowserRouter>
+
+// Static hosting (GitHub Pages)
+<HashRouter>
+  <App />
+</HashRouter>
+
+// Testing or React Native
+<MemoryRouter>
+  <App />
+</MemoryRouter>
 ```
 
 ---
@@ -622,12 +803,28 @@ ReactDOM.createPortal(
 * Uses `React.lazy` and `Suspense`
 
 ```jsx
-const Page = React.lazy(() => import("./Page"));
+import { lazy, Suspense } from 'react';
+
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+      </Suspense>
+    </div>
+  );
+}
+
+// Code splitting at route level
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
 ```
 
 ---
 
-## **37. Difference between state and context**
+## **37. What is the difference between state and context?**
 
 * **State** is local to a component
 * **Context** is global and shared
@@ -635,12 +832,27 @@ const Page = React.lazy(() => import("./Page"));
 * State is simpler for small data
 
 ```jsx
-const value = useContext(MyContext);
+// State - local to component
+function Counter() {
+  const [count, setCount] = useState(0);  // Local state
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Context - shared across components
+const ThemeContext = createContext();
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">  {/* Global context */}
+      <Header />
+      <Main />
+    </ThemeContext.Provider>
+  );
+}
 ```
 
 ---
 
-## **38. Managing global state in React**
+## **38.  How can you manage global state in a React application?
 
 * Use **Context API** for small apps
 * Use **Redux / Zustand** for complex apps
@@ -648,7 +860,22 @@ const value = useContext(MyContext);
 * Choose based on app size
 
 ```jsx
-const GlobalContext = React.createContext();
+// Context for simple global state
+const AppContext = createContext();
+function AppProvider({ children }) {
+  const [user, setUser] = useState(null);
+  return (
+    <AppContext.Provider value={{ user, setUser }}>
+      {children}
+    </AppContext.Provider>
+  );
+}
+
+// Redux for complex state
+import { configureStore } from '@reduxjs/toolkit';
+const store = configureStore({
+  reducer: { user: userReducer, posts: postsReducer }
+});
 ```
 
 ---
@@ -663,8 +890,18 @@ const GlobalContext = React.createContext();
 * Frameworks like **Next.js** make SSR easy.
 
 ```jsx
+// Next.js SSR example
 export async function getServerSideProps() {
-  return { props: { data: "Hello" } };
+  const data = await fetch('https://api.example.com/posts');
+  return { props: { posts: await data.json() } };
+}
+
+function Posts({ posts }) {
+  return (
+    <div>
+      {posts.map(post => <div key={post.id}>{post.title}</div>)}
+    </div>
+  );
 }
 ```
 
@@ -678,8 +915,21 @@ export async function getServerSideProps() {
 * Together, they improve **user experience and responsiveness**.
 
 ```jsx
-<Suspense fallback={<Loading />}>
-  <LazyComponent />
+import { Suspense, lazy } from 'react';
+
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LazyComponent />
+    </Suspense>
+  );
+}
+
+// With data fetching (experimental)
+<Suspense fallback={<Spinner />}>
+  <UserProfile userId={123} />
 </Suspense>
 ```
 
@@ -693,7 +943,24 @@ export async function getServerSideProps() {
 * Commonly done using **React.lazy** and **Suspense**.
 
 ```jsx
-const Dashboard = React.lazy(() => import('./Dashboard'));
+import { lazy, Suspense } from 'react';
+
+// Route-level splitting
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+
+// Component-level splitting
+const handleClick = async () => {
+  const { heavyFunction } = await import('./heavyModule');
+  heavyFunction();
+};
+
+<Suspense fallback={<div>Loading...</div>}>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/about" element={<About />} />
+  </Routes>
+</Suspense>
 ```
 
 ---
@@ -707,6 +974,29 @@ const Dashboard = React.lazy(() => import('./Dashboard'));
 
 ➡️ In short: Fiber makes React **faster and more responsive**.
 
+```jsx
+// Fiber enables interrupting low-priority updates
+function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState('');
+  
+  // High priority - user input
+  const handleInput = (e) => setText(e.target.value);
+  
+  // Low priority - can be interrupted
+  const heavyRender = () => {
+    return Array.from({length: 1000}, (_, i) => <div key={i}>{count}</div>);
+  };
+  
+  return (
+    <div>
+      <input onChange={handleInput} value={text} />
+      {heavyRender()}
+    </div>
+  );
+}
+```
+
 ---
 
 ## **43. What is React’s Reconciliation Algorithm?**
@@ -717,8 +1007,20 @@ const Dashboard = React.lazy(() => import('./Dashboard'));
 * This process improves **performance**.
 
 ```jsx
-// Only changed elements are re-rendered
-setState({ count: count + 1 });
+// React efficiently updates only what changed
+function TodoList({ todos }) {
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id} className={todo.completed ? 'done' : ''}>
+          {todo.text}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Keys help React identify which items changed, moved, or were removed
 ```
 
 ---
@@ -731,11 +1033,24 @@ setState({ count: count + 1 });
 * This gives full **control and validation** over inputs.
 
 ```jsx
-<input
-  value={name}
-  onChange={e => setName(e.target.value)}
-/>
-```
+// Controlled form
+function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login({ email, password });
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input value={password} onChange={(e) => setPassword(e.target.value)} />
+      <button type="submit">Login</button>
+    </form>
+  );
+}
 
 ---
 
@@ -744,10 +1059,25 @@ setState({ count: count + 1 });
 * `key` helps React **identify list items uniquely**.
 * It improves **performance and correct re-rendering**.
 * Keys should be **stable and unique**, not array indexes.
-* Wrong keys can cause **UI bugs**.
+* Wrong keys can cause **UI bugs**
 
 ```jsx
-items.map(item => <li key={item.id}>{item.name}</li>);
+```jsx
+// Good - stable unique keys
+function UserList({ users }) {
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>  // Stable ID
+      ))}
+    </ul>
+  );
+}
+
+// Avoid - index as key when order can change
+{users.map((user, index) => (
+  <li key={index}>{user.name}</li>  // Can cause issues
+))}
 ```
 
 ---
@@ -760,9 +1090,27 @@ items.map(item => <li key={item.id}>{item.name}</li>);
 * They improve **cleanliness and reusability**.
 
 ```jsx
-function useCounter() {
-  const [count, setCount] = useState(0);
-  return { count, increment: () => setCount(count + 1) };
+// Custom hook for API data fetching
+function useApi(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setData(data);
+        setLoading(false);
+      });
+  }, [url]);
+  
+  return { data, loading };
+}
+
+// Usage
+function UserProfile({ userId }) {
+  const { data: user, loading } = useApi(`/api/users/${userId}`);
+  return loading ? <div>Loading...</div> : <div>{user.name}</div>;
 }
 ```
 
@@ -776,8 +1124,22 @@ function useCounter() {
 * `getDerivedStateFromProps` is a **static method** used to **sync state with props**.
 
 ```jsx
-static getDerivedStateFromProps(props, state) {
-  return props.value !== state.value ? { value: props.value } : null;
+class MyComponent extends React.Component {
+  // Deprecated - don't use
+  // componentWillMount() { }
+  
+  componentDidMount() {
+    // Safe for API calls, DOM access
+    this.fetchData();
+  }
+  
+  static getDerivedStateFromProps(props, state) {
+    // Pure function - no side effects
+    if (props.userId !== state.prevUserId) {
+      return { prevUserId: props.userId, user: null };
+    }
+    return null;
+  }
 }
 ```
 
@@ -791,6 +1153,20 @@ static getDerivedStateFromProps(props, state) {
 * Helps identify **unnecessary re-renders and performance issues**.
 
 ➡️ It’s essential for **debugging React apps efficiently**.
+
+```jsx
+// DevTools shows component tree like this:
+// App
+//   ├── Header (props: {title: "My App"})
+//   ├── UserList (state: {users: [...], loading: false})
+//   └── Footer
+
+// You can also add displayName for better debugging
+function MyComponent() {
+  return <div>Hello</div>;
+}
+MyComponent.displayName = 'MyCustomComponent';
+```
 
 ---
 
@@ -815,7 +1191,26 @@ fireEvent.click(screen.getByText("Save"));
 * `useReducer` improves **readability for complex updates**.
 
 ```jsx
-const [state, dispatch] = useReducer(reducer, initialState);
+function counterReducer(state, action) {
+  switch (action.type) {
+    case 'increment': return { count: state.count + 1 };
+    case 'decrement': return { count: state.count - 1 };
+    case 'reset': return { count: 0 };
+    default: return state;
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+  
+  return (
+    <div>
+      <span>{state.count}</span>
+      <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
+    </div>
+  );
+}
 ```
 
 ---
@@ -828,7 +1223,20 @@ const [state, dispatch] = useReducer(reducer, initialState);
 * Example: `onClick`, `onChange`.
 
 ```jsx
-<button onClick={handleClick}>Click</button>
+function Button() {
+  const handleClick = (event) => {
+    // event is a SyntheticEvent, not native Event
+    event.preventDefault();
+    event.stopPropagation();
+    console.log(event.type); // "click"
+    console.log(event.target); // button element
+    
+    // Access native event if needed
+    console.log(event.nativeEvent);
+  };
+  
+  return <button onClick={handleClick}>Click me</button>;
+}
 ```
 
 ---
@@ -840,15 +1248,31 @@ const [state, dispatch] = useReducer(reducer, initialState);
 * Cleanup is done by returning a function from `useEffect`.
 
 ```jsx
-useEffect(() => {
-  const timer = setInterval(() => {}, 1000);
-  return () => clearInterval(timer);
-}, []);
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    // Side effect: API call
+    const fetchUser = async () => {
+      const response = await fetch(`/api/users/${userId}`);
+      setUser(await response.json());
+    };
+    
+    fetchUser();
+    
+    // Cleanup function
+    return () => {
+      // Cancel requests, clear timers, etc.
+    };
+  }, [userId]);
+  
+  return <div>{user?.name}</div>;
+}
 ```
 
 ---
 
-## **53. What is the lifecycle of a React component?**
+## **53. What is the lifecycle of a React component? Explain both class-based and functional components' lifecycles.**
 
 ### **Class-based lifecycle**
 
@@ -861,10 +1285,26 @@ useEffect(() => {
 * `useEffect` handles **mount, update, and unmount** logic.
 
 ```jsx
-useEffect(() => {
-  console.log("Mounted");
-  return () => console.log("Unmounted");
-}, []);
+// Class component lifecycle
+class MyComponent extends React.Component {
+  componentDidMount() { /* after mount */ }
+  componentDidUpdate() { /* after update */ }
+  componentWillUnmount() { /* before unmount */ }
+}
+
+// Functional component equivalent
+function MyComponent() {
+  useEffect(() => {
+    // componentDidMount
+    return () => {
+      // componentWillUnmount
+    };
+  }, []); // Empty array = mount/unmount only
+  
+  useEffect(() => {
+    // componentDidUpdate for specific values
+  }, [someValue]);
+}
 ```
 
 ---
@@ -877,19 +1317,58 @@ useEffect(() => {
 * Not recommended for **frequently changing data**.
 
 ```jsx
-const ThemeContext = React.createContext("light");
+// Create context
+const ThemeContext = createContext();
+
+// Provider component
+function App() {
+  const [theme, setTheme] = useState('dark');
+  
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <Header />
+      <Main />
+      <Footer />
+    </ThemeContext.Provider>
+  );
+}
+
+// Consumer component (deep in the tree)
+function ThemeButton() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  return <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme}</button>;
+}
 ```
 
 ---
 
-## **55. What are Render Props? Explain with example**
+## **55. Explain the concept of "render props" and provide an example.**
 
 * Render props is a pattern where a component **shares logic via a function prop**.
 * The function returns **UI based on shared logic**.
 * Helps in **logic reuse without HOCs**.
 
 ```jsx
-<Mouse render={pos => <h1>{pos.x}, {pos.y}</h1>} />
+// Component with render prop
+function MouseTracker({ render }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+  
+  return render(position);
+}
+
+// Usage
+<MouseTracker render={({ x, y }) => (
+  <div>Mouse position: {x}, {y}</div>
+)} />
 ```
 
 ---
@@ -906,14 +1385,22 @@ const ThemeContext = React.createContext("light");
 **Example (React Router v6):**
 
 ```jsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
     <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/users">Users</Link>
+      </nav>
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/users/:id" element={<UserDetail />} />
       </Routes>
     </BrowserRouter>
   );
@@ -929,18 +1416,25 @@ function App() {
 * You define them using `:paramName` in the route path
 * The value is accessed using `useParams()`
 
-**Example:**
-
 ```jsx
-<Route path="/users/:id" element={<User />} />
-```
+import { useParams } from 'react-router-dom';
 
-```jsx
-import { useParams } from "react-router-dom";
+// Route definition
+<Route path="/users/:userId" element={<UserProfile />} />
+<Route path="/posts/:postId/comments/:commentId" element={<Comment />} />
 
-function User() {
-  const { id } = useParams();
-  return <h2>User ID: {id}</h2>;
+// Component using parameters
+function UserProfile() {
+  const { userId } = useParams();
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    fetch(`/api/users/${userId}`)
+      .then(res => res.json())
+      .then(setUser);
+  }, [userId]);
+  
+  return <div>User: {user?.name}</div>;
 }
 ```
 
@@ -952,26 +1446,30 @@ function User() {
 * React Router supports this using parent routes and the `Outlet` component
 * The parent layout stays visible while child routes change
 
-**Example:**
-
 ```jsx
-<Route path="/dashboard" element={<Dashboard />}>
-  <Route path="profile" element={<Profile />} />
-  <Route path="settings" element={<Settings />} />
-</Route>
-```
+import { Outlet } from 'react-router-dom';
 
-```jsx
-import { Outlet } from "react-router-dom";
-
+// Parent component
 function Dashboard() {
   return (
-    <>
+    <div>
       <h1>Dashboard</h1>
-      <Outlet />
-    </>
+      <nav>
+        <Link to="profile">Profile</Link>
+        <Link to="settings">Settings</Link>
+      </nav>
+      <Outlet /> {/* Child routes render here */}
+    </div>
   );
 }
+
+// Route configuration
+<Routes>
+  <Route path="/dashboard" element={<Dashboard />}>
+    <Route path="profile" element={<Profile />} />
+    <Route path="settings" element={<Settings />} />
+  </Route>
+</Routes>
 ```
 
 ---
@@ -982,20 +1480,24 @@ function Dashboard() {
 * `useLocation` → gives current URL info like pathname or state
 * `useNavigate` → programmatic navigation (replacement for `useHistory`)
 
-**Example:**
-
 ```jsx
-import { useNavigate, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
-function Page() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  return (
-    <button onClick={() => navigate("/login")}>
-      Go to Login
-    </button>
-  );
+function MyComponent() {
+  const { id } = useParams(); // Get URL parameters
+  const location = useLocation(); // Current location info
+  const navigate = useNavigate(); // Navigation function
+  
+  const handleClick = () => {
+    navigate('/dashboard'); // Programmatic navigation
+    // navigate(-1); // Go back
+    // navigate('/users', { replace: true }); // Replace current entry
+  };
+  
+  console.log(location.pathname); // "/users/123"
+  console.log(location.search); // "?tab=profile"
+  
+  return <button onClick={handleClick}>Go to Dashboard</button>;
 }
 ```
 
@@ -1010,12 +1512,19 @@ function Page() {
 * Avoid passing new object or function references unnecessarily
 * Keep state as local as possible
 
-**Example:**
-
 ```jsx
-const Button = React.memo(({ onClick }) => {
-  return <button onClick={onClick}>Click</button>;
+// Memoize component
+const ExpensiveComponent = React.memo(({ data }) => {
+  return <div>{data.map(item => <Item key={item.id} {...item} />)}</div>;
 });
+
+// Memoize calculations and callbacks
+function Parent({ items }) {
+  const total = useMemo(() => items.reduce((sum, item) => sum + item.price, 0), [items]);
+  const handleClick = useCallback((id) => console.log(id), []);
+  
+  return <ExpensiveComponent data={items} onClick={handleClick} />;
+}
 ```
 
 ---
@@ -1043,7 +1552,7 @@ useEffect(() => {
 
 ## **State Management Questions**
 
-## **62. What is Redux, and how does it help in state management in React?**
+## **62.  What is Redux, and how does it help in state management in React?**
 
 * Redux is a **predictable state management library** for JavaScript apps
 * It stores the entire app state in **one central store**
@@ -1051,16 +1560,30 @@ useEffect(() => {
 * Helps manage complex state shared across many components
 * Improves debugging using tools like Redux DevTools
 
-**Example:**
-
-```js
-const store = createStore(reducer);
-```
-
 ```jsx
-<Provider store={store}>
-  <App />
-</Provider>
+// Store setup
+import { configureStore } from '@reduxjs/toolkit';
+
+const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+    user: userReducer
+  }
+});
+
+// Component usage
+import { useSelector, useDispatch } from 'react-redux';
+
+function Counter() {
+  const count = useSelector(state => state.counter.value);
+  const dispatch = useDispatch();
+  
+  return (
+    <button onClick={() => dispatch({ type: 'counter/increment' })}>
+      {count}
+    </button>
+  );
+}
 ```
 
 ---
@@ -1071,17 +1594,26 @@ const store = createStore(reducer);
 * **State is read-only** → only actions can change state
 * **Changes are made with pure functions** called reducers
 
-**Core pieces:**
-
-```js
+```jsx
 // Action
-{ type: "INCREMENT" }
+const increment = () => ({ type: 'INCREMENT' });
 
 // Reducer
-function counter(state = 0, action) {
-  if (action.type === "INCREMENT") return state + 1;
-  return state;
+function counterReducer(state = { count: 0 }, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    default:
+      return state;
+  }
 }
+
+// Store
+const store = createStore(counterReducer);
+
+// Usage
+store.dispatch(increment());
+console.log(store.getState()); // { count: 1 }
 ```
 
 ---
@@ -1094,16 +1626,24 @@ function counter(state = 0, action) {
 * Managed using Redux, Context API, or Zustand
 * Use local state for UI logic, global state for app-wide data
 
-**Example:**
-
 ```jsx
-// Local state
-const [open, setOpen] = useState(false);
-```
+// Local state - component specific
+function Counter() {
+  const [count, setCount] = useState(0); // Local to this component
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
 
-```js
-// Global state (Redux)
-state.user.isLoggedIn
+// Global state - shared across app
+const UserContext = createContext();
+function App() {
+  const [user, setUser] = useState(null); // Global state
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      <Header />
+      <Profile />
+    </UserContext.Provider>
+  );
+}
 ```
 
 ---
@@ -1115,13 +1655,23 @@ state.user.isLoggedIn
 * Common solutions include `redux-thunk` and `redux-saga`
 * Middleware lets you dispatch actions after async work
 
-**Example using thunk:**
-
-```js
-const fetchUsers = () => async (dispatch) => {
-  const res = await fetch("/users");
-  dispatch({ type: "SET_USERS", payload: await res.json() });
+```jsx
+// Redux Thunk action creator
+const fetchUser = (userId) => {
+  return async (dispatch) => {
+    dispatch({ type: 'FETCH_USER_START' });
+    try {
+      const response = await fetch(`/api/users/${userId}`);
+      const user = await response.json();
+      dispatch({ type: 'FETCH_USER_SUCCESS', payload: user });
+    } catch (error) {
+      dispatch({ type: 'FETCH_USER_ERROR', payload: error.message });
+    }
+  };
 };
+
+// Usage
+dispatch(fetchUser(123));
 ```
 
 ---
@@ -1133,13 +1683,24 @@ const fetchUsers = () => async (dispatch) => {
 * `redux-thunk` allows actions to be functions
 * `redux-saga` uses generator functions for complex flows
 
-**Thunk example:**
+```jsx
+// Redux Thunk setup
+import { configureStore } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
 
-```js
-const thunkAction = () => (dispatch) => {
-  setTimeout(() => {
-    dispatch({ type: "SUCCESS" });
-  }, 1000);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [thunk]
+});
+
+// Thunk action
+const loginUser = (credentials) => async (dispatch) => {
+  const response = await fetch('/api/login', {
+    method: 'POST',
+    body: JSON.stringify(credentials)
+  });
+  const user = await response.json();
+  dispatch({ type: 'LOGIN_SUCCESS', payload: user });
 };
 ```
 
@@ -1225,10 +1786,20 @@ expect(await screen.findByText("John")).toBeInTheDocument();
 * **Full rendering** renders the entire component tree
 * React Testing Library focuses on full rendering
 
-**Example:**
+```jsx
+// React Testing Library (full rendering by default)
+import { render } from '@testing-library/react';
 
-```js
-render(<Parent />); // Full render (RTL)
+test('full rendering - tests complete component tree', () => {
+  render(<App />); // Renders App and all its children
+});
+
+// Enzyme shallow rendering (less common now)
+import { shallow } from 'enzyme';
+
+test('shallow rendering - tests only App component', () => {
+  const wrapper = shallow(<App />); // Only renders App, not children
+});
 ```
 
 ---
@@ -1285,15 +1856,30 @@ expect(fetchData).toHaveBeenCalled();
 * They handle bundling, dev servers, code splitting, and assets
 * Vite is preferred today for faster startup and hot reload
 
-**Example:**
+```jsx
+// Webpack config example
+module.exports = {
+  entry: './src/index.js',
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+};
 
-```js
-// Vite dev server
-npm run dev
-```
-
-```js
-// Webpack bundles JS, CSS, images into build files
+// Vite config
+export default {
+  plugins: [react()],
+  server: { port: 3000 }
+};
 ```
 
 ---
