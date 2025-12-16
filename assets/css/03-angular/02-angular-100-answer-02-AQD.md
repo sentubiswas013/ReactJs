@@ -1485,46 +1485,37 @@ ng generate guard auth
 * **CanActivate Guard**
   - Controls if route can be activated
 
+
 ```typescript
-@Injectable()
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean {
-    if (this.auth.isLoggedIn()) {
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    if (this.authService.isAuthenticated()) {
       return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
     }
-    this.router.navigate(['/login']);
-    return false;
   }
 }
 ```
 
-* **CanDeactivate Guard**
-  - Prevents leaving unsaved changes
-
-```typescript
-@Injectable()
-export class UnsavedChangesGuard implements CanDeactivate<FormComponent> {
-  canDeactivate(component: FormComponent): boolean {
-    if (component.hasUnsavedChanges()) {
-      return confirm('You have unsaved changes. Do you want to leave?');
-    }
-    return true;
-  }
-}
-```
-
-* **Route Configuration**
+In the routing configuration:
 
 ```typescript
 const routes: Routes = [
-  {
-    path: 'admin',
-    component: AdminComponent,
-    canActivate: [AuthGuard],
-    canDeactivate: [UnsavedChangesGuard]
-  }
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
 ];
 ```
 
