@@ -41,10 +41,10 @@ export class HighlightDirective {
 Components are the building blocks of Angular applications. They control a part of the screen called a view.
 
 **Key features:**
-• Has a TypeScript class with logic
-• HTML template for the view
-• CSS styles for appearance
-• Decorator that defines metadata
+* Has a TypeScript class with logic
+* HTML template for the view
+* CSS styles for appearance
+* Decorator that defines metadata
 
 **Example:**
 
