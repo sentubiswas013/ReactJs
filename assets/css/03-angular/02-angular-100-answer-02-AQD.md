@@ -77,10 +77,10 @@ export class UserComponent {
 Modules are containers that group related components, directives, pipes, and services together.
 
 **Key points:**
-• Every Angular app has at least one module (AppModule)
-• Use @NgModule decorator
-• Helps organize and lazy load features
-• Defines compilation context
+* Every Angular app has at least one module (AppModule)
+* Use @NgModule decorator
+* Helps organize and lazy load features
+* Defines compilation context
 
 **Example:**
 
@@ -118,10 +118,10 @@ export class ProductModule { }
 A service is a class that provides specific functionality that can be shared across components.
 
 **Use cases:**
-• Data fetching from APIs
-• Business logic
-• Shared state management
-• Utility functions
+* Data fetching from APIs
+* Business logic
+* Shared state management
+* Utility functions
 
 **Example:**
 
@@ -167,10 +167,10 @@ export class UserComponent {
 Dependency injection is a design pattern where dependencies are provided to a class rather than creating them inside the class.
 
 **Benefits:**
-• Loose coupling
-• Easy testing with mocks
-• Better code reusability
-• Angular handles object creation
+* Loose coupling
+* Easy testing with mocks
+* Better code reusability
+* Angular handles object creation
 
 **Example:**
 
@@ -220,10 +220,10 @@ TestBed.configureTestingModule({
 Observables are streams of data that you can subscribe to. They handle asynchronous operations and events.
 
 **Key features:**
-• Handle multiple values over time
-• Lazy execution
-• Cancellable
-• Rich operators for data transformation
+* Handle multiple values over time
+* Lazy execution
+* Cancellable
+* Rich operators for data transformation
 
 **Example:**
 
@@ -273,10 +273,10 @@ export class UserComponent implements OnDestroy {
 A provider tells Angular how to create and provide dependencies for dependency injection.
 
 **Types of providers:**
-• Class providers
-• Value providers
-• Factory providers
-• Existing providers
+* Class providers
+* Value providers
+* Factory providers
+* Existing providers
 
 **Example:**
 
@@ -319,12 +319,12 @@ constructor(
 Pipes transform data in templates. They take input and return formatted output.
 
 **Built-in pipes:**
-• date, currency, uppercase, lowercase
-• json, slice, async
+* date, currency, uppercase, lowercase
+* json, slice, async
 
 **Custom pipes:**
-• Use @Pipe decorator
-• Implement PipeTransform interface
+* Use @Pipe decorator
+* Implement PipeTransform interface
 
 **Example:**
 
@@ -883,9 +883,9 @@ export class MyComponent {
 
 **ngModel** creates two-way data binding between form controls and component properties.
 
-• Binds input values to component data
-• Updates UI when data changes
-• Provides form validation states
+* Binds input values to component data
+* Updates UI when data changes
+* Provides form validation states
 
 ```typescript
 export class Component {
@@ -904,9 +904,9 @@ export class Component {
 
 **Async pipe** automatically subscribes to Observables and unsubscribes when component destroys.
 
-• Handles subscription lifecycle
-• Updates view when Observable emits
-• Prevents memory leaks
+* Handles subscription lifecycle
+* Updates view when Observable emits
+* Prevents memory leaks
 
 ```typescript
 export class Component {
@@ -927,9 +927,9 @@ export class Component {
 **Lazy loading** loads feature modules only when needed, not at startup.
 
 **Performance benefits:**
-• Reduces initial bundle size
-• Faster app startup
-• Better user experience
+* Reduces initial bundle size
+* Faster app startup
+* Better user experience
 
 ```typescript
 // app-routing.module.ts
@@ -948,9 +948,9 @@ const routes: Routes = [
 **Change detection** checks if component data changed and updates the DOM accordingly.
 
 **How it works:**
-• Runs after events (click, HTTP, timers)
-• Compares current vs previous values
-• Updates DOM if changes found
+* Runs after events (click, HTTP, timers)
+* Compares current vs previous values
+* Updates DOM if changes found
 
 ```typescript
 export class Component {
@@ -972,9 +972,9 @@ export class Component {
 
 **Zone.js** patches browser APIs to detect asynchronous operations and trigger change detection.
 
-• Monitors async operations
-• Automatically runs change detection
-• Handles promises, events, timers
+* Monitors async operations
+* Automatically runs change detection
+* Handles promises, events, timers
 
 ```typescript
 // Zone automatically detects this
@@ -1038,8 +1038,8 @@ Both are browser storage APIs that Angular can use, but they differ in persisten
 
 * **localStorage** - Data persists until manually cleared
 * **sessionStorage** - Data clears when browser tab closes
-• Both store key-value pairs as strings
-• Same API methods for both
+* Both store key-value pairs as strings
+* Same API methods for both
 
 ```typescript
 // localStorage - persists across sessions
@@ -1070,10 +1070,10 @@ export class StorageService {
 **Answer:**
 Angular provides built-in CSRF protection through interceptors:
 
-• Uses **XSRF tokens** automatically
-• Reads token from cookies
-• Adds token to request headers
-• Works with backend CSRF implementations
+* Uses **XSRF tokens** automatically
+* Reads token from cookies
+* Adds token to request headers
+* Works with backend CSRF implementations
 
 ```typescript
 // Automatic CSRF protection (default)
@@ -1155,8 +1155,8 @@ Custom directives extend HTML elements with custom behavior:
 
 * **Attribute directives** - change element appearance/behavior
 * **Structural directives** - modify DOM structure
-• Use `@Directive` decorator
-• Access element through `ElementRef`
+* Use `@Directive` decorator
+* Access element through `ElementRef`
 
 ```typescript
 // Attribute directive - highlight text
@@ -1207,10 +1207,10 @@ export class UnlessDirective {
 **Answer:**
 Services handle business logic and data sharing between components:
 
-• Use `@Injectable` decorator
-• Provide in root or specific modules
-• Inject using dependency injection
-• Perfect for HTTP calls, data management
+* Use `@Injectable` decorator
+* Provide in root or specific modules
+* Inject using dependency injection
+* Perfect for HTTP calls, data management
 
 ```typescript
 // Create service
@@ -1260,8 +1260,8 @@ RouterModule enables navigation and routing in Angular applications:
 
 * **forRoot()** - configures root routing
 * **forChild()** - configures feature routing
-• Handles URL mapping to components
-• Supports guards, resolvers, lazy loading
+* Handles URL mapping to components
+* Supports guards, resolvers, lazy loading
 
 ```typescript
 // App routing module
@@ -1306,10 +1306,10 @@ navigateToUser(id: number) {
 **Answer:**
 Handle HTTP errors using operators and interceptors:
 
-• Use **catchError** operator with observables
-• Create **error interceptors** for global handling
-• Implement **retry logic** for failed requests
-• Show user-friendly error messages
+* Use **catchError** operator with observables
+* Create **error interceptors** for global handling
+* Implement **retry logic** for failed requests
+* Show user-friendly error messages
 
 ```typescript
 // Service with error handling
@@ -2099,9 +2099,9 @@ ng build --jit
 * **Benefits**: Better SEO, faster initial page load, improved performance on slow devices
 
 **How SSR works:**
-• Server renders the initial HTML
-• Browser receives pre-rendered content
-• Angular app hydrates and takes over
+* Server renders the initial HTML
+* Browser receives pre-rendered content
+* Angular app hydrates and takes over
 
 ```bash
 # Install Angular Universal
@@ -2482,14 +2482,14 @@ export class ComponentWithSubscription implements OnDestroy {
 ```
 
 **Performance checklist:**
-• Use OnPush change detection
-• Implement trackBy for large lists
-• Lazy load feature modules
-• Optimize bundle size with tree shaking
-• Use async pipe for observables
-• Properly unsubscribe from observables
-• Minimize DOM manipulations
-• Use virtual scrolling for large datasets
+* Use OnPush change detection
+* Implement trackBy for large lists
+* Lazy load feature modules
+* Optimize bundle size with tree shaking
+* Use async pipe for observables
+* Properly unsubscribe from observables
+* Minimize DOM manipulations
+* Use virtual scrolling for large datasets
 
 
 # Angular Testing Interview Questions & Answers
@@ -2742,11 +2742,11 @@ describe('Spy Examples', () => {
 ## 74. How would you organize a large Angular application?
 
 **Answer:**
-• Use **feature modules** to break down functionality
-• Follow **lazy loading** for better performance
-• Implement **shared modules** for common components
-• Use **core module** for singleton services
-• Apply **barrel exports** for clean imports
+* Use **feature modules** to break down functionality
+* Follow **lazy loading** for better performance
+* Implement **shared modules** for common components
+* Use **core module** for singleton services
+* Apply **barrel exports** for clean imports
 
 ```typescript
 // Feature module structure
@@ -2815,7 +2815,7 @@ export class UserEffects {
 ## 76. How to debug Angular application?
 
 **Answer:**
-• Use **Angular DevTools** browser extension
+* Use **Angular DevTools** browser extension
 * **Console.log** and **debugger** statements
 * **Angular CLI** with source maps
 * **Network tab** for HTTP requests
@@ -2851,9 +2851,9 @@ export class UserComponent {
 
 **Answer:**
 * **Singleton ensures single instance** across application
-• Angular services are **singletons by default** when provided in root
+* Angular services are **singletons by default** when provided in root
 * **Shared state** and **memory efficiency**
-• Use `providedIn: 'root'` for singleton services
+* Use `providedIn: 'root'` for singleton services
 
 ```typescript
 // Singleton service
@@ -2968,9 +2968,9 @@ Authentication and authorization in Angular involves managing user credentials a
 * **Guards** - Protect routes based on authentication status
 
 ### JWT Structure:
-• Header: Algorithm and token type
-• Payload: User data and claims (roles, permissions)
-• Signature: Verification hash
+* Header: Algorithm and token type
+* Payload: User data and claims (roles, permissions)
+* Signature: Verification hash
 
 ### Implementation Example:
 
@@ -3537,15 +3537,15 @@ export class AuthInterceptor implements HttpInterceptor {
 Angular Universal is Angular's solution for server-side rendering that renders your app on the server before sending it to the browser.
 
 **Key Benefits:**
-• Faster initial page load
-• Better SEO optimization
-• Improved social media sharing
-• Enhanced performance on slow devices
+* Faster initial page load
+* Better SEO optimization
+* Improved social media sharing
+* Enhanced performance on slow devices
 
 **How it works:**
-• Renders Angular components on the server
-• Sends pre-rendered HTML to browser
-• Hydrates the app on client-side
+* Renders Angular components on the server
+* Sends pre-rendered HTML to browser
+* Hydrates the app on client-side
 
 ```typescript
 // Install Angular Universal
@@ -3573,16 +3573,16 @@ export class AppServerModule {}
 `angular.json` is the workspace configuration file that defines build and development settings for Angular projects.
 
 **Main purposes:**
-• Project structure definition
-• Build configurations
-• Development server settings
-• Testing configurations
+* Project structure definition
+* Build configurations
+* Development server settings
+* Testing configurations
 
 **Key configurations:**
-• Build options and environments
-• Asset management
-• Style preprocessing
-• Bundle optimization
+* Build options and environments
+* Asset management
+* Style preprocessing
+* Bundle optimization
 
 ```json
 {
@@ -3617,10 +3617,10 @@ export class AppServerModule {}
 Angular schematics are templates that generate or modify code. You can create custom ones for repetitive tasks.
 
 **Steps to create:**
-• Generate schematic collection
-• Define templates and rules
-• Implement transformation logic
-• Test and publish
+* Generate schematic collection
+* Define templates and rules
+* Implement transformation logic
+* Test and publish
 
 ```typescript
 // Install schematics CLI
@@ -3663,16 +3663,16 @@ export function mySchematic(options: any): Rule {
 I've integrated Angular with various technologies for different project needs.
 
 **Common integrations:**
-• Backend APIs (REST, GraphQL)
-• UI libraries (Material, PrimeNG)
-• State management (NgRx, Akita)
-• Micro-frontends (Module Federation)
+* Backend APIs (REST, GraphQL)
+* UI libraries (Material, PrimeNG)
+* State management (NgRx, Akita)
+* Micro-frontends (Module Federation)
 
 **Real examples:**
-• Angular + Node.js/Express APIs
-• Angular + Firebase for real-time features
-• Angular + Electron for desktop apps
-• Angular + Ionic for mobile apps
+* Angular + Node.js/Express APIs
+* Angular + Firebase for real-time features
+* Angular + Electron for desktop apps
+* Angular + Ionic for mobile apps
 
 ```typescript
 // Integration with GraphQL
@@ -3708,8 +3708,8 @@ export class UserComponent {
 ## 89. What are some of the most challenging problems you've faced while working with Angular, and how did you solve them?
 
 **Challenge 1: Performance with large datasets**
-• Problem: Slow rendering with 10k+ items
-• Solution: Virtual scrolling and OnPush strategy
+* Problem: Slow rendering with 10k+ items
+* Solution: Virtual scrolling and OnPush strategy
 
 ```typescript
 // Virtual scrolling solution
@@ -3731,8 +3731,8 @@ export class OptimizedComponent {
 ```
 
 **Challenge 2: Memory leaks with subscriptions**
-• Problem: Components not unsubscribing properly
-• Solution: takeUntil pattern and async pipe
+* Problem: Components not unsubscribing properly
+* Solution: takeUntil pattern and async pipe
 
 ```typescript
 export class ComponentWithSubscriptions implements OnDestroy {
@@ -3754,22 +3754,22 @@ export class ComponentWithSubscriptions implements OnDestroy {
 ## 90. How do you stay up to date with new releases and changes in the Angular framework?
 
 **My approach to staying current:**
-• Follow official Angular blog and GitHub
-• Subscribe to Angular newsletters
-• Attend conferences and meetups
-• Practice with new features in side projects
+* Follow official Angular blog and GitHub
+* Subscribe to Angular newsletters
+* Attend conferences and meetups
+* Practice with new features in side projects
 
 **Key resources:**
-• Angular.io official documentation
-• Angular Weekly newsletter
-• ng-conf and AngularConnect conferences
-• Angular community on Twitter/LinkedIn
+* Angular.io official documentation
+* Angular Weekly newsletter
+* ng-conf and AngularConnect conferences
+* Angular community on Twitter/LinkedIn
 
 **Practical steps:**
-• Update projects regularly using `ng update`
-• Read migration guides thoroughly
-• Test new features in isolated environments
-• Share learnings with team through tech talks
+* Update projects regularly using `ng update`
+* Read migration guides thoroughly
+* Test new features in isolated environments
+* Share learnings with team through tech talks
 
 ```bash
 # Regular update process
@@ -3790,10 +3790,10 @@ ng update @angular/core@15 --force
 **Problem:** Client needed a real-time dashboard showing sales, inventory, and user behavior with complex filtering and data visualization.
 
 **Solution approach:**
-• Used Angular with WebSocket connections
-• Implemented NgRx for state management
-• Created reusable chart components
-• Added real-time notifications
+* Used Angular with WebSocket connections
+* Implemented NgRx for state management
+* Created reusable chart components
+* Added real-time notifications
 
 **Key implementations:**
 
@@ -3857,16 +3857,16 @@ export class ChartComponent implements OnInit {
 ```
 
 **Results achieved:**
-• 40% faster data visualization
-• Real-time updates without page refresh
-• Modular architecture for easy maintenance
-• Scalable solution handling 1000+ concurrent users
+* 40% faster data visualization
+* Real-time updates without page refresh
+* Modular architecture for easy maintenance
+* Scalable solution handling 1000+ concurrent users
 
 **Key learnings:**
-• Proper state management is crucial for complex apps
-• WebSocket connections need careful error handling
-• Component reusability saves significant development time
-• Performance optimization is essential for real-time features
+* Proper state management is crucial for complex apps
+* WebSocket connections need careful error handling
+* Component reusability saves significant development time
+* Performance optimization is essential for real-time features
 
 # Angular RxJS Interview Questions & Answers
 
