@@ -10,7 +10,7 @@
 
 ```jsx
 function App() {
-  return <h1>Hello React</h1>;
+  return <h1>Hello React!</h1>;
 }
 ```
 
@@ -67,8 +67,8 @@ npm run build  # Creates production bundle
 * Components can accept **props** and manage their own **state**
 
 ```jsx
-function Header() {
-  return <h1>My App</h1>;
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
 }
 ```
 
@@ -1177,8 +1177,24 @@ MyComponent.displayName = 'MyCustomComponent';
 * Tests simulate **user actions** and check the output.
 
 ```jsx
-render(<Button />);
-fireEvent.click(screen.getByText("Save"));
+import { render, screen, fireEvent } from '@testing-library/react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <span>Count: {count}</span>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+test('increments counter on button click', () => {
+  render(<Counter />);
+  expect(screen.getByText('Count: 0')).toBeInTheDocument();
+  fireEvent.click(screen.getByText('Increment'));
+  expect(screen.getByText('Count: 1')).toBeInTheDocument();
+});
 ```
 
 ---
@@ -1539,13 +1555,25 @@ function Parent({ items }) {
 **Example:**
 
 ```jsx
-useEffect(() => {
-  const timer = setInterval(() => {
-    console.log("Running");
-  }, 1000);
-
-  return () => clearInterval(timer);
-}, []);
+function MyComponent() {
+  useEffect(() => {
+    const controller = new AbortController();
+    const timer = setInterval(() => console.log('tick'), 1000);
+    
+    // API call with abort signal
+    fetch('/api/data', { signal: controller.signal })
+      .then(res => res.json())
+      .catch(err => {
+        if (err.name !== 'AbortError') console.error(err);
+      });
+    
+    // Cleanup function
+    return () => {
+      controller.abort();
+      clearInterval(timer);
+    };
+  }, []);
+}
 ```
 
 ---
@@ -1745,11 +1773,18 @@ const rootReducer = combineReducers({
 **Example:**
 
 ```jsx
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from '@testing-library/react';
+import Counter from './Counter';
 
-test("renders button text", () => {
-  render(<Button />);
-  expect(screen.getByText("Click")).toBeInTheDocument();
+test('increments counter when button is clicked', () => {
+  render(<Counter />);
+  
+  const button = screen.getByRole('button', { name: /increment/i });
+  const count = screen.getByText('0');
+  
+  fireEvent.click(button);
+  
+  expect(screen.getByText('1')).toBeInTheDocument();
 });
 ```
 
@@ -1764,16 +1799,26 @@ test("renders button text", () => {
 
 **Example (mock fetch):**
 
-```js
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ name: "John" }),
-  })
-);
-```
-
 ```jsx
-expect(await screen.findByText("John")).toBeInTheDocument();
+import { render, screen, waitFor } from '@testing-library/react';
+import UserProfile from './UserProfile';
+
+// Mock the fetch function
+global.fetch = jest.fn();
+
+test('displays user data after loading', async () => {
+  fetch.mockResolvedValueOnce({
+    json: async () => ({ name: 'John Doe', email: 'john@example.com' })
+  });
+  
+  render(<UserProfile userId="123" />);
+  
+  expect(screen.getByText('Loading...')).toBeInTheDocument();
+  
+  await waitFor(() => {
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+  });
+});
 ```
 
 ---
@@ -1813,13 +1858,21 @@ test('shallow rendering - tests only App component', () => {
 
 **Example:**
 
-```js
-import renderer from "react-test-renderer";
+```jsx
+import { render } from '@testing-library/react';
+import Button from './Button';
 
-test("matches snapshot", () => {
-  const tree = renderer.create(<Header />).toJSON();
-  expect(tree).toMatchSnapshot();
+test('Button component matches snapshot', () => {
+  const { container } = render(<Button>Click me</Button>);
+  expect(container.firstChild).toMatchSnapshot();
 });
+
+// Creates __snapshots__/Button.test.js.snap file
+// exports[`Button component matches snapshot 1`] = `
+// <button>
+//   Click me
+// </button>
+// `;
 ```
 
 ---
@@ -1833,14 +1886,31 @@ test("matches snapshot", () => {
 
 **Example:**
 
-```js
-jest.mock("./api", () => ({
-  fetchData: jest.fn(() => Promise.resolve("data")),
+```jsx
+// Mock a module
+jest.mock('./api', () => ({
+  fetchUser: jest.fn()
 }));
-```
 
-```js
-expect(fetchData).toHaveBeenCalled();
+// Mock a React component
+jest.mock('./ComplexChild', () => {
+  return function MockedComplexChild() {
+    return <div>Mocked Complex Child</div>;
+  };
+});
+
+// Use mocked functions in tests
+import { fetchUser } from './api';
+
+test('handles API error', async () => {
+  fetchUser.mockRejectedValue(new Error('API Error'));
+  
+  render(<UserProfile />);
+  
+  await waitFor(() => {
+    expect(screen.getByText('Error loading user')).toBeInTheDocument();
+  });
+});
 ```
 
 ---
@@ -1893,25 +1963,29 @@ export default {
 
 **Example (webpack.config.js):**
 
-```js
+```jsx
+// .babelrc
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ]
+}
+
+// webpack.config.js
 module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: "babel-loader",
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-      },
-    ],
-  },
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  }
 };
-```
-
-```js
-// .babelrc
-{
-  "presets": ["@babel/preset-env", "@babel/preset-react"]
-}
 ```
 
 ---
