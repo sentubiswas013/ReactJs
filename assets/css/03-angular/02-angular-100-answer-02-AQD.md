@@ -997,8 +997,8 @@ this.ngZone.runOutsideAngular(() => {
 
 ## 38. What are `@Input` and `@Output` decorators in Angular?
 
-**@Input** receives data from parent component
-**@Output** sends data to parent component
+* **@Input** receives data from parent component
+* **@Output** sends data to parent component
 
 ```typescript
 // Child Component
