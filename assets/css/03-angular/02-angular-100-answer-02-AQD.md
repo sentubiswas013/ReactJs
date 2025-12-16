@@ -6,9 +6,10 @@
 A directive is a class that adds behavior to elements in your Angular applications.
 
 **Three types of directives:**
-• **Component directives** - Directives with templates
-• **Structural directives** - Change DOM layout (add/remove elements)
-• **Attribute directives** - Change appearance or behavior
+* **Component directives** - Directives with templates
+* **Structural directives** - Change DOM layout (add/remove elements)
+* **Attribute directives** - Change appearance or behavior
+
 
 **Examples:**
 
@@ -859,8 +860,8 @@ export class FormComponent {
 **Angular forms** handle user input and validation in web applications.
 
 **Two types:**
-• **Template-driven forms** - Uses directives in template
-• **Reactive forms** - Uses FormControl and FormGroup in component
+* **Template-driven forms** - Uses directives in template
+* **Reactive forms** - Uses FormControl and FormGroup in component
 
 ```typescript
 // Template-driven
@@ -1035,8 +1036,8 @@ export class ParentComponent {
 **Answer:**
 Both are browser storage APIs that Angular can use, but they differ in persistence:
 
-• **localStorage** - Data persists until manually cleared
-• **sessionStorage** - Data clears when browser tab closes
+* **localStorage** - Data persists until manually cleared
+* **sessionStorage** - Data clears when browser tab closes
 • Both store key-value pairs as strings
 • Same API methods for both
 
@@ -1108,10 +1109,10 @@ export class CsrfInterceptor implements HttpInterceptor {
 **Answer:**
 Modules are containers that group related components, services, and features:
 
-• **Root module** (AppModule) - bootstraps the app
-• **Feature modules** - organize specific functionality
-• **Shared modules** - contain reusable components
-• **Core module** - singleton services
+* **Root module** (AppModule) - bootstraps the app
+* **Feature modules** - organize specific functionality
+* **Shared modules** - contain reusable components
+* **Core module** - singleton services
 
 ```typescript
 // Feature module example
@@ -1152,8 +1153,8 @@ const routes: Routes = [
 **Answer:**
 Custom directives extend HTML elements with custom behavior:
 
-• **Attribute directives** - change element appearance/behavior
-• **Structural directives** - modify DOM structure
+* **Attribute directives** - change element appearance/behavior
+* **Structural directives** - modify DOM structure
 • Use `@Directive` decorator
 • Access element through `ElementRef`
 
@@ -1257,8 +1258,8 @@ export class UserListComponent implements OnInit {
 **Answer:**
 RouterModule enables navigation and routing in Angular applications:
 
-• **forRoot()** - configures root routing
-• **forChild()** - configures feature routing
+* **forRoot()** - configures root routing
+* **forChild()** - configures feature routing
 • Handles URL mapping to components
 • Supports guards, resolvers, lazy loading
 
@@ -1377,7 +1378,7 @@ export class UserComponent {
 
 **Answer:** There are several key strategies to optimize Angular performance:
 
-• **OnPush Change Detection Strategy**
+* **OnPush Change Detection Strategy**
   - Reduces unnecessary change detection cycles
   - Only checks component when inputs change
 
@@ -1392,7 +1393,7 @@ export class UserComponent {
 }
 ```
 
-• **Lazy Loading Modules**
+* **Lazy Loading Modules**
   - Load feature modules only when needed
 
 ```typescript
@@ -1404,7 +1405,7 @@ const routes: Routes = [
 ];
 ```
 
-• **TrackBy Functions**
+* **TrackBy Functions**
   - Optimize *ngFor performance
 
 ```typescript
@@ -1419,7 +1420,7 @@ trackByUserId(index: number, user: User): number {
 </div>
 ```
 
-• **Virtual Scrolling**
+* **Virtual Scrolling**
   - Handle large lists efficiently
 
 ```html
@@ -1434,7 +1435,7 @@ trackByUserId(index: number, user: User): number {
 
 **Answer:** Angular CLI is the command-line interface that streamlines Angular development:
 
-• **Project Setup**
+* **Project Setup**
   - Creates new projects with best practices
 
 ```bash
@@ -1443,7 +1444,7 @@ ng generate component user-list
 ng generate service user
 ```
 
-• **Development Server**
+* **Development Server**
   - Hot reload and live development
 
 ```bash
@@ -1451,7 +1452,7 @@ ng serve
 ng serve --port 4200 --open
 ```
 
-• **Build & Deployment**
+* **Build & Deployment**
   - Optimized production builds
 
 ```bash
@@ -1459,7 +1460,7 @@ ng build --prod
 ng build --configuration=production
 ```
 
-• **Testing**
+* **Testing**
   - Run unit and e2e tests
 
 ```bash
@@ -1467,7 +1468,7 @@ ng test
 ng e2e
 ```
 
-• **Code Generation**
+* **Code Generation**
   - Scaffolds components, services, modules
 
 ```bash
@@ -1481,7 +1482,7 @@ ng generate guard auth
 
 **Answer:** Route guards control navigation and protect routes:
 
-• **CanActivate Guard**
+* **CanActivate Guard**
   - Controls if route can be activated
 
 ```typescript
@@ -1499,7 +1500,7 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
-• **CanDeactivate Guard**
+* **CanDeactivate Guard**
   - Prevents leaving unsaved changes
 
 ```typescript
@@ -1514,7 +1515,7 @@ export class UnsavedChangesGuard implements CanDeactivate<FormComponent> {
 }
 ```
 
-• **Route Configuration**
+* **Route Configuration**
 
 ```typescript
 const routes: Routes = [
@@ -1533,7 +1534,7 @@ const routes: Routes = [
 
 **Answer:** Interceptors intercept HTTP requests and responses globally:
 
-• **Auth Header Interceptor**
+* **Auth Header Interceptor**
 
 ```typescript
 @Injectable()
@@ -1553,7 +1554,7 @@ export class AuthInterceptor implements HttpInterceptor {
 }
 ```
 
-• **Logging Interceptor**
+* **Logging Interceptor**
 
 ```typescript
 @Injectable()
@@ -1572,7 +1573,7 @@ export class LoggingInterceptor implements HttpInterceptor {
 }
 ```
 
-• **Provider Registration**
+* **Provider Registration**
 
 ```typescript
 @NgModule({
@@ -1593,7 +1594,7 @@ export class AppModule {}
 
 **Answer:** Both enable content projection and dynamic templates:
 
-• **ng-content - Content Projection**
+* **ng-content - Content Projection**
   - Projects content from parent to child component
 
 ```typescript
@@ -1622,7 +1623,7 @@ export class ModalComponent {}
 </app-modal>
 ```
 
-• **ng-template - Template Reference**
+* **ng-template - Template Reference**
   - Defines reusable template blocks
 
 ```html
@@ -1635,7 +1636,7 @@ export class ModalComponent {}
 </ng-template>
 ```
 
-• **Dynamic Template Usage**
+* **Dynamic Template Usage**
 
 ```typescript
 @Component({
@@ -1657,7 +1658,7 @@ export class DynamicComponent {
 
 **Answer:** Resolvers pre-fetch data before route activation:
 
-• **User Resolver**
+* **User Resolver**
 
 ```typescript
 @Injectable()
@@ -1677,7 +1678,7 @@ export class UserResolver implements Resolve<User> {
 }
 ```
 
-• **Route Configuration**
+* **Route Configuration**
 
 ```typescript
 const routes: Routes = [
@@ -1689,7 +1690,7 @@ const routes: Routes = [
 ];
 ```
 
-• **Component Usage**
+* **Component Usage**
 
 ```typescript
 @Component({
@@ -1717,20 +1718,20 @@ export class UserDetailComponent implements OnInit {
 
 **Answer:** Angular provides built-in i18n support for multi-language applications:
 
-• **Mark Text for Translation**
+* **Mark Text for Translation**
 
 ```html
 <p i18n="@@welcome-message">Welcome to our app!</p>
 <button i18n="button.save|Save button">Save</button>
 ```
 
-• **Extract Messages**
+* **Extract Messages**
 
 ```bash
 ng extract-i18n
 ```
 
-• **Translation Files**
+* **Translation Files**
   - Creates `messages.xlf` file
 
 ```xml
@@ -1740,7 +1741,7 @@ ng extract-i18n
 </trans-unit>
 ```
 
-• **Build Configuration**
+* **Build Configuration**
 
 ```json
 {
@@ -1758,19 +1759,19 @@ ng extract-i18n
 }
 ```
 
-• **Build for Different Locales**
+* **Build for Different Locales**
 
 ```bash
 ng build --configuration=es
 ```
 
-• **Pluralization**
+* **Pluralization**
 
 ```html
 <span i18n>{count, plural, =0 {no items} =1 {one item} other {{{count}} items}}</span>
 ```
 
-• **Date/Number Pipes with Locale**
+* **Date/Number Pipes with Locale**
 
 ```html
 <p>{{today | date:'short'}}</p>
@@ -2071,14 +2072,14 @@ export class UserEffects {
 
 **AOT vs JIT - Simple breakdown:**
 
-• **AOT (Ahead-of-Time)**: Templates and components are compiled during the build process
-• **JIT (Just-in-Time)**: Templates are compiled in the browser at runtime
+* **AOT (Ahead-of-Time)**: Templates and components are compiled during the build process
+* **JIT (Just-in-Time)**: Templates are compiled in the browser at runtime
 
 **Key differences:**
-• **Performance**: AOT is faster - no compilation overhead in browser
-• **Bundle size**: AOT produces smaller bundles - unused code is tree-shaken
-• **Error detection**: AOT catches template errors at build time
-• **Security**: AOT is more secure - templates are pre-compiled
+* **Performance**: AOT is faster - no compilation overhead in browser
+* **Bundle size**: AOT produces smaller bundles - unused code is tree-shaken
+* **Error detection**: AOT catches template errors at build time
+* **Security**: AOT is more secure - templates are pre-compiled
 
 ```typescript
 // AOT compilation (default in Angular 9+)
@@ -2094,8 +2095,8 @@ ng build --jit
 
 **Angular Universal enables Server-Side Rendering (SSR):**
 
-• **Purpose**: Renders Angular apps on the server before sending to browser
-• **Benefits**: Better SEO, faster initial page load, improved performance on slow devices
+* **Purpose**: Renders Angular apps on the server before sending to browser
+* **Benefits**: Better SEO, faster initial page load, improved performance on slow devices
 
 **How SSR works:**
 • Server renders the initial HTML
@@ -2131,11 +2132,11 @@ export class AppServerModule {}
 
 **Decorators are metadata functions that configure classes:**
 
-• **@Component**: Defines a component with template and styles
-• **@Injectable**: Marks a class as available for dependency injection
-• **@Directive**: Creates custom directives
-• **@Pipe**: Creates custom pipes
-• **@Input/@Output**: Property and event binding
+* **@Component**: Defines a component with template and styles
+* **@Injectable**: Marks a class as available for dependency injection
+* **@Directive**: Creates custom directives
+* **@Pipe**: Creates custom pipes
+* **@Input/@Output**: Property and event binding
 
 ```typescript
 // Component decorator
@@ -2172,9 +2173,9 @@ export class CapitalizePipe implements PipeTransform {
 
 **Environment files handle different configurations:**
 
-• **Development**: `environment.ts`
-• **Production**: `environment.prod.ts`
-• **Custom environments**: `environment.staging.ts`
+* **Development**: `environment.ts`
+* **Production**: `environment.prod.ts`
+* **Custom environments**: `environment.staging.ts`
 
 ```typescript
 // environment.ts (development)
@@ -2223,17 +2224,17 @@ export class ApiService {
 ## 65. What are the advantages and disadvantages of using Angular for web development?
 
 **Advantages:**
-• **Full framework**: Complete solution with routing, forms, HTTP client
-• **TypeScript**: Strong typing and better tooling
-• **Dependency injection**: Clean, testable code architecture
-• **CLI**: Powerful development tools and scaffolding
-• **Enterprise-ready**: Mature ecosystem and long-term support
+* **Full framework**: Complete solution with routing, forms, HTTP client
+* **TypeScript**: Strong typing and better tooling
+* **Dependency injection**: Clean, testable code architecture
+* **CLI**: Powerful development tools and scaffolding
+* **Enterprise-ready**: Mature ecosystem and long-term support
 
 **Disadvantages:**
-• **Learning curve**: Complex for beginners
-• **Bundle size**: Can be large for simple apps
-• **Frequent updates**: Major versions every 6 months
-• **Opinionated**: Less flexibility compared to libraries like React
+* **Learning curve**: Complex for beginners
+* **Bundle size**: Can be large for simple apps
+* **Frequent updates**: Major versions every 6 months
+* **Opinionated**: Less flexibility compared to libraries like React
 
 ```typescript
 // Example of Angular's opinionated structure
@@ -2339,8 +2340,8 @@ const routes: Routes = [
 
 **Authentication vs Authorization - Clear distinction:**
 
-• **Authentication**: "Who are you?" - Verifying user identity
-• **Authorization**: "What can you do?" - Checking user permissions
+* **Authentication**: "Who are you?" - Verifying user identity
+* **Authorization**: "What can you do?" - Checking user permissions
 
 ```typescript
 // Authentication example
@@ -2411,10 +2412,10 @@ export class RoleGuard implements CanActivate {
 **Performance troubleshooting toolkit:**
 
 **Tools:**
-• **Angular DevTools**: Component profiling and change detection
-• **Chrome DevTools**: Performance tab, memory profiling
-• **Lighthouse**: Overall performance audit
-• **Bundle Analyzer**: Analyze bundle size
+* **Angular DevTools**: Component profiling and change detection
+* **Chrome DevTools**: Performance tab, memory profiling
+* **Lighthouse**: Overall performance audit
+* **Bundle Analyzer**: Analyze bundle size
 
 **Techniques:**
 
@@ -2775,10 +2776,10 @@ const routes: Routes = [
 ## 75. What is state management in Angular?
 
 **Answer:**
-• **Services with BehaviorSubject** for simple state
-• **NgRx** for complex applications
-• **Akita** as alternative state management
-• **RxJS operators** for reactive state handling
+* **Services with BehaviorSubject** for simple state
+* **NgRx** for complex applications
+* **Akita** as alternative state management
+* **RxJS operators** for reactive state handling
 
 ```typescript
 // Simple state service
@@ -2815,10 +2816,10 @@ export class UserEffects {
 
 **Answer:**
 • Use **Angular DevTools** browser extension
-• **Console.log** and **debugger** statements
-• **Angular CLI** with source maps
-• **Network tab** for HTTP requests
-• **Performance profiler** for optimization
+* **Console.log** and **debugger** statements
+* **Angular CLI** with source maps
+* **Network tab** for HTTP requests
+* **Performance profiler** for optimization
 
 ```typescript
 // Debugging techniques
@@ -2849,9 +2850,9 @@ export class UserComponent {
 ## 77. What is the Singleton pattern and how does it relate to Angular services?
 
 **Answer:**
-• **Singleton ensures single instance** across application
+* **Singleton ensures single instance** across application
 • Angular services are **singletons by default** when provided in root
-• **Shared state** and **memory efficiency**
+* **Shared state** and **memory efficiency**
 • Use `providedIn: 'root'` for singleton services
 
 ```typescript
@@ -2885,10 +2886,10 @@ export class MyComponent {
 ## 78. How do you handle component communication in Angular?
 
 **Answer:**
-• **@Input/@Output** for parent-child communication
-• **Services with observables** for sibling components
-• **ViewChild/ViewChildren** for direct access
-• **Event emitters** for custom events
+* **@Input/@Output** for parent-child communication
+* **Services with observables** for sibling components
+* **ViewChild/ViewChildren** for direct access
+* **Event emitters** for custom events
 
 ```typescript
 // Parent-Child communication
@@ -2946,11 +2947,11 @@ export class Component2 {
 
 ## Key Takeaways
 
-• **Modular architecture** improves maintainability
-• **State management** keeps data consistent
-• **Debugging tools** speed up development
-• **Singleton pattern** ensures single service instances
-• **Multiple communication patterns** for different scenarios
+* **Modular architecture** improves maintainability
+* **State management** keeps data consistent
+* **Debugging tools** speed up development
+* **Singleton pattern** ensures single service instances
+* **Multiple communication patterns** for different scenarios
 
 
 # Angular Backend Integration Interview Answers
@@ -2961,10 +2962,10 @@ export class Component2 {
 Authentication and authorization in Angular involves managing user credentials and access control throughout the application.
 
 ### Key Points:
-• **Authentication** - Verifying user identity (login)
-• **Authorization** - Controlling access to resources based on user roles
-• **JWT** - Stateless token containing user info and claims
-• **Guards** - Protect routes based on authentication status
+* **Authentication** - Verifying user identity (login)
+* **Authorization** - Controlling access to resources based on user roles
+* **JWT** - Stateless token containing user info and claims
+* **Guards** - Protect routes based on authentication status
 
 ### JWT Structure:
 • Header: Algorithm and token type
@@ -3041,10 +3042,10 @@ export class AuthInterceptor implements HttpInterceptor {
 HttpClient is Angular's built-in service for making HTTP requests. It provides a powerful, flexible way to communicate with backend APIs.
 
 ### Key Features:
-• **Type Safety** - Generic methods with TypeScript interfaces
-• **Interceptors** - Middleware for requests/responses
-• **Observables** - Reactive programming with RxJS
-• **Error Handling** - Centralized error management
+* **Type Safety** - Generic methods with TypeScript interfaces
+* **Interceptors** - Middleware for requests/responses
+* **Observables** - Reactive programming with RxJS
+* **Error Handling** - Centralized error management
 
 ### Implementation Example:
 
@@ -3159,11 +3160,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 File uploads in Angular can be handled using FormData with HttpClient. For large files, implement progress tracking, chunking, and proper error handling.
 
 ### Key Considerations:
-• **FormData** - For multipart file uploads
-• **Progress Tracking** - Monitor upload progress
-• **File Validation** - Size, type, and format checks
-• **Chunking** - Split large files into smaller pieces
-• **Error Handling** - Network failures and timeouts
+* **FormData** - For multipart file uploads
+* **Progress Tracking** - Monitor upload progress
+* **File Validation** - Size, type, and format checks
+* **Chunking** - Split large files into smaller pieces
+* **Error Handling** - Network failures and timeouts
 
 ### Implementation Example:
 
@@ -3311,13 +3312,13 @@ export class FileUploadComponent {
 ```
 
 ### Best Practices for Large Files:
-• **Chunked Upload** - Split files into smaller pieces
-• **Resume Capability** - Allow resuming interrupted uploads
-• **Progress Indication** - Show upload progress to users
-• **File Validation** - Check size and type before upload
-• **Error Recovery** - Retry failed chunks automatically
-• **Background Upload** - Use service workers for background processing
-• **Compression** - Compress files before upload when possible
+* **Chunked Upload** - Split files into smaller pieces
+* **Resume Capability** - Allow resuming interrupted uploads
+* **Progress Indication** - Show upload progress to users
+* **File Validation** - Check size and type before upload
+* **Error Recovery** - Retry failed chunks automatically
+* **Background Upload** - Use service workers for background processing
+* **Compression** - Compress files before upload when possible
 
 # Angular Security Interview Questions & Answers
 
@@ -3326,7 +3327,7 @@ export class FileUploadComponent {
 **Answer:**
 The main security concerns in Angular apps are XSS, CSRF, injection attacks, and insecure dependencies. Here's how I handle them:
 
-• **Cross-Site Scripting (XSS)**
+* **Cross-Site Scripting (XSS)**
   - Use Angular's built-in sanitization
   - Avoid `innerHTML` with user data
   - Use `textContent` instead
@@ -3341,7 +3342,7 @@ element.textContent = userInput;
 this.sanitizer.sanitize(SecurityContext.HTML, userInput);
 ```
 
-• **Cross-Site Request Forgery (CSRF)**
+* **Cross-Site Request Forgery (CSRF)**
   - Use Angular's HttpClientXsrfModule
   - Implement CSRF tokens
 
@@ -3359,7 +3360,7 @@ import { HttpClientXsrfModule } from '@angular/common/http';
 })
 ```
 
-• **Injection Attacks**
+* **Injection Attacks**
   - Validate all inputs
   - Use parameterized queries on backend
   - Sanitize user data
@@ -3377,7 +3378,7 @@ validateInput(input: string): boolean {
 **Answer:**
 Angular has built-in XSS protection through automatic sanitization and safe practices:
 
-• **Automatic Sanitization**
+* **Automatic Sanitization**
   - Angular sanitizes values before displaying them
   - Works with interpolation and property binding
 
@@ -3398,7 +3399,7 @@ export class MyComponent {
 }
 ```
 
-• **Security Contexts**
+* **Security Contexts**
   - HTML, Style, Script, URL, Resource URL contexts
   - Each context has specific sanitization rules
 
@@ -3413,7 +3414,7 @@ sanitizeUrl(url: string) {
 }
 ```
 
-• **Bypass Sanitization (Use Carefully)**
+* **Bypass Sanitization (Use Carefully)**
   - Only when you trust the content completely
 
 ```typescript
@@ -3428,7 +3429,7 @@ bypassSanitization(html: string) {
 **Answer:**
 Production security involves multiple layers - build optimization, server configuration, and runtime protection:
 
-• **Build Security**
+* **Build Security**
   - Enable production mode
   - Use AOT compilation
   - Minimize and obfuscate code
@@ -3451,7 +3452,7 @@ if (environment.production) {
 }
 ```
 
-• **Content Security Policy (CSP)**
+* **Content Security Policy (CSP)**
   - Prevent code injection
   - Restrict resource loading
 
@@ -3463,7 +3464,7 @@ if (environment.production) {
                style-src 'self' 'unsafe-inline';">
 ```
 
-• **HTTPS and Security Headers**
+* **HTTPS and Security Headers**
   - Force HTTPS in production
   - Set security headers
 
@@ -3477,7 +3478,7 @@ app.use((req, res, next) => {
 });
 ```
 
-• **Environment Variables**
+* **Environment Variables**
   - Keep sensitive data out of client code
   - Use environment-specific configs
 
@@ -3495,7 +3496,7 @@ getSecureData() {
 }
 ```
 
-• **Authentication & Authorization**
+* **Authentication & Authorization**
   - Implement proper JWT handling
   - Use guards for route protection
 
