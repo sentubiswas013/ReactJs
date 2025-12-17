@@ -1816,3 +1816,4 @@ console.log(person.fullName); // "John Doe"
 person.fullName = "Jane Smith";
 console.log(person.firstName); // "Jane"
 ```
+
