@@ -1817,3 +1817,284 @@ person.fullName = "Jane Smith";
 console.log(person.firstName); // "Jane"
 ```
 
+## **Arrays and Objects**
+
+### 63. How can you merge two arrays in JavaScript?
+
+There are several ways to merge arrays. The most common and modern approach is using the spread operator. It's clean, readable, and creates a new array without modifying the originals.
+
+```javascript
+// Using spread operator (ES6+)
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+const merged = [...arr1, ...arr2]; // [1, 2, 3, 4, 5, 6]
+
+// Using concat method
+const merged2 = arr1.concat(arr2);
+
+// Using push with spread
+arr1.push(...arr2); // Modifies arr1
+```
+
+### 64. What is the difference between `slice()` and `splice()` in JavaScript?
+
+The key difference is that `slice()` returns a copy without modifying the original array, while `splice()` modifies the original array. Think of slice as "view" and splice as "edit".
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+// slice() - returns copy, doesn't modify original
+const sliced = arr.slice(1, 3); // [2, 3]
+console.log(arr); // [1, 2, 3, 4, 5] - unchanged
+
+// splice() - modifies original array
+const spliced = arr.splice(1, 2); // removes 2 elements from index 1
+console.log(arr); // [1, 4, 5] - modified
+console.log(spliced); // [2, 3] - removed elements
+```
+
+### 65. How do you remove duplicates from an array in JavaScript?
+
+The easiest way is using `Set` with spread operator. Set automatically removes duplicates because it only stores unique values. For objects, you'll need a different approach.
+
+```javascript
+// For primitive values
+const arr = [1, 2, 2, 3, 3, 4];
+const unique = [...new Set(arr)]; // [1, 2, 3, 4]
+
+// For objects (by property)
+const users = [{id: 1, name: 'John'}, {id: 2, name: 'Jane'}, {id: 1, name: 'John'}];
+const uniqueUsers = users.filter((user, index, self) => 
+  index === self.findIndex(u => u.id === user.id)
+);
+```
+
+### 66. What are the different ways to loop through an array in JavaScript?
+
+There are many ways, but the most common are `for`, `forEach`, `for...of`, and `map`. Choose based on your needs: `forEach` for side effects, `map` for transformation, `for...of` for readability.
+
+```javascript
+const arr = [1, 2, 3];
+
+// Traditional for loop
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+
+// forEach - for side effects
+arr.forEach(item => console.log(item));
+
+// for...of - clean syntax
+for (const item of arr) {
+  console.log(item);
+}
+
+// map - for transformation
+const doubled = arr.map(item => item * 2);
+```
+
+### 67. How do you sort an array of objects based on a property in JavaScript?
+
+Use the `sort()` method with a custom compare function. For strings, use `localeCompare()` for proper alphabetical sorting. For numbers, subtract values to get the correct order.
+
+```javascript
+const users = [
+  {name: 'John', age: 30},
+  {name: 'Jane', age: 25},
+  {name: 'Bob', age: 35}
+];
+
+// Sort by age (ascending)
+users.sort((a, b) => a.age - b.age);
+
+// Sort by name (alphabetical)
+users.sort((a, b) => a.name.localeCompare(b.name));
+
+// Sort by age (descending)
+users.sort((a, b) => b.age - a.age);
+```
+
+### 68. What is the difference between `Object.assign()` and the spread operator (`...`)?
+
+Both merge objects, but spread operator is more modern and readable. The main difference is that `Object.assign()` can take multiple sources and has some edge cases with getters, while spread is simpler and more predictable.
+
+```javascript
+const obj1 = {a: 1, b: 2};
+const obj2 = {b: 3, c: 4};
+
+// Using spread operator (ES6+)
+const merged1 = {...obj1, ...obj2}; // {a: 1, b: 3, c: 4}
+
+// Using Object.assign()
+const merged2 = Object.assign({}, obj1, obj2); // {a: 1, b: 3, c: 4}
+
+// Object.assign modifies first argument if not empty object
+Object.assign(obj1, obj2); // obj1 is now {a: 1, b: 3, c: 4}
+```
+
+## Question 69: What is the difference between shallow copy and deep copy in JavaScript?
+
+**Answer:**
+• **Shallow copy** copies only the first level of properties - nested objects still share references
+• **Deep copy** creates completely independent copies of all nested levels
+• Shallow copy is faster but can cause unexpected mutations in nested data
+• Use shallow copy for simple objects, deep copy for complex nested structures
+
+**Example Code:**
+```javascript
+// Shallow Copy
+const original = { name: 'John', address: { city: 'NYC' } };
+const shallow = { ...original };
+shallow.address.city = 'LA'; // This changes original too!
+
+// Deep Copy
+const deep = JSON.parse(JSON.stringify(original));
+deep.address.city = 'Chicago'; // Original remains unchanged
+
+// Better deep copy with structuredClone (modern browsers)
+const betterDeep = structuredClone(original);
+```
+
+---
+
+## Question 70: How do you check if an object is an array in JavaScript?
+
+**Answer:**
+• **Array.isArray()** is the most reliable and recommended method
+• **instanceof Array** works but can fail with arrays from different frames/windows
+• **Object.prototype.toString.call()** is the most robust cross-frame solution
+• Avoid using **typeof** - it returns 'object' for arrays, not helpful
+
+**Example Code:**
+```javascript
+const arr = [1, 2, 3];
+const obj = { a: 1 };
+
+// Best method
+console.log(Array.isArray(arr)); // true
+console.log(Array.isArray(obj)); // false
+
+// Alternative methods
+console.log(arr instanceof Array); // true
+console.log(Object.prototype.toString.call(arr) === '[object Array]'); // true
+
+// Don't use this
+console.log(typeof arr); // 'object' - not helpful!
+```
+
+---
+
+## Question 71: What is object destructuring in JavaScript?
+
+**Answer:**
+• **Object destructuring** extracts properties from objects into individual variables
+• You can **rename variables** during destructuring using colon syntax
+• **Default values** can be assigned if properties don't exist
+• Works great with **function parameters** and **nested objects**
+• Makes code cleaner and more readable than dot notation
+
+**Example Code:**
+```javascript
+const user = { name: 'Alice', age: 30, city: 'Boston' };
+
+// Basic destructuring
+const { name, age } = user;
+
+// Renaming variables
+const { name: userName, age: userAge } = user;
+
+// Default values
+const { name, country = 'USA' } = user;
+
+// Function parameters
+function greet({ name, age = 25 }) {
+  return `Hello ${name}, you are ${age}`;
+}
+
+// Nested destructuring
+const person = { info: { firstName: 'John', lastName: 'Doe' } };
+const { info: { firstName } } = person;
+```
+
+---
+
+## Question 72: How can you merge two objects in JavaScript?
+
+**Answer:**
+• **Spread operator** (...) is the modern, clean way to merge objects
+• **Object.assign()** is the traditional method, modifies the first object
+• **Spread operator** creates a new object, Object.assign can mutate existing ones
+• Later properties **override earlier ones** in both methods
+• For deep merging, you need custom solutions or libraries like Lodash
+
+**Example Code:**
+```javascript
+const obj1 = { a: 1, b: 2 };
+const obj2 = { b: 3, c: 4 };
+
+// Spread operator (recommended)
+const merged1 = { ...obj1, ...obj2 }; // { a: 1, b: 3, c: 4 }
+
+// Object.assign()
+const merged2 = Object.assign({}, obj1, obj2); // { a: 1, b: 3, c: 4 }
+
+// Multiple objects
+const obj3 = { d: 5 };
+const merged3 = { ...obj1, ...obj2, ...obj3 };
+
+// With additional properties
+const merged4 = { ...obj1, ...obj2, e: 6 };
+```
+
+---
+
+## Question 73: What is the difference between `for...in` and `for...of` loops in JavaScript?
+
+**Answer:**
+• **for...in** iterates over **object keys/property names** - works with objects and arrays
+• **for...of** iterates over **values** - works with iterables like arrays, strings, Maps
+• **for...in** can access inherited properties, **for...of** only iterates own values
+• Use **for...in** for objects, **for...of** for arrays and other iterables
+• **for...of** is generally preferred for arrays because it's cleaner and safer
+
+**Example Code:**
+```javascript
+const arr = ['a', 'b', 'c'];
+const obj = { x: 1, y: 2, z: 3 };
+
+// for...in - gets indices/keys
+for (let key in arr) {
+  console.log(key); // '0', '1', '2'
+}
+
+for (let key in obj) {
+  console.log(key); // 'x', 'y', 'z'
+}
+
+// for...of - gets values
+for (let value of arr) {
+  console.log(value); // 'a', 'b', 'c'
+}
+
+// for...of with strings
+for (let char of 'hello') {
+  console.log(char); // 'h', 'e', 'l', 'l', 'o'
+}
+
+// for...of doesn't work with plain objects
+// for (let value of obj) {} // TypeError!
+```
+
+---
+
+## Summary
+
+These five questions cover essential JavaScript concepts that every developer should understand:
+
+1. **Shallow vs Deep Copy** - Critical for avoiding mutation bugs
+2. **Array Detection** - Essential for type checking and validation
+3. **Object Destructuring** - Modern syntax for cleaner code
+4. **Object Merging** - Common operation in data manipulation
+5. **Loop Types** - Fundamental iteration patterns
+
+Each concept has practical applications in real-world development and demonstrates JavaScript's flexibility and power.

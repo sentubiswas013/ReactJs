@@ -222,3 +222,7 @@
 - Testing and Tools: 5
 - Advanced JavaScript Features: 6
 - JavaScript Best Practices: 8
+
+Read thoroughly, Review every java question carefully and understand the context. For Questions For Questions 69 to 73 provide short, natural, real-time spoken bullet point answers (each answer should be 20–60 seconds) with example code. Keep all answers simple, confident, and practical. Then compile all answers together into a single .md (Markdown) file.
+
+
