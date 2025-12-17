@@ -980,3 +980,839 @@ const debouncedSearch = debounce(searchFunction, 300);
 const throttledScroll = throttle(scrollHandler, 100);
 ```
 
+# JavaScript OOP Interview Questions (37-45) - Answers
+
+## 37. What are Object-Oriented Programming (OOP) concepts in JavaScript?
+
+**Answer:** JavaScript supports four main OOP concepts: encapsulation, inheritance, polymorphism, and abstraction. While JavaScript is prototype-based rather than class-based, ES6 introduced class syntax that makes OOP more familiar. These concepts help organize code, promote reusability, and make applications more maintainable.
+
+```javascript
+// Basic OOP example
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  speak() {
+    console.log(`${this.name} makes a sound`);
+  }
+}
+
+const dog = new Animal("Rex");
+dog.speak(); // "Rex makes a sound"
+```
+
+## 38. What are classes and objects in JavaScript?
+
+**Answer:** Classes are blueprints for creating objects with shared properties and methods. Objects are instances of classes that contain actual data. ES6 classes provide a cleaner syntax over JavaScript's prototype-based inheritance. Classes define structure, objects hold the actual values.
+
+```javascript
+class Car {
+  constructor(brand, model) {
+    this.brand = brand;
+    this.model = model;
+  }
+  
+  start() {
+    return `${this.brand} ${this.model} is starting`;
+  }
+}
+
+const myCar = new Car("Toyota", "Camry");
+console.log(myCar.start()); // "Toyota Camry is starting"
+```
+
+## 39. What is encapsulation in JavaScript?
+
+**Answer:** Encapsulation means bundling data and methods together while hiding internal implementation details. In JavaScript, we use private fields (with #) or closures to achieve true encapsulation. This protects data from external interference and ensures controlled access through public methods.
+
+```javascript
+class BankAccount {
+  #balance = 0; // Private field
+  
+  deposit(amount) {
+    if (amount > 0) {
+      this.#balance += amount;
+    }
+  }
+  
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+const account = new BankAccount();
+account.deposit(100);
+console.log(account.getBalance()); // 100
+// account.#balance; // Error: Private field
+```
+
+## 40. What is inheritance in JavaScript?
+
+**Answer:** Inheritance allows one class to inherit properties and methods from another class using the `extends` keyword. The child class can access parent methods via `super()` and can override them. This promotes code reuse and creates hierarchical relationships between classes.
+
+```javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  speak() {
+    return `${this.name} makes a sound`;
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    return `${this.name} barks`;
+  }
+}
+
+const dog = new Dog("Rex");
+console.log(dog.speak()); // "Rex barks"
+```
+
+## 41. What is polymorphism in JavaScript?
+
+**Answer:** Polymorphism means "many forms" - the same method name can behave differently in different classes. In JavaScript, this happens through method overriding where child classes provide their own implementation of parent methods. This allows treating different objects uniformly while getting specific behavior.
+
+```javascript
+class Shape {
+  area() {
+    return 0;
+  }
+}
+
+class Circle extends Shape {
+  constructor(radius) {
+    super();
+    this.radius = radius;
+  }
+  
+  area() {
+    return Math.PI * this.radius ** 2;
+  }
+}
+
+class Rectangle extends Shape {
+  constructor(width, height) {
+    super();
+    this.width = width;
+    this.height = height;
+  }
+  
+  area() {
+    return this.width * this.height;
+  }
+}
+
+const shapes = [new Circle(5), new Rectangle(4, 6)];
+shapes.forEach(shape => console.log(shape.area()));
+```
+
+## 42. What is abstraction in JavaScript?
+
+**Answer:** Abstraction hides complex implementation details and shows only essential features. In JavaScript, we achieve this through abstract classes (using conventions) or interfaces. It simplifies interaction by providing a clean, simple interface while hiding the complexity underneath.
+
+```javascript
+class Database {
+  connect() {
+    throw new Error("connect() must be implemented");
+  }
+  
+  query() {
+    throw new Error("query() must be implemented");
+  }
+}
+
+class MySQL extends Database {
+  connect() {
+    return "Connected to MySQL";
+  }
+  
+  query(sql) {
+    return `Executing: ${sql}`;
+  }
+}
+
+const db = new MySQL();
+console.log(db.connect()); // "Connected to MySQL"
+```
+
+## 43. What is prototype-based inheritance in JavaScript?
+
+**Answer:** JavaScript uses prototype-based inheritance where objects inherit directly from other objects. Every object has a prototype property that points to another object. When accessing a property, JavaScript looks up the prototype chain. This is the foundation of JavaScript's inheritance system.
+
+```javascript
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.speak = function() {
+  return `${this.name} makes a sound`;
+};
+
+function Dog(name) {
+  Animal.call(this, name);
+}
+
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.bark = function() {
+  return `${this.name} barks`;
+};
+
+const dog = new Dog("Rex");
+console.log(dog.speak()); // "Rex makes a sound"
+console.log(dog.bark());  // "Rex barks"
+```
+
+## 44. What are arrow functions, and how do they differ from regular functions?
+
+**Answer:** Arrow functions provide shorter syntax and don't have their own `this` binding - they inherit `this` from the enclosing scope. They can't be used as constructors, don't have `arguments` object, and can't be hoisted. Perfect for callbacks and functional programming patterns.
+
+```javascript
+// Regular function
+function regular(x) {
+  return x * 2;
+}
+
+// Arrow function
+const arrow = x => x * 2;
+
+// 'this' binding difference
+class Counter {
+  constructor() {
+    this.count = 0;
+  }
+  
+  increment() {
+    // Arrow function inherits 'this'
+    setTimeout(() => {
+      this.count++;
+      console.log(this.count);
+    }, 1000);
+  }
+}
+
+const counter = new Counter();
+counter.increment(); // Works correctly
+```
+
+## 45. What are JavaScript's built-in objects?
+
+**Answer:** JavaScript provides many built-in objects like Object, Array, String, Number, Date, Math, RegExp, Promise, and Map. These objects come with predefined properties and methods that handle common programming tasks. They form the foundation of JavaScript programming and provide essential functionality.
+
+```javascript
+// Common built-in objects
+const str = new String("Hello");
+const arr = new Array(1, 2, 3);
+const date = new Date();
+const regex = new RegExp("\\d+");
+
+// Static methods
+console.log(Math.max(1, 5, 3)); // 5
+console.log(Object.keys({a: 1, b: 2})); // ["a", "b"]
+
+// Prototype methods
+console.log("hello".toUpperCase()); // "HELLO"
+console.log([1, 2, 3].map(x => x * 2)); // [2, 4, 6]
+```
+
+# JavaScript Interview Questions 46-53 - Answers
+
+## 46. What is a prototype in JavaScript?
+
+**Answer:**
+• Every JavaScript object has a prototype - it's like a blueprint or template
+• Prototypes let objects inherit properties and methods from other objects
+• When you access a property, JavaScript first checks the object, then its prototype chain
+• It's the foundation of JavaScript's inheritance system
+
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function() {
+  return `Hello, I'm ${this.name}`;
+};
+
+const john = new Person("John");
+console.log(john.greet()); // "Hello, I'm John"
+```
+
+---
+
+## 47. What is the purpose of WeakMap and WeakSet in JavaScript?
+
+**Answer:**
+• WeakMap and WeakSet hold "weak" references to objects - they don't prevent garbage collection
+• Keys in WeakMap must be objects, not primitives
+• They're perfect for storing private data or metadata without memory leaks
+• You can't iterate over them or check their size
+
+```javascript
+// WeakMap for private data
+const privateData = new WeakMap();
+
+class User {
+  constructor(name) {
+    privateData.set(this, { secret: 'hidden data' });
+    this.name = name;
+  }
+  
+  getSecret() {
+    return privateData.get(this).secret;
+  }
+}
+
+const user = new User("Alice");
+console.log(user.getSecret()); // "hidden data"
+```
+
+---
+
+## 48. How does JavaScript handle memory management and garbage collection?
+
+**Answer:**
+• JavaScript automatically manages memory - you don't manually allocate or free it
+• Garbage collection removes objects that are no longer reachable or referenced
+• Uses mark-and-sweep algorithm - marks reachable objects, sweeps away the rest
+• Memory leaks happen when you keep references to objects you don't need anymore
+
+```javascript
+// Memory leak example
+let users = [];
+
+function addUser(name) {
+  users.push({ name, data: new Array(1000000) });
+}
+
+// Clear references to prevent leaks
+function clearUsers() {
+  users = [];
+}
+
+addUser("John");
+clearUsers(); // Important to clear references
+```
+
+---
+
+## 49. How does JavaScript handle scope and closures?
+
+**Answer:**
+• Scope determines where variables can be accessed - global, function, or block scope
+• Closures happen when inner functions remember variables from outer functions
+• Even after outer function finishes, inner function keeps access to those variables
+• Closures are created every time a function is created
+
+```javascript
+function createCounter() {
+  let count = 0;
+  
+  return function() {
+    count++;
+    return count;
+  };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+// 'count' is still accessible via closure
+```
+
+---
+
+## 50. What is the use of the window object in JavaScript?
+
+**Answer:**
+• Window object represents the browser window and is the global object in browsers
+• All global variables and functions become properties of window
+• Provides access to browser APIs like location, history, and localStorage
+• In Node.js, the global object is 'global', not 'window'
+
+```javascript
+// Global variable becomes window property
+var message = "Hello World";
+console.log(window.message); // "Hello World"
+
+// Browser APIs through window
+window.location.href = "https://example.com";
+window.localStorage.setItem("key", "value");
+window.alert("Hello!");
+```
+
+---
+
+## 51. How does the new keyword work in JavaScript?
+
+**Answer:**
+• The 'new' keyword creates a new object instance from a constructor function
+• It creates an empty object, sets its prototype, calls the constructor with 'this' bound to the new object
+• If constructor doesn't return an object, 'new' returns the created object
+• Without 'new', 'this' would refer to the global object
+
+```javascript
+function Car(brand) {
+  this.brand = brand;
+  this.start = function() {
+    return `${this.brand} is starting`;
+  };
+}
+
+const myCar = new Car("Toyota");
+console.log(myCar.brand); // "Toyota"
+console.log(myCar.start()); // "Toyota is starting"
+
+// Without 'new' - wrong way
+const wrongCar = Car("Honda"); // undefined
+```
+
+---
+
+## 52. What is an IIFE (Immediately Invoked Function Expression)?
+
+**Answer:**
+• IIFE is a function that runs immediately after it's defined
+• Creates its own scope to avoid polluting the global namespace
+• Commonly used in modules and to create private variables
+• Wrapped in parentheses and called immediately with ()
+
+```javascript
+// Basic IIFE
+(function() {
+  const secret = "This won't pollute global scope";
+  console.log("IIFE executed!");
+})();
+
+// IIFE with parameters
+(function(name) {
+  console.log(`Hello ${name}!`);
+})("World");
+
+// Arrow function IIFE
+(() => {
+  const privateVar = "hidden";
+  console.log("Arrow IIFE");
+})();
+```
+
+---
+
+## 53. What is the difference between a function declaration and a function expression?
+
+**Answer:**
+• Function declarations are hoisted - you can call them before they're defined
+• Function expressions are not hoisted - they're created when code reaches them
+• Declarations create named functions, expressions can be anonymous
+• Expressions can be assigned to variables or passed as arguments immediately
+
+```javascript
+// Function Declaration - hoisted
+console.log(declared()); // Works! Returns "I'm declared"
+
+function declared() {
+  return "I'm declared";
+}
+
+// Function Expression - not hoisted
+console.log(expressed()); // Error! Cannot access before initialization
+
+const expressed = function() {
+  return "I'm an expression";
+};
+
+// Named function expression
+const namedExpr = function myFunc() {
+  return "Named expression";
+};
+```
+
+# JavaScript Interview Questions 54-62 - Answers
+
+## 54. What is the use of `setTimeout()` and `setInterval()`?
+
+• **setTimeout()** executes code once after a delay
+• **setInterval()** executes code repeatedly at intervals
+• Both are asynchronous and don't block the main thread
+• Use clearTimeout() and clearInterval() to cancel them
+
+```javascript
+// setTimeout - runs once after 2 seconds
+setTimeout(() => {
+    console.log("Executed after 2 seconds");
+}, 2000);
+
+// setInterval - runs every 1 second
+const intervalId = setInterval(() => {
+    console.log("Repeats every second");
+}, 1000);
+
+// Clear the interval after 5 seconds
+setTimeout(() => clearInterval(intervalId), 5000);
+```
+
+## 55. How do you clone an object in JavaScript?
+
+• **Shallow copy**: Object.assign() or spread operator
+• **Deep copy**: JSON methods or custom recursive function
+• Shallow copy only copies first level properties
+• Deep copy handles nested objects and arrays
+
+```javascript
+const original = { name: "John", address: { city: "NYC" } };
+
+// Shallow copy
+const shallow1 = Object.assign({}, original);
+const shallow2 = { ...original };
+
+// Deep copy
+const deep = JSON.parse(JSON.stringify(original));
+
+// Custom deep clone function
+function deepClone(obj) {
+    if (obj === null || typeof obj !== "object") return obj;
+    if (obj instanceof Date) return new Date(obj);
+    if (obj instanceof Array) return obj.map(item => deepClone(item));
+    
+    const cloned = {};
+    for (let key in obj) {
+        cloned[key] = deepClone(obj[key]);
+    }
+    return cloned;
+}
+```
+
+## 56. How does `JSON.stringify()` and `JSON.parse()` work in JavaScript?
+
+• **JSON.stringify()** converts JavaScript objects to JSON strings
+• **JSON.parse()** converts JSON strings back to JavaScript objects
+• Useful for data transmission and storage
+• Can't handle functions, undefined, or symbols
+
+```javascript
+const obj = { name: "Alice", age: 30, active: true };
+
+// Convert to JSON string
+const jsonString = JSON.stringify(obj);
+console.log(jsonString); // '{"name":"Alice","age":30,"active":true}'
+
+// Convert back to object
+const parsedObj = JSON.parse(jsonString);
+console.log(parsedObj); // { name: "Alice", age: 30, active: true }
+
+// With formatting
+const formatted = JSON.stringify(obj, null, 2);
+console.log(formatted);
+// {
+//   "name": "Alice",
+//   "age": 30,
+//   "active": true
+// }
+```
+
+## 57. How can you create a class in JavaScript?
+
+• Use the **class** keyword (ES6+)
+• Define constructor for initialization
+• Add methods directly in the class body
+• Supports inheritance with extends keyword
+
+```javascript
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    greet() {
+        return `Hello, I'm ${this.name}`;
+    }
+    
+    static getSpecies() {
+        return "Homo sapiens";
+    }
+}
+
+// Create instance
+const john = new Person("John", 25);
+console.log(john.greet()); // "Hello, I'm John"
+
+// Inheritance
+class Student extends Person {
+    constructor(name, age, grade) {
+        super(name, age);
+        this.grade = grade;
+    }
+    
+    study() {
+        return `${this.name} is studying`;
+    }
+}
+```
+
+## 58. Explain the concept of prototype inheritance in JavaScript.
+
+• Every object has a **prototype** property
+• Objects inherit properties and methods from their prototype
+• Forms a prototype chain up to Object.prototype
+• More flexible than classical inheritance
+
+```javascript
+// Constructor function
+function Animal(name) {
+    this.name = name;
+}
+
+// Add method to prototype
+Animal.prototype.speak = function() {
+    return `${this.name} makes a sound`;
+};
+
+// Create instance
+const dog = new Animal("Rex");
+console.log(dog.speak()); // "Rex makes a sound"
+
+// Inheritance
+function Dog(name, breed) {
+    Animal.call(this, name);
+    this.breed = breed;
+}
+
+// Set up prototype chain
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+Dog.prototype.bark = function() {
+    return `${this.name} barks`;
+};
+
+const myDog = new Dog("Buddy", "Golden Retriever");
+console.log(myDog.speak()); // "Buddy makes a sound"
+console.log(myDog.bark());  // "Buddy barks"
+```
+
+## 59. What are the different methods of creating objects in JavaScript?
+
+• **Object literal**: Simple and direct
+• **Constructor function**: Reusable object template
+• **Object.create()**: Specify prototype directly
+• **Class syntax**: Modern ES6 approach
+
+```javascript
+// 1. Object literal
+const obj1 = { name: "John", age: 30 };
+
+// 2. Constructor function
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+}
+const obj2 = new Person("Alice", 25);
+
+// 3. Object.create()
+const personProto = {
+    greet() { return `Hello, I'm ${this.name}`; }
+};
+const obj3 = Object.create(personProto);
+obj3.name = "Bob";
+
+// 4. Class syntax
+class Employee {
+    constructor(name, role) {
+        this.name = name;
+        this.role = role;
+    }
+}
+const obj4 = new Employee("Carol", "Developer");
+
+// 5. Factory function
+function createUser(name, email) {
+    return {
+        name,
+        email,
+        login() { return `${this.name} logged in`; }
+    };
+}
+const obj5 = createUser("Dave", "dave@email.com");
+```
+
+## 60. What is the difference between `Object.create()` and class-based inheritance?
+
+• **Object.create()** directly sets prototype relationship
+• **Classes** provide syntactic sugar over prototype inheritance
+• Object.create() is more explicit about prototype chain
+• Classes are more familiar to OOP developers
+
+```javascript
+// Object.create() approach
+const animalProto = {
+    speak() {
+        return `${this.name} makes a sound`;
+    }
+};
+
+const dog = Object.create(animalProto);
+dog.name = "Rex";
+dog.bark = function() {
+    return `${this.name} barks`;
+};
+
+console.log(dog.speak()); // "Rex makes a sound"
+
+// Class-based approach
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    speak() {
+        return `${this.name} makes a sound`;
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        return `${this.name} barks`;
+    }
+}
+
+const myDog = new Dog("Buddy");
+console.log(myDog.speak()); // "Buddy makes a sound"
+
+// Key difference: Object.create gives more control
+const customObj = Object.create(null); // No prototype chain
+customObj.name = "Custom";
+console.log(customObj.toString); // undefined (no Object.prototype)
+```
+
+## 61. What is the difference between `class` and `constructor` in JavaScript?
+
+• **Constructor function**: Traditional way, uses function keyword
+• **Class**: Modern ES6 syntax, cleaner and more readable
+• Both create objects with shared methods
+• Classes have better syntax for inheritance
+
+```javascript
+// Constructor function approach
+function Car(brand, model) {
+    this.brand = brand;
+    this.model = model;
+}
+
+Car.prototype.start = function() {
+    return `${this.brand} ${this.model} started`;
+};
+
+Car.prototype.stop = function() {
+    return `${this.brand} ${this.model} stopped`;
+};
+
+const car1 = new Car("Toyota", "Camry");
+
+// Class approach (ES6+)
+class Vehicle {
+    constructor(brand, model) {
+        this.brand = brand;
+        this.model = model;
+    }
+    
+    start() {
+        return `${this.brand} ${this.model} started`;
+    }
+    
+    stop() {
+        return `${this.brand} ${this.model} stopped`;
+    }
+    
+    static getType() {
+        return "Vehicle";
+    }
+}
+
+const car2 = new Vehicle("Honda", "Civic");
+
+// Both work the same way
+console.log(car1.start()); // "Toyota Camry started"
+console.log(car2.start()); // "Honda Civic started"
+
+// Classes support static methods more cleanly
+console.log(Vehicle.getType()); // "Vehicle"
+```
+
+## 62. What are getter and setter methods in JavaScript?
+
+• **Getters** retrieve property values with custom logic
+• **Setters** modify property values with validation
+• Use **get** and **set** keywords
+• Accessed like regular properties, not method calls
+
+```javascript
+class Rectangle {
+    constructor(width, height) {
+        this._width = width;
+        this._height = height;
+    }
+    
+    // Getter
+    get area() {
+        return this._width * this._height;
+    }
+    
+    get perimeter() {
+        return 2 * (this._width + this._height);
+    }
+    
+    // Setter with validation
+    set width(value) {
+        if (value > 0) {
+            this._width = value;
+        } else {
+            throw new Error("Width must be positive");
+        }
+    }
+    
+    set height(value) {
+        if (value > 0) {
+            this._height = value;
+        } else {
+            throw new Error("Height must be positive");
+        }
+    }
+    
+    get width() {
+        return this._width;
+    }
+    
+    get height() {
+        return this._height;
+    }
+}
+
+const rect = new Rectangle(5, 3);
+console.log(rect.area);      // 15 (getter called)
+console.log(rect.perimeter); // 16 (getter called)
+
+rect.width = 10;  // setter called
+console.log(rect.area); // 30
+
+// Object literal with getters/setters
+const person = {
+    firstName: "John",
+    lastName: "Doe",
+    
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    },
+    
+    set fullName(value) {
+        [this.firstName, this.lastName] = value.split(" ");
+    }
+};
+
+console.log(person.fullName); // "John Doe"
+person.fullName = "Jane Smith";
+console.log(person.firstName); // "Jane"
+```
