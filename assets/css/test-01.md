@@ -1,220 +1,224 @@
-# Java Interview Question Bank
-*Top Questions Frequently Asked in Real-World Technical Interviews*
+# JavaScript Interview Questions
 
-### 1. Basic Concepts (6 Questions)
-1. **What is Java and what are its key features?**
-2. **Explain the difference between JDK, JRE, and JVM.**
-3. **What are the main principles of Object-Oriented Programming?**
-4. **What is polymorphism? Explain with examples.**
-5. **What is encapsulation and how is it implemented in Java?**
-6. **What is inheritance and what are its types?**
-7. **What is an abstract class?**
+## **Basic JavaScript Concepts**
 
-### 2. Data Types and Variables (8 Questions)
-1. **What are primitive data types in Java?**
-2. **What is the difference between primitive and reference types?**
-3. **What is autoboxing and unboxing?**
-4. **What is the difference between == and equals() method?**
-5. **What is the difference between String, StringBuilder, and StringBuffer?**
-6. **Why are strings immutable in Java?**
-7. **What is string pooling?**
-8. **What is the difference between final, finally, and finalize?**
+1. What are the different data types in JavaScript?
+2. What is the difference between `var`, `let`, and `const`?
+3. What is a closure in JavaScript?
+4. What is the difference between `==` and `===` in JavaScript?
+5. Explain the concept of "truthy" and "falsy" values in JavaScript.
+6. What are the JavaScript data structures, and when would you use them?
+7. What is the `undefined` value in JavaScript?
+8. What is the `null` value in JavaScript? How is it different from `undefined`?
+9. What are the different ways to create objects in JavaScript?
+10. What is hoisting in JavaScript?
+11. What is a pure function in JavaScript? Can you give an example?
+12. What are higher-order functions in JavaScript?
+13. What is a callback function in JavaScript?
+14. What are closures in JavaScript, and why are they important?
+15. How does the `this` keyword work in JavaScript?
+16. What is the difference between synchronous and asynchronous code in JavaScript?
+17. What is the purpose of the `call()`, `apply()` and `bind()` methods in JavaScript?
+18. What is `async/await` in JavaScript?
+19. What is a promise in JavaScript? How does it work?
+20. What is a promise chain in JavaScript?
+21. What are the states of a promise?
+22. What is the difference between `async/await` and promises?
+23. What is the difference between callback and promise?
+24. What is an observable?
+25. What are the differences between promises and observables?
+26. What is the concept of currying in JavaScript? Can you provide an example?
+27. What is an anonymous function?
+28. Explain event delegation in JavaScript.
+29. What is a "call stack"?
+30. What is the event loop in JavaScript?
+31. What is event propagation in JavaScript?
+32. What is event bubbling and capturing in JavaScript?
+33. How do you prevent the default action of an event in JavaScript?
+34. How do you attach multiple event listeners to the same event?
+35. What is the concept of memoization in JavaScript?
+36. What is debounce and throttle in JavaScript?
 
-### 3. Classes and Objects (7 Questions)
-1. **What is a constructor in Java?**
-2. **What is constructor chaining?**
-3. **What is the difference between this and super keywords?**
-4. **What is method overloading?**
-5. **What is method overriding?**
-6. **What is the difference between overloading and overriding?**
-7. **What is dynamic method dispatch?**
+## **Object-Oriented Programming in JavaScript**
 
-### 4. Inheritance (6 Questions)
-1. **Why doesn't Java support multiple inheritance?**
-2. **What is the diamond problem?**
-3. **How does Java solve the diamond problem?**
-4. **Can you override static methods?**
-5. **What is covariant return type?**
-6. **What is the difference between IS-A and HAS-A relationship?**
+37. What are Object-Oriented Programming (OOP) concepts in JavaScript?
+38. What are classes and objects in JavaScript?
+39. What is encapsulation in JavaScript?
+40. What is inheritance in JavaScript?
+41. What is polymorphism in JavaScript?
+42. What is abstraction in JavaScript?
+43. What is prototype-based inheritance in JavaScript?
+44. What are arrow functions, and how do they differ from regular functions?
+45. What are JavaScript's built-in objects?
+46. What is a prototype in JavaScript?
+47. What is the purpose of `WeakMap` and `WeakSet` in JavaScript?
+48. How does JavaScript handle memory management and garbage collection?
+49. How does JavaScript handle scope and closures?
+50. What is the use of the `window` object in JavaScript?
+51. How does the `new` keyword work in JavaScript?
+52. What is an IIFE (Immediately Invoked Function Expression)?
+53. What is the difference between a function declaration and a function expression?
+54. What is the use of `setTimeout()` and `setInterval()`?
+55. How do you clone an object in JavaScript?
+56. How does `JSON.stringify()` and `JSON.parse()` work in JavaScript?
+57. How can you create a class in JavaScript?
+58. Explain the concept of prototype inheritance in JavaScript.
+59. What are the different methods of creating objects in JavaScript?
+60. What is the difference between `Object.create()` and class-based inheritance?
+61. What is the difference between `class` and `constructor` in JavaScript?
+62. What are getter and setter methods in JavaScript?
 
-### 5. Interfaces and Abstract Classes (8 Questions)
-1. **What is an interface in Java?**
-2. **What is an abstract class?**
-3. **What is the difference between interface and abstract class?**
-4. **What are default methods in interfaces?**
-5. **What are static methods in interfaces?**
-6. **What is marker interface?**
-7. **What is functional interface?**
-8. **Can an interface extend another interface?**
+## **Arrays and Objects**
 
-### 6. Exception Handling (8 Questions)
-1. **What is an exception in Java?**
-2. **What is the exception hierarchy in Java?**
-3. **What are checked and unchecked exceptions?**
-4. **What is the difference between throw and throws?**
-5. **What is try-catch-finally block?**
-6. **What is try-with-resources?**
-7. **How do you create custom exceptions?**
-8. **What is exception chaining?**
+63. How can you merge two arrays in JavaScript?
+64. What is the difference between `slice()` and `splice()` in JavaScript?
+65. How do you remove duplicates from an array in JavaScript?
+66. What are the different ways to loop through an array in JavaScript?
+67. How do you sort an array of objects based on a property in JavaScript?
+68. What is the difference between `Object.assign()` and the spread operator (`...`)?
+69. What is the difference between shallow copy and deep copy in JavaScript?
+70. How do you check if an object is an array in JavaScript?
+71. What is object destructuring in JavaScript?
+72. How can you merge two objects in JavaScript?
+73. What is the difference between `for...in` and `for...of` loops in JavaScript?
 
-### 7. Collections Framework (8 Questions)
-1. **What is Java Collections Framework?**
-2. **What is the difference between ArrayList and LinkedList?**
-3. **What is the difference between HashMap and TreeMap?**
-4. **What is the difference between HashMap and Hashtable?**
-5. **How does HashMap work internally?**
-6. **What is hash collision and how is it handled?**
-7. **What is the difference between fail-fast and fail-safe iterators?**
-8. **What is the difference between Comparable and Comparator?**
-9. **What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?**
+## **Functions and Scope**
 
-### 8. Multithreading and Synchronization (8 Questions)
-1. **What is multithreading?**
-2. **How do you create threads in Java?**
-3. **What is the difference between extending Thread and implementing Runnable?**
-4. **What are the states of a thread?**
-5. **What is synchronization in Java?**
-6. **What is deadlock and how do you prevent it?**
-7. **What is volatile keyword?**
-8. **What is the difference between synchronized and volatile?**
-9. **What is race condition and atomic operation?**
+74. What is the difference between local scope and global scope in JavaScript?
+75. What is lexical scoping in JavaScript?
+76. What is the difference between function expressions and function declarations?
+77. What is the use of the `arguments` object in JavaScript?
+78. What is the purpose of the `default` keyword in JavaScript functions?
+79. How can you return multiple values from a function in JavaScript?
+80. What is recursion in JavaScript? Can you provide an example?
+81. How does JavaScript handle multiple callback functions?
+82. How do you handle errors in JavaScript?
+83. How does JavaScript handle asynchronous operations?
 
-### 9. Advanced Concurrency (6 Questions)
-1. **What is ExecutorService?**
-2. **What are the types of thread pools?**
-3. **What is Future and CompletableFuture?**
-4. **What is CountDownLatch?**
-5. **What is ReentrantLock?**
-6. **What is the difference between ReentrantLock and synchronized?**
+## **Asynchronous JavaScript**
 
-### 10. JVM and Memory Management (8 Questions)
-1. **What are the different memory areas in JVM?**
-2. **What is the difference between heap and stack?**
-2. **What is the difference between permgen and metaspace?**
-3. **What is garbage collection?**
-4. **What are the types of garbage collectors?**
-5. **What is generational garbage collection?**
-6. **What is the difference between minor GC and major GC?**
-7. **What is metaspace?**
-8. **What are GC roots?**
+84. How can you handle asynchronous operations in JavaScript?
+85. Explain the concept of JavaScript's single-threaded model.
+86. What are the data types that are mutable in JavaScript?
+87. What is a function in JavaScript? How do you declare one?
+88. How does JavaScript handle multiple asynchronous operations in sequence?
+89. What is the purpose of `Promise.all()` and `Promise.race()`?
+90. How do you handle errors in an async function?
+91. What is a callback hell, and how can you avoid it?
+92. What are the different ways to loop through an array in JavaScript?
 
-### 11. Input/Output (I/O) (6 Questions)
-1. **What are the different ways to read a file in Java?**
-2. **What is the difference between InputStream and Reader?**
-3. **What is BufferedReader and BufferedWriter?**
-4. **How do you handle large files efficiently?**
-4. **What is NIO in Java?**
-5. **What is the difference between IO and NIO?**
-6. **When would you use NIO over traditional I/O?**
+## **ES6 and Beyond**
 
-### 12. Generics (6 Questions)
-1. **What are generics in Java?**
-2. **Why were generics introduced?**
-3. **What is type erasure?**
-4. **What is the difference between <? extends T> and <? super T>?**
-5. **What is PECS principle?**
-6. **What are the limitations of generics?**
+93. What are template literals in JavaScript?
+94. What are the new features introduced in ES6?
+95. What is a set and a map in JavaScript?
+96. What are symbols in JavaScript? When would you use them?
+97. What are generator functions in JavaScript?
+98. How does destructuring work in JavaScript?
+99. What is the spread operator, and how do you use it?
+100. What is the rest parameter in JavaScript?
+101. What are `Promise.allSettled()`, `Promise.any()`, and `Promise.finally()`?
+102. How do you create a class in JavaScript?
+103. What is the difference between `class` and `function` constructors in JavaScript?
 
-### 13. Annotations and Reflection (6 Questions)
-1. **What are annotations in Java?**
-1. **What are built-in annotations?**
-2. **How do you create custom annotations?**
-3. **What is retention policy?**
-3. **What is the difference between @Override and @Overload?**
-4. **What is reflection in Java?**
-5. **When should you use reflection?**
-6. **What are the performance implications of reflection?**
-7. **What are the security implications of reflection?**
-8. **How do you handle exceptions in reflection?**
+## **Error Handling and Debugging**
 
-### 14. Lambda Expressions and Streams API (8 Questions)
-1. **What are lambda expressions?**
-2. **What are functional interfaces?**
-3. **What are method references?**
-4. **What is the difference between lambda and anonymous class?**
-5. **What is Stream API?**
-5. **What is the difference between Collection and Stream?**
-6. **What are intermediate and terminal operations?**
-7. **What is the difference between map() and flatMap()?**
-8. **What is Optional class?**
+104. What is try-catch in JavaScript? How does it work?
+105. What is the difference between `throw` and `return` in JavaScript?
+106. How do you handle exceptions in JavaScript?
+107. What are some common JavaScript debugging techniques?
+108. What is the difference between `Error` and `TypeError` in JavaScript?
 
-### 15. JDBC (6 Questions)
-1. **What is JDBC?**
-2. **What are the steps to connect to a database using JDBC?**
-3. **What is the difference between Statement and PreparedStatement?**
-4. **What is connection pooling?**
-5. **What is SQL injection and how to prevent it?**
-6. **What is transaction management in JDBC?**
+## **JavaScript Modules**
 
-### 16. Design Patterns (8 Questions)
-1. **What are design patterns?**
-2. **What is Singleton pattern?**
-3. **How do you implement thread-safe Singleton?**
-4. **What is Factory pattern?**
-5. **What is Observer pattern?**
-6. **What is Strategy pattern?**
-7. **What is Adapter pattern?**
-8. **What is Decorator pattern?**
+109. What is the difference between `import` and `require` in JavaScript?
+110. What is the purpose of the `export` keyword in JavaScript?
+111. What are JavaScript arrays and how do you manipulate them?
+112. How do you implement modules in JavaScript?
+113. What is the `default` export in JavaScript modules?
+114. What are the benefits of using modules in JavaScript?
 
-### 17. Spring Framework (8 Questions)
-1. **What is Spring Framework?**
-2. **What is Inversion of Control (IoC)?**
-3. **What is Dependency Injection?**
-4. **What is the difference between BeanFactory and ApplicationContext?**
-3. **What are Spring beans?**
-5. **What is Spring Boot?**
-6. **What is auto-configuration in Spring Boot?**
-7. **What is @SpringBootApplication annotation?**
-8. **What is the difference between @Component, @Service, and @Repository?**
-9. **What is @Autowired annotation?**
-10. **What is @Qualifier annotation?**
-11. **What is ApplicationContext?**
+## **Browser and DOM**
 
+115. How do you make an AJAX request in JavaScript?
+116. What is the Fetch API in JavaScript?
+117. Explain the concept of a single-page application (SPA).
+118. What is the DOM (Document Object Model) in JavaScript?
+119. How do you manipulate the DOM using JavaScript?
+120. What is the difference between `Object.freeze()` and `Object.seal()` in JavaScript?
+121. How do you prevent the default action of an event in JavaScript?
+122. What is the difference between `addEventListener()` and `onclick`?
+123. What is `localStorage` and `sessionStorage` in JavaScript?
+124. What is the difference between `localStorage` and `cookies` in JavaScript?
+125. How do you handle CORS (Cross-Origin Resource Sharing) in JavaScript?
+126. How do you make an AJAX request in JavaScript?
+127. What are `XMLHttpRequest` and `Fetch` API in JavaScript?
+128. What is the `Function.prototype.bind()` method in JavaScript?
+129. How do you handle cookies in JavaScript?
 
-### 18. RESTful Services (6 Questions)
-1. **What are RESTful web services?**
-2. **What are the principles of REST?**
-3. **What are HTTP methods and their usage?**
-4. **What is the difference between PUT and POST?**
-5. **What is idempotency in REST?**
-6. **What are HTTP status codes?**
+## **Advanced Concepts**
 
-### 19. Microservices (6 Questions)
-1. **What are microservices?**
-2. **What are the advantages of microservices?**
-3. **What are the challenges of microservices?**
-4. **What is service discovery?**
-5. **What is API Gateway?**
-6. **What is circuit breaker pattern?**
+130. What is functional programming in JavaScript? How is it different from object-oriented programming?
+131. What is an abstract class in JavaScript?
 
-### 20. Performance Tuning (8 Questions)
-1. **How do you identify performance bottlenecks?**
-2. **What are common performance issues in Java applications?**
-3. **What is connection pooling and why is it important?**
-4. **What is caching and when should you use it?**
-5. **What are important JVM parameters?**
-6. **How do you tune heap size?**
-7. **What is the difference between -Xms and -Xmx?**
-8. **How do you analyze heap dumps?**
-9. **What is JIT compilation?**
+## **Performance Optimization**
 
-### 21. Modern Java Features (4 Questions)
-1. **What are the new features in Java 8?**
-2. **What are the new features in Java 11?**
-3. **What are the new features in Java 17?**
-4. **What is the Java release cycle and LTS versions?**
+132. What are memory leaks in JavaScript, and how do you prevent them?
+133. What are decorators in JavaScript?
+134. How can you optimize the performance of a JavaScript application?
+135. What is the significance of `requestAnimationFrame()` in JavaScript?
+136. What is lazy loading in JavaScript?
+137. How do you improve the rendering performance of a website using JavaScript?
 
+## **Frameworks and Libraries**
 
-#### Cloud and Containerization
-1. **What is containerization?**
-2. **What is Docker?**
-3. **What is Kubernetes?**
-4. **What is cloud computing?**
-5. **What is distributed system?**
-6. **What is load balancing?**
-7. **What is caching strategies?**
+138. What are JavaScript frameworks, and how do they differ from libraries?
+
+## **Testing and Tools**
+
+139. What is unit testing in JavaScript?
+140. What are some popular testing frameworks in JavaScript?
+141. What is TDD (Test-Driven Development)?
+142. How do you write asynchronous tests in JavaScript?
+143. What is the difference between `assert` and `expect` in JavaScript testing?
+
+## **Advanced JavaScript Features**
+
+144. How do you use regular expressions in JavaScript?
+145. What are Web Workers in JavaScript?
+146. What are service workers in JavaScript, and how do they work?
+147. How do you compare two objects in JavaScript?
+148. What are the differences between a function expression and a function declaration?
+149. What is the difference between `slice()` and `splice()` methods in JavaScript?
+
+## **JavaScript Best Practices**
+
+150. What is the importance of code minification in JavaScript?
+151. How do you handle large-scale JavaScript applications?
+152. What are some security considerations when working with JavaScript?
+153. How do you manage JavaScript dependencies in a project?
+154. What is the importance of modularity in JavaScript development?
+155. How do you document JavaScript code effectively?
+156. How do you ensure cross-browser compatibility with JavaScript?
+157. What are design patterns in JavaScript?
+
 ---
 
-**Total Questions: 147**
+*Total Questions: 157*
 
-*This question bank covers the most critical and frequently asked Java interview questions across all experience levels, from junior to senior positions.*
+**Categories Summary:**
+- Basic JavaScript Concepts: 36
+- Object-Oriented Programming in JavaScript: 26
+- Arrays and Objects: 11
+- Functions and Scope: 10
+- Asynchronous JavaScript: 9
+- ES6 and Beyond: 11
+- Error Handling and Debugging: 5
+- JavaScript Modules: 6
+- Browser and DOM: 15
+- Advanced Concepts: 2
+- Performance Optimization: 6
+- Frameworks and Libraries: 1
+- Testing and Tools: 5
+- Advanced JavaScript Features: 6
+- JavaScript Best Practices: 8
