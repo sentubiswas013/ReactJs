@@ -9,6 +9,5 @@ Read it carefully and understand the full context
 Extract the most frequently asked real-time interview questions
 Organize them category-wise
 Remove duplicate or similar questions
-Correct grammar and wording
 Deliver the final output as a clean, well-structured .md (Markdown) file
 ======================
