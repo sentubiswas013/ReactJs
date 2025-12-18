@@ -127,6 +127,21 @@
 
 ---
 
+## 🔵 9. Testing (Modern React)
+
+90. What testing libraries are used in React?
+91. Why React Testing Library over Enzyme?
+92. What should you test vs not test?
+93. How do you test components?
+94. How do you test async components?
+95. How do you test custom hooks?
+96. How do you test Context Providers?
+97. What is snapshot testing?
+98. What is mocking and how do you mock APIs?
+99. What is MSW (Mock Service Worker)?
+
+---
+
 ## 🔵 10. Build Tools & Tooling
 
 100. What is Vite and why is it faster than Webpack?
@@ -344,5 +359,23 @@
 144. How would you handle global error handling?
 145. How would you migrate a class-based app to hooks?
 
+---
+
+## **Categories Summary:**
+- **Basic React Concepts**: 20 questions
+- **Intermediate React Concepts**: 17 questions  
+- **Advanced React Concepts**: 13 questions
+- **React 18 & Modern React Features**: 8 questions
+- **Hooks - Deep Dive**: 10 questions
+- **Performance Optimization**: 16 questions
+- **React Router**: 6 questions
+- **State Management**: 7 questions
+- **Data Fetching & Side Effects**: 6 questions
+- **Architecture & Best Practices**: 7 questions
+- **Security**: 5 questions
+- **Testing**: 12 questions
+- **Build Tools & Development Workflow**: 7 questions
+- **Modern Ecosystem & Frameworks**: 4 questions
+- **Real-World Scenario Questions**: 7 questions
 
 
