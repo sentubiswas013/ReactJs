@@ -517,3 +517,432 @@ const { count } = useCounter();
 ```
 
 ---
+
+# 🟡 Component Lifecycle & Internals (React.js)
+
+## 1️⃣ Lifecycle of Class Components
+
+**Answer (Spoken Style):**
+
+* Class components go through **three main phases**: *Mounting, Updating, and Unmounting*.
+* In **mounting**, the component is created and added to the DOM using methods like `constructor`, `render`, and `componentDidMount`.
+* In **updating**, it re-renders when props or state change, using methods like `shouldComponentUpdate` and `componentDidUpdate`.
+* In **unmounting**, `componentWillUnmount` is used to clean up resources like timers or subscriptions.
+* This lifecycle gives full control but is more verbose than hooks.
+
+```jsx
+class MyComponent extends React.Component {
+  componentDidMount() {
+    console.log('Mounted');
+  }
+
+  componentWillUnmount() {
+    console.log('Cleanup');
+  }
+
+  render() {
+    return <h1>Hello</h1>;
+  }
+}
+```
+
+---
+
+## 2️⃣ Lifecycle of Functional Components
+
+**Answer (Spoken Style):**
+
+* Functional components don’t have lifecycle methods like classes.
+* Instead, they use **Hooks**, mainly `useEffect`, to manage lifecycle behavior.
+* `useEffect` can handle mounting, updating, and unmounting based on its dependency array.
+* This makes functional components **simpler, cleaner, and easier to reuse**.
+* Today, hooks are the recommended approach in React.
+
+```jsx
+useEffect(() => {
+  console.log('Mounted');
+
+  return () => {
+    console.log('Unmounted');
+  };
+}, []);
+```
+
+---
+
+## 3️⃣ Difference between `componentDidMount` and `useEffect`
+
+**Answer (Spoken Style):**
+
+* `componentDidMount` is used in **class components** and runs once after the component mounts.
+* `useEffect` is used in **functional components** and is more flexible.
+* With `useEffect`, behavior depends on the dependency array.
+* `useEffect` can replace **multiple lifecycle methods**.
+* Hooks reduce boilerplate and improve readability.
+
+```jsx
+// Class
+componentDidMount() {
+  fetchData();
+}
+
+// Function
+useEffect(() => {
+  fetchData();
+}, []);
+```
+
+---
+
+## 4️⃣ Difference between `componentWillMount`, `componentDidMount`, and `getDerivedStateFromProps`
+
+**Answer (Spoken Style):**
+
+* `componentWillMount` runs **before render** but is **deprecated** and unsafe.
+* `componentDidMount` runs **after render** and is used for API calls or DOM access.
+* `getDerivedStateFromProps` is a **static method** used to update state based on props.
+* It should be used carefully to avoid unnecessary re-renders.
+* Modern React avoids `componentWillMount` entirely.
+
+```jsx
+static getDerivedStateFromProps(props, state) {
+  if (props.value !== state.value) {
+    return { value: props.value };
+  }
+  return null;
+}
+```
+
+---
+
+## 5️⃣ What is React Reconciliation?
+
+**Answer (Spoken Style):**
+
+* Reconciliation is React’s process of updating the UI efficiently.
+* When state or props change, React creates a **new Virtual DOM tree**.
+* It compares it with the previous one using a **diffing algorithm**.
+* Only the changed parts are updated in the real DOM.
+* This makes React **fast and performant**.
+
+```jsx
+setCount(count + 1); // Triggers reconciliation
+```
+
+---
+
+## 6️⃣ What is React Fiber?
+
+**Answer (Spoken Style):**
+
+* React Fiber is the **new rendering engine** introduced in React 16.
+* It allows React to split rendering work into small units.
+* This helps pause, resume, or prioritize updates.
+* Fiber improves performance for animations and large applications.
+* It enables features like **Concurrent Rendering**.
+
+```jsx
+// Fiber works internally, no direct code usage
+```
+
+---
+
+## 7️⃣ What Causes a Component to Re-render?
+
+**Answer (Spoken Style):**
+
+* A component re-renders when **state changes**, **props change**, or **parent re-renders**.
+* Calling `setState` or state setter from `useState` triggers a re-render.
+* Context value changes also cause re-renders.
+* React avoids unnecessary DOM updates using reconciliation.
+* Memoization can reduce unwanted re-renders.
+
+```jsx
+const [count, setCount] = useState(0);
+setCount(count + 1); // Re-render
+```
+
+---
+
+# 🟡 Rendering & Performance Optimization (React.js)
+
+## 1️⃣ What is Automatic Batching in React 18?
+
+**Answer (Spoken Style):**
+
+* Automatic batching means React groups multiple state updates into **one re-render**.
+* Before React 18, batching mostly worked only inside React events.
+* In React 18, batching also works inside promises, timeouts, and async code.
+* This reduces unnecessary re-renders and improves performance.
+* It works by default with `createRoot`.
+
+```jsx
+setCount(c => c + 1);
+setValue(v => v + 1); // Only one re-render in React 18
+```
+
+---
+
+## 2️⃣ What is Concurrent Rendering?
+
+**Answer (Spoken Style):**
+
+* Concurrent Rendering lets React prepare multiple UI updates at the same time.
+* Rendering work can be **paused, resumed, or discarded**.
+* High‑priority updates like typing get handled first.
+* This keeps the UI responsive even during heavy rendering.
+* It’s enabled gradually using features like `startTransition`.
+
+```jsx
+// Enabled internally via createRoot
+const root = createRoot(document.getElementById('root'));
+```
+
+---
+
+## 3️⃣ Difference between Legacy and Concurrent Rendering
+
+**Answer (Spoken Style):**
+
+* Legacy rendering is **synchronous** and blocking.
+* Once rendering starts, it must finish before handling other tasks.
+* Concurrent rendering is **interruptible and priority‑based**.
+* It improves user experience for large or complex UIs.
+* Legacy is the old behavior; concurrent is the future.
+
+```jsx
+// Legacy
+ReactDOM.render(<App />, root);
+
+// Concurrent
+createRoot(root).render(<App />);
+```
+
+---
+
+## 4️⃣ What is `startTransition` and `useTransition`?
+
+**Answer (Spoken Style):**
+
+* These APIs mark updates as **non‑urgent**.
+* Urgent updates like typing stay fast.
+* Non‑urgent updates like filtering large lists run in background.
+* `useTransition` also provides a loading state.
+* This improves perceived performance.
+
+```jsx
+const [isPending, startTransition] = useTransition();
+
+startTransition(() => {
+  setItems(filteredItems);
+});
+```
+
+---
+
+## 5️⃣ Why Does React Strict Mode Double Render in Development?
+
+**Answer (Spoken Style):**
+
+* React Strict Mode intentionally renders components twice in development.
+* This helps detect **side effects** and unsafe logic.
+* It ensures components are pure and predictable.
+* This behavior does **not happen in production**.
+* It improves long‑term app stability.
+
+```jsx
+<React.StrictMode>
+  <App />
+</React.StrictMode>
+```
+
+---
+
+## 6️⃣ What is Code Splitting?
+
+**Answer (Spoken Style):**
+
+* Code splitting breaks the app into smaller bundles.
+* Only the required code is loaded when needed.
+* This reduces initial load time.
+* It’s commonly done using dynamic imports.
+* Very useful for large applications.
+
+```jsx
+const Admin = React.lazy(() => import('./Admin'));
+```
+
+---
+
+## 7️⃣ What is Lazy Loading?
+
+**Answer (Spoken Style):**
+
+* Lazy loading loads components **only when they are needed**.
+* It improves performance and reduces bundle size.
+* Usually combined with `Suspense`.
+* Common for routes and heavy components.
+* Enhances user experience on slow networks.
+
+```jsx
+<Suspense fallback={<Loading />}>
+  <Admin />
+</Suspense>
+```
+
+---
+
+## 8️⃣ How Does `React.memo` Work Internally?
+
+**Answer (Spoken Style):**
+
+* `React.memo` is a higher‑order component for optimization.
+* It prevents re-renders if props haven’t changed.
+* React performs a **shallow comparison** of props.
+* It’s useful for pure, frequently rendered components.
+* Overuse can add unnecessary complexity.
+
+```jsx
+const MyComponent = React.memo(({ value }) => {
+  return <div>{value}</div>;
+});
+```
+
+---
+
+## 9️⃣ How Do You Prevent Unnecessary Re-renders?
+
+**Answer (Spoken Style):**
+
+* Unnecessary re-renders happen when React updates components without real UI changes.
+* We can prevent them using `React.memo` for components.
+* Hooks like `useCallback` and `useMemo` help keep function and value references stable.
+* Proper key usage and avoiding unnecessary state updates also help.
+* Optimization should be done only when performance issues exist.
+
+```jsx
+const Button = React.memo(({ onClick }) => (
+  <button onClick={onClick}>Click</button>
+));
+```
+
+---
+
+## 🔟 Why Do Inline Functions Cause Re-renders?
+
+**Answer (Spoken Style):**
+
+* Inline functions create a **new function reference** on every render.
+* React compares props by reference, not by logic.
+* A new function means props look changed.
+* This causes child components to re-render.
+* `useCallback` helps by memoizing the function.
+
+```jsx
+const handleClick = useCallback(() => {
+  console.log('Clicked');
+}, []);
+```
+
+---
+
+## 1️⃣1️⃣ What Is Render Thrashing?
+
+**Answer (Spoken Style):**
+
+* Render thrashing happens when too many re-renders occur rapidly.
+* It often comes from repeated state updates inside loops or effects.
+* This causes UI lag and poor performance.
+* Batching and debouncing help reduce it.
+* React 18’s automatic batching minimizes this issue.
+
+```jsx
+setState(prev => prev + 1); // Avoid calling repeatedly in loops
+```
+
+---
+
+## 1️⃣2️⃣ How Do Keys Affect Reconciliation?
+
+**Answer (Spoken Style):**
+
+* Keys help React identify which list items changed.
+* They improve efficiency during reconciliation.
+* Stable keys allow React to reuse DOM elements.
+* Without proper keys, React may re-render unnecessarily.
+* Keys should be unique and consistent.
+
+```jsx
+items.map(item => <li key={item.id}>{item.name}</li>)
+```
+
+---
+
+## 1️⃣3️⃣ What Happens If Keys Are Not Stable?
+
+**Answer (Spoken Style):**
+
+* Using unstable keys like array index can confuse React.
+* Components may lose state unexpectedly.
+* DOM updates become inefficient.
+* UI bugs like wrong animations can appear.
+* Stable IDs should always be preferred.
+
+```jsx
+// Bad
+items.map((item, i) => <Item key={i} />)
+```
+
+---
+
+## 1️⃣4️⃣ How Do You Handle Memory Leaks in React?
+
+**Answer (Spoken Style):**
+
+* Memory leaks happen when resources aren’t cleaned up.
+* Common causes are timers, subscriptions, and event listeners.
+* Cleanup is done using `useEffect` return function.
+* Class components use `componentWillUnmount`.
+* Proper cleanup prevents performance issues.
+
+```jsx
+useEffect(() => {
+  const timer = setInterval(() => {}, 1000);
+  return () => clearInterval(timer);
+}, []);
+```
+
+---
+
+## 1️⃣5️⃣ What Is Virtualization (Windowing)?
+
+**Answer (Spoken Style):**
+
+* Virtualization renders only visible items in a list.
+* Off-screen items are not rendered.
+* This improves performance for large lists.
+* Libraries like `react-window` are commonly used.
+* It reduces memory and DOM load.
+
+```jsx
+// Conceptual example
+<List height={400} itemCount={1000} itemSize={35} />
+```
+
+---
+
+## 1️⃣6️⃣ How Does React Efficiently Handle Large Lists?
+
+**Answer (Spoken Style):**
+
+* React uses Virtual DOM and reconciliation.
+* Proper keys help reuse DOM nodes.
+* Virtualization limits rendered elements.
+* Memoization prevents unnecessary updates.
+* Combined, these techniques keep apps fast.
+
+```jsx
+const Row = React.memo(({ item }) => <div>{item.name}</div>);
+```
+
+---
