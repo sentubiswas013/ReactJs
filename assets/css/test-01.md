@@ -238,6 +238,6 @@
 70. How would you migrate a class-based app to hooks?
 
 
-Read thoroughly, Review every java question carefully and understand the context. For Questions For Questions 1 to 8 provide short, natural, real-time spoken bullet point answers (each answer should be 20–60 seconds) with example code. Keep all answers simple, confident, and practical. Then compile all answers together into a single .md (Markdown) file.
+
 
 
