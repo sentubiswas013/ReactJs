@@ -946,3 +946,332 @@ const Row = React.memo(({ item }) => <div>{item.name}</div>);
 ```
 
 ---
+
+## 🟡 5. State Management (React Interview – Spoken Style Answers)
+
+### 1. Local state vs Global state
+
+**Spoken Answer:**
+
+* Local state is data used by a single component, like form input or toggle state.
+* Global state is shared across many components, like user login or cart data.
+* If state is only needed in one place, keep it local.
+* If many unrelated components need it, move it to global state.
+
+**Example:**
+
+```jsx
+// Local state
+const [count, setCount] = useState(0);
+
+// Global state example (Redux selector)
+const user = useSelector(state => state.user);
+```
+
+---
+
+### 2. What is Context API and when should you use it?
+
+**Spoken Answer:**
+
+* Context API lets you pass data without prop drilling.
+* It’s best for low‑frequency updates like theme, language, or auth user.
+* It’s built into React, so no extra library is needed.
+* Avoid it for highly dynamic or large-scale state.
+
+**Example:**
+
+```jsx
+const ThemeContext = createContext();
+
+<ThemeContext.Provider value="dark">
+  <App />
+</ThemeContext.Provider>
+```
+
+---
+
+### 3. Difference between state and context
+
+**Spoken Answer:**
+
+* State belongs to a component and controls its behavior.
+* Context is a way to share state across components.
+* Context doesn’t replace state—it just distributes it.
+* Usually, state lives inside context.
+
+**Example:**
+
+```jsx
+const [user, setUser] = useState(null);
+<UserContext.Provider value={user} />
+```
+
+---
+
+### 4. Context vs Redux – how do you decide?
+
+**Spoken Answer:**
+
+* Use Context for small apps or simple shared data.
+* Use Redux for large apps with complex logic and async flows.
+* Redux gives better debugging, structure, and scalability.
+* Context can cause re-render issues if overused.
+
+**Rule of Thumb:**
+
+* Theme/Auth → Context
+* Cart/Orders/Dashboard → Redux
+
+---
+
+### 5. What is Redux and why is it used?
+
+**Spoken Answer:**
+
+* Redux is a predictable state management library.
+* It keeps all global state in one central store.
+* State changes happen in a controlled and traceable way.
+* It’s useful for large applications with shared state.
+
+**Example:**
+
+```js
+const store = createStore(reducer);
+```
+
+---
+
+### 6. Redux core principles (actions, reducers, store)
+
+**Spoken Answer:**
+
+* Store holds the entire app state.
+* Actions describe what happened.
+* Reducers decide how state changes.
+* Data flow is always one-directional.
+
+**Example:**
+
+```js
+// Action
+{ type: "ADD_TODO" }
+
+// Reducer
+function reducer(state, action) {
+  if (action.type === "ADD_TODO") {
+    return { ...state, count: state.count + 1 };
+  }
+}
+```
+
+---
+
+### 7. How do you handle async actions in Redux?
+
+**Spoken Answer:**
+
+* Redux itself is synchronous.
+* Async logic is handled using middleware.
+* Most commonly with redux‑thunk or redux‑saga.
+* This keeps reducers pure and clean.
+
+**Example (Thunk):**
+
+```js
+const fetchUsers = () => async dispatch => {
+  const res = await fetch('/api/users');
+  dispatch({ type: 'SET_USERS', payload: await res.json() });
+};
+```
+
+---
+
+### 8. What are Redux middlewares?
+
+**Spoken Answer:**
+
+* Middleware sits between action and reducer.
+* It intercepts actions before they reach reducers.
+* Used for logging, async calls, or error handling.
+* Common examples are thunk and saga.
+
+**Example:**
+
+```js
+const logger = store => next => action => {
+  console.log(action);
+  return next(action);
+};
+```
+
+---
+
+### 9. Difference between redux-thunk and redux-saga
+
+**Spoken Answer:**
+
+* Thunk uses functions for async logic.
+* Saga uses generator functions.
+* Thunk is simple and easy to learn.
+* Saga is powerful for complex workflows.
+
+**Quick Compare:**
+
+* Small app → Thunk
+* Complex async flows → Saga
+
+---
+
+### 10. How would you structure Redux in a large application?
+
+**Spoken Answer:**
+
+* Use feature‑based folder structure.
+* Group actions, reducers, and slices together.
+* Use Redux Toolkit to reduce boilerplate.
+* Keep API logic separate from UI components.
+
+**Example Structure:**
+
+```
+/store
+  /auth
+    authSlice.js
+  /cart
+    cartSlice.js
+  store.js
+```
+
+---
+
+
+# 🟠 6. Routing (React Router v6)
+
+## 1. What is React Router and how does it work?
+
+- React Router is a **client-side routing library** for React.
+- It lets us build **single-page applications (SPA)** with multiple views.
+- Instead of reloading pages, it **changes the URL and renders components** dynamically.
+- It listens to URL changes and matches them with defined routes.
+
+**Example:**
+```jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+````
+
+---
+
+## 2. How do you implement routing in React?
+
+* Install React Router using `npm install react-router-dom`.
+* Wrap the app with `<BrowserRouter>`.
+* Use `<Routes>` and `<Route>` to define paths.
+* Each route renders a specific component.
+
+**Example:**
+
+```jsx
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Login />} />
+  </Routes>
+</BrowserRouter>
+```
+
+---
+
+## 3. What are dynamic routes?
+
+* Dynamic routes handle **variable URL values**.
+* They are useful for user profiles, product pages, etc.
+* We define them using `:paramName`.
+* Values are accessed using `useParams()`.
+
+**Example:**
+
+```jsx
+<Route path="/users/:id" element={<User />} />
+
+function User() {
+  const { id } = useParams();
+  return <h2>User ID: {id}</h2>;
+}
+```
+
+---
+
+## 4. How do you implement nested routes?
+
+* Nested routes allow **child routes inside parent routes**.
+* Commonly used for dashboards and layouts.
+* Use `<Outlet />` to render child components.
+
+**Example:**
+
+```jsx
+<Route path="/dashboard" element={<Dashboard />}>
+  <Route path="profile" element={<Profile />} />
+  <Route path="settings" element={<Settings />} />
+</Route>
+
+function Dashboard() {
+  return (
+    <>
+      <h1>Dashboard</h1>
+      <Outlet />
+    </>
+  );
+}
+```
+
+---
+
+## 5. What are `useParams`, `useLocation`, and `useNavigate`?
+
+* `useParams()` → gets dynamic route parameters.
+* `useLocation()` → gives current URL info.
+* `useNavigate()` → programmatic navigation.
+
+**Example:**
+
+```jsx
+const params = useParams();
+const location = useLocation();
+const navigate = useNavigate();
+
+<button onClick={() => navigate("/login")}>Go Login</button>
+```
+
+---
+
+## 6. What are `<Router>` components in React Router v6?
+
+* Router components manage routing behavior.
+* `BrowserRouter` → most common, uses browser history.
+* `HashRouter` → uses hash (`#`) in URL.
+* `MemoryRouter` → used in testing or non-browser apps.
+
+**Example:**
+
+```jsx
+import { BrowserRouter } from "react-router-dom";
+
+<BrowserRouter>
+  <App />
+</BrowserRouter>
+```
+
+---
