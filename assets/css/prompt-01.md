@@ -1,8 +1,8 @@
 Read thoroughly, Review every java question carefully and understand the context. For Questions 1 to 8 provide short, natural, real-time spoken bullet point answers (each answer should be 20–60 seconds) with example code. Keep all answers simple, confident, and practical. Then compile all answers together into a single .md (Markdown) file.
 
 
-Review every React Js question carefully and understand the context. 
-For Questions 1 to 8 provide short, natural, real-time spoken bullet point answers (each answer should be 20–40 seconds) with example code. 
+Review every Angular question carefully and understand the context. 
+For every Questions provide short, natural, real-time spoken bullet point answers (each answer should be 25–60 seconds) with full example code. 
 Keep all answers simple, confident, and practical. 
 Then compile all answers together into a single .md (Markdown) file.
 

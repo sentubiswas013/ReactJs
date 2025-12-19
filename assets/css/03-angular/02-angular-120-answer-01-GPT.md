@@ -1818,3 +1818,1034 @@ export class ProfileComponent {}
 👉 Cleaner routes, smaller bundles, simpler code.
 
 ---
+
+## 🔹 9. State Management
+
+## 1️⃣ What Is State Management?
+
+**Spoken answer (bullet style):**
+
+* State management is how we **store, update, and share application data**
+* “State” means data like:
+
+  * Logged-in user
+  * Cart items
+  * UI flags like loading or error
+* Good state management:
+
+  * Keeps data predictable
+  * Avoids messy data passing
+  * Makes debugging easier
+
+**Example (simple component state):**
+
+```ts
+export class CartComponent {
+  items = ['Phone', 'Laptop'];
+
+  addItem(item: string) {
+    this.items.push(item);
+  }
+}
+```
+
+👉 State is just data + rules for changing it.
+
+---
+
+## 2️⃣ How Does Angular Handle State?
+
+**Spoken answer:**
+
+* Angular itself does **not force one state solution**
+* Common ways Angular handles state:
+
+  * Component state (local)
+  * Services with RxJS (shared)
+  * Modern Signals (local or shared)
+* Services are often used as **single sources of truth**
+
+**Example (service with BehaviorSubject):**
+
+```ts
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private userSubject = new BehaviorSubject<string>('Guest');
+  user$ = this.userSubject.asObservable();
+
+  setUser(name: string) {
+    this.userSubject.next(name);
+  }
+}
+```
+
+```html
+<p>{{ userService.user$ | async }}</p>
+```
+
+👉 This is Angular’s most common real-world approach.
+
+---
+
+## 3️⃣ NgRx vs Akita vs Signals
+
+**Spoken answer:**
+
+* **NgRx**:
+
+  * Redux-style, very structured
+  * Best for large enterprise apps
+* **Akita**:
+
+  * Less boilerplate
+  * Easier learning curve
+* **Signals**:
+
+  * Built into Angular
+  * Best for simple and medium state
+  * Very fast and intuitive
+
+**Example (NgRx reducer):**
+
+```ts
+export const counterReducer = createReducer(
+  0,
+  on(increment, state => state + 1)
+);
+```
+
+**Example (Signal):**
+
+```ts
+count = signal(0);
+```
+
+👉 Use tools based on **app size**, not hype.
+
+---
+
+## 4️⃣ When Would You NOT Use NgRx?
+
+**Spoken answer:**
+
+* When the app is small or medium
+* When state is mostly local
+* When the team is new to NgRx
+* When speed of development matters more than structure
+* When Signals or services are enough
+
+**Example (Signals replacing NgRx):**
+
+```ts
+@Injectable({ providedIn: 'root' })
+export class CounterStore {
+  count = signal(0);
+
+  increment() {
+    this.count.update(v => v + 1);
+  }
+}
+```
+
+```html
+<p>{{ counterStore.count() }}</p>
+```
+
+👉 NgRx is powerful, but **overkill for many apps**.
+
+---
+
+## 🔹 10. Security
+
+## 1️⃣ What Are Common Angular Security Issues?
+
+**Spoken answer (bullet style):**
+
+* The most common issues are:
+
+  * XSS (Cross-Site Scripting)
+  * CSRF (Cross-Site Request Forgery)
+  * Insecure API communication
+  * Exposing secrets in frontend code
+* Most security problems come from:
+
+  * Trusting user input
+  * Bypassing Angular’s built-in protections
+* Angular is secure by default, but misuse can break it
+
+**Example (dangerous):**
+
+```html
+<div [innerHTML]="userInput"></div>
+```
+
+👉 If not sanitized, this can lead to XSS.
+
+---
+
+## 2️⃣ How Does Angular Prevent XSS?
+
+**Spoken answer:**
+
+* Angular automatically **sanitizes data** before rendering it
+* It escapes:
+
+  * HTML
+  * URLs
+  * Styles
+* Unsafe values are blocked unless explicitly trusted
+* Angular prevents script execution in templates by default
+
+**Safe example:**
+
+```html
+<p>{{ userComment }}</p>
+```
+
+**Explicit trust (use carefully):**
+
+```ts
+constructor(private sanitizer: DomSanitizer) {}
+
+safeHtml = this.sanitizer.bypassSecurityTrustHtml('<b>Hello</b>');
+```
+
+👉 You should **avoid bypassing sanitization unless absolutely necessary**.
+
+---
+
+## 3️⃣ How Does Angular Handle CSRF?
+
+**Spoken answer:**
+
+* Angular protects against CSRF using **XSRF tokens**
+* It:
+
+  * Reads a token from a cookie
+  * Sends it as a header with HTTP requests
+* The backend validates the token
+* This works automatically with `HttpClient`
+
+**Example:**
+
+```ts
+HttpClientModule
+```
+
+```ts
+this.http.post('/api/data', body).subscribe();
+```
+
+👉 Angular automatically sends the `X-XSRF-TOKEN` header.
+
+---
+
+## 4️⃣ How to Secure Angular Apps in Production?
+
+**Spoken answer:**
+
+* Always use **HTTPS**
+* Enable production mode
+* Never store secrets in frontend code
+* Use proper authentication and authorization
+* Secure APIs, not just the UI
+* Apply Content Security Policy (CSP)
+
+**Enable production mode:**
+
+```ts
+if (environment.production) {
+  enableProdMode();
+}
+```
+
+**Environment example:**
+
+```ts
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.example.com'
+};
+```
+
+👉 Frontend security always depends on backend security.
+
+---
+
+## 5️⃣ JWT Authentication Flow in Angular
+
+**Spoken answer:**
+
+* User logs in with credentials
+* Backend returns a JWT
+* Angular stores the token securely
+* Token is sent with every API request
+* Backend validates the token
+* If invalid → user is logged out
+
+**Auth service:**
+
+```ts
+login(token: string) {
+  localStorage.setItem('token', token);
+}
+```
+
+**HTTP interceptor:**
+
+```ts
+intercept(req: HttpRequest<any>, next: HttpHandler) {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    req = req.clone({
+      setHeaders: { Authorization: `Bearer ${token}` }
+    });
+  }
+
+  return next.handle(req);
+}
+```
+
+👉 Interceptors keep authentication **clean and centralized**.
+
+---
+
+## 🔹 11. Testing
+
+---
+
+## 1️⃣ How do you unit test Angular apps?
+
+**Spoken Answer (25–60 sec):**
+
+* In Angular, unit testing means testing components, services, pipes, or guards **in isolation**
+* Angular uses **Jasmine** as the testing framework and **Karma** as the test runner
+* We focus on testing **logic**, not UI behavior
+* Angular provides **TestBed** to configure a fake testing module
+* Unit tests should be fast, independent, and not depend on real APIs
+
+### ✅ Example: Testing a Service
+
+```ts
+// calculator.service.ts
+@Injectable()
+export class CalculatorService {
+  add(a: number, b: number) {
+    return a + b;
+  }
+}
+```
+
+```ts
+// calculator.service.spec.ts
+describe('CalculatorService', () => {
+  let service: CalculatorService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [CalculatorService]
+    });
+
+    service = TestBed.inject(CalculatorService);
+  });
+
+  it('should add two numbers', () => {
+    expect(service.add(2, 3)).toBe(5);
+  });
+});
+```
+
+---
+
+## 2️⃣ What is TestBed?
+
+**Spoken Answer (25–60 sec):**
+
+* `TestBed` is Angular’s **main testing utility**
+* It creates a **testing version of an Angular module**
+* We use it to declare components, import modules, and provide services
+* It allows dependency injection just like a real Angular app
+* Without TestBed, component testing is not possible
+
+### ✅ Example: Using TestBed for a Component
+
+```ts
+beforeEach(async () => {
+  await TestBed.configureTestingModule({
+    declarations: [LoginComponent]
+  }).compileComponents();
+});
+```
+
+```ts
+it('should create component', () => {
+  const fixture = TestBed.createComponent(LoginComponent);
+  const component = fixture.componentInstance;
+
+  expect(component).toBeTruthy();
+});
+```
+
+---
+
+## 3️⃣ How do you mock services?
+
+**Spoken Answer (25–60 sec):**
+
+* We mock services to **avoid real API calls**
+* Angular allows replacing a service using `useValue` or `useClass`
+* Mock services return **fake data**
+* This makes tests predictable and faster
+* Mocking isolates the component from dependencies
+
+### ✅ Example: Mocking a Service
+
+```ts
+class MockUserService {
+  getUser() {
+    return { name: 'Pintu' };
+  }
+}
+```
+
+```ts
+TestBed.configureTestingModule({
+  providers: [
+    { provide: UserService, useClass: MockUserService }
+  ]
+});
+```
+
+```ts
+it('should get mocked user', () => {
+  const service = TestBed.inject(UserService);
+  expect(service.getUser().name).toBe('Pintu');
+});
+```
+
+---
+
+## 4️⃣ How do you mock HTTP requests?
+
+**Spoken Answer (25–60 sec):**
+
+* Angular provides `HttpClientTestingModule`
+* We use `HttpTestingController` to intercept HTTP calls
+* No real backend is required
+* We can verify request URL, method, and response
+* This is essential for testing API-based services
+
+### ✅ Example: Mocking HTTP Calls
+
+```ts
+beforeEach(() => {
+  TestBed.configureTestingModule({
+    imports: [HttpClientTestingModule],
+    providers: [UserService]
+  });
+
+  httpMock = TestBed.inject(HttpTestingController);
+});
+```
+
+```ts
+it('should fetch users', () => {
+  service.getUsers().subscribe(users => {
+    expect(users.length).toBe(1);
+  });
+
+  const req = httpMock.expectOne('/api/users');
+  expect(req.request.method).toBe('GET');
+
+  req.flush([{ id: 1, name: 'Pintu' }]);
+});
+```
+
+---
+
+## 5️⃣ What is a spy in Jasmine?
+
+**Spoken Answer (25–60 sec):**
+
+* A spy is used to **track function calls**
+* It checks whether a method was called or not
+* We can mock return values using `and.returnValue`
+* Spies are commonly used with services
+* Jasmine provides `spyOn()` for this purpose
+
+### ✅ Example: Using a Spy
+
+```ts
+it('should call getData method', () => {
+  const service = TestBed.inject(DataService);
+  spyOn(service, 'getData').and.returnValue('mock data');
+
+  const result = service.getData();
+
+  expect(service.getData).toHaveBeenCalled();
+  expect(result).toBe('mock data');
+});
+```
+
+---
+
+## 6️⃣ How to test components with Observables?
+
+**Spoken Answer (25–60 sec):**
+
+* Observables are tested by **mocking their values**
+* We often use `of()` from RxJS
+* The component subscribes normally
+* We trigger `fixture.detectChanges()` to update data
+* This ensures async logic works correctly
+
+### ✅ Example: Testing Observable Data
+
+```ts
+// user.service.ts
+getUsers() {
+  return of(['User1', 'User2']);
+}
+```
+
+```ts
+it('should load users from observable', () => {
+  const service = TestBed.inject(UserService);
+  spyOn(service, 'getUsers').and.returnValue(of(['A', 'B']));
+
+  const fixture = TestBed.createComponent(UserComponent);
+  const component = fixture.componentInstance;
+
+  fixture.detectChanges();
+
+  expect(component.users.length).toBe(2);
+});
+```
+
+---
+
+## 🔹 12. SSR & Build
+
+---
+
+## 1️⃣ What is AOT vs JIT?
+
+### 🗣 Spoken Answer (25–60 sec)
+
+* **JIT (Just-In-Time)** compiles Angular code **in the browser**
+* It’s mainly used during **development**
+* Builds are faster, but app startup is slower
+* **AOT (Ahead-Of-Time)** compiles templates **at build time**
+* AOT gives **faster load time**, **smaller bundles**, and **better security**
+* In production, Angular **always uses AOT**
+
+### ✅ Example
+
+```bash
+# JIT (development)
+ng serve
+```
+
+```bash
+# AOT (production)
+ng build --configuration production
+```
+
+```ts
+// AOT catches template errors at build time
+{{ user.name }}   // error if user is undefined
+```
+
+---
+
+## 2️⃣ What is Angular Universal?
+
+### 🗣 Spoken Answer (25–60 sec)
+
+* Angular Universal is Angular’s **server-side rendering solution**
+* It renders Angular apps **on the server**
+* The server sends **fully rendered HTML** to the browser
+* Improves **SEO**, **first page load**, and **performance**
+* After load, Angular switches to client-side rendering normally
+
+### ✅ Example: Add Angular Universal
+
+```bash
+ng add @nguniversal/express-engine
+```
+
+```ts
+// server.ts
+app.get('*', (req, res) => {
+  res.render(indexHtml, { req });
+});
+```
+
+---
+
+## 3️⃣ What is SSR and how it works?
+
+### 🗣 Spoken Answer (25–60 sec)
+
+* SSR stands for **Server-Side Rendering**
+* The Angular app runs on the **server first**
+* Server generates HTML and sends it to the browser
+* Browser displays content immediately
+* Angular then **hydrates** the app and takes control
+* This is ideal for **SEO and slow networks**
+
+### 🔄 SSR Flow
+
+```
+Request → Server → HTML → Browser → Angular Hydration
+```
+
+### ✅ Example
+
+```ts
+// app.server.module.ts
+@NgModule({
+  imports: [
+    AppModule,
+    ServerModule
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppServerModule {}
+```
+
+---
+
+## 4️⃣ Purpose of `angular.json`
+
+### 🗣 Spoken Answer (25–60 sec)
+
+* `angular.json` is the **build configuration file**
+* It controls how Angular **builds, serves, and tests** the app
+* Defines assets, styles, scripts, and environments
+* Used by Angular CLI internally
+* Different configurations can be created for dev and prod
+
+### ✅ Example
+
+```json
+"build": {
+  "options": {
+    "outputPath": "dist/my-app",
+    "index": "src/index.html",
+    "main": "src/main.ts",
+    "styles": ["src/styles.css"]
+  }
+}
+```
+
+```bash
+ng build
+ng serve
+```
+
+---
+
+## 5️⃣ Environment-specific configuration
+
+### 🗣 Spoken Answer (25–60 sec)
+
+* Angular supports different environments like **dev, QA, prod**
+* Environment files store config like API URLs
+* Angular CLI replaces files during build
+* This keeps production values secure
+* Controlled using `fileReplacements` in `angular.json`
+
+### ✅ Example
+
+```ts
+// environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000'
+};
+```
+
+```ts
+// environment.prod.ts
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.myapp.com'
+};
+```
+
+```json
+// angular.json
+"fileReplacements": [
+  {
+    "replace": "src/environments/environment.ts",
+    "with": "src/environments/environment.prod.ts"
+  }
+]
+```
+
+```ts
+// usage
+this.http.get(environment.apiUrl + '/users');
+```
+
+---
+
+## 🔹 13. Architecture & Real-World Scenarios
+## 🔹 1. How do you organize a large Angular app?
+
+**Spoken Answer (Interview-style):**
+
+* In a large Angular app, I always follow a **feature-based folder structure**, not type-based.
+* Each feature has its own **module, components, services, and routes**.
+* Shared things like reusable components, pipes, and directives go into a **SharedModule**.
+* Core services like auth, interceptors, and guards go into a **CoreModule**.
+* I also use **lazy loading** so features load only when needed, which improves performance.
+
+**Example Structure:**
+
+```text
+src/app
+ ├── core/
+ │    ├── auth.service.ts
+ │    ├── auth.guard.ts
+ │    └── core.module.ts
+ ├── shared/
+ │    ├── loader.component.ts
+ │    └── shared.module.ts
+ ├── features/
+ │    ├── products/
+ │    │    ├── product.module.ts
+ │    │    ├── product.component.ts
+ │    │    └── product.service.ts
+ │    └── orders/
+ └── app-routing.module.ts
+```
+
+**Lazy Loaded Route:**
+
+```ts
+{
+  path: 'products',
+  loadChildren: () =>
+    import('./features/products/product.module')
+      .then(m => m.ProductModule)
+}
+```
+
+---
+
+## 🔹 2. How do components communicate?
+
+**Spoken Answer:**
+
+* Angular supports **multiple communication methods** depending on relationship.
+* For **parent to child**, I use `@Input`.
+* For **child to parent**, I use `@Output` with `EventEmitter`.
+* For **unrelated components**, I use a **shared service with RxJS Subject**.
+* For global state, I prefer **state management or signals**.
+
+### Parent → Child
+
+```ts
+// child.component.ts
+@Input() title!: string;
+```
+
+```html
+<app-child [title]="pageTitle"></app-child>
+```
+
+### Child → Parent
+
+```ts
+// child.component.ts
+@Output() clicked = new EventEmitter<string>();
+
+send() {
+  this.clicked.emit('Hello Parent');
+}
+```
+
+```html
+<app-child (clicked)="receive($event)"></app-child>
+```
+
+### Unrelated Components (Service)
+
+```ts
+@Injectable({ providedIn: 'root' })
+export class MessageService {
+  message$ = new Subject<string>();
+}
+```
+
+---
+
+## 🔹 3. How do you avoid memory leaks?
+
+**Spoken Answer:**
+
+* Memory leaks usually happen due to **unsubscribed observables**.
+* I always unsubscribe using **takeUntil**, **AsyncPipe**, or **auto-unsubscribe patterns**.
+* I avoid manual subscriptions in templates whenever possible.
+* I clean up **intervals, timeouts, and event listeners** in `ngOnDestroy`.
+
+### Using `takeUntil`
+
+```ts
+destroy$ = new Subject<void>();
+
+ngOnInit() {
+  this.service.getData()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe();
+}
+
+ngOnDestroy() {
+  this.destroy$.next();
+  this.destroy$.complete();
+}
+```
+
+### Best Option – Async Pipe
+
+```html
+<div *ngFor="let item of data$ | async">
+  {{ item.name }}
+</div>
+```
+
+---
+
+## 🔹 4. How do you debug Angular apps?
+
+**Spoken Answer:**
+
+* I primarily use **Chrome DevTools** and **Angular DevTools**.
+* I use `console.log`, breakpoints, and source maps.
+* Angular DevTools helps inspect **component tree, inputs, outputs, and change detection**.
+* I also check **network tab** for API calls and interceptor issues.
+* For errors, I always read **stack traces carefully**.
+
+### Simple Debugging Example
+
+```ts
+ngOnInit() {
+  console.log('Component initialized');
+}
+```
+
+### Error Handling
+
+```ts
+this.http.get('/api/data').subscribe({
+  next: res => console.log(res),
+  error: err => console.error(err)
+});
+```
+
+---
+
+## 🔹 5. What design patterns does Angular follow?
+
+**Spoken Answer:**
+
+* Angular follows **MVC / MVVM architecture**.
+* It uses **Dependency Injection** heavily.
+* Components follow the **Observer pattern** using RxJS.
+* Services often follow the **Singleton pattern**.
+* Smart vs Dumb components follow the **Container–Presenter pattern**.
+
+### Dependency Injection Example
+
+```ts
+constructor(private productService: ProductService) {}
+```
+
+### Observer Pattern
+
+```ts
+this.service.data$.subscribe(data => {
+  console.log(data);
+});
+```
+
+---
+
+## 🔹 6. Singleton pattern in Angular services
+
+**Spoken Answer:**
+
+* Angular services are singleton by default.
+* When a service is provided in `root`, Angular creates **only one instance** for the entire app.
+* This is useful for **auth, user state, caching, and shared data**.
+* Singleton ensures consistency and better performance.
+
+### Singleton Service
+
+```ts
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  isLoggedIn = false;
+
+  login() {
+    this.isLoggedIn = true;
+  }
+}
+```
+
+### Used in Multiple Components
+
+```ts
+constructor(private authService: AuthService) {}
+
+ngOnInit() {
+  console.log(this.authService.isLoggedIn);
+}
+```
+
+---
+
+## 🔹 14. Behavioral / Experience-Based
+
+## 🔹 1. Most challenging Angular issue you faced?
+
+**Spoken Answer (Natural):**
+
+* One of the most challenging issues I faced was **multiple API calls firing repeatedly** due to unnecessary change detection.
+* It happened because subscriptions were inside lifecycle hooks and template bindings.
+* The UI was slow and the backend was getting hit many times.
+* I fixed it by **moving API calls to services**, using **RxJS operators**, and switching to **OnPush change detection**.
+* I also used **AsyncPipe** to manage subscriptions cleanly.
+
+**Problematic Code:**
+
+```ts
+ngOnInit() {
+  this.service.getData().subscribe(data => {
+    this.data = data;
+  });
+}
+```
+
+**Optimized Solution:**
+
+```ts
+data$ = this.service.getData();
+```
+
+```html
+<div *ngFor="let item of data$ | async">
+  {{ item.name }}
+</div>
+```
+
+---
+
+## 🔹 2. How did you optimize performance?
+
+**Spoken Answer:**
+
+* I optimized performance by reducing **unnecessary re-renders**.
+* I used **ChangeDetectionStrategy.OnPush** for most components.
+* Implemented **lazy loading** for feature modules.
+* Used **trackBy** in `*ngFor` to avoid DOM re-creation.
+* Optimized API calls using **caching and debounce**.
+
+### OnPush Example
+
+```ts
+@Component({
+  selector: 'app-list',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ListComponent {}
+```
+
+### trackBy Example
+
+```html
+<li *ngFor="let item of items; trackBy: trackById">
+  {{ item.name }}
+</li>
+```
+
+```ts
+trackById(index: number, item: any) {
+  return item.id;
+}
+```
+
+---
+
+## 🔹 3. How do you stay updated with Angular?
+
+**Spoken Answer:**
+
+* I regularly follow **Angular official blog and release notes**.
+* I practice new features like **signals, standalone components, and control flow**.
+* I update small side projects to the latest Angular version.
+* I also watch **conference talks and YouTube channels**.
+* Most importantly, I try new features in **real code**, not just theory.
+
+### Example – Signals
+
+```ts
+count = signal(0);
+
+increment() {
+  this.count.update(v => v + 1);
+}
+```
+
+```html
+<button (click)="increment()">+</button>
+<p>{{ count() }}</p>
+```
+
+---
+
+## 🔹 4. Describe a real project architecture you built
+
+**Spoken Answer:**
+
+* I built a **large-scale Angular app** using feature-based architecture.
+* Core services like authentication and interceptors were placed in **CoreModule**.
+* Shared UI components were in **SharedModule**.
+* Each feature had its own module, routes, services, and components.
+* The app used **lazy loading**, **route guards**, and **HTTP interceptors**.
+
+### Folder Structure
+
+```text
+src/app
+ ├── core/
+ │    ├── auth.service.ts
+ │    ├── auth.interceptor.ts
+ ├── shared/
+ │    ├── button.component.ts
+ ├── features/
+ │    ├── dashboard/
+ │    ├── products/
+ └── app-routing.module.ts
+```
+
+### Auth Interceptor Example
+
+```ts
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const authReq = req.clone({
+      setHeaders: { Authorization: 'Bearer token' }
+    });
+    return next.handle(authReq);
+  }
+}
+```
+
+---
