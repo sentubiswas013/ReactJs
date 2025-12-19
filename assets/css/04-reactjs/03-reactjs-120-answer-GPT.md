@@ -1275,3 +1275,1093 @@ import { BrowserRouter } from "react-router-dom";
 ```
 
 ---
+
+
+# 🟠 7. Data Fetching & Side Effects
+## **1. How do you handle API calls in React?**
+
+* In React, API calls are usually handled **inside components using hooks**.
+* The most common approach is using **`useEffect` + `fetch` or `axios`**.
+* For real apps, I prefer **React Query** because it handles caching, loading, and errors automatically.
+
+```jsx
+useEffect(() => {
+  fetch("/api/users")
+    .then(res => res.json())
+    .then(data => setUsers(data));
+}, []);
+```
+
+* For scalable apps, I avoid manual state handling and use **data-fetching libraries**.
+
+---
+
+## **2. What problems does `useEffect` have with data fetching?**
+
+* `useEffect` was **not designed for data fetching**, only for side effects.
+* Common problems:
+
+  * **Duplicate API calls**
+  * **Race conditions**
+  * **Manual loading & error state**
+  * **Dependency array bugs**
+
+```jsx
+useEffect(() => {
+  fetchData(); // may re-run unexpectedly
+}, [id]); // easy to mess up dependencies
+```
+
+* As apps grow, this becomes **hard to maintain and error-prone**.
+
+---
+
+## **3. How do you fetch data without `useEffect`?**
+
+* You can fetch data using:
+
+  * **React Query**
+  * **Server Components (Next.js)**
+  * **Event-based fetching (onClick, onSubmit)**
+
+```jsx
+const { data, isLoading } = useQuery({
+  queryKey: ["users"],
+  queryFn: fetchUsers,
+});
+```
+
+* This removes side-effect logic from components and makes data handling **declarative**.
+
+---
+
+## **4. What is React Query / TanStack Query?**
+
+* React Query is a **data-fetching and caching library** for server state.
+* It handles:
+
+  * Caching
+  * Background refetching
+  * Loading & error states
+  * Request deduplication
+
+```jsx
+const { data, error, isLoading } = useQuery({
+  queryKey: ["posts"],
+  queryFn: getPosts,
+});
+```
+
+* It **eliminates most `useEffect` usage** for API calls.
+
+---
+
+## **5. Difference between client-side caching and server state**
+
+* **Client state** → UI state (modals, theme, inputs)
+* **Server state** → Data from backend (users, products)
+
+```js
+// Client state
+const [isOpen, setIsOpen] = useState(false);
+
+// Server state
+useQuery({ queryKey: ["users"], queryFn: fetchUsers });
+```
+
+* Server state:
+
+  * Can be stale
+  * Needs syncing
+  * Needs caching & refetching
+* React Query is designed **specifically for server state**.
+
+---
+
+## **6. How do you cancel API requests?**
+
+* You can cancel requests using **AbortController**.
+* This prevents memory leaks when components unmount.
+
+```jsx
+useEffect(() => {
+  const controller = new AbortController();
+
+  fetch(url, { signal: controller.signal });
+
+  return () => controller.abort();
+}, []);
+```
+
+* React Query handles cancellation **automatically**, which is safer.
+
+---
+
+## **7. How do you handle race conditions?**
+
+* Race conditions happen when **multiple requests return out of order**.
+* Solutions:
+
+  * Cancel previous requests
+  * Track request IDs
+  * Use React Query (best solution)
+
+```js
+const requestId = ++latestRequest;
+
+fetchData().then(data => {
+  if (requestId === latestRequest) {
+    setData(data);
+  }
+});
+```
+
+* React Query prevents this by **deduplicating and managing requests**.
+
+---
+
+## 🟠 8. Architecture & Design Patterns
+## 1. How do you structure a large-scale React application?
+
+**Answer (spoken style):**
+- I structure large React apps by **separating concerns** and **scaling by features, not files**
+- I keep **UI, logic, API calls, and state** clearly separated
+- Shared things go into `shared` or `common`, and business logic stays inside features
+- This makes the app easier to maintain, test, and onboard new developers
+
+**Example structure:**
+```txt
+src/
+ ├─ features/
+ │   └─ auth/
+ │       ├─ AuthPage.jsx
+ │       ├─ authSlice.js
+ │       └─ authAPI.js
+ ├─ components/
+ ├─ hooks/
+ ├─ services/
+ └─ App.jsx
+```
+
+---
+
+## 2. What is a feature-based folder structure?
+
+**Answer:**
+- Feature-based structure groups **everything related to one feature** in one folder
+- Each feature owns its UI, logic, state, and API
+- This avoids long imports and reduces cross-dependency issues
+- It’s ideal for large teams and scalable apps
+
+**Example:**
+```txt
+features/
+ └─ dashboard/
+     ├─ Dashboard.jsx
+     ├─ DashboardChart.jsx
+     ├─ dashboardService.js
+     └─ dashboardSlice.js
+```
+
+---
+
+## 3. Smart vs Dumb components
+
+**Answer:**
+- **Smart components** handle state, API calls, and logic
+- **Dumb components** only receive props and render UI
+- This improves reusability and keeps UI components clean
+- Today, hooks reduce this gap, but the concept still helps
+
+**Example:**
+```jsx
+// Smart
+function UserContainer() {
+  const [user, setUser] = useState(null);
+  return <UserView user={user} />;
+}
+
+// Dumb
+function UserView({ user }) {
+  return <h1>{user?.name}</h1>;
+}
+```
+
+---
+
+## 4. Container–Presentational pattern
+
+**Answer:**
+- This pattern separates **data handling** from **UI rendering**
+- Containers manage state and effects
+- Presentational components focus only on layout
+- It improves testability and UI reuse
+
+**Example:**
+```jsx
+function ProductContainer() {
+  const products = useProducts();
+  return <ProductList products={products} />;
+}
+
+function ProductList({ products }) {
+  return products.map(p => <div key={p.id}>{p.name}</div>);
+}
+```
+
+---
+
+## 5. How do you design reusable components?
+
+**Answer:**
+- I keep components **small, flexible, and prop-driven**
+- Avoid hard-coding styles or logic
+- Use composition instead of condition overload
+- Make defaults configurable
+
+**Example:**
+```jsx
+function Button({ variant = "primary", children }) {
+  return <button className={`btn-${variant}`}>{children}</button>;
+}
+```
+
+---
+
+## 6. How do you handle shared logic across pages?
+
+**Answer:**
+- I extract shared logic into **custom hooks**
+- This avoids duplication and keeps components clean
+- Hooks are easy to reuse and test
+- Shared utilities go into `hooks` or `utils`
+
+**Example:**
+```jsx
+function useAuth() {
+  const [user, setUser] = useState(null);
+  return { user, login, logout };
+}
+```
+
+---
+
+## 7. What is the render props pattern?
+
+**Answer:**
+- Render props pass a **function as a prop**
+- That function controls how data is rendered
+- It allows flexible UI customization
+- Less common now, but still useful in libraries
+
+**Example:**
+```jsx
+<DataFetcher render={(data) => (
+  <h1>{data.name}</h1>
+)} />
+```
+
+---
+
+## 8. What is the compound component pattern?
+
+**Answer:**
+- Compound components work together using shared context
+- The parent controls state, children consume it
+- It creates clean and expressive APIs
+- Common in UI libraries like tabs and dropdowns
+
+**Example:**
+```jsx
+<Tabs>
+  <Tabs.List />
+  <Tabs.Panel />
+</Tabs>
+```
+
+## 9. What are Higher-Order Components (HOCs)?
+
+**Answer (spoken, practical):**
+
+* A Higher-Order Component is a **function that takes a component and returns a new enhanced component**
+* It’s used to **reuse logic across multiple components** without duplicating code
+* Common use cases are **authentication, logging, permissions, and loading states**
+* HOCs were popular before hooks; today hooks are preferred, but HOCs are still used in legacy code and libraries
+* The wrapped component receives extra props injected by the HOC
+
+**Example code:**
+
+```jsx
+function withAuth(WrappedComponent) {
+  return function AuthComponent(props) {
+    const isLoggedIn = true;
+
+    if (!isLoggedIn) {
+      return <p>Please login</p>;
+    }
+
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// Usage
+const DashboardWithAuth = withAuth(Dashboard);
+```
+
+## 🔵 9. Testing (Modern React)
+## 1. What testing libraries are used in React?
+
+**Answer (spoken style):**
+- The most common library is **React Testing Library** for component testing
+- **Jest** is used as the test runner and assertion library
+- For end-to-end testing, tools like **Cypress** or **Playwright** are used
+- Sometimes **MSW** is used to mock APIs in tests
+- Together, they cover unit, integration, and E2E testing
+
+**Example:**
+```jsx
+import { render, screen } from "@testing-library/react";
+
+test("renders heading", () => {
+  render(<h1>Hello</h1>);
+  expect(screen.getByText("Hello")).toBeInTheDocument();
+});
+```
+
+---
+
+## 2. Why React Testing Library over Enzyme?
+
+**Answer:**
+- React Testing Library tests **how users interact with the app**, not internals
+- It avoids testing implementation details like state or methods
+- Enzyme relies heavily on shallow rendering, which can miss real behavior
+- RTL encourages better tests that don’t break during refactors
+- It aligns more closely with real browser usage
+
+**Example:**
+```jsx
+// React Testing Library
+fireEvent.click(screen.getByText("Submit"));
+expect(screen.getByText("Success")).toBeVisible();
+```
+
+---
+
+## 3. What should you test vs not test?
+
+**Answer:**
+- Test **user behavior**, not internal logic
+- Test button clicks, form input, API responses, and UI changes
+- Avoid testing internal state or private functions
+- Don’t test third-party libraries
+- If it affects the user, it should be tested
+
+**Example:**
+```jsx
+expect(screen.getByRole("button")).toBeDisabled();
+```
+
+---
+
+## 4. How do you test components?
+
+**Answer:**
+- First, render the component using `render`
+- Find elements using accessible queries like `getByText` or `getByRole`
+- Simulate user actions using `fireEvent` or `userEvent`
+- Assert what the user sees on the screen
+- Keep tests focused and readable
+
+**Example:**
+```jsx
+render(<Login />);
+fireEvent.change(screen.getByLabelText("Email"), {
+  target: { value: "test@mail.com" }
+});
+```
+
+---
+
+## 5. How do you test async components?
+
+**Answer:**
+- Async components usually involve API calls or delayed UI updates
+- Use `async/await` with `findBy` or `waitFor`
+- Mock API calls to control responses
+- Assert once the UI updates
+- This ensures reliability and avoids flaky tests
+
+**Example:**
+```jsx
+render(<User />);
+expect(await screen.findByText("John")).toBeInTheDocument();
+```
+
+---
+
+## 6. How do you test custom hooks?
+
+**Answer (spoken style):**
+
+* Custom hooks are tested using **React Testing Library’s `renderHook`**
+* This lets me test hook logic without creating a component
+* I can trigger state changes and assert the result
+* It keeps tests focused on behavior, not UI
+
+**Example:**
+
+```jsx
+import { renderHook, act } from "@testing-library/react";
+
+test("useCounter works", () => {
+  const { result } = renderHook(() => useCounter());
+
+  act(() => result.current.increment());
+  expect(result.current.count).toBe(1);
+});
+```
+
+---
+
+## 7. How do you test Context Providers?
+
+**Answer:**
+
+* I wrap the component with the **Context Provider** during render
+* Then I test how the component behaves with provided values
+* This simulates real app usage
+* It’s often combined with custom render utilities
+
+**Example:**
+
+```jsx
+render(
+  <AuthProvider>
+    <Profile />
+  </AuthProvider>
+);
+
+expect(screen.getByText("Logout")).toBeInTheDocument();
+```
+
+---
+
+## 8. What is snapshot testing?
+
+**Answer:**
+
+* Snapshot testing captures the **rendered UI output**
+* It helps detect unexpected UI changes
+* Useful for simple, stable components
+* Should not be overused because snapshots can become noisy
+
+**Example:**
+
+```jsx
+const { container } = render(<Button />);
+expect(container).toMatchSnapshot();
+```
+
+---
+
+## 9. What is mocking and how do you mock APIs?
+
+**Answer:**
+
+* Mocking means **simulating dependencies** like APIs or functions
+* It helps isolate components during testing
+* APIs are commonly mocked using `jest.mock` or fetch mocks
+* This keeps tests fast and predictable
+
+**Example:**
+
+```jsx
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ name: "John" })
+  })
+);
+```
+
+---
+
+## 10. What is MSW (Mock Service Worker)?
+
+**Answer:**
+
+* MSW mocks APIs at the **network level**, not inside the code
+* It intercepts real HTTP requests in tests
+* This makes tests closer to real production behavior
+* It works for unit, integration, and E2E tests
+
+**Example:**
+
+```jsx
+rest.get("/api/user", (req, res, ctx) => {
+  return res(ctx.json({ name: "John" }));
+});
+```
+
+## 🔵 10. Build Tools & Tooling
+## 1. What is Vite and why is it faster than Webpack?
+
+**Answer (spoken style):**
+
+* Vite is a **modern build tool** for frontend apps
+* In development, it uses **native ES modules**, so it doesn’t bundle everything upfront
+* It only loads files when the browser needs them
+* Webpack bundles the entire app first, which is slower
+* That’s why Vite gives **instant server start and fast HMR**
+
+**Example:**
+
+```js
+// Vite serves this directly to browser
+import App from "./App.jsx";
+```
+
+---
+
+## 2. What is Webpack and what does it do?
+
+**Answer:**
+
+* Webpack is a **module bundler**
+* It takes JS, CSS, images, and assets and bundles them into optimized files
+* It uses loaders and plugins to transform code
+* Webpack is powerful but slower for large apps
+* Mostly used in legacy or highly customized setups
+
+**Example:**
+
+```js
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    filename: "bundle.js"
+  }
+};
+```
+
+---
+
+## 3. What is Babel and why is it required?
+
+**Answer:**
+
+* Babel is a **JavaScript compiler**
+* It converts modern JavaScript and JSX into browser-compatible code
+* This ensures the app works in older browsers
+* React JSX cannot run directly without Babel
+* It’s essential for cross-browser support
+
+**Example:**
+
+```jsx
+// JSX
+const App = () => <h1>Hello</h1>;
+
+// Compiled by Babel
+React.createElement("h1", null, "Hello");
+```
+
+---
+
+## 4. What is tree shaking?
+
+**Answer:**
+
+* Tree shaking removes **unused code** from the final bundle
+* It works with ES module imports
+* This reduces bundle size and improves performance
+* Common in production builds
+* Tools like Webpack and Vite support it
+
+**Example:**
+
+```js
+import { add } from "./math";
+
+// unused functions are removed
+add(2, 3);
+```
+
+---
+
+## 5. How does dynamic import work?
+
+**Answer:**
+
+* Dynamic import loads code **only when needed**
+* It helps with code splitting and performance
+* Commonly used for lazy loading routes or components
+* Reduces initial bundle size
+* Works with React.lazy
+
+**Example:**
+
+```jsx
+const Dashboard = React.lazy(() => import("./Dashboard"));
+
+<Suspense fallback={<Loader />}>
+  <Dashboard />
+</Suspense>
+```
+
+---
+
+## 6. What is the role of `.env` files?
+
+**Answer (spoken style):**
+
+* `.env` files store **environment-specific configuration**
+* They keep sensitive values like API URLs and keys out of the code
+* Different files are used for dev, test, and production
+* Values are injected at build time
+* This makes the app configurable without code changes
+
+**Example:**
+
+```env
+VITE_API_URL=https://api.example.com
+```
+
+```js
+const apiUrl = import.meta.env.VITE_API_URL;
+```
+
+---
+
+## 7. Explain the npm start → build workflow
+
+**Answer:**
+
+* `npm start` runs the app in **development mode**
+* It starts a dev server with hot reload
+* Code is unoptimized for fast feedback
+* `npm run build` creates an **optimized production bundle**
+* The output is static files ready for deployment
+
+**Example:**
+
+```bash
+npm start      # dev mode
+npm run build  # production build
+```
+
+---
+
+## 8. What is CI/CD for React applications?
+
+**Answer:**
+
+* CI/CD automates **testing, building, and deploying** the app
+* CI runs tests on every push or pull request
+* CD deploys automatically after a successful build
+* It reduces manual errors and speeds up releases
+* Common tools are GitHub Actions, GitLab CI, and Jenkins
+
+**Example (GitHub Actions):**
+
+```yaml
+- run: npm install
+- run: npm test
+- run: npm run build
+```
+
+---
+
+## 🔵 11. SSR, Next.js & Modern Web
+## 1. What is SSR in React?
+
+**Answer (spoken style):**
+
+* SSR means **Server-Side Rendering**
+* The server generates the HTML for a page on each request
+* The browser gets ready-to-view content immediately
+* This improves **SEO and first load performance**
+* React then hydrates the page to make it interactive
+
+**Example (Next.js):**
+
+```js
+export async function getServerSideProps() {
+  return { props: { data: "Hello" } };
+}
+```
+
+---
+
+## 2. Difference between CSR, SSR, SSG, and ISR
+
+**Answer:**
+
+* **CSR**: Browser renders everything → slower first load
+* **SSR**: Server renders on every request → fresh data
+* **SSG**: Pages are built once at build time → very fast
+* **ISR**: SSG with background updates → best of both worlds
+* Choice depends on **SEO, performance, and data freshness**
+
+**Example:**
+
+```js
+// SSG
+export async function getStaticProps() {}
+
+// ISR
+export async function getStaticProps() {
+  return { revalidate: 60 };
+}
+```
+
+---
+
+## 3. What is Selective Hydration?
+
+**Answer:**
+
+* Selective Hydration lets React **hydrate important components first**
+* The page becomes interactive in parts instead of all at once
+* Improves performance for large pages
+* React prioritizes what the user interacts with first
+* Built into modern React with concurrent features
+
+**Example (conceptual):**
+
+```jsx
+<Suspense fallback={<Loader />}>
+  <Comments />
+</Suspense>
+```
+
+---
+
+## 4. What is lazy hydration?
+
+**Answer:**
+
+* Lazy hydration delays hydration until it’s actually needed
+* Components hydrate on **scroll, click, or visibility**
+* This reduces JavaScript work on initial load
+* Improves performance on heavy pages
+* Often used for below-the-fold content
+
+**Example:**
+
+```jsx
+const Chat = dynamic(() => import("./Chat"), {
+  ssr: false
+});
+```
+
+---
+
+## 5. What is Next.js and why use it?
+
+**Answer:**
+
+* Next.js is a **React framework for production**
+* It supports SSR, SSG, ISR, and routing out of the box
+* Built-in SEO, performance optimizations, and API routes
+* Removes a lot of manual setup
+* Ideal for scalable React apps
+
+**Example:**
+
+```jsx
+export default function Page() {
+  return <h1>Next.js Page</h1>;
+}
+```
+
+---
+
+## 6. What are React Server Components (RSC)?
+
+**Answer:**
+
+* RSC run **only on the server**
+* They don’t send JavaScript to the browser
+* Used for data fetching and heavy logic
+* This reduces bundle size and improves performance
+* Introduced and used heavily in Next.js App Router
+
+**Example:**
+
+```jsx
+// Server Component
+export default async function Page() {
+  const data = await fetchData();
+  return <div>{data}</div>;
+}
+```
+
+---
+
+## 7. Difference between `use client` and `use server`
+
+**Answer:**
+
+* `use client` marks a component that runs in the browser
+* Needed for state, effects, and event handlers
+* `use server` is for server-only functions like actions
+* Helps separate frontend and backend logic clearly
+* Improves performance and security
+
+**Example:**
+
+```js
+// Client component
+"use client";
+useState();
+
+// Server action
+"use server";
+export async function saveData() {}
+```
+
+---
+
+## 🔴 12. Security & Real-World Scenarios
+## 1. How does React prevent XSS?
+
+**Answer (spoken style):**
+
+* React automatically **escapes values** before rendering them to the DOM
+* This prevents malicious scripts from being executed
+* JSX does not allow raw HTML by default
+* XSS is only possible if we explicitly allow it
+* So React is safe by default, but we must be careful with unsafe APIs
+
+**Example:**
+
+```jsx
+const name = "<script>alert(1)</script>";
+<h1>{name}</h1>; // safely escaped
+```
+
+---
+
+## 2. Is React safe from SQL Injection?
+
+**Answer:**
+
+* SQL Injection is a **backend problem**, not a frontend one
+* React does not interact directly with databases
+* React only sends HTTP requests to APIs
+* SQL injection must be prevented using backend validation and prepared statements
+* Frontend validation helps, but it’s not a security guarantee
+
+**Example:**
+
+```js
+fetch("/api/login", {
+  method: "POST",
+  body: JSON.stringify({ email, password })
+});
+```
+
+---
+
+## 3. How do you securely store tokens?
+
+**Answer:**
+
+* The most secure option is **HTTP-only cookies**
+* They cannot be accessed by JavaScript
+* localStorage is easy but vulnerable to XSS
+* sessionStorage is slightly safer but still accessible
+* Choice depends on app security needs
+
+**Example:**
+
+```js
+// Backend sets token
+Set-Cookie: token=abc; HttpOnly; Secure;
+```
+
+---
+
+## 4. Difference between localStorage, sessionStorage, and cookies
+
+**Answer:**
+
+* `localStorage` persists until manually cleared
+* `sessionStorage` lasts until the tab is closed
+* Cookies can have expiration and be HTTP-only
+* Cookies are sent automatically with requests
+* For auth, cookies are usually safer
+
+**Example:**
+
+```js
+localStorage.setItem("theme", "dark");
+sessionStorage.setItem("step", "2");
+document.cookie = "lang=en";
+```
+
+---
+
+## 5. How do you implement role-based authorization?
+
+**Answer:**
+
+* Roles are usually sent from the backend
+* Store roles in auth state or context
+* Conditionally render components based on role
+* Protect routes using guards
+* Always enforce authorization on backend too
+
+**Example:**
+
+```jsx
+if (user.role !== "admin") {
+  return <Navigate to="/unauthorized" />;
+}
+```
+
+---
+
+## 6. How would you build a reusable modal?
+
+**Answer:**
+
+* Create a generic Modal component
+* Control it using props like `isOpen` and `onClose`
+* Use children for flexible content
+* Optionally use portals for better UI layering
+* This keeps it reusable and clean
+
+**Example:**
+
+```jsx
+function Modal({ isOpen, onClose, children }) {
+  if (!isOpen) return null;
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="modal">{children}</div>
+    </div>
+  );
+}
+```
+
+---
+
+## 7. How would you implement infinite scrolling?
+
+**Answer (spoken style):**
+
+* Infinite scroll loads more items when the user reaches the bottom
+* Use `IntersectionObserver` or scroll event listeners
+* Fetch data in pages and append to state
+* Show a loader while fetching
+* Helps with performance by not loading everything at once
+
+**Example:**
+
+```jsx
+const observer = new IntersectionObserver(([entry]) => {
+  if (entry.isIntersecting) loadMore();
+});
+useEffect(() => {
+  observer.observe(bottomRef.current);
+}, []);
+```
+
+---
+
+## 8. How would you build a multi-step form?
+
+**Answer:**
+
+* Split the form into **steps** and control current step with state
+* Store form data in a central state (like `useState` or `useReducer`)
+* Validate each step before moving forward
+* Keep UI reusable and modular
+* Makes complex forms manageable and user-friendly
+
+**Example:**
+
+```jsx
+const [step, setStep] = useState(1);
+const [formData, setFormData] = useState({});
+```
+
+```jsx
+{step === 1 && <StepOne data={formData} setData={setFormData} />}
+{step === 2 && <StepTwo data={formData} setData={setFormData} />}
+```
+
+---
+
+## 9. How do you handle form validation in large forms?
+
+**Answer:**
+
+* Use libraries like **Formik + Yup** or **React Hook Form**
+* Keep validations **declarative** and reusable
+* Validate fields on change or on submit depending on UX
+* Centralize error messages and state
+* Reduces boilerplate and improves maintainability
+
+**Example:**
+
+```jsx
+import { useForm } from "react-hook-form";
+const { register, handleSubmit, formState: { errors } } = useForm();
+<input {...register("email", { required: true })} />
+{errors.email && <p>Email is required</p>}
+```
+
+---
+
+## 10. How do you optimize a slow React page?
+
+**Answer:**
+
+* Identify bottlenecks with **React DevTools**
+* Use `React.memo` for pure components
+* Code-split with `React.lazy` and `Suspense`
+* Avoid unnecessary re-renders and heavy calculations
+* Consider virtualization for large lists
+
+**Example:**
+
+```jsx
+const Item = React.memo(({ data }) => <div>{data.name}</div>);
+```
+
+---
+
+## 11. How would you migrate class components to hooks?
+
+**Answer:**
+
+* Replace `state` with `useState` or `useReducer`
+* Replace lifecycle methods with `useEffect`
+* Convert methods into functions inside the component
+* Remove `this` references
+* Keeps logic cleaner and easier to compose
+
+**Example:**
+
+```jsx
+// Class
+class Counter extends React.Component {
+  state = { count: 0 };
+  increment = () => this.setState({ count: this.state.count + 1 });
+}
+
+// Hooks
+function Counter() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount(c => c + 1);
+}
+```
+
+---
+
+
+
+
