@@ -1,5 +1,5 @@
-# 🟢 React Fundamentals – Must‑Know (Interview Ready)
-## 1. What is React and why is it used?
+## 🟢 React Fundamentals – Must‑Know (Interview Ready)
+### 1. What is React and why is it used?
 
 * React is a **JavaScript library** used to build **fast, interactive user interfaces**, mainly for single‑page applications.
 * It lets us build UI using **reusable components**, so code becomes cleaner and easier to maintain.
