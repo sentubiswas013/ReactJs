@@ -1,4 +1,4 @@
-## 🟢 React Fundamentals – Must‑Know (Interview Ready)
+## 🟢 React Fundamentals 
 ### 1. What is React and why is it used?
 
 * React is a **JavaScript library** used to build **fast, interactive user interfaces**, mainly for single‑page applications.
@@ -14,7 +14,7 @@ function App() {
 
 ---
 
-## 2. What is JSX and how does it work?
+### 2. What is JSX and how does it work?
 
 * JSX stands for **JavaScript XML**.
 * It lets us write **HTML‑like syntax inside JavaScript**, which makes UI code readable.
@@ -27,7 +27,7 @@ const element = <h1>Welcome</h1>;
 
 ---
 
-## 3. Difference between JSX and `React.createElement`
+### 3. Difference between JSX and `React.createElement`
 
 * JSX is **syntactic sugar** for `React.createElement`.
 * JSX looks like HTML and is easier to write and understand.
@@ -44,7 +44,7 @@ const el2 = React.createElement('h1', null, 'Hello');
 
 ---
 
-## 4. Difference between React and ReactDOM
+### 4. Difference between React and ReactDOM
 
 * **React** is used to **create components and UI logic**.
 * **ReactDOM** is used to **render those components into the browser DOM**.
@@ -58,7 +58,7 @@ ReactDOM.createRoot(document.getElementById('root'))
 
 ---
 
-## 5. What are components in React?
+### 5. What are components in React?
 
 * Components are **reusable building blocks** of a React application.
 * Each component controls a **small part of the UI**.
@@ -73,7 +73,7 @@ function Greeting() {
 
 ---
 
-## 6. Types of components in React
+### 6. Types of components in React
 
 * There are mainly **two types of components**.
 * **Functional components** – simple JavaScript functions (most commonly used).
@@ -89,7 +89,7 @@ function Header() {
 
 ---
 
-## 7. Functional vs Class components
+### 7. Functional vs Class components
 
 * Functional components are **simpler and cleaner**.
 * Class components use `this` and lifecycle methods, which adds complexity.
@@ -112,7 +112,7 @@ class Counter extends React.Component {
 
 ---
 
-## 8. What is the Virtual DOM?
+### 8. What is the Virtual DOM?
 
 * The Virtual DOM is a **lightweight copy of the real DOM**.
 * React updates the Virtual DOM first when state changes.
@@ -135,9 +135,9 @@ setState({ name: 'React' }); // triggers Virtual DOM update
 
 ---
 
-# 🟢 React Core Concepts – State, Events & Rendering
+## 🟢 React Core Concepts – State, Events & Rendering
 
-## 10. What is state and how is it different from props?
+### 10. What is state and how is it different from props?
 
 * **State** is internal data managed by a component.
 * **Props** are inputs passed from a parent component.
@@ -153,7 +153,7 @@ function Counter() {
 
 ---
 
-## 11. What is the `render()` method?
+### 11. What is the `render()` method?
 
 * `render()` is used in **class components** to define what UI should display.
 * It returns JSX that React converts into DOM elements.
@@ -170,7 +170,7 @@ class App extends React.Component {
 
 ---
 
-## 12. What is the `key` prop and why is it important?
+### 12. What is the `key` prop and why is it important?
 
 * `key` is a **unique identifier** for list items.
 * It helps React track which items changed, added, or removed.
@@ -183,7 +183,7 @@ items.map(item => <li key={item.id}>{item.name}</li>)
 
 ---
 
-## 13. What are controlled components?
+### 13. What are controlled components?
 
 * Controlled components are **form elements controlled by React state**.
 * The input value comes from state and updates via `onChange`.
@@ -196,7 +196,7 @@ items.map(item => <li key={item.id}>{item.name}</li>)
 
 ---
 
-## 14. What are uncontrolled components?
+### 14. What are uncontrolled components?
 
 * Uncontrolled components store form data in the **DOM itself**.
 * React accesses values using `ref`.
@@ -210,7 +210,7 @@ const inputRef = React.useRef();
 
 ---
 
-## 15. What are React Fragments?
+### 15. What are React Fragments?
 
 * Fragments let you group elements **without adding extra DOM nodes**.
 * Useful when returning multiple elements.
@@ -225,7 +225,7 @@ const inputRef = React.useRef();
 
 ---
 
-## 16. What are synthetic events?
+### 16. What are synthetic events?
 
 * Synthetic events are **React’s cross‑browser event wrappers**.
 * They work the same across all browsers.
@@ -238,7 +238,7 @@ const inputRef = React.useRef();
 
 ---
 
-## 17. What is `React.StrictMode` and why is it used?
+### 17. What is `React.StrictMode` and why is it used?
 
 * `StrictMode` is a **development‑only tool**.
 * It helps detect unsafe lifecycle methods and side effects.
@@ -253,9 +253,9 @@ const inputRef = React.useRef();
 
 ---
 
-# 🟢 React Hooks – Core + Advanced (Interview Ready)
+## 🟢 React Hooks – Core + Advanced 
 
-## 1. What are React Hooks and why were they introduced?
+### 1. What are React Hooks and why were they introduced?
 
 * React Hooks are **functions that let functional components use state and lifecycle features**.
 * Before hooks, only class components could manage state and side effects.
@@ -271,7 +271,7 @@ function App() {
 
 ---
 
-## 2. Rules of Hooks and why they exist
+### 2. Rules of Hooks and why they exist
 
 * Hooks must be called **at the top level**, not inside loops or conditions.
 * Hooks can only be called from **React functions or custom hooks**.
@@ -288,7 +288,7 @@ const [x, setX] = useState(0);
 
 ---
 
-## 3. What is `useState` and how does it work?
+### 3. What is `useState` and how does it work?
 
 * `useState` is used to add **state to functional components**.
 * It returns the current value and a function to update it.
@@ -301,7 +301,7 @@ const [name, setName] = useState('React');
 
 ---
 
-## 4. What is `useEffect` and how does it work?
+### 4. What is `useEffect` and how does it work?
 
 * `useEffect` is used to handle **side effects** like API calls or subscriptions.
 * It runs after the component renders.
@@ -316,7 +316,7 @@ useEffect(() => {
 
 ---
 
-## 5. Difference between `useState` and `useEffect`
+### 5. Difference between `useState` and `useEffect`
 
 * `useState` manages **data**.
 * `useEffect` manages **side effects**.
@@ -330,7 +330,7 @@ useEffect(() => console.log('Rendered'));
 
 ---
 
-## 6. Difference between `useEffect`, `useLayoutEffect`, and `useInsertionEffect`
+### 6. Difference between `useEffect`, `useLayoutEffect`, and `useInsertionEffect`
 
 * `useEffect` runs **after paint** and is non-blocking.
 * `useLayoutEffect` runs **before paint**, blocking UI.
@@ -344,7 +344,7 @@ useLayoutEffect(() => {});
 
 ---
 
-## 7. When should you avoid `useEffect`?
+### 7. When should you avoid `useEffect`?
 
 * Avoid `useEffect` for **derived state**.
 * Don’t use it for simple calculations.
@@ -361,7 +361,7 @@ const total = a + b;
 
 ---
 
-## 8. How does the dependency array work internally?
+### 8. How does the dependency array work internally?
 
 * React compares dependencies using **Object.is**.
 * If any dependency changes, the effect runs again.
@@ -376,7 +376,7 @@ useEffect(() => {
 
 ---
 
-## 9. What is stale closure in hooks?
+### 9. What is stale closure in hooks?
 
 * A stale closure happens when an effect captures **old state values**.
 * Occurs due to missing dependencies.
@@ -393,9 +393,9 @@ setCount(prev => prev + 1);
 
 ---
 
-# 🟢 React Hooks – Advanced Patterns & Performance
+## 🟢 React Hooks – Advanced Patterns & Performance
 
-## 10. How do you fix stale state issues?
+### 10. How do you fix stale state issues?
 
 * Stale state happens when hooks use **old state values**.
 * It’s common inside `useEffect`, timers, or callbacks.
@@ -408,7 +408,7 @@ setCount(prev => prev + 1);
 
 ---
 
-## 11. When would you use `useRef` instead of `useState`?
+### 11. When would you use `useRef` instead of `useState`?
 
 * Use `useRef` when you need a value that **doesn’t trigger re-render**.
 * Common for DOM access, timers, or previous values.
@@ -421,7 +421,7 @@ const inputRef = useRef();
 
 ---
 
-## 12. What is `useMemo` and when should you use it?
+### 12. What is `useMemo` and when should you use it?
 
 * `useMemo` memoizes **expensive calculations**.
 * It recalculates only when dependencies change.
@@ -434,7 +434,7 @@ const total = useMemo(() => calc(a, b), [a, b]);
 
 ---
 
-## 13. What is `useCallback` and when should you use it?
+### 13. What is `useCallback` and when should you use it?
 
 * `useCallback` memoizes **functions**.
 * Prevents function recreation on every render.
@@ -447,7 +447,7 @@ const handleClick = useCallback(() => setCount(c => c + 1), []);
 
 ---
 
-## 14. Difference between `useMemo` and `useCallback`
+### 14. Difference between `useMemo` and `useCallback`
 
 * `useMemo` memoizes a **value**.
 * `useCallback` memoizes a **function**.
@@ -461,7 +461,7 @@ useCallback(() => fn(), []);
 
 ---
 
-## 15. What is `useReducer` and how is it different from `useState`?
+### 15. What is `useReducer` and how is it different from `useState`?
 
 * `useReducer` manages **complex state logic**.
 * It uses reducer functions similar to Redux.
@@ -474,7 +474,7 @@ const [state, dispatch] = useReducer(reducer, initialState);
 
 ---
 
-## 16. Can hooks replace all lifecycle methods? (mapping)
+### 16. Can hooks replace all lifecycle methods? (mapping)
 
 * Yes, hooks can replace most lifecycle methods.
 * `useEffect` covers mount, update, and unmount.
@@ -489,7 +489,7 @@ useEffect(() => {
 
 ---
 
-## 17. How do you create custom hooks?
+### 17. How do you create custom hooks?
 
 * Custom hooks are **reusable hook logic**.
 * They start with `use` keyword.
@@ -505,7 +505,7 @@ function useCounter() {
 
 ---
 
-## 18. How do you share logic without HOCs?
+### 18. How do you share logic without HOCs?
 
 * Use **custom hooks** instead of HOCs.
 * Hooks avoid wrapper components.
@@ -518,9 +518,9 @@ const { count } = useCounter();
 
 ---
 
-# 🟡 Component Lifecycle & Internals (React.js)
+## 🟡 Component Lifecycle & Internals 
 
-## 1️⃣ Lifecycle of Class Components
+### 1️⃣ Lifecycle of Class Components
 
 **Answer (Spoken Style):**
 
@@ -548,7 +548,7 @@ class MyComponent extends React.Component {
 
 ---
 
-## 2️⃣ Lifecycle of Functional Components
+### 2️⃣ Lifecycle of Functional Components
 
 **Answer (Spoken Style):**
 
@@ -570,7 +570,7 @@ useEffect(() => {
 
 ---
 
-## 3️⃣ Difference between `componentDidMount` and `useEffect`
+### 3️⃣ Difference between `componentDidMount` and `useEffect`
 
 **Answer (Spoken Style):**
 
@@ -594,7 +594,7 @@ useEffect(() => {
 
 ---
 
-## 4️⃣ Difference between `componentWillMount`, `componentDidMount`, and `getDerivedStateFromProps`
+### 4️⃣ Difference between `componentWillMount`, `componentDidMount`, and `getDerivedStateFromProps`
 
 **Answer (Spoken Style):**
 
@@ -615,7 +615,7 @@ static getDerivedStateFromProps(props, state) {
 
 ---
 
-## 5️⃣ What is React Reconciliation?
+### 5️⃣ What is React Reconciliation?
 
 **Answer (Spoken Style):**
 
@@ -631,7 +631,7 @@ setCount(count + 1); // Triggers reconciliation
 
 ---
 
-## 6️⃣ What is React Fiber?
+### 6️⃣ What is React Fiber?
 
 **Answer (Spoken Style):**
 
@@ -647,7 +647,7 @@ setCount(count + 1); // Triggers reconciliation
 
 ---
 
-## 7️⃣ What Causes a Component to Re-render?
+### 7️⃣ What Causes a Component to Re-render?
 
 **Answer (Spoken Style):**
 
@@ -664,9 +664,9 @@ setCount(count + 1); // Re-render
 
 ---
 
-# 🟡 Rendering & Performance Optimization (React.js)
+## 🟡 Rendering & Performance Optimization 
 
-## 1️⃣ What is Automatic Batching in React 18?
+### 1️⃣ What is Automatic Batching in React 18?
 
 **Answer (Spoken Style):**
 
@@ -683,7 +683,7 @@ setValue(v => v + 1); // Only one re-render in React 18
 
 ---
 
-## 2️⃣ What is Concurrent Rendering?
+### 2️⃣ What is Concurrent Rendering?
 
 **Answer (Spoken Style):**
 
@@ -700,7 +700,7 @@ const root = createRoot(document.getElementById('root'));
 
 ---
 
-## 3️⃣ Difference between Legacy and Concurrent Rendering
+### 3️⃣ Difference between Legacy and Concurrent Rendering
 
 **Answer (Spoken Style):**
 
@@ -720,7 +720,7 @@ createRoot(root).render(<App />);
 
 ---
 
-## 4️⃣ What is `startTransition` and `useTransition`?
+### 4️⃣ What is `startTransition` and `useTransition`?
 
 **Answer (Spoken Style):**
 
@@ -740,7 +740,7 @@ startTransition(() => {
 
 ---
 
-## 5️⃣ Why Does React Strict Mode Double Render in Development?
+### 5️⃣ Why Does React Strict Mode Double Render in Development?
 
 **Answer (Spoken Style):**
 
@@ -758,7 +758,7 @@ startTransition(() => {
 
 ---
 
-## 6️⃣ What is Code Splitting?
+### 6️⃣ What is Code Splitting?
 
 **Answer (Spoken Style):**
 
@@ -774,7 +774,7 @@ const Admin = React.lazy(() => import('./Admin'));
 
 ---
 
-## 7️⃣ What is Lazy Loading?
+### 7️⃣ What is Lazy Loading?
 
 **Answer (Spoken Style):**
 
@@ -792,7 +792,7 @@ const Admin = React.lazy(() => import('./Admin'));
 
 ---
 
-## 8️⃣ How Does `React.memo` Work Internally?
+### 8️⃣ How Does `React.memo` Work Internally?
 
 **Answer (Spoken Style):**
 
@@ -810,7 +810,7 @@ const MyComponent = React.memo(({ value }) => {
 
 ---
 
-## 9️⃣ How Do You Prevent Unnecessary Re-renders?
+### 9️⃣ How Do You Prevent Unnecessary Re-renders?
 
 **Answer (Spoken Style):**
 
@@ -828,7 +828,7 @@ const Button = React.memo(({ onClick }) => (
 
 ---
 
-## 🔟 Why Do Inline Functions Cause Re-renders?
+### 🔟 Why Do Inline Functions Cause Re-renders?
 
 **Answer (Spoken Style):**
 
@@ -846,7 +846,7 @@ const handleClick = useCallback(() => {
 
 ---
 
-## 1️⃣1️⃣ What Is Render Thrashing?
+### 1️⃣1️⃣ What Is Render Thrashing?
 
 **Answer (Spoken Style):**
 
@@ -862,7 +862,7 @@ setState(prev => prev + 1); // Avoid calling repeatedly in loops
 
 ---
 
-## 1️⃣2️⃣ How Do Keys Affect Reconciliation?
+### 1️⃣2️⃣ How Do Keys Affect Reconciliation?
 
 **Answer (Spoken Style):**
 
@@ -878,7 +878,7 @@ items.map(item => <li key={item.id}>{item.name}</li>)
 
 ---
 
-## 1️⃣3️⃣ What Happens If Keys Are Not Stable?
+### 1️⃣3️⃣ What Happens If Keys Are Not Stable?
 
 **Answer (Spoken Style):**
 
@@ -895,7 +895,7 @@ items.map((item, i) => <Item key={i} />)
 
 ---
 
-## 1️⃣4️⃣ How Do You Handle Memory Leaks in React?
+### 1️⃣4️⃣ How Do You Handle Memory Leaks in React?
 
 **Answer (Spoken Style):**
 
@@ -914,7 +914,7 @@ useEffect(() => {
 
 ---
 
-## 1️⃣5️⃣ What Is Virtualization (Windowing)?
+### 1️⃣5️⃣ What Is Virtualization (Windowing)?
 
 **Answer (Spoken Style):**
 
@@ -931,7 +931,7 @@ useEffect(() => {
 
 ---
 
-## 1️⃣6️⃣ How Does React Efficiently Handle Large Lists?
+### 1️⃣6️⃣ How Does React Efficiently Handle Large Lists?
 
 **Answer (Spoken Style):**
 
@@ -947,7 +947,7 @@ const Row = React.memo(({ item }) => <div>{item.name}</div>);
 
 ---
 
-## 🟡 5. State Management (React Interview – Spoken Style Answers)
+## 🟡 5. State Management 
 
 ### 1. Local state vs Global state
 
@@ -1146,9 +1146,9 @@ const logger = store => next => action => {
 ---
 
 
-# 🟠 6. Routing (React Router v6)
+## 🟠 6. Routing (React Router v6)
 
-## 1. What is React Router and how does it work?
+### 1. What is React Router and how does it work?
 
 - React Router is a **client-side routing library** for React.
 - It lets us build **single-page applications (SPA)** with multiple views.
@@ -1173,7 +1173,7 @@ function App() {
 
 ---
 
-## 2. How do you implement routing in React?
+### 2. How do you implement routing in React?
 
 * Install React Router using `npm install react-router-dom`.
 * Wrap the app with `<BrowserRouter>`.
@@ -1193,7 +1193,7 @@ function App() {
 
 ---
 
-## 3. What are dynamic routes?
+### 3. What are dynamic routes?
 
 * Dynamic routes handle **variable URL values**.
 * They are useful for user profiles, product pages, etc.
@@ -1213,7 +1213,7 @@ function User() {
 
 ---
 
-## 4. How do you implement nested routes?
+### 4. How do you implement nested routes?
 
 * Nested routes allow **child routes inside parent routes**.
 * Commonly used for dashboards and layouts.
@@ -1239,7 +1239,7 @@ function Dashboard() {
 
 ---
 
-## 5. What are `useParams`, `useLocation`, and `useNavigate`?
+### 5. What are `useParams`, `useLocation`, and `useNavigate`?
 
 * `useParams()` → gets dynamic route parameters.
 * `useLocation()` → gives current URL info.
@@ -1257,7 +1257,7 @@ const navigate = useNavigate();
 
 ---
 
-## 6. What are `<Router>` components in React Router v6?
+### 6. What are `<Router>` components in React Router v6?
 
 * Router components manage routing behavior.
 * `BrowserRouter` → most common, uses browser history.
@@ -1277,8 +1277,8 @@ import { BrowserRouter } from "react-router-dom";
 ---
 
 
-# 🟠 7. Data Fetching & Side Effects
-## **1. How do you handle API calls in React?**
+## 🟠 7. Data Fetching & Side Effects
+### **1. How do you handle API calls in React?**
 
 * In React, API calls are usually handled **inside components using hooks**.
 * The most common approach is using **`useEffect` + `fetch` or `axios`**.
@@ -1296,7 +1296,7 @@ useEffect(() => {
 
 ---
 
-## **2. What problems does `useEffect` have with data fetching?**
+### **2. What problems does `useEffect` have with data fetching?**
 
 * `useEffect` was **not designed for data fetching**, only for side effects.
 * Common problems:
@@ -1316,7 +1316,7 @@ useEffect(() => {
 
 ---
 
-## **3. How do you fetch data without `useEffect`?**
+### **3. How do you fetch data without `useEffect`?**
 
 * You can fetch data using:
 
@@ -1335,7 +1335,7 @@ const { data, isLoading } = useQuery({
 
 ---
 
-## **4. What is React Query / TanStack Query?**
+### **4. What is React Query / TanStack Query?**
 
 * React Query is a **data-fetching and caching library** for server state.
 * It handles:
@@ -1356,7 +1356,7 @@ const { data, error, isLoading } = useQuery({
 
 ---
 
-## **5. Difference between client-side caching and server state**
+### **5. Difference between client-side caching and server state**
 
 * **Client state** → UI state (modals, theme, inputs)
 * **Server state** → Data from backend (users, products)
@@ -1378,7 +1378,7 @@ useQuery({ queryKey: ["users"], queryFn: fetchUsers });
 
 ---
 
-## **6. How do you cancel API requests?**
+### **6. How do you cancel API requests?**
 
 * You can cancel requests using **AbortController**.
 * This prevents memory leaks when components unmount.
@@ -1397,7 +1397,7 @@ useEffect(() => {
 
 ---
 
-## **7. How do you handle race conditions?**
+### **7. How do you handle race conditions?**
 
 * Race conditions happen when **multiple requests return out of order**.
 * Solutions:
@@ -1421,7 +1421,7 @@ fetchData().then(data => {
 ---
 
 ## 🟠 8. Architecture & Design Patterns
-## 1. How do you structure a large-scale React application?
+### 1. How do you structure a large-scale React application?
 
 **Answer (spoken style):**
 - I structure large React apps by **separating concerns** and **scaling by features, not files**
@@ -1445,7 +1445,7 @@ src/
 
 ---
 
-## 2. What is a feature-based folder structure?
+### 2. What is a feature-based folder structure?
 
 **Answer:**
 - Feature-based structure groups **everything related to one feature** in one folder
@@ -1465,7 +1465,7 @@ features/
 
 ---
 
-## 3. Smart vs Dumb components
+### 3. Smart vs Dumb components
 
 **Answer:**
 - **Smart components** handle state, API calls, and logic
@@ -1489,7 +1489,7 @@ function UserView({ user }) {
 
 ---
 
-## 4. Container–Presentational pattern
+### 4. Container–Presentational pattern
 
 **Answer:**
 - This pattern separates **data handling** from **UI rendering**
@@ -1511,7 +1511,7 @@ function ProductList({ products }) {
 
 ---
 
-## 5. How do you design reusable components?
+### 5. How do you design reusable components?
 
 **Answer:**
 - I keep components **small, flexible, and prop-driven**
@@ -1528,7 +1528,7 @@ function Button({ variant = "primary", children }) {
 
 ---
 
-## 6. How do you handle shared logic across pages?
+### 6. How do you handle shared logic across pages?
 
 **Answer:**
 - I extract shared logic into **custom hooks**
@@ -1546,7 +1546,7 @@ function useAuth() {
 
 ---
 
-## 7. What is the render props pattern?
+### 7. What is the render props pattern?
 
 **Answer:**
 - Render props pass a **function as a prop**
@@ -1563,7 +1563,7 @@ function useAuth() {
 
 ---
 
-## 8. What is the compound component pattern?
+### 8. What is the compound component pattern?
 
 **Answer:**
 - Compound components work together using shared context
@@ -1579,7 +1579,7 @@ function useAuth() {
 </Tabs>
 ```
 
-## 9. What are Higher-Order Components (HOCs)?
+### 9. What are Higher-Order Components (HOCs)?
 
 **Answer (spoken, practical):**
 
@@ -1609,7 +1609,7 @@ const DashboardWithAuth = withAuth(Dashboard);
 ```
 
 ## 🔵 9. Testing (Modern React)
-## 1. What testing libraries are used in React?
+### 1. What testing libraries are used in React?
 
 **Answer (spoken style):**
 - The most common library is **React Testing Library** for component testing
@@ -1630,7 +1630,7 @@ test("renders heading", () => {
 
 ---
 
-## 2. Why React Testing Library over Enzyme?
+### 2. Why React Testing Library over Enzyme?
 
 **Answer:**
 - React Testing Library tests **how users interact with the app**, not internals
@@ -1648,7 +1648,7 @@ expect(screen.getByText("Success")).toBeVisible();
 
 ---
 
-## 3. What should you test vs not test?
+### 3. What should you test vs not test?
 
 **Answer:**
 - Test **user behavior**, not internal logic
@@ -1664,7 +1664,7 @@ expect(screen.getByRole("button")).toBeDisabled();
 
 ---
 
-## 4. How do you test components?
+### 4. How do you test components?
 
 **Answer:**
 - First, render the component using `render`
@@ -1683,7 +1683,7 @@ fireEvent.change(screen.getByLabelText("Email"), {
 
 ---
 
-## 5. How do you test async components?
+### 5. How do you test async components?
 
 **Answer:**
 - Async components usually involve API calls or delayed UI updates
@@ -1700,7 +1700,7 @@ expect(await screen.findByText("John")).toBeInTheDocument();
 
 ---
 
-## 6. How do you test custom hooks?
+### 6. How do you test custom hooks?
 
 **Answer (spoken style):**
 
@@ -1724,7 +1724,7 @@ test("useCounter works", () => {
 
 ---
 
-## 7. How do you test Context Providers?
+### 7. How do you test Context Providers?
 
 **Answer:**
 
@@ -1747,7 +1747,7 @@ expect(screen.getByText("Logout")).toBeInTheDocument();
 
 ---
 
-## 8. What is snapshot testing?
+### 8. What is snapshot testing?
 
 **Answer:**
 
@@ -1765,7 +1765,7 @@ expect(container).toMatchSnapshot();
 
 ---
 
-## 9. What is mocking and how do you mock APIs?
+### 9. What is mocking and how do you mock APIs?
 
 **Answer:**
 
@@ -1786,7 +1786,7 @@ global.fetch = jest.fn(() =>
 
 ---
 
-## 10. What is MSW (Mock Service Worker)?
+### 10. What is MSW (Mock Service Worker)?
 
 **Answer:**
 
@@ -1804,7 +1804,7 @@ rest.get("/api/user", (req, res, ctx) => {
 ```
 
 ## 🔵 10. Build Tools & Tooling
-## 1. What is Vite and why is it faster than Webpack?
+### 1. What is Vite and why is it faster than Webpack?
 
 **Answer (spoken style):**
 
@@ -1823,7 +1823,7 @@ import App from "./App.jsx";
 
 ---
 
-## 2. What is Webpack and what does it do?
+### 2. What is Webpack and what does it do?
 
 **Answer:**
 
@@ -1846,7 +1846,7 @@ module.exports = {
 
 ---
 
-## 3. What is Babel and why is it required?
+### 3. What is Babel and why is it required?
 
 **Answer:**
 
@@ -1868,7 +1868,7 @@ React.createElement("h1", null, "Hello");
 
 ---
 
-## 4. What is tree shaking?
+### 4. What is tree shaking?
 
 **Answer:**
 
@@ -1889,7 +1889,7 @@ add(2, 3);
 
 ---
 
-## 5. How does dynamic import work?
+### 5. How does dynamic import work?
 
 **Answer:**
 
@@ -1911,7 +1911,7 @@ const Dashboard = React.lazy(() => import("./Dashboard"));
 
 ---
 
-## 6. What is the role of `.env` files?
+### 6. What is the role of `.env` files?
 
 **Answer (spoken style):**
 
@@ -1933,7 +1933,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 ---
 
-## 7. Explain the npm start → build workflow
+### 7. Explain the npm start → build workflow
 
 **Answer:**
 
@@ -1952,7 +1952,7 @@ npm run build  # production build
 
 ---
 
-## 8. What is CI/CD for React applications?
+### 8. What is CI/CD for React applications?
 
 **Answer:**
 
@@ -1973,7 +1973,7 @@ npm run build  # production build
 ---
 
 ## 🔵 11. SSR, Next.js & Modern Web
-## 1. What is SSR in React?
+### 1. What is SSR in React?
 
 **Answer (spoken style):**
 
@@ -1993,7 +1993,7 @@ export async function getServerSideProps() {
 
 ---
 
-## 2. Difference between CSR, SSR, SSG, and ISR
+### 2. Difference between CSR, SSR, SSG, and ISR
 
 **Answer:**
 
@@ -2017,7 +2017,7 @@ export async function getStaticProps() {
 
 ---
 
-## 3. What is Selective Hydration?
+### 3. What is Selective Hydration?
 
 **Answer:**
 
@@ -2037,7 +2037,7 @@ export async function getStaticProps() {
 
 ---
 
-## 4. What is lazy hydration?
+### 4. What is lazy hydration?
 
 **Answer:**
 
@@ -2057,7 +2057,7 @@ const Chat = dynamic(() => import("./Chat"), {
 
 ---
 
-## 5. What is Next.js and why use it?
+### 5. What is Next.js and why use it?
 
 **Answer:**
 
@@ -2077,7 +2077,7 @@ export default function Page() {
 
 ---
 
-## 6. What are React Server Components (RSC)?
+### 6. What are React Server Components (RSC)?
 
 **Answer:**
 
@@ -2099,7 +2099,7 @@ export default async function Page() {
 
 ---
 
-## 7. Difference between `use client` and `use server`
+### 7. Difference between `use client` and `use server`
 
 **Answer:**
 
@@ -2124,7 +2124,7 @@ export async function saveData() {}
 ---
 
 ## 🔴 12. Security & Real-World Scenarios
-## 1. How does React prevent XSS?
+### 1. How does React prevent XSS?
 
 **Answer (spoken style):**
 
@@ -2143,7 +2143,7 @@ const name = "<script>alert(1)</script>";
 
 ---
 
-## 2. Is React safe from SQL Injection?
+### 2. Is React safe from SQL Injection?
 
 **Answer:**
 
@@ -2164,7 +2164,7 @@ fetch("/api/login", {
 
 ---
 
-## 3. How do you securely store tokens?
+### 3. How do you securely store tokens?
 
 **Answer:**
 
@@ -2183,7 +2183,7 @@ Set-Cookie: token=abc; HttpOnly; Secure;
 
 ---
 
-## 4. Difference between localStorage, sessionStorage, and cookies
+### 4. Difference between localStorage, sessionStorage, and cookies
 
 **Answer:**
 
@@ -2203,7 +2203,7 @@ document.cookie = "lang=en";
 
 ---
 
-## 5. How do you implement role-based authorization?
+### 5. How do you implement role-based authorization?
 
 **Answer:**
 
@@ -2223,7 +2223,7 @@ if (user.role !== "admin") {
 
 ---
 
-## 6. How would you build a reusable modal?
+### 6. How would you build a reusable modal?
 
 **Answer:**
 
@@ -2248,7 +2248,7 @@ function Modal({ isOpen, onClose, children }) {
 
 ---
 
-## 7. How would you implement infinite scrolling?
+### 7. How would you implement infinite scrolling?
 
 **Answer (spoken style):**
 
@@ -2271,7 +2271,7 @@ useEffect(() => {
 
 ---
 
-## 8. How would you build a multi-step form?
+### 8. How would you build a multi-step form?
 
 **Answer:**
 
@@ -2295,7 +2295,7 @@ const [formData, setFormData] = useState({});
 
 ---
 
-## 9. How do you handle form validation in large forms?
+### 9. How do you handle form validation in large forms?
 
 **Answer:**
 
@@ -2316,7 +2316,7 @@ const { register, handleSubmit, formState: { errors } } = useForm();
 
 ---
 
-## 10. How do you optimize a slow React page?
+### 10. How do you optimize a slow React page?
 
 **Answer:**
 
@@ -2334,7 +2334,7 @@ const Item = React.memo(({ data }) => <div>{data.name}</div>);
 
 ---
 
-## 11. How would you migrate class components to hooks?
+### 11. How would you migrate class components to hooks?
 
 **Answer:**
 
@@ -2360,7 +2360,6 @@ function Counter() {
 }
 ```
 
----
 
 
 
