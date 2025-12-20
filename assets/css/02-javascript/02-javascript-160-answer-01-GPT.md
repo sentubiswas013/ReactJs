@@ -1,8 +1,8 @@
 Here are **short, natural, real-time spoken-style answers**, each with **simple examples** and **practical focus** 👇
 
 ---
-
-## **1. Different data types in JavaScript**
+## **Basic JavaScript Concepts**
+### **1. Different data types in JavaScript**
 
 * JavaScript has **primitive** and **non-primitive** data types
 * **Primitive:** `string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint`
@@ -18,7 +18,7 @@ let user = { id: 1 };    // object
 
 ---
 
-## **2. Difference between `var`, `let`, and `const`**
+### **2. Difference between `var`, `let`, and `const`**
 
 * `var` is **function-scoped** and can cause bugs
 * `let` is **block-scoped** and can be reassigned
@@ -35,7 +35,7 @@ const PI = 3.14;
 
 ---
 
-## **3. What is a closure?**
+### **3. What is a closure?**
 
 * A closure is when a function **remembers variables** from its outer scope
 * Even after the outer function finishes
@@ -57,7 +57,7 @@ counter(); // 2
 
 ---
 
-## **4. Difference between `==` and `===`**
+### **4. Difference between `==` and `===`**
 
 * `==` checks **value only** (type conversion happens)
 * `===` checks **value and type**
@@ -70,7 +70,7 @@ counter(); // 2
 
 ---
 
-## **5. Truthy and Falsy values**
+### **5. Truthy and Falsy values**
 
 * **Falsy values:** `false`, `0`, `""`, `null`, `undefined`, `NaN`
 * Everything else is **truthy**
@@ -88,7 +88,7 @@ if (0) {
 
 ---
 
-## **6. JavaScript data structures & when to use them**
+### **6. JavaScript data structures & when to use them**
 
 * **Array:** ordered list of items
 * **Object:** key-value pairs
@@ -104,7 +104,7 @@ let map = new Map([["id", 1]]);
 
 ---
 
-## **7. What is `undefined`?**
+### **7. What is `undefined`?**
 
 * Means a variable is **declared but not assigned**
 * It’s automatically assigned by JavaScript
@@ -116,7 +116,7 @@ console.log(x); // undefined
 
 ---
 
-## **8. What is `null` and how is it different from `undefined`?**
+### **8. What is `null` and how is it different from `undefined`?**
 
 * `null` means **intentional empty value**
 * `undefined` means **not assigned**
@@ -129,7 +129,7 @@ let value;          // undefined
 
 ---
 
-## **9. Different ways to create objects**
+### **9. Different ways to create objects**
 
 * **Object literal** (most common)
 * **Constructor function**
@@ -156,7 +156,7 @@ class Person {
 
 ---
 
-## **10. What is hoisting in JavaScript?**
+### **10. What is hoisting in JavaScript?**
 
 * Hoisting means JavaScript **moves declarations to the top** of the scope
 * `var` variables are hoisted and set to `undefined`
@@ -175,7 +175,7 @@ function sayHi() {
 
 ---
 
-## **11. What is a pure function?**
+### **11. What is a pure function?**
 
 * A pure function always returns the **same output for the same input**
 * It does **not change external data**
@@ -191,7 +191,7 @@ add(2, 3); // always 5
 
 ---
 
-## **12. What are higher-order functions?**
+### **12. What are higher-order functions?**
 
 * Functions that **take other functions as arguments**
 * Or **return functions**
@@ -207,7 +207,7 @@ greet(() => console.log("Hello"));
 
 ---
 
-## **13. What is a callback function?**
+### **13. What is a callback function?**
 
 * A callback is a function passed into another function
 * It runs **after a task is completed**
@@ -221,7 +221,7 @@ setTimeout(function () {
 
 ---
 
-## **14. What are closures and why are they important?**
+### **14. What are closures and why are they important?**
 
 * A closure allows a function to **remember outer variables**
 * Even after the outer function finishes
@@ -240,7 +240,7 @@ inc(); // 2
 
 ---
 
-## **15. How does the `this` keyword work?**
+### **15. How does the `this` keyword work?**
 
 * `this` refers to the **object calling the function**
 * Its value depends on **how the function is called**
@@ -259,7 +259,7 @@ user.greet(); // Alex
 
 ---
 
-## **16. Synchronous vs Asynchronous code**
+### **16. Synchronous vs Asynchronous code**
 
 * **Synchronous:** blocks execution, one task at a time
 * **Asynchronous:** non-blocking, tasks run in background
@@ -277,7 +277,7 @@ console.log("End");
 
 ---
 
-## **17. Purpose of `call()`, `apply()`, and `bind()`**
+### **17. Purpose of `call()`, `apply()`, and `bind()`**
 
 * Used to **control the value of `this`**
 * `call()` → arguments one by one
@@ -294,7 +294,7 @@ greet.call({ name: "Sam" }, "NY");
 
 ---
 
-## **18. What is `async/await`?**
+### **18. What is `async/await`?**
 
 * A cleaner way to handle **asynchronous code**
 * Built on top of Promises
@@ -311,7 +311,7 @@ fetchData();
 
 ---
 
-## **19. What is a Promise in JavaScript? How does it work?**
+### **19. What is a Promise in JavaScript? How does it work?**
 
 * A Promise represents a value that will be available **in the future**
 * It handles **async operations** like API calls
@@ -327,7 +327,7 @@ promise.then(data => console.log(data));
 
 ---
 
-## **20. What is a Promise chain?**
+### **20. What is a Promise chain?**
 
 * A promise chain is when multiple `.then()` calls are linked
 * Each `.then()` receives the result of the previous one
@@ -341,7 +341,7 @@ Promise.resolve(1)
 
 ---
 
-## **21. What are the states of a Promise?**
+### **21. What are the states of a Promise?**
 
 * **Pending:** initial state
 * **Fulfilled:** operation completed successfully
@@ -355,7 +355,7 @@ new Promise((resolve, reject) => {
 
 ---
 
-## **22. Difference between `async/await` and Promises**
+### **22. Difference between `async/await` and Promises**
 
 * Promises use `.then()` and `.catch()`
 * `async/await` makes async code **look synchronous**
@@ -371,7 +371,7 @@ const data = await fetchData();
 
 ---
 
-## **23. Difference between callback and promise**
+### **23. Difference between callback and promise**
 
 * **Callbacks** can lead to nested code (callback hell)
 * **Promises** provide cleaner, readable flow
@@ -387,7 +387,7 @@ Promise.resolve("Done").then(console.log);
 
 ---
 
-## **24. What is an Observable?**
+### **24. What is an Observable?**
 
 * An Observable emits **multiple values over time**
 * Commonly used in **RxJS** and Angular
@@ -399,7 +399,7 @@ observable.subscribe(value => console.log(value));
 
 ---
 
-## **25. Differences between Promises and Observables**
+### **25. Differences between Promises and Observables**
 
 * Promise → **single value**
 * Observable → **multiple values**
@@ -416,7 +416,7 @@ Promise.resolve(1);
 
 ---
 
-## **26. What is currying in JavaScript?**
+### **26. What is currying in JavaScript?**
 
 * Currying transforms a function with many arguments
 * Into a sequence of **single-argument functions**
@@ -432,7 +432,7 @@ multiply(2)(3); // 6
 
 ---
 
-## **27. What is an anonymous function?**
+### **27. What is an anonymous function?**
 
 * A function **without a name**
 * Often used as callbacks
@@ -446,7 +446,7 @@ setTimeout(function () {
 
 ---
 
-## **28. Event delegation in JavaScript**
+### **28. Event delegation in JavaScript**
 
 * Event delegation means attaching **one event listener to a parent**
 * Instead of adding listeners to many child elements
@@ -463,7 +463,7 @@ document.getElementById("list").addEventListener("click", e => {
 
 ---
 
-## **29. What is the call stack?**
+### **29. What is the call stack?**
 
 * The call stack keeps track of **function calls**
 * Works in **Last In, First Out (LIFO)** order
@@ -483,7 +483,7 @@ a();
 
 ---
 
-## **30. What is the event loop?**
+### **30. What is the event loop?**
 
 * The event loop manages **async code execution**
 * It checks the call stack and task queues
@@ -499,7 +499,7 @@ console.log("End");
 
 ---
 
-## **31. Event propagation in JavaScript**
+### **31. Event propagation in JavaScript**
 
 * Event propagation is how events **travel through the DOM**
 * It has **three phases**
@@ -514,7 +514,7 @@ element.addEventListener("click", handler);
 
 ---
 
-## **32. Event bubbling and capturing**
+### **32. Event bubbling and capturing**
 
 * **Bubbling:** event moves from child to parent (default)
 * **Capturing:** event moves from parent to child
@@ -527,7 +527,7 @@ btn.addEventListener("click", handler);      // bubbling
 
 ---
 
-## **33. Prevent default action of an event**
+### **33. Prevent default action of an event**
 
 * Use `event.preventDefault()`
 * Stops the browser’s default behavior
@@ -541,7 +541,7 @@ form.addEventListener("submit", e => {
 
 ---
 
-## **34. Attach multiple event listeners to the same event**
+### **34. Attach multiple event listeners to the same event**
 
 * You can add multiple listeners using `addEventListener`
 * All listeners will execute in order added
@@ -553,7 +553,7 @@ btn.addEventListener("click", () => console.log("Two"));
 
 ---
 
-## **35. Concept of memoization**
+### **35. Concept of memoization**
 
 * Memoization stores **previous results**
 * Avoids repeating expensive calculations
@@ -570,7 +570,7 @@ function square(n) {
 
 ---
 
-## **36. Debounce and throttle**
+### **36. Debounce and throttle**
 
 * **Debounce:** runs function after a delay
 * **Throttle:** runs function at fixed intervals
@@ -588,8 +588,8 @@ function debounce(fn, delay) {
 ```
 
 ---
-
-## **37. OOP concepts in JavaScript**
+## **Object-Oriented Programming in JavaScript**
+### **37. OOP concepts in JavaScript**
 
 * JavaScript supports OOP using **objects and prototypes**
 * Main concepts are **encapsulation, inheritance, polymorphism, abstraction**
@@ -606,7 +606,7 @@ const user = {
 
 ---
 
-## **38. Classes and objects in JavaScript**
+### **38. Classes and objects in JavaScript**
 
 * A **class** is a blueprint
 * An **object** is an instance of a class
@@ -624,7 +624,7 @@ const u1 = new User("Sam");
 
 ---
 
-## **39. Encapsulation in JavaScript**
+### **39. Encapsulation in JavaScript**
 
 * Encapsulation means **hiding internal details**
 * Only expose what’s necessary
@@ -642,7 +642,7 @@ class Bank {
 
 ---
 
-## **40. Inheritance in JavaScript**
+### **40. Inheritance in JavaScript**
 
 * Inheritance allows one class to **reuse another class**
 * Achieved using `extends`
@@ -664,7 +664,7 @@ class Dog extends Animal {
 
 ---
 
-## **41. Polymorphism in JavaScript**
+### **41. Polymorphism in JavaScript**
 
 * Polymorphism means **same method, different behavior**
 * Child classes can override parent methods
@@ -685,7 +685,7 @@ class Circle extends Shape {
 
 ---
 
-## **42. Abstraction in JavaScript**
+### **42. Abstraction in JavaScript**
 
 * Abstraction means **hiding complex logic**
 * Show only what the user needs
@@ -705,7 +705,7 @@ class Car {
 
 ---
 
-## **43. Prototype-based inheritance**
+### **43. Prototype-based inheritance**
 
 * JavaScript uses **prototypes**, not classical inheritance
 * Objects inherit properties from another object
@@ -724,7 +724,7 @@ child.greet();
 
 ---
 
-## **44. Arrow functions vs regular functions**
+### **44. Arrow functions vs regular functions**
 
 * Arrow functions have **shorter syntax**
 * They **do not have their own `this`**
@@ -740,7 +740,7 @@ function sum(a, b) {
 
 ---
 
-## **45. JavaScript built-in objects**
+### **45. JavaScript built-in objects**
 
 * Common built-ins include:
 
@@ -755,7 +755,7 @@ const today = new Date();
 
 ---
 
-## **46. What is a prototype in JavaScript?**
+### **46. What is a prototype in JavaScript?**
 
 * Every JavaScript object has a **prototype**
 * It’s a hidden object used for **property and method sharing**
@@ -773,7 +773,7 @@ Person.prototype.sayHi = function () {
 
 ---
 
-## **47. Purpose of `WeakMap` and `WeakSet`**
+### **47. Purpose of `WeakMap` and `WeakSet`**
 
 * They store objects **weakly**
 * Objects can be garbage collected automatically
@@ -788,7 +788,7 @@ wm.set(user, "private");
 
 ---
 
-## **48. Memory management & garbage collection**
+### **48. Memory management & garbage collection**
 
 * JavaScript automatically manages memory
 * Unused objects are removed by **garbage collector**
@@ -801,7 +801,7 @@ obj = null; // eligible for garbage collection
 
 ---
 
-## **49. Scope and closures**
+### **49. Scope and closures**
 
 * Scope defines **where variables are accessible**
 * JavaScript uses **lexical scope**
@@ -818,7 +818,7 @@ function outer() {
 
 ---
 
-## **50. Use of the `window` object**
+### **50. Use of the `window` object**
 
 * `window` is the **global object** in browsers
 * Global variables become properties of `window`
@@ -831,7 +831,7 @@ console.log(window.innerWidth);
 
 ---
 
-## **51. How the `new` keyword works**
+### **51. How the `new` keyword works**
 
 * Creates a new empty object
 * Sets prototype linkage
@@ -848,7 +848,7 @@ const u1 = new User("Sam");
 
 ---
 
-## **52. What is an IIFE?**
+### **52. What is an IIFE?**
 
 * A function that runs **immediately**
 * Used to avoid global scope pollution
@@ -862,7 +862,7 @@ const u1 = new User("Sam");
 
 ---
 
-## **53. Function declaration vs function expression**
+### **53. Function declaration vs function expression**
 
 * **Declarations** are hoisted
 * **Expressions** are not hoisted
@@ -878,7 +878,7 @@ const greet = function () {};
 
 ---
 
-## **54. `setTimeout()` vs `setInterval()`**
+### **54. `setTimeout()` vs `setInterval()`**
 
 * `setTimeout()` runs once after a delay
 * `setInterval()` runs repeatedly
@@ -891,7 +891,7 @@ setInterval(() => console.log("Repeat"), 2000);
 
 ---
 
-## **55. How do you clone an object in JavaScript?**
+### **55. How do you clone an object in JavaScript?**
 
 * You can clone objects **shallowly** or **deeply**
 * Common ways: spread operator, `Object.assign`
@@ -904,7 +904,7 @@ const clone = { ...obj };
 
 ---
 
-## **56. `JSON.stringify()` and `JSON.parse()`**
+### **56. `JSON.stringify()` and `JSON.parse()`**
 
 * `JSON.stringify()` converts an object to a string
 * `JSON.parse()` converts the string back to an object
@@ -917,7 +917,7 @@ const obj = JSON.parse(str);
 
 ---
 
-## **57. How to create a class in JavaScript**
+### **57. How to create a class in JavaScript**
 
 * Classes are blueprints for objects
 * Introduced in ES6
@@ -933,7 +933,7 @@ class User {
 
 ---
 
-## **58. Prototype inheritance**
+### **58. Prototype inheritance**
 
 * Objects inherit from other objects using prototypes
 * JavaScript searches properties up the prototype chain
@@ -952,7 +952,7 @@ child.greet();
 
 ---
 
-## **59. Different methods of creating objects**
+### **59. Different methods of creating objects**
 
 * Object literal
 * Constructor function
@@ -966,7 +966,7 @@ const obj2 = new Object();
 
 ---
 
-## **60. `Object.create()` vs class inheritance**
+### **60. `Object.create()` vs class inheritance**
 
 * `Object.create()` links directly to a prototype
 * Classes use constructor + prototype internally
@@ -978,7 +978,7 @@ const child = Object.create(parent);
 
 ---
 
-## **61. `class` vs `constructor`**
+### **61. `class` vs `constructor`**
 
 * `class` is a blueprint
 * `constructor` is a method inside a class
@@ -994,7 +994,7 @@ class User {
 
 ---
 
-## **62. Getter and setter methods**
+### **62. Getter and setter methods**
 
 * Used to **control access** to object properties
 * Improve encapsulation
@@ -1013,8 +1013,8 @@ class Person {
 ```
 
 ---
-
-## **63. How can you merge two arrays?**
+## **Arrays and Objects**
+### **63. How can you merge two arrays?**
 
 * Most common way is the **spread operator**
 * Keeps original arrays unchanged
@@ -1029,7 +1029,7 @@ const merged = [...a, ...b];
 
 ---
 
-## **64. `slice()` vs `splice()`**
+### **64. `slice()` vs `splice()`**
 
 * `slice()` **does not change** the original array
 * `splice()` **modifies** the original array
@@ -1042,7 +1042,7 @@ arr.splice(1, 1);   // remove
 
 ---
 
-## **65. Remove duplicates from an array**
+### **65. Remove duplicates from an array**
 
 * Use `Set` to keep **unique values**
 * Simple and efficient
@@ -1054,7 +1054,7 @@ const unique = [...new Set(nums)];
 
 ---
 
-## **66. Ways to loop through an array**
+### **66. Ways to loop through an array**
 
 * `for` loop
 * `forEach`
@@ -1067,7 +1067,7 @@ arr.forEach(item => console.log(item));
 
 ---
 
-## **67. Sort an array of objects**
+### **67. Sort an array of objects**
 
 * Use `sort()` with a compare function
 * Compare based on property
@@ -1078,7 +1078,7 @@ users.sort((a, b) => a.age - b.age);
 
 ---
 
-## **68. `Object.assign()` vs spread operator**
+### **68. `Object.assign()` vs spread operator**
 
 * Both create **shallow copies**
 * Spread is cleaner and more modern
@@ -1090,7 +1090,7 @@ const copy = { ...obj };
 
 ---
 
-## **69. Shallow copy vs deep copy**
+### **69. Shallow copy vs deep copy**
 
 * **Shallow copy** copies references
 * **Deep copy** copies actual values
@@ -1102,7 +1102,7 @@ const deep = JSON.parse(JSON.stringify(obj));
 
 ---
 
-## **70. Check if an object is an array**
+### **70. Check if an object is an array**
 
 * Use `Array.isArray()`
 * Reliable and recommended
@@ -1113,7 +1113,7 @@ Array.isArray([1, 2]); // true
 
 ---
 
-## **71. Object destructuring**
+### **71. Object destructuring**
 
 * Extract values from objects easily
 * Improves readability
@@ -1125,7 +1125,7 @@ const { name, age } = user;
 
 ---
 
-## **72. Merge two objects**
+### **72. Merge two objects**
 
 * Use spread operator or `Object.assign()`
 * Spread is preferred
@@ -1136,7 +1136,7 @@ const merged = { ...obj1, ...obj2 };
 
 ---
 
-## **73. `for...in` vs `for...of`**
+### **73. `for...in` vs `for...of`**
 
 * `for...in` loops over **keys**
 * `for...of` loops over **values**
@@ -1148,8 +1148,8 @@ for (let value of arr) {}
 ```
 
 ---
-
-## **74. Local scope vs global scope**
+## **Functions and Scope**
+### **74. Local scope vs global scope**
 
 * **Global scope** variables are accessible everywhere
 * **Local scope** variables exist only inside functions or blocks
@@ -1165,7 +1165,7 @@ function test() {
 
 ---
 
-## **75. Lexical scoping**
+### **75. Lexical scoping**
 
 * Scope is determined by **where the function is written**
 * Inner functions can access outer variables
@@ -1182,7 +1182,7 @@ function outer() {
 
 ---
 
-## **76. Function expression vs declaration**
+### **76. Function expression vs declaration**
 
 * **Declarations** are hoisted
 * **Expressions** are not hoisted
@@ -1195,7 +1195,7 @@ const sayHi = function(){} // expression
 
 ---
 
-## **77. Use of `arguments` object**
+### **77. Use of `arguments` object**
 
 * Holds all arguments passed to a function
 * Useful when argument count is unknown
@@ -1209,7 +1209,7 @@ function sum() {
 
 ---
 
-## **78. Purpose of `default` keyword**
+### **78. Purpose of `default` keyword**
 
 * Provides default values to parameters
 * Prevents `undefined` errors
@@ -1223,7 +1223,7 @@ function greet(name = "Guest") {
 
 ---
 
-## **79. Returning multiple values**
+### **79. Returning multiple values**
 
 * Return an **array** or an **object**
 * Object is clearer for named values
@@ -1236,7 +1236,7 @@ function getUser() {
 
 ---
 
-## **80. What is recursion?**
+### **80. What is recursion?**
 
 * A function that calls itself
 * Must have a base condition
@@ -1251,7 +1251,7 @@ function count(n) {
 
 ---
 
-## **81. Handling multiple callbacks**
+### **81. Handling multiple callbacks**
 
 * JavaScript queues callbacks
 * Uses the event loop
@@ -1264,7 +1264,7 @@ setTimeout(() => console.log("Two"), 0);
 
 ---
 
-## **82. Handling errors in JavaScript**
+### **82. Handling errors in JavaScript**
 
 * Use `try...catch` for runtime errors
 * Use `.catch()` for promises
@@ -1279,7 +1279,7 @@ try {
 
 ---
 
-## **83. Handling asynchronous operations**
+### **83. Handling asynchronous operations**
 
 * Uses callbacks, promises, and `async/await`
 * Event loop manages execution
@@ -1292,8 +1292,8 @@ async function load() {
 ```
 
 ---
-
-## **84. Handling asynchronous operations**
+## **Asynchronous JavaScript**
+### **84. Handling asynchronous operations**
 
 * JavaScript handles async work using **callbacks, promises, and async/await**
 * `async/await` is the cleanest approach today
@@ -1308,7 +1308,7 @@ async function loadData() {
 
 ---
 
-## **85. JavaScript’s single-threaded model**
+### **85. JavaScript’s single-threaded model**
 
 * JavaScript runs on **one main thread**
 * It executes **one task at a time**
@@ -1322,7 +1322,7 @@ console.log("C");
 
 ---
 
-## **86. Mutable data types in JavaScript**
+### **86. Mutable data types in JavaScript**
 
 * **Objects and arrays** are mutable
 * Their values can be changed after creation
@@ -1335,7 +1335,7 @@ arr.push(3); // allowed
 
 ---
 
-## **87. What is a function & how to declare it**
+### **87. What is a function & how to declare it**
 
 * A function is a reusable block of code
 * Declared using function keyword or arrow syntax
@@ -1350,7 +1350,7 @@ const sum = (a, b) => a + b;
 
 ---
 
-## **88. Handling async operations in sequence**
+### **88. Handling async operations in sequence**
 
 * Use **promise chaining** or `async/await`
 * Ensures tasks run one after another
@@ -1364,7 +1364,7 @@ async function run() {
 
 ---
 
-## **89. `Promise.all()` and `Promise.race()`**
+### **89. `Promise.all()` and `Promise.race()`**
 
 * `Promise.all()` waits for **all promises**
 * `Promise.race()` resolves with the **first one**
@@ -1376,7 +1376,7 @@ Promise.race([p1, p2]).then(console.log);
 
 ---
 
-## **90. Handling errors in async functions**
+### **90. Handling errors in async functions**
 
 * Use `try...catch`
 * Catches rejected promises
@@ -1393,7 +1393,7 @@ async function load() {
 
 ---
 
-## **91. Callback hell & how to avoid it**
+### **91. Callback hell & how to avoid it**
 
 * Callback hell happens due to **nested callbacks**
 * Makes code hard to read
@@ -1409,7 +1409,7 @@ await doA();
 
 ---
 
-## **92. Ways to loop through an array**
+### **92. Ways to loop through an array**
 
 * `for`
 * `forEach`
@@ -1421,8 +1421,8 @@ arr.map(item => console.log(item));
 ```
 
 ---
-
-## **93. Template literals**
+## **ES6 and Beyond**
+### **93. Template literals**
 
 * Template literals allow **string interpolation**
 * Use backticks instead of quotes
@@ -1435,7 +1435,7 @@ console.log(`Hello, ${name}`);
 
 ---
 
-## **94. New features introduced in ES6**
+### **94. New features introduced in ES6**
 
 * `let` and `const`
 * Arrow functions
@@ -1451,7 +1451,7 @@ const add = (a, b) => a + b;
 
 ---
 
-## **95. Set and Map**
+### **95. Set and Map**
 
 * **Set** stores unique values
 * **Map** stores key-value pairs
@@ -1464,7 +1464,7 @@ const map = new Map([["id", 1]]);
 
 ---
 
-## **96. Symbols**
+### **96. Symbols**
 
 * Symbols create **unique identifiers**
 * Avoid property name collisions
@@ -1477,7 +1477,7 @@ obj[id] = 123;
 
 ---
 
-## **97. Generator functions**
+### **97. Generator functions**
 
 * Functions that can **pause and resume**
 * Use `yield` keyword
@@ -1492,7 +1492,7 @@ function* gen() {
 
 ---
 
-## **98. Destructuring**
+### **98. Destructuring**
 
 * Extract values from arrays or objects
 * Makes code cleaner
@@ -1504,7 +1504,7 @@ const [a, b] = arr;
 
 ---
 
-## **99. Spread operator**
+### **99. Spread operator**
 
 * Expands arrays or objects
 * Used for copying and merging
@@ -1516,7 +1516,7 @@ const newObj = { ...obj };
 
 ---
 
-## **100. Rest parameter**
+### **100. Rest parameter**
 
 * Collects remaining arguments
 * Used in function parameters
@@ -1529,7 +1529,7 @@ function sum(...nums) {
 
 ---
 
-## **101. `Promise.allSettled()`, `Promise.any()`, `Promise.finally()`**
+### **101. `Promise.allSettled()`, `Promise.any()`, `Promise.finally()`**
 
 * `allSettled()` → waits for all, success or failure
 * `any()` → first fulfilled promise
@@ -1541,7 +1541,7 @@ Promise.allSettled([p1, p2]).then(console.log);
 
 ---
 
-## **102. Creating a class**
+### **102. Creating a class**
 
 * Use `class` keyword
 * Constructor initializes values
@@ -1556,7 +1556,7 @@ class User {
 
 ---
 
-## **103. `class` vs function constructors**
+### **103. `class` vs function constructors**
 
 * Classes are **syntactic sugar**
 * Classes are easier to read
@@ -1575,8 +1575,8 @@ class Person {
 ```
 
 ---
-
-## **104. What is `try...catch` in JavaScript?**
+## **Error Handling and Debugging**
+### **104. What is `try...catch` in JavaScript?**
 
 * `try...catch` is used to **handle runtime errors**
 * Code inside `try` is monitored for errors
@@ -1593,7 +1593,7 @@ try {
 
 ---
 
-## **105. Difference between `throw` and `return`**
+### **105. Difference between `throw` and `return`**
 
 * `throw` creates and sends an **error**
 * It **stops execution** immediately
@@ -1608,7 +1608,7 @@ function test(x) {
 
 ---
 
-## **106. Handling exceptions in JavaScript**
+### **106. Handling exceptions in JavaScript**
 
 * Use `try...catch` for synchronous errors
 * Use `.catch()` for promise errors
@@ -1626,7 +1626,7 @@ async function load() {
 
 ---
 
-## **107. Common JavaScript debugging techniques**
+### **107. Common JavaScript debugging techniques**
 
 * Use `console.log()` to inspect values
 * Use browser **DevTools**
@@ -1640,7 +1640,7 @@ console.log("Check value");
 
 ---
 
-## **108. `Error` vs `TypeError`**
+### **108. `Error` vs `TypeError`**
 
 * `Error` is a **generic error object**
 * `TypeError` occurs when a value is not of the expected type
@@ -1654,8 +1654,8 @@ x(); // TypeError
 ```
 
 ---
-
-## **109. `import` vs `require`**
+## **JavaScript Modules**
+### **109. `import` vs `require`**
 
 * `import` is part of **ES Modules**
 * `require` is used in **CommonJS** (Node.js)
@@ -1672,7 +1672,7 @@ const add = require("./math");
 
 ---
 
-## **110. Purpose of `export`**
+### **110. Purpose of `export`**
 
 * `export` makes variables, functions, or classes available outside a file
 * Helps share code across files
@@ -1686,7 +1686,7 @@ export function greet() {
 
 ---
 
-## **111. JavaScript arrays & manipulation**
+### **111. JavaScript arrays & manipulation**
 
 * Arrays store **ordered collections**
 * Manipulated using methods like `push`, `pop`, `map`, `filter`
@@ -1699,7 +1699,7 @@ const doubled = arr.map(n => n * 2);
 
 ---
 
-## **112. Implementing modules in JavaScript**
+### **112. Implementing modules in JavaScript**
 
 * Split code into separate files
 * Use `export` and `import`
@@ -1715,7 +1715,7 @@ import { sum } from "./math.js";
 
 ---
 
-## **113. Default export**
+### **113. Default export**
 
 * A file can have **only one default export**
 * Imported without curly braces
@@ -1731,7 +1731,7 @@ import user from "./user.js";
 
 ---
 
-## **114. Benefits of using modules**
+### **114. Benefits of using modules**
 
 * Better code organization
 * Reusability
@@ -1743,8 +1743,8 @@ import user from "./user.js";
 ```
 
 ---
-
-## **115. Making an AJAX request**
+## **Browser and DOM**
+### **115. Making an AJAX request**
 
 * AJAX lets you fetch data **without reloading the page**
 * Older way used `XMLHttpRequest`
@@ -1758,7 +1758,7 @@ xhr.send();
 
 ---
 
-## **116. What is the Fetch API?**
+### **116. What is the Fetch API?**
 
 * Fetch is a modern way to make HTTP requests
 * It returns a **Promise**
@@ -1772,7 +1772,7 @@ fetch("/api/data")
 
 ---
 
-## **117. Single-Page Application (SPA)**
+### **117. Single-Page Application (SPA)**
 
 * SPA loads **one HTML page**
 * Content updates dynamically
@@ -1784,7 +1784,7 @@ fetch("/api/data")
 
 ---
 
-## **118. What is the DOM?**
+### **118. What is the DOM?**
 
 * DOM is a **tree-like structure** of HTML elements
 * JavaScript uses it to read and modify the page
@@ -1796,7 +1796,7 @@ document.getElementById("title");
 
 ---
 
-## **119. Manipulating the DOM**
+### **119. Manipulating the DOM**
 
 * Select elements
 * Change content, styles, or attributes
@@ -1809,7 +1809,7 @@ el.textContent = "Updated";
 
 ---
 
-## **120. `Object.freeze()` vs `Object.seal()`**
+### **120. `Object.freeze()` vs `Object.seal()`**
 
 * `freeze()` → no changes allowed
 * `seal()` → can modify existing properties, not add/remove
@@ -1822,7 +1822,7 @@ Object.seal(obj);
 
 ---
 
-## **121. Prevent default action**
+### **121. Prevent default action**
 
 * Use `event.preventDefault()`
 * Stops browser’s default behavior
@@ -1836,7 +1836,7 @@ form.addEventListener("submit", e => {
 
 ---
 
-## **122. `addEventListener()` vs `onclick`**
+### **122. `addEventListener()` vs `onclick`**
 
 * `onclick` allows **only one handler**
 * `addEventListener()` allows **multiple handlers**
@@ -1851,7 +1851,7 @@ btn.addEventListener("click", () => console.log("Two"));
 
 ---
 
-## **123. `localStorage` and `sessionStorage`**
+### **123. `localStorage` and `sessionStorage`**
 
 * Both store data in the browser
 * `localStorage` persists even after closing the browser
@@ -1865,7 +1865,7 @@ sessionStorage.setItem("token", "123");
 
 ---
 
-## **124. `localStorage` vs cookies**
+### **124. `localStorage` vs cookies**
 
 * `localStorage` has **larger storage**
 * Cookies are sent with **every HTTP request**
@@ -1878,7 +1878,7 @@ document.cookie = "theme=dark";
 
 ---
 
-## **125. Handling CORS**
+### **125. Handling CORS**
 
 * CORS is controlled by the **server**
 * Server must send correct headers
@@ -1892,7 +1892,7 @@ Access-Control-Allow-Origin: *
 
 ---
 
-## **126. Making an AJAX request**
+### **126. Making an AJAX request**
 
 * Use `XMLHttpRequest` or Fetch API
 * Fetch is cleaner and modern
@@ -1905,7 +1905,7 @@ fetch("/api/data")
 
 ---
 
-## **127. `XMLHttpRequest` vs Fetch API**
+### **127. `XMLHttpRequest` vs Fetch API**
 
 * `XMLHttpRequest` is older and callback-based
 * Fetch is promise-based and cleaner
@@ -1918,7 +1918,7 @@ fetch("/data");
 
 ---
 
-## **128. `Function.prototype.bind()`**
+### **128. `Function.prototype.bind()`**
 
 * `bind()` creates a **new function**
 * Permanently binds `this`
@@ -1935,7 +1935,7 @@ bound();
 
 ---
 
-## **129. Handling cookies**
+### **129. Handling cookies**
 
 * Use `document.cookie`
 * Cookies are stored as key-value strings
@@ -1946,8 +1946,8 @@ document.cookie = "user=Sam; path=/";
 ```
 
 ---
-
-## **130. Functional Programming vs OOP**
+## **Advanced Concepts**
+### **130. Functional Programming vs OOP**
 
 * Functional programming focuses on **pure functions** and immutability
 * Avoids shared state and side effects
@@ -1968,7 +1968,7 @@ class Calc {
 
 ---
 
-## **131. Abstract class in JavaScript**
+### **131. Abstract class in JavaScript**
 
 * JavaScript doesn’t have true abstract classes
 * You simulate them using base classes
@@ -1983,8 +1983,8 @@ class Shape {
 ```
 
 ---
-
-## **132. Memory leaks & prevention**
+## **Performance Optimization**
+### **132. Memory leaks & prevention**
 
 * Memory leaks happen when unused memory isn’t released
 * Common causes: global variables, timers, DOM references
@@ -1997,7 +1997,7 @@ element.removeEventListener("click", handler);
 
 ---
 
-## **133. Decorators in JavaScript**
+### **133. Decorators in JavaScript**
 
 * Decorators modify classes or methods
 * Mostly used in frameworks like Angular
@@ -2010,7 +2010,7 @@ class User {}
 
 ---
 
-## **134. Optimizing JS performance**
+### **134. Optimizing JS performance**
 
 * Minimize DOM access
 * Debounce expensive events
@@ -2023,7 +2023,7 @@ debounce(handleScroll, 300);
 
 ---
 
-## **135. `requestAnimationFrame()`**
+### **135. `requestAnimationFrame()`**
 
 * Runs code before the browser repaints
 * Ideal for animations
@@ -2038,7 +2038,7 @@ animate();
 
 ---
 
-## **136. Lazy loading**
+### **136. Lazy loading**
 
 * Load resources **only when needed**
 * Improves initial load time
@@ -2050,8 +2050,8 @@ img.loading = "lazy";
 ```
 
 ---
-
-## **137. Improving rendering performance**
+## **Frameworks and Libraries**
+### **137. Improving rendering performance**
 
 * Reduce layout thrashing
 * Batch DOM updates
@@ -2063,7 +2063,7 @@ requestAnimationFrame(updateUI);
 
 ---
 
-## **138. Frameworks vs libraries**
+### **138. Frameworks vs libraries**
 
 * **Library:** you call it (React, Lodash)
 * **Framework:** it calls you (Angular)
@@ -2075,8 +2075,8 @@ requestAnimationFrame(updateUI);
 ```
 
 ---
-
-## **139. What is unit testing in JavaScript?**
+## **Testing and Tools**
+### **139. What is unit testing in JavaScript?**
 
 * Unit testing tests **small pieces of code**, usually functions
 * Ensures each unit works as expected
@@ -2091,7 +2091,7 @@ function add(a, b) {
 
 ---
 
-## **140. Popular JavaScript testing frameworks**
+### **140. Popular JavaScript testing frameworks**
 
 * **Jest** – very popular, all-in-one
 * **Mocha** – flexible test runner
@@ -2106,7 +2106,7 @@ test("adds numbers", () => {
 
 ---
 
-## **141. What is TDD?**
+### **141. What is TDD?**
 
 * TDD means **write tests first**
 * Then write code to pass tests
@@ -2120,7 +2120,7 @@ test("adds numbers", () => {
 
 ---
 
-## **142. Writing asynchronous tests**
+### **142. Writing asynchronous tests**
 
 * Use `async/await`
 * Or return a promise
@@ -2135,7 +2135,7 @@ test("async test", async () => {
 
 ---
 
-## **143. `assert` vs `expect`**
+### **143. `assert` vs `expect`**
 
 * `assert` uses **function-style checks**
 * `expect` uses **chainable, readable syntax**
@@ -2147,8 +2147,8 @@ expect(sum(2, 2)).toBe(4);
 ```
 
 ---
-
-## **144. Using regular expressions**
+## **Advanced JavaScript Features**
+### **144. Using regular expressions**
 
 * Regex is used for **pattern matching**
 * Common in validation and search
@@ -2161,7 +2161,7 @@ emailRegex.test("a@b.com");
 
 ---
 
-## **145. What are Web Workers?**
+### **145. What are Web Workers?**
 
 * Web Workers run JavaScript in **background threads**
 * Prevent UI blocking
@@ -2173,7 +2173,7 @@ const worker = new Worker("worker.js");
 
 ---
 
-## **146. Service workers**
+### **146. Service workers**
 
 * Run in the background
 * Enable **offline support**, caching, push notifications
@@ -2185,7 +2185,7 @@ navigator.serviceWorker.register("sw.js");
 
 ---
 
-## **147. Comparing two objects**
+### **147. Comparing two objects**
 
 * Objects are compared by **reference**
 * Deep comparison requires manual or library logic
@@ -2196,7 +2196,7 @@ JSON.stringify(obj1) === JSON.stringify(obj2);
 
 ---
 
-## **148. Function expression vs declaration**
+### **148. Function expression vs declaration**
 
 * Declarations are **hoisted**
 * Expressions are **not hoisted**
@@ -2208,8 +2208,8 @@ const demo = function () {};
 ```
 
 ---
-
-## **149. `slice()` vs `splice()`**
+## **JavaScript Best Practices**
+### **149. `slice()` vs `splice()`**
 
 * `slice()` does **not modify** the array
 * `splice()` **changes** the array
@@ -2221,7 +2221,7 @@ arr.splice(1, 1);
 ```
 ---
 
-## **150. Importance of code minification**
+### **150. Importance of code minification**
 
 * Minification removes **spaces, comments, and unused code**
 * Reduces file size
@@ -2238,7 +2238,7 @@ function add(a,b){return a+b;}
 
 ---
 
-## **151. Handling large-scale JavaScript applications**
+### **151. Handling large-scale JavaScript applications**
 
 * Break code into **modules**
 * Use frameworks like React or Angular
@@ -2251,7 +2251,7 @@ function add(a,b){return a+b;}
 
 ---
 
-## **152. JavaScript security considerations**
+### **152. JavaScript security considerations**
 
 * Prevent **XSS** by escaping user input
 * Avoid `eval()`
@@ -2264,7 +2264,7 @@ element.textContent = userInput; // safer
 
 ---
 
-## **153. Managing JavaScript dependencies**
+### **153. Managing JavaScript dependencies**
 
 * Use package managers like **npm** or **yarn**
 * Lock dependency versions
@@ -2276,7 +2276,7 @@ npm install lodash
 
 ---
 
-## **154. Importance of modularity**
+### **154. Importance of modularity**
 
 * Makes code **reusable and maintainable**
 * Easier testing and debugging
@@ -2288,7 +2288,7 @@ export function sum(a, b) {}
 
 ---
 
-## **155. Documenting JavaScript code**
+### **155. Documenting JavaScript code**
 
 * Use **JSDoc comments**
 * Write clear function descriptions
@@ -2303,7 +2303,7 @@ function add(a, b) {}
 
 ---
 
-## **156. Ensuring cross-browser compatibility**
+### **156. Ensuring cross-browser compatibility**
 
 * Use modern JS with **Babel**
 * Avoid unsupported APIs
@@ -2316,7 +2316,7 @@ function add(a, b) {}
 
 ---
 
-## **157. Design patterns in JavaScript**
+### **157. Design patterns in JavaScript**
 
 * Reusable solutions to common problems
 * Examples: Module, Singleton, Observer
