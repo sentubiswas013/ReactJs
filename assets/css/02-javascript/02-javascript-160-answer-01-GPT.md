@@ -2,7 +2,7 @@ Here are **short, natural, real-time spoken-style answers**, each with **simple 
 
 ---
 ## **Basic JavaScript Concepts**
-### **1. Different data types in JavaScript**
+### **1. What are the different data types in JavaScript?**
 
 * JavaScript has **primitive** and **non-primitive** data types
 * **Primitive:** `string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint`
@@ -18,7 +18,7 @@ let user = { id: 1 };    // object
 
 ---
 
-### **2. Difference between `var`, `let`, and `const`**
+### **2. What is the difference between `var`, `let`, and `const`?**
 
 * `var` is **function-scoped** and can cause bugs
 * `let` is **block-scoped** and can be reassigned
@@ -35,7 +35,7 @@ const PI = 3.14;
 
 ---
 
-### **3. What is a closure?**
+### **3. What is a closure in JavaScript?**
 
 * A closure is when a function **remembers variables** from its outer scope
 * Even after the outer function finishes
@@ -57,7 +57,7 @@ counter(); // 2
 
 ---
 
-### **4. Difference between `==` and `===`**
+### **4. What is the difference between `==` and `===` in JavaScript?**
 
 * `==` checks **value only** (type conversion happens)
 * `===` checks **value and type**
@@ -70,7 +70,7 @@ counter(); // 2
 
 ---
 
-### **5. Truthy and Falsy values**
+### **5. Explain the concept of "truthy" and "falsy" values in JavaScript.**
 
 * **Falsy values:** `false`, `0`, `""`, `null`, `undefined`, `NaN`
 * Everything else is **truthy**
@@ -88,7 +88,7 @@ if (0) {
 
 ---
 
-### **6. JavaScript data structures & when to use them**
+### **6. What are the JavaScript data structures, and when would you use them?**
 
 * **Array:** ordered list of items
 * **Object:** key-value pairs
@@ -104,7 +104,7 @@ let map = new Map([["id", 1]]);
 
 ---
 
-### **7. What is `undefined`?**
+### **7. What is the `undefined` value in JavaScript?**
 
 * Means a variable is **declared but not assigned**
 * It’s automatically assigned by JavaScript
@@ -116,7 +116,7 @@ console.log(x); // undefined
 
 ---
 
-### **8. What is `null` and how is it different from `undefined`?**
+### **8. What is the `null` value in JavaScript? How is it different from `undefined`?**
 
 * `null` means **intentional empty value**
 * `undefined` means **not assigned**
