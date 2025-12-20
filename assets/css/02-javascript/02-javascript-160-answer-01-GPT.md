@@ -589,7 +589,7 @@ function debounce(fn, delay) {
 
 ---
 ## **Object-Oriented Programming in JavaScript**
-### **37. OOP concepts in JavaScript**
+### **37. What are Object-Oriented Programming (OOP) concepts in JavaScript?**
 
 * JavaScript supports OOP using **objects and prototypes**
 * Main concepts are **encapsulation, inheritance, polymorphism, abstraction**
@@ -606,7 +606,7 @@ const user = {
 
 ---
 
-### **38. Classes and objects in JavaScript**
+### **38. What are classes and objects in JavaScript?**
 
 * A **class** is a blueprint
 * An **object** is an instance of a class
@@ -624,7 +624,7 @@ const u1 = new User("Sam");
 
 ---
 
-### **39. Encapsulation in JavaScript**
+### **39. What is encapsulation in JavaScript?**
 
 * Encapsulation means **hiding internal details**
 * Only expose what’s necessary
@@ -642,7 +642,7 @@ class Bank {
 
 ---
 
-### **40. Inheritance in JavaScript**
+### **40. What is inheritance in JavaScript?**
 
 * Inheritance allows one class to **reuse another class**
 * Achieved using `extends`
@@ -664,7 +664,7 @@ class Dog extends Animal {
 
 ---
 
-### **41. Polymorphism in JavaScript**
+### **41. What is polymorphism in JavaScript?**
 
 * Polymorphism means **same method, different behavior**
 * Child classes can override parent methods
@@ -685,7 +685,7 @@ class Circle extends Shape {
 
 ---
 
-### **42. Abstraction in JavaScript**
+### **42. What is abstraction in JavaScript?**
 
 * Abstraction means **hiding complex logic**
 * Show only what the user needs
@@ -705,7 +705,7 @@ class Car {
 
 ---
 
-### **43. Prototype-based inheritance**
+### **43. What is prototype-based inheritance in JavaScript?**
 
 * JavaScript uses **prototypes**, not classical inheritance
 * Objects inherit properties from another object
@@ -724,7 +724,7 @@ child.greet();
 
 ---
 
-### **44. Arrow functions vs regular functions**
+### **44. What are arrow functions, and how do they differ from regular functions?**
 
 * Arrow functions have **shorter syntax**
 * They **do not have their own `this`**
@@ -740,7 +740,7 @@ function sum(a, b) {
 
 ---
 
-### **45. JavaScript built-in objects**
+### **45. What are JavaScript's built-in objects?**
 
 * Common built-ins include:
 
@@ -773,7 +773,7 @@ Person.prototype.sayHi = function () {
 
 ---
 
-### **47. Purpose of `WeakMap` and `WeakSet`**
+### **47. What is the purpose of `WeakMap` and `WeakSet` in JavaScript?**
 
 * They store objects **weakly**
 * Objects can be garbage collected automatically
@@ -788,7 +788,7 @@ wm.set(user, "private");
 
 ---
 
-### **48. Memory management & garbage collection**
+### **48. How does JavaScript handle memory management and garbage collection?**
 
 * JavaScript automatically manages memory
 * Unused objects are removed by **garbage collector**
@@ -801,7 +801,7 @@ obj = null; // eligible for garbage collection
 
 ---
 
-### **49. Scope and closures**
+### **49. How does JavaScript handle scope and closures?**
 
 * Scope defines **where variables are accessible**
 * JavaScript uses **lexical scope**
@@ -818,7 +818,7 @@ function outer() {
 
 ---
 
-### **50. Use of the `window` object**
+### **50. What is the use of the `window` object in JavaScript?**
 
 * `window` is the **global object** in browsers
 * Global variables become properties of `window`
@@ -831,7 +831,7 @@ console.log(window.innerWidth);
 
 ---
 
-### **51. How the `new` keyword works**
+### **51. How does the `new` keyword work in JavaScript?**
 
 * Creates a new empty object
 * Sets prototype linkage
@@ -848,7 +848,7 @@ const u1 = new User("Sam");
 
 ---
 
-### **52. What is an IIFE?**
+### **52. What is an IIFE (Immediately Invoked Function Expression)?**
 
 * A function that runs **immediately**
 * Used to avoid global scope pollution
@@ -862,7 +862,7 @@ const u1 = new User("Sam");
 
 ---
 
-### **53. Function declaration vs function expression**
+### **53. What is the difference between a function declaration and a function expression?**
 
 * **Declarations** are hoisted
 * **Expressions** are not hoisted
@@ -878,7 +878,7 @@ const greet = function () {};
 
 ---
 
-### **54. `setTimeout()` vs `setInterval()`**
+### **54. What is the use of `setTimeout()` and `setInterval()`?**
 
 * `setTimeout()` runs once after a delay
 * `setInterval()` runs repeatedly
@@ -904,7 +904,7 @@ const clone = { ...obj };
 
 ---
 
-### **56. `JSON.stringify()` and `JSON.parse()`**
+### **56. How does `JSON.stringify()` and `JSON.parse()` work in JavaScript?**
 
 * `JSON.stringify()` converts an object to a string
 * `JSON.parse()` converts the string back to an object
@@ -917,7 +917,7 @@ const obj = JSON.parse(str);
 
 ---
 
-### **57. How to create a class in JavaScript**
+### **57. How can you create a class in JavaScript?**
 
 * Classes are blueprints for objects
 * Introduced in ES6
@@ -933,7 +933,7 @@ class User {
 
 ---
 
-### **58. Prototype inheritance**
+### **58. Explain the concept of prototype inheritance in JavaScript.**
 
 * Objects inherit from other objects using prototypes
 * JavaScript searches properties up the prototype chain
@@ -952,7 +952,7 @@ child.greet();
 
 ---
 
-### **59. Different methods of creating objects**
+### **59. What are the different methods of creating objects in JavaScript?**
 
 * Object literal
 * Constructor function
@@ -966,7 +966,7 @@ const obj2 = new Object();
 
 ---
 
-### **60. `Object.create()` vs class inheritance**
+### **60. What is the difference between `Object.create()` and class-based inheritance?**
 
 * `Object.create()` links directly to a prototype
 * Classes use constructor + prototype internally
@@ -978,7 +978,7 @@ const child = Object.create(parent);
 
 ---
 
-### **61. `class` vs `constructor`**
+### **61. What is the difference between `class` and `constructor` in JavaScript?**
 
 * `class` is a blueprint
 * `constructor` is a method inside a class
@@ -994,7 +994,7 @@ class User {
 
 ---
 
-### **62. Getter and setter methods**
+### **62. What are getter and setter methods in JavaScript?**
 
 * Used to **control access** to object properties
 * Improve encapsulation
