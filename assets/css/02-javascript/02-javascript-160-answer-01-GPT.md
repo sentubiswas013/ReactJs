@@ -129,7 +129,7 @@ let value;          // undefined
 
 ---
 
-### **9. Different ways to create objects**
+### **9. What are the different ways to create objects in JavaScript?**
 
 * **Object literal** (most common)
 * **Constructor function**
@@ -175,7 +175,7 @@ function sayHi() {
 
 ---
 
-### **11. What is a pure function?**
+### **11. What is a pure function in JavaScript? Can you give an example?**
 
 * A pure function always returns the **same output for the same input**
 * It does **not change external data**
@@ -191,7 +191,7 @@ add(2, 3); // always 5
 
 ---
 
-### **12. What are higher-order functions?**
+### **12. What are higher-order functions in JavaScript?**
 
 * Functions that **take other functions as arguments**
 * Or **return functions**
@@ -207,7 +207,7 @@ greet(() => console.log("Hello"));
 
 ---
 
-### **13. What is a callback function?**
+### **13. What is a callback function in JavaScript?**
 
 * A callback is a function passed into another function
 * It runs **after a task is completed**
@@ -221,7 +221,7 @@ setTimeout(function () {
 
 ---
 
-### **14. What are closures and why are they important?**
+### **14. What are closures in JavaScript, and why are they important?**
 
 * A closure allows a function to **remember outer variables**
 * Even after the outer function finishes
@@ -240,7 +240,7 @@ inc(); // 2
 
 ---
 
-### **15. How does the `this` keyword work?**
+### **15. How does the `this` keyword work in JavaScript?**
 
 * `this` refers to the **object calling the function**
 * Its value depends on **how the function is called**
@@ -259,7 +259,7 @@ user.greet(); // Alex
 
 ---
 
-### **16. Synchronous vs Asynchronous code**
+### **16. What is the difference between synchronous and asynchronous code in JavaScript?**
 
 * **Synchronous:** blocks execution, one task at a time
 * **Asynchronous:** non-blocking, tasks run in background
@@ -277,7 +277,7 @@ console.log("End");
 
 ---
 
-### **17. Purpose of `call()`, `apply()`, and `bind()`**
+### **17. What is the purpose of the `call()`, `apply()` and `bind()` methods in JavaScript?**
 
 * Used to **control the value of `this`**
 * `call()` → arguments one by one
@@ -294,7 +294,7 @@ greet.call({ name: "Sam" }, "NY");
 
 ---
 
-### **18. What is `async/await`?**
+### **18. What is `async/await` in JavaScript?**
 
 * A cleaner way to handle **asynchronous code**
 * Built on top of Promises
@@ -311,7 +311,7 @@ fetchData();
 
 ---
 
-### **19. What is a Promise in JavaScript? How does it work?**
+### **19. What is a promise in JavaScript? How does it work?**
 
 * A Promise represents a value that will be available **in the future**
 * It handles **async operations** like API calls
@@ -327,7 +327,7 @@ promise.then(data => console.log(data));
 
 ---
 
-### **20. What is a Promise chain?**
+### **20. at is a promise chain in JavaScript?**
 
 * A promise chain is when multiple `.then()` calls are linked
 * Each `.then()` receives the result of the previous one
@@ -341,7 +341,7 @@ Promise.resolve(1)
 
 ---
 
-### **21. What are the states of a Promise?**
+### **21. What are the states of a promise?**
 
 * **Pending:** initial state
 * **Fulfilled:** operation completed successfully
@@ -355,7 +355,7 @@ new Promise((resolve, reject) => {
 
 ---
 
-### **22. Difference between `async/await` and Promises**
+### **22. What is the difference between `async/await` and promises?**
 
 * Promises use `.then()` and `.catch()`
 * `async/await` makes async code **look synchronous**
@@ -371,7 +371,7 @@ const data = await fetchData();
 
 ---
 
-### **23. Difference between callback and promise**
+### **23. What is the difference between callback and promise?**
 
 * **Callbacks** can lead to nested code (callback hell)
 * **Promises** provide cleaner, readable flow
@@ -387,7 +387,7 @@ Promise.resolve("Done").then(console.log);
 
 ---
 
-### **24. What is an Observable?**
+### **24. What is an observable?**
 
 * An Observable emits **multiple values over time**
 * Commonly used in **RxJS** and Angular
@@ -399,7 +399,7 @@ observable.subscribe(value => console.log(value));
 
 ---
 
-### **25. Differences between Promises and Observables**
+### **25. at are the differences between promises and observables?**
 
 * Promise → **single value**
 * Observable → **multiple values**
@@ -416,7 +416,7 @@ Promise.resolve(1);
 
 ---
 
-### **26. What is currying in JavaScript?**
+### **26. What is the concept of currying in JavaScript? Can you provide an example?**
 
 * Currying transforms a function with many arguments
 * Into a sequence of **single-argument functions**
@@ -446,7 +446,7 @@ setTimeout(function () {
 
 ---
 
-### **28. Event delegation in JavaScript**
+### **28. Explain event delegation in JavaScript.**
 
 * Event delegation means attaching **one event listener to a parent**
 * Instead of adding listeners to many child elements
@@ -463,7 +463,7 @@ document.getElementById("list").addEventListener("click", e => {
 
 ---
 
-### **29. What is the call stack?**
+### **29. What is a "call stack"?**
 
 * The call stack keeps track of **function calls**
 * Works in **Last In, First Out (LIFO)** order
@@ -483,7 +483,7 @@ a();
 
 ---
 
-### **30. What is the event loop?**
+### **30. What is the event loop in JavaScript?**
 
 * The event loop manages **async code execution**
 * It checks the call stack and task queues
@@ -499,7 +499,7 @@ console.log("End");
 
 ---
 
-### **31. Event propagation in JavaScript**
+### **31. What is event propagation in JavaScript?**
 
 * Event propagation is how events **travel through the DOM**
 * It has **three phases**
@@ -514,7 +514,7 @@ element.addEventListener("click", handler);
 
 ---
 
-### **32. Event bubbling and capturing**
+### **32. What is event bubbling and capturing in JavaScript?**
 
 * **Bubbling:** event moves from child to parent (default)
 * **Capturing:** event moves from parent to child
@@ -527,7 +527,7 @@ btn.addEventListener("click", handler);      // bubbling
 
 ---
 
-### **33. Prevent default action of an event**
+### **33. How do you prevent the default action of an event in JavaScript?**
 
 * Use `event.preventDefault()`
 * Stops the browser’s default behavior
@@ -541,7 +541,7 @@ form.addEventListener("submit", e => {
 
 ---
 
-### **34. Attach multiple event listeners to the same event**
+### **34. How do you attach multiple event listeners to the same event?**
 
 * You can add multiple listeners using `addEventListener`
 * All listeners will execute in order added
@@ -553,7 +553,7 @@ btn.addEventListener("click", () => console.log("Two"));
 
 ---
 
-### **35. Concept of memoization**
+### **35. What is the concept of memoization in JavaScript?**
 
 * Memoization stores **previous results**
 * Avoids repeating expensive calculations
@@ -570,7 +570,7 @@ function square(n) {
 
 ---
 
-### **36. Debounce and throttle**
+### **36. What is debounce and throttle in JavaScript?**
 
 * **Debounce:** runs function after a delay
 * **Throttle:** runs function at fixed intervals
