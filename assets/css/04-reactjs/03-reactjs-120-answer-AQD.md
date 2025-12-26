@@ -417,7 +417,6 @@ root.render(
 );
 ```
 
-# React Hooks Guide - Core + Advanced Concepts
 ## 🟢 2. React Hooks (Core + Advanced)
 
 ---
@@ -715,102 +714,29 @@ function subscribeToUpdates() {
 * **useInsertionEffect**: Runs before DOM mutations (CSS-in-JS libraries)
 
 ```jsx
-import { useState, useEffect, useLayoutEffect, useInsertionEffect } from 'react';
-
 function EffectTimingExample() {
   const [count, setCount] = useState(0);
   
-  // 3. useEffect - Runs AFTER browser paint (asynchronous)
   useEffect(() => {
     console.log('3. useEffect - after paint');
-    // Good for: API calls, subscriptions, async operations
   }, [count]);
   
-  // 2. useLayoutEffect - Runs BEFORE browser paint (synchronous)
   useLayoutEffect(() => {
     console.log('2. useLayoutEffect - before paint');
-    // Good for: DOM measurements, synchronous DOM updates
-    
-    // Example: Measure element and update position
-    const element = document.getElementById('measured-element');
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      console.log('Element width:', rect.width);
-    }
   }, [count]);
   
-  // 1. useInsertionEffect - Runs BEFORE DOM mutations (earliest)
   useInsertionEffect(() => {
     console.log('1. useInsertionEffect - before DOM mutations');
-    // Good for: CSS-in-JS libraries, dynamic style injection
-    
-    // Example: Inject critical CSS
-    const style = document.createElement('style');
-    style.textContent = '.dynamic-style { color: red; }';
-    document.head.appendChild(style);
-    
-    return () => {
-      document.head.removeChild(style);
-    };
   }, []);
   
   return (
     <div>
-      <p id="measured-element">Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>
-        Increment (check console for timing)
-      </button>
-    </div>
-  );
-}
-
-// Practical example showing when to use each
-function PracticalExample() {
-  const [width, setWidth] = useState(0);
-  const [data, setData] = useState(null);
-  
-  // useInsertionEffect - CSS injection
-  useInsertionEffect(() => {
-    const css = `
-      .tooltip { 
-        position: absolute; 
-        background: black; 
-        color: white; 
-        padding: 4px; 
-      }
-    `;
-    const style = document.createElement('style');
-    style.textContent = css;
-    document.head.appendChild(style);
-    
-    return () => document.head.removeChild(style);
-  }, []);
-  
-  // useLayoutEffect - DOM measurements
-  useLayoutEffect(() => {
-    const element = document.getElementById('content');
-    if (element) {
-      setWidth(element.offsetWidth);
-    }
-  });
-  
-  // useEffect - Data fetching
-  useEffect(() => {
-    fetch('/api/data')
-      .then(res => res.json())
-      .then(setData);
-  }, []);
-  
-  return (
-    <div>
-      <div id="content">Content width: {width}px</div>
-      <div>Data: {data?.message || 'Loading...'}</div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
     </div>
   );
 }
 ```
-
----
 
 ## 7. When should you avoid `useEffect`?
 
@@ -2137,43 +2063,6 @@ async function authenticate(credentials) {
 
 ---
 
-## Quick Reference
-
-```jsx
-import { useState, useEffect, useLayoutEffect, useInsertionEffect } from 'react';
-
-function HooksReference() {
-  // State management
-  const [state, setState] = useState(initialValue);
-  
-  // Side effects (after render)
-  useEffect(() => {
-    // API calls, subscriptions, async work
-    return () => {
-      // Cleanup
-    };
-  }, [dependencies]);
-  
-  // Synchronous effects (before paint)
-  useLayoutEffect(() => {
-    // DOM measurements, synchronous DOM updates
-  }, [dependencies]);
-  
-  // CSS injection (before DOM mutations)
-  useInsertionEffect(() => {
-    // CSS-in-JS, dynamic styles
-  }, [dependencies]);
-  
-  return <div>Component content</div>;
-}
-
-// Execution order:
-// 1. useInsertionEffect
-// 2. useLayoutEffect  
-// 3. Browser paint
-// 4. useEffect
-```
-
 # React Component Lifecycle & Internals Guide
 
 ## 🟡 3. Component Lifecycle & Internals
@@ -2677,47 +2566,6 @@ function ChildUsingContext() {
   );
 }
 ---
-
-## Quick Reference
-
-````jsx
-// Class Component Lifecycle Order
-// MOUNTING: constructor → getDerivedStateFromProps → render → componentDidMount
-// UPDATING: getDerivedStateFromProps → shouldComponentUpdate → render → getSnapshotBeforeUpdate → componentDidUpdate
-// UNMOUNTING: componentWillUnmount
-// ERROR: getDerivedStateFromError → componentDidCatch
-
-// Functional Component Lifecycle with Hooks
-useEffect(() => {
-  // componentDidMount
-  return () => {
-    // componentWillUnmount
-  };
-}, []); // Empty deps = mount/unmount only
-
-useEffect(() => {
-  // componentDidUpdate
-}, [dependency]); // Runs when dependency changes
-
-// Re-render Triggers
-// 1. State changes: setState, useState, useReducer
-// 2. Props changes: New props from parent
-// 3. Parent re-renders: Unless component is memoized
-// 4. Context changes: useContext value updates
-// 5. Force re-render: New object references
-
-// Reconciliation Process
-// 1. State/props change
-// 2. Create new Virtual DOM
-// 3. Compare with previous Virtual DOM (diffing)
-// 4. Update only changed elements in real DOM
-
-// React Fiber Benefits
-// - Incremental rendering (pausable/resumable work)
-// - Priority-based updates
-// - Better performance and user experience
-// - Enables concurrent features (Suspense, time slicing)
-```
 
 # React Rendering & Performance Optimization Guide
 
@@ -5021,42 +4869,4 @@ export default LargeListDemo;
 
 ---
 
-## Quick Reference
-
-```jsx
-// React 18 Features
-// 1. Automatic Batching - Groups multiple state updates
-setTimeout(() => {
-  setState1(value1); // Batched
-  setState2(value2); // Batched
-}, 1000); // Single re-render in React 18
-
-// 2. Concurrent Rendering - Interruptible, priority-based
-const [isPending, startTransition] = useTransition();
-startTransition(() => {
-  setExpensiveState(newValue); // Low priority, interruptible
-});
-
-// 3. Code Splitting - Load components on demand
-const LazyComponent = lazy(() => import('./Component'));
-<Suspense fallback={<Loading />}>
-  <LazyComponent />
-</Suspense>
-
-// 4. React.memo - Prevent unnecessary re-renders
-const MemoComponent = memo(({ prop1, prop2 }) => {
-  return <div>{prop1} {prop2}</div>;
-});
-
-// 5. Performance Optimization Patterns
-// - Use useMemo for expensive calculations
-// - Use useCallback for stable function references
-// - Use React.memo for component memoization
-// - Use code splitting for large bundles
-// - Use lazy loading for better initial load times
-
-// Rendering Modes
-// Legacy: ReactDOM.render(<App />, container)
-// Concurrent: createRoot(container).render(<App />)
-```
 
