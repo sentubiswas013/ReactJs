@@ -4,11 +4,11 @@
 
 React is a JavaScript library for building user interfaces, especially web applications. It's used because:
 
-• **Component-based architecture** - Build encapsulated components that manage their own state
-• **Virtual DOM** - Efficient updates and rendering performance
-• **Declarative** - Describe what the UI should look like, React handles the how
-• **Reusable components** - Write once, use anywhere
-• **Large ecosystem** - Huge community and third-party libraries
+* **Component-based architecture** - Build encapsulated components that manage their own state
+* **Virtual DOM** - Efficient updates and rendering performance
+* **Declarative** - Describe what the UI should look like, React handles the how
+* **Reusable components** - Write once, use anywhere
+* **Large ecosystem** - Huge community and third-party libraries
 
 ```jsx
 // Simple React component
@@ -21,10 +21,10 @@ function Welcome() {
 
 JSX is a syntax extension for JavaScript that looks like HTML but gets compiled to JavaScript function calls.
 
-• **Syntax sugar** - Makes writing React elements easier and more readable
-• **Compiled by Babel** - Transforms JSX into React.createElement calls
-• **JavaScript expressions** - Use curly braces {} to embed JS code
-• **Must return single parent** - Wrap multiple elements in a fragment or div
+* **Syntax sugar** - Makes writing React elements easier and more readable
+* **Compiled by Babel** - Transforms JSX into React.createElement calls
+* **JavaScript expressions** - Use curly braces {} to embed JS code
+* **Must return single parent** - Wrap multiple elements in a fragment or div
 
 ```jsx
 // JSX syntax
@@ -38,10 +38,10 @@ const element = React.createElement('h1', null, 'Hello, ', name, '!');
 
 JSX is the syntactic sugar, React.createElement is the underlying function call.
 
-• **JSX** - More readable, HTML-like syntax
-• **React.createElement** - Verbose but shows what's actually happening
-• **Same output** - Both create React elements
-• **Performance** - No difference, JSX compiles to createElement
+* **JSX** - More readable, HTML-like syntax
+* **React.createElement** - Verbose but shows what's actually happening
+* **Same output** - Both create React elements
+* **Performance** - No difference, JSX compiles to createElement
 
 ```jsx
 // JSX version
@@ -59,10 +59,10 @@ const element = React.createElement(
 
 React and ReactDOM are separate packages with different responsibilities.
 
-• **React** - Core library for creating components and elements
-• **ReactDOM** - Renders React components to the DOM
-• **Separation of concerns** - React can target different platforms
-• **React Native** - Uses React core but different renderer
+* **React** - Core library for creating components and elements
+* **ReactDOM** - Renders React components to the DOM
+* **Separation of concerns** - React can target different platforms
+* **React Native** - Uses React core but different renderer
 
 ```jsx
 import React from 'react';
@@ -82,10 +82,10 @@ root.render(<App />);
 
 Components are independent, reusable pieces of UI that return JSX elements.
 
-• **Building blocks** - Like custom HTML elements
-• **Encapsulation** - Own state and logic
-• **Reusable** - Use the same component multiple times
-• **Composable** - Combine components to build complex UIs
+* **Building blocks** - Like custom HTML elements
+* **Encapsulation** - Own state and logic
+* **Reusable** - Use the same component multiple times
+* **Composable** - Combine components to build complex UIs
 
 ```jsx
 // Simple component
@@ -101,10 +101,10 @@ function Button({ text, onClick }) {
 
 There are two main types of components in React.
 
-• **Functional components** - JavaScript functions that return JSX
-• **Class components** - ES6 classes that extend React.Component
-• **Modern preference** - Functional components with hooks
-• **Legacy** - Class components still supported but less common
+* **Functional components** - JavaScript functions that return JSX
+* **Class components** - ES6 classes that extend React.Component
+* **Modern preference** - Functional components with hooks
+* **Legacy** - Class components still supported but less common
 
 ```jsx
 // Functional component
@@ -124,11 +124,11 @@ class Welcome extends React.Component {
 
 Key differences between the two component types.
 
-• **Syntax** - Functions vs ES6 classes
-• **State management** - Hooks vs this.state
-• **Lifecycle** - useEffect vs lifecycle methods
-• **Performance** - Functional components are slightly more optimized
-• **Modern standard** - Hooks make functional components more powerful
+* **Syntax** - Functions vs ES6 classes
+* **State management** - Hooks vs this.state
+* **Lifecycle** - useEffect vs lifecycle methods
+* **Performance** - Functional components are slightly more optimized
+* **Modern standard** - Hooks make functional components more powerful
 
 ```jsx
 // Functional with hooks
@@ -165,11 +165,11 @@ class Counter extends React.Component {
 
 The Virtual DOM is React's in-memory representation of the real DOM.
 
-• **JavaScript object** - Lightweight copy of the actual DOM
-• **Diffing algorithm** - Compares old and new virtual DOM trees
-• **Reconciliation** - Updates only changed parts in real DOM
-• **Performance** - Batch updates and minimize expensive DOM operations
-• **Predictable** - Makes UI updates more predictable and debuggable
+* **JavaScript object** - Lightweight copy of the actual DOM
+* **Diffing algorithm** - Compares old and new virtual DOM trees
+* **Reconciliation** - Updates only changed parts in real DOM
+* **Performance** - Batch updates and minimize expensive DOM operations
+* **Predictable** - Makes UI updates more predictable and debuggable
 
 ```jsx
 // When state changes, React creates new Virtual DOM
@@ -189,11 +189,11 @@ function App() {
 
 Props are arguments passed to React components, like function parameters.
 
-• **Read-only data** - Components cannot modify their props
-• **Parent to child** - Data flows down from parent components
-• **Any data type** - Strings, numbers, objects, functions, etc.
-• **Default values** - Can set defaultProps for missing props
-• **Destructuring** - Extract props for cleaner code
+* **Read-only data** - Components cannot modify their props
+* **Parent to child** - Data flows down from parent components
+* **Any data type** - Strings, numbers, objects, functions, etc.
+* **Default values** - Can set defaultProps for missing props
+* **Destructuring** - Extract props for cleaner code
 
 ```jsx
 // Passing props
@@ -216,11 +216,11 @@ function Welcome(props) {
 
 State is internal component data that can change, props are external data passed from parent.
 
-• **State** - Mutable data owned by the component
-• **Props** - Immutable data passed from parent to child
-• **State changes** - Triggers re-renders when updated
-• **Props are read-only** - Cannot be modified by the receiving component
-• **Data flow** - Props flow down, state changes bubble up via callbacks
+* **State** - Mutable data owned by the component
+* **Props** - Immutable data passed from parent to child
+* **State changes** - Triggers re-renders when updated
+* **Props are read-only** - Cannot be modified by the receiving component
+* **Data flow** - Props flow down, state changes bubble up via callbacks
 
 ```jsx
 // State - internal and mutable
@@ -239,11 +239,11 @@ function Display({ count }) {
 
 The render method returns JSX that describes what the UI should look like.
 
-• **Class components** - Required method that returns JSX
-• **Functional components** - The entire function body is like render
-• **Pure function** - Should not modify state or cause side effects
-• **Called automatically** - React calls it when state or props change
-• **Must return** - JSX, null, or array of elements
+* **Class components** - Required method that returns JSX
+* **Functional components** - The entire function body is like render
+* **Pure function** - Should not modify state or cause side effects
+* **Called automatically** - React calls it when state or props change
+* **Must return** - JSX, null, or array of elements
 
 ```jsx
 // Class component render method
@@ -263,11 +263,11 @@ function Welcome({ name }) {
 
 The key prop helps React identify which list items have changed, added, or removed.
 
-• **Unique identifier** - Should be unique among siblings
-• **Performance optimization** - Helps React reuse DOM elements
-• **Avoid array index** - Use stable, unique values when possible
-• **Required for lists** - React warns if missing in mapped arrays
-• **Reconciliation** - Helps Virtual DOM diffing algorithm
+* **Unique identifier** - Should be unique among siblings
+* **Performance optimization** - Helps React reuse DOM elements
+* **Avoid array index** - Use stable, unique values when possible
+* **Required for lists** - React warns if missing in mapped arrays
+* **Reconciliation** - Helps Virtual DOM diffing algorithm
 
 ```jsx
 // Good - using unique ID
@@ -285,11 +285,11 @@ const items = users.map((user, index) =>
 
 Controlled components have their form data handled by React state.
 
-• **React controls value** - Input value comes from state
-• **onChange handler** - Updates state when user types
-• **Single source of truth** - State is the authoritative data source
-• **Predictable** - You always know the current value
-• **Validation** - Easy to add real-time validation
+* **React controls value** - Input value comes from state
+* **onChange handler** - Updates state when user types
+* **Single source of truth** - State is the authoritative data source
+* **Predictable** - You always know the current value
+* **Validation** - Easy to add real-time validation
 
 ```jsx
 function LoginForm() {
@@ -309,11 +309,11 @@ function LoginForm() {
 
 Uncontrolled components manage their own state internally, like traditional HTML forms.
 
-• **DOM controls value** - Input manages its own state
-• **Refs for access** - Use refs to get current value when needed
-• **Less React code** - Simpler for basic forms
-• **Integration** - Good for integrating with non-React libraries
-• **Default values** - Use defaultValue instead of value
+* **DOM controls value** - Input manages its own state
+* **Refs for access** - Use refs to get current value when needed
+* **Less React code** - Simpler for basic forms
+* **Integration** - Good for integrating with non-React libraries
+* **Default values** - Use defaultValue instead of value
 
 ```jsx
 function LoginForm() {
@@ -337,11 +337,11 @@ function LoginForm() {
 
 Fragments let you group multiple elements without adding extra DOM nodes.
 
-• **No wrapper div** - Avoid unnecessary DOM elements
-• **Two syntaxes** - React.Fragment or shorthand <></>
-• **Key prop** - Only React.Fragment supports key prop
-• **Cleaner HTML** - Keeps DOM structure clean
-• **Performance** - Slightly better performance, less memory
+* **No wrapper div** - Avoid unnecessary DOM elements
+* **Two syntaxes** - React.Fragment or shorthand <></>
+* **Key prop** - Only React.Fragment supports key prop
+* **Cleaner HTML** - Keeps DOM structure clean
+* **Performance** - Slightly better performance, less memory
 
 ```jsx
 // Using React.Fragment
@@ -369,11 +369,11 @@ function App() {
 
 Synthetic events are React's wrapper around native DOM events for cross-browser compatibility.
 
-• **Cross-browser** - Same API across all browsers
-• **Event pooling** - Reuses event objects for performance (React 16 and below)
-• **Same interface** - Same methods as native events (preventDefault, stopPropagation)
-• **Automatic binding** - No need to worry about 'this' context
-• **Access native event** - Use e.nativeEvent if needed
+* **Cross-browser** - Same API across all browsers
+* **Event pooling** - Reuses event objects for performance (React 16 and below)
+* **Same interface** - Same methods as native events (preventDefault, stopPropagation)
+* **Automatic binding** - No need to worry about 'this' context
+* **Access native event** - Use e.nativeEvent if needed
 
 ```jsx
 function Button() {
@@ -391,11 +391,11 @@ function Button() {
 
 StrictMode is a development tool that highlights potential problems in your application.
 
-• **Development only** - No impact on production builds
-• **Double rendering** - Helps find side effects in render methods
-• **Deprecated warnings** - Warns about unsafe lifecycle methods
-• **Future-proofing** - Prepares code for future React versions
-• **Wrapper component** - Wrap parts of your app to enable checks
+* **Development only** - No impact on production builds
+* **Double rendering** - Helps find side effects in render methods
+* **Deprecated warnings** - Warns about unsafe lifecycle methods
+* **Future-proofing** - Prepares code for future React versions
+* **Wrapper component** - Wrap parts of your app to enable checks
 
 ```jsx
 // Wrap your app or components
@@ -3323,10 +3323,10 @@ import React, { useState, memo, useCallback, useMemo } from 'react';\n\n// Basic
 
 **Use React.memo, useMemo, useCallback, and proper state structure to prevent unnecessary re-renders.**
 
-• **React.memo**: Memoize components to skip re-renders when props unchanged
-• **useMemo**: Memoize expensive calculations
-• **useCallback**: Memoize functions to maintain reference equality
-• **State structure**: Keep state minimal and avoid derived state
+* **React.memo**: Memoize components to skip re-renders when props unchanged
+* **useMemo**: Memoize expensive calculations
+* **useCallback**: Memoize functions to maintain reference equality
+* **State structure**: Keep state minimal and avoid derived state
 
 ```jsx
 import { useState, memo, useMemo, useCallback } from 'react';
@@ -3431,10 +3431,10 @@ const BadChild = memo(({ config, onClick, items }) => {
 
 **Inline functions create new function references on every render, breaking memoization and causing child re-renders.**
 
-• **New reference**: Inline functions create new references each render
-• **Breaks memoization**: React.memo sees different function props
-• **Performance impact**: Causes unnecessary child re-renders
-• **Solution**: Use useCallback or define functions outside render
+* **New reference**: Inline functions create new references each render
+* **Breaks memoization**: React.memo sees different function props
+* **Performance impact**: Causes unnecessary child re-renders
+* **Solution**: Use useCallback or define functions outside render
 
 ```jsx
 import { useState, memo, useCallback } from 'react';
@@ -3589,10 +3589,10 @@ const OptimizedChild = memo(({ onRender, onClick }) => {
 
 **Render thrashing occurs when components re-render excessively due to rapid state changes or poor optimization.**
 
-• **Excessive re-renders**: Components render more than necessary
-• **Performance degradation**: UI becomes slow and unresponsive
-• **Common causes**: Rapid state updates, missing memoization, unstable dependencies
-• **Solutions**: Debouncing, batching, proper memoization
+* **Excessive re-renders**: Components render more than necessary
+* **Performance degradation**: UI becomes slow and unresponsive
+* **Common causes**: Rapid state updates, missing memoization, unstable dependencies
+* **Solutions**: Debouncing, batching, proper memoization
 
 ```jsx
 import { useState, useEffect, useMemo, useCallback, useTransition } from 'react';
@@ -3798,10 +3798,10 @@ function expensiveSearch(query) {
 
 **Keys help React identify which items have changed, moved, or been removed, enabling efficient reconciliation.**
 
-• **Element identity**: Keys give React a way to track elements across renders
-• **Efficient updates**: React can reuse DOM nodes instead of recreating them
-• **Preserve state**: Component state is preserved when elements move
-• **Performance**: Reduces DOM manipulation and improves rendering speed
+* **Element identity**: Keys give React a way to track elements across renders
+* **Efficient updates**: React can reuse DOM nodes instead of recreating them
+* **Preserve state**: Component state is preserved when elements move
+* **Performance**: Reduces DOM manipulation and improves rendering speed
 
 ```jsx
 import { useState } from 'react';
@@ -3983,10 +3983,10 @@ function ExpensiveItem({ item }) {
 
 **Unstable keys cause React to unnecessarily recreate components, losing state and degrading performance.**
 
-• **Component recreation**: React treats elements as different when keys change
-• **State loss**: Component state is lost when keys are unstable
-• **Performance impact**: Unnecessary DOM creation and destruction
-• **Common mistake**: Using array index or Math.random() as keys
+* **Component recreation**: React treats elements as different when keys change
+* **State loss**: Component state is lost when keys are unstable
+* **Performance impact**: Unnecessary DOM creation and destruction
+* **Common mistake**: Using array index or Math.random() as keys
 
 ```jsx
 import { useState } from 'react';
@@ -4189,10 +4189,10 @@ function PerformanceItem({ item, isStable }) {
 
 **Prevent memory leaks by cleaning up subscriptions, timers, and event listeners in useEffect cleanup functions.**
 
-• **Cleanup functions**: Return cleanup function from useEffect
-• **Event listeners**: Remove event listeners on unmount
-• **Timers**: Clear timeouts and intervals
-• **Subscriptions**: Unsubscribe from external data sources
+* **Cleanup functions**: Return cleanup function from useEffect
+* **Event listeners**: Remove event listeners on unmount
+* **Timers**: Clear timeouts and intervals
+* **Subscriptions**: Unsubscribe from external data sources
 
 ```jsx
 import { useState, useEffect, useRef } from 'react';
@@ -4441,10 +4441,10 @@ function FetchWithAbortExample() {
 
 **Virtualization renders only visible items in large lists, dramatically improving performance by reducing DOM nodes.**
 
-• **Render only visible**: Only render items currently in viewport
-• **Performance boost**: Handles thousands of items smoothly
-• **Memory efficient**: Reduces DOM nodes and memory usage
-• **Libraries**: react-window, react-virtualized for implementation
+* **Render only visible**: Only render items currently in viewport
+* **Performance boost**: Handles thousands of items smoothly
+* **Memory efficient**: Reduces DOM nodes and memory usage
+* **Libraries**: react-window, react-virtualized for implementation
 
 ```jsx
 import { useState, useMemo, useRef, useEffect } from 'react';
@@ -4716,10 +4716,10 @@ function DynamicHeightItem({ item, onHeightChange }) {
 
 **React uses keys for reconciliation, but large lists need virtualization, memoization, and pagination for optimal performance.**
 
-• **Keys for reconciliation**: Efficient updates when items change
-• **Virtualization**: Render only visible items
-• **Memoization**: Prevent unnecessary re-renders of list items
-• **Pagination**: Break large datasets into smaller chunks
+* **Keys for reconciliation**: Efficient updates when items change
+* **Virtualization**: Render only visible items
+* **Memoization**: Prevent unnecessary re-renders of list items
+* **Pagination**: Break large datasets into smaller chunks
 
 ```jsx
 import { useState, useMemo, memo, useCallback } from 'react';
