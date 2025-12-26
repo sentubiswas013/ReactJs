@@ -6819,3 +6819,4260 @@ const ProtectedComponent = withAuth(MyComponent);
 // ❌ Avoid deep nesting
 withAuth(withLoading(withError(Component))) // Too many wrappers
 ```
+
+# React Testing Interview Questions
+
+## 1. What Testing Libraries Are Used in React?
+
+**Popular React testing libraries:**
+- **Jest** - Test runner and assertion library (built into Create React App)
+- **React Testing Library** - Component testing utilities (recommended)
+- **Vitest** - Fast alternative to Jest
+- **Cypress** - End-to-end testing
+- **Playwright** - Modern E2E testing
+
+**Testing stack setup:**
+```json
+// package.json
+{
+  "devDependencies": {
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3",
+    "jest": "^29.0.0"
+  }
+}
+```
+
+```jsx
+// Basic test setup
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Button from './Button';
+
+test('renders button with text', () => {
+  render(<Button>Click me</Button>);
+  expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();
+});
+
+// Test utilities setup
+// setupTests.js
+import '@testing-library/jest-dom';
+
+// Custom render function
+import { render } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+
+export function renderWithRouter(ui, options = {}) {
+  return render(ui, {
+    wrapper: ({ children }) => <BrowserRouter>{children}</BrowserRouter>,
+    ...options
+  });
+}
+```
+
+## 2. Why React Testing Library Over Enzyme?
+
+**React Testing Library advantages:**
+- **User-focused testing** - Tests how users interact with components
+- **Better maintainability** - Less brittle tests
+- **Modern React support** - Works with hooks and concurrent features
+- **Encourages best practices** - Focuses on behavior, not implementation
+
+**Key differences:**
+```jsx
+// ❌ Enzyme - Implementation details
+import { shallow } from 'enzyme';
+
+const wrapper = shallow(<Counter />);
+expect(wrapper.find('.count').text()).toBe('0');
+wrapper.find('button').simulate('click');
+expect(wrapper.state('count')).toBe(1); // Testing internal state
+
+// ✅ React Testing Library - User behavior
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+test('counter increments when button clicked', async () => {
+  const user = userEvent.setup();
+  render(<Counter />);
+  
+  expect(screen.getByText('0')).toBeInTheDocument();
+  await user.click(screen.getByRole('button', { name: /increment/i }));
+  expect(screen.getByText('1')).toBeInTheDocument();
+});
+
+// Component being tested
+function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+## 3. What Should You Test vs Not Test?
+
+**✅ What TO test:**
+- **User interactions** - Clicks, form submissions, navigation
+- **Conditional rendering** - Show/hide based on props or state
+- **Error handling** - Error states and boundaries
+- **Integration** - Component communication and data flow
+
+**❌ What NOT to test:**
+- **Implementation details** - Internal state, private methods
+- **Third-party libraries** - Assume they work correctly
+- **Styling** - CSS classes, inline styles (unless critical)
+- **Trivial code** - Simple getters, basic utilities
+
+```jsx
+// ✅ Good tests - User behavior
+test('shows error message when form submission fails', async () => {
+  const user = userEvent.setup();
+  render(<LoginForm />);
+  
+  await user.type(screen.getByLabelText(/email/i), 'invalid-email');
+  await user.click(screen.getByRole('button', { name: /login/i }));
+  
+  expect(screen.getByText(/invalid email format/i)).toBeInTheDocument();
+});
+
+test('navigates to dashboard after successful login', async () => {
+  const user = userEvent.setup();
+  render(<LoginForm />);
+  
+  await user.type(screen.getByLabelText(/email/i), 'user@example.com');
+  await user.type(screen.getByLabelText(/password/i), 'password123');
+  await user.click(screen.getByRole('button', { name: /login/i }));
+  
+  expect(screen.getByText(/welcome to dashboard/i)).toBeInTheDocument();
+});
+
+// ❌ Bad tests - Implementation details
+test('sets loading state to true when submitting', () => {
+  // Don't test internal state directly
+});
+
+test('calls handleSubmit function when form submitted', () => {
+  // Don't test function calls unless they have observable effects
+});
+```
+
+## 4. How Do You Test Components?
+
+**Component testing focuses on:**
+- **Rendering** - Component displays correctly
+- **Props** - Handles different prop values
+- **Events** - User interactions work as expected
+- **Accessibility** - Screen readers and keyboard navigation
+
+```jsx
+// Component to test
+function UserCard({ user, onEdit, onDelete }) {
+  return (
+    <div data-testid="user-card">
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+      <button onClick={() => onEdit(user.id)}>Edit</button>
+      <button onClick={() => onDelete(user.id)}>Delete</button>
+    </div>
+  );
+}
+
+// Test file
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import UserCard from './UserCard';
+
+const mockUser = {
+  id: 1,
+  name: 'John Doe',
+  email: 'john@example.com'
+};
+
+test('renders user information', () => {
+  render(<UserCard user={mockUser} onEdit={jest.fn()} onDelete={jest.fn()} />);
+  
+  expect(screen.getByText('John Doe')).toBeInTheDocument();
+  expect(screen.getByText('john@example.com')).toBeInTheDocument();
+});
+
+test('calls onEdit when edit button clicked', async () => {
+  const user = userEvent.setup();
+  const mockOnEdit = jest.fn();
+  
+  render(<UserCard user={mockUser} onEdit={mockOnEdit} onDelete={jest.fn()} />);
+  
+  await user.click(screen.getByRole('button', { name: /edit/i }));
+  expect(mockOnEdit).toHaveBeenCalledWith(1);
+});
+
+test('calls onDelete when delete button clicked', async () => {
+  const user = userEvent.setup();
+  const mockOnDelete = jest.fn();
+  
+  render(<UserCard user={mockUser} onEdit={jest.fn()} onDelete={mockOnDelete} />);
+  
+  await user.click(screen.getByRole('button', { name: /delete/i }));
+  expect(mockOnDelete).toHaveBeenCalledWith(1);
+});
+```
+# React Build Tools & Tooling Interview Questions
+
+## 1. What is Vite and Why is it Faster than Webpack?
+
+**Vite** is a modern build tool that uses native ES modules during development and Rollup for production builds. It's significantly faster than traditional bundlers.
+
+**Why Vite is faster:**
+- **No bundling in dev** - Serves files directly via ES modules
+- **Hot Module Replacement (HMR)** - Updates only changed modules
+- **Native ES modules** - Browser handles module loading
+- **Esbuild** - Uses Go-based bundler for dependencies
+
+```jsx
+// Vite setup - vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    open: true
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true
+  }
+});
+
+// package.json scripts
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
+
+// Vite development - No bundling
+// Browser directly imports ES modules
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx'; // Direct ES module import
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// Webpack development - Everything bundled
+// All modules processed and bundled before serving
+// Slower startup and updates
+```
+
+**Performance comparison:**
+```bash
+# Vite
+npm run dev     # ~200ms startup
+# File change   # ~50ms HMR update
+
+# Webpack (Create React App)
+npm start       # ~3-5s startup  
+# File change   # ~500ms-2s update
+```
+
+## 2. What is Webpack and What Does it Do?
+
+**Webpack** is a module bundler that takes modules with dependencies and generates static assets. It's the traditional build tool for React applications.
+
+**What Webpack does:**
+- **Module bundling** - Combines all files into bundles
+- **Asset processing** - Handles CSS, images, fonts
+- **Code transformation** - Babel, TypeScript compilation
+- **Optimization** - Minification, tree shaking, code splitting
+
+```javascript
+// webpack.config.js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+    clean: true
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-react']
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        type: 'asset/resource'
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
+    })
+  ],
+  devServer: {
+    port: 3000,
+    hot: true
+  }
+};
+
+// Webpack processes everything into bundles
+// Input: Multiple JS/CSS/image files
+// Output: Optimized bundles
+/*
+dist/
+├── main.a1b2c3.js     # Main application bundle
+├── vendor.d4e5f6.js   # Third-party libraries
+├── main.g7h8i9.css    # Styles bundle
+└── index.html         # HTML with injected script tags
+*/
+
+// package.json with webpack
+{
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  }
+}
+```
+
+## 3. What is Babel and Why is it Required?
+
+**Babel** is a JavaScript compiler that transforms modern JavaScript (ES6+) and JSX into browser-compatible code. It's essential for React development.
+
+**Why Babel is needed:**
+- **JSX transformation** - Converts JSX to React.createElement calls
+- **ES6+ support** - Transforms modern syntax for older browsers
+- **Polyfills** - Adds missing features for target browsers
+- **Plugin ecosystem** - Extensible with custom transformations
+
+```jsx
+// Before Babel (JSX + ES6)
+const App = () => {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <div className="app">
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+};
+
+// After Babel transformation
+var App = function App() {
+  var _useState = useState(0),
+      count = _useState[0],
+      setCount = _useState[1];
+  
+  return React.createElement(
+    "div",
+    { className: "app" },
+    React.createElement("h1", null, "Count: ", count),
+    React.createElement(
+      "button",
+      { onClick: function onClick() { return setCount(count + 1); } },
+      "Increment"
+    )
+  );
+};
+
+// Babel configuration - .babelrc
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions"]
+      }
+    }],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
+}
+
+// Modern syntax transformation
+// Input (ES6+)
+const users = await fetch('/api/users').then(res => res.json());
+const names = users.map(user => user.name);
+
+// Output (ES5 compatible)
+function _asyncToGenerator(fn) { /* polyfill */ }
+var users = _asyncToGenerator(function* () {
+  return fetch('/api/users').then(function(res) { return res.json(); });
+})();
+var names = users.map(function(user) { return user.name; });
+```
+
+## 4. What is Tree Shaking?
+
+**Tree shaking** eliminates unused code from the final bundle. It analyzes import/export statements to remove dead code, reducing bundle size.
+
+**How it works:**
+- **Static analysis** - Analyzes ES6 import/export statements
+- **Dead code elimination** - Removes unused functions and variables
+- **Bundle optimization** - Smaller final bundle size
+- **Build-time process** - Happens during production build
+
+```jsx
+// Library with multiple exports - utils.js
+export const formatDate = (date) => {
+  return new Intl.DateTimeFormat('en-US').format(date);
+};
+
+export const formatCurrency = (amount) => {
+  return new Intl.NumberFormat('en-US', { 
+    style: 'currency', 
+    currency: 'USD' 
+  }).format(amount);
+};
+
+export const formatNumber = (num) => {
+  return new Intl.NumberFormat('en-US').format(num);
+};
+
+export const validateEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+// App only imports what it needs
+import { formatDate, formatCurrency } from './utils';
+
+function App() {
+  const price = formatCurrency(29.99);
+  const date = formatDate(new Date());
+  
+  return <div>{price} - {date}</div>;
+}
+
+// Tree shaking result:
+// ✅ formatDate and formatCurrency included in bundle
+// ❌ formatNumber and validateEmail removed from bundle
+
+// Webpack tree shaking configuration
+module.exports = {
+  mode: 'production', // Enables tree shaking
+  optimization: {
+    usedExports: true,
+    sideEffects: false // Mark package as side-effect free
+  }
+};
+
+// package.json - Mark as side-effect free
+{
+  "sideEffects": false,
+  // Or specify files with side effects
+  "sideEffects": ["*.css", "*.scss"]
+}
+
+// Bad for tree shaking - Default import
+import * as utils from './utils'; // Imports everything
+utils.formatDate(new Date());
+
+// Good for tree shaking - Named imports
+import { formatDate } from './utils'; // Only imports formatDate
+formatDate(new Date());
+
+// Lodash example
+// ❌ Bad - Imports entire library
+import _ from 'lodash';
+_.debounce(fn, 300);
+
+// ✅ Good - Imports only needed function
+import debounce from 'lodash/debounce';
+debounce(fn, 300);
+```
+
+## 5. How Does Dynamic Import Work?
+
+**Dynamic imports** load modules on-demand at runtime, enabling code splitting and lazy loading. They return promises and help reduce initial bundle size.
+
+**Benefits:**
+- **Code splitting** - Split code into smaller chunks
+- **Lazy loading** - Load components when needed
+- **Reduced initial bundle** - Faster app startup
+- **Route-based splitting** - Load pages on navigation
+
+```jsx
+// Dynamic import for lazy loading
+import { lazy, Suspense } from 'react';
+
+// Lazy load components
+const Dashboard = lazy(() => import('./Dashboard'));
+const Profile = lazy(() => import('./Profile'));
+const Settings = lazy(() => import('./Settings'));
+
+function App() {
+  return (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </Suspense>
+    </Router>
+  );
+}
+
+// Dynamic import with conditions
+function AdminPanel() {
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [AdvancedComponent, setAdvancedComponent] = useState(null);
+
+  const loadAdvancedFeatures = async () => {
+    if (!AdvancedComponent) {
+      const module = await import('./AdvancedFeatures');
+      setAdvancedComponent(() => module.default);
+    }
+    setShowAdvanced(true);
+  };
+
+  return (
+    <div>
+      <h1>Admin Panel</h1>
+      <button onClick={loadAdvancedFeatures}>
+        Load Advanced Features
+      </button>
+      {showAdvanced && AdvancedComponent && <AdvancedComponent />}
+    </div>
+  );
+}
+
+// Dynamic import for utilities
+async function processData(data) {
+  // Only load heavy processing library when needed
+  const { processLargeDataset } = await import('./heavyProcessing');
+  return processLargeDataset(data);
+}
+
+// Webpack magic comments for chunk naming
+const Dashboard = lazy(() => 
+  import(
+    /* webpackChunkName: "dashboard" */ 
+    './Dashboard'
+  )
+);
+
+// Preload for better UX
+const Settings = lazy(() => 
+  import(
+    /* webpackChunkName: "settings" */
+    /* webpackPreload: true */
+    './Settings'
+  )
+);
+
+// Bundle analysis result:
+/*
+main.js          - 50KB  (Core app)
+dashboard.js     - 30KB  (Loaded when /dashboard visited)
+profile.js       - 20KB  (Loaded when /profile visited)
+settings.js      - 15KB  (Loaded when /settings visited)
+*/
+
+// Error handling with dynamic imports
+function LazyComponent() {
+  return (
+    <Suspense 
+      fallback={<div>Loading component...</div>}
+    >
+      <ErrorBoundary 
+        fallback={<div>Failed to load component</div>}
+      >
+        <DynamicallyLoadedComponent />
+      </ErrorBoundary>
+    </Suspense>
+  );
+}
+```
+
+## 6. What is the Role of `.env` Files?
+
+**Environment files** store configuration variables that change between environments (development, staging, production). They keep sensitive data out of source code.
+
+**Common use cases:**
+- **API endpoints** - Different URLs for dev/prod
+- **Feature flags** - Enable/disable features per environment
+- **API keys** - Store secrets securely
+- **Build configuration** - Environment-specific settings
+
+```bash
+# .env (default environment)
+REACT_APP_API_URL=http://localhost:3001/api
+REACT_APP_APP_NAME=My React App
+REACT_APP_VERSION=1.0.0
+
+# .env.development
+REACT_APP_API_URL=http://localhost:3001/api
+REACT_APP_DEBUG=true
+REACT_APP_MOCK_API=true
+
+# .env.production
+REACT_APP_API_URL=https://api.myapp.com
+REACT_APP_DEBUG=false
+REACT_APP_ANALYTICS_ID=GA-123456789
+
+# .env.local (ignored by git, for local overrides)
+REACT_APP_API_URL=http://192.168.1.100:3001/api
+REACT_APP_DEBUG=true
+```
+
+```jsx
+// Using environment variables in React
+function App() {
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const appName = process.env.REACT_APP_APP_NAME;
+  const isDebug = process.env.REACT_APP_DEBUG === 'true';
+
+  useEffect(() => {
+    if (isDebug) {
+      console.log('Debug mode enabled');
+      console.log('API URL:', apiUrl);
+    }
+  }, []);
+
+  return (
+    <div>
+      <h1>{appName}</h1>
+      <ApiProvider baseUrl={apiUrl}>
+        <Router />
+      </ApiProvider>
+    </div>
+  );
+}
+
+// API service using environment variables
+class ApiService {
+  constructor() {
+    this.baseUrl = process.env.REACT_APP_API_URL;
+    this.timeout = process.env.REACT_APP_API_TIMEOUT || 5000;
+  }
+
+  async get(endpoint) {
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      timeout: this.timeout
+    });
+    return response.json();
+  }
+}
+
+// Feature flags with environment variables
+function FeatureComponent() {
+  const showBetaFeature = process.env.REACT_APP_ENABLE_BETA === 'true';
+  const showAnalytics = process.env.REACT_APP_ANALYTICS_ID;
+
+  return (
+    <div>
+      <MainContent />
+      {showBetaFeature && <BetaFeature />}
+      {showAnalytics && <Analytics id={process.env.REACT_APP_ANALYTICS_ID} />}
+    </div>
+  );
+}
+
+// .gitignore - Don't commit sensitive files
+.env.local
+.env.*.local
+
+// Environment loading priority (highest to lowest):
+// 1. .env.local
+// 2. .env.development / .env.production
+// 3. .env
+
+// Validation and defaults
+const config = {
+  apiUrl: process.env.REACT_APP_API_URL || 'http://localhost:3001/api',
+  appName: process.env.REACT_APP_APP_NAME || 'React App',
+  version: process.env.REACT_APP_VERSION || '1.0.0',
+  debug: process.env.NODE_ENV === 'development'
+};
+
+// Type safety with TypeScript
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      REACT_APP_API_URL: string;
+      REACT_APP_APP_NAME: string;
+      REACT_APP_DEBUG: 'true' | 'false';
+    }
+  }
+}
+```
+
+## 7. Explain the npm start → build Workflow
+
+**Development to production workflow** involves different processes for development server and production builds, each optimized for their specific needs.
+
+**Development (npm start):**
+- **Fast startup** - Quick development server
+- **Hot reloading** - Instant updates on file changes
+- **Source maps** - Easy debugging
+- **No optimization** - Faster builds
+
+**Production (npm run build):**
+- **Optimization** - Minification, compression
+- **Bundle splitting** - Separate vendor and app code
+- **Asset hashing** - Cache busting
+- **Static files** - Ready for deployment
+
+```json
+// package.json scripts
+{
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  }
+}
+
+// Development workflow (npm start)
+/*
+1. Start development server on port 3000
+2. Enable hot module replacement (HMR)
+3. Serve files from memory (no disk writes)
+4. Include source maps for debugging
+5. Watch for file changes and reload
+*/
+
+// Development output structure (in memory)
+/*
+http://localhost:3000/
+├── /static/js/bundle.js        # All JS in one file
+├── /static/css/main.css        # All CSS in one file
+└── /                           # HTML served from memory
+*/
+```
+
+```bash
+# Production build workflow (npm run build)
+
+# 1. Clean previous build
+rm -rf build/
+
+# 2. Compile and optimize
+# - Babel transforms JSX and ES6+
+# - Webpack bundles and optimizes
+# - CSS is extracted and minified
+# - Images are optimized and hashed
+
+# 3. Generate static files
+build/
+├── static/
+│   ├── js/
+│   │   ├── main.a1b2c3.js      # App code (minified)
+│   │   └── vendor.d4e5f6.js    # Third-party libraries
+│   ├── css/
+│   │   └── main.g7h8i9.css     # Styles (minified)
+│   └── media/
+│       └── logo.j1k2l3.png     # Images (optimized)
+├── index.html                   # HTML with injected assets
+└── asset-manifest.json         # Asset mapping for deployment
+
+# 4. Build analysis
+npm run build
+
+# Output:
+# File sizes after gzip:
+#   41.2 KB  build/static/js/main.a1b2c3.js
+#   15.3 KB  build/static/js/vendor.d4e5f6.js
+#   2.1 KB   build/static/css/main.g7h8i9.css
+```
+
+```jsx
+// Build optimizations applied
+
+// 1. Code minification
+// Before:
+function calculateTotal(items) {
+  return items.reduce((total, item) => {
+    return total + (item.price * item.quantity);
+  }, 0);
+}
+
+// After minification:
+const calculateTotal=items=>items.reduce((total,item)=>total+item.price*item.quantity,0);
+
+// 2. Tree shaking - removes unused code
+// 3. Bundle splitting
+const config = {
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        }
+      }
+    }
+  }
+};
+
+// 4. Asset optimization
+// Images compressed and hashed
+// CSS autoprefixed and minified
+// HTML minified
+
+// Deployment-ready build
+// All files have content hashes for caching
+// Can be served from CDN
+// Optimized for production performance
+```
+
+## 8. What is CI/CD for React Applications?
+
+**CI/CD (Continuous Integration/Continuous Deployment)** automates the process of testing, building, and deploying React applications. It ensures code quality and enables rapid, reliable releases.
+
+**CI (Continuous Integration):**
+- **Automated testing** - Run tests on every commit
+- **Code quality checks** - Linting, formatting
+- **Build verification** - Ensure code compiles
+- **Security scanning** - Check for vulnerabilities
+
+**CD (Continuous Deployment):**
+- **Automated builds** - Create production bundles
+- **Environment deployment** - Deploy to staging/production
+- **Rollback capability** - Quick revert if issues
+- **Monitoring** - Track deployment success
+
+```yaml
+# GitHub Actions CI/CD - .github/workflows/deploy.yml
+name: Deploy React App
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm test -- --coverage --watchAll=false
+      
+      - name: Run linting
+        run: npm run lint
+      
+      - name: Type check
+        run: npm run type-check
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build application
+        run: npm run build
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_ANALYTICS_ID: ${{ secrets.REACT_APP_ANALYTICS_ID }}
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: build/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: build/
+      
+      - name: Deploy to S3
+        run: |
+          aws s3 sync build/ s3://${{ secrets.S3_BUCKET }} --delete
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
+```
+
+```javascript
+// Deployment configurations
+
+// Netlify deployment - netlify.toml
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  REACT_APP_API_URL = "https://api.myapp.com"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+// Vercel deployment - vercel.json
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "npm run build",
+        "outputDirectory": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
+
+// Docker deployment - Dockerfile
+FROM node:18-alpine as build
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+// Environment-specific builds
+// package.json
+{
+  "scripts": {
+    "build:dev": "REACT_APP_ENV=development npm run build",
+    "build:staging": "REACT_APP_ENV=staging npm run build",
+    "build:prod": "REACT_APP_ENV=production npm run build"
+  }
+}
+```
+
+## Build Tools Comparison
+
+| Tool | Startup Time | HMR Speed | Bundle Size | Learning Curve |
+|------|-------------|-----------|-------------|----------------|
+| Vite | ~200ms | ~50ms | Small | Easy |
+| Webpack | ~3-5s | ~500ms-2s | Medium | Moderate |
+| Parcel | ~1-2s | ~200ms | Small | Easy |
+| Rollup | N/A (build only) | N/A | Smallest | Moderate |
+
+## Best Practices Summary
+
+```jsx
+// ✅ Good practices
+// 1. Use environment variables for configuration
+const apiUrl = process.env.REACT_APP_API_URL;
+
+// 2. Implement code splitting
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+// 3. Optimize imports for tree shaking
+import { debounce } from 'lodash-es';
+
+// 4. Use proper build scripts
+{
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
+
+// 5. Set up CI/CD pipeline
+// Automated testing, building, and deployment
+
+// ❌ Avoid
+// 1. Committing .env files with secrets
+// 2. Importing entire libraries
+import * as _ from 'lodash';
+
+// 3. No code splitting for large apps
+// 4. Manual deployment processes
+```
+
+# React SSR, Next.js & Modern Web Interview Questions
+
+## 1. What is SSR in React?
+
+**Server-Side Rendering (SSR)** renders React components on the server and sends fully-formed HTML to the browser. The client then "hydrates" the HTML to make it interactive.
+
+**Benefits:**
+- **Better SEO** - Search engines see complete HTML
+- **Faster initial load** - Users see content immediately
+- **Social sharing** - Meta tags work for link previews
+- **Performance on slow devices** - Less JavaScript processing on client
+
+```jsx
+// Traditional CSR (Client-Side Rendering)
+// Server sends empty HTML, React renders everything on client
+<!DOCTYPE html>
+<html>
+<head><title>My App</title></head>
+<body>
+  <div id="root"></div> <!-- Empty initially -->
+  <script src="bundle.js"></script>
+</body>
+</html>
+
+// SSR - Server renders complete HTML
+<!DOCTYPE html>
+<html>
+<head><title>User Profile - John Doe</title></head>
+<body>
+  <div id="root">
+    <div class="profile">
+      <h1>John Doe</h1>
+      <p>Software Engineer</p>
+      <img src="/avatar.jpg" alt="John's avatar" />
+    </div>
+  </div>
+  <script src="bundle.js"></script>
+</body>
+</html>
+
+// Basic SSR implementation with Express
+import express from 'express';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import App from './App';
+
+const server = express();
+
+server.get('*', (req, res) => {
+  const appHtml = renderToString(<App url={req.url} />);
+  
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>My SSR App</title>
+      </head>
+      <body>
+        <div id="root">${appHtml}</div>
+        <script src="/bundle.js"></script>
+      </body>
+    </html>
+  `;
+  
+  res.send(html);
+});
+
+// Client-side hydration
+import { hydrateRoot } from 'react-dom/client';
+import App from './App';
+
+hydrateRoot(document.getElementById('root'), <App />);
+```
+
+## 2. Difference Between CSR, SSR, SSG, and ISR
+
+**Four rendering strategies** each optimized for different use cases:
+
+**CSR (Client-Side Rendering):**
+- Renders everything on the client
+- Fast navigation after initial load
+- Poor SEO and slow initial load
+
+**SSR (Server-Side Rendering):**
+- Renders on server for each request
+- Good SEO, fast initial load
+- Higher server load
+
+**SSG (Static Site Generation):**
+- Pre-renders pages at build time
+- Fastest loading, great SEO
+- Content must be known at build time
+
+**ISR (Incremental Static Regeneration):**
+- Combines SSG with on-demand regeneration
+- Fast loading with fresh content
+- Best of both worlds
+
+```jsx
+// CSR - Client-Side Rendering
+function BlogPost({ id }) {
+  const [post, setPost] = useState(null);
+  
+  useEffect(() => {
+    fetch(`/api/posts/${id}`)
+      .then(res => res.json())
+      .then(setPost);
+  }, [id]);
+  
+  if (!post) return <div>Loading...</div>;
+  return <article>{post.content}</article>;
+}
+
+// SSR - Server-Side Rendering (Next.js)
+export async function getServerSideProps({ params }) {
+  const post = await fetch(`${API_URL}/posts/${params.id}`).then(res => res.json());
+  
+  return {
+    props: { post }
+  };
+}
+
+function BlogPost({ post }) {
+  return <article>{post.content}</article>;
+}
+
+// SSG - Static Site Generation (Next.js)
+export async function getStaticProps({ params }) {
+  const post = await fetch(`${API_URL}/posts/${params.id}`).then(res => res.json());
+  
+  return {
+    props: { post },
+    revalidate: false // Never revalidate
+  };
+}
+
+export async function getStaticPaths() {
+  const posts = await fetch(`${API_URL}/posts`).then(res => res.json());
+  
+  return {
+    paths: posts.map(post => ({ params: { id: post.id } })),
+    fallback: false
+  };
+}
+
+// ISR - Incremental Static Regeneration (Next.js)
+export async function getStaticProps({ params }) {
+  const post = await fetch(`${API_URL}/posts/${params.id}`).then(res => res.json());
+  
+  return {
+    props: { post },
+    revalidate: 3600 // Revalidate every hour
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [], // Generate pages on-demand
+    fallback: 'blocking'
+  };
+}
+```
+
+**Comparison Table:**
+
+| Strategy | When to Use | Pros | Cons |
+|----------|-------------|------|------|
+| **CSR** | SPAs, dashboards | Fast navigation, simple deployment | Poor SEO, slow initial load |
+| **SSR** | Dynamic content, personalized pages | Good SEO, fast initial load | Higher server costs |
+| **SSG** | Blogs, marketing sites | Fastest loading, cheap hosting | Build time increases with pages |
+| **ISR** | E-commerce, news sites | Fast + fresh content | More complex setup |
+
+## 3. What is Selective Hydration?
+
+**Selective Hydration** allows React to hydrate components independently and prioritize interactive components based on user interactions. It's part of React 18's concurrent features.
+
+**Benefits:**
+- **Faster interactivity** - Critical components hydrate first
+- **Better user experience** - Responds to user actions immediately
+- **Progressive enhancement** - Page becomes interactive gradually
+- **Automatic prioritization** - React decides what to hydrate first
+
+```jsx
+// React 18 Selective Hydration with Suspense
+import { Suspense } from 'react';
+import { hydrateRoot } from 'react-dom/client';
+
+function App() {
+  return (
+    <div>
+      {/* This hydrates immediately */}
+      <Header />
+      
+      {/* These hydrate when needed or when resources are available */}
+      <Suspense fallback={<div>Loading comments...</div>}>
+        <Comments />
+      </Suspense>
+      
+      <Suspense fallback={<div>Loading sidebar...</div>}>
+        <Sidebar />
+      </Suspense>
+      
+      {/* This hydrates immediately (critical) */}
+      <MainContent />
+    </div>
+  );
+}
+
+// Hydration prioritization
+hydrateRoot(document.getElementById('root'), <App />);
+
+// How it works:
+// 1. User sees server-rendered HTML immediately
+// 2. React starts hydrating Header and MainContent first
+// 3. If user clicks on Comments, React prioritizes Comments hydration
+// 4. Sidebar hydrates when resources are available
+// 5. Each component becomes interactive as it hydrates
+
+// Before React 18 - All or nothing hydration
+function OldApp() {
+  // Everything must hydrate before anything is interactive
+  return (
+    <div>
+      <Header />
+      <Comments /> {/* Blocks interactivity */}
+      <Sidebar />  {/* Blocks interactivity */}
+      <MainContent />
+    </div>
+  );
+}
+
+// Lazy component with selective hydration
+const LazyChart = lazy(() => import('./Chart'));
+
+function Dashboard() {
+  return (
+    <div>
+      <QuickActions /> {/* Hydrates first - user needs this */}
+      
+      <Suspense fallback={<ChartSkeleton />}>
+        <LazyChart /> {/* Hydrates when visible or needed */}
+      </Suspense>
+      
+      <RecentActivity /> {/* Hydrates progressively */}
+    </div>
+  );
+}
+```
+
+## 4. What is Lazy Hydration?
+
+**Lazy Hydration** defers the hydration of components until they're needed, typically when they become visible or when user interacts with them. It reduces initial JavaScript execution.
+
+**Strategies:**
+- **Intersection Observer** - Hydrate when component enters viewport
+- **Interaction-based** - Hydrate on first user interaction
+- **Idle time** - Hydrate when browser is idle
+- **Manual triggers** - Hydrate based on custom conditions
+
+```jsx
+// Intersection Observer lazy hydration
+import { useState, useEffect, useRef } from 'react';
+
+function LazyHydratedComponent({ children, fallback }) {
+  const [shouldHydrate, setShouldHydrate] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldHydrate(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref}>
+      {shouldHydrate ? children : fallback}
+    </div>
+  );
+}
+
+// Usage
+function App() {
+  return (
+    <div>
+      <Header /> {/* Hydrates immediately */}
+      
+      <LazyHydratedComponent fallback={<div>Chart placeholder</div>}>
+        <ExpensiveChart /> {/* Hydrates when visible */}
+      </LazyHydratedComponent>
+      
+      <LazyHydratedComponent fallback={<div>Comments placeholder</div>}>
+        <Comments /> {/* Hydrates when scrolled into view */}
+      </LazyHydratedComponent>
+    </div>
+  );
+}
+
+// Interaction-based lazy hydration
+function InteractionLazyComponent({ children }) {
+  const [isHydrated, setIsHydrated] = useState(false);
+  
+  const handleInteraction = () => {
+    if (!isHydrated) {
+      setIsHydrated(true);
+    }
+  };
+
+  if (!isHydrated) {
+    return (
+      <div 
+        onMouseEnter={handleInteraction}
+        onFocus={handleInteraction}
+        onClick={handleInteraction}
+      >
+        {/* Static HTML version */}
+        <div className="interactive-placeholder">
+          Click to activate
+        </div>
+      </div>
+    );
+  }
+
+  return children;
+}
+
+// Idle time hydration
+function IdleLazyComponent({ children, fallback }) {
+  const [shouldHydrate, setShouldHydrate] = useState(false);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShouldHydrate(true);
+    }, 2000); // Hydrate after 2 seconds of idle time
+
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  return shouldHydrate ? children : fallback;
+}
+
+// Custom hook for lazy hydration
+function useLazyHydration(strategy = 'intersection') {
+  const [shouldHydrate, setShouldHydrate] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    if (strategy === 'intersection') {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldHydrate(true);
+        }
+      });
+      
+      if (ref.current) observer.observe(ref.current);
+      return () => observer.disconnect();
+    }
+    
+    if (strategy === 'idle') {
+      const id = requestIdleCallback(() => setShouldHydrate(true));
+      return () => cancelIdleCallback(id);
+    }
+  }, [strategy]);
+
+  return { shouldHydrate, ref };
+}
+```
+
+## 5. What is Next.js and Why Use It?
+
+**Next.js** is a React framework that provides production-ready features like SSR, SSG, routing, and optimization out of the box. It simplifies React development with conventions and built-in features.
+
+**Key features:**
+- **Multiple rendering modes** - SSR, SSG, ISR, CSR
+- **File-based routing** - No need for route configuration
+- **API routes** - Full-stack development
+- **Built-in optimizations** - Images, fonts, scripts
+- **TypeScript support** - Zero configuration setup
+
+```jsx
+// File-based routing structure
+pages/
+├── index.js           // Route: /
+├── about.js          // Route: /about
+├── blog/
+│   ├── index.js      // Route: /blog
+│   └── [slug].js     // Route: /blog/[slug]
+└── api/
+    └── users.js      // API endpoint: /api/users
+
+// Dynamic routing - pages/blog/[slug].js
+export default function BlogPost({ post }) {
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </article>
+  );
+}
+
+export async function getStaticProps({ params }) {
+  const post = await fetch(`${API_URL}/posts/${params.slug}`)
+    .then(res => res.json());
+  
+  return {
+    props: { post },
+    revalidate: 3600 // ISR - revalidate every hour
+  };
+}
+
+export async function getStaticPaths() {
+  const posts = await fetch(`${API_URL}/posts`).then(res => res.json());
+  
+  return {
+    paths: posts.map(post => ({ params: { slug: post.slug } })),
+    fallback: 'blocking'
+  };
+}
+
+// API Routes - pages/api/users.js
+export default function handler(req, res) {
+  if (req.method === 'GET') {
+    res.status(200).json({ users: [] });
+  } else if (req.method === 'POST') {
+    // Create user logic
+    res.status(201).json({ message: 'User created' });
+  }
+}
+
+// Built-in optimizations
+import Image from 'next/image';
+import Link from 'next/link';
+import Head from 'next/head';
+
+function HomePage() {
+  return (
+    <>
+      <Head>
+        <title>My Next.js App</title>
+        <meta name="description" content="Built with Next.js" />
+      </Head>
+      
+      <main>
+        {/* Optimized image loading */}
+        <Image
+          src="/hero.jpg"
+          alt="Hero image"
+          width={800}
+          height={400}
+          priority
+        />
+        
+        {/* Client-side navigation */}
+        <Link href="/about">
+          <a>About Us</a>
+        </Link>
+      </main>
+    </>
+  );
+}
+
+// Next.js configuration - next.config.js
+module.exports = {
+  reactStrictMode: true,
+  images: {
+    domains: ['example.com'],
+  },
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY,
+  },
+  async redirects() {
+    return [
+      {
+        source: '/old-page',
+        destination: '/new-page',
+        permanent: true,
+      },
+    ];
+  },
+};
+```
+
+## 6. What are React Server Components (RSC)?
+
+**React Server Components** run on the server and render to a special format that can be streamed to the client. They have zero bundle size impact and can directly access server resources.
+
+**Benefits:**
+- **Zero bundle size** - Server components don't ship to client
+- **Direct data access** - Can read files, databases directly
+- **Better performance** - Less JavaScript on client
+- **Automatic code splitting** - Only client components bundled
+
+```jsx
+// Server Component (runs on server)
+// No 'use client' directive = Server Component
+async function BlogPost({ slug }) {
+  // Direct database access (only possible on server)
+  const post = await db.posts.findUnique({
+    where: { slug }
+  });
+  
+  // Direct file system access
+  const readingTime = await calculateReadingTime(post.content);
+  
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>Reading time: {readingTime} minutes</p>
+      <div>{post.content}</div>
+      
+      {/* Client Component for interactivity */}
+      <LikeButton postId={post.id} />
+    </article>
+  );
+}
+
+// Client Component (runs on client)
+'use client';
+
+import { useState } from 'react';
+
+function LikeButton({ postId }) {
+  const [liked, setLiked] = useState(false);
+  const [count, setCount] = useState(0);
+  
+  const handleLike = async () => {
+    setLiked(!liked);
+    // API call to update likes
+    const response = await fetch(`/api/posts/${postId}/like`, {
+      method: 'POST'
+    });
+    const data = await response.json();
+    setCount(data.likes);
+  };
+  
+  return (
+    <button onClick={handleLike}>
+      {liked ? '❤️' : '🤍'} {count} likes
+    </button>
+  );
+}
+
+// Mixed Server and Client Components
+function UserDashboard({ userId }) {
+  // Server Component - runs on server
+  return (
+    <div>
+      <UserProfile userId={userId} /> {/* Server Component */}
+      <UserStats userId={userId} />    {/* Server Component */}
+      <InteractiveChart />             {/* Client Component */}
+    </div>
+  );
+}
+
+// Server Component with data fetching
+async function UserProfile({ userId }) {
+  // This runs on the server, no fetch needed
+  const user = await getUserFromDatabase(userId);
+  
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+      <img src={user.avatar} alt={user.name} />
+    </div>
+  );
+}
+
+// Client Component for interactivity
+'use client';
+
+function InteractiveChart() {
+  const [data, setData] = useState([]);
+  
+  useEffect(() => {
+    // Client-side data fetching
+    fetch('/api/chart-data')
+      .then(res => res.json())
+      .then(setData);
+  }, []);
+  
+  return <Chart data={data} />;
+}
+```
+
+## 7. Difference Between `use client` and `use server`
+
+**Directives** that tell React where components should run:
+
+**`'use client'`:**
+- Component runs on the client (browser)
+- Can use hooks, event handlers, browser APIs
+- Included in JavaScript bundle
+- Interactive and stateful
+
+**`'use server'`:**
+- Function runs on the server
+- Used for Server Actions (form submissions, mutations)
+- Never sent to client
+- Can access server resources directly
+
+```jsx
+// 'use client' - Client Component
+'use client';
+
+import { useState, useEffect } from 'react';
+
+function SearchBox() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  
+  // Browser APIs available
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setQuery(params.get('q') || '');
+  }, []);
+  
+  // Event handlers work
+  const handleSearch = (e) => {
+    setQuery(e.target.value);
+    // Client-side search logic
+  };
+  
+  return (
+    <div>
+      <input 
+        value={query} 
+        onChange={handleSearch}
+        placeholder="Search..."
+      />
+      <SearchResults results={results} />
+    </div>
+  );
+}
+
+// Server Component (no directive needed)
+async function ProductList({ category }) {
+  // Direct database access
+  const products = await db.products.findMany({
+    where: { category }
+  });
+  
+  return (
+    <div>
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+}
+
+// 'use server' - Server Action
+'use server';
+
+async function createPost(formData) {
+  // This function runs on the server
+  const title = formData.get('title');
+  const content = formData.get('content');
+  
+  // Direct database access
+  const post = await db.posts.create({
+    data: { title, content }
+  });
+  
+  // Server-side redirect
+  redirect(`/posts/${post.id}`);
+}
+
+// Form using Server Action
+function CreatePostForm() {
+  return (
+    <form action={createPost}>
+      <input name="title" placeholder="Post title" />
+      <textarea name="content" placeholder="Post content" />
+      <button type="submit">Create Post</button>
+    </form>
+  );
+}
+
+// Mixed usage example
+function BlogApp() {
+  return (
+    <div>
+      {/* Server Component - renders on server */}
+      <BlogHeader />
+      
+      {/* Server Component with data */}
+      <RecentPosts />
+      
+      {/* Client Component - interactive */}
+      <SearchBox />
+      
+      {/* Form with Server Action */}
+      <CreatePostForm />
+    </div>
+  );
+}
+
+// Component boundaries
+'use client';
+
+function ClientWrapper({ children }) {
+  // This is a Client Component
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  if (!mounted) return null;
+  
+  return (
+    <div>
+      {/* children can be Server Components */}
+      {children}
+    </div>
+  );
+}
+
+// Server Component passed as children
+function App() {
+  return (
+    <ClientWrapper>
+      <ServerComponentContent /> {/* Still runs on server */}
+    </ClientWrapper>
+  );
+}
+```
+
+## Rendering Strategies Comparison
+
+| Strategy | Execution | Bundle Impact | Use Cases |
+|----------|-----------|---------------|-----------|
+| **Client Components** | Browser | Increases bundle | Interactive UI, hooks, events |
+| **Server Components** | Server | Zero impact | Data fetching, static content |
+| **Server Actions** | Server | Zero impact | Form submissions, mutations |
+| **Static Generation** | Build time | Zero runtime | Static content, blogs |
+
+## Best Practices Summary
+
+```jsx
+// ✅ Good practices
+
+// 1. Use Server Components by default
+function BlogPost({ slug }) {
+  // No 'use client' = Server Component
+  return <article>...</article>;
+}
+
+// 2. Add 'use client' only when needed
+'use client';
+function InteractiveButton() {
+  const [clicked, setClicked] = useState(false);
+  return <button onClick={() => setClicked(true)}>...</button>;
+}
+
+// 3. Keep Client Components small and focused
+'use client';
+function LikeButton({ postId }) {
+  // Minimal interactive functionality
+}
+
+// 4. Use Server Actions for mutations
+'use server';
+async function updateUser(formData) {
+  // Server-side logic
+}
+
+// ❌ Avoid
+// 1. Don't use 'use client' everywhere
+'use client'; // Only add when you need interactivity
+
+// 2. Don't fetch data in Client Components when Server Components can do it
+// Bad: Client Component fetching data
+// Good: Server Component with direct access
+```
+
+# React Security & Real-World Scenarios Interview Questions
+
+## 1. How Does React Prevent XSS?
+
+**React prevents XSS (Cross-Site Scripting)** by automatically escaping values in JSX and providing safe APIs for dynamic content. However, developers must still follow security best practices.
+
+**Built-in protections:**
+- **Automatic escaping** - JSX expressions are escaped by default
+- **Safe by default** - String values can't execute as code
+- **No innerHTML by default** - Prevents script injection
+- **Controlled rendering** - React controls DOM updates
+
+```jsx
+// ✅ Safe - React automatically escapes
+function UserProfile({ user }) {
+  const maliciousInput = "<script>alert('XSS')</script>";
+  
+  return (
+    <div>
+      {/* This is safe - React escapes the content */}
+      <h1>{user.name}</h1>
+      <p>{maliciousInput}</p> {/* Renders as text, not HTML */}
+    </div>
+  );
+}
+
+// ❌ Dangerous - dangerouslySetInnerHTML bypasses protection
+function UnsafeComponent({ htmlContent }) {
+  return (
+    <div 
+      dangerouslySetInnerHTML={{ __html: htmlContent }} 
+    />
+  );
+}
+
+// ✅ Safe alternative - Use a sanitization library
+import DOMPurify from 'dompurify';
+
+function SafeHtmlComponent({ htmlContent }) {
+  const sanitizedHtml = DOMPurify.sanitize(htmlContent);
+  
+  return (
+    <div 
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }} 
+    />
+  );
+}
+
+// ✅ Safe URL handling
+function LinkComponent({ url, children }) {
+  // Validate URLs to prevent javascript: protocol
+  const isValidUrl = (url) => {
+    try {
+      const parsed = new URL(url);
+      return ['http:', 'https:', 'mailto:'].includes(parsed.protocol);
+    } catch {
+      return false;
+    }
+  };
+  
+  if (!isValidUrl(url)) {
+    return <span>{children}</span>; // Don't render invalid links
+  }
+  
+  return <a href={url}>{children}</a>;
+}
+
+// ✅ Safe form handling
+function CommentForm() {
+  const [comment, setComment] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validate and sanitize on both client and server
+    const sanitizedComment = comment.trim().slice(0, 500);
+    
+    if (sanitizedComment) {
+      submitComment(sanitizedComment);
+    }
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <textarea 
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        maxLength={500}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## 2. Is React Safe from SQL Injection?
+
+**React itself doesn't interact with databases** - it's a frontend library. SQL injection happens on the backend when user input is directly concatenated into SQL queries. React can help by validating input before sending to the server.
+
+**Frontend responsibilities:**
+- **Input validation** - Validate data before sending
+- **Type checking** - Ensure correct data types
+- **Sanitization** - Clean user input
+- **Proper API calls** - Use parameterized requests
+
+```jsx
+// ✅ Frontend validation and sanitization
+function UserSearchForm() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [users, setUsers] = useState([]);
+  
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    
+    // Frontend validation
+    const sanitizedTerm = searchTerm.trim();
+    if (sanitizedTerm.length < 2) {
+      alert('Search term must be at least 2 characters');
+      return;
+    }
+    
+    // Validate input format
+    if (!/^[a-zA-Z0-9\s]+$/.test(sanitizedTerm)) {
+      alert('Invalid characters in search term');
+      return;
+    }
+    
+    try {
+      // Send clean data to backend
+      const response = await fetch('/api/users/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          searchTerm: sanitizedTerm,
+          limit: 10 
+        })
+      });
+      
+      const data = await response.json();
+      setUsers(data.users);
+    } catch (error) {
+      console.error('Search failed:', error);
+    }
+  };
+  
+  return (
+    <form onSubmit={handleSearch}>
+      <input 
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search users..."
+        maxLength={50}
+      />
+      <button type="submit">Search</button>
+    </form>
+  );
+}
+
+// ✅ Backend protection (Node.js example)
+// This is where SQL injection is actually prevented
+app.post('/api/users/search', async (req, res) => {
+  const { searchTerm } = req.body;
+  
+  // Server-side validation
+  if (!searchTerm || typeof searchTerm !== 'string') {
+    return res.status(400).json({ error: 'Invalid search term' });
+  }
+  
+  // ✅ Safe - Using parameterized queries
+  const users = await db.query(
+    'SELECT id, name, email FROM users WHERE name LIKE ? LIMIT ?',
+    [`%${searchTerm}%`, 10]
+  );
+  
+  res.json({ users });
+});
+
+// ❌ Vulnerable backend code (DON'T DO THIS)
+app.post('/api/users/search', async (req, res) => {
+  const { searchTerm } = req.body;
+  
+  // DANGEROUS - Direct string concatenation
+  const query = `SELECT * FROM users WHERE name = '${searchTerm}'`;
+  const users = await db.query(query);
+  
+  res.json({ users });
+});
+
+// ✅ Input validation hook
+function useInputValidation() {
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  
+  const validatePassword = (password) => {
+    return password.length >= 8 && /[A-Z]/.test(password) && /[0-9]/.test(password);
+  };
+  
+  const sanitizeString = (str) => {
+    return str.trim().replace(/[<>\"']/g, '');
+  };
+  
+  return { validateEmail, validatePassword, sanitizeString };
+}
+```
+
+## 3. How Do You Securely Store Tokens?
+
+**Token storage** requires balancing security and usability. Each storage method has different security implications and use cases.
+
+**Storage options:**
+- **Memory (state)** - Most secure, lost on refresh
+- **HttpOnly cookies** - Secure, handled by server
+- **localStorage** - Persistent, vulnerable to XSS
+- **sessionStorage** - Session-only, vulnerable to XSS
+
+```jsx
+// ✅ Most secure - Memory storage with refresh token
+function useAuth() {
+  const [accessToken, setAccessToken] = useState(null);
+  const [user, setUser] = useState(null);
+  
+  // Store access token in memory only
+  const login = async (credentials) => {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials),
+      credentials: 'include' // Include HttpOnly refresh token cookie
+    });
+    
+    const data = await response.json();
+    
+    // Store access token in memory
+    setAccessToken(data.accessToken);
+    setUser(data.user);
+  };
+  
+  // Refresh token automatically
+  useEffect(() => {
+    const refreshToken = async () => {
+      try {
+        const response = await fetch('/api/auth/refresh', {
+          method: 'POST',
+          credentials: 'include' // Send HttpOnly cookie
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setAccessToken(data.accessToken);
+          setUser(data.user);
+        }
+      } catch (error) {
+        // Redirect to login
+        setAccessToken(null);
+        setUser(null);
+      }
+    };
+    
+    // Refresh on app load
+    refreshToken();
+    
+    // Refresh periodically
+    const interval = setInterval(refreshToken, 14 * 60 * 1000); // 14 minutes
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const logout = async () => {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+    
+    setAccessToken(null);
+    setUser(null);
+  };
+  
+  return { accessToken, user, login, logout };
+}
+
+// ✅ Secure API client with token
+function createApiClient(getAccessToken) {
+  return {
+    async request(url, options = {}) {
+      const token = getAccessToken();
+      
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+          ...options.headers
+        }
+      });
+      
+      if (response.status === 401) {
+        // Token expired, trigger refresh
+        window.dispatchEvent(new CustomEvent('auth:token-expired'));
+      }
+      
+      return response;
+    }
+  };
+}
+
+// ⚠️ Less secure but practical - localStorage with encryption
+class SecureStorage {
+  constructor(secretKey) {
+    this.secretKey = secretKey;
+  }
+  
+  encrypt(data) {
+    // Simple encryption (use a proper library in production)
+    return btoa(JSON.stringify(data));
+  }
+  
+  decrypt(encryptedData) {
+    try {
+      return JSON.parse(atob(encryptedData));
+    } catch {
+      return null;
+    }
+  }
+  
+  setToken(token) {
+    const encrypted = this.encrypt({ token, timestamp: Date.now() });
+    localStorage.setItem('auth_token', encrypted);
+  }
+  
+  getToken() {
+    const encrypted = localStorage.getItem('auth_token');
+    if (!encrypted) return null;
+    
+    const decrypted = this.decrypt(encrypted);
+    if (!decrypted) return null;
+    
+    // Check if token is expired (24 hours)
+    const isExpired = Date.now() - decrypted.timestamp > 24 * 60 * 60 * 1000;
+    if (isExpired) {
+      this.removeToken();
+      return null;
+    }
+    
+    return decrypted.token;
+  }
+  
+  removeToken() {
+    localStorage.removeItem('auth_token');
+  }
+}
+
+// Usage
+const secureStorage = new SecureStorage('your-secret-key');
+
+function useSecureAuth() {
+  const [token, setToken] = useState(() => secureStorage.getToken());
+  
+  const login = async (credentials) => {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
+    });
+    
+    const data = await response.json();
+    
+    secureStorage.setToken(data.token);
+    setToken(data.token);
+  };
+  
+  const logout = () => {
+    secureStorage.removeToken();
+    setToken(null);
+  };
+  
+  return { token, login, logout };
+}
+```
+
+## 4. Difference Between localStorage, sessionStorage, and Cookies
+
+**Three main client-side storage options** each with different characteristics, security implications, and use cases.
+
+**Comparison:**
+
+| Feature | localStorage | sessionStorage | Cookies |
+|---------|-------------|----------------|---------|
+| **Persistence** | Until cleared | Session only | Configurable expiry |
+| **Capacity** | ~5-10MB | ~5-10MB | ~4KB |
+| **Server Access** | No | No | Yes (automatic) |
+| **XSS Vulnerable** | Yes | Yes | Yes (unless HttpOnly) |
+| **CSRF Vulnerable** | No | No | Yes |
+
+```jsx
+// localStorage - Persistent storage
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+  
+  const setStoredValue = (newValue) => {
+    try {
+      setValue(newValue);
+      localStorage.setItem(key, JSON.stringify(newValue));
+    } catch (error) {
+      console.error('Failed to save to localStorage:', error);
+    }
+  };
+  
+  return [value, setStoredValue];
+}
+
+// sessionStorage - Session-only storage
+function useSessionStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    try {
+      const item = sessionStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+  
+  const setStoredValue = (newValue) => {
+    try {
+      setValue(newValue);
+      sessionStorage.setItem(key, JSON.stringify(newValue));
+    } catch (error) {
+      console.error('Failed to save to sessionStorage:', error);
+    }
+  };
+  
+  return [value, setStoredValue];
+}
+
+// Cookies - Server-accessible storage
+function useCookies() {
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    }
+    return null;
+  };
+  
+  const setCookie = (name, value, days = 7) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
+  };
+  
+  const removeCookie = (name) => {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+  };
+  
+  return { getCookie, setCookie, removeCookie };
+}
+
+// Practical usage examples
+function UserPreferences() {
+  // Theme persists across sessions
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
+  
+  // Form data only for current session
+  const [formData, setFormData] = useSessionStorage('formData', {});
+  
+  // Cookies for server communication
+  const { getCookie, setCookie } = useCookies();
+  
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    // Also set cookie for server-side rendering
+    setCookie('theme', newTheme, 365);
+  };
+  
+  return (
+    <div className={`app theme-${theme}`}>
+      <button onClick={() => handleThemeChange(theme === 'light' ? 'dark' : 'light')}>
+        Toggle Theme
+      </button>
+    </div>
+  );
+}
+
+// Security considerations
+function SecureStorageExample() {
+  // ✅ Good for: User preferences, UI state
+  const [preferences, setPreferences] = useLocalStorage('preferences', {});
+  
+  // ✅ Good for: Temporary form data, session state
+  const [sessionData, setSessionData] = useSessionStorage('sessionData', {});
+  
+  // ⚠️ Avoid storing sensitive data in any client storage
+  // ❌ Don't store: passwords, credit cards, SSNs
+  // ❌ Don't store: API keys, secrets
+  
+  // ✅ OK to store: user ID, non-sensitive settings
+  const [userId, setUserId] = useLocalStorage('userId', null);
+  
+  return (
+    <div>
+      <p>User ID: {userId}</p>
+      <p>Theme: {preferences.theme}</p>
+    </div>
+  );
+}
+
+// Storage cleanup
+function useStorageCleanup() {
+  useEffect(() => {
+    const cleanup = () => {
+      // Clear expired data
+      const expiredKeys = [];
+      
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('temp_')) {
+          expiredKeys.push(key);
+        }
+      }
+      
+      expiredKeys.forEach(key => localStorage.removeItem(key));
+    };
+    
+    // Cleanup on app start
+    cleanup();
+    
+    // Cleanup periodically
+    const interval = setInterval(cleanup, 60 * 60 * 1000); // Every hour
+    
+    return () => clearInterval(interval);
+  }, []);
+}
+```
+
+## 5. How Do You Implement Role-Based Authorization?
+
+**Role-based authorization** controls access to features and routes based on user roles and permissions. It involves both frontend UI control and backend API protection.
+
+**Key concepts:**
+- **Roles** - User categories (admin, user, moderator)
+- **Permissions** - Specific actions (read, write, delete)
+- **Route protection** - Restrict access to pages
+- **Component protection** - Hide/show UI elements
+
+```jsx
+// Auth context with roles
+const AuthContext = createContext();
+
+function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    checkAuthStatus().then(userData => {
+      setUser(userData);
+      setLoading(false);
+    });
+  }, []);
+  
+  const hasRole = (role) => {
+    return user?.roles?.includes(role);
+  };
+  
+  const hasPermission = (permission) => {
+    return user?.permissions?.includes(permission);
+  };
+  
+  const hasAnyRole = (roles) => {
+    return roles.some(role => hasRole(role));
+  };
+  
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      loading, 
+      hasRole, 
+      hasPermission, 
+      hasAnyRole 
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// Protected Route component
+function ProtectedRoute({ children, roles = [], permissions = [], fallback = null }) {
+  const { user, loading, hasAnyRole, hasPermission } = useContext(AuthContext);
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  // Check roles
+  if (roles.length > 0 && !hasAnyRole(roles)) {
+    return fallback || <div>Access denied</div>;
+  }
+  
+  // Check permissions
+  if (permissions.length > 0 && !permissions.every(hasPermission)) {
+    return fallback || <div>Insufficient permissions</div>;
+  }
+  
+  return children;
+}
+
+// Route configuration with protection
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          
+          {/* Admin only routes */}
+          <Route 
+            path="/admin/*" 
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Moderator or Admin routes */}
+          <Route 
+            path="/moderation" 
+            element={
+              <ProtectedRoute roles={['admin', 'moderator']}>
+                <ModerationPanel />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Permission-based route */}
+          <Route 
+            path="/users" 
+            element={
+              <ProtectedRoute permissions={['users:read']}>
+                <UserList />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
+}
+
+// Component-level authorization
+function UserActions({ userId }) {
+  const { user, hasRole, hasPermission } = useContext(AuthContext);
+  
+  const canEdit = hasPermission('users:write') || user.id === userId;
+  const canDelete = hasRole('admin') || hasPermission('users:delete');
+  
+  return (
+    <div>
+      {canEdit && (
+        <button onClick={() => editUser(userId)}>
+          Edit
+        </button>
+      )}
+      
+      {canDelete && (
+        <button onClick={() => deleteUser(userId)}>
+          Delete
+        </button>
+      )}
+      
+      {hasRole('admin') && (
+        <button onClick={() => impersonateUser(userId)}>
+          Impersonate
+        </button>
+      )}
+    </div>
+  );
+}
+
+// Custom authorization hooks
+function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
+}
+
+function useRequireAuth(redirectTo = '/login') {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate(redirectTo);
+    }
+  }, [user, loading, navigate, redirectTo]);
+  
+  return { user, loading };
+}
+
+function useRequireRole(requiredRoles) {
+  const { user, hasAnyRole } = useAuth();
+  const [hasAccess, setHasAccess] = useState(false);
+  
+  useEffect(() => {
+    if (user) {
+      setHasAccess(hasAnyRole(requiredRoles));
+    }
+  }, [user, requiredRoles, hasAnyRole]);
+  
+  return hasAccess;
+}
+
+// Usage in components
+function AdminPanel() {
+  const hasAccess = useRequireRole(['admin']);
+  
+  if (!hasAccess) {
+    return <div>Access denied</div>;
+  }
+  
+  return (
+    <div>
+      <h1>Admin Panel</h1>
+      {/* Admin content */}
+    </div>
+  );
+}
+
+// API integration with roles
+function useApiWithAuth() {
+  const { user } = useAuth();
+  
+  const apiCall = async (url, options = {}) => {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Authorization': `Bearer ${user?.token}`,
+        'Content-Type': 'application/json',
+        ...options.headers
+      }
+    });
+    
+    if (response.status === 403) {
+      throw new Error('Insufficient permissions');
+    }
+    
+    return response;
+  };
+  
+  return { apiCall };
+}
+```
+
+## 6. How Would You Build a Reusable Modal?
+
+**A reusable modal** should be flexible, accessible, and easy to use across different parts of the application. It needs proper focus management, keyboard navigation, and portal rendering.
+
+**Key features:**
+- **Portal rendering** - Render outside component tree
+- **Focus management** - Trap focus within modal
+- **Keyboard navigation** - ESC to close, tab navigation
+- **Backdrop click** - Close on outside click
+- **Accessibility** - ARIA attributes, screen reader support
+
+```jsx
+// Modal component with portal
+import { createPortal } from 'react-dom';
+import { useEffect, useRef } from 'react';
+
+function Modal({ 
+  isOpen, 
+  onClose, 
+  title, 
+  children, 
+  size = 'medium',
+  closeOnBackdrop = true,
+  closeOnEscape = true 
+}) {
+  const modalRef = useRef();
+  const previousFocusRef = useRef();
+  
+  // Focus management
+  useEffect(() => {
+    if (isOpen) {
+      // Store previously focused element
+      previousFocusRef.current = document.activeElement;
+      
+      // Focus modal
+      modalRef.current?.focus();
+      
+      // Trap focus within modal
+      const handleTabKey = (e) => {
+        const focusableElements = modalRef.current?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        if (!focusableElements?.length) return;
+        
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      };
+      
+      const handleKeyDown = (e) => {
+        if (e.key === 'Tab') {
+          handleTabKey(e);
+        } else if (e.key === 'Escape' && closeOnEscape) {
+          onClose();
+        }
+      };
+      
+      document.addEventListener('keydown', handleKeyDown);
+      
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        // Restore focus
+        previousFocusRef.current?.focus();
+      };
+    }
+  }, [isOpen, onClose, closeOnEscape]);
+  
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }
+  }, [isOpen]);
+  
+  if (!isOpen) return null;
+  
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget && closeOnBackdrop) {
+      onClose();
+    }
+  };
+  
+  const modalContent = (
+    <div 
+      className="modal-overlay" 
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? "modal-title" : undefined}
+    >
+      <div 
+        ref={modalRef}
+        className={`modal-content modal-${size}`}
+        tabIndex={-1}
+      >
+        <div className="modal-header">
+          {title && <h2 id="modal-title">{title}</h2>}
+          <button 
+            className="modal-close"
+            onClick={onClose}
+            aria-label="Close modal"
+          >
+            ×
+          </button>
+        </div>
+        
+        <div className="modal-body">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+  
+  // Render in portal
+  return createPortal(modalContent, document.body);
+}
+
+// Modal hook for easier state management
+function useModal() {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+  const toggleModal = () => setIsOpen(!isOpen);
+  
+  return {
+    isOpen,
+    openModal,
+    closeModal,
+    toggleModal
+  };
+}
+
+// Specialized modal components
+function ConfirmModal({ isOpen, onClose, onConfirm, title, message }) {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title={title} size="small">
+      <p>{message}</p>
+      <div className="modal-actions">
+        <button onClick={onClose}>Cancel</button>
+        <button onClick={onConfirm} className="btn-danger">
+          Confirm
+        </button>
+      </div>
+    </Modal>
+  );
+}
+
+function FormModal({ isOpen, onClose, title, children, onSubmit }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(e);
+  };
+  
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title={title}>
+      <form onSubmit={handleSubmit}>
+        {children}
+        <div className="modal-actions">
+          <button type="button" onClick={onClose}>
+            Cancel
+          </button>
+          <button type="submit">
+            Save
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+
+// Usage examples
+function App() {
+  const confirmModal = useModal();
+  const formModal = useModal();
+  const [userToDelete, setUserToDelete] = useState(null);
+  
+  const handleDeleteUser = (user) => {
+    setUserToDelete(user);
+    confirmModal.openModal();
+  };
+  
+  const confirmDelete = () => {
+    deleteUser(userToDelete.id);
+    confirmModal.closeModal();
+    setUserToDelete(null);
+  };
+  
+  const handleCreateUser = (formData) => {
+    createUser(formData);
+    formModal.closeModal();
+  };
+  
+  return (
+    <div>
+      <button onClick={formModal.openModal}>
+        Create User
+      </button>
+      
+      <UserList onDeleteUser={handleDeleteUser} />
+      
+      {/* Confirmation Modal */}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={confirmModal.closeModal}
+        onConfirm={confirmDelete}
+        title="Delete User"
+        message={`Are you sure you want to delete ${userToDelete?.name}?`}
+      />
+      
+      {/* Form Modal */}
+      <FormModal
+        isOpen={formModal.isOpen}
+        onClose={formModal.closeModal}
+        onSubmit={handleCreateUser}
+        title="Create New User"
+      >
+        <input name="name" placeholder="Name" required />
+        <input name="email" type="email" placeholder="Email" required />
+      </FormModal>
+    </div>
+  );
+}
+
+// CSS for modal styling
+const modalStyles = `
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-small { width: 400px; }
+.modal-medium { width: 600px; }
+.modal-large { width: 800px; }
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+`;
+```
+
+## 7. How Would You Implement Infinite Scrolling?
+
+**Infinite scrolling** loads more content as the user scrolls down, providing a seamless browsing experience. It uses Intersection Observer API to detect when to load more data.
+
+**Key components:**
+- **Intersection Observer** - Detect when sentinel element is visible
+- **Loading states** - Show loading indicators
+- **Error handling** - Handle failed requests
+- **Performance** - Virtualization for large lists
+
+```jsx
+// Basic infinite scrolling hook
+function useInfiniteScroll(fetchMore) {
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const sentinelRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      async ([entry]) => {
+        if (entry.isIntersecting && hasMore && !loading) {
+          setLoading(true);
+          try {
+            const moreData = await fetchMore();
+            if (!moreData || moreData.length === 0) {
+              setHasMore(false);
+            }
+          } catch (error) {
+            console.error('Failed to load more:', error);
+          } finally {
+            setLoading(false);
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [fetchMore, hasMore, loading]);
+
+  return { loading, hasMore, sentinelRef };
+}
+
+// Infinite scrolling component
+function InfinitePostList() {
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const fetchMorePosts = async () => {
+    const response = await fetch(`/api/posts?page=${page}&limit=10`);
+    const newPosts = await response.json();
+    
+    setPosts(prev => [...prev, ...newPosts]);
+    setPage(prev => prev + 1);
+    
+    return newPosts;
+  };
+
+  const { loading, hasMore, sentinelRef } = useInfiniteScroll(fetchMorePosts);
+
+  // Load initial data
+  useEffect(() => {
+    fetchMorePosts();
+  }, []);
+
+  return (
+    <div className="post-list">
+      {posts.map(post => (
+        <PostCard key={post.id} post={post} />
+      ))}
+      
+      {/* Sentinel element */}
+      <div ref={sentinelRef} className="sentinel">
+        {loading && <div>Loading more posts...</div>}
+        {!hasMore && <div>No more posts to load</div>}
+      </div>
+    </div>
+  );
+}
+
+// Advanced infinite scroll with search
+function SearchableInfiniteList() {
+  const [items, setItems] = useState([]);
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const sentinelRef = useRef();
+
+  const fetchItems = async (searchQuery, pageNum, reset = false) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `/api/search?q=${searchQuery}&page=${pageNum}&limit=20`
+      );
+      const newItems = await response.json();
+      
+      setItems(prev => reset ? newItems : [...prev, ...newItems]);
+      setHasMore(newItems.length === 20); // Assuming 20 is page size
+      
+      return newItems;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Reset when search query changes
+  useEffect(() => {
+    setItems([]);
+    setPage(1);
+    setHasMore(true);
+    fetchItems(query, 1, true);
+  }, [query]);
+
+  // Intersection observer for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasMore && !loading) {
+          const nextPage = page + 1;
+          setPage(nextPage);
+          fetchItems(query, nextPage);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, loading, page, query]);
+
+  return (
+    <div>
+      <input 
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search items..."
+      />
+      
+      <div className="item-list">
+        {items.map(item => (
+          <ItemCard key={item.id} item={item} />
+        ))}
+      </div>
+      
+      <div ref={sentinelRef}>
+        {loading && <div>Loading...</div>}
+        {!hasMore && items.length > 0 && <div>End of results</div>}
+      </div>
+    </div>
+  );
+}
+
+// Virtualized infinite scroll for performance
+import { FixedSizeList as List } from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
+
+function VirtualizedInfiniteList() {
+  const [items, setItems] = useState([]);
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+
+  const loadNextPage = async () => {
+    setIsNextPageLoading(true);
+    const newItems = await fetchMoreItems();
+    setItems(prev => [...prev, ...newItems]);
+    setHasNextPage(newItems.length > 0);
+    setIsNextPageLoading(false);
+  };
+
+  const isItemLoaded = (index) => !!items[index];
+  const itemCount = hasNextPage ? items.length + 1 : items.length;
+
+  const Item = ({ index, style }) => {
+    const item = items[index];
+    
+    if (!item) {
+      return <div style={style}>Loading...</div>;
+    }
+    
+    return (
+      <div style={style}>
+        <ItemCard item={item} />
+      </div>
+    );
+  };
+
+  return (
+    <InfiniteLoader
+      isItemLoaded={isItemLoaded}
+      itemCount={itemCount}
+      loadMoreItems={loadNextPage}
+    >
+      {({ onItemsRendered, ref }) => (
+        <List
+          ref={ref}
+          height={600}
+          itemCount={itemCount}
+          itemSize={100}
+          onItemsRendered={onItemsRendered}
+        >
+          {Item}
+        </List>
+      )}
+    </InfiniteLoader>
+  );
+}
+```
+
+## 8. How Would You Build a Multi-Step Form?
+
+**Multi-step forms** break complex forms into manageable steps, improving user experience and completion rates. They need state management, validation, and navigation between steps.
+
+**Key features:**
+- **Step management** - Track current step and progress
+- **Data persistence** - Maintain form data across steps
+- **Validation** - Validate each step before proceeding
+- **Navigation** - Allow going back and forth between steps
+
+```jsx
+// Multi-step form hook
+function useMultiStepForm(steps) {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({});
+  const [completedSteps, setCompletedSteps] = useState(new Set());
+
+  const nextStep = () => {
+    if (currentStep < steps.length - 1) {
+      setCompletedSteps(prev => new Set([...prev, currentStep]));
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const goToStep = (stepIndex) => {
+    if (stepIndex >= 0 && stepIndex < steps.length) {
+      setCurrentStep(stepIndex);
+    }
+  };
+
+  const updateFormData = (stepData) => {
+    setFormData(prev => ({ ...prev, ...stepData }));
+  };
+
+  const isStepCompleted = (stepIndex) => {
+    return completedSteps.has(stepIndex);
+  };
+
+  const isFirstStep = currentStep === 0;
+  const isLastStep = currentStep === steps.length - 1;
+
+  return {
+    currentStep,
+    formData,
+    nextStep,
+    prevStep,
+    goToStep,
+    updateFormData,
+    isStepCompleted,
+    isFirstStep,
+    isLastStep,
+    totalSteps: steps.length
+  };
+}
+
+// Multi-step form component
+function MultiStepForm() {
+  const steps = [
+    { title: 'Personal Info', component: PersonalInfoStep },
+    { title: 'Address', component: AddressStep },
+    { title: 'Payment', component: PaymentStep },
+    { title: 'Review', component: ReviewStep }
+  ];
+
+  const {
+    currentStep,
+    formData,
+    nextStep,
+    prevStep,
+    goToStep,
+    updateFormData,
+    isStepCompleted,
+    isFirstStep,
+    isLastStep
+  } = useMultiStepForm(steps);
+
+  const [errors, setErrors] = useState({});
+
+  const validateStep = (stepData) => {
+    const stepErrors = {};
+    
+    switch (currentStep) {
+      case 0: // Personal Info
+        if (!stepData.firstName) stepErrors.firstName = 'Required';
+        if (!stepData.email) stepErrors.email = 'Required';
+        break;
+      case 1: // Address
+        if (!stepData.street) stepErrors.street = 'Required';
+        if (!stepData.city) stepErrors.city = 'Required';
+        break;
+      case 2: // Payment
+        if (!stepData.cardNumber) stepErrors.cardNumber = 'Required';
+        break;
+    }
+    
+    return stepErrors;
+  };
+
+  const handleNext = (stepData) => {
+    const stepErrors = validateStep(stepData);
+    
+    if (Object.keys(stepErrors).length === 0) {
+      updateFormData(stepData);
+      setErrors({});
+      nextStep();
+    } else {
+      setErrors(stepErrors);
+    }
+  };
+
+  const handleSubmit = async (stepData) => {
+    const finalData = { ...formData, ...stepData };
+    
+    try {
+      await submitForm(finalData);
+      alert('Form submitted successfully!');
+    } catch (error) {
+      alert('Submission failed. Please try again.');
+    }
+  };
+
+  const CurrentStepComponent = steps[currentStep].component;
+
+  return (
+    <div className="multi-step-form">
+      {/* Progress indicator */}
+      <div className="step-indicator">
+        {steps.map((step, index) => (
+          <div 
+            key={index}
+            className={`step ${
+              index === currentStep ? 'active' : 
+              isStepCompleted(index) ? 'completed' : ''
+            }`}
+            onClick={() => goToStep(index)}
+          >
+            <span className="step-number">{index + 1}</span>
+            <span className="step-title">{step.title}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Current step content */}
+      <div className="step-content">
+        <CurrentStepComponent
+          data={formData}
+          errors={errors}
+          onNext={handleNext}
+          onPrev={prevStep}
+          onSubmit={handleSubmit}
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Individual step components
+function PersonalInfoStep({ data, errors, onNext, isFirstStep }) {
+  const [stepData, setStepData] = useState({
+    firstName: data.firstName || '',
+    lastName: data.lastName || '',
+    email: data.email || ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onNext(stepData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Personal Information</h2>
+      
+      <input
+        type="text"
+        placeholder="First Name"
+        value={stepData.firstName}
+        onChange={(e) => setStepData(prev => ({ ...prev, firstName: e.target.value }))}
+      />
+      {errors.firstName && <span className="error">{errors.firstName}</span>}
+      
+      <input
+        type="text"
+        placeholder="Last Name"
+        value={stepData.lastName}
+        onChange={(e) => setStepData(prev => ({ ...prev, lastName: e.target.value }))}
+      />
+      
+      <input
+        type="email"
+        placeholder="Email"
+        value={stepData.email}
+        onChange={(e) => setStepData(prev => ({ ...prev, email: e.target.value }))}
+      />
+      {errors.email && <span className="error">{errors.email}</span>}
+      
+      <div className="form-actions">
+        <button type="submit">Next</button>
+      </div>
+    </form>
+  );
+}
+
+function AddressStep({ data, errors, onNext, onPrev }) {
+  const [stepData, setStepData] = useState({
+    street: data.street || '',
+    city: data.city || '',
+    zipCode: data.zipCode || ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onNext(stepData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Address Information</h2>
+      
+      <input
+        type="text"
+        placeholder="Street Address"
+        value={stepData.street}
+        onChange={(e) => setStepData(prev => ({ ...prev, street: e.target.value }))}
+      />
+      {errors.street && <span className="error">{errors.street}</span>}
+      
+      <input
+        type="text"
+        placeholder="City"
+        value={stepData.city}
+        onChange={(e) => setStepData(prev => ({ ...prev, city: e.target.value }))}
+      />
+      {errors.city && <span className="error">{errors.city}</span>}
+      
+      <input
+        type="text"
+        placeholder="ZIP Code"
+        value={stepData.zipCode}
+        onChange={(e) => setStepData(prev => ({ ...prev, zipCode: e.target.value }))}
+      />
+      
+      <div className="form-actions">
+        <button type="button" onClick={onPrev}>Previous</button>
+        <button type="submit">Next</button>
+      </div>
+    </form>
+  );
+}
+
+function ReviewStep({ data, onSubmit, onPrev, isLastStep }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({});
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Review Your Information</h2>
+      
+      <div className="review-section">
+        <h3>Personal Information</h3>
+        <p>Name: {data.firstName} {data.lastName}</p>
+        <p>Email: {data.email}</p>
+      </div>
+      
+      <div className="review-section">
+        <h3>Address</h3>
+        <p>{data.street}</p>
+        <p>{data.city}, {data.zipCode}</p>
+      </div>
+      
+      <div className="form-actions">
+        <button type="button" onClick={onPrev}>Previous</button>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  );
+}
+```
+
+## 9. How Do You Handle Form Validation in Large Forms?
+
+**Large form validation** requires a structured approach with field-level validation, error management, and performance optimization. Use libraries like Formik or React Hook Form for complex scenarios.
+
+**Strategies:**
+- **Field-level validation** - Validate individual fields
+- **Schema validation** - Use Yup or Zod for validation rules
+- **Debounced validation** - Avoid excessive validation calls
+- **Error boundaries** - Isolate validation errors
+
+```jsx
+// Using React Hook Form with Yup validation
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+// Validation schema
+const userSchema = yup.object({
+  personalInfo: yup.object({
+    firstName: yup.string().required('First name is required'),
+    lastName: yup.string().required('Last name is required'),
+    email: yup.string().email('Invalid email').required('Email is required'),
+    phone: yup.string().matches(/^\d{10}$/, 'Phone must be 10 digits')
+  }),
+  address: yup.object({
+    street: yup.string().required('Street is required'),
+    city: yup.string().required('City is required'),
+    state: yup.string().required('State is required'),
+    zipCode: yup.string().matches(/^\d{5}$/, 'ZIP must be 5 digits')
+  }),
+  preferences: yup.object({
+    newsletter: yup.boolean(),
+    notifications: yup.boolean(),
+    theme: yup.string().oneOf(['light', 'dark'])
+  })
+});
+
+// Large form component
+function LargeUserForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isDirty },
+    watch,
+    setValue,
+    trigger
+  } = useForm({
+    resolver: yupResolver(userSchema),
+    defaultValues: {
+      personalInfo: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: ''
+      },
+      address: {
+        street: '',
+        city: '',
+        state: '',
+        zipCode: ''
+      },
+      preferences: {
+        newsletter: false,
+        notifications: true,
+        theme: 'light'
+      }
+    }
+  });
+
+  // Watch for changes to trigger dependent validations
+  const email = watch('personalInfo.email');
+
+  // Debounced email validation
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (email) {
+        trigger('personalInfo.email');
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [email, trigger]);
+
+  const onSubmit = async (data) => {
+    try {
+      await submitUserData(data);
+      alert('User created successfully!');
+    } catch (error) {
+      alert('Failed to create user');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="large-form">
+      {/* Personal Information Section */}
+      <FormSection title="Personal Information">
+        <FormField
+          label="First Name"
+          error={errors.personalInfo?.firstName}
+        >
+          <input
+            {...register('personalInfo.firstName')}
+            type="text"
+          />
+        </FormField>
+
+        <FormField
+          label="Last Name"
+          error={errors.personalInfo?.lastName}
+        >
+          <input
+            {...register('personalInfo.lastName')}
+            type="text"
+          />
+        </FormField>
+
+        <FormField
+          label="Email"
+          error={errors.personalInfo?.email}
+        >
+          <input
+            {...register('personalInfo.email')}
+            type="email"
+          />
+        </FormField>
+
+        <FormField
+          label="Phone"
+          error={errors.personalInfo?.phone}
+        >
+          <input
+            {...register('personalInfo.phone')}
+            type="tel"
+          />
+        </FormField>
+      </FormSection>
+
+      {/* Address Section */}
+      <FormSection title="Address">
+        <FormField
+          label="Street Address"
+          error={errors.address?.street}
+        >
+          <input
+            {...register('address.street')}
+            type="text"
+          />
+        </FormField>
+
+        <div className="form-row">
+          <FormField
+            label="City"
+            error={errors.address?.city}
+          >
+            <input
+              {...register('address.city')}
+              type="text"
+            />
+          </FormField>
+
+          <FormField
+            label="State"
+            error={errors.address?.state}
+          >
+            <select {...register('address.state')}>
+              <option value="">Select State</option>
+              <option value="CA">California</option>
+              <option value="NY">New York</option>
+              <option value="TX">Texas</option>
+            </select>
+          </FormField>
+
+          <FormField
+            label="ZIP Code"
+            error={errors.address?.zipCode}
+          >
+            <input
+              {...register('address.zipCode')}
+              type="text"
+            />
+          </FormField>
+        </div>
+      </FormSection>
+
+      {/* Preferences Section */}
+      <FormSection title="Preferences">
+        <FormField error={errors.preferences?.newsletter}>
+          <label>
+            <input
+              {...register('preferences.newsletter')}
+              type="checkbox"
+            />
+            Subscribe to newsletter
+          </label>
+        </FormField>
+
+        <FormField error={errors.preferences?.notifications}>
+          <label>
+            <input
+              {...register('preferences.notifications')}
+              type="checkbox"
+            />
+            Enable notifications
+          </label>
+        </FormField>
+
+        <FormField
+          label="Theme"
+          error={errors.preferences?.theme}
+        >
+          <select {...register('preferences.theme')}>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </FormField>
+      </FormSection>
+
+      <div className="form-actions">
+        <button 
+          type="submit" 
+          disabled={isSubmitting || !isDirty}
+        >
+          {isSubmitting ? 'Saving...' : 'Save User'}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+// Reusable form components
+function FormSection({ title, children }) {
+  return (
+    <div className="form-section">
+      <h3>{title}</h3>
+      <div className="form-fields">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function FormField({ label, error, children }) {
+  return (
+    <div className="form-field">
+      {label && <label>{label}</label>}
+      {children}
+      {error && <span className="error">{error.message}</span>}
+    </div>
+  );
+}
+
+// Custom validation hook for complex scenarios
+function useFormValidation(schema, defaultValues) {
+  const [values, setValues] = useState(defaultValues);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const validateField = async (name, value) => {
+    try {
+      await schema.validateAt(name, { [name]: value });
+      setErrors(prev => ({ ...prev, [name]: null }));
+    } catch (error) {
+      setErrors(prev => ({ ...prev, [name]: error.message }));
+    }
+  };
+
+  const validateForm = async () => {
+    try {
+      await schema.validate(values, { abortEarly: false });
+      setErrors({});
+      return true;
+    } catch (error) {
+      const formErrors = {};
+      error.inner.forEach(err => {
+        formErrors[err.path] = err.message;
+      });
+      setErrors(formErrors);
+      return false;
+    }
+  };
+
+  const setValue = (name, value) => {
+    setValues(prev => ({ ...prev, [name]: value }));
+    if (touched[name]) {
+      validateField(name, value);
+    }
+  };
+
+  const setTouchedField = (name) => {
+    setTouched(prev => ({ ...prev, [name]: true }));
+  };
+
+  return {
+    values,
+    errors,
+    touched,
+    setValue,
+    setTouchedField,
+    validateForm
+  };
+}
+```
+
+## 10. How Do You Optimize a Slow React Page?
+
+**React performance optimization** involves identifying bottlenecks and applying appropriate optimization techniques. Use React DevTools Profiler to identify performance issues.
+
+**Common optimizations:**
+- **Memoization** - React.memo, useMemo, useCallback
+- **Code splitting** - Lazy loading components
+- **Virtualization** - For large lists
+- **Bundle optimization** - Tree shaking, compression
+
+```jsx
+// Before optimization - Slow component
+function SlowUserList({ users, searchTerm, sortBy }) {
+  // ❌ Expensive calculation on every render
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  ).sort((a, b) => {
+    if (sortBy === 'name') return a.name.localeCompare(b.name);
+    if (sortBy === 'email') return a.email.localeCompare(b.email);
+    return 0;
+  });
+
+  return (
+    <div>
+      {filteredUsers.map(user => (
+        // ❌ New object created on every render
+        <UserCard 
+          key={user.id} 
+          user={user}
+          onClick={() => console.log('Clicked', user.id)}
+        />
+      ))}
+    </div>
+  );
+}
+
+// After optimization - Fast component
+const OptimizedUserList = React.memo(function UserList({ users, searchTerm, sortBy }) {
+  // ✅ Memoized expensive calculation
+  const filteredUsers = useMemo(() => {
+    return users
+      .filter(user => 
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => {
+        if (sortBy === 'name') return a.name.localeCompare(b.name);
+        if (sortBy === 'email') return a.email.localeCompare(b.email);
+        return 0;
+      });
+  }, [users, searchTerm, sortBy]);
+
+  // ✅ Memoized callback
+  const handleUserClick = useCallback((userId) => {
+    console.log('Clicked', userId);
+  }, []);
+
+  return (
+    <div>
+      {filteredUsers.map(user => (
+        <MemoizedUserCard 
+          key={user.id} 
+          user={user}
+          onClick={handleUserClick}
+        />
+      ))}
+    </div>
+  );
+});
+
+// Memoized child component
+const MemoizedUserCard = React.memo(function UserCard({ user, onClick }) {
+  return (
+    <div className="user-card" onClick={() => onClick(user.id)}>
+      <img src={user.avatar} alt={user.name} loading="lazy" />
+      <h3>{user.name}</h3>
+      <p>{user.email}</p>
+    </div>
+  );
+});
+
+// Virtualized list for large datasets
+import { FixedSizeList as List } from 'react-window';
+
+function VirtualizedUserList({ users }) {
+  const Row = ({ index, style }) => {
+    const user = users[index];
+    return (
+      <div style={style}>
+        <UserCard user={user} />
+      </div>
+    );
+  };
+
+  return (
+    <List
+      height={600}
+      itemCount={users.length}
+      itemSize={80}
+      width="100%"
+    >
+      {Row}
+    </List>
+  );
+}
+
+// Lazy loading with Suspense
+const LazyDashboard = lazy(() => import('./Dashboard'));
+const LazyReports = lazy(() => import('./Reports'));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/dashboard" element={<LazyDashboard />} />
+        <Route path="/reports" element={<LazyReports />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
+// Image optimization
+function OptimizedImage({ src, alt, ...props }) {
+  const [imageSrc, setImageSrc] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const imgRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageSrc(src);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [src]);
+
+  return (
+    <div ref={imgRef} className="image-container">
+      {loading && <div className="image-placeholder">Loading...</div>}
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt={alt}
+          onLoad={() => setLoading(false)}
+          {...props}
+        />
+      )}
+    </div>
+  );
+}
+
+// Performance monitoring hook
+function usePerformanceMonitor(componentName) {
+  useEffect(() => {
+    const startTime = performance.now();
+    
+    return () => {
+      const endTime = performance.now();
+      const renderTime = endTime - startTime;
+      
+      if (renderTime > 16) { // More than one frame (60fps)
+        console.warn(`${componentName} took ${renderTime.toFixed(2)}ms to render`);
+      }
+    };
+  });
+}
+
+// Usage
+function MonitoredComponent() {
+  usePerformanceMonitor('MonitoredComponent');
+  
+  // Component logic
+  return <div>Content</div>;
+}
+
+// Bundle size optimization
+// Use dynamic imports for large libraries
+const loadChartLibrary = async () => {
+  const { Chart } = await import('chart.js');
+  return Chart;
+};
+
+function ChartComponent({ data }) {
+  const [Chart, setChart] = useState(null);
+  
+  useEffect(() => {
+    loadChartLibrary().then(setChart);
+  }, []);
+  
+  if (!Chart) return <div>Loading chart...</div>;
+  
+  return <Chart data={data} />;
+}
+```
+
+## 11. How Would You Migrate Class Components to Hooks?
+
+**Class to hooks migration** involves converting lifecycle methods to useEffect, state to useState, and class methods to functions. It's a systematic process that improves code readability and performance.
+
+**Migration steps:**
+1. **Convert state** - this.state to useState
+2. **Convert lifecycle methods** - componentDidMount to useEffect
+3. **Convert methods** - class methods to functions
+4. **Handle refs** - this.refs to useRef
+
+```jsx
+// Before: Class component
+class UserProfile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+      loading: true,
+      error: null,
+      posts: [],
+      followersCount: 0
+    };
+    
+    this.handleFollow = this.handleFollow.bind(this);
+    this.handleUnfollow = this.handleUnfollow.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      const [userResponse, postsResponse] = await Promise.all([
+        fetch(`/api/users/${this.props.userId}`),
+        fetch(`/api/users/${this.props.userId}/posts`)
+      ]);
+      
+      const user = await userResponse.json();
+      const posts = await postsResponse.json();
+      
+      this.setState({ 
+        user, 
+        posts, 
+        loading: false,
+        followersCount: user.followersCount 
+      });
+    } catch (error) {
+      this.setState({ error: error.message, loading: false });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.userId !== this.props.userId) {
+      this.fetchUserData();
+    }
+  }
+
+  componentWillUnmount() {
+    // Cleanup
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+  }
+
+  fetchUserData = async () => {
+    this.setState({ loading: true });
+    // Fetch logic...
+  }
+
+  handleFollow = async () => {
+    try {
+      await fetch(`/api/users/${this.props.userId}/follow`, { method: 'POST' });
+      this.setState(prevState => ({
+        followersCount: prevState.followersCount + 1
+      }));
+    } catch (error) {
+      console.error('Follow failed:', error);
+    }
+  }
+
+  handleUnfollow = async () => {
+    try {
+      await fetch(`/api/users/${this.props.userId}/unfollow`, { method: 'POST' });
+      this.setState(prevState => ({
+        followersCount: prevState.followersCount - 1
+      }));
+    } catch (error) {
+      console.error('Unfollow failed:', error);
+    }
+  }
+
+  render() {
+    const { user, loading, error, posts, followersCount } = this.state;
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
+    return (
+      <div className="user-profile">
+        <h1>{user.name}</h1>
+        <p>Followers: {followersCount}</p>
+        <button onClick={this.handleFollow}>Follow</button>
+        <button onClick={this.handleUnfollow}>Unfollow</button>
+        
+        <div className="posts">
+          {posts.map(post => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+}
+
+// After: Hooks component
+function UserProfile({ userId }) {
+  // Convert state
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [followersCount, setFollowersCount] = useState(0);
+  
+  // Convert refs if needed
+  const timeoutRef = useRef();
+
+  // Convert methods to functions
+  const fetchUserData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const [userResponse, postsResponse] = await Promise.all([
+        fetch(`/api/users/${userId}`),
+        fetch(`/api/users/${userId}/posts`)
+      ]);
+      
+      const userData = await userResponse.json();
+      const postsData = await postsResponse.json();
+      
+      setUser(userData);
+      setPosts(postsData);
+      setFollowersCount(userData.followersCount);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [userId]);
+
+  const handleFollow = useCallback(async () => {
+    try {
+      await fetch(`/api/users/${userId}/follow`, { method: 'POST' });
+      setFollowersCount(prev => prev + 1);
+    } catch (error) {
+      console.error('Follow failed:', error);
+    }
+  }, [userId]);
+
+  const handleUnfollow = useCallback(async () => {
+    try {
+      await fetch(`/api/users/${userId}/unfollow`, { method: 'POST' });
+      setFollowersCount(prev => prev - 1);
+    } catch (error) {
+      console.error('Unfollow failed:', error);
+    }
+  }, [userId]);
+
+  // Convert componentDidMount and componentDidUpdate
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
+
+  // Convert componentWillUnmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div className="user-profile">
+      <h1>{user.name}</h1>
+      <p>Followers: {followersCount}</p>
+      <button onClick={handleFollow}>Follow</button>
+      <button onClick={handleUnfollow}>Unfollow</button>
+      
+      <div className="posts">
+        {posts.map(post => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Complex lifecycle migration example
+// Before: Class with complex lifecycle
+class DataFetcher extends Component {
+  state = { data: null, loading: false };
+  
+  componentDidMount() {
+    this.fetchData();
+  }
+  
+  componentDidUpdate(prevProps) {
+    if (prevProps.url !== this.props.url) {
+      this.fetchData();
+    }
+  }
+  
+  componentWillUnmount() {
+    this.controller?.abort();
+  }
+  
+  fetchData = async () => {
+    this.controller = new AbortController();
+    this.setState({ loading: true });
+    
+    try {
+      const response = await fetch(this.props.url, {
+        signal: this.controller.signal
+      });
+      const data = await response.json();
+      this.setState({ data, loading: false });
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        this.setState({ loading: false });
+      }
+    }
+  }
+  
+  render() {
+    return this.props.children(this.state);
+  }
+}
+
+// After: Custom hook
+function useDataFetcher(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const controllerRef = useRef();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Abort previous request
+      controllerRef.current?.abort();
+      
+      controllerRef.current = new AbortController();
+      setLoading(true);
+      
+      try {
+        const response = await fetch(url, {
+          signal: controllerRef.current.signal
+        });
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error('Fetch failed:', error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (url) {
+      fetchData();
+    }
+
+    // Cleanup on unmount
+    return () => {
+      controllerRef.current?.abort();
+    };
+  }, [url]);
+
+  return { data, loading };
+}
+
+// Usage of custom hook
+function DataComponent({ url }) {
+  const { data, loading } = useDataFetcher(url);
+  
+  if (loading) return <div>Loading...</div>;
+  
+  return (
+    <div>
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+    </div>
+  );
+}
+
+// Migration checklist
+/*
+✅ Convert this.state to useState
+✅ Convert componentDidMount to useEffect with empty dependency array
+✅ Convert componentDidUpdate to useEffect with dependencies
+✅ Convert componentWillUnmount to useEffect cleanup function
+✅ Convert class methods to functions with useCallback if needed
+✅ Convert this.refs to useRef
+✅ Extract reusable logic into custom hooks
+✅ Add proper dependency arrays to useEffect
+✅ Handle cleanup properly (abort controllers, timeouts, etc.)
+*/
+```
+
+## Performance Optimization Summary
+
+| Technique | Use Case | Impact |
+|-----------|----------|--------|
+| **React.memo** | Prevent unnecessary re-renders | High |
+| **useMemo** | Expensive calculations | Medium |
+| **useCallback** | Stable function references | Medium |
+| **Code splitting** | Large bundles | High |
+| **Virtualization** | Large lists | High |
+| **Image optimization** | Heavy images | Medium |
+| **Bundle analysis** | Identify bloat | High |
+
+## Quick Reference
+
+```jsx
+// Performance patterns
+// Memoization
+const MemoComponent = React.memo(Component);
+const memoizedValue = useMemo(() => expensiveCalc(), [deps]);
+const memoizedCallback = useCallback(() => {}, [deps]);
+
+// Code splitting
+const LazyComponent = lazy(() => import('./Component'));
+
+// Migration patterns
+// State: this.state → useState
+// Lifecycle: componentDidMount → useEffect(() => {}, [])
+// Methods: class methods → useCallback
+// Refs: this.refs → useRef
+```
+
+## Security Best Practices Summary
+
+| Security Concern | React Protection | Additional Measures |
+|------------------|------------------|-------------------|
+| **XSS** | Automatic escaping | Sanitize HTML, validate URLs |
+| **SQL Injection** | N/A (frontend) | Backend parameterized queries |
+| **Token Storage** | N/A | HttpOnly cookies + memory storage |
+| **CSRF** | N/A | CSRF tokens, SameSite cookies |
+| **Authorization** | UI-level only | Backend validation required |
+
+## Quick Reference
+
+```jsx
+// Security checklist
+✅ Escape user input (React does this automatically)
+✅ Validate and sanitize data before API calls
+✅ Use HttpOnly cookies for sensitive tokens
+✅ Implement proper role-based authorization
+✅ Use HTTPS in production
+✅ Validate on both client and server
+✅ Use Content Security Policy (CSP)
+
+// Common vulnerabilities to avoid
+❌ Using dangerouslySetInnerHTML without sanitization
+❌ Storing sensitive data in localStorage
+❌ Trusting client-side validation only
+❌ Exposing API keys in frontend code
+❌ Not implementing proper authentication
+```
