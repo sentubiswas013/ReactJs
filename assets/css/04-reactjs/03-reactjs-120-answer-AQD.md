@@ -4869,4 +4869,1953 @@ export default LargeListDemo;
 
 ---
 
+# React State Management Interview Questions
 
+## 1. Local State vs Global State
+
+**Local state** is component-specific data that only affects that component and its children. **Global state** is shared across multiple components throughout the app.
+
+**When to use local state:**
+- Form inputs, toggles, component-specific UI state
+- Data that doesn't need to be shared
+
+**When to use global state:**
+- User authentication, theme settings, shopping cart
+- Data needed by multiple unrelated components
+
+```jsx
+// Local State
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Global State (Context)
+const UserContext = createContext();
+function App() {
+  const [user, setUser] = useState(null);
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      <Header />
+      <Profile />
+    </UserContext.Provider>
+  );
+}
+```
+
+## 2. What is Context API and When Should You Use It?
+
+**Context API** lets you share data across components without prop drilling. It creates a global state that any component can access.
+
+**Use Context when:**
+- Passing props through many levels (prop drilling)
+- Theme, authentication, language settings
+- Medium-sized apps with moderate state sharing needs
+
+```jsx
+// Create Context
+const ThemeContext = createContext();
+
+// Provider Component
+function App() {
+  const [theme, setTheme] = useState('light');
+  
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <Header />
+      <Main />
+    </ThemeContext.Provider>
+  );
+}
+
+// Consumer Component
+function Header() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  
+  return (
+    <header className={theme}>
+      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        Toggle Theme
+      </button>
+    </header>
+  );
+}
+```
+
+## 3. Difference Between State and Context
+
+**State** is component data that can change over time. **Context** is a delivery mechanism for sharing state across components.
+
+**Key differences:**
+- State holds the actual data, Context delivers it
+- State triggers re-renders when changed, Context passes state to consumers
+- State is local by default, Context makes it globally accessible
+
+```jsx
+// State - holds the data
+function App() {
+  const [user, setUser] = useState({ name: 'John', role: 'admin' });
+  
+  // Context - delivers the state
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      <Dashboard />
+    </UserContext.Provider>
+  );
+}
+
+// Context consumer gets the state
+function Dashboard() {
+  const { user } = useContext(UserContext); // Receiving state via context
+  return <h1>Welcome {user.name}</h1>;
+}
+```
+
+## 4. Context vs Redux – How Do You Decide?
+
+**Use Context when:**
+- Small to medium apps
+- Simple state updates
+- Few components need the data
+- Learning curve matters
+
+**Use Redux when:**
+- Large, complex apps
+- Complex state logic with multiple actions
+- Time-travel debugging needed
+- Predictable state updates required
+
+```jsx
+// Context - Simple
+const CartContext = createContext();
+function CartProvider({ children }) {
+  const [items, setItems] = useState([]);
+  const addItem = (item) => setItems([...items, item]);
+  
+  return (
+    <CartContext.Provider value={{ items, addItem }}>
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+// Redux - Complex
+const cartSlice = createSlice({
+  name: 'cart',
+  initialState: { items: [], total: 0 },
+  reducers: {
+    addItem: (state, action) => {
+      state.items.push(action.payload);
+      state.total += action.payload.price;
+    },
+    removeItem: (state, action) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
+    }
+  }
+});
+```
+
+## 5. What is Redux and Why is it Used?
+
+**Redux** is a predictable state container for JavaScript apps. It centralizes application state in a single store with strict rules for updates.
+
+**Why use Redux:**
+- Predictable state updates through pure functions
+- Time-travel debugging and dev tools
+- Centralized state management
+- Great for complex apps with lots of state interactions
+
+**Core concepts:**
+- **Store**: Holds the state
+- **Actions**: Describe what happened
+- **Reducers**: Specify how state changes
+
+```jsx
+// Action
+const increment = () => ({ type: 'INCREMENT' });
+const decrement = () => ({ type: 'DECREMENT' });
+
+// Reducer
+function counterReducer(state = { count: 0 }, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+// Store
+const store = createStore(counterReducer);
+
+// Component
+function Counter() {
+  const count = useSelector(state => state.count);
+  const dispatch = useDispatch();
+  
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={() => dispatch(increment())}>+</button>
+      <button onClick={() => dispatch(decrement())}>-</button>
+    </div>
+  );
+}
+```
+
+## 6. Redux Core Principles (Actions, Reducers, Store)
+
+**Three core principles:**
+1. **Single source of truth** - One store for entire app state
+2. **State is read-only** - Only way to change state is dispatching actions
+3. **Changes made with pure functions** - Reducers are pure functions
+
+**Components:**
+- **Actions**: Plain objects describing what happened
+- **Reducers**: Pure functions that specify how state changes
+- **Store**: Holds state, allows access via getState(), dispatch actions
+
+```jsx
+// Action
+const addTodo = (text) => ({
+  type: 'ADD_TODO',
+  payload: { id: Date.now(), text, completed: false }
+});
+
+// Reducer
+function todosReducer(state = [], action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [...state, action.payload];
+    case 'TOGGLE_TODO':
+      return state.map(todo => 
+        todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
+      );
+    default:
+      return state;
+  }
+}
+
+// Store
+const store = createStore(todosReducer);
+store.dispatch(addTodo('Learn Redux'));
+```
+
+## 7. How Do You Handle Async Actions in Redux?
+
+**Redux is synchronous by default.** For async operations like API calls, you need middleware like **redux-thunk** or **redux-saga**.
+
+**With Redux Thunk:**
+- Action creators return functions instead of plain objects
+- Functions receive dispatch and getState as arguments
+- Can dispatch multiple actions based on async results
+
+```jsx
+// Async action creator with thunk
+const fetchUser = (userId) => {
+  return async (dispatch, getState) => {
+    dispatch({ type: 'FETCH_USER_START' });
+    
+    try {
+      const response = await fetch(`/api/users/${userId}`);
+      const user = await response.json();
+      dispatch({ type: 'FETCH_USER_SUCCESS', payload: user });
+    } catch (error) {
+      dispatch({ type: 'FETCH_USER_ERROR', payload: error.message });
+    }
+  };
+};
+
+// Usage
+dispatch(fetchUser(123));
+
+// Reducer handles all states
+function userReducer(state = { loading: false, user: null, error: null }, action) {
+  switch (action.type) {
+    case 'FETCH_USER_START':
+      return { ...state, loading: true, error: null };
+    case 'FETCH_USER_SUCCESS':
+      return { loading: false, user: action.payload, error: null };
+    case 'FETCH_USER_ERROR':
+      return { loading: false, user: null, error: action.payload };
+    default:
+      return state;
+  }
+}
+```
+
+## 8. What are Redux Middlewares?
+
+**Middleware** sits between dispatching an action and reaching the reducer. It intercepts actions and can modify, delay, or stop them.
+
+**Common use cases:**
+- Logging actions
+- Handling async operations
+- API calls
+- Error handling
+
+```jsx
+// Custom logging middleware
+const loggerMiddleware = (store) => (next) => (action) => {
+  console.log('Dispatching:', action);
+  const result = next(action);
+  console.log('New state:', store.getState());
+  return result;
+};
+
+// Apply middleware
+const store = createStore(
+  rootReducer,
+  applyMiddleware(loggerMiddleware, thunk)
+);
+
+// Built-in Redux Thunk middleware
+const fetchData = () => (dispatch) => {
+  fetch('/api/data')
+    .then(response => response.json())
+    .then(data => dispatch({ type: 'SET_DATA', payload: data }));
+};
+```
+
+## 9. Difference Between Redux-Thunk and Redux-Saga
+
+**Redux-Thunk:**
+- Simple, lightweight
+- Action creators return functions
+- Good for basic async operations
+- Easy to learn and implement
+
+**Redux-Saga:**
+- More powerful, uses ES6 generators
+- Better for complex async flows
+- Built-in effects for testing
+- Steeper learning curve
+
+```jsx
+// Redux-Thunk
+const fetchUser = (id) => async (dispatch) => {
+  const response = await fetch(`/users/${id}`);
+  const user = await response.json();
+  dispatch({ type: 'SET_USER', payload: user });
+};
+
+// Redux-Saga
+function* fetchUserSaga(action) {
+  try {
+    const user = yield call(fetch, `/users/${action.payload}`);
+    const userData = yield call([user, 'json']);
+    yield put({ type: 'SET_USER', payload: userData });
+  } catch (error) {
+    yield put({ type: 'SET_ERROR', payload: error.message });
+  }
+}
+
+function* watchFetchUser() {
+  yield takeEvery('FETCH_USER_REQUEST', fetchUserSaga);
+}
+```
+
+## 10. How Would You Structure Redux in a Large Application?
+
+**Feature-based structure** is recommended for large apps:
+
+```
+src/
+├── store/
+│   ├── index.js          // Store configuration
+│   └── rootReducer.js    // Combine all reducers
+├── features/
+│   ├── auth/
+│   │   ├── authSlice.js  // Actions + reducer
+│   │   └── authAPI.js    // API calls
+│   ├── products/
+│   │   ├── productsSlice.js
+│   │   └── productsAPI.js
+│   └── cart/
+│       ├── cartSlice.js
+│       └── cartSelectors.js
+```
+
+**Best practices:**
+- Use Redux Toolkit for less boilerplate
+- Create feature slices with createSlice()
+- Keep selectors with related features
+- Normalize complex state structures
+
+```jsx
+// Feature slice example
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// Async thunk
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const response = await fetch('/api/products');
+    return response.json();
+  }
+);
+
+// Slice
+const productsSlice = createSlice({
+  name: 'products',
+  initialState: { items: [], loading: false },
+  reducers: {
+    clearProducts: (state) => {
+      state.items = [];
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      });
+  }
+});
+
+export const { clearProducts } = productsSlice.actions;
+export default productsSlice.reducer;
+```
+
+# React Router v6 Interview Questions
+
+## 1. What is React Router and How Does It Work?
+
+**React Router** is a library for handling client-side routing in React applications. It enables navigation between different components without page refreshes.
+
+**How it works:**
+- Maps URL paths to React components
+- Uses browser's History API for navigation
+- Renders components based on current URL
+- Maintains browser history for back/forward buttons
+
+```jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+function Home() {
+  return <h1>Home Page</h1>;
+}
+
+function About() {
+  return <h1>About Page</h1>;
+}
+```
+
+## 2. How Do You Implement Routing in React?
+
+**Step-by-step implementation:**
+1. Install React Router: `npm install react-router-dom`
+2. Wrap app with BrowserRouter
+3. Define Routes with path and element
+4. Use Link or NavLink for navigation
+
+```jsx
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/products">Products</Link>
+        <Link to="/profile">Profile</Link>
+      </nav>
+      
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+function NotFound() {
+  return <h1>404 - Page Not Found</h1>;
+}
+```
+
+## 3. What are Dynamic Routes?
+
+**Dynamic routes** use URL parameters to render different content based on the URL. They're perfect for pages like user profiles, product details, or blog posts.
+
+**Key features:**
+- Use colon syntax `:id` for parameters
+- Access parameters with `useParams` hook
+- Can have multiple parameters in one route
+
+```jsx
+import { Routes, Route, useParams } from 'react-router-dom';
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/user/:id" element={<UserProfile />} />
+      <Route path="/product/:category/:id" element={<ProductDetail />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+    </Routes>
+  );
+}
+
+function UserProfile() {
+  const { id } = useParams();
+  return <h1>User Profile: {id}</h1>;
+}
+
+function ProductDetail() {
+  const { category, id } = useParams();
+  return (
+    <div>
+      <h1>Product {id}</h1>
+      <p>Category: {category}</p>
+    </div>
+  );
+}
+
+// URLs: /user/123, /product/electronics/456, /blog/react-tutorial
+```
+
+## 4. How Do You Implement Nested Routes?
+
+**Nested routes** allow you to render components inside other components, creating hierarchical layouts. Perfect for dashboards, admin panels, or multi-level navigation.
+
+**Key concepts:**
+- Parent route uses `<Outlet />` to render child routes
+- Child routes are defined inside parent route
+- URLs build upon parent path
+
+```jsx
+import { Routes, Route, Outlet, Link } from 'react-router-dom';
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="users" element={<Users />} />
+        <Route path="settings" element={<Settings />} />
+      </Route>
+    </Routes>
+  );
+}
+
+function Dashboard() {
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <nav>
+        <Link to="/dashboard/analytics">Analytics</Link>
+        <Link to="/dashboard/users">Users</Link>
+        <Link to="/dashboard/settings">Settings</Link>
+      </nav>
+      <Outlet /> {/* Child routes render here */}
+    </div>
+  );
+}
+
+function Analytics() {
+  return <h2>Analytics Content</h2>;
+}
+
+// URLs: /dashboard/analytics, /dashboard/users, /dashboard/settings
+```
+
+## 5. What are `useParams`, `useLocation`, and `useNavigate`?
+
+**Three essential React Router hooks:**
+
+**`useParams`** - Gets URL parameters from dynamic routes
+**`useLocation`** - Gets current location object with pathname, search, etc.
+**`useNavigate`** - Programmatically navigate to different routes
+
+```jsx
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+
+function ProductPage() {
+  // Get URL parameters
+  const { id, category } = useParams();
+  
+  // Get location information
+  const location = useLocation();
+  
+  // Get navigation function
+  const navigate = useNavigate();
+  
+  const handleGoBack = () => {
+    navigate(-1); // Go back one page
+  };
+  
+  const handleGoHome = () => {
+    navigate('/'); // Navigate to home
+  };
+  
+  return (
+    <div>
+      <h1>Product {id}</h1>
+      <p>Category: {category}</p>
+      <p>Current path: {location.pathname}</p>
+      <p>Search params: {location.search}</p>
+      
+      <button onClick={handleGoBack}>Go Back</button>
+      <button onClick={handleGoHome}>Go Home</button>
+      <button onClick={() => navigate('/products')}>All Products</button>
+    </div>
+  );
+}
+
+// URL: /product/electronics/123?color=red
+// useParams(): { id: '123', category: 'electronics' }
+// useLocation(): { pathname: '/product/electronics/123', search: '?color=red' }
+```
+
+## 6. What are Router Components in React Router v6?
+
+**Main Router components in v6:**
+
+**`BrowserRouter`** - Uses HTML5 history API, clean URLs
+**`HashRouter`** - Uses hash portion of URL, works without server config
+**`MemoryRouter`** - Keeps history in memory, good for testing
+**`Routes`** - Container for Route components (replaces Switch)
+**`Route`** - Defines path-to-component mapping
+
+```jsx
+import { 
+  BrowserRouter, 
+  HashRouter, 
+  MemoryRouter, 
+  Routes, 
+  Route 
+} from 'react-router-dom';
+
+// BrowserRouter - Most common, clean URLs
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+// HashRouter - For static hosting
+function AppWithHash() {
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </HashRouter>
+  );
+}
+
+// MemoryRouter - For testing
+function TestApp() {
+  return (
+    <MemoryRouter initialEntries={['/']}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </MemoryRouter>
+  );
+}
+
+// URLs:
+// BrowserRouter: /about
+// HashRouter: /#/about
+// MemoryRouter: No URL changes
+```
+
+# React Data Fetching & Side Effects Interview Questions
+
+## 1. How Do You Handle API Calls in React?
+
+**Three main approaches:**
+1. **useEffect + fetch/axios** - Traditional approach
+2. **Custom hooks** - Reusable data fetching logic
+3. **Data fetching libraries** - React Query, SWR, Apollo
+
+**Basic pattern with useEffect:**
+- Fetch on component mount
+- Handle loading, success, and error states
+- Clean up to prevent memory leaks
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/users/${userId}`);
+        if (!response.ok) throw new Error('Failed to fetch');
+        const userData = await response.json();
+        setUser(userData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  return <div>Welcome {user?.name}</div>;
+}
+```
+
+## 2. What Problems Does `useEffect` Have with Data Fetching?
+
+**Major problems:**
+- **Race conditions** - Multiple requests can complete out of order
+- **Memory leaks** - Setting state after component unmounts
+- **No caching** - Refetches on every mount
+- **Complex cleanup** - Manual request cancellation needed
+- **Boilerplate code** - Repetitive loading/error handling
+
+```jsx
+// Problematic useEffect data fetching
+function UserList() {
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    // Problem: No cleanup, race conditions possible
+    fetch(`/api/users?search=${query}`)
+      .then(res => res.json())
+      .then(setUsers); // Could set stale data if query changed
+  }, [query]);
+
+  return (
+    <div>
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      {users.map(user => <div key={user.id}>{user.name}</div>)}
+    </div>
+  );
+}
+
+// Better approach with cleanup
+function UserListFixed() {
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const controller = new AbortController();
+    
+    fetch(`/api/users?search=${query}`, { 
+      signal: controller.signal 
+    })
+      .then(res => res.json())
+      .then(setUsers)
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+        }
+      });
+
+    return () => controller.abort(); // Cleanup
+  }, [query]);
+
+  return (
+    <div>
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      {users.map(user => <div key={user.id}>{user.name}</div>)}
+    </div>
+  );
+}
+```
+
+## 3. How Do You Fetch Data Without `useEffect`?
+
+**Modern alternatives:**
+1. **Event handlers** - Fetch on user actions
+2. **React Query** - Declarative data fetching
+3. **Suspense + libraries** - Concurrent features
+4. **Server components** - Next.js, Remix
+
+```jsx
+// 1. Event-driven fetching
+function SearchUsers() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (query) => {
+    setLoading(true);
+    const response = await fetch(`/api/users?search=${query}`);
+    const users = await response.json();
+    setUsers(users);
+    setLoading(false);
+  };
+
+  return (
+    <div>
+      <button onClick={() => handleSearch('john')}>
+        Search for John
+      </button>
+      {loading ? 'Loading...' : users.map(user => 
+        <div key={user.id}>{user.name}</div>
+      )}
+    </div>
+  );
+}
+
+// 2. React Query approach
+import { useQuery } from '@tanstack/react-query';
+
+function UserProfile({ userId }) {
+  const { data: user, isLoading, error } = useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => fetch(`/api/users/${userId}`).then(res => res.json()),
+    enabled: !!userId // Only fetch if userId exists
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  return <div>Welcome {user?.name}</div>;
+}
+```
+
+## 4. What is React Query / TanStack Query?
+
+**React Query** is a powerful data fetching library that handles server state management with built-in caching, synchronization, and background updates.
+
+**Key features:**
+- **Automatic caching** - Stores and reuses data
+- **Background refetching** - Keeps data fresh
+- **Optimistic updates** - Instant UI feedback
+- **Error handling** - Built-in retry logic
+
+```jsx
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+// Basic query
+function Posts() {
+  const { data: posts, isLoading } = useQuery({
+    queryKey: ['posts'],
+    queryFn: () => fetch('/api/posts').then(res => res.json()),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  return posts.map(post => <div key={post.id}>{post.title}</div>);
+}
+
+// Mutation for creating posts
+function CreatePost() {
+  const queryClient = useQueryClient();
+  
+  const mutation = useMutation({
+    mutationFn: (newPost) => 
+      fetch('/api/posts', {
+        method: 'POST',
+        body: JSON.stringify(newPost),
+        headers: { 'Content-Type': 'application/json' }
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    }
+  });
+
+  return (
+    <button onClick={() => mutation.mutate({ title: 'New Post' })}>
+      {mutation.isPending ? 'Creating...' : 'Create Post'}
+    </button>
+  );
+}
+```
+
+## 5. Difference Between Client-Side Caching and Server State
+
+**Client-side caching:**
+- Stores data in browser memory/localStorage
+- Controlled by your application
+- Persists until manually cleared or page refresh
+- Good for user preferences, form data
+
+**Server state:**
+- Data that lives on the server
+- Can become stale quickly
+- Shared between users
+- Needs synchronization strategies
+
+```jsx
+// Client-side caching (localStorage)
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : initialValue;
+  });
+
+  const setStoredValue = (newValue) => {
+    setValue(newValue);
+    localStorage.setItem(key, JSON.stringify(newValue));
+  };
+
+  return [value, setStoredValue];
+}
+
+// Server state management (React Query)
+function UserDashboard() {
+  // Server state - can change on server
+  const { data: notifications } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: fetchNotifications,
+    refetchInterval: 30000, // Refetch every 30 seconds
+  });
+
+  // Client state - only changes locally
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
+
+  return (
+    <div className={theme}>
+      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        Toggle Theme
+      </button>
+      <div>Notifications: {notifications?.length || 0}</div>
+    </div>
+  );
+}
+```
+
+## 6. How Do You Cancel API Requests?
+
+**Use AbortController** to cancel fetch requests and prevent memory leaks when components unmount or dependencies change.
+
+**Why cancel requests:**
+- Prevent setting state on unmounted components
+- Avoid race conditions
+- Save bandwidth and resources
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function SearchResults({ query }) {
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!query) return;
+
+    const controller = new AbortController();
+    setLoading(true);
+
+    fetch(`/api/search?q=${query}`, {
+      signal: controller.signal
+    })
+      .then(response => response.json())
+      .then(data => {
+        setResults(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        if (error.name !== 'AbortError') {
+          console.error('Search failed:', error);
+          setLoading(false);
+        }
+        // AbortError is expected when cancelling
+      });
+
+    // Cleanup function cancels the request
+    return () => {
+      controller.abort();
+    };
+  }, [query]);
+
+  return (
+    <div>
+      {loading && <div>Searching...</div>}
+      {results.map(item => <div key={item.id}>{item.title}</div>)}
+    </div>
+  );
+}
+
+// Custom hook with cancellation
+function useApi(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch(url, { signal: controller.signal })
+      .then(res => res.json())
+      .then(setData)
+      .finally(() => setLoading(false));
+
+    return () => controller.abort();
+  }, [url]);
+
+  return { data, loading };
+}
+```
+
+## 7. How Do You Handle Race Conditions?
+
+**Race conditions** occur when multiple async operations complete in unexpected order. Common solutions include request cancellation, ignore flags, and proper state management.
+
+**Strategies:**
+- **AbortController** - Cancel previous requests
+- **Ignore flag** - Ignore stale responses
+- **Request ID** - Track latest request
+- **React Query** - Handles automatically
+
+```jsx
+// Problem: Race condition
+function BadUserSearch() {
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    // If user types fast, older requests might complete after newer ones
+    fetch(`/api/users?search=${query}`)
+      .then(res => res.json())
+      .then(setUsers); // Wrong data if requests complete out of order
+  }, [query]);
+}
+
+// Solution 1: AbortController
+function GoodUserSearch() {
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch(`/api/users?search=${query}`, { 
+      signal: controller.signal 
+    })
+      .then(res => res.json())
+      .then(setUsers)
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+        }
+      });
+
+    return () => controller.abort(); // Cancel previous request
+  }, [query]);
+}
+
+// Solution 2: Ignore flag
+function UserSearchWithIgnore() {
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetch(`/api/users?search=${query}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!ignore) { // Only update if this is still the latest request
+          setUsers(data);
+        }
+      });
+
+    return () => {
+      ignore = true; // Mark this request as stale
+    };
+  }, [query]);
+}
+
+// Solution 3: React Query (handles race conditions automatically)
+function ReactQueryUserSearch() {
+  const [query, setQuery] = useState('');
+  
+  const { data: users = [] } = useQuery({
+    queryKey: ['users', query],
+    queryFn: () => fetch(`/api/users?search=${query}`).then(res => res.json()),
+    enabled: query.length > 0
+  });
+
+  return (
+    <div>
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      {users.map(user => <div key={user.id}>{user.name}</div>)}
+    </div>
+  );
+}
+```
+
+# React Architecture & Design Patterns Interview Questions
+
+## 1. How Do You Structure a Large-Scale React Application?
+
+**Key principles for large React apps:**
+- **Feature-based organization** - Group by business features, not file types
+- **Layered architecture** - Separate concerns (UI, business logic, data)
+- **Shared resources** - Common components, utilities, and constants
+- **Clear boundaries** - Well-defined interfaces between modules
+
+```
+src/
+├── components/           # Shared UI components
+│   ├── Button/
+│   ├── Modal/
+│   └── Layout/
+├── features/            # Business features
+│   ├── auth/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   └── index.js
+│   ├── dashboard/
+│   └── products/
+├── shared/              # Shared utilities
+│   ├── hooks/
+│   ├── utils/
+│   ├── constants/
+│   └── types/
+├── services/            # API layer
+├── store/              # Global state
+└── App.js
+```
+
+```jsx
+// Feature module example - features/auth/index.js
+export { LoginForm } from './components/LoginForm';
+export { useAuth } from './hooks/useAuth';
+export { authService } from './services/authService';
+
+// Clean imports in other files
+import { LoginForm, useAuth } from '../features/auth';
+
+// App.js - High-level structure
+function App() {
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/auth/*" element={<AuthFeature />} />
+          <Route path="/dashboard/*" element={<DashboardFeature />} />
+          <Route path="/products/*" element={<ProductsFeature />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
+}
+```
+
+## 2. What is Feature-Based Folder Structure?
+
+**Feature-based structure** organizes code by business features rather than technical layers. Each feature contains all related files - components, hooks, services, and tests.
+
+**Benefits:**
+- **Better maintainability** - Everything related is together
+- **Team scalability** - Teams can own entire features
+- **Easier testing** - Feature-specific tests are co-located
+- **Clear boundaries** - Reduces coupling between features
+
+```
+src/
+├── features/
+│   ├── authentication/
+│   │   ├── components/
+│   │   │   ├── LoginForm.jsx
+│   │   │   ├── SignupForm.jsx
+│   │   │   └── PasswordReset.jsx
+│   │   ├── hooks/
+│   │   │   ├── useAuth.js
+│   │   │   └── useLogin.js
+│   │   ├── services/
+│   │   │   └── authAPI.js
+│   │   ├── __tests__/
+│   │   └── index.js
+│   ├── user-profile/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── services/
+│   └── shopping-cart/
+└── shared/
+    ├── components/      # Reusable UI components
+    ├── hooks/          # Generic hooks
+    └── utils/          # Helper functions
+```
+
+```jsx
+// Feature entry point - features/authentication/index.js
+export { LoginForm, SignupForm } from './components';
+export { useAuth, useLogin } from './hooks';
+export { authAPI } from './services';
+
+// Usage in App
+import { LoginForm, useAuth } from './features/authentication';
+import { UserProfile } from './features/user-profile';
+
+function App() {
+  const { user, isAuthenticated } = useAuth();
+  
+  return isAuthenticated ? <UserProfile /> : <LoginForm />;
+}
+```
+
+## 3. Smart vs Dumb Components
+
+**Smart components (Container):**
+- Manage state and business logic
+- Handle data fetching and side effects
+- Connect to global state or APIs
+- Pass data down to dumb components
+
+**Dumb components (Presentational):**
+- Only receive props and render UI
+- No state management or side effects
+- Highly reusable and testable
+- Focus purely on presentation
+
+```jsx
+// Smart Component - Manages state and logic
+function UserListContainer() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    fetchUsers().then(data => {
+      setUsers(data);
+      setLoading(false);
+    });
+  }, []);
+
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <UserListPresentation
+      users={filteredUsers}
+      loading={loading}
+      searchTerm={searchTerm}
+      onSearchChange={setSearchTerm}
+    />
+  );
+}
+
+// Dumb Component - Pure presentation
+function UserListPresentation({ users, loading, searchTerm, onSearchChange }) {
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <SearchInput 
+        value={searchTerm} 
+        onChange={onSearchChange} 
+        placeholder="Search users..." 
+      />
+      <div>
+        {users.map(user => (
+          <UserCard key={user.id} user={user} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Reusable dumb components
+function SearchInput({ value, onChange, placeholder }) {
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+    />
+  );
+}
+
+function UserCard({ user }) {
+  return (
+    <div className="user-card">
+      <h3>{user.name}</h3>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+```
+
+## 4. Container-Presentational Pattern
+
+**Container-Presentational pattern** separates data logic from UI rendering. Containers handle the "how it works" while presentational components handle "how it looks."
+
+**Container responsibilities:**
+- Data fetching and state management
+- Business logic and side effects
+- Connecting to external services
+
+**Presentational responsibilities:**
+- Rendering UI based on props
+- Handling user interactions via callbacks
+- Styling and layout
+
+```jsx
+// Container - Handles data and logic
+function ProductsContainer() {
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadProducts().then(data => {
+      setProducts(data);
+      setLoading(false);
+    });
+  }, []);
+
+  const addToCart = (product) => {
+    setCart(prev => [...prev, product]);
+  };
+
+  const removeFromCart = (productId) => {
+    setCart(prev => prev.filter(item => item.id !== productId));
+  };
+
+  return (
+    <ProductsPresentation
+      products={products}
+      cart={cart}
+      loading={loading}
+      onAddToCart={addToCart}
+      onRemoveFromCart={removeFromCart}
+    />
+  );
+}
+
+// Presentation - Pure UI rendering
+function ProductsPresentation({ 
+  products, 
+  cart, 
+  loading, 
+  onAddToCart, 
+  onRemoveFromCart 
+}) {
+  if (loading) return <LoadingSpinner />;
+
+  return (
+    <div className="products-page">
+      <CartSummary 
+        items={cart} 
+        onRemoveItem={onRemoveFromCart} 
+      />
+      <ProductGrid 
+        products={products} 
+        onAddToCart={onAddToCart} 
+      />
+    </div>
+  );
+}
+
+// Presentational components
+function ProductGrid({ products, onAddToCart }) {
+  return (
+    <div className="product-grid">
+      {products.map(product => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          onAddToCart={() => onAddToCart(product)}
+        />
+      ))}
+    </div>
+  );
+}
+
+function ProductCard({ product, onAddToCart }) {
+  return (
+    <div className="product-card">
+      <img src={product.image} alt={product.name} />
+      <h3>{product.name}</h3>
+      <p>${product.price}</p>
+      <button onClick={onAddToCart}>Add to Cart</button>
+    </div>
+  );
+}
+```
+
+## 5. How Do You Design Reusable Components?
+
+**Key principles for reusable components:**
+- **Single responsibility** - One clear purpose
+- **Flexible props API** - Accept configuration via props
+- **Composition over inheritance** - Use children and render props
+- **Consistent naming** - Clear, descriptive prop names
+
+```jsx
+// Flexible Button component
+function Button({ 
+  children, 
+  variant = 'primary', 
+  size = 'medium', 
+  disabled = false,
+  loading = false,
+  onClick,
+  ...props 
+}) {
+  const className = `btn btn--${variant} btn--${size} ${disabled ? 'btn--disabled' : ''}`;
+  
+  return (
+    <button
+      className={className}
+      disabled={disabled || loading}
+      onClick={onClick}
+      {...props}
+    >
+      {loading ? <Spinner /> : children}
+    </button>
+  );
+}
+
+// Usage examples
+<Button onClick={handleSave}>Save</Button>
+<Button variant="secondary" size="small">Cancel</Button>
+<Button loading={isSubmitting}>Submit</Button>
+
+// Flexible Modal component with composition
+function Modal({ isOpen, onClose, children }) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>×</button>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// Modal subcomponents for composition
+Modal.Header = function ModalHeader({ children }) {
+  return <div className="modal-header">{children}</div>;
+};
+
+Modal.Body = function ModalBody({ children }) {
+  return <div className="modal-body">{children}</div>;
+};
+
+Modal.Footer = function ModalFooter({ children }) {
+  return <div className="modal-footer">{children}</div>;
+};
+
+// Usage with composition
+function DeleteConfirmation({ isOpen, onClose, onConfirm }) {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal.Header>
+        <h2>Confirm Delete</h2>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Are you sure you want to delete this item?</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onClose}>Cancel</Button>
+        <Button variant="danger" onClick={onConfirm}>Delete</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+// Flexible Input component with validation
+function Input({ 
+  label, 
+  error, 
+  helperText, 
+  required = false,
+  ...inputProps 
+}) {
+  const inputId = inputProps.id || inputProps.name;
+  
+  return (
+    <div className="input-group">
+      {label && (
+        <label htmlFor={inputId} className="input-label">
+          {label} {required && <span className="required">*</span>}
+        </label>
+      )}
+      <input
+        id={inputId}
+        className={`input ${error ? 'input--error' : ''}`}
+        {...inputProps}
+      />
+      {error && <span className="input-error">{error}</span>}
+      {helperText && <span className="input-helper">{helperText}</span>}
+    </div>
+  );
+}
+
+// Usage
+<Input 
+  label="Email" 
+  name="email" 
+  type="email" 
+  required 
+  error={errors.email}
+  helperText="We'll never share your email"
+/>
+```
+
+## 6. How Do You Handle Shared Logic Across Pages?
+
+**Four main approaches for sharing logic:**
+1. **Custom hooks** - Share stateful logic between components
+2. **Context providers** - Share state and functions globally
+3. **Higher-order components** - Wrap components with shared behavior
+4. **Utility functions** - Share pure functions and calculations
+
+```jsx
+// 1. Custom hooks for shared logic
+function useAuth() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuthStatus().then(userData => {
+      setUser(userData);
+      setLoading(false);
+    });
+  }, []);
+
+  const login = async (credentials) => {
+    const userData = await authAPI.login(credentials);
+    setUser(userData);
+  };
+
+  const logout = () => {
+    authAPI.logout();
+    setUser(null);
+  };
+
+  return { user, loading, login, logout };
+}
+
+// Usage across multiple pages
+function Dashboard() {
+  const { user, logout } = useAuth();
+  return <div>Welcome {user?.name} <button onClick={logout}>Logout</button></div>;
+}
+
+function Profile() {
+  const { user } = useAuth();
+  return <div>Profile: {user?.email}</div>;
+}
+
+// 2. Context for global shared state
+const AppContext = createContext();
+
+function AppProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  const [notifications, setNotifications] = useState([]);
+  
+  const addNotification = (message) => {
+    setNotifications(prev => [...prev, { id: Date.now(), message }]);
+  };
+
+  return (
+    <AppContext.Provider value={{ theme, setTheme, notifications, addNotification }}>
+      {children}
+    </AppContext.Provider>
+  );
+}
+
+// 3. Utility functions for pure logic
+export const formatCurrency = (amount) => 
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+
+export const validateEmail = (email) => 
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+```
+
+## 7. What is Render Props Pattern?
+
+**Render props** is a pattern where a component receives a function as a prop that returns JSX. It allows sharing stateful logic while giving consumers control over what to render.
+
+**Key benefits:**
+- **Flexible rendering** - Consumer decides what to render
+- **Logic reuse** - Share behavior without UI assumptions
+- **Inversion of control** - Component provides data, consumer provides UI
+
+```jsx
+// Render props component for mouse tracking
+function MouseTracker({ render }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return render(position); // Call the render prop with data
+}
+
+// Usage with different UI implementations
+function App() {
+  return (
+    <div>
+      {/* Render as coordinates */}
+      <MouseTracker 
+        render={({ x, y }) => (
+          <p>Mouse position: {x}, {y}</p>
+        )}
+      />
+      
+      {/* Render as following dot */}
+      <MouseTracker 
+        render={({ x, y }) => (
+          <div 
+            style={{
+              position: 'absolute',
+              left: x,
+              top: y,
+              width: 10,
+              height: 10,
+              backgroundColor: 'red',
+              borderRadius: '50%'
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}
+
+// Data fetching with render props
+function DataFetcher({ url, render }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(setData)
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, [url]);
+
+  return render({ data, loading, error });
+}
+
+// Usage
+<DataFetcher 
+  url="/api/users" 
+  render={({ data, loading, error }) => {
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+    return <UserList users={data} />;
+  }}
+/>
+```
+
+## 8. What is Compound Component Pattern?
+
+**Compound components** work together as a cohesive unit, sharing implicit state. The parent component manages state while child components have specific roles.
+
+**Benefits:**
+- **Flexible composition** - Arrange child components as needed
+- **Implicit communication** - Children access parent state automatically
+- **Clean API** - Intuitive component relationships
+
+```jsx
+// Compound component for tabs
+const TabsContext = createContext();
+
+function Tabs({ children, defaultTab = 0 }) {
+  const [activeTab, setActiveTab] = useState(defaultTab);
+  
+  return (
+    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
+      <div className="tabs">{children}</div>
+    </TabsContext.Provider>
+  );
+}
+
+function TabList({ children }) {
+  return <div className="tab-list">{children}</div>;
+}
+
+function Tab({ index, children }) {
+  const { activeTab, setActiveTab } = useContext(TabsContext);
+  const isActive = activeTab === index;
+  
+  return (
+    <button 
+      className={`tab ${isActive ? 'tab--active' : ''}`}
+      onClick={() => setActiveTab(index)}
+    >
+      {children}
+    </button>
+  );
+}
+
+function TabPanels({ children }) {
+  return <div className="tab-panels">{children}</div>;
+}
+
+function TabPanel({ index, children }) {
+  const { activeTab } = useContext(TabsContext);
+  
+  if (activeTab !== index) return null;
+  
+  return <div className="tab-panel">{children}</div>;
+}
+
+// Attach child components to parent
+Tabs.List = TabList;
+Tabs.Tab = Tab;
+Tabs.Panels = TabPanels;
+Tabs.Panel = TabPanel;
+
+// Usage - flexible composition
+function App() {
+  return (
+    <Tabs defaultTab={0}>
+      <Tabs.List>
+        <Tabs.Tab index={0}>Profile</Tabs.Tab>
+        <Tabs.Tab index={1}>Settings</Tabs.Tab>
+        <Tabs.Tab index={2}>Billing</Tabs.Tab>
+      </Tabs.List>
+      
+      <Tabs.Panels>
+        <Tabs.Panel index={0}>
+          <ProfileContent />
+        </Tabs.Panel>
+        <Tabs.Panel index={1}>
+          <SettingsContent />
+        </Tabs.Panel>
+        <Tabs.Panel index={2}>
+          <BillingContent />
+        </Tabs.Panel>
+      </Tabs.Panels>
+    </Tabs>
+  );
+}
+
+// Accordion compound component
+function Accordion({ children }) {
+  const [openItems, setOpenItems] = useState(new Set());
+  
+  const toggle = (id) => {
+    setOpenItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+  
+  return (
+    <AccordionContext.Provider value={{ openItems, toggle }}>
+      <div className="accordion">{children}</div>
+    </AccordionContext.Provider>
+  );
+}
+
+Accordion.Item = function AccordionItem({ id, children }) {
+  return <div className="accordion-item">{children}</div>;
+};
+
+Accordion.Header = function AccordionHeader({ id, children }) {
+  const { openItems, toggle } = useContext(AccordionContext);
+  const isOpen = openItems.has(id);
+  
+  return (
+    <button 
+      className="accordion-header" 
+      onClick={() => toggle(id)}
+    >
+      {children}
+      <span>{isOpen ? '−' : '+'}</span>
+    </button>
+  );
+};
+
+Accordion.Content = function AccordionContent({ id, children }) {
+  const { openItems } = useContext(AccordionContext);
+  const isOpen = openItems.has(id);
+  
+  return isOpen ? <div className="accordion-content">{children}</div> : null;
+};
+```
+
+## 9. What are Higher-Order Components (HOCs)?
+
+**Higher-Order Components** are functions that take a component and return a new component with additional props or behavior. They're used for cross-cutting concerns like authentication, logging, or data fetching.
+
+**Common use cases:**
+- **Authentication** - Protect routes and components
+- **Loading states** - Add loading behavior
+- **Error boundaries** - Wrap components with error handling
+- **Analytics** - Track component usage
+
+```jsx
+// Authentication HOC
+function withAuth(WrappedComponent) {
+  return function AuthenticatedComponent(props) {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      checkAuthStatus().then(userData => {
+        setUser(userData);
+        setLoading(false);
+      });
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+    if (!user) return <LoginForm />;
+    
+    return <WrappedComponent {...props} user={user} />;
+  };
+}
+
+// Usage
+const ProtectedDashboard = withAuth(Dashboard);
+const ProtectedProfile = withAuth(Profile);
+
+function Dashboard({ user }) {
+  return <h1>Welcome to Dashboard, {user.name}!</h1>;
+}
+
+// Loading HOC
+function withLoading(WrappedComponent) {
+  return function LoadingComponent({ isLoading, ...props }) {
+    if (isLoading) {
+      return <div className="spinner">Loading...</div>;
+    }
+    
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// Error boundary HOC
+function withErrorBoundary(WrappedComponent) {
+  return class extends Component {
+    constructor(props) {
+      super(props);
+      this.state = { hasError: false, error: null };
+    }
+
+    static getDerivedStateFromError(error) {
+      return { hasError: true, error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+      console.error('Error caught by HOC:', error, errorInfo);
+    }
+
+    render() {
+      if (this.state.hasError) {
+        return (
+          <div className="error-fallback">
+            <h2>Something went wrong</h2>
+            <button onClick={() => this.setState({ hasError: false, error: null })}>
+              Try again
+            </button>
+          </div>
+        );
+      }
+
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+}
+
+// Compose multiple HOCs
+const EnhancedUserList = withErrorBoundary(
+  withAuth(
+    withLoading(UserList)
+  )
+);
+
+// Modern alternative with custom hooks
+function useAuth() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuthStatus().then(userData => {
+      setUser(userData);
+      setLoading(false);
+    });
+  }, []);
+
+  return { user, loading };
+}
+
+// Component using hook instead of HOC
+function Dashboard() {
+  const { user, loading } = useAuth();
+  
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <LoginForm />;
+  
+  return <h1>Welcome to Dashboard, {user.name}!</h1>;
+}
+```
+
+## Pattern Comparison
+
+| Pattern | Best For | Pros | Cons |
+|---------|----------|------|------|
+| Custom Hooks | Stateful logic sharing | Simple, composable | React-specific |
+| Render Props | Flexible UI sharing | Very flexible | Can be verbose |
+| Compound Components | Related component groups | Intuitive API | More complex setup |
+| HOCs | Cross-cutting concerns | Reusable, composable | Wrapper hell, prop drilling |
+
+## Best Practices Checklist
+
+```jsx
+// ✅ Use custom hooks for modern React
+const { data, loading } = useApi('/api/users');
+
+// ✅ Render props for flexible rendering
+<DataFetcher render={({ data }) => <UserList users={data} />} />
+
+// ✅ Compound components for related UI
+<Tabs>
+  <Tabs.List>
+    <Tabs.Tab>Tab 1</Tabs.Tab>
+  </Tabs.List>
+</Tabs>
+
+// ⚠️ HOCs are legacy but still useful
+const ProtectedComponent = withAuth(MyComponent);
+
+// ❌ Avoid deep nesting
+withAuth(withLoading(withError(Component))) // Too many wrappers
+```
