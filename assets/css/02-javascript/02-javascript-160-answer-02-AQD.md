@@ -839,7 +839,9 @@ const throttledScroll = throttle(scrollHandler, 100);
 
 ###  37. What are Object-Oriented Programming (OOP) concepts in JavaScript?
 
-**Answer:** JavaScript supports four main OOP concepts: encapsulation, inheritance, polymorphism, and abstraction. While JavaScript is prototype-based rather than class-based, ES6 introduced class syntax that makes OOP more familiar. These concepts help organize code, promote reusability, and make applications more maintainable.
+* JavaScript supports OOP using **objects and prototypes**
+* Main concepts are **encapsulation, inheritance, polymorphism, abstraction**
+* Helps organize code and make it reusable
 
 ```javascript
 // Basic OOP example
@@ -859,7 +861,9 @@ dog.speak(); // "Rex makes a sound"
 
 ###  38. What are classes and objects in JavaScript?
 
-**Answer:** Classes are blueprints for creating objects with shared properties and methods. Objects are instances of classes that contain actual data. ES6 classes provide a cleaner syntax over JavaScript's prototype-based inheritance. Classes define structure, objects hold the actual values.
+* Classes are blueprints for creating objects with shared properties and methods. 
+* Objects are instances of classes that contain actual data. ES6 classes provide a cleaner syntax over JavaScript's prototype-based inheritance. 
+* Classes define structure, objects hold the actual values.
 
 ```javascript
 class Car {
@@ -879,7 +883,9 @@ console.log(myCar.start()); // "Toyota Camry is starting"
 
 ###  39. What is encapsulation in JavaScript?
 
-**Answer:** Encapsulation means bundling data and methods together while hiding internal implementation details. In JavaScript, we use private fields (with #) or closures to achieve true encapsulation. This protects data from external interference and ensures controlled access through public methods.
+* Encapsulation means bundling data and methods together while hiding internal implementation details. 
+* In JavaScript, we use private fields (with #) or closures to achieve true encapsulation. 
+* This protects data from external interference and ensures controlled access through public methods.
 
 ```javascript
 class BankAccount {
@@ -904,7 +910,9 @@ console.log(account.getBalance()); // 100
 
 ###  40. What is inheritance in JavaScript?
 
-**Answer:** Inheritance allows one class to inherit properties and methods from another class using the `extends` keyword. The child class can access parent methods via `super()` and can override them. This promotes code reuse and creates hierarchical relationships between classes.
+* Inheritance allows one class to inherit properties and methods from another class using the `extends` keyword. 
+* The child class can access parent methods via `super()` and can override them. 
+* This promotes code reuse and creates hierarchical relationships between classes.
 
 ```javascript
 class Animal {
@@ -929,7 +937,9 @@ console.log(dog.speak()); // "Rex barks"
 
 ###  41. What is polymorphism in JavaScript?
 
-**Answer:** Polymorphism means "many forms" - the same method name can behave differently in different classes. In JavaScript, this happens through method overriding where child classes provide their own implementation of parent methods. This allows treating different objects uniformly while getting specific behavior.
+* Polymorphism means "many forms" - the same method name can behave differently in different classes. 
+* In JavaScript, this happens through method overriding where child classes provide their own implementation of parent methods. 
+* This allows treating different objects uniformly while getting specific behavior.
 
 ```javascript
 class Shape {
@@ -967,7 +977,9 @@ shapes.forEach(shape => console.log(shape.area()));
 
 ###  42. What is abstraction in JavaScript?
 
-**Answer:** Abstraction hides complex implementation details and shows only essential features. In JavaScript, we achieve this through abstract classes (using conventions) or interfaces. It simplifies interaction by providing a clean, simple interface while hiding the complexity underneath.
+* Abstraction hides complex implementation details and shows only essential features. 
+* In JavaScript, we achieve this through abstract classes (using conventions) or interfaces. 
+* It simplifies interaction by providing a clean, simple interface while hiding the complexity underneath.
 
 ```javascript
 class Database {
