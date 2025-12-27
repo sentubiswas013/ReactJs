@@ -1,4 +1,4 @@
-## JavaScript Interview Questions - Answers (Questions 1-8)
+## **Basic JavaScript Concepts**
 
 ###  1. What are the different data types in JavaScript?
 
@@ -980,7 +980,7 @@ const debouncedSearch = debounce(searchFunction, 300);
 const throttledScroll = throttle(scrollHandler, 100);
 ```
 
-# JavaScript OOP Interview Questions (37-45) - Answers
+## **Object-Oriented Programming in JavaScript**
 
 ###  37. What are Object-Oriented Programming (OOP) concepts in JavaScript?
 
