@@ -1684,7 +1684,7 @@ person.fullName = "Jane Smith";
 console.log(person.firstName); // "Jane"
 ```
 
-###  **Arrays and Objects**
+## **Arrays and Objects**
 
 ####  63. How can you merge two arrays in JavaScript?
 
@@ -1952,22 +1952,7 @@ for (let char of 'hello') {
 // for (let value of obj) {} // TypeError!
 ```
 
----
-
-###  Summary
-
-These five questions cover essential JavaScript concepts that every developer should understand:
-
-1. **Shallow vs Deep Copy** - Critical for avoiding mutation bugs
-2. **Array Detection** - Essential for type checking and validation
-3. **Object Destructuring** - Modern syntax for cleaner code
-4. **Object Merging** - Common operation in data manipulation
-5. **Loop Types** - Fundamental iteration patterns
-
-Each concept has practical applications in real-world development and demonstrates JavaScript's flexibility and power.
-
-
-## JavaScript Interview Questions 74-83 - Functions and Scope
+## **Functions and Scope**
 
 ###  74. What is the difference between local scope and global scope in JavaScript?
 
@@ -2189,7 +2174,7 @@ async function loadData() {
 }
 ```
 
-## JavaScript Interview Questions 84-92 - Asynchronous JavaScript
+## **Asynchronous JavaScript**
 
 ###  84. How can you handle asynchronous operations in JavaScript?
 
@@ -2386,7 +2371,7 @@ for (const item of arr) {
 const doubled = arr.map(x => x * 2);
 ```
 
-# JavaScript ES6 Interview Questions - Answers 93-103
+## **ES6 and Beyond**
 
 ###  93. What are template literals in JavaScript?
 
@@ -2706,7 +2691,7 @@ PersonClass(); // TypeError: Class constructor cannot be invoked without 'new'
 PersonFunc(); // Works but creates issues
 ```
 
-# JavaScript Error Handling and Debugging - Questions 104-108
+## **Error Handling and Debugging**
 
 ###  104. What is try-catch in JavaScript? How does it work?
 
@@ -2839,7 +2824,7 @@ try {
 }
 ```
 
-# JavaScript Modules - Questions 109-114
+## JavaScript Modules 
 
 ###  Question 109: What is the difference between `import` and `require` in JavaScript?
 
@@ -2957,7 +2942,7 @@ export const getName = () => {...};
 export const fetchData = () => {...};
 ```
 
-# JavaScript Browser and DOM - Questions 115-122
+## Browser and DOM
 
 ###  Question 115: How do you make an AJAX request in JavaScript?
 
@@ -3344,7 +3329,7 @@ function getCookie(name) {
 document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
 ```
 
-# JavaScript Questions 130-138: Quick Answers
+## **Advanced Concepts**
 
 ###  130. What is functional programming in JavaScript? How is it different from object-oriented programming?
 
@@ -3428,6 +3413,7 @@ class Dog extends Animal {
 const dog = new Dog(); // Works
 ```
 
+## **Performance Optimization**
 ###  132. What are memory leaks in JavaScript, and how do you prevent them?
 
 **Memory Leaks:**
@@ -3673,6 +3659,7 @@ class VirtualList {
 }
 ```
 
+## **Frameworks and Libraries**
 ###  138. What are JavaScript frameworks, and how do they differ from libraries?
 
 **Frameworks vs Libraries:**
@@ -3730,7 +3717,7 @@ const app = new Framework({
 *  **Size**: Frameworks typically larger, libraries can be minimal
 
 
-## JavaScript Interview Questions 139-149 - Answers
+## **Testing and Tools**
 
 ###  139. What is unit testing in JavaScript?
 
@@ -3849,6 +3836,8 @@ expect(actual).toEqual(expected);
 expect(() => { throw new Error(); }).toThrow();
 expect(array).toContain(item);
 ```
+
+## **Advanced JavaScript Features**
 
 ###  144. How do you use regular expressions in JavaScript?
 
@@ -4025,7 +4014,7 @@ arr.splice(2, 0, 'new item'); // Insert at index 2
 arr.splice(-1, 1); // Remove last element
 ```
 
-# JavaScript Best Practices - Questions 150-157
+## **JavaScript Best Practices**
 
 ###  150. What is the importance of code minification in JavaScript?
 
