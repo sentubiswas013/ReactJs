@@ -385,14 +385,6 @@ console.log(boundGreet('Hey', '?')); // "Hey John?"
 * `await` pauses execution until the promise resolves. It's cleaner than promise chains and easier to debug.
 
 ```javascript
-// Promise version
-function fetchUserData() {
-  return fetch('/api/user')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
-}
-
 // async/await version
 async function fetchUserData() {
   try {
@@ -410,7 +402,9 @@ async function fetchUserData() {
 ###  Question 19: What is a promise in JavaScript? How does it work?
 
 **Answer:**
-A promise represents the eventual completion or failure of an asynchronous operation. It's an object with three states: pending, fulfilled, or rejected. You create promises with the Promise constructor and handle results with `.then()` and `.catch()`.
+* A promise represents the eventual completion or failure of an asynchronous operation. 
+* It's an object with three states: pending, fulfilled, or rejected. 
+* You create promises with the Promise constructor and handle results with `.then()` and `.catch()`.
 
 ```javascript
 // Creating a promise
@@ -436,7 +430,9 @@ myPromise
 ###  Question 20: What is a promise chain in JavaScript?
 
 **Answer:**
-Promise chaining lets you execute multiple asynchronous operations in sequence by returning promises from `.then()` handlers. Each `.then()` receives the result of the previous promise, creating a clean flow without callback hell.
+* Promise chaining lets you execute multiple asynchronous operations in sequence by returning promises from `.then()` handlers. 
+* Each `.then()` receives the result of the previous promise, 
+* creating a clean flow without callback hell.
 
 ```javascript
 fetch('/api/user/1')
@@ -461,7 +457,10 @@ fetch('/api/user/1')
 ###  Question 21: What are the states of a promise?
 
 **Answer:**
-A promise has three states: **Pending** (initial state, neither fulfilled nor rejected), **Fulfilled** (operation completed successfully), and **Rejected** (operation failed). Once a promise is fulfilled or rejected, it's settled and cannot change states.
+A promise has three states: 
+* **Pending** (initial state, neither fulfilled nor rejected), 
+* **Fulfilled** (operation completed successfully), and 
+* **Rejected** (operation failed). Once a promise is fulfilled or rejected, it's settled and cannot change states.
 
 ```javascript
 // Pending promise
@@ -485,7 +484,9 @@ console.log(Promise.reject('error')); // Promise {<rejected>: "error"}
 ###  Question 22: What is the difference between `async/await` and promises?
 
 **Answer:**
-`async/await` is syntactic sugar built on top of promises. Promises use `.then()` chains which can get nested, while `async/await` makes code look synchronous and easier to read. Error handling is also cleaner with try-catch blocks instead of `.catch()` chains.
+* `async/await` is syntactic sugar built on top of promises. 
+* Promises use `.then()` chains which can get nested, 
+* while `async/await` makes code look synchronous and easier to read. Error handling is also cleaner with try-catch blocks instead of `.catch()` chains.
 
 ```javascript
 // Promise approach
