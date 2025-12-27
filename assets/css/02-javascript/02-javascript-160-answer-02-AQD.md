@@ -3135,8 +3135,6 @@ button.addEventListener('click', handler, {
 });
 ```
 
-# JavaScript Browser and DOM - Questions 123-129
-
 ###  123: What is `localStorage` and `sessionStorage` in JavaScript?
 
 *  **`localStorage`** stores data permanently until manually cleared - survives browser restarts and tab closures
