@@ -319,7 +319,8 @@ console.log(person.greet()); // "Hello, I'm John"
 
 ###  16. What is the difference between synchronous and asynchronous code in JavaScript?
 
-Synchronous code executes line by line, blocking subsequent code until the current operation completes. Asynchronous code allows other operations to continue while waiting for long-running tasks to finish.
+* **Synchronous:** Synchronous code executes line by line, blocking subsequent code until the current operation completes.
+* **Asynchronous:** Asynchronous code allows other operations to continue while waiting for long-running tasks to finish.
 
 **Synchronous Code:**
 ```javascript
@@ -348,58 +349,13 @@ console.log("End");
 // Output: Start, End, Async operation complete
 ```
 
-**Promises (Asynchronous):**
-```javascript
-console.log("Start");
-
-fetch('/api/data')
-  .then(response => response.json())
-  .then(data => console.log("Data received:", data))
-  .catch(error => console.log("Error:", error));
-
-console.log("End");
-// "Start" and "End" execute immediately
-// "Data received" executes when promise resolves
-```
-
-**Async/Await:**
-```javascript
-async function fetchData() {
-  console.log("Start");
-  
-  try {
-    const response = await fetch('/api/data');
-    const data = await response.json();
-    console.log("Data:", data);
-  } catch (error) {
-    console.log("Error:", error);
-  }
-  
-  console.log("End");
-}
-```
-
----
-
-###  Summary
-
-These fundamental JavaScript concepts form the backbone of modern web development:
-
-- **Object Creation**: Multiple approaches for different use cases
-- **Hoisting**: Understanding variable and function declaration behavior
-- **Pure Functions**: Predictable, testable code without side effects
-- **Higher-Order Functions**: Powerful abstraction for functional programming
-- **Callbacks**: Foundation for asynchronous programming
-- **Closures**: Data privacy and state management
-- **`this` Keyword**: Context-dependent object reference
-- **Sync vs Async**: Managing blocking vs non-blocking operations
-
-Mastering these concepts enables you to write more efficient, maintainable, and scalable JavaScript applications.
-
 ###  Question 17: What is the purpose of the `call()`, `apply()` and `bind()` methods in JavaScript?
 
 **Answer:**
-These methods let you control what `this` refers to in a function. `call()` invokes the function immediately with individual arguments, `apply()` does the same but takes an array of arguments, and `bind()` returns a new function with `this` permanently set.
+These methods let you control what `this` refers to in a function. 
+* `call()` invokes the function immediately with individual arguments, 
+* `apply()` does the same but takes an array of arguments, and 
+* `bind()` returns a new function with `this` permanently set.
 
 ```javascript
 const person = { name: 'John' };
@@ -424,7 +380,9 @@ console.log(boundGreet('Hey', '?')); // "Hey John?"
 ###  Question 18: What is `async/await` in JavaScript?
 
 **Answer:**
-`async/await` is syntactic sugar for promises that makes asynchronous code look synchronous. `async` declares a function as asynchronous, and `await` pauses execution until the promise resolves. It's cleaner than promise chains and easier to debug.
+* `async/await` is syntactic sugar for promises that makes asynchronous code look synchronous. 
+* `async` declares a function as asynchronous, and 
+* `await` pauses execution until the promise resolves. It's cleaner than promise chains and easier to debug.
 
 ```javascript
 // Promise version
