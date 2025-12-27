@@ -515,8 +515,8 @@ async function getUserPosts() {
 
 ###  Question 23: What is the difference between callback and promise?
 
-**Answer:**
-Callbacks are functions passed as arguments to handle asynchronous results, but they can lead to callback hell with nested functions. Promises provide better structure with `.then()` chains, built-in error handling, and can be combined with `async/await` for cleaner code.
+* **Callbacks** are functions passed as arguments to handle asynchronous results, but they can lead to callback hell with nested functions. 
+* **Promises** provide better structure with `.then()` chains, built-in error handling, and can be combined with `async/await` for cleaner code.
 
 ```javascript
 // Callback approach (callback hell)
