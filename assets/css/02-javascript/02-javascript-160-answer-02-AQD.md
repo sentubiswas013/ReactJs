@@ -217,45 +217,11 @@ function add(a, b) {
 console.log(add(2, 3)); // Always returns 5
 ```
 
-**Impure Function Example:**
-```javascript
-let counter = 0;
-
-// Impure - modifies external variable
-function increment() {
-  counter++;
-  return counter;
-}
-```
-
-**Pure Array Function:**
-```javascript
-// Pure - doesn't modify original array
-function doubleArray(arr) {
-  return arr.map(x => x * 2);
-}
-
-const nums = [1, 2, 3];
-console.log(doubleArray(nums)); // [2, 4, 6]
-console.log(nums); // [1, 2, 3] - unchanged
-```
-
 ---
 
 ###  12. What are higher-order functions in JavaScript?
 
 Higher-order functions are functions that either take other functions as arguments or return functions as results. They're fundamental to functional programming and are commonly used with arrays.
-
-**Function that takes another function:**
-```javascript
-function processArray(arr, callback) {
-  return arr.map(callback);
-}
-
-const numbers = [1, 2, 3];
-const doubled = processArray(numbers, x => x * 2);
-console.log(doubled); // [2, 4, 6]
-```
 
 **Function that returns a function:**
 ```javascript
@@ -299,20 +265,6 @@ greet("John", afterGreeting);
 //         "Nice to meet you!"
 ```
 
-**Asynchronous Callback:**
-```javascript
-function fetchData(callback) {
-  setTimeout(() => {
-    const data = { id: 1, name: "User" };
-    callback(data);
-  }, 1000);
-}
-
-fetchData(function(result) {
-  console.log("Received:", result);
-});
-```
-
 **Array Method Callbacks:**
 ```javascript
 const numbers = [1, 2, 3, 4];
@@ -327,7 +279,9 @@ numbers.forEach(function(num) {
 
 ###  14. What are closures in JavaScript, and why are they important?
 
-Closures occur when an inner function has access to variables from its outer function's scope, even after the outer function has finished executing. They're important for data privacy, creating modules, and maintaining state.
+* A closure allows a function to **remember outer variables**
+* Even after the outer function finishes
+* Used for **data privacy** and state management
 
 **Basic Closure:**
 ```javascript
@@ -341,42 +295,13 @@ const addFive = outerFunction(5);
 console.log(addFive(3)); // 8
 ```
 
-**Data Privacy with Closures:**
-```javascript
-function createCounter() {
-  let count = 0; // Private variable
-  
-  return {
-    increment: () => ++count,
-    decrement: () => --count,
-    getCount: () => count
-  };
-}
-
-const counter = createCounter();
-console.log(counter.increment()); // 1
-console.log(counter.getCount()); // 1
-// count is not directly accessible
-```
-
-**Module Pattern:**
-```javascript
-const calculator = (function() {
-  let result = 0;
-  
-  return {
-    add: (x) => result += x,
-    multiply: (x) => result *= x,
-    getResult: () => result
-  };
-})();
-```
-
 ---
 
 ###  15. How does the `this` keyword work in JavaScript?
 
-The `this` keyword refers to the object that is currently executing the function. Its value depends on how the function is called, not where it's defined.
+* `this` refers to the **object calling the function**
+* Its value depends on **how the function is called**
+* Arrow functions **do not have their own `this`**
 
 **Object Method:**
 ```javascript
@@ -388,35 +313,6 @@ const person = {
 };
 
 console.log(person.greet()); // "Hello, I'm John"
-```
-
-**Arrow Functions (no own `this`):**
-```javascript
-const obj = {
-  name: "John",
-  regularFunction() {
-    return this.name; // "John"
-  },
-  arrowFunction: () => {
-    return this.name; // undefined (inherits from global)
-  }
-};
-```
-
-**Explicit Binding:**
-```javascript
-function introduce() {
-  return `Hi, I'm ${this.name}`;
-}
-
-const person1 = { name: "Alice" };
-const person2 = { name: "Bob" };
-
-console.log(introduce.call(person1)); // "Hi, I'm Alice"
-console.log(introduce.apply(person2)); // "Hi, I'm Bob"
-
-const boundIntroduce = introduce.bind(person1);
-console.log(boundIntroduce()); // "Hi, I'm Alice"
 ```
 
 ---
