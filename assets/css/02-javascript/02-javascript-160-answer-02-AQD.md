@@ -349,7 +349,7 @@ console.log("End");
 // Output: Start, End, Async operation complete
 ```
 
-###  Question 17: What is the purpose of the `call()`, `apply()` and `bind()` methods in JavaScript?
+###  17: What is the purpose of the `call()`, `apply()` and `bind()` methods in JavaScript?
 
 **Answer:**
 These methods let you control what `this` refers to in a function. 
@@ -377,7 +377,7 @@ console.log(boundGreet('Hey', '?')); // "Hey John?"
 
 ---
 
-###  Question 18: What is `async/await` in JavaScript?
+###  18: What is `async/await` in JavaScript?
 
 **Answer:**
 * `async/await` is syntactic sugar for promises that makes asynchronous code look synchronous. 
@@ -399,7 +399,7 @@ async function fetchUserData() {
 
 ---
 
-###  Question 19: What is a promise in JavaScript? How does it work?
+###  19: What is a promise in JavaScript? How does it work?
 
 **Answer:**
 * A promise represents the eventual completion or failure of an asynchronous operation. 
@@ -427,7 +427,7 @@ myPromise
 
 ---
 
-###  Question 20: What is a promise chain in JavaScript?
+###  20: What is a promise chain in JavaScript?
 
 **Answer:**
 * Promise chaining lets you execute multiple asynchronous operations in sequence by returning promises from `.then()` handlers. 
@@ -454,7 +454,7 @@ fetch('/api/user/1')
 
 ---
 
-###  Question 21: What are the states of a promise?
+###  21: What are the states of a promise?
 
 **Answer:**
 A promise has three states: 
@@ -481,7 +481,7 @@ console.log(Promise.reject('error')); // Promise {<rejected>: "error"}
 
 ---
 
-###  Question 22: What is the difference between `async/await` and promises?
+###  22: What is the difference between `async/await` and promises?
 
 **Answer:**
 * `async/await` is syntactic sugar built on top of promises. 
@@ -513,7 +513,7 @@ async function getUserPosts() {
 
 ---
 
-###  Question 23: What is the difference between callback and promise?
+###  23: What is the difference between callback and promise?
 
 * **Callbacks** are functions passed as arguments to handle asynchronous results, but they can lead to callback hell with nested functions. 
 * **Promises** provide better structure with `.then()` chains, built-in error handling, and can be combined with `async/await` for cleaner code.
@@ -708,7 +708,7 @@ console.log('4'); // Synchronous - executes second
 // Event loop prioritizes microtasks over macrotasks
 ```
 
-###  Question 31: What is event propagation in JavaScript?
+###  31: What is event propagation in JavaScript?
 
 Event propagation is how events flow through the DOM tree when triggered. There are three phases: capturing (top-down), target (at the element), and bubbling (bottom-up). By default, events bubble up from child to parent elements.
 
@@ -724,7 +724,7 @@ document.getElementById('child').addEventListener('click', () => {
 // Clicking child logs: "Child clicked", then "Parent clicked"
 ```
 
-###  Question 32: What is event bubbling and capturing in JavaScript?
+###  32: What is event bubbling and capturing in JavaScript?
 
 Event bubbling means events start at the target element and bubble up to parent elements. Event capturing is the opposite - events start at the root and capture down to the target. You can control this with the third parameter in addEventListener.
 
@@ -741,7 +741,7 @@ function handler(e) {
 }
 ```
 
-###  Question 33: How do you prevent the default action of an event in JavaScript?
+###  33: How do you prevent the default action of an event in JavaScript?
 
 Use `preventDefault()` method on the event object to stop the browser's default behavior. This is commonly used with form submissions, link clicks, or keyboard events where you want custom handling instead of default browser actions.
 
@@ -759,7 +759,7 @@ document.getElementById('myLink').addEventListener('click', (e) => {
 });
 ```
 
-###  Question 34: How do you attach multiple event listeners to the same event?
+###  34: How do you attach multiple event listeners to the same event?
 
 You can attach multiple event listeners to the same event by calling `addEventListener()` multiple times. Each listener will execute in the order they were added. This is useful for modular code where different parts need to respond to the same event.
 
@@ -779,7 +779,7 @@ button.addEventListener('click', () => {
 // Both will execute when button is clicked
 ```
 
-###  Question 35: What is the concept of memoization in JavaScript?
+###  35: What is the concept of memoization in JavaScript?
 
 Memoization is an optimization technique that caches function results based on input parameters. When the same inputs are used again, it returns the cached result instead of recalculating, improving performance for expensive operations.
 
@@ -804,7 +804,7 @@ const expensiveFunction = memoize((n) => {
 });
 ```
 
-###  Question 36: What is debounce and throttle in JavaScript?
+###  36: What is debounce and throttle in JavaScript?
 
 Debounce delays function execution until after a specified time has passed since the last call. Throttle limits function execution to once per specified time interval. Debounce is great for search inputs, throttle is perfect for scroll or resize events.
 
@@ -1085,8 +1085,6 @@ console.log("hello".toUpperCase()); // "HELLO"
 console.log([1, 2, 3].map(x => x * 2)); // [2, 4, 6]
 ```
 
-## JavaScript Interview Questions 46-53 - Answers
-
 ###  46. What is a prototype in JavaScript?
 
 **Answer:**
@@ -1297,7 +1295,6 @@ const namedExpr = function myFunc() {
 };
 ```
 
-## JavaScript Interview Questions 54-62 - Answers
 
 ###  54. What is the use of `setTimeout()` and `setInterval()`?
 
@@ -1799,7 +1796,7 @@ const merged2 = Object.assign({}, obj1, obj2); // {a: 1, b: 3, c: 4}
 Object.assign(obj1, obj2); // obj1 is now {a: 1, b: 3, c: 4}
 ```
 
-###  Question 69: What is the difference between shallow copy and deep copy in JavaScript?
+###  69: What is the difference between shallow copy and deep copy in JavaScript?
 
 **Answer:**
 *  **Shallow copy** copies only the first level of properties - nested objects still share references
@@ -1824,7 +1821,7 @@ const betterDeep = structuredClone(original);
 
 ---
 
-###  Question 70: How do you check if an object is an array in JavaScript?
+###  70: How do you check if an object is an array in JavaScript?
 
 **Answer:**
 *  **Array.isArray()** is the most reliable and recommended method
@@ -1851,7 +1848,7 @@ console.log(typeof arr); // 'object' - not helpful!
 
 ---
 
-###  Question 71: What is object destructuring in JavaScript?
+###  71: What is object destructuring in JavaScript?
 
 **Answer:**
 *  **Object destructuring** extracts properties from objects into individual variables
@@ -1885,7 +1882,7 @@ const { info: { firstName } } = person;
 
 ---
 
-###  Question 72: How can you merge two objects in JavaScript?
+###  72: How can you merge two objects in JavaScript?
 
 **Answer:**
 *  **Spread operator** (...) is the modern, clean way to merge objects
@@ -1915,7 +1912,7 @@ const merged4 = { ...obj1, ...obj2, e: 6 };
 
 ---
 
-###  Question 73: What is the difference between `for...in` and `for...of` loops in JavaScript?
+###  73: What is the difference between `for...in` and `for...of` loops in JavaScript?
 
 **Answer:**
 *  **for...in** iterates over **object keys/property names** - works with objects and arrays
@@ -2826,7 +2823,7 @@ try {
 
 ## JavaScript Modules 
 
-###  Question 109: What is the difference between `import` and `require` in JavaScript?
+###  109: What is the difference between `import` and `require` in JavaScript?
 
 *  **`require`** is CommonJS syntax used in Node.js - it's synchronous and loads modules at runtime
 *  **`import`** is ES6 module syntax - it's static, analyzed at compile time, and supports tree shaking
@@ -2845,7 +2842,7 @@ import { readFile } from 'fs';
 
 ---
 
-###  Question 110: What is the purpose of the `export` keyword in JavaScript?
+###  110: What is the purpose of the `export` keyword in JavaScript?
 
 *  **`export`** makes functions, objects, or values available to other modules
 *  You can use **named exports** for multiple items or **default export** for one main item
@@ -2865,7 +2862,7 @@ export default class Calculator {
 
 ---
 
-###  Question 111: What are JavaScript arrays and how do you manipulate them?
+###  111: What are JavaScript arrays and how do you manipulate them?
 
 *  **Arrays** are ordered collections that can hold any data type - numbers, strings, objects, even other arrays
 *  Key methods: `push()` adds to end, `pop()` removes from end, `shift()` removes from start, `unshift()` adds to start
@@ -2881,7 +2878,7 @@ const evens = [1,2,3,4].filter(x => x % 2 === 0);  // [2, 4]
 
 ---
 
-###  Question 112: How do you implement modules in JavaScript?
+###  112: How do you implement modules in JavaScript?
 
 *  **ES6 modules**: Use `export` to expose functionality and `import` to consume it
 *  **CommonJS**: Use `module.exports` to expose and `require()` to import
@@ -2901,7 +2898,7 @@ console.log(multiply(2, 3)); // 6
 
 ---
 
-###  Question 113: What is the `default` export in JavaScript modules?
+###  113: What is the `default` export in JavaScript modules?
 
 *  **Default export** allows you to export one main thing from a module without specifying a name
 *  Each module can have only **one default export** but multiple named exports
@@ -2921,7 +2918,7 @@ import MyCalculator from './calculator.js';  // Same thing, different name
 
 ---
 
-###  Question 114: What are the benefits of using modules in JavaScript?
+###  114: What are the benefits of using modules in JavaScript?
 
 *  **Code organization**: Split large applications into smaller, manageable files
 *  **Reusability**: Write once, use in multiple places without code duplication
@@ -2944,7 +2941,7 @@ export const fetchData = () => {...};
 
 ## Browser and DOM
 
-###  Question 115: How do you make an AJAX request in JavaScript?
+###  115: How do you make an AJAX request in JavaScript?
 
 *  **AJAX** lets you send HTTP requests without refreshing the page - it's asynchronous communication with servers
 *  **XMLHttpRequest** is the traditional way, but **Fetch API** is modern and cleaner
@@ -2968,7 +2965,7 @@ fetch('/api/users', {
 
 ---
 
-###  Question 116: What is the Fetch API in JavaScript?
+###  116: What is the Fetch API in JavaScript?
 
 *  **Fetch API** is the modern replacement for XMLHttpRequest - it's promise-based and cleaner
 *  Returns a **Promise** that resolves to the Response object representing the response
@@ -2991,7 +2988,7 @@ fetch('/api/data')
 
 ---
 
-###  Question 117: Explain the concept of a single-page application (SPA).
+###  117: Explain the concept of a single-page application (SPA).
 
 *  **SPA** loads one HTML page and dynamically updates content without full page reloads
 *  JavaScript handles routing, navigation, and content updates - making it feel like a desktop app
@@ -3018,7 +3015,7 @@ function navigate(page) {
 
 ---
 
-###  Question 118: What is the DOM (Document Object Model) in JavaScript?
+###  118: What is the DOM (Document Object Model) in JavaScript?
 
 *  **DOM** is a programming interface that represents HTML/XML documents as a tree of objects
 *  Each HTML element becomes a **node** that you can access, modify, add, or remove with JavaScript
@@ -3042,7 +3039,7 @@ document.body.appendChild(newDiv);
 
 ---
 
-###  Question 119: How do you manipulate the DOM using JavaScript?
+###  119: How do you manipulate the DOM using JavaScript?
 
 *  **Select elements** using `getElementById`, `querySelector`, or `getElementsByClassName`
 *  **Modify content** with `textContent`, `innerHTML`, or `innerText`
@@ -3067,7 +3064,7 @@ element.addEventListener('click', () => alert('Clicked!'));
 
 ---
 
-###  Question 120: What is the difference between `Object.freeze()` and `Object.seal()` in JavaScript?
+###  120: What is the difference between `Object.freeze()` and `Object.seal()` in JavaScript?
 
 *  **`Object.freeze()`** makes an object completely immutable - no adding, deleting, or modifying properties
 *  **`Object.seal()`** prevents adding/deleting properties but allows modifying existing ones
@@ -3087,7 +3084,7 @@ delete sealedObj.name;     // Ignored - can't delete
 
 ---
 
-###  Question 121: How do you prevent the default action of an event in JavaScript?
+###  121: How do you prevent the default action of an event in JavaScript?
 
 *  Use **`preventDefault()`** method on the event object to stop the browser's default behavior
 *  Common use cases: preventing form submission, stopping link navigation, custom drag behavior
@@ -3113,7 +3110,7 @@ document.addEventListener('contextmenu', (e) => e.preventDefault());
 
 ---
 
-###  Question 122: What is the difference between `addEventListener()` and `onclick`?
+###  122: What is the difference between `addEventListener()` and `onclick`?
 
 *  **`addEventListener()`** can attach multiple listeners to the same event, `onclick` can only have one
 *  **`addEventListener()`** provides better control with options like `once`, `passive`, `capture`
@@ -3140,7 +3137,7 @@ button.addEventListener('click', handler, {
 
 # JavaScript Browser and DOM - Questions 123-129
 
-###  Question 123: What is `localStorage` and `sessionStorage` in JavaScript?
+###  123: What is `localStorage` and `sessionStorage` in JavaScript?
 
 *  **`localStorage`** stores data permanently until manually cleared - survives browser restarts and tab closures
 *  **`sessionStorage`** stores data only for the current tab session - cleared when tab is closed
@@ -3162,7 +3159,7 @@ sessionStorage.clear(); // Clear all session data
 
 ---
 
-###  Question 124: What is the difference between `localStorage` and `cookies` in JavaScript?
+###  124: What is the difference between `localStorage` and `cookies` in JavaScript?
 
 *  **Storage size**: localStorage holds 5-10MB, cookies only 4KB per cookie
 *  **Automatic sending**: Cookies are sent with every HTTP request, localStorage stays client-side
@@ -3187,7 +3184,7 @@ const cookies = document.cookie.split(';').reduce((acc, cookie) => {
 
 ---
 
-###  Question 125: How do you handle CORS (Cross-Origin Resource Sharing) in JavaScript?
+###  125: How do you handle CORS (Cross-Origin Resource Sharing) in JavaScript?
 
 *  **CORS** is a browser security feature that blocks requests between different origins (domain, port, protocol)
 *  **Server-side solution**: Add proper CORS headers like `Access-Control-Allow-Origin`
@@ -3214,7 +3211,7 @@ script.src = 'https://api.example.com/data?callback=handleResponse';
 
 ---
 
-###  Question 126: How do you make an AJAX request in JavaScript?
+###  126: How do you make an AJAX request in JavaScript?
 
 *  **AJAX** enables asynchronous communication with servers without page refresh
 *  **Modern approach**: Use Fetch API with promises for cleaner, more readable code
@@ -3247,7 +3244,7 @@ xhr.send();
 
 ---
 
-###  Question 127: What are `XMLHttpRequest` and `Fetch` API in JavaScript?
+###  127: What are `XMLHttpRequest` and `Fetch` API in JavaScript?
 
 *  **XMLHttpRequest** is the original way to make HTTP requests - callback-based and more verbose
 *  **Fetch API** is modern, promise-based replacement - cleaner syntax and better error handling
@@ -3274,7 +3271,7 @@ fetch('/api/data', {
 
 ---
 
-###  Question 128: What is the `Function.prototype.bind()` method in JavaScript?
+###  128: What is the `Function.prototype.bind()` method in JavaScript?
 
 *  **`bind()`** creates a new function with a specific `this` context and optionally pre-filled arguments
 *  Unlike `call()` and `apply()`, **bind doesn't execute** the function immediately
@@ -3303,7 +3300,7 @@ button.addEventListener('click', person.greet.bind(person, 'Hi'));
 
 ---
 
-###  Question 129: How do you handle cookies in JavaScript?
+###  129: How do you handle cookies in JavaScript?
 
 *  **Reading cookies**: Access via `document.cookie` - returns all cookies as a single string
 *  **Setting cookies**: Assign to `document.cookie` with key=value format and optional attributes
