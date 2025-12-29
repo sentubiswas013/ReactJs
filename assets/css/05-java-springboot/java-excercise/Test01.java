@@ -286,7 +286,7 @@ public class Test01 {
 
     // 31. Find the LCM (Least Common Multiple) of Two Numbers
 
-    public class LeastCommonMultiple {
+    public static void LeastCommonMultiple() {
         
     }
 
@@ -375,7 +375,7 @@ public class Test01 {
 
     // 46. Implement Binary Search
     // Binary search method
-    public static int binarySearch(int[] arr, int target) {
+    public static void binarySearch() {
         
     }
   
