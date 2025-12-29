@@ -57,8 +57,18 @@ public class Main01 {
         // SwapStrings();
         // LongestWord();
         // PerfectSquare();
-        // BinarySearch();
-        // binarySearch();
+
+        // Question: 46 ====
+        // int[] arr = {1, 3, 5, 7, 9, 11, 13, 15};  // Example sorted array
+        // int target = 7;  // Number to search for
+        // int result = binarySearch(arr, target);
+
+        // if (result == -1) {
+        //     System.out.println("Element not found.");
+        // } else {
+        //     System.out.println("Element found at index: " + result);
+        // }
+
         // CommonElements();
 
         // Question: 48 ====
@@ -75,7 +85,13 @@ public class Main01 {
         // System.out.println("Front element: " + queue.peek());
         // System.out.println("Dequeued element: " + queue.dequeue());
 
-        // FibonacciNumber();
+        // Question: 50 ====
+        // int number = 21;  // Example number
+        // if (isFibonacci(number)) {
+        //     System.out.println(number + " is a Fibonacci number.");
+        // } else {
+        //     System.out.println(number + " is not a Fibonacci number.");
+        // }
     }
 
     // 1. Reverse a String without using String inbuilt function
@@ -894,42 +910,27 @@ public class Main01 {
     }
 
     // 46. Implement Binary Search
-    public class BinarySearch {
-        public static void main() {
-            int[] arr = {1, 3, 5, 7, 9, 11, 13, 15};  // Example sorted array
-            int target = 7;  // Number to search for
-            int result = binarySearch(arr, target);
+    public static int binarySearch(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
 
-            if (result == -1) {
-                System.out.println("Element not found.");
-            } else {
-                System.out.println("Element found at index: " + result);
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            // Check if target is present at mid
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            // If target is greater, ignore left half
+            if (arr[mid] < target) {
+                left = mid + 1;
+            }
+            // If target is smaller, ignore right half
+            else {
+                right = mid - 1;
             }
         }
-
-        // Binary search method
-        public static int binarySearch(int[] arr, int target) {
-            int left = 0, right = arr.length - 1;
-
-            while (left <= right) {
-                int mid = left + (right - left) / 2;
-
-                // Check if target is present at mid
-                if (arr[mid] == target) {
-                    return mid;
-                }
-
-                // If target is greater, ignore left half
-                if (arr[mid] < target) {
-                    left = mid + 1;
-                }
-                // If target is smaller, ignore right half
-                else {
-                    right = mid - 1;
-                }
-            }
-            return -1;  // Element not found
-        }
+        return -1;  // Element not found
     }
 
 
@@ -1043,27 +1044,16 @@ public class Main01 {
 
 
     // 50. Check if a Number is a Fibonacci Number
-
-    public class FibonacciNumber {
-        public static void main() {
-            int number = 21;  // Example number
-            if (isFibonacci(number)) {
-                System.out.println(number + " is a Fibonacci number.");
-            } else {
-                System.out.println(number + " is not a Fibonacci number.");
-            }
-        }
-
-        // Function to check if a number is a Fibonacci number
-        public static boolean isFibonacci(int num) {
-            // A number is a Fibonacci number if and only if one or both of (5*n*n + 4) or (5*n*n - 4) is a perfect square
-            return isPerfectSquare(5 * num * num + 4) || isPerfectSquare(5 * num * num - 4);
-        }
-
-        // Helper function to check if a number is a perfect square
-        public static boolean isPerfectSquare(int n) {
-            int sqrt = (int) Math.sqrt(n);
-            return (sqrt * sqrt == n);
-        }
+    // Function to check if a number is a Fibonacci number
+    public static boolean isFibonacci(int num) {
+        // A number is a Fibonacci number if and only if one or both of (5*n*n + 4) or (5*n*n - 4) is a perfect square
+        return isPerfectSquare(5 * num * num + 4) || isPerfectSquare(5 * num * num - 4);
     }
+
+    // Helper function to check if a number is a perfect square
+    public static boolean isPerfectSquare(int n) {
+        int sqrt = (int) Math.sqrt(n);
+        return (sqrt * sqrt == n);
+    }
+ 
 }
