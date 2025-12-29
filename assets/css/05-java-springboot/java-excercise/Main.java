@@ -8,9 +8,74 @@ import java.io.IOException;
 
 public class Main01 {
     public static void main(String[] args) {
-        // Print "Hello, World!" to the console
         System.out.println("Hello, World!");
-         ReverseString();
+
+
+        // ReverseString();
+        // ReverseStringNoReverse();
+        // SwapWithThirdVariable();
+        // SwapWithoutThirdVariable();
+        // CountWordsUsingHashMap();
+        // IterateHashMap();
+        // PrimeNumber();
+        // Palindrome();
+        // FibonacciSeries();
+        // IterateArrayList();
+        // DuplicateCharacters();
+        // findDuplicateNums();
+        // SecondHighestNumber();
+        // ArmstrongNumber();
+        // RemoveWhiteSpacesWithReplace();
+        // RemoveWhiteSpacesWithoutReplace();
+        // Factorial();
+        // EvenOdd();
+        // SumOfDigits();
+        // MultiplicationTable();
+        // LargestElement();
+        // SmallestElement();
+        // VowelConsonantCount();
+        // AnagramCheck();
+        // PrimeNumbers();
+        // ReverseInteger();
+        // StringToInteger();
+        // StarTriangle();
+        // SumOfNaturalNumbers();
+        // PerfectNumber();
+        // GreatestCommonDivisor();
+        // LeastCommonMultiple();
+        // PowerOfNumber();
+        // CountOccurrences();
+        // MergeArrays();
+        // SortArray();
+        // SumArray();
+        // MedianArray();
+        // NumberPattern();
+        // ContainsSubstring();
+        // ReplaceCharacter();
+        // RemoveDuplicates();
+        // ArrayToString();
+        // SwapStrings();
+        // LongestWord();
+        // PerfectSquare();
+        // BinarySearch();
+        // binarySearch();
+        // CommonElements();
+
+        // Question: 48 ====
+        // Stack stack = new Stack(5);  // Stack of size 5
+        // stack.push(10);
+        // stack.push(20);
+        // System.out.println("Top element: " + stack.peek());
+        // System.out.println("Popped element: " + stack.pop());
+
+        // Question: 49 ====
+        // Queue queue = new Queue(5);  // Queue of size 5
+        // queue.enqueue(10);
+        // queue.enqueue(20);
+        // System.out.println("Front element: " + queue.peek());
+        // System.out.println("Dequeued element: " + queue.dequeue());
+
+        // FibonacciNumber();
     }
 
     // 1. Reverse a String without using String inbuilt function
@@ -576,7 +641,7 @@ public class Main01 {
 
 
     // 30. Find the GCD (Greatest Common Divisor) of Two Numbers
-    public static void GCD() {
+    public static void GreatestCommonDivisor() {
         int num1 = 56;  // Example numbers
         int num2 = 98;
 
@@ -595,7 +660,7 @@ public class Main01 {
 
     // 31. Find the LCM (Least Common Multiple) of Two Numbers
 
-    public class LCM {
+    public class LeastCommonMultiple {
         public static void main() {
             int num1 = 12, num2 = 18;  // Example numbers
             int lcm;
@@ -929,14 +994,6 @@ public class Main01 {
                 return stack[top];
             }
         }
-
-        public static void main() {
-            Stack stack = new Stack(5);  // Stack of size 5
-            stack.push(10);
-            stack.push(20);
-            System.out.println("Top element: " + stack.peek());
-            System.out.println("Popped element: " + stack.pop());
-        }
     }
 
 
@@ -981,14 +1038,6 @@ public class Main01 {
             } else {
                 return queue[front];
             }
-        }
-
-        public static void main() {
-            Queue queue = new Queue(5);  // Queue of size 5
-            queue.enqueue(10);
-            queue.enqueue(20);
-            System.out.println("Front element: " + queue.peek());
-            System.out.println("Dequeued element: " + queue.dequeue());
         }
     }
 
