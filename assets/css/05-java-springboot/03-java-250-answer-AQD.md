@@ -678,8 +678,8 @@ public class Test {
 ## 1. Why doesn't Java support multiple inheritance?
 
 **Answer:**
-• Java doesn't support multiple inheritance of classes to avoid complexity and ambiguity
-• Main reasons:
+* Java doesn't support multiple inheritance of classes to avoid complexity and ambiguity
+* Main reasons:
   - **Diamond Problem**: Confusion when multiple parent classes have same method
   - **Complexity**: Makes code harder to understand and maintain
   - **Ambiguity**: Compiler can't decide which parent method to inherit
@@ -697,9 +697,9 @@ class C extends A, B { } // Compilation Error!
 ## 2. What is the diamond problem?
 
 **Answer:**
-• Diamond problem occurs when a class inherits from multiple classes that have a common parent
-• Creates ambiguity about which method implementation to use
-• Named "diamond" because the inheritance structure looks like a diamond shape
+* Diamond problem occurs when a class inherits from multiple classes that have a common parent
+* Creates ambiguity about which method implementation to use
+* Named "diamond" because the inheritance structure looks like a diamond shape
 
 **Example Structure:**
 ```
@@ -724,8 +724,8 @@ class Hybrid extends Dog, Cat { } // Which sound() method to inherit?
 ## 3. How does Java solve the diamond problem?
 
 **Answer:**
-• Java solves it by **not allowing multiple inheritance of classes**
-• Instead provides alternatives:
+* Java solves it by **not allowing multiple inheritance of classes**
+* Instead provides alternatives:
   - **Interfaces**: Can implement multiple interfaces
   - **Default methods**: Interface methods with implementation (Java 8+)
   - **Composition**: Use HAS-A relationship instead of IS-A
@@ -750,10 +750,10 @@ class Duck implements Flyable, Swimmable {
 ## 4. Can you override static methods?
 
 **Answer:**
-• **No, you cannot override static methods**
-• Static methods belong to the class, not to instances
-• You can **hide** static methods (method hiding), but it's not overriding
-• Static methods are resolved at compile time, not runtime
+* **No, you cannot override static methods**
+* Static methods belong to the class, not to instances
+* You can **hide** static methods (method hiding), but it's not overriding
+* Static methods are resolved at compile time, not runtime
 
 **Example:**
 ```java
@@ -777,10 +777,10 @@ p.display();      // Output: Parent static (not Child!)
 ## 5. What is covariant return type?
 
 **Answer:**
-• Covariant return type allows overriding method to return a **subtype** of the original return type
-• Introduced in Java 5
-• The return type can be more specific (narrower) than the parent's return type
-• Must maintain IS-A relationship
+* Covariant return type allows overriding method to return a **subtype** of the original return type
+* Introduced in Java 5
+* The return type can be more specific (narrower) than the parent's return type
+* Must maintain IS-A relationship
 
 **Example:**
 ```java
@@ -820,10 +820,10 @@ class Circle extends Shape {
 **Answer:**
 
 ### IS-A Relationship (Inheritance)
-• Represents **inheritance** relationship
-• Uses `extends` keyword
-• Child class IS-A type of parent class
-• **"Kind of"** relationship
+* Represents **inheritance** relationship
+* Uses `extends` keyword
+* Child class IS-A type of parent class
+* **"Kind of"** relationship
 
 **Example:**
 ```java
@@ -835,10 +835,10 @@ class Dog extends Animal { }  // Dog IS-A Animal
 ```
 
 ### HAS-A Relationship (Composition/Aggregation)
-• Represents **composition** or **aggregation**
-• One class contains reference to another class
-• **"Part of"** or **"Has"** relationship
-• More flexible than inheritance
+* Represents **composition** or **aggregation**
+* One class contains reference to another class
+* **"Part of"** or **"Has"** relationship
+* More flexible than inheritance
 
 **Example:**
 ```java
@@ -874,8 +874,8 @@ class Student {
 | Single inheritance limit | Multiple composition allowed |
 
 **When to use:**
-• **IS-A**: When there's a clear parent-child relationship
-• **HAS-A**: When you need flexibility and want to avoid inheritance limitations
+* **IS-A**: When there's a clear parent-child relationship
+* **HAS-A**: When you need flexibility and want to avoid inheritance limitations
 
 # Interfaces and Abstract Classes - Interview Questions & Answers
 
@@ -884,11 +884,11 @@ class Student {
 An interface is a contract that defines what methods a class must implement, without providing the implementation details.
 
 **Key Points:**
-• Contains abstract methods (by default)
-• All variables are public, static, and final
-• Classes implement interfaces using `implements` keyword
-• Supports multiple inheritance
-• Cannot be instantiated directly
+* Contains abstract methods (by default)
+* All variables are public, static, and final
+* Classes implement interfaces using `implements` keyword
+* Supports multiple inheritance
+* Cannot be instantiated directly
 
 **Example:**
 ```java
@@ -915,11 +915,11 @@ class Dog implements Animal {
 An abstract class is a class that cannot be instantiated and may contain both abstract and concrete methods.
 
 **Key Points:**
-• Uses `abstract` keyword
-• Can have constructors, instance variables
-• Can contain both abstract and concrete methods
-• Classes extend abstract classes using `extends` keyword
-• Supports single inheritance only
+* Uses `abstract` keyword
+* Can have constructors, instance variables
+* Can contain both abstract and concrete methods
+* Classes extend abstract classes using `extends` keyword
+* Supports single inheritance only
 
 **Example:**
 ```java
@@ -953,18 +953,18 @@ class Car extends Vehicle {
 ## 3. What is the difference between interface and abstract class?
 
 **Interface:**
-• Multiple inheritance supported
-• Only public abstract methods (before Java 8)
-• Variables are public, static, final
-• No constructors
-• 100% abstraction (before Java 8)
+* Multiple inheritance supported
+* Only public abstract methods (before Java 8)
+* Variables are public, static, final
+* No constructors
+* 100% abstraction (before Java 8)
 
 **Abstract Class:**
-• Single inheritance only
-• Can have concrete and abstract methods
-• Can have any type of variables
-• Can have constructors
-• 0-100% abstraction
+* Single inheritance only
+* Can have concrete and abstract methods
+* Can have any type of variables
+* Can have constructors
+* 0-100% abstraction
 
 **Example:**
 ```java
@@ -996,10 +996,10 @@ abstract class Bird {
 Default methods allow interfaces to have method implementations without breaking existing code.
 
 **Key Points:**
-• Introduced in Java 8
-• Use `default` keyword
-• Provide backward compatibility
-• Can be overridden in implementing classes
+* Introduced in Java 8
+* Use `default` keyword
+* Provide backward compatibility
+* Can be overridden in implementing classes
 
 **Example:**
 ```java
@@ -1026,10 +1026,10 @@ class SimpleCalculator implements Calculator {
 Static methods in interfaces belong to the interface itself and cannot be overridden.
 
 **Key Points:**
-• Introduced in Java 8
-• Called using interface name
-• Cannot be overridden in implementing classes
-• Provide utility methods
+* Introduced in Java 8
+* Called using interface name
+* Cannot be overridden in implementing classes
+* Provide utility methods
 
 **Example:**
 ```java
@@ -1055,10 +1055,10 @@ boolean even = MathUtils.isEven(4); // true
 A marker interface is an empty interface with no methods, used to mark or tag classes for special treatment.
 
 **Key Points:**
-• Contains no methods or constants
-• Provides metadata about the class
-• Used by JVM or frameworks for special processing
-• Examples: Serializable, Cloneable, Remote
+* Contains no methods or constants
+* Provides metadata about the class
+* Used by JVM or frameworks for special processing
+* Examples: Serializable, Cloneable, Remote
 
 **Example:**
 ```java
@@ -1090,11 +1090,11 @@ public void printDocument(Object obj) {
 A functional interface has exactly one abstract method and can be used with lambda expressions.
 
 **Key Points:**
-• Contains exactly one abstract method
-• Can have default and static methods
-• Annotated with `@FunctionalInterface` (optional)
-• Used with lambda expressions and method references
-• Examples: Runnable, Callable, Comparator
+* Contains exactly one abstract method
+* Can have default and static methods
+* Annotated with `@FunctionalInterface` (optional)
+* Used with lambda expressions and method references
+* Examples: Runnable, Callable, Comparator
 
 **Example:**
 ```java
@@ -1123,10 +1123,10 @@ int product = multiply.calculate(5, 3); // 15
 Yes, an interface can extend one or more interfaces using the `extends` keyword.
 
 **Key Points:**
-• Interface can extend multiple interfaces
-• Inherits all abstract methods from parent interfaces
-• Implementing class must provide implementation for all methods
-• Creates interface hierarchy
+* Interface can extend multiple interfaces
+* Inherits all abstract methods from parent interfaces
+* Implementing class must provide implementation for all methods
+* Creates interface hierarchy
 
 **Example:**
 ```java
@@ -1160,13 +1160,13 @@ class GoldenRetriever implements Dog {
 ## Quick Summary
 
 **Remember:**
-• Interface = Contract (what to do)
-• Abstract Class = Partial implementation (what and how)
-• Default methods = Backward compatibility
-• Static methods = Utility functions
-• Marker interface = Tagging mechanism
-• Functional interface = Lambda expressions
-• Interface inheritance = Multiple extends allowed
+* Interface = Contract (what to do)
+* Abstract Class = Partial implementation (what and how)
+* Default methods = Backward compatibility
+* Static methods = Utility functions
+* Marker interface = Tagging mechanism
+* Functional interface = Lambda expressions
+* Interface inheritance = Multiple extends allowed
 
 # Java Exception Handling - Interview Questions & Answers
 
@@ -1175,9 +1175,9 @@ class GoldenRetriever implements Dog {
 An exception is an event that disrupts the normal flow of program execution. It's an object that represents an error or unexpected condition.
 
 **Key Points:**
-• Exceptions are runtime errors that can be handled
-• They help maintain program stability
-• Java uses exception objects to provide error information
+* Exceptions are runtime errors that can be handled
+* They help maintain program stability
+* Java uses exception objects to provide error information
 
 **Example:**
 ```java
@@ -1193,11 +1193,11 @@ int length = str.length(); // NullPointerException
 Java exceptions follow a class hierarchy with Throwable at the top.
 
 **Hierarchy Structure:**
-• `Throwable` (root class)
-  • `Error` (system-level errors, not recoverable)
-  • `Exception` (recoverable errors)
-    • `RuntimeException` (unchecked exceptions)
-    • Other exceptions (checked exceptions)
+* `Throwable` (root class)
+  * `Error` (system-level errors, not recoverable)
+  * `Exception` (recoverable errors)
+    * `RuntimeException` (unchecked exceptions)
+    * Other exceptions (checked exceptions)
 
 **Example:**
 ```java
@@ -1214,14 +1214,14 @@ RuntimeException re = new RuntimeException(); // Unchecked
 ## 3. What are checked and unchecked exceptions?
 
 **Checked Exceptions:**
-• Must be handled at compile time
-• Compiler forces you to handle them
-• Examples: IOException, SQLException, ClassNotFoundException
+* Must be handled at compile time
+* Compiler forces you to handle them
+* Examples: IOException, SQLException, ClassNotFoundException
 
 **Unchecked Exceptions:**
-• Runtime exceptions, not checked at compile time
-• Extend RuntimeException
-• Examples: NullPointerException, ArrayIndexOutOfBoundsException
+* Runtime exceptions, not checked at compile time
+* Extend RuntimeException
+* Examples: NullPointerException, ArrayIndexOutOfBoundsException
 
 **Example:**
 ```java
@@ -1242,14 +1242,14 @@ str.length(); // NullPointerException at runtime
 ## 4. What is the difference between throw and throws?
 
 **throw:**
-• Used to explicitly throw an exception
-• Used inside method body
-• Throws one exception at a time
+* Used to explicitly throw an exception
+* Used inside method body
+* Throws one exception at a time
 
 **throws:**
-• Used in method signature to declare exceptions
-• Indicates method might throw exceptions
-• Can declare multiple exceptions
+* Used in method signature to declare exceptions
+* Indicates method might throw exceptions
+* Can declare multiple exceptions
 
 **Example:**
 ```java
@@ -1269,9 +1269,9 @@ public void readFile() throws IOException, FileNotFoundException {
 A mechanism to handle exceptions gracefully.
 
 **Components:**
-• `try` - contains code that might throw exception
-• `catch` - handles specific exceptions
-• `finally` - always executes (cleanup code)
+* `try` - contains code that might throw exception
+* `catch` - handles specific exceptions
+* `finally` - always executes (cleanup code)
 
 **Example:**
 ```java
@@ -1291,9 +1291,9 @@ try {
 Automatic resource management introduced in Java 7. Resources are automatically closed.
 
 **Benefits:**
-• Automatic resource cleanup
-• Cleaner code
-• Prevents resource leaks
+* Automatic resource cleanup
+* Cleaner code
+* Prevents resource leaks
 
 **Example:**
 ```java
@@ -1321,9 +1321,9 @@ try (FileReader file = new FileReader("data.txt")) {
 Create custom exceptions by extending Exception or RuntimeException classes.
 
 **Steps:**
-• Extend Exception (checked) or RuntimeException (unchecked)
-• Add constructors
-• Optionally add custom methods
+* Extend Exception (checked) or RuntimeException (unchecked)
+* Add constructors
+* Optionally add custom methods
 
 **Example:**
 ```java
@@ -1363,9 +1363,9 @@ public void validateAge(int age) throws InvalidAgeException {
 Exception chaining allows you to associate one exception with another, preserving the original cause.
 
 **Purpose:**
-• Preserve original exception information
-• Provide better debugging
-• Maintain exception context
+* Preserve original exception information
+* Provide better debugging
+* Maintain exception context
 
 **Example:**
 ```java
@@ -1400,12 +1400,12 @@ try {
 ## Quick Summary
 
 **Remember these key points:**
-• Always handle checked exceptions
-• Use specific exception types in catch blocks
-• Finally block always executes
-• Try-with-resources for automatic cleanup
-• Custom exceptions for business logic
-• Exception chaining preserves error context
+* Always handle checked exceptions
+* Use specific exception types in catch blocks
+* Finally block always executes
+* Try-with-resources for automatic cleanup
+* Custom exceptions for business logic
+* Exception chaining preserves error context
 
 # Java Collections Framework - Interview Questions & Answers
 
@@ -1649,12 +1649,12 @@ System.out.println(pq.poll()); // Output: 1 (smallest first)
 
 Multithreading is the ability of a program to execute multiple threads concurrently within a single process.
 
-• **Key Points:**
+* **Key Points:**
   - Multiple threads share the same memory space
   - Improves performance by utilizing CPU cores efficiently
   - Allows concurrent execution of tasks
 
-• **Example:**
+* **Example:**
 ```java
 // Main thread creates and starts worker threads
 public class MultithreadingExample {
@@ -1673,7 +1673,7 @@ public class MultithreadingExample {
 
 There are two main ways to create threads in Java.
 
-• **Method 1: Extending Thread class**
+* **Method 1: Extending Thread class**
 ```java
 class MyThread extends Thread {
     public void run() {
@@ -1685,7 +1685,7 @@ MyThread t = new MyThread();
 t.start();
 ```
 
-• **Method 2: Implementing Runnable interface**
+* **Method 2: Implementing Runnable interface**
 ```java
 class MyTask implements Runnable {
     public void run() {
@@ -1697,7 +1697,7 @@ Thread t = new Thread(new MyTask());
 t.start();
 ```
 
-• **Method 3: Lambda expression (Java 8+)**
+* **Method 3: Lambda expression (Java 8+)**
 ```java
 Thread t = new Thread(() -> System.out.println("Lambda thread"));
 t.start();
@@ -1709,17 +1709,17 @@ t.start();
 
 The main differences are inheritance flexibility and design principles.
 
-• **Extending Thread:**
+* **Extending Thread:**
   - Single inheritance limitation (can't extend other classes)
   - Direct access to Thread methods
   - Tightly couples task with thread management
 
-• **Implementing Runnable:**
+* **Implementing Runnable:**
   - Can extend other classes (multiple inheritance support)
   - Better separation of concerns
   - Preferred approach for most cases
 
-• **Example:**
+* **Example:**
 ```java
 // Runnable approach - more flexible
 class DatabaseTask implements Runnable {
@@ -1739,7 +1739,7 @@ executor.submit(new DatabaseTask());
 
 A thread goes through several states during its lifecycle.
 
-• **Thread States:**
+* **Thread States:**
   - **NEW**: Thread created but not started
   - **RUNNABLE**: Thread executing or ready to execute
   - **BLOCKED**: Thread blocked waiting for monitor lock
@@ -1747,7 +1747,7 @@ A thread goes through several states during its lifecycle.
   - **TIMED_WAITING**: Thread waiting for specified time
   - **TERMINATED**: Thread completed execution
 
-• **Example:**
+* **Example:**
 ```java
 Thread t = new Thread(() -> {
     try {
@@ -1766,17 +1766,17 @@ System.out.println(t.getState()); // RUNNABLE
 
 Synchronization controls access to shared resources to prevent data corruption in multithreaded environments.
 
-• **Key Benefits:**
+* **Key Benefits:**
   - Prevents race conditions
   - Ensures thread safety
   - Maintains data consistency
 
-• **Types:**
+* **Types:**
   - Method synchronization
   - Block synchronization
   - Static synchronization
 
-• **Example:**
+* **Example:**
 ```java
 class Counter {
     private int count = 0;
@@ -1801,18 +1801,18 @@ class Counter {
 
 Deadlock occurs when two or more threads are blocked forever, waiting for each other to release resources.
 
-• **Deadlock Conditions:**
+* **Deadlock Conditions:**
   - Mutual exclusion
   - Hold and wait
   - No preemption
   - Circular wait
 
-• **Prevention Strategies:**
+* **Prevention Strategies:**
   - Always acquire locks in same order
   - Use timeout for lock acquisition
   - Avoid nested locks when possible
 
-• **Example:**
+* **Example:**
 ```java
 // Deadlock scenario
 class DeadlockExample {
@@ -1844,16 +1844,16 @@ class DeadlockExample {
 
 Volatile ensures that changes to a variable are immediately visible to all threads.
 
-• **Key Features:**
+* **Key Features:**
   - Prevents caching of variable values
   - Ensures visibility across threads
   - Provides happens-before guarantee
 
-• **When to use:**
+* **When to use:**
   - Simple flags or status variables
   - When only one thread writes, others read
 
-• **Example:**
+* **Example:**
 ```java
 class VolatileExample {
     private volatile boolean running = true;
@@ -1876,19 +1876,19 @@ class VolatileExample {
 
 Both provide thread safety but work differently.
 
-• **Synchronized:**
+* **Synchronized:**
   - Provides mutual exclusion (locking)
   - Ensures atomicity of operations
   - Can cause thread blocking
   - Heavier performance overhead
 
-• **Volatile:**
+* **Volatile:**
   - Provides visibility guarantee only
   - No locking mechanism
   - Cannot ensure atomicity of compound operations
   - Lighter performance overhead
 
-• **Example:**
+* **Example:**
 ```java
 class Comparison {
     private volatile int volatileCounter = 0;
@@ -1912,17 +1912,17 @@ class Comparison {
 
 Race condition occurs when multiple threads access shared data simultaneously, leading to unpredictable results.
 
-• **Race Condition:**
+* **Race Condition:**
   - Outcome depends on thread scheduling
   - Results in data corruption
   - Occurs with non-atomic operations
 
-• **Atomic Operation:**
+* **Atomic Operation:**
   - Indivisible operation
   - Completes entirely or not at all
   - Thread-safe by nature
 
-• **Example:**
+* **Example:**
 ```java
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -1942,7 +1942,7 @@ class RaceConditionExample {
 }
 ```
 
-• **Common Atomic Classes:**
+* **Common Atomic Classes:**
   - AtomicInteger, AtomicLong
   - AtomicBoolean, AtomicReference
   - Provide lock-free thread-safe operations
@@ -1954,9 +1954,9 @@ class RaceConditionExample {
 
 **ExecutorService is a framework that manages thread pools and executes tasks asynchronously.**
 
-• **Purpose**: Simplifies thread management and task execution
-• **Benefits**: Reuses threads, controls concurrency, handles lifecycle
-• **Key Methods**: submit(), execute(), shutdown()
+* **Purpose**: Simplifies thread management and task execution
+* **Benefits**: Reuses threads, controls concurrency, handles lifecycle
+* **Key Methods**: submit(), execute(), shutdown()
 
 **Example:**
 ```java
@@ -1971,22 +1971,22 @@ executor.shutdown();
 
 **Java provides several built-in thread pool types through Executors class.**
 
-• **FixedThreadPool**: Fixed number of threads
+* **FixedThreadPool**: Fixed number of threads
   ```java
   ExecutorService fixed = Executors.newFixedThreadPool(5);
   ```
 
-• **CachedThreadPool**: Creates threads as needed, reuses idle ones
+* **CachedThreadPool**: Creates threads as needed, reuses idle ones
   ```java
   ExecutorService cached = Executors.newCachedThreadPool();
   ```
 
-• **SingleThreadExecutor**: Single worker thread
+* **SingleThreadExecutor**: Single worker thread
   ```java
   ExecutorService single = Executors.newSingleThreadExecutor();
   ```
 
-• **ScheduledThreadPool**: For delayed/periodic tasks
+* **ScheduledThreadPool**: For delayed/periodic tasks
   ```java
   ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(2);
   ```
@@ -1998,9 +1998,9 @@ executor.shutdown();
 **Future represents the result of an asynchronous computation.**
 
 ### Future:
-• **Basic async result holder**
-• **Blocking operations**: get() blocks until result is ready
-• **Limited functionality**: Can't chain operations
+* **Basic async result holder**
+* **Blocking operations**: get() blocks until result is ready
+* **Limited functionality**: Can't chain operations
 
 ```java
 Future<String> future = executor.submit(() -> "Hello");
@@ -2008,9 +2008,9 @@ String result = future.get(); // Blocks until complete
 ```
 
 ### CompletableFuture:
-• **Enhanced Future with non-blocking operations**
-• **Chainable**: Can compose multiple async operations
-• **Callback support**: Handle completion without blocking
+* **Enhanced Future with non-blocking operations**
+* **Chainable**: Can compose multiple async operations
+* **Callback support**: Handle completion without blocking
 
 ```java
 CompletableFuture<String> cf = CompletableFuture
@@ -2025,9 +2025,9 @@ CompletableFuture<String> cf = CompletableFuture
 
 **CountDownLatch is a synchronization aid that allows threads to wait until a set of operations complete.**
 
-• **Use Case**: Wait for multiple threads to finish before proceeding
-• **One-time use**: Cannot be reset once count reaches zero
-• **Methods**: countDown(), await()
+* **Use Case**: Wait for multiple threads to finish before proceeding
+* **One-time use**: Cannot be reset once count reaches zero
+* **Methods**: countDown(), await()
 
 **Example:**
 ```java
@@ -2052,9 +2052,9 @@ System.out.println("All tasks finished");
 
 **ReentrantLock is an explicit lock that provides more flexibility than synchronized blocks.**
 
-• **Reentrant**: Same thread can acquire the lock multiple times
-• **Explicit control**: Manual lock/unlock operations
-• **Advanced features**: Trylock, timed locking, interruptible locking
+* **Reentrant**: Same thread can acquire the lock multiple times
+* **Explicit control**: Manual lock/unlock operations
+* **Advanced features**: Trylock, timed locking, interruptible locking
 
 **Example:**
 ```java
@@ -2078,10 +2078,10 @@ public void method() {
 **Both provide thread synchronization but with different capabilities.**
 
 ### ReentrantLock:
-• **Explicit locking**: Manual lock/unlock
-• **Advanced features**: tryLock(), lockInterruptibly()
-• **Fairness option**: Can ensure FIFO thread access
-• **Condition variables**: Multiple wait/notify conditions
+* **Explicit locking**: Manual lock/unlock
+* **Advanced features**: tryLock(), lockInterruptibly()
+* **Fairness option**: Can ensure FIFO thread access
+* **Condition variables**: Multiple wait/notify conditions
 
 ```java
 ReentrantLock lock = new ReentrantLock(true); // Fair lock
@@ -2095,10 +2095,10 @@ if (lock.tryLock(5, TimeUnit.SECONDS)) {
 ```
 
 ### Synchronized:
-• **Implicit locking**: Automatic lock/unlock
-• **Simpler syntax**: Built into language
-• **JVM optimized**: Better performance for simple cases
-• **Single condition**: Only one wait/notify per object
+* **Implicit locking**: Automatic lock/unlock
+* **Simpler syntax**: Built into language
+* **JVM optimized**: Better performance for simple cases
+* **Single condition**: Only one wait/notify per object
 
 ```java
 synchronized (this) {
@@ -2117,8 +2117,8 @@ synchronized (this) {
 | **Performance** | Good for complex scenarios | Better for simple cases |
 
 **When to use:**
-• **ReentrantLock**: Complex locking scenarios, need timeout/trylock
-• **Synchronized**: Simple mutual exclusion, better readability
+* **ReentrantLock**: Complex locking scenarios, need timeout/trylock
+* **Synchronized**: Simple mutual exclusion, better readability
 
 
 # JVM and Memory Management Interview Questions & Answers
@@ -2128,19 +2128,19 @@ synchronized (this) {
 **Answer:**
 The JVM has several distinct memory areas:
 
-• **Heap Memory** - Where objects are stored
+* **Heap Memory** - Where objects are stored
   - Young Generation (Eden, S0, S1)
   - Old Generation (Tenured)
 
-• **Stack Memory** - Method calls and local variables
+* **Stack Memory** - Method calls and local variables
   - Each thread has its own stack
 
-• **Method Area/Metaspace** - Class metadata and constants
+* **Method Area/Metaspace** - Class metadata and constants
   - Replaced PermGen in Java 8+
 
-• **PC Register** - Program counter for each thread
+* **PC Register** - Program counter for each thread
 
-• **Native Method Stack** - For native method calls
+* **Native Method Stack** - For native method calls
 
 **Example:**
 ```java
@@ -2155,14 +2155,14 @@ int age = 25;         // Stored in stack (local variable)
 **Answer:**
 Key differences between heap and stack:
 
-• **Stack Memory:**
+* **Stack Memory:**
   - Stores method calls and local variables
   - Thread-specific (each thread has own stack)
   - Faster access
   - Automatically managed
   - Limited size
 
-• **Heap Memory:**
+* **Heap Memory:**
   - Stores objects and instance variables
   - Shared among all threads
   - Slower access than stack
@@ -2184,13 +2184,13 @@ public void method() {
 **Answer:**
 PermGen was replaced by Metaspace in Java 8:
 
-• **PermGen (Before Java 8):**
+* **PermGen (Before Java 8):**
   - Fixed size memory area
   - Stored class metadata
   - Could cause OutOfMemoryError easily
   - Part of heap memory
 
-• **Metaspace (Java 8+):**
+* **Metaspace (Java 8+):**
   - Dynamic size (uses native memory)
   - Stores class metadata
   - Auto-expands as needed
@@ -2210,17 +2210,17 @@ PermGen was replaced by Metaspace in Java 8:
 **Answer:**
 Garbage Collection (GC) is automatic memory management:
 
-• **Purpose:**
+* **Purpose:**
   - Automatically frees unused memory
   - Removes objects with no references
   - Prevents memory leaks
 
-• **How it works:**
+* **How it works:**
   - Identifies unreachable objects
   - Marks them for deletion
   - Reclaims memory space
 
-• **Benefits:**
+* **Benefits:**
   - Automatic memory management
   - Prevents OutOfMemoryError
   - Developer doesn't need to manually free memory
@@ -2239,22 +2239,22 @@ System.gc(); // Suggests GC (not guaranteed)
 **Answer:**
 Different GC algorithms for different needs:
 
-• **Serial GC:**
+* **Serial GC:**
   - Single-threaded
   - Good for small applications
   - `-XX:+UseSerialGC`
 
-• **Parallel GC:**
+* **Parallel GC:**
   - Multi-threaded
   - Default for server applications
   - `-XX:+UseParallelGC`
 
-• **G1 GC:**
+* **G1 GC:**
   - Low-latency collector
   - Good for large heaps
   - `-XX:+UseG1GC`
 
-• **ZGC/Shenandoah:**
+* **ZGC/Shenandoah:**
   - Ultra-low latency
   - For very large heaps
   - `-XX:+UseZGC`
@@ -2271,17 +2271,17 @@ java -XX:+UseG1GC -Xmx4g MyApplication
 **Answer:**
 GC strategy based on object age:
 
-• **Young Generation:**
+* **Young Generation:**
   - New objects created here
   - Most objects die young
   - Frequent, fast GC
 
-• **Old Generation:**
+* **Old Generation:**
   - Long-lived objects promoted here
   - Less frequent GC
   - More expensive to collect
 
-• **Survival Process:**
+* **Survival Process:**
   - Objects start in Eden space
   - Survivors move to S0/S1
   - After several cycles, promoted to Old Gen
@@ -2304,19 +2304,19 @@ static List<String> cache = new ArrayList<>(); // Lives long
 **Answer:**
 Different types of garbage collection cycles:
 
-• **Minor GC:**
+* **Minor GC:**
   - Cleans Young Generation only
   - Happens frequently (seconds/minutes)
   - Fast execution
   - Low impact on application
 
-• **Major GC:**
+* **Major GC:**
   - Cleans Old Generation
   - Happens less frequently
   - Slower execution
   - Can cause "stop-the-world" pauses
 
-• **Full GC:**
+* **Full GC:**
   - Cleans entire heap
   - Most expensive operation
   - Should be minimized
@@ -2339,17 +2339,17 @@ static List<Object> longLived = new ArrayList<>(); // Accumulates objects
 **Answer:**
 Metaspace is the memory area for class metadata in Java 8+:
 
-• **Purpose:**
+* **Purpose:**
   - Stores class definitions and metadata
   - Replaces PermGen space
   - Holds constant pool information
 
-• **Characteristics:**
+* **Characteristics:**
   - Uses native memory (not heap)
   - Dynamically resizable
   - Garbage collected when classes unloaded
 
-• **Configuration:**
+* **Configuration:**
   - `-XX:MetaspaceSize` - Initial size
   - `-XX:MaxMetaspaceSize` - Maximum size
 
@@ -2369,19 +2369,19 @@ public class Employee {
 **Answer:**
 GC roots are starting points for garbage collection reachability analysis:
 
-• **Types of GC Roots:**
+* **Types of GC Roots:**
   - Local variables in stack
   - Static variables
   - JNI references
   - Thread objects
   - System class loader references
 
-• **How they work:**
+* **How they work:**
   - GC starts from roots
   - Traces all reachable objects
   - Unreachable objects are garbage collected
 
-• **Importance:**
+* **Importance:**
   - Determines what objects to keep
   - Prevents accidental deletion of active objects
 
@@ -2415,12 +2415,12 @@ Understanding JVM memory management is crucial for:
 
 There are several ways to read files in Java:
 
-• **FileInputStream** - For reading raw bytes
-• **FileReader** - For reading character data
-• **BufferedReader** - For efficient line-by-line reading
-• **Scanner** - For parsing different data types
-• **Files.readAllLines()** - For reading entire file at once (Java 7+)
-• **Files.lines()** - For streaming large files (Java 8+)
+* **FileInputStream** - For reading raw bytes
+* **FileReader** - For reading character data
+* **BufferedReader** - For efficient line-by-line reading
+* **Scanner** - For parsing different data types
+* **Files.readAllLines()** - For reading entire file at once (Java 7+)
+* **Files.lines()** - For streaming large files (Java 8+)
 
 **Examples:**
 ```java
@@ -2444,16 +2444,16 @@ while (scanner.hasNextLine()) {
 ## 2. What is the difference between InputStream and Reader?
 
 **InputStream:**
-• Handles **raw bytes** (binary data)
-• Base class for all byte input streams
-• Methods return int (0-255) or byte arrays
-• Used for images, videos, executables
+* Handles **raw bytes** (binary data)
+* Base class for all byte input streams
+* Methods return int (0-255) or byte arrays
+* Used for images, videos, executables
 
 **Reader:**
-• Handles **character data** (text)
-• Base class for all character input streams
-• Automatically handles character encoding
-• Used for text files
+* Handles **character data** (text)
+* Base class for all character input streams
+* Automatically handles character encoding
+* Used for text files
 
 **Examples:**
 ```java
@@ -2472,10 +2472,10 @@ int charData = fr.read(); // reads characters
 
 **BufferedReader/BufferedWriter** are wrapper classes that add buffering capability:
 
-• **Reduces system calls** by reading/writing data in chunks
-• **Improves performance** significantly for frequent I/O operations
-• **Default buffer size** is 8192 characters
-• **readLine()** method for convenient line reading
+* **Reduces system calls** by reading/writing data in chunks
+* **Improves performance** significantly for frequent I/O operations
+* **Default buffer size** is 8192 characters
+* **readLine()** method for convenient line reading
 
 **Examples:**
 ```java
@@ -2501,11 +2501,11 @@ try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
 
 For large files, use these strategies:
 
-• **Streaming approach** - Process line by line instead of loading entire file
-• **BufferedReader/Writer** - Use buffering to reduce I/O calls
-• **Files.lines()** - Java 8 Stream API for memory-efficient processing
-• **Memory mapping** - Use NIO for very large files
-• **Chunked processing** - Read in fixed-size chunks
+* **Streaming approach** - Process line by line instead of loading entire file
+* **BufferedReader/Writer** - Use buffering to reduce I/O calls
+* **Files.lines()** - Java 8 Stream API for memory-efficient processing
+* **Memory mapping** - Use NIO for very large files
+* **Chunked processing** - Read in fixed-size chunks
 
 **Examples:**
 ```java
@@ -2531,16 +2531,16 @@ try (FileInputStream fis = new FileInputStream("largefile.dat")) {
 
 **NIO (New I/O)** introduced in Java 1.4:
 
-• **Non-blocking I/O** - Threads don't wait for I/O operations
-• **Channel-based** - Uses channels instead of streams
-• **Buffer-oriented** - Data read into buffers
-• **Selectors** - Single thread can monitor multiple channels
-• **Memory mapping** - Direct access to file system
+* **Non-blocking I/O** - Threads don't wait for I/O operations
+* **Channel-based** - Uses channels instead of streams
+* **Buffer-oriented** - Data read into buffers
+* **Selectors** - Single thread can monitor multiple channels
+* **Memory mapping** - Direct access to file system
 
 **Key Components:**
-• **Channels** - FileChannel, SocketChannel
-• **Buffers** - ByteBuffer, CharBuffer
-• **Selectors** - For multiplexed I/O
+* **Channels** - FileChannel, SocketChannel
+* **Buffers** - ByteBuffer, CharBuffer
+* **Selectors** - For multiplexed I/O
 
 **Example:**
 ```java
@@ -2582,17 +2582,17 @@ SocketChannel client = server.accept(); // returns immediately
 ## 7. When would you use NIO over traditional I/O?
 
 **Use NIO when:**
-• **High concurrency** - Many simultaneous connections
-• **Large files** - Memory mapping for better performance
-• **Network servers** - Chat servers, web servers
-• **Real-time applications** - Gaming, trading systems
-• **Resource constraints** - Limited threads available
+* **High concurrency** - Many simultaneous connections
+* **Large files** - Memory mapping for better performance
+* **Network servers** - Chat servers, web servers
+* **Real-time applications** - Gaming, trading systems
+* **Resource constraints** - Limited threads available
 
 **Use Traditional I/O when:**
-• **Simple applications** - Basic file operations
-• **Few connections** - Desktop applications
-• **Sequential processing** - Log file processing
-• **Rapid development** - Simpler API and debugging
+* **Simple applications** - Basic file operations
+* **Few connections** - Desktop applications
+* **Sequential processing** - Log file processing
+* **Rapid development** - Simpler API and debugging
 
 **Example Use Cases:**
 ```java
@@ -2618,9 +2618,9 @@ Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 5. `FileInputStream` - Raw byte reading
 
 **Memory Usage:**
-• **Lowest**: Streaming with `Files.lines()`
-• **Moderate**: `BufferedReader`
-• **Highest**: `Files.readAllLines()` (loads entire file)
+* **Lowest**: Streaming with `Files.lines()`
+* **Moderate**: `BufferedReader`
+* **Highest**: `Files.readAllLines()` (loads entire file)
 
 
 # Java Generics Interview Questions & Answers
@@ -2628,9 +2628,9 @@ Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 ## 1. What are generics in Java?
 
 **Answer:**
-• Generics allow you to write type-safe code by parameterizing types
-• They enable classes, interfaces, and methods to work with different data types while maintaining compile-time type safety
-• Introduced in Java 5 to eliminate ClassCastException at runtime
+* Generics allow you to write type-safe code by parameterizing types
+* They enable classes, interfaces, and methods to work with different data types while maintaining compile-time type safety
+* Introduced in Java 5 to eliminate ClassCastException at runtime
 
 **Example:**
 ```java
@@ -2650,10 +2650,10 @@ String str = list.get(0); // No casting needed
 ## 2. Why were generics introduced?
 
 **Answer:**
-• **Type Safety**: Catch type errors at compile time instead of runtime
-• **Eliminate Casting**: No need for explicit type casting
-• **Code Clarity**: Makes code more readable and self-documenting
-• **Performance**: Reduces overhead of boxing/unboxing and casting
+* **Type Safety**: Catch type errors at compile time instead of runtime
+* **Eliminate Casting**: No need for explicit type casting
+* **Code Clarity**: Makes code more readable and self-documenting
+* **Performance**: Reduces overhead of boxing/unboxing and casting
 
 **Example:**
 ```java
@@ -2674,10 +2674,10 @@ list.add(123); // Compile error - cannot add Integer to String list
 ## 3. What is type erasure?
 
 **Answer:**
-• Type erasure removes generic type information at runtime
-• Generic types are replaced with their raw types or Object during compilation
-• This ensures backward compatibility with pre-Java 5 code
-• At runtime, `List<String>` and `List<Integer>` are just `List`
+* Type erasure removes generic type information at runtime
+* Generic types are replaced with their raw types or Object during compilation
+* This ensures backward compatibility with pre-Java 5 code
+* At runtime, `List<String>` and `List<Integer>` are just `List`
 
 **Example:**
 ```java
@@ -2697,12 +2697,12 @@ if (list instanceof List) // This works
 ## 4. What is the difference between <? extends T> and <? super T>?
 
 **Answer:**
-• **`<? extends T>`** (Upper Bounded Wildcard):
+* **`<? extends T>`** (Upper Bounded Wildcard):
   - Accepts T and all its subtypes
   - Used for reading data (Producer)
   - Cannot add elements (except null)
 
-• **`<? super T>`** (Lower Bounded Wildcard):
+* **`<? super T>`** (Lower Bounded Wildcard):
   - Accepts T and all its supertypes
   - Used for writing data (Consumer)
   - Can add T and its subtypes
@@ -2726,10 +2726,10 @@ Object obj = integers.get(0); // Can only read as Object
 ## 5. What is PECS principle?
 
 **Answer:**
-• **PECS**: Producer Extends, Consumer Super
-• **Producer Extends**: Use `<? extends T>` when you only read from the collection
-• **Consumer Super**: Use `<? super T>` when you only write to the collection
-• Helps decide which wildcard to use in method parameters
+* **PECS**: Producer Extends, Consumer Super
+* **Producer Extends**: Use `<? extends T>` when you only read from the collection
+* **Consumer Super**: Use `<? super T>` when you only write to the collection
+* Helps decide which wildcard to use in method parameters
 
 **Example:**
 ```java
@@ -2751,11 +2751,11 @@ copy(numbers, integers); // integers produces, numbers consumes
 ## 6. What are the limitations of generics?
 
 **Answer:**
-• **Cannot instantiate generic types**: `new T()` is not allowed
-• **Cannot create arrays of generic types**: `T[] array = new T[10]` is invalid
-• **Cannot use primitives**: Must use wrapper classes (`List<int>` is invalid)
-• **Cannot use static fields**: Static context cannot access type parameters
-• **Type erasure limitations**: Cannot check instance of parameterized types at runtime
+* **Cannot instantiate generic types**: `new T()` is not allowed
+* **Cannot create arrays of generic types**: `T[] array = new T[10]` is invalid
+* **Cannot use primitives**: Must use wrapper classes (`List<int>` is invalid)
+* **Cannot use static fields**: Static context cannot access type parameters
+* **Type erasure limitations**: Cannot check instance of parameterized types at runtime
 
 **Example:**
 ```java
@@ -2786,10 +2786,10 @@ List<Integer> intList = new ArrayList<>(); // OK
 
 Annotations are metadata that provide information about code without affecting its execution.
 
-• **Purpose**: Add metadata to classes, methods, fields, parameters
-• **Compile-time**: Used by compiler and development tools
-• **Runtime**: Can be processed during execution
-• **Syntax**: Start with @ symbol
+* **Purpose**: Add metadata to classes, methods, fields, parameters
+* **Compile-time**: Used by compiler and development tools
+* **Runtime**: Can be processed during execution
+* **Syntax**: Start with @ symbol
 
 **Example:**
 ```java
@@ -2808,11 +2808,11 @@ public void oldMethod() {
 
 Java provides several predefined annotations for common use cases.
 
-• **@Override**: Ensures method overrides parent method
-• **@Deprecated**: Marks code as outdated
-• **@SuppressWarnings**: Suppresses compiler warnings
-• **@FunctionalInterface**: Marks interface as functional
-• **@SafeVarargs**: Suppresses varargs warnings
+* **@Override**: Ensures method overrides parent method
+* **@Deprecated**: Marks code as outdated
+* **@SuppressWarnings**: Suppresses compiler warnings
+* **@FunctionalInterface**: Marks interface as functional
+* **@SafeVarargs**: Suppresses varargs warnings
 
 **Example:**
 ```java
@@ -2829,10 +2829,10 @@ List rawList = new ArrayList();
 
 Custom annotations are created using @interface keyword with meta-annotations.
 
-• **@interface**: Defines annotation type
-• **Elements**: Can have methods (elements)
-• **Default values**: Optional default values
-• **Meta-annotations**: Control annotation behavior
+* **@interface**: Defines annotation type
+* **Elements**: Can have methods (elements)
+* **Default values**: Optional default values
+* **Meta-annotations**: Control annotation behavior
 
 **Example:**
 ```java
@@ -2854,9 +2854,9 @@ public void saveData() {
 
 Retention policy determines how long annotations are retained in the program lifecycle.
 
-• **SOURCE**: Discarded by compiler (e.g., @Override)
-• **CLASS**: Retained in bytecode, not at runtime
-• **RUNTIME**: Available at runtime via reflection
+* **SOURCE**: Discarded by compiler (e.g., @Override)
+* **CLASS**: Retained in bytecode, not at runtime
+* **RUNTIME**: Available at runtime via reflection
 
 **Example:**
 ```java
@@ -2875,10 +2875,10 @@ public @interface CompileTimeAnnotation {
 
 There's no @Overload annotation in Java - only @Override exists.
 
-• **@Override**: Ensures method overrides superclass method
-• **Overloading**: Multiple methods with same name, different parameters
-• **Overriding**: Subclass provides specific implementation of superclass method
-• **No annotation needed**: For method overloading
+* **@Override**: Ensures method overrides superclass method
+* **Overloading**: Multiple methods with same name, different parameters
+* **Overriding**: Subclass provides specific implementation of superclass method
+* **No annotation needed**: For method overloading
 
 **Example:**
 ```java
@@ -2899,10 +2899,10 @@ class Child extends Parent {
 
 Reflection allows examining and manipulating classes, methods, and fields at runtime.
 
-• **Runtime inspection**: Analyze class structure dynamically
-• **Dynamic invocation**: Call methods without compile-time knowledge
-• **Access modifiers**: Can access private members
-• **Class loading**: Work with dynamically loaded classes
+* **Runtime inspection**: Analyze class structure dynamically
+* **Dynamic invocation**: Call methods without compile-time knowledge
+* **Access modifiers**: Can access private members
+* **Class loading**: Work with dynamically loaded classes
 
 **Example:**
 ```java
@@ -2918,11 +2918,11 @@ int result = (int) lengthMethod.invoke("Hello");
 
 Reflection is useful for frameworks, libraries, and dynamic programming scenarios.
 
-• **Frameworks**: Spring, Hibernate use reflection extensively
-• **Serialization**: JSON/XML libraries
-• **Testing**: JUnit, Mockito frameworks
-• **Plugin systems**: Dynamic class loading
-• **Avoid in regular code**: Performance and complexity concerns
+* **Frameworks**: Spring, Hibernate use reflection extensively
+* **Serialization**: JSON/XML libraries
+* **Testing**: JUnit, Mockito frameworks
+* **Plugin systems**: Dynamic class loading
+* **Avoid in regular code**: Performance and complexity concerns
 
 **Example:**
 ```java
@@ -2940,10 +2940,10 @@ field.set(instance, serviceInstance);
 
 Reflection is significantly slower than direct method calls.
 
-• **Method lookup**: Finding methods by name is expensive
-• **Security checks**: Additional permission checks
-• **Optimization barriers**: JVM can't optimize reflective calls
-• **Memory overhead**: Additional metadata storage
+* **Method lookup**: Finding methods by name is expensive
+* **Security checks**: Additional permission checks
+* **Optimization barriers**: JVM can't optimize reflective calls
+* **Memory overhead**: Additional metadata storage
 
 **Performance tips:**
 ```java
@@ -2966,10 +2966,10 @@ MethodHandle handle = MethodHandles.lookup()
 
 Reflection can bypass access controls and expose sensitive information.
 
-• **Access private members**: Can access private fields/methods
-• **Security manager**: May be restricted by security policies
-• **Sensitive data exposure**: Can access internal implementation
-• **Code injection**: Potential for malicious code execution
+* **Access private members**: Can access private fields/methods
+* **Security manager**: May be restricted by security policies
+* **Sensitive data exposure**: Can access internal implementation
+* **Code injection**: Potential for malicious code execution
 
 **Security considerations:**
 ```java
@@ -2989,10 +2989,10 @@ if (sm != null) {
 
 Reflection operations throw checked exceptions that must be handled.
 
-• **NoSuchMethodException**: Method not found
-• **IllegalAccessException**: Access denied
-• **InvocationTargetException**: Exception in invoked method
-• **ClassNotFoundException**: Class not found
+* **NoSuchMethodException**: Method not found
+* **IllegalAccessException**: Access denied
+* **InvocationTargetException**: Exception in invoked method
+* **ClassNotFoundException**: Class not found
 
 **Exception handling:**
 ```java
@@ -3019,13 +3019,13 @@ try {
 
 ## Key Takeaways
 
-• **Annotations**: Metadata for code documentation and processing
-• **Retention policies**: Control annotation lifecycle
-• **Reflection**: Powerful but expensive runtime introspection
-• **Use cases**: Frameworks, testing, serialization
-• **Performance**: Cache reflective operations when possible
-• **Security**: Be cautious with access control bypass
-• **Exception handling**: Always handle reflection exceptions properly
+* **Annotations**: Metadata for code documentation and processing
+* **Retention policies**: Control annotation lifecycle
+* **Reflection**: Powerful but expensive runtime introspection
+* **Use cases**: Frameworks, testing, serialization
+* **Performance**: Cache reflective operations when possible
+* **Security**: Be cautious with access control bypass
+* **Exception handling**: Always handle reflection exceptions properly
 
 # Lambda Expressions and Streams API - Interview Questions & Answers
 
@@ -3337,15 +3337,15 @@ findUserById(123L)
 ## 1. What is JDBC?
 
 **Answer:**
-• JDBC stands for Java Database Connectivity
-• It's an API that allows Java applications to interact with databases
-• Acts as a bridge between Java and relational databases
-• Provides a standard interface for database operations
+* JDBC stands for Java Database Connectivity
+* It's an API that allows Java applications to interact with databases
+* Acts as a bridge between Java and relational databases
+* Provides a standard interface for database operations
 
 **Key Points:**
-• Platform-independent database connectivity
-• Supports multiple database vendors (MySQL, Oracle, PostgreSQL, etc.)
-• Part of Java SE since JDK 1.1
+* Platform-independent database connectivity
+* Supports multiple database vendors (MySQL, Oracle, PostgreSQL, etc.)
+* Part of Java SE since JDK 1.1
 
 **Example:**
 ```java
@@ -3362,12 +3362,12 @@ ResultSet rs = stmt.executeQuery("SELECT * FROM users");
 **Answer:**
 The standard steps are:
 
-• **Step 1:** Load the JDBC driver
-• **Step 2:** Establish connection using DriverManager
-• **Step 3:** Create Statement or PreparedStatement
-• **Step 4:** Execute SQL queries
-• **Step 5:** Process ResultSet (for SELECT queries)
-• **Step 6:** Close connections and resources
+* **Step 1:** Load the JDBC driver
+* **Step 2:** Establish connection using DriverManager
+* **Step 3:** Create Statement or PreparedStatement
+* **Step 4:** Execute SQL queries
+* **Step 5:** Process ResultSet (for SELECT queries)
+* **Step 6:** Close connections and resources
 
 **Example:**
 ```java
@@ -3403,16 +3403,16 @@ conn.close();
 **Answer:**
 
 ### Statement:
-• Used for static SQL queries
-• SQL is compiled every time it's executed
-• Vulnerable to SQL injection
-• No parameter binding
+* Used for static SQL queries
+* SQL is compiled every time it's executed
+* Vulnerable to SQL injection
+* No parameter binding
 
 ### PreparedStatement:
-• Used for dynamic SQL queries with parameters
-• Pre-compiled SQL - better performance
-• Prevents SQL injection attacks
-• Supports parameter binding with placeholders (?)
+* Used for dynamic SQL queries with parameters
+* Pre-compiled SQL - better performance
+* Prevents SQL injection attacks
+* Supports parameter binding with placeholders (?)
 
 **Comparison Example:**
 ```java
@@ -3428,26 +3428,26 @@ ResultSet rs = pstmt.executeQuery();
 ```
 
 **Key Benefits of PreparedStatement:**
-• Better performance for repeated queries
-• Automatic SQL injection prevention
-• Type-safe parameter setting
-• Cleaner, more readable code
+* Better performance for repeated queries
+* Automatic SQL injection prevention
+* Type-safe parameter setting
+* Cleaner, more readable code
 
 ---
 
 ## 4. What is connection pooling?
 
 **Answer:**
-• Connection pooling is a technique to reuse database connections
-• Instead of creating new connections for each request, connections are pooled and reused
-• Improves application performance and reduces database load
-• Manages connection lifecycle automatically
+* Connection pooling is a technique to reuse database connections
+* Instead of creating new connections for each request, connections are pooled and reused
+* Improves application performance and reduces database load
+* Manages connection lifecycle automatically
 
 **Benefits:**
-• Faster response times
-• Reduced database server load
-• Better resource management
-• Controlled concurrent connections
+* Faster response times
+* Reduced database server load
+* Better resource management
+* Controlled concurrent connections
 
 **Example with HikariCP:**
 ```java
@@ -3469,19 +3469,19 @@ conn.close(); // Returns to pool, doesn't actually close
 ```
 
 **Popular Connection Pool Libraries:**
-• HikariCP (fastest)
-• Apache DBCP
-• C3P0
-• Tomcat JDBC Pool
+* HikariCP (fastest)
+* Apache DBCP
+* C3P0
+* Tomcat JDBC Pool
 
 ---
 
 ## 5. What is SQL injection and how to prevent it?
 
 **Answer:**
-• SQL injection is a security vulnerability where malicious SQL code is inserted into application queries
-• Attackers can manipulate SQL queries to access unauthorized data
-• Can lead to data theft, data corruption, or complete database compromise
+* SQL injection is a security vulnerability where malicious SQL code is inserted into application queries
+* Attackers can manipulate SQL queries to access unauthorized data
+* Can lead to data theft, data corruption, or complete database compromise
 
 **How it happens:**
 ```java
@@ -3524,14 +3524,14 @@ String escaped = StringEscapeUtils.escapeSql(userInput);
 ## 6. What is transaction management in JDBC?
 
 **Answer:**
-• Transaction management ensures data consistency and integrity
-• A transaction is a group of SQL operations that either all succeed or all fail
-• Follows ACID properties (Atomicity, Consistency, Isolation, Durability)
+* Transaction management ensures data consistency and integrity
+* A transaction is a group of SQL operations that either all succeed or all fail
+* Follows ACID properties (Atomicity, Consistency, Isolation, Durability)
 
 **Key Concepts:**
-• **Commit:** Save all changes permanently
-• **Rollback:** Undo all changes in the transaction
-• **Auto-commit:** Each SQL statement is automatically committed (default behavior)
+* **Commit:** Save all changes permanently
+* **Rollback:** Undo all changes in the transaction
+* **Auto-commit:** Each SQL statement is automatically committed (default behavior)
 
 **Transaction Control Methods:**
 ```java
@@ -3568,10 +3568,10 @@ try {
 ```
 
 **Transaction Isolation Levels:**
-• **READ_UNCOMMITTED:** Lowest isolation, allows dirty reads
-• **READ_COMMITTED:** Prevents dirty reads
-• **REPEATABLE_READ:** Prevents dirty and non-repeatable reads
-• **SERIALIZABLE:** Highest isolation, prevents all phenomena
+* **READ_UNCOMMITTED:** Lowest isolation, allows dirty reads
+* **READ_COMMITTED:** Prevents dirty reads
+* **REPEATABLE_READ:** Prevents dirty and non-repeatable reads
+* **SERIALIZABLE:** Highest isolation, prevents all phenomena
 
 **Setting Isolation Level:**
 ```java
@@ -3594,10 +3594,10 @@ conn.commit();
 Design patterns are proven solutions to common programming problems that occur repeatedly in software development.
 
 **Key Points:**
-• Reusable templates for solving design problems
-• Best practices documented by experienced developers
-• Not code, but concepts and approaches
-• Help make code more maintainable and flexible
+* Reusable templates for solving design problems
+* Best practices documented by experienced developers
+* Not code, but concepts and approaches
+* Help make code more maintainable and flexible
 
 **Example:**
 Instead of creating objects directly everywhere, use Factory pattern to centralize object creation logic.
@@ -3609,10 +3609,10 @@ Instead of creating objects directly everywhere, use Factory pattern to centrali
 Singleton ensures only one instance of a class exists throughout the application lifecycle.
 
 **Key Points:**
-• Only one object instance allowed
-• Global access point to that instance
-• Lazy or eager initialization options
-• Common use: Database connections, loggers, configuration
+* Only one object instance allowed
+* Global access point to that instance
+* Lazy or eager initialization options
+* Common use: Database connections, loggers, configuration
 
 **Example:**
 ```java
@@ -3637,10 +3637,10 @@ public class DatabaseConnection {
 Thread-safe Singleton prevents multiple threads from creating multiple instances simultaneously.
 
 **Key Points:**
-• Use synchronized methods or blocks
-• Double-checked locking for performance
-• Enum approach is naturally thread-safe
-• Static inner class approach
+* Use synchronized methods or blocks
+* Double-checked locking for performance
+* Enum approach is naturally thread-safe
+* Static inner class approach
 
 **Example:**
 ```java
@@ -3669,10 +3669,10 @@ public class ThreadSafeSingleton {
 Factory pattern creates objects without specifying their exact classes, delegating creation to factory methods.
 
 **Key Points:**
-• Encapsulates object creation logic
-• Returns objects based on input parameters
-• Promotes loose coupling
-• Easy to extend with new types
+* Encapsulates object creation logic
+* Returns objects based on input parameters
+* Promotes loose coupling
+* Easy to extend with new types
 
 **Example:**
 ```java
@@ -3695,10 +3695,10 @@ public class ShapeFactory {
 Observer pattern defines one-to-many dependency where multiple objects get notified when one object changes state.
 
 **Key Points:**
-• Subject maintains list of observers
-• Automatic notification on state changes
-• Loose coupling between subject and observers
-• Common in event handling, MVC architecture
+* Subject maintains list of observers
+* Automatic notification on state changes
+* Loose coupling between subject and observers
+* Common in event handling, MVC architecture
 
 **Example:**
 ```java
@@ -3728,10 +3728,10 @@ public class NewsAgency {
 Strategy pattern defines family of algorithms, encapsulates each one, and makes them interchangeable at runtime.
 
 **Key Points:**
-• Multiple ways to perform same task
-• Algorithm selection at runtime
-• Eliminates conditional statements
-• Easy to add new strategies
+* Multiple ways to perform same task
+* Algorithm selection at runtime
+* Eliminates conditional statements
+* Easy to add new strategies
 
 **Example:**
 ```java
@@ -3757,10 +3757,10 @@ public class PaymentProcessor {
 Adapter pattern allows incompatible interfaces to work together by wrapping existing class with new interface.
 
 **Key Points:**
-• Converts one interface to another
-• Makes incompatible classes compatible
-• Wrapper around existing functionality
-• Common when integrating third-party libraries
+* Converts one interface to another
+* Makes incompatible classes compatible
+* Wrapper around existing functionality
+* Common when integrating third-party libraries
 
 **Example:**
 ```java
@@ -3792,10 +3792,10 @@ class PrinterAdapter implements ModernPrinter {
 Decorator pattern adds new functionality to objects dynamically without altering their structure.
 
 **Key Points:**
-• Extends object behavior at runtime
-• Alternative to subclassing
-• Wraps original object with new features
-• Can stack multiple decorators
+* Extends object behavior at runtime
+* Alternative to subclassing
+* Wraps original object with new features
+* Can stack multiple decorators
 
 **Example:**
 ```java
@@ -4184,11 +4184,11 @@ public class MyService {
 RESTful web services are web APIs that follow REST architectural principles for building distributed systems.
 
 **Key Points:**
-• **Stateless communication** - Each request contains all needed information
-• **Resource-based** - Everything is treated as a resource with unique URLs
-• **Standard HTTP methods** - Uses GET, POST, PUT, DELETE
-• **JSON/XML data exchange** - Lightweight data formats
-• **Platform independent** - Works across different technologies
+* **Stateless communication** - Each request contains all needed information
+* **Resource-based** - Everything is treated as a resource with unique URLs
+* **Standard HTTP methods** - Uses GET, POST, PUT, DELETE
+* **JSON/XML data exchange** - Lightweight data formats
+* **Platform independent** - Works across different technologies
 
 **Example:**
 ```
@@ -4205,12 +4205,12 @@ DELETE /api/users/123     // Delete user 123
 REST has six core architectural principles that guide API design.
 
 **The 6 REST Principles:**
-• **Client-Server** - Separation of concerns between client and server
-• **Stateless** - No client state stored on server between requests
-• **Cacheable** - Responses should be cacheable when possible
-• **Uniform Interface** - Consistent way to interact with resources
-• **Layered System** - Architecture can have multiple layers
-• **Code on Demand** (optional) - Server can send executable code
+* **Client-Server** - Separation of concerns between client and server
+* **Stateless** - No client state stored on server between requests
+* **Cacheable** - Responses should be cacheable when possible
+* **Uniform Interface** - Consistent way to interact with resources
+* **Layered System** - Architecture can have multiple layers
+* **Code on Demand** (optional) - Server can send executable code
 
 **Real Example:**
 ```
@@ -4227,13 +4227,13 @@ Accept: application/json
 HTTP methods define what action to perform on a resource.
 
 **Common HTTP Methods:**
-• **GET** - Retrieve data (read-only, safe)
-• **POST** - Create new resources
-• **PUT** - Update/replace entire resource
-• **PATCH** - Partial update of resource
-• **DELETE** - Remove resource
-• **HEAD** - Get headers only (no body)
-• **OPTIONS** - Get allowed methods
+* **GET** - Retrieve data (read-only, safe)
+* **POST** - Create new resources
+* **PUT** - Update/replace entire resource
+* **PATCH** - Partial update of resource
+* **DELETE** - Remove resource
+* **HEAD** - Get headers only (no body)
+* **OPTIONS** - Get allowed methods
 
 **Practical Examples:**
 ```
@@ -4286,13 +4286,13 @@ Response: 200 OK
 Idempotency means making the same request multiple times produces the same result.
 
 **Idempotent Methods:**
-• **GET** - Always returns same data
-• **PUT** - Same update result every time
-• **DELETE** - Resource stays deleted
-• **HEAD, OPTIONS** - Safe operations
+* **GET** - Always returns same data
+* **PUT** - Same update result every time
+* **DELETE** - Resource stays deleted
+* **HEAD, OPTIONS** - Safe operations
 
 **Non-Idempotent:**
-• **POST** - Creates new resource each time
+* **POST** - Creates new resource each time
 
 **Real Example:**
 ```
@@ -4320,11 +4320,11 @@ POST /api/orders
 HTTP status codes indicate the result of an HTTP request.
 
 **Status Code Categories:**
-• **1xx** - Informational (100 Continue)
-• **2xx** - Success (200 OK, 201 Created)
-• **3xx** - Redirection (301 Moved, 304 Not Modified)
-• **4xx** - Client Error (400 Bad Request, 404 Not Found)
-• **5xx** - Server Error (500 Internal Error, 503 Unavailable)
+* **1xx** - Informational (100 Continue)
+* **2xx** - Success (200 OK, 201 Created)
+* **3xx** - Redirection (301 Moved, 304 Not Modified)
+* **4xx** - Client Error (400 Bad Request, 404 Not Found)
+* **5xx** - Server Error (500 Internal Error, 503 Unavailable)
 
 **Common REST API Status Codes:**
 ```
@@ -4366,17 +4366,17 @@ Response: 204 No Content
 ## Quick Interview Tips
 
 **Remember:**
-• REST is about **resources**, not actions
-• Use **nouns** in URLs, not verbs (`/users` not `/getUsers`)
-• HTTP methods define the **action**
-• Status codes communicate **results**
-• Keep APIs **stateless** and **predictable**
+* REST is about **resources**, not actions
+* Use **nouns** in URLs, not verbs (`/users` not `/getUsers`)
+* HTTP methods define the **action**
+* Status codes communicate **results**
+* Keep APIs **stateless** and **predictable**
 
 **Common Mistakes to Avoid:**
-• Using GET for data modification
-• Ignoring proper status codes
-• Making APIs stateful
-• Poor resource naming conventions
+* Using GET for data modification
+* Ignoring proper status codes
+* Making APIs stateful
+* Poor resource naming conventions
 
 
 # Microservices Interview Questions & Answers
@@ -4386,28 +4386,28 @@ Response: 204 No Content
 Microservices are a software architecture pattern where applications are built as a collection of small, independent services that communicate over well-defined APIs.
 
 **Key Points:**
-• Each service handles a specific business function
-• Services run in their own processes
-• They communicate via HTTP/REST, messaging, or gRPC
-• Each service can be developed, deployed, and scaled independently
+* Each service handles a specific business function
+* Services run in their own processes
+* They communicate via HTTP/REST, messaging, or gRPC
+* Each service can be developed, deployed, and scaled independently
 
 **Example:**
 Instead of one large e-commerce application, you'd have:
-• User Service (handles authentication)
-• Product Service (manages catalog)
-• Order Service (processes orders)
-• Payment Service (handles transactions)
+* User Service (handles authentication)
+* Product Service (manages catalog)
+* Order Service (processes orders)
+* Payment Service (handles transactions)
 
 ---
 
 ## 2. What are the advantages of microservices?
 
 **Key Benefits:**
-• **Independent Development** - Teams can work on different services simultaneously
-• **Technology Flexibility** - Each service can use different programming languages/databases
-• **Scalability** - Scale only the services that need it
-• **Fault Isolation** - If one service fails, others continue working
-• **Faster Deployment** - Deploy individual services without affecting the entire system
+* **Independent Development** - Teams can work on different services simultaneously
+* **Technology Flexibility** - Each service can use different programming languages/databases
+* **Scalability** - Scale only the services that need it
+* **Fault Isolation** - If one service fails, others continue working
+* **Faster Deployment** - Deploy individual services without affecting the entire system
 
 **Real Example:**
 Netflix can update their recommendation service without touching their video streaming service. If recommendations go down, users can still watch movies.
@@ -4417,15 +4417,15 @@ Netflix can update their recommendation service without touching their video str
 ## 3. What are the challenges of microservices?
 
 **Main Challenges:**
-• **Complexity** - Managing multiple services is harder than one application
-• **Network Latency** - Services communicate over network, adding delays
-• **Data Consistency** - Maintaining consistency across distributed databases
-• **Testing** - Integration testing becomes more complex
-• **Monitoring** - Need to track multiple services and their interactions
+* **Complexity** - Managing multiple services is harder than one application
+* **Network Latency** - Services communicate over network, adding delays
+* **Data Consistency** - Maintaining consistency across distributed databases
+* **Testing** - Integration testing becomes more complex
+* **Monitoring** - Need to track multiple services and their interactions
 
 **Example:**
 A simple user registration might involve:
-• User Service → Email Service → Notification Service
+* User Service → Email Service → Notification Service
 If any service fails, you need proper error handling and rollback mechanisms.
 
 ---
@@ -4435,15 +4435,15 @@ If any service fails, you need proper error handling and rollback mechanisms.
 Service discovery is the mechanism that allows services to find and communicate with each other without hardcoding network locations.
 
 **How it Works:**
-• Services register themselves with a discovery server
-• Other services query the discovery server to find available services
-• Handles dynamic IP addresses and port changes
+* Services register themselves with a discovery server
+* Other services query the discovery server to find available services
+* Handles dynamic IP addresses and port changes
 
 **Popular Tools:**
-• Consul
-• Eureka (Netflix)
-• etcd
-• Kubernetes built-in service discovery
+* Consul
+* Eureka (Netflix)
+* etcd
+* Kubernetes built-in service discovery
 
 **Example:**
 ```
@@ -4460,17 +4460,17 @@ Order Service needs Payment Service
 An API Gateway is a single entry point that sits between clients and microservices, routing requests to appropriate services.
 
 **Key Functions:**
-• **Request Routing** - Directs requests to correct microservice
-• **Authentication** - Handles user authentication centrally
-• **Rate Limiting** - Controls request frequency
-• **Load Balancing** - Distributes traffic across service instances
-• **Response Aggregation** - Combines responses from multiple services
+* **Request Routing** - Directs requests to correct microservice
+* **Authentication** - Handles user authentication centrally
+* **Rate Limiting** - Controls request frequency
+* **Load Balancing** - Distributes traffic across service instances
+* **Response Aggregation** - Combines responses from multiple services
 
 **Popular Solutions:**
-• AWS API Gateway
-• Kong
-• Zuul (Netflix)
-• Nginx Plus
+* AWS API Gateway
+* Kong
+* Zuul (Netflix)
+* Nginx Plus
 
 **Example:**
 ```
@@ -4486,15 +4486,15 @@ Mobile App → API Gateway → User Service (for profile)
 Circuit breaker is a design pattern that prevents cascading failures by monitoring service calls and "opening the circuit" when failures exceed a threshold.
 
 **Three States:**
-• **Closed** - Normal operation, requests pass through
-• **Open** - Service is failing, requests are blocked immediately
-• **Half-Open** - Testing if service has recovered
+* **Closed** - Normal operation, requests pass through
+* **Open** - Service is failing, requests are blocked immediately
+* **Half-Open** - Testing if service has recovered
 
 **Benefits:**
-• Prevents system overload during failures
-• Provides fast failure responses
-• Allows failing services time to recover
-• Improves overall system resilience
+* Prevents system overload during failures
+* Provides fast failure responses
+* Allows failing services time to recover
+* Improves overall system resilience
 
 **Example Implementation:**
 ```
@@ -4522,12 +4522,12 @@ If Payment Service is down, instead of waiting 30 seconds for timeout, circuit b
 ## 1. How do you identify performance bottlenecks?
 
 **Answer:**
-• Use profiling tools like JProfiler, VisualVM, or Java Flight Recorder
-• Monitor application metrics - CPU usage, memory consumption, response times
-• Analyze logs for slow queries or operations
-• Use APM tools like New Relic or AppDynamics
-• Check database query performance with EXPLAIN plans
-• Monitor thread dumps for blocked threads
+* Use profiling tools like JProfiler, VisualVM, or Java Flight Recorder
+* Monitor application metrics - CPU usage, memory consumption, response times
+* Analyze logs for slow queries or operations
+* Use APM tools like New Relic or AppDynamics
+* Check database query performance with EXPLAIN plans
+* Monitor thread dumps for blocked threads
 
 **Example:**
 ```bash
@@ -4541,13 +4541,13 @@ java -XX:+FlightRecorder -XX:StartFlightRecording=duration=60s,filename=app.jfr 
 ## 2. What are common performance issues in Java applications?
 
 **Answer:**
-• Memory leaks - objects not being garbage collected
-• Inefficient database queries - N+1 problems, missing indexes
-• Synchronization bottlenecks - excessive locking
-• Poor caching strategies
-• Large object creation in loops
-• Inefficient collections usage
-• Blocking I/O operations
+* Memory leaks - objects not being garbage collected
+* Inefficient database queries - N+1 problems, missing indexes
+* Synchronization bottlenecks - excessive locking
+* Poor caching strategies
+* Large object creation in loops
+* Inefficient collections usage
+* Blocking I/O operations
 
 **Example:**
 ```java
@@ -4566,11 +4566,11 @@ for (int i = 0; i < 1000; i++) {
 ## 3. What is connection pooling and why is it important?
 
 **Answer:**
-• Reuses database connections instead of creating new ones
-• Reduces connection overhead and improves performance
-• Limits concurrent connections to database
-• Prevents connection exhaustion
-• Common pools: HikariCP, Apache DBCP, C3P0
+* Reuses database connections instead of creating new ones
+* Reduces connection overhead and improves performance
+* Limits concurrent connections to database
+* Prevents connection exhaustion
+* Common pools: HikariCP, Apache DBCP, C3P0
 
 **Example:**
 ```java
@@ -4586,17 +4586,17 @@ HikariDataSource dataSource = new HikariDataSource(config);
 ## 4. What is caching and when should you use it?
 
 **Answer:**
-• Stores frequently accessed data in memory for faster retrieval
-• Use when data is read frequently but changes infrequently
-• Types: In-memory (Redis, Memcached), Application-level (@Cacheable)
-• Consider cache invalidation strategies
-• Monitor cache hit ratios
+* Stores frequently accessed data in memory for faster retrieval
+* Use when data is read frequently but changes infrequently
+* Types: In-memory (Redis, Memcached), Application-level (@Cacheable)
+* Consider cache invalidation strategies
+* Monitor cache hit ratios
 
 **When to use:**
-• Database query results
-• API responses
-• Computed values
-• Static content
+* Database query results
+* API responses
+* Computed values
+* Static content
 
 **Example:**
 ```java
@@ -4614,11 +4614,11 @@ public void updateUser(User user) {
 ## 5. What are important JVM parameters?
 
 **Answer:**
-• **Heap Size:** -Xms (initial), -Xmx (maximum)
-• **Garbage Collection:** -XX:+UseG1GC, -XX:+UseZGC
-• **Memory:** -XX:NewRatio, -XX:MaxMetaspaceSize
-• **Monitoring:** -XX:+PrintGCDetails, -XX:+HeapDumpOnOutOfMemoryError
-• **Performance:** -server, -XX:+TieredCompilation
+* **Heap Size:** -Xms (initial), -Xmx (maximum)
+* **Garbage Collection:** -XX:+UseG1GC, -XX:+UseZGC
+* **Memory:** -XX:NewRatio, -XX:MaxMetaspaceSize
+* **Monitoring:** -XX:+PrintGCDetails, -XX:+HeapDumpOnOutOfMemoryError
+* **Performance:** -server, -XX:+TieredCompilation
 
 **Example:**
 ```bash
@@ -4628,16 +4628,16 @@ java -Xms2g -Xmx4g -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -jar myapp.jar
 ## 6. How do you tune heap size?
 
 **Answer:**
-• Start with -Xms = -Xmx for consistent performance
-• Monitor heap usage with profiling tools
-• Set heap to 70-80% of available RAM
-• Consider young/old generation ratios
-• Adjust based on GC logs and application behavior
+* Start with -Xms = -Xmx for consistent performance
+* Monitor heap usage with profiling tools
+* Set heap to 70-80% of available RAM
+* Consider young/old generation ratios
+* Adjust based on GC logs and application behavior
 
 **Guidelines:**
-• Small apps: 512MB - 2GB
-• Medium apps: 2GB - 8GB  
-• Large apps: 8GB+
+* Small apps: 512MB - 2GB
+* Medium apps: 2GB - 8GB  
+* Large apps: 8GB+
 
 **Example:**
 ```bash
@@ -4651,10 +4651,10 @@ jstat -gc -t <pid> 5s
 ## 7. What is the difference between -Xms and -Xmx?
 
 **Answer:**
-• **-Xms:** Initial heap size allocated at JVM startup
-• **-Xmx:** Maximum heap size JVM can grow to
-• Setting them equal avoids dynamic heap resizing overhead
-• JVM will expand heap from Xms to Xmx as needed
+* **-Xms:** Initial heap size allocated at JVM startup
+* **-Xmx:** Maximum heap size JVM can grow to
+* Setting them equal avoids dynamic heap resizing overhead
+* JVM will expand heap from Xms to Xmx as needed
 
 **Example:**
 ```bash
@@ -4668,11 +4668,11 @@ java -Xms2g -Xmx2g MyApp
 ## 8. How do you analyze heap dumps?
 
 **Answer:**
-• Use tools like Eclipse MAT, VisualVM, or JProfiler
-• Look for memory leaks - objects with high retained size
-• Analyze object references and GC roots
-• Check for duplicate strings and large arrays
-• Identify classes consuming most memory
+* Use tools like Eclipse MAT, VisualVM, or JProfiler
+* Look for memory leaks - objects with high retained size
+* Analyze object references and GC roots
+* Check for duplicate strings and large arrays
+* Identify classes consuming most memory
 
 **Steps:**
 1. Generate heap dump: `jcmd <pid> GC.run_finalization`
@@ -4695,18 +4695,18 @@ jmap -dump:format=b,file=heap.hprof 12345
 ## 9. What is JIT compilation?
 
 **Answer:**
-• Just-In-Time compilation converts bytecode to native machine code
-• Happens at runtime for frequently executed code (hot spots)
-• Improves performance through optimizations
-• C1 (client) compiler for fast startup
-• C2 (server) compiler for maximum performance
-• Tiered compilation uses both
+* Just-In-Time compilation converts bytecode to native machine code
+* Happens at runtime for frequently executed code (hot spots)
+* Improves performance through optimizations
+* C1 (client) compiler for fast startup
+* C2 (server) compiler for maximum performance
+* Tiered compilation uses both
 
 **Benefits:**
-• Method inlining
-• Dead code elimination  
-• Loop optimization
-• Branch prediction
+* Method inlining
+* Dead code elimination  
+* Loop optimization
+* Branch prediction
 
 **Example:**
 ```bash
@@ -4720,14 +4720,14 @@ java -XX:+TieredCompilation MyApp
 ---
 
 ## Key Performance Tips:
-• Profile before optimizing
-• Use appropriate data structures
-• Minimize object creation
-• Implement proper caching
-• Optimize database queries
-• Monitor GC behavior
-• Use connection pooling
-• Enable JIT optimizations
+* Profile before optimizing
+* Use appropriate data structures
+* Minimize object creation
+* Implement proper caching
+* Optimize database queries
+* Monitor GC behavior
+* Use connection pooling
+* Enable JIT optimizations
 
 # Modern Java Features - Interview Questions & Answers
 
@@ -4735,37 +4735,37 @@ java -XX:+TieredCompilation MyApp
 
 Java 8 was a game-changer with several revolutionary features:
 
-• **Lambda Expressions** - Functional programming support
+* **Lambda Expressions** - Functional programming support
   ```java
   List<String> names = Arrays.asList("John", "Jane", "Bob");
   names.forEach(name -> System.out.println(name));
   ```
 
-• **Stream API** - Powerful data processing
+* **Stream API** - Powerful data processing
   ```java
   List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
   int sum = numbers.stream().filter(n -> n > 2).mapToInt(Integer::intValue).sum();
   ```
 
-• **Method References** - Cleaner syntax
+* **Method References** - Cleaner syntax
   ```java
   names.forEach(System.out::println);
   ```
 
-• **Optional Class** - Null pointer safety
+* **Optional Class** - Null pointer safety
   ```java
   Optional<String> optional = Optional.ofNullable(getName());
   optional.ifPresent(System.out::println);
   ```
 
-• **Default Methods in Interfaces** - Interface evolution
+* **Default Methods in Interfaces** - Interface evolution
   ```java
   interface Vehicle {
       default void start() { System.out.println("Starting..."); }
   }
   ```
 
-• **New Date/Time API** - Better date handling
+* **New Date/Time API** - Better date handling
   ```java
   LocalDateTime now = LocalDateTime.now();
   LocalDate date = LocalDate.of(2024, 1, 15);
@@ -4777,13 +4777,13 @@ Java 8 was a game-changer with several revolutionary features:
 
 Java 11 is an LTS version with practical improvements:
 
-• **Local Variable Type Inference (var)** - Enhanced from Java 10
+* **Local Variable Type Inference (var)** - Enhanced from Java 10
   ```java
   var list = List.of("apple", "banana");
   var map = Map.of("key1", "value1");
   ```
 
-• **HTTP Client API** - Built-in HTTP support
+* **HTTP Client API** - Built-in HTTP support
   ```java
   HttpClient client = HttpClient.newHttpClient();
   HttpRequest request = HttpRequest.newBuilder()
@@ -4791,7 +4791,7 @@ Java 11 is an LTS version with practical improvements:
       .build();
   ```
 
-• **String Methods** - New utility methods
+* **String Methods** - New utility methods
   ```java
   String text = "  Hello World  ";
   text.isBlank();     // false
@@ -4799,20 +4799,20 @@ Java 11 is an LTS version with practical improvements:
   "A".repeat(3);      // "AAA"
   ```
 
-• **Files Methods** - Easy file operations
+* **Files Methods** - Easy file operations
   ```java
   String content = Files.readString(Path.of("file.txt"));
   Files.writeString(Path.of("output.txt"), "Hello");
   ```
 
-• **Collection.toArray()** - Enhanced method
+* **Collection.toArray()** - Enhanced method
   ```java
   List<String> list = List.of("a", "b", "c");
   String[] array = list.toArray(String[]::new);
   ```
 
-• **Nest-Based Access Control** - Better inner class access
-• **Dynamic Class-File Constants** - Performance improvements
+* **Nest-Based Access Control** - Better inner class access
+* **Dynamic Class-File Constants** - Performance improvements
 
 ---
 
@@ -4820,7 +4820,7 @@ Java 11 is an LTS version with practical improvements:
 
 Java 17 is the latest LTS with modern language features:
 
-• **Sealed Classes** - Controlled inheritance
+* **Sealed Classes** - Controlled inheritance
   ```java
   public sealed class Shape permits Circle, Rectangle, Triangle {
       // Base class
@@ -4831,14 +4831,14 @@ Java 17 is the latest LTS with modern language features:
   }
   ```
 
-• **Pattern Matching for instanceof** - Cleaner type checking
+* **Pattern Matching for instanceof** - Cleaner type checking
   ```java
   if (obj instanceof String str) {
       System.out.println(str.toUpperCase());
   }
   ```
 
-• **Records** - Immutable data classes
+* **Records** - Immutable data classes
   ```java
   public record Person(String name, int age) {}
   
@@ -4846,7 +4846,7 @@ Java 17 is the latest LTS with modern language features:
   System.out.println(person.name()); // John
   ```
 
-• **Text Blocks** - Multi-line strings
+* **Text Blocks** - Multi-line strings
   ```java
   String json = """
       {
@@ -4856,7 +4856,7 @@ Java 17 is the latest LTS with modern language features:
       """;
   ```
 
-• **Switch Expressions** - Enhanced switch
+* **Switch Expressions** - Enhanced switch
   ```java
   String result = switch (day) {
       case MONDAY, FRIDAY -> "Work day";
@@ -4865,8 +4865,8 @@ Java 17 is the latest LTS with modern language features:
   };
   ```
 
-• **Helpful NullPointerExceptions** - Better error messages
-• **Strong Encapsulation of JDK Internals** - Security improvements
+* **Helpful NullPointerExceptions** - Better error messages
+* **Strong Encapsulation of JDK Internals** - Security improvements
 
 ---
 
@@ -4874,34 +4874,34 @@ Java 17 is the latest LTS with modern language features:
 
 Java follows a predictable 6-month release cycle since Java 9:
 
-• **Release Schedule**
+* **Release Schedule**
   - New version every 6 months (March & September)
   - Predictable and time-based releases
   - Feature-driven to time-driven approach
 
-• **LTS (Long Term Support) Versions**
+* **LTS (Long Term Support) Versions**
   - Every 3 years (every 6th release)
   - Extended support and updates
   - Recommended for production use
 
-• **LTS Timeline**
+* **LTS Timeline**
   - **Java 8** (March 2014) - First modern LTS
   - **Java 11** (September 2018) - Current popular LTS
   - **Java 17** (September 2021) - Latest LTS
   - **Java 21** (September 2023) - Next LTS
 
-• **Non-LTS Versions**
+* **Non-LTS Versions**
   - Java 9, 10, 12, 13, 14, 15, 16, 18, 19, 20
   - 6 months of support only
   - Good for experimenting with new features
 
-• **Support Duration**
+* **Support Duration**
   - **LTS versions**: 8+ years of support
   - **Non-LTS versions**: 6 months only
   - Oracle provides commercial support
   - OpenJDK provides free updates
 
-• **Migration Strategy**
+* **Migration Strategy**
   - Most enterprises stick to LTS versions
   - Upgrade path: Java 8 → Java 11 → Java 17 → Java 21
   - Test new features in non-LTS versions
