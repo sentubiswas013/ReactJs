@@ -375,7 +375,7 @@ public class Main01 {
 
     // 46. Implement Binary Search
     // Binary search method
-    public static int binarySearch(int[] arr, int target) {
+    public static void binarySearch() {
         
     }
   
