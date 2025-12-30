@@ -8,10 +8,10 @@ import java.io.IOException;
 
 public class Test01 {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        // System.out.println("Hello, World!");
 
 
-        ReverseString();
+        // ReverseString();
         // ReverseStringNoReverse();
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
@@ -21,7 +21,7 @@ public class Test01 {
         // Palindrome();
         // FibonacciSeries();
         // IterateArrayList();
-        // DuplicateCharacters();
+        DuplicateCharacters();
         // findDuplicateNums();
         // SecondHighestNumber();
         // ArmstrongNumber();
@@ -102,58 +102,152 @@ public class Test01 {
 
     // 2. Reverse a String without using String inbuilt function reverse()
     public static void ReverseStringNoReverse() {
+        String name = "Hello World";
+        char[] charArr = name.toCharArray();
+        ArrayList<Character> result = new ArrayList<>();
         
+        String reversed = "";
+        for(int i = charArr.length-1; i >= 0; i--) {
+            System.out.println("reversed ---" +charArr[i]);
+            reversed += charArr[i];
+            result.add(charArr[i]);
+        }     
+        System.out.println("reversed ---" +reversed);
+        System.out.println("result -----" +result);
     }
 
 
     // 3. Swap Two Numbers Using the Third Variable
     public static void SwapWithThirdVariable() {
+        int a = 10;
+        int b = 20;
+        int c;
         
+        c = a;
+        a = b;
+        b = c;
+        System.out.println("result -----" + a +"---"+ b);       
     }
 
 
     // 4. Swap Two Numbers Without Using the Third Variable
     public static void SwapWithoutThirdVariable() {
+        int a = 10;
+        int b = 20;
         
+        a = a + b;
+        b = a - b;
+        a = a - b;
+        System.out.println("result -----" + a +"---"+ b);
     }
 
 
     // 5. Count the Number of Words in a String Using HashMap
     public static void CountWordsUsingHashMap() {
+        String str = "This is a test string and this is a test";
+        // String[] words = str.split("");
+        String[] words = str.split("\\s+");
+        HashMap<String, Integer> wordCount = new HashMap<>();
         
+        for(String word: words) {
+            word = word.toLowerCase();  // Optional: Convert to lowercase for case-insensitive count
+            // System.out.println(word.length());   
+            wordCount.put(word, word.length());
+            
+        }
+        System.out.println(wordCount);
     }
 
 
 
     // 6. Iterate HashMap using While and Advanced For Loop
     public static void IterateHashMap() {
+        HashMap<Integer, String> cars = new HashMap<>();
+        cars.put(1, "Tata");
+        cars.put(2, "Mahindra");
+        cars.put(3, "Bajaj");
+        cars.put(4, "Ola");
         
+        for (Map.Entry<Integer, String> entry : cars.entrySet()) {
+            System.out.println("Car " + entry.getKey() +" : "+entry.getValue());
+        }
     }
 
 
 
     // 7. Find Whether a Number is Prime or Not
     public static void PrimeNumber() {
+        int number = 10;
+        boolean isPrime = true;
         
+        System.out.println("Hello " + Math.sqrt(number));
+        for(int i = 3; i <= Math.sqrt(number); i++) {
+            if(number % i == 0) {
+                isPrime = false;
+                break;
+            }            
+        }
+        
+        if (isPrime) {
+            System.out.println(number + " is a Prime number");
+        } else {
+            System.out.println(number + " is NOT a Prime number");
+        }
     }
 
 
 
     // 8. Find Whether a String or Number is Palindrome or Not
     public static void Palindrome() {
+        String str = "madam";
+        boolean isPalindrome = true;
         
+        for(int i = 0; i <= str.length() / 2; i++ ) {
+            System.out.println("Hello :" + i);
+            if(str.charAt(i) != str.charAt(str.length()-1-i)) {
+                isPalindrome = false;
+                break;
+            }
+        }
+        if (isPalindrome) { 
+            System.out.println(str + " is a palindrome.");
+        } else {
+            System.out.println(str + " is not a palindrome.");
+        }
     }
 
 
     // 9. Fibonacci Series
     public static void FibonacciSeries() {
+        int num  = 10;
+        int a = 0, b = 1;
+        
+        System.out.println("Fibonacci Series :");       
+        for(int i = 0; i< num; i++) {
+            System.out.print(a + ", ");
+            int nextTerm = a + b;
+            a = b;
+            b = nextTerm;           
+        }
         
     }
 
 
     // 10. Iterate ArrayList Using For-loop, While-loop, and Advanced For-loop
     public static void IterateArrayList() {
+        ArrayList<String> cars = new ArrayList<>();
+        cars.add("Tata");
+        cars.add("Mahindra");
+        cars.add("Bajaj");
+        cars.add("Ola");
         
+        for(int i=0; i<cars.size(); i++) {
+            System.out.println("Hello :" +i+ " : " + cars.get(i));
+        }       
+        
+        for(String row: cars) {
+            System.out.println(row + ", ");
+        }
     }
 
 
