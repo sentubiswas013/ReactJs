@@ -29,7 +29,8 @@ public class Main01 {
         // RemoveWhiteSpacesWithoutReplace();
         // Factorial();
         // EvenOdd();
-        // SumOfDigits();
+        // SumOfDigitsOne();
+        // SumOfDigitsTwo();
         // MultiplicationTable();
         // LargestElement();
         // SmallestElement();
@@ -454,7 +455,21 @@ public class Main01 {
 
 
     // 18. Find the Sum of Digits of a Number
-    public static void SumOfDigits() {
+    public static void SumOfDigitsOne() {
+        int number = 1234;  // Example number
+        int sum = 0;
+
+        // Loop to find the sum of digits
+        while (number != 0) {
+            sum += number % 10;  // Add last digit
+            number /= 10;         // Remove last digit
+        }
+
+        System.out.println("Sum of digits: " + sum);
+    }
+
+    // 18. Find the Sum of Digits of a Number
+    public static void SumOfDigitsTwo() {
         int number = 1234;  // Example number
         int sum = 0;
 

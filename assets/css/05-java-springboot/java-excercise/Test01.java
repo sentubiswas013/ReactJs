@@ -21,15 +21,17 @@ public class Test01 {
         // Palindrome();
         // FibonacciSeries();
         // IterateArrayList();
-        DuplicateCharacters();
+        // DuplicateCharacters();
         // findDuplicateNums();
-        // SecondHighestNumber();
+        // SecondHighestNumberOne();
+        // SecondHighestNumberTwo();
         // ArmstrongNumber();
         // RemoveWhiteSpacesWithReplace();
         // RemoveWhiteSpacesWithoutReplace();
         // Factorial();
         // EvenOdd();
-        // SumOfDigits();
+        // SumOfDigitsOne();
+        // SumOfDigitsTwo();
         // MultiplicationTable();
         // LargestElement();
         // SmallestElement();
@@ -241,6 +243,7 @@ public class Test01 {
         cars.add("Bajaj");
         cars.add("Ola");
         
+        System.out.println("cars --" + cars);
         for(int i=0; i<cars.size(); i++) {
             System.out.println("Hello :" +i+ " : " + cars.get(i));
         }       
@@ -254,22 +257,59 @@ public class Test01 {
 
     // 11. Find the Duplicate Characters in a String
     public static void DuplicateCharacters() {
+        String str = "programming";
+        char[] tempArr = str.toCharArray();
+        String duplicate = "";
         
+
+        for(int i = 0; i < tempArr.length; i++) {
+            // System.out.println("Hello " + tempArr[i]);
+            for(int j = i+1; j < tempArr.length; j++) {
+                // System.out.println("Hello = " + tempArr[i] +"-"+ tempArr[j]);
+                if(tempArr[i] == tempArr[j]) {
+                 // System.out.print(tempArr[i]);
+                 duplicate += tempArr[i];
+                 break;
+                }
+            }
+        }
+        
+        System.out.println("duplicate---" + duplicate);
     }
 
 
 
     // 11. Find the Duplicate Characters in a Numbers
     public static void findDuplicateNums() {
+        int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
         
+        for(int i = 0; i<nums.length; i++) {
+            for(int j = i+1; j<nums.length; j++) {              
+                 if (nums[i] == nums[j]) {
+                    System.out.print(nums[i] + " ");
+                    break;
+                }
+            }
+        }
     }
 
     // 12. Find the Second-Highest Number in an Array
-    public static void SecondHighestNumber() {
-        
+    public static void SecondHighestNumberOne() {
+        int[] arr = {10, 5, 20, 40, 70, 15, 30};
+        Arrays.sort(arr);
+        for(int i = arr.length -1; i >= 0; i--) {
+            if(arr[i] != arr[arr.length-1]) {
+                System.out.println("--" + arr[i]);
+                break;
+            }
+            
+        }
     }
 
-
+    // 12. Find the Second-Highest Number in an Array
+    public static void SecondHighestNumberTwo() {
+        
+    }
 
     // 13. Check Armstrong Number
     public static void ArmstrongNumber() {
@@ -279,31 +319,76 @@ public class Test01 {
 
     // 14. Remove All White Spaces from a String Using `replace()`
     public static void RemoveWhiteSpacesWithReplace() {
-        
+         String str = "   Hello World!   ";
+         String result = str.replace("\\S+", "");
+         System.out.println("replace---" + result);
     }
 
 
     // 15. Remove All White Spaces from a String Without Using `replace()`
     public static void RemoveWhiteSpacesWithoutReplace() {
+        String str = "   Hello World!   ";
+        StringBuilder result = new StringBuilder();
+        String strResult = "";
         
+        for(int i=0; i<str.length(); i++) {
+            if(str.charAt(i) != ' ') {
+                strResult += str.charAt(i);
+                result.append(str.charAt(i));
+                // System.out.println("Result---" + str.charAt(i));
+            }
+        }
+        System.out.println("Result---1" + strResult);
+        System.out.println("Result---2" + strResult);
     }
 
 
     // 16. Find the Factorial of a Number
     public static void Factorial() {
+        int number = 3;
+        long factorial = 1;
         
+        for(int i=1; i<= number; i++) {
+            // System.out.println("Result---: " + i);
+            factorial *= i;
+            System.out.println("Factorial of " + number + " is: " + factorial);
+        }
+        // System.out.println("Factorial of " + number + " is: " + factorial);
     }
 
 
     // 17. Check if a Number is Even or Odd
     public static void EvenOdd() {
+        int number = 8;  // Example number
         
+        if(number % 2 == 0) {
+             System.out.println(number + " is an even number.");
+        } else {
+            System.out.println(number + " is an odd number.");
+        }
     }
 
 
     // 18. Find the Sum of Digits of a Number
-    public static void SumOfDigits() {
-        
+    public static void SumOfDigitsOne() {
+
+
+    }
+
+    // 18. Find the Sum of Digits of a Number
+    public static void SumOfDigitsTwo() {
+        int number = 1230;
+        int sum = 0;
+
+        String numStr = String.valueOf(number);
+        String numArr = String.valueOf(number);
+        System.out.println("numStr---" + numStr);
+
+        for (int i = 0; i < numArr.length(); i++) {
+            sum += Character.getNumaricValue(numArr.charAt(i));
+        }
+
+        System.out.println("Result --- " + sum);
     }
 
 
