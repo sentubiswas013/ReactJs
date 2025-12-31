@@ -381,8 +381,6 @@ public class Test01 {
         int sum = 0;
 
         String numStr = String.valueOf(number);
-        String numArr = String.valueOf(number);
-        System.out.println("numStr---" + numStr);
 
         for (int i = 0; i < numArr.length(); i++) {
             sum += Character.getNumaricValue(numArr.charAt(i));

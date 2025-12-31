@@ -470,16 +470,16 @@ public class Main01 {
 
     // 18. Find the Sum of Digits of a Number
     public static void SumOfDigitsTwo() {
-        int number = 1234;  // Example number
+        int number = 1230;
         int sum = 0;
 
-        // Loop to find the sum of digits
-        while (number != 0) {
-            sum += number % 10;  // Add last digit
-            number /= 10;         // Remove last digit
+        String numStr = String.valueOf(number);
+
+        for (int i = 0; i < numArr.length(); i++) {
+            sum += Character.getNumaricValue(numArr.charAt(i));
         }
 
-        System.out.println("Sum of digits: " + sum);
+        System.out.println("Result --- " + sum);
     }
 
 
