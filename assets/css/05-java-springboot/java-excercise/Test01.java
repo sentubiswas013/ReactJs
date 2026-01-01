@@ -31,7 +31,7 @@ public class Test01 {
         // Factorial();
         // EvenOdd();
         // SumOfDigitsOne();
-        // SumOfDigitsTwo();
+        SumOfDigitsTwo();
         // MultiplicationTable();
         // LargestElement();
         // SmallestElement();
@@ -371,7 +371,10 @@ public class Test01 {
 
     // 18. Find the Sum of Digits of a Number
     public static void SumOfDigitsOne() {
+        int number = 1234;  // Example number
+        int sum = 0;
 
+        
 
     }
 
@@ -382,8 +385,8 @@ public class Test01 {
 
         String numStr = String.valueOf(number);
 
-        for (int i = 0; i < numArr.length(); i++) {
-            sum += Character.getNumaricValue(numArr.charAt(i));
+        for (int i = 0; i < 30; i++) {
+            sum += i;
         }
 
         System.out.println("Result --- " + sum);

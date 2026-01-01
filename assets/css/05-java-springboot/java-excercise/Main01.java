@@ -218,7 +218,6 @@ public class Main01 {
         
     }
 
-
     // 19. Print the Multiplication Table of a Number
     public static void MultiplicationTable() {
         

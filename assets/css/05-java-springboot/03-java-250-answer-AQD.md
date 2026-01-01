@@ -4398,6 +4398,18 @@ Instead of one large e-commerce application, you'd have:
 * Order Service (processes orders)
 * Payment Service (handles transactions)
 
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderService {
+
+    @GetMapping("/{id}")
+    public String getOrder(@PathVariable int id) {
+        return "Order " + id;
+    }
+}
+```
+
 ---
 
 ## 2. What are the advantages of microservices?
