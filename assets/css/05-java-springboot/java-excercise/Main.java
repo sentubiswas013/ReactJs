@@ -599,17 +599,13 @@ public class Main01 {
 
     // 25. Reverse an Integer Number
     public static void ReverseInteger() {
-        int number = 12345;  // Example number
-        int reversed = 0;
+        int number = 12345;
 
-        // Reverse the integer
-        while (number != 0) {
-            int digit = number % 10;  // Extract the last digit
-            reversed = reversed * 10 + digit;  // Append the digit to the reversed number
-            number /= 10;  // Remove the last digit
+        char[] charArray = String.valueOf(number).toCharArray();
+
+        for (int i = charArray.length - 1; i >= 0; i--) {
+            System.out.print(charArray[i]);
         }
-
-        System.out.println("Reversed number: " + reversed);
     }
 
 

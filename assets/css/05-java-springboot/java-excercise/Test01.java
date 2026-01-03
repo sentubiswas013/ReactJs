@@ -30,15 +30,14 @@ public class Test01 {
         // RemoveWhiteSpacesWithoutReplace();
         // Factorial();
         // EvenOdd();
-        // SumOfDigitsOne();
-        SumOfDigitsTwo();
+        // SumOfDigits();
         // MultiplicationTable();
         // LargestElement();
         // SmallestElement();
         // VowelConsonantCount();
         // AnagramCheck();
         // PrimeNumbers();
-        // ReverseInteger();
+        ReverseInteger();
         // StringToInteger();
         // StarTriangle();
         // SumOfNaturalNumbers();
@@ -370,23 +369,14 @@ public class Test01 {
 
 
     // 18. Find the Sum of Digits of a Number
-    public static void SumOfDigitsOne() {
-        int number = 1234;  // Example number
-        int sum = 0;
-
-        
-
-    }
-
-    // 18. Find the Sum of Digits of a Number
-    public static void SumOfDigitsTwo() {
+    public static void SumOfDigits() {
         int number = 1230;
         int sum = 0;
 
         String numStr = String.valueOf(number);
 
-        for (int i = 0; i < 30; i++) {
-            sum += i;
+        for (int i = 0; i < numStr.length(); i++) {
+            sum += Character.getNumericValue(numStr.charAt(i));
         }
 
         System.out.println("Result --- " + sum);
@@ -395,43 +385,122 @@ public class Test01 {
 
     // 19. Print the Multiplication Table of a Number
     public static void MultiplicationTable() {
+        int number = 5;  // Example number
+        int limit = 10;   // Table limit (multiplying by numbers 1 to 10)
         
+        for (int i = 1; i<=limit; i++) {
+            System.out.println(number + " x " + i + " = " + (number * i));
+        }
     }
 
 
     // 20. Find the Largest Element in an Array
     public static void LargestElement() {
+        int[] arr = {10, 20, 5, 30, 15};
+        int largest = arr[0];
         
+        for(int i=0; i<arr.length; i ++) {
+            if( largest < arr[i]) {
+                largest = arr[i];
+            }
+        }
+        
+        System.out.println("largest " +largest); 
     }
 
 
     // 21. Find the Smallest Element in an Array
     public static void SmallestElement() {
+        int[] arr = {10, 20, 5, 30, 15};
+        int smallest = arr[0];
         
+        for(int i=0; i<arr.length; i ++) {
+            if( smallest > arr[i]) {
+                smallest = arr[i];
+            }
+        }
+        
+        System.out.println("smallest " +smallest); 
     }
 
 
     // 22. Count Vowels and Consonants in a String
     public static void VowelConsonantCount() {
+        String str = "Hello World";
+        int vowel = 0, consonants = 0;
+        String vowelStr = "";
+        str = str.toLowerCase();
         
+        for (int i=0; i<str.length(); i++) {
+            char ch = str.charAt(i);
+            // System.out.println("smallest " + ch); 
+            if(ch >= 'a' && ch <= 'z') {
+                if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                    vowel ++;
+                    vowelStr += ch;
+                } else {
+                    consonants ++;
+                }
+            }
+        }
+        
+        System.out.println("vowel      " + vowel); 
+        System.out.println("vowelStr   " + vowelStr); 
+        System.out.println("consonants " + consonants); 
     }
 
 
     // 23. Check if Two Strings are Anagrams
     public static void AnagramCheck() {
-        
+        String str1 = "listen";  // Example strings
+        String str2 = "silent";
+
+        char[] arr1 = str1.toCharArray();
+        char[] arr2 = str2.toCharArray();
+
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+
+        if(Arrays.equals(arr1, arr2)) {
+            System.out.println(str1 + " and " + str2 + " are anagrams.");
+        } else {
+            System.out.println(str1 + " and " + str2 + " are not anagrams.");
+        }
+
     }
 
     // 24. Print the Prime Numbers Between 1 and 100
     public static void PrimeNumbers() {
-        
+        // int num = 100;
+        System.out.println("Prime numbers between 1 and 100:");
+        for (int num =2; num<15; num++) {
+            boolean isPrime = true;
+            for (int i=2; i<= Math.sqrt(num); i++ ) {
+                if(num % i == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+            // If the number is prime, print it
+            if (isPrime) {
+                System.out.print(num + " ");
+            }
+        }
+
     }
 
 
     // 25. Reverse an Integer Number
     public static void ReverseInteger() {
-        
+        int number = 12345;
+
+        char[] charArray = String.valueOf(number).toCharArray();
+
+        for (int i = charArray.length - 1; i >= 0; i--) {
+            System.out.print(charArray[i]);
+        }
     }
+
 
 
     // 26. Convert a String to an Integer
