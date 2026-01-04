@@ -10,127 +10,156 @@ public class Main01 {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
 
-
+        // 01. String Operations  ============================
         // ReverseString();
-        // ReverseStringNoReverse();
-        // SwapWithThirdVariable();
-        // SwapWithoutThirdVariable();
-        // CountWordsUsingHashMap();
-        // IterateHashMap();
-        // PrimeNumber();
-        // Palindrome();
-        // FibonacciSeries();
-        // IterateArrayList();
-        // DuplicateCharacters();
-        // findDuplicateNums();
-        // SecondHighestNumber();
-        // ArmstrongNumber();
         // RemoveWhiteSpacesWithReplace();
         // RemoveWhiteSpacesWithoutReplace();
-        // Factorial();
-        // EvenOdd();
-        // SumOfDigitsOne();
-        // SumOfDigitsTwo();
-        // MultiplicationTable();
-        // LargestElement();
-        // SmallestElement();
+        // ContainsSubstring();
+        // ReplaceCharacter();
+        // ArrayToString();
+        // SwapStrings();
+        // SwapWithThirdVariable();
+        // SwapWithoutThirdVariable();
+        // LongestWord();
+
+        // 02. String Analysis ================================
+        // Palindrome();
+        // DuplicateCharacters();
+        // RemoveDuplicates();
         // VowelConsonantCount();
         // AnagramCheck();
-        // PrimeNumbers();
+        // CountOccurrences();
+
+        // 03. Number Operations  ==============================
+        // EvenOdd();
         // ReverseInteger();
-        // StringToInteger();
-        // StarTriangle();
+        // SumOfDigitsOne();
+        // SumOfDigitsTwo();
         // SumOfNaturalNumbers();
+        // StringToInteger();
+        // PrimeNumber();
+        // PrimeNumbers();
         // PerfectNumber();
+        // PerfectSquare();
+        // ArmstrongNumber();
         // GreatestCommonDivisor();
         // LeastCommonMultiple();
+        // Factorial();
         // PowerOfNumber();
-        // CountOccurrences();
+
+        // 04. Array Operations  ==============================
+        // findDuplicateNums();
+        // SecondHighestNumber();
+        // LargestElement();
+        // SmallestElement();
         // MergeArrays();
         // SortArray();
         // SumArray();
         // MedianArray();
-        // NumberPattern();
-        // ContainsSubstring();
-        // ReplaceCharacter();
-        // RemoveDuplicates();
-        // ArrayToString();
-        // SwapStrings();
-        // LongestWord();
-        // PerfectSquare();
-
-        // Question: 46 ====
-        // int[] arr = {1, 3, 5, 7, 9, 11, 13, 15};  // Example sorted array
-        // int target = 7;  // Number to search for
-        // int result = binarySearch(arr, target);
-
-        // if (result == -1) {
-        //     System.out.println("Element not found.");
-        // } else {
-        //     System.out.println("Element found at index: " + result);
-        // }
-
         // CommonElements();
+        // IterateArrayList();
 
-        // Question: 48 ====
-        // Stack stack = new Stack(5);  // Stack of size 5
-        // stack.push(10);
-        // stack.push(20);
-        // System.out.println("Top element: " + stack.peek());
-        // System.out.println("Popped element: " + stack.pop());
+        // 05. Data Structures  ================================
+        // CountWordsUsingHashMap();
+        // IterateHashMap();
 
-        // Question: 49 ====
-        // Queue queue = new Queue(5);  // Queue of size 5
-        // queue.enqueue(10);
-        // queue.enqueue(20);
-        // System.out.println("Front element: " + queue.peek());
-        // System.out.println("Dequeued element: " + queue.dequeue());
-
-        // Question: 50 ====
-        // int number = 21;  // Example number
-        // if (isFibonacci(number)) {
-        //     System.out.println(number + " is a Fibonacci number.");
-        // } else {
-        //     System.out.println(number + " is not a Fibonacci number.");
-        // }
+        // 06. Series & Patterns  ==============================
+        // FibonacciSeries();
+        // MultiplicationTable();
+        // StarTriangle();
+        // NumberPattern();
     }
 
+    // String Operations ==========================================================
     // 1. Reverse a String without using String inbuilt function
     public static void ReverseString() {
         String str = "HelloWorld";
-        char[] strArray = str.toCharArray();
-        int start = 0;
-        int end = strArray.length - 1;
-
-        while (start < end) {
-            // Swap characters
-            char temp = strArray[start];
-            strArray[start] = strArray[end];
-            strArray[end] = temp;
-
-            start++;
-            end--;
-        }
-
-        System.out.println("Reversed string: " + new String(strArray));
-    }
-
-
-    // 2. Reverse a String without using String inbuilt function reverse()
-    public static void ReverseStringNoReverse() {
-        String str = "HelloWorld";
-        char[] strArray = str.toCharArray();
         String reversedStr = "";
-
-        for (int i = strArray.length - 1; i >= 0; i--) {
-            reversedStr += strArray[i];
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversedStr += str.charAt(i);
         }
-
         System.out.println("Reversed string: " + reversedStr);
     }
 
+    // 2. Remove All White Spaces from a String Using `replace()`
+    public static void RemoveWhiteSpacesWithReplace() {
+        String str = "Hello World Java";
+        String result = str.replace(" ", "");
+        System.out.println("Without spaces: " + result);
+    }
 
-    // 3. Swap Two Numbers Using the Third Variable
+    // 3. Remove All White Spaces from a String Without Using `replace()`
+   public static void RemoveWhiteSpacesWithoutReplace() {
+        String str = "   Hello World!   ";
+        StringBuilder result = new StringBuilder();
+
+        // Iterate through the string and append non-space characters to StringBuilder
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != ' ') {
+                result.append(str.charAt(i));
+            }
+        }
+
+        System.out.println("String after removing white spaces: '" + result.toString() + "'");
+    }
+
+    // 4. Check if a String Contains a Substring
+    public static void ContainsSubstring() {
+        String str = "Hello World";  // Example string
+        String substring = "World";  // Substring to check
+
+        // Check if the string contains the substring
+        if (str.contains(substring)) {
+            System.out.println("The string contains the substring.");
+        } else {
+            System.out.println("The string does not contain the substring.");
+        }
+    }
+
+    // 5. Replace a Character in a String Without Using `String.replace()`
+    public static void ReplaceCharacter() {
+        String str = "Hello World";  // Example string
+        char oldChar = 'o';  // Character to replace
+        char newChar = 'a';  // New character to replace with
+
+        StringBuilder result = new StringBuilder();
+
+        // Loop through the string and replace characters
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == oldChar) {
+                result.append(newChar);  // Replace old character with new one
+            } else {
+                result.append(str.charAt(i));  // Keep the character as it is
+            }
+        }
+
+        System.out.println("Modified string: " + result.toString());
+    }
+
+    // 6. Convert an Array to a String
+    public static void ArrayToString() {
+        int[] arr = {1, 2, 3, 4, 5};  // Example array
+        String arrayString = Arrays.toString(arr);  // Convert array to string
+
+        System.out.println("Array as String: " + arrayString);
+    }
+
+    // 7. Swap Two Strings
+    public static void SwapStrings() {
+        String str1 = "Hello";  // First string
+        String str2 = "World";  // Second string
+
+        // Swap the strings
+        String temp = str1;
+        str1 = str2;
+        str2 = temp;
+
+        System.out.println("After swapping:");
+        System.out.println("str1: " + str1);
+        System.out.println("str2: " + str2);
+    }
+
+    // 8. Swap Two Numbers Using the Third Variable
     public static void SwapWithThirdVariable() {
         int a = 5, b = 10;
 
@@ -144,8 +173,7 @@ public class Main01 {
         System.out.println("After swapping: a = " + a + ", b = " + b);
     }
 
-
-    // 4. Swap Two Numbers Without Using the Third Variable
+    // 9. Swap Two Numbers Without Using the Third Variable
     public static void SwapWithoutThirdVariable() {
         int a = 5, b = 10;
 
@@ -159,51 +187,206 @@ public class Main01 {
         System.out.println("After swapping: a = " + a + ", b = " + b);
     }
 
+    // 10. Find the Longest Word in a Sentence
+    public static void LongestWord() {
+        String sentence = "This is a Java programming challenge.";  // Example sentence
+        String[] words = sentence.split(" ");  // Split the sentence into words
+        String longestWord = "";
 
-    // 5. Count the Number of Words in a String Using HashMap
-    public static void CountWordsUsingHashMap() {
-        String str = "This is a test string and this is a test";
-        String[] words = str.split("\\s+");
-
-        HashMap<String, Integer> wordCount = new HashMap<>();
-
+        // Loop through the words and find the longest one
         for (String word : words) {
-            word = word.toLowerCase();  // Optional: Convert to lowercase for case-insensitive count
-            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
+            if (word.length() > longestWord.length()) {
+                longestWord = word;
+            }
         }
 
-        // Print word counts
-        for (String key : wordCount.keySet()) {
-            System.out.println(key + ": " + wordCount.get(key));
+        System.out.println("The longest word in the sentence is: " + longestWord);
+    }
+
+    // String Analysis  ==========================================================
+    // 1. Find Whether a String or Number is Palindrome or Not
+    public static void Palindrome() {
+        String str = "madam";
+        boolean isPalindrome = true;
+
+        // Check if string is palindrome
+        int length = str.length();
+        for (int i = 0; i < length / 2; i++) {
+            if (str.charAt(i) != str.charAt(length - 1 - i)) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        if (isPalindrome) {
+            System.out.println(str + " is a palindrome.");
+        } else {
+            System.out.println(str + " is not a palindrome.");
         }
     }
 
+    // 2. Find the Duplicate Characters in a String
+    public static void DuplicateCharacters() {
+        String str = "programming";
+        HashMap<Character, Integer> charCount = new HashMap<>();
 
-
-    // 6. Iterate HashMap using While and Advanced For Loop
-    public static void IterateHashMap() {
-        // Create a HashMap
-        HashMap<Integer, String> map = new HashMap<>();
-        map.put(1, "Apple");
-        map.put(2, "Banana");
-        map.put(3, "Cherry");
-
-        // Iterate using while loop
-        System.out.println("Iterating HashMap using While Loop:");
-        var iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Integer, String> entry = iterator.next();
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        // Count each character's frequency
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
         }
 
-        // Iterate using advanced for loop (for-each loop)
-        System.out.println("\nIterating HashMap using Advanced For Loop:");
-        for (Map.Entry<Integer, String> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        System.out.println("Duplicate characters in the string:");
+        // Print characters that have a frequency greater than 1
+        for (Character key : charCount.keySet()) {
+            if (charCount.get(key) > 1) {
+                System.out.println(key + ": " + charCount.get(key));
+            }
         }
     }
 
+    // 3. Remove Duplicates from an Array
+    public static void RemoveDuplicates() {
+        int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
+        arr = Arrays.stream(arr).distinct().toArray();  // Remove duplicates using Streams
 
+        System.out.println("Array without duplicates: " + Arrays.toString(arr));
+    }
+
+    // 4. Count Vowels and Consonants in a String
+    public static void VowelConsonantCount() {
+        String str = "Hello World";  // Example string
+        int vowels = 0, consonants = 0;
+
+        // Convert the string to lowercase to make the check case-insensitive
+        str = str.toLowerCase();
+
+        // Loop through each character and count vowels and consonants
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch >= 'a' && ch <= 'z') {
+                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                    vowels++;
+                } else {
+                    consonants++;
+                }
+            }
+        }
+
+        System.out.println("Vowels: " + vowels);
+        System.out.println("Consonants: " + consonants);
+    }
+
+    // 5. Check if Two Strings are Anagrams
+    public static void AnagramCheck() {
+        String str1 = "listen";  // Example strings
+        String str2 = "silent";
+
+        // Convert strings to character arrays
+        char[] arr1 = str1.toCharArray();
+        char[] arr2 = str2.toCharArray();
+
+        // Sort the arrays
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+
+        // Compare sorted arrays
+        if (Arrays.equals(arr1, arr2)) {
+            System.out.println(str1 + " and " + str2 + " are anagrams.");
+        } else {
+            System.out.println(str1 + " and " + str2 + " are not anagrams.");
+        }
+    }
+
+    // 6. Count the Number of Occurrences of a Character in a String
+    public static void CountOccurrences() {
+        String str = "programming";  // Example string
+        char targetChar = 'r';  // Character to count
+        int count = 0;
+
+        // Loop through the string and count occurrences
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == targetChar) {
+                count++;
+            }
+        }
+
+        System.out.println("The character '" + targetChar + "' occurs " + count + " times in the string.");
+    }
+    
+    // 03. Number Operations  ==========================================================
+   // 1. Check if a Number is Even or Odd
+    public static void EvenOdd() {
+        int number = 7;  // Example number
+
+        // Check if the number is even or odd
+        if (number % 2 == 0) {
+            System.out.println(number + " is an even number.");
+        } else {
+            System.out.println(number + " is an odd number.");
+        }
+    }
+
+   // 2. Reverse an Integer Number
+    public static void ReverseInteger() {
+        int number = 12345;
+
+        char[] charArray = String.valueOf(number).toCharArray();
+
+        for (int i = charArray.length - 1; i >= 0; i--) {
+            System.out.print(charArray[i]);
+        }
+    }
+
+    // 3. Find the Sum of Digits of a Number
+    public static void SumOfDigitsOne() {
+        int number = 1234;  // Example number
+        int sum = 0;
+
+        // Loop to find the sum of digits
+        while (number != 0) {
+            sum += number % 10;  // Add last digit
+            number /= 10;         // Remove last digit
+        }
+
+        System.out.println("Sum of digits: " + sum);
+    }
+
+    // 4. Find the Sum of Digits of a Number
+    public static void SumOfDigitsTwo() {
+        int number = 1230;
+        int sum = 0;
+
+        String numStr = String.valueOf(number);
+
+        for (int i = 0; i < numStr.length(); i++) {
+            sum += Character.getNumericValue(numStr.charAt(i));
+        }
+
+        System.out.println("Result --- " + sum);
+    }
+
+
+    // 5. Find the Sum of Natural Numbers
+    public static void SumOfNaturalNumbers() {
+        int n = 10;  // Example: sum of first 10 natural numbers
+        int sum = 0;
+
+        // Calculate the sum of natural numbers
+        for (int i = 1; i <= n; i++) {
+            sum += i;
+        }
+
+        System.out.println("Sum of first " + n + " natural numbers is: " + sum);
+    }
+
+    // 6. Convert a String to an Integer
+    public static void StringToInteger() {
+        String str = "12345";  // Example string
+        int number = Integer.parseInt(str);  // Convert string to integer
+
+        System.out.println("The integer value is: " + number);
+    }
 
     // 7. Find Whether a Number is Prime or Not
     public static void PrimeNumber() {
@@ -229,351 +412,7 @@ public class Main01 {
         }
     }
 
-
-
-    // 8. Find Whether a String or Number is Palindrome or Not
-    public static void Palindrome() {
-        String str = "madam";
-        boolean isPalindrome = true;
-
-        // Check if string is palindrome
-        int length = str.length();
-        for (int i = 0; i < length / 2; i++) {
-            if (str.charAt(i) != str.charAt(length - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        if (isPalindrome) {
-            System.out.println(str + " is a palindrome.");
-        } else {
-            System.out.println(str + " is not a palindrome.");
-        }
-
-        // Check for a number
-        int number = 121;
-        int originalNumber = number;
-        int reversedNumber = 0;
-
-        while (number != 0) {
-            int digit = number % 10;
-            reversedNumber = reversedNumber * 10 + digit;
-            number /= 10;
-        }
-
-        if (originalNumber == reversedNumber) {
-            System.out.println(originalNumber + " is a palindrome number.");
-        } else {
-            System.out.println(originalNumber + " is not a palindrome number.");
-        }
-    }
-
-
-    // 9. Fibonacci Series
-    public static void FibonacciSeries() {
-        int n = 10;  // Number of terms in the Fibonacci series
-        int a = 0, b = 1;
-
-        System.out.println("Fibonacci Series up to " + n + " terms:");
-
-        for (int i = 0; i < n; i++) {
-            System.out.print(a + " ");
-            int nextTerm = a + b;
-            a = b;
-            b = nextTerm;
-        }
-    }
-
-
-    // 10. Iterate ArrayList Using For-loop, While-loop, and Advanced For-loop
-    public static void IterateArrayList() {
-        // Create an ArrayList
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Apple");
-        list.add("Banana");
-        list.add("Cherry");
-
-        // Iterate using for-loop
-        System.out.println("Iterating ArrayList using For-loop:");
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-        }
-
-        // Iterate using while-loop
-        System.out.println("\nIterating ArrayList using While-loop:");
-        int index = 0;
-        while (index < list.size()) {
-            System.out.println(list.get(index));
-            index++;
-        }
-
-        // Iterate using advanced for-loop (for-each loop)
-        System.out.println("\nIterating ArrayList using Advanced For-loop:");
-        for (String item : list) {
-            System.out.println(item);
-        }
-    }
-
-
-
-    // 11. Find the Duplicate Characters in a String
-    public static void DuplicateCharacters() {
-        String str = "programming";
-        HashMap<Character, Integer> charCount = new HashMap<>();
-
-        // Count each character's frequency
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
-        }
-
-        System.out.println("Duplicate characters in the string:");
-        // Print characters that have a frequency greater than 1
-        for (Character key : charCount.keySet()) {
-            if (charCount.get(key) > 1) {
-                System.out.println(key + ": " + charCount.get(key));
-            }
-        }
-    }
-
-
-
-    // 11. Find the Duplicate Characters in a Numbers
-    public static void findDuplicateNums() {
-        int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
-
-        System.out.print("Duplicate numbers: ");
-
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[i] == nums[j]) {
-                    System.out.print(nums[i] + " ");
-                    break;
-                }
-            }
-        }
-    }
-
-    // 12. Find the Second-Highest Number in an Array
-    public static void SecondHighestNumber() {
-        int[] arr = {10, 5, 20, 20, 15, 5, 30};
-        int highest = Integer.MIN_VALUE;
-        int secondHighest = Integer.MIN_VALUE;
-
-        // Iterate through the array to find the highest and second-highest numbers
-        for (int num : arr) {
-            if (num > highest) {
-                secondHighest = highest;
-                highest = num;
-            } else if (num > secondHighest && num < highest) {
-                secondHighest = num;
-            }
-        }
-
-        if (secondHighest == Integer.MIN_VALUE) {
-            System.out.println("There is no second-highest number in the array.");
-        } else {
-            System.out.println("Second-highest number: " + secondHighest);
-        }
-    }
-
-
-
-    // 13. Check Armstrong Number
-    public static void ArmstrongNumber() {
-        int number = 153;
-        int originalNumber = number;
-        int sum = 0;
-        int digits = String.valueOf(number).length();
-
-        // Calculate the sum of the digits raised to the power of the number of digits
-        while (number != 0) {
-            int digit = number % 10;
-            sum += Math.pow(digit, digits);
-            number /= 10;
-        }
-
-        if (sum == originalNumber) {
-            System.out.println(originalNumber + " is an Armstrong number.");
-        } else {
-            System.out.println(originalNumber + " is not an Armstrong number.");
-        }
-    }
-
-
-    // 14. Remove All White Spaces from a String Using `replace()`
-    public static void RemoveWhiteSpacesWithReplace() {
-        String str = "   Hello World!   ";
-        String result = str.replace(" ", "");
-
-        System.out.println("String after removing white spaces: '" + result + "'");
-    }
-
-
-    // 15. Remove All White Spaces from a String Without Using `replace()`
-    public static void RemoveWhiteSpacesWithoutReplace() {
-        String str = "   Hello World!   ";
-        StringBuilder result = new StringBuilder();
-
-        // Iterate through the string and append non-space characters to StringBuilder
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) != ' ') {
-                result.append(str.charAt(i));
-            }
-        }
-
-        System.out.println("String after removing white spaces: '" + result.toString() + "'");
-    }
-
-
-    // 16. Find the Factorial of a Number
-    public static void Factorial() {
-        int number = 5;  // Example number
-        long factorial = 1;
-
-        // Loop to calculate factorial
-        for (int i = 1; i <= number; i++) {
-            factorial *= i;
-        }
-
-        System.out.println("Factorial of " + number + " is: " + factorial);
-    }
-
-
-    // 17. Check if a Number is Even or Odd
-    public static void EvenOdd() {
-        int number = 7;  // Example number
-
-        // Check if the number is even or odd
-        if (number % 2 == 0) {
-            System.out.println(number + " is an even number.");
-        } else {
-            System.out.println(number + " is an odd number.");
-        }
-    }
-
-
-    // 18. Find the Sum of Digits of a Number
-    public static void SumOfDigitsOne() {
-        int number = 1234;  // Example number
-        int sum = 0;
-
-        // Loop to find the sum of digits
-        while (number != 0) {
-            sum += number % 10;  // Add last digit
-            number /= 10;         // Remove last digit
-        }
-
-        System.out.println("Sum of digits: " + sum);
-    }
-
-    // 18. Find the Sum of Digits of a Number
-    public static void SumOfDigitsTwo() {
-        int number = 1230;
-        int sum = 0;
-
-        String numStr = String.valueOf(number);
-
-        for (int i = 0; i < numArr.length(); i++) {
-            sum += Character.getNumaricValue(numArr.charAt(i));
-        }
-
-        System.out.println("Result --- " + sum);
-    }
-
-
-    // 19. Print the Multiplication Table of a Number
-    public static void MultiplicationTable() {
-        int number = 5;  // Example number
-        int limit = 10;   // Table limit (multiplying by numbers 1 to 10)
-
-        System.out.println("Multiplication Table of " + number + ":");
-        for (int i = 1; i <= limit; i++) {
-            System.out.println(number + " x " + i + " = " + (number * i));
-        }
-    }
-
-
-    // 20. Find the Largest Element in an Array
-    public static void LargestElement() {
-        int[] arr = {10, 20, 5, 30, 15};  // Example array
-        int largest = arr[0];
-
-        // Loop to find the largest element
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > largest) {
-                largest = arr[i];
-            }
-        }
-
-        System.out.println("Largest element in the array is: " + largest);
-    }
-
-
-    // 21. Find the Smallest Element in an Array
-    public static void SmallestElement() {
-        int[] arr = {10, 20, 5, 30, 15};  // Example array
-        int smallest = arr[0];
-
-        // Loop to find the smallest element
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] < smallest) {
-                smallest = arr[i];
-            }
-        }
-
-        System.out.println("Smallest element in the array is: " + smallest);
-    }
-
-
-    // 22. Count Vowels and Consonants in a String
-    public static void VowelConsonantCount() {
-        String str = "Hello World";  // Example string
-        int vowels = 0, consonants = 0;
-
-        // Convert the string to lowercase to make the check case-insensitive
-        str = str.toLowerCase();
-
-        // Loop through each character and count vowels and consonants
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (ch >= 'a' && ch <= 'z') {
-                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
-                    vowels++;
-                } else {
-                    consonants++;
-                }
-            }
-        }
-
-        System.out.println("Vowels: " + vowels);
-        System.out.println("Consonants: " + consonants);
-    }
-
-
-    // 23. Check if Two Strings are Anagrams
-    public static void AnagramCheck() {
-        String str1 = "listen";  // Example strings
-        String str2 = "silent";
-
-        // Convert strings to character arrays
-        char[] arr1 = str1.toCharArray();
-        char[] arr2 = str2.toCharArray();
-
-        // Sort the arrays
-        Arrays.sort(arr1);
-        Arrays.sort(arr2);
-
-        // Compare sorted arrays
-        if (Arrays.equals(arr1, arr2)) {
-            System.out.println(str1 + " and " + str2 + " are anagrams.");
-        } else {
-            System.out.println(str1 + " and " + str2 + " are not anagrams.");
-        }
-    }
-
-    // 24. Print the Prime Numbers Between 1 and 100
+    // 8. Print the Prime Numbers Between 1 and 100
     public static void PrimeNumbers() {
         System.out.println("Prime numbers between 1 and 100:");
 
@@ -596,57 +435,7 @@ public class Main01 {
         }
     }
 
-
-    // 25. Reverse an Integer Number
-    public static void ReverseInteger() {
-        int number = 12345;
-
-        char[] charArray = String.valueOf(number).toCharArray();
-
-        for (int i = charArray.length - 1; i >= 0; i--) {
-            System.out.print(charArray[i]);
-        }
-    }
-
-
-    // 26. Convert a String to an Integer
-    public static void StringToInteger() {
-        String str = "12345";  // Example string
-        int number = Integer.parseInt(str);  // Convert string to integer
-
-        System.out.println("The integer value is: " + number);
-    }
-
-
-    // 27. Print a Triangle of Stars
-    public static void StarTriangle() {
-        int rows = 5;  // Number of rows in the triangle
-
-        // Loop to print the triangle
-        for (int i = 1; i <= rows; i++) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print("* ");  // Print stars
-            }
-            System.out.println();  // Move to the next line after each row
-        }
-    }
-
-
-    // 28. Find the Sum of Natural Numbers
-    public static void SumOfNaturalNumbers() {
-        int n = 10;  // Example: sum of first 10 natural numbers
-        int sum = 0;
-
-        // Calculate the sum of natural numbers
-        for (int i = 1; i <= n; i++) {
-            sum += i;
-        }
-
-        System.out.println("Sum of first " + n + " natural numbers is: " + sum);
-    }
-
-
-    // 29. Check if a Number is a Perfect Number
+    // 9. Check if a Number is a Perfect Number
     public static void PerfectNumber() {
         int number = 28;  // Example number
         int sum = 0;
@@ -666,8 +455,41 @@ public class Main01 {
         }
     }
 
+    // 10. Check if a Number is a Perfect Square
+    public static void PerfectSquare() {
+        int number = 25;  // Example number
 
-    // 30. Find the GCD (Greatest Common Divisor) of Two Numbers
+        // Check if the square root of the number is an integer
+        double sqrt = Math.sqrt(number);
+        if (sqrt == (int) sqrt) {
+            System.out.println(number + " is a perfect square.");
+        } else {
+            System.out.println(number + " is not a perfect square.");
+        }
+    }
+
+    // 11. Check Armstrong Number
+    public static void ArmstrongNumber() {
+        int number = 153;
+        int originalNumber = number;
+        int sum = 0;
+        int digits = String.valueOf(number).length();
+
+        // Calculate the sum of the digits raised to the power of the number of digits
+        while (number != 0) {
+            int digit = number % 10;
+            sum += Math.pow(digit, digits);
+            number /= 10;
+        }
+
+        if (sum == originalNumber) {
+            System.out.println(originalNumber + " is an Armstrong number.");
+        } else {
+            System.out.println(originalNumber + " is not an Armstrong number.");
+        }
+    }
+
+    // 12. Find the GCD (Greatest Common Divisor) of Two Numbers
     public static void GreatestCommonDivisor() {
         int num1 = 56;  // Example numbers
         int num2 = 98;
@@ -684,9 +506,7 @@ public class Main01 {
         System.out.println("The GCD of the two numbers is: " + num1);
     }
 
-
-    // 31. Find the LCM (Least Common Multiple) of Two Numbers
-
+    // 13. Find the LCM (Least Common Multiple) of Two Numbers
     public class LeastCommonMultiple {
         public static void main() {
             int num1 = 12, num2 = 18;  // Example numbers
@@ -711,8 +531,20 @@ public class Main01 {
         }
     }
 
+    // 14. Find the Factorial of a Number
+    public static void Factorial() {
+        int number = 5;  // Example number
+        long factorial = 1;
 
-    // 32. Calculate the Power of a Number
+        // Loop to calculate factorial
+        for (int i = 1; i <= number; i++) {
+            factorial *= i;
+        }
+
+        System.out.println("Factorial of " + number + " is: " + factorial);
+    }
+
+    // 15. Calculate the Power of a Number
     public static void PowerOfNumber() {
         int base = 2;  // Base number
         int exponent = 5;  // Exponent
@@ -727,24 +559,77 @@ public class Main01 {
         System.out.println(base + " raised to the power " + exponent + " is: " + result);
     }
 
-    // 33. Count the Number of Occurrences of a Character in a String
-    public static void CountOccurrences() {
-        String str = "programming";  // Example string
-        char targetChar = 'r';  // Character to count
-        int count = 0;
+    // 04. Array Operations  ==========================================================   
+    // 1. Find the Duplicate Characters in a Numbers
+    public static void findDuplicateNums() {
+        int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
 
-        // Loop through the string and count occurrences
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == targetChar) {
-                count++;
+        System.out.print("Duplicate numbers: ");
+
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    System.out.print(nums[i] + " ");
+                    break;
+                }
+            }
+        }
+    }
+
+    // 2. Find the Second-Highest Number in an Array
+    public static void SecondHighestNumber() {
+        int[] arr = {10, 5, 20, 20, 15, 5, 30};
+        int highest = Integer.MIN_VALUE;
+        int secondHighest = Integer.MIN_VALUE;
+
+        // Iterate through the array to find the highest and second-highest numbers
+        for (int num : arr) {
+            if (num > highest) {
+                secondHighest = highest;
+                highest = num;
+            } else if (num > secondHighest && num < highest) {
+                secondHighest = num;
             }
         }
 
-        System.out.println("The character '" + targetChar + "' occurs " + count + " times in the string.");
+        if (secondHighest == Integer.MIN_VALUE) {
+            System.out.println("There is no second-highest number in the array.");
+        } else {
+            System.out.println("Second-highest number: " + secondHighest);
+        }
     }
 
+    // 3. Find the Largest Element in an Array
+    public static void LargestElement() {
+        int[] arr = {10, 20, 5, 30, 15};  // Example array
+        int largest = arr[0];
 
-    // 34. Merge Two Arrays
+        // Loop to find the largest element
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > largest) {
+                largest = arr[i];
+            }
+        }
+
+        System.out.println("Largest element in the array is: " + largest);
+    }
+
+    // 4. Find the Smallest Element in an Array
+    public static void SmallestElement() {
+        int[] arr = {10, 20, 5, 30, 15};  // Example array
+        int smallest = arr[0];
+
+        // Loop to find the smallest element
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] < smallest) {
+                smallest = arr[i];
+            }
+        }
+
+        System.out.println("Smallest element in the array is: " + smallest);
+    }
+
+    // 5. Merge Two Arrays
     public static void MergeArrays() {
         int[] array1 = {1, 2, 3};  // First array
         int[] array2 = {4, 5, 6};  // Second array
@@ -761,8 +646,7 @@ public class Main01 {
         System.out.println("Merged Array: " + Arrays.toString(mergedArray));
     }
 
-
-    // 35. Sort an Array of Integers in Ascending Order
+    // 6. Sort an Array of Integers in Ascending Order
     public static void SortArray() {
         int[] arr = {5, 2, 9, 1, 5, 6};  // Example array
 
@@ -772,8 +656,7 @@ public class Main01 {
         System.out.println("Sorted Array in Ascending Order: " + Arrays.toString(arr));
     }
 
-
-    // 36. Sum All Elements of an Array
+    // 7. Sum All Elements of an Array
     public static void SumArray() {
         int[] arr = {1, 2, 3, 4, 5};  // Example array
         int sum = 0;
@@ -786,8 +669,7 @@ public class Main01 {
         System.out.println("Sum of all elements in the array: " + sum);
     }
 
-
-    // 37. Find the Median of an Array
+    // 8. Find the Median of an Array
     public static void MedianArray() {
         int[] arr = {12, 3, 5, 7, 19};  // Example array
         Arrays.sort(arr);  // Sort the array to find the median
@@ -806,146 +688,7 @@ public class Main01 {
         System.out.println("The median is: " + median);
     }
 
-
-    // 38. Create a Pattern of Numbers (e.g., 1, 12, 123, etc.)
-    public static void NumberPattern() {
-        int rows = 5;  // Number of rows in the pattern
-
-        // Loop to create the pattern
-        for (int i = 1; i <= rows; i++) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print(j);  // Print numbers from 1 to i
-            }
-            System.out.println();  // Move to the next line after each row
-        }
-    }
-
-
-    // 39. Check if a String Contains a Substring
-    public static void ContainsSubstring() {
-        String str = "Hello World";  // Example string
-        String substring = "World";  // Substring to check
-
-        // Check if the string contains the substring
-        if (str.contains(substring)) {
-            System.out.println("The string contains the substring.");
-        } else {
-            System.out.println("The string does not contain the substring.");
-        }
-    }
-
-
-    // 40. Replace a Character in a String Without Using `String.replace()`
-    public static void ReplaceCharacter() {
-        String str = "Hello World";  // Example string
-        char oldChar = 'o';  // Character to replace
-        char newChar = 'a';  // New character to replace with
-
-        StringBuilder result = new StringBuilder();
-
-        // Loop through the string and replace characters
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == oldChar) {
-                result.append(newChar);  // Replace old character with new one
-            } else {
-                result.append(str.charAt(i));  // Keep the character as it is
-            }
-        }
-
-        System.out.println("Modified string: " + result.toString());
-    }
-
-
-    // 41. Remove Duplicates from an Array
-    public static void RemoveDuplicates() {
-        int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
-        arr = Arrays.stream(arr).distinct().toArray();  // Remove duplicates using Streams
-
-        System.out.println("Array without duplicates: " + Arrays.toString(arr));
-    }
-
-
-    // 42. Convert an Array to a String
-    public static void ArrayToString() {
-        int[] arr = {1, 2, 3, 4, 5};  // Example array
-        String arrayString = Arrays.toString(arr);  // Convert array to string
-
-        System.out.println("Array as String: " + arrayString);
-    }
-
-
-    // 43. Swap Two Strings
-    public static void SwapStrings() {
-        String str1 = "Hello";  // First string
-        String str2 = "World";  // Second string
-
-        // Swap the strings
-        String temp = str1;
-        str1 = str2;
-        str2 = temp;
-
-        System.out.println("After swapping:");
-        System.out.println("str1: " + str1);
-        System.out.println("str2: " + str2);
-    }
-
-
-    // 44. Find the Longest Word in a Sentence
-    public static void LongestWord() {
-        String sentence = "This is a Java programming challenge.";  // Example sentence
-        String[] words = sentence.split(" ");  // Split the sentence into words
-        String longestWord = "";
-
-        // Loop through the words and find the longest one
-        for (String word : words) {
-            if (word.length() > longestWord.length()) {
-                longestWord = word;
-            }
-        }
-
-        System.out.println("The longest word in the sentence is: " + longestWord);
-    }
-
-
-    // 45. Check if a Number is a Perfect Square
-    public static void PerfectSquare() {
-        int number = 25;  // Example number
-
-        // Check if the square root of the number is an integer
-        double sqrt = Math.sqrt(number);
-        if (sqrt == (int) sqrt) {
-            System.out.println(number + " is a perfect square.");
-        } else {
-            System.out.println(number + " is not a perfect square.");
-        }
-    }
-
-    // 46. Implement Binary Search
-    public static int binarySearch(int[] arr, int target) {
-        int left = 0, right = arr.length - 1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-
-            // Check if target is present at mid
-            if (arr[mid] == target) {
-                return mid;
-            }
-
-            // If target is greater, ignore left half
-            if (arr[mid] < target) {
-                left = mid + 1;
-            }
-            // If target is smaller, ignore right half
-            else {
-                right = mid - 1;
-            }
-        }
-        return -1;  // Element not found
-    }
-
-
-    // 47. Find the Common Elements Between Two Arrays
+    // 9. Find the Common Elements Between Two Arrays
     public static void CommonElements() {
         int[] arr1 = {1, 2, 3, 4, 5};
         int[] arr2 = {3, 4, 5, 6, 7};
@@ -964,107 +707,99 @@ public class Main01 {
         }
     }
 
+    // 10. Iterate Array List Arrays
+    public static void IterateArrayList() {
+        ArrayList<String> list = new ArrayList<>(Arrays.asList("Apple", "Banana", "Cherry"));
+        System.out.println("For-loop:"); for (int i = 0; i < list.size(); i++) System.out.println(list.get(i));
+        System.out.println("While-loop:"); int i = 0; while (i < list.size()) System.out.println(list.get(i++));
+        System.out.println("Enhanced for-loop:"); for (String item : list) System.out.println(item);
+    }
 
+    // 05. Data Structures =========================================================
+    // 1. Count the Number of Words in a String Using HashMap
+    public static void CountWordsUsingHashMap() {
+        String str = "This is a test string and this is a test";
+        HashMap<String, Integer> wordCount = new HashMap<>();
+        for (String word : str.split("\\s+")) {
+            word = word.toLowerCase();
+            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
+        }
+        wordCount.forEach((k, v) -> System.out.println(k + ": " + v));
+    }
 
-    // 48. Implement a Stack Using an Array
-    public class Stack {
-        private int[] stack;
-        private int top;
+    // 2. Iterate HashMap using While and Advanced For Loop
+    public static void IterateHashMap() {
+        // Create a HashMap
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "Apple");
+        map.put(2, "Banana");
+        map.put(3, "Cherry");
 
-        // Constructor to initialize the stack
-        public Stack(int size) {
-            stack = new int[size];
-            top = -1;
+        // Iterate using while loop
+        System.out.println("Iterating HashMap using While Loop:");
+        var iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, String> entry = iterator.next();
+            System.out.println(entry.getKey() + ": " + entry.getValue());
         }
 
-        // Push an element onto the stack
-        public void push(int element) {
-            if (top == stack.length - 1) {
-                System.out.println("Stack Overflow");
-            } else {
-                stack[++top] = element;
-                System.out.println("Pushed " + element + " to the stack.");
-            }
-        }
-
-        // Pop an element from the stack
-        public int pop() {
-            if (top == -1) {
-                System.out.println("Stack Underflow");
-                return -1;
-            } else {
-                return stack[top--];
-            }
-        }
-
-        // Peek at the top element of the stack
-        public int peek() {
-            if (top == -1) {
-                System.out.println("Stack is empty");
-                return -1;
-            } else {
-                return stack[top];
-            }
+        // Iterate using advanced for loop (for-each loop)
+        System.out.println("\nIterating HashMap using Advanced For Loop:");
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
         }
     }
 
+    // 06. Series & Patterns ========================================================
+    // 1. Fibonacci Series
+    public static void FibonacciSeries() {
+        int n = 10;  // Number of terms in the Fibonacci series
+        int a = 0, b = 1;
 
-    // 49. Implement a Queue Using an Array
-    public class Queue {
-        private int[] queue;
-        private int front, rear, size;
+        System.out.println("Fibonacci Series up to " + n + " terms:");
 
-        // Constructor to initialize the queue
-        public Queue(int size) {
-            queue = new int[size];
-            front = 0;
-            rear = 0;
-            this.size = size;
-        }
-
-        // Enqueue an element to the queue
-        public void enqueue(int element) {
-            if (rear == size) {
-                System.out.println("Queue Overflow");
-            } else {
-                queue[rear++] = element;
-                System.out.println("Enqueued " + element + " to the queue.");
-            }
-        }
-
-        // Dequeue an element from the queue
-        public int dequeue() {
-            if (front == rear) {
-                System.out.println("Queue Underflow");
-                return -1;
-            } else {
-                return queue[front++];
-            }
-        }
-
-        // Peek at the front element of the queue
-        public int peek() {
-            if (front == rear) {
-                System.out.println("Queue is empty");
-                return -1;
-            } else {
-                return queue[front];
-            }
+        for (int i = 0; i < n; i++) {
+            System.out.print(a + " ");
+            int nextTerm = a + b;
+            a = b;
+            b = nextTerm;
         }
     }
 
+    // 2. Print the Multiplication Table of a Number
+    public static void MultiplicationTable() {
+        int number = 5;  // Example number
+        int limit = 10;   // Table limit (multiplying by numbers 1 to 10)
 
-    // 50. Check if a Number is a Fibonacci Number
-    // Function to check if a number is a Fibonacci number
-    public static boolean isFibonacci(int num) {
-        // A number is a Fibonacci number if and only if one or both of (5*n*n + 4) or (5*n*n - 4) is a perfect square
-        return isPerfectSquare(5 * num * num + 4) || isPerfectSquare(5 * num * num - 4);
+        System.out.println("Multiplication Table of " + number + ":");
+        for (int i = 1; i <= limit; i++) {
+            System.out.println(number + " x " + i + " = " + (number * i));
+        }
     }
 
-    // Helper function to check if a number is a perfect square
-    public static boolean isPerfectSquare(int n) {
-        int sqrt = (int) Math.sqrt(n);
-        return (sqrt * sqrt == n);
+    // 3. Print a Triangle of Stars
+    public static void StarTriangle() {
+        int rows = 5;  // Number of rows in the triangle
+
+        // Loop to print the triangle
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print("* ");  // Print stars
+            }
+            System.out.println();  // Move to the next line after each row
+        }
     }
- 
+
+    // 38. Create a Pattern of Numbers (e.g., 1, 12, 123, etc.)
+    public static void NumberPattern() {
+        int rows = 5;  // Number of rows in the pattern
+
+        // Loop to create the pattern
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(j);  // Print numbers from 1 to i
+            }
+            System.out.println();  // Move to the next line after each row
+        }
+    }
 }
