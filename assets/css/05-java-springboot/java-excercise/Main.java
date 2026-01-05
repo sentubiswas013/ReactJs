@@ -21,6 +21,7 @@ public class Main01 {
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
         // LongestWord();
+		// shortWord();
 
         // 02. String Analysis ================================
         // Palindrome();
@@ -68,6 +69,13 @@ public class Main01 {
         // MultiplicationTable();
         // StarTriangle();
         // NumberPattern();
+
+        // 07. Implement Star Pattern ==============================
+        // SquareStarPattern();
+        // RightTriangleStarPattern();
+        // InvertedTriangleStarPattern();
+        // PyramidStarPattern();
+        // DiamondStarPattern();
     }
 
     // String Operations ==========================================================
@@ -202,6 +210,23 @@ public class Main01 {
 
         System.out.println("The longest word in the sentence is: " + longestWord);
     }
+	
+	// 11. Find the shortest Word in a Sentence
+	public static void shortWord() {
+		String sentence = "This is a Java programming challenge.";
+		String[] words = sentence.split(" ");
+
+		String shortest = words[0]; // initialize with first word
+
+		for (int i = 1; i < words.length; i++) {
+			if (words[i].length() < shortest.length()) {
+				shortest = words[i];
+			}
+		}
+
+		System.out.println("Shortest word: " + shortest);
+	}
+
 
     // String Analysis  ==========================================================
     // 1. Find Whether a String or Number is Palindrome or Not
@@ -227,30 +252,42 @@ public class Main01 {
 
     // 2. Find the Duplicate Characters in a String
     public static void DuplicateCharacters() {
-        String str = "programming";
-        HashMap<Character, Integer> charCount = new HashMap<>();
+		String str = "programming";
+		char[] chars = str.toCharArray();
 
-        // Count each character's frequency
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
-        }
+		System.out.print("Duplicate characters: ");
 
-        System.out.println("Duplicate characters in the string:");
-        // Print characters that have a frequency greater than 1
-        for (Character key : charCount.keySet()) {
-            if (charCount.get(key) > 1) {
-                System.out.println(key + ": " + charCount.get(key));
-            }
-        }
-    }
+		for (int i = 0; i < chars.length; i++) {
+			for (int j = i + 1; j < chars.length; j++) {
+				if (chars[i] == chars[j]) {
+					System.out.print(chars[i] + " ");
+					break; // avoid printing same character again
+				}
+			}
+		}
+	}
+
 
     // 3. Remove Duplicates from an Array
     public static void RemoveDuplicates() {
         int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
-        arr = Arrays.stream(arr).distinct().toArray();  // Remove duplicates using Streams
-
-        System.out.println("Array without duplicates: " + Arrays.toString(arr));
+        ArrayList<Integer> result = new ArrayList<>();
+		for(int i = 0; i<arr.length; i++) {		
+			boolean isDuplicate = false;
+		
+			for(int j = i+1; j<arr.length; j++ ) {
+				if(arr[i] == arr[j]) {
+					// System.out.println("result: " + arr[i]);
+					isDuplicate = true;
+					break;
+				}
+			}
+			if(!isDuplicate) {
+			 result.add(arr[i]);
+			 // System.out.println("result: " + arr[i]);
+			}
+		}
+		System.out.println("result: " + result);
     }
 
     // 4. Count Vowels and Consonants in a String
@@ -790,7 +827,7 @@ public class Main01 {
         }
     }
 
-    // 38. Create a Pattern of Numbers (e.g., 1, 12, 123, etc.)
+    // 4. Create a Pattern of Numbers (e.g., 1, 12, 123, etc.)
     public static void NumberPattern() {
         int rows = 5;  // Number of rows in the pattern
 
@@ -802,4 +839,109 @@ public class Main01 {
             System.out.println();  // Move to the next line after each row
         }
     }
+
+    // 07. Implement Star Pattern ========================================================
+    // 1️. Square Star Pattern
+    public static void SquareStarPattern() {
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= 4; j++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+    // * * * *
+    // * * * *
+    // * * * *
+    // * * * *
+
+
+    // 2. Right Triangle  Star Pattern
+    public static void RightTriangleStarPattern() {
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+    // *
+    // * *
+    // * * *
+    // * * * *
+
+    // 3. Inverted Triangle Star Pattern
+    public static void InvertedTriangleStarPattern() {
+        for (int i = 4; i >= 1; i--) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+    // * * * *
+    // * * *
+    // * *
+    // *
+
+    // 4. Pyramid Star Pattern
+    public static void PyramidStarPattern() {
+        int n = 4;
+
+        for (int i = 1; i <= n; i++) {
+            for (int space = n - i; space > 0; space--) {
+                System.out.print(" ");
+            }
+            for (int star = 1; star <= i; star++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+    //    *
+    //   * *
+    //  * * *
+    // * * * *
+
+    // 5. Diamond Star Pattern
+    public static void DiamondStarPattern() {
+        int n = 3;
+
+        // Upper part
+        for (int i = 1; i <= n; i++) {
+            for (int space = n - i; space > 0; space--) {
+                System.out.print(" ");
+            }
+            for (int star = 1; star <= i; star++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+
+        // Lower part
+        for (int i = n - 1; i >= 1; i--) {
+            for (int space = n - i; space > 0; space--) {
+                System.out.print(" ");
+            }
+            for (int star = 1; star <= i; star++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+    //    *
+    //   * *
+    //  * * *
+    //   * *
+    //    *
 }
+
+// Length vs Size in Java
+
+// int[] arr = {1, 2, 3};
+// String str = "Hello";
+// ArrayList<Integer> list = new ArrayList<>();
+
+// System.out.println(arr.length);     // 3
+// System.out.println(str.length());   // 5
+// System.out.println(list.size());    // 0
