@@ -750,7 +750,7 @@ Key concepts:
 
 Each concept works together to create maintainable, scalable web applications with clear separation of concerns and powerful data binding capabilities.
 
-### 2. Templates & Directives
+## 🔹 2. Templates & Directives
 
 #### 1. What is `ngIf`?
 
@@ -1227,7 +1227,7 @@ export class PipeComponent {
 These features enable you to build flexible, performant Angular applications with clean, maintainable templates.
 
 
-### 3. Forms
+## 🔹 3. Forms
 
 #### 1. What are Angular Forms?
 
@@ -1606,7 +1606,7 @@ export class CustomValidatorComponent {
 
 Both approaches provide robust form handling with comprehensive validation capabilities for building user-friendly applications.
 
-### 4. Routing & Navigation
+## 🔹 4. Routing & Navigation
 
 #### 1. What is Angular Router?
 
@@ -2147,7 +2147,7 @@ export class DashboardComponent {
 These features enable building secure, performant single-page applications with sophisticated navigation patterns.
 
 
-### 5. HTTP & Backend Integration
+## 🔹 5. HTTP & Backend Integration
 
 #### 1. How Do You Make HTTP Calls?
 
@@ -2803,7 +2803,7 @@ export class AdvancedApiService {
 These patterns enable building robust, performant applications with excellent user experience and maintainable code.
 
 
-### 6. RxJS (Very Important)
+## 🔹 6. RxJS (Very Important)
 
 #### 1. What is RxJS?
 
@@ -3570,7 +3570,7 @@ export class ConditionalComponent implements OnInit, OnDestroy {
 
 RxJS enables building reactive, performant Angular applications with clean, maintainable asynchronous code.
 
-### 7. Change Detection & Performance
+## 🔹 7. Change Detection & Performance
 
 #### 1. What is Change Detection?
 
@@ -4172,7 +4172,7 @@ export class DecoratedComponent {
 
 Understanding change detection is essential for building performant Angular applications that scale well with complexity and user load.
 
-### 8. Modern Angular (Must-Know)
+## 🔹 8. Modern Angular (Must-Know)
 
 #### 1. What are Standalone Components?
 
@@ -4504,7 +4504,7 @@ export class OptimizedComponent {
 
 ---
 
-### 9. State Management
+## 🔹 9. State Management
 
 #### 1. What is State Management?
 
@@ -4873,7 +4873,7 @@ export class SimpleStateService {
 
 Modern Angular provides more choices and simpler patterns while maintaining the power and flexibility needed for complex applications.
 
-### 10. Security
+## 🔹 10. Security
 
 #### 1. What are Common Angular Security Issues?
 
@@ -5318,7 +5318,7 @@ export class JwtAuthGuard implements CanActivate {
 
 ---
 
-### 11. Testing
+## 🔹 11. Testing
 
 #### 1. How Do You Unit Test Angular Apps?
 
@@ -6029,7 +6029,7 @@ describe('SubscriptionComponent', () => {
 
 These practices ensure building secure, reliable Angular applications with comprehensive test coverage.
 
-### 12. SSR & Build
+## 🔹 12. SSR & Build
 
 #### 1. What is AOT vs JIT?
 
@@ -6489,7 +6489,7 @@ export class FeatureComponent {
 
 ---
 
-### 13. Architecture & Real-World Scenarios
+## 🔹 13. Architecture & Real-World Scenarios
 
 #### 1. How Do You Organize a Large Angular App?
 
@@ -7317,7 +7317,7 @@ describe('SingletonService', () => {
 
 These concepts are essential for building scalable, maintainable Angular applications that perform well in production environments.
 
-### 14. Behavioral / Experience-Based
+## 🔹 14. Behavioral / Experience-Based
 
 #### 1. Most Challenging Angular Issue You Faced?
 
