@@ -270,9 +270,13 @@ public class Main01 {
 			char ch = Character.toLowerCase(strArr[i]);
 			
 			if(ch >= 'a' && ch <= 'z') {
-				if() {
-					
-				}
+				// if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+					System.out.println("This is vowels : " + strArr[i]);
+                    break;
+				} else {
+                    System.out.println("This is vowels : " + strArr[i]);
+                }
 			}
 			
 		}

@@ -1,5 +1,5 @@
 ## 🔹 1. Angular Fundamentals
-## 🔹 1. What is Angular?
+### 1. What is Angular?
 
 Angular is a **TypeScript-based web framework** developed by Google for building dynamic single-page applications. It's a complete platform that includes:
 - Component-based architecture
@@ -21,7 +21,7 @@ export class HelloComponent {
 
 ---
 
-## 🔹 2. Difference between Angular and AngularJS?
+### 2. Difference between Angular and AngularJS?
 
 **AngularJS (1.x)** is the old JavaScript framework, while **Angular (2+)** is a complete rewrite:
 
@@ -54,7 +54,7 @@ export class MyComponent {
 
 ---
 
-## 🔹 3. Key Features Introduced Till Angular 18
+### 3. Key Features Introduced Till Angular 18
 
 **Major features across versions:**
 - **Angular 2-4**: Component architecture, TypeScript, CLI
@@ -88,7 +88,7 @@ export class ModernComponent {
 
 ---
 
-## 🔹 4. What are Components?
+### 4. What are Components?
 
 Components are the **building blocks** of Angular applications. Each component controls a part of the screen called a view. They consist of:
 - **TypeScript class** (logic)
@@ -124,7 +124,7 @@ export class UserCardComponent {
 
 ---
 
-## 🔹 5. What are Modules and Why Are They Needed?
+### 5. What are Modules and Why Are They Needed?
 
 Modules are **containers** that group related components, services, and other code. They help organize applications and enable lazy loading. Every Angular app has at least one root module.
 
@@ -164,7 +164,7 @@ export class AppModule { }
 
 ---
 
-## 🔹 6. What is a Template?
+### 6. What is a Template?
 
 A template is the **HTML view** of a component with Angular-specific markup. It defines how the component renders and includes:
 - Data binding
@@ -213,7 +213,7 @@ export class TodoComponent {
 
 ---
 
-## 🔹 7. What are Decorators in Angular?
+### 7. What are Decorators in Angular?
 
 Decorators are **TypeScript features** that add metadata to classes, methods, or properties. Angular uses them to define components, services, and other elements.
 
@@ -257,7 +257,7 @@ export class DataService {
 
 ---
 
-## 🔹 8. What is a Directive? Types of Directives
+### 8. What is a Directive? Types of Directives
 
 Directives are **classes that add behavior** to elements in Angular templates. They extend HTML with custom functionality.
 
@@ -338,7 +338,7 @@ export class HighlightDirective {
 
 ---
 
-## 🔹 9. What are Services?
+### 9. What are Services?
 
 Services are **singleton classes** that handle business logic, data operations, and shared functionality across components. They keep components lean and focused on the view.
 
@@ -391,7 +391,7 @@ export class UserListComponent implements OnInit {
 
 ---
 
-## 🔹 10. What is Dependency Injection?
+### 10. What is Dependency Injection?
 
 Dependency Injection (DI) is a **design pattern** where Angular provides dependencies to a class instead of the class creating them. It promotes loose coupling and easier testing.
 
@@ -438,7 +438,7 @@ export class AppModule {}
 
 ---
 
-## 🔹 11. What is Bootstrapping?
+### 11. What is Bootstrapping?
 
 Bootstrapping is the **process of starting** an Angular application. It initializes the root module and component, setting up the entire application.
 
@@ -481,7 +481,7 @@ bootstrapApplication(AppComponent, {
 
 ---
 
-## 🔹 12. Which File Loads First in Angular?
+### 12. Which File Loads First in Angular?
 
 **`main.ts`** is the **first file** that loads in an Angular application. It's the entry point defined in `angular.json`.
 
@@ -523,7 +523,7 @@ platformBrowserDynamic()
 
 ---
 
-## 🔹 13. Can We Rename `main.ts`?
+### 13. Can We Rename `main.ts`?
 
 **Yes**, you can rename `main.ts`, but you must **update the configuration** in `angular.json` to point to the new filename.
 
@@ -559,7 +559,7 @@ platformBrowserDynamic()
 
 ---
 
-## 🔹 14. What is Data Binding? Types of Data Binding
+### 14. What is Data Binding? Types of Data Binding
 
 Data binding is **communication between component and template**. It synchronizes data between TypeScript code and HTML view.
 
@@ -613,7 +613,7 @@ export class BindingDemoComponent {
 
 ---
 
-## 🔹 15. What are Lifecycle Hooks?
+### 15. What are Lifecycle Hooks?
 
 Lifecycle hooks are **methods** that Angular calls at specific moments in a component's lifecycle. They allow you to tap into key events from creation to destruction.
 
@@ -670,7 +670,7 @@ export class LifecycleComponent implements OnInit, OnDestroy, OnChanges {
 
 ---
 
-## 🔹 16. Difference Between Constructor and `ngOnInit`
+### 16. Difference Between Constructor and `ngOnInit`
 
 **Constructor** is for **dependency injection** and basic initialization, while **`ngOnInit`** is for **component-specific logic** after Angular sets up the component.
 
@@ -750,9 +750,9 @@ Key concepts:
 
 Each concept works together to create maintainable, scalable web applications with clear separation of concerns and powerful data binding capabilities.
 
-## 🔹 2. Templates & Directives
+### 2. Templates & Directives
 
-### 🔹 1. What is `ngIf`?
+#### 1. What is `ngIf`?
 
 `ngIf` is a **structural directive** that conditionally adds or removes elements from the DOM based on a boolean expression. It completely removes elements when false, not just hides them.
 
@@ -788,7 +788,7 @@ export class NgIfComponent {
 
 ---
 
-### 🔹 2. What is `ngFor`?
+#### 2. What is `ngFor`?
 
 `ngFor` is a **structural directive** that repeats a template for each item in a collection. It's Angular's way of creating loops in templates.
 
@@ -832,7 +832,7 @@ export class NgForComponent {
 
 ---
 
-### 🔹 3. Difference Between `ngFor` and `ngForOf`?
+#### 3. Difference Between `ngFor` and `ngForOf`?
 
 **There's no difference** - `ngForOf` is the **actual directive name**, while `*ngFor` is **syntactic sugar**. Angular transforms `*ngFor` into `ngForOf` internally.
 
@@ -859,7 +859,7 @@ export class NgForVsNgForOfComponent {
 
 ---
 
-### 🔹 4. What is `ngClass`?
+#### 4. What is `ngClass`?
 
 `ngClass` is an **attribute directive** that dynamically adds or removes CSS classes based on expressions. It's perfect for conditional styling.
 
@@ -909,7 +909,7 @@ export class NgClassComponent {
 
 ---
 
-### 🔹 5. What is a Template Reference Variable?
+#### 5. What is a Template Reference Variable?
 
 Template reference variables are **references to DOM elements or components** in templates. They're created with `#` and can be used anywhere in the template.
 
@@ -960,7 +960,7 @@ export class TemplateRefComponent {
 
 ---
 
-### 🔹 6. What is `ng-content`?
+#### 6. What is `ng-content`?
 
 `ng-content` enables **content projection** - it allows you to pass HTML content from parent to child component. It's Angular's way of creating reusable component templates.
 
@@ -1008,7 +1008,7 @@ export class ParentComponent {}
 
 ---
 
-### 🔹 7. What is `ng-template`?
+#### 7. What is `ng-template`?
 
 `ng-template` is a **template element** that defines reusable template blocks. It doesn't render by default - you need to use it with structural directives or `ngTemplateOutlet`.
 
@@ -1083,7 +1083,7 @@ export class NgTemplateComponent {
 
 ---
 
-### 🔹 8. What is `trackBy` and Why is it Important?
+#### 8. What is `trackBy` and Why is it Important?
 
 `trackBy` is a **performance optimization** for `ngFor` that tells Angular how to identify list items. It prevents unnecessary DOM manipulation when the list changes.
 
@@ -1143,7 +1143,7 @@ export class TrackByComponent {
 
 ---
 
-### 🔹 9. What are Pure vs Impure Pipes?
+#### 9. What are Pure vs Impure Pipes?
 
 Pipes transform data in templates. **Pure pipes** only execute when input changes, while **impure pipes** execute on every change detection cycle.
 
@@ -1227,9 +1227,9 @@ export class PipeComponent {
 These features enable you to build flexible, performant Angular applications with clean, maintainable templates.
 
 
-## 🔹 3. Forms
+### 3. Forms
 
-### 🔹 1. What are Angular Forms?
+#### 1. What are Angular Forms?
 
 Angular forms are **powerful tools** for handling user input, validation, and data binding. They provide two approaches: **template-driven** and **reactive forms** for different use cases.
 
@@ -1267,7 +1267,7 @@ export class BasicFormComponent {}
 
 ---
 
-### 🔹 2. Template-driven vs Reactive Forms
+#### 2. Template-driven vs Reactive Forms
 
 **Template-driven forms** use directives in templates, while **reactive forms** use FormBuilder in components. Choose based on complexity and control needs.
 
@@ -1337,7 +1337,7 @@ export class ReactiveFormComponent {
 
 ---
 
-### 🔹 3. What is `ngModel`?
+#### 3. What is `ngModel`?
 
 `ngModel` is a **directive** that creates two-way data binding between form controls and component properties. It's the core of template-driven forms.
 
@@ -1386,7 +1386,7 @@ export class NgModelComponent {
 
 ---
 
-### 🔹 4. How Do You Validate Forms?
+#### 4. How Do You Validate Forms?
 
 Angular provides **built-in validators** and supports **custom validation**. Validation works differently in template-driven vs reactive forms.
 
@@ -1482,7 +1482,7 @@ export class ReactiveValidationComponent {
 
 ---
 
-### 🔹 5. How Do You Create Custom Validators?
+#### 5. How Do You Create Custom Validators?
 
 Custom validators are **functions** that return validation errors or null. They can be synchronous or asynchronous for complex validation logic.
 
@@ -1606,9 +1606,9 @@ export class CustomValidatorComponent {
 
 Both approaches provide robust form handling with comprehensive validation capabilities for building user-friendly applications.
 
-## 🔹 4. Routing & Navigation
+### 4. Routing & Navigation
 
-### 🔹 1. What is Angular Router?
+#### 1. What is Angular Router?
 
 Angular Router is a **navigation service** that enables navigation between different views/components in single-page applications. It manages URL changes and component rendering without full page reloads.
 
@@ -1654,7 +1654,7 @@ export class AppComponent {
 
 ---
 
-### 🔹 2. What is RouterModule?
+#### 2. What is RouterModule?
 
 RouterModule is an **Angular module** that provides routing functionality. It exports router directives, services, and configuration methods for setting up navigation.
 
@@ -1711,7 +1711,7 @@ export class NavigationComponent {
 
 ---
 
-### 🔹 3. What is Lazy Loading?
+#### 3. What is Lazy Loading?
 
 Lazy loading **loads feature modules on-demand** instead of at application startup. It improves initial load time by splitting the application into smaller chunks.
 
@@ -1767,7 +1767,7 @@ const routes: Routes = [
 
 ---
 
-### 🔹 4. What are Route Guards?
+#### 4. What are Route Guards?
 
 Route guards are **interfaces** that control navigation to and from routes. They provide hooks to implement authentication, authorization, and data validation.
 
@@ -1826,7 +1826,7 @@ const routes: Routes = [
 
 ---
 
-### 🔹 5. How to Implement AuthGuard?
+#### 5. How to Implement AuthGuard?
 
 AuthGuard **protects routes** by checking user authentication status. It redirects unauthorized users to login and allows authenticated users to proceed.
 
@@ -1938,7 +1938,7 @@ const routes: Routes = [
 
 ---
 
-### 🔹 6. What is a Resolver?
+#### 6. What is a Resolver?
 
 A resolver **pre-loads data** before a route activates. It ensures components receive data immediately when they load, improving user experience by avoiding loading states.
 
@@ -2017,7 +2017,7 @@ export class UserDetailComponent implements OnInit {
 
 ---
 
-### 🔹 7. Difference Between Authentication & Authorization
+#### 7. Difference Between Authentication & Authorization
 
 **Authentication** verifies **who you are** (identity), while **Authorization** determines **what you can do** (permissions). Both are crucial for application security.
 
@@ -2147,9 +2147,9 @@ export class DashboardComponent {
 These features enable building secure, performant single-page applications with sophisticated navigation patterns.
 
 
-## 🔹 5. HTTP & Backend Integration
+### 5. HTTP & Backend Integration
 
-### 🔹 1. How Do You Make HTTP Calls?
+#### 1. How Do You Make HTTP Calls?
 
 Angular uses **HttpClient** to make HTTP requests. Import `HttpClientModule` in your module and inject `HttpClient` in services to perform GET, POST, PUT, DELETE operations.
 
@@ -2220,7 +2220,7 @@ export class UserComponent {
 
 ---
 
-### 🔹 2. What is HttpClient?
+#### 2. What is HttpClient?
 
 HttpClient is Angular's **HTTP service** that provides a simplified API for making HTTP requests. It's built on top of XMLHttpRequest and returns RxJS Observables.
 
@@ -2283,7 +2283,7 @@ export class DataComponent implements OnInit {
 
 ---
 
-### 🔹 3. How Do You Handle HTTP Errors?
+#### 3. How Do You Handle HTTP Errors?
 
 HTTP errors are handled using **RxJS operators** like `catchError`, `retry`, and `finalize`. Angular provides structured error objects with status codes and messages.
 
@@ -2392,7 +2392,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
 ---
 
-### 🔹 4. What are Interceptors?
+#### 4. What are Interceptors?
 
 Interceptors are **middleware** that intercept HTTP requests and responses. They're perfect for adding authentication headers, logging, error handling, and request/response transformation.
 
@@ -2467,7 +2467,7 @@ export class AppModule {}
 
 ---
 
-### 🔹 5. How to Add Headers Globally?
+#### 5. How to Add Headers Globally?
 
 Use **HTTP interceptors** to add headers globally to all requests. This is the cleanest way to handle authentication tokens, content types, and other common headers.
 
@@ -2552,7 +2552,7 @@ export class ApiService {
 
 ---
 
-### 🔹 6. How Do You Handle File Uploads?
+#### 6. How Do You Handle File Uploads?
 
 File uploads use **FormData** with HttpClient. Remove the Content-Type header to let the browser set the correct boundary for multipart/form-data.
 
@@ -2650,7 +2650,7 @@ export class FileUploadComponent {
 
 ---
 
-### 🔹 7. How Do You Make Parallel API Calls?
+#### 7. How Do You Make Parallel API Calls?
 
 Use **RxJS operators** like `forkJoin`, `combineLatest`, or `merge` to make parallel API calls. This improves performance by executing requests simultaneously instead of sequentially.
 
@@ -2803,9 +2803,9 @@ export class AdvancedApiService {
 These patterns enable building robust, performant applications with excellent user experience and maintainable code.
 
 
-## 🔹 6. RxJS (Very Important)
+### 6. RxJS (Very Important)
 
-### 🔹 1. What is RxJS?
+#### 1. What is RxJS?
 
 RxJS is a **reactive programming library** for JavaScript that uses Observables to handle asynchronous data streams. It's the foundation of Angular's reactive architecture.
 
@@ -2843,7 +2843,7 @@ export class DataService {
 
 ---
 
-### 🔹 2. What is an Observable?
+#### 2. What is an Observable?
 
 An Observable is a **data stream** that emits values over time. It's lazy (doesn't execute until subscribed) and can emit multiple values, unlike Promises.
 
@@ -2887,7 +2887,7 @@ export class ItemsComponent {
 
 ---
 
-### 🔹 3. What is an Observer?
+#### 3. What is an Observer?
 
 An Observer is an **object** that defines how to handle values emitted by an Observable. It has three methods: `next`, `error`, and `complete`.
 
@@ -2952,7 +2952,7 @@ export class UsersComponent implements OnInit {
 
 ---
 
-### 🔹 4. What is Multicasting?
+#### 4. What is Multicasting?
 
 Multicasting allows **multiple subscribers** to share the same Observable execution. By default, Observables are unicast (each subscription creates a new execution).
 
@@ -2995,7 +2995,7 @@ export class UserService {
 
 ---
 
-### 🔹 5. Subject vs BehaviorSubject vs ReplaySubject
+#### 5. Subject vs BehaviorSubject vs ReplaySubject
 
 **Subjects** are special Observables that can multicast and act as both Observable and Observer. Each type has different behavior for new subscribers.
 
@@ -3044,7 +3044,7 @@ export class StateService {
 
 ---
 
-### 🔹 6. Promise vs Observable
+#### 6. Promise vs Observable
 
 **Promises** handle single async values, while **Observables** handle multiple values over time. Observables are lazy, cancellable, and composable.
 
@@ -3110,7 +3110,7 @@ export class ComparisonComponent {
 
 ---
 
-### 🔹 7. `map`, `filter`, `switchMap`, `mergeMap`, `concatMap`
+#### 7. `map`, `filter`, `switchMap`, `mergeMap`, `concatMap`
 
 These are **transformation operators** that modify Observable streams. Each serves different purposes for data transformation and flattening.
 
@@ -3175,7 +3175,7 @@ export class SearchComponent {
 
 ---
 
-### 🔹 8. Difference Between `switchMap`, `mergeMap`, `concatMap`
+#### 8. Difference Between `switchMap`, `mergeMap`, `concatMap`
 
 These **flattening operators** handle inner Observables differently: **switchMap** cancels previous, **mergeMap** runs parallel, **concatMap** runs sequential.
 
@@ -3242,7 +3242,7 @@ export class ApiService {
 
 ---
 
-### 🔹 9. How Do You Handle Errors in RxJS?
+#### 9. How Do You Handle Errors in RxJS?
 
 RxJS provides **error handling operators** like `catchError`, `retry`, and `retryWhen`. Errors terminate the stream unless handled properly.
 
@@ -3335,7 +3335,7 @@ export class DataComponent implements OnInit {
 
 ---
 
-### 🔹 10. How to Unsubscribe Properly?
+#### 10. How to Unsubscribe Properly?
 
 Proper unsubscription **prevents memory leaks**. Use `takeUntil`, manual unsubscription, or async pipe for automatic cleanup.
 
@@ -3436,7 +3436,7 @@ export class ExtendedComponent extends BaseComponent implements OnInit {
 
 ---
 
-### 🔹 11. What is `takeUntil`?
+#### 11. What is `takeUntil`?
 
 `takeUntil` is an operator that **completes the source Observable** when another Observable emits. It's the preferred method for unsubscription in Angular components.
 
@@ -3570,9 +3570,9 @@ export class ConditionalComponent implements OnInit, OnDestroy {
 
 RxJS enables building reactive, performant Angular applications with clean, maintainable asynchronous code.
 
-## 🔹 7. Change Detection & Performance
+### 7. Change Detection & Performance
 
-### 🔹 1. What is Change Detection?
+#### 1. What is Change Detection?
 
 Change detection is Angular's **mechanism** to check if data has changed and update the DOM accordingly. It runs automatically after certain events to keep the view synchronized with the model.
 
@@ -3619,7 +3619,7 @@ export class TimeComponent {
 
 ---
 
-### 🔹 2. How Does Angular Change Detection Work?
+#### 2. How Does Angular Change Detection Work?
 
 Angular uses a **change detection tree** that mirrors the component tree. It checks each component from root to leaves, comparing current values with previous values using dirty checking.
 
@@ -3687,7 +3687,7 @@ export class TriggerComponent {
 
 ---
 
-### 🔹 3. What is Zone.js?
+#### 3. What is Zone.js?
 
 Zone.js is a **library** that patches asynchronous operations to automatically trigger Angular's change detection. It creates execution contexts that track async operations.
 
@@ -3758,7 +3758,7 @@ export class OutsideZoneComponent {
 
 ---
 
-### 🔹 4. What is `ngZone`?
+#### 4. What is `ngZone`?
 
 `ngZone` is Angular's **wrapper around Zone.js** that provides methods to run code inside or outside the Angular zone, controlling when change detection runs.
 
@@ -3840,7 +3840,7 @@ export class AnimationComponent {
 
 ---
 
-### 🔹 5. ChangeDetectionStrategy.Default vs OnPush
+#### 5. ChangeDetectionStrategy.Default vs OnPush
 
 **Default strategy** checks all components on every change detection cycle. **OnPush strategy** only checks when inputs change or events occur, improving performance.
 
@@ -3931,7 +3931,7 @@ export class ObservableComponent {
 
 ---
 
-### 🔹 6. How to Improve Angular Performance?
+#### 6. How to Improve Angular Performance?
 
 Angular performance can be improved through **OnPush strategy**, **lazy loading**, **trackBy functions**, **pure pipes**, and **code splitting**.
 
@@ -4020,7 +4020,7 @@ export class AppModule {}
 
 ---
 
-### 🔹 7. How to Troubleshoot Performance Issues?
+#### 7. How to Troubleshoot Performance Issues?
 
 Use **Angular DevTools**, **Chrome DevTools**, **performance profiling**, and **bundle analysis** to identify and fix performance bottlenecks.
 
@@ -4172,9 +4172,9 @@ export class DecoratedComponent {
 
 Understanding change detection is essential for building performant Angular applications that scale well with complexity and user load.
 
-## 🔹 8. Modern Angular (Must-Know)
+### 8. Modern Angular (Must-Know)
 
-### 🔹 1. What are Standalone Components?
+#### 1. What are Standalone Components?
 
 Standalone components are **self-contained components** that don't need to be declared in NgModules. They import their own dependencies directly, simplifying the architecture and reducing boilerplate.
 
@@ -4236,7 +4236,7 @@ bootstrapApplication(AppComponent, {
 
 ---
 
-### 🔹 2. What are Signals?
+#### 2. What are Signals?
 
 Signals are **reactive primitives** that hold values and notify consumers when values change. They provide fine-grained reactivity and better performance than traditional change detection.
 
@@ -4321,7 +4321,7 @@ export class LoggerComponent {
 
 ---
 
-### 🔹 3. Difference Between Signals and Observables
+#### 3. Difference Between Signals and Observables
 
 **Signals** are synchronous reactive primitives, while **Observables** are asynchronous streams. Signals provide simpler state management, while Observables handle complex async operations.
 
@@ -4405,7 +4405,7 @@ export class InteropComponent {
 
 ---
 
-### 🔹 4. Advantages of Standalone Architecture
+#### 4. Advantages of Standalone Architecture
 
 Standalone architecture **simplifies Angular applications** by removing NgModule complexity, improving tree-shaking, and making components more portable and testable.
 
@@ -4504,9 +4504,9 @@ export class OptimizedComponent {
 
 ---
 
-## 🔹 9. State Management
+### 9. State Management
 
-### 🔹 1. What is State Management?
+#### 1. What is State Management?
 
 State management is the **practice of managing application data** that needs to be shared across components. It provides a centralized store for application state with predictable updates.
 
@@ -4569,7 +4569,7 @@ export class UserListComponent implements OnInit {
 
 ---
 
-### 🔹 2. How Does Angular Handle State?
+#### 2. How Does Angular Handle State?
 
 Angular handles state through **services with dependency injection**, **component communication** via inputs/outputs, and **reactive patterns** with RxJS or Signals.
 
@@ -4649,7 +4649,7 @@ export class ParentComponent {
 
 ---
 
-### 🔹 3. NgRx vs Akita vs Signals
+#### 3. NgRx vs Akita vs Signals
 
 **NgRx** is Redux-pattern state management, **Akita** is simpler OOP-based state, and **Signals** provide built-in reactive state. Choose based on complexity and team preferences.
 
@@ -4744,7 +4744,7 @@ export class UserSignalService {
 
 ---
 
-### 🔹 4. When Would You NOT Use NgRx?
+#### 4. When Would You NOT Use NgRx?
 
 **Don't use NgRx** for simple applications, small teams without Redux experience, or when local component state suffices. NgRx adds complexity that may not be justified.
 
@@ -4873,9 +4873,9 @@ export class SimpleStateService {
 
 Modern Angular provides more choices and simpler patterns while maintaining the power and flexibility needed for complex applications.
 
-## 🔹 10. Security
+### 10. Security
 
-### 🔹 1. What are Common Angular Security Issues?
+#### 1. What are Common Angular Security Issues?
 
 Common Angular security issues include **XSS attacks**, **CSRF vulnerabilities**, **insecure HTTP requests**, **exposed sensitive data**, and **improper authentication handling**.
 
@@ -4954,7 +4954,7 @@ export class SecureApiService {
 
 ---
 
-### 🔹 2. How Does Angular Prevent XSS?
+#### 2. How Does Angular Prevent XSS?
 
 Angular prevents XSS through **automatic sanitization** of untrusted values, **safe interpolation**, and **Content Security Policy** support. It sanitizes HTML, styles, and URLs by default.
 
@@ -5022,7 +5022,7 @@ export class SafeHtmlPipe implements PipeTransform {
 
 ---
 
-### 🔹 3. How Does Angular Handle CSRF?
+#### 3. How Does Angular Handle CSRF?
 
 Angular handles CSRF through **HttpClientXsrfModule** that automatically reads CSRF tokens from cookies and adds them to HTTP headers for state-changing requests.
 
@@ -5101,7 +5101,7 @@ app.get('/api/csrf-token', (req, res) => {
 
 ---
 
-### 🔹 4. How to Secure Angular Apps in Production?
+#### 4. How to Secure Angular Apps in Production?
 
 Secure Angular apps in production by **enabling HTTPS**, **implementing CSP**, **securing build process**, **environment configuration**, and **regular security audits**.
 
@@ -5197,7 +5197,7 @@ export class SecurityService {
 
 ---
 
-### 🔹 5. JWT Authentication Flow in Angular
+#### 5. JWT Authentication Flow in Angular
 
 JWT authentication involves **storing tokens securely**, **adding tokens to requests**, **handling token expiration**, and **implementing refresh token logic**.
 
@@ -5318,9 +5318,9 @@ export class JwtAuthGuard implements CanActivate {
 
 ---
 
-## 🔹 11. Testing
+### 11. Testing
 
-### 🔹 1. How Do You Unit Test Angular Apps?
+#### 1. How Do You Unit Test Angular Apps?
 
 Angular unit testing uses **Jasmine** for test framework and **Karma** for test runner. Tests focus on individual components, services, and pipes in isolation with mocked dependencies.
 
@@ -5409,7 +5409,7 @@ describe('CapitalizePipe', () => {
 
 ---
 
-### 🔹 2. What is TestBed?
+#### 2. What is TestBed?
 
 TestBed is Angular's **testing utility** that creates a testing module to configure and create components for testing. It provides methods to configure dependencies, compile components, and create test instances.
 
@@ -5507,7 +5507,7 @@ describe('StandaloneComponent', () => {
 
 ---
 
-### 🔹 3. How Do You Mock Services?
+#### 3. How Do You Mock Services?
 
 Mock services using **jasmine.createSpyObj**, **provide overrides**, or **custom mock classes**. This isolates components from their dependencies for focused unit testing.
 
@@ -5620,7 +5620,7 @@ describe('ServiceWithMultipleScenarios', () => {
 
 ---
 
-### 🔹 4. How Do You Mock HTTP Requests?
+#### 4. How Do You Mock HTTP Requests?
 
 Mock HTTP requests using **HttpClientTestingModule** and **HttpTestingController**. This allows testing HTTP interactions without making actual network calls.
 
@@ -5738,7 +5738,7 @@ describe('DashboardComponent', () => {
 
 ---
 
-### 🔹 5. What is a Spy in Jasmine?
+#### 5. What is a Spy in Jasmine?
 
 A spy in Jasmine is a **test double** that tracks function calls and can return controlled values. Spies allow you to monitor method calls and mock return values for testing.
 
@@ -5866,7 +5866,7 @@ describe('SpyBehaviors', () => {
 
 ---
 
-### 🔹 6. How to Test Components with Observables?
+#### 6. How to Test Components with Observables?
 
 Test components with Observables using **async/await**, **fakeAsync/tick**, **marble testing**, or **manual subscription**. Handle asynchronous operations properly in tests.
 
@@ -6029,9 +6029,9 @@ describe('SubscriptionComponent', () => {
 
 These practices ensure building secure, reliable Angular applications with comprehensive test coverage.
 
-## 🔹 12. SSR & Build
+### 12. SSR & Build
 
-### 🔹 1. What is AOT vs JIT?
+#### 1. What is AOT vs JIT?
 
 **AOT (Ahead-of-Time)** compiles templates during build time, while **JIT (Just-in-Time)** compiles templates in the browser at runtime. AOT is the default and preferred approach for production.
 
@@ -6102,7 +6102,7 @@ export class UnusedService {
 
 ---
 
-### 🔹 2. What is Angular Universal?
+#### 2. What is Angular Universal?
 
 Angular Universal enables **Server-Side Rendering (SSR)** for Angular applications. It renders Angular apps on the server, improving SEO, performance, and initial page load times.
 
@@ -6184,7 +6184,7 @@ export class UniversalComponent {
 
 ---
 
-### 🔹 3. What is SSR and How It Works?
+#### 3. What is SSR and How It Works?
 
 **SSR (Server-Side Rendering)** renders Angular components on the server and sends HTML to the client. The client then hydrates the app, making it interactive.
 
@@ -6280,7 +6280,7 @@ export class ProductService {
 
 ---
 
-### 🔹 4. Purpose of `angular.json`
+#### 4. Purpose of `angular.json`
 
 `angular.json` is the **workspace configuration file** that defines build settings, project structure, and CLI commands for Angular applications and libraries.
 
@@ -6381,7 +6381,7 @@ export class ProductService {
 
 ---
 
-### 🔹 5. Environment-Specific Configuration
+#### 5. Environment-Specific Configuration
 
 Environment configuration allows **different settings** for development, staging, and production builds using file replacement and environment variables.
 
@@ -6489,9 +6489,9 @@ export class FeatureComponent {
 
 ---
 
-## 🔹 13. Architecture & Real-World Scenarios
+### 13. Architecture & Real-World Scenarios
 
-### 🔹 1. How Do You Organize a Large Angular App?
+#### 1. How Do You Organize a Large Angular App?
 
 Large Angular apps use **feature modules**, **shared modules**, **core module**, and **lazy loading** for maintainable architecture with clear separation of concerns.
 
@@ -6603,7 +6603,7 @@ export * from './shared.module';
 
 ---
 
-### 🔹 2. How Do Components Communicate?
+#### 2. How Do Components Communicate?
 
 Components communicate through **Input/Output properties**, **services with observables**, **ViewChild/ContentChild**, and **state management** patterns.
 
@@ -6719,7 +6719,7 @@ export class ParentComponent {
 
 ---
 
-### 🔹 3. How to Avoid Memory Leaks?
+#### 3. How to Avoid Memory Leaks?
 
 Avoid memory leaks by **unsubscribing from observables**, **removing event listeners**, **clearing timers**, and **using takeUntil pattern** for automatic cleanup.
 
@@ -6834,7 +6834,7 @@ export class AsyncPipeComponent {
 
 ---
 
-### 🔹 4. How to Debug Angular Apps?
+#### 4. How to Debug Angular Apps?
 
 Debug Angular apps using **Angular DevTools**, **browser developer tools**, **console logging**, **breakpoints**, and **performance profiling**.
 
@@ -6990,7 +6990,7 @@ export class DebugInterceptor implements HttpInterceptor {
 
 ---
 
-### 🔹 5. What Design Patterns Does Angular Follow?
+#### 5. What Design Patterns Does Angular Follow?
 
 Angular follows **Dependency Injection**, **Observer pattern**, **MVC/MVVM**, **Decorator pattern**, and **Factory pattern** for maintainable and testable architecture.
 
@@ -7147,7 +7147,7 @@ export class ValidationService {
 
 ---
 
-### 🔹 6. Singleton Pattern in Angular Services
+#### 6. Singleton Pattern in Angular Services
 
 Angular services are **singletons by default** when provided in root or module level. The same instance is shared across the entire application or module scope.
 
@@ -7317,9 +7317,9 @@ describe('SingletonService', () => {
 
 These concepts are essential for building scalable, maintainable Angular applications that perform well in production environments.
 
-## 🔹 14. Behavioral / Experience-Based
+### 14. Behavioral / Experience-Based
 
-### 🔹 1. Most Challenging Angular Issue You Faced?
+#### 1. Most Challenging Angular Issue You Faced?
 
 **Challenge:** Memory leaks in a large dashboard application with real-time data updates causing browser crashes after extended use.
 
@@ -7428,7 +7428,7 @@ export class MemoryMonitorService {
 
 ---
 
-### 🔹 2. How Did You Optimize Performance?
+#### 2. How Did You Optimize Performance?
 
 **Scenario:** E-commerce application with 10,000+ products was experiencing slow rendering, poor scroll performance, and 3-second load times.
 
@@ -7565,7 +7565,7 @@ export class PerformanceService {
 
 ---
 
-### 🔹 3. How Do You Stay Updated with Angular?
+#### 3. How Do You Stay Updated with Angular?
 
 **My learning strategy combines official sources, community engagement, and hands-on practice:**
 
@@ -7687,7 +7687,7 @@ export class FeatureComponent {}
 
 ---
 
-### 🔹 4. Describe a Real Project Architecture You Built
+#### 4. Describe a Real Project Architecture You Built
 
 **Project:** Enterprise HR Management System serving 50,000+ employees across multiple countries.
 
