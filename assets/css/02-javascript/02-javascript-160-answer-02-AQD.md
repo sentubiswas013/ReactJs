@@ -1,4 +1,4 @@
-## **Basic JavaScript Concepts**
+## 🔹1. **Basic JavaScript Concepts**
 
 ###  1. What are the different data types in JavaScript?
 
@@ -835,7 +835,7 @@ const debouncedSearch = debounce(searchFunction, 300);
 const throttledScroll = throttle(scrollHandler, 100);
 ```
 
-## **Object-Oriented Programming in JavaScript**
+## 🔹2. **Object-Oriented Programming in JavaScript**
 
 ###  37. What are Object-Oriented Programming (OOP) concepts in JavaScript?
 
@@ -1681,9 +1681,9 @@ person.fullName = "Jane Smith";
 console.log(person.firstName); // "Jane"
 ```
 
-## **Arrays and Objects**
+## 🔹3.Arrays and Objects**
 
-####  63. How can you merge two arrays in JavaScript?
+###  63. How can you merge two arrays in JavaScript?
 
 There are several ways to merge arrays. The most common and modern approach is using the spread operator. It's clean, readable, and creates a new array without modifying the originals.
 
@@ -1700,7 +1700,7 @@ const merged2 = arr1.concat(arr2);
 arr1.push(...arr2); // Modifies arr1
 ```
 
-####  64. What is the difference between `slice()` and `splice()` in JavaScript?
+###  64. What is the difference between `slice()` and `splice()` in JavaScript?
 
 The key difference is that `slice()` returns a copy without modifying the original array, while `splice()` modifies the original array. Think of slice as "view" and splice as "edit".
 
@@ -1717,7 +1717,7 @@ console.log(arr); // [1, 4, 5] - modified
 console.log(spliced); // [2, 3] - removed elements
 ```
 
-####  65. How do you remove duplicates from an array in JavaScript?
+###  65. How do you remove duplicates from an array in JavaScript?
 
 The easiest way is using `Set` with spread operator. Set automatically removes duplicates because it only stores unique values. For objects, you'll need a different approach.
 
@@ -1733,7 +1733,7 @@ const uniqueUsers = users.filter((user, index, self) =>
 );
 ```
 
-####  66. What are the different ways to loop through an array in JavaScript?
+###  66. What are the different ways to loop through an array in JavaScript?
 
 There are many ways, but the most common are `for`, `forEach`, `for...of`, and `map`. Choose based on your needs: `forEach` for side effects, `map` for transformation, `for...of` for readability.
 
@@ -1757,7 +1757,7 @@ for (const item of arr) {
 const doubled = arr.map(item => item * 2);
 ```
 
-####  67. How do you sort an array of objects based on a property in JavaScript?
+###  67. How do you sort an array of objects based on a property in JavaScript?
 
 Use the `sort()` method with a custom compare function. For strings, use `localeCompare()` for proper alphabetical sorting. For numbers, subtract values to get the correct order.
 
@@ -1778,7 +1778,7 @@ users.sort((a, b) => a.name.localeCompare(b.name));
 users.sort((a, b) => b.age - a.age);
 ```
 
-####  68. What is the difference between `Object.assign()` and the spread operator (`...`)?
+###  68. What is the difference between `Object.assign()` and the spread operator (`...`)?
 
 Both merge objects, but spread operator is more modern and readable. The main difference is that `Object.assign()` can take multiple sources and has some edge cases with getters, while spread is simpler and more predictable.
 
@@ -1949,7 +1949,7 @@ for (let char of 'hello') {
 // for (let value of obj) {} // TypeError!
 ```
 
-## **Functions and Scope**
+## 🔹4.Functions and Scope**
 
 ###  74. What is the difference between local scope and global scope in JavaScript?
 
@@ -2171,7 +2171,7 @@ async function loadData() {
 }
 ```
 
-## **Asynchronous JavaScript**
+## 🔹5.Asynchronous JavaScript**
 
 ###  84. How can you handle asynchronous operations in JavaScript?
 
@@ -2368,7 +2368,7 @@ for (const item of arr) {
 const doubled = arr.map(x => x * 2);
 ```
 
-## **ES6 and Beyond**
+## 🔹6.ES6 and Beyond**
 
 ###  93. What are template literals in JavaScript?
 
@@ -2688,7 +2688,7 @@ PersonClass(); // TypeError: Class constructor cannot be invoked without 'new'
 PersonFunc(); // Works but creates issues
 ```
 
-## **Error Handling and Debugging**
+## 🔹7.Error Handling and Debugging**
 
 ###  104. What is try-catch in JavaScript? How does it work?
 
@@ -3324,7 +3324,7 @@ function getCookie(name) {
 document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
 ```
 
-## **Advanced Concepts**
+## 🔹8.Advanced Concepts**
 
 ###  130. What is functional programming in JavaScript? How is it different from object-oriented programming?
 
@@ -3408,7 +3408,7 @@ class Dog extends Animal {
 const dog = new Dog(); // Works
 ```
 
-## **Performance Optimization**
+## 🔹9.Performance Optimization**
 ###  132. What are memory leaks in JavaScript, and how do you prevent them?
 
 **Memory Leaks:**
@@ -3654,7 +3654,7 @@ class VirtualList {
 }
 ```
 
-## **Frameworks and Libraries**
+## 🔹10.Frameworks and Libraries**
 ###  138. What are JavaScript frameworks, and how do they differ from libraries?
 
 **Frameworks vs Libraries:**
@@ -3712,7 +3712,7 @@ const app = new Framework({
 *  **Size**: Frameworks typically larger, libraries can be minimal
 
 
-## **Testing and Tools**
+## 🔹11.Testing and Tools**
 
 ###  139. What is unit testing in JavaScript?
 
@@ -3832,7 +3832,7 @@ expect(() => { throw new Error(); }).toThrow();
 expect(array).toContain(item);
 ```
 
-## **Advanced JavaScript Features**
+## 🔹12.Advanced JavaScript Features**
 
 ###  144. How do you use regular expressions in JavaScript?
 
@@ -4009,7 +4009,7 @@ arr.splice(2, 0, 'new item'); // Insert at index 2
 arr.splice(-1, 1); // Remove last element
 ```
 
-## **JavaScript Best Practices**
+## 🔹13.JavaScript Best Practices**
 
 ###  150. What is the importance of code minification in JavaScript?
 
@@ -4224,7 +4224,7 @@ class EventEmitter {
 ```
 
 ###  **JavaScript Okta API**
-####  1. **How does authentication with Okta work in a frontend application?**
+###  1. **How does authentication with Okta work in a frontend application?**
 
 **What interviewers look for:**
 
@@ -4234,7 +4234,7 @@ class EventEmitter {
 
 ---
 
-####  2. **Which OAuth 2.0 / OIDC flow would you use for a SPA and why?**
+###  2. **Which OAuth 2.0 / OIDC flow would you use for a SPA and why?**
 
 **Expected answer:**
 
@@ -4245,7 +4245,7 @@ class EventEmitter {
 
 ---
 
-####  3. **How do you handle access tokens and refresh tokens securely in the frontend?**
+###  3. **How do you handle access tokens and refresh tokens securely in the frontend?**
 
 **Key points:**
 
@@ -4256,7 +4256,7 @@ class EventEmitter {
 
 ---
 
-####  4. **How is SAML different from OIDC, and when would you use each?**
+###  4. **How is SAML different from OIDC, and when would you use each?**
 
 **Expected explanation:**
 
@@ -4273,7 +4273,7 @@ class EventEmitter {
 
 ---
 
-####  5. **How would you migrate SiteMinder policies to Okta?**
+###  5. **How would you migrate SiteMinder policies to Okta?**
 
 **Frontend-focused answer:**
 
@@ -4287,7 +4287,7 @@ class EventEmitter {
 
 ---
 
-####  6. **How do you implement role-based or attribute-based authorization in the frontend?**
+###  6. **How do you implement role-based or attribute-based authorization in the frontend?**
 
 **Expected approach:**
 
@@ -4305,7 +4305,7 @@ class EventEmitter {
 
 ---
 
-####  7. **How does the frontend integrate with platform services using Okta-issued tokens?**
+###  7. **How does the frontend integrate with platform services using Okta-issued tokens?**
 
 **Key points:**
 
@@ -4319,7 +4319,7 @@ class EventEmitter {
 
 ---
 
-####  8. **How do you handle session management and logout in Okta?**
+###  8. **How do you handle session management and logout in Okta?**
 
 **Expected answer:**
 
@@ -4333,4 +4333,3 @@ class EventEmitter {
   * Single Logout (SLO)
   * Session timeout
   * Forced re-authentication
-
