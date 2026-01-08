@@ -579,6 +579,7 @@ public class Main01 {
         }
 
         System.out.println("Factorial of " + number + " is: " + factorial);
+        // Factorial of 5 is: 120
     }
 
     // 15. Calculate the Power of a Number
@@ -594,6 +595,7 @@ public class Main01 {
         }
 
         System.out.println(base + " raised to the power " + exponent + " is: " + result);
+        // 2 raised to the power 5 is: 32
     }
 
     // 04. Array Operations  ==========================================================   
@@ -801,6 +803,8 @@ public class Main01 {
             a = b;
             b = nextTerm;
         }
+
+        // Fibonacci Series up to 10 terms: 0 1 1 2 3 5 8 13 21 34
     }
 
     // 2. Print the Multiplication Table of a Number
@@ -812,6 +816,18 @@ public class Main01 {
         for (int i = 1; i <= limit; i++) {
             System.out.println(number + " x " + i + " = " + (number * i));
         }
+
+        // Multiplication Table of 5:
+        // 5 x 1 = 5
+        // 5 x 2 = 10
+        // 5 x 3 = 15
+        // 5 x 4 = 20
+        // 5 x 5 = 25
+        // 5 x 6 = 30
+        // 5 x 7 = 35
+        // 5 x 8 = 40
+        // 5 x 9 = 45
+        // 5 x 10 = 50
     }
 
     // 3. Print a Triangle of Stars
