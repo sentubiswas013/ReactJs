@@ -25,6 +25,7 @@ public class Main01 {
 
         // 02. String Analysis ================================
         // Palindrome();
+        // FirstNonRepeatedChar();
         // DuplicateCharacters();
         // RemoveDuplicates();
         // VowelConsonantCount();
@@ -44,17 +45,18 @@ public class Main01 {
         // PerfectSquare();
         // ArmstrongNumber();
         // GreatestCommonDivisor();
-        // LeastCommonMultiple();
         // Factorial();
         // PowerOfNumber();
 
         // 04. Array Operations  ==============================
+        // findSimilarNumsFromTwoArray()
         // findDuplicateNums();
         // SecondHighestNumber();
         // LargestElement();
         // SmallestElement();
         // MergeArrays();
         // SortArray();
+        // SortArrayTwo();
         // SumArray();
         // MedianArray();
         // CommonElements();
@@ -162,7 +164,7 @@ public class Main01 {
 	public static void shortWord() {
 		String sentence = "This is a Java programming challenge.";
 		
-		System.out.println("result: " + isPalindrome);
+		System.out.println("result: " );
 	}
 
     // String Analysis  ==========================================================
@@ -172,6 +174,15 @@ public class Main01 {
         boolean isPalindrome = true;
 
         System.out.println("result: ");
+    }
+
+    // 1. Find the First Non-Repeated Character in a String
+    public static void FirstNonRepeatedChar () {
+        String str = "stress";
+        char result = ' ';
+        
+
+        System.out.println(result); // Output: t
     }
 
     // 2. Find the Duplicate Characters in a String
@@ -322,13 +333,6 @@ public class Main01 {
         System.out.println("result: ");
     }
 
-    // 13. Find the LCM (Least Common Multiple) of Two Numbers
-    public static void LeastCommonMultiple() {
-       
-		
-		System.out.println("result: ");
-    }
-
     // 14. Find the Factorial of a Number
     public static void Factorial() {
         int number = 5;  // Example number
@@ -345,6 +349,20 @@ public class Main01 {
     }
 
     // 04. Array Operations  ==========================================================   
+    // 1. Find Similar Numbers from Two Arrays
+    public static void findSimilarNumsFromTwoArray () {
+        int[] numOne = {2, 4, 6, 8, 9};
+        int[] numTwo = {3, 8, 6, 2, 5};
+
+        
+        System.out.println("result: ");
+
+        // Output: 
+        // 2
+        // 6
+        // 8
+    }
+
     // 1. Find the Duplicate Characters in a Numbers
     public static void findDuplicateNums() {
         int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
@@ -390,6 +408,15 @@ public class Main01 {
 
 
         System.out.println("result: ");
+    }
+
+    // 6. Sort an Array of Integers in Ascending Order
+    public static void SortArrayTwo() {
+        int[] arr = {5, 2, 9, 1, 5, 6};
+
+        
+        System.out.println("result: ");
+        // 1 2 5 5 6 9
     }
 
     // 7. Sum All Elements of an Array

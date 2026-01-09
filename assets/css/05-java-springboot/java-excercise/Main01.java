@@ -21,13 +21,14 @@ public class Main01 {
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
         // LongestWord();
-        // shortWord();
+		// shortWord();
 
         // 02. String Analysis ================================
         // Palindrome();
+        // FirstNonRepeatedChar();
         // DuplicateCharacters();
         // RemoveDuplicates();
-        // VowelConsonantCount();
+        VowelConsonantCount();
         // AnagramCheck();
         // CountOccurrences();
 
@@ -49,12 +50,14 @@ public class Main01 {
         // PowerOfNumber();
 
         // 04. Array Operations  ==============================
+        // findSimilarNumsFromTwoArray();
         // findDuplicateNums();
         // SecondHighestNumber();
         // LargestElement();
         // SmallestElement();
         // MergeArrays();
         // SortArray();
+        // SortArrayTwo();
         // SumArray();
         // MedianArray();
         // CommonElements();
@@ -116,18 +119,26 @@ public class Main01 {
         String str = "Hello World";  // Example string
         char oldChar = 'o';  // Character to replace
         char newChar = 'a';  // New character to replace with
-
-        StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i<str.length(); i++) {
+			if(str.charAt(i) == oldChar) {
+				result.append(newChar);
+			}
+			else {
+				result.append(str.charAt(i));
+			}
+		}
         
 
-        System.out.println("result: ");
+        System.out.println("result: " + result);
     }
 
     // 6. Convert an Array to a String
     public static void ArrayToString() {
         int[] arr = {1, 2, 3, 4, 5};  // Example array
 		
-		System.out.println("result: ");
+		System.out.println("result: " + Arrays.toString(arr));
+		System.out.println("result: " + arr.toString());
     }
 
     // 7. Swap Two Strings
@@ -135,36 +146,65 @@ public class Main01 {
         String str1 = "Hello";  // First string
         String str2 = "World";  // Second string
         
+		String temp = str2;
+		str2 = str1;
+		str1 = temp;
 		
-		System.out.println("result: ");
+		System.out.println("result: " + str1 + "--" + str2);
     }
 
     // 8. Swap Two Numbers Using the Third Variable
     public static void SwapWithThirdVariable() {
         int a = 5, b = 10;
-
-        System.out.println("result: ");
+		int c = b;
+		b = a;
+		a = c;
+        System.out.println("result: " + a + "--" + b);
     }
 
     // 9. Swap Two Numbers Without Using the Third Variable
     public static void SwapWithoutThirdVariable() {
         int a = 5, b = 10;
+		a = a + b;
+		System.out.println("result: " + a);
+		b = a - b;
+		System.out.println("result: " + b);
+		a = a - b;
+		System.out.println("result: " + a);
 
-         System.out.println("result: ");
+        System.out.println("result: " + a + "--" + b);
     }
 
     // 10. Find the Longest Word in a Sentence
     public static void LongestWord() {
         String sentence = "This is a Java programming challenge.";  // Example sentence
+		String[] words = sentence.split(" ");
+		String longest = "";
+		
+		for(int i = 0; i<words.length; i++) {
+			// System.out.println("result: " + words[i]);
+			if(words[i].length() > longest.length()) {
+				longest = words[i];
+			}
+		}
+		
 
-        System.out.println("result: ");
+        System.out.println("result:2 " + longest);
     }
-
-    // 11. Find the shortest Word in a Sentence
+	
+	// 11. Find the shortest Word in a Sentence
 	public static void shortWord() {
 		String sentence = "This is a Java programming challenge.";
+		String[] words = sentence.split(" ");
+		String shortest = words[0];
+		for(int i = 0; i < words.length; i++) {
+			// System.out.println("result: " + i);
+			if(words[i].length() < shortest.length()) {
+				shortest = words[i];
+			}
+		}
 		
-		System.out.println("result: " + isPalindrome);
+		System.out.println("result: " + shortest);
 	}
 
     // String Analysis  ==========================================================
@@ -172,23 +212,64 @@ public class Main01 {
     public static void Palindrome() {
         String str = "madam";
         boolean isPalindrome = true;
+		
+		for(int i = 0; i < str.length() / 2; i++) {
+			System.out.println("result: " + i);
+			if(str.charAt(i) != str.charAt(str.length()-1-i) ) {
+				isPalindrome = false;
+				break;
+			}
+		}
 
-        System.out.println("result: ");
+        System.out.println("result: " + isPalindrome);
+    }
+
+     // 1. Find the First Non-Repeated Character in a String
+    public static void FirstNonRepeatedChar () {
+        String str = "stress";
+        char result = ' ';
+        
+
+        System.out.println(result); // Output: t
     }
 
     // 2. Find the Duplicate Characters in a String
     public static void DuplicateCharacters() {
         String str = "programming";
-        
+		char[] chars = str.toCharArray();
+
+        for(int i = 0; i<chars.length; i++) {			
+			for(int j = i+1; j<chars.length; j++ ) {
+				if(chars[i] == chars[j]) {
+					System.out.println("result: " + chars[i]);
+					break;
+				}
+			}
+		}
 		
-		System.out.println("result: ");
+		// System.out.println("result: " + chars);
     }
 
     // 3. Remove Duplicates from an Array
     public static void RemoveDuplicates() {
         int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
-        
-		System.out.println("result: ");
+        ArrayList<Integer> result = new ArrayList<>();
+		for(int i = 0; i<arr.length; i++) {		
+			boolean isDuplicate = false;
+		
+			for(int j = i+1; j<arr.length; j++ ) {
+				if(arr[i] == arr[j]) {
+					// System.out.println("result: " + arr[i]);
+					isDuplicate = true;
+					break;
+				}
+			}
+			if(!isDuplicate) {
+			 result.add(arr[i]);
+			 // System.out.println("result: " + arr[i]);
+			}
+		}
+		System.out.println("result: " + result);
     }
 
     // 4. Count Vowels and Consonants in a String
@@ -196,7 +277,21 @@ public class Main01 {
         String str = "Hello World";  // Example string
         int vowels = 0, consonants = 0;
 
-        
+        char[] strArr = str.toCharArray();
+		for(int i = 0; i<strArr.length; i++ ) {
+			char ch = Character.toLowerCase(strArr[i]);
+			
+			if(ch >= 'a' && ch <= 'z') {
+				// if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+					System.out.println("This is vowels : " + strArr[i]);
+                    break;
+				} else {
+                    System.out.println("This is vowels : " + strArr[i]);
+                }
+			}
+			
+		}
 
         System.out.println("result: ");
     }
@@ -284,8 +379,8 @@ public class Main01 {
 
     // 8. Print the Prime Numbers Between 1 and 100
     public static void PrimeNumbers() {
-		Int startNum = 2;
-		Int endNum = 100;
+		int startNum = 2;
+		int endNum = 100;
 	
         
 		
@@ -325,7 +420,7 @@ public class Main01 {
     }
 
     // 13. Find the LCM (Least Common Multiple) of Two Numbers
-    public class LeastCommonMultiple() {
+    public static void LeastCommonMultiple() {
        
 		
 		System.out.println("result: ");
@@ -347,6 +442,20 @@ public class Main01 {
     }
 
     // 04. Array Operations  ==========================================================   
+    // 1. Find Similar Numbers from Two Arrays
+    public static void findSimilarNumsFromTwoArray () {
+        int[] numOne = {2, 4, 6, 8, 9};
+        int[] numTwo = {3, 8, 6, 2, 5};
+
+        
+        System.out.println("result: ");
+
+        // Output: 
+        // 2
+        // 6
+        // 8
+    }
+    
     // 1. Find the Duplicate Characters in a Numbers
     public static void findDuplicateNums() {
         int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
@@ -394,6 +503,15 @@ public class Main01 {
         System.out.println("result: ");
     }
 
+    // 6. Sort an Array of Integers in Ascending Order
+    public static void SortArrayTwo() {
+        int[] arr = {5, 2, 9, 1, 5, 6};
+
+        
+        System.out.println("result: ");
+        // 1 2 5 5 6 9
+    }
+
     // 7. Sum All Elements of an Array
     public static void SumArray() {
         int[] arr = {1, 2, 3, 4, 5};  // Example array
@@ -406,7 +524,7 @@ public class Main01 {
     // 8. Find the Median of an Array
     public static void MedianArray() {
         int[] arr = {12, 3, 5, 7, 19};  // Example array
-        }
+
 
         System.out.println("result: ");
     }
@@ -532,12 +650,3 @@ public class Main01 {
     //    *
 }
 
-// Length vs Size in Java
-
-// int[] arr = {1, 2, 3};
-// String str = "Hello";
-// ArrayList<Integer> list = new ArrayList<>();
-
-// System.out.println(arr.length);     // 3
-// System.out.println(str.length());   // 5
-// System.out.println(list.size());    // 0

@@ -45,17 +45,18 @@ public class Main01 {
         // PerfectSquare();
         // ArmstrongNumber();
         // GreatestCommonDivisor();
-        // LeastCommonMultiple();
         // Factorial();
         // PowerOfNumber();
 
         // 04. Array Operations  ==============================
+        // findSimilarNumsFromTwoArray();
         // findDuplicateNums();
         // SecondHighestNumber();
         // LargestElement();
         // SmallestElement();
         // MergeArrays();
         // SortArray();
+        // SortArrayTwo();
         // SumArray();
         // MedianArray();
         // CommonElements();
@@ -618,32 +619,7 @@ public class Main01 {
         }
 
         System.out.println("The GCD of the two numbers is: " + num1);
-    }
-
-    // 13. Find the LCM (Least Common Multiple) of Two Numbers
-    public class LeastCommonMultiple {
-        public static void main() {
-            int num1 = 12, num2 = 18;  // Example numbers
-            int lcm;
-
-            // Find the LCM using the formula: LCM(a, b) = (a * b) / GCD(a, b)
-            lcm = (num1 * num2) / findGCD(num1, num2);
-
-            System.out.println("The LCM of " + num1 + " and " + num2 + " is: " + lcm);
-        }
-
-        // Function to find the GCD of two numbers
-        public static int findGCD(int a, int b) {
-            while (a != b) {
-                if (a > b) {
-                    a -= b;
-                } else {
-                    b -= a;
-                }
-            }
-            return a;  // GCD is when a == b
-        }
-
+        // GCD is: 14
     }
 
     // 14. Find the Factorial of a Number
@@ -677,6 +653,27 @@ public class Main01 {
     }
 
     // 04. Array Operations  ==========================================================   
+    // 1. Find Similar Numbers from Two Arrays
+    public static void findSimilarNumsFromTwoArray () {
+        int[] numOne = {2, 4, 6, 8, 9};
+        int[] numTwo = {3, 8, 6, 2, 5};
+
+        System.out.println("Common numbers:");
+
+        for (int i = 0; i < numOne.length; i++) {
+            for (int j = 0; j < numTwo.length; j++) {
+                if (numOne[i] == numTwo[j]) {
+                    System.out.println(numOne[i]);
+                    break; // avoid duplicate printing
+                }
+            }
+        }
+        // Output: 
+        // 2
+        // 6
+        // 8
+    }
+
     // 1. Find the Duplicate Characters in a Numbers
     public static void findDuplicateNums() {
         int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
@@ -773,7 +770,8 @@ public class Main01 {
         System.out.println("Sorted Array in Ascending Order: " + Arrays.toString(arr));
     }
 
-    public static void SortArrayTwoo() {
+    // 6. Sort an Array of Integers in Ascending Order
+    public static void SortArrayTwo() {
         int[] arr = {5, 2, 9, 1, 5, 6};
 
         for (int i = 0; i < arr.length; i++) {
@@ -790,7 +788,7 @@ public class Main01 {
             System.out.print(arr[i] + " ");
         }
 
-        // 1 2 5 5 6 9\
+        // 1 2 5 5 6 9
     }
 
 
@@ -809,21 +807,23 @@ public class Main01 {
 
     // 8. Find the Median of an Array
     public static void MedianArray() {
-        int[] arr = {12, 3, 5, 7, 19};  // Example array
-        Arrays.sort(arr);  // Sort the array to find the median
-        
+         int[] arr = {12, 3, 5, 7, 19};
+
+        Arrays.sort(arr);  // Sort the array
+
         double median;
         int length = arr.length;
 
         if (length % 2 == 0) {
-            // If the length is even, median is the average of the two middle elements
+            // Even length → average of two middle values
             median = (arr[length / 2 - 1] + arr[length / 2]) / 2.0;
         } else {
-            // If the length is odd, median is the middle element
+            // Odd length → middle value
             median = arr[length / 2];
         }
 
         System.out.println("The median is: " + median);
+        // The median is: 7.0
     }
 
     // 9. Find the Common Elements Between Two Arrays
