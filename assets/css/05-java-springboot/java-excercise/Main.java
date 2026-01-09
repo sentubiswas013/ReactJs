@@ -87,6 +87,7 @@ public class Main01 {
             reversedStr += str.charAt(i);
         }
         System.out.println("Reversed string: " + reversedStr);
+        // Reversed string: dlroWolleH
     }
 
     // 2. Remove All White Spaces from a String Using `replace()`
@@ -94,6 +95,8 @@ public class Main01 {
         String str = "Hello World Java";
         String result = str.replace(" ", "");
         System.out.println("Without spaces: " + result);
+
+        // Without spaces: HelloWorldJava
     }
 
     // 3. Remove All White Spaces from a String Without Using `replace()`
@@ -109,6 +112,7 @@ public class Main01 {
         }
 
         System.out.println("String after removing white spaces: '" + result.toString() + "'");
+        // String after removing white spaces: 'HelloWorld!'
     }
 
     // 4. Check if a String Contains a Substring
@@ -142,6 +146,7 @@ public class Main01 {
         }
 
         System.out.println("Modified string: " + result.toString());
+        // Modified string: Hella Warld
     }
 
     // 6. Convert an Array to a String
@@ -150,6 +155,7 @@ public class Main01 {
         String arrayString = Arrays.toString(arr);  // Convert array to string
 
         System.out.println("Array as String: " + arrayString);
+        // Array as String: [1, 2, 3, 4, 5]
     }
 
     // 7. Swap Two Strings
@@ -165,6 +171,10 @@ public class Main01 {
         System.out.println("After swapping:");
         System.out.println("str1: " + str1);
         System.out.println("str2: " + str2);
+
+        // After swapping:
+        // str1: World
+        // str2: Hello
     }
 
     // 8. Swap Two Numbers Using the Third Variable
@@ -179,6 +189,9 @@ public class Main01 {
         b = temp;
 
         System.out.println("After swapping: a = " + a + ", b = " + b);
+
+        // Before swapping: a = 5, b = 10
+        // After swapping: a = 10, b = 5
     }
 
     // 9. Swap Two Numbers Without Using the Third Variable
@@ -193,6 +206,9 @@ public class Main01 {
         a = a - b; // a becomes 10
 
         System.out.println("After swapping: a = " + a + ", b = " + b);
+
+        // Before swapping: a = 5, b = 10
+        // After swapping: a = 10, b = 5
     }
 
     // 10. Find the Longest Word in a Sentence
@@ -209,6 +225,8 @@ public class Main01 {
         }
 
         System.out.println("The longest word in the sentence is: " + longestWord);
+
+        // The longest word in the sentence is: programming
     }
 	
 	// 11. Find the shortest Word in a Sentence
@@ -225,6 +243,8 @@ public class Main01 {
 		}
 
 		System.out.println("Shortest word: " + shortest);
+
+        // Shortest word: a
 	}
 
 
@@ -248,6 +268,8 @@ public class Main01 {
         } else {
             System.out.println(str + " is not a palindrome.");
         }
+
+        // madam is a palindrome.
     }
 
     // 2. Find the Duplicate Characters in a String
@@ -265,6 +287,8 @@ public class Main01 {
 				}
 			}
 		}
+
+        // Duplicate characters: r g m 
 	}
 
 
@@ -288,6 +312,8 @@ public class Main01 {
 			}
 		}
 		System.out.println("result: " + result);
+
+        // result: [1, 2, 3, 4, 5, 6]
     }
 
     // 4. Count Vowels and Consonants in a String
@@ -312,6 +338,9 @@ public class Main01 {
 
         System.out.println("Vowels: " + vowels);
         System.out.println("Consonants: " + consonants);
+
+        // Vowels: 3
+        // Consonants: 7
     }
 
     // 5. Check if Two Strings are Anagrams
@@ -333,6 +362,9 @@ public class Main01 {
         } else {
             System.out.println(str1 + " and " + str2 + " are not anagrams.");
         }
+
+        // listen and silent are anagrams.
+
     }
 
     // 6. Count the Number of Occurrences of a Character in a String
@@ -349,6 +381,7 @@ public class Main01 {
         }
 
         System.out.println("The character '" + targetChar + "' occurs " + count + " times in the string.");
+        // The character 'r' occurs 2 times in the string.
     }
     
     // 03. Number Operations  ==========================================================
@@ -362,6 +395,9 @@ public class Main01 {
         } else {
             System.out.println(number + " is an odd number.");
         }
+
+        // 7 is an odd number.
+
     }
 
    // 2. Reverse an Integer Number
@@ -373,6 +409,7 @@ public class Main01 {
         for (int i = charArray.length - 1; i >= 0; i--) {
             System.out.print(charArray[i]);
         }
+        // 54321        
     }
 
     // 3. Find the Sum of Digits of a Number
@@ -387,6 +424,7 @@ public class Main01 {
         }
 
         System.out.println("Sum of digits: " + sum);
+        // Sum of digits: 10
     }
 
     // 4. Find the Sum of Digits of a Number
@@ -401,6 +439,7 @@ public class Main01 {
         }
 
         System.out.println("Result --- " + sum);
+        // Result --- 6
     }
 
 
@@ -415,6 +454,7 @@ public class Main01 {
         }
 
         System.out.println("Sum of first " + n + " natural numbers is: " + sum);
+        // Sum of first 10 natural numbers is: 55
     }
 
     // 6. Convert a String to an Integer
@@ -423,6 +463,7 @@ public class Main01 {
         int number = Integer.parseInt(str);  // Convert string to integer
 
         System.out.println("The integer value is: " + number);
+        // The integer value is: 12345
     }
 
     // 7. Find Whether a Number is Prime or Not
@@ -447,6 +488,8 @@ public class Main01 {
         } else {
             System.out.println(number + " is not a prime number.");
         }
+
+        // 29 is a prime number.
     }
 
     // 8. Print the Prime Numbers Between 1 and 100
@@ -470,6 +513,8 @@ public class Main01 {
                 System.out.print(num + " ");
             }
         }
+        // Prime numbers between 1 and 100: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
+
     }
 
     // 9. Check if a Number is a Perfect Number
@@ -490,6 +535,9 @@ public class Main01 {
         } else {
             System.out.println(number + " is not a perfect number.");
         }
+
+        // 28 is a perfect number.
+
     }
 
     // 10. Check if a Number is a Perfect Square
@@ -503,6 +551,7 @@ public class Main01 {
         } else {
             System.out.println(number + " is not a perfect square.");
         }
+        // 25 is a perfect square.
     }
 
     // 11. Check Armstrong Number
@@ -524,6 +573,7 @@ public class Main01 {
         } else {
             System.out.println(originalNumber + " is not an Armstrong number.");
         }
+        // 153 is an Armstrong number.
     }
 
     // 12. Find the GCD (Greatest Common Divisor) of Two Numbers
@@ -566,6 +616,7 @@ public class Main01 {
             }
             return a;  // GCD is when a == b
         }
+
     }
 
     // 14. Find the Factorial of a Number
