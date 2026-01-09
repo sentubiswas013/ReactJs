@@ -25,6 +25,7 @@ public class Main01 {
 
         // 02. String Analysis ================================
         // Palindrome();
+        // FirstNonRepeatedChar ();
         // DuplicateCharacters();
         // RemoveDuplicates();
         // VowelConsonantCount();
@@ -270,6 +271,32 @@ public class Main01 {
         }
 
         // madam is a palindrome.
+    }
+
+    // 1. Find the First Non-Repeated Character in a String
+    public static void FirstNonRepeatedChar () {
+        String str = "stress";
+        char result = ' ';
+        char[] strArr = str.toCharArray();
+
+        for (int i = 0; i < strArr.length; i++) {
+            char ch = strArr[i];
+            boolean repeated = false;
+
+            for (int j = 0; j < strArr.length; j++) {
+                if (i != j && ch == strArr[j]) {
+                    repeated = true;
+                    break;
+                }
+            }
+
+            if (!repeated) {
+                result = ch;
+                break;
+            }
+        }
+
+        System.out.println(result); // Output: t
     }
 
     // 2. Find the Duplicate Characters in a String
