@@ -16,16 +16,16 @@ public class Main01 {
         // RemoveWhiteSpacesWithoutReplace();
         // ContainsSubstring();
         // ReplaceCharacter();
-        ArrayToString();
+        // ArrayToString();
         // SwapStrings();
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
         // LongestWord();
-        // shortWord();
+		// shortWord();
 
         // 02. String Analysis ================================
         // Palindrome();
-        // FirstNonRepeatedChar();
+        // FirstNonRepeatedChar ();
         // DuplicateCharacters();
         // RemoveDuplicates();
         // VowelConsonantCount();
@@ -49,7 +49,7 @@ public class Main01 {
         // PowerOfNumber();
 
         // 04. Array Operations  ==============================
-        // findSimilarNumsFromTwoArray()
+        // findSimilarNumsFromTwoArray();
         // findDuplicateNums();
         // SecondHighestNumber();
         // LargestElement();

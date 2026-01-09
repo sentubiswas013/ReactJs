@@ -10,7 +10,7 @@ public class Main01 {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
 
-        // 01. String Operations  ============================
+       // 01. String Operations  ============================
         // ReverseString();
         // RemoveWhiteSpacesWithReplace();
         // RemoveWhiteSpacesWithoutReplace();
@@ -25,7 +25,7 @@ public class Main01 {
 
         // 02. String Analysis ================================
         // Palindrome();
-        // FirstNonRepeatedChar();
+        // FirstNonRepeatedChar ();
         // DuplicateCharacters();
         // RemoveDuplicates();
         VowelConsonantCount();
@@ -45,7 +45,6 @@ public class Main01 {
         // PerfectSquare();
         // ArmstrongNumber();
         // GreatestCommonDivisor();
-        // LeastCommonMultiple();
         // Factorial();
         // PowerOfNumber();
 
