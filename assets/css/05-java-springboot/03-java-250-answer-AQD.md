@@ -1,4 +1,4 @@
-## 🔹 Java Interview Questions - Basic Concepts
+## 🔹 1. Java Interview Questions - Basic Concepts
 
 ### 1. What is Java and what are its key features?
 
@@ -189,7 +189,7 @@ Circle c = new Circle(); // Valid
 // Shape s = new Shape(); // Error - cannot instantiate
 ```
 
-## 🔹 Java Interview Questions - Data Types and Variables
+## 🔹 2. Java Interview Questions - Data Types and Variables
 
 ### 1. What are primitive data types in Java?
 
@@ -441,7 +441,7 @@ class MyClass {
 }
 ```
 
-## 🔹 Java Classes and Objects - Interview Q&A
+## 🔹 3. Java Classes and Objects - Interview Q&A
 
 ### 1. What is a constructor in Java?
 
@@ -673,7 +673,7 @@ public class Test {
 }
 ```
 
-## 🔹 Java Inheritance Interview 
+## 🔹 4. Java Inheritance Interview 
 
 ### 1. Why doesn't Java support multiple inheritance?
 
@@ -877,7 +877,7 @@ class Student {
 * **IS-A**: When there's a clear parent-child relationship
 * **HAS-A**: When you need flexibility and want to avoid inheritance limitations
 
-## 🔹 Interfaces and Abstract Classes - Interview Questions & Answers
+## 🔹 5. Interfaces and Abstract Classes 
 
 ### 1. What is an interface in Java?
 
@@ -1168,8 +1168,7 @@ class GoldenRetriever implements Dog {
 * Functional interface = Lambda expressions
 * Interface inheritance = Multiple extends allowed
 
-## 🔹 Java Exception Handling - Interview Questions & Answers
-
+## 🔹 6. Java Exception Handling 
 ### 1. What is an exception in Java?
 
 An exception is an event that disrupts the normal flow of program execution. It's an object that represents an error or unexpected condition.
@@ -1407,7 +1406,7 @@ try {
 * Custom exceptions for business logic
 * Exception chaining preserves error context
 
-## 🔹 Java Collections Framework - Interview Questions & Answers
+## 🔹 7. Java Collections Framework 
 
 ### 1. What is Java Collections Framework?
 
@@ -1643,7 +1642,7 @@ pq.offer(5); pq.offer(1); pq.offer(3);
 System.out.println(pq.poll()); // Output: 1 (smallest first)
 ```
 
-## 🔹 Multithreading and Synchronization 
+## 🔹 8. Multithreading and Synchronization 
 
 ### 1. What is multithreading?
 
@@ -1948,7 +1947,7 @@ class RaceConditionExample {
   - Provide lock-free thread-safe operations
 
 
-## 🔹 Advanced Concurrency 
+## 🔹 9. Advanced Concurrency 
 
 ### 1. What is ExecutorService?
 
@@ -2121,7 +2120,7 @@ synchronized (this) {
 * **Synchronized**: Simple mutual exclusion, better readability
 
 
-## 🔹 JVM and Memory Management 
+## 🔹 10 .JVM and Memory Management 
 
 ### 1. What are the different memory areas in JVM?
 
@@ -2409,7 +2408,7 @@ Understanding JVM memory management is crucial for:
 
 **Key Takeaway:** Modern JVM handles most memory management automatically, but understanding these concepts helps in optimization and troubleshooting.
 
-## 🔹 Java I/O Interview 
+## 🔹 11. Java I/O Interview 
 
 ### 1. What are the different ways to read a file in Java?
 
@@ -2623,7 +2622,7 @@ Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 * **Highest**: `Files.readAllLines()` (loads entire file)
 
 
-## 🔹 Java Generics 
+## 🔹 12. Java Generics 
 
 ### 1. What are generics in Java?
 
@@ -2780,8 +2779,7 @@ List<Integer> intList = new ArrayList<>(); // OK
 // List<int> primitiveList; // Compile error
 ```
 
-## 🔹 Java Annotations and Reflection - Interview Questions & Answers
-
+## 🔹 13. Java Annotations and Reflection 
 ### 1. What are annotations in Java?
 
 Annotations are metadata that provide information about code without affecting its execution.
@@ -3027,7 +3025,7 @@ try {
 * **Security**: Be cautious with access control bypass
 * **Exception handling**: Always handle reflection exceptions properly
 
-## 🔹 Lambda Expressions and Streams API 
+## 🔹 14. Lambda Expressions and Streams API 
 
 ### 1. What are lambda expressions?
 
@@ -3332,7 +3330,7 @@ findUserById(123L)
     .ifPresent(System.out::println);
 ```
 
-## 🔹 JDBC Interview 
+## 🔹 15. JDBC Interview 
 
 ### 1. What is JDBC?
 
@@ -3587,7 +3585,7 @@ conn.rollback(sp1); // Rollback to specific savepoint
 conn.commit();
 ```
 
-## 🔹 Design Patterns 
+## 🔹 16. Design Patterns 
 
 ### 1. What are design patterns?
 
@@ -3833,7 +3831,7 @@ class MilkDecorator implements Coffee {
 **Remember:** Focus on the problem each pattern solves, not just the implementation details!
 
 
-## 🔹 Spring Framework Interview Questions & Answers
+## 🔹 17. Spring Framework Interview Questions & Answers
 
 ### 1. What is Spring Framework?
 
@@ -4177,7 +4175,7 @@ public class MyService {
 - Use @Qualifier when multiple beans of same type exist
 - Keep ApplicationContext usage minimal in business logic
 
-## 🔹 RESTful Services 
+## 🔹 18. RESTful Services 
 
 ### 1. What are RESTful web services?
 
@@ -4379,7 +4377,7 @@ Response: 204 No Content
 * Poor resource naming conventions
 
 
-## 🔹 Microservices 
+## 🔹 19. Microservices 
 
 ### 1. What are microservices?
 
@@ -4529,7 +4527,7 @@ if (failureCount > threshold) {
 **Real-World Example:**
 If Payment Service is down, instead of waiting 30 seconds for timeout, circuit breaker immediately returns "Payment temporarily unavailable" after detecting the pattern of failures.
 
-## 🔹 Performance Tuning Interview Questions & Answers
+## 🔹 20. Performance Tuning Interview Questions & Answers
 
 ### 1. How do you identify performance bottlenecks?
 
@@ -4741,7 +4739,7 @@ java -XX:+TieredCompilation MyApp
 * Use connection pooling
 * Enable JIT optimizations
 
-## 🔹 Modern Java Features - Interview Questions & Answers
+## 🔹 21. Modern Java Features 
 
 ### 1. What are the new features in Java 8?
 
@@ -4918,7 +4916,7 @@ Java follows a predictable 6-month release cycle since Java 9:
   - Upgrade path: Java 8 → Java 11 → Java 17 → Java 21
   - Test new features in non-LTS versions
 
-## 🔹 Cloud and Containerization Interview Questions & Answers
+## 🔹 22. Cloud and Containerization 
 
 ### 1. What is containerization?
 

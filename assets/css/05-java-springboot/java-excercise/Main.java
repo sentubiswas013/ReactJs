@@ -746,6 +746,27 @@ public class Main01 {
         System.out.println("Sorted Array in Ascending Order: " + Arrays.toString(arr));
     }
 
+    public static void SortArrayTwoo() {
+        int[] arr = {5, 2, 9, 1, 5, 6};
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+
+        // 1 2 5 5 6 9\
+    }
+
+
     // 7. Sum All Elements of an Array
     public static void SumArray() {
         int[] arr = {1, 2, 3, 4, 5};  // Example array
