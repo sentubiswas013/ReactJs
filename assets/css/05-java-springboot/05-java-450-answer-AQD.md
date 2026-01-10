@@ -1095,3 +1095,698 @@ class Child extends MainExample {
     // public static void main(String[] args) { } // Error if trying to override
 }
 ```
+
+# Java Abstract Classes and Interfaces
+
+## Abstraction Concepts
+
+### 59. What is abstraction in Object-Oriented Programming?
+* **Hiding implementation details** and showing only essential features
+* **Focus on what an object does** rather than how it does it
+* **Achieved through abstract classes and interfaces**
+* **Reduces complexity** by providing simplified interface
+
+```java
+// Abstract concept - we know what a car does, not how engine works
+abstract class Car {
+    abstract void start(); // What it does
+    abstract void stop();  // Implementation hidden
+}
+
+class Honda extends Car {
+    void start() { /* Complex engine logic hidden */ }
+    void stop() { /* Brake system details hidden */ }
+}
+```
+
+### 60. How is abstraction different from encapsulation?
+* **Abstraction**: Hides complexity, shows only necessary features
+* **Encapsulation**: Bundles data and methods, controls access
+* **Abstraction**: Design level concept (what to show)
+* **Encapsulation**: Implementation level concept (how to hide)
+
+```java
+// Encapsulation - data hiding with access control
+class BankAccount {
+    private double balance; // Hidden data
+    
+    public void deposit(double amount) { // Controlled access
+        balance += amount;
+    }
+}
+
+// Abstraction - hiding implementation complexity
+abstract class PaymentProcessor {
+    abstract void processPayment(); // What, not how
+}
+```
+
+### 61. What is an abstract class in Java?
+* **Cannot be instantiated directly**
+* **Can have abstract and concrete methods**
+* **Used as base class** for other classes
+* **Provides partial implementation** and common functionality
+
+```java
+abstract class Animal {
+    String name; // Concrete field
+    
+    void sleep() { // Concrete method
+        System.out.println("Sleeping...");
+    }
+    
+    abstract void makeSound(); // Abstract method - must implement
+}
+
+class Dog extends Animal {
+    void makeSound() { // Must implement
+        System.out.println("Bark");
+    }
+}
+```
+
+### 62. Is it allowed to mark a method abstract without marking the class abstract?
+* **No, it's not allowed**
+* **Class must be abstract** if it contains abstract methods
+* **Compilation error** if class is not marked abstract
+* **Abstract methods need abstract class** to exist
+
+```java
+// This will cause compilation error
+class RegularClass {
+    abstract void method(); // Error! Class must be abstract
+}
+
+// Correct way
+abstract class AbstractClass {
+    abstract void method(); // OK - class is abstract
+}
+```
+
+### 63. Is it allowed to mark a method abstract as well as final?
+* **No, it's contradictory and not allowed**
+* **Abstract methods must be overridden** in subclasses
+* **Final methods cannot be overridden**
+* **Compilation error** if both keywords used together
+
+```java
+abstract class Example {
+    // abstract final void method(); // Error! Cannot be both
+    
+    abstract void abstractMethod();   // OK - must override
+    final void finalMethod() { }      // OK - cannot override
+}
+```
+
+### 64. Can we instantiate an abstract class in Java?
+* **No, cannot create objects** of abstract class directly
+* **Can create reference variables** of abstract class type
+* **Must instantiate concrete subclass**
+* **Anonymous inner classes** are possible exception
+
+```java
+abstract class Shape {
+    abstract void draw();
+}
+
+class Circle extends Shape {
+    void draw() { System.out.println("Drawing circle"); }
+}
+
+// Usage:
+// Shape shape = new Shape(); // Error! Cannot instantiate
+
+Shape shape = new Circle(); // OK - concrete subclass
+shape.draw();
+
+// Anonymous class (special case)
+Shape anonymous = new Shape() {
+    void draw() { System.out.println("Anonymous shape"); }
+};
+```
+
+## Interface Fundamentals
+
+### 65. What is an interface in Java?
+* **Contract that defines what a class must do**
+* **All methods are public and abstract by default** (before Java 8)
+* **Variables are public, static, and final** (constants)
+* **Supports multiple inheritance** unlike classes
+
+```java
+interface Drawable {
+    int MAX_SIZE = 100; // public static final by default
+    
+    void draw(); // public abstract by default
+    void resize(int size);
+}
+
+class Circle implements Drawable {
+    public void draw() { System.out.println("Drawing circle"); }
+    public void resize(int size) { System.out.println("Resizing to " + size); }
+}
+```
+
+### 66. Is it allowed to mark an interface method as static?
+* **Yes, since Java 8** static methods are allowed in interfaces
+* **Static methods must have implementation** in interface
+* **Cannot be overridden** by implementing classes
+* **Called using interface name**, not object reference
+
+```java
+interface MathUtils {
+    static int add(int a, int b) { // Static method with body
+        return a + b;
+    }
+    
+    void calculate(); // Abstract method
+}
+
+class Calculator implements MathUtils {
+    public void calculate() { }
+}
+
+// Usage:
+int result = MathUtils.add(5, 3); // Called on interface
+```
+
+### 67. Why can an interface not be marked as final in Java?
+* **Final means cannot be extended**
+* **Interfaces are meant to be implemented** by classes
+* **Contradictory purpose** - interfaces exist to be implemented
+* **Would make interface useless** if marked final
+
+```java
+// This would be meaningless and cause error
+// final interface MyInterface { } // Error! Cannot be final
+
+interface Usable {
+    void use();
+}
+
+class Tool implements Usable { // This is the purpose of interfaces
+    public void use() { }
+}
+```
+
+### 68. What is a marker interface?
+* **Interface with no methods or fields**
+* **Used to mark or tag classes** with special behavior
+* **JVM or frameworks** treat marked classes differently
+* **Examples**: Serializable, Cloneable, Remote
+
+```java
+// Marker interface - no methods
+interface Serializable { }
+
+class Student implements Serializable { // Marks class as serializable
+    String name;
+    int age;
+}
+
+// JVM knows Student objects can be serialized
+```
+
+### 69. What can we use instead of marker interface?
+* **Annotations** - modern and preferred approach
+* **More flexible** and can carry additional information
+* **Better readability** and metadata support
+* **Type-safe** and compile-time checking
+
+```java
+// Instead of marker interface
+interface Auditable { }
+
+// Use annotation
+@Retention(RetentionPolicy.RUNTIME)
+@interface Auditable {
+    String value() default ""; // Can carry data
+}
+
+@Auditable("financial")
+class BankAccount { }
+```
+
+### 70. How are annotations better than marker interfaces?
+* **Can carry parameters** and additional metadata
+* **Multiple annotations** can be applied to same class
+* **Better tool support** and IDE integration
+* **Compile-time validation** and processing
+
+```java
+// Marker interface - limited
+interface Cacheable { }
+
+// Annotation - flexible
+@Retention(RetentionPolicy.RUNTIME)
+@interface Cacheable {
+    int timeout() default 300;
+    String region() default "default";
+}
+
+@Cacheable(timeout = 600, region = "user-data")
+class UserService { }
+```
+
+### 71. What is the difference between abstract class and interface in Java?
+
+| **Abstract Class** | **Interface** |
+|-------------------|---------------|
+| Can have concrete methods | All methods abstract (pre-Java 8) |
+| Can have instance variables | Only constants (public static final) |
+| Single inheritance | Multiple inheritance |
+| Can have constructors | No constructors |
+| Any access modifier | Public methods only |
+
+```java
+// Abstract class
+abstract class Animal {
+    String name; // Instance variable
+    
+    Animal(String name) { this.name = name; } // Constructor
+    
+    void sleep() { } // Concrete method
+    abstract void makeSound(); // Abstract method
+}
+
+// Interface
+interface Flyable {
+    int MAX_SPEED = 200; // Constant only
+    
+    void fly(); // Abstract method
+    
+    default void land() { } // Default method (Java 8+)
+}
+```
+
+### 72. Does Java allow us to use private and protected modifiers for variables in interfaces?
+* **No, interface variables are always public static final**
+* **Cannot use private or protected** modifiers
+* **Compilation error** if you try to use other modifiers
+* **All variables are constants** by default
+
+```java
+interface Example {
+    int PUBLIC_VAR = 10; // public static final by default
+    
+    // private int x = 5; // Error! Cannot be private
+    // protected int y = 6; // Error! Cannot be protected
+    
+    public static final int EXPLICIT = 20; // Explicit but redundant
+}
+```
+
+### 73. How can we cast an object reference to an interface reference?
+* **Direct assignment** if class implements interface
+* **Explicit casting** when needed for type safety
+* **instanceof check** recommended before casting
+* **ClassCastException** if object doesn't implement interface
+
+```java
+interface Drawable {
+    void draw();
+}
+
+class Circle implements Drawable {
+    public void draw() { }
+}
+
+// Direct assignment
+Circle circle = new Circle();
+Drawable drawable = circle; // Implicit casting
+
+// Explicit casting
+Object obj = new Circle();
+if (obj instanceof Drawable) {
+    Drawable d = (Drawable) obj; // Safe explicit cast
+    d.draw();
+}
+```
+
+# Java Package and Import 
+
+## Package Management
+
+### 74. What is the purpose of package in Java?
+
+**Answer:**
+* **Namespace management** - Avoids naming conflicts between classes
+* **Access control** - Provides package-level access modifiers
+* **Code organization** - Groups related classes and interfaces logically
+* **Security** - Controls access to classes and members
+
+```java
+package com.company.project.utils;
+public class StringHelper {
+    // Package helps organize and protect this class
+}
+```
+
+### 75. What is the java.lang package?
+
+**Answer:**
+* **Core package** - Contains fundamental classes every Java program needs
+* **Auto-imported** - Automatically available without explicit import
+* **Essential classes** - String, Object, System, Thread, Exception classes
+* **Wrapper classes** - Integer, Double, Boolean, etc.
+
+```java
+// No import needed - java.lang is automatic
+String name = "Java";
+System.out.println(name);
+Object obj = new Object();
+```
+
+### 76. Which is the most important class in Java?
+
+**Answer:**
+* **Object class** - Root of all Java class hierarchy
+* **Universal parent** - Every class extends Object directly or indirectly
+* **Core methods** - Provides toString(), equals(), hashCode(), clone()
+* **Foundation** - Enables polymorphism and collections framework
+
+```java
+public class MyClass {
+    // Implicitly extends Object
+    @Override
+    public String toString() {
+        return "MyClass instance";
+    }
+}
+```
+
+### 77. Is it mandatory to import the java.lang package every time?
+
+**Answer:**
+* **No import required** - java.lang is automatically imported
+* **Built-in access** - All classes available by default
+* **Compiler handles** - JVM automatically includes java.lang
+* **Exception** - Only explicit import needed for subpackages like java.lang.reflect
+
+```java
+// No import statements needed
+public class Example {
+    String text = "Hello";        // java.lang.String
+    System.out.println(text);     // java.lang.System
+}
+```
+
+### 78. Can you import the same package or class twice in your class?
+
+**Answer:**
+* **Redundant but allowed** - Multiple imports of same class don't cause errors
+* **Compiler ignores** - Duplicate imports are simply ignored
+* **No performance impact** - Doesn't affect runtime or compilation
+* **Best practice** - Avoid duplicates for clean code
+
+```java
+import java.util.List;
+import java.util.List;  // Redundant but valid
+import java.util.*;     // Also imports List again
+
+public class Example {
+    List<String> items;  // Works fine
+}
+```
+
+### 79. What is a static import in Java?
+
+**Answer:**
+* **Direct access** - Import static members without class name qualification
+* **Cleaner code** - Reduces verbosity for frequently used static methods
+* **Syntax** - Uses `import static` keyword
+* **Careful usage** - Can reduce code readability if overused
+
+```java
+import static java.lang.Math.*;
+import static java.lang.System.out;
+
+public class Example {
+    public void calculate() {
+        double result = sqrt(25);  // Instead of Math.sqrt(25)
+        out.println(result);       // Instead of System.out.println
+    }
+}
+```
+
+### 80. What is the difference between import static com.test.FooClass and import com.test.FooClass?
+
+**Answer:**
+* **Regular import** - `import com.test.FooClass` imports the class itself
+* **Static import** - `import static com.test.FooClass` imports static members
+* **Usage difference** - Regular needs class name, static doesn't
+* **Scope** - Static import affects only static methods and fields
+
+```java
+// Regular import
+import com.test.FooClass;
+FooClass obj = new FooClass();
+FooClass.staticMethod();
+
+// Static import  
+import static com.test.FooClass.*;
+FooClass obj = new FooClass();  // Still need class name for constructor
+staticMethod();                 // Direct access to static method
+```
+
+## Internationalization
+
+### 81. What is Locale in Java?
+
+**Answer:**
+* **Geographic identifier** - Represents specific geographical, political, or cultural region
+* **Language and country** - Combines language code with country/region code
+* **Formatting control** - Determines how dates, numbers, currencies display
+* **i18n support** - Essential for internationalization
+
+```java
+Locale usLocale = new Locale("en", "US");
+Locale frenchLocale = Locale.FRANCE;
+Locale defaultLocale = Locale.getDefault();
+
+System.out.println(usLocale.getDisplayName()); // English (United States)
+```
+
+### 82. How will you use a specific Locale in Java?
+
+**Answer:**
+* **Create Locale object** - Use constructor or predefined constants
+* **Apply to formatters** - Use with DateFormat, NumberFormat, etc.
+* **Resource bundles** - Load locale-specific text and messages
+* **Set as default** - Change JVM default locale if needed
+
+```java
+// Create and use specific locale
+Locale locale = new Locale("de", "DE");  // German, Germany
+
+// Format numbers for German locale
+NumberFormat nf = NumberFormat.getInstance(locale);
+String formatted = nf.format(1234.56);  // "1.234,56"
+
+// Format dates
+DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
+String date = df.format(new Date());
+
+// Resource bundle for German
+ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
+String greeting = bundle.getString("hello");
+```
+
+# Java String Handling 
+
+## String Concepts
+
+### 83. What is the meaning of immutable in the context of the String class?
+
+**Answer:**
+* **Cannot be changed** - Once created, String content cannot be modified
+* **New object creation** - Any modification creates a new String object
+* **Original unchanged** - Original String remains unaffected
+* **Memory efficiency** - Enables string pooling and caching
+
+```java
+String str = "Hello";
+str.concat(" World");  // Creates new String, original unchanged
+System.out.println(str);  // Still prints "Hello"
+
+String newStr = str.concat(" World");  // Must assign to new variable
+```
+
+### 84. Why is a String object considered immutable in Java?
+
+**Answer:**
+* **Security** - Prevents malicious code from changing string values
+* **Thread safety** - Multiple threads can safely access same String
+* **Caching** - Hashcode can be cached since content never changes
+* **String pool** - Enables memory optimization through interning
+
+```java
+// Thread-safe sharing
+String password = "secret123";
+// Multiple threads can read password safely
+
+// Hashcode caching
+String key = "myKey";
+int hash = key.hashCode();  // Cached after first call
+```
+
+### 85. How many ways are there in Java to create a String object?
+
+**Answer:**
+* **String literal** - Using double quotes (goes to string pool)
+* **New keyword** - Creates object in heap memory
+* **Constructor methods** - Various constructors available
+* **StringBuilder/StringBuffer** - Using toString() method
+
+```java
+// 1. String literal
+String str1 = "Hello";
+
+// 2. New keyword
+String str2 = new String("Hello");
+
+// 3. Constructor with char array
+char[] chars = {'H', 'e', 'l', 'l', 'o'};
+String str3 = new String(chars);
+
+// 4. From StringBuilder
+String str4 = new StringBuilder("Hello").toString();
+```
+
+### 86. What is String interning?
+
+**Answer:**
+* **String pool storage** - JVM stores unique string literals in special memory area
+* **Memory optimization** - Identical strings share same memory location
+* **Reference sharing** - Multiple variables can point to same string object
+* **Automatic process** - Happens automatically for string literals
+
+```java
+String str1 = "Hello";        // Goes to string pool
+String str2 = "Hello";        // Points to same object in pool
+String str3 = new String("Hello");  // Creates new object in heap
+
+System.out.println(str1 == str2);     // true (same reference)
+System.out.println(str1 == str3);     // false (different objects)
+System.out.println(str1 == str3.intern());  // true (intern returns pool reference)
+```
+
+### 87. Why does Java use the String literal concept?
+
+**Answer:**
+* **Memory efficiency** - Reduces memory usage by sharing identical strings
+* **Performance boost** - Faster string comparison using reference equality
+* **Reduced garbage** - Less object creation means less garbage collection
+* **Common usage** - Strings are heavily used, optimization is crucial
+
+```java
+// Memory efficient - both point to same object
+String name1 = "John";
+String name2 = "John";
+
+// Fast comparison
+if (name1 == name2) {  // Reference comparison, very fast
+    System.out.println("Same object in pool");
+}
+```
+
+### 88. What is the basic difference between a String and StringBuffer object?
+
+**Answer:**
+* **Mutability** - String is immutable, StringBuffer is mutable
+* **Thread safety** - StringBuffer is synchronized, String is not applicable
+* **Performance** - StringBuffer better for multiple modifications
+* **Memory** - StringBuffer uses internal buffer, String creates new objects
+
+```java
+// String - creates new objects
+String str = "Hello";
+str += " World";  // Creates new String object
+
+// StringBuffer - modifies existing buffer
+StringBuffer sb = new StringBuffer("Hello");
+sb.append(" World");  // Modifies same object
+String result = sb.toString();
+```
+
+### 89. How will you create an immutable class in Java?
+
+**Answer:**
+* **Final class** - Declare class as final to prevent inheritance
+* **Private fields** - Make all fields private and final
+* **No setters** - Don't provide setter methods
+* **Defensive copying** - Return copies of mutable objects
+
+```java
+public final class ImmutablePerson {
+    private final String name;
+    private final int age;
+    
+    public ImmutablePerson(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    
+    // No setter methods provided
+}
+```
+
+### 90. What is the use of the toString() method in Java?
+
+**Answer:**
+* **String representation** - Converts object to readable string format
+* **Debugging aid** - Helps in debugging and logging
+* **Default behavior** - Returns classname@hashcode by default
+* **Override recommended** - Should be overridden for meaningful output
+
+```java
+public class Person {
+    private String name;
+    private int age;
+    
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}
+
+Person p = new Person();
+System.out.println(p);  // Calls toString() automatically
+```
+
+### 91. Arrange String, StringBuffer, and StringBuilder in order of efficiency for String processing operations?
+
+**Answer:**
+* **Most efficient: StringBuilder** - Fastest, not synchronized
+* **Medium efficient: StringBuffer** - Fast but synchronized overhead
+* **Least efficient: String** - Creates new objects for each operation
+* **Use case matters** - Choose based on thread safety requirements
+
+```java
+// Performance comparison for multiple concatenations
+StringBuilder sb = new StringBuilder();  // Fastest
+for (int i = 0; i < 1000; i++) {
+    sb.append("text");
+}
+
+StringBuffer sbf = new StringBuffer();   // Medium (thread-safe)
+for (int i = 0; i < 1000; i++) {
+    sbf.append("text");
+}
+
+String str = "";                         // Slowest (creates 1000 objects)
+for (int i = 0; i < 1000; i++) {
+    str += "text";  // Very inefficient
+}
+```
+
+## Performance Summary
+
+| Class | Thread Safe | Performance | Use Case |
+|-------|-------------|-------------|----------|
+| StringBuilder | No | Fastest | Single-threaded string building |
+| StringBuffer | Yes | Medium | Multi-threaded string building |
+| String | N/A | Slowest for modifications | Immutable string operations |
