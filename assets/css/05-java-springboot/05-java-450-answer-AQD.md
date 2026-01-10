@@ -1,9 +1,8 @@
 # Java Interview Questions - Comprehensive Guide
 
 # Java Fundamentals 
-
-## Core Java Basics
-
+# Core Java Basics
+---
 ### 1. What is the difference between JDK and JRE?
 
 **Answer:**
@@ -211,8 +210,8 @@ public class ByteCharDemo {
 
 ---
 
-## Object-Oriented Programming (OOP)
-
+# Object-Oriented Programming (OOP)
+---
 ### 12. What are the main principles of Object-Oriented Programming (OOP)?
 
 **Answer:**
@@ -5093,3 +5092,396 @@ public class Java17Features {
 }
 ```
 
+# Advanced Java Concepts
+---
+## Generics
+### Question 220: What are generics in Java?
+
+**Spoken Answer (15-40 seconds):**
+*  Generics allow you to write type-safe code by parameterizing classes and methods with types
+*  They provide compile-time type checking and eliminate the need for casting
+*  Introduced in Java 5 to make collections and other classes more type-safe
+*  Help catch ClassCastException at compile time rather than runtime
+
+```java
+// Without generics (old way)
+List list = new ArrayList();
+list.add("Hello");
+String str = (String) list.get(0); // Casting required
+
+// With generics (type-safe)
+List<String> list = new ArrayList<String>();
+list.add("Hello");
+String str = list.get(0); // No casting needed
+```
+
+---
+
+### Question 221: What is type erasure in generics?
+
+**Spoken Answer (15-40 seconds):**
+*  Type erasure is Java's mechanism where generic type information is removed at runtime
+*  The compiler replaces generic types with their raw types or Object
+*  This ensures backward compatibility with pre-Java 5 code
+*  At runtime, List<String> and List<Integer> are just List
+
+```java
+// At compile time
+List<String> stringList = new ArrayList<String>();
+List<Integer> intList = new ArrayList<Integer>();
+
+// At runtime (after type erasure)
+List stringList = new ArrayList();
+List intList = new ArrayList();
+
+// This won't work due to type erasure
+// if (stringList instanceof List<String>) // Compile error
+```
+
+---
+
+### Question 222: What are wildcards in generics?
+
+**Spoken Answer (15-40 seconds):**
+*  Wildcards use the question mark (?) to represent unknown types in generics
+*  Three types: unbounded (?), upper bounded (? extends), and lower bounded (? super)
+*  They provide flexibility when you don't know the exact type
+*  Useful for reading from or writing to generic collections safely
+
+```java
+// Unbounded wildcard
+List<?> unknownList = new ArrayList<String>();
+
+// Upper bounded - can read, limited writing
+List<? extends Number> numbers = new ArrayList<Integer>();
+Number num = numbers.get(0); // OK to read
+
+// Lower bounded - can write, limited reading
+List<? super Integer> integers = new ArrayList<Number>();
+integers.add(42); // OK to write Integer
+```
+
+---
+
+### Question 223: What is generic method implementation?
+
+**Spoken Answer (15-40 seconds):**
+*  Generic methods have their own type parameters independent of the class
+*  Type parameters are declared before the return type in angle brackets
+*  They can be static or non-static and work with any type
+*  Provide type safety without making the entire class generic
+
+```java
+public class Utility {
+    // Generic method with type parameter T
+    public static <T> void swap(T[] array, int i, int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    
+    // Generic method with bounded type parameter
+    public static <T extends Comparable<T>> T findMax(T[] array) {
+        T max = array[0];
+        for (T element : array) {
+            if (element.compareTo(max) > 0) {
+                max = element;
+            }
+        }
+        return max;
+    }
+}
+
+// Usage
+String[] names = {"Alice", "Bob", "Charlie"};
+Utility.swap(names, 0, 2); // Type inferred as String
+```
+
+---
+
+### Question 224: What is bounded type parameters?
+
+**Spoken Answer (15-40 seconds):**
+*  Bounded type parameters restrict the types that can be used as generic arguments
+*  Upper bounds use 'extends' keyword to limit to a specific class or interface
+*  Lower bounds use 'super' keyword for contravariance
+*  Multiple bounds are possible using & operator
+
+```java
+// Upper bounded type parameter
+public class NumberContainer<T extends Number> {
+    private T value;
+    
+    public void setValue(T value) {
+        this.value = value;
+    }
+    
+    public double getDoubleValue() {
+        return value.doubleValue(); // Can call Number methods
+    }
+}
+
+// Multiple bounds
+public class ComparableContainer<T extends Number & Comparable<T>> {
+    public T findMax(T a, T b) {
+        return a.compareTo(b) > 0 ? a : b;
+    }
+}
+
+// Usage
+NumberContainer<Integer> intContainer = new NumberContainer<>();
+// NumberContainer<String> stringContainer; // Compile error
+```
+
+---
+
+### Question 225: What is generic inheritance?
+
+**Spoken Answer (15-40 seconds):**
+*  Generic classes can extend other generic classes and implement generic interfaces
+*  Type parameters can be passed through the inheritance hierarchy
+*  Subclasses can add their own type parameters or specialize parent's parameters
+*  Covariance and contravariance rules apply with wildcards
+
+```java
+// Generic base class
+public class Container<T> {
+    protected T item;
+    
+    public void setItem(T item) {
+        this.item = item;
+    }
+    
+    public T getItem() {
+        return item;
+    }
+}
+
+// Generic subclass with additional type parameter
+public class PairContainer<T, U> extends Container<T> {
+    private U secondItem;
+    
+    public void setSecondItem(U item) {
+        this.secondItem = item;
+    }
+    
+    public U getSecondItem() {
+        return secondItem;
+    }
+}
+
+// Specialized subclass
+public class StringContainer extends Container<String> {
+    public int getLength() {
+        return item != null ? item.length() : 0;
+    }
+}
+```
+
+---
+## Annotations
+### Question 226: What is annotation in Java?
+
+**Spoken Answer (15-40 seconds):**
+*  Annotations are metadata that provide information about code to the compiler and runtime
+*  They start with @ symbol and can be applied to classes, methods, fields, and parameters
+*  Built-in annotations include @Override, @Deprecated, and @SuppressWarnings
+*  They don't change program behavior but provide additional information
+
+```java
+public class Employee {
+    @Deprecated
+    public void oldMethod() {
+        System.out.println("This method is deprecated");
+    }
+    
+    @Override
+    public String toString() {
+        return "Employee object";
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void processData() {
+        List rawList = new ArrayList();
+        rawList.add("data");
+    }
+}
+```
+
+---
+
+### Question 227: How do you create custom annotations?
+
+**Spoken Answer (15-40 seconds):**
+*  Use @interface keyword to declare custom annotations
+*  Specify retention policy with @Retention (SOURCE, CLASS, or RUNTIME)
+*  Use @Target to specify where annotation can be applied
+*  Define elements with default values if needed
+
+```java
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface MyAnnotation {
+    String value() default "default";
+    int priority() default 1;
+    String[] tags() default {};
+}
+
+// Usage
+@MyAnnotation(value = "important", priority = 5, tags = {"test", "demo"})
+public class TestClass {
+    
+    @MyAnnotation("critical")
+    public void processData() {
+        // Method implementation
+    }
+}
+```
+
+---
+
+### Question 228: What is annotation processing?
+
+**Spoken Answer (15-40 seconds):**
+*  Annotation processing is a technique to process annotations at compile time or runtime
+*  Compile-time processing generates code, validates annotations, or creates resources
+*  Runtime processing uses reflection to read annotation metadata
+*  Popular frameworks like Spring and Hibernate use annotation processing extensively
+
+```java
+// Runtime annotation processing using reflection
+public class AnnotationProcessor {
+    public static void processAnnotations(Class<?> clazz) {
+        if (clazz.isAnnotationPresent(MyAnnotation.class)) {
+            MyAnnotation annotation = clazz.getAnnotation(MyAnnotation.class);
+            System.out.println("Class value: " + annotation.value());
+            System.out.println("Priority: " + annotation.priority());
+        }
+        
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(MyAnnotation.class)) {
+                MyAnnotation annotation = method.getAnnotation(MyAnnotation.class);
+                System.out.println("Method " + method.getName() + 
+                                 " has annotation: " + annotation.value());
+            }
+        }
+    }
+}
+```
+
+---
+
+### Question 229: What is compile-time annotation processing?
+
+**Spoken Answer (15-40 seconds):**
+*  Compile-time processing happens during compilation using annotation processors
+*  Processors implement javax.annotation.processing.Processor interface
+*  They can generate new source files, validate code, or create resources
+*  Examples include Lombok for code generation and Bean Validation for validation
+
+```java
+import javax.annotation.processing.*;
+import javax.lang.model.element.*;
+import java.util.Set;
+
+@SupportedAnnotationTypes("com.example.MyAnnotation")
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
+public class MyAnnotationProcessor extends AbstractProcessor {
+    
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations,
+                          RoundEnvironment roundEnv) {
+        for (Element element : roundEnv.getElementsAnnotatedWith(MyAnnotation.class)) {
+            MyAnnotation annotation = element.getAnnotation(MyAnnotation.class);
+            
+            // Generate code or validate
+            processingEnv.getMessager().printMessage(
+                Diagnostic.Kind.NOTE,
+                "Processing element: " + element.getSimpleName() +
+                " with value: " + annotation.value()
+            );
+        }
+        return true;
+    }
+}
+```
+
+---
+
+### Question 230: What is runtime annotation processing?
+
+**Spoken Answer (15-40 seconds):**
+*  Runtime processing uses Java reflection to read annotations during program execution
+*  Annotations must have RUNTIME retention policy to be available at runtime
+*  Commonly used in frameworks for dependency injection, validation, and configuration
+*  Performance impact since reflection is used, but provides great flexibility
+
+```java
+public class RuntimeProcessor {
+    public static void processObject(Object obj) {
+        Class<?> clazz = obj.getClass();
+        
+        // Process class-level annotations
+        for (Annotation annotation : clazz.getAnnotations()) {
+            if (annotation instanceof MyAnnotation) {
+                MyAnnotation myAnnotation = (MyAnnotation) annotation;
+                System.out.println("Class annotation: " + myAnnotation.value());
+            }
+        }
+        
+        // Process field annotations
+        for (Field field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(MyAnnotation.class)) {
+                MyAnnotation annotation = field.getAnnotation(MyAnnotation.class);
+                System.out.println("Field " + field.getName() + 
+                                 " has priority: " + annotation.priority());
+            }
+        }
+    }
+}
+```
+
+---
+
+### Question 231: What is meta-annotations?
+
+**Spoken Answer (15-40 seconds):**
+*  Meta-annotations are annotations that can be applied to other annotations
+*  They provide metadata about how annotations should behave
+*  Common meta-annotations include @Retention, @Target, @Inherited, and @Documented
+*  They control annotation lifecycle, usage scope, and inheritance behavior
+
+```java
+import java.lang.annotation.*;
+
+// Meta-annotations applied to custom annotation
+@Retention(RetentionPolicy.RUNTIME)  // Available at runtime
+@Target({ElementType.TYPE, ElementType.METHOD})  // Can be used on classes and methods
+@Inherited  // Inherited by subclasses
+@Documented  // Included in JavaDoc
+public @interface BusinessLogic {
+    String description() default "";
+    Priority priority() default Priority.MEDIUM;
+}
+
+enum Priority {
+    LOW, MEDIUM, HIGH
+}
+
+// Usage
+@BusinessLogic(description = "Main service class", priority = Priority.HIGH)
+public class UserService {
+    
+    @BusinessLogic(description = "Creates new user")
+    public void createUser(String name) {
+        // Implementation
+    }
+}
+
+// Subclass inherits the annotation due to @Inherited
+public class ExtendedUserService extends UserService {
+    // This class also has @BusinessLogic annotation
+}
+```
