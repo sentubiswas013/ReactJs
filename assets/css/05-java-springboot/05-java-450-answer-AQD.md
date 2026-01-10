@@ -1790,3 +1790,963 @@ for (int i = 0; i < 1000; i++) {
 | StringBuilder | No | Fastest | Single-threaded string building |
 | StringBuffer | Yes | Medium | Multi-threaded string building |
 | String | N/A | Slowest for modifications | Immutable string operations |
+
+# Java Exception Handling 
+
+## Exception Concepts
+
+### 92. What is exception handling in Java?
+
+**Answer:**
+* **Error management** - Mechanism to handle runtime errors gracefully
+* **Program continuity** - Prevents program from crashing unexpectedly
+* **Structured approach** - Uses try-catch-finally blocks for control
+* **Clean separation** - Separates error handling code from business logic
+
+```java
+try {
+    int result = 10 / 0;  // May throw ArithmeticException
+} catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero");
+} finally {
+    System.out.println("Cleanup code here");
+}
+```
+
+### 93. What are the differences between checked and unchecked exceptions?
+
+**Answer:**
+* **Compile-time vs Runtime** - Checked at compile time vs runtime
+* **Handling requirement** - Checked must be handled, unchecked optional
+* **Inheritance** - Checked extends Exception, unchecked extends RuntimeException
+* **Examples** - IOException vs NullPointerException
+
+```java
+// Checked exception - must handle
+try {
+    FileReader file = new FileReader("file.txt");
+} catch (FileNotFoundException e) {
+    // Must catch or declare throws
+}
+
+// Unchecked exception - optional handling
+String str = null;
+int length = str.length();  // RuntimeException, no forced handling
+```
+
+### 94. What is the base class for Error and Exception classes in Java?
+
+**Answer:**
+* **Throwable class** - Root class for all errors and exceptions
+* **Two main branches** - Error and Exception both extend Throwable
+* **Catchable objects** - Only Throwable objects can be thrown/caught
+* **Common methods** - getMessage(), printStackTrace(), getCause()
+
+```java
+// Hierarchy
+Throwable
+├── Error (OutOfMemoryError, StackOverflowError)
+└── Exception
+    ├── RuntimeException (unchecked)
+    └── Other exceptions (checked)
+
+try {
+    // some code
+} catch (Throwable t) {  // Catches both Error and Exception
+    t.printStackTrace();
+}
+```
+
+### 95. What is a finally block in Java?
+
+**Answer:**
+* **Always executes** - Runs regardless of exception occurrence
+* **Cleanup code** - Used for resource cleanup and finalization
+* **Exception independent** - Executes even if catch block throws exception
+* **Optional block** - Can exist without catch block
+
+```java
+FileInputStream file = null;
+try {
+    file = new FileInputStream("data.txt");
+    // Process file
+} catch (IOException e) {
+    System.out.println("File error");
+} finally {
+    if (file != null) {
+        file.close();  // Always cleanup resources
+    }
+}
+```
+
+### 96. What is the use of the finally block in Java?
+
+**Answer:**
+* **Resource cleanup** - Close files, database connections, streams
+* **Guaranteed execution** - Ensures critical code always runs
+* **Memory management** - Release allocated resources
+* **Logging/monitoring** - Record completion status
+
+```java
+Connection conn = null;
+try {
+    conn = DriverManager.getConnection(url);
+    // Database operations
+} catch (SQLException e) {
+    // Handle database errors
+} finally {
+    if (conn != null) {
+        conn.close();  // Always close connection
+    }
+}
+```
+
+### 97. Can we create a finally block without creating a catch block?
+
+**Answer:**
+* **Yes, it's allowed** - try-finally is valid syntax
+* **No exception handling** - Exceptions will propagate up
+* **Resource cleanup** - Still useful for cleanup operations
+* **Common pattern** - Used when you don't want to handle exceptions locally
+
+```java
+public void readFile() throws IOException {
+    FileReader reader = null;
+    try {
+        reader = new FileReader("file.txt");
+        // Read operations
+    } finally {
+        if (reader != null) {
+            reader.close();  // Cleanup without catching
+        }
+    }
+    // IOException propagates to caller
+}
+```
+
+### 98. Do we have to always put a catch block after a try block?
+
+**Answer:**
+* **Not mandatory** - Either catch or finally is required
+* **Three valid combinations** - try-catch, try-finally, try-catch-finally
+* **Cannot be alone** - try block cannot exist by itself
+* **Compiler enforced** - Will get compilation error without catch or finally
+
+```java
+// Valid combinations
+try { } catch (Exception e) { }           // try-catch
+try { } finally { }                       // try-finally  
+try { } catch (Exception e) { } finally { } // try-catch-finally
+
+// Invalid - compilation error
+try { }  // Error: try without catch or finally
+```
+
+### 99. In what scenarios will a finally block not be executed?
+
+**Answer:**
+* **System.exit()** - JVM termination prevents finally execution
+* **Fatal JVM errors** - OutOfMemoryError, system crashes
+* **Infinite loops** - Code never reaches finally block
+* **Thread interruption** - Daemon thread termination
+
+```java
+try {
+    System.out.println("In try block");
+    System.exit(0);  // JVM exits, finally won't execute
+} finally {
+    System.out.println("This won't print");
+}
+
+try {
+    while (true) { }  // Infinite loop, finally never reached
+} finally {
+    System.out.println("Never executes");
+}
+```
+
+### 100. Can we re-throw an exception in Java?
+
+**Answer:**
+* **Yes, using throw** - Can re-throw caught exceptions
+* **Same or different** - Can throw same exception or wrap in new one
+* **Preserve stack trace** - Original stack trace can be maintained
+* **Common pattern** - Used for logging then propagating
+
+```java
+try {
+    riskyOperation();
+} catch (IOException e) {
+    // Log the exception
+    logger.error("Operation failed", e);
+    
+    // Re-throw same exception
+    throw e;
+    
+    // Or wrap in different exception
+    // throw new RuntimeException("Wrapped exception", e);
+}
+```
+
+### 101. What is the difference between throw and throws in Java?
+
+**Answer:**
+* **throw** - Actually throws an exception object
+* **throws** - Declares that method may throw exceptions
+* **Usage location** - throw inside method body, throws in method signature
+* **Purpose** - throw creates exception, throws declares possibility
+
+```java
+// throws - declares exceptions in method signature
+public void readFile() throws IOException, FileNotFoundException {
+    
+    if (fileName == null) {
+        throw new IllegalArgumentException("File name cannot be null");  // throw - actually throws
+    }
+    
+    // Method may throw IOException (declared by throws)
+    FileReader reader = new FileReader(fileName);
+}
+```
+
+### 102. What is the concept of exception propagation?
+
+**Answer:**
+* **Upward movement** - Exceptions move up the call stack
+* **Automatic process** - Happens when exception is not caught
+* **Method chain** - Each method can catch or let it propagate
+* **Program termination** - Uncaught exceptions terminate program
+
+```java
+public void method1() {
+    try {
+        method2();
+    } catch (RuntimeException e) {
+        System.out.println("Caught in method1");
+    }
+}
+
+public void method2() {
+    method3();  // Exception propagates from method3 to method2
+}
+
+public void method3() {
+    throw new RuntimeException("Error in method3");  // Exception starts here
+}
+```
+
+### 103. When we override a method in a child class, can we throw an additional exception that is not thrown by the parent class method?
+
+**Answer:**
+* **Checked exceptions: No** - Cannot throw new checked exceptions
+* **Unchecked exceptions: Yes** - Can throw any RuntimeException
+* **Same or subclass** - Can throw same or subclass of parent's exceptions
+* **Liskov substitution** - Child must be substitutable for parent
+
+```java
+class Parent {
+    public void method() throws IOException {
+        // Parent throws IOException
+    }
+}
+
+class Child extends Parent {
+    @Override
+    public void method() throws FileNotFoundException {  // OK - subclass of IOException
+        // throw new SQLException();  // ERROR - not declared in parent
+        throw new RuntimeException();  // OK - unchecked exception
+    }
+}
+```
+
+## Exception Hierarchy Summary
+
+```
+Throwable
+├── Error (System-level errors)
+│   ├── OutOfMemoryError
+│   └── StackOverflowError
+└── Exception
+    ├── RuntimeException (Unchecked)
+    │   ├── NullPointerException
+    │   ├── ArrayIndexOutOfBoundsException
+    │   └── IllegalArgumentException
+    └── Checked Exceptions
+        ├── IOException
+        ├── SQLException
+        └── ClassNotFoundException
+```
+
+## Iterators and Advanced Collections
+
+### 113. What is the difference between Iterator and ListIterator?
+
+**Answer:**
+* **Direction** - Iterator is unidirectional, ListIterator is bidirectional
+* **Collection support** - Iterator works with all collections, ListIterator only with List
+* **Modification** - Iterator only removes, ListIterator can add, remove, and set
+* **Index access** - ListIterator provides index information, Iterator doesn't
+
+```java
+List<String> list = Arrays.asList("A", "B", "C");
+
+// Iterator - forward only, remove only
+Iterator<String> iterator = list.iterator();
+while (iterator.hasNext()) {
+    String item = iterator.next();
+    // iterator.remove();  // Only removal allowed
+}
+
+// ListIterator - bidirectional, full modification
+ListIterator<String> listIterator = list.listIterator();
+while (listIterator.hasNext()) {
+    String item = listIterator.next();
+    listIterator.set("Modified");     // Can modify
+    listIterator.add("New");          // Can add
+}
+// Can go backward
+while (listIterator.hasPrevious()) {
+    String item = listIterator.previous();
+}
+```
+
+### 114. What is the difference between Enumeration and Iterator?
+
+**Answer:**
+* **Legacy vs Modern** - Enumeration is legacy, Iterator is modern approach
+* **Modification** - Enumeration read-only, Iterator supports removal
+* **Fail-fast** - Iterator is fail-fast, Enumeration is not
+* **Method names** - Enumeration uses longer method names
+
+```java
+Vector<String> vector = new Vector<>();
+vector.add("A");
+vector.add("B");
+
+// Enumeration - legacy, read-only
+Enumeration<String> enumeration = vector.elements();
+while (enumeration.hasMoreElements()) {
+    String item = enumeration.nextElement();
+    // No modification methods available
+}
+
+// Iterator - modern, supports modification
+Iterator<String> iterator = vector.iterator();
+while (iterator.hasNext()) {
+    String item = iterator.next();
+    iterator.remove();  // Can remove elements
+}
+```
+
+### 115. What is the fail-fast property of iterators?
+
+**Answer:**
+* **Concurrent modification detection** - Throws ConcurrentModificationException if collection modified during iteration
+* **Safety mechanism** - Prevents unpredictable behavior from concurrent changes
+* **ModCount tracking** - Uses modification count to detect changes
+* **Immediate failure** - Fails as soon as modification is detected
+
+```java
+List<String> list = new ArrayList<>(Arrays.asList("A", "B", "C"));
+Iterator<String> iterator = list.iterator();
+
+while (iterator.hasNext()) {
+    String item = iterator.next();
+    
+    // This will cause ConcurrentModificationException
+    list.add("D");  // Modifying collection during iteration
+    
+    // Correct way - use iterator's remove method
+    // iterator.remove();  // Safe modification
+}
+
+// Safe concurrent modification using CopyOnWriteArrayList
+List<String> safeList = new CopyOnWriteArrayList<>(Arrays.asList("A", "B", "C"));
+for (String item : safeList) {
+    safeList.add("D");  // No exception thrown
+}
+```
+
+### 116. What is the difference between synchronized and concurrent collections?
+
+**Answer:**
+* **Locking mechanism** - Synchronized uses single lock, concurrent uses fine-grained locking
+* **Performance** - Concurrent collections offer better performance under high concurrency
+* **Blocking behavior** - Synchronized blocks all threads, concurrent allows some parallelism
+* **Examples** - Collections.synchronizedList() vs ConcurrentHashMap
+
+```java
+// Synchronized collection - single lock for entire collection
+List<String> syncList = Collections.synchronizedList(new ArrayList<>());
+synchronized (syncList) {  // Manual synchronization needed for iteration
+    for (String item : syncList) {
+        System.out.println(item);
+    }
+}
+
+// Concurrent collection - fine-grained locking
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+concurrentMap.put("key1", 1);  // Non-blocking for different segments
+concurrentMap.put("key2", 2);  // Can happen concurrently
+
+// No external synchronization needed for iteration
+for (Map.Entry<String, Integer> entry : concurrentMap.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+```
+
+### 117. What is ConcurrentHashMap and how is it different from HashMap?
+
+**Answer:**
+* **Thread safety** - ConcurrentHashMap is thread-safe, HashMap is not
+* **Locking strategy** - Uses segment-based locking instead of full synchronization
+* **Null values** - ConcurrentHashMap doesn't allow null keys/values, HashMap does
+* **Performance** - Better concurrent performance than synchronized HashMap
+
+```java
+// HashMap - not thread-safe
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put("key1", 1);
+hashMap.put(null, 2);     // Null key allowed
+hashMap.put("key2", null); // Null value allowed
+
+// ConcurrentHashMap - thread-safe with better performance
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+concurrentMap.put("key1", 1);
+// concurrentMap.put(null, 2);     // NullPointerException
+// concurrentMap.put("key2", null); // NullPointerException
+
+// Atomic operations
+concurrentMap.putIfAbsent("key3", 3);
+concurrentMap.compute("key1", (k, v) -> v + 1);
+concurrentMap.merge("key1", 5, Integer::sum);
+
+// Thread-safe iteration without external synchronization
+concurrentMap.forEach((k, v) -> System.out.println(k + ": " + v));
+```
+
+## Iterator Comparison Summary
+
+| Feature | Enumeration | Iterator | ListIterator |
+|---------|-------------|----------|--------------|
+| Direction | Forward | Forward | Bidirectional |
+| Modification | No | Remove only | Add, Remove, Set |
+| Collections | Vector, Hashtable | All Collections | List only |
+| Fail-fast | No | Yes | Yes |
+| Index access | No | No | Yes |
+| Legacy | Yes | No | No |
+
+## Collection Thread Safety Comparison
+
+| Collection Type | Thread Safety | Performance | Null Support | Locking |
+|----------------|---------------|-------------|--------------|---------|
+| HashMap | No | High | Yes | None |
+| Hashtable | Yes | Low | No | Full synchronization |
+| Collections.synchronizedMap() | Yes | Medium | Yes | Full synchronization |
+| ConcurrentHashMap | Yes | High | No | Segment-based |
+
+## Concurrent Collections Benefits
+
+```java
+// Traditional synchronized approach - poor performance
+Map<String, Integer> syncMap = Collections.synchronizedMap(new HashMap<>());
+
+// Modern concurrent approach - better performance
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+
+// Other concurrent collections
+ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
+```
+
+## Best Practices
+
+* **Use Iterator.remove()** instead of Collection.remove() during iteration
+* **Choose ConcurrentHashMap** over synchronized HashMap for better performance
+* **Use CopyOnWriteArrayList** for read-heavy scenarios with occasional writes
+* **Avoid Enumeration** - use Iterator or enhanced for-loop instead
+* **Consider BlockingQueue** for producer-consumer scenarios
+
+
+
+# Java Multi-threading and Concurrency 
+
+### Basic Threading
+## 118. How does multi-threading work in Java?
+
+**Answer:**
+* Java creates multiple threads that run concurrently within a single process
+* Each thread has its own stack but shares heap memory
+* JVM schedules threads using time-slicing on available CPU cores
+* Threads can be created by extending Thread class or implementing Runnable interface
+
+```java
+// Creating thread with Runnable
+Thread t = new Thread(() -> System.out.println("Hello from thread"));
+t.start();
+```
+
+## 119. What are the advantages of multithreading?
+
+**Answer:**
+* **Better performance** - Utilizes multiple CPU cores effectively
+* **Improved responsiveness** - UI remains responsive while background tasks run
+* **Resource sharing** - Threads share memory space efficiently
+* **Concurrent execution** - Multiple tasks can run simultaneously
+
+```java
+// Parallel processing example
+CompletableFuture.runAsync(() -> processData1());
+CompletableFuture.runAsync(() -> processData2());
+```
+
+## 120. What are the disadvantages of multithreading?
+
+**Answer:**
+* **Complexity** - Harder to debug and maintain code
+* **Synchronization overhead** - Performance cost of thread coordination
+* **Race conditions** - Data corruption when threads access shared resources
+* **Deadlocks** - Threads can block each other indefinitely
+
+```java
+// Potential race condition
+private int counter = 0;
+public void increment() { counter++; } // Not thread-safe
+```
+
+## 121. What is thread safety?
+
+**Answer:**
+* Code that works correctly when accessed by multiple threads simultaneously
+* Ensures data consistency and prevents race conditions
+* Achieved through synchronization, immutability, or thread-local storage
+* Critical for shared mutable state
+
+```java
+// Thread-safe using AtomicInteger
+private AtomicInteger counter = new AtomicInteger(0);
+public void increment() { counter.incrementAndGet(); }
+```
+
+## 122. What is synchronization in Java?
+
+**Answer:**
+* Mechanism to control access to shared resources by multiple threads
+* Ensures only one thread can access critical section at a time
+* Prevents data corruption and maintains consistency
+* Implemented using synchronized keyword, locks, or atomic classes
+
+```java
+private final Object lock = new Object();
+public void criticalSection() {
+    synchronized(lock) {
+        // Only one thread can execute this
+    }
+}
+```
+
+## 123. What is the synchronized keyword?
+
+**Answer:**
+* Java keyword that provides mutual exclusion for methods or blocks
+* Uses intrinsic lock (monitor) associated with every object
+* Ensures thread-safe access to shared resources
+* Can be applied to methods or code blocks
+
+```java
+// Synchronized method
+public synchronized void updateBalance(int amount) {
+    balance += amount;
+}
+
+// Synchronized block
+synchronized(this) {
+    balance += amount;
+}
+```
+
+## 124. What are synchronized methods and blocks?
+
+**Answer:**
+* **Synchronized methods** - Entire method is thread-safe, uses object's intrinsic lock
+* **Synchronized blocks** - Only specific code section is synchronized, more granular control
+* Blocks allow custom lock objects for better performance
+* Methods are simpler but less flexible
+
+```java
+// Synchronized method
+public synchronized void method1() { /* thread-safe */ }
+
+// Synchronized block with custom lock
+private final Object lock = new Object();
+public void method2() {
+    synchronized(lock) { /* only this block is synchronized */ }
+}
+```
+
+## 125. What is deadlock?
+
+**Answer:**
+* Situation where two or more threads are blocked forever, waiting for each other
+* Occurs when threads acquire locks in different orders
+* All threads are stuck and cannot proceed
+* Must be prevented through careful lock ordering
+
+```java
+// Deadlock scenario
+Thread1: synchronized(lockA) { synchronized(lockB) {...} }
+Thread2: synchronized(lockB) { synchronized(lockA) {...} }
+// Both threads wait for each other's lock
+```
+
+## 126. How do you prevent deadlock?
+
+**Answer:**
+* **Lock ordering** - Always acquire locks in the same order
+* **Timeout** - Use tryLock with timeout instead of blocking
+* **Avoid nested locks** - Minimize holding multiple locks
+* **Use concurrent collections** - Avoid manual synchronization
+
+```java
+// Prevent deadlock with consistent ordering
+private void transfer(Account from, Account to, int amount) {
+    Account firstLock = from.getId() < to.getId() ? from : to;
+    Account secondLock = from.getId() < to.getId() ? to : from;
+    
+    synchronized(firstLock) {
+        synchronized(secondLock) {
+            from.withdraw(amount);
+            to.deposit(amount);
+        }
+    }
+}
+```
+
+## 127. What is race condition?
+
+**Answer:**
+* When multiple threads access shared data simultaneously without proper synchronization
+* Final result depends on timing and order of thread execution
+* Leads to unpredictable and incorrect results
+* Solved by making operations atomic or synchronized
+
+```java
+// Race condition example
+private int count = 0;
+public void increment() {
+    count++; // Not atomic: read, increment, write
+}
+
+// Solution
+private AtomicInteger count = new AtomicInteger(0);
+public void increment() {
+    count.incrementAndGet(); // Atomic operation
+}
+```
+
+## 128. What is volatile keyword?
+
+**Answer:**
+* Ensures variable changes are immediately visible to all threads
+* Prevents compiler optimizations that cache variable values
+* Guarantees happens-before relationship for memory visibility
+* Doesn't provide atomicity for compound operations
+
+```java
+private volatile boolean running = true;
+
+public void stop() {
+    running = false; // Immediately visible to all threads
+}
+
+public void run() {
+    while(running) { /* loop */ }
+}
+```
+
+## 129. What is atomic operations?
+
+**Answer:**
+* Operations that complete entirely or not at all, no intermediate state
+* Cannot be interrupted by other threads
+* Java provides atomic classes like AtomicInteger, AtomicBoolean
+* Essential for thread-safe operations without synchronization overhead
+
+```java
+private AtomicInteger counter = new AtomicInteger(0);
+
+public int incrementAndGet() {
+    return counter.incrementAndGet(); // Atomic operation
+}
+
+public boolean compareAndSet(int expected, int update) {
+    return counter.compareAndSet(expected, update);
+}
+```
+
+## 130. What is java.util.concurrent package?
+
+**Answer:**
+* High-level concurrency utilities introduced in Java 5
+* Provides thread pools, concurrent collections, synchronizers
+* Includes ExecutorService, CountDownLatch, Semaphore, BlockingQueue
+* Simplifies concurrent programming with proven patterns
+
+```java
+// ExecutorService example
+ExecutorService executor = Executors.newFixedThreadPool(4);
+executor.submit(() -> System.out.println("Task executed"));
+
+// Concurrent collection
+ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+map.put("key", 1); // Thread-safe
+
+// CountDownLatch
+CountDownLatch latch = new CountDownLatch(3);
+latch.countDown(); // Decrements count
+latch.await(); // Waits until count reaches zero
+```
+
+## Advanced Concurrency
+
+## 131. What is ExecutorService?
+
+**Answer:**
+* High-level interface for managing and controlling thread execution
+* Provides thread pool management and task scheduling capabilities
+* Handles thread lifecycle automatically - creation, reuse, and termination
+* Supports both Runnable and Callable tasks with Future results
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(4);
+Future<String> future = executor.submit(() -> "Task result");
+String result = future.get();
+executor.shutdown();
+```
+
+## 132. What is ThreadPoolExecutor?
+
+**Answer:**
+* Concrete implementation of ExecutorService with customizable thread pool
+* Controls core pool size, maximum pool size, and keep-alive time
+* Uses BlockingQueue to hold pending tasks
+* Provides fine-grained control over thread pool behavior
+
+```java
+ThreadPoolExecutor executor = new ThreadPoolExecutor(
+    2, 4, 60L, TimeUnit.SECONDS,
+    new LinkedBlockingQueue<>(100)
+);
+executor.execute(() -> System.out.println("Task executed"));
+```
+
+## 133. What is Future and CompletableFuture?
+
+**Answer:**
+* **Future** - Represents result of asynchronous computation, blocking get() method
+* **CompletableFuture** - Enhanced Future with non-blocking operations and chaining
+* CompletableFuture supports callbacks, composition, and exception handling
+* Enables reactive programming patterns in Java
+
+```java
+// Future - blocking
+Future<String> future = executor.submit(() -> "Hello");
+String result = future.get(); // Blocks until complete
+
+// CompletableFuture - non-blocking
+CompletableFuture<String> cf = CompletableFuture
+    .supplyAsync(() -> "Hello")
+    .thenApply(s -> s + " World");
+```
+
+## 134. What is CountDownLatch?
+
+**Answer:**
+* Synchronization primitive that allows threads to wait for multiple operations to complete
+* Initialized with a count, decremented by countDown(), threads wait with await()
+* One-time use only - cannot be reset once count reaches zero
+* Perfect for coordinating startup or shutdown sequences
+
+```java
+CountDownLatch latch = new CountDownLatch(3);
+
+// Worker threads
+new Thread(() -> { doWork(); latch.countDown(); }).start();
+
+// Main thread waits
+latch.await(); // Blocks until count reaches 0
+System.out.println("All tasks completed");
+```
+
+## 135. What is CyclicBarrier?
+
+**Answer:**
+* Synchronization point where threads wait for each other to reach barrier
+* Reusable - automatically resets after all threads pass through
+* Supports optional barrier action executed when all threads arrive
+* Useful for parallel algorithms requiring synchronization points
+
+```java
+CyclicBarrier barrier = new CyclicBarrier(3, () -> 
+    System.out.println("All threads reached barrier"));
+
+// Each thread calls
+barrier.await(); // Waits for other threads
+// Continues after all 3 threads reach barrier
+```
+
+## 136. What is Semaphore?
+
+**Answer:**
+* Controls access to shared resource by limiting number of concurrent threads
+* Maintains count of available permits - acquire() decreases, release() increases
+* Useful for rate limiting and resource pool management
+* Can be fair or unfair in permit distribution
+
+```java
+Semaphore semaphore = new Semaphore(2); // Allow 2 concurrent access
+
+public void accessResource() throws InterruptedException {
+    semaphore.acquire(); // Get permit
+    try {
+        // Access shared resource
+    } finally {
+        semaphore.release(); // Return permit
+    }
+}
+```
+
+## 137. What is ReentrantLock?
+
+**Answer:**
+* Advanced lock implementation providing more flexibility than synchronized
+* Supports fairness, try-lock with timeout, and interruptible locking
+* Same thread can acquire lock multiple times (reentrant)
+* Must manually unlock in finally block to prevent deadlocks
+
+```java
+ReentrantLock lock = new ReentrantLock();
+
+public void method() {
+    lock.lock();
+    try {
+        // Critical section
+    } finally {
+        lock.unlock(); // Always unlock in finally
+    }
+}
+```
+
+## 138. What is ReadWriteLock?
+
+**Answer:**
+* Allows multiple concurrent readers but exclusive writer access
+* Improves performance when reads are more frequent than writes
+* ReentrantReadWriteLock is the standard implementation
+* Read lock can be acquired by multiple threads, write lock is exclusive
+
+```java
+ReadWriteLock rwLock = new ReentrantReadWriteLock();
+Lock readLock = rwLock.readLock();
+Lock writeLock = rwLock.writeLock();
+
+// Multiple readers allowed
+readLock.lock();
+try { /* read data */ } finally { readLock.unlock(); }
+
+// Exclusive writer
+writeLock.lock();
+try { /* write data */ } finally { writeLock.unlock(); }
+```
+
+## 139. What is BlockingQueue?
+
+**Answer:**
+* Thread-safe queue that blocks when empty (take) or full (put)
+* Provides producer-consumer pattern implementation
+* Common implementations: ArrayBlockingQueue, LinkedBlockingQueue
+* Eliminates need for manual synchronization in producer-consumer scenarios
+
+```java
+BlockingQueue<String> queue = new ArrayBlockingQueue<>(10);
+
+// Producer
+queue.put("item"); // Blocks if queue is full
+
+// Consumer
+String item = queue.take(); // Blocks if queue is empty
+```
+
+## 140. What is fork-join framework?
+
+**Answer:**
+* Designed for parallel processing of recursive tasks that can be split
+* Uses work-stealing algorithm for load balancing across threads
+* ForkJoinPool manages worker threads efficiently
+* Perfect for divide-and-conquer algorithms
+
+```java
+class SumTask extends RecursiveTask<Long> {
+    private int[] array;
+    private int start, end;
+    
+    protected Long compute() {
+        if (end - start <= 1000) {
+            return Arrays.stream(array, start, end).sum();
+        }
+        int mid = (start + end) / 2;
+        SumTask left = new SumTask(array, start, mid);
+        SumTask right = new SumTask(array, mid, end);
+        left.fork();
+        return right.compute() + left.join();
+    }
+}
+```
+
+## 141. What is parallel streams?
+
+**Answer:**
+* Stream API feature that automatically parallelizes operations across multiple threads
+* Uses ForkJoinPool.commonPool() by default for parallel execution
+* Simple way to leverage multi-core processors for data processing
+* Best for CPU-intensive operations on large datasets
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+// Sequential
+int sum = numbers.stream().mapToInt(i -> i * i).sum();
+
+// Parallel - automatically uses multiple threads
+int parallelSum = numbers.parallelStream()
+    .mapToInt(i -> i * i)
+    .sum();
+```
+
+## 142. What is reactive streams?
+
+**Answer:**
+* Specification for asynchronous stream processing with non-blocking backpressure
+* Handles data streams that may arrive faster than they can be processed
+* Key interfaces: Publisher, Subscriber, Subscription, Processor
+* Implemented by libraries like RxJava, Project Reactor, Akka Streams
+
+```java
+// Using Flow API (Java 9+)
+Flow.Publisher<String> publisher = subscriber -> {
+    subscriber.onSubscribe(new Flow.Subscription() {
+        public void request(long n) {
+            subscriber.onNext("Hello");
+            subscriber.onComplete();
+        }
+        public void cancel() {}
+    });
+};
+
+publisher.subscribe(new Flow.Subscriber<String>() {
+    public void onNext(String item) { System.out.println(item); }
+    public void onComplete() { System.out.println("Done"); }
+    // ... other methods
+});
+```
