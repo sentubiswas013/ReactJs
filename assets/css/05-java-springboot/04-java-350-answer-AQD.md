@@ -193,8 +193,7 @@ class Bike extends Vehicle {
 
 ---
 
-### Data Types and Variables 
-
+## 🔹 **Data Types and Variables**
 ---
 
 ### 11. What are primitive data types in Java?
