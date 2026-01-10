@@ -1,571 +1,1097 @@
 # Java Interview Questions - Comprehensive Guide
 
-## 🔵 Java Fundamentals
-
-## 🔹 Core Java Basics
-
-
-## 🔹 Object-Oriented Programming (OOP)
-
-
-## 🔹 Inheritance and Polymorphism
-
-
-## 🔵 Method Concepts
-
-## 🔹 Method Overloading and Overriding
-
-
-## 🔵 Static and Final Keywords
-
-## 🔹 Static Concepts
-
-
-## 🔹 Final Keyword
-
-
-## 🔵 Abstract Classes and Interfaces
-
-## 🔹 Abstraction
-
-
-## 🔹 Interfaces
-
-
-## 🔵 Package and Import
-
-## 🔹 Package Management
-74. What is the purpose of package in Java?
-75. What is the java.lang package?
-76. Which is the most important class in Java?
-77. Is it mandatory to import the java.lang package every time?
-78. Can you import the same package or class twice in your class?
-79. What is a static import in Java?
-80. What is the difference between import static com.test.FooClass and import com.test.FooClass?
-
-## 🔹 Internationalization
-81. What is Locale in Java?
-82. How will you use a specific Locale in Java?
-
-## 🔵 String Handling
-
-## 🔹 String Concepts
-83. What is the meaning of immutable in the context of the String class?
-84. Why is a String object considered immutable in Java?
-85. How many ways are there in Java to create a String object?
-86. What is String interning?
-87. Why does Java use the String literal concept?
-88. What is the basic difference between a String and StringBuffer object?
-89. How will you create an immutable class in Java?
-90. What is the use of the toString() method in Java?
-91. Arrange String, StringBuffer, and StringBuilder in order of efficiency for String processing operations?
-
-## 🔵 Exception Handling
-
-## 🔹 Exception Concepts
-92. What is exception handling in Java?
-93. What are the differences between checked and unchecked exceptions?
-94. What is the base class for Error and Exception classes in Java?
-95. What is a finally block in Java?
-96. What is the use of the finally block in Java?
-97. Can we create a finally block without creating a catch block?
-98. Do we have to always put a catch block after a try block?
-99. In what scenarios will a finally block not be executed?
-100. Can we re-throw an exception in Java?
-101. What is the difference between throw and throws in Java?
-102. What is the concept of exception propagation?
-103. When we override a method in a child class, can we throw an additional exception that is not thrown by the parent class method?
-
-## 🔵 Collections Framework
-
-## 🔹 Core Collections
-104. What is the Collections Framework in Java?
-105. What are the main interfaces in the Collections Framework?
-106. What is the difference between Collection and Collections in Java?
-107. What is the difference between List and Set interfaces?
-108. What is the difference between ArrayList and LinkedList?
-109. What is the difference between ArrayList and Vector?
-110. What is the difference between HashMap and Hashtable?
-111. What is the difference between HashMap and TreeMap?
-112. What is the difference between HashSet and TreeSet?
-
-## 🔹 Iterators and Advanced Collections
-113. What is the difference between Iterator and ListIterator?
-114. What is the difference between Enumeration and Iterator?
-115. What is the fail-fast property of iterators?
-116. What is the difference between synchronized and concurrent collections?
-117. What is ConcurrentHashMap and how is it different from HashMap?
-
-## 🔵 Multi-threading and Concurrency
-
-## 🔹 Basic Threading
-118. How does multi-threading work in Java?
-119. What are the advantages of multithreading?
-120. What are the disadvantages of multithreading?
-121. What is thread safety?
-122. What is synchronization in Java?
-123. What is the synchronized keyword?
-124. What are synchronized methods and blocks?
-125. What is deadlock?
-126. How do you prevent deadlock?
-127. What is race condition?
-128. What is volatile keyword?
-129. What is atomic operations?
-130. What is java.util.concurrent package?
-
-## 🔹 Advanced Concurrency
-131. What is ExecutorService?
-132. What is ThreadPoolExecutor?
-133. What is Future and CompletableFuture?
-134. What is CountDownLatch?
-135. What is CyclicBarrier?
-136. What is Semaphore?
-137. What is ReentrantLock?
-138. What is ReadWriteLock?
-139. What is BlockingQueue?
-140. What is fork-join framework?
-141. What is parallel streams?
-142. What is reactive streams?
-
-## 🔵 Memory Management and Garbage Collection
-
-## 🔹 Memory Concepts
-143. What are the different memory areas in JVM?
-144. What is heap memory in Java?
-145. What is stack memory in Java?
-146. What is method area in Java?
-147. What is the difference between heap and stack memory?
-148. What is memory leak in Java?
-149. How can we prevent memory leaks in Java?
-150. What is the difference between shallow copy and deep copy?
-151. What is the purpose of clone() method?
-152. What is the difference between == and equals() method?
-
-## 🔹 Garbage Collection
-153. What is garbage collection in Java?
-154. Why Java provides garbage collector?
-155. What is the purpose of gc() in Java?
-156. How does garbage collection work in Java?
-157. When does an object become eligible for garbage collection?
-158. Why do we use finalize() method in Java?
-159. What are the different types of references in Java?
-160. How can we reference an unreferenced object again?
-161. What kind of process is the garbage collector thread?
-162. What are the different types of garbage collectors?
-163. How do you tune garbage collection?
-
-## 🔵 I/O Operations
-
-## 🔹 Basic I/O
-164. What is Java I/O?
-165. What are the different types of streams in Java?
-166. What is the difference between byte stream and character stream?
-167. What is the difference between InputStream and OutputStream?
-168. What is the difference between Reader and Writer?
-169. What is BufferedReader and BufferedWriter?
-170. What is the purpose of File class in Java?
-
-## 🔹 NIO (New I/O)
-171. What is NIO in Java?
-172. What is the difference between IO and NIO?
-173. What are channels in Java NIO?
-174. What is NIO.2 features?
-175. What is asynchronous file I/O?
-176. What is memory-mapped I/O?
-177. What is zero-copy I/O?
-
-## 🔵 Serialization and Reflection
-
-## 🔹 Serialization
-178. What is serialization?
-179. What is the purpose of serialization?
-180. What is deserialization?
-181. Why do we mark a data member transient?
-182. Is it allowed to mark a method as transient?
-183. What is the Externalizable interface in Java?
-184. What is the difference between Serializable and Externalizable interface?
-185. What is custom serialization?
-186. What is serialization security?
-
-## 🔹 Reflection
-187. What is reflection in Java?
-188. What are the uses of reflection in Java?
-189. How can we access a private method of a class from outside the class?
-190. How can we create an object dynamically at runtime in Java?
-191. What is reflection performance optimization?
-192. What is method handles?
-193. What is dynamic proxies?
-
-## 🔵 Inner Classes and Nested Classes
-
-## 🔹 Nested Classes
-194. What is a nested class?
-195. How many types of nested classes are in Java?
-196. Why do we use nested classes?
-197. What is the difference between a nested class and an inner class?
-198. What is a nested interface?
-199. How can we access the non-final local variable inside a local inner class?
-200. Can an interface be defined in a class?
-201. Do we have to explicitly mark a nested interface public static?
-202. Why do we use static nested interface in Java?
-
-## 🔵 Java 8+ Features
-
-## 🔹 Java 8 Features
-203. What are the new features introduced in Java 8?
-204. What are lambda expressions in Java 8?
-205. What are functional interfaces in Java 8?
-206. What is the Stream API in Java 8?
-207. What are default methods in interfaces?
-208. What are static methods in interfaces?
-209. What is the Optional class in Java 8?
-210. What are method references in Java 8?
-211. What is the forEach method in Java 8?
-212. What are the differences between Collection API and Stream API?
-
-## 🔹 Modern Java Features (9+)
-213. What are the new features in Java 9?
-214. What is the module system in Java 9?
-215. What are the new features in Java 10?
-216. What is var keyword in Java 10?
-217. What are the new features in Java 11?
-218. What are the new features in Java 14?
-219. What are the new features in Java 17?
-
-## 🔵 Advanced Java Concepts
-
-## 🔹 Generics
-220. What are generics in Java?
-221. What is type erasure in generics?
-222. What are wildcards in generics?
-223. What is generic method implementation?
-224. What is bounded type parameters?
-225. What is generic inheritance?
-
-## 🔹 Annotations
-226. What is annotation in Java?
-227. How do you create custom annotations?
-228. What is annotation processing?
-229. What is compile-time annotation processing?
-230. What is runtime annotation processing?
-231. What is meta-annotations?
-
-## 🔹 Enums and Other Features
-232. What is autoboxing and unboxing?
-233. What is enum in Java?
-234. What are the advantages of using enum?
-235. What is varargs in Java?
-
-## Database Connectivity (JDBC)
-
-## 🔹 JDBC Basics
-236. What is JDBC?
-237. What are the steps to connect to a database using JDBC?
-238. What are the different types of JDBC drivers?
-239. What is the difference between Statement and PreparedStatement?
-240. What is CallableStatement?
-241. What is connection pooling?
-242. What is the difference between execute(), executeQuery(), and executeUpdate()?
-243. What is ResultSet in JDBC?
-244. What are the different types of ResultSet?
-245. What is transaction management in JDBC?
-
-## 🔹 Advanced Database Concepts
-246. What is database transaction?
-247. What is ACID properties?
-248. What is isolation levels in database?
-249. What is connection leakage?
-250. What is batch processing in JDBC?
-251. What is SQL injection and how to prevent it?
-
-## 🔵 Design Patterns
-
-## 🔹 Common Design Patterns
-252. What are design patterns?
-253. What is Singleton design pattern?
-254. How do you implement Singleton pattern in Java?
-255. What is Factory design pattern?
-256. What is Abstract Factory design pattern?
-257. What is Builder design pattern?
-258. What is Observer design pattern?
-259. What is Strategy design pattern?
-260. What is Command design pattern?
-261. What is Decorator design pattern?
-
-## 🔵 Web Development
-
-## 🔹 Servlets and JSP
-262. What is servlet in Java?
-263. What is the servlet lifecycle?
-264. What is JSP (JavaServer Pages)?
-265. What is the difference between servlet and JSP?
-266. What is JSTL (JSP Standard Tag Library)?
-267. What is session management in web applications?
-268. What are cookies in Java web applications?
-269. What is URL rewriting?
-270. What is HttpSession?
-
-## 🔹 RESTful Web Services
-271. What are RESTful web services?
-272. What are the principles of REST?
-273. What are HTTP methods used in REST?
-274. What is JSON?
-275. What is XML?
-276. What is the difference between JSON and XML?
-277. What is JAX-RS?
-278. What is Spring REST?
-279. What is SOAP vs REST?
-280. What is API versioning?
-
-## 🔵 Frameworks
-
-## 🔹 Spring Framework
-281. What is Spring Framework?
-282. What are the core features of Spring?
-283. What is dependency injection?
-284. What is inversion of control (IoC)?
-285. What is Spring Boot?
-286. What is Spring AOP (Aspect-Oriented Programming)?
-287. What is Spring Data JPA?
-288. What is Spring Cloud?
-289. What is Spring Security?
-290. What is Spring WebFlux?
-
-## 🔹 Hibernate and JPA
-291. What is Hibernate?
-292. What is JPA?
-293. What is the difference between Hibernate and JPA?
-
-## 🔹 Other Frameworks
-294. What is Struts framework?
-295. What is JSF (JavaServer Faces)?
-
-## Microservices and Distributed Systems
-
-## 🔹 Microservices Architecture
-296. What are microservices?
-297. What are the advantages of microservices?
-298. What are the challenges of microservices?
-299. What is service discovery?
-300. What is API gateway?
-301. What is circuit breaker pattern?
-302. What is distributed tracing?
-303. What is service mesh architecture?
-304. What is database per service pattern?
-305. What is saga pattern for distributed transactions?
-
-## 🔹 Cloud and Containerization
-306. What is containerization?
-307. What is Docker?
-308. What is Kubernetes?
-309. What is cloud computing?
-310. What is distributed system?
-311. What is load balancing?
-312. What is caching strategies?
-
-## 🔵 Security
-
-## 🔹 Java Security
-313. What is Java security model?
-314. What is sandbox in Java?
-315. What is bytecode verification?
-316. What is class loader security?
-317. What is the security manager?
-318. What are digital signatures in Java?
-319. What is encryption and decryption in Java?
-320. What is SSL/TLS in Java?
-
-## 🔹 Application Security
-321. What is authentication vs authorization?
-322. What is OAuth?
-323. What is JWT (JSON Web Token)?
-324. What is CSRF protection?
-325. What is XSS protection?
-326. What is input validation?
-327. What is secure coding practices?
-328. What is OAuth 2.0?
-329. What is OpenID Connect?
-330. What is SAML?
-
-## 🔵 Performance and Optimization
-
-## 🔹 Performance Monitoring
-331. How do you measure Java application performance?
-332. What are the common performance bottlenecks in Java?
-333. How do you optimize Java code for performance?
-334. What is profiling in Java?
-335. What is JVM tuning?
-336. What are the JVM parameters for performance tuning?
-337. What is memory profiling?
-338. What is CPU profiling?
-
-## 🔹 Advanced Performance
-339. What is application performance monitoring (APM)?
-340. What is code profiling?
-341. What is database optimization?
-342. What is query optimization?
-343. What is lazy loading?
-344. What is eager loading?
-345. What is pagination?
-
-## 🔵 Testing
-
-## 🔹 Testing Fundamentals
-346. What is unit testing in Java?
-347. What is JUnit?
-348. What are the annotations used in JUnit?
-349. What is TestNG?
-350. What is the difference between JUnit and TestNG?
-351. What is mocking in Java testing?
-352. What is Mockito?
-353. What is integration testing?
-354. What is test-driven development (TDD)?
-
-## 🔹 Advanced Testing
-355. What is behavior-driven development (BDD)?
-356. What is acceptance testing?
-357. What is contract testing?
-358. What is mutation testing?
-359. What is performance testing?
-360. What is security testing?
-
-## 🔵 DevOps and Build Tools
-
-## 🔹 Build Tools
-361. What is Maven?
-362. What is Gradle?
-363. What is the difference between Maven and Gradle?
-
-## 🔹 CI/CD and DevOps
-364. What is continuous integration?
-365. What is continuous deployment?
-366. What is Jenkins?
-367. What is Git?
-368. What is version control?
-369. What is infrastructure as code?
-370. What is deployment strategies?
-371. What is blue-green deployment?
-372. What is canary deployment?
-
-## 🔵 Monitoring and Logging
-
-## 🔹 Logging
-373. What is application monitoring?
-374. What is logging framework?
-375. What is Log4j?
-376. What is SLF4J?
-377. What is Logback?
-378. What is structured logging?
-379. What is centralized logging?
-
-## 🔹 Monitoring
-380. What is metrics collection?
-381. What is JMX monitoring?
-382. What is health checks?
-383. What is distributed monitoring?
-384. What is alerting strategies?
-
-## 🔵 Advanced Architecture
-
-## 🔹 System Design
-385. What is system design for Java applications?
-386. What is scalability design patterns?
-387. What is reliability design patterns?
-388. What is availability design patterns?
-389. What is event-driven architecture?
-390. What is CQRS pattern?
-391. What is event sourcing?
-392. What is domain-driven design?
-393. What is clean architecture?
-394. What is hexagonal architecture?
-
-## 🔵 JVM Internals and Advanced Topics
-
-## 🔹 JVM Deep Dive
-395. What is JVM architecture?
-396. What is class loading process?
-397. What are the types of class loaders?
-398. What is bytecode?
-399. What is JIT compilation?
-400. What is JVM memory model?
-401. What is escape analysis?
-402. What is GraalVM?
-
-## 🔹 Advanced Compilation
-403. What is ahead-of-time compilation?
-404. What is native image compilation?
-405. What is tiered compilation?
-406. What is bytecode optimization?
-
-## 🔵 Emerging Technologies
-
-## 🔹 Future Technologies
-407. What is Project Loom?
-408. What is Project Panama?
-409. What is Project Valhalla?
-410. What is Project Amber?
-411. What is WebAssembly with Java?
-412. What is cloud native Java?
-413. What is serverless Java?
-414. What is edge computing with Java?
-
-## 🔹 Integration with Modern Technologies
-415. What is artificial intelligence in Java?
-416. What is machine learning with Java?
-417. What is blockchain development with Java?
-418. What is IoT development with Java?
-
-## 🔵 Best Practices and Professional Development
-
-## 🔹 Coding Best Practices
-419. What are some Java coding best practices?
-420. How do you handle exceptions properly in Java?
-421. What are the best practices for using collections?
-422. What are the best practices for multi-threading?
-423. What are the best practices for memory management?
-424. What are clean code principles?
-425. What is SOLID principles?
-426. What is code documentation?
-
-## 🔹 Professional Development
-427. What are Java certification paths?
-428. What are Java career progression paths?
-429. What are essential Java skills?
-430. What are Java interview preparation tips?
-431. What are Java community resources?
-432. What are Java learning resources?
-
-## 🔵 Troubleshooting and Problem Solving
-
-## 🔹 Common Issues
-433. What are common Java performance issues?
-434. What are common Java memory issues?
-435. What are common Java concurrency issues?
-436. What are common Java deployment issues?
-437. What are common Java security issues?
-438. What are debugging strategies?
-439. What are problem-solving methodologies?
-440. What are root cause analysis techniques?
-
-## 🔹 Advanced Debugging
-441. What is remote debugging setup?
-442. What is conditional breakpoints?
-443. What is hot code replacement?
-444. What is debugging multithreaded applications?
-445. What is debugging performance issues?
-446. What is heap dump analysis?
-447. What is thread dump analysis?
-
-## 🔵 Expert Level Questions
-
-## 🔹 System Design and Architecture
-448. How do you design a highly scalable Java system?
-449. How do you optimize Java applications for extreme performance?
-450. How do you ensure Java application security at enterprise scale?
-451. How do you implement fault-tolerant Java systems?
-452. How do you design Java systems for global distribution?
-453. How do you implement real-time Java applications?
-454. How do you design Java systems for machine learning workloads?
-455. How do you implement Java systems for IoT at scale?
-456. How do you design Java systems for blockchain applications?
-457. What is the future of Java and how do you prepare for it?
+# Java Fundamentals 
+
+## Core Java Basics
+
+### 1. What is the difference between JDK and JRE?
+
+**Answer:**
+* JDK is the development kit - includes compiler, debugger, and development tools
+* JRE is the runtime environment - just runs Java applications
+* JDK = JRE + Development Tools
+* Think of JRE as a player, JDK as a player + recorder
+
+```java
+// You need JDK to compile this
+javac HelloWorld.java
+
+// You need JRE to run this
+java HelloWorld
+```
+
+### 2. What is Java Virtual Machine (JVM)?
+
+**Answer:**
+* JVM is the runtime engine that executes Java bytecode
+* It's platform-specific but makes Java platform-independent
+* Converts bytecode to machine code
+* Handles memory management and garbage collection
+
+```java
+// Java code → Bytecode → JVM → Machine code
+public class Demo {
+    public static void main(String[] args) {
+        System.out.println("JVM executes this");
+    }
+}
+```
+
+### 3. What are the different types of memory areas allocated by JVM?
+
+**Answer:**
+* **Heap Memory**: Objects and instance variables
+* **Stack Memory**: Method calls and local variables
+* **Method Area**: Class-level data, static variables
+* **PC Register**: Current executing instruction
+* **Native Method Stack**: Native method calls
+
+```java
+public class MemoryDemo {
+    static int classVar = 10;        // Method Area
+    
+    public void method() {
+        int localVar = 20;           // Stack
+        String obj = new String();   // Heap
+    }
+}
+```
+
+### 4. What is JIT Compiler?
+
+**Answer:**
+* Just-In-Time compiler optimizes bytecode to machine code at runtime
+* Improves performance by compiling frequently used code
+* Works behind the scenes automatically
+* Makes Java faster than interpreted languages
+
+```java
+// This loop will be optimized by JIT
+for (int i = 0; i < 1000000; i++) {
+    // JIT optimizes this after multiple executions
+    result += i * 2;
+}
+```
+
+### 5. How is Java Platform different from other platforms?
+
+**Answer:**
+* Java platform is software-based, not hardware-based
+* Includes JVM + Java API libraries
+* Platform-independent - same code runs everywhere
+* Other platforms are typically OS + hardware specific
+
+```java
+// Same code works on Windows, Linux, Mac
+public class CrossPlatform {
+    public static void main(String[] args) {
+        System.out.println("Runs everywhere!");
+    }
+}
+```
+
+### 6. Why do people say that Java is 'Write Once and Run Anywhere' language?
+
+**Answer:**
+* Java compiles to bytecode, not machine code
+* Bytecode is platform-neutral
+* JVM on each platform interprets bytecode
+* Same .class file runs on any system with JVM
+
+```java
+// Compile once: javac Demo.java → Demo.class
+// Run anywhere: java Demo (on any OS)
+public class Demo {
+    public static void main(String[] args) {
+        System.out.println("WORA in action!");
+    }
+}
+```
+
+### 7. How does ClassLoader work in Java?
+
+**Answer:**
+* ClassLoader loads .class files into JVM memory
+* Three types: Bootstrap, Extension, Application
+* Uses delegation model - parent first approach
+* Loads classes on-demand (lazy loading)
+
+```java
+public class ClassLoaderDemo {
+    public static void main(String[] args) {
+        // Get current class loader
+        ClassLoader loader = ClassLoaderDemo.class.getClassLoader();
+        System.out.println("ClassLoader: " + loader);
+        
+        // Load class dynamically
+        Class.forName("java.util.ArrayList");
+    }
+}
+```
+
+### 8. Do you think 'main' used for main method is a keyword in Java?
+
+**Answer:**
+* No, 'main' is NOT a keyword in Java
+* It's just a method name with special significance
+* JVM looks for this specific method signature to start execution
+* You can use 'main' as variable name elsewhere
+
+```java
+public class MainDemo {
+    int main = 5; // 'main' used as variable - perfectly valid
+    
+    public static void main(String[] args) {
+        // This 'main' is special method name, not keyword
+        System.out.println("Started");
+    }
+}
+```
+
+### 9. Can we write main method as public void static instead of public static void?
+
+**Answer:**
+* No, the order matters in Java
+* Access modifier must come first: public
+* Then static keyword
+* Then return type: void
+* Wrong order causes compilation error
+
+```java
+// ✅ Correct
+public static void main(String[] args) { }
+
+// ❌ Wrong - Compilation error
+public void static main(String[] args) { }
+```
+
+### 10. What will be the default value of local variables if we do not specify any value?
+
+**Answer:**
+* Local variables have NO default values
+* Must be initialized before use
+* Compilation error if used without initialization
+* Only instance and static variables get default values
+
+```java
+public class DefaultValues {
+    int instanceVar; // Default: 0
+    
+    public void method() {
+        int localVar; // No default value
+        // System.out.println(localVar); // Compilation error
+        
+        localVar = 10; // Must initialize
+        System.out.println(localVar); // Now OK
+    }
+}
+```
+
+### 11. What is the difference between byte and char data types in Java?
+
+**Answer:**
+* **byte**: 8-bit signed integer (-128 to 127)
+* **char**: 16-bit unsigned Unicode character (0 to 65535)
+* byte stores numbers, char stores characters
+* char can represent any Unicode character
+
+```java
+public class ByteCharDemo {
+    public static void main(String[] args) {
+        byte b = 65;        // Number 65
+        char c = 65;        // Character 'A' (ASCII 65)
+        char c2 = 'A';      // Same as above
+        
+        System.out.println(b);  // Prints: 65
+        System.out.println(c);  // Prints: A
+        System.out.println(c2); // Prints: A
+    }
+}
+```
+
+---
+
+## Object-Oriented Programming (OOP)
+
+### 12. What are the main principles of Object-Oriented Programming (OOP)?
+
+**Answer:**
+* **Encapsulation**: Hide internal details, expose through methods
+* **Inheritance**: Child class inherits parent properties
+* **Polymorphism**: Same method, different behaviors
+* **Abstraction**: Hide complexity, show essential features
+
+```java
+// Encapsulation
+class Account {
+    private double balance;
+    public void deposit(double amount) { balance += amount; }
+}
+
+// Inheritance
+class SavingsAccount extends Account { }
+
+// Polymorphism
+Account acc = new SavingsAccount();
+```
+
+### 13. What is the difference between Object-Oriented Programming language and Object-Based Programming language?
+
+**Answer:**
+* **Object-Oriented**: Supports all OOP features (Java, C++)
+* **Object-Based**: Has objects but limited OOP features (JavaScript)
+* OOP has inheritance, Object-based may not
+* OOP follows class-based approach
+
+```java
+// Object-Oriented (Java)
+class Animal { }
+class Dog extends Animal { } // Inheritance supported
+
+// Object-Based (JavaScript-like)
+// var obj = { name: "test" }; // Objects without classes
+```
+
+### 14. What is the default value of an object reference defined as an instance variable?
+
+**Answer:**
+* Default value is **null**
+* All object references are initialized to null
+* Primitive types have different defaults (0, false, etc.)
+* Must check for null before using
+
+```java
+class Demo {
+    String name;        // Default: null
+    int age;           // Default: 0
+    boolean active;    // Default: false
+    
+    public void test() {
+        System.out.println(name);    // Prints: null
+        System.out.println(age);     // Prints: 0
+    }
+}
+```
+
+### 15. Why do we need a constructor in Java?
+
+**Answer:**
+* Initialize object state when created
+* Set initial values for instance variables
+* Perform setup operations
+* Ensure object is in valid state from creation
+
+```java
+class Person {
+    private String name;
+    private int age;
+    
+    // Constructor initializes object
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+Person p = new Person("John", 25); // Object ready to use
+```
+
+### 16. Why do we need a default constructor in Java classes?
+
+**Answer:**
+* Provides no-argument way to create objects
+* Java creates one automatically if no constructor exists
+* Frameworks often need default constructor (Spring, Hibernate)
+* Allows flexible object creation
+
+```java
+class Student {
+    String name = "Unknown";
+    
+    // Default constructor (implicit if not written)
+    public Student() { }
+    
+    public Student(String name) {
+        this.name = name;
+    }
+}
+
+Student s1 = new Student();      // Uses default
+Student s2 = new Student("Tom"); // Uses parameterized
+```
+
+### 17. What is the value returned by constructor in Java?
+
+**Answer:**
+* Constructors don't return any value
+* Not even void - they have no return type
+* They implicitly return the created object reference
+* Cannot use return statement with value
+
+```java
+class Car {
+    // ✅ Correct - No return type
+    public Car() {
+        System.out.println("Car created");
+        // return; // OK - but not needed
+    }
+    
+    // ❌ Wrong - Cannot have return type
+    // public void Car() { } // This is a method, not constructor
+}
+```
+
+### 18. Can we inherit a constructor?
+
+**Answer:**
+* No, constructors are NOT inherited
+* Each class must define its own constructors
+* Child class can call parent constructor using super()
+* Constructor chaining happens automatically
+
+```java
+class Parent {
+    public Parent(String name) {
+        System.out.println("Parent: " + name);
+    }
+}
+
+class Child extends Parent {
+    public Child() {
+        super("Default"); // Must call parent constructor
+    }
+}
+```
+
+### 19. Why constructors cannot be final, static, or abstract in Java?
+
+**Answer:**
+* **final**: Constructors can't be overridden (inheritance doesn't apply)
+* **static**: Constructors belong to instance creation, not class
+* **abstract**: Constructors must have implementation to create objects
+* These modifiers contradict constructor purpose
+
+```java
+class Demo {
+    // ❌ All these are compilation errors
+    // public final Demo() { }     // Cannot be final
+    // public static Demo() { }    // Cannot be static  
+    // public abstract Demo() { }  // Cannot be abstract
+    
+    // ✅ Correct
+    public Demo() { }
+}
+```
+
+---
+
+## Inheritance and Polymorphism
+
+### 20. What is the purpose of the 'this' keyword in Java?
+
+**Answer:**
+* Refers to current object instance
+* Differentiates between instance variables and parameters
+* Calls other constructors in same class
+* Passes current object as parameter
+
+```java
+class Person {
+    private String name;
+    
+    public Person(String name) {
+        this.name = name;  // Distinguish parameter from field
+    }
+    
+    public Person() {
+        this("Unknown");   // Call other constructor
+    }
+}
+```
+
+### 21. Explain the concept of inheritance?
+
+**Answer:**
+* Child class inherits properties and methods from parent
+* Promotes code reusability and hierarchy
+* Uses 'extends' keyword in Java
+* Child can override parent methods
+
+```java
+class Animal {
+    public void eat() { System.out.println("Eating"); }
+}
+
+class Dog extends Animal {
+    public void bark() { System.out.println("Barking"); }
+}
+
+Dog d = new Dog();
+d.eat();  // Inherited method
+d.bark(); // Own method
+```
+
+### 22. Which class in Java is the superclass of every other class?
+
+**Answer:**
+* **Object class** is the root of all classes
+* Every class implicitly extends Object
+* Provides basic methods like toString(), equals(), hashCode()
+* Located in java.lang package
+
+```java
+class MyClass { } // Implicitly extends Object
+
+// Same as:
+class MyClass extends Object {
+    // Inherits toString(), equals(), hashCode(), etc.
+}
+
+MyClass obj = new MyClass();
+System.out.println(obj.toString()); // From Object class
+```
+
+### 23. Why does Java not support multiple inheritance?
+
+**Answer:**
+* Avoids **Diamond Problem** - ambiguity in method resolution
+* Simplifies language design and reduces complexity
+* Uses interfaces for multiple inheritance of type
+* Single inheritance keeps hierarchy clear
+
+```java
+// Diamond Problem (not allowed in Java)
+// class C extends A, B { } // Compilation error
+
+// Solution: Use interfaces
+interface A { void method(); }
+interface B { void method(); }
+
+class C implements A, B {
+    public void method() { } // Single implementation
+}
+```
+
+### 24. What is meant by composition in OOPS?
+
+**Answer:**
+* "Has-a" relationship between classes
+* One class contains objects of another class
+* Stronger relationship than inheritance
+* Promotes code reuse without inheritance hierarchy
+
+```java
+class Engine {
+    public void start() { System.out.println("Engine started"); }
+}
+
+class Car {
+    private Engine engine = new Engine(); // Composition
+    
+    public void startCar() {
+        engine.start(); // Using composed object
+    }
+}
+```
+
+### 25. How are aggregation and composition different concepts?
+
+**Answer:**
+* **Composition**: Strong "has-a", child can't exist without parent
+* **Aggregation**: Weak "has-a", child can exist independently
+* Composition: Car-Engine (engine dies with car)
+* Aggregation: Department-Employee (employee can change departments)
+
+```java
+// Composition - Engine can't exist without Car
+class Car {
+    private Engine engine = new Engine(); // Dies with car
+}
+
+// Aggregation - Student exists independently
+class Department {
+    private List<Student> students; // Students can transfer
+}
+```
+
+### 26. What is the purpose of the 'super' keyword in Java?
+
+**Answer:**
+* Refers to immediate parent class object
+* Calls parent class methods and constructors
+* Accesses parent class variables
+* Resolves method name conflicts
+
+```java
+class Parent {
+    String name = "Parent";
+    public void display() { System.out.println("Parent"); }
+}
+
+class Child extends Parent {
+    String name = "Child";
+    
+    public void show() {
+        System.out.println(super.name);  // Parent
+        super.display();                 // Parent method
+    }
+}
+```
+
+### 27. Is it possible to use this() and super() both in the same constructor?
+
+**Answer:**
+* **No**, cannot use both in same constructor
+* Both must be first statement in constructor
+* Only one can be first statement
+* Choose either constructor chaining or parent call
+
+```java
+class Parent {
+    public Parent(String name) { }
+}
+
+class Child extends Parent {
+    public Child() {
+        super("Default"); // Must be first
+        // this();        // Error - cannot have both
+    }
+    
+    public Child(String name) {
+        this(); // Calls other constructor
+    }
+}
+```
+
+### 28. What is the meaning of object cloning in Java?
+
+**Answer:**
+* Creating exact copy of an object
+* Uses clone() method from Object class
+* Implement Cloneable interface
+* Shallow vs Deep cloning concepts
+
+```java
+class Person implements Cloneable {
+    String name;
+    int age;
+    
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone(); // Shallow clone
+    }
+}
+
+Person p1 = new Person();
+Person p2 = (Person) p1.clone(); // Creates copy
+```
+
+### 29. What is runtime polymorphism?
+
+**Answer:**
+* Method resolution happens at runtime, not compile time
+* Achieved through method overriding and inheritance
+* Uses dynamic method dispatch
+* Same method call, different implementations
+
+```java
+class Animal {
+    public void sound() { System.out.println("Animal sound"); }
+}
+
+class Dog extends Animal {
+    public void sound() { System.out.println("Bark"); }
+}
+
+Animal a = new Dog(); // Runtime decides which sound()
+a.sound(); // Prints: Bark
+```
+
+### 30. Is it possible to achieve runtime polymorphism by data members?
+
+**Answer:**
+* **No**, runtime polymorphism only works with methods
+* Data members are resolved at compile time
+* Variable binding is static, not dynamic
+* Only method calls use dynamic dispatch
+
+```java
+class Parent {
+    int x = 10;
+}
+
+class Child extends Parent {
+    int x = 20;
+}
+
+Parent p = new Child();
+System.out.println(p.x); // Prints: 10 (Parent's x)
+// No polymorphism for variables
+```
+
+### 31. What is the difference between static and dynamic binding?
+
+**Answer:**
+* **Static Binding**: Method call resolved at compile time
+* **Dynamic Binding**: Method call resolved at runtime
+* Static: private, final, static methods
+* Dynamic: overridden methods in inheritance
+
+```java
+class Demo {
+    public static void staticMethod() { } // Static binding
+    public void instanceMethod() { }      // Dynamic binding
+}
+
+class Child extends Demo {
+    public void instanceMethod() { }      // Overridden - dynamic
+}
+
+Demo d = new Child();
+d.instanceMethod(); // Runtime decides which method
+```
+
+# Java Method Concepts - Overloading and Overriding
+
+## Method Overloading
+
+### 32. What is the other name of method overloading?
+* **Compile-time polymorphism** or **Static polymorphism**
+* Also called **Early binding**
+* Method resolution happens at compile time
+
+### 33. How will you implement method overloading in Java?
+* Define multiple methods with **same name** but **different parameters**
+* Parameters must differ in number, type, or order
+
+```java
+class Calculator {
+    int add(int a, int b) { return a + b; }
+    int add(int a, int b, int c) { return a + b + c; }
+    double add(double a, double b) { return a + b; }
+}
+```
+
+### 34. What kinds of argument variations are allowed in method overloading?
+* **Number of parameters**: `method(int a)` vs `method(int a, int b)`
+* **Type of parameters**: `method(int a)` vs `method(double a)`
+* **Order of parameters**: `method(int a, String b)` vs `method(String a, int b)`
+
+```java
+void print(int x) { }
+void print(String s) { }
+void print(int x, String s) { }
+void print(String s, int x) { }
+```
+
+### 35. Why is it not possible to do method overloading by changing the return type of method?
+* **Return type is not part of method signature**
+* Compiler cannot distinguish methods based on return type alone
+* Method calls don't always use return values
+
+```java
+// This won't compile - ambiguous
+int getValue() { return 1; }
+String getValue() { return "hello"; } // Error!
+```
+
+### 36. Is it allowed to overload main() method in Java?
+* **Yes, you can overload main() method**
+* JVM only calls `public static void main(String[] args)`
+* Other overloaded versions are regular methods
+
+```java
+public class Test {
+    public static void main(String[] args) { } // JVM entry point
+    public static void main(int x) { }         // Overloaded
+    public static void main() { }              // Overloaded
+}
+```
+
+## Method Overriding
+
+### 37. How do we implement method overriding in Java?
+* **Inherit from parent class**
+* **Redefine method** with same signature in child class
+* Use `@Override` annotation for safety
+
+```java
+class Animal {
+    void sound() { System.out.println("Animal sound"); }
+}
+class Dog extends Animal {
+    @Override
+    void sound() { System.out.println("Bark"); }
+}
+```
+
+### 38. Are we allowed to override a static method in Java?
+* **No, static methods cannot be overridden**
+* Static methods can be **hidden** (method hiding)
+* Called based on reference type, not object type
+
+```java
+class Parent {
+    static void show() { System.out.println("Parent"); }
+}
+class Child extends Parent {
+    static void show() { System.out.println("Child"); } // Hiding, not overriding
+}
+```
+
+### 39. Why Java does not allow overriding a static method?
+* **Static methods belong to class, not instance**
+* **No dynamic binding** for static methods
+* **Resolved at compile time** based on reference type
+* Overriding requires runtime polymorphism
+
+### 40. Is it allowed to override an overloaded method?
+* **Yes, you can override any overloaded method**
+* Each overloaded method can be overridden independently
+* Must match exact signature to override
+
+```java
+class Parent {
+    void method(int x) { }
+    void method(String s) { }
+}
+class Child extends Parent {
+    @Override
+    void method(int x) { }      // Overriding first method
+    @Override
+    void method(String s) { }   // Overriding second method
+}
+```
+
+### 41. What is the difference between method overloading and method overriding?
+
+| **Overloading** | **Overriding** |
+|-----------------|----------------|
+| Same class | Parent-child classes |
+| Different parameters | Same signature |
+| Compile-time | Runtime |
+| Static polymorphism | Dynamic polymorphism |
+
+```java
+// Overloading
+class Math {
+    int add(int a, int b) { }
+    double add(double a, double b) { }
+}
+
+// Overriding
+class Animal { void move() { } }
+class Bird extends Animal { 
+    @Override void move() { } 
+}
+```
+
+### 42. Does Java allow virtual functions?
+* **All non-static, non-final, non-private methods are virtual by default**
+* No explicit `virtual` keyword like C++
+* **Dynamic method dispatch** happens automatically
+
+```java
+Animal animal = new Dog();
+animal.sound(); // Calls Dog's sound() method - virtual behavior
+```
+
+### 43. What is meant by covariant return type in Java?
+* **Subclass can return more specific type** than parent method
+* Return type must be **subclass of original return type**
+* Available since Java 5
+
+```java
+class Animal { }
+class Dog extends Animal { }
+
+class AnimalFactory {
+    Animal getAnimal() { return new Animal(); }
+}
+class DogFactory extends AnimalFactory {
+    @Override
+    Dog getAnimal() { return new Dog(); } // Covariant return
+}
+```
+
+---
+
+## Key Takeaways
+* **Overloading**: Same name, different parameters, compile-time
+* **Overriding**: Same signature, parent-child, runtime
+* **Static methods**: Cannot be overridden, only hidden
+* **Virtual methods**: All instance methods are virtual in Java
+* **Covariant returns**: Subclass can return more specific type
+
+# Java Static and Final Keywords
+
+## Static Concepts
+
+### 44. Why do we use static variables in Java?
+* **Shared among all instances** of a class
+* **Memory efficient** - only one copy exists
+* **Class-level data** that doesn't change per object
+* **Common configuration** or constants
+
+```java
+class Student {
+    static String schoolName = "ABC School"; // Shared by all students
+    String name; // Individual to each student
+}
+```
+
+### 45. Why is it not a good practice to create static variables in Java?
+* **Memory leaks** - static variables live until program ends
+* **Thread safety issues** - shared state causes concurrency problems
+* **Testing difficulties** - state persists between test cases
+* **Tight coupling** - reduces flexibility and modularity
+
+```java
+class Counter {
+    static int count = 0; // Problem: shared state, hard to test
+    
+    void increment() {
+        count++; // Not thread-safe
+    }
+}
+```
+
+### 46. What is the purpose of static method in Java?
+* **Called without creating object instance**
+* **Utility functions** that don't need object state
+* **Class-level operations** independent of instance data
+* **Cannot access instance variables** directly
+
+```java
+class MathUtils {
+    static int add(int a, int b) {
+        return a + b; // No object needed
+    }
+}
+// Usage: MathUtils.add(5, 3);
+```
+
+### 47. Why do we mark the main method as static in Java?
+* **JVM needs to call main() without creating object**
+* **Entry point** must be accessible before any object creation
+* **No instance required** to start program execution
+* **Standard convention** for program initialization
+
+```java
+public class App {
+    public static void main(String[] args) {
+        // JVM calls this without creating App object
+        System.out.println("Program starts");
+    }
+}
+```
+
+### 48. In what scenario do we use a static block?
+* **Initialize static variables** with complex logic
+* **One-time setup** when class is first loaded
+* **Load configuration** or resources at class loading
+* **Executes before main()** and constructor
+
+```java
+class DatabaseConfig {
+    static String url;
+    
+    static {
+        // Complex initialization logic
+        url = loadConfigFromFile();
+        System.out.println("DB Config loaded");
+    }
+    
+    static String loadConfigFromFile() {
+        return "jdbc:mysql://localhost:3306/db";
+    }
+}
+```
+
+### 49. Is it possible to execute a program without defining a main() method?
+* **Yes, using static blocks** (before Java 7)
+* **Modern Java requires main()** method for execution
+* **Static blocks execute** but program exits with error
+* **Not recommended** - violates standard practices
+
+```java
+class NoMain {
+    static {
+        System.out.println("Executing without main");
+        System.exit(0); // Required to prevent error
+    }
+}
+// Works in older Java versions, not recommended
+```
+
+### 50. What is the difference between static method and instance method in Java?
+
+| **Static Method** | **Instance Method** |
+|-------------------|---------------------|
+| Called on class | Called on object |
+| No `this` reference | Has `this` reference |
+| Cannot access instance variables | Can access all variables |
+| Memory allocated at class loading | Memory allocated per object |
+
+```java
+class Example {
+    int instanceVar = 10;
+    static int staticVar = 20;
+    
+    // Static method
+    static void staticMethod() {
+        System.out.println(staticVar); // OK
+        // System.out.println(instanceVar); // Error!
+    }
+    
+    // Instance method
+    void instanceMethod() {
+        System.out.println(instanceVar); // OK
+        System.out.println(staticVar);   // OK
+    }
+}
+
+// Usage:
+Example.staticMethod();        // Called on class
+Example obj = new Example();
+obj.instanceMethod();          // Called on object
+```
+
+## Final Keyword
+
+### 51. How can you change the value of a final variable in Java?
+* **You cannot change final primitive values** once assigned
+* **Final object references cannot be changed** but object content can be modified
+* **Use reflection** (not recommended) to forcefully change
+* **Final arrays/collections** - reference fixed, elements can change
+
+```java
+final int x = 10;
+// x = 20; // Error! Cannot change
+
+final List<String> list = new ArrayList<>();
+list.add("Hello"); // OK - modifying content
+// list = new ArrayList<>(); // Error! Cannot change reference
+```
+
+### 52. Can a class be marked final in Java?
+* **Yes, classes can be marked final**
+* **Final classes cannot be extended**
+* **Examples**: String, Integer, all wrapper classes
+* **Used for security and immutability**
+
+```java
+final class MyClass {
+    void method() { }
+}
+
+// class Child extends MyClass { } // Error! Cannot extend final class
+```
+
+### 53. How can we create a final method in Java?
+* **Add final keyword before method declaration**
+* **Final methods cannot be overridden** in subclasses
+* **Can be inherited** but not modified
+* **Used to preserve critical functionality**
+
+```java
+class Parent {
+    final void criticalMethod() {
+        System.out.println("Cannot be overridden");
+    }
+}
+
+class Child extends Parent {
+    // void criticalMethod() { } // Error! Cannot override final method
+}
+```
+
+### 54. How can we prohibit inheritance in Java?
+* **Mark class as final** - most common approach
+* **Make constructor private** - prevents direct inheritance
+* **Use composition instead of inheritance**
+* **Static factory methods** for object creation
+
+```java
+// Method 1: Final class
+final class NoInheritance { }
+
+// Method 2: Private constructor
+class Singleton {
+    private Singleton() { }
+    static Singleton getInstance() { return new Singleton(); }
+}
+```
+
+### 55. Why is the Integer class final in Java?
+* **Security reasons** - prevents malicious subclassing
+* **Immutability guarantee** - ensures Integer objects don't change
+* **Performance optimization** - JVM can make assumptions
+* **API consistency** - prevents breaking wrapper class behavior
+
+```java
+final class Integer { // Cannot extend
+    private final int value; // Immutable
+    
+    public Integer(int value) {
+        this.value = value;
+    }
+}
+```
+
+### 56. What is a blank final variable in Java?
+* **Final variable declared without initialization**
+* **Must be initialized before use**
+* **Can be initialized in constructor or instance block**
+* **Each instance can have different values**
+
+```java
+class Student {
+    final String name; // Blank final variable
+    
+    Student(String name) {
+        this.name = name; // Must initialize in constructor
+    }
+}
+```
+
+### 57. How can we initialize a blank final variable?
+* **In constructor** - most common approach
+* **In instance initialization block**
+* **At declaration time** (then it's not blank)
+* **Must be initialized before object creation completes**
+
+```java
+class Example {
+    final int value1; // Blank final
+    final int value2; // Blank final
+    
+    // Method 1: Constructor initialization
+    Example(int val) {
+        this.value1 = val;
+        this.value2 = val * 2;
+    }
+    
+    // Method 2: Instance block initialization
+    {
+        // value2 = 100; // Alternative initialization
+    }
+}
+```
+
+### 58. Is it allowed to declare the main method as final?
+* **Yes, main method can be declared final**
+* **No impact on program execution**
+* **Cannot be overridden** in subclasses
+* **JVM still calls it normally**
+
+```java
+class MainExample {
+    public static final void main(String[] args) {
+        System.out.println("Final main method works fine");
+    }
+}
+
+class Child extends MainExample {
+    // public static void main(String[] args) { } // Error if trying to override
+}
+```
