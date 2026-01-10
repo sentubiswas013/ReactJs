@@ -1,8 +1,6 @@
-# Java Interview Questions - Comprehensive Guide
-
-# Java Fundamentals 
-# Core Java Basics
+# 🔵 1. Java Fundamentals 
 ---
+# 🔹 1. Core Java Basics
 ### 1. What is the difference between JDK and JRE?
 
 **Answer:**
@@ -210,8 +208,8 @@ public class ByteCharDemo {
 
 ---
 
-# Object-Oriented Programming (OOP)
----
+# 🔹 2. Object-Oriented Programming (OOP)
+
 ### 12. What are the main principles of Object-Oriented Programming (OOP)?
 
 **Answer:**
@@ -384,7 +382,7 @@ class Demo {
 
 ---
 
-## Inheritance and Polymorphism
+# 🔹 3. Inheritance and Polymorphism
 
 ### 20. What is the purpose of the 'this' keyword in Java?
 
@@ -649,9 +647,9 @@ Demo d = new Child();
 d.instanceMethod(); // Runtime decides which method
 ```
 
-# Java Method Concepts - Overloading and Overriding
-
-## Method Overloading
+# 🔵 2. Java Method Concepts 
+---
+# 🔹 1. Method Overloading and Overriding
 
 ### 32. What is the other name of method overloading?
 * **Compile-time polymorphism** or **Static polymorphism**
@@ -821,9 +819,9 @@ class DogFactory extends AnimalFactory {
 * **Virtual methods**: All instance methods are virtual in Java
 * **Covariant returns**: Subclass can return more specific type
 
-# Java Static and Final Keywords
-
-## Static Concepts
+# 🔵 3. Java Static and Final Keywords
+---
+# 🔹 1. Static Concepts
 
 ### 44. Why do we use static variables in Java?
 * **Shared among all instances** of a class
@@ -955,7 +953,7 @@ Example obj = new Example();
 obj.instanceMethod();          // Called on object
 ```
 
-## Final Keyword
+# 🔹 2. Final Keyword
 
 ### 51. How can you change the value of a final variable in Java?
 * **You cannot change final primitive values** once assigned
@@ -1095,9 +1093,9 @@ class Child extends MainExample {
 }
 ```
 
-# Java Abstract Classes and Interfaces
-
-## Abstraction Concepts
+# 🔵 4. Java Abstract Classes and Interfaces
+---
+# 🔹 1. Abstraction Concepts
 
 ### 59. What is abstraction in Object-Oriented Programming?
 * **Hiding implementation details** and showing only essential features
@@ -1224,7 +1222,7 @@ Shape anonymous = new Shape() {
 };
 ```
 
-## Interface Fundamentals
+# 🔹 2. Interface Fundamentals
 
 ### 65. What is an interface in Java?
 * **Contract that defines what a class must do**
@@ -1422,9 +1420,9 @@ if (obj instanceof Drawable) {
 }
 ```
 
-# Java Package and Import 
-
-## Package Management
+# 🔵 5. Java Package and Import 
+---
+# 🔹 1. Package Management
 
 ### 74. What is the purpose of package in Java?
 
@@ -1548,7 +1546,7 @@ FooClass obj = new FooClass();  // Still need class name for constructor
 staticMethod();                 // Direct access to static method
 ```
 
-## Internationalization
+# 🔹 2. Internationalization
 
 ### 81. What is Locale in Java?
 
@@ -1591,9 +1589,9 @@ ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
 String greeting = bundle.getString("hello");
 ```
 
-# Java String Handling 
-
-## String Concepts
+# 🔵 6. Java String Handling 
+---
+# 🔹 1. String Concepts
 
 ### 83. What is the meaning of immutable in the context of the String class?
 
@@ -1790,9 +1788,10 @@ for (int i = 0; i < 1000; i++) {
 | StringBuffer | Yes | Medium | Multi-threaded string building |
 | String | N/A | Slowest for modifications | Immutable string operations |
 
-# Java Exception Handling 
 
-## Exception Concepts
+# 🔵 7. Java Exception Handling 
+---
+# 🔹 1. Exception Concepts
 
 ### 92. What is exception handling in Java?
 
@@ -2076,7 +2075,174 @@ Throwable
         └── ClassNotFoundException
 ```
 
-## Iterators and Advanced Collections
+# 🔵 8. Java Collections Framework
+---
+# 🔹 1. Core Collections
+
+### 104. What is the Collections Framework in Java? (25 seconds)
+• **Unified architecture** - Standard way to store and manipulate groups of objects
+• **Interfaces and implementations** - List, Set, Map with ArrayList, HashSet, HashMap
+• **Algorithms** - Sorting, searching, shuffling through Collections class
+• **Performance benefits** - Optimized data structures for different use cases
+
+```java
+// Collections Framework example
+List<String> list = new ArrayList<>();
+Set<Integer> set = new HashSet<>();
+Map<String, Integer> map = new HashMap<>();
+
+Collections.sort(list);
+Collections.shuffle(list);
+```
+
+### 105. What are the main interfaces in the Collections Framework? (20 seconds)
+• **Collection** - Root interface for all collections
+• **List** - Ordered collection allowing duplicates (ArrayList, LinkedList)
+• **Set** - Collection with no duplicates (HashSet, TreeSet)
+• **Map** - Key-value pairs (HashMap, TreeMap)
+• **Queue** - FIFO operations (LinkedList, PriorityQueue)
+
+```java
+Collection<String> collection = new ArrayList<>();
+List<String> list = new ArrayList<>();
+Set<String> set = new HashSet<>();
+Map<String, Integer> map = new HashMap<>();
+Queue<String> queue = new LinkedList<>();
+```
+
+### 106. What is the difference between Collection and Collections in Java? (20 seconds)
+• **Collection** - Interface that represents a group of objects
+• **Collections** - Utility class with static methods for collection operations
+• **Collection** - Extended by List, Set, Queue interfaces
+• **Collections** - Provides sort(), reverse(), shuffle(), synchronizedList()
+
+```java
+// Collection interface
+Collection<String> collection = new ArrayList<>();
+
+// Collections utility class
+Collections.sort(list);
+Collections.reverse(list);
+List<String> syncList = Collections.synchronizedList(new ArrayList<>());
+```
+
+### 107. What is the difference between List and Set interfaces? (25 seconds)
+• **List allows duplicates** - Can store same element multiple times
+• **Set prevents duplicates** - Each element appears only once
+• **List maintains insertion order** - Elements stored in sequence
+• **List provides indexed access** - get(index), set(index, element)
+• **Set focuses on uniqueness** - Uses equals() and hashCode()
+
+```java
+List<String> list = new ArrayList<>();
+list.add("Java");
+list.add("Java"); // Duplicate allowed
+System.out.println(list.size()); // 2
+
+Set<String> set = new HashSet<>();
+set.add("Java");
+set.add("Java"); // Duplicate ignored
+System.out.println(set.size()); // 1
+```
+
+### 108. What is the difference between ArrayList and LinkedList? (30 seconds)
+• **ArrayList** - Dynamic array, fast random access O(1)
+• **LinkedList** - Doubly linked list, fast insertion/deletion O(1)
+• **ArrayList** - Better for frequent reading and iteration
+• **LinkedList** - Better for frequent insertion/deletion in middle
+• **Memory** - ArrayList uses less memory per element
+
+```java
+// ArrayList - fast access
+List<String> arrayList = new ArrayList<>();
+String element = arrayList.get(5); // O(1) access
+
+// LinkedList - fast insertion
+List<String> linkedList = new LinkedList<>();
+linkedList.add(2, "newElement"); // O(1) at known position
+```
+
+### 109. What is the difference between ArrayList and Vector? (25 seconds)
+• **Synchronization** - Vector is synchronized, ArrayList is not
+• **Performance** - ArrayList is faster due to no synchronization overhead
+• **Growth** - Vector doubles size, ArrayList grows by 50%
+• **Legacy** - Vector is older, ArrayList is preferred
+• **Thread safety** - Use Collections.synchronizedList() for ArrayList
+
+```java
+// ArrayList (not synchronized)
+List<String> arrayList = new ArrayList<>();
+
+// Vector (synchronized)
+List<String> vector = new Vector<>();
+
+// Make ArrayList thread-safe
+List<String> syncList = Collections.synchronizedList(new ArrayList<>());
+```
+
+### 110. What is the difference between HashMap and Hashtable? (30 seconds)
+• **Synchronization** - Hashtable is synchronized, HashMap is not
+• **Null values** - HashMap allows one null key and multiple null values
+• **Hashtable** - No null keys or values allowed
+• **Performance** - HashMap is faster due to no synchronization
+• **Inheritance** - Hashtable extends Dictionary, HashMap extends AbstractMap
+
+```java
+// HashMap (allows null, not synchronized)
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put(null, 1); // Allowed
+hashMap.put("key", null); // Allowed
+
+// Hashtable (no null, synchronized)
+Map<String, Integer> hashtable = new Hashtable<>();
+// hashtable.put(null, 1); // NullPointerException
+```
+
+### 111. What is the difference between HashMap and TreeMap? (25 seconds)
+• **Ordering** - TreeMap maintains sorted order, HashMap doesn't
+• **Performance** - HashMap O(1) access, TreeMap O(log n)
+• **Null keys** - HashMap allows one null key, TreeMap doesn't
+• **Implementation** - HashMap uses hash table, TreeMap uses Red-Black tree
+• **Use case** - TreeMap for sorted data, HashMap for fast access
+
+```java
+// HashMap - fast access, no ordering
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put("c", 3);
+hashMap.put("a", 1);
+hashMap.put("b", 2);
+
+// TreeMap - sorted order
+Map<String, Integer> treeMap = new TreeMap<>();
+treeMap.put("c", 3);
+treeMap.put("a", 1);
+treeMap.put("b", 2);
+// Iteration order: a, b, c
+```
+
+### 112. What is the difference between HashSet and TreeSet? (25 seconds)
+• **Ordering** - TreeSet maintains sorted order, HashSet doesn't
+• **Performance** - HashSet O(1) operations, TreeSet O(log n)
+• **Null values** - HashSet allows one null, TreeSet doesn't
+• **Implementation** - HashSet uses hash table, TreeSet uses Red-Black tree
+• **Interface** - TreeSet implements NavigableSet with additional methods
+
+```java
+// HashSet - fast operations, no ordering
+Set<String> hashSet = new HashSet<>();
+hashSet.add("c");
+hashSet.add("a");
+hashSet.add("b");
+
+// TreeSet - sorted order
+Set<String> treeSet = new TreeSet<>();
+treeSet.add("c");
+treeSet.add("a");
+treeSet.add("b");
+// Iteration order: a, b, c
+```
+
+# 🔹 2. Iterators and Advanced Collections
 
 ### 113. What is the difference between Iterator and ListIterator?
 
@@ -2269,10 +2435,11 @@ BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
 
 
 
-# Java Multi-threading and Concurrency 
+# 🔵 9. Java Multi-threading and Concurrency 
+---
+# 🔹 1. Basic Threading
 
-### Basic Threading
-## 118. How does multi-threading work in Java?
+### 118. How does multi-threading work in Java?
 
 **Answer:**
 * Java creates multiple threads that run concurrently within a single process
@@ -2286,7 +2453,7 @@ Thread t = new Thread(() -> System.out.println("Hello from thread"));
 t.start();
 ```
 
-## 119. What are the advantages of multithreading?
+### 119. What are the advantages of multithreading?
 
 **Answer:**
 * **Better performance** - Utilizes multiple CPU cores effectively
@@ -2300,7 +2467,7 @@ CompletableFuture.runAsync(() -> processData1());
 CompletableFuture.runAsync(() -> processData2());
 ```
 
-## 120. What are the disadvantages of multithreading?
+### 120. What are the disadvantages of multithreading?
 
 **Answer:**
 * **Complexity** - Harder to debug and maintain code
@@ -2314,7 +2481,7 @@ private int counter = 0;
 public void increment() { counter++; } // Not thread-safe
 ```
 
-## 121. What is thread safety?
+### 121. What is thread safety?
 
 **Answer:**
 * Code that works correctly when accessed by multiple threads simultaneously
@@ -2328,7 +2495,7 @@ private AtomicInteger counter = new AtomicInteger(0);
 public void increment() { counter.incrementAndGet(); }
 ```
 
-## 122. What is synchronization in Java?
+### 122. What is synchronization in Java?
 
 **Answer:**
 * Mechanism to control access to shared resources by multiple threads
@@ -2345,7 +2512,7 @@ public void criticalSection() {
 }
 ```
 
-## 123. What is the synchronized keyword?
+### 123. What is the synchronized keyword?
 
 **Answer:**
 * Java keyword that provides mutual exclusion for methods or blocks
@@ -2365,7 +2532,7 @@ synchronized(this) {
 }
 ```
 
-## 124. What are synchronized methods and blocks?
+### 124. What are synchronized methods and blocks?
 
 **Answer:**
 * **Synchronized methods** - Entire method is thread-safe, uses object's intrinsic lock
@@ -2384,7 +2551,7 @@ public void method2() {
 }
 ```
 
-## 125. What is deadlock?
+### 125. What is deadlock?
 
 **Answer:**
 * Situation where two or more threads are blocked forever, waiting for each other
@@ -2399,7 +2566,7 @@ Thread2: synchronized(lockB) { synchronized(lockA) {...} }
 // Both threads wait for each other's lock
 ```
 
-## 126. How do you prevent deadlock?
+### 126. How do you prevent deadlock?
 
 **Answer:**
 * **Lock ordering** - Always acquire locks in the same order
@@ -2422,7 +2589,7 @@ private void transfer(Account from, Account to, int amount) {
 }
 ```
 
-## 127. What is race condition?
+### 127. What is race condition?
 
 **Answer:**
 * When multiple threads access shared data simultaneously without proper synchronization
@@ -2444,7 +2611,7 @@ public void increment() {
 }
 ```
 
-## 128. What is volatile keyword?
+### 128. What is volatile keyword?
 
 **Answer:**
 * Ensures variable changes are immediately visible to all threads
@@ -2464,7 +2631,7 @@ public void run() {
 }
 ```
 
-## 129. What is atomic operations?
+### 129. What is atomic operations?
 
 **Answer:**
 * Operations that complete entirely or not at all, no intermediate state
@@ -2484,7 +2651,7 @@ public boolean compareAndSet(int expected, int update) {
 }
 ```
 
-## 130. What is java.util.concurrent package?
+### 130. What is java.util.concurrent package?
 
 **Answer:**
 * High-level concurrency utilities introduced in Java 5
@@ -2507,9 +2674,9 @@ latch.countDown(); // Decrements count
 latch.await(); // Waits until count reaches zero
 ```
 
-## Advanced Concurrency
+# 🔹 2. Advanced Concurrency
 
-## 131. What is ExecutorService?
+### 131. What is ExecutorService?
 
 **Answer:**
 * High-level interface for managing and controlling thread execution
@@ -2524,7 +2691,7 @@ String result = future.get();
 executor.shutdown();
 ```
 
-## 132. What is ThreadPoolExecutor?
+### 132. What is ThreadPoolExecutor?
 
 **Answer:**
 * Concrete implementation of ExecutorService with customizable thread pool
@@ -2540,7 +2707,7 @@ ThreadPoolExecutor executor = new ThreadPoolExecutor(
 executor.execute(() -> System.out.println("Task executed"));
 ```
 
-## 133. What is Future and CompletableFuture?
+### 133. What is Future and CompletableFuture?
 
 **Answer:**
 * **Future** - Represents result of asynchronous computation, blocking get() method
@@ -2559,7 +2726,7 @@ CompletableFuture<String> cf = CompletableFuture
     .thenApply(s -> s + " World");
 ```
 
-## 134. What is CountDownLatch?
+### 134. What is CountDownLatch?
 
 **Answer:**
 * Synchronization primitive that allows threads to wait for multiple operations to complete
@@ -2578,7 +2745,7 @@ latch.await(); // Blocks until count reaches 0
 System.out.println("All tasks completed");
 ```
 
-## 135. What is CyclicBarrier?
+### 135. What is CyclicBarrier?
 
 **Answer:**
 * Synchronization point where threads wait for each other to reach barrier
@@ -2595,7 +2762,7 @@ barrier.await(); // Waits for other threads
 // Continues after all 3 threads reach barrier
 ```
 
-## 136. What is Semaphore?
+### 136. What is Semaphore?
 
 **Answer:**
 * Controls access to shared resource by limiting number of concurrent threads
@@ -2616,7 +2783,7 @@ public void accessResource() throws InterruptedException {
 }
 ```
 
-## 137. What is ReentrantLock?
+### 137. What is ReentrantLock?
 
 **Answer:**
 * Advanced lock implementation providing more flexibility than synchronized
@@ -2637,7 +2804,7 @@ public void method() {
 }
 ```
 
-## 138. What is ReadWriteLock?
+### 138. What is ReadWriteLock?
 
 **Answer:**
 * Allows multiple concurrent readers but exclusive writer access
@@ -2659,7 +2826,7 @@ writeLock.lock();
 try { /* write data */ } finally { writeLock.unlock(); }
 ```
 
-## 139. What is BlockingQueue?
+### 139. What is BlockingQueue?
 
 **Answer:**
 * Thread-safe queue that blocks when empty (take) or full (put)
@@ -2677,7 +2844,7 @@ queue.put("item"); // Blocks if queue is full
 String item = queue.take(); // Blocks if queue is empty
 ```
 
-## 140. What is fork-join framework?
+### 140. What is fork-join framework?
 
 **Answer:**
 * Designed for parallel processing of recursive tasks that can be split
@@ -2703,7 +2870,7 @@ class SumTask extends RecursiveTask<Long> {
 }
 ```
 
-## 141. What is parallel streams?
+### 141. What is parallel streams?
 
 **Answer:**
 * Stream API feature that automatically parallelizes operations across multiple threads
@@ -2723,7 +2890,7 @@ int parallelSum = numbers.parallelStream()
     .sum();
 ```
 
-## 142. What is reactive streams?
+### 142. What is reactive streams?
 
 **Answer:**
 * Specification for asynchronous stream processing with non-blocking backpressure
@@ -2750,9 +2917,10 @@ publisher.subscribe(new Flow.Subscriber<String>() {
 });
 ```
 
-# Memory Management and Garbage Collection
+# 🔵 10. Memory Management and Garbage Collection
+---
+# 🔹 1.Memory Concepts
 
-## Memory Concepts
 ### 143. What are the different memory areas in JVM?
 
 **Answer:**
@@ -2987,7 +3155,7 @@ public class EqualityExample {
 }
 ```
 
-## Java Garbage Collection 
+# 🔹 2.Java Garbage Collection 
 
 ### 153. What is garbage collection in Java?
 
@@ -3291,9 +3459,10 @@ public class GCTuning {
 }
 ```
 
-# Java I/O Operations 
+# 🔵 11. Java I/O Operations 
+---
+# 🔹 1.Basic I/O
 
-## Basic I/O
 ### 164. What is Java I/O?
 
 **Answer:**
@@ -3490,7 +3659,7 @@ public class FileOperations {
     }
 }
 ```
-## NIO (New I/O)
+# 🔹 2. NIO (New I/O)
 ### 171. What is NIO in Java?
 
 **Answer:**
@@ -3685,8 +3854,9 @@ public class ZeroCopyIO {
 }
 ```
 
-# Serialization and Reflection
-## Serialization
+# 🔵 8. Serialization and Reflection
+---
+# 🔹 Serialization
 ### 178. What is serialization?
 
 **Answer:**
@@ -3944,7 +4114,7 @@ public class SecureSerializationExample implements Serializable {
 }
 ```
 
-## Reflection
+# 🔹 Reflection
 ### 187. What is reflection in Java?
 
 **Answer:**
@@ -4144,9 +4314,9 @@ public class DynamicProxyExample {
     }
 }
 ```
-# Inner Classes and Nested Classes
-
-## Nested Classes
+# 🔵 12. Inner Classes and Nested Classes
+---
+# 🔹 Nested Classes
 ### 194. What is a nested class?
 
 **Answer:**
@@ -4404,9 +4574,9 @@ public class DatabaseConnection {
 }
 ```
 
-# Java 8+ Features
+# 🔵 13. Java 8+ Features
 ---
-## Java 8 Features
+# 🔹 Java 8 Features
 
 ## 203. What are the new features introduced in Java 8?
 
@@ -4778,7 +4948,7 @@ public class CollectionVsStream {
 }
 ```
 
-## Modern Java Features (9+)
+# 🔹 Modern Java Features (9+)
 
 ### 213. What are the new features in Java 9?
 
@@ -5092,9 +5262,9 @@ public class Java17Features {
 }
 ```
 
-# Advanced Java Concepts
+# 🔵 14. Advanced Java Concepts
 ---
-## Generics
+# 🔹 Generics
 ### Question 220: What are generics in Java?
 
 **Spoken Answer (15-40 seconds):**
@@ -5279,7 +5449,7 @@ public class StringContainer extends Container<String> {
 ```
 
 ---
-## Annotations
+# 🔹 Annotations
 ### Question 226: What is annotation in Java?
 
 **Spoken Answer (15-40 seconds):**
