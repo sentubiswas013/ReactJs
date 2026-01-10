@@ -355,7 +355,7 @@ try {
 
 ---
 
-### Control Structures 
+## 🔹 3. **Control Structures**
 
 ---
 
@@ -448,10 +448,10 @@ switch (grade) {
 
 ---
 
-### Object-Oriented Programming – Classes and Objects
+# Object-Oriented Programming 
 
 ---
-
+## 🔹1. **Control Structures**
 ### 26. What is a constructor in Java?
 
 * A constructor is a **special method** used to initialize objects.
