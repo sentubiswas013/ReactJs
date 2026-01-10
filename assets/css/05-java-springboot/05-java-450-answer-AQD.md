@@ -2750,3 +2750,1657 @@ publisher.subscribe(new Flow.Subscriber<String>() {
     // ... other methods
 });
 ```
+
+# Memory Management and Garbage Collection
+
+## Memory Concepts
+### 143. What are the different memory areas in JVM?
+
+**Answer:**
+* **Heap Memory** - Stores objects and instance variables, shared among threads
+* **Stack Memory** - Stores method calls, local variables, and partial results
+* **Method Area** - Stores class-level data, static variables, and method bytecode
+* **PC Register** - Tracks currently executing instruction for each thread
+* **Native Method Stack** - For native method calls (JNI)
+
+```java
+public class MemoryExample {
+    static int classVar = 10;        // Method Area
+    
+    public void method() {
+        int localVar = 20;           // Stack Memory
+        String obj = new String();   // Object in Heap, reference in Stack
+    }
+}
+```
+
+### 144. What is heap memory in Java?
+
+**Answer:**
+* Runtime memory area where all objects and instance variables are stored
+* Divided into Young Generation (Eden, S0, S1) and Old Generation
+* Shared among all threads in the application
+* Managed by garbage collector for automatic memory cleanup
+* Size controlled by -Xms and -Xmx JVM parameters
+
+```java
+public class HeapExample {
+    private String name;             // Stored in heap
+    private List<String> items;      // Object and list elements in heap
+    
+    public void createObjects() {
+        String str = new String("Hello");  // Goes to heap memory
+        int[] array = new int[1000];       // Array object in heap
+    }
+}
+```
+
+### 145. What is stack memory in Java?
+
+**Answer:**
+* Thread-specific memory area storing method call frames
+* Contains local variables, method parameters, and return addresses
+* Follows LIFO (Last In First Out) principle
+* Automatically managed - memory freed when method completes
+* Each thread has its own stack memory
+
+```java
+public class StackExample {
+    public void methodA() {
+        int x = 10;          // Local variable in stack
+        methodB(x);          // Method call frame pushed to stack
+    }                        // Frame popped when method ends
+    
+    public void methodB(int param) {
+        String local = "test";  // Reference in stack, object in heap
+    }
+}
+```
+
+### 146. What is method area in Java?
+
+**Answer:**
+* Stores class-level information shared among all instances
+* Contains class metadata, static variables, method bytecode, and constant pool
+* Also called Metaspace (Java 8+) or Permanent Generation (Java 7-)
+* Shared among all threads of the application
+* Garbage collected when classes are unloaded
+
+```java
+public class MethodAreaExample {
+    static final String CONSTANT = "Hello";    // Stored in method area
+    static int staticVar = 100;                // Static variable in method area
+    
+    public void instanceMethod() {             // Method bytecode in method area
+        // Method implementation
+    }
+}
+```
+
+### 147. What is the difference between heap and stack memory?
+
+**Answer:**
+* **Purpose** - Heap stores objects, Stack stores method calls and local variables
+* **Sharing** - Heap is shared among threads, Stack is thread-specific
+* **Speed** - Stack access is faster, Heap access is slower
+* **Management** - Stack is automatic, Heap needs garbage collection
+* **Size** - Heap is larger and configurable, Stack is smaller and fixed
+
+```java
+public class MemoryComparison {
+    private String heapData = "Stored in heap";  // Heap memory
+    
+    public void demonstrate() {
+        int stackVar = 42;                       // Stack memory
+        String obj = new String("heap object");  // obj reference in stack, object in heap
+        
+        // stackVar automatically freed when method ends
+        // obj reference freed, but object needs GC
+    }
+}
+```
+
+### 148. What is memory leak in Java?
+
+**Answer:**
+* Objects that are no longer needed but still referenced, preventing garbage collection
+* Causes gradual memory consumption leading to OutOfMemoryError
+* Common causes: static collections, listeners not removed, unclosed resources
+* Despite garbage collection, memory leaks can still occur in Java
+
+```java
+public class MemoryLeakExample {
+    private static List<String> cache = new ArrayList<>();  // Static collection
+    
+    public void addToCache(String data) {
+        cache.add(data);  // Memory leak: objects never removed from static list
+    }
+    
+    // Better approach
+    private static Map<String, String> betterCache = new WeakHashMap<>();
+}
+```
+
+### 149. How can we prevent memory leaks in Java?
+
+**Answer:**
+* **Close resources** - Use try-with-resources for automatic cleanup
+* **Remove listeners** - Unregister event listeners when no longer needed
+* **Avoid static collections** - Use WeakHashMap or clear collections periodically
+* **Profile memory usage** - Use tools like JProfiler or VisualVM
+
+```java
+public class PreventMemoryLeak {
+    // Use try-with-resources
+    public void readFile() throws IOException {
+        try (FileReader reader = new FileReader("file.txt")) {
+            // Resource automatically closed
+        }
+    }
+    
+    // Remove listeners
+    public void cleanup() {
+        button.removeActionListener(listener);
+        timer.stop();
+    }
+    
+    // Use WeakHashMap for caches
+    private Map<String, Object> cache = new WeakHashMap<>();
+}
+```
+
+### 150. What is the difference between shallow copy and deep copy?
+
+**Answer:**
+* **Shallow Copy** - Copies object references, not the actual objects
+* **Deep Copy** - Creates new objects for all referenced objects recursively
+* Shallow copy shares mutable objects between original and copy
+* Deep copy creates completely independent objects
+
+```java
+public class CopyExample implements Cloneable {
+    private List<String> items = new ArrayList<>();
+    
+    // Shallow copy - default clone()
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();  // Shares the same 'items' list
+    }
+    
+    // Deep copy
+    public CopyExample deepCopy() {
+        CopyExample copy = new CopyExample();
+        copy.items = new ArrayList<>(this.items);  // New list with same elements
+        return copy;
+    }
+}
+```
+
+### 151. What is the purpose of clone() method?
+
+**Answer:**
+* Creates a copy of an object without calling constructor
+* Defined in Object class, requires Cloneable interface implementation
+* Provides shallow copy by default - can be overridden for deep copy
+* Alternative to copy constructors for object duplication
+* Throws CloneNotSupportedException if Cloneable not implemented
+
+```java
+public class Person implements Cloneable {
+    private String name;
+    private int age;
+    
+    @Override
+    public Person clone() throws CloneNotSupportedException {
+        return (Person) super.clone();  // Shallow copy
+    }
+    
+    // Usage
+    Person original = new Person("John", 25);
+    Person copy = original.clone();
+}
+```
+
+### 152. What is the difference between == and equals() method?
+
+**Answer:**
+* **== operator** - Compares memory addresses (reference equality)
+* **equals() method** - Compares object content (logical equality)
+* == is faster but only checks if two references point to same object
+* equals() can be overridden to define custom equality logic
+* For primitives, == compares actual values
+
+```java
+public class EqualityExample {
+    public static void main(String[] args) {
+        String s1 = new String("Hello");
+        String s2 = new String("Hello");
+        String s3 = "Hello";
+        String s4 = "Hello";
+        
+        System.out.println(s1 == s2);        // false - different objects
+        System.out.println(s1.equals(s2));   // true - same content
+        System.out.println(s3 == s4);        // true - string pool
+        
+        Integer i1 = 127;
+        Integer i2 = 127;
+        System.out.println(i1 == i2);        // true - Integer cache
+    }
+}
+```
+
+## Java Garbage Collection 
+
+### 153. What is garbage collection in Java?
+
+**Answer:**
+* Automatic memory management process that reclaims unused object memory
+* Runs in background to free heap memory occupied by unreferenced objects
+* Prevents memory leaks and OutOfMemoryError in most cases
+* Eliminates need for manual memory deallocation like in C/C++
+* Managed by JVM with various garbage collection algorithms
+
+```java
+public class GCExample {
+    public void createObjects() {
+        String temp = new String("Hello");  // Object created
+        // When method ends, 'temp' becomes unreferenced
+        // Object becomes eligible for garbage collection
+    }
+}
+```
+
+### 154. Why Java provides garbage collector?
+
+**Answer:**
+* **Automatic memory management** - Developers don't need to manually free memory
+* **Prevents memory leaks** - Automatically cleans up unreferenced objects
+* **Reduces programming errors** - No dangling pointers or double-free issues
+* **Improves productivity** - Focus on business logic instead of memory management
+* **Runtime optimization** - GC can optimize memory layout and allocation
+
+```java
+public class WhyGC {
+    public void demonstrateAutoCleanup() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            list.add("Item " + i);  // Objects created automatically
+        }
+        // When method ends, list and all strings become eligible for GC
+        // No manual cleanup needed
+    }
+}
+```
+
+### 155. What is the purpose of gc() in Java?
+
+**Answer:**
+* System.gc() suggests JVM to run garbage collection
+* It's only a hint - JVM may ignore the request
+* Cannot force immediate garbage collection
+* Generally not recommended in production code
+* Useful for testing or specific performance scenarios
+
+```java
+public class GCMethod {
+    public void demonstrateGC() {
+        // Create many objects
+        for (int i = 0; i < 10000; i++) {
+            new String("Object " + i);
+        }
+        
+        System.gc();  // Suggest garbage collection
+        // No guarantee GC will run immediately
+        
+        Runtime.getRuntime().gc();  // Alternative way
+    }
+}
+```
+
+### 156. How does garbage collection work in Java?
+
+**Answer:**
+* **Mark phase** - Identifies which objects are still reachable/referenced
+* **Sweep phase** - Removes unreferenced objects from memory
+* **Compact phase** - Defragments memory to reduce fragmentation
+* Uses generational hypothesis - most objects die young
+* Different algorithms: Serial, Parallel, G1, ZGC for different needs
+
+```java
+public class GCProcess {
+    private static List<String> keepAlive = new ArrayList<>();
+    
+    public void demonstrateGCPhases() {
+        String reachable = "I'm referenced";
+        keepAlive.add(reachable);           // Mark: reachable
+        
+        String unreachable = new String("I'll be collected");
+        unreachable = null;                 // Sweep: eligible for GC
+        
+        // Compact: Memory defragmentation happens automatically
+    }
+}
+```
+
+### 157. When does an object become eligible for garbage collection?
+
+**Answer:**
+* When no active references point to the object
+* All references go out of scope or are set to null
+* Object is only referenced by other unreferenced objects (island of isolation)
+* Parent object containing the reference is itself unreferenced
+* Circular references with no external references
+
+```java
+public class GCEligibility {
+    public void demonstrateEligibility() {
+        String obj1 = new String("Hello");
+        String obj2 = obj1;                 // Two references to same object
+        
+        obj1 = null;                        // Still referenced by obj2
+        obj2 = null;                        // Now eligible for GC
+        
+        List<String> list = new ArrayList<>();
+        list.add("Item");                   // Referenced by list
+    }   // list goes out of scope - both list and "Item" eligible for GC
+}
+```
+
+### 158. Why do we use finalize() method in Java?
+
+**Answer:**
+* Called by garbage collector before object destruction
+* Provides last chance to perform cleanup operations
+* Generally not recommended - use try-with-resources instead
+* No guarantee when or if it will be called
+* Can prevent garbage collection if not implemented properly
+
+```java
+public class FinalizeExample {
+    private FileInputStream file;
+    
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            if (file != null) {
+                file.close();  // Cleanup resource
+            }
+        } finally {
+            super.finalize();
+        }
+    }
+    
+    // Better approach - use try-with-resources
+    public void betterApproach() throws IOException {
+        try (FileInputStream fis = new FileInputStream("file.txt")) {
+            // Automatic cleanup
+        }
+    }
+}
+```
+
+### 159. What are the different types of references in Java?
+
+**Answer:**
+* **Strong Reference** - Normal references, prevents garbage collection
+* **Weak Reference** - Allows GC even if weakly referenced
+* **Soft Reference** - GC only when memory is low
+* **Phantom Reference** - Used for cleanup actions after GC
+* Helps control object lifecycle and memory management
+
+```java
+import java.lang.ref.*;
+
+public class ReferenceTypes {
+    public void demonstrateReferences() {
+        String obj = new String("Strong");          // Strong reference
+        
+        WeakReference<String> weak = new WeakReference<>(obj);
+        SoftReference<String> soft = new SoftReference<>(obj);
+        PhantomReference<String> phantom = new PhantomReference<>(obj, new ReferenceQueue<>());
+        
+        obj = null;  // Remove strong reference
+        // weak.get() may return null after GC
+        // soft.get() returns null only when memory is low
+    }
+}
+```
+
+### 160. How can we reference an unreferenced object again?
+
+**Answer:**
+* Once object has no strong references, it cannot be directly referenced again
+* Can use weak/soft references to check if object still exists
+* finalize() method could theoretically resurrect object (not recommended)
+* Better to maintain proper object lifecycle management
+* Use object pools or caching for reusable objects
+
+```java
+public class ObjectResurrection {
+    private static ObjectResurrection saved;
+    
+    @Override
+    protected void finalize() throws Throwable {
+        saved = this;  // Resurrect object (bad practice)
+        super.finalize();
+    }
+    
+    // Better approach - use WeakReference
+    private static WeakReference<String> cache;
+    
+    public static String getCachedValue() {
+        String value = cache != null ? cache.get() : null;
+        if (value == null) {
+            value = "New Value";
+            cache = new WeakReference<>(value);
+        }
+        return value;
+    }
+}
+```
+
+### 161. What kind of process is the garbage collector thread?
+
+**Answer:**
+* **Daemon thread** - Runs in background, doesn't prevent JVM shutdown
+* **Low priority thread** - Runs when CPU is available
+* **System thread** - Managed by JVM, not user application
+* Can be concurrent or stop-the-world depending on GC algorithm
+* Multiple GC threads may run in parallel for better performance
+
+```java
+public class GCThreadDemo {
+    public static void main(String[] args) {
+        // GC runs as daemon thread
+        Thread gcThread = new Thread(() -> {
+            while (true) {
+                // Simulate GC work
+                System.gc();
+                try { Thread.sleep(1000); } catch (InterruptedException e) {}
+            }
+        });
+        
+        gcThread.setDaemon(true);  // Similar to GC thread behavior
+        gcThread.start();
+        
+        // Main thread can exit, daemon threads won't prevent shutdown
+    }
+}
+```
+
+### 162. What are the different types of garbage collectors?
+
+**Answer:**
+* **Serial GC** - Single-threaded, suitable for small applications
+* **Parallel GC** - Multi-threaded, good for throughput-focused applications
+* **G1 GC** - Low-latency collector for large heaps
+* **ZGC/Shenandoah** - Ultra-low latency collectors for real-time applications
+* **CMS** - Concurrent collector (deprecated in Java 14)
+
+```java
+// JVM flags to select garbage collectors
+public class GCTypes {
+    /*
+    -XX:+UseSerialGC          // Serial Garbage Collector
+    -XX:+UseParallelGC        // Parallel Garbage Collector  
+    -XX:+UseG1GC              // G1 Garbage Collector
+    -XX:+UseZGC               // ZGC (Java 11+)
+    -XX:+UseShenandoahGC      // Shenandoah GC
+    */
+    
+    public void monitorGC() {
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapUsage = memoryBean.getHeapMemoryUsage();
+        
+        System.out.println("Used: " + heapUsage.getUsed());
+        System.out.println("Max: " + heapUsage.getMax());
+    }
+}
+```
+
+### 163. How do you tune garbage collection?
+
+**Answer:**
+* **Monitor GC logs** - Enable GC logging to analyze performance
+* **Adjust heap size** - Set appropriate -Xms and -Xmx values
+* **Choose right GC algorithm** - Based on application requirements
+* **Tune GC parameters** - NewRatio, MaxGCPauseMillis, etc.
+* **Profile application** - Use tools like JProfiler, VisualVM
+
+```java
+public class GCTuning {
+    /*
+    JVM Tuning Parameters:
+    -Xms2g -Xmx4g                    // Heap size
+    -XX:NewRatio=3                   // Old/Young generation ratio
+    -XX:MaxGCPauseMillis=200         // Target pause time for G1
+    -XX:+PrintGC                     // Enable GC logging
+    -XX:+PrintGCDetails              // Detailed GC logs
+    */
+    
+    public void measureGCImpact() {
+        long startTime = System.currentTimeMillis();
+        
+        // Create objects to trigger GC
+        List<byte[]> memory = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            memory.add(new byte[1024 * 1024]); // 1MB objects
+        }
+        
+        long endTime = System.currentTimeMillis();
+        System.out.println("Time with GC: " + (endTime - startTime) + "ms");
+    }
+}
+```
+
+# Java I/O Operations 
+
+## Basic I/O
+### 164. What is Java I/O?
+
+**Answer:**
+* Input/Output API for reading and writing data from various sources
+* Handles files, network connections, memory buffers, and other data streams
+* Provides classes for both byte-oriented and character-oriented operations
+* Foundation for data persistence and communication in Java applications
+* Includes traditional I/O and modern NIO (New I/O) packages
+
+```java
+import java.io.*;
+
+public class BasicIO {
+    public void readFile() throws IOException {
+        FileInputStream fis = new FileInputStream("data.txt");
+        int data = fis.read();  // Read single byte
+        fis.close();
+        
+        FileReader fr = new FileReader("text.txt");
+        int character = fr.read();  // Read single character
+        fr.close();
+    }
+}
+```
+
+### 165. What are the different types of streams in Java?
+
+**Answer:**
+* **Byte Streams** - Handle raw binary data (InputStream/OutputStream)
+* **Character Streams** - Handle text data with encoding (Reader/Writer)
+* **Input Streams** - Read data from source
+* **Output Streams** - Write data to destination
+* **Buffered Streams** - Improve performance with internal buffering
+
+```java
+public class StreamTypes {
+    public void demonstrateStreams() throws IOException {
+        // Byte streams
+        FileInputStream byteInput = new FileInputStream("binary.dat");
+        FileOutputStream byteOutput = new FileOutputStream("output.dat");
+        
+        // Character streams
+        FileReader charInput = new FileReader("text.txt");
+        FileWriter charOutput = new FileWriter("output.txt");
+        
+        // Buffered streams
+        BufferedReader bufferedReader = new BufferedReader(charInput);
+        BufferedWriter bufferedWriter = new BufferedWriter(charOutput);
+    }
+}
+```
+
+### 166. What is the difference between byte stream and character stream?
+
+**Answer:**
+* **Byte Stream** - Handles 8-bit bytes, suitable for binary data like images, videos
+* **Character Stream** - Handles 16-bit Unicode characters, suitable for text data
+* **Encoding** - Character streams handle character encoding automatically
+* **Performance** - Byte streams are faster, character streams are more convenient for text
+* **Base Classes** - InputStream/OutputStream vs Reader/Writer
+
+```java
+public class StreamComparison {
+    public void byteStreamExample() throws IOException {
+        FileInputStream fis = new FileInputStream("image.jpg");
+        byte[] buffer = new byte[1024];
+        int bytesRead = fis.read(buffer);  // Read raw bytes
+        fis.close();
+    }
+    
+    public void characterStreamExample() throws IOException {
+        FileReader fr = new FileReader("document.txt");
+        char[] buffer = new char[1024];
+        int charsRead = fr.read(buffer);  // Read characters with encoding
+        fr.close();
+    }
+}
+```
+
+### 167. What is the difference between InputStream and OutputStream?
+
+**Answer:**
+* **InputStream** - Abstract class for reading byte data from source
+* **OutputStream** - Abstract class for writing byte data to destination
+* **Direction** - InputStream is for input, OutputStream is for output
+* **Methods** - InputStream has read() methods, OutputStream has write() methods
+* **Common Implementations** - FileInputStream/FileOutputStream, ByteArrayInputStream/ByteArrayOutputStream
+
+```java
+public class StreamDirection {
+    public void inputStreamExample() throws IOException {
+        InputStream is = new FileInputStream("input.txt");
+        int data = is.read();           // Read single byte
+        byte[] buffer = new byte[100];
+        is.read(buffer);                // Read into buffer
+        is.close();
+    }
+    
+    public void outputStreamExample() throws IOException {
+        OutputStream os = new FileOutputStream("output.txt");
+        os.write(65);                   // Write single byte (ASCII 'A')
+        os.write("Hello".getBytes());   // Write byte array
+        os.close();
+    }
+}
+```
+
+### 168. What is the difference between Reader and Writer?
+
+**Answer:**
+* **Reader** - Abstract class for reading character data with encoding support
+* **Writer** - Abstract class for writing character data with encoding support
+* **Character-based** - Handle Unicode characters instead of raw bytes
+* **Encoding** - Automatically handle character encoding/decoding
+* **Text Processing** - Designed specifically for text data manipulation
+
+```java
+public class ReaderWriter {
+    public void readerExample() throws IOException {
+        Reader reader = new FileReader("text.txt");
+        int character = reader.read();      // Read single character
+        char[] buffer = new char[100];
+        reader.read(buffer);                // Read into character buffer
+        reader.close();
+    }
+    
+    public void writerExample() throws IOException {
+        Writer writer = new FileWriter("output.txt");
+        writer.write('A');                  // Write single character
+        writer.write("Hello World");        // Write string
+        writer.close();
+    }
+}
+```
+
+### 169. What is BufferedReader and BufferedWriter?
+
+**Answer:**
+* **BufferedReader** - Wraps Reader with internal buffer for efficient reading
+* **BufferedWriter** - Wraps Writer with internal buffer for efficient writing
+* **Performance** - Reduces system calls by batching read/write operations
+* **Methods** - BufferedReader provides readLine() for line-by-line reading
+* **Buffering** - Default buffer size is 8192 characters
+
+```java
+public class BufferedStreams {
+    public void bufferedReaderExample() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("large.txt"));
+        String line;
+        while ((line = br.readLine()) != null) {  // Read line by line
+            System.out.println(line);
+        }
+        br.close();
+    }
+    
+    public void bufferedWriterExample() throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"));
+        bw.write("Line 1");
+        bw.newLine();                    // Platform-independent line separator
+        bw.write("Line 2");
+        bw.flush();                      // Force buffer to write
+        bw.close();
+    }
+}
+```
+
+### 170. What is the purpose of File class in Java?
+
+**Answer:**
+* Represents file and directory pathnames in abstract way
+* Provides methods for file operations like create, delete, rename
+* Checks file properties like existence, permissions, size
+* Platform-independent file system operations
+* Does not actually read/write file content - only metadata operations
+
+```java
+import java.io.File;
+
+public class FileOperations {
+    public void fileExample() {
+        File file = new File("example.txt");
+        
+        if (file.exists()) {
+            System.out.println("Size: " + file.length());
+            System.out.println("Can read: " + file.canRead());
+            System.out.println("Can write: " + file.canWrite());
+        }
+        
+        File dir = new File("myDirectory");
+        dir.mkdir();                     // Create directory
+        
+        String[] files = dir.list();     // List files in directory
+        file.delete();                   // Delete file
+    }
+}
+```
+## NIO (New I/O)
+### 171. What is NIO in Java?
+
+**Answer:**
+* **New I/O** - Modern I/O API introduced in Java 1.4
+* **Non-blocking** - Supports non-blocking I/O operations
+* **Channel-based** - Uses channels instead of streams for better performance
+* **Buffer-oriented** - Data read into buffers for efficient processing
+* **Selector** - Single thread can monitor multiple channels
+
+```java
+import java.nio.*;
+import java.nio.channels.*;
+
+public class NIOExample {
+    public void basicNIO() throws IOException {
+        FileChannel channel = FileChannel.open(Paths.get("file.txt"));
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        
+        int bytesRead = channel.read(buffer);  // Read into buffer
+        buffer.flip();                         // Prepare for reading
+        
+        while (buffer.hasRemaining()) {
+            System.out.print((char) buffer.get());
+        }
+        channel.close();
+    }
+}
+```
+
+### 172. What is the difference between IO and NIO?
+
+**Answer:**
+* **IO** - Stream-oriented, blocking, single-threaded
+* **NIO** - Buffer-oriented, non-blocking, supports multiplexing
+* **Performance** - NIO is faster for large files and network operations
+* **Complexity** - IO is simpler, NIO requires more complex programming
+* **Use Cases** - IO for simple operations, NIO for high-performance applications
+
+```java
+public class IOvsNIO {
+    // Traditional IO - blocking
+    public void traditionalIO() throws IOException {
+        FileInputStream fis = new FileInputStream("file.txt");
+        int data = fis.read();  // Blocks until data available
+        fis.close();
+    }
+    
+    // NIO - non-blocking
+    public void nioApproach() throws IOException {
+        FileChannel channel = FileChannel.open(Paths.get("file.txt"));
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        int bytesRead = channel.read(buffer);  // Can be non-blocking
+        channel.close();
+    }
+}
+```
+
+### 173. What are channels in Java NIO?
+
+**Answer:**
+* **Bidirectional** - Can read and write data unlike streams
+* **Buffer-based** - Work with ByteBuffer objects for data transfer
+* **Types** - FileChannel, SocketChannel, ServerSocketChannel, DatagramChannel
+* **Performance** - More efficient than streams for large data operations
+* **Non-blocking** - Support non-blocking I/O operations
+
+```java
+public class ChannelExample {
+    public void fileChannelExample() throws IOException {
+        FileChannel channel = FileChannel.open(Paths.get("data.txt"), 
+                                             StandardOpenOption.READ, 
+                                             StandardOpenOption.WRITE);
+        
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        int bytesRead = channel.read(buffer);    // Read from channel
+        
+        buffer.flip();
+        channel.write(buffer);                   // Write to channel
+        channel.close();
+    }
+}
+```
+
+### 174. What is NIO.2 features?
+
+**Answer:**
+* **Path API** - Modern file system interface replacing File class
+* **Files utility class** - Convenient methods for file operations
+* **Watch Service** - Monitor directory changes in real-time
+* **Asynchronous I/O** - Non-blocking file operations with callbacks
+* **File attributes** - Better support for file metadata and permissions
+
+```java
+import java.nio.file.*;
+
+public class NIO2Features {
+    public void pathAPI() throws IOException {
+        Path path = Paths.get("example.txt");
+        
+        // Files utility methods
+        Files.createFile(path);
+        Files.write(path, "Hello NIO.2".getBytes());
+        List<String> lines = Files.readAllLines(path);
+        
+        // File attributes
+        BasicFileAttributes attrs = Files.readAttributes(path, BasicFileAttributes.class);
+        System.out.println("Size: " + attrs.size());
+    }
+}
+```
+
+### 175. What is asynchronous file I/O?
+
+**Answer:**
+* **Non-blocking** - Operations return immediately without waiting for completion
+* **Callback-based** - Uses CompletionHandler for result notification
+* **AsynchronousFileChannel** - Main class for async file operations
+* **Future-based** - Can also return Future objects for result handling
+* **Performance** - Better for I/O intensive applications
+
+```java
+import java.nio.channels.AsynchronousFileChannel;
+import java.nio.channels.CompletionHandler;
+
+public class AsyncIO {
+    public void asyncRead() throws IOException {
+        AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get("file.txt"));
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        
+        channel.read(buffer, 0, buffer, new CompletionHandler<Integer, ByteBuffer>() {
+            public void completed(Integer result, ByteBuffer attachment) {
+                System.out.println("Read completed: " + result + " bytes");
+            }
+            
+            public void failed(Throwable exc, ByteBuffer attachment) {
+                System.out.println("Read failed: " + exc.getMessage());
+            }
+        });
+    }
+}
+```
+
+### 176. What is memory-mapped I/O?
+
+**Answer:**
+* **Virtual memory** - Maps file content directly into memory address space
+* **Performance** - Extremely fast for large file operations
+* **MappedByteBuffer** - Special buffer type for memory-mapped files
+* **OS-level** - Leverages operating system's virtual memory system
+* **Use cases** - Large file processing, database implementations
+
+```java
+public class MemoryMappedIO {
+    public void memoryMappedFile() throws IOException {
+        FileChannel channel = FileChannel.open(Paths.get("largefile.dat"));
+        
+        MappedByteBuffer buffer = channel.map(
+            FileChannel.MapMode.READ_WRITE, 0, channel.size());
+        
+        // Direct memory access - very fast
+        buffer.put(0, (byte) 'A');      // Write at position 0
+        byte data = buffer.get(100);     // Read from position 100
+        
+        channel.close();
+    }
+}
+```
+
+### 177. What is zero-copy I/O?
+
+**Answer:**
+* **Direct transfer** - Data moves directly between channels without copying to application buffers
+* **transferTo/transferFrom** - Methods that enable zero-copy operations
+* **Performance** - Eliminates unnecessary data copying, improves speed
+* **Kernel space** - Operations happen in kernel space, not user space
+* **Use cases** - File copying, network data transfer, streaming applications
+
+```java
+public class ZeroCopyIO {
+    public void zeroCopyTransfer() throws IOException {
+        FileChannel source = FileChannel.open(Paths.get("source.txt"));
+        FileChannel destination = FileChannel.open(Paths.get("dest.txt"), 
+                                                  StandardOpenOption.CREATE, 
+                                                  StandardOpenOption.WRITE);
+        
+        // Zero-copy transfer - no intermediate buffers
+        source.transferTo(0, source.size(), destination);
+        
+        source.close();
+        destination.close();
+    }
+}
+```
+
+# Serialization and Reflection
+## Serialization
+### 178. What is serialization?
+
+**Answer:**
+* Process of converting Java object into byte stream for storage or transmission
+* Allows objects to be saved to files, databases, or sent over network
+* Object state is preserved including all instance variables
+* Requires class to implement Serializable interface
+* Automatic process handled by ObjectOutputStream
+
+```java
+import java.io.*;
+
+public class SerializationExample implements Serializable {
+    private String name;
+    private int age;
+    
+    public void serializeObject() throws IOException {
+        SerializationExample obj = new SerializationExample();
+        obj.name = "John";
+        obj.age = 25;
+        
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("object.ser"));
+        oos.writeObject(obj);  // Serialize object to file
+        oos.close();
+    }
+}
+```
+
+### 179. What is the purpose of serialization?
+
+**Answer:**
+* **Persistence** - Save object state to disk for later retrieval
+* **Network communication** - Send objects between different JVMs
+* **Caching** - Store objects in memory or distributed cache systems
+* **Deep copying** - Create exact copies of complex objects
+* **RMI/Web services** - Enable remote method invocation and data exchange
+
+```java
+public class SerializationPurpose implements Serializable {
+    private String data;
+    
+    // Network transmission example
+    public void sendOverNetwork() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(this);
+        
+        byte[] serializedData = baos.toByteArray();  // Ready for network
+        // Send serializedData over network
+    }
+}
+```
+
+### 180. What is deserialization?
+
+**Answer:**
+* Reverse process of serialization - converting byte stream back to Java object
+* Reconstructs object from serialized data with same state
+* Uses ObjectInputStream to read serialized data
+* Object class must be available in classpath during deserialization
+* Can throw ClassNotFoundException or InvalidClassException
+
+```java
+public class DeserializationExample {
+    public void deserializeObject() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("object.ser"));
+        
+        SerializationExample obj = (SerializationExample) ois.readObject();
+        // Object restored with original state
+        
+        ois.close();
+        System.out.println("Object deserialized successfully");
+    }
+}
+```
+
+### 181. Why do we mark a data member transient?
+
+**Answer:**
+* **Exclude from serialization** - Transient fields are not serialized
+* **Security** - Prevent sensitive data like passwords from being serialized
+* **Non-serializable references** - Skip fields that can't be serialized
+* **Calculated values** - Exclude derived fields that can be recalculated
+* **Default values** - Transient fields get default values during deserialization
+
+```java
+public class TransientExample implements Serializable {
+    private String username;
+    private transient String password;      // Not serialized
+    private transient Thread workerThread;  // Non-serializable
+    private transient int calculatedValue;  // Can be recalculated
+    
+    public void demonstrateTransient() {
+        // password and workerThread won't be serialized
+        // calculatedValue will be 0 after deserialization
+    }
+}
+```
+
+### 182. Is it allowed to mark a method as transient?
+
+**Answer:**
+* **No** - transient keyword can only be applied to instance variables
+* **Methods are not serialized** - Only object state (fields) is serialized
+* **Compile error** - Using transient on methods causes compilation failure
+* **Method behavior** - Methods are part of class definition, not object state
+* **Alternative** - Use static or private methods if needed
+
+```java
+public class TransientMethod implements Serializable {
+    private transient String data;           // Valid - field can be transient
+    
+    // public transient void method() {}     // Compile error - invalid
+    
+    public void normalMethod() {             // Valid - methods don't need transient
+        // Method implementation
+    }
+    
+    private static void utilityMethod() {    // Static methods not serialized anyway
+        // Utility implementation
+    }
+}
+```
+
+### 183. What is the Externalizable interface in Java?
+
+**Answer:**
+* **Custom serialization control** - Provides complete control over serialization process
+* **Manual implementation** - Must implement writeExternal() and readExternal() methods
+* **Performance** - Can be faster than default serialization
+* **Selective serialization** - Choose exactly which fields to serialize
+* **Extends Serializable** - Subinterface of Serializable with additional methods
+
+```java
+import java.io.Externalizable;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+public class ExternalizableExample implements Externalizable {
+    private String name;
+    private int age;
+    private String password;  // Won't serialize this
+    
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeUTF(name);   // Manually serialize only name and age
+        out.writeInt(age);
+        // password is not serialized
+    }
+    
+    public void readExternal(ObjectInput in) throws IOException {
+        name = in.readUTF();  // Manually deserialize
+        age = in.readInt();
+        // password remains null
+    }
+}
+```
+
+### 184. What is the difference between Serializable and Externalizable interface?
+
+**Answer:**
+* **Control** - Serializable is automatic, Externalizable gives manual control
+* **Performance** - Externalizable can be faster with custom implementation
+* **Methods** - Serializable has no methods, Externalizable requires writeExternal/readExternal
+* **Default constructor** - Externalizable requires public no-arg constructor
+* **Flexibility** - Externalizable allows selective field serialization
+
+```java
+// Serializable - automatic
+public class SerializableClass implements Serializable {
+    private String data;
+    // All non-transient fields automatically serialized
+}
+
+// Externalizable - manual control
+public class ExternalizableClass implements Externalizable {
+    private String data;
+    
+    public ExternalizableClass() {}  // Required public no-arg constructor
+    
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeUTF(data);  // Manual serialization
+    }
+    
+    public void readExternal(ObjectInput in) throws IOException {
+        data = in.readUTF();  // Manual deserialization
+    }
+}
+```
+
+### 185. What is custom serialization?
+
+**Answer:**
+* **Override default behavior** - Implement writeObject() and readObject() methods
+* **Special handling** - Custom logic for complex objects or security requirements
+* **Validation** - Add validation during serialization/deserialization
+* **Compatibility** - Handle version changes and backward compatibility
+* **Performance optimization** - Optimize serialization for specific use cases
+
+```java
+public class CustomSerializationExample implements Serializable {
+    private String data;
+    private transient String cachedValue;
+    
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();        // Serialize non-transient fields
+        oos.writeUTF(data.toUpperCase()); // Custom serialization logic
+    }
+    
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();         // Deserialize non-transient fields
+        String customData = ois.readUTF(); // Read custom data
+        cachedValue = customData.toLowerCase(); // Initialize transient field
+    }
+}
+```
+
+### 186. What is serialization security?
+
+**Answer:**
+* **Data exposure** - Serialized data can be inspected and modified
+* **Deserialization attacks** - Malicious data can exploit deserialization process
+* **Sensitive information** - Use transient for passwords and sensitive data
+* **Validation** - Implement readObject() with proper validation
+* **SerialVersionUID** - Control class version compatibility
+
+```java
+public class SecureSerializationExample implements Serializable {
+    private static final long serialVersionUID = 1L;  // Version control
+    
+    private String username;
+    private transient String password;  // Never serialize passwords
+    
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        
+        // Validation during deserialization
+        if (username == null || username.trim().isEmpty()) {
+            throw new InvalidObjectException("Username cannot be null or empty");
+        }
+        
+        // Re-initialize sensitive data
+        password = null;  // Ensure password is not restored
+    }
+    
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        // Clear sensitive data before serialization
+        String tempPassword = password;
+        password = null;
+        
+        oos.defaultWriteObject();
+        
+        // Restore after serialization
+        password = tempPassword;
+    }
+}
+```
+
+## Reflection
+### 187. What is reflection in Java?
+
+**Answer:**
+* **Runtime introspection** - Examine and modify classes, methods, fields at runtime
+* **Dynamic access** - Access private members and invoke methods dynamically
+* **Metadata inspection** - Get information about class structure without source code
+* **Framework foundation** - Used by Spring, Hibernate, JUnit for dependency injection and testing
+* **java.lang.reflect package** - Contains classes like Class, Method, Field, Constructor
+
+```java
+import java.lang.reflect.*;
+
+public class ReflectionExample {
+    public void demonstrateReflection() throws Exception {
+        Class<?> clazz = String.class;
+        
+        Method[] methods = clazz.getMethods();        // Get all public methods
+        Field[] fields = clazz.getDeclaredFields();   // Get all fields
+        Constructor<?>[] constructors = clazz.getConstructors(); // Get constructors
+        
+        System.out.println("Class name: " + clazz.getName());
+    }
+}
+```
+
+### 188. What are the uses of reflection in Java?
+
+**Answer:**
+* **Frameworks** - Spring uses reflection for dependency injection and bean creation
+* **Testing** - JUnit uses reflection to find and execute test methods
+* **Serialization** - JSON/XML libraries use reflection to map objects
+* **IDE tools** - Code completion and debugging features
+* **Dynamic loading** - Load and instantiate classes at runtime
+
+```java
+public class ReflectionUses {
+    public void frameworkExample() throws Exception {
+        // Simulate framework behavior
+        Class<?> clazz = Class.forName("com.example.UserService");
+        Object instance = clazz.getDeclaredConstructor().newInstance();
+        
+        Method method = clazz.getMethod("processUser", String.class);
+        method.invoke(instance, "John");  // Dynamic method invocation
+    }
+}
+```
+
+### 189. How can we access a private method of a class from outside the class?
+
+**Answer:**
+* **getDeclaredMethod()** - Get private method using reflection
+* **setAccessible(true)** - Bypass access control to make private method accessible
+* **invoke()** - Call the private method with required parameters
+* **Security risk** - Breaks encapsulation, use carefully
+* **Testing purpose** - Mainly used for unit testing private methods
+
+```java
+public class PrivateMethodAccess {
+    private void privateMethod(String message) {
+        System.out.println("Private: " + message);
+    }
+    
+    public static void accessPrivateMethod() throws Exception {
+        PrivateMethodAccess obj = new PrivateMethodAccess();
+        
+        Method method = obj.getClass().getDeclaredMethod("privateMethod", String.class);
+        method.setAccessible(true);  // Bypass access control
+        method.invoke(obj, "Hello"); // Call private method
+    }
+}
+```
+
+### 190. How can we create an object dynamically at runtime in Java?
+
+**Answer:**
+* **Class.forName()** - Load class dynamically by name
+* **newInstance()** - Create object using default constructor
+* **Constructor.newInstance()** - Create object with parameterized constructor
+* **Dynamic instantiation** - Useful for plugin architectures and frameworks
+* **Exception handling** - Handle ClassNotFoundException and InstantiationException
+
+```java
+public class DynamicObjectCreation {
+    public void createObjectDynamically() throws Exception {
+        // Method 1: Using Class.forName()
+        Class<?> clazz = Class.forName("java.util.ArrayList");
+        Object obj1 = clazz.getDeclaredConstructor().newInstance();
+        
+        // Method 2: Using Constructor with parameters
+        Constructor<?> constructor = clazz.getConstructor(int.class);
+        Object obj2 = constructor.newInstance(10);  // ArrayList with capacity 10
+        
+        System.out.println("Objects created: " + obj1.getClass().getName());
+    }
+}
+```
+
+### 191. What is reflection performance optimization?
+
+**Answer:**
+* **Caching** - Cache Method, Field, Constructor objects to avoid repeated lookups
+* **Method handles** - Use MethodHandle API for better performance than reflection
+* **Avoid setAccessible()** - Use public APIs when possible
+* **Compile-time alternatives** - Use code generation or annotations processors
+* **Minimal usage** - Use reflection only when necessary, prefer direct calls
+
+```java
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+public class ReflectionOptimization {
+    private static final Map<String, Method> methodCache = new HashMap<>();
+    
+    // Cache methods for better performance
+    public Method getCachedMethod(Class<?> clazz, String methodName) throws Exception {
+        String key = clazz.getName() + "." + methodName;
+        return methodCache.computeIfAbsent(key, k -> {
+            try {
+                return clazz.getMethod(methodName);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    
+    // Use MethodHandle for better performance
+    public void useMethodHandle() throws Throwable {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodHandle mh = lookup.findVirtual(String.class, "length", MethodType.methodType(int.class));
+        int length = (int) mh.invoke("Hello");  // Faster than reflection
+    }
+}
+```
+
+### 192. What is method handles?
+
+**Answer:**
+* **Modern alternative** - Java 7+ feature for dynamic method invocation
+* **Better performance** - Faster than traditional reflection
+* **Type safety** - Compile-time type checking with MethodType
+* **JVM optimization** - Better optimized by JVM compared to reflection
+* **MethodHandles.Lookup** - Factory for creating method handles
+
+```java
+import java.lang.invoke.*;
+
+public class MethodHandleExample {
+    public void demonstrateMethodHandle() throws Throwable {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        
+        // Get method handle for String.substring(int, int)
+        MethodHandle mh = lookup.findVirtual(
+            String.class, 
+            "substring", 
+            MethodType.methodType(String.class, int.class, int.class)
+        );
+        
+        String result = (String) mh.invoke("Hello World", 0, 5);  // "Hello"
+        System.out.println(result);
+    }
+}
+```
+
+### 193. What is dynamic proxies?
+
+**Answer:**
+* **Runtime proxy creation** - Create proxy objects that implement interfaces dynamically
+* **Proxy.newProxyInstance()** - Factory method to create proxy objects
+* **InvocationHandler** - Interface to handle method calls on proxy
+* **AOP implementation** - Foundation for aspect-oriented programming
+* **Framework usage** - Used by Spring AOP, Hibernate, and other frameworks
+
+```java
+import java.lang.reflect.Proxy;
+import java.lang.reflect.InvocationHandler;
+
+interface UserService {
+    void createUser(String name);
+}
+
+public class DynamicProxyExample {
+    public void createProxy() {
+        UserService proxy = (UserService) Proxy.newProxyInstance(
+            UserService.class.getClassLoader(),
+            new Class[]{UserService.class},
+            (proxy1, method, args) -> {
+                System.out.println("Before: " + method.getName());
+                // Simulate actual method call
+                System.out.println("Creating user: " + args[0]);
+                System.out.println("After: " + method.getName());
+                return null;
+            }
+        );
+        
+        proxy.createUser("John");  // Calls InvocationHandler
+    }
+}
+```
+# Inner Classes and Nested Classes
+
+## Nested Classes
+### 194. What is a nested class?
+
+**Answer:**
+* **Class inside class** - Class defined within another class
+* **Logical grouping** - Groups related classes together
+* **Access privileges** - Can access outer class private members
+* **Types** - Static nested, inner, local inner, and anonymous classes
+* **Encapsulation** - Provides better encapsulation and code organization
+
+```java
+public class OuterClass {
+    private String outerField = "Outer";
+    
+    // Static nested class
+    static class StaticNested {
+        void display() {
+            System.out.println("Static nested class");
+        }
+    }
+    
+    // Inner class
+    class Inner {
+        void display() {
+            System.out.println("Inner: " + outerField);  // Access outer field
+        }
+    }
+}
+```
+
+### 195. How many types of nested classes are in Java?
+
+**Answer:**
+* **Static nested class** - Static class inside another class
+* **Inner class (non-static)** - Non-static class with access to outer instance
+* **Local inner class** - Class defined inside method or block
+* **Anonymous class** - Class without name, defined and instantiated together
+* **Each type** - Has different access rules and use cases
+
+```java
+public class NestedClassTypes {
+    static class StaticNested {}           // 1. Static nested
+    
+    class Inner {}                         // 2. Inner class
+    
+    public void method() {
+        class LocalInner {}                // 3. Local inner class
+        
+        Runnable anonymous = new Runnable() {  // 4. Anonymous class
+            public void run() {}
+        };
+    }
+}
+```
+
+### 196. Why do we use nested classes?
+
+**Answer:**
+* **Logical grouping** - Group classes that are only used in one place
+* **Encapsulation** - Access outer class private members
+* **Code organization** - Keep related classes together
+* **Namespace management** - Avoid naming conflicts
+* **Helper classes** - Create utility classes specific to outer class
+
+```java
+public class LinkedList<T> {
+    private Node head;
+    
+    // Nested class for better encapsulation
+    private class Node {
+        T data;
+        Node next;
+        
+        Node(T data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+    
+    public void add(T data) {
+        Node newNode = new Node(data);  // Access to nested class
+        newNode.next = head;
+        head = newNode;
+    }
+}
+```
+
+### 197. What is the difference between a nested class and an inner class?
+
+**Answer:**
+* **Nested class** - General term for any class inside another class
+* **Inner class** - Specifically refers to non-static nested classes
+* **Static nested** - Cannot access outer instance variables directly
+* **Inner (non-static)** - Has implicit reference to outer class instance
+* **Terminology** - All inner classes are nested, but not all nested are inner
+
+```java
+public class NestedVsInner {
+    private String outerField = "Outer";
+    
+    // Static nested class (not inner)
+    static class StaticNested {
+        void method() {
+            // System.out.println(outerField);  // Compile error - no outer instance
+        }
+    }
+    
+    // Inner class (non-static nested)
+    class Inner {
+        void method() {
+            System.out.println(outerField);  // OK - has outer instance reference
+        }
+    }
+}
+```
+
+### 198. What is a nested interface?
+
+**Answer:**
+* **Interface inside class** - Interface defined within a class or another interface
+* **Implicitly static** - Nested interfaces are always static by default
+* **Access modifiers** - Can be public, protected, or private
+* **Logical grouping** - Groups related interfaces with their implementation
+* **Common pattern** - Used in collections framework and event handling
+
+```java
+public class OuterClass {
+    // Nested interface (implicitly static)
+    public interface NestedInterface {
+        void method();
+    }
+    
+    // Implementation of nested interface
+    class Implementation implements NestedInterface {
+        public void method() {
+            System.out.println("Nested interface implementation");
+        }
+    }
+}
+
+// Usage
+OuterClass.NestedInterface obj = new OuterClass().new Implementation();
+```
+
+### 199. How can we access the non-final local variable inside a local inner class?
+
+**Answer:**
+* **Cannot access** - Local inner classes cannot access non-final local variables
+* **Effectively final** - Variable must be effectively final (not modified after initialization)
+* **Java 8+** - No need to explicitly declare final if variable is effectively final
+* **Reason** - Local variables are stored on stack, inner class objects on heap
+* **Workaround** - Use final variables or instance variables
+
+```java
+public class LocalInnerAccess {
+    public void method() {
+        int finalVar = 10;              // Effectively final
+        final int explicitFinal = 20;   // Explicitly final
+        int nonFinal = 30;
+        nonFinal = 40;                  // Modified - not effectively final
+        
+        class LocalInner {
+            void display() {
+                System.out.println(finalVar);      // OK - effectively final
+                System.out.println(explicitFinal); // OK - explicitly final
+                // System.out.println(nonFinal);   // Compile error - not final
+            }
+        }
+    }
+}
+```
+
+### 200. Can an interface be defined in a class?
+
+**Answer:**
+* **Yes** - Interfaces can be defined inside classes
+* **Implicitly static** - Nested interfaces are always static
+* **Access modifiers** - Can have public, protected, private, or package access
+* **Logical organization** - Groups related interface with its implementation
+* **Common usage** - Event listeners, callback interfaces, strategy patterns
+
+```java
+public class EventSource {
+    // Nested interface inside class
+    public interface EventListener {
+        void onEvent(String event);
+    }
+    
+    private EventListener listener;
+    
+    public void setListener(EventListener listener) {
+        this.listener = listener;
+    }
+    
+    public void fireEvent(String event) {
+        if (listener != null) {
+            listener.onEvent(event);
+        }
+    }
+}
+```
+
+### 201. Do we have to explicitly mark a nested interface public static?
+
+**Answer:**
+* **Static by default** - Nested interfaces are implicitly static
+* **Access modifier required** - Must specify public, protected, or private explicitly
+* **Not implicitly public** - Unlike top-level interfaces, nested interfaces need explicit access modifier
+* **Best practice** - Always specify access modifier for clarity
+* **Compilation** - Will compile without static keyword but good to be explicit
+
+```java
+public class InterfaceModifiers {
+    // Implicitly static, but access modifier needed
+    public interface PublicNested {}        // OK
+    protected interface ProtectedNested {}  // OK
+    private interface PrivateNested {}      // OK
+    
+    // interface DefaultNested {}           // Package-private, OK but specify explicitly
+    
+    // Explicitly static (redundant but clear)
+    public static interface ExplicitStatic {}
+}
+```
+
+### 202. Why do we use static nested interface in Java?
+
+**Answer:**
+* **Logical grouping** - Group related interfaces with their implementation classes
+* **Namespace organization** - Avoid naming conflicts in large applications
+* **Encapsulation** - Control access to interface through outer class
+* **Design patterns** - Common in strategy, observer, and factory patterns
+* **Framework design** - Used extensively in Java collections and event handling
+
+```java
+public class DatabaseConnection {
+    // Static nested interface for connection strategies
+    public static interface ConnectionStrategy {
+        Connection getConnection();
+    }
+    
+    // Implementations of the strategy
+    public static class MySQLStrategy implements ConnectionStrategy {
+        public Connection getConnection() {
+            return DriverManager.getConnection("jdbc:mysql://...");
+        }
+    }
+    
+    public static class PostgreSQLStrategy implements ConnectionStrategy {
+        public Connection getConnection() {
+            return DriverManager.getConnection("jdbc:postgresql://...");
+        }
+    }
+    
+    // Usage: DatabaseConnection.ConnectionStrategy strategy = new DatabaseConnection.MySQLStrategy();
+}
+```
