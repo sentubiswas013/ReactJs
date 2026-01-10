@@ -4404,3 +4404,692 @@ public class DatabaseConnection {
     // Usage: DatabaseConnection.ConnectionStrategy strategy = new DatabaseConnection.MySQLStrategy();
 }
 ```
+
+# Java 8+ Features
+---
+## Java 8 Features
+
+## 203. What are the new features introduced in Java 8?
+
+**Answer:**
+* **Lambda expressions** - Functional programming with concise syntax
+* **Stream API** - Functional-style operations on collections
+* **Default methods** - Interface methods with implementation
+* **Optional class** - Better null handling and avoiding NullPointerException
+* **Method references** - Shorthand for lambda expressions
+* **Date/Time API** - New java.time package replacing Date/Calendar
+
+```java
+import java.util.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+
+public class Java8Features {
+    public void demonstrateFeatures() {
+        List<String> names = Arrays.asList("John", "Jane", "Bob");
+        
+        // Lambda expression
+        names.forEach(name -> System.out.println(name));
+        
+        // Stream API
+        List<String> filtered = names.stream()
+            .filter(name -> name.startsWith("J"))
+            .collect(Collectors.toList());
+        
+        // Optional
+        Optional<String> first = names.stream().findFirst();
+        
+        // New Date API
+        LocalDate today = LocalDate.now();
+    }
+}
+```
+
+## 204. What are lambda expressions in Java 8?
+
+**Answer:**
+* **Anonymous functions** - Functions without name, class, or modifier
+* **Functional programming** - Enables functional programming paradigm in Java
+* **Concise syntax** - Reduces boilerplate code for simple operations
+* **Syntax** - (parameters) -> expression or (parameters) -> { statements }
+* **Functional interfaces** - Can only be used with interfaces having single abstract method
+
+```java
+import java.util.function.*;
+
+public class LambdaExpressions {
+    public void demonstrateLambdas() {
+        // Traditional anonymous class
+        Runnable oldWay = new Runnable() {
+            public void run() { System.out.println("Old way"); }
+        };
+        
+        // Lambda expression
+        Runnable newWay = () -> System.out.println("Lambda way");
+        
+        // With parameters
+        BinaryOperator<Integer> add = (a, b) -> a + b;
+        Predicate<String> isEmpty = str -> str.isEmpty();
+        Function<String, Integer> length = str -> str.length();
+        
+        System.out.println(add.apply(5, 3));  // 8
+    }
+}
+```
+
+## 205. What are functional interfaces in Java 8?
+
+**Answer:**
+* **Single Abstract Method (SAM)** - Interface with exactly one abstract method
+* **@FunctionalInterface** - Annotation to ensure functional interface contract
+* **Lambda target** - Can be used as target for lambda expressions
+* **Built-in interfaces** - Predicate, Function, Consumer, Supplier in java.util.function
+* **Method references** - Can be used with method references
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);  // Single abstract method
+    
+    default void display() {      // Default methods allowed
+        System.out.println("Calculator");
+    }
+}
+
+public class FunctionalInterfaces {
+    public void demonstrateFunctional() {
+        // Custom functional interface
+        Calculator add = (a, b) -> a + b;
+        Calculator multiply = (a, b) -> a * b;
+        
+        // Built-in functional interfaces
+        Predicate<Integer> isEven = n -> n % 2 == 0;
+        Function<String, Integer> stringLength = String::length;
+        Consumer<String> printer = System.out::println;
+        
+        System.out.println(add.calculate(5, 3));  // 8
+        System.out.println(isEven.test(4));       // true
+    }
+}
+```
+
+## 206. What is the Stream API in Java 8?
+
+**Answer:**
+* **Functional operations** - Process collections in functional programming style
+* **Pipeline operations** - Chain multiple operations together
+* **Lazy evaluation** - Operations are not executed until terminal operation
+* **Parallel processing** - Easy parallel processing with parallelStream()
+* **Immutable** - Original collection remains unchanged
+
+```java
+import java.util.stream.*;
+
+public class StreamAPI {
+    public void demonstrateStreams() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        
+        // Filter, map, and collect
+        List<Integer> evenSquares = numbers.stream()
+            .filter(n -> n % 2 == 0)           // Intermediate operation
+            .map(n -> n * n)                   // Intermediate operation
+            .collect(Collectors.toList());     // Terminal operation
+        
+        // Find operations
+        Optional<Integer> first = numbers.stream().findFirst();
+        boolean anyMatch = numbers.stream().anyMatch(n -> n > 5);
+        
+        // Parallel processing
+        int sum = numbers.parallelStream().mapToInt(Integer::intValue).sum();
+        
+        System.out.println(evenSquares);  // [4, 16, 36, 64, 100]
+    }
+}
+```
+
+## 207. What are default methods in interfaces?
+
+**Answer:**
+* **Interface evolution** - Add new methods to interfaces without breaking existing implementations
+* **Implementation in interface** - Interfaces can now have method implementations
+* **Multiple inheritance** - Classes can inherit behavior from multiple interfaces
+* **Backward compatibility** - Existing classes don't need to implement new methods
+* **Diamond problem** - Resolved using explicit override or super calls
+
+```java
+interface Drawable {
+    void draw();  // Abstract method
+    
+    default void print() {  // Default method with implementation
+        System.out.println("Printing...");
+    }
+    
+    default void display() {
+        System.out.println("Default display from Drawable");
+    }
+}
+
+interface Printable {
+    default void display() {
+        System.out.println("Default display from Printable");
+    }
+}
+
+public class Shape implements Drawable, Printable {
+    public void draw() {
+        System.out.println("Drawing shape");
+    }
+    
+    // Must override to resolve diamond problem
+    public void display() {
+        Drawable.super.display();  // Call specific interface method
+    }
+}
+```
+
+## 208. What are static methods in interfaces?
+
+**Answer:**
+* **Utility methods** - Interfaces can have static utility methods
+* **No inheritance** - Static methods are not inherited by implementing classes
+* **Interface namespace** - Called using interface name, not instance
+* **Helper methods** - Provide common functionality related to interface
+* **No override** - Cannot be overridden in implementing classes
+
+```java
+interface MathUtils {
+    static int add(int a, int b) {
+        return a + b;
+    }
+    
+    static int multiply(int a, int b) {
+        return a * b;
+    }
+    
+    static boolean isEven(int number) {
+        return number % 2 == 0;
+    }
+}
+
+public class StaticInterfaceMethods {
+    public void demonstrateStatic() {
+        // Call static methods using interface name
+        int sum = MathUtils.add(5, 3);
+        int product = MathUtils.multiply(4, 6);
+        boolean even = MathUtils.isEven(8);
+        
+        System.out.println("Sum: " + sum);        // 8
+        System.out.println("Product: " + product); // 24
+        System.out.println("Is even: " + even);   // true
+    }
+}
+```
+
+## 209. What is the Optional class in Java 8?
+
+**Answer:**
+* **Null safety** - Container object to avoid NullPointerException
+* **Explicit null handling** - Makes null handling explicit and safer
+* **Functional methods** - Provides functional methods like map, filter, orElse
+* **No more null checks** - Eliminates need for explicit null checks
+* **Immutable** - Optional objects are immutable
+
+```java
+import java.util.Optional;
+
+public class OptionalExample {
+    public void demonstrateOptional() {
+        // Creating Optional
+        Optional<String> optional = Optional.of("Hello");
+        Optional<String> empty = Optional.empty();
+        Optional<String> nullable = Optional.ofNullable(null);
+        
+        // Checking presence
+        if (optional.isPresent()) {
+            System.out.println(optional.get());
+        }
+        
+        // Functional approach
+        optional.ifPresent(System.out::println);
+        
+        // Default values
+        String value = empty.orElse("Default");
+        String computed = empty.orElseGet(() -> "Computed Default");
+        
+        // Chaining operations
+        Optional<Integer> length = optional
+            .filter(s -> s.length() > 3)
+            .map(String::length);
+    }
+}
+```
+
+## 210. What are method references in Java 8?
+
+**Answer:**
+* **Shorthand for lambdas** - Concise way to refer to methods using :: operator
+* **Four types** - Static, instance, constructor, and arbitrary object method references
+* **Readability** - Makes code more readable when lambda just calls existing method
+* **Functional interface target** - Can be used wherever lambda expressions are used
+* **No parameters** - Method signature must match functional interface
+
+```java
+import java.util.function.*;
+
+public class MethodReferences {
+    public void demonstrateMethodReferences() {
+        List<String> names = Arrays.asList("John", "Jane", "Bob");
+        
+        // Static method reference
+        Function<String, Integer> parseInt = Integer::parseInt;
+        
+        // Instance method reference
+        Consumer<String> printer = System.out::println;
+        
+        // Constructor reference
+        Supplier<ArrayList<String>> listSupplier = ArrayList::new;
+        Function<Integer, ArrayList<String>> listWithCapacity = ArrayList::new;
+        
+        // Arbitrary object method reference
+        names.stream()
+            .map(String::toUpperCase)  // Same as s -> s.toUpperCase()
+            .forEach(System.out::println);
+        
+        // Usage
+        int number = parseInt.apply("123");
+        ArrayList<String> newList = listSupplier.get();
+    }
+}
+```
+
+## 211. What is the forEach method in Java 8?
+
+**Answer:**
+* **Internal iteration** - Iterates over collection elements internally
+* **Functional approach** - Takes Consumer functional interface as parameter
+* **Default method** - Added as default method in Iterable interface
+* **Parallel support** - Can be easily parallelized with parallel streams
+* **Cleaner syntax** - More readable than traditional for loops
+
+```java
+public class ForEachExample {
+    public void demonstrateForEach() {
+        List<String> names = Arrays.asList("John", "Jane", "Bob", "Alice");
+        Map<String, Integer> ages = Map.of("John", 25, "Jane", 30, "Bob", 35);
+        
+        // Traditional for loop
+        for (String name : names) {
+            System.out.println(name);
+        }
+        
+        // forEach with lambda
+        names.forEach(name -> System.out.println(name));
+        
+        // forEach with method reference
+        names.forEach(System.out::println);
+        
+        // forEach on Map
+        ages.forEach((name, age) -> System.out.println(name + ": " + age));
+        
+        // forEach on Stream
+        names.stream()
+            .filter(name -> name.startsWith("J"))
+            .forEach(System.out::println);
+    }
+}
+```
+
+## 212. What are the differences between Collection API and Stream API?
+
+**Answer:**
+* **Purpose** - Collection stores data, Stream processes data
+* **Mutability** - Collections are mutable, Streams are immutable
+* **Iteration** - Collections use external iteration, Streams use internal iteration
+* **Reusability** - Collections can be reused, Streams are consumed once
+* **Lazy evaluation** - Collections are eager, Streams are lazy until terminal operation
+
+```java
+public class CollectionVsStream {
+    public void demonstrateDifferences() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        
+        // Collection API - External iteration, mutable
+        List<Integer> evenNumbers = new ArrayList<>();
+        for (Integer num : numbers) {
+            if (num % 2 == 0) {
+                evenNumbers.add(num * num);
+            }
+        }
+        
+        // Stream API - Internal iteration, immutable
+        List<Integer> evenSquares = numbers.stream()
+            .filter(n -> n % 2 == 0)           // Lazy - not executed yet
+            .map(n -> n * n)                   // Lazy - not executed yet
+            .collect(Collectors.toList());     // Terminal - triggers execution
+        
+        // Collection - can be reused
+        System.out.println("Size: " + numbers.size());
+        numbers.forEach(System.out::println);
+        
+        // Stream - consumed after terminal operation
+        Stream<Integer> stream = numbers.stream();
+        stream.forEach(System.out::println);
+        // stream.count();  // IllegalStateException - stream already consumed
+    }
+}
+```
+
+## Modern Java Features (9+)
+
+### 213. What are the new features in Java 9?
+
+**Answer:**
+* **Module System (Jigsaw)** - Modularize JDK and applications for better encapsulation
+* **JShell (REPL)** - Interactive Java shell for testing code snippets
+* **Private methods in interfaces** - Interfaces can have private helper methods
+* **Collection factory methods** - List.of(), Set.of(), Map.of() for immutable collections
+* **Stream API enhancements** - takeWhile(), dropWhile(), iterate() methods
+* **Process API improvements** - Better process management and control
+
+```java
+import java.util.*;
+
+public class Java9Features {
+    public void demonstrateFeatures() {
+        // Collection factory methods
+        List<String> list = List.of("Java", "Python", "JavaScript");
+        Set<Integer> set = Set.of(1, 2, 3, 4, 5);
+        Map<String, Integer> map = Map.of("Java", 9, "Python", 3);
+        
+        // Stream enhancements
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        numbers.stream()
+            .takeWhile(n -> n < 6)        // [1, 2, 3, 4, 5]
+            .forEach(System.out::println);
+        
+        numbers.stream()
+            .dropWhile(n -> n < 6)        // [6, 7, 8, 9, 10]
+            .forEach(System.out::println);
+    }
+}
+```
+
+### 214. What is the module system in Java 9?
+
+**Answer:**
+* **Project Jigsaw** - Modularize JDK and applications into discrete modules
+* **module-info.java** - Module descriptor file defining dependencies and exports
+* **Encapsulation** - Strong encapsulation of internal APIs
+* **Reliable configuration** - Eliminates classpath hell and missing dependencies
+* **Scalable platform** - Smaller runtime images with only required modules
+
+```java
+// module-info.java
+module com.example.myapp {
+    requires java.base;          // Dependency on java.base module
+    requires java.logging;       // Dependency on logging module
+    
+    exports com.example.api;     // Export public API package
+    
+    provides com.example.spi.Service 
+        with com.example.impl.ServiceImpl;  // Service provider
+}
+
+// Usage in modular application
+public class ModuleExample {
+    public void demonstrateModule() {
+        // Only exported packages are accessible
+        // Internal implementation packages are encapsulated
+        System.out.println("Running in modular application");
+    }
+}
+```
+
+### 215. What are the new features in Java 10?
+
+**Answer:**
+* **Local variable type inference (var)** - Compiler infers type from initializer
+* **Application Class-Data Sharing** - Improve startup time and memory footprint
+* **Garbage collector improvements** - Parallel full GC for G1 collector
+* **Container awareness** - Better Docker container support
+* **Root certificates** - Default set of root CA certificates
+
+```java
+import java.util.*;
+
+public class Java10Features {
+    public void demonstrateVar() {
+        // Local variable type inference with var
+        var message = "Hello Java 10";           // String
+        var number = 42;                         // int
+        var list = new ArrayList<String>();      // ArrayList<String>
+        var map = Map.of("key", "value");        // Map<String, String>
+        
+        // var in loops
+        var numbers = List.of(1, 2, 3, 4, 5);
+        for (var num : numbers) {                // int
+            System.out.println(num);
+        }
+        
+        // var with streams
+        var result = numbers.stream()
+            .filter(n -> n > 2)
+            .collect(Collectors.toList());       // List<Integer>
+    }
+}
+```
+
+### 216. What is var keyword in Java 10?
+
+**Answer:**
+* **Type inference** - Compiler automatically infers variable type from initializer
+* **Local variables only** - Can only be used for local variables, not fields or parameters
+* **Readability** - Reduces verbosity while maintaining type safety
+* **Compile-time feature** - No runtime overhead, purely compile-time sugar
+* **Limitations** - Cannot be used with null, lambda expressions without explicit types
+
+```java
+public class VarKeyword {
+    // private var field = "test";  // Compile error - not allowed for fields
+    
+    public void demonstrateVar() {
+        // Valid uses of var
+        var name = "John";                    // String
+        var age = 25;                         // int
+        var salary = 50000.0;                 // double
+        var isActive = true;                  // boolean
+        var list = new ArrayList<String>();   // ArrayList<String>
+        
+        // Invalid uses
+        // var x;                             // Compile error - no initializer
+        // var y = null;                      // Compile error - cannot infer from null
+        // var lambda = () -> "test";         // Compile error - ambiguous type
+        
+        // Correct lambda with var
+        var lambda = (String s) -> s.toUpperCase();  // Function<String, String>
+    }
+}
+```
+
+### 217. What are the new features in Java 11?
+
+**Answer:**
+* **HTTP Client API** - Standard HTTP client replacing legacy HttpURLConnection
+* **String methods** - isBlank(), lines(), strip(), repeat() methods
+* **File methods** - Files.readString(), Files.writeString() for easy file operations
+* **var in lambda** - Use var in lambda parameter declarations
+* **Flight Recorder** - Low-overhead profiling and monitoring tool
+* **ZGC** - Experimental low-latency garbage collector
+
+```java
+import java.net.http.*;
+import java.nio.file.*;
+
+public class Java11Features {
+    public void demonstrateFeatures() throws Exception {
+        // String enhancements
+        String text = "  Hello World  ";
+        System.out.println(text.isBlank());           // false
+        System.out.println(text.strip());             // "Hello World"
+        System.out.println("Java".repeat(3));         // "JavaJavaJava"
+        
+        // File operations
+        String content = "Hello Java 11";
+        Files.writeString(Path.of("test.txt"), content);
+        String read = Files.readString(Path.of("test.txt"));
+        
+        // HTTP Client
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://api.example.com"))
+            .build();
+        HttpResponse<String> response = client.send(request, 
+            HttpResponse.BodyHandlers.ofString());
+        
+        // var in lambda
+        var list = List.of("a", "b", "c");
+        list.stream()
+            .map((var s) -> s.toUpperCase())  // var in lambda parameter
+            .forEach(System.out::println);
+    }
+}
+```
+
+### 218. What are the new features in Java 14?
+
+**Answer:**
+* **Switch expressions** - Enhanced switch with expression syntax and yield keyword
+* **Text blocks (Preview)** - Multi-line string literals with triple quotes
+* **Pattern matching for instanceof (Preview)** - Simplified instanceof checks
+* **Records (Preview)** - Compact syntax for data carrier classes
+* **Helpful NullPointerExceptions** - Better NPE messages with precise locations
+
+```java
+public class Java14Features {
+    public void demonstrateSwitchExpressions() {
+        String day = "MONDAY";
+        
+        // Traditional switch statement
+        String result1;
+        switch (day) {
+            case "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY":
+                result1 = "Weekday";
+                break;
+            case "SATURDAY", "SUNDAY":
+                result1 = "Weekend";
+                break;
+            default:
+                result1 = "Unknown";
+        }
+        
+        // Switch expression
+        String result2 = switch (day) {
+            case "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" -> "Weekday";
+            case "SATURDAY", "SUNDAY" -> "Weekend";
+            default -> "Unknown";
+        };
+        
+        // Switch expression with yield
+        String result3 = switch (day) {
+            case "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" -> {
+                System.out.println("It's a weekday");
+                yield "Weekday";
+            }
+            case "SATURDAY", "SUNDAY" -> {
+                System.out.println("It's weekend");
+                yield "Weekend";
+            }
+            default -> "Unknown";
+        };
+    }
+    
+    public void demonstrateTextBlocks() {
+        // Text blocks (Preview in Java 14)
+        String json = """
+            {
+                "name": "John",
+                "age": 30,
+                "city": "New York"
+            }
+            """;
+        
+        String html = """
+            <html>
+                <body>
+                    <h1>Hello World</h1>
+                </body>
+            </html>
+            """;
+    }
+}
+```
+
+### 219. What are the new features in Java 17?
+
+**Answer:**
+* **Sealed classes** - Restrict which classes can extend or implement
+* **Pattern matching for switch (Preview)** - Enhanced switch with pattern matching
+* **Text blocks** - Finalized multi-line string literals feature
+* **Records** - Finalized compact data carrier classes
+* **Strong encapsulation** - JDK internals strongly encapsulated by default
+* **New macOS rendering pipeline** - Metal-based rendering for better performance
+
+```java
+// Sealed classes
+public sealed class Shape permits Circle, Rectangle, Triangle {
+    // Only Circle, Rectangle, Triangle can extend Shape
+}
+
+final class Circle extends Shape {
+    private final double radius;
+    public Circle(double radius) { this.radius = radius; }
+}
+
+final class Rectangle extends Shape {
+    private final double width, height;
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+}
+
+final class Triangle extends Shape {
+    private final double base, height;
+    public Triangle(double base, double height) {
+        this.base = base;
+        this.height = height;
+    }
+}
+
+// Records (finalized)
+public record Person(String name, int age, String email) {
+    // Automatically generates constructor, getters, equals, hashCode, toString
+    
+    // Custom validation in compact constructor
+    public Person {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative");
+        }
+    }
+}
+
+public class Java17Features {
+    public void demonstrateFeatures() {
+        // Using records
+        Person person = new Person("John", 30, "john@example.com");
+        System.out.println(person.name());  // Getter method
+        System.out.println(person);         // toString() automatically generated
+        
+        // Pattern matching for switch (Preview)
+        Shape shape = new Circle(5.0);
+        String result = switch (shape) {
+            case Circle c -> "Circle with radius " + c.radius;
+            case Rectangle r -> "Rectangle " + r.width + "x" + r.height;
+            case Triangle t -> "Triangle with base " + t.base;
+        };
+        
+        System.out.println(result);
+    }
+}
+```
+
