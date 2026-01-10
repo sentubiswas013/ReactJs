@@ -1,7 +1,7 @@
 # Core Java Fundamentals 
 
 ---
-## 🔹 1. **Basic Concepts**
+# 🔹 1. **Basic Concepts**
 ### 1. What is Java and what are its key features?
 
 * Java is a **high-level, object-oriented programming language** used to build secure, portable, and scalable applications.
@@ -355,7 +355,7 @@ try {
 
 ---
 
-## 🔹 3. **Control Structures**
+# 🔹 3. **Control Structures**
 
 ---
 
@@ -794,7 +794,7 @@ class Car {
 
 ---
 
-## 🔹 4. **Interfaces and Abstract Classes**
+# 🔹 4. **Interfaces and Abstract Classes**
 
 ---
 
@@ -945,7 +945,7 @@ interface B extends A {}
 # Exception Handling 
 
 ---
-## 🔹 5. **Exception Basics**
+# 🔹 5. **Exception Basics**
 ### 56. What is an exception in Java?
 
 * An exception is an **unexpected event** that occurs during program execution.
@@ -1100,7 +1100,7 @@ finally {
 
 ---
 
-## 🔹 6. **Custom Exceptions**
+# 🔹 6. **Custom Exceptions**
 
 ---
 
@@ -1191,7 +1191,7 @@ try {
 # Java Collections Framework 
 
 ---
-## 🔹 7. **Collection Basics**
+# 🔹 7. **Collection Basics**
 #### 71. What is Java Collections Framework?
 
 * Java Collections Framework (JCF) is a set of classes and interfaces used to store, manipulate, and process groups of objects.
@@ -1325,7 +1325,7 @@ chm.put(1, "Java");
 
 ---
 
-## 🔹 8. **Advanced Collections**
+# 🔹 8. **Advanced Collections**
 ---
 
 #### 81. How does HashMap work internally?
@@ -1451,7 +1451,7 @@ Collections.sort(list, (a, b) -> a - b);
 
 ---
 
-## 🔹 9. **Collection Performance**
+# 🔹 9. **Collection Performance**
 
 ---
 
@@ -1527,7 +1527,7 @@ List<String> list = new ArrayList<>(); // use interface type
 # Multithreading and Concurrency 
 
 ---
-## 🔹 10. **Thread Basics**
+# 🔹 10. **Thread Basics**
 #### 96. What is multithreading?
 
 * Multithreading allows multiple threads to run concurrently within a program.
@@ -1648,7 +1648,7 @@ thread.interrupt();
 ```
 
 ---
-## 🔹 11. **Synchronization**
+# 🔹 11. **Synchronization**
 ### 106. What is synchronization in Java?
 - Synchronization is a way to **control access to shared resources** in a multithreaded program.
 - It ensures that **only one thread executes a critical section at a time**.
@@ -1815,7 +1815,7 @@ num.incrementAndGet();
 
 ---
 
-## 🔹 12. **Advanced Concurrency**
+# 🔹 12. **Advanced Concurrency**
 ### 116. What is `java.util.concurrent` package?
 - It’s a **high-level concurrency framework** introduced in Java 5.
 - It simplifies multithreading compared to low-level `Thread` and `synchronized`.
@@ -1988,7 +1988,7 @@ lock.unlock();
 # Memory Management and Garbage Collection
 
 ---
-## 🔹 13. **Memory Areas**
+# 🔹 13. **Memory Areas**
 #### **126. What are the different memory areas in JVM?**
 
 * JVM divides memory to manage execution efficiently
@@ -2134,7 +2134,7 @@ long address = unsafe.allocateMemory(1024);
 ```
 
 ---
-## 🔹 14. **ContGarbage Collection**
+# 🔹 14. **ContGarbage Collection**
 #### **136. What is garbage collection?**
 
 * Garbage Collection (GC) is Java’s **automatic memory management** process.
@@ -2288,7 +2288,7 @@ System.gc(); // Request GC (not guaranteed)
 # Input/Output (I/O)
 
 ---
-## 🔹 15. **Input/Output**
+# 🔹 15. **Input/Output**
 #### **146. What are the different ways to read a file in Java?**
 
 * Java provides **multiple APIs** to read files depending on need.
@@ -2432,7 +2432,7 @@ try (BufferedReader br = Files.newBufferedReader(Path.of("big.txt"))) {
 ```
 
 ---
-## 🔹 16. **NIO (New I/O)**
+# 🔹 16. **NIO (New I/O)**
 #### **156. What is NIO in Java?**
 
 * NIO stands for **New I/O**, introduced in Java 1.4
@@ -2572,7 +2572,7 @@ AsynchronousFileChannel channel =
 # Generics
 
 ---
-## 🔹 17. **Generic Basics**
+# 🔹 17. **Generic Basics**
 #### **166. What are generics in Java?**
 
 * Generics allow **type-safe code**
@@ -2713,7 +2713,7 @@ static <T> void print(T value) {
 # Annotations and Reflection
 
 ---
-## 🔹 18. **Annotations**
+# 🔹 18. **Annotations**
 #### **176. What are annotations in Java?**
 
 * Annotations are **metadata** added to Java code.
@@ -2865,7 +2865,7 @@ public class MyProcessor extends AbstractProcessor {}
 ---
 
 
-## 🔹 19. **Reflection**
+# 🔹 19. **Reflection**
 #### **186. What is reflection in Java?**
 
 * Reflection is a Java feature that lets you **inspect and use classes, methods, fields, and constructors at runtime**
@@ -3004,7 +3004,7 @@ try {
 # Lambda Expressions and Streams
 
 ---
-## 🔹 20. **Lambda Expressions**
+# 🔹 20. **Lambda Expressions**
 ### **196. What are lambda expressions?**
 
 * Lambda expressions are a **shorter way to write implementations of functional interfaces**.
@@ -3187,7 +3187,7 @@ print.accept("Hello Java");
 
 ---
 
-## 🔹 21. **Streams API**
+# 🔹 21. **Streams API**
 #### 206. What is Stream API?
 
 * Stream API, introduced in Java 8, is a way to process collections of data **declaratively**.
@@ -3312,7 +3312,7 @@ System.out.println(result); // Unknown
 # Database Connectivity (JDBC)
 
 ---
-## 🔹 22. **JDBC Basics**
+# 🔹 22. **JDBC Basics**
 
 #### **216. What is JDBC?**
 
@@ -3451,7 +3451,7 @@ while (rs.next()) {
 
 ---
 
-## 🔹 23. **Advanced JDBC**
+# 🔹 23. **Advanced JDBC**
 ### **226. What is connection pooling?**
 
 * Connection pooling means **reusing database connections** instead of creating a new one every time.
@@ -3626,7 +3626,7 @@ rs.updateRow();
 # Design Patterns
 
 ---
-## 🔹 24. **Creational Patterns**
+# 🔹 24. **Creational Patterns**
 #### 236. What are design patterns?
 
 * Design patterns are **reusable solutions** to common software problems.
@@ -3763,7 +3763,7 @@ class Person implements Cloneable {
 
 ---
 
-## 🔹 25. **Behavioral Patterns**
+# 🔹 25. **Behavioral Patterns**
 #### **246. What is Observer pattern?**
 
 * Observer pattern defines a **one-to-many relationship**
@@ -3900,7 +3900,7 @@ class Subject {
 
 ---
 
-## 🔹 26. **Structural Patterns**
+# 🔹 26. **Structural Patterns**
 ### **256. What is Adapter pattern?**
 
 * Adapter pattern is used to **make two incompatible interfaces work together**.
@@ -4127,7 +4127,7 @@ Facade  → Simplicity
 # Spring Framework
 
 ---
-## 🔹 27. **Spring Core**
+# 🔹 27. **Spring Core**
 #### 266. What is Spring Framework?
 
 * Spring is a **lightweight Java framework** for building enterprise apps.
@@ -4239,7 +4239,7 @@ class MyBean { }
 
 ---
 
-## 🔹 28. **Spring Boot**
+# 🔹 28. **Spring Boot**
 #### **276. What is Spring Boot?**
 
 * Spring Boot is a framework that **simplifies building Spring applications**
@@ -4395,7 +4395,7 @@ public class UserController {
 # Microservices and Web Services
 
 --- 
-## 🔹 29. **RESTful Services**
+# 🔹 29. **RESTful Services**
 
 #### **286. What are RESTful web services?**
 
@@ -4579,7 +4579,7 @@ http
 ```
 
 ---
-## 🔹 30. **Microservices**
+# 🔹 30. **Microservices**
 #### 296. What are microservices?
 
 * Microservices are an architectural style where an application is broken into small, independent services.
@@ -4737,7 +4737,7 @@ public class OrderServiceTest {
 # Performance and Optimization
 
 ---
-## 🔹 31. **Performance Tuning**
+# 🔹 31. **Performance Tuning**
 
 #### **306. How do you identify performance bottlenecks?**
 
@@ -4889,7 +4889,7 @@ executor.submit(() -> processTask());
 
 ---
 
-## 🔹 32. **JVM Tuning**
+# 🔹 32. **JVM Tuning**
 #### **316. What are important JVM parameters?**
 
 * Control memory, GC, logging, and performance
@@ -5037,7 +5037,7 @@ public void test() {
 
 ---
 
-## 🔹 33. **Recent Java Versions**
+# 🔹 33. **Recent Java Versions**
 
 #### 326. What are the new features in Java 8?
 
