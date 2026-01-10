@@ -5655,3 +5655,844 @@ public class ExtendedUserService extends UserService {
     // This class also has @BusinessLogic annotation
 }
 ```
+
+# 🔹 Enums and Other Features
+
+### Question 232: What is autoboxing and unboxing?
+
+**Answer (25 seconds):**
+* Autoboxing automatically converts primitive types to wrapper objects
+* Unboxing converts wrapper objects back to primitives
+* Happens automatically during assignments and method calls
+* Improves code readability but has performance overhead
+
+```java
+// Autoboxing
+Integer num = 10; // int to Integer
+
+// Unboxing  
+int value = num; // Integer to int
+
+// In collections
+List<Integer> list = new ArrayList<>();
+list.add(5); // autoboxing
+```
+
+---
+
+### Question 233: What is enum in Java?
+
+**Answer (30 seconds):**
+* Enum is a special class representing a group of constants
+* More powerful than traditional constants - can have methods and constructors
+* Type-safe and prevents invalid values
+* Commonly used for fixed sets of values like days, colors, states
+
+```java
+public enum Status {
+    ACTIVE, INACTIVE, PENDING;
+    
+    public boolean isActive() {
+        return this == ACTIVE;
+    }
+}
+
+Status status = Status.ACTIVE;
+```
+
+---
+
+### Question 234: What are the advantages of using enum?
+
+**Answer (35 seconds):**
+* **Type Safety**: Compile-time checking prevents invalid values
+* **Readability**: More meaningful than integer constants
+* **Maintainability**: Adding new values is easy and safe
+* **Built-in Methods**: toString(), valueOf(), ordinal() methods
+* **Switch Support**: Works perfectly with switch statements
+* **Singleton**: Each enum constant is a singleton by default
+
+```java
+public enum Priority {
+    LOW(1), MEDIUM(5), HIGH(10);
+    
+    private final int value;
+    Priority(int value) { this.value = value; }
+    public int getValue() { return value; }
+}
+```
+
+---
+
+### Question 235: What is varargs in Java?
+
+**Answer (30 seconds):**
+* Varargs allows methods to accept variable number of arguments
+* Uses three dots (...) syntax after parameter type
+* Internally treated as an array
+* Must be the last parameter in method signature
+* Eliminates need for method overloading with different parameter counts
+
+```java
+public void print(String... messages) {
+    for(String msg : messages) {
+        System.out.println(msg);
+    }
+}
+
+// Usage
+print("Hello");
+print("Hello", "World");
+print("A", "B", "C");
+```
+
+# 🔵 15. Database Connectivity (JDBC)
+---
+# 🔹 JDBC Basics
+### Question 236: What is JDBC?
+
+**Answer (25 seconds):**
+* JDBC stands for Java Database Connectivity
+* API that connects Java applications to databases
+* Provides standard interface for database operations
+* Database-independent - works with any JDBC-compliant database
+
+```java
+import java.sql.*;
+
+Connection conn = DriverManager.getConnection(
+    "jdbc:mysql://localhost:3306/mydb", "user", "password");
+```
+
+---
+
+### Question 237: What are the steps to connect to a database using JDBC?
+
+**Answer (35 seconds):**
+* **Load Driver**: Register JDBC driver (auto in modern Java)
+* **Create Connection**: Use DriverManager.getConnection()
+* **Create Statement**: PreparedStatement or Statement
+* **Execute Query**: executeQuery() or executeUpdate()
+* **Process Results**: Handle ResultSet
+* **Close Resources**: Close connections, statements, resultsets
+
+```java
+Connection conn = DriverManager.getConnection(url, user, pass);
+PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+stmt.setInt(1, userId);
+ResultSet rs = stmt.executeQuery();
+```
+
+---
+
+### Question 238: What are the different types of JDBC drivers?
+
+**Answer (30 seconds):**
+* **Type 1**: JDBC-ODBC Bridge (deprecated)
+* **Type 2**: Native API driver (platform-specific)
+* **Type 3**: Network Protocol driver (middleware)
+* **Type 4**: Pure Java driver (most common, database-specific)
+* Type 4 is preferred - pure Java, best performance, platform-independent
+
+```java
+// Type 4 driver examples
+"jdbc:mysql://localhost:3306/db"     // MySQL
+"jdbc:postgresql://localhost/db"      // PostgreSQL
+"jdbc:oracle:thin:@localhost:1521:xe" // Oracle
+```
+
+---
+
+### Question 239: What is the difference between Statement and PreparedStatement?
+
+**Answer (35 seconds):**
+* **Statement**: Executes static SQL, compiled each time
+* **PreparedStatement**: Pre-compiled SQL with parameters
+* PreparedStatement prevents SQL injection attacks
+* Better performance for repeated queries
+* Supports parameter binding with setters
+
+```java
+// Statement (avoid for user input)
+Statement stmt = conn.createStatement();
+ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+
+// PreparedStatement (preferred)
+PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+pstmt.setInt(1, userId);
+```
+
+---
+
+### Question 240: What is CallableStatement?
+
+**Answer (25 seconds):**
+* Used to call stored procedures and functions in database
+* Extends PreparedStatement interface
+* Supports IN, OUT, and INOUT parameters
+* Can return multiple result sets
+
+```java
+CallableStatement cstmt = conn.prepareCall("{call getUserById(?)}");
+cstmt.setInt(1, userId);
+ResultSet rs = cstmt.executeQuery();
+
+// For procedures with OUT parameters
+CallableStatement cstmt2 = conn.prepareCall("{call getCount(?, ?)}");
+cstmt2.setString(1, "active");
+cstmt2.registerOutParameter(2, Types.INTEGER);
+```
+
+---
+
+### Question 241: What is connection pooling?
+
+**Answer (30 seconds):**
+* Technique to reuse database connections instead of creating new ones
+* Improves performance by avoiding connection overhead
+* Manages pool of pre-created connections
+* Popular implementations: HikariCP, Apache DBCP, C3P0
+
+```java
+// HikariCP example
+HikariConfig config = new HikariConfig();
+config.setJdbcUrl("jdbc:mysql://localhost:3306/mydb");
+config.setMaximumPoolSize(20);
+HikariDataSource dataSource = new HikariDataSource(config);
+
+Connection conn = dataSource.getConnection();
+```
+
+---
+
+### Question 242: What is the difference between execute(), executeQuery(), and executeUpdate()?
+
+**Answer (35 seconds):**
+* **executeQuery()**: For SELECT statements, returns ResultSet
+* **executeUpdate()**: For INSERT/UPDATE/DELETE, returns int (affected rows)
+* **execute()**: For any SQL, returns boolean (true if ResultSet available)
+* Use specific methods for better type safety and performance
+
+```java
+// SELECT - use executeQuery()
+ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+
+// INSERT/UPDATE/DELETE - use executeUpdate()
+int rows = stmt.executeUpdate("DELETE FROM users WHERE id = 1");
+
+// Unknown SQL type - use execute()
+boolean hasResultSet = stmt.execute(dynamicSQL);
+```
+
+---
+
+### Question 243: What is ResultSet in JDBC?
+
+**Answer (30 seconds):**
+* Object that holds data retrieved from database after executing query
+* Maintains cursor pointing to current row
+* Provides getter methods to retrieve column values
+* Initially positioned before first row - use next() to navigate
+
+```java
+ResultSet rs = stmt.executeQuery("SELECT id, name FROM users");
+while(rs.next()) {
+    int id = rs.getInt("id");
+    String name = rs.getString("name");
+    System.out.println(id + ": " + name);
+}
+```
+
+---
+
+### Question 244: What are the different types of ResultSet?
+
+**Answer (35 seconds):**
+* **TYPE_FORWARD_ONLY**: Default, cursor moves forward only
+* **TYPE_SCROLL_INSENSITIVE**: Scrollable, doesn't reflect DB changes
+* **TYPE_SCROLL_SENSITIVE**: Scrollable, reflects DB changes
+* **CONCUR_READ_ONLY**: Cannot update through ResultSet
+* **CONCUR_UPDATABLE**: Can update database through ResultSet
+
+```java
+PreparedStatement stmt = conn.prepareStatement(
+    "SELECT * FROM users", 
+    ResultSet.TYPE_SCROLL_INSENSITIVE,
+    ResultSet.CONCUR_UPDATABLE
+);
+ResultSet rs = stmt.executeQuery();
+rs.absolute(5); // Jump to 5th row
+```
+
+---
+
+### Question 245: What is transaction management in JDBC?
+
+**Answer (35 seconds):**
+* Group of SQL operations treated as single unit
+* Either all operations succeed (commit) or all fail (rollback)
+* Use setAutoCommit(false) to start manual transaction
+* Call commit() to save changes or rollback() to undo
+
+```java
+conn.setAutoCommit(false);
+try {
+    stmt1.executeUpdate("INSERT INTO accounts...");
+    stmt2.executeUpdate("UPDATE balance...");
+    conn.commit(); // Success
+} catch(Exception e) {
+    conn.rollback(); // Failure
+}
+```
+
+---
+
+### Question 246: What is database transaction?
+
+**Answer (25 seconds):**
+* Logical unit of work containing one or more SQL operations
+* Ensures data consistency and integrity
+* Follows ACID properties
+* All operations succeed together or fail together
+
+```java
+// Bank transfer example
+BEGIN TRANSACTION
+    UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+    UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+COMMIT;
+```
+
+---
+
+### Question 247: What is ACID properties?
+
+**Answer (35 seconds):**
+* **Atomicity**: All operations succeed or all fail
+* **Consistency**: Database remains in valid state
+* **Isolation**: Concurrent transactions don't interfere
+* **Durability**: Committed changes persist even after system failure
+* These properties ensure reliable database transactions
+
+```java
+// ACID example in JDBC
+conn.setAutoCommit(false); // Atomicity
+conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED); // Isolation
+// Consistency and Durability handled by database
+```
+
+---
+
+### Question 248: What is isolation levels in database?
+
+**Answer (40 seconds):**
+* Controls how transaction changes are visible to other transactions
+* **READ_UNCOMMITTED**: Lowest isolation, dirty reads possible
+* **READ_COMMITTED**: Prevents dirty reads
+* **REPEATABLE_READ**: Prevents dirty and non-repeatable reads
+* **SERIALIZABLE**: Highest isolation, prevents all phenomena
+
+```java
+conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+```
+
+---
+
+### Question 249: What is connection leakage?
+
+**Answer (30 seconds):**
+* When database connections are not properly closed after use
+* Leads to connection pool exhaustion
+* Application becomes unable to get new connections
+* Always close connections in finally block or use try-with-resources
+
+```java
+// Proper connection handling
+try (Connection conn = dataSource.getConnection();
+     PreparedStatement stmt = conn.prepareStatement(sql)) {
+    // Use connection
+} // Auto-closed here
+```
+
+---
+
+### Question 250: What is batch processing in JDBC?
+
+**Answer (30 seconds):**
+* Technique to execute multiple SQL statements together
+* Reduces network round trips to database
+* Improves performance for bulk operations
+* Use addBatch() and executeBatch() methods
+
+```java
+PreparedStatement stmt = conn.prepareStatement("INSERT INTO users VALUES (?, ?)");
+for(User user : users) {
+    stmt.setInt(1, user.getId());
+    stmt.setString(2, user.getName());
+    stmt.addBatch();
+}
+int[] results = stmt.executeBatch();
+```
+
+---
+
+### Question 251: What is SQL injection and how to prevent it?
+
+**Answer (35 seconds):**
+* Security vulnerability where malicious SQL code is inserted into queries
+* Can lead to data theft, corruption, or unauthorized access
+* **Prevention**: Use PreparedStatement with parameters
+* Never concatenate user input directly into SQL strings
+* Validate and sanitize all user inputs
+
+```java
+// Vulnerable (DON'T DO THIS)
+String sql = "SELECT * FROM users WHERE name = '" + userName + "'";
+
+// Safe (DO THIS)
+PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE name = ?");
+stmt.setString(1, userName);
+```
+
+# 🔵 16. Design Patterns
+---
+# 🔹 Common Design Patterns
+### Question 252: What are design patterns?
+
+**Answer (30 seconds):**
+* Reusable solutions to common software design problems
+* Best practices proven over time by experienced developers
+* Provide template for writing maintainable, flexible code
+* Three categories: Creational, Structural, and Behavioral patterns
+* Help communicate design intent clearly among developers
+
+```java
+// Example: Factory pattern creates objects without specifying exact class
+Animal animal = AnimalFactory.createAnimal("dog");
+// Instead of: Animal animal = new Dog();
+```
+
+---
+
+### Question 253: What is Singleton design pattern?
+
+**Answer (25 seconds):**
+* Ensures only one instance of a class exists in application
+* Provides global access point to that instance
+* Useful for database connections, logging, configuration settings
+* Controls object creation and prevents multiple instances
+
+```java
+public class Singleton {
+    private static Singleton instance;
+    private Singleton() {}
+    
+    public static Singleton getInstance() {
+        if (instance == null) instance = new Singleton();
+        return instance;
+    }
+}
+```
+
+---
+
+### Question 254: How do you implement Singleton pattern in Java?
+
+**Answer (35 seconds):**
+* **Lazy Initialization**: Create instance when first needed
+* **Thread-Safe**: Use synchronized or double-checked locking
+* **Eager Initialization**: Create instance at class loading
+* **Enum Singleton**: Best approach, handles serialization automatically
+* Private constructor prevents external instantiation
+
+```java
+// Thread-safe enum singleton (recommended)
+public enum DatabaseConnection {
+    INSTANCE;
+    public void connect() { /* connection logic */ }
+}
+
+// Usage: DatabaseConnection.INSTANCE.connect();
+```
+
+---
+
+### Question 255: What is Factory design pattern?
+
+**Answer (30 seconds):**
+* Creates objects without specifying their exact classes
+* Encapsulates object creation logic in separate method/class
+* Client code doesn't need to know concrete class names
+* Easy to add new types without changing existing code
+* Promotes loose coupling between classes
+
+```java
+public class ShapeFactory {
+    public static Shape createShape(String type) {
+        switch(type) {
+            case "circle": return new Circle();
+            case "square": return new Square();
+            default: throw new IllegalArgumentException();
+        }
+    }
+}
+```
+
+---
+
+### Question 256: What is Abstract Factory design pattern?
+
+**Answer (35 seconds):**
+* Factory of factories - creates families of related objects
+* Provides interface for creating groups of related products
+* Useful when system needs to work with multiple product families
+* Ensures products from same family are used together
+* More complex than simple Factory pattern
+
+```java
+interface GUIFactory {
+    Button createButton();
+    TextField createTextField();
+}
+
+class WindowsFactory implements GUIFactory {
+    public Button createButton() { return new WindowsButton(); }
+    public TextField createTextField() { return new WindowsTextField(); }
+}
+```
+
+---
+
+### Question 257: What is Builder design pattern?
+
+**Answer (30 seconds):**
+* Constructs complex objects step by step
+* Separates object construction from its representation
+* Useful for objects with many optional parameters
+* Provides fluent interface for object creation
+* Avoids telescoping constructor problem
+
+```java
+public class User {
+    private String name, email, phone;
+    
+    public static class Builder {
+        public Builder setName(String name) { this.name = name; return this; }
+        public Builder setEmail(String email) { this.email = email; return this; }
+        public User build() { return new User(this); }
+    }
+}
+// Usage: new User.Builder().setName("John").setEmail("john@email.com").build();
+```
+
+---
+
+### Question 258: What is Observer design pattern?
+
+**Answer (35 seconds):**
+* Defines one-to-many dependency between objects
+* When subject changes state, all observers are notified automatically
+* Promotes loose coupling between subject and observers
+* Commonly used in event handling systems, MVC architecture
+* Java provides Observable class and Observer interface
+
+```java
+interface Observer {
+    void update(String message);
+}
+
+class NewsAgency {
+    private List<Observer> observers = new ArrayList<>();
+    
+    public void addObserver(Observer observer) { observers.add(observer); }
+    public void notifyObservers(String news) {
+        observers.forEach(observer -> observer.update(news));
+    }
+}
+```
+
+---
+
+### Question 259: What is Strategy design pattern?
+
+**Answer (30 seconds):**
+* Defines family of algorithms and makes them interchangeable
+* Algorithm varies independently from clients that use it
+* Eliminates conditional statements for algorithm selection
+* Follows Open/Closed principle - open for extension, closed for modification
+* Runtime algorithm switching capability
+
+```java
+interface PaymentStrategy {
+    void pay(double amount);
+}
+
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(double amount) { /* credit card logic */ }
+}
+
+class PayPalPayment implements PaymentStrategy {
+    public void pay(double amount) { /* PayPal logic */ }
+}
+```
+
+---
+
+### Question 260: What is Command design pattern?
+
+**Answer (35 seconds):**
+* Encapsulates request as an object with all necessary information
+* Allows parameterization of clients with different requests
+* Supports undo operations and logging of requests
+* Decouples sender and receiver of requests
+* Useful for implementing macro commands, queuing operations
+
+```java
+interface Command {
+    void execute();
+    void undo();
+}
+
+class LightOnCommand implements Command {
+    private Light light;
+    public void execute() { light.turnOn(); }
+    public void undo() { light.turnOff(); }
+}
+
+// Usage: RemoteControl remote = new RemoteControl();
+// remote.setCommand(new LightOnCommand(light));
+```
+
+---
+
+### Question 261: What is Decorator design pattern?
+
+**Answer (35 seconds):**
+* Adds new functionality to objects dynamically without altering structure
+* Alternative to subclassing for extending functionality
+* Wraps original object and provides additional behavior
+* Multiple decorators can be stacked for combined effects
+* Follows composition over inheritance principle
+
+```java
+interface Coffee {
+    double cost();
+}
+
+class SimpleCoffee implements Coffee {
+    public double cost() { return 2.0; }
+}
+
+class MilkDecorator implements Coffee {
+    private Coffee coffee;
+    public MilkDecorator(Coffee coffee) { this.coffee = coffee; }
+    public double cost() { return coffee.cost() + 0.5; }
+}
+// Usage: Coffee coffee = new MilkDecorator(new SimpleCoffee());
+```
+
+# 🔵 17. Java Web Development 
+---
+# 🔹 Servlets and JSP
+### Question 262: What is servlet in Java?
+
+**Answer (30 seconds):**
+* Server-side Java program that handles HTTP requests and responses
+* Runs inside servlet container like Tomcat, Jetty
+* Extends HttpServlet class and overrides doGet(), doPost() methods
+* Platform-independent way to build web applications
+* Manages dynamic web content generation
+
+```java
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Hello World!</h1>");
+    }
+}
+```
+
+---
+
+### Question 263: What is the servlet lifecycle?
+
+**Answer (35 seconds):**
+* **Loading**: Container loads servlet class
+* **Instantiation**: Creates servlet instance
+* **Initialization**: Calls init() method once
+* **Service**: Calls service() method for each request (doGet/doPost)
+* **Destruction**: Calls destroy() method before removing servlet
+* Container manages entire lifecycle automatically
+
+```java
+public class MyServlet extends HttpServlet {
+    public void init() { /* Initialize resources */ }
+    public void service(HttpServletRequest req, HttpServletResponse res) { /* Handle requests */ }
+    public void destroy() { /* Cleanup resources */ }
+}
+```
+
+---
+
+### Question 264: What is JSP (JavaServer Pages)?
+
+**Answer (30 seconds):**
+* Server-side technology for creating dynamic web pages
+* HTML with embedded Java code using special tags
+* Compiled into servlets by container automatically
+* Separates presentation layer from business logic
+* Easier to write than pure servlets for UI-heavy applications
+
+```jsp
+<%@ page language="java" contentType="text/html" %>
+<html>
+<body>
+    <h1>Welcome <%= request.getParameter("name") %>!</h1>
+    <% String time = new Date().toString(); %>
+    <p>Current time: <%= time %></p>
+</body>
+</html>
+```
+
+---
+
+### Question 265: What is the difference between servlet and JSP?
+
+**Answer (35 seconds):**
+* **Servlet**: Pure Java code, HTML embedded in Java
+* **JSP**: HTML with embedded Java code
+* **Performance**: Servlets slightly faster, JSPs compiled to servlets
+* **Development**: JSPs easier for UI, servlets better for business logic
+* **Maintenance**: JSPs better for designers, servlets for developers
+* **Use Case**: Combine both - servlets for logic, JSPs for presentation
+
+```java
+// Servlet - Java with HTML
+out.println("<html><body><h1>" + message + "</h1></body></html>");
+
+// JSP - HTML with Java
+<html><body><h1><%= message %></h1></body></html>
+```
+
+---
+
+### Question 266: What is JSTL (JSP Standard Tag Library)?
+
+**Answer (30 seconds):**
+* Collection of custom tags for common JSP tasks
+* Eliminates need for scriptlets (Java code) in JSP pages
+* Core tags for loops, conditions, formatting, SQL operations
+* Makes JSP pages cleaner and more maintainable
+* Standard library supported by all JSP containers
+
+```jsp
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:forEach var="user" items="${users}">
+    <p>${user.name} - ${user.email}</p>
+</c:forEach>
+
+<c:if test="${user.age >= 18}">
+    <p>Adult user</p>
+</c:if>
+```
+
+---
+
+### Question 267: What is session management in web applications?
+
+**Answer (35 seconds):**
+* Technique to maintain user state across multiple HTTP requests
+* HTTP is stateless - each request is independent
+* **Methods**: Cookies, URL rewriting, Hidden form fields, HttpSession
+* **HttpSession**: Most common approach in Java web apps
+* Session data stored on server, session ID sent to client
+
+```java
+// Create/get session
+HttpSession session = request.getSession();
+
+// Store data
+session.setAttribute("username", "john");
+session.setAttribute("cart", shoppingCart);
+
+// Retrieve data
+String username = (String) session.getAttribute("username");
+```
+
+---
+
+### Question 268: What are cookies in Java web applications?
+
+**Answer (30 seconds):**
+* Small pieces of data stored on client browser
+* Sent automatically with each request to same domain
+* Used for session tracking, user preferences, authentication
+* Have expiration time and domain/path restrictions
+* Created on server, stored on client
+
+```java
+// Create cookie
+Cookie userCookie = new Cookie("username", "john");
+userCookie.setMaxAge(3600); // 1 hour
+response.addCookie(userCookie);
+
+// Read cookies
+Cookie[] cookies = request.getCookies();
+for(Cookie cookie : cookies) {
+    if("username".equals(cookie.getName())) {
+        String username = cookie.getValue();
+    }
+}
+```
+
+---
+
+### Question 269: What is URL rewriting?
+
+**Answer (25 seconds):**
+* Session tracking technique when cookies are disabled
+* Appends session ID to every URL as parameter
+* Fallback mechanism for session management
+* Less user-friendly but works without client-side storage
+* Automatically handled by servlet container
+
+```java
+// URL rewriting
+String encodedURL = response.encodeURL("welcome.jsp");
+// Result: welcome.jsp;jsessionid=ABC123
+
+// In JSP
+<a href="<%= response.encodeURL("profile.jsp") %>">Profile</a>
+// Becomes: <a href="profile.jsp;jsessionid=ABC123">Profile</a>
+```
+
+---
+
+### Question 270: What is HttpSession?
+
+**Answer (35 seconds):**
+* Interface representing user session in web application
+* Provides way to identify user across multiple requests
+* Stores session data on server side
+* Automatically created by servlet container
+* **Methods**: getAttribute(), setAttribute(), invalidate(), getId()
+* Session timeout configurable in web.xml
+
+```java
+HttpSession session = request.getSession(); // Get existing or create new
+
+// Session operations
+session.setAttribute("user", userObject);
+User user = (User) session.getAttribute("user");
+session.removeAttribute("tempData");
+session.invalidate(); // End session
+
+// Check session
+if(session.isNew()) { /* First request */ }
+String sessionId = session.getId();
+```
