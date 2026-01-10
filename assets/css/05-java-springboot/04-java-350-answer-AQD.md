@@ -1,7 +1,7 @@
 # Core Java Fundamentals 
 
 ---
-## 🔹 **Basic Concepts**
+## 🔹 1. **Basic Concepts**
 ### 1. What is Java and what are its key features?
 
 * Java is a **high-level, object-oriented programming language** used to build secure, portable, and scalable applications.
@@ -193,7 +193,7 @@ class Bike extends Vehicle {
 
 ---
 
-## 🔹 **Data Types and Variables**
+## 🔹 2. **Data Types and Variables**
 ---
 
 ### 11. What are primitive data types in Java?
