@@ -4921,10 +4921,10 @@ Java follows a predictable 6-month release cycle since Java 9:
 ### 1. What is containerization?
 
 **Spoken Answer (30 seconds):**
-• Containerization packages applications with all dependencies into lightweight, portable containers
-• Ensures consistent runtime across different environments
-• Containers share the host OS kernel, making them more efficient than VMs
-• Popular tools: Docker, Podman, containerd
+* Containerization packages applications with all dependencies into lightweight, portable containers
+* Ensures consistent runtime across different environments
+* Containers share the host OS kernel, making them more efficient than VMs
+* Popular tools: Docker, Podman, containerd
 
 **Example:**
 ```dockerfile
@@ -4942,10 +4942,10 @@ CMD ["npm", "start"]
 ### 2. What is Docker?
 
 **Spoken Answer (25 seconds):**
-• Docker is a containerization platform that creates, deploys, and manages containers
-• Uses images as blueprints to create containers
-• Provides isolation, portability, and scalability
-• Key components: Docker Engine, Images, Containers, Dockerfile
+* Docker is a containerization platform that creates, deploys, and manages containers
+* Uses images as blueprints to create containers
+* Provides isolation, portability, and scalability
+* Key components: Docker Engine, Images, Containers, Dockerfile
 
 **Example:**
 ```bash
@@ -4964,10 +4964,10 @@ docker ps
 ### 3. What is Kubernetes?
 
 **Spoken Answer (35 seconds):**
-• Kubernetes is a container orchestration platform for managing containerized applications at scale
-• Automates deployment, scaling, and management of containers
-• Provides service discovery, load balancing, and self-healing capabilities
-• Key concepts: Pods, Services, Deployments, Nodes
+* Kubernetes is a container orchestration platform for managing containerized applications at scale
+* Automates deployment, scaling, and management of containers
+* Provides service discovery, load balancing, and self-healing capabilities
+* Key concepts: Pods, Services, Deployments, Nodes
 
 **Example:**
 ```yaml
@@ -4997,10 +4997,10 @@ spec:
 ### 4. What is cloud computing?
 
 **Spoken Answer (30 seconds):**
-• Cloud computing delivers computing services over the internet on-demand
-• Three main models: IaaS, PaaS, SaaS
-• Benefits: scalability, cost-effectiveness, accessibility, automatic updates
-• Major providers: AWS, Azure, Google Cloud, IBM Cloud
+* Cloud computing delivers computing services over the internet on-demand
+* Three main models: IaaS, PaaS, SaaS
+* Benefits: scalability, cost-effectiveness, accessibility, automatic updates
+* Major providers: AWS, Azure, Google Cloud, IBM Cloud
 
 **Example:**
 ```javascript
@@ -5024,10 +5024,10 @@ s3.upload(params, (err, data) => {
 ### 5. What is distributed system?
 
 **Spoken Answer (35 seconds):**
-• Distributed system consists of multiple computers working together as a single system
-• Components communicate over a network to achieve common goals
-• Challenges: network failures, data consistency, fault tolerance
-• Examples: microservices, CDNs, distributed databases
+* Distributed system consists of multiple computers working together as a single system
+* Components communicate over a network to achieve common goals
+* Challenges: network failures, data consistency, fault tolerance
+* Examples: microservices, CDNs, distributed databases
 
 **Example:**
 ```javascript
@@ -5052,10 +5052,10 @@ app.get('/user/:id', async (req, res) => {
 ### 6. What is load balancing?
 
 **Spoken Answer (30 seconds):**
-• Load balancing distributes incoming requests across multiple servers
-• Prevents server overload and improves application availability
-• Types: Round Robin, Least Connections, IP Hash, Weighted
-• Can be implemented at different layers: L4 (transport) or L7 (application)
+* Load balancing distributes incoming requests across multiple servers
+* Prevents server overload and improves application availability
+* Types: Round Robin, Least Connections, IP Hash, Weighted
+* Can be implemented at different layers: L4 (transport) or L7 (application)
 
 **Example:**
 ```nginx
@@ -5079,10 +5079,10 @@ server {
 ### 7. What are caching strategies in Java?
 
 **Spoken Answer (40 seconds):**
-• Caching stores frequently accessed data in fast storage for quick retrieval
-• Common strategies: Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead
-• Java implementations: Ehcache, Redis, Caffeine, Hazelcast
-• Improves performance by reducing database calls and computation time
+* Caching stores frequently accessed data in fast storage for quick retrieval
+* Common strategies: Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead
+* Java implementations: Ehcache, Redis, Caffeine, Hazelcast
+* Improves performance by reducing database calls and computation time
 
 **Example:**
 ```java
