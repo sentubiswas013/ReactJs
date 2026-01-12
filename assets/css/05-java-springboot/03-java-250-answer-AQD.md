@@ -4920,126 +4920,203 @@ Java follows a predictable 6-month release cycle since Java 9:
 
 ### 1. What is containerization?
 
-Containerization is packaging applications with all their dependencies into lightweight, portable containers.
+**Spoken Answer (30 seconds):**
+• Containerization packages applications with all dependencies into lightweight, portable containers
+• Ensures consistent runtime across different environments
+• Containers share the host OS kernel, making them more efficient than VMs
+• Popular tools: Docker, Podman, containerd
 
-**Key Points:**
-- Bundles code, runtime, libraries, and settings together
-- Runs consistently across different environments
-- Isolated from the host system
-- More efficient than virtual machines
-
-**Example:** 
-- Your Node.js app + dependencies → Docker container
-- Runs same way on dev laptop, staging, and production
+**Example:**
+```dockerfile
+FROM node:16-alpine
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
+```
 
 ---
 
 ### 2. What is Docker?
 
-Docker is a platform that creates, manages, and runs containers using containerization technology.
-
-**Key Points:**
-- Uses Docker images as blueprints
-- Docker Engine runs containers
-- Dockerfile defines how to build images
-- Cross-platform compatibility
+**Spoken Answer (25 seconds):**
+• Docker is a containerization platform that creates, deploys, and manages containers
+• Uses images as blueprints to create containers
+• Provides isolation, portability, and scalability
+• Key components: Docker Engine, Images, Containers, Dockerfile
 
 **Example:**
-```dockerfile
-FROM node:16
-COPY . /app
-WORKDIR /app
-RUN npm install
-CMD ["npm", "start"]
+```bash
+# Build image
+docker build -t my-app .
+
+# Run container
+docker run -p 3000:3000 my-app
+
+# List containers
+docker ps
 ```
 
 ---
 
 ### 3. What is Kubernetes?
 
-Kubernetes is an orchestration platform that manages containerized applications at scale across clusters.
-
-**Key Points:**
-- Automates deployment, scaling, and management
-- Self-healing (restarts failed containers)
-- Load balancing and service discovery
-- Rolling updates with zero downtime
+**Spoken Answer (35 seconds):**
+• Kubernetes is a container orchestration platform for managing containerized applications at scale
+• Automates deployment, scaling, and management of containers
+• Provides service discovery, load balancing, and self-healing capabilities
+• Key concepts: Pods, Services, Deployments, Nodes
 
 **Example:**
-- Deploy 100 web app containers
-- Auto-scale based on traffic
-- Replace failed containers automatically
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```
 
 ---
 
 ### 4. What is cloud computing?
 
-Cloud computing delivers computing services over the internet instead of using local servers.
+**Spoken Answer (30 seconds):**
+• Cloud computing delivers computing services over the internet on-demand
+• Three main models: IaaS, PaaS, SaaS
+• Benefits: scalability, cost-effectiveness, accessibility, automatic updates
+• Major providers: AWS, Azure, Google Cloud, IBM Cloud
 
-**Key Points:**
-- On-demand resource access
-- Pay-as-you-use pricing
-- Scalable and flexible
-- Three main types: IaaS, PaaS, SaaS
+**Example:**
+```javascript
+// AWS SDK example
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
 
-**Examples:**
-- **IaaS:** AWS EC2, Azure VMs
-- **PaaS:** Heroku, Google App Engine
-- **SaaS:** Gmail, Salesforce
+const params = {
+  Bucket: 'my-bucket',
+  Key: 'file.txt',
+  Body: 'Hello Cloud!'
+};
+
+s3.upload(params, (err, data) => {
+  console.log('File uploaded:', data.Location);
+});
+```
 
 ---
 
 ### 5. What is distributed system?
 
-A distributed system is multiple computers working together as a single system to achieve common goals.
+**Spoken Answer (35 seconds):**
+• Distributed system consists of multiple computers working together as a single system
+• Components communicate over a network to achieve common goals
+• Challenges: network failures, data consistency, fault tolerance
+• Examples: microservices, CDNs, distributed databases
 
-**Key Points:**
-- Components communicate over network
-- No shared memory between nodes
-- Fault tolerance and redundancy
-- Horizontal scaling capability
+**Example:**
+```javascript
+// Microservice communication
+const express = require('express');
+const axios = require('axios');
 
-**Examples:**
-- Netflix streaming (multiple data centers)
-- Google Search (thousands of servers)
-- Banking systems (ATMs, branches, online)
+app.get('/user/:id', async (req, res) => {
+  try {
+    const user = await axios.get(`http://user-service/users/${req.params.id}`);
+    const orders = await axios.get(`http://order-service/orders/user/${req.params.id}`);
+    
+    res.json({ user: user.data, orders: orders.data });
+  } catch (error) {
+    res.status(500).json({ error: 'Service unavailable' });
+  }
+});
+```
 
 ---
 
 ### 6. What is load balancing?
 
-Load balancing distributes incoming requests across multiple servers to prevent overload and ensure availability.
+**Spoken Answer (30 seconds):**
+• Load balancing distributes incoming requests across multiple servers
+• Prevents server overload and improves application availability
+• Types: Round Robin, Least Connections, IP Hash, Weighted
+• Can be implemented at different layers: L4 (transport) or L7 (application)
 
-**Key Points:**
-- Prevents single point of failure
-- Improves response times
-- Enables horizontal scaling
-- Health checks monitor server status
+**Example:**
+```nginx
+# Nginx load balancer config
+upstream backend {
+    server server1.example.com weight=3;
+    server server2.example.com weight=2;
+    server server3.example.com;
+}
 
-**Examples:**
-- **Round Robin:** Request 1→Server A, Request 2→Server B
-- **Least Connections:** Route to server with fewest active connections
-- **Geographic:** Route users to nearest data center
+server {
+    listen 80;
+    location / {
+        proxy_pass http://backend;
+    }
+}
+```
 
 ---
 
-### 7. What is caching strategies?
+### 7. What are caching strategies in Java?
 
-Caching strategies store frequently accessed data in fast storage to reduce response times and database load.
+**Spoken Answer (40 seconds):**
+• Caching stores frequently accessed data in fast storage for quick retrieval
+• Common strategies: Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead
+• Java implementations: Ehcache, Redis, Caffeine, Hazelcast
+• Improves performance by reducing database calls and computation time
 
-**Key Points:**
-- Temporary storage for quick access
-- Reduces backend load
-- Improves user experience
-- Various levels and types
+**Example:**
+```java
+// Using Caffeine cache
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 
-**Examples:**
-- **Browser Cache:** Store CSS/JS files locally
-- **CDN Cache:** Images served from nearest location
-- **Database Cache:** Redis stores frequent queries
-- **Application Cache:** In-memory data storage
+public class UserService {
+    private Cache<String, User> userCache = Caffeine.newBuilder()
+        .maximumSize(1000)
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .build();
+    
+    public User getUser(String id) {
+        return userCache.get(id, this::fetchUserFromDB);
+    }
+    
+    private User fetchUserFromDB(String id) {
+        // Database call
+        return userRepository.findById(id);
+    }
+}
+```
 
-**Common Strategies:**
-- **Cache-Aside:** App manages cache manually
-- **Write-Through:** Write to cache and database simultaneously
-- **Write-Behind:** Write to cache first, database later
+---
+
+### Summary
+
+These technologies work together in modern software architecture:
+- **Containerization & Docker** package applications consistently
+- **Kubernetes** orchestrates containers at scale
+- **Cloud computing** provides infrastructure and services
+- **Distributed systems** enable scalability and resilience
+- **Load balancing** ensures high availability
+- **Caching** optimizes performance
+
+Each plays a crucial role in building robust, scalable applications.
