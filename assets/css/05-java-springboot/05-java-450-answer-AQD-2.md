@@ -950,7 +950,7 @@ public class Java17Features {
 # 🔵 14. Advanced Java Concepts
 ---
 # 🔹 Generics
-### Question 220: What are generics in Java?
+### 220: What are generics in Java?
 
 **Spoken Answer (15-40 seconds):**
 *  Generics allow you to write type-safe code by parameterizing classes and methods with types
@@ -972,7 +972,7 @@ String str = list.get(0); // No casting needed
 
 ---
 
-### Question 221: What is type erasure in generics?
+### 221: What is type erasure in generics?
 
 **Spoken Answer (15-40 seconds):**
 *  Type erasure is Java's mechanism where generic type information is removed at runtime
@@ -995,10 +995,10 @@ List intList = new ArrayList();
 
 ---
 
-### Question 222: What are wildcards in generics?
+### 222: What are wildcards in generics?
 
 **Spoken Answer (15-40 seconds):**
-*  Wildcards use the question mark (?) to represent unknown types in generics
+*  Wildcards use the mark (?) to represent unknown types in generics
 *  Three types: unbounded (?), upper bounded (? extends), and lower bounded (? super)
 *  They provide flexibility when you don't know the exact type
 *  Useful for reading from or writing to generic collections safely
@@ -1018,7 +1018,7 @@ integers.add(42); // OK to write Integer
 
 ---
 
-### Question 223: What is generic method implementation?
+### 223: What is generic method implementation?
 
 **Spoken Answer (15-40 seconds):**
 *  Generic methods have their own type parameters independent of the class
@@ -1054,7 +1054,7 @@ Utility.swap(names, 0, 2); // Type inferred as String
 
 ---
 
-### Question 224: What is bounded type parameters?
+### 224: What is bounded type parameters?
 
 **Spoken Answer (15-40 seconds):**
 *  Bounded type parameters restrict the types that can be used as generic arguments
@@ -1090,7 +1090,7 @@ NumberContainer<Integer> intContainer = new NumberContainer<>();
 
 ---
 
-### Question 225: What is generic inheritance?
+### 225: What is generic inheritance?
 
 **Spoken Answer (15-40 seconds):**
 *  Generic classes can extend other generic classes and implement generic interfaces
@@ -1135,7 +1135,7 @@ public class StringContainer extends Container<String> {
 
 ---
 # 🔹 Annotations
-### Question 226: What is annotation in Java?
+### 226: What is annotation in Java?
 
 **Spoken Answer (15-40 seconds):**
 *  Annotations are metadata that provide information about code to the compiler and runtime
@@ -1165,7 +1165,7 @@ public class Employee {
 
 ---
 
-### Question 227: How do you create custom annotations?
+### 227: How do you create custom annotations?
 
 **Spoken Answer (15-40 seconds):**
 *  Use @interface keyword to declare custom annotations
@@ -1197,7 +1197,7 @@ public class TestClass {
 
 ---
 
-### Question 228: What is annotation processing?
+### 228: What is annotation processing?
 
 **Spoken Answer (15-40 seconds):**
 *  Annotation processing is a technique to process annotations at compile time or runtime
@@ -1228,7 +1228,7 @@ public class AnnotationProcessor {
 
 ---
 
-### Question 229: What is compile-time annotation processing?
+### 229: What is compile-time annotation processing?
 
 **Spoken Answer (15-40 seconds):**
 *  Compile-time processing happens during compilation using annotation processors
@@ -1265,7 +1265,7 @@ public class MyAnnotationProcessor extends AbstractProcessor {
 
 ---
 
-### Question 230: What is runtime annotation processing?
+### 230: What is runtime annotation processing?
 
 **Spoken Answer (15-40 seconds):**
 *  Runtime processing uses Java reflection to read annotations during program execution
@@ -1300,7 +1300,7 @@ public class RuntimeProcessor {
 
 ---
 
-### Question 231: What is meta-annotations?
+### 231: What is meta-annotations?
 
 **Spoken Answer (15-40 seconds):**
 *  Meta-annotations are annotations that can be applied to other annotations
@@ -1343,7 +1343,7 @@ public class ExtendedUserService extends UserService {
 
 # 🔹 Enums and Other Features
 
-### Question 232: What is autoboxing and unboxing?
+### 232: What is autoboxing and unboxing?
 
 **Answer (25 seconds):**
 * Autoboxing automatically converts primitive types to wrapper objects
@@ -1365,7 +1365,7 @@ list.add(5); // autoboxing
 
 ---
 
-### Question 233: What is enum in Java?
+### 233: What is enum in Java?
 
 **Answer (30 seconds):**
 * Enum is a special class representing a group of constants
@@ -1387,7 +1387,7 @@ Status status = Status.ACTIVE;
 
 ---
 
-### Question 234: What are the advantages of using enum?
+### 234: What are the advantages of using enum?
 
 **Answer (35 seconds):**
 * **Type Safety**: Compile-time checking prevents invalid values
@@ -1409,7 +1409,7 @@ public enum Priority {
 
 ---
 
-### Question 235: What is varargs in Java?
+### 235: What is varargs in Java?
 
 **Answer (30 seconds):**
 * Varargs allows methods to accept variable number of arguments
@@ -1434,7 +1434,7 @@ print("A", "B", "C");
 # 🔵 15. Database Connectivity (JDBC)
 ---
 # 🔹 JDBC Basics
-### Question 236: What is JDBC?
+### 236: What is JDBC?
 
 **Answer (25 seconds):**
 * JDBC stands for Java Database Connectivity
@@ -1451,7 +1451,7 @@ Connection conn = DriverManager.getConnection(
 
 ---
 
-### Question 237: What are the steps to connect to a database using JDBC?
+### 237: What are the steps to connect to a database using JDBC?
 
 **Answer (35 seconds):**
 * **Load Driver**: Register JDBC driver (auto in modern Java)
@@ -1470,7 +1470,7 @@ ResultSet rs = stmt.executeQuery();
 
 ---
 
-### Question 238: What are the different types of JDBC drivers?
+### 238: What are the different types of JDBC drivers?
 
 **Answer (30 seconds):**
 * **Type 1**: JDBC-ODBC Bridge (deprecated)
@@ -1488,7 +1488,7 @@ ResultSet rs = stmt.executeQuery();
 
 ---
 
-### Question 239: What is the difference between Statement and PreparedStatement?
+### 239: What is the difference between Statement and PreparedStatement?
 
 **Answer (35 seconds):**
 * **Statement**: Executes static SQL, compiled each time
@@ -1509,7 +1509,7 @@ pstmt.setInt(1, userId);
 
 ---
 
-### Question 240: What is CallableStatement?
+### 240: What is CallableStatement?
 
 **Answer (25 seconds):**
 * Used to call stored procedures and functions in database
@@ -1530,7 +1530,7 @@ cstmt2.registerOutParameter(2, Types.INTEGER);
 
 ---
 
-### Question 241: What is connection pooling?
+### 241: What is connection pooling?
 
 **Answer (30 seconds):**
 * Technique to reuse database connections instead of creating new ones
@@ -1550,7 +1550,7 @@ Connection conn = dataSource.getConnection();
 
 ---
 
-### Question 242: What is the difference between execute(), executeQuery(), and executeUpdate()?
+### 242: What is the difference between execute(), executeQuery(), and executeUpdate()?
 
 **Answer (35 seconds):**
 * **executeQuery()**: For SELECT statements, returns ResultSet
@@ -1571,7 +1571,7 @@ boolean hasResultSet = stmt.execute(dynamicSQL);
 
 ---
 
-### Question 243: What is ResultSet in JDBC?
+### 243: What is ResultSet in JDBC?
 
 **Answer (30 seconds):**
 * Object that holds data retrieved from database after executing query
@@ -1590,7 +1590,7 @@ while(rs.next()) {
 
 ---
 
-### Question 244: What are the different types of ResultSet?
+### 244: What are the different types of ResultSet?
 
 **Answer (35 seconds):**
 * **TYPE_FORWARD_ONLY**: Default, cursor moves forward only
@@ -1611,7 +1611,7 @@ rs.absolute(5); // Jump to 5th row
 
 ---
 
-### Question 245: What is transaction management in JDBC?
+### 245: What is transaction management in JDBC?
 
 **Answer (35 seconds):**
 * Group of SQL operations treated as single unit
@@ -1632,7 +1632,7 @@ try {
 
 ---
 
-### Question 246: What is database transaction?
+### 246: What is database transaction?
 
 **Answer (25 seconds):**
 * Logical unit of work containing one or more SQL operations
@@ -1650,7 +1650,7 @@ COMMIT;
 
 ---
 
-### Question 247: What is ACID properties?
+### 247: What is ACID properties?
 
 **Answer (35 seconds):**
 * **Atomicity**: All operations succeed or all fail
@@ -1668,7 +1668,7 @@ conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED); // Isolatio
 
 ---
 
-### Question 248: What is isolation levels in database?
+### 248: What is isolation levels in database?
 
 **Answer (40 seconds):**
 * Controls how transaction changes are visible to other transactions
@@ -1685,7 +1685,7 @@ conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
 ---
 
-### Question 249: What is connection leakage?
+### 249: What is connection leakage?
 
 **Answer (30 seconds):**
 * When database connections are not properly closed after use
@@ -1703,7 +1703,7 @@ try (Connection conn = dataSource.getConnection();
 
 ---
 
-### Question 250: What is batch processing in JDBC?
+### 250: What is batch processing in JDBC?
 
 **Answer (30 seconds):**
 * Technique to execute multiple SQL statements together
@@ -1723,7 +1723,7 @@ int[] results = stmt.executeBatch();
 
 ---
 
-### Question 251: What is SQL injection and how to prevent it?
+### 251: What is SQL injection and how to prevent it?
 
 **Answer (35 seconds):**
 * Security vulnerability where malicious SQL code is inserted into queries
@@ -1744,7 +1744,7 @@ stmt.setString(1, userName);
 # 🔵 16. Design Patterns
 ---
 # 🔹 Common Design Patterns
-### Question 252: What are design patterns?
+### 252: What are design patterns?
 
 **Answer (30 seconds):**
 * Reusable solutions to common software design problems
@@ -1761,7 +1761,7 @@ Animal animal = AnimalFactory.createAnimal("dog");
 
 ---
 
-### Question 253: What is Singleton design pattern?
+### 253: What is Singleton design pattern?
 
 **Answer (25 seconds):**
 * Ensures only one instance of a class exists in application
@@ -1783,7 +1783,7 @@ public class Singleton {
 
 ---
 
-### Question 254: How do you implement Singleton pattern in Java?
+### 254: How do you implement Singleton pattern in Java?
 
 **Answer (35 seconds):**
 * **Lazy Initialization**: Create instance when first needed
@@ -1804,7 +1804,7 @@ public enum DatabaseConnection {
 
 ---
 
-### Question 255: What is Factory design pattern?
+### 255: What is Factory design pattern?
 
 **Answer (30 seconds):**
 * Creates objects without specifying their exact classes
@@ -1827,7 +1827,7 @@ public class ShapeFactory {
 
 ---
 
-### Question 256: What is Abstract Factory design pattern?
+### 256: What is Abstract Factory design pattern?
 
 **Answer (35 seconds):**
 * Factory of factories - creates families of related objects
@@ -1850,7 +1850,7 @@ class WindowsFactory implements GUIFactory {
 
 ---
 
-### Question 257: What is Builder design pattern?
+### 257: What is Builder design pattern?
 
 **Answer (30 seconds):**
 * Constructs complex objects step by step
@@ -1874,7 +1874,7 @@ public class User {
 
 ---
 
-### Question 258: What is Observer design pattern?
+### 258: What is Observer design pattern?
 
 **Answer (35 seconds):**
 * Defines one-to-many dependency between objects
@@ -1900,7 +1900,7 @@ class NewsAgency {
 
 ---
 
-### Question 259: What is Strategy design pattern?
+### 259: What is Strategy design pattern?
 
 **Answer (30 seconds):**
 * Defines family of algorithms and makes them interchangeable
@@ -1925,7 +1925,7 @@ class PayPalPayment implements PaymentStrategy {
 
 ---
 
-### Question 260: What is Command design pattern?
+### 260: What is Command design pattern?
 
 **Answer (35 seconds):**
 * Encapsulates request as an object with all necessary information
@@ -1952,7 +1952,7 @@ class LightOnCommand implements Command {
 
 ---
 
-### Question 261: What is Decorator design pattern?
+### 261: What is Decorator design pattern?
 
 **Answer (35 seconds):**
 * Adds new functionality to objects dynamically without altering structure
@@ -1981,7 +1981,7 @@ class MilkDecorator implements Coffee {
 # 🔵 17. Java Web Development 
 ---
 # 🔹 Servlets and JSP
-### Question 262: What is servlet in Java?
+### 262: What is servlet in Java?
 
 **Answer (30 seconds):**
 * Server-side Java program that handles HTTP requests and responses
@@ -2003,7 +2003,7 @@ public class HelloServlet extends HttpServlet {
 
 ---
 
-### Question 263: What is the servlet lifecycle?
+### 263: What is the servlet lifecycle?
 
 **Answer (35 seconds):**
 * **Loading**: Container loads servlet class
@@ -2023,7 +2023,7 @@ public class MyServlet extends HttpServlet {
 
 ---
 
-### Question 264: What is JSP (JavaServer Pages)?
+### 264: What is JSP (JavaServer Pages)?
 
 **Answer (30 seconds):**
 * Server-side technology for creating dynamic web pages
@@ -2045,7 +2045,7 @@ public class MyServlet extends HttpServlet {
 
 ---
 
-### Question 265: What is the difference between servlet and JSP?
+### 265: What is the difference between servlet and JSP?
 
 **Answer (35 seconds):**
 * **Servlet**: Pure Java code, HTML embedded in Java
@@ -2065,7 +2065,7 @@ out.println("<html><body><h1>" + message + "</h1></body></html>");
 
 ---
 
-### Question 266: What is JSTL (JSP Standard Tag Library)?
+### 266: What is JSTL (JSP Standard Tag Library)?
 
 **Answer (30 seconds):**
 * Collection of custom tags for common JSP tasks
@@ -2088,7 +2088,7 @@ out.println("<html><body><h1>" + message + "</h1></body></html>");
 
 ---
 
-### Question 267: What is session management in web applications?
+### 267: What is session management in web applications?
 
 **Answer (35 seconds):**
 * Technique to maintain user state across multiple HTTP requests
@@ -2111,7 +2111,7 @@ String username = (String) session.getAttribute("username");
 
 ---
 
-### Question 268: What are cookies in Java web applications?
+### 268: What are cookies in Java web applications?
 
 **Answer (30 seconds):**
 * Small pieces of data stored on client browser
@@ -2137,7 +2137,7 @@ for(Cookie cookie : cookies) {
 
 ---
 
-### Question 269: What is URL rewriting?
+### 269: What is URL rewriting?
 
 **Answer (25 seconds):**
 * Session tracking technique when cookies are disabled
@@ -2158,7 +2158,7 @@ String encodedURL = response.encodeURL("welcome.jsp");
 
 ---
 
-### Question 270: What is HttpSession?
+### 270: What is HttpSession?
 
 **Answer (35 seconds):**
 * Interface representing user session in web application
@@ -2184,7 +2184,7 @@ String sessionId = session.getId();
 
 # 🔹  RESTful Web Services
 
-### Question 271: What are RESTful web services?
+### 271: What are RESTful web services?
 
 **Answer (30 seconds):**
 * REST stands for Representational State Transfer
@@ -2206,7 +2206,7 @@ public class UserController {
 
 ---
 
-### Question 272: What are the principles of REST?
+### 272: What are the principles of REST?
 
 **Answer (35 seconds):**
 * **Stateless**: Each request contains all necessary information
@@ -2227,7 +2227,7 @@ DELETE /api/users/1   // Delete user
 
 ---
 
-### Question 273: What are HTTP methods used in REST?
+### 273: What are HTTP methods used in REST?
 
 **Answer (30 seconds):**
 * **GET**: Retrieve data, safe and idempotent
@@ -2247,7 +2247,7 @@ DELETE /api/users/1   // Delete user
 
 ---
 
-### Question 274: What is JSON?
+### 274: What is JSON?
 
 **Answer (25 seconds):**
 * JavaScript Object Notation - lightweight data interchange format
@@ -2273,7 +2273,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ---
 
-### Question 275: What is XML?
+### 275: What is XML?
 
 **Answer (25 seconds):**
 * eXtensible Markup Language - markup language for data representation
@@ -2294,7 +2294,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ---
 
-### Question 276: What is the difference between JSON and XML?
+### 276: What is the difference between JSON and XML?
 
 **Answer (35 seconds):**
 * **Size**: JSON is more compact, XML is verbose
@@ -2317,7 +2317,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ---
 
-### Question 277: What is JAX-RS?
+### 277: What is JAX-RS?
 
 **Answer (30 seconds):**
 * Java API for RESTful Web Services
@@ -2340,7 +2340,7 @@ public class UserResource {
 
 ---
 
-### Question 278: What is Spring REST?
+### 278: What is Spring REST?
 
 **Answer (30 seconds):**
 * Spring Framework's approach to building RESTful web services
@@ -2363,7 +2363,7 @@ public class UserController {
 
 ---
 
-### Question 279: What is SOAP vs REST?
+### 279: What is SOAP vs REST?
 
 **Answer (40 seconds):**
 * **SOAP**: Protocol with strict standards, XML-only, stateful
@@ -2383,7 +2383,7 @@ public User getUser(@PathVariable Long id) { return user; }
 
 ---
 
-### Question 280: What is API versioning?
+### 280: What is API versioning?
 
 **Answer (35 seconds):**
 * Strategy to manage changes in API without breaking existing clients
@@ -2410,7 +2410,7 @@ public List<UserV1> getUsersV1() { }
 ---
 # 🔹 Spring Framework
 
-### Question 281: What is Spring Framework?
+### 281: What is Spring Framework?
 
 **Answer (30 seconds):**
 * Comprehensive Java framework for enterprise application development
@@ -2433,7 +2433,7 @@ public class UserService {
 
 ---
 
-### Question 282: What are the core features of Spring?
+### 282: What are the core features of Spring?
 
 **Answer (35 seconds):**
 * **IoC Container**: Manages object lifecycle and dependencies
@@ -2455,7 +2455,7 @@ public class AppConfig {
 
 ---
 
-### Question 283: What is dependency injection?
+### 283: What is dependency injection?
 
 **Answer (30 seconds):**
 * Design pattern where objects receive dependencies from external source
@@ -2478,7 +2478,7 @@ public class OrderService {
 
 ---
 
-### Question 284: What is inversion of control (IoC)?
+### 284: What is inversion of control (IoC)?
 
 **Answer (25 seconds):**
 * Principle where control of object creation is inverted to framework
@@ -2503,7 +2503,7 @@ public class UserService {
 
 ---
 
-### Question 285: What is Spring Boot?
+### 285: What is Spring Boot?
 
 **Answer (35 seconds):**
 * Framework that simplifies Spring application development
@@ -2528,7 +2528,7 @@ spring.datasource.url=jdbc:mysql://localhost/mydb
 
 ---
 
-### Question 286: What is Spring AOP (Aspect-Oriented Programming)?
+### 286: What is Spring AOP (Aspect-Oriented Programming)?
 
 **Answer (35 seconds):**
 * Programming paradigm for handling cross-cutting concerns
@@ -2557,7 +2557,7 @@ public class UserService {
 
 ---
 
-### Question 287: What is Spring Data JPA?
+### 287: What is Spring Data JPA?
 
 **Answer (30 seconds):**
 * Spring module that simplifies JPA-based data access
@@ -2579,7 +2579,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-### Question 288: What is Spring Cloud?
+### 288: What is Spring Cloud?
 
 **Answer (35 seconds):**
 * Framework for building distributed systems and microservices
@@ -2604,7 +2604,7 @@ public class UserServiceApplication {
 
 ---
 
-### Question 289: What is Spring Security?
+### 289: What is Spring Security?
 
 **Answer (35 seconds):**
 * Comprehensive security framework for Java applications
@@ -2633,7 +2633,7 @@ public class SecurityConfig {
 
 ---
 
-### Question 290: What is Spring WebFlux?
+### 290: What is Spring WebFlux?
 
 **Answer (35 seconds):**
 * Reactive web framework for building non-blocking applications
@@ -2659,7 +2659,7 @@ public class UserController {
 ```
 
 # 🔹 Hibernate and JPA
-### Question 291: What is Hibernate?
+### 291: What is Hibernate?
 
 **Answer (30 seconds):**
 * Object-Relational Mapping (ORM) framework for Java
@@ -2687,7 +2687,7 @@ public class User {
 
 ---
 
-### Question 292: What is JPA?
+### 292: What is JPA?
 
 **Answer (25 seconds):**
 * Java Persistence API - specification for ORM in Java
@@ -2713,7 +2713,7 @@ public List<User> findUsers() {
 
 ---
 
-### Question 293: What is the difference between Hibernate and JPA?
+### 293: What is the difference between Hibernate and JPA?
 
 **Answer (35 seconds):**
 * **JPA**: Specification/standard for ORM in Java
@@ -2741,7 +2741,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 # 🔹 Other Frameworks
 
-### Question 294: What is Struts framework?
+### 294: What is Struts framework?
 
 **Answer (30 seconds):**
 * MVC framework for building Java web applications
@@ -2764,7 +2764,7 @@ public class LoginAction extends Action {
 
 ---
 
-### Question 295: What is JSF (JavaServer Faces)?
+### 295: What is JSF (JavaServer Faces)?
 
 **Answer (30 seconds):**
 * Component-based web framework for building Java web applications
@@ -2792,7 +2792,7 @@ public class UserBean {
 ---
 # 🔹 ### Microservices Architecture
 
-### Question 296: What are microservices?
+### 296: What are microservices?
 
 **Answer (35 seconds):**
 * Architectural approach where application is built as suite of small services
@@ -2822,7 +2822,7 @@ public class OrderController {
 
 ---
 
-### Question 297: What are the advantages of microservices?
+### 297: What are the advantages of microservices?
 
 **Answer (40 seconds):**
 * **Scalability**: Scale individual services based on demand
@@ -2852,7 +2852,7 @@ public class PaymentService {
 
 ---
 
-### Question 298: What are the challenges of microservices?
+### 298: What are the challenges of microservices?
 
 **Answer (40 seconds):**
 * **Distributed System Complexity**: Network latency, failures, consistency issues
@@ -2878,7 +2878,7 @@ public class OrderService {
 
 ---
 
-### Question 299: What is service discovery?
+### 299: What is service discovery?
 
 **Answer (30 seconds):**
 * Mechanism for services to find and communicate with each other
@@ -2909,7 +2909,7 @@ public List<ServiceInstance> getOrderServiceInstances() {
 
 ---
 
-### Question 300: What is API gateway?
+### 300: What is API gateway?
 
 **Answer (35 seconds):**
 * Single entry point for all client requests to microservices
@@ -2937,7 +2937,7 @@ public class GatewayConfig {
 
 ---
 
-### Question 301: What is circuit breaker pattern?
+### 301: What is circuit breaker pattern?
 
 **Answer (35 seconds):**
 * Design pattern that prevents cascading failures in distributed systems
@@ -2963,7 +2963,7 @@ public class UserService {
 
 ---
 
-### Question 302: What is distributed tracing?
+### 302: What is distributed tracing?
 
 **Answer (30 seconds):**
 * Technique to track requests as they flow through multiple microservices
@@ -2993,7 +2993,7 @@ public class OrderController {
 
 ---
 
-### Question 303: What is service mesh architecture?
+### 303: What is service mesh architecture?
 
 **Answer (35 seconds):**
 * Infrastructure layer that handles service-to-service communication
@@ -3024,7 +3024,7 @@ spec:
 
 ---
 
-### Question 304: What is database per service pattern?
+### 304: What is database per service pattern?
 
 **Answer (35 seconds):**
 * Each microservice owns and manages its own database
@@ -3053,7 +3053,7 @@ public class Order {
 
 ---
 
-### Question 305: What is saga pattern for distributed transactions?
+### 305: What is saga pattern for distributed transactions?
 
 **Answer (40 seconds):**
 * Pattern for managing distributed transactions across microservices
@@ -3083,7 +3083,7 @@ public class OrderSaga {
 
 # 🔹 Cloud and Containerization
 
-### Question 306: What is containerization?
+### 306: What is containerization?
 
 **Answer (30 seconds):**
 * Technology that packages applications with their dependencies into containers
@@ -3103,7 +3103,7 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 ---
 
-### Question 307: What is Docker?
+### 307: What is Docker?
 
 **Answer (30 seconds):**
 * Platform for developing, shipping, and running applications in containers
@@ -3130,7 +3130,7 @@ services:
 
 ---
 
-### Question 308: What is Kubernetes?
+### 308: What is Kubernetes?
 
 **Answer (35 seconds):**
 * Container orchestration platform for managing containerized applications
@@ -3162,7 +3162,7 @@ spec:
 
 ---
 
-### Question 309: What is cloud computing?
+### 309: What is cloud computing?
 
 **Answer (30 seconds):**
 * Delivery of computing services over the internet
@@ -3188,7 +3188,7 @@ public class CloudApplication {
 
 ---
 
-### Question 310: What is distributed system?
+### 310: What is distributed system?
 
 **Answer (35 seconds):**
 * System where components are located on different networked computers
@@ -3215,7 +3215,7 @@ public class OrderController {
 
 ---
 
-### Question 311: What is load balancing?
+### 311: What is load balancing?
 
 **Answer (30 seconds):**
 * Technique to distribute incoming requests across multiple servers
@@ -3242,7 +3242,7 @@ restTemplate.getForObject("http://user-service/users/1", User.class);
 
 ---
 
-### Question 312: What is caching strategies?
+### 312: What is caching strategies?
 
 **Answer (35 seconds):**
 * Techniques to store frequently accessed data for faster retrieval
@@ -3272,7 +3272,7 @@ public class UserService {
 ---
 # 🔹 Java Security
 
-### Question 313: What is Java security model?
+### 313: What is Java security model?
 
 **Answer (35 seconds):**
 * Comprehensive security framework built into Java platform
@@ -3301,7 +3301,7 @@ System.setSecurityManager(new MySecurityManager());
 
 ---
 
-### Question 314: What is sandbox in Java?
+### 314: What is sandbox in Java?
 
 **Answer (25 seconds):**
 * Restricted execution environment for running untrusted code
@@ -3325,7 +3325,7 @@ public class MyApplet extends Applet {
 
 ---
 
-### Question 315: What is bytecode verification?
+### 315: What is bytecode verification?
 
 **Answer (30 seconds):**
 * Process that ensures Java bytecode follows language safety rules
@@ -3350,7 +3350,7 @@ public class MyApplet extends Applet {
 
 ---
 
-### Question 316: What is class loader security?
+### 316: What is class loader security?
 
 **Answer (30 seconds):**
 * Security mechanism that controls how classes are loaded into JVM
@@ -3377,7 +3377,7 @@ public class SecureClassLoader extends ClassLoader {
 
 ---
 
-### Question 317: What is the security manager?
+### 317: What is the security manager?
 
 **Answer (30 seconds):**
 * Component that enforces security policies in Java applications
@@ -3403,7 +3403,7 @@ grant {
 
 ---
 
-### Question 318: What are digital signatures in Java?
+### 318: What are digital signatures in Java?
 
 **Answer (30 seconds):**
 * Cryptographic mechanism to verify code authenticity and integrity
@@ -3428,7 +3428,7 @@ boolean isValid = signature.verify(digitalSignature);
 
 ---
 
-### Question 319: What is encryption and decryption in Java?
+### 319: What is encryption and decryption in Java?
 
 **Answer (35 seconds):**
 * Process of converting data to/from unreadable format for security
@@ -3455,7 +3455,7 @@ byte[] decrypted = cipher.doFinal(encrypted);
 
 ---
 
-### Question 320: What is SSL/TLS in Java?
+### 320: What is SSL/TLS in Java?
 
 **Answer (35 seconds):**
 * Secure communication protocols for encrypted data transmission
@@ -3481,7 +3481,7 @@ ResponseEntity<String> response = restTemplate.getForEntity(
 
 # 🔹 Application Security
 
-### Question 321: What is authentication vs authorization?
+### 321: What is authentication vs authorization?
 
 **Answer (30 seconds):**
 * **Authentication**: Verifies "who you are" - identity verification
@@ -3510,7 +3510,7 @@ public List<User> getUsers() { return userService.getAllUsers(); }
 
 ---
 
-### Question 322: What is OAuth?
+### 322: What is OAuth?
 
 **Answer (35 seconds):**
 * Open standard for access delegation and authorization
@@ -3544,7 +3544,7 @@ public class OAuth2Config {
 
 ---
 
-### Question 323: What is JWT (JSON Web Token)?
+### 323: What is JWT (JSON Web Token)?
 
 **Answer (35 seconds):**
 * Compact, URL-safe token format for securely transmitting information
@@ -3578,7 +3578,7 @@ public class JwtService {
 
 ---
 
-### Question 324: What is CSRF protection?
+### 324: What is CSRF protection?
 
 **Answer (35 seconds):**
 * Cross-Site Request Forgery protection prevents unauthorized actions
@@ -3609,7 +3609,7 @@ public class SecurityConfig {
 
 ---
 
-### Question 325: What is XSS protection?
+### 325: What is XSS protection?
 
 **Answer (35 seconds):**
 * Cross-Site Scripting protection prevents malicious script injection
@@ -3646,7 +3646,7 @@ public class XssProtectionService {
 
 ---
 
-### Question 326: What is input validation?
+### 326: What is input validation?
 
 **Answer (30 seconds):**
 * Process of checking user input for correctness and security
@@ -3679,7 +3679,7 @@ public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user
 
 ---
 
-### Question 327: What is secure coding practices?
+### 327: What is secure coding practices?
 
 **Answer (40 seconds):**
 * Guidelines and techniques to write secure, vulnerability-free code
@@ -3723,7 +3723,7 @@ public class SecureUserService {
 
 ---
 
-### Question 328: What is OAuth 2.0?
+### 328: What is OAuth 2.0?
 
 **Answer (35 seconds):**
 * Updated version of OAuth protocol for authorization
@@ -3763,7 +3763,7 @@ public class ApiController {
 
 ---
 
-### Question 329: What is OpenID Connect?
+### 329: What is OpenID Connect?
 
 **Answer (35 seconds):**
 * Identity layer built on top of OAuth 2.0 protocol
@@ -3807,7 +3807,7 @@ public Map<String, Object> user(Principal principal) {
 
 ---
 
-### Question 330: What is SAML?
+### 330: What is SAML?
 
 **Answer (35 seconds):**
 * Security Assertion Markup Language for exchanging authentication data
@@ -3862,7 +3862,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 
 # 🔹 Performance Monitoring
 
-### Question 331: How do you measure Java application performance?
+### 331: How do you measure Java application performance?
 
 **Answer (35 seconds):**
 * **Response Time**: Time to complete requests
@@ -3895,7 +3895,7 @@ public class UserController {
 
 ---
 
-### Question 332: What are the common performance bottlenecks in Java?
+### 332: What are the common performance bottlenecks in Java?
 
 **Answer (40 seconds):**
 * **Memory Issues**: Memory leaks, excessive GC, heap exhaustion
@@ -3935,7 +3935,7 @@ public class PerformanceBottlenecks {
 
 ---
 
-### Question 333: How do you optimize Java code for performance?
+### 333: How do you optimize Java code for performance?
 
 **Answer (40 seconds):**
 * **Algorithm Optimization**: Use efficient data structures and algorithms
@@ -3978,7 +3978,7 @@ public class OptimizedUserService {
 
 ---
 
-### Question 334: What is profiling in Java?
+### 334: What is profiling in Java?
 
 **Answer (30 seconds):**
 * Process of analyzing application performance to identify bottlenecks
@@ -4016,7 +4016,7 @@ public class ProfiledService {
 
 ---
 
-### Question 335: What is JVM tuning?
+### 335: What is JVM tuning?
 
 **Answer (35 seconds):**
 * Process of optimizing JVM parameters for better performance
@@ -4047,7 +4047,7 @@ java -Xms2g -Xmx4g \
 
 ---
 
-### Question 336: What are the JVM parameters for performance tuning?
+### 336: What are the JVM parameters for performance tuning?
 
 **Answer (40 seconds):**
 * **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
@@ -4079,7 +4079,7 @@ java -Xms2g -Xmx4g \
 
 ---
 
-### Question 337: What is memory profiling?
+### 337: What is memory profiling?
 
 **Answer (30 seconds):**
 * Analysis of application memory usage patterns and allocation
@@ -4120,7 +4120,7 @@ public class MemoryProfiledService {
 
 ---
 
-### Question 338: What is CPU profiling?
+### 338: What is CPU profiling?
 
 **Answer (30 seconds):**
 * Analysis of CPU usage to identify performance hotspots
@@ -4160,7 +4160,7 @@ public class CpuProfiledService {
 
 ---
 
-### Question 339: What is application performance monitoring (APM)?
+### 339: What is application performance monitoring (APM)?
 
 **Answer (35 seconds):**
 * Comprehensive monitoring of application performance in production
@@ -4201,7 +4201,7 @@ public class MonitoredController {
 
 ---
 
-### Question 340: What is code profiling?
+### 340: What is code profiling?
 
 **Answer (25 seconds):**
 * Detailed analysis of code execution to identify performance issues
@@ -4241,7 +4241,7 @@ public class ProfiledCodeService {
 
 ---
 
-### Question 341: What is database optimization?
+### 341: What is database optimization?
 
 **Answer (35 seconds):**
 * Techniques to improve database query performance and efficiency
@@ -4278,7 +4278,7 @@ public class OptimizedUserRepository {
 
 ---
 
-### Question 342: What is query optimization?
+### 342: What is query optimization?
 
 **Answer (35 seconds):**
 * Process of improving SQL query performance and execution time
@@ -4319,7 +4319,7 @@ public class OptimizedQueryRepository {
 
 ---
 
-### Question 343: What is lazy loading?
+### 343: What is lazy loading?
 
 **Answer (30 seconds):**
 * Design pattern that defers loading of data until it's actually needed
@@ -4368,7 +4368,7 @@ public class UserService {
 
 ---
 
-### Question 344: What is eager loading?
+### 344: What is eager loading?
 
 **Answer (25 seconds):**
 * Loading strategy that fetches all related data immediately
@@ -4410,7 +4410,7 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 
 ---
 
-### Question 345: What is pagination?
+### 345: What is pagination?
 
 **Answer (30 seconds):**
 * Technique to split large datasets into smaller, manageable chunks
@@ -4459,7 +4459,7 @@ public class UserRepository extends JpaRepository<User, Long> {
 
 # 🔹 Testing Fundamentals
 
-### Question 346: What is unit testing in Java?
+### 346: What is unit testing in Java?
 
 **Answer (30 seconds):**
 * Testing individual components or methods in isolation
@@ -4491,7 +4491,7 @@ public class CalculatorTest {
 
 ---
 
-### Question 347: What is JUnit?
+### 347: What is JUnit?
 
 **Answer (25 seconds):**
 * Most popular unit testing framework for Java applications
@@ -4526,7 +4526,7 @@ class UserServiceTest {
 
 ---
 
-### Question 348: What are the annotations used in JUnit?
+### 348: What are the annotations used in JUnit?
 
 **Answer (35 seconds):**
 * **@Test**: Marks method as test case
@@ -4573,7 +4573,7 @@ class JUnitAnnotationsExample {
 
 ---
 
-### Question 349: What is TestNG?
+### 349: What is TestNG?
 
 **Answer (30 seconds):**
 * Alternative testing framework to JUnit with additional features
@@ -4617,7 +4617,7 @@ public class TestNGExample {
 
 ---
 
-### Question 350: What is the difference between JUnit and TestNG?
+### 350: What is the difference between JUnit and TestNG?
 
 **Answer (35 seconds):**
 * **Configuration**: TestNG uses XML, JUnit uses annotations
@@ -4650,7 +4650,7 @@ public void testngParameterized(int value) {
 
 ---
 
-### Question 351: What is mocking in Java testing?
+### 351: What is mocking in Java testing?
 
 **Answer (30 seconds):**
 * Creating fake objects to simulate real dependencies in tests
@@ -4689,7 +4689,7 @@ class UserServiceTest {
 
 ---
 
-### Question 352: What is Mockito?
+### 352: What is Mockito?
 
 **Answer (30 seconds):**
 * Most popular mocking framework for Java unit testing
@@ -4728,7 +4728,7 @@ class MockitoExample {
 
 ---
 
-### Question 353: What is integration testing?
+### 353: What is integration testing?
 
 **Answer (30 seconds):**
 * Testing interaction between multiple components or systems
@@ -4770,7 +4770,7 @@ class UserIntegrationTest {
 
 ---
 
-### Question 354: What is test-driven development (TDD)?
+### 354: What is test-driven development (TDD)?
 
 **Answer (35 seconds):**
 * Development approach where tests are written before production code
@@ -4807,7 +4807,7 @@ public class Rectangle {
 
 # 🔹 Advanced Testing
 
-### Question 355: What is behavior-driven development (BDD)?
+### 355: What is behavior-driven development (BDD)?
 
 **Answer (35 seconds):**
 * Extension of TDD focusing on behavior specification in natural language
@@ -4851,7 +4851,7 @@ public class UserRegistrationSteps {
 
 ---
 
-### Question 356: What is acceptance testing?
+### 356: What is acceptance testing?
 
 **Answer (30 seconds):**
 * Testing to verify system meets business requirements and user needs
@@ -4887,7 +4887,7 @@ class UserAcceptanceTest {
 
 ---
 
-### Question 357: What is contract testing?
+### 357: What is contract testing?
 
 **Answer (35 seconds):**
 * Testing to ensure services can communicate correctly with each other
@@ -4932,7 +4932,7 @@ class UserServiceContractTest {
 
 ---
 
-### Question 358: What is mutation testing?
+### 358: What is mutation testing?
 
 **Answer (30 seconds):**
 * Testing technique that evaluates quality of test suite by introducing bugs
@@ -4971,7 +4971,7 @@ void testIsPositive() {
 
 ---
 
-### Question 359: What is performance testing?
+### 359: What is performance testing?
 
 **Answer (35 seconds):**
 * Testing to evaluate system performance under various load conditions
@@ -5020,7 +5020,7 @@ public class StringConcatenationBenchmark {
 
 ---
 
-### Question 360: What is security testing?
+### 360: What is security testing?
 
 **Answer (35 seconds):**
 * Testing to identify security vulnerabilities and ensure data protection
@@ -5078,7 +5078,7 @@ class SecurityTest {
 ---
 # 🔹 Build Tools
 
-### Question 361: What is Maven?
+### 361: What is Maven?
 
 **Answer (30 seconds):**
 * Build automation and project management tool for Java projects
@@ -5117,7 +5117,7 @@ class SecurityTest {
 
 ---
 
-### Question 362: What is Gradle?
+### 362: What is Gradle?
 
 **Answer (30 seconds):**
 * Modern build automation tool that combines Maven and Ant features
@@ -5154,7 +5154,7 @@ tasks.named('test') {
 
 ---
 
-### Question 363: What is the difference between Maven and Gradle?
+### 363: What is the difference between Maven and Gradle?
 
 **Answer (35 seconds):**
 * **Configuration**: Maven uses XML, Gradle uses Groovy/Kotlin DSL
@@ -5188,7 +5188,7 @@ task customTask {
 
 # 🔹 CI/CD and DevOp
 
-### Question 364: What is continuous integration?
+### 364: What is continuous integration?
 
 **Answer (35 seconds):**
 * Development practice of frequently integrating code changes into shared repository
@@ -5220,7 +5220,7 @@ jobs:
 
 ---
 
-### Question 365: What is continuous deployment?
+### 365: What is continuous deployment?
 
 **Answer (30 seconds):**
 * Automated deployment of code changes to production after passing all tests
@@ -5245,7 +5245,7 @@ deploy:
 
 ---
 
-### Question 366: What is Jenkins?
+### 366: What is Jenkins?
 
 **Answer (30 seconds):**
 * Open-source automation server for CI/CD pipelines
@@ -5290,7 +5290,7 @@ pipeline {
 
 ---
 
-### Question 367: What is Git?
+### 367: What is Git?
 
 **Answer (30 seconds):**
 * Distributed version control system for tracking code changes
@@ -5314,7 +5314,7 @@ git pull origin main              # Pull from remote
 
 ---
 
-### Question 368: What is version control?
+### 368: What is version control?
 
 **Answer (25 seconds):**
 * System for tracking and managing changes to files over time
@@ -5337,7 +5337,7 @@ git revert abc123            # Revert specific commit
 
 ---
 
-### Question 369: What is infrastructure as code?
+### 369: What is infrastructure as code?
 
 **Answer (35 seconds):**
 * Managing and provisioning infrastructure through code rather than manual processes
@@ -5384,7 +5384,7 @@ resource "aws_instance" "web" {
 
 ---
 
-### Question 370: What is deployment strategies?
+### 370: What is deployment strategies?
 
 **Answer (35 seconds):**
 * Different approaches for releasing applications to production
@@ -5415,7 +5415,7 @@ spec:
 
 ---
 
-### Question 371: What is blue-green deployment?
+### 371: What is blue-green deployment?
 
 **Answer (30 seconds):**
 * Deployment strategy using two identical production environments
@@ -5466,7 +5466,7 @@ spec:
 
 ---
 
-### Question 372: What is canary deployment?
+### 372: What is canary deployment?
 
 **Answer (35 seconds):**
 * Deployment strategy that releases new version to small subset of users first
@@ -5526,7 +5526,7 @@ public class UserController {
 
 # 🔹 Logging
 
-### Question 373: What is application monitoring?
+### 373: What is application monitoring?
 
 **Answer (35 seconds):**
 * Continuous observation of application performance, health, and behavior in production
@@ -5568,7 +5568,7 @@ public class UserController {
 
 ---
 
-### Question 374: What is logging framework?
+### 374: What is logging framework?
 
 **Answer (30 seconds):**
 * Library that provides structured way to record application events and messages
@@ -5606,7 +5606,7 @@ public class UserService {
 
 ---
 
-### Question 375: What is Log4j?
+### 375: What is Log4j?
 
 **Answer (30 seconds):**
 * Popular Java logging framework developed by Apache Software Foundation
@@ -5642,7 +5642,7 @@ public class UserService {
 
 ---
 
-### Question 376: What is SLF4J?
+### 376: What is SLF4J?
 
 **Answer (30 seconds):**
 * Simple Logging Facade for Java - abstraction layer for logging frameworks
@@ -5689,7 +5689,7 @@ public class OrderService {
 
 ---
 
-### Question 377: What is Logback?
+### 377: What is Logback?
 
 **Answer (30 seconds):**
 * Native implementation of SLF4J API, successor to Log4j 1.x
@@ -5735,7 +5735,7 @@ public class OrderService {
 
 ---
 
-### Question 378: What is structured logging?
+### 378: What is structured logging?
 
 **Answer (35 seconds):**
 * Logging approach that produces machine-readable, consistent log format
@@ -5785,7 +5785,7 @@ public class PaymentService {
 
 ---
 
-### Question 379: What is centralized logging?
+### 379: What is centralized logging?
 
 **Answer (35 seconds):**
 * Collecting logs from multiple applications/servers into single location
@@ -5852,7 +5852,7 @@ public class LoggingConfig {
 
 # 🔹 Monitoring
 
-### Question 380: What is metrics collection?
+### 380: What is metrics collection?
 
 **Answer (35 seconds):**
 * Systematic gathering of quantitative data about application performance
@@ -5909,7 +5909,7 @@ public class MetricsCollector {
 
 ---
 
-### Question 381: What is JMX monitoring?
+### 381: What is JMX monitoring?
 
 **Answer (30 seconds):**
 * Java Management Extensions - standard for monitoring and managing Java applications
@@ -5966,7 +5966,7 @@ public interface ApplicationMonitorMXBean {
 
 ---
 
-### Question 382: What is health checks?
+### 382: What is health checks?
 
 **Answer (30 seconds):**
 * Automated tests to verify application and its dependencies are functioning correctly
@@ -6027,7 +6027,7 @@ readinessProbe:
 
 ---
 
-### Question 383: What is distributed monitoring?
+### 383: What is distributed monitoring?
 
 **Answer (35 seconds):**
 * Monitoring approach for applications spread across multiple servers/services
@@ -6089,7 +6089,7 @@ public class OrderService {
 
 ---
 
-### Question 384: What is alerting strategies?
+### 384: What is alerting strategies?
 
 **Answer (40 seconds):**
 * Systematic approach to notify teams when issues occur in production
@@ -6166,7 +6166,7 @@ public class AlertingService {
 
 # 🔹 System Design
 
-### Question 385: What is system design for Java applications?
+### 385: What is system design for Java applications?
 
 **Answer (40 seconds):**
 * Process of defining architecture, components, and interfaces for Java systems
@@ -6211,7 +6211,7 @@ public class OrderController {
 
 ---
 
-### Question 386: What is scalability design patterns?
+### 386: What is scalability design patterns?
 
 **Answer (35 seconds):**
 * Patterns that enable systems to handle increased load efficiently
@@ -6255,7 +6255,7 @@ public class OrderProcessor {
 
 ---
 
-### Question 387: What is reliability design patterns?
+### 387: What is reliability design patterns?
 
 **Answer (35 seconds):**
 * Patterns that ensure system continues operating despite failures
@@ -6291,7 +6291,7 @@ public class PaymentService {
 
 ---
 
-### Question 388: What is availability design patterns?
+### 388: What is availability design patterns?
 
 **Answer (35 seconds):**
 * Patterns that maximize system uptime and minimize service interruptions
@@ -6333,7 +6333,7 @@ public class SystemHealthIndicator implements HealthIndicator {
 
 ---
 
-### Question 389: What is event-driven architecture?
+### 389: What is event-driven architecture?
 
 **Answer (35 seconds):**
 * Architecture where components communicate through events rather than direct calls
@@ -6388,7 +6388,7 @@ public class OrderEventHandlers {
 
 ---
 
-### Question 390: What is CQRS pattern?
+### 390: What is CQRS pattern?
 
 **Answer (35 seconds):**
 * Command Query Responsibility Segregation - separate read and write operations
@@ -6444,7 +6444,7 @@ public class OrderSummary {
 
 ---
 
-### Question 391: What is event sourcing?
+### 391: What is event sourcing?
 
 **Answer (35 seconds):**
 * Pattern where application state is stored as sequence of events
@@ -6514,7 +6514,7 @@ public class EventStore {
 
 ---
 
-### Question 392: What is domain-driven design?
+### 392: What is domain-driven design?
 
 **Answer (40 seconds):**
 * Software design approach focused on modeling complex business domains
@@ -6585,7 +6585,7 @@ public class Money {
 
 ---
 
-### Question 393: What is clean architecture?
+### 393: What is clean architecture?
 
 **Answer (35 seconds):**
 * Architecture that separates concerns into concentric layers
@@ -6653,7 +6653,7 @@ public class UserController {
 
 ---
 
-### Question 394: What is hexagonal architecture?
+### 394: What is hexagonal architecture?
 
 **Answer (35 seconds):**
 * Architecture pattern that isolates core business logic from external concerns
@@ -6732,7 +6732,7 @@ public class EmailNotificationAdapter implements NotificationPort {
 ---
 # 🔹 JVM Deep Dive
 
-### Question 395: What is JVM architecture?
+### 395: What is JVM architecture?
 
 **Answer (40 seconds):**
 * Java Virtual Machine - runtime environment that executes Java bytecode
@@ -6775,7 +6775,7 @@ public class JVMMemoryExample {
 
 ---
 
-### Question 396: What is class loading process?
+### 396: What is class loading process?
 
 **Answer (35 seconds):**
 * Three-phase process: Loading, Linking, and Initialization
@@ -6823,7 +6823,7 @@ class MyClass {
 
 ---
 
-### Question 397: What are the types of class loaders?
+### 397: What are the types of class loaders?
 
 **Answer (35 seconds):**
 * **Bootstrap Class Loader**: Loads core Java classes (rt.jar)
@@ -6876,7 +6876,7 @@ public class CustomClassLoader extends ClassLoader {
 
 ---
 
-### Question 398: What is bytecode?
+### 398: What is bytecode?
 
 **Answer (30 seconds):**
 * Intermediate representation of Java source code after compilation
@@ -6924,7 +6924,7 @@ public void setValue(int);
 
 ---
 
-### Question 399: What is JIT compilation?
+### 399: What is JIT compilation?
 
 **Answer (35 seconds):**
 * Just-In-Time compilation converts bytecode to native machine code at runtime
@@ -6971,7 +6971,7 @@ public class JITExample {
 
 ---
 
-### Question 400: What is JVM memory model?
+### 400: What is JVM memory model?
 
 **Answer (40 seconds):**
 * Defines how threads interact with memory in multithreaded programs
@@ -7026,7 +7026,7 @@ public class MemoryModelExample {
 
 ---
 
-### Question 401: What is escape analysis?
+### 401: What is escape analysis?
 
 **Answer (30 seconds):**
 * JVM optimization that determines if object references escape method scope
@@ -7083,7 +7083,7 @@ class Point {
 
 ---
 
-### Question 402: What is GraalVM?
+### 402: What is GraalVM?
 
 **Answer (35 seconds):**
 * High-performance runtime that supports multiple programming languages
@@ -7147,7 +7147,7 @@ gu install native-image
 
 # 🔹 Advanced Compilation
 
-### Question 403: What is ahead-of-time compilation?
+### 403: What is ahead-of-time compilation?
 
 **Answer (30 seconds):**
 * Compilation of Java bytecode to native machine code before runtime
@@ -7211,7 +7211,7 @@ AOT (Native):
 
 ---
 
-### Question 404: What is native image compilation?
+### 404: What is native image compilation?
 
 **Answer (35 seconds):**
 * Process of compiling Java applications to standalone native executables
@@ -7278,7 +7278,7 @@ mvn clean package -Pnative
 
 ---
 
-### Question 405: What is tiered compilation?
+### 405: What is tiered compilation?
 
 **Answer (35 seconds):**
 * JVM compilation strategy using multiple compilation levels
@@ -7350,7 +7350,7 @@ Level meanings:
 
 ---
 
-### Question 406: What is bytecode optimization?
+### 406: What is bytecode optimization?
 
 **Answer (35 seconds):**
 * JVM techniques to improve bytecode execution performance
@@ -7437,7 +7437,7 @@ Common optimizations applied:
 
 # 🔹 Future Technologies
 
-### Question 407: What is Project Loom?
+### 407: What is Project Loom?
 
 **Answer (35 seconds):**
 * OpenJDK project introducing lightweight threads (virtual threads) to Java
@@ -7489,7 +7489,7 @@ public class VirtualThreadsExample {
 
 ---
 
-### Question 408: What is Project Panama?
+### 408: What is Project Panama?
 
 **Answer (30 seconds):**
 * OpenJDK project improving Java's interaction with native code
@@ -7548,7 +7548,7 @@ public class PanamaExample {
 
 ---
 
-### Question 409: What is Project Valhalla?
+### 409: What is Project Valhalla?
 
 **Answer (35 seconds):**
 * OpenJDK project introducing value types and specialized generics
@@ -7610,7 +7610,7 @@ Future (Value-based):
 
 ---
 
-### Question 410: What is Project Amber?
+### 410: What is Project Amber?
 
 **Answer (35 seconds):**
 * OpenJDK project delivering small, productivity-focused language features
@@ -7678,7 +7678,7 @@ public class AmberFeatures {
 
 ---
 
-### Question 411: What is WebAssembly with Java?
+### 411: What is WebAssembly with Java?
 
 **Answer (30 seconds):**
 * Technology to run Java applications in web browsers via WebAssembly
@@ -7741,7 +7741,7 @@ native-image --target=wasm MyJavaClass
 
 ---
 
-### Question 412: What is cloud native Java?
+### 412: What is cloud native Java?
 
 **Answer (35 seconds):**
 * Java applications designed specifically for cloud environments
@@ -7835,7 +7835,7 @@ spec:
 
 ---
 
-### Question 413: What is serverless Java?
+### 413: What is serverless Java?
 
 **Answer (35 seconds):**
 * Running Java applications without managing servers or infrastructure
@@ -7936,7 +7936,7 @@ Resources:
 
 ---
 
-### Question 414: What is edge computing with Java?
+### 414: What is edge computing with Java?
 
 **Answer (35 seconds):**
 * Running Java applications closer to end users for reduced latency
@@ -8028,7 +8028,7 @@ ENTRYPOINT ["java", "-Xmx128m", "-jar", "/app.jar"]
 
 # 🔹 Integration with Modern Technologies
 
-### Question 415: What is artificial intelligence in Java?
+### 415: What is artificial intelligence in Java?
 
 **Answer (35 seconds):**
 * Using Java for AI and machine learning applications
@@ -8117,7 +8117,7 @@ public class NLPExample {
 
 ---
 
-### Question 416: What is machine learning with Java?
+### 416: What is machine learning with Java?
 
 **Answer (35 seconds):**
 * Implementing ML algorithms and models using Java ecosystem
@@ -8219,7 +8219,7 @@ public class SparkMLExample {
 
 ---
 
-### Question 417: What is blockchain development with Java?
+### 417: What is blockchain development with Java?
 
 **Answer (35 seconds):**
 * Building blockchain applications and smart contracts using Java
@@ -8332,7 +8332,7 @@ public class CryptoTracker {
 
 ---
 
-### Question 418: What is IoT development with Java?
+### 418: What is IoT development with Java?
 
 **Answer (35 seconds):**
 * Building Internet of Things applications using Java ecosystem
@@ -8476,7 +8476,7 @@ public class SensorData {
 ---
 # 🔹 Coding Best Practices
 
-### Question 419: What are some Java coding best practices?
+### 419: What are some Java coding best practices?
 
 **Answer (40 seconds):**
 * **Naming Conventions**: Use meaningful names for classes, methods, variables
@@ -8544,7 +8544,7 @@ public class UserService {
 
 ---
 
-### Question 420: How do you handle exceptions properly in Java?
+### 420: How do you handle exceptions properly in Java?
 
 **Answer (35 seconds):**
 * **Specific Exceptions**: Catch specific exceptions, not generic Exception
@@ -8622,7 +8622,7 @@ public class FileProcessor {
 
 ---
 
-### Question 421: What are the best practices for using collections?
+### 421: What are the best practices for using collections?
 
 **Answer (35 seconds):**
 * **Interface Types**: Declare variables using interface types (List, Set, Map)
@@ -8711,7 +8711,7 @@ public class CollectionBestPractices {
 
 ---
 
-### Question 422: What are the best practices for multi-threading?
+### 422: What are the best practices for multi-threading?
 
 **Answer (40 seconds):**
 * **Thread Safety**: Use thread-safe collections and synchronization
@@ -8810,7 +8810,7 @@ public class ThreadingBestPractices {
 
 ---
 
-### Question 423: What are the best practices for memory management?
+### 423: What are the best practices for memory management?
 
 **Answer (35 seconds):**
 * **Avoid Memory Leaks**: Close resources, remove listeners, clear collections
@@ -8916,7 +8916,7 @@ public class MemoryBestPractices {
 
 ---
 
-### Question 424: What are clean code principles?
+### 424: What are clean code principles?
 
 **Answer (35 seconds):**
 * **Meaningful Names**: Use descriptive names for variables, methods, classes
@@ -9011,7 +9011,7 @@ public class UserRepository {
 
 ---
 
-### Question 425: What is SOLID principles?
+### 425: What is SOLID principles?
 
 **Answer (40 seconds):**
 * **S - Single Responsibility**: Class should have one reason to change
@@ -9126,7 +9126,7 @@ public class OrderService {
 
 ---
 
-### Question 426: What is code documentation?
+### 426: What is code documentation?
 
 **Answer (30 seconds):**
 * **JavaDoc**: Standard documentation format for Java APIs
@@ -9234,7 +9234,7 @@ Generated JavaDoc available at: `/docs/api/`
 
 # 🔹 Professional Development
 
-### Question 427: What are Java certification paths?
+### 427: What are Java certification paths?
 
 **Answer (35 seconds):**
 * **Oracle Certified Associate (OCA)**: Entry-level Java fundamentals
@@ -9339,7 +9339,7 @@ Popular certifications:
 
 ---
 
-### Question 428: What are Java career progression paths?
+### 428: What are Java career progression paths?
 
 **Answer (35 seconds):**
 * **Junior Developer**: Learn Java fundamentals, frameworks, basic tools
@@ -9468,7 +9468,7 @@ Mobile Developer:
 
 ---
 
-### Question 429: What are essential Java skills?
+### 429: What are essential Java skills?
 
 **Answer (40 seconds):**
 * **Core Java**: OOP, collections, generics, exception handling, I/O
@@ -9613,7 +9613,7 @@ CI/CD Pipeline (GitHub Actions):
 
 ---
 
-### Question 430: What are Java interview preparation tips?
+### 430: What are Java interview preparation tips?
 
 **Answer (35 seconds):**
 * **Review Fundamentals**: OOP concepts, collections, exception handling
@@ -9730,7 +9730,7 @@ Frequently asked topics:
 
 ---
 
-### Question 431: What are Java community resources?
+### 431: What are Java community resources?
 
 **Answer (30 seconds):**
 * **Official Resources**: Oracle Java documentation, OpenJDK website
@@ -9843,7 +9843,7 @@ public class JavaCommunityResources {
 
 ---
 
-### Question 432: What are Java learning resources?
+### 432: What are Java learning resources?
 
 **Answer (35 seconds):**
 * **Books**: "Effective Java" by Joshua Bloch, "Java: The Complete Reference"
