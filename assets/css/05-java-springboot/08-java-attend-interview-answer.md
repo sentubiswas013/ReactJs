@@ -3,10 +3,10 @@
 ## 1. What is Dependency Injection (DI)?
 
 **Spoken Answer (30 seconds):**
-• Dependency Injection is a design pattern where objects don't create their dependencies themselves
-• Instead, dependencies are provided from outside, usually by a framework
-• It promotes loose coupling and makes code more testable and maintainable
-• Think of it like ordering food - you don't cook it yourself, someone brings it to you
+* Dependency Injection is a design pattern where objects don't create their dependencies themselves
+* Instead, dependencies are provided from outside, usually by a framework
+* It promotes loose coupling and makes code more testable and maintainable
+* Think of it like ordering food - you don't cook it yourself, someone brings it to you
 
 **Example:**
 ```java
@@ -28,10 +28,10 @@ class OrderService {
 ## 2. What are the best ways to implement Dependency Injection in Java?
 
 **Spoken Answer (35 seconds):**
-• Three main types: Constructor injection, Setter injection, and Field injection
-• Constructor injection is preferred - it ensures required dependencies are provided
-• Use frameworks like Spring, Guice, or CDI for automatic injection
-• Annotations like @Autowired, @Inject make it simple
+* Three main types: Constructor injection, Setter injection, and Field injection
+* Constructor injection is preferred - it ensures required dependencies are provided
+* Use frameworks like Spring, Guice, or CDI for automatic injection
+* Annotations like @Autowired, @Inject make it simple
 
 **Example:**
 ```java
@@ -55,10 +55,10 @@ public class UserService {
 ## 3. What is Core Java and Advanced Java?
 
 **Spoken Answer (25 seconds):**
-• Core Java covers fundamental concepts - OOP, collections, exceptions, multithreading
-• It's the foundation every Java developer needs to know
-• Advanced Java includes enterprise technologies - servlets, JSP, JDBC, frameworks
-• Core Java is like learning to drive, Advanced Java is like learning to race
+* Core Java covers fundamental concepts - OOP, collections, exceptions, multithreading
+* It's the foundation every Java developer needs to know
+* Advanced Java includes enterprise technologies - servlets, JSP, JDBC, frameworks
+* Core Java is like learning to drive, Advanced Java is like learning to race
 
 **Core Java Topics:**
 - Classes, Objects, Inheritance
@@ -75,10 +75,10 @@ public class UserService {
 ## 4. What is the difference between Core Java and Advanced Java?
 
 **Spoken Answer (30 seconds):**
-• Core Java focuses on language fundamentals and basic APIs
-• Advanced Java deals with enterprise application development
-• Core Java is platform-independent, Advanced Java often involves server-side technologies
-• You need Core Java mastery before moving to Advanced Java
+* Core Java focuses on language fundamentals and basic APIs
+* Advanced Java deals with enterprise application development
+* Core Java is platform-independent, Advanced Java often involves server-side technologies
+* You need Core Java mastery before moving to Advanced Java
 
 **Comparison:**
 ```java
@@ -102,10 +102,10 @@ public class CalculatorServlet extends HttpServlet {
 ## 5. What is Spring Cloud?
 
 **Spoken Answer (35 seconds):**
-• Spring Cloud is a framework for building distributed systems and microservices
-• It provides tools for configuration management, service discovery, circuit breakers
-• Built on top of Spring Boot, makes microservices development easier
-• Includes Netflix OSS components like Eureka, Hystrix, Zuul
+* Spring Cloud is a framework for building distributed systems and microservices
+* It provides tools for configuration management, service discovery, circuit breakers
+* Built on top of Spring Boot, makes microservices development easier
+* Includes Netflix OSS components like Eureka, Hystrix, Zuul
 
 **Example:**
 ```java
@@ -136,11 +136,11 @@ public class OrderController {
 ## 6. How do you integrate a Java application with a cloud environment?
 
 **Spoken Answer (35 seconds):**
-• Use cloud-native frameworks like Spring Boot with cloud connectors
-• Deploy using containers (Docker) and orchestration (Kubernetes)
-• Leverage cloud services - databases, messaging, storage through APIs
-• Use configuration management for different environments
-• Implement health checks and monitoring
+* Use cloud-native frameworks like Spring Boot with cloud connectors
+* Deploy using containers (Docker) and orchestration (Kubernetes)
+* Leverage cloud services - databases, messaging, storage through APIs
+* Use configuration management for different environments
+* Implement health checks and monitoring
 
 **Example:**
 ```java
@@ -170,11 +170,11 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 ## 7. What is Testing in Java?
 
 **Spoken Answer (30 seconds):**
-• Testing ensures your code works correctly and prevents bugs
-• Main types: Unit tests (individual methods), Integration tests (components together)
-• Use frameworks like JUnit for unit testing, TestNG for complex scenarios
-• Follow AAA pattern - Arrange, Act, Assert
-• Aim for high code coverage but focus on critical paths
+* Testing ensures your code works correctly and prevents bugs
+* Main types: Unit tests (individual methods), Integration tests (components together)
+* Use frameworks like JUnit for unit testing, TestNG for complex scenarios
+* Follow AAA pattern - Arrange, Act, Assert
+* Aim for high code coverage but focus on critical paths
 
 **Example:**
 ```java
@@ -202,10 +202,10 @@ public void testDivideByZero() {
 ## 8. What is Mockito?
 
 **Spoken Answer (25 seconds):**
-• Mockito is a mocking framework for unit testing in Java
-• It creates fake objects (mocks) to simulate dependencies
-• Helps test your code in isolation without real database or external services
-• Use @Mock annotation and when().thenReturn() for behavior
+* Mockito is a mocking framework for unit testing in Java
+* It creates fake objects (mocks) to simulate dependencies
+* Helps test your code in isolation without real database or external services
+* Use @Mock annotation and when().thenReturn() for behavior
 
 **Example:**
 ```java
@@ -235,12 +235,12 @@ class UserServiceTest {
 ## 9. What are the main features of an eCommerce application?
 
 **Spoken Answer (35 seconds):**
-• User management - registration, login, profiles
-• Product catalog - browse, search, filter products
-• Shopping cart and wishlist functionality
-• Payment processing and order management
-• Inventory tracking and admin dashboard
-• Reviews, ratings, and recommendations
+* User management - registration, login, profiles
+* Product catalog - browse, search, filter products
+* Shopping cart and wishlist functionality
+* Payment processing and order management
+* Inventory tracking and admin dashboard
+* Reviews, ratings, and recommendations
 
 **Core Features:**
 - User Authentication & Authorization
@@ -255,11 +255,11 @@ class UserServiceTest {
 ## 10. Explain the flowchart of an eCommerce application (frontend and backend).
 
 **Spoken Answer (40 seconds):**
-• Frontend: User browses products, adds to cart, proceeds to checkout
-• Backend: Validates requests, processes payments, updates inventory
-• Flow: Browse → Add to Cart → Login → Checkout → Payment → Order Confirmation
-• Database stores users, products, orders, payments
-• APIs connect frontend and backend for real-time updates
+* Frontend: User browses products, adds to cart, proceeds to checkout
+* Backend: Validates requests, processes payments, updates inventory
+* Flow: Browse → Add to Cart → Login → Checkout → Payment → Order Confirmation
+* Database stores users, products, orders, payments
+* APIs connect frontend and backend for real-time updates
 
 **Simple Flow:**
 ```java
@@ -300,12 +300,12 @@ Database: Products → Cart → Payment → Orders
 ## 11. What are the components and tools used in the backend of an eCommerce application?
 
 **Spoken Answer (35 seconds):**
-• Framework: Spring Boot for REST APIs and business logic
-• Database: MySQL/PostgreSQL for data, Redis for caching
-• Security: Spring Security for authentication and authorization
-• Payment: Stripe, PayPal APIs for payment processing
-• Message Queue: RabbitMQ for async processing
-• Monitoring: Actuator for health checks
+* Framework: Spring Boot for REST APIs and business logic
+* Database: MySQL/PostgreSQL for data, Redis for caching
+* Security: Spring Security for authentication and authorization
+* Payment: Stripe, PayPal APIs for payment processing
+* Message Queue: RabbitMQ for async processing
+* Monitoring: Actuator for health checks
 
 **Backend Stack:**
 ```java
@@ -338,11 +338,11 @@ public class Product {
 ## 12. Explain the Git workflow used in an eCommerce application.
 
 **Spoken Answer (35 seconds):**
-• Use GitFlow: main branch for production, develop for integration
-• Feature branches for new features, hotfix branches for urgent fixes
-• Pull requests for code review before merging
-• CI/CD pipeline triggers on merge to develop/main
-• Tag releases for version control
+* Use GitFlow: main branch for production, develop for integration
+* Feature branches for new features, hotfix branches for urgent fixes
+* Pull requests for code review before merging
+* CI/CD pipeline triggers on merge to develop/main
+* Tag releases for version control
 
 **Git Workflow:**
 ```bash
@@ -365,11 +365,11 @@ git tag v1.2.0
 ## 13. What is CORS, and how does it work?
 
 **Spoken Answer (30 seconds):**
-• CORS stands for Cross-Origin Resource Sharing
-• Browser security feature that blocks requests from different domains
-• Backend must explicitly allow frontend domain to access APIs
-• Use @CrossOrigin annotation or global configuration in Spring
-• Prevents malicious websites from accessing your APIs
+* CORS stands for Cross-Origin Resource Sharing
+* Browser security feature that blocks requests from different domains
+* Backend must explicitly allow frontend domain to access APIs
+* Use @CrossOrigin annotation or global configuration in Spring
+* Prevents malicious websites from accessing your APIs
 
 **Example:**
 ```java
@@ -404,11 +404,11 @@ public class CorsConfig {
 ## 14. Can you write test cases using Spring Boot (or unit tests)?
 
 **Spoken Answer (30 seconds):**
-• Use @SpringBootTest for integration tests, @WebMvcTest for controller tests
-• @MockBean to mock dependencies in Spring context
-• TestRestTemplate or MockMvc for testing REST endpoints
-• @DataJpaTest for repository layer testing
-• Follow AAA pattern: Arrange, Act, Assert
+* Use @SpringBootTest for integration tests, @WebMvcTest for controller tests
+* @MockBean to mock dependencies in Spring context
+* TestRestTemplate or MockMvc for testing REST endpoints
+* @DataJpaTest for repository layer testing
+* Follow AAA pattern: Arrange, Act, Assert
 
 **Example:**
 ```java
@@ -457,12 +457,12 @@ class ProductRepositoryTest {
 ## 15. How do you handle security in a Java application?
 
 **Spoken Answer (35 seconds):**
-• Use Spring Security for authentication and authorization
-• JWT tokens for stateless authentication
-• HTTPS for encrypted communication
-• Input validation to prevent SQL injection
-• Role-based access control (RBAC)
-• Password encryption with BCrypt
+* Use Spring Security for authentication and authorization
+* JWT tokens for stateless authentication
+* HTTPS for encrypted communication
+* Input validation to prevent SQL injection
+* Role-based access control (RBAC)
+* Password encryption with BCrypt
 
 **Example:**
 ```java
@@ -506,11 +506,11 @@ public class AuthController {
 ## 16. What is Kafka consumer?
 
 **Spoken Answer (30 seconds):**
-• Kafka consumer reads messages from Kafka topics
-• It subscribes to one or more topics and processes messages in real-time
-• Consumers can be part of consumer groups for load balancing
-• Each message is processed only once per consumer group
-• Use @KafkaListener annotation in Spring Boot for easy integration
+* Kafka consumer reads messages from Kafka topics
+* It subscribes to one or more topics and processes messages in real-time
+* Consumers can be part of consumer groups for load balancing
+* Each message is processed only once per consumer group
+* Use @KafkaListener annotation in Spring Boot for easy integration
 
 **Example:**
 ```java
@@ -535,12 +535,12 @@ public class OrderConsumer {
 ## 17. How do you secure a Java Spring Boot application?
 
 **Spoken Answer (35 seconds):**
-• Use Spring Security for authentication and authorization
-• Implement JWT or OAuth2 for token-based security
-• Enable HTTPS and disable HTTP
-• Validate all inputs to prevent injection attacks
-• Use method-level security with @PreAuthorize
-• Configure CORS properly and use security headers
+* Use Spring Security for authentication and authorization
+* Implement JWT or OAuth2 for token-based security
+* Enable HTTPS and disable HTTP
+* Validate all inputs to prevent injection attacks
+* Use method-level security with @PreAuthorize
+* Configure CORS properly and use security headers
 
 **Example:**
 ```java
@@ -578,11 +578,11 @@ public class SecureController {
 ## 18. What is Event-Driven Architecture in Java?
 
 **Spoken Answer (35 seconds):**
-• Event-driven architecture uses events to trigger actions between services
-• Services communicate through events instead of direct API calls
-• Promotes loose coupling and scalability
-• Use Spring Events for internal events, Kafka for external events
-• Events are immutable and represent something that happened
+* Event-driven architecture uses events to trigger actions between services
+* Services communicate through events instead of direct API calls
+* Promotes loose coupling and scalability
+* Use Spring Events for internal events, Kafka for external events
+* Events are immutable and represent something that happened
 
 **Example:**
 ```java
@@ -628,11 +628,11 @@ public class EmailNotificationService {
 ## 19. Can you write the business logic for a CRUD service in Java?
 
 **Spoken Answer (30 seconds):**
-• CRUD means Create, Read, Update, Delete operations
-• Use Spring Boot with JPA for database operations
-• Create service layer for business logic, repository for data access
-• Add validation and error handling
-• Return appropriate HTTP status codes
+* CRUD means Create, Read, Update, Delete operations
+* Use Spring Boot with JPA for database operations
+* Create service layer for business logic, repository for data access
+* Add validation and error handling
+* Return appropriate HTTP status codes
 
 **Example:**
 ```java
@@ -720,11 +720,11 @@ public class ProductController {
 ## 20. What is the difference between Direct Servlet and JSP?
 
 **Spoken Answer (30 seconds):**
-• Servlets are Java classes that handle HTTP requests programmatically
-• JSP (JavaServer Pages) mixes HTML with Java code for dynamic web pages
-• Servlets are better for business logic, JSP for presentation layer
-• JSP gets compiled to servlets behind the scenes
-• Modern apps use REST APIs instead of JSP for frontend separation
+* Servlets are Java classes that handle HTTP requests programmatically
+* JSP (JavaServer Pages) mixes HTML with Java code for dynamic web pages
+* Servlets are better for business logic, JSP for presentation layer
+* JSP gets compiled to servlets behind the scenes
+* Modern apps use REST APIs instead of JSP for frontend separation
 
 **Example:**
 ```java
@@ -764,12 +764,12 @@ public class HelloServlet extends HttpServlet {
 ## 21. How does JDBC connection pooling work? Explain the main points or use cases.
 
 **Spoken Answer (35 seconds):**
-• Connection pooling reuses database connections instead of creating new ones
-• Pool maintains a set of pre-established connections ready for use
-• When app needs connection, it borrows from pool; returns it when done
-• Prevents expensive connection creation/destruction overhead
-• Configure min/max pool size, timeout, and validation queries
-• Essential for high-traffic applications
+* Connection pooling reuses database connections instead of creating new ones
+* Pool maintains a set of pre-established connections ready for use
+* When app needs connection, it borrows from pool; returns it when done
+* Prevents expensive connection creation/destruction overhead
+* Configure min/max pool size, timeout, and validation queries
+* Essential for high-traffic applications
 
 **Example:**
 ```java
@@ -814,12 +814,12 @@ public class UserService {
 ## 22. Explain the hierarchy of connection pools (e.g., HikariCP).
 
 **Spoken Answer (30 seconds):**
-• HikariCP is the fastest JDBC connection pool library
-• Spring Boot uses HikariCP as default since version 2.0
-• Hierarchy: DataSource → HikariDataSource → HikariPool → PoolEntry
-• PoolEntry wraps actual JDBC Connection with metadata
-• ConcurrentBag manages available connections efficiently
-• FastList provides lock-free operations for better performance
+* HikariCP is the fastest JDBC connection pool library
+* Spring Boot uses HikariCP as default since version 2.0
+* Hierarchy: DataSource → HikariDataSource → HikariPool → PoolEntry
+* PoolEntry wraps actual JDBC Connection with metadata
+* ConcurrentBag manages available connections efficiently
+* FastList provides lock-free operations for better performance
 
 **Hierarchy Structure:**
 ```java
@@ -868,11 +868,11 @@ public class PoolMonitor {
 ## 23. What is the difference between JavaBeans and Spring Beans?
 
 **Spoken Answer (30 seconds):**
-• JavaBeans are simple POJOs with getters/setters and no-arg constructor
-• Spring Beans are objects managed by Spring IoC container
-• JavaBeans follow naming conventions, Spring Beans have lifecycle management
-• Spring Beans support dependency injection, scoping, and AOP
-• JavaBeans are just data containers, Spring Beans are full-featured components
+* JavaBeans are simple POJOs with getters/setters and no-arg constructor
+* Spring Beans are objects managed by Spring IoC container
+* JavaBeans follow naming conventions, Spring Beans have lifecycle management
+* Spring Beans support dependency injection, scoping, and AOP
+* JavaBeans are just data containers, Spring Beans are full-featured components
 
 **Example:**
 ```java
@@ -924,12 +924,12 @@ public class AppConfig {
 ## 24. How do you secure REST APIs in a Spring Boot application?
 
 **Spoken Answer (35 seconds):**
-• Use Spring Security with JWT or OAuth2 tokens
-• Implement authentication filters and authorization rules
-• Validate input data and sanitize outputs
-• Enable HTTPS and configure CORS properly
-• Use rate limiting and API versioning
-• Add security headers and audit logging
+* Use Spring Security with JWT or OAuth2 tokens
+* Implement authentication filters and authorization rules
+* Validate input data and sanitize outputs
+* Enable HTTPS and configure CORS properly
+* Use rate limiting and API versioning
+* Add security headers and audit logging
 
 **Example:**
 ```java
@@ -992,12 +992,12 @@ public class OrderRequest {
 ## 25. What design patterns are commonly used in Microservices architecture?
 
 **Spoken Answer (35 seconds):**
-• API Gateway pattern for single entry point and routing
-• Circuit Breaker pattern for fault tolerance (Hystrix/Resilience4j)
-• Saga pattern for distributed transactions
-• CQRS for separating read/write operations
-• Event Sourcing for audit trails and state reconstruction
-• Database per Service for data isolation
+* API Gateway pattern for single entry point and routing
+* Circuit Breaker pattern for fault tolerance (Hystrix/Resilience4j)
+* Saga pattern for distributed transactions
+* CQRS for separating read/write operations
+* Event Sourcing for audit trails and state reconstruction
+* Database per Service for data isolation
 
 **Example:**
 ```java
@@ -1062,11 +1062,11 @@ public class ProductController {
 ## 26. What is an API Gateway, and what is its purpose?
 
 **Spoken Answer (30 seconds):**
-• API Gateway is a single entry point for all client requests to microservices
-• It handles routing, authentication, rate limiting, and load balancing
-• Provides cross-cutting concerns like logging, monitoring, and caching
-• Simplifies client code by aggregating multiple service calls
-• Popular solutions: Spring Cloud Gateway, Zuul, Kong, AWS API Gateway
+* API Gateway is a single entry point for all client requests to microservices
+* It handles routing, authentication, rate limiting, and load balancing
+* Provides cross-cutting concerns like logging, monitoring, and caching
+* Simplifies client code by aggregating multiple service calls
+* Popular solutions: Spring Cloud Gateway, Zuul, Kong, AWS API Gateway
 
 **Example:**
 ```java

@@ -3,10 +3,10 @@
 ## Question 1: Spring Boot Microservices Architecture
 
 **Answer (30 seconds):**
-• Built microservices using Spring Boot with Eureka for service discovery
-• Used Spring Cloud Config for centralized configuration management
-• Implemented JPA with MySQL for data persistence and Redis for caching
-• Each service registers with Eureka server automatically
+* Built microservices using Spring Boot with Eureka for service discovery
+* Used Spring Cloud Config for centralized configuration management
+* Implemented JPA with MySQL for data persistence and Redis for caching
+* Each service registers with Eureka server automatically
 
 **Example Code:**
 ```java
@@ -32,10 +32,10 @@ eureka:
 ## Question 2: Docker CI/CD Pipeline with Jenkins
 
 **Answer (35 seconds):**
-• Created Jenkins pipeline with Docker containers for build and deployment
-• Used blue-green deployment strategy for zero downtime
-• Implemented health checks and automated rollback on failure
-• Pipeline builds Docker image, runs tests, deploys to staging, then production
+* Created Jenkins pipeline with Docker containers for build and deployment
+* Used blue-green deployment strategy for zero downtime
+* Implemented health checks and automated rollback on failure
+* Pipeline builds Docker image, runs tests, deploys to staging, then production
 
 **Example Code:**
 ```groovy
@@ -81,10 +81,10 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 ## Question 3: Kubernetes Microservices Orchestration
 
 **Answer (35 seconds):**
-• Use ConfigMaps and Secrets for configuration management
-• Implement rolling updates with readiness/liveness probes
-• Deploy Prometheus and Grafana for monitoring and alerting
-• Use Helm charts for consistent deployments across environments
+* Use ConfigMaps and Secrets for configuration management
+* Implement rolling updates with readiness/liveness probes
+* Deploy Prometheus and Grafana for monitoring and alerting
+* Use Helm charts for consistent deployments across environments
 
 **Example Code:**
 ```yaml
@@ -120,10 +120,10 @@ spec:
 ## Question 4: Database Schema Design and SQL Optimization
 
 **Answer (40 seconds):**
-• Design normalized schemas with proper indexing strategies
-• Use connection pooling and read replicas for scaling
-• Optimize queries with EXPLAIN plans and add composite indexes
-• Implement database per service pattern to avoid cross-service queries
+* Design normalized schemas with proper indexing strategies
+* Use connection pooling and read replicas for scaling
+* Optimize queries with EXPLAIN plans and add composite indexes
+* Implement database per service pattern to avoid cross-service queries
 
 **Example Code:**
 ```sql
