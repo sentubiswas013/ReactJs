@@ -1,6 +1,6 @@
 # Backend Interview Answers
 
-## Question 1: Spring Boot Microservices Architecture
+1. **Can you discuss how you have used Spring Boot and microservices architecture to build scalable backend services, highlighting how you handled service discovery, configuration management, and data persistence?**
 
 **Answer (30 seconds):**
 * Built microservices using Spring Boot with Eureka for service discovery
@@ -29,7 +29,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 ```
 
-## Question 2: Docker CI/CD Pipeline with Jenkins
+2. **How would you design and implement a Docker-based CI/CD pipeline using Jenkins to deploy a full-stack application with zero downtime and automated rollback?**
 
 **Answer (35 seconds):**
 * Created Jenkins pipeline with Docker containers for build and deployment
@@ -78,7 +78,7 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## Question 3: Kubernetes Microservices Orchestration
+3. **What considerations do you take into account when orchestrating microservices with Kubernetes, including configuration management, rolling updates, and monitoring?**
 
 **Answer (35 seconds):**
 * Use ConfigMaps and Secrets for configuration management
@@ -117,7 +117,7 @@ spec:
           initialDelaySeconds: 30
 ```
 
-## Question 4: Database Schema Design and SQL Optimization
+4. **Explain your approach to database schema design and SQL query optimization for a microservices-based system when you encounter latency issues in PostgreSQL or MySQL.**
 
 **Answer (40 seconds):**
 * Design normalized schemas with proper indexing strategies
