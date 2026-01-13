@@ -1119,6 +1119,34 @@ public class AuthenticationFilter implements GlobalFilter {
 }
 ```
 
----
+## 27. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
 
-*Note: These answers are designed for 15-40 second spoken responses in interview settings. Each includes practical examples and focuses on real-world understanding rather than theoretical definitions.*
+* The Java 11 HTTP Client (java.net.http.HttpClient) introduced several key improvements:
+* 1. Built-in support for HTTP/2 and WebSocket protocols
+* 2. Synchronous and asynchronous request handling via CompletableFuture 
+* 3. Fluent builder API for constructing requests
+* 4. Better performance and connection pooling compared to HttpURLConnection
+* 5. Support for both text and binary data
+* 6. Native support for request/response body handlers
+
+
+// Example usage:
+```java
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/data"))
+    .build();
+    
+// Synchronous:
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+// Asynchronous:
+CompletableFuture<HttpResponse<String>> future = client.sendAsync(request, 
+    HttpResponse.BodyHandlers.ofString());
+```
+
+ * Compared to older HttpURLConnection:
+ * - No need for manual connection management
+ * - Cleaner API without checked exceptions
+ * - Built-in support for modern HTTP features
+ * - Better error handling and timeout management
