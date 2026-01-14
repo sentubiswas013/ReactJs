@@ -2,9 +2,25 @@
 
 ### Basic Concepts
 1. What is Java and what are its key features?
-2. Explain the difference between JDK, JRE, and JVM.
+Java is a high-level, object-oriented programming language designed to be platform-independent. Key features include:
+- Object-oriented: Everything is an object
+- Platform independent: Write once, run anywhere via JVM
+- Simple: Removed complexity like pointers
+- Secure: Runs in JVM sandbox
+- Multithreaded: Supports concurrent programming
+- Robust: Strong type checking, exception handling
+
+2. Explain the difference between JDK, JRE, and JVM:
+- JDK (Java Development Kit): Complete development environment including compiler (javac), tools, docs
+- JRE (Java Runtime Environment): Contains JVM and libraries to run Java applications
+- JVM (Java Virtual Machine): Abstract computing machine that provides runtime environment to execute Java bytecode
+
 3. What is platform independence in Java?
-4. How does Java achieve "write once, run anywhere"?
+Java achieves platform independence through "Write Once, Run Anywhere" principle:
+- Source code is compiled to bytecode (.class files)
+- Bytecode runs on JVM which handles platform-specific details
+- Same bytecode works across different operating systems
+- JVM acts as an abstraction layer between code and hardware4. How does Java achieve "write once, run anywhere"?
 5. What are the main principles of Object-Oriented Programming?
 
 
