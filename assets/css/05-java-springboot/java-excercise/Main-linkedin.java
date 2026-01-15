@@ -10,8 +10,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Sum of Two Numbers
 
 ```java
@@ -28,8 +26,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Check Even or Odd
 
 ```java
@@ -40,8 +36,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Largest of Two Numbers
 
@@ -58,8 +52,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Largest of Three Numbers
 
@@ -83,8 +75,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Positive, Negative, or Zero Check
 
 ```java
@@ -102,8 +92,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Leap Year Check
 
 ```java
@@ -118,8 +106,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Swap Two Numbers (With & Without Third Variable)
 
@@ -146,8 +132,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Factorial of a Number (Iterative)
 
 ```java
@@ -164,8 +148,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Fibonacci Series (First N Terms)
 
@@ -185,8 +167,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Reverse a Number
 
 ```java
@@ -204,8 +184,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Palindrome Number Check
 
@@ -225,8 +203,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Armstrong Number Check (3-digit)
 
 ```java
@@ -245,8 +221,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Prime Number Check
 
@@ -271,8 +245,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Print All Prime Numbers Between 1 and N
 
@@ -299,8 +271,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Multiplication Table of a Number
 
 ```java
@@ -314,8 +284,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Sum of Digits of a Number
 
@@ -335,8 +303,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Print Numbers 1 to 100 Without Loop (Using Recursion)
 
 ```java
@@ -353,8 +319,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Square Pattern (`****`)
 
@@ -373,8 +337,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Right Triangle Pattern
 
 ```java
@@ -392,8 +354,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Inverted Triangle Pattern
 
 ```java
@@ -410,8 +370,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Pyramid Pattern
 
@@ -435,8 +393,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Diamond Pattern
 
@@ -476,8 +432,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Number Pattern (1, 12, 123, ...)
 
 ```java
@@ -495,8 +449,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Alphabet Pattern (A, AB, ABC, ...)
 
 ```java
@@ -513,8 +465,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Find Largest and Smallest Element in an Array
 
@@ -536,8 +486,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Reverse an Array
 
 ```java
@@ -557,8 +505,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Sort an Array (Ascending / Descending)
 
@@ -580,8 +526,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Find Duplicate Elements in an Array
 
@@ -607,8 +551,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Find Missing Number in an Array (1 to N)
 
 ```java
@@ -628,8 +570,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Find Second Largest Element in an Array
 
@@ -654,8 +594,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Matrix Addition, Subtraction, and Multiplication
 
@@ -698,8 +636,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Transpose of a Matrix
 
 ```java
@@ -727,8 +663,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ String Reversal
 
 ```java
@@ -740,8 +674,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Check if a String is a Palindrome
 
@@ -755,8 +687,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Count Vowels and Consonants in a String
 
@@ -806,8 +736,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Find First Non-Repeated Character in a String
 
 ```java
@@ -836,8 +764,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Check Anagram Strings
 
 ```java
@@ -858,8 +784,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Find Substring in a String (Without `contains()`)
 
@@ -885,8 +809,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Class and Object Demo
 
 ```java
@@ -908,8 +830,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Constructor Demo (Default, Parameterized, Copy)
 
@@ -948,8 +868,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Method Overloading & Overriding
 
 ```java
@@ -980,8 +898,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Inheritance Example (Single, Multilevel, Hierarchical)
 
@@ -1024,8 +940,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Abstract Class Program
 
 ```java
@@ -1053,8 +967,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Interface Example
 
 ```java
@@ -1075,8 +987,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Encapsulation (Getters & Setters)
 
@@ -1145,8 +1055,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Static Keyword Demo
 
 ```java
@@ -1166,8 +1074,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ `this` and `super` Keyword Usage
 
@@ -1196,8 +1102,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Try–Catch–Finally Example
 
 ```java
@@ -1214,8 +1118,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ `throw` and `throws` Usage
 
@@ -1234,8 +1136,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Custom Exception Program
 
@@ -1264,8 +1164,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Read from a File
 
 ```java
@@ -1286,8 +1184,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Write to a File
 
 ```java
@@ -1303,8 +1199,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Count Words in a File
 
@@ -1360,8 +1254,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ ArrayList Demo (Add, Remove, Iterate)
 
 ```java
@@ -1384,8 +1276,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ LinkedList Demo
 
 ```java
@@ -1404,8 +1294,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ HashSet & TreeSet Demo
 
@@ -1430,8 +1318,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ HashMap & TreeMap Demo
 
 ```java
@@ -1453,8 +1339,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Iterate Through HashMap (entrySet, keySet, values)
 
@@ -1484,8 +1368,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Sort Elements Using `Collections.sort()`
 
 ```java
@@ -1507,8 +1389,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Convert Array to List and Vice Versa
 
 ```java
@@ -1528,8 +1408,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Frequency of Elements Using HashMap
 
@@ -1575,8 +1453,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Reverse Words in a Sentence
 
 ```java
@@ -1599,8 +1475,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Check Balanced Parentheses Using Stack
 
@@ -1640,8 +1514,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Find Factorial Using Recursion
 
 ```java
@@ -1657,8 +1529,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Find Nth Fibonacci Number Using Recursion
 
 ```java
@@ -1673,8 +1543,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Binary Search Implementation
 
@@ -1710,8 +1578,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Linear Search Implementation
 
@@ -1800,8 +1666,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Quick Sort & Merge Sort
 
 ```java
@@ -1867,8 +1731,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Count Occurrences of Each Word in a String
 
 ```java
@@ -1889,8 +1751,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Longest Substring Without Repeating Characters
 
@@ -1959,8 +1819,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Producer–Consumer Problem using Threads
 
 ```java
@@ -1996,8 +1854,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Deadlock Example in Java
 
@@ -2042,8 +1898,6 @@ Deadlock occurs due to
 3️⃣ No preemption
 4️⃣ Circular wait
 
----
-
 ## ✅ Singleton Design Pattern (Thread-Safe)
 
 ```java
@@ -2072,8 +1926,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Create Thread using `Thread` Class
 
 ```java
@@ -2090,8 +1942,6 @@ public class Main extends Thread {
 }
 ```
 
----
-
 ## ✅ Create Thread using `Runnable` Interface
 
 ```java
@@ -2103,8 +1953,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Synchronization Example
 
@@ -2145,8 +1993,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Inter-Thread Communication (`wait()` / `notify()`)
 
@@ -2201,8 +2047,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Thread Pool Example (`ExecutorService`)
 
 ```java
@@ -2227,8 +2071,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Lambda Expression Example
 
 ```java
@@ -2244,8 +2086,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Functional Interfaces (`Predicate`, `Function`, `Consumer`)
 
@@ -2293,8 +2133,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Method References
 
 ```java
@@ -2314,8 +2152,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Optional Class Usage
 
 ```java
@@ -2329,8 +2165,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Library Management System (Mini Demo)
 
@@ -2385,8 +2219,6 @@ public class Main {
 }
 ```
 
----
-
 ## ✅ Banking System (Deposit, Withdraw, Balance)
 
 ```java
@@ -2426,8 +2258,6 @@ public class Main {
     }
 }
 ```
-
----
 
 ## ✅ Employee Management System (Mini)
 
