@@ -5,8 +5,11 @@ Review every Angular question carefully and understand the context.
 For every Questions Questions 1 to 8 provide short, natural, real-time spoken answer (each answer should be 15–40 seconds), answer should be in bullet point and short example code. 
 Keep all spoken answers simple, confident, and practical. 
 Then compile all answers together into a single .md (Markdown) file.
-
-
+----
+Review every Java question carefully and understand the context. 
+For Questions 1 to 10 provide real-time spoken answer 
+Keep all answers simple, confident, and practical. 
+Then compile all answers together into a single .md (Markdown) file.
 
 ======================s
 Read the full file carefull and understand the context. Extract most asked questions in realtime inverview with categorywise. if there is any duplicate or similar type of questions remove it and give as .md file
