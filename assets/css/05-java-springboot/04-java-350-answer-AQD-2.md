@@ -1,18 +1,11 @@
 ## Core Java Fundamentals
 
-Review every Angular question carefully and understand the context. 
-Give spoken  simple, confident, and practical answers with hort example code
-Then compile all answers Markdown format
-
 ### Basic Concepts
 1. What is Java and what are its key features?
 2. Explain the difference between JDK, JRE, and JVM.
 3. What is platform independence in Java?
 4. How does Java achieve "write once, run anywhere"?
 5. What are the main principles of Object-Oriented Programming?
-
-
-
 6. Explain the difference between class and object.
 7. What is encapsulation and how is it implemented in Java?
 8. What is inheritance and what are its types?
