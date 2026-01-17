@@ -1,1578 +1,344 @@
-# Java Coding Questions - Complete Collection
+## ✅ Hello World Program
 
-## String Manipulation
-
-### ✅ **1. Reverse a String without using String inbuilt function**
 ```java
-public class ReverseString {
+public class Main {
     public static void main(String[] args) {
-        String str = "Hello World";  // Example string
-        char[] charArray = str.toCharArray();  // Convert string to character array
-        int length = charArray.length;
-        
-        // Reverse the string using a loop
-        for (int i = 0; i < length / 2; i++) {
-            char temp = charArray[i];
-            charArray[i] = charArray[length - i - 1];
-            charArray[length - i - 1] = temp;
-        }
-
-        System.out.println("Reversed string: " + new String(charArray));
+        System.out.println("Hello, World!");
     }
 }
-// Output: Reversed string: dlroW olleH
 ```
 
-### ✅ **2. Count the Number of Words in a String Using HashMap**
+## ✅ Sum of Two Numbers
+
 ```java
-import java.util.HashMap;
+import java.util.Scanner;
 
-public class WordCountUsingHashMap {
+public class Main {
     public static void main(String[] args) {
-        String input = "hello world hello java world";
-        HashMap<String, Integer> wordCount = new HashMap<>();
-
-        // Split the string into words
-        String[] words = input.trim().split("\\s+");
-
-        for (String word : words) {
-            // Put word in map or update existing count
-            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
-        }
-        // Print result
-        System.out.println("Word Count: " + wordCount);
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        System.out.println(a + b);
+        sc.close();
     }
 }
- // Output: Word Count: {java=1, world=2, hello=2}
 ```
 
-### ✅ **3. Find the Duplicate Characters in a String**
+## ✅ Check Even or Odd
+
 ```java
-import java.util.HashMap;
-
-public class DuplicateCharacters {
+public class Main {
     public static void main(String[] args) {
-        String str = "programming";  // Example string
-        HashMap<Character, Integer> charCount = new HashMap<>();
-
-        // Count the frequency of each character
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
-            charCount.put(c, charCount.getOrDefault(c, 0) + 1);
-        }
-
-        // Print duplicate characters
-        System.out.println("Duplicate characters:");
-        for (char c : charCount.keySet()) {
-            if (charCount.get(c) > 1) {
-                System.out.println(c + ": " + charCount.get(c));
-            }
-        }
+        int n = new java.util.Scanner(System.in).nextInt();
+        System.out.println(n % 2 == 0 ? "Even" : "Odd");
     }
 }
-// Output: Duplicate characters: r: 2 g: 2 m: 2
 ```
 
-### ✅ **4. Remove All White Spaces from a String Using `replace()`**
+## ✅ Largest of Two Numbers
+
 ```java
-public class RemoveWhiteSpacesWithReplace {
+import java.util.Scanner;
+
+public class Main {
     public static void main(String[] args) {
-        String str = " Hello World! Java Programming ";  // Example string
-
-        // Remove white spaces using replace()
-        String result = str.replace(" ", "");
-
-        System.out.println("String without spaces: \"" + result + "\"");
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        System.out.println(a > b ? a : b);
+        sc.close();
     }
 }
-// Output: String without spaces: "HelloWorld!JavaProgramming"
 ```
 
-### ✅ **5. Remove All White Spaces from a String Without Using `replace()**
+## ✅ Largest of Three Numbers
+
 ```java
-public class RemoveWhiteSpacesWithoutReplace {
+import java.util.Scanner;
+
+public class Main {
     public static void main(String[] args) {
-        String str = " Hello World! Java Programming ";  // Example string
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
 
-        // Remove white spaces without using replace()
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) != ' ') {
-                result.append(str.charAt(i));
-            }
-        }
+        int max = a;
+        if (b > max) max = b;
+        if (c > max) max = c;
 
-        System.out.println("String without spaces: \"" + result.toString() + "\"");
+        System.out.println(max);
+        sc.close();
     }
 }
-// Output: String without spaces: "HelloWorld!JavaProgramming"
 ```
 
-### ✅ **7. Find Whether a String is Palindrome or Not**
+## ✅ Positive, Negative, or Zero Check
+
 ```java
-public class Palindrome {
+public class Main {
     public static void main(String[] args) {
-        String str = "madam";
-        boolean isPalindrome = true;
+        int n = new java.util.Scanner(System.in).nextInt();
 
-        // Check if string is palindrome
-        int length = str.length();
-        for (int i = 0; i < length / 2; i++) {
-            if (str.charAt(i) != str.charAt(length - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        if (isPalindrome) {
-            System.out.println(str + " is a palindrome.");
-        } else {
-            System.out.println(str + " is not a palindrome.");
-        }
-
-        // Check for a number
-        int number = 121;
-        int originalNumber = number;
-        int reversedNumber = 0;
-
-        while (number != 0) {
-            int digit = number % 10;
-            reversedNumber = reversedNumber * 10 + digit;
-            number /= 10;
-        }
-
-        if (originalNumber == reversedNumber) {
-            System.out.println(originalNumber + " is a palindrome number.");
-        } else {
-            System.out.println(originalNumber + " is not a palindrome number.");
-        }
+        if (n > 0)
+            System.out.println("Positive");
+        else if (n < 0)
+            System.out.println("Negative");
+        else
+            System.out.println("Zero");
     }
 }
-// Output:
-// madam is a palindrome.
-// 121 is a palindrome number.
 ```
 
-### ✅ **7. Count Vowels and Consonants in a String**
+## ✅ Leap Year Check
+
 ```java
-public class VowelConsonantCount {
+public class Main {
     public static void main(String[] args) {
-        String str = "Hello World";  // Example string
-        int vowels = 0, consonants = 0;
+        int year = new java.util.Scanner(System.in).nextInt();
 
-        // Convert the string to lowercase to make the check case-insensitive
-        str = str.toLowerCase();
+        boolean leap = (year % 400 == 0) ||
+                       (year % 4 == 0 && year % 100 != 0);
 
-        // Loop through each character and count vowels and consonants
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (ch >= 'a' && ch <= 'z') {
-                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
-                    vowels++;
-                } else {
-                    consonants++;
-                }
-            }
-        }
-
-        System.out.println("Vowels: " + vowels);
-        System.out.println("Consonants: " + consonants);
+        System.out.println(leap ? "Leap Year" : "Not Leap Year");
     }
 }
-// Output: 
-// Vowels: 3
-// Consonants: 7
 ```
 
-### ✅ **8. Check if Two Strings are Anagrams**
-```java
-import java.util.Arrays;
-
-public class AnagramCheck {
-    public static void main(String[] args) {
-        String str1 = "listen";  // Example strings
-        String str2 = "silent";
-
-        // Convert strings to character arrays
-        char[] arr1 = str1.toCharArray();
-        char[] arr2 = str2.toCharArray();
-
-        // Sort the arrays
-        Arrays.sort(arr1);
-        Arrays.sort(arr2);
-
-        // Compare sorted arrays
-        if (Arrays.equals(arr1, arr2)) {
-            System.out.println(str1 + " and " + str2 + " are anagrams.");
-        } else {
-            System.out.println(str1 + " and " + str2 + " are not anagrams.");
-        }
-    }
-}
-// Output: listen and silent are anagrams.
-```
-
-### ✅ **9. Check if a String Contains a Substring**
-```java
-public class ContainsSubstring {
-    public static void main(String[] args) {
-        String str = "Hello World";  // Example string
-        String substring = "World";  // Substring to check
-
-        // Check if the string contains the substring
-        if (str.contains(substring)) {
-            System.out.println("The string contains the substring.");
-        } else {
-            System.out.println("The string does not contain the substring.");
-        }
-    }
-}
-// Output: The string contains the substring.
-```
-
-### ✅ **10. Replace a Character in a String Without Using `String.replace()`**
-```java
-public class ReplaceCharacter {
-    public static void main(String[] args) {
-        String str = "Hello World";  // Example string
-        char oldChar = 'o';  // Character to replace
-        char newChar = 'a';  // New character to replace with
-
-        StringBuilder result = new StringBuilder();
-
-        // Loop through the string and replace characters
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == oldChar) {
-                result.append(newChar);  // Replace old character with new one
-            } else {
-                result.append(str.charAt(i));  // Keep the character as it is
-            }
-        }
-
-        System.out.println("Modified string: " + result.toString());
-    }
-}
-// Output: Modified string: Hella Warld
-```
-
-### ✅ **11. Find the Longest Word in a Sentence**
-```java
-public class LongestWord {
-    public static void main(String[] args) {
-        String sentence = "This is a Java programming challenge.";  // Example sentence
-        String[] words = sentence.split(" ");  // Split the sentence into words
-        String longestWord = "";
-
-        // Loop through the words and find the longest one
-        for (String word : words) {
-            if (word.length() > longestWord.length()) {
-                longestWord = word;
-            }
-        }
-
-        System.out.println("The longest word in the sentence is: " + longestWord);
-    }
-}
-// Output: The longest word in the sentence is: programming
-```
-
-### ✅ **12. Count the Number of Occurrences of a Character in a String**
-```java
-public class CountOccurrences {
-    public static void main(String[] args) {
-        String str = "programming";  // Example string
-        char targetChar = 'r';  // Character to count
-        int count = 0;
-
-        // Loop through the string and count occurrences
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == targetChar) {
-                count++;
-            }
-        }
-
-        System.out.println("The character '" + targetChar + "' occurs " + count + " times in the string.");
-    }
-}
-//Output: The character 'r' occurs 2 times in the string.
-```
-
-### ✅ **13. Swap Two Strings**
-```java
-public class SwapStrings {
-    public static void main(String[] args) {
-        String str1 = "Hello";  // First string
-        String str2 = "World";  // Second string
-
-        // Swap the strings
-        String temp = str1;
-        str1 = str2;
-        str2 = temp;
-
-        System.out.println("After swapping:");
-        System.out.println("str1: " + str1);
-        System.out.println("str2: " + str2);
-    }
-}
-// Output: 
-// After swapping:
-// str1: World
-// str2: Hello
-```
-
-### ✅ **14. Remove All Special Characters From String**
-```java
-public class RemoveSpecialChars {
-    public static void main(String[] args) {
-        String input = "Hell@o# Wo$r%ld!123";
-        
-        // Remove all characters except letters, numbers, and spaces
-        String output = input.replaceAll("[^a-zA-Z0-9 ]", "");
-
-        System.out.println(output); // Hello World123
-    }
-}
-// Output: Hello World123
-```
-
-### ✅ **15. Reverse Words in a Sentence**
-
-###✅ **Solution 1: Using Split (Most Common in Interviews)**
+## ✅ Swap Two Numbers (With & Without Third Variable)
 
 ```java
-public class ReverseWords {
+public class Main {
     public static void main(String[] args) {
-        String sentence = "Hello World Java";
 
-        String[] words = sentence.split(" ");
-        StringBuilder result = new StringBuilder();
-
-        for (int i = words.length - 1; i >= 0; i--) {
-            result.append(words[i]).append(" ");
-        }
-
-        System.out.println(result.toString().trim());
-    }
-}
-// Output:
-// `"Java World Hello"`
-```
-
-### ✅ **Solution 2: One-Line Using Collections**
-
-```java
-import java.util.*;
-
-public class ReverseWords {
-    public static void main(String[] args) {
-        String sentence = "Hello World Java";
-
-        List<String> list = Arrays.asList(sentence.split(" "));
-        Collections.reverse(list);
-
-        System.out.println(String.join(" ", list));
-    }
-}
-// Output:
-// `"Java World Hello"`
-```
-
-##### ✅ **Solution 3: Using Stack (Asked in some interviews)**
-
-```java
-import java.util.Stack;
-
-public class ReverseWords {
-    public static void main(String[] args) {
-        String sentence = "I love programming";
-
-        Stack<String> stack = new Stack<>();
-        for (String word : sentence.split(" ")) {
-            stack.push(word);
-        }
-
-        StringBuilder result = new StringBuilder();
-        while (!stack.isEmpty()) {
-            result.append(stack.pop()).append(" ");
-        }
-
-        System.out.println(result.toString().trim());
-    }
-}
-// Output: programming love I
-```
-
-### ✅ **16. Remove Characters That Appear More Than Once**
-```java
-import java.util.*;
-
-public class RemoveRepeatedChars {
-    public static void main(String[] args) {
-        String input = "programming";
-
-        Map<Character, Integer> map = new LinkedHashMap<>();
-
-        // Count frequency
-        for (char c : input.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
-
-        StringBuilder result = new StringBuilder();
-
-        // Add only characters that appear once
-        for (char c : input.toCharArray()) {
-            if (map.get(c) == 1) {
-                result.append(c);
-            }
-        }
-
-        System.out.println(result.toString()); // Output: poai
-    }
-}
-// Output: poai
-```
-
-### ✅ **17. Find First Non-Repeating Character in String**
-```java
-import java.util.*;
-
-public class FirstNonRepeatingChar {
-    public static void main(String[] args) {
-        String input = "swiss";
-
-        Map<Character, Integer> map = new LinkedHashMap<>();
-
-        // Count frequency of each character
-        for (char c : input.toCharArray()) {
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
-
-        // Find first char with frequency 1
-        for (char c : map.keySet()) {
-            if (map.get(c) == 1) {
-                System.out.println("First non-repeating character: " + c);
-                return;
-            }
-        }
-
-        System.out.println("No non-repeating character found");
-        // Output: w
-    }
-}
-// Output: w
-```
-
-### ✅ **18. Validate Email Format (Regex)**
-```java
-public class ValidateEmail {
-    public static void main(String[] args) {
-        String email = "test@example.com";
-
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-
-        if (email.matches(regex)) {
-            System.out.println("Valid Email");
-        } else {
-            System.out.println("Invalid Email");
-        }
-    }
-}
-// Output: Valid Email
-```
-
-### ✅ **19. Check if Two Strings Are Rotations of Each Other**
-```java
-public class StringRotation {
-    public static void main(String[] args) {
-        String s1 = "ABCD";
-        String s2 = "CDAB";
-
-        if (s1.length() != s2.length()) {
-            System.out.println("Not Rotation");
-            return;
-        }
-
-        String temp = s1 + s1;
-
-        if (temp.contains(s2)) {
-            System.out.println("Strings are rotation of each other");
-        } else {
-            System.out.println("Not Rotation");
-        }
-    }
-}
-// Output: Strings are rotation of each other
-```
-
-### ✅ **20. Longest Palindromic Substring**
-```java
-public class LongestPalindrome {
-    
-    public static String longestPalindrome(String s) {
-        if (s == null || s.length() < 1)
-            return "";
-
-        int start = 0, end = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            int len1 = expand(s, i, i);       // odd
-            int len2 = expand(s, i, i + 1);   // even
-            int len = Math.max(len1, len2);
-
-            if (len > end - start) {
-                start = i - (len - 1) / 2;
-                end = i + len / 2;
-            }
-        }
-
-        return s.substring(start, end + 1);
-    }
-
-    private static int expand(String s, int left, int right) {
-        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
-            left--;
-            right++;
-        }
-        return right - left - 1; // palindrome length
-    }
-
-    public static void main(String[] args) {
-        String str = "babad";
-        System.out.println("Longest Palindrome: " + longestPalindrome(str));
-    }
-}
-
-// Output: Longest Palindrome: bab
-```
-
-## Number Operations
-
-### ✅ **21. Swap Two Numbers Using the Third Variable**
-```java
-public class SwapWithThird {
-    public static void main(String[] args) {
         int a = 10, b = 20;
 
+        // With third variable
         int temp = a;
         a = b;
         b = temp;
+        System.out.println(a + " " + b);
 
-        System.out.println("a = " + a + ", b = "b);
+        // Without third variable (XOR)
+        a = 10;
+        b = 20;
+        a ^= b;
+        b ^= a;
+        a ^= b;
+        System.out.println(a + " " + b);
     }
 }
-
-// ✔ Output: a = 20, b = 10
 ```
 
-### ✅ **22. Swap Two Numbers Without Using Third Variable**
+## ✅ Factorial of a Number (Iterative)
+
 ```java
-public class SwapWithoutThird {
+public class Main {
     public static void main(String[] args) {
-        int a = 10, b = 20;
+        int n = new java.util.Scanner(System.in).nextInt();
+        long fact = 1;
 
-        a = a + b;
-        b = a - b;
-        a = a - b;
-
-        System.out.println("a = " + a + ", b = "b);
-    }
-}
-
-// Output:a = 20, b = 10
-```
-
-### ✅ **23. Find Whether a Number is Prime or Not**
-```java
-public class PrimeCheck {
-    public static void main(String[] args) {
-        int n = 29;
-        boolean isPrime = true;
-
-        if (n <= 1) {
-            isPrime = false;
-        } else {
-            for (int i = 2; i <= Math.sqrt(n); i++) {
-                if (n % i == 0) {
-                    isPrime = false;
-                    break;
-                }
-            }
+        for (int i = 2; i <= n; i++) {
+            fact *= i;
         }
 
-        System.out.println(n + " is prime? " + isPrime);
+        System.out.println(fact);
     }
 }
-// Output: 29 is prime? true
 ```
 
-### ✅ **24. Find Whether a Number is Palindrome or Not**
+## ✅ Fibonacci Series (First N Terms)
+
 ```java
-public class PalindromeNumber {
+public class Main {
     public static void main(String[] args) {
-        int num = 121, temp = num;
-        int rev = 0;
+        int n = new java.util.Scanner(System.in).nextInt();
+        long a = 0, b = 1;
 
-        while (temp > 0) {
-            rev = rev * 10 + temp % 10;
-            temp = temp / 10;
-        }
-
-        if (num == rev)
-            System.out.println("Palindrome Number");
-        else
-            System.out.println("Not Palindrome");
-    }
-}
-// Output: Palindrome Number
-```
-
-### ✅ **25. Fibonacci Series**
-```java
-public class FibonacciSeries {
-    public static void main(String[] args) {
-        int n = 10;
-        int a = 0, b = 1;
-
-        System.out.print(a + " " + b + " ");
-
-        for (int i = 2; i < n; i++) {
-            int c = a + b;
-            System.out.print(c + " ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(a + (i < n - 1 ? " " : ""));
+            long c = a + b;
             a = b;
             b = c;
         }
     }
 }
-
-// Output: 0 1 1 2 3 5 8 13 21 34
 ```
 
-### ✅ **26. Find the Factorial of a Number**
+## ✅ Reverse a Number
 
 ```java
-public class Factorial {
+public class Main {
     public static void main(String[] args) {
-        int n = 5;
-        long fact = 1;
+        int n = new java.util.Scanner(System.in).nextInt();
+        int rev = 0;
 
-        for (int i = 1; i <= n; i++) {
-            fact *= i;
+        while (n != 0) {
+            rev = rev * 10 + n % 10;
+            n /= 10;
         }
 
-        System.out.println("Factorial = " + fact);
+        System.out.println(rev);
     }
 }
-// Output: Factorial = 120
 ```
 
-### ✅ **27. Check if a Number is Even or Odd**
+## ✅ Palindrome Number Check
+
 ```java
-public class EvenOdd {
+public class Main {
     public static void main(String[] args) {
-        int n = 7;
+        int n = new java.util.Scanner(System.in).nextInt();
+        int temp = n, rev = 0;
 
-        if (n % 2 == 0)
-            System.out.println("Even Number");
-        else
-            System.out.println("Odd Number");
-    }
-}
-// Output: Odd Number
-```
-
-### ✅ **28. Find the Sum of Digits of a Number**
-```java
-public class SumOfDigits {
-    public static void main(String[] args) {
-        int num = 987;
-        int sum = 0;
-
-        while (num > 0) {
-            sum += num % 10;
-            num /= 10;
+        while (n != 0) {
+            rev = rev * 10 + n % 10;
+            n /= 10;
         }
 
-        System.out.println("Sum of digits = " + sum);
+        System.out.println(temp == rev ? "Palindrome" : "Not Palindrome");
     }
 }
-// Output: Sum of digits = 24
 ```
 
-### ✅ **29. Print the Multiplication Table of a Number**
+## ✅ Armstrong Number Check (3-digit)
+
 ```java
-public class MultiplicationTable {
+public class Main {
     public static void main(String[] args) {
-        int n = 5;
+        int n = new java.util.Scanner(System.in).nextInt();
+        int temp = n, sum = 0;
 
-        for (int i = 1; i <= 10; i++) {
-            System.out.println(n + " x " + i + " = " + (n * i));
-        }
-    }
-}
-
-// Output: 
-// 5 x 1 = 5  
-// 5 x 2 = 10  
-// 5 x 3 = 15  
-```
-
-### ✅ **30. Check Armstrong Number**
-```java
-public class Armstrong {
-    public static void main(String[] args) {
-        int num = 153;
-        int temp = num;
-        int sum = 0;
-
-        while (temp > 0) {
-            int digit = temp % 10;
-            sum += digit * digit * digit;  // cube
+        while (temp != 0) {
+            int d = temp % 10;
+            sum += d * d * d;
             temp /= 10;
         }
 
-        if (sum == num)
-            System.out.println("Armstrong Number");
-        else
-            System.out.println("Not Armstrong");
+        System.out.println(sum == n ? "Armstrong" : "Not Armstrong");
     }
 }
-
-// Output: Armstrong Number
 ```
 
-### ✅ **31. Print Prime Numbers Between 1 and 100**
+## ✅ Prime Number Check
+
 ```java
-public class PrimeBetween1To100 {
+public class Main {
     public static void main(String[] args) {
-        for (int num = 2; num <= 100; num++) {
-            boolean isPrime = true;
+        int n = new java.util.Scanner(System.in).nextInt();
 
-            for (int i = 2; i * i <= num; i++) {
-                if (num % i == 0) {
-                    isPrime = false;
-                    break;
-                }
-            }
-
-            if (isPrime) {
-                System.out.print(num + " ");
-            }
-        }
-    }
-}
-// Output: 2 3 5 7 11 13 17 19 23 29 ...
-```
-
-
-### ✅ **32. Reverse an Integer Number**
-```java
-public class ReverseInteger {
-    public static void main(String[] args) {
-        int num = 12345;
-        int reversed = 0;
-
-        while (num != 0) {
-            int digit = num % 10;
-            reversed = reversed * 10 + digit;
-            num /= 10;
+        if (n < 2) {
+            System.out.println("Not Prime");
+            return;
         }
 
-        System.out.println("Reversed Number = " + reversed);
-    }
-}
-// Output: Reversed Number = 54321
-```
-
-### ✅ **33. Convert String to Integer**
-
-```java
-public class StringToInt {
-    public static void main(String[] args) {
-        String str = "1234";
-        int num = Integer.parseInt(str);
-
-        System.out.println("Converted Integer = " + num);
-    }
-}
-// Output: Converted Integer = 1234
-```
-
-### ✅ **34. Find the Sum of Natural Numbers**
-```java
-public class SumNaturalNumbers {
-    public static void main(String[] args) {
-        int n = 10;
-        int sum = n * (n + 1) / 2;
-
-        System.out.println("Sum = " + sum);
-    }
-}
-// Output: Sum = 55
-```
-
-### ✅ **35. Check if a Number is a Perfect Number**
-```java
-public class PerfectNumber {
-    public static void main(String[] args) {
-        int num = 28;
-        int sum = 0;
-
-        for (int i = 1; i <= num / 2; i++) {
-            if (num % i == 0) {
-                sum += i;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                System.out.println("Not Prime");
+                return;
             }
         }
 
-        if (sum == num)
-            System.out.println("Perfect Number");
-        else
-            System.out.println("Not Perfect Number");
+        System.out.println("Prime");
     }
 }
-// Output: Perfect Number
 ```
 
-### ✅ **36. Find the GCD (Greatest Common Divisor) of Two Numbers**
-
-### ✔ Using Euclidean Algorithm
+## ✅ Print All Prime Numbers Between 1 and N
 
 ```java
-public class GCD {
-    public static int findGCD(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
+public class Main {
 
-    public static void main(String[] args) {
-        int a = 48, b = 18;
-        System.out.println("GCD: " + findGCD(a, b));
-    }
-}
-
-// Output: GCD: 6
-```
-
-### ✅ **37. Find the LCM (Least Common Multiple) of Two Numbers**
-**LCM(a, b) = (a × b) / GCD(a, b)**
-
-```java
-public class LCM {
-    
-    public static int findGCD(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
-
-    public static int findLCM(int a, int b) {
-        return (a * b) / findGCD(a, b);
-    }
-
-    public static void main(String[] args) {
-        int a = 12, b = 18;
-        System.out.println("LCM: " + findLCM(a, b));
-    }
-}
-
-// Output: LCM: 36
-```
-
-### ✅ **38. Calculate the Power of a Number**
-
-### ✔ Using a loop
-
-```java
-public class Power {
-    public static long power(int base, int exp) {
-        long result = 1;
-        for (int i = 1; i <= exp; i++) {
-            result *= base;
-        }
-        return result;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(power(2, 5));  // 2⁵ = 32
-    }
-}
-
-// Output:  2⁵ = 32
-```
-
-### ✔ Using `Math.pow`
-
-```java
-public class PowerUsingMath {
-    public static void main(String[] args) {
-        double result = Math.pow(3, 4);
-        System.out.println(result); // 3⁴ = 81
-    }
-}
-
-// Output: 3⁴ = 81
-```
-
-### ✅ **39. Check if a Number is a Perfect Square**
-
-### ✔ Logic:
-A number is a **perfect square** if
-`sqrt(n) * sqrt(n) == n`
-
-```java
-public class PerfectSquare {
-    public static boolean isPerfectSquare(int n) {
-        if (n < 0) return false;
-
-        int sqrt = (int) Math.sqrt(n);
-        return sqrt * sqrt == n;
-    }
-
-    public static void main(String[] args) {
-        int n = 49;
-        System.out.println(n + " is perfect square? " + isPerfectSquare(n));
-    }
-}
-
-// Output: 49 is perfect square? true
-```
-
-### ✅ **40. Check if a Number is a Fibonacci Number**
-
-### ✔ Formula:
-
-A number **N** is Fibonacci if and only if one or both of these are perfect squares:
-
-* `5*N*N + 4`
-* `5*N*N – 4`
-
-```java
-public class FibonacciCheck {
-
-    // method to check perfect square
-    static boolean isPerfectSquare(int n) {
-        int s = (int) Math.sqrt(n);
-        return s * s == n;
-    }
-
-    // method to check fibonacci
-    static boolean isFibonacci(int n) {
-        return isPerfectSquare(5 * n * n + 4) ||
-               isPerfectSquare(5 * n * n - 4);
-    }
-
-    public static void main(String[] args) {
-        int n = 34;
-        System.out.println(n + " is Fibonacci? " + isFibonacci(n));
-    }
-}
-
-// Output: 34 is Fibonacci? true
-```
-
-### ✅ **41. Convert String to Integer Without parseInt()**
-
-### ✔ Logic:
-
-Convert each character digit → subtract `'0'` → build number.
-
-```java
-public class StringToInt {
-
-    public static int convert(String str) {
-        int num = 0;
-        boolean negative = false;
-
-        if (str.charAt(0) == '-') {
-            negative = true;
-            str = str.substring(1);
-        }
-
-        for (char c : str.toCharArray()) {
-            num = num * 10 + (c - '0');
-        }
-        
-        return negative ? -num : num;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(convert("1234")); 
-        System.out.println(convert("-567"));
-    }
-}
-
-// Output:
-// 1234
-// -567
-```
-
-### ✅ **42. Convert Integer to String Without toString()**
-
-### ✔ Logic:
-
-Extract digits → build reverse → reverse it back.
-
-```java
-public class IntToString {
-
-    public static String convert(int num) {
-        boolean negative = false;
-        if (num < 0) {
-            negative = true;
-            num = -num;
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        while (num > 0) {
-            int digit = num % 10;
-            sb.append((char) ('0' + digit));
-            num /= 10;
-        }
-
-        if (negative) sb.append('-');
-
-        return sb.reverse().toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(convert(1234)); 
-        System.out.println(convert(-987));
-    }
-}
-
-// Output:
-// 1234
-// -987
-```
-
-### ✅ **43. Find All Prime Numbers up to N**
-
-### ✔ Simple loop-based method
-
-```java
-public class PrimeUpToN {
-
-    public static boolean isPrime(int n) {
-        if (n <= 1) return false;
-        for (int i = 2; i <= Math.sqrt(n); i++) {
+    static boolean isPrime(int n) {
+        if (n < 2) return false;
+        for (int i = 2; i * i <= n; i++) {
             if (n % i == 0) return false;
         }
         return true;
     }
 
-    public static void printPrimes(int n) {
+    public static void main(String[] args) {
+        int n = new java.util.Scanner(System.in).nextInt();
+
         for (int i = 2; i <= n; i++) {
             if (isPrime(i)) {
                 System.out.print(i + " ");
             }
         }
     }
-
-    public static void main(String[] args) {
-        printPrimes(50);
-    }
 }
-
-// Output: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 
 ```
 
-## Array Operations
-
-### ✅ **44. Find the Largest Element in an Array**
+## ✅ Multiplication Table of a Number
 
 ```java
-public class LargestInArray {
+public class Main {
+    public static void main(String[] args) {
+        int n = new java.util.Scanner(System.in).nextInt();
 
-    public static int findLargest(int[] arr) {
-        int max = arr[0];
-        for (int num : arr) {
-            if (num > max) max = num;
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(n + " x " + i + " = " + (n * i));
         }
-        return max;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {10, 25, 3, 47, 5};
-        System.out.println("Largest: " + findLargest(arr));
     }
 }
-
-// Output: Largest: 47
 ```
 
-### ✅ **45. Find the Smallest Element in an Array**
+## ✅ Sum of Digits of a Number
 
 ```java
-public class SmallestInArray {
+public class Main {
+    public static void main(String[] args) {
+        int n = new java.util.Scanner(System.in).nextInt();
+        int sum = 0;
 
-    public static int findSmallest(int[] arr) {
-        int min = arr[0];
-        for (int num : arr) {
-            if (num < min) min = num;
+        while (n != 0) {
+            sum += n % 10;
+            n /= 10;
         }
-        return min;
+
+        System.out.println(sum);
+    }
+}
+```
+
+## ✅ Print Numbers 1 to 100 Without Loop (Using Recursion)
+
+```java
+public class Main {
+
+    static void print(int i) {
+        if (i > 100) return;
+        System.out.println(i);
+        print(i + 1);
     }
 
     public static void main(String[] args) {
-        int[] arr = {10, 25, 3, 47, 5};
-        System.out.println("Smallest: " + findSmallest(arr));
+        print(1);
     }
 }
-
-// Output: Smallest: 3
 ```
 
-### ✅ **46. Find the Second-Highest Number in an Array**
+## ✅ Square Pattern (`****`)
 
 ```java
-public class SecondHighest {
+public class Main {
+    public static void main(String[] args) {
+        int n = 4;
 
-    public static int findSecondHighest(int[] arr) {
-        int max = Integer.MIN_VALUE;
-        int second = Integer.MIN_VALUE;
-
-        for (int num : arr) {
-            if (num > max) {
-                second = max;
-                max = num;
-            } else if (num > second && num != max) {
-                second = num;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print("*");
             }
-        }
-        return second;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {10, 50, 30, 50, 20};
-        System.out.println("Second Highest: " + findSecondHighest(arr));
-    }
-}
-
-// Output: Second Highest: 30
-```
-
-### ✅ **47. Merge Two Arrays**
-
-```java
-import java.util.Arrays;
-
-public class MergeArrays {
-
-    public static int[] merge(int[] arr1, int[] arr2) {
-        int[] merged = new int[arr1.length + arr2.length];
-
-        int index = 0;
-        for (int num : arr1) merged[index++] = num;
-        for (int num : arr2) merged[index++] = num;
-
-        return merged;
-    }
-
-    public static void main(String[] args) {
-        int[] a = {1, 3, 5};
-        int[] b = {2, 4, 6};
-
-        System.out.println("Merged: " + Arrays.toString(merge(a, b)));
-    }
-}
-
-// Output: Merged: [1, 3, 5, 2, 4, 6]
-```
-
-### ✅ **48. Sort an Array of Integers in Ascending Order**
-```java
-import java.util.Arrays;
-
-public class SortArray {
-    public static void main(String[] args) {
-        int[] arr = {5, 2, 9, 1, 3};
-        Arrays.sort(arr);
-        System.out.println("Sorted Array: " + Arrays.toString(arr));
-    }
-}
-
-// Output: Sorted Array: [1, 2, 3, 5, 9]
-```
-
-### ✅ **49. Sum All Elements of an Array**
-```java
-public class SumArray {
-
-    public static int sum(int[] arr) {
-        int total = 0;
-        for (int num : arr) total += num;
-        return total;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {5, 2, 9, 1, 3};
-        System.out.println("Sum: " + sum(arr));
-    }
-}
-
-// Output: Sum: 20
-```
-
-### ✅ **50. Find the Median of an Array**
-
-```java
-import java.util.Arrays;
-
-public class MedianArray {
-
-    public static double findMedian(int[] arr) {
-        Arrays.sort(arr);
-        int n = arr.length;
-        
-        if (n % 2 == 1) return arr[n/2];
-        else return (arr[n/2 - 1] + arr[n/2]) / 2.0;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {7, 3, 1, 4};
-        System.out.println("Median: " + findMedian(arr));
-    }
-}
-
-// Output: Median: 3.5
-```
-
-### ✅ **51. Remove Duplicates from an Array**
-
-Using **LinkedHashSet** (keeps order):
-
-```java
-import java.util.*;
-
-public class RemoveDuplicates {
-
-    public static int[] removeDuplicates(int[] arr) {
-        Set<Integer> set = new LinkedHashSet<>();
-        for (int num : arr) set.add(num);
-
-        int[] result = new int[set.size()];
-        int i = 0;
-        for (int num : set) result[i++] = num;
-
-        return result;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 2, 3, 4, 4, 5};
-        System.out.println(Arrays.toString(removeDuplicates(arr)));
-    }
-}
-
-// Output: [1, 2, 3, 4, 5]
-```
-
-### ✅ **52. Convert an Array to a String**
-
-```java
-import java.util.Arrays;
-
-public class ArrayToString {
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4};
-        String str = Arrays.toString(arr);
-        System.out.println("Array as String: " + str);
-    }
-}
-
-// Output: Array as String: [1, 2, 3, 4]
-```
-
-### ✅ **53. Find the Common Elements Between Two Arrays**
-
-```java
-import java.util.*;
-
-public class CommonElements {
-
-    public static Set<Integer> findCommon(int[] a, int[] b) {
-        Set<Integer> set1 = new HashSet<>();
-        Set<Integer> common = new HashSet<>();
-
-        for (int num : a) set1.add(num);
-        for (int num : b) if (set1.contains(num)) common.add(num);
-
-        return common;
-    }
-
-    public static void main(String[] args) {
-        int[] arr1 = {1, 2, 3, 4};
-        int[] arr2 = {3, 4, 5, 6};
-
-        System.out.println("Common Elements: " + findCommon(arr1, arr2));
-    }
-}
-
-// Output: Common Elements: [3, 4]
-```
-
-### ✅ **54. Find Min and Max in Array (Single Loop)**
-
-```java
-public class MinMaxSingleLoop {
-
-    public static void main(String[] args) {
-        int[] arr = {8, 3, 10, 1, 6};
-
-        int min = arr[0];
-        int max = arr[0];
-
-        for (int num : arr) {
-            if (num < min) min = num;
-            if (num > max) max = num;
-        }
-
-        System.out.println("Min: " + min);
-        System.out.println("Max: " + max);
-    }
-}
-
-// Output:
-// Min: 1
-// Max: 10
-```
-
-### ✅ **55. Find Even & Odd Numbers in Array**
-
-```java
-public class EvenOddArray {
-
-    public static void main(String[] args) {
-        int[] arr = {2, 5, 8, 11, 14};
-
-        System.out.print("Even: ");
-        for (int n : arr) if (n % 2 == 0) System.out.print(n + " ");
-
-        System.out.print("\nOdd: ");
-        for (int n : arr) if (n % 2 != 0) System.out.print(n + " ");
-    }
-}
-// Output:
-// Even: 2 8 14 
-// Odd: 5 11 
-```
-
-### ✅ **56. Merge Two Sorted Arrays Without Using Extra Space**
-```java
-import java.util.Arrays;
-
-public class MergeSortedArrays {
-
-    static int nextGap(int gap) {
-        if (gap <= 1) return 0;
-        return (gap / 2) + (gap % 2);
-    }
-
-    public static void merge(int[] a, int[] b) {
-        int n = a.length, m = b.length;
-        int gap = nextGap(n + m);
-
-        while (gap > 0) {
-
-            int i, j;
-
-            // Compare elements in first array
-            for (i = 0; i + gap < n; i++) {
-                if (a[i] > a[i + gap]) {
-                    int temp = a[i];
-                    a[i] = a[i + gap];
-                    a[i + gap] = temp;
-                }
-            }
-
-            // Compare elements between arrays
-            for (j = gap > n ? gap - n : 0; i < n && j < m; i++, j++) {
-                if (a[i] > b[j]) {
-                    int temp = a[i];
-                    a[i] = b[j];
-                    b[j] = temp;
-                }
-            }
-
-            // Compare elements in second array
-            for (j = j; j + gap < m; j++) {
-                if (b[j] > b[j + gap]) {
-                    int temp = b[j];
-                    b[j] = b[j + gap];
-                    b[j + gap] = temp;
-                }
-            }
-
-            gap = nextGap(gap);
+            System.out.println();
         }
     }
-
-    public static void main(String[] args) {
-        int[] a = {1, 4, 7, 8};
-        int[] b = {2, 3, 9};
-
-        merge(a, b);
-        System.out.println("A: " + Arrays.toString(a));
-        System.out.println("B: " + Arrays.toString(b));
-    }
 }
-// Output:
-// A: [1, 2, 3, 4]
-// B: [7, 8, 9]
 ```
 
-### ✅ **57. Find Majority Element (Boyer–Moore Algorithm)**
-
-Time: O(n), Space: O(1)
+## ✅ Right Triangle Pattern
 
 ```java
-public class MajorityElement {
-
-    public static int findMajority(int[] nums) {
-        int count = 0, candidate = 0;
-
-        for (int n : nums) {
-            if (count == 0) candidate = n;
-            count += (n == candidate) ? 1 : -1;
-        }
-
-        return candidate; // Assumes majority element always exists
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {2, 2, 1, 1, 2, 2, 2};
-        System.out.println("Majority Element: " + findMajority(arr));
-    }
-}
-// Output: Majority Element: 2
-```
-
-### ✅ **58. Rotate Array Left/Right by K Positions**
-#### Rotate Right (Optimized)
-
-```java
-import java.util.Arrays;
-
-public class RotateArray {
-
-    public static void reverse(int[] arr, int left, int right) {
-        while (left < right) {
-            int temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
-            left++;
-            right--;
-        }
-    }
-
-    public static void rotateRight(int[] arr, int k) {
-        k = k % arr.length;
-
-        reverse(arr, 0, arr.length - 1);
-        reverse(arr, 0, k - 1);
-        reverse(arr, k, arr.length - 1);
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4, 5};
-        rotateRight(arr, 2);
-        System.out.println("Rotated Right: " + Arrays.toString(arr));
-    }
-}
-// Output: Rotated Right: [4, 5, 1, 2, 3]
-```
-
-### ✅ **59. Find All Subarrays With Given Sum (Sliding Window)**
-Works for **positive numbers**.
-
-```java
-public class SubarraySum {
-
-    public static void findSubarrays(int[] arr, int target) {
-        int left = 0, sum = 0;
-
-        for (int right = 0; right < arr.length; right++) {
-            sum += arr[right];
-
-            while (sum > target) {
-                sum -= arr[left];
-                left++;
-            }
-
-            if (sum == target) {
-                System.out.println("Subarray: [" + left + ", " + right + "]");
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 7, 5};
-        findSubarrays(arr, 12);
-    }
-}
-// Output:
-// Subarray: [1, 3]
-// Subarray: [3, 4]
-```
-
-### ✅ **60. Top K Frequent Elements (HashMap + PriorityQueue)**
-
-```java
-import java.util.*;
-
-public class TopKFrequent {
-
-    public static List<Integer> topK(int[] nums, int k) {
-        Map<Integer, Integer> freq = new HashMap<>();
-
-        for (int n : nums) freq.put(n, freq.getOrDefault(n, 0) + 1);
-
-        PriorityQueue<Map.Entry<Integer, Integer>> heap =
-            new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
-
-        for (Map.Entry<Integer, Integer> e : freq.entrySet()) {
-            heap.add(e);
-            if (heap.size() > k) heap.poll();
-        }
-
-        List<Integer> result = new ArrayList<>();
-        while (!heap.isEmpty()) result.add(heap.poll().getKey());
-
-        return result;
-    }
-
-    public static void main(String[] args) {
-        int[] nums = {1,1,1,2,2,3};
-        System.out.println(topK(nums, 2));
-    }
-}
-// Output: [2, 1]
-```
-
-## Pattern Printing
-### ✅ **61. Print a Triangle of Stars**
-### **Input:** `n = 5`
-### **Output:**
-
-```
-*
-**
-***
-****
-*****
-```
-
-### **Java Code**
-
-```java
-public class StarTriangle {
+public class Main {
     public static void main(String[] args) {
         int n = 5;
 
@@ -1584,32 +350,90 @@ public class StarTriangle {
         }
     }
 }
-
-// Output:
-// *
-// **
-// ***
-// ****
-// *****
 ```
 
-### ✅ **62. Create a Pattern of Numbers (1, 12, 123, 1234...)**
-
-### **Input:** `n = 5`
-
-### **Output:**
-```
-1
-12
-123
-1234
-1235
-```
-
-### **Java Code**
+## ✅ Inverted Triangle Pattern
 
 ```java
-public class NumberPattern {
+public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+
+        for (int i = n; i >= 1; i--) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+}
+```
+
+## ✅ Pyramid Pattern
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+
+        for (int i = 1; i <= n; i++) {
+
+            for (int s = 1; s <= n - i; s++) {
+                System.out.print(" ");
+            }
+
+            for (int j = 1; j <= 2 * i - 1; j++) {
+                System.out.print("*");
+            }
+
+            System.out.println();
+        }
+    }
+}
+```
+
+## ✅ Diamond Pattern
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+
+        // Upper half
+        for (int i = 1; i <= n; i++) {
+
+            for (int s = 1; s <= n - i; s++) {
+                System.out.print(" ");
+            }
+
+            for (int j = 1; j <= 2 * i - 1; j++) {
+                System.out.print("*");
+            }
+
+            System.out.println();
+        }
+
+        // Lower half
+        for (int i = n - 1; i >= 1; i--) {
+
+            for (int s = 1; s <= n - i; s++) {
+                System.out.print(" ");
+            }
+
+            for (int j = 1; j <= 2 * i - 1; j++) {
+                System.out.print("*");
+            }
+
+            System.out.println();
+        }
+    }
+}
+```
+
+## ✅ Number Pattern (1, 12, 123, ...)
+
+```java
+public class Main {
     public static void main(String[] args) {
         int n = 5;
 
@@ -1621,735 +445,1889 @@ public class NumberPattern {
         }
     }
 }
-
-// Output:
-// 1
-// 12
-// 123
-// 1234
-// 1235
 ```
 
-### ✅ **63. Print Right-Aligned Triangle**
-#### **Input:** `n = 5`
-#### **Output:**
-
-```
-    *
-   **
-  ***
- ****
-*****
-```
-
-#### **Java Code**
+## ✅ Alphabet Pattern (A, AB, ABC, ...)
 
 ```java
-public class RightTrianglePattern {
+public class Main {
     public static void main(String[] args) {
         int n = 5;
 
         for (int i = 1; i <= n; i++) {
-
-            // Print spaces
-            for (int s = 1; s <= n - i; s++) {
-                System.out.print(" ");
+            for (char c = 'A'; c < 'A' + i; c++) {
+                System.out.print(c);
             }
-
-            // Print stars
-            for (int j = 1; j <= i; j++) {
-                System.out.print("*");
-            }
-
             System.out.println();
         }
     }
 }
-
-// Output:
-//     *
-//    **
-//   ***
-//  ****
-// *****
 ```
 
-## Collections (HashMap & ArrayList)
-### ✅ **64. Iterate HashMap using While Loop and Advanced For Loop**
-### **Java Code**
+## ✅ Find Largest and Smallest Element in an Array
 
 ```java
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-public class HashMapIteration {
+public class Main {
     public static void main(String[] args) {
+        int[] arr = {5, 2, 9, -1, 7};
 
-        HashMap<Integer, String> map = new HashMap<>();
-        map.put(101, "Amit");
-        map.put(102, "Rahul");
-        map.put(103, "Sneha");
+        int min = arr[0];
+        int max = arr[0];
 
-        System.out.println("---- Using While Loop (Iterator) ----");
-        Iterator<Map.Entry<Integer, String>> itr = map.entrySet().iterator();
-        while (itr.hasNext()) {
-            Map.Entry<Integer, String> entry = itr.next();
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        for (int v : arr) {
+            if (v < min) min = v;
+            if (v > max) max = v;
         }
 
-        System.out.println("\n---- Using Advanced For Loop ----");
-        for (Map.Entry<Integer, String> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
-        }
+        System.out.println("Min = " + min + ", Max = " + max);
     }
 }
-
-// Output:
-// ---- Using While Loop (Iterator) ----
-// 101 -> Amit
-// 102 -> Rahul
-// 103 -> Sneha
-
-// ---- Using Advanced For Loop ----
-// 101 -> Amit
-// 102 -> Rahul
-// 103 -> Sneha
 ```
 
-### ✅ **65. Iterate ArrayList Using For-loop, While-loop, and Advanced For-loop**
-
-### **Java Code**
+## ✅ Reverse an Array
 
 ```java
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 
-public class ArrayListIteration {
+public class Main {
     public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5};
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Apple");
-        list.add("Banana");
-        list.add("Orange");
-
-        System.out.println("---- Using Normal For Loop ----");
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
+        for (int i = 0, j = arr.length - 1; i < j; i++, j--) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
         }
 
-        System.out.println("\n---- Using While Loop ----");
-        int index = 0;
-        while (index < list.size()) {
-            System.out.println(list.get(index));
-            index++;
-        }
-
-        System.out.println("\n---- Using Advanced For Loop ----");
-        for (String item : list) {
-            System.out.println(item);
-        }
+        System.out.println(Arrays.toString(arr));
     }
 }
-
-// Output:
-// ---- Using Normal For Loop ----
-// Apple
-// Banana
-// Orange
-
-// ---- Using While Loop ----
-// Apple
-// Banana
-// Orange
-
-// ---- Using Advanced For Loop ----
-// Apple
-// Banana
-// Orange
 ```
 
-## Data Structures
-
-### ✅ **66. Implement a Stack Using an Array**
+## ✅ Sort an Array (Ascending / Descending)
 
 ```java
-import java.util.*;
-class StackArray {
+import java.util.Arrays;
+import java.util.Collections;
+
+public class Main {
     public static void main(String[] args) {
-        int[] nums = {1, 1, 1, 2, 2, 3};
-        System.out.println(topK(nums, 2)); // Output example: [2, 1]
+        Integer[] arr = {5, 1, 4, 2, 3};
+
+        // Ascending
+        Arrays.sort(arr);
+        System.out.println(Arrays.toString(arr));
+
+        // Descending
+        Arrays.sort(arr, Collections.reverseOrder());
+        System.out.println(Arrays.toString(arr));
     }
+}
+```
 
-    public static List<Integer> topK(int[] nums, int k) {
-        // Step 1: Count frequency
-        Map<Integer, Integer> freq = new HashMap<>();
-        for (int n : nums) {
-            freq.put(n, freq.getOrDefault(n, 0) + 1);
-        }
+## ✅ Find Duplicate Elements in an Array
 
-        // Step 2: Min-heap based on frequency
-        PriorityQueue<Map.Entry<Integer, Integer>> heap =
-            new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+```java
+import java.util.HashSet;
+import java.util.Set;
 
-        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-            heap.add(entry);
-            if (heap.size() > k) {
-                heap.poll(); // remove lowest frequency
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 1, 2, 4, 5};
+
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = new HashSet<>();
+
+        for (int v : arr) {
+            if (!seen.add(v)) {
+                duplicates.add(v);
             }
         }
 
-        // Step 3: Extract result from heap
-        List<Integer> result = new ArrayList<>();
-        while (!heap.isEmpty()) {
-            result.add(heap.poll().getKey());
+        System.out.println(duplicates);
+    }
+}
+```
+
+## ✅ Find Missing Number in an Array (1 to N)
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 4, 5};
+        int n = 5;
+
+        int totalSum = n * (n + 1) / 2;
+        int arrSum = 0;
+
+        for (int v : arr) {
+            arrSum += v;
         }
 
-        return result;
+        System.out.println(totalSum - arrSum);
+    }
+}
+```
+
+## ✅ Find Second Largest Element in an Array
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {5, 1, 9, 2, 9, 7};
+
+        Integer first = null;
+        Integer second = null;
+
+        for (int v : arr) {
+            if (first == null || v > first) {
+                second = first;
+                first = v;
+            } else if (v != first && (second == null || v > second)) {
+                second = v;
+            }
+        }
+
+        System.out.println(second);
+    }
+}
+```
+
+## ✅ Matrix Addition, Subtraction, and Multiplication
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int[][] A = {{1, 2}, {3, 4}};
+        int[][] B = {{5, 6}, {7, 8}};
+        int n = 2;
+
+        int[][] add = new int[n][n];
+        int[][] sub = new int[n][n];
+        int[][] mul = new int[n][n];
+
+        // Addition & Subtraction
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                add[i][j] = A[i][j] + B[i][j];
+                sub[i][j] = A[i][j] - B[i][j];
+            }
+        }
+
+        // Multiplication
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    mul[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+
+        // Print multiplication result
+        for (int[] row : mul) {
+            for (int v : row) {
+                System.out.print(v + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+```
+
+## ✅ Transpose of a Matrix
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int[][] A = {{1, 2, 3}, {4, 5, 6}};
+        int rows = A.length;
+        int cols = A[0].length;
+
+        int[][] T = new int[cols][rows];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                T[j][i] = A[i][j];
+            }
+        }
+
+        for (int[] row : T) {
+            for (int v : row) {
+                System.out.print(v + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+```
+
+## ✅ String Reversal
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        String s = "hello";
+        String reversed = new StringBuilder(s).reverse().toString();
+        System.out.println(reversed);
+    }
+}
+```
+
+## ✅ Check if a String is a Palindrome
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        String s = "madam";
+        String rev = new StringBuilder(s).reverse().toString();
+
+        System.out.println(s.equals(rev) ? "Palindrome" : "Not Palindrome");
+    }
+}
+```
+
+## ✅ Count Vowels and Consonants in a String
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        String s = "Interview Prep".toLowerCase();
+
+        int vowels = 0;
+        int consonants = 0;
+
+        for (char ch : s.toCharArray()) {
+            if (ch >= 'a' && ch <= 'z') {
+                if ("aeiou".indexOf(ch) >= 0)
+                    vowels++;
+                else
+                    consonants++;
+            }
+        }
+
+        System.out.println("Vowels = " + vowels + ", Consonants = " + consonants);
+    }
+}
+```
+
+## ✅ Remove Duplicate Characters from a String
+
+```java
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        String s = "programming";
+
+        Set<Character> set = new LinkedHashSet<>();
+        StringBuilder sb = new StringBuilder();
+
+        for (char ch : s.toCharArray()) {
+            if (set.add(ch)) {
+                sb.append(ch);
+            }
+        }
+
+        System.out.println(sb.toString());
+    }
+}
+```
+
+## ✅ Find First Non-Repeated Character in a String
+
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        String s = "swiss";
+
+        Map<Character, Integer> map = new LinkedHashMap<>();
+
+        for (char ch : s.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        for (Map.Entry<Character, Integer> e : map.entrySet()) {
+            if (e.getValue() == 1) {
+                System.out.println(e.getKey());
+                return;
+            }
+        }
+
+        System.out.println("None");
+    }
+}
+```
+
+## ✅ Check Anagram Strings
+
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        String a = "listen";
+        String b = "silent";
+
+        char[] x = a.replaceAll("\\s", "").toLowerCase().toCharArray();
+        char[] y = b.replaceAll("\\s", "").toLowerCase().toCharArray();
+
+        Arrays.sort(x);
+        Arrays.sort(y);
+
+        System.out.println(Arrays.equals(x, y) ? "Anagram" : "Not Anagram");
+    }
+}
+```
+
+## ✅ Find Substring in a String (Without `contains()`)
+
+```java
+public class Main {
+
+    static boolean contains(String s, String sub) {
+        for (int i = 0; i + sub.length() <= s.length(); i++) {
+            int j = 0;
+
+            while (j < sub.length() && s.charAt(i + j) == sub.charAt(j)) {
+                j++;
+            }
+
+            if (j == sub.length()) return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(contains("helloworld", "world"));
+    }
+}
+```
+
+## ✅ Class and Object Demo
+
+```java
+class Person {
+    String name;
+    int age;
+
+    void introduce() {
+        System.out.println(name + ", " + age);
     }
 }
 
-// Output: [2, 1]
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.name = "Alice";
+        p.age = 25;
+        p.introduce();
+    }
+}
 ```
 
-### ✅ **67. Implement Queue Using LinkedList**
+## ✅ Constructor Demo (Default, Parameterized, Copy)
 
 ```java
-import java.util.*;
+class Box {
+    int w, h;
 
-class QueueLL {
+    Box() {
+        this.w = 1;
+        this.h = 1;
+    }
 
-    // Node class
-    private static class Node {
-        int val;
-        Node next;
+    Box(int w, int h) {
+        this.w = w;
+        this.h = h;
+    }
 
-        Node(int v) { 
-            val = v; 
+    Box(Box b) {
+        this.w = b.w;
+        this.h = b.h;
+    }
+
+    int area() {
+        return w * h;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Box a = new Box();
+        Box b = new Box(2, 3);
+        Box c = new Box(b);
+
+        System.out.println(a.area() + " " + b.area() + " " + c.area());
+    }
+}
+```
+
+## ✅ Method Overloading & Overriding
+
+```java
+class Calc {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {   // Overloading
+        return a + b + c;
+    }
+}
+
+class AdvCalc extends Calc {
+    @Override
+    int add(int a, int b) {           // Overriding
+        return super.add(a, b) + 1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calc c = new Calc();
+        AdvCalc ac = new AdvCalc();
+
+        System.out.println(c.add(1, 2));
+        System.out.println(ac.add(1, 2));
+    }
+}
+```
+
+## ✅ Inheritance Example (Single, Multilevel, Hierarchical)
+
+```java
+class A {
+    void f() {
+        System.out.println("A");
+    }
+}
+
+class B extends A {                  // Single
+    void g() {
+        System.out.println("B");
+    }
+}
+
+class C extends B {                  // Multilevel
+    void h() {
+        System.out.println("C");
+    }
+}
+
+class D extends A {                  // Hierarchical
+    void i() {
+        System.out.println("D");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        C c = new C();
+        c.f();
+        c.g();
+        c.h();
+
+        D d = new D();
+        d.f();
+        d.i();
+    }
+}
+```
+
+## ✅ Abstract Class Program
+
+```java
+abstract class Shape {
+    abstract double area();
+}
+
+class Circle extends Shape {
+    double r;
+
+    Circle(double r) {
+        this.r = r;
+    }
+
+    double area() {
+        return Math.PI * r * r;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape s = new Circle(2.0);
+        System.out.println(s.area());
+    }
+}
+```
+
+## ✅ Interface Example
+
+```java
+interface Drawable {
+    void draw();
+}
+
+class Square implements Drawable {
+    public void draw() {
+        System.out.println("Drawing square");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Drawable d = new Square();
+        d.draw();
+    }
+}
+```
+
+## ✅ Encapsulation (Getters & Setters)
+
+```java
+class Employee {
+    private int id;
+    private String name;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee e = new Employee();
+        e.setId(1);
+        e.setName("Bob");
+
+        System.out.println(e.getId() + ": " + e.getName());
+    }
+}
+```
+
+## ✅ Polymorphism Demo
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("some sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("bark");
+    }
+}
+
+class Cat extends Animal {
+    void sound() {
+        System.out.println("meow");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();
+
+        a = new Cat();
+        a.sound();
+    }
+}
+```
+
+## ✅ Static Keyword Demo
+
+```java
+public class Main {
+
+    static int count = 0;
+
+    public Main() {
+        count++;
+    }
+
+    public static void main(String[] args) {
+        new Main();
+        new Main();
+
+        System.out.println(Main.count);
+    }
+}
+```
+
+## ✅ `this` and `super` Keyword Usage
+
+```java
+class Base {
+    int x = 10;
+
+    Base(int x) {
+        this.x = x;
+    }
+}
+
+class Derived extends Base {
+    int x = 20;
+
+    Derived() {
+        super(5);
+        System.out.println(this.x + ", " + super.x);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        new Derived();
+    }
+}
+```
+
+## ✅ Try–Catch–Finally Example
+
+```java
+public class Main {
+    public static void main(String[] args) {
+
+        try {
+            int x = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero");
+        } finally {
+            System.out.println("Finally always runs");
+        }
+    }
+}
+```
+
+## ✅ `throw` and `throws` Usage
+
+```java
+public class Main {
+
+    static int div(int a, int b) throws ArithmeticException {
+        if (b == 0) {
+            throw new ArithmeticException("b cannot be zero");
+        }
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(div(10, 2));
+    }
+}
+```
+
+## ✅ Custom Exception Program
+
+```java
+class InvalidAgeException extends Exception {
+    InvalidAgeException(String msg) {
+        super(msg);
+    }
+}
+
+public class Main {
+
+    static void vote(int age) throws InvalidAgeException {
+        if (age < 18) {
+            throw new InvalidAgeException("Underage");
         }
     }
 
-    private Node front, rear;
-
-    // Add element to queue
-    public void enqueue(int x) {
-        Node n = new Node(x);
-        if (rear != null) {
-            rear.next = n;
-        } else {
-            front = n;
+    public static void main(String[] args) {
+        try {
+            vote(16);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        rear = n;
+    }
+}
+```
+
+## ✅ Read from a File
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+    }
+}
+```
+
+## ✅ Write to a File
+
+```java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
+            bw.write("Hello file");
+        }
+    }
+}
+```
+
+## ✅ Count Words in a File
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        int words = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.trim().split("\\s+");
+                if (parts.length == 1 && parts[0].isEmpty()) continue;
+                words += parts.length;
+            }
+        }
+
+        System.out.println(words);
+    }
+}
+```
+
+## ✅ Copy Content of One File to Another
+
+```java
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        try (
+            BufferedInputStream in =
+                    new BufferedInputStream(new FileInputStream("in.txt"));
+            BufferedOutputStream out =
+                    new BufferedOutputStream(new FileOutputStream("out.txt"))
+        ) {
+            byte[] buffer = new byte[4096];
+            int len;
+
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+        }
+    }
+}
+```
+
+## ✅ ArrayList Demo (Add, Remove, Iterate)
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<String> list = new ArrayList<>();
+
+        list.add("a");
+        list.add("b");
+        list.remove("a");
+
+        for (String s : list) {
+            System.out.println(s);
+        }
+    }
+}
+```
+
+## ✅ LinkedList Demo
+
+```java
+import java.util.LinkedList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        queue.add(1);
+        queue.addFirst(0);
+        queue.addLast(2);
+
+        System.out.println(queue);
+    }
+}
+```
+
+## ✅ HashSet & TreeSet Demo
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Set<Integer> hs = new HashSet<>();
+        hs.add(3);
+        hs.add(1);
+        hs.add(3);
+
+        System.out.println(hs);
+
+        Set<Integer> ts = new TreeSet<>(hs);
+        System.out.println(ts);
+    }
+}
+```
+
+## ✅ HashMap & TreeMap Demo
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("a", 1);
+        map.put("b", 2);
+
+        System.out.println(map);
+
+        Map<String, Integer> tmap = new TreeMap<>(map);
+        System.out.println(tmap);
+    }
+}
+```
+
+## ✅ Iterate Through HashMap (entrySet, keySet, values)
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("x", 10);
+        map.put("y", 20);
+
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            System.out.println(e.getKey() + "=" + e.getValue());
+        }
+
+        for (String key : map.keySet()) {
+            System.out.println(key);
+        }
+
+        for (Integer value : map.values()) {
+            System.out.println(value);
+        }
+    }
+}
+```
+
+## ✅ Sort Elements Using `Collections.sort()`
+
+```java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> list = Arrays.asList(5, 3, 1, 4, 2);
+
+        Collections.sort(list);
+        System.out.println(list);
+
+        Collections.sort(list, Collections.reverseOrder());
+        System.out.println(list);
+    }
+}
+```
+
+## ✅ Convert Array to List and Vice Versa
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String[] arr = {"a", "b", "c"};
+
+        List<String> list = new ArrayList<>(Arrays.asList(arr));
+        String[] back = list.toArray(new String[0]);
+
+        System.out.println(list + " | " + Arrays.toString(back));
+    }
+}
+```
+
+## ✅ Frequency of Elements Using HashMap
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        int[] arr = {1, 2, 2, 3, 3, 3};
+
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        for (int v : arr) {
+            freq.put(v, freq.getOrDefault(v, 0) + 1);
+        }
+
+        System.out.println(freq);
+    }
+}
+```
+
+## ✅ Remove Duplicates from List Using Set
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> list =
+                new ArrayList<>(Arrays.asList(1, 2, 2, 3, 3, 4));
+
+        List<Integer> unique =
+                new ArrayList<>(new LinkedHashSet<>(list));
+
+        System.out.println(unique);
+    }
+}
+```
+
+## ✅ Reverse Words in a Sentence
+
+```java
+public class Main {
+    public static void main(String[] args) {
+
+        String s = "Java is fun";
+        String[] parts = s.split("\\s+");
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = parts.length - 1; i >= 0; i--) {
+            sb.append(parts[i]);
+            if (i != 0) {
+                sb.append(" ");
+            }
+        }
+
+        System.out.println(sb.toString());
+    }
+}
+```
+
+## ✅ Check Balanced Parentheses Using Stack
+
+```java
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+
+    static boolean balanced(String s) {
+
+        Map<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put(']', '[');
+        map.put('}', '{');
+
+        Deque<Character> stack = new ArrayDeque<>();
+
+        for (char ch : s.toCharArray()) {
+
+            if (map.containsValue(ch)) {
+                stack.push(ch);
+            } else if (map.containsKey(ch)) {
+                if (stack.isEmpty() || stack.pop() != map.get(ch)) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
     }
 
-    // Remove element from queue
-    public int dequeue() {
-        if (front == null) return -1;
-        int val = front.val;
-        front = front.next;
-        if (front == null) rear = null;
-        return val;
+    public static void main(String[] args) {
+        System.out.println(balanced("{[()]}"));
+    }
+}
+```
+
+## ✅ Find Factorial Using Recursion
+
+```java
+public class Main {
+
+    static long factorial(int n) {
+        return n <= 1 ? 1 : n * factorial(n - 1);
     }
 
-    // Peek front element
-    public int peek() {
-        return (front == null) ? -1 : front.val;
+    public static void main(String[] args) {
+        System.out.println(factorial(5));
+    }
+}
+```
+
+## ✅ Find Nth Fibonacci Number Using Recursion
+
+```java
+public class Main {
+
+    static long fibonacci(int n) {
+        return n <= 1 ? n : fibonacci(n - 1) + fibonacci(n - 2);
     }
 
-    // Check if queue is empty
-    public boolean isEmpty() {
-        return front == null;
+    public static void main(String[] args) {
+        System.out.println(fibonacci(10));
+    }
+}
+```
+
+## ✅ Binary Search Implementation
+
+```java
+public class Main {
+
+    static int binarySearch(int[] arr, int key) {
+
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left <= right) {
+
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == key) {
+                return mid;
+            }
+
+            if (arr[mid] < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+
+        int[] arr = {1, 3, 5, 7, 9};
+        System.out.println(binarySearch(arr, 7));
+    }
+}
+```
+
+## ✅ Linear Search Implementation
+
+```java
+public class Main {
+
+    static int linearSearch(int[] arr, int key) {
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+
+        int[] arr = {4, 2, 7, 1};
+        System.out.println(linearSearch(arr, 7));
+    }
+}
+```
+
+## ✅ Bubble Sort, Selection Sort, Insertion Sort
+
+```java
+import java.util.Arrays;
+
+public class Main {
+
+    static void bubbleSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            for (int j = 0; j < a.length - 1 - i; j++) {
+                if (a[j] > a[j + 1]) {
+                    int t = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = t;
+                }
+            }
+        }
+    }
+
+    static void selectionSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            int t = a[i];
+            a[i] = a[min];
+            a[min] = t;
+        }
+    }
+
+    static void insertionSort(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int key = a[i];
+            int j = i - 1;
+
+            while (j >= 0 && a[j] > key) {
+                a[j + 1] = a[j];
+                j--;
+            }
+            a[j + 1] = key;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] a = {5, 1, 4, 2, 8};
+
+        int[] b1 = a.clone();
+        bubbleSort(b1);
+        System.out.println("Bubble Sort: " + Arrays.toString(b1));
+
+        int[] b2 = a.clone();
+        selectionSort(b2);
+        System.out.println("Selection Sort: " + Arrays.toString(b2));
+
+        int[] b3 = a.clone();
+        insertionSort(b3);
+        System.out.println("Insertion Sort: " + Arrays.toString(b3));
+    }
+}
+```
+
+## ✅ Quick Sort & Merge Sort
+
+```java
+import java.util.Arrays;
+
+public class Main {
+
+    static void quickSort(int[] a, int left, int right) {
+        if (left >= right) return;
+
+        int i = left, j = right;
+        int pivot = a[left + (right - left) / 2];
+
+        while (i <= j) {
+            while (a[i] < pivot) i++;
+            while (a[j] > pivot) j--;
+
+            if (i <= j) {
+                int t = a[i];
+                a[i] = a[j];
+                a[j] = t;
+                i++;
+                j--;
+            }
+        }
+
+        if (left < j) quickSort(a, left, j);
+        if (i < right) quickSort(a, i, right);
+    }
+
+    static void mergeSort(int[] a, int left, int right) {
+        if (left >= right) return;
+
+        int mid = (left + right) / 2;
+
+        mergeSort(a, left, mid);
+        mergeSort(a, mid + 1, right);
+
+        int[] temp = new int[right - left + 1];
+        int i = left, j = mid + 1, k = 0;
+
+        while (i <= mid && j <= right) {
+            temp[k++] = (a[i] <= a[j]) ? a[i++] : a[j++];
+        }
+
+        while (i <= mid) temp[k++] = a[i++];
+        while (j <= right) temp[k++] = a[j++];
+
+        System.arraycopy(temp, 0, a, left, temp.length);
+    }
+
+    public static void main(String[] args) {
+        int[] a = {5, 2, 9, 1, 5, 6};
+
+        int[] q = a.clone();
+        quickSort(q, 0, q.length - 1);
+        System.out.println("Quick Sort: " + Arrays.toString(q));
+
+        int[] m = a.clone();
+        mergeSort(m, 0, m.length - 1);
+        System.out.println("Merge Sort: " + Arrays.toString(m));
+    }
+}
+```
+
+## ✅ Count Occurrences of Each Word in a String
+
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String s = "to be or not to be";
+        Map<String, Integer> map = new LinkedHashMap<>();
+
+        for (String word : s.toLowerCase().split("\\s+")) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+
+        System.out.println(map);
+    }
+}
+```
+
+## ✅ Longest Substring Without Repeating Characters
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String s = "abcabcbb";
+
+        Map<Character, Integer> indexMap = new HashMap<>();
+        int left = 0;
+        int maxLength = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+
+            if (indexMap.containsKey(c) && indexMap.get(c) >= left) {
+                left = indexMap.get(c) + 1;
+            }
+
+            indexMap.put(c, right);
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        System.out.println(maxLength);
+    }
+}
+```
+
+## ✅ LRU Cache Implementation using `LinkedHashMap`
+
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+class LRU<K, V> extends LinkedHashMap<K, V> {
+
+    private final int capacity;
+
+    LRU(int capacity) {
+        super(capacity, 0.75f, true); // accessOrder = true
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
 
-        QueueLL q = new QueueLL();
+        LRU<Integer, Integer> cache = new LRU<>(2);
 
-        // Enqueue elements
-        q.enqueue(10);
-        q.enqueue(20);
-        q.enqueue(30);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.get(1);      // access 1
+        cache.put(3, 3);   // evicts key 2
 
-        System.out.println("Front element: " + q.peek()); // 10
-
-        // Dequeue all elements
-        System.out.println("Dequeued: " + q.dequeue()); // 10
-        System.out.println("Dequeued: " + q.dequeue()); // 20
-        System.out.println("Dequeued: " + q.dequeue()); // 30
-
-        // Queue empty check
-        System.out.println("Is queue empty? " + q.isEmpty()); // true
-
-        // Try dequeue from empty queue
-        System.out.println("Dequeued from empty: " + q.dequeue()); // -1
+        System.out.println(cache.keySet()); // [1, 3]
     }
 }
-
-// Output:
-// Front element: 10
-// Dequeued: 10
-// Dequeued: 20
-// Dequeued: 30
-// Is queue empty? true
-// Dequeued from empty: -1
 ```
 
-### ✅ **68. Implement Binary Search (Iterative)**
+## ✅ Producer–Consumer Problem using Threads
 
 ```java
-public class BinarySearch {
-    public static void main(String[] args) {
-        int[] arr = {1, 3, 5, 7, 9, 11};
-        int target = 7;
+import java.util.concurrent.ArrayBlockingQueue;
 
-        int index = search(arr, target);
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
 
-        System.out.println("Index: " + index);
-    }
-    public static int search(int[] arr, int target) {
-        int left = 0, right = arr.length - 1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-
-            if (arr[mid] == target) return mid;
-            else if (target > arr[mid]) left = mid + 1;
-            else right = mid - 1;
-        }
-        return -1;
-    }
-}
-
-// Output: Index: 3
-```
-
-### ✅ **69. Implement Binary Search Recursively**
-
-```java
-public class BinarySearchRecursive {
-    public static void main(String[] args) {
-
-        int[] arr = {1, 3, 5, 7, 9, 11};
-        int target = 7;
-
-        int index = search(arr, target, 0, arr.length - 1);
-
-        System.out.println("Index: " + index);
-    }
-
-    // Recursive binary search
-    public static int search(int[] arr, int target, int left, int right) {
-        if (left > right) return -1;
-
-        int mid = left + (right - left) / 2;
-
-        if (arr[mid] == target) return mid;
-        else if (target < arr[mid])
-            return search(arr, target, left, mid - 1);
-        else
-            return search(arr, target, mid + 1, right);
-    }
-}
-
-// Output: Index: 3
-```
-
-### ✅ **70. Implement MinStack (getMin() in O(1))**
-
-Maintain two stacks:
-✔ `mainStack` → stores values
-✔ `minStack` → stores minimum values
-
-```java
-import java.util.Stack;
-
-class MinStack {
-      // ---------------- MinStack (inside Main class) ----------------
-    static class MinStack {
-        Stack<Integer> stack = new Stack<>();
-        Stack<Integer> minStack = new Stack<>();
-
-        public void push(int x) {
-            stack.push(x);
-            if (minStack.isEmpty() || x <= minStack.peek()) {
-                minStack.push(x);
-            }
-        }
-
-        public int pop() {
-            if (stack.isEmpty()) return -1;
-
-            int removed = stack.pop();
-            if (removed == minStack.peek()) {
-                minStack.pop();
-            }
-            return removed;
-        }
-
-        public int top() {
-            return stack.isEmpty() ? -1 : stack.peek();
-        }
-
-        public int getMin() {
-            return minStack.isEmpty() ? -1 : minStack.peek();
-        }
-    }
-
-    // ---------------- Main Method ----------------
-    public static void main(String[] args) {
-
-        MinStack ms = new MinStack();
-
-        ms.push(5);
-        ms.push(3);
-        ms.push(7);
-        ms.push(2);
-
-        System.out.println("Top: " + ms.top());        // 2
-        System.out.println("Min: " + ms.getMin());     // 2
-
-        ms.pop();  // removes 2
-        System.out.println("Min after pop: " + ms.getMin()); // 3
-
-        ms.pop();  // removes 7
-        System.out.println("Top: " + ms.top());        // 3
-        System.out.println("Min: " + ms.getMin());     // 3
-    }
-}
-
-// Output:
-// Top: 2
-// Min: 2
-// Min after pop: 3
-// Top: 3
-// Min: 3
-```
-
-### ✅ **71. Trie – Full Working Code with `main()`**
-
-```java
-class Trie {
-
-    class TrieNode {
-        TrieNode[] children = new TrieNode[26];
-        boolean endOfWord;
-    }
-
-    TrieNode root = new TrieNode();
-
-    public void insert(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            int i = c - 'a';
-            if (node.children[i] == null)
-                node.children[i] = new TrieNode();
-            node = node.children[i];
-        }
-        node.endOfWord = true;
-    }
-
-    public boolean search(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            int i = c - 'a';
-            if (node.children[i] == null) return false;
-            node = node.children[i];
-        }
-        return node.endOfWord;
-    }
-
-    public boolean startsWith(String prefix) {
-        TrieNode node = root;
-        for (char c : prefix.toCharArray()) {
-            int i = c - 'a';
-            if (node.children[i] == null) return false;
-            node = node.children[i];
-        }
-        return true;
-    }
-
-    // -------- MAIN TEST --------
-    public static void main(String[] args) {
-        Trie trie = new Trie();
-
-        trie.insert("apple");
-        trie.insert("app");
-
-        System.out.println("Search apple: " + trie.search("apple"));   // true
-        System.out.println("Search app: " + trie.search("app"));       // true
-        System.out.println("Search bat: " + trie.search("bat"));       // false
-        System.out.println("StartsWith ap: " + trie.startsWith("ap")); // true
-    }
-}
-// Output:
-// Search apple: true
-// Search app: true
-// Search bat: false
-// StartsWith ap: true
-```
-
-### ✅ **72. Detect & Remove Loop – Full Working with `main()`**
-```java
-class LinkedListLoop {
-
-    static class Node {
-        int data;
-        Node next;
-        Node(int d) { data = d; }
-    }
-
-    Node head;
-
-    public void detectAndRemoveLoop() {
-        Node slow = head, fast = head;
-
-        // Detect loop
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-
-            if (slow == fast) break;
-        }
-
-        // No loop
-        if (slow != fast) return;
-
-        // Reset slow
-        slow = head;
-
-        // Find start
-        while (slow.next != fast.next) {
-            slow = slow.next;
-            fast = fast.next;
-        }
-
-        // Remove loop
-        fast.next = null;
-    }
-
-    // PRINT LIST
-    public void printList() {
-        Node temp = head;
-        while (temp != null) {
-            System.out.print(temp.data + " ");
-            temp = temp.next;
-        }
-        System.out.println();
-    }
-
-    // ---- MAIN TEST ----
-    public static void main(String[] args) {
-        LinkedListLoop list = new LinkedListLoop();
-
-        list.head = new Node(1);
-        list.head.next = new Node(2);
-        list.head.next.next = new Node(3);
-        list.head.next.next.next = new Node(4);
-
-        // Create loop: 4 -> 2
-        list.head.next.next.next.next = list.head.next;
-
-        list.detectAndRemoveLoop();
-
-        System.out.print("After removing loop: ");
-        list.printList(); // 1 2 3 4
-    }
-}
-//Output:  After removing loop: 1 2 3 4 
-```
-
-### ✅ **73. Serialize & Deserialize Binary Tree – Full with `main()`**
-
-```java
-import java.util.*;
-
-class TreeNode {
-    int val;
-    TreeNode left, right;
-    TreeNode(int x) { val = x; }
-}
-
-class Codec {
-
-    public String serialize(TreeNode root) {
-        if (root == null) return "#";
-        return root.val + "," + serialize(root.left) + "," + serialize(root.right);
-    }
-
-    public TreeNode deserialize(String data) {
-        Queue<String> q = new LinkedList<>(Arrays.asList(data.split(",")));
-        return helper(q);
-    }
-
-    private TreeNode helper(Queue<String> q) {
-        String s = q.poll();
-        if (s.equals("#")) return null;
-        TreeNode node = new TreeNode(Integer.parseInt(s));
-        node.left = helper(q);
-        node.right = helper(q);
-        return node;
-    }
-
-    // ---- MAIN TEST ----
-    public static void main(String[] args) {
-        Codec c = new Codec();
-
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(3);
-
-        String data = c.serialize(root);
-        System.out.println("Serialized: " + data);
-
-        TreeNode newRoot = c.deserialize(data);
-        System.out.println("Deserialized root val: " + newRoot.val);
-    }
-}
-// Output: 
-```
-
-### ✅ **74. Diameter of Binary Tree – Full with `main()`**
-
-```java
-class TreeNodeDiameter {
-    int val;
-    TreeNodeDiameter left, right;
-    TreeNodeDiameter(int x) { val = x; }
-}
-
-class BinaryTree {
-    int maxDiameter = 0;
-
-    public int diameter(TreeNodeDiameter root) {
-        height(root);
-        return maxDiameter;
-    }
-
-    private int height(TreeNodeDiameter node) {
-        if (node == null) return 0;
-
-        int left = height(node.left);
-        int right = height(node.right);
-
-        maxDiameter = Math.max(maxDiameter, left + right);
-
-        return 1 + Math.max(left, right);
-    }
-
-    // ---- MAIN TEST ----
-    public static void main(String[] args) {
-        TreeNodeDiameter root = new TreeNodeDiameter(1);
-        root.left = new TreeNodeDiameter(2);
-        root.right = new TreeNodeDiameter(3);
-        root.left.left = new TreeNodeDiameter(4);
-        root.left.right = new TreeNodeDiameter(5);
-
-        BinaryTree t = new BinaryTree();
-        System.out.println("Diameter: " + t.diameter(root)); // 3
-    }
-}
-
-// Output:
-```
-
-### ✅ **75. Number of Islands – Full with `main()`**
-```java
-class NumberOfIslands {
-
-    public int numIslands(char[][] grid) {
-        int count = 0;
-
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == '1') {
-                    dfs(grid, i, j);
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-    private void dfs(char[][] g, int i, int j) {
-        if (i < 0 || j < 0 || i >= g.length || j >= g[0].length || g[i][j] == '0')
-            return;
-
-        g[i][j] = '0';
-        dfs(g, i+1, j);
-        dfs(g, i-1, j);
-        dfs(g, i, j+1);
-        dfs(g, i, j-1);
-    }
-
-    // ---- MAIN TEST ----
-    public static void main(String[] args) {
-        char[][] grid = {
-            {'1','1','0'},
-            {'1','0','0'},
-            {'0','0','1'}
-        };
-
-        NumberOfIslands obj = new NumberOfIslands();
-        System.out.println("Islands: " + obj.numIslands(grid)); // 2
-    }
-}
-// Output:
-```
-
-## Multithreading
-### ✅ **76. Producer–Consumer Problem (Threads + wait/notify)**
-
-```java
-import java.util.*;
-
-class ProducerConsumer {
-    private final Queue<Integer> buffer = new LinkedList<>();
-    private final int capacity = 5;
-
-    public void produce() throws InterruptedException {
-        int value = 0;
-        while (true) {
-            synchronized (buffer) {
-                while (buffer.size() == capacity) buffer.wait();
-                buffer.add(value);
-                System.out.println("Produced: " + value);
-                value++;
-                buffer.notify();
-            }
-            Thread.sleep(500);
-        }
-    }
-
-    public void consume() throws InterruptedException {
-        while (true) {
-            synchronized (buffer) {
-                while (buffer.isEmpty()) buffer.wait();
-                int val = buffer.poll();
-                System.out.println("Consumed: " + val);
-                buffer.notify();
-            }
-            Thread.sleep(1000);
-        }
-    }
-
-    public static void main(String[] args) {
-        ProducerConsumer pc = new ProducerConsumer();
+        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(2);
 
         Thread producer = new Thread(() -> {
-            try { pc.produce(); } catch (InterruptedException e) {}
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    queue.put(i);
+                    System.out.println("Produced: " + i);
+                }
+            } catch (InterruptedException ignored) {}
         });
 
         Thread consumer = new Thread(() -> {
-            try { pc.consume(); } catch (InterruptedException e) {}
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    System.out.println("Consumed: " + queue.take());
+                }
+            } catch (InterruptedException ignored) {}
         });
 
         producer.start();
         consumer.start();
+
+        producer.join();
+        consumer.join();
+    }
+}
+```
+
+## ✅ Deadlock Example in Java
+
+```java
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        final Object A = new Object();
+        final Object B = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (A) {
+                try { Thread.sleep(100); } catch (Exception ignored) {}
+                synchronized (B) {
+                    System.out.println("Thread 1 acquired A and B");
+                }
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (B) {
+                try { Thread.sleep(100); } catch (Exception ignored) {}
+                synchronized (A) {
+                    System.out.println("Thread 2 acquired B and A");
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+    }
+}
+```
+
+🔹 **Interview Tip**:
+Deadlock occurs due to
+1️⃣ Mutual exclusion
+2️⃣ Hold and wait
+3️⃣ No preemption
+4️⃣ Circular wait
+
+## ✅ Singleton Design Pattern (Thread-Safe)
+
+```java
+class Singleton {
+
+    private static volatile Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
     }
 }
 
-// Output:
-// Produced: 0
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(Singleton.getInstance());
+    }
+}
+```
+
+## ✅ Create Thread using `Thread` Class
+
+```java
+public class Main extends Thread {
+
+    @Override
+    public void run() {
+        System.out.println("Hello from Thread");
+    }
+
+    public static void main(String[] args) {
+        new Main().start();
+    }
+}
+```
+
+## ✅ Create Thread using `Runnable` Interface
+
+```java
+public class Main {
+
+    public static void main(String[] args) {
+        Runnable r = () -> System.out.println("Hello from Runnable");
+        new Thread(r).start();
+    }
+}
+```
+
+## ✅ Synchronization Example
+
+```java
+class Counter {
+
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        Counter counter = new Counter();
+
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println(counter.count);
+    }
+}
+```
+
+## ✅ Inter-Thread Communication (`wait()` / `notify()`)
+
+```java
+class Shared {
+
+    private int data;
+    private boolean ready = false;
+
+    synchronized void produce(int value) throws InterruptedException {
+        while (ready) {
+            wait();
+        }
+        data = value;
+        ready = true;
+        notify();
+    }
+
+    synchronized int consume() throws InterruptedException {
+        while (!ready) {
+            wait();
+        }
+        ready = false;
+        notify();
+        return data;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        Shared shared = new Shared();
+
+        Thread producer = new Thread(() -> {
+            try {
+                shared.produce(42);
+            } catch (InterruptedException ignored) {}
+        });
+
+        Thread consumer = new Thread(() -> {
+            try {
+                System.out.println(shared.consume());
+            } catch (InterruptedException ignored) {}
+        });
+
+        producer.start();
+        consumer.start();
+
+        producer.join();
+        consumer.join();
+    }
+}
+```
+
+## ✅ Thread Pool Example (`ExecutorService`)
+
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ExecutorService pool = Executors.newFixedThreadPool(2);
+
+        for (int i = 1; i <= 4; i++) {
+            final int taskId = i;
+            pool.submit(() ->
+                System.out.println("Task " + taskId + " executed by " +
+                        Thread.currentThread().getName())
+            );
+        }
+
+        pool.shutdown();
+    }
+}
+```
+
+## ✅ Lambda Expression Example
+
+```java
+interface Operation {
+    int apply(int a, int b);
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Operation add = (a, b) -> a + b;
+        System.out.println(add.apply(2, 3));
+    }
+}
+```
+
+## ✅ Functional Interfaces (`Predicate`, `Function`, `Consumer`)
+
+```java
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Predicate<Integer> isEven = x -> x % 2 == 0;
+        Function<Integer, Integer> square = x -> x * x;
+        Consumer<Integer> print = System.out::println;
+
+        if (isEven.test(4)) {
+            print.accept(square.apply(4));
+        }
+    }
+}
+```
+
+## ✅ Streams API (`filter`, `map`, `reduce`, `collect`)
+
+```java
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5);
+
+        int sumSquaresOfEven = nums.stream()
+                .filter(x -> x % 2 == 0)
+                .map(x -> x * x)
+                .reduce(0, Integer::sum);
+
+        List<Integer> doubled = nums.stream()
+                .map(x -> x * 2)
+                .collect(Collectors.toList());
+
+        System.out.println(sumSquaresOfEven + " " + doubled);
+    }
+}
+```
+
+## ✅ Method References
+
+```java
+import java.util.*;
+
+public class Main {
+
+    static void print(Integer x) {
+        System.out.println(x);
+    }
+
+    public static void main(String[] args) {
+
+        List<Integer> list = Arrays.asList(1, 2, 3);
+        list.forEach(Main::print);
+    }
+}
+```
+
+## ✅ Optional Class Usage
+
+```java
+import java.util.Optional;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Optional<String> optional = Optional.ofNullable(null);
+        System.out.println(optional.orElse("default"));
+    }
+}
+```
+
+## ✅ Library Management System (Mini Demo)
+
+```java
+import java.util.*;
+
+class Book {
+    String id;
+    String title;
+    boolean issued;
+
+    Book(String id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+}
+
+class Library {
+
+    Map<String, Book> books = new HashMap<>();
+
+    void add(Book book) {
+        books.put(book.id, book);
+    }
+
+    boolean issue(String id) {
+        Book book = books.get(id);
+        if (book != null && !book.issued) {
+            book.issued = true;
+            return true;
+        }
+        return false;
+    }
+
+    void list() {
+        books.values().forEach(
+            b -> System.out.println(b.id + " : " + b.title + " : " + b.issued)
+        );
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Library lib = new Library();
+        lib.add(new Book("1", "Java Basics"));
+        lib.add(new Book("2", "DSA"));
+
+        lib.issue("1");
+        lib.list();
+    }
+}
+```
+
+## ✅ Banking System (Deposit, Withdraw, Balance)
+
+```java
+class Account {
+
+    private int balance;
+
+    Account(int balance) {
+        this.balance = balance;
+    }
+
+    synchronized void deposit(int amount) {
+        balance += amount;
+    }
+
+    synchronized boolean withdraw(int amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    synchronized int getBalance() {
+        return balance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Account account = new Account(1000);
+        account.deposit(500);
+        account.withdraw(200);
+
+        System.out.println(account.getBalance());
+    }
+}
+```
+
+## ✅ Employee Management System (Mini)
+
+```java
+import java.util.*;
+
+class Employee {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+class EMS {
+
+    Map<Integer, Employee> employees = new HashMap<>();
+
+    void add(Employee e) {
+        employees.put(e.id, e);
+    }
+
+    Employee get(int id) {
+        return employees.get(id);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        EMS ems = new EMS();
+        ems.add(new Employee(1, "Ana"));
+
+        System.out.println(ems.get(1).name);
+    }
+}
+```
+
+## ✅ Student Management System (mini)
+
+```java
+import java.util.*;
+
+class Student {
+    int id;
+    String name;
+
+    Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+class SMS {
+    Map<Integer, Student> map = new HashMap<>();
+
+    void add(Student s) {
+        map.put(s.id, s);
+    }
+
+    Student get(int id) {
+        return map.get(id);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        SMS sms = new SMS();
+        sms.add(new Student(1, "Max"));
+        System.out.println(sms.get(1).name);
+    }
+}
 ```
