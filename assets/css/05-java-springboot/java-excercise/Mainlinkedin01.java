@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.LinkedHashSet;
@@ -19,7 +20,9 @@ public class Mainlinkedin01 {
         // fnFeapYearCheck();
         // fnSwapTwoNumbers();
         // fnFactorialOfNumber();
+        // fnFindFactorialUsingRecursion(5)
         // fnFibonacciSeries();
+        // fnFindNthFibonacciNumberUsingRecursion(10)
         // fnReverseNumberAndString();
         // fnPalindromeNumberAndStringCheck();
         // fnArmstrongNumberCheck();
@@ -46,10 +49,12 @@ public class Mainlinkedin01 {
         // fnMatrixAdditionSubtractionMultiplication();
         // fnTransposeOfMatrix();
         // fnVowelConsonantCount();
+        // fnCountOccurrencesInString();
         // fnFirstNonRepeatedChar();
         // fnAnagramCheck();
         // fnCommonElementsInTwoArrays();
-        fnFindSubstring("Hello", "Hello World");
+        // fnFindSubstring("Hello", "Hello World");
+        // fnLongestSubstring();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -142,6 +147,11 @@ public class Mainlinkedin01 {
         System.out.println(fact);
     }
 
+    // ## ✅ Find Factorial Using Recursion
+    static long fnFindFactorialUsingRecursion(int n) {
+        return n <= 1 ? 1 : n * fnFindFactorialUsingRecursion(n - 1);
+    }
+
     // ## ✅ Fibonacci Series (First N Terms)
     public static void fnFibonacciSeries() {
         int n = 5;
@@ -153,6 +163,11 @@ public class Mainlinkedin01 {
             a = b;
             b = c;
         }
+    }
+
+    // ## ✅ Find Nth Fibonacci Number Using Recursion
+    static long fnFindNthFibonacciNumberUsingRecursion(int n) {
+        return n <= 1 ? n : fnFindNthFibonacciNumberUsingRecursion(n - 1) + fnFindNthFibonacciNumberUsingRecursion(n - 2);
     }
 
     // ## ✅ Reverse a Number  and string
@@ -765,6 +780,41 @@ public class Mainlinkedin01 {
         // Consonants: 7
     }
 
+    // ## ✅ Count Occurrences of Each Word in a String
+    public static void fnCountOccurrencesInString() {
+        // Way one ==========
+        String s = "to be or not to be";
+        Map<String, Integer> map = new LinkedHashMap<>();
+
+        for (String word : s.toLowerCase().split("\\s+")) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+
+        System.out.println(map);
+        // {to=2, be=2, or=1, not=1}
+
+        // Way two ==========
+        String str = "to be or not to be";
+
+        String[] words = str.toLowerCase().split("\\s+");
+
+        Map<String, Integer> mapCount = new LinkedHashMap<>();
+
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+
+            if (mapCount.containsKey(word)) {
+                mapCount.put(word, mapCount.get(word) + 1);
+            } else {
+                mapCount.put(word, 1);
+            }
+        }
+
+        System.out.println(mapCount);
+        // {to=2, be=2, or=1, not=1}
+    }
+    
+
     // ## ✅ Find First Non-Repeated Character in a String
     public static void fnFirstNonRepeatedChar () {
         // way one ==================
@@ -882,6 +932,29 @@ public class Mainlinkedin01 {
             System.out.println("The string does not contain the substring.");
         }
     }
+
+    // ## ✅ Longest Substring Without Repeating Characters
+    public static void fnLongestSubstring () {
+		String s = "abcabcbb";
+
+        Map<Character, Integer> indexMap = new HashMap<>();
+        int left = 0;
+        int maxLength = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+
+            if (indexMap.containsKey(c) && indexMap.get(c) >= left) {
+                left = indexMap.get(c) + 1;
+            }
+
+            indexMap.put(c, right);
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        System.out.println(maxLength);
+		// 3
+	}
 
 
 

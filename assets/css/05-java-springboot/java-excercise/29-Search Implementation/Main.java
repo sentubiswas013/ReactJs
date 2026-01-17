@@ -1,10 +1,49 @@
 
 
-## ✅ Binary Search Implementation
+import java.util.Arrays;
 
-```java
 public class Main {
+    public static void main(String[] args) {
+        // ## ✅ Binary Search Implementation
+        // ===========================================
+        int[] arrBi = {1, 3, 5, 7, 9};
+        System.out.println(binarySearch(arrBi, 7));
 
+        // ## ✅ Linear Search Implementation
+        // ===========================================
+        int[] arrLIn = {4, 2, 7, 1};
+        System.out.println(linearSearch(arrLIn, 7));
+
+        // ## ✅ Bubble Sort, Selection Sort, Insertion Sort
+        // ===========================================
+        int[] a = {5, 1, 4, 2, 8};
+
+        int[] b1 = a.clone();
+        bubbleSort(b1);
+        System.out.println("Bubble Sort: " + Arrays.toString(b1));
+
+        int[] b2 = a.clone();
+        selectionSort(b2);
+        System.out.println("Selection Sort: " + Arrays.toString(b2));
+
+        int[] b3 = a.clone();
+        insertionSort(b3);
+        System.out.println("Insertion Sort: " + Arrays.toString(b3));
+
+        // ## ✅ Quick Sort & Merge Sort
+        // ===========================================
+        int[] aa = {5, 2, 9, 1, 5, 6};
+
+        int[] q = aa.clone();
+        quickSort(q, 0, q.length - 1);
+        System.out.println("Quick Sort: " + Arrays.toString(q));
+
+        int[] m = aa.clone();
+        mergeSort(m, 0, m.length - 1);
+        System.out.println("Merge Sort: " + Arrays.toString(m));
+    }
+
+    // ## ✅ Binary Search Implementation
     static int binarySearch(int[] arr, int key) {
 
         int left = 0;
@@ -27,19 +66,7 @@ public class Main {
         return -1;
     }
 
-    public static void main(String[] args) {
-
-        int[] arr = {1, 3, 5, 7, 9};
-        System.out.println(binarySearch(arr, 7));
-    }
-}
-```
-
-## ✅ Linear Search Implementation
-
-```java
-public class Main {
-
+    // ## ✅ Linear Search Implementation
     static int linearSearch(int[] arr, int key) {
 
         for (int i = 0; i < arr.length; i++) {
@@ -50,21 +77,7 @@ public class Main {
         return -1;
     }
 
-    public static void main(String[] args) {
-
-        int[] arr = {4, 2, 7, 1};
-        System.out.println(linearSearch(arr, 7));
-    }
-}
-```
-
-## ✅ Bubble Sort, Selection Sort, Insertion Sort
-
-```java
-import java.util.Arrays;
-
-public class Main {
-
+    // ## ✅ Bubble Sort, Selection Sort, Insertion Sort
     static void bubbleSort(int[] a) {
         for (int i = 0; i < a.length - 1; i++) {
             for (int j = 0; j < a.length - 1 - i; j++) {
@@ -104,31 +117,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        int[] a = {5, 1, 4, 2, 8};
-
-        int[] b1 = a.clone();
-        bubbleSort(b1);
-        System.out.println("Bubble Sort: " + Arrays.toString(b1));
-
-        int[] b2 = a.clone();
-        selectionSort(b2);
-        System.out.println("Selection Sort: " + Arrays.toString(b2));
-
-        int[] b3 = a.clone();
-        insertionSort(b3);
-        System.out.println("Insertion Sort: " + Arrays.toString(b3));
-    }
-}
-```
-
-## ✅ Quick Sort & Merge Sort
-
-```java
-import java.util.Arrays;
-
-public class Main {
-
+    // ## ✅ Quick Sort & Merge Sort
     static void quickSort(int[] a, int left, int right) {
         if (left >= right) return;
 
@@ -172,17 +161,4 @@ public class Main {
 
         System.arraycopy(temp, 0, a, left, temp.length);
     }
-
-    public static void main(String[] args) {
-        int[] a = {5, 2, 9, 1, 5, 6};
-
-        int[] q = a.clone();
-        quickSort(q, 0, q.length - 1);
-        System.out.println("Quick Sort: " + Arrays.toString(q));
-
-        int[] m = a.clone();
-        mergeSort(m, 0, m.length - 1);
-        System.out.println("Merge Sort: " + Arrays.toString(m));
-    }
 }
-```
