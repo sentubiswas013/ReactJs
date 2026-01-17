@@ -1,1062 +1,1524 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.io.File;
-import java.io.IOException;
-// https://media.licdn.com/dms/document/media/v2/D4D1FAQFsBdzvZXsFrw/feedshare-document-sanitized-pdf/B4DZumBg4JKoA8-/0/1768016974359?e=1768939200&v=beta&t=q1VXaWNPXInFfiuXByXA3TE4BbF_BrbGWc3PCrdf3wY
-public class Main01 {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
+## ✅ Class and Object Demo
 
-        // 01. String Operations  ============================
-        // ReverseString();
-        // RemoveWhiteSpacesWithReplace();
-        // RemoveWhiteSpacesWithoutReplace();
-        // ContainsSubstring();
-        // ReplaceCharacter();
-        // ArrayToString();
-        // SwapStrings();
-        // SwapWithThirdVariable();
-        // SwapWithoutThirdVariable();
-        // LongestWord();
-		// shortWord();
+```java
+class Person {
+    String name;
+    int age;
 
-        // 02. String Analysis ================================
-        // Palindrome();
-        // FirstNonRepeatedChar ();
-        // DuplicateCharacters();
-        // RemoveDuplicates();
-        // VowelConsonantCount();
-        // AnagramCheck();
-        // CountOccurrences();
-
-        // 03. Number Operations  ==============================
-        // EvenOdd();
-        // ReverseInteger();
-        // SumOfDigitsOne();
-        // SumOfDigitsTwo();
-        // SumOfNaturalNumbers();
-        // StringToInteger();
-        // PrimeNumber();
-        // PrimeNumbers();
-        // PerfectNumber();
-        // PerfectSquare();
-        // ArmstrongNumber();
-        // GreatestCommonDivisor();
-        // Factorial();
-        // PowerOfNumber();
-
-        // 04. Array Operations  ==============================
-        // findSimilarNumsFromTwoArray();
-        // findDuplicateNums();
-        // SecondHighestNumber();
-        // LargestElement();
-        // SmallestElement();
-        // MergeArrays();
-        // SortArray();
-        // SortArrayTwo();
-        // SumArray();
-        // MedianArray();
-        // CommonElements();
-        // IterateArrayList();
-
-        // 05. Data Structures  ================================
-        // CountWordsUsingHashMap();
-        // IterateHashMap();
-
-        // 06. Series & Patterns  ==============================
-        // FibonacciSeries();
-        // MultiplicationTable();
-        // StarTriangle();
-        // NumberPattern();
-
-        // 07. Implement Star Pattern ==============================
-        // SquareStarPattern();
-        // RightTriangleStarPattern();
-        // InvertedTriangleStarPattern();
-        // PyramidStarPattern();
-        // DiamondStarPattern();
+    void introduce() {
+        System.out.println(name + ", " + age);
     }
-
-    // String Operations ==========================================================
-    // 1. Reverse a String without using String inbuilt function
-    public static void ReverseString() {
-        String str = "HelloWorld";
-        String reversedStr = "";
-        for (int i = str.length() - 1; i >= 0; i--) {
-            reversedStr += str.charAt(i);
-        }
-        System.out.println("Reversed string: " + reversedStr);
-        // Reversed string: dlroWolleH
-    }
-
-    // 2. Remove All White Spaces from a String Using `replace()`
-    public static void RemoveWhiteSpacesWithReplace() {
-        String str = "Hello World Java";
-        String result = str.replace(" ", "");
-        System.out.println("Without spaces: " + result);
-
-        // Without spaces: HelloWorldJava
-    }
-
-    // 3. Remove All White Spaces from a String Without Using `replace()`
-   public static void RemoveWhiteSpacesWithoutReplace() {
-        String str = "   Hello World!   ";
-        StringBuilder result = new StringBuilder();
-
-        // Iterate through the string and append non-space characters to StringBuilder
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) != ' ') {
-                result.append(str.charAt(i));
-            }
-        }
-
-        System.out.println("String after removing white spaces: '" + result.toString() + "'");
-        // String after removing white spaces: 'HelloWorld!'
-    }
-
-    // 4. Check if a String Contains a Substring
-    public static void ContainsSubstring() {
-        String str = "Hello World";  // Example string
-        String substring = "World";  // Substring to check
-
-        // Check if the string contains the substring
-        if (str.contains(substring)) {
-            System.out.println("The string contains the substring.");
-        } else {
-            System.out.println("The string does not contain the substring.");
-        }
-    }
-
-    // 5. Replace a Character in a String Without Using `String.replace()`
-    public static void ReplaceCharacter() {
-        String str = "Hello World";  // Example string
-        char oldChar = 'o';  // Character to replace
-        char newChar = 'a';  // New character to replace with
-
-        StringBuilder result = new StringBuilder();
-
-        // Loop through the string and replace characters
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == oldChar) {
-                result.append(newChar);  // Replace old character with new one
-            } else {
-                result.append(str.charAt(i));  // Keep the character as it is
-            }
-        }
-
-        System.out.println("Modified string: " + result.toString());
-        // Modified string: Hella Warld
-    }
-
-    // 6. Convert an Array to a String
-    public static void ArrayToString() {
-        int[] arr = {1, 2, 3, 4, 5};  // Example array
-        String arrayString = Arrays.toString(arr);  // Convert array to string
-
-        System.out.println("Array as String: " + arrayString);
-        // Array as String: [1, 2, 3, 4, 5]
-    }
-
-    // 7. Swap Two Strings
-    public static void SwapStrings() {
-        String str1 = "Hello";  // First string
-        String str2 = "World";  // Second string
-
-        // Swap the strings
-        String temp = str1;
-        str1 = str2;
-        str2 = temp;
-
-        System.out.println("After swapping:");
-        System.out.println("str1: " + str1);
-        System.out.println("str2: " + str2);
-
-        // After swapping:
-        // str1: World
-        // str2: Hello
-    }
-
-    // 8. Swap Two Numbers Using the Third Variable
-    public static void SwapWithThirdVariable() {
-        int a = 5, b = 10;
-
-        System.out.println("Before swapping: a = " + a + ", b = " + b);
-
-        // Using third variable
-        int temp = a;
-        a = b;
-        b = temp;
-
-        System.out.println("After swapping: a = " + a + ", b = " + b);
-
-        // Before swapping: a = 5, b = 10
-        // After swapping: a = 10, b = 5
-    }
-
-    // 9. Swap Two Numbers Without Using the Third Variable
-    public static void SwapWithoutThirdVariable() {
-        int a = 5, b = 10;
-
-        System.out.println("Before swapping: a = " + a + ", b = " + b);
-
-        // Without using third variable
-        a = a + b; // a becomes 15
-        b = a - b; // b becomes 5
-        a = a - b; // a becomes 10
-
-        System.out.println("After swapping: a = " + a + ", b = " + b);
-
-        // Before swapping: a = 5, b = 10
-        // After swapping: a = 10, b = 5
-    }
-
-    // 10. Find the Longest Word in a Sentence
-    public static void LongestWord() {
-        String sentence = "This is a Java programming challenge.";  // Example sentence
-        String[] words = sentence.split(" ");  // Split the sentence into words
-        String longestWord = "";
-
-        // Loop through the words and find the longest one
-        for (String word : words) {
-            if (word.length() > longestWord.length()) {
-                longestWord = word;
-            }
-        }
-
-        System.out.println("The longest word in the sentence is: " + longestWord);
-
-        // The longest word in the sentence is: programming
-    }
-	
-	// 11. Find the shortest Word in a Sentence
-	public static void shortWord() {
-		String sentence = "This is a Java programming challenge.";
-		String[] words = sentence.split(" ");
-
-		String shortest = words[0]; // initialize with first word
-
-		for (int i = 1; i < words.length; i++) {
-			if (words[i].length() < shortest.length()) {
-				shortest = words[i];
-			}
-		}
-
-		System.out.println("Shortest word: " + shortest);
-
-        // Shortest word: a
-	}
-
-
-    // String Analysis  ==========================================================
-    // 1. Find Whether a String or Number is Palindrome or Not
-    public static void Palindrome() {
-        String str = "madam";
-        boolean isPalindrome = true;
-
-        // Check if string is palindrome
-        int length = str.length();
-        for (int i = 0; i < length / 2; i++) {
-            if (str.charAt(i) != str.charAt(length - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        if (isPalindrome) {
-            System.out.println(str + " is a palindrome.");
-        } else {
-            System.out.println(str + " is not a palindrome.");
-        }
-
-        // madam is a palindrome.
-    }
-
-    // 1. Find the First Non-Repeated Character in a String
-    public static void FirstNonRepeatedChar () {
-        String str = "stress";
-        char result = ' ';
-        char[] strArr = str.toCharArray();
-
-        for (int i = 0; i < strArr.length; i++) {
-            char ch = strArr[i];
-            boolean repeated = false;
-
-            for (int j = 0; j < strArr.length; j++) {
-                if (i != j && ch == strArr[j]) {
-                    repeated = true;
-                    break;
-                }
-            }
-
-            if (!repeated) {
-                result = ch;
-                break;
-            }
-        }
-
-        System.out.println(result); // Output: t
-    }
-
-    // 2. Find the Duplicate Characters in a String
-    public static void DuplicateCharacters() {
-		String str = "programming";
-		char[] chars = str.toCharArray();
-
-		System.out.print("Duplicate characters: ");
-
-		for (int i = 0; i < chars.length; i++) {
-			for (int j = i + 1; j < chars.length; j++) {
-				if (chars[i] == chars[j]) {
-					System.out.print(chars[i] + " ");
-					break; // avoid printing same character again
-				}
-			}
-		}
-
-        // Duplicate characters: r g m 
-	}
-
-
-    // 3. Remove Duplicates from an Array
-    public static void RemoveDuplicates() {
-        int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
-        ArrayList<Integer> result = new ArrayList<>();
-		for(int i = 0; i<arr.length; i++) {		
-			boolean isDuplicate = false;
-		
-			for(int j = i+1; j<arr.length; j++ ) {
-				if(arr[i] == arr[j]) {
-					// System.out.println("result: " + arr[i]);
-					isDuplicate = true;
-					break;
-				}
-			}
-			if(!isDuplicate) {
-			 result.add(arr[i]);
-			 // System.out.println("result: " + arr[i]);
-			}
-		}
-		System.out.println("result: " + result);
-
-        // result: [1, 2, 3, 4, 5, 6]
-    }
-
-    // 4. Count Vowels and Consonants in a String
-    public static void VowelConsonantCount() {
-        String str = "Hello World";  // Example string
-        int vowels = 0, consonants = 0;
-
-        // Convert the string to lowercase to make the check case-insensitive
-        str = str.toLowerCase();
-
-        // Loop through each character and count vowels and consonants
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (ch >= 'a' && ch <= 'z') {
-                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
-                    vowels++;
-                } else {
-                    consonants++;
-                }
-            }
-        }
-
-        System.out.println("Vowels: " + vowels);
-        System.out.println("Consonants: " + consonants);
-
-        // Vowels: 3
-        // Consonants: 7
-    }
-
-    // 5. Check if Two Strings are Anagrams
-    public static void AnagramCheck() {
-        String str1 = "listen";  // Example strings
-        String str2 = "silent";
-
-        // Convert strings to character arrays
-        char[] arr1 = str1.toCharArray();
-        char[] arr2 = str2.toCharArray();
-
-        // Sort the arrays
-        Arrays.sort(arr1);
-        Arrays.sort(arr2);
-
-        // Compare sorted arrays
-        if (Arrays.equals(arr1, arr2)) {
-            System.out.println(str1 + " and " + str2 + " are anagrams.");
-        } else {
-            System.out.println(str1 + " and " + str2 + " are not anagrams.");
-        }
-
-        // listen and silent are anagrams.
-
-    }
-
-    // 6. Count the Number of Occurrences of a Character in a String
-    public static void CountOccurrences() {
-        String str = "programming";  // Example string
-        char targetChar = 'r';  // Character to count
-        int count = 0;
-
-        // Loop through the string and count occurrences
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == targetChar) {
-                count++;
-            }
-        }
-
-        System.out.println("The character '" + targetChar + "' occurs " + count + " times in the string.");
-        // The character 'r' occurs 2 times in the string.
-    }
-    
-    // 03. Number Operations  ==========================================================
-   // 1. Check if a Number is Even or Odd
-    public static void EvenOdd() {
-        int number = 7;  // Example number
-
-        // Check if the number is even or odd
-        if (number % 2 == 0) {
-            System.out.println(number + " is an even number.");
-        } else {
-            System.out.println(number + " is an odd number.");
-        }
-
-        // 7 is an odd number.
-
-    }
-
-   // 2. Reverse an Integer Number
-    public static void ReverseInteger() {
-        int number = 12345;
-
-        char[] charArray = String.valueOf(number).toCharArray();
-
-        for (int i = charArray.length - 1; i >= 0; i--) {
-            System.out.print(charArray[i]);
-        }
-        // 54321        
-    }
-
-    // 3. Find the Sum of Digits of a Number
-    public static void SumOfDigitsOne() {
-        int number = 1234;  // Example number
-        int sum = 0;
-
-        // Loop to find the sum of digits
-        while (number != 0) {
-            sum += number % 10;  // Add last digit
-            number /= 10;         // Remove last digit
-        }
-
-        System.out.println("Sum of digits: " + sum);
-        // Sum of digits: 10
-    }
-
-    // 4. Find the Sum of Digits of a Number
-    public static void SumOfDigitsTwo() {
-        int number = 1230;
-        int sum = 0;
-
-        String numStr = String.valueOf(number);
-
-        for (int i = 0; i < numStr.length(); i++) {
-            sum += Character.getNumericValue(numStr.charAt(i));
-        }
-
-        System.out.println("Result --- " + sum);
-        // Result --- 6
-    }
-
-
-    // 5. Find the Sum of Natural Numbers
-    public static void SumOfNaturalNumbers() {
-        int n = 10;  // Example: sum of first 10 natural numbers
-        int sum = 0;
-
-        // Calculate the sum of natural numbers
-        for (int i = 1; i <= n; i++) {
-            sum += i;
-        }
-
-        System.out.println("Sum of first " + n + " natural numbers is: " + sum);
-        // Sum of first 10 natural numbers is: 55
-    }
-
-    // 6. Convert a String to an Integer
-    public static void StringToInteger() {
-        String str = "12345";  // Example string
-        int number = Integer.parseInt(str);  // Convert string to integer
-
-        System.out.println("The integer value is: " + number);
-        // The integer value is: 12345
-    }
-
-    // 7. Find Whether a Number is Prime or Not
-    public static void PrimeNumber() {
-        int number = 29;
-        boolean isPrime = true;
-
-        // Check if number is prime
-        if (number <= 1) {
-            isPrime = false;  // Prime numbers are greater than 1
-        } else {
-            for (int i = 2; i <= Math.sqrt(number); i++) {
-                if (number % i == 0) {
-                    isPrime = false;
-                    break;
-                }
-            }
-        }
-
-        if (isPrime) {
-            System.out.println(number + " is a prime number.");
-        } else {
-            System.out.println(number + " is not a prime number.");
-        }
-
-        // 29 is a prime number.
-    }
-
-    // 8. Print the Prime Numbers Between 1 and 100
-    public static void PrimeNumbers() {
-        System.out.println("Prime numbers between 1 and 100:");
-
-        // Loop through numbers from 1 to 100
-        for (int num = 2; num <= 100; num++) {
-            boolean isPrime = true;
-
-            // Check if num is prime
-            for (int i = 2; i <= Math.sqrt(num); i++) {
-                if (num % i == 0) {
-                    isPrime = false;
-                    break;
-                }
-            }
-
-            // If the number is prime, print it
-            if (isPrime) {
-                System.out.print(num + " ");
-            }
-        }
-        // Prime numbers between 1 and 100: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
-
-    }
-
-    // 9. Check if a Number is a Perfect Number
-    public static void PerfectNumber() {
-        int number = 28;  // Example number
-        int sum = 0;
-
-        // Find the sum of divisors of the number
-        for (int i = 1; i < number; i++) {
-            if (number % i == 0) {
-                sum += i;
-            }
-        }
-
-        // Check if the number is a perfect number
-        if (sum == number) {
-            System.out.println(number + " is a perfect number.");
-        } else {
-            System.out.println(number + " is not a perfect number.");
-        }
-
-        // 28 is a perfect number.
-
-    }
-
-    // 10. Check if a Number is a Perfect Square
-    public static void PerfectSquare() {
-        int number = 25;  // Example number
-
-        // Check if the square root of the number is an integer
-        double sqrt = Math.sqrt(number);
-        if (sqrt == (int) sqrt) {
-            System.out.println(number + " is a perfect square.");
-        } else {
-            System.out.println(number + " is not a perfect square.");
-        }
-        // 25 is a perfect square.
-    }
-
-    // 11. Check Armstrong Number
-    public static void ArmstrongNumber() {
-        int number = 153;
-        int originalNumber = number;
-        int sum = 0;
-        int digits = String.valueOf(number).length();
-
-        // Calculate the sum of the digits raised to the power of the number of digits
-        while (number != 0) {
-            int digit = number % 10;
-            sum += Math.pow(digit, digits);
-            number /= 10;
-        }
-
-        if (sum == originalNumber) {
-            System.out.println(originalNumber + " is an Armstrong number.");
-        } else {
-            System.out.println(originalNumber + " is not an Armstrong number.");
-        }
-        // 153 is an Armstrong number.
-    }
-
-    // 12. Find the GCD (Greatest Common Divisor) of Two Numbers
-    public static void GreatestCommonDivisor() {
-        int num1 = 56;  // Example numbers
-        int num2 = 98;
-
-        // Calculate the GCD using Euclidean algorithm
-        while (num1 != num2) {
-            if (num1 > num2) {
-                num1 -= num2;  // Subtract smaller from larger
-            } else {
-                num2 -= num1;  // Subtract smaller from larger
-            }
-        }
-
-        System.out.println("The GCD of the two numbers is: " + num1);
-        // GCD is: 14
-    }
-
-    // 14. Find the Factorial of a Number
-    public static void Factorial() {
-        int number = 5;  // Example number
-        long factorial = 1;
-
-        // Loop to calculate factorial
-        for (int i = 1; i <= number; i++) {
-            factorial *= i;
-        }
-
-        System.out.println("Factorial of " + number + " is: " + factorial);
-        // Factorial of 5 is: 120
-    }
-
-    // 15. Calculate the Power of a Number
-    public static void PowerOfNumber() {
-        int base = 2;  // Base number
-        int exponent = 5;  // Exponent
-
-        long result = 1;
-        
-        // Loop to calculate power
-        for (int i = 1; i <= exponent; i++) {
-            result *= base;
-        }
-
-        System.out.println(base + " raised to the power " + exponent + " is: " + result);
-        // 2 raised to the power 5 is: 32
-    }
-
-    // 04. Array Operations  ==========================================================   
-    // 1. Find Similar Numbers from Two Arrays
-    public static void findSimilarNumsFromTwoArray () {
-        int[] numOne = {2, 4, 6, 8, 9};
-        int[] numTwo = {3, 8, 6, 2, 5};
-
-        System.out.println("Common numbers:");
-
-        for (int i = 0; i < numOne.length; i++) {
-            for (int j = 0; j < numTwo.length; j++) {
-                if (numOne[i] == numTwo[j]) {
-                    System.out.println(numOne[i]);
-                    break; // avoid duplicate printing
-                }
-            }
-        }
-        // Output: 
-        // 2
-        // 6
-        // 8
-    }
-
-    // 1. Find the Duplicate Characters in a Numbers
-    public static void findDuplicateNums() {
-        int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
-
-        System.out.print("Duplicate numbers: ");
-
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[i] == nums[j]) {
-                    System.out.print(nums[i] + " ");
-                    break;
-                }
-            }
-        }
-    }
-
-    // 2. Find the Second-Highest Number in an Array
-    public static void SecondHighestNumber() {
-        int[] arr = {10, 5, 20, 20, 15, 5, 30};
-        int highest = Integer.MIN_VALUE;
-        int secondHighest = Integer.MIN_VALUE;
-
-        // Iterate through the array to find the highest and second-highest numbers
-        for (int num : arr) {
-            if (num > highest) {
-                secondHighest = highest;
-                highest = num;
-            } else if (num > secondHighest && num < highest) {
-                secondHighest = num;
-            }
-        }
-
-        if (secondHighest == Integer.MIN_VALUE) {
-            System.out.println("There is no second-highest number in the array.");
-        } else {
-            System.out.println("Second-highest number: " + secondHighest);
-        }
-    }
-
-    // 3. Find the Largest Element in an Array
-    public static void LargestElement() {
-        int[] arr = {10, 20, 5, 30, 15};  // Example array
-        int largest = arr[0];
-
-        // Loop to find the largest element
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > largest) {
-                largest = arr[i];
-            }
-        }
-
-        System.out.println("Largest element in the array is: " + largest);
-    }
-
-    // 4. Find the Smallest Element in an Array
-    public static void SmallestElement() {
-        int[] arr = {10, 20, 5, 30, 15};  // Example array
-        int smallest = arr[0];
-
-        // Loop to find the smallest element
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] < smallest) {
-                smallest = arr[i];
-            }
-        }
-
-        System.out.println("Smallest element in the array is: " + smallest);
-    }
-
-    // 5. Merge Two Arrays
-    public static void MergeArrays() {
-        int[] array1 = {1, 2, 3};  // First array
-        int[] array2 = {4, 5, 6};  // Second array
-
-        // Create a new array to hold the merged result
-        int[] mergedArray = new int[array1.length + array2.length];
-
-        // Copy elements from the first array
-        System.arraycopy(array1, 0, mergedArray, 0, array1.length);
-
-        // Copy elements from the second array
-        System.arraycopy(array2, 0, mergedArray, array1.length, array2.length);
-
-        System.out.println("Merged Array: " + Arrays.toString(mergedArray));
-    }
-
-    // 6. Sort an Array of Integers in Ascending Order
-    public static void SortArray() {
-        int[] arr = {5, 2, 9, 1, 5, 6};  // Example array
-
-        // Sort the array using Arrays.sort()
-        Arrays.sort(arr);
-
-        System.out.println("Sorted Array in Ascending Order: " + Arrays.toString(arr));
-    }
-
-    // 6. Sort an Array of Integers in Ascending Order
-    public static void SortArrayTwo() {
-        int[] arr = {5, 2, 9, 1, 5, 6};
-
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] > arr[j]) {
-                    int temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                }
-            }
-        }
-
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-
-        // 1 2 5 5 6 9
-    }
-
-
-    // 7. Sum All Elements of an Array
-    public static void SumArray() {
-        int[] arr = {1, 2, 3, 4, 5};  // Example array
-        int sum = 0;
-
-        // Loop through the array to sum all elements
-        for (int i = 0; i < arr.length; i++) {
-            sum += arr[i];
-        }
-
-        System.out.println("Sum of all elements in the array: " + sum);
-    }
-
-    // 8. Find the Median of an Array
-    public static void MedianArray() {
-         int[] arr = {12, 3, 5, 7, 19};
-
-        Arrays.sort(arr);  // Sort the array
-
-        double median;
-        int length = arr.length;
-
-        if (length % 2 == 0) {
-            // Even length → average of two middle values
-            median = (arr[length / 2 - 1] + arr[length / 2]) / 2.0;
-        } else {
-            // Odd length → middle value
-            median = arr[length / 2];
-        }
-
-        System.out.println("The median is: " + median);
-        // The median is: 7.0
-    }
-
-    // 9. Find the Common Elements Between Two Arrays
-    public static void CommonElements() {
-        int[] arr1 = {1, 2, 3, 4, 5};
-        int[] arr2 = {3, 4, 5, 6, 7};
-
-        // Using a HashSet to find common elements
-        HashSet<Integer> set = new HashSet<>();
-        for (int num : arr1) {
-            set.add(num);
-        }
-
-        System.out.println("Common elements:");
-        for (int num : arr2) {
-            if (set.contains(num)) {
-                System.out.print(num + " ");
-            }
-        }
-    }
-
-    // 10. Iterate Array List Arrays
-    public static void IterateArrayList() {
-        ArrayList<String> list = new ArrayList<>(Arrays.asList("Apple", "Banana", "Cherry"));
-        System.out.println("For-loop:"); for (int i = 0; i < list.size(); i++) System.out.println(list.get(i));
-        System.out.println("While-loop:"); int i = 0; while (i < list.size()) System.out.println(list.get(i++));
-        System.out.println("Enhanced for-loop:"); for (String item : list) System.out.println(item);
-    }
-
-    // 05. Data Structures =========================================================
-    // 1. Count the Number of Words in a String Using HashMap
-    public static void CountWordsUsingHashMap() {
-        String str = "This is a test string and this is a test";
-        HashMap<String, Integer> wordCount = new HashMap<>();
-        for (String word : str.split("\\s+")) {
-            word = word.toLowerCase();
-            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
-        }
-        wordCount.forEach((k, v) -> System.out.println(k + ": " + v));
-    }
-
-    // 2. Iterate HashMap using While and Advanced For Loop
-    public static void IterateHashMap() {
-        // Create a HashMap
-        HashMap<Integer, String> map = new HashMap<>();
-        map.put(1, "Apple");
-        map.put(2, "Banana");
-        map.put(3, "Cherry");
-
-        // Iterate using while loop
-        System.out.println("Iterating HashMap using While Loop:");
-        var iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Integer, String> entry = iterator.next();
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-
-        // Iterate using advanced for loop (for-each loop)
-        System.out.println("\nIterating HashMap using Advanced For Loop:");
-        for (Map.Entry<Integer, String> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-    }
-
-    // 06. Series & Patterns ========================================================
-    // 1. Fibonacci Series
-    public static void FibonacciSeries() {
-        int n = 10;  // Number of terms in the Fibonacci series
-        int a = 0, b = 1;
-
-        System.out.println("Fibonacci Series up to " + n + " terms:");
-
-        for (int i = 0; i < n; i++) {
-            System.out.print(a + " ");
-            int nextTerm = a + b;
-            a = b;
-            b = nextTerm;
-        }
-
-        // Fibonacci Series up to 10 terms: 0 1 1 2 3 5 8 13 21 34
-    }
-
-    // 2. Print the Multiplication Table of a Number
-    public static void MultiplicationTable() {
-        int number = 5;  // Example number
-        int limit = 10;   // Table limit (multiplying by numbers 1 to 10)
-
-        System.out.println("Multiplication Table of " + number + ":");
-        for (int i = 1; i <= limit; i++) {
-            System.out.println(number + " x " + i + " = " + (number * i));
-        }
-
-        // Multiplication Table of 5:
-        // 5 x 1 = 5
-        // 5 x 2 = 10
-        // 5 x 3 = 15
-        // 5 x 4 = 20
-        // 5 x 5 = 25
-        // 5 x 6 = 30
-        // 5 x 7 = 35
-        // 5 x 8 = 40
-        // 5 x 9 = 45
-        // 5 x 10 = 50
-    }
-
-    // 3. Print a Triangle of Stars
-    public static void StarTriangle() {
-        int rows = 5;  // Number of rows in the triangle
-
-        // Loop to print the triangle
-        for (int i = 1; i <= rows; i++) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print("* ");  // Print stars
-            }
-            System.out.println();  // Move to the next line after each row
-        }
-    }
-
-    // 4. Create a Pattern of Numbers (e.g., 1, 12, 123, etc.)
-    public static void NumberPattern() {
-        int rows = 5;  // Number of rows in the pattern
-
-        // Loop to create the pattern
-        for (int i = 1; i <= rows; i++) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print(j);  // Print numbers from 1 to i
-            }
-            System.out.println();  // Move to the next line after each row
-        }
-    }
-
-    // 07. Implement Star Pattern ========================================================
-    // 1️. Square Star Pattern
-    public static void SquareStarPattern() {
-        for (int i = 1; i <= 4; i++) {
-            for (int j = 1; j <= 4; j++) {
-                System.out.print("* ");
-            }
-            System.out.println();
-        }
-    }
-    // * * * *
-    // * * * *
-    // * * * *
-    // * * * *
-
-
-    // 2. Right Triangle  Star Pattern
-    public static void RightTriangleStarPattern() {
-        for (int i = 1; i <= 4; i++) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print("* ");
-            }
-            System.out.println();
-        }
-    }
-    // *
-    // * *
-    // * * *
-    // * * * *
-
-    // 3. Inverted Triangle Star Pattern
-    public static void InvertedTriangleStarPattern() {
-        for (int i = 4; i >= 1; i--) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print("* ");
-            }
-            System.out.println();
-        }
-    }
-    // * * * *
-    // * * *
-    // * *
-    // *
-
-    // 4. Pyramid Star Pattern
-    public static void PyramidStarPattern() {
-        int n = 4;
-
-        for (int i = 1; i <= n; i++) {
-            for (int space = n - i; space > 0; space--) {
-                System.out.print(" ");
-            }
-            for (int star = 1; star <= i; star++) {
-                System.out.print("* ");
-            }
-            System.out.println();
-        }
-    }
-    //    *
-    //   * *
-    //  * * *
-    // * * * *
-
-    // 5. Diamond Star Pattern
-    public static void DiamondStarPattern() {
-        int n = 3;
-
-        // Upper part
-        for (int i = 1; i <= n; i++) {
-            for (int space = n - i; space > 0; space--) {
-                System.out.print(" ");
-            }
-            for (int star = 1; star <= i; star++) {
-                System.out.print("* ");
-            }
-            System.out.println();
-        }
-
-        // Lower part
-        for (int i = n - 1; i >= 1; i--) {
-            for (int space = n - i; space > 0; space--) {
-                System.out.print(" ");
-            }
-            for (int star = 1; star <= i; star++) {
-                System.out.print("* ");
-            }
-            System.out.println();
-        }
-    }
-    //    *
-    //   * *
-    //  * * *
-    //   * *
-    //    *
 }
 
-// Length vs Size in Java
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.name = "Alice";
+        p.age = 25;
+        p.introduce();
+    }
+}
+```
 
-// int[] arr = {1, 2, 3};
-// String str = "Hello";
-// ArrayList<Integer> list = new ArrayList<>();
+## ✅ Constructor Demo (Default, Parameterized, Copy)
 
-// System.out.println(arr.length);     // 3
-// System.out.println(str.length());   // 5
-// System.out.println(list.size());    // 0
+```java
+class Box {
+    int w, h;
+
+    Box() {
+        this.w = 1;
+        this.h = 1;
+    }
+
+    Box(int w, int h) {
+        this.w = w;
+        this.h = h;
+    }
+
+    Box(Box b) {
+        this.w = b.w;
+        this.h = b.h;
+    }
+
+    int area() {
+        return w * h;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Box a = new Box();
+        Box b = new Box(2, 3);
+        Box c = new Box(b);
+
+        System.out.println(a.area() + " " + b.area() + " " + c.area());
+    }
+}
+```
+
+## ✅ Method Overloading & Overriding
+
+```java
+class Calc {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {   // Overloading
+        return a + b + c;
+    }
+}
+
+class AdvCalc extends Calc {
+    @Override
+    int add(int a, int b) {           // Overriding
+        return super.add(a, b) + 1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calc c = new Calc();
+        AdvCalc ac = new AdvCalc();
+
+        System.out.println(c.add(1, 2));
+        System.out.println(ac.add(1, 2));
+    }
+}
+```
+
+## ✅ Inheritance Example (Single, Multilevel, Hierarchical)
+
+```java
+class A {
+    void f() {
+        System.out.println("A");
+    }
+}
+
+class B extends A {                  // Single
+    void g() {
+        System.out.println("B");
+    }
+}
+
+class C extends B {                  // Multilevel
+    void h() {
+        System.out.println("C");
+    }
+}
+
+class D extends A {                  // Hierarchical
+    void i() {
+        System.out.println("D");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        C c = new C();
+        c.f();
+        c.g();
+        c.h();
+
+        D d = new D();
+        d.f();
+        d.i();
+    }
+}
+```
+
+## ✅ Abstract Class Program
+
+```java
+abstract class Shape {
+    abstract double area();
+}
+
+class Circle extends Shape {
+    double r;
+
+    Circle(double r) {
+        this.r = r;
+    }
+
+    double area() {
+        return Math.PI * r * r;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape s = new Circle(2.0);
+        System.out.println(s.area());
+    }
+}
+```
+
+## ✅ Interface Example
+
+```java
+interface Drawable {
+    void draw();
+}
+
+class Square implements Drawable {
+    public void draw() {
+        System.out.println("Drawing square");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Drawable d = new Square();
+        d.draw();
+    }
+}
+```
+
+## ✅ Encapsulation (Getters & Setters)
+
+```java
+class Employee {
+    private int id;
+    private String name;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee e = new Employee();
+        e.setId(1);
+        e.setName("Bob");
+
+        System.out.println(e.getId() + ": " + e.getName());
+    }
+}
+```
+
+## ✅ Polymorphism Demo
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("some sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("bark");
+    }
+}
+
+class Cat extends Animal {
+    void sound() {
+        System.out.println("meow");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();
+
+        a = new Cat();
+        a.sound();
+    }
+}
+```
+
+## ✅ Static Keyword Demo
+
+```java
+public class Main {
+
+    static int count = 0;
+
+    public Main() {
+        count++;
+    }
+
+    public static void main(String[] args) {
+        new Main();
+        new Main();
+
+        System.out.println(Main.count);
+    }
+}
+```
+
+## ✅ `this` and `super` Keyword Usage
+
+```java
+class Base {
+    int x = 10;
+
+    Base(int x) {
+        this.x = x;
+    }
+}
+
+class Derived extends Base {
+    int x = 20;
+
+    Derived() {
+        super(5);
+        System.out.println(this.x + ", " + super.x);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        new Derived();
+    }
+}
+```
+
+## ✅ Try–Catch–Finally Example
+
+```java
+public class Main {
+    public static void main(String[] args) {
+
+        try {
+            int x = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero");
+        } finally {
+            System.out.println("Finally always runs");
+        }
+    }
+}
+```
+
+## ✅ `throw` and `throws` Usage
+
+```java
+public class Main {
+
+    static int div(int a, int b) throws ArithmeticException {
+        if (b == 0) {
+            throw new ArithmeticException("b cannot be zero");
+        }
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(div(10, 2));
+    }
+}
+```
+
+## ✅ Custom Exception Program
+
+```java
+class InvalidAgeException extends Exception {
+    InvalidAgeException(String msg) {
+        super(msg);
+    }
+}
+
+public class Main {
+
+    static void vote(int age) throws InvalidAgeException {
+        if (age < 18) {
+            throw new InvalidAgeException("Underage");
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            vote(16);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+```
+
+## ✅ Read from a File
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        }
+    }
+}
+```
+
+## ✅ Write to a File
+
+```java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
+            bw.write("Hello file");
+        }
+    }
+}
+```
+
+## ✅ Count Words in a File
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        int words = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.trim().split("\\s+");
+                if (parts.length == 1 && parts[0].isEmpty()) continue;
+                words += parts.length;
+            }
+        }
+
+        System.out.println(words);
+    }
+}
+```
+
+## ✅ Copy Content of One File to Another
+
+```java
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        try (
+            BufferedInputStream in =
+                    new BufferedInputStream(new FileInputStream("in.txt"));
+            BufferedOutputStream out =
+                    new BufferedOutputStream(new FileOutputStream("out.txt"))
+        ) {
+            byte[] buffer = new byte[4096];
+            int len;
+
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+        }
+    }
+}
+```
+
+## ✅ ArrayList Demo (Add, Remove, Iterate)
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<String> list = new ArrayList<>();
+
+        list.add("a");
+        list.add("b");
+        list.remove("a");
+
+        for (String s : list) {
+            System.out.println(s);
+        }
+    }
+}
+```
+
+## ✅ LinkedList Demo
+
+```java
+import java.util.LinkedList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        queue.add(1);
+        queue.addFirst(0);
+        queue.addLast(2);
+
+        System.out.println(queue);
+    }
+}
+```
+
+## ✅ HashSet & TreeSet Demo
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Set<Integer> hs = new HashSet<>();
+        hs.add(3);
+        hs.add(1);
+        hs.add(3);
+
+        System.out.println(hs);
+
+        Set<Integer> ts = new TreeSet<>(hs);
+        System.out.println(ts);
+    }
+}
+```
+
+## ✅ HashMap & TreeMap Demo
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("a", 1);
+        map.put("b", 2);
+
+        System.out.println(map);
+
+        Map<String, Integer> tmap = new TreeMap<>(map);
+        System.out.println(tmap);
+    }
+}
+```
+
+## ✅ Iterate Through HashMap (entrySet, keySet, values)
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("x", 10);
+        map.put("y", 20);
+
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            System.out.println(e.getKey() + "=" + e.getValue());
+        }
+
+        for (String key : map.keySet()) {
+            System.out.println(key);
+        }
+
+        for (Integer value : map.values()) {
+            System.out.println(value);
+        }
+    }
+}
+```
+
+## ✅ Sort Elements Using `Collections.sort()`
+
+```java
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> list = Arrays.asList(5, 3, 1, 4, 2);
+
+        Collections.sort(list);
+        System.out.println(list);
+
+        Collections.sort(list, Collections.reverseOrder());
+        System.out.println(list);
+    }
+}
+```
+
+## ✅ Convert Array to List and Vice Versa
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String[] arr = {"a", "b", "c"};
+
+        List<String> list = new ArrayList<>(Arrays.asList(arr));
+        String[] back = list.toArray(new String[0]);
+
+        System.out.println(list + " | " + Arrays.toString(back));
+    }
+}
+```
+
+## ✅ Frequency of Elements Using HashMap
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        int[] arr = {1, 2, 2, 3, 3, 3};
+
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        for (int v : arr) {
+            freq.put(v, freq.getOrDefault(v, 0) + 1);
+        }
+
+        System.out.println(freq);
+    }
+}
+```
+
+## ✅ Remove Duplicates from List Using Set
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> list =
+                new ArrayList<>(Arrays.asList(1, 2, 2, 3, 3, 4));
+
+        List<Integer> unique =
+                new ArrayList<>(new LinkedHashSet<>(list));
+
+        System.out.println(unique);
+    }
+}
+```
+
+## ✅ Reverse Words in a Sentence
+
+```java
+public class Main {
+    public static void main(String[] args) {
+
+        String s = "Java is fun";
+        String[] parts = s.split("\\s+");
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = parts.length - 1; i >= 0; i--) {
+            sb.append(parts[i]);
+            if (i != 0) {
+                sb.append(" ");
+            }
+        }
+
+        System.out.println(sb.toString());
+    }
+}
+```
+
+## ✅ Check Balanced Parentheses Using Stack
+
+```java
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+
+    static boolean balanced(String s) {
+
+        Map<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put(']', '[');
+        map.put('}', '{');
+
+        Deque<Character> stack = new ArrayDeque<>();
+
+        for (char ch : s.toCharArray()) {
+
+            if (map.containsValue(ch)) {
+                stack.push(ch);
+            } else if (map.containsKey(ch)) {
+                if (stack.isEmpty() || stack.pop() != map.get(ch)) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(balanced("{[()]}"));
+    }
+}
+```
+
+## ✅ Find Factorial Using Recursion
+
+```java
+public class Main {
+
+    static long factorial(int n) {
+        return n <= 1 ? 1 : n * factorial(n - 1);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(factorial(5));
+    }
+}
+```
+
+## ✅ Find Nth Fibonacci Number Using Recursion
+
+```java
+public class Main {
+
+    static long fibonacci(int n) {
+        return n <= 1 ? n : fibonacci(n - 1) + fibonacci(n - 2);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(fibonacci(10));
+    }
+}
+```
+
+## ✅ Binary Search Implementation
+
+```java
+public class Main {
+
+    static int binarySearch(int[] arr, int key) {
+
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left <= right) {
+
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == key) {
+                return mid;
+            }
+
+            if (arr[mid] < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+
+        int[] arr = {1, 3, 5, 7, 9};
+        System.out.println(binarySearch(arr, 7));
+    }
+}
+```
+
+## ✅ Linear Search Implementation
+
+```java
+public class Main {
+
+    static int linearSearch(int[] arr, int key) {
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+
+        int[] arr = {4, 2, 7, 1};
+        System.out.println(linearSearch(arr, 7));
+    }
+}
+```
+
+## ✅ Bubble Sort, Selection Sort, Insertion Sort
+
+```java
+import java.util.Arrays;
+
+public class Main {
+
+    static void bubbleSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            for (int j = 0; j < a.length - 1 - i; j++) {
+                if (a[j] > a[j + 1]) {
+                    int t = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = t;
+                }
+            }
+        }
+    }
+
+    static void selectionSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            int t = a[i];
+            a[i] = a[min];
+            a[min] = t;
+        }
+    }
+
+    static void insertionSort(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int key = a[i];
+            int j = i - 1;
+
+            while (j >= 0 && a[j] > key) {
+                a[j + 1] = a[j];
+                j--;
+            }
+            a[j + 1] = key;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] a = {5, 1, 4, 2, 8};
+
+        int[] b1 = a.clone();
+        bubbleSort(b1);
+        System.out.println("Bubble Sort: " + Arrays.toString(b1));
+
+        int[] b2 = a.clone();
+        selectionSort(b2);
+        System.out.println("Selection Sort: " + Arrays.toString(b2));
+
+        int[] b3 = a.clone();
+        insertionSort(b3);
+        System.out.println("Insertion Sort: " + Arrays.toString(b3));
+    }
+}
+```
+
+## ✅ Quick Sort & Merge Sort
+
+```java
+import java.util.Arrays;
+
+public class Main {
+
+    static void quickSort(int[] a, int left, int right) {
+        if (left >= right) return;
+
+        int i = left, j = right;
+        int pivot = a[left + (right - left) / 2];
+
+        while (i <= j) {
+            while (a[i] < pivot) i++;
+            while (a[j] > pivot) j--;
+
+            if (i <= j) {
+                int t = a[i];
+                a[i] = a[j];
+                a[j] = t;
+                i++;
+                j--;
+            }
+        }
+
+        if (left < j) quickSort(a, left, j);
+        if (i < right) quickSort(a, i, right);
+    }
+
+    static void mergeSort(int[] a, int left, int right) {
+        if (left >= right) return;
+
+        int mid = (left + right) / 2;
+
+        mergeSort(a, left, mid);
+        mergeSort(a, mid + 1, right);
+
+        int[] temp = new int[right - left + 1];
+        int i = left, j = mid + 1, k = 0;
+
+        while (i <= mid && j <= right) {
+            temp[k++] = (a[i] <= a[j]) ? a[i++] : a[j++];
+        }
+
+        while (i <= mid) temp[k++] = a[i++];
+        while (j <= right) temp[k++] = a[j++];
+
+        System.arraycopy(temp, 0, a, left, temp.length);
+    }
+
+    public static void main(String[] args) {
+        int[] a = {5, 2, 9, 1, 5, 6};
+
+        int[] q = a.clone();
+        quickSort(q, 0, q.length - 1);
+        System.out.println("Quick Sort: " + Arrays.toString(q));
+
+        int[] m = a.clone();
+        mergeSort(m, 0, m.length - 1);
+        System.out.println("Merge Sort: " + Arrays.toString(m));
+    }
+}
+```
+
+## ✅ Count Occurrences of Each Word in a String
+
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String s = "to be or not to be";
+        Map<String, Integer> map = new LinkedHashMap<>();
+
+        for (String word : s.toLowerCase().split("\\s+")) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+
+        System.out.println(map);
+    }
+}
+```
+
+## ✅ Longest Substring Without Repeating Characters
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String s = "abcabcbb";
+
+        Map<Character, Integer> indexMap = new HashMap<>();
+        int left = 0;
+        int maxLength = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+
+            if (indexMap.containsKey(c) && indexMap.get(c) >= left) {
+                left = indexMap.get(c) + 1;
+            }
+
+            indexMap.put(c, right);
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        System.out.println(maxLength);
+    }
+}
+```
+
+## ✅ LRU Cache Implementation using `LinkedHashMap`
+
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+class LRU<K, V> extends LinkedHashMap<K, V> {
+
+    private final int capacity;
+
+    LRU(int capacity) {
+        super(capacity, 0.75f, true); // accessOrder = true
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        LRU<Integer, Integer> cache = new LRU<>(2);
+
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.get(1);      // access 1
+        cache.put(3, 3);   // evicts key 2
+
+        System.out.println(cache.keySet()); // [1, 3]
+    }
+}
+```
+
+## ✅ Producer–Consumer Problem using Threads
+
+```java
+import java.util.concurrent.ArrayBlockingQueue;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(2);
+
+        Thread producer = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    queue.put(i);
+                    System.out.println("Produced: " + i);
+                }
+            } catch (InterruptedException ignored) {}
+        });
+
+        Thread consumer = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    System.out.println("Consumed: " + queue.take());
+                }
+            } catch (InterruptedException ignored) {}
+        });
+
+        producer.start();
+        consumer.start();
+
+        producer.join();
+        consumer.join();
+    }
+}
+```
+
+## ✅ Deadlock Example in Java
+
+```java
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        final Object A = new Object();
+        final Object B = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (A) {
+                try { Thread.sleep(100); } catch (Exception ignored) {}
+                synchronized (B) {
+                    System.out.println("Thread 1 acquired A and B");
+                }
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (B) {
+                try { Thread.sleep(100); } catch (Exception ignored) {}
+                synchronized (A) {
+                    System.out.println("Thread 2 acquired B and A");
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+    }
+}
+```
+
+🔹 **Interview Tip**:
+Deadlock occurs due to
+1️⃣ Mutual exclusion
+2️⃣ Hold and wait
+3️⃣ No preemption
+4️⃣ Circular wait
+
+## ✅ Singleton Design Pattern (Thread-Safe)
+
+```java
+class Singleton {
+
+    private static volatile Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(Singleton.getInstance());
+    }
+}
+```
+
+## ✅ Create Thread using `Thread` Class
+
+```java
+public class Main extends Thread {
+
+    @Override
+    public void run() {
+        System.out.println("Hello from Thread");
+    }
+
+    public static void main(String[] args) {
+        new Main().start();
+    }
+}
+```
+
+## ✅ Create Thread using `Runnable` Interface
+
+```java
+public class Main {
+
+    public static void main(String[] args) {
+        Runnable r = () -> System.out.println("Hello from Runnable");
+        new Thread(r).start();
+    }
+}
+```
+
+## ✅ Synchronization Example
+
+```java
+class Counter {
+
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        Counter counter = new Counter();
+
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println(counter.count);
+    }
+}
+```
+
+## ✅ Inter-Thread Communication (`wait()` / `notify()`)
+
+```java
+class Shared {
+
+    private int data;
+    private boolean ready = false;
+
+    synchronized void produce(int value) throws InterruptedException {
+        while (ready) {
+            wait();
+        }
+        data = value;
+        ready = true;
+        notify();
+    }
+
+    synchronized int consume() throws InterruptedException {
+        while (!ready) {
+            wait();
+        }
+        ready = false;
+        notify();
+        return data;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        Shared shared = new Shared();
+
+        Thread producer = new Thread(() -> {
+            try {
+                shared.produce(42);
+            } catch (InterruptedException ignored) {}
+        });
+
+        Thread consumer = new Thread(() -> {
+            try {
+                System.out.println(shared.consume());
+            } catch (InterruptedException ignored) {}
+        });
+
+        producer.start();
+        consumer.start();
+
+        producer.join();
+        consumer.join();
+    }
+}
+```
+
+## ✅ Thread Pool Example (`ExecutorService`)
+
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ExecutorService pool = Executors.newFixedThreadPool(2);
+
+        for (int i = 1; i <= 4; i++) {
+            final int taskId = i;
+            pool.submit(() ->
+                System.out.println("Task " + taskId + " executed by " +
+                        Thread.currentThread().getName())
+            );
+        }
+
+        pool.shutdown();
+    }
+}
+```
+
+## ✅ Lambda Expression Example
+
+```java
+interface Operation {
+    int apply(int a, int b);
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Operation add = (a, b) -> a + b;
+        System.out.println(add.apply(2, 3));
+    }
+}
+```
+
+## ✅ Functional Interfaces (`Predicate`, `Function`, `Consumer`)
+
+```java
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Predicate<Integer> isEven = x -> x % 2 == 0;
+        Function<Integer, Integer> square = x -> x * x;
+        Consumer<Integer> print = System.out::println;
+
+        if (isEven.test(4)) {
+            print.accept(square.apply(4));
+        }
+    }
+}
+```
+
+## ✅ Streams API (`filter`, `map`, `reduce`, `collect`)
+
+```java
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5);
+
+        int sumSquaresOfEven = nums.stream()
+                .filter(x -> x % 2 == 0)
+                .map(x -> x * x)
+                .reduce(0, Integer::sum);
+
+        List<Integer> doubled = nums.stream()
+                .map(x -> x * 2)
+                .collect(Collectors.toList());
+
+        System.out.println(sumSquaresOfEven + " " + doubled);
+    }
+}
+```
+
+## ✅ Method References
+
+```java
+import java.util.*;
+
+public class Main {
+
+    static void print(Integer x) {
+        System.out.println(x);
+    }
+
+    public static void main(String[] args) {
+
+        List<Integer> list = Arrays.asList(1, 2, 3);
+        list.forEach(Main::print);
+    }
+}
+```
+
+## ✅ Optional Class Usage
+
+```java
+import java.util.Optional;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Optional<String> optional = Optional.ofNullable(null);
+        System.out.println(optional.orElse("default"));
+    }
+}
+```
+
+## ✅ Library Management System (Mini Demo)
+
+```java
+import java.util.*;
+
+class Book {
+    String id;
+    String title;
+    boolean issued;
+
+    Book(String id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+}
+
+class Library {
+
+    Map<String, Book> books = new HashMap<>();
+
+    void add(Book book) {
+        books.put(book.id, book);
+    }
+
+    boolean issue(String id) {
+        Book book = books.get(id);
+        if (book != null && !book.issued) {
+            book.issued = true;
+            return true;
+        }
+        return false;
+    }
+
+    void list() {
+        books.values().forEach(
+            b -> System.out.println(b.id + " : " + b.title + " : " + b.issued)
+        );
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Library lib = new Library();
+        lib.add(new Book("1", "Java Basics"));
+        lib.add(new Book("2", "DSA"));
+
+        lib.issue("1");
+        lib.list();
+    }
+}
+```
+
+## ✅ Banking System (Deposit, Withdraw, Balance)
+
+```java
+class Account {
+
+    private int balance;
+
+    Account(int balance) {
+        this.balance = balance;
+    }
+
+    synchronized void deposit(int amount) {
+        balance += amount;
+    }
+
+    synchronized boolean withdraw(int amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    synchronized int getBalance() {
+        return balance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Account account = new Account(1000);
+        account.deposit(500);
+        account.withdraw(200);
+
+        System.out.println(account.getBalance());
+    }
+}
+```
+
+## ✅ Employee Management System (Mini)
+
+```java
+import java.util.*;
+
+class Employee {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+class EMS {
+
+    Map<Integer, Employee> employees = new HashMap<>();
+
+    void add(Employee e) {
+        employees.put(e.id, e);
+    }
+
+    Employee get(int id) {
+        return employees.get(id);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        EMS ems = new EMS();
+        ems.add(new Employee(1, "Ana"));
+
+        System.out.println(ems.get(1).name);
+    }
+}
+```
+
+## ✅ Student Management System (mini)
+
+```java
+import java.util.*;
+
+class Student {
+    int id;
+    String name;
+
+    Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+class SMS {
+    Map<Integer, Student> map = new HashMap<>();
+
+    void add(Student s) {
+        map.put(s.id, s);
+    }
+
+    Student get(int id) {
+        return map.get(id);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        SMS sms = new SMS();
+        sms.add(new Student(1, "Max"));
+        System.out.println(sms.get(1).name);
+    }
+}
+```
