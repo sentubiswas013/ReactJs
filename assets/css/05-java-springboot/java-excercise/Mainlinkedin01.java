@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 // ## ✅ Hello World Program
-public class Main {
+public class Mainlinkedin01 {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
         // fnSumTwoNumbers();
@@ -49,7 +49,7 @@ public class Main {
         // fnFirstNonRepeatedChar();
         // fnAnagramCheck();
         // fnCommonElementsInTwoArrays();
-        // fnFindSubstring();
+        fnFindSubstring("Hello", "Hello World");
     }
 
     // ## ✅ Sum of Two Numbers
@@ -853,7 +853,7 @@ public class Main {
     }
 
     // ✅ Find Substring in a String (Without using contains())
-    static void fnFindSubstring(String sub, String s) {
+    public static void fnFindSubstring(String sub, String s) {
         // Way one: without contain
         boolean found = false;
 
