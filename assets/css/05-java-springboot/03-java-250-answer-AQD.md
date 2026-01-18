@@ -4013,9 +4013,45 @@ ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
 ---
 
+### 272. What is BeanFactory?
+
+* `BeanFactory` is **basic Spring container**.
+* Handles **lazy initialization** and **basic IoC**, but fewer features than ApplicationContext.
+
+```java
+BeanFactory factory = new XmlBeanFactory(new ClassPathResource("beans.xml"));
+```
+
+### What is a Java Bean?
+
+A **Java Bean** is a simple Java class that follows some standard rules so it can be used as a reusable component.
+
+### ✅ Rules of a Java Bean
+
+1. It must have a **public no-argument constructor**.
+2. All fields should be **private**.
+3. It should provide **public getter and setter methods** for accessing fields.
+4. It should implement **Serializable** (optional but recommended).
+
+```java
+public class Person {
+    private String name;
+
+    public Person() {}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
 ### 5. What are Spring beans?
 
-Spring beans are objects managed by the Spring IoC container.
+**Spring Bean** is an object that is created, managed, and injected by the **Spring IoC Container**.
 
 **Key Points:**
 - Objects whose lifecycle is managed by Spring
@@ -4026,17 +4062,21 @@ Spring beans are objects managed by the Spring IoC container.
 **Example:**
 ```java
 @Component
-public class EmailService {
-    // This is a Spring bean
-}
-
-@Configuration
-public class AppConfig {
-    @Bean
-    public DatabaseService databaseService() {
-        return new DatabaseService(); // This creates a bean
+public class MyService {
+    public void show() {
+        System.out.println("Hello from Spring Bean");
     }
 }
+```
+
+Here, `MyService` becomes a **Spring Bean** because of `@Component`.
+
+You can inject it like this:
+
+```java
+@Autowired
+private MyService myService;
+```
 ```
 
 ---
