@@ -41,10 +41,10 @@ public class HelloWorld {
 
 **Answer:**
 The four main principles are:
-- **Encapsulation** - Bundling data and methods together
-- **Inheritance** - Creating new classes based on existing ones
-- **Polymorphism** - One interface, multiple implementations
-- **Abstraction** - Hiding complex implementation details
+- **Encapsulation**: Wrapping data and methods into a single unit (class) and restricting access to some components using access modifiers.
+- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class.
+- **Polymorphism**: Allowing one entity to take multiple forms (e.g., method overloading, method overriding).
+- **Abstraction**: Hiding the implementation details and showing only the necessary functionality to the user.
 
 **Example:**
 ```java
@@ -189,14 +189,19 @@ Circle c = new Circle(); // Valid
 // Shape s = new Shape(); // Error - cannot instantiate
 ```
 
+### 8. What is a package in Java? 
+A package in Java is a collection of related classes and interfaces grouped to organize code and prevent naming conflicts. 
+- Built-in packages: java.lang, java.util, etc.
+- User-defined packages: Created by developers for organizing custom classes
+
 # 🔹 2. Java Interview Questions - Data Types and Variables
 
-### 1. What are primitive data types in Java?
+### 1. What are data types in Java?
 
 **Answer:**
-Primitive data types are the basic building blocks that store simple values directly in memory.
+There is two type of data Primitive Data and Non-Primitive Data
 
-**8 Primitive Types:**
+**8 Primitive Data :**
 - **byte** - 8-bit integer (-128 to 127)
 - **short** - 16-bit integer (-32,768 to 32,767)
 - **int** - 32-bit integer (most commonly used)
@@ -205,6 +210,12 @@ Primitive data types are the basic building blocks that store simple values dire
 - **double** - 64-bit decimal (default for decimals)
 - **char** - 16-bit Unicode character
 - **boolean** - true or false
+
+**8 Non-Primitive Data :**
+- **String** - 8-bit integer (-128 to 127)
+- **Array** - 16-bit integer (-32,768 to 32,767)
+- **Class** - 32-bit integer (most commonly used)
+- **Interface** - 64-bit integer (add 'L' suffix)
 
 **Example:**
 ```java
@@ -440,6 +451,14 @@ class MyClass {
     }
 }
 ```
+
+### 9. What is coercion in Java? 
+Coercion in Java refers to the automatic or explicit conversion of one data 
+type into another. 
+- Implicit coercion: Automatically converts smaller data types to larger
+ones (e.g., int to double).
+- Explicit coercion (casting): Converts larger data types to smaller ones
+using type casting (e.g., (int) 3.14).
 
 # 🔹 3. Java Classes and Objects - Interview Q&A
 
