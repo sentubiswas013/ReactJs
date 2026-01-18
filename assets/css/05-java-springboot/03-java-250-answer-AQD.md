@@ -212,10 +212,10 @@ There is two type of data Primitive Data and Non-Primitive Data
 - **boolean** - true or false
 
 **8 Non-Primitive Data :**
-- **String** - 8-bit integer (-128 to 127)
-- **Array** - 16-bit integer (-32,768 to 32,767)
-- **Class** - 32-bit integer (most commonly used)
-- **Interface** - 64-bit integer (add 'L' suffix)
+- **String** - Used to store text
+- **Array** - Used to store multiple values
+- **Class** - Blueprint for objects
+- **Interface** - Defines method structure for classes
 
 **Example:**
 ```java
