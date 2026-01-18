@@ -36,6 +36,15 @@ public class HelloWorld {
 - JVM = Executes bytecode
 
 ---
+### 2. What are difference between Code and Advanced Java?
+
+| Core Java                              | Advanced Java                               |
+| -------------------------------------- | ------------------------------------------- |
+| Basics of Java language                | Used to build enterprise applications       |
+| Covers OOP, loops, arrays, collections | Covers JDBC, Servlets, JSP, Frameworks      |
+| Used for standalone applications       | Used for web and distributed applications   |
+| Focus on logic & syntax                | Focus on database & server-side programming |
+
 
 ### 3. What are the main principles of Object-Oriented Programming?
 
