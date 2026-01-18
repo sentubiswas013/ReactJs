@@ -4355,24 +4355,6 @@ DELETE /api/users/123
 Response: 204 No Content
 ```
 
----
-
-### Quick Interview Tips
-
-**Remember:**
-* REST is about **resources**, not actions
-* Use **nouns** in URLs, not verbs (`/users` not `/getUsers`)
-* HTTP methods define the **action**
-* Status codes communicate **results**
-* Keep APIs **stateless** and **predictable**
-
-**Common Mistakes to Avoid:**
-* Using GET for data modification
-* Ignoring proper status codes
-* Making APIs stateful
-* Poor resource naming conventions
-
-
 # 🔹 19. Microservices 
 
 ### 1. What are microservices?
@@ -4722,18 +4704,6 @@ java -XX:+PrintCompilation -XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining MyA
 # Tiered compilation (default in Java 8+)
 java -XX:+TieredCompilation MyApp
 ```
-
----
-
-### Key Performance Tips:
-* Profile before optimizing
-* Use appropriate data structures
-* Minimize object creation
-* Implement proper caching
-* Optimize database queries
-* Monitor GC behavior
-* Use connection pooling
-* Enable JIT optimizations
 
 # 🔹 21. Modern Java Features 
 
