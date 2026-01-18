@@ -3021,6 +3021,92 @@ try {
 * **Security**: Be cautious with access control bypass
 * **Exception handling**: Always handle reflection exceptions properly
 
+# 🔵 17. Java Web Development 
+---
+# 🔹 Servlets and JSP
+### 262: What is servlet in Java?
+
+**Answer (30 seconds):**
+* Server-side Java program that handles HTTP requests and responses
+* Runs inside servlet container like Tomcat, Jetty
+* Extends HttpServlet class and overrides doGet(), doPost() methods
+* Platform-independent way to build web applications
+* Manages dynamic web content generation
+
+```java
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Hello World!</h1>");
+    }
+}
+```
+
+---
+
+### 263: What is the servlet lifecycle?
+
+**Answer (35 seconds):**
+* **Loading**: Container loads servlet class
+* **Instantiation**: Creates servlet instance
+* **Initialization**: Calls init() method once
+* **Service**: Calls service() method for each request (doGet/doPost)
+* **Destruction**: Calls destroy() method before removing servlet
+* Container manages entire lifecycle automatically
+
+```java
+public class MyServlet extends HttpServlet {
+    public void init() { /* Initialize resources */ }
+    public void service(HttpServletRequest req, HttpServletResponse res) { /* Handle requests */ }
+    public void destroy() { /* Cleanup resources */ }
+}
+```
+
+---
+
+### 264: What is JSP (JavaServer Pages)?
+
+**Answer (30 seconds):**
+* Server-side technology for creating dynamic web pages
+* HTML with embedded Java code using special tags
+* Compiled into servlets by container automatically
+* Separates presentation layer from business logic
+* Easier to write than pure servlets for UI-heavy applications
+
+```jsp
+<%@ page language="java" contentType="text/html" %>
+<html>
+<body>
+    <h1>Welcome <%= request.getParameter("name") %>!</h1>
+    <% String time = new Date().toString(); %>
+    <p>Current time: <%= time %></p>
+</body>
+</html>
+```
+
+---
+
+### 265: What is the difference between servlet and JSP?
+
+**Answer (35 seconds):**
+* **Servlet**: Pure Java code, HTML embedded in Java
+* **JSP**: HTML with embedded Java code
+* **Performance**: Servlets slightly faster, JSPs compiled to servlets
+* **Development**: JSPs easier for UI, servlets better for business logic
+* **Maintenance**: JSPs better for designers, servlets for developers
+* **Use Case**: Combine both - servlets for logic, JSPs for presentation
+
+```java
+// Servlet - Java with HTML
+out.println("<html><body><h1>" + message + "</h1></body></html>");
+
+// JSP - HTML with Java
+<html><body><h1><%= message %></h1></body></html>
+```
+
+
 # 🔹 14. Lambda Expressions and Streams API 
 
 ### 1. What are lambda expressions?
