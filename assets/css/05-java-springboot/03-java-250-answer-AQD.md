@@ -35,8 +35,8 @@ public class HelloWorld {
 - JRE = JVM + Runtime libraries
 - JVM = Executes bytecode
 
----
-### 2. What are difference between Code and Advanced Java?
+
+### 2. What are difference between Core and Advanced Java?
 
 | Core Java                              | Advanced Java                               |
 | -------------------------------------- | ------------------------------------------- |
