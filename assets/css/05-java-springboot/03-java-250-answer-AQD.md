@@ -649,48 +649,16 @@ class Circle extends Shape {
 }
 ```
 
-### 7. What is dynamic method dispatch?
+### 7. What is the difference between a constructor and a method in Java? 
 
 Dynamic method dispatch is the mechanism where the correct overridden method is called at runtime based on the actual object type, not the reference type.
 
-**Key Points:**
-- Runtime polymorphism
-- Method call resolved at runtime
-- Depends on actual object, not reference type
-- Enables polymorphic behavior
+| Constructor                                 | Method                                 |
+|-------------------------------------------|---------------------------------------|
+| Used to initialize objects                 | Used to perform operations            |
+| Has no return type                        | Always has a return type (void if not returning anything) |
+| Must have same name as class              | Can have any valid name               |
 
-**Example:**
-```java
-class Animal {
-    public void makeSound() {
-        System.out.println("Animal makes sound");
-    }
-}
-
-class Cat extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Cat meows");
-    }
-}
-
-class Dog extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Dog barks");
-    }
-}
-
-public class Test {
-    public static void main(String[] args) {
-        Animal animal1 = new Cat(); // Reference type: Animal, Object type: Cat
-        Animal animal2 = new Dog(); // Reference type: Animal, Object type: Dog
-        
-        animal1.makeSound(); // Prints "Cat meows" - Dynamic dispatch
-        animal2.makeSound(); // Prints "Dog barks" - Dynamic dispatch
-    }
-}
-```
 
 # 🔹 4. Java Inheritance Interview 
 
