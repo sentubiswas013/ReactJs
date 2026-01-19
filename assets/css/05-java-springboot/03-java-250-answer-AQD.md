@@ -37,6 +37,11 @@ public class HelloWorld {
 
 
 ### 2. What are difference between Core and Advanced Java?
+* Core Java covers fundamental concepts - OOP, collections, exceptions, multithreading
+* It's the foundation every Java developer needs to know
+* Advanced Java includes enterprise technologies - servlets, JSP, JDBC, frameworks
+* Core Java is like learning to drive, Advanced Java is like learning to race
+
 
 | Core Java                              | Advanced Java                               |
 | -------------------------------------- | ------------------------------------------- |
@@ -2601,23 +2606,6 @@ server.register(selector, SelectionKey.OP_ACCEPT);
 Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 ```
 
----
-
-### Quick Reference
-
-**File Reading Performance (Best to Worst):**
-1. `Files.readAllBytes()` - Small files
-2. `BufferedReader` - Line-by-line processing
-3. `FileChannel` - Large files with NIO
-4. `FileReader` - Simple character reading
-5. `FileInputStream` - Raw byte reading
-
-**Memory Usage:**
-* **Lowest**: Streaming with `Files.lines()`
-* **Moderate**: `BufferedReader`
-* **Highest**: `Files.readAllLines()` (loads entire file)
-
-
 # 🔹 12. Java Generics 
 
 ### 1. What are generics in Java?
@@ -3010,16 +2998,38 @@ try {
     log.error("Method execution failed", cause);
 }
 ```
+### 11. What is Mockito?
 
-### Key Takeaways
+**Spoken Answer (25 seconds):**
+* Mockito is a mocking framework for unit testing in Java
+* It creates fake objects (mocks) to simulate dependencies
+* Helps test your code in isolation without real database or external services
+* Use @Mock annotation and when().thenReturn() for behavior
 
-* **Annotations**: Metadata for code documentation and processing
-* **Retention policies**: Control annotation lifecycle
-* **Reflection**: Powerful but expensive runtime introspection
-* **Use cases**: Frameworks, testing, serialization
-* **Performance**: Cache reflective operations when possible
-* **Security**: Be cautious with access control bypass
-* **Exception handling**: Always handle reflection exceptions properly
+**Example:**
+```java
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @Mock
+    private UserRepository userRepository;
+    
+    @InjectMocks
+    private UserService userService;
+    
+    @Test
+    void testFindUser() {
+        // Mock behavior
+        when(userRepository.findById(1L))
+            .thenReturn(new User("John"));
+        
+        User user = userService.getUser(1L);
+        assertEquals("John", user.getName());
+        
+        // Verify interaction
+        verify(userRepository).findById(1L);
+    }
+}
+```
 
 # 🔵 17. Java Web Development 
 ---
@@ -3964,13 +3974,36 @@ public class OrderService {
 
 ### 3. What is Dependency Injection?
 
-Dependency Injection is a technique where dependencies are provided to an object rather than the object creating them.
+**Spoken Answer (30 seconds):**
+* Dependency Injection is a design pattern where objects don't create their dependencies themselves
+* Instead, dependencies are provided from outside, usually by a framework
+* It promotes loose coupling and makes code more testable and maintainable
+* Think of it like ordering food - you don't cook it yourself, someone brings it to you
 
-**Key Points:**
-- Three types: Constructor, Setter, and Field injection
-- Constructor injection is recommended
-- Makes testing easier with mock objects
-- Reduces boilerplate code
+**Example:**
+```java
+// Without DI - tight coupling
+class OrderService {
+    private EmailService emailService = new EmailService(); // Bad
+}
+
+// With DI - loose coupling
+class OrderService {
+    private EmailService emailService;
+    
+    public OrderService(EmailService emailService) {
+        this.emailService = emailService; // Good - injected
+    }
+}
+```
+
+## 2. What are the best ways to implement Dependency Injection in Java?
+
+**Spoken Answer (35 seconds):**
+* Three main types: Constructor injection, Setter injection, and Field injection
+* Constructor injection is preferred - it ensures required dependencies are provided
+* Use frameworks like Spring, Guice, or CDI for automatic injection
+* Annotations like @Autowired, @Inject make it simple
 
 **Example:**
 ```java
@@ -3978,9 +4011,15 @@ Dependency Injection is a technique where dependencies are provided to an object
 public class UserService {
     private final UserRepository userRepository;
     
-    // Constructor injection (recommended)
+    // Constructor injection - best practice
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    
+    // Setter injection
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
     }
 }
 ```
@@ -4077,9 +4116,7 @@ You can inject it like this:
 @Autowired
 private MyService myService;
 ```
-```
 
----
 
 ### 6. What is Spring Boot?
 
@@ -4118,15 +4155,15 @@ Auto-configuration automatically configures Spring beans based on classpath depe
 **Example:**
 ```java
 // If H2 database is on classpath, Spring Boot automatically configures:
-// - DataSource
-// - JdbcTemplate  
-// - Transaction manager
+- DataSource
+- JdbcTemplate  
+- Transaction manager
 
 // You just need to add dependency in pom.xml:
-// <dependency>
-//     <groupId>com.h2database</groupId>
-//     <artifactId>h2</artifactId>
-// </dependency>
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+</dependency>
 ```
 
 ---
@@ -4278,26 +4315,158 @@ public class MyService {
 }
 ```
 
----
+### 13. What is Spring Cloud?
 
-### Quick Reference Summary
+**Spoken Answer (35 seconds):**
+* Spring Cloud is a framework for building distributed systems and microservices
+* It provides tools for configuration management, service discovery, circuit breakers
+* Built on top of Spring Boot, makes microservices development easier
+* Includes Netflix OSS components like Eureka, Hystrix, Zuul
 
-| Annotation | Purpose |
-|------------|---------|
-| @Component | Generic Spring bean |
-| @Service | Business logic layer |
-| @Repository | Data access layer |
-| @Autowired | Dependency injection |
-| @Qualifier | Specify which bean to inject |
-| @SpringBootApplication | Main Spring Boot class |
+**Example:**
+```java
+// Service Discovery with Eureka
+@SpringBootApplication
+@EnableEurekaClient
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
 
-**Best Practices:**
-- Use constructor injection over field injection
-- Prefer @Service and @Repository over @Component for clarity
-- Use @Qualifier when multiple beans of same type exist
-- Keep ApplicationContext usage minimal in business logic
+// Load balancing
+@RestController
+public class OrderController {
+    @Autowired
+    @LoadBalanced
+    private RestTemplate restTemplate;
+    
+    @GetMapping("/orders/{id}")
+    public Order getOrder(@PathVariable String id) {
+        return restTemplate.getForObject(
+            "http://inventory-service/items/" + id, Order.class);
+    }
+}
+```
+
+### 14. How do you integrate a Java application with a cloud environment?
+
+**Spoken Answer (35 seconds):**
+* Use cloud-native frameworks like Spring Boot with cloud connectors
+* Deploy using containers (Docker) and orchestration (Kubernetes)
+* Leverage cloud services - databases, messaging, storage through APIs
+* Use configuration management for different environments
+* Implement health checks and monitoring
+
+**Example:**
+```java
+// Cloud-ready Spring Boot app
+@SpringBootApplication
+@EnableCloudConfig
+public class CloudApp {
+    @Value("${cloud.database.url}")
+    private String dbUrl;
+    
+    @Bean
+    public DataSource dataSource() {
+        return DataSourceBuilder.create()
+            .url(dbUrl)
+            .build();
+    }
+}
+
+// Docker deployment
+// Dockerfile
+FROM openjdk:11
+COPY target/app.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+
+## 17. How do you secure a Java Spring Boot application?
+
+**Spoken Answer (35 seconds):**
+* Use Spring Security for authentication and authorization
+* Implement JWT or OAuth2 for token-based security
+* Enable HTTPS and disable HTTP
+* Validate all inputs to prevent injection attacks
+* Use method-level security with @PreAuthorize
+* Configure CORS properly and use security headers
+
+**Example:**
+```java
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+            .build();
+    }
+}
+
+@RestController
+public class SecureController {
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin/users")
+    public List<User> getUsers() {
+        return userService.getAllUsers();
+    }
+}
+```
 
 # 🔹 18. RESTful Services 
+
+### 13. What is CORS, and how does it work?
+
+**Spoken Answer (30 seconds):**
+* CORS stands for Cross-Origin Resource Sharing
+* Browser security feature that blocks requests from different domains
+* Backend must explicitly allow frontend domain to access APIs
+* Use @CrossOrigin annotation or global configuration in Spring
+* Prevents malicious websites from accessing your APIs
+
+**Example:**
+```java
+// Method level CORS
+@RestController
+public class ProductController {
+    
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        return productService.getAllProducts();
+    }
+}
+
+// Global CORS configuration
+@Configuration
+public class CorsConfig {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                    .allowedOrigins("http://localhost:3000")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE");
+            }
+        };
+    }
+}
+```
 
 ### 1. What are RESTful web services?
 
@@ -4587,7 +4756,7 @@ An API Gateway is a single entry point that sits between clients and microservic
 * Nginx Plus
 
 **Example:**
-```
+```java
 Mobile App → API Gateway → User Service (for profile)
                       → Order Service (for orders)
                       → Product Service (for catalog)
@@ -4611,7 +4780,7 @@ Circuit breaker is a design pattern that prevents cascading failures by monitori
 * Improves overall system resilience
 
 **Example Implementation:**
-```
+```java
 if (failureCount > threshold) {
     // Circuit is OPEN - return cached response or error
     return fallbackResponse();
@@ -4632,6 +4801,55 @@ if (failureCount > threshold) {
 If Payment Service is down, instead of waiting 30 seconds for timeout, circuit breaker immediately returns "Payment temporarily unavailable" after detecting the pattern of failures.
 
 # 🔹 20. Performance Tuning Interview Questions & Answers
+
+### 1. How do you handle security in a Java application?
+
+**Spoken Answer (35 seconds):**
+* Use Spring Security for authentication and authorization
+* JWT tokens for stateless authentication
+* HTTPS for encrypted communication
+* Input validation to prevent SQL injection
+* Role-based access control (RBAC)
+* Password encryption with BCrypt
+
+**Example:**
+```java
+// Security configuration
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf().disable()
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+            .build();
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+
+// JWT token validation
+@RestController
+public class AuthController {
+    
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        // Validate credentials
+        String token = jwtService.generateToken(request.getUsername());
+        return ResponseEntity.ok(token);
+    }
+}
+```
 
 ### 1. How do you identify performance bottlenecks?
 
@@ -5199,16 +5417,132 @@ public class UserService {
 }
 ```
 
----
+## 9. What are the main features of an eCommerce application?
 
-### Summary
+**Spoken Answer (35 seconds):**
+* User management - registration, login, profiles
+* Product catalog - browse, search, filter products
+* Shopping cart and wishlist functionality
+* Payment processing and order management
+* Inventory tracking and admin dashboard
+* Reviews, ratings, and recommendations
 
-These technologies work together in modern software architecture:
-- **Containerization & Docker** package applications consistently
-- **Kubernetes** orchestrates containers at scale
-- **Cloud computing** provides infrastructure and services
-- **Distributed systems** enable scalability and resilience
-- **Load balancing** ensures high availability
-- **Caching** optimizes performance
+**Core Features:**
+- User Authentication & Authorization
+- Product Management (CRUD)
+- Shopping Cart & Checkout
+- Payment Gateway Integration
+- Order Tracking
+- Admin Panel
+- Search & Filtering
+- Reviews & Ratings
 
-Each plays a crucial role in building robust, scalable applications.
+## 10. Explain the flowchart of an eCommerce application (frontend and backend).
+
+**Spoken Answer (40 seconds):**
+* Frontend: User browses products, adds to cart, proceeds to checkout
+* Backend: Validates requests, processes payments, updates inventory
+* Flow: Browse → Add to Cart → Login → Checkout → Payment → Order Confirmation
+* Database stores users, products, orders, payments
+* APIs connect frontend and backend for real-time updates
+
+**Simple Flow:**
+```java
+// Backend API endpoints
+@RestController
+public class ECommerceController {
+    
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        return productService.getAllProducts();
+    }
+    
+    @PostMapping("/cart/add")
+    public Cart addToCart(@RequestBody CartItem item) {
+        return cartService.addItem(item);
+    }
+    
+    @PostMapping("/orders")
+    public Order createOrder(@RequestBody OrderRequest request) {
+        // 1. Validate cart
+        // 2. Process payment
+        // 3. Update inventory
+        // 4. Create order
+        return orderService.processOrder(request);
+    }
+}
+```
+
+**Flow Diagram:**
+```
+Frontend: Browse → Cart → Checkout → Payment
+    ↓         ↓      ↓         ↓
+Backend:  API → Validate → Process → Confirm
+    ↓         ↓      ↓         ↓
+Database: Products → Cart → Payment → Orders
+```
+
+## 11. What are the components and tools used in the backend of an eCommerce application?
+
+**Spoken Answer (35 seconds):**
+* Framework: Spring Boot for REST APIs and business logic
+* Database: MySQL/PostgreSQL for data, Redis for caching
+* Security: Spring Security for authentication and authorization
+* Payment: Stripe, PayPal APIs for payment processing
+* Message Queue: RabbitMQ for async processing
+* Monitoring: Actuator for health checks
+
+**Backend Stack:**
+```java
+// Main application
+@SpringBootApplication
+@EnableJpaRepositories
+@EnableRedisRepositories
+public class ECommerceBackend {
+    
+    @Autowired
+    private PaymentService paymentService; // Stripe integration
+    
+    @Autowired
+    private RedisTemplate redisTemplate; // Caching
+    
+    @Autowired
+    private RabbitTemplate rabbitTemplate; // Messaging
+}
+
+// Database entities
+@Entity
+public class Product {
+    @Id
+    private Long id;
+    private String name;
+    private BigDecimal price;
+}
+```
+
+## 12. Explain the Git workflow used in an eCommerce application.
+
+**Spoken Answer (35 seconds):**
+* Use GitFlow: main branch for production, develop for integration
+* Feature branches for new features, hotfix branches for urgent fixes
+* Pull requests for code review before merging
+* CI/CD pipeline triggers on merge to develop/main
+* Tag releases for version control
+
+**Git Workflow:**
+```bash
+# Create feature branch
+git checkout -b feature/payment-integration
+git add .
+git commit -m "Add Stripe payment integration"
+git push origin feature/payment-integration
+
+# Create pull request, after review:
+git checkout develop
+git merge feature/payment-integration
+
+# Release to production
+git checkout main
+git merge develop
+git tag v1.2.0
+```
