@@ -3677,6 +3677,43 @@ conn.rollback(sp1); // Rollback to specific savepoint
 conn.commit();
 ```
 
+### 7. What is the difference between Direct Servlet and JSP?
+
+**Spoken Answer (30 seconds):**
+* Servlets are Java classes that handle HTTP requests programmatically
+* JSP (JavaServer Pages) mixes HTML with Java code for dynamic web pages
+* Servlets are better for business logic, JSP for presentation layer
+* JSP gets compiled to servlets behind the scenes
+* Modern apps use REST APIs instead of JSP for frontend separation
+
+**Example:**
+```java
+// Direct Servlet
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest request, 
+                        HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Hello from Servlet!</h1>");
+        out.println("<p>User: " + request.getParameter("name") + "</p>");
+    }
+}
+
+// JSP (hello.jsp)
+<%@ page contentType="text/html;charset=UTF-8" %>
+<html>
+<head><title>Hello JSP</title></head>
+<body>
+    <h1>Hello from JSP!</h1>
+    <p>User: <%= request.getParameter("name") %></p>
+    <p>Current time: <%= new java.util.Date() %></p>
+</body>
+</html>
+```
+
 # 🔹 16. Design Patterns 
 
 ### 1. What are design patterns?
@@ -4616,7 +4653,7 @@ HTTP status codes indicate the result of an HTTP request.
 * **5xx** - Server Error (500 Internal Error, 503 Unavailable)
 
 **Common REST API Status Codes:**
-```
+```java
 // Success responses
 200 OK              // GET, PUT successful
 201 Created         // POST successful
@@ -4635,7 +4672,7 @@ HTTP status codes indicate the result of an HTTP request.
 ```
 
 **Practical Usage:**
-```javascript
+```java
 // API Response Examples
 GET /api/users/999
 Response: 404 Not Found
@@ -4648,6 +4685,62 @@ Location: /api/users/1001
 
 DELETE /api/users/123
 Response: 204 No Content
+```
+
+## 24. How do you secure REST APIs in a Spring Boot application?
+
+**Spoken Answer (35 seconds):**
+* Use Spring Security with JWT or OAuth2 tokens
+* Implement authentication filters and authorization rules
+* Validate input data and sanitize outputs
+* Enable HTTPS and configure CORS properly
+* Use rate limiting and API versioning
+* Add security headers and audit logging
+
+**Example:**
+```java
+// Security configuration
+@Configuration
+@EnableWebSecurity
+public class ApiSecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+            .headers(headers -> headers.frameOptions().deny())
+            .build();
+    }
+}
+
+// Secured REST controller
+@RestController
+@RequestMapping("/api")
+@Validated
+public class SecureApiController {
+    
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/profile")
+    public UserProfile getProfile(Authentication auth) {
+        return userService.getProfile(auth.getName());
+    }
+    
+    @PostMapping("/orders")
+    public ResponseEntity<Order> createOrder(
+            @Valid @RequestBody OrderRequest request,
+            Authentication auth) {
+        Order order = orderService.createOrder(request, auth.getName());
+        return ResponseEntity.status(201).body(order);
+    }
+}
 ```
 
 # 🔹 19. Microservices 
@@ -4797,8 +4890,37 @@ if (failureCount > threshold) {
 }
 ```
 
-**Real-World Example:**
-If Payment Service is down, instead of waiting 30 seconds for timeout, circuit breaker immediately returns "Payment temporarily unavailable" after detecting the pattern of failures.
+### 7. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
+
+* The Java 11 HTTP Client (java.net.http.HttpClient) introduced several key improvements:
+* 1. Built-in support for HTTP/2 and WebSocket protocols
+* 2. Synchronous and asynchronous request handling via CompletableFuture 
+* 3. Fluent builder API for constructing requests
+* 4. Better performance and connection pooling compared to HttpURLConnection
+* 5. Support for both text and binary data
+* 6. Native support for request/response body handlers
+
+
+**Example usage:**
+```java
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/data"))
+    .build();
+    
+// Synchronous:
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+// Asynchronous:
+CompletableFuture<HttpResponse<String>> future = client.sendAsync(request, 
+    HttpResponse.BodyHandlers.ofString());
+```
+
+ * Compared to older HttpURLConnection:
+ * - No need for manual connection management
+ * - Cleaner API without checked exceptions
+ * - Built-in support for modern HTTP features
+ * - Better error handling and timeout management
 
 # 🔹 20. Performance Tuning Interview Questions & Answers
 
@@ -5368,7 +5490,7 @@ app.get('/user/:id', async (req, res) => {
 * Can be implemented at different layers: L4 (transport) or L7 (application)
 
 **Example:**
-```nginx
+```java
 # Nginx load balancer config
 upstream backend {
     server server1.example.com weight=3;
@@ -5384,7 +5506,7 @@ server {
 }
 ```
 
----
+# 🔹 23. MISC Questions
 
 ### 7. What are caching strategies in Java?
 
@@ -5545,4 +5667,146 @@ git merge feature/payment-integration
 git checkout main
 git merge develop
 git tag v1.2.0
+```
+
+## 18. What is Event-Driven Architecture in Java?
+
+**Spoken Answer (35 seconds):**
+* Event-driven architecture uses events to trigger actions between services
+* Services communicate through events instead of direct API calls
+* Promotes loose coupling and scalability
+* Use Spring Events for internal events, Kafka for external events
+* Events are immutable and represent something that happened
+
+**Example:**
+```java
+// Event class
+public class OrderCreatedEvent {
+    private final String orderId;
+    private final String customerId;
+    private final LocalDateTime timestamp;
+    
+    // constructor, getters
+}
+
+// Event publisher
+@Service
+public class OrderService {
+    
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+    
+    public Order createOrder(OrderRequest request) {
+        Order order = new Order(request);
+        orderRepository.save(order);
+        
+        // Publish event
+        eventPublisher.publishEvent(
+            new OrderCreatedEvent(order.getId(), order.getCustomerId())
+        );
+        return order;
+    }
+}
+
+// Event listener
+@Component
+public class EmailNotificationService {
+    
+    @EventListener
+    public void handleOrderCreated(OrderCreatedEvent event) {
+        emailService.sendOrderConfirmation(event.getCustomerId());
+    }
+}
+```
+
+## 19. Can you write the business logic for a CRUD service in Java?
+
+**Spoken Answer (30 seconds):**
+* CRUD means Create, Read, Update, Delete operations
+* Use Spring Boot with JPA for database operations
+* Create service layer for business logic, repository for data access
+* Add validation and error handling
+* Return appropriate HTTP status codes
+
+**Example:**
+```java
+@Entity
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private BigDecimal price;
+    // getters, setters
+}
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findByNameContaining(String name);
+}
+
+@Service
+public class ProductService {
+    
+    @Autowired
+    private ProductRepository repository;
+    
+    public Product create(Product product) {
+        return repository.save(product);
+    }
+    
+    public List<Product> getAll() {
+        return repository.findAll();
+    }
+    
+    public Product getById(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new ProductNotFoundException(id));
+    }
+    
+    public Product update(Long id, Product product) {
+        Product existing = getById(id);
+        existing.setName(product.getName());
+        existing.setPrice(product.getPrice());
+        return repository.save(existing);
+    }
+    
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+}
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+    
+    @Autowired
+    private ProductService service;
+    
+    @PostMapping
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
+        return ResponseEntity.status(201).body(service.create(product));
+    }
+    
+    @GetMapping
+    public List<Product> getAll() {
+        return service.getAll();
+    }
+    
+    @GetMapping("/{id}")
+    public Product getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+    
+    @PutMapping("/{id}")
+    public Product update(@PathVariable Long id, @RequestBody Product product) {
+        return service.update(id, product);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
 ```
