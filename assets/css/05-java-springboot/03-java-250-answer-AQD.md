@@ -3758,7 +3758,7 @@ conn.commit();
 
 ### 8. How do you Handle Large Data Processing?
 
-## ✅ Streaming (Low Memory)
+#### Streaming (Low Memory)
 I process large files or datasets **line by line** using Java Streams.
 This avoids loading everything into memory.
 
@@ -3770,7 +3770,7 @@ Files.lines(Path.of("large-file.txt"))
 ```
 
 
-## ✅ Batch Processing
+#### Batch Processing
 Instead of processing all data at once, I divide it into **smaller batches** (like 1000 records per batch).
 This reduces memory usage and improves performance.
 In Spring Boot, I use **Spring Batch** for this.
@@ -3783,7 +3783,7 @@ for (int i = 0; i < data.size(); i += BATCH) {
 }
 ```
 
-## ✅ Database Pagination (Spring Data JPA)
+#### Database Pagination (Spring Data JPA)
 When data comes from a database, I fetch and process it **page by page** using `PageRequest`.
 This prevents memory overflow and keeps processing stable.
 
@@ -3798,7 +3798,7 @@ do {
 ```
 
 
-## ✅ Async / Parallel Processing
+#### Async / Parallel Processing
 I use **CompletableFuture and Parallel Streams** to process data in parallel across CPU cores.
 This improves speed and handles large volumes efficiently.
 
@@ -3811,7 +3811,7 @@ CompletableFuture.runAsync(() ->
 ```
 
 
-## ✅ Memory-Efficient Caching
+#### Memory-Efficient Caching
 
 ```java
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
