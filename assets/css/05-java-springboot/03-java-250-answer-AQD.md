@@ -3239,11 +3239,8 @@ Runnable r2 = () -> {
 ```
 
 ### 5. What is Stream API?
+The Java Stream API (introduced in Java 8) is used to process collections of data in a functional and declarative way. It allows you to perform operations like filtering, mapping, sorting, and aggregation on data without modifying the original collection.
 
-**Answer:**
-- Functional-style operations on collections of objects
-- Introduced in Java 8 for processing data declaratively
-- Supports parallel processing and lazy evaluation
 
 **Key Points:**
 - Not a data structure, but a view of data
@@ -3376,6 +3373,7 @@ executor.shutdown();
 ```
 
 ### 7. What are intermediate and terminal operations?
+In the Java Stream API, stream operations are divided into Intermediate and Terminal operations. Together, they form a stream pipeline.
 
 **Answer:**
 
@@ -3387,7 +3385,7 @@ executor.shutdown();
 **Terminal Operations:**
 - Produce a result or side effect
 - Trigger execution of intermediate operations
-- Examples: collect(), forEach(), reduce(), count()
+- Examples: collect(), forEach(), reduce(), count(), filter(), sorted()
 
 **Examples:**
 ```java

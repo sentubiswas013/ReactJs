@@ -1,3 +1,25 @@
+
+## ✅ **Tell me about yourself (Java Developer)**
+
+> I am a Full Stack Java Developer with over 3.5 years of experience in designing, developing, and maintaining enterprise-level web applications. My primary expertise is in Java, Spring Boot, and microservices architecture, along with hands-on experience in RESTful APIs, database design, and frontend technologies like React and Angular.
+>
+> Currently, I am working at OqulusTech LLC, where I am involved in building scalable backend services, integrating third-party APIs, and optimizing application performance. I follow clean coding practices, write unit and integration tests, and collaborate closely with cross-functional teams to deliver high-quality software solutions.
+>
+> I am passionate about solving complex problems, learning new technologies, and contributing to systems that are reliable, secure, and scalable.
+
+---
+
+## ✅ **Current role & day-to-day responsibilities (Java Developer)**
+
+> In my current role, my day-to-day responsibilities include designing and developing REST APIs using Java and Spring Boot, implementing business logic, and ensuring code quality through unit testing with JUnit and Mockito.
+>
+> I work extensively with relational databases like MySQL and PostgreSQL, writing optimized queries and managing schema changes. I also participate in code reviews, bug fixing, and performance tuning.
+>
+> As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
+
+
+==========
+
 🔹 Round 1 – Technical (Java + Spring Boot)
 Java Questions
 Explain OOP concepts with real examples
@@ -48,12 +70,54 @@ Have you worked with clients directly?
 
 🔹 Round 3 – HR / Background Check
 Tell me about yourself
-Current role and responsibilities
+Current role and responsibilities day to day
 Why are you looking for a change?
 Notice period & availability
 Salary expectations
 
 
+================
+HCl Interview
+
+ 🔹Java 8 & Core Java 
+What are the major features introduced in Java 8?
+How do you convert pre–Java 8 code into Lambda expressions? Can you give an example?
+What happens if the @FunctionalInterface annotation is not used?
+What is a Functional Interface? Name some predefined functional interfaces in Java 8.
+How is Java 8 used in multithreading? What improvements were introduced?
+What are the differences in methods used in the Collections framework?
+What are Stream API intermediate operations? Can you explain with examples?
+What is the Optional class? What methods does it provide and where should it be used?
+
+🔹 Collections & Streams 
+What is the difference between Collection and Collections in Java?
+How do you merge two lists using Java 8 Streams?
+(Example: empList3 = empList1 + empList2)
+
+🔹 Spring Boot & JPA 
+Which Spring Boot annotations have you used and what are their purposes?
+What is @PatchMapping and when should it be used?
+What is the difference between @Primary and @Qualifier?
+What is the difference between @Component and @Configuration?
+What are the different types of beans in Spring?
+What are session bean types in Spring Boot?
+What is a Many-to-One mapping in JPA?
+Which attributes are used in Many-to-One mapping and why?
+
+🔹 REST API Scenario 
+How would you design a REST endpoint like:
+/employee/details/123?city=kolkata?
+How would you treat 123 as an employeeId in a Spring Boot controller?
+Can you write a complete Spring Boot REST controller for this endpoint?
+Can you explain the controller code line by line?
+
+💡 Depth-Checking Questions
+Why should we prefer Streams over traditional loops?
+When should we avoid using Optional?
+What are common mistakes in REST API design?
+How do Java 8 features improve code readability and performance?
+
+==========
 
 Review every Angular question carefully and understand the context. 
 For every Questions Questions 104 to 112 provide short, natural, real-time spoken answer (each answer should be 15–40 seconds), answer should be in bullet point and short example code. 
