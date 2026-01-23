@@ -6299,3 +6299,35 @@ public class ProductController {
     }
 }
 ```
+
+Here’s a **structured, step-by-step interview answer** you can speak confidently 👇
+
+---
+
+### **How do you migrate a Java application from a lower version to a higher version?**
+
+**“When migrating a Java application from a lower version to a higher version, I follow these steps:”**
+
+1️⃣ **Analyze the current application**
+I first identify the existing Java version, frameworks, third-party libraries, and build tools being used.
+
+2️⃣ **Review Java release notes**
+I check the release notes of the target Java version to understand deprecated, removed, or changed APIs.
+
+3️⃣ **Update build configuration**
+I update the Java version in Maven or Gradle and ensure all dependencies are compatible with the new Java version.
+
+4️⃣ **Upgrade frameworks and libraries**
+If required, I upgrade Spring, Hibernate, and other libraries to supported versions.
+
+5️⃣ **Fix code compatibility issues**
+I replace deprecated APIs, refactor code, and handle package changes or language-level updates.
+
+6️⃣ **Compile and run tests**
+I run unit tests, integration tests, and regression tests to ensure existing functionality is not broken.
+
+7️⃣ **Perform performance and security checks**
+I validate application performance, memory usage, and security behavior on the new Java version.
+
+8️⃣ **Deploy and monitor**
+Finally, I deploy the application to a lower environment, monitor logs and metrics, and then move it to production after validation.
