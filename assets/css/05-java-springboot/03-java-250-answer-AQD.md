@@ -1984,6 +1984,40 @@ class RaceConditionExample {
 
 # 🔹 9. Advanced Concurrency 
 
+### 0. What is **Concurrency in Java**?
+
+**Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
+
+### 🔹 Simple example
+
+```java
+new Thread(() -> System.out.println("Task running")).start();
+```
+
+This creates a new thread that runs concurrently with the main thread.
+
+---
+
+### 🔹 How concurrency is achieved in Java
+
+* **Thread & Runnable**
+* **ExecutorService**
+* **Synchronization**
+* **Locks (`ReentrantLock`)**
+* **Atomic variables**
+* **Concurrent collections**
+* **CompletableFuture (Java 8+)**
+
+---
+
+### 🔹 Concurrency vs Parallelism
+
+| Concurrency                | Parallelism                             |
+| -------------------------- | --------------------------------------- |
+| Multiple tasks in progress | Multiple tasks executing simultaneously |
+| May run on one CPU         | Requires multiple cores                 |
+
+
 ### 1. What is ExecutorService?
 
 **ExecutorService is a framework that manages thread pools and executes tasks asynchronously.**
