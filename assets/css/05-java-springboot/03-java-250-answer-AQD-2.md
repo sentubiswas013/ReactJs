@@ -42,10 +42,11 @@ JVM = Runtime execution environment
 Object-Oriented Programming is based on four fundamental principles that promote code reusability, maintainability, and modularity.
 
 **Four OOP Principles:**
-- **Encapsulation:** Bundling data and methods together, hiding internal details
-- **Inheritance:** Creating new classes based on existing classes
-- **Polymorphism:** Same interface, different implementations
-- **Abstraction:** Hiding complex implementation details, showing only essential features
+The four main principles are:
+- **Encapsulation**: Wrapping data and methods into a single unit (class) and restricting access to some components using access modifiers.
+- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class.
+- **Polymorphism**: Allowing one entity to take multiple forms (e.g., method overloading, method overriding).
+- **Abstraction**: Hiding the implementation details and showing only the necessary functionality to the user.
 
 These principles help create modular, maintainable, and scalable software by organizing code around objects that represent real-world entities.
 
@@ -207,12 +208,19 @@ Circle circle = new Circle("blue", 5.0); // OK
 double area = circle.calculateArea();
 ```
 
+### 8. What is a package in Java? 
+A package in Java is a collection of related classes and interfaces grouped to organize code and prevent naming conflicts. 
+- Built-in packages: java.lang, java.util, etc.
+- User-defined packages: Created by developers for organizing custom classes
+
 # 2. Data Types and Variables
 
-## 1. What are primitive data types in Java?
+## 1. What are data types in Java?
 
-Java has 8 primitive data types that store simple values directly in memory. They're the building blocks of data manipulation.
+**Answer:**
+There is two type of data Primitive Data and Non-Primitive Data
 
+**8 Primitive Data :**
 - **byte** - 8-bit integer (-128 to 127)
 - **short** - 16-bit integer (-32,768 to 32,767)
 - **int** - 32-bit integer (most commonly used)
@@ -222,10 +230,19 @@ Java has 8 primitive data types that store simple values directly in memory. The
 - **char** - 16-bit Unicode character
 - **boolean** - true or false
 
+**8 Non-Primitive Data :**
+- **String** - Used to store text
+- **Array** - Used to store multiple values
+- **Class** - Blueprint for objects
+- **Interface** - Defines method structure for classes
+
+**Example:**
 ```java
 int age = 25;
-double price = 99.99;
+double salary = 50000.50;
+char grade = 'A';
 boolean isActive = true;
+long population = 1000000L;
 ```
 
 ## 2. What is the difference between primitive and reference types?
