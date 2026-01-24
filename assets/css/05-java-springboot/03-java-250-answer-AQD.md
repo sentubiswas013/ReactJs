@@ -2276,7 +2276,7 @@ PermGen was replaced by Metaspace in Java 8:
 ### 4. What is garbage collection?
 
 **Answer:**
-Garbage Collection (GC) is automatic memory management:
+Garbage Collection in Java is an automatic process by which JVM frees heap memory by removing objects that are no longer reachable, improving memory efficiency and preventing memory leaks.
 
 * **Purpose:**
   - Automatically frees unused memory
@@ -3216,34 +3216,98 @@ List<String> names = Arrays.asList("John", "Jane", "Bob");
 names.forEach(name -> System.out.println(name));
 ```
 
-### 2. What are functional interfaces?
+### 2. What are Functional Interfaces?
 
-**Answer:**
-- Interfaces with exactly one abstract method
-- Can have multiple default and static methods
-- Annotated with `@FunctionalInterface` (optional but recommended)
+> A functional interface in Java is an interface with exactly one abstract method, used mainly to support lambda expressions and functional programming.
 
-**Key Points:**
-- Target for lambda expressions
-- Built-in functional interfaces: Predicate, Function, Consumer, Supplier
-- Can create custom functional interfaces
+---
 
-**Examples:**
+## 🧪 Example
+
 ```java
 @FunctionalInterface
 interface Calculator {
-    int calculate(int a, int b);
+    int add(int a, int b);
 }
-
-// Usage
-Calculator add = (a, b) -> a + b;
-Calculator multiply = (a, b) -> a * b;
-
-// Built-in examples
-Predicate<String> isEmpty = s -> s.isEmpty();
-Function<String, Integer> length = s -> s.length();
-Consumer<String> print = s -> System.out.println(s);
 ```
+
+Usage with lambda:
+
+```java
+Calculator calc = (a, b) -> a + b;
+System.out.println(calc.add(5, 3)); // 8
+```
+
+---
+
+## 🧷 Can Functional Interface Have Other Methods?
+
+Yes ✅
+
+A functional interface can have:
+
+* **Any number of `default` methods**
+* **Any number of `static` methods**
+* **Only ONE abstract method**
+
+```java
+@FunctionalInterface
+interface MyInterface {
+    void doWork();        // abstract method
+
+    default void log() {
+        System.out.println("Logging...");
+    }
+
+    static void info() {
+        System.out.println("Info");
+    }
+}
+```
+
+---
+
+## 🏷️ What is `@FunctionalInterface` Annotation?
+
+* Optional but recommended
+* Ensures **compile-time check**
+* Prevents adding extra abstract methods by mistake
+
+❌ Without it → compiler won’t stop you
+✅ With it → safer & cleaner
+
+---
+
+## 📦 Built-in Functional Interfaces (java.util.function)
+
+| Interface           | Abstract Method       | Use Case          |
+| ------------------- | --------------------- | ----------------- |
+| `Predicate<T>`      | `boolean test(T t)`   | Condition check   |
+| `Function<T,R>`     | `R apply(T t)`        | Transform data    |
+| `Consumer<T>`       | `void accept(T t)`    | Perform action    |
+| `Supplier<T>`       | `T get()`             | Provide value     |
+| `UnaryOperator<T>`  | `T apply(T t)`        | Same input/output |
+| `BinaryOperator<T>` | `T apply(T t1, T t2)` | Combine values    |
+
+---
+
+## 🧠 Example with Stream
+
+```java
+List<String> names = List.of("Ram", "Shyam", "Mohan");
+
+names.stream()
+     .filter(n -> n.startsWith("M"))   // Predicate
+     .map(String::toUpperCase)         // Function
+     .forEach(System.out::println);    // Consumer
+```
+
+---
+
+## ❓ Can an Interface with One Abstract Method Still NOT Be Functional?
+
+Yes ❗
+If it **extends another interface** that already has abstract methods → total abstract methods > 1 → ❌ Not functional.
 
 ### 3. What are method references?
 

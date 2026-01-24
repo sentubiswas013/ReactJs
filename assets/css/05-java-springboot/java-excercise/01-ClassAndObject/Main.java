@@ -3,16 +3,19 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("Hello Worlld");
 
-		Person obj = new Person();		
+		Person obj = new Person();	
+		obj.name = "Sentu";
+		obj.age = 2132131;
 		System.out.println(obj.info());
 	}
 }
 
 class Person {
-	String name;
-	int age; 
+	String name = "sentu";
+	int age = 2432;
 
-	void info () {
+	String info () {
+		// return age + " -- " + name;
 		return age + " -- " + name;
 	}
 }
