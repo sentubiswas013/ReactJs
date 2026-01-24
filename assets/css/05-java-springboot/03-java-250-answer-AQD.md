@@ -2435,7 +2435,9 @@ public class Employee {
 ### 9. What are GC roots?
 
 **Answer:**
-GC roots are starting points for garbage collection reachability analysis:
+The garbage collector starts from GC Roots and traverses object references. Any object that cannot be reached from these roots is treated as garbage
+
+Examples of GC Roots include local variables in the stack, static variables, active threads, and JNI references.
 
 * **Types of GC Roots:**
   - Local variables in stack
