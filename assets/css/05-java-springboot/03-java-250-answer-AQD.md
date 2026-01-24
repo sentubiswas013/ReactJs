@@ -2836,25 +2836,29 @@ List<Integer> intList = new ArrayList<>(); // OK
 # 🔹 13. Java Annotations and Reflection 
 ### 1. What are annotations in Java?
 
-Annotations are metadata that provide information about code without affecting its execution.
+Annotations are a way to add metadata to Java code, enabling the compiler and frameworks to process behavior at compile time or runtime without changing business logic.
 
-* **Purpose**: Add metadata to classes, methods, fields, parameters
-* **Compile-time**: Used by compiler and development tools
-* **Runtime**: Can be processed during execution
-* **Syntax**: Start with @ symbol
+#### Common built-in annotations:
+
+* `@Override` – checks method overriding
+* `@Deprecated` – marks old code
+* `@SuppressWarnings` – suppresses compiler warnings
+* `@FunctionalInterface` – ensures only one abstract method
 
 **Example:**
 ```java
 @Override
 public String toString() {
-    return "MyClass";
-}
-
-@Deprecated
-public void oldMethod() {
-    // legacy code
+    return "Hello";
 }
 ```
+
+#### Framework examples (very common in real projects):
+
+* `@Controller`, `@RestController` – Spring MVC
+* `@Autowired` – Dependency Injection
+* `@Entity`, `@Table` – Hibernate/JPA
+* `@RequestMapping`, `@GetMapping` – REST APIs
 
 ### 2. What are built-in annotations?
 
