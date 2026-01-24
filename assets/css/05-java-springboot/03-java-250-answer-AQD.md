@@ -72,135 +72,62 @@ class Car {
 }
 ```
 
----
-
 ### 4. What is polymorphism? Explain with examples.
 
-**Answer:**
-Polymorphism means "many forms" - same method name behaving differently based on the object.
+Polymorphism means "many forms" - it allows objects of different classes to be treated as objects of a common base class. There are two types: compile-time polymorphism through method overloading, and runtime polymorphism through method overriding.
 
-**Two types:**
-- **Compile-time** - Method overloading
-- **Runtime** - Method overriding
-
-**Examples:**
 ```java
-// Method Overloading (Compile-time)
-class Calculator {
-    public int add(int a, int b) { return a + b; }
-    public double add(double a, double b) { return a + b; }
-}
+// Runtime polymorphism example
+Animal animal = new Dog();
+animal.makeSound(); // Calls Dog's makeSound method
 
-// Method Overriding (Runtime)
 class Animal {
-    public void sound() { System.out.println("Animal sound"); }
+    void makeSound() { System.out.println("Animal sound"); }
 }
-
 class Dog extends Animal {
-    public void sound() { System.out.println("Bark"); }
-}
-
-class Cat extends Animal {
-    public void sound() { System.out.println("Meow"); }
+    void makeSound() { System.out.println("Woof!"); }
 }
 ```
 
----
-
 ### 5. What is encapsulation and how is it implemented in Java?
 
-**Answer:**
-Encapsulation is wrapping data and methods together and controlling access to them.
+Encapsulation is wrapping data and methods into a single unit while restricting direct access to internal components. In Java, we implement it using private variables and public getter/setter methods. This provides data security and controlled access.
 
-**Implementation:**
-- Make variables **private**
-- Provide **public getter/setter** methods
-- Control access through methods
-
-**Example:**
 ```java
 class Student {
     private String name;
     private int age;
     
-    // Getter
-    public String getName() {
-        return name;
-    }
-    
-    // Setter with validation
-    public void setAge(int age) {
-        if (age > 0) {
-            this.age = age;
-        }
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 }
 ```
-
----
 
 ### 6. What is inheritance and what are its types?
 
-**Answer:**
-Inheritance allows a class to acquire properties and methods from another class.
+Inheritance allows a class to acquire properties and methods from another class. The child class inherits from the parent class using the extends keyword. Java supports single inheritance for classes, multilevel inheritance, and hierarchical inheritance. Multiple inheritance is achieved through interfaces.
 
-**Types in Java:**
-- **Single** - One child, one parent
-- **Multilevel** - Chain of inheritance
-- **Hierarchical** - Multiple children, one parent
-
-**Note:** Java doesn't support multiple inheritance with classes (but supports with interfaces)
-
-**Example:**
 ```java
-// Single Inheritance
 class Vehicle {
-    protected String brand = "Ford";
+    void start() { System.out.println("Vehicle started"); }
 }
-
 class Car extends Vehicle {
-    private String model = "Mustang";
-    
-    public void display() {
-        System.out.println(brand + " " + model);
-    }
+    void drive() { System.out.println("Car is driving"); }
 }
 ```
 
----
-
 ### 7. What is an abstract class?
 
-**Answer:**
-An abstract class is a class that cannot be instantiated and may contain abstract methods (methods without implementation).
+An abstract class is a class that cannot be instantiated and may contain abstract methods without implementation. It's used as a base class for other classes to extend. Abstract classes can have both abstract and concrete methods, constructors, and instance variables.
 
-**Key Points:**
-- Use **abstract** keyword
-- Can have both abstract and concrete methods
-- Cannot create objects directly
-- Must be extended by subclasses
-
-**Example:**
 ```java
 abstract class Shape {
-    // Abstract method
-    public abstract void draw();
-    
-    // Concrete method
-    public void display() {
-        System.out.println("This is a shape");
-    }
+    abstract void draw(); // Abstract method
+    void display() { System.out.println("Displaying shape"); } // Concrete method
 }
-
 class Circle extends Shape {
-    public void draw() {
-        System.out.println("Drawing a circle");
-    }
+    void draw() { System.out.println("Drawing circle"); }
 }
-
-// Usage
-Circle c = new Circle(); // Valid
-// Shape s = new Shape(); // Error - cannot instantiate
 ```
 
 ### 8. What is a package in Java? 

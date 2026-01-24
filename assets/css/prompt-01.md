@@ -11,6 +11,14 @@ For Questions 1 to 10 provide real-time spoken answer
 Keep all answers simple, confident, and practical. 
 Then compile all answers together into a single .md (Markdown) file.
 
+---
+
+Review every Java question carefully and understand the context
+For Questions provide real-time spoken simple answer without **Key Points:**
+Keep answer within  be 10–20 seconds if answer is long then you can extend the answer with some bullet point
+if require add small example code otherwise skip 
+Then compile all answers together into a single .md (Markdown) file.
+
 ======================s
 Read the full file carefull and understand the context. Extract most asked questions in realtime inverview with categorywise. if there is any duplicate or similar type of questions remove it and give as .md file
 
