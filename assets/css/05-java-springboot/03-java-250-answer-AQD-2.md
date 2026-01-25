@@ -369,12 +369,7 @@ protected void finalize() {
 **final** is for immutability, **finally** for cleanup code, **finalize** for garbage collection (rarely used).
 
 ### 9. What is coercion in Java? 
-Coercion in Java refers to the automatic or explicit conversion of one data 
-type into another. 
-- Implicit coercion: Automatically converts smaller data types to larger
-ones (e.g., int to double).
-- Explicit coercion (casting): Converts larger data types to smaller ones
-using type casting (e.g., (int) 3.14).
+
 
 # 3. Classes and Objects
 
@@ -2449,6 +2444,8 @@ try {
 }
 ```
 
+## 11. What is Mockito?
+
 # 14. Java Lambda Expressions & Streams API 
 
 ## 1. What are lambda expressions?
@@ -2850,6 +2847,104 @@ try {
 }
 ```
 
+##7 8. How do you Handle Large Data Processing?
+
+#### Streaming (Low Memory)
+I process large files or datasets **line by line** using Java Streams.
+This avoids loading everything into memory.
+
+
+```java
+Files.lines(Path.of("large-file.txt"))
+     .filter(l -> l.contains("ERROR"))
+     .forEach(this::processError);
+```
+
+
+- **Batch Processing**
+Instead of processing all data at once, I divide it into **smaller batches** (like 1000 records per batch).
+This reduces memory usage and improves performance.
+In Spring Boot, I use **Spring Batch** for this.
+
+```java
+int BATCH = 1000;
+
+for (int i = 0; i < data.size(); i += BATCH) {
+    processBatch(data.subList(i, Math.min(i + BATCH, data.size())));
+}
+```
+
+- **Database Pagination (Spring Data JPA)**
+When data comes from a database, I fetch and process it **page by page** using `PageRequest`.
+This prevents memory overflow and keeps processing stable.
+
+```java
+int page = 0;
+Page<DataItem> result;
+
+do {
+    result = repo.findByStatus("PENDING", PageRequest.of(page++, 1000));
+    processBatch(result.getContent());
+} while (result.hasNext());
+```
+
+
+- **Async / Parallel Processing**
+I use **CompletableFuture and Parallel Streams** to process data in parallel across CPU cores.
+This improves speed and handles large volumes efficiently.
+
+```java
+CompletableFuture.runAsync(() ->
+    data.parallelStream()
+        .filter(this::isValid)
+        .forEach(this::save)
+);
+```
+
+
+- **Memory-Efficient Caching**
+
+```java
+Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
+```
+
+### 7. What is the difference between Direct Servlet and JSP?
+
+**Spoken Answer (30 seconds):**
+* Servlets are Java classes that handle HTTP requests programmatically
+* JSP (JavaServer Pages) mixes HTML with Java code for dynamic web pages
+* Servlets are better for business logic, JSP for presentation layer
+* JSP gets compiled to servlets behind the scenes
+* Modern apps use REST APIs instead of JSP for frontend separation
+
+**Example:**
+```java
+// Direct Servlet
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest request, 
+                        HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Hello from Servlet!</h1>");
+        out.println("<p>User: " + request.getParameter("name") + "</p>");
+    }
+}
+
+// JSP (hello.jsp)
+<%@ page contentType="text/html;charset=UTF-8" %>
+<html>
+<head><title>Hello JSP</title></head>
+<body>
+    <h1>Hello from JSP!</h1>
+    <p>User: <%= request.getParameter("name") %></p>
+    <p>Current time: <%= new java.util.Date() %></p>
+</body>
+</html>
+```
+
 # 16. Java Design Patterns 
 
 ## 1. What are design patterns?
@@ -3203,29 +3298,34 @@ class OrderService {
 }
 ```
 
-## 4. What is the difference between BeanFactory and ApplicationContext?
+## 3. What are the best ways to implement Dependency Injection in Java?
 
-**BeanFactory:**
-- Basic IoC container
-- Lazy initialization
-- Limited functionality
-- Suitable for resource-constrained environments
+**Spoken Answer (35 seconds):**
+* Three main types: Constructor injection, Setter injection, and Field injection
+* Constructor injection is preferred - it ensures required dependencies are provided
+* Use frameworks like Spring, Guice, or CDI for automatic injection
+* Annotations like @Autowired, @Inject make it simple
 
-**ApplicationContext:**
-- Advanced IoC container
-- Eager initialization by default
-- Additional features (event handling, internationalization)
-- Preferred for enterprise applications
-
+**Example:**
 ```java
-// BeanFactory - basic container
-BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
-
-// ApplicationContext - advanced container
-ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    
+    // Constructor injection - best practice
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+    
+    // Setter injection
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+}
 ```
 
-ApplicationContext extends BeanFactory and provides more enterprise-ready features.
+
 
 ## 5. What are Spring beans?
 

@@ -5444,55 +5444,6 @@ CompletableFuture<HttpResponse<String>> future = client.sendAsync(request,
 
 # 🔹 20. Performance Tuning Interview Questions & Answers
 
-### 1. How do you handle security in a Java application?
-
-**Spoken Answer (35 seconds):**
-* Use Spring Security for authentication and authorization
-* JWT tokens for stateless authentication
-* HTTPS for encrypted communication
-* Input validation to prevent SQL injection
-* Role-based access control (RBAC)
-* Password encryption with BCrypt
-
-**Example:**
-```java
-// Security configuration
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-    
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-            .csrf().disable()
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
-            .build();
-    }
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-}
-
-// JWT token validation
-@RestController
-public class AuthController {
-    
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        // Validate credentials
-        String token = jwtService.generateToken(request.getUsername());
-        return ResponseEntity.ok(token);
-    }
-}
-```
-
 ### 1. How do you identify performance bottlenecks?
 
 **Answer:**
