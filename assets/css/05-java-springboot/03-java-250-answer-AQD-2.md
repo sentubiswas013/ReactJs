@@ -208,7 +208,7 @@ Circle circle = new Circle("blue", 5.0); // OK
 double area = circle.calculateArea();
 ```
 
-### 8. What is a package in Java? 
+## 8. What is a package in Java? 
 A package in Java is a collection of related classes and interfaces grouped to organize code and prevent naming conflicts. 
 - Built-in packages: java.lang, java.util, etc.
 - User-defined packages: Created by developers for organizing custom classes
@@ -367,6 +367,14 @@ protected void finalize() {
 ```
 
 **final** is for immutability, **finally** for cleanup code, **finalize** for garbage collection (rarely used).
+
+### 9. What is coercion in Java? 
+Coercion in Java refers to the automatic or explicit conversion of one data 
+type into another. 
+- Implicit coercion: Automatically converts smaller data types to larger
+ones (e.g., int to double).
+- Explicit coercion (casting): Converts larger data types to smaller ones
+using type casting (e.g., (int) 3.14).
 
 # 3. Classes and Objects
 
@@ -1452,6 +1460,40 @@ public void increment() {
 ```
 
 # 9. Java Advanced Concurrency 
+
+## 0. What is **Concurrency in Java**?
+
+**Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
+
+* **Simple example**
+
+```java
+new Thread(() -> System.out.println("Task running")).start();
+```
+
+This creates a new thread that runs concurrently with the main thread.
+
+---
+
+* **How concurrency is achieved in Java**
+
+* **Thread & Runnable**
+* **ExecutorService**
+* **Synchronization**
+* **Locks (`ReentrantLock`)**
+* **Atomic variables**
+* **Concurrent collections**
+* **CompletableFuture (Java 8+)**
+
+---
+
+* **Concurrency vs Parallelism**
+
+| Concurrency                | Parallelism                             |
+| -------------------------- | --------------------------------------- |
+| Multiple tasks in progress | Multiple tasks executing simultaneously |
+| May run on one CPU         | Requires multiple cores                 |
+
 
 ## 1. What is ExecutorService?
 

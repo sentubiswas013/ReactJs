@@ -1915,7 +1915,7 @@ class RaceConditionExample {
 
 **Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
 
-### 🔹 Simple example
+* **Simple example**
 
 ```java
 new Thread(() -> System.out.println("Task running")).start();
@@ -1925,7 +1925,7 @@ This creates a new thread that runs concurrently with the main thread.
 
 ---
 
-### 🔹 How concurrency is achieved in Java
+* **How concurrency is achieved in Java**
 
 * **Thread & Runnable**
 * **ExecutorService**
@@ -1937,7 +1937,7 @@ This creates a new thread that runs concurrently with the main thread.
 
 ---
 
-### 🔹 Concurrency vs Parallelism
+* **Concurrency vs Parallelism**
 
 | Concurrency                | Parallelism                             |
 | -------------------------- | --------------------------------------- |
