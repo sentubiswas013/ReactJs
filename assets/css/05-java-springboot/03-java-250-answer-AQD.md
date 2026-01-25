@@ -4500,16 +4500,12 @@ public class OrderService {
 
 ---
 
-### 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+### 13. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
 Great question — this is a **very common Spring interview topic**.
 I’ll answer it in a **real-time spoken style**, explaining *why and when* we use each annotation, with **short, clear code examples**.
 
----
-
-## **What are `@Primary`, `@Qualifier`, `@Component`, and `@Configuration`?**
-
-### **@Component**
+**@Component**
 
 **Spoken Answer:**
 “`@Component` is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
@@ -4530,9 +4526,7 @@ public class EmailService {
 }
 ```
 
----
-
-### **@Configuration**
+**@Configuration**
 
 **Spoken Answer:**
 “`@Configuration` is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
@@ -4555,9 +4549,7 @@ public class AppConfig {
 }
 ```
 
----
-
-### **@Primary**
+**@Primary**
 
 **Spoken Answer:**
 “When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.”
@@ -4578,11 +4570,7 @@ public class UpiPayment implements PaymentService {
 }
 ```
 
-👉 Spring will inject `CreditCardPayment` by default.
-
----
-
-### **@Qualifier**
+**@Qualifier**
 
 **Spoken Answer:**
 “`@Qualifier` is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
@@ -4594,7 +4582,7 @@ public class UpiPayment implements PaymentService {
 @Qualifier("upiPayment")
 private PaymentService paymentService;
 ```
-### **@PatchMapping**
+**@PatchMapping**
 “`@PatchMapping` is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
 
 ```java
