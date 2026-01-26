@@ -16,6 +16,12 @@ Java compiles to bytecode that runs on the Java Virtual Machine, making it porta
 
 ## 2. Explain the difference between JDK, JRE, and JVM.
 
+**JVM (Java Virtual Machine)** is the runtime environment that executes Java bytecode on any platform. It’s responsible for **memory management, garbage collection, and execution**.
+
+**JRE (Java Runtime Environment)** includes the **JVM plus core libraries and classes** needed to run Java applications. It doesn’t have tools for development.
+
+**JDK (Java Development Kit)** includes **JRE plus development tools** like `javac` and `jar` for compiling and building Java programs.
+
 **JVM (Java Virtual Machine):**
 - Runtime environment that executes Java bytecode
 - Platform-specific implementation
@@ -247,7 +253,10 @@ long population = 1000000L;
 
 ## 2. What is the difference between primitive and reference types?
 
-Primitive types store actual values directly in memory, while reference types store memory addresses pointing to objects.
+**Primitive types** in Java, like `int`, `double`, and `boolean`, store **actual values** in memory and are **stored on the stack**. They are fast and have a fixed size.
+
+**Reference types**, like objects, arrays, and strings, store a **reference or memory address** pointing to the actual data in the **heap**. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
+
 
 **Primitive types:**
 - Stored in stack memory
@@ -342,9 +351,9 @@ This reduces memory usage and improves performance for string literals.
 
 ## 8. What is the difference between final, finally, and finalize?
 
-**final:** Keyword for constants, preventing inheritance/override
-**finally:** Block that always executes after try-catch
-**finalize:** Method called by garbage collector before object destruction
+- **final:** Keyword for constants, preventing inheritance/override
+- **finally:** Block that always executes after try-catch
+- **finalize:** Method called by garbage collector before object destruction
 
 ```java
 // final
@@ -4254,6 +4263,31 @@ public class GlobalExceptionHandler {
 }
 ```
 
+## 6. What is Event-Driven Architecture in Java?
+
+**Event-Driven Architecture (EDA)** in microservices is a design where services **communicate by producing and consuming events** instead of calling each other directly.
+
+When something happens in a service, it **publishes an event** to a message broker (like Kafka or RabbitMQ). Other services **subscribe to these events** and react asynchronously.
+
+This makes microservices **loosely coupled, scalable, and more resilient**, since services don’t depend on each other being available at the same time.
+
+
+```java
+@Service
+public class OrderService {
+    public Order createOrder(OrderRequest request) {
+        Order order = orderRepository.save(new Order(request));
+        eventPublisher.publishEvent(new OrderCreatedEvent(order.getId()));
+        return order;
+    }
+}
+
+@EventListener
+public void handleOrderCreated(OrderCreatedEvent event) {
+    emailService.sendConfirmation(event.getOrderId());
+}
+```
+
 ## 5. What is API Gateway?
 
 The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
@@ -5156,26 +5190,6 @@ git push origin feature/shopping-cart
 ```
 
 Release branches prepare for deployment, and hotfix branches handle urgent production fixes.
-
-## 6. What is Event-Driven Architecture in Java?
-
-Event-driven architecture means components communicate through events instead of direct calls. When something happens like an order creation, an event is published. Other services listen for these events and react accordingly, making the system loosely coupled and scalable.
-
-```java
-@Service
-public class OrderService {
-    public Order createOrder(OrderRequest request) {
-        Order order = orderRepository.save(new Order(request));
-        eventPublisher.publishEvent(new OrderCreatedEvent(order.getId()));
-        return order;
-    }
-}
-
-@EventListener
-public void handleOrderCreated(OrderCreatedEvent event) {
-    emailService.sendConfirmation(event.getOrderId());
-}
-```
 
 ## 7. Can you write the business logic for a CRUD service in Java?
 
