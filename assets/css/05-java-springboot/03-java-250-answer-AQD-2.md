@@ -4144,7 +4144,12 @@ Microservices break down monolithic applications into smaller, manageable pieces
 
 ## 2. Monolithic vs Microservices Architecture
 
-Monolithic architecture is one big application where everything is bundled together - all features, database access, and business logic in a single deployable unit. Microservices break the application into small, independent services that communicate over APIs. Monolithic is simpler to develop initially but harder to scale. Microservices are more complex but offer better scalability and team independence.
+**Monolithic architecture** is where the entire application is built as a **single unit**. All components like UI, business logic, and database access are tightly coupled and deployed together. It’s simple to develop and test initially, but as the application grows, scaling and maintenance become difficult.
+
+**Microservices architecture** breaks the application into **small, independent services**, each responsible for a specific business function. These services can be developed, deployed, and scaled independently, which improves flexibility and scalability but adds complexity in communication, monitoring, and deployment.
+
+So, **monolithic is simple but less scalable**, while **microservices are scalable and flexible but more complex**.
+
 
 Trade-offs:
 - Monolithic: Simple deployment, shared database, single technology stack
@@ -4251,7 +4256,9 @@ public class GlobalExceptionHandler {
 
 ## 5. What is API Gateway?
 
-API Gateway is a server that acts as a single entry point for all client requests to microservices. It routes requests to appropriate services and provides cross-cutting concerns.
+The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
+
+After a cooldown period, it moves to a **half-open** state to test if the service has recovered. If successful, the circuit closes and normal traffic resumes. This improves **system resilience and stability**.
 
 **Key Functions:**
 - **Request routing:** Direct requests to correct services
@@ -4338,7 +4345,12 @@ resilience4j:
 
 ## 6. How do you Improve Performance in Spring Boot Application?
 
-Improve performance by adding caching for frequently accessed data, using connection pooling for database connections, enabling async processing for non-blocking operations, and optimizing database queries with proper indexes. Also enable compression and tune JVM settings for production.
+To improve performance in a **Spring Boot application**, start by **optimizing database access** using proper indexing, pagination, and connection pooling like **HikariCP**. Reduce unnecessary queries and use **caching** with tools like Redis or Spring Cache.
+
+Enable **asynchronous processing** where applicable, and tune **JVM settings** such as heap size and garbage collection. Also, use **lazy loading**, compress responses, and monitor the application using **Actuator and profiling tools** to identify bottlenecks.
+
+Overall, focus on **efficient DB usage, caching, async processing, and monitoring** for best performance.
+
 
 ```java
 @Service
@@ -4366,7 +4378,12 @@ Additional optimizations:
 
 ## 7. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
 
-Yes, Java 11 HTTP Client is built into the JDK so no external dependencies needed. It supports HTTP/2 and WebSocket natively, has both synchronous and asynchronous APIs, and uses a clean builder pattern. It's much better than the old HttpURLConnection which was verbose and limited.
+Yes, I’ve worked with the **Java 11 HTTP Client**. It’s a modern HTTP client introduced in Java 11 under the `java.net.http` package. It supports **HTTP/1.1 and HTTP/2**, has **built-in asynchronous and non-blocking calls** using `CompletableFuture`, and provides a clean, fluent API.
+
+In earlier Java versions, developers typically used **`HttpURLConnection`**, which was **blocking, verbose, and hard to use**, or relied on **third-party libraries** like Apache HttpClient or OkHttp for advanced features.
+
+So compared to older clients, the Java 11 HTTP Client is **simpler, more efficient, async-friendly, and officially supported by the JDK**.
+
 
 ```java
 // Java 11 HTTP Client - modern approach
@@ -4438,7 +4455,12 @@ public class OrderController {
 
 ## 1. How do you identify performance bottlenecks?
 
-Performance bottlenecks are identified through systematic monitoring, profiling, and analysis of application metrics to find the slowest components affecting overall performance.
+To identify **performance bottlenecks**, I start by **monitoring application metrics** like response time, CPU, memory, and thread usage using tools such as **Spring Boot Actuator, logs, and APM tools**.
+
+Then I **profile the application** to find slow methods, analyze **database queries** for delays, and check for issues like **high GC time, thread blocking, or connection pool exhaustion**. Based on the data, I focus on the component causing the maximum delay and optimize it.
+
+In short, I rely on **metrics, profiling, and logs** to pinpoint bottlenecks accurately.
+
 
 **Identification Methods:**
 - **Application Performance Monitoring (APM):** Tools like New Relic, AppDynamics
@@ -4478,9 +4500,14 @@ for (int i = 0; i < 1000; i++) {
 }
 ```
 
-## 3. What is connection pooling and why is it important?
+## 3. What is connection pooling and how it works?
 
-Connection pooling maintains a cache of database connections that can be reused across multiple requests, eliminating the overhead of creating and destroying connections repeatedly.
+**Connection pooling** is a technique where a set of **pre-created database connections** is maintained and reused instead of opening a new connection for every request. Creating a database connection is expensive, so reusing them improves performance.
+
+When the application needs a connection, it **borrows one from the pool**. After the operation is complete, the connection is **returned to the pool** instead of being closed. The pool also manages limits, idle connections, and timeouts.
+
+So, connection pooling **reduces latency, improves scalability, and efficiently manages database resources**.
+
 
 **Benefits:**
 - **Reduced connection overhead:** Avoid expensive connection creation
@@ -4846,7 +4873,10 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 
 ## 1. What is containerization?
 
-Containerization is a lightweight virtualization technology that packages applications and their dependencies into portable containers that can run consistently across different environments.
+**Containerization** is a technique where an application and all its dependencies—like libraries and configuration—are packaged together into a **lightweight container**. This ensures the application runs **consistently across different environments**, such as development, testing, and production.
+
+Containers are fast to start, use fewer resources than virtual machines, and make applications easier to **deploy, scale, and manage**.
+
 
 - **Lightweight virtualization:** Shares OS kernel, unlike VMs
 - **Application packaging:** Bundles code, runtime, libraries, dependencies
@@ -4858,7 +4888,10 @@ Containers solve the "it works on my machine" problem by ensuring consistent run
 
 ## 2. What is Docker?
 
-Docker is a containerization platform that allows developers to package applications into lightweight, portable containers. It's the most popular containerization technology.
+**Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
+
+Docker makes applications **lightweight, portable, fast to deploy**, and easier to scale compared to traditional virtual machines.
+
 
 - **Container platform:** Create, deploy, and manage containers
 - **Docker images:** Read-only templates for creating containers
@@ -4884,7 +4917,10 @@ docker images                        # List images
 
 ## 3. What is Kubernetes?
 
-Kubernetes is an open-source container orchestration platform that automates deployment, scaling, and management of containerized applications across clusters of machines.
+**Kubernetes** is a **container orchestration platform** used to manage containerized applications at scale. It automates **deployment, scaling, load balancing, and self-healing** of containers across a cluster of machines.
+
+It ensures applications remain **highly available, scalable, and resilient** in production environments.
+
 
 - **Container orchestration:** Manages multiple containers
 - **Automatic scaling:** Scale applications based on demand
@@ -4924,7 +4960,10 @@ spec:
 
 ## 4. What is cloud computing?
 
-Cloud computing delivers computing services over the internet, providing on-demand access to resources like servers, storage, databases, and software without managing physical infrastructure.
+**Cloud computing** is the delivery of computing resources like **servers, storage, databases, networking, and software** over the internet on a **pay-as-you-go** basis. Instead of owning physical infrastructure, you use resources provided by cloud platforms.
+
+It allows easy **scaling, high availability, cost efficiency**, and faster application deployment.
+
 
 **Service Models:**
 - **IaaS (Infrastructure as a Service):** Virtual machines, storage, networks
@@ -4944,7 +4983,10 @@ Cloud computing delivers computing services over the internet, providing on-dema
 
 ## 5. What is distributed system?
 
-A distributed system is a collection of independent computers that work together as a single coherent system, appearing to users as one unified system despite running on multiple machines.
+A **distributed system** is a system where multiple **independent computers or services work together** over a network and appear as a **single system** to the user.
+
+These systems improve **scalability, fault tolerance, and availability**, since work is shared across multiple nodes instead of relying on a single machine.
+
 
 **Characteristics:**
 - **Multiple nodes:** Components run on different machines
@@ -4967,7 +5009,10 @@ A distributed system is a collection of independent computers that work together
 
 ## 6. What is load balancing?
 
-Load balancing distributes incoming network traffic across multiple servers to ensure no single server becomes overwhelmed, improving application availability and performance.
+**Load balancing** is the process of **distributing incoming requests** across multiple servers so that no single server becomes overloaded.
+
+It improves **application performance, availability, and reliability** by ensuring traffic is handled efficiently, even when one server fails or traffic increases.
+
 
 **Load Balancing Algorithms:**
 - **Round Robin:** Requests distributed sequentially
@@ -5000,7 +5045,12 @@ server {
 
 ## 7. What are caching strategies?
 
-Caching strategies determine how data is stored and retrieved from cache. Cache-Aside means your application manages the cache manually - check cache first, then database if not found. Write-Through updates both cache and database simultaneously for consistency. Write-Behind updates cache immediately and database later for better performance.
+**Caching strategies in Java** define how data is temporarily stored to reduce repeated computation or database calls and improve performance.
+
+The most common strategies are **Cache-Aside**, where the application checks the cache first and loads data from the database if missing; **Read-Through**, where the cache automatically loads data on a miss; **Write-Through**, where data is written to both cache and database at the same time; and **Write-Behind**, where cache writes to the database asynchronously.
+
+In Java, these strategies are commonly implemented using tools like **Spring Cache, Ehcache, Caffeine, or Redis**, depending on performance and scalability needs.
+
 
 **Common Caching Strategies:**
 
