@@ -3505,6 +3505,14 @@ class OrderService {
 
 ## 3. What are the best ways to implement Dependency Injection in Java?
 
+The best way to implement **Dependency Injection in Java** is by **constructor injection**, where dependencies are provided through the class constructor. It makes the code easier to test, ensures required dependencies are available, and supports immutability.
+
+Another common approach is **setter injection**, where dependencies are injected using setter methods. It’s useful for optional dependencies but less safe because objects can be used without full initialization.
+
+In real-world applications, **framework-based DI** like **Spring** is the most popular. Spring supports **constructor, setter, and field injection**, with constructor injection being the recommended best practice.
+
+
+
 **Spoken Answer (35 seconds):**
 * Three main types: Constructor injection, Setter injection, and Field injection
 * Constructor injection is preferred - it ensures required dependencies are provided
@@ -3541,7 +3549,7 @@ UserService userService = (UserService) factory.getBean("userService");
 
 ## 4. What is a Java Bean?
 
-A Java Bean is a class that follows specific conventions - it must have private fields with public getter and setter methods, a no-argument constructor, and should implement Serializable. These conventions make the class reusable and compatible with frameworks like Spring for dependency injection.
+A **Java Bean** is a simple Java class that follows certain rules: it has a **no-argument constructor**, **private fields**, and **public getter and setter methods**. Java Beans are mainly used to **encapsulate data** and are reusable components.
 
 ```java
 public class User implements Serializable {
@@ -3556,7 +3564,7 @@ public class User implements Serializable {
 
 ## 5. What are Spring beans?
 
-Spring beans are objects that are managed by the Spring IoC container. They are created, configured, and managed by Spring based on configuration metadata.
+**Spring beans** are objects that are **created, managed, and destroyed by the Spring container**. They are defined using annotations like `@Component`, `@Service`, or through configuration files. Spring beans support **dependency injection**, making applications loosely coupled.
 
 - Objects managed by Spring container
 - Defined through configuration (XML, annotations, Java config)
@@ -3576,7 +3584,7 @@ public class UserService { // This becomes a Spring bean
 
 ## 6. What is Spring Boot?
 
-Spring Boot is an opinionated framework built on top of Spring that simplifies the development of Spring applications by providing auto-configuration and embedded servers.
+**Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
 
 - Rapid application development
 - Auto-configuration based on classpath
@@ -3703,7 +3711,7 @@ Without @Qualifier, Spring would throw an exception due to multiple beans of typ
 
 ## 12. What is ApplicationContext?
 
-ApplicationContext is Spring's advanced IoC container that manages beans and provides enterprise features like event handling, internationalization, and resource loading.
+`ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
 - Central interface for Spring applications
 - Manages bean lifecycle and dependencies
