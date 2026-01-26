@@ -2009,6 +2009,10 @@ try (FileChannel channel = FileChannel.open(Paths.get("file.txt"))) {
 
 ## 6. What is the difference between IO and NIO?
 
+**IO (java.io)** is **blocking and stream-based**, meaning a thread waits until data is read or written. It’s easy to use but not efficient for handling many connections because each request usually needs a separate thread.
+
+**NIO (java.nio)** is **non-blocking and buffer-based**. It uses **channels, buffers, and selectors**, allowing one thread to handle multiple connections. This makes it more scalable and better suited for high-performance applications.
+
 **Traditional I/O:**
 - Stream-oriented (one byte/character at a time)
 - Blocking operations
@@ -2314,6 +2318,10 @@ Retention policy determines how long annotations are retained - in source code, 
 ```
 
 ## 5. What is the difference between @Override and @Overload?
+
+**@Override** is a **Java annotation** used when a subclass provides a new implementation of a **parent class or interface method** with the same method signature. It helps the compiler catch mistakes if the method doesn’t actually override anything.
+
+**Overloading** is **not an annotation**—it’s a **concept**. Method overloading happens when multiple methods have the **same name but different parameters** (different type, number, or order) within the same class.
 
 **@Override:**
 - Built-in annotation
