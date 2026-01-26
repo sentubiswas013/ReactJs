@@ -305,10 +305,13 @@ System.out.println(a.equals(b));  // true - same content
 ```
 
 ## 5. What is the difference between String, StringBuilder, and StringBuffer?
+* **`String`** is **immutable**, meaning every modification creates a **new object**. It’s thread-safe but can be inefficient for repeated changes.
 
-**String:** Immutable, creates new objects for modifications
-**StringBuilder:** Mutable, not thread-safe, faster
-**StringBuffer:** Mutable, thread-safe, slower due to synchronization
+* **`StringBuilder`** is **mutable** and allows **fast modifications** of strings. It is **not thread-safe**, so it’s suitable for single-threaded operations.
+
+* **`StringBuffer`** is also **mutable** but **thread-safe** because its methods are synchronized. It’s slightly slower than `StringBuilder` due to synchronization overhead.
+
+
 
 ```java
 // String - creates new objects
@@ -789,6 +792,15 @@ class Car implements Vehicle {
     // honk() is inherited, can be overridden if needed
 }
 ```
+
+## 5. What is the static keyword?
+
+The **`static` keyword** in Java is used to define **class-level members** that belong to the class rather than any specific instance.
+
+For example, a **static variable** is shared across all objects, a **static method** can be called without creating an object, and a **static block** runs once when the class is loaded.
+
+In short: **`static` means the member belongs to the class, not to individual objects**.
+
 
 ## 5. What are static methods in interfaces?
 
@@ -1651,6 +1663,13 @@ public void method2() {
 
 ## 6. What is the difference between ReentrantLock and synchronized?
 
+Both **`synchronized`** and **`ReentrantLock`** are used for **thread synchronization** in Java, but there are differences:
+
+* **`synchronized`** is a **built-in keyword**. It’s simple to use, automatically releases the lock, and blocks threads until the lock is available.
+* **`ReentrantLock`** is a **class from `java.util.concurrent`**. It offers more flexibility, like **tryLock()**, **lockInterruptibly()**, and **fair locking**. You must **manually release the lock** using `unlock()`.
+
+In short: **synchronized is simpler**, while **ReentrantLock provides advanced features and greater control**.
+
 **ReentrantLock:**
 - Explicit lock/unlock
 - Supports fairness, timeout, interruption
@@ -1683,18 +1702,7 @@ public synchronized void method() {
     // Critical section - automatic lock management
 }
 ```
-
-**Use ReentrantLock when you need:**
-- Timeout for lock acquisition
-- Interruptible locking
-- Fair locking
-- Try-lock functionality
-
-**Use synchronized when you need:**
-- Simple locking requirements
-- Automatic lock management
-- Better readability
-
+7. **What is immutability in Java?**
 
 # 10. Java JVM & Memory Management 
 
@@ -2573,7 +2581,12 @@ JSP allows you to create dynamic web pages by embedding Java code directly into 
 
 ## 4. What is the difference between servlet and JSP?
 
-Servlets are pure Java classes that generate HTML programmatically, while JSP is HTML with embedded Java code. Servlets are better for business logic and data processing because you have full control over the response. JSP is better for presentation and creating web pages because it's easier for designers to work with HTML.
+**Servlets** are **Java classes** that handle **HTTP requests and responses**. They contain Java code and are mainly used for **processing business logic**, not for generating HTML.
+
+**JSP (JavaServer Pages)** is a **view technology** that allows embedding **Java code inside HTML** to create dynamic web pages. JSPs are easier for creating UI because they focus on **presentation**, while servlets focus on **logic**.
+
+In short: **Servlet = logic/controller**, **JSP = view/presentation**.
+
 
 Key differences:
 - Servlets: Java code generating HTML
@@ -2607,9 +2620,18 @@ public class UserServlet extends HttpServlet {
 </html>
 ```
 
+## 5. What is Spring Data JPA?
+
+**Spring Data JPA** is a **Spring framework module** that simplifies working with **JPA-based data access**. It provides **ready-made repository interfaces** like `CrudRepository` and `JpaRepository`, so you can perform common CRUD operations without writing boilerplate code.
+
+It also supports **custom queries, pagination, and sorting**, and integrates seamlessly with Spring Boot, making **database access faster, cleaner, and easier to maintain**.
+
 ## 5. What is JPA and how it works?
 
-JPA stands for Java Persistence API and it's a way to work with databases using Java objects instead of SQL. You annotate your classes to tell JPA how to map them to database tables, and JPA handles all the SQL generation and object conversion automatically. Popular implementations include Hibernate and EclipseLink.
+**JPA (Java Persistence API)** is a **Java specification** for managing relational data in Java applications. It allows you to **map Java objects to database tables** using annotations like `@Entity`, `@Table`, and `@Id`.
+
+JPA works by using an **EntityManager** to perform CRUD operations. You write **Java objects**, and JPA handles converting them to SQL queries and storing them in the database. Frameworks like **Hibernate** are common implementations of JPA.
+
 
 ```java
 @Entity
@@ -3496,7 +3518,9 @@ Instead of objects creating their dependencies, the IoC container creates and in
 
 ## 3. What is Dependency Injection?
 
-Dependency Injection is a technique where an object's dependencies are provided by an external source rather than the object creating them itself. It's a way to implement IoC.
+**Dependency Injection (DI)** is a design pattern where an object’s **dependencies are provided externally** rather than the object creating them itself.
+
+In Java and Spring, DI helps make code **loosely coupled, easier to test, and more maintainable**. It can be implemented via **constructor injection, setter injection, or field injection**.
 
 **Types of DI:**
 - Constructor injection (recommended)
@@ -3879,7 +3903,14 @@ Additional steps:
 
 ## 15. How do you secure a Java Spring Boot application?
 
-Secure Spring Boot applications using Spring Security for authentication and authorization, implement JWT tokens for stateless authentication, use role-based access control, validate all user inputs, and always use HTTPS in production. Configure CORS properly for web applications.
+To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
+
+* **Role-based access control** using annotations like `@PreAuthorize` or `@Secured`
+* **JWT or OAuth2 tokens** for stateless authentication
+* **Encrypting passwords** with BCrypt or Argon2
+* **HTTPS/SSL** to secure data in transit
+* **Input validation and CSRF protection** to prevent attacks
+
 
 ```java
 @Configuration
@@ -3909,13 +3940,44 @@ public class SecureController {
     }
 }
 ```
+## 16. If we don’t write getters & setters, which annotation can we use?
 
-Security best practices:
-- Use HTTPS everywhere
-- Validate and sanitize inputs
-- Implement proper session management
-- Use security headers
-- Regular security audits
+If we don’t want to manually write **getters and setters** in Java, we can use **Lombok’s `@Getter` and `@Setter` annotations** on the class or fields.
+
+Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
+
+
+## 17. Why do we use Long in JpaRepository<Employee, Long>?
+In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
+
+Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
+
+
+## 18. If a table has 100+ fields and performance is slow, how do you fetch only required 3–4 fields?
+
+If a table has many fields but you only need a few, fetching all columns can **slow down performance**. To optimize, you can:
+
+1. **Use JPQL or native queries** to select only the required fields:
+
+   ```java
+   @Query("SELECT e.name, e.salary FROM Employee e WHERE e.id = :id")
+   Object[] findNameAndSalary(@Param("id") Long id);
+   ```
+
+2. **Use projections** with interfaces or DTOs:
+
+   ```java
+   public interface EmployeeView {
+       String getName();
+       Double getSalary();
+   }
+
+   List<EmployeeView> findByDepartment(String dept);
+   ```
+
+3. **Avoid `findAll()`** and fetch only what you need using `select` or DTO mapping.
+
+
 
 # 19. RESTful Services 
 

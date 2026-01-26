@@ -18,7 +18,52 @@
 > As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
 
 
-==========
+
+🔹 Core Java
+ Write a Lambda expression for a functional interface.
+ Can you make this reference generic?
+ How do you handle changing requirements in Java?
+ How do you filter data in Java?
+ What is ArrayList? For sorting & filtering, which feature will you use?
+ What is the static keyword?
+ Difference between StringBuffer and StringBuilder.
+ What is an Exception in Java?
+ Difference between HashMap and ConcurrentHashMap.
+ Difference between ArrayList and LinkedList.
+ Heap memory vs Stack memory.
+ What is immutability in Java?
+ How does immutability provide security?
+ Explain Min Heap and Max Heap.
+
+🔹 Spring Boot / JPA / REST
+What is JDBC in Spring Boot? Steps to connect.
+Default port used in REST APIs?
+What happens if port is not mentioned in application.properties?
+Default server used by Spring Boot?
+Default logging library in Spring Boot?
+How do you print logs?
+What is Spring Data JPA?
+If we don’t write getters & setters, which annotation can we use?
+Why do we use Long in JpaRepository<Employee, Long>?
+If a table has 100+ fields and performance is slow, how do you fetch only required 3–4 fields?
+
+🔹 REST & Exception Handling
+How do you perform Dependency Injection in REST Controller?
+Which HTTP methods are supported in REST APIs?
+How do you fetch an employee by ID?
+How do you throw a custom exception if employee not found write a code.
+Explain JDBC flow internally.
+Where do we configure DB credentials in Spring Boot?
+
+🔹 Coding Questions
+Functional Interface example
+Lambda expression
+Stream API filter() for ArrayList
+Entity, Repository, Service Layer implementation
+Custom Exception class
+Global Exception Handler using @ExceptionHandler
+
+// ========== Done
 
 🔹 Round 1 – Technical (Java + Spring Boot)
 Java Questions
@@ -74,7 +119,6 @@ Current role and responsibilities day to day
 Why are you looking for a change?
 Notice period & availability
 Salary expectations
-
 
 ================
 HCl Interview
