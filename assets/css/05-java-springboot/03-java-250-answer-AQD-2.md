@@ -2762,6 +2762,10 @@ List<String> result = names.stream()
 
 ## 6. What is the difference between Collection and Stream?
 
+A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
+
+A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
+
 **Collection:**
 - Data structure that stores elements
 - Eagerly computed (all elements present)
@@ -2787,6 +2791,10 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 
 ## 7. What are intermediate and terminal operations?
 
+In the **Stream API**, **intermediate operations** are operations like `filter()`, `map()`, and `sorted()` that **transform a stream**. They are **lazy**, meaning they don’t execute immediately and return another stream, allowing operations to be chained.
+
+**Terminal operations** are operations like `forEach()`, `collect()`, `reduce()`, and `count()` that **trigger the execution** of the stream pipeline and produce a final result or side effect.
+
 **Intermediate Operations:**
 - Transform stream into another stream
 - Lazy evaluation (not executed until terminal operation)
@@ -2810,6 +2818,11 @@ numbers.stream()
 ```
 
 ## 8. What is the difference between map() and flatMap()?
+
+`map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
+
+`flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
+
 
 **map():**
 - One-to-one transformation
@@ -2906,6 +2919,10 @@ rs.close(); stmt.close(); conn.close();
 ```
 
 ## 3. What is the difference between Statement and PreparedStatement?
+
+A **Statement** is used to execute **static SQL queries**. The SQL query is sent to the database every time it runs, so it’s less efficient and more vulnerable to **SQL injection**.
+
+A **PreparedStatement** is used for **parameterized queries**. The SQL is **precompiled and cached** by the database, which improves performance for repeated execution and **prevents SQL injection** by safely handling input values.
 
 **Statement:**
 - Executes static SQL queries
@@ -3035,7 +3052,7 @@ try {
 }
 ```
 
-##7 8. How do you Handle Large Data Processing?
+### 7. How do you Handle Large Data Processing?
 
 #### Streaming (Low Memory)
 I process large files or datasets **line by line** using Java Streams.
@@ -3096,7 +3113,7 @@ CompletableFuture.runAsync(() ->
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
 
-### 7. What is the difference between Direct Servlet and JSP?
+### 8. What is the difference between Direct Servlet and JSP?
 
 **Spoken Answer (30 seconds):**
 * Servlets are Java classes that handle HTTP requests programmatically
