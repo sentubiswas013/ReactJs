@@ -2738,7 +2738,10 @@ Runnable r2 = () -> {
 
 ## 5. What is Stream API?
 
-Stream API provides a functional approach to process collections of data. It allows you to perform complex data processing operations using a pipeline of operations.
+The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like filtering, mapping, and sorting without modifying the original data source.
+
+Streams work in a **pipeline** using **intermediate operations** such as `filter()` and `map()`, and a **terminal operation** like `collect()` or `forEach()` to produce a result. This makes code cleaner, more readable, and supports easy parallel processing.
+
 
 - Functional-style operations on collections
 - Lazy evaluation for better performance
