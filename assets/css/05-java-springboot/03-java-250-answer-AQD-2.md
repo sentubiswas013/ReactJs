@@ -1698,6 +1698,10 @@ Each area has different characteristics for garbage collection and memory alloca
 
 ## 2. What is the difference between heap and stack?
 
+The **heap** is used for dynamic memory allocation and stores objects and class instances. Memory is shared across threads and managed by the **garbage collector**, which makes it slower than stack but much larger in size.
+
+The **stack** is used for method execution and stores local variables, method calls, and references. It works in a **LIFO** manner and memory is allocated and released automatically, so it’s very fast but limited in size. Each thread has its own stack.
+
 **Heap:**
 - Stores objects and instance variables
 - Shared among all threads

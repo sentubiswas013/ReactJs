@@ -3,12 +3,20 @@ import java.util.LinkedList;
 public class Main {
     public static void main(String[] args) {
 
-        LinkedList<Integer> queue = new LinkedList<>();
+        LinkedList<Integer> age = new LinkedList<>();
+        age.add(10);
+        age.add(20);
+        age.add(30);
 
-        queue.add(1);
-        queue.addFirst(0);
-        queue.addLast(2);
+        System.out.println(age);
         
-        System.out.println(queue);
+
+        // LinkedList<Integer> queue = new LinkedList<>();
+
+        // queue.add(1);
+        // queue.addFirst(0);
+        // queue.addLast(2);
+        
+        // System.out.println(queue);
     }
 }
