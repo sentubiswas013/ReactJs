@@ -1801,6 +1801,11 @@ This approach optimizes GC performance by focusing on areas where most garbage e
 
 ## 7. What is the difference between minor GC and major GC?
 
+A **Minor GC** occurs in the **Young Generation** of the heap and cleans up short-lived objects like temporary variables. It happens frequently and is usually very fast, causing minimal pause.
+
+A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
+
+
 **Minor GC:**
 - Cleans Young Generation only
 - Fast and frequent
