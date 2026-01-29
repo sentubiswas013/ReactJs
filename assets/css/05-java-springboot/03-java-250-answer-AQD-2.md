@@ -215,9 +215,26 @@ double area = circle.calculateArea();
 ```
 
 ## 8. What is a package in Java? 
-A package in Java is a collection of related classes and interfaces grouped to organize code and prevent naming conflicts. 
-- Built-in packages: java.lang, java.util, etc.
-- User-defined packages: Created by developers for organizing custom classes
+In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
+
+**Key points:**
+
+* Declared at the top of a Java file using `package` keyword.
+* Allows you to import and use classes from other packages.
+* Java has built-in packages like `java.lang`, `java.util`, `java.io`.
+* You can create custom packages to organize your project logically.
+
+**Example:**
+
+```java
+package com.example.utils;
+
+public class Helper {
+    public static void printHello() {
+        System.out.println("Hello!");
+    }
+}
+```
 
 # 2. Data Types and Variables
 
@@ -277,31 +294,46 @@ String name = "John"; // reference - stores address to "John" object
 
 ## 3. What is autoboxing and unboxing?
 
-Autoboxing automatically converts primitives to their wrapper objects, while unboxing does the reverse. Java handles this conversion automatically.
+* **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
 
-```java
-// Autoboxing - primitive to wrapper
-Integer num = 100;  // int 100 becomes Integer object
+  ```java
+  int num = 10;
+  Integer numObj = num;  // Autoboxing: int → Integer
+  ```
 
-// Unboxing - wrapper to primitive  
-int value = num;    // Integer object becomes int
-```
+* **Unboxing** is the automatic conversion of a **wrapper class** back to its **primitive type**.
 
-This happens automatically in collections, method calls, and assignments.
+  ```java
+  Integer numObj = 20;
+  int num = numObj;  // Unboxing: Integer → int
+  ```
 
 ## 4. What is the difference between == and equals() method?
 
-The == operator compares memory addresses for objects, while equals() compares actual content.
+* **`==`**
 
-**For primitives:** == compares values
-**For objects:** == compares references, equals() compares content
+  * Compares **memory references** for objects (whether two references point to the same object).
+  * Compares **actual values** for primitives.
+
+* **`equals()`**
+
+  * Compares the **content or state** of objects.
+  * Often **overridden** in classes like `String`, `Integer` to compare values.
+
+**Examples:**
 
 ```java
-String a = new String("hello");
-String b = new String("hello");
+// Using ==
+String s1 = new String("Hello");
+String s2 = new String("Hello");
+System.out.println(s1 == s2); // false, different objects
 
-System.out.println(a == b);       // false - different objects
-System.out.println(a.equals(b));  // true - same content
+// Using equals()
+System.out.println(s1.equals(s2)); // true, content is the same
+
+// With primitives
+int a = 5, b = 5;
+System.out.println(a == b); // true, values are equal
 ```
 
 ## 5. What is the difference between String, StringBuilder, and StringBuffer?
@@ -310,8 +342,6 @@ System.out.println(a.equals(b));  // true - same content
 * **`StringBuilder`** is **mutable** and allows **fast modifications** of strings. It is **not thread-safe**, so it’s suitable for single-threaded operations.
 
 * **`StringBuffer`** is also **mutable** but **thread-safe** because its methods are synchronized. It’s slightly slower than `StringBuilder` due to synchronization overhead.
-
-
 
 ```java
 // String - creates new objects
@@ -323,11 +353,9 @@ StringBuilder sb = new StringBuilder("Hello");
 sb.append(" World");  // Modifies same object
 ```
 
-Use StringBuilder for single-threaded operations, StringBuffer for multi-threaded.
-
 ## 6. Why are strings immutable in Java?
 
-Strings are immutable for several important reasons:
+In Java, **strings are immutable**, meaning once a `String` object is created, its value **cannot be changed**.
 
 - **Security:** Prevents malicious code from changing string values
 - **Thread Safety:** Multiple threads can access without synchronization
@@ -335,7 +363,16 @@ Strings are immutable for several important reasons:
 - **Hashcode Caching:** Hash values remain constant for HashMap keys
 - **Performance:** JVM optimizations possible
 
-Once created, String objects cannot be modified - operations create new objects instead.
+**Example:**
+
+```java
+String s1 = "Hello";
+String s2 = s1;      // Both point to same object
+
+s1 = s1 + " World";  // Creates a new String object
+System.out.println(s1); // Hello World
+System.out.println(s2); // Hello
+```
 
 ## 7. What is string pooling?
 
@@ -1500,8 +1537,22 @@ public void increment() {
 
 * **Simple example**
 
+1. **Thread-based**
+* Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
+
 ```java
-new Thread(() -> System.out.println("Task running")).start();
+class MyTask extends Thread {
+    public void run() {
+        System.out.println("Task running in thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyTask t1 = new MyTask();
+        t1.start(); // Runs concurrently
+    }
+}
 ```
 
 This creates a new thread that runs concurrently with the main thread.
@@ -1552,27 +1603,35 @@ executor.shutdown(); // Graceful shutdown
 
 Java provides several predefined thread pool types through Executors class, each optimized for different use cases.
 
-**Fixed Thread Pool:**
-- Fixed number of threads
-- Good for known workload
+1. **Fixed Thread Pool**
+   * Has a **fixed number of threads**.
+   * Tasks wait in a queue if all threads are busy.
 
-**Cached Thread Pool:**
-- Creates threads as needed
-- Reuses idle threads
+   ```java
+   ExecutorService fixedPool = Executors.newFixedThreadPool(3);
+   ```
 
-**Single Thread Executor:**
-- Single worker thread
-- Sequential task execution
+2. **Cached Thread Pool**
+   * **Creates new threads as needed** and reuses idle threads.
+   * Suitable for **short-lived tasks**.
 
-**Scheduled Thread Pool:**
-- Supports delayed and periodic tasks
+   ```java
+   ExecutorService cachedPool = Executors.newCachedThreadPool();
+   ```
 
-```java
-ExecutorService fixed = Executors.newFixedThreadPool(10);
-ExecutorService cached = Executors.newCachedThreadPool();
-ExecutorService single = Executors.newSingleThreadExecutor();
-ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(5);
-```
+3. **Single Thread Pool**
+   * **Only one thread**, executes tasks **sequentially**.
+
+   ```java
+   ExecutorService singlePool = Executors.newSingleThreadExecutor();
+   ```
+
+4. **Scheduled Thread Pool**
+   * Runs tasks **after a delay or periodically**.
+
+   ```java
+   ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
+   ```
 
 ## 3. What is Future and CompletableFuture?
 
@@ -1710,13 +1769,20 @@ public synchronized void method() {
 
 JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
 
-**Main Memory Areas:**
-- **Heap:** Object storage (Young + Old generation)
-- **Stack:** Method calls and local variables
-- **Method Area/Metaspace:** Class metadata and constants
-- **PC Register:** Current instruction pointer
-- **Native Method Stack:** Native method calls
-- **Direct Memory:** Off-heap memory (NIO operations)
+1. **Heap**
+   Stores all objects and instance variables. It is shared among all threads and managed by the Garbage Collector.
+
+2. **Method Area (Metaspace)**
+   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
+
+3. **Stack**
+   Stores method call frames, local variables, and partial results. Each thread has its own stack.
+
+4. **Program Counter (PC) Register**
+   Stores the address of the currently executing instruction for each thread.
+
+5. **Native Method Stack**
+   Stores information related to native (non-Java) method execution.
 
 Each area has different characteristics for garbage collection and memory allocation strategies.
 
@@ -1749,24 +1815,39 @@ public void method() {
 
 ## 3. What is the difference between PermGen and Metaspace?
 
-**PermGen (Java 7 and earlier):**
-- Fixed size heap area
-- Stored class metadata
-- Caused OutOfMemoryError when full
-- Part of heap memory
+**PermGen:** 
+PermGen is a memory area in **Java 7 and earlier** that stores **class metadata, method definitions, and interned strings**.
 
-**Metaspace (Java 8+):**
-- Native memory (outside heap)
-- Dynamic size expansion
-- Automatically managed by OS
-- Better memory utilization
-- Eliminates PermGen OutOfMemoryError
+**Characteristics:**
 
-Metaspace replaced PermGen to solve memory limitations and provide better class metadata management.
+* Fixed size (`-XX:PermSize`, `-XX:MaxPermSize`)
+* Part of JVM memory
+* Can cause `OutOfMemoryError: PermGen space` if full
+
+**Metaspace:** 
+Metaspace is a memory area in **Java 8 and later** that stores **class metadata only**.
+
+**Characteristics:**
+
+* Dynamically resizable (limited by system memory)
+* Stored in **native memory** outside the JVM heap
+* Reduces PermGen-related memory errors
+
+**Key Differences**
+
+| Feature          | PermGen                           | Metaspace              |
+| ---------------- | --------------------------------- | ---------------------- |
+| Java Version     | Java 7 and earlier                | Java 8 and later       |
+| Stores           | Class metadata + interned strings | Class metadata only    |
+| Memory Size      | Fixed                             | Dynamic (resizable)    |
+| Location         | JVM memory                        | Native memory          |
+| OutOfMemory Risk | High                              | Lower                  |
+| Config Option    | `-XX:MaxPermSize`                 | `-XX:MaxMetaspaceSize` |
+
 
 ## 4. What is garbage collection?
 
-Garbage collection is JVM's automatic memory management process that reclaims memory occupied by objects that are no longer reachable or referenced by the application.
+**Garbage Collection** is an automatic memory management process in Java in which the JVM **identifies and removes objects that are no longer in use**, freeing up memory.
 
 - Automatic memory cleanup
 - Removes unreferenced objects
@@ -1776,31 +1857,74 @@ Garbage collection is JVM's automatic memory management process that reclaims me
 
 The GC identifies objects with no active references and deallocates their memory, making it available for new objects.
 
+```java
+Object obj = new Object();
+obj = null; // object becomes eligible for garbage collection
+```
+
 ## 5. What are the types of garbage collectors?
 
-Java provides several garbage collectors, each optimized for different application requirements and performance characteristics.
+In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaiming memory** used by objects that are no longer needed. Java provides several types of garbage collectors.
 
-**Serial GC:**
-- Single-threaded
-- Good for small applications
+1. **Serial Garbage Collector**
+   * **Single-threaded** collector, good for **small applications**.
+   * Performs GC **stop-the-world** for minor and major collections.
 
-**Parallel GC:**
-- Multi-threaded
-- Default for server applications
+   ```java
+   JVM option: -XX:+UseSerialGC
+   ```
 
-**G1 GC:**
-- Low-latency collector
-- Good for large heaps
+2. **Parallel Garbage Collector (Throughput Collector)**
+   * **Multi-threaded**, uses multiple threads for **minor GC**.
+   * Focused on **high throughput** (less CPU idle time).
 
-**ZGC/Shenandoah:**
-- Ultra-low latency
-- Concurrent collection
+   ```text
+   JVM option: -XX:+UseParallelGC
+   ```
 
-**CMS (deprecated):**
-- Concurrent mark-sweep
-- Low pause times
+3. **Concurrent Mark-Sweep (CMS) Collector**
+   * **Concurrent collector** for **low-latency applications**.
+   * Performs **most GC work concurrently with application threads**.
 
-Choose based on application needs: throughput vs latency requirements.
+   ```java
+   JVM option: -XX:+UseConcMarkSweepGC
+   ```
+
+4. **G1 (Garbage-First) Collector**
+   * Divides heap into **regions** and collects **garbage in parallel**.
+   * Designed for **large heaps and low pause times**.
+
+   ```java
+   JVM option: -XX:+UseG1GC
+   ```
+
+5. **Z Garbage Collector (ZGC)**
+   * **Low-latency, scalable** collector for **very large heaps**.
+   * Pauses are typically **<10ms**, even with TB-sized heaps.
+
+   ```java
+   JVM option: -XX:+UseZGC
+   ```
+
+6. **Shenandoah GC**
+   * Focuses on **low pause times** by doing **concurrent compaction**.
+   * Available in **OpenJDK 12+**.
+
+   ```java
+   JVM option: -XX:+UseShenandoahGC
+   ```
+
+**Summary Table**
+
+| Garbage Collector | Threads    | Pause Time     | Use Case                   |
+| ----------------- | ---------- | -------------- | -------------------------- |
+| Serial GC         | Single     | Stop-the-world | Small apps, single CPU     |
+| Parallel GC       | Multiple   | Stop-the-world | High throughput apps       |
+| CMS GC            | Concurrent | Low-latency    | Responsive apps            |
+| G1 GC             | Concurrent | Low-medium     | Large heaps, low pause     |
+| ZGC               | Concurrent | Very low       | Very large heaps, scalable |
+| Shenandoah GC     | Concurrent | Very low       | Low-latency applications   |
+
 
 ## 6. What is generational garbage collection?
 
@@ -1828,7 +1952,6 @@ This approach optimizes GC performance by focusing on areas where most garbage e
 A **Minor GC** occurs in the **Young Generation** of the heap and cleans up short-lived objects like temporary variables. It happens frequently and is usually very fast, causing minimal pause.
 
 A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
-
 
 **Minor GC:**
 - Cleans Young Generation only

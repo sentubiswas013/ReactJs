@@ -18,7 +18,39 @@
 > As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
 
 
+1. Why does a Spring Boot app consume more memory over time?
+2. How do you detect bean initialization issues in large applications?
+3. What happens if @PostConstruct throws an exception?
+4. Why does @Value sometimes fail to inject properties?
+5. How does Spring Boot decide the order of auto-configurations?
+6. What are the risks of enabling too many Actuator endpoints?
+7. Why does your app behave differently after scaling pods?
+8. How does Spring Boot handle classpath scanning internally?
+9. What causes duplicate bean registration in multi-module projects?
+10. Why does your API return correct data but response time fluctuates?
+11. How do you control thread usage in Spring Boot applications?
+12. What happens when application.yml and application.properties both exist?
+13. Why do custom exception handlers sometimes not trigger?
+14. How do you handle large payloads without killing performance?
+15. Why does Hibernate generate unexpected queries?
+16. How do you debug a deadlock in a Spring Boot service?
+17. What happens if a BeanFactoryPostProcessor fails?
+18. How do you avoid startup failure due to missing configs?
+19. Why does Spring Boot retry DB connections on startup?
+20. How do you manage feature toggles safely?
+21. Why does @Cacheable sometimes not cache?
+22. How does Spring Boot isolate environment-specific configs?
+23. What causes classloader issues in fat JARs?
+24. How do you safely reload configs without restarting?
+25. Why does logging behave differently in prod vs local?
+26. How do you handle partial failures in dependent services?
+27. What is the real impact of using too many interceptors?
+28. How do you prevent breaking changes during deployments?
+29. Why does @ConfigurationProperties fail silently?
+30. What Spring Boot decision has caused you a real production issue?
 
+
+/// =========== Done
 🔹 Core Java
  Write a Lambda expression for a functional interface.
  Can you make this reference generic?
