@@ -22,20 +22,6 @@ Java compiles to bytecode that runs on the Java Virtual Machine, making it porta
 
 **JDK (Java Development Kit)** includes **JRE plus development tools** like `javac` and `jar` for compiling and building Java programs.
 
-**JVM (Java Virtual Machine):**
-- Runtime environment that executes Java bytecode
-- Platform-specific implementation
-- Handles memory management and garbage collection
-
-**JRE (Java Runtime Environment):**
-- Includes JVM plus core libraries
-- Needed to run Java applications
-- Contains runtime classes and resources
-
-**JDK (Java Development Kit):**
-- Complete development environment
-- Includes JRE plus development tools (compiler, debugger)
-- Needed to develop Java applications
 
 ```
 JDK = JRE + Development Tools (javac, javadoc, jar, etc.)
@@ -54,7 +40,6 @@ The four main principles are:
 - **Polymorphism**: Allowing one entity to take multiple forms (e.g., method overloading, method overriding).
 - **Abstraction**: Hiding the implementation details and showing only the necessary functionality to the user.
 
-These principles help create modular, maintainable, and scalable software by organizing code around objects that represent real-world entities.
 
 ## 4. What is polymorphism? Explain with examples.
 
@@ -295,14 +280,12 @@ String name = "John"; // reference - stores address to "John" object
 ## 3. What is autoboxing and unboxing?
 
 * **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
-
   ```java
   int num = 10;
   Integer numObj = num;  // Autoboxing: int → Integer
   ```
 
 * **Unboxing** is the automatic conversion of a **wrapper class** back to its **primitive type**.
-
   ```java
   Integer numObj = 20;
   int num = numObj;  // Unboxing: Integer → int
@@ -311,12 +294,10 @@ String name = "John"; // reference - stores address to "John" object
 ## 4. What is the difference between == and equals() method?
 
 * **`==`**
-
   * Compares **memory references** for objects (whether two references point to the same object).
   * Compares **actual values** for primitives.
 
 * **`equals()`**
-
   * Compares the **content or state** of objects.
   * Often **overridden** in classes like `String`, `Integer` to compare values.
 
@@ -387,8 +368,6 @@ System.out.println(a == b);  // true - same reference
 System.out.println(a == c);  // false - different references
 ```
 
-This reduces memory usage and improves performance for string literals.
-
 ## 8. What is the difference between final, finally, and finalize?
 
 - **final:** Keyword for constants, preventing inheritance/override
@@ -419,7 +398,8 @@ protected void finalize() {
 
 ## 9. What is coercion in Java?
 
-Coercion is automatic type conversion that Java performs when you assign a smaller data type to a larger one. For example, when you put an int into a double variable, Java automatically converts it. This only works for widening conversions - for narrowing like double to int, you need explicit casting to prevent data loss.
+**Coercion in Java** is the process of converting a value from one data type to another, either automatically by the compiler or manually by the programmer, to make data types compatible in expressions or assignments.
+
 
 ```java
 int num = 10;
