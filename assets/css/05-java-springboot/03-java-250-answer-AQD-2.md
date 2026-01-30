@@ -1116,7 +1116,9 @@ Map<String, Integer> map = new HashMap<>();
 
 ## 2. What is the difference between ArrayList and LinkedList?
 
-ArrayList uses dynamic arrays for storage, while LinkedList uses doubly-linked nodes. This affects their performance characteristics for different operations.
+**ArrayList** is a List implementation that uses a dynamic array to store elements, providing fast random access but slower insertions and deletions in the middle.
+
+**LinkedList** is a List implementation that uses a doubly linked list to store elements, providing slower access but faster insertions and deletions.
 
 **ArrayList:**
 - Random access O(1)
@@ -1137,7 +1139,10 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-HashMap provides O(1) average access time with no ordering, while TreeMap maintains sorted order with O(log n) access time.
+**HashMap** stores key-value pairs using a hash table and does not maintain any ordering of keys. It provides fast performance for basic operations like put and get.
+
+**TreeMap** stores key-value pairs using a Red-Black Tree and maintains keys in sorted (natural or custom) order. It is slower than HashMap but allows ordered traversal.
+
 
 **HashMap:**
 - Hash table implementation
@@ -1158,7 +1163,9 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 
 ## 4. What is the difference between HashMap and Hashtable?
 
-HashMap is not synchronized and allows null values, while Hashtable is synchronized and doesn't allow nulls. HashMap is preferred for single-threaded applications.
+**HashMap** is a Map implementation that is **not synchronized** and allows **one null key and multiple null values**, making it faster but not thread-safe.
+
+**Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
 
 **HashMap:**
 - Not synchronized (not thread-safe)
@@ -1178,6 +1185,7 @@ Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, thread-safe
 ```
 
 ## 5. How does HashMap work internally?
+A **HashMap** stores data in the form of **key-value pairs** using an array of buckets.
 
 HashMap uses an array of buckets where each bucket can hold multiple key-value pairs. It uses hashing to determine which bucket to use for storing entries.
 
