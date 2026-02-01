@@ -324,41 +324,61 @@ Map<String, User> cache = new WeakHashMap<>();
 
 ## **Q14. How did you handle concurrency issues in a multi-threaded Java application you worked on? Give a real example.**
 
-**Spoken Answer:**
+“In one of my projects, we had a **payment processing service** where multiple threads were updating the same user wallet balance at the same time. This caused **race conditions**, leading to incorrect balances.
 
-> We had multiple threads updating the same inventory count, causing inconsistent data.
->
-> I fixed it using **synchronized blocks** and later optimized it using **AtomicInteger** to reduce lock contention.
+To handle this, I first identified the shared critical section where the balance was being read and updated. I used **synchronization and concurrent utilities** to make the operation thread-safe.
 
-**Example Code:**
+For example, instead of doing a simple read-modify-write, I used a **`ReentrantLock`** to ensure only one thread could update a user’s balance at a time. In some cases where performance mattered, I used **`AtomicInteger` / `AtomicLong`** for counters and **`ConcurrentHashMap`** for shared in-memory data.
+
+Here’s a simplified example from that scenario:”
 
 ```java
-AtomicInteger stock = new AtomicInteger(100);
+class WalletService {
+    private final ReentrantLock lock = new ReentrantLock();
+    private int balance = 1000;
 
-public void reduceStock() {
-    stock.decrementAndGet();
+    public void deductAmount(int amount) {
+        lock.lock();
+        try {
+            if (balance >= amount) {
+                balance -= amount;
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
 }
 ```
 
----
+“Additionally, we avoided long synchronized blocks, reduced lock scope, and used **thread pools** (`ExecutorService`) instead of creating threads manually. This ensured data consistency while keeping the system performant under high load.”
+
 
 ## **Q15. You had to process a large file (millions of records). How did you design the Java code to avoid OutOfMemory errors?**
 
-**Spoken Answer:**
+“In one of my projects, I had to process a **large CSV file with millions of records**, so loading the entire file into memory was not an option. To avoid **OutOfMemory errors**, I designed the code to **process the file in a streaming, line-by-line manner** instead of reading it all at once.
 
-> To process millions of records, I avoided loading the entire file into memory.
->
-> I used **streaming with BufferedReader**, processed data line by line, and batch-inserted records into the database.
->
-> This ensured constant memory usage.
+I used `BufferedReader` to read one record at a time, processed it immediately, and then discarded it. For database operations, I used **batch processing** and periodically cleared memory-heavy objects.”
 
-**Example Code:**
+**Example:**
 
 ```java
-try (BufferedReader br = Files.newBufferedReader(path)) {
+try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
     String line;
+    List<Record> batch = new ArrayList<>(1000);
+
     while ((line = br.readLine()) != null) {
-        process(line);
+        Record record = parse(line);
+        batch.add(record);
+
+        if (batch.size() == 1000) {
+            saveBatch(batch);   // DB batch insert
+            batch.clear();      // free memory
+        }
+    }
+
+    // save remaining records
+    if (!batch.isEmpty()) {
+        saveBatch(batch);
     }
 }
 ```

@@ -293,13 +293,12 @@ String name = "John"; // reference - stores address to "John" object
 
 ## 4. What is the difference between == and equals() method?
 
-* **`==`**
-  * Compares **memory references** for objects (whether two references point to the same object).
-  * Compares **actual values** for primitives.
+**`==` operator:**
+The `==` operator is used to compare **references** of two objects. It checks whether both variables point to the **same memory location**. For primitive data types, it compares the **actual values**.
 
-* **`equals()`**
-  * Compares the **content or state** of objects.
-  * Often **overridden** in classes like `String`, `Integer` to compare values.
+**`equals()` method:**
+The `equals()` method is used to compare the **content or logical value** of two objects. It is defined in the `Object` class and can be **overridden** by classes (like `String`) to provide meaningful value-based comparison.
+
 
 **Examples:**
 
