@@ -423,7 +423,8 @@ root.render(
 
 ### 1. What are React Hooks and why were they introduced?
 
-**Hooks are functions that let you use state and lifecycle features in functional components.**
+**React Hooks** are functions that let you use state and other React features inside functional components, and they were introduced to **simplify logic reuse, reduce complexity, and avoid class-based components**.
+
 
 * **Functional components**: No more class components needed
 * **Reusable logic**: Share stateful logic between components
@@ -516,7 +517,7 @@ function GoodComponent({ condition }) {
 
 ### 3. What is `useState` and how does it work?
 
-**useState adds state to functional components and returns current state and setter function.**
+**`useState`** is a React Hook that lets a functional component **store and update state**, and when the state changes, React automatically **re-renders the component with the new value**.
 
 * **State management**: Manages component's local state
 * **Returns array**: [currentState, setterFunction]
@@ -579,7 +580,8 @@ function computeExpensiveValue() {
 
 ### 4. What is `useEffect` and how does it work?
 
-**useEffect handles side effects in functional components like API calls, subscriptions, and DOM manipulation.**
+**`useEffect`** is a React Hook used to **run side effects** (like data fetching, subscriptions, or DOM updates) after a component renders, and it works by executing the effect based on **dependency changes**.
+
 
 * **Side effects**: Data fetching, subscriptions, manual DOM changes
 * **Lifecycle replacement**: Combines componentDidMount, componentDidUpdate, componentWillUnmount
@@ -856,7 +858,8 @@ function compareDependencies(prevDeps, nextDeps) {
 
 ### 9. What is stale closure in hooks?
 
-**Stale closure occurs when a function captures old values from previous renders.**
+A **stale closure in Hooks** happens when a Hook (like `useEffect` or an event handler) **captures an old value of state or props**, so it keeps using outdated data instead of the latest one.
+
 
 * **Closure problem**: Function remembers old values
 * **Common with**: useEffect, event handlers, timers
@@ -1005,7 +1008,7 @@ function useStableCallback(callback) {
 
 ### 11. When would you use `useRef` instead of `useState`?
 
-**Use useRef for mutable values that don't need to trigger re-renders.**
+You will use **`useRef` instead of `useState`** when you need to **store a value that persists across renders but doesn’t trigger a re-render when it changes**, such as accessing DOM elements, keeping mutable variables, or storing previous values.
 
 * **No re-renders**: Changing ref.current doesn't cause re-render
 * **DOM access**: Direct access to DOM elements
@@ -1098,7 +1101,8 @@ function UsageGuide() {
 
 ### 12. What is `useMemo` and when should you use it?
 
-**useMemo memoizes expensive calculations and prevents unnecessary re-computations.**
+**`useMemo`** is a React Hook that **memoizes the result of a calculation** so it’s only recomputed when its dependencies change, and you should use it **to optimize performance for expensive computations** and avoid unnecessary recalculations.
+
 
 * **Performance optimization**: Avoid expensive calculations on every render
 * **Referential equality**: Keep same object reference between renders
@@ -1207,7 +1211,7 @@ const Chart = React.memo(({ config }) => {
 
 ### 13. What is `useCallback` and when should you use it?
 
-**useCallback memoizes functions to prevent unnecessary re-creations and child re-renders.**
+**`useCallback`** is a React Hook that **memoizes a function reference** so it doesn’t get recreated on every render, and you should use it **when passing callbacks to child components or dependencies to Hooks to prevent unnecessary re-renders**.
 
 * **Function memoization**: Returns same function reference between renders
 * **Child optimization**: Prevents unnecessary re-renders of child components
@@ -2372,7 +2376,8 @@ class LifecycleMethods extends React.Component {
 
 ### 5. What is React reconciliation?
 
-**Reconciliation is React's algorithm for comparing virtual DOM trees and updating only what changed.**
+**React reconciliation** is the process by which React **compares the previous virtual DOM with the new one** to determine the **minimum set of changes needed to update the real DOM efficiently**.
+
 
 * **Diffing algorithm**: Compares old and new virtual DOM trees
 * **Minimal updates**: Only updates changed elements in real DOM
@@ -2423,7 +2428,7 @@ function ReconciliationExample() {
 
 ### 6. What is React Fiber?
 
-**React Fiber is the new reconciliation algorithm that enables incremental rendering and better performance.**
+**React Fiber** is React’s **reconciliation engine** that enables **incremental rendering**, allowing React to pause, prioritize, and resume work to improve performance and responsiveness.
 
 * **Incremental rendering**: Break work into chunks, pause and resume
 * **Priority-based**: High priority updates interrupt low priority ones
