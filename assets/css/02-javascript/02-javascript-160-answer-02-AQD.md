@@ -34,6 +34,8 @@ if (true) {
 
 ###  3. What is a closure in JavaScript?
 
+A **closure** in JavaScript is when a function **remembers and can access variables from its outer scope**, even **after the outer function has finished executing**.
+
 *  **Definition**: Function that has access to outer function's variables even after outer function returns
 *  **Use cases**: Data privacy, function factories, callbacks
 *  **Key benefit**: Creates private variables and maintains state
