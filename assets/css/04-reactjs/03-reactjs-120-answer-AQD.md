@@ -283,7 +283,7 @@ const items = users.map((user, index) =>
 
 ### 13. What are controlled components?
 
-Controlled components have their form data handled by React state.
+**Controlled components** are components in which form data is **fully controlled by the component’s state**, and any change to the input value is handled through event handlers (like `onChange`).
 
 * **React controls value** - Input value comes from state
 * **onChange handler** - Updates state when user types
@@ -307,7 +307,7 @@ function LoginForm() {
 
 ### 14. What are uncontrolled components?
 
-Uncontrolled components manage their own state internally, like traditional HTML forms.
+**Uncontrolled components** are components where form data is handled by the **DOM itself**, not by React state, and values are accessed using **refs** instead of `onChange` and state updates.
 
 * **DOM controls value** - Input manages its own state
 * **Refs for access** - Use refs to get current value when needed
@@ -335,7 +335,7 @@ function LoginForm() {
 
 ### 15. What are React Fragments?
 
-Fragments let you group multiple elements without adding extra DOM nodes.
+**React Fragments** let you group multiple elements together **without adding an extra node to the DOM**, helping keep the markup clean and lightweight.
 
 * **No wrapper div** - Avoid unnecessary DOM elements
 * **Two syntaxes** - React.Fragment or shorthand <></>
@@ -367,7 +367,7 @@ function App() {
 
 ### 16. What are synthetic events?
 
-Synthetic events are React's wrapper around native DOM events for cross-browser compatibility.
+**Synthetic events** are React’s wrapper around native browser events that provide a **consistent, cross-browser event system**, so events behave the same way across different browsers.
 
 * **Cross-browser** - Same API across all browsers
 * **Event pooling** - Reuses event objects for performance (React 16 and below)
@@ -389,7 +389,7 @@ function Button() {
 
 ### 17. What is `React.StrictMode` and why is it used?
 
-StrictMode is a development tool that highlights potential problems in your application.
+**`React.StrictMode`** is a development-only tool that helps identify potential problems in a React app by **highlighting unsafe lifecycles, side effects, and deprecated practices**, making the code more robust and future-ready.
 
 * **Development only** - No impact on production builds
 * **Double rendering** - Helps find side effects in render methods
