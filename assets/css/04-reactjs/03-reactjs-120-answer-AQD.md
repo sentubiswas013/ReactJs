@@ -5756,6 +5756,9 @@ function App() {
 
 ### 3. Smart vs Dumb Components
 
+* **Smart components (Container components)** handle **business logic, state, and data fetching**.
+* **Dumb components (Presentational components)** focus only on **UI rendering** and receive data via props.
+
 **Smart components (Container):**
 - Manage state and business logic
 - Handle data fetching and side effects
