@@ -874,7 +874,7 @@ spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.j
 
 ## 34. Explain 1st level vs 2nd level cache.
 
-### 1st Level Cache
+**1st Level Cache**
 
 * Scope: Hibernate Session
 * Default enabled
@@ -891,7 +891,7 @@ User user2 = entityManager.find(User.class, 1L);
 
 ---
 
-### 2nd Level Cache
+**2nd Level Cache**
 
 * Scope: SessionFactory
 * Shared across sessions
@@ -954,7 +954,7 @@ public class Product {
 
 ---
 
-### How it works:
+**How it works:**
 
 Update query becomes:
 
@@ -974,14 +974,14 @@ Best for:
 
 ## 37. How do you handle bulk inserts efficiently?
 
-### Problems:
+**Problems:**
 
 * Hibernate flush per entity
 * Memory overhead
 
 ---
 
-### Solution 1: Batch inserts
+**Solution 1: Batch inserts**
 
 ```java
 spring.jpa.properties.hibernate.jdbc.batch_size=50
@@ -990,7 +990,7 @@ spring.jpa.properties.hibernate.order_inserts=true
 
 ---
 
-### Solution 2: Manual flush & clear
+**Solution 2: Manual flush & clear**
 
 ```java
 for (int i = 0; i < list.size(); i++) {
