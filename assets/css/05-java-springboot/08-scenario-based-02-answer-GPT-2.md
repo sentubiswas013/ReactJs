@@ -376,7 +376,7 @@ parent
 
 ---
 
-### Step 1: Parent POM
+**Step 1: Parent POM**
 
 ```xml
 <packaging>pom</packaging>
@@ -389,7 +389,7 @@ parent
 
 ---
 
-### Step 2: Common module
+**Step 2: Common module**
 
 * DTOs
 * Exceptions
@@ -397,7 +397,7 @@ parent
 
 ---
 
-### Step 3: Service module
+**Step 3: Service module**
 
 Depends on common:
 
@@ -806,7 +806,7 @@ spring.jpa.properties.hibernate.default_batch_fetch_size=50
 
 ## 32. How do you optimize slow queries in production?
 
-### Step-by-step approach:
+**Step-by-step approach:**
 
 1. Identify slow queries
 
@@ -938,7 +938,7 @@ Use `@Version` field.
 
 ---
 
-### Step 1: Add version column
+**Step 1: Add version column**
 
 ```java
 @Entity
@@ -1004,7 +1004,7 @@ for (int i = 0; i < list.size(); i++) {
 
 ---
 
-### Solution 3:
+**Solution 3:**
 
 Use JDBC template for very large datasets.
 
@@ -1012,7 +1012,7 @@ Use JDBC template for very large datasets.
 
 ## 38. How do you design database indexing strategy?
 
-### Step-by-step:
+**Step-by-step:**
 
 1. Analyze query patterns
 2. Index frequently filtered columns
@@ -1050,7 +1050,7 @@ Architecture:
 
 ---
 
-### Step 1: Define two datasources
+**Step 1: Define two datasources**
 
 ```java
 @Bean
@@ -1063,7 +1063,7 @@ public DataSource readDataSource() {}
 
 ---
 
-### Step 2: Routing datasource
+**Step 2: Routing datasource**
 
 Extend `AbstractRoutingDataSource`:
 
@@ -1081,7 +1081,7 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
 
 ---
 
-### Step 3: Use read-only transaction
+**Step 3: Use read-only transaction**
 
 ```java
 @Transactional(readOnly = true)
@@ -1099,7 +1099,7 @@ Use migration tools like:
 
 ---
 
-### Steps:
+**Steps:**
 
 1. Create versioned SQL file:
 
@@ -1373,7 +1373,7 @@ if (Boolean.TRUE.equals(success)) {
 
 ---
 
-### ⚠️ Best Practice
+**Best Practice**
 
 * Use expiration
 * Handle lock renewal
