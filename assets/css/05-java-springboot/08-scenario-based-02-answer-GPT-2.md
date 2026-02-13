@@ -1,372 +1,3 @@
-## 🔥 Core Java – Advanced Scenarios
-
----
-
-### 1. Your production system shows random data inconsistency under load. How do you debug thread-safety issues?
-
-**Steps**
-
-1. **Reproduce under load**
-
-   * Use load testing (JMeter, Gatling).
-2. **Check shared mutable state**
-
-   * Look for static variables, singleton beans, shared collections.
-3. **Take thread dumps**
-
-   * `jstack <pid>`
-4. **Check race conditions**
-
-   * Missing synchronization
-   * Non-thread-safe collections
-5. **Use tools**
-
-   * VisualVM
-   * Java Flight Recorder (JFR)
-6. **Add proper synchronization or concurrent utilities**
-
-### ❌ Problem Example
-
-```java
-class Counter {
-    int count = 0;
-
-    void increment() {
-        count++; // Not thread safe
-    }
-}
-```
-
-**✅**
-
-```java
-class Counter {
-    private final AtomicInteger count = new AtomicInteger();
-
-    void increment() {
-        count.incrementAndGet();
-    }
-}
-```
-
----
-
-### 2. You see high GC pauses affecting latency. How would you analyze and tune JVM?
-
-**Steps**
-
-1. Enable GC logs:
-
-```
--XX:+PrintGCDetails -Xlog:gc
-```
-
-2. Analyze using:
-
-   * VisualVM
-   * Java Mission Control
-3. Check:
-
-   * Heap size
-   * Object allocation rate
-   * Full GC frequency
-4. Tune:
-
-   * Increase heap: `-Xms -Xmx`
-   * Use G1GC:
-
-     ```
-     -XX:+UseG1GC
-     ```
-   * Tune pause time:
-
-     ```
-     -XX:MaxGCPauseMillis=200
-     ```
-
-### 💡 Reduce object creation example
-
-❌ Bad:
-
-```java
-for(int i=0;i<1_000_000;i++){
-    String s = new String("test");
-}
-```
-
-✅ Good:
-
-```java
-String s = "test";
-```
-
----
-
-### 3. You need to design a highly concurrent system handling 10k requests/sec. What concurrency utilities would you use?
-
-**Utilities**
-
-* `ThreadPoolExecutor`
-* `Executors.newFixedThreadPool()`
-* `CompletableFuture`
-* `ConcurrentHashMap`
-* `Semaphore`
-* `CountDownLatch`
-* `ForkJoinPool`
-* `AtomicInteger`
-
-** Example
-
-```java
-ExecutorService pool = Executors.newFixedThreadPool(100);
-
-pool.submit(() -> {
-    processRequest();
-});
-```
-
-### 💡 Best Practices
-
-* Use bounded queue
-* Avoid unbounded thread creation
-* Use non-blocking IO if possible
-
----
-
-### 4. How would you implement backpressure in a Java application?
-
-** Methods
-
-1. **Bounded Queue**
-2. **Semaphore**
-3. **Rate Limiter**
-4. Reactive Streams (Project Reactor)
-
-** Example Using BlockingQueue
-
-```java
-BlockingQueue<String> queue = new ArrayBlockingQueue<>(100);
-
-public void produce(String item) throws InterruptedException {
-    queue.put(item); // blocks if full
-}
-```
-
-This naturally applies backpressure.
-
----
-
-### 5. When would you use `volatile` vs `synchronized`?
-
-| Feature    | volatile | synchronized |
-| ---------- | -------- | ------------ |
-| Visibility | ✅        | ✅            |
-| Atomicity  | ❌        | ✅            |
-| Locking    | ❌        | ✅            |
-
-** Use volatile when:
-
-* Only visibility required
-* No compound operations
-
-```java
-volatile boolean running = true;
-```
-
-** Use synchronized when:
-
-* Multiple operations
-* Critical section
-
-```java
-synchronized(this) {
-    count++;
-}
-```
-
----
-
-### 6. How does `ConcurrentHashMap` work internally (Java 8+)?
-
-### 🔥 Java 8 Improvements
-
-* No segment locking
-* Uses CAS (Compare-And-Swap)
-* Locks only bucket when needed
-* Converts linked list → Red-Black tree if collisions > 8
-
-### Internal Flow
-
-1. Calculate hash
-2. Locate bucket
-3. If empty → CAS insert
-4. If not → synchronized on bucket node
-
-### Example
-
-```java
-ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
-map.put("A", "Apple");
-```
-
-### Why fast?
-
-* Lock granularity at bucket level
-* Read operations are non-blocking
-
----
-
-### 7. Explain ForkJoinPool real-time usage scenario.
-
-** Used for:
-
-* Parallel divide & conquer tasks
-* CPU intensive workloads
-
-Example:
-
-* Parallel file processing
-* Parallel sorting
-* Recursive computation
-
-### Minimal Example
-
-```java
-class SumTask extends RecursiveTask<Integer> {
-    int start, end;
-    int[] arr;
-
-    protected Integer compute() {
-        if (end - start <= 2) {
-            int sum = 0;
-            for(int i=start;i<end;i++) sum+=arr[i];
-            return sum;
-        }
-        int mid = (start+end)/2;
-        SumTask left = new SumTask(arr, start, mid);
-        SumTask right = new SumTask(arr, mid, end);
-        left.fork();
-        return right.compute() + left.join();
-    }
-}
-```
-
----
-
-### 8. How do you detect and resolve deadlock in production?
-
-** Detect
-
-1. `jstack <pid>`
-2. Look for:
-
-   ```
-   Found one Java-level deadlock
-   ```
-3. Use VisualVM thread analyzer
-
-### ❌ Example Deadlock
-
-```java
-synchronized(lock1) {
-    synchronized(lock2) {}
-}
-
-synchronized(lock2) {
-    synchronized(lock1) {}
-}
-```
-
-**✅**
-
-* Always lock in same order
-* Use tryLock()
-
-```java
-ReentrantLock lock = new ReentrantLock();
-if(lock.tryLock()) {
-    try {
-        // critical section
-    } finally {
-        lock.unlock();
-    }
-}
-```
-
----
-
-### 9. How would you implement a custom blocking queue?
-
-** Using wait/notify
-
-```java
-class CustomBlockingQueue<T> {
-    private Queue<T> queue = new LinkedList<>();
-    private int capacity;
-
-    public CustomBlockingQueue(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public synchronized void put(T item) throws InterruptedException {
-        while(queue.size() == capacity)
-            wait();
-        queue.add(item);
-        notifyAll();
-    }
-
-    public synchronized T take() throws InterruptedException {
-        while(queue.isEmpty())
-            wait();
-        T item = queue.poll();
-        notifyAll();
-        return item;
-    }
-}
-```
-
-### Concepts Used:
-
-* Intrinsic locking
-* wait()
-* notifyAll()
-
----
-
-### 10. How does CompletableFuture improve async processing?
-
-### 🔥 Advantages
-
-* Non-blocking
-* Callback chaining
-* Combine multiple async calls
-* Better than Future
-
-### ❌ Old Way
-
-```java
-Future<String> future = executor.submit(() -> "Hello");
-future.get(); // blocking
-```
-
-** CompletableFuture
-
-```java
-CompletableFuture.supplyAsync(() -> "Hello")
-    .thenApply(s -> s + " World")
-    .thenAccept(System.out::println);
-```
-
-### Combine Multiple
-
-```java
-CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> "A");
-CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> "B");
-
-f1.thenCombine(f2, (a,b) -> a+b)
-  .thenAccept(System.out::println);
-```
-
 
 ## 11. Explain Spring Boot auto-configuration mechanism internally.
 
@@ -576,7 +207,7 @@ Use:
 
 2. Configure exporter:
 
-```properties
+```java
 management.tracing.sampling.probability=1.0
 ```
 
@@ -639,13 +270,13 @@ Techniques:
 
 1. Remove unnecessary auto-config:
 
-```properties
+```java
 spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 ```
 
 2. Lazy initialization:
 
-```properties
+```java
 spring.main.lazy-initialization=true
 ```
 
@@ -663,7 +294,7 @@ spring.main.lazy-initialization=true
 
 **Approach 1: Using properties**
 
-```properties
+```java
 feature.payment.enabled=true
 ```
 
@@ -779,7 +410,7 @@ Depends on common:
 
 ## 21. Design a payment API that must be idempotent.
 
-** Goal
+**Goal**
 
 Ensure multiple identical requests (due to retries/network issues) result in **only one payment** being processed.
 
@@ -793,7 +424,7 @@ Ensure multiple identical requests (due to retries/network issues) result in **o
    * If in-progress → return 409 or wait.
 4. Use DB transaction to ensure atomicity.
 
-** Table Design
+**Table Design
 
 ```sql
 CREATE TABLE payments (
@@ -805,7 +436,7 @@ CREATE TABLE payments (
 );
 ```
 
-** Controller Example (Spring Boot)
+**Controller Example (Spring Boot)**
 
 ```java
 @PostMapping("/payments")
@@ -827,7 +458,7 @@ public ResponseEntity<?> createPayment(
 
 ## 22. How do you implement API versioning in enterprise systems?
 
-** Common Strategies
+**Common Strategies**
 
 1. URI Versioning
    `/api/v1/payments`
@@ -836,7 +467,7 @@ public ResponseEntity<?> createPayment(
 3. Query Param
    `/payments?version=2`
 
-** Recommended: URI Versioning (Simple & Clear)
+**Recommended: URI Versioning (Simple & Clear)**
 
 ```java
 @RestController
@@ -848,7 +479,7 @@ class PaymentV1Controller {}
 class PaymentV2Controller {}
 ```
 
-** Best Practice
+**Best Practice**
 
 * Never break existing contracts.
 * Deprecate old versions gradually.
@@ -858,7 +489,7 @@ class PaymentV2Controller {}
 
 ## 23. How do you secure APIs using JWT?
 
-** Flow
+**Flow**
 
 1. User logs in → Server validates credentials.
 2. Server generates JWT.
@@ -869,7 +500,7 @@ class PaymentV2Controller {}
    ```
 4. Server validates signature & expiry.
 
-** Spring Security Example
+**Spring Security Example**
 
 ```java
 http
@@ -880,7 +511,7 @@ http
   .addFilter(new JwtAuthenticationFilter());
 ```
 
-** JWT Creation
+**JWT Creation**
 
 ```java
 String token = Jwts.builder()
@@ -890,7 +521,7 @@ String token = Jwts.builder()
     .compact();
 ```
 
-** Best Practices
+**Best Practices**
 
 * Use short expiry
 * Store secret securely
@@ -900,7 +531,7 @@ String token = Jwts.builder()
 
 ## 24. How would you implement OAuth2 login?
 
-** Flow (Authorization Code)
+**Flow (Authorization Code)**
 
 1. User redirected to Provider (Google).
 2. User logs in.
@@ -910,7 +541,7 @@ String token = Jwts.builder()
 
 Example Provider: Google
 
-** Spring Boot Config
+**Spring Boot Config**
 
 ```yaml
 spring:
@@ -923,7 +554,7 @@ spring:
             client-secret: xxx
 ```
 
-** Controller
+**Controller**
 
 ```java
 @GetMapping("/login/oauth2/code/google")
@@ -936,19 +567,19 @@ public String loginSuccess(OAuth2AuthenticationToken auth) {
 
 ## 25. How do you design rate limiting in distributed systems?
 
-** Approaches
+**Approaches**
 
 1. Token Bucket
 2. Leaky Bucket
 3. Fixed Window
 4. Sliding Window (Recommended)
 
-** Distributed Setup
+**Distributed Setup**
 
 * Use Redis atomic counters.
 * Use Lua script for atomicity.
 
-** Example (Redis Sliding Window)
+**Example (Redis Sliding Window)**
 
 ```java
 Long count = redisTemplate.opsForValue()
@@ -961,7 +592,7 @@ if (count > 100)
     throw new TooManyRequestsException();
 ```
 
-** Best Practice
+**Best Practice**
 
 * Apply at API Gateway level.
 * Return HTTP 429.
@@ -970,7 +601,7 @@ if (count > 100)
 
 ## 26. How do you implement API Gateway pattern?
 
-** Purpose
+**Purpose**
 
 Single entry point for:
 
@@ -979,13 +610,13 @@ Single entry point for:
 * Routing
 * Logging
 
-** Common Tools
+**Common Tools**
 
 * Spring Cloud Gateway
 * Kong
 * NGINX
 
-** Spring Cloud Gateway Example
+**Spring Cloud Gateway Example**
 
 ```yaml
 spring:
@@ -1002,14 +633,14 @@ spring:
 
 ## 27. How do you log sensitive data securely?
 
-** Rules
+**Rules**
 
 1. Never log passwords, tokens, card numbers.
 2. Mask sensitive fields.
 3. Encrypt logs at rest.
 4. Restrict access (RBAC).
 
-** Masking Example
+**Masking Example**
 
 ```java
 public String maskCard(String card) {
@@ -1017,7 +648,7 @@ public String maskCard(String card) {
 }
 ```
 
-** Logback Pattern
+**Logback Pattern**
 
 ```xml
 <pattern>%d %p %c - %msg%n</pattern>
@@ -1035,7 +666,7 @@ Use centralized logging (ELK).
 * Inventory Service
 * Shipping Service
 
-** Strategies
+**Strategies**
 
 1. Timeout per service
 2. Circuit Breaker
@@ -1046,7 +677,7 @@ Use centralized logging (ELK).
 
 * Resilience4j
 
-** Example
+**Example**
 
 ```java
 @CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
@@ -1063,11 +694,11 @@ public PaymentResponse fallback(Exception e) {
 
 ## 29. How do you implement request tracing?
 
-** Goal
+**Goal
 
 Track request across microservices.
 
-** Use Correlation ID
+**Use Correlation ID**
 
 1. Generate UUID at gateway.
 2. Pass via header:
@@ -1077,7 +708,7 @@ Track request across microservices.
    ```
 3. Log it everywhere.
 
-** Spring Filter
+**Spring Filter**
 
 ```java
 public class CorrelationFilter extends OncePerRequestFilter {
@@ -1089,7 +720,7 @@ public class CorrelationFilter extends OncePerRequestFilter {
 }
 ```
 
-** Distributed Tracing Tools
+**Distributed Tracing Tools**
 
 * Zipkin
 * Jaeger
@@ -1106,7 +737,7 @@ Retries can cause:
 * Thundering herd
 * Cascading failures
 
-** Safe Retry Principles
+**Safe Retry Principles**
 
 1. Only retry idempotent operations.
 2. Use exponential backoff.
@@ -1114,7 +745,7 @@ Retries can cause:
 4. Limit max retries.
 5. Use circuit breaker.
 
-** Example (Resilience4j)
+**Example (Resilience4j)**
 
 ```java
 @Retry(name = "paymentRetry", fallbackMethod = "fallback")
@@ -1129,14 +760,14 @@ public PaymentResponse process() {
 
 1. Enable SQL logging:
 
-```properties
+```java
 spring.jpa.show-sql=true
 logging.level.org.hibernate.SQL=DEBUG
 ```
 
 2. Use Hibernate statistics:
 
-```properties
+```java
 spring.jpa.properties.hibernate.generate_statistics=true
 ```
 
@@ -1167,7 +798,7 @@ List<Order> findAll();
 
 **3. Use batch fetching**
 
-```properties
+```java
 spring.jpa.properties.hibernate.default_batch_fetch_size=50
 ```
 
@@ -1234,7 +865,7 @@ Flow:
 
 Enable 2nd level cache:
 
-```properties
+```java
 spring.jpa.properties.hibernate.cache.use_second_level_cache=true
 spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.jcache.JCacheRegionFactory
 ```
@@ -1352,7 +983,7 @@ Best for:
 
 ### Solution 1: Batch inserts
 
-```properties
+```java
 spring.jpa.properties.hibernate.jdbc.batch_size=50
 spring.jpa.properties.hibernate.order_inserts=true
 ```
@@ -1494,22 +1125,22 @@ Example dependency:
 
 ## 41. How do you implement service discovery?
 
-** Goal
+**Goal**
 
 Automatically register and discover services dynamically in microservices.
 
-** Types
+**Types**
 
 1. **Client-Side Discovery**
 2. **Server-Side Discovery**
 
-** Common Tool
+**Common Tool**
 
 * Netflix Eureka
 
 ---
 
-**Steps** (Client-Side with Eureka)
+**Steps (Client-Side with Eureka)**
 
 1. Add Eureka Server dependency
 2. Enable Eureka Server
@@ -1518,7 +1149,7 @@ Automatically register and discover services dynamically in microservices.
 
 ---
 
-** Eureka Server
+**Eureka Server**
 
 ```java
 @SpringBootApplication
@@ -1532,7 +1163,7 @@ public class DiscoveryServerApp {
 
 ---
 
-** Client Configuration
+**Client Configuration**
 
 ```yaml
 spring:
@@ -1546,7 +1177,7 @@ eureka:
 
 ---
 
-** Calling Another Service
+**Calling Another Service**
 
 ```java
 @LoadBalanced
@@ -1562,17 +1193,17 @@ restTemplate.getForObject("http://order-service/orders", String.class);
 
 ## 42. How do you implement circuit breaker?
 
-** Goal
+**Goal**
 
 Prevent cascading failures when a service is down.
 
-** States
+**States**
 
 * CLOSED
 * OPEN
 * HALF-OPEN
 
-** Tool
+**Tool**
 
 * Resilience4j
 
@@ -1586,7 +1217,7 @@ Prevent cascading failures when a service is down.
 
 ---
 
-** Example
+**Example**
 
 ```java
 @CircuitBreaker(name = "inventoryService", fallbackMethod = "fallback")
@@ -1603,18 +1234,18 @@ public String fallback(Exception e) {
 
 ## 43. How do you design Saga pattern?
 
-** Goal
+**Goal**
 
 Manage distributed transactions without 2PC.
 
-** Two Types
+**Two Types**
 
 1. Choreography (Event-driven)
 2. Orchestration (Central coordinator)
 
 ---
 
-** Example (Order Flow)
+**Example (Order Flow)**
 
 1. Order Service → Create Order
 2. Payment Service → Deduct Payment
@@ -1623,7 +1254,7 @@ Manage distributed transactions without 2PC.
 
 ---
 
-** Orchestrator Example
+**Orchestrator Example**
 
 ```java
 public void processOrder(Order order) {
@@ -1642,7 +1273,7 @@ public void compensate(Order order) {
 
 ---
 
-** Messaging Tool
+**Messaging Tool**
 
 * Apache Kafka
 
@@ -1650,7 +1281,7 @@ public void compensate(Order order) {
 
 ## 44. How do you ensure eventual consistency?
 
-** Strategy
+**Strategy**
 
 1. Use asynchronous messaging.
 2. Publish domain events.
@@ -1659,7 +1290,7 @@ public void compensate(Order order) {
 
 ---
 
-** Example
+**Example**
 
 ```java
 kafkaTemplate.send("order-created", order);
@@ -1669,7 +1300,7 @@ Consumer updates local DB.
 
 ---
 
-** Key Practices
+**Key Practices**
 
 * Outbox pattern
 * Retry with backoff
@@ -1679,7 +1310,7 @@ Consumer updates local DB.
 
 ## 45. How do you handle message duplication in Kafka?
 
-** Causes
+**Causes**
 
 * Consumer retries
 * Network failures
@@ -1687,7 +1318,7 @@ Consumer updates local DB.
 
 ---
 
-** Solutions
+**Solutions**
 
 1. Enable idempotent producer
 2. Use unique event ID
@@ -1695,7 +1326,7 @@ Consumer updates local DB.
 
 ---
 
-** Idempotent Consumer Example
+**Idempotent Consumer Example**
 
 ```java
 if (processedRepo.existsByEventId(eventId)) return;
@@ -1706,9 +1337,9 @@ processedRepo.save(eventId);
 
 ---
 
-** Kafka Config
+**Kafka Config**
 
-```properties
+```java
 enable.idempotence=true
 acks=all
 ```
@@ -1717,7 +1348,7 @@ acks=all
 
 ## 46. How do you implement distributed locking?
 
-** Options
+**Options**
 
 1. Redis
 2. Zookeeper
@@ -1725,7 +1356,7 @@ acks=all
 
 ---
 
-** Redis Lock Example
+**Redis Lock Example**
 
 ```java
 Boolean success = redisTemplate.opsForValue()
@@ -1752,7 +1383,7 @@ if (Boolean.TRUE.equals(success)) {
 
 ## 47. How do you secure inter-service communication?
 
-** Strategies
+**Strategies**
 
 1. mTLS (Mutual TLS)
 2. OAuth2 Client Credentials
@@ -1761,7 +1392,7 @@ if (Boolean.TRUE.equals(success)) {
 
 ---
 
-** OAuth2 Example
+**OAuth2 Example**
 
 ```java
 headers.setBearerAuth(token);
@@ -1769,7 +1400,7 @@ headers.setBearerAuth(token);
 
 ---
 
-** Tools
+**Tools**
 
 * Istio
 * Spring Security
@@ -1778,17 +1409,17 @@ headers.setBearerAuth(token);
 
 ## 48. How do you implement centralized configuration?
 
-** Goal
+**Goal**
 
 Manage configs for all services in one place.
 
-** Tool
+**Tool**
 
 * Spring Cloud Config
 
 ---
 
-** Config Server
+**Config Server**
 
 ```java
 @EnableConfigServer
@@ -1798,7 +1429,7 @@ public class ConfigServerApp {}
 
 ---
 
-** application.yml
+**application.yml**
 
 ```yaml
 spring:
@@ -1809,7 +1440,7 @@ spring:
 
 ---
 
-** Store Configs in Git
+**Store Configs in Git**
 
 Externalized config → dynamic refresh using `/actuator/refresh`
 
@@ -1817,7 +1448,7 @@ Externalized config → dynamic refresh using `/actuator/refresh`
 
 ## 49. How do you handle blue-green deployment?
 
-** Concept
+**Concept**
 
 Two identical environments:
 
@@ -1838,7 +1469,7 @@ Switch traffic after validation.
 
 ---
 
-** Kubernetes Example
+**Kubernetes Example**
 
 ```yaml
 strategy:
@@ -1851,7 +1482,7 @@ Or manage with two services and switch ingress.
 
 ## 50. How do you monitor and observe microservices in production?
 
-** Three Pillars
+**Three Pillars**
 
 1. Logs
 2. Metrics
@@ -1859,7 +1490,7 @@ Or manage with two services and switch ingress.
 
 ---
 
-** Metrics
+**Metrics**
 
 * Prometheus
 * Grafana
@@ -1874,19 +1505,19 @@ management:
 
 ---
 
-** Logging
+**Logging**
 
 * Centralized logging (ELK Stack)
 
 ---
 
-** Tracing
+**Tracing**
 
 * Jaeger
 
 ---
 
-** Health Check
+**Health Check**
 
 ```java
 @GetMapping("/health")
