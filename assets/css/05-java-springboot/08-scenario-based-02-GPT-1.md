@@ -1,7 +1,3 @@
-Here are **50 real-time, scenario-based Java + Spring Boot interview questions** (commonly asked for 3–6+ years experience):
-
----
-
 # 🔹 Core Java (Scenario-Based)
 
 1. Your application is facing race conditions in a multi-threaded environment. How would you fix it?
