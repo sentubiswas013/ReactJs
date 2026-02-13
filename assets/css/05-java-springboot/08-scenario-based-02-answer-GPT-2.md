@@ -660,7 +660,7 @@ Use centralized logging (ELK).
 
 ## 28. How do you handle partial failures in API aggregation?
 
-### Example: Order Service calls:
+**Example: Order Service calls:**
 
 * Payment Service
 * Inventory Service
@@ -673,7 +673,7 @@ Use centralized logging (ELK).
 3. Fallback Response
 4. Return partial data with status
 
-### Example Tool
+**Example Tool**
 
 * Resilience4j
 
@@ -729,7 +729,7 @@ public class CorrelationFilter extends OncePerRequestFilter {
 
 ## 30. How do you design retry mechanism safely?
 
-### ⚠️ Problem
+**Problem**
 
 Retries can cause:
 
@@ -756,7 +756,7 @@ public PaymentResponse process() {
 
 ## 31. You observe N+1 query issue. How detect and fix?
 
-### 🔎 Detection
+**Detection**
 
 1. Enable SQL logging:
 
@@ -780,7 +780,7 @@ If you see:
 
 ---
 
-### 🛠 Fix Methods
+**Fix Methods**
 
 **1. Use JOIN FETCH**
 
