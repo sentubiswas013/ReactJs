@@ -1,0 +1,73 @@
+# 🔥 Core Java – Advanced Scenarios
+
+1. Your production system shows random data inconsistency under load. How do you debug thread-safety issues?
+2. You see high GC pauses affecting latency. How would you analyze and tune JVM?
+3. You need to design a highly concurrent system handling 10k requests/sec. What concurrency utilities would you use?
+4. How would you implement backpressure in a Java application?
+5. When would you use `volatile` vs `synchronized`?
+6. How does `ConcurrentHashMap` work internally (Java 8+)?
+7. Explain ForkJoinPool real-time usage scenario.
+8. How do you detect and resolve deadlock in production?
+9. How would you implement a custom blocking queue?
+10. How does CompletableFuture improve async processing?
+
+---
+
+# 🔥 Spring Boot – Internal & Architecture
+
+11. Explain Spring Boot auto-configuration mechanism internally.
+12. How does Spring Bean lifecycle work in detail?
+13. How does @Transactional work internally?
+14. How do you handle transaction propagation in complex business logic?
+15. How do you implement distributed tracing?
+16. How would you design centralized exception handling for 20+ microservices?
+17. How do you reduce cold start time of Spring Boot apps?
+18. How to implement feature flags in Spring Boot?
+19. How do you handle circular dependency issues?
+20. How do you design multi-module Spring Boot project?
+
+---
+
+# 🔥 REST & API Design (Real-World)
+
+21. Design a payment API that must be idempotent.
+22. How do you implement API versioning in enterprise systems?
+23. How do you secure APIs using JWT?
+24. How would you implement OAuth2 login?
+25. How do you design rate limiting in distributed systems?
+26. How do you implement API Gateway pattern?
+27. How do you log sensitive data securely?
+28. How do you handle partial failures in API aggregation?
+29. How do you implement request tracing?
+30. How do you design retry mechanism safely?
+
+---
+
+# 🔥 Database & Performance
+
+31. You observe N+1 query issue. How detect and fix?
+32. How do you optimize slow queries in production?
+33. How does Hibernate caching work?
+34. Explain 1st level vs 2nd level cache.
+35. When would you use native queries?
+36. How do you implement optimistic locking?
+37. How do you handle bulk inserts efficiently?
+38. How do you design database indexing strategy?
+39. How do you implement read replica routing?
+40. How do you handle schema migration in CI/CD?
+
+---
+
+# 🔥 Microservices & Distributed Systems
+
+41. How do you implement service discovery?
+42. How do you implement circuit breaker?
+43. How do you design Saga pattern?
+44. How do you ensure eventual consistency?
+45. How do you handle message duplication in Kafka?
+46. How do you implement distributed locking?
+47. How do you secure inter-service communication?
+48. How do you implement centralized configuration?
+49. How do you handle blue-green deployment?
+50. How do you monitor and observe microservices in production?
+
