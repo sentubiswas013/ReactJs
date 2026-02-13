@@ -1,3 +1,373 @@
+## 🔥 Core Java – Advanced Scenarios
+
+---
+
+### 1. Your production system shows random data inconsistency under load. How do you debug thread-safety issues?
+
+### ✅ Steps
+
+1. **Reproduce under load**
+
+   * Use load testing (JMeter, Gatling).
+2. **Check shared mutable state**
+
+   * Look for static variables, singleton beans, shared collections.
+3. **Take thread dumps**
+
+   * `jstack <pid>`
+4. **Check race conditions**
+
+   * Missing synchronization
+   * Non-thread-safe collections
+5. **Use tools**
+
+   * VisualVM
+   * Java Flight Recorder (JFR)
+6. **Add proper synchronization or concurrent utilities**
+
+### ❌ Problem Example
+
+```java
+class Counter {
+    int count = 0;
+
+    void increment() {
+        count++; // Not thread safe
+    }
+}
+```
+
+### ✅ Fix
+
+```java
+class Counter {
+    private final AtomicInteger count = new AtomicInteger();
+
+    void increment() {
+        count.incrementAndGet();
+    }
+}
+```
+
+---
+
+### 2. You see high GC pauses affecting latency. How would you analyze and tune JVM?
+
+### ✅ Steps
+
+1. Enable GC logs:
+
+```
+-XX:+PrintGCDetails -Xlog:gc
+```
+
+2. Analyze using:
+
+   * VisualVM
+   * Java Mission Control
+3. Check:
+
+   * Heap size
+   * Object allocation rate
+   * Full GC frequency
+4. Tune:
+
+   * Increase heap: `-Xms -Xmx`
+   * Use G1GC:
+
+     ```
+     -XX:+UseG1GC
+     ```
+   * Tune pause time:
+
+     ```
+     -XX:MaxGCPauseMillis=200
+     ```
+
+### 💡 Reduce object creation example
+
+❌ Bad:
+
+```java
+for(int i=0;i<1_000_000;i++){
+    String s = new String("test");
+}
+```
+
+✅ Good:
+
+```java
+String s = "test";
+```
+
+---
+
+### 3. You need to design a highly concurrent system handling 10k requests/sec. What concurrency utilities would you use?
+
+### ✅ Utilities
+
+* `ThreadPoolExecutor`
+* `Executors.newFixedThreadPool()`
+* `CompletableFuture`
+* `ConcurrentHashMap`
+* `Semaphore`
+* `CountDownLatch`
+* `ForkJoinPool`
+* `AtomicInteger`
+
+### ✅ Example
+
+```java
+ExecutorService pool = Executors.newFixedThreadPool(100);
+
+pool.submit(() -> {
+    processRequest();
+});
+```
+
+### 💡 Best Practices
+
+* Use bounded queue
+* Avoid unbounded thread creation
+* Use non-blocking IO if possible
+
+---
+
+### 4. How would you implement backpressure in a Java application?
+
+### ✅ Methods
+
+1. **Bounded Queue**
+2. **Semaphore**
+3. **Rate Limiter**
+4. Reactive Streams (Project Reactor)
+
+### ✅ Example Using BlockingQueue
+
+```java
+BlockingQueue<String> queue = new ArrayBlockingQueue<>(100);
+
+public void produce(String item) throws InterruptedException {
+    queue.put(item); // blocks if full
+}
+```
+
+This naturally applies backpressure.
+
+---
+
+### 5. When would you use `volatile` vs `synchronized`?
+
+| Feature    | volatile | synchronized |
+| ---------- | -------- | ------------ |
+| Visibility | ✅        | ✅            |
+| Atomicity  | ❌        | ✅            |
+| Locking    | ❌        | ✅            |
+
+### ✅ Use volatile when:
+
+* Only visibility required
+* No compound operations
+
+```java
+volatile boolean running = true;
+```
+
+### ✅ Use synchronized when:
+
+* Multiple operations
+* Critical section
+
+```java
+synchronized(this) {
+    count++;
+}
+```
+
+---
+
+### 6. How does `ConcurrentHashMap` work internally (Java 8+)?
+
+### 🔥 Java 8 Improvements
+
+* No segment locking
+* Uses CAS (Compare-And-Swap)
+* Locks only bucket when needed
+* Converts linked list → Red-Black tree if collisions > 8
+
+### Internal Flow
+
+1. Calculate hash
+2. Locate bucket
+3. If empty → CAS insert
+4. If not → synchronized on bucket node
+
+### Example
+
+```java
+ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+map.put("A", "Apple");
+```
+
+### Why fast?
+
+* Lock granularity at bucket level
+* Read operations are non-blocking
+
+---
+
+### 7. Explain ForkJoinPool real-time usage scenario.
+
+### ✅ Used for:
+
+* Parallel divide & conquer tasks
+* CPU intensive workloads
+
+Example:
+
+* Parallel file processing
+* Parallel sorting
+* Recursive computation
+
+### Minimal Example
+
+```java
+class SumTask extends RecursiveTask<Integer> {
+    int start, end;
+    int[] arr;
+
+    protected Integer compute() {
+        if (end - start <= 2) {
+            int sum = 0;
+            for(int i=start;i<end;i++) sum+=arr[i];
+            return sum;
+        }
+        int mid = (start+end)/2;
+        SumTask left = new SumTask(arr, start, mid);
+        SumTask right = new SumTask(arr, mid, end);
+        left.fork();
+        return right.compute() + left.join();
+    }
+}
+```
+
+---
+
+### 8. How do you detect and resolve deadlock in production?
+
+### ✅ Detect
+
+1. `jstack <pid>`
+2. Look for:
+
+   ```
+   Found one Java-level deadlock
+   ```
+3. Use VisualVM thread analyzer
+
+### ❌ Example Deadlock
+
+```java
+synchronized(lock1) {
+    synchronized(lock2) {}
+}
+
+synchronized(lock2) {
+    synchronized(lock1) {}
+}
+```
+
+### ✅ Fix
+
+* Always lock in same order
+* Use tryLock()
+
+```java
+ReentrantLock lock = new ReentrantLock();
+if(lock.tryLock()) {
+    try {
+        // critical section
+    } finally {
+        lock.unlock();
+    }
+}
+```
+
+---
+
+### 9. How would you implement a custom blocking queue?
+
+### ✅ Using wait/notify
+
+```java
+class CustomBlockingQueue<T> {
+    private Queue<T> queue = new LinkedList<>();
+    private int capacity;
+
+    public CustomBlockingQueue(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public synchronized void put(T item) throws InterruptedException {
+        while(queue.size() == capacity)
+            wait();
+        queue.add(item);
+        notifyAll();
+    }
+
+    public synchronized T take() throws InterruptedException {
+        while(queue.isEmpty())
+            wait();
+        T item = queue.poll();
+        notifyAll();
+        return item;
+    }
+}
+```
+
+### Concepts Used:
+
+* Intrinsic locking
+* wait()
+* notifyAll()
+
+---
+
+### 10. How does CompletableFuture improve async processing?
+
+### 🔥 Advantages
+
+* Non-blocking
+* Callback chaining
+* Combine multiple async calls
+* Better than Future
+
+### ❌ Old Way
+
+```java
+Future<String> future = executor.submit(() -> "Hello");
+future.get(); // blocking
+```
+
+### ✅ CompletableFuture
+
+```java
+CompletableFuture.supplyAsync(() -> "Hello")
+    .thenApply(s -> s + " World")
+    .thenAccept(System.out::println);
+```
+
+### Combine Multiple
+
+```java
+CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> "A");
+CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> "B");
+
+f1.thenCombine(f2, (a,b) -> a+b)
+  .thenAccept(System.out::println);
+```
+
+
 ## 11. Explain Spring Boot auto-configuration mechanism internally.
 
 **How it works internally (step-by-step):**
@@ -753,3 +1123,774 @@ public PaymentResponse process() {
 }
 ```
 
+## 31. You observe N+1 query issue. How detect and fix?
+
+### 🔎 Detection
+
+1. Enable SQL logging:
+
+```properties
+spring.jpa.show-sql=true
+logging.level.org.hibernate.SQL=DEBUG
+```
+
+2. Use Hibernate statistics:
+
+```properties
+spring.jpa.properties.hibernate.generate_statistics=true
+```
+
+3. Use profiling tools (e.g., DB slow query logs).
+
+If you see:
+
+* 1 query for parent
+* N queries for child → N+1 problem.
+
+---
+
+### 🛠 Fix Methods
+
+**1. Use JOIN FETCH**
+
+```java
+@Query("SELECT o FROM Order o JOIN FETCH o.items")
+List<Order> findAllWithItems();
+```
+
+**2. Use EntityGraph**
+
+```java
+@EntityGraph(attributePaths = {"items"})
+List<Order> findAll();
+```
+
+**3. Use batch fetching**
+
+```properties
+spring.jpa.properties.hibernate.default_batch_fetch_size=50
+```
+
+---
+
+## 32. How do you optimize slow queries in production?
+
+### Step-by-step approach:
+
+1. Identify slow queries
+
+   * DB slow query logs
+   * APM tools
+
+2. Analyze execution plan:
+
+```sql
+EXPLAIN SELECT * FROM orders WHERE user_id = 10;
+```
+
+3. Add proper indexing
+4. Avoid SELECT *
+5. Optimize joins
+6. Use pagination
+7. Reduce unnecessary fetch joins
+8. Use caching
+
+---
+
+Example optimization:
+
+Before:
+
+```java
+List<Order> findAll();
+```
+
+After:
+
+```java
+Page<Order> findAll(Pageable pageable);
+```
+
+---
+
+## 33. How does Hibernate caching work?
+
+Hibernate supports:
+
+1. First-Level Cache (Session cache)
+2. Second-Level Cache (SessionFactory cache)
+3. Query Cache
+
+Caching reduces DB hits.
+
+Flow:
+
+* Entity requested
+* Check 1st level cache
+* If not found → check 2nd level cache
+* If not found → DB
+
+---
+
+Enable 2nd level cache:
+
+```properties
+spring.jpa.properties.hibernate.cache.use_second_level_cache=true
+spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.jcache.JCacheRegionFactory
+```
+
+---
+
+## 34. Explain 1st level vs 2nd level cache.
+
+### 1st Level Cache
+
+* Scope: Hibernate Session
+* Default enabled
+* Cannot disable
+* Works per transaction
+
+Example:
+
+```java
+User user1 = entityManager.find(User.class, 1L);
+User user2 = entityManager.find(User.class, 1L);
+// Second call does not hit DB
+```
+
+---
+
+### 2nd Level Cache
+
+* Scope: SessionFactory
+* Shared across sessions
+* Needs provider (e.g., Ehcache)
+
+Example:
+
+```java
+@Cacheable
+@Entity
+public class User {}
+```
+
+---
+
+## 35. When would you use native queries?
+
+Use native queries when:
+
+1. Complex joins
+2. Database-specific features
+3. Performance tuning
+4. Stored procedures
+5. Bulk updates
+
+Example:
+
+```java
+@Query(value = "SELECT * FROM users WHERE status = 'ACTIVE'", 
+       nativeQuery = true)
+List<User> findActiveUsers();
+```
+
+Best practice:
+
+* Use JPQL first
+* Use native only when required
+
+---
+
+## 36. How do you implement optimistic locking?
+
+Use `@Version` field.
+
+---
+
+### Step 1: Add version column
+
+```java
+@Entity
+public class Product {
+
+    @Id
+    private Long id;
+
+    @Version
+    private Integer version;
+}
+```
+
+---
+
+### How it works:
+
+Update query becomes:
+
+```sql
+UPDATE product 
+SET name=?, version=version+1 
+WHERE id=? AND version=?
+```
+
+If version mismatch → `OptimisticLockException`.
+
+Best for:
+
+* High read, low conflict systems.
+
+---
+
+## 37. How do you handle bulk inserts efficiently?
+
+### Problems:
+
+* Hibernate flush per entity
+* Memory overhead
+
+---
+
+### Solution 1: Batch inserts
+
+```properties
+spring.jpa.properties.hibernate.jdbc.batch_size=50
+spring.jpa.properties.hibernate.order_inserts=true
+```
+
+---
+
+### Solution 2: Manual flush & clear
+
+```java
+for (int i = 0; i < list.size(); i++) {
+    entityManager.persist(list.get(i));
+    if (i % 50 == 0) {
+        entityManager.flush();
+        entityManager.clear();
+    }
+}
+```
+
+---
+
+### Solution 3:
+
+Use JDBC template for very large datasets.
+
+---
+
+## 38. How do you design database indexing strategy?
+
+### Step-by-step:
+
+1. Analyze query patterns
+2. Index frequently filtered columns
+3. Use composite index for multi-column WHERE
+4. Avoid over-indexing
+5. Index foreign keys
+6. Monitor index usage
+
+---
+
+Example:
+
+```sql
+CREATE INDEX idx_user_email ON users(email);
+```
+
+Composite index:
+
+```sql
+CREATE INDEX idx_order_user_status 
+ON orders(user_id, status);
+```
+
+Rule:
+Index order should match query order.
+
+---
+
+## 39. How do you implement read replica routing?
+
+Architecture:
+
+* Primary DB → Writes
+* Replica DB → Reads
+
+---
+
+### Step 1: Define two datasources
+
+```java
+@Bean
+@Primary
+public DataSource writeDataSource() {}
+
+@Bean
+public DataSource readDataSource() {}
+```
+
+---
+
+### Step 2: Routing datasource
+
+Extend `AbstractRoutingDataSource`:
+
+```java
+public class RoutingDataSource extends AbstractRoutingDataSource {
+
+    @Override
+    protected Object determineCurrentLookupKey() {
+        return TransactionSynchronizationManager.isCurrentTransactionReadOnly()
+                ? "READ"
+                : "WRITE";
+    }
+}
+```
+
+---
+
+### Step 3: Use read-only transaction
+
+```java
+@Transactional(readOnly = true)
+public List<User> findAll() {}
+```
+
+---
+
+## 40. How do you handle schema migration in CI/CD?
+
+Use migration tools like:
+
+* Flyway
+* Liquibase
+
+---
+
+### Steps:
+
+1. Create versioned SQL file:
+
+```
+V1__create_user_table.sql
+```
+
+2. On app startup:
+
+* Tool checks schema history table
+* Runs pending migrations
+
+---
+
+Example dependency:
+
+```xml
+<dependency>
+  <groupId>org.flywaydb</groupId>
+  <artifactId>flyway-core</artifactId>
+</dependency>
+```
+
+## 41. How do you implement service discovery?
+
+### ✅ Goal
+
+Automatically register and discover services dynamically in microservices.
+
+### ✅ Types
+
+1. **Client-Side Discovery**
+2. **Server-Side Discovery**
+
+### ✅ Common Tool
+
+* Netflix Eureka
+
+---
+
+### ✅ Steps (Client-Side with Eureka)
+
+1. Add Eureka Server dependency
+2. Enable Eureka Server
+3. Register services as clients
+4. Use service name instead of IP
+
+---
+
+### ✅ Eureka Server
+
+```java
+@SpringBootApplication
+@EnableEurekaServer
+public class DiscoveryServerApp {
+    public static void main(String[] args) {
+        SpringApplication.run(DiscoveryServerApp.class, args);
+    }
+}
+```
+
+---
+
+### ✅ Client Configuration
+
+```yaml
+spring:
+  application:
+    name: payment-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+```
+
+---
+
+### ✅ Calling Another Service
+
+```java
+@LoadBalanced
+@Bean
+RestTemplate restTemplate() {
+    return new RestTemplate();
+}
+
+restTemplate.getForObject("http://order-service/orders", String.class);
+```
+
+---
+
+## 42. How do you implement circuit breaker?
+
+### ✅ Goal
+
+Prevent cascading failures when a service is down.
+
+### ✅ States
+
+* CLOSED
+* OPEN
+* HALF-OPEN
+
+### ✅ Tool
+
+* Resilience4j
+
+---
+
+### ✅ Steps
+
+1. Configure failure threshold
+2. Wrap remote call
+3. Provide fallback
+
+---
+
+### ✅ Example
+
+```java
+@CircuitBreaker(name = "inventoryService", fallbackMethod = "fallback")
+public String callInventory() {
+    return restTemplate.getForObject("http://inventory-service/items", String.class);
+}
+
+public String fallback(Exception e) {
+    return "Inventory temporarily unavailable";
+}
+```
+
+---
+
+## 43. How do you design Saga pattern?
+
+### ✅ Goal
+
+Manage distributed transactions without 2PC.
+
+### ✅ Two Types
+
+1. Choreography (Event-driven)
+2. Orchestration (Central coordinator)
+
+---
+
+### ✅ Example (Order Flow)
+
+1. Order Service → Create Order
+2. Payment Service → Deduct Payment
+3. Inventory Service → Reserve Stock
+4. If failure → Compensation (Refund payment)
+
+---
+
+### ✅ Orchestrator Example
+
+```java
+public void processOrder(Order order) {
+    paymentService.pay(order);
+    inventoryService.reserve(order);
+}
+```
+
+On failure:
+
+```java
+public void compensate(Order order) {
+    paymentService.refund(order);
+}
+```
+
+---
+
+### ✅ Messaging Tool
+
+* Apache Kafka
+
+---
+
+## 44. How do you ensure eventual consistency?
+
+### ✅ Strategy
+
+1. Use asynchronous messaging.
+2. Publish domain events.
+3. Retry failed events.
+4. Use idempotent consumers.
+
+---
+
+### ✅ Example
+
+```java
+kafkaTemplate.send("order-created", order);
+```
+
+Consumer updates local DB.
+
+---
+
+### ✅ Key Practices
+
+* Outbox pattern
+* Retry with backoff
+* Dead Letter Queue
+
+---
+
+## 45. How do you handle message duplication in Kafka?
+
+### ✅ Causes
+
+* Consumer retries
+* Network failures
+* At-least-once delivery
+
+---
+
+### ✅ Solutions
+
+1. Enable idempotent producer
+2. Use unique event ID
+3. Maintain processed-message table
+
+---
+
+### ✅ Idempotent Consumer Example
+
+```java
+if (processedRepo.existsByEventId(eventId)) return;
+
+processEvent();
+processedRepo.save(eventId);
+```
+
+---
+
+### ✅ Kafka Config
+
+```properties
+enable.idempotence=true
+acks=all
+```
+
+---
+
+## 46. How do you implement distributed locking?
+
+### ✅ Options
+
+1. Redis
+2. Zookeeper
+3. Database lock
+
+---
+
+### ✅ Redis Lock Example
+
+```java
+Boolean success = redisTemplate.opsForValue()
+    .setIfAbsent("lock:order:123", "locked", 10, TimeUnit.SECONDS);
+
+if (Boolean.TRUE.equals(success)) {
+    try {
+        processOrder();
+    } finally {
+        redisTemplate.delete("lock:order:123");
+    }
+}
+```
+
+---
+
+### ⚠️ Best Practice
+
+* Use expiration
+* Handle lock renewal
+* Avoid deadlocks
+
+---
+
+## 47. How do you secure inter-service communication?
+
+### ✅ Strategies
+
+1. mTLS (Mutual TLS)
+2. OAuth2 Client Credentials
+3. Service Mesh
+4. Network Policies
+
+---
+
+### ✅ OAuth2 Example
+
+```java
+headers.setBearerAuth(token);
+```
+
+---
+
+### ✅ Tools
+
+* Istio
+* Spring Security
+
+---
+
+## 48. How do you implement centralized configuration?
+
+### ✅ Goal
+
+Manage configs for all services in one place.
+
+### ✅ Tool
+
+* Spring Cloud Config
+
+---
+
+### ✅ Config Server
+
+```java
+@EnableConfigServer
+@SpringBootApplication
+public class ConfigServerApp {}
+```
+
+---
+
+### ✅ application.yml
+
+```yaml
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888
+```
+
+---
+
+### ✅ Store Configs in Git
+
+Externalized config → dynamic refresh using `/actuator/refresh`
+
+---
+
+## 49. How do you handle blue-green deployment?
+
+### ✅ Concept
+
+Two identical environments:
+
+* Blue (Current)
+* Green (New)
+
+Switch traffic after validation.
+
+---
+
+### ✅ Steps
+
+1. Deploy new version to Green.
+2. Run smoke tests.
+3. Switch load balancer.
+4. Monitor.
+5. Rollback if needed.
+
+---
+
+### ✅ Kubernetes Example
+
+```yaml
+strategy:
+  type: RollingUpdate
+```
+
+Or manage with two services and switch ingress.
+
+---
+
+## 50. How do you monitor and observe microservices in production?
+
+### ✅ Three Pillars
+
+1. Logs
+2. Metrics
+3. Traces
+
+---
+
+### ✅ Metrics
+
+* Prometheus
+* Grafana
+
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+```
+
+---
+
+### ✅ Logging
+
+* Centralized logging (ELK Stack)
+
+---
+
+### ✅ Tracing
+
+* Jaeger
+
+---
+
+### ✅ Health Check
+
+```java
+@GetMapping("/health")
+public String health() {
+    return "UP";
+}
+```
