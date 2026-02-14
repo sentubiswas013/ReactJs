@@ -1274,7 +1274,33 @@ Collections.sort(students, ageComparator);
 
 ## 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
-These are specialized collection implementations with unique characteristics for specific use cases.
+**WeakHashMap** is a `Map` implementation where the **keys are stored as weak references**.
+If a key has no strong references elsewhere, it becomes eligible for garbage collection, and the entry is automatically removed.
+
+👉 Used for: **caching**, memory-sensitive mappings.
+👉 Class: `java.util.WeakHashMap`
+
+
+**IdentityHashMap** is a `Map` implementation that compares keys using `==` (reference equality) instead of `.equals()`.
+
+👉 Normal `HashMap` uses `.equals()` for key comparison.
+👉 `IdentityHashMap` checks whether two keys refer to the **same object in memory**.
+
+👉 Class: `java.util.IdentityHashMap`
+👉 Mostly used in **framework-level or special identity-based logic**.
+
+**LinkedHashMap** is a `HashMap` that maintains a **linked list of entries**, preserving insertion order (or access order if configured).
+
+👉 Maintains predictable iteration order.
+👉 Used in **LRU cache implementations** (when access-order mode is enabled).
+👉 Class: `java.util.LinkedHashMap`
+
+**PriorityQueue** is a queue implementation that orders elements based on their **natural ordering (Comparable)** or a **Comparator**.
+
+👉 Elements are processed based on priority, not insertion order.
+👉 Internally implemented using a **binary heap**.
+👉 The head element is always the **smallest (by default)**.
+👉 Class: `java.util.PriorityQueue`
 
 **WeakHashMap:**
 - Keys are weak references
