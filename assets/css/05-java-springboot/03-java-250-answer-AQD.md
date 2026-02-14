@@ -5349,6 +5349,131 @@ server {
 }
 ```
 
+## 7. How to implement cache in java application?
+Caching is a technique used to **store frequently accessed data temporarily in memory** so that future requests for the same data can be served faster, instead of fetching it repeatedly from slow resources like databases, APIs, or disk.
+
+👉 Goal: **Improve performance, reduce latency, and decrease load on backend systems.**
+
+---
+
+# 🔥 Steps to Implement Cache in a Java Application
+
+There are multiple ways to implement caching in Java depending on your architecture.
+
+---
+
+## ✅ Step 1: Choose Caching Type
+
+1. **In-Memory Cache (Local Cache)**
+
+   * Stored inside application memory
+   * Example: `ConcurrentHashMap`, Caffeine
+   * Best for single-instance applications
+
+2. **Distributed Cache**
+
+   * Shared across multiple instances
+   * Example: Redis, Ehcache, Hazelcast
+   * Best for microservices / clustered environments
+
+---
+
+## ✅ Step 2: Basic Manual Cache Using Map (Simple Example)
+
+### Example: Using `ConcurrentHashMap`
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class UserService {
+
+    private final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
+
+    public String getUser(String userId) {
+
+        // Check if data exists in cache
+        if (cache.containsKey(userId)) {
+            System.out.println("Fetching from cache...");
+            return cache.get(userId);
+        }
+
+        // Simulate DB call
+        System.out.println("Fetching from database...");
+        String user = "User_" + userId;
+
+        // Store in cache
+        cache.put(userId, user);
+
+        return user;
+    }
+}
+```
+
+## ✅ Step 3: Using Caffeine (Recommended for Production)
+
+Add dependency (Maven):
+
+```xml
+<dependency>
+    <groupId>com.github.ben-manes.caffeine</groupId>
+    <artifactId>caffeine</artifactId>
+    <version>3.1.8</version>
+</dependency>
+```
+
+### Example:
+
+```java
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
+import java.util.concurrent.TimeUnit;
+
+public class UserService {
+
+    private final Cache<String, String> cache =
+            Caffeine.newBuilder()
+                    .expireAfterWrite(10, TimeUnit.MINUTES)
+                    .maximumSize(1000)
+                    .build();
+
+    public String getUser(String userId) {
+
+        return cache.get(userId, key -> {
+            System.out.println("Fetching from DB...");
+            return "User_" + key;
+        });
+    }
+}
+```
+
+## ✅ Step 4: Using Spring Boot Cache (Annotation Based – Most Used)
+
+If you're using Spring Boot:
+
+### 1️⃣ Enable Caching
+
+```java
+@EnableCaching
+@SpringBootApplication
+public class Application {
+}
+```
+
+### 2️⃣ Use `@Cacheable`
+
+```java
+@Service
+public class UserService {
+
+    @Cacheable("users")
+    public String getUser(String userId) {
+        System.out.println("Fetching from DB...");
+        return "User_" + userId;
+    }
+}
+```
+
 ## 7. What are caching strategies?
 
 **Caching strategies in Java** define how data is temporarily stored to reduce repeated computation or database calls and improve performance.
