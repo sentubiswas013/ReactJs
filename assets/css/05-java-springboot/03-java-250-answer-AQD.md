@@ -3806,6 +3806,53 @@ Auto-configuration automatically configures Spring applications based on the dep
 // No manual configuration needed
 ```
 
+✅ **Disable for Entire Application (Most Common)**
+
+```java
+@SpringBootApplication(
+    exclude = DataSourceAutoConfiguration.class
+)
+public class Application {
+}
+```
+
+✅ **Disable for a Specific Configuration Class**
+
+If you are not using `@SpringBootApplication` in that class:
+
+```java
+@Configuration
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+public class CustomConfig {
+}
+```
+
+✅ **How to Disable Specific Auto-Configuration Class**
+
+
+```java
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+
+@SpringBootApplication(
+    exclude = DataSourceAutoConfiguration.class
+)
+public class Application {
+}
+```
+
+✅ **How to Disable Multiple Auto Configurations**
+
+```java
+@SpringBootApplication(
+    exclude = {
+        DataSourceAutoConfiguration.class,
+        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
+    }
+)
+```
+
+
+
 ## 8. What is @SpringBootApplication annotation?
 
 @SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
