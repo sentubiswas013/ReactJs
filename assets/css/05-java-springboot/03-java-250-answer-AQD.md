@@ -4212,6 +4212,28 @@ public class CorsConfig {
 }
 ```
 
+
+# 🔹 What is an API and what are different type of API?
+
+An **API (Application Programming Interface)** is a set of rules that allows different software applications to communicate with each other.
+
+**REST (Representational State Transfer)** is an architectural style for building web services using HTTP methods like GET, POST, PUT, DELETE.
+It is lightweight, stateless, and commonly uses JSON format.
+Widely implemented using **Spring Framework**.
+
+**SOAP (Simple Object Access Protocol)** is a protocol for exchanging structured information using XML.
+It follows strict standards and supports built-in security (WS-Security).
+Mostly used in enterprise and banking systems.
+
+**GraphQL** is a query-based API technology where the client requests only the required data from a single endpoint.
+Developed by **Facebook**.
+
+**gRPC (Google Remote Procedure Call)** is a high-performance API framework that uses Protocol Buffers (binary format) for fast communication.
+Developed by **Google**.
+
+A **WebSocket API** enables real-time, two-way (full-duplex) communication between client and server over a single connection.
+Used in chat apps and live trading systems.
+
 ## 1. What are RESTful web services?
 
 **RESTful** web services are web services that follow REST architectural principles. They use HTTP methods to perform operations on resources identified by URLs, providing a stateless and scalable approach to web communication.
