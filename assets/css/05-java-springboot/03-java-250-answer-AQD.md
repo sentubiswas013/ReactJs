@@ -3908,7 +3908,8 @@ public class UserRepository { } // Data access
 
 ## 10. What is @Autowired annotation?
 
-**@Autowired** enables automatic dependency injection by type. Spring automatically injects the required dependencies into the annotated fields, constructors, or methods.
+`@Autowired` is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
+It tells the Spring container to automatically inject a required bean into a class.
 
 - Automatic dependency injection
 - Injection by type
