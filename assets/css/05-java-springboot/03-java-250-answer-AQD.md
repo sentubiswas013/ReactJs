@@ -3934,7 +3934,7 @@ public class OrderService {
 
 ## 11. What is @Qualifier annotation?
 
-**@Qualifier** is used with @Autowired to specify which bean to inject when multiple beans of the same type exist. It resolves ambiguity in dependency injection.
+`@Qualifier` is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
 
 ```java
 @Service
