@@ -37,7 +37,7 @@ Object-Oriented Programming is based on four fundamental principles that promote
 
 - **Encapsulation**: is the process of **wrapping data (variables) and methods (functions) together into a single unit called a class**, and **restricting direct access to the data** using access modifiers (`private`, `protected`, `public`).
 
-- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class where one class (child/subclass) access the properties and behaviors of another class (parent/superclass)** using the `extends` keyword.
+- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class. And  class (child/subclass) access the properties and behaviors of another class (parent/superclass)** using the `extends` keyword.
 
 - **Polymorphism**: means **"many forms"**. It allows the same method or object to behave differently in different situations. (e.g., method overloading, method overriding).
 
@@ -1793,13 +1793,19 @@ public synchronized void method() {
 JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
 
 1. **Heap**
-   Stores all objects and instance variables. It is shared among all threads and managed by the Garbage Collector.
+   **Heap memory** is used for dynamic memory allocation.
+    It stores **objects and instance variables** created using `new`.
+    Memory in the heap is managed by the **Garbage Collector** in Java.
+    It is **larger in size**, but slightly slower than stack.
 
 2. **Method Area (Metaspace)**
    Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
 
 3. **Stack**
-   Stores method call frames, local variables, and partial results. Each thread has its own stack.
+   **Stack memory** is used for temporary memory allocation.
+    It stores **local variables, method calls, and function execution data**.
+    Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
+    It is **faster**, but size is limited.
 
 4. **Program Counter (PC) Register**
    Stores the address of the currently executing instruction for each thread.
@@ -1811,9 +1817,15 @@ Each area has different characteristics for garbage collection and memory alloca
 
 ## 2. What is the difference between heap and stack?
 
-The **heap** is used for dynamic memory allocation and stores objects and class instances. Memory is shared across threads and managed by the **garbage collector**, which makes it slower than stack but much larger in size.
+**Stack memory** is used for temporary memory allocation.
+It stores **local variables, method calls, and function execution data**.
+Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
+It is **faster**, but size is limited.
 
-The **stack** is used for method execution and stores local variables, method calls, and references. It works in a **LIFO** manner and memory is allocated and released automatically, so it’s very fast but limited in size. Each thread has its own stack.
+**Heap memory** is used for dynamic memory allocation.
+It stores **objects and instance variables** created using `new`.
+Memory in the heap is managed by the **Garbage Collector** in Java.
+It is **larger in size**, but slightly slower than stack.
 
 **Heap:**
 - Stores objects and instance variables
