@@ -34,11 +34,14 @@ JVM = Runtime execution environment
 Object-Oriented Programming is based on four fundamental principles that promote code reusability, maintainability, and modularity.
 
 **Four OOP Principles:**
-The four main principles are:
-- **Encapsulation**: Wrapping data and methods into a single unit (class) and restricting access to some components using access modifiers.
-- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class.
-- **Polymorphism**: Allowing one entity to take multiple forms (e.g., method overloading, method overriding).
-- **Abstraction**: Hiding the implementation details and showing only the necessary functionality to the user.
+
+- **Encapsulation**: is the process of **wrapping data (variables) and methods (functions) together into a single unit called a class**, and **restricting direct access to the data** using access modifiers (`private`, `protected`, `public`).
+
+- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class where one class (child/subclass) access the properties and behaviors of another class (parent/superclass)** using the `extends` keyword.
+
+- **Polymorphism**: means **"many forms"**. It allows the same method or object to behave differently in different situations. (e.g., method overloading, method overriding).
+
+- **Abstraction**: is the concept of **hiding internal implementation details and showing only essential features to the user**.
 
 
 ## 4. What is polymorphism? Explain with examples.
