@@ -5369,7 +5369,7 @@ It improves **application performance, availability, and reliability** by ensuri
 - **Hardware Load Balancers:** Dedicated physical devices
 - **Software Load Balancers:** Nginx, HAProxy, AWS ALB
 
-```nginx
+```java
 # Nginx load balancer configuration
 upstream backend {
     server backend1.example.com weight=3;
@@ -5388,17 +5388,7 @@ server {
 ## 7. How to implement cache in java application?
 Caching is a technique used to **store frequently accessed data temporarily in memory** so that future requests for the same data can be served faster, instead of fetching it repeatedly from slow resources like databases, APIs, or disk.
 
-👉 Goal: **Improve performance, reduce latency, and decrease load on backend systems.**
-
----
-
-# 🔥 Steps to Implement Cache in a Java Application
-
-There are multiple ways to implement caching in Java depending on your architecture.
-
----
-
-## ✅ Step 1: Choose Caching Type
+**Step 1: Choose Caching Type**
 
 1. **In-Memory Cache (Local Cache)**
 
@@ -5414,7 +5404,7 @@ There are multiple ways to implement caching in Java depending on your architect
 
 ---
 
-## ✅ Step 2: Basic Manual Cache Using Map (Simple Example)
+**Step 2: Basic Manual Cache Using Map (Simple Example)**
 
 ### Example: Using `ConcurrentHashMap`
 
@@ -5445,7 +5435,7 @@ public class UserService {
 }
 ```
 
-## ✅ Step 3: Using Caffeine (Recommended for Production)
+**Step 3: Using Caffeine (Recommended for Production)**
 
 Add dependency (Maven):
 
@@ -5483,11 +5473,11 @@ public class UserService {
 }
 ```
 
-## ✅ Step 4: Using Spring Boot Cache (Annotation Based – Most Used)
+**Step 4: Using Spring Boot Cache (Annotation Based – Most Used)**
 
 If you're using Spring Boot:
 
-### 1️⃣ Enable Caching
+**Enable Caching**
 
 ```java
 @EnableCaching
@@ -5496,7 +5486,7 @@ public class Application {
 }
 ```
 
-### 2️⃣ Use `@Cacheable`
+**Use `@Cacheable`**
 
 ```java
 @Service
