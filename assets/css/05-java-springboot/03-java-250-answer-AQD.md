@@ -3257,9 +3257,9 @@ try {
 }
 ```
 
-### 7. How do you Handle Large Data Processing?
+## 7. How do you Handle Large Data Processing?
 
-#### Streaming (Low Memory)
+**Streaming (Low Memory)**
 I process large files or datasets **line by line** using Java Streams.
 This avoids loading everything into memory.
 
@@ -3318,7 +3318,7 @@ CompletableFuture.runAsync(() ->
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
 
-### 8. What is the difference between Direct Servlet and JSP?
+## 8. What is the difference between Direct Servlet and JSP?
 
 **Spoken Answer (30 seconds):**
 * Servlets are Java classes that handle HTTP requests programmatically
