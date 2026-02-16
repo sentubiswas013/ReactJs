@@ -3789,6 +3789,15 @@ public class UserService { // This becomes a Spring bean
 <bean id="userService" class="com.example.UserService"/>
 ```
 
+## 6. What is annotations in Java?
+**An annotation is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.**
+
+**Example Annotations:**
+* `@Override`
+* `@Autowired`
+* `@Component`
+* `@Service`
+
 ## 6. What is Spring Boot?
 
 **Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
