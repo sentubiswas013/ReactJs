@@ -5502,36 +5502,111 @@ Release branches prepare for deployment, and hotfix branches handle urgent produ
 
 A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
 
+
+**Enable Cache (Main Class)**
 ```java
+@SpringBootApplication
+@EnableCaching
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+```
+
+**Entity**
+
+```java
+public class User {
+
+    private Long id;
+    private String name;
+
+    // ✅ Default Constructor
+    public User() { }
+
+    // ✅ Parameterized Constructor
+    public User(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // ✅ Getter for id
+    public Long getId() { return id; }
+
+    // ✅ Setter for id
+    public void setId(Long id) { this.id = id; }
+
+    // ✅ Getter for name
+    public String getName() { return name; }
+
+    // ✅ Setter for name
+    public void setName(String name) { this.name = name; }
+
+    // ✅ toString Method
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", name='" + name + "'}";
+    }
+}
+```
+
+**User Repository**
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+```
+
+**Service (CRUD + Cache + Circuit Breaker)**
+```java
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @Service
-public class ProductService {
-    
-    public Product createProduct(Product product) {
-        validateProduct(product);
-        return productRepository.save(product);
+public class UserService {
+
+    // CREATE
+    public User createUser(User user) {
+        return user; // normally save to DB
     }
-    
-    public Product getProduct(Long id) {
-        return productRepository.findById(id)
-            .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+
+    // READ with Cache + Circuit Breaker
+    @Cacheable(value = "users", key = "#id")
+    @CircuitBreaker(name = "userService", fallbackMethod = "fallbackUser")
+    public User getUser(Long id) {
+        // simulate DB call
+        return new User(id, "John");
     }
-    
-    public Product updateProduct(Long id, Product details) {
-        Product product = getProduct(id);
-        product.setName(details.getName());
-        product.setPrice(details.getPrice());
-        validateProduct(product);
-        return productRepository.save(product);
+}
+```
+
+**Controller**
+```java
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
-    
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+
+    @PostMapping
+    public User create(@RequestBody User user) {
+        return userService.createUser(user);
     }
-    
-    private void validateProduct(Product product) {
-        if (product.getPrice().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Price cannot be negative");
-        }
+
+    @GetMapping("/{id}")
+    public User get(@PathVariable Long id) {
+        return userService.getUser(id);
     }
 }
 ```
