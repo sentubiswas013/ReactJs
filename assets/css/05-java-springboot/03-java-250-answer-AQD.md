@@ -5522,28 +5522,28 @@ public class User {
     private Long id;
     private String name;
 
-    // ✅ Default Constructor
+    // Default Constructor
     public User() { }
 
-    // ✅ Parameterized Constructor
+    // Parameterized Constructor
     public User(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    // ✅ Getter for id
+    // Getter for id
     public Long getId() { return id; }
 
-    // ✅ Setter for id
+    // Setter for id
     public void setId(Long id) { this.id = id; }
 
-    // ✅ Getter for name
+    // Getter for name
     public String getName() { return name; }
 
-    // ✅ Setter for name
+    // Setter for name
     public void setName(String name) { this.name = name; }
 
-    // ✅ toString Method
+    // toString Method
     @Override
     public String toString() {
         return "User{id=" + id + ", name='" + name + "'}";
