@@ -4844,11 +4844,21 @@ for (int i = 0; i < 1000; i++) {
 
 ## 3. What is connection pooling and how it works?
 
-**Connection pooling** is a technique where a set of **pre-created database connections** is maintained and reused instead of opening a new connection for every request. Creating a database connection is expensive, so reusing them improves performance.
+**Connection pooling is a technique used to reuse database connections instead of creating a new connection every time a request comes.**
 
-When the application needs a connection, it **borrows one from the pool**. After the operation is complete, the connection is **returned to the pool** instead of being closed. The pool also manages limits, idle connections, and timeouts.
+Creating a database connection is expensive and time-consuming.
+So instead of creating and closing connections again and again, we maintain a **pool (group) of ready-to-use connections**.
 
-So, connection pooling **reduces latency, improves scalability, and efficiently manages database resources**.
+**How It Works Internally (Simple Explanation)**
+
+1. When the application starts, it **creates a fixed number of database connections** and stores them in a pool.
+2. When a request needs database access, it **borrows a connection from the pool**.
+3. After completing the work, the connection is **returned back to the pool**, not closed.
+4. The same connection can then be reused by another request.
+5. If all connections are busy:
+
+   * The request either **waits** for a free connection
+   * Or throws a timeout exception (based on configuration)
 
 
 **Benefits:**
@@ -4877,15 +4887,9 @@ config.setConnectionTimeout(30000);   // 30 seconds timeout
 HikariDataSource dataSource = new HikariDataSource(config);
 ```
 
-## 4. What is caching and when should you use it?
+## 4. What is caching and how it works inernally(Implementation)?
 
-Caching stores frequently accessed data in fast storage to reduce expensive operations like database queries, API calls, or complex calculations.
-
-**When to use caching:**
-- **Expensive operations:** Database queries, API calls
-- **Frequently accessed data:** User profiles, configuration
-- **Rarely changing data:** Reference data, lookup tables
-- **Computed results:** Complex calculations, reports
+**Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
 
 **Caching Levels:**
 - **Application level:** In-memory caches (Caffeine, Guava)
@@ -4893,23 +4897,105 @@ Caching stores frequently accessed data in fast storage to reduce expensive oper
 - **Distributed level:** Redis, Hazelcast
 - **HTTP level:** Browser and CDN caching
 
+**How cache works internally (Steps)**
+
+* Application receives a request.
+* It checks the cache for the requested data.
+
+* **If cache hit:**
+
+  * Data is found in cache.
+  * Return data directly from cache.
+  * No database call is made.
+
+* **If cache miss:**
+
+  * Data is fetched from the database.
+  * Data is stored in cache as a **key-value pair**.
+  * Return the response to the user.
+
+* On future requests, data is served from cache.
+
+* Cache automatically manages:
+
+  * Expiration (TTL)
+  * Eviction policy (LRU/LFU)
+  * Removing stale data
+
+**Using HashMap (Manual Cache)**
 ```java
-// Spring Boot caching example
-@Service
-public class UserService {
-    
-    @Cacheable("users")
-    public User getUserById(Long id) {
-        // Expensive database operation
-        return userRepository.findById(id);
+import java.util.HashMap;
+import java.util.Map;
+
+class UserService {
+
+    private Map<Integer, String> cache = new HashMap<>();
+
+    public String getUser(int userId) {
+        // Check cache first
+        if (cache.containsKey(userId)) {
+            System.out.println("Cache Hit!");
+            return cache.get(userId);
+        }
+
+        // Simulate database call
+        System.out.println("Cache Miss! Fetching from DB...");
+        String user = "User" + userId;
+
+        // Store in cache
+        cache.put(userId, user);
+
+        return user;
     }
-    
-    @CacheEvict("users")
-    public void updateUser(User user) {
-        userRepository.save(user);
+}
+
+public class Main {
+    public static void main(String[] args) {
+        UserService service = new UserService();
+
+        System.out.println(service.getUser(1)); // Miss
+        System.out.println(service.getUser(1)); // Hit
     }
 }
 ```
+
+**Using Caffeine (Real-World Cache)**
+```java
+<dependency>
+  <groupId>com.github.ben-manes.caffeine</groupId>
+  <artifactId>caffeine</artifactId>
+  <version>3.1.8</version>
+</dependency>
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
+import java.util.concurrent.TimeUnit;
+
+public class UserService {
+
+    private Cache<Integer, String> cache = Caffeine.newBuilder()
+            .maximumSize(100)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build();
+
+    public String getUser(int userId) {
+
+        return cache.get(userId, id -> {
+            System.out.println("Fetching from DB...");
+            return "User" + id;
+        });
+    }
+
+    public static void main(String[] args) {
+        UserService service = new UserService();
+
+        System.out.println(service.getUser(1)); // DB call
+        System.out.println(service.getUser(1)); // Cached
+    }
+}
+```
+
 
 ## 5. What are important JVM parameters?
 
@@ -5385,176 +5471,7 @@ server {
 }
 ```
 
-## 7. How to implement cache in java application?
-Caching is a technique used to **store frequently accessed data temporarily in memory** so that future requests for the same data can be served faster, instead of fetching it repeatedly from slow resources like databases, APIs, or disk.
-
-**Step 1: Choose Caching Type**
-
-1. **In-Memory Cache (Local Cache)**
-
-   * Stored inside application memory
-   * Example: `ConcurrentHashMap`, Caffeine
-   * Best for single-instance applications
-
-2. **Distributed Cache**
-
-   * Shared across multiple instances
-   * Example: Redis, Ehcache, Hazelcast
-   * Best for microservices / clustered environments
-
----
-
-**Step 2: Basic Manual Cache Using Map (Simple Example)**
-
-### Example: Using `ConcurrentHashMap`
-
-```java
-import java.util.concurrent.ConcurrentHashMap;
-
-public class UserService {
-
-    private final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
-
-    public String getUser(String userId) {
-
-        // Check if data exists in cache
-        if (cache.containsKey(userId)) {
-            System.out.println("Fetching from cache...");
-            return cache.get(userId);
-        }
-
-        // Simulate DB call
-        System.out.println("Fetching from database...");
-        String user = "User_" + userId;
-
-        // Store in cache
-        cache.put(userId, user);
-
-        return user;
-    }
-}
-```
-
-**Step 3: Using Caffeine (Recommended for Production)**
-
-Add dependency (Maven):
-
-```xml
-<dependency>
-    <groupId>com.github.ben-manes.caffeine</groupId>
-    <artifactId>caffeine</artifactId>
-    <version>3.1.8</version>
-</dependency>
-```
-
-### Example:
-
-```java
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-
-import java.util.concurrent.TimeUnit;
-
-public class UserService {
-
-    private final Cache<String, String> cache =
-            Caffeine.newBuilder()
-                    .expireAfterWrite(10, TimeUnit.MINUTES)
-                    .maximumSize(1000)
-                    .build();
-
-    public String getUser(String userId) {
-
-        return cache.get(userId, key -> {
-            System.out.println("Fetching from DB...");
-            return "User_" + key;
-        });
-    }
-}
-```
-
-**Step 4: Using Spring Boot Cache (Annotation Based – Most Used)**
-
-If you're using Spring Boot:
-
-**Enable Caching**
-
-```java
-@EnableCaching
-@SpringBootApplication
-public class Application {
-}
-```
-
-**Use `@Cacheable`**
-
-```java
-@Service
-public class UserService {
-
-    @Cacheable("users")
-    public String getUser(String userId) {
-        System.out.println("Fetching from DB...");
-        return "User_" + userId;
-    }
-}
-```
-
-## 7. What are caching strategies?
-
-**Caching strategies in Java** define how data is temporarily stored to reduce repeated computation or database calls and improve performance.
-
-The most common strategies are **Cache-Aside**, where the application checks the cache first and loads data from the database if missing; **Read-Through**, where the cache automatically loads data on a miss; **Write-Through**, where data is written to both cache and database at the same time; and **Write-Behind**, where cache writes to the database asynchronously.
-
-In Java, these strategies are commonly implemented using tools like **Spring Cache, Ehcache, Caffeine, or Redis**, depending on performance and scalability needs.
-
-
-**Common Caching Strategies:**
-
-**Cache-Aside (Lazy Loading):**
-**Write-Through:**
-**Write-Behind (Write-Back):**
-**Refresh-Ahead:**
-
-```java
-// Cache-aside pattern example
-@Service
-public class UserService {
-    
-    @Autowired
-    private RedisTemplate<String, User> redisTemplate;
-    
-    @Autowired
-    private UserRepository userRepository;
-    
-    public User getUser(Long id) {
-        String key = "user:" + id;
-        
-        // Try cache first
-        User user = redisTemplate.opsForValue().get(key);
-        if (user != null) {
-            return user; // Cache hit
-        }
-        
-        // Cache miss - load from database
-        user = userRepository.findById(id);
-        if (user != null) {
-            // Store in cache for future requests
-            redisTemplate.opsForValue().set(key, user, Duration.ofMinutes(30));
-        }
-        
-        return user;
-    }
-}
-```
-
-**Cache Levels:**
-- **Browser Cache:** Client-side caching
-- **CDN Cache:** Geographic distribution
-- **Application Cache:** In-memory caching (Redis, Memcached)
-- **Database Cache:** Query result caching
-
-### 24. Miscellaneous
+# 24. Miscellaneous
 
 ## 2. What are the main features of an eCommerce application?
 
