@@ -3193,6 +3193,116 @@ HikariDataSource dataSource = new HikariDataSource(config);
 Connection conn = dataSource.getConnection(); // From pool
 ```
 
+
+## 4. What is caching and how it works inernally(Implementation)?
+
+**Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
+
+**Caching Levels:**
+- **Application level:** In-memory caches (Caffeine, Guava)
+- **Database level:** Query result caching
+- **Distributed level:** Redis, Hazelcast
+- **HTTP level:** Browser and CDN caching
+
+**How cache works internally (Steps)**
+
+* Application receives a request.
+* It checks the cache for the requested data.
+
+* **If cache hit:**
+
+  * Data is found in cache.
+  * Return data directly from cache.
+  * No database call is made.
+
+* **If cache miss:**
+
+  * Data is fetched from the database.
+  * Data is stored in cache as a **key-value pair**.
+  * Return the response to the user.
+
+* On future requests, data is served from cache.
+
+* Cache automatically manages:
+
+  * Expiration (TTL)
+  * Eviction policy (LRU/LFU)
+  * Removing stale data
+
+**Using HashMap (Manual Cache)**
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+class UserService {
+
+    private Map<Integer, String> cache = new HashMap<>();
+
+    public String getUser(int userId) {
+        // Check cache first
+        if (cache.containsKey(userId)) {
+            System.out.println("Cache Hit!");
+            return cache.get(userId);
+        }
+
+        // Simulate database call
+        System.out.println("Cache Miss! Fetching from DB...");
+        String user = "User" + userId;
+
+        // Store in cache
+        cache.put(userId, user);
+
+        return user;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        UserService service = new UserService();
+
+        System.out.println(service.getUser(1)); // Miss
+        System.out.println(service.getUser(1)); // Hit
+    }
+}
+```
+
+**Using Caffeine (Real-World Cache)**
+```java
+<dependency>
+  <groupId>com.github.ben-manes.caffeine</groupId>
+  <artifactId>caffeine</artifactId>
+  <version>3.1.8</version>
+</dependency>
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
+import java.util.concurrent.TimeUnit;
+
+public class UserService {
+
+    private Cache<Integer, String> cache = Caffeine.newBuilder()
+            .maximumSize(100)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build();
+
+    public String getUser(int userId) {
+
+        return cache.get(userId, id -> {
+            System.out.println("Fetching from DB...");
+            return "User" + id;
+        });
+    }
+
+    public static void main(String[] args) {
+        UserService service = new UserService();
+
+        System.out.println(service.getUser(1)); // DB call
+        System.out.println(service.getUser(1)); // Cached
+    }
+}
+```
+
 ## 5. What is SQL injection and how to prevent it?
 
 SQL injection is a security vulnerability where malicious SQL code is inserted into application queries, potentially allowing unauthorized database access or data manipulation.
@@ -4861,116 +4971,6 @@ for (int i = 0; i < 1000; i++) {
     sb.append("text");
 }
 ```
-
-## 4. What is caching and how it works inernally(Implementation)?
-
-**Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
-
-**Caching Levels:**
-- **Application level:** In-memory caches (Caffeine, Guava)
-- **Database level:** Query result caching
-- **Distributed level:** Redis, Hazelcast
-- **HTTP level:** Browser and CDN caching
-
-**How cache works internally (Steps)**
-
-* Application receives a request.
-* It checks the cache for the requested data.
-
-* **If cache hit:**
-
-  * Data is found in cache.
-  * Return data directly from cache.
-  * No database call is made.
-
-* **If cache miss:**
-
-  * Data is fetched from the database.
-  * Data is stored in cache as a **key-value pair**.
-  * Return the response to the user.
-
-* On future requests, data is served from cache.
-
-* Cache automatically manages:
-
-  * Expiration (TTL)
-  * Eviction policy (LRU/LFU)
-  * Removing stale data
-
-**Using HashMap (Manual Cache)**
-```java
-import java.util.HashMap;
-import java.util.Map;
-
-class UserService {
-
-    private Map<Integer, String> cache = new HashMap<>();
-
-    public String getUser(int userId) {
-        // Check cache first
-        if (cache.containsKey(userId)) {
-            System.out.println("Cache Hit!");
-            return cache.get(userId);
-        }
-
-        // Simulate database call
-        System.out.println("Cache Miss! Fetching from DB...");
-        String user = "User" + userId;
-
-        // Store in cache
-        cache.put(userId, user);
-
-        return user;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        UserService service = new UserService();
-
-        System.out.println(service.getUser(1)); // Miss
-        System.out.println(service.getUser(1)); // Hit
-    }
-}
-```
-
-**Using Caffeine (Real-World Cache)**
-```java
-<dependency>
-  <groupId>com.github.ben-manes.caffeine</groupId>
-  <artifactId>caffeine</artifactId>
-  <version>3.1.8</version>
-</dependency>
-
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-
-import java.util.concurrent.TimeUnit;
-
-public class UserService {
-
-    private Cache<Integer, String> cache = Caffeine.newBuilder()
-            .maximumSize(100)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build();
-
-    public String getUser(int userId) {
-
-        return cache.get(userId, id -> {
-            System.out.println("Fetching from DB...");
-            return "User" + id;
-        });
-    }
-
-    public static void main(String[] args) {
-        UserService service = new UserService();
-
-        System.out.println(service.getUser(1)); // DB call
-        System.out.println(service.getUser(1)); // Cached
-    }
-}
-```
-
 
 ## 5. What are important JVM parameters?
 
