@@ -4728,17 +4728,7 @@ public void handleOrderCreated(OrderCreatedEvent event) {
 
 ## 5. What is API Gateway?
 
-The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
-
-After a cooldown period, it moves to a **half-open** state to test if the service has recovered. If successful, the circuit closes and normal traffic resumes. This improves **system resilience and stability**.
-
-**Key Functions:**
-- **Request routing:** Direct requests to correct services
-- **Authentication and authorization:** Centralized security
-- **Rate limiting:** Control request rates
-- **Load balancing:** Distribute requests across instances
-- **Request/response transformation:** Modify data formats
-- **Monitoring and analytics:** Track API usage
+An API Gateway is a single entry point that sits between clients and multiple backend services, handling all incoming requests and routing them to the appropriate microservice.
 
 **Benefits:**
 - Single entry point for clients
@@ -4765,7 +4755,9 @@ public class ApiGatewayApplication {
 
 ## 6. What is circuit breaker pattern?
 
-Circuit breaker pattern prevents cascading failures in microservices by monitoring service calls and "opening the circuit" when failures exceed a threshold, allowing the system to fail fast and recover gracefully.
+The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
+
+After a cooldown period, it moves to a **half-open** state to test if the service has recovered. If successful, the circuit closes and normal traffic resumes. This improves **system resilience and stability**.
 
 **Circuit States:**
 - **Closed:** Normal operation, requests pass through
