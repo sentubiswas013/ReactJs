@@ -3153,20 +3153,31 @@ pstmt.setInt(1, userId); // Safe parameter binding
 ResultSet rs = pstmt.executeQuery();
 ```
 
-## 4. What is connection pooling?
+## 4. What is connection pooling and how it works internally?
 
-Connection pooling is a technique that maintains a cache of database connections that can be reused across multiple requests, improving application performance and resource utilization.
+**Connection pooling is a technique used to reuse database connections instead of creating a new connection every time a request comes.**
+
+**How It Works Internally (Simple Explanation)**
+
+1. When the application starts, it **creates a fixed number of database connections** and stores them in a pool.
+2. When a request needs database access, it **borrows a connection from the pool**.
+3. After completing the work, the connection is **returned back to the pool**, not closed.
+4. The same connection can then be reused by another request.
+5. If all connections are busy:
+
+   * The request either **waits** for a free connection
+   * Or throws a timeout exception (based on configuration)
 
 **Benefits:**
-- Reduces connection creation overhead
-- Limits number of concurrent connections
-- Improves application performance
-- Better resource management
-- Handles connection lifecycle automatically
+- **Reduced connection overhead:** Avoid expensive connection creation
+- **Better resource utilization:** Limit concurrent connections
+- **Improved response times:** Reuse existing connections
+- **Database protection:** Prevent connection exhaustion
+- **Scalability:** Handle more concurrent users
 
 **Popular Connection Pools:**
 - HikariCP (fastest)
-- Apache DBCP
+- Apache DBCP2
 - C3P0
 - Tomcat JDBC Pool
 
@@ -3810,7 +3821,7 @@ public class UserService { // This becomes a Spring bean
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
-## 7. What is auto-configuration in Spring Boot and to disable it?
+## 7. What is auto-configuration in Spring Boot and to disable?
 
 Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
 
@@ -4849,51 +4860,6 @@ StringBuilder sb = new StringBuilder();
 for (int i = 0; i < 1000; i++) {
     sb.append("text");
 }
-```
-
-## 3. What is connection pooling and how it works?
-
-**Connection pooling is a technique used to reuse database connections instead of creating a new connection every time a request comes.**
-
-Creating a database connection is expensive and time-consuming.
-So instead of creating and closing connections again and again, we maintain a **pool (group) of ready-to-use connections**.
-
-**How It Works Internally (Simple Explanation)**
-
-1. When the application starts, it **creates a fixed number of database connections** and stores them in a pool.
-2. When a request needs database access, it **borrows a connection from the pool**.
-3. After completing the work, the connection is **returned back to the pool**, not closed.
-4. The same connection can then be reused by another request.
-5. If all connections are busy:
-
-   * The request either **waits** for a free connection
-   * Or throws a timeout exception (based on configuration)
-
-
-**Benefits:**
-- **Reduced connection overhead:** Avoid expensive connection creation
-- **Better resource utilization:** Limit concurrent connections
-- **Improved response times:** Reuse existing connections
-- **Database protection:** Prevent connection exhaustion
-- **Scalability:** Handle more concurrent users
-
-**Popular Connection Pools:**
-- HikariCP (fastest)
-- Apache DBCP2
-- C3P0
-- Tomcat JDBC Pool
-
-```java
-// HikariCP configuration
-HikariConfig config = new HikariConfig();
-config.setJdbcUrl("jdbc:mysql://localhost:3306/mydb");
-config.setUsername("user");
-config.setPassword("password");
-config.setMaximumPoolSize(20);        // Max connections
-config.setMinimumIdle(5);             // Min idle connections
-config.setConnectionTimeout(30000);   // 30 seconds timeout
-
-HikariDataSource dataSource = new HikariDataSource(config);
 ```
 
 ## 4. What is caching and how it works inernally(Implementation)?
