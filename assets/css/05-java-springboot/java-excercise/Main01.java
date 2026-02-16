@@ -690,7 +690,7 @@ public class Main01 {
         }
     }
 
-    // 2. Find the Second-Highest Number in an Array
+    // 2. Find the Sceond-Highest Number in an Array
     public static void SecondHighestNumber() {
         int[] arr = {10, 5, 20, 20, 15, 5, 30};
         int highest = Integer.MIN_VALUE;
