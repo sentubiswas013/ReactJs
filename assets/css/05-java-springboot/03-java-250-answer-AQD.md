@@ -3810,7 +3810,7 @@ public class UserService { // This becomes a Spring bean
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
-## 7. What is auto-configuration in Spring Boot?
+## 7. What is auto-configuration in Spring Boot and to disable it?
 
 Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
 
