@@ -693,50 +693,7 @@ spring:
 
 # **5️⃣ Cloud (AWS / GCP) – Practical Experience**
 
-## **Q24. How did you deploy your Spring Boot application to the cloud?**
-
-**Spoken Answer:**
-
-> We deployed our Spring Boot applications using **Docker and Kubernetes** on the cloud.
->
-> First, we containerized the application using Docker. Then we deployed it using Kubernetes deployments and services.
->
-> CI/CD was handled using Jenkins, which automatically built, tested, and deployed the application.
-
-**Example Code (Dockerfile):**
-
-```dockerfile
-FROM openjdk:17
-COPY target/app.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
----
-
-## **Q25. How did you manage configuration in cloud environments?**
-
-**Spoken Answer:**
-
-> We managed configurations using **Spring Cloud Config Server**.
-> All environment-specific properties were stored in a Git repository.
->
-> This allowed us to change configurations dynamically without redeploying services.
-> Sensitive values like passwords were stored in **Vault or Kubernetes Secrets**.
-
-**Example Code (bootstrap.yml):**
-
-```yaml
-spring:
-  application:
-    name: order-service
-  cloud:
-    config:
-      uri: http://config-server:8888
-```
-
----
-
-## **Q26. How did you deploy a Spring Boot microservice to AWS/GCP? Walk me through the complete flow.**
+## **Q24. How did you deploy a Spring Boot microservice to AWS/GCP? Walk me through the complete flow.**
 
 **Spoken Answer (End-to-End Flow):**
 
@@ -775,9 +732,30 @@ spec:
             - containerPort: 8080
 ```
 
+## **Q25. How did you manage configuration in cloud environments?**
+
+**Spoken Answer:**
+
+> We managed configurations using **Spring Cloud Config Server**.
+> All environment-specific properties were stored in a Git repository.
+>
+> This allowed us to change configurations dynamically without redeploying services.
+> Sensitive values like passwords were stored in **Vault or Kubernetes Secrets**.
+
+**Example Code (bootstrap.yml):**
+
+```yaml
+spring:
+  application:
+    name: order-service
+  cloud:
+    config:
+      uri: http://config-server:8888
+```
+
 ---
 
-## **Q27. How did you handle application secrets in cloud environments?**
+## **Q26. How did you handle application secrets in cloud environments?**
 
 **Spoken Answer:**
 
@@ -813,7 +791,7 @@ kubectl create secret generic db-secret \
 
 ---
 
-## **Q28. Production cloud outage — how did you troubleshoot and restore?**
+## **Q27. Production cloud outage — how did you troubleshoot and restore?**
 
 **Spoken Answer:**
 
@@ -837,7 +815,7 @@ kubectl rollout undo deployment order-service
 
 ---
 
-## **Q29. Logging, monitoring, and alerting in AWS/GCP**
+## **Q28. Logging, monitoring, and alerting in AWS/GCP**
 
 **Spoken Answer:**
 
@@ -867,7 +845,7 @@ management.endpoints.web.exposure.include=health,metrics
 
 ---
 
-## **Q30. Designing for scalability and high availability**
+## **Q29. Designing for scalability and high availability**
 
 **Spoken Answer:**
 
