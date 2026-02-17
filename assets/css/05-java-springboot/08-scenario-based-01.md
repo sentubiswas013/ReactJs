@@ -81,6 +81,7 @@ list.stream()
 
 ## **Q5. Describe a situation where you faced a memory leak in Java. How did you detect and resolve it?**
 **Spoken Answer:**
+
 > I faced a memory leak where the heap kept growing until the service crashed.
 >
 > I captured a **heap dump using jmap** and analyzed it in **Eclipse MAT**.
@@ -374,6 +375,7 @@ public List<User> getUsers() {
 ## **Q14. Externalizing configuration for different environments**
 
 **Spoken Answer:**
+
 “We had separate environments like dev, QA, and prod. We externalized configuration using **Spring Profiles** so that environment-specific values like database URLs and API keys could be managed safely.”
 
 **How We Did It:**
@@ -409,6 +411,7 @@ private String dbUrl;
 ## **Q15. Pagination, sorting, and filtering in Spring Boot**
 
 **Spoken Answer:**
+
 “For APIs returning large datasets, we implemented pagination and sorting using **Spring Data JPA**. Filtering was done using query parameters. This improved performance and user experience.”
 
 **Controller Example:**
@@ -500,6 +503,7 @@ resilience4j:
 ## **Q17. How did microservices communicate with each other?**
 
 **Spoken Answer:**
+
 > In our system, microservices mainly communicated using **REST APIs over HTTP**.
 > For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
 >
@@ -521,6 +525,7 @@ public interface PaymentClient {
 ## **Q18. How did you handle distributed transactions?**
 
 **Spoken Answer:**
+
 > Since microservices have separate databases, we avoided traditional distributed transactions like 2PC.
 >
 > Instead, we used the **Saga pattern**. Each service performed a local transaction and published an event. If any step failed, we executed a **compensating transaction** to rollback previous steps.
