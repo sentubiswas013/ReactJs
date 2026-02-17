@@ -542,6 +542,7 @@ public void createOrder(Order order) {
 ## **Q19. One microservice was frequently failing and impacting others. How did you isolate it?**
 
 **Spoken Answer:**
+
 “One unstable service was causing cascading failures. We isolated it using **circuit breakers**, **bulkheads**, and **rate limiting**. Once failures crossed a threshold, calls to that service were stopped temporarily.”
 
 **Isolation Techniques Used:**
@@ -564,6 +565,7 @@ public PaymentResponse processPayment() {
 ## **Q20. How did you manage communication between microservices? Why synchronous vs asynchronous?**
 
 **Spoken Answer:**
+
 “We used **both synchronous and asynchronous communication**, based on the use case.
 
 * For real-time user requests → **REST (synchronous)**
@@ -592,6 +594,7 @@ kafkaTemplate.send("order-events", orderEvent);
 ## **Q21. Real scenario: circuit breaker, retry, timeout**
 
 **Spoken Answer:**
+
 “In production, a downstream service was slow and unstable. We implemented **timeouts to avoid blocking**, **retries for transient failures**, and **circuit breakers** to stop repeated failures.”
 
 **Configuration Example (Resilience4j):**
@@ -619,6 +622,7 @@ public PaymentResponse pay() {
 ## **Q22. Distributed transactions without a single DB transaction**
 
 **Spoken Answer:**
+
 “We avoided distributed database transactions because they don’t scale. Instead, we used the **Saga pattern**. Each microservice performed its local transaction and published an event. If something failed, compensating actions were triggered.”
 
 **Saga Flow Example:**
@@ -647,6 +651,7 @@ public void rollbackOrder(String orderId) {
 ## **Q23. Deploying multiple microservices — service discovery & routing**
 
 **Spoken Answer:**
+
 “As the number of services grew, hardcoded URLs became unmanageable. We solved this using **service discovery and an API gateway**. Services registered themselves dynamically, and routing was handled centrally.”
 
 **Challenges Faced:**
@@ -734,6 +739,7 @@ spring:
 ## **Q26. How did you deploy a Spring Boot microservice to AWS/GCP? Walk me through the complete flow.**
 
 **Spoken Answer (End-to-End Flow):**
+
 “I’ll explain it end to end. First, we built the Spring Boot application and containerized it using Docker. Then we pushed the image to a container registry. After that, we deployed it to Kubernetes (EKS on AWS / GKE on GCP). Traffic came through a load balancer, and pods were auto-scaled based on load.”
 
 ### **Step-by-Step Flow**
@@ -774,6 +780,7 @@ spec:
 ## **Q27. How did you handle application secrets in cloud environments?**
 
 **Spoken Answer:**
+
 “We never stored secrets in code or Git. In AWS/GCP, we used **managed secret services** and injected them securely at runtime.”
 
 ### **Tools Used**
@@ -809,6 +816,7 @@ kubectl create secret generic db-secret \
 ## **Q28. Production cloud outage — how did you troubleshoot and restore?**
 
 **Spoken Answer:**
+
 “When the application went down, the first priority was restoration, not root cause. I checked health checks, pod status, and logs. Once the service was restored, we did a post-mortem.”
 
 ### **Troubleshooting Steps**
@@ -832,6 +840,7 @@ kubectl rollout undo deployment order-service
 ## **Q29. Logging, monitoring, and alerting in AWS/GCP**
 
 **Spoken Answer:**
+
 “In microservices, observability is critical. We implemented centralized logging, real-time monitoring, and proactive alerting.”
 
 ### **What We Used**
@@ -861,6 +870,7 @@ management.endpoints.web.exposure.include=health,metrics
 ## **Q30. Designing for scalability and high availability**
 
 **Spoken Answer:**
+
 “We designed the system assuming traffic spikes and failures. The application was **stateless**, horizontally scalable, and deployed across multiple zones.”
 
 ### **Key Design Decisions**
