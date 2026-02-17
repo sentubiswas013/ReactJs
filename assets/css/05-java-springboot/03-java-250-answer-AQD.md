@@ -3480,15 +3480,37 @@ public class HelloServlet extends HttpServlet {
 
 ## 1. What are design patterns?
 
-Design patterns are reusable solutions to commonly occurring problems in software design. They represent best practices and proven solutions that developers can apply to solve design problems.
+Design patterns are proven reusable solutions to common software design problems, categorized into Creational, Structural, and Behavioral patterns.
 
-- Reusable solutions to common design problems
-- Best practices in object-oriented design
-- Improve code maintainability and readability
-- Facilitate communication between developers
-- Three categories: Creational, Structural, Behavioral
+1️⃣ **Creational Design Patterns**
+* **Singleton** – Only one instance of a class is created.
+* **Factory Method** – Creates objects without exposing creation logic.
+* **Abstract Factory** – Creates families of related objects.
+* **Builder** – Builds complex objects step by step.
+* **Prototype** – Creates object by cloning existing object.
 
-Design patterns provide a common vocabulary and proven approaches to solving recurring design challenges in software development.
+2️⃣ **Structural Design Patterns**
+* **Adapter** – Converts one interface into another.
+* **Bridge** – Separates abstraction from implementation.
+* **Decorator** – Adds behavior dynamically.
+* **Facade** – Provides simplified interface to complex system.
+* **Proxy** – Controls access to an object.
+
+3️⃣ **Behavioral Design Patterns**
+* **Observer** – One-to-many dependency (used in event systems).
+* **Strategy** – Select algorithm at runtime.
+* **Command** – Encapsulates a request as an object.
+* **State** – Changes behavior when state changes.
+* **Template Method** – Defines skeleton of algorithm.
+* **Iterator** – Sequential access to collection.
+
+**Most Commonly Asked in Interviews**
+* **Singleton** – Ensures that a class has only one instance and provides a global access point to it.
+* **Factory** – Creates objects without exposing the object creation logic to the client.
+* **Builder** – Constructs complex objects step by step, allowing flexible object creation.
+* **Observer** – Defines a one-to-many relationship where multiple objects are notified automatically when one object changes state.
+* **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
+* **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
 
 ## 2. What is Singleton pattern?
 
