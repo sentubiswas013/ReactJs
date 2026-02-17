@@ -5611,6 +5611,222 @@ public class UserController {
 }
 ```
 
+
+
+# ✅ Interview Question
+
+We have a table **`bollywood_movies`** with 10,00,000 records.
+
+### Columns:
+
+* id (NOT NULL)
+* movie_name
+* lead_actor_name
+* budget
+* movie_collections
+* imdb_rating
+
+### Constraints:
+
+* imdb_rating should be ≥ 8
+* Movie should be profitable (collections > budget)
+* Only id is NOT NULL
+* Data comes from vendor API
+
+### Requirement:
+
+Find **Top 10 most profitable lead actors** (based on total profit)
+and fetch the **details of the movies they have done**
+Use **cursor and temporary table** approach.
+
+**Database Level Optimization (Very Important for 10L records)**
+
+Since data is large (10,00,000+ records), we must:
+
+### ✔ Add Indexes
+
+```sql
+CREATE INDEX idx_imdb_rating ON bollywood_movies(imdb_rating);
+CREATE INDEX idx_lead_actor ON bollywood_movies(lead_actor_name);
+CREATE INDEX idx_profit ON bollywood_movies(movie_collections, budget);
+```
+
+---
+
+**Profit Calculation Logic**
+
+Profit =
+
+```
+movie_collections - budget
+```
+
+Only consider:
+
+```sql
+WHERE imdb_rating >= 8
+AND movie_collections > budget
+```
+
+---
+
+**Optimized SQL Query (Best Practice – DB Level Aggregation)**
+
+We should NOT fetch 10 lakh records into Java memory.
+
+**Step 1: Get Top 10 Profitable Actors**
+
+```sql
+SELECT lead_actor_name,
+       SUM(movie_collections - budget) AS total_profit
+FROM bollywood_movies
+WHERE imdb_rating >= 8
+AND movie_collections > budget
+AND lead_actor_name IS NOT NULL
+GROUP BY lead_actor_name
+ORDER BY total_profit DESC
+LIMIT 10;
+```
+
+---
+
+**Step 2: Fetch Movie Details of These Actors**
+
+```sql
+SELECT *
+FROM bollywood_movies
+WHERE lead_actor_name IN (top 10 actors)
+AND imdb_rating >= 8
+AND movie_collections > budget;
+```
+
+---
+
+**Java Implementation (Spring Boot Style – Interview Level)**
+
+### Entity Class
+
+```java
+@Entity
+@Table(name = "bollywood_movies")
+public class Movie {
+
+    @Id
+    private Long id;
+
+    private String movieName;
+    private String leadActorName;
+    private Double budget;
+    private Double movieCollections;
+    private Double imdbRating;
+}
+```
+
+---
+
+### Repository (Using Native Query for Performance)
+
+```java
+@Repository
+public interface MovieRepository extends JpaRepository<Movie, Long> {
+
+    @Query(value = """
+        SELECT lead_actor_name
+        FROM bollywood_movies
+        WHERE imdb_rating >= 8
+        AND movie_collections > budget
+        GROUP BY lead_actor_name
+        ORDER BY SUM(movie_collections - budget) DESC
+        LIMIT 10
+        """, nativeQuery = true)
+    List<String> findTop10ProfitableActors();
+
+    List<Movie> findByLeadActorNameInAndImdbRatingGreaterThanEqualAndMovieCollectionsGreaterThan(
+            List<String> actors, Double rating, Double collections);
+}
+```
+
+---
+
+### Service Layer
+
+```java
+@Service
+public class MovieService {
+
+    @Autowired
+    private MovieRepository movieRepository;
+
+    public Map<String, List<Movie>> getTopActorsWithMovies() {
+
+        List<String> topActors = movieRepository.findTop10ProfitableActors();
+
+        List<Movie> movies = movieRepository
+                .findByLeadActorNameInAndImdbRatingGreaterThanEqualAndMovieCollectionsGreaterThan(
+                        topActors, 8.0, 0.0);
+
+        return movies.stream()
+                .collect(Collectors.groupingBy(Movie::getLeadActorName));
+    }
+}
+```
+
+---
+
+**If Data Comes From Vendor API**
+
+### Approach:
+
+1. Fetch data in **pagination** (never load 10L at once)
+2. Save into DB in batch
+3. Process via DB query
+
+```java
+for(int page = 0; page < totalPages; page++) {
+    List<MovieDTO> movies = vendorApi.fetchMovies(page);
+    movieRepository.saveAll(movies);
+}
+```
+
+Use:
+
+```properties
+spring.jpa.properties.hibernate.jdbc.batch_size=1000
+```
+
+---
+
+**Performance & Scalability Points (Important for Interview)**
+
+✔ Filtering & aggregation in DB (not Java memory)
+✔ Use Indexes
+✔ Use Pagination for Vendor API
+✔ Use Batch Insert
+✔ Use Native Query for heavy aggregation
+✔ Use Projection DTO instead of full entity
+✔ Use Read-only transaction
+
+---
+
+**Optional Advanced Optimization (Senior Level Answer)**
+
+If query runs frequently:
+
+* Create **Materialized View**
+* Or maintain **precomputed profit table**
+* Use Redis Cache for Top 10 actors
+
+---
+
+**Final Interview Summary Answer (Short Version)**
+
+> Since we have 10 lakh records, I will push filtering and aggregation logic to the database using indexed columns.
+> I will calculate profit as collections - budget and filter imdb >= 8 and profitable movies.
+> Then group by lead actor and get top 10 by total profit.
+> After that, fetch movie details for those actors.
+> Data from vendor API will be inserted using batch processing and pagination.
+> I will avoid loading large data into memory and ensure performance using indexing and native queries.
+
 ## 8. How do you migrate a Java application from a lower version to a higher version?
 
 Migration involves analyzing current code for compatibility issues, updating build configuration like Maven or Gradle, replacing deprecated APIs with newer alternatives, updating third-party dependencies, and thorough testing before production deployment.
