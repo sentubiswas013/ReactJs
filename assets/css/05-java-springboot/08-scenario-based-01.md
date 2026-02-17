@@ -97,7 +97,9 @@ Map<String, User> cache = new WeakHashMap<>();
 ---
 
 ## **Q6. How did you handle concurrency issues in a multi-threaded Java application you worked on? Give a real example.**
+
 **Spoken Answer:**
+
 **Way One**
 “In one of my projects, we had a **payment processing service** where multiple threads were updating the same user wallet balance at the same time. This caused **race conditions**, leading to incorrect balances.
 
@@ -154,7 +156,9 @@ counter.incrementAndGet();
 ---
 
 ## **Q7. You had to process a large file (millions of records). How did you design the Java code to avoid OutOfMemory errors?**
+
 **Spoken Answer:**
+
 > To process millions of records, I avoided loading the entire file into memory.
 >
 > I used **streaming with BufferedReader**, processed data line by line, and batch-inserted records into the database.
@@ -175,7 +179,9 @@ try (BufferedReader br = Files.newBufferedReader(path)) {
 ---
 
 ## **Q8. Tell me about a time when you refactored legacy Java code. What problems did it have and what improvements did you make?**
+
 **Spoken Answer:**
+
 > I worked on a legacy Java application with large God classes, no separation of concerns, and hard-coded values.
 >
 > I refactored it by breaking it into smaller services, applying **SOLID principles**, introducing DTOs, and replacing if-else chains with **strategy patterns**.
@@ -193,7 +199,9 @@ public interface PaymentStrategy {
 ---
 
 ## **Q9. Describe a scenario where improper object creation impacted performance.**
+
 **Spoken Answer:**
+
 “We noticed high GC activity and memory spikes. On investigation, we found that objects were being created repeatedly inside loops. This caused excessive garbage collection. We fixed it by reusing objects, using object pooling, and switching to immutable or cached objects where possible.”
 
 **Example Problem:**
@@ -222,7 +230,9 @@ for (int i = 0; i < 100000; i++) {
 ---
 
 ## **Q10. Parallel processing: Threads vs ExecutorService vs Parallel Streams**
+
 **Spoken Answer:**
+
 “My decision depended on **control, complexity, and workload**.
 
 * For low-level control → Threads
@@ -256,7 +266,9 @@ orders.parallelStream()
 ---
 
 ## **Q11. Exception handling and logging in large applications**
+
 **Spoken Answer:**
+
 “In large systems, bad logging is as dangerous as no logging. I used **centralized exception handling**, meaningful log levels, and correlation IDs. This made production debugging much easier.”
 
 **Best Practices Used:**
@@ -293,7 +305,9 @@ public class GlobalExceptionHandler {
 ---
 
 ## **Q12. JVM tuning in production**
+
 **Spoken Answer:**
+
 “In production, we faced frequent Full GC and slow response times. After analyzing GC logs, I tuned heap size and garbage collector settings. This stabilized memory usage and reduced pause times.”
 
 **Parameters Tuned:**
@@ -324,6 +338,7 @@ public class GlobalExceptionHandler {
 ## **Q13. Real scenario: Securing REST APIs using Spring Security**
 
 **Spoken Answer:**
+
 “In one project, we built REST APIs for a finance application. We used **JWT-based authentication** because it is stateless and scalable. Users authenticated using username and password, received a JWT token, and then passed it in the Authorization header for every request. Authorization was role-based — for example, ADMIN and USER.”
 
 **Authentication Flow:**
