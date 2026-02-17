@@ -3804,7 +3804,7 @@ coffee = new SugarDecorator(coffee);
 
 ## 1. What is Spring Framework?
 
-Spring Framework is a comprehensive Java framework that provides infrastructure support for developing enterprise applications. It simplifies Java development through dependency injection and aspect-oriented programming.
+Spring Framework is a lightweight Java framework that simplifies enterprise application development using dependency injection and modular architecture.
 
 - Lightweight and modular framework
 - Provides dependency injection and IoC container
