@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.io.File;
 import java.io.IOException;
 // https://media.licdn.com/dms/document/media/v2/D4D1FAQFsBdzvZXsFrw/feedshare-document-sanitized-pdf/B4DZumBg4JKoA8-/0/1768016974359?e=1768939200&v=beta&t=q1VXaWNPXInFfiuXByXA3TE4BbF_BrbGWc3PCrdf3wY
@@ -65,6 +66,7 @@ public class Main01 {
         // 05. Data Structures  ================================
         // CountWordsUsingHashMap();
         // IterateHashMap();
+        // findMissingNumFromArray();
 
         // 06. Series & Patterns  ==============================
         // FibonacciSeries();
@@ -887,6 +889,32 @@ public class Main01 {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
     }
+
+    // 3. Find the Missing Number from an Array =================================
+    public static void findMissingNumFromArray() {
+        int[] arr = {9,1,3,5,7,1};
+        Set<Integer> temp = new HashSet<>();
+
+        int max = arr[0];
+        int min = arr[0];
+        //
+
+        // Store elements and find min & max
+        for(int num : arr) {
+            temp.add(num);
+            if(num > max) max = num;
+            if(num < min) min = num;
+        }
+
+        System.out.println("Missing numbers are:");
+
+        for(int i = min; i <= max; i++) {
+            if(!temp.contains(i)) {
+                System.out.println(i);
+            }
+        }
+    }
+    // Output: Missing numbers are: 2 4 6 8
 
     // 06. Series & Patterns ========================================================
     // 1. Fibonacci Series
