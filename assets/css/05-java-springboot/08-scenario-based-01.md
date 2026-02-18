@@ -202,11 +202,8 @@ If a table has many fields but you only need a few, fetching all columns can **s
 
 3. **Avoid `findAll()`** and fetch only what you need using `select` or DTO mapping.
 
-## 19.  Interview Question
-
-We have a table **`bollywood_movies`** with 10,00,000 records.
-
-### Columns:
+## 19.  Interview Question We have a table **`bollywood_movies`** with 10,00,000 records.
+**Columns:**
 
 * id (NOT NULL)
 * movie_name
@@ -215,14 +212,14 @@ We have a table **`bollywood_movies`** with 10,00,000 records.
 * movie_collections
 * imdb_rating
 
-### Constraints:
+**Constraints:**
 
 * imdb_rating should be ≥ 8
 * Movie should be profitable (collections > budget)
 * Only id is NOT NULL
 * Data comes from vendor API
 
-### Requirement:
+**Requirement:**
 
 Find **Top 10 most profitable lead actors** (based on total profit)
 and fetch the **details of the movies they have done**
@@ -232,15 +229,13 @@ Use **cursor and temporary table** approach.
 
 Since data is large (10,00,000+ records), we must:
 
-### ✔ Add Indexes
+### - Add Indexes
 
 ```sql
 CREATE INDEX idx_imdb_rating ON bollywood_movies(imdb_rating);
 CREATE INDEX idx_lead_actor ON bollywood_movies(lead_actor_name);
 CREATE INDEX idx_profit ON bollywood_movies(movie_collections, budget);
 ```
-
----
 
 **Profit Calculation Logic**
 
@@ -256,8 +251,6 @@ Only consider:
 WHERE imdb_rating >= 8
 AND movie_collections > budget
 ```
-
----
 
 **Optimized SQL Query (Best Practice – DB Level Aggregation)**
 
@@ -277,8 +270,6 @@ ORDER BY total_profit DESC
 LIMIT 10;
 ```
 
----
-
 **Step 2: Fetch Movie Details of These Actors**
 
 ```sql
@@ -288,8 +279,6 @@ WHERE lead_actor_name IN (top 10 actors)
 AND imdb_rating >= 8
 AND movie_collections > budget;
 ```
-
----
 
 **Java Implementation (Spring Boot Style – Interview Level)**
 
@@ -310,8 +299,6 @@ public class Movie {
     private Double imdbRating;
 }
 ```
-
----
 
 ### Repository (Using Native Query for Performance)
 
@@ -334,8 +321,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             List<String> actors, Double rating, Double collections);
 }
 ```
-
----
 
 ### Service Layer
 
@@ -360,8 +345,6 @@ public class MovieService {
 }
 ```
 
----
-
 **If Data Comes From Vendor API**
 
 ### Approach:
@@ -383,19 +366,15 @@ Use:
 spring.jpa.properties.hibernate.jdbc.batch_size=1000
 ```
 
----
-
 **Performance & Scalability Points (Important for Interview)**
 
-✔ Filtering & aggregation in DB (not Java memory)
-✔ Use Indexes
-✔ Use Pagination for Vendor API
-✔ Use Batch Insert
-✔ Use Native Query for heavy aggregation
-✔ Use Projection DTO instead of full entity
-✔ Use Read-only transaction
-
----
+- Filtering & aggregation in DB (not Java memory)
+- Use Indexes
+- Use Pagination for Vendor API
+- Use Batch Insert
+- Use Native Query for heavy aggregation
+- Use Projection DTO instead of full entity
+- Use Read-only transaction
 
 **Optional Advanced Optimization (Senior Level Answer)**
 
@@ -404,8 +383,6 @@ If query runs frequently:
 * Create **Materialized View**
 * Or maintain **precomputed profit table**
 * Use Redis Cache for Top 10 actors
-
----
 
 **Final Interview Summary Answer (Short Version)**
 
