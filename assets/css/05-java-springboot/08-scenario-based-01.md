@@ -766,7 +766,7 @@ spring:
 
 “We never stored secrets in code or Git. In AWS/GCP, we used **managed secret services** and injected them securely at runtime.”
 
-### **Tools Used**
+**Tools Used**
 
 * AWS Secrets Manager / Parameter Store
 * GCP Secret Manager
@@ -802,7 +802,7 @@ kubectl create secret generic db-secret \
 
 “When the application went down, the first priority was restoration, not root cause. I checked health checks, pod status, and logs. Once the service was restored, we did a post-mortem.”
 
-### **Troubleshooting Steps**
+**Troubleshooting Steps**
 
 1. Check Load Balancer health
 2. Check pod status (`CrashLoopBackOff`)
@@ -826,7 +826,7 @@ kubectl rollout undo deployment order-service
 
 “In microservices, observability is critical. We implemented centralized logging, real-time monitoring, and proactive alerting.”
 
-### **What We Used**
+**What We Used**
 
 * Logs → ELK / CloudWatch / GCP Logging
 * Metrics → Prometheus + Grafana
@@ -856,7 +856,7 @@ management.endpoints.web.exposure.include=health,metrics
 
 “We designed the system assuming traffic spikes and failures. The application was **stateless**, horizontally scalable, and deployed across multiple zones.”
 
-### **Key Design Decisions**
+**Key Design Decisions**
 
 * Stateless microservices
 * Auto-scaling
