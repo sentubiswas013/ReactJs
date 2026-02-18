@@ -386,12 +386,12 @@ If query runs frequently:
 
 **Final Interview Summary Answer (Short Version)**
 
-> Since we have 10 lakh records, I will push filtering and aggregation logic to the database using indexed columns.
-> I will calculate profit as collections - budget and filter imdb >= 8 and profitable movies.
-> Then group by lead actor and get top 10 by total profit.
-> After that, fetch movie details for those actors.
-> Data from vendor API will be inserted using batch processing and pagination.
-> I will avoid loading large data into memory and ensure performance using indexing and native queries.
+- Since we have 10 lakh records, I will push filtering and aggregation logic to the database using indexed columns.
+- I will calculate profit as collections - budget and filter imdb -= 8 and profitable movies.
+- Then group by lead actor and get top 10 by total profit.
+- After that, fetch movie details for those actors.
+- Data from vendor API will be inserted using batch processing and pagination.
+- I will avoid loading large data into memory and ensure performance using indexing and native queries.
 
 ---
 
