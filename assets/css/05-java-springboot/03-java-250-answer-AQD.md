@@ -5574,42 +5574,8 @@ User → Frontend → API Gateway → Backend Services → Database
                                 └── Payment Service
 ```
 
-## 4. What are the components and tools used in the backend of an eCommerce application?
 
-Backend components include Spring Boot for REST APIs, PostgreSQL or MySQL for transactional data, Redis for caching, message queues like RabbitMQ for async processing, and Elasticsearch for product search.
-
-Infrastructure tools:
-- Docker for containerization
-- Kubernetes for orchestration
-- AWS S3 for file storage
-- Monitoring tools like Prometheus
-
-```java
-@RestController
-public class ProductController {
-    @GetMapping("/api/products")
-    public Page<Product> getProducts(@RequestParam String category) {
-        return productService.getProducts(category);
-    }
-}
-```
-
-## 5. Explain the Git workflow used in an eCommerce application.
-
-We use GitFlow with main branch for production, develop branch for integration, and feature branches for new functionality. Developers create feature branches from develop, work on features, then create pull requests for code review before merging back to develop.
-
-```bash
-git checkout develop
-git checkout -b feature/shopping-cart
-# Make changes
-git commit -m "Add shopping cart"
-git push origin feature/shopping-cart
-# Create pull request
-```
-
-Release branches prepare for deployment, and hotfix branches handle urgent production fixes.
-
-## 7. Can you write the business logic for a CRUD service in Java?
+## 4. Can you write the business logic for a CRUD service in Java?
 
 A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
 
@@ -5768,17 +5734,37 @@ public class UserController {
 }
 ```
 
+## 5. How do you migrate a Java application from a lower version to a higher version?
 
-## 8. How do you migrate a Java application from a lower version to a higher version?
+My migration strategy is incremental and risk-controlled. I first analyze compatibility, upgrade the JDK and build tools, update dependencies, replace deprecated APIs, resolve compilation issues, and perform thorough regression testing. I also monitor performance after deployment to ensure stability in production.
 
-Migration involves analyzing current code for compatibility issues, updating build configuration like Maven or Gradle, replacing deprecated APIs with newer alternatives, updating third-party dependencies, and thorough testing before production deployment.
+1️⃣ **Analyze Current Application**
 
-Key steps:
-- Update Java runtime and build tools
-- Replace deprecated APIs
-- Update dependency versions
-- Fix compilation errors
-- Test thoroughly in staging environment
+* Check current Java version.
+* Review deprecated or removed APIs.
+* Identify third-party libraries compatibility.
+* Use `jdeps` tool for dependency analysis.
+
+2️⃣ **Update JDK & Build Configuration**
+
+* Install target JDK (e.g., 17 or 21).
+* Update `JAVA_HOME`.
+* Update Maven/Gradle configuration:
+
+```xml
+<properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+</properties>
+```
+
+3️⃣ **Replace Deprecated / Removed APIs**
+
+* Remove internal APIs (like `sun.*`)
+* Replace outdated APIs with modern alternatives
+* Use new language features where beneficial
+
+Example:
 
 ```java
 // Before (Java 8)
@@ -5793,3 +5779,40 @@ var result = names.stream()
     .map(String::toUpperCase)
     .toList();
 ```
+
+4️⃣ **Update Third-Party Dependencies**
+
+* Upgrade libraries to versions compatible with new Java.
+* Especially check:
+
+  * Spring Boot version
+  * Hibernate version
+  * Logging frameworks
+  * Database drivers
+
+5️⃣ **Handle Module System (If Migrating 8 → 9+)**
+
+* Understand **JPMS (Java Platform Module System)** introduced in **Java 9**
+* Add `module-info.java` if required.
+
+
+6️⃣ **Fix Compilation & Runtime Issues**
+
+* Resolve reflection warnings
+* Add JVM flags if required:
+--add-opens
+
+
+7️⃣ **Performance & GC Tuning**
+
+* Review garbage collector (G1 is default from **Java 9** onward)
+* Monitor memory and GC behavior
+
+8️⃣ **Thorough Testing**
+
+✔ Unit testing
+✔ Integration testing
+✔ Regression testing
+✔ Load testing
+✔ Deploy to staging before production
+
