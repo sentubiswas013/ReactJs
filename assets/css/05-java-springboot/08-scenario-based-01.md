@@ -704,7 +704,7 @@ spring:
 
 “I’ll explain it end to end. First, we built the Spring Boot application and containerized it using Docker. Then we pushed the image to a container registry. After that, we deployed it to Kubernetes (EKS on AWS / GKE on GCP). Traffic came through a load balancer, and pods were auto-scaled based on load.”
 
-### **Step-by-Step Flow**
+**Step-by-Step Flow**
 
 1. Build Spring Boot JAR
 2. Create Docker image
