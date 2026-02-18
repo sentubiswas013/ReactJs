@@ -1802,14 +1802,15 @@ JVM divides memory into several distinct areas, each serving specific purposes f
     Memory in the heap is managed by the **Garbage Collector** in Java.
     It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
 
-2. **Method Area (Metaspace)**
-   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
-
-3. **Stack**
+2. **Stack**
    **Stack memory** is used for temporary memory allocation.
     It stores **local variables, method calls, and function execution data**.
     Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
     Method variables like `int x = 10` are stored in Stack.
+
+3. **Method Area (Metaspace)**
+   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
+
 
 4. **Program Counter (PC) Register**
    Stores the address of the currently executing instruction for each thread.
@@ -1821,15 +1822,15 @@ Each area has different characteristics for garbage collection and memory alloca
 
 ## 2. What is the difference between heap and stack?
 
-**Stack memory** is used for temporary memory allocation.
-It stores **local variables, method calls, and function execution data**.
-Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
-It is **faster**, but size is limited.
-
 **Heap memory** is used for dynamic memory allocation.
 It stores **objects and instance variables** created using `new`.
 Memory in the heap is managed by the **Garbage Collector** in Java.
-It is **larger in size**, but slightly slower than stack.
+It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
+
+**Stack memory** is used for temporary memory allocation.
+It stores **local variables, method calls, and function execution data**.
+Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
+Method variables like `int x = 10` are stored in Stack.
 
 **Heap:**
 - Stores objects and instance variables
@@ -1863,6 +1864,7 @@ public void method() {
 * Can cause `OutOfMemoryError: PermGen space` if full
 
 **Metaspace** (Java 8 onwards) replaces PermGen, storing class metadata in native memory with dynamic sizing, improving memory management.
+* Fixed size (`-XX:PermSize`, `-XX:MaxMetaspaceSize`)
 
 **Characteristics:**
 
