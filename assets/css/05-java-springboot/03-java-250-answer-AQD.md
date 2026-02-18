@@ -1967,7 +1967,7 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
 
 ## 6. What is generational garbage collection?
 
-Generational garbage collection is based on the observation that most objects die young. It divides heap into generations and applies different collection strategies.
+**Generational Garbage Collection** is a memory management strategy in JVM where the heap is divided into multiple generations based on the assumption that **most objects die young**.
 
 **Young Generation:**
 - Eden space (new objects)
