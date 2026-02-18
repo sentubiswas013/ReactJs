@@ -178,7 +178,7 @@ try (BufferedReader br = Files.newBufferedReader(path)) {
 ```
 
 
-## 18. If a table has 100+ fields and performance is slow, how do you fetch only required 3–4 fields?
+## 8. If a table has 100+ fields and performance is slow, how do you fetch only required 3–4 fields?
 
 If a table has many fields but you only need a few, fetching all columns can **slow down performance**. To optimize, you can:
 
@@ -202,7 +202,7 @@ If a table has many fields but you only need a few, fetching all columns can **s
 
 3. **Avoid `findAll()`** and fetch only what you need using `select` or DTO mapping.
 
-## 19.  Interview Question We have a table **`bollywood_movies`** with 10,00,000 records.
+## 9.  Interview Question We have a table **`bollywood_movies`** with 10,00,000 records.
 **Columns:**
 
 * id (NOT NULL)

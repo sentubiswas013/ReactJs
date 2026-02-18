@@ -3445,42 +3445,68 @@ CompletableFuture.runAsync(() ->
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
 
-## 8. What is the difference between Direct Servlet and JSP?
+## 8. What is Spring WebFlux?
 
-**Spoken Answer (30 seconds):**
-* Servlets are Java classes that handle HTTP requests programmatically
-* JSP (JavaServer Pages) mixes HTML with Java code for dynamic web pages
-* Servlets are better for business logic, JSP for presentation layer
-* JSP gets compiled to servlets behind the scenes
-* Modern apps use REST APIs instead of JSP for frontend separation
+**Spring WebFlux** is a reactive web framework in Spring that supports non-blocking, asynchronous programming using Project Reactor (Mono and Flux) to handle large numbers of concurrent requests efficiently.
 
-**Example:**
+**When to Use WebFlux?**
+
+- High traffic systems
+- Microservices
+- Streaming APIs
+- Real-time applications
+- When using reactive databases (MongoDB reactive, R2DBC)
+
+| Spring MVC                | Spring WebFlux                 |
+| ------------------------- | ------------------------------ |
+| Blocking                  | Non-blocking                   |
+| Thread per request        | Event-loop model               |
+| Uses Servlet API          | Does NOT depend on Servlet API |
+| Good for traditional apps | Good for high-concurrency apps |
+
+
+## 9. What is Cursor?
+
+A **cursor** fetches records **one by one (or in small chunks)** instead of loading the entire result into memory.
+
+**Why use it?**
+
+* Prevents **OutOfMemoryError**
+* Good for very large datasets
+* Reduces heap usage
+
+
 ```java
-// Direct Servlet
-@WebServlet("/hello")
-public class HelloServlet extends HttpServlet {
-    
-    @Override
-    protected void doGet(HttpServletRequest request, 
-                        HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<h1>Hello from Servlet!</h1>");
-        out.println("<p>User: " + request.getParameter("name") + "</p>");
+@Query("SELECT p FROM Product p")
+Stream<Product> findAllByStream();
+```
+
+```java
+@Transactional
+public void processProducts() {
+    try (Stream<Product> stream = repo.findAllByStream()) {
+        stream.forEach(product -> {
+            // process record
+        });
     }
 }
-
-// JSP (hello.jsp)
-<%@ page contentType="text/html;charset=UTF-8" %>
-<html>
-<head><title>Hello JSP</title></head>
-<body>
-    <h1>Hello from JSP!</h1>
-    <p>User: <%= request.getParameter("name") %></p>
-    <p>Current time: <%= new java.util.Date() %></p>
-</body>
-</html>
 ```
+
+## 10. What is Batch Processing?
+
+Processing records in **small fixed-size chunks** (like 1000 records per batch)
+
+**Why use it?**
+
+* Handles large data safely
+* Supports retry & restart
+* Good for ETL jobs
+* Production-ready
+
+```java
+.chunk(1000)
+```
+
 
 # ✅ 16. Java Design Patterns 
 
