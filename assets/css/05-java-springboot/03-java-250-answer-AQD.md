@@ -5578,7 +5578,6 @@ User → Frontend → API Gateway → Backend Services → Database
 ## 4. Can you write the business logic for a CRUD service in Java?
 
 A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
-
 ✅ Main Application
 
 ```java
@@ -5686,18 +5685,41 @@ public interface UserRepository extends JpaRepository<User, Long> {
 ✅ Service
 
 ```java
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // Create user
     public User createUser(String username, String email) {
         User user = new User(username, email);
         return userRepository.save(user);
+    }
+
+    // Fetch all users
+    public List<User> getUsers() {
+        try {
+            callExternalAPI();
+            return userRepository.findAll();
+        } catch (IOException e) {
+            throw new RuntimeException("External API failed", e);
+        } finally {
+            System.out.println("Completed");
+        }
+    }
+
+    // Simulated external API call
+    private void callExternalAPI() throws IOException {
+        // External API logic here
+        System.out.println("Calling external API...");
     }
 }
 ```
@@ -5706,30 +5728,47 @@ public class UserService {
 
 ```java
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // Create User
     @PostMapping
-    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackCreateUser")
     @Retry(name = "user-service")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user.getUsername(), user.getEmail());
     }
 
-    // ✅ Fallback Method
-    public User fallbackUser(User user, Exception ex) {
+    // Get All Users
+    @GetMapping
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackGetUsers")
+    @Retry(name = "user-service")
+    public List<User> getAllUsers() {
+        return userService.getUsers();
+    }
+
+    // Fallback for createUser
+    public User fallbackCreateUser(User user, Exception ex) {
         User fallback = new User();
         fallback.setUsername("fallback-user");
         fallback.setEmail("fallback@email.com");
         return fallback;
+    }
+
+    // Fallback for getAllUsers
+    public List<User> fallbackGetUsers(Exception ex) {
+        return List.of(new User("fallback-user", "fallback@email.com"));
     }
 }
 ```
