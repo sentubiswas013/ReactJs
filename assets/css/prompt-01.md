@@ -12,8 +12,7 @@ Keep all answers simple, confident, and practical.
 Then compile all answers together into a single .md (Markdown) file.
 ----***
 Review every Java question(Don't change question text) carefully and understand the context. 
-For Questions 1 to 15 provide real-time spoken defination answer 
-Keep all answers simple and so easy to keep remember for interview 
+For Questions 1 to 15 provide real-time spoken defination answer with minimum example code
 Then compile all answers together into a single .md (Markdown) file.
 ---
 
