@@ -2123,7 +2123,55 @@ List<Integer> result = stream.collect(Collectors.toList()); // Terminal
 System.out.println(result); // [6, 8, 10]
 ```
 
----
+## 63. What is the difference between lambda and anonymous class?
+
+**Lambda Expression** is a concise way to represent an **implementation of a functional interface** using an expression, allowing cleaner and shorter code.
+
+**Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
+
+```java
+// Anonymous class - verbose
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println(this.getClass()); // Anonymous class
+    }
+};
+
+// Lambda - concise
+Runnable r2 = () -> {
+    System.out.println(this.getClass()); // Enclosing class
+};
+```
+
+## 63. What is Stream API?
+
+The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like filtering, mapping, and sorting without modifying the original data source.
+
+```java
+List<String> names = Arrays.asList("John", "Jane", "Bob", "Alice");
+
+// Stream pipeline
+List<String> result = names.stream()
+    .filter(name -> name.length() > 3)  // Intermediate
+    .map(String::toUpperCase)           // Intermediate
+    .sorted()                           // Intermediate
+    .collect(Collectors.toList());      // Terminal
+```
+
+## 6. What is the difference between Collection and Stream?
+
+A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
+
+A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
+
+```java
+List<String> collection = Arrays.asList("a", "b", "c");
+collection.add("d"); // Modifies collection
+
+Stream<String> stream = collection.stream();
+stream.filter(s -> s.length() > 1); // Doesn't modify collection
+// stream.filter(...); // Error - stream already used
+```
 
 ## 64. Explain `map()`, `flatMap()`, `filter()`, `reduce()`.
 
