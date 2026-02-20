@@ -242,7 +242,7 @@ Person p3 = p1.deepCopy(); // Deep
 p3.address.city = "Boston"; // p1 unaffected
 ```
 
-## 2) Collections Framework & Performance Tuning
+# ✅ 2) Collections Framework & Performance Tuning
 
 ### 13. Explain the Collections hierarchy.
 
@@ -528,7 +528,7 @@ Map<String, Integer> concurrentMap = new ConcurrentHashMap<>();
 Queue<Integer> priorityQueue = new PriorityQueue<>();
 ```
 
-## 3) Java Memory Model & Garbage Collection
+# ✅ 3) Java Memory Model & Garbage Collection
 
 ### 25. Explain JVM memory structure (Heap, Stack, Metaspace).
 
@@ -906,7 +906,7 @@ public class G1Example {
 // -Xlog:gc*,gc+heap=debug:file=gc.log
 ```
 
-## 4) Multithreading & Concurrency
+# ✅ 4) Multithreading & Concurrency
 
 ### 35. Explain thread lifecycle states.
 
@@ -1673,7 +1673,7 @@ public class ThreadSafetyBestPractices {
 }
 ```
 
-## 5) Exception Handling & JVM Internals
+# ✅ 5) Exception Handling & JVM Internals
 
 ## 51. Checked vs unchecked exceptions - when to use which?
 
@@ -1923,7 +1923,7 @@ java -XX:+PrintFlagsFinal -version
 java -ea MyApp
 ```
 
-## 6) Java 8+ Features (Streams, Lambda, Optional)
+# ✅ 6) Java 8+ Features (Streams, Lambda, Optional)
 
 ## 60. What are lambda expressions and functional interfaces?
 
@@ -2334,7 +2334,7 @@ Map<Boolean, List<Person>> partitioned = people.stream()
 // {false=[John, Bob], true=[Jane, Alice]}
 ```
 
-## 7) Spring Framework (Core + MVC)
+# ✅ 7) Spring Framework (Core + MVC)
 
 ## 72. What is IoC and Dependency Injection?
 
@@ -2710,7 +2710,7 @@ public class UserController {
 }
 ```
 
-## 8) Spring Boot and Spring Security
+# ✅ 8) Spring Boot and Spring Security
 
 ## 85. What is Spring Boot auto-configuration?
 
@@ -7606,11 +7606,7 @@ git merge feature/login
 # Conflict occurs
 
 # Edit conflicted file
-<<<<<<< HEAD
 String name = "John";
-=======
-String name = "Jane";
->>>>>>> feature/login
 
 # Choose one or combine
 String name = "John";
