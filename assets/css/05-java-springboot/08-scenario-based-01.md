@@ -990,6 +990,36 @@ public interface PaymentClient {
 }
 ```
 
+> Use synchronous (REST, gRPC) for immediate responses or asynchronous (messaging) for decoupling. Choose based on latency, coupling, and reliability needs.
+
+**Example:**
+```java
+// Synchronous - REST
+@Service
+public class OrderService {
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    public Order create(Order order) {
+        Payment payment = restTemplate.postForObject(
+            "http://payment-service/pay", order, Payment.class);
+        return orderRepo.save(order);
+    }
+}
+
+// Asynchronous - Kafka
+@Service
+public class OrderService {
+    @Autowired
+    private KafkaTemplate<String, Order> kafka;
+    
+    public void create(Order order) {
+        orderRepo.save(order);
+        kafka.send("order-created", order);
+    }
+}
+```
+
 ---
 
 ## **Q18. How did you handle distributed transactions?**
