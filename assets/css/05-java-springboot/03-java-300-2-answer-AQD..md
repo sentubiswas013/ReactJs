@@ -76,7 +76,9 @@ long population = 1000000L;
 ## 1. Explain `==` vs `equals()` vs `hashCode()` contract.
 
 **Answer:**
-`==` compares memory references for objects and values for primitives. `equals()` compares the actual content or logical equality of objects. The `hashCode()` contract states that if two objects are equal according to `equals()`, they must have the same hash code, but objects with the same hash code aren't necessarily equal.
+* `==` compares **memory references** for objects and **actual values** for primitive types.
+* `equals()` compares the **logical or content equality** of objects.
+* The `hashCode()` contract states that if two objects are equal according to `equals()`, they **must have the same hash code**. However, two objects having the same hash code **are not necessarily equal**.
 
 ```java
 String s1 = new String("hello");
@@ -92,7 +94,14 @@ System.out.println(s1.hashCode() == s2.hashCode()); // true
 ## 2. Why is String immutable? What are the benefits?
 
 **Answer:**
-Strings are immutable because their internal char array is final and private with no setters. Benefits include thread safety without synchronization, string pool optimization for memory efficiency, security for sensitive data like passwords and connection URLs, and safe use as HashMap keys since hash code won't change.
+* Because its internal character array is **private and final**, and it has **no setters** to modify the value.
+
+### Benefits:
+* **Thread-safe** (no synchronization needed).
+* Uses **String Pool** → saves memory.
+* More **secure** (safe for passwords, URLs, etc.).
+* Safe to use as **HashMap key** (hash code does not change).
+
 
 ```java
 String str = "Java";
@@ -106,6 +115,7 @@ System.out.println(modified); // Prints "Java Programming"
 ## 3. How does HashMap work internally in Java 8+?
 
 **Answer:**
+
 HashMap uses an array of buckets where each bucket can hold a linked list or tree structure. It calculates the hash code of the key, applies a hash function to determine the bucket index, and stores the key-value pair. In Java 8+, when a bucket has more than 8 entries, it converts from linked list to a balanced tree (red-black tree) for better performance, reducing lookup time from O(n) to O(log n).
 
 ```java
@@ -121,7 +131,8 @@ map.put("John", 25);  // hash("John") -> bucket index -> store entry
 ## 4. What happens if two objects have the same hashCode?
 
 **Answer:**
-This is called a hash collision. HashMap handles it by storing multiple entries in the same bucket using a linked list or tree structure. When retrieving, it uses `equals()` to find the exact match among entries with the same hash code.
+
+This is called a hash collision. **HashMap handles it by storing multiple entries in the same bucket using a linked list or tree structure. When retrieving, it uses `equals()` to find the exact match among entries with the same hash code.
 
 ```java
 class Person {
@@ -140,6 +151,7 @@ map.put(new Person("Bob"), "Doctor"); // Same bucket, different entry
 ## 5. Difference between abstract class and interface (Java 8+).
 
 **Answer:**
+
 Abstract classes can have constructors, instance variables, and concrete methods with implementation. Interfaces (Java 8+) can have default and static methods but no constructors or instance variables. A class can implement multiple interfaces but extend only one abstract class. Use abstract classes for "is-a" relationships with shared state, interfaces for "can-do" capabilities.
 
 ```java
@@ -2487,7 +2499,16 @@ public class RequestBean { }
 ## 75. Difference between `@Component`, `@Service`, `@Repository`, `@Controller`.
 
 **Answer:**
-All are stereotypes for component scanning. `@Component` is generic, `@Service` for business logic, `@Repository` for data access (adds exception translation), `@Controller` for web layer.
+All four are Spring stereotype annotations used to mark classes as Spring-managed beans, but they represent different layers of the application.
+
+`@Component` is a generic annotation used to register any class as a Spring bean. It is the base annotation for other stereotypes.
+
+`@Service` is a specialization of `@Component` and is used for the service layer. It contains business logic.
+
+`@Repository` is also a specialization of `@Component` and is used for the data access layer (DAO). It provides automatic exception translation for database operations.
+
+`@Controller` is another specialization of `@Component` and is used in the presentation layer. It handles incoming HTTP requests and returns responses, typically used in Spring MVC applications.
+
 
 **Example:**
 ```java
@@ -2547,6 +2568,11 @@ public class ProductService {
 ## 77. How do you resolve bean ambiguity (`@Primary`, `@Qualifier`)?
 
 **Answer:**
+
+`@Primary` is used to mark one bean as the default choice. When multiple beans exist, Spring will inject the bean marked with `@Primary` unless specified otherwise.
+
+`@Qualifier` is used to specify exactly which bean should be injected by providing the bean name. It is more specific and overrides `@Primary` when both are used.
+
 Use `@Primary` to mark a default bean or `@Qualifier` to specify which bean to inject when multiple candidates exist.
 
 **Example:**
@@ -2568,12 +2594,16 @@ public class DataService {
 }
 ```
 
----
-
 ## 78. What is `@Configuration` and `@Bean`?
 
 **Answer:**
+
 `@Configuration` marks a class as a source of bean definitions. `@Bean` defines a method that returns a bean to be managed by Spring container.
+
+`@Configuration` is used to mark a class as a Spring configuration class. It tells Spring that this class contains bean definitions.
+
+`@Bean` is used inside a `@Configuration` class to define and register a method’s return object as a Spring bean in the application context.
+
 
 **Example:**
 ```java
@@ -2599,10 +2629,12 @@ public class AppConfig {
 ## 79. Explain Spring AOP concepts (Aspect, Advice, Pointcut, JoinPoint).
 
 **Answer:**
-- **Aspect**: Module containing cross-cutting concerns
-- **Advice**: Action taken at a joinpoint
-- **Pointcut**: Expression matching joinpoints
-- **JoinPoint**: Point in program execution (method call)
+
+**Aspect** is a class that contains cross-cutting logic like logging, security, or transact
+**Advice** is the actual action that is executed at a specific point, such as before, after, or around a method execution.
+**Pointcut** is an expression that defines where the advice should be applied, meaning which methods will be intercepted.
+**JoinPoint** represents the specific point during execution, usually a method call, where the advice is applied.
+
 
 **Example:**
 ```java
@@ -8929,4 +8961,3 @@ Result:
 - Create safe environment for questions
 
 ---
-
