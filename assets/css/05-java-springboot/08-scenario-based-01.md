@@ -988,6 +988,14 @@ public interface PaymentClient {
     @GetMapping("/payments/{orderId}")
     PaymentResponse getPayment(@PathVariable Long orderId);
 }
+
+// Service Layer
+@Autowired
+private PaymentClient paymentClient;
+
+public PaymentResponse getPaymentDetails(Long orderId) {
+    return paymentClient.getPayment(orderId);
+}
 ```
 
 > Use synchronous (REST, gRPC) for immediate responses or asynchronous (messaging) for decoupling. Choose based on latency, coupling, and reliability needs.
