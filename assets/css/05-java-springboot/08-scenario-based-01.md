@@ -395,9 +395,93 @@ If query runs frequently:
 
 ---
 
+## 18. How to implement many to many, many to one and one to many in java interiew questions, give answer
+✅ 1️⃣ One-To-Many
+One **Order** → Many **Items**
+
+
+```java
+@Entity
+public class Order {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<Item> items;
+}
+```
+
+```java
+@Entity
+public class Item {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+}
+```
+
+✅ 2️⃣ Many-To-One
+Many **Employees** → One **Department**
+
+```java
+@Entity
+public class Employee {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+}
+```
+
+
+✅ 3️⃣ Many-To-Many
+Many **Students** ↔ Many **Courses**
+
+```java
+@Entity
+public class Student {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_course",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses;
+}
+```
+
+```java
+@Entity
+public class Course {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students;
+}
+```
+
 ---
 
-## **Q8. How to implement crud aaplication give example code.**
+## **Q8. How to implement crud aplication give example code.**
 
 A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
 ✅ Main Application
