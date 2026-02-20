@@ -395,7 +395,209 @@ If query runs frequently:
 
 ---
 
-## **Q8. Tell me about a time when you refactored legacy Java code. What problems did it have and what improvements did you make?**
+---
+
+## **Q8. How to implement crud aaplication give example code.**
+
+A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
+✅ Main Application
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+
+@EnableCaching
+@SpringBootApplication(
+        exclude = DataSourceAutoConfiguration.class
+)
+public class Main {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args); // fixed args
+        System.out.println("Hello World");
+    }
+}
+```
+
+✅ User Entity
+
+```java
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "username", length = 12, nullable = false)
+    private String username;
+
+    @Column(name = "email", length = 300)
+    private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Roles role;
+
+    public User() {}
+
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public Roles getRole() { return role; }
+    public void setRole(Roles role) { this.role = role; }
+}
+```
+
+✅ Roles Entity
+
+```java
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "roles")
+public class Roles {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "role", nullable = false)
+    private String role;
+
+    public Roles() {}
+    public Roles(String role) {
+        this.role = role;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+}
+```
+
+✅ Repository
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+}
+```
+
+✅ Service
+
+```java
+import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.util.List;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // Create user
+    public User createUser(String username, String email) {
+        User user = new User(username, email);
+        return userRepository.save(user);
+    }
+
+    // Fetch all users
+    public List<User> getUsers() {
+        try {
+            callExternalAPI();
+            return userRepository.findAll();
+        } catch (IOException e) {
+            throw new RuntimeException("External API failed", e);
+        } finally {
+            System.out.println("Completed");
+        }
+    }
+
+    // Simulated external API call
+    private void callExternalAPI() throws IOException {
+        // External API logic here
+        System.out.println("Calling external API...");
+    }
+}
+```
+
+✅ Controller
+
+```java
+import org.springframework.web.bind.annotation.*;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+import java.util.List;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // Create User
+    @PostMapping
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackCreateUser")
+    @Retry(name = "user-service")
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user.getUsername(), user.getEmail());
+    }
+
+    // Get All Users
+    @GetMapping
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackGetUsers")
+    @Retry(name = "user-service")
+    public List<User> getAllUsers() {
+        return userService.getUsers();
+    }
+
+    // Fallback for createUser
+    public User fallbackCreateUser(User user, Exception ex) {
+        User fallback = new User();
+        fallback.setUsername("fallback-user");
+        fallback.setEmail("fallback@email.com");
+        return fallback;
+    }
+
+    // Fallback for getAllUsers
+    public List<User> fallbackGetUsers(Exception ex) {
+        return List.of(new User("fallback-user", "fallback@email.com"));
+    }
+}
+```
+
+---
+
+## **Q9. Tell me about a time when you refactored legacy Java code. What problems did it have and what improvements did you make?**
 
 **Spoken Answer:**
 
@@ -413,38 +615,6 @@ public interface PaymentStrategy {
 }
 ```
 
----
-
-## **Q9. Describe a scenario where improper object creation impacted performance.**
-
-**Spoken Answer:**
-
-“We noticed high GC activity and memory spikes. On investigation, we found that objects were being created repeatedly inside loops. This caused excessive garbage collection. We fixed it by reusing objects, using object pooling, and switching to immutable or cached objects where possible.”
-
-**Example Problem:**
-
-❌ **Bad Practice (Object creation inside loop):**
-
-```java
-for (int i = 0; i < 100000; i++) {
-    String s = new String("Java");
-}
-```
-
-✅ **Optimized Version:**
-
-```java
-String s = "Java";
-for (int i = 0; i < 100000; i++) {
-    // reuse same object
-}
-```
-
-**Additional Improvements:**
-* Used `StringBuilder` instead of `String`
-* Reused database connections via connection pooling
-
----
 
 ## **Q10. Parallel processing: Threads vs ExecutorService vs Parallel Streams**
 
