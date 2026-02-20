@@ -1,5 +1,78 @@
 # ✅ 1) Core Java (Basics and Advanced)
 
+## 0. What is Java and what are its key features?
+
+Java is a high-level, object-oriented programming language designed for platform independence and enterprise application development. It's known for its "write once, run anywhere" philosophy.
+
+**Key Features:**
+- **Platform Independent:** Runs on any system with JVM
+- **Object-Oriented:** Based on objects and classes
+- **Simple and Secure:** Easy syntax, built-in security features
+- **Robust:** Strong memory management and exception handling
+- **Multithreaded:** Supports concurrent programming
+- **Automatic Memory Management:** Garbage collection handles memory
+
+Java compiles to bytecode that runs on the Java Virtual Machine, making it portable across different operating systems.
+
+## 0. Explain the difference between JDK, JRE, and JVM.
+
+**JVM (Java Virtual Machine)** is the runtime environment that executes Java bytecode on any platform. It’s responsible for **memory management, garbage collection, and execution**.
+
+**JRE (Java Runtime Environment)** includes the **JVM plus core libraries and classes** needed to run Java applications. It doesn’t have tools for development.
+
+**JDK (Java Development Kit)** includes **JRE plus development tools** like `javac` and `jar` for compiling and building Java programs.
+
+
+```
+JDK = JRE + Development Tools (javac, javadoc, jar, etc.)
+JRE = JVM + Core Libraries (java.lang, java.util, etc.)
+JVM = Runtime execution environment
+```
+
+## 0. What are the main principles of Object-Oriented Programming?
+
+Object-Oriented Programming is based on four fundamental principles that promote code reusability, maintainability, and modularity.
+
+**Four OOP Principles:**
+
+- **Encapsulation**: is the process of **wrapping data (variables) and methods (functions) together into a single unit called a class**, and **restricting direct access to the data** using access modifiers (`private`, `protected`, `public`).
+
+- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class. And  class (child/subclass) access the properties and behaviors of another class (parent/superclass)** using the `extends` keyword.
+
+- **Polymorphism**: means **"many forms"**. It allows the same method or object to behave differently in different situations. (e.g., method overloading, method overriding).
+
+- **Abstraction**: is the concept of **hiding internal implementation details and showing only essential features to the user**.
+
+## 0. What are data types in Java?
+
+**Answer:**
+There is two type of data Primitive Data and Non-Primitive Data
+
+**8 Primitive Data :**
+- **byte** - 8-bit integer (-128 to 127)
+- **short** - 16-bit integer (-32,768 to 32,767)
+- **int** - 32-bit integer (most commonly used)
+- **long** - 64-bit integer (add 'L' suffix)
+- **float** - 32-bit decimal (add 'f' suffix)
+- **double** - 64-bit decimal (default for decimals)
+- **char** - 16-bit Unicode character
+- **boolean** - true or false
+
+**8 Non-Primitive Data :**
+- **String** - Used to store text
+- **Array** - Used to store multiple values
+- **Class** - Blueprint for objects
+- **Interface** - Defines method structure for classes
+
+**Example:**
+```java
+int age = 25;
+double salary = 50000.50;
+char grade = 'A';
+boolean isActive = true;
+long population = 1000000L;
+```
+
 ## 1. Explain `==` vs `equals()` vs `hashCode()` contract.
 
 **Answer:**
