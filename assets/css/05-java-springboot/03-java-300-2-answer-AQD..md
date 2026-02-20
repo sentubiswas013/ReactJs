@@ -2167,7 +2167,9 @@ List<Integer> flat = nested.stream()
 ## 65. What is the difference between `map()` and `flatMap()`?
 
 **Answer:**
-map() transforms each element to one element (1-to-1). flatMap() transforms each element to a stream and flattens all streams into one (1-to-many).
+
+- `map()` transforms each element to one element (1-to-1). 
+- `flatMap()` transforms each element to a stream and flattens all streams into one (1-to-many).
 
 **map:** Stream<T> → Stream<R>
 **flatMap:** Stream<T> → Stream<Stream<R>> → Stream<R>
