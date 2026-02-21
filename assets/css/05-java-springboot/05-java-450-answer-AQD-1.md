@@ -1205,6 +1205,10 @@ class Dog extends Animal {
 ```
 
 ### 62. Is it allowed to mark a method abstract without marking the class abstract?
+No, it is **not allowed** to declare a method as abstract without marking the class as abstract.
+
+If a class contains even one abstract method, the **class must be declared abstract**. Otherwise, the compiler will throw a **compilation error**, because abstract methods require an abstract class to exist.
+
 * **No, it's not allowed**
 * **Class must be abstract** if it contains abstract methods
 * **Compilation error** if class is not marked abstract
@@ -1223,6 +1227,10 @@ abstract class AbstractClass {
 ```
 
 ### 63. Is it allowed to mark a method abstract as well as final?
+No, it is **not allowed** to mark a method as both **abstract and final** because it is contradictory.
+
+An **abstract method must be overridden** in a subclass, while a **final method cannot be overridden**. Using both together will result in a **compilation error**.
+
 * **No, it's contradictory and not allowed**
 * **Abstract methods must be overridden** in subclasses
 * **Final methods cannot be overridden**
