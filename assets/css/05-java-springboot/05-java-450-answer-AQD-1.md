@@ -2892,6 +2892,10 @@ private void transfer(Account from, Account to, int amount) {
 ### 127. What is race condition?
 
 **Answer:**
+A **race condition** occurs when **multiple threads access shared data simultaneously without proper synchronization**, causing the result to depend on the **timing or order of execution**.
+
+It can lead to **unpredictable or incorrect results** and is solved by using **atomic operations or synchronization**.
+
 * When multiple threads access shared data simultaneously without proper synchronization
 * Final result depends on timing and order of thread execution
 * Leads to unpredictable and incorrect results
@@ -2914,6 +2918,10 @@ public void increment() {
 ### 128. What is volatile keyword?
 
 **Answer:**
+The **`volatile` keyword** in Java ensures that **changes to a variable are immediately visible to all threads** and prevents the compiler from caching its value.
+
+It guarantees **memory visibility** but does **not provide atomicity** for compound operations like incrementing.
+
 * Ensures variable changes are immediately visible to all threads
 * Prevents compiler optimizations that cache variable values
 * Guarantees happens-before relationship for memory visibility
@@ -2934,6 +2942,10 @@ public void run() {
 ### 129. What is atomic operations?
 
 **Answer:**
+**Atomic operations** are operations that **complete fully or not at all**, without any intermediate state, and **cannot be interrupted by other threads**.
+
+Java provides **atomic classes** like `AtomicInteger` and `AtomicBoolean` to perform **thread-safe operations** without using explicit synchronization.
+
 * Operations that complete entirely or not at all, no intermediate state
 * Cannot be interrupted by other threads
 * Java provides atomic classes like AtomicInteger, AtomicBoolean
@@ -2954,6 +2966,10 @@ public boolean compareAndSet(int expected, int update) {
 ### 130. What is java.util.concurrent package?
 
 **Answer:**
+The **`java.util.concurrent`** package provides **high-level concurrency utilities** introduced in Java 5.
+
+It includes **thread pools, concurrent collections, and synchronizers** like `ExecutorService`, `CountDownLatch`, `Semaphore`, and `BlockingQueue`, making **concurrent programming simpler and safer**.
+
 * High-level concurrency utilities introduced in Java 5
 * Provides thread pools, concurrent collections, synchronizers
 * Includes ExecutorService, CountDownLatch, Semaphore, BlockingQueue
@@ -2979,6 +2995,10 @@ latch.await(); // Waits until count reaches zero
 ### 131. What is ExecutorService?
 
 **Answer:**
+**ExecutorService** is a high-level interface in Java for **managing and controlling thread execution**.
+
+It provides **thread pool management**, **task scheduling**, and automatically handles **thread creation, reuse, and termination**. It supports both **Runnable** and **Callable** tasks, with `Future` for retrieving results.
+
 * High-level interface for managing and controlling thread execution
 * Provides thread pool management and task scheduling capabilities
 * Handles thread lifecycle automatically - creation, reuse, and termination
@@ -2994,6 +3014,10 @@ executor.shutdown();
 ### 132. What is ThreadPoolExecutor?
 
 **Answer:**
+**ThreadPoolExecutor** is a concrete implementation of **ExecutorService** that manages a **customizable thread pool**.
+
+It allows control over **core and maximum pool size**, **keep-alive time**, and uses a **BlockingQueue** to hold pending tasks, providing **fine-grained control** over thread pool behavior.
+
 * Concrete implementation of ExecutorService with customizable thread pool
 * Controls core pool size, maximum pool size, and keep-alive time
 * Uses BlockingQueue to hold pending tasks
@@ -3010,6 +3034,10 @@ executor.execute(() -> System.out.println("Task executed"));
 ### 133. What is Future and CompletableFuture?
 
 **Answer:**
+**Future** represents the result of an **asynchronous computation**, but its `get()` method **blocks** until the result is ready.
+
+**CompletableFuture** is an enhanced version that supports **non-blocking operations, chaining, callbacks, composition, and exception handling**, enabling **reactive programming patterns** in Java.
+
 * **Future** - Represents result of asynchronous computation, blocking get() method
 * **CompletableFuture** - Enhanced Future with non-blocking operations and chaining
 * CompletableFuture supports callbacks, composition, and exception handling
@@ -3029,6 +3057,10 @@ CompletableFuture<String> cf = CompletableFuture
 ### 134. What is CountDownLatch?
 
 **Answer:**
+**CountDownLatch** is a synchronization tool that lets threads **wait for a set of operations to complete**.
+
+It is initialized with a **count**, which is decremented using `countDown()`, and threads wait using `await()`. It is **one-time use** and ideal for coordinating **startup or shutdown sequences**.
+
 * Synchronization primitive that allows threads to wait for multiple operations to complete
 * Initialized with a count, decremented by countDown(), threads wait with await()
 * One-time use only - cannot be reset once count reaches zero
@@ -3048,6 +3080,10 @@ System.out.println("All tasks completed");
 ### 135. What is CyclicBarrier?
 
 **Answer:**
+**CyclicBarrier** is a synchronization tool where threads **wait for each other to reach a common barrier point**.
+
+It is **reusable** (resets automatically) and can run an optional **barrier action** once all threads arrive. It’s useful for **parallel algorithms requiring coordinated synchronization**.
+
 * Synchronization point where threads wait for each other to reach barrier
 * Reusable - automatically resets after all threads pass through
 * Supports optional barrier action executed when all threads arrive
@@ -3065,6 +3101,10 @@ barrier.await(); // Waits for other threads
 ### 136. What is Semaphore?
 
 **Answer:**
+**Semaphore** is a concurrency utility that **controls access to a shared resource** by limiting the number of threads that can access it simultaneously.
+
+It maintains a **count of permits**—`acquire()` decreases the count, `release()` increases it. Semaphores are useful for **rate limiting** or **resource pool management** and can be **fair or unfair** in how permits are distributed.
+
 * Controls access to shared resource by limiting number of concurrent threads
 * Maintains count of available permits - acquire() decreases, release() increases
 * Useful for rate limiting and resource pool management
@@ -3086,6 +3126,12 @@ public void accessResource() throws InterruptedException {
 ### 137. What is ReentrantLock?
 
 **Answer:**
+**ReentrantLock** is an advanced lock in Java that provides more flexibility than `synchronized`.
+
+It is **reentrant** (the same thread can acquire it multiple times) and supports **fairness, try-lock with timeout, and interruptible locking**.
+
+You must **manually release the lock** in a `finally` block to prevent deadlocks.
+
 * Advanced lock implementation providing more flexibility than synchronized
 * Supports fairness, try-lock with timeout, and interruptible locking
 * Same thread can acquire lock multiple times (reentrant)
@@ -3107,6 +3153,10 @@ public void method() {
 ### 138. What is ReadWriteLock?
 
 **Answer:**
+**ReadWriteLock** allows **multiple threads to read concurrently** while ensuring **exclusive access for writes**.
+
+It improves performance when **reads are more frequent than writes**. The standard implementation is **ReentrantReadWriteLock**, where the **read lock** can be shared, but the **write lock** is exclusive.
+
 * Allows multiple concurrent readers but exclusive writer access
 * Improves performance when reads are more frequent than writes
 * ReentrantReadWriteLock is the standard implementation
@@ -3129,6 +3179,10 @@ try { /* write data */ } finally { writeLock.unlock(); }
 ### 139. What is BlockingQueue?
 
 **Answer:**
+**BlockingQueue** is a **thread-safe queue** that **blocks** when trying to `take()` from an empty queue or `put()` into a full queue.
+
+It is commonly used to implement the **producer-consumer pattern** and eliminates the need for **manual synchronization**. Common implementations include **ArrayBlockingQueue** and **LinkedBlockingQueue**.
+
 * Thread-safe queue that blocks when empty (take) or full (put)
 * Provides producer-consumer pattern implementation
 * Common implementations: ArrayBlockingQueue, LinkedBlockingQueue
@@ -3147,6 +3201,10 @@ String item = queue.take(); // Blocks if queue is empty
 ### 140. What is fork-join framework?
 
 **Answer:**
+The **Fork-Join Framework** in Java is used for **parallel processing of tasks** that can be **split into smaller subtasks**.
+
+It uses a **work-stealing algorithm** for load balancing, with **ForkJoinPool** managing threads efficiently, making it ideal for **divide-and-conquer algorithms**.
+
 * Designed for parallel processing of recursive tasks that can be split
 * Uses work-stealing algorithm for load balancing across threads
 * ForkJoinPool manages worker threads efficiently
@@ -3173,6 +3231,10 @@ class SumTask extends RecursiveTask<Long> {
 ### 141. What is parallel streams?
 
 **Answer:**
+**Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
+
+They use the **ForkJoinPool.commonPool()** by default and are ideal for **CPU-intensive operations on large datasets**, making it easy to leverage **multi-core processors**.
+
 * Stream API feature that automatically parallelizes operations across multiple threads
 * Uses ForkJoinPool.commonPool() by default for parallel execution
 * Simple way to leverage multi-core processors for data processing
@@ -3193,6 +3255,10 @@ int parallelSum = numbers.parallelStream()
 ### 142. What is reactive streams?
 
 **Answer:**
+**Reactive Streams** is a **specification for asynchronous, non-blocking stream processing** with **backpressure**, allowing systems to handle data that arrives faster than it can be processed.
+
+Its key interfaces are **Publisher, Subscriber, Subscription, and Processor**, and it is implemented by libraries like **RxJava, Project Reactor, and Akka Streams**.
+
 * Specification for asynchronous stream processing with non-blocking backpressure
 * Handles data streams that may arrive faster than they can be processed
 * Key interfaces: Publisher, Subscriber, Subscription, Processor
@@ -3244,6 +3310,10 @@ public class MemoryExample {
 ### 144. What is heap memory in Java?
 
 **Answer:**
+**Heap memory in Java** is the **runtime memory area** where all objects and instance variables are stored.
+
+It is **shared among all threads** and divided into **Young Generation** (Eden, Survivor spaces) and **Old Generation**. The **garbage collector** automatically manages memory, and its size can be controlled using **`-Xms` and `-Xmx`** JVM parameters.
+
 * Runtime memory area where all objects and instance variables are stored
 * Divided into Young Generation (Eden, S0, S1) and Old Generation
 * Shared among all threads in the application
@@ -3265,6 +3335,10 @@ public class HeapExample {
 ### 145. What is stack memory in Java?
 
 **Answer:**
+**Stack memory in Java** is a **thread-specific memory area** that stores **method call frames**, including local variables, parameters, and return addresses.
+
+It follows a **LIFO (Last In First Out)** order, is **automatically freed** when a method completes, and **each thread has its own stack**.
+
 * Thread-specific memory area storing method call frames
 * Contains local variables, method parameters, and return addresses
 * Follows LIFO (Last In First Out) principle
@@ -3287,6 +3361,10 @@ public class StackExample {
 ### 146. What is method area in Java?
 
 **Answer:**
+**Method Area in Java** is a **shared memory region** that stores **class-level information**, including class metadata, static variables, method bytecode, and the constant pool.
+
+Called **Metaspace** in Java 8+ (or **Permanent Generation** in Java 7-), it is **shared among all threads** and is **garbage collected** when classes are unloaded.
+
 * Stores class-level information shared among all instances
 * Contains class metadata, static variables, method bytecode, and constant pool
 * Also called Metaspace (Java 8+) or Permanent Generation (Java 7-)
@@ -3330,6 +3408,10 @@ public class MemoryComparison {
 ### 148. What is memory leak in Java?
 
 **Answer:**
+A **memory leak in Java** occurs when **objects are no longer needed but still referenced**, preventing garbage collection.
+
+This leads to **gradual memory consumption** and can eventually cause **OutOfMemoryError**. Common causes include **unused static collections, unremoved listeners, or unclosed resources**.
+
 * Objects that are no longer needed but still referenced, preventing garbage collection
 * Causes gradual memory consumption leading to OutOfMemoryError
 * Common causes: static collections, listeners not removed, unclosed resources
@@ -3351,6 +3433,10 @@ public class MemoryLeakExample {
 ### 149. How can we prevent memory leaks in Java?
 
 **Answer:**
+To prevent **memory leaks in Java**, we should **close resources** (e.g., using try-with-resources), **remove unused listeners**, and **avoid holding objects in static collections** (or use `WeakHashMap`).
+
+Additionally, **profiling memory usage** with tools like **JProfiler** or **VisualVM** helps detect and fix leaks.
+
 * **Close resources** - Use try-with-resources for automatic cleanup
 * **Remove listeners** - Unregister event listeners when no longer needed
 * **Avoid static collections** - Use WeakHashMap or clear collections periodically
@@ -3379,6 +3465,10 @@ public class PreventMemoryLeak {
 ### 150. What is the difference between shallow copy and deep copy?
 
 **Answer:**
+**Shallow copy** copies only the **object references**, so the original and copy **share the same mutable objects**.
+
+**Deep copy** creates **new objects recursively** for all referenced objects, making the copy **completely independent** of the original.
+
 * **Shallow Copy** - Copies object references, not the actual objects
 * **Deep Copy** - Creates new objects for all referenced objects recursively
 * Shallow copy shares mutable objects between original and copy
@@ -3405,6 +3495,10 @@ public class CopyExample implements Cloneable {
 ### 151. What is the purpose of clone() method?
 
 **Answer:**
+The **`clone()` method** is used to **create a copy of an object without calling its constructor**.
+
+It is defined in the **Object class** and requires the class to implement **Cloneable**. By default, it performs a **shallow copy**, but can be overridden for a deep copy. It throws **CloneNotSupportedException** if the class does not implement Cloneable.
+
 * Creates a copy of an object without calling constructor
 * Defined in Object class, requires Cloneable interface implementation
 * Provides shallow copy by default - can be overridden for deep copy
@@ -3430,6 +3524,10 @@ public class Person implements Cloneable {
 ### 152. What is the difference between == and equals() method?
 
 **Answer:**
+The **`==` operator** checks if two references point to the **same memory location** (reference equality), while the **`equals()` method** checks if two objects are **logically equal** based on their content.
+
+`==` is faster but limited to reference comparison, whereas `equals()` can be **overridden** for custom equality. For primitives, `==` compares actual values.
+
 * **== operator** - Compares memory addresses (reference equality)
 * **equals() method** - Compares object content (logical equality)
 * == is faster but only checks if two references point to same object
@@ -3460,6 +3558,10 @@ public class EqualityExample {
 ### 153. What is garbage collection in Java?
 
 **Answer:**
+**Garbage collection in Java** is an **automatic memory management process** that frees memory occupied by objects no longer in use.
+
+It runs in the background, **prevents memory leaks**, and eliminates the need for manual memory deallocation. The **JVM manages garbage collection** using different algorithms.
+
 * Automatic memory management process that reclaims unused object memory
 * Runs in background to free heap memory occupied by unreferenced objects
 * Prevents memory leaks and OutOfMemoryError in most cases
@@ -3479,6 +3581,10 @@ public class GCExample {
 ### 154. Why Java provides garbage collector?
 
 **Answer:**
+Java provides a **garbage collector** to handle **automatic memory management**, freeing developers from manually deallocating memory.
+
+It **prevents memory leaks**, reduces errors like dangling pointers, **improves productivity**, and allows the JVM to **optimize memory usage at runtime**.
+
 * **Automatic memory management** - Developers don't need to manually free memory
 * **Prevents memory leaks** - Automatically cleans up unreferenced objects
 * **Reduces programming errors** - No dangling pointers or double-free issues
@@ -3501,6 +3607,10 @@ public class WhyGC {
 ### 155. What is the purpose of gc() in Java?
 
 **Answer:**
+In Java, **`System.gc()`** is used to **suggest the JVM to perform garbage collection**, but it **does not guarantee immediate execution**.
+
+It’s generally **not recommended in production** and is mainly used for **testing or specific performance scenarios**.
+
 * System.gc() suggests JVM to run garbage collection
 * It's only a hint - JVM may ignore the request
 * Cannot force immediate garbage collection
@@ -3526,6 +3636,10 @@ public class GCMethod {
 ### 156. How does garbage collection work in Java?
 
 **Answer:**
+**Garbage collection in Java** works by automatically identifying and removing objects that are no longer referenced.
+
+It typically involves **marking reachable objects**, **sweeping unreferenced ones**, and sometimes **compacting memory** to reduce fragmentation. Java uses **generational GC** (young and old generations) with different algorithms like **Serial, Parallel, G1, and ZGC** for various performance needs.
+
 * **Mark phase** - Identifies which objects are still reachable/referenced
 * **Sweep phase** - Removes unreferenced objects from memory
 * **Compact phase** - Defragments memory to reduce fragmentation
@@ -3551,6 +3665,8 @@ public class GCProcess {
 ### 157. When does an object become eligible for garbage collection?
 
 **Answer:**
+An object becomes **eligible for garbage collection** in Java when **no active references point to it**, either because references go out of scope, are set to null, or it’s only referenced by other unreferenced objects (including circular references).
+
 * When no active references point to the object
 * All references go out of scope or are set to null
 * Object is only referenced by other unreferenced objects (island of isolation)
@@ -3575,6 +3691,10 @@ public class GCEligibility {
 ### 158. Why do we use finalize() method in Java?
 
 **Answer:**
+The **`finalize()` method** in Java is called by the garbage collector **before an object is destroyed**, giving a last chance to **perform cleanup**.
+
+However, it’s **not recommended** because there’s **no guarantee when or if it will run**, and improper use can **delay or prevent garbage collection**.
+
 * Called by garbage collector before object destruction
 * Provides last chance to perform cleanup operations
 * Generally not recommended - use try-with-resources instead
@@ -3635,6 +3755,10 @@ public class ReferenceTypes {
 ### 160. How can we reference an unreferenced object again?
 
 **Answer:**
+Once an object has **no strong references**, it cannot be directly referenced again.
+
+You can check **weak or soft references** or, theoretically, **resurrect it in `finalize()`** (not recommended). The best approach is to **manage object lifecycle properly** or use **object pools/caching** for reuse.
+
 * Once object has no strong references, it cannot be directly referenced again
 * Can use weak/soft references to check if object still exists
 * finalize() method could theoretically resurrect object (not recommended)
@@ -3668,6 +3792,10 @@ public class ObjectResurrection {
 ### 161. What kind of process is the garbage collector thread?
 
 **Answer:**
+The **garbage collector in Java** runs as a **daemon thread** in the background.
+
+It is a **low-priority system thread** managed by the JVM, may run **concurrently or stop-the-world** depending on the algorithm, and multiple GC threads can work **in parallel** for better performance.
+
 * **Daemon thread** - Runs in background, doesn't prevent JVM shutdown
 * **Low priority thread** - Runs when CPU is available
 * **System thread** - Managed by JVM, not user application
@@ -3766,6 +3894,10 @@ public class GCTuning {
 ### 164. What is Java I/O?
 
 **Answer:**
+**Java I/O** is the API for **reading and writing data** from files, network connections, memory buffers, and other sources.
+
+It supports **byte-oriented and character-oriented operations**, forms the foundation for **data persistence and communication**, and includes both **traditional I/O** and **NIO (New I/O)** packages.
+
 * Input/Output API for reading and writing data from various sources
 * Handles files, network connections, memory buffers, and other data streams
 * Provides classes for both byte-oriented and character-oriented operations
@@ -3818,6 +3950,10 @@ public class StreamTypes {
 ### 166. What is the difference between byte stream and character stream?
 
 **Answer:**
+**Byte streams** handle **8-bit raw data** (like images or videos) using `InputStream`/`OutputStream` and are generally faster.
+
+**Character streams** handle **16-bit Unicode characters** using `Reader`/`Writer`, automatically manage encoding, and are more convenient for **text data**.
+
 * **Byte Stream** - Handles 8-bit bytes, suitable for binary data like images, videos
 * **Character Stream** - Handles 16-bit Unicode characters, suitable for text data
 * **Encoding** - Character streams handle character encoding automatically
@@ -3845,6 +3981,10 @@ public class StreamComparison {
 ### 167. What is the difference between InputStream and OutputStream?
 
 **Answer:**
+**InputStream** is used to **read byte data** from a source, while **OutputStream** is used to **write byte data** to a destination.
+
+InputStream provides **`read()` methods**, OutputStream provides **`write()` methods**, with common implementations like **FileInputStream/FileOutputStream** and **ByteArrayInputStream/ByteArrayOutputStream**.
+
 * **InputStream** - Abstract class for reading byte data from source
 * **OutputStream** - Abstract class for writing byte data to destination
 * **Direction** - InputStream is for input, OutputStream is for output
@@ -3873,6 +4013,10 @@ public class StreamDirection {
 ### 168. What is the difference between Reader and Writer?
 
 **Answer:**
+**Reader** is used to **read character data** with encoding support, while **Writer** is used to **write character data**.
+
+Both are **character-based**, handle **Unicode encoding automatically**, and are designed for **text processing** instead of raw bytes.
+
 * **Reader** - Abstract class for reading character data with encoding support
 * **Writer** - Abstract class for writing character data with encoding support
 * **Character-based** - Handle Unicode characters instead of raw bytes
@@ -3901,6 +4045,10 @@ public class ReaderWriter {
 ### 169. What is BufferedReader and BufferedWriter?
 
 **Answer:**
+**BufferedReader** and **BufferedWriter** wrap **Reader** and **Writer** with an **internal buffer** to improve I/O performance by reducing system calls.
+
+**BufferedReader** allows **line-by-line reading** with `readLine()`, and **BufferedWriter** efficiently writes data in batches. Default buffer size is **8192 characters**.
+
 * **BufferedReader** - Wraps Reader with internal buffer for efficient reading
 * **BufferedWriter** - Wraps Writer with internal buffer for efficient writing
 * **Performance** - Reduces system calls by batching read/write operations
@@ -3932,6 +4080,10 @@ public class BufferedStreams {
 ### 170. What is the purpose of File class in Java?
 
 **Answer:**
+The **File class in Java** represents **files and directories** and provides methods to **create, delete, rename, and check properties** like existence, permissions, and size.
+
+It is **platform-independent** but does **not read or write file content**, only handles metadata.
+
 * Represents file and directory pathnames in abstract way
 * Provides methods for file operations like create, delete, rename
 * Checks file properties like existence, permissions, size
@@ -3963,6 +4115,10 @@ public class FileOperations {
 ### 171. What is NIO in Java?
 
 **Answer:**
+**NIO (New I/O)** in Java is a modern I/O API introduced in Java 1.4 that provides **non-blocking, high-performance I/O**.
+
+It is **channel-based** instead of stream-based, **buffer-oriented** for efficient data handling, and supports **selectors**, allowing a single thread to monitor multiple channels simultaneously.
+
 * **New I/O** - Modern I/O API introduced in Java 1.4
 * **Non-blocking** - Supports non-blocking I/O operations
 * **Channel-based** - Uses channels instead of streams for better performance
@@ -3992,6 +4148,12 @@ public class NIOExample {
 ### 172. What is the difference between IO and NIO?
 
 **Answer:**
+**IO** in Java is **stream-oriented and blocking**, suitable for simple, single-threaded operations.
+
+**NIO** is **buffer-oriented and non-blocking**, supports **multiplexing**, and is **faster** for large files or high-performance network applications.
+
+IO is simpler to use, while NIO requires more complex programming.
+
 * **IO** - Stream-oriented, blocking, single-threaded
 * **NIO** - Buffer-oriented, non-blocking, supports multiplexing
 * **Performance** - NIO is faster for large files and network operations
@@ -4020,6 +4182,12 @@ public class IOvsNIO {
 ### 173. What are channels in Java NIO?
 
 **Answer:**
+In Java NIO, **channels** are **bidirectional** I/O components that can **read and write data** using **ByteBuffer** objects.
+
+Common types include **FileChannel, SocketChannel, ServerSocketChannel, and DatagramChannel**.
+
+Channels are **more efficient than streams** for large data operations and support **non-blocking I/O**.
+
 * **Bidirectional** - Can read and write data unlike streams
 * **Buffer-based** - Work with ByteBuffer objects for data transfer
 * **Types** - FileChannel, SocketChannel, ServerSocketChannel, DatagramChannel
@@ -4046,6 +4214,8 @@ public class ChannelExample {
 ### 174. What is NIO.2 features?
 
 **Answer:**
+**NIO.2 in Java** (Java 7+) adds **Path API**, **Files utility methods**, **WatchService** for monitoring directories, **asynchronous I/O** for non-blocking file operations, and improved **file attributes** support.
+
 * **Path API** - Modern file system interface replacing File class
 * **Files utility class** - Convenient methods for file operations
 * **Watch Service** - Monitor directory changes in real-time
@@ -4074,6 +4244,10 @@ public class NIO2Features {
 ### 175. What is asynchronous file I/O?
 
 **Answer:**
+**Asynchronous file I/O** in Java allows **non-blocking file operations** that return immediately without waiting for completion.
+
+It uses **`AsynchronousFileChannel`** and **callbacks (CompletionHandler)** or **Future objects** to handle results, providing **better performance** for I/O-intensive applications.
+
 * **Non-blocking** - Operations return immediately without waiting for completion
 * **Callback-based** - Uses CompletionHandler for result notification
 * **AsynchronousFileChannel** - Main class for async file operations
@@ -4105,6 +4279,10 @@ public class AsyncIO {
 ### 176. What is memory-mapped I/O?
 
 **Answer:**
+**Memory-mapped I/O** maps a file’s content directly into the **process’s memory**, allowing the program to **read and write files as if they were in memory**.
+
+It uses **MappedByteBuffer**, leverages the **OS virtual memory system**, and provides **high performance** for large files, making it useful for **big data processing and database implementations**.
+
 * **Virtual memory** - Maps file content directly into memory address space
 * **Performance** - Extremely fast for large file operations
 * **MappedByteBuffer** - Special buffer type for memory-mapped files
@@ -4131,6 +4309,10 @@ public class MemoryMappedIO {
 ### 177. What is zero-copy I/O?
 
 **Answer:**
+**Zero-copy I/O** allows data to be **transferred directly between channels** without copying it into application buffers.
+
+It uses methods like **`transferTo`** and **`transferFrom`**, operates in **kernel space**, improves **performance**, and is useful for **file copying, network transfer, and streaming applications**.
+
 * **Direct transfer** - Data moves directly between channels without copying to application buffers
 * **transferTo/transferFrom** - Methods that enable zero-copy operations
 * **Performance** - Eliminates unnecessary data copying, improves speed
@@ -4160,6 +4342,10 @@ public class ZeroCopyIO {
 ### 178. What is serialization?
 
 **Answer:**
+**Serialization** is the process of **converting a Java object into a byte stream** so it can be **saved to a file, database, or sent over a network**.
+
+The object’s **state, including all instance variables**, is preserved. The class must implement **`Serializable`**, and the process is handled by **`ObjectOutputStream`**.
+
 * Process of converting Java object into byte stream for storage or transmission
 * Allows objects to be saved to files, databases, or sent over network
 * Object state is preserved including all instance variables
@@ -4188,6 +4374,8 @@ public class SerializationExample implements Serializable {
 ### 179. What is the purpose of serialization?
 
 **Answer:**
+The **purpose of serialization** is to **persist objects**, send them over **networks between JVMs**, enable **caching**, perform **deep copies**, and support **RMI or web services** for data exchange.
+
 * **Persistence** - Save object state to disk for later retrieval
 * **Network communication** - Send objects between different JVMs
 * **Caching** - Store objects in memory or distributed cache systems
@@ -4213,6 +4401,10 @@ public class SerializationPurpose implements Serializable {
 ### 180. What is deserialization?
 
 **Answer:**
+**Deserialization** is the process of **converting a byte stream back into a Java object**.
+
+It **reconstructs the object with its original state** using **`ObjectInputStream`**, and the class must be available in the classpath. Exceptions like **`ClassNotFoundException`** or **`InvalidClassException`** can occur if the class is missing or incompatible.
+
 * Reverse process of serialization - converting byte stream back to Java object
 * Reconstructs object from serialized data with same state
 * Uses ObjectInputStream to read serialized data
@@ -4236,6 +4428,10 @@ public class DeserializationExample {
 ### 181. Why do we mark a data member transient?
 
 **Answer:**
+We mark a data member **`transient`** to **exclude it from serialization**.
+
+This is useful for **sensitive data** (like passwords), **non-serializable objects**, or **calculated fields**. During deserialization, transient fields are assigned **default values**.
+
 * **Exclude from serialization** - Transient fields are not serialized
 * **Security** - Prevent sensitive data like passwords from being serialized
 * **Non-serializable references** - Skip fields that can't be serialized
@@ -4259,6 +4455,10 @@ public class TransientExample implements Serializable {
 ### 182. Is it allowed to mark a method as transient?
 
 **Answer:**
+No, we **cannot mark a method as transient**.
+
+The **`transient` keyword** applies only to **instance variables**, because **methods are not part of object state** and are never serialized. Attempting to use it on a method will cause a **compile-time error**.
+
 * **No** - transient keyword can only be applied to instance variables
 * **Methods are not serialized** - Only object state (fields) is serialized
 * **Compile error** - Using transient on methods causes compilation failure
@@ -4284,6 +4484,10 @@ public class TransientMethod implements Serializable {
 ### 183. What is the Externalizable interface in Java?
 
 **Answer:**
+The **Externalizable** interface in Java allows **full control over serialization**.
+
+A class implementing it must define **`writeExternal()`** and **`readExternal()`** methods to **manually handle which fields are serialized**. It can offer **better performance** than default serialization and extends **`Serializable`**.
+
 * **Custom serialization control** - Provides complete control over serialization process
 * **Manual implementation** - Must implement writeExternal() and readExternal() methods
 * **Performance** - Can be faster than default serialization
@@ -4317,6 +4521,10 @@ public class ExternalizableExample implements Externalizable {
 ### 184. What is the difference between Serializable and Externalizable interface?
 
 **Answer:**
+**Serializable** provides **automatic serialization** with no methods to implement, while **Externalizable** gives **manual control** via `writeExternal()` and `readExternal()`.
+
+Externalizable can be **faster**, requires a **public no-arg constructor**, and allows **selective field serialization**.
+
 * **Control** - Serializable is automatic, Externalizable gives manual control
 * **Performance** - Externalizable can be faster with custom implementation
 * **Methods** - Serializable has no methods, Externalizable requires writeExternal/readExternal
@@ -4349,7 +4557,10 @@ public class ExternalizableClass implements Externalizable {
 ### 185. What is custom serialization?
 
 **Answer:**
-* **Override default behavior** - Implement writeObject() and readObject() methods
+**Custom serialization** lets a class **override the default serialization behavior** by implementing **`writeObject()`** and **`readObject()`** methods.
+
+It allows **special handling** for complex objects, **validation**, **version compatibility**, and **performance optimization** during serialization and deserialization.
+
 * **Special handling** - Custom logic for complex objects or security requirements
 * **Validation** - Add validation during serialization/deserialization
 * **Compatibility** - Handle version changes and backward compatibility
@@ -4376,6 +4587,10 @@ public class CustomSerializationExample implements Serializable {
 ### 186. What is serialization security?
 
 **Answer:**
+**Serialization security** ensures that **sensitive data is protected** during serialization and deserialization.
+
+Use **`transient`** for confidential fields, **validate data** in `readObject()`, and manage **`serialVersionUID`** to prevent deserialization attacks and maintain class version compatibility.
+
 * **Data exposure** - Serialized data can be inspected and modified
 * **Deserialization attacks** - Malicious data can exploit deserialization process
 * **Sensitive information** - Use transient for passwords and sensitive data
@@ -4418,6 +4633,10 @@ public class SecureSerializationExample implements Serializable {
 ### 187. What is reflection in Java?
 
 **Answer:**
+**Reflection in Java** allows a program to **inspect and manipulate classes, methods, and fields at runtime**.
+
+It provides **dynamic access** to private members, **metadata inspection** without source code, and is widely used in frameworks like **Spring, Hibernate, and JUnit**. The **`java.lang.reflect`** package provides classes like **Class, Method, Field, and Constructor** for reflection.
+
 * **Runtime introspection** - Examine and modify classes, methods, fields at runtime
 * **Dynamic access** - Access private members and invoke methods dynamically
 * **Metadata inspection** - Get information about class structure without source code
@@ -4443,6 +4662,10 @@ public class ReflectionExample {
 ### 188. What are the uses of reflection in Java?
 
 **Answer:**
+**Reflection in Java** is used to **inspect and manipulate classes at runtime**.
+
+Common uses include **frameworks** (Spring for dependency injection), **testing** (JUnit to find and run tests), **serialization** (mapping objects to JSON/XML), **IDE tools** (code completion/debugging), and **dynamic class loading**.
+
 * **Frameworks** - Spring uses reflection for dependency injection and bean creation
 * **Testing** - JUnit uses reflection to find and execute test methods
 * **Serialization** - JSON/XML libraries use reflection to map objects
@@ -4465,6 +4688,10 @@ public class ReflectionUses {
 ### 189. How can we access a private method of a class from outside the class?
 
 **Answer:**
+We can access a **private method** from outside the class using **reflection**:
+
+Use **`getDeclaredMethod()`** to get the method, call **`setAccessible(true)`** to bypass access control, and **`invoke()`** to execute it. This breaks encapsulation, so it’s mainly used for **testing**.
+
 * **getDeclaredMethod()** - Get private method using reflection
 * **setAccessible(true)** - Bypass access control to make private method accessible
 * **invoke()** - Call the private method with required parameters
@@ -4490,6 +4717,10 @@ public class PrivateMethodAccess {
 ### 190. How can we create an object dynamically at runtime in Java?
 
 **Answer:**
+We can **create an object dynamically at runtime** in Java using **reflection**:
+
+Use **`Class.forName()`** to load the class, then **`newInstance()`** for the default constructor or **`Constructor.newInstance()`** for parameterized constructors. This is useful for **plugins and frameworks**, with proper **exception handling**.
+
 * **Class.forName()** - Load class dynamically by name
 * **newInstance()** - Create object using default constructor
 * **Constructor.newInstance()** - Create object with parameterized constructor
@@ -4515,6 +4746,8 @@ public class DynamicObjectCreation {
 ### 191. What is reflection performance optimization?
 
 **Answer:**
+**Reflection performance optimization** involves **minimizing overhead** by caching `Method`, `Field`, and `Constructor` objects, using **`MethodHandle`** instead of reflection when possible, avoiding `setAccessible()` on every call, and preferring **direct calls or code generation**. Use reflection **only when necessary**.
+
 * **Caching** - Cache Method, Field, Constructor objects to avoid repeated lookups
 * **Method handles** - Use MethodHandle API for better performance than reflection
 * **Avoid setAccessible()** - Use public APIs when possible
@@ -4553,6 +4786,10 @@ public class ReflectionOptimization {
 ### 192. What is method handles?
 
 **Answer:**
+**Method Handles** (Java 7+) provide a **high-performance, type-safe way** to invoke methods dynamically.
+
+They are **faster than reflection**, support **compile-time type checking** via `MethodType`, and are optimized by the JVM. **`MethodHandles.Lookup`** is used to create method handles.
+
 * **Modern alternative** - Java 7+ feature for dynamic method invocation
 * **Better performance** - Faster than traditional reflection
 * **Type safety** - Compile-time type checking with MethodType
@@ -4582,6 +4819,10 @@ public class MethodHandleExample {
 ### 193. What is dynamic proxies?
 
 **Answer:**
+**Dynamic proxies** in Java allow creating **proxy objects at runtime** that implement one or more interfaces.
+
+They use **`Proxy.newProxyInstance()`** to create the proxy and an **`InvocationHandler`** to handle method calls. Dynamic proxies are commonly used in **AOP** and frameworks like **Spring** and **Hibernate**.
+
 * **Runtime proxy creation** - Create proxy objects that implement interfaces dynamically
 * **Proxy.newProxyInstance()** - Factory method to create proxy objects
 * **InvocationHandler** - Interface to handle method calls on proxy
@@ -4621,6 +4862,10 @@ public class DynamicProxyExample {
 ### 194. What is a nested class?
 
 **Answer:**
+A **nested class** is a **class defined within another class**.
+
+It helps **group related classes**, **access outer class members**, and improve **encapsulation**. Types include **static nested, inner, local inner, and anonymous classes**.
+
 * **Class inside class** - Class defined within another class
 * **Logical grouping** - Groups related classes together
 * **Access privileges** - Can access outer class private members
@@ -4675,6 +4920,8 @@ public class NestedClassTypes {
 ### 196. Why do we use nested classes?
 
 **Answer:**
+We use **nested classes** to **group related classes**, improve **encapsulation** by accessing outer class members, organize code better, manage **namespaces**, and create **helper or utility classes** specific to the outer class.
+
 * **Logical grouping** - Group classes that are only used in one place
 * **Encapsulation** - Access outer class private members
 * **Code organization** - Keep related classes together
@@ -4707,6 +4954,10 @@ public class LinkedList<T> {
 ### 197. What is the difference between a nested class and an inner class?
 
 **Answer:**
+A **nested class** is any class defined inside another class.
+
+An **inner class** specifically refers to **non-static nested classes** that have an **implicit reference to the outer class instance**. All inner classes are nested, but not all nested classes are inner.
+
 * **Nested class** - General term for any class inside another class
 * **Inner class** - Specifically refers to non-static nested classes
 * **Static nested** - Cannot access outer instance variables directly
@@ -4736,6 +4987,10 @@ public class NestedVsInner {
 ### 198. What is a nested interface?
 
 **Answer:**
+A **nested interface** is an **interface defined inside a class or another interface**.
+
+It is **implicitly static**, can have access modifiers like **public, protected, or private**, and is used to **group related interfaces** with their implementations, commonly seen in **collections and event handling**.
+
 * **Interface inside class** - Interface defined within a class or another interface
 * **Implicitly static** - Nested interfaces are always static by default
 * **Access modifiers** - Can be public, protected, or private
@@ -4764,6 +5019,10 @@ OuterClass.NestedInterface obj = new OuterClass().new Implementation();
 ### 199. How can we access the non-final local variable inside a local inner class?
 
 **Answer:**
+A **local inner class** cannot access **non-final local variables**.
+
+The variable must be **effectively final** (not modified after initialization). This is because **local variables live on the stack**, while inner class objects live on the **heap**. Use **final variables or instance variables** as a workaround.
+
 * **Cannot access** - Local inner classes cannot access non-final local variables
 * **Effectively final** - Variable must be effectively final (not modified after initialization)
 * **Java 8+** - No need to explicitly declare final if variable is effectively final
@@ -4792,6 +5051,10 @@ public class LocalInnerAccess {
 ### 200. Can an interface be defined in a class?
 
 **Answer:**
+Yes, an **interface can be defined inside a class**.
+
+It is **implicitly static**, can have **access modifiers**, and is used to **logically group interfaces** with their implementations, commonly in **event listeners, callbacks, or strategy patterns**.
+
 * **Yes** - Interfaces can be defined inside classes
 * **Implicitly static** - Nested interfaces are always static
 * **Access modifiers** - Can have public, protected, private, or package access
@@ -4822,6 +5085,10 @@ public class EventSource {
 ### 201. Do we have to explicitly mark a nested interface public static?
 
 **Answer:**
+No, a **nested interface is implicitly static**, so you don’t need to mark it `static`.
+
+However, you **must specify an access modifier** (`public`, `protected`, or `private`) explicitly, as it is **not automatically public** like top-level interfaces.
+
 * **Static by default** - Nested interfaces are implicitly static
 * **Access modifier required** - Must specify public, protected, or private explicitly
 * **Not implicitly public** - Unlike top-level interfaces, nested interfaces need explicit access modifier
@@ -4845,6 +5112,8 @@ public class InterfaceModifiers {
 ### 202. Why do we use static nested interface in Java?
 
 **Answer:**
+We use a **static nested interface** to **group related interfaces with their implementation**, organize **namespaces**, control **access**, and support **design patterns** like strategy, observer, and factory. It’s also common in **frameworks** like Java collections and event handling.
+
 * **Logical grouping** - Group related interfaces with their implementation classes
 * **Namespace organization** - Avoid naming conflicts in large applications
 * **Encapsulation** - Control access to interface through outer class
@@ -4918,6 +5187,10 @@ public class Java8Features {
 ## 204. What are lambda expressions in Java 8?
 
 **Answer:**
+**Lambda expressions** in Java 8 are **anonymous functions** that let you write **concise, functional-style code**.
+
+They use the syntax `(parameters) -> expression` or `(parameters) -> { statements }` and can only be used with **functional interfaces** (interfaces with a single abstract method).
+
 * **Anonymous functions** - Functions without name, class, or modifier
 * **Functional programming** - Enables functional programming paradigm in Java
 * **Concise syntax** - Reduces boilerplate code for simple operations
@@ -4950,6 +5223,10 @@ public class LambdaExpressions {
 ## 205. What are functional interfaces in Java 8?
 
 **Answer:**
+**Functional interfaces** in Java 8 are **interfaces with a single abstract method (SAM)**.
+
+They can be annotated with **`@FunctionalInterface`**, used as **targets for lambda expressions** or **method references**, and include built-in examples like **Predicate, Function, Consumer, and Supplier**.
+
 * **Single Abstract Method (SAM)** - Interface with exactly one abstract method
 * **@FunctionalInterface** - Annotation to ensure functional interface contract
 * **Lambda target** - Can be used as target for lambda expressions
@@ -4986,6 +5263,10 @@ public class FunctionalInterfaces {
 ## 206. What is the Stream API in Java 8?
 
 **Answer:**
+**Stream API** in Java 8 allows **functional-style processing of collections**.
+
+It supports **pipelines of operations**, **lazy evaluation**, **parallel processing**, and **does not modify the original collection**.
+
 * **Functional operations** - Process collections in functional programming style
 * **Pipeline operations** - Chain multiple operations together
 * **Lazy evaluation** - Operations are not executed until terminal operation
@@ -5020,6 +5301,10 @@ public class StreamAPI {
 ## 207. What are default methods in interfaces?
 
 **Answer:**
+**Default methods** in Java 8 are **methods with implementation inside interfaces**.
+
+They allow **adding new methods without breaking existing classes**, support **multiple inheritance**, ensure **backward compatibility**, and resolve the **diamond problem** via explicit overrides or `InterfaceName.super` calls.
+
 * **Interface evolution** - Add new methods to interfaces without breaking existing implementations
 * **Implementation in interface** - Interfaces can now have method implementations
 * **Multiple inheritance** - Classes can inherit behavior from multiple interfaces
@@ -5060,6 +5345,10 @@ public class Shape implements Drawable, Printable {
 ## 208. What are static methods in interfaces?
 
 **Answer:**
+**Static methods** in interfaces are **utility or helper methods** defined inside an interface.
+
+They are **called using the interface name**, **not inherited** by implementing classes, and **cannot be overridden**.
+
 * **Utility methods** - Interfaces can have static utility methods
 * **No inheritance** - Static methods are not inherited by implementing classes
 * **Interface namespace** - Called using interface name, not instance
@@ -5098,6 +5387,10 @@ public class StaticInterfaceMethods {
 ## 209. What is the Optional class in Java 8?
 
 **Answer:**
+**Optional** in Java 8 is a **container for values that may be null**, helping to **avoid NullPointerException**.
+
+It provides **functional methods** like `map`, `filter`, and `orElse`, makes **null handling explicit**, and is **immutable**.
+
 * **Null safety** - Container object to avoid NullPointerException
 * **Explicit null handling** - Makes null handling explicit and safer
 * **Functional methods** - Provides functional methods like map, filter, orElse
@@ -5137,6 +5430,10 @@ public class OptionalExample {
 ## 210. What are method references in Java 8?
 
 **Answer:**
+**Method references** in Java 8 are a **concise way to refer to existing methods** using the `::` operator.
+
+They improve **readability**, can be **static, instance, constructor, or arbitrary object references**, and are used wherever **lambda expressions** are allowed, with signatures matching the **functional interface**.
+
 * **Shorthand for lambdas** - Concise way to refer to methods using :: operator
 * **Four types** - Static, instance, constructor, and arbitrary object method references
 * **Readability** - Makes code more readable when lambda just calls existing method
@@ -5175,6 +5472,10 @@ public class MethodReferences {
 ## 211. What is the forEach method in Java 8?
 
 **Answer:**
+**forEach** in Java 8 is a **default method** for **internal iteration** over collections.
+
+It takes a **`Consumer`** as a parameter, supports **parallel streams**, and provides **cleaner, functional-style syntax** compared to traditional loops.
+
 * **Internal iteration** - Iterates over collection elements internally
 * **Functional approach** - Takes Consumer functional interface as parameter
 * **Default method** - Added as default method in Iterable interface
@@ -5212,6 +5513,10 @@ public class ForEachExample {
 ## 212. What are the differences between Collection API and Stream API?
 
 **Answer:**
+**Collection API** stores and manages data, while **Stream API** processes data in a **functional style**.
+
+Collections are **mutable** and use **external iteration**, whereas Streams are **immutable**, **lazy**, use **internal iteration**, and can be **consumed only once**.
+
 * **Purpose** - Collection stores data, Stream processes data
 * **Mutability** - Collections are mutable, Streams are immutable
 * **Iteration** - Collections use external iteration, Streams use internal iteration
@@ -5287,6 +5592,10 @@ public class Java9Features {
 ### 214. What is the module system in Java 9?
 
 **Answer:**
+The **module system** in Java 9 (Project Jigsaw) **modularizes the JDK and applications** using `module-info.java`.
+
+It provides **strong encapsulation**, **reliable dependency management**, and enables **smaller, scalable runtime images** by including only required modules.
+
 * **Project Jigsaw** - Modularize JDK and applications into discrete modules
 * **module-info.java** - Module descriptor file defining dependencies and exports
 * **Encapsulation** - Strong encapsulation of internal APIs
@@ -5352,6 +5661,10 @@ public class Java10Features {
 ### 216. What is var keyword in Java 10?
 
 **Answer:**
+The **`var` keyword** in Java 10 allows **type inference** for **local variables**, letting the compiler **automatically determine the type** from the initializer.
+
+It **reduces verbosity**, has **no runtime overhead**, but **cannot be used** with fields, parameters, `null`, or lambdas without explicit types.
+
 * **Type inference** - Compiler automatically infers variable type from initializer
 * **Local variables only** - Can only be used for local variables, not fields or parameters
 * **Readability** - Reduces verbosity while maintaining type safety
@@ -5568,7 +5881,11 @@ public class Java17Features {
 # 🔹 Generics
 ### 220: What are generics in Java?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Generics** in Java let you **parameterize classes and methods with types** for **type-safe code**.
+
+They provide **compile-time type checking**, reduce the need for casting, and help catch **ClassCastException** at compile time instead of runtime.
+
 *  Generics allow you to write type-safe code by parameterizing classes and methods with types
 *  They provide compile-time type checking and eliminate the need for casting
 *  Introduced in Java 5 to make collections and other classes more type-safe
@@ -5590,7 +5907,11 @@ String str = list.get(0); // No casting needed
 
 ### 221: What is type erasure in generics?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Type erasure** in Java generics means **generic type information is removed at runtime**.
+
+The compiler replaces type parameters with **raw types or Object**, ensuring **backward compatibility**, so `List<String>` and `List<Integer>` are just `List` at runtime.
+
 *  Type erasure is Java's mechanism where generic type information is removed at runtime
 *  The compiler replaces generic types with their raw types or Object
 *  This ensures backward compatibility with pre-Java 5 code
@@ -5613,7 +5934,11 @@ List intList = new ArrayList();
 
 ### 222: What are wildcards in generics?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Wildcards** in Java generics use `?` to represent **unknown types**.
+
+Types include **unbounded (`?`)**, **upper bounded (`? extends Type`)**, and **lower bounded (`? super Type`)**, allowing **flexible and type-safe use of generic collections**.
+
 *  Wildcards use the mark (?) to represent unknown types in generics
 *  Three types: unbounded (?), upper bounded (? extends), and lower bounded (? super)
 *  They provide flexibility when you don't know the exact type
@@ -5636,7 +5961,9 @@ integers.add(42); // OK to write Integer
 
 ### 223: What is generic method implementation?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+A **generic method** in Java declares its **own type parameters** before the return type, allowing it to **work with any type** safely, independent of the class’s generics, and can be **static or non-static**.
+
 *  Generic methods have their own type parameters independent of the class
 *  Type parameters are declared before the return type in angle brackets
 *  They can be static or non-static and work with any type
@@ -5672,7 +5999,10 @@ Utility.swap(names, 0, 2); // Type inferred as String
 
 ### 224: What is bounded type parameters?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Answer (Short for Interview):**
+Bounded type parameters restrict generic types. **Upper bounds** (`extends`) limit to a class/interface, **lower bounds** (`super`) allow contravariance, and multiple bounds can be combined with `&`.
+
 *  Bounded type parameters restrict the types that can be used as generic arguments
 *  Upper bounds use 'extends' keyword to limit to a specific class or interface
 *  Lower bounds use 'super' keyword for contravariance
@@ -5708,7 +6038,11 @@ NumberContainer<Integer> intContainer = new NumberContainer<>();
 
 ### 225: What is generic inheritance?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Generic inheritance** allows **generic classes to extend other generic classes** or implement generic interfaces.
+
+Type parameters can be **passed, specialized, or added** in subclasses, with **wildcards handling covariance and contravariance**.
+
 *  Generic classes can extend other generic classes and implement generic interfaces
 *  Type parameters can be passed through the inheritance hierarchy
 *  Subclasses can add their own type parameters or specialize parent's parameters
@@ -5753,7 +6087,11 @@ public class StringContainer extends Container<String> {
 # 🔹 Annotations
 ### 226: What is annotation in Java?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Annotations** in Java are **metadata** that provide information about code.
+
+They start with `@`, can be applied to classes, methods, fields, or parameters, and include examples like **`@Override`**, **`@Deprecated`**, and **`@SuppressWarnings`**. They **don’t change behavior** but aid the compiler and runtime.
+
 *  Annotations are metadata that provide information about code to the compiler and runtime
 *  They start with @ symbol and can be applied to classes, methods, fields, and parameters
 *  Built-in annotations include @Override, @Deprecated, and @SuppressWarnings
@@ -5783,7 +6121,11 @@ public class Employee {
 
 ### 227: How do you create custom annotations?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Custom annotations** are created using `@interface`.
+
+You can set **retention** with `@Retention` (SOURCE, CLASS, RUNTIME), define **applicable targets** with `@Target`, and declare **elements** with optional default values.
+
 *  Use @interface keyword to declare custom annotations
 *  Specify retention policy with @Retention (SOURCE, CLASS, or RUNTIME)
 *  Use @Target to specify where annotation can be applied
@@ -5815,7 +6157,11 @@ public class TestClass {
 
 ### 228: What is annotation processing?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Annotation processing** is handling annotations at **compile time** or **runtime**.
+
+It can **generate code, validate annotations, or create resources**, and frameworks like **Spring** and **Hibernate** use it extensively.
+
 *  Annotation processing is a technique to process annotations at compile time or runtime
 *  Compile-time processing generates code, validates annotations, or creates resources
 *  Runtime processing uses reflection to read annotation metadata
@@ -5846,7 +6192,11 @@ public class AnnotationProcessor {
 
 ### 229: What is compile-time annotation processing?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Compile-time annotation processing** runs **during compilation** using processors that implement `javax.annotation.processing.Processor`.
+
+It can **generate code, validate annotations, or create resources**, with examples like **Lombok** and **Bean Validation**.
+
 *  Compile-time processing happens during compilation using annotation processors
 *  Processors implement javax.annotation.processing.Processor interface
 *  They can generate new source files, validate code, or create resources
@@ -5883,7 +6233,11 @@ public class MyAnnotationProcessor extends AbstractProcessor {
 
 ### 230: What is runtime annotation processing?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Runtime annotation processing** reads annotations **during program execution** using **reflection**.
+
+Annotations must have **RUNTIME retention**, and this is commonly used in **dependency injection, validation, and configuration**.
+
 *  Runtime processing uses Java reflection to read annotations during program execution
 *  Annotations must have RUNTIME retention policy to be available at runtime
 *  Commonly used in frameworks for dependency injection, validation, and configuration
@@ -5918,7 +6272,11 @@ public class RuntimeProcessor {
 
 ### 231: What is meta-annotations?
 
-**Spoken Answer (15-40 seconds):**
+**Answer**
+**Meta-annotations** are **annotations applied to other annotations** to define their behavior.
+
+Common examples include **`@Retention`**, **`@Target`**, **`@Inherited`**, and **`@Documented`**, controlling **lifecycle, scope, and inheritance** of annotations.
+
 *  Meta-annotations are annotations that can be applied to other annotations
 *  They provide metadata about how annotations should behave
 *  Common meta-annotations include @Retention, @Target, @Inherited, and @Documented
@@ -5961,7 +6319,11 @@ public class ExtendedUserService extends UserService {
 
 ### 232: What is autoboxing and unboxing?
 
-**Answer (25 seconds):**
+**Answer**
+**Autoboxing** automatically converts **primitives to their wrapper objects**, and **unboxing** converts **wrappers back to primitives**.
+
+It improves **code readability** but may have slight **performance overhead**.
+
 * Autoboxing automatically converts primitive types to wrapper objects
 * Unboxing converts wrapper objects back to primitives
 * Happens automatically during assignments and method calls
@@ -5984,6 +6346,10 @@ list.add(5); // autoboxing
 ### 233: What is enum in Java?
 
 **Answer (30 seconds):**
+**Enum** in Java is a **special class representing a fixed set of constants**.
+
+It is **type-safe**, can have **methods and constructors**, and is used for values like **days, colors, or states**.
+
 * Enum is a special class representing a group of constants
 * More powerful than traditional constants - can have methods and constructors
 * Type-safe and prevents invalid values
@@ -6005,7 +6371,7 @@ Status status = Status.ACTIVE;
 
 ### 234: What are the advantages of using enum?
 
-**Answer (35 seconds):**
+**Answer**
 * **Type Safety**: Compile-time checking prevents invalid values
 * **Readability**: More meaningful than integer constants
 * **Maintainability**: Adding new values is easy and safe
@@ -6028,6 +6394,10 @@ public enum Priority {
 ### 235: What is varargs in Java?
 
 **Answer (30 seconds):**
+**Varargs** in Java allows a method to **accept a variable number of arguments** using `...` syntax.
+
+It is **treated as an array**, must be the **last parameter**, and **reduces the need for multiple overloaded methods**.
+
 * Varargs allows methods to accept variable number of arguments
 * Uses three dots (...) syntax after parameter type
 * Internally treated as an array
@@ -6052,7 +6422,9 @@ print("A", "B", "C");
 # 🔹 JDBC Basics
 ### 236: What is JDBC?
 
-**Answer (25 seconds):**
+**Answer**
+**JDBC** (Java Database Connectivity) is an **API that connects Java applications to databases**, providing a **standard, database-independent way** to perform database operations.
+
 * JDBC stands for Java Database Connectivity
 * API that connects Java applications to databases
 * Provides standard interface for database operations
@@ -6069,7 +6441,7 @@ Connection conn = DriverManager.getConnection(
 
 ### 237: What are the steps to connect to a database using JDBC?
 
-**Answer (35 seconds):**
+**Answer**
 * **Load Driver**: Register JDBC driver (auto in modern Java)
 * **Create Connection**: Use DriverManager.getConnection()
 * **Create Statement**: PreparedStatement or Statement
@@ -6106,7 +6478,10 @@ ResultSet rs = stmt.executeQuery();
 
 ### 239: What is the difference between Statement and PreparedStatement?
 
-**Answer (35 seconds):**
+**Answer**
+* **Statement**: Executes **static SQL**, compiled each time
+* **PreparedStatement**: **Precompiled SQL** with parameters, **prevents SQL injection**, better for repeated queries, supports **parameter binding**
+
 * **Statement**: Executes static SQL, compiled each time
 * **PreparedStatement**: Pre-compiled SQL with parameters
 * PreparedStatement prevents SQL injection attacks
@@ -6127,7 +6502,7 @@ pstmt.setInt(1, userId);
 
 ### 240: What is CallableStatement?
 
-**Answer (25 seconds):**
+**Answer**
 * Used to call stored procedures and functions in database
 * Extends PreparedStatement interface
 * Supports IN, OUT, and INOUT parameters
@@ -6168,7 +6543,7 @@ Connection conn = dataSource.getConnection();
 
 ### 242: What is the difference between execute(), executeQuery(), and executeUpdate()?
 
-**Answer (35 seconds):**
+**Answer**
 * **executeQuery()**: For SELECT statements, returns ResultSet
 * **executeUpdate()**: For INSERT/UPDATE/DELETE, returns int (affected rows)
 * **execute()**: For any SQL, returns boolean (true if ResultSet available)
@@ -6208,7 +6583,7 @@ while(rs.next()) {
 
 ### 244: What are the different types of ResultSet?
 
-**Answer (35 seconds):**
+**Answer**
 * **TYPE_FORWARD_ONLY**: Default, cursor moves forward only
 * **TYPE_SCROLL_INSENSITIVE**: Scrollable, doesn't reflect DB changes
 * **TYPE_SCROLL_SENSITIVE**: Scrollable, reflects DB changes
@@ -6229,7 +6604,7 @@ rs.absolute(5); // Jump to 5th row
 
 ### 245: What is transaction management in JDBC?
 
-**Answer (35 seconds):**
+**Answer**
 * Group of SQL operations treated as single unit
 * Either all operations succeed (commit) or all fail (rollback)
 * Use setAutoCommit(false) to start manual transaction
@@ -6250,7 +6625,7 @@ try {
 
 ### 246: What is database transaction?
 
-**Answer (25 seconds):**
+**Answer**
 * Logical unit of work containing one or more SQL operations
 * Ensures data consistency and integrity
 * Follows ACID properties
@@ -6268,7 +6643,7 @@ COMMIT;
 
 ### 247: What is ACID properties?
 
-**Answer (35 seconds):**
+**Answer**
 * **Atomicity**: All operations succeed or all fail
 * **Consistency**: Database remains in valid state
 * **Isolation**: Concurrent transactions don't interfere
@@ -6341,7 +6716,7 @@ int[] results = stmt.executeBatch();
 
 ### 251: What is SQL injection and how to prevent it?
 
-**Answer (35 seconds):**
+**Answer**
 * Security vulnerability where malicious SQL code is inserted into queries
 * Can lead to data theft, corruption, or unauthorized access
 * **Prevention**: Use PreparedStatement with parameters
@@ -6379,7 +6754,7 @@ Animal animal = AnimalFactory.createAnimal("dog");
 
 ### 253: What is Singleton design pattern?
 
-**Answer (25 seconds):**
+**Answer**
 * Ensures only one instance of a class exists in application
 * Provides global access point to that instance
 * Useful for database connections, logging, configuration settings
@@ -6401,7 +6776,7 @@ public class Singleton {
 
 ### 254: How do you implement Singleton pattern in Java?
 
-**Answer (35 seconds):**
+**Answer**
 * **Lazy Initialization**: Create instance when first needed
 * **Thread-Safe**: Use synchronized or double-checked locking
 * **Eager Initialization**: Create instance at class loading
@@ -6445,7 +6820,7 @@ public class ShapeFactory {
 
 ### 256: What is Abstract Factory design pattern?
 
-**Answer (35 seconds):**
+**Answer**
 * Factory of factories - creates families of related objects
 * Provides interface for creating groups of related products
 * Useful when system needs to work with multiple product families
@@ -6492,7 +6867,7 @@ public class User {
 
 ### 258: What is Observer design pattern?
 
-**Answer (35 seconds):**
+**Answer**
 * Defines one-to-many dependency between objects
 * When subject changes state, all observers are notified automatically
 * Promotes loose coupling between subject and observers
@@ -6543,7 +6918,7 @@ class PayPalPayment implements PaymentStrategy {
 
 ### 260: What is Command design pattern?
 
-**Answer (35 seconds):**
+**Answer**
 * Encapsulates request as an object with all necessary information
 * Allows parameterization of clients with different requests
 * Supports undo operations and logging of requests
@@ -6570,7 +6945,7 @@ class LightOnCommand implements Command {
 
 ### 261: What is Decorator design pattern?
 
-**Answer (35 seconds):**
+**Answer**
 * Adds new functionality to objects dynamically without altering structure
 * Alternative to subclassing for extending functionality
 * Wraps original object and provides additional behavior
@@ -6621,7 +6996,7 @@ public class HelloServlet extends HttpServlet {
 
 ### 263: What is the servlet lifecycle?
 
-**Answer (35 seconds):**
+**Answer**
 * **Loading**: Container loads servlet class
 * **Instantiation**: Creates servlet instance
 * **Initialization**: Calls init() method once
@@ -6663,7 +7038,7 @@ public class MyServlet extends HttpServlet {
 
 ### 265: What is the difference between servlet and JSP?
 
-**Answer (35 seconds):**
+**Answer**
 * **Servlet**: Pure Java code, HTML embedded in Java
 * **JSP**: HTML with embedded Java code
 * **Performance**: Servlets slightly faster, JSPs compiled to servlets
@@ -6706,7 +7081,7 @@ out.println("<html><body><h1>" + message + "</h1></body></html>");
 
 ### 267: What is session management in web applications?
 
-**Answer (35 seconds):**
+**Answer**
 * Technique to maintain user state across multiple HTTP requests
 * HTTP is stateless - each request is independent
 * **Methods**: Cookies, URL rewriting, Hidden form fields, HttpSession
@@ -6755,7 +7130,7 @@ for(Cookie cookie : cookies) {
 
 ### 269: What is URL rewriting?
 
-**Answer (25 seconds):**
+**Answer**
 * Session tracking technique when cookies are disabled
 * Appends session ID to every URL as parameter
 * Fallback mechanism for session management
@@ -6776,7 +7151,7 @@ String encodedURL = response.encodeURL("welcome.jsp");
 
 ### 270: What is HttpSession?
 
-**Answer (35 seconds):**
+**Answer**
 * Interface representing user session in web application
 * Provides way to identify user across multiple requests
 * Stores session data on server side
@@ -6824,7 +7199,7 @@ public class UserController {
 
 ### 272: What are the principles of REST?
 
-**Answer (35 seconds):**
+**Answer**
 * **Stateless**: Each request contains all necessary information
 * **Client-Server**: Separation of concerns between client and server
 * **Cacheable**: Responses should be cacheable when appropriate
@@ -6865,7 +7240,7 @@ DELETE /api/users/1   // Delete user
 
 ### 274: What is JSON?
 
-**Answer (25 seconds):**
+**Answer**
 * JavaScript Object Notation - lightweight data interchange format
 * Human-readable text format for data exchange
 * Language-independent but uses JavaScript-like syntax
@@ -6891,7 +7266,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ### 275: What is XML?
 
-**Answer (25 seconds):**
+**Answer**
 * eXtensible Markup Language - markup language for data representation
 * Uses tags to define structure and meaning of data
 * More verbose than JSON but supports attributes and namespaces
@@ -6912,7 +7287,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ### 276: What is the difference between JSON and XML?
 
-**Answer (35 seconds):**
+**Answer**
 * **Size**: JSON is more compact, XML is verbose
 * **Parsing**: JSON faster to parse, XML requires more processing
 * **Data Types**: JSON supports native types, XML treats everything as strings
@@ -7001,7 +7376,7 @@ public User getUser(@PathVariable Long id) { return user; }
 
 ### 280: What is API versioning?
 
-**Answer (35 seconds):**
+**Answer**
 * Strategy to manage changes in API without breaking existing clients
 * **URL Versioning**: /api/v1/users, /api/v2/users
 * **Header Versioning**: Accept: application/vnd.api.v1+json
@@ -7051,7 +7426,7 @@ public class UserService {
 
 ### 282: What are the core features of Spring?
 
-**Answer (35 seconds):**
+**Answer**
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
 * **AOP Support**: Cross-cutting concerns like logging, security
@@ -7096,7 +7471,7 @@ public class OrderService {
 
 ### 284: What is inversion of control (IoC)?
 
-**Answer (25 seconds):**
+**Answer**
 * Principle where control of object creation is inverted to framework
 * Objects don't create their dependencies - container provides them
 * Framework controls application flow instead of application code
@@ -7121,7 +7496,7 @@ public class UserService {
 
 ### 285: What is Spring Boot?
 
-**Answer (35 seconds):**
+**Answer**
 * Framework that simplifies Spring application development
 * **Auto-configuration**: Automatically configures Spring based on dependencies
 * **Starter Dependencies**: Pre-configured dependency bundles
@@ -7146,7 +7521,7 @@ spring.datasource.url=jdbc:mysql://localhost/mydb
 
 ### 286: What is Spring AOP (Aspect-Oriented Programming)?
 
-**Answer (35 seconds):**
+**Answer**
 * Programming paradigm for handling cross-cutting concerns
 * Separates business logic from system services like logging, security
 * **Aspects**: Modularize cross-cutting concerns
@@ -7197,7 +7572,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ### 288: What is Spring Cloud?
 
-**Answer (35 seconds):**
+**Answer**
 * Framework for building distributed systems and microservices
 * Provides tools for common patterns in distributed systems
 * **Service Discovery**: Eureka, Consul integration
@@ -7222,7 +7597,7 @@ public class UserServiceApplication {
 
 ### 289: What is Spring Security?
 
-**Answer (35 seconds):**
+**Answer**
 * Comprehensive security framework for Java applications
 * Handles authentication and authorization
 * **Authentication**: Verify user identity (login)
@@ -7251,7 +7626,7 @@ public class SecurityConfig {
 
 ### 290: What is Spring WebFlux?
 
-**Answer (35 seconds):**
+**Answer**
 * Reactive web framework for building non-blocking applications
 * Alternative to Spring MVC for reactive programming
 * **Non-blocking**: Handles more concurrent requests with fewer threads
@@ -7305,7 +7680,7 @@ public class User {
 
 ### 292: What is JPA?
 
-**Answer (25 seconds):**
+**Answer**
 * Java Persistence API - specification for ORM in Java
 * Standard way to manage relational data in Java applications
 * **Annotations**: @Entity, @Table, @Id for mapping
@@ -7331,7 +7706,7 @@ public List<User> findUsers() {
 
 ### 293: What is the difference between Hibernate and JPA?
 
-**Answer (35 seconds):**
+**Answer**
 * **JPA**: Specification/standard for ORM in Java
 * **Hibernate**: Implementation of JPA specification
 * **Features**: Hibernate has additional features beyond JPA
@@ -7410,7 +7785,7 @@ public class UserBean {
 
 ### 296: What are microservices?
 
-**Answer (35 seconds):**
+**Answer**
 * Architectural approach where application is built as suite of small services
 * Each service runs in its own process and communicates via APIs
 * **Single Responsibility**: Each service handles one business capability
@@ -7527,7 +7902,7 @@ public List<ServiceInstance> getOrderServiceInstances() {
 
 ### 300: What is API gateway?
 
-**Answer (35 seconds):**
+**Answer**
 * Single entry point for all client requests to microservices
 * **Routing**: Directs requests to appropriate backend services
 * **Authentication**: Centralized security and access control
@@ -7555,7 +7930,7 @@ public class GatewayConfig {
 
 ### 301: What is circuit breaker pattern?
 
-**Answer (35 seconds):**
+**Answer**
 * Design pattern that prevents cascading failures in distributed systems
 * **Closed**: Normal operation, requests pass through
 * **Open**: Service is failing, requests fail fast without calling service
@@ -7611,7 +7986,7 @@ public class OrderController {
 
 ### 303: What is service mesh architecture?
 
-**Answer (35 seconds):**
+**Answer**
 * Infrastructure layer that handles service-to-service communication
 * **Sidecar Proxy**: Each service has a proxy handling network communication
 * **Traffic Management**: Load balancing, routing, retries
@@ -7642,7 +8017,7 @@ spec:
 
 ### 304: What is database per service pattern?
 
-**Answer (35 seconds):**
+**Answer**
 * Each microservice owns and manages its own database
 * **Data Isolation**: Services cannot directly access other service databases
 * **Technology Choice**: Each service can use different database technology
@@ -7749,7 +8124,7 @@ services:
 It ensures applications remain **highly available, scalable, and resilient** in production environments.
 
 
-**Answer (35 seconds):**
+**Answer**
 * Container orchestration platform for managing containerized applications
 * **Pods**: Smallest deployable units containing one or more containers
 * **Services**: Expose applications and provide load balancing
@@ -7816,7 +8191,7 @@ A **distributed system** is a system where multiple **independent computers or s
 
 These systems improve **scalability, fault tolerance, and availability**, since work is shared across multiple nodes instead of relying on a single machine.
 
-**Answer (35 seconds):**
+**Answer**
 * System where components are located on different networked computers
 * **Communication**: Components communicate via message passing
 * **Coordination**: Distributed consensus and synchronization
@@ -7874,7 +8249,7 @@ restTemplate.getForObject("http://user-service/users/1", User.class);
 
 ### 312: What is caching strategies?
 
-**Answer (35 seconds):**
+**Answer**
 * Techniques to store frequently accessed data for faster retrieval
 * **Cache-Aside**: Application manages cache manually
 * **Write-Through**: Write to cache and database simultaneously
@@ -7906,7 +8281,7 @@ public class UserService {
 
 **Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
 
-**Answer (35 seconds):**
+**Answer**
 * Comprehensive security framework built into Java platform
 * **Bytecode Verification**: Ensures code follows Java language rules
 * **Class Loading**: Secure loading and verification of classes
@@ -7935,7 +8310,7 @@ System.setSecurityManager(new MySecurityManager());
 
 ### 314: What is sandbox in Java?
 
-**Answer (25 seconds):**
+**Answer**
 * Restricted execution environment for running untrusted code
 * **Applets**: Web-based Java programs run in browser sandbox
 * **Limited Access**: Restricted file system, network, and system access
@@ -8062,7 +8437,7 @@ boolean isValid = signature.verify(digitalSignature);
 
 ### 319: What is encryption and decryption in Java?
 
-**Answer (35 seconds):**
+**Answer**
 * Process of converting data to/from unreadable format for security
 * **Symmetric**: Same key for encryption and decryption (AES)
 * **Asymmetric**: Different keys for encryption/decryption (RSA)
@@ -8089,7 +8464,7 @@ byte[] decrypted = cipher.doFinal(encrypted);
 
 ### 320: What is SSL/TLS in Java?
 
-**Answer (35 seconds):**
+**Answer**
 * Secure communication protocols for encrypted data transmission
 * **HTTPS**: HTTP over SSL/TLS for secure web communication
 * **Handshake**: Establishes secure connection and exchanges keys
@@ -8144,7 +8519,7 @@ public List<User> getUsers() { return userService.getAllUsers(); }
 
 ### 322: What is OAuth?
 
-**Answer (35 seconds):**
+**Answer**
 * Open standard for access delegation and authorization
 * Allows third-party applications to access user resources without passwords
 * **Resource Owner**: User who owns the data
@@ -8178,7 +8553,7 @@ public class OAuth2Config {
 
 ### 323: What is JWT (JSON Web Token)?
 
-**Answer (35 seconds):**
+**Answer**
 * Compact, URL-safe token format for securely transmitting information
 * **Structure**: Header.Payload.Signature (three Base64-encoded parts)
 * **Stateless**: Contains all necessary information, no server-side storage
@@ -8212,7 +8587,7 @@ public class JwtService {
 
 ### 324: What is CSRF protection?
 
-**Answer (35 seconds):**
+**Answer**
 * Cross-Site Request Forgery protection prevents unauthorized actions
 * **Attack**: Malicious site tricks user into performing unwanted actions
 * **CSRF Token**: Unique token included in forms and validated on server
@@ -8243,7 +8618,7 @@ public class SecurityConfig {
 
 ### 325: What is XSS protection?
 
-**Answer (35 seconds):**
+**Answer**
 * Cross-Site Scripting protection prevents malicious script injection
 * **Reflected XSS**: Script in URL parameters executed immediately
 * **Stored XSS**: Malicious script stored in database and executed later
@@ -8357,7 +8732,7 @@ public class SecureUserService {
 
 ### 328: What is OAuth 2.0?
 
-**Answer (35 seconds):**
+**Answer**
 * Updated version of OAuth protocol for authorization
 * **Authorization Code Flow**: Most secure, uses authorization code exchange
 * **Implicit Flow**: For browser-based apps (deprecated)
@@ -8397,7 +8772,7 @@ public class ApiController {
 
 ### 329: What is OpenID Connect?
 
-**Answer (35 seconds):**
+**Answer**
 * Identity layer built on top of OAuth 2.0 protocol
 * **Authentication**: Provides user identity information (who you are)
 * **ID Token**: JWT containing user identity claims
@@ -8441,7 +8816,7 @@ public Map<String, Object> user(Principal principal) {
 
 ### 330: What is SAML?
 
-**Answer (35 seconds):**
+**Answer**
 * Security Assertion Markup Language for exchanging authentication data
 * **XML-based**: Uses XML for security assertions
 * **SSO**: Enables single sign-on across different domains
@@ -8496,7 +8871,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 
 ### 331: How do you measure Java application performance?
 
-**Answer (35 seconds):**
+**Answer**
 * **Response Time**: Time to complete requests
 * **Throughput**: Requests processed per second
 * **Resource Utilization**: CPU, memory, disk, network usage
@@ -8650,7 +9025,7 @@ public class ProfiledService {
 
 ### 335: What is JVM tuning?
 
-**Answer (35 seconds):**
+**Answer**
 * Process of optimizing JVM parameters for better performance
 * **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
 * **Garbage Collection**: Choose appropriate GC algorithm
@@ -8794,7 +9169,7 @@ public class CpuProfiledService {
 
 ### 339: What is application performance monitoring (APM)?
 
-**Answer (35 seconds):**
+**Answer**
 * Comprehensive monitoring of application performance in production
 * **Real-time Monitoring**: Live performance metrics and alerts
 * **Distributed Tracing**: Track requests across microservices
@@ -8835,7 +9210,7 @@ public class MonitoredController {
 
 ### 340: What is code profiling?
 
-**Answer (25 seconds):**
+**Answer**
 * Detailed analysis of code execution to identify performance issues
 * **Static Analysis**: Code review without execution
 * **Dynamic Analysis**: Runtime performance measurement
@@ -8875,7 +9250,7 @@ public class ProfiledCodeService {
 
 ### 341: What is database optimization?
 
-**Answer (35 seconds):**
+**Answer**
 * Techniques to improve database query performance and efficiency
 * **Indexing**: Create indexes on frequently queried columns
 * **Query Optimization**: Write efficient SQL queries
@@ -8912,7 +9287,7 @@ public class OptimizedUserRepository {
 
 ### 342: What is query optimization?
 
-**Answer (35 seconds):**
+**Answer**
 * Process of improving SQL query performance and execution time
 * **Index Usage**: Ensure queries use appropriate indexes
 * **Query Structure**: Avoid SELECT *, use specific columns
@@ -9002,7 +9377,7 @@ public class UserService {
 
 ### 344: What is eager loading?
 
-**Answer (25 seconds):**
+**Answer**
 * Loading strategy that fetches all related data immediately
 * **JPA/Hibernate**: Load associated entities along with main entity
 * **Performance Trade-off**: Higher initial load time but fewer queries later
@@ -9125,7 +9500,7 @@ public class CalculatorTest {
 
 ### 347: What is JUnit?
 
-**Answer (25 seconds):**
+**Answer**
 * Most popular unit testing framework for Java applications
 * **Annotations**: @Test, @BeforeEach, @AfterEach for test lifecycle
 * **Assertions**: assertEquals, assertTrue, assertThrows for verification
@@ -9160,7 +9535,7 @@ class UserServiceTest {
 
 ### 348: What are the annotations used in JUnit?
 
-**Answer (35 seconds):**
+**Answer**
 * **@Test**: Marks method as test case
 * **@BeforeEach**: Runs before each test method
 * **@AfterEach**: Runs after each test method
@@ -9251,7 +9626,7 @@ public class TestNGExample {
 
 ### 350: What is the difference between JUnit and TestNG?
 
-**Answer (35 seconds):**
+**Answer**
 * **Configuration**: TestNG uses XML, JUnit uses annotations
 * **Parallel Execution**: TestNG has built-in support, JUnit needs plugins
 * **Test Dependencies**: TestNG supports dependent tests, JUnit doesn't
@@ -9404,7 +9779,7 @@ class UserIntegrationTest {
 
 ### 354: What is test-driven development (TDD)?
 
-**Answer (35 seconds):**
+**Answer**
 * Development approach where tests are written before production code
 * **Red-Green-Refactor**: Write failing test, make it pass, improve code
 * **Benefits**: Better design, higher test coverage, fewer bugs
@@ -9441,7 +9816,7 @@ public class Rectangle {
 
 ### 355: What is behavior-driven development (BDD)?
 
-**Answer (35 seconds):**
+**Answer**
 * Extension of TDD focusing on behavior specification in natural language
 * **Given-When-Then**: Structure tests as scenarios with clear steps
 * **Collaboration**: Involves developers, testers, and business stakeholders
@@ -9510,7 +9885,7 @@ class UserAcceptanceTest {
 
 ### 357: What is contract testing?
 
-**Answer (35 seconds):**
+**Answer**
 * Testing to ensure services can communicate correctly with each other
 * **API Contracts**: Verify API specifications are followed
 * **Consumer-Driven**: Consumers define expectations for providers
@@ -9594,7 +9969,7 @@ void testIsPositive() {
 
 ### 359: What is performance testing?
 
-**Answer (35 seconds):**
+**Answer**
 * Testing to evaluate system performance under various load conditions
 * **Load Testing**: Normal expected load
 * **Stress Testing**: Beyond normal capacity to find breaking point
@@ -9629,7 +10004,7 @@ public class StringConcatenationBenchmark {
 
 ### 360: What is security testing?
 
-**Answer (35 seconds):**
+**Answer**
 * Testing to identify security vulnerabilities and ensure data protection
 * **Authentication**: Verify login mechanisms work correctly
 * **Authorization**: Ensure users can only access permitted resources
@@ -9766,7 +10141,7 @@ tasks.named('test') {
 
 ### 363: What is the difference between Maven and Gradle?
 
-**Answer (35 seconds):**
+**Answer**
 * **Configuration**: Maven uses XML, Gradle uses Groovy/Kotlin DSL
 * **Performance**: Gradle is faster with incremental builds and build cache
 * **Flexibility**: Gradle more flexible, Maven more standardized
@@ -9800,7 +10175,7 @@ task customTask {
 
 ### 364: What is continuous integration?
 
-**Answer (35 seconds):**
+**Answer**
 * Development practice of frequently integrating code changes into shared repository
 * **Automated Builds**: Every commit triggers automated build and test
 * **Early Detection**: Catch integration issues and bugs early
@@ -9926,7 +10301,7 @@ git pull origin main              # Pull from remote
 
 ### 368: What is version control?
 
-**Answer (25 seconds):**
+**Answer**
 * System for tracking and managing changes to files over time
 * **History**: Complete history of all changes and versions
 * **Collaboration**: Multiple developers can work on same project
@@ -9949,7 +10324,7 @@ git revert abc123            # Revert specific commit
 
 ### 369: What is infrastructure as code?
 
-**Answer (35 seconds):**
+**Answer**
 * Managing and provisioning infrastructure through code rather than manual processes
 * **Declarative**: Define desired state, tools ensure it's achieved
 * **Version Control**: Infrastructure changes tracked like application code
@@ -9996,7 +10371,7 @@ resource "aws_instance" "web" {
 
 ### 370: What is deployment strategies?
 
-**Answer (35 seconds):**
+**Answer**
 * Different approaches for releasing applications to production
 * **Rolling Deployment**: Gradually replace old instances with new ones
 * **Blue-Green**: Switch between two identical environments
@@ -10078,7 +10453,7 @@ spec:
 
 ### 372: What is canary deployment?
 
-**Answer (35 seconds):**
+**Answer**
 * Deployment strategy that releases new version to small subset of users first
 * **Gradual Rollout**: Start with 5-10% of traffic, gradually increase
 * **Risk Mitigation**: Limit blast radius of potential issues
@@ -10138,7 +10513,7 @@ public class UserController {
 
 ### 373: What is application monitoring?
 
-**Answer (35 seconds):**
+**Answer**
 * Continuous observation of application performance, health, and behavior in production
 * **Real-time Metrics**: CPU, memory, response times, error rates
 * **Business Metrics**: User activity, transaction volumes, conversion rates
@@ -10347,7 +10722,7 @@ public class OrderService {
 
 ### 378: What is structured logging?
 
-**Answer (35 seconds):**
+**Answer**
 * Logging approach that produces machine-readable, consistent log format
 * **JSON Format**: Logs as JSON objects for easy parsing
 * **Key-Value Pairs**: Structured data instead of free-form text
@@ -10397,7 +10772,7 @@ public class PaymentService {
 
 ### 379: What is centralized logging?
 
-**Answer (35 seconds):**
+**Answer**
 * Collecting logs from multiple applications/servers into single location
 * **Aggregation**: Combine logs from distributed systems
 * **Correlation**: Track requests across multiple services
@@ -10464,7 +10839,7 @@ public class LoggingConfig {
 
 ### 380: What is metrics collection?
 
-**Answer (35 seconds):**
+**Answer**
 * Systematic gathering of quantitative data about application performance
 * **System Metrics**: CPU, memory, disk, network utilization
 * **Application Metrics**: Response times, error rates, throughput
@@ -10622,7 +10997,7 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
 ### 383: What is distributed monitoring?
 
-**Answer (35 seconds):**
+**Answer**
 * Monitoring approach for applications spread across multiple servers/services
 * **Distributed Tracing**: Track requests across service boundaries
 * **Correlation IDs**: Link related operations across services
@@ -10806,7 +11181,7 @@ public class OrderController {
 
 ### 386: What is scalability design patterns?
 
-**Answer (35 seconds):**
+**Answer**
 * Patterns that enable systems to handle increased load efficiently
 * **Load Balancing**: Distribute requests across multiple instances
 * **Caching**: Store frequently accessed data in memory
@@ -10850,7 +11225,7 @@ public class OrderProcessor {
 
 ### 387: What is reliability design patterns?
 
-**Answer (35 seconds):**
+**Answer**
 * Patterns that ensure system continues operating despite failures
 * **Circuit Breaker**: Prevent cascading failures by failing fast
 * **Retry Pattern**: Automatically retry failed operations with backoff
@@ -10886,7 +11261,7 @@ public class PaymentService {
 
 ### 388: What is availability design patterns?
 
-**Answer (35 seconds):**
+**Answer**
 * Patterns that maximize system uptime and minimize service interruptions
 * **Active-Passive Failover**: Standby system takes over when primary fails
 * **Active-Active**: Multiple systems handle load simultaneously
@@ -10928,7 +11303,7 @@ public class SystemHealthIndicator implements HealthIndicator {
 
 ### 389: What is event-driven architecture?
 
-**Answer (35 seconds):**
+**Answer**
 * Architecture where components communicate through events rather than direct calls
 * **Loose Coupling**: Components don't need to know about each other
 * **Asynchronous**: Events processed independently and asynchronously
@@ -10983,7 +11358,7 @@ public class OrderEventHandlers {
 
 ### 390: What is CQRS pattern?
 
-**Answer (35 seconds):**
+**Answer**
 * Command Query Responsibility Segregation - separate read and write operations
 * **Commands**: Operations that change state (Create, Update, Delete)
 * **Queries**: Operations that read data without side effects
@@ -11039,7 +11414,7 @@ public class OrderSummary {
 
 ### 391: What is event sourcing?
 
-**Answer (35 seconds):**
+**Answer**
 * Pattern where application state is stored as sequence of events
 * **Event Store**: Immutable log of all events that occurred
 * **State Reconstruction**: Current state derived by replaying events
@@ -11180,7 +11555,7 @@ public class Money {
 
 ### 393: What is clean architecture?
 
-**Answer (35 seconds):**
+**Answer**
 * Architecture that separates concerns into concentric layers
 * **Independence**: Business logic independent of frameworks and databases
 * **Dependency Rule**: Dependencies point inward toward business logic
@@ -11248,7 +11623,7 @@ public class UserController {
 
 ### 394: What is hexagonal architecture?
 
-**Answer (35 seconds):**
+**Answer**
 * Architecture pattern that isolates core business logic from external concerns
 * **Ports**: Interfaces that define how application communicates with outside world
 * **Adapters**: Implementations that connect ports to external systems
@@ -11370,7 +11745,7 @@ public class JVMMemoryExample {
 
 ### 396: What is class loading process?
 
-**Answer (35 seconds):**
+**Answer**
 * Three-phase process: Loading, Linking, and Initialization
 * **Loading**: Find and load class file into memory
 * **Linking**: Verification, preparation, and resolution of references
@@ -11418,7 +11793,7 @@ class MyClass {
 
 ### 397: What are the types of class loaders?
 
-**Answer (35 seconds):**
+**Answer**
 * **Bootstrap Class Loader**: Loads core Java classes (rt.jar)
 * **Extension Class Loader**: Loads extension classes (ext directory)
 * **Application Class Loader**: Loads application classes from classpath
@@ -11499,7 +11874,7 @@ public class BytecodeExample {
 
 ### 399: What is JIT compilation?
 
-**Answer (35 seconds):**
+**Answer**
 * Just-In-Time compilation converts bytecode to native machine code at runtime
 * **Performance**: Native code executes faster than interpreted bytecode
 * **Hotspot Detection**: Identifies frequently executed code (hot spots)
@@ -11654,7 +12029,7 @@ class Point {
 
 ### 402: What is GraalVM?
 
-**Answer (35 seconds):**
+**Answer**
 * High-performance runtime that supports multiple programming languages
 * **Polyglot**: Run Java, JavaScript, Python, R, Ruby on same VM
 * **Native Images**: Compile Java to native executables
@@ -11724,7 +12099,7 @@ public class AOTExample {
 
 ### 404: What is native image compilation?
 
-**Answer (35 seconds):**
+**Answer**
 * Process of compiling Java applications to standalone native executables
 * **Closed World**: All code must be known at compile time
 * **Static Analysis**: Analyzes entire application and dependencies
@@ -11748,7 +12123,7 @@ public class NativeImageApp {
 
 ### 405: What is tiered compilation?
 
-**Answer (35 seconds):**
+**Answer**
 * JVM compilation strategy using multiple compilation levels
 * **Level 0**: Interpreter - executes bytecode directly
 * **Level 1**: C1 Compiler - fast compilation with basic optimizations
@@ -11801,7 +12176,7 @@ public class TieredCompilationExample {
 
 ### 406: What is bytecode optimization?
 
-**Answer (35 seconds):**
+**Answer**
 * JVM techniques to improve bytecode execution performance
 * **Constant Folding**: Evaluate constants at compile time
 * **Dead Code Elimination**: Remove unreachable code
@@ -11869,7 +12244,7 @@ public class BytecodeOptimizationExample {
 
 ### 407: What is Project Loom?
 
-**Answer (35 seconds):**
+**Answer**
 * OpenJDK project introducing lightweight threads (virtual threads) to Java
 * **Virtual Threads**: Millions of threads with minimal memory overhead
 * **Structured Concurrency**: Better way to manage concurrent operations
@@ -11980,7 +12355,7 @@ public class PanamaExample {
 
 ### 409: What is Project Valhalla?
 
-**Answer (35 seconds):**
+**Answer**
 * OpenJDK project introducing value types and specialized generics
 * **Value Classes**: Objects without identity, stored inline
 * **Primitive Classes**: User-defined primitives like int, double
@@ -12030,7 +12405,7 @@ public class ValhallaBenefits {
 
 ### 410: What is Project Amber?
 
-**Answer (35 seconds):**
+**Answer**
 * OpenJDK project delivering small, productivity-focused language features
 * **Local Variable Type Inference**: var keyword for cleaner code
 * **Switch Expressions**: Enhanced switch with return values
@@ -12147,7 +12522,7 @@ public class WebAssemblyExample {
 
 ### 412: What is cloud native Java?
 
-**Answer (35 seconds):**
+**Answer**
 * Java applications designed specifically for cloud environments
 * **Microservices**: Decomposed into small, independent services
 * **Containers**: Packaged in Docker containers for portability
@@ -12205,7 +12580,7 @@ public class UserController {
 
 ### 413: What is serverless Java?
 
-**Answer (35 seconds):**
+**Answer**
 * Running Java applications without managing servers or infrastructure
 * **Function as a Service**: Deploy individual functions that scale automatically
 * **Event-Driven**: Functions triggered by events (HTTP, database, queue)
@@ -12286,7 +12661,7 @@ public class GreetingResource {
 
 ### 414: What is edge computing with Java?
 
-**Answer (35 seconds):**
+**Answer**
 * Running Java applications closer to end users for reduced latency
 * **Edge Locations**: Data centers near users (CDN nodes, cell towers)
 * **Low Latency**: Millisecond response times for real-time applications
