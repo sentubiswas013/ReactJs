@@ -7452,13 +7452,9 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 ### 307: What is Docker?
 
-**Answer (30 seconds):**
-* Platform for developing, shipping, and running applications in containers
-* **Images**: Read-only templates for creating containers
-* **Containers**: Running instances of Docker images
-* **Dockerfile**: Text file with instructions to build images
-* **Registry**: Repository for storing and sharing images (Docker Hub)
-* Simplifies deployment and environment consistency
+**Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
+
+Docker makes applications **lightweight, portable, fast to deploy**, and easier to scale compared to traditional virtual machines.
 
 ```bash
 # Build and run Java application
@@ -7478,6 +7474,11 @@ services:
 ---
 
 ### 308: What is Kubernetes?
+
+**Kubernetes** is a **container orchestration platform** used to manage containerized applications at scale. It automates **deployment, scaling, load balancing, and self-healing** of containers across a cluster of machines.
+
+It ensures applications remain **highly available, scalable, and resilient** in production environments.
+
 
 **Answer (35 seconds):**
 * Container orchestration platform for managing containerized applications
@@ -7511,6 +7512,11 @@ spec:
 
 ### 309: What is cloud computing?
 
+**Cloud computing** is the delivery of computing resources like **servers, storage, databases, networking, and software** over the internet on a **pay-as-you-go** basis. Instead of owning physical infrastructure, you use resources provided by cloud platforms.
+
+It allows easy **scaling, high availability, cost efficiency**, and faster application deployment.
+
+
 **Answer (30 seconds):**
 * Delivery of computing services over the internet
 * **IaaS**: Infrastructure as a Service (virtual machines, storage)
@@ -7536,6 +7542,10 @@ public class CloudApplication {
 ---
 
 ### 310: What is distributed system?
+
+A **distributed system** is a system where multiple **independent computers or services work together** over a network and appear as a **single system** to the user.
+
+These systems improve **scalability, fault tolerance, and availability**, since work is shared across multiple nodes instead of relying on a single machine.
 
 **Answer (35 seconds):**
 * System where components are located on different networked computers
@@ -7563,6 +7573,10 @@ public class OrderController {
 ---
 
 ### 311: What is load balancing?
+
+**Load balancing** is the process of **distributing incoming requests** across multiple servers so that no single server becomes overloaded.
+
+It improves **application performance, availability, and reliability** by ensuring traffic is handled efficiently, even when one server fails or traffic increases.
 
 **Answer (30 seconds):**
 * Technique to distribute incoming requests across multiple servers
