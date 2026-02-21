@@ -1793,6 +1793,10 @@ String str4 = new StringBuilder("Hello").toString();
 ### 86. What is String interning?
 
 **Answer:**
+**String interning** is a process where the JVM stores **unique string literals in a special memory area called the String pool**.
+
+If multiple strings have the same value, they **share the same memory reference**, which helps in **memory optimization**. Interning happens **automatically for string literals** in Java.
+
 * **String pool storage** - JVM stores unique string literals in special memory area
 * **Memory optimization** - Identical strings share same memory location
 * **Reference sharing** - Multiple variables can point to same string object
@@ -1811,6 +1815,10 @@ System.out.println(str1 == str3.intern());  // true (intern returns pool referen
 ### 87. Why does Java use the String literal concept?
 
 **Answer:**
+Java uses the **String literal concept** to improve **memory efficiency** by allowing identical strings to share the same memory location in the string pool.
+
+It also boosts **performance**, as string comparisons can use reference equality, reduces unnecessary object creation (less garbage collection), and optimizes memory since **Strings are heavily used** in applications.
+
 * **Memory efficiency** - Reduces memory usage by sharing identical strings
 * **Performance boost** - Faster string comparison using reference equality
 * **Reduced garbage** - Less object creation means less garbage collection
@@ -1830,6 +1838,10 @@ if (name1 == name2) {  // Reference comparison, very fast
 ### 88. What is the basic difference between a String and StringBuffer object?
 
 **Answer:**
+The basic difference is that **String is immutable**, meaning its value cannot be changed, while **StringBuffer is mutable**, meaning it can be modified.
+
+**StringBuffer is synchronized and thread-safe**, making it suitable for multi-threaded environments. It performs better when multiple modifications are needed, whereas String creates a new object for every change.
+
 * **Mutability** - String is immutable, StringBuffer is mutable
 * **Thread safety** - StringBuffer is synchronized, String is not applicable
 * **Performance** - StringBuffer better for multiple modifications
@@ -1849,6 +1861,10 @@ String result = sb.toString();
 ### 89. How will you create an immutable class in Java?
 
 **Answer:**
+To create an **immutable class in Java**, declare the class as **final** so it cannot be extended, and make all fields **private and final**.
+
+Do not provide **setter methods**, and if the class contains mutable objects, return **defensive copies** instead of the original references.
+
 * **Final class** - Declare class as final to prevent inheritance
 * **Private fields** - Make all fields private and final
 * **No setters** - Don't provide setter methods
@@ -1874,6 +1890,10 @@ public final class ImmutablePerson {
 ### 90. What is the use of the toString() method in Java?
 
 **Answer:**
+The **`toString()` method** in Java is used to provide a **string representation of an object**.
+
+It is mainly helpful for **debugging and logging**. By default, it returns `classname@hashcode`, so it is recommended to **override it** to provide meaningful and readable output.
+
 * **String representation** - Converts object to readable string format
 * **Debugging aid** - Helps in debugging and logging
 * **Default behavior** - Returns classname@hashcode by default
@@ -1936,6 +1956,10 @@ for (int i = 0; i < 1000; i++) {
 ### 92. What is exception handling in Java?
 
 **Answer:**
+**Exception handling in Java** is a mechanism used to **handle runtime errors gracefully** so that the program does not crash unexpectedly.
+
+It uses a structured approach with **try-catch-finally blocks**, allowing clean separation of error-handling code from the main business logic and ensuring program continuity.
+
 * **Error management** - Mechanism to handle runtime errors gracefully
 * **Program continuity** - Prevents program from crashing unexpectedly
 * **Structured approach** - Uses try-catch-finally blocks for control
@@ -1954,6 +1978,10 @@ try {
 ### 93. What are the differences between checked and unchecked exceptions?
 
 **Answer:**
+The main difference is that **checked exceptions** are verified at **compile time** and must be handled using try-catch or declared with `throws`, while **unchecked exceptions** occur at **runtime** and handling them is optional.
+
+Checked exceptions extend the **Exception** class (e.g., `IOException`), whereas unchecked exceptions extend **RuntimeException** (e.g., `NullPointerException`).
+
 * **Compile-time vs Runtime** - Checked at compile time vs runtime
 * **Handling requirement** - Checked must be handled, unchecked optional
 * **Inheritance** - Checked extends Exception, unchecked extends RuntimeException
@@ -1975,6 +2003,10 @@ int length = str.length();  // RuntimeException, no forced handling
 ### 94. What is the base class for Error and Exception classes in Java?
 
 **Answer:**
+The base class for both **Error** and **Exception** in Java is the **Throwable** class.
+
+Both extend Throwable, and only objects of this class (or its subclasses) can be **thrown and caught**. It provides common methods like **getMessage(), printStackTrace(), and getCause()**.
+
 * **Throwable class** - Root class for all errors and exceptions
 * **Two main branches** - Error and Exception both extend Throwable
 * **Catchable objects** - Only Throwable objects can be thrown/caught
@@ -1998,6 +2030,10 @@ try {
 ### 95. What is a finally block in Java?
 
 **Answer:**
+A **finally block in Java** is a block of code that **always executes**, whether an exception occurs or not.
+
+It is mainly used for **cleanup activities** like closing files or database connections. It runs even if the catch block throws an exception and is optional, as it can be used with or without a catch block.
+
 * **Always executes** - Runs regardless of exception occurrence
 * **Cleanup code** - Used for resource cleanup and finalization
 * **Exception independent** - Executes even if catch block throws exception
@@ -2020,6 +2056,10 @@ try {
 ### 96. What is the use of the finally block in Java?
 
 **Answer:**
+The **finally block** in Java is used to ensure **critical code always executes**, regardless of whether an exception occurs.
+
+It is mainly used for **resource cleanup**, such as closing files, database connections, or streams, and helps in proper **memory management and logging**.
+
 * **Resource cleanup** - Close files, database connections, streams
 * **Guaranteed execution** - Ensures critical code always runs
 * **Memory management** - Release allocated resources
@@ -2042,6 +2082,10 @@ try {
 ### 97. Can we create a finally block without creating a catch block?
 
 **Answer:**
+Yes, we can create a **finally block without a catch block** using a **try-finally** structure.
+
+In this case, exceptions are not handled locally and will propagate to the caller, but the **finally block still executes**, making it useful for resource cleanup operations.
+
 * **Yes, it's allowed** - try-finally is valid syntax
 * **No exception handling** - Exceptions will propagate up
 * **Resource cleanup** - Still useful for cleanup operations
@@ -2065,6 +2109,10 @@ public void readFile() throws IOException {
 ### 98. Do we have to always put a catch block after a try block?
 
 **Answer:**
+No, it is **not mandatory** to always put a catch block after a try block.
+
+A try block must be followed by either a **catch block, a finally block, or both**. However, a try block **cannot exist alone**, otherwise it will result in a compilation error.
+
 * **Not mandatory** - Either catch or finally is required
 * **Three valid combinations** - try-catch, try-finally, try-catch-finally
 * **Cannot be alone** - try block cannot exist by itself
@@ -2083,6 +2131,10 @@ try { }  // Error: try without catch or finally
 ### 99. In what scenarios will a finally block not be executed?
 
 **Answer:**
+Normally, a **finally block always executes**, but there are rare cases where it may not run.
+
+For example, if **System.exit()** is called and the JVM shuts down, if a **fatal JVM error** occurs (like system crash or severe OutOfMemoryError), or if the program enters an **infinite loop** and never reaches the finally block.
+]
 * **System.exit()** - JVM termination prevents finally execution
 * **Fatal JVM errors** - OutOfMemoryError, system crashes
 * **Infinite loops** - Code never reaches finally block
@@ -2106,6 +2158,10 @@ try {
 ### 100. Can we re-throw an exception in Java?
 
 **Answer:**
+Yes, we can **re-throw an exception** in Java using the `throw` keyword.
+
+We can re-throw the **same exception** or wrap it inside a new exception. This is commonly done to **log the error and then propagate it**, while preserving the original stack trace.
+
 * **Yes, using throw** - Can re-throw caught exceptions
 * **Same or different** - Can throw same exception or wrap in new one
 * **Preserve stack trace** - Original stack trace can be maintained
@@ -2129,6 +2185,10 @@ try {
 ### 101. What is the difference between throw and throws in Java?
 
 **Answer:**
+The **`throw`** keyword is used to **actually throw an exception object** inside the method body.
+
+The **`throws`** keyword is used in the **method signature** to declare that the method may throw certain exceptions.
+
 * **throw** - Actually throws an exception object
 * **throws** - Declares that method may throw exceptions
 * **Usage location** - throw inside method body, throws in method signature
@@ -2150,6 +2210,10 @@ public void readFile() throws IOException, FileNotFoundException {
 ### 102. What is the concept of exception propagation?
 
 **Answer:**
+**Exception propagation** is the process where an exception **moves up the call stack** when it is not handled in the current method.
+
+It happens automatically, and each calling method can either **catch the exception or let it propagate further**. If no method handles it, the program will terminate.
+
 * **Upward movement** - Exceptions move up the call stack
 * **Automatic process** - Happens when exception is not caught
 * **Method chain** - Each method can catch or let it propagate
@@ -2176,6 +2240,12 @@ public void method3() {
 ### 103. When we override a method in a child class, can we throw an additional exception that is not thrown by the parent class method?
 
 **Answer:**
+When overriding a method, we **cannot throw new checked exceptions** that are not declared in the parent class method.
+
+We can only throw the **same checked exception or its subclass**. However, we are allowed to throw **unchecked exceptions (RuntimeException)**.
+
+This follows the **Liskov Substitution Principle**, ensuring the child class can be used in place of the parent class.
+
 * **Checked exceptions: No** - Cannot throw new checked exceptions
 * **Unchecked exceptions: Yes** - Can throw any RuntimeException
 * **Same or subclass** - Can throw same or subclass of parent's exceptions
@@ -2220,6 +2290,10 @@ Throwable
 # 🔹 1. Core Collections
 
 ### 104. What is the Collections Framework in Java? (25 seconds)
+The **Collections Framework in Java** provides a **unified architecture** to store, manage, and manipulate groups of objects.
+
+It consists of **interfaces** (like List, Set, Map) and their **implementations** (like ArrayList, HashSet, HashMap), along with **algorithms** for sorting, searching, and shuffling. It offers **optimized data structures** for better performance in different use cases.
+
 * **Unified architecture** - Standard way to store and manipulate groups of objects
 * **Interfaces and implementations** - List, Set, Map with ArrayList, HashSet, HashMap
 * **Algorithms** - Sorting, searching, shuffling through Collections class
@@ -2251,6 +2325,10 @@ Queue<String> queue = new LinkedList<>();
 ```
 
 ### 106. What is the difference between Collection and Collections in Java? (20 seconds)
+**Collection** is an **interface** that represents a group of objects and is extended by **List, Set, and Queue**.
+
+**Collections** is a **utility class** that provides static methods like `sort()`, `reverse()`, `shuffle()`, and `synchronizedList()` to perform operations on collections.
+
 * **Collection** - Interface that represents a group of objects
 * **Collections** - Utility class with static methods for collection operations
 * **Collection** - Extended by List, Set, Queue interfaces
@@ -2267,6 +2345,10 @@ List<String> syncList = Collections.synchronizedList(new ArrayList<>());
 ```
 
 ### 107. What is the difference between List and Set interfaces? (25 seconds)
+The **List interface** allows **duplicate elements**, maintains **insertion order**, and provides **indexed access** using methods like `get(index)` and `set(index, element)`.
+
+The **Set interface** **prevents duplicates** and focuses on **uniqueness**, relying on `equals()` and `hashCode()`. Sets do not provide indexed access.
+    
 * **List allows duplicates** - Can store same element multiple times
 * **Set prevents duplicates** - Each element appears only once
 * **List maintains insertion order** - Elements stored in sequence
@@ -2286,6 +2368,12 @@ System.out.println(set.size()); // 1
 ```
 
 ### 108. What is the difference between ArrayList and LinkedList? (30 seconds)
+**ArrayList** is a **dynamic array** that provides **fast random access (O(1))** and is better for frequent reading and iteration.
+
+**LinkedList** is a **doubly linked list** that provides **fast insertion and deletion (O(1))**, especially in the middle of the list.
+
+ArrayList is more **memory-efficient**, while LinkedList uses extra memory for node pointers.
+
 * **ArrayList** - Dynamic array, fast random access O(1)
 * **LinkedList** - Doubly linked list, fast insertion/deletion O(1)
 * **ArrayList** - Better for frequent reading and iteration
@@ -2303,6 +2391,10 @@ linkedList.add(2, "newElement"); // O(1) at known position
 ```
 
 ### 109. What is the difference between ArrayList and Vector? (25 seconds)
+**Vector** is **synchronized** and thread-safe, while **ArrayList** is **not synchronized** and faster due to no synchronization overhead.
+
+Vector **doubles its size** when it grows, whereas ArrayList grows by **50%**. Vector is considered **legacy**, and ArrayList is generally preferred. For thread safety with ArrayList, we can use `Collections.synchronizedList()`.
+
 * **Synchronization** - Vector is synchronized, ArrayList is not
 * **Performance** - ArrayList is faster due to no synchronization overhead
 * **Growth** - Vector doubles size, ArrayList grows by 50%
@@ -2321,6 +2413,12 @@ List<String> syncList = Collections.synchronizedList(new ArrayList<>());
 ```
 
 ### 110. What is the difference between HashMap and Hashtable? (30 seconds)
+**HashMap** is **not synchronized**, allows **one null key and multiple null values**, and is generally **faster**.
+
+**Hashtable** is **synchronized**, does **not allow null keys or values**, and is considered **legacy**.
+
+Hashtable extends **Dictionary**, while HashMap extends **AbstractMap**.
+
 * **Synchronization** - Hashtable is synchronized, HashMap is not
 * **Null values** - HashMap allows one null key and multiple null values
 * **Hashtable** - No null keys or values allowed
@@ -2339,6 +2437,12 @@ Map<String, Integer> hashtable = new Hashtable<>();
 ```
 
 ### 111. What is the difference between HashMap and TreeMap? (25 seconds)
+**HashMap** provides **fast access (O(1))** with no ordering and allows **one null key**. It uses a **hash table** internally.
+
+**TreeMap** maintains **sorted order** of keys, has slower **O(log n)** access, does **not allow null keys**, and uses a **Red-Black tree** internally.
+
+Use **HashMap** for fast lookup and **TreeMap** when sorted data is needed.
+
 * **Ordering** - TreeMap maintains sorted order, HashMap doesn't
 * **Performance** - HashMap O(1) access, TreeMap O(log n)
 * **Null keys** - HashMap allows one null key, TreeMap doesn't
@@ -2361,6 +2465,12 @@ treeMap.put("b", 2);
 ```
 
 ### 112. What is the difference between HashSet and TreeSet? (25 seconds)
+**HashSet** stores elements with **no order**, allows **one null element**, and provides **O(1) operations** using a **hash table**.
+
+**TreeSet** maintains **sorted order**, does **O(log n) operations**, does **not allow null**, and is implemented using a **Red-Black tree**.
+
+TreeSet also implements **NavigableSet**, offering extra methods for navigation.
+
 * **Ordering** - TreeSet maintains sorted order, HashSet doesn't
 * **Performance** - HashSet O(1) operations, TreeSet O(log n)
 * **Null values** - HashSet allows one null, TreeSet doesn't
@@ -2387,6 +2497,10 @@ treeSet.add("b");
 ### 113. What is the difference between Iterator and ListIterator?
 
 **Answer:**
+**Iterator** is **unidirectional** and works with **all collections**, allowing only **removal** of elements during iteration.
+
+**ListIterator** is **bidirectional**, works **only with List**, and can **add, remove, or update elements**. It also provides **index information** during traversal.
+
 * **Direction** - Iterator is unidirectional, ListIterator is bidirectional
 * **Collection support** - Iterator works with all collections, ListIterator only with List
 * **Modification** - Iterator only removes, ListIterator can add, remove, and set
@@ -2418,6 +2532,10 @@ while (listIterator.hasPrevious()) {
 ### 114. What is the difference between Enumeration and Iterator?
 
 **Answer:**
+**Enumeration** is a **legacy interface** used for reading elements only; it does **not support element removal** and is **not fail-fast**.
+
+**Iterator** is the modern approach, allows **removal of elements**, and is **fail-fast**, providing better safety during concurrent modifications.
+
 * **Legacy vs Modern** - Enumeration is legacy, Iterator is modern approach
 * **Modification** - Enumeration read-only, Iterator supports removal
 * **Fail-fast** - Iterator is fail-fast, Enumeration is not
@@ -2446,6 +2564,10 @@ while (iterator.hasNext()) {
 ### 115. What is the fail-fast property of iterators?
 
 **Answer:**
+The **fail-fast property** of iterators means that if a collection is **modified while iterating** (except through the iterator itself), the iterator immediately throws a **ConcurrentModificationException**.
+
+This acts as a **safety mechanism** to prevent unpredictable behavior from concurrent modifications.
+
 * **Concurrent modification detection** - Throws ConcurrentModificationException if collection modified during iteration
 * **Safety mechanism** - Prevents unpredictable behavior from concurrent changes
 * **ModCount tracking** - Uses modification count to detect changes
@@ -2475,6 +2597,12 @@ for (String item : safeList) {
 ### 116. What is the difference between synchronized and concurrent collections?
 
 **Answer:**
+**Synchronized collections** use a **single lock** to control access, which can block all threads and reduce performance under high concurrency.
+
+**Concurrent collections** use **fine-grained locking or non-blocking algorithms**, allowing better **parallelism and performance**.
+
+Example: `Collections.synchronizedList()` vs `ConcurrentHashMap`.
+
 * **Locking mechanism** - Synchronized uses single lock, concurrent uses fine-grained locking
 * **Performance** - Concurrent collections offer better performance under high concurrency
 * **Blocking behavior** - Synchronized blocks all threads, concurrent allows some parallelism
@@ -2503,6 +2631,10 @@ for (Map.Entry<String, Integer> entry : concurrentMap.entrySet()) {
 ### 117. What is ConcurrentHashMap and how is it different from HashMap?
 
 **Answer:**
+**ConcurrentHashMap** is a **thread-safe map** designed for high concurrency.
+
+Unlike **HashMap**, it **does not allow null keys or values** and uses **segment-based (fine-grained) locking** instead of full synchronization, providing **better performance** in multi-threaded environments.
+
 * **Thread safety** - ConcurrentHashMap is thread-safe, HashMap is not
 * **Locking strategy** - Uses segment-based locking instead of full synchronization
 * **Null values** - ConcurrentHashMap doesn't allow null keys/values, HashMap does
@@ -2582,6 +2714,8 @@ BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
 ### 118. How does multi-threading work in Java?
 
 **Answer:**
+Java allows multiple threads to run concurrently within one program. Threads share heap memory but have their own stack. They can be created by extending `Thread` or implementing `Runnable`, and the JVM schedules them on CPU cores.
+
 * Java creates multiple threads that run concurrently within a single process
 * Each thread has its own stack but shares heap memory
 * JVM schedules threads using time-slicing on available CPU cores
@@ -2610,6 +2744,8 @@ CompletableFuture.runAsync(() -> processData2());
 ### 120. What are the disadvantages of multithreading?
 
 **Answer:**
+**Disadvantages of multithreading** include increased **code complexity**, making it harder to debug and maintain, **performance overhead** due to synchronization, risk of **race conditions** when threads access shared resources, and potential for **deadlocks** where threads block each other indefinitely.
+
 * **Complexity** - Harder to debug and maintain code
 * **Synchronization overhead** - Performance cost of thread coordination
 * **Race conditions** - Data corruption when threads access shared resources
@@ -2624,6 +2760,10 @@ public void increment() { counter++; } // Not thread-safe
 ### 121. What is thread safety?
 
 **Answer:**
+**Thread safety** means that code **works correctly when accessed by multiple threads at the same time**.
+
+It ensures **data consistency** and prevents **race conditions**, and can be achieved using **synchronization, immutability, or thread-local storage**, especially for **shared mutable data**.
+
 * Code that works correctly when accessed by multiple threads simultaneously
 * Ensures data consistency and prevents race conditions
 * Achieved through synchronization, immutability, or thread-local storage
@@ -2638,6 +2778,12 @@ public void increment() { counter.incrementAndGet(); }
 ### 122. What is synchronization in Java?
 
 **Answer:**
+**Synchronization in Java** is a mechanism to **control access to shared resources** by multiple threads.
+
+It ensures that **only one thread at a time** can execute a critical section, preventing **data corruption** and maintaining consistency.
+
+It can be implemented using the **`synchronized` keyword**, explicit **locks**, or **atomic classes**.
+
 * Mechanism to control access to shared resources by multiple threads
 * Ensures only one thread can access critical section at a time
 * Prevents data corruption and maintains consistency
@@ -2655,6 +2801,10 @@ public void criticalSection() {
 ### 123. What is the synchronized keyword?
 
 **Answer:**
+The **`synchronized` keyword** in Java is used to provide **mutual exclusion**, ensuring that **only one thread** can access a method or block at a time.
+
+It uses the **intrinsic lock (monitor)** of an object and is applied to **methods or code blocks** to achieve **thread-safe access** to shared resources.
+
 * Java keyword that provides mutual exclusion for methods or blocks
 * Uses intrinsic lock (monitor) associated with every object
 * Ensures thread-safe access to shared resources
@@ -2675,6 +2825,10 @@ synchronized(this) {
 ### 124. What are synchronized methods and blocks?
 
 **Answer:**
+**Synchronized methods** make an **entire method thread-safe** by using the object’s intrinsic lock.
+
+**Synchronized blocks** allow **only a specific section of code** to be synchronized, offering **more granular control** and the option to use **custom lock objects** for better performance.
+
 * **Synchronized methods** - Entire method is thread-safe, uses object's intrinsic lock
 * **Synchronized blocks** - Only specific code section is synchronized, more granular control
 * Blocks allow custom lock objects for better performance
@@ -2694,6 +2848,10 @@ public void method2() {
 ### 125. What is deadlock?
 
 **Answer:**
+A **deadlock** is a situation where **two or more threads are blocked forever**, each waiting for a lock held by another thread.
+
+It occurs when threads **acquire locks in different orders**, causing all threads to be stuck. Deadlocks must be **prevented through careful lock management and ordering**.
+
 * Situation where two or more threads are blocked forever, waiting for each other
 * Occurs when threads acquire locks in different orders
 * All threads are stuck and cannot proceed
@@ -2709,6 +2867,8 @@ Thread2: synchronized(lockB) { synchronized(lockA) {...} }
 ### 126. How do you prevent deadlock?
 
 **Answer:**
+Deadlocks can be prevented by **acquiring locks in a consistent order**, using **timeouts** (like `tryLock`), **avoiding nested locks**, and leveraging **concurrent collections** to reduce manual synchronization.
+
 * **Lock ordering** - Always acquire locks in the same order
 * **Timeout** - Use tryLock with timeout instead of blocking
 * **Avoid nested locks** - Minimize holding multiple locks
