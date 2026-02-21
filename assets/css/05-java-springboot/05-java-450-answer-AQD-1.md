@@ -5882,6 +5882,7 @@ public class Java17Features {
 ### 220: What are generics in Java?
 
 **Answer**
+
 **Generics** in Java let you **parameterize classes and methods with types** for **type-safe code**.
 
 They provide **compile-time type checking**, reduce the need for casting, and help catch **ClassCastException** at compile time instead of runtime.
@@ -5908,6 +5909,7 @@ String str = list.get(0); // No casting needed
 ### 221: What is type erasure in generics?
 
 **Answer**
+
 **Type erasure** in Java generics means **generic type information is removed at runtime**.
 
 The compiler replaces type parameters with **raw types or Object**, ensuring **backward compatibility**, so `List<String>` and `List<Integer>` are just `List` at runtime.
@@ -5935,6 +5937,7 @@ List intList = new ArrayList();
 ### 222: What are wildcards in generics?
 
 **Answer**
+
 **Wildcards** in Java generics use `?` to represent **unknown types**.
 
 Types include **unbounded (`?`)**, **upper bounded (`? extends Type`)**, and **lower bounded (`? super Type`)**, allowing **flexible and type-safe use of generic collections**.
@@ -5962,6 +5965,7 @@ integers.add(42); // OK to write Integer
 ### 223: What is generic method implementation?
 
 **Answer**
+
 A **generic method** in Java declares its **own type parameters** before the return type, allowing it to **work with any type** safely, independent of the class’s generics, and can be **static or non-static**.
 
 *  Generic methods have their own type parameters independent of the class
@@ -6000,6 +6004,7 @@ Utility.swap(names, 0, 2); // Type inferred as String
 ### 224: What is bounded type parameters?
 
 **Answer**
+
 **Answer (Short for Interview):**
 Bounded type parameters restrict generic types. **Upper bounds** (`extends`) limit to a class/interface, **lower bounds** (`super`) allow contravariance, and multiple bounds can be combined with `&`.
 
@@ -6039,6 +6044,7 @@ NumberContainer<Integer> intContainer = new NumberContainer<>();
 ### 225: What is generic inheritance?
 
 **Answer**
+
 **Generic inheritance** allows **generic classes to extend other generic classes** or implement generic interfaces.
 
 Type parameters can be **passed, specialized, or added** in subclasses, with **wildcards handling covariance and contravariance**.
@@ -6088,6 +6094,7 @@ public class StringContainer extends Container<String> {
 ### 226: What is annotation in Java?
 
 **Answer**
+
 **Annotations** in Java are **metadata** that provide information about code.
 
 They start with `@`, can be applied to classes, methods, fields, or parameters, and include examples like **`@Override`**, **`@Deprecated`**, and **`@SuppressWarnings`**. They **don’t change behavior** but aid the compiler and runtime.
@@ -6122,6 +6129,7 @@ public class Employee {
 ### 227: How do you create custom annotations?
 
 **Answer**
+
 **Custom annotations** are created using `@interface`.
 
 You can set **retention** with `@Retention` (SOURCE, CLASS, RUNTIME), define **applicable targets** with `@Target`, and declare **elements** with optional default values.
@@ -6158,6 +6166,7 @@ public class TestClass {
 ### 228: What is annotation processing?
 
 **Answer**
+
 **Annotation processing** is handling annotations at **compile time** or **runtime**.
 
 It can **generate code, validate annotations, or create resources**, and frameworks like **Spring** and **Hibernate** use it extensively.
@@ -6193,6 +6202,7 @@ public class AnnotationProcessor {
 ### 229: What is compile-time annotation processing?
 
 **Answer**
+
 **Compile-time annotation processing** runs **during compilation** using processors that implement `javax.annotation.processing.Processor`.
 
 It can **generate code, validate annotations, or create resources**, with examples like **Lombok** and **Bean Validation**.
@@ -6234,6 +6244,7 @@ public class MyAnnotationProcessor extends AbstractProcessor {
 ### 230: What is runtime annotation processing?
 
 **Answer**
+
 **Runtime annotation processing** reads annotations **during program execution** using **reflection**.
 
 Annotations must have **RUNTIME retention**, and this is commonly used in **dependency injection, validation, and configuration**.
@@ -6273,6 +6284,7 @@ public class RuntimeProcessor {
 ### 231: What is meta-annotations?
 
 **Answer**
+
 **Meta-annotations** are **annotations applied to other annotations** to define their behavior.
 
 Common examples include **`@Retention`**, **`@Target`**, **`@Inherited`**, and **`@Documented`**, controlling **lifecycle, scope, and inheritance** of annotations.
@@ -6320,6 +6332,7 @@ public class ExtendedUserService extends UserService {
 ### 232: What is autoboxing and unboxing?
 
 **Answer**
+
 **Autoboxing** automatically converts **primitives to their wrapper objects**, and **unboxing** converts **wrappers back to primitives**.
 
 It improves **code readability** but may have slight **performance overhead**.
@@ -6372,6 +6385,7 @@ Status status = Status.ACTIVE;
 ### 234: What are the advantages of using enum?
 
 **Answer**
+
 * **Type Safety**: Compile-time checking prevents invalid values
 * **Readability**: More meaningful than integer constants
 * **Maintainability**: Adding new values is easy and safe
@@ -6423,6 +6437,7 @@ print("A", "B", "C");
 ### 236: What is JDBC?
 
 **Answer**
+
 **JDBC** (Java Database Connectivity) is an **API that connects Java applications to databases**, providing a **standard, database-independent way** to perform database operations.
 
 * JDBC stands for Java Database Connectivity
@@ -6442,6 +6457,7 @@ Connection conn = DriverManager.getConnection(
 ### 237: What are the steps to connect to a database using JDBC?
 
 **Answer**
+
 * **Load Driver**: Register JDBC driver (auto in modern Java)
 * **Create Connection**: Use DriverManager.getConnection()
 * **Create Statement**: PreparedStatement or Statement
@@ -6479,6 +6495,7 @@ ResultSet rs = stmt.executeQuery();
 ### 239: What is the difference between Statement and PreparedStatement?
 
 **Answer**
+
 * **Statement**: Executes **static SQL**, compiled each time
 * **PreparedStatement**: **Precompiled SQL** with parameters, **prevents SQL injection**, better for repeated queries, supports **parameter binding**
 
@@ -6503,6 +6520,7 @@ pstmt.setInt(1, userId);
 ### 240: What is CallableStatement?
 
 **Answer**
+
 **CallableStatement** is used to **call database stored procedures or functions**.
 
 It **supports IN, OUT, and INOUT parameters**, can return **multiple result sets**, and extends **PreparedStatement**.
@@ -6552,6 +6570,7 @@ Connection conn = dataSource.getConnection();
 ### 242: What is the difference between execute(), executeQuery(), and executeUpdate()?
 
 **Answer**
+
 * **executeQuery()**: For SELECT statements, returns ResultSet
 * **executeUpdate()**: For INSERT/UPDATE/DELETE, returns int (affected rows)
 * **execute()**: For any SQL, returns boolean (true if ResultSet available)
@@ -6596,6 +6615,7 @@ while(rs.next()) {
 ### 244: What are the different types of ResultSet?
 
 **Answer**
+
 * **TYPE_FORWARD_ONLY**: Default, cursor moves forward only
 * **TYPE_SCROLL_INSENSITIVE**: Scrollable, doesn't reflect DB changes
 * **TYPE_SCROLL_SENSITIVE**: Scrollable, reflects DB changes
@@ -6617,6 +6637,7 @@ rs.absolute(5); // Jump to 5th row
 ### 245: What is transaction management in JDBC?
 
 **Answer**
+
 **Transaction management** in JDBC treats multiple SQL operations as a **single unit**.
 
 Use **`setAutoCommit(false)`** to start, **`commit()`** to save, and **`rollback()`** to undo, ensuring **all-or-nothing execution**.
@@ -6642,6 +6663,8 @@ try {
 ### 246: What is database transaction?
 
 **Answer**
+
+
 A **database transaction** is a **logical unit of work** with one or more SQL operations that follow **ACID properties**, ensuring **all operations succeed or fail together**.
 
 * Logical unit of work containing one or more SQL operations
@@ -6662,6 +6685,7 @@ COMMIT;
 ### 247: What is ACID properties?
 
 **Answer**
+
 * **Atomicity**: All operations succeed or all fail
 * **Consistency**: Database remains in valid state
 * **Isolation**: Concurrent transactions don't interfere
@@ -6735,6 +6759,7 @@ int[] results = stmt.executeBatch();
 ### 251: What is SQL injection and how to prevent it?
 
 **Answer**
+
 * Security vulnerability where malicious SQL code is inserted into queries
 * Can lead to data theft, corruption, or unauthorized access
 * **Prevention**: Use PreparedStatement with parameters
@@ -6773,6 +6798,7 @@ Animal animal = AnimalFactory.createAnimal("dog");
 ### 253: What is Singleton design pattern?
 
 **Answer**
+
 * Ensures only one instance of a class exists in application
 * Provides global access point to that instance
 * Useful for database connections, logging, configuration settings
@@ -6795,6 +6821,7 @@ public class Singleton {
 ### 254: How do you implement Singleton pattern in Java?
 
 **Answer**
+
 * **Lazy Initialization**: Create instance when first needed
 * **Thread-Safe**: Use synchronized or double-checked locking
 * **Eager Initialization**: Create instance at class loading
@@ -6839,6 +6866,7 @@ public class ShapeFactory {
 ### 256: What is Abstract Factory design pattern?
 
 **Answer**
+
 * Factory of factories - creates families of related objects
 * Provides interface for creating groups of related products
 * Useful when system needs to work with multiple product families
@@ -6886,6 +6914,7 @@ public class User {
 ### 258: What is Observer design pattern?
 
 **Answer**
+
 * Defines one-to-many dependency between objects
 * When subject changes state, all observers are notified automatically
 * Promotes loose coupling between subject and observers
@@ -6937,6 +6966,7 @@ class PayPalPayment implements PaymentStrategy {
 ### 260: What is Command design pattern?
 
 **Answer**
+
 * Encapsulates request as an object with all necessary information
 * Allows parameterization of clients with different requests
 * Supports undo operations and logging of requests
@@ -6964,6 +6994,7 @@ class LightOnCommand implements Command {
 ### 261: What is Decorator design pattern?
 
 **Answer**
+
 * Adds new functionality to objects dynamically without altering structure
 * Alternative to subclassing for extending functionality
 * Wraps original object and provides additional behavior
@@ -7015,6 +7046,7 @@ public class HelloServlet extends HttpServlet {
 ### 263: What is the servlet lifecycle?
 
 **Answer**
+
 * **Loading**: Container loads servlet class
 * **Instantiation**: Creates servlet instance
 * **Initialization**: Calls init() method once
@@ -7057,6 +7089,7 @@ public class MyServlet extends HttpServlet {
 ### 265: What is the difference between servlet and JSP?
 
 **Answer**
+
 * **Servlet**: Pure Java code, HTML embedded in Java
 * **JSP**: HTML with embedded Java code
 * **Performance**: Servlets slightly faster, JSPs compiled to servlets
@@ -7100,6 +7133,7 @@ out.println("<html><body><h1>" + message + "</h1></body></html>");
 ### 267: What is session management in web applications?
 
 **Answer**
+
 * Technique to maintain user state across multiple HTTP requests
 * HTTP is stateless - each request is independent
 * **Methods**: Cookies, URL rewriting, Hidden form fields, HttpSession
@@ -7149,6 +7183,7 @@ for(Cookie cookie : cookies) {
 ### 269: What is URL rewriting?
 
 **Answer**
+
 * Session tracking technique when cookies are disabled
 * Appends session ID to every URL as parameter
 * Fallback mechanism for session management
@@ -7170,6 +7205,7 @@ String encodedURL = response.encodeURL("welcome.jsp");
 ### 270: What is HttpSession?
 
 **Answer**
+
 * Interface representing user session in web application
 * Provides way to identify user across multiple requests
 * Stores session data on server side
@@ -7218,6 +7254,7 @@ public class UserController {
 ### 272: What are the principles of REST?
 
 **Answer**
+
 * **Stateless**: Each request contains all necessary information
 * **Client-Server**: Separation of concerns between client and server
 * **Cacheable**: Responses should be cacheable when appropriate
@@ -7259,6 +7296,7 @@ DELETE /api/users/1   // Delete user
 ### 274: What is JSON?
 
 **Answer**
+
 * JavaScript Object Notation - lightweight data interchange format
 * Human-readable text format for data exchange
 * Language-independent but uses JavaScript-like syntax
@@ -7285,6 +7323,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 ### 275: What is XML?
 
 **Answer**
+
 * eXtensible Markup Language - markup language for data representation
 * Uses tags to define structure and meaning of data
 * More verbose than JSON but supports attributes and namespaces
@@ -7306,6 +7345,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 ### 276: What is the difference between JSON and XML?
 
 **Answer**
+
 * **Size**: JSON is more compact, XML is verbose
 * **Parsing**: JSON faster to parse, XML requires more processing
 * **Data Types**: JSON supports native types, XML treats everything as strings
@@ -7395,6 +7435,7 @@ public User getUser(@PathVariable Long id) { return user; }
 ### 280: What is API versioning?
 
 **Answer**
+
 * Strategy to manage changes in API without breaking existing clients
 * **URL Versioning**: /api/v1/users, /api/v2/users
 * **Header Versioning**: Accept: application/vnd.api.v1+json
@@ -7445,6 +7486,7 @@ public class UserService {
 ### 282: What are the core features of Spring?
 
 **Answer**
+
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
 * **AOP Support**: Cross-cutting concerns like logging, security
@@ -7490,6 +7532,7 @@ public class OrderService {
 ### 284: What is inversion of control (IoC)?
 
 **Answer**
+
 * Principle where control of object creation is inverted to framework
 * Objects don't create their dependencies - container provides them
 * Framework controls application flow instead of application code
@@ -7515,6 +7558,7 @@ public class UserService {
 ### 285: What is Spring Boot?
 
 **Answer**
+
 * Framework that simplifies Spring application development
 * **Auto-configuration**: Automatically configures Spring based on dependencies
 * **Starter Dependencies**: Pre-configured dependency bundles
@@ -7540,6 +7584,7 @@ spring.datasource.url=jdbc:mysql://localhost/mydb
 ### 286: What is Spring AOP (Aspect-Oriented Programming)?
 
 **Answer**
+
 * Programming paradigm for handling cross-cutting concerns
 * Separates business logic from system services like logging, security
 * **Aspects**: Modularize cross-cutting concerns
@@ -7591,6 +7636,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 ### 288: What is Spring Cloud?
 
 **Answer**
+
 * Framework for building distributed systems and microservices
 * Provides tools for common patterns in distributed systems
 * **Service Discovery**: Eureka, Consul integration
@@ -7616,6 +7662,7 @@ public class UserServiceApplication {
 ### 289: What is Spring Security?
 
 **Answer**
+
 * Comprehensive security framework for Java applications
 * Handles authentication and authorization
 * **Authentication**: Verify user identity (login)
@@ -7645,6 +7692,7 @@ public class SecurityConfig {
 ### 290: What is Spring WebFlux?
 
 **Answer**
+
 * Reactive web framework for building non-blocking applications
 * Alternative to Spring MVC for reactive programming
 * **Non-blocking**: Handles more concurrent requests with fewer threads
@@ -7699,6 +7747,7 @@ public class User {
 ### 292: What is JPA?
 
 **Answer**
+
 * Java Persistence API - specification for ORM in Java
 * Standard way to manage relational data in Java applications
 * **Annotations**: @Entity, @Table, @Id for mapping
@@ -7725,6 +7774,7 @@ public List<User> findUsers() {
 ### 293: What is the difference between Hibernate and JPA?
 
 **Answer**
+
 * **JPA**: Specification/standard for ORM in Java
 * **Hibernate**: Implementation of JPA specification
 * **Features**: Hibernate has additional features beyond JPA
@@ -7804,6 +7854,7 @@ public class UserBean {
 ### 296: What are microservices?
 
 **Answer**
+
 * Architectural approach where application is built as suite of small services
 * Each service runs in its own process and communicates via APIs
 * **Single Responsibility**: Each service handles one business capability
@@ -7921,6 +7972,7 @@ public List<ServiceInstance> getOrderServiceInstances() {
 ### 300: What is API gateway?
 
 **Answer**
+
 * Single entry point for all client requests to microservices
 * **Routing**: Directs requests to appropriate backend services
 * **Authentication**: Centralized security and access control
@@ -7949,6 +8001,7 @@ public class GatewayConfig {
 ### 301: What is circuit breaker pattern?
 
 **Answer**
+
 * Design pattern that prevents cascading failures in distributed systems
 * **Closed**: Normal operation, requests pass through
 * **Open**: Service is failing, requests fail fast without calling service
@@ -8005,6 +8058,7 @@ public class OrderController {
 ### 303: What is service mesh architecture?
 
 **Answer**
+
 * Infrastructure layer that handles service-to-service communication
 * **Sidecar Proxy**: Each service has a proxy handling network communication
 * **Traffic Management**: Load balancing, routing, retries
@@ -8036,6 +8090,7 @@ spec:
 ### 304: What is database per service pattern?
 
 **Answer**
+
 * Each microservice owns and manages its own database
 * **Data Isolation**: Services cannot directly access other service databases
 * **Technology Choice**: Each service can use different database technology
@@ -8143,6 +8198,7 @@ It ensures applications remain **highly available, scalable, and resilient** in 
 
 
 **Answer**
+
 * Container orchestration platform for managing containerized applications
 * **Pods**: Smallest deployable units containing one or more containers
 * **Services**: Expose applications and provide load balancing
@@ -8210,6 +8266,7 @@ A **distributed system** is a system where multiple **independent computers or s
 These systems improve **scalability, fault tolerance, and availability**, since work is shared across multiple nodes instead of relying on a single machine.
 
 **Answer**
+
 * System where components are located on different networked computers
 * **Communication**: Components communicate via message passing
 * **Coordination**: Distributed consensus and synchronization
@@ -8268,6 +8325,7 @@ restTemplate.getForObject("http://user-service/users/1", User.class);
 ### 312: What is caching strategies?
 
 **Answer**
+
 * Techniques to store frequently accessed data for faster retrieval
 * **Cache-Aside**: Application manages cache manually
 * **Write-Through**: Write to cache and database simultaneously
@@ -8300,6 +8358,7 @@ public class UserService {
 **Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
 
 **Answer**
+
 * Comprehensive security framework built into Java platform
 * **Bytecode Verification**: Ensures code follows Java language rules
 * **Class Loading**: Secure loading and verification of classes
@@ -8329,6 +8388,7 @@ System.setSecurityManager(new MySecurityManager());
 ### 314: What is sandbox in Java?
 
 **Answer**
+
 * Restricted execution environment for running untrusted code
 * **Applets**: Web-based Java programs run in browser sandbox
 * **Limited Access**: Restricted file system, network, and system access
@@ -8456,6 +8516,7 @@ boolean isValid = signature.verify(digitalSignature);
 ### 319: What is encryption and decryption in Java?
 
 **Answer**
+
 * Process of converting data to/from unreadable format for security
 * **Symmetric**: Same key for encryption and decryption (AES)
 * **Asymmetric**: Different keys for encryption/decryption (RSA)
@@ -8483,6 +8544,7 @@ byte[] decrypted = cipher.doFinal(encrypted);
 ### 320: What is SSL/TLS in Java?
 
 **Answer**
+
 * Secure communication protocols for encrypted data transmission
 * **HTTPS**: HTTP over SSL/TLS for secure web communication
 * **Handshake**: Establishes secure connection and exchanges keys
@@ -8538,6 +8600,7 @@ public List<User> getUsers() { return userService.getAllUsers(); }
 ### 322: What is OAuth?
 
 **Answer**
+
 * Open standard for access delegation and authorization
 * Allows third-party applications to access user resources without passwords
 * **Resource Owner**: User who owns the data
@@ -8572,6 +8635,7 @@ public class OAuth2Config {
 ### 323: What is JWT (JSON Web Token)?
 
 **Answer**
+
 * Compact, URL-safe token format for securely transmitting information
 * **Structure**: Header.Payload.Signature (three Base64-encoded parts)
 * **Stateless**: Contains all necessary information, no server-side storage
@@ -8606,6 +8670,7 @@ public class JwtService {
 ### 324: What is CSRF protection?
 
 **Answer**
+
 * Cross-Site Request Forgery protection prevents unauthorized actions
 * **Attack**: Malicious site tricks user into performing unwanted actions
 * **CSRF Token**: Unique token included in forms and validated on server
@@ -8637,6 +8702,7 @@ public class SecurityConfig {
 ### 325: What is XSS protection?
 
 **Answer**
+
 * Cross-Site Scripting protection prevents malicious script injection
 * **Reflected XSS**: Script in URL parameters executed immediately
 * **Stored XSS**: Malicious script stored in database and executed later
@@ -8751,6 +8817,7 @@ public class SecureUserService {
 ### 328: What is OAuth 2.0?
 
 **Answer**
+
 * Updated version of OAuth protocol for authorization
 * **Authorization Code Flow**: Most secure, uses authorization code exchange
 * **Implicit Flow**: For browser-based apps (deprecated)
@@ -8791,6 +8858,7 @@ public class ApiController {
 ### 329: What is OpenID Connect?
 
 **Answer**
+
 * Identity layer built on top of OAuth 2.0 protocol
 * **Authentication**: Provides user identity information (who you are)
 * **ID Token**: JWT containing user identity claims
@@ -8835,6 +8903,7 @@ public Map<String, Object> user(Principal principal) {
 ### 330: What is SAML?
 
 **Answer**
+
 * Security Assertion Markup Language for exchanging authentication data
 * **XML-based**: Uses XML for security assertions
 * **SSO**: Enables single sign-on across different domains
@@ -8890,6 +8959,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 ### 331: How do you measure Java application performance?
 
 **Answer**
+
 * **Response Time**: Time to complete requests
 * **Throughput**: Requests processed per second
 * **Resource Utilization**: CPU, memory, disk, network usage
@@ -9044,6 +9114,7 @@ public class ProfiledService {
 ### 335: What is JVM tuning?
 
 **Answer**
+
 * Process of optimizing JVM parameters for better performance
 * **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
 * **Garbage Collection**: Choose appropriate GC algorithm
@@ -9188,6 +9259,7 @@ public class CpuProfiledService {
 ### 339: What is application performance monitoring (APM)?
 
 **Answer**
+
 * Comprehensive monitoring of application performance in production
 * **Real-time Monitoring**: Live performance metrics and alerts
 * **Distributed Tracing**: Track requests across microservices
@@ -9229,6 +9301,7 @@ public class MonitoredController {
 ### 340: What is code profiling?
 
 **Answer**
+
 * Detailed analysis of code execution to identify performance issues
 * **Static Analysis**: Code review without execution
 * **Dynamic Analysis**: Runtime performance measurement
@@ -9269,6 +9342,7 @@ public class ProfiledCodeService {
 ### 341: What is database optimization?
 
 **Answer**
+
 * Techniques to improve database query performance and efficiency
 * **Indexing**: Create indexes on frequently queried columns
 * **Query Optimization**: Write efficient SQL queries
@@ -9306,6 +9380,7 @@ public class OptimizedUserRepository {
 ### 342: What is query optimization?
 
 **Answer**
+
 * Process of improving SQL query performance and execution time
 * **Index Usage**: Ensure queries use appropriate indexes
 * **Query Structure**: Avoid SELECT *, use specific columns
@@ -9396,6 +9471,7 @@ public class UserService {
 ### 344: What is eager loading?
 
 **Answer**
+
 * Loading strategy that fetches all related data immediately
 * **JPA/Hibernate**: Load associated entities along with main entity
 * **Performance Trade-off**: Higher initial load time but fewer queries later
@@ -9519,6 +9595,7 @@ public class CalculatorTest {
 ### 347: What is JUnit?
 
 **Answer**
+
 * Most popular unit testing framework for Java applications
 * **Annotations**: @Test, @BeforeEach, @AfterEach for test lifecycle
 * **Assertions**: assertEquals, assertTrue, assertThrows for verification
@@ -9554,6 +9631,7 @@ class UserServiceTest {
 ### 348: What are the annotations used in JUnit?
 
 **Answer**
+
 * **@Test**: Marks method as test case
 * **@BeforeEach**: Runs before each test method
 * **@AfterEach**: Runs after each test method
@@ -9645,6 +9723,7 @@ public class TestNGExample {
 ### 350: What is the difference between JUnit and TestNG?
 
 **Answer**
+
 * **Configuration**: TestNG uses XML, JUnit uses annotations
 * **Parallel Execution**: TestNG has built-in support, JUnit needs plugins
 * **Test Dependencies**: TestNG supports dependent tests, JUnit doesn't
@@ -9798,6 +9877,7 @@ class UserIntegrationTest {
 ### 354: What is test-driven development (TDD)?
 
 **Answer**
+
 * Development approach where tests are written before production code
 * **Red-Green-Refactor**: Write failing test, make it pass, improve code
 * **Benefits**: Better design, higher test coverage, fewer bugs
@@ -9835,6 +9915,7 @@ public class Rectangle {
 ### 355: What is behavior-driven development (BDD)?
 
 **Answer**
+
 * Extension of TDD focusing on behavior specification in natural language
 * **Given-When-Then**: Structure tests as scenarios with clear steps
 * **Collaboration**: Involves developers, testers, and business stakeholders
@@ -9904,6 +9985,7 @@ class UserAcceptanceTest {
 ### 357: What is contract testing?
 
 **Answer**
+
 * Testing to ensure services can communicate correctly with each other
 * **API Contracts**: Verify API specifications are followed
 * **Consumer-Driven**: Consumers define expectations for providers
@@ -9988,6 +10070,7 @@ void testIsPositive() {
 ### 359: What is performance testing?
 
 **Answer**
+
 * Testing to evaluate system performance under various load conditions
 * **Load Testing**: Normal expected load
 * **Stress Testing**: Beyond normal capacity to find breaking point
@@ -10023,6 +10106,7 @@ public class StringConcatenationBenchmark {
 ### 360: What is security testing?
 
 **Answer**
+
 * Testing to identify security vulnerabilities and ensure data protection
 * **Authentication**: Verify login mechanisms work correctly
 * **Authorization**: Ensure users can only access permitted resources
@@ -10160,6 +10244,7 @@ tasks.named('test') {
 ### 363: What is the difference between Maven and Gradle?
 
 **Answer**
+
 * **Configuration**: Maven uses XML, Gradle uses Groovy/Kotlin DSL
 * **Performance**: Gradle is faster with incremental builds and build cache
 * **Flexibility**: Gradle more flexible, Maven more standardized
@@ -10194,6 +10279,7 @@ task customTask {
 ### 364: What is continuous integration?
 
 **Answer**
+
 * Development practice of frequently integrating code changes into shared repository
 * **Automated Builds**: Every commit triggers automated build and test
 * **Early Detection**: Catch integration issues and bugs early
@@ -10320,6 +10406,7 @@ git pull origin main              # Pull from remote
 ### 368: What is version control?
 
 **Answer**
+
 * System for tracking and managing changes to files over time
 * **History**: Complete history of all changes and versions
 * **Collaboration**: Multiple developers can work on same project
@@ -10343,6 +10430,7 @@ git revert abc123            # Revert specific commit
 ### 369: What is infrastructure as code?
 
 **Answer**
+
 * Managing and provisioning infrastructure through code rather than manual processes
 * **Declarative**: Define desired state, tools ensure it's achieved
 * **Version Control**: Infrastructure changes tracked like application code
@@ -10390,6 +10478,7 @@ resource "aws_instance" "web" {
 ### 370: What is deployment strategies?
 
 **Answer**
+
 * Different approaches for releasing applications to production
 * **Rolling Deployment**: Gradually replace old instances with new ones
 * **Blue-Green**: Switch between two identical environments
@@ -10472,6 +10561,7 @@ spec:
 ### 372: What is canary deployment?
 
 **Answer**
+
 * Deployment strategy that releases new version to small subset of users first
 * **Gradual Rollout**: Start with 5-10% of traffic, gradually increase
 * **Risk Mitigation**: Limit blast radius of potential issues
@@ -10532,6 +10622,7 @@ public class UserController {
 ### 373: What is application monitoring?
 
 **Answer**
+
 * Continuous observation of application performance, health, and behavior in production
 * **Real-time Metrics**: CPU, memory, response times, error rates
 * **Business Metrics**: User activity, transaction volumes, conversion rates
@@ -10741,6 +10832,7 @@ public class OrderService {
 ### 378: What is structured logging?
 
 **Answer**
+
 * Logging approach that produces machine-readable, consistent log format
 * **JSON Format**: Logs as JSON objects for easy parsing
 * **Key-Value Pairs**: Structured data instead of free-form text
@@ -10791,6 +10883,7 @@ public class PaymentService {
 ### 379: What is centralized logging?
 
 **Answer**
+
 * Collecting logs from multiple applications/servers into single location
 * **Aggregation**: Combine logs from distributed systems
 * **Correlation**: Track requests across multiple services
@@ -10858,6 +10951,7 @@ public class LoggingConfig {
 ### 380: What is metrics collection?
 
 **Answer**
+
 * Systematic gathering of quantitative data about application performance
 * **System Metrics**: CPU, memory, disk, network utilization
 * **Application Metrics**: Response times, error rates, throughput
@@ -11016,6 +11110,7 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 ### 383: What is distributed monitoring?
 
 **Answer**
+
 * Monitoring approach for applications spread across multiple servers/services
 * **Distributed Tracing**: Track requests across service boundaries
 * **Correlation IDs**: Link related operations across services
@@ -11200,6 +11295,7 @@ public class OrderController {
 ### 386: What is scalability design patterns?
 
 **Answer**
+
 * Patterns that enable systems to handle increased load efficiently
 * **Load Balancing**: Distribute requests across multiple instances
 * **Caching**: Store frequently accessed data in memory
@@ -11244,6 +11340,7 @@ public class OrderProcessor {
 ### 387: What is reliability design patterns?
 
 **Answer**
+
 * Patterns that ensure system continues operating despite failures
 * **Circuit Breaker**: Prevent cascading failures by failing fast
 * **Retry Pattern**: Automatically retry failed operations with backoff
@@ -11280,6 +11377,7 @@ public class PaymentService {
 ### 388: What is availability design patterns?
 
 **Answer**
+
 * Patterns that maximize system uptime and minimize service interruptions
 * **Active-Passive Failover**: Standby system takes over when primary fails
 * **Active-Active**: Multiple systems handle load simultaneously
@@ -11322,6 +11420,7 @@ public class SystemHealthIndicator implements HealthIndicator {
 ### 389: What is event-driven architecture?
 
 **Answer**
+
 * Architecture where components communicate through events rather than direct calls
 * **Loose Coupling**: Components don't need to know about each other
 * **Asynchronous**: Events processed independently and asynchronously
@@ -11377,6 +11476,7 @@ public class OrderEventHandlers {
 ### 390: What is CQRS pattern?
 
 **Answer**
+
 * Command Query Responsibility Segregation - separate read and write operations
 * **Commands**: Operations that change state (Create, Update, Delete)
 * **Queries**: Operations that read data without side effects
@@ -11433,6 +11533,7 @@ public class OrderSummary {
 ### 391: What is event sourcing?
 
 **Answer**
+
 * Pattern where application state is stored as sequence of events
 * **Event Store**: Immutable log of all events that occurred
 * **State Reconstruction**: Current state derived by replaying events
@@ -11574,6 +11675,7 @@ public class Money {
 ### 393: What is clean architecture?
 
 **Answer**
+
 * Architecture that separates concerns into concentric layers
 * **Independence**: Business logic independent of frameworks and databases
 * **Dependency Rule**: Dependencies point inward toward business logic
@@ -11642,6 +11744,7 @@ public class UserController {
 ### 394: What is hexagonal architecture?
 
 **Answer**
+
 * Architecture pattern that isolates core business logic from external concerns
 * **Ports**: Interfaces that define how application communicates with outside world
 * **Adapters**: Implementations that connect ports to external systems
@@ -11764,6 +11867,7 @@ public class JVMMemoryExample {
 ### 396: What is class loading process?
 
 **Answer**
+
 * Three-phase process: Loading, Linking, and Initialization
 * **Loading**: Find and load class file into memory
 * **Linking**: Verification, preparation, and resolution of references
@@ -11812,6 +11916,7 @@ class MyClass {
 ### 397: What are the types of class loaders?
 
 **Answer**
+
 * **Bootstrap Class Loader**: Loads core Java classes (rt.jar)
 * **Extension Class Loader**: Loads extension classes (ext directory)
 * **Application Class Loader**: Loads application classes from classpath
@@ -11893,6 +11998,7 @@ public class BytecodeExample {
 ### 399: What is JIT compilation?
 
 **Answer**
+
 * Just-In-Time compilation converts bytecode to native machine code at runtime
 * **Performance**: Native code executes faster than interpreted bytecode
 * **Hotspot Detection**: Identifies frequently executed code (hot spots)
@@ -12048,6 +12154,7 @@ class Point {
 ### 402: What is GraalVM?
 
 **Answer**
+
 * High-performance runtime that supports multiple programming languages
 * **Polyglot**: Run Java, JavaScript, Python, R, Ruby on same VM
 * **Native Images**: Compile Java to native executables
@@ -12118,6 +12225,7 @@ public class AOTExample {
 ### 404: What is native image compilation?
 
 **Answer**
+
 * Process of compiling Java applications to standalone native executables
 * **Closed World**: All code must be known at compile time
 * **Static Analysis**: Analyzes entire application and dependencies
@@ -12142,6 +12250,7 @@ public class NativeImageApp {
 ### 405: What is tiered compilation?
 
 **Answer**
+
 * JVM compilation strategy using multiple compilation levels
 * **Level 0**: Interpreter - executes bytecode directly
 * **Level 1**: C1 Compiler - fast compilation with basic optimizations
@@ -12195,6 +12304,7 @@ public class TieredCompilationExample {
 ### 406: What is bytecode optimization?
 
 **Answer**
+
 * JVM techniques to improve bytecode execution performance
 * **Constant Folding**: Evaluate constants at compile time
 * **Dead Code Elimination**: Remove unreachable code
@@ -12263,6 +12373,7 @@ public class BytecodeOptimizationExample {
 ### 407: What is Project Loom?
 
 **Answer**
+
 * OpenJDK project introducing lightweight threads (virtual threads) to Java
 * **Virtual Threads**: Millions of threads with minimal memory overhead
 * **Structured Concurrency**: Better way to manage concurrent operations
@@ -12374,6 +12485,7 @@ public class PanamaExample {
 ### 409: What is Project Valhalla?
 
 **Answer**
+
 * OpenJDK project introducing value types and specialized generics
 * **Value Classes**: Objects without identity, stored inline
 * **Primitive Classes**: User-defined primitives like int, double
@@ -12424,6 +12536,7 @@ public class ValhallaBenefits {
 ### 410: What is Project Amber?
 
 **Answer**
+
 * OpenJDK project delivering small, productivity-focused language features
 * **Local Variable Type Inference**: var keyword for cleaner code
 * **Switch Expressions**: Enhanced switch with return values
@@ -12541,6 +12654,7 @@ public class WebAssemblyExample {
 ### 412: What is cloud native Java?
 
 **Answer**
+
 * Java applications designed specifically for cloud environments
 * **Microservices**: Decomposed into small, independent services
 * **Containers**: Packaged in Docker containers for portability
@@ -12599,6 +12713,7 @@ public class UserController {
 ### 413: What is serverless Java?
 
 **Answer**
+
 * Running Java applications without managing servers or infrastructure
 * **Function as a Service**: Deploy individual functions that scale automatically
 * **Event-Driven**: Functions triggered by events (HTTP, database, queue)
@@ -12680,6 +12795,7 @@ public class GreetingResource {
 ### 414: What is edge computing with Java?
 
 **Answer**
+
 * Running Java applications closer to end users for reduced latency
 * **Edge Locations**: Data centers near users (CDN nodes, cell towers)
 * **Low Latency**: Millisecond response times for real-time applications
