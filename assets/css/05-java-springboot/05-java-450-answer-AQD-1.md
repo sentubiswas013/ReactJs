@@ -8344,6 +8344,9 @@ It ensures **type safety, correct control flow, and stack usage**, preventing **
 
 ### 316: What is class loader security?
 
+**Class Loader Security** controls how **classes are loaded into the JVM** to ensure safety.
+
+It provides **namespace isolation**, follows **parent delegation**, enforces **trust boundaries and code source checks**, and prevents **malicious class replacement**, ensuring code integrity.
 
 * Security mechanism that controls how classes are loaded into JVM
 * **Namespace Isolation**: Classes from different loaders are isolated
@@ -8371,6 +8374,9 @@ public class SecureClassLoader extends ClassLoader {
 
 ### 317: What is the security manager?
 
+**Security Manager** is a Java component that **enforces security policies at runtime**.
+
+It performs **permission checks** for file, network, and system access using **policy files**. It is **deprecated and removed in Java 17**, replaced by modern security mechanisms like the module system.
 
 * Component that enforces security policies in Java applications
 * **Permission Checks**: Controls access to system resources
@@ -8397,6 +8403,9 @@ grant {
 
 ### 318: What are digital signatures in Java?
 
+**Digital Signatures in Java** are a **cryptographic mechanism** to verify **code authenticity and integrity**.
+
+JAR files are **signed with a private key** and verified using a **public key certificate**, ensuring the code **has not been tampered with** and establishing **trust in the publisher**.
 
 * Cryptographic mechanism to verify code authenticity and integrity
 * **JAR Signing**: Sign JAR files with private key
@@ -8422,6 +8431,9 @@ boolean isValid = signature.verify(digitalSignature);
 
 ### 319: What is encryption and decryption in Java?
 
+**Encryption and Decryption in Java** is the process of converting data to and from a **secure unreadable format**.
+
+It supports **symmetric (AES)** and **asymmetric (RSA)** encryption using **JCA APIs**, ensuring **secure data transmission, password protection, and file security**.
 
 * Process of converting data to/from unreadable format for security
 * **Symmetric**: Same key for encryption and decryption (AES)
@@ -8449,6 +8461,9 @@ byte[] decrypted = cipher.doFinal(encrypted);
 
 ### 320: What is SSL/TLS in Java?
 
+**SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
+
+They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
 
 * Secure communication protocols for encrypted data transmission
 * **HTTPS**: HTTP over SSL/TLS for secure web communication
