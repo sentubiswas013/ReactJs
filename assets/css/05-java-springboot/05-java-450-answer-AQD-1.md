@@ -6503,6 +6503,10 @@ pstmt.setInt(1, userId);
 ### 240: What is CallableStatement?
 
 **Answer**
+**CallableStatement** is used to **call database stored procedures or functions**.
+
+It **supports IN, OUT, and INOUT parameters**, can return **multiple result sets**, and extends **PreparedStatement**.
+
 * Used to call stored procedures and functions in database
 * Extends PreparedStatement interface
 * Supports IN, OUT, and INOUT parameters
@@ -6524,6 +6528,10 @@ cstmt2.registerOutParameter(2, Types.INTEGER);
 ### 241: What is connection pooling?
 
 **Answer (30 seconds):**
+**Connection pooling** reuses **pre-created database connections** to improve performance, reduce overhead, and manage resources efficiently.
+
+Common libraries: **HikariCP, Apache DBCP, C3P0**.
+
 * Technique to reuse database connections instead of creating new ones
 * Improves performance by avoiding connection overhead
 * Manages pool of pre-created connections
@@ -6565,6 +6573,10 @@ boolean hasResultSet = stmt.execute(dynamicSQL);
 ### 243: What is ResultSet in JDBC?
 
 **Answer (30 seconds):**
+**ResultSet** in JDBC is an object that **holds data retrieved from a query**.
+
+It **maintains a cursor** to navigate rows, and provides **getter methods** to access column values.
+
 * Object that holds data retrieved from database after executing query
 * Maintains cursor pointing to current row
 * Provides getter methods to retrieve column values
@@ -6605,6 +6617,10 @@ rs.absolute(5); // Jump to 5th row
 ### 245: What is transaction management in JDBC?
 
 **Answer**
+**Transaction management** in JDBC treats multiple SQL operations as a **single unit**.
+
+Use **`setAutoCommit(false)`** to start, **`commit()`** to save, and **`rollback()`** to undo, ensuring **all-or-nothing execution**.
+
 * Group of SQL operations treated as single unit
 * Either all operations succeed (commit) or all fail (rollback)
 * Use setAutoCommit(false) to start manual transaction
@@ -6626,6 +6642,8 @@ try {
 ### 246: What is database transaction?
 
 **Answer**
+A **database transaction** is a **logical unit of work** with one or more SQL operations that follow **ACID properties**, ensuring **all operations succeed or fail together**.
+
 * Logical unit of work containing one or more SQL operations
 * Ensures data consistency and integrity
 * Follows ACID properties
