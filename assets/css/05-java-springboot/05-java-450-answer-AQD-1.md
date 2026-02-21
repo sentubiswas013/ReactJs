@@ -5833,7 +5833,7 @@ Utility.swap(names, 0, 2); // Type inferred as String
 ### 224: What is bounded type parameters?
 
 
-**Answer (Short for Interview):**
+
 Bounded type parameters restrict generic types. **Upper bounds** (`extends`) limit to a class/interface, **lower bounds** (`super`) allow contravariance, and multiple bounds can be combined with `&`.
 
 *  Bounded type parameters restrict the types that can be used as generic arguments
@@ -6178,7 +6178,7 @@ list.add(5); // autoboxing
 
 ### 233: What is enum in Java?
 
-**Answer (30 seconds):**
+
 **Enum** in Java is a **special class representing a fixed set of constants**.
 
 It is **type-safe**, can have **methods and constructors**, and is used for values like **days, colors, or states**.
@@ -6226,7 +6226,7 @@ public enum Priority {
 
 ### 235: What is varargs in Java?
 
-**Answer (30 seconds):**
+
 **Varargs** in Java allows a method to **accept a variable number of arguments** using `...` syntax.
 
 It is **treated as an array**, must be the **last parameter**, and **reduces the need for multiple overloaded methods**.
@@ -6293,7 +6293,7 @@ ResultSet rs = stmt.executeQuery();
 
 ### 238: What are the different types of JDBC drivers?
 
-**Answer (30 seconds):**
+
 * **Type 1**: JDBC-ODBC Bridge (deprecated)
 * **Type 2**: Native API driver (platform-specific)
 * **Type 3**: Network Protocol driver (middleware)
@@ -6360,7 +6360,7 @@ cstmt2.registerOutParameter(2, Types.INTEGER);
 
 ### 241: What is connection pooling?
 
-**Answer (30 seconds):**
+
 **Connection pooling** reuses **pre-created database connections** to improve performance, reduce overhead, and manage resources efficiently.
 
 Common libraries: **HikariCP, Apache DBCP, C3P0**.
@@ -6405,7 +6405,7 @@ boolean hasResultSet = stmt.execute(dynamicSQL);
 
 ### 243: What is ResultSet in JDBC?
 
-**Answer (30 seconds):**
+
 **ResultSet** in JDBC is an object that **holds data retrieved from a query**.
 
 It **maintains a cursor** to navigate rows, and provides **getter methods** to access column values.
@@ -6529,7 +6529,7 @@ conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
 ### 249: What is connection leakage?
 
-**Answer (30 seconds):**
+
 * When database connections are not properly closed after use
 * Leads to connection pool exhaustion
 * Application becomes unable to get new connections
@@ -6547,7 +6547,7 @@ try (Connection conn = dataSource.getConnection();
 
 ### 250: What is batch processing in JDBC?
 
-**Answer (30 seconds):**
+
 * Technique to execute multiple SQL statements together
 * Reduces network round trips to database
 * Improves performance for bulk operations
@@ -6588,7 +6588,7 @@ stmt.setString(1, userName);
 # 🔹 Common Design Patterns
 ### 252: What are design patterns?
 
-**Answer (30 seconds):**
+
 * Reusable solutions to common software design problems
 * Best practices proven over time by experienced developers
 * Provide template for writing maintainable, flexible code
@@ -6648,7 +6648,7 @@ public enum DatabaseConnection {
 
 ### 255: What is Factory design pattern?
 
-**Answer (30 seconds):**
+
 * Creates objects without specifying their exact classes
 * Encapsulates object creation logic in separate method/class
 * Client code doesn't need to know concrete class names
@@ -6694,7 +6694,7 @@ class WindowsFactory implements GUIFactory {
 
 ### 257: What is Builder design pattern?
 
-**Answer (30 seconds):**
+
 * Constructs complex objects step by step
 * Separates object construction from its representation
 * Useful for objects with many optional parameters
@@ -6744,7 +6744,7 @@ class NewsAgency {
 
 ### 259: What is Strategy design pattern?
 
-**Answer (30 seconds):**
+
 * Defines family of algorithms and makes them interchangeable
 * Algorithm varies independently from clients that use it
 * Eliminates conditional statements for algorithm selection
@@ -6825,7 +6825,7 @@ class MilkDecorator implements Coffee {
 # 🔹 Servlets and JSP
 ### 262: What is servlet in Java?
 
-**Answer (30 seconds):**
+
 * Server-side Java program that handles HTTP requests and responses
 * Runs inside servlet container like Tomcat, Jetty
 * Extends HttpServlet class and overrides doGet(), doPost() methods
@@ -6867,7 +6867,7 @@ public class MyServlet extends HttpServlet {
 
 ### 264: What is JSP (JavaServer Pages)?
 
-**Answer (30 seconds):**
+
 * Server-side technology for creating dynamic web pages
 * HTML with embedded Java code using special tags
 * Compiled into servlets by container automatically
@@ -6909,7 +6909,7 @@ out.println("<html><body><h1>" + message + "</h1></body></html>");
 
 ### 266: What is JSTL (JSP Standard Tag Library)?
 
-**Answer (30 seconds):**
+
 * Collection of custom tags for common JSP tasks
 * Eliminates need for scriptlets (Java code) in JSP pages
 * Core tags for loops, conditions, formatting, SQL operations
@@ -6955,7 +6955,7 @@ String username = (String) session.getAttribute("username");
 
 ### 268: What are cookies in Java web applications?
 
-**Answer (30 seconds):**
+
 * Small pieces of data stored on client browser
 * Sent automatically with each request to same domain
 * Used for session tracking, user preferences, authentication
@@ -7028,7 +7028,7 @@ String sessionId = session.getId();
 
 ### 271: What are RESTful web services?
 
-**Answer (30 seconds):**
+
 * REST stands for Representational State Transfer
 * Architectural style for designing web services using HTTP protocol
 * Resources identified by URLs, operations via HTTP methods
@@ -7071,7 +7071,7 @@ DELETE /api/users/1   // Delete user
 
 ### 273: What are HTTP methods used in REST?
 
-**Answer (30 seconds):**
+
 * **GET**: Retrieve data, safe and idempotent
 * **POST**: Create new resources, not idempotent
 * **PUT**: Update/replace entire resource, idempotent
@@ -7161,7 +7161,7 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ### 277: What is JAX-RS?
 
-**Answer (30 seconds):**
+
 * Java API for RESTful Web Services
 * Standard Java specification for building REST APIs
 * Annotation-based approach for defining REST endpoints
@@ -7184,7 +7184,7 @@ public class UserResource {
 
 ### 278: What is Spring REST?
 
-**Answer (30 seconds):**
+
 * Spring Framework's approach to building RESTful web services
 * Uses @RestController, @RequestMapping annotations
 * Built on Spring MVC with automatic JSON/XML conversion
@@ -7253,7 +7253,7 @@ public List<UserV1> getUsersV1() { }
 
 ### 281: What is Spring Framework?
 
-**Answer (30 seconds):**
+
 * Comprehensive Java framework for enterprise application development
 * Provides infrastructure support so developers focus on business logic
 * Based on Inversion of Control (IoC) and Dependency Injection principles
@@ -7298,7 +7298,7 @@ public class AppConfig {
 
 ### 283: What is dependency injection?
 
-**Answer (30 seconds):**
+
 * Design pattern where objects receive dependencies from external source
 * Instead of creating dependencies, objects declare what they need
 * Spring container provides required dependencies automatically
@@ -7400,7 +7400,7 @@ public class UserService {
 
 ### 287: What is Spring Data JPA?
 
-**Answer (30 seconds):**
+
 * Spring module that simplifies JPA-based data access
 * Provides repository abstraction over JPA
 * **Auto-implementation**: Creates implementation from method names
@@ -7502,7 +7502,7 @@ public class UserController {
 # 🔹 Hibernate and JPA
 ### 291: What is Hibernate?
 
-**Answer (30 seconds):**
+
 * Object-Relational Mapping (ORM) framework for Java
 * Maps Java objects to database tables automatically
 * **HQL**: Hibernate Query Language - object-oriented SQL
@@ -7584,7 +7584,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ### 294: What is Struts framework?
 
-**Answer (30 seconds):**
+
 * MVC framework for building Java web applications
 * Based on Model-View-Controller design pattern
 * Uses Action classes to handle requests and ActionForm for data binding
@@ -7607,7 +7607,7 @@ public class LoginAction extends Action {
 
 ### 295: What is JSF (JavaServer Faces)?
 
-**Answer (30 seconds):**
+
 * Component-based web framework for building Java web applications
 * Part of Java EE specification for creating user interfaces
 * Uses component tree and event-driven programming model
@@ -7719,7 +7719,7 @@ public class OrderService {
 
 ### 299: What is service discovery?
 
-**Answer (30 seconds):**
+
 * Mechanism for services to find and communicate with each other
 * Services register themselves with discovery server
 * Clients query discovery server to find service instances
@@ -7804,7 +7804,7 @@ public class UserService {
 
 ### 302: What is distributed tracing?
 
-**Answer (30 seconds):**
+
 * Technique to track requests as they flow through multiple microservices
 * **Trace**: Complete journey of a request across services
 * **Span**: Individual operation within a service
@@ -7923,7 +7923,7 @@ public class OrderSaga {
 
 ### 306: What is containerization?
 
-**Answer (30 seconds):**
+
 * Technology that packages applications with their dependencies into containers
 * **Isolation**: Applications run in isolated environments
 * **Portability**: Containers run consistently across different environments
@@ -8008,7 +8008,7 @@ spec:
 It allows easy **scaling, high availability, cost efficiency**, and faster application deployment.
 
 
-**Answer (30 seconds):**
+
 * Delivery of computing services over the internet
 * **IaaS**: Infrastructure as a Service (virtual machines, storage)
 * **PaaS**: Platform as a Service (runtime environments, databases)
@@ -8069,7 +8069,7 @@ public class OrderController {
 
 It improves **application performance, availability, and reliability** by ensuring traffic is handled efficiently, even when one server fails or traffic increases.
 
-**Answer (30 seconds):**
+
 * Technique to distribute incoming requests across multiple servers
 * **Round Robin**: Requests distributed sequentially
 * **Least Connections**: Route to server with fewest active connections
@@ -8181,7 +8181,7 @@ public class MyApplet extends Applet {
 
 ### 315: What is bytecode verification?
 
-**Answer (30 seconds):**
+
 * Process that ensures Java bytecode follows language safety rules
 * **Static Analysis**: Checks code structure without execution
 * **Type Safety**: Verifies correct use of data types
@@ -8206,7 +8206,7 @@ public class MyApplet extends Applet {
 
 ### 316: What is class loader security?
 
-**Answer (30 seconds):**
+
 * Security mechanism that controls how classes are loaded into JVM
 * **Namespace Isolation**: Classes from different loaders are isolated
 * **Parent Delegation**: Child loaders delegate to parent first
@@ -8233,7 +8233,7 @@ public class SecureClassLoader extends ClassLoader {
 
 ### 317: What is the security manager?
 
-**Answer (30 seconds):**
+
 * Component that enforces security policies in Java applications
 * **Permission Checks**: Controls access to system resources
 * **Policy Files**: Define what operations are allowed
@@ -8259,7 +8259,7 @@ grant {
 
 ### 318: What are digital signatures in Java?
 
-**Answer (30 seconds):**
+
 * Cryptographic mechanism to verify code authenticity and integrity
 * **JAR Signing**: Sign JAR files with private key
 * **Certificate Verification**: Verify signature with public key
@@ -8337,7 +8337,7 @@ ResponseEntity<String> response = restTemplate.getForEntity(
 
 ### 321: What is authentication vs authorization?
 
-**Answer (30 seconds):**
+
 * **Authentication**: Verifies "who you are" - identity verification
 * **Authorization**: Determines "what you can do" - access control
 * **Authentication First**: Must authenticate before authorization
@@ -8502,7 +8502,7 @@ public class XssProtectionService {
 
 ### 326: What is input validation?
 
-**Answer (30 seconds):**
+
 * Process of checking user input for correctness and security
 * **Client-side**: JavaScript validation for user experience
 * **Server-side**: Essential validation for security (never trust client)
@@ -8831,7 +8831,7 @@ public class OptimizedUserService {
 
 ### 334: What is profiling in Java?
 
-**Answer (30 seconds):**
+
 * Process of analyzing application performance to identify bottlenecks
 * **CPU Profiling**: Identifies methods consuming most CPU time
 * **Memory Profiling**: Tracks memory allocation and garbage collection
@@ -8931,7 +8931,7 @@ java -Xms2g -Xmx4g \
 
 ### 337: What is memory profiling?
 
-**Answer (30 seconds):**
+
 * Analysis of application memory usage patterns and allocation
 * **Heap Analysis**: Object allocation, retention, and garbage collection
 * **Memory Leaks**: Identify objects that aren't being garbage collected
@@ -8972,7 +8972,7 @@ public class MemoryProfiledService {
 
 ### 338: What is CPU profiling?
 
-**Answer (30 seconds):**
+
 * Analysis of CPU usage to identify performance hotspots
 * **Method Profiling**: Time spent in each method
 * **Call Tree**: Method call hierarchy and execution paths
@@ -9171,7 +9171,7 @@ public class OptimizedQueryRepository {
 
 ### 343: What is lazy loading?
 
-**Answer (30 seconds):**
+
 * Design pattern that defers loading of data until it's actually needed
 * **JPA/Hibernate**: Load related entities only when accessed
 * **Performance**: Reduces initial load time and memory usage
@@ -9262,7 +9262,7 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 
 ### 345: What is pagination?
 
-**Answer (30 seconds):**
+
 * Technique to split large datasets into smaller, manageable chunks
 * **Performance**: Reduces memory usage and improves response time
 * **User Experience**: Faster page loads and better navigation
@@ -9311,7 +9311,7 @@ public class UserRepository extends JpaRepository<User, Long> {
 
 ### 346: What is unit testing in Java?
 
-**Answer (30 seconds):**
+
 * Testing individual components or methods in isolation
 * **Fast Execution**: Tests run quickly without external dependencies
 * **Automated**: Can be run automatically in CI/CD pipelines
@@ -9425,7 +9425,7 @@ class JUnitAnnotationsExample {
 
 ### 349: What is TestNG?
 
-**Answer (30 seconds):**
+
 * Alternative testing framework to JUnit with additional features
 * **Flexible Configuration**: XML configuration files for test suites
 * **Data Providers**: Built-in support for parameterized tests
@@ -9502,7 +9502,7 @@ public void testngParameterized(int value) {
 
 ### 351: What is mocking in Java testing?
 
-**Answer (30 seconds):**
+
 * Creating fake objects to simulate real dependencies in tests
 * **Isolation**: Test units without depending on external systems
 * **Control**: Define exact behavior of dependencies
@@ -9541,7 +9541,7 @@ class UserServiceTest {
 
 ### 352: What is Mockito?
 
-**Answer (30 seconds):**
+
 * Most popular mocking framework for Java unit testing
 * **Easy Syntax**: Simple and readable mocking API
 * **Annotations**: @Mock, @InjectMocks, @Spy for setup
@@ -9580,7 +9580,7 @@ class MockitoExample {
 
 ### 353: What is integration testing?
 
-**Answer (30 seconds):**
+
 * Testing interaction between multiple components or systems
 * **Real Dependencies**: Uses actual databases, web services, file systems
 * **End-to-End**: Tests complete workflows across system boundaries
@@ -9692,7 +9692,7 @@ public class UserRegistrationSteps {
 
 ### 356: What is acceptance testing?
 
-**Answer (30 seconds):**
+
 * Testing to verify system meets business requirements and user needs
 * **User Perspective**: Tests from end-user point of view
 * **Business Criteria**: Validates acceptance criteria are met
@@ -9773,7 +9773,7 @@ class UserServiceContractTest {
 
 ### 358: What is mutation testing?
 
-**Answer (30 seconds):**
+
 * Testing technique that evaluates quality of test suite by introducing bugs
 * **Mutants**: Modified versions of code with small changes
 * **Mutation Score**: Percentage of mutants killed by tests
@@ -9905,7 +9905,7 @@ class SecurityTest {
 
 ### 361: What is Maven?
 
-**Answer (30 seconds):**
+
 * Build automation and project management tool for Java projects
 * **POM**: Project Object Model (pom.xml) defines project structure
 * **Dependencies**: Automatic dependency management from central repository
@@ -9947,7 +9947,7 @@ class SecurityTest {
 
 ### 362: What is Gradle?
 
-**Answer (30 seconds):**
+
 * Modern build automation tool that combines Maven and Ant features
 * **Groovy/Kotlin DSL**: More flexible than XML configuration
 * **Performance**: Faster builds with incremental compilation and caching
@@ -10050,7 +10050,7 @@ jobs:
 
 ### 365: What is continuous deployment?
 
-**Answer (30 seconds):**
+
 * Automated deployment of code changes to production after passing all tests
 * **Fully Automated**: No manual intervention in deployment process
 * **Fast Delivery**: Features reach users quickly
@@ -10075,7 +10075,7 @@ deploy:
 
 ### 366: What is Jenkins?
 
-**Answer (30 seconds):**
+
 * Open-source automation server for CI/CD pipelines
 * **Pipeline as Code**: Jenkinsfile defines build pipeline
 * **Plugins**: Extensive plugin ecosystem for integrations
@@ -10120,7 +10120,7 @@ pipeline {
 
 ### 367: What is Git?
 
-**Answer (30 seconds):**
+
 * Distributed version control system for tracking code changes
 * **Distributed**: Every developer has complete project history
 * **Branching**: Lightweight branching and merging capabilities
@@ -10245,7 +10245,7 @@ spec:
 
 ### 371: What is blue-green deployment?
 
-**Answer (30 seconds):**
+
 * Deployment strategy using two identical production environments
 * **Blue**: Current live environment serving users
 * **Green**: New environment with updated application
@@ -10398,7 +10398,7 @@ public class UserController {
 
 ### 374: What is logging framework?
 
-**Answer (30 seconds):**
+
 * Library that provides structured way to record application events and messages
 * **Abstraction**: Separates logging API from implementation
 * **Levels**: DEBUG, INFO, WARN, ERROR for message categorization
@@ -10436,7 +10436,7 @@ public class UserService {
 
 ### 375: What is Log4j?
 
-**Answer (30 seconds):**
+
 * Popular Java logging framework developed by Apache Software Foundation
 * **Hierarchical Loggers**: Logger hierarchy based on package structure
 * **Appenders**: Multiple output destinations (file, console, database, JMS)
@@ -10472,7 +10472,7 @@ public class UserService {
 
 ### 376: What is SLF4J?
 
-**Answer (30 seconds):**
+
 * Simple Logging Facade for Java - abstraction layer for logging frameworks
 * **Facade Pattern**: Provides common API regardless of underlying implementation
 * **Binding**: Runtime binding to actual logging framework (Log4j, Logback)
@@ -10519,7 +10519,7 @@ public class OrderService {
 
 ### 377: What is Logback?
 
-**Answer (30 seconds):**
+
 * Native implementation of SLF4J API, successor to Log4j 1.x
 * **Performance**: Faster than Log4j with smaller memory footprint
 * **Configuration**: Automatic configuration reload without restart
@@ -10739,7 +10739,7 @@ public class MetricsCollector {
 
 ### 381: What is JMX monitoring?
 
-**Answer (30 seconds):**
+
 * Java Management Extensions - standard for monitoring and managing Java applications
 * **MBeans**: Managed Beans expose application metrics and operations
 * **JConsole**: Built-in tool for JMX monitoring
@@ -10796,7 +10796,7 @@ public interface ApplicationMonitorMXBean {
 
 ### 382: What is health checks?
 
-**Answer (30 seconds):**
+
 * Automated tests to verify application and its dependencies are functioning correctly
 * **Liveness**: Application is running and responsive
 * **Readiness**: Application is ready to handle requests
@@ -11685,7 +11685,7 @@ public class CustomClassLoader extends ClassLoader {
 
 ### 398: What is bytecode?
 
-**Answer (30 seconds):**
+
 * Intermediate representation of Java source code after compilation
 * **Platform Independent**: Same bytecode runs on any JVM
 * **Stack-based**: Uses operand stack for operations
@@ -11810,7 +11810,7 @@ public class MemoryModelExample {
 
 ### 401: What is escape analysis?
 
-**Answer (30 seconds):**
+
 * JVM optimization that determines if object references escape method scope
 * **Stack Allocation**: Objects that don't escape can be allocated on stack
 * **Scalar Replacement**: Break objects into individual fields
@@ -11900,7 +11900,7 @@ public class GraalVMApplication {
 
 ### 403: What is ahead-of-time compilation?
 
-**Answer (30 seconds):**
+
 * Compilation of Java bytecode to native machine code before runtime
 * **Static Compilation**: Happens at build time, not runtime
 * **Faster Startup**: No JIT compilation overhead at startup
@@ -12134,7 +12134,7 @@ public class VirtualThreadsExample {
 
 ### 408: What is Project Panama?
 
-**Answer (30 seconds):**
+
 * OpenJDK project improving Javas interaction with native code
 * **Foreign Function Interface**: Call native functions without JNI
 * **Foreign Memory API**: Direct access to off-heap memory
@@ -12312,7 +12312,7 @@ public class AmberFeatures {
 
 ### 411: What is WebAssembly with Java?
 
-**Answer (30 seconds):**
+
 * Technology to run Java applications in web browsers via WebAssembly
 * **Browser Execution**: Java code runs directly in browser without plugins
 * **Performance**: Near-native performance in web environments
