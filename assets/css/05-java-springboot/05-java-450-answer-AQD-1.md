@@ -1246,6 +1246,12 @@ abstract class Example {
 ```
 
 ### 64. Can we instantiate an abstract class in Java?
+No, we **cannot instantiate an abstract class directly** because it may contain abstract methods without implementation.
+
+However, we can create a **reference variable of the abstract class type** and assign it to a **concrete subclass object**.
+
+An exception is that we can use an **anonymous inner class** to provide implementation and create an instance indirectly.
+
 * **No, cannot create objects** of abstract class directly
 * **Can create reference variables** of abstract class type
 * **Must instantiate concrete subclass**
@@ -1275,6 +1281,12 @@ Shape anonymous = new Shape() {
 # 🔹 2. Interface Fundamentals
 
 ### 65. What is an interface in Java?
+**An interface in Java** is a **contract** that defines what a class must do.
+
+Before Java 8, all methods in an interface were **public and abstract by default**, and all variables are **public, static, and final constants**.
+
+Interfaces support **multiple inheritance**, meaning a class can implement multiple interfaces.
+
 * **Contract that defines what a class must do**
 * **All methods are public and abstract by default** (before Java 8)
 * **Variables are public, static, and final** (constants)
@@ -1295,6 +1307,10 @@ class Circle implements Drawable {
 ```
 
 ### 66. Is it allowed to mark an interface method as static?
+Yes, **since Java 8**, we can declare **static methods inside an interface**.
+
+These static methods **must have implementation**, cannot be overridden by implementing classes, and are **called using the interface name**, not through an object reference.
+
 * **Yes, since Java 8** static methods are allowed in interfaces
 * **Static methods must have implementation** in interface
 * **Cannot be overridden** by implementing classes
@@ -1318,6 +1334,10 @@ int result = MathUtils.add(5, 3); // Called on interface
 ```
 
 ### 67. Why can an interface not be marked as final in Java?
+An interface cannot be marked as **final** because final means it **cannot be extended or implemented**.
+
+Interfaces are designed to be **implemented by classes**, so marking them final would contradict their purpose and make them useless.
+
 * **Final means cannot be extended**
 * **Interfaces are meant to be implemented** by classes
 * **Contradictory purpose** - interfaces exist to be implemented
@@ -1337,6 +1357,12 @@ class Tool implements Usable { // This is the purpose of interfaces
 ```
 
 ### 68. What is a marker interface?
+A **marker interface** is an interface that has **no methods or fields**.
+
+It is used to **mark or tag a class** to indicate special behavior, and the **JVM or frameworks treat such classes differently** based on that marker.
+
+Examples include `Serializable`, `Cloneable`, and `Remote`.
+
 * **Interface with no methods or fields**
 * **Used to mark or tag classes** with special behavior
 * **JVM or frameworks** treat marked classes differently
@@ -1355,6 +1381,10 @@ class Student implements Serializable { // Marks class as serializable
 ```
 
 ### 69. What can we use instead of marker interface?
+Instead of a marker interface, we can use **annotations**, which are the modern and preferred approach.
+
+Annotations are **more flexible**, can carry additional information, improve **readability**, and provide better metadata support with compile-time checking.
+
 * **Annotations** - modern and preferred approach
 * **More flexible** and can carry additional information
 * **Better readability** and metadata support
@@ -1375,6 +1405,10 @@ class BankAccount { }
 ```
 
 ### 70. How are annotations better than marker interfaces?
+Annotations are better than marker interfaces because they can **carry parameters and additional metadata**, while marker interfaces cannot.
+
+They allow **multiple annotations on the same class**, provide **better IDE and tool support**, and support **compile-time validation and processing**, making them more flexible and powerful.
+
 * **Can carry parameters** and additional metadata
 * **Multiple annotations** can be applied to same class
 * **Better tool support** and IDE integration
@@ -1427,6 +1461,10 @@ interface Flyable {
 ```
 
 ### 72. Does Java allow us to use private and protected modifiers for variables in interfaces?
+No, Java does **not allow private or protected modifiers** for variables in an interface.
+
+All interface variables are **public, static, and final by default**, meaning they are constants. Using any other access modifier will result in a **compilation error**.
+
 * **No, interface variables are always public static final**
 * **Cannot use private or protected** modifiers
 * **Compilation error** if you try to use other modifiers
@@ -1444,6 +1482,10 @@ interface Example {
 ```
 
 ### 73. How can we cast an object reference to an interface reference?
+We can cast an object reference to an interface reference **if the class implements that interface**.
+
+It can be done by **direct assignment** or by **explicit casting** when needed. It is recommended to use an **`instanceof` check** before casting to avoid a **ClassCastException** if the object does not implement the interface.
+
 * **Direct assignment** if class implements interface
 * **Explicit casting** when needed for type safety
 * **instanceof check** recommended before casting
@@ -1476,7 +1518,10 @@ if (obj instanceof Drawable) {
 
 ### 74. What is the purpose of package in Java?
 
-**Answer:**
+A **package in Java** is used to **organize related classes and interfaces** logically.
+
+It helps in **avoiding naming conflicts** by providing namespace management, offers **access control** through package-level visibility, and improves **security and maintainability** by controlling access to classes and members.
+
 * **Namespace management** - Avoids naming conflicts between classes
 * **Access control** - Provides package-level access modifiers
 * **Code organization** - Groups related classes and interfaces logically
@@ -1492,6 +1537,11 @@ public class StringHelper {
 ### 75. What is the java.lang package?
 
 **Answer:**
+
+The **`java.lang` package** is a core package in Java that contains **fundamental classes required by every Java program**.
+
+It is **automatically imported**, so we don’t need to import it explicitly. It includes essential classes like **String, Object, System, Thread, Exception**, and wrapper classes like **Integer, Double, and Boolean**.
+
 * **Core package** - Contains fundamental classes every Java program needs
 * **Auto-imported** - Automatically available without explicit import
 * **Essential classes** - String, Object, System, Thread, Exception classes
@@ -1507,6 +1557,11 @@ Object obj = new Object();
 ### 76. Which is the most important class in Java?
 
 **Answer:**
+
+The **Object class** is the most important class in Java because it is the **root of the entire class hierarchy**.
+
+Every class in Java extends Object directly or indirectly. It provides core methods like **toString(), equals(), hashCode(), and clone()**, which form the foundation for **polymorphism and the collections framework**.
+
 * **Object class** - Root of all Java class hierarchy
 * **Universal parent** - Every class extends Object directly or indirectly
 * **Core methods** - Provides toString(), equals(), hashCode(), clone()
@@ -1525,6 +1580,11 @@ public class MyClass {
 ### 77. Is it mandatory to import the java.lang package every time?
 
 **Answer:**
+
+No, it is **not mandatory to import the `java.lang` package** because it is **automatically imported** by default in every Java program.
+
+All its classes are available without explicit import. Only subpackages like **`java.lang.reflect`** need to be imported separately.
+
 * **No import required** - java.lang is automatically imported
 * **Built-in access** - All classes available by default
 * **Compiler handles** - JVM automatically includes java.lang
@@ -1541,6 +1601,10 @@ public class Example {
 ### 78. Can you import the same package or class twice in your class?
 
 **Answer:**
+Yes, you can import the same package or class multiple times, and it will **not cause any compilation error**.
+
+The compiler simply **ignores duplicate imports**, and there is **no performance impact**. However, it is a **best practice to avoid duplicates** to keep the code clean and readable.
+
 * **Redundant but allowed** - Multiple imports of same class don't cause errors
 * **Compiler ignores** - Duplicate imports are simply ignored
 * **No performance impact** - Doesn't affect runtime or compilation
@@ -1559,6 +1623,10 @@ public class Example {
 ### 79. What is a static import in Java?
 
 **Answer:**
+A **static import in Java** allows us to **access static members (variables or methods) directly without using the class name**.
+
+It makes the code cleaner and less verbose when frequently using static methods. It uses the `import static` keyword, but should be used carefully to avoid reducing readability.
+
 * **Direct access** - Import static members without class name qualification
 * **Cleaner code** - Reduces verbosity for frequently used static methods
 * **Syntax** - Uses `import static` keyword
@@ -1601,6 +1669,10 @@ staticMethod();                 // Direct access to static method
 ### 81. What is Locale in Java?
 
 **Answer:**
+**Locale in Java** represents a **specific geographical, political, or cultural region**, usually defined by a language and country code.
+
+It is used to control **formatting of dates, numbers, and currencies**, and plays an important role in **internationalization (i18n)** support for applications.
+
 * **Geographic identifier** - Represents specific geographical, political, or cultural region
 * **Language and country** - Combines language code with country/region code
 * **Formatting control** - Determines how dates, numbers, currencies display
@@ -1617,6 +1689,10 @@ System.out.println(usLocale.getDisplayName()); // English (United States)
 ### 82. How will you use a specific Locale in Java?
 
 **Answer:**
+To use a specific **Locale in Java**, we first **create a Locale object** using a constructor or predefined constants.
+
+Then we apply it to **formatters like DateFormat or NumberFormat** to format dates, numbers, and currencies accordingly. We can also use it with **ResourceBundle** to load locale-specific messages, and if needed, set it as the **default JVM locale**.
+
 * **Create Locale object** - Use constructor or predefined constants
 * **Apply to formatters** - Use with DateFormat, NumberFormat, etc.
 * **Resource bundles** - Load locale-specific text and messages
@@ -1646,6 +1722,10 @@ String greeting = bundle.getString("hello");
 ### 83. What is the meaning of immutable in the context of the String class?
 
 **Answer:**
+In Java, **immutable** means that once a **String object is created, its value cannot be changed**.
+
+If we try to modify it, a **new String object is created**, and the original string remains unchanged. This immutability allows **string pooling and better memory efficiency**.
+
 * **Cannot be changed** - Once created, String content cannot be modified
 * **New object creation** - Any modification creates a new String object
 * **Original unchanged** - Original String remains unaffected
@@ -1662,6 +1742,10 @@ String newStr = str.concat(" World");  // Must assign to new variable
 ### 84. Why is a String object considered immutable in Java?
 
 **Answer:**
+A **String object is immutable** in Java for several important reasons.
+
+It improves **security** by preventing string values from being changed, ensures **thread safety** since multiple threads can share the same String safely, allows **hashcode caching** because the value never changes, and supports **string pooling (interning)** for better memory optimization.
+
 * **Security** - Prevents malicious code from changing string values
 * **Thread safety** - Multiple threads can safely access same String
 * **Caching** - Hashcode can be cached since content never changes
@@ -1680,6 +1764,12 @@ int hash = key.hashCode();  // Cached after first call
 ### 85. How many ways are there in Java to create a String object?
 
 **Answer:**
+In Java, a String object can be created in **multiple ways**:
+
+The most common way is using a **string literal** (e.g., `"Hello"`), which stores the string in the **string pool**. Another way is using the **`new` keyword**, which creates the object in heap memory.
+
+We can also create Strings using **String class constructors** or by calling the **`toString()` method** on `StringBuilder` or `StringBuffer` objects.
+
 * **String literal** - Using double quotes (goes to string pool)
 * **New keyword** - Creates object in heap memory
 * **Constructor methods** - Various constructors available
