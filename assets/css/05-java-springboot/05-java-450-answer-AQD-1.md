@@ -1129,6 +1129,12 @@ class Child extends MainExample {
 # 🔹 1. Abstraction Concepts
 
 ### 59. What is abstraction in Object-Oriented Programming?
+
+**Abstraction in Object-Oriented Programming** is the concept of **hiding implementation details and showing only the essential features** of an object.
+
+It focuses on **what an object does rather than how it does it**, which helps reduce complexity. In Java, abstraction is achieved using **abstract classes and interfaces**, providing a simplified and clear interface to the user.
+
+
 * **Hiding implementation details** and showing only essential features
 * **Focus on what an object does** rather than how it does it
 * **Achieved through abstract classes and interfaces**
@@ -1170,6 +1176,11 @@ abstract class PaymentProcessor {
 ```
 
 ### 61. What is an abstract class in Java?
+
+**An abstract class in Java** is a class that **cannot be instantiated directly** and is mainly used as a **base class for other classes**.
+
+It can contain both **abstract methods (without implementation)** and **concrete methods (with implementation)**. Abstract classes provide **partial implementation and common functionality** that child classes can extend and complete.
+
 * **Cannot be instantiated directly**
 * **Can have abstract and concrete methods**
 * **Used as base class** for other classes
@@ -7634,6 +7645,8 @@ public class UserService {
 # 🔹 Java Security
 
 ### 313: What is Java security model?
+
+**Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
 
 **Answer (35 seconds):**
 * Comprehensive security framework built into Java platform
