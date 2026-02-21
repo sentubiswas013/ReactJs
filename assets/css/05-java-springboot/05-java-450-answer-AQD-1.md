@@ -6495,6 +6495,7 @@ COMMIT;
 
 ### 247: What is ACID properties?
 
+**ACID** ensures reliable transactions: **Atomicity** (all or nothing), **Consistency** (valid state), **Isolation** (no interference), **Durability** (changes persist after failures).
 
 * **Atomicity**: All operations succeed or all fail
 * **Consistency**: Database remains in valid state
@@ -6513,6 +6514,8 @@ conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED); // Isolatio
 
 ### 248: What is isolation levels in database?
 
+Isolation levels control transaction visibility: **READ_UNCOMMITTED** (dirty reads), **READ_COMMITTED** (no dirty reads), **REPEATABLE_READ** (no dirty/non-repeatable reads), **SERIALIZABLE** (full isolation).
+
 * Controls how transaction changes are visible to other transactions
 * **READ_UNCOMMITTED**: Lowest isolation, dirty reads possible
 * **READ_COMMITTED**: Prevents dirty reads
@@ -6529,6 +6532,9 @@ conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
 ### 249: What is connection leakage?
 
+**Connection leakage** happens when **database connections aren’t properly closed**, leading to **pool exhaustion** and preventing the application from getting new connections.
+
+Always **close connections** using **finally block** or **try-with-resources**.
 
 * When database connections are not properly closed after use
 * Leads to connection pool exhaustion
@@ -6547,6 +6553,7 @@ try (Connection conn = dataSource.getConnection();
 
 ### 250: What is batch processing in JDBC?
 
+**Batch processing** in JDBC executes **multiple SQL statements together** to reduce network trips and improve performance, using **`addBatch()`** and **`executeBatch()`**.
 
 * Technique to execute multiple SQL statements together
 * Reduces network round trips to database
@@ -6567,6 +6574,9 @@ int[] results = stmt.executeBatch();
 
 ### 251: What is SQL injection and how to prevent it?
 
+**SQL injection** is a security risk where **malicious SQL is inserted** into queries.
+
+**Prevention**: use **PreparedStatement**, **avoid string concatenation**, and **validate/sanitize user inputs**.
 
 * Security vulnerability where malicious SQL code is inserted into queries
 * Can lead to data theft, corruption, or unauthorized access
@@ -6588,6 +6598,7 @@ stmt.setString(1, userName);
 # 🔹 Common Design Patterns
 ### 252: What are design patterns?
 
+Design patterns are **reusable solutions** to common software problems. They provide templates for **maintainable, flexible code**, are classified as **Creational, Structural, or Behavioral**, and help **communicate design intent** clearly.
 
 * Reusable solutions to common software design problems
 * Best practices proven over time by experienced developers
@@ -6605,6 +6616,9 @@ Animal animal = AnimalFactory.createAnimal("dog");
 
 ### 253: What is Singleton design pattern?
 
+No, the **Singleton design pattern** ensures that only **one instance** of a class exists in the application.
+
+It provides a **global access point** to that instance and is useful for **database connections, logging, or configuration settings**, controlling object creation and preventing multiple instances.
 
 * Ensures only one instance of a class exists in application
 * Provides global access point to that instance
@@ -6627,6 +6641,7 @@ public class Singleton {
 
 ### 254: How do you implement Singleton pattern in Java?
 
+Singleton pattern in Java can be implemented by creating a **private constructor** and providing a **single instance** of the class:
 
 * **Lazy Initialization**: Create instance when first needed
 * **Thread-Safe**: Use synchronized or double-checked locking
@@ -6648,6 +6663,9 @@ public enum DatabaseConnection {
 
 ### 255: What is Factory design pattern?
 
+The **Factory design pattern** creates objects **without specifying their exact classes**.
+
+It **encapsulates object creation** in a method or class, lets client code remain unaware of concrete classes, **supports easy addition of new types**, and **promotes loose coupling**.
 
 * Creates objects without specifying their exact classes
 * Encapsulates object creation logic in separate method/class
@@ -6671,6 +6689,9 @@ public class ShapeFactory {
 
 ### 256: What is Abstract Factory design pattern?
 
+The **Abstract Factory pattern** is a **factory of factories** that creates **families of related objects**.
+
+It provides an **interface for creating related products**, ensures products from the **same family are used together**, and is useful for systems working with **multiple product families**.
 
 * Factory of factories - creates families of related objects
 * Provides interface for creating groups of related products
@@ -6694,6 +6715,9 @@ class WindowsFactory implements GUIFactory {
 
 ### 257: What is Builder design pattern?
 
+The **Builder design pattern** **constructs complex objects step by step**.
+
+It **separates construction from representation**, is useful for objects with **many optional parameters**, provides a **fluent interface**, and **avoids telescoping constructors**.
 
 * Constructs complex objects step by step
 * Separates object construction from its representation
@@ -6718,6 +6742,9 @@ public class User {
 
 ### 258: What is Observer design pattern?
 
+The **Observer design pattern** defines a **one-to-many dependency** between objects.
+
+When the **subject changes**, all **observers are notified automatically**, promoting **loose coupling**. Commonly used in **event handling** and **MVC**; Java provides **Observable** and **Observer**.
 
 * Defines one-to-many dependency between objects
 * When subject changes state, all observers are notified automatically
@@ -6744,6 +6771,9 @@ class NewsAgency {
 
 ### 259: What is Strategy design pattern?
 
+The **Strategy design pattern** defines a **family of algorithms** and makes them **interchangeable**.
+
+It allows algorithms to **vary independently** from clients, **eliminates conditional logic**, follows **Open/Closed principle**, and supports **runtime algorithm switching**.
 
 * Defines family of algorithms and makes them interchangeable
 * Algorithm varies independently from clients that use it
@@ -6769,6 +6799,9 @@ class PayPalPayment implements PaymentStrategy {
 
 ### 260: What is Command design pattern?
 
+The **Command design pattern** **encapsulates a request as an object**.
+
+It **decouples sender and receiver**, allows **parameterizing clients with requests**, supports **undo/logging**, and is useful for **macro commands and queuing operations**.
 
 * Encapsulates request as an object with all necessary information
 * Allows parameterization of clients with different requests
@@ -6796,6 +6829,9 @@ class LightOnCommand implements Command {
 
 ### 261: What is Decorator design pattern?
 
+The **Decorator design pattern** **adds functionality to objects dynamically** without changing their structure.
+
+It **wraps the original object**, allows **stacking multiple decorators**, and is an alternative to subclassing, following **composition over inheritance**.
 
 * Adds new functionality to objects dynamically without altering structure
 * Alternative to subclassing for extending functionality
@@ -6825,6 +6861,9 @@ class MilkDecorator implements Coffee {
 # 🔹 Servlets and JSP
 ### 262: What is servlet in Java?
 
+A **Servlet** is a **server-side Java program** that handles **HTTP requests and responses**.
+
+It runs in a **servlet container** (e.g., Tomcat), extends **HttpServlet**, overrides **doGet()/doPost()**, and helps generate **dynamic web content**.
 
 * Server-side Java program that handles HTTP requests and responses
 * Runs inside servlet container like Tomcat, Jetty
@@ -6847,7 +6886,6 @@ public class HelloServlet extends HttpServlet {
 
 ### 263: What is the servlet lifecycle?
 
-
 * **Loading**: Container loads servlet class
 * **Instantiation**: Creates servlet instance
 * **Initialization**: Calls init() method once
@@ -6867,6 +6905,9 @@ public class MyServlet extends HttpServlet {
 
 ### 264: What is JSP (JavaServer Pages)?
 
+**JSP (JavaServer Pages)** is a **server-side technology** to create **dynamic web pages**.
+
+It combines **HTML with embedded Java**, is **compiled into servlets**, separates **presentation from business logic**, and is easier than pure servlets for **UI-heavy pages**.
 
 * Server-side technology for creating dynamic web pages
 * HTML with embedded Java code using special tags
@@ -6889,7 +6930,6 @@ public class MyServlet extends HttpServlet {
 
 ### 265: What is the difference between servlet and JSP?
 
-
 * **Servlet**: Pure Java code, HTML embedded in Java
 * **JSP**: HTML with embedded Java code
 * **Performance**: Servlets slightly faster, JSPs compiled to servlets
@@ -6909,6 +6949,9 @@ out.println("<html><body><h1>" + message + "</h1></body></html>");
 
 ### 266: What is JSTL (JSP Standard Tag Library)?
 
+**JSTL (JSP Standard Tag Library)** is a **collection of custom tags** for common JSP tasks.
+
+It **replaces scriptlets**, provides **core tags** for loops, conditions, formatting, SQL, and makes JSP pages **cleaner and maintainable**.
 
 * Collection of custom tags for common JSP tasks
 * Eliminates need for scriptlets (Java code) in JSP pages
@@ -6932,6 +6975,9 @@ out.println("<html><body><h1>" + message + "</h1></body></html>");
 
 ### 267: What is session management in web applications?
 
+**Session management** is a technique to **maintain user state** across multiple HTTP requests.
+
+Since **HTTP is stateless**, methods like **cookies, URL rewriting, hidden fields, and HttpSession** are used. In Java, **HttpSession** stores data on the server and sends a **session ID** to the client.
 
 * Technique to maintain user state across multiple HTTP requests
 * HTTP is stateless - each request is independent
@@ -6955,6 +7001,9 @@ String username = (String) session.getAttribute("username");
 
 ### 268: What are cookies in Java web applications?
 
+**Cookies** are **small data pieces stored on the client browser**.
+
+They are sent with each request, used for **session tracking, preferences, authentication**, have **expiration and domain/path settings**, and are **created by the server**.
 
 * Small pieces of data stored on client browser
 * Sent automatically with each request to same domain
@@ -6981,6 +7030,9 @@ for(Cookie cookie : cookies) {
 
 ### 269: What is URL rewriting?
 
+**URL rewriting** is a **session tracking technique** used when cookies are disabled.
+
+It **appends the session ID to URLs**, works as a **fallback for session management**, and is **handled automatically by the servlet container**.
 
 * Session tracking technique when cookies are disabled
 * Appends session ID to every URL as parameter
@@ -7002,6 +7054,9 @@ String encodedURL = response.encodeURL("welcome.jsp");
 
 ### 270: What is HttpSession?
 
+**HttpSession** is a **server-side interface** for managing user sessions in web applications.
+
+It **stores session data**, tracks users across requests, is **created automatically** by the servlet container, and provides methods like **getAttribute(), setAttribute(), invalidate(), getId()**.
 
 * Interface representing user session in web application
 * Provides way to identify user across multiple requests
@@ -7028,6 +7083,9 @@ String sessionId = session.getId();
 
 ### 271: What are RESTful web services?
 
+**RESTful web services** follow the **Representational State Transfer (REST)** style, using **HTTP** to access resources via URLs.
+
+They are **stateless**, use standard **HTTP methods and status codes**, and support **multiple data formats**.
 
 * REST stands for Representational State Transfer
 * Architectural style for designing web services using HTTP protocol
@@ -7091,6 +7149,9 @@ DELETE /api/users/1   // Delete user
 
 ### 274: What is JSON?
 
+**JSON (JavaScript Object Notation)** is a **lightweight, human-readable data format** for exchanging data.
+
+It is **language-independent**, uses **JavaScript-like syntax**, supports **objects, arrays, strings, numbers, booleans, null**, and is widely used in **REST APIs**.
 
 * JavaScript Object Notation - lightweight data interchange format
 * Human-readable text format for data exchange
@@ -7117,6 +7178,9 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ### 275: What is XML?
 
+**XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
+
+It is **verbose**, supports **attributes and namespaces**, is **self-documenting with schema validation**, and is used in **enterprise apps and SOAP services**.
 
 * eXtensible Markup Language - markup language for data representation
 * Uses tags to define structure and meaning of data
@@ -7137,7 +7201,6 @@ public User getUser() { return new User("John", "john@email.com"); }
 ---
 
 ### 276: What is the difference between JSON and XML?
-
 
 * **Size**: JSON is more compact, XML is verbose
 * **Parsing**: JSON faster to parse, XML requires more processing
@@ -7161,6 +7224,9 @@ public User getUser() { return new User("John", "john@email.com"); }
 
 ### 277: What is JAX-RS?
 
+**JAX-RS** is the **Java API for RESTful Web Services**, a standard for building REST APIs in Java.
+
+It uses **annotations** (e.g., `@Path`, `@GET`, `@POST`, `@Produces`) to define endpoints, and popular implementations include **Jersey, RESTEasy, and Apache CXF**.
 
 * Java API for RESTful Web Services
 * Standard Java specification for building REST APIs
@@ -7184,6 +7250,9 @@ public class UserResource {
 
 ### 278: What is Spring REST?
 
+**Spring REST** is **Spring’s way of building RESTful web services**.
+
+It uses **`@RestController`** and **`@RequestMapping`**, is built on **Spring MVC**, supports **automatic JSON/XML conversion**, and provides **validation, exception handling, and content negotiation**.
 
 * Spring Framework's approach to building RESTful web services
 * Uses @RestController, @RequestMapping annotations
@@ -7226,6 +7295,9 @@ public User getUser(@PathVariable Long id) { return user; }
 
 ### 280: What is API versioning?
 
+**API versioning** is a strategy to **manage changes in APIs** without breaking existing clients.
+
+Common approaches include **URL versioning**, **header versioning**, **parameter versioning**, and **media type versioning**, ensuring **backward compatibility** while evolving the API.
 
 * Strategy to manage changes in API without breaking existing clients
 * **URL Versioning**: /api/v1/users, /api/v2/users
@@ -7253,6 +7325,9 @@ public List<UserV1> getUsersV1() { }
 
 ### 281: What is Spring Framework?
 
+**Spring Framework** is a **comprehensive Java framework** for building enterprise applications.
+
+It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
 
 * Comprehensive Java framework for enterprise application development
 * Provides infrastructure support so developers focus on business logic
@@ -7276,7 +7351,6 @@ public class UserService {
 
 ### 282: What are the core features of Spring?
 
-
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
 * **AOP Support**: Cross-cutting concerns like logging, security
@@ -7298,6 +7372,9 @@ public class AppConfig {
 
 ### 283: What is dependency injection?
 
+**Dependency Injection (DI)** is a design pattern where **objects receive their dependencies from an external source** instead of creating them.
+
+Spring provides dependencies automatically via **constructor, setter, or field injection**, promoting **loose coupling** and easier **testing**.
 
 * Design pattern where objects receive dependencies from external source
 * Instead of creating dependencies, objects declare what they need
@@ -7321,6 +7398,9 @@ public class OrderService {
 
 ### 284: What is inversion of control (IoC)?
 
+**Inversion of Control (IoC)** is a principle where **the framework, not the application, controls object creation and flow**.
+
+Objects receive dependencies from the **IoC container**, which manages their **lifecycle**, reducing **coupling** between components.
 
 * Principle where control of object creation is inverted to framework
 * Objects don't create their dependencies - container provides them
@@ -7346,6 +7426,9 @@ public class UserService {
 
 ### 285: What is Spring Boot?
 
+**Spring Boot** is a framework that **simplifies Spring development** with **auto-configuration**, **starter dependencies**, and **embedded servers**.
+
+It provides **production-ready features** like metrics and health checks, and enables **minimal configuration** with opinionated defaults.
 
 * Framework that simplifies Spring application development
 * **Auto-configuration**: Automatically configures Spring based on dependencies
@@ -7371,6 +7454,9 @@ spring.datasource.url=jdbc:mysql://localhost/mydb
 
 ### 286: What is Spring AOP (Aspect-Oriented Programming)?
 
+**Spring AOP (Aspect-Oriented Programming)** is a paradigm to **handle cross-cutting concerns** like logging or security separately from business logic.
+
+It uses **aspects**, **join points**, and **advice** (Before, After, Around), implemented via **proxies or bytecode weaving**.
 
 * Programming paradigm for handling cross-cutting concerns
 * Separates business logic from system services like logging, security
@@ -7400,6 +7486,9 @@ public class UserService {
 
 ### 287: What is Spring Data JPA?
 
+**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
+
+It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
 
 * Spring module that simplifies JPA-based data access
 * Provides repository abstraction over JPA
@@ -7422,6 +7511,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ### 288: What is Spring Cloud?
 
+**Spring Cloud** is a framework for **building distributed systems and microservices**.
+
+It provides tools for **service discovery (Eureka/Consul)**, **circuit breakers (Hystrix)**, **API gateways (Zuul/Gateway)**, **centralized configuration**, and **client-side load balancing**.
 
 * Framework for building distributed systems and microservices
 * Provides tools for common patterns in distributed systems
@@ -7447,6 +7539,9 @@ public class UserServiceApplication {
 
 ### 289: What is Spring Security?
 
+**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
+
+It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
 
 * Comprehensive security framework for Java applications
 * Handles authentication and authorization
@@ -7476,6 +7571,9 @@ public class SecurityConfig {
 
 ### 290: What is Spring WebFlux?
 
+**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
+
+It’s an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
 
 * Reactive web framework for building non-blocking applications
 * Alternative to Spring MVC for reactive programming
@@ -7502,6 +7600,9 @@ public class UserController {
 # 🔹 Hibernate and JPA
 ### 291: What is Hibernate?
 
+**Hibernate** is a **Java ORM framework** that maps **Java objects to database tables**.
+
+It supports **HQL (object-oriented queries)**, **caching**, **lazy loading**, and is the most popular **JPA implementation**.
 
 * Object-Relational Mapping (ORM) framework for Java
 * Maps Java objects to database tables automatically
@@ -7530,6 +7631,9 @@ public class User {
 
 ### 292: What is JPA?
 
+**JPA (Java Persistence API)** is a **Java specification for ORM**, providing a standard way to **manage relational data**.
+
+It uses **annotations** (`@Entity`, `@Table`, `@Id`), **EntityManager** for operations, **JPQL** for queries, and is implemented by frameworks like **Hibernate, EclipseLink, OpenJPA**.
 
 * Java Persistence API - specification for ORM in Java
 * Standard way to manage relational data in Java applications
@@ -7555,7 +7659,6 @@ public List<User> findUsers() {
 ---
 
 ### 293: What is the difference between Hibernate and JPA?
-
 
 * **JPA**: Specification/standard for ORM in Java
 * **Hibernate**: Implementation of JPA specification
@@ -7584,6 +7687,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ### 294: What is Struts framework?
 
+**Struts Framework** is a **Java MVC framework** for building web applications.
+
+It uses **Action classes** for requests, **ActionForm** for data binding, **XML configuration**, and provides **JSP tag libraries**. Popular before Spring MVC, now mostly replaced by modern frameworks.
 
 * MVC framework for building Java web applications
 * Based on Model-View-Controller design pattern
@@ -7607,6 +7713,9 @@ public class LoginAction extends Action {
 
 ### 295: What is JSF (JavaServer Faces)?
 
+**JSF (JavaServer Faces)** is a **component-based Java web framework** for building user interfaces.
+
+It uses **Facelets** for views, **managed beans** for business logic, an **event-driven model**, and provides **validation, conversion, and internationalization** support.
 
 * Component-based web framework for building Java web applications
 * Part of Java EE specification for creating user interfaces
@@ -7635,6 +7744,9 @@ public class UserBean {
 
 ### 296: What are microservices?
 
+**Microservices** are an **architectural style** where an application is built as **small, independent services**.
+
+Each service has a **single responsibility**, runs in its **own process**, communicates via **APIs**, can be **deployed independently**, and allows **technology diversity** with **decentralized control**.
 
 * Architectural approach where application is built as suite of small services
 * Each service runs in its own process and communicates via APIs
@@ -7719,6 +7831,9 @@ public class OrderService {
 
 ### 299: What is service discovery?
 
+**Service Discovery** is a mechanism for **services to find and communicate** with each other.
+
+Services **register** with a discovery server, clients **query** it to locate instances, it handles **dynamic changes** and **load balancing**, using tools like **Eureka, Consul, or etcd**.
 
 * Mechanism for services to find and communicate with each other
 * Services register themselves with discovery server
@@ -7750,6 +7865,9 @@ public List<ServiceInstance> getOrderServiceInstances() {
 
 ### 300: What is API gateway?
 
+**API Gateway** is a **single entry point** for client requests in microservices.
+
+It handles **routing**, **authentication**, **rate limiting**, **load balancing**, and **request/response transformation**, using tools like **Spring Cloud Gateway, Zuul, or Kong**.
 
 * Single entry point for all client requests to microservices
 * **Routing**: Directs requests to appropriate backend services
@@ -7778,6 +7896,9 @@ public class GatewayConfig {
 
 ### 301: What is circuit breaker pattern?
 
+**Circuit Breaker Pattern** is a design pattern that **prevents cascading failures** in distributed systems.
+
+It has states: **Closed** (normal), **Open** (fail fast), **Half-Open** (test recovery), **protects services from overload**, and provides **fallbacks for graceful degradation**.
 
 * Design pattern that prevents cascading failures in distributed systems
 * **Closed**: Normal operation, requests pass through
@@ -7804,6 +7925,9 @@ public class UserService {
 
 ### 302: What is distributed tracing?
 
+**Distributed Tracing** is a technique to **track requests across multiple microservices**.
+
+It uses **traces** (full request journey) and **spans** (individual operations) to **identify bottlenecks and failures**, with tools like **Zipkin, Jaeger, and Spring Cloud Sleuth**.
 
 * Technique to track requests as they flow through multiple microservices
 * **Trace**: Complete journey of a request across services
@@ -7834,6 +7958,9 @@ public class OrderController {
 
 ### 303: What is service mesh architecture?
 
+**Service Mesh Architecture** is an **infrastructure layer** managing **service-to-service communication**.
+
+It uses **sidecar proxies** for **traffic management, security, and observability**, separating **network concerns from business logic**. Examples include **Istio, Linkerd, and Consul Connect**.
 
 * Infrastructure layer that handles service-to-service communication
 * **Sidecar Proxy**: Each service has a proxy handling network communication
@@ -7865,6 +7992,9 @@ spec:
 
 ### 304: What is database per service pattern?
 
+**Database per Service Pattern** means each **microservice owns its own database**.
+
+It provides **data isolation**, allows **different technologies**, supports **independent scaling**, but makes **cross-service queries and transactions** more complex, requiring **API calls** for external data.
 
 * Each microservice owns and manages its own database
 * **Data Isolation**: Services cannot directly access other service databases
@@ -7893,6 +8023,10 @@ public class Order {
 ---
 
 ### 305: What is saga pattern for distributed transactions?
+
+**Saga Pattern** is used to **manage distributed transactions** in microservices.
+
+It supports **choreography** (event-based) or **orchestration** (central coordinator), uses **compensating actions** for failures, ensures **eventual consistency**, and treats each step as a **local transaction**.
 
 * Pattern for managing distributed transactions across microservices
 * **Choreography**: Services coordinate through events
@@ -7923,6 +8057,9 @@ public class OrderSaga {
 
 ### 306: What is containerization?
 
+**Containerization** is a technology that **packages applications with their dependencies** into isolated, portable containers.
+
+Containers are **lightweight**, **consistent across environments**, **easy to scale**, and use platforms like **Docker, Podman, or containerd**.
 
 * Technology that packages applications with their dependencies into containers
 * **Isolation**: Applications run in isolated environments
@@ -7970,8 +8107,6 @@ services:
 
 It ensures applications remain **highly available, scalable, and resilient** in production environments.
 
-
-
 * Container orchestration platform for managing containerized applications
 * **Pods**: Smallest deployable units containing one or more containers
 * **Services**: Expose applications and provide load balancing
@@ -8006,8 +8141,6 @@ spec:
 **Cloud computing** is the delivery of computing resources like **servers, storage, databases, networking, and software** over the internet on a **pay-as-you-go** basis. Instead of owning physical infrastructure, you use resources provided by cloud platforms.
 
 It allows easy **scaling, high availability, cost efficiency**, and faster application deployment.
-
-
 
 * Delivery of computing services over the internet
 * **IaaS**: Infrastructure as a Service (virtual machines, storage)
@@ -8096,7 +8229,6 @@ restTemplate.getForObject("http://user-service/users/1", User.class);
 
 ### 312: What is caching strategies?
 
-
 * Techniques to store frequently accessed data for faster retrieval
 * **Cache-Aside**: Application manages cache manually
 * **Write-Through**: Write to cache and database simultaneously
@@ -8157,6 +8289,9 @@ System.setSecurityManager(new MySecurityManager());
 
 ### 314: What is sandbox in Java?
 
+**Sandbox in Java** is a **restricted environment** for running untrusted code.
+
+It **limits file, network, and system access**, uses **security policies**, provides **isolation** to protect the host, and was commonly used for **applets**.
 
 * Restricted execution environment for running untrusted code
 * **Applets**: Web-based Java programs run in browser sandbox
@@ -8181,6 +8316,9 @@ public class MyApplet extends Applet {
 
 ### 315: What is bytecode verification?
 
+**Bytecode Verification** is the process where the **JVM checks Java bytecode** for safety before execution.
+
+It ensures **type safety, correct control flow, and stack usage**, preventing **illegal memory access or security issues**.
 
 * Process that ensures Java bytecode follows language safety rules
 * **Static Analysis**: Checks code structure without execution
