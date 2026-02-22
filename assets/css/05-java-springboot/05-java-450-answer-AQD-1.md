@@ -8519,6 +8519,9 @@ public List<User> getUsers() { return userService.getAllUsers(); }
 
 ### 322: What is OAuth?
 
+**OAuth** is an **open standard for authorization** that allows third-party apps to access user resources **without sharing passwords**.
+
+It uses **access tokens**, involves **Resource Owner, Client, Authorization Server, and Resource Server**, and supports flows like **authorization code and client credentials**.
 
 * Open standard for access delegation and authorization
 * Allows third-party applications to access user resources without passwords
@@ -8553,6 +8556,9 @@ public class OAuth2Config {
 
 ### 323: What is JWT (JSON Web Token)?
 
+**JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
+
+It has three parts: **Header.Payload.Signature**, is **stateless and self-contained**, and is commonly used for **authentication and API authorization**, being **signed (optionally encrypted)** for security.
 
 * Compact, URL-safe token format for securely transmitting information
 * **Structure**: Header.Payload.Signature (three Base64-encoded parts)
@@ -8587,6 +8593,9 @@ public class JwtService {
 
 ### 324: What is CSRF protection?
 
+**CSRF protection** prevents **unauthorized actions** caused by malicious websites.
+
+It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
 
 * Cross-Site Request Forgery protection prevents unauthorized actions
 * **Attack**: Malicious site tricks user into performing unwanted actions
@@ -8618,6 +8627,9 @@ public class SecurityConfig {
 
 ### 325: What is XSS protection?
 
+**XSS protection** prevents **malicious script injection** in web applications.
+
+It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
 
 * Cross-Site Scripting protection prevents malicious script injection
 * **Reflected XSS**: Script in URL parameters executed immediately
@@ -8655,6 +8667,9 @@ public class XssProtectionService {
 
 ### 326: What is input validation?
 
+**Input validation** is the process of **checking user input for correctness and security**.
+
+It should be done on the **server side** (never trust client), use a **whitelist approach**, apply **sanitization**, and can use **Bean Validation annotations** like `@Valid`, `@NotNull`, and `@Pattern`.
 
 * Process of checking user input for correctness and security
 * **Client-side**: JavaScript validation for user experience
@@ -8687,6 +8702,10 @@ public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user
 ---
 
 ### 327: What is secure coding practices?
+
+**Secure coding practices** are guidelines to write **secure and vulnerability-free code**.
+
+They include **input validation, output encoding, strong authentication, proper authorization (least privilege), secure error handling, logging security events, and keeping dependencies updated**.
 
 * Guidelines and techniques to write secure, vulnerability-free code
 * **Input Validation**: Validate all user inputs
@@ -8731,6 +8750,9 @@ public class SecureUserService {
 
 ### 328: What is OAuth 2.0?
 
+**OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
+
+It supports flows like **Authorization Code (most secure), Client Credentials, PKCE**, and uses **scopes** to define permissions, avoiding password sharing.
 
 * Updated version of OAuth protocol for authorization
 * **Authorization Code Flow**: Most secure, uses authorization code exchange
@@ -8771,6 +8793,9 @@ public class ApiController {
 
 ### 329: What is OpenID Connect?
 
+**OpenID Connect (OIDC)** is an **identity layer built on top of OAuth 2.0** for authentication.
+
+It provides an **ID Token (JWT)** with user identity claims, supports a **UserInfo endpoint**, enables **SSO**, and allows automatic **discovery and configuration**.
 
 * Identity layer built on top of OAuth 2.0 protocol
 * **Authentication**: Provides user identity information (who you are)
@@ -8815,6 +8840,9 @@ public Map<String, Object> user(Principal principal) {
 
 ### 330: What is SAML?
 
+**SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
+
+It enables **Single Sign-On (SSO)** between an **Identity Provider (IdP)** and a **Service Provider (SP)** using **security assertions**, and is widely used in **enterprise environments**.
 
 * Security Assertion Markup Language for exchanging authentication data
 * **XML-based**: Uses XML for security assertions
@@ -8984,6 +9012,9 @@ public class OptimizedUserService {
 
 ### 334: What is profiling in Java?
 
+**Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
+
+It includes **CPU, memory, and thread profiling**, using tools like **JProfiler, YourKit, VisualVM, and Java Flight Recorder**, with approaches like **sampling and instrumentation**.
 
 * Process of analyzing application performance to identify bottlenecks
 * **CPU Profiling**: Identifies methods consuming most CPU time
@@ -9022,6 +9053,9 @@ public class ProfiledService {
 
 ### 335: What is JVM tuning?
 
+**JVM tuning** is the process of **optimizing JVM settings** for better performance.
+
+It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
 
 * Process of optimizing JVM parameters for better performance
 * **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
@@ -9084,6 +9118,9 @@ java -Xms2g -Xmx4g \
 
 ### 337: What is memory profiling?
 
+**Memory profiling** is the analysis of an application's **memory usage and allocation patterns**.
+
+It helps identify **heap usage, object retention, memory leaks**, and uses tools like **Eclipse MAT, JProfiler, VisualVM**, along with **heap dumps** for detailed analysis.
 
 * Analysis of application memory usage patterns and allocation
 * **Heap Analysis**: Object allocation, retention, and garbage collection
@@ -9125,6 +9162,9 @@ public class MemoryProfiledService {
 
 ### 338: What is CPU profiling?
 
+**CPU profiling** is the analysis of **CPU usage** to find performance hotspots.
+
+It tracks **time spent in methods, call hierarchy**, uses **sampling or instrumentation**, and tools like **JProfiler, async-profiler, and Java Flight Recorder** to identify bottlenecks.
 
 * Analysis of CPU usage to identify performance hotspots
 * **Method Profiling**: Time spent in each method
@@ -9165,6 +9205,9 @@ public class CpuProfiledService {
 
 ### 339: What is application performance monitoring (APM)?
 
+**Application Performance Monitoring (APM)** is the **real-time monitoring of application performance in production**.
+
+It tracks **metrics, errors, distributed tracing, user experience, and infrastructure performance**, using tools like **New Relic, AppDynamics, Dynatrace, and Elastic APM**.
 
 * Comprehensive monitoring of application performance in production
 * **Real-time Monitoring**: Live performance metrics and alerts
@@ -9206,6 +9249,9 @@ public class MonitoredController {
 
 ### 340: What is code profiling?
 
+**Code profiling** is the process of analyzing how your code runs to find performance issues.
+
+It measures **execution time, memory usage, and method hotspots**, using static or runtime (dynamic) analysis tools to identify slow or inefficient parts of the code.
 
 * Detailed analysis of code execution to identify performance issues
 * **Static Analysis**: Code review without execution
@@ -9246,6 +9292,9 @@ public class ProfiledCodeService {
 
 ### 341: What is database optimization?
 
+**Database optimization** is the process of improving database performance and query speed.
+
+It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
 
 * Techniques to improve database query performance and efficiency
 * **Indexing**: Create indexes on frequently queried columns
@@ -9283,6 +9332,9 @@ public class OptimizedUserRepository {
 
 ### 342: What is query optimization?
 
+**Query optimization** is the process of improving the performance and execution time of SQL queries.
+
+It involves **using proper indexes, writing efficient joins and WHERE clauses, avoiding unnecessary data fetch (like SELECT *), and analyzing execution plans** to ensure faster query execution.
 
 * Process of improving SQL query performance and execution time
 * **Index Usage**: Ensure queries use appropriate indexes
@@ -9324,6 +9376,9 @@ public class OptimizedQueryRepository {
 
 ### 343: What is lazy loading?
 
+**Lazy loading** is a design pattern where data is loaded **only when it is actually needed**, instead of loading everything at once.
+
+It improves performance and reduces memory usage, but if not handled properly, it can cause issues like the **N+1 query problem**.
 
 * Design pattern that defers loading of data until it's actually needed
 * **JPA/Hibernate**: Load related entities only when accessed
@@ -9373,6 +9428,9 @@ public class UserService {
 
 ### 344: What is eager loading?
 
+**Eager loading** is a strategy where related data is **loaded immediately along with the main entity**.
+
+It reduces additional database queries later, but increases **initial load time and memory usage**, so it should be used only when the related data is definitely needed.
 
 * Loading strategy that fetches all related data immediately
 * **JPA/Hibernate**: Load associated entities along with main entity
@@ -9415,6 +9473,9 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 
 ### 345: What is pagination?
 
+**Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
+
+It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
 
 * Technique to split large datasets into smaller, manageable chunks
 * **Performance**: Reduces memory usage and improves response time
@@ -10058,6 +10119,9 @@ class SecurityTest {
 
 ### 361: What is Maven?
 
+**Maven** is a **build automation and project management tool** used for Java projects.
+
+It manages **dependencies, build lifecycle, and project structure** using a `pom.xml` file, following a **convention over configuration** approach.
 
 * Build automation and project management tool for Java projects
 * **POM**: Project Object Model (pom.xml) defines project structure
@@ -10093,13 +10157,13 @@ class SecurityTest {
 </project>
 ```
 
-
-
-
 ---
 
 ### 362: What is Gradle?
 
+**Gradle** is a modern **build automation tool** used for Java and other projects.
+
+It uses **Groovy or Kotlin DSL** instead of XML, provides **faster builds with incremental compilation and caching**, and supports powerful dependency management and multi-module projects.
 
 * Modern build automation tool that combines Maven and Ant features
 * **Groovy/Kotlin DSL**: More flexible than XML configuration
@@ -10137,6 +10201,9 @@ tasks.named('test') {
 
 ### 363: What is the difference between Maven and Gradle?
 
+**Maven** and **Gradle** are both build tools, but they differ in configuration and flexibility.
+
+Maven uses **XML and follows a strict convention-based approach**, while Gradle uses **Groovy/Kotlin DSL, is more flexible, and generally faster due to incremental builds and caching**. Maven is simpler to learn, while Gradle is more powerful for complex projects.
 
 * **Configuration**: Maven uses XML, Gradle uses Groovy/Kotlin DSL
 * **Performance**: Gradle is faster with incremental builds and build cache
@@ -10171,6 +10238,9 @@ task customTask {
 
 ### 364: What is continuous integration?
 
+**Continuous Integration (CI)** is a development practice where developers **frequently merge code into a shared repository**, and each commit triggers an **automated build and test process**.
+
+It helps detect bugs early, ensures code quality, and provides fast feedback using tools like **Jenkins, GitLab CI, or GitHub Actions**.
 
 * Development practice of frequently integrating code changes into shared repository
 * **Automated Builds**: Every commit triggers automated build and test
@@ -10203,6 +10273,9 @@ jobs:
 
 ### 365: What is continuous deployment?
 
+**Continuous Deployment (CD)** is a practice where code changes are **automatically deployed to production** after passing all tests.
+
+It enables **fast and frequent releases**, reduces risk with small deployments, and requires strong automation, testing, monitoring, and rollback mechanisms.
 
 * Automated deployment of code changes to production after passing all tests
 * **Fully Automated**: No manual intervention in deployment process
@@ -10228,6 +10301,9 @@ deploy:
 
 ### 366: What is Jenkins?
 
+**Jenkins** is an **open-source automation server** used to implement **CI/CD pipelines**.
+
+It automates **build, test, and deployment processes**, supports pipeline as code using a *Jenkinsfile*, and integrates with tools like Git, Maven, Docker, and Kubernetes through plugins.
 
 * Open-source automation server for CI/CD pipelines
 * **Pipeline as Code**: Jenkinsfile defines build pipeline
@@ -10273,6 +10349,9 @@ pipeline {
 
 ### 367: What is Git?
 
+**Git** is a **distributed version control system** used to track and manage code changes.
+
+It allows developers to **create branches, merge code, collaborate through remote repositories**, and maintains complete project history with high performance and data integrity.
 
 * Distributed version control system for tracking code changes
 * **Distributed**: Every developer has complete project history
@@ -10297,6 +10376,9 @@ git pull origin main              # Pull from remote
 
 ### 368: What is version control?
 
+**Version control** is a system used to **track and manage changes to code or files over time**.
+
+It allows multiple developers to collaborate, maintain version history, create branches, and revert to previous versions. It can be **centralized (like SVN) or distributed (like Git)**.
 
 * System for tracking and managing changes to files over time
 * **History**: Complete history of all changes and versions
@@ -10320,6 +10402,9 @@ git revert abc123            # Revert specific commit
 
 ### 369: What is infrastructure as code?
 
+**Infrastructure as Code (IaC)** is the practice of **managing and provisioning infrastructure using code instead of manual setup**.
+
+It allows infrastructure to be **version-controlled, automated, and reproducible** across environments using tools like Terraform or CloudFormation.
 
 * Managing and provisioning infrastructure through code rather than manual processes
 * **Declarative**: Define desired state, tools ensure it's achieved
@@ -10367,6 +10452,9 @@ resource "aws_instance" "web" {
 
 ### 370: What is deployment strategies?
 
+**Deployment strategies** are different approaches used to release applications to production safely and efficiently.
+
+Common strategies include **Rolling, Blue-Green, Canary, Recreate, and Shadow deployments**, which help minimize downtime, reduce risk, and ensure smooth releases.
 
 * Different approaches for releasing applications to production
 * **Rolling Deployment**: Gradually replace old instances with new ones
@@ -10398,6 +10486,9 @@ spec:
 
 ### 371: What is blue-green deployment?
 
+**Blue-Green deployment** is a strategy where two identical production environments are maintained — one live (**Blue**) and one with the new version (**Green**).
+
+After testing, traffic is switched to Green, ensuring **zero downtime and quick rollback**, but it requires double infrastructure resources.
 
 * Deployment strategy using two identical production environments
 * **Blue**: Current live environment serving users
@@ -10449,6 +10540,9 @@ spec:
 
 ### 372: What is canary deployment?
 
+**Canary deployment** is a strategy where a new version of an application is released to a **small percentage of users first**, and then gradually rolled out to everyone.
+
+It helps **reduce risk, monitor performance, and quickly roll back** if issues are detected.
 
 * Deployment strategy that releases new version to small subset of users first
 * **Gradual Rollout**: Start with 5-10% of traffic, gradually increase
@@ -10509,6 +10603,9 @@ public class UserController {
 
 ### 373: What is application monitoring?
 
+**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
+
+It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
 
 * Continuous observation of application performance, health, and behavior in production
 * **Real-time Metrics**: CPU, memory, response times, error rates
@@ -10551,6 +10648,9 @@ public class UserController {
 
 ### 374: What is logging framework?
 
+A **logging framework** is a library that provides a structured way to record application events and errors.
+
+It supports different **log levels (DEBUG, INFO, WARN, ERROR)**, configurable output destinations (console, file, etc.), and flexible formatting. Popular frameworks include **SLF4J**, **Apache Log4j**, **Logback**, and **java.util.logging**.
 
 * Library that provides structured way to record application events and messages
 * **Abstraction**: Separates logging API from implementation
@@ -10589,6 +10689,9 @@ public class UserService {
 
 ### 375: What is Log4j?
 
+**Apache Log4j** is a popular Java logging framework developed by the Apache Software Foundation.
+
+It provides hierarchical loggers, multiple appenders (console, file, etc.), flexible configuration, and supports asynchronous logging for high-performance applications.
 
 * Popular Java logging framework developed by Apache Software Foundation
 * **Hierarchical Loggers**: Logger hierarchy based on package structure
@@ -10625,6 +10728,9 @@ public class UserService {
 
 ### 376: What is SLF4J?
 
+**SLF4J** (Simple Logging Facade for Java) is a logging abstraction layer that provides a common API for different logging frameworks.
+
+It allows you to switch the underlying implementation (like Log4j or Logback) without changing code and supports efficient, parameterized logging.
 
 * Simple Logging Facade for Java - abstraction layer for logging frameworks
 * **Facade Pattern**: Provides common API regardless of underlying implementation
@@ -10672,6 +10778,9 @@ public class OrderService {
 
 ### 377: What is Logback?
 
+**Logback** is a logging framework and the native implementation of the SLF4J API, designed as the successor to Log4j 1.x.
+
+It offers better performance, flexible configuration, automatic reload support, and is the default logging framework in Spring Boot.
 
 * Native implementation of SLF4J API, successor to Log4j 1.x
 * **Performance**: Faster than Log4j with smaller memory footprint
@@ -10718,6 +10827,9 @@ public class OrderService {
 
 ### 378: What is structured logging?
 
+**Structured logging** is a logging approach where logs are written in a **machine-readable format** (like JSON) using **key-value pairs** instead of plain text.
+
+It improves searchability, filtering, and tracing in monitoring tools like the **Elastic** (ELK Stack) and **Splunk**, and helps include contextual data like correlation IDs for better debugging.
 
 * Logging approach that produces machine-readable, consistent log format
 * **JSON Format**: Logs as JSON objects for easy parsing
@@ -10768,6 +10880,9 @@ public class PaymentService {
 
 ### 379: What is centralized logging?
 
+**Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
+
+It helps with unified search, request tracing across services, log retention, and better monitoring using tools like the **Elastic** (ELK Stack), **Fluentd**, and **Splunk**.
 
 * Collecting logs from multiple applications/servers into single location
 * **Aggregation**: Combine logs from distributed systems
@@ -10835,6 +10950,9 @@ public class LoggingConfig {
 
 ### 380: What is metrics collection?
 
+**Metrics collection** is the process of gathering **quantitative data about system and application performance** over time.
+
+It includes system metrics (CPU, memory), application metrics (response time, error rate), and business metrics, and is commonly done using tools like **Micrometer**, **Prometheus**, **InfluxDB**, and **Amazon CloudWatch**.
 
 * Systematic gathering of quantitative data about application performance
 * **System Metrics**: CPU, memory, disk, network utilization
@@ -10892,6 +11010,9 @@ public class MetricsCollector {
 
 ### 381: What is JMX monitoring?
 
+**JMX (Java Management Extensions) monitoring** is a standard way to **monitor and manage Java applications**.
+
+It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
 
 * Java Management Extensions - standard for monitoring and managing Java applications
 * **MBeans**: Managed Beans expose application metrics and operations
@@ -10949,6 +11070,9 @@ public interface ApplicationMonitorMXBean {
 
 ### 382: What is health checks?
 
+**Health checks** are automated tests to verify that an application and its dependencies are **running and ready to handle requests**.
+
+They include **liveness** (app is alive), **readiness** (app can serve traffic), and dependency checks, often implemented via **Spring Boot Actuator** or container platforms like **Kubernetes**.
 
 * Automated tests to verify application and its dependencies are functioning correctly
 * **Liveness**: Application is running and responsive
@@ -10993,6 +11117,9 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
 ### 383: What is distributed monitoring?
 
+**Distributed monitoring** tracks the performance and health of **applications spread across multiple services or servers**.
+
+It provides **end-to-end visibility** using distributed tracing, correlation IDs, and centralized metrics, with tools like **Jaeger**, **Zipkin**, **OpenTelemetry**, and **Istio**.
 
 * Monitoring approach for applications spread across multiple servers/services
 * **Distributed Tracing**: Track requests across service boundaries
@@ -11054,6 +11181,10 @@ public class OrderService {
 ---
 
 ### 384: What is alerting strategies?
+
+**Alerting strategies** are systematic ways to **notify teams of production issues**.
+
+They use **thresholds, severity levels, escalation paths, and runbooks** to ensure timely action, reduce noise, and deliver alerts via **email, SMS, Slack, or tools like PagerDuty**, often guided by **SLA/SLOs**.
 
 * Systematic approach to notify teams when issues occur in production
 * **Thresholds**: Define when alerts should trigger (error rate > 5%)
@@ -11131,6 +11262,8 @@ public class AlertingService {
 
 ### 385: What is system design for Java applications?
 
+**System design for Java applications** is the process of **planning architecture, components, and interfaces** to build scalable, performant, reliable, secure, and maintainable systems, choosing the right **technology stack** and making **trade-offs** like CAP theorem considerations.
+
 * Process of defining architecture, components, and interfaces for Java systems
 * **Scalability**: Design for horizontal and vertical scaling
 * **Performance**: Optimize for throughput and latency requirements
@@ -11175,6 +11308,7 @@ public class OrderController {
 
 ### 386: What is scalability design patterns?
 
+**Scalability design patterns** are techniques to help systems **handle increased load efficiently**, like **load balancing, caching, database sharding, asynchronous processing, microservices, CDNs, and auto-scaling**.
 
 * Patterns that enable systems to handle increased load efficiently
 * **Load Balancing**: Distribute requests across multiple instances
@@ -11219,6 +11353,9 @@ public class OrderProcessor {
 
 ### 387: What is reliability design patterns?
 
+**Reliability design patterns** are strategies that help a system **keep running even when parts fail**.
+
+They include **Circuit Breaker** (stop failures spreading), **Retry** (retry failed operations), **Bulkhead** (isolate resources), **Timeout** (avoid hanging operations), **Health Check** (monitor and remove unhealthy instances), **Graceful Degradation** (reduce functionality instead of failing), and **Redundancy** (use multiple instances for failover).
 
 * Patterns that ensure system continues operating despite failures
 * **Circuit Breaker**: Prevent cascading failures by failing fast
@@ -11255,6 +11392,9 @@ public class PaymentService {
 
 ### 388: What is availability design patterns?
 
+**Availability design patterns** are strategies to **maximize system uptime and minimize downtime**.
+
+They include **Active-Passive Failover** (standby takes over), **Active-Active** (multiple systems share load), **Geographic Distribution** (deploy across regions), **Zero-Downtime Deployment** (rolling updates), **Database Replication**, **Load Balancer Health Checks**, and **Disaster Recovery** (backup and restore).
 
 * Patterns that maximize system uptime and minimize service interruptions
 * **Active-Passive Failover**: Standby system takes over when primary fails
@@ -11297,6 +11437,9 @@ public class SystemHealthIndicator implements HealthIndicator {
 
 ### 389: What is event-driven architecture?
 
+**Event-driven architecture** is a design where components **communicate via events instead of direct calls**, enabling **loose coupling, asynchronous processing, scalability, and resilience**.
+
+Events are often stored in an **event store** and distributed using **message brokers** like Kafka, RabbitMQ, or AWS SQS.
 
 * Architecture where components communicate through events rather than direct calls
 * **Loose Coupling**: Components don't need to know about each other
@@ -11352,6 +11495,9 @@ public class OrderEventHandlers {
 
 ### 390: What is CQRS pattern?
 
+**CQRS (Command Query Responsibility Segregation)** is a pattern that **separates read and write operations**.
+
+**Commands** modify data, **Queries** read data, and each side can use **different models** for better **performance, scalability, and flexibility**, especially in complex domains.
 
 * Command Query Responsibility Segregation - separate read and write operations
 * **Commands**: Operations that change state (Create, Update, Delete)
@@ -11408,6 +11554,9 @@ public class OrderSummary {
 
 ### 391: What is event sourcing?
 
+**Event Sourcing** is a pattern where an application’s **state is stored as a sequence of events**.
+
+The **current state** is reconstructed by replaying events from an **immutable event store**, providing a full **audit trail, time-travel capability**, and **scalable asynchronous processing**, though it adds complexity compared to CRUD.
 
 * Pattern where application state is stored as sequence of events
 * **Event Store**: Immutable log of all events that occurred
@@ -11477,6 +11626,10 @@ public class EventStore {
 ---
 
 ### 392: What is domain-driven design?
+
+**Domain-Driven Design (DDD)** is a software approach that **models complex business domains** using a shared **ubiquitous language**.
+
+It defines **bounded contexts, aggregates, domain services, repositories, value objects, and domain events** to organize code around business logic and maintain consistency.
 
 * Software design approach focused on modeling complex business domains
 * **Ubiquitous Language**: Common vocabulary between developers and domain experts
@@ -11548,6 +11701,9 @@ public class Money {
 
 ### 393: What is clean architecture?
 
+**Clean Architecture** is a design approach that **separates concerns into layers**, keeping **business logic independent** of frameworks and databases.
+
+Core layers include **Entities** (business objects), **Use Cases** (application rules), **Interface Adapters** (data conversion), and **Frameworks** (UI, DB, external systems), with dependencies pointing inward.
 
 * Architecture that separates concerns into concentric layers
 * **Independence**: Business logic independent of frameworks and databases
@@ -11616,6 +11772,9 @@ public class UserController {
 
 ### 394: What is hexagonal architecture?
 
+**Hexagonal Architecture** is a design pattern that **isolates core business logic from external systems**.
+
+It uses **Ports** (interfaces) and **Adapters** (implementations) to connect **inside** (business logic, domain) with **outside** (databases, APIs, frameworks), making the system **flexible and testable**.
 
 * Architecture pattern that isolates core business logic from external concerns
 * **Ports**: Interfaces that define how application communicates with outside world
@@ -11695,6 +11854,10 @@ public class EmailNotificationAdapter implements NotificationPort {
 
 ### 395: What is JVM architecture?
 
+**JVM Architecture** is the structure of the **Java Virtual Machine**, which **runs Java bytecode**.
+
+Key components include **Class Loader** (loads classes), **Memory Areas** (heap, stack, method area), **Execution Engine** (interprets/compiles bytecode), **JIT Compiler** (optimizes performance), **Garbage Collector** (manages memory), and **Native Method Interface**. It enables **platform independence**.
+
 * Java Virtual Machine - runtime environment that executes Java bytecode
 * **Class Loader**: Loads classes into memory dynamically
 * **Memory Areas**: Heap, stack, method area, PC registers
@@ -11737,6 +11900,9 @@ public class JVMMemoryExample {
 
 ### 396: What is class loading process?
 
+**Class Loading Process** in Java is how classes are brought into memory and prepared for execution.
+
+It has **three phases**: **Loading** (load class into memory), **Linking** (verify, prepare, resolve), and **Initialization** (run static blocks/fields). Features include **lazy loading**, **parent delegation**, and **bytecode verification** for security.
 
 * Three-phase process: Loading, Linking, and Initialization
 * **Loading**: Find and load class file into memory
@@ -11838,6 +12004,9 @@ public class CustomClassLoader extends ClassLoader {
 
 ### 398: What is bytecode?
 
+**Bytecode** is the **platform-independent, compiled form of Java code** that the JVM executes.
+
+It is **stack-based**, follows a specific **instruction set**, stored in **class files** with metadata, **verified by the JVM**, and can be inspected using tools like **javap**.
 
 * Intermediate representation of Java source code after compilation
 * **Platform Independent**: Same bytecode runs on any JVM
@@ -11866,6 +12035,9 @@ public class BytecodeExample {
 
 ### 399: What is JIT compilation?
 
+**JIT (Just-In-Time) Compilation** converts Java **bytecode to native machine code at runtime** for better performance.
+
+It detects **hot spots**, applies **runtime optimizations**, adapts over time, uses **C1/C2 compilers**, and can **deoptimize** if assumptions change.
 
 * Just-In-Time compilation converts bytecode to native machine code at runtime
 * **Performance**: Native code executes faster than interpreted bytecode
@@ -11908,6 +12080,10 @@ public class JITExample {
 ---
 
 ### 400: What is JVM memory model?
+
+**JVM Memory Model** defines how **threads interact with memory** in Java.
+
+It includes **Main Memory** (shared), **Working Memory** (per thread), **visibility rules** (happens-before), and mechanisms like **volatile**, **synchronized**, and **final fields** to ensure correct **thread-safe access**.
 
 * Defines how threads interact with memory in multithreaded programs
 * **Main Memory**: Shared memory where all variables are stored
@@ -11963,6 +12139,9 @@ public class MemoryModelExample {
 
 ### 401: What is escape analysis?
 
+**Escape Analysis** is a JVM optimization that checks if an object **escapes a method or thread**.
+
+If it doesn’t, the JVM can do **stack allocation**, **scalar replacement**, and **lock elimination**, improving **performance** and reducing **garbage collection** overhead.
 
 * JVM optimization that determines if object references escape method scope
 * **Stack Allocation**: Objects that don't escape can be allocated on stack
@@ -12020,6 +12199,9 @@ class Point {
 
 ### 402: What is GraalVM?
 
+**GraalVM** is a **high-performance runtime** that runs multiple languages like Java, JavaScript, Python, R, and Ruby.
+
+It supports **native images** for faster startup and lower memory, uses **ahead-of-time (AOT) compilation**, and enables **polyglot applications**, though some dynamic features need extra configuration.
 
 * High-performance runtime that supports multiple programming languages
 * **Polyglot**: Run Java, JavaScript, Python, R, Ruby on same VM
@@ -12053,6 +12235,9 @@ public class GraalVMApplication {
 
 ### 403: What is ahead-of-time compilation?
 
+**Ahead-of-Time (AOT) Compilation** converts Java **bytecode to native machine code before runtime**.
+
+It provides **faster startup, predictable performance, and smaller runtime**, but offers **less runtime optimization** compared to JIT. Commonly used in **microservices, serverless, and embedded systems**.
 
 * Compilation of Java bytecode to native machine code before runtime
 * **Static Compilation**: Happens at build time, not runtime
@@ -12090,6 +12275,9 @@ public class AOTExample {
 
 ### 404: What is native image compilation?
 
+**Native Image Compilation** converts a Java application into a **standalone native executable** that runs **without a JVM**.
+
+It uses **static analysis** to include all code, removes **dead code**, requires **configuration for reflection**, and results in **faster startup** with longer build time.
 
 * Process of compiling Java applications to standalone native executables
 * **Closed World**: All code must be known at compile time
@@ -12114,6 +12302,9 @@ public class NativeImageApp {
 
 ### 405: What is tiered compilation?
 
+**Tiered Compilation** is a JVM strategy that uses **multiple compilation levels** to balance **fast startup and high performance**.
+
+It starts with the **interpreter**, moves through **C1 (client) compiler** levels with profiling, and finally uses **C2 (server) compiler** for aggressive optimizations of hot methods.
 
 * JVM compilation strategy using multiple compilation levels
 * **Level 0**: Interpreter - executes bytecode directly
@@ -12167,6 +12358,9 @@ public class TieredCompilationExample {
 
 ### 406: What is bytecode optimization?
 
+**Bytecode Optimization** refers to JVM techniques that **improve the performance of bytecode execution**.
+
+It includes **constant folding, dead code elimination, method inlining, loop optimizations, escape analysis, branch prediction**, and **profile-guided optimizations** based on runtime data.
 
 * JVM techniques to improve bytecode execution performance
 * **Constant Folding**: Evaluate constants at compile time
@@ -12235,6 +12429,9 @@ public class BytecodeOptimizationExample {
 
 ### 407: What is Project Loom?
 
+**Project Loom** is an OpenJDK initiative that introduces **lightweight virtual threads** to Java.
+
+It enables **millions of concurrent threads** with minimal memory, supports **structured concurrency**, allows **blocking without tying up OS threads**, and improves **scalability**, while remaining **backward compatible** with existing thread-based code.
 
 * OpenJDK project introducing lightweight threads (virtual threads) to Java
 * **Virtual Threads**: Millions of threads with minimal memory overhead
@@ -12287,6 +12484,9 @@ public class VirtualThreadsExample {
 
 ### 408: What is Project Panama?
 
+**Project Panama** is an OpenJDK initiative that **improves Java’s interaction with native code**.
+
+It provides a **Foreign Function Interface** to call native functions, a **Foreign Memory API** for off-heap access, and a **Vector API** for SIMD operations, offering **better performance, safety, and interoperability** with C/C++ libraries.
 
 * OpenJDK project improving Javas interaction with native code
 * **Foreign Function Interface**: Call native functions without JNI
@@ -12346,6 +12546,9 @@ public class PanamaExample {
 
 ### 409: What is Project Valhalla?
 
+**Project Valhalla** is an OpenJDK project that introduces **value types and specialized generics** in Java.
+
+It enables **inline/value classes**, **user-defined primitives**, and **primitive generics**, improving **performance and memory efficiency** while remaining **backward compatible**.
 
 * OpenJDK project introducing value types and specialized generics
 * **Value Classes**: Objects without identity, stored inline
@@ -12396,6 +12599,9 @@ public class ValhallaBenefits {
 
 ### 410: What is Project Amber?
 
+**Project Amber** is an OpenJDK initiative that adds **small, productivity-focused language features** to Java.
+
+It includes **var (type inference), switch expressions, text blocks, pattern matching, records, and sealed classes** to make code **more concise, readable, and expressive**.
 
 * OpenJDK project delivering small, productivity-focused language features
 * **Local Variable Type Inference**: var keyword for cleaner code
@@ -12465,6 +12671,9 @@ public class AmberFeatures {
 
 ### 411: What is WebAssembly with Java?
 
+**WebAssembly with Java** allows Java applications to **run in web browsers** with near-native performance.
+
+Using tools like **TeaVM, CheerpJ, or GraalVM**, Java code becomes **portable between server and client**, enabling **web apps, games, and scientific computing**, though with **limited API support and larger bundle sizes**.
 
 * Technology to run Java applications in web browsers via WebAssembly
 * **Browser Execution**: Java code runs directly in browser without plugins
@@ -12513,6 +12722,9 @@ public class WebAssemblyExample {
 
 ### 412: What is cloud native Java?
 
+**Cloud Native Java** refers to Java applications **designed for cloud environments**.
+
+They use **microservices, containers, and orchestration (like Kubernetes)**, are optimized for **fast startup and low memory**, include **observability**, and leverage frameworks like **Spring Boot, Quarkus, or Micronaut**.
 
 * Java applications designed specifically for cloud environments
 * **Microservices**: Decomposed into small, independent services
@@ -12571,6 +12783,9 @@ public class UserController {
 
 ### 413: What is serverless Java?
 
+**Serverless Java** lets you run Java applications **without managing servers**.
+
+It uses **Function-as-a-Service (FaaS)**, is **event-driven**, **auto-scales**, and charges **pay-per-use**. Common platforms include **AWS Lambda, Azure Functions, Google Cloud Functions**, with frameworks like **Spring Cloud Function, Quarkus, and Micronaut**.
 
 * Running Java applications without managing servers or infrastructure
 * **Function as a Service**: Deploy individual functions that scale automatically
@@ -12652,6 +12867,9 @@ public class GreetingResource {
 
 ### 414: What is edge computing with Java?
 
+**Edge Computing with Java** runs Java applications **closer to end users** to reduce latency and optimize bandwidth.
+
+It enables **real-time responses, offline capability, and IoT integration**, using **lightweight runtimes or GraalVM native images**, while handling **resource and connectivity constraints**.
 
 * Running Java applications closer to end users for reduced latency
 * **Edge Locations**: Data centers near users (CDN nodes, cell towers)
