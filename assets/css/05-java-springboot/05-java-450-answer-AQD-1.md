@@ -615,6 +615,10 @@ class Child extends Parent {
 
 ### 28. What is the meaning of object cloning in Java?
 
+**Object cloning** in Java means **creating an exact copy of an object**.
+
+It uses the **`clone()` method**, requires the **`Cloneable` interface**, and can be **shallow** or **deep cloning**.
+
 * Creating exact copy of an object
 * Uses clone() method from Object class
 * Implement Cloneable interface
@@ -636,6 +640,10 @@ Person p2 = (Person) p1.clone(); // Creates copy
 
 ### 29. What is runtime polymorphism?
 
+**Runtime polymorphism** in Java is when **method calls are resolved at runtime**.
+
+It is achieved via **method overriding** and **inheritance**, allowing the **same method call** to execute **different implementations** using **dynamic method dispatch**.
+
 * Method resolution happens at runtime, not compile time
 * Achieved through method overriding and inheritance
 * Uses dynamic method dispatch
@@ -655,6 +663,10 @@ a.sound(); // Prints: Bark
 ```
 
 ### 30. Is it possible to achieve runtime polymorphism by data members?
+
+No, **runtime polymorphism cannot be achieved with data members**.
+
+Data members are **resolved at compile time**, while **only methods** use **dynamic (runtime) dispatch**.
 
 * **No**, runtime polymorphism only works with methods
 * Data members are resolved at compile time
@@ -676,6 +688,10 @@ System.out.println(p.x); // Prints: 10 (Parent's x)
 ```
 
 ### 31. What is the difference between static and dynamic binding?
+
+**Static binding** resolves method calls at **compile time** (used for `private`, `final`, `static` methods).
+
+**Dynamic binding** resolves method calls at **runtime** (used for **overridden methods** in inheritance).
 
 * **Static Binding**: Method call resolved at compile time
 * **Dynamic Binding**: Method call resolved at runtime
@@ -727,6 +743,9 @@ public class Calculator {
 ```
 
 ### 33. How will you implement method overloading in Java?
+
+**Method overloading** in Java is implemented by defining **multiple methods with the same name** but **different parameter lists** (number, type, or order of parameters).
+
 * Define multiple methods with **same name** but **different parameters**
 * Parameters must differ in number, type, or order
 
@@ -751,6 +770,11 @@ void print(String s, int x) { }
 ```
 
 ### 35. Why is it not possible to do method overloading by changing the return type of method?
+
+**Method overloading cannot be done by only changing the return type** because the **return type is not part of the method signature**.
+
+The compiler cannot distinguish methods based on return type alone.
+
 * **Return type is not part of method signature**
 * Compiler cannot distinguish methods based on return type alone
 * Method calls don't always use return values
@@ -762,6 +786,11 @@ String getValue() { return "hello"; } // Error!
 ```
 
 ### 36. Is it allowed to overload main() method in Java?
+
+**Yes, the `main()` method can be overloaded** in Java.
+
+The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
+
 * **Yes, you can overload main() method**
 * JVM only calls `public static void main(String[] args)`
 * Other overloaded versions are regular methods
@@ -778,7 +807,9 @@ public class Test {
 
 ### 37. What is method overriding?
 
-Method overriding means redefining a parent class method in the child class with the same signature.
+**Method overriding** is when a **child class provides its own implementation** of a **parent’s method with the same signature**.
+
+It enables **runtime polymorphism**, and using **`@Override`** is recommended.
 
 **Key Points:**
 - Same method signature as parent
@@ -800,8 +831,14 @@ class Car extends Vehicle {
         System.out.println("Car starting with key");
     }
 }
+```
 
 ### 38. Are we allowed to override a static method in Java?
+
+**Static methods cannot be overridden** in Java.
+
+They can be **hidden** in a subclass, and calls are resolved based on the **reference type**, not the object type.
+
 * **No, static methods cannot be overridden**
 * Static methods can be **hidden** (method hiding)
 * Called based on reference type, not object type
@@ -816,12 +853,20 @@ class Child extends Parent {
 ```
 
 ### 39. Why Java does not allow overriding a static method?
+
+Java does not allow **overriding static methods** because they **belong to the class, not an instance**, are **resolved at compile time**, and **overriding requires runtime polymorphism**.
+
 * **Static methods belong to class, not instance**
 * **No dynamic binding** for static methods
 * **Resolved at compile time** based on reference type
 * Overriding requires runtime polymorphism
 
 ### 40. Is it allowed to override an overloaded method?
+
+**Yes, overloaded methods can be overridden**.
+
+Each overloaded version can be **overridden independently**, but the **method signature must match exactly**.
+
 * **Yes, you can override any overloaded method**
 * Each overloaded method can be overridden independently
 * Must match exact signature to override
@@ -863,6 +908,11 @@ class Bird extends Animal {
 ```
 
 ### 42. Does Java allow virtual functions?
+
+In Java, **all non-static, non-final, non-private methods are virtual by default**.
+
+There’s no `virtual` keyword; **dynamic method dispatch** happens automatically at runtime.
+
 * **All non-static, non-final, non-private methods are virtual by default**
 * No explicit `virtual` keyword like C++
 * **Dynamic method dispatch** happens automatically
@@ -873,6 +923,11 @@ animal.sound(); // Calls Dog's sound() method - virtual behavior
 ```
 
 ### 43. What is meant by covariant return type in Java?
+
+**Covariant return type** in Java allows an **overridden method to return a more specific type** (a subclass) than the method in the parent class.
+
+This feature is available **since Java 5**.
+
 * **Subclass can return more specific type** than parent method
 * Return type must be **subclass of original return type**
 * Available since Java 5
@@ -890,20 +945,16 @@ class DogFactory extends AnimalFactory {
 }
 ```
 
----
-
-## Key Takeaways
-* **Overloading**: Same name, different parameters, compile-time
-* **Overriding**: Same signature, parent-child, runtime
-* **Static methods**: Cannot be overridden, only hidden
-* **Virtual methods**: All instance methods are virtual in Java
-* **Covariant returns**: Subclass can return more specific type
-
 # 🔵 3. Java Static and Final Keywords
 ---
 # 🔹 1. Static Concepts
 
 ### 44. Why do we use static variables in Java?
+
+**Static variables** in Java are **shared across all instances** of a class.
+
+They are **memory-efficient**, hold **class-level data**, and are often used for **constants or common configurations**.
+
 * **Shared among all instances** of a class
 * **Memory efficient** - only one copy exists
 * **Class-level data** that doesn't change per object
@@ -917,6 +968,9 @@ class Student {
 ```
 
 ### 45. Why is it not a good practice to create static variables in Java?
+
+Creating **static variables** is not always good because they **live for the program’s lifetime**, can cause **memory leaks, thread-safety issues, testing difficulties**, and lead to **tight coupling**.
+
 * **Memory leaks** - static variables live until program ends
 * **Thread safety issues** - shared state causes concurrency problems
 * **Testing difficulties** - state persists between test cases
@@ -933,6 +987,11 @@ class Counter {
 ```
 
 ### 46. What is the purpose of static method in Java?
+
+**Static methods** in Java can be **called without creating an object**.
+
+They are used for **utility or class-level operations** and **cannot directly access instance variables**.
+
 * **Called without creating object instance**
 * **Utility functions** that don't need object state
 * **Class-level operations** independent of instance data
@@ -948,6 +1007,11 @@ class MathUtils {
 ```
 
 ### 47. Why do we mark the main method as static in Java?
+
+The **main method is static** so the **JVM can call it without creating an object**.
+
+It serves as the **entry point**, allowing the program to start **before any instances exist**.
+
 * **JVM needs to call main() without creating object**
 * **Entry point** must be accessible before any object creation
 * **No instance required** to start program execution
@@ -963,6 +1027,11 @@ public class App {
 ```
 
 ### 48. In what scenario do we use a static block?
+
+**Static blocks** in Java are used for **one-time initialization** of static variables or resources.
+
+They execute **when the class is loaded**, **before `main()` or any constructor**.
+
 * **Initialize static variables** with complex logic
 * **One-time setup** when class is first loaded
 * **Load configuration** or resources at class loading
@@ -985,6 +1054,11 @@ class DatabaseConfig {
 ```
 
 ### 49. Is it possible to execute a program without defining a main() method?
+
+It is **technically possible** to run code in a **static block** without a `main()` method, but **modern Java requires `main()`** as the entry point.
+
+Using static blocks alone is **not recommended** and violates standard practices.
+
 * **Yes, using static blocks** (before Java 7)
 * **Modern Java requires main()** method for execution
 * **Static blocks execute** but program exits with error
@@ -1036,6 +1110,11 @@ obj.instanceMethod();          // Called on object
 # 🔹 2. Final Keyword
 
 ### 51. How can you change the value of a final variable in Java?
+
+**Final variables** in Java **cannot be reassigned** once initialized.
+
+For **objects or arrays**, the reference is final, but the **contents can be modified**. Changing final variables via **reflection** is possible but **not recommended**.
+
 * **You cannot change final primitive values** once assigned
 * **Final object references cannot be changed** but object content can be modified
 * **Use reflection** (not recommended) to forcefully change
@@ -1051,6 +1130,11 @@ list.add("Hello"); // OK - modifying content
 ```
 
 ### 52. Can a class be marked final in Java?
+
+Yes, a **class can be marked `final`** in Java.
+
+**Final classes cannot be extended** and are often used for **security and immutability**, like **`String`** and wrapper classes.
+
 * **Yes, classes can be marked final**
 * **Final classes cannot be extended**
 * **Examples**: String, Integer, all wrapper classes
@@ -1065,6 +1149,11 @@ final class MyClass {
 ```
 
 ### 53. How can we create a final method in Java?
+
+A **final method** in Java is created by adding the **`final` keyword** before the method.
+
+It **cannot be overridden** in subclasses but can be **inherited**, ensuring **critical functionality is preserved**.
+
 * **Add final keyword before method declaration**
 * **Final methods cannot be overridden** in subclasses
 * **Can be inherited** but not modified
@@ -1083,6 +1172,11 @@ class Child extends Parent {
 ```
 
 ### 54. How can we prohibit inheritance in Java?
+
+To **prohibit inheritance** in Java, you can **mark the class as `final`**, make its **constructor private**, or use **composition** instead of inheritance.
+
+**Static factory methods** can also control object creation without exposing subclasses.
+
 * **Mark class as final** - most common approach
 * **Make constructor private** - prevents direct inheritance
 * **Use composition instead of inheritance**
@@ -1100,6 +1194,11 @@ class Singleton {
 ```
 
 ### 55. Why is the Integer class final in Java?
+
+The **`Integer` class is final** in Java to ensure **immutability, security, and consistent behavior**.
+
+It prevents **subclassing**, allows **performance optimizations**, and maintains **API reliability**.
+
 * **Security reasons** - prevents malicious subclassing
 * **Immutability guarantee** - ensures Integer objects don't change
 * **Performance optimization** - JVM can make assumptions
@@ -1116,6 +1215,11 @@ final class Integer { // Cannot extend
 ```
 
 ### 56. What is a blank final variable in Java?
+
+A **blank final variable** in Java is a **final variable declared without initialization**.
+
+It **must be initialized** in the **constructor or instance block**, and each object can have **different values**.
+
 * **Final variable declared without initialization**
 * **Must be initialized before use**
 * **Can be initialized in constructor or instance block**
@@ -1132,6 +1236,11 @@ class Student {
 ```
 
 ### 57. How can we initialize a blank final variable?
+
+A **blank final variable** can be initialized in the **constructor** or an **instance initialization block**.
+
+It **must be set before the object is fully created**.
+
 * **In constructor** - most common approach
 * **In instance initialization block**
 * **At declaration time** (then it's not blank)
@@ -1156,6 +1265,11 @@ class Example {
 ```
 
 ### 58. Is it allowed to declare the main method as final?
+
+Yes, the **main method can be declared `final`** in Java.
+
+It **cannot be overridden**, but the **JVM still calls it normally**, so program execution is unaffected.
+
 * **Yes, main method can be declared final**
 * **No impact on program execution**
 * **Cannot be overridden** in subclasses
