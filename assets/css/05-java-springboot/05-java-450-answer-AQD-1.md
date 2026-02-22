@@ -53,6 +53,10 @@ public class MemoryDemo {
 
 ### 4. What is JIT Compiler?
 
+**JIT Compiler** (Just-In-Time) converts Java **bytecode into native machine code at runtime** to improve performance.
+
+It **optimizes frequently used code automatically**, making Java faster than purely interpreted languages.
+
 * Just-In-Time compiler optimizes bytecode to machine code at runtime
 * Improves performance by compiling frequently used code
 * Works behind the scenes automatically
@@ -67,6 +71,10 @@ for (int i = 0; i < 1000000; i++) {
 ```
 
 ### 5. How is Java Platform different from other platforms?
+
+**Java Platform** is software-based, consisting of **JVM and Java libraries**, and is **platform-independent**, allowing the same code to run on any OS.
+
+Other platforms are usually tied to specific **hardware and operating systems**.
 
 * Java platform is software-based, not hardware-based
 * Includes JVM + Java API libraries
@@ -84,6 +92,8 @@ public class CrossPlatform {
 
 ### 6. Why do people say that Java is 'Write Once and Run Anywhere' language?
 
+Java is called **"Write Once, Run Anywhere"** because it compiles to **platform-neutral bytecode** that runs on **any system with a JVM**, without needing changes.
+
 * Java compiles to bytecode, not machine code
 * Bytecode is platform-neutral
 * JVM on each platform interprets bytecode
@@ -100,6 +110,10 @@ public class Demo {
 ```
 
 ### 7. How does ClassLoader work in Java?
+
+**ClassLoader** in Java loads **.class files into JVM memory** on demand.
+
+It has **Bootstrap, Extension, and Application loaders**, follows a **parent-first delegation model**, and supports **lazy loading**.
 
 * ClassLoader loads .class files into JVM memory
 * Three types: Bootstrap, Extension, Application
@@ -121,6 +135,10 @@ public class ClassLoaderDemo {
 
 ### 8. Do you think 'main' used for main method is a keyword in Java?
 
+**'main' is not a Java keyword**; it’s a regular method name.
+
+The **JVM looks for the `main` method** with a specific signature to start the program, but you can use `main` as a variable name elsewhere.
+
 * No, 'main' is NOT a keyword in Java
 * It's just a method name with special significance
 * JVM looks for this specific method signature to start execution
@@ -139,6 +157,10 @@ public class MainDemo {
 
 ### 9. Can we write main method as public void static instead of public static void?
 
+No, the **order of keywords matters** in Java.
+
+The **main method must be `public static void`**; writing `public void static` will cause a **compilation error**.
+
 * No, the order matters in Java
 * Access modifier must come first: public
 * Then static keyword
@@ -154,6 +176,10 @@ public void static main(String[] args) { }
 ```
 
 ### 10. What will be the default value of local variables if we do not specify any value?
+
+**Local variables in Java have no default value**.
+
+They must be **initialized before use**, otherwise the compiler throws an **error**. Only **instance and static variables** get default values.
 
 * Local variables have NO default values
 * Must be initialized before use
@@ -222,6 +248,10 @@ Account acc = new SavingsAccount();
 
 ### 13. What is the difference between Object-Oriented Programming language and Object-Based Programming language?
 
+**Object-Oriented languages** support all OOP features like **inheritance, encapsulation, and polymorphism** (e.g., Java, C++).
+
+**Object-Based languages** use objects but may **lack full OOP features** like inheritance (e.g., JavaScript).
+
 * **Object-Oriented**: Supports all OOP features (Java, C++)
 * **Object-Based**: Has objects but limited OOP features (JavaScript)
 * OOP has inheritance, Object-based may not
@@ -237,6 +267,10 @@ class Dog extends Animal { } // Inheritance supported
 ```
 
 ### 14. What is the default value of an object reference defined as an instance variable?
+
+The **default value of an object reference** (instance variable) in Java is **null**.
+
+Always **check for null** before using it to avoid `NullPointerException`.
 
 * Default value is **null**
 * All object references are initialized to null
@@ -257,6 +291,8 @@ class Demo {
 ```
 
 ### 15. Why do we need a constructor in Java?
+
+**Constructor in Java** is used to **initialize an object’s state**, set **initial values**, perform setup tasks, and ensure the object is **in a valid state when created**.
 
 * Initialize object state when created
 * Set initial values for instance variables
@@ -279,6 +315,10 @@ Person p = new Person("John", 25); // Object ready to use
 ```
 
 ### 16. Why do we need a default constructor in Java classes?
+
+**Default constructor** in Java provides a **no-argument way to create objects**.
+
+It’s **automatically added** if no constructor exists and is often needed by frameworks like **Spring or Hibernate** for flexible object creation.
 
 * Provides no-argument way to create objects
 * Java creates one automatically if no constructor exists
@@ -303,6 +343,10 @@ Student s2 = new Student("Tom"); // Uses parameterized
 
 ### 17. What is the value returned by constructor in Java?
 
+**Constructors in Java do not return any value** and have **no return type**, not even void.
+
+They implicitly create and return the **object reference**, but you cannot use a `return` statement with a value.
+
 * Constructors don't return any value
 * Not even void - they have no return type
 * They implicitly return the created object reference
@@ -322,6 +366,10 @@ class Car {
 ```
 
 ### 18. Can we inherit a constructor?
+
+**Constructors cannot be inherited** in Java.
+
+Each class must define its **own constructors**, but a child class can call the **parent constructor** using `super()`.
 
 * No, constructors are NOT inherited
 * Each class must define its own constructors
@@ -367,6 +415,10 @@ class Demo {
 
 ### 20. What is the purpose of the 'this' keyword in Java?
 
+**`this` keyword** in Java refers to the **current object instance**.
+
+It is used to **access instance variables, call other constructors**, and **pass the current object as a parameter**.
+
 * Refers to current object instance
 * Differentiates between instance variables and parameters
 * Calls other constructors in same class
@@ -387,6 +439,10 @@ class Person {
 ```
 
 ### 21. Explain the concept of inheritance?
+
+**Inheritance** in Java allows a **child class to inherit properties and methods** from a parent class.
+
+It promotes **code reusability**, defines a **hierarchy** using `extends`, and lets the child **override parent methods**.
 
 * Child class inherits properties and methods from parent
 * Promotes code reusability and hierarchy
@@ -409,6 +465,10 @@ d.bark(); // Own method
 
 ### 22. Which class in Java is the superclass of every other class?
 
+The **`Object` class** is the **superclass of all classes** in Java.
+
+Every class implicitly extends it and inherits basic methods like **`toString()`, `equals()`, and `hashCode()`**.
+
 * **Object class** is the root of all classes
 * Every class implicitly extends Object
 * Provides basic methods like toString(), equals(), hashCode()
@@ -427,6 +487,10 @@ System.out.println(obj.toString()); // From Object class
 ```
 
 ### 23. Why does Java not support multiple inheritance?
+
+Java does not support **multiple inheritance of classes** to avoid the **Diamond Problem** and reduce complexity.
+
+It uses **interfaces** to achieve multiple inheritance of type while keeping the class hierarchy clear.
 
 * Avoids **Diamond Problem** - ambiguity in method resolution
 * Simplifies language design and reduces complexity
@@ -447,6 +511,10 @@ class C implements A, B {
 ```
 
 ### 24. What is meant by composition in OOPS?
+
+**Composition** in OOP is a **"has-a" relationship** where one class **contains objects of another class**.
+
+It promotes **code reuse** without relying on inheritance.
 
 * "Has-a" relationship between classes
 * One class contains objects of another class
@@ -469,6 +537,10 @@ class Car {
 
 ### 25. How are aggregation and composition different concepts?
 
+**Composition** is a strong **"has-a" relationship** where the child cannot exist without the parent (e.g., Car-Engine).
+
+**Aggregation** is a weak **"has-a" relationship** where the child can exist independently (e.g., Department-Employee).
+
 * **Composition**: Strong "has-a", child can't exist without parent
 * **Aggregation**: Weak "has-a", child can exist independently
 * Composition: Car-Engine (engine dies with car)
@@ -487,6 +559,10 @@ class Department {
 ```
 
 ### 26. What is the purpose of the 'super' keyword in Java?
+
+**`super` keyword** in Java refers to the **immediate parent class**.
+
+It is used to **call parent methods or constructors**, **access parent variables**, and **resolve method name conflicts**.
 
 * Refers to immediate parent class object
 * Calls parent class methods and constructors
@@ -510,6 +586,10 @@ class Child extends Parent {
 ```
 
 ### 27. Is it possible to use this() and super() both in the same constructor?
+
+No, you **cannot use `this()` and `super()` in the same constructor** because **both must be the first statement**.
+
+You can use **either constructor chaining (`this()`) or call the parent constructor (`super()`)**, not both.
 
 * **No**, cannot use both in same constructor
 * Both must be first statement in constructor
