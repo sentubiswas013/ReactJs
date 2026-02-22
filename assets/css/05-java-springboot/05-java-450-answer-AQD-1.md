@@ -3,6 +3,12 @@
 # 🔹 1. Core Java Basics
 ### 1. What is the difference between JDK and JRE?
 
+**JDK (Java Development Kit)** includes **JRE plus development tools** like compiler and debugger.
+
+**JRE (Java Runtime Environment)** only **runs Java applications**.
+
+Think of it as **JRE = player**, **JDK = player + recorder**.
+
 * JDK is the development kit - includes compiler, debugger, and development tools
 * JRE is the runtime environment - just runs Java applications
 * JDK = JRE + Development Tools
@@ -17,6 +23,10 @@ java HelloWorld
 ```
 
 ### 2. What is Java Virtual Machine (JVM)?
+
+**Java Virtual Machine (JVM)** is the **runtime engine that executes Java bytecode**.
+
+It **converts bytecode to machine code**, handles **memory management and garbage collection**, and makes Java **platform-independent**.
 
 * JVM is the runtime engine that executes Java bytecode
 * It's platform-specific but makes Java platform-independent
