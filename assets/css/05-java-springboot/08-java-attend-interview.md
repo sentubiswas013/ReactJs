@@ -94,7 +94,7 @@ Here is your **cleaned list with duplicates and similar questions removed** and 
 
 # ✅ Database & System Design
 
-56. How would you query a large movies database to find the top 10 lead actors with most profitable movies (IMDb ≥ 8)?
+56. How would you query a 10000000 movies database to find the top 10 lead actors with most profitable movies (IMDb ≥ 8)?
 57. How would you define profitability in the query?
 58. How would you optimize the query for large datasets?
 59. What indexing strategy would you use?
