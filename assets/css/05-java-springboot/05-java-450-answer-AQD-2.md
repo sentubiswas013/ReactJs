@@ -1834,7 +1834,7 @@ public class JavaCommunityResources {
 ---
 # 🔹  Common Issues
 
-#### 433. What are common Java performance issues? (25 seconds)
+### 433. What are common Java performance issues? (25 seconds)
 * **Memory leaks** - Objects not being garbage collected properly
 * **CPU bottlenecks** - Inefficient algorithms or blocking operations
 * **Database issues** - Slow queries or connection pool exhaustion
@@ -1851,7 +1851,7 @@ public class LeakExample {
 }
 ```
 
-#### 434. What are common Java memory issues? (30 seconds)
+### 434. What are common Java memory issues? (30 seconds)
 * **OutOfMemoryError** - Heap space exhausted
 * **Memory leaks** - Objects referenced but not used
 * **Stack overflow** - Deep recursion or large local variables
@@ -1867,7 +1867,7 @@ public void recursiveMethod() {
 List<String> list = new ArrayList<>(1000); // Pre-size collections
 ```
 
-#### 435. What are common Java concurrency issues? (35 seconds)
+### 435. What are common Java concurrency issues? (35 seconds)
 * **Race conditions** - Multiple threads accessing shared data
 * **Deadlocks** - Threads waiting for each other indefinitely
 * **Thread starvation** - Threads not getting CPU time
@@ -1886,7 +1886,7 @@ public void safeMethod() {
 }
 ```
 
-#### 436. What are common Java deployment issues? (25 seconds)
+### 436. What are common Java deployment issues? (25 seconds)
 * **ClassPath problems** - Missing or conflicting JAR files
 * **Version conflicts** - Different library versions
 * **Configuration errors** - Wrong environment settings
@@ -1898,7 +1898,7 @@ String classpath = System.getProperty("java.class.path");
 System.out.println("Classpath: " + classpath);
 ```
 
-#### 437. What are common Java security issues? (30 seconds)
+### 437. What are common Java security issues? (30 seconds)
 * **SQL injection** - Unsanitized database queries
 * **XSS attacks** - Unescaped user input in web apps
 * **Insecure deserialization** - Untrusted object deserialization
@@ -1911,7 +1911,7 @@ PreparedStatement stmt = conn.prepareStatement(sql);
 stmt.setInt(1, userId);
 ```
 
-#### 438. What are debugging strategies? (20 seconds)
+### 438. What are debugging strategies? (20 seconds)
 * **Reproduce the issue** - Create minimal test case
 * **Use logging** - Add strategic log statements
 * **Debugger tools** - Step through code execution
@@ -1922,13 +1922,13 @@ stmt.setInt(1, userId);
 logger.debug("Processing user: {}, status: {}", userId, status);
 ```
 
-#### 439. What are problem-solving methodologies? (25 seconds)
+### 439. What are problem-solving methodologies? (25 seconds)
 * **Define the problem** - Understand symptoms clearly
 * **Gather information** - Logs, stack traces, environment
 * **Form hypothesis** - Educated guess about root cause
 * **Test and verify** - Implement fix and validate
 
-#### 440. What are root cause analysis techniques? (30 seconds)
+### 440. What are root cause analysis techniques? (30 seconds)
 * **5 Whys technique** - Ask "why" five times
 * **Fishbone diagram** - Categorize potential causes
 * **Timeline analysis** - When did problem start
@@ -1947,7 +1947,7 @@ try {
 
 # 🔹 Advanced Debugging
 
-#### 441. What is remote debugging setup? (25 seconds)
+### 441. What is remote debugging setup? (25 seconds)
 * **JVM parameters** - Enable remote debugging port
 * **IDE configuration** - Connect to remote application
 * **Security considerations** - Limit access to debug port
@@ -1958,7 +1958,7 @@ try {
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 ```
 
-#### 442. What is conditional breakpoints? (20 seconds)
+### 442. What is conditional breakpoints? (20 seconds)
 * **Condition-based stopping** - Break only when condition is true
 * **Reduce noise** - Skip irrelevant iterations
 * **Variable inspection** - Check specific values
@@ -1971,7 +1971,7 @@ for (int i = 0; i < 1000; i++) {
 }
 ```
 
-#### 443. What is hot code replacement? (25 seconds)
+### 443. What is hot code replacement? (25 seconds)
 * **Runtime code changes** - Modify code without restart
 * **Development efficiency** - Faster debugging cycles
 * **JVM support** - Limited to method body changes
@@ -1984,7 +1984,7 @@ public String formatMessage(String input) {
 }
 ```
 
-#### 444. What is debugging multithreaded applications? (35 seconds)
+### 444. What is debugging multithreaded applications? (35 seconds)
 * **Thread-specific breakpoints** - Break in specific threads
 * **Synchronization issues** - Identify deadlocks and race conditions
 * **Thread state inspection** - Monitor thread status
@@ -1997,7 +1997,7 @@ logger.debug("Thread {} entering critical section",
             Thread.currentThread().getName());
 ```
 
-#### 445. What is debugging performance issues? (30 seconds)
+### 445. What is debugging performance issues? (30 seconds)
 * **Profiling tools** - JProfiler, VisualVM, JConsole
 * **Method timing** - Measure execution time
 * **Memory analysis** - Track object allocation
@@ -2011,7 +2011,7 @@ long duration = System.nanoTime() - start;
 logger.info("Operation took {} ms", duration / 1_000_000);
 ```
 
-#### 446. What is heap dump analysis? (30 seconds)
+### 446. What is heap dump analysis? (30 seconds)
 * **Memory snapshots** - Capture heap state at specific time
 * **Object analysis** - Find memory leaks and large objects
 * **Reference chains** - Trace object relationships
@@ -2026,7 +2026,7 @@ HotSpotDiagnosticMXBean mxBean = ManagementFactory.newPlatformMXBeanProxy(
 mxBean.dumpHeap("/tmp/heapdump.hprof", true);
 ```
 
-#### 447. What is thread dump analysis? (25 seconds)
+### 447. What is thread dump analysis? (25 seconds)
 * **Thread state analysis** - Identify blocked or waiting threads
 * **Deadlock detection** - Find circular dependencies
 * **CPU usage patterns** - Identify busy threads
@@ -2045,7 +2045,7 @@ for (ThreadInfo info : threadInfos) {
 ---
 # 🔹 System Design and Architecture
 
-#### 448. How do you design a highly scalable Java system? (40 seconds)
+### 448. How do you design a highly scalable Java system? (40 seconds)
 * **Horizontal scaling** - Add more servers instead of upgrading hardware
 * **Microservices architecture** - Break monolith into independent services
 * **Caching strategies** - Redis, Hazelcast for data caching
@@ -2066,7 +2066,7 @@ public class UserController {
 }
 ```
 
-#### 449. How do you optimize Java applications for extreme performance? (35 seconds)
+### 449. How do you optimize Java applications for extreme performance? (35 seconds)
 * **JVM tuning** - Optimize heap size and garbage collection
 * **Algorithm optimization** - Use efficient data structures
 * **Memory management** - Minimize object creation and reuse objects
@@ -2089,7 +2089,7 @@ public class ObjectPool<T> {
 }
 ```
 
-#### 450. How do you ensure Java application security at enterprise scale? (40 seconds)
+### 450. How do you ensure Java application security at enterprise scale? (40 seconds)
 * **Multi-layer security** - Authentication, authorization, encryption
 * **Security scanning** - SAST and DAST tools in CI/CD pipeline
 * **Input validation** - Sanitize all user inputs
@@ -2106,7 +2106,7 @@ public ResponseEntity<?> secureOperation(@Valid @RequestBody SecureRequest reque
 }
 ```
 
-#### 451. How do you implement fault-tolerant Java systems? (35 seconds)
+### 451. How do you implement fault-tolerant Java systems? (35 seconds)
 * **Circuit breaker pattern** - Prevent cascading failures
 * **Retry mechanisms** - Handle transient failures gracefully
 * **Bulkhead pattern** - Isolate critical resources
@@ -2128,7 +2128,7 @@ public class PaymentService {
 }
 ```
 
-#### 452. How do you design Java systems for global distribution? (40 seconds)
+### 452. How do you design Java systems for global distribution? (40 seconds)
 * **CDN integration** - Distribute static content globally
 * **Regional deployments** - Deploy services closer to users
 * **Data replication** - Sync data across multiple regions
@@ -2153,7 +2153,7 @@ public class GlobalConfig {
 }
 ```
 
-#### 453. How do you implement real-time Java applications? (35 seconds)
+### 453. How do you implement real-time Java applications? (35 seconds)
 * **WebSocket connections** - Bidirectional real-time communication
 * **Message queues** - Apache Kafka for event streaming
 * **Reactive programming** - Spring WebFlux for non-blocking operations
@@ -2177,7 +2177,7 @@ public class RealTimeController {
 }
 ```
 
-#### 454. How do you design Java systems for machine learning workloads? (40 seconds)
+### 454. How do you design Java systems for machine learning workloads? (40 seconds)
 * **Data pipeline architecture** - ETL processes for ML data preparation
 * **Model serving** - REST APIs for model inference
 * **Batch processing** - Apache Spark for large dataset processing
@@ -2203,7 +2203,7 @@ public class MLController {
 }
 ```
 
-#### 455. How do you implement Java systems for IoT at scale? (35 seconds)
+### 455. How do you implement Java systems for IoT at scale? (35 seconds)
 * **MQTT protocol** - Lightweight messaging for IoT devices
 * **Edge computing** - Process data closer to devices
 * **Time-series databases** - Store sensor data efficiently
@@ -2230,7 +2230,7 @@ public class IoTDataProcessor {
 }
 ```
 
-#### 456. How do you design Java systems for blockchain applications? (40 seconds)
+### 456. How do you design Java systems for blockchain applications? (40 seconds)
 * **Distributed consensus** - Implement consensus algorithms
 * **Cryptographic security** - Hash functions and digital signatures
 * **Smart contracts** - Business logic on blockchain
@@ -2262,7 +2262,7 @@ public class BlockchainService {
 }
 ```
 
-#### 457. What is the future of Java and how do you prepare for it? (40 seconds)
+### 457. What is the future of Java and how do you prepare for it? (40 seconds)
 * **Project Loom** - Virtual threads for better concurrency
 * **Project Panama** - Native code integration
 * **Project Valhalla** - Value types for better performance
