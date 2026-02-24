@@ -151,6 +151,7 @@ public void readFile(String path) {
 ## 8. How does try-catch-finally work?
 
 **Answer:**
+
 The try block contains code that might throw an exception. The catch block handles specific exceptions if they occur. The finally block always executes regardless of whether an exception occurred, typically used for cleanup operations like closing resources.
 
 **Example:**
@@ -175,6 +176,7 @@ public void processData() {
 ## 9. What are SOLID principles?
 
 **Answer:**
+
 SOLID is an acronym for five design principles that make software more maintainable and scalable:
 - **S**ingle Responsibility: A class should have one reason to change
 - **O**pen/Closed: Open for extension, closed for modification
@@ -206,6 +208,7 @@ public class PayPalProcessor implements PaymentProcessor {
 ## 10. What are functional interfaces in Java 8?
 
 **Answer:**
+
 A **functional interface** in Java is an interface that contains **exactly one abstract method**.
 It is mainly used for **lambda expressions** and introduced in **Java 8**.
 
@@ -236,7 +239,13 @@ System.out.println(multiply.calculate(5, 3)); // 15
 ## 11. What is the difference between lambda expressions and anonymous inner classes?
 
 **Answer:**
-Lambda expressions are more concise and can only be used with functional interfaces, while anonymous inner classes can implement any interface or extend any class. Lambdas don't create a new scope (this refers to enclosing class), whereas anonymous classes do. Lambdas are more memory efficient as they use invokedynamic, while anonymous classes create separate .class files.
+
+**Lambda expressions** are more concise and are used only with **functional interfaces (single abstract method)**, while **anonymous inner classes** can implement any interface or extend a class.
+
+Lambdas **don’t create a new scope** (`this` refers to the enclosing class), whereas anonymous classes create a new scope.
+
+Also, lambdas are generally **more memory efficient** (use `invokedynamic`), while anonymous inner classes generate separate `.class` files.
+
 
 **Example:**
 ```java
@@ -266,7 +275,11 @@ public class Demo {
 ## 12. What is the difference between map() and flatMap() in streams?
 
 **Answer:**
-map() transforms each element into another object, producing a one-to-one mapping. flatMap() transforms each element into a stream of objects and then flattens all streams into a single stream, useful when dealing with nested collections or when one element can produce multiple results.
+
+**map()** is used for **one-to-one transformation** — it converts each element into another single object.
+
+**flatMap()** is used for **one-to-many transformation** — it converts each element into a stream and then **flattens** all results into a single stream, useful for nested collections.
+
 
 **Example:**
 ```java
@@ -297,7 +310,11 @@ List<Integer> flat = nested.stream()
 ## 13. What is the volatile keyword in multithreading?
 
 **Answer:**
-The volatile keyword ensures that a variable's value is always read from and written to main memory, not from thread-local cache. This guarantees visibility of changes across threads. When one thread modifies a volatile variable, other threads immediately see the updated value. However, volatile doesn't guarantee atomicity for compound operations.
+
+The **volatile** keyword ensures that a variable is **always read from and written to main memory**, so changes made by one thread are **immediately visible** to other threads.
+
+However, it guarantees **visibility only**, not **atomicity** for compound operations.
+
 
 **Example:**
 ```java
@@ -324,7 +341,13 @@ public class VolatileExample {
 ## 14. How does JVM Garbage Collection work?
 
 **Answer:**
-JVM Garbage Collection automatically reclaims memory by removing objects that are no longer referenced. It works in generations: Young Generation (where new objects are created), Old Generation (for long-lived objects), and Permanent/Metaspace (for class metadata). Minor GC cleans Young Generation frequently, while Major/Full GC cleans the entire heap less frequently. Common algorithms include Serial, Parallel, CMS, and G1GC.
+
+JVM **Garbage Collection (GC)** automatically frees memory by removing objects that are no longer referenced.
+
+The heap is divided into **Young Generation** (new objects) and **Old Generation** (long-lived objects), and GC runs as **Minor GC** (young) and **Major/Full GC** (entire heap).
+
+Common GC algorithms include **Serial, Parallel, CMS, and G1GC**.
+
 
 **Example:**
 ```java
@@ -353,7 +376,11 @@ public class GCDemo {
 ## 15. Why is String immutable in Java?
 
 **Answer:**
-Strings are immutable for security, thread-safety, and performance. Since Strings are used in class loading, database connections, and network operations, immutability prevents malicious code from modifying them. Immutability makes Strings thread-safe without synchronization. The String pool can reuse String literals, saving memory. Immutable Strings have cached hashcodes, making them efficient for HashMap keys.
+
+**String is immutable** in Java for **security, thread-safety, and performance**.
+
+Immutability prevents modification of sensitive data (like class names, URLs), makes Strings **thread-safe without synchronization**, enables **String pool reuse**, and allows **hashcode caching**, making them efficient as **HashMap keys**.
+
 
 **Example:**
 ```java
@@ -379,7 +406,15 @@ public void shareString() {
 ## 16. What are the performance benefits of StringBuilder over String?
 
 **Answer:**
-StringBuilder is mutable and more efficient for string concatenation in loops or multiple operations. String concatenation creates new objects each time, causing memory overhead and garbage collection pressure. StringBuilder modifies the same object, using a resizable array internally. For single concatenations, the difference is negligible, but for loops with many iterations, StringBuilder is significantly faster.
+
+**Simple Interview Answer:**
+
+`String` is immutable, so every concatenation creates a new object, which increases memory usage and reduces performance.
+
+`StringBuilder` is mutable, so it modifies the same object without creating new ones.
+
+Therefore, `StringBuilder` is faster and more efficient for multiple concatenations, especially inside loops.
+
 
 **Example:**
 ```java
@@ -413,7 +448,13 @@ System.out.println("StringBuilder: " + (System.currentTimeMillis() - start) + "m
 ## 17. What is the difference between HashMap and HashSet?
 
 **Answer:**
-HashMap stores key-value pairs and implements the Map interface, allowing you to retrieve values using keys. HashSet stores unique elements and implements the Set interface, internally using a HashMap where elements are stored as keys with a dummy value. HashMap allows one null key and multiple null values, while HashSet allows only one null element. HashMap uses put() to add entries, HashSet uses add().
+
+`HashMap` stores **key-value pairs**, while `HashSet` stores **only unique values**.
+
+`HashMap` allows **one null key and multiple null values**, whereas `HashSet` allows **only one null element**.
+
+Internally, `HashSet` uses a `HashMap` to store elements.
+
 
 **Example:**
 ```java
@@ -439,7 +480,15 @@ System.out.println(set.size()); // 2
 ## 18. What is the internal working of HashMap?
 
 **Answer:**
-HashMap uses an array of buckets where each bucket is a linked list or tree node. When you put a key-value pair, HashMap calculates the hashcode of the key, applies a hash function to determine the bucket index, and stores the entry there. If multiple keys hash to the same bucket (collision), they're stored in a linked list. From Java 8, if a bucket has more than 8 entries, it converts to a balanced tree for better performance. When retrieving, HashMap uses the same hash calculation to find the bucket and then searches within it.
+
+`HashMap` uses an array of buckets.
+
+When we add a key-value pair, it calculates the **hashcode of the key** to find the bucket index.
+
+If multiple keys map to the same bucket (collision), they are stored in a **linked list**, and in Java 8+, converted to a **balanced tree** if entries exceed a limit.
+
+While retrieving, it uses the same hash calculation to quickly find the value.
+
 
 **Example:**
 ```java
@@ -472,7 +521,13 @@ Integer value = map.get("Apple");
 ## 19. What is the difference between shallow cloning and deep cloning?
 
 **Answer:**
-Shallow cloning creates a new object but copies only the references of nested objects, so both original and cloned objects share the same nested objects. Deep cloning creates a completely independent copy where all nested objects are also cloned recursively. Changes to nested objects in shallow clone affect the original, but in deep clone they don't.
+
+**Shallow cloning** copies the object but keeps references to the same nested objects, so changes in nested objects affect both.
+
+**Deep cloning** copies the object and all nested objects, creating a completely independent copy.
+
+So, deep clone does not affect the original object.
+
 
 **Example:**
 ```java
@@ -518,7 +573,13 @@ System.out.println(p1.address.city); // "LA" - not affected
 ## 20. What is a Marker Interface?
 
 **Answer:**
-A marker interface is an empty interface with no methods or fields, used to mark or tag a class with special behavior. The JVM or framework recognizes these markers and treats the class differently. Common examples include Serializable, Cloneable, and Remote. They signal intent or capability without enforcing any contract.
+
+A **Marker Interface** is an empty interface with no methods, used to mark a class with special behavior.
+
+It tells the JVM or framework that the class has a certain capability.
+
+Examples: `Serializable`, `Cloneable`, `Remote`.
+
 
 **Example:**
 ```java
@@ -558,7 +619,13 @@ class Employee implements Serializable {
 ## 21. What is the difference between extending Thread and implementing Runnable?
 
 **Answer:**
-Extending Thread creates a thread class but limits inheritance since Java doesn't support multiple inheritance. Implementing Runnable is more flexible as the class can extend another class and implement multiple interfaces. Runnable promotes better design by separating the task from the thread mechanism. Runnable instances can be reused with ExecutorService, while Thread instances cannot.
+
+When we **extend `Thread`**, the class cannot extend any other class (no multiple inheritance).
+
+When we **implement `Runnable`**, the class can extend another class and still create a thread.
+
+`Runnable` is better design because it separates the task from the thread and is reusable with `ExecutorService`.
+
 
 **Example:**
 ```java
@@ -596,7 +663,9 @@ class MyClass extends SomeClass implements Runnable {
 ## 22. What are the ways to create threads in Java?
 
 **Answer:**
-There are multiple ways to create threads: extending Thread class, implementing Runnable interface, implementing Callable interface with ExecutorService for return values, using lambda expressions with Runnable, using Thread pools via ExecutorService, and using CompletableFuture for asynchronous tasks. Modern applications prefer ExecutorService and CompletableFuture over direct thread creation.
+Threads in Java can be created by **extending the Thread class** or **implementing Runnable**.
+
+For tasks with return values, use **Callable with ExecutorService**. Modern applications prefer **ExecutorService (thread pools)** and **CompletableFuture** for better thread management and asynchronous processing.
 
 **Example:**
 ```java
@@ -633,7 +702,11 @@ executor.shutdown();
 ## 23. What is concurrency in Java?
 
 **Answer:**
-Concurrency is the ability to execute multiple tasks simultaneously, improving application performance and responsiveness. Java provides tools like threads, synchronized blocks, locks, concurrent collections (ConcurrentHashMap, CopyOnWriteArrayList), atomic variables, and the java.util.concurrent package with ExecutorService, CountDownLatch, Semaphore, and more. Proper synchronization prevents race conditions and ensures thread safety.
+
+**Concurrency** in Java is the ability to run **multiple tasks simultaneously** to improve performance and responsiveness.
+
+Java supports concurrency using **threads, synchronization, locks, concurrent collections (like ConcurrentHashMap), atomic classes, and the `java.util.concurrent` package**. Proper synchronization ensures **thread safety and prevents race conditions**.
+
 
 **Example:**
 ```java
@@ -677,7 +750,13 @@ map.put("key", 1); // Thread-safe
 ## 24. How do you implement database connectivity in Java?
 
 **Answer:**
-Database connectivity in Java is implemented using JDBC (Java Database Connectivity). You load the database driver, establish a connection using DriverManager or DataSource, create Statement or PreparedStatement objects to execute queries, process ResultSet for query results, and close resources. Modern applications use connection pooling and ORM frameworks like Hibernate or Spring Data JPA for easier database operations.
+
+Database connectivity in Java is implemented using **JDBC (Java Database Connectivity)**.
+
+You load the driver, create a **connection**, execute queries using **Statement/PreparedStatement**, process the **ResultSet**, and close resources.
+
+In modern applications, we use **connection pooling** and ORM frameworks like **Hibernate** or **Spring Data JPA** for easier database operations.
+
 
 **Example:**
 ```java
@@ -715,7 +794,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 ## 25. How does JDBC connection pooling work?
 
 **Answer:**
-Connection pooling maintains a pool of reusable database connections instead of creating new connections for each request. When an application needs a connection, it borrows one from the pool; after use, it returns the connection to the pool rather than closing it. This significantly improves performance by avoiding the overhead of creating and destroying connections. Popular implementations include HikariCP, Apache DBCP, and C3P0.
+**JDBC connection pooling** maintains a pool of reusable database connections.
+
+When the application needs a connection, it **borrows** one from the pool and **returns** it after use instead of creating a new one each time.
+
+This improves performance by reducing connection creation overhead. Popular implementations include **HikariCP**, **Apache DBCP**, and **C3P0**.
+
 
 **Example:**
 ```java
@@ -756,7 +840,10 @@ public void query() throws SQLException {
 ## 26. What is transaction management in Spring Boot?
 
 **Answer:**
-Transaction management ensures that a series of database operations either all succeed or all fail together, maintaining data consistency. Spring Boot provides declarative transaction management using @Transactional annotation. When a method is marked @Transactional, Spring automatically begins a transaction, commits on success, or rolls back on exception. You can configure propagation, isolation levels, and rollback rules.
+**Transaction management** ensures that multiple database operations either **all succeed or all fail together**, maintaining data consistency.
+
+In **Spring Boot**, it is handled declaratively using the **@Transactional** annotation. Spring automatically **starts a transaction, commits on success, and rolls back on exceptions**, with options to configure propagation and isolation levels.
+
 
 **Example:**
 ```java
@@ -795,7 +882,18 @@ public class BankService {
 ## 27. Write business logic for a CRUD service in Java.
 
 **Answer:**
-A CRUD service implements Create, Read, Update, and Delete operations for an entity. In Spring Boot, this typically involves a Controller for REST endpoints, a Service layer for business logic, a Repository for database operations, and an Entity model. The service layer handles validation, business rules, and coordinates between controller and repository.
+
+A CRUD service handles **Create, Read, Update, and Delete** operations for an entity.
+
+In **Spring Boot**, it usually has:
+
+* **Controller** – handles REST APIs
+* **Service** – contains business logic and validations
+* **Repository** – interacts with the database
+* **Entity** – represents the database table
+
+The Service layer connects the Controller and Repository and applies business rules.
+
 
 **Example:**
 ```java
@@ -884,7 +982,13 @@ public class ProductController {
 ## 28. What is Spring Cloud?
 
 **Answer:**
-Spring Cloud is a framework that provides tools for building distributed systems and microservices. It offers solutions for common patterns like service discovery (Eureka), configuration management (Config Server), load balancing (Ribbon), circuit breakers (Hysteria/Resilience4j), API Gateway (Spring Cloud Gateway), and distributed tracing (Sleuth). It simplifies microservices development by handling infrastructure concerns so developers can focus on business logic.
+
+**Spring Cloud** is a framework for building **microservices and distributed systems**.
+
+It provides tools for **service discovery (Eureka)**, **configuration management**, **load balancing**, **circuit breaker**, and **API Gateway**.
+
+It helps handle infrastructure tasks so developers can focus on business logic.
+
 
 **Example:**
 ```java
@@ -925,7 +1029,13 @@ public interface UserClient {
 ## 29. How do you design and implement backend APIs?
 
 **Answer:**
-Backend API design follows RESTful principles with proper HTTP methods (GET, POST, PUT, DELETE), meaningful URLs, status codes, and JSON responses. Implementation involves creating controllers for endpoints, services for business logic, repositories for data access, and DTOs for data transfer. Consider versioning, pagination, filtering, error handling, validation, security, and documentation using Swagger/OpenAPI. Follow consistent naming conventions and return appropriate status codes.
+
+I design backend APIs using **REST principles** with proper HTTP methods (GET, POST, PUT, DELETE), meaningful URLs, and correct status codes.
+
+I implement them using **Controller, Service, and Repository layers**, with DTOs for data transfer.
+
+I also ensure **validation, error handling, security, pagination, versioning, and proper documentation (Swagger/OpenAPI)**.
+
 
 **Example:**
 ```java
@@ -986,7 +1096,15 @@ public class UserController {
 ## 30. How are your microservices structured?
 
 **Answer:**
-Microservices are structured with each service owning its own database, having independent deployment, and communicating via REST APIs or message queues. Typical structure includes API Gateway as entry point, service registry for discovery, config server for centralized configuration, and each microservice following layered architecture with controller, service, repository layers. Services are organized by business capability like user-service, order-service, payment-service, and notification-service.
+
+Our microservices are structured so that each service has its **own database and independent deployment**.
+
+Services communicate using **REST APIs or messaging**.
+
+We use an **API Gateway**, **Service Registry**, and **Config Server**, and each service follows a layered structure (Controller, Service, Repository).
+
+Services are organized based on business capabilities like user, order, and payment services.
+
 
 **Example:**
 ```java
@@ -1049,7 +1167,18 @@ public class RestTemplateConfig {
 ## 31. What design patterns are commonly used in Microservices architecture?
 
 **Answer:**
-Common microservices patterns include API Gateway (single entry point), Service Discovery (dynamic service location), Circuit Breaker (fault tolerance), Saga Pattern (distributed transactions), CQRS (Command Query Responsibility Segregation), Event Sourcing (state changes as events), Database per Service (data isolation), Strangler Pattern (gradual migration), and Bulkhead Pattern (resource isolation). These patterns solve challenges like service communication, data consistency, fault tolerance, and scalability.
+
+Common design patterns in Microservices are:
+
+* **API Gateway** – A single entry point that routes client requests to appropriate microservices.
+* **Service Discovery** – A mechanism that automatically detects and locates available service instances.
+* **Circuit Breaker** – A pattern that stops calls to a failing service to prevent system-wide failure.
+* **Saga Pattern** – A way to manage distributed transactions using a sequence of local transactions.
+* **CQRS (Command Query Responsibility Segregation)** – A pattern that separates read operations from write operations.
+* **Database per Service** – Each microservice has its own dedicated database for data isolation.
+* **Bulkhead Pattern** – A pattern that isolates resources to prevent one service failure from affecting others.
+
+
 
 **Example:**
 ```java
@@ -1108,7 +1237,13 @@ public class OrderSagaService {
 ## 32. What is Event-Driven Architecture in Java?
 
 **Answer:**
-Event-Driven Architecture is a design pattern where services communicate through events rather than direct calls. When something happens in one service, it publishes an event to a message broker like Kafka or RabbitMQ, and other services subscribe to these events and react accordingly. This provides loose coupling, scalability, and asynchronous processing. Events represent state changes or significant occurrences in the system.
+
+Event-Driven Architecture is a design pattern where services communicate by **publishing and consuming events** instead of calling each other directly.
+
+When an event occurs, it is sent to a **message broker (like Kafka or RabbitMQ)**, and other services react to it.
+
+This provides **loose coupling, scalability, and asynchronous processing**.
+
 
 **Example:**
 ```java
@@ -1165,7 +1300,13 @@ public class InventoryEventListener {
 ## 33. What is Kafka Consumer?
 
 **Answer:**
-A Kafka Consumer is a client application that reads messages from Kafka topics. Consumers subscribe to one or more topics and process the stream of records. They belong to consumer groups for load balancing, where each partition is consumed by only one consumer in the group. Consumers track their position using offsets, allowing them to resume from where they left off. Spring Kafka provides @KafkaListener annotation for easy consumer implementation.
+
+A **Kafka Consumer** is a client that reads messages from Kafka topics.
+
+It subscribes to topics and processes records, usually as part of a **consumer group** for load balancing.
+
+It tracks its position using **offsets** to continue reading from where it left off.
+
 
 **Example:**
 ```java
@@ -1210,7 +1351,16 @@ public class PaymentConsumer {
 ## 34. How do you implement messaging between microservices?
 
 **Answer:**
-Messaging between microservices can be implemented using synchronous communication (REST APIs with RestTemplate or Feign Client) or asynchronous communication (message brokers like Kafka, RabbitMQ, or AWS SQS). Synchronous is simpler but creates tight coupling and blocking calls. Asynchronous provides better scalability, fault tolerance, and decoupling. Choose based on requirements: use REST for immediate responses, messaging for eventual consistency and high throughput.
+Messaging between microservices can be done using:
+
+* **Synchronous communication** – REST APIs (RestTemplate or Feign)
+* **Asynchronous communication** – Message brokers like Kafka or RabbitMQ
+
+Synchronous is simple but tightly coupled.
+Asynchronous is more scalable, fault-tolerant, and loosely coupled.
+
+We choose based on business requirements.
+
 
 **Example:**
 ```java
@@ -1269,7 +1419,16 @@ public class NotificationService {
 ## 35. What is Circuit Breaker pattern?
 
 **Answer:**
-Circuit Breaker pattern prevents cascading failures in microservices by monitoring service calls and stopping requests to failing services. It has three states: Closed (normal operation), Open (requests fail immediately without calling service), and Half-Open (testing if service recovered). When failures exceed a threshold, the circuit opens. After a timeout, it enters half-open to test recovery. This protects systems from waiting on unresponsive services and allows graceful degradation.
+
+The **Circuit Breaker pattern** prevents cascading failures by stopping calls to a failing service.
+
+It has three states:
+
+* **Closed** – normal operation
+* **Open** – calls fail immediately
+* **Half-Open** – checks if the service has recovered
+
+ When failures exceed a threshold, the circuit opens. After a timeout, it enters half-open to test recovery. This protects systems from waiting on unresponsive services and allows graceful degradation.
 
 **Example:**
 ```java
@@ -1320,7 +1479,13 @@ public class CircuitBreakerConfig {
 ## 36. What is Resilience4j and why is it used?
 
 **Answer:**
-Resilience4j is a lightweight fault tolerance library for Java applications, designed for functional programming and Java 8+. It provides Circuit Breaker, Rate Limiter, Retry, Bulkhead, and Time Limiter patterns. It's used to make microservices resilient by handling failures gracefully, preventing cascading failures, and implementing fallback mechanisms. It's the recommended replacement for Netflix Hystrix, which is now in maintenance mode, and integrates seamlessly with Spring Boot.
+
+**Resilience4j** is a lightweight fault-tolerance library for Java and Spring Boot applications.
+
+It provides features like **Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Time Limiter**.
+
+It is used to make microservices more **resilient** by handling failures gracefully and preventing cascading failures.
+
 
 **Example:**
 ```java
@@ -1387,7 +1552,13 @@ public class PaymentService {
 ## 37. What is an API Gateway and its purpose?
 
 **Answer:**
-An API Gateway is a single entry point for all client requests in a microservices architecture. It routes requests to appropriate microservices, handles cross-cutting concerns like authentication, authorization, rate limiting, logging, and request/response transformation. It provides load balancing, protocol translation, and can aggregate responses from multiple services. Popular implementations include Spring Cloud Gateway, Netflix Zuul, and Kong. This simplifies client communication and centralizes common functionality.
+
+An **API Gateway** is a single entry point for all client requests in a microservices architecture.
+
+It routes requests to the correct services and handles common tasks like **authentication, authorization, logging, rate limiting, and load balancing**.
+
+It simplifies client communication and centralizes cross-cutting concerns.
+
 
 **Example:**
 ```java
@@ -1454,7 +1625,13 @@ public class AuthenticationFilter implements GlobalFilter {
 ## 38. How do you secure a Spring Boot application?
 
 **Answer:**
-Spring Boot applications are secured using Spring Security, which provides authentication and authorization. Key security measures include implementing JWT or OAuth2 for authentication, using HTTPS for encrypted communication, enabling CSRF protection, configuring CORS policies, implementing role-based access control (RBAC), securing endpoints with method-level security, validating inputs to prevent SQL injection and XSS attacks, and using password encoders like BCrypt. You also configure security filters, handle authentication failures, and protect sensitive data.
+
+We secure a Spring Boot application using **Spring Security** for authentication and authorization.
+
+We implement **JWT or OAuth2**, use **HTTPS**, configure **CORS and CSRF**, and apply **role-based access control (RBAC)**.
+
+We also secure endpoints, validate inputs, and use password encoding like **BCrypt** to protect sensitive data.
+
 
 **Example:**
 ```java
@@ -1506,7 +1683,13 @@ public class UserService {
 ## 39. How is JWT authentication implemented?
 
 **Answer:**
-JWT (JSON Web Token) authentication involves generating a token when a user logs in successfully, which contains encoded user information and claims. The client stores this token and sends it in the Authorization header with each request. The server validates the token's signature, checks expiration, and extracts user details without querying the database. Implementation includes creating a JWT utility class for token generation and validation, a filter to intercept requests and validate tokens, and endpoints for login and token refresh.
+
+In JWT authentication, when a user logs in successfully, the server generates a **JWT token** containing user details.
+
+The client sends this token in the **Authorization header** with each request.
+
+The server validates the token’s signature and expiration using a filter, and allows access without checking the database every time.
+
 
 **Example:**
 ```java
@@ -1591,7 +1774,13 @@ public class AuthController {
 ## 40. What is CORS and how does it work?
 
 **Answer:**
-CORS (Cross-Origin Resource Sharing) is a security mechanism that allows or restricts web applications running on one domain to access resources from another domain. Browsers enforce the same-origin policy by default, blocking cross-origin requests. CORS works by adding HTTP headers that tell the browser which origins are allowed to access the resources. The server responds with Access-Control-Allow-Origin, Access-Control-Allow-Methods, and other headers. For complex requests, browsers send a preflight OPTIONS request first.
+
+**CORS (Cross-Origin Resource Sharing)** is a security mechanism that controls how resources can be requested from a different domain.
+
+Browsers block cross-origin requests by default (same-origin policy).
+
+CORS works using **HTTP headers** like `Access-Control-Allow-Origin`, and for complex requests, the browser sends a **preflight OPTIONS request** first.
+
 
 **Example:**
 ```java
@@ -1657,7 +1846,20 @@ public class SecurityConfig {
 ## 41. What are the main features of an eCommerce application?
 
 **Answer:**
-Main features of an eCommerce application include user registration and authentication, product catalog with search and filtering, shopping cart management, order processing and checkout, payment gateway integration, inventory management, order tracking, user reviews and ratings, wishlist functionality, admin dashboard for managing products and orders, email notifications, shipping integration, discount and coupon management, and analytics for sales reporting. The system should handle high traffic, ensure secure transactions, and provide a seamless user experience.
+
+Main features of an eCommerce application include:
+
+* **User registration and authentication**
+* **Product catalog with search and filtering**
+* **Shopping cart and checkout**
+* **Payment gateway integration**
+* **Order management and tracking**
+* **Inventory management**
+* **Admin dashboard**
+* **Reviews, wishlist, and notifications**
+
+It should also ensure **secure transactions, scalability, and good user experience**.
+
 
 **Example:**
 ```java
@@ -1728,7 +1930,17 @@ public class AdminController {
 ## 42. Explain the frontend and backend flow of an eCommerce application.
 
 **Answer:**
-Frontend flow starts with users browsing products, adding items to cart, proceeding to checkout, entering shipping and payment details, and confirming the order. The UI displays product details, cart summary, and order confirmation. Backend flow involves receiving API requests, authenticating users, validating input, checking inventory availability, processing payments through payment gateway, creating order records, updating inventory, sending confirmation emails, and returning responses. The frontend makes REST API calls to backend services, which coordinate with database, payment services, and notification systems.
+
+In an eCommerce application:
+
+**Frontend flow:**
+User browses products → adds to cart → checkout → enters shipping & payment details → confirms order.
+
+**Backend flow:**
+Backend receives API request → authenticates user → validates data → checks inventory → processes payment → creates order → updates inventory → sends confirmation response.
+
+Frontend communicates with backend through **REST APIs**.
+
 
 **Example:**
 ```java
@@ -1809,7 +2021,19 @@ public class OrderService {
 ## 43. What are backend components and tools used in eCommerce?
 
 **Answer:**
-Backend components include API Gateway for routing, microservices for different domains (user, product, order, payment, inventory), databases (PostgreSQL/MySQL for transactional data, MongoDB for product catalog, Redis for caching), message queues (Kafka/RabbitMQ for async processing), payment gateway integration (Stripe, PayPal), search engine (Elasticsearch for product search), CDN for static content, email service (SendGrid, AWS SES), and monitoring tools (Prometheus, Grafana). The tech stack typically includes Spring Boot, Docker, Kubernetes, and cloud services (AWS/Azure).
+
+Backend components in an eCommerce application include:
+
+* **API Gateway** and multiple **microservices** (user, product, order, payment, inventory)
+* **Databases** (SQL/NoSQL) and **Redis** for caching
+* **Message queues** (Kafka/RabbitMQ) for async processing
+* **Payment gateway integration**
+* **Search engine** (Elasticsearch)
+* **Email and notification services**
+* **Monitoring tools**
+
+Common tech stack includes **Spring Boot, Docker, Kubernetes, and cloud services (AWS/Azure)**.
+
 
 **Example:**
 ```java
@@ -1900,7 +2124,18 @@ public class GatewayConfig {
 ## 44. What Git workflow is used in an eCommerce application?
 
 **Answer:**
-eCommerce applications typically use Git Flow or GitHub Flow. The workflow includes main/master branch for production, develop branch for integration, feature branches for new features, release branches for preparing releases, and hotfix branches for urgent fixes. Developers create feature branches from develop, make changes, create pull requests for code review, merge to develop after approval, and then merge to main for production deployment. CI/CD pipelines automate testing and deployment. Tags are used for version management.
+
+In an eCommerce application, we usually follow **Git Flow or GitHub Flow**.
+
+We maintain:
+
+* **Main/Master** – production code
+* **Develop** – integration branch
+* **Feature branches** – for new features
+* **Release/Hotfix branches** – for deployments and urgent fixes
+
+Code is merged through **pull requests with code review**, and CI/CD pipelines handle testing and deployment.
+
 
 **Example:**
 ```bash
@@ -1962,7 +2197,13 @@ git push origin main --tags
 ## 45. What are Pipes in Angular?
 
 **Answer:**
-Pipes in Angular are functions that transform data in templates before displaying it. They take input data, process it, and return transformed output. Angular provides built-in pipes like DatePipe, UpperCasePipe, LowerCasePipe, CurrencyPipe, DecimalPipe, and PercentPipe. You use pipes with the pipe operator (|) in templates. Pipes can accept parameters and can be chained together. They're pure by default, meaning they only execute when input reference changes, improving performance.
+
+Pipes in Angular are used to **transform data in templates before displaying it**.
+
+They use the `|` operator and can format data like **date, currency, uppercase, lowercase, percent**, etc.
+
+Pipes improve readability and are **pure by default**, meaning they run only when input changes.
+
 
 **Example:**
 ```typescript
@@ -1997,7 +2238,13 @@ export class ProductComponent {
 ## 46. What are Pure Pipes and Custom Pipes?
 
 **Answer:**
-Pure pipes only execute when Angular detects a pure change to the input value (primitive value change or object reference change). They're stateless and don't depend on external state, making them efficient. Custom pipes are user-defined pipes created using @Pipe decorator and implementing PipeTransform interface. You can make custom pipes impure by setting pure: false, which makes them execute on every change detection cycle, but this impacts performance.
+
+**Pure Pipes** execute only when the input value or object reference changes, so they are more efficient and improve performance.
+
+**Custom Pipes** are user-defined pipes created using the `@Pipe` decorator and `PipeTransform` interface to transform data as needed.
+
+Custom pipes can also be made **impure (pure: false)**, but they run on every change detection and may affect performance.
+
 
 **Example:**
 ```typescript
@@ -2054,7 +2301,15 @@ export class ProductListComponent {
 ## 47. What is the role of Decorators in Angular?
 
 **Answer:**
-Decorators in Angular are special functions that add metadata to classes, methods, properties, or parameters. They tell Angular how to process and configure these elements. Common decorators include @Component for defining components, @Injectable for services, @NgModule for modules, @Input/@Output for component communication, @ViewChild for accessing child elements, and @HostListener for listening to host events. Decorators are a TypeScript feature that Angular extensively uses for dependency injection and component configuration.
+
+Decorators in Angular are special functions that add **metadata** to classes and members.
+
+They tell Angular how to configure components, services, and modules.
+
+Examples include `@Component`, `@Injectable`, `@NgModule`, `@Input`, and `@Output`.
+
+They are mainly used for **dependency injection and component configuration**.
+
 
 **Example:**
 ```typescript
@@ -2115,7 +2370,12 @@ export class ClickTrackerComponent {
 ## 48. What is @Component decorator?
 
 **Answer:**
-@Component decorator marks a class as an Angular component and provides configuration metadata. It defines the component's selector (HTML tag name), template or templateUrl (view), styles or styleUrls (CSS), and other properties like providers, changeDetection, and encapsulation. The selector determines how the component is used in HTML, template defines the view, and styles define component-specific CSS. This decorator is essential for creating reusable UI components in Angular.
+`@Component` is a decorator that defines an Angular component and provides its configuration.
+
+It specifies the **selector (HTML tag)**, **template or templateUrl (view)**, and **styles or styleUrls (CSS)**.
+
+It is used to create and configure reusable UI components in Angular.
+
 
 **Example:**
 ```typescript
@@ -2187,7 +2447,13 @@ export class ShopComponent {
 ## 49. What is @Injectable decorator?
 
 **Answer:**
-@Injectable decorator marks a class as available for dependency injection. It tells Angular that this class can be injected as a dependency into other classes. The providedIn property determines where the service is provided - 'root' makes it a singleton available application-wide, or you can specify a module. Services marked with @Injectable can have their own dependencies injected through the constructor. This is fundamental to Angular's dependency injection system for creating reusable business logic.
+
+`@Injectable` is a decorator that marks a class as a **service available for dependency injection**.
+
+It allows the service to be injected into components or other services.
+
+Using `providedIn: 'root'` makes it a **singleton service available throughout the application**.
+
 
 **Example:**
 ```typescript
@@ -2263,7 +2529,13 @@ export class ProductListComponent implements OnInit {
 ## 50. How is your application deployed?
 
 **Answer:**
-Application deployment typically follows a CI/CD pipeline approach. Code is pushed to Git repository, which triggers automated builds in Jenkins or GitLab CI. The application is built, tested, containerized using Docker, and pushed to a container registry. Then it's deployed to environments like development, staging, and production using Kubernetes or cloud services like AWS ECS, Azure App Service, or traditional servers. Deployment strategies include blue-green deployment, rolling updates, or canary releases. Configuration is managed through environment variables or config servers, and monitoring tools track application health.
+
+Our application is deployed using a **CI/CD pipeline**.
+
+When code is pushed to Git, it triggers an automated build and testing process. The application is **containerized using Docker** and deployed to environments like dev, staging, and production using **Kubernetes or cloud services (AWS/Azure)**.
+
+We use strategies like **rolling updates or blue-green deployment**, and monitoring tools track application health.
+
 
 **Example:**
 ```yaml
@@ -2354,7 +2626,13 @@ spec:
 ## 51. How does Jenkins CI/CD pipeline work?
 
 **Answer:**
-Jenkins CI/CD pipeline automates the software delivery process from code commit to deployment. It starts when code is pushed to Git, triggering a webhook to Jenkins. Jenkins pulls the code, builds the application using Maven or Gradle, runs unit and integration tests, performs code quality checks with SonarQube, builds Docker images, pushes to container registry, and deploys to target environments. The pipeline is defined in a Jenkinsfile using declarative or scripted syntax with stages for build, test, package, and deploy. It provides feedback on build status and can rollback on failures.
+
+**Jenkins CI/CD pipeline** automates the process from code commit to deployment.
+
+When code is pushed to Git, Jenkins triggers a build, runs tests, checks code quality, builds a Docker image, and deploys to the target environment.
+
+The pipeline is defined in a **Jenkinsfile** with stages like **build, test, and deploy**, providing automated and reliable delivery.
+
 
 **Example:**
 ```groovy
@@ -2449,7 +2727,15 @@ pipeline {
 ## 52. How do you deploy using Docker?
 
 **Answer:**
-Docker deployment involves creating a Dockerfile that defines the application environment, building a Docker image from the Dockerfile, pushing the image to a registry like Docker Hub or AWS ECR, and running containers from that image. The Dockerfile specifies the base image, copies application files, installs dependencies, exposes ports, and defines the startup command. You can use docker-compose for multi-container applications or deploy to orchestration platforms like Kubernetes. Docker ensures consistency across environments and simplifies deployment.
+
+To deploy using **Docker**, we create a **Dockerfile** that defines the application environment.
+
+We build a Docker image, push it to a **container registry** (like Docker Hub or ECR), and run containers from that image.
+
+For multi-container apps, we use **Docker Compose** or deploy to **Kubernetes**.
+
+Docker ensures consistent and easy deployment across environments.
+
 
 **Example:**
 ```dockerfile
@@ -2547,7 +2833,13 @@ docker-compose down
 ## 53. How do you deploy in AWS/Azure?
 
 **Answer:**
-AWS deployment options include EC2 instances for traditional deployments, Elastic Beanstalk for managed application hosting, ECS/EKS for container orchestration, Lambda for serverless functions, and RDS for databases. Azure offers similar services: Virtual Machines, App Service, AKS for Kubernetes, Azure Functions, and Azure SQL. Deployment involves setting up infrastructure using Terraform or CloudFormation, configuring load balancers, auto-scaling groups, security groups, and monitoring with CloudWatch or Azure Monitor. CI/CD pipelines deploy code automatically using AWS CodePipeline or Azure DevOps.
+
+In **AWS**, we deploy using **EC2, Elastic Beanstalk, ECS/EKS (containers), Lambda (serverless)**, and use **RDS** for databases.
+
+In **Azure**, we use **Virtual Machines, App Service, AKS (Kubernetes), Azure Functions**, and **Azure SQL**.
+
+Deployment is automated via **CI/CD pipelines** and managed with load balancers, auto-scaling, security groups, and monitoring tools like **CloudWatch or Azure Monitor**.
+
 
 **Example:**
 ```yaml
@@ -2644,7 +2936,13 @@ kubectl apply -f deployment.yaml
 ## 54. How are AWS services like S3 used in your project?
 
 **Answer:**
-AWS S3 is used for storing static files like images, videos, documents, and backups. In applications, S3 stores user-uploaded files, application logs, database backups, and serves static content for websites through CloudFront CDN. Implementation involves using AWS SDK to upload, download, and manage files programmatically. S3 provides durability, scalability, and cost-effective storage. You configure bucket policies for access control, enable versioning for file history, and use lifecycle policies to move old data to cheaper storage classes like Glacier.
+
+In our project, **AWS S3** is used to store **static files** like images, videos, documents, and backups.
+
+We use it for **user uploads, logs, and serving static content**.
+
+S3 provides **durable, scalable, and cost-effective storage**, with **access control, versioning, and lifecycle policies** to manage data efficiently.
+
 
 **Example:**
 ```java
@@ -2888,7 +3186,16 @@ XOR Approach (single missing):
 ## 56. How would you query a large movies database to find the top 10 lead actors with most profitable movies (IMDb ≥ 8)?
 
 **Answer:**
-To find the top 10 lead actors with the most profitable movies having IMDb rating of 8 or above, you need to join the movies table with actors table, filter by IMDb rating and lead actor role, calculate profitability (revenue minus budget), group by actor, sum their total profitability, and order by total profit descending with a limit of 10. The query involves multiple joins between movies, movie_actors, and actors tables, aggregation functions, and proper filtering conditions.
+
+To find the top 10 lead actors with the most profitable movies (IMDb ≥ 8), you:
+
+* **Filter** movies with IMDb ≥ 8 and lead actor role
+* **Calculate profitability** (revenue − budget)
+* **Group by actor** and **sum total profit**
+* **Order by total profit descending** and **limit to 10**
+
+This uses **joins, aggregation, and filtering** on movies and actors tables.
+
 
 **Example:**
 ```sql
@@ -2968,7 +3275,13 @@ LIMIT 10;
 ## 57. How would you define profitability in the query?
 
 **Answer:**
-Profitability in a movie database is typically defined as the difference between revenue and budget (revenue - budget), representing the net profit. You can also calculate profit margin as (revenue - budget) / budget * 100 for percentage return on investment. Some queries might use ROI (Return on Investment) which is (revenue / budget) to show how many times the investment was returned. For more accurate analysis, you might consider adjusted values for inflation, marketing costs, or use worldwide gross revenue. The definition should handle edge cases like zero or null budgets.
+
+**Profitability** is usually defined as **revenue minus budget (revenue − budget)**.
+
+It can also be expressed as **profit margin**: `(revenue − budget) / budget × 100` or **ROI**: `revenue / budget`.
+
+This shows the net profit or return on investment for a movie.
+
 
 **Example:**
 ```sql
@@ -3050,7 +3363,15 @@ FROM movies;
 ## 58. How would you optimize the query for large datasets?
 
 **Answer:**
-For large datasets with millions of records, optimization involves creating appropriate indexes on frequently queried columns (imdb_rating, role_type, actor_id, movie_id), using query execution plans to identify bottlenecks, partitioning tables by year or rating ranges, implementing materialized views for pre-computed aggregations, using database-specific optimizations like query hints, limiting result sets early in the query, avoiding SELECT *, and considering denormalization for read-heavy operations. You can also implement caching layers with Redis, use read replicas for analytics queries, and employ database sharding for horizontal scaling.
+
+To optimize queries on large datasets, you can:
+
+* **Create indexes** on frequently filtered/joined columns
+* **Avoid SELECT *** and limit result sets early
+* **Use partitioning, materialized views, or denormalization** for faster reads
+* **Use caching (Redis), read replicas, or sharding** for scaling
+* Analyze **query execution plans** to find and fix bottlenecks.
+
 
 **Example:**
 ```sql
@@ -3150,7 +3471,16 @@ SELECT SQL_NO_CACHE actor_name FROM actors WHERE actor_id IN (
 ## 59. What indexing strategy would you use?
 
 **Answer:**
-The indexing strategy should include composite indexes on frequently joined and filtered columns, covering indexes that include all columns needed in a query to avoid table lookups, indexes on foreign keys for join optimization, and filtered indexes for specific conditions. For this movies query, create indexes on movies(imdb_rating, revenue, budget), movie_actors(role_type, actor_id, movie_id), and actors(actor_id). Use B-tree indexes for range queries and equality checks, consider bitmap indexes for low-cardinality columns, and monitor index usage to remove unused indexes that slow down writes.
+
+For this query, use:
+
+* **Indexes on frequently filtered/joined columns** (e.g., `movies(imdb_rating, revenue, budget)`)
+* **Indexes on foreign keys** (`movie_actors(actor_id, movie_id)`)
+* **B-tree indexes** for range and equality checks
+* **Filtered or composite indexes** for specific query conditions
+
+Monitor usage and remove unused indexes to avoid slowing down writes.
+
 
 **Example:**
 ```sql
@@ -3236,7 +3566,16 @@ These indexes will:
 ## 60. How would you handle constraints and performance optimization?
 
 **Answer:**
-Constraints ensure data integrity through primary keys, foreign keys, unique constraints, check constraints, and not null constraints. For performance optimization with constraints, use deferred constraint checking for bulk operations, consider disabling constraints during large data loads and re-enabling them after, implement application-level validation to reduce database load, use triggers judiciously as they impact write performance, and balance between data integrity and performance needs. Monitor constraint violations, use appropriate data types to minimize storage, implement connection pooling, and use batch operations for bulk inserts.
+
+Constraints maintain **data integrity** using primary keys, foreign keys, unique, check, and not null constraints.
+
+For performance:
+
+* Use **deferred checking** or **disable/re-enable constraints** during bulk loads
+* Apply **application-level validation**
+* Use **batch inserts** and proper **data types**
+* Monitor constraint usage to **balance integrity and performance**.
+
 
 **Example:**
 ```sql
@@ -3384,7 +3723,12 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 ## 61. What is the difference between Servlet and JSP?
 
 **Answer:**
-Servlet is a Java class that handles HTTP requests and responses programmatically, where you write Java code to generate HTML output. JSP (JavaServer Pages) is a text-based document that allows you to embed Java code within HTML using special tags, making it easier to create dynamic web pages. Servlets are better for business logic and controller layer, while JSP is better for presentation layer. JSP is internally converted to a Servlet by the container. Servlets require recompilation for changes, while JSP changes are automatically detected. Modern applications use Servlets with template engines or REST APIs instead of JSP.
+
+* **Servlet** – Java class that handles HTTP requests and generates responses programmatically, best for **business logic and controllers**.
+* **JSP** – HTML pages with embedded Java code, best for **presentation layer**.
+
+JSP is internally converted to a Servlet, and changes in JSP are auto-detected, unlike Servlets.
+
 
 **Example:**
 ```java
