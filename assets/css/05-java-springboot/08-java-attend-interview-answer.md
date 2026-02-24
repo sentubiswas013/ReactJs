@@ -3,7 +3,11 @@
 ## 1. What is Dependency Injection (DI)?
 
 **Answer:**
-Dependency Injection is a design pattern where objects receive their dependencies from external sources rather than creating them internally. In Spring Boot, the framework automatically injects required dependencies into your classes, promoting loose coupling and easier testing.
+
+**Dependency Injection (DI)** is a design pattern where a class receives its **dependencies from outside** instead of creating them itself.
+
+In **Spring Boot**, DI promotes **loose coupling** and makes testing easier.
+
 
 **Example:**
 ```java
@@ -23,7 +27,13 @@ public class UserService {
 ## 2. How do you resolve Dependency Injection ambiguity in Spring Boot?
 
 **Answer:**
-When multiple beans of the same type exist, Spring doesn't know which one to inject. You can resolve this using @Primary, @Qualifier, or by naming the bean specifically.
+
+When multiple beans of the same type exist, DI ambiguity is resolved using:
+
+* **@Primary** – marks the default bean
+* **@Qualifier** – specifies which bean to inject
+* **Bean name** – explicitly refer to the desired bean
+
 
 **Example:**
 ```java
