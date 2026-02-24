@@ -3940,3 +3940,927 @@ public class UserRestController {
 
 // Frontend handles presentation (React, Angular, Vue)
 ```
+
+## 61. What are the features you are using in Spring Boot?
+
+**Answer:**
+
+I use Spring Boot features like auto-configuration, embedded servers (Tomcat), Spring Boot Starters, externalized configuration (properties/YAML), Spring Data JPA, Spring Security, Actuator for monitoring, DevTools for hot reload, and REST APIs with `@RestController`. These simplify setup and reduce boilerplate code.
+
+
+**Example:**
+```java
+// 1. Auto-configuration and Starter Dependencies
+// pom.xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+// 2. Main Application with Auto-configuration
+@SpringBootApplication
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+
+// 3. Externalized Configuration
+// application.yml
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+// 4. REST Controller
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+    @Autowired
+    private UserService userService;
+    
+    @GetMapping
+    public List<User> getUsers() {
+        return userService.findAll();
+    }
+}
+
+// 5. Spring Data JPA Repository
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByName(String name);
+}
+
+// 6. Actuator for monitoring
+// application.yml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+// 7. Profiles for different environments
+@Configuration
+@Profile("dev")
+public class DevConfig {
+    // Dev-specific beans
+}
+
+// 8. Scheduled Tasks
+@EnableScheduling
+@Component
+public class ScheduledTasks {
+    @Scheduled(fixedRate = 5000)
+    public void reportStatus() {
+        System.out.println("Task executed");
+    }
+}
+```
+
+---
+
+## 62. Do you know how Stream API works internally?
+
+**Answer:**
+
+Stream API processes data in a **pipeline**:
+
+* **Source** → Collection/array
+* **Intermediate operations** → lazy operations like `map()`, `filter()`
+* **Terminal operations** → trigger execution like `collect()`, `forEach()`
+
+Streams are **lazy**, **don’t store data**, and can be **parallelized** using `ForkJoinPool` for concurrency.
+
+
+**Example:**
+```java
+// Stream Pipeline Architecture
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+// Source -> Intermediate Ops -> Terminal Op
+List<Integer> result = numbers.stream()           // Source
+    .filter(n -> n % 2 == 0)                      // Intermediate (lazy)
+    .map(n -> n * 2)                              // Intermediate (lazy)
+    .collect(Collectors.toList());                // Terminal (triggers execution)
+
+// Lazy Evaluation Example
+Stream<Integer> stream = numbers.stream()
+    .filter(n -> {
+        System.out.println("Filtering: " + n);
+        return n > 5;
+    })
+    .map(n -> {
+        System.out.println("Mapping: " + n);
+        return n * 2;
+    });
+// Nothing printed yet - operations are lazy
+
+stream.forEach(System.out::println);  // Now operations execute
+
+// Short-circuiting operations
+Optional<Integer> first = numbers.stream()
+    .filter(n -> n > 5)
+    .findFirst();  // Stops after finding first match
+
+// Parallel Stream using ForkJoinPool
+List<Integer> parallelResult = numbers.parallelStream()
+    .filter(n -> n % 2 == 0)
+    .map(n -> n * 2)
+    .collect(Collectors.toList());
+
+// Internal iteration vs External iteration
+// External (traditional)
+for (Integer n : numbers) {
+    if (n % 2 == 0) {
+        System.out.println(n);
+    }
+}
+
+// Internal (Stream API)
+numbers.stream()
+    .filter(n -> n % 2 == 0)
+    .forEach(System.out::println);
+```
+
+---
+
+## 63. Have you worked with thread?
+
+**Answer:**
+
+Yes, I’ve worked with threads to run tasks concurrently. I’ve created threads using **Thread** or **Runnable**, managed them with **ExecutorService**, handled **synchronization** and **locks** to prevent race conditions, used **wait/notify** for communication, and leveraged **CompletableFuture** and **thread-safe collections** like `ConcurrentHashMap`.
+
+
+**Example:**
+```java
+// 1. Creating threads
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread: " + Thread.currentThread().getName());
+    }
+}
+
+class MyRunnable implements Runnable {
+    public void run() {
+        System.out.println("Runnable: " + Thread.currentThread().getName());
+    }
+}
+
+// Usage
+new MyThread().start();
+new Thread(new MyRunnable()).start();
+new Thread(() -> System.out.println("Lambda thread")).start();
+
+// 2. ExecutorService for thread pool
+ExecutorService executor = Executors.newFixedThreadPool(5);
+for (int i = 0; i < 10; i++) {
+    executor.submit(() -> {
+        System.out.println("Task by: " + Thread.currentThread().getName());
+    });
+}
+executor.shutdown();
+
+// 3. Synchronization
+class Counter {
+    private int count = 0;
+    
+    public synchronized void increment() {
+        count++;
+    }
+    
+    public int getCount() {
+        return count;
+    }
+}
+
+// 4. Using Lock
+class SafeCounter {
+    private int count = 0;
+    private Lock lock = new ReentrantLock();
+    
+    public void increment() {
+        lock.lock();
+        try {
+            count++;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+
+// 5. CompletableFuture
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+    return "Result from async task";
+});
+future.thenAccept(result -> System.out.println(result));
+```
+
+---
+
+## 64. Do you know livelock?
+
+**Answer:**
+
+Livelock occurs when threads are **active but unable to make progress**, constantly changing states in response to each other. Unlike deadlock, threads aren’t blocked—they just keep **retrying or reacting** without completing their task.
+
+
+**Example:**
+```java
+// Livelock Example - Two threads trying to be polite
+class Spoon {
+    private Diner owner;
+    
+    public Spoon(Diner owner) {
+        this.owner = owner;
+    }
+    
+    public Diner getOwner() {
+        return owner;
+    }
+    
+    public synchronized void setOwner(Diner owner) {
+        this.owner = owner;
+    }
+    
+    public synchronized void use() {
+        System.out.println(owner.getName() + " is eating");
+    }
+}
+
+class Diner {
+    private String name;
+    private boolean isHungry;
+    
+    public Diner(String name) {
+        this.name = name;
+        this.isHungry = true;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public boolean isHungry() {
+        return isHungry;
+    }
+    
+    public void eatWith(Spoon spoon, Diner spouse) {
+        while (isHungry) {
+            // If spouse is hungry, give them the spoon
+            if (spoon.getOwner() != this) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    continue;
+                }
+                continue;
+            }
+            
+            // If spouse is hungry, be polite and give spoon
+            if (spouse.isHungry()) {
+                System.out.println(name + ": You eat first, " + spouse.getName());
+                spoon.setOwner(spouse);
+                continue;  // Livelock - keeps giving spoon back
+            }
+            
+            spoon.use();
+            isHungry = false;
+            spoon.setOwner(spouse);
+        }
+    }
+}
+
+// Solution: Add randomness or priority
+class DinerFixed {
+    private String name;
+    private boolean isHungry;
+    
+    public void eatWith(Spoon spoon, Diner spouse) {
+        while (isHungry) {
+            if (spoon.getOwner() != this) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    continue;
+                }
+                continue;
+            }
+            
+            // Random decision to avoid livelock
+            if (spouse.isHungry() && Math.random() < 0.5) {
+                spoon.setOwner(spouse);
+                continue;
+            }
+            
+            spoon.use();
+            isHungry = false;
+        }
+    }
+}
+```
+
+---
+
+## 65. Do you have a semaphore?
+
+**Answer:**
+
+A **Semaphore** controls access to a shared resource using **permits**. Threads **acquire** a permit before using the resource and **release** it after. It can allow **multiple threads** concurrently (counting semaphore) or just **one thread** (binary semaphore), useful for connection pools, rate limiting, and resource management.
+
+
+**Example:**
+```java
+// Semaphore for limiting concurrent access
+class ConnectionPool {
+    private Semaphore semaphore;
+    private List<Connection> connections;
+    
+    public ConnectionPool(int poolSize) {
+        semaphore = new Semaphore(poolSize);
+        connections = new ArrayList<>();
+        for (int i = 0; i < poolSize; i++) {
+            connections.add(new Connection("Connection-" + i));
+        }
+    }
+    
+    public Connection getConnection() throws InterruptedException {
+        semaphore.acquire();  // Wait for permit
+        return getAvailableConnection();
+    }
+    
+    public void releaseConnection(Connection conn) {
+        returnConnection(conn);
+        semaphore.release();  // Release permit
+    }
+    
+    private Connection getAvailableConnection() {
+        return connections.remove(0);
+    }
+    
+    private void returnConnection(Connection conn) {
+        connections.add(conn);
+    }
+}
+
+// Usage
+ConnectionPool pool = new ConnectionPool(3);  // Max 3 concurrent connections
+
+ExecutorService executor = Executors.newFixedThreadPool(10);
+for (int i = 0; i < 10; i++) {
+    executor.submit(() -> {
+        try {
+            Connection conn = pool.getConnection();
+            System.out.println(Thread.currentThread().getName() + " got " + conn);
+            Thread.sleep(1000);  // Simulate work
+            pool.releaseConnection(conn);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    });
+}
+
+// Binary Semaphore (like mutex)
+Semaphore mutex = new Semaphore(1);
+mutex.acquire();
+try {
+    // Critical section
+} finally {
+    mutex.release();
+}
+
+// Fair Semaphore (FIFO order)
+Semaphore fairSemaphore = new Semaphore(3, true);
+
+// Try acquire with timeout
+if (semaphore.tryAcquire(1, TimeUnit.SECONDS)) {
+    try {
+        // Access resource
+    } finally {
+        semaphore.release();
+    }
+}
+```
+
+---
+
+## 66. Do you have countdown latch?
+
+**Answer:**
+
+**CountDownLatch** lets threads **wait** until a set of operations completes. Initialized with a count, threads call **await()** to wait, and other threads call **countDown()** to decrement the count. When the count reaches zero, all waiting threads proceed. Useful for coordinating tasks or waiting for services to start.
+
+
+**Example:**
+```java
+// CountDownLatch for coordinating multiple threads
+class ServiceStarter {
+    public static void main(String[] args) throws InterruptedException {
+        int serviceCount = 3;
+        CountDownLatch latch = new CountDownLatch(serviceCount);
+        
+        // Start multiple services
+        new Thread(new Service("Database", 2000, latch)).start();
+        new Thread(new Service("Cache", 1000, latch)).start();
+        new Thread(new Service("MessageQueue", 1500, latch)).start();
+        
+        System.out.println("Waiting for all services to start...");
+        latch.await();  // Wait until count reaches 0
+        System.out.println("All services started. Application ready!");
+    }
+}
+
+class Service implements Runnable {
+    private String name;
+    private int startupTime;
+    private CountDownLatch latch;
+    
+    public Service(String name, int startupTime, CountDownLatch latch) {
+        this.name = name;
+        this.startupTime = startupTime;
+        this.latch = latch;
+    }
+    
+    public void run() {
+        try {
+            System.out.println(name + " starting...");
+            Thread.sleep(startupTime);
+            System.out.println(name + " started");
+            latch.countDown();  // Decrement count
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Parallel task processing
+class ParallelProcessor {
+    public void processData(List<String> data) throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(data.size());
+        
+        for (String item : data) {
+            new Thread(() -> {
+                try {
+                    processItem(item);
+                } finally {
+                    latch.countDown();
+                }
+            }).start();
+        }
+        
+        latch.await();  // Wait for all tasks to complete
+        System.out.println("All items processed");
+    }
+    
+    private void processItem(String item) {
+        System.out.println("Processing: " + item);
+    }
+}
+
+// With timeout
+CountDownLatch latch = new CountDownLatch(3);
+if (latch.await(5, TimeUnit.SECONDS)) {
+    System.out.println("All tasks completed");
+} else {
+    System.out.println("Timeout - some tasks not completed");
+}
+```
+
+---
+
+## 67. Do you have an intrinsic lock?
+
+**Answer:**
+
+An **intrinsic lock** (monitor lock) is Java’s built-in lock. Using **synchronized** on a method or block acquires the lock for that object. Only **one thread** can hold it at a time. It’s **reentrant** and automatically released when the block exits, even on exceptions.
+
+
+**Example:**
+```java
+// Intrinsic lock with synchronized method
+class BankAccount {
+    private double balance;
+    
+    // Method-level synchronization - locks on 'this' object
+    public synchronized void deposit(double amount) {
+        balance += amount;
+    }
+    
+    public synchronized void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+        }
+    }
+    
+    public synchronized double getBalance() {
+        return balance;
+    }
+}
+
+// Synchronized block - explicit lock object
+class Counter {
+    private int count = 0;
+    private Object lock = new Object();
+    
+    public void increment() {
+        synchronized(lock) {  // Locks on 'lock' object
+            count++;
+        }
+    }
+    
+    public void decrement() {
+        synchronized(this) {  // Locks on 'this' object
+            count--;
+        }
+    }
+}
+
+// Static synchronized method - locks on Class object
+class Singleton {
+    private static Singleton instance;
+    
+    public static synchronized Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+// Reentrant behavior
+class ReentrantExample {
+    public synchronized void method1() {
+        System.out.println("Method 1");
+        method2();  // Same thread can acquire lock again
+    }
+    
+    public synchronized void method2() {
+        System.out.println("Method 2");
+    }
+}
+
+// Wait-Notify with intrinsic lock
+class ProducerConsumer {
+    private Queue<Integer> queue = new LinkedList<>();
+    private int capacity = 5;
+    
+    public synchronized void produce(int item) throws InterruptedException {
+        while (queue.size() == capacity) {
+            wait();  // Releases intrinsic lock and waits
+        }
+        queue.add(item);
+        notifyAll();  // Wakes up waiting threads
+    }
+    
+    public synchronized int consume() throws InterruptedException {
+        while (queue.isEmpty()) {
+            wait();
+        }
+        int item = queue.remove();
+        notifyAll();
+        return item;
+    }
+}
+```
+
+---
+
+## 68. What is the basic difference between class level lock and object level lock?
+
+**Answer:**
+
+* **Object-level lock:** Acquired with **non-static synchronized** methods/blocks, locks a **specific instance**. Different instances can be accessed by threads simultaneously.
+* **Class-level lock:** Acquired with **static synchronized** methods/blocks, locks the **Class object**, affecting all instances.
+
+Object locks control **instance data**, class locks control **static data**.
+
+
+**Example:**
+```java
+class LockExample {
+    private int instanceCount = 0;
+    private static int classCount = 0;
+    
+    // Object level lock - locks on 'this' instance
+    public synchronized void incrementInstance() {
+        instanceCount++;
+        System.out.println("Instance count: " + instanceCount);
+    }
+    
+    // Class level lock - locks on LockExample.class
+    public static synchronized void incrementClass() {
+        classCount++;
+        System.out.println("Class count: " + classCount);
+    }
+    
+    // Object level lock with explicit synchronization
+    public void incrementInstanceExplicit() {
+        synchronized(this) {
+            instanceCount++;
+        }
+    }
+    
+    // Class level lock with explicit synchronization
+    public void incrementClassExplicit() {
+        synchronized(LockExample.class) {
+            classCount++;
+        }
+    }
+}
+
+// Demonstration
+public class LockDemo {
+    public static void main(String[] args) {
+        LockExample obj1 = new LockExample();
+        LockExample obj2 = new LockExample();
+        
+        // Object level locks - independent for each instance
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                obj1.incrementInstance();  // Locks obj1
+            }
+        });
+        
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                obj2.incrementInstance();  // Locks obj2 (independent)
+            }
+        });
+        
+        // Class level locks - shared across all instances
+        Thread t3 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                LockExample.incrementClass();  // Locks class
+            }
+        });
+        
+        Thread t4 = new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                LockExample.incrementClass();  // Waits for class lock
+            }
+        });
+        
+        t1.start(); t2.start(); t3.start(); t4.start();
+    }
+}
+
+// Practical example
+class DatabaseConnection {
+    private String connectionId;
+    private static int totalConnections = 0;
+    
+    // Object lock - for instance-specific operations
+    public synchronized void executeQuery(String query) {
+        System.out.println(connectionId + " executing: " + query);
+    }
+    
+    // Class lock - for shared resource (total connection count)
+    public static synchronized void incrementTotalConnections() {
+        totalConnections++;
+    }
+    
+    public static synchronized int getTotalConnections() {
+        return totalConnections;
+    }
+}
+```
+
+---
+
+## 69. What is the basic difference between ConcurrentHashMap and Hashtable?
+
+**Answer:**
+
+* **Hashtable:** Locks the **entire map** for each operation → only one thread at a time.
+* **ConcurrentHashMap:** Uses **segment/CAS-based locking**, allowing **multiple threads** to read/write simultaneously.
+
+ConcurrentHashMap is **faster and more scalable** for concurrent applications.
+
+
+**Example:**
+```java
+// Hashtable - synchronized, locks entire map
+Hashtable<String, Integer> hashtable = new Hashtable<>();
+hashtable.put("A", 1);  // Locks entire table
+hashtable.put("B", 2);  // Locks entire table
+// hashtable.put(null, 3);  // NullPointerException
+// hashtable.put("C", null);  // NullPointerException
+
+// ConcurrentHashMap - segment locking, better concurrency
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+concurrentMap.put("A", 1);  // Locks only segment
+concurrentMap.put("B", 2);  // Can lock different segment simultaneously
+// concurrentMap.put(null, 3);  // NullPointerException
+concurrentMap.putIfAbsent("C", 3);  // Atomic operation
+
+// Performance comparison
+// Hashtable - only 1 thread can access at a time
+Hashtable<Integer, String> ht = new Hashtable<>();
+ExecutorService executor1 = Executors.newFixedThreadPool(10);
+for (int i = 0; i < 100; i++) {
+    final int key = i;
+    executor1.submit(() -> ht.put(key, "Value" + key));
+}
+
+// ConcurrentHashMap - multiple threads can access simultaneously
+ConcurrentHashMap<Integer, String> chm = new ConcurrentHashMap<>();
+ExecutorService executor2 = Executors.newFixedThreadPool(10);
+for (int i = 0; i < 100; i++) {
+    final int key = i;
+    executor2.submit(() -> chm.put(key, "Value" + key));
+}
+
+// Atomic operations in ConcurrentHashMap
+concurrentMap.putIfAbsent("D", 4);
+concurrentMap.computeIfAbsent("E", k -> 5);
+concurrentMap.merge("A", 10, (oldVal, newVal) -> oldVal + newVal);
+
+// Iteration differences
+// Hashtable - fail-fast iterator (throws ConcurrentModificationException)
+Hashtable<String, Integer> ht2 = new Hashtable<>();
+ht2.put("X", 1);
+for (String key : ht2.keySet()) {
+    // ht2.put("Y", 2);  // ConcurrentModificationException
+}
+
+// ConcurrentHashMap - weakly consistent iterator (no exception)
+ConcurrentHashMap<String, Integer> chm2 = new ConcurrentHashMap<>();
+chm2.put("X", 1);
+for (String key : chm2.keySet()) {
+    chm2.put("Y", 2);  // No exception, may or may not see new entry
+}
+
+// Bulk operations in ConcurrentHashMap
+concurrentMap.forEach((k, v) -> System.out.println(k + "=" + v));
+concurrentMap.search(1, (k, v) -> v > 5 ? k : null);
+concurrentMap.reduce(1, (k, v) -> v, Integer::sum);
+```
+
+**Key Differences:**
+
+| Feature | Hashtable | ConcurrentHashMap |
+|---------|-----------|-------------------|
+| Locking | Entire map | Segment/bucket level |
+| Concurrency | Low (one thread) | High (multiple threads) |
+| Null keys | Not allowed | Not allowed |
+| Null values | Not allowed | Not allowed (Java 8+) |
+| Iterator | Fail-fast | Weakly consistent |
+| Performance | Slower | Faster |
+| Legacy | Yes (since 1.0) | No (since 1.5) |
+
+---
+
+## 70. What are the scopes?
+
+**Answer:**
+
+* **Singleton (default):** One instance per Spring container.
+* **Prototype:** New instance every time the bean is requested.
+* **Request:** One instance per HTTP request.
+* **Session:** One instance per HTTP session.
+* **Application:** One instance per ServletContext.
+* **WebSocket:** One instance per WebSocket session.
+
+Use **singleton** for stateless beans and **prototype** for stateful beans.
+
+
+**Example:**
+```java
+// 1. Singleton Scope (default) - one instance per container
+@Component
+@Scope("singleton")  // or @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+public class SingletonBean {
+    private int counter = 0;
+    
+    public void increment() {
+        counter++;
+    }
+}
+
+// 2. Prototype Scope - new instance each time
+@Component
+@Scope("prototype")  // or @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class PrototypeBean {
+    private String id = UUID.randomUUID().toString();
+    
+    public String getId() {
+        return id;
+    }
+}
+
+// 3. Request Scope - one instance per HTTP request
+@Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class RequestScopedBean {
+    private String requestId;
+    
+    public void setRequestId(String id) {
+        this.requestId = id;
+    }
+}
+
+// 4. Session Scope - one instance per HTTP session
+@Component
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class SessionScopedBean {
+    private String userId;
+    private List<String> cart = new ArrayList<>();
+    
+    public void addToCart(String item) {
+        cart.add(item);
+    }
+}
+
+// 5. Application Scope - one instance per ServletContext
+@Component
+@Scope(value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class ApplicationScopedBean {
+    private int totalVisitors = 0;
+    
+    public void incrementVisitors() {
+        totalVisitors++;
+    }
+}
+
+// Usage in Controller
+@RestController
+public class ScopeController {
+    @Autowired
+    private SingletonBean singletonBean;
+    
+    @Autowired
+    private PrototypeBean prototypeBean;
+    
+    @Autowired
+    private RequestScopedBean requestBean;
+    
+    @Autowired
+    private SessionScopedBean sessionBean;
+    
+    @GetMapping("/test-scopes")
+    public Map<String, String> testScopes() {
+        Map<String, String> result = new HashMap<>();
+        result.put("singleton", singletonBean.toString());
+        result.put("prototype", prototypeBean.getId());
+        result.put("request", requestBean.toString());
+        result.put("session", sessionBean.toString());
+        return result;
+    }
+}
+
+// Custom scope configuration
+@Configuration
+public class ScopeConfig {
+    @Bean
+    @Scope(value = "singleton")
+    public MyService singletonService() {
+        return new MyService();
+    }
+    
+    @Bean
+    @Scope(value = "prototype")
+    public MyService prototypeService() {
+        return new MyService();
+    }
+}
+
+// Injecting prototype into singleton (requires special handling)
+@Component
+public class SingletonWithPrototype {
+    @Autowired
+    private ApplicationContext context;
+    
+    public PrototypeBean getPrototypeBean() {
+        return context.getBean(PrototypeBean.class);  // New instance each time
+    }
+}
+
+// Using @Lookup for method injection
+@Component
+public abstract class CommandManager {
+    public void process() {
+        Command command = createCommand();  // New instance each time
+        command.execute();
+    }
+    
+    @Lookup
+    protected abstract Command createCommand();
+}
+
+@Component
+@Scope("prototype")
+public class Command {
+    public void execute() {
+        System.out.println("Executing command");
+    }
+}
+```
