@@ -3950,18 +3950,6 @@ I use Spring Boot features like auto-configuration, embedded servers (Tomcat), S
 
 **Example:**
 ```java
-// 1. Auto-configuration and Starter Dependencies
-// pom.xml
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-web</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-data-jpa</artifactId>
-</dependency>
-
-// 2. Main Application with Auto-configuration
 @SpringBootApplication
 public class MyApplication {
     public static void main(String[] args) {
@@ -3969,20 +3957,6 @@ public class MyApplication {
     }
 }
 
-// 3. Externalized Configuration
-// application.yml
-server:
-  port: 8080
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/mydb
-    username: root
-    password: password
-  jpa:
-    hibernate:
-      ddl-auto: update
-
-// 4. REST Controller
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -3995,35 +3969,8 @@ public class UserController {
     }
 }
 
-// 5. Spring Data JPA Repository
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByName(String name);
-}
-
-// 6. Actuator for monitoring
-// application.yml
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-
-// 7. Profiles for different environments
-@Configuration
-@Profile("dev")
-public class DevConfig {
-    // Dev-specific beans
-}
-
-// 8. Scheduled Tasks
-@EnableScheduling
-@Component
-public class ScheduledTasks {
-    @Scheduled(fixedRate = 5000)
-    public void reportStatus() {
-        System.out.println("Task executed");
-    }
 }
 ```
 
@@ -4044,52 +3991,18 @@ Streams are **lazy**, **don’t store data**, and can be **parallelized** using 
 
 **Example:**
 ```java
-// Stream Pipeline Architecture
-List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 
-// Source -> Intermediate Ops -> Terminal Op
-List<Integer> result = numbers.stream()           // Source
-    .filter(n -> n % 2 == 0)                      // Intermediate (lazy)
-    .map(n -> n * 2)                              // Intermediate (lazy)
-    .collect(Collectors.toList());                // Terminal (triggers execution)
+// Lazy evaluation - nothing executes until terminal operation
+List<Integer> result = numbers.stream()
+    .filter(n -> n % 2 == 0)  // Intermediate (lazy)
+    .map(n -> n * 2)          // Intermediate (lazy)
+    .collect(Collectors.toList()); // Terminal (triggers execution)
 
-// Lazy Evaluation Example
-Stream<Integer> stream = numbers.stream()
-    .filter(n -> {
-        System.out.println("Filtering: " + n);
-        return n > 5;
-    })
-    .map(n -> {
-        System.out.println("Mapping: " + n);
-        return n * 2;
-    });
-// Nothing printed yet - operations are lazy
-
-stream.forEach(System.out::println);  // Now operations execute
-
-// Short-circuiting operations
-Optional<Integer> first = numbers.stream()
-    .filter(n -> n > 5)
-    .findFirst();  // Stops after finding first match
-
-// Parallel Stream using ForkJoinPool
-List<Integer> parallelResult = numbers.parallelStream()
-    .filter(n -> n % 2 == 0)
+// Parallel stream
+List<Integer> parallel = numbers.parallelStream()
     .map(n -> n * 2)
     .collect(Collectors.toList());
-
-// Internal iteration vs External iteration
-// External (traditional)
-for (Integer n : numbers) {
-    if (n % 2 == 0) {
-        System.out.println(n);
-    }
-}
-
-// Internal (Stream API)
-numbers.stream()
-    .filter(n -> n % 2 == 0)
-    .forEach(System.out::println);
 ```
 
 ---
@@ -4103,66 +4016,28 @@ Yes, I’ve worked with threads to run tasks concurrently. I’ve created thread
 
 **Example:**
 ```java
-// 1. Creating threads
-class MyThread extends Thread {
-    public void run() {
-        System.out.println("Thread: " + Thread.currentThread().getName());
-    }
-}
+// Creating threads
+new Thread(() -> System.out.println("Thread running")).start();
 
-class MyRunnable implements Runnable {
-    public void run() {
-        System.out.println("Runnable: " + Thread.currentThread().getName());
-    }
-}
-
-// Usage
-new MyThread().start();
-new Thread(new MyRunnable()).start();
-new Thread(() -> System.out.println("Lambda thread")).start();
-
-// 2. ExecutorService for thread pool
+// ExecutorService
 ExecutorService executor = Executors.newFixedThreadPool(5);
-for (int i = 0; i < 10; i++) {
-    executor.submit(() -> {
-        System.out.println("Task by: " + Thread.currentThread().getName());
-    });
-}
+executor.submit(() -> System.out.println("Task"));
 executor.shutdown();
 
-// 3. Synchronization
+// Synchronization
 class Counter {
     private int count = 0;
-    
-    public synchronized void increment() {
-        count++;
-    }
-    
-    public int getCount() {
-        return count;
-    }
+    public synchronized void increment() { count++; }
 }
 
-// 4. Using Lock
+// Lock
 class SafeCounter {
-    private int count = 0;
     private Lock lock = new ReentrantLock();
-    
     public void increment() {
         lock.lock();
-        try {
-            count++;
-        } finally {
-            lock.unlock();
-        }
+        try { count++; } finally { lock.unlock(); }
     }
 }
-
-// 5. CompletableFuture
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
-    return "Result from async task";
-});
-future.thenAccept(result -> System.out.println(result));
 ```
 
 ---
@@ -4176,96 +4051,25 @@ Livelock occurs when threads are **active but unable to make progress**, constan
 
 **Example:**
 ```java
-// Livelock Example - Two threads trying to be polite
-class Spoon {
-    private Diner owner;
-    
-    public Spoon(Diner owner) {
-        this.owner = owner;
-    }
-    
-    public Diner getOwner() {
-        return owner;
-    }
-    
-    public synchronized void setOwner(Diner owner) {
-        this.owner = owner;
-    }
-    
-    public synchronized void use() {
-        System.out.println(owner.getName() + " is eating");
-    }
-}
-
+// Livelock - threads keep reacting to each other
 class Diner {
-    private String name;
-    private boolean isHungry;
-    
-    public Diner(String name) {
-        this.name = name;
-        this.isHungry = true;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public boolean isHungry() {
-        return isHungry;
-    }
+    private boolean isHungry = true;
     
     public void eatWith(Spoon spoon, Diner spouse) {
         while (isHungry) {
-            // If spouse is hungry, give them the spoon
-            if (spoon.getOwner() != this) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    continue;
-                }
-                continue;
-            }
-            
-            // If spouse is hungry, be polite and give spoon
             if (spouse.isHungry()) {
-                System.out.println(name + ": You eat first, " + spouse.getName());
-                spoon.setOwner(spouse);
-                continue;  // Livelock - keeps giving spoon back
+                spoon.setOwner(spouse);  // Keep giving spoon back
+                continue;  // Livelock!
             }
-            
             spoon.use();
             isHungry = false;
-            spoon.setOwner(spouse);
         }
     }
 }
 
-// Solution: Add randomness or priority
-class DinerFixed {
-    private String name;
-    private boolean isHungry;
-    
-    public void eatWith(Spoon spoon, Diner spouse) {
-        while (isHungry) {
-            if (spoon.getOwner() != this) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    continue;
-                }
-                continue;
-            }
-            
-            // Random decision to avoid livelock
-            if (spouse.isHungry() && Math.random() < 0.5) {
-                spoon.setOwner(spouse);
-                continue;
-            }
-            
-            spoon.use();
-            isHungry = false;
-        }
-    }
+// Solution: Add randomness
+if (spouse.isHungry() && Math.random() < 0.5) {
+    spoon.setOwner(spouse);
 }
 ```
 
