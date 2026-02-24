@@ -206,7 +206,15 @@ public class PayPalProcessor implements PaymentProcessor {
 ## 10. What are functional interfaces in Java 8?
 
 **Answer:**
-A functional interface is an interface with exactly one abstract method. Java 8 introduced these to enable lambda expressions and functional programming. Common examples include Runnable, Callable, Comparator, and new ones like Predicate, Function, Consumer, and Supplier. The @FunctionalInterface annotation ensures the interface has only one abstract method.
+A **functional interface** in Java is an interface that contains **exactly one abstract method**.
+It is mainly used for **lambda expressions** and introduced in **Java 8**.
+
+Common examples:
+
+* `Runnable`
+* `Callable`
+* `Comparator`
+* `Function`, `Predicate`, `Supplier`, `Consumer`
 
 **Example:**
 ```java
