@@ -58,7 +58,10 @@ public class NotificationManager {
 ## 3. What is Core Java and Advanced Java?
 
 **Answer:**
-Core Java covers fundamental concepts like OOP, collections, exception handling, multithreading, and basic I/O. Advanced Java includes enterprise technologies like JDBC, Servlets, JSP, Spring Framework, Hibernate, and web services used for building large-scale applications.
+
+* **Core Java** – fundamental Java concepts like **OOP, collections, multithreading, exception handling, and I/O**.
+* **Advanced Java** – enterprise-level technologies like **JDBC, Servlets, JSP, Spring, Hibernate, and web services** for building large applications.
+
 
 **Example:**
 ```java
