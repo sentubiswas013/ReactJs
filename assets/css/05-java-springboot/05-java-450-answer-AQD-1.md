@@ -3391,7 +3391,7 @@ class SumTask extends RecursiveTask<Long> {
 }
 ```
 
-### 141. What is parallel streams?
+### 141. What is parallel streams? - asked 
 
 **Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
 
