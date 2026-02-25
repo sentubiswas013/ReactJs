@@ -2880,8 +2880,13 @@ BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
 ---
 # 🔹 1. Basic Threading
 
-### 118. How does multi-threading work in Java?
+### 118. what multi-threading and How does it work in Java?
 
+**Multithreading in Java** is a feature that allows a program to run **multiple threads (small units of a process) simultaneously**.
+
+A **thread** is a lightweight subprocess. It enables concurrent execution so different parts of a program can run at the same time.
+
+**How it works**
 Java allows multiple threads to run concurrently within one program. Threads share heap memory but have their own stack. They can be created by extending `Thread` or implementing `Runnable`, and the JVM schedules them on CPU cores.
 
 * Java creates multiple threads that run concurrently within a single process
