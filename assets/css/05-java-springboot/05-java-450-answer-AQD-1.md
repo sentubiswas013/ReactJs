@@ -2433,7 +2433,7 @@ Throwable
 ---
 # 🔹 1. Core Collections
 
-### 104. What is the Collections Framework in Java? (25 seconds)
+### 104. What is the Collections Framework in Java? 
 The **Collections Framework in Java** provides a **unified architecture** to store, manage, and manipulate groups of objects.
 
 It consists of **interfaces** (like List, Set, Map) and their **implementations** (like ArrayList, HashSet, HashMap), along with **algorithms** for sorting, searching, and shuffling. It offers **optimized data structures** for better performance in different use cases.
@@ -2453,7 +2453,7 @@ Collections.sort(list);
 Collections.shuffle(list);
 ```
 
-### 105. What are the main interfaces in the Collections Framework? (20 seconds)
+### 105. What are the main interfaces in the Collections Framework? 
 * **Collection** - Root interface for all collections
 * **List** - Ordered collection allowing duplicates (ArrayList, LinkedList)
 * **Set** - Collection with no duplicates (HashSet, TreeSet)
@@ -2468,7 +2468,7 @@ Map<String, Integer> map = new HashMap<>();
 Queue<String> queue = new LinkedList<>();
 ```
 
-### 106. What is the difference between Collection and Collections in Java? (20 seconds)
+### 106. What is the difference between Collection and Collections in Java? 
 **Collection** is an **interface** that represents a group of objects and is extended by **List, Set, and Queue**.
 
 **Collections** is a **utility class** that provides static methods like `sort()`, `reverse()`, `shuffle()`, and `synchronizedList()` to perform operations on collections.
@@ -2488,7 +2488,7 @@ Collections.reverse(list);
 List<String> syncList = Collections.synchronizedList(new ArrayList<>());
 ```
 
-### 107. What is the difference between List and Set interfaces? (25 seconds)
+### 107. What is the difference between List and Set interfaces? 
 The **List interface** allows **duplicate elements**, maintains **insertion order**, and provides **indexed access** using methods like `get(index)` and `set(index, element)`.
 
 The **Set interface** **prevents duplicates** and focuses on **uniqueness**, relying on `equals()` and `hashCode()`. Sets do not provide indexed access.
@@ -2511,7 +2511,7 @@ set.add("Java"); // Duplicate ignored
 System.out.println(set.size()); // 1
 ```
 
-### 108. What is the difference between ArrayList and LinkedList? (30 seconds)
+### 108. What is the difference between ArrayList and LinkedList?
 **ArrayList** is a **dynamic array** that provides **fast random access (O(1))** and is better for frequent reading and iteration.
 
 **LinkedList** is a **doubly linked list** that provides **fast insertion and deletion (O(1))**, especially in the middle of the list.
@@ -2534,7 +2534,7 @@ List<String> linkedList = new LinkedList<>();
 linkedList.add(2, "newElement"); // O(1) at known position
 ```
 
-### 109. What is the difference between ArrayList and Vector? (25 seconds)
+### 109. What is the difference between ArrayList and Vector? 
 **Vector** is **synchronized** and thread-safe, while **ArrayList** is **not synchronized** and faster due to no synchronization overhead.
 
 Vector **doubles its size** when it grows, whereas ArrayList grows by **50%**. Vector is considered **legacy**, and ArrayList is generally preferred. For thread safety with ArrayList, we can use `Collections.synchronizedList()`.
@@ -2580,7 +2580,7 @@ Map<String, Integer> hashtable = new Hashtable<>();
 // hashtable.put(null, 1); // NullPointerException
 ```
 
-### 111. What is the difference between HashMap and TreeMap? (25 seconds)
+### 111. What is the difference between HashMap and TreeMap? 
 **HashMap** provides **fast access (O(1))** with no ordering and allows **one null key**. It uses a **hash table** internally.
 
 **TreeMap** maintains **sorted order** of keys, has slower **O(log n)** access, does **not allow null keys**, and uses a **Red-Black tree** internally.
@@ -2608,7 +2608,7 @@ treeMap.put("b", 2);
 // Iteration order: a, b, c
 ```
 
-### 112. What is the difference between HashSet and TreeSet? (25 seconds)
+### 112. What is the difference between HashSet and TreeSet? 
 **HashSet** stores elements with **no order**, allows **one null element**, and provides **O(1) operations** using a **hash table**.
 
 **TreeSet** maintains **sorted order**, does **O(log n) operations**, does **not allow null**, and is implemented using a **Red-Black tree**.
