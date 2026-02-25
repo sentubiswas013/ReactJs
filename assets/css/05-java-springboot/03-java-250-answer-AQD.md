@@ -4595,6 +4595,27 @@ REST (Representational State Transfer) is based on six key architectural princip
 
 These principles ensure scalability, reliability, and maintainability of web services.
 
+
+### 275: What is XML how to return XML in response?
+
+**XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
+
+It is **verbose**, supports **attributes and namespaces**, is **self-documenting with schema validation**, and is used in **enterprise apps and SOAP services**.
+
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+
+```java
+@GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
+public User getUser() {
+    return new User(1, "John");
+}
+```
+
 ## 3. What are HTTP methods and their usage?
 
 **HTTP** methods define the type of operation to be performed on a resource. Each method has a specific purpose and semantic meaning in RESTful services.
