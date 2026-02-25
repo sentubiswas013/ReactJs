@@ -1529,7 +1529,7 @@ class Tool implements Usable { // This is the purpose of interfaces
 }
 ```
 
-### 68. What is a marker interface?
+### 68. What is a marker interface? - asked
 A **marker interface** is an interface that has **no methods or fields**.
 
 It is used to **mark or tag a class** to indicate special behavior, and the **JVM or frameworks treat such classes differently** based on that marker.
@@ -2556,7 +2556,7 @@ List<String> vector = new Vector<>();
 List<String> syncList = Collections.synchronizedList(new ArrayList<>());
 ```
 
-### 110. What is the difference between HashMap and Hashtable? (30 seconds)
+### 110. What is the difference between HashMap and Hashtable?  - asked
 **HashMap** is **not synchronized**, allows **one null key and multiple null values**, and is generally **faster**.
 
 **Hashtable** is **synchronized**, does **not allow null keys or values**, and is considered **legacy**.
@@ -3044,7 +3044,7 @@ public void increment() {
 }
 ```
 
-### 128. What is volatile keyword?
+### 128. What is volatile keyword? - asked
 
 The **`volatile` keyword** in Java ensures that **changes to a variable are immediately visible to all threads** and prevents the compiler from caching its value.
 
@@ -3118,7 +3118,7 @@ latch.await(); // Waits until count reaches zero
 
 # 🔹 2. Advanced Concurrency
 
-### 131. What is **Concurrency in Java**?
+### 131. What is **Concurrency in Java**? - aksed
 
 **Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
 
@@ -3467,6 +3467,39 @@ public class MemoryExample {
 }
 ```
 
+## 14. How does JVM Garbage Collection work? - asked
+
+**Answer:**
+
+JVM **Garbage Collection (GC)** automatically frees memory by removing objects that are no longer referenced.
+
+The heap is divided into **Young Generation** (new objects) and **Old Generation** (long-lived objects), and GC runs as **Minor GC** (young) and **Major/Full GC** (entire heap).
+
+Common GC algorithms include **Serial, Parallel, CMS, and G1GC**.
+
+
+**Example:**
+```java
+public class GCDemo {
+    public static void main(String[] args) {
+        // Object created in Young Generation
+        String str = new String("Hello");
+        
+        // Object becomes eligible for GC when no references exist
+        str = null;
+        
+        // Suggest GC (not guaranteed to run immediately)
+        System.gc();
+        
+        // Objects surviving multiple minor GCs move to Old Generation
+        List<String> longLived = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            longLived.add("Item " + i);
+        }
+    }
+}
+```
+
 ### 144. What is heap memory in Java?
 
 **Heap memory in Java** is the **runtime memory area** where all objects and instance variables are stored.
@@ -3616,7 +3649,7 @@ public class PreventMemoryLeak {
 }
 ```
 
-### 150. What is the difference between shallow copy and deep copy?
+### 150. What is the difference between shallow copy and deep copy? - asked
 
 **Shallow copy** copies only the **object references**, so the original and copy **share the same mutable objects**.
 
@@ -5284,7 +5317,7 @@ public class Java8Features {
 }
 ```
 
-## 204. What are lambda expressions in Java 8?
+## 204. What are lambda expressions in Java 8? - asked
 
 **Lambda expressions** in Java 8 are **anonymous functions** that let you write **concise, functional-style code**.
 
@@ -5295,6 +5328,14 @@ They use the syntax `(parameters) -> expression` or `(parameters) -> { statement
 * **Concise syntax** - Reduces boilerplate code for simple operations
 * **Syntax** - (parameters) -> expression or (parameters) -> { statements }
 * **Functional interfaces** - Can only be used with interfaces having single abstract method
+
+### ✅ Simple Interview Answer
+
+**Lambda Expression vs Anonymous Inner Class**
+
+* **Lambda expressions** were introduced in Java 8 and are used to implement **functional interfaces (single abstract method)** in a short and concise way.
+* **Anonymous inner classes** are older (Java 1.1) and can implement **any interface or abstract class**, but the syntax is more verbose.
+
 
 ```java
 import java.util.function.*;
@@ -5319,7 +5360,7 @@ public class LambdaExpressions {
 }
 ```
 
-## 205. What are functional interfaces in Java 8?
+## 205. What are functional interfaces in Java 8? - asked
 
 **Functional interfaces** in Java 8 are **interfaces with a single abstract method (SAM)**.
 
@@ -6609,7 +6650,7 @@ cstmt2.registerOutParameter(2, Types.INTEGER);
 
 ---
 
-### 241: What is connection pooling?
+### 241: What is connection pooling? - asked
 
 
 **Connection pooling** reuses **pre-created database connections** to improve performance, reduce overhead, and manage resources efficiently.
@@ -6630,6 +6671,14 @@ HikariDataSource dataSource = new HikariDataSource(config);
 
 Connection conn = dataSource.getConnection();
 ```
+
+**How does JDBC connection pooling work?**
+
+**JDBC connection pooling** maintains a pool of reusable database connections.
+
+When the application needs a connection, it **borrows** one from the pool and **returns** it after use instead of creating a new one each time.
+
+This improves performance by reducing connection creation overhead. Popular implementations include **HikariCP**, **Apache DBCP**, and **C3P0**.
 
 ---
 
@@ -6698,7 +6747,7 @@ rs.absolute(5); // Jump to 5th row
 
 ---
 
-### 245: What is transaction management in JDBC?
+### 245: What is transaction management in JDBC? - asked
 
 
 **Transaction management** in JDBC treats multiple SQL operations as a **single unit**.
@@ -7129,7 +7178,7 @@ class MilkDecorator implements Coffee {
 # 🔵 17. Java Web Development 
 ---
 # 🔹 Servlets and JSP
-### 262: What is servlet in Java?
+### 262: What is servlet in Java? - asked
 
 A **Servlet** is a **server-side Java program** that handles **HTTP requests and responses**.
 
@@ -7173,7 +7222,7 @@ public class MyServlet extends HttpServlet {
 
 ---
 
-### 264: What is JSP (JavaServer Pages)?
+### 264: What is JSP (JavaServer Pages)? - asked
 
 **JSP (JavaServer Pages)** is a **server-side technology** to create **dynamic web pages**.
 
@@ -10003,124 +10052,6 @@ class JUnitAnnotationsExample {
 }
 ```
 
----
-
-### 349: What is TestNG?
-
-
-* Alternative testing framework to JUnit with additional features
-* **Flexible Configuration**: XML configuration files for test suites
-* **Data Providers**: Built-in support for parameterized tests
-* **Parallel Execution**: Run tests in parallel out of the box
-* **Dependency Testing**: Tests can depend on other tests
-* **Groups**: Organize tests into logical groups
-* **Better Reporting**: Enhanced HTML reports
-
-```java
-// TestNG example
-public class TestNGExample {
-    
-    @BeforeClass
-    public void setUp() {
-        // Setup for all tests in class
-    }
-    
-    @Test(groups = "smoke")
-    public void smokeTest() {
-        assertTrue(true);
-    }
-    
-    @Test(dependsOnMethods = "smokeTest")
-    public void dependentTest() {
-        // Runs only if smokeTest passes
-    }
-    
-    @DataProvider
-    public Object[][] testData() {
-        return new Object[][] {{"test1"}, {"test2"}};
-    }
-    
-    @Test(dataProvider = "testData")
-    public void parameterizedTest(String input) {
-        assertNotNull(input);
-    }
-}
-```
-
----
-
-### 350: What is the difference between JUnit and TestNG?
-
-
-* **Configuration**: TestNG uses XML, JUnit uses annotations
-* **Parallel Execution**: TestNG has built-in support, JUnit needs plugins
-* **Test Dependencies**: TestNG supports dependent tests, JUnit doesn't
-* **Data Providers**: TestNG has built-in data providers, JUnit uses parameters
-* **Grouping**: TestNG has test groups, JUnit uses tags
-* **Reporting**: TestNG has better default reports
-* **Popularity**: JUnit is more widely used, TestNG popular in enterprise
-
-```java
-// JUnit approach
-@ParameterizedTest
-@ValueSource(ints = {1, 2, 3})
-void junitParameterized(int value) {
-    assertTrue(value > 0);
-}
-
-// TestNG approach
-@DataProvider
-public Object[][] data() {
-    return new Object[][]{{1}, {2}, {3}};
-}
-
-@Test(dataProvider = "data", groups = "unit")
-public void testngParameterized(int value) {
-    assertTrue(value > 0);
-}
-```
-
----
-
-### 351: What is mocking in Java testing?
-
-
-* Creating fake objects to simulate real dependencies in tests
-* **Isolation**: Test units without depending on external systems
-* **Control**: Define exact behavior of dependencies
-* **Verification**: Check if methods were called with correct parameters
-* **Frameworks**: Mockito, EasyMock, PowerMock
-* **Types**: Mock, Stub, Spy objects with different behaviors
-
-```java
-// Mockito example
-@ExtendWith(MockitoExtension.class)
-class UserServiceTest {
-    
-    @Mock
-    private UserRepository userRepository;
-    
-    @InjectMocks
-    private UserService userService;
-    
-    @Test
-    void shouldFindUserById() {
-        // Given
-        User mockUser = new User(1L, "John");
-        when(userRepository.findById(1L)).thenReturn(mockUser);
-        
-        // When
-        User result = userService.findById(1L);
-        
-        // Then
-        assertEquals("John", result.getName());
-        verify(userRepository).findById(1L);
-    }
-}
-```
-
----
-
 ### 352: What is Mockito? - asked
 
 
@@ -10154,48 +10085,6 @@ class MockitoExample {
         
         // Assertion
         assertTrue(result.isSuccess());
-    }
-}
-```
-
----
-
-### 353: What is integration testing?
-
-
-* Testing interaction between multiple components or systems
-* **Real Dependencies**: Uses actual databases, web services, file systems
-* **End-to-End**: Tests complete workflows across system boundaries
-* **Spring Boot**: @SpringBootTest for full application context
-* **Test Containers**: Docker containers for isolated test environments
-* **Slower**: Takes more time than unit tests but provides higher confidence
-
-```java
-// Integration test example
-@SpringBootTest
-@Testcontainers
-class UserIntegrationTest {
-    
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:13")
-            .withDatabaseName("testdb")
-            .withUsername("test")
-            .withPassword("test");
-    
-    @Autowired
-    private UserService userService;
-    
-    @Test
-    void shouldSaveAndRetrieveUser() {
-        // Given
-        User user = new User("John", "john@email.com");
-        
-        // When
-        User saved = userService.save(user);
-        User retrieved = userService.findById(saved.getId());
-        
-        // Then
-        assertEquals("John", retrieved.getName());
     }
 }
 ```
@@ -10237,8 +10126,6 @@ public class Rectangle {
 // Refactor phase - improve code quality while keeping tests green
 ```
 
-# 🔹 Advanced Testing
-
 ### 355: What is behavior-driven development (BDD)?
 
 
@@ -10266,217 +10153,6 @@ public class UserRegistrationSteps {
     @Then("the user should be created successfully")
     public void theUserShouldBeCreatedSuccessfully() {
         assertTrue(result.isSuccess());
-    }
-}
-```
-
----
-
-### 356: What is acceptance testing?
-
-
-* Testing to verify system meets business requirements and user needs
-* **User Perspective**: Tests from end-user point of view
-* **Business Criteria**: Validates acceptance criteria are met
-* **Black Box**: Tests functionality without knowing internal implementation
-* **Automated**: Often automated using tools like Selenium, REST Assured
-* **Sign-off**: Final validation before production deployment
-
-```java
-// Acceptance test example
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserAcceptanceTest {
-    
-    @Autowired
-    private TestRestTemplate restTemplate;
-    
-    @Test
-    void userCanRegisterAndLogin() {
-        // User registration
-        UserRegistrationRequest request = new UserRegistrationRequest("john@email.com", "password");
-        ResponseEntity<String> registerResponse = restTemplate.postForEntity("/api/register", request, String.class);
-        assertEquals(HttpStatus.CREATED, registerResponse.getStatusCode());
-        
-        // User login
-        LoginRequest loginRequest = new LoginRequest("john@email.com", "password");
-        ResponseEntity<String> loginResponse = restTemplate.postForEntity("/api/login", loginRequest, String.class);
-        assertEquals(HttpStatus.OK, loginResponse.getStatusCode());
-        assertNotNull(loginResponse.getBody()); // JWT token
-    }
-}
-```
-
----
-
-### 357: What is contract testing?
-
-
-* Testing to ensure services can communicate correctly with each other
-* **API Contracts**: Verify API specifications are followed
-* **Consumer-Driven**: Consumers define expectations for providers
-* **Pact**: Popular framework for contract testing
-* **Microservices**: Essential for distributed system reliability
-* **Early Detection**: Catch integration issues before deployment
-* **Documentation**: Contracts serve as API documentation
-
-```java
-// Pact contract testing example
-@ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "user-service")
-class UserServiceContractTest {
-    
-    @Pact(consumer = "order-service")
-    public RequestResponsePact getUserPact(PactDslWithProvider builder) {
-        return builder
-            .given("user exists")
-            .uponReceiving("get user by id")
-            .path("/users/1")
-            .method("GET")
-            .willRespondWith()
-            .status(200)
-            .body(newJsonBody(body -> {
-                body.numberType("id", 1);
-                body.stringType("name", "John");
-                body.stringType("email", "john@email.com");
-            }).build())
-            .toPact();
-    }
-    
-    @Test
-    void testGetUser(MockServer mockServer) {
-        UserServiceClient client = new UserServiceClient(mockServer.getUrl());
-        User user = client.getUser(1L);
-        assertEquals("John", user.getName());
-    }
-}
-```
-
----
-
-### 358: What is mutation testing?
-
-
-* Testing technique that evaluates quality of test suite by introducing bugs
-* **Mutants**: Modified versions of code with small changes
-* **Mutation Score**: Percentage of mutants killed by tests
-* **Test Quality**: Measures how well tests detect defects
-* **Tools**: PIT (Pitest) is popular Java mutation testing tool
-* **Expensive**: Computationally intensive but provides valuable insights
-
-```java
-// Original code
-public class Calculator {
-    public int add(int a, int b) {
-        return a + b; // Mutant might change + to -
-    }
-    
-    public boolean isPositive(int number) {
-        return number > 0; // Mutant might change > to >=
-    }
-}
-
-// Test that would catch mutations
-@Test
-void testAddition() {
-    assertEquals(5, calculator.add(2, 3)); // Would catch + to - mutation
-    assertEquals(0, calculator.add(-2, 2)); // Edge case
-}
-
-@Test
-void testIsPositive() {
-    assertTrue(calculator.isPositive(1));   // Would catch > to >= mutation
-    assertFalse(calculator.isPositive(0));  // Critical for boundary
-    assertFalse(calculator.isPositive(-1));
-}
-```
-
----
-
-### 359: What is performance testing?
-
-
-* Testing to evaluate system performance under various load conditions
-* **Load Testing**: Normal expected load
-* **Stress Testing**: Beyond normal capacity to find breaking point
-* **Volume Testing**: Large amounts of data
-* **Spike Testing**: Sudden load increases
-* **Tools**: JMeter, Gatling for Java applications
-* **Metrics**: Response time, throughput, resource utilization
-
-```java
-// JUnit performance test
-@Test
-@Timeout(value = 2, unit = TimeUnit.SECONDS)
-void shouldCompleteWithinTimeLimit() {
-    // Test must complete within 2 seconds
-    String result = expensiveOperation();
-    assertNotNull(result);
-}
-
-// Microbenchmark with JMH
-@BenchmarkMode(Mode.AverageTime)
-@OutputTimeUnit(TimeUnit.NANOSECONDS)
-public class StringConcatenationBenchmark {
-    
-    @Benchmark
-    public String stringBuilder() {
-        return new StringBuilder().append("Hello").append(" World").toString();
-    }
-}
-```
-
----
-
-### 360: What is security testing?
-
-
-* Testing to identify security vulnerabilities and ensure data protection
-* **Authentication**: Verify login mechanisms work correctly
-* **Authorization**: Ensure users can only access permitted resources
-* **Input Validation**: Test for SQL injection, XSS vulnerabilities
-* **Session Management**: Verify secure session handling
-* **Tools**: OWASP ZAP, SonarQube for security analysis
-* **Penetration Testing**: Simulated attacks to find weaknesses
-
-```java
-// Security testing examples
-@SpringBootTest
-class SecurityTest {
-    
-    @Autowired
-    private MockMvc mockMvc;
-    
-    @Test
-    void shouldRequireAuthenticationForProtectedEndpoint() throws Exception {
-        mockMvc.perform(get("/api/admin/users"))
-            .andExpect(status().isUnauthorized());
-    }
-    
-    @Test
-    void shouldPreventSQLInjection() throws Exception {
-        String maliciousInput = "'; DROP TABLE users; --";
-        
-        mockMvc.perform(get("/api/users/search")
-                .param("name", maliciousInput))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.length()").value(0)); // No results, table not dropped
-    }
-    
-    @Test
-    void shouldPreventXSS() throws Exception {
-        String xssPayload = "<script>alert('xss')</script>";
-        
-        mockMvc.perform(post("/api/comments")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"text\":\"" + xssPayload + "\"}"))
-            .andExpect(status().isBadRequest()); // Input validation should reject
-    }
-    
-    @Test
-    @WithMockUser(roles = "USER")
-    void shouldDenyAccessToAdminEndpoint() throws Exception {
-        mockMvc.perform(get("/api/admin/settings"))
-            .andExpect(status().isForbidden());
     }
 }
 ```
@@ -11803,7 +11479,7 @@ public class SystemHealthIndicator implements HealthIndicator {
 
 ---
 
-### 389: What is event-driven architecture?
+### 389: What is event-driven architecture? -asked
 
 **Event-driven architecture** is a design where components **communicate via events instead of direct calls**, enabling **loose coupling, asynchronous processing, scalability, and resilience**.
 
