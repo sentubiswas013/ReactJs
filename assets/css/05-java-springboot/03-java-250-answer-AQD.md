@@ -5419,160 +5419,630 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 }
 ```
 
-# ✅ 21. Java Performance Tuning 
-
-## 1. How do you identify performance bottlenecks?
-
-To identify **performance bottlenecks**, I start by **monitoring application metrics** like response time, CPU, memory, and thread usage using tools such as **Spring Boot Actuator, logs, and APM tools**.
-
-Then I **profile the application** to find slow methods, analyze **database queries** for delays, and check for issues like **high GC time, thread blocking, or connection pool exhaustion**. Based on the data, I focus on the component causing the maximum delay and optimize it.
-
-In short, I rely on **metrics, profiling, and logs** to pinpoint bottlenecks accurately.
+# ✅ 21. Java Performance and Optimization
 
 
-**Identification Methods:**
-- **Application Performance Monitoring (APM):** Tools like New Relic, AppDynamics
-- **Profiling tools:** JProfiler, VisualVM, YourKit
-- **JVM monitoring:** JConsole, JVisualVM
-- **Database monitoring:** Query execution times
-- **Log analysis:** Response times and error patterns
-- **Load testing:** Identify limits under stress
+### 331: How do you measure Java application performance?
 
-Start with high-level metrics, then drill down to specific components causing delays.
 
-## 2. What are common performance issues in Java applications?
-
-Java applications face several typical performance problems that can significantly impact user experience and system efficiency.
-
-**Common Issues:**
-- **Memory leaks:** Objects not garbage collected
-- **Inefficient database queries:** N+1 queries, missing indexes
-- **Poor caching strategy:** Repeated expensive operations
-- **Blocking I/O operations:** Synchronous file/network calls
-- **Inefficient algorithms:** O(n²) instead of O(n log n)
-- **Excessive object creation:** Unnecessary garbage collection pressure
-- **Thread contention:** Synchronized blocks causing bottlenecks
+* **Response Time**: Time to complete requests
+* **Throughput**: Requests processed per second
+* **Resource Utilization**: CPU, memory, disk, network usage
+* **JVM Metrics**: Heap usage, GC frequency, thread count
+* **Tools**: JProfiler, VisualVM, JConsole, Micrometer
+* **APM Solutions**: New Relic, AppDynamics, Dynatrace
 
 ```java
-// Performance anti-patterns
-// 1. String concatenation in loops
-String result = "";
-for (int i = 0; i < 1000; i++) {
-    result += "text"; // Creates new String objects
-}
-
-// Better approach
-StringBuilder sb = new StringBuilder();
-for (int i = 0; i < 1000; i++) {
-    sb.append("text");
+// Micrometer metrics example
+@RestController
+public class UserController {
+    private final MeterRegistry meterRegistry;
+    private final Timer requestTimer;
+    
+    public UserController(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        this.requestTimer = Timer.builder("user.requests")
+            .description("User API request duration")
+            .register(meterRegistry);
+    }
+    
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable Long id) {
+        return requestTimer.recordCallable(() -> userService.findById(id));
+    }
 }
 ```
 
-## 5. What are important JVM parameters?
+---
 
-JVM parameters control memory allocation, garbage collection, and runtime behavior. Proper tuning can significantly improve application performance.
+### 332: What are the common performance bottlenecks in Java?
 
-**Memory Parameters:**
-- **-Xms:** Initial heap size
-- **-Xmx:** Maximum heap size
-- **-XX:NewRatio:** Ratio of old/young generation
-- **-XX:MaxMetaspaceSize:** Metaspace limit
+* **Memory Issues**: Memory leaks, excessive GC, heap exhaustion
+* **CPU Intensive**: Inefficient algorithms, excessive loops
+* **I/O Bottlenecks**: Database queries, file operations, network calls
+* **Threading Issues**: Synchronization overhead, thread contention
+* **JVM Configuration**: Inappropriate heap size, GC settings
+* **Database**: Slow queries, missing indexes, connection pooling
+* **Caching**: Lack of caching or cache misses
 
-**Garbage Collection:**
-- **-XX:+UseG1GC:** Use G1 garbage collector
-- **-XX:MaxGCPauseMillis:** Target pause time
-- **-XX:+PrintGCDetails:** GC logging
+```java
+// Common bottleneck examples
+public class PerformanceBottlenecks {
+    
+    // Memory leak - static collection grows indefinitely
+    private static List<String> cache = new ArrayList<>();
+    
+    // CPU intensive - inefficient algorithm
+    public boolean isPrime(int n) {
+        for (int i = 2; i < n; i++) { // O(n) instead of O(√n)
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+    
+    // I/O bottleneck - N+1 query problem
+    public List<OrderDto> getOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream()
+            .map(order -> {
+                Customer customer = customerRepository.findById(order.getCustomerId()); // N queries
+                return new OrderDto(order, customer);
+            }).collect(Collectors.toList());
+    }
+}
+```
 
-**Performance:**
-- **-server:** Server mode JIT compilation
-- **-XX:+TieredCompilation:** Multi-level compilation
+---
+
+### 333: How do you optimize Java code for performance?
+
+* **Algorithm Optimization**: Use efficient data structures and algorithms
+* **Memory Management**: Avoid object creation in loops, use object pools
+* **Caching**: Cache expensive computations and database results
+* **Lazy Loading**: Load data only when needed
+* **Batch Operations**: Process data in batches instead of one-by-one
+* **Asynchronous Processing**: Use CompletableFuture for non-blocking operations
+* **Database Optimization**: Use proper indexes, optimize queries
+
+```java
+// Performance optimization examples
+@Service
+public class OptimizedUserService {
+    
+    // Cache expensive operations
+    @Cacheable("users")
+    public User findById(Long id) {
+        return userRepository.findById(id);
+    }
+    
+    // Batch processing instead of individual operations
+    public void updateUsers(List<User> users) {
+        userRepository.saveAll(users); // Batch instead of individual saves
+    }
+    
+    // Asynchronous processing
+    @Async
+    public CompletableFuture<String> processAsync(String data) {
+        // Long-running operation
+        return CompletableFuture.completedFuture(processData(data));
+    }
+    
+    // Efficient string concatenation
+    public String buildMessage(List<String> parts) {
+        return String.join(", ", parts); // Instead of += in loop
+    }
+}
+```
+
+---
+
+### 334: What is profiling in Java?
+
+**Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
+
+It includes **CPU, memory, and thread profiling**, using tools like **JProfiler, YourKit, VisualVM, and Java Flight Recorder**, with approaches like **sampling and instrumentation**.
+
+* Process of analyzing application performance to identify bottlenecks
+* **CPU Profiling**: Identifies methods consuming most CPU time
+* **Memory Profiling**: Tracks memory allocation and garbage collection
+* **Thread Profiling**: Analyzes thread behavior and synchronization
+* **Tools**: JProfiler, YourKit, VisualVM, Java Flight Recorder
+* **Sampling vs Instrumentation**: Different profiling approaches
+
+```java
+// Java Flight Recorder (JFR) profiling
+// JVM flags for profiling
+// -XX:+FlightRecorder
+// -XX:StartFlightRecording=duration=60s,filename=profile.jfr
+
+@Component
+public class ProfiledService {
+    
+    // Custom JFR event
+    @JfrEvent(name = "UserOperation")
+    public void processUser(User user) {
+        // Method will be tracked in JFR
+        expensiveOperation(user);
+    }
+    
+    // Method that might need profiling
+    public List<String> processLargeDataset(List<String> data) {
+        return data.stream()
+            .filter(this::isValid)
+            .map(this::transform)
+            .collect(Collectors.toList());
+    }
+}
+```
+
+---
+
+### 335: What is JVM tuning?
+
+**JVM tuning** is the process of **optimizing JVM settings** for better performance.
+
+It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
+
+* Process of optimizing JVM parameters for better performance
+* **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
+* **Garbage Collection**: Choose appropriate GC algorithm
+* **Thread Stack**: -Xss for thread stack size
+* **Metaspace**: -XX:MetaspaceSize for class metadata
+* **GC Tuning**: -XX:NewRatio, -XX:SurvivorRatio for generation sizes
+* **Monitoring**: Enable GC logging and JFR
 
 ```bash
-# Example JVM parameters for production
+# Common JVM tuning parameters
 java -Xms2g -Xmx4g \
      -XX:+UseG1GC \
      -XX:MaxGCPauseMillis=200 \
+     -XX:+PrintGC \
      -XX:+PrintGCDetails \
      -XX:+PrintGCTimeStamps \
-     -jar myapp.jar
-```
-
-## 6. How do you tune heap size?
-
-Heap size tuning involves setting appropriate initial and maximum heap sizes based on application memory requirements and available system resources.
-
-**Tuning Guidelines:**
-- **Start conservative:** Begin with smaller heap, monitor usage
-- **Monitor GC frequency:** Too small = frequent GC, too large = long pauses
-- **Leave system memory:** Don't allocate all available RAM
-- **Consider GC overhead:** Aim for <5% time in GC
-- **Use monitoring tools:** Track heap utilization patterns
-
-**Best Practices:**
-- Set -Xms and -Xmx to same value in production
-- Allocate 25-50% of system memory to heap
-- Monitor actual usage before increasing
-
-```bash
-# Heap size examples
-# Small application
-java -Xms512m -Xmx1g MyApp
-
-# Large application  
-java -Xms4g -Xmx8g MyApp
-
-# Monitor heap usage
-jstat -gc <pid> 5s  # GC stats every 5 seconds
-```
-
-## 7. What is the difference between -Xms and -Xmx?
-
-**-Xms (Initial Heap Size):**
-- Sets starting heap size when JVM starts
-- Minimum heap allocation
-- JVM allocates this memory immediately
-
-**-Xmx (Maximum Heap Size):**
-- Sets maximum heap size JVM can use
-- Upper limit for heap growth
-- JVM can expand heap up to this limit
-
-```bash
-# Different initial and max heap
-java -Xms1g -Xmx4g MyApp  # Start with 1GB, can grow to 4GB
-
-# Same initial and max heap (recommended for production)
-java -Xms2g -Xmx2g MyApp   # Fixed 2GB heap, no expansion overhead
-```
-
-Setting them equal in production eliminates heap expansion overhead and provides predictable memory usage.
-
-## 8. How do you analyze heap dumps?
-
-Heap dumps are snapshots of JVM memory that help identify memory leaks, analyze object usage, and understand memory allocation patterns.
-
-**Analysis Tools:**
-- **Eclipse MAT (Memory Analyzer Tool):** Most popular
-- **VisualVM:** Built-in heap dump analyzer
-- **JProfiler:** Commercial profiler
-- **jhat:** Command-line heap analyzer (deprecated)
-
-**Analysis Steps:**
-1. **Generate heap dump:** jcmd, jmap, or automatic on OutOfMemoryError
-2. **Load in analyzer:** Open dump file in MAT or VisualVM
-3. **Find memory leaks:** Look for objects with unexpected retention
-4. **Analyze object references:** Trace why objects aren't garbage collected
-
-```bash
-# Generate heap dump
-jcmd <pid> GC.run_finalization
-jcmd <pid> VM.gc
-jmap -dump:format=b,file=heapdump.hprof <pid>
-
-# Automatic heap dump on OOM
-java -XX:+HeapDumpOnOutOfMemoryError \
+     -XX:+HeapDumpOnOutOfMemoryError \
      -XX:HeapDumpPath=/tmp/heapdump.hprof \
-     MyApp
+     -jar myapp.jar
+
+# G1GC tuning for low latency
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=100
+-XX:G1HeapRegionSize=16m
+```
+
+---
+
+### 336: What are the JVM parameters for performance tuning?
+
+* **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
+* **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
+* **GC Tuning**: -XX:MaxGCPauseMillis, -XX:GCTimeRatio
+* **Compilation**: -XX:+TieredCompilation, -XX:CompileThreshold
+* **Monitoring**: -XX:+PrintGC, -XX:+FlightRecorder
+* **Debug**: -XX:+HeapDumpOnOutOfMemoryError
+
+```bash
+# Performance-focused JVM parameters
+# For high-throughput applications
+-Xms8g -Xmx8g
+-XX:+UseParallelGC
+-XX:ParallelGCThreads=8
+-XX:+UseCompressedOops
+
+# For low-latency applications
+-Xms4g -Xmx4g
+-XX:+UseZGC
+-XX:+UnlockExperimentalVMOptions
+
+# For microservices
+-Xms512m -Xmx1g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=50
+-XX:+UseStringDeduplication
+```
+
+---
+
+### 337: What is memory profiling?
+
+**Memory profiling** is the analysis of an application's **memory usage and allocation patterns**.
+
+It helps identify **heap usage, object retention, memory leaks**, and uses tools like **Eclipse MAT, JProfiler, VisualVM**, along with **heap dumps** for detailed analysis.
+
+* Analysis of application memory usage patterns and allocation
+* **Heap Analysis**: Object allocation, retention, and garbage collection
+* **Memory Leaks**: Identify objects that aren't being garbage collected
+* **Allocation Patterns**: Track where and how objects are created
+* **Tools**: Eclipse MAT, JProfiler, VisualVM, JConsole
+* **Heap Dumps**: Snapshots of memory for offline analysis
+
+```java
+// Memory profiling techniques
+@Component
+public class MemoryProfiledService {
+    
+    // Monitor memory usage
+    public void checkMemoryUsage() {
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapUsage = memoryBean.getHeapMemoryUsage();
+        
+        long used = heapUsage.getUsed();
+        long max = heapUsage.getMax();
+        double percentage = (double) used / max * 100;
+        
+        if (percentage > 80) {
+            logger.warn("High memory usage: {}%", percentage);
+        }
+    }
+    
+    // Generate heap dump programmatically
+    public void generateHeapDump() throws Exception {
+        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        HotSpotDiagnosticMXBean mxBean = ManagementFactory.newPlatformMXBeanProxy(
+            server, "com.sun.management:type=HotSpotDiagnostic", HotSpotDiagnosticMXBean.class);
+        mxBean.dumpHeap("/tmp/heapdump.hprof", true);
+    }
+}
+```
+
+---
+
+### 338: What is CPU profiling?
+
+**CPU profiling** is the analysis of **CPU usage** to find performance hotspots.
+
+It tracks **time spent in methods, call hierarchy**, uses **sampling or instrumentation**, and tools like **JProfiler, async-profiler, and Java Flight Recorder** to identify bottlenecks.
+
+* Analysis of CPU usage to identify performance hotspots
+* **Method Profiling**: Time spent in each method
+* **Call Tree**: Method call hierarchy and execution paths
+* **Sampling**: Periodic snapshots of thread stacks
+* **Instrumentation**: Detailed method entry/exit tracking
+* **Flame Graphs**: Visual representation of CPU usage
+* **Tools**: JProfiler, async-profiler, Java Flight Recorder
+
+```java
+// CPU profiling with custom timing
+@Component
+public class CpuProfiledService {
+    
+    @Timed(name = "user.processing.time", description = "Time spent processing users")
+    public void processUsers(List<User> users) {
+        users.parallelStream()
+            .forEach(this::processUser);
+    }
+    
+    // Manual timing for critical sections
+    public String expensiveOperation(String input) {
+        long startTime = System.nanoTime();
+        try {
+            // CPU-intensive operation
+            return performComplexCalculation(input);
+        } finally {
+            long duration = System.nanoTime() - startTime;
+            if (duration > 1_000_000_000) { // 1 second
+                logger.warn("Slow operation took {}ms", duration / 1_000_000);
+            }
+        }
+    }
+}
+```
+
+---
+
+### 339: What is application performance monitoring (APM)?
+
+**Application Performance Monitoring (APM)** is the **real-time monitoring of application performance in production**.
+
+It tracks **metrics, errors, distributed tracing, user experience, and infrastructure performance**, using tools like **New Relic, AppDynamics, Dynatrace, and Elastic APM**.
+
+* Comprehensive monitoring of application performance in production
+* **Real-time Monitoring**: Live performance metrics and alerts
+* **Distributed Tracing**: Track requests across microservices
+* **Error Tracking**: Capture and analyze application errors
+* **User Experience**: Monitor real user interactions and page loads
+* **Infrastructure**: Server resources, database performance
+* **Tools**: New Relic, AppDynamics, Dynatrace, Elastic APM
+
+```java
+// APM integration with Micrometer
+@Configuration
+public class ApmConfig {
+    
+    @Bean
+    public MeterRegistry meterRegistry() {
+        return new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    }
+    
+    @Bean
+    public TimedAspect timedAspect(MeterRegistry registry) {
+        return new TimedAspect(registry);
+    }
+}
+
+@RestController
+public class MonitoredController {
+    
+    @Timed(name = "api.requests", description = "API request duration")
+    @Counted(name = "api.calls", description = "API call count")
+    @GetMapping("/api/data")
+    public ResponseEntity<String> getData() {
+        return ResponseEntity.ok("data");
+    }
+}
+```
+
+---
+
+### 340: What is code profiling?
+
+**Code profiling** is the process of analyzing how your code runs to find performance issues.
+
+It measures **execution time, memory usage, and method hotspots**, using static or runtime (dynamic) analysis tools to identify slow or inefficient parts of the code.
+
+* Detailed analysis of code execution to identify performance issues
+* **Static Analysis**: Code review without execution
+* **Dynamic Analysis**: Runtime performance measurement
+* **Line-by-line**: Execution time per code line
+* **Method Hotspots**: Most time-consuming methods
+* **Call Graphs**: Method invocation patterns
+* **IDE Integration**: Built-in profilers in IDEs
+
+```java
+// Code profiling with annotations
+@Component
+public class ProfiledCodeService {
+    
+    // Profile specific methods
+    @Profile("development")
+    @EventListener
+    public void onMethodExecution(MethodExecutionEvent event) {
+        if (event.getDuration() > 100) {
+            logger.info("Slow method: {} took {}ms", 
+                event.getMethodName(), event.getDuration());
+        }
+    }
+    
+    // Benchmark critical code sections
+    @Benchmark
+    public String optimizedStringOperation(List<String> items) {
+        StringBuilder sb = new StringBuilder();
+        for (String item : items) {
+            sb.append(item).append(",");
+        }
+        return sb.toString();
+    }
+}
+```
+
+---
+
+### 341: What is database optimization?
+
+**Database optimization** is the process of improving database performance and query speed.
+
+It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
+
+* Techniques to improve database query performance and efficiency
+* **Indexing**: Create indexes on frequently queried columns
+* **Query Optimization**: Write efficient SQL queries
+* **Connection Pooling**: Reuse database connections
+* **Caching**: Cache query results and frequently accessed data
+* **Normalization**: Proper database design to reduce redundancy
+* **Partitioning**: Split large tables for better performance
+
+```java
+// Database optimization techniques
+@Repository
+public class OptimizedUserRepository {
+    
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+    
+    // Batch operations
+    @Modifying
+    @Query("UPDATE User u SET u.lastLogin = :now WHERE u.id IN :ids")
+    void updateLastLogin(@Param("ids") List<Long> ids, @Param("now") LocalDateTime now);
+    
+    // Pagination for large datasets
+    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
+    Page<User> findAllUsers(Pageable pageable);
+    
+    // Fetch joins to avoid N+1 queries
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :id")
+    User findUserWithOrders(@Param("id") Long id);
+}
+```
+
+---
+
+### 342: What is query optimization?
+
+**Query optimization** is the process of improving the performance and execution time of SQL queries.
+
+It involves **using proper indexes, writing efficient joins and WHERE clauses, avoiding unnecessary data fetch (like SELECT *), and analyzing execution plans** to ensure faster query execution.
+
+* Process of improving SQL query performance and execution time
+* **Index Usage**: Ensure queries use appropriate indexes
+* **Query Structure**: Avoid SELECT *, use specific columns
+* **JOIN Optimization**: Use proper join types and order
+* **WHERE Clauses**: Filter early to reduce dataset size
+* **EXPLAIN Plans**: Analyze query execution plans
+* **Avoid N+1**: Use batch queries and joins instead of loops
+
+```java
+// Query optimization examples
+@Repository
+public class OptimizedQueryRepository {
+    
+    // Bad: N+1 query problem
+    // List<Order> orders = orderRepository.findAll();
+    // orders.forEach(order -> order.getCustomer().getName()); // N queries
+    
+    // Good: Single query with join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer")
+    List<Order> findAllOrdersWithCustomers();
+    
+    // Use specific columns instead of SELECT *
+    @Query("SELECT new com.example.UserDto(u.id, u.name, u.email) FROM User u")
+    List<UserDto> findUserSummaries();
+    
+    // Optimize with proper WHERE conditions
+    @Query("SELECT u FROM User u WHERE u.active = true AND u.createdAt > :date")
+    List<User> findActiveUsersAfter(@Param("date") LocalDateTime date);
+    
+    // Use native query for complex optimizations
+    @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
+           nativeQuery = true)
+    List<User> findAboveAverageUsers();
+}
+```
+
+---
+
+### 343: What is lazy loading?
+
+**Lazy loading** is a design pattern where data is loaded **only when it is actually needed**, instead of loading everything at once.
+
+It improves performance and reduces memory usage, but if not handled properly, it can cause issues like the **N+1 query problem**.
+
+* Design pattern that defers loading of data until it's actually needed
+* **JPA/Hibernate**: Load related entities only when accessed
+* **Performance**: Reduces initial load time and memory usage
+* **N+1 Problem**: Can cause multiple queries if not handled properly
+* **Proxy Objects**: Hibernate creates proxies for lazy-loaded entities
+* **Best Practice**: Use fetch joins when you know you'll need the data
+
+```java
+// Lazy loading examples
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+    
+    // Lazy loading - orders loaded only when accessed
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Order> orders;
+    
+    // Eager loading - always loaded with user
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Department department;
+}
+
+@Service
+public class UserService {
+    
+    // Lazy loading in action
+    public void processUser(Long userId) {
+        User user = userRepository.findById(userId);
+        // Orders not loaded yet
+        
+        if (needsOrders(user)) {
+            user.getOrders().size(); // Now orders are loaded
+        }
+    }
+    
+    // Avoid N+1 with explicit fetch
+    public List<User> getUsersWithOrders() {
+        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
+    }
+}
+```
+
+---
+
+### 344: What is eager loading?
+
+**Eager loading** is a strategy where related data is **loaded immediately along with the main entity**.
+
+It reduces additional database queries later, but increases **initial load time and memory usage**, so it should be used only when the related data is definitely needed.
+
+* Loading strategy that fetches all related data immediately
+* **JPA/Hibernate**: Load associated entities along with main entity
+* **Performance Trade-off**: Higher initial load time but fewer queries later
+* **Memory Usage**: Uses more memory upfront
+* **Use Cases**: When you know you'll need the related data
+* **Configuration**: FetchType.EAGER or explicit fetch joins
+
+```java
+// Eager loading examples
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    // Eager loading - customer always loaded with order
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+    
+    // Lazy loading - items loaded on demand
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> items;
+}
+
+@Repository
+public class OrderRepository extends JpaRepository<Order, Long> {
+    
+    // Explicit eager loading with fetch join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
+    List<Order> findAllOrdersWithDetails();
+    
+    // Conditional eager loading
+    @EntityGraph(attributePaths = {"customer", "items"})
+    @Query("SELECT o FROM Order o WHERE o.status = :status")
+    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
+}
+```
+
+---
+
+### 345: What is pagination?
+
+**Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
+
+It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
+
+* Technique to split large datasets into smaller, manageable chunks
+* **Performance**: Reduces memory usage and improves response time
+* **User Experience**: Faster page loads and better navigation
+* **Database**: Uses LIMIT/OFFSET or cursor-based pagination
+* **Spring Data**: Pageable interface for easy implementation
+* **Cursor Pagination**: More efficient for large datasets
+
+```java
+// Pagination implementation
+@RestController
+public class UserController {
+    
+    // Basic pagination
+    @GetMapping("/users")
+    public Page<User> getUsers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userService.findAll(pageable);
+    }
+    
+    // Cursor-based pagination for better performance
+    @GetMapping("/users/cursor")
+    public List<User> getUsersCursor(
+        @RequestParam(required = false) Long lastId,
+        @RequestParam(defaultValue = "20") int limit) {
+        
+        return userService.findUsersAfter(lastId, limit);
+    }
+}
+
+@Repository
+public class UserRepository extends JpaRepository<User, Long> {
+    
+    // Cursor pagination query
+    @Query("SELECT u FROM User u WHERE (:lastId IS NULL OR u.id > :lastId) ORDER BY u.id")
+    List<User> findUsersAfter(@Param("lastId") Long lastId, Pageable pageable);
+}
 ```
 
 ## 9. What is JIT compilation?
