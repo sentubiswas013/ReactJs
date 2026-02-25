@@ -2580,6 +2580,36 @@ Map<String, Integer> hashtable = new Hashtable<>();
 // hashtable.put(null, 1); // NullPointerException
 ```
 
+## 17. What is the difference between HashMap and HashSet? - asked
+
+**Answer:**
+
+`HashMap` stores **key-value pairs**, while `HashSet` stores **only unique values**.
+
+`HashMap` allows **one null key and multiple null values**, whereas `HashSet` allows **only one null element**.
+
+Internally, `HashSet` uses a `HashMap` to store elements.
+
+
+**Example:**
+```java
+// HashMap - stores key-value pairs
+HashMap<String, Integer> map = new HashMap<>();
+map.put("Apple", 100);
+map.put("Banana", 50);
+System.out.println(map.get("Apple")); // 100
+
+// HashSet - stores unique elements
+HashSet<String> set = new HashSet<>();
+set.add("Apple");
+set.add("Banana");
+set.add("Apple"); // Duplicate, won't be added
+System.out.println(set.size()); // 2
+
+// HashSet internally uses HashMap
+// Equivalent to: HashMap<String, Object> internalMap = new HashMap<>();
+```
+
 ### 111. What is the difference between HashMap and TreeMap? 
 **HashMap** provides **fast access (O(1))** with no ordering and allows **one null key**. It uses a **hash table** internally.
 
