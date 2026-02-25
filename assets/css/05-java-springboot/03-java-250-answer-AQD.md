@@ -3893,8 +3893,6 @@ Another common approach is **setter injection**, where dependencies are injected
 
 In real-world applications, **framework-based DI** like **Spring** is the most popular. Spring supports **constructor, setter, and field injection**, with constructor injection being the recommended best practice.
 
-
-
 **Spoken Answer (35 seconds):**
 * Three main types: Constructor injection, Setter injection, and Field injection
 * Constructor injection is preferred - it ensures required dependencies are provided
@@ -3963,6 +3961,8 @@ public class UserService { // This becomes a Spring bean
 // Or XML configuration
 <bean id="userService" class="com.example.UserService"/>
 ```
+
+# ✅ 18. Java Spring Boot 
 
 ## 6. What is annotations in Java?
 **An annotation is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.**
