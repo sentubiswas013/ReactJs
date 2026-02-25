@@ -5424,7 +5424,6 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 
 ### 331: How do you measure Java application performance?
 
-
 * **Response Time**: Time to complete requests
 * **Throughput**: Requests processed per second
 * **Resource Utilization**: CPU, memory, disk, network usage
@@ -5471,24 +5470,6 @@ public class PerformanceBottlenecks {
     
     // Memory leak - static collection grows indefinitely
     private static List<String> cache = new ArrayList<>();
-    
-    // CPU intensive - inefficient algorithm
-    public boolean isPrime(int n) {
-        for (int i = 2; i < n; i++) { // O(n) instead of O(√n)
-            if (n % i == 0) return false;
-        }
-        return true;
-    }
-    
-    // I/O bottleneck - N+1 query problem
-    public List<OrderDto> getOrders() {
-        List<Order> orders = orderRepository.findAll();
-        return orders.stream()
-            .map(order -> {
-                Customer customer = customerRepository.findById(order.getCustomerId()); // N queries
-                return new OrderDto(order, customer);
-            }).collect(Collectors.toList());
-    }
 }
 ```
 
@@ -5655,35 +5636,6 @@ It helps identify **heap usage, object retention, memory leaks**, and uses tools
 * **Tools**: Eclipse MAT, JProfiler, VisualVM, JConsole
 * **Heap Dumps**: Snapshots of memory for offline analysis
 
-```java
-// Memory profiling techniques
-@Component
-public class MemoryProfiledService {
-    
-    // Monitor memory usage
-    public void checkMemoryUsage() {
-        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
-        MemoryUsage heapUsage = memoryBean.getHeapMemoryUsage();
-        
-        long used = heapUsage.getUsed();
-        long max = heapUsage.getMax();
-        double percentage = (double) used / max * 100;
-        
-        if (percentage > 80) {
-            logger.warn("High memory usage: {}%", percentage);
-        }
-    }
-    
-    // Generate heap dump programmatically
-    public void generateHeapDump() throws Exception {
-        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-        HotSpotDiagnosticMXBean mxBean = ManagementFactory.newPlatformMXBeanProxy(
-            server, "com.sun.management:type=HotSpotDiagnostic", HotSpotDiagnosticMXBean.class);
-        mxBean.dumpHeap("/tmp/heapdump.hprof", true);
-    }
-}
-```
-
 ---
 
 ### 338: What is CPU profiling?
@@ -5700,32 +5652,6 @@ It tracks **time spent in methods, call hierarchy**, uses **sampling or instrume
 * **Flame Graphs**: Visual representation of CPU usage
 * **Tools**: JProfiler, async-profiler, Java Flight Recorder
 
-```java
-// CPU profiling with custom timing
-@Component
-public class CpuProfiledService {
-    
-    @Timed(name = "user.processing.time", description = "Time spent processing users")
-    public void processUsers(List<User> users) {
-        users.parallelStream()
-            .forEach(this::processUser);
-    }
-    
-    // Manual timing for critical sections
-    public String expensiveOperation(String input) {
-        long startTime = System.nanoTime();
-        try {
-            // CPU-intensive operation
-            return performComplexCalculation(input);
-        } finally {
-            long duration = System.nanoTime() - startTime;
-            if (duration > 1_000_000_000) { // 1 second
-                logger.warn("Slow operation took {}ms", duration / 1_000_000);
-            }
-        }
-    }
-}
-```
 
 ---
 
@@ -5735,13 +5661,6 @@ public class CpuProfiledService {
 
 It tracks **metrics, errors, distributed tracing, user experience, and infrastructure performance**, using tools like **New Relic, AppDynamics, Dynatrace, and Elastic APM**.
 
-* Comprehensive monitoring of application performance in production
-* **Real-time Monitoring**: Live performance metrics and alerts
-* **Distributed Tracing**: Track requests across microservices
-* **Error Tracking**: Capture and analyze application errors
-* **User Experience**: Monitor real user interactions and page loads
-* **Infrastructure**: Server resources, database performance
-* **Tools**: New Relic, AppDynamics, Dynatrace, Elastic APM
 
 ```java
 // APM integration with Micrometer
@@ -5779,13 +5698,6 @@ public class MonitoredController {
 
 It measures **execution time, memory usage, and method hotspots**, using static or runtime (dynamic) analysis tools to identify slow or inefficient parts of the code.
 
-* Detailed analysis of code execution to identify performance issues
-* **Static Analysis**: Code review without execution
-* **Dynamic Analysis**: Runtime performance measurement
-* **Line-by-line**: Execution time per code line
-* **Method Hotspots**: Most time-consuming methods
-* **Call Graphs**: Method invocation patterns
-* **IDE Integration**: Built-in profilers in IDEs
 
 ```java
 // Code profiling with annotations
@@ -5822,13 +5734,6 @@ public class ProfiledCodeService {
 
 It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
 
-* Techniques to improve database query performance and efficiency
-* **Indexing**: Create indexes on frequently queried columns
-* **Query Optimization**: Write efficient SQL queries
-* **Connection Pooling**: Reuse database connections
-* **Caching**: Cache query results and frequently accessed data
-* **Normalization**: Proper database design to reduce redundancy
-* **Partitioning**: Split large tables for better performance
 
 ```java
 // Database optimization techniques
@@ -5862,13 +5767,6 @@ public class OptimizedUserRepository {
 
 It involves **using proper indexes, writing efficient joins and WHERE clauses, avoiding unnecessary data fetch (like SELECT *), and analyzing execution plans** to ensure faster query execution.
 
-* Process of improving SQL query performance and execution time
-* **Index Usage**: Ensure queries use appropriate indexes
-* **Query Structure**: Avoid SELECT *, use specific columns
-* **JOIN Optimization**: Use proper join types and order
-* **WHERE Clauses**: Filter early to reduce dataset size
-* **EXPLAIN Plans**: Analyze query execution plans
-* **Avoid N+1**: Use batch queries and joins instead of loops
 
 ```java
 // Query optimization examples
@@ -5906,12 +5804,7 @@ public class OptimizedQueryRepository {
 
 It improves performance and reduces memory usage, but if not handled properly, it can cause issues like the **N+1 query problem**.
 
-* Design pattern that defers loading of data until it's actually needed
-* **JPA/Hibernate**: Load related entities only when accessed
-* **Performance**: Reduces initial load time and memory usage
-* **N+1 Problem**: Can cause multiple queries if not handled properly
 * **Proxy Objects**: Hibernate creates proxies for lazy-loaded entities
-* **Best Practice**: Use fetch joins when you know you'll need the data
 
 ```java
 // Lazy loading examples
@@ -5958,13 +5851,6 @@ public class UserService {
 
 It reduces additional database queries later, but increases **initial load time and memory usage**, so it should be used only when the related data is definitely needed.
 
-* Loading strategy that fetches all related data immediately
-* **JPA/Hibernate**: Load associated entities along with main entity
-* **Performance Trade-off**: Higher initial load time but fewer queries later
-* **Memory Usage**: Uses more memory upfront
-* **Use Cases**: When you know you'll need the related data
-* **Configuration**: FetchType.EAGER or explicit fetch joins
-
 ```java
 // Eager loading examples
 @Entity
@@ -6002,13 +5888,6 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 **Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
 
 It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
-
-* Technique to split large datasets into smaller, manageable chunks
-* **Performance**: Reduces memory usage and improves response time
-* **User Experience**: Faster page loads and better navigation
-* **Database**: Uses LIMIT/OFFSET or cursor-based pagination
-* **Spring Data**: Pageable interface for easy implementation
-* **Cursor Pagination**: More efficient for large datasets
 
 ```java
 // Pagination implementation
