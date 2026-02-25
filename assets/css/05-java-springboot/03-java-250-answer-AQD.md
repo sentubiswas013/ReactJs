@@ -6117,50 +6117,367 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 - **Experimentation:** Try latest feature releases for new capabilities
 - **Migration strategy:** Plan upgrades around LTS releases
 
-# ✅ 23. Cloud and Containerization 
+# 🔹 CI/CD and DevOp
 
-## 1. What is containerization?
+### 364: What is continuous integration?
 
-**Containerization** is a technique where an application and all its dependencies—like libraries and configuration—are packaged together into a **lightweight container**. This ensures the application runs **consistently across different environments**, such as development, testing, and production.
+**Continuous Integration (CI)** is a development practice where developers **frequently merge code into a shared repository**, and each commit triggers an **automated build and test process**.
 
-Containers are fast to start, use fewer resources than virtual machines, and make applications easier to **deploy, scale, and manage**.
+It helps detect bugs early, ensures code quality, and provides fast feedback using tools like **Jenkins, GitLab CI, or GitHub Actions**.
 
+* Development practice of frequently integrating code changes into shared repository
+* **Automated Builds**: Every commit triggers automated build and test
+* **Early Detection**: Catch integration issues and bugs early
+* **Fast Feedback**: Developers get quick feedback on code changes
+* **Quality Gates**: Automated tests must pass before integration
+* **Tools**: Jenkins, GitLab CI, GitHub Actions, Azure DevOps
 
-- **Lightweight virtualization:** Shares OS kernel, unlike VMs
-- **Application packaging:** Bundles code, runtime, libraries, dependencies
-- **Environment consistency:** Same behavior across dev, test, production
-- **Resource efficiency:** Lower overhead than virtual machines
-- **Portability:** Run anywhere containers are supported
+```yaml
+# GitHub Actions CI example
+name: CI Pipeline
+on: [push, pull_request]
 
-Containers solve the "it works on my machine" problem by ensuring consistent runtime environments.
-
-## 2. What is Docker?
-
-**Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
-
-Docker makes applications **lightweight, portable, fast to deploy**, and easier to scale compared to traditional virtual machines.
-
-
-- **Container platform:** Create, deploy, and manage containers
-- **Docker images:** Read-only templates for creating containers
-- **Docker containers:** Running instances of images
-- **Dockerfile:** Text file with instructions to build images
-- **Docker Hub:** Cloud-based registry for sharing images
-
-```dockerfile
-# Dockerfile example
-FROM openjdk:17-jre-slim
-COPY target/myapp.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+    - name: Run tests
+      run: ./mvnw test
+    - name: Build application
+      run: ./mvnw package
 ```
 
+---
+
+### 365: What is continuous deployment?
+
+**Continuous Deployment (CD)** is a practice where code changes are **automatically deployed to production** after passing all tests.
+
+It enables **fast and frequent releases**, reduces risk with small deployments, and requires strong automation, testing, monitoring, and rollback mechanisms.
+
+* Automated deployment of code changes to production after passing all tests
+* **Fully Automated**: No manual intervention in deployment process
+* **Fast Delivery**: Features reach users quickly
+* **Risk Mitigation**: Small, frequent deployments reduce risk
+* **Rollback**: Quick rollback capabilities for issues
+* **Prerequisites**: Requires robust testing, monitoring, and automation
+
+```yaml
+# CD Pipeline example
+deploy:
+  stage: deploy
+  script:
+    - docker build -t myapp:$CI_COMMIT_SHA .
+    - docker push registry.com/myapp:$CI_COMMIT_SHA
+    - kubectl set image deployment/myapp myapp=registry.com/myapp:$CI_COMMIT_SHA
+  only:
+    - main
+  when: manual  # or 'on_success' for full automation
+```
+
+---
+
+### 366: What is Jenkins?
+
+**Jenkins** is an **open-source automation server** used to implement **CI/CD pipelines**.
+
+It automates **build, test, and deployment processes**, supports pipeline as code using a *Jenkinsfile*, and integrates with tools like Git, Maven, Docker, and Kubernetes through plugins.
+
+* Open-source automation server for CI/CD pipelines
+* **Pipeline as Code**: Jenkinsfile defines build pipeline
+* **Plugins**: Extensive plugin ecosystem for integrations
+* **Distributed Builds**: Master-slave architecture for scalability
+* **Web Interface**: User-friendly web-based configuration
+* **Integration**: Integrates with Git, Maven, Docker, Kubernetes
+
+```groovy
+// Jenkinsfile example
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                sh './mvnw clean compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh './mvnw package'
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+        }
+        stage('Deploy') {
+            when { branch 'main' }
+            steps {
+                sh 'docker build -t myapp .'
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+    }
+}
+```
+
+---
+
+### 367: What is Git?
+
+**Git** is a **distributed version control system** used to track and manage code changes.
+
+It allows developers to **create branches, merge code, collaborate through remote repositories**, and maintains complete project history with high performance and data integrity.
+
+* Distributed version control system for tracking code changes
+* **Distributed**: Every developer has complete project history
+* **Branching**: Lightweight branching and merging capabilities
+* **Performance**: Fast operations for most commands
+* **Integrity**: Cryptographic hashing ensures data integrity
+* **Collaboration**: Enables team collaboration through remote repositories
+
 ```bash
-# Docker commands
-docker build -t myapp .              # Build image
-docker run -p 8080:8080 myapp        # Run container
-docker ps                            # List running containers
-docker images                        # List images
+# Basic Git commands
+git init                          # Initialize repository
+git add .                         # Stage changes
+git commit -m "Add new feature"   # Commit changes
+git branch feature-branch         # Create branch
+git checkout feature-branch       # Switch branch
+git merge feature-branch          # Merge branch
+git push origin main              # Push to remote
+git pull origin main              # Pull from remote
+```
+
+---
+
+### 368: What is version control?
+
+**Version control** is a system used to **track and manage changes to code or files over time**.
+
+It allows multiple developers to collaborate, maintain version history, create branches, and revert to previous versions. It can be **centralized (like SVN) or distributed (like Git)**.
+
+* System for tracking and managing changes to files over time
+* **History**: Complete history of all changes and versions
+* **Collaboration**: Multiple developers can work on same project
+* **Branching**: Parallel development streams
+* **Backup**: Distributed copies serve as backups
+* **Rollback**: Ability to revert to previous versions
+* **Types**: Centralized (SVN) vs Distributed (Git)
+
+```bash
+# Version control workflow
+git status                    # Check current state
+git log --oneline            # View commit history
+git diff HEAD~1              # Compare with previous version
+git checkout HEAD~2 -- file.java  # Restore file from 2 commits ago
+git tag v1.0.0               # Tag release version
+git revert abc123            # Revert specific commit
+```
+
+---
+
+### 369: What is infrastructure as code?
+
+**Infrastructure as Code (IaC)** is the practice of **managing and provisioning infrastructure using code instead of manual setup**.
+
+It allows infrastructure to be **version-controlled, automated, and reproducible** across environments using tools like Terraform or CloudFormation.
+
+* Managing and provisioning infrastructure through code rather than manual processes
+* **Declarative**: Define desired state, tools ensure it's achieved
+* **Version Control**: Infrastructure changes tracked like application code
+* **Reproducible**: Consistent environments across dev, test, production
+* **Automation**: Automated provisioning and configuration
+* **Tools**: Terraform, CloudFormation, Ansible, Kubernetes manifests
+
+```yaml
+# Kubernetes deployment (IaC)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_URL
+          value: "jdbc:postgresql://db:5432/mydb"
+```
+
+```java
+# Terraform example
+resource "aws_instance" "web" {
+  ami           = "ami-0c55b159cbfafe1d0"
+  instance_type = "t2.micro"
+  
+  tags = {
+    Name = "JavaApp"
+  }
+}
+```
+
+---
+
+### 370: What is deployment strategies?
+
+**Deployment strategies** are different approaches used to release applications to production safely and efficiently.
+
+Common strategies include **Rolling, Blue-Green, Canary, Recreate, and Shadow deployments**, which help minimize downtime, reduce risk, and ensure smooth releases.
+
+* Different approaches for releasing applications to production
+* **Rolling Deployment**: Gradually replace old instances with new ones
+* **Blue-Green**: Switch between two identical environments
+* **Canary**: Deploy to small subset of users first
+* **A/B Testing**: Compare different versions with user groups
+* **Recreate**: Stop old version, start new version (downtime)
+* **Shadow**: Route copy of traffic to new version for testing
+
+```yaml
+# Rolling deployment strategy
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: 5
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:v2.0.0
+```
+
+---
+
+### 371: What is blue-green deployment?
+
+**Blue-Green deployment** is a strategy where two identical production environments are maintained — one live (**Blue**) and one with the new version (**Green**).
+
+After testing, traffic is switched to Green, ensuring **zero downtime and quick rollback**, but it requires double infrastructure resources.
+
+* Deployment strategy using two identical production environments
+* **Blue**: Current live environment serving users
+* **Green**: New environment with updated application
+* **Switch**: Instant switch from blue to green after validation
+* **Zero Downtime**: No service interruption during deployment
+* **Quick Rollback**: Instant rollback by switching back to blue
+* **Resource Cost**: Requires double the infrastructure resources
+
+```yaml
+# Blue-Green deployment with Kubernetes
+# Blue environment (current)
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: myapp
+    version: blue  # Currently pointing to blue
+  ports:
+  - port: 80
+    targetPort: 8080
+
+---
+# Green deployment (new version)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      version: green
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: green
+    spec:
+      containers:
+      - name: app
+        image: myapp:v2.0.0
+```
+
+---
+
+### 372: What is canary deployment?
+
+**Canary deployment** is a strategy where a new version of an application is released to a **small percentage of users first**, and then gradually rolled out to everyone.
+
+It helps **reduce risk, monitor performance, and quickly roll back** if issues are detected.
+
+* Deployment strategy that releases new version to small subset of users first
+* **Gradual Rollout**: Start with 5-10% of traffic, gradually increase
+* **Risk Mitigation**: Limit blast radius of potential issues
+* **Monitoring**: Monitor metrics and user feedback during rollout
+* **Automated Rollback**: Automatic rollback if metrics degrade
+* **A/B Testing**: Can be combined with A/B testing for feature validation
+* **Traffic Splitting**: Use load balancers or service mesh for traffic control
+
+```yaml
+# Canary deployment with Istio
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  http:
+  - match:
+    - headers:
+        canary:
+          exact: "true"
+    route:
+    - destination:
+        host: myapp
+        subset: v2
+  - route:
+    - destination:
+        host: myapp
+        subset: v1
+      weight: 90  # 90% to stable version
+    - destination:
+        host: myapp
+        subset: v2
+      weight: 10  # 10% to canary version
+```
+
+```java
+// Feature flag for canary deployment
+@RestController
+public class UserController {
+    
+    @Autowired
+    private FeatureToggleService featureToggle;
+    
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        if (featureToggle.isEnabled("new-user-api", getCurrentUser())) {
+            return newUserService.getUsers(); // Canary version
+        }
+        return userService.getUsers(); // Stable version
+    }
+}
 ```
 
 ## 3. What is Kubernetes?
