@@ -3118,6 +3118,53 @@ latch.await(); // Waits until count reaches zero
 
 # 🔹 2. Advanced Concurrency
 
+### 131. What is **Concurrency in Java**?
+
+**Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
+
+* **Simple example**
+
+1. **Thread-based**
+* Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
+
+```java
+class MyTask extends Thread {
+    public void run() {
+        System.out.println("Task running in thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyTask t1 = new MyTask();
+        t1.start(); // Runs concurrently
+    }
+}
+```
+
+This creates a new thread that runs concurrently with the main thread.
+
+---
+
+* **How concurrency is achieved in Java**
+
+* **Thread & Runnable**
+* **ExecutorService**
+* **Synchronization**
+* **Locks (`ReentrantLock`)**
+* **Atomic variables**
+* **Concurrent collections**
+* **CompletableFuture (Java 8+)**
+
+---
+
+* **Concurrency vs Parallelism**
+
+| Concurrency                | Parallelism                             |
+| -------------------------- | --------------------------------------- |
+| Multiple tasks in progress | Multiple tasks executing simultaneously |
+| May run on one CPU         | Requires multiple cores                 |
+
 ### 131. What is ExecutorService?
 
 **ExecutorService** is a high-level interface in Java for **managing and controlling thread execution**.
@@ -6800,21 +6847,40 @@ stmt.setString(1, userName);
 # 🔵 16. Design Patterns
 ---
 # 🔹 Common Design Patterns
-### 252: What are design patterns?
 
-Design patterns are **reusable solutions** to common software problems. They provide templates for **maintainable, flexible code**, are classified as **Creational, Structural, or Behavioral**, and help **communicate design intent** clearly.
+### 252. What are design patterns?
 
-* Reusable solutions to common software design problems
-* Best practices proven over time by experienced developers
-* Provide template for writing maintainable, flexible code
-* Three categories: Creational, Structural, and Behavioral patterns
-* Help communicate design intent clearly among developers
+Design patterns are proven reusable solutions to common software design problems, categorized into Creational, Structural, and Behavioral patterns.
 
-```java
-// Example: Factory pattern creates objects without specifying exact class
-Animal animal = AnimalFactory.createAnimal("dog");
-// Instead of: Animal animal = new Dog();
-```
+1️⃣ **Creational Design Patterns**
+* **Singleton** – Only one instance of a class is created.
+* **Factory Method** – Creates objects without exposing creation logic.
+* **Abstract Factory** – Creates families of related objects.
+* **Builder** – Builds complex objects step by step.
+* **Prototype** – Creates object by cloning existing object.
+
+2️⃣ **Structural Design Patterns**
+* **Adapter** – Converts one interface into another.
+* **Bridge** – Separates abstraction from implementation.
+* **Decorator** – Adds behavior dynamically.
+* **Facade** – Provides simplified interface to complex system.
+* **Proxy** – Controls access to an object.
+
+3️⃣ **Behavioral Design Patterns**
+* **Observer** – One-to-many dependency (used in event systems).
+* **Strategy** – Select algorithm at runtime.
+* **Command** – Encapsulates a request as an object.
+* **State** – Changes behavior when state changes.
+* **Template Method** – Defines skeleton of algorithm.
+* **Iterator** – Sequential access to collection.
+
+**Most Commonly Asked in Interviews**
+* **Singleton** – Ensures that a class has only one instance and provides a global access point to it.
+* **Factory** – Creates objects without exposing the object creation logic to the client.
+* **Builder** – Constructs complex objects step by step, allowing flexible object creation.
+* **Observer** – Defines a one-to-many relationship where multiple objects are notified automatically when one object changes state.
+* **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
+* **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
 
 ---
 
