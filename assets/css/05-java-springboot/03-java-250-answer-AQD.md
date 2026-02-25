@@ -6291,4 +6291,397 @@ server {
 }
 ```
 
+# 🔵 25. Monitoring and Logging
+
+### 373: What is application monitoring?
+
+**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
+
+It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
+
+```java
+// Application monitoring with Micrometer
+@RestController
+public class UserController {
+    
+    private final MeterRegistry meterRegistry;
+    private final Counter userCreationCounter;
+    private final Timer responseTimer;
+    
+    public UserController(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        this.userCreationCounter = Counter.builder("users.created")
+            .description("Number of users created")
+            .register(meterRegistry);
+        this.responseTimer = Timer.builder("api.response.time")
+            .register(meterRegistry);
+    }
+    
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+        return responseTimer.recordCallable(() -> {
+            User created = userService.create(user);
+            userCreationCounter.increment();
+            return created;
+        });
+    }
+}
+```
+
+---
+
+### 374: What is logging framework?
+
+A **logging framework** is a library that provides a structured way to record application events and errors.
+
+It supports different **log levels (DEBUG, INFO, WARN, ERROR)**, configurable output destinations (console, file, etc.), and flexible formatting. Popular frameworks include **SLF4J**, **Apache Log4j**, **Logback**, and **java.util.logging**.
+
+```java
+// Logging framework usage
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Service
+public class UserService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    
+    public User createUser(User user) {
+        logger.info("Creating user with email: {}", user.getEmail());
+        
+        try {
+            User created = userRepository.save(user);
+            logger.info("User created successfully with ID: {}", created.getId());
+            return created;
+        } catch (Exception e) {
+            logger.error("Failed to create user: {}", user.getEmail(), e);
+            throw new UserCreationException("User creation failed", e);
+        }
+    }
+}
+```
+
+---
+
+### 375: What is Log4j?
+
+**Apache Log4j** is a popular Java logging framework developed by the Apache Software Foundation.
+
+It provides hierarchical loggers, multiple appenders (console, file, etc.), flexible configuration, and supports asynchronous logging for high-performance applications.
+
+```xml
+<!-- log4j2.xml configuration -->
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="FileAppender" fileName="logs/application.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </File>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="com.example" level="DEBUG"/>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
+```
+
+---
+
+### 376: What is SLF4J?
+
+**SLF4J** (Simple Logging Facade for Java) is a logging abstraction layer that provides a common API for different logging frameworks.
+
+It allows you to switch the underlying implementation (like Log4j or Logback) without changing code and supports efficient, parameterized logging.
+
+```java
+// SLF4J usage
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+@Service
+public class OrderService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
+    
+    public Order processOrder(Order order) {
+        // Add context to all log messages in this thread
+        MDC.put("orderId", order.getId().toString());
+        MDC.put("userId", order.getUserId().toString());
+        
+        try {
+            logger.info("Processing order for user: {}", order.getUserId());
+            
+            // Parameterized logging - efficient
+            logger.debug("Order details: amount={}, items={}", 
+                order.getAmount(), order.getItems().size());
+            
+            Order processed = processOrderInternal(order);
+            logger.info("Order processed successfully");
+            return processed;
+            
+        } finally {
+            MDC.clear(); // Clean up context
+        }
+    }
+}
+```
+
+---
+
+### 377: What is Logback?
+
+**Logback** is a logging framework and the native implementation of the SLF4J API, designed as the successor to Log4j 1.x.
+
+It offers better performance, flexible configuration, automatic reload support, and is the default logging framework in Spring Boot.
+
+```xml
+<!-- logback-spring.xml configuration -->
+<configuration>
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+    
+    <springProfile name="prod">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>logs/application.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>logs/application.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+                <maxFileSize>100MB</maxFileSize>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+</configuration>
+```
+
+---
+
+### 378: What is structured logging?
+
+**Structured logging** is a logging approach where logs are written in a **machine-readable format** (like JSON) using **key-value pairs** instead of plain text.
+
+It improves searchability, filtering, and tracing in monitoring tools like the **Elastic** (ELK Stack) and **Splunk**, and helps include contextual data like correlation IDs for better debugging.
+
+```java
+// Structured logging with Logstash encoder
+import net.logstash.logback.argument.StructuredArguments;
+
+@Service
+public class PaymentService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    
+    public PaymentResult processPayment(Payment payment) {
+        // Structured logging with key-value pairs
+        logger.info("Processing payment",
+            StructuredArguments.kv("paymentId", payment.getId()),
+            StructuredArguments.kv("amount", payment.getAmount()),
+            StructuredArguments.kv("currency", payment.getCurrency()),
+            StructuredArguments.kv("userId", payment.getUserId()));
+        
+        try {
+            PaymentResult result = paymentGateway.process(payment);
+            
+            logger.info("Payment processed",
+                StructuredArguments.kv("paymentId", payment.getId()),
+                StructuredArguments.kv("status", result.getStatus()),
+                StructuredArguments.kv("transactionId", result.getTransactionId()));
+            
+            return result;
+        } catch (PaymentException e) {
+            logger.error("Payment failed",
+                StructuredArguments.kv("paymentId", payment.getId()),
+                StructuredArguments.kv("errorCode", e.getErrorCode()),
+                StructuredArguments.kv("errorMessage", e.getMessage()));
+            throw e;
+        }
+    }
+}
+```
+
+---
+
+### 379: What is centralized logging?
+
+**Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
+
+It helps with unified search, request tracing across services, log retention, and better monitoring using tools like the **Elastic** (ELK Stack), **Fluentd**, and **Splunk**.
+
+```yaml
+# Docker Compose with centralized logging
+version: '3'
+services:
+  app1:
+    image: myapp:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app1
+        
+  app2:
+    image: myapp2:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app2
+        
+  fluentd:
+    image: fluent/fluentd:latest
+    ports:
+      - "24224:24224"
+    volumes:
+      - ./fluentd.conf:/fluentd/etc/fluent.conf
+      
+  elasticsearch:
+    image: elasticsearch:7.9.0
+    
+  kibana:
+    image: kibana:7.9.0
+    ports:
+      - "5601:5601"
+```
+
+```java
+// Application configuration for centralized logging
+@Configuration
+public class LoggingConfig {
+    
+    @Bean
+    public Logger structuredLogger() {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        
+        // Add correlation ID to all logs
+        context.putProperty("service.name", "user-service");
+        context.putProperty("service.version", "1.0.0");
+        
+        return context.getLogger("STRUCTURED");
+    }
+}
+```
+
+### 380: What is metrics collection?
+
+**Metrics collection** is the process of gathering **quantitative data about system and application performance** over time.
+
+It includes system metrics (CPU, memory), application metrics (response time, error rate), and business metrics, and is commonly done using tools like **Micrometer**, **Prometheus**, **InfluxDB**, and **Amazon CloudWatch**.
+
+```java
+// Metrics collection with Micrometer
+@Component
+public class MetricsCollector {
+    
+    private final MeterRegistry meterRegistry;
+    private final Counter orderCounter;
+    private final Timer orderProcessingTimer;
+    private final Gauge activeUsers;
+    
+    public MetricsCollector(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        
+        // Counter for total orders
+        this.orderCounter = Counter.builder("orders.total")
+            .description("Total number of orders")
+            .tag("status", "created")
+            .register(meterRegistry);
+            
+        // Timer for processing duration
+        this.orderProcessingTimer = Timer.builder("orders.processing.time")
+            .description("Order processing time")
+            .register(meterRegistry);
+            
+        // Gauge for active users
+        this.activeUsers = Gauge.builder("users.active")
+            .description("Number of active users")
+            .register(meterRegistry, this, MetricsCollector::getActiveUserCount);
+    }
+    
+    public void recordOrderCreated() {
+        orderCounter.increment();
+    }
+    
+    public void recordOrderProcessingTime(Duration duration) {
+        orderProcessingTimer.record(duration);
+    }
+    
+    private double getActiveUserCount() {
+        return userService.getActiveUserCount();
+    }
+}
+```
+
+---
+
+### 381: What is JMX monitoring?
+
+**JMX (Java Management Extensions) monitoring** is a standard way to **monitor and manage Java applications**.
+
+It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
+
+```java
+// Custom MBean for monitoring
+@Component
+public class ApplicationMonitorMBean implements ApplicationMonitorMXBean {
+    
+    private final UserService userService;
+    private final OrderService orderService;
+    
+    @Override
+    public long getTotalUsers() {
+        return userService.getTotalUserCount();
+    }
+    
+    @Override
+    public long getActiveOrders() {
+        return orderService.getActiveOrderCount();
+    }
+    
+    @Override
+    public double getAverageResponseTime() {
+        return performanceService.getAverageResponseTime();
+    }
+    
+    @Override
+    public void clearCache() {
+        cacheService.clearAll();
+    }
+    
+    @Override
+    public String getApplicationStatus() {
+        return healthService.getOverallStatus();
+    }
+}
+
+// MBean interface
+public interface ApplicationMonitorMXBean {
+    long getTotalUsers();
+    long getActiveOrders();
+    double getAverageResponseTime();
+    void clearCache();
+    String getApplicationStatus();
+}
+```
+
 # ✅ 24. Miscellaneous
