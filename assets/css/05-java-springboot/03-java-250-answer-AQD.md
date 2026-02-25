@@ -3445,26 +3445,6 @@ CompletableFuture.runAsync(() ->
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
 
-## 8. What is Spring WebFlux?
-
-**Spring WebFlux** is a reactive web framework in Spring that supports non-blocking, asynchronous programming using Project Reactor (Mono and Flux) to handle large numbers of concurrent requests efficiently.
-
-**When to Use WebFlux?**
-
-- High traffic systems
-- Microservices
-- Streaming APIs
-- Real-time applications
-- When using reactive databases (MongoDB reactive, R2DBC)
-
-| Spring MVC                | Spring WebFlux                 |
-| ------------------------- | ------------------------------ |
-| Blocking                  | Non-blocking                   |
-| Thread per request        | Event-loop model               |
-| Uses Servlet API          | Does NOT depend on Servlet API |
-| Good for traditional apps | Good for high-concurrency apps |
-
-
 ## 9. What is Cursor?
 
 A **cursor** fetches records **one by one (or in small chunks)** instead of loading the entire result into memory.
@@ -3905,36 +3885,115 @@ class OrderService {
     }
 }
 ```
+### 287: What is Spring Data JPA?
 
-## 3. What are the best ways to implement Dependency Injection in Java?
+**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
 
-The best way to implement **Dependency Injection in Java** is by **constructor injection**, where dependencies are provided through the class constructor. It makes the code easier to test, ensures required dependencies are available, and supports immutability.
+It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
 
-Another common approach is **setter injection**, where dependencies are injected using setter methods. It’s useful for optional dependencies but less safe because objects can be used without full initialization.
+* Spring module that simplifies JPA-based data access
+* Provides repository abstraction over JPA
+* **Auto-implementation**: Creates implementation from method names
+* **Query Methods**: Derive queries from method names
+* **Custom Queries**: Support for JPQL and native SQL
+* Reduces boilerplate code significantly
 
-In real-world applications, **framework-based DI** like **Spring** is the most popular. Spring supports **constructor, setter, and field injection**, with constructor injection being the recommended best practice.
-
-**Spoken Answer (35 seconds):**
-* Three main types: Constructor injection, Setter injection, and Field injection
-* Constructor injection is preferred - it ensures required dependencies are provided
-* Use frameworks like Spring, Guice, or CDI for automatic injection
-* Annotations like @Autowired, @Inject make it simple
-
-**Example:**
 ```java
-@Service
-public class UserService {
-    private final UserRepository userRepository;
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByLastName(String lastName);
+    List<User> findByAgeGreaterThan(int age);
     
-    // Constructor injection - best practice
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
+}
+```
+
+---
+
+### 288: What is Spring Cloud? - asked
+
+**Spring Cloud** is a framework for **building distributed systems and microservices**.
+
+It provides tools for **service discovery (Eureka/Consul)**, **circuit breakers (Hystrix)**, **API gateways (Zuul/Gateway)**, **centralized configuration**, and **client-side load balancing**.
+
+* Framework for building distributed systems and microservices
+* Provides tools for common patterns in distributed systems
+* **Service Discovery**: Eureka, Consul integration
+* **Circuit Breaker**: Hystrix for fault tolerance
+* **API Gateway**: Zuul, Spring Cloud Gateway
+* **Configuration Management**: Centralized configuration
+* **Load Balancing**: Client-side load balancing
+
+```java
+@EnableEurekaClient
+@SpringBootApplication
+public class UserServiceApplication {
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+---
+
+### 289: What is Spring Security?
+
+**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
+
+It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
+
+* Comprehensive security framework for Java applications
+* Handles authentication and authorization
+* **Authentication**: Verify user identity (login)
+* **Authorization**: Control access to resources
+* **Protection**: CSRF, session fixation, clickjacking protection
+* Integrates with various authentication providers
+* Annotation-based and configuration-based security
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .authorizeRequests(auth -> auth
+                .requestMatchers("/public/**").permitAll()
+                .anyRequest().authenticated())
+            .formLogin().and()
+            .build();
+    }
+}
+```
+
+---
+
+### 290: What is Spring WebFlux?
+
+**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
+
+It’s an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
+
+* Reactive web framework for building non-blocking applications
+* Alternative to Spring MVC for reactive programming
+* **Non-blocking**: Handles more concurrent requests with fewer threads
+* **Reactive Streams**: Built on Project Reactor
+* **Functional Programming**: Supports functional routing
+* Better performance for I/O intensive applications
+
+```java
+@RestController
+public class UserController {
+    @GetMapping("/users")
+    public Flux<User> getUsers() {
+        return userService.findAll(); // Returns Flux<User>
     }
     
-    // Setter injection
-    @Autowired
-    public void setEmailService(EmailService emailService) {
-        this.emailService = emailService;
+    @GetMapping("/users/{id}")
+    public Mono<User> getUser(@PathVariable String id) {
+        return userService.findById(id); // Returns Mono<User>
     }
 }
 ```
