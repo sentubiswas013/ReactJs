@@ -6480,6 +6480,50 @@ public class UserController {
 }
 ```
 
+### 306: What is containerization?
+
+**Containerization** is a technology that **packages applications with their dependencies** into isolated, portable containers.
+
+Containers are **lightweight**, **consistent across environments**, **easy to scale**, and use platforms like **Docker, Podman, or containerd**.
+
+* Technology that packages applications with their dependencies into containers
+* **Isolation**: Applications run in isolated environments
+* **Portability**: Containers run consistently across different environments
+* **Lightweight**: Share OS kernel, more efficient than virtual machines
+* **Scalability**: Easy to scale up/down container instances
+* Popular platforms: Docker, Podman, containerd
+
+```dockerfile
+# Dockerfile for Java application
+FROM openjdk:17-jre-slim
+COPY target/myapp.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+```
+
+---
+
+### 307: What is Docker?
+
+**Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
+
+Docker makes applications **lightweight, portable, fast to deploy**, and easier to scale compared to traditional virtual machines.
+
+```bash
+# Build and run Java application
+docker build -t myapp:latest .
+docker run -p 8080:8080 myapp:latest
+
+# Docker Compose for multi-service setup
+version: '3'
+services:
+  app:
+    build: .
+    ports: ["8080:8080"]
+  db:
+    image: mysql:8.0
+```
+
 ## 3. What is Kubernetes?
 
 **Kubernetes** is a **container orchestration platform** used to manage containerized applications at scale. It automates **deployment, scaling, load balancing, and self-healing** of containers across a cluster of machines.
