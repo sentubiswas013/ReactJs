@@ -5365,8 +5365,6 @@ They use the syntax `(parameters) -> expression` or `(parameters) -> { statement
 * **Syntax** - (parameters) -> expression or (parameters) -> { statements }
 * **Functional interfaces** - Can only be used with interfaces having single abstract method
 
-### ✅ Simple Interview Answer
-
 **Lambda Expression vs Anonymous Inner Class**
 
 * **Lambda expressions** were introduced in Java 8 and are used to implement **functional interfaces (single abstract method)** in a short and concise way.
