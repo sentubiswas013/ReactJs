@@ -3836,7 +3836,9 @@ coffee = new SugarDecorator(coffee);
 
 ## 1. What is Spring Framework?
 
-Spring Framework is a lightweight Java framework that simplifies enterprise application development using dependency injection and modular architecture.
+**Spring Framework** is a **comprehensive Java framework** for building enterprise applications.
+
+It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
 
 - Lightweight and modular framework
 - Provides dependency injection and IoC container
@@ -3845,6 +3847,25 @@ Spring Framework is a lightweight Java framework that simplifies enterprise appl
 - Reduces boilerplate code and complexity
 
 Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
+
+### 282: What are the core features of Spring?
+
+* **IoC Container**: Manages object lifecycle and dependencies
+* **Dependency Injection**: Automatic wiring of dependencies
+* **AOP Support**: Cross-cutting concerns like logging, security
+* **MVC Framework**: Web application development
+* **Transaction Management**: Declarative transaction support
+* **Integration**: Easy integration with other frameworks and technologies
+
+```java
+@Configuration
+public class AppConfig {
+    @Bean
+    public UserService userService() {
+        return new UserService(userRepository());
+    }
+}
+```
 
 ## 2. What is Inversion of Control (IoC)?
 
@@ -5022,6 +5043,378 @@ public class OrderController {
             discoveryClient.getInstances("user-service");
         String url = instances.get(0).getUri().toString();
         // Make HTTP call to user service
+    }
+}
+```
+
+# 🔵 21. Java and Application Security
+
+### 313: What is Java security model?
+
+**Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
+
+* Comprehensive security framework built into Java platform
+* **Bytecode Verification**: Ensures code follows Java language rules
+* **Class Loading**: Secure loading and verification of classes
+* **Security Manager**: Controls access to system resources
+* **Access Control**: Permission-based security for operations
+* **Cryptography**: Built-in encryption and digital signature support
+* **Sandbox**: Restricted execution environment for untrusted code
+
+```java
+// Security Manager example
+public class MySecurityManager extends SecurityManager {
+    @Override
+    public void checkRead(String file) {
+        if (file.startsWith("/etc/")) {
+            throw new SecurityException("Access denied to system files");
+        }
+        super.checkRead(file);
+    }
+}
+
+// Enable security manager
+System.setSecurityManager(new MySecurityManager());
+```
+
+### 314: What is sandbox in Java?
+
+**Sandbox in Java** is a **restricted environment** for running untrusted code.
+
+It **limits file, network, and system access**, uses **security policies**, provides **isolation** to protect the host, and was commonly used for **applets**.
+
+```java
+// Applet sandbox restrictions
+public class MyApplet extends Applet {
+    public void init() {
+        // Cannot read local files
+        // Cannot make network connections to other hosts
+        // Cannot execute system commands
+        // Limited to browser security policies
+    }
+}
+```
+
+---
+
+### 315: What is bytecode verification?
+
+**Bytecode Verification** is the process where the **JVM checks Java bytecode** for safety before execution.
+
+It ensures **type safety, correct control flow, and stack usage**, preventing **illegal memory access or security issues**.
+
+```java
+// Bytecode verification checks:
+// 1. Stack overflow/underflow prevention
+// 2. Type consistency
+// 3. Proper exception handling
+// 4. Valid bytecode instructions
+
+// Example: This would fail verification
+// Attempting to call method on wrong type
+// String s = new Integer(5);
+// s.charAt(0); // Type mismatch caught by verifier
+```
+
+
+### 317: What is the security manager?
+
+**Security Manager** is a Java component that **enforces security policies at runtime**.
+
+It performs **permission checks** for file, network, and system access using **policy files**. It is **deprecated and removed in Java 17**, replaced by modern security mechanisms like the module system.
+
+
+```java
+// Security Manager usage (deprecated)
+SecurityManager sm = System.getSecurityManager();
+if (sm != null) {
+    sm.checkRead("/etc/passwd"); // Throws SecurityException if not allowed
+}
+
+// Policy file example
+grant {
+    permission java.io.FilePermission "/tmp/*", "read,write";
+    permission java.net.SocketPermission "localhost:8080", "connect";
+};
+```
+
+---
+
+### 318: What are digital signatures in Java?
+
+**Digital Signatures in Java** are a **cryptographic mechanism** to verify **code authenticity and integrity**.
+
+JAR files are **signed with a private key** and verified using a **public key certificate**, ensuring the code **has not been tampered with** and establishing **trust in the publisher**.
+
+```java
+// Creating digital signature
+Signature signature = Signature.getInstance("SHA256withRSA");
+signature.initSign(privateKey);
+signature.update(data);
+byte[] digitalSignature = signature.sign();
+
+// Verifying signature
+signature.initVerify(publicKey);
+signature.update(data);
+boolean isValid = signature.verify(digitalSignature);
+```
+
+---
+
+### 319: What is encryption and decryption in Java?
+
+**Encryption and Decryption in Java** is the process of converting data to and from a **secure unreadable format**.
+
+It supports **symmetric (AES)** and **asymmetric (RSA)** encryption using **JCA APIs**, ensuring **secure data transmission, password protection, and file security**.
+
+```java
+// AES encryption example
+Cipher cipher = Cipher.getInstance("AES");
+KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+SecretKey secretKey = keyGen.generateKey();
+
+// Encrypt
+cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+byte[] encrypted = cipher.doFinal("Hello World".getBytes());
+
+// Decrypt
+cipher.init(Cipher.DECRYPT_MODE, secretKey);
+byte[] decrypted = cipher.doFinal(encrypted);
+```
+
+---
+
+### 320: What is SSL/TLS in Java?
+
+**SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
+
+They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
+
+```java
+// SSL/TLS client example
+SSLContext sslContext = SSLContext.getInstance("TLS");
+sslContext.init(null, null, null);
+
+SSLSocketFactory factory = sslContext.getSocketFactory();
+SSLSocket socket = (SSLSocket) factory.createSocket("example.com", 443);
+
+// HTTPS with RestTemplate
+RestTemplate restTemplate = new RestTemplate();
+ResponseEntity<String> response = restTemplate.getForEntity(
+    "https://api.example.com/data", String.class);
+```
+
+🔹 **Application Security**
+
+### 321: What is authentication vs authorization?
+
+
+* **Authentication**: Verifies "who you are" - identity verification
+* **Authorization**: Determines "what you can do" - access control
+* **Authentication First**: Must authenticate before authorization
+* **Examples**: Login (authentication), accessing admin panel (authorization)
+* **Mechanisms**: Passwords, tokens, certificates for auth; roles, permissions for authz
+* Both essential for complete security
+
+```java
+// Authentication - verify identity
+@PostMapping("/login")
+public ResponseEntity<String> authenticate(@RequestBody LoginRequest request) {
+    if (userService.validateCredentials(request.getUsername(), request.getPassword())) {
+        String token = jwtService.generateToken(request.getUsername());
+        return ResponseEntity.ok(token);
+    }
+    return ResponseEntity.status(401).body("Invalid credentials");
+}
+
+// Authorization - check permissions
+@PreAuthorize("hasRole('ADMIN')")
+@GetMapping("/admin/users")
+public List<User> getUsers() { return userService.getAllUsers(); }
+```
+
+---
+
+### 322: What is OAuth?
+
+**OAuth** is an **open standard for authorization** that allows third-party apps to access user resources **without sharing passwords**.
+
+It uses **access tokens**, involves **Resource Owner, Client, Authorization Server, and Resource Server**, and supports flows like **authorization code and client credentials**.
+
+```java
+// OAuth 2.0 Spring Security configuration
+@Configuration
+@EnableOAuth2Client
+public class OAuth2Config {
+    @Bean
+    public OAuth2RestTemplate oauth2RestTemplate() {
+        return new OAuth2RestTemplate(clientCredentialsResourceDetails());
+    }
+    
+    @Bean
+    public ClientCredentialsResourceDetails clientCredentialsResourceDetails() {
+        ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
+        details.setClientId("my-client-id");
+        details.setClientSecret("my-client-secret");
+        details.setAccessTokenUri("https://auth-server.com/oauth/token");
+        return details;
+    }
+}
+```
+
+---
+
+### 323: What is JWT (JSON Web Token)?
+
+**JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
+
+It has three parts: **Header.Payload.Signature**, is **stateless and self-contained**, and is commonly used for **authentication and API authorization**, being **signed (optionally encrypted)** for security.
+
+```java
+// JWT creation and validation
+@Service
+public class JwtService {
+    private String secretKey = "mySecretKey";
+    
+    public String generateToken(String username) {
+        return Jwts.builder()
+            .setSubject(username)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24 hours
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
+    }
+    
+    public String extractUsername(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+            .getBody().getSubject();
+    }
+}
+```
+
+---
+
+### 324: What is CSRF protection?
+
+**CSRF protection** prevents **unauthorized actions** caused by malicious websites.
+
+It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
+
+
+### 325: What is XSS protection?
+
+**XSS protection** prevents **malicious script injection** in web applications.
+
+It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
+
+
+---
+
+### 326: What is input validation?
+
+**Input validation** is the process of **checking user input for correctness and security**.
+
+It should be done on the **server side** (never trust client), use a **whitelist approach**, apply **sanitization**, and can use **Bean Validation annotations** like `@Valid`, `@NotNull`, and `@Pattern`.
+
+
+```java
+// Input validation with Bean Validation
+public class UserRegistration {
+    @NotBlank(message = "Username is required")
+    @Pattern(regexp = "^[a-zA-Z0-9_]{3,20}$", message = "Invalid username format")
+    private String username;
+    
+    @Email(message = "Invalid email format")
+    private String email;
+    
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
+}
+
+@PostMapping("/register")
+public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user) {
+    // Validation automatically applied
+    return ResponseEntity.ok("User registered successfully");
+}
+```
+
+### 328: What is OAuth 2.0?
+
+**OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
+
+It supports flows like **Authorization Code (most secure), Client Credentials, PKCE**, and uses **scopes** to define permissions, avoiding password sharing.
+
+```java
+// OAuth 2.0 Authorization Server configuration
+@Configuration
+@EnableAuthorizationServer
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+    
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+            .withClient("my-client")
+            .secret(passwordEncoder.encode("my-secret"))
+            .authorizedGrantTypes("authorization_code", "refresh_token")
+            .scopes("read", "write")
+            .redirectUris("http://localhost:8080/callback");
+    }
+}
+
+// Resource server protection
+@EnableResourceServer
+@RestController
+public class ApiController {
+    @GetMapping("/api/data")
+    @PreAuthorize("#oauth2.hasScope('read')")
+    public String getData() { return "Protected data"; }
+}
+```
+
+---
+
+### 330: What is SAML?
+
+**SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
+
+It enables **Single Sign-On (SSO)** between an **Identity Provider (IdP)** and a **Service Provider (SP)** using **security assertions**, and is widely used in **enterprise environments**.
+
+```java
+// SAML configuration with Spring Security
+@Configuration
+@EnableWebSecurity
+public class SamlConfig {
+    
+    @Bean
+    public SAMLAuthenticationProvider samlAuthenticationProvider() {
+        SAMLAuthenticationProvider provider = new SAMLAuthenticationProvider();
+        provider.setUserDetails(samlUserDetailsService());
+        return provider;
+    }
+    
+    @Bean
+    public MetadataManager metadata() throws Exception {
+        List<MetadataProvider> providers = new ArrayList<>();
+        providers.add(idpMetadata());
+        return new CachingMetadataManager(providers);
+    }
+    
+    @Bean
+    public ExtendedMetadata extendedMetadata() {
+        ExtendedMetadata metadata = new ExtendedMetadata();
+        metadata.setIdpDiscoveryEnabled(true);
+        metadata.setSignMetadata(false);
+        return metadata;
+    }
+}
+
+// SAML assertion processing
+@Component
+public class SamlUserDetailsService implements SAMLUserDetailsService {
+    public Object loadUserBySAML(SAMLCredential credential) {
+        String username = credential.getNameID().getValue();
+        List<String> roles = credential.getAttributeAsStringArray("Role");
+        return new SamlUser(username, roles);
     }
 }
 ```
