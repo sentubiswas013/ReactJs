@@ -5,7 +5,7 @@
 
 ### 415: What is artificial intelligence in Java?
 
-**Answer (35 seconds):**
+**Answer:**
 * Using Java for AI and machine learning applications
 * **Libraries**: Deeplearning4j, Weka, MOA for ML algorithms
 * **Integration**: Call Python AI models via JNI or REST APIs
@@ -94,7 +94,7 @@ public class NLPExample {
 
 ### 416: What is machine learning with Java?
 
-**Answer (35 seconds):**
+**Answer:**
 * Implementing ML algorithms and models using Java ecosystem
 * **Weka**: Comprehensive ML library with GUI and API
 * **Deeplearning4j**: Deep learning for Java with GPU support
@@ -196,7 +196,7 @@ public class SparkMLExample {
 
 ### 417: What is blockchain development with Java?
 
-**Answer (35 seconds):**
+**Answer:**
 * Building blockchain applications and smart contracts using Java
 * **Web3j**: Java library for Ethereum blockchain interaction
 * **Hyperledger Fabric**: Enterprise blockchain with Java SDK
@@ -309,7 +309,7 @@ public class CryptoTracker {
 
 ### 418: What is IoT development with Java?
 
-**Answer (35 seconds):**
+**Answer:**
 * Building Internet of Things applications using Java ecosystem
 * **Device Programming**: Java ME, Android Things for IoT devices
 * **Edge Computing**: Process sensor data locally with Java
@@ -453,7 +453,7 @@ public class SensorData {
 
 ### 419: What are some Java coding best practices?
 
-**Answer (40 seconds):**
+**Answer:**
 * **Naming Conventions**: Use meaningful names for classes, methods, variables
 * **Code Organization**: Keep classes small, single responsibility principle
 * **Error Handling**: Use specific exceptions, don't catch generic Exception
@@ -521,7 +521,7 @@ public class UserService {
 
 ### 420: How do you handle exceptions properly in Java?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Specific Exceptions**: Catch specific exceptions, not generic Exception
 * **Early Validation**: Validate inputs early and throw meaningful exceptions
 * **Resource Cleanup**: Use try-with-resources or finally blocks
@@ -599,7 +599,7 @@ public class FileProcessor {
 
 ### 421: What are the best practices for using collections?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Interface Types**: Declare variables using interface types (List, Set, Map)
 * **Appropriate Collection**: Choose right collection for use case
 * **Immutability**: Use immutable collections when possible
@@ -688,7 +688,7 @@ public class CollectionBestPractices {
 
 ### 422: What are the best practices for multi-threading?
 
-**Answer (40 seconds):**
+**Answer:**
 * **Thread Safety**: Use thread-safe collections and synchronization
 * **Immutability**: Prefer immutable objects to avoid synchronization
 * **Executor Framework**: Use ExecutorService instead of creating threads directly
@@ -787,7 +787,7 @@ public class ThreadingBestPractices {
 
 ### 423: What are the best practices for memory management?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Avoid Memory Leaks**: Close resources, remove listeners, clear collections
 * **Object Pooling**: Reuse expensive objects when appropriate
 * **Lazy Loading**: Load data only when needed
@@ -893,7 +893,7 @@ public class MemoryBestPractices {
 
 ### 424: What are clean code principles?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Meaningful Names**: Use descriptive names for variables, methods, classes
 * **Small Functions**: Keep methods short and focused on single task
 * **Single Responsibility**: Each class should have one reason to change
@@ -988,7 +988,7 @@ public class UserRepository {
 
 ### 425: What is SOLID principles?
 
-**Answer (40 seconds):**
+**Answer:**
 * **S - Single Responsibility**: Class should have one reason to change
 * **O - Open/Closed**: Open for extension, closed for modification
 * **L - Liskov Substitution**: Subtypes must be substitutable for base types
@@ -1103,7 +1103,7 @@ public class OrderService {
 
 ### 426: What is code documentation?
 
-**Answer (30 seconds):**
+**Answer:**
 * **JavaDoc**: Standard documentation format for Java APIs
 * **Method Documentation**: Describe purpose, parameters, return values, exceptions
 * **Class Documentation**: Explain class responsibility and usage
@@ -1211,7 +1211,7 @@ Generated JavaDoc available at: `/docs/api/`
 
 ### 427: What are Java certification paths?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Oracle Certified Associate (OCA)**: Entry-level Java fundamentals
 * **Oracle Certified Professional (OCP)**: Advanced Java programming skills
 * **Oracle Certified Expert (OCE)**: Specialized areas like Web Services, JPA
@@ -1316,7 +1316,7 @@ Popular certifications:
 
 ### 428: What are Java career progression paths?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Junior Developer**: Learn Java fundamentals, frameworks, basic tools
 * **Mid-level Developer**: Master design patterns, databases, testing
 * **Senior Developer**: Architecture decisions, mentoring, complex systems
@@ -1445,7 +1445,7 @@ Mobile Developer:
 
 ### 429: What are essential Java skills?
 
-**Answer (40 seconds):**
+**Answer:**
 * **Core Java**: OOP, collections, generics, exception handling, I/O
 * **Frameworks**: Spring Boot, Spring MVC, Hibernate/JPA
 * **Database**: SQL, JDBC, database design, ORM concepts
@@ -1590,7 +1590,7 @@ CI/CD Pipeline (GitHub Actions):
 
 ### 430: What are Java interview preparation tips?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Review Fundamentals**: OOP concepts, collections, exception handling
 * **Practice Coding**: LeetCode, HackerRank, coding challenges
 * **System Design**: Understand scalability, databases, caching
@@ -1707,7 +1707,7 @@ Frequently asked topics:
 
 ### 431: What are Java community resources?
 
-**Answer (30 seconds):**
+**Answer:**
 * **Official Resources**: Oracle Java documentation, OpenJDK website
 * **Communities**: Stack Overflow, Reddit r/java, Java subreddit
 * **Conferences**: JavaOne, Devoxx, Spring One, local JUGs
@@ -1820,7 +1820,7 @@ public class JavaCommunityResources {
 
 ### 432: What are Java learning resources?
 
-**Answer (35 seconds):**
+**Answer:**
 * **Books**: "Effective Java" by Joshua Bloch, "Java: The Complete Reference"
 * **Online Courses**: Oracle University, Pluralsight, Udemy, Coursera
 * **Interactive Platforms**: Codecademy, LeetCode, HackerRank
@@ -1834,7 +1834,7 @@ public class JavaCommunityResources {
 ---
 # 🔹  Common Issues
 
-### 433. What are common Java performance issues? (25 seconds)
+### 433. What are common Java performance issues?
 
 Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
 
@@ -1854,7 +1854,7 @@ public class LeakExample {
 }
 ```
 
-### 434. What are common Java memory issues? (30 seconds)
+### 434. What are common Java memory issues?
 * **OutOfMemoryError** - Heap space exhausted
 * **Memory leaks** - Objects referenced but not used
 * **Stack overflow** - Deep recursion or large local variables
@@ -1870,7 +1870,7 @@ public void recursiveMethod() {
 List<String> list = new ArrayList<>(1000); // Pre-size collections
 ```
 
-### 435. What are common Java concurrency issues? (35 seconds)
+### 435. What are common Java concurrency issues?
 * **Race conditions** - Multiple threads accessing shared data
 * **Deadlocks** - Threads waiting for each other indefinitely
 * **Thread starvation** - Threads not getting CPU time
@@ -1889,7 +1889,7 @@ public void safeMethod() {
 }
 ```
 
-### 436. What are common Java deployment issues? (25 seconds)
+### 436. What are common Java deployment issues?
 * **ClassPath problems** - Missing or conflicting JAR files
 * **Version conflicts** - Different library versions
 * **Configuration errors** - Wrong environment settings
@@ -1901,7 +1901,7 @@ String classpath = System.getProperty("java.class.path");
 System.out.println("Classpath: " + classpath);
 ```
 
-### 437. What are common Java security issues? (30 seconds)
+### 437. What are common Java security issues?
 * **SQL injection** - Unsanitized database queries
 * **XSS attacks** - Unescaped user input in web apps
 * **Insecure deserialization** - Untrusted object deserialization
@@ -1914,7 +1914,7 @@ PreparedStatement stmt = conn.prepareStatement(sql);
 stmt.setInt(1, userId);
 ```
 
-### 438. What are debugging strategies? (20 seconds)
+### 438. What are debugging strategies?
 * **Reproduce the issue** - Create minimal test case
 * **Use logging** - Add strategic log statements
 * **Debugger tools** - Step through code execution
@@ -1925,13 +1925,13 @@ stmt.setInt(1, userId);
 logger.debug("Processing user: {}, status: {}", userId, status);
 ```
 
-### 439. What are problem-solving methodologies? (25 seconds)
+### 439. What are problem-solving methodologies?
 * **Define the problem** - Understand symptoms clearly
 * **Gather information** - Logs, stack traces, environment
 * **Form hypothesis** - Educated guess about root cause
 * **Test and verify** - Implement fix and validate
 
-### 440. What are root cause analysis techniques? (30 seconds)
+### 440. What are root cause analysis techniques?
 * **5 Whys technique** - Ask "why" five times
 * **Fishbone diagram** - Categorize potential causes
 * **Timeline analysis** - When did problem start
@@ -1950,7 +1950,7 @@ try {
 
 # 🔹 Advanced Debugging
 
-### 441. What is remote debugging setup? (25 seconds)
+### 441. What is remote debugging setup?
 * **JVM parameters** - Enable remote debugging port
 * **IDE configuration** - Connect to remote application
 * **Security considerations** - Limit access to debug port
@@ -1961,7 +1961,7 @@ try {
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 ```
 
-### 442. What is conditional breakpoints? (20 seconds)
+### 442. What is conditional breakpoints?
 * **Condition-based stopping** - Break only when condition is true
 * **Reduce noise** - Skip irrelevant iterations
 * **Variable inspection** - Check specific values
@@ -1974,7 +1974,7 @@ for (int i = 0; i < 1000; i++) {
 }
 ```
 
-### 443. What is hot code replacement? (25 seconds)
+### 443. What is hot code replacement?
 * **Runtime code changes** - Modify code without restart
 * **Development efficiency** - Faster debugging cycles
 * **JVM support** - Limited to method body changes
@@ -1987,7 +1987,7 @@ public String formatMessage(String input) {
 }
 ```
 
-### 444. What is debugging multithreaded applications? (35 seconds)
+### 444. What is debugging multithreaded applications?
 * **Thread-specific breakpoints** - Break in specific threads
 * **Synchronization issues** - Identify deadlocks and race conditions
 * **Thread state inspection** - Monitor thread status
@@ -2000,7 +2000,7 @@ logger.debug("Thread {} entering critical section",
             Thread.currentThread().getName());
 ```
 
-### 445. What is debugging performance issues? (30 seconds)
+### 445. What is debugging performance issues?
 * **Profiling tools** - JProfiler, VisualVM, JConsole
 * **Method timing** - Measure execution time
 * **Memory analysis** - Track object allocation
@@ -2014,7 +2014,7 @@ long duration = System.nanoTime() - start;
 logger.info("Operation took {} ms", duration / 1_000_000);
 ```
 
-### 446. What is heap dump analysis? (30 seconds)
+### 446. What is heap dump analysis?
 
 **Heap dump analysis** is the process of analyzing a **memory snapshot of the JVM heap** to identify memory leaks, large objects, and reference chains.
 
@@ -2034,7 +2034,7 @@ HotSpotDiagnosticMXBean mxBean = ManagementFactory.newPlatformMXBeanProxy(
 mxBean.dumpHeap("/tmp/heapdump.hprof", true);
 ```
 
-### 447. What is thread dump analysis? (25 seconds)
+### 447. What is thread dump analysis?
 
 **Thread dump analysis** is the process of examining a snapshot of all running threads in a JVM to identify **blocked threads, deadlocks, high CPU usage, and execution flow** using stack traces.
 
@@ -2056,7 +2056,7 @@ for (ThreadInfo info : threadInfos) {
 ---
 # 🔹 System Design and Architecture
 
-### 448. How do you design a highly scalable Java system? (40 seconds)
+### 448. How do you design a highly scalable Java system?
 
 To design a **highly scalable Java system**, focus on **horizontal scaling** by adding more servers, use **microservices architecture** for independent scaling, implement **caching** (like Redis or Hazelcast), apply **load balancing** to distribute traffic, and use **database sharding** to handle large data efficiently.
 
@@ -2080,7 +2080,7 @@ public class UserController {
 }
 ```
 
-### 449. How do you optimize Java applications for extreme performance? (35 seconds)
+### 449. How do you optimize Java applications for extreme performance?
 
 To optimize Java applications for extreme performance, focus on **JVM tuning** (heap size and GC), use efficient **algorithms and data structures**, reduce unnecessary **object creation**, and use profiling tools like **JProfiler** or **VisualVM** to find bottlenecks.
 
@@ -2108,7 +2108,7 @@ public class ObjectPool<T> {
 }
 ```
 
-### 450. How do you ensure Java application security at enterprise scale? (40 seconds)
+### 450. How do you ensure Java application security at enterprise scale?
 
 To ensure Java application security at enterprise scale, implement **multi-layer security** (authentication, authorization, encryption), enforce **input validation**, use **TLS/SSL** for secure communication, integrate **SAST/DAST security scanning** in CI/CD, and regularly **update dependencies and frameworks** to fix vulnerabilities.
 
@@ -2128,7 +2128,7 @@ public ResponseEntity<?> secureOperation(@Valid @RequestBody SecureRequest reque
 }
 ```
 
-### 451. How do you implement fault-tolerant Java systems? (35 seconds)
+### 451. How do you implement fault-tolerant Java systems?
 
 To implement a **fault-tolerant Java system**, use patterns like **circuit breaker** to prevent cascading failures, **retry mechanisms** for transient errors, **bulkhead** to isolate resources, continuous **health checks**, and **graceful degradation** to provide fallback functionality when failures occur.
 
@@ -2153,7 +2153,7 @@ public class PaymentService {
 }
 ```
 
-### 452. How do you design Java systems for global distribution? (40 seconds)
+### 452. How do you design Java systems for global distribution?
 
 To design Java systems for global distribution, use **CDNs** to deliver static content worldwide, deploy services in **multiple regions** closer to users, enable **data replication** across regions, optimize **latency with caching and async processing**, and handle time zones by storing data in **UTC** and converting at presentation time.
 
@@ -2181,7 +2181,7 @@ public class GlobalConfig {
 }
 ```
 
-### 453. How do you implement real-time Java applications? (35 seconds)
+### 453. How do you implement real-time Java applications?
 
 To implement **real-time Java applications**, use **WebSockets** for bidirectional communication, message brokers like **Apache Kafka** for event streaming, and **Spring WebFlux** for non-blocking processing.
 
@@ -2210,7 +2210,7 @@ public class RealTimeController {
 }
 ```
 
-### 454. How do you design Java systems for machine learning workloads? (40 seconds)
+### 454. How do you design Java systems for machine learning workloads?
 
 To design Java systems for machine learning workloads, build a **data pipeline (ETL)** for data preparation, expose models through **REST APIs for inference**, and use batch frameworks like **Apache Spark** for large-scale processing.
 
@@ -2241,7 +2241,7 @@ public class MLController {
 }
 ```
 
-### 455. How do you implement Java systems for IoT at scale? (35 seconds)
+### 455. How do you implement Java systems for IoT at scale?
 
 To implement Java systems for IoT at scale, use lightweight protocols like **MQTT** for device communication, apply **edge computing** to process data near devices, and store sensor data in **time-series databases**.
 
@@ -2273,7 +2273,7 @@ public class IoTDataProcessor {
 }
 ```
 
-### 456. How do you design Java systems for blockchain applications? (40 seconds)
+### 456. How do you design Java systems for blockchain applications?
 
 To design Java systems for blockchain applications, focus on **distributed consensus**, strong **cryptographic security** (hashing and digital signatures), support for **smart contracts**, efficient **transaction processing**, and use **immutable data structures** to ensure data integrity and trust.
 
@@ -2308,7 +2308,7 @@ public class BlockchainService {
 }
 ```
 
-### 457. What is the future of Java and how do you prepare for it? (40 seconds)
+### 457. What is the future of Java and how do you prepare for it?
 
 The future of Java includes innovations like **Project Loom** (virtual threads for better concurrency), **Project Panama** (native code integration), and **Project Valhalla** (high-performance value types).
 

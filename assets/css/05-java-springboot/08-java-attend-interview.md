@@ -36,7 +36,7 @@ Here is your **cleaned list with duplicates and similar questions removed** and 
 
 # ✅ Spring Boot & Microservices
 
-28. What is Spring Cloud?
+28. What is Spring Cloud? - 
 29. How do you design and implement backend APIs?
 30. How are your microservices structured?
 31. What design patterns are commonly used in Microservices architecture?

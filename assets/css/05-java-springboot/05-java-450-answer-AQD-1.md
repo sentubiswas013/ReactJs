@@ -2109,7 +2109,7 @@ for (int i = 0; i < 1000; i++) {
 ---
 # 🔹 1. Exception Concepts
 
-### 92. What is exception handling in Java?
+### 92. What is exception handling in Java? - asked
 
 **Exception handling in Java** is a mechanism used to **handle runtime errors gracefully** so that the program does not crash unexpectedly.
 
@@ -3266,7 +3266,7 @@ barrier.await(); // Waits for other threads
 // Continues after all 3 threads reach barrier
 ```
 
-### 136. What is Semaphore?
+### 136. What is Semaphore? - asked
 
 **Semaphore** is a concurrency utility that **controls access to a shared resource** by limiting the number of threads that can access it simultaneously.
 
@@ -6848,7 +6848,7 @@ stmt.setString(1, userName);
 ---
 # 🔹 Common Design Patterns
 
-### 252. What are design patterns?
+### 252. What are design patterns? - asked
 
 Design patterns are proven reusable solutions to common software design problems, categorized into Creational, Structural, and Behavioral patterns.
 
@@ -7640,7 +7640,7 @@ public class AppConfig {
 
 ---
 
-### 283: What is dependency injection?
+### 283: What is dependency injection? - aksed
 
 **Dependency Injection (DI)** is a design pattern where **objects receive their dependencies from an external source** instead of creating them.
 
@@ -7664,7 +7664,34 @@ public class OrderService {
 }
 ```
 
----
+## 2. How do you resolve Dependency Injection ambiguity in Spring Boot? - asked
+
+**Answer:**
+
+When multiple beans of the same type exist, DI ambiguity is resolved using:
+
+* **@Primary** – marks the default bean
+* **@Qualifier** – specifies which bean to inject
+* **Bean name** – explicitly refer to the desired bean
+
+
+**Example:**
+```java
+@Service
+@Qualifier("emailService")
+public class EmailNotificationService implements NotificationService { }
+
+@Service
+@Qualifier("smsService")
+public class SmsNotificationService implements NotificationService { }
+
+@Component
+public class NotificationManager {
+    @Autowired
+    @Qualifier("emailService")
+    private NotificationService notificationService;
+}
+```
 
 ### 284: What is inversion of control (IoC)?
 
@@ -7779,7 +7806,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-### 288: What is Spring Cloud?
+### 288: What is Spring Cloud? - asked
 
 **Spring Cloud** is a framework for **building distributed systems and microservices**.
 
@@ -8133,7 +8160,7 @@ public List<ServiceInstance> getOrderServiceInstances() {
 
 ---
 
-### 300: What is API gateway?
+### 300: What is API gateway? - asked
 
 **API Gateway** is a **single entry point** for client requests in microservices.
 
@@ -8164,7 +8191,7 @@ public class GatewayConfig {
 
 ---
 
-### 301: What is circuit breaker pattern?
+### 301: What is circuit breaker pattern? - asked
 
 **Circuit Breaker Pattern** is a design pattern that **prevents cascading failures** in distributed systems.
 
@@ -8189,6 +8216,77 @@ public class UserService {
         return new User(id, "Default User", "default@email.com");
     }
 }
+```
+
+## 36. What is Resilience4j and why is it used? - asked
+
+**Answer:**
+
+**Resilience4j** is a lightweight fault-tolerance library for Java and Spring Boot applications.
+
+It provides features like **Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Time Limiter**.
+
+It is used to make microservices more **resilient** by handling failures gracefully and preventing cascading failures.
+
+
+**Example:**
+```java
+// Circuit Breaker
+@Service
+public class UserService {
+    @CircuitBreaker(name = "userService", fallbackMethod = "getUserFallback")
+    public User getUser(Long id) {
+        return userClient.getUser(id);
+    }
+    
+    public User getUserFallback(Long id, Exception e) {
+        return new User(id, "Guest User");
+    }
+}
+
+// Rate Limiter - Limit requests per second
+@Service
+public class ApiService {
+    @RateLimiter(name = "apiService")
+    public Response callExternalApi() {
+        return externalApiClient.call();
+    }
+}
+
+// Retry - Retry failed operations
+@Service
+public class OrderService {
+    @Retry(name = "orderService", fallbackMethod = "createOrderFallback")
+    public Order createOrder(OrderRequest request) {
+        return orderClient.create(request);
+    }
+    
+    public Order createOrderFallback(OrderRequest request, Exception e) {
+        return new Order("PENDING");
+    }
+}
+
+// Bulkhead - Limit concurrent calls
+@Service
+public class PaymentService {
+    @Bulkhead(name = "paymentService", type = Bulkhead.Type.SEMAPHORE)
+    public Payment process(PaymentRequest request) {
+        return paymentProcessor.process(request);
+    }
+}
+
+// application.yml
+// resilience4j:
+//   ratelimiter:
+//     instances:
+//       apiService:
+//         limit-for-period: 10
+//         limit-refresh-period: 1s
+//   retry:
+//     instances:
+//       orderService:
+//         max-attempts: 3
+//         wait-duration: 1000
 ```
 
 ---
@@ -10023,7 +10121,7 @@ class UserServiceTest {
 
 ---
 
-### 352: What is Mockito?
+### 352: What is Mockito? - asked
 
 
 * Most popular mocking framework for Java unit testing

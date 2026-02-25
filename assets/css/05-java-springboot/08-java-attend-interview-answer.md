@@ -1,6 +1,6 @@
 # ✅ Backend (Java / Spring Boot)
 
-## 1. What is Dependency Injection (DI)?
+## 1. What is Dependency Injection (DI)? - aksed
 
 **Answer:**
 
@@ -24,7 +24,7 @@ public class UserService {
 
 ---
 
-## 2. How do you resolve Dependency Injection ambiguity in Spring Boot?
+## 2. How do you resolve Dependency Injection ambiguity in Spring Boot? - asked
 
 **Answer:**
 
@@ -94,7 +94,7 @@ public void testAddition() {
 
 ---
 
-## 5. What is Mockito?
+## 5. What is Mockito? - asked
 
 **Answer:**
 Mockito is a Java testing framework that allows you to create mock objects for testing. It helps isolate the class under test by simulating the behavior of dependencies without needing actual implementations.
@@ -141,7 +141,7 @@ public class UserServiceTest {
 
 ---
 
-## 7. What is exception handling in Java?
+## 7. What is exception handling in Java? - asked
 
 **Answer:**
 Exception handling is a mechanism to handle runtime errors gracefully, preventing application crashes. Java uses try-catch blocks to catch exceptions, and you can throw custom exceptions for specific business logic errors.
@@ -992,7 +992,7 @@ public class ProductController {
 ```
 # ✅ Spring Boot & Microservices
 
-## 28. What is Spring Cloud?
+## 28. What is Spring Cloud? - asked
 
 **Answer:**
 
