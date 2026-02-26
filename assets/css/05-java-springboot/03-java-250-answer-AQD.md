@@ -3218,7 +3218,7 @@ Connection conn = dataSource.getConnection(); // From pool
 ```
 
 
-## 4. What is caching and how it works inernally(Implementation)?
+## 5. What is caching and how it works inernally(Implementation)?
 
 **Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
 
@@ -3327,7 +3327,7 @@ public class UserService {
 }
 ```
 
-## 5. What is SQL injection and how to prevent it?
+## 6. What is SQL injection and how to prevent it?
 
 SQL injection is a security vulnerability where malicious SQL code is inserted into application queries, potentially allowing unauthorized database access or data manipulation.
 
@@ -3355,7 +3355,7 @@ pstmt.setString(1, userId); // Safe parameter binding
 ResultSet rs = pstmt.executeQuery();
 ```
 
-## 6. What is transaction management in JDBC?
+## 7. What is transaction management in JDBC?
 
 Transaction management ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
 
@@ -3402,7 +3402,7 @@ try {
 }
 ```
 
-## 7. How do you Handle Large Data Processing?
+## 8. How do you Handle Large Data Processing?
 
 **Streaming (Low Memory)**
 I process large files or datasets **line by line** using Java Streams.
