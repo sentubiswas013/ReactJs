@@ -5219,7 +5219,7 @@ public class OrderController {
 
 # 🔵 21. Java and Application Security
 
-## 313: What is Java security model?
+## 1: What is Java security model?
 
 **Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
 
@@ -5247,7 +5247,7 @@ public class MySecurityManager extends SecurityManager {
 System.setSecurityManager(new MySecurityManager());
 ```
 
-## 314: What is sandbox in Java?
+## 2: What is sandbox in Java?
 
 **Sandbox in Java** is a **restricted environment** for running untrusted code.
 
@@ -5267,7 +5267,7 @@ public class MyApplet extends Applet {
 
 ---
 
-## 315: What is bytecode verification?
+## 3: What is bytecode verification?
 
 **Bytecode Verification** is the process where the **JVM checks Java bytecode** for safety before execution.
 
@@ -5287,7 +5287,7 @@ It ensures **type safety, correct control flow, and stack usage**, preventing **
 ```
 
 
-## 317: What is the security manager?
+## 4: What is the security manager?
 
 **Security Manager** is a Java component that **enforces security policies at runtime**.
 
@@ -5310,7 +5310,7 @@ grant {
 
 ---
 
-## 318: What are digital signatures in Java?
+## 5: What are digital signatures in Java?
 
 **Digital Signatures in Java** are a **cryptographic mechanism** to verify **code authenticity and integrity**.
 
@@ -5331,7 +5331,7 @@ boolean isValid = signature.verify(digitalSignature);
 
 ---
 
-## 319: What is encryption and decryption in Java?
+## 6: What is encryption and decryption in Java?
 
 **Encryption and Decryption in Java** is the process of converting data to and from a **secure unreadable format**.
 
@@ -5354,7 +5354,7 @@ byte[] decrypted = cipher.doFinal(encrypted);
 
 ---
 
-## 320: What is SSL/TLS in Java?
+## 7: What is SSL/TLS in Java?
 
 **SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
 
@@ -5376,7 +5376,7 @@ ResponseEntity<String> response = restTemplate.getForEntity(
 
 🔹 **Application Security**
 
-## 321: What is authentication vs authorization?
+## 8: What is authentication vs authorization?
 
 
 * **Authentication**: Verifies "who you are" - identity verification
@@ -5405,7 +5405,7 @@ public List<User> getUsers() { return userService.getAllUsers(); }
 
 ---
 
-## 322: What is OAuth?
+## 9: What is OAuth?
 
 **OAuth** is an **open standard for authorization** that allows third-party apps to access user resources **without sharing passwords**.
 
@@ -5434,7 +5434,7 @@ public class OAuth2Config {
 
 ---
 
-## 323: What is JWT (JSON Web Token)?
+## 10: What is JWT (JSON Web Token)?
 
 **JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
 
@@ -5464,14 +5464,14 @@ public class JwtService {
 
 ---
 
-## 324: What is CSRF protection?
+## 11: What is CSRF protection?
 
 **CSRF protection** prevents **unauthorized actions** caused by malicious websites.
 
 It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
 
 
-## 325: What is XSS protection?
+## 12: What is XSS protection?
 
 **XSS protection** prevents **malicious script injection** in web applications.
 
@@ -5480,7 +5480,7 @@ It defends against **Reflected, Stored, and DOM XSS** using **input validation, 
 
 ---
 
-## 326: What is input validation?
+## 13: What is input validation?
 
 **Input validation** is the process of **checking user input for correctness and security**.
 
@@ -5508,7 +5508,7 @@ public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user
 }
 ```
 
-## 328: What is OAuth 2.0?
+## 14: What is OAuth 2.0?
 
 **OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
 
@@ -5543,7 +5543,7 @@ public class ApiController {
 
 ---
 
-## 330: What is SAML?
+## 15: What is SAML?
 
 **SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
 
