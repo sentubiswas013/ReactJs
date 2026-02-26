@@ -5592,7 +5592,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 # ✅ 21. Java Performance and Optimization
 
 
-### 331: How do you measure Java application performance?
+### 1: How do you measure Java application performance?
 
 * **Response Time**: Time to complete requests
 * **Throughput**: Requests processed per second
@@ -5624,7 +5624,7 @@ public class UserController {
 
 ---
 
-### 332: What are the common performance bottlenecks in Java?
+### 2: What are the common performance bottlenecks in Java?
 
 * **Memory Issues**: Memory leaks, excessive GC, heap exhaustion
 * **CPU Intensive**: Inefficient algorithms, excessive loops
@@ -5645,7 +5645,7 @@ public class PerformanceBottlenecks {
 
 ---
 
-### 333: How do you optimize Java code for performance?
+### 3: How do you optimize Java code for performance?
 
 * **Algorithm Optimization**: Use efficient data structures and algorithms
 * **Memory Management**: Avoid object creation in loops, use object pools
@@ -5687,7 +5687,7 @@ public class OptimizedUserService {
 
 ---
 
-### 334: What is profiling in Java?
+### 4: What is profiling in Java?
 
 **Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
 
@@ -5728,7 +5728,7 @@ public class ProfiledService {
 
 ---
 
-### 335: What is JVM tuning?
+### 5: What is JVM tuning?
 
 **JVM tuning** is the process of **optimizing JVM settings** for better performance.
 
@@ -5762,7 +5762,7 @@ java -Xms2g -Xmx4g \
 
 ---
 
-### 336: What are the JVM parameters for performance tuning?
+### 6: What are the JVM parameters for performance tuning?
 
 * **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
 * **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
@@ -5793,7 +5793,7 @@ java -Xms2g -Xmx4g \
 
 ---
 
-### 337: What is memory profiling?
+### 7: What is memory profiling?
 
 **Memory profiling** is the analysis of an application's **memory usage and allocation patterns**.
 
@@ -5808,7 +5808,7 @@ It helps identify **heap usage, object retention, memory leaks**, and uses tools
 
 ---
 
-### 338: What is CPU profiling?
+### 8: What is CPU profiling?
 
 **CPU profiling** is the analysis of **CPU usage** to find performance hotspots.
 
@@ -5825,7 +5825,7 @@ It tracks **time spent in methods, call hierarchy**, uses **sampling or instrume
 
 ---
 
-### 339: What is application performance monitoring (APM)?
+### 9: What is application performance monitoring (APM)?
 
 **Application Performance Monitoring (APM)** is the **real-time monitoring of application performance in production**.
 
@@ -5862,7 +5862,7 @@ public class MonitoredController {
 
 ---
 
-### 340: What is code profiling?
+### 10: What is code profiling?
 
 **Code profiling** is the process of analyzing how your code runs to find performance issues.
 
@@ -5898,7 +5898,7 @@ public class ProfiledCodeService {
 
 ---
 
-### 341: What is database optimization?
+### 11: What is database optimization?
 
 **Database optimization** is the process of improving database performance and query speed.
 
@@ -5931,7 +5931,7 @@ public class OptimizedUserRepository {
 
 ---
 
-### 342: What is query optimization?
+### 12: What is query optimization?
 
 **Query optimization** is the process of improving the performance and execution time of SQL queries.
 
@@ -5968,7 +5968,7 @@ public class OptimizedQueryRepository {
 
 ---
 
-### 343: What is lazy loading?
+### 13: What is lazy loading?
 
 **Lazy loading** is a design pattern where data is loaded **only when it is actually needed**, instead of loading everything at once.
 
@@ -6015,7 +6015,7 @@ public class UserService {
 
 ---
 
-### 344: What is eager loading?
+### 14: What is eager loading?
 
 **Eager loading** is a strategy where related data is **loaded immediately along with the main entity**.
 
@@ -6053,7 +6053,7 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 
 ---
 
-### 345: What is pagination?
+### 15: What is pagination?
 
 **Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
 
@@ -6094,7 +6094,7 @@ public class UserRepository extends JpaRepository<User, Long> {
 }
 ```
 
-## 9. What is JIT compilation?
+## 16. What is JIT compilation?
 
 JIT (Just-In-Time) compilation is a runtime optimization where the JVM compiles frequently executed bytecode into native machine code for better performance.
 
@@ -6289,7 +6289,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 
 # 🔹 CI/CD and DevOp
 
-### 364: What is continuous integration?
+### 1: What is continuous integration?
 
 **Continuous Integration (CI)** is a development practice where developers **frequently merge code into a shared repository**, and each commit triggers an **automated build and test process**.
 
@@ -6324,7 +6324,7 @@ jobs:
 
 ---
 
-### 365: What is continuous deployment?
+### 2: What is continuous deployment?
 
 **Continuous Deployment (CD)** is a practice where code changes are **automatically deployed to production** after passing all tests.
 
@@ -6352,7 +6352,7 @@ deploy:
 
 ---
 
-### 366: What is Jenkins?
+### 3: What is Jenkins?
 
 **Jenkins** is an **open-source automation server** used to implement **CI/CD pipelines**.
 
@@ -6400,7 +6400,7 @@ pipeline {
 
 ---
 
-### 367: What is Git?
+### 4: What is Git?
 
 **Git** is a **distributed version control system** used to track and manage code changes.
 
@@ -6427,7 +6427,7 @@ git pull origin main              # Pull from remote
 
 ---
 
-### 368: What is version control?
+### 5: What is version control?
 
 **Version control** is a system used to **track and manage changes to code or files over time**.
 
@@ -6453,7 +6453,7 @@ git revert abc123            # Revert specific commit
 
 ---
 
-### 369: What is infrastructure as code?
+### 6: What is infrastructure as code?
 
 **Infrastructure as Code (IaC)** is the practice of **managing and provisioning infrastructure using code instead of manual setup**.
 
@@ -6503,7 +6503,7 @@ resource "aws_instance" "web" {
 
 ---
 
-### 370: What is deployment strategies?
+### 7: What is deployment strategies?
 
 **Deployment strategies** are different approaches used to release applications to production safely and efficiently.
 
@@ -6537,7 +6537,7 @@ spec:
 
 ---
 
-### 371: What is blue-green deployment?
+### 8: What is blue-green deployment?
 
 **Blue-Green deployment** is a strategy where two identical production environments are maintained — one live (**Blue**) and one with the new version (**Green**).
 
@@ -6591,7 +6591,7 @@ spec:
 
 ---
 
-### 372: What is canary deployment?
+### 9: What is canary deployment?
 
 **Canary deployment** is a strategy where a new version of an application is released to a **small percentage of users first**, and then gradually rolled out to everyone.
 
@@ -6650,7 +6650,7 @@ public class UserController {
 }
 ```
 
-### 306: What is containerization?
+### 10: What is containerization?
 
 **Containerization** is a technology that **packages applications with their dependencies** into isolated, portable containers.
 
@@ -6673,7 +6673,7 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 ---
 
-### 307: What is Docker?
+### 11: What is Docker?
 
 **Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
 
@@ -6694,7 +6694,7 @@ services:
     image: mysql:8.0
 ```
 
-## 3. What is Kubernetes?
+## 12. What is Kubernetes?
 
 **Kubernetes** is a **container orchestration platform** used to manage containerized applications at scale. It automates **deployment, scaling, load balancing, and self-healing** of containers across a cluster of machines.
 
@@ -6737,7 +6737,7 @@ spec:
         - containerPort: 8080
 ```
 
-## 4. What is cloud computing?
+## 13. What is cloud computing?
 
 **Cloud computing** is the delivery of computing resources like **servers, storage, databases, networking, and software** over the internet on a **pay-as-you-go** basis. Instead of owning physical infrastructure, you use resources provided by cloud platforms.
 
@@ -6760,7 +6760,7 @@ It allows easy **scaling, high availability, cost efficiency**, and faster appli
 - **Accessibility:** Access from anywhere
 - **Reliability:** High availability and disaster recovery
 
-## 5. What is distributed system?
+## 14. What is distributed system?
 
 A **distributed system** is a system where multiple **independent computers or services work together** over a network and appear as a **single system** to the user.
 
@@ -6786,7 +6786,7 @@ These systems improve **scalability, fault tolerance, and availability**, since 
 - Content delivery networks (CDNs)
 - Web applications with load balancers
 
-## 6. What is load balancing?
+## 15. What is load balancing?
 
 **Load balancing** is the process of **distributing incoming requests** across multiple servers so that no single server becomes overloaded.
 
@@ -6824,7 +6824,7 @@ server {
 
 # 🔵 25. Monitoring and Logging
 
-### 373: What is application monitoring?
+### 1: What is application monitoring?
 
 **Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
 
@@ -6861,7 +6861,7 @@ public class UserController {
 
 ---
 
-### 374: What is logging framework?
+### 2: What is logging framework?
 
 A **logging framework** is a library that provides a structured way to record application events and errors.
 
@@ -6894,7 +6894,7 @@ public class UserService {
 
 ---
 
-### 375: What is Log4j?
+### 3: What is Log4j?
 
 **Apache Log4j** is a popular Java logging framework developed by the Apache Software Foundation.
 
@@ -6925,7 +6925,7 @@ It provides hierarchical loggers, multiple appenders (console, file, etc.), flex
 
 ---
 
-### 376: What is SLF4J?
+### 4: What is SLF4J?
 
 **SLF4J** (Simple Logging Facade for Java) is a logging abstraction layer that provides a common API for different logging frameworks.
 
@@ -6967,7 +6967,7 @@ public class OrderService {
 
 ---
 
-### 377: What is Logback?
+### 5: What is Logback?
 
 **Logback** is a logging framework and the native implementation of the SLF4J API, designed as the successor to Log4j 1.x.
 
@@ -7008,7 +7008,7 @@ It offers better performance, flexible configuration, automatic reload support, 
 
 ---
 
-### 378: What is structured logging?
+### 6: What is structured logging?
 
 **Structured logging** is a logging approach where logs are written in a **machine-readable format** (like JSON) using **key-value pairs** instead of plain text.
 
@@ -7053,7 +7053,7 @@ public class PaymentService {
 
 ---
 
-### 379: What is centralized logging?
+### 7: What is centralized logging?
 
 **Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
 
@@ -7113,7 +7113,7 @@ public class LoggingConfig {
 }
 ```
 
-### 380: What is metrics collection?
+### 8: What is metrics collection?
 
 **Metrics collection** is the process of gathering **quantitative data about system and application performance** over time.
 
@@ -7165,7 +7165,7 @@ public class MetricsCollector {
 
 ---
 
-### 381: What is JMX monitoring?
+### 9: What is JMX monitoring?
 
 **JMX (Java Management Extensions) monitoring** is a standard way to **monitor and manage Java applications**.
 
