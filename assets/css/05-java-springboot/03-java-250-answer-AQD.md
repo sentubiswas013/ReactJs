@@ -4086,7 +4086,7 @@ public class UserService { // This becomes a Spring bean
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
-What design patterns are commonly used in Microservices architecture?
+## 7. What design patterns are commonly used in Microservices architecture?
 
 **Answer:**
 
@@ -4154,7 +4154,7 @@ public class OrderSagaService {
 }
 ```
 
-## 7. What is auto-configuration in Spring Boot and to disable?
+## 8. What is auto-configuration in Spring Boot and to disable?
 
 Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
 
@@ -4172,7 +4172,7 @@ Auto-configuration automatically configures Spring applications based on the dep
 // No manual configuration needed
 ```
 
-✅ **Disable for Entire Application (Most Common)**
+**Disable for Entire Application (Most Common)**
 
 ```java
 @SpringBootApplication(
@@ -4182,7 +4182,7 @@ public class Application {
 }
 ```
 
-✅ **Disable for a Specific Configuration Class**
+**Disable for a Specific Configuration Class**
 
 If you are not using `@SpringBootApplication` in that class:
 
@@ -4193,7 +4193,7 @@ public class CustomConfig {
 }
 ```
 
-✅ **How to Disable Specific Auto-Configuration Class**
+**How to Disable Specific Auto-Configuration Class**
 
 
 ```java
@@ -4206,7 +4206,7 @@ public class Application {
 }
 ```
 
-✅ **How to Disable Multiple Auto Configurations**
+**How to Disable Multiple Auto Configurations**
 
 ```java
 @SpringBootApplication(
@@ -4219,7 +4219,7 @@ public class Application {
 
 
 
-## 8. What is @SpringBootApplication annotation?
+## 9. What is @SpringBootApplication annotation?
 
 @SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 
@@ -4240,7 +4240,7 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 9. What is the difference between @Component, @Service, and @Repository?
+## 10. What is the difference between @Component, @Service, and @Repository?
 
 These are stereotype annotations that mark classes as Spring beans, but they serve different purposes and provide semantic meaning.
 
@@ -4272,7 +4272,7 @@ public class UserService { } // Business logic
 public class UserRepository { } // Data access
 ```
 
-## 10. What is @Autowired annotation?
+## 11. What is @Autowired annotation?
 
 `@Autowired` is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
 It tells the Spring container to automatically inject a required bean into a class.
@@ -4298,7 +4298,7 @@ public class OrderService {
 }
 ```
 
-## 11. What is @Qualifier annotation?
+## 12. What is @Qualifier annotation?
 
 `@Qualifier` is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
 
@@ -4320,7 +4320,7 @@ public class SmsSender implements MessageSender { }
 
 Without @Qualifier, Spring would throw an exception due to multiple beans of type MessageSender.
 
-## 12. What is ApplicationContext?
+## 13. What is ApplicationContext?
 
 `ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
@@ -4347,7 +4347,7 @@ public class MyService {
 }
 ```
 
-### 13. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+### 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
 Great question — this is a **very common Spring interview topic**.
 I’ll answer it in a **real-time spoken style**, explaining *why and when* we use each annotation, with **short, clear code examples**.
@@ -4443,7 +4443,7 @@ public ResponseEntity<User> updateEmail(
 }
 ```
 
-## 14. How do you integrate a Java application with a cloud environment?
+## 15. How do you integrate a Java application with a cloud environment?
 
 Integrate by containerizing your application with Docker, using cloud databases and services instead of local ones, implementing health checks for monitoring, and configuring environment variables for different cloud environments. Use cloud-specific features like auto-scaling and load balancing.
 
@@ -4472,7 +4472,7 @@ Additional steps:
 - Use cloud storage services
 - Set up monitoring and alerting
 
-## 15. How do you secure a Java Spring Boot application?
+## 16. How do you secure a Java Spring Boot application?
 
 To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
 
@@ -4510,20 +4510,20 @@ public class SecureController {
     }
 }
 ```
-## 16. If we don’t write getters & setters, which annotation can we use?
+## 17. If we don’t write getters & setters, which annotation can we use?
 
 If we don’t want to manually write **getters and setters** in Java, we can use **Lombok’s `@Getter` and `@Setter` annotations** on the class or fields.
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
 
-## 17. Why do we use Long in JpaRepository<Employee, Long>?
+## 18. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
 
-## 18. How to implement many to many, many to one and one to many in java interiew questions, give answer
+## 19. How to implement many to many, many to one and one to many in java interiew questions, give answer
 ✅ 1️⃣ One-To-Many
 One **Order** → Many **Items**
 
@@ -4555,7 +4555,7 @@ public class Item {
 }
 ```
 
-✅ 2️⃣ Many-To-One
+**Many-To-One**
 Many **Employees** → One **Department**
 
 ```java
@@ -4573,7 +4573,7 @@ public class Employee {
 ```
 
 
-✅ 3️⃣ Many-To-Many
+**Many-To-Many**
 Many **Students** ↔ Many **Courses**
 
 ```java
