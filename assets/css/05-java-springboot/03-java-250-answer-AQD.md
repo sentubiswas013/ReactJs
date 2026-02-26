@@ -4083,6 +4083,74 @@ public class UserService { // This becomes a Spring bean
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
+What design patterns are commonly used in Microservices architecture?
+
+**Answer:**
+
+Common design patterns in Microservices are:
+
+* **API Gateway** – A single entry point that routes client requests to appropriate microservices.
+* **Service Discovery** – A mechanism that automatically detects and locates available service instances.
+* **Circuit Breaker** – A pattern that stops calls to a failing service to prevent system-wide failure.
+* **Saga Pattern** – A way to manage distributed transactions using a sequence of local transactions.
+* **CQRS (Command Query Responsibility Segregation)** – A pattern that separates read operations from write operations.
+* **Database per Service** – Each microservice has its own dedicated database for data isolation.
+* **Bulkhead Pattern** – A pattern that isolates resources to prevent one service failure from affecting others.
+
+
+
+**Example:**
+```java
+// 1. API Gateway Pattern
+@RestController
+public class ApiGatewayController {
+    @Autowired
+    private UserClient userClient;
+    
+    @Autowired
+    private OrderClient orderClient;
+    
+    @GetMapping("/api/user-orders/{userId}")
+    public UserOrdersResponse getUserWithOrders(@PathVariable Long userId) {
+        User user = userClient.getUser(userId);
+        List<Order> orders = orderClient.getOrdersByUser(userId);
+        return new UserOrdersResponse(user, orders);
+    }
+}
+
+// 2. Circuit Breaker Pattern (with Resilience4j)
+@Service
+public class OrderService {
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
+    public Payment processPayment(PaymentRequest request) {
+        return paymentClient.process(request);
+    }
+    
+    public Payment paymentFallback(PaymentRequest request, Exception e) {
+        return new Payment("PENDING", "Payment service unavailable");
+    }
+}
+
+// 3. Saga Pattern (Choreography)
+@Service
+public class OrderSagaService {
+    @Autowired
+    private KafkaTemplate<String, OrderEvent> kafkaTemplate;
+    
+    public void createOrder(Order order) {
+        orderRepository.save(order);
+        kafkaTemplate.send("order-created", new OrderEvent(order.getId()));
+    }
+    
+    @KafkaListener(topics = "payment-failed")
+    public void handlePaymentFailed(PaymentEvent event) {
+        Order order = orderRepository.findById(event.getOrderId()).get();
+        order.setStatus("CANCELLED");
+        orderRepository.save(order);
+    }
+}
+```
+
 ## 7. What is auto-configuration in Spring Boot and to disable?
 
 Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
