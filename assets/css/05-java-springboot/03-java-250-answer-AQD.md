@@ -4823,7 +4823,7 @@ Microservices is an architectural approach where applications are built as a col
 Microservices break down monolithic applications into smaller, manageable pieces that can be developed, deployed, and scaled independently.
 
 
-## 7. What design patterns are commonly used in Microservices architecture?
+## 7. What design patterns used in Microservices architecture?
 
 **Answer:**
 
