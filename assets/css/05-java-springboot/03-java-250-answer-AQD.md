@@ -2971,6 +2971,24 @@ List<String> result = names.stream()
     .collect(Collectors.toList());      // Terminal
 ```
 
+### 141. What is parallel streams? - asked 
+
+**Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
+
+They use the **ForkJoinPool.commonPool()** by default and are ideal for **CPU-intensive operations on large datasets**, making it easy to leverage **multi-core processors**.
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+// Sequential
+int sum = numbers.stream().mapToInt(i -> i * i).sum();
+
+// Parallel - automatically uses multiple threads
+int parallelSum = numbers.parallelStream()
+    .mapToInt(i -> i * i)
+    .sum();
+```
+
 ## 6. What is the difference between Collection and Stream?
 
 A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
