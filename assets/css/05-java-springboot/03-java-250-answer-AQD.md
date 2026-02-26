@@ -4018,7 +4018,10 @@ public class UserController {
 
 ## 4. What is BeanFactory?
 
-BeanFactory is Spring's basic IoC container that manages object creation and dependency injection. It uses lazy initialization, meaning beans are created only when you request them. It's the foundation of Spring's dependency injection but ApplicationContext is more commonly used because it has additional features.
+**BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
+It uses **lazy initialization**, so beans are created **only when requested**.
+It is lightweight, but **ApplicationContext** is preferred because it provides more features like event handling and annotation support.
+
 
 ```java
 BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
