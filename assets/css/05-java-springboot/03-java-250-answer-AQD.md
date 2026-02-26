@@ -2971,7 +2971,7 @@ List<String> result = names.stream()
     .collect(Collectors.toList());      // Terminal
 ```
 
-### 141. What is parallel streams? - asked 
+## 141. What is parallel streams? - asked 
 
 **Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
 
@@ -3846,7 +3846,7 @@ It provides **infrastructure support**, uses **IoC and Dependency Injection**, h
 
 Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
 
-### 282: What are the core features of Spring?
+## 282: What are the core features of Spring?
 
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
@@ -3903,7 +3903,7 @@ class OrderService {
     }
 }
 ```
-### 287: What is Spring Data JPA?
+## 287: What is Spring Data JPA?
 
 **Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
 
@@ -3928,7 +3928,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-### 288: What is Spring Cloud? - asked
+## 288: What is Spring Cloud? - asked
 
 **Spring Cloud** is a framework for **building distributed systems and microservices**.
 
@@ -3956,7 +3956,7 @@ public class UserServiceApplication {
 
 ---
 
-### 289: What is Spring Security?
+## 289: What is Spring Security?
 
 **Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
 
@@ -3988,7 +3988,7 @@ public class SecurityConfig {
 
 ---
 
-### 290: What is Spring WebFlux?
+## 290: What is Spring WebFlux?
 
 **Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
 
@@ -4617,7 +4617,7 @@ REST (Representational State Transfer) is based on six key architectural princip
 These principles ensure scalability, reliability, and maintainability of web services.
 
 
-### 275: What is XML how to return XML in response?
+## 275: What is XML how to return XML in response?
 
 **XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
 
@@ -5219,7 +5219,7 @@ public class OrderController {
 
 # 🔵 21. Java and Application Security
 
-### 313: What is Java security model?
+## 313: What is Java security model?
 
 **Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
 
@@ -5247,7 +5247,7 @@ public class MySecurityManager extends SecurityManager {
 System.setSecurityManager(new MySecurityManager());
 ```
 
-### 314: What is sandbox in Java?
+## 314: What is sandbox in Java?
 
 **Sandbox in Java** is a **restricted environment** for running untrusted code.
 
@@ -5267,7 +5267,7 @@ public class MyApplet extends Applet {
 
 ---
 
-### 315: What is bytecode verification?
+## 315: What is bytecode verification?
 
 **Bytecode Verification** is the process where the **JVM checks Java bytecode** for safety before execution.
 
@@ -5287,7 +5287,7 @@ It ensures **type safety, correct control flow, and stack usage**, preventing **
 ```
 
 
-### 317: What is the security manager?
+## 317: What is the security manager?
 
 **Security Manager** is a Java component that **enforces security policies at runtime**.
 
@@ -5310,7 +5310,7 @@ grant {
 
 ---
 
-### 318: What are digital signatures in Java?
+## 318: What are digital signatures in Java?
 
 **Digital Signatures in Java** are a **cryptographic mechanism** to verify **code authenticity and integrity**.
 
@@ -5331,7 +5331,7 @@ boolean isValid = signature.verify(digitalSignature);
 
 ---
 
-### 319: What is encryption and decryption in Java?
+## 319: What is encryption and decryption in Java?
 
 **Encryption and Decryption in Java** is the process of converting data to and from a **secure unreadable format**.
 
@@ -5354,7 +5354,7 @@ byte[] decrypted = cipher.doFinal(encrypted);
 
 ---
 
-### 320: What is SSL/TLS in Java?
+## 320: What is SSL/TLS in Java?
 
 **SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
 
@@ -5376,7 +5376,7 @@ ResponseEntity<String> response = restTemplate.getForEntity(
 
 🔹 **Application Security**
 
-### 321: What is authentication vs authorization?
+## 321: What is authentication vs authorization?
 
 
 * **Authentication**: Verifies "who you are" - identity verification
@@ -5405,7 +5405,7 @@ public List<User> getUsers() { return userService.getAllUsers(); }
 
 ---
 
-### 322: What is OAuth?
+## 322: What is OAuth?
 
 **OAuth** is an **open standard for authorization** that allows third-party apps to access user resources **without sharing passwords**.
 
@@ -5434,7 +5434,7 @@ public class OAuth2Config {
 
 ---
 
-### 323: What is JWT (JSON Web Token)?
+## 323: What is JWT (JSON Web Token)?
 
 **JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
 
@@ -5464,14 +5464,14 @@ public class JwtService {
 
 ---
 
-### 324: What is CSRF protection?
+## 324: What is CSRF protection?
 
 **CSRF protection** prevents **unauthorized actions** caused by malicious websites.
 
 It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
 
 
-### 325: What is XSS protection?
+## 325: What is XSS protection?
 
 **XSS protection** prevents **malicious script injection** in web applications.
 
@@ -5480,7 +5480,7 @@ It defends against **Reflected, Stored, and DOM XSS** using **input validation, 
 
 ---
 
-### 326: What is input validation?
+## 326: What is input validation?
 
 **Input validation** is the process of **checking user input for correctness and security**.
 
@@ -5508,7 +5508,7 @@ public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user
 }
 ```
 
-### 328: What is OAuth 2.0?
+## 328: What is OAuth 2.0?
 
 **OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
 
@@ -5543,7 +5543,7 @@ public class ApiController {
 
 ---
 
-### 330: What is SAML?
+## 330: What is SAML?
 
 **SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
 
@@ -5592,7 +5592,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 # ✅ 21. Java Performance and Optimization
 
 
-### 1: How do you measure Java application performance?
+## 1: How do you measure Java application performance?
 
 * **Response Time**: Time to complete requests
 * **Throughput**: Requests processed per second
@@ -5624,7 +5624,7 @@ public class UserController {
 
 ---
 
-### 2: What are the common performance bottlenecks in Java?
+## 2: What are the common performance bottlenecks in Java?
 
 * **Memory Issues**: Memory leaks, excessive GC, heap exhaustion
 * **CPU Intensive**: Inefficient algorithms, excessive loops
@@ -5645,7 +5645,7 @@ public class PerformanceBottlenecks {
 
 ---
 
-### 3: How do you optimize Java code for performance?
+## 3: How do you optimize Java code for performance?
 
 * **Algorithm Optimization**: Use efficient data structures and algorithms
 * **Memory Management**: Avoid object creation in loops, use object pools
@@ -5687,7 +5687,7 @@ public class OptimizedUserService {
 
 ---
 
-### 4: What is profiling in Java?
+## 4: What is profiling in Java?
 
 **Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
 
@@ -5728,7 +5728,7 @@ public class ProfiledService {
 
 ---
 
-### 5: What is JVM tuning?
+## 5: What is JVM tuning?
 
 **JVM tuning** is the process of **optimizing JVM settings** for better performance.
 
@@ -5762,7 +5762,7 @@ java -Xms2g -Xmx4g \
 
 ---
 
-### 6: What are the JVM parameters for performance tuning?
+## 6: What are the JVM parameters for performance tuning?
 
 * **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
 * **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
@@ -5793,7 +5793,7 @@ java -Xms2g -Xmx4g \
 
 ---
 
-### 7: What is memory profiling?
+## 7: What is memory profiling?
 
 **Memory profiling** is the analysis of an application's **memory usage and allocation patterns**.
 
@@ -5808,7 +5808,7 @@ It helps identify **heap usage, object retention, memory leaks**, and uses tools
 
 ---
 
-### 8: What is CPU profiling?
+## 8: What is CPU profiling?
 
 **CPU profiling** is the analysis of **CPU usage** to find performance hotspots.
 
@@ -5825,7 +5825,7 @@ It tracks **time spent in methods, call hierarchy**, uses **sampling or instrume
 
 ---
 
-### 9: What is application performance monitoring (APM)?
+## 9: What is application performance monitoring (APM)?
 
 **Application Performance Monitoring (APM)** is the **real-time monitoring of application performance in production**.
 
@@ -5862,7 +5862,7 @@ public class MonitoredController {
 
 ---
 
-### 10: What is code profiling?
+## 10: What is code profiling?
 
 **Code profiling** is the process of analyzing how your code runs to find performance issues.
 
@@ -5898,7 +5898,7 @@ public class ProfiledCodeService {
 
 ---
 
-### 11: What is database optimization?
+## 11: What is database optimization?
 
 **Database optimization** is the process of improving database performance and query speed.
 
@@ -5931,7 +5931,7 @@ public class OptimizedUserRepository {
 
 ---
 
-### 12: What is query optimization?
+## 12: What is query optimization?
 
 **Query optimization** is the process of improving the performance and execution time of SQL queries.
 
@@ -5968,7 +5968,7 @@ public class OptimizedQueryRepository {
 
 ---
 
-### 13: What is lazy loading?
+## 13: What is lazy loading?
 
 **Lazy loading** is a design pattern where data is loaded **only when it is actually needed**, instead of loading everything at once.
 
@@ -6015,7 +6015,7 @@ public class UserService {
 
 ---
 
-### 14: What is eager loading?
+## 14: What is eager loading?
 
 **Eager loading** is a strategy where related data is **loaded immediately along with the main entity**.
 
@@ -6053,7 +6053,7 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 
 ---
 
-### 15: What is pagination?
+## 15: What is pagination?
 
 **Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
 
@@ -6289,7 +6289,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 
 # 🔹 CI/CD and DevOp
 
-### 1: What is continuous integration?
+## 1: What is continuous integration?
 
 **Continuous Integration (CI)** is a development practice where developers **frequently merge code into a shared repository**, and each commit triggers an **automated build and test process**.
 
@@ -6324,7 +6324,7 @@ jobs:
 
 ---
 
-### 2: What is continuous deployment?
+## 2: What is continuous deployment?
 
 **Continuous Deployment (CD)** is a practice where code changes are **automatically deployed to production** after passing all tests.
 
@@ -6352,7 +6352,7 @@ deploy:
 
 ---
 
-### 3: What is Jenkins?
+## 3: What is Jenkins?
 
 **Jenkins** is an **open-source automation server** used to implement **CI/CD pipelines**.
 
@@ -6400,7 +6400,7 @@ pipeline {
 
 ---
 
-### 4: What is Git?
+## 4: What is Git?
 
 **Git** is a **distributed version control system** used to track and manage code changes.
 
@@ -6427,7 +6427,7 @@ git pull origin main              # Pull from remote
 
 ---
 
-### 5: What is version control?
+## 5: What is version control?
 
 **Version control** is a system used to **track and manage changes to code or files over time**.
 
@@ -6453,7 +6453,7 @@ git revert abc123            # Revert specific commit
 
 ---
 
-### 6: What is infrastructure as code?
+## 6: What is infrastructure as code?
 
 **Infrastructure as Code (IaC)** is the practice of **managing and provisioning infrastructure using code instead of manual setup**.
 
@@ -6503,7 +6503,7 @@ resource "aws_instance" "web" {
 
 ---
 
-### 7: What is deployment strategies?
+## 7: What is deployment strategies?
 
 **Deployment strategies** are different approaches used to release applications to production safely and efficiently.
 
@@ -6537,7 +6537,7 @@ spec:
 
 ---
 
-### 8: What is blue-green deployment?
+## 8: What is blue-green deployment?
 
 **Blue-Green deployment** is a strategy where two identical production environments are maintained — one live (**Blue**) and one with the new version (**Green**).
 
@@ -6591,7 +6591,7 @@ spec:
 
 ---
 
-### 9: What is canary deployment?
+## 9: What is canary deployment?
 
 **Canary deployment** is a strategy where a new version of an application is released to a **small percentage of users first**, and then gradually rolled out to everyone.
 
@@ -6650,7 +6650,7 @@ public class UserController {
 }
 ```
 
-### 10: What is containerization?
+## 10: What is containerization?
 
 **Containerization** is a technology that **packages applications with their dependencies** into isolated, portable containers.
 
@@ -6673,7 +6673,7 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 ---
 
-### 11: What is Docker?
+## 11: What is Docker?
 
 **Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
 
@@ -6824,7 +6824,7 @@ server {
 
 # 🔵 25. Monitoring and Logging
 
-### 1: What is application monitoring?
+## 1: What is application monitoring?
 
 **Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
 
@@ -6861,7 +6861,7 @@ public class UserController {
 
 ---
 
-### 2: What is logging framework?
+## 2: What is logging framework?
 
 A **logging framework** is a library that provides a structured way to record application events and errors.
 
@@ -6894,7 +6894,7 @@ public class UserService {
 
 ---
 
-### 3: What is Log4j?
+## 3: What is Log4j?
 
 **Apache Log4j** is a popular Java logging framework developed by the Apache Software Foundation.
 
@@ -6925,7 +6925,7 @@ It provides hierarchical loggers, multiple appenders (console, file, etc.), flex
 
 ---
 
-### 4: What is SLF4J?
+## 4: What is SLF4J?
 
 **SLF4J** (Simple Logging Facade for Java) is a logging abstraction layer that provides a common API for different logging frameworks.
 
@@ -6967,7 +6967,7 @@ public class OrderService {
 
 ---
 
-### 5: What is Logback?
+## 5: What is Logback?
 
 **Logback** is a logging framework and the native implementation of the SLF4J API, designed as the successor to Log4j 1.x.
 
@@ -7008,7 +7008,7 @@ It offers better performance, flexible configuration, automatic reload support, 
 
 ---
 
-### 6: What is structured logging?
+## 6: What is structured logging?
 
 **Structured logging** is a logging approach where logs are written in a **machine-readable format** (like JSON) using **key-value pairs** instead of plain text.
 
@@ -7053,7 +7053,7 @@ public class PaymentService {
 
 ---
 
-### 7: What is centralized logging?
+## 7: What is centralized logging?
 
 **Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
 
@@ -7113,7 +7113,7 @@ public class LoggingConfig {
 }
 ```
 
-### 8: What is metrics collection?
+## 8: What is metrics collection?
 
 **Metrics collection** is the process of gathering **quantitative data about system and application performance** over time.
 
@@ -7165,7 +7165,7 @@ public class MetricsCollector {
 
 ---
 
-### 9: What is JMX monitoring?
+## 9: What is JMX monitoring?
 
 **JMX (Java Management Extensions) monitoring** is a standard way to **monitor and manage Java applications**.
 
