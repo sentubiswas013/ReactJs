@@ -4279,7 +4279,7 @@ public class MyService {
 }
 ```
 
-### 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+## 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
 Great question — this is a **very common Spring interview topic**.
 I’ll answer it in a **real-time spoken style**, explaining *why and when* we use each annotation, with **short, clear code examples**.
