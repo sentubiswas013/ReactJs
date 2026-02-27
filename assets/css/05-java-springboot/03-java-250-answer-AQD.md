@@ -5134,7 +5134,11 @@ public void consume(String message) {
 
 ## 9. How do you Handle Failures in Microservices?
 
-Handle failures using circuit breakers to prevent cascading failures, retry mechanisms with exponential backoff, and always have fallback responses. Set timeouts so requests don't hang forever, and implement health checks for monitoring. The key is failing fast and gracefully.
+**Answer**
+
+Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
+
+We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
 
 ```java
 @Component
@@ -5156,7 +5160,12 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 ## 10. How do you Handle Exception Handling in Spring Boot?
 
-Use @ControllerAdvice for global exception handling across all controllers. Create custom exception classes for different error scenarios and return proper HTTP status codes with meaningful error messages. Always log exceptions for debugging but don't expose internal details to users.
+**Answer:**
+
+In Spring Boot, exception handling is done using **@ExceptionHandler** and **@ControllerAdvice** for global exception handling.
+
+We create custom exceptions, return proper **HTTP status codes**, and provide meaningful error responses using **ResponseEntity**. This ensures clean, centralized, and consistent error handling across the application.
+]
 
 ```java
 public class UserNotFoundException extends RuntimeException {
@@ -5209,7 +5218,12 @@ public void handleOrderCreated(OrderCreatedEvent event) {
 
 ## 12. What is API Gateway?
 
-An **API Gateway** is a single entry point that sits between clients and multiple backend services, handling all incoming requests and routing them to the appropriate microservice.
+**Answer**
+
+An **API Gateway** is a single entry point for all client requests in a microservices architecture.
+
+It handles **routing, authentication, rate limiting, logging, and load balancing**, and forwards requests to appropriate backend services, improving security and simplifying client communication.
+
 
 **Benefits:**
 - Single entry point for clients
@@ -5285,12 +5299,11 @@ resilience4j:
 
 ## 14. How do you Improve Performance in Spring Boot Application?
 
-To improve performance in a **Spring Boot application**, start by **optimizing database access** using proper indexing, pagination, and connection pooling like **HikariCP**. Reduce unnecessary queries and use **caching** with tools like Redis or Spring Cache.
+**Answer**
 
-Enable **asynchronous processing** where applicable, and tune **JVM settings** such as heap size and garbage collection. Also, use **lazy loading**, compress responses, and monitor the application using **Actuator and profiling tools** to identify bottlenecks.
+To improve performance in Spring Boot, I use **caching (Redis), connection pooling (HikariCP), proper indexing in database, async processing, and pagination for large data**.
 
-Overall, focus on **efficient DB usage, caching, async processing, and monitoring** for best performance.
-
+Enable **asynchronous processing** where applicable, I also optimize **JVM settings, reduce unnecessary logging, use efficient queries, and monitor the application using Actuator and profiling tools** to identify bottlenecks.
 
 ```java
 @Service
@@ -5308,13 +5321,6 @@ public class UserService {
     }
 }
 ```
-
-Additional optimizations:
-- Use connection pooling (HikariCP)
-- Enable HTTP compression
-- Optimize database queries
-- Use CDN for static content
-- Monitor with APM tools
 
 ## 15. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
 
