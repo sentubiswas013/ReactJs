@@ -5071,7 +5071,7 @@ While microservices offer many benefits, they also introduce complexity and chal
 
 Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
 
-## 8. How did microservices communicate with each other?**
+## 8. How microservices communicate with each other?**
 
 **Spoken Answer:**
 
