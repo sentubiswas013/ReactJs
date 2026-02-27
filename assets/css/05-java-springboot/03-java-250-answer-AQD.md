@@ -5080,14 +5080,55 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 >
 > For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
 
-**Example Code (Feign Client):**
+> Microservices communicate in two ways:
+
+1. **Synchronous (REST, Feign, WebClient)** – Request/Response model
+2. **Asynchronous (Kafka, RabbitMQ)** – Event-driven model
+
+**Synchronous Communication**
 
 ```java
+// Using FeignClient
 @FeignClient(name = "payment-service")
 public interface PaymentClient {
 
     @GetMapping("/payments/{orderId}")
     PaymentResponse getPayment(@PathVariable Long orderId);
+}
+
+// Using Rest Template
+@RestController
+public class OrderController {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @GetMapping("/order")
+    public String getOrder() {
+        String response = restTemplate.getForObject(
+                "http://localhost:8081/payment", 
+                String.class);
+        return response;
+    }
+}
+```
+
+**Asynchronous Communication**
+```java
+// Producer
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
+
+public void sendMessage() {
+    kafkaTemplate.send("order-topic", "Order Created");
+}
+```
+
+```java
+// Consumer
+@KafkaListener(topics = "order-topic", groupId = "group1")
+public void consume(String message) {
+    System.out.println("Received: " + message);
 }
 ```
 
