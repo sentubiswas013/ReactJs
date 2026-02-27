@@ -511,17 +511,8 @@ public class Student {
 
 ## 3. What is the difference between this and super keywords?
 
-**this** refers to the current object instance, while **super** refers to the immediate parent class.
-
-**this keyword:**
-- References current object
-- Calls current class constructor/methods
-- Resolves naming conflicts
-
-**super keyword:**
-- References parent class
-- Calls parent constructor/methods
-- Accesses overridden methods
+**this** refers to the current object instance,  
+**super** refers to the immediate parent class object.
 
 ```java
 class Parent {
@@ -583,10 +574,6 @@ class Dog extends Animal {
 **Yes, the `main()` method can be overloaded** in Java.
 
 The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
-
-* **Yes, you can overload main() method**
-* JVM only calls `public static void main(String[] args)`
-* Other overloaded versions are regular methods
 
 ```java
 public class Test {
