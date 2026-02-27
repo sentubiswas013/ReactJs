@@ -192,7 +192,36 @@ public class Helper {
 }
 ```
 
-## 9. What is Instance, Static, Abstract, and Final Methods?
+## 9. How many ways we can declra in variable(Local, Instance, and Static (class).)?
+Here are the **3 ways to declare variables in Java** with simple examples:
+
+**Local Variable :** Declared inside a method.
+```java
+class Test {
+    void display() {
+        int x = 10;   // Local variable
+        System.out.println(x);
+    }
+}
+```
+
+**Instance Variable :** Declared inside a class but outside methods.
+```java
+class Student {
+    int age = 20;   // Instance variable
+}
+```
+Each object will have its own copy of `age`.
+
+
+**Static Variable :** Declared using `static` keyword.
+```java
+class Student {
+    static String schoolName = "ABC School";   // Static variable
+}
+```
+
+## 10. What is Instance, Static, Abstract, and Final Methods?
 
 **Instance Method:** A method that belongs to an object and is called using an instance of the class.
 ```java
