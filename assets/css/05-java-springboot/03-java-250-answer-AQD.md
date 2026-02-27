@@ -540,11 +540,7 @@ class Child extends Parent {
 
 ## 4. What is method overloading?
 
-Method overloading means having multiple methods with the same name but different parameters in the same class. Java decides which method to call based on arguments.
-
-- Same method name, different parameters
-- Compile-time polymorphism
-- Parameters can differ by number, type, or order
+Method overloading is a feature in Java where multiple methods have the **same name** but **different parameter lists** (different number, type, or order of parameters) in the same class.
 
 ```java
 public class Calculator {
@@ -564,12 +560,8 @@ public class Calculator {
 
 ## 5. What is method overriding?
 
-Method overriding is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
+**Method overriding** is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
 
-- Same method signature as parent
-- Runtime polymorphism
-- Use @Override annotation for safety
-- Child method must be equally or more accessible
 
 ```java
 class Animal {
@@ -603,6 +595,18 @@ public class Test {
     public static void main() { }              // Overloaded
 }
 ```
+
+## 6. Is it allowed to override main() method in Java?
+
+❌ **No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
+
+* The `main()` method is:
+
+  ```java
+  public static void main(String[] args)
+  ```
+* Since it is **static**, it belongs to the class, not the object.
+* Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
 
 ## 7. Are we allowed to override a static method in Java?
 
