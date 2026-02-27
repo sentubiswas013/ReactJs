@@ -5031,9 +5031,11 @@ public class OrderSagaService {
 
 ## 5. Monolithic vs Microservices Architecture
 
-**Monolithic architecture** is where the entire application is built as a **single unit**. All components like UI, business logic, and database access are tightly coupled and deployed together. It’s simple to develop and test initially, but as the application grows, scaling and maintenance become difficult.
+**Monolithic Architecture:**
+All components (UI, business logic, database) are built and deployed as a **single unit**. It is simple to develop and deploy initially, but becomes difficult to scale and maintain as the application grows.
 
-**Microservices architecture** breaks the application into **small, independent services**, each responsible for a specific business function. These services can be developed, deployed, and scaled independently, which improves flexibility and scalability but adds complexity in communication, monitoring, and deployment.
+**Microservices Architecture:**
+The application is divided into **small, independent services** that communicate via APIs. Each service can be developed, deployed, and scaled independently, but it increases complexity in communication, monitoring, and deployment.
 
 So, **monolithic is simple but less scalable**, while **microservices are scalable and flexible but more complex**.
 
