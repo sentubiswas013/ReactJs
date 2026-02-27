@@ -5262,19 +5262,13 @@ The old HttpURLConnection required much more boilerplate code and didn't support
 
 ## 4. What is service discovery?
 
-Service discovery is a mechanism that allows services to find and communicate with each other dynamically without hardcoding network locations. It's essential in microservices architectures.
+**Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
 **How it works:**
 - Services register themselves with discovery server
 - Services query discovery server to find other services
 - Handles dynamic IP addresses and scaling
 - Provides health checking and load balancing
-
-**Popular Tools:**
-- Netflix Eureka
-- Consul
-- Kubernetes DNS
-- AWS Service Discovery
 
 ```java
 // Service registration with Eureka
