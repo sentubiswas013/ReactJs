@@ -4867,7 +4867,39 @@ public class UserController {
 
 # ✅ 21. Java Microservices 
 
-## 1. What is CORS, and how does it work?
+## 1. What are SOLID principles?
+
+**Answer:**
+
+SOLID is an acronym for five design principles that make software more maintainable and scalable:
+- **S**ingle Responsibility: A class should have one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subtypes must be substitutable for their base types
+- **I**nterface Segregation: Many specific interfaces are better than one general interface
+- **D**ependency Inversion: Depend on abstractions, not concrete implementations
+
+**Example:**
+```java
+// Single Responsibility Principle
+public class UserService {
+    public void createUser(User user) { /* only user logic */ }
+}
+
+public class EmailService {
+    public void sendEmail(String to, String message) { /* only email logic */ }
+}
+
+// Dependency Inversion Principle
+public interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+public class PayPalProcessor implements PaymentProcessor {
+    public void processPayment(double amount) { /* PayPal logic */ }
+}
+```
+
+## 2. What is CORS, and how does it work?
 
 CORS stands for Cross-Origin Resource Sharing. It's a browser security feature that blocks requests from one domain to another by default. CORS allows servers to specify which domains can access their resources by sending special HTTP headers. This is common when your frontend runs on localhost:3000 and backend on localhost:8080.
 
@@ -4894,7 +4926,7 @@ public class CorsConfig {
 }
 ```
 
-## 1. What are microservices?
+## 3. What are microservices?
 
 Microservices is an architectural approach where applications are built as a collection of small, independent services that communicate over well-defined APIs. Each service is responsible for a specific business function.
 
@@ -4908,7 +4940,7 @@ Microservices is an architectural approach where applications are built as a col
 Microservices break down monolithic applications into smaller, manageable pieces that can be developed, deployed, and scaled independently.
 
 
-## 7. What design patterns used in Microservices architecture?
+## 4. What design patterns used in Microservices architecture?
 
 **Answer:**
 
@@ -4921,8 +4953,6 @@ Common design patterns in Microservices are:
 * **CQRS (Command Query Responsibility Segregation)** – A pattern that separates read operations from write operations.
 * **Database per Service** – Each microservice has its own dedicated database for data isolation.
 * **Bulkhead Pattern** – A pattern that isolates resources to prevent one service failure from affecting others.
-
-
 
 **Example:**
 ```java
@@ -4976,7 +5006,7 @@ public class OrderSagaService {
 }
 ```
 
-## 2. Monolithic vs Microservices Architecture
+## 5. Monolithic vs Microservices Architecture
 
 **Monolithic architecture** is where the entire application is built as a **single unit**. All components like UI, business logic, and database access are tightly coupled and deployed together. It’s simple to develop and test initially, but as the application grows, scaling and maintenance become difficult.
 
@@ -4990,7 +5020,7 @@ Trade-offs:
 - Microservices: Independent scaling, technology diversity, complex deployment
 - Choose monolithic for small teams, microservices for large organizations
 
-## 2. What are the advantages of microservices?
+## 6. What are the advantages of microservices?
 
 Microservices offer several benefits over monolithic architectures, particularly for large, complex applications and organizations.
 
@@ -5004,7 +5034,7 @@ Microservices offer several benefits over monolithic architectures, particularly
 
 These benefits enable organizations to move faster, scale better, and maintain more resilient systems.
 
-## 3. What are the challenges of microservices?
+## 7. What are the challenges of microservices?
 
 While microservices offer many benefits, they also introduce complexity and challenges that must be carefully managed.
 
@@ -5018,7 +5048,7 @@ While microservices offer many benefits, they also introduce complexity and chal
 
 Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
 
-## 3. How did microservices communicate with each other?**
+## 8. How did microservices communicate with each other?**
 
 **Spoken Answer:**
 
@@ -5038,7 +5068,7 @@ public interface PaymentClient {
 }
 ```
 
-## 4. How do you Handle Failures in Microservices?
+## 9. How do you Handle Failures in Microservices?
 
 Handle failures using circuit breakers to prevent cascading failures, retry mechanisms with exponential backoff, and always have fallback responses. Set timeouts so requests don't hang forever, and implement health checks for monitoring. The key is failing fast and gracefully.
 
@@ -5060,7 +5090,7 @@ public class UserServiceClient {
 
 Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
 
-## 5. How do you Handle Exception Handling in Spring Boot?
+## 10. How do you Handle Exception Handling in Spring Boot?
 
 Use @ControllerAdvice for global exception handling across all controllers. Create custom exception classes for different error scenarios and return proper HTTP status codes with meaningful error messages. Always log exceptions for debugging but don't expose internal details to users.
 
@@ -5088,7 +5118,7 @@ public class GlobalExceptionHandler {
 }
 ```
 
-## 6. What is Event-Driven Architecture in Java?
+## 11. What is Event-Driven Architecture in Java?
 
 **Event-Driven Architecture (EDA)** in microservices is a design where services **communicate by producing and consuming events** instead of calling each other directly.
 
@@ -5113,7 +5143,7 @@ public void handleOrderCreated(OrderCreatedEvent event) {
 }
 ```
 
-## 5. What is API Gateway?
+## 12. What is API Gateway?
 
 An **API Gateway** is a single entry point that sits between clients and multiple backend services, handling all incoming requests and routing them to the appropriate microservice.
 
@@ -5140,7 +5170,7 @@ public class ApiGatewayApplication {
 }
 ```
 
-## 6. What is circuit breaker pattern?
+## 13. What is circuit breaker pattern?
 
 The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
 
@@ -5189,7 +5219,7 @@ resilience4j:
         sliding-window-size: 10
 ```
 
-## 6. How do you Improve Performance in Spring Boot Application?
+## 14. How do you Improve Performance in Spring Boot Application?
 
 To improve performance in a **Spring Boot application**, start by **optimizing database access** using proper indexing, pagination, and connection pooling like **HikariCP**. Reduce unnecessary queries and use **caching** with tools like Redis or Spring Cache.
 
@@ -5222,7 +5252,7 @@ Additional optimizations:
 - Use CDN for static content
 - Monitor with APM tools
 
-## 7. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
+## 15. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
 
 Yes, I’ve worked with the **Java 11 HTTP Client**. It’s a modern HTTP client introduced in Java 11 under the `java.net.http` package. It supports **HTTP/1.1 and HTTP/2**, has **built-in asynchronous and non-blocking calls** using `CompletableFuture`, and provides a clean, fluent API.
 
@@ -5257,7 +5287,7 @@ public class Test {
 
 The old HttpURLConnection required much more boilerplate code and didn't support modern features like HTTP/2 or reactive programming patterns.
 
-## 4. What is service discovery?
+## 16. What is service discovery?
 
 **Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
