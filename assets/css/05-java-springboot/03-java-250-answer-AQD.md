@@ -5237,25 +5237,27 @@ So compared to older clients, the Java 11 HTTP Client is **simpler, more efficie
 
 
 ```java
-// Java 11 HTTP Client - modern approach
-HttpClient client = HttpClient.newBuilder()
-    .version(HttpClient.Version.HTTP_2)
-    .connectTimeout(Duration.ofSeconds(10))
-    .build();
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create("https://api.example.com/users"))
-    .header("Content-Type", "application/json")
-    .GET()
-    .build();
+public class Test {
+    public static void main(String[] args) throws Exception {
 
-// Synchronous
-HttpResponse<String> response = client.send(request, 
-    HttpResponse.BodyHandlers.ofString());
+        HttpClient client = HttpClient.newHttpClient();
 
-// Asynchronous
-CompletableFuture<HttpResponse<String>> futureResponse = 
-    client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://example.com"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+    }
+}
 ```
 
 The old HttpURLConnection required much more boilerplate code and didn't support modern features like HTTP/2 or reactive programming patterns.
