@@ -4722,11 +4722,28 @@ It is **verbose**, supports **attributes and namespaces**, is **self-documenting
 ```
 
 ```java
-@GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
-public User getUser() {
-    return new User(1, "John");
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class StudentController {
+
+    @GetMapping(value = "/student", produces = "application/xml")
+    public Student getStudent() {
+        Student s = new Student();
+        s.setId(1);
+        s.setName("John");
+        return s;
+    }
 }
+
+// Result
+// <student>
+//     <id>1</id>
+//     <name>John</name>
+// </student>
 ```
+
 
 ## 3. What are HTTP methods and their usage?
 
