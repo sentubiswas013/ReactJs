@@ -4132,10 +4132,10 @@ public class UserService { // This becomes a Spring bean
 
 **Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
 
-**Design patterns**
+**Design patterns:**
 Spring Boot mainly uses **MVC, Dependency Injection, Singleton, Factory, and DAO** design patterns.
 
-**Design Principle**
+**Design Principle:**
 Spring Boot follows principles like Convention over **Configuration, Dependency Injection, Auto-Configuration, and Standalone** Applications.
 
 - Rapid application development
