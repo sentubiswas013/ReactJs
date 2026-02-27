@@ -3560,7 +3560,7 @@ Processing records in **small fixed-size chunks** (like 1000 records per batch)
 ```
 
 
-# ✅ 16. Java Design Patterns 
+# ✅ 17. Java Design Patterns 
 
 ## 1. What are design patterns?
 
@@ -4117,7 +4117,7 @@ public class UserService { // This becomes a Spring bean
 <bean id="userService" class="com.example.UserService"/>
 ```
 
-# ✅ 18. Java Spring Boot 
+# ✅ 19. Java Spring Boot 
 
 ## 6. What is annotations in Java?
 **An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
@@ -4624,7 +4624,7 @@ public class Course {
 }
 ```
 
-# ✅ 19. RESTful Services 
+# ✅ 20. RESTful Services 
 
 ## 1. What is CORS, and how does it work?
 
@@ -4865,7 +4865,7 @@ public class UserController {
 }
 ```
 
-# ✅ 20. Java Microservices 
+# ✅ 21. Java Microservices 
 
 ## 1. What is CORS, and how does it work?
 
@@ -5293,7 +5293,7 @@ public class OrderController {
 }
 ```
 
-# ✅ 21. Java and Application Security
+# ✅ 22. Java and Application Security
 
 ## 1: What is Java security model?
 
@@ -5665,7 +5665,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 }
 ```
 
-# ✅ 21. Java Performance and Optimization
+# ✅ 23. Java Performance and Optimization
 
 
 ## 1: How do you measure Java application performance?
@@ -6207,7 +6207,7 @@ java -XX:+PrintCompilation \      # Print compilation events
      JITExample
 ```
 
-# ✅ 22. Modern Java Features 
+# ✅ 24. Modern Java Features 
 
 ## 1. What are the new features in Java 8?
 
@@ -7291,4 +7291,4 @@ public interface ApplicationMonitorMXBean {
 }
 ```
 
-# ✅ 24. Miscellaneous
+# ✅ 25. Miscellaneous
