@@ -48,10 +48,6 @@ Object-Oriented Programming is based on four fundamental principles that promote
 
 Polymorphism means "many forms" - the ability of objects to take multiple forms. The same method call can behave differently depending on the object type.
 
-**Types of Polymorphism:**
-- **Runtime Polymorphism:** Method overriding (dynamic binding)
-- **Compile-time Polymorphism:** Method overloading (static binding)
-
 ```java
 // Runtime polymorphism - method overriding
 class Animal {
@@ -85,11 +81,6 @@ animal2.makeSound(); // "Cat meows"
 
 Encapsulation is the bundling of data and methods that operate on that data within a single unit, while hiding the internal implementation details from outside access.
 
-**Implementation in Java:**
-- **Private fields:** Hide data from direct access
-- **Public methods:** Provide controlled access (getters/setters)
-- **Access modifiers:** Control visibility (private, protected, public)
-
 ```java
 public class BankAccount {
     private double balance; // Private field - encapsulated
@@ -120,13 +111,6 @@ public class BankAccount {
 
 Inheritance is a mechanism where a new class acquires properties and behaviors of an existing class. It promotes code reusability and establishes an "is-a" relationship.
 
-**Types of Inheritance:**
-- **Single Inheritance:** One class extends another class
-- **Multilevel Inheritance:** Chain of inheritance (A→B→C)
-- **Hierarchical Inheritance:** Multiple classes inherit from one parent
-- **Multiple Inheritance:** Not supported in Java (use interfaces)
-- **Hybrid Inheritance:** Combination of above types
-
 ```java
 // Single inheritance
 class Vehicle {
@@ -156,13 +140,6 @@ class SportsCar extends Car {
 ## 7. What is an abstract class?
 
 An abstract class is a class that cannot be instantiated and may contain both abstract methods (without implementation) and concrete methods (with implementation). It's used to provide a common base for related classes.
-
-**Characteristics:**
-- Cannot create objects directly
-- Can have constructors and instance variables
-- May contain abstract and concrete methods
-- Extended using 'extends' keyword
-- Supports single inheritance only
 
 ```java
 abstract class Shape {
@@ -205,15 +182,6 @@ double area = circle.calculateArea();
 ## 8. What is a package in Java? 
 In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
 
-**Key points:**
-
-* Declared at the top of a Java file using `package` keyword.
-* Allows you to import and use classes from other packages.
-* Java has built-in packages like `java.lang`, `java.util`, `java.io`.
-* You can create custom packages to organize your project logically.
-
-**Example:**
-
 ```java
 package com.example.utils;
 
@@ -223,6 +191,58 @@ public class Helper {
     }
 }
 ```
+
+## 9. What is Instance, Static, Abstract, and Final Methods?
+
+**Instance Method:** A method that belongs to an object and is called using an instance of the class.
+```java
+class Student {
+    void study() {   // Instance method
+        System.out.println("Studying...");
+    }
+}
+
+Student s = new Student();
+s.study();   // Called using object
+```
+
+**Static Method:** A method that belongs to the class and is called using the class name.
+```java
+class Student {
+    static void schoolName() {   // Static method
+        System.out.println("ABC School");
+    }
+}
+
+Student.schoolName();   // Called using class name
+```
+
+**Abstract Method:** A method declared without a body that must be implemented by a subclass.
+```java
+abstract class Animal {
+    abstract void sound();   // Abstract method
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+**Final Method:** A method that cannot be overridden by a subclass.
+```java
+class Animal {
+    final void breathe() {   // Final method
+        System.out.println("Breathing...");
+    }
+}
+
+class Dog extends Animal {
+    // void breathe() {}  ❌ Not allowed (Compile-time error)
+}
+```
+
 
 # ✅ 2. Data Types and Variables
 
@@ -537,51 +557,62 @@ class Dog extends Animal {
 }
 ```
 
-## 6. What is the difference between overloading and overriding?
+## 6. Is it allowed to overload main() method in Java?
 
-**Method Overloading:**
-- Same class, same method name, different parameters
-- Compile-time decision (static binding)
-- No inheritance required
-- Can have different return types
+**Yes, the `main()` method can be overloaded** in Java.
 
-**Method Overriding:**
-- Parent-child classes, same method signature
-- Runtime decision (dynamic binding)
-- Requires inheritance
-- Must have same return type
+The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
+
+* **Yes, you can overload main() method**
+* JVM only calls `public static void main(String[] args)`
+* Other overloaded versions are regular methods
 
 ```java
-// Overloading - same class
-class Math {
-    int multiply(int a, int b) { return a * b; }
-    double multiply(double a, double b) { return a * b; }
-}
-
-// Overriding - inheritance
-class Shape { void draw() { } }
-class Circle extends Shape { 
-    @Override void draw() { } // Same signature
+public class Test {
+    public static void main(String[] args) { } // JVM entry point
+    public static void main(int x) { }         // Overloaded
+    public static void main() { }              // Overloaded
 }
 ```
 
-## 7. What is dynamic method dispatch?
+## 7. Are we allowed to override a static method in Java?
 
-Dynamic method dispatch is Java's mechanism for runtime polymorphism where the actual method called is determined at runtime based on the object type, not reference type.
+**Static methods cannot be overridden** in Java.
 
-- JVM decides which overridden method to call
-- Based on actual object type at runtime
-- Enables true polymorphism in inheritance
+They can be **hidden** in a subclass, and calls are resolved based on the **reference type**, not the object type.
+
+* **No, static methods cannot be overridden**
+* Static methods can be **hidden** (method hiding)
+* Called based on reference type, not object type
 
 ```java
-Animal animal1 = new Dog();
-Animal animal2 = new Cat();
+class Parent {
+    static void show() { System.out.println("Parent"); }
+}
+class Child extends Parent {
+    static void show() { System.out.println("Child"); } // Hiding, not overriding
+}
+```
 
-animal1.sound(); // Calls Dog's sound() method
-animal2.sound(); // Calls Cat's sound() method
+## 8. Is it possible to execute a program without defining a main() method?
 
-// Reference type is Animal, but actual method called
-// depends on object type (Dog or Cat)
+It is **technically possible** to run code in a **static block** without a `main()` method, but **modern Java requires `main()`** as the entry point.
+
+Using static blocks alone is **not recommended** and violates standard practices.
+
+* **Yes, using static blocks** (before Java 7)
+* **Modern Java requires main()** method for execution
+* **Static blocks execute** but program exits with error
+* **Not recommended** - violates standard practices
+
+```java
+class NoMain {
+    static {
+        System.out.println("Executing without main");
+        System.exit(0); // Required to prevent error
+    }
+}
+// Works in older Java versions, not recommended
 ```
 
 # ✅ 4. Java Inheritance 
@@ -724,7 +755,7 @@ class Dog implements Animal {
 }
 ```
 
-## 2.What are the interface available in Java?
+## 2. What are the interface available in Java?
 
 In Java, interfaces are mainly of four types:
 
@@ -1014,7 +1045,9 @@ int value = arr[5]; // ArrayIndexOutOfBoundsException
 
 ## 4. What is the difference between throw and throws?
 
-In Java, **throw** and **throws** are both used for exception handling, but they serve different purposes: one actually **triggers** an error, while the other **warns** that an error might happen.
+The **`throw`** keyword is used to **actually throw an exception object** inside the method body.
+
+The **`throws`** keyword is used in the **method signature** to declare that the method may throw certain exceptions.
 
 ```java
 public void validateAge(int age) throws IllegalArgumentException {
@@ -1053,7 +1086,7 @@ Multiple catch blocks can handle different exception types, and finally runs eve
 
 ## 6. What is try-with-resources?
 
-Try-with-resources automatically closes resources that implement AutoCloseable interface. It ensures proper resource management without explicit finally blocks.
+**Try-with-resources** is a feature in Java that automatically closes resources (like files or database connections) after use.
 
 - Automatically closes resources
 - Resources must implement AutoCloseable
