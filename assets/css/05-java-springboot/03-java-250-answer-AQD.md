@@ -5115,7 +5115,7 @@ public void handleOrderCreated(OrderCreatedEvent event) {
 
 ## 5. What is API Gateway?
 
-An API Gateway is a single entry point that sits between clients and multiple backend services, handling all incoming requests and routing them to the appropriate microservice.
+An **API Gateway** is a single entry point that sits between clients and multiple backend services, handling all incoming requests and routing them to the appropriate microservice.
 
 **Benefits:**
 - Single entry point for clients
@@ -5156,11 +5156,6 @@ After a cooldown period, it moves to a **half-open** state to test if the servic
 - Faster failure detection
 - Automatic recovery
 - Improves system resilience
-
-**Popular Implementations:**
-- Netflix Hystrix (deprecated)
-- Resilience4j
-- Spring Cloud Circuit Breaker
 
 ```java
 // Circuit breaker with Resilience4j
@@ -5298,7 +5293,7 @@ public class OrderController {
 }
 ```
 
-# 🔵 21. Java and Application Security
+# ✅ 21. Java and Application Security
 
 ## 1: What is Java security model?
 
