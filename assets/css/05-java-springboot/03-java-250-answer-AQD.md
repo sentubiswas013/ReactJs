@@ -710,27 +710,59 @@ class Car {
 
 ## 1. What is an interface in Java?
 
-An **interface** in Java is a **reference type** that defines a **contract of methods** that a class must implement. It contains **abstract methods**, and since Java 8, it can also have **default and static methods**.
-
-Interfaces are used to achieve **abstraction and multiple inheritance of behavior**. A class can implement **multiple interfaces**, allowing loose coupling and flexible design.
-
-In short: an interface **defines “what to do” without specifying “how to do it”**.
-
-
-- Contains abstract methods by default
-- All methods are public by default
-- Variables are public, static, and final
-- Supports multiple inheritance
-- Implemented using 'implements' keyword
+An **interface** in Java is a blueprint of a class that defines a contract of abstract methods which implementing classes must provide, used to achieve abstraction and multiple inheritance.
 
 ```java
-interface Drawable {
-    void draw(); // abstract method
-    int MAX_SIZE = 100; // public static final
+interface Animal {
+    void sound();   // abstract method
 }
 
-class Circle implements Drawable {
-    public void draw() { System.out.println("Drawing circle"); }
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+## 2.What are the interface available in Java?
+
+In Java, interfaces are mainly of four types:
+
+**Normal Interface :**
+A normal interface defines a contract with multiple abstract methods that a class must implement.
+
+```java
+interface Payment {
+    void pay();
+}
+```
+
+**Functional Interface :**
+A functional interface contains exactly one abstract method and is used for lambda expressions.
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+```
+
+**Marker Interface :**
+A marker interface is an empty interface used to tag a class for special behavior.
+
+```java
+interface SerializableMarker {
+}
+```
+
+**Nested Interface :**
+A nested interface is declared inside a class or another interface for logical grouping.
+
+```java
+class Bank {
+    interface RBI {
+        void rule();
+    }
 }
 ```
 
@@ -982,22 +1014,19 @@ int value = arr[5]; // ArrayIndexOutOfBoundsException
 
 ## 4. What is the difference between throw and throws?
 
-**throw** is used to explicitly throw an exception, while **throws** is used to declare that a method might throw exceptions.
-
-**throw:**
-- Throws actual exception object
-- Used inside method body
-- Followed by exception instance
-
-**throws:**
-- Declares possible exceptions
-- Used in method signature
-- Followed by exception class names
+In Java, **throw** and **throws** are both used for exception handling, but they serve different purposes: one actually **triggers** an error, while the other **warns** that an error might happen.
 
 ```java
 public void validateAge(int age) throws IllegalArgumentException {
     if (age < 0) {
         throw new IllegalArgumentException("Age cannot be negative");
+    }
+}
+// 'throws' warns the caller that this method might fail with an IOException
+public void readFile() throws IOException { 
+    if (fileNotFound) {
+        // 'throw' actually triggers the error right now
+        throw new IOException("File is missing!"); 
     }
 }
 ```
@@ -1275,59 +1304,19 @@ Collections.sort(students, ageComparator);
 
 ## 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
-**WeakHashMap** is a `Map` implementation where the **keys are stored as weak references**.
-If a key has no strong references elsewhere, it becomes eligible for garbage collection, and the entry is automatically removed.
+A `WeakHashMap` stores keys as **weak references**, so entries are automatically removed when the key is no longer referenced elsewhere (used for caching).
 
-- Used for: **caching**, memory-sensitive mappings.
-- Class: `java.util.WeakHashMap`
+An `IdentityHashMap` compares keys using **== (reference equality)** instead of `equals()` method.
 
+A `LinkedHashMap` maintains **insertion order** (or access order) while storing key-value pairs.
 
-**IdentityHashMap** is a `Map` implementation that compares keys using `==` (reference equality) instead of `.equals()`.
-
-- Normal `HashMap` uses `.equals()` for key comparison.
-- `IdentityHashMap` checks whether two keys refer to the **same object in memory**.
-
-- Class: `java.util.IdentityHashMap`
-- Mostly used in **framework-level or special identity-based logic**.
-
-**LinkedHashMap** is a `HashMap` that maintains a **linked list of entries**, preserving insertion order (or access order if configured).
-
-- Maintains predictable iteration order.
-- Used in **LRU cache implementations** (when access-order mode is enabled).
-- Class: `java.util.LinkedHashMap`
-
-**PriorityQueue** is a queue implementation that orders elements based on their **natural ordering (Comparable)** or a **Comparator**.
-
-- Elements are processed based on priority, not insertion order.
-- Internally implemented using a **binary heap**.
-- The head element is always the **smallest (by default)**.
-- Class: `java.util.PriorityQueue`
-
-**WeakHashMap:**
-- Keys are weak references
-- Entries removed when key is garbage collected
-- Useful for caches and memory-sensitive applications
-
-**IdentityHashMap:**
-- Uses == instead of equals() for key comparison
-- Allows duplicate "equal" keys
-- Useful when object identity matters
-
-**LinkedHashMap:**
-- Maintains insertion or access order
-- Combines HashMap performance with predictable iteration
-- Useful for LRU caches
-
-**PriorityQueue:**
-- Heap-based priority queue
-- Elements ordered by natural ordering or Comparator
-- Useful for scheduling and algorithms
+A `PriorityQueue` stores elements in **priority order** (natural order or custom comparator), not in insertion order.
 
 ```java
-Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly
-Map<String, Integer> identityMap = new IdentityHashMap<>(); // Identity-based
-Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered
-Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based
+Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly, Used for: caching
+Map<String, Integer> identityMap = new IdentityHashMap<>(); // for key comparison
+Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache implementations
+Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
 ```
 
 # ✅ 8. Java Multithreading & Synchronization 
@@ -1558,8 +1547,6 @@ public void increment() {
 
 **Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
 
-* **Simple example**
-
 1. **Thread-based**
 * Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
 
@@ -1577,10 +1564,6 @@ public class Main {
     }
 }
 ```
-
-This creates a new thread that runs concurrently with the main thread.
-
----
 
 * **How concurrency is achieved in Java**
 
@@ -1604,7 +1587,7 @@ This creates a new thread that runs concurrently with the main thread.
 
 ## 1. What is ExecutorService?
 
-ExecutorService is a high-level framework for managing and controlling thread execution. It provides a way to submit tasks and manage their lifecycle without directly creating threads.
+ExecutorService is a high-level framework for managing and controlling thread execution asynchronously. It provides a way to submit tasks and manage their lifecycle without directly creating threads.
 
 - Manages thread pools automatically
 - Provides methods to submit tasks (submit, execute)
@@ -1629,7 +1612,6 @@ Java provides several predefined thread pool types through Executors class, each
 1. **Fixed Thread Pool**
    * Has a **fixed number of threads**.
    * Tasks wait in a queue if all threads are busy.
-
    ```java
    ExecutorService fixedPool = Executors.newFixedThreadPool(3);
    ```
@@ -1637,21 +1619,18 @@ Java provides several predefined thread pool types through Executors class, each
 2. **Cached Thread Pool**
    * **Creates new threads as needed** and reuses idle threads.
    * Suitable for **short-lived tasks**.
-
    ```java
    ExecutorService cachedPool = Executors.newCachedThreadPool();
    ```
 
 3. **Single Thread Pool**
    * **Only one thread**, executes tasks **sequentially**.
-
    ```java
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
    ```
 
 4. **Scheduled Thread Pool**
    * Runs tasks **after a delay or periodically**.
-
    ```java
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
    ```
@@ -2423,6 +2402,28 @@ public class GenericClass<T> {
 ```
 
 # ✅ 13. Java Annotations & Reflection 
+
+## 1.  What is `@Bean` in Java?
+
+`@Bean` is a Spring annotation used to declare and manage an object inside the Spring container.
+
+---
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public Student student() {
+        return new Student();
+    }
+}
+```
+
+
 
 ## 1. What are annotations in Java?
 
@@ -4066,7 +4067,7 @@ public class UserService { // This becomes a Spring bean
 # ✅ 18. Java Spring Boot 
 
 ## 6. What is annotations in Java?
-**An annotation is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.**
+**An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
 
 **Example Annotations:**
 * `@Override`
@@ -4148,8 +4149,6 @@ public class Application {
     }
 )
 ```
-
-
 
 ## 9. What is @SpringBootApplication annotation?
 
@@ -4286,7 +4285,6 @@ I’ll answer it in a **real-time spoken style**, explaining *why and when* we u
 
 **@Component**
 
-**Spoken Answer:**
 “`@Component` is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
 **When to use:**
@@ -4307,7 +4305,6 @@ public class EmailService {
 
 **@Configuration**
 
-**Spoken Answer:**
 “`@Configuration` is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
 
 **When to use:**
@@ -4330,7 +4327,6 @@ public class AppConfig {
 
 **@Primary**
 
-**Spoken Answer:**
 “When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.”
 
 **Example Scenario:**
@@ -4351,7 +4347,6 @@ public class UpiPayment implements PaymentService {
 
 **@Qualifier**
 
-**Spoken Answer:**
 “`@Qualifier` is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
 
 **Example:**
@@ -4375,34 +4370,39 @@ public ResponseEntity<User> updateEmail(
 }
 ```
 
-## 15. How do you integrate a Java application with a cloud environment?
+## 15. Explain Spring Boot Actuator endpoints.
 
-Integrate by containerizing your application with Docker, using cloud databases and services instead of local ones, implementing health checks for monitoring, and configuring environment variables for different cloud environments. Use cloud-specific features like auto-scaling and load balancing.
+**Answer:**
+Actuator provides production-ready features like health checks, metrics, and monitoring endpoints. Common endpoints: `/health`, `/metrics`, `/info`, `/env`.
+
+**Example:**
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+```properties
+# application.properties
+management.endpoints.web.exposure.include=health,metrics,info
+management.endpoint.health.show-details=always
+```
 
 ```java
-@RestController
-public class HealthController {
-    @GetMapping("/health")
-    public Map<String, String> health() {
-        return Map.of("status", "UP");
+// Custom health indicator
+@Component
+public class CustomHealthIndicator implements HealthIndicator {
+    @Override
+    public Health health() {
+        boolean isHealthy = checkService();
+        if (isHealthy) {
+            return Health.up().withDetail("service", "available").build();
+        }
+        return Health.down().withDetail("service", "unavailable").build();
     }
 }
 ```
-
-```dockerfile
-FROM openjdk:17-jre-slim
-COPY target/myapp.jar app.jar
-EXPOSE 8080
-HEALTHCHECK CMD curl -f http://localhost:8080/health || exit 1
-ENTRYPOINT ["java", "-jar", "/app.jar"]
-```
-
-Additional steps:
-- Use cloud databases (RDS, Cloud SQL)
-- Configure environment-specific properties
-- Implement distributed logging
-- Use cloud storage services
-- Set up monitoring and alerting
 
 ## 16. How do you secure a Java Spring Boot application?
 
@@ -4442,12 +4442,46 @@ public class SecureController {
     }
 }
 ```
-## 17. If we don’t write getters & setters, which annotation can we use?
+## 17. What is Lombok in Java and and whe can we use?
+
+**Lombok** is a Java library that reduces boilerplate code by automatically generating getters, setters, constructors, and other methods using annotations.
 
 If we don’t want to manually write **getters and setters** in Java, we can use **Lombok’s `@Getter` and `@Setter` annotations** on the class or fields.
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
+## 17.How do you create custom auto-configuration?
+
+**Answer:**
+
+Create a configuration class with `@Configuration` and `@Conditional` annotations, then register it in `META-INF/spring.factories`.
+
+**Example:**
+```java
+@Configuration
+@ConditionalOnClass(MyService.class)
+@EnableConfigurationProperties(MyProperties.class)
+public class MyAutoConfiguration {
+    
+    @Bean
+    @ConditionalOnMissingBean
+    public MyService myService(MyProperties props) {
+        return new MyService(props.getName());
+    }
+}
+
+@ConfigurationProperties(prefix = "my.service")
+public class MyProperties {
+    private String name;
+    // getters/setters
+}
+```
+
+```properties
+# META-INF/spring.factories
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.example.MyAutoConfiguration
+```
 
 ## 18. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
@@ -4455,10 +4489,9 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
 
-## 19. How to implement many to many, many to one and one to many in java interiew questions, give answer
-✅ 1️⃣ One-To-Many
-One **Order** → Many **Items**
+## 19. How to implement many to many, many to one and one to many in java?
 
+**One-To-Many**
 
 ```java
 @Entity
@@ -4503,7 +4536,6 @@ public class Employee {
     private Department department;
 }
 ```
-
 
 **Many-To-Many**
 Many **Students** ↔ Many **Courses**
