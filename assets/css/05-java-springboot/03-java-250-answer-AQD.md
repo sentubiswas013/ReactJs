@@ -2157,13 +2157,9 @@ try (BufferedReader br = Files.newBufferedReader(Paths.get("largefile.txt"))) {
 
 ## 5. What is NIO in Java?
 
-NIO (New I/O) is a collection of APIs introduced in Java 1.4 that provides non-blocking I/O operations and better performance for handling multiple connections.
+**NIO (New I/O)** in Java is a **high-performance I/O API** introduced in Java 1.4 that provides **non-blocking, buffer-based, and scalable input/output operations**.
 
-**Key Components:**
-- **Channels:** Bidirectional data connections
-- **Buffers:** Containers for data
-- **Selectors:** Multiplexing for non-blocking I/O
-- **Non-blocking operations:** Don't wait for I/O completion
+It uses **channels, buffers, and selectors** for efficient **file and network communication**.
 
 **Benefits:**
 - Better scalability for server applications
@@ -2185,20 +2181,6 @@ try (FileChannel channel = FileChannel.open(Paths.get("file.txt"))) {
 
 **NIO (java.nio)** is **non-blocking and buffer-based**. It uses **channels, buffers, and selectors**, allowing one thread to handle multiple connections. This makes it more scalable and better suited for high-performance applications.
 
-**Traditional I/O:**
-- Stream-oriented (one byte/character at a time)
-- Blocking operations
-- Simpler API
-- Good for fewer connections
-- Thread per connection model
-
-**NIO:**
-- Buffer-oriented (chunks of data)
-- Non-blocking operations
-- More complex API
-- Better for many connections
-- Single thread can handle multiple connections
-
 ```java
 // Traditional I/O - blocking
 InputStream is = new FileInputStream("file.txt");
@@ -2212,7 +2194,7 @@ channel.read(buffer); // Can be non-blocking with proper setup
 
 ## 7. When would you use NIO over traditional I/O?
 
-Use NIO when you need better performance and scalability, especially for server applications handling many concurrent connections.
+Use **NIO** when you need **better performance and scalability**, especially for server applications handling many concurrent connections.
 
 **Use NIO when:**
 - Building high-performance servers
@@ -2228,24 +2210,11 @@ Use NIO when you need better performance and scalability, especially for server 
 - Rapid development needed
 - Working with small to medium files
 
-**NIO is ideal for:**
-- Network servers (web servers, chat servers)
-- File servers handling multiple clients
-- Applications requiring high throughput
-- Systems with limited threads but many connections
-
-
 # ✅ 12. Java Generics 
 
 ## 1. What are generics in Java?
 
-Generics allow you to write type-safe code by parameterizing types. They enable classes, interfaces, and methods to work with different types while providing compile-time type checking.
-
-- Parameterized types using angle brackets <>
-- Provide compile-time type safety
-- Eliminate need for explicit casting
-- Enable writing reusable code
-- Introduced in Java 5
+**Generics in Java** let you **write reusable, type-safe code** using **parameterized types (<>)**, ensuring **compile-time type checking** and **no need for explicit casting**.
 
 ```java
 // Without generics - requires casting
