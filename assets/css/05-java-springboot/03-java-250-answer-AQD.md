@@ -3102,6 +3102,12 @@ Connection conn = dataSource.getConnection(); // From pool
 
 **Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
 
+**Types of cache in Java** are generally categorized as:
+
+1. **In-Memory Cache** – stores data in **RAM** for fast access (e.g., `HashMap`, `ConcurrentHashMap`, **Guava Cache**).
+2. **Distributed Cache** – stores data across **multiple nodes** for scalability (e.g., **Redis**, **Hazelcast**, **Ehcache Cluster**).
+3. **Persistent Cache** – stores data on **disk** to survive restarts (e.g., **Ehcache with disk store**, **Caffeine with persistence**).
+
 **Caching Levels:**
 - **Application level:** In-memory caches (Caffeine, Guava)
 - **Database level:** Query result caching
@@ -3109,29 +3115,19 @@ Connection conn = dataSource.getConnection(); // From pool
 - **HTTP level:** Browser and CDN caching
 
 **How cache works internally (Steps)**
-
 * Application receives a request.
 * It checks the cache for the requested data.
 
 * **If cache hit:**
-
   * Data is found in cache.
   * Return data directly from cache.
   * No database call is made.
 
 * **If cache miss:**
-
   * Data is fetched from the database.
   * Data is stored in cache as a **key-value pair**.
   * Return the response to the user.
 
-* On future requests, data is served from cache.
-
-* Cache automatically manages:
-
-  * Expiration (TTL)
-  * Eviction policy (LRU/LFU)
-  * Removing stale data
 
 **Using HashMap (Manual Cache)**
 ```java
