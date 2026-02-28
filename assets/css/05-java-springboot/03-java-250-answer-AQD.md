@@ -1212,22 +1212,12 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-**HashMap** stores key-value pairs using a hash table and does not maintain any ordering of keys. It provides fast performance for basic operations like put and get.
+**HashMap** uses a **hash table**, provides **O(1) average performance**, and **does not maintain order** of keys. It allows **one null key**.
 
-**TreeMap** stores key-value pairs using a Red-Black Tree and maintains keys in sorted (natural or custom) order. It is slower than HashMap but allows ordered traversal.
+**TreeMap** uses a **Red-Black Tree**, provides **O(log n) performance**, and **maintains keys in sorted order**. It **does not allow null keys**.
 
+**In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
 
-**HashMap:**
-- Hash table implementation
-- O(1) average time complexity
-- No ordering of keys
-- Allows one null key
-
-**TreeMap:**
-- Red-black tree implementation
-- O(log n) time complexity
-- Sorted order of keys
-- No null keys allowed
 
 ```java
 Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered
@@ -1240,17 +1230,7 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 
 **Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
 
-**HashMap:**
-- Not synchronized (not thread-safe)
-- Allows one null key and multiple null values
-- Introduced in Java 1.2
-- Better performance
-
-**Hashtable:**
-- Synchronized (thread-safe)
-- No null keys or values allowed
-- Legacy class from Java 1.0
-- Slower due to synchronization
+**In simple words:** Use **HashMap in single-threaded applications**, and **Hashtable in multi-threaded scenarios** (though nowadays we prefer ConcurrentHashMap).
 
 ```java
 Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster
@@ -1258,14 +1238,15 @@ Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, thread-safe
 ```
 
 ## 5. How does HashMap work internally?
-A **HashMap** stores data in the form of **key-value pairs** using an array of buckets.
 
-HashMap uses an array of buckets where each bucket can hold multiple key-value pairs. It uses hashing to determine which bucket to use for storing entries.
+**HashMap** works using an **array of buckets (Node array)**.
+When you insert a key-value pair, it calculates the **hash value** of the key to find the bucket index.
 
-- Uses array of Node objects (buckets)
-- Hash function determines bucket index
-- Handles collisions with chaining (linked list/tree)
-- Rehashing occurs when load factor exceeds threshold
+If multiple keys map to the same bucket (**collision**), it stores them using a **linked list or tree (after Java 8)**.
+
+When the number of entries exceeds the **load factor limit**, it performs **rehashing** to increase capacity.
+
+**In simple words:** HashMap uses hashing to store and retrieve data efficiently. 🚀
 
 ```java
 // Simplified internal process:
@@ -1279,12 +1260,14 @@ map.put("key", 100); // hash("key") -> bucket index -> store
 
 ## 6. What is hash collision and how is it handled?
 
-Hash collision occurs when two different keys produce the same hash code, mapping to the same bucket. HashMap handles this using chaining and tree conversion.
+**Hash collision** occurs when **two different keys produce the same hash code**, mapping to the same bucket. HashMap handles this using chaining and tree conversion.
 
 - **Chaining:** Multiple entries in same bucket form linked list
 - **Tree conversion:** When chain length > 8, converts to balanced tree
 - **Load factor:** Rehashing when buckets become too full
 - **Open addressing:** Alternative approach (not used in HashMap)
+
+**In simple words:** Collision means two keys go to the same bucket, and HashMap handles it using linked list or tree structure.
 
 ```java
 // Collision example:
@@ -1295,19 +1278,14 @@ map.put("BB", 2); // Collision - stored in same bucket as linked list
 
 ## 7. What is the difference between fail-fast and fail-safe iterators?
 
-Fail-fast iterators throw ConcurrentModificationException when collection is modified during iteration, while fail-safe iterators work on a copy and don't throw exceptions.
+**Fail-fast iterator** detects changes in the collection during iteration and throws a **ConcurrentModificationException**. It works on the **original collection**.
+(Examples: ArrayList, HashMap)
 
-**Fail-fast:**
-- Detects concurrent modifications
-- Throws ConcurrentModificationException
-- Examples: ArrayList, HashMap iterators
-- Works on original collection
+**Fail-safe iterator** allows modifications during iteration because it works on a **separate copy** of the collection. It does not throw an exception.
+(Examples: ConcurrentHashMap, CopyOnWriteArrayList)
 
-**Fail-safe:**
-- Allows concurrent modifications
-- Works on cloned copy
-- Examples: ConcurrentHashMap, CopyOnWriteArrayList
-- May not reflect latest changes
+**In simple words:** Fail-fast throws exception on modification, fail-safe allows it safely.
+
 
 ```java
 List<String> list = new ArrayList<>();
@@ -1319,19 +1297,12 @@ Iterator<String> failSafe = map.keySet().iterator(); // Safe for modifications
 
 ## 8. What is the difference between Comparable and Comparator?
 
-Comparable provides natural ordering by implementing compareTo() method in the class itself, while Comparator provides custom ordering through external comparison logic.
+**Comparable** is used for **natural sorting** and defines the `compareTo()` method inside the same class. It allows **only one sorting logic**.
 
-**Comparable:**
-- Single sorting sequence
-- compareTo() method in class
-- Natural ordering
-- Part of java.lang package
+**Comparator** is used for **custom sorting** and defines the `compare()` method in a separate class. It allows **multiple sorting logics**.
 
-**Comparator:**
-- Multiple sorting sequences
-- External compare() method
-- Custom ordering
-- Part of java.util package
+**In simple words:** Comparable = default sorting, Comparator = custom sorting.x
+
 
 ```java
 // Comparable - natural ordering
@@ -1367,19 +1338,13 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 
 ## 1. What is multithreading?
 
-Multithreading is the ability to execute multiple threads concurrently within a single program. It allows better resource utilization and improved performance by running tasks simultaneously.
+**Multithreading** allows a program to run **multiple threads concurrently** within the same memory space, improving **CPU utilization, performance, and responsiveness**. Threads can **share data** and the **JVM handles scheduling**.
 
-- Multiple threads share same memory space
-- Enables concurrent execution of tasks
-- Improves CPU utilization and responsiveness
-- Threads can communicate through shared memory
-- JVM manages thread scheduling
-
-Benefits include faster execution, better resource usage, and responsive user interfaces.
+**In simple words:** It lets a program do **many tasks at the same time** efficiently.
 
 ## 2. How do you create threads in Java?
 
-There are two main ways to create threads in Java: extending Thread class or implementing Runnable interface.
+There are two main ways to create **threads** in Java: **extending Thread** class or implementing **Runnable interfac**e.
 
 **Method 1: Extending Thread**
 ```java
@@ -1409,17 +1374,8 @@ t.start();
 
 **Implementing `Runnable`** means creating a class that implements the `Runnable` interface and defines the task in its `run()` method, which can then be executed by a `Thread` object.
 
-**Extending Thread:**
-- Direct inheritance from Thread class
-- Cannot extend other classes (single inheritance)
-- Tightly coupled with Thread class
-- Less flexible approach
+**In simple words:** Use **Runnable** for better design; **Thread** for quick/simple cases.
 
-**Implementing Runnable:**
-- Can extend other classes
-- Better separation of concerns
-- More flexible and reusable
-- Preferred approach for thread creation
 
 ```java
 // Runnable allows extending other classes
@@ -1435,7 +1391,7 @@ class MyThread extends Thread { // Cannot extend anything else
 
 ## 4. What are the states of a thread?
 
-A thread goes through various states during its lifecycle: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED.
+A thread goes through various states during its lifecycle: **NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED**.
 
 - **NEW:** Thread created but not started
 - **RUNNABLE:** Thread executing or ready to execute
@@ -1453,13 +1409,13 @@ t.start(); // RUNNABLE state
 
 ## 5. What is synchronization in Java?
 
-Synchronization is a mechanism that ensures only one thread can access a shared resource at a time. It prevents data corruption and maintains thread safety.
+**Synchronization** in Java ensures that **only one thread at a time** can access a shared resource, preventing **race conditions**.
 
-- Controls access to shared resources
-- Prevents race conditions
-- Uses synchronized keyword or locks
-- Can synchronize methods or code blocks
-- Ensures thread safety but may reduce performance
+* Achieved using **`synchronized`** keyword or **locks**
+* Can synchronize **methods** or **blocks**
+* Ensures **thread safety** but may reduce performance
+
+**In simple words:** It makes multithreaded access to shared data **safe and consistent**.
 
 ```java
 // Synchronized method
@@ -1477,7 +1433,7 @@ public void decrement() {
 
 ## 6. What is deadlock and how do you prevent it?
 
-Deadlock occurs when two or more threads are blocked forever, each waiting for the other to release a resource. It's a circular dependency situation.
+**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
 
 **Prevention strategies:**
 - Avoid nested locks
@@ -1498,7 +1454,7 @@ Thread2: lock(A) -> lock(B)
 
 ## 7. What is volatile keyword?
 
-Volatile keyword ensures that a variable's value is always read from and written to main memory, not from thread's local cache. It provides visibility guarantee across threads.
+**Volatile** keyword ensures that a variable's value is **always read from and written to main memory**a, not from thread's local cache. It provides visibility guarantee across threads.
 
 - Ensures visibility of changes across threads
 - Prevents compiler optimizations
@@ -3016,7 +2972,7 @@ List<String> result = names.stream()
     .collect(Collectors.toList());      // Terminal
 ```
 
-## 141. What is parallel streams? - asked 
+## 6. What is parallel streams? - asked 
 
 **Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
 
@@ -3034,25 +2990,11 @@ int parallelSum = numbers.parallelStream()
     .sum();
 ```
 
-## 6. What is the difference between Collection and Stream?
+## 7. What is the difference between Collection and Stream?
 
 A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
 
 A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
-
-**Collection:**
-- Data structure that stores elements
-- Eagerly computed (all elements present)
-- Can be modified (add/remove elements)
-- External iteration (for loops)
-- Reusable multiple times
-
-**Stream:**
-- Abstraction for processing data
-- Lazily computed (computed on demand)
-- Immutable (doesn't modify source)
-- Internal iteration (handled by Stream API)
-- Single-use only
 
 ```java
 List<String> collection = Arrays.asList("a", "b", "c");
@@ -3063,23 +3005,11 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 // stream.filter(...); // Error - stream already used
 ```
 
-## 7. What are intermediate and terminal operations?
+## 8. What are intermediate and terminal operations?
 
 In the **Stream API**, **intermediate operations** are operations like `filter()`, `map()`, and `sorted()` that **transform a stream**. They are **lazy**, meaning they don’t execute immediately and return another stream, allowing operations to be chained.
 
 **Terminal operations** are operations like `forEach()`, `collect()`, `reduce()`, and `count()` that **trigger the execution** of the stream pipeline and produce a final result or side effect.
-
-**Intermediate Operations:**
-- Transform stream into another stream
-- Lazy evaluation (not executed until terminal operation)
-- Can be chained together
-- Examples: filter(), map(), sorted(), distinct()
-
-**Terminal Operations:**
-- Produce final result or side effect
-- Trigger execution of entire pipeline
-- Cannot be chained
-- Examples: collect(), forEach(), reduce(), count()
 
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
@@ -3091,22 +3021,11 @@ numbers.stream()
     .forEach(System.out::println); // Terminal - triggers execution
 ```
 
-## 8. What is the difference between map() and flatMap()?
+## 9. What is the difference between map() and flatMap()?
 
 `map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
 
 `flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
-
-
-**map():**
-- One-to-one transformation
-- Transforms each element to another element
-- Stream<T> → Stream<R>
-
-**flatMap():**
-- One-to-many transformation
-- Flattens nested structures
-- Stream<T> → Stream<R> (where T contains multiple R)
 
 ```java
 List<String> words = Arrays.asList("Hello", "World");
@@ -3122,15 +3041,9 @@ List<String> letters = words.stream()
     .collect(Collectors.toList()); // [H, e, l, l, o, W, o, r, l, d]
 ```
 
-## 9. What is Optional class?
+## 10. What is Optional class?
 
-Optional is a container class that may or may not contain a value. It helps avoid NullPointerException and makes null handling more explicit and safer.
-
-- Container for potentially null values
-- Prevents NullPointerException
-- Encourages explicit null handling
-- Provides functional-style methods
-- Should not be used for fields or parameters
+**Optional class** is a container class that may or may not contain a value. It helps avoid **NullPointerException** and makes null handling more explicit and safer.
 
 ```java
 // Creating Optional
