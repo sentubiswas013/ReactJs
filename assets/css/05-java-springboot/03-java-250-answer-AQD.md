@@ -1567,13 +1567,14 @@ public class Main {
 
 * **How concurrency is achieved in Java**
 
-* **Thread & Runnable**
-* **ExecutorService**
-* **Synchronization**
-* **Locks (`ReentrantLock`)**
-* **Atomic variables**
-* **Concurrent collections**
-* **CompletableFuture (Java 8+)**
+* **Thread & Runnable** – basic units of execution.
+* **ExecutorService** – manages thread pools and asynchronous tasks.
+* **Synchronization** – ensures **thread-safe access** to shared resources.
+* **Locks (ReentrantLock)** – flexible locking with reentrant and fairness options.
+* **Atomic variables** – **lock-free thread-safe operations** on single variables.
+* **Concurrent collections** – thread-safe collections like `ConcurrentHashMap`.
+* **CompletableFuture (Java 8+)** – **asynchronous computation** with callbacks and chaining.
+
 
 ---
 
@@ -3206,18 +3207,10 @@ public class UserService {
 
 ## 6. What is SQL injection and how to prevent it?
 
-SQL injection is a security vulnerability where malicious SQL code is inserted into application queries, potentially allowing unauthorized database access or data manipulation.
+**SQL Injection** is a **security vulnerability** where an attacker injects malicious SQL code into application queries, to **manipulate or access the database illegally**.
 
-**How it happens:**
-- User input directly concatenated into SQL
-- Malicious input modifies query logic
-- Can lead to data theft, deletion, or unauthorized access
+It can be prevented by using **Prepared Statements (Parameterized Queries)**, **input validation**, **ORM frameworks (like JPA/Hibernate)**, **stored procedures**, and **proper access control**.
 
-**Prevention methods:**
-- Use PreparedStatement with parameters
-- Input validation and sanitization
-- Stored procedures
-- Least privilege database access
 
 ```java
 // Vulnerable code - SQL injection possible
@@ -3234,7 +3227,7 @@ ResultSet rs = pstmt.executeQuery();
 
 ## 7. What is transaction management in JDBC?
 
-Transaction management ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
+**Transaction management** ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
 
 **ACID Properties:**
 - **Atomicity:** All or nothing execution
