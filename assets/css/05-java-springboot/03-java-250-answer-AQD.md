@@ -2920,20 +2920,6 @@ Supplier<List<String>> listSupplier = ArrayList::new;
 
 **Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
 
-**Lambda Expression:**
-- Only for functional interfaces
-- More concise syntax
-- No new class file generated
-- Better performance (invokedynamic)
-- 'this' refers to enclosing class
-
-**Anonymous Class:**
-- Can implement any interface or extend class
-- More verbose syntax
-- Creates new class file
-- Slower performance
-- 'this' refers to anonymous class instance
-
 ```java
 // Anonymous class - verbose
 Runnable r1 = new Runnable() {
@@ -2950,16 +2936,9 @@ Runnable r2 = () -> {
 
 ## 5. What is Stream API?
 
-The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like filtering, mapping, and sorting without modifying the original data source.
+The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like **filtering, mapping, and sorting** without modifying the original data source.
 
 Streams work in a **pipeline** using **intermediate operations** such as `filter()` and `map()`, and a **terminal operation** like `collect()` or `forEach()` to produce a result. This makes code cleaner, more readable, and supports easy parallel processing.
-
-
-- Functional-style operations on collections
-- Lazy evaluation for better performance
-- Supports parallel processing
-- Immutable - doesn't modify original data
-- Pipeline of operations: source → intermediate → terminal
 
 ```java
 List<String> names = Arrays.asList("John", "Jane", "Bob", "Alice");
@@ -3110,18 +3089,6 @@ rs.close(); stmt.close(); conn.close();
 A **Statement** is used to execute **static SQL queries**. The SQL query is sent to the database every time it runs, so it’s less efficient and more vulnerable to **SQL injection**.
 
 A **PreparedStatement** is used for **parameterized queries**. The SQL is **precompiled and cached** by the database, which improves performance for repeated execution and **prevents SQL injection** by safely handling input values.
-
-**Statement:**
-- Executes static SQL queries
-- SQL compiled every time
-- Vulnerable to SQL injection
-- Less efficient for repeated queries
-
-**PreparedStatement:**
-- Executes parameterized SQL queries
-- Pre-compiled SQL (better performance)
-- Prevents SQL injection
-- Efficient for repeated queries with different parameters
 
 ```java
 // Statement - vulnerable to SQL injection
