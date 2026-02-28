@@ -1762,29 +1762,13 @@ public synchronized void method() {
 
 JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
 
-1. **Heap**
-   **Heap memory** is used for dynamic memory allocation.
-    It stores **objects and instance variables** created using `new`.
-    Memory in the heap is managed by the **Garbage Collector** in Java.
-    It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
+**JVM Memory Areas** manage program execution and memory:
 
-2. **Stack**
-   **Stack memory** is used for temporary memory allocation.
-    It stores **local variables, method calls, and function execution data**.
-    Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
-    Method variables like `int x = 10` are stored in Stack.
-
-3. **Method Area (Metaspace)**
-   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
-
-
-4. **Program Counter (PC) Register**
-   Stores the address of the currently executing instruction for each thread.
-
-5. **Native Method Stack**
-   Stores information related to native (non-Java) method execution.
-
-Each area has different characteristics for garbage collection and memory allocation strategies.
+* **Heap** – stores **objects and instance variables**, GC-managed.
+* **Stack** – stores **local variables and method calls**, auto-managed.
+* **Method Area (Metaspace)** – stores **class metadata, static variables, and bytecode**.
+* **Program Counter (PC) Register** – tracks **current instruction per thread**.
+* **Native Method Stack** – holds **native method execution info**.
 
 ## 2. What is the difference between heap and stack?
 
