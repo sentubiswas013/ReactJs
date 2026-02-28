@@ -3566,11 +3566,6 @@ class NewsChannel implements Observer {
 
 Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 
-- Encapsulates algorithms in separate classes
-- Makes algorithms interchangeable at runtime
-- Eliminates conditional statements
-- Follows Open/Closed principle
-
 ```java
 // Strategy interface
 interface PaymentStrategy {
@@ -3607,11 +3602,6 @@ class ShoppingCart {
 ## 7. What is Adapter pattern?
 
 Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
-
-- Converts interface of a class into another interface
-- Allows incompatible classes to work together
-- Wraps existing functionality
-- Used for integrating third-party libraries
 
 ```java
 // Target interface (what client expects)
@@ -3651,11 +3641,6 @@ class MediaAdapter implements MediaPlayer {
 ## 8. What is Decorator pattern?
 
 Decorator pattern allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
-
-- Adds new functionality to objects dynamically
-- Alternative to inheritance for extending behavior
-- Maintains same interface as original object
-- Can stack multiple decorators
 
 ```java
 // Component interface
@@ -3719,12 +3704,6 @@ coffee = new SugarDecorator(coffee);
 
 It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
 
-- Lightweight and modular framework
-- Provides dependency injection and IoC container
-- Supports aspect-oriented programming (AOP)
-- Integrates with various technologies
-- Reduces boilerplate code and complexity
-
 Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
 
 ## 282: What are the core features of Spring?
@@ -3748,15 +3727,11 @@ public class AppConfig {
 
 ## 2. What is Inversion of Control (IoC)?
 
-Inversion of Control is a design principle where the control of object creation and dependency management is transferred from the application code to an external container or framework.
+**Inversion of Control (IoC)** is a design principle where the control of object creation and dependency management is transferred from the program to a container or framework.
 
-- Container manages object lifecycle
-- Objects don't create their dependencies
-- Dependencies are provided by external source
-- Promotes loose coupling
-- Makes code more testable and maintainable
+Instead of a class creating its own dependencies, they are injected from outside.
 
-Instead of objects creating their dependencies, the IoC container creates and injects them, inverting the traditional control flow.
+In simple terms: **IoC means the framework controls the flow and object creation, not your code.**
 
 ## 3. What is Dependency Injection?
 
