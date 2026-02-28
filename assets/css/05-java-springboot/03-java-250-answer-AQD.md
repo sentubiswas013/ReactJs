@@ -2347,8 +2347,6 @@ public class GenericClass<T> {
 
 `@Bean` is a Spring annotation used to declare and manage an object inside the Spring container.
 
----
-
 ```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
