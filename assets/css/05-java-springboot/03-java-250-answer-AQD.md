@@ -2483,7 +2483,7 @@ class Child extends Parent {
 
 ## 6. What is reflection in Java?
 
-Reflection is the ability to inspect and manipulate classes, methods, fields, and other code elements at runtime. It allows programs to examine their own structure dynamically.
+**Reflection in Java** is a feature that allows a program to **inspect and manipulate classes, methods, fields, and constructors at runtime**, even if they are **private**, enabling **dynamic behavior** and **runtime flexibility**.
 
 - Examine class structure at runtime
 - Create objects dynamically
