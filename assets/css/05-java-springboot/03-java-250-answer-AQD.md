@@ -1454,7 +1454,7 @@ Thread2: lock(A) -> lock(B)
 
 ## 7. What is volatile keyword?
 
-**Volatile** keyword ensures that a variable's value is **always read from and written to main memory**a, not from thread's local cache. It provides visibility guarantee across threads.
+**Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
 
 - Ensures visibility of changes across threads
 - Prevents compiler optimizations
