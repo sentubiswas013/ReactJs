@@ -5089,31 +5089,95 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 **Synchronous Communication**
 
+
+**Using Feign Client**
+
+'- Step 1: Configure Feign Client'
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```xml
+
+'- Step 2: Enable Feign Client'
 ```java
-// Using FeignClient
+
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableFeignClients
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
+```
+
+'- Step 3: Create Feign Client Interface'
+
+```java
 @FeignClient(name = "payment-service")
 public interface PaymentClient {
 
     @GetMapping("/payments/{orderId}")
-    PaymentResponse getPayment(@PathVariable Long orderId);
+    PaymentResponse getPaymentDetails(@PathVariable("orderId") Long orderId);
 }
+```
 
-// Using Rest Template
+'- Step 4: use in controller'
+```java
 @RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    @Autowired
+    private PaymentClient paymentClient;
+
+    @GetMapping("/{orderId}")
+    public PaymentResponse getOrder(@PathVariable Long orderId) {
+        return paymentClient.getPaymentDetails(orderId);
+    }
+}
+```
+
+**Using RestTemplate**
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+```java
+import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+
+@RestController
+@RequestMapping("/orders")
 public class OrderController {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @GetMapping("/order")
-    public String getOrder() {
-        String response = restTemplate.getForObject(
-                "http://localhost:8081/payment", 
-                String.class);
-        return response;
+    @GetMapping("/{orderId}")
+    public PaymentResponse getOrder(@PathVariable Long orderId) {
+
+        String url = "http://localhost:8081/payments/" + orderId;
+
+        return restTemplate.getForObject(url, PaymentResponse.class);
     }
 }
 ```
+
 
 **Asynchronous Communication**
 ```java
