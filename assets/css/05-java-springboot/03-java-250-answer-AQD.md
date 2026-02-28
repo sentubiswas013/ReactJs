@@ -1198,21 +1198,12 @@ Map<String, Integer> map = new HashMap<>();
 
 ## 2. What is the difference between ArrayList and LinkedList?
 
-**ArrayList** is a List implementation that uses a dynamic array to store elements, providing fast random access but slower insertions and deletions in the middle.
+**ArrayList** uses a **dynamic array**, so it gives **fast random access (O(1))**, but **slow insertions/deletions in the middle** due to shifting.
 
-**LinkedList** is a List implementation that uses a doubly linked list to store elements, providing slower access but faster insertions and deletions.
+**LinkedList** uses a **doubly linked list**, so it has **slower access (O(n))**, but **faster insertions/deletions** since no shifting is required.
 
-**ArrayList:**
-- Random access O(1)
-- Insertion/deletion at middle O(n)
-- Better for frequent access
-- Contiguous memory storage
+**In simple words:** Use **ArrayList for reading/searching**, and **LinkedList for frequent insert/delete operations.** 🚀
 
-**LinkedList:**
-- Sequential access O(n)
-- Insertion/deletion O(1) if node known
-- Better for frequent modifications
-- Non-contiguous memory storage
 
 ```java
 List<String> arrayList = new ArrayList<>(); // Fast access
