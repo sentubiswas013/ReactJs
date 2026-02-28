@@ -1587,13 +1587,7 @@ public class Main {
 
 ## 1. What is ExecutorService?
 
-ExecutorService is a high-level framework for managing and controlling thread execution asynchronously. It provides a way to submit tasks and manage their lifecycle without directly creating threads.
-
-- Manages thread pools automatically
-- Provides methods to submit tasks (submit, execute)
-- Handles thread creation, reuse, and termination
-- Returns Future objects for tracking task progress
-- Better alternative to manual thread management
+**ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, handling **thread creation, reuse, and termination**, and allowing **task tracking with Future**.
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(5);
@@ -1609,31 +1603,27 @@ executor.shutdown(); // Graceful shutdown
 
 Java provides several predefined thread pool types through Executors class, each optimized for different use cases.
 
-1. **Fixed Thread Pool**
-   * Has a **fixed number of threads**.
-   * Tasks wait in a queue if all threads are busy.
-   ```java
+**Types of thread pools in Java** (via `Executors`) are:
+
+* **Fixed Thread Pool** – a **fixed number of threads** for executing tasks.
+ ```java
    ExecutorService fixedPool = Executors.newFixedThreadPool(3);
-   ```
+```
 
-2. **Cached Thread Pool**
-   * **Creates new threads as needed** and reuses idle threads.
-   * Suitable for **short-lived tasks**.
-   ```java
+* **Cached Thread Pool** – **creates threads as needed** and **reuses idle threads**.
+```java
    ExecutorService cachedPool = Executors.newCachedThreadPool();
-   ```
+```
 
-3. **Single Thread Pool**
-   * **Only one thread**, executes tasks **sequentially**.
-   ```java
+* **Single Thread Pool** – **only one thread** executes tasks sequentially.
+```java
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
-   ```
+```
 
-4. **Scheduled Thread Pool**
-   * Runs tasks **after a delay or periodically**.
-   ```java
+* **Scheduled Thread Pool** – **executes tasks after a delay or periodically**.
+```java
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
-   ```
+```
 
 ## 3. What is Future and CompletableFuture?
 
@@ -1665,13 +1655,7 @@ CompletableFuture<String> cf = CompletableFuture
 
 ## 4. What is CountDownLatch?
 
-CountDownLatch is a synchronization utility that allows one or more threads to wait until a set of operations being performed by other threads completes.
-
-- Initialized with a count
-- Threads wait until count reaches zero
-- countDown() decreases the count
-- await() blocks until count is zero
-- One-time use only (cannot be reset)
+**CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
 
 ```java
 CountDownLatch latch = new CountDownLatch(3);
@@ -1691,13 +1675,15 @@ System.out.println("All tasks finished");
 
 ## 5. What is ReentrantLock?
 
-ReentrantLock is an explicit lock implementation that provides more flexibility than synchronized blocks. It allows the same thread to acquire the lock multiple times.
+**ReentrantLock** is a class in Java (`java.util.concurrent.locks`) that provides an explicit and more flexible locking mechanism than `synchronized`.
 
-- Explicit lock/unlock operations
-- Supports fairness policy
-- Interruptible lock acquisition
-- Try-lock with timeout
-- Same thread can acquire multiple times (reentrant)
+It allows:
+
+* Manual `lock()` and `unlock()` control
+* Fair or non-fair locking policy
+* Interruptible lock acquisition
+* `tryLock()` with timeout
+* Reentrancy (same thread can acquire the lock multiple times)
 
 ```java
 ReentrantLock lock = new ReentrantLock();
