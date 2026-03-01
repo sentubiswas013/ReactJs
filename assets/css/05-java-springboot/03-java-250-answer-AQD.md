@@ -4867,14 +4867,15 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 `- Step 1: Configure Feign Client`
 
-```xml
+```java
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-openfeign</artifactId>
 </dependency>
-```xml
+```java
 
 `- Step 2: Enable Feign Client`
+
 ```java
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
