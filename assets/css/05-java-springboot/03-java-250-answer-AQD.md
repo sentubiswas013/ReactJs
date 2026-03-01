@@ -4865,7 +4865,7 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 **Using Feign Client**
 
-'- Step 1: Configure Feign Client'
+`- Step 1: Configure Feign Client`
 
 ```xml
 <dependency>
@@ -4874,7 +4874,7 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 </dependency>
 ```xml
 
-'- Step 2: Enable Feign Client'
+`- Step 2: Enable Feign Client`
 ```java
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -4890,7 +4890,7 @@ public class OrderServiceApplication {
 }
 ```
 
-'- Step 3: Create Feign Client Interface'
+`- Step 3: Create Feign Client Interface`
 
 ```java
 @FeignClient(name = "payment-service")
@@ -4901,7 +4901,7 @@ public interface PaymentClient {
 }
 ```
 
-'- Step 4: use in controller'
+`- Step 4: use in controller`
 ```java
 @RestController
 @RequestMapping("/orders")
