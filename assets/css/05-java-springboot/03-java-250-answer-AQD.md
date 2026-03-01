@@ -4407,7 +4407,10 @@ public class Course {
 
 ## 1. What is CORS, and how does it work?
 
-**CORS** stands for Cross-Origin Resource Sharing. It's a browser security feature that blocks requests from one domain to another by default. CORS allows servers to specify which domains can access their resources by sending special HTTP headers. This is common when your frontend runs on localhost:3000 and backend on localhost:8080.
+**CORS (Cross-Origin Resource Sharing)** is a **browser security mechanism** that restricts cross-domain requests by default.
+
+It works by allowing the **server to send special HTTP headers** (like `Access-Control-Allow-Origin`) to specify which domains are permitted to access its resources.
+
 
 ```java
 @RestController
@@ -4434,37 +4437,23 @@ public class CorsConfig {
 
 ## 2. What is an API and what are different type of API?
 
-An **API (Application Programming Interface)** is a set of rules that allows different software applications to communicate with each other.
+**API (Application Programming Interface)** is a **set of rules that allows different software applications to communicate with each other**.
 
-**REST (Representational State Transfer)** is an architectural style for building web services using HTTP methods like GET, POST, PUT, DELETE.
-It is lightweight, stateless, and commonly uses JSON format.
-Widely implemented using **Spring Framework**.
+**Types of APIs:**
 
-**SOAP (Simple Object Access Protocol)** is a protocol for exchanging structured information using XML.
-It follows strict standards and supports built-in security (WS-Security).
-Mostly used in enterprise and banking systems.
+* **REST API** – Uses HTTP methods (GET, POST, PUT, DELETE). Commonly uses JSON format.
+* **SOAP API** – is a Protocol-based, uses XML messaging. used in enterprise and banking systems
+* **GraphQL API** – It is query-based API technology, Allows clients to request specific data.
+* **gRPC API** – It is High-performance API framework, it uses Protocol Buffers for fast communication.
+* **WebSocket API** – Enables real-time, two-way communication.
 
-**GraphQL** is a query-based API technology where the client requests only the required data from a single endpoint.
-Developed by **Facebook**.
-
-**gRPC (Google Remote Procedure Call)** is a high-performance API framework that uses Protocol Buffers (binary format) for fast communication.
-Developed by **Google**.
-
-A **WebSocket API** enables real-time, two-way (full-duplex) communication between client and server over a single connection.
-Used in chat apps and live trading systems.
 
 ## 1. What are RESTful web services?
 
-**RESTful** web services are web services that follow REST architectural principles. They use HTTP methods to perform operations on resources identified by URLs, providing a stateless and scalable approach to web communication.
+**RESTful web services** are **web services based on REST architecture** they use **HTTP methods (GET, POST, PUT, DELETE)** to operate on **resources identified by URLs**.
 
-- Based on REST architectural style
-- Use HTTP methods for operations
-- Resources identified by URLs
-- Stateless communication
-- Platform and language independent
-- JSON/XML data exchange
+They are **stateless, platform-independent**, and typically exchange data in **JSON or XML** format.
 
-RESTful services provide a simple, standardized way for different systems to communicate over the web using standard HTTP protocols.
 
 ## 2. What are the principles of REST?
 
@@ -4668,6 +4657,7 @@ public class UserController {
 **Answer:**
 
 SOLID is an acronym for five design principles that make software more maintainable and scalable:
+
 - **S**ingle Responsibility: A class should have one reason to change
 - **O**pen/Closed: Open for extension, closed for modification
 - **L**iskov Substitution: Subtypes must be substitutable for their base types
@@ -4695,50 +4685,13 @@ public class PayPalProcessor implements PaymentProcessor {
 }
 ```
 
-## 2. What is CORS, and how does it work?
-
-CORS stands for Cross-Origin Resource Sharing. It's a browser security feature that blocks requests from one domain to another by default. CORS allows servers to specify which domains can access their resources by sending special HTTP headers. This is common when your frontend runs on localhost:3000 and backend on localhost:8080.
-
-```java
-@RestController
-@CrossOrigin(origins = "http://localhost:3000")
-public class ApiController {
-    @GetMapping("/api/data")
-    public ResponseEntity<Data> getData() {
-        return ResponseEntity.ok(data);
-    }
-}
-
-// Global CORS configuration
-@Configuration
-public class CorsConfig {
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        return source;
-    }
-}
-```
-
 ## 3. What are microservices?
 
-Microservices is an architectural approach where applications are built as a collection of small, independent services that communicate over well-defined APIs. Each service is responsible for a specific business function.
+**Microservices** are an architectural style where an application is built as **small, independent services**, each handling a **single business function**.
 
-- Small, independent services
-- Single business responsibility
-- Communicate via APIs (usually HTTP/REST)
-- Independently deployable
-- Technology agnostic
-- Owned by small teams
-
-Microservices break down monolithic applications into smaller, manageable pieces that can be developed, deployed, and scaled independently.
-
+They **communicate via APIs**, are **independently deployable**, **technology-agnostic**, and can be **developed and scaled separately**.
 
 ## 4. What design patterns used in Microservices architecture?
-
-**Answer:**
 
 Common design patterns in Microservices are:
 
@@ -5004,7 +4957,7 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 In Spring Boot, exception handling is done using **@ExceptionHandler** and **@ControllerAdvice** for global exception handling.
 
 We create custom exceptions, return proper **HTTP status codes**, and provide meaningful error responses using **ResponseEntity**. This ensures clean, centralized, and consistent error handling across the application.
-]
+
 
 ```java
 public class UserNotFoundException extends RuntimeException {
