@@ -192,34 +192,71 @@ public class Helper {
 }
 ```
 
-## 9. How many ways we can declra in variable(Local, Instance, and Static (class).)?
-Here are the **3 ways to declare variables in Java** with simple examples:
+## 9. Normal, final, static, static final, volatile, abstract, transient?
 
-**Local Variable :** Declared inside a method.
+**Normal Variable** Declared inside a class but outside methods.
+```java
+class Student {
+    int age = 20;   // normal variable
+}
+```
+
+**final** Once assigned, value cannot be changed.
+```java
+class Student {
+    final int age = 20;
+    age = 10;  // allowed only once
+}
+```
+
+**static** Belongs to class, not object. Only one copy in memory.
+```java
+class Student {
+    static String college = "IIT";
+}
+```
+
+**static final** Variable (Constant) in Class-level
+```java
+class Student {
+    static final double PI = 3.14;
+}
+```
+
+**volatile** Used in multithreading. always read from main memory, Prevents caching issues.
 ```java
 class Test {
-    void display() {
-        int x = 10;   // Local variable
-        System.out.println(x);
-    }
+    volatile boolean flag = true;
 }
 ```
 
-**Instance Variable :** Declared inside a class but outside methods.
+**Abstract** Abstract is only for: Classes and  Methods
 ```java
-class Student {
-    int age = 20;   // Instance variable
+abstract class Animal {
+    abstract void sound();
 }
 ```
-Each object will have its own copy of `age`.
 
-
-**Static Variable :** Declared using `static` keyword.
+**transient** Used for serialization and but not saved. Used for sensitive data.
 ```java
-class Student {
-    static String schoolName = "ABC School";   // Static variable
+class Student implements Serializable {
+    transient int password;
 }
 ```
+
+# 🔥 Difference Table
+
+| Keyword      | Belongs To    | Can Change? | Purpose                  |
+| ------------ | ------------- | ----------- | ------------------------ |
+| Normal       | Object        | Yes         | Regular variable         |
+| final        | Object        | No          | Constant value           |
+| static       | Class         | Yes         | Shared among objects     |
+| static final | Class         | No          | Class constant           |
+| volatile     | Object        | Yes         | Thread visibility        |
+| abstract     | ❌ Not allowed | ❌           | Only for methods/classes |
+| transient    | Object        | Yes         | Skip serialization       |
+
+
 
 ## 10. What is Instance, Static, Abstract, and Final Methods?
 
@@ -2739,13 +2776,9 @@ public class UserService {
 
 ## 1. What are lambda expressions?
 
-Lambda expressions are anonymous functions that provide a concise way to represent functional interfaces. They enable functional programming in Java and make code more readable and expressive.
+**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
 
-- Anonymous functions without name
-- Concise syntax for functional interfaces
-- Enable functional programming style
-- Reduce boilerplate code
-- Introduced in Java 8
+They were introduced in **Java 8** to support **functional programming** and make code more readable and concise.
 
 ```java
 // Before lambda - anonymous class
@@ -2765,13 +2798,7 @@ names.forEach(name -> System.out.println(name));
 
 ## 2. What are functional interfaces?
 
-Functional interfaces are interfaces with exactly one abstract method. They can be implemented using lambda expressions and serve as the foundation for functional programming in Java.
-
-- Exactly one abstract method (SAM - Single Abstract Method)
-- Can have default and static methods
-- @FunctionalInterface annotation for safety
-- Target type for lambda expressions
-- Examples: Runnable, Callable, Comparator
+**Functional interfaces** are interfaces with exactly **one abstract method**. They can be implemented using **lambda expressions** and serve as the foundation for functional programming in Java.
 
 ```java
 @FunctionalInterface
