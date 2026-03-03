@@ -3027,7 +3027,7 @@ ResultSet rs = pstmt.executeQuery();
 
 ## 4. What is connection pooling and how it works internally?
 
-**Connection** pooling is a technique used to **reuse database** connections instead of creating a new connection every time a request comes.
+**Connection pooling is a technique used to reuse database connections instead of creating a new connection every time a request comes.**
 
 **How It Works Internally (Simple Explanation)**
 
@@ -3068,7 +3068,7 @@ Connection conn = dataSource.getConnection(); // From pool
 
 ## 5. What is caching and how it works inernally(Implementation)?
 
-**Caching** in Java is a technique of **storing frequently used data in memory** so that we don’t have to fetch it again from a slow source like a database or external API.
+**Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
 
 **Types of cache in Java** are generally categorized as:
 
@@ -3077,14 +3077,24 @@ Connection conn = dataSource.getConnection(); // From pool
 3. **Persistent Cache** – stores data on **disk** to survive restarts (e.g., **Ehcache with disk store**, **Caffeine with persistence**).
 
 **Caching Levels:**
-- **In-Memory Cache:**  stores data in **RAM** for fast access (e.g., `HashMap`, `ConcurrentHashMap`, **Guava Cache**).
-- **Database level:** Caches database query results 
-- **Distributed level:** Shared across multiple applications/servers, Redis, Hazelcast, Ehcache Cluster
+- **Application level:** In-memory caches (Caffeine, Guava)
+- **Database level:** Query result caching
+- **Distributed level:** Redis, Hazelcast
 - **HTTP level:** Browser and CDN caching
 
 **How cache works internally (Steps)**
 * Application receives a request.
 * It checks the cache for the requested data.
+
+* **If cache hit:**
+  * Data is found in cache.
+  * Return data directly from cache.
+  * No database call is made.
+
+* **If cache miss:**
+  * Data is fetched from the database.
+  * Data is stored in cache as a **key-value pair**.
+  * Return the response to the user.
 
 
 **Using HashMap (Manual Cache)**
@@ -3893,15 +3903,6 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 - Minimal configuration required
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
-
-```java
-@SpringBootApplication
-public class DemoApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-}
-```
 
 ## 8. What is auto-configuration in Spring Boot and to disable?
 
@@ -6239,7 +6240,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 - **Experimentation:** Try latest feature releases for new capabilities
 - **Migration strategy:** Plan upgrades around LTS releases
 
-# 🔹 CI/CD and DevOp
+# ✅ 25. CI/CD and DevOp
 
 ## 1: What is continuous integration?
 
@@ -6774,7 +6775,7 @@ server {
 }
 ```
 
-# 🔵 25. Monitoring and Logging
+# ✅ 26. Monitoring and Logging
 
 ## 1: What is application monitoring?
 
@@ -7167,4 +7168,4 @@ public interface ApplicationMonitorMXBean {
 }
 ```
 
-# ✅ 25. Miscellaneous
+# ✅ 27. Miscellaneous
