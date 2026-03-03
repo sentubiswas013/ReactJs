@@ -1786,24 +1786,11 @@ It stores **local variables, method calls, and function execution data**.
 Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
 Method variables like `int x = 10` are stored in Stack.
 
-**Heap:**
-- Stores objects and instance variables
-- Shared among all threads
-- Garbage collected
-- Slower access
-- Dynamic memory allocation
-
-**Stack:**
-- Stores method calls and local variables
-- Thread-specific (each thread has own stack)
-- Automatic cleanup when method exits
-- Faster access (LIFO structure)
-- Fixed size per thread
 
 ```java
 public void method() {
-    int x = 10;        // Stack - local variable
     String obj = new String("Hello"); // obj reference on stack, object on heap
+     int x = 10;        // Stack - local variable
 }
 ```
 
