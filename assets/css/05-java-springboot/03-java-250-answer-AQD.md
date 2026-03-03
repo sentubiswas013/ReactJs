@@ -1756,7 +1756,11 @@ public synchronized void method() {
 
 ## 0. What is Java Memory Model (JMM)?
 
-**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It guarantees visibility, atomicity, and ordering of shared variables. It provides rules like the happens-before relationship and uses mechanisms such as volatile and synchronized to ensure data consistency between threads.
+**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It ensures visibility, atomicity, and ordering using mechanisms like volatile and synchronized.
+
+* **Visibility** – Changes made by one thread are visible to others.
+* **Atomicity** – Certain operations are executed completely or not at all.
+* **Ordering** – Code execution follows defined rules (happens-before relationship).
 
 ## 1. What are the different memory areas in JVM?
 
