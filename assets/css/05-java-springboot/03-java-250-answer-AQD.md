@@ -4097,19 +4097,7 @@ public class MyService {
 
 ## 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
-Great question — this is a **very common Spring interview topic**.
-I’ll answer it in a **real-time spoken style**, explaining *why and when* we use each annotation, with **short, clear code examples**.
-
-**@Component**
-
-“`@Component` is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
-
-**When to use:**
-
-* For general-purpose beans
-* When you want Spring to auto-create the object
-
-**Example:**
+**@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
 ```java
 @Component
@@ -4120,16 +4108,7 @@ public class EmailService {
 }
 ```
 
-**@Configuration**
-
-“`@Configuration` is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
-
-**When to use:**
-
-* To create beans manually
-* For third-party or complex bean creation
-
-**Example:**
+**@Configuration**  is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
 
 ```java
 @Configuration
@@ -4142,12 +4121,7 @@ public class AppConfig {
 }
 ```
 
-**@Primary**
-
-“When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.”
-
-**Example Scenario:**
-Two implementations of the same interface.
+**@Primary** When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.
 
 ```java
 @Component
@@ -4162,19 +4136,14 @@ public class UpiPayment implements PaymentService {
 }
 ```
 
-**@Qualifier**
-
-“`@Qualifier` is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
-
-**Example:**
+**@Qualifier** is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
 
 ```java
 @Autowired
 @Qualifier("upiPayment")
 private PaymentService paymentService;
 ```
-**@PatchMapping**
-“`@PatchMapping` is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
+**@PatchMapping** is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
 
 ```java
 @PatchMapping("/users/{id}")
