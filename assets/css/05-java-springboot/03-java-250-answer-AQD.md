@@ -1953,42 +1953,9 @@ List<String> longLived = new ArrayList<>(); // Eventually moves to Old Gen
 String temp = "temporary"; // Likely collected in minor GC
 ```
 
-## 8. What is metaspace?
-
-Metaspace is the native memory area where JVM stores class metadata, replacing PermGen from Java 8 onwards. It's allocated in native memory outside the heap.
-
-**Characteristics:**
-- Native memory allocation
-- Dynamic size expansion
-- No fixed size limit (limited by available system memory)
-- Garbage collected when classes are unloaded
-- Better memory utilization than PermGen
-
-**Contents:**
-- Class definitions and metadata
-- Method bytecode
-- Constant pool information
-- Runtime constant pool
-
-Metaspace eliminates PermGen OutOfMemoryError issues and provides more flexible memory management.
-
-## 9. What are GC roots?
+## 8. What are GC roots?
 
 GC roots are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
-
-**Types of GC Roots:**
-- Local variables in stack frames
-- Static variables in classes
-- JNI global references
-- Objects in native method stacks
-- Thread objects
-- System class loader references
-
-**Reachability Analysis:**
-- GC starts from roots
-- Marks all reachable objects
-- Unreachable objects are garbage collected
-- Ensures no live objects are accidentally collected
 
 ```java
 public class Example {
