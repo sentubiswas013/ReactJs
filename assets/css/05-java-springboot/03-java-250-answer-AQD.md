@@ -244,7 +244,7 @@ class Student implements Serializable {
 }
 ```
 
-# 🔥 Difference Table
+**Difference Table**
 
 | Keyword      | Belongs To    | Can Change? | Purpose                  |
 | ------------ | ------------- | ----------- | ------------------------ |
