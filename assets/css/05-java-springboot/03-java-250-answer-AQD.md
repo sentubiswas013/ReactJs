@@ -4676,7 +4676,14 @@ public class ApiGatewayController {
     }
 }
 
-// 2. Circuit Breaker Pattern (with Resilience4j)
+// 2. Service Discovery Pattern, Commonly implemented using Netflix Eureka.
+@EnableEurekaClient
+@SpringBootApplication
+public class OrderServiceApplication {
+}
+restTemplate.getForObject("http://PAYMENT-SERVICE/pay", String.class);
+
+// 3. Circuit Breaker Pattern (with Resilience4j)
 @Service
 public class OrderService {
     @CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
@@ -4689,7 +4696,7 @@ public class OrderService {
     }
 }
 
-// 3. Saga Pattern (Choreography)
+// 4. Saga Pattern (Choreography)
 @Service
 public class OrderSagaService {
     @Autowired
@@ -4706,6 +4713,26 @@ public class OrderSagaService {
         order.setStatus("CANCELLED");
         orderRepository.save(order);
     }
+}
+
+// 5. CQRS (Command Query Responsibility Segregation)
+// Command (Write)
+@PostMapping("/orders")
+public void createOrder(@RequestBody Order order) { }
+
+// Query (Read)
+@GetMapping("/orders/{id}")
+public Order getOrder(@PathVariable Long id) { }
+
+// 6. Database per Service
+# order-service application.properties
+spring.datasource.url=jdbc:mysql://localhost:3306/orderdb
+
+// 7. Bulkhead Pattern
+// Example (Resilience4j)
+@Bulkhead(name = "paymentService", type = Bulkhead.Type.THREADPOOL)
+public String processPayment() {
+    return "Processing payment";
 }
 ```
 
