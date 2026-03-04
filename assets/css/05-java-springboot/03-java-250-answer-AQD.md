@@ -4780,7 +4780,7 @@ While microservices offer many benefits, they also introduce complexity and chal
 
 Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
 
-## 8. How microservices communicate with each other?**
+## 8. How microservices communicate with each other?
 
 **Spoken Answer:**
 
@@ -4906,7 +4906,6 @@ Failures in microservices are handled using **Circuit Breaker, Retry with backof
 We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
 
 ```java
-// 
 // Steps 1: Add Dependencies (Maven)
 <dependency>
     <groupId>org.springframework.boot</groupId>
