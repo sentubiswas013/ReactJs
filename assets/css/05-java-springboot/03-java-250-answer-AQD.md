@@ -4906,19 +4906,75 @@ Failures in microservices are handled using **Circuit Breaker, Retry with backof
 We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
 
 ```java
+// 
+// Steps 1: Add Dependencies (Maven)
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+// Step 2: Configure RestTemplate Bean
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+
+// Inject RestTemplate in Your Client
 @Component
 public class UserServiceClient {
-    
+
+    @Autowired
+    private RestTemplate restTemplate;
+
     @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
     @Retry(name = "user-service")
     public User getUser(Long id) {
-        return restTemplate.getForObject("/users/" + id, User.class);
+        return restTemplate.getForObject(
+                "http://localhost:8081/users/" + id,
+                User.class);
     }
-    
+
     public User fallbackUser(Long id, Exception ex) {
         return new User(id, "Unknown User", "unknown@example.com");
     }
 }
+
+// application.yml Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+
+  retry:
+    instances:
+      user-service:
+        maxAttempts: 3
+        waitDuration: 2s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
 ```
 
 Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
