@@ -4799,19 +4799,14 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 **Using Feign Client**
 
-`- Step 1: Configure Feign Client`
-
 ```java
+// `- Step 1: Configure Feign Client`
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-openfeign</artifactId>
 </dependency>
-```java
 
-`- Step 2: Enable Feign Client`
-
-```java
-
+// `- Step 2: Enable Feign Client`
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -4823,21 +4818,16 @@ public class OrderServiceApplication {
         SpringApplication.run(OrderServiceApplication.class, args);
     }
 }
-```
 
-`- Step 3: Create Feign Client Interface`
-
-```java
+// `- Step 3: Create Feign Client Interface`
 @FeignClient(name = "payment-service")
 public interface PaymentClient {
 
     @GetMapping("/payments/{orderId}")
     PaymentResponse getPaymentDetails(@PathVariable("orderId") Long orderId);
 }
-```
 
-`- Step 4: use in controller`
-```java
+// `- Step 4: use in controller`
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
