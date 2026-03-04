@@ -4855,6 +4855,7 @@ public class OrderController {
 **Using RestTemplate**
 
 ```java
+// Step 1: Create RestTemplate Bean
 @Configuration
 public class AppConfig {
 
@@ -4866,6 +4867,7 @@ public class AppConfig {
 ```
 
 ```java
+// Step 2: Call Payment Service
 import org.springframework.web.client.RestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
