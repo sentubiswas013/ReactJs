@@ -521,9 +521,9 @@ public class Mainlinkedin01 {
         int min = arr[0];
         int max = arr[0];
 
-        for (int v : arr) {
-            if (v < min) min = v;
-            if (v > max) max = v;
+        for (int val : arr) {
+            if (val < min) min = val;
+            if (val > max) max = val;
         }
 
         System.out.println("Min = " + min + ", Max = " + max);

@@ -4287,8 +4287,9 @@ public class Order {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Item> items;
+
 }
 ```
 
@@ -5474,8 +5475,6 @@ It uses a **CSRF token** validated by the server, supports **SameSite cookies** 
 It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
 
 
----
-
 ## 13: What is input validation?
 
 **Input validation** is the process of **checking user input for correctness and security**.
@@ -5537,7 +5536,6 @@ public class ApiController {
 }
 ```
 
----
 
 ## 15: What is SAML?
 
@@ -5617,8 +5615,6 @@ public class UserController {
     }
 }
 ```
-
----
 
 ## 2: What are the common performance bottlenecks in Java?
 
