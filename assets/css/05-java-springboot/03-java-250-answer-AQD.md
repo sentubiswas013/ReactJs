@@ -239,8 +239,9 @@ abstract class Animal {
 
 **transient** Used for serialization and but not saved. Used for sensitive data.
 ```java
-class Student implements Serializable {
-    transient int password;
+public class Student implements Serializable {
+    private String username;
+    private transient String password;
 }
 ```
 
@@ -313,6 +314,19 @@ class Dog extends Animal {
 ```java
 Scanner scanner = new Scanner(System.in);
 String input = scanner.nextLine();
+```
+
+## 12. How do you iterate through a collection in Java?
+```java
+// Example using for-each loop:
+List<String> fruits = Arrays.asList("Apple", "Banana", "Orange");
+for (String fruit : fruits) {
+   System.out.println(fruit);
+}
+// Example using regular for loop:
+for (int i = 0; i < fruits.size(); i++) {
+   System.out.println(fruits.get(i));
+}
 ```
 
 # ✅ 2. Data Types and Variables
@@ -1254,9 +1268,10 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-**HashMap** uses a **hash table**, provides **O(1) average performance**, and **does not maintain order** of keys. It allows **one null key**.
+**HashMap** Unordered, allows null keys and values, O(1) average time complexity for basic operations.
 
-**TreeMap** uses a **Red-Black Tree**, provides **O(log n) performance**, and **maintains keys in sorted order**. It **does not allow null keys**.
+**TreeMap** Sorted by keys, doesn't allow null keys, O(log n) time complexity for basic operations.
+
 
 **In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
 
@@ -1266,7 +1281,7 @@ Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered
 Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 ```
 
-## 4. What is the difference between HashMap and Hashtable?
+## 4. What is the difference between HashMap Hashtable?
 
 **HashMap** is a Map implementation that is **not synchronized** and allows **one null key and multiple null values**, making it faster but not thread-safe.
 
@@ -1365,7 +1380,7 @@ A `WeakHashMap` stores keys as **weak references**, so entries are automatically
 
 An `IdentityHashMap` compares keys using **== (reference equality)** instead of `equals()` method.
 
-A `LinkedHashMap` maintains **insertion order** (or access order) while storing key-value pairs.
+A `LinkedHashMap` Maintains insertion order (or access order), allows null keys and values, slightly slower than HashMap.
 
 A `PriorityQueue` stores elements in **priority order** (natural order or custom comparator), not in insertion order.
 
@@ -3384,7 +3399,7 @@ Design patterns are proven reusable solutions to common software design problems
 * **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
 * **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
 
-## 2. What is Singleton pattern?
+## 2. What is Singleton pattern and provide an example of a thread-safe implementation in Java.?
 
 Singleton pattern ensures that a class has only one instance throughout the application lifecycle and provides global access to that instance.
 
@@ -3395,16 +3410,18 @@ Singleton pattern ensures that a class has only one instance throughout the appl
 
 ```java
 public class Singleton {
-    private static Singleton instance;
-    
-    private Singleton() { } // Private constructor
-    
-    public static Singleton getInstance() {
-        if (instance == null) {
-            instance = new Singleton();
-        }
-        return instance;
-    }
+   private static volatile Singleton instance;
+   private Singleton() {}
+   public static Singleton getInstance() {
+       if (instance == null) {
+           synchronized (Singleton.class) {
+               if (instance == null) {
+                   instance = new Singleton();
+               }
+           }
+       }
+       return instance;
+   }
 }
 ```
 
@@ -6158,10 +6175,13 @@ Optional<String> optional = Optional.ofNullable(getString());
 optional.ifPresent(System.out::println);
 
 // Default methods in interfaces
-interface Drawable {
-    void draw();
-    default void print() { System.out.println("Printing..."); }
-}
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+// Static method reference
+names.forEach(System.out::println);
+// Instance method reference
+names.sort(String::compareToIgnoreCase);
+// Constructor reference
+Supplier<List<String>> listSupplier = ArrayList::new;
 ```
 
 ## 2. What are the new features in Java 11?
