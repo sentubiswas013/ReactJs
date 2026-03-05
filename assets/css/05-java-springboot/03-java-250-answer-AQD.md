@@ -3674,6 +3674,17 @@ It provides **infrastructure support**, uses **IoC and Dependency Injection**, h
 
 Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
 
+```java
+// pom.xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>6.1.5</version>
+    </dependency>
+</dependencies>
+```
+
 ## 282: What are the core features of Spring?
 
 * **IoC Container**: Manages object lifecycle and dependencies
