@@ -4383,9 +4383,8 @@ Using `Long` tells Spring Data JPA what type of value to expect when performing 
 
 A **transaction** means a group of database operations that must **all succeed or all fail together**.
 
----
 
-### Why **@Transactional** Matters
+Why **@Transactional** Matters
 
 1. **Data Consistency**
    Ensures all database operations are completed successfully. If one fails, everything is rolled back.
