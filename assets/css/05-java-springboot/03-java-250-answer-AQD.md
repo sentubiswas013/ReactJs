@@ -2068,20 +2068,6 @@ List<String> lines = Files.readAllLines(Paths.get("file.txt"));
 
 **Reader** is a character-oriented class used to read **text data** (characters, strings) from a source, handling character encoding automatically.
 
-**InputStream:**
-- Handles raw bytes (binary data)
-- Abstract class for byte streams
-- Methods return int (0-255) or byte arrays
-- Used for images, videos, any binary files
-- Examples: FileInputStream, ByteArrayInputStream
-
-**Reader:**
-- Handles characters (text data)
-- Abstract class for character streams
-- Handles character encoding automatically
-- Used for text files
-- Examples: FileReader, StringReader
-
 ```java
 // InputStream - for binary data
 InputStream is = new FileInputStream("image.jpg");
@@ -2098,18 +2084,6 @@ int charData = reader.read(); // Returns character as int
 
 **BufferedWriter** is a Java class used to write text to an output stream efficiently by **buffering characters**, reducing the number of I/O operations.
 
-
-**BufferedReader:**
-- Buffers input for efficient reading
-- Provides readLine() method
-- Reduces system calls
-- Default buffer size 8192 characters
-
-**BufferedWriter:**
-- Buffers output for efficient writing
-- Provides newLine() method
-- Flushes buffer when full or explicitly called
-- Improves write performance
 
 ```java
 // BufferedReader - efficient reading
@@ -2253,7 +2227,7 @@ list.add(123); // Compile error - type mismatch
 
 ## 3. What is type erasure?
 
-Type erasure is the process where generic type information is removed during compilation. The compiler replaces generic types with their bounds or Object, maintaining backward compatibility.
+Type **erasure** is the process where generic type information is removed during compilation. The compiler replaces generic types with their bounds or Object, maintaining backward compatibility.
 
 - Generic type information removed at runtime
 - Replaced with raw types or bounds
@@ -2301,7 +2275,7 @@ Object val = integers.get(0); // OK - can read as Object
 
 ## 5. What is PECS principle?
 
-PECS stands for "Producer Extends, Consumer Super" - a guideline for choosing between extends and super wildcards based on how you use the collection.
+**PECS** stands for **"Producer Extends, Consumer Super"** - a guideline for choosing between extends and super wildcards based on how you use the collection.
 
 **Producer Extends:**
 - Use `<? extends T>` when you only read from collection
@@ -2330,7 +2304,7 @@ public void addNumbers(List<? super Integer> numbers) {
 
 ## 6. What are the limitations of generics?
 
-Generics have several limitations due to type erasure and backward compatibility requirements.
+**Generics** have several limitations due to type erasure and backward compatibility requirements.
 
 **Key Limitations:**
 - Cannot instantiate generic types: `new T()`
@@ -2393,13 +2367,7 @@ public class AppConfig {
 
 ## 1. What are annotations in Java?
 
-Annotations are metadata that provide information about code without affecting its execution. They're used by compilers, development tools, and frameworks to process code automatically.
-
-- Metadata attached to code elements
-- Start with @ symbol
-- Don't change program behavior directly
-- Used by tools and frameworks for processing
-- Can be applied to classes, methods, fields, parameters
+**Annotations** are metadata that **provide information about code without affecting its execution**. They're used by compilers, development tools, and frameworks to process code automatically.
 
 ```java
 @Override
@@ -2483,18 +2451,6 @@ Retention policy determines how long annotations are retained - in source code, 
 
 **Overloading** is **not an annotation**—it’s a **concept**. Method overloading happens when multiple methods have the **same name but different parameters** (different type, number, or order) within the same class.
 
-**@Override:**
-- Built-in annotation
-- Indicates method overrides parent method
-- Compile-time verification
-- Prevents accidental method signature mistakes
-
-**@Overload:**
-- Not a standard Java annotation
-- Method overloading happens automatically
-- No special annotation needed
-- Multiple methods with same name, different parameters
-
 ```java
 class Parent {
     public void method() { }
@@ -2513,11 +2469,6 @@ class Child extends Parent {
 
 **Reflection in Java** is a feature that allows a program to **inspect and manipulate classes, methods, fields, and constructors at runtime**, even if they are **private**, enabling **dynamic behavior** and **runtime flexibility**.
 
-- Examine class structure at runtime
-- Create objects dynamically
-- Invoke methods dynamically
-- Access private fields and methods
-- Used by frameworks like Spring, Hibernate
 
 ```java
 // Get class information
@@ -2534,7 +2485,7 @@ int length = (int) method.invoke("Hello");
 
 ## 7. When should you use reflection?
 
-Use reflection when you need dynamic behavior that cannot be achieved with normal Java code, typically in frameworks and libraries.
+Use **reflection** when you need dynamic behavior that cannot be achieved with normal Java code, typically in frameworks and libraries.
 
 **Appropriate Use Cases:**
 - Building frameworks (Spring, Hibernate)
@@ -2551,7 +2502,7 @@ Use reflection when you need dynamic behavior that cannot be achieved with norma
 
 ## 8. What are the performance implications of reflection?
 
-Reflection is significantly slower than direct method calls due to runtime type checking, security checks, and method resolution overhead.
+**Reflection** is significantly slower than direct method calls due to runtime type checking, security checks, and method resolution overhead.
 
 **Performance Issues:**
 - Method lookup is expensive
@@ -2633,7 +2584,7 @@ try {
 
 ## 11. What is Mockito?
 
-Mockito is a testing framework that creates fake objects called mocks for unit testing. You can control what these mock objects return when their methods are called, which helps isolate the code you're testing from its dependencies. It's very popular for testing Spring applications.
+**Mockito** is a testing framework that **creates fake objects** called mocks for unit testing. You can control what these mock objects return when their methods are called, which helps isolate the code you're testing from its dependencies. It's very popular for testing Spring applications.
 
 ```java
 @Mock
@@ -2654,7 +2605,7 @@ public void testGetUser() {
 
 ## 1. What is servlet in Java?
 
-A servlet is a Java class that handles HTTP requests and responses on a web server. It's like a controller that processes incoming requests, performs business logic, and sends back responses. Servlets run inside containers like Tomcat and are the foundation of Java web applications.
+A **servlet** is a Java class that **handles HTTP requests and responses** on a web server. It's like a **controller that processes incoming requests**, performs business logic, and sends back responses. Servlets run inside containers like Tomcat and are the foundation of Java web applications.
 
 ```java
 @WebServlet("/hello")
@@ -2672,7 +2623,14 @@ public class HelloServlet extends HttpServlet {
 
 ## 2. What is the servlet lifecycle?
 
-The servlet lifecycle has three main phases managed by the container. First is init() called once when the servlet loads to initialize resources. Then service() is called for every request and delegates to doGet, doPost methods. Finally destroy() is called once when the servlet unloads to clean up resources.
+The **Servlet Lifecycle** defines the stages a servlet goes through from **creation to destruction** in a servlet container like **Apache Tomcat**.
+
+**Lifecycle Phases**
+
+1. **Initialization (`init()`) :** The servlet is loaded and initialized by the container.
+2. **Request Processing (`service()`) :** The servlet handles client requests (`doGet()`, `doPost()`).
+3. **Destruction (`destroy()`) :** The servlet is removed from memory when the server shuts down.
+
 
 ```java
 public class LifecycleServlet extends HttpServlet {
@@ -2697,7 +2655,17 @@ public class LifecycleServlet extends HttpServlet {
 
 ## 3. What is JSP (JavaServer Pages)?
 
-JSP allows you to create dynamic web pages by embedding Java code directly into HTML. It's much easier than servlets for creating user interfaces because you write mostly HTML with some Java mixed in. JSP pages get automatically compiled into servlets by the container behind the scenes.
+### What is JSP (JavaServer Pages)?
+
+**JavaServer Pages (JSP)** is a **server-side technology** used to create **dynamic web pages** using **Java code inside HTML**. It runs on a web server like **Apache Tomcat**.
+
+JSP is internally **converted into a servlet** by the server and then executed.
+
+* Used to build **dynamic web applications**
+* Combines **HTML + Java code**
+* Runs on the **server side**
+* Automatically converted to **Servlet**
+
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
@@ -2723,8 +2691,8 @@ JSP allows you to create dynamic web pages by embedding Java code directly into 
 
 In short: **Servlet = logic/controller**, **JSP = view/presentation**.
 
+**Key differences:**
 
-Key differences:
 - Servlets: Java code generating HTML
 - JSP: HTML with embedded Java
 - Servlets: Better for logic
