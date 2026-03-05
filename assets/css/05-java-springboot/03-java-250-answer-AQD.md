@@ -3926,6 +3926,38 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
+## 7. How does Spring Boot Works Internally?
+
+**Spring Boot** starts with `SpringApplication.run()`, which initializes the Spring context. It performs auto-configuration based on project dependencies, scans components to create beans in the IoC container, and starts an embedded server like Apache Tomcat. After that, the application becomes ready to handle requests.
+
+**Internal Flow:**
+
+1. **Application Starts :** The `main()` method calls **`SpringApplication.run()`** to start the application.
+2. **Auto Configuration** Spring Boot automatically configures beans based on dependencies using **`@EnableAutoConfiguration`**.
+3. **Component Scanning :** It scans packages for classes annotated with **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`**.
+4. **Bean Creation (IoC Container) :** Spring creates and manages objects (beans) inside the **Spring IoC container**.
+5. **Embedded Server Starts :** Spring Boot starts an embedded server like **Apache Tomcat**, **Jetty**, or **Undertow**.
+6. **Application Ready :** The application is ready to handle HTTP requests.
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication // Combines three annotations
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+// Equivalent to:
+@Configuration
+@EnableAutoConfiguration  
+@ComponentScan
+public class MyApplication { }
+```
+
 ## 8. What is auto-configuration in Spring Boot and to disable?
 
 Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
