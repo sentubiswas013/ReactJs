@@ -4398,10 +4398,6 @@ Why **@Transactional** Matters
 4. **Maintains Data Integrity**
    Prevents partial updates in the database.
 
----
-
-### Simple Example
-
 ```java
 @Service
 public class PaymentService {
