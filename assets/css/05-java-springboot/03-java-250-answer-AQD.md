@@ -3897,6 +3897,43 @@ public class UserService { // This becomes a Spring bean
 <bean id="userService" class="com.example.UserService"/>
 ```
 
+## 5. What are Bean life cycle in sprintboot 
+
+The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
+
+**Steps in Bean Lifecycle**
+
+1. **Bean Instantiation :** Spring creates the bean object.
+2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
+3. **Bean Initialization:** Initialization methods run using `@PostConstruct` or `afterPropertiesSet()`.
+4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
+5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
+
+```java
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyBean {
+
+    public MyBean() {
+        System.out.println("Bean Created");
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean Initialized");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean Destroyed");
+    }
+}
+```
+
+
 # ✅ 19. Java Spring Boot 
 
 ## 6. What is annotations in Java?
