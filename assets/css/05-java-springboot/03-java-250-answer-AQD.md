@@ -312,8 +312,21 @@ class Dog extends Animal {
 
 ## 11. How do you read user input from the console in Java?
 ```java
-Scanner scanner = new Scanner(System.in);
-String input = scanner.nextLine();
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        System.out.println("You entered: " + input);
+
+        scanner.close();
+    }
+}
 ```
 
 ## 12. How do you iterate through a collection in Java?
