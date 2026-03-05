@@ -2828,7 +2828,7 @@ public class Main {
 
 ## 3. What are method references?
 
-Method references are shorthand notation for lambda expressions that call a single method. They make code even more concise when lambda just calls an existing method.
+A **Method Reference** is a **shorthand syntax of a lambda expression** that refers to an existing method using `::` operator.
 
 **Types of Method References:**
 - Static method: `ClassName::methodName`
