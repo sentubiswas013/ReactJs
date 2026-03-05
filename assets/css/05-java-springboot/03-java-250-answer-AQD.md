@@ -4296,8 +4296,46 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
+## 19. What is Transactional  Why @Transactional Matters in Spring Boot?
+**@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**.
 
-## 19. How to implement many to many, many to one and one to many in java?
+A **transaction** means a group of database operations that must **all succeed or all fail together**.
+
+---
+
+### Why **@Transactional** Matters
+
+1. **Data Consistency**
+   Ensures all database operations are completed successfully. If one fails, everything is rolled back.
+
+2. **Automatic Rollback**
+   If an exception occurs, Spring automatically **rolls back the transaction**.
+
+3. **Simplifies Code**
+   Developers don't need to manually write **commit or rollback logic**.
+
+4. **Maintains Data Integrity**
+   Prevents partial updates in the database.
+
+---
+
+### Simple Example
+
+```java
+@Service
+public class PaymentService {
+
+    @Transactional
+    public void transferMoney() {
+        debitAccount();
+        creditAccount();
+    }
+}
+```
+
+If **creditAccount() fails**, Spring will **rollback debitAccount()** automatically.
+
+## 20. How to implement many to many, many to one and one to many in java?
 
 **One-To-Many**
 
