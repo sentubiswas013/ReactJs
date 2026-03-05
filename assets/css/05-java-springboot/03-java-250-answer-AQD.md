@@ -2655,8 +2655,6 @@ public class LifecycleServlet extends HttpServlet {
 
 ## 3. What is JSP (JavaServer Pages)?
 
-### What is JSP (JavaServer Pages)?
-
 **JavaServer Pages (JSP)** is a **server-side technology** used to create **dynamic web pages** using **Java code inside HTML**. It runs on a web server like **Apache Tomcat**.
 
 JSP is internally **converted into a servlet** by the server and then executed.
