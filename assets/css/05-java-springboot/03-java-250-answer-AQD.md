@@ -309,6 +309,11 @@ class Dog extends Animal {
 }
 ```
 
+## 11. How do you read user input from the console in Java?
+```java
+Scanner scanner = new Scanner(System.in);
+String input = scanner.nextLine();
+```
 
 # ✅ 2. Data Types and Variables
 
