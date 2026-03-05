@@ -1,3 +1,188 @@
+## 1. What is Micro Frontend?
+
+**Micro Frontend** is an architecture where a large frontend application is divided into smaller independent applications, and they communicate using **events, shared state, APIs, or module federation**.
+
+Example structure:
+
+```
+E-commerce App
+   |
+   |--- Product App
+   |--- Cart App
+   |--- Payment App
+   |--- User Profile App
+```
+
+Each module can be **developed, deployed, and updated independently**.
+
+---
+
+# 2. What is Module Federation?
+
+**Module Federation** allows one application to **dynamically import modules from another application at runtime**.
+
+Without rebuilding the whole app.
+
+Example:
+
+```
+App A → uses Button component from App B
+```
+
+So App A can load:
+
+```
+AppB/Button
+```
+
+directly from another deployed application.
+
+---
+
+# 3. Why Module Federation is Needed
+
+Without Module Federation:
+
+* Every micro frontend must bundle all dependencies
+* Code duplication happens
+* Hard to share UI components
+
+With Module Federation:
+
+✔ Share components
+✔ Share libraries
+✔ Load remote modules dynamically
+✔ Independent deployment
+
+---
+
+# 4. Real World Example
+
+Imagine a **shopping website**.
+
+| Micro Frontend  | Owned By      |
+| --------------- | ------------- |
+| Header          | Core UI Team  |
+| Product Listing | Product Team  |
+| Cart            | Checkout Team |
+| User Profile    | Account Team  |
+
+If **Cart App** wants to use **Header Component**.
+
+Using Module Federation:
+
+```
+import Header from "headerApp/Header";
+```
+
+The component loads **from the remote application**.
+
+---
+
+# 5. Key Concepts in Module Federation
+
+### 1️⃣ Host (Shell App)
+
+Main application that **consumes remote modules**.
+
+Example:
+
+```
+Main App
+```
+
+---
+
+### 2️⃣ Remote
+
+Application that **exposes components to others**.
+
+Example:
+
+```
+Header App exposes Header component
+```
+
+---
+
+### 3️⃣ Exposes
+
+What a remote application shares.
+
+Example:
+
+```
+exposes: {
+ "./Header": "./src/Header"
+}
+```
+
+---
+
+### 4️⃣ Remotes
+
+What the host consumes.
+
+Example:
+
+```
+remotes: {
+ headerApp: "headerApp@http://localhost:3001/remoteEntry.js"
+}
+```
+
+---
+
+# 6. Simple Architecture
+
+```
+                Browser
+                   |
+                   |
+           Shell / Host App
+            (Main Container)
+            /      |      \
+           /       |       \
+  Product App   Cart App   User App
+    (Remote)     (Remote)   (Remote)
+```
+
+Each app is deployed separately.
+
+---
+
+# 7. Example Configuration (Webpack)
+
+Remote app:
+
+```javascript
+new ModuleFederationPlugin({
+  name: "headerApp",
+  filename: "remoteEntry.js",
+  exposes: {
+    "./Header": "./src/Header"
+  },
+  shared: ["react", "react-dom"]
+})
+```
+
+Host app:
+
+```javascript
+new ModuleFederationPlugin({
+  remotes: {
+    headerApp: "headerApp@http://localhost:3001/remoteEntry.js"
+  }
+})
+```
+
+Usage:
+
+```javascript
+import Header from "headerApp/Header";
+```
+
+
 # 🟢 1. React Fundamentals
 
 ### 1. What is React and why is it used?
