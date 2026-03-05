@@ -89,11 +89,14 @@ public class InterviewAttended01 {
         );
 
         // Top 3 Highest Paid Employees
+        // Comparator is used to define custom sorting logic for objects. comparingDouble() is a static method inside:
         System.out.println("\nTop 3 Highest Paid Employees:");
         employees.stream()
                 .sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
+                // .sorted((e1, e2) -> Double.compare(e2.getSalary(), e1.getSalary()))
                 .limit(3)
                 .forEach(System.out::println);
+
 
         // Employee List Grouped By Department
         System.out.println("\nEmployees Grouped By Department:");
