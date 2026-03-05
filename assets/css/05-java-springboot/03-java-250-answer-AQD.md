@@ -2811,8 +2811,19 @@ interface Calculator {
 }
 
 // Usage with lambda
-Calculator add = (a, b) -> a + b;
-Calculator multiply = (a, b) -> a * b;
+public class Main {
+    public static void main(String[] args) {
+
+        Calculator add = (a, b) -> a + b;
+        Calculator multiply = (a, b) -> a * b;
+
+        int result1 = calculator.add(10, 20);
+        int result2 = calculator.multiply(10, 20);
+
+        System.out.println(result1);
+        System.out.println(result2);
+    }
+}
 ```
 
 ## 3. What are method references?
