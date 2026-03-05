@@ -3797,31 +3797,30 @@ public class UserServiceApplication {
 
 It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
 
-* Comprehensive security framework for Java applications
-* Handles authentication and authorization
-* **Authentication**: Verify user identity (login)
-* **Authorization**: Control access to resources
-* **Protection**: CSRF, session fixation, clickjacking protection
-* Integrates with various authentication providers
-* Annotation-based and configuration-based security
 
 ```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .authorizeRequests(auth -> auth
-                .requestMatchers("/public/**").permitAll()
-                .anyRequest().authenticated())
-            .formLogin().and()
-            .build();
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/public/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin()
+                .and()
+                .build();
     }
 }
 ```
-
----
 
 ## 290: What is Spring WebFlux?
 
@@ -3829,21 +3828,23 @@ public class SecurityConfig {
 
 It’s an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
 
-* Reactive web framework for building non-blocking applications
-* Alternative to Spring MVC for reactive programming
-* **Non-blocking**: Handles more concurrent requests with fewer threads
-* **Reactive Streams**: Built on Project Reactor
-* **Functional Programming**: Supports functional routing
-* Better performance for I/O intensive applications
 
 ```java
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @RestController
 public class UserController {
+
     @GetMapping("/users")
     public Flux<User> getUsers() {
         return userService.findAll(); // Returns Flux<User>
     }
-    
+
     @GetMapping("/users/{id}")
     public Mono<User> getUser(@PathVariable String id) {
         return userService.findById(id); // Returns Mono<User>
@@ -3881,12 +3882,6 @@ public class User implements Serializable {
 ## 5. What are Spring beans?
 
 **Spring beans** are objects that are **created, managed, and destroyed by the Spring container**. They are defined using annotations like `@Component`, `@Service`, or through configuration files. Spring beans support **dependency injection**, making applications loosely coupled.
-
-- Objects managed by Spring container
-- Defined through configuration (XML, annotations, Java config)
-- Container handles lifecycle and dependencies
-- Can be singleton or prototype scope
-- Configured with metadata
 
 ```java
 @Component
@@ -4036,7 +4031,6 @@ public class CustomConfig {
 ```
 
 **How to Disable Specific Auto-Configuration Class**
-
 
 ```java
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
