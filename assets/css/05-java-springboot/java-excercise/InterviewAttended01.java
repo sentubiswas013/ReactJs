@@ -1,3 +1,5 @@
+import java.util.*;
+import java.util.function.Function;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,8 +20,13 @@ public class InterviewAttended01 {
         // System.out.println("Hello, World!");
         // Quesion: 0 ===================================
         // SecondHighestNumber()
+
         // Quesion: 1 ===================================
         // sortEmployeeBySalaryandDepartment();
+
+        //======================================================================
+        // Program to find first non-repeated character using java8 streams 
+        // firstNonRepeatedCharacter();
 
         // Quesion: 2 ===================================
         // int[] nums = {1,2,3,4,5,6,7};
@@ -110,6 +117,29 @@ public class InterviewAttended01 {
             empList.forEach(System.out::println);
         });
     }
+
+    // 
+    // String str="character";
+    // Program to find first non-repeated character using java8 streams 
+    public static void firstNonRepeatedCharacter() {
+        String str = "character";
+
+        Character result = str.chars()                 // IntStream
+                .mapToObj(c -> (char) c)               // convert to Character
+                .collect(Collectors.groupingBy(
+                        Function.identity(),
+                        LinkedHashMap::new,            // maintain insertion order
+                        Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() == 1) // non repeated
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+
+        System.out.println(result);
+    }
+
 
     // ✅ rotate the array to the right by k steps, where k is non-negative
     public static void rotate(int[] nums, int k) {
