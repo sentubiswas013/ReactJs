@@ -3756,7 +3756,7 @@ Spring makes Java development easier by handling common tasks and promoting best
 </dependencies>
 ```
 
-## 282: What are the core features of Spring?
+## 2: What are the core features of Spring?
 
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
@@ -3775,7 +3775,7 @@ public class AppConfig {
 }
 ```
 
-## 2. What is Inversion of Control (IoC)?
+## 3. What is Inversion of Control (IoC)?
 
 **Inversion of Control (IoC)** is a design principle where the control of object creation and dependency management is transferred from the program to a container or framework.
 
@@ -3783,7 +3783,7 @@ Instead of a class creating its own dependencies, they are injected from outside
 
 In simple terms: **IoC means the framework controls the flow and object creation, not your code.**
 
-## 3. What is Dependency Injection?
+## 4. What is Dependency Injection?
 
 **Dependency Injection (DI)** is a design pattern where an object’s **dependencies are provided externally** rather than the object creating them itself.
 
@@ -3809,7 +3809,7 @@ class OrderService {
     }
 }
 ```
-## 287: What is Spring Data JPA?
+## 5: What is Spring Data JPA?
 
 **Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
 
@@ -3834,7 +3834,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-## 288: What is Spring Cloud? - asked
+## 6: What is Spring Cloud? - asked
 
 **Spring Cloud** is a framework for **building distributed systems and microservices**.
 
@@ -3862,7 +3862,7 @@ public class UserServiceApplication {
 
 ---
 
-## 289: What is Spring Security?
+## 7: What is Spring Security?
 
 **Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
 
@@ -3893,7 +3893,7 @@ public class SecurityConfig {
 }
 ```
 
-## 290: What is Spring WebFlux?
+## 8: What is Spring WebFlux?
 
 **Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
 
@@ -3923,7 +3923,7 @@ public class UserController {
 }
 ```
 
-## 4. What is BeanFactory?
+## 9. What is BeanFactory?
 
 **BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
 It uses **lazy initialization**, so beans are created **only when requested**.
@@ -3935,7 +3935,7 @@ BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
 UserService userService = (UserService) factory.getBean("userService");
 ```
 
-## 4. What is a Java Bean?
+## 10. What is a Java Bean?
 
 A **Java Bean** is a simple Java class that follows certain rules: it has a **no-argument constructor**, **private fields**, and **public getter and setter methods**. Java Beans are mainly used to **encapsulate data** and are reusable components.
 
@@ -3950,7 +3950,7 @@ public class User implements Serializable {
 }
 ```
 
-## 5. What are Spring beans?
+## 11. What are Spring beans?
 
 **Spring beans** are objects that are **created, managed, and destroyed by the Spring container**. They are defined using annotations like `@Component`, `@Service`, or through configuration files. Spring beans support **dependency injection**, making applications loosely coupled.
 
@@ -3964,7 +3964,7 @@ public class UserService { // This becomes a Spring bean
 <bean id="userService" class="com.example.UserService"/>
 ```
 
-## 5. What are Bean life cycle in sprintboot 
+## 12. What are Bean life cycle in sprintboot 
 
 The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
 
