@@ -5518,6 +5518,18 @@ byte[] decrypted = cipher.doFinal(encrypted);
 They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
 
 ```java
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+</dependency>
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 // SSL/TLS client example
 SSLContext sslContext = SSLContext.getInstance("TLS");
 sslContext.init(null, null, null);
