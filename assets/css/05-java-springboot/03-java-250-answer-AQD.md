@@ -2794,6 +2794,77 @@ Runnable r2 = () -> System.out.println("Hello");
 List<String> names = Arrays.asList("John", "Jane");
 names.forEach(name -> System.out.println(name));
 ```
+## 0. What are the interfaces?
+
+**1. Normal Interface** can contain **multiple abstract methods**.
+
+```java
+interface Animal {
+    void eat();
+    void sleep();
+}
+```
+
+```java
+class Dog implements Animal {
+    public void eat() {
+        System.out.println("Dog is eating");
+    }
+
+    public void sleep() {
+        System.out.println("Dog is sleeping");
+    }
+}
+```
+
+**2. Functional Interface** contains **only one abstract method**.
+It is mainly used with **lambda expressions** introduced in **Java 8**.
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+```
+
+Using Lambda:
+
+```java
+Calculator calc = (a, b) -> a + b;
+System.out.println(calc.add(5,3));
+```
+
+**3. Marker Interface** is an interface **without any methods**.
+It is used to **mark a class** so JVM or frameworks treat it differently.
+
+```java
+interface MarkerInterface {
+}
+```
+
+# 4. Nested Interface** declared **inside another interface or class**.
+
+```java
+class Outer {
+    interface Inner {
+        void show();
+    }
+}
+
+class Test implements Outer.Inner {
+    public void show() {
+        System.out.println("Nested Interface Method");
+    }
+}
+```
+
+| Type                 | Description                      |
+| -------------------- | -------------------------------- |
+| Normal Interface     | Multiple abstract methods        |
+| Functional Interface | Only one abstract method         |
+| Marker Interface     | No methods                       |
+| Nested Interface     | Interface inside class/interface |
+
 
 ## 2. What are functional interfaces?
 
