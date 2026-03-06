@@ -4030,6 +4030,25 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
+## 6. How does Spring Boot Flow Architecture works?
+
+Spring Boot follows a **layered architecture** where a request flows through different layers:
+
+**Flow:**
+
+**Client → DispatcherServlet → Controller → Service → Repository → Database → Response**
+
+**Short Explanation:**
+
+1. **Client** – Sends HTTP request (browser/Postman).
+2. **DispatcherServlet** (from Spring MVC) – Receives the request and routes it.
+3. **Controller** – Handles the API request.
+4. **Service** – Contains business logic.
+5. **Repository/DAO** – Interacts with the database using Spring Data JPA.
+6. **Database** – Stores and retrieves data.
+7. **Response** – Data returns back to the client.
+
+
 ## 7. How does Spring Boot Works Internally?
 
 **Spring Boot** starts with `SpringApplication.run()`, which initializes the Spring context. It performs auto-configuration based on project dependencies, scans components to create beans in the IoC container, and starts an embedded server like Apache Tomcat. After that, the application becomes ready to handle requests.
