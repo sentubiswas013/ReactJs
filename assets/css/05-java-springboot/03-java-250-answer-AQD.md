@@ -5388,6 +5388,8 @@ public class OrderController {
 
 ```java
 // Security Manager example
+import java.lang.SecurityManager;
+
 public class MySecurityManager extends SecurityManager {
     @Override
     public void checkRead(String file) {
