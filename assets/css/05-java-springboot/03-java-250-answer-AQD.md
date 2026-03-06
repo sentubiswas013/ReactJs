@@ -31,155 +31,108 @@ JVM = Runtime execution environment
 
 ## 3. What are the main principles of Object-Oriented Programming?
 
-Object-Oriented Programming is based on four fundamental principles that promote code reusability, maintainability, and modularity.
+**Object-Oriented Programming** is based on four fundamental principles that promote code reusability, maintainability, and modularity.
 
 **Four OOP Principles:**
 
-- **Encapsulation**: is the process of **wrapping data (variables) and methods (functions) together into a single unit called a class**, and **restricting direct access to the data** using access modifiers (`private`, `protected`, `public`).
-
-- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class. And  class (child/subclass) access the properties and behaviors of another class (parent/superclass)** using the `extends` keyword.
-
-- **Polymorphism**: means **"many forms"**. It allows the same method or object to behave differently in different situations. (e.g., method overloading, method overriding).
-
-- **Abstraction**: is the concept of **hiding internal implementation details and showing only essential features to the user**.
+* **Encapsulation:** Encapsulation means binding data and methods together and protecting data using access modifiers (`private`, `protected`, `public`) and access using getters and setters.
+* **Inheritance:** Inheritance means a child class can use properties and methods of a parent class using `extends`.
+* **Polymorphism:** Polymorphism means one method can perform different actions using overloading or overriding.
+* **Abstraction:** Abstraction means hiding internal implementation and showing only necessary details using abstract class or interface.
 
 
-## 4. What is polymorphism? Explain with examples.
-
-Polymorphism means "many forms" - the ability of objects to take multiple forms. The same method call can behave differently depending on the object type.
+- **1. Encapsulation:** Data is `private` and accessed using `getter and setter methods`.
 
 ```java
-// Runtime polymorphism - method overriding
+class Person {
+    private String name;   // private variable
+
+    public void setName(String name) {   // setter
+        this.name = name;
+    }
+
+    public String getName() {   // getter
+        return name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.setName("John");
+        System.out.println(p.getName());
+    }
+}
+```
+
+- **2. Inheritance:** Child class `inherits properties from parent class` using `extends`.
+
+```java
 class Animal {
-    public void makeSound() {
-        System.out.println("Animal makes sound");
+    void eat() {
+        System.out.println("Animal is eating");
     }
 }
 
 class Dog extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Dog barks");
+    void bark() {
+        System.out.println("Dog is barking");
     }
 }
 
-class Cat extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Cat meows");
-    }
-}
-
-// Usage
-Animal animal1 = new Dog();
-Animal animal2 = new Cat();
-animal1.makeSound(); // "Dog barks"
-animal2.makeSound(); // "Cat meows"
-```
-
-## 5. What is encapsulation and how is it implemented in Java?
-
-Encapsulation is the bundling of data and methods that operate on that data within a single unit, while hiding the internal implementation details from outside access.
-
-```java
-public class BankAccount {
-    private double balance; // Private field - encapsulated
-    private String accountNumber;
-    
-    // Public methods provide controlled access
-    public double getBalance() {
-        return balance;
-    }
-    
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-        }
-    }
-    
-    public boolean withdraw(double amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            return true;
-        }
-        return false;
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();   // inherited method
+        d.bark();
     }
 }
 ```
 
-## 6. What is inheritance and what are its types?
-
-Inheritance is a mechanism where a new class acquires properties and behaviors of an existing class. It promotes code reusability and establishes an "is-a" relationship.
+- **3. Polymorphism:** Method Overloading
 
 ```java
-// Single inheritance
-class Vehicle {
-    protected String brand;
-    
-    public void start() {
-        System.out.println("Vehicle started");
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
     }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println(c.add(5, 10));
+        System.out.println(c.add(5, 10, 15));
+    }
+}
+```
+
+- **4. Abstraction** abstract class or interface
+
+```java
+abstract class Vehicle {
+    abstract void start();   // abstract method
 }
 
 class Car extends Vehicle {
-    private int doors;
-    
-    public void honk() {
-        System.out.println("Car honks");
+    void start() {
+        System.out.println("Car starts with key");
     }
 }
 
-// Multilevel inheritance
-class SportsCar extends Car {
-    public void turboBoost() {
-        System.out.println("Turbo activated");
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        v.start();
     }
 }
 ```
 
-## 7. What is an abstract class?
-
-An abstract class is a class that cannot be instantiated and may contain both abstract methods (without implementation) and concrete methods (with implementation). It's used to provide a common base for related classes.
-
-```java
-abstract class Shape {
-    protected String color;
-    
-    // Constructor
-    public Shape(String color) {
-        this.color = color;
-    }
-    
-    // Abstract method - must be implemented by subclasses
-    public abstract double calculateArea();
-    
-    // Concrete method - inherited by subclasses
-    public void displayColor() {
-        System.out.println("Color: " + color);
-    }
-}
-
-class Circle extends Shape {
-    private double radius;
-    
-    public Circle(String color, double radius) {
-        super(color);
-        this.radius = radius;
-    }
-    
-    @Override
-    public double calculateArea() {
-        return Math.PI * radius * radius;
-    }
-}
-
-// Usage
-// Shape shape = new Shape("red"); // Error - cannot instantiate
-Circle circle = new Circle("blue", 5.0); // OK
-double area = circle.calculateArea();
-```
-
-## 8. What is a package in Java? 
+## 4. What is a package in Java? 
 In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
 
 ```java
@@ -192,7 +145,7 @@ public class Helper {
 }
 ```
 
-## 9. Normal, final, static, static final, volatile, abstract, transient?
+## 5. Normal, final, static, static final, volatile, abstract, transient?
 
 **Normal Variable** Declared inside a class but outside methods.
 ```java
@@ -259,7 +212,7 @@ public class Student implements Serializable {
 
 
 
-## 10. What is Instance, Static, Abstract, and Final Methods?
+## 6. What is Instance, Static, Abstract, and Final Methods?
 
 **Instance Method:** A method that belongs to an object and is called using an instance of the class.
 ```java
@@ -310,7 +263,7 @@ class Dog extends Animal {
 }
 ```
 
-## 11. How do you read user input from the console in Java?
+## 7. How do you read user input from the console in Java?
 ```java
 import java.util.Scanner;
 
@@ -329,7 +282,7 @@ public class Main {
 }
 ```
 
-## 12. How do you iterate through a collection in Java?
+## 8. How do you iterate through a collection in Java?
 ```java
 // Example using for-each loop:
 List<String> fruits = Arrays.asList("Apple", "Banana", "Orange");
@@ -708,14 +661,30 @@ class NoMain {
 
 ## 1. Why doesn't Java support multiple inheritance?
 
-Java doesn't support multiple inheritance of classes to avoid complexity and ambiguity. If a class inherited from two classes with the same method, Java wouldn't know which one to use.
+Java does not support **multiple inheritance with classes** mainly to avoid complexity and ambiguity, especially the **diamond problem**, where a class could inherit the same method from multiple parent classes and the compiler wouldn’t know which one to use.
 
-- Prevents diamond problem confusion
-- Keeps language simple and clean
-- Avoids method resolution conflicts
-- Maintains single inheritance hierarchy
+To keep the language simpler and more maintainable, Java allows **multiple inheritance through interfaces instead of classes**, so a class can implement multiple interfaces without inheriting conflicting implementations.
 
-Java provides interfaces to achieve multiple inheritance of behavior without the problems of multiple class inheritance.
+```java
+class A {
+    void show() {
+        System.out.println("From class A");
+    }
+}
+
+class B extends A {
+}
+
+class C extends A {
+}
+
+class D extends B, C {   // ❌ Not allowed in Java
+    public static void main(String[] args) {
+        D obj = new D();
+        obj.show();  // Which show()? From B or C?
+    }
+}
+```
 
 ## 2. What is the diamond problem?
 
@@ -733,12 +702,8 @@ If classes B and C both override a method from A, and D inherits from both B and
 
 ## 3. How does Java solve the diamond problem?
 
-Java solves the diamond problem by not allowing multiple class inheritance but supporting multiple interface inheritance with default methods.
+Java solves the **diamond problem** by not allowing multiple class inheritance but supporting multiple interface inheritance with **default methods**.
 
-- Single class inheritance only
-- Multiple interface inheritance allowed
-- Default methods in interfaces (Java 8+)
-- Explicit override required for conflicts
 
 ```java
 interface A { default void method() { } }
@@ -754,12 +719,7 @@ class C implements A, B {
 
 ## 4. Can you override static methods?
 
-No, you cannot override static methods in Java. Static methods belong to the class, not instances, so they're resolved at compile time based on the reference type.
-
-- Static methods are class-level, not instance-level
-- Method hiding occurs instead of overriding
-- Resolved at compile time (static binding)
-- No polymorphism with static methods
+No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
 
 ```java
 class Parent {
@@ -886,7 +846,7 @@ class Bank {
 }
 ```
 
-## 2. What is an abstract class?
+## 3. What is an abstract class?
 
 An abstract class is a class that cannot be instantiated and may contain both abstract and concrete methods. It's used when you want to share code among related classes.
 
@@ -908,7 +868,7 @@ abstract class Animal {
 }
 ```
 
-## 3. What is the difference between interface and abstract class?
+## 4. What is the difference between interface and abstract class?
 
 **Interface** is used to define a **contract**, where a class must implement all the declared methods. It mainly supports **multiple inheritance** and contains method declarations (and default/static methods).
 
@@ -930,7 +890,7 @@ abstract class Bird {
 }
 ```
 
-## 4. What are default methods in interfaces?
+## 5. What are default methods in interfaces?
 
 **Default methods** are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
 
@@ -954,7 +914,7 @@ class Car implements Vehicle {
 }
 ```
 
-## 5. What is the static keyword?
+## 6. What is the static keyword?
 
 The **`static` keyword** in Java is used to define **class-level members** that belong to the class rather than any specific instance.
 
@@ -963,7 +923,7 @@ For example, a **static variable** is shared across all objects, a **static meth
 In short: **`static` means the member belongs to the class, not to individual objects**.
 
 
-## 5. What are static methods in interfaces?
+## 7. What are static methods in interfaces?
 
 **Static methods** in interfaces **belong to the interface itself**, not to implementing classes. They're called using the interface name and cannot be overridden.
 
@@ -985,7 +945,7 @@ interface MathUtils {
 int result = MathUtils.add(5, 3); // Called on interface
 ```
 
-## 6. What is marker interface?
+## 8. What is marker interface?
 
 A **marker interface** is an **empty interface with no methods or fields**. It's used to mark or tag classes to indicate they have special behavior or properties.
 
@@ -1001,7 +961,7 @@ class Student implements Serializable {
 }
 ```
 
-## 7. What is functional interface?
+## 9. What is functional interface?
 
 A **functional interface** has exactly one abstract method and can be used with lambda expressions. It represents a single unit of functionality.
 
@@ -1018,7 +978,7 @@ Calculator add = (a, b) -> a + b;
 int result = add.calculate(5, 3);
 ```
 
-## 8. Can an interface extend another interface?
+## 10. Can an interface extend another interface?
 
 Yes, an **interface** can extend one or more interfaces using the **'extends'** keyword. The child interface inherits all methods from parent interfaces.
 
@@ -2711,7 +2671,7 @@ public class UserServlet extends HttpServlet {
 
 It also supports **custom queries, pagination, and sorting**, and integrates seamlessly with Spring Boot, making **database access faster, cleaner, and easier to maintain**.
 
-## 5. What is JPA and how it works?
+## 6. What is JPA and how it works?
 
 **JPA (Java Persistence API)** is a **Java specification** for managing relational data in Java applications. It allows you to **map Java objects to database tables** using annotations like `@Entity`, `@Table`, and `@Id`.
 
@@ -2756,7 +2716,7 @@ public class UserService {
 
 # ✅ 15. Java Lambda Expressions & Streams API 
 
-## 1. What are lambda expressions?
+## 0. What are lambda expressions?
 
 **Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
 
@@ -2777,7 +2737,7 @@ Runnable r2 = () -> System.out.println("Hello");
 List<String> names = Arrays.asList("John", "Jane");
 names.forEach(name -> System.out.println(name));
 ```
-## 0. What are the interfaces?
+## 1. What are the interfaces?
 
 **1. Normal Interface** can contain **multiple abstract methods**.
 
@@ -2825,7 +2785,7 @@ interface MarkerInterface {
 }
 ```
 
-# 4. Nested Interface** declared **inside another interface or class**.
+**4. Nested Interface** declared **inside another interface or class**.
 
 ```java
 class Outer {
@@ -3132,74 +3092,13 @@ Connection conn = dataSource.getConnection(); // From pool
 
 ## 5. What is caching and how it works inernally(Implementation)?
 
-**Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
-
-**Types of cache in Java** are generally categorized as:
-
-1. **In-Memory Cache** – stores data in **RAM** for fast access (e.g., `HashMap`, `ConcurrentHashMap`, **Guava Cache**).
-2. **Distributed Cache** – stores data across **multiple nodes** for scalability (e.g., **Redis**, **Hazelcast**, **Ehcache Cluster**).
-3. **Persistent Cache** – stores data on **disk** to survive restarts (e.g., **Ehcache with disk store**, **Caffeine with persistence**).
-
-**Caching Levels:**
-- **Application level:** In-memory caches (Caffeine, Guava)
-- **Database level:** Query result caching
-- **Distributed level:** Redis, Hazelcast
-- **HTTP level:** Browser and CDN caching
-
-**How cache works internally (Steps)**
-* Application receives a request.
-* It checks the cache for the requested data.
-
-* **If cache hit:**
-  * Data is found in cache.
-  * Return data directly from cache.
-  * No database call is made.
-
-* **If cache miss:**
-  * Data is fetched from the database.
-  * Data is stored in cache as a **key-value pair**.
-  * Return the response to the user.
+**Caching** in Java is a technique of **storing frequently used data in memory** so that we don’t have to fetch it again from a slow source like a database or external API.
 
 
-**Using HashMap (Manual Cache)**
-```java
-import java.util.HashMap;
-import java.util.Map;
+In Java, caching can be broadly categorized into **three main types** based on where the data is stored.
 
-class UserService {
+- **Local Cache (In-Memory Cache):** Data is stored **inside the application memory** for fast access. Example using Caffeine
 
-    private Map<Integer, String> cache = new HashMap<>();
-    // private final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
-
-    public String getUser(int userId) {
-        // Check cache first
-        if (cache.containsKey(userId)) {
-            System.out.println("Cache Hit!");
-            return cache.get(userId);
-        }
-
-        // Simulate database call
-        System.out.println("Cache Miss! Fetching from DB...");
-        String user = "User" + userId;
-
-        // Store in cache
-        cache.put(userId, user);
-
-        return user;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        UserService service = new UserService();
-
-        System.out.println(service.getUser(1)); // Miss
-        System.out.println(service.getUser(1)); // Hit
-    }
-}
-```
-
-**Using Caffeine (Real-World Cache)**
 ```java
 <dependency>
   <groupId>com.github.ben-manes.caffeine</groupId>
@@ -3210,29 +3109,40 @@ public class Main {
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
-import java.util.concurrent.TimeUnit;
-
-public class UserService {
-
-    private Cache<Integer, String> cache = Caffeine.newBuilder()
-            .maximumSize(100)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build();
-
-    public String getUser(int userId) {
-
-        return cache.get(userId, id -> {
-            System.out.println("Fetching from DB...");
-            return "User" + id;
-        });
-    }
-
+public class Main {
     public static void main(String[] args) {
-        UserService service = new UserService();
 
-        System.out.println(service.getUser(1)); // DB call
-        System.out.println(service.getUser(1)); // Cached
+        Cache<Integer, String> cache =Caffeine.newBuilder().maximumSize(100).build();
+
+        cache.put(1, "John");
+
+        System.out.println(cache.getIfPresent(1));
     }
+}
+```
+
+- **Distributed Cache :** Cache is **shared across multiple servers or applications**.  Shared across **multiple servers**. Example using Redis with Spring Boot.
+
+```java
+@Cacheable("users")
+public User getUser(Long id) {
+    System.out.println("Fetching from DB...");
+    return userRepository.findById(id).orElse(null);
+}
+```
+
+- **Database Cache :** Data is cached **at the database level** to reduce repeated queries.
+Example using Hibernate second-level cache.
+
+```java
+@Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+public class Product {
+
+    @Id
+    private Long id;
+    private String name;
 }
 ```
 
@@ -3443,35 +3353,38 @@ Design patterns are proven reusable solutions to common software design problems
 * **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
 * **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
 
-## 2. What is Singleton pattern and provide an example of a thread-safe implementation in Java.?
+## 2. What is Singleton pattern?
 
-Singleton pattern ensures that a class has only one instance throughout the application lifecycle and provides global access to that instance.
-
-- Only one instance of the class
-- Global access point
-- Lazy or eager initialization
-- Used for logging, database connections, caching
+**Singleton Pattern** is a design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
 
 ```java
-public class Singleton {
-   private static volatile Singleton instance;
-   private Singleton() {}
-   public static Singleton getInstance() {
-       if (instance == null) {
-           synchronized (Singleton.class) {
-               if (instance == null) {
-                   instance = new Singleton();
-               }
-           }
-       }
-       return instance;
-   }
+class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() { }   // private constructor
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1 == s2); // true (same object)
+    }
 }
 ```
 
 ## 3. How do you implement thread-safe Singleton?
 
-Thread-safe Singleton can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
+**Thread-safe Singleton** can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
 
 **Methods:**
 - Synchronized method (simple but slow)
@@ -3482,8 +3395,7 @@ Thread-safe Singleton can be implemented using synchronization, double-checked l
 ```java
 // Double-checked locking
 public class ThreadSafeSingleton {
-    private static volatile ThreadSafeSingleton instance;
-    
+    private static volatile ThreadSafeSingleton instance;    
     private ThreadSafeSingleton() { }
     
     public static ThreadSafeSingleton getInstance() {
@@ -3500,20 +3412,14 @@ public class ThreadSafeSingleton {
 
 // Enum singleton - best approach
 public enum EnumSingleton {
-    INSTANCE;
-    
+    INSTANCE;    
     public void doSomething() { }
 }
 ```
 
 ## 4. What is Factory pattern?
 
-Factory pattern creates objects without specifying their exact classes. It provides an interface for creating objects but lets subclasses decide which class to instantiate.
-
-- Creates objects without exposing creation logic
-- Refers to newly created objects through common interface
-- Promotes loose coupling
-- Easy to extend with new types
+**Factory pattern** creates objects without specifying their exact classes. It provides an interface for creating objects but lets subclasses decide which class to instantiate.
 
 ```java
 // Product interface
@@ -3544,12 +3450,7 @@ class AnimalFactory {
 
 ## 5. What is Observer pattern?
 
-Observer pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
-
-- Subject maintains list of observers
-- Observers are notified of state changes
-- Loose coupling between subject and observers
-- Used in event handling, MVC architecture
+**Observer pattern** defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 ```java
 // Observer interface
@@ -3586,7 +3487,7 @@ class NewsChannel implements Observer {
 
 ## 6. What is Strategy pattern?
 
-Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+**Strategy pattern** defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 
 ```java
 // Strategy interface
@@ -3623,7 +3524,7 @@ class ShoppingCart {
 
 ## 7. What is Adapter pattern?
 
-Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+**Adapter pattern** allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
 
 ```java
 // Target interface (what client expects)
@@ -3662,7 +3563,7 @@ class MediaAdapter implements MediaPlayer {
 
 ## 8. What is Decorator pattern?
 
-Decorator pattern allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
+**Decorator pattern** allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
 
 ```java
 // Component interface
@@ -3986,7 +3887,7 @@ public class MyBean {
 
 # ✅ 19. Java Spring Boot 
 
-## 6. What is annotations in Java?
+## 1. What is annotations in Java?
 **An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
 
 **Example Annotations:**
@@ -3995,7 +3896,7 @@ public class MyBean {
 * `@Component`
 * `@Service`
 
-## 6. What is Spring Boot?
+## 2. What is Spring Boot?
 
 **Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
 
@@ -4013,7 +3914,7 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
-## 6. How does Spring Boot Flow Architecture works?
+## 3. How does Spring Boot Flow Architecture works?
 
 Spring Boot follows a **layered architecture** where a request flows through different layers:
 
@@ -4032,7 +3933,7 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 7. **Response** – Data returns back to the client.
 
 
-## 7. How does Spring Boot Works Internally?
+## 4. How does Spring Boot Works Internally?
 
 **Spring Boot** starts with `SpringApplication.run()`, which initializes the Spring context. It performs auto-configuration based on project dependencies, scans components to create beans in the IoC container, and starts an embedded server like Apache Tomcat. After that, the application becomes ready to handle requests.
 
@@ -4064,9 +3965,9 @@ public class DemoApplication {
 public class MyApplication { }
 ```
 
-## 8. What is auto-configuration in Spring Boot and to disable?
+## 5. What is auto-configuration in Spring Boot and to disable?
 
-Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
+**Auto-configuration** automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
 
 - Automatic bean configuration
 - Based on classpath dependencies
@@ -4126,7 +4027,7 @@ public class Application {
 )
 ```
 
-## 9. What is @SpringBootApplication annotation?
+## 6. What is @SpringBootApplication annotation?
 
 @SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 
@@ -4147,7 +4048,7 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 10. What is the difference between @Component, @Service, and @Repository?
+## 7. What is the difference between @Component, @Service, and @Repository?
 
 These are stereotype annotations that mark classes as Spring beans, but they serve different purposes and provide semantic meaning.
 
@@ -4179,7 +4080,7 @@ public class UserService { } // Business logic
 public class UserRepository { } // Data access
 ```
 
-## 11. What is @Autowired annotation?
+## 8. What is @Autowired annotation?
 
 `@Autowired` is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
 It tells the Spring container to automatically inject a required bean into a class.
@@ -4205,7 +4106,7 @@ public class OrderService {
 }
 ```
 
-## 12. What is @Qualifier annotation?
+## 9. What is @Qualifier annotation?
 
 `@Qualifier` is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
 
@@ -4227,7 +4128,7 @@ public class SmsSender implements MessageSender { }
 
 Without @Qualifier, Spring would throw an exception due to multiple beans of type MessageSender.
 
-## 13. What is ApplicationContext?
+## 10. What is ApplicationContext?
 
 `ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
@@ -4254,7 +4155,7 @@ public class MyService {
 }
 ```
 
-## 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+## 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
 **@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
@@ -4315,7 +4216,7 @@ public ResponseEntity<User> updateEmail(
 }
 ```
 
-## 15. Explain Spring Boot Actuator endpoints.
+## 12. Explain Spring Boot Actuator endpoints.
 
 **Answer:**
 Actuator provides production-ready features like health checks, metrics, and monitoring endpoints. Common endpoints: `/health`, `/metrics`, `/info`, `/env`.
@@ -4349,7 +4250,7 @@ public class CustomHealthIndicator implements HealthIndicator {
 }
 ```
 
-## 16. How do you secure a Java Spring Boot application?
+## 13. How do you secure a Java Spring Boot application?
 
 To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
 
@@ -4387,7 +4288,7 @@ public class SecureController {
     }
 }
 ```
-## 17. What is Lombok in Java and and whe can we use?
+## 14. What is Lombok in Java and and whe can we use?
 
 **Lombok** is a Java library that reduces boilerplate code by automatically generating getters, setters, constructors, and other methods using annotations.
 
@@ -4428,12 +4329,12 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.MyAutoConfiguration
 ```
 
-## 18. Why do we use Long in JpaRepository<Employee, Long>?
+## 15. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
-## 19. What is Transactional and Why @Transactional Matters in Spring Boot?
+## 16. What is Transactional and Why @Transactional Matters in Spring Boot?
 **@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**. 
 A **transaction** means a group of database operations that must **all succeed or all fail together**.
 
@@ -4466,7 +4367,7 @@ public class PaymentService {
 
 If **creditAccount() fails**, Spring will **rollback debitAccount()** automatically.
 
-## 20. How to implement many to many, many to one and one to many in java?
+## 17. How to implement many to many, many to one and one to many in java?
 
 **One-To-Many**
 
@@ -4594,14 +4495,14 @@ public class CorsConfig {
 * **WebSocket API** – Enables real-time, two-way communication.
 
 
-## 1. What are RESTful web services?
+## 3. What are RESTful web services?
 
 **RESTful web services** are **web services based on REST architecture** they use **HTTP methods (GET, POST, PUT, DELETE)** to operate on **resources identified by URLs**.
 
 They are **stateless, platform-independent**, and typically exchange data in **JSON or XML** format.
 
 
-## 2. What are the principles of REST?
+## 4. What are the principles of REST?
 
 REST (Representational State Transfer) is based on six key architectural principles that guide the design of web services.
 
@@ -4616,7 +4517,7 @@ REST (Representational State Transfer) is based on six key architectural princip
 These principles ensure scalability, reliability, and maintainability of web services.
 
 
-## 275: What is XML how to return XML in response?
+## 5: What is XML how to return XML in response?
 
 **XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
 
@@ -4663,7 +4564,7 @@ public class StudentController {
 ```
 
 
-## 3. What are HTTP methods and their usage?
+## 6. What are HTTP methods and their usage?
 
 **HTTP** methods define the type of operation to be performed on a resource. Each method has a specific purpose and semantic meaning in RESTful services.
 
@@ -4695,7 +4596,7 @@ public class UserController {
 }
 ```
 
-## 4. What is the difference between PUT and POST?
+## 7. What is the difference between PUT and POST?
 
 **PUT:**
 - Updates or replaces entire resource
@@ -4728,7 +4629,7 @@ PUT /users/123
 // Response: 200 OK or 204 No Content
 ```
 
-## 5. What is idempotency in REST?
+## 8. What is idempotency in REST?
 
 Idempotency means that making the same request multiple times produces the same result as making it once. It's a crucial property for reliable and predictable web services.
 
@@ -4755,7 +4656,7 @@ POST /users {"name": "John"}  // Creates user with ID 1
 POST /users {"name": "John"}  // Creates user with ID 2
 ```
 
-## 6. What are HTTP status codes?
+## 9. What are HTTP status codes?
 
 HTTP status codes indicate the result of an HTTP request. They're grouped into categories and provide standardized way to communicate request outcomes.
 
@@ -5374,14 +5275,11 @@ public class UserService {
 }
 ```
 
-## 15. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
+## 15. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
 
-Yes, I’ve worked with the **Java 11 HTTP Client**. It’s a modern HTTP client introduced in Java 11 under the `java.net.http` package. It supports **HTTP/1.1 and HTTP/2**, has **built-in asynchronous and non-blocking calls** using `CompletableFuture`, and provides a clean, fluent API.
+In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
-In earlier Java versions, developers typically used **`HttpURLConnection`**, which was **blocking, verbose, and hard to use**, or relied on **third-party libraries** like Apache HttpClient or OkHttp for advanced features.
-
-So compared to older clients, the Java 11 HTTP Client is **simpler, more efficient, async-friendly, and officially supported by the JDK**.
-
+For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
 
 ```java
 import java.net.URI;
@@ -5389,13 +5287,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Test {
+public class Main {
     public static void main(String[] args) throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://example.com"))
+                .uri(URI.create("https://api.example.com"))
                 .GET()
                 .build();
 
@@ -5407,17 +5305,9 @@ public class Test {
 }
 ```
 
-The old HttpURLConnection required much more boilerplate code and didn't support modern features like HTTP/2 or reactive programming patterns.
-
 ## 16. What is service discovery?
 
 **Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
-
-**How it works:**
-- Services register themselves with discovery server
-- Services query discovery server to find other services
-- Handles dynamic IP addresses and scaling
-- Provides health checking and load balancing
 
 ```java
 // Service registration with Eureka
