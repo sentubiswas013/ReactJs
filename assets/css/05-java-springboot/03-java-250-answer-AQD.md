@@ -5173,12 +5173,42 @@ An **API Gateway** is a single entry point for all client requests in a microser
 
 It handles **routing, authentication, rate limiting, logging, and load balancing**, and forwards requests to appropriate backend services, improving security and simplifying client communication.
 
+```
+Client
+   |
+API Gateway
+ |    |    |
+MS1  MS2  MS3
+```
 
-**Benefits:**
-- Single entry point for clients
-- Centralized cross-cutting concerns
-- Simplified client code
-- Better security and monitoring
+
+**Basic Configuration (application.yml)**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+```
+
+```yaml
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+
+        - id: order-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/orders/**
+```
 
 ```java
 // API Gateway with Spring Cloud Gateway
