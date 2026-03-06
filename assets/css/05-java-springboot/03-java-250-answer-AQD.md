@@ -910,19 +910,11 @@ abstract class Animal {
 
 ## 3. What is the difference between interface and abstract class?
 
-**Interface:**
-- Multiple inheritance supported
-- Only public abstract methods (before Java 8)
-- Variables are public, static, final
-- No constructors allowed
-- 100% abstraction (before default methods)
+**Interface** is used to define a **contract**, where a class must implement all the declared methods. It mainly supports **multiple inheritance** and contains method declarations (and default/static methods).
 
-**Abstract Class:**
-- Single inheritance only
-- Can have any access modifier methods
-- Can have instance variables
-- Can have constructors
-- 0-100% abstraction
+**Abstract Class** is used to provide **partial abstraction**, where a class can have both **abstract methods and concrete methods**, along with variables and constructors.
+
+The main difference is that **an interface defines what a class should do, while an abstract class defines what a class is and provides shared functionality.**
 
 ```java
 // Interface - contract
@@ -940,7 +932,7 @@ abstract class Bird {
 
 ## 4. What are default methods in interfaces?
 
-Default methods are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
+**Default methods** are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
 
 - Provide default implementation in interface
 - Use 'default' keyword
@@ -973,7 +965,7 @@ In short: **`static` means the member belongs to the class, not to individual ob
 
 ## 5. What are static methods in interfaces?
 
-Static methods in interfaces belong to the interface itself, not to implementing classes. They're called using the interface name and cannot be overridden.
+**Static methods** in interfaces **belong to the interface itself**, not to implementing classes. They're called using the interface name and cannot be overridden.
 
 - Called using interface name
 - Cannot be overridden in implementing classes
@@ -995,12 +987,7 @@ int result = MathUtils.add(5, 3); // Called on interface
 
 ## 6. What is marker interface?
 
-A marker interface is an empty interface with no methods or fields. It's used to mark or tag classes to indicate they have special behavior or properties.
-
-- Contains no methods or variables
-- Used for metadata purposes
-- JVM or frameworks treat marked classes specially
-- Examples: Serializable, Cloneable, Remote
+A **marker interface** is an **empty interface with no methods or fields**. It's used to mark or tag classes to indicate they have special behavior or properties.
 
 ```java
 // Marker interface
@@ -1016,12 +1003,7 @@ class Student implements Serializable {
 
 ## 7. What is functional interface?
 
-A functional interface has exactly one abstract method and can be used with lambda expressions. It represents a single unit of functionality.
-
-- Exactly one abstract method
-- Can have default and static methods
-- Used with lambda expressions
-- @FunctionalInterface annotation for safety
+A **functional interface** has exactly one abstract method and can be used with lambda expressions. It represents a single unit of functionality.
 
 ```java
 @FunctionalInterface
@@ -1038,12 +1020,7 @@ int result = add.calculate(5, 3);
 
 ## 8. Can an interface extend another interface?
 
-Yes, an interface can extend one or more interfaces using the 'extends' keyword. The child interface inherits all methods from parent interfaces.
-
-- Use 'extends' keyword (not implements)
-- Can extend multiple interfaces
-- Inherits all abstract, default, and static methods
-- Implementing class must implement all inherited abstract methods
+Yes, an **interface** can extend one or more interfaces using the **'extends'** keyword. The child interface inherits all methods from parent interfaces.
 
 ```java
 interface Animal {
@@ -1073,12 +1050,7 @@ class Eagle implements Bird {
 
 ## 1. What is an exception in Java?
 
-An exception is an unexpected event that occurs during program execution and disrupts the normal flow of the program. It's Java's way of handling runtime errors gracefully.
-
-- Represents abnormal conditions during execution
-- Allows programs to handle errors without crashing
-- Provides information about what went wrong
-- Can be caught and handled using try-catch blocks
+An **exception** is an unexpected event that occurs during program execution and disrupts the normal flow of the program. It's Java's way of **handling runtime errors** gracefully.
 
 ```java
 int result = 10 / 0; // ArithmeticException occurs
@@ -1088,7 +1060,7 @@ int length = text.length(); // NullPointerException occurs
 
 ## 2. What is the exception hierarchy in Java?
 
-Java's exception hierarchy starts with Throwable class, which has two main branches: Error and Exception. Exception further divides into checked and unchecked exceptions.
+Java's **exception hierarchy** starts with Throwable class, which has two main branches: Error and Exception. Exception further divides into checked and unchecked exceptions.
 
 ```
 Throwable
@@ -1199,7 +1171,7 @@ try (FileReader file = new FileReader("data.txt")) {
 
 ## 7. How do you create custom exceptions?
 
-Custom exceptions are created by extending Exception class for checked exceptions or RuntimeException for unchecked exceptions. They provide specific error information for your application.
+**Custom exceptions** are created by extending Exception class for checked exceptions or RuntimeException for unchecked exceptions. They provide specific error information for your application.
 
 - Extend Exception (checked) or RuntimeException (unchecked)
 - Provide constructors for different scenarios
@@ -1226,7 +1198,7 @@ class InsufficientBalanceException extends RuntimeException {
 
 ## 8. What is exception chaining?
 
-Exception chaining links exceptions together, preserving the original cause when wrapping exceptions. It helps maintain the complete error trail for better debugging.
+**Exception chaining** links exceptions together, preserving the original cause when wrapping exceptions. It helps maintain the complete error trail for better debugging.
 
 - Preserves original exception information
 - Uses initCause() method or constructor parameter
@@ -1252,11 +1224,11 @@ throw re;
 
 ## 1. What is Java Collections Framework?
 
-Java Collections Framework is a unified architecture for storing and manipulating groups of objects. It provides interfaces, implementations, and algorithms to work with collections efficiently.
+**Java Collections** Framework is a unified architecture for storing and manipulating groups of objects. It provides interfaces, implementations, and algorithms to work with collections efficiently.
 
-- Provides common interfaces like List, Set, Map
-- Ready-to-use implementations like ArrayList, HashMap
-- Algorithms for sorting, searching, shuffling
+- Provides common interfaces **like List, Set, Map**
+- Ready-to-use implementations like **ArrayList, HashMap**
+- Algorithms for **sorting, searching, shuffling**
 - Reduces programming effort and increases performance
 
 ```java
@@ -1284,7 +1256,6 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 **HashMap** Unordered, allows null keys and values, O(1) average time complexity for basic operations.
 
 **TreeMap** Sorted by keys, doesn't allow null keys, O(log n) time complexity for basic operations.
-
 
 **In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
 
