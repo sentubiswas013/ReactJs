@@ -1350,35 +1350,26 @@ A **thread** is the **smallest unit of execution in a program** that allows mult
 
 ```java
 // Realtime example
-class FileDownload extends Thread {
-    String fileName;
-    FileDownload(String fileName) {
-        this.fileName = fileName;
-    }
-
+class PrintTask extends Thread {
     public void run() {
-        System.out.println(fileName + " download started by " + Thread.currentThread().getName());
+        System.out.println("Printing document...");
+    }
+}
 
-        try {
-            Thread.sleep(2000); // simulate download time
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(fileName + " download completed");
+class SaveTask extends Thread {
+    public void run() {
+        System.out.println("Saving document...");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
 
-        FileDownload t1 = new FileDownload("File1.pdf");
-        FileDownload t2 = new FileDownload("File2.mp4");
-        FileDownload t3 = new FileDownload("File3.zip");
+        PrintTask t1 = new PrintTask();
+        SaveTask t2 = new SaveTask();
 
-        t1.start();
-        t2.start();
-        t3.start();
+        t1.start();   // Thread for printing
+        t2.start();   // Thread for saving
     }
 }
 ```
