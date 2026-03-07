@@ -1330,7 +1330,7 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 
 # ✅ 8. Java Multithreading & Synchronization 
 
-## What is thread and what are life cycle?
+## 0. What is thread and what are life cycle?
 
 A **thread** is the **smallest unit of execution in a program** that allows multiple tasks to run simultaneously. In **Java**, threads are used for **multithreading** to improve performance and responsiveness.
 
