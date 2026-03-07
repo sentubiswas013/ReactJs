@@ -1348,6 +1348,41 @@ A **thread** is the **smallest unit of execution in a program** that allows mult
 
 **In simple words:** It lets a program do **many tasks at the same time** efficiently.
 
+```java
+// Realtime example
+class FileDownload extends Thread {
+    String fileName;
+    FileDownload(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void run() {
+        System.out.println(fileName + " download started by " + Thread.currentThread().getName());
+
+        try {
+            Thread.sleep(2000); // simulate download time
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(fileName + " download completed");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        FileDownload t1 = new FileDownload("File1.pdf");
+        FileDownload t2 = new FileDownload("File2.mp4");
+        FileDownload t3 = new FileDownload("File3.zip");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
+
 ## 2. How do you create threads in Java?
 
 There are two main ways to create **threads** in Java: **extending Thread** class or implementing **Runnable interfac**e.
