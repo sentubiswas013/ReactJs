@@ -1044,17 +1044,7 @@ Throwable
 
 ## 3. What are checked and unchecked exceptions?
 
-**Checked exceptions** must be handled at compile time, while **unchecked exceptions** occur at runtime and don't require mandatory handling.
-
-**Checked Exceptions:**
-- Must be caught or declared with throws
-- Compile-time enforcement
-- Examples: IOException, SQLException
-
-**Unchecked Exceptions:**
-- Runtime exceptions, optional handling
-- Inherit from RuntimeException
-- Examples: NullPointerException, ArithmeticException
+**Checked exceptions** must be handled at compile time(IOException, SQLExcepti), while **unchecked exceptions** occur at runtime(NullPointerException, ArithmeticException) and don't require mandatory handling.
 
 ```java
 // Checked - must handle
