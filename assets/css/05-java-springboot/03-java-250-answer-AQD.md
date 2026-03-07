@@ -4386,7 +4386,72 @@ public class PaymentService {
 
 If **creditAccount() fails**, Spring will **rollback debitAccount()** automatically.
 
-## 17. How to implement many to many, many to one and one to many in java?
+## 17. What is Distributed Tracing?
+
+**Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
+
+It helps developers **identify performance issues, delays, and failures** by showing the **complete flow of a request across different services in a system**.
+
+**Real-Time Example**
+
+1. **API Gateway** receives request
+2. **Order Service** processes order
+3. **Payment Service** processes payment
+4. **Inventory Service** updates stock
+5. **Notification Service** sends email/SMS
+
+**Tools Used**
+
+* **Zipkin**
+* **Jaeger**
+* **OpenTelemetry**
+* **Spring Cloud Sleuth**
+
+## 18. What is Spring Scheduler?
+
+**Spring Scheduler** is a feature in **Spring Framework** used to **run tasks automatically at a scheduled time or at fixed intervals**.
+
+It is commonly used for **background jobs** like sending emails, cleaning logs, or running periodic tasks using the `@Scheduled` annotation.
+
+**Real-Time Example**
+
+* Sending **daily reports**
+* **Cleaning temporary data** every night
+* **Sending scheduled emails**
+* **Database backup every day**
+
+**Enable Scheduling**
+
+```java
+@EnableScheduling
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+**Create Scheduled Task**
+
+```java
+@Component
+public class MyScheduler {
+
+    @Scheduled(fixedRate = 5000)
+    public void runTask() {
+        System.out.println("Task running every 5 seconds");
+    }
+}
+
+//Output
+Task running every 5 seconds
+Task running every 5 seconds
+Task running every 5 seconds
+```
+
+
+## 19. How to implement many to many, many to one and one to many in java?
 
 **One-To-Many**
 
