@@ -790,7 +790,10 @@ class Car {
 
 ## 1. What is an interface in Java?
 
-An **interface** in Java is a blueprint of a class that defines a contract of abstract methods which implementing classes must provide, used to achieve abstraction and multiple inheritance.
+**An Interface in Java** is a **blueprint of a class** that defines a set of methods a class must implement.
+
+It is mainly used to achieve **abstraction and multiple inheritance** by defining what a class should do, without providing the implementation.
+
 
 ```java
 interface Animal {
