@@ -7559,35 +7559,19 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 
 Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
 
-**Race Condition**
-A **race condition** happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
+**1. race condition :** happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
 
-**Example**
-Two threads updating the same variable simultaneously.
+**2. Deadlock :**  occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
 
+**3. Thread Starvation :** happens when a thread does not get enough CPU time because other threads with higher priority keep running.
 
-**Deadlock**
-A **deadlock** occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
+**4. Livelock :** threads keep responding to each other and changing states, but no thread makes progress.
 
-**Example**
-Thread A holds Lock 1 and waits for Lock 2, while Thread B holds Lock 2 and waits for Lock 1.
+**5. Thread Contention :** This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
 
+**6. Visibility Issues :** Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
 
-**Thread Starvation**
-**Thread starvation** happens when a thread does not get enough CPU time because other threads with higher priority keep running.
-
-**Livelock**
-In a **livelock**, threads keep responding to each other and changing states, but no thread makes progress.
-
-
-**Thread Contention**
-This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
-
-**Visibility Issues**
-Changes made by one thread may **not be visible to other threads** due to CPU caching. 
-Solution often involves using `volatile` or synchronization.
-
-**Improper Synchronization**
+**7. Improper Synchronization**
 Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
 
 
