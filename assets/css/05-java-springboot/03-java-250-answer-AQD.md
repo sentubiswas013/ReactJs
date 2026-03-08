@@ -7513,7 +7513,126 @@ public interface ApplicationMonitorMXBean {
 }
 ```
 
-# ✅ 27. Miscellaneous
+# ✅ 27.  Common Issues
+
+## 1. What are common Java performance issues?
+
+Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
+
+* **Memory leaks** - Objects not being garbage collected properly
+* **CPU bottlenecks** - Inefficient algorithms or blocking operations
+* **Database issues** - Slow queries or connection pool exhaustion
+* **Thread contention** - Multiple threads competing for resources
+* **Too Many Object Creationsv** - Creating many objects repeatedly can increase memory usage and GC overhead.
+* **Garbage Collection Overhead** - If the application creates many short-lived objects, Garbage Collection runs frequently, which can pause the application.
+* **Blocking I/O Operations** - Operations like file reading, network calls, or API calls may block threads and reduce throughput.
+
+```java
+// Memory leak example
+public class LeakExample {
+    private static List<String> cache = new ArrayList<>();
+    
+    public void addToCache(String data) {
+        cache.add(data); // Never cleared - memory leak
+    }
+}
+```
+
+## 2. What are common Java memory issues?
+* **OutOfMemoryError** - Heap space exhausted
+* **Memory leaks** - Objects referenced but not used
+* **Stack overflow** - Deep recursion or large local variables
+* **Metaspace issues** - Too many classes loaded
+
+```java
+// Stack overflow example
+public void recursiveMethod() {
+    recursiveMethod(); // No base case - stack overflow
+}
+
+// Memory optimization
+List<String> list = new ArrayList<>(1000); // Pre-size collections
+```
+
+## 3. What are common Java concurrency issues?
+* **Race conditions** - Multiple threads accessing shared data
+* **Deadlocks** - Threads waiting for each other indefinitely
+* **Thread starvation** - Threads not getting CPU time
+* **Data corruption** - Unsynchronized access to shared variables
+
+```java
+// Race condition fix
+private volatile boolean flag = false;
+private final Object lock = new Object();
+
+public void safeMethod() {
+    synchronized(lock) {
+        // Thread-safe operation
+        flag = !flag;
+    }
+}
+```
+
+## 4. What are common Java deployment issues?
+* **ClassPath problems** - Missing or conflicting JAR files
+* **Version conflicts** - Different library versions
+* **Configuration errors** - Wrong environment settings
+* **Permission issues** - File or network access denied
+
+```java
+// Check classpath at runtime
+String classpath = System.getProperty("java.class.path");
+System.out.println("Classpath: " + classpath);
+```
+
+## 5. What are common Java security issues?
+* **SQL injection** - Unsanitized database queries
+* **XSS attacks** - Unescaped user input in web apps
+* **Insecure deserialization** - Untrusted object deserialization
+* **Weak authentication** - Poor password policies
+
+```java
+// Prevent SQL injection
+String sql = "SELECT * FROM users WHERE id = ?";
+PreparedStatement stmt = conn.prepareStatement(sql);
+stmt.setInt(1, userId);
+```
+
+## 6. What are debugging strategies?
+* **Reproduce the issue** - Create minimal test case
+* **Use logging** - Add strategic log statements
+* **Debugger tools** - Step through code execution
+* **Divide and conquer** - Isolate problem areas
+
+```java
+// Strategic logging
+logger.debug("Processing user: {}, status: {}", userId, status);
+```
+
+## 7. What are problem-solving methodologies?
+* **Define the problem** - Understand symptoms clearly
+* **Gather information** - Logs, stack traces, environment
+* **Form hypothesis** - Educated guess about root cause
+* **Test and verify** - Implement fix and validate
+
+## 8. What are root cause analysis techniques?
+* **5 Whys technique** - Ask "why" five times
+* **Fishbone diagram** - Categorize potential causes
+* **Timeline analysis** - When did problem start
+* **Change analysis** - What changed recently
+
+```java
+// Add diagnostic information
+try {
+    processData();
+} catch (Exception e) {
+    logger.error("Failed processing at step: {}, data: {}", 
+                currentStep, data, e);
+    throw e;
+}
+```
+
+# ✅ 28. Miscellaneous
 
 ## 1: What is IaaS vs PaaS vs SaaS?
 
