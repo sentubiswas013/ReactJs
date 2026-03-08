@@ -7519,9 +7519,9 @@ public interface ApplicationMonitorMXBean {
 
 Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
 
-* **Memory leaks** - Objects not being garbage collected properly
-* **CPU bottlenecks** - Inefficient algorithms or blocking operations
-* **Database issues** - Slow queries or connection pool exhaustion
+* **Memory leaks** - Objects are created but not released from memory, so the Garbage Collector cannot remove them. Over time, memory usage increases and may cause OutOfMemoryError.
+* **CPU bottlenecks/Inefficient Algorithms** - Using slow algorithms or unnecessary loops increases CPU usage and slows the application.
+* **Database issues** - Slow queries or improper connection pool handling can slow down the entire application.
 * **Thread contention** - Multiple threads competing for resources
 * **Too Many Object Creationsv** - Creating many objects repeatedly can increase memory usage and GC overhead.
 * **Garbage Collection Overhead** - If the application creates many short-lived objects, Garbage Collection runs frequently, which can pause the application.
@@ -7539,10 +7539,11 @@ public class LeakExample {
 ```
 
 ## 2. What are common Java memory issues?
-* **OutOfMemoryError** - Heap space exhausted
-* **Memory leaks** - Objects referenced but not used
-* **Stack overflow** - Deep recursion or large local variables
-* **Metaspace issues** - Too many classes loaded
+* **OutOfMemoryError** - This happens when the JVM heap memory is full and cannot allocate new objects.
+* **Memory leaks** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
+* **Excessive Object Creation** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
+* **Metaspace issues** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
+* **Improper Cache Management** - If caching is implemented without limits, cached objects can keep growing and consume memory.
 
 ```java
 // Stack overflow example
