@@ -7514,3 +7514,26 @@ public interface ApplicationMonitorMXBean {
 ```
 
 # ✅ 27. Miscellaneous
+
+## 1: What is IaaS vs PaaS vs SaaS?
+
+**IaaS (Infrastructure as a Service)**: Rent virtual machines, storage, networks. You manage OS, runtime, apps.
+
+**PaaS (Platform as a Service)**: Managed platform for deploying apps. Provider manages OS, runtime.
+
+**SaaS (Software as a Service)**: Ready-to-use software. Provider manages everything.
+
+**Example:**
+```
+IaaS: AWS EC2, Azure VMs
+- You install Java, Tomcat, deploy app
+- Full control, more management
+
+PaaS: AWS Elastic Beanstalk, Azure App Service
+- Upload JAR, platform handles deployment
+- Less control, less management
+
+SaaS: Gmail, Salesforce, Office 365
+- Just use the software
+- No control, no management
+```
