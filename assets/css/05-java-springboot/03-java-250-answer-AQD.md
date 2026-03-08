@@ -7589,10 +7589,30 @@ public void safeMethod() {
 ```
 
 ## 4. What are common Java deployment issues?
-* **ClassPath problems** - Missing or conflicting JAR files
-* **Version conflicts** - Different library versions
-* **Configuration errors** - Wrong environment settings
-* **Permission issues** - File or network access denied
+
+Common **Java deployment issues** occur when an application runs correctly in development but fails or behaves differently in production.
+
+**1. Dependency Conflicts**
+Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
+
+**2. Environment Configuration Issues**
+Application may fail if **environment variables, configuration files, or profiles** are not set correctly.
+
+**3. Port Conflicts**
+If the application tries to start on a **port already used by another service**, it will fail to start.
+
+**4. Database Connection Issues**
+Incorrect **database credentials, network restrictions, or connection pool configuration** can cause deployment failures.
+
+
+**5. Missing Resources**
+Required files like **configuration files, certificates, or static resources** may not be included in the deployment package.
+
+**6. JVM Configuration Problems**
+Improper **JVM memory settings** (`-Xms`, `-Xmx`) can cause performance issues or application crashes.
+
+**7. Server Compatibility Issues**
+Sometimes the **Java version or application server version** in production is different from development.
 
 ```java
 // Check classpath at runtime
@@ -7601,10 +7621,28 @@ System.out.println("Classpath: " + classpath);
 ```
 
 ## 5. What are common Java security issues?
-* **SQL injection** - Unsanitized database queries
-* **XSS attacks** - Unescaped user input in web apps
-* **Insecure deserialization** - Untrusted object deserialization
-* **Weak authentication** - Poor password policies
+Common **Java security issues** occur when applications are not properly protected from attacks or sensitive data exposure.
+
+**1. SQL Injection**
+This happens when **user input is directly used in SQL queries**, allowing attackers to manipulate the query and access or modify database data.
+
+**2. Cross-Site Scripting (XSS)**
+Attackers inject **malicious scripts into web pages**, which execute in other users’ browsers.
+
+**3. Cross-Site Request Forgery (CSRF)**
+An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
+
+**4. Insecure Deserialization**
+If an application **deserializes untrusted data**, attackers may execute malicious code.
+
+**5. Sensitive Data Exposure**
+Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
+
+**6. Improper Authentication and Authorization**
+Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
+
+**7. Using Outdated Libraries**
+Old dependencies may contain **known security vulnerabilities**.
 
 ```java
 // Prevent SQL injection
