@@ -4971,12 +4971,12 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 **Spoken Answer:**
 
-> In our system, microservices mainly communicated using **REST APIs over HTTP**.
-> For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
->
-> For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
+In our system, microservices mainly communicated using **REST APIs over HTTP**.
+For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
 
-> Microservices communicate in two ways:
+For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
+
+Microservices communicate in two ways:
 
 1. **Synchronous (REST, Feign, WebClient)** – Request/Response model
 2. **Asynchronous (Kafka, RabbitMQ)** – Event-driven model
@@ -5333,6 +5333,90 @@ resilience4j:
         wait-duration-in-open-state: 30s
         sliding-window-size: 10
 ```
+
+## 14. Saga Pattern or How do you handle payment failure?
+
+Saga Pattern is used in **microservices architecture** to manage transactions across multiple services.
+
+Instead of one big transaction, the process is divided into **multiple small local transactions**.
+Each service completes its own step.
+
+If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
+
+**Example:**
+In an online order system:
+Order Created → Payment Done → Inventory Reserved.
+
+If inventory fails, Saga will **refund payment and cancel the order**.
+
+There are **two ways to implement Saga**:
+**Choreography** – services communicate using events.
+**Orchestration** – a central service controls the workflow.
+
+Order Created → Payment Done → Inventory Reserved
+If **inventory fails → refund payment + cancel order**
+
+```java
+@Service
+public class OrderSagaService {
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private OrderService orderService;
+
+    public void placeOrder(Order order) {
+        orderService.createOrder(order);
+        try {
+            paymentService.charge(order);        // Step 1
+            inventoryService.reserve(order);     // Step 2
+            orderService.updateStatus(order, "COMPLETED");
+
+        } catch (Exception e) {
+            // Compensation actions
+            paymentService.refund(order);
+            orderService.cancelOrder(order);
+            System.out.println("Order failed, rollback completed");
+        }
+    }
+}
+```
+
+**Payment Service**
+```java
+@Service
+public class PaymentService {
+    public void charge(Order order) {
+        System.out.println("Payment charged for order " + order.getId());
+    }
+
+    public void refund(Order order) {
+        System.out.println("Payment refunded for order " + order.getId());
+    }
+}
+```
+
+**Inventory Service**
+```java
+@Service
+public class InventoryService {
+    public void reserve(Order order) {
+        System.out.println("Inventory reserved for order " + order.getId());
+        
+        // simulate failure
+        throw new RuntimeException("Inventory not available");
+    }
+}
+```
+
+**Flow**
+1. Create Order
+2. Charge Payment
+3. Reserve Inventory
+4. If inventory fails → **Refund Payment + Cancel Order**
 
 ## 14. How do you Improve Performance in Spring Boot Application?
 

@@ -1,3 +1,4 @@
+import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
 import java.util.Scanner;
@@ -18,17 +19,23 @@ import java.util.Map;
 public class InterviewAttended01 {
     public static void main(String[] args) {
         // System.out.println("Hello, World!");
-        // Quesion: 0 ===================================
+        // Qn. ✅ ===================================
+        // mostUsedWord()
+
+        // Qn. ✅ ===================================
         // SecondHighestNumber()
 
-        // Quesion: 1 ===================================
+        // Qn. ✅ ===================================
+        // findEvenNumbers()
+
+        // Qn. ✅ ===================================
         // sortEmployeeBySalaryandDepartment();
 
-        //======================================================================
+        // Qn. ✅====================================
         // Program to find first non-repeated character using java8 streams 
         // firstNonRepeatedCharacter();
 
-        // Quesion: 2 ===================================
+        // Qn. ✅ ===================================
         // int[] nums = {1,2,3,4,5,6,7};
         // int k = 3;
 
@@ -37,7 +44,7 @@ public class InterviewAttended01 {
         // System.out.println(Arrays.toString(nums));
         // Output: [5, 6, 7, 1, 2, 3, 4]
 
-        // Quesion: 3 ===================================
+        // Qn. ✅ ===================================
         // Search in Rotated Sorted Array
         // int[] nums1 = {4,5,6,7,0,1,2};
         // System.out.println(search(nums1, 0));  // Output: 4
@@ -48,15 +55,37 @@ public class InterviewAttended01 {
         // int[] nums3 = {1};
         // System.out.println(search(nums3, 0));  // Output: -1
 
-        // Quesion: 4 ===================================
+        // Qn. ✅ ===================================
         // productExceptSelf(new int[]{1,2,3,4});  // Output: [24, 12, 8, 6]
 
-        // Quesion: 5 ===================================
+        // Qn. ✅ ===================================
         // removeStars("leet**cod*e");  // Output: "lecoe"
         
     }
 
-    // 2. Find the Sceond-Highest Number in an Array
+    // Qn. ✅ Find the most used word using Java 8 Streams
+    public static void mostUsedWord() {
+        String str = "Ram is employee of ABC company, ram is from Blore, RAM! is good in algorithms.";
+
+        Map<String, Long> wordCount =
+                Arrays.stream(str.toLowerCase().replaceAll("[^a-z ]", "").split("\\s+"))
+                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        String mostUsedWord = wordCount.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getKey();
+
+        System.out.println("Word Count: " + wordCount);
+        System.out.println("Most Used Word: " + mostUsedWord);
+        
+        // Word Count: {ram=3, is=3, employee=1, of=1, abc=1, company=1, from=1, blore=1, good=1, in=1, algorithms=1}
+        // Most Used Word: ram
+    }
+
+
+    // Qn. ✅ Find the Sceond-Highest Number in an Array
     public static void SecondHighestNumber() {
         int[] arr = {10, 5, 20, 20, 15, 5, 30};
         int highest = Integer.MIN_VALUE;
@@ -79,7 +108,19 @@ public class InterviewAttended01 {
         }
     }
 
-    // ✅ Top 3 highest paid employee, employee list by department
+    // Qn. ✅ Find the even numbers from this array using stream
+    public static void findEvenNumbers() {
+        int[] arr = {10, 5, 20, 15, 30};
+
+        List<Integer> evenNumbers = Arrays.stream(arr)
+                .filter(num -> num % 2 == 0)
+                .boxed()
+                .collect(Collectors.toList());
+
+        System.out.println("Even Numbers: " + evenNumbers);
+    }
+
+    // Qn. ✅ Top 3 highest paid employee, employee list by department
     public static void sortEmployeeBySalaryandDepartment() {
 
         List<Employee> employees = List.of(
@@ -95,7 +136,7 @@ public class InterviewAttended01 {
             new Employee(110, "Julia Roberts", "Marketing", 70000.0)
         );
 
-        // Top 3 Highest Paid Employees
+        // Qn. ✅ Highest Paid Employees
         // Comparator is used to define custom sorting logic for objects. comparingDouble() is a static method inside:
         System.out.println("\nTop 3 Highest Paid Employees:");
         employees.stream()
@@ -118,9 +159,7 @@ public class InterviewAttended01 {
         });
     }
 
-    // 
-    // String str="character";
-    // Program to find first non-repeated character using java8 streams 
+    // Qn. ✅ Program to find first non-repeated character using java8 streams 
     public static void firstNonRepeatedCharacter() {
         String str = "character";
 
@@ -161,6 +200,7 @@ public class InterviewAttended01 {
         }
     }
 
+    // ===========================================================
     // ✅  Search in Rotated Sorted Array
     // There is an integer array nums sorted in ascending order (with distinct values).
     
@@ -351,9 +391,85 @@ public class InterviewAttended01 {
 
     // ### ✅ Final Output:
     // 3 1 3 2 1 3
+
+    // ==============================================================
+    public class Test {
+ 
+        public static void test(int... x) {
+            System.out.println("Varargs");
+        }
     
+        public static void test(int x) {
+            System.out.println("Single");
+        }
+    
+        public static void main(String[] args) {
+            test();
+        }
+    }
+    // ### ✅ Final Output: Varargs
+
+    // ==============================================================
+    class A {
+        void show(int i) {
+            System.out.println("A int");
+        }
+    }
+    
+    class B extends A {
+        void show(Integer i) {
+            System.out.println("B Integer");
+        }
+    }
+    
+    public class IntTest{
+        public static void main(String[] args) {
+        
+            B obj = new B();
+            obj.show(null);
+            
+            A obj2 = new B();
+            
+            obj2.show(30);
+        }
+    }
+
+    // ### ✅Output: 
+    // B Integer
+    // A int
+
+    // ==============================================================
+    public class Test { 
+    public static void main(String[] args) {
+      System.out.println("Hello, World!");
+	  
+        HashMap<Key, String> map = new HashMap<>();
+        Key k1 = new Key(1);
+        map.put(k1, "Value");
+        k1.id = 2;
+        System.out.println(map.get(k1));      
+        }
+    }
+    
+    
+    class Key {
+        int id;
+        Key(int id) { this.id = id; }
+    
+        public int hashCode() { return id; }
+    
+        public boolean equals(Object o) {
+            return ((Key)o).id == this.id;
+        }
+    }
+
+    // ### ✅Output: null
+
 }
 
+
+
+// ====================================================================
 // ✅ Employee Class
 class Employee {
     private int id;
