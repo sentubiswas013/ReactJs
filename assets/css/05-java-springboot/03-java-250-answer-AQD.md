@@ -7539,11 +7539,11 @@ public class LeakExample {
 ```
 
 ## 2. What are common Java memory issues?
-* **OutOfMemoryError** - This happens when the JVM heap memory is full and cannot allocate new objects.
-* **Memory leaks** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
-* **Excessive Object Creation** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
-* **Metaspace issues** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
-* **Improper Cache Management** - If caching is implemented without limits, cached objects can keep growing and consume memory.
+* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
+* **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
+* **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
+* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
+* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
 
 ```java
 // Stack overflow example
@@ -7559,17 +7559,17 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 
 Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
 
-**1. race condition :** happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
+**1. race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
 
-**2. Deadlock :**  occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
+**2. Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
 
-**3. Thread Starvation :** happens when a thread does not get enough CPU time because other threads with higher priority keep running.
+**3. Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
 
-**4. Livelock :** threads keep responding to each other and changing states, but no thread makes progress.
+**4. Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
 
-**5. Thread Contention :** This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
+**5. Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
 
-**6. Visibility Issues :** Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
+**6. Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
 
 **7. Improper Synchronization**
 Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
@@ -7590,28 +7590,28 @@ public void safeMethod() {
 
 ## 4. What are common Java deployment issues?
 
-Common **Java deployment issues** occur when an application runs correctly in development but fails or behaves differently in production.
+Common **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
-**1. Dependency Conflicts**
+**1. Dependency Conflicts :** - 
 Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
 
-**2. Environment Configuration Issues**
+**2. Environment Configuration Issues :** - 
 Application may fail if **environment variables, configuration files, or profiles** are not set correctly.
 
-**3. Port Conflicts**
+**3. Port Conflicts :** - 
 If the application tries to start on a **port already used by another service**, it will fail to start.
 
-**4. Database Connection Issues**
+**4. Database Connection Issues :** - 
 Incorrect **database credentials, network restrictions, or connection pool configuration** can cause deployment failures.
 
 
-**5. Missing Resources**
+**5. Missing Resources :** - 
 Required files like **configuration files, certificates, or static resources** may not be included in the deployment package.
 
-**6. JVM Configuration Problems**
+**6. JVM Configuration Problems :** - 
 Improper **JVM memory settings** (`-Xms`, `-Xmx`) can cause performance issues or application crashes.
 
-**7. Server Compatibility Issues**
+**7. Server Compatibility Issues :** - 
 Sometimes the **Java version or application server version** in production is different from development.
 
 ```java
@@ -7621,27 +7621,27 @@ System.out.println("Classpath: " + classpath);
 ```
 
 ## 5. What are common Java security issues?
-Common **Java security issues** occur when applications are not properly protected from attacks or sensitive data exposure.
+Common **Java security issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
 
 **1. SQL Injection**
-This happens when **user input is directly used in SQL queries**, allowing attackers to manipulate the query and access or modify database data.
+This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
 
 **2. Cross-Site Scripting (XSS)**
-Attackers inject **malicious scripts into web pages**, which execute in other users’ browsers.
+Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
 
-**3. Cross-Site Request Forgery (CSRF)**
+**3. Cross-Site Request Forgery (CSRF) :** - 
 An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
 
-**4. Insecure Deserialization**
+**4. Insecure Deserialization :** - 
 If an application **deserializes untrusted data**, attackers may execute malicious code.
 
-**5. Sensitive Data Exposure**
+**5. Sensitive Data Exposure :** - 
 Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
 
-**6. Improper Authentication and Authorization**
+**6. Improper Authentication and Authorization :** - 
 Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
 
-**7. Using Outdated Libraries**
+**7. Using Outdated Libraries :** - 
 Old dependencies may contain **known security vulnerabilities**.
 
 ```java
