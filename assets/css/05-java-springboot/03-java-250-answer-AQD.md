@@ -7652,10 +7652,28 @@ stmt.setInt(1, userId);
 ```
 
 ## 6. What are debugging strategies?
-* **Reproduce the issue** - Create minimal test case
-* **Use logging** - Add strategic log statements
-* **Debugger tools** - Step through code execution
-* **Divide and conquer** - Isolate problem areas
+
+**Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
+
+**Common Debugging Strategies**
+
+1. **Log Analysis :**
+   Check application logs to identify errors or unusual behavior.
+
+2. **Using Debugger Tools :**
+   Use IDE debuggers to add **breakpoints**, step through code, and inspect variables.
+
+3. **Reproduce the Issue :**
+   Try to recreate the bug in the same conditions to understand the problem.
+
+4. **Divide and Conquer :**
+   Break the code into smaller parts to isolate where the problem occurs.
+
+5. **Check Recent Changes :**
+   Review recently modified code because bugs often come from recent updates.
+
+6. **Use Monitoring Tools :**
+   Tools help analyze performance, memory usage, and thread activity.
 
 ```java
 // Strategic logging
@@ -7663,16 +7681,50 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 ```
 
 ## 7. What are problem-solving methodologies?
-* **Define the problem** - Understand symptoms clearly
-* **Gather information** - Logs, stack traces, environment
-* **Form hypothesis** - Educated guess about root cause
-* **Test and verify** - Implement fix and validate
+
+**Problem-solving methodologies** are structured approaches used to **analyze and resolve technical problems effectively.**
+
+**Common Methodologies**
+
+1. **Define the Problem :**
+   Clearly understand what the issue is.
+
+2. **Analyze the Root Cause :**
+   Identify why the problem occurred.
+
+3. **Develop Possible Solutions :**
+   Consider multiple ways to fix the issue.
+
+4. **Implement the Solution :**
+   Apply the best solution.
+
+5. **Test the Solution :**
+   Verify that the issue is resolved.
+
+6. **Document the Solution :**
+   Record the fix for future reference.
+
 
 ## 8. What are root cause analysis techniques?
-* **5 Whys technique** - Ask "why" five times
-* **Fishbone diagram** - Categorize potential causes
-* **Timeline analysis** - When did problem start
-* **Change analysis** - What changed recently
+
+**Root Cause Analysis (RCA)** techniques help identify the **main reason behind a problem** instead of only fixing the symptoms.
+
+**Common RCA Techniques**
+
+1. **5 Whys Technique :**
+   Ask **“Why?” multiple times** until the root cause is found.
+
+2. **Fishbone Diagram (Ishikawa) :**
+   A diagram used to identify possible causes in categories like **process, people, technology, and environment**.
+
+3. **Pareto Analysis (80/20 Rule) :**
+   Focus on the **20% of causes that create 80% of problems**.
+
+4. **Fault Tree Analysis :**
+   A diagram used to trace the **chain of events leading to a failure**.
+
+5. **Log and Data Analysis :**
+   Analyze logs, metrics, and system data to identify the root cause.
 
 ```java
 // Add diagnostic information
