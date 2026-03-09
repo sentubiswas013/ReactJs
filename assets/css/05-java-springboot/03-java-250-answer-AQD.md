@@ -7713,16 +7713,12 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 
 1. **5 Whys Technique :**
    Ask **“Why?” multiple times** until the root cause is found.
-
 2. **Fishbone Diagram (Ishikawa) :**
    A diagram used to identify possible causes in categories like **process, people, technology, and environment**.
-
 3. **Pareto Analysis (80/20 Rule) :**
    Focus on the **20% of causes that create 80% of problems**.
-
 4. **Fault Tree Analysis :**
    A diagram used to trace the **chain of events leading to a failure**.
-
 5. **Log and Data Analysis :**
    Analyze logs, metrics, and system data to identify the root cause.
 
