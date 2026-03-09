@@ -77,6 +77,8 @@ public class InterviewAttended01 {
                 .collect(Collectors.toList());
 
         System.out.println("Name starts with A: " + result);
+
+        // Output: Name starts with A: [101 Alice Johnson HR 55000.0 Delhi age:28 rank:80]
     }
 
     // 2️⃣ Group employees by department
@@ -86,12 +88,16 @@ public class InterviewAttended01 {
                         .collect(Collectors.groupingBy(Employee::getDepartment));
 
         System.out.println("Employees by Department: " + map);
+
+        //Output: Employees by Department: {HR=[101 Alice Johnson HR 55000.0 Delhi age:28 rank:80, 109 Ian Wright HR 53000.0 Delhi age:33 rank:50], IT=[102 Bob Smith IT 72000.0 Mumbai age:32 rank:60, 107 George Miller IT 82000.0 Pune age:31 rank:30], Finance=[103 Charlie Brown Finance 68000.0 Delhi age:29 rank:55, 108 Hannah Davis Finance 64000.0 Delhi age:24 rank:75], Marketing=[104 Diana Prince Marketing 60000.0 Delhi age:26 rank:90, 110 Julia Roberts Marketing 70000.0 Bangalore age:29 rank:40], Operations=[105 Ethan Hunt Operations 75000.0 Chennai age:35 rank:45], Sales=[106 Fiona Gallagher Sales 58000.0 Delhi age:27 rank:70]}
     }
 
     // 3️⃣ Count employees
     public static void countEmployees(){
         long count = employees.stream().count();
         System.out.println("Total Employees: " + count);
+
+        // Output: Total Employees: 10
     }
 
     // 4️⃣ Maximum age
@@ -102,6 +108,8 @@ public class InterviewAttended01 {
                 .orElse(0);
 
         System.out.println("Max Age: " + maxAge);
+
+        // Output: Max Age: 35
     }
 
     // 5️⃣ Unique departments
@@ -113,6 +121,8 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Departments: " + dept);
+
+        // Output: Departments: [HR, IT, Finance, Marketing, Operations, Sales]
     }
 
     // 6️⃣ Count employees in each department
@@ -124,6 +134,8 @@ public class InterviewAttended01 {
                                 Collectors.counting()));
 
         System.out.println("Employees per Department: " + map);
+
+        // Output: Employees per Department: {HR=2, IT=2, Finance=2, Marketing=2, Operations=1, Sales=1}
     }
 
     // 7️⃣ Employees below age 30
@@ -134,6 +146,8 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Employees age < 30: " + list);
+
+        // Output: Employees age < 30: [101 Alice Johnson HR 55000.0 Delhi age:28 rank:80, 103 Charlie Brown Finance 68000.0 Delhi age:29 rank:55, 104 Diana Prince Marketing 60000.0 Delhi age:26 rank:90, 106 Fiona Gallagher Sales 58000.0 Delhi age:27 rank:70, 108 Hannah Davis Finance 64000.0 Delhi age:24 rank:75, 110 Julia Roberts Marketing 70000.0 Bangalore age:29 rank:40]
     }
 
     // 8️⃣ Rank between 50 and 100
@@ -144,6 +158,7 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Rank between 50 and 100: " + list);
+        // Output: Rank between 50 and 100: [101 Alice Johnson HR 55000.0 Delhi age:28 rank:80, 102 Bob Smith IT 72000.0 Mumbai age:32 rank:60, 103 Charlie Brown Finance 68000.0 Delhi age:29 rank:55, 104 Diana Prince Marketing 60000.0 Delhi age:26 rank:90, 108 Hannah Davis Finance 64000.0 Delhi age:24 rank:75, 109 Ian Wright HR 53000.0 Delhi age:33 rank:50, 106 Fiona Gallagher Sales 58000.0 Delhi age:27 rank:70]
     }
 
     // 9️⃣ Average age by gender
@@ -155,6 +170,7 @@ public class InterviewAttended01 {
                                 Collectors.averagingInt(Employee::getAge)));
 
         System.out.println("Average age by gender: " + map);
+        // Output: Average age by gender: {Male=30.0, Female=28.0}
     }
 
     // 🔟 Department with max employees
@@ -171,6 +187,7 @@ public class InterviewAttended01 {
                         .get();
 
         System.out.println("Department with max employees: " + entry);
+        // Output: Department with max employees: HR=2
     }
 
     // 1️⃣1️⃣ Employees in Delhi sorted by name
@@ -182,6 +199,7 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Employees in Delhi sorted: " + list);
+        // Output: Employees in Delhi sorted: [101 Alice Johnson HR 55000.0 Delhi age:28 rank:80, 103 Charlie Brown Finance 68000.0 Delhi age:29 rank:55, 104 Diana Prince Marketing 60000.0 Delhi age:26 rank:90, 108 Hannah Davis Finance 64000.0 Delhi age:24 rank:75, 109 Ian Wright HR 53000.0 Delhi age:33 rank:50, 106 Fiona Gallagher Sales 58000.0 Delhi age:27 rank:70]
     }
 
     // 1️⃣2️⃣ Average rank per department
@@ -193,6 +211,8 @@ public class InterviewAttended01 {
                                 Collectors.averagingInt(Employee::getRank)));
 
         System.out.println("Average rank by department: " + map);
+
+        // Output: Average rank by department: {HR=65.0, IT=45.0, Finance=65.0, Marketing=65.0, Operations=45.0, Sales=70.0}
     }
 
     // 1️⃣3️⃣ Highest rank (lowest number) in each department
@@ -205,6 +225,9 @@ public class InterviewAttended01 {
                                 Collectors.minBy(Comparator.comparing(Employee::getRank))));
 
         System.out.println("Highest rank per department: " + map);
+
+
+        // Output: Highest rank per department: {HR=Optional[101 Alice Johnson HR 55000.0 Delhi age:28 rank:80], IT=Optional[102 Bob Smith IT 72000.0 Mumbai age:32 rank:60], Finance=Optional[108 Hannah Davis Finance 64000.0 Delhi age:24 rank:75], Marketing=Optional[104 Diana Prince Marketing 60000.0 Delhi age:26 rank:90], Operations=Optional[105 Ethan Hunt Operations 75000.0 Chennai age:35 rank:45], Sales=Optional[106 Fiona Gallagher Sales 58000.0 Delhi age:27 rank:70]}
     }
 
     // 1️⃣4️⃣ Sort employees by rank
@@ -215,6 +238,8 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Sorted by Rank: " + list);
+
+        // Output: Sorted by Rank: [104 Diana Prince Marketing 60000.0 Delhi age:26 rank:90, 101 Alice Johnson HR 55000.0 Delhi age:28 rank:80, 108 Hannah Davis Finance 64000.0 Delhi age:24 rank:75, 106 Fiona Gallagher Sales 58000.0 Delhi age:27 rank:70, 102 Bob Smith IT 72000.0 Mumbai age:32 rank:60, 103 Charlie Brown Finance 68000.0 Delhi age:29 rank:55, 109 Ian Wright HR 53000.0 Delhi age:33 rank:50, 110 Julia Roberts Marketing 70000.0 Bangalore age:29 rank:40, 105 Ethan Hunt Operations 75000.0 Chennai age:35 rank:45, 107 George Miller IT 82000.0 Pune age:31 rank:30]
     }
 
     // 1️⃣5️⃣ Second highest rank employee
@@ -227,6 +252,8 @@ public class InterviewAttended01 {
                         .orElse(null);
 
         System.out.println("Second highest rank employee: " + emp);
+
+        // Output: Second highest rank employee: 102 Bob Smith IT 72000.0 Mumbai age:32 rank:60
     }
 
     // 1️⃣5️⃣ Most Used Word
@@ -247,6 +274,8 @@ public class InterviewAttended01 {
                         .getKey();
 
         System.out.println("Most Used Word: " + mostUsed);
+
+        // Output: Most Used Word: ram
     }
 
     // ==========================================================
@@ -269,6 +298,8 @@ public class InterviewAttended01 {
         }
 
         System.out.println("Second Highest: " + second);
+
+        // Output: Second Highest: 20
     }
 
     // ==========================================================
@@ -283,6 +314,8 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Even Numbers: " + even);
+
+        // Output: Even Numbers: [10, 20, 30]
     }
 
     // ==========================================================
@@ -305,6 +338,11 @@ public class InterviewAttended01 {
             System.out.println("\nDepartment: " + d);
             e.forEach(System.out::println);
         });
+
+        // Output:
+        // Top 3 Highest Paid Employees 
+        // 102 Bob Smith IT 72000.0 Mumbai age:32 rank:60
+        // 110 Julia Roberts Marketing 70000.0 Bangalore age:29 rank:40
     }
 
     // 1️⃣ Find longest string
@@ -318,6 +356,8 @@ public class InterviewAttended01 {
                         .max(Comparator.comparingInt(String::length));
 
         System.out.println("Longest String: " + longest.orElse("None"));
+
+        // Output: Longest String: grapefruit
     }
 
     // 2️⃣ Average age
@@ -336,6 +376,8 @@ public class InterviewAttended01 {
                         .orElse(0);
 
         System.out.println("Average Age: " + avg);
+
+        // Output: Average Age: 30.0
     }
 
     // 3️⃣ Check if list contains prime number
@@ -349,6 +391,8 @@ public class InterviewAttended01 {
                         .anyMatch(InterviewAttended01::isPrime);
 
         System.out.println("Contains Prime: " + containsPrime);
+
+        // Output: Contains Prime: true (because of 2, 11, 13)
     }
 
     public static boolean isPrime(int number){
@@ -362,6 +406,8 @@ public class InterviewAttended01 {
         }
 
         return true;
+
+        // Output: Contains Prime: true (because of 2, 11, 13)
     }
 
     // 4️⃣ Merge two sorted lists
@@ -376,6 +422,7 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Merged List: " + merged);
+        // Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
 
     // 5️⃣ Intersection of two lists
@@ -390,6 +437,7 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Intersection: " + intersection);
+        // Output: [3, 4, 5]
     }
 
     // 6️⃣ Remove duplicates while preserving order
@@ -404,6 +452,7 @@ public class InterviewAttended01 {
                         .collect(Collectors.toList());
 
         System.out.println("Unique Numbers: " + unique);
+        // Output: [1, 2, 3, 4, 5, 6]
     }
 
     // 7️⃣ Sum transactions by day
@@ -425,6 +474,7 @@ public class InterviewAttended01 {
                         ));
 
         System.out.println("Sum By Day: " + sumByDay);
+        // Output: {2022-01-01=300, 2022-01-02=700, 2022-01-03=500}
     }
 
     // 8️⃣ Kth smallest element
@@ -441,6 +491,7 @@ public class InterviewAttended01 {
                         .orElse(-1);
 
         System.out.println("Kth Smallest: " + kth);
+        // Output: 3
     }
 
     // 9️⃣ Word frequency
@@ -457,6 +508,7 @@ public class InterviewAttended01 {
                         ));
 
         System.out.println("Word Frequency: " + frequency);
+        // output: {banana=2, cherry=1, apple=3}
     }
 
     // 🔟 Partition even and odd numbers
@@ -471,6 +523,8 @@ public class InterviewAttended01 {
 
         System.out.println("Even Numbers: " + result.get(true));
         System.out.println("Odd Numbers: " + result.get(false));
+        //Output:
+        //Even Numbers: [2, 4, 6, 8]
     }
 
     // ==========================================================
