@@ -1,496 +1,459 @@
-import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
-import java.util.Scanner;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-
-// ## ✅ Hello World Program
 public class InterviewAttended01 {
+
+    // Employee List (Accessible to all methods)
+    static List<Employee> employees = List.of(
+        new Employee(101,"Alice Johnson","HR",55000,"Female","Delhi",28,80),
+        new Employee(102,"Bob Smith","IT",72000,"Male","Mumbai",32,60),
+        new Employee(103,"Charlie Brown","Finance",68000,"Male","Delhi",29,55),
+        new Employee(104,"Diana Prince","Marketing",60000,"Female","Delhi",26,90),
+        new Employee(105,"Ethan Hunt","Operations",75000,"Male","Chennai",35,45),
+        new Employee(106,"Fiona Gallagher","Sales",58000,"Female","Delhi",27,70),
+        new Employee(107,"George Miller","IT",82000,"Male","Pune",31,30),
+        new Employee(108,"Hannah Davis","Finance",64000,"Female","Delhi",24,75),
+        new Employee(109,"Ian Wright","HR",53000,"Male","Delhi",33,50),
+        new Employee(110,"Julia Roberts","Marketing",70000,"Female","Bangalore",29,40)
+    );
+
     public static void main(String[] args) {
-        // System.out.println("Hello, World!");
-        // Qn. ✅ ===================================
-        // mostUsedWord()
 
-        // Qn. ✅ ===================================
-        // SecondHighestNumber()
+        findNameStartsWithA();
+        groupByDepartment();
+        countEmployees();
+        findMaxAge();
+        uniqueDepartments();
+        countEmployeesEachDepartment();
+        employeesBelow30();
+        rankBetween50And100();
+        averageAgeByGender();
+        departmentWithMaxEmployees();
+        employeesInDelhiSorted();
+        averageRankEachDepartment();
+        highestRankEachDepartment();
+        sortEmployeesByRank();
+        secondHighestRankEmployee();
 
-        // Qn. ✅ ===================================
-        // findEvenNumbers()
+        mostUsedWord();
+        SecondHighestNumber();
+        findEvenNumbers();
+        sortEmployeeBySalaryandDepartment();
+        firstNonRepeatedCharacter();
 
-        // Qn. ✅ ===================================
-        // sortEmployeeBySalaryandDepartment();
+        int[] nums = {1,2,3,4,5,6,7};
+        rotate(nums,3);
+        System.out.println(Arrays.toString(nums));
 
-        // Qn. ✅====================================
-        // Program to find first non-repeated character using java8 streams 
-        // firstNonRepeatedCharacter();
+        int[] nums1 = {4,5,6,7,0,1,2};
+        System.out.println(search(nums1,0));
 
-        // Qn. ✅ ===================================
-        // int[] nums = {1,2,3,4,5,6,7};
-        // int k = 3;
+        System.out.println(Arrays.toString(productExceptSelf(new int[]{1,2,3,4})));
 
-        // rotate(nums, k);
-
-        // System.out.println(Arrays.toString(nums));
-        // Output: [5, 6, 7, 1, 2, 3, 4]
-
-        // Qn. ✅ ===================================
-        // Search in Rotated Sorted Array
-        // int[] nums1 = {4,5,6,7,0,1,2};
-        // System.out.println(search(nums1, 0));  // Output: 4
-
-        // int[] nums2 = {4,5,6,7,0,1,2};
-        // System.out.println(search(nums2, 3));  // Output: -1
-
-        // int[] nums3 = {1};
-        // System.out.println(search(nums3, 0));  // Output: -1
-
-        // Qn. ✅ ===================================
-        // productExceptSelf(new int[]{1,2,3,4});  // Output: [24, 12, 8, 6]
-
-        // Qn. ✅ ===================================
-        // removeStars("leet**cod*e");  // Output: "lecoe"
-        
+        System.out.println(removeStars("leet**cod*e"));
     }
 
-    // Qn. ✅ Find the most used word using Java 8 Streams
+    // ==========================================================
+
+    // 1️⃣ Employees whose name starts with A
+    public static void findNameStartsWithA(){
+        List<Employee> result = employees.stream()
+                .filter(e -> e.getName().startsWith("A"))
+                .collect(Collectors.toList());
+
+        System.out.println("Name starts with A: " + result);
+    }
+
+    // 2️⃣ Group employees by department
+    public static void groupByDepartment(){
+        Map<String,List<Employee>> map =
+                employees.stream()
+                        .collect(Collectors.groupingBy(Employee::getDepartment));
+
+        System.out.println("Employees by Department: " + map);
+    }
+
+    // 3️⃣ Count employees
+    public static void countEmployees(){
+        long count = employees.stream().count();
+        System.out.println("Total Employees: " + count);
+    }
+
+    // 4️⃣ Maximum age
+    public static void findMaxAge(){
+        int maxAge = employees.stream()
+                .mapToInt(Employee::getAge)
+                .max()
+                .orElse(0);
+
+        System.out.println("Max Age: " + maxAge);
+    }
+
+    // 5️⃣ Unique departments
+    public static void uniqueDepartments(){
+        List<String> dept =
+                employees.stream()
+                        .map(Employee::getDepartment)
+                        .distinct()
+                        .collect(Collectors.toList());
+
+        System.out.println("Departments: " + dept);
+    }
+
+    // 6️⃣ Count employees in each department
+    public static void countEmployeesEachDepartment(){
+        Map<String,Long> map =
+                employees.stream()
+                        .collect(Collectors.groupingBy(
+                                Employee::getDepartment,
+                                Collectors.counting()));
+
+        System.out.println("Employees per Department: " + map);
+    }
+
+    // 7️⃣ Employees below age 30
+    public static void employeesBelow30(){
+        List<Employee> list =
+                employees.stream()
+                        .filter(e -> e.getAge() < 30)
+                        .collect(Collectors.toList());
+
+        System.out.println("Employees age < 30: " + list);
+    }
+
+    // 8️⃣ Rank between 50 and 100
+    public static void rankBetween50And100(){
+        List<Employee> list =
+                employees.stream()
+                        .filter(e -> e.getRank() > 50 && e.getRank() < 100)
+                        .collect(Collectors.toList());
+
+        System.out.println("Rank between 50 and 100: " + list);
+    }
+
+    // 9️⃣ Average age by gender
+    public static void averageAgeByGender(){
+        Map<String,Double> map =
+                employees.stream()
+                        .collect(Collectors.groupingBy(
+                                Employee::getGender,
+                                Collectors.averagingInt(Employee::getAge)));
+
+        System.out.println("Average age by gender: " + map);
+    }
+
+    // 🔟 Department with max employees
+    public static void departmentWithMaxEmployees(){
+
+        Map.Entry<String,Long> entry =
+                employees.stream()
+                        .collect(Collectors.groupingBy(
+                                Employee::getDepartment,
+                                Collectors.counting()))
+                        .entrySet()
+                        .stream()
+                        .max(Map.Entry.comparingByValue())
+                        .get();
+
+        System.out.println("Department with max employees: " + entry);
+    }
+
+    // 1️⃣1️⃣ Employees in Delhi sorted by name
+    public static void employeesInDelhiSorted(){
+        List<Employee> list =
+                employees.stream()
+                        .filter(e -> e.getCity().equals("Delhi"))
+                        .sorted(Comparator.comparing(Employee::getName))
+                        .collect(Collectors.toList());
+
+        System.out.println("Employees in Delhi sorted: " + list);
+    }
+
+    // 1️⃣2️⃣ Average rank per department
+    public static void averageRankEachDepartment(){
+        Map<String,Double> map =
+                employees.stream()
+                        .collect(Collectors.groupingBy(
+                                Employee::getDepartment,
+                                Collectors.averagingInt(Employee::getRank)));
+
+        System.out.println("Average rank by department: " + map);
+    }
+
+    // 1️⃣3️⃣ Highest rank (lowest number) in each department
+    public static void highestRankEachDepartment(){
+
+        Map<String,Optional<Employee>> map =
+                employees.stream()
+                        .collect(Collectors.groupingBy(
+                                Employee::getDepartment,
+                                Collectors.minBy(Comparator.comparing(Employee::getRank))));
+
+        System.out.println("Highest rank per department: " + map);
+    }
+
+    // 1️⃣4️⃣ Sort employees by rank
+    public static void sortEmployeesByRank(){
+        List<Employee> list =
+                employees.stream()
+                        .sorted(Comparator.comparing(Employee::getRank))
+                        .collect(Collectors.toList());
+
+        System.out.println("Sorted by Rank: " + list);
+    }
+
+    // 1️⃣5️⃣ Second highest rank employee
+    public static void secondHighestRankEmployee(){
+        Employee emp =
+                employees.stream()
+                        .sorted(Comparator.comparing(Employee::getRank))
+                        .skip(1)
+                        .findFirst()
+                        .orElse(null);
+
+        System.out.println("Second highest rank employee: " + emp);
+    }
+
+    // 1️⃣5️⃣ Most Used Word
     public static void mostUsedWord() {
         String str = "Ram is employee of ABC company, ram is from Blore, RAM! is good in algorithms.";
 
         Map<String, Long> wordCount =
-                Arrays.stream(str.toLowerCase().replaceAll("[^a-z ]", "").split("\\s+"))
-                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+                Arrays.stream(str.toLowerCase()
+                .replaceAll("[^a-z ]", "")
+                .split("\\s+"))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        String mostUsedWord = wordCount.entrySet()
-                .stream()
-                .max(Map.Entry.comparingByValue())
-                .get()
-                .getKey();
+        String mostUsed =
+                wordCount.entrySet()
+                        .stream()
+                        .max(Map.Entry.comparingByValue())
+                        .get()
+                        .getKey();
 
-        System.out.println("Word Count: " + wordCount);
-        System.out.println("Most Used Word: " + mostUsedWord);
-        
-        // Word Count: {ram=3, is=3, employee=1, of=1, abc=1, company=1, from=1, blore=1, good=1, in=1, algorithms=1}
-        // Most Used Word: ram
+        System.out.println("Most Used Word: " + mostUsed);
     }
 
-
-    // Qn. ✅ Find the Sceond-Highest Number in an Array
+    // ==========================================================
+    // 1️⃣5️⃣ Second Highest Number
     public static void SecondHighestNumber() {
-        int[] arr = {10, 5, 20, 20, 15, 5, 30};
-        int highest = Integer.MIN_VALUE;
-        int secondHighest = Integer.MIN_VALUE;
+        int[] arr = {10,5,20,20,15,5,30};
 
-        // Iterate through the array to find the highest and second-highest numbers
-        for (int num : arr) {
-            if (num > highest) {
-                secondHighest = highest;
+        int highest = Integer.MIN_VALUE;
+        int second = Integer.MIN_VALUE;
+
+        for(int num : arr){
+
+            if(num > highest){
+                second = highest;
                 highest = num;
-            } else if (num > secondHighest && num < highest) {
-                secondHighest = num;
+            }
+            else if(num > second && num < highest){
+                second = num;
             }
         }
 
-        if (secondHighest == Integer.MIN_VALUE) {
-            System.out.println("There is no second-highest number in the array.");
-        } else {
-            System.out.println("Second-highest number: " + secondHighest);
-        }
+        System.out.println("Second Highest: " + second);
     }
 
-    // Qn. ✅ Find the even numbers from this array using stream
-    public static void findEvenNumbers() {
-        int[] arr = {10, 5, 20, 15, 30};
+    // ==========================================================
+    // 1️⃣5️⃣ Even Numbers using Stream
+    public static void findEvenNumbers(){
+        int[] arr = {10,5,20,15,30};
 
-        List<Integer> evenNumbers = Arrays.stream(arr)
-                .filter(num -> num % 2 == 0)
-                .boxed()
-                .collect(Collectors.toList());
+        List<Integer> even =
+                Arrays.stream(arr)
+                        .filter(n -> n%2==0)
+                        .boxed()
+                        .collect(Collectors.toList());
 
-        System.out.println("Even Numbers: " + evenNumbers);
+        System.out.println("Even Numbers: " + even);
     }
 
-    // Qn. ✅ Top 3 highest paid employee, employee list by department
-    public static void sortEmployeeBySalaryandDepartment() {
+    // ==========================================================
+    // 1️⃣5️⃣ Top 3 Salary + Group by Department
+    public static void sortEmployeeBySalaryandDepartment(){
+        System.out.println("\nTop 3 Highest Paid Employees");
 
-        List<Employee> employees = List.of(
-            new Employee(101, "Alice Johnson", "HR", 55000.0),
-            new Employee(102, "Bob Smith", "IT", 72000.0),
-            new Employee(103, "Charlie Brown", "Finance", 68000.0),
-            new Employee(104, "Diana Prince", "Marketing", 60000.0),
-            new Employee(105, "Ethan Hunt", "Operations", 75000.0),
-            new Employee(106, "Fiona Gallagher", "Sales", 58000.0),
-            new Employee(107, "George Miller", "IT", 82000.0),
-            new Employee(108, "Hannah Davis", "Finance", 64000.0),
-            new Employee(109, "Ian Wright", "HR", 53000.0),
-            new Employee(110, "Julia Roberts", "Marketing", 70000.0)
-        );
-
-        // Qn. ✅ Highest Paid Employees
-        // Comparator is used to define custom sorting logic for objects. comparingDouble() is a static method inside:
-        System.out.println("\nTop 3 Highest Paid Employees:");
         employees.stream()
                 .sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
-                // .sorted((e1, e2) -> Double.compare(e2.getSalary(), e1.getSalary()))
                 .limit(3)
                 .forEach(System.out::println);
 
+        System.out.println("\nGrouped By Department");
 
-        // Employee List Grouped By Department
-        System.out.println("\nEmployees Grouped By Department:");
-
-        Map<String, List<Employee>> grouped =
+        Map<String,List<Employee>> grouped =
                 employees.stream()
                         .collect(Collectors.groupingBy(Employee::getDepartment));
 
-        grouped.forEach((dept, empList) -> {
-            System.out.println("\nDepartment: " + dept);
-            empList.forEach(System.out::println);
+        grouped.forEach((d,e) -> {
+            System.out.println("\nDepartment: " + d);
+            e.forEach(System.out::println);
         });
     }
 
-    // Qn. ✅ Program to find first non-repeated character using java8 streams 
-    public static void firstNonRepeatedCharacter() {
+    // ==========================================================
+    // 1️⃣5️⃣ First Non-Repeated Character
+    public static void firstNonRepeatedCharacter(){
+
         String str = "character";
 
-        Character result = str.chars()                 // IntStream
-                .mapToObj(c -> (char) c)               // convert to Character
-                .collect(Collectors.groupingBy(
-                        Function.identity(),
-                        LinkedHashMap::new,            // maintain insertion order
-                        Collectors.counting()))
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue() == 1) // non repeated
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(null);
+        Character result =
+                str.chars()
+                        .mapToObj(c -> (char)c)
+                        .collect(Collectors.groupingBy(
+                                Function.identity(),
+                                LinkedHashMap::new,
+                                Collectors.counting()))
+                        .entrySet()
+                        .stream()
+                        .filter(e -> e.getValue()==1)
+                        .map(Map.Entry::getKey)
+                        .findFirst()
+                        .orElse(null);
 
-        System.out.println(result);
+        System.out.println("First Non-Repeated: " + result);
     }
 
 
-    // ✅ rotate the array to the right by k steps, where k is non-negative
-    public static void rotate(int[] nums, int k) {
+
+
+
+    // ==========================================================
+    // 1️⃣5️⃣ Rotate Array
+    public static void rotate(int[] nums,int k){
+
         int n = nums.length;
-        k = k % n;  // Important when k > n
-        
-        reverse(nums, 0, n - 1);      // Step 1
-        reverse(nums, 0, k - 1);      // Step 2
-        reverse(nums, k, n - 1);      // Step 3
+        k = k % n;
+
+        reverse(nums,0,n-1);
+        reverse(nums,0,k-1);
+        reverse(nums,k,n-1);
     }
 
-    private static void reverse(int[] nums, int start, int end) {
-        while (start < end) {
+    private static void reverse(int[] nums,int start,int end){
+
+        while(start < end){
+
             int temp = nums[start];
             nums[start] = nums[end];
             nums[end] = temp;
+
             start++;
             end--;
         }
     }
 
-    // ===========================================================
-    // ✅  Search in Rotated Sorted Array
-    // There is an integer array nums sorted in ascending order (with distinct values).
-    
-    // Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
-    
-    // Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
-    
-    // You must write an algorithm with O(log n) runtime complexity.
-    
-
-    // Example 1:
-
-    // Input: nums = [4,5,6,7,0,1,2], target = 0
-    // Output: 4
-    // Example 2:
-    
-    // Input: nums = [4,5,6,7,0,1,2], target = 3
-    // Output: -1
-    // Example 3:
-
-    // Input: nums = [1], target = 0
-    // Output: -1
-
-    public static int search(int[] nums, int target) {
+    // ==========================================================
+    // 1️⃣5️⃣ Search in Rotated Sorted Array
+    public static int search(int[] nums,int target){
 
         int left = 0;
-        int right = nums.length - 1;
+        int right = nums.length-1;
 
-        while (left <= right) {
+        while(left <= right){
 
-            int mid = left + (right - left) / 2;
+            int mid = left + (right-left)/2;
 
-            // ✅ Target found
-            if (nums[mid] == target) {
+            if(nums[mid] == target)
                 return mid;
-            }
 
-            // ✅ Left half is sorted
-            if (nums[left] <= nums[mid]) {
+            if(nums[left] <= nums[mid]){
 
-                if (target >= nums[left] && target < nums[mid]) {
-                    right = mid - 1;  // Search left
-                } else {
-                    left = mid + 1;   // Search right
-                }
+                if(target >= nums[left] && target < nums[mid])
+                    right = mid-1;
+                else
+                    left = mid+1;
 
-            }
-            // ✅ Right half is sorted
-            else {
+            } else {
 
-                if (target > nums[mid] && target <= nums[right]) {
-                    left = mid + 1;   // Search right
-                } else {
-                    right = mid - 1;  // Search left
-                }
+                if(target > nums[mid] && target <= nums[right])
+                    left = mid+1;
+                else
+                    right = mid-1;
             }
         }
 
-        return -1;  // Not found
+        return -1;
     }
 
-    // ===========================================================
-    // Question No: 1	 
-    // Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].   
-    // The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.   
-    // You must write an algorithm that runs in O(n) time and without using the division operation.   
-    // Example 1: Input: nums = [1,2,3,4] Output: [24,12,8,6]   
-    // Example 2: Input: nums = [-1,1,0,-3,3] Output: [0,0,9,0,0] 
-
-    public int[] productExceptSelf(int[] nums) {
+    // ==========================================================
+    // 1️⃣5️⃣ Product Except Self
+    public static int[] productExceptSelf(int[] nums){
 
         int n = nums.length;
         int[] answer = new int[n];
 
-        // Step 1: store prefix (left) products
         answer[0] = 1;
-        for (int i = 1; i < n; i++) {
-            answer[i] = answer[i - 1] * nums[i - 1];
-        }
 
-        // Step 2: multiply with suffix (right) products
-        int rightProduct = 1;
-        for (int i = n - 1; i >= 0; i--) {
-            answer[i] *= rightProduct;
-            rightProduct *= nums[i];
+        for(int i=1;i<n;i++)
+            answer[i] = answer[i-1] * nums[i-1];
+
+        int right = 1;
+
+        for(int i=n-1;i>=0;i--){
+
+            answer[i] *= right;
+            right *= nums[i];
         }
 
         return answer;
     }
-    
-    // ===========================================================
-    // Question No 2.	 
-    // you are given a string s, which contains stars *. In one operation, you can: · Choose a star in s. · Remove the closest non-star character to its left, as well as remove the star itself.  
-    // Return the string after all stars have been removed.   
-    // Note:   
-    // · The input will be generated such that the operation is always possible.   
-    // · It can be shown that the resulting string will always be unique.   
-    
-    // Example 1:   
-    // Input: s = ""leet**cod*e"" Output: ""lecoe"" Explanation: Performing the removals from left to right: - The closest character to the 1st star is 't' in ""leet**cod*e"". s becomes ""lee*cod*e"". - The closest character to the 2nd star is 'e' in ""lee*cod*e"". s becomes ""lecod*e"". - The closest character to the 3rd star is 'd' in ""lecod*e"". s becomes ""lecoe"". There are no more stars, so we return ""lecoe"".    
-    
-    // Example 2:   
-    // Input: s = ""erase*****"" Output: """" Explanation: The entire string is removed, so we return an empty string. 
 
-    public String removeStars(String s) {
+    // ==========================================================
+    // 1️⃣5️⃣ Remove Stars
+    public static String removeStars(String s){
 
         StringBuilder sb = new StringBuilder();
 
-        for (char ch : s.toCharArray()) {
-            if (ch == '*') {
-                sb.deleteCharAt(sb.length() - 1);
-            } else {
+        for(char ch : s.toCharArray()){
+
+            if(ch == '*')
+                sb.deleteCharAt(sb.length()-1);
+            else
                 sb.append(ch);
-            }
         }
 
         return sb.toString();
     }
-
-
-    // ==============================================================
-    // Tricky Questions
-    // ==============================================================
-    // **1️⃣ BreakTest**
-    // ```java
-    // public class BreakTest {
-    //     public static void main(String[] args)
-    //     {
-    //     int i=1;
-    //         if (i==1) {
-    //             break; 
-    //             }
-    //     System.out.println("break");
-    //     }
-    // }
-    // ```
-
-    // ✅ Answer:
-    // ❌ **Compilation Error**
-
-
-    // ## **2️⃣ HelloFind**
-    // ```java
-    // List<Integer> listOfInt = Arrays.asList(1,1,2,3,3,4);
-    // Set<Integer> set = new HashSet();
-    // listOfInt.stream()
-    //     .filter(n -> !set.add(n))
-    //     .forEach(System.out::println);
-    // ```
-    // ### ✅ Answer:
-
-    // ```
-    // 1
-    // 3
-    // ```
-
-    // ## **3️⃣ Assignment**
-    // ```java
-    // int k = 0;
-    // for (int i = 0; i < 100; i++)
-    //     k = k++; 
-    // System.out.println(k);
-    // System.out.println(k);
-    // ```
-
-    // ### ✅ Answer:
-    // ```
-    // 0
-    // 0
-    // ```
-
-    // ## **4️⃣ SwitchTest**
-
-    // ```java
-    // final static short i = 2;
-
-    // for (int n = 0; n < 3; n++)
-    // {
-    //     switch (n)
-    //     {
-    //         case i: System.out.print(" 2 ");
-    //         case i-1: System.out.print(" 1 ");
-    //         case i-2: System.out.print(" 3 ");  
-    //     }
-    // }
-    // ```
-
-
-    // ### ✅ Final Output:
-    // 3 1 3 2 1 3
-
-    // ==============================================================
-    public class Test {
- 
-        public static void test(int... x) {
-            System.out.println("Varargs");
-        }
-    
-        public static void test(int x) {
-            System.out.println("Single");
-        }
-    
-        public static void main(String[] args) {
-            test();
-        }
-    }
-    // ### ✅ Final Output: Varargs
-
-    // ==============================================================
-    class A {
-        void show(int i) {
-            System.out.println("A int");
-        }
-    }
-    
-    class B extends A {
-        void show(Integer i) {
-            System.out.println("B Integer");
-        }
-    }
-    
-    public class IntTest{
-        public static void main(String[] args) {
-        
-            B obj = new B();
-            obj.show(null);
-            
-            A obj2 = new B();
-            
-            obj2.show(30);
-        }
-    }
-
-    // ### ✅Output: 
-    // B Integer
-    // A int
-
-    // ==============================================================
-    public class Test { 
-    public static void main(String[] args) {
-      System.out.println("Hello, World!");
-	  
-        HashMap<Key, String> map = new HashMap<>();
-        Key k1 = new Key(1);
-        map.put(k1, "Value");
-        k1.id = 2;
-        System.out.println(map.get(k1));      
-        }
-    }
-    
-    
-    class Key {
-        int id;
-        Key(int id) { this.id = id; }
-    
-        public int hashCode() { return id; }
-    
-        public boolean equals(Object o) {
-            return ((Key)o).id == this.id;
-        }
-    }
-
-    // ### ✅Output: null
-
 }
 
-
-
-// ====================================================================
-// ✅ Employee Class
+// ==========================================================
 class Employee {
+
     private int id;
     private String name;
     private String department;
     private double salary;
+    private String gender;
+    private String city;
+    private int age;
+    private int rank;
 
-    public Employee(int id, String name, String department, double salary) {
-        this.id = id;
-        this.name = name;
-        this.department = department;
-        this.salary = salary;
+    public Employee(int id,String name,String department,double salary,
+                    String gender,String city,int age,int rank){
+
+        this.id=id;
+        this.name=name;
+        this.department=department;
+        this.salary=salary;
+        this.gender=gender;
+        this.city=city;
+        this.age=age;
+        this.rank=rank;
     }
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public String getDepartment() { return department; }
-    public double getSalary() { return salary; }
+    public int getId(){ return id; }
+    public String getName(){ return name; }
+    public String getDepartment(){ return department; }
+    public double getSalary(){ return salary; }
+    public String getGender(){ return gender; }
+    public String getCity(){ return city; }
+    public int getAge(){ return age; }
+    public int getRank(){ return rank; }
 
-    @Override
-    public String toString() {
-        return id + " - " + name + " - " + department + " - " + salary;
+    public String toString(){
+        return id+" "+name+" "+department+" "+salary+" "+city+" age:"+age+" rank:"+rank;
     }
 }
