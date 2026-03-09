@@ -5442,62 +5442,7 @@ public class InventoryService {
 3. Reserve Inventory
 4. If inventory fails → **Refund Payment + Cancel Order**
 
-## 14. How do you Improve Performance in Spring Boot Application?
-
-**Answer**
-
-To improve performance in Spring Boot, I use **caching (Redis), connection pooling (HikariCP), proper indexing in database, async processing, and pagination for large data**.
-
-Enable **asynchronous processing** where applicable, I also optimize **JVM settings, reduce unnecessary logging, use efficient queries, and monitor the application using Actuator and profiling tools** to identify bottlenecks.
-
-```java
-@Service
-public class UserService {
-    
-    @Cacheable("users")
-    public User findById(Long id) {
-        return userRepository.findById(id);
-    }
-    
-    @Async
-    public CompletableFuture<Void> sendEmailAsync(String email) {
-        emailService.sendEmail(email);
-        return CompletableFuture.completedFuture(null);
-    }
-}
-```
-
-## 15. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
-
-In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
-
-For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
-
-```java
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-
-        HttpClient client = HttpClient.newHttpClient();
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.example.com"))
-                .GET()
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println(response.body());
-    }
-}
-```
-
-## 16. What is service discovery?
+## 15. What is service discovery?
 
 **Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
@@ -5523,6 +5468,36 @@ public class OrderController {
             discoveryClient.getInstances("user-service");
         String url = instances.get(0).getUri().toString();
         // Make HTTP call to user service
+    }
+}
+```
+
+## 16. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
+
+In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
+
+For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.example.com"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
     }
 }
 ```
@@ -7538,6 +7513,34 @@ public interface ApplicationMonitorMXBean {
 ```
 
 # ✅ 27.  Common Issues
+
+## 0. How do you Improve Performance in Spring Boot Application?
+Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
+
+1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
+
+2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
+
+3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
+
+4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
+
+5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
+
+6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
+
+7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
+
+8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
+
+9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
+
+10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
+
+11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
+
+12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
+
 
 ## 1. What are common Java performance issues?
 
