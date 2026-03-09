@@ -1,6 +1,7 @@
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class InterviewAttended01 {
 
@@ -35,6 +36,19 @@ public class InterviewAttended01 {
         highestRankEachDepartment();
         sortEmployeesByRank();
         secondHighestRankEmployee();
+
+        // ==========================================================
+        findLongestString();
+        averageAge();
+        checkPrimeNumber();
+        mergeSortedLists();
+        findIntersection();
+        removeDuplicates();
+        sumTransactionsByDay();
+        kthSmallestElement();
+        wordFrequency();
+        partitionEvenOdd();
+        // ==========================================================
 
         mostUsedWord();
         SecondHighestNumber();
@@ -293,6 +307,173 @@ public class InterviewAttended01 {
         });
     }
 
+    // 1️⃣ Find longest string
+    public static void findLongestString() {
+
+        List<String> strings =
+                Arrays.asList("apple","banana","cherry","date","grapefruit");
+
+        Optional<String> longest =
+                strings.stream()
+                        .max(Comparator.comparingInt(String::length));
+
+        System.out.println("Longest String: " + longest.orElse("None"));
+    }
+
+    // 2️⃣ Average age
+    public static void averageAge(){
+
+        List<Person> persons = Arrays.asList(
+                new Person("Alice",25),
+                new Person("Bob",30),
+                new Person("Charlie",35)
+        );
+
+        double avg =
+                persons.stream()
+                        .mapToInt(Person::getAge)
+                        .average()
+                        .orElse(0);
+
+        System.out.println("Average Age: " + avg);
+    }
+
+    // 3️⃣ Check if list contains prime number
+    public static void checkPrimeNumber(){
+
+        List<Integer> numbers =
+                Arrays.asList(2,4,6,8,10,11,12,13,14,15);
+
+        boolean containsPrime =
+                numbers.stream()
+                        .anyMatch(InterviewAttended01::isPrime);
+
+        System.out.println("Contains Prime: " + containsPrime);
+    }
+
+    public static boolean isPrime(int number){
+
+        if(number <= 1)
+            return false;
+
+        for(int i=2;i<=Math.sqrt(number);i++){
+            if(number % i == 0)
+                return false;
+        }
+
+        return true;
+    }
+
+    // 4️⃣ Merge two sorted lists
+    public static void mergeSortedLists(){
+
+        List<Integer> list1 = Arrays.asList(1,3,5,7,9);
+        List<Integer> list2 = Arrays.asList(2,4,6,8,10);
+
+        List<Integer> merged =
+                Stream.concat(list1.stream(),list2.stream())
+                        .sorted()
+                        .collect(Collectors.toList());
+
+        System.out.println("Merged List: " + merged);
+    }
+
+    // 5️⃣ Intersection of two lists
+    public static void findIntersection(){
+
+        List<Integer> list1 = Arrays.asList(1,2,3,4,5);
+        List<Integer> list2 = Arrays.asList(3,4,5,6,7);
+
+        List<Integer> intersection =
+                list1.stream()
+                        .filter(list2::contains)
+                        .collect(Collectors.toList());
+
+        System.out.println("Intersection: " + intersection);
+    }
+
+    // 6️⃣ Remove duplicates while preserving order
+    public static void removeDuplicates(){
+
+        List<Integer> numbers =
+                Arrays.asList(1,2,3,2,4,1,5,6,5);
+
+        List<Integer> unique =
+                numbers.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
+        System.out.println("Unique Numbers: " + unique);
+    }
+
+    // 7️⃣ Sum transactions by day
+    public static void sumTransactionsByDay(){
+
+        List<Transaction> transactions = Arrays.asList(
+                new Transaction("2022-01-01",100),
+                new Transaction("2022-01-01",200),
+                new Transaction("2022-01-02",300),
+                new Transaction("2022-01-02",400),
+                new Transaction("2022-01-03",500)
+        );
+
+        Map<String,Integer> sumByDay =
+                transactions.stream()
+                        .collect(Collectors.groupingBy(
+                                Transaction::getDate,
+                                Collectors.summingInt(Transaction::getAmount)
+                        ));
+
+        System.out.println("Sum By Day: " + sumByDay);
+    }
+
+    // 8️⃣ Kth smallest element
+    public static void kthSmallestElement(){
+
+        int[] array = {4,2,7,1,5,3,6};
+        int k = 3;
+
+        int kth =
+                Arrays.stream(array)
+                        .sorted()
+                        .skip(k-1)
+                        .findFirst()
+                        .orElse(-1);
+
+        System.out.println("Kth Smallest: " + kth);
+    }
+
+    // 9️⃣ Word frequency
+    public static void wordFrequency(){
+
+        List<String> words =
+                Arrays.asList("apple","banana","apple","cherry","banana","apple");
+
+        Map<String,Long> frequency =
+                words.stream()
+                        .collect(Collectors.groupingBy(
+                                Function.identity(),
+                                Collectors.counting()
+                        ));
+
+        System.out.println("Word Frequency: " + frequency);
+    }
+
+    // 🔟 Partition even and odd numbers
+    public static void partitionEvenOdd(){
+
+        List<Integer> numbers =
+                Arrays.asList(1,2,3,4,5,6,7,8,9);
+
+        Map<Boolean,List<Integer>> result =
+                numbers.stream()
+                        .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+
+        System.out.println("Even Numbers: " + result.get(true));
+        System.out.println("Odd Numbers: " + result.get(false));
+    }
+
+    // ==========================================================
     // ==========================================================
     // 1️⃣5️⃣ First Non-Repeated Character
     public static void firstNonRepeatedCharacter(){
@@ -455,5 +636,40 @@ class Employee {
 
     public String toString(){
         return id+" "+name+" "+department+" "+salary+" "+city+" age:"+age+" rank:"+rank;
+    }
+}
+
+
+class Person{
+
+    String name;
+    int age;
+
+    public Person(String name,int age){
+        this.name=name;
+        this.age=age;
+    }
+
+    public int getAge(){
+        return age;
+    }
+}
+
+class Transaction{
+
+    String date;
+    int amount;
+
+    public Transaction(String date,int amount){
+        this.date=date;
+        this.amount=amount;
+    }
+
+    public String getDate(){
+        return date;
+    }
+
+    public int getAmount(){
+        return amount;
     }
 }
