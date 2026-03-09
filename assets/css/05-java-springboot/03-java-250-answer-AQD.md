@@ -4793,6 +4793,30 @@ public class UserController {
 
 # ✅ 21. Java Microservices 
 
+## 0. What are CQRS principles?
+**CQRS (Command Query Responsibility Segregation)** is an architectural pattern that **separates read operations (queries) from write operations (commands)** in an application.
+
+* **Command** → Used to **create, update, or delete data**
+* **Query** → Used to **read or retrieve data**
+
+**Why Use CQRS?**
+
+* Improves **performance**
+* Allows **separate scaling of read and write operations**
+* Makes the system **more maintainable**
+
+```java
+// Command (Write)
+public void createUser(User user) {
+    userRepository.save(user);
+}
+
+// Query (Read)
+public User getUser(Long id) {
+    return userRepository.findById(id).orElse(null);
+}
+```
+
 ## 1. What are SOLID principles?
 
 **Answer:**
