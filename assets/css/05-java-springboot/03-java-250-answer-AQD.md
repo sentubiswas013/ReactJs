@@ -4713,34 +4713,7 @@ PUT /users/123
 // Response: 200 OK or 204 No Content
 ```
 
-## 8. What is idempotency in REST?
-
-Idempotency means that making the same request multiple times produces the same result as making it once. It's a crucial property for reliable and predictable web services.
-
-**Idempotent Methods:**
-- **GET:** Always returns same data
-- **PUT:** Same update result
-- **DELETE:** Resource remains deleted
-- **HEAD, OPTIONS:** Same metadata
-
-**Non-Idempotent Methods:**
-- **POST:** Creates new resource each time
-
-```java
-// Idempotent - GET always returns same user
-GET /users/123  // Returns user data
-GET /users/123  // Returns same user data
-
-// Idempotent - PUT produces same result
-PUT /users/123 {"name": "John"}  // Updates user
-PUT /users/123 {"name": "John"}  // Same result
-
-// Non-idempotent - POST creates new resource each time
-POST /users {"name": "John"}  // Creates user with ID 1
-POST /users {"name": "John"}  // Creates user with ID 2
-```
-
-## 9. What are HTTP status codes?
+## 8. What are HTTP status codes?
 
 HTTP status codes indicate the result of an HTTP request. They're grouped into categories and provide standardized way to communicate request outcomes.
 
