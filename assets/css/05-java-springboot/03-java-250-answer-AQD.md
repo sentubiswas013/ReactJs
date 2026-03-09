@@ -7491,27 +7491,16 @@ public interface ApplicationMonitorMXBean {
 Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
 
 1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
-
 2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
-
 3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
-
 4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
-
 5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
-
 6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
-
 7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
-
 8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
-
 9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
-
 10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
-
 11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
-
 12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
 
 
@@ -7560,17 +7549,11 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
 
 **1. race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
-
 **2. Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
-
 **3. Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
-
 **4. Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
-
 **5. Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
-
 **6. Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
-
 **7. Improper Synchronization**
 Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
 
@@ -7594,23 +7577,16 @@ Common **Java deployment issues :** -  occur when an application runs correctly 
 
 **1. Dependency Conflicts :** - 
 Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
-
 **2. Environment Configuration Issues :** - 
 Application may fail if **environment variables, configuration files, or profiles** are not set correctly.
-
 **3. Port Conflicts :** - 
 If the application tries to start on a **port already used by another service**, it will fail to start.
-
 **4. Database Connection Issues :** - 
 Incorrect **database credentials, network restrictions, or connection pool configuration** can cause deployment failures.
-
-
 **5. Missing Resources :** - 
 Required files like **configuration files, certificates, or static resources** may not be included in the deployment package.
-
 **6. JVM Configuration Problems :** - 
 Improper **JVM memory settings** (`-Xms`, `-Xmx`) can cause performance issues or application crashes.
-
 **7. Server Compatibility Issues :** - 
 Sometimes the **Java version or application server version** in production is different from development.
 
@@ -7625,22 +7601,16 @@ Common **Java security issues :** -  occur when applications are not properly pr
 
 **1. SQL Injection**
 This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
-
 **2. Cross-Site Scripting (XSS)**
 Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
-
 **3. Cross-Site Request Forgery (CSRF) :** - 
 An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
-
 **4. Insecure Deserialization :** - 
 If an application **deserializes untrusted data**, attackers may execute malicious code.
-
 **5. Sensitive Data Exposure :** - 
 Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
-
 **6. Improper Authentication and Authorization :** - 
 Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
-
 **7. Using Outdated Libraries :** - 
 Old dependencies may contain **known security vulnerabilities**.
 
@@ -7655,23 +7625,18 @@ stmt.setInt(1, userId);
 
 **Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
 
-**Common Debugging Strategies**
+**Common Debugging Strategies :**
 
 1. **Log Analysis :**
    Check application logs to identify errors or unusual behavior.
-
 2. **Using Debugger Tools :**
    Use IDE debuggers to add **breakpoints**, step through code, and inspect variables.
-
 3. **Reproduce the Issue :**
    Try to recreate the bug in the same conditions to understand the problem.
-
 4. **Divide and Conquer :**
    Break the code into smaller parts to isolate where the problem occurs.
-
 5. **Check Recent Changes :**
    Review recently modified code because bugs often come from recent updates.
-
 6. **Use Monitoring Tools :**
    Tools help analyze performance, memory usage, and thread activity.
 
@@ -7684,23 +7649,18 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 
 **Problem-solving methodologies** are structured approaches used to **analyze and resolve technical problems effectively.**
 
-**Common Methodologies**
+**Common Methodologies :**
 
 1. **Define the Problem :**
    Clearly understand what the issue is.
-
 2. **Analyze the Root Cause :**
    Identify why the problem occurred.
-
 3. **Develop Possible Solutions :**
    Consider multiple ways to fix the issue.
-
 4. **Implement the Solution :**
    Apply the best solution.
-
 5. **Test the Solution :**
    Verify that the issue is resolved.
-
 6. **Document the Solution :**
    Record the fix for future reference.
 
@@ -7709,8 +7669,7 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 
 **Root Cause Analysis (RCA)** techniques help identify the **main reason behind a problem** instead of only fixing the symptoms.
 
-**Common RCA Techniques**
-
+**Common RCA Techniques :**
 1. **5 Whys Technique :**
    Ask **“Why?” multiple times** until the root cause is found.
 2. **Fishbone Diagram (Ishikawa) :**
