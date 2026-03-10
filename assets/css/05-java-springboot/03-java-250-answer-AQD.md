@@ -6400,7 +6400,7 @@ java -XX:+PrintCompilation \      # Print compilation events
 
 # ✅ 24. Modern Java Features 
 
-## 1. What are the new features in Java 8?
+## 1. What are the features in Java 8?
 
 Java 8 was a major release that introduced functional programming features and significantly changed how Java code is written. It's one of the most important Java releases.
 
@@ -6437,7 +6437,7 @@ names.sort(String::compareToIgnoreCase);
 Supplier<List<String>> listSupplier = ArrayList::new;
 ```
 
-## 2. What are the new features in Java 11?
+## 2. What are the features in Java 11?
 
 Java 11 is an LTS (Long Term Support) release that introduced several useful features and improvements, particularly for modern development practices.
 
@@ -6476,7 +6476,7 @@ String content = Files.readString(Paths.get("file.txt"));
 Files.writeString(Paths.get("output.txt"), "Hello World");
 ```
 
-## 3. What are the new features in Java 17?
+## 3. What are the features in Java 17?
 
 Java 17 is the latest LTS release with several language enhancements and performance improvements, making Java more modern and developer-friendly.
 
@@ -7092,6 +7092,121 @@ server {
 }
 ```
 
+## 1️6. How do you monitor application health in production?
+
+In production, we monitor application health using tools like **Spring Boot Actuator, Prometheus, and Grafana**.
+Actuator provides health endpoints to check the status of the application. Prometheus collects metrics like CPU, memory, and request count, and Grafana shows dashboards and alerts.
+We also monitor logs and set alerts to detect issues quickly.
+
+## 17. How do you handle rollback strategies?
+
+Rollback strategy means reverting to the previous stable version if the new deployment fails.
+We usually keep the previous version ready in **Docker or Kubernetes**.
+If an issue occurs, we quickly redeploy the last stable version.
+CI/CD tools like **Jenkins or GitHub Actions** also help automate rollback.
+
+
+## 18. How do you manage database migrations?
+
+Database migrations are managed using tools like **Flyway or Liquibase**.
+These tools maintain versioned SQL scripts.
+Whenever we deploy a new application version, the migration scripts automatically update the database schema without manual work.
+
+
+## 19. How do you ensure zero downtime deployments?
+
+Zero downtime deployment means users should not experience service interruption during deployment.
+We use strategies like **Blue-Green Deployment or Rolling Deployment** in Kubernetes.
+New instances start first, then traffic gradually shifts to them while old instances are removed.
+
+## 20. How do you manage logs across microservices?
+
+In microservices, logs from multiple services are centralized using tools like **ELK Stack (Elasticsearch, Logstash, Kibana)** or **Grafana Loki**.
+All services send logs to a central system where we can search, analyze, and monitor them easily.
+
+## 21. How do you implement auto-scaling?
+
+Auto-scaling automatically increases or decreases application instances based on traffic.
+In cloud environments like AWS or Kubernetes, we configure auto-scaling based on metrics such as **CPU usage, memory usage, or request count**.
+This helps maintain performance during high traffic.
+
+## 22. What rate limit and how it works?
+
+**Rate limiting** is a technique used in APIs or servers to **control how many requests a user or client can make in a specific time period**. It prevents system overload, abuse, and ensures fair usage.
+
+**100 requests per minute per user** If a user sends more than 100 requests in 1 minute, the server blocks the extra requests
+
+Server usually returns: **HTTP Status Code:** `429 Too Many Requests
+
+**Why Rate Limiting is Used**
+
+1. Prevent **API abuse**
+2. Protect **server resources**
+3. Avoid **DDoS attacks**
+4. Ensure **fair usage for all users**
+5. Control **traffic load**
+
+
+**How Rate Limiting Works**
+
+1. Client sends request to API
+2. Server checks **how many requests this user/IP has made**
+3. Server compares with **allowed limit**
+4. If limit not exceeded → request allowed
+5. If limit exceeded → request blocked (`429 error`)
+
+```xml
+<dependency>
+    <groupId>com.bucket4j</groupId>
+    <artifactId>bucket4j-core</artifactId>
+    <version>8.0.0</version>
+</dependency>
+```
+
+```java
+import io.github.bucket4j.*;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Duration;
+
+public class RateLimitFilter implements Filter {
+
+    private final Bucket bucket;
+
+    public RateLimitFilter() {
+        Bandwidth limit = Bandwidth.simple(10, Duration.ofMinutes(1));
+        this.bucket = Bucket.builder().addLimit(limit).build();
+    }
+
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        if (bucket.tryConsume(1)) {
+            chain.doFilter(request, response);
+        } else {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.setStatus(429);
+            httpResponse.getWriter().write("Too many requests");
+        }
+    }
+}
+```
+
+**Where Rate Limiting is Implemented**
+1. **API Gateway** (Most common)
+
+   * Kong API Gateway
+   * NGINX
+   * Spring Cloud Gateway
+
+2. **Application level** (Spring Boot filter/interceptor)
+3. **Load balancer level**
+4. **Cloud services**
+   * Amazon Web Services API Gateway
+   * Microsoft Azure API Management
+
+
 # ✅ 26. Monitoring and Logging
 
 ## 1: What is application monitoring?
@@ -7692,4 +7807,22 @@ try {
 }
 ```
 
-# ✅ 28. Miscellaneous
+# ✅ 28.Real Production Scenario 
+
+## 1. Your production API response time suddenly increases. What steps will you take?
+
+## 2. Your microservice starts failing under heavy load. What will you do?
+
+## 3. A critical bug appears in production. How do you manage it?
+
+## 4. Your system experiences high memory usage. How do you debug it?
+
+## 5. A deployment breaks the production environment. What is your response?
+
+## 6. Your frontend app becomes slow after a new release. What will you investigate?
+
+## 7. A security vulnerability is discovered. What steps will you take?
+
+## 8. How do you handle major production outages?
+
+# ✅ 29. Miscellaneous
