@@ -7811,18 +7811,194 @@ try {
 
 ## 1. Your production API response time suddenly increases. What steps will you take?
 
+**Answer:** Check monitoring dashboards for CPU/memory spikes, review recent deployments, analyze slow query logs, check database connection pools, verify external API dependencies, and enable APM tracing to identify bottlenecks.
+
+**Example:**
+```javascript
+// Add performance monitoring
+const startTime = Date.now();
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    const duration = Date.now() - startTime;
+    if (duration > 1000) {
+      logger.warn(`Slow request: ${req.path} took ${duration}ms`);
+    }
+  });
+  next();
+});
+
+// Database query optimization
+const users = await User.find({ status: 'active' })
+  .select('name email')
+  .limit(100)
+  .lean(); // Use lean() for faster queries
+```
+
 ## 2. Your microservice starts failing under heavy load. What will you do?
+
+**Answer:** Implement circuit breakers, add rate limiting, enable auto-scaling, optimize database queries, add caching layer (Redis), implement request queuing, and use load balancers to distribute traffic.
+
+**Example:**
+```javascript
+// Circuit breaker pattern
+const circuitBreaker = require('opossum');
+
+const options = {
+  timeout: 3000,
+  errorThresholdPercentage: 50,
+  resetTimeout: 30000
+};
+
+const breaker = circuitBreaker(fetchUserData, options);
+
+breaker.fallback(() => ({ cached: true, data: getCachedData() }));
+
+// Rate limiting
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+app.use('/api/', limiter);
+```
 
 ## 3. A critical bug appears in production. How do you manage it?
 
-## 4. Your system experiences high memory usage. How do you debug it?
+**Answer:** Assess impact immediately, notify stakeholders, rollback to previous stable version if severe, apply hotfix with minimal changes, test in staging, deploy with feature flags, monitor closely, and conduct post-mortem analysis.
+
+**Example:**
+```javascript
+// Feature flag for quick rollback
+const featureFlags = {
+  newPaymentFlow: process.env.ENABLE_NEW_PAYMENT === 'true'
+};
+
+app.post('/payment', (req, res) => {
+  if (featureFlags.newPaymentFlow) {
+    return newPaymentHandler(req, res);
+  }
+  return legacyPaymentHandler(req, res); // Fallback
+});
+
+// Hotfix deployment script
+// package.json
+{
+  "scripts": {
+    "hotfix": "git checkout main && git pull && npm run build && pm2 reload all"
+  }
+}
+```
+
+## 4. Your system experiences high memory usage. How do you debug it and tools?
+
+**Answer:** Use heap dumps, profiling tools (Node.js: clinic.js, Java: JProfiler), check for memory leaks, analyze garbage collection logs, review large object allocations, and monitor with tools like New Relic or DataDog.
+
+**Example:**
+```javascript
+// Memory monitoring
+const v8 = require('v8');
+const heapStats = v8.getHeapStatistics();
+
+setInterval(() => {
+  const used = process.memoryUsage();
+  console.log({
+    rss: `${Math.round(used.rss / 1024 / 1024)}MB`,
+    heapUsed: `${Math.round(used.heapUsed / 1024 / 1024)}MB`,
+    external: `${Math.round(used.external / 1024 / 1024)}MB`
+  });
+  
+  if (used.heapUsed > 500 * 1024 * 1024) {
+    logger.error('High memory usage detected');
+  }
+}, 60000);
+
+// Fix memory leak - clear event listeners
+class DataProcessor {
+  constructor() {
+    this.listeners = [];
+  }
+  
+  cleanup() {
+    this.listeners.forEach(l => l.removeAllListeners());
+    this.listeners = [];
+  }
+}
+```
 
 ## 5. A deployment breaks the production environment. What is your response?
 
-## 6. Your frontend app becomes slow after a new release. What will you investigate?
+**Answer:** Immediately rollback to last stable version, check deployment logs and error traces, verify configuration changes, test rollback success, identify root cause, fix in staging, implement better CI/CD checks, and use blue-green deployment strategy.
 
-## 7. A security vulnerability is discovered. What steps will you take?
+**Example:**
+```javascript
+// Blue-Green deployment with health checks
+const express = require('express');
+const app = express();
 
-## 8. How do you handle major production outages?
+app.get('/health', (req, res) => {
+  const health = {
+    uptime: process.uptime(),
+    status: 'OK',
+    timestamp: Date.now(),
+    version: process.env.APP_VERSION
+  };
+  res.json(health);
+});
+
+// Rollback script
+// deploy.sh
+#!/bin/bash
+if ! curl -f http://localhost:3000/health; then
+  echo "Health check failed, rolling back..."
+  git revert HEAD
+  npm install
+  pm2 restart all
+  exit 1
+fi
+```
+
+## 6. A security vulnerability is discovered. What steps will you take?
+
+**Answer:** Assess severity (CVSS score), isolate affected systems, patch immediately, rotate credentials/tokens, audit logs for exploitation, notify security team and users if data breach, update dependencies, run security scans, and document incident.
+
+**Example:**
+```javascript
+// Immediate security patches
+// Update vulnerable dependencies
+npm audit fix --force
+
+// Rotate API keys
+const rotateApiKeys = async () => {
+  const newKey = generateSecureKey();
+  await db.apiKeys.update({ active: false });
+  await db.apiKeys.create({ key: newKey, active: true });
+  await notifyClients(newKey);
+};
+
+// Add security headers
+const helmet = require('helmet');
+app.use(helmet());
+
+// Audit logging
+const auditLog = (action, user, details) => {
+  logger.security({
+    timestamp: new Date(),
+    action,
+    user,
+    ip: details.ip,
+    severity: 'HIGH'
+  });
+};
+
+// Input validation to prevent injection
+const validator = require('validator');
+app.post('/api/user', (req, res) => {
+  if (!validator.isEmail(req.body.email)) {
+    return res.status(400).json({ error: 'Invalid email' });
+  }
+  // Process request
+});
+```
+
 
 # ✅ 29. Miscellaneous
