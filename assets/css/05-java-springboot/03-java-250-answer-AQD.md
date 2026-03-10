@@ -7510,6 +7510,23 @@ public class LeakExample {
 }
 ```
 
+## 1. How do you Improve Performance in Spring Boot Application?
+Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
+
+1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
+2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
+3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
+4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
+5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
+6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
+7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
+8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
+9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
+10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
+11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
+12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
+
+
 ## 2. What are common Java memory issues?
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
 * **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
@@ -7526,22 +7543,6 @@ public void recursiveMethod() {
 // Memory optimization
 List<String> list = new ArrayList<>(1000); // Pre-size collections
 ```
-
-## 1. How do you Improve Performance in Spring Boot Application?
-Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
-
-1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
-2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
-3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
-4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
-5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
-6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
-7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
-8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
-9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
-10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
-11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
-12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
 
 ## 3. What are common Java concurrency issues?
 
