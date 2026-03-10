@@ -12,7 +12,7 @@ Keep all answers simple, confident, and practical.
 Then compile all answers together into a single .md (Markdown) file.
 ----***
 Review every Java question(Don't change question text) carefully and understand the context. 
-For Questions 1 to 15 provide real-time spoken defination answer with minimum example code
+For Questions 1 to 6 provide real-time spoken small summary answer with short example code
 Then compile all answers together into a single .md (Markdown) file.
 ---
 
