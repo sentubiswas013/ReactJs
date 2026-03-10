@@ -1,6 +1,6 @@
 # **1️⃣ Personal Questions**
 
-## **Q1. Tell me about yourself (Java Developer)**
+## **Q0. Tell me about yourself (Java Developer)**
 
 I am a Full Stack Java Developer with over 3.5 years of experience in designing, developing, and maintaining enterprise-level web applications. My primary expertise is in Java, Spring Boot, and microservices architecture, along with hands-on experience in RESTful APIs, database design, and frontend technologies like React and Angular.
 >
@@ -10,13 +10,40 @@ I am passionate about solving complex problems, learning new technologies, and c
 
 ---
 
-## **Q2. Current role & day-to-day responsibilities (Java Developer)**
+## **Q1. Current role & day-to-day responsibilities (Java Developer)**
 
 In my current role, my day-to-day responsibilities include designing and developing REST APIs using Java and Spring Boot, implementing business logic, and ensuring code quality through unit testing with JUnit and Mockito.
 >
 I work extensively with relational databases like MySQL and PostgreSQL, writing optimized queries and managing schema changes. I also participate in code reviews, bug fixing, and performance tuning.
 >
 As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
+
+
+## **Q2. How may call we do for agile **
+
+In **Agile**, teams usually have **4–5 regular meetings (ceremonies/calls)** in each **Scrum** sprint.
+
+1. **Sprint Planning :**
+**Purpose:** Decide **what work will be done in the sprint** and how the team will complete it.
+**Participants:** Product Owner, Scrum Master, Development Team.
+
+2. **Daily Stand-up (Daily Scrum) :**
+**Purpose:** Quick **15-minute daily call** to discuss:
+
+* What you did yesterday
+* What you will do today
+* Any blockers
+
+3. **Sprint Review :**
+**Purpose:** Demonstrate the **completed work to stakeholders** and get feedback.
+
+4. **Sprint Retrospective :**
+**Purpose:** Team discusses **what went well, what didn’t, and improvements for next sprint**.
+
+5. **Backlog Refinement (Grooming)  *(optional but common)* : **
+**Purpose:** Review and **clarify upcoming backlog items** so they are ready for future sprints.
+
+
 
 ---
 
