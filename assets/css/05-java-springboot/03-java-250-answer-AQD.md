@@ -7439,51 +7439,6 @@ public class LoggingConfig {
 
 It includes system metrics (CPU, memory), application metrics (response time, error rate), and business metrics, and is commonly done using tools like **Micrometer**, **Prometheus**, **InfluxDB**, and **Amazon CloudWatch**.
 
-```java
-// Metrics collection with Micrometer
-@Component
-public class MetricsCollector {
-    
-    private final MeterRegistry meterRegistry;
-    private final Counter orderCounter;
-    private final Timer orderProcessingTimer;
-    private final Gauge activeUsers;
-    
-    public MetricsCollector(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
-        
-        // Counter for total orders
-        this.orderCounter = Counter.builder("orders.total")
-            .description("Total number of orders")
-            .tag("status", "created")
-            .register(meterRegistry);
-            
-        // Timer for processing duration
-        this.orderProcessingTimer = Timer.builder("orders.processing.time")
-            .description("Order processing time")
-            .register(meterRegistry);
-            
-        // Gauge for active users
-        this.activeUsers = Gauge.builder("users.active")
-            .description("Number of active users")
-            .register(meterRegistry, this, MetricsCollector::getActiveUserCount);
-    }
-    
-    public void recordOrderCreated() {
-        orderCounter.increment();
-    }
-    
-    public void recordOrderProcessingTime(Duration duration) {
-        orderProcessingTimer.record(duration);
-    }
-    
-    private double getActiveUserCount() {
-        return userService.getActiveUserCount();
-    }
-}
-```
-
----
 
 ## 9: What is JMX monitoring?
 
@@ -7491,49 +7446,6 @@ public class MetricsCollector {
 
 It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
 
-```java
-// Custom MBean for monitoring
-@Component
-public class ApplicationMonitorMBean implements ApplicationMonitorMXBean {
-    
-    private final UserService userService;
-    private final OrderService orderService;
-    
-    @Override
-    public long getTotalUsers() {
-        return userService.getTotalUserCount();
-    }
-    
-    @Override
-    public long getActiveOrders() {
-        return orderService.getActiveOrderCount();
-    }
-    
-    @Override
-    public double getAverageResponseTime() {
-        return performanceService.getAverageResponseTime();
-    }
-    
-    @Override
-    public void clearCache() {
-        cacheService.clearAll();
-    }
-    
-    @Override
-    public String getApplicationStatus() {
-        return healthService.getOverallStatus();
-    }
-}
-
-// MBean interface
-public interface ApplicationMonitorMXBean {
-    long getTotalUsers();
-    long getActiveOrders();
-    double getAverageResponseTime();
-    void clearCache();
-    String getApplicationStatus();
-}
-```
 
 # ✅ 27.  Common Issues
 
