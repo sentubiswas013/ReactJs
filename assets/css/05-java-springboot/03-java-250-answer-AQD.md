@@ -7478,7 +7478,7 @@ logger.debug("Processing user: {}, status: {}", userId, status);
    Record the fix for future reference.
 
 
-# ✅ 28.Real Production Scenario 
+# ✅ 28. Real Production Scenario 
 
 ## 1. Your production API response time suddenly increases. What steps will you take?
 
