@@ -5351,7 +5351,7 @@ public class OrderController {
 }
 ```
 
-## 16. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
+## 16. Java 11 HttpClient API, and how does it differ from earlier Java versions?
 
 In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
