@@ -1608,7 +1608,6 @@ public class Main {
 * **CompletableFuture (Java 8+)** – **asynchronous computation** with callbacks and chaining.
 
 
----
 
 * **Concurrency vs Parallelism**
 
@@ -3735,7 +3734,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 }
 ```
 
----
 
 ## 6: What is Spring Cloud? - asked
 
@@ -3763,7 +3761,6 @@ public class UserServiceApplication {
 }
 ```
 
----
 
 ## 7: What is Spring Security?
 
@@ -5525,7 +5522,6 @@ public class MyApplet extends Applet {
 }
 ```
 
----
 
 ## 3: What is bytecode verification?
 
@@ -5568,7 +5564,6 @@ grant {
 };
 ```
 
----
 
 ## 5: What are digital signatures in Java?
 
@@ -5589,7 +5584,6 @@ signature.update(data);
 boolean isValid = signature.verify(digitalSignature);
 ```
 
----
 
 ## 6: What is encryption and decryption in Java?
 
@@ -5612,7 +5606,6 @@ cipher.init(Cipher.DECRYPT_MODE, secretKey);
 byte[] decrypted = cipher.doFinal(encrypted);
 ```
 
----
 
 ## 7: What is SSL/TLS in Java?
 
@@ -5646,8 +5639,6 @@ ResponseEntity<String> response = restTemplate.getForEntity(
     "https://api.example.com/data", String.class);
 ```
 
-🔹 **Application Security**
-
 ## 8: What is authentication vs authorization?
 
 
@@ -5675,7 +5666,6 @@ public ResponseEntity<String> authenticate(@RequestBody LoginRequest request) {
 public List<User> getUsers() { return userService.getAllUsers(); }
 ```
 
----
 
 ## 9: What is OAuth?
 
@@ -5704,7 +5694,6 @@ public class OAuth2Config {
 }
 ```
 
----
 
 ## 10: What is JWT (JSON Web Token)?
 
@@ -5734,7 +5723,6 @@ public class JwtService {
 }
 ```
 
----
 
 ## 11: What is CSRF protection?
 
@@ -5910,7 +5898,6 @@ public class PerformanceBottlenecks {
 }
 ```
 
----
 
 ## 3: How do you optimize Java code for performance?
 
@@ -5952,7 +5939,6 @@ public class OptimizedUserService {
 }
 ```
 
----
 
 ## 4: What is profiling in Java?
 
@@ -5993,7 +5979,6 @@ public class ProfiledService {
 }
 ```
 
----
 
 ## 5: What is JVM tuning?
 
@@ -6027,7 +6012,6 @@ java -Xms2g -Xmx4g \
 -XX:G1HeapRegionSize=16m
 ```
 
----
 
 ## 6: What are the JVM parameters for performance tuning?
 
@@ -6058,7 +6042,6 @@ java -Xms2g -Xmx4g \
 -XX:+UseStringDeduplication
 ```
 
----
 
 ## 7: What is memory profiling?
 
@@ -6073,7 +6056,6 @@ It helps identify **heap usage, object retention, memory leaks**, and uses tools
 * **Tools**: Eclipse MAT, JProfiler, VisualVM, JConsole
 * **Heap Dumps**: Snapshots of memory for offline analysis
 
----
 
 ## 8: What is CPU profiling?
 
@@ -6090,7 +6072,6 @@ It tracks **time spent in methods, call hierarchy**, uses **sampling or instrume
 * **Tools**: JProfiler, async-profiler, Java Flight Recorder
 
 
----
 
 ## 9: What is application performance monitoring (APM)?
 
@@ -6127,7 +6108,6 @@ public class MonitoredController {
 }
 ```
 
----
 
 ## 10: What is code profiling?
 
@@ -6163,7 +6143,6 @@ public class ProfiledCodeService {
 }
 ```
 
----
 
 ## 11: What is database optimization?
 
@@ -6196,7 +6175,6 @@ public class OptimizedUserRepository {
 }
 ```
 
----
 
 ## 12: What is query optimization?
 
@@ -6233,7 +6211,6 @@ public class OptimizedQueryRepository {
 }
 ```
 
----
 
 ## 13: What is lazy loading?
 
@@ -6280,7 +6257,6 @@ public class UserService {
 }
 ```
 
----
 
 ## 14: What is eager loading?
 
@@ -6318,7 +6294,6 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 }
 ```
 
----
 
 ## 15: What is pagination?
 
@@ -6592,7 +6567,6 @@ jobs:
       run: ./mvnw package
 ```
 
----
 
 ## 2: What is continuous deployment?
 
@@ -6620,7 +6594,6 @@ deploy:
   when: manual  # or 'on_success' for full automation
 ```
 
----
 
 ## 3: What is Jenkins?
 
@@ -6668,7 +6641,6 @@ pipeline {
 }
 ```
 
----
 
 ## 4: What is Git?
 
@@ -6695,7 +6667,6 @@ git push origin main              # Push to remote
 git pull origin main              # Pull from remote
 ```
 
----
 
 ## 5: What is version control?
 
@@ -6721,7 +6692,6 @@ git tag v1.0.0               # Tag release version
 git revert abc123            # Revert specific commit
 ```
 
----
 
 ## 6: What is infrastructure as code?
 
@@ -6771,7 +6741,6 @@ resource "aws_instance" "web" {
 }
 ```
 
----
 
 ## 7: What is deployment strategies?
 
@@ -6805,7 +6774,6 @@ spec:
         image: myapp:v2.0.0
 ```
 
----
 
 ## 8: What is blue-green deployment?
 
@@ -6836,7 +6804,6 @@ spec:
   - port: 80
     targetPort: 8080
 
----
 # Green deployment (new version)
 apiVersion: apps/v1
 kind: Deployment
@@ -6859,7 +6826,6 @@ spec:
         image: myapp:v2.0.0
 ```
 
----
 
 ## 9: What is canary deployment?
 
@@ -6941,7 +6907,6 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 ```
 
----
 
 ## 11: What is Docker?
 
@@ -7179,7 +7144,6 @@ public class UserController {
 }
 ```
 
----
 
 ## 2: What is logging framework?
 
@@ -7212,7 +7176,6 @@ public class UserService {
 }
 ```
 
----
 
 ## 3: What is Log4j?
 
@@ -7243,7 +7206,6 @@ It provides hierarchical loggers, multiple appenders (console, file, etc.), flex
 </Configuration>
 ```
 
----
 
 ## 4: What is SLF4J?
 
@@ -7285,7 +7247,6 @@ public class OrderService {
 }
 ```
 
----
 
 ## 5: What is Logback?
 
@@ -7308,7 +7269,6 @@ It provides **better performance, flexible configuration, and is the default log
 </configuration>
 ```
 
----
 
 ## 6: What is structured logging?
 
@@ -7353,7 +7313,6 @@ public class PaymentService {
 }
 ```
 
----
 
 ## 7: What is centralized logging?
 
