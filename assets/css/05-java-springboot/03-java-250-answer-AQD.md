@@ -7094,15 +7094,7 @@ server {
 
 ## 16. How do you monitor application health in production?
 
-Monitoring ensures the application is **running correctly and performing well**.
-
-**Key Monitoring Areas**
-
-* CPU usage
-* Memory usage
-* Response time
-* Error rate
-* Database performance
+Application health in production is monitored using **monitoring and logging tools** like **Spring Boot Actuator, Prometheus, Grafana, or CloudWatch**. These tools track **metrics like CPU usage, memory, response time, error rates, and logs** to detect issues and ensure the application runs smoothly.
 
 **Monitoring Tools**
 
@@ -7111,198 +7103,43 @@ Monitoring ensures the application is **running correctly and performing well**.
 * Spring Boot Actuator – health endpoints
 * New Relic – APM monitoring
 
-**Example Health Endpoint**
-
-```
-/actuator/health
-/actuator/metrics
-```
-
-These endpoints show application status.
-
----
 
 ## 17. How do you handle rollback strategies?
 
-A **rollback strategy** restores the previous stable version if a deployment fails.
+Rollback strategies are used to **restore the system to a previous stable version if a deployment fails**. This can be done by **reverting to the previous application version, restoring database changes if needed, and redeploying the stable build** to keep the system running smoothly.
 
-**Common Rollback Methods**
-
-1. **Version rollback**
-
-   * Deploy the previous stable build.
-
-2. **Blue-Green rollback**
-
-   * Switch traffic back to the old environment.
-
-3. **Canary rollback**
-
-   * If errors occur in small traffic rollout, revert immediately.
-
-4. **Database rollback**
-
-   * Use migration tools to revert schema changes.
-
-**Tools**
-
-* Jenkins
-* Kubernetes
-* Git
-
----
 
 ## 18. How do you manage database migrations?
 
-Database migrations handle **schema changes safely across environments**.
+Database migrations are managed using tools like **Flyway** or **Liquibase**. These tools **version and automate database schema changes**, ensuring the database is updated consistently across environments during deployments.
 
-**Best Practices**
-
-1. Use migration tools
-2. Version control schema changes
-3. Apply migrations automatically during deployment
-4. Maintain backward compatibility
-
-**Popular Tools**
-
-* Flyway
-* Liquibase
-
-**Example Migration**
-
-```
-V1__create_users_table.sql
-V2__add_email_column.sql
-```
-
-Each migration runs **once and sequentially**.
-
----
 
 ## 19. How do you ensure zero downtime deployments?
 
-Zero downtime means **users experience no service interruption during deployment**.
-
-**Common Techniques**
-
-1. **Blue-Green Deployment**
-
-   * Two environments (Blue and Green)
-   * Switch traffic after deployment.
-
-2. **Rolling Deployment**
-
-   * Update servers one by one.
-
-3. **Canary Deployment**
-
-   * Deploy to a small percentage of users first.
-
-4. **Feature Flags**
-
-   * Enable features without redeploying.
-
-Tools:
-
-* Kubernetes
-* Docker
-
----
+Zero downtime deployments are ensured using techniques like **Blue-Green deployment, rolling updates, or canary releases**. These methods deploy the **new version alongside the existing version**, and traffic is gradually shifted to the new version without stopping the application.
 
 ## 20. How do you manage logs across microservices?
 
-Microservices generate logs from multiple services, so **centralized logging** is required.
+Logs across microservices are managed using **centralized logging**. All services send their logs to a **central logging system** like **ELK stack (Elasticsearch, Logstash, Kibana)** or **Splunk**, where logs can be **searched, monitored, and analyzed easily**. We also use **correlation IDs** to trace requests across multiple services.
 
-**Approach**
-
-1. Each service generates logs
-2. Logs are collected centrally
-3. Search and analyze logs
-
-**Popular Logging Stack**
-
-* Elasticsearch
-* Logstash
-* Kibana
-
-This is called the **ELK Stack**.
-
-Example flow:
-
-```
-Microservices → Logstash → Elasticsearch → Kibana Dashboard
-```
-
----
 
 ## 21. How do you implement auto-scaling?
 
-**Auto-scaling** automatically increases or decreases the number of servers based on load.
-
-**Scaling Types**
-
-1. **Horizontal scaling**
-
-   * Add more servers
-
-2. **Vertical scaling**
-
-   * Increase CPU/RAM
-
-**Example:**
-
-If CPU usage > 70% → add new instances.
+Auto-scaling is implemented by **defining scaling rules based on metrics like CPU usage, memory, or request count**. When the load increases, the system **automatically adds more instances**, and when the load decreases, it **removes extra instances to save resources**.
 
 Tools:
 
 * Kubernetes **HPA (Horizontal Pod Autoscaler)**
 * Amazon Web Services **Auto Scaling Groups**
 
----
+## 22. What is Rate Limiting and how it works and where to implements?
 
-## 22. What is Rate Limiting and how it works?
+**Rate Limiting** is a technique used to **limit the number of requests a client can make to an API within a specific time period**. It helps **prevent system overload, abuse, and DDoS attacks**.
 
-**Rate limiting** controls how many requests a client can send in a specific time period.
+It works by **tracking the number of requests from a user or IP**, and if the limit is exceeded, the system **rejects or delays further requests**.
 
-It protects systems from:
+Rate limiting is usually implemented at the **API Gateway, Load Balancer, or application level (like in Spring Boot filters or interceptors)**.
 
-* DDoS attacks
-* Abuse
-* API overload
-
-**Example**
-
-```
-100 requests per minute per user
-```
-
-If a user exceeds the limit → request rejected with **HTTP 429 Too Many Requests**.
-
-**Common Algorithms**
-
-1. **Token Bucket**
-2. **Leaky Bucket**
-3. **Fixed Window Counter**
-4. **Sliding Window**
-
-**Tools**
-
-* Redis
-* Spring Cloud Gateway
-* NGINX
-
-
-**Where Rate Limiting is Implemented**
-1. **API Gateway** (Most common)
-   * Kong API Gateway
-   * NGINX
-   * Spring Cloud Gateway
-
-2. **Application level** (Spring Boot filter/interceptor)
-3. **Load balancer level**
-4. **Cloud services**
-   * Amazon Web Services API Gateway
-   * Microsoft Azure API Management
 
 
 # ✅ 26. Monitoring and Logging
