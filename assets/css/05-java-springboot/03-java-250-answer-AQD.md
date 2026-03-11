@@ -7717,33 +7717,6 @@ logger.debug("Processing user: {}, status: {}", userId, status);
    Record the fix for future reference.
 
 
-## 8. What are root cause analysis techniques?
-
-**Root Cause Analysis (RCA)** techniques help identify the **main reason behind a problem** instead of only fixing the symptoms.
-
-**Common RCA Techniques :**
-1. **5 Whys Technique :**
-   Ask **“Why?” multiple times** until the root cause is found.
-2. **Fishbone Diagram (Ishikawa) :**
-   A diagram used to identify possible causes in categories like **process, people, technology, and environment**.
-3. **Pareto Analysis (80/20 Rule) :**
-   Focus on the **20% of causes that create 80% of problems**.
-4. **Fault Tree Analysis :**
-   A diagram used to trace the **chain of events leading to a failure**.
-5. **Log and Data Analysis :**
-   Analyze logs, metrics, and system data to identify the root cause.
-
-```java
-// Add diagnostic information
-try {
-    processData();
-} catch (Exception e) {
-    logger.error("Failed processing at step: {}, data: {}", 
-                currentStep, data, e);
-    throw e;
-}
-```
-
 # ✅ 28.Real Production Scenario 
 
 ## 1. Your production API response time suddenly increases. What steps will you take?
