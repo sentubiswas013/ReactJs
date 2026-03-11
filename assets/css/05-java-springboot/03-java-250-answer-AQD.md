@@ -7540,14 +7540,16 @@ public interface ApplicationMonitorMXBean {
 ## 0. What are common Java performance issues?
 
 Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
+Here is a **simple one-line explanation for each point**:
 
-* **Memory leaks** - Objects are created but not released from memory, so the Garbage Collector cannot remove them. Over time, memory usage increases and may cause OutOfMemoryError.
-* **CPU bottlenecks/Inefficient Algorithms** - Using slow algorithms or unnecessary loops increases CPU usage and slows the application.
-* **Database issues** - Slow queries or improper connection pool handling can slow down the entire application.
-* **Thread contention** - Multiple threads competing for resources
-* **Too Many Object Creationsv** - Creating many objects repeatedly can increase memory usage and GC overhead.
-* **Garbage Collection Overhead** - If the application creates many short-lived objects, Garbage Collection runs frequently, which can pause the application.
-* **Blocking I/O Operations** - Operations like file reading, network calls, or API calls may block threads and reduce throughput.
+* **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
+* **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
+* **Database Issues** – Slow queries or poor connection pool management delay database responses.
+* **Thread Contention** – Multiple threads compete for the same resource, causing delays and blocking.
+* **Too Many Object Creations** – Creating many objects increases memory usage and garbage collection work.
+* **Garbage Collection Overhead** – Frequent garbage collection pauses the application and affects performance.
+* **Blocking I/O Operations** – File, network, or API calls block threads and reduce application throughput.
+
 
 ```java
 // Memory leak example
