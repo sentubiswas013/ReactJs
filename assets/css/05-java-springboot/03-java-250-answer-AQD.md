@@ -919,33 +919,45 @@ class Car implements Vehicle {
 
 ## 6. What is the static keyword?
 
-The **`static` keyword** in Java is used to define **class-level members** that belong to the class rather than any specific instance.
+**`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
 
-For example, a **static variable** is shared across all objects, a **static method** can be called without creating an object, and a **static block** runs once when the class is loaded.
+```java
+class Example {
+    static int count = 0;
 
-In short: **`static` means the member belongs to the class, not to individual objects**.
+    static void show() {
+        System.out.println("Static method");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Example.show();   // No object needed
+    }
+}
+```
+
+`static` members are **shared by all objects and can be accessed using the class name**.
 
 
 ## 7. What are static methods in interfaces?
 
-**Static methods** in interfaces **belong to the interface itself**, not to implementing classes. They're called using the interface name and cannot be overridden.
-
-- Called using interface name
-- Cannot be overridden in implementing classes
-- Provide utility methods related to interface
-- Introduced in Java 8
+**Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
+They **belong to the interface itself and are called using the interface name**, not by implementing classes.
 
 ```java
-interface MathUtils {
-    static int add(int a, int b) {
-        return a + b;
+interface MyInterface {
+
+    static void show() {
+        System.out.println("Static method in interface");
     }
-    
-    void calculate(); // abstract method
 }
 
-// Usage
-int result = MathUtils.add(5, 3); // Called on interface
+public class Test {
+    public static void main(String[] args) {
+        MyInterface.show();  // called using interface name
+    }
+}
 ```
 
 ## 8. What is marker interface?
@@ -953,6 +965,8 @@ int result = MathUtils.add(5, 3); // Called on interface
 A **marker interface** is an **empty interface with no methods or fields**. It's used to mark or tag classes to indicate they have special behavior or properties.
 
 ```java
+import java.io.Serializable;
+
 // Marker interface
 interface Serializable {
     // Empty - just marks the class
@@ -983,29 +997,18 @@ int result = add.calculate(5, 3);
 
 ## 10. Can an interface extend another interface?
 
-Yes, an **interface** can extend one or more interfaces using the **'extends'** keyword. The child interface inherits all methods from parent interfaces.
+Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
+A child interface inherits all methods from the parent interface.
+
+### Example
 
 ```java
-interface Animal {
-    void eat();
+interface A {
+    void methodA();
 }
 
-interface Mammal extends Animal {
-    void breathe();
-}
-
-interface Flyable {
-    void fly();
-}
-
-interface Bird extends Animal, Flyable { // Multiple inheritance
-    void chirp();
-}
-
-class Eagle implements Bird {
-    public void eat() { }
-    public void fly() { }
-    public void chirp() { }
+interface B extends A {
+    void methodB();
 }
 ```
 
@@ -1080,7 +1083,7 @@ public void readFile() throws IOException {
 
 ## 5. What is try-catch-finally block?
 
-Try-catch-finally is Java's exception handling mechanism where try contains risky code, catch handles exceptions, and finally executes cleanup code regardless of exceptions.
+**Try-catch-finally** is Java's **exception handling** mechanism where try contains risky code, catch handles exceptions, and finally executes cleanup code regardless of exceptions.
 
 - **try:** Contains code that might throw exceptions
 - **catch:** Handles specific exceptions
@@ -1096,16 +1099,10 @@ try {
 }
 ```
 
-Multiple catch blocks can handle different exception types, and finally runs even if exceptions occur.
-
 ## 6. What is try-with-resources?
 
-**Try-with-resources** is a feature in Java that automatically closes resources (like files or database connections) after use.
+**Try-with-resources** in **Java** is a feature used to **automatically close resources** (like files or database connections) after the program finishes using them.
 
-- Automatically closes resources
-- Resources must implement AutoCloseable
-- Cleaner code, no explicit close() calls
-- Introduced in Java 7
 
 ```java
 // Old way
@@ -1117,10 +1114,11 @@ try {
 }
 
 // Try-with-resources
-try (FileReader file = new FileReader("data.txt")) {
-    // Use file
+try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+    System.out.println(br.readLine());
 } // Automatically closed
 ```
+
 
 ## 7. How do you create custom exceptions?
 
@@ -1196,7 +1194,8 @@ Map<String, Integer> map = new HashMap<>();
 
 **LinkedList** uses a **doubly linked list**, so it has **slower access (O(n))**, but **faster insertions/deletions** since no shifting is required.
 
-**In simple words:** Use **ArrayList for reading/searching**, and **LinkedList for frequent insert/delete operations.** 🚀
+* **O(1) – Constant Time:** Execution time **does not change with input size**.
+* **O(n) – Linear Time:** Execution time **increases proportionally with input size**.
 
 
 ```java
@@ -1224,7 +1223,6 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 
 **Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
 
-**In simple words:** Use **HashMap in single-threaded applications**, and **Hashtable in multi-threaded scenarios** (though nowadays we prefer ConcurrentHashMap).
 
 ```java
 Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster
@@ -1270,26 +1268,7 @@ map.put("Aa", 1);
 map.put("BB", 2); // Collision - stored in same bucket as linked list
 ```
 
-## 7. What is the difference between fail-fast and fail-safe iterators?
-
-**Fail-fast iterator** detects changes in the collection during iteration and throws a **ConcurrentModificationException**. It works on the **original collection**.
-(Examples: ArrayList, HashMap)
-
-**Fail-safe iterator** allows modifications during iteration because it works on a **separate copy** of the collection. It does not throw an exception.
-(Examples: ConcurrentHashMap, CopyOnWriteArrayList)
-
-**In simple words:** Fail-fast throws exception on modification, fail-safe allows it safely.
-
-
-```java
-List<String> list = new ArrayList<>();
-Iterator<String> failFast = list.iterator(); // Throws exception if modified
-
-ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-Iterator<String> failSafe = map.keySet().iterator(); // Safe for modifications
-```
-
-## 8. What is the difference between Comparable and Comparator?
+## 7. What is the difference between Comparable and Comparator?
 
 **Comparable** is used for **natural sorting** and defines the `compareTo()` method inside the same class. It allows **only one sorting logic**.
 
@@ -1311,15 +1290,12 @@ Comparator<Student> ageComparator = (s1, s2) -> s1.age - s2.age;
 Collections.sort(students, ageComparator);
 ```
 
-## 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
+## 8. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
-A `WeakHashMap` stores keys as **weak references**, so entries are automatically removed when the key is no longer referenced elsewhere (used for caching).
-
-An `IdentityHashMap` compares keys using **== (reference equality)** instead of `equals()` method.
-
-A `LinkedHashMap` Maintains insertion order (or access order), allows null keys and values, slightly slower than HashMap.
-
-A `PriorityQueue` stores elements in **priority order** (natural order or custom comparator), not in insertion order.
+* **WeakHashMap** – A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
+* **IdentityHashMap** – A map that compares keys using **reference equality (`==`) instead of `equals()`**.
+* **LinkedHashMap** – A map that **maintains insertion order** using a linked list along with a hash table.
+* **PriorityQueue** – A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
 
 ```java
 Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly, Used for: caching
@@ -1425,12 +1401,11 @@ class MyThread extends Thread { // Cannot extend anything else
 
 A thread goes through various states during its lifecycle: **NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED**.
 
-- **NEW:** Thread created but not started
-- **RUNNABLE:** Thread executing or ready to execute
-- **BLOCKED:** Thread blocked waiting for monitor lock
-- **WAITING:** Thread waiting indefinitely for another thread
-- **TIMED_WAITING:** Thread waiting for specified time period
-- **TERMINATED:** Thread completed execution
+1. **New** – Thread object is created.
+2. **Runnable** – Thread is ready to run after calling `start()`.
+3. **Running** – Thread is executing.
+4. **Waiting / Blocked** – Thread waits for a resource or another thread.
+5. **Terminated (Dead)** – Thread execution is completed.
 
 ```java
 Thread t = new Thread(() -> {}); // NEW state
