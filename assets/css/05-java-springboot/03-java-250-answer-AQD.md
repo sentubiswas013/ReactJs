@@ -7577,7 +7577,7 @@ Here are **key points with one-line explanations** for improving performance in 
 12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
 
 
-## 2. What are common Java memory issues?
+## 2. What are Java memory issues?
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
 * **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
 * **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
@@ -7594,7 +7594,7 @@ public void recursiveMethod() {
 List<String> list = new ArrayList<>(1000); // Pre-size collections
 ```
 
-## 3. What are common Java concurrency issues?
+## 3. What are Java concurrency issues?
 
 Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
 
@@ -7621,9 +7621,9 @@ public void safeMethod() {
 }
 ```
 
-## 4. What are common Java deployment issues?
+## 4. What are Java deployment issues?
 
-Common **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
+**Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
 1. **Dependency Conflicts :** - 
 Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
@@ -7646,7 +7646,7 @@ String classpath = System.getProperty("java.class.path");
 System.out.println("Classpath: " + classpath);
 ```
 
-## 5. What are common Java security issues?
+## 5. What are Java security issues?
 Common **Java security issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
 
 1. **SQL Injection**
