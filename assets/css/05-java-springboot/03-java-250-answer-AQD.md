@@ -3162,8 +3162,6 @@ spring.datasource.url=jdbc:mysql://localhost:3306/mydb
 app.name=MySpringApp
 ```
 
----
-
 **Read Values from `application.properties`**
 
 **1. Using `@Value`**
