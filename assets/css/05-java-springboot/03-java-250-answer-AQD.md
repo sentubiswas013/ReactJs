@@ -1000,8 +1000,6 @@ int result = add.calculate(5, 3);
 Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
 A child interface inherits all methods from the parent interface.
 
-### Example
-
 ```java
 interface A {
     void methodA();
