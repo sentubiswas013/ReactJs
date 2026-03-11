@@ -8,20 +8,16 @@ public class StreamExamples {
         // findMax();
         // sortDescending();
         // countPrefix();
-        // firstNonRepeatedChar();
         // convertUpperCase();
         // sumNumbers();
         // checkContainsAPI();
-        // findDuplicates();
         // longestString();
         // commonElements();
         // longestWordSentence();
         // topStudents();
         
         // concatenateStrings();
-        // groupByLength();
         // charFrequency();
-        // parallelSum();
         // joinStrings();
         // removeNulls();
         // averageNumbers();
@@ -102,16 +98,7 @@ public class StreamExamples {
         // Output: 3
     }
 
-    //5 Find First Non-Repeated Character in a String
-    static void firstNonRepeatedChar() {
-        String input="swiss";
-        Character ch = input.chars()
-                .mapToObj(c->(char)c)
-                .filter(c->input.indexOf(c)==input.lastIndexOf(c))
-                .findFirst().orElse(null);
-        System.out.println(ch);
-        // Output: w
-    }
+
 
     //6 Convert List of Strings to Uppercase
     static void convertUpperCase() {
@@ -136,16 +123,7 @@ public class StreamExamples {
         // Output: true
     }
 
-    //9 Find Duplicate Elements in a List
-    static void findDuplicates() {
-        List<Integer> numbers = Arrays.asList(1,2,3,4,2,5,1);
-        Set<Integer> unique = new HashSet<>();
-        Set<Integer> dup = numbers.stream()
-                .filter(n->!unique.add(n))
-                .collect(Collectors.toSet());
-        System.out.println(dup);
-        // Output: [1, 2]
-    }
+
 
     //10 Find the Longest String
     static void longestString() {
@@ -202,13 +180,7 @@ public class StreamExamples {
         // Output: {s=3, u=1, c=2, e=1}
     }
 
-    //15 Parallel Stream to Compute Sum
-    static void parallelSum() {
-        List<Integer> numbers = Arrays.asList(1,2,3,4,5);
-        int sum = numbers.parallelStream().mapToInt(Integer::intValue).sum();
-        System.out.println(sum);
-        // Output: 15
-    }
+
 
     //16 Create Custom Collector
     static void joinStrings() {
@@ -370,14 +342,7 @@ public class StreamExamples {
         // Output: [(1, 4), (1, 5), (2, 4), (2, 5), (3, 4), (3, 5)]
     }
 
-    //33 Group Strings by Length
-    static void groupByLength() {
-        List<String> words = Arrays.asList("Java","Stream","API","Code","Fun");
-        Map<Integer,List<String>> map =
-                words.stream().collect(Collectors.groupingBy(String::length));
-        System.out.println(map);
-        // Output: {3=[API], 4=[Java], 5=[Stream], 7=[Development]}
-    }
+
 
     //34 Group by First Character
     static void groupByFirstChar() {
