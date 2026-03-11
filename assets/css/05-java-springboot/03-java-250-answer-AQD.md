@@ -4356,90 +4356,6 @@ Task running every 5 seconds
 Task running every 5 seconds
 ```
 
-
-## 19. How to implement many to many, many to one and one to many in java?
-
-**One-To-Many**
-
-```java
-@Entity
-public class Order {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Item> items;
-
-}
-```
-
-```java
-@Entity
-public class Item {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-}
-```
-
-**Many-To-One**
-Many **Employees** → One **Department**
-
-```java
-@Entity
-public class Employee {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
-}
-```
-
-**Many-To-Many**
-Many **Students** ↔ Many **Courses**
-
-```java
-@Entity
-public class Student {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @ManyToMany
-    @JoinTable(
-        name = "student_course",
-        joinColumns = @JoinColumn(name = "student_id"),
-        inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private List<Course> courses;
-}
-```
-
-```java
-@Entity
-public class Course {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @ManyToMany(mappedBy = "courses")
-    private List<Student> students;
-}
-```
-
 # ✅ 20. RESTful Services 
 
 ## 1. What is CORS, and how does it work?
@@ -4872,7 +4788,6 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 ## 8. How microservices communicate with each other?
 
-**Spoken Answer:**
 
 In our system, microservices mainly communicated using **REST APIs over HTTP**.
 For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
@@ -6977,42 +6892,98 @@ Application health in production is monitored using **monitoring and logging too
 * New Relic – APM monitoring
 
 
-## 17. How do you handle rollback strategies?
-
-Rollback strategies are used to **restore the system to a previous stable version if a deployment fails**. This can be done by **reverting to the previous application version, restoring database changes if needed, and redeploying the stable build** to keep the system running smoothly.
+## **17. How do you handle rollback strategies?**
 
 
-## 18. How do you manage database migrations?
+In production deployments, rollback strategies are important in case a new release causes issues.
+We usually use **CI/CD pipelines with versioned deployments**. If a deployment fails or causes errors, we quickly **roll back to the previous stable version**.
 
-Database migrations are managed using tools like **Flyway** or **Liquibase**. These tools **version and automate database schema changes**, ensuring the database is updated consistently across environments during deployments.
+In Kubernetes or Docker environments, we use commands like **deployment rollback** to restore the last working version.
+For database-related changes, we maintain **backup scripts and migration rollback scripts**.
 
-
-## 19. How do you ensure zero downtime deployments?
-
-Zero downtime deployments are ensured using techniques like **Blue-Green deployment, rolling updates, or canary releases**. These methods deploy the **new version alongside the existing version**, and traffic is gradually shifted to the new version without stopping the application.
-
-## 20. How do you manage logs across microservices?
-
-Logs across microservices are managed using **centralized logging**. All services send their logs to a **central logging system** like **ELK stack (Elasticsearch, Logstash, Kibana)** or **Splunk**, where logs can be **searched, monitored, and analyzed easily**. We also use **correlation IDs** to trace requests across multiple services.
+This ensures the system is restored quickly with minimal downtime.
 
 
-## 21. How do you implement auto-scaling?
+## **18. How do you manage database migrations?**
 
-Auto-scaling is implemented by **defining scaling rules based on metrics like CPU usage, memory, or request count**. When the load increases, the system **automatically adds more instances**, and when the load decreases, it **removes extra instances to save resources**.
 
-Tools:
+We manage database migrations using tools like **Flyway or Liquibase**.
+These tools allow us to maintain **version-controlled SQL scripts** for schema changes.
 
-* Kubernetes **HPA (Horizontal Pod Autoscaler)**
-* Amazon Web Services **Auto Scaling Groups**
+During application startup or deployment, the migration tool automatically applies pending changes to the database.
+This ensures **consistent schema across all environments like dev, QA, and production**.
 
-## 22. What is Rate Limiting and how it works and where to implements?
+**Example**
 
-**Rate Limiting** is a technique used to **limit the number of requests a client can make to an API within a specific time period**. It helps **prevent system overload, abuse, and DDoS attacks**.
+```
+V1__create_user_table.sql
+V2__add_email_column.sql
+```
 
-It works by **tracking the number of requests from a user or IP**, and if the limit is exceeded, the system **rejects or delays further requests**.
 
-Rate limiting is usually implemented at the **API Gateway, Load Balancer, or application level (like in Spring Boot filters or interceptors)**.
+## **19. How do you ensure zero downtime deployments?**
 
+
+To ensure zero downtime deployments, we use **rolling deployments or blue-green deployments**.
+
+In rolling deployment, new instances of the application are gradually started while old instances are terminated one by one.
+This ensures that the system is always available.
+
+In cloud environments like Kubernetes, we configure **readiness and liveness probes** so traffic is only sent to healthy pods.
+
+**Key Techniques**
+
+* Rolling Deployment
+* Blue-Green Deployment
+* Canary Deployment
+* Load balancers
+* Health checks
+
+
+## **20. How do you manage logs across microservices?**
+
+
+In microservices, logs are distributed across multiple services, so we use **centralized logging**.
+
+All services send logs to a central logging system like **ELK Stack (Elasticsearch, Logstash, Kibana)** or **CloudWatch**.
+
+We also use **correlation IDs** to trace a request across multiple services.
+This helps in debugging and monitoring the system efficiently.
+
+
+## **21. How do you implement auto-scaling?**
+
+
+Auto-scaling automatically increases or decreases the number of service instances based on traffic.
+
+In Kubernetes, we use **Horizontal Pod Autoscaler (HPA)**, which scales pods based on metrics like **CPU usage or request count**.
+
+In AWS, we configure **Auto Scaling Groups** to scale EC2 instances when traffic increases.
+
+**Example**
+
+```
+min replicas = 2
+max replicas = 10
+scale when CPU 70%
+```
+
+
+## **22. What is Rate Limiting and how does it work? Where do you implement it?**
+
+
+Rate limiting is used to **control how many requests a client can send to an API within a specific time period**.
+
+It helps protect the system from **abuse, DDoS attacks, and excessive traffic**.
+
+Rate limiting can be implemented at different levels:
+
+* **API Gateway**
+* **Load balancer**
+* **Application layer**
+
+For example, we can limit a user to **100 requests per minute**.
+If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
 
 
 # ✅ 26. Monitoring and Logging
@@ -7479,197 +7450,6 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 
 
 # ✅ 28. Real Production Scenario 
-
-## 1. Your production API response time suddenly increases. What steps will you take?
-
-**Answer:** Check monitoring dashboards for CPU/memory spikes, review recent deployments, analyze slow query logs, check database connection pools, verify external API dependencies, and enable APM tracing to identify bottlenecks.
-
-**Example:**
-```javascript
-// Add performance monitoring
-const startTime = Date.now();
-app.use((req, res, next) => {
-  res.on('finish', () => {
-    const duration = Date.now() - startTime;
-    if (duration > 1000) {
-      logger.warn(`Slow request: ${req.path} took ${duration}ms`);
-    }
-  });
-  next();
-});
-
-// Database query optimization
-const users = await User.find({ status: 'active' })
-  .select('name email')
-  .limit(100)
-  .lean(); // Use lean() for faster queries
-```
-
-## 2. Your microservice starts failing under heavy load. What will you do?
-
-**Answer:** Implement circuit breakers, add rate limiting, enable auto-scaling, optimize database queries, add caching layer (Redis), implement request queuing, and use load balancers to distribute traffic.
-
-**Example:**
-```javascript
-// Circuit breaker pattern
-const circuitBreaker = require('opossum');
-
-const options = {
-  timeout: 3000,
-  errorThresholdPercentage: 50,
-  resetTimeout: 30000
-};
-
-const breaker = circuitBreaker(fetchUserData, options);
-
-breaker.fallback(() => ({ cached: true, data: getCachedData() }));
-
-// Rate limiting
-const rateLimit = require('express-rate-limit');
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100
-});
-app.use('/api/', limiter);
-```
-
-## 3. A critical bug appears in production. How do you manage it?
-
-**Answer:** Assess impact immediately, notify stakeholders, rollback to previous stable version if severe, apply hotfix with minimal changes, test in staging, deploy with feature flags, monitor closely, and conduct post-mortem analysis.
-
-**Example:**
-```javascript
-// Feature flag for quick rollback
-const featureFlags = {
-  newPaymentFlow: process.env.ENABLE_NEW_PAYMENT === 'true'
-};
-
-app.post('/payment', (req, res) => {
-  if (featureFlags.newPaymentFlow) {
-    return newPaymentHandler(req, res);
-  }
-  return legacyPaymentHandler(req, res); // Fallback
-});
-
-// Hotfix deployment script
-// package.json
-{
-  "scripts": {
-    "hotfix": "git checkout main && git pull && npm run build && pm2 reload all"
-  }
-}
-```
-
-## 4. Your system experiences high memory usage. How do you debug it and tools?
-
-**Answer:** Use heap dumps, profiling tools (Node.js: clinic.js, Java: JProfiler), check for memory leaks, analyze garbage collection logs, review large object allocations, and monitor with tools like New Relic or DataDog.
-
-**Example:**
-```javascript
-// Memory monitoring
-const v8 = require('v8');
-const heapStats = v8.getHeapStatistics();
-
-setInterval(() => {
-  const used = process.memoryUsage();
-  console.log({
-    rss: `${Math.round(used.rss / 1024 / 1024)}MB`,
-    heapUsed: `${Math.round(used.heapUsed / 1024 / 1024)}MB`,
-    external: `${Math.round(used.external / 1024 / 1024)}MB`
-  });
-  
-  if (used.heapUsed > 500 * 1024 * 1024) {
-    logger.error('High memory usage detected');
-  }
-}, 60000);
-
-// Fix memory leak - clear event listeners
-class DataProcessor {
-  constructor() {
-    this.listeners = [];
-  }
-  
-  cleanup() {
-    this.listeners.forEach(l => l.removeAllListeners());
-    this.listeners = [];
-  }
-}
-```
-
-## 5. A deployment breaks the production environment. What is your response?
-
-**Answer:** Immediately rollback to last stable version, check deployment logs and error traces, verify configuration changes, test rollback success, identify root cause, fix in staging, implement better CI/CD checks, and use blue-green deployment strategy.
-
-**Example:**
-```javascript
-// Blue-Green deployment with health checks
-const express = require('express');
-const app = express();
-
-app.get('/health', (req, res) => {
-  const health = {
-    uptime: process.uptime(),
-    status: 'OK',
-    timestamp: Date.now(),
-    version: process.env.APP_VERSION
-  };
-  res.json(health);
-});
-
-// Rollback script
-// deploy.sh
-#!/bin/bash
-if ! curl -f http://localhost:3000/health; then
-  echo "Health check failed, rolling back..."
-  git revert HEAD
-  npm install
-  pm2 restart all
-  exit 1
-fi
-```
-
-## 6. A security vulnerability is discovered. What steps will you take?
-
-**Answer:** Assess severity (CVSS score), isolate affected systems, patch immediately, rotate credentials/tokens, audit logs for exploitation, notify security team and users if data breach, update dependencies, run security scans, and document incident.
-
-**Example:**
-```javascript
-// Immediate security patches
-// Update vulnerable dependencies
-npm audit fix --force
-
-// Rotate API keys
-const rotateApiKeys = async () => {
-  const newKey = generateSecureKey();
-  await db.apiKeys.update({ active: false });
-  await db.apiKeys.create({ key: newKey, active: true });
-  await notifyClients(newKey);
-};
-
-// Add security headers
-const helmet = require('helmet');
-app.use(helmet());
-
-// Audit logging
-const auditLog = (action, user, details) => {
-  logger.security({
-    timestamp: new Date(),
-    action,
-    user,
-    ip: details.ip,
-    severity: 'HIGH'
-  });
-};
-
-// Input validation to prevent injection
-const validator = require('validator');
-app.post('/api/user', (req, res) => {
-  if (!validator.isEmail(req.body.email)) {
-    return res.status(400).json({ error: 'Invalid email' });
-  }
-  // Process request
-});
-```
 
 
 # ✅ 29. Miscellaneous

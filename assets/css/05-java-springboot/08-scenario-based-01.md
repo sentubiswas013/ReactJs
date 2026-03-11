@@ -2,24 +2,29 @@
 
 ## **Q0. Tell me about yourself (Java Developer)**
 
-I am a Full Stack Java Developer with over 3.5 years of experience in designing, developing, and maintaining enterprise-level web applications. My primary expertise is in Java, Spring Boot, and microservices architecture, along with hands-on experience in RESTful APIs, database design, and frontend technologies like React and Angular.
->
-Currently, I am working at OqulusTech LLC, where I am involved in building scalable backend services, integrating third-party APIs, and optimizing application performance. I follow clean coding practices, write unit and integration tests, and collaborate closely with cross-functional teams to deliver high-quality software solutions.
->
-I am passionate about solving complex problems, learning new technologies, and contributing to systems that are reliable, secure, and scalable.
+I am a Java Full Stack Developer with around **10+ years of experience** in designing and developing scalable web applications. My primary expertise is in **Java, Spring Boot, and microservices architecture** for backend development, and **React or Angular** for frontend development.
 
----
+In my current role, I work on building **RESTful APIs using Spring Boot**, implementing business logic, and integrating services with **databases like MySQL or PostgreSQL**. On the frontend side, I develop responsive user interfaces and integrate them with backend APIs.
 
-## **Q1. Current role & day-to-day responsibilities (Java Developer)**
+I also have experience with **microservices architecture**, where I work with tools like **Spring Cloud, Feign Client, Kafka for event-driven communication, and Redis for caching**. For security, I have implemented **JWT-based authentication using Spring Security**.
 
-In my current role, my day-to-day responsibilities include designing and developing REST APIs using Java and Spring Boot, implementing business logic, and ensuring code quality through unit testing with JUnit and Mockito.
->
-I work extensively with relational databases like MySQL and PostgreSQL, writing optimized queries and managing schema changes. I also participate in code reviews, bug fixing, and performance tuning.
->
-As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
+From a DevOps perspective, I have worked with **Docker, Kubernetes, and CI/CD pipelines using Jenkins or GitHub Actions**, and deployed applications on **cloud platforms like AWS**.
+
+I follow **clean coding practices, unit testing with JUnit and Mockito, and Agile development methodologies**. I enjoy solving performance issues, improving system scalability, and collaborating with cross-functional teams to deliver reliable software solutions.
 
 
-## **Q2. How may call we do for agile **
+## **Q1. Current role responsibilities & day-to-day activity (Java Developer)**
+
+In my current role, I mainly develop **REST APIs using Java and Spring Boot**, implement business logic, and work with **microservices architecture**.
+
+I handle **database operations with MySQL/PostgreSQL**, and on the frontend side I build **UI components using React or Angular**.
+
+I also write **unit tests, participate in code reviews, and support CI/CD deployments using Docker and Jenkins**.
+
+Additionally, I work closely with QA and product teams in **Agile ceremonies like daily stand-ups and sprint planning** to deliver features efficiently.
+
+
+## **Q2. Explain agile stategy**
 
 In **Agile**, teams usually have **4–5 regular meetings (ceremonies/calls)** in each **Scrum** sprint.
 
@@ -44,21 +49,14 @@ In **Agile**, teams usually have **4–5 regular meetings (ceremonies/calls)** i
 **Purpose:** Review and **clarify upcoming backlog items** so they are ready for future sprints.
 
 
-
----
-
 # **2️⃣ Core Java – Practical / Real-World Scenarios**
 
 ## **Q3. Your service is slow under high load. How did you identify and fix the performance issue?**
 
-**Spoken Answer:**
-
-In one of my projects, our service became slow during peak traffic.
-First, I identified the bottleneck using **application metrics and logs**. We used **Spring Boot Actuator**, **Prometheus**, and **Grafana** to monitor response time, CPU, memory, and thread usage. I used **JProfiler** and **VisualVM** to identify bottlenecks.
->
-I noticed that response time increased when database calls spiked. After analyzing SQL logs and APM traces, I found an **N+1 query problem** and a blocking I/O call.  We fixed it by adding pagination, using proper indexes, caching frequent responses, and optimizing JPA queries.”
->
-To fix it, I optimized queries, added proper indexing, introduced **caching using Redis**, and moved heavy tasks to **async processing**. After that, latency dropped by more than 60%.
+> When the service became slow under high load, I first monitored **metrics and logs using Spring Boot Actuator, Prometheus, and Grafana** to identify the bottleneck.
+> I discovered that the issue was caused by **slow database queries and an N+1 problem in JPA**.
+> I fixed it by **optimizing queries, adding indexes, implementing pagination, and introducing Redis caching** for frequently used data.
+> After these improvements, the application performance improved significantly.
 
 **Fixes Applied:**
 
@@ -78,17 +76,20 @@ public User getUserById(Long id) {
 }
 ```
 
----
-
 ## **Q4. Your Java service started consuming high CPU in production. How did you identify the root cause and fix it?**
 
-**Spoken Answer:**
+> When CPU usage spiked in production, I first checked **monitoring metrics and logs** to confirm the issue.
+> Then I captured a **thread dump using jstack** and analyzed it with **VisualVM**.
+> I found a thread stuck in an **inefficient loop caused by improper stream processing**.
+> After fixing the logic and optimizing the code, the CPU usage returned to normal.
 
-In production, CPU usage suddenly spiked.
-I took a **thread dump using jstack** and correlated it with logs.
->
-I found a thread stuck in an **infinite loop caused by improper stream usage**.
-After fixing the logic and adding safeguards, CPU returned to normal.
+**Good tools to mention in interviews:**
+
+* `jstack` → thread dump
+* `top` / `htop` → OS-level CPU monitoring
+* **VisualVM / JProfiler** → JVM analysis
+* **Prometheus + Grafana** → metrics monitoring
+* **Spring Boot Actuator** → application health metrics
 
 **Example Code (Bug Fix):**
 
@@ -104,29 +105,27 @@ list.stream()
     .forEach(this::process);
 ```
 
----
-
 ## **Q5. Describe a situation where you faced a memory leak in Java. How did you detect and resolve it?**
-**Spoken Answer:**
 
-I faced a memory leak where the heap kept growing until the service crashed.
->
-I captured a **heap dump using jmap** and analyzed it in **Eclipse MAT**.
-The issue was a static map holding references to objects that were never cleared.
->
-I fixed it by removing unnecessary static references and using **WeakHashMap**.
+> In one project, we noticed that **heap memory usage kept increasing and the application eventually crashed with OutOfMemoryError**.
+> I captured a **heap dump using jmap** and analyzed it with **Eclipse MAT**.
+> The root cause was a **static map holding references to objects that were never cleared**.
+> I fixed it by removing unnecessary static references and using a **WeakHashMap-based caching approach**, which allowed garbage collection to free unused objects.
+
+### **Tools Mentioned (Good for Interview)**
+
+* `jmap` → capture heap dump
+* **Eclipse MAT** → analyze memory usage
+* **VisualVM / JProfiler** → memory profiling
+* **Spring Boot Actuator** → monitor JVM memory metrics
 
 **Example Code (Fix):**
 
 ```java
-Map<String, Usercache = new WeakHashMap<>();
+Map<String, Usercache = new WeakHashMap<();
 ```
 
----
-
 ## **Q6. How did you handle concurrency issues in a multi-threaded Java application you worked on? Give a real example.**
-
-**Spoken Answer:**
 
 **Way One**
 “In one of my projects, we had a **payment processing service** where multiple threads were updating the same user wallet balance at the same time. This caused **race conditions**, leading to incorrect balances.
@@ -145,7 +144,7 @@ class WalletService {
     public void deductAmount(int amount) {
         lock.lock();
         try {
-            if (balance >= amount) {
+            if (balance = amount) {
                 balance -= amount;
             }
         } finally {
@@ -181,16 +180,12 @@ AtomicInteger counter = new AtomicInteger(0);
 counter.incrementAndGet();
 ```
 
----
-
 ## **Q7. You had to process a large file (millions of records). How did you design the Java code to avoid OutOfMemory errors?**
 
-**Spoken Answer:**
-
 To process millions of records, I avoided loading the entire file into memory.
->
+
 I used **streaming with BufferedReader**, processed data line by line, and batch-inserted records into the database.
->
+
 This ensured constant memory usage.
 
 **Example Code:**
@@ -203,31 +198,6 @@ try (BufferedReader br = Files.newBufferedReader(path)) {
     }
 }
 ```
-
-
-## 8. If a table has 100+ fields and performance is slow, how do you fetch only required 3–4 fields?
-
-If a table has many fields but you only need a few, fetching all columns can **slow down performance**. To optimize, you can:
-
-1. **Use JPQL or native queries** to select only the required fields:
-
-   ```java
-   @Query("SELECT e.name, e.salary FROM Employee e WHERE e.id = :id")
-   Object[] findNameAndSalary(@Param("id") Long id);
-   ```
-
-2. **Use projections** with interfaces or DTOs:
-
-   ```java
-   public interface EmployeeView {
-       String getName();
-       Double getSalary();
-   }
-
-   List<EmployeeViewfindByDepartment(String dept);
-   ```
-
-3. **Avoid `findAll()`** and fetch only what you need using `select` or DTO mapping.
 
 ## 9.  Interview Question We have a table **`bollywood_movies`** with 10,00,000 records.
 **Columns:**
@@ -275,7 +245,7 @@ movie_collections - budget
 Only consider:
 
 ```sql
-WHERE imdb_rating >= 8
+WHERE imdb_rating = 8
 AND movie_collections budget
 ```
 
@@ -289,7 +259,7 @@ We should NOT fetch 10 lakh records into Java memory.
 SELECT lead_actor_name,
        SUM(movie_collections - budget) AS total_profit
 FROM bollywood_movies
-WHERE imdb_rating >= 8
+WHERE imdb_rating = 8
 AND movie_collections budget
 AND lead_actor_name IS NOT NULL
 GROUP BY lead_actor_name
@@ -303,7 +273,7 @@ LIMIT 10;
 SELECT *
 FROM bollywood_movies
 WHERE lead_actor_name IN (top 10 actors)
-AND imdb_rating >= 8
+AND imdb_rating = 8
 AND movie_collections budget;
 ```
 
@@ -336,7 +306,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long{
     @Query(value = """
         SELECT lead_actor_name
         FROM bollywood_movies
-        WHERE imdb_rating >= 8
+        WHERE imdb_rating = 8
         AND movie_collections budget
         GROUP BY lead_actor_name
         ORDER BY SUM(movie_collections - budget) DESC
@@ -358,7 +328,7 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public Map<String, List<Movie>getTopActorsWithMovies() {
+    public Map<String, List<MoviegetTopActorsWithMovies() {
 
         List<StringtopActors = movieRepository.findTop10ProfitableActors();
 
@@ -420,14 +390,18 @@ If query runs frequently:
 - Data from vendor API will be inserted using batch processing and pagination.
 - I will avoid loading large data into memory and ensure performance using indexing and native queries.
 
----
 
 ## 18. How to implement many to many, many to one and one to many in java interiew questions, give answer
-✅ 1️⃣ One-To-Many
-One **Order** → Many **Items**
+**01. One-To-Many**
 
+One **Order → Many Items**
+
+**Order Entity**
 
 ```java
+import jakarta.persistence.*;
+import java.util.List;
+
 @Entity
 public class Order {
 
@@ -435,12 +409,18 @@ public class Order {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<Itemitems;
+    private String orderNumber;
+
+    @OneToMany(mappedBy = "order")
+    private List<Item> items;
 }
 ```
 
+**Item Entity**
+
 ```java
+import jakarta.persistence.*;
+
 @Entity
 public class Item {
 
@@ -448,16 +428,43 @@ public class Item {
     @GeneratedValue
     private Long id;
 
+    private String productName;
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 }
 ```
 
-✅ 2️⃣ Many-To-One
-Many **Employees** → One **Department**
+**02. Many-To-One**
+
+Many **Employees → One Department**
+
+### Department Entity
 
 ```java
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+public class Department {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees;
+}
+```
+
+**Employee Entity**
+
+```java
+import jakarta.persistence.*;
+
 @Entity
 public class Employee {
 
@@ -465,17 +472,24 @@ public class Employee {
     @GeneratedValue
     private Long id;
 
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
 }
 ```
 
+**03. Many-To-Many**
 
-✅ 3️⃣ Many-To-Many
-Many **Students** ↔ Many **Courses**
+Many **Students ↔ Many Courses**
+
+### Student Entity
 
 ```java
+import jakarta.persistence.*;
+import java.util.List;
+
 @Entity
 public class Student {
 
@@ -483,17 +497,24 @@ public class Student {
     @GeneratedValue
     private Long id;
 
+    private String name;
+
     @ManyToMany
     @JoinTable(
         name = "student_course",
         joinColumns = @JoinColumn(name = "student_id"),
         inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    private List<Coursecourses;
+    private List<Course> courses;
 }
 ```
 
+**Course Entity**
+
 ```java
+import jakarta.persistence.*;
+import java.util.List;
+
 @Entity
 public class Course {
 
@@ -501,17 +522,22 @@ public class Course {
     @GeneratedValue
     private Long id;
 
+    private String title;
+
     @ManyToMany(mappedBy = "courses")
-    private List<Studentstudents;
+    private List<Student> students;
 }
 ```
 
----
+> In JPA relationships are defined using annotations like **@OneToMany, @ManyToOne, and @ManyToMany**.
+> The owning side uses **@JoinColumn**, while the inverse side uses **mappedBy**, and for many-to-many we use **@JoinTable** to create a join table.
+
 
 ## **Q8. How to implement crud aplication give example code.**
 
 A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
-✅ Main Application
+
+**Main Application**
 
 ```java
 import org.springframework.boot.SpringApplication;
@@ -531,7 +557,7 @@ public class Main {
 }
 ```
 
-✅ User Entity
+**User Entity**
 
 ```java
 import jakarta.persistence.*;
@@ -575,7 +601,7 @@ public class User {
 }
 ```
 
-✅ Roles Entity
+**Roles Entity**
 
 ```java
 import jakarta.persistence.*;
@@ -603,7 +629,7 @@ public class Roles {
 }
 ```
 
-✅ Repository
+**Repository**
 
 ```java
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -615,7 +641,7 @@ public interface UserRepository extends JpaRepository<User, Long{
 }
 ```
 
-✅ Service
+**Service**
 
 ```java
 import org.springframework.stereotype.Service;
@@ -657,7 +683,7 @@ public class UserService {
 }
 ```
 
-✅ Controller
+**Controller**
 
 ```java
 import org.springframework.web.bind.annotation.*;
@@ -706,66 +732,74 @@ public class UserController {
 }
 ```
 
----
-
-## **Q9. Tell me about a time when you refactored legacy Java code. What problems did it have and what improvements did you make?**
-
-**Spoken Answer:**
-
-I worked on a legacy Java application with large God classes, no separation of concerns, and hard-coded values.
+## **Q9. How do you migrate a legacy Java application to a newer Java version?**
+> Migrating a legacy Java application to a newer Java version requires a step-by-step approach to avoid breaking existing functionality.
 >
-I refactored it by breaking it into smaller services, applying **SOLID principles**, introducing DTOs, and replacing if-else chains with **strategy patterns**.
+> First, I **analyze the current Java version and dependencies** used in the project and check compatibility with the target Java version.
 >
-This improved readability, testability, and reduced bugs.
+> Next, I update the **build configuration** such as **Maven or Gradle** to use the new Java version and upgrade outdated libraries that may not support the newer JDK.
+>
+> Then I run the application and fix **deprecated APIs or removed features**. Tools like **jdeps and jlink** help identify incompatible modules.
+>
+> After that, I execute **unit tests and integration tests** to ensure that the application behaves correctly.
+>
+> Finally, I perform **performance testing and deploy the upgraded application in a staging environment** before releasing it to production.
 
-**Example Code (Strategy Pattern):**
+**Analyze Current Application**
 
-```java
-public interface PaymentStrategy {
-    void pay();
-}
+* Identify current Java version (e.g., Java 8)
+* Review dependencies and frameworks
+
+**Check Compatibility**
+
+* Verify libraries support new Java version
+* Upgrade frameworks (Spring Boot, Hibernate, etc.)
+
+**Update Build Configuration**
+
+Example (Maven):
+
+```xml
+<properties>
+    <java.version>17</java.version>
+</properties>
 ```
 
+**Fix Deprecated APIs**
 
-## **Q10. Parallel processing: Threads vs ExecutorService vs Parallel Streams**
-
-**Spoken Answer:**
-
-“My decision depended on **control, complexity, and workload**.
-
-* For low-level control → Threads
-* For managed, scalable tasks → ExecutorService
-* For data-parallel operations → Parallel Streams”
-
-**Decision Logic:**
-
-| Scenario                     | Choice             |
-| ---------------------------- | ------------------ |
-| Fine-grained control         | `Thread`           |
-| Production-grade async tasks | `ExecutorService`  |
-| Collection processing        | `parallelStream()` |
-
-**ExecutorService Example:**
+Example:
 
 ```java
-ExecutorService executor = Executors.newFixedThreadPool(5);
+// Old
+Date date = new Date();
 
-executor.submit(() -processOrder());
-executor.shutdown();
+// New (Recommended)
+LocalDate date = LocalDate.now();
 ```
 
-**Parallel Stream Example:**
+**Run Static Analysis Tools**
 
-```java
-orders.parallelStream()
-      .forEach(order -process(order));
-```
+* `jdeps` → find dependency issues
+* `jdeprscan` → detect deprecated APIs
 
----
+**Testing**
 
-## **Q11. Exception handling and logging in large applications**
+* Unit testing
+* Integration testing
+* Regression testing
 
-**Spoken Answer:**
+**Deploy to Staging**
+
+* Validate performance
+* Monitor logs and memory usage
+
+**Production Release**
+
+* Gradual rollout
+* Monitor metrics
+
+
+## **Q10. Exception handling and logging in large applications**
 
 “In large systems, bad logging is as dangerous as no logging. I used **centralized exception handling**, meaningful log levels, and correlation IDs. This made production debugging much easier.”
 
@@ -800,78 +834,120 @@ public class GlobalExceptionHandler {
 }
 ```
 
----
-
-## **Q12. JVM tuning in production**
-
-**Spoken Answer:**
-
-“In production, we faced frequent Full GC and slow response times. After analyzing GC logs, I tuned heap size and garbage collector settings. This stabilized memory usage and reduced pause times.”
-
-**Parameters Tuned:**
-
-* Heap size (`-Xms`, `-Xmx`)
-* GC algorithm
-* Metaspace size
-
-**Example JVM Options:**
-
-```bash
--Xms4g
--Xmx4g
--XX:+UseG1GC
--XX:MaxMetaspaceSize=512m
-```
-
-**Why:**
-
-* Fixed heap prevents resizing overhead
-* G1GC reduces pause times
-* Controlled class metadata memory
-
----
 
 # **3️⃣ Spring Boot – Hands-On Implementation Questions**
 
 ## **Q13. Real scenario: Securing REST APIs using Spring Security**
 
-**Spoken Answer:**
+> In one of our projects, we needed to secure REST APIs so that only authenticated users could access them.
+> We implemented **Spring Security with JWT (JSON Web Token)** for authentication and authorization.
+>
+> First, users authenticate using **username and password** through a login API. After successful authentication, the server generates a **JWT token**.
+> The client then sends this token in the **Authorization header** with each API request.
+>
+> Spring Security validates the token for every request using a **JWT filter**. If the token is valid, the request is allowed; otherwise, access is denied.
+>
+> We also implemented **role-based access control** so that certain APIs are accessible only to specific roles like **ADMIN or USER**.
+>
+> This approach ensures that our APIs are **stateless, secure, and scalable**.
 
-“In one project, we built REST APIs for a finance application. We used **JWT-based authentication** because it is stateless and scalable. Users authenticated using username and password, received a JWT token, and then passed it in the Authorization header for every request. Authorization was role-based — for example, ADMIN and USER.”
 
-**Authentication Flow:**
-
-1. User logs in
-2. JWT token generated
-3. Token sent in `Authorization` header
-4. Token validated for every request
-
-**JWT Filter Example:**
+**1 Spring Security Configuration**
 
 ```java
-String authHeader = request.getHeader("Authorization");
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
 
-if (authHeader != null && authHeader.startsWith("Bearer ")) {
-    String token = authHeader.substring(7);
-    // validate token
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> 
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            );
+
+        return http.build();
+    }
 }
 ```
 
-**Role-Based Access Example:**
+
+**2 Login Controller**
 
 ```java
-@PreAuthorize("hasRole('ADMIN')")
-@GetMapping("/admin/users")
-public List<UsergetUsers() {
-    return userService.findAll();
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest request) {
+
+        // validate username/password
+
+        String token = jwtService.generateToken(request.getUsername());
+
+        return token;
+    }
 }
 ```
 
----
+**3 JWT Token Generation**
+
+```java
+@Service
+public class JwtService {
+
+    private String SECRET_KEY = "secret";
+
+    public String generateToken(String username) {
+
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
+    }
+}
+```
+
+
+**4 Secured API Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping
+    public List<String> getUsers() {
+        return List.of("John", "Alice");
+    }
+}
+```
+
+Request must include header:
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+**Security Flow**
+
+1️⃣ User sends **login request**
+2️⃣ Server **validates credentials**
+3️⃣ Server generates **JWT token**
+4️⃣ Client sends **token in Authorization header**
+5️⃣ Spring Security **validates token** before allowing access
 
 ## **Q14. Externalizing configuration for different environments**
-
-**Spoken Answer:**
 
 “We had separate environments like dev, QA, and prod. We externalized configuration using **Spring Profiles** so that environment-specific values like database URLs and API keys could be managed safely.”
 
@@ -903,11 +979,7 @@ spring:
 private String dbUrl;
 ```
 
----
-
 ## **Q15. Pagination, sorting, and filtering in Spring Boot**
-
-**Spoken Answer:**
 
 “For APIs returning large datasets, we implemented pagination and sorting using **Spring Data JPA**. Filtering was done using query parameters. This improved performance and user experience.”
 
@@ -934,16 +1006,12 @@ public List<Productsearch(@RequestParam String category) {
 }
 ```
 
----
-
 # **4️⃣ Microservices – Production Scenarios**
 
 ## **Q16. One microservice is down. How did you prevent system failure?**
 
-**Spoken Answer:**
-
 In a microservices-based system, I used **Resilience patterns** to avoid cascading failures.
->
+
 I implemented **Circuit Breaker**, **Retry**, and **Fallback mechanisms** using **Resilience4j**.
 If a dependent service goes down, the circuit breaker opens and returns a fallback response instead of failing the entire system.
 
@@ -995,15 +1063,11 @@ resilience4j:
 
 ```
 
----
-
 ## **Q17. How did microservices communicate with each other?**
-
-**Spoken Answer:**
 
 In our system, microservices mainly communicated using **REST APIs over HTTP**.
 For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
->
+
 For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
 
 **Example Code (Feign Client):**
@@ -1055,16 +1119,12 @@ public class OrderService {
 }
 ```
 
----
-
 ## **Q18. How did you handle distributed transactions?**
 
-**Spoken Answer:**
-
 Since microservices have separate databases, we avoided traditional distributed transactions like 2PC.
->
+
 Instead, we used the **Saga pattern**. Each service performed a local transaction and published an event. If any step failed, we executed a **compensating transaction** to rollback previous steps.
->
+
 This approach ensured **eventual consistency** without blocking services.
 
 **Example Code (Saga Event Publish):**
@@ -1077,11 +1137,7 @@ public void createOrder(Order order) {
 }
 ```
 
----
-
 ## **Q19. One microservice was frequently failing and impacting others. How did you isolate it?**
-
-**Spoken Answer:**
 
 “One unstable service was causing cascading failures. We isolated it using **circuit breakers**, **bulkheads**, and **rate limiting**. Once failures crossed a threshold, calls to that service were stopped temporarily.”
 
@@ -1100,11 +1156,7 @@ public PaymentResponse processPayment() {
 }
 ```
 
----
-
 ## **Q20. How did you manage communication between microservices? Why synchronous vs asynchronous?**
-
-**Spoken Answer:**
 
 “We used **both synchronous and asynchronous communication**, based on the use case.
 
@@ -1129,11 +1181,7 @@ OrderResponse response = restTemplate.getForObject(
 kafkaTemplate.send("order-events", orderEvent);
 ```
 
----
-
 ## **Q21. Real scenario: circuit breaker, retry, timeout**
-
-**Spoken Answer:**
 
 “In production, a downstream service was slow and unstable. We implemented **timeouts to avoid blocking**, **retries for transient failures**, and **circuit breakers** to stop repeated failures.”
 
@@ -1157,11 +1205,7 @@ public PaymentResponse pay() {
 }
 ```
 
----
-
 ## **Q22. Distributed transactions without a single DB transaction**
-
-**Spoken Answer:**
 
 “We avoided distributed database transactions because they don’t scale. Instead, we used the **Saga pattern**. Each microservice performed its local transaction and published an event. If something failed, compensating actions were triggered.”
 
@@ -1186,13 +1230,9 @@ public void rollbackOrder(String orderId) {
 }
 ```
 
----
-
 ## **Q23. Deploying multiple microservices — service discovery & routing**
 
-**Spoken Answer:**
-
-“As the number of services grew, hardcoded URLs became unmanageable. We solved this using **service discovery and an API gateway**. Services registered themselves dynamically, and routing was handled centrally.”
+As the number of services grew, hardcoded URLs became unmanageable. We solved this using **service discovery and an API gateway**. Services registered themselves dynamically, and routing was handled centrally.
 
 **Challenges Faced:**
 
@@ -1229,13 +1269,9 @@ spring:
             - Path=/orders/**
 ```
 
----
-
 # **5️⃣ Cloud (AWS / GCP) – Practical Experience**
 
 ## **Q24. How did you deploy a Spring Boot microservice to AWS/GCP? Walk me through the complete flow.**
-
-**Spoken Answer (End-to-End Flow):**
 
 “I’ll explain it end to end. First, we built the Spring Boot application and containerized it using Docker. Then we pushed the image to a container registry. After that, we deployed it to Kubernetes (EKS on AWS / GKE on GCP). Traffic came through a load balancer, and pods were auto-scaled based on load.”
 
@@ -1274,11 +1310,9 @@ spec:
 
 ## **Q25. How did you manage configuration in cloud environments?**
 
-**Spoken Answer:**
-
 We managed configurations using **Spring Cloud Config Server**.
 All environment-specific properties were stored in a Git repository.
->
+
 This allowed us to change configurations dynamically without redeploying services.
 Sensitive values like passwords were stored in **Vault or Kubernetes Secrets**.
 
@@ -1293,13 +1327,9 @@ spring:
       uri: http://config-server:8888
 ```
 
----
-
 ## **Q26. How did you handle application secrets in cloud environments?**
 
-**Spoken Answer:**
-
-“We never stored secrets in code or Git. In AWS/GCP, we used **managed secret services** and injected them securely at runtime.”
+We never stored secrets in code or Git. In AWS/GCP, we used **managed secret services** and injected them securely at runtime.
 
 **Tools Used**
 
@@ -1329,13 +1359,10 @@ kubectl create secret generic db-secret \
 * No hardcoding
 * Environment-specific
 
----
 
 ## **Q27. Production cloud outage — how did you troubleshoot and restore?**
 
-**Spoken Answer:**
-
-“When the application went down, the first priority was restoration, not root cause. I checked health checks, pod status, and logs. Once the service was restored, we did a post-mortem.”
+When the application went down, the first priority was restoration, not root cause. I checked health checks, pod status, and logs. Once the service was restored, we did a post-mortem.
 
 **Troubleshooting Steps**
 
@@ -1353,13 +1380,9 @@ kubectl logs order-service-pod
 kubectl rollout undo deployment order-service
 ```
 
----
-
 ## **Q28. Logging, monitoring, and alerting in AWS/GCP**
 
-**Spoken Answer:**
-
-“In microservices, observability is critical. We implemented centralized logging, real-time monitoring, and proactive alerting.”
+In microservices, observability is critical. We implemented centralized logging, real-time monitoring, and proactive alerting.
 
 **What We Used**
 
@@ -1370,11 +1393,11 @@ kubectl rollout undo deployment order-service
 **Logback Example:**
 
 ```xml
-<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-        <pattern>%d %-5level %logger - %msg%n</pattern>
-    </encoder>
-</appender>
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"
+    <encoder
+        <pattern%d %-5level %logger - %msg%n</pattern
+    </encoder
+</appender
 ```
 
 **Health Endpoint:**
@@ -1383,11 +1406,7 @@ kubectl rollout undo deployment order-service
 management.endpoints.web.exposure.include=health,metrics
 ```
 
----
-
 ## **Q29. Designing for scalability and high availability**
-
-**Spoken Answer:**
 
 “We designed the system assuming traffic spikes and failures. The application was **stateless**, horizontally scalable, and deployed across multiple zones.”
 
