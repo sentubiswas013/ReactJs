@@ -1443,11 +1443,10 @@ public void decrement() {
 **Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
 
 **Prevention strategies:**
-- Avoid nested locks
-- Use timeout for lock acquisition
-- Order locks consistently
-- Use concurrent collections
-- Implement deadlock detection
+* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
+* **Use consistent lock order** – Always acquire locks in the same order.
+* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
+* **Minimize synchronized blocks** – Keep lock scope as small as possible.
 
 ```java
 // Deadlock scenario
@@ -1463,12 +1462,6 @@ Thread2: lock(A) -> lock(B)
 
 **Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
 
-- Ensures visibility of changes across threads
-- Prevents compiler optimizations
-- No atomicity guarantee for compound operations
-- Lighter alternative to synchronization for simple cases
-- Used for flags and status variables
-
 ```java
 class SharedData {
     private volatile boolean flag = false;
@@ -1483,56 +1476,11 @@ class SharedData {
 }
 ```
 
-## 8. What is the difference between synchronized and volatile?
+## 8. What is race condition and atomic operation?
 
-**`synchronized`** is a keyword used to control **access to a block or method** by multiple threads, ensuring **mutual exclusion** and **thread safety**.
+A **race condition** in **Java** occurs when **multiple threads access and modify shared data at the same time**, causing unpredictable or incorrect results.
 
-**`volatile`** is a keyword used with variables to ensure that **changes made by one thread are visible to all other threads immediately**, but it **does not provide mutual exclusion**.
-
-
-**Synchronized:**
-- Provides both visibility and atomicity
-- Blocks other threads (mutual exclusion)
-- Can be used with methods and blocks
-- Heavier performance overhead
-- Prevents race conditions completely
-
-**Volatile:**
-- Provides only visibility, not atomicity
-- No blocking of threads
-- Only for variables
-- Lighter performance overhead
-- Prevents visibility issues only
-
-```java
-// Synchronized - full protection
-private int count = 0;
-public synchronized void increment() {
-    count++; // Atomic and visible
-}
-
-// Volatile - visibility only
-private volatile boolean ready = false;
-public void setReady() {
-    ready = true; // Visible but not atomic for compound operations
-}
-```
-
-## 9. What is race condition and atomic operation?
-
-**Race condition** occurs when multiple threads access shared data simultaneously and the outcome depends on thread scheduling. **Atomic operation** is indivisible and completes without interruption.
-
-**Race Condition:**
-- Multiple threads modify shared data
-- Unpredictable results due to timing
-- Causes data corruption
-- Prevented by synchronization
-
-**Atomic Operation:**
-- Indivisible operation
-- Either completes fully or not at all
-- Thread-safe by nature
-- Examples: reading/writing primitive variables (except long/double)
+An **atomic operation** is an operation that **executes completely in a single step without interruption**, so no other thread can interfere during its execution.
 
 ```java
 // Race condition example
@@ -1558,11 +1506,22 @@ public void increment() {
 * Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
 
 ```java
+// Method 1: extends Thread
 class MyTask extends Thread {
     public void run() {
         System.out.println("Task running in thread: " + Thread.currentThread().getName());
     }
 }
+
+// Method 2: Implementing Runnable
+
+class MyTask implements Runnable {
+    public void run() {
+        System.out.println("Task running");
+    }
+}
+Thread t = new Thread(new MyTask());
+t.start();
 
 public class Main {
     public static void main(String[] args) {
@@ -1581,7 +1540,6 @@ public class Main {
 * **Atomic variables** – **lock-free thread-safe operations** on single variables.
 * **Concurrent collections** – thread-safe collections like `ConcurrentHashMap`.
 * **CompletableFuture (Java 8+)** – **asynchronous computation** with callbacks and chaining.
-
 
 
 * **Concurrency vs Parallelism**
@@ -1608,59 +1566,25 @@ executor.shutdown(); // Graceful shutdown
 
 ## 2. What are the types of thread pools?
 
-Java provides several predefined thread pool types through Executors class, each optimized for different use cases.
+* **Fixed Thread Pool** – A fixed number of threads handle tasks.
+* **Cached Thread Pool** – Creates new threads when needed and reuses existing ones.
+* **Single Thread Pool** – Uses only one thread to execute tasks sequentially.
+* **Scheduled Thread Pool** – Executes tasks after a delay or periodically.
 
 **Types of thread pools in Java** (via `Executors`) are:
 
-* **Fixed Thread Pool** – a **fixed number of threads** for executing tasks.
  ```java
+    // Fixed Thread Pool
    ExecutorService fixedPool = Executors.newFixedThreadPool(3);
-```
-
-* **Cached Thread Pool** – **creates threads as needed** and **reuses idle threads**.
-```java
+   // Cached Thread Pool
    ExecutorService cachedPool = Executors.newCachedThreadPool();
-```
-
-* **Single Thread Pool** – **only one thread** executes tasks sequentially.
-```java
+   // Single Thread Pool
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
-```
-
-* **Scheduled Thread Pool** – **executes tasks after a delay or periodically**.
-```java
+   // Scheduled Thread Pool
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
 ```
 
-## 3. What is Future and CompletableFuture?
-
-**Future** represents the result of an asynchronous computation, while **CompletableFuture** is an enhanced version that supports functional programming and chaining operations.
-
-**Future:**
-- Represents pending result
-- Blocking get() method
-- Limited functionality
-- Cannot be completed manually
-
-**CompletableFuture:**
-- Non-blocking operations
-- Supports chaining and composition
-- Can be completed manually
-- Functional programming support
-
-```java
-// Future - basic async result
-Future<String> future = executor.submit(() -> "Hello");
-String result = future.get(); // Blocking call
-
-// CompletableFuture - enhanced async programming
-CompletableFuture<String> cf = CompletableFuture
-    .supplyAsync(() -> "Hello")
-    .thenApply(s -> s + " World")
-    .thenCompose(s -> CompletableFuture.completedFuture(s.toUpperCase()));
-```
-
-## 4. What is CountDownLatch?
+## 3. What is CountDownLatch?
 
 **CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
 
@@ -1680,7 +1604,7 @@ latch.await(); // Wait for all tasks to complete
 System.out.println("All tasks finished");
 ```
 
-## 5. What is ReentrantLock?
+## 4. What is ReentrantLock?
 
 **ReentrantLock** is a class in Java (`java.util.concurrent.locks`) that provides an explicit and more flexible locking mechanism than `synchronized`.
 
@@ -1715,28 +1639,13 @@ public void method2() {
 }
 ```
 
-## 6. What is the difference between ReentrantLock and synchronized?
+## 5. What is the difference between ReentrantLock and synchronized?
 
-Both **`synchronized`** and **`ReentrantLock`** are used for **thread synchronization** in Java, but there are differences:
+Both **`synchronized`** and **ReentrantLock** are used to **control access to shared resources by multiple threads** in **Java**.
 
-* **`synchronized`** is a **built-in keyword**. It’s simple to use, automatically releases the lock, and blocks threads until the lock is available.
-* **`ReentrantLock`** is a **class from `java.util.concurrent`**. It offers more flexibility, like **tryLock()**, **lockInterruptibly()**, and **fair locking**. You must **manually release the lock** using `unlock()`.
+* **`synchronized`** – Simple keyword, automatically locks and unlocks, blocks threads until available.
+* **`ReentrantLock`** – A class that gives **more control**, like checking if a lock is available (`tryLock`) or interrupting waiting threads, but you have to **unlock manually**.
 
-In short: **synchronized is simpler**, while **ReentrantLock provides advanced features and greater control**.
-
-**ReentrantLock:**
-- Explicit lock/unlock
-- Supports fairness, timeout, interruption
-- More flexible but requires manual management
-- Can check if lock is held
-- Better performance under high contention
-
-**Synchronized:**
-- Implicit lock/unlock
-- Simpler syntax
-- Automatic lock release
-- JVM optimized
-- Cannot be interrupted
 
 ```java
 // ReentrantLock - explicit control
