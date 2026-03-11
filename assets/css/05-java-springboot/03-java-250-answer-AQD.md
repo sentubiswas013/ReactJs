@@ -3164,7 +3164,7 @@ app.name=MySpringApp
 
 ---
 
-### **How to Read Values from `application.properties`**
+**Read Values from `application.properties`**
 
 **1. Using `@Value`**
 
