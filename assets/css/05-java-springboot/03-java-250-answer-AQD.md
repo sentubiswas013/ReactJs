@@ -5641,7 +5641,6 @@ ResponseEntity<String> response = restTemplate.getForEntity(
 
 ## 8: What is authentication vs authorization?
 
-
 * **Authentication**: Verifies "who you are" - identity verification
 * **Authorization**: Determines "what you can do" - access control
 * **Authentication First**: Must authenticate before authorization
