@@ -1823,24 +1823,12 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
 
 ## 6. What is generational garbage collection?
 
-**Generational Garbage Collection** is a memory management strategy in JVM where the heap is divided into multiple generations based on the assumption that **most objects die young**.
+**Generational Garbage Collection** in **Java** is a technique where the **heap is divided into generations** to improve GC efficiency:
 
-**Young Generation:**
-- Eden space (new objects)
-- Survivor spaces (S0, S1)
-- Frequent, fast collection
+* **Young Generation** – Stores newly created objects. Collected frequently (minor GC). Most objects die here quickly.
+* **Old/Tenured Generation** – Stores long-lived objects that survived multiple GCs. Collected less frequently (major GC).
+* **Permanent/Metaspace** – Stores class metadata and static information.
 
-**Old Generation:**
-- Long-lived objects
-- Less frequent collection
-- More expensive cleanup
-
-**Collection Process:**
-- Objects start in Eden
-- Survivors move to Old generation
-- Different algorithms for each generation
-
-This approach optimizes GC performance by focusing on areas where most garbage exists.
 
 ## 7. What is the difference between minor GC and major GC?
 
@@ -1848,19 +1836,6 @@ A **Minor GC** occurs in the **Young Generation** of the heap and cleans up shor
 
 A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
 
-**Minor GC:**
-- Cleans Young Generation only
-- Fast and frequent
-- Typically takes milliseconds
-- Triggered when Eden space fills up
-- Most objects are collected here
-
-**Major GC:**
-- Cleans Old Generation (and sometimes entire heap)
-- Slower and less frequent
-- Can cause application pauses
-- Triggered when Old Generation fills up
-- Also called Full GC when entire heap is cleaned
 
 ```java
 // Objects that survive multiple minor GCs get promoted to Old Generation
@@ -1870,7 +1845,7 @@ String temp = "temporary"; // Likely collected in minor GC
 
 ## 8. What are GC roots?
 
-GC roots are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
+**GC roots** are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
 
 ```java
 public class Example {
