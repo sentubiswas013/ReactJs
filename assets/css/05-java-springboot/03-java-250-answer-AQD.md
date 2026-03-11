@@ -3150,8 +3150,60 @@ CompletableFuture.runAsync(() ->
 ```java
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
+## 9. What is application.properties file and how value read from there?
 
-## 9. What is Cursor?
+`application.properties` is a **configuration file in Spring Boot** used to store **application settings**, such as database URLs, server ports, or custom values.
+
+**Example (`application.properties`):**
+
+```properties id="0z5kqg"
+server.port=8080
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+app.name=MySpringApp
+```
+
+---
+
+### **How to Read Values from `application.properties`**
+
+**1. Using `@Value`**
+
+```java id="4y9qmr"
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AppConfig {
+
+    @Value("${app.name}")
+    private String appName;
+
+    public void printName() {
+        System.out.println("Application Name: " + appName);
+    }
+}
+```
+
+**2. Using `@ConfigurationProperties`**
+
+```java id="1sy8y7"
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix = "app")
+public class AppProperties {
+
+    private String name;
+
+    // getter and setter
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+```
+
+
+## 19. What is Cursor?
 
 A **cursor** fetches records **one by one (or in small chunks)** instead of loading the entire result into memory.
 
@@ -3178,7 +3230,7 @@ public void processProducts() {
 }
 ```
 
-## 10. What is Batch Processing?
+## 11. What is Batch Processing?
 
 Processing records in **small fixed-size chunks** (like 1000 records per batch)
 
