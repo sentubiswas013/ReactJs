@@ -7289,40 +7289,22 @@ public class OrderService {
 
 ## 5: What is Logback?
 
-**Logback** is a logging framework and the native implementation of the SLF4J API, designed as the successor to Log4j 1.x.
+**Logback** is a logging framework and the native implementation of SLF4J, designed as the successor to Log4j.
+It provides **better performance, flexible configuration, and is the default logging framework in Spring Boot.**
 
-It offers better performance, flexible configuration, automatic reload support, and is the default logging framework in Spring Boot.
-
+**Simple Configuration :**
 ```xml
-<!-- logback-spring.xml configuration -->
+// logback-spring.xml
 <configuration>
-    <springProfile name="dev">
-        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-            <encoder>
-                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-            </encoder>
-        </appender>
-        <root level="DEBUG">
-            <appender-ref ref="CONSOLE"/>
-        </root>
-    </springProfile>
-    
-    <springProfile name="prod">
-        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>logs/application.log</file>
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>logs/application.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
-                <maxFileSize>100MB</maxFileSize>
-                <maxHistory>30</maxHistory>
-            </rollingPolicy>
-            <encoder>
-                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
-            </encoder>
-        </appender>
-        <root level="INFO">
-            <appender-ref ref="FILE"/>
-        </root>
-    </springProfile>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5level %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 </configuration>
 ```
 
