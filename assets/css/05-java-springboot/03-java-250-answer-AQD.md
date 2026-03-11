@@ -7092,110 +7092,208 @@ server {
 }
 ```
 
-## 1️6. How do you monitor application health in production?
+## 16. How do you monitor application health in production?
 
-In production, we monitor application health using tools like **Spring Boot Actuator, Prometheus, and Grafana**.
-Actuator provides health endpoints to check the status of the application. Prometheus collects metrics like CPU, memory, and request count, and Grafana shows dashboards and alerts.
-We also monitor logs and set alerts to detect issues quickly.
+Monitoring ensures the application is **running correctly and performing well**.
+
+**Key Monitoring Areas**
+
+* CPU usage
+* Memory usage
+* Response time
+* Error rate
+* Database performance
+
+**Monitoring Tools**
+
+* Prometheus – collects metrics
+* Grafana – visual dashboards
+* Spring Boot Actuator – health endpoints
+* New Relic – APM monitoring
+
+**Example Health Endpoint**
+
+```
+/actuator/health
+/actuator/metrics
+```
+
+These endpoints show application status.
+
+---
 
 ## 17. How do you handle rollback strategies?
 
-Rollback strategy means reverting to the previous stable version if the new deployment fails.
-We usually keep the previous version ready in **Docker or Kubernetes**.
-If an issue occurs, we quickly redeploy the last stable version.
-CI/CD tools like **Jenkins or GitHub Actions** also help automate rollback.
+A **rollback strategy** restores the previous stable version if a deployment fails.
 
+**Common Rollback Methods**
+
+1. **Version rollback**
+
+   * Deploy the previous stable build.
+
+2. **Blue-Green rollback**
+
+   * Switch traffic back to the old environment.
+
+3. **Canary rollback**
+
+   * If errors occur in small traffic rollout, revert immediately.
+
+4. **Database rollback**
+
+   * Use migration tools to revert schema changes.
+
+**Tools**
+
+* Jenkins
+* Kubernetes
+* Git
+
+---
 
 ## 18. How do you manage database migrations?
 
-Database migrations are managed using tools like **Flyway or Liquibase**.
-These tools maintain versioned SQL scripts.
-Whenever we deploy a new application version, the migration scripts automatically update the database schema without manual work.
+Database migrations handle **schema changes safely across environments**.
 
+**Best Practices**
+
+1. Use migration tools
+2. Version control schema changes
+3. Apply migrations automatically during deployment
+4. Maintain backward compatibility
+
+**Popular Tools**
+
+* Flyway
+* Liquibase
+
+**Example Migration**
+
+```
+V1__create_users_table.sql
+V2__add_email_column.sql
+```
+
+Each migration runs **once and sequentially**.
+
+---
 
 ## 19. How do you ensure zero downtime deployments?
 
-Zero downtime deployment means users should not experience service interruption during deployment.
-We use strategies like **Blue-Green Deployment or Rolling Deployment** in Kubernetes.
-New instances start first, then traffic gradually shifts to them while old instances are removed.
+Zero downtime means **users experience no service interruption during deployment**.
+
+**Common Techniques**
+
+1. **Blue-Green Deployment**
+
+   * Two environments (Blue and Green)
+   * Switch traffic after deployment.
+
+2. **Rolling Deployment**
+
+   * Update servers one by one.
+
+3. **Canary Deployment**
+
+   * Deploy to a small percentage of users first.
+
+4. **Feature Flags**
+
+   * Enable features without redeploying.
+
+Tools:
+
+* Kubernetes
+* Docker
+
+---
 
 ## 20. How do you manage logs across microservices?
 
-In microservices, logs from multiple services are centralized using tools like **ELK Stack (Elasticsearch, Logstash, Kibana)** or **Grafana Loki**.
-All services send logs to a central system where we can search, analyze, and monitor them easily.
+Microservices generate logs from multiple services, so **centralized logging** is required.
+
+**Approach**
+
+1. Each service generates logs
+2. Logs are collected centrally
+3. Search and analyze logs
+
+**Popular Logging Stack**
+
+* Elasticsearch
+* Logstash
+* Kibana
+
+This is called the **ELK Stack**.
+
+Example flow:
+
+```
+Microservices → Logstash → Elasticsearch → Kibana Dashboard
+```
+
+---
 
 ## 21. How do you implement auto-scaling?
 
-Auto-scaling automatically increases or decreases application instances based on traffic.
-In cloud environments like AWS or Kubernetes, we configure auto-scaling based on metrics such as **CPU usage, memory usage, or request count**.
-This helps maintain performance during high traffic.
+**Auto-scaling** automatically increases or decreases the number of servers based on load.
 
-## 22. What rate limit and how it works?
+**Scaling Types**
 
-**Rate limiting** is a technique used in APIs or servers to **control how many requests a user or client can make in a specific time period**. It prevents system overload, abuse, and ensures fair usage.
+1. **Horizontal scaling**
 
-**100 requests per minute per user** If a user sends more than 100 requests in 1 minute, the server blocks the extra requests
+   * Add more servers
 
-Server usually returns: **HTTP Status Code:** `429 Too Many Requests
+2. **Vertical scaling**
 
-**Why Rate Limiting is Used**
+   * Increase CPU/RAM
 
-1. Prevent **API abuse**
-2. Protect **server resources**
-3. Avoid **DDoS attacks**
-4. Ensure **fair usage for all users**
-5. Control **traffic load**
+**Example:**
 
+If CPU usage > 70% → add new instances.
 
-**How Rate Limiting Works**
+Tools:
 
-1. Client sends request to API
-2. Server checks **how many requests this user/IP has made**
-3. Server compares with **allowed limit**
-4. If limit not exceeded → request allowed
-5. If limit exceeded → request blocked (`429 error`)
+* Kubernetes **HPA (Horizontal Pod Autoscaler)**
+* Amazon Web Services **Auto Scaling Groups**
 
-```xml
-<dependency>
-    <groupId>com.bucket4j</groupId>
-    <artifactId>bucket4j-core</artifactId>
-    <version>8.0.0</version>
-</dependency>
+---
+
+## 22. What is Rate Limiting and how it works?
+
+**Rate limiting** controls how many requests a client can send in a specific time period.
+
+It protects systems from:
+
+* DDoS attacks
+* Abuse
+* API overload
+
+**Example**
+
+```
+100 requests per minute per user
 ```
 
-```java
-import io.github.bucket4j.*;
-import javax.servlet.*;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.Duration;
+If a user exceeds the limit → request rejected with **HTTP 429 Too Many Requests**.
 
-public class RateLimitFilter implements Filter {
+**Common Algorithms**
 
-    private final Bucket bucket;
+1. **Token Bucket**
+2. **Leaky Bucket**
+3. **Fixed Window Counter**
+4. **Sliding Window**
 
-    public RateLimitFilter() {
-        Bandwidth limit = Bandwidth.simple(10, Duration.ofMinutes(1));
-        this.bucket = Bucket.builder().addLimit(limit).build();
-    }
+**Tools**
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+* Redis
+* Spring Cloud Gateway
+* NGINX
 
-        if (bucket.tryConsume(1)) {
-            chain.doFilter(request, response);
-        } else {
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setStatus(429);
-            httpResponse.getWriter().write("Too many requests");
-        }
-    }
-}
-```
 
 **Where Rate Limiting is Implemented**
 1. **API Gateway** (Most common)
-
    * Kong API Gateway
    * NGINX
    * Spring Cloud Gateway
