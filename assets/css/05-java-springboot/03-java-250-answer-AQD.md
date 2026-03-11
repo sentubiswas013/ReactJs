@@ -1637,7 +1637,7 @@ public void method2() {
 }
 ```
 
-## 6. What is immutability in Java? 
+## 5. What is immutability in Java? 
 
 **Immutability** in **Java** means that **once an object is created, its state (data) cannot be changed**. If any modification is needed, a **new object is created instead**.
 
