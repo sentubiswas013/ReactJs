@@ -1637,33 +1637,18 @@ public void method2() {
 }
 ```
 
-## 5. What is the difference between ReentrantLock and synchronized?
+## 6. What is immutability in Java?
 
-Both **`synchronized`** and **ReentrantLock** are used to **control access to shared resources by multiple threads** in **Java**.
+**Immutability** in **Java** means that **once an object is created, its state (data) cannot be changed**. If any modification is needed, a **new object is created instead**.
 
-* **`synchronized`** – Simple keyword, automatically locks and unlocks, blocks threads until available.
-* **`ReentrantLock`** – A class that gives **more control**, like checking if a lock is available (`tryLock`) or interrupting waiting threads, but you have to **unlock manually**.
-
+**Example:**
+String is immutable in Java.
 
 ```java
-// ReentrantLock - explicit control
-ReentrantLock lock = new ReentrantLock();
-public void method() {
-    if (lock.tryLock(1, TimeUnit.SECONDS)) {
-        try {
-            // Critical section
-        } finally {
-            lock.unlock();
-        }
-    }
-}
-
-// Synchronized - implicit control
-public synchronized void method() {
-    // Critical section - automatic lock management
-}
+String s = "Hello";
+s.concat(" World"); // creates a new object, original string is unchanged
 ```
-7. **What is immutability in Java?**
+
 
 # ✅ 10. Java JVM & Memory Management 
 
