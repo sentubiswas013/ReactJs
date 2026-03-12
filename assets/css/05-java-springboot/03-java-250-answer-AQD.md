@@ -2623,7 +2623,7 @@ Supplier<List<String>> listSupplier = ArrayList::new;
 
 ## 4. What is the difference between lambda and anonymous class?
 
-**Lambda Expression** is a concise way to represent an **implementation of a functional interface** using an expression, allowing cleaner and shorter code.
+**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
 
 **Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
 
