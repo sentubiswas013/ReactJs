@@ -2576,7 +2576,7 @@ public class UserService {
 
 # ✅ 15. Java Lambda Expressions & Streams API 
 
-## 0. What are lambda expressions?
+## 2. What are lambda expressions?
 
 **Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
 
@@ -2596,106 +2596,6 @@ Runnable r2 = () -> System.out.println("Hello");
 // Lambda with parameters
 List<String> names = Arrays.asList("John", "Jane");
 names.forEach(name -> System.out.println(name));
-```
-## 1. What are the interfaces?
-
-**1. Normal Interface** can contain **multiple abstract methods**.
-
-```java
-interface Animal {
-    void eat();
-    void sleep();
-}
-```
-
-```java
-class Dog implements Animal {
-    public void eat() {
-        System.out.println("Dog is eating");
-    }
-
-    public void sleep() {
-        System.out.println("Dog is sleeping");
-    }
-}
-```
-
-**2. Functional Interface** contains **only one abstract method**.
-It is mainly used with **lambda expressions** introduced in **Java 8**.
-
-```java
-@FunctionalInterface
-interface Calculator {
-    int add(int a, int b);
-}
-```
-
-Using Lambda:
-
-```java
-Calculator calc = (a, b) -> a + b;
-System.out.println(calc.add(5,3));
-```
-
-**3. Marker Interface** is an interface **without any methods**.
-It is used to **mark a class** so JVM or frameworks treat it differently.
-
-```java
-interface MarkerInterface {
-}
-```
-
-**4. Nested Interface** declared **inside another interface or class**.
-
-```java
-class Outer {
-    interface Inner {
-        void show();
-    }
-}
-
-class Test implements Outer.Inner {
-    public void show() {
-        System.out.println("Nested Interface Method");
-    }
-}
-```
-
-| Type                 | Description                      |
-| -------------------- | -------------------------------- |
-| Normal Interface     | Multiple abstract methods        |
-| Functional Interface | Only one abstract method         |
-| Marker Interface     | No methods                       |
-| Nested Interface     | Interface inside class/interface |
-
-
-## 2. What are functional interfaces?
-
-**Functional interfaces** are interfaces with exactly **one abstract method**. They can be implemented using **lambda expressions** and serve as the foundation for functional programming in Java.
-
-```java
-@FunctionalInterface
-interface Calculator {
-    int calculate(int a, int b); // Single abstract method
-    
-    default void print() { } // Default methods allowed
-    static void info() { } // Static methods allowed
-}
-
-// Usage with lambda
-public class Main {
-    public static void main(String[] args) {
-
-        Calculator add = (a, b) -> a + b;
-        Calculator multiply = (a, b) -> a * b;
-
-        int result1 = calculator.add(10, 20);
-        int result2 = calculator.multiply(10, 20);
-
-        System.out.println(result1);
-        System.out.println(result2);
-    }
-}
 ```
 
 ## 3. What are method references?
