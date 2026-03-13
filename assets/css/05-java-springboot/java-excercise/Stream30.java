@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Test {
+public class Stream30 {
     
     static class Employee {
         private String department;
