@@ -180,6 +180,15 @@ public class StreamExamples {
         // Output: {s=3, u=1, c=2, e=1}
     }
 
+     //34 Group by First Character
+    static void groupByFirstChar() {
+        List<String> words = Arrays.asList("apple","banana","avocado");
+        Map<Character,List<String>> map =
+                words.stream().collect(Collectors.groupingBy(w->w.charAt(0)));
+        System.out.println(map);
+        // Output: {a=[apple, avocado], b=[banana]}
+    }
+
 
 
     //16 Create Custom Collector
@@ -344,14 +353,7 @@ public class StreamExamples {
 
 
 
-    //34 Group by First Character
-    static void groupByFirstChar() {
-        List<String> words = Arrays.asList("apple","banana","avocado");
-        Map<Character,List<String>> map =
-                words.stream().collect(Collectors.groupingBy(w->w.charAt(0)));
-        System.out.println(map);
-        // Output: {a=[apple, avocado], b=[banana]}
-    }
+   
 
     //35 Custom Reduce to Concatenate Strings
     static void reverseConcat() {
