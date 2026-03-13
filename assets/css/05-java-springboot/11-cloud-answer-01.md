@@ -1,6 +1,6 @@
 ## 1️⃣ Basic AWS Questions
 
-### 1️⃣ What is Amazon Web Services?
+### 1. What is Amazon Web Services?
 
 **Answer:**
 
@@ -11,7 +11,7 @@ Instead of buying and maintaining physical servers, companies can rent resources
 
 ---
 
-### 2️⃣ What are the main advantages of AWS cloud?
+### 2. What are the main advantages of AWS cloud?
 
 **Answer:**
 
@@ -25,7 +25,7 @@ Some main advantages of AWS are:
 
 ---
 
-### 3️⃣ What are Regions and Availability Zones in AWS?
+### 3. What are Regions and Availability Zones in AWS?
 
 **Answer:**
 
@@ -37,7 +37,7 @@ This design helps improve **fault tolerance, reliability, and high availability*
 
 ---
 
-### 4️⃣ What are the cloud service models (IaaS, PaaS, SaaS)?
+### 4. What are the cloud service models (IaaS, PaaS, SaaS)?
 
 **Answer:**
 
@@ -49,7 +49,7 @@ Cloud services are mainly divided into three models:
 
 ---
 
-### 5️⃣ What is Elasticity and Scalability in cloud computing?
+### 5. What is Elasticity and Scalability in cloud computing?
 
 **Answer:**
 
@@ -63,7 +63,7 @@ In **Amazon Web Services**, services can scale automatically so applications can
 
 ## 2️⃣ Compute Services
 
-### 6️⃣ What is Amazon EC2?
+### 6. What is Amazon EC2?
 
 **Answer:**
 
@@ -75,7 +75,7 @@ We can choose different operating systems, configure CPU, memory, and storage, a
 
 ---
 
-### 7️⃣ What are different EC2 instance types?
+### 7. What are different EC2 instance types?
 
 **Answer:**
 
@@ -92,7 +92,7 @@ Each instance type is designed for different workloads.
 
 ---
 
-### 8️⃣ What is AWS Lambda?
+### 8. What is AWS Lambda?
 
 **Answer:**
 
@@ -105,7 +105,7 @@ AWS automatically handles scaling, infrastructure, and server management.
 
 ---
 
-### 9️⃣ What is Amazon ECS?
+### 9. What is Amazon ECS?
 
 **Answer:**
 
@@ -117,7 +117,7 @@ ECS helps deploy, manage, and scale containerized applications without needing t
 
 ---
 
-### 🔟 What is Amazon EKS?
+### 10. What is Amazon EKS?
 
 **Answer:**
 
@@ -131,7 +131,7 @@ EKS makes it easier to deploy, manage, and scale containerized applications usin
 
 ## 3️⃣ Storage Services
 
-### 1️⃣1️⃣ What is Amazon S3?
+### 11. What is Amazon S3?
 
 **Answer:**
 
@@ -144,7 +144,7 @@ It is highly **scalable, durable, and secure**, and commonly used for backups, s
 
 ---
 
-### 1️⃣2️⃣ What are S3 storage classes?
+### 12. What are S3 storage classes?
 
 **Answer:**
 
@@ -161,7 +161,7 @@ Each class helps optimize **cost and performance** depending on how often data i
 
 ---
 
-### 1️⃣3️⃣ What is Amazon EBS?
+### 13. What is Amazon EBS?
 
 **Answer:**
 
@@ -173,7 +173,7 @@ EBS provides **high performance, durability, and persistent storage**.
 
 ---
 
-### 1️⃣4️⃣ What is Amazon EFS?
+### 14. What is Amazon EFS?
 
 **Answer:**
 
@@ -185,7 +185,7 @@ EFS is scalable and commonly used for **shared storage, content management syste
 
 ---
 
-### 1️⃣5️⃣ What is S3 Versioning?
+### 15. What is S3 Versioning?
 
 **Answer:**
 
@@ -199,7 +199,7 @@ This helps with **data recovery, protection from accidental deletion, and tracki
 
 ## 4️⃣ Networking
 
-### 1️⃣6️⃣ What is Amazon VPC?
+### 16. What is Amazon VPC?
 
 **Answer:**
 
@@ -211,7 +211,7 @@ It gives full control over the network environment.
 
 ---
 
-### 1️⃣7️⃣ What is a Subnet in VPC?
+### 17. What is a Subnet in VPC?
 
 **Answer:**
 
@@ -228,7 +228,7 @@ Subnets help improve **security and network management**.
 
 ---
 
-### 1️⃣8️⃣ What is Elastic Load Balancing?
+### 18. What is Elastic Load Balancing?
 
 **Answer:**
 
@@ -240,7 +240,7 @@ If one server fails, the load balancer redirects traffic to healthy servers.
 
 ---
 
-### 1️⃣9️⃣ What is Amazon Route 53?
+### 19. What is Amazon Route 53?
 
 **Answer:**
 
@@ -252,7 +252,7 @@ Route 53 also supports **domain registration, traffic routing, and health checks
 
 ---
 
-### 2️⃣0️⃣ What is Security Group vs Network ACL?
+### 20. What is Security Group vs Network ACL?
 
 **Answer:**
 
@@ -274,7 +274,7 @@ Both **Security Groups** and **Network ACLs** control network traffic in **Amazo
 
 ## 5️⃣ Security
 
-### 2️⃣1️⃣ What is AWS Identity and Access Management (IAM)?
+### 21. What is AWS Identity and Access Management (IAM)?
 
 **Answer:**
 
@@ -286,7 +286,7 @@ With IAM, we can create **users, groups, and roles**, and assign permissions to 
 
 ---
 
-### 2️⃣2️⃣ What are IAM roles and policies?
+### 22. What are IAM roles and policies?
 
 **Answer:**
 
@@ -298,7 +298,7 @@ Roles are commonly used by **applications, EC2 instances, or AWS services** to s
 
 ---
 
-### 2️⃣3️⃣ What is Multi-Factor Authentication (MFA) in AWS?
+### 23. What is Multi-Factor Authentication (MFA) in AWS?
 
 **Answer:**
 
@@ -310,7 +310,7 @@ This helps protect AWS accounts from **unauthorized access**.
 
 ---
 
-### 2️⃣4️⃣ What is AWS Key Management Service?
+### 24. What is AWS Key Management Service?
 
 **Answer:**
 
@@ -322,7 +322,7 @@ Many AWS services like **Amazon S3** and **Amazon Elastic Block Store** can inte
 
 ---
 
-### 2️⃣5️⃣ What is the Shared Responsibility Model in AWS?
+### 25. What is the Shared Responsibility Model in AWS?
 
 **Answer:**
 
@@ -337,7 +337,7 @@ This model ensures both AWS and customers maintain cloud security.
 
 ## 6️⃣ Monitoring & DevOps
 
-### 2️⃣6️⃣ What is Amazon CloudWatch?
+### 26. What is Amazon CloudWatch?
 
 **Answer:**
 
@@ -349,7 +349,7 @@ CloudWatch helps monitor performance, set alarms, and automatically respond to c
 
 ---
 
-### 2️⃣7️⃣ What is AWS CloudTrail?
+### 27. What is AWS CloudTrail?
 
 **Answer:**
 
@@ -361,7 +361,7 @@ CloudTrail is mainly used for **security monitoring, auditing, and compliance**.
 
 ---
 
-### 2️⃣8️⃣ What is AWS CodePipeline?
+### 28. What is AWS CodePipeline?
 
 **Answer:**
 
@@ -373,7 +373,7 @@ This helps developers deliver updates quickly and reliably.
 
 ---
 
-### 2️⃣9️⃣ What is Auto Scaling in AWS?
+### 29. What is Auto Scaling in AWS?
 
 **Answer:**
 
@@ -385,7 +385,7 @@ This improves **performance, availability, and cost efficiency**.
 
 ---
 
-### 3️⃣0️⃣ What is Infrastructure as Code in AWS?
+### 30. What is Infrastructure as Code in AWS?
 
 **Answer:**
 
