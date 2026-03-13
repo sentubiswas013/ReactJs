@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class StreamExamples {
+public class Stream50 {
     public static void main(String[] args) {
         sumOfAllElements();
         maximumElement();
@@ -194,7 +194,7 @@ public class StreamExamples {
     // 16. Prime numbers
     public static void primeNumbers() {
         List<Integer> numbers = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
-        List<Integer> primes = numbers.stream().filter(StreamExamples::isPrime).collect(Collectors.toList());
+        List<Integer> primes = numbers.stream().filter(Stream50::isPrime).collect(Collectors.toList());
         System.out.println("Prime numbers: " + primes);
     }
 
