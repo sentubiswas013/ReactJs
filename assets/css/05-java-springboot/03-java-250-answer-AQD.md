@@ -3468,11 +3468,19 @@ public class AppConfig {
 
 ## 3. What is Inversion of Control (IoC)?
 
-**Inversion of Control (IoC)** is a design principle where the control of object creation and dependency management is transferred from the program to a container or framework.
+**Inversion of Control (IoC)** means the **control of object creation and dependency management is given to the framework instead of the developer**.
 
-Instead of a class creating its own dependencies, they are injected from outside.
+Normally, we create objects using `new`.
+But in **IoC (like in Spring)**, the **framework creates the objects and gives them to our class**.
 
-In simple terms: **IoC means the framework controls the flow and object creation, not your code.**
+```java
+// *Without IoC
+Service service = new Service();
+
+// With IoC (Spring)
+@Autowired
+Service service;
+```
 
 ## 4. What is Dependency Injection?
 
@@ -3624,34 +3632,69 @@ BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
 UserService userService = (UserService) factory.getBean("userService");
 ```
 
-## 10. What is a Java Bean?
+## 10. What is a Container (Spring Container)?
 
-A **Java Bean** is a simple Java class that follows certain rules: it has a **no-argument constructor**, **private fields**, and **public getter and setter methods**. Java Beans are mainly used to **encapsulate data** and are reusable components.
+A **Spring Container** is the **core part of the Spring Framework that creates, manages, and controls the lifecycle of objects called Beans**.
+
+It is responsible for:
+* **Creating objects (Beans)**
+* **Injecting dependencies**
+* **Managing bean lifecycle**
 
 ```java
-public class User implements Serializable {
+ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+UserService service = context.getBean(UserService.class);
+```
+Here the **Spring Container creates the `UserService` object and provides it when needed**.
+
+**Types of Spring Container** 
+
+1. **BeanFactory** – Basic container
+2. **ApplicationContext** – Advanced container (most commonly used)
+
+## 11. Difference between Java Bean and Spring beans?
+
+A **Java Bean** is a simple Java class that follows some rules:
+
+* It must have a **no-argument constructor**
+* Properties should be **private**
+* Use **getters and setters**
+* Usually **implements Serializable**
+
+```java
+class User {
     private String name;
-    
-    public User() {} // No-arg constructor
-    
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+
+    public User() {}   // no-arg constructor
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 ```
 
-## 11. What are Spring beans?
+A **Spring Bean** is simply an **object that is created and managed by the Spring IoC container**.
 
-**Spring beans** are objects that are **created, managed, and destroyed by the Spring container**. They are defined using annotations like `@Component`, `@Service`, or through configuration files. Spring beans support **dependency injection**, making applications loosely coupled.
+It can be defined using:
+
+* `@Component`
+* `@Service`
+* `@Repository`
+* `@Bean`
+
+**Example**
 
 ```java
-@Component
-public class UserService { // This becomes a Spring bean
-    // Bean managed by Spring container
+@Service
+class UserService {
 }
-
-// Or XML configuration
-<bean id="userService" class="com.example.UserService"/>
 ```
+
+
 
 ## 12. What are Bean life cycle in sprintboot 
 
@@ -3689,6 +3732,29 @@ public class MyBean {
 }
 ```
 
+## 11. What is AOP in spring?
+**AOP (Aspect Oriented Programming)** is a programming concept used to **separate cross-cutting concerns** like **logging, security, transactions, and exception handling** from the main business logic.
+
+Instead of writing this code in every method, AOP lets us **apply it automatically across multiple methods**.
+
+**Key Concepts in AOP**
+
+* **Aspect** – Class that contains cross-cutting logic (e.g., logging).
+* **Advice** – When the code should run (before, after, around).
+* **Join Point** – A point in program execution (method call).
+* **Pointcut** – Expression that selects join points.
+
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before("execution(* com.example.service.*.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        System.out.println("Before method: " + joinPoint.getSignature().getName());
+    }
+}
+```
 
 # ✅ 19. Java Spring Boot 
 

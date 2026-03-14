@@ -130,6 +130,8 @@ public class Test01 {
         // Output: 20. Average: 3.5
 
         // 21. Convert List to Map
+        Map<String, Integer> map = words.stream()
+            .collect(Collectors.toMap(w -> w, String::length));
         
         // System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
@@ -140,8 +142,11 @@ public class Test01 {
         // Output: 22. Palindromes: []
 
         // 23. Reverse Each String
-        
-        // System.out.println("23. Reversed: " + reversed);
+        List<String> reversed = words.stream()
+            .map(w -> new StringBuilder(w).reverse().toString())
+            .toList();
+
+        System.out.println("23. Reversed: " + reversed);
         // Output: 23. Reversed: [avaj, maerts, ipa]
 
         // 24. Group Strings by Length
