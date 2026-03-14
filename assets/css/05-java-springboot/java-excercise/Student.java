@@ -74,7 +74,7 @@ public class Student {
 
         // 1. Students whose name starts with A
         List<Student> studentNameA = studlist.stream()
-            . 
+            .filter(el -> el.getAge() > 30).toList();
         
         System.out.println("Students whose name starts with A: " + studentNameA);
         // Output: Students whose name starts with A: [Student [id=3, firstName=Ankit, lastName=Patil, age=25, gender=Female, departmantName=Mechanical Engineering, joinedYear=2019, city=Kerala, rank=164], Student [id=7, firstName=Arun, lastName=Vittal, age=26, gender=Male, departmantName=Electronics Engineering, joinedYear=2014, city=Karnataka, rank=324]]
