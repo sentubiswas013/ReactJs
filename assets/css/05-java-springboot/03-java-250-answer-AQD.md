@@ -2609,13 +2609,15 @@ A **Method Reference** is a **shorthand syntax of a lambda expression** that ref
 - Constructor: `ClassName::new`
 
 ```java
-List<String> names = Arrays.asList("john", "jane", "bob");
-
 // Lambda expression
-names.forEach(name -> System.out.println(name));
+OptionalInt maxAge = studlist.stream()
+        .mapToInt(student -> student.getAge())
+        .max();
 
 // Method reference - more concise
-names.forEach(System.out::println);
+OptionalInt maxAge = studlist.stream()
+        .mapToInt(Student::getAge)
+        .max();
 
 // Constructor reference
 Supplier<List<String>> listSupplier = ArrayList::new;

@@ -74,24 +74,31 @@ public class Student {
 
         // 1. Students whose name starts with A
         List<Student> studentNameA = studlist.stream()
-            .filter(el -> el.getAge() > 30).toList();
+            .filter(s -> s.getFirstName().startsWith("A"))
+            .collect(Collectors.toList());
         
-        System.out.println("Students whose name starts with A: " + studentNameA);
+        // System.out.println("Students whose name starts with A: " + studentNameA);
         // Output: Students whose name starts with A: [Student [id=3, firstName=Ankit, lastName=Patil, age=25, gender=Female, departmantName=Mechanical Engineering, joinedYear=2019, city=Kerala, rank=164], Student [id=7, firstName=Arun, lastName=Vittal, age=26, gender=Male, departmantName=Electronics Engineering, joinedYear=2014, city=Karnataka, rank=324]]
 
         // 2. Group by department
+        Map<String, List<Student>> departMentList = studlist.stream()
+            .collect(Collectors.groupingBy(Student::getDepartmantName));
        
         // System.out.println("Group by department: " + departMentList);
         // Output: Group by department: {Mechanical Engineering=[Student [id=1, firstName=Rohit, lastName=Kumar, age =30, gender=Male, departmantName=Mechanical Engineering, joinedYear=2015, city=Mumbai, rank=122], Student [id=3, firstName=Ankit, lastName=Patil, age=25, gender=Female    , departmantName=Mechanical Engineering, joinedYear=2019, city=Kerala, rank=164], Student [id=4, firstName=Satish, lastName=Malag,
 
         // 3. Count students
+        long count = studlist.stream().count();
         
-        // System.out.println("Total students: " + count);
+        System.out.println("Total students: " + count);
         // Output: Total students: 10
 
         // 4. Max age
-       
-        // System.out.println("Max age: " + maxAge.getAsInt());
+        OptionalInt maxAge = studlist.stream()
+            .mapToInt(Student::getAge.max();
+            .mapToInt(Student.getAge()).max();
+
+        System.out.println("Max age: " + maxAge.getAsInt());
         // Output: Max age: 56
 
         // 5. Unique departments
