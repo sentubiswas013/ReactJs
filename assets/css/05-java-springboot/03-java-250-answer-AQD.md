@@ -2689,6 +2689,10 @@ List<String> result = names.stream()
     .collect(Collectors.toList());      // Terminal
 ```
 
+**Loop vs Stream API** 
+Generally, a **for loop is faster** than the Stream API because it has **less overhead** and runs directly in the JVM.
+Stream API provides **better readability, functional style, and parallel processing**, but it may have a **small performance cost**.
+
 ## 6. What is parallel streams? - asked 
 
 **Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
@@ -3115,9 +3119,10 @@ public class AppProperties {
 ```
 
 
-## 19. What is Cursor?
+## 19. What is a Cursor in SQL and when should it be used??
 
-A **cursor** fetches records **one by one (or in small chunks)** instead of loading the entire result into memory.
+A **Cursor** is used to **process database rows one by one** instead of all at once.
+It is useful when we need **row-by-row processing**, but it should be used carefully because it can be **slower than set-based queries**
 
 **Why use it?**
 
@@ -5845,6 +5850,11 @@ public class MonitoredController {
 }
 ```
 
+## 10: what is AOP (Aspect Oriented Programming) and its types?
+
+**AOP** is used to separate **cross-cutting concerns** like logging, security, and transactions from business logic.
+It improves **code modularity and reusability**.
+Common AOP concepts include **Aspect, Advice, Join Point, Pointcut, and Weaving**.
 
 ## 10: What is code profiling?
 
