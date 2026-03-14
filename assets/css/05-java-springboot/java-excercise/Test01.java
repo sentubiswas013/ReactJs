@@ -23,12 +23,13 @@ public class Test01 {
     }
 
     public static void main(String[] args) {
+        String sentence="Java Stream API is very powerful";
         List<Integer> numbers = Arrays.asList(1,2,3,4,5,6);
         List<Integer> nums = Arrays.asList(1,2,3,4,2,5,1);
         List<String> words = Arrays.asList("java","stream","api");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
-        // 1. Filter Even Numbers       
+        // 1. Filter Even Numbers 
         
         // System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]

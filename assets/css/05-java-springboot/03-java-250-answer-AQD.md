@@ -826,15 +826,30 @@ A functional interface contains exactly one abstract method and is used for lamb
 ```java
 @FunctionalInterface
 interface Calculator {
-    int add(int a, int b);
+    int calculate(int a, int b); // single abstract method
+    
+    default void print() { } // default methods allowed
 }
+
+// Usage with lambda
+Calculator add = (a, b) -> a + b;
+int result = add.calculate(5, 3);
 ```
 
 **Marker Interface :**
 A marker interface is an empty interface used to tag a class for special behavior.
 
 ```java
-interface SerializableMarker {
+import java.io.Serializable;
+
+// Marker interface
+interface Serializable {
+    // Empty - just marks the class
+}
+
+class Student implements Serializable {
+    String name;
+    // This class can now be serialized
 }
 ```
 
@@ -849,51 +864,44 @@ class Bank {
 }
 ```
 
-## 3. What is an abstract class?
+## 3. What is the difference between interface and abstract class?
 
-An abstract class is a class that cannot be instantiated and may contain both abstract and concrete methods. It's used when you want to share code among related classes.
+An **interface** is used to define a **contract** that classes must implement. It mainly contains **abstract methods**, and variables are **public, static, and final by default**.
+```java
+interface Animal {
+    void sound();   // abstract method
+}
 
-- Cannot create objects directly
-- Can have constructors and instance variables
-- May contain abstract and concrete methods
-- Extended using 'extends' keyword
-- Supports single inheritance only
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+An **abstract class** is used when classes share **common behavior and state**. It can have **abstract methods and concrete methods**, and it can also have **instance variables and constructors**.
 
 ```java
 abstract class Animal {
-    String name; // instance variable
-    
-    public Animal(String name) { this.name = name; } // constructor
-    
-    abstract void sound(); // abstract method
-    
-    void sleep() { System.out.println("Sleeping"); } // concrete method
+    abstract void sound();   // abstract method
+
+    void eat() {             // concrete method
+        System.out.println("Animal is eating");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
 }
 ```
 
-## 4. What is the difference between interface and abstract class?
+**Key difference:**
+A class can **extend only one abstract class**, but it can **implement multiple interfaces**, which helps achieve **multiple inheritance in Java**.
 
-**Interface** is used to define a **contract**, where a class must implement all the declared methods. It mainly supports **multiple inheritance** and contains method declarations (and default/static methods).
 
-**Abstract Class** is used to provide **partial abstraction**, where a class can have both **abstract methods and concrete methods**, along with variables and constructors.
-
-The main difference is that **an interface defines what a class should do, while an abstract class defines what a class is and provides shared functionality.**
-
-```java
-// Interface - contract
-interface Flyable {
-    void fly();
-}
-
-// Abstract class - partial implementation
-abstract class Bird {
-    String species;
-    abstract void fly();
-    void eat() { System.out.println("Eating"); }
-}
-```
-
-## 5. What are default methods in interfaces?
+## 4. What are default methods in interfaces?
 
 **Default methods** are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
 
@@ -917,7 +925,7 @@ class Car implements Vehicle {
 }
 ```
 
-## 6. What is the static keyword?
+## 5. What is the static keyword?
 
 **`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
 
@@ -940,7 +948,7 @@ public class Test {
 `static` members are **shared by all objects and can be accessed using the class name**.
 
 
-## 7. What are static methods in interfaces?
+## 6. What are static methods in interfaces?
 
 **Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
 They **belong to the interface itself and are called using the interface name**, not by implementing classes.
@@ -960,42 +968,7 @@ public class Test {
 }
 ```
 
-## 8. What is marker interface?
-
-A **marker interface** is an **empty interface with no methods or fields**. It's used to mark or tag classes to indicate they have special behavior or properties.
-
-```java
-import java.io.Serializable;
-
-// Marker interface
-interface Serializable {
-    // Empty - just marks the class
-}
-
-class Student implements Serializable {
-    String name;
-    // This class can now be serialized
-}
-```
-
-## 9. What is functional interface?
-
-A **functional interface** has exactly one abstract method and can be used with lambda expressions. It represents a single unit of functionality.
-
-```java
-@FunctionalInterface
-interface Calculator {
-    int calculate(int a, int b); // single abstract method
-    
-    default void print() { } // default methods allowed
-}
-
-// Usage with lambda
-Calculator add = (a, b) -> a + b;
-int result = add.calculate(5, 3);
-```
-
-## 10. Can an interface extend another interface?
+## 7. Can an interface extend another interface?
 
 Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
 A child interface inherits all methods from the parent interface.
@@ -1395,22 +1368,10 @@ class MyThread extends Thread { // Cannot extend anything else
 }
 ```
 
-## 4. What are the states of a thread?
+## 4. What are `sleep()` vs `wait()` in Multithreading?
 
-A thread goes through various states during its lifecycle: **NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED**.
-
-1. **New** – Thread object is created.
-2. **Runnable** – Thread is ready to run after calling `start()`.
-3. **Running** – Thread is executing.
-4. **Waiting / Blocked** – Thread waits for a resource or another thread.
-5. **Terminated (Dead)** – Thread execution is completed.
-
-```java
-Thread t = new Thread(() -> {}); // NEW state
-t.start(); // RUNNABLE state
-// Thread may go through BLOCKED, WAITING states
-// Finally reaches TERMINATED state
-```
+* **`sleep()`** pauses the current thread for a specified time but **does not release the lock**.
+* **`wait()`** pauses the thread **and releases the lock**, allowing other threads to execute. It must be used inside a **synchronized block**.
 
 ## 5. What is synchronization in Java?
 
