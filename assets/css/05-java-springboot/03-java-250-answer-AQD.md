@@ -3652,7 +3652,7 @@ Here the **Spring Container creates the `UserService` object and provides it whe
 1. **BeanFactory** – Basic container
 2. **ApplicationContext** – Advanced container (most commonly used)
 
-## 11. Difference between Java Bean and Spring beans?
+## 11. What is the difference between Java Bean and Spring beans?
 
 A **Java Bean** is a simple Java class that follows some rules:
 
