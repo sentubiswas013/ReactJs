@@ -65,12 +65,14 @@ public class Mainlinkedin01 {
         System.out.println(a + b);
         sc.close();
     }
+    // Output: 5 10
 
     // ## ✅ Check Even or Odd
     public static void fnCheckEvenOrOdd() {
         int n = 23;
         System.out.println(n % 2 == 0 ? "Even" : "Odd");
     }
+    // output: Odd
 
     
     // ## ✅ Largest of Two Numbers
@@ -79,6 +81,7 @@ public class Mainlinkedin01 {
         int b = 11;
         System.out.println(a > b ? a : b);
     }
+    // Output: 23
 
     // ## ✅ Largest of Three Numbers
     public static void fnLargestOfThreeNumbers() {
@@ -92,6 +95,7 @@ public class Mainlinkedin01 {
 
         System.out.println(max);
     }
+    // Output: 55
 
     // ## ✅ Positive, Negative, or Zero Check
     public static void fnPositiveNegativeOrZeroCheck() {
@@ -104,6 +108,7 @@ public class Mainlinkedin01 {
         else
             System.out.println("Zero");
     }
+    // Output: Positive
 
     // ## ✅ Leap Year Check
     public static void fnFeapYearCheck() {
@@ -114,6 +119,7 @@ public class Mainlinkedin01 {
 
         System.out.println(leap ? "Leap Year" : "Not Leap Year");
     }
+    // Output: Leap Year
 
     // ## ✅ Swap Two Numbers (With & Without Third Variable)
     public static void fnSwapTwoNumbers () {
@@ -134,6 +140,7 @@ public class Mainlinkedin01 {
         a ^= b;
         System.out.println(a + " " + b);
     }
+    // Output: 20 10
 
     // ## ✅ Factorial of a Number (Iterative)
     public static void fnFactorialOfNumber() {
@@ -146,11 +153,13 @@ public class Mainlinkedin01 {
 
         System.out.println(fact);
     }
+    // Output: 120
 
     // ## ✅ Find Factorial Using Recursion
     static long fnFindFactorialUsingRecursion(int n) {
         return n <= 1 ? 1 : n * fnFindFactorialUsingRecursion(n - 1);
     }
+    // Output: 120
 
     // ## ✅ Fibonacci Series (First N Terms)
     public static void fnFibonacciSeries() {
@@ -164,11 +173,13 @@ public class Mainlinkedin01 {
             b = c;
         }
     }
+    // Output: 0 1 1 2 3
 
     // ## ✅ Find Nth Fibonacci Number Using Recursion
     static long fnFindNthFibonacciNumberUsingRecursion(int n) {
         return n <= 1 ? n : fnFindNthFibonacciNumberUsingRecursion(n - 1) + fnFindNthFibonacciNumberUsingRecursion(n - 2);
     }
+    // Output: 55
 
     // ## ✅ Reverse a Number  and string
     public static void fnReverseNumberAndString() {
@@ -205,8 +216,9 @@ public class Mainlinkedin01 {
         // Reverse String 3
         String s = "hello";
         String reversed = new StringBuilder(s).reverse().toString();
-        System.out.println(reversed);
+        System.out.println(reversed); // Output: olleh
     }
+    // Output: 54321
 
     // ## ✅ Palindrome Number Check
     public static void fnPalindromeNumberAndStringCheck() {
@@ -271,6 +283,7 @@ public class Mainlinkedin01 {
 
         System.out.println(sum == n ? "Armstrong" : "Not Armstrong");
     }
+    // Output: Not Armstrong
 
     // Prime Number Check
     public static void fnPrimeNumberCheck() {
@@ -290,13 +303,14 @@ public class Mainlinkedin01 {
 
         System.out.println("Prime");
     }
+    // Output: Not Prime
 
     // ## ✅ Print All Prime Numbers Between 1 and N
     public static void fnPrintAllPrimeNumbers() {
         System.out.println("Prime numbers between 1 and 100:");
 
         // Loop through numbers from 1 to 100
-        for (int num = 2; num <= 100; num++) {
+        for (int num = 2; num <= 10; num++) {
             boolean isPrime = true;
 
             // Check if num is prime
@@ -312,8 +326,9 @@ public class Mainlinkedin01 {
                 System.out.print(num + " ");
             }
         }
-        // Prime numbers between 1 and 100: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
+        // Prime numbers between 1 and 10: 2 3 5 7
     }
+    // Output: Prime numbers between 1 and 10: 2 3 5 7
 
     // ## ✅ Multiplication Table of a Number
     public static void fnMultiplicationTableFfNumber() {
@@ -329,6 +344,7 @@ public class Mainlinkedin01 {
         // 5 x 4 = 20
         // 5 x 5 = 25
     }
+    // Output: 5 x 1 = 5
 
     // ## ✅ Sum All Elements of an Array
     public static void fnSumAllElements() {
@@ -343,6 +359,7 @@ public class Mainlinkedin01 {
         System.out.println("Sum of all elements in the array: " + sum);
         // Sum of all elements in the array: 15
     }
+    // Output: Sum of all elements in the array: 15
 
     // ## ✅ Sum of Digits of a Number
     public static void fnSumOfDigitsOfNumber() {
@@ -955,7 +972,4 @@ public class Mainlinkedin01 {
         System.out.println(maxLength);
 		// 3
 	}
-
-
-
 }
