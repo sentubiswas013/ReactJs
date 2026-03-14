@@ -182,11 +182,12 @@ public class Stream30 {
         // System.out.println("20. Average: " + avg);
         // Output: 20. Average: 3.5
 
-        // 21. Convert List to Map
-        Map<String, Integer> map = words.stream()
-                .collect(Collectors.toMap(w -> w, String::length));
-        // System.out.println("21. Map: " + map);
-        // Output: 21. Map: {java=4, stream=6, api=3}
+        // 21. Reverse Each String
+        List<String> reversed = words.stream()
+                .map(w -> new StringBuilder(w).reverse().toString())
+                .toList();
+        // System.out.println("23. Reversed: " + reversed);
+        // Output: 23. Reversed: [avaj, maerts, ipa]
 
         // 22. Find Palindromes
         List<String> palindromes = words.stream()
@@ -195,12 +196,11 @@ public class Stream30 {
         // System.out.println("22. Palindromes: " + palindromes);
         // Output: 22. Palindromes: []
 
-        // 23. Reverse Each String
-        List<String> reversed = words.stream()
-                .map(w -> new StringBuilder(w).reverse().toString())
-                .toList();
-        // System.out.println("23. Reversed: " + reversed);
-        // Output: 23. Reversed: [avaj, maerts, ipa]
+        // 23. Convert List to Map
+        Map<String, Integer> map = words.stream()
+                .collect(Collectors.toMap(w -> w, String::length));
+        // System.out.println("21. Map: " + map);
+        // Output: 21. Map: {java=4, stream=6, api=3}
 
         // 24. Group Strings by Length
         Map<Integer, List<String>> grouped = words.stream()
