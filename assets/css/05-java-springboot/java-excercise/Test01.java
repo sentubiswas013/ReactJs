@@ -129,29 +129,31 @@ public class Test01 {
         // System.out.println("20. Average: " + avg);
         // Output: 20. Average: 3.5
 
-        // 21. Convert List to Map
-        Map<String, Integer> map = words.stream()
-            .collect(Collectors.toMap(w -> w, String::length));
-        
-        // System.out.println("21. Map: " + map);
-        // Output: 21. Map: {java=4, stream=6, api=3}
+        // 21. Reverse Each String
+        List<String> reversed = words.stream()
+            .map(w -> new StringBuilder(w).reverse().toString())
+            .toList();
+
+        // System.out.println("23. Reversed: " + reversed);
+        // Output: 23. Reversed: [avaj, maerts, ipa]
 
         // 22. Find Palindromes
         
         // System.out.println("22. Palindromes: " + palindromes);
         // Output: 22. Palindromes: []
 
-        // 23. Reverse Each String
-        List<String> reversed = words.stream()
-            .map(w -> new StringBuilder(w).reverse().toString())
-            .toList();
-
-        System.out.println("23. Reversed: " + reversed);
-        // Output: 23. Reversed: [avaj, maerts, ipa]
+        // 23. Convert List to Map
+        Map<String, Integer> map = words.stream()
+            .collect(Collectors.toMap(w -> w, String::length));
+        
+        // System.out.println("21. Map: " + map);
+        // Output: 21. Map: {java=4, stream=6, api=3}
 
         // 24. Group Strings by Length
+        Map<Integer, List<String>> grouped = words.stream()
+            .collect(Collectors.groupingBy(String::length));
         
-        // System.out.println("24. Grouped by Length: " + grouped);
+        System.out.println("24. Grouped by Length: " + grouped);
         // Output: 24. Grouped by Length: {3=[api], 4=[java], 6=[stream]}
 
         // 25. Group by First Character
