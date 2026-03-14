@@ -28,131 +28,202 @@ public class Stream30 {
         List<String> words = Arrays.asList("java","stream","api");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
-        // 1. Filter Even Numbers       
+        // 1. Filter Even Numbers 
+
+             
         
         // System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]
 
+        // =======================================================
         // 2. Find Maximum Element
+
+
         
         // System.out.println("2. Maximum: " + max);
         // Output: 2. Maximum: 6
 
+        // =======================================================
         // 3. Sort List in Descending Order
+
+
         
         // System.out.println("3. Sorted Descending: " + sorted);
         // Output: 3. Sorted Descending: [6, 5, 4, 3, 2, 1]
 
-        // 4. Count Strings with Specific Prefix        
+        // =======================================================
+        // 4. Count Strings with Specific Prefix  
+
+
         
         // System.out.println("4. Count starting with A: " + count);
         // Output: 4. Count starting with A: 3
 
+        // =======================================================
         // 5. Find First Non-Repeated Character
+
+
         
         // System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: w
 
-        // 6. Convert List to Uppercase        
+        // =======================================================
+        // 6. Convert List to Uppercase   
+
+
         
         // System.out.println("6. Uppercase: " + upper);
         // Output: 6. Uppercase: [JAVA, STREAM, API]
 
+        // =======================================================
         // 7. Sum of Numbers
+
+
         
         // System.out.println("7. Sum: " + sum);
         // Output: 7. Sum: 21
 
+        // =======================================================
         // 8. Check if Any String Contains Word
+
+
         
         // System.out.println("8. Contains api: " + result8);
         // Output: 8. Contains api: true
 
-        // 9. Find Duplicate Elements        
+        // =======================================================
+        // 9. Find Duplicate Elements    
+
+
         
         // System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [1, 2]
 
+        // =======================================================
         // 10. Find Longest String
         
         // System.out.println("10. Longest: " + longest);
         // Output: 10. Longest: stream
 
+        // =======================================================
         // 11. Find Common Elements Between Two Lists
+
+
         
         // System.out.println("11. Common: " + common);
         // Output: 11. Common: [3, 4]
 
+        // =======================================================
         // 12. Find Top N Elements
+
+
         
         // System.out.println("12. Top 3: " + top3);
         // Output: 12. Top 3: [6, 5, 4]
 
+        // =======================================================
         // 13. Count Frequency of Characters
+
+
         
         // System.out.println("13. Frequency: " + freq);
         // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
 
+        // =======================================================
         // 14. Flatten List of Lists
+
+
         
         // System.out.println("14. Flattened: " + flat);
         // Output: 14. Flattened: [1, 2, 3, 4, 5, 6]
 
+        // =======================================================
         // 15. Partition Even and Odd Numbers
+
+
         
         // System.out.println("15. Partition: " + partition);
         // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
 
+        // =======================================================
         // 16. Find Nth Largest Element
+
+
         
         // System.out.println("16. Third Largest: " + thirdLargest);
         // output: 16. Third Largest: 4
 
+        // =======================================================
         // 17. Remove Duplicates
+
+
         
         // System.out.println("17. Unique: " + unique);
         // Output: 17. Unique: [1, 2, 3, 4, 5]
 
+        // =======================================================
         // 18. Join Strings
+
+
         
         // System.out.println("18. Joined: " + joined);
         // Output: 18. Joined: java, stream, api
 
+        // =======================================================
         // 19. Remove Null Values
+
+
         
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
 
+        // =======================================================
         // 20. Calculate Average
+
+
         
         // System.out.println("20. Average: " + avg);
         // Output: 20. Average: 3.5
 
+        // =======================================================
         // 21. Convert List to Map
+
+
         
         // System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
 
+        // =======================================================
         // 22. Find Palindromes
+
+
         
         // System.out.println("22. Palindromes: " + palindromes);
         // Output: 22. Palindromes: []
 
+        // =======================================================
         // 23. Reverse Each String
+
+
         
         // System.out.println("23. Reversed: " + reversed);
         // Output: 23. Reversed: [avaj, maerts, ipa]
 
+        // =======================================================
         // 24. Group Strings by Length
         
         // System.out.println("24. Grouped by Length: " + grouped);
         // Output: 24. Grouped by Length: {3=[api], 4=[java], 6=[stream]}
 
+        // =======================================================
         // 25. Group by First Character
+
+
        
         // System.out.println("25. Grouped by First Char: " + mapByFirst);
         // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
+        // =======================================================
         // 26. Find Highest Salary by Department
         List<Employee> employees = Arrays.asList(
                 new Employee("IT", 50000),
@@ -164,23 +235,34 @@ public class Stream30 {
         // System.out.println("26. Highest Salary by Dept: " + highest);
         // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
 
+        // =======================================================
         // 27. Generate Fibonacci Sequence
+
+
         
         // System.out.println("27. Fibonacci: " + fib);
         // Output: 27. Fibonacci: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 
+        // =======================================================
         // 28. Find Pair With Given Sum
+
+
         
         // System.out.println("28. Pairs summing to " + target + ": " + pairs);
         // Output: 28. Pairs summing to 6: [[1, 5], [2, 4]]
 
+        // =======================================================
         // 29. Detect Anagrams
-        List<String> anagramWords = Arrays.asList("listen","silent","enlist","google");
+
+
         
         // System.out.println("29. Anagrams: " + anagrams);
         // Output: 29. Anagrams: {eilnst=[listen, silent, enlist], egglno=[google]}
 
+        // =======================================================
         // 30. Sort Elements by Frequency
+
+
         
         // System.out.println("30. Sorted by Frequency: " + sortedByFreq);
         // Output: 30. Sorted by Frequency: [1, 2, 3, 4, 5]

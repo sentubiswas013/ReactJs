@@ -80,6 +80,7 @@ public class Student {
         // System.out.println("Students whose name starts with A: " + studentNameA);
         // Output: Students whose name starts with A: [Student [id=3, firstName=Ankit, lastName=Patil, age=25, gender=Female, departmantName=Mechanical Engineering, joinedYear=2019, city=Kerala, rank=164], Student [id=7, firstName=Arun, lastName=Vittal, age=26, gender=Male, departmantName=Electronics Engineering, joinedYear=2014, city=Karnataka, rank=324]]
 
+        // =======================================================
         // 2. Group by department
         Map<String, List<Student>> departMentList = studlist.stream()
             .collect(Collectors.groupingBy(Student::getDepartmantName));
@@ -87,12 +88,14 @@ public class Student {
         // System.out.println("Group by department: " + departMentList);
         // Output: Group by department: {Mechanical Engineering=[Student [id=1, firstName=Rohit, lastName=Kumar, age =30, gender=Male, departmantName=Mechanical Engineering, joinedYear=2015, city=Mumbai, rank=122], Student [id=3, firstName=Ankit, lastName=Patil, age=25, gender=Female    , departmantName=Mechanical Engineering, joinedYear=2019, city=Kerala, rank=164], Student [id=4, firstName=Satish, lastName=Malag,
 
+        // =======================================================
         // 3. Count students
         long count = studlist.stream().count();
         
         // System.out.println("Total students: " + count);
         // Output: Total students: 10
 
+        // =======================================================
         // 4. Max age
         OptionalInt maxAge = studlist.stream()
             // .mapToInt(Student::getAge.max();
@@ -101,6 +104,7 @@ public class Student {
         // System.out.println("Max age: " + maxAge.getAsInt());
         // Output: Max age: 56
 
+        // =======================================================
         // 5. Unique departments
         List<String> lstDepartments = studlist.stream()
             .map(Student::getDepartmantName)
@@ -110,6 +114,7 @@ public class Student {
         // System.out.println("Departments: " + lstDepartments);
         // Output: Departments: [Mechanical Engineering, Computer Engineering, Biotech Engineering, Electronics Engineering, Instrumentation Engineering]
 
+        // =======================================================
         // 6. Count students in each department
         // Map<String, Long> countStudentEachDepartment = studlist.stream()
         Map<String, Long> countStudentEachDepartment = studlist.stream()
@@ -119,6 +124,7 @@ public class Student {
         // System.out.println("Students in each department: " + countStudentEachDepartment);
         // Output: Students in each department: {Mechanical Engineering=3, Computer Engineering=3, Biotech Engineering=1, Electronics Engineering=1, Instrumentation Engineering=1}
 
+        // =======================================================
         // 7. Students age < 30
         List<Student> lessAge30 = studlist.stream()
             .filter(e -> e.getAge() <30)
@@ -127,6 +133,7 @@ public class Student {
         // System.out.println("Students below 30: " + lessAge30);
         // Output: Students below 30: [Student [id=3, firstName=Ankit, lastName=Patil, age
 
+        // =======================================================
         // 8. Rank between 50 and 100
         List<Student> rankList = studlist.stream()
             .filter(e -> e.getRank() > 30 && e.getRank() < 80)
@@ -135,37 +142,44 @@ public class Student {
         // System.out.println("Rank between 50 and 100: " + rankList);
         // Output: Rank between 50 and 100: [Student [id=2, firstName=Pulkit, lastName=Singh,
 
+        // =======================================================
         // 9. Average age by gender
-            
+
         
         // System.out.println("Average age by gender: " + mapAvgAge);
         // Output: Average
 
+        // =======================================================
         // 10. Department with max students
         
         // System.out.println("Department with max students: " + entry);
         // Output: Department with max students: Computer Engineering=3
 
+        // =======================================================
         // 11. Students in Delhi sorted by name
         
         // System.out.println("Students in Delhi sorted by name: " + studentLocation);
         // Output: Students in Delhi sorted by name: [Student [id=2, firstName=Pulkit, lastName=Singh, 
 
+        // =======================================================
         // 12. Average rank per department
         
         // System.out.println("Average rank by department: " + avgRankDept);
         // Output: Average rank by department: {Mechanical Engineering=100.66666666666667, Computer Engineering=169.0, Biotech Engineering=12.0, Electronics Engineering=324.0, Instrumentation Engineering=98.0}
 
+        // =======================================================
         // 13. Highest rank in each department
        
         // System.out.println("Highest rank in each department: " + studentData);
         // Output: Highest rank in each department: {Mechanical Engineering=Optional[Student [id=4, firstName=Satish, lastName=Malag, age
 
+        // =======================================================
         // 14. Sort students by rank
         
         // System.out.println("Students sorted by rank: " + stuRankSorted);
         // Output: Students sorted by rank: [Student [id=5, firstName=Roshan, lastName=Mukd, age
 
+        // =======================================================
         // 15. Second highest rank
         
         // System.out.println("Second highest rank student: " + student);
