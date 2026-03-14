@@ -1562,7 +1562,14 @@ executor.execute(() -> System.out.println("Another task"));
 executor.shutdown(); // Graceful shutdown
 ```
 
-## 2. What are the types of thread pools?
+## 2.  What is a Thread Pool and What are the types of thread pools?
+
+A **Thread Pool** is a collection of **pre-created threads** that are reused to execute multiple tasks.
+
+Instead of creating a **new thread every time a task comes**, the application **takes an available thread from the pool, runs the task, and then returns the thread back to the pool** for reuse.
+
+This **improves performance**, **reduces thread creation overhead**, and **controls the number of threads running in the system**.
+
 
 * **Fixed Thread Pool** – A fixed number of threads handle tasks.
 * **Cached Thread Pool** – Creates new threads when needed and reuses existing ones.
@@ -1572,6 +1579,9 @@ executor.shutdown(); // Graceful shutdown
 **Types of thread pools in Java** (via `Executors`) are:
 
  ```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
     // Fixed Thread Pool
    ExecutorService fixedPool = Executors.newFixedThreadPool(3);
    // Cached Thread Pool
@@ -1580,6 +1590,25 @@ executor.shutdown(); // Graceful shutdown
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
    // Scheduled Thread Pool
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
+
+    // Simple explanation for interview:
+    // Here we create a thread pool with 3 threads.
+    // We submit 5 tasks to the pool.
+    // The same 3 threads are reused to execute all tasks instead of creating new threads each time.
+    public class ThreadPoolExample {
+        public static void main(String[] args) {
+            ExecutorService executor = Executors.newFixedThreadPool(3);
+            for(int i = 1; i <= 5; i++) {
+                int task = i;
+
+                executor.submit(() -> {
+                    System.out.println("Task " + task + " executed by " + Thread.currentThread().getName());
+                });
+            }
+
+            executor.shutdown();
+        }
+    }
 ```
 
 ## 3. What is CountDownLatch?
