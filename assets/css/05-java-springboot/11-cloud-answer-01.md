@@ -61,9 +61,97 @@ In **Amazon Web Services**, services can scale automatically so applications can
 
 ---
 
+### 6. What is API Gateway?
+
+**Answer:**
+
+**Amazon API Gateway** is a service used to create, publish, and manage APIs. It acts as an entry point where clients send requests, and it forwards them to backend services like Lambda or EC2.
+
+**Example:** Client → API Gateway → Lambda → Response.
+
+---
+
+### 7. What is AWS Elastic Beanstalk?
+
+**Answer:**
+
+**AWS Elastic Beanstalk** is a platform service used to deploy and manage applications without worrying about infrastructure.
+
+You upload code, and Beanstalk automatically handles:
+
+* EC2
+* Load balancer
+* Scaling
+* Monitoring
+
+---
+
+### 8. What is AWS Fargate?
+
+**Answer:**
+
+**AWS Fargate** is a serverless compute engine for containers used with ECS or EKS. You run containers without managing servers.
+
+**Example:** Run Docker containers without provisioning EC2 instances.
+
+---
+
+### 9. What is a Route Table?
+
+**Answer:**
+
+A **Route Table** controls how network traffic moves inside a VPC.
+
+It defines rules like:
+
+* Where traffic should go
+* Whether traffic goes to Internet Gateway, NAT Gateway, or another subnet.
+
+---
+
+### 10. What is an AWS Load Balancer?
+
+**Answer:**
+
+**Elastic Load Balancing** distributes incoming traffic across multiple servers to improve availability and performance.
+
+Types:
+
+* Application Load Balancer (ALB)
+* Network Load Balancer (NLB)
+* Classic Load Balancer
+
+**Example:** User requests → Load Balancer → Multiple EC2 instances.
+
+---
+
+### 11. Difference Between Lambda and EC2?
+
+**Answer:**
+
+| Lambda                       | EC2                    |
+| ---------------------------- | ---------------------- |
+| Serverless                   | Server-based           |
+| No infrastructure management | Need to manage servers |
+| Event-driven                 | Continuous running     |
+| Auto scaling                 | Manual or auto scaling |
+
+---
+
+### 12. How API Gateway and Lambda work together?
+
+**Answer:**
+
+Flow:
+Client → API Gateway → Lambda → Response
+
+API Gateway receives the request and triggers Lambda to process the request.
+
+---
+
 ## 2️⃣ Compute Services
 
-### 6. What is Amazon EC2?
+### 13. What is Amazon EC2?
 
 **Answer:**
 
@@ -75,7 +163,7 @@ We can choose different operating systems, configure CPU, memory, and storage, a
 
 ---
 
-### 7. What are different EC2 instance types?
+### 14. What are different EC2 instance types?
 
 **Answer:**
 
@@ -92,7 +180,7 @@ Each instance type is designed for different workloads.
 
 ---
 
-### 8. What is AWS Lambda?
+### 15. What is AWS Lambda?
 
 **Answer:**
 
@@ -105,7 +193,7 @@ AWS automatically handles scaling, infrastructure, and server management.
 
 ---
 
-### 9. What is Amazon ECS?
+### 16. What is Amazon ECS?
 
 **Answer:**
 
@@ -117,7 +205,7 @@ ECS helps deploy, manage, and scale containerized applications without needing t
 
 ---
 
-### 10. What is Amazon EKS?
+### 17. What is Amazon EKS?
 
 **Answer:**
 
@@ -131,7 +219,7 @@ EKS makes it easier to deploy, manage, and scale containerized applications usin
 
 ## 3️⃣ Storage Services
 
-### 11. What is Amazon S3?
+### 18. What is Amazon S3?
 
 **Answer:**
 
@@ -144,7 +232,7 @@ It is highly **scalable, durable, and secure**, and commonly used for backups, s
 
 ---
 
-### 12. What are S3 storage classes?
+### 19. What are S3 storage classes?
 
 **Answer:**
 
@@ -161,7 +249,7 @@ Each class helps optimize **cost and performance** depending on how often data i
 
 ---
 
-### 13. What is Amazon EBS?
+### 20. What is Amazon EBS?
 
 **Answer:**
 
@@ -173,7 +261,7 @@ EBS provides **high performance, durability, and persistent storage**.
 
 ---
 
-### 14. What is Amazon EFS?
+### 21. What is Amazon EFS?
 
 **Answer:**
 
@@ -185,7 +273,7 @@ EFS is scalable and commonly used for **shared storage, content management syste
 
 ---
 
-### 15. What is S3 Versioning?
+### 22. What is S3 Versioning?
 
 **Answer:**
 
@@ -199,7 +287,7 @@ This helps with **data recovery, protection from accidental deletion, and tracki
 
 ## 4️⃣ Networking
 
-### 16. What is Amazon VPC?
+### 23. What is Amazon VPC?
 
 **Answer:**
 
@@ -211,7 +299,7 @@ It gives full control over the network environment.
 
 ---
 
-### 17. What is a Subnet in VPC?
+### 24. What is a Subnet in VPC?
 
 **Answer:**
 
@@ -228,7 +316,7 @@ Subnets help improve **security and network management**.
 
 ---
 
-### 18. What is Elastic Load Balancing?
+### 25. What is Elastic Load Balancing?
 
 **Answer:**
 
@@ -240,7 +328,7 @@ If one server fails, the load balancer redirects traffic to healthy servers.
 
 ---
 
-### 19. What is Amazon Route 53?
+### 26. What is Amazon Route 53?
 
 **Answer:**
 
@@ -252,7 +340,7 @@ Route 53 also supports **domain registration, traffic routing, and health checks
 
 ---
 
-### 20. What is Security Group vs Network ACL?
+### 27. What is Security Group vs Network ACL?
 
 **Answer:**
 
@@ -274,7 +362,7 @@ Both **Security Groups** and **Network ACLs** control network traffic in **Amazo
 
 ## 5️⃣ Security
 
-### 21. What is AWS Identity and Access Management (IAM)?
+### 28. What is AWS Identity and Access Management (IAM)?
 
 **Answer:**
 
@@ -286,7 +374,7 @@ With IAM, we can create **users, groups, and roles**, and assign permissions to 
 
 ---
 
-### 22. What are IAM roles and policies?
+### 29. What are IAM roles and policies?
 
 **Answer:**
 
@@ -298,7 +386,7 @@ Roles are commonly used by **applications, EC2 instances, or AWS services** to s
 
 ---
 
-### 23. What is Multi-Factor Authentication (MFA) in AWS?
+### 30. What is Multi-Factor Authentication (MFA) in AWS?
 
 **Answer:**
 
@@ -310,7 +398,7 @@ This helps protect AWS accounts from **unauthorized access**.
 
 ---
 
-### 24. What is AWS Key Management Service?
+### 31. What is AWS Key Management Service?
 
 **Answer:**
 
@@ -322,7 +410,7 @@ Many AWS services like **Amazon S3** and **Amazon Elastic Block Store** can inte
 
 ---
 
-### 25. What is the Shared Responsibility Model in AWS?
+### 32. What is the Shared Responsibility Model in AWS?
 
 **Answer:**
 
@@ -337,7 +425,7 @@ This model ensures both AWS and customers maintain cloud security.
 
 ## 6️⃣ Monitoring & DevOps
 
-### 26. What is Amazon CloudWatch?
+### 33. What is Amazon CloudWatch?
 
 **Answer:**
 
@@ -349,7 +437,7 @@ CloudWatch helps monitor performance, set alarms, and automatically respond to c
 
 ---
 
-### 27. What is AWS CloudTrail?
+### 34. What is AWS CloudTrail?
 
 **Answer:**
 
@@ -361,7 +449,7 @@ CloudTrail is mainly used for **security monitoring, auditing, and compliance**.
 
 ---
 
-### 28. What is AWS CodePipeline?
+### 35. What is AWS CodePipeline?
 
 **Answer:**
 
@@ -373,7 +461,7 @@ This helps developers deliver updates quickly and reliably.
 
 ---
 
-### 29. What is Auto Scaling in AWS?
+### 36. What is Auto Scaling in AWS?
 
 **Answer:**
 
@@ -385,7 +473,7 @@ This improves **performance, availability, and cost efficiency**.
 
 ---
 
-### 30. What is Infrastructure as Code in AWS?
+### 37. What is Infrastructure as Code in AWS?
 
 **Answer:**
 

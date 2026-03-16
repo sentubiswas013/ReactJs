@@ -30,7 +30,7 @@ public class Stream30 {
 
         // 1. Filter Even Numbers 
 
-             
+
         
         // System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]
@@ -186,40 +186,40 @@ public class Stream30 {
         // Output: 20. Average: 3.5
 
         // =======================================================
-        // 21. Convert List to Map
-
-
+        // 21. Reverse Each String
         
-        // System.out.println("21. Map: " + map);
-        // Output: 21. Map: {java=4, stream=6, api=3}
-
-        // =======================================================
-        // 22. Find Palindromes
 
 
-        
-        // System.out.println("22. Palindromes: " + palindromes);
-        // Output: 22. Palindromes: []
-
-        // =======================================================
-        // 23. Reverse Each String
-
-
-        
         // System.out.println("23. Reversed: " + reversed);
         // Output: 23. Reversed: [avaj, maerts, ipa]
 
         // =======================================================
+        // 22. Find Palindromes
+       
+
+        // System.out.println("22. Palindromes: " + palindromes);
+        // Output: 22. Palindromes: []
+
+        // =======================================================
+        // 23. Convert List to Map
+        
+
+        // System.out.println("21. Map: " + map);
+        // Output: 21. Map: {java=4, stream=6, api=3}
+
+        // =======================================================
         // 24. Group Strings by Length
         
+
+
         // System.out.println("24. Grouped by Length: " + grouped);
         // Output: 24. Grouped by Length: {3=[api], 4=[java], 6=[stream]}
 
         // =======================================================
         // 25. Group by First Character
+        
 
 
-       
         // System.out.println("25. Grouped by First Char: " + mapByFirst);
         // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
@@ -234,36 +234,85 @@ public class Stream30 {
         
         // System.out.println("26. Highest Salary by Dept: " + highest);
         // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
+        
+        // =======================================================
+        // 27. Find Average Salary by Department
+        
+
+
+        // System.out.println(avgSalary);
+        // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
 
         // =======================================================
-        // 27. Generate Fibonacci Sequence
-
-
+        // 28. Find Employee With Highest Salary Overall
         
+
+        // highestSalary.ifPresent(System.out::println);
+        // Output: Employee@... (the employee with the highest salary) 
+
+        // =======================================================
+        // 29. Count Employees in Each Department
+        
+
+
+        // System.out.println(countByDept);
+        // Output: {HR=2, IT=2}
+
+        // =======================================================
+        // 30. Find All Employees Grouped by Department
+        
+
+        // System.out.println(employeesByDept);
+        // Output: {HR=[Employee@..., Employee@...], IT=[Employee@..., Employee@...]} 
+
+        // =======================================================
+        // 31. Find Second Highest Salary
+        
+
+        // System.out.println(secondHighest);
+        // Output: Optional[55000.0] (the second highest salary)
+
+        // =======================================================
+        // 32. Generate Fibonacci Sequence
+        List<Integer> fib = Stream.iterate(new int[]{0,1},
+                arr -> new int[]{arr[1], arr[0] + arr[1]})
+                .limit(10)
+                .map(arr -> arr[0])
+                .toList();
         // System.out.println("27. Fibonacci: " + fib);
         // Output: 27. Fibonacci: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-
-        // =======================================================
-        // 28. Find Pair With Given Sum
-
-
         
+        // =======================================================
+        // 33. Find Pair With Given Sum
+        int target = 6;
+        List<List<Integer>> pairs = numbers.stream()
+                .flatMap(x -> numbers.stream()
+                        .filter(y -> x + y == target && x < y)
+                        .map(y -> Arrays.asList(x,y)))
+                .toList();
         // System.out.println("28. Pairs summing to " + target + ": " + pairs);
         // Output: 28. Pairs summing to 6: [[1, 5], [2, 4]]
 
-        // =======================================================
+
+        // =======================================================                
         // 29. Detect Anagrams
-
-
-        
+        List<String> anagramWords = Arrays.asList("listen","silent","enlist","google");
+        Map<String, List<String>> anagrams = anagramWords.stream()
+                .collect(Collectors.groupingBy(
+                        w -> w.chars()
+                                .sorted()
+                                .mapToObj(c -> String.valueOf((char)c))
+                                .collect(Collectors.joining())
+                ));
         // System.out.println("29. Anagrams: " + anagrams);
         // Output: 29. Anagrams: {eilnst=[listen, silent, enlist], egglno=[google]}
-
-        // =======================================================
-        // 30. Sort Elements by Frequency
-
-
         
+        // =======================================================
+        // 34. Sort Elements by Frequency
+        List<Integer> sortedByFreq = nums.stream()
+                .sorted(Comparator.comparingInt(n -> -Collections.frequency(nums, n)))
+                .distinct()
+                .toList();
         // System.out.println("30. Sorted by Frequency: " + sortedByFreq);
         // Output: 30. Sorted by Frequency: [1, 2, 3, 4, 5]
     }
