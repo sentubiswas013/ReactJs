@@ -205,7 +205,7 @@ public class Test01 {
         Map<Integer, String> map = words.stream()
             .collect(Collectors.toMap(String::length, w-> w));
 
-        System.out.println("21. Map: " + map);
+        // System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
 
         // =======================================================
@@ -247,10 +247,16 @@ public class Test01 {
         
         // =======================================================
         // 27. Find Average Salary by Department
-        
+        Map<String, Double>  avgSalary = employees.stream()
+            .collect(Collectors.groupingBy(
+                Employee::getSalary, 
+                Collectors.averagingInt(
+                    Employee::getSalary
+                )
+            ));
 
 
-        // System.out.println(avgSalary);
+        System.out.println(avgSalary);
         // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
 
         // =======================================================
@@ -284,7 +290,7 @@ public class Test01 {
             .findFirst();
         
 
-        System.out.println(secondHighest);
+        // System.out.println(secondHighest);
         // Output: Optional[55000.0] (the second highest salary)
 
 

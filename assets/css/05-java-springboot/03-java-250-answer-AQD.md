@@ -2525,6 +2525,7 @@ It also supports **custom queries, pagination, and sorting**, and integrates sea
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 }
+```
 
 ## 6. What is JPA and how it works?
 
