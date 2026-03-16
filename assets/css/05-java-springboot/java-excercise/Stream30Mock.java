@@ -274,45 +274,34 @@ public class Stream30 {
 
         // =======================================================
         // 32. Generate Fibonacci Sequence
-        List<Integer> fib = Stream.iterate(new int[]{0,1},
-                arr -> new int[]{arr[1], arr[0] + arr[1]})
-                .limit(10)
-                .map(arr -> arr[0])
-                .toList();
+        
+
+        
         // System.out.println("27. Fibonacci: " + fib);
         // Output: 27. Fibonacci: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
         
         // =======================================================
         // 33. Find Pair With Given Sum
-        int target = 6;
-        List<List<Integer>> pairs = numbers.stream()
-                .flatMap(x -> numbers.stream()
-                        .filter(y -> x + y == target && x < y)
-                        .map(y -> Arrays.asList(x,y)))
-                .toList();
+        
+
+
         // System.out.println("28. Pairs summing to " + target + ": " + pairs);
         // Output: 28. Pairs summing to 6: [[1, 5], [2, 4]]
 
 
         // =======================================================                
         // 29. Detect Anagrams
-        List<String> anagramWords = Arrays.asList("listen","silent","enlist","google");
-        Map<String, List<String>> anagrams = anagramWords.stream()
-                .collect(Collectors.groupingBy(
-                        w -> w.chars()
-                                .sorted()
-                                .mapToObj(c -> String.valueOf((char)c))
-                                .collect(Collectors.joining())
-                ));
+        
+
+
         // System.out.println("29. Anagrams: " + anagrams);
         // Output: 29. Anagrams: {eilnst=[listen, silent, enlist], egglno=[google]}
         
         // =======================================================
         // 34. Sort Elements by Frequency
-        List<Integer> sortedByFreq = nums.stream()
-                .sorted(Comparator.comparingInt(n -> -Collections.frequency(nums, n)))
-                .distinct()
-                .toList();
+        
+
+
         // System.out.println("30. Sorted by Frequency: " + sortedByFreq);
         // Output: 30. Sorted by Frequency: [1, 2, 3, 4, 5]
     }
