@@ -2521,6 +2521,11 @@ public class UserServlet extends HttpServlet {
 
 It also supports **custom queries, pagination, and sorting**, and integrates seamlessly with Spring Boot, making **database access faster, cleaner, and easier to maintain**.
 
+```java
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+}
+
 ## 6. What is JPA and how it works?
 
 **JPA (Java Persistence API)** is a **Java specification** for managing relational data in Java applications. It allows you to **map Java objects to database tables** using annotations like `@Entity`, `@Table`, and `@Id`.
@@ -2563,6 +2568,18 @@ public class UserService {
     }
 }
 ```
+
+## 7. What is the difference between DAO and DTO?
+
+**DAO (Data Access Object)** is used to **interact with the database** and perform CRUD operations like save, update, delete, and fetch data.
+
+**DTO (Data Transfer Object)** is used to **transfer data between layers** of an application (Controller, Service, etc.) and usually contains only fields with getters and setters.
+
+**Example:**
+
+* **DAO:** `EmployeeRepository` that accesses the database.
+* **DTO:** `EmployeeDTO` used to send employee data in API requests or responses.
+
 
 # ✅ 15. Java Lambda Expressions & Streams API 
 
