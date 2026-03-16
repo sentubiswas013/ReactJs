@@ -231,6 +231,8 @@ public class Test01 {
                 new Employee("IT", 60000),
                 new Employee("HR", 45000)
         );
+
+        
         
         // System.out.println("26. Highest Salary by Dept: " + highest);
         // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
