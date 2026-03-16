@@ -202,9 +202,10 @@ public class Test01 {
 
         // =======================================================
         // 23. Convert List to Map
-        
+        Map<Integer, String> map = words.stream()
+            .collect(Collectors.toMap(String::length, w-> w));
 
-        // System.out.println("21. Map: " + map);
+        System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
 
         // =======================================================
@@ -232,7 +233,14 @@ public class Test01 {
                 new Employee("HR", 45000)
         );
 
-        
+        // Map<String, Integer> highest = employees.stream()
+        //     collect(Collectors.groupingBy(
+        //             Employee::getDepartment,
+        //             Collectors.collectingAndThen(
+        //                 Collectors.maxBy(Comparator.comparing(Employee::getSalary))
+        //                 .Optional::get
+        //             )
+        //     ))
         
         // System.out.println("26. Highest Salary by Dept: " + highest);
         // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
@@ -269,30 +277,32 @@ public class Test01 {
 
         // =======================================================
         // 31. Find Second Highest Salary
+        Optional<Double> secondHighest = employees.stream()
+            .map(Employee::getSalary)
+            .sorted(Comparator.reverseOrder())
+            .skip(1)
+            .findFirst();
         
 
-        // System.out.println(secondHighest);
+        System.out.println(secondHighest);
         // Output: Optional[55000.0] (the second highest salary)
 
+
         // =======================================================
-        // 32. Generate Fibonacci Sequence
-        
+        // 31. flatMap() is used to flatten nested collections.
+        List<List<Employee>> inputTemp = List.of(
+                List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
+                List.of(new Employee("David", 7000), new Employee("Mary", 8000))
+        );
 
         
-        // System.out.println("27. Fibonacci: " + fib);
-        // Output: 27. Fibonacci: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-        
-        // =======================================================
-        // 33. Find Pair With Given Sum
-        
 
-
-        // System.out.println("28. Pairs summing to " + target + ": " + pairs);
-        // Output: 28. Pairs summing to 6: [[1, 5], [2, 4]]
+        // System.out.println(resultTemp);
+        // Output: [Employee@..., Employee@..., Employee@..., Employee@...] (all employees in a single list)
 
 
         // =======================================================                
-        // 29. Detect Anagrams
+        // 33. Detect Anagrams
         
 
 

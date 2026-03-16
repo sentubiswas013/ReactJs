@@ -273,24 +273,21 @@ public class Stream30 {
         // Output: Optional[55000.0] (the second highest salary)
 
         // =======================================================
-        // 32. Generate Fibonacci Sequence
-        
+        // 32. flatMap() is used to flatten nested collections.
+        List<List<Employee>> inputTemp = List.of(
+                List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
+                List.of(new Employee("David", 7000), new Employee("Mary", 8000))
+        );
 
         
-        // System.out.println("27. Fibonacci: " + fib);
-        // Output: 27. Fibonacci: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-        
-        // =======================================================
-        // 33. Find Pair With Given Sum
-        
 
+        // System.out.println(resultTemp);
+        // Output: [Employee@..., Employee@..., Employee@..., Employee@...] (all employees in a single list)
 
-        // System.out.println("28. Pairs summing to " + target + ": " + pairs);
-        // Output: 28. Pairs summing to 6: [[1, 5], [2, 4]]
 
 
         // =======================================================                
-        // 29. Detect Anagrams
+        // 33. Detect Anagrams
         
 
 
