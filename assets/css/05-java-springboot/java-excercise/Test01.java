@@ -237,11 +237,14 @@ public class Test01 {
             .map(Employee::getDepartment)
         .toList();
 
-        
+        List<Double> salaryList = employees.stream()
+            .map(Employee::getSalary)
+            .collect(Collectors.toList());
 
-        System.out.println(salaryByDept);        
-        // Output: 26. {IT=[50000, 60000], HR=[40000, 45000]}
-        
+        // System.out.println(salaryByDept);
+        // System.out.println(salaryList);     
+        //     [IT, HR, IT, HR]
+        //     [50000.0, 40000.0, 60000.0, 45000.0]
         // =======================================================
         // 27. Find Average Salary by Department
         

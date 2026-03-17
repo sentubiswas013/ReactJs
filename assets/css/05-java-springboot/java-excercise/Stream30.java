@@ -275,14 +275,18 @@ public class Stream30 {
                 new Employee("HR", 45000)
         );
 
-        Map<String, List<Double>> salaryByDept = employees.stream()
-        .collect(Collectors.groupingBy(
-                Employee::getDepartment,
-                Collectors.mapping(Employee::getSalary, Collectors.toList())
-        ));
+        List<String> salaryByDept = employees.stream()
+            .map(Employee::getDepartment)
+        .toList();
 
-        System.out.println(salaryByDept);        
-        // Output: 26. {IT=[50000, 60000], HR=[40000, 45000]}
+        List<Double> salaryList = employees.stream()
+            .map(Employee::getSalary)
+            .collect(Collectors.toList());
+
+        // System.out.println(salaryByDept);
+        // System.out.println(salaryList);     
+        //     [IT, HR, IT, HR]
+        //     [50000.0, 40000.0, 60000.0, 45000.0]
 
 
         // =======================================================
