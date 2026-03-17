@@ -23,8 +23,9 @@ public class Stream30 {
     }
 
     public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(1,2,3,4,5,6);
-        List<Integer> nums = Arrays.asList(1,2,3,4,2,5,1);
+        String sentence="Java Stream API is very powerful";
+        List<Integer> numbers = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
+        List<Integer> nums = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
         List<String> words = Arrays.asList("java","stream","api");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
@@ -155,17 +156,28 @@ public class Stream30 {
 
 
         // =======================================================
-        // 14. Flatten List of Lists
-        List<List<Integer>> lists = Arrays.asList(
-                Arrays.asList(1,2),
-                Arrays.asList(3,4),
-                Arrays.asList(5,6)
-        );
-        List<Integer> flat = lists.stream()
-                .flatMap(List::stream)
-                .toList();
-        // System.out.println("14. Flattened: " + flat);
-        // Output: 14. Flattened: [1, 2, 3, 4, 5, 6]
+        // 14. To merge two arrays and sort the resulting array in ascending order
+        int[] result = Arrays.stream(numbers)       // convert numbers to stream
+                .boxed()                            // convert IntStream -> Stream<Integer>
+                .concat(Arrays.stream(nums).boxed())// merge two streams
+                .sorted()                           // sort ascending
+                .mapToInt(Integer::intValue)        // convert back to int
+                .toArray();                         // convert to array
+
+
+        System.out.println(Arrays.toString(result));
+        // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
+
+
+        // =======================================================
+        // 14. 0 should go to outside without change order
+        List<Integer> result = Stream.concat(
+                numbers.stream().filter(n -> n != 0), // keep order of non-zero
+                numbers.stream().filter(n -> n == 0)  // zeros at end
+        ).collect(Collectors.toList());
+
+        System.out.println(result);
+        // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
 
 
         // =======================================================

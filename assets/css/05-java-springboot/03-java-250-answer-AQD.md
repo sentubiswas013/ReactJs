@@ -6963,6 +6963,20 @@ If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
 
 It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
 
+Here are **most common Monitoring Tools used in Production** 
+
+| Monitoring Tool   | Purpose                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| Prometheus        | Collects and stores application metrics like CPU, memory, request count, and response time. |
+| Grafana           | Creates dashboards and visualizes metrics data collected from tools like Prometheus.        |
+| Spring Boot Admin | Provides a web UI to monitor Spring Boot applications (health, metrics, logs).              |
+| ELK Stack         | Centralized logging system to collect, search, and analyze logs.                            |
+| Micrometer        | Metrics collection library used in Spring Boot to send metrics to monitoring systems.       |
+| Datadog           | Cloud-based monitoring for infrastructure, logs, and application performance.               |
+| New Relic         | Application Performance Monitoring (APM) tool used to monitor performance and errors.       |
+| Dynatrace         | AI-powered monitoring tool for full-stack applications and microservices.                   |
+
+
 ```java
 // Application monitoring with Micrometer
 @RestController
@@ -6998,6 +7012,12 @@ public class UserController {
 A **logging framework** is a library that provides a structured way to record application events and errors.
 
 It supports different **log levels (DEBUG, INFO, WARN, ERROR)**, configurable output destinations (console, file, etc.), and flexible formatting. Popular frameworks include **SLF4J**, **Apache Log4j**, **Logback**, and **java.util.logging**.
+
+| Level | Purpose                         |
+| ----- | ------------------------------- |
+| DEBUG | Detailed debugging information  |
+| INFO  | General application information |
+
 
 ```java
 // Logging framework usage

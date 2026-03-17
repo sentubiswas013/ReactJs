@@ -130,12 +130,22 @@ public class Test01 {
         // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
 
         // =======================================================
-        // 14. Flatten List of Lists
-
-
+        // 14. To merge two arrays and sort the resulting array in ascending order
         
-        // System.out.println("14. Flattened: " + flat);
-        // Output: 14. Flattened: [1, 2, 3, 4, 5, 6]
+
+
+        // System.out.println(Arrays.toString(result));
+        // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
+
+
+        // =======================================================
+        // 14. 0 should go to outside without change order
+        
+
+
+        // System.out.println(result);
+        // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
+        
 
         // =======================================================
         // 15. Partition Even and Odd Numbers
