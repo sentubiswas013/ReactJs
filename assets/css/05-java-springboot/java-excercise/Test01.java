@@ -225,7 +225,7 @@ public class Test01 {
         // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
         // =======================================================
-        // 26. Find Highest Salary by Department
+        // 26. Find Salary by Department
         List<Employee> employees = Arrays.asList(
                 new Employee("IT", 50000),
                 new Employee("HR", 40000),
@@ -233,30 +233,21 @@ public class Test01 {
                 new Employee("HR", 45000)
         );
 
-        // Map<String, Integer> highest = employees.stream()
-        //     collect(Collectors.groupingBy(
-        //             Employee::getDepartment,
-        //             Collectors.collectingAndThen(
-        //                 Collectors.maxBy(Comparator.comparing(Employee::getSalary))
-        //                 .Optional::get
-        //             )
-        //     ))
+        List<String> salaryByDept = employees.stream()
+            .map(Employee::getDepartment)
+        .toList();
+
         
-        // System.out.println("26. Highest Salary by Dept: " + highest);
-        // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
+
+        System.out.println(salaryByDept);        
+        // Output: 26. {IT=[50000, 60000], HR=[40000, 45000]}
         
         // =======================================================
         // 27. Find Average Salary by Department
-        Map<String, Double>  avgSalary = employees.stream()
-            .collect(Collectors.groupingBy(
-                Employee::getSalary, 
-                Collectors.averagingInt(
-                    Employee::getSalary
-                )
-            ));
+        
 
 
-        System.out.println(avgSalary);
+        // System.out.println(avgSalary);
         // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
 
         // =======================================================
