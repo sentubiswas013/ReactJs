@@ -24,15 +24,15 @@ public class Stream30 {
 
     public static void main(String[] args) {
         String sentence="Java Stream API is very powerful";
-        List<Integer> numbers = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
-        List<Integer> nums = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
+        List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
+        List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
         List<String> words = Arrays.asList("java","stream","api");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
 
         // =======================================================
         // 1. Filter Even Numbers       
-        List<Integer> even = numbers.stream()
+        List<Integer> even = num02.stream()
                 .filter(n -> n % 2 == 0)
                 .toList();
         // System.out.println("1. Even Numbers: " + even);
@@ -41,7 +41,7 @@ public class Stream30 {
 
         // =======================================================
         // 2. Find Maximum Element
-        int max = numbers.stream()
+        int max = num01.stream()
                 .max(Integer::compareTo)
                 .orElseThrow();
         // System.out.println("2. Maximum: " + max);
@@ -50,7 +50,7 @@ public class Stream30 {
 
         // =======================================================
         // 3. Sort List in Descending Order
-        List<Integer> sorted = numbers.stream()
+        List<Integer> sorted = num01.stream()
                 .sorted(Comparator.reverseOrder())
                 .toList();
         // System.out.println("3. Sorted Descending: " + sorted);
@@ -89,7 +89,7 @@ public class Stream30 {
 
         // =======================================================
         // 7. Sum of Numbers
-        int sum = numbers.stream()
+        int sum = num01.stream()
                 .mapToInt(Integer::intValue)
                 .sum();
         // System.out.println("7. Sum: " + sum);
@@ -107,7 +107,7 @@ public class Stream30 {
         // =======================================================
         // 9. Find Duplicate Elements        
         Set<Integer> seen = new HashSet<>();
-        Set<Integer> duplicates = nums.stream()
+        Set<Integer> duplicates = num02.stream()
                 .filter(n -> !seen.add(n))
                 .collect(Collectors.toSet());
         // System.out.println("9. Duplicates: " + duplicates);
@@ -136,7 +136,7 @@ public class Stream30 {
 
         // =======================================================
         // 12. Find Top N Elements
-        List<Integer> top3 = numbers.stream()
+        List<Integer> top3 = num01.stream()
                 .sorted(Comparator.reverseOrder())
                 .limit(3)
                 .toList();
@@ -157,32 +157,28 @@ public class Stream30 {
 
         // =======================================================
         // 14. To merge two arrays and sort the resulting array in ascending order
-        int[] result = Arrays.stream(numbers)       // convert numbers to stream
-                .boxed()                            // convert IntStream -> Stream<Integer>
-                .concat(Arrays.stream(nums).boxed())// merge two streams
-                .sorted()                           // sort ascending
-                .mapToInt(Integer::intValue)        // convert back to int
-                .toArray();                         // convert to array
+        List<Integer> resultSort = Stream.concat(num01.stream(), num02.stream())
+                             .sorted()
+                             .toList();
 
-
-        System.out.println(Arrays.toString(result));
+        System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
 
 
         // =======================================================
         // 14. 0 should go to outside without change order
-        List<Integer> result = Stream.concat(
-                numbers.stream().filter(n -> n != 0), // keep order of non-zero
-                numbers.stream().filter(n -> n == 0)  // zeros at end
+        List<Integer> resultRight = Stream.concat(
+                num01.stream().filter(n -> n != 0), // keep order of non-zero
+                num01.stream().filter(n -> n == 0)  // zeros at end
         ).collect(Collectors.toList());
 
-        System.out.println(result);
+        System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
 
 
         // =======================================================
         // 15. Partition Even and Odd Numbers
-        Map<Boolean, List<Integer>> partition = numbers.stream()
+        Map<Boolean, List<Integer>> partition = num01.stream()
                 .collect(Collectors.partitioningBy(n -> n % 2 == 0));
         // System.out.println("15. Partition: " + partition);
         // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
@@ -190,7 +186,7 @@ public class Stream30 {
 
         // =======================================================
         // 16. Find Nth Largest Element
-        int thirdLargest = numbers.stream()
+        int thirdLargest = num01.stream()
                 .sorted(Comparator.reverseOrder())
                 .skip(2)
                 .findFirst()
@@ -201,7 +197,7 @@ public class Stream30 {
 
         // =======================================================
         // 17. Remove Duplicates
-        List<Integer> unique = nums.stream()
+        List<Integer> unique = num02.stream()
                 .distinct()
                 .toList();
         // System.out.println("17. Unique: " + unique);
@@ -228,7 +224,7 @@ public class Stream30 {
 
         // =======================================================
         // 20. Calculate Average
-        double avg = numbers.stream()
+        double avg = num01.stream()
                 .mapToInt(Integer::intValue)
                 .average()
                 .orElse(0);
@@ -385,7 +381,7 @@ public class Stream30 {
 
         // =======================================================
         // 34. Sort Elements by Frequency
-        List<Integer> sortedByFreq = nums.stream()
+        List<Integer> sortedByFreq = num02.stream()
                 .sorted(Comparator.comparingInt(n -> -Collections.frequency(nums, n)))
                 .distinct()
                 .toList();

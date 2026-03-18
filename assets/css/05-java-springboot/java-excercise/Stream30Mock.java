@@ -23,8 +23,9 @@ public class Stream30 {
     }
 
     public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(1,2,3,4,5,6);
-        List<Integer> nums = Arrays.asList(1,2,3,4,2,5,1);
+        String sentence="Java Stream API is very powerful";
+        List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
+        List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
         List<String> words = Arrays.asList("java","stream","api");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
@@ -133,8 +134,6 @@ public class Stream30 {
         // 14. To merge two arrays and sort the resulting array in ascending order
         
 
-
-        // System.out.println(Arrays.toString(result));
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
 
 
