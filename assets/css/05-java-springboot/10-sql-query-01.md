@@ -1,12 +1,12 @@
 
 # Top 20 SQL Queries Asked in TCS / Infosys / Accenture
 
-## 1. Find the Second Highest Salary
+# 1. Find the Second Highest Salary
 
 ```sql
-SELECT MAX(salary)
-FROM employee
-WHERE salary < (SELECT MAX(salary) FROM employee);
+SELECT MAX(Salary)
+FROM Employees
+WHERE Salary < (SELECT MAX(Salary) FROM Employees);
 ```
 
 ---
@@ -14,20 +14,20 @@ WHERE salary < (SELECT MAX(salary) FROM employee);
 # 2. Find the Third Highest Salary
 
 ```sql
-SELECT DISTINCT salary
-FROM employee
-ORDER BY salary DESC
+SELECT DISTINCT Salary
+FROM Employees
+ORDER BY Salary DESC
 LIMIT 1 OFFSET 2;
 ```
 
 ---
 
-# 3. Find Duplicate Records in a Table
+# 3. Find Duplicate Employees (Same FirstName + LastName)
 
 ```sql
-SELECT name, COUNT(*)
-FROM employee
-GROUP BY name
+SELECT FirstName, LastName, COUNT(*)
+FROM Employees
+GROUP BY FirstName, LastName
 HAVING COUNT(*) > 1;
 ```
 
@@ -35,523 +35,480 @@ HAVING COUNT(*) > 1;
 
 # 4. Delete Duplicate Records
 
+(Keep lowest EmployeeID)
+
 ```sql
-DELETE FROM employee
-WHERE id NOT IN (
-   SELECT MIN(id)
-   FROM employee
-   GROUP BY name
+DELETE FROM Employees
+WHERE EmployeeID NOT IN (
+    SELECT MIN(EmployeeID)
+    FROM Employees
+    GROUP BY FirstName, LastName
 );
 ```
 
 ---
 
-# 5. Find Employees With Salary Greater Than Average
+# 5. Employees With Salary Greater Than Average
 
 ```sql
 SELECT *
-FROM employee
-WHERE salary > (SELECT AVG(salary) FROM employee);
+FROM Employees
+WHERE Salary > (SELECT AVG(Salary) FROM Employees);
 ```
 
 ---
 
-# 6. Find Department-wise Highest Salary
+# 6. Department-wise Highest Salary
 
 ```sql
-SELECT department_id, MAX(salary)
-FROM employee
-GROUP BY department_id;
+SELECT Department, MAX(Salary) AS HighestSalary
+FROM Employees
+GROUP BY Department;
 ```
 
 ---
 
-# 7. Show Employee Who Has Highest Salary in Each Department
+# 7. Employees With Highest Salary in Each Department
 
 ```sql
 SELECT e.*
-FROM employee e
+FROM Employees e
 JOIN (
-     SELECT department_id, MAX(salary) AS max_sal
-     FROM employee
-     GROUP BY department_id
+    SELECT Department, MAX(Salary) AS max_sal
+    FROM Employees
+    GROUP BY Department
 ) d
-ON e.department_id = d.department_id
-AND e.salary = d.max_sal;
+ON e.Department = d.Department
+AND e.Salary = d.max_sal;
 ```
 
 ---
 
-# 8. Find Employees Who Earn More Than Their Manager
-
-```sql
-SELECT e.name
-FROM employee e
-JOIN employee m
-ON e.manager_id = m.employee_id
-WHERE e.salary > m.salary;
-```
-
----
-
-# 9. Find Employees Without Department
+# 8. Employees Without Department
 
 ```sql
 SELECT *
-FROM employee
-WHERE department_id IS NULL;
+FROM Employees
+WHERE Department IS NULL;
 ```
 
 ---
 
-# 10. Count Employees in Each Department
+# 9. Count Employees in Each Department
 
 ```sql
-SELECT department_id, COUNT(*)
-FROM employee
-GROUP BY department_id;
+SELECT Department, COUNT(*) AS TotalEmployees
+FROM Employees
+GROUP BY Department;
 ```
 
 ---
 
-# 11. Find Top 5 Highest Paid Employees
+# 10. Top 5 Highest Paid Employees
 
 ```sql
 SELECT *
-FROM employee
-ORDER BY salary DESC
+FROM Employees
+ORDER BY Salary DESC
 LIMIT 5;
 ```
 
 ---
 
-# 12. Find Employees Joined in Last 30 Days
+# 11. Employees With Same Salary
 
 ```sql
-SELECT *
-FROM employee
-WHERE hire_date >= CURDATE() - INTERVAL 30 DAY;
-```
-
----
-
-# 13. Find Employees With Same Salary
-
-```sql
-SELECT salary, COUNT(*)
-FROM employee
-GROUP BY salary
+SELECT Salary, COUNT(*)
+FROM Employees
+GROUP BY Salary
 HAVING COUNT(*) > 1;
 ```
 
 ---
 
-# 14. Find Employees Who Are Managers
+# 12. Even Employee IDs
 
 ```sql
 SELECT *
-FROM employee
-WHERE employee_id IN (
-   SELECT DISTINCT manager_id
-   FROM employee
-);
+FROM Employees
+WHERE EmployeeID % 2 = 0;
 ```
 
 ---
 
-# 15. Find Even Employee IDs
+# 13. Employees Whose First Name Starts With 'A'
 
 ```sql
 SELECT *
-FROM employee
-WHERE employee_id % 2 = 0;
+FROM Employees
+WHERE FirstName LIKE 'A%';
 ```
 
 ---
 
-# 16. Find Employees Whose Name Starts With 'A'
+# 14. Rank Employees by Salary
 
 ```sql
-SELECT *
-FROM employee
-WHERE name LIKE 'A%';
+SELECT FirstName, LastName, Salary,
+RANK() OVER (ORDER BY Salary DESC) AS RankPosition
+FROM Employees;
 ```
 
 ---
 
-# 17. Find Employees Who Never Received Bonus
+# 15. Running Total of Salary
 
 ```sql
-SELECT e.*
-FROM employee e
-LEFT JOIN bonus b
-ON e.employee_id = b.employee_id
-WHERE b.employee_id IS NULL;
-```
-
----
-
-# 18. Find Customers Who Ordered Every Month
-
-```sql
-SELECT customer_id
-FROM orders
-GROUP BY customer_id
-HAVING COUNT(DISTINCT MONTH(order_date)) = 12;
-```
-
----
-
-# 19. Rank Employees by Salary
-
-```sql
-SELECT name, salary,
-RANK() OVER (ORDER BY salary DESC) AS rank
-FROM employee;
-```
-
----
-
-# 20. Find Running Total of Salary
-
-```sql
-SELECT name, salary,
-SUM(salary) OVER (ORDER BY employee_id) AS running_total
-FROM employee;
+SELECT EmployeeID, FirstName, Salary,
+SUM(Salary) OVER (ORDER BY EmployeeID) AS RunningTotal
+FROM Employees;
 ```
 
 
 # 30 Scenario-Based SQL Interview Questions
 
-## 1. Find the second highest salary in the employee table.
+## 1. Get all customers with their orders
 
 ```sql
-SELECT MAX(salary)
-FROM employee
-WHERE salary < (SELECT MAX(salary) FROM employee);
+SELECT c.CustomerName, o.OrderID, o.OrderDate
+FROM Customers c
+JOIN Orders o 
+ON c.CustomerID = o.CustomerID;
 ```
 
 ---
 
-# 2. Find the Nth highest salary.
+# 2. Count total orders placed by each customer
 
 ```sql
-SELECT salary
-FROM employee
-ORDER BY salary DESC
-LIMIT 1 OFFSET N-1;
+SELECT c.CustomerName, COUNT(o.OrderID) AS TotalOrders
+FROM Customers c
+LEFT JOIN Orders o
+ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerName;
 ```
 
 ---
 
-# 3. Find employees earning more than their manager.
+# 3. Find customers who never placed any orders
 
 ```sql
-SELECT e.name
-FROM employee e
-JOIN employee m
-ON e.manager_id = m.employee_id
-WHERE e.salary > m.salary;
+SELECT c.CustomerName
+FROM Customers c
+LEFT JOIN Orders o
+ON c.CustomerID = o.CustomerID
+WHERE o.OrderID IS NULL;
 ```
 
 ---
 
-# 4. Find duplicate records in a table.
+# 4. Get all products with their category names
 
 ```sql
-SELECT name, COUNT(*)
-FROM employee
-GROUP BY name
-HAVING COUNT(*) > 1;
+SELECT p.ProductName, c.CategoryName
+FROM Products p
+JOIN Categories c
+ON p.CategoryID = c.CategoryID;
 ```
 
 ---
 
-# 5. Delete duplicate records.
+# 5. Find the most expensive product
 
 ```sql
-DELETE FROM employee
-WHERE id NOT IN (
-   SELECT MIN(id)
-   FROM employee
-   GROUP BY name
-);
-```
-
----
-
-# 6. Find the highest salary in each department.
-
-```sql
-SELECT department_id, MAX(salary)
-FROM employee
-GROUP BY department_id;
-```
-
----
-
-# 7. Find employees with the highest salary in each department.
-
-```sql
-SELECT *
-FROM employee e
-WHERE salary = (
-   SELECT MAX(salary)
-   FROM employee
-   WHERE department_id = e.department_id
-);
-```
-
----
-
-# 8. Find departments with more than 5 employees.
-
-```sql
-SELECT department_id
-FROM employee
-GROUP BY department_id
-HAVING COUNT(*) > 5;
-```
-
----
-
-# 9. Find employees who joined in the last 6 months.
-
-```sql
-SELECT *
-FROM employee
-WHERE hire_date >= CURDATE() - INTERVAL 6 MONTH;
-```
-
----
-
-# 10. Find employees whose salary is greater than the department average.
-
-```sql
-SELECT *
-FROM employee e
-WHERE salary > (
-   SELECT AVG(salary)
-   FROM employee
-   WHERE department_id = e.department_id
-);
-```
-
----
-
-# 11. Find the total salary paid in each department.
-
-```sql
-SELECT department_id, SUM(salary)
-FROM employee
-GROUP BY department_id;
-```
-
----
-
-# 12. Find the employee with the longest tenure.
-
-```sql
-SELECT *
-FROM employee
-ORDER BY hire_date
+SELECT ProductName, Price
+FROM Products
+ORDER BY Price DESC
 LIMIT 1;
 ```
 
 ---
 
-# 13. Find employees who do not have a manager.
+# 6. Find top 5 expensive products
+
+```sql
+SELECT ProductName, Price
+FROM Products
+ORDER BY Price DESC
+LIMIT 5;
+```
+
+---
+
+# 7. Get products whose price is greater than average price
+
+```sql
+SELECT ProductName, Price
+FROM Products
+WHERE Price > (SELECT AVG(Price) FROM Products);
+```
+
+---
+
+# 8. Count products in each category
+
+```sql
+SELECT c.CategoryName, COUNT(p.ProductID) AS TotalProducts
+FROM Categories c
+LEFT JOIN Products p
+ON c.CategoryID = p.CategoryID
+GROUP BY c.CategoryName;
+```
+
+---
+
+# 9. Total quantity sold per product
+
+```sql
+SELECT p.ProductName, SUM(od.Quantity) AS TotalSold
+FROM Products p
+JOIN OrderDetails od
+ON p.ProductID = od.ProductID
+GROUP BY p.ProductName;
+```
+
+---
+
+# 10. Get employees who handled orders
+
+```sql
+SELECT DISTINCT e.FirstName, e.LastName
+FROM Employees e
+JOIN Orders o
+ON e.EmployeeID = o.EmployeeID;
+```
+
+---
+
+# 11. Count orders handled by each employee
+
+```sql
+SELECT e.FirstName, COUNT(o.OrderID) AS TotalOrders
+FROM Employees e
+LEFT JOIN Orders o
+ON e.EmployeeID = o.EmployeeID
+GROUP BY e.FirstName;
+```
+
+---
+
+# 12. Find latest order
 
 ```sql
 SELECT *
-FROM employee
-WHERE manager_id IS NULL;
+FROM Orders
+ORDER BY OrderDate DESC
+LIMIT 1;
 ```
 
 ---
 
-# 14. Find employees who are managers.
+# 13. Find suppliers and number of products they supply
 
 ```sql
-SELECT *
-FROM employee
-WHERE employee_id IN (
-   SELECT DISTINCT manager_id
-   FROM employee
-);
+SELECT s.SupplierName, COUNT(p.ProductID) AS TotalProducts
+FROM Suppliers s
+LEFT JOIN Products p
+ON s.SupplierID = p.SupplierID
+GROUP BY s.SupplierName;
 ```
 
 ---
 
-# 15. Find employees hired in the same year.
+# 14. Get order details with product names
 
 ```sql
-SELECT YEAR(hire_date), COUNT(*)
-FROM employee
-GROUP BY YEAR(hire_date);
+SELECT od.OrderID, p.ProductName, od.Quantity
+FROM OrderDetails od
+JOIN Products p
+ON od.ProductID = p.ProductID;
 ```
 
 ---
 
-# 16. Find employees with same salary.
+# 15. Total items in each order
 
 ```sql
-SELECT salary, COUNT(*)
-FROM employee
-GROUP BY salary
-HAVING COUNT(*) > 1;
+SELECT OrderID, SUM(Quantity) AS TotalItems
+FROM OrderDetails
+GROUP BY OrderID;
 ```
 
 ---
 
-# 17. Find the top 3 highest salaries.
+# 16. Orders with quantity greater than 20
 
 ```sql
-SELECT DISTINCT salary
-FROM employee
-ORDER BY salary DESC
+SELECT OrderID, SUM(Quantity) AS TotalQty
+FROM OrderDetails
+GROUP BY OrderID
+HAVING SUM(Quantity) > 20;
+```
+
+---
+
+# 17. Customer who placed the highest number of orders
+
+```sql
+SELECT c.CustomerName, COUNT(o.OrderID) AS TotalOrders
+FROM Customers c
+JOIN Orders o
+ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerName
+ORDER BY TotalOrders DESC
+LIMIT 1;
+```
+
+---
+
+# 18. Products never ordered
+
+```sql
+SELECT p.ProductName
+FROM Products p
+LEFT JOIN OrderDetails od
+ON p.ProductID = od.ProductID
+WHERE od.ProductID IS NULL;
+```
+
+---
+
+# 19. Suppliers from a specific country
+
+```sql
+SELECT SupplierName, Country
+FROM Suppliers
+WHERE Country = 'USA';
+```
+
+---
+
+# 20. Total sales amount per product
+
+```sql
+SELECT p.ProductName,
+SUM(od.Quantity * p.Price) AS TotalSales
+FROM Products p
+JOIN OrderDetails od
+ON p.ProductID = od.ProductID
+GROUP BY p.ProductName;
+```
+
+---
+
+# 21. Top 3 selling products
+
+```sql
+SELECT p.ProductName, SUM(od.Quantity) AS TotalSold
+FROM Products p
+JOIN OrderDetails od
+ON p.ProductID = od.ProductID
+GROUP BY p.ProductName
+ORDER BY TotalSold DESC
 LIMIT 3;
 ```
 
 ---
 
-# 18. Find the department with the highest average salary.
-
-```sql
-SELECT department_id, AVG(salary) avg_salary
-FROM employee
-GROUP BY department_id
-ORDER BY avg_salary DESC
-LIMIT 1;
-```
-
----
-
-# 19. Rank employees based on salary.
-
-```sql
-SELECT name, salary,
-RANK() OVER (ORDER BY salary DESC) AS rank
-FROM employee;
-```
-
----
-
-# 20. Find running total of salary.
-
-```sql
-SELECT name, salary,
-SUM(salary) OVER (ORDER BY employee_id) AS running_total
-FROM employee;
-```
-
----
-
-# 21. Find employees who joined before their manager.
-
-```sql
-SELECT e.name
-FROM employee e
-JOIN employee m
-ON e.manager_id = m.employee_id
-WHERE e.hire_date < m.hire_date;
-```
-
----
-
-# 22. Find employees who never received bonus.
-
-```sql
-SELECT e.*
-FROM employee e
-LEFT JOIN bonus b
-ON e.employee_id = b.employee_id
-WHERE b.employee_id IS NULL;
-```
-
----
-
-# 23. Find departments without employees.
-
-```sql
-SELECT d.department_id
-FROM department d
-LEFT JOIN employee e
-ON d.department_id = e.department_id
-WHERE e.employee_id IS NULL;
-```
-
----
-
-# 24. Find customers who placed more than 5 orders.
-
-```sql
-SELECT customer_id, COUNT(*)
-FROM orders
-GROUP BY customer_id
-HAVING COUNT(*) > 5;
-```
-
----
-
-# 25. Find customers who never placed orders.
-
-```sql
-SELECT c.*
-FROM customers c
-LEFT JOIN orders o
-ON c.customer_id = o.customer_id
-WHERE o.customer_id IS NULL;
-```
-
----
-
-# 26. Find the first order placed by each customer.
-
-```sql
-SELECT customer_id, MIN(order_date)
-FROM orders
-GROUP BY customer_id;
-```
-
----
-
-# 27. Find employees with odd employee IDs.
+# 22. Orders placed in a specific year
 
 ```sql
 SELECT *
-FROM employee
-WHERE employee_id % 2 <> 0;
+FROM Orders
+WHERE EXTRACT(YEAR FROM OrderDate) = 2024;
 ```
 
 ---
 
-# 28. Find employees whose name starts with 'S'.
+# 23. Customers and total products they ordered
 
 ```sql
-SELECT *
-FROM employee
-WHERE name LIKE 'S%';
+SELECT c.CustomerName, SUM(od.Quantity) AS TotalProducts
+FROM Customers c
+JOIN Orders o
+ON c.CustomerID = o.CustomerID
+JOIN OrderDetails od
+ON o.OrderID = od.OrderID
+GROUP BY c.CustomerName;
 ```
 
 ---
 
-# 29. Find employees whose salary is between 50k and 80k.
+# 24. Average product price per category
 
 ```sql
-SELECT *
-FROM employee
-WHERE salary BETWEEN 50000 AND 80000;
+SELECT c.CategoryName, AVG(p.Price) AS AvgPrice
+FROM Categories c
+JOIN Products p
+ON c.CategoryID = p.CategoryID
+GROUP BY c.CategoryName;
 ```
 
 ---
 
-# 30. Find employees working in multiple departments.
+# 25. Employees earning above average salary
 
 ```sql
-SELECT employee_id
-FROM employee_department
-GROUP BY employee_id
-HAVING COUNT(DISTINCT department_id) > 1;
+SELECT FirstName, Salary
+FROM Employees
+WHERE Salary > (SELECT AVG(Salary) FROM Employees);
 ```
 
+---
+
+# 26. Second highest salary
+
+```sql
+SELECT DISTINCT Salary
+FROM Employees
+ORDER BY Salary DESC
+LIMIT 1 OFFSET 1;
+```
+
+---
+
+# 27. Cities having more than 1 customer
+
+```sql
+SELECT City, COUNT(*) AS TotalCustomers
+FROM Customers
+GROUP BY City
+HAVING COUNT(*) > 1;
+```
+
+---
+
+# 28. Orders with customer and employee information
+
+```sql
+SELECT o.OrderID, c.CustomerName, e.FirstName, o.OrderDate
+FROM Orders o
+JOIN Customers c
+ON o.CustomerID = c.CustomerID
+JOIN Employees e
+ON o.EmployeeID = e.EmployeeID;
+```
+
+---
+
+# 29. Total revenue generated per order
+
+```sql
+SELECT od.OrderID,
+SUM(od.Quantity * p.Price) AS Revenue
+FROM OrderDetails od
+JOIN Products p
+ON od.ProductID = p.ProductID
+GROUP BY od.OrderID;
+```
+
+---
+
+# 30. List orders with shipper name
+
+```sql
+SELECT o.OrderID, s.ShipperName, o.OrderDate
+FROM Orders o
+JOIN Shippers s
+ON o.ShipperID = s.ShipperID;
+```
