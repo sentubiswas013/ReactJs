@@ -37,119 +37,6 @@ AppB/Button
 
 directly from another deployed application.
 
----
-
-# 3. Why Module Federation is Needed
-
-Without Module Federation:
-
-* Every micro frontend must bundle all dependencies
-* Code duplication happens
-* Hard to share UI components
-
-With Module Federation:
-
-✔ Share components
-✔ Share libraries
-✔ Load remote modules dynamically
-✔ Independent deployment
-
----
-
-# 4. Real World Example
-
-Imagine a **shopping website**.
-
-| Micro Frontend  | Owned By      |
-| --------------- | ------------- |
-| Header          | Core UI Team  |
-| Product Listing | Product Team  |
-| Cart            | Checkout Team |
-| User Profile    | Account Team  |
-
-If **Cart App** wants to use **Header Component**.
-
-Using Module Federation:
-
-```
-import Header from "headerApp/Header";
-```
-
-The component loads **from the remote application**.
-
----
-
-# 5. Key Concepts in Module Federation
-
-### 1️⃣ Host (Shell App)
-
-Main application that **consumes remote modules**.
-
-Example:
-
-```
-Main App
-```
-
----
-
-### 2️⃣ Remote
-
-Application that **exposes components to others**.
-
-Example:
-
-```
-Header App exposes Header component
-```
-
----
-
-### 3️⃣ Exposes
-
-What a remote application shares.
-
-Example:
-
-```
-exposes: {
- "./Header": "./src/Header"
-}
-```
-
----
-
-### 4️⃣ Remotes
-
-What the host consumes.
-
-Example:
-
-```
-remotes: {
- headerApp: "headerApp@http://localhost:3001/remoteEntry.js"
-}
-```
-
----
-
-# 6. Simple Architecture
-
-```
-                Browser
-                   |
-                   |
-           Shell / Host App
-            (Main Container)
-            /      |      \
-           /       |       \
-  Product App   Cart App   User App
-    (Remote)     (Remote)   (Remote)
-```
-
-Each app is deployed separately.
-
----
 
 # 7. Example Configuration (Webpack)
 
@@ -184,6 +71,32 @@ import Header from "headerApp/Header";
 
 
 # 🟢 1. React Fundamentals
+
+### 1. Explain about Default React Project?
+my-react-app
+│
+├── node_modules          # All installed npm packages and dependencies (auto-generated)
+│
+├── public                # Static files served directly by the browser
+│   ├── index.html        # Main HTML file where the React app is mounted (contains <div id="root">)
+│   ├── favicon.ico       # Browser tab icon
+│   └── manifest.json     # PWA configuration (app name, icons, theme settings)
+│
+├── src                   # Main development folder containing React code
+│   ├── App.css           # CSS styles specific to the App component
+│   ├── App.js            # Root React component (main UI structure)
+│   ├── App.test.js       # Unit test file for App component (Jest testing)
+│   ├── index.css         # Global CSS styles applied to the entire application
+│   ├── index.js          # Entry point of React app (renders App component into index.html)
+│   ├── logo.svg          # Default React logo image used in the app
+│   ├── reportWebVitals.js # Used to measure application performance metrics
+│   └── setupTests.js     # Configuration file for testing libraries
+│
+├── .gitignore            # Files and folders ignored by Git (like node_modules, build)
+├── package.json          # Project metadata, dependencies, and npm scripts
+├── package-lock.json     # Exact dependency versions for consistent installs
+└── README.md             # Documentation and project information
+
 
 ### 1. What is React and why is it used?
 

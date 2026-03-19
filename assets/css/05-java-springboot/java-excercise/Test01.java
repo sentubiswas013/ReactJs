@@ -23,19 +23,17 @@ public class Test01 {
     }
 
     public static void main(String[] args) {
-        String sentence="Java Stream API is very powerful";
-        List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
-        List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
+        List<Integer> num01 = Arrays.asList(0,1,6,2,3,0,4,5,6);
+        List<Integer> num02 = Arrays.asList(1,2,0,3,4,2,5,1,0);
         List<String> words = Arrays.asList("java","stream","api");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
         // 1. Filter Even Numbers 
         List<Integer> even = num01.stream()
-            .filter(e -> e%2 == 2)
-            .toList();
+                .filter(e -> e % 2 == 0)
+                .toList();
 
-        
-        System.out.println("1. Even Numbers: " + even);
+        // System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]
 
         // =======================================================
@@ -97,10 +95,13 @@ public class Test01 {
 
         // =======================================================
         // 9. Find Duplicate Elements    
-
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = num01.stream()
+            .filter(n -> !seen.add(n))
+            .collect(Collectors.toSet());
 
         
-        // System.out.println("9. Duplicates: " + duplicates);
+        System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [1, 2]
 
         // =======================================================
@@ -135,8 +136,10 @@ public class Test01 {
 
         // =======================================================
         // 14. To merge two arrays and sort the resulting array in ascending order
-        
-
+        List<Integer> resultSort = Stream.concat(num01.stream(), num02.stream())
+             .sorted()
+             .toList();
+                
 
         // System.out.println(Arrays.toString(result));
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
@@ -144,10 +147,19 @@ public class Test01 {
 
         // =======================================================
         // 14. 0 should go to outside without change order
+        // List<Integer> resultRight = Stream.concat(
+        //     num01.stream().filter(n -> n != 0),
+        //     num01.stream().filter(n -> n == 0)
+        // ).toList();
+
+        List<Integer> resultRight = Stream.concat(
+                num01.stream().filter(n -> n != 0),
+                num01.stream().filter(n -> n == 0)
+        ).toList();
         
 
 
-        // System.out.println(result);
+         System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
         
 
@@ -215,9 +227,12 @@ public class Test01 {
         // Output: 22. Palindromes: []
 
         // =======================================================
-        // 23. Convert List to Map
-        Map<Integer, String> map = words.stream()
-            .collect(Collectors.toMap(String::length, w-> w));
+        // 23. Convert List to Map[-]
+        Map<Integer, String> map = Arrays.stream(sentence.split(" "))
+            .collect(Collectors.toMap(w -> w, String::length));
+
+        // Map<Integer, String> map = words.stream()
+        //     .collect(Collectors.toMap(String::length, w-> w));
 
         // System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}

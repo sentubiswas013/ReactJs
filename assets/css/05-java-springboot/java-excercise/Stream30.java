@@ -161,6 +161,7 @@ public class Stream30 {
                              .sorted()
                              .toList();
 
+
         System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
 
@@ -252,6 +253,12 @@ public class Stream30 {
 
         // =======================================================
         // 23. Convert List to Map
+       //  Map<Integer, String> map = Arrays.stream(sentence.split(" "))
+                // .collect(Collectors.toMap(
+                //         String::length,
+                //         w -> w
+                // ));
+
         Map<String, Integer> map = words.stream()
                 .collect(Collectors.toMap(w -> w, String::length));
         // System.out.println("21. Map: " + map);

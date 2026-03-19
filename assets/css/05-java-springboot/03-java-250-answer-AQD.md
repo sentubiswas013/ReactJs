@@ -3995,7 +3995,7 @@ public class OrderService {
 }
 ```
 
-## 9. What is @Qualifier annotation?
+## 9. What is @Qualifier and @Primary annotation?
 
 `@Qualifier` is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
 
@@ -4015,7 +4015,8 @@ public class EmailSender implements MessageSender { }
 public class SmsSender implements MessageSender { }
 ```
 
-Without @Qualifier, Spring would throw an exception due to multiple beans of type MessageSender.
+* **`@Primary`** is used to mark a bean as the **default bean**. When Spring finds multiple beans of the same type, it will automatically inject the bean marked with `@Primary`.
+
 
 ## 10. What is ApplicationContext?
 
