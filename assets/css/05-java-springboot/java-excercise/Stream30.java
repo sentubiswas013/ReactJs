@@ -253,15 +253,13 @@ public class Stream30 {
 
         // =======================================================
         // 23. Convert List to Map
-       //  Map<Integer, String> map = Arrays.stream(sentence.split(" "))
-                // .collect(Collectors.toMap(
-                //         String::length,
-                //         w -> w
-                // ));
-
-        Map<String, Integer> map = words.stream()
+        Map<String, Integer> map = Arrays.stream(sentence.split(" "))
                 .collect(Collectors.toMap(w -> w, String::length));
-        // System.out.println("21. Map: " + map);
+
+        // Map<Integer, String> map = words.stream()
+        //     .collect(Collectors.toMap(String::length, w-> w));
+
+        System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
 
 

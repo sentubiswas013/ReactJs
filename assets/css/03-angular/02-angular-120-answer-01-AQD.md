@@ -1,5 +1,5 @@
 # 🔹 1. Angular Fundamentals
-### 1. What is Angular?
+### 0. What is Angular?
 
 Angular is a **TypeScript-based web framework** developed by Google for building dynamic single-page applications. It's a complete platform that includes:
 - Component-based architecture
@@ -9,15 +9,101 @@ Angular is a **TypeScript-based web framework** developed by Google for building
 - Dependency injection
 
 ```typescript
-// Simple Angular component
-@Component({
-  selector: 'app-hello',
-  template: '<h1>Hello {{name}}!</h1>'
-})
-export class HelloComponent {
-  name = 'Angular';
-}
+// Default Angular Project Setp and files
+my-angular-app/
+│
+├── node_modules/              # All installed npm packages (Angular, RxJS, TypeScript etc.)
+│                              # Generated automatically after npm install
+├── src/                       # Main source code of the application
+│   ├── app/                   # Main application folder where components/services live
+│   │   ├── app.component.ts   # Root component logic (TypeScript)
+│   │   │                      # First component loaded when app starts
+│   │   ├── app.component.html # Template (UI structure) for root component
+│   │   │                      # Contains HTML for the root page
+│   │   ├── app.component.css  # Styles for root component
+│   │   │                      # Component-specific CSS
+│   │   ├── app.component.spec.ts
+│   │   │                      # Unit test file for root component
+│   │   │                      # Used by Jasmine/Karma testing framework
+│   │   ├── app.config.ts      # Application configuration (Angular 15+ standalone config)
+│   │   │                      # Used to register providers, router, etc.
+│   │   └── app.routes.ts      # Routing configuration
+│   │                          # Defines navigation between components/pages
+│   ├── assets/                # Static files like images, fonts, icons
+│   │                          # These files are served directly without processing
+│   ├── favicon.ico            # Browser tab icon
+│   ├── index.html             # Main HTML file loaded by browser
+│   │                          # Angular app bootstraps inside <app-root
+│   ├── main.ts                # Entry point of Angular application
+│   │                          # Bootstraps the root component
+│   ├── styles.css             # Global styles for entire application
+│   │                          # Used for shared CSS across all components
+│   └── environments/          # Environment-specific configuration
+│       ├── environment.ts     # Development environment variables
+│       │                      # Example: API URLs for dev
+│       └── environment.prod.ts
+│                              # Production environment configuration
+├── angular.json               # Angular CLI configuration file
+│                              # Controls build, serve, test settings
+├── package.json               # Project dependencies and npm scripts
+│                              # Example: start, build, test commands
+├── package-lock.json          # Exact dependency versions for consistent installs
+├── tsconfig.json              # TypeScript compiler configuration
+│                              # Controls how TypeScript converts to JavaScript
+├── tsconfig.app.json          # TypeScript config for application source files
+├── tsconfig.spec.json         # TypeScript config for unit tests
+└── README.md                  # Project documentation
+
+
+
+1. `index.html` loads in browser
+2. `main.ts` bootstraps Angular
+3. `AppComponent` renders the application UI
+
+// main.ts - Application entry point.
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent);
 ```
+
+---
+
+### 1. What are the new feature in Angular 17, 19, and 21 ?
+Here are the **key features of Angular 17, 19, and 21** in **simple bullet points**.
+
+## Angular 17 Features
+
+* Built-in **Control Flow Syntax** (`@if`, `@for`, `@switch`) replacing `*ngIf`, `*ngFor`.
+* **Deferrable Views (`@defer`)** for lazy loading UI components.
+* **New SSR package (`@angular/ssr`)** for server-side rendering.
+* **New lifecycle hooks** like `afterRender()` and `afterNextRender()`.
+* **Improved performance** with faster build tools (Vite + esbuild).
+* **View Transitions API** for smoother route animations.
+* **Better hydration support** for SSR applications.
+
+---
+
+## Angular 19 Features
+
+* **Standalone components by default** (less dependency on NgModules).
+* **Hot Module Replacement (HMR)** for faster development without full page reload.
+* **Improved security** with automatic Content Security Policy (CSP).
+* **Unused import detection** in components.
+* **Better template type checking** and compiler improvements.
+* **Enhanced performance** and smaller bundle sizes.
+
+---
+
+## Angular 21 Features
+
+* **Signal-based Forms (Signal Forms)** for reactive form handling.
+* **Zoneless Angular** (optional removal of `zone.js` for better performance).
+* **Vitest support** as modern test runner (replacing Karma).
+* **Improved Server-Side Rendering and Hydration**.
+* **Angular ARIA library** for accessible UI components.
+* **Better CLI tooling and faster builds**.
+
 
 ---
 

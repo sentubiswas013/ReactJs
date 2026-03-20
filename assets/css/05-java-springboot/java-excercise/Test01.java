@@ -23,6 +23,7 @@ public class Test01 {
     }
 
     public static void main(String[] args) {
+        String sentence = "Java Stream API Example";
         List<Integer> num01 = Arrays.asList(0,1,6,2,3,0,4,5,6);
         List<Integer> num02 = Arrays.asList(1,2,0,3,4,2,5,1,0);
         List<String> words = Arrays.asList("java","stream","api");
@@ -159,7 +160,7 @@ public class Test01 {
         
 
 
-         System.out.println(resultRight);
+        // System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
         
 
@@ -228,8 +229,8 @@ public class Test01 {
 
         // =======================================================
         // 23. Convert List to Map[-]
-        Map<Integer, String> map = Arrays.stream(sentence.split(" "))
-            .collect(Collectors.toMap(w -> w, String::length));
+        Map<String, Integer> map = Arrays.stream(sentence.split(" "))
+                .collect(Collectors.toMap(w -> w, String::length));
 
         // Map<Integer, String> map = words.stream()
         //     .collect(Collectors.toMap(String::length, w-> w));
