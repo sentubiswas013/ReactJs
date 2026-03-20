@@ -4018,7 +4018,7 @@ public class SmsSender implements MessageSender { }
 * **`@Primary`** is used to mark a bean as the **default bean**. When Spring finds multiple beans of the same type, it will automatically inject the bean marked with `@Primary`.
 
 
-## 10. What is ApplicationContext?
+## 10. What is ApplicationContext and @Profile Annotation?
 
 `ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
@@ -4044,6 +4044,45 @@ public class MyService {
     }
 }
 ```
+
+**Spring Profiles: ** allow you to **separate configuration for different environments** like **development, testing, and production**. Only the beans/configurations belonging to the **active profile** will be loaded.
+
+**Dev Configuration**
+
+```java
+@Configuration
+@Profile("dev")
+public class DevConfig {
+
+    @Bean
+    public String dataSource() {
+        return "H2 Database (Development)";
+    }
+}
+```
+
+**Production Configuration**
+
+```java
+@Configuration
+@Profile("prod")
+public class ProdConfig {
+
+    @Bean
+    public String dataSource() {
+        return "MySQL Database (Production)";
+    }
+}
+```
+
+**application.yml**
+
+```yaml
+spring:
+  profiles:
+    active: prod
+```
+
 
 ## 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
