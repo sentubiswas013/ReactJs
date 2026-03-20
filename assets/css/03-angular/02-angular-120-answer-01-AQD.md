@@ -70,9 +70,8 @@ bootstrapApplication(AppComponent);
 ---
 
 ### 1. What are the new feature in Angular 17, 19, and 21 ?
-Here are the **key features of Angular 17, 19, and 21** in **simple bullet points**.
 
-## Angular 17 Features
+**Angular 17 Features**
 
 * Built-in **Control Flow Syntax** (`@if`, `@for`, `@switch`) replacing `*ngIf`, `*ngFor`.
 * **Deferrable Views (`@defer`)** for lazy loading UI components.
@@ -82,9 +81,8 @@ Here are the **key features of Angular 17, 19, and 21** in **simple bullet point
 * **View Transitions API** for smoother route animations.
 * **Better hydration support** for SSR applications.
 
----
 
-## Angular 19 Features
+**Angular 19 Features**
 
 * **Standalone components by default** (less dependency on NgModules).
 * **Hot Module Replacement (HMR)** for faster development without full page reload.
@@ -93,9 +91,8 @@ Here are the **key features of Angular 17, 19, and 21** in **simple bullet point
 * **Better template type checking** and compiler improvements.
 * **Enhanced performance** and smaller bundle sizes.
 
----
 
-## Angular 21 Features
+**Angular 21 Features**
 
 * **Signal-based Forms (Signal Forms)** for reactive form handling.
 * **Zoneless Angular** (optional removal of `zone.js` for better performance).
@@ -103,7 +100,6 @@ Here are the **key features of Angular 17, 19, and 21** in **simple bullet point
 * **Improved Server-Side Rendering and Hydration**.
 * **Angular ARIA library** for accessible UI components.
 * **Better CLI tooling and faster builds**.
-
 
 ---
 
