@@ -15,58 +15,137 @@ E-commerce App
 
 Each module can be **developed, deployed, and updated independently**.
 
----
 
-# 2. What is Module Federation?
+# 2. 
+# 1. What is Module Federation
 
-**Module Federation** allows one application to **dynamically import modules from another application at runtime**.
+**Module Federation** allows one application (**host**) to **load modules from another application (remote) at runtime**.
 
-Without rebuilding the whole app.
+Benefits:
+
+* Micro-frontend architecture
+* Independent deployment
+* Share common libraries
+
+
+
+**2. Remote Application Configuration**
+
+**webpack.config.js**
+
+```javascript
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+
+module.exports = {
+  output: {
+    publicPath: "http://localhost:4201/",
+  },
+
+  plugins: [
+    new ModuleFederationPlugin({
+      name: "remoteApp",                 // Remote app name
+      filename: "remoteEntry.js",        // Entry file exposed to host
+
+      exposes: {
+        "./Header": "./src/app/header/header.component.ts", 
+        // Exposing Header component to other apps
+      },
+
+      shared: {
+        "@angular/core": { singleton: true },
+        "@angular/common": { singleton: true },
+        "@angular/router": { singleton: true }
+      }
+    })
+  ]
+};
+```
+
+Explanation:
+
+* **name** → name of remote application
+* **filename** → entry file used by host
+* **exposes** → components/modules exposed to host
+* **shared** → shared dependencies (avoid duplicate loading)
+
+
+**3. Host Application Configuration**
+
+**webpack.config.js**
+
+```javascript
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+
+module.exports = {
+
+  plugins: [
+    new ModuleFederationPlugin({
+
+      remotes: {
+        remoteApp: "remoteApp@http://localhost:4201/remoteEntry.js"
+      },
+
+      shared: {
+        "@angular/core": { singleton: true },
+        "@angular/common": { singleton: true },
+        "@angular/router": { singleton: true }
+      }
+
+    })
+  ]
+};
+```
+
+Explanation:
+
+* **remotes** → loads remote application
+* Format:
+
+```
+remoteName@URL/remoteEntry.js
+```
+
+
+**4. Import Remote Component in Host**
+
+```typescript
+import('remoteApp/Header').then(m => {
+  const HeaderComponent = m.HeaderComponent;
+});
+```
+
+This dynamically loads the **Header component from remote application**.
+
+
+**5. Angular CLI Module Federation Example**
+
+Install plugin:
+
+```bash
+npm install @angular-architects/module-federation
+```
+
+Generate config:
+
+```bash
+ng add @angular-architects/module-federation --project host
+```
 
 Example:
 
-```
-App A → uses Button component from App B
-```
-
-So App A can load:
-
-```
-AppB/Button
-```
-
-directly from another deployed application.
-
-
-# 7. Example Configuration (Webpack)
-
-Remote app:
-
 ```javascript
-new ModuleFederationPlugin({
-  name: "headerApp",
-  filename: "remoteEntry.js",
-  exposes: {
-    "./Header": "./src/Header"
-  },
-  shared: ["react", "react-dom"]
-})
-```
+module.exports = {
+  name: "host",
 
-Host app:
-
-```javascript
-new ModuleFederationPlugin({
   remotes: {
-    headerApp: "headerApp@http://localhost:3001/remoteEntry.js"
+    mfe1: "http://localhost:4201/remoteEntry.js"
+  },
+
+  shared: {
+    "@angular/core": { singleton: true, strictVersion: true },
+    "@angular/common": { singleton: true }
   }
-})
-```
-
-Usage:
-
-```javascript
-import Header from "headerApp/Header";
+};
 ```
 
 
