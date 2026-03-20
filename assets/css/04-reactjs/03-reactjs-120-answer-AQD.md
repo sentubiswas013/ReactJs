@@ -16,8 +16,7 @@ E-commerce App
 Each module can be **developed, deployed, and updated independently**.
 
 
-# 2. 
-# 1. What is Module Federation
+# 2. What is Module Federation
 
 **Module Federation** allows one application (**host**) to **load modules from another application (remote) at runtime**.
 
@@ -152,6 +151,7 @@ module.exports = {
 # 🟢 1. React Fundamentals
 
 ### 1. Explain about Default React Project?
+```typescript
 my-react-app
 │
 ├── node_modules          # All installed npm packages and dependencies (auto-generated)
@@ -175,7 +175,7 @@ my-react-app
 ├── package.json          # Project metadata, dependencies, and npm scripts
 ├── package-lock.json     # Exact dependency versions for consistent installs
 └── README.md             # Documentation and project information
-
+```
 
 ### 1. What is React and why is it used?
 
