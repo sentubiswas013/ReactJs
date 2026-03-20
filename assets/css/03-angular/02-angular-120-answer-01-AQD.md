@@ -1,5 +1,4 @@
 # 🔹 1. Angular Fundamentals
-### 0. What is Angular?
 
 Angular is a **TypeScript-based web framework** developed by Google for building dynamic single-page applications. It's a complete platform that includes:
 - Component-based architecture
