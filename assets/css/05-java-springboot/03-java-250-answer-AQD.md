@@ -4203,9 +4203,33 @@ If we don’t want to manually write **getters and setters** in Java, we can use
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
-## 17.How do you create custom auto-configuration?
+## 17. How can you create a custom configuration adn auto-configuration in Spring Boot?
 
-Create a configuration class with `@Configuration` and `@Conditional` annotations, then register it in `META-INF/spring.factories`.
+Create **custom configuration** using `@Configuration` and `@Bean` annotations.
+
+```java
+@Configuration
+public class AppConfig {
+    
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+    
+    @Bean
+    @ConditionalOnProperty(name = "app.cache.enabled", havingValue = "true")
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager();
+    }
+}
+```
+
+```properties
+# application.properties
+app.cache.enabled=true
+```
+
+Create a **Auto configuration** class with conditional annotations and register it in `META-INF/spring.factories`.
 
 ```java
 @Configuration
@@ -4215,20 +4239,14 @@ public class MyAutoConfiguration {
     
     @Bean
     @ConditionalOnMissingBean
-    public MyService myService(MyProperties props) {
-        return new MyService(props.getName());
+    public MyService myService(MyProperties properties) {
+        return new MyService(properties);
     }
-}
-
-@ConfigurationProperties(prefix = "my.service")
-public class MyProperties {
-    private String name;
-    // getters/setters
 }
 ```
 
-```java
-// META-INF/spring.factories
+```properties
+# META-INF/spring.factories
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.MyAutoConfiguration
 ```
