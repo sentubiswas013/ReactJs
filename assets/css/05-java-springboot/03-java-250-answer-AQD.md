@@ -3669,15 +3669,10 @@ Here the **Spring Container creates the `UserService` object and provides it whe
 
 ## 11. What is the difference between Java Bean and Spring beans?
 
-A **Java Bean** is a simple Java class that follows some rules:
-
-* It must have a **no-argument constructor**
-* Properties should be **private**
-* Use **getters and setters**
-* Usually **implements Serializable**
+A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
 
 ```java
-class User {
+public class User {
     private String name;
 
     public User() {}   // no-arg constructor
@@ -3692,23 +3687,31 @@ class User {
 }
 ```
 
-A **Spring Bean** is simply an **object that is created and managed by the Spring IoC container**.
-
-It can be defined using:
-
-* `@Component`
-* `@Service`
-* `@Repository`
-* `@Bean`
-
-**Example**
+Usage:
 
 ```java
-@Service
-class UserService {
+User user = new User();
+user.setName("John");
+```
+
+A **Spring Bean** is an object that is created and managed by the **Spring IoC container**, and it supports features like dependency injection, lifecycle management, and configuration.
+
+```java
+@Component
+public class UserService {
+
+    public void printUser() {
+        System.out.println("User Service Running");
+    }
 }
 ```
 
+Usage (Dependency Injection):
+
+```java
+@Autowired
+private UserService userService;
+```
 
 
 ## 12. What are Bean life cycle in sprintboot 
@@ -3951,30 +3954,33 @@ public class OrderService {
 }
 ```
 
-## 9. What is @Qualifier and @Primary annotation?
+## 9. What is @Profile Annotation?
 
-**`@Qualifier`** is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
+**Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
 
 ```java
-@Service
-public class NotificationService {
-    
-    @Autowired
-    @Qualifier("emailSender")
-    private MessageSender messageSender; // Specifies which implementation
-}
+# application.properties
+spring.profiles.active=dev
 
-@Component("emailSender")
-public class EmailSender implements MessageSender { }
+# application-dev.properties
+server.port=8080
+spring.datasource.url=jdbc:h2:mem:testdb
 
-@Component("smsSender") 
-public class SmsSender implements MessageSender { }
+# application-prod.properties
+server.port=80
+spring.datasource.url=jdbc:mysql://prod-server:3306/mydb
 ```
 
-**`@Primary`** is used to mark a bean as the **default bean**. When Spring finds multiple beans of the same type, it will automatically inject the bean marked with `@Primary`.
+```java
+@Component
+@Profile("dev")
+public class DevDataLoader {
+    // Only loaded in dev profile
+}
+```
 
 
-## 10. What is ApplicationContext and @Profile Annotation?
+## 10. What is ApplicationContext?
 
 `ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
@@ -4001,28 +4007,6 @@ public class MyService {
 }
 ```
 
-**Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
-
-```java
-# application.properties
-spring.profiles.active=dev
-
-# application-dev.properties
-server.port=8080
-spring.datasource.url=jdbc:h2:mem:testdb
-
-# application-prod.properties
-server.port=80
-spring.datasource.url=jdbc:mysql://prod-server:3306/mydb
-```
-
-```java
-@Component
-@Profile("dev")
-public class DevDataLoader {
-    // Only loaded in dev profile
-}
-```
 
 ## 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
