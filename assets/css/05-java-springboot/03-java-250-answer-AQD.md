@@ -7460,6 +7460,45 @@ It includes system metrics (CPU, memory), application metrics (response time, er
 
 It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
 
+## 10: A microservice is running in production, and one of the services is failing. How do you identify and fix the issue?
+
+**Answer way one:**
+If a microservice fails in production, I follow a systematic troubleshooting approach.
+
+First, I check the **monitoring dashboard** such as **Grafana** or **Prometheus** to identify which service is failing and observe metrics like error rate, latency, CPU, and memory usage.
+
+Second, I analyze the **application logs** using tools like the **ELK Stack** to find exceptions, timeout errors, or database connection issues.
+
+Third, if the service is containerized, I check the pod or container status in **Kubernetes** by verifying whether the pod is running, restarting, or crashing.
+
+Next, I check **downstream dependencies** such as the database (**PostgreSQL**), cache (**Redis**), or message broker (**Apache Kafka**) because sometimes the service fails due to dependency issues.
+
+Then I verify whether there was a **recent deployment or configuration change** through CI/CD tools like **Jenkins**. If the issue started after deployment, I may roll back to the previous stable version.
+
+Finally, after identifying the root cause, I fix the issue, redeploy the service if required, and ensure proper monitoring, logging, and alerts are in place to prevent similar issues in the future.
+
+
+**Answer way Two:**
+In production microservice environments, there are several ways to identify and fix issues.
+
+First, I use **distributed tracing** tools like **Jaeger** or **Zipkin** to trace the request flow across services and identify exactly which microservice is failing or where latency or timeouts occur.
+
+Second, I check **health check endpoints** using **Spring Boot Actuator** in **Spring Boot**. For example, the `/actuator/health` endpoint helps verify the service status, database connectivity, and other system health indicators.
+
+To prevent cascading failures, I use the **circuit breaker pattern** with tools like **Resilience4j** or **Hystrix**. This stops further calls to a failing service and provides a fallback response so the system remains stable.
+
+If the issue is caused by **high traffic**, I scale the service using **Kubernetes** by increasing the number of service instances.
+
+Sometimes the issue may be temporary, such as a memory leak or thread deadlock, so **restarting the service or container** can resolve it.
+
+I also verify **configuration settings**, such as environment variables or centralized configuration using **Spring Cloud Config**, to ensure there are no misconfigurations.
+
+Finally, if the issue started after a new release, I check the CI/CD pipeline using tools like **Jenkins** and perform a **rollback to the previous stable version** if necessary.
+
+Overall, by using tracing, health checks, circuit breakers, scaling, configuration checks, and deployment rollback, we can quickly identify the root cause and restore the service in production.
+
+
+
 
 # ✅ 27.  Common Issues
 
