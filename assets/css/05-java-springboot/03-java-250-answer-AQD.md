@@ -3874,40 +3874,6 @@ public class Application {
 spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 ```
 
-**Disable for a Specific Configuration Class**
-
-If you are not using `@SpringBootApplication` in that class:
-
-```java
-@Configuration
-@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-public class CustomConfig {
-}
-```
-
-**How to Disable Specific Auto-Configuration Class**
-
-```java
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-
-@SpringBootApplication(
-    exclude = DataSourceAutoConfiguration.class
-)
-public class Application {
-}
-```
-
-**How to Disable Multiple Auto Configurations**
-
-```java
-@SpringBootApplication(
-    exclude = {
-        DataSourceAutoConfiguration.class,
-        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-    }
-)
-```
-
 ## 6. What is @SpringBootApplication annotation?
 
 @SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
@@ -4059,7 +4025,6 @@ public class DevDataLoader {
     // Only loaded in dev profile
 }
 ```
-
 
 ## 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
@@ -4302,13 +4267,6 @@ It helps developers **identify performance issues, delays, and failures** by sho
 4. **Inventory Service** updates stock
 5. **Notification Service** sends email/SMS
 
-**Tools Used**
-
-* **Zipkin**
-* **Jaeger**
-* **OpenTelemetry**
-* **Spring Cloud Sleuth**
-
 ## 18. What is Spring Scheduler?
 
 **Spring Scheduler** is a feature in **Spring Framework** used to **run tasks automatically at a scheduled time or at fixed intervals**.
@@ -4323,7 +4281,6 @@ It is commonly used for **background jobs** like sending emails, cleaning logs, 
 * **Database backup every day**
 
 **Enable Scheduling**
-
 ```java
 @EnableScheduling
 @SpringBootApplication
@@ -4335,7 +4292,6 @@ public class Application {
 ```
 
 **Create Scheduled Task**
-
 ```java
 @Component
 public class MyScheduler {
@@ -4415,6 +4371,157 @@ public class ApiController {
 ```
 
 `@RestController` = `@Controller` + `@ResponseBody`
+
+ 
+## 21. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
+
+These annotations define lifecycle callbacks that execute after bean initialization and before destruction.
+
+```java
+@Service
+public class DatabaseService {
+    
+    private Connection connection;
+    
+    @PostConstruct
+    public void init() {
+        // Called after dependency injection
+        connection = DriverManager.getConnection("jdbc:h2:mem:testdb");
+        System.out.println("Database connection established");
+    }
+    
+    @PreDestroy
+    public void cleanup() {
+        // Called before bean destruction
+        if (connection != null) {
+            connection.close();
+        }
+        System.out.println("Database connection closed");
+    }
+}
+```
+**Lifecycle order:** Constructor → Dependency Injection → @PostConstruct → Bean Ready → @PreDestroy → Destruction
+
+`@Scope` defines the lifecycle and visibility of Spring beans. It controls how many instances Spring creates.
+
+```java
+@Component
+@Scope("singleton") // Default scope
+public class ConfigService {
+    // One instance per Spring container
+}
+
+@Component
+@Scope("prototype")
+public class TaskProcessor {
+    // New instance every time it's requested
+}
+
+@Component
+@Scope("request")
+public class RequestContext {
+    // One instance per HTTP request
+}
+
+@Component
+@Scope("session")
+public class UserSession {
+    // One instance per HTTP session
+}
+```
+
+## 22. How do you manage Spring Beans in Spring Boot?
+
+Spring Boot automatically manages beans through component scanning and auto-configuration. You can also define custom beans explicitly.
+
+```java
+// Automatic bean management
+@Service
+public class UserService { }
+
+@Repository
+public class UserRepository { }
+
+// Manual bean definition
+@Configuration
+public class BeanConfig {
+    
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager();
+    }
+    
+    @Bean
+    @ConditionalOnProperty("app.redis.enabled")
+    public RedisTemplate redisTemplate() {
+        return new RedisTemplate();
+    }
+}
+```
+
+Spring manages the entire lifecycle: creation, dependency injection, initialization, and destruction.
+
+## 23. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
+
+These annotations define JPA relationships between entities with different cardinalities.
+
+```java
+// One User has Many Orders
+@Entity
+public class User {
+    @Id
+    private Long id;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
+}
+
+// Many Orders belong to One User
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+}
+```
+
+**Key differences:**
+- `@OneToMany`: One entity relates to multiple entities
+- `@ManyToOne`: Multiple entities relate to one entity
+- They're opposite sides of the same relationship
+
+## 24. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
+
+Use `PagingAndSortingRepository` or `Pageable` parameter in repository methods for automatic pagination.
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findByName(String name, Pageable pageable);
+    Page<User> findAll(Pageable pageable);
+}
+
+@RestController
+public class UserController {
+    @Autowired
+    private UserRepository userRepository;
+    
+    @GetMapping("/users")
+    public Page<User> getUsers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userRepository.findAll(pageable);
+    }
+}
+```
+**URL example:** `/users?page=0&size=5&sortBy=name`
+
 
 # ✅ 20. RESTful Services 
 
