@@ -3854,32 +3854,25 @@ public class DemoApplication {
 public class MyApplication { }
 ```
 
-## 5. What is auto-configuration in Spring Boot and to disable?
+## 5. How can you disable specific auto-configurations in Spring Boot?
 
-**Auto-configuration** automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
-
-- Automatic bean configuration
-- Based on classpath dependencies
-- Can be customized or disabled
-- Uses conditional annotations
-- Follows convention over configuration
+Use `@SpringBootApplication(exclude)` or `spring.autoconfigure.exclude` property to disable unwanted auto-configurations.
 
 ```java
-// If H2 database is on classpath, Spring Boot automatically configures:
-// - DataSource bean
-// - JdbcTemplate bean  
-// - Transaction manager
-// No manual configuration needed
+@SpringBootApplication(exclude = {
+    DataSourceAutoConfiguration.class,
+    SecurityAutoConfiguration.class
+})
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
 ```
 
-**Disable for Entire Application (Most Common)**
-
-```java
-@SpringBootApplication(
-    exclude = DataSourceAutoConfiguration.class
-)
-public class Application {
-}
+```properties
+# application.properties
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 ```
 
 **Disable for a Specific Configuration Class**
@@ -4340,6 +4333,46 @@ public class MyScheduler {
 Task running every 5 seconds
 Task running every 5 seconds
 Task running every 5 seconds
+```
+
+## 19. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
+
+Configure logging levels in application.properties for different packages and classes.
+
+```properties
+# Root level (applies to all)
+logging.level.root=INFO
+
+# Package-specific levels
+logging.level.com.mycompany.service=DEBUG
+logging.level.com.mycompany.controller=INFO
+
+# Framework levels
+logging.level.org.springframework.web=DEBUG
+logging.level.org.hibernate.SQL=DEBUG
+
+# Specific class
+logging.level.com.mycompany.UserService=TRACE
+```
+
+**Available levels (in order):**
+- TRACE (most detailed)
+- DEBUG
+- INFO
+- WARN
+- ERROR (least detailed)
+
+```java
+@Service
+public class UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+    
+    public User findUser(Long id) {
+        log.debug("Finding user with id: {}", id);
+        log.info("User search completed");
+        return user;
+    }
+}
 ```
 
 # ✅ 20. RESTful Services 
