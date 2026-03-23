@@ -7463,6 +7463,7 @@ It uses **MBeans** to expose metrics and operations, and tools like **JConsole**
 ## 10: A microservice is running in production, and one of the services is failing. How do you identify and fix the issue?
 
 **Answer way one:**
+
 If a microservice fails in production, I follow a systematic troubleshooting approach.
 
 First, I check the **monitoring dashboard** such as **Grafana** or **Prometheus** to identify which service is failing and observe metrics like error rate, latency, CPU, and memory usage.
@@ -7479,6 +7480,7 @@ Finally, after identifying the root cause, I fix the issue, redeploy the service
 
 
 **Answer way Two:**
+
 In production microservice environments, there are several ways to identify and fix issues.
 
 First, I use **distributed tracing** tools like **Jaeger** or **Zipkin** to trace the request flow across services and identify exactly which microservice is failing or where latency or timeouts occur.
