@@ -3929,37 +3929,37 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 7. What is the difference between @Component, @Service, and @Repository?
+## 7. What are the key uses of `@Component`, `@Service`, `@Repository`, and `@Controller` annotations?
 
-These are stereotype annotations that mark classes as Spring beans, but they serve different purposes and provide semantic meaning.
-
-**@Component** is a generic Spring annotation used to mark a class as a **Spring-managed bean**.
-**@Component:**
-- Generic stereotype for any Spring-managed component
-- Base annotation for other stereotypes
-
-**@Service** is a specialization of `@Component` used to mark a class as a **service layer component**, indicating business logic.
-**@Service:**
-- Marks service layer classes
-- Contains business logic
-- Semantic specialization of @Component
-
-**@Repository** is a specialization of `@Component` used to mark a class as a **data access object (DAO)**, enabling **exception translation** for database operations.
-**@Repository:**
-- Marks data access layer classes
-- Provides exception translation
-- Semantic specialization of @Component
+These are stereotype annotations that mark classes for Spring's component scanning. They're all specializations of `@Component`.
 
 ```java
-@Component
-public class UtilityClass { } // Generic component
+@Component  // Generic Spring-managed component
+public class EmailValidator {
+    public boolean isValid(String email) { }
+}
 
-@Service
-public class UserService { } // Business logic
+@Service    // Business logic layer
+public class UserService {
+    public User createUser(User user) { }
+}
 
-@Repository
-public class UserRepository { } // Data access
+@Repository // Data access layer
+public class UserRepository {
+    public User findById(Long id) { }
+}
+
+@Controller // Web layer (returns views)
+public class UserController {
+    public String showUsers(Model model) { }
+}
 ```
+
+**Key differences:**
+- `@Service`: Business logic, transaction boundaries
+- `@Repository`: Data access, exception translation
+- `@Controller`: Web requests, view resolution
+- `@Component`: Generic components
 
 ## 8. What is @Autowired annotation?
 
