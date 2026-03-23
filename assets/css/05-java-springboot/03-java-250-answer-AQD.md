@@ -5134,36 +5134,50 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 ## 10. How do you Handle Exception Handling in Spring Boot?
 
-**Answer:**
-
-In Spring Boot, exception handling is done using **@ExceptionHandler** and **@ControllerAdvice** for global exception handling.
-
-We create custom exceptions, return proper **HTTP status codes**, and provide meaningful error responses using **ResponseEntity**. This ensures clean, centralized, and consistent error handling across the application.
+In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
 
 
+**1. Create Custom Exception**
 ```java
 public class UserNotFoundException extends RuntimeException {
+
     public UserNotFoundException(String message) {
         super(message);
     }
 }
+```
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
-    
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {
-        ErrorResponse error = new ErrorResponse("USER_NOT_FOUND", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
-    
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
-        ErrorResponse error = new ErrorResponse("INTERNAL_ERROR", "Something went wrong");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+
+**2. Controller (Throw Exception)**
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/user/{id}")
+    public String getUser(@PathVariable int id) {
+
+        if (id == 0) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        return "User Found";
     }
 }
 ```
+
+
+**3. Global Exception Handler**
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public String handleUserNotFound(UserNotFoundException ex) {
+        return ex.getMessage();
+    }
+}
+```
+
 
 ## 11. What is Event-Driven Architecture in Java?
 
