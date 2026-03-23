@@ -6212,13 +6212,14 @@ java -XX:+PrintCompilation \      # Print compilation events
 Java 8 was a major release that introduced functional programming features and significantly changed how Java code is written. It's one of the most important Java releases.
 
 **Major Features:**
-- **Lambda Expressions:** Anonymous functions for functional programming
-- **Stream API:** Functional-style operations on collections
-- **Optional Class:** Better null handling
-- **Default Methods:** Interface methods with implementation
-- **Method References:** Shorthand for lambda expressions
-- **Date/Time API:** New java.time package
-- **Nashorn JavaScript Engine:** JavaScript execution in JVM
+* **Lambda Expressions:** Anonymous functions used to write shorter and cleaner code.
+* **Stream API:** Allows processing collections using operations like filter, map, and reduce.
+* **Optional Class:** A container object used to handle possible null values safely.
+* **Default Methods:** Methods in interfaces that have a default implementation.
+* **Method References:** A shorter way to call existing methods using `::` syntax.
+* **Date/Time API:** The `java.time` package provides improved classes for handling date and time.
+* **Nashorn JavaScript Engine:** A Java engine that allows executing JavaScript code inside the JVM.
+  
 
 ```java
 // Lambda expressions
@@ -6236,10 +6237,13 @@ optional.ifPresent(System.out::println);
 
 // Default methods in interfaces
 List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+
 // Static method reference
 names.forEach(System.out::println);
+
 // Instance method reference
 names.sort(String::compareToIgnoreCase);
+
 // Constructor reference
 Supplier<List<String>> listSupplier = ArrayList::new;
 ```

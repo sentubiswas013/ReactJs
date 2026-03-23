@@ -20,13 +20,18 @@ public class Stream30 {
         public double getSalary() {
             return salary;
         }
+
+        @Override
+        public String toString() {
+            return department + " : " + salary;
+        }
     }
 
     public static void main(String[] args) {
         String sentence="Java Stream API is very powerful";
         List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
         List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
-        List<String> words = Arrays.asList("java","stream","api");
+        List<String> words = Arrays.asList("java","stream","api", "level", "madam");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
 
@@ -40,11 +45,17 @@ public class Stream30 {
 
 
         // =======================================================
-        // 2. Find Maximum Element
+        // 2. Find Maximum and minimum Element
         int max = num01.stream()
                 .max(Integer::compareTo)
                 .orElseThrow();
+
+        int min = num01.stream()
+                .min(Integer::compareTo)
+                .orElseThrow();
+
         // System.out.println("2. Maximum: " + max);
+        // System.out.println("2. Minimum: " + min);
         // Output: 2. Maximum: 6
 
 
@@ -81,6 +92,7 @@ public class Stream30 {
         // =======================================================
         // 6. Convert List to Uppercase        
         List<String> upper = words.stream()
+                // .map(e -> e.toUpperCase())
                 .map(String::toUpperCase)
                 .toList();
         // System.out.println("6. Uppercase: " + upper);
@@ -90,6 +102,7 @@ public class Stream30 {
         // =======================================================
         // 7. Sum of Numbers
         int sum = num01.stream()
+                // .mapToInt(e -> e.intValue())
                 .mapToInt(Integer::intValue)
                 .sum();
         // System.out.println("7. Sum: " + sum);
@@ -119,7 +132,13 @@ public class Stream30 {
         String longest = words.stream()
                 .max(Comparator.comparingInt(String::length))
                 .orElse(null);
+
+        String longestWord = Arrays.stream(sentence.split(" "))
+            .max(Comparator.comparingInt(String::length))
+            .orElse(null);
+
         // System.out.println("10. Longest: " + longest);
+        // System.out.println("10. Longest: " + longestWord);
         // Output: 10. Longest: stream
 
 
@@ -160,7 +179,6 @@ public class Stream30 {
         List<Integer> resultSort = Stream.concat(num01.stream(), num02.stream())
                              .sorted()
                              .toList();
-
 
         System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
@@ -252,27 +270,20 @@ public class Stream30 {
 
 
         // =======================================================
-        // 23. Convert List to Map
+        // 23. Convert List to Map and word length
         Map<String, Integer> map = Arrays.stream(sentence.split(" "))
                 .collect(Collectors.toMap(w -> w, String::length));
 
-        // Map<Integer, String> map = words.stream()
-        //     .collect(Collectors.toMap(String::length, w-> w));
+        // Map<Integer, List<String>> map = words.stream()
+        //     .collect(Collectors.groupingBy(String::length));
 
-        System.out.println("21. Map: " + map);
+        // System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
+        // Map:  {3=[api], 4=[java], 5=[level, madam], 6=[stream]}
 
 
         // =======================================================
-        // 24. Group Strings by Length
-        Map<Integer, List<String>> grouped = words.stream()
-                .collect(Collectors.groupingBy(String::length));
-        // System.out.println("24. Grouped by Length: " + grouped);
-        // Output: 24. Grouped by Length: {3=[api], 4=[java], 6=[stream]}
-
-
-        // =======================================================
-        // 25. Group by First Character
+        // 24. Group by First Character
         Map<Character, List<String>> mapByFirst = words.stream()
                 .collect(Collectors.groupingBy(w -> w.charAt(0)));
         // System.out.println("25. Grouped by First Char: " + mapByFirst);
@@ -280,7 +291,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 26. Find Salary by Department
+        // 25. Find Salary by Department
         List<Employee> employees = Arrays.asList(
                 new Employee("IT", 50000),
                 new Employee("HR", 40000),
@@ -288,13 +299,19 @@ public class Stream30 {
                 new Employee("HR", 45000)
         );
 
+
+        // Salary by Department
         List<String> salaryByDept = employees.stream()
             .map(Employee::getDepartment)
         .toList();
 
+        // Sceond height salary 
         List<Double> salaryList = employees.stream()
             .map(Employee::getSalary)
-            .collect(Collectors.toList());
+            .sorted(Comparator.reverseOrder())
+            .skip(1)
+            .limit(1)
+            .toList();
 
         // System.out.println(salaryByDept);
         // System.out.println(salaryList);     
@@ -303,7 +320,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 27. Find Average Salary by Department
+        // 26. Find Average Salary by Department
         Map<String, Double> avgSalary = employees.stream()
         .collect(Collectors.groupingBy(
                 Employee::getDepartment,
@@ -311,20 +328,11 @@ public class Stream30 {
         ));
 
         System.out.println(avgSalary);
-        // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
+        // Output: 26. Highest Salary by Dept: {HR=42500.0, IT=55000.0, TR=40000.0}
 
 
         // =======================================================
-        // 28. Find Employee With Highest Salary Overall
-        Optional<Employee> highestSalary = employees.stream()
-        .max(Comparator.comparing(Employee::getSalary));
-
-        highestSalary.ifPresent(System.out::println);
-        // Output: Employee@... (the employee with the highest salary) 
-
-
-        // =======================================================
-        // 29. Count Employees in Each Department
+        // 27. Count Employees in Each Department
         Map<String, Long> countByDept = employees.stream()
         .collect(Collectors.groupingBy(
                 Employee::getDepartment,
@@ -336,7 +344,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 30. Find All Employees Grouped by Department
+        // 28. Find All Employees Grouped by Department
         Map<String, List<Employee>> employeesByDept = employees.stream()
         .collect(Collectors.groupingBy(Employee::getDepartment));
 
@@ -345,18 +353,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 31. Find Second Highest Salary
-        Optional<Double> secondHighest = employees.stream()
-                .map(Employee::getSalary)
-                .sorted(Comparator.reverseOrder())
-                .skip(1)
-                .findFirst();
-
-        System.out.println(secondHighest);
-        // Output: Optional[55000.0] (the second highest salary)
-
-        // =======================================================
-        // 32. flatMap() is used to flatten nested collections.
+        // 29. flatMap() is used to flatten nested collections.
         List<List<Employee>> inputTemp = List.of(
                 List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
                 List.of(new Employee("David", 7000), new Employee("Mary", 8000))
@@ -371,26 +368,8 @@ public class Stream30 {
 
 
         // =======================================================
-        // 33. Detect Anagrams
-        List<String> anagramWords = Arrays.asList("listen","silent","enlist","google");
-        Map<String, List<String>> anagrams = anagramWords.stream()
-                .collect(Collectors.groupingBy(
-                        w -> w.chars()
-                                .sorted()
-                                .mapToObj(c -> String.valueOf((char)c))
-                                .collect(Collectors.joining())
-                ));
-        // System.out.println("29. Anagrams: " + anagrams);
-        // Output: 29. Anagrams: {eilnst=[listen, silent, enlist], egglno=[google]}
+        // 30.
+        
 
-
-        // =======================================================
-        // 34. Sort Elements by Frequency
-        List<Integer> sortedByFreq = num02.stream()
-                .sorted(Comparator.comparingInt(n -> -Collections.frequency(nums, n)))
-                .distinct()
-                .toList();
-        // System.out.println("30. Sorted by Frequency: " + sortedByFreq);
-        // Output: 30. Sorted by Frequency: [1, 2, 3, 4, 5]
     }
 }

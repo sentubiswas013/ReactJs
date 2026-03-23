@@ -20,13 +20,18 @@ public class Test01 {
         public double getSalary() {
             return salary;
         }
+
+        @Override
+        public String toString() {
+            return department + " : " + salary;
+        }
     }
 
     public static void main(String[] args) {
-        String sentence = "Java Stream API Example";
+        String sentence = "Java Stream API Example here";
         List<Integer> num01 = Arrays.asList(0,1,6,2,3,0,4,5,6);
         List<Integer> num02 = Arrays.asList(1,2,0,3,4,2,5,1,0);
-        List<String> words = Arrays.asList("java","stream","api");
+        List<String> words = Arrays.asList("java","stream","api", "level", "madam");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
         // 1. Filter Even Numbers 
@@ -39,16 +44,18 @@ public class Test01 {
 
         // =======================================================
         // 2. Find Maximum Element
-
-
-
+        int max = num01.stream()
+            .min(Integer::compareTo)
+            .orElseThrow();
         
         // System.out.println("2. Maximum: " + max);
         // Output: 2. Maximum: 6
 
         // =======================================================
         // 3. Sort List in Descending Order
-
+        List<Integer> sorted = num01.stream()
+            .sorted(Comparator.reverseOrder())
+            .toList();
 
         
         // System.out.println("3. Sorted Descending: " + sorted);
@@ -56,7 +63,10 @@ public class Test01 {
 
         // =======================================================
         // 4. Count Strings with Specific Prefix  
+        Long count = words.stream()
+            .filter(w -> w.startsWith("j"))
 
+            .count();
 
         
         // System.out.println("4. Count starting with A: " + count);
@@ -64,7 +74,12 @@ public class Test01 {
 
         // =======================================================
         // 5. Find First Non-Repeated Character
-
+         String input = "swiss";    
+         Character result = input.chars()
+            .mapToObj(c-> (char)c)
+            .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
+            .findFirst()
+            .orElse(null);
 
         
         // System.out.println("5. First Non-Repeated: " + result);
@@ -72,7 +87,10 @@ public class Test01 {
 
         // =======================================================
         // 6. Convert List to Uppercase   
-
+        List<String> upper = words.stream()
+            // .map(e -> e.toUpperCase())
+            .map(String::toUpperCase)
+            .toList();
 
         
         // System.out.println("6. Uppercase: " + upper);
@@ -80,7 +98,9 @@ public class Test01 {
 
         // =======================================================
         // 7. Sum of Numbers
-
+        int sum = num01.stream()
+            .mapToInt(Integer::intValue)
+            .sum();
 
         
         // System.out.println("7. Sum: " + sum);
@@ -88,8 +108,8 @@ public class Test01 {
 
         // =======================================================
         // 8. Check if Any String Contains Word
-
-
+         boolean result8 = words.stream()
+            .anyMatch(ch -> ch.contains("api"));
         
         // System.out.println("8. Contains api: " + result8);
         // Output: 8. Contains api: true
@@ -102,18 +122,23 @@ public class Test01 {
             .collect(Collectors.toSet());
 
         
-        System.out.println("9. Duplicates: " + duplicates);
+        // System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [1, 2]
 
         // =======================================================
         // 10. Find Longest String
+        String longest = words.stream()
+            .max(Comparator.comparingInt(String::length))
+            .orElse(null);
         
         // System.out.println("10. Longest: " + longest);
         // Output: 10. Longest: stream
 
         // =======================================================
         // 11. Find Common Elements Between Two Lists
-
+        List<Integer> common = num01.stream()
+            .filter(num02::contains)
+            .toList();
 
         
         // System.out.println("11. Common: " + common);
@@ -121,7 +146,10 @@ public class Test01 {
 
         // =======================================================
         // 12. Find Top N Elements
-
+        List<Integer> top3 = num01.stream()
+            .sorted(Comparator.reverseOrder())
+            .limit(3)
+            .toList();
 
         
         // System.out.println("12. Top 3: " + top3);
@@ -129,7 +157,12 @@ public class Test01 {
 
         // =======================================================
         // 13. Count Frequency of Characters
-
+        String str = "success";
+       // Map<String, Long> freq = str.chars()
+        Map<Character, Long> freq = str.chars()
+            .mapToObj(c -> (char) c)
+            .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+            //.collect(Collectors.groupingBy(c -> c, Collectors.counting()));
 
         
         // System.out.println("13. Frequency: " + freq);
@@ -137,28 +170,24 @@ public class Test01 {
 
         // =======================================================
         // 14. To merge two arrays and sort the resulting array in ascending order
+        // List<Integer> resultSort = Stream.concat(num01.stream(), num02.stream())
+        //      .sorted()
+        //      .toList();
         List<Integer> resultSort = Stream.concat(num01.stream(), num02.stream())
-             .sorted()
-             .toList();
+            .sorted()
+            .toList();
                 
 
-        // System.out.println(Arrays.toString(result));
+        // System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
 
 
         // =======================================================
         // 14. 0 should go to outside without change order
-        // List<Integer> resultRight = Stream.concat(
-        //     num01.stream().filter(n -> n != 0),
-        //     num01.stream().filter(n -> n == 0)
-        // ).toList();
-
         List<Integer> resultRight = Stream.concat(
-                num01.stream().filter(n -> n != 0),
-                num01.stream().filter(n -> n == 0)
+            num01.stream().filter(n -> n != 0),
+            num01.stream().filter(n -> n == 0)
         ).toList();
-        
-
 
         // System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
@@ -174,7 +203,11 @@ public class Test01 {
 
         // =======================================================
         // 16. Find Nth Largest Element
-
+        int thirdLargest = num01.stream()
+            .sorted(Comparator.reverseOrder())
+            .skip(3)
+            .findFirst()
+            .orElseThrow();
 
         
         // System.out.println("16. Third Largest: " + thirdLargest);
@@ -182,7 +215,9 @@ public class Test01 {
 
         // =======================================================
         // 17. Remove Duplicates
-
+        List<Integer> unique = num01.stream()
+            .distinct()
+            .toList();
 
         
         // System.out.println("17. Unique: " + unique);
@@ -190,7 +225,8 @@ public class Test01 {
 
         // =======================================================
         // 18. Join Strings
-
+        String joined = words.stream()
+            .collect(Collectors.joining(" "));
 
         
         // System.out.println("18. Joined: " + joined);
@@ -198,15 +234,20 @@ public class Test01 {
 
         // =======================================================
         // 19. Remove Null Values
-
-
+         List<String> wordsWithNull = Arrays.asList("java", null, "stream", "api");   
+         List<String> clean = wordsWithNull.stream()
+            .filter(Objects::nonNull)
+            .toList();
         
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
 
         // =======================================================
         // 20. Calculate Average
-
+        double avg = num01.stream()
+            .mapToInt(Integer::intValue)
+            .average()
+            .orElse(0);
 
         
         // System.out.println("20. Average: " + avg);
@@ -214,7 +255,10 @@ public class Test01 {
 
         // =======================================================
         // 21. Reverse Each String
-        
+        List<String> reversed = words.stream()
+            .map(w -> new StringBuilder(w).reverse().toString())
+            // .map(w -> new StringBuilder(w).reverse().toString())
+            .toList();
 
 
         // System.out.println("23. Reversed: " + reversed);
@@ -222,33 +266,30 @@ public class Test01 {
 
         // =======================================================
         // 22. Find Palindromes
-       
+        List<String> palindromes = words.stream()
+                .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
+                .toList();
 
         // System.out.println("22. Palindromes: " + palindromes);
         // Output: 22. Palindromes: []
 
         // =======================================================
-        // 23. Convert List to Map[-]
+        // 23. Convert List to Map and word length
         Map<String, Integer> map = Arrays.stream(sentence.split(" "))
                 .collect(Collectors.toMap(w -> w, String::length));
 
-        // Map<Integer, String> map = words.stream()
-        //     .collect(Collectors.toMap(String::length, w-> w));
+        // Map<Integer, List<String>> map = words.stream()
+        //     .collect(Collectors.groupingBy(String::length));
 
         // System.out.println("21. Map: " + map);
-        // Output: 21. Map: {java=4, stream=6, api=3}
-
-        // =======================================================
-        // 24. Group Strings by Length
+        // Output: 21. Map: {here=4, Java=4, Example=7, Stream=6, API=3}
+        // Map: {3=[api], 4=[java], 5=[level, madam], 6=[stream]}
         
-
-
-        // System.out.println("24. Grouped by Length: " + grouped);
-        // Output: 24. Grouped by Length: {3=[api], 4=[java], 6=[stream]}
 
         // =======================================================
         // 25. Group by First Character
-        
+        Map<Character, List<String>> mapByFirst = words.stream()
+            .collect(Collectors.groupingBy(w -> w.charAt(0)));
 
 
         // System.out.println("25. Grouped by First Char: " + mapByFirst);
@@ -259,17 +300,21 @@ public class Test01 {
         List<Employee> employees = Arrays.asList(
                 new Employee("IT", 50000),
                 new Employee("HR", 40000),
+                new Employee("TR", 40000),
                 new Employee("IT", 60000),
                 new Employee("HR", 45000)
         );
 
         List<String> salaryByDept = employees.stream()
             .map(Employee::getDepartment)
-        .toList();
+            .toList();
 
         List<Double> salaryList = employees.stream()
             .map(Employee::getSalary)
-            .collect(Collectors.toList());
+            .sorted(Comparator.reverseOrder())
+            .skip(1)
+            .limit(1)
+            .toList();
 
         // System.out.println(salaryByDept);
         // System.out.println(salaryList);     
@@ -277,54 +322,50 @@ public class Test01 {
         //     [50000.0, 40000.0, 60000.0, 45000.0]
         // =======================================================
         // 27. Find Average Salary by Department
-        
-
+        // Map<String, Double> avgSalary = employees.stream()
+        Map<String, Double> avgSalary = employees.stream()
+            .collect(
+                Collectors.groupingBy(
+                    Employee::getDepartment,
+                    Collectors.averagingDouble(Employee::getSalary)
+                )                
+            );
 
         // System.out.println(avgSalary);
-        // Output: 26. Highest Salary by Dept: {HR=Employee@..., IT=Employee@...}
+        // Output: 26. Highest Salary by Dept: {HR=42500.0, IT=55000.0, TR=40000.0}
 
+       
         // =======================================================
-        // 28. Find Employee With Highest Salary Overall
-        
-
-        // highestSalary.ifPresent(System.out::println);
-        // Output: Employee@... (the employee with the highest salary) 
-
-        // =======================================================
-        // 29. Count Employees in Each Department
-        
+        // 28. Count Employees in Each Department
+        Map<String, Long> countByDept = employees.stream()
+            .collect(Collectors.groupingBy(
+                Employee::getDepartment,
+                Collectors.counting()
+            ));
 
 
         // System.out.println(countByDept);
         // Output: {HR=2, IT=2}
 
         // =======================================================
-        // 30. Find All Employees Grouped by Department
-        
+        // 29. Find All Employees Grouped by Department
+        Map<String, List<Employee>> employeesByDept = employees.stream()
+            .collect(Collectors.groupingBy(Employee::getDepartment));
 
         // System.out.println(employeesByDept);
         // Output: {HR=[Employee@..., Employee@...], IT=[Employee@..., Employee@...]} 
 
-        // =======================================================
-        // 31. Find Second Highest Salary
-        Optional<Double> secondHighest = employees.stream()
-            .map(Employee::getSalary)
-            .sorted(Comparator.reverseOrder())
-            .skip(1)
-            .findFirst();
-        
-
-        // System.out.println(secondHighest);
-        // Output: Optional[55000.0] (the second highest salary)
-
 
         // =======================================================
-        // 31. flatMap() is used to flatten nested collections.
+        // 30. flatMap() is used to flatten nested collections.
         List<List<Employee>> inputTemp = List.of(
                 List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
                 List.of(new Employee("David", 7000), new Employee("Mary", 8000))
         );
 
+        List<Employee> resultTemp = inputTemp.stream()
+            .flatMap(List::stream)
+            .toList();
         
 
         // System.out.println(resultTemp);
@@ -332,19 +373,7 @@ public class Test01 {
 
 
         // =======================================================                
-        // 33. Detect Anagrams
+        // 31. 
         
-
-
-        // System.out.println("29. Anagrams: " + anagrams);
-        // Output: 29. Anagrams: {eilnst=[listen, silent, enlist], egglno=[google]}
-        
-        // =======================================================
-        // 34. Sort Elements by Frequency
-        
-
-
-        // System.out.println("30. Sorted by Frequency: " + sortedByFreq);
-        // Output: 30. Sorted by Frequency: [1, 2, 3, 4, 5]
     }
 }
