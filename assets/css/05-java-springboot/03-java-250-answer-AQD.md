@@ -2862,6 +2862,9 @@ Connection conn = dataSource.getConnection(); // From pool
 
 **Caching** in Java is a technique of **storing frequently used data in memory** so that we don’t have to fetch it again from a slow source like a database or external API.
 
+* **`@Cacheable`** → Stores the method result in cache and returns cached data for the same request instead of executing the method again.
+* **`@CachePut`** → Always executes the method and **updates the cache with the latest result**.
+* **`@CacheEvict`** → Removes specific or all entries from the cache when data becomes invalid or is deleted.
 
 In Java, caching can be broadly categorized into **three main types** based on where the data is stored.
 
