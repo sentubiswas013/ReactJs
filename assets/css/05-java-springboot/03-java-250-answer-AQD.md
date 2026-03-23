@@ -489,11 +489,6 @@ int i = (int) d; // Explicit casting required - double to int
 
 A constructor is a special method that initializes objects when they're created. It has the same name as the class and no return type.
 
-- Called automatically when creating objects with 'new'
-- Used to set initial values for object properties
-- Can be overloaded with different parameters
-- If not defined, Java provides a default constructor
-
 ```java
 public class Person {
     String name;
@@ -509,7 +504,7 @@ Person p = new Person("John"); // Constructor called
 
 ## 2. What is constructor chaining?
 
-Constructor chaining is calling one constructor from another constructor in the same class or parent class. It helps avoid code duplication.
+**Constructor** chaining is calling one constructor from another constructor in the same class or parent class. It helps avoid code duplication.
 
 - Use `this()` to call another constructor in same class
 - Use `super()` to call parent class constructor
