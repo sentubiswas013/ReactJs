@@ -7460,7 +7460,100 @@ It includes system metrics (CPU, memory), application metrics (response time, er
 
 It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
 
-## 10: A microservice is running in production, and one of the services is failing. How do you identify and fix the issue?
+## 10: A microservice is running in production, and one of the services is failing. How to identify  the issue
+
+
+**1. Check Service Logs**
+
+The first step is to check the **application logs** of the failing service.
+
+Logs help identify:
+
+* Exceptions
+* Stack traces
+* Database errors
+* Timeout issues
+
+Common logging tools:
+
+* **ELK Stack**
+* **Splunk**
+
+
+**2. Check Monitoring & Metrics**
+
+Use monitoring tools to see **CPU, memory, request rate, and error rate**.
+
+This helps determine if the issue is due to:
+
+* High traffic
+* Memory leak
+* Slow response time
+
+Common tools:
+
+* **Prometheus**
+* **Grafana**
+
+
+**3. Use Distributed Tracing**
+
+In microservices, one request travels through multiple services.
+
+Tracing tools help track the **full request path** and identify **which service call failed**.
+
+Examples:
+
+* **Jaeger**
+* **Zipkin**
+
+
+**4. Check Service Health**
+
+Verify if the service instance is **running or crashed**.
+
+If using **Kubernetes**, check:
+
+* Pod status
+* Restart count
+* CrashLoopBackOff errors
+
+Commands like:
+
+* `kubectl get pods`
+* `kubectl describe pod`
+* `kubectl logs`
+
+
+**5. Verify Dependencies**
+
+Sometimes the service fails because its **dependent services are down**.
+
+Check:
+
+* Database connectivity
+* Message queues
+* Other APIs
+
+For example:
+
+* **PostgreSQL**
+* **Apache Kafka**
+* **Redis**
+
+
+**6. Check Recent Changes**
+
+Look at **recent deployments or configuration changes**.
+
+Tools like:
+
+* **Jenkins**
+* **Git**
+
+
+
+## 11: A microservice is running in production, and one of the services is failing. How do you identify and fix the issue?
 
 **Answer way one:**
 
