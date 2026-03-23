@@ -2157,7 +2157,6 @@ public class AppConfig {
 ```
 
 
-
 ## 1. What are annotations in Java?
 
 **Annotations** are metadata that **provide information about code without affecting its execution**. They're used by compilers, development tools, and frameworks to process code automatically.
@@ -3990,7 +3989,7 @@ public class OrderService {
 
 ## 9. What is @Qualifier and @Primary annotation?
 
-`@Qualifier` is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
+**`@Qualifier`** is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
 
 ```java
 @Service
@@ -4008,7 +4007,7 @@ public class EmailSender implements MessageSender { }
 public class SmsSender implements MessageSender { }
 ```
 
-* **`@Primary`** is used to mark a bean as the **default bean**. When Spring finds multiple beans of the same type, it will automatically inject the bean marked with `@Primary`.
+**`@Primary`** is used to mark a bean as the **default bean**. When Spring finds multiple beans of the same type, it will automatically inject the bean marked with `@Primary`.
 
 
 ## 10. What is ApplicationContext and @Profile Annotation?
@@ -4203,7 +4202,7 @@ If we don’t want to manually write **getters and setters** in Java, we can use
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
-## 17. How can you create a custom configuration adn auto-configuration in Spring Boot?
+## 17. How can you create a custom configuration and auto-configuration in Spring Boot?
 
 Create **custom configuration** using `@Configuration` and `@Bean` annotations.
 
@@ -4392,6 +4391,30 @@ public class UserService {
     }
 }
 ```
+
+## 20. What is the role of `@RestController` and `@Controller` in Spring Boot?
+
+Both handle HTTP requests, but `@RestController` automatically serializes return values to JSON/XML, while `@Controller` returns view names.
+
+```java
+@Controller
+public class WebController {
+    @GetMapping("/home")
+    public String home(Model model) {
+        return "home"; // Returns view name
+    }
+}
+
+@RestController
+public class ApiController {
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        return userService.findAll(); // Returns JSON
+    }
+}
+```
+
+`@RestController` = `@Controller` + `@ResponseBody`
 
 # ✅ 20. RESTful Services 
 
