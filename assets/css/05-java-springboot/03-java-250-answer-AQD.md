@@ -5181,26 +5181,64 @@ public class GlobalExceptionHandler {
 
 ## 11. What is Event-Driven Architecture in Java?
 
-**Event-Driven Architecture (EDA)** in microservices is a design where services **communicate by producing and consuming events** instead of calling each other directly.
 
-When something happens in a service, it **publishes an event** to a message broker (like Kafka or RabbitMQ). Other services **subscribe to these events** and react asynchronously.
+### What is Event-Driven Architecture in Java?
 
-This makes microservices **loosely coupled, scalable, and more resilient**, since services don’t depend on each other being available at the same time.
+**Event-Driven Architecture (EDA)** is a design pattern where **services communicate by producing and consuming events** instead of directly calling each other.
 
+When **one event happens**, other components **listen to that event and react to it**.
+
+Example:
+If a **user registers**, an event is published → email service sends welcome email → notification service logs activity.
+
+
+
+**1. Create Event**
+
+```java
+public class UserRegisteredEvent {
+
+    private String username;
+
+    public UserRegisteredEvent(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+}
+```
+
+
+**2. Publish Event**
 
 ```java
 @Service
-public class OrderService {
-    public Order createOrder(OrderRequest request) {
-        Order order = orderRepository.save(new Order(request));
-        eventPublisher.publishEvent(new OrderCreatedEvent(order.getId()));
-        return order;
+public class UserService {
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
+    public void registerUser(String username) {
+        System.out.println("User registered: " + username);
+
+        publisher.publishEvent(new UserRegisteredEvent(username));
     }
 }
+```
 
-@EventListener
-public void handleOrderCreated(OrderCreatedEvent event) {
-    emailService.sendConfirmation(event.getOrderId());
+
+**3. Listen to Event**
+
+```java
+@Component
+public class EmailService {
+
+    @EventListener
+    public void handleUserRegistered(UserRegisteredEvent event) {
+        System.out.println("Sending welcome email to: " + event.getUsername());
+    }
 }
 ```
 
