@@ -4045,42 +4045,27 @@ public class MyService {
 }
 ```
 
-**Spring Profiles: ** allow you to **separate configuration for different environments** like **development, testing, and production**. Only the beans/configurations belonging to the **active profile** will be loaded.
-
-**Dev Configuration**
+**Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
 
 ```java
-@Configuration
+# application.properties
+spring.profiles.active=dev
+
+# application-dev.properties
+server.port=8080
+spring.datasource.url=jdbc:h2:mem:testdb
+
+# application-prod.properties
+server.port=80
+spring.datasource.url=jdbc:mysql://prod-server:3306/mydb
+```
+
+```java
+@Component
 @Profile("dev")
-public class DevConfig {
-
-    @Bean
-    public String dataSource() {
-        return "H2 Database (Development)";
-    }
+public class DevDataLoader {
+    // Only loaded in dev profile
 }
-```
-
-**Production Configuration**
-
-```java
-@Configuration
-@Profile("prod")
-public class ProdConfig {
-
-    @Bean
-    public String dataSource() {
-        return "MySQL Database (Production)";
-    }
-}
-```
-
-**application.yml**
-
-```yaml
-spring:
-  profiles:
-    active: prod
 ```
 
 
@@ -4158,7 +4143,7 @@ Actuator provides production-ready features like health checks, metrics, and mon
 </dependency>
 ```
 
-```properties
+```java
 # application.properties
 management.endpoints.web.exposure.include=health,metrics,info
 management.endpoint.health.show-details=always
@@ -4227,11 +4212,8 @@ Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, a
 
 ## 17.How do you create custom auto-configuration?
 
-**Answer:**
-
 Create a configuration class with `@Configuration` and `@Conditional` annotations, then register it in `META-INF/spring.factories`.
 
-**Example:**
 ```java
 @Configuration
 @ConditionalOnClass(MyService.class)
@@ -4252,8 +4234,8 @@ public class MyProperties {
 }
 ```
 
-```properties
-# META-INF/spring.factories
+```java
+// META-INF/spring.factories
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.MyAutoConfiguration
 ```
