@@ -149,3 +149,75 @@ API Gateway receives the request and triggers Lambda to process the request.
 
 ---
 
+## 🔝 What are top 10 AWS Services
+
+### 1. 🖥️ Amazon EC2
+
+* Virtual servers in the cloud
+* Used to host applications
+* Pay-as-you-go compute
+
+---
+
+### 2. 📦 Amazon S3
+
+* Object storage for files, images, backups
+* Highly scalable & durable
+* Used for static websites too
+
+---
+
+### 3. 🗄️ Amazon RDS
+
+* Managed databases (MySQL, PostgreSQL, etc.)
+* Handles backups, scaling, patching
+
+---
+
+### 4. ⚡ AWS Lambda
+
+* Run code without managing servers
+* Event-driven (API, file upload, etc.)
+
+---
+
+### 5. 🌐 Amazon API Gateway
+
+* Create & manage REST APIs
+* Works well with Lambda
+
+---
+
+### 6. 🚀 Amazon CloudFront
+
+* Content Delivery Network (CDN)
+* Fast global content delivery
+
+---
+
+### 7. 🐳 Amazon ECS / ☸️ Amazon EKS
+
+* Run Docker containers
+* EKS = Kubernetes managed service
+
+---
+
+### 8. 🔐 AWS IAM
+
+* Manage users, roles, permissions
+* Security backbone of AWS
+
+---
+
+### 9. 📊 Amazon CloudWatch
+
+* Logs, metrics, monitoring
+* Alerts for application health
+
+---
+
+### 10. ⚙️ AWS Elastic Beanstalk
+
+* Easy deployment for apps (Java, Node, etc.)
+* Handles infrastructure automatically
+
