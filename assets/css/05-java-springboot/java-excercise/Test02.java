@@ -84,15 +84,22 @@ public class Stream30 {
 
         // =======================================================
         // 5. Find First Non-Repeated Character
-        String input = "swiss";
-         Character result =  input.chars()
+        // String input = "swiss";
+        // Character result =  input.chars()
+        //     .mapToObj(c -> (char) c)
+        //     .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
+        //     .findFirst()
+        //     .orElseThrow();
+
+        String  input = "swiss";
+        Character result = input.chars()
             .mapToObj(c -> (char) c)
             .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
             .findFirst()
             .orElseThrow();
         
 
-        // System.out.println("5. First Non-Repeated: " + result);
+        System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: w
 
 
@@ -135,7 +142,7 @@ public class Stream30 {
             .collect(Collectors.toSet());
 
 
-        // System.out.println("9. Duplicates: " + duplicates);
+        System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [1, 2]
 
 
@@ -156,7 +163,7 @@ public class Stream30 {
 
         // =======================================================
         // 11. Find Common Elements Between Two Lists
-        
+
         
 
         // System.out.println("11. Common: " + common);
