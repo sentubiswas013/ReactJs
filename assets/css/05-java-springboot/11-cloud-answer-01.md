@@ -147,77 +147,304 @@ Client → API Gateway → Lambda → Response
 
 API Gateway receives the request and triggers Lambda to process the request.
 
----
 
-## 🔝 What are top 10 AWS Services
+## 🎯 Top 10 AWS Services — Interview Explanation with Code
 
-### 1. 🖥️ Amazon EC2
+### 1. 🖥️ Amazon EC2 — Virtual Servers
 
-* Virtual servers in the cloud
-* Used to host applications
-* Pay-as-you-go compute
+**What it is:**
+EC2 (Elastic Compute Cloud) provides resizable virtual machines in the cloud. You choose OS, CPU, RAM, and storage.
 
----
+**Interview Answer:**
+> EC2 is a virtual server on AWS. I use it to host Java Spring Boot applications. It supports auto-scaling and load balancing.
 
-### 2. 📦 Amazon S3
+**Steps:**
+1. Go to AWS Console → EC2 → Launch Instance
+2. Choose AMI (Amazon Linux / Ubuntu)
+3. Choose instance type (t2.micro for free tier)
+4. Configure security group (open port 8080)
+5. Launch and SSH into the server
 
-* Object storage for files, images, backups
-* Highly scalable & durable
-* Used for static websites too
+```bash
+# SSH into EC2
+ssh -i my-key.pem ec2-user@<EC2-PUBLIC-IP>
 
----
+# Install Java
+sudo yum install java-17 -y
 
-### 3. 🗄️ Amazon RDS
-
-* Managed databases (MySQL, PostgreSQL, etc.)
-* Handles backups, scaling, patching
-
----
-
-### 4. ⚡ AWS Lambda
-
-* Run code without managing servers
-* Event-driven (API, file upload, etc.)
+# Run Spring Boot JAR
+java -jar myapp.jar
+```
 
 ---
 
-### 5. 🌐 Amazon API Gateway
+### 2. 📦 Amazon S3 — Object Storage
 
-* Create & manage REST APIs
-* Works well with Lambda
+**What it is:**
+S3 (Simple Storage Service) stores files, images, backups, and static websites. Highly durable (99.999999999%).
 
----
+**Interview Answer:**
+> I use S3 to store user-uploaded files and serve static React frontends. It integrates with CloudFront for CDN.
 
-### 6. 🚀 Amazon CloudFront
+**Steps:**
+1. Go to S3 → Create Bucket
+2. Upload files
+3. Set bucket policy for public access (if static site)
+4. Enable static website hosting
 
-* Content Delivery Network (CDN)
-* Fast global content delivery
+```java
+// Spring Boot — Upload file to S3
+@Autowired
+AmazonS3 s3Client;
 
----
+public String uploadFile(MultipartFile file) throws IOException {
+    String fileName = file.getOriginalFilename();
+    s3Client.putObject("my-bucket", fileName, file.getInputStream(), new ObjectMetadata());
+    return "https://my-bucket.s3.amazonaws.com/" + fileName;
+}
+```
 
-### 7. 🐳 Amazon ECS / ☸️ Amazon EKS
-
-* Run Docker containers
-* EKS = Kubernetes managed service
-
----
-
-### 8. 🔐 AWS IAM
-
-* Manage users, roles, permissions
-* Security backbone of AWS
-
----
-
-### 9. 📊 Amazon CloudWatch
-
-* Logs, metrics, monitoring
-* Alerts for application health
+```bash
+# AWS CLI — Upload file
+aws s3 cp myfile.txt s3://my-bucket/
+```
 
 ---
 
-### 10. ⚙️ AWS Elastic Beanstalk
+### 3. 🗄️ Amazon RDS — Managed Database
 
-* Easy deployment for apps (Java, Node, etc.)
-* Handles infrastructure automatically
+**What it is:**
+RDS (Relational Database Service) is a managed database service supporting MySQL, PostgreSQL, Oracle, SQL Server.
+
+**Interview Answer:**
+> I use RDS with MySQL for production databases. AWS handles backups, patching, and multi-AZ failover automatically.
+
+**Steps:**
+1. Go to RDS → Create Database
+2. Choose MySQL / PostgreSQL
+3. Set DB name, username, password
+4. Configure VPC and security group (port 3306)
+5. Connect from Spring Boot
+
+```yaml
+# application.yml — Spring Boot RDS connection
+spring:
+  datasource:
+    url: jdbc:mysql://<RDS-ENDPOINT>:3306/mydb
+    username: admin
+    password: <password>
+    driver-class-name: com.mysql.cj.jdbc.Driver
+```
+
+---
+
+### 4. ⚡ AWS Lambda — Serverless Functions
+
+**What it is:**
+Lambda runs code without provisioning servers. Triggered by events (API Gateway, S3, SQS). Pay per execution.
+
+**Interview Answer:**
+> I use Lambda for event-driven tasks like processing S3 file uploads or handling API requests. No server management needed.
+
+**Steps:**
+1. Go to Lambda → Create Function
+2. Choose runtime (Java 17 / Node.js)
+3. Write handler code
+4. Set trigger (API Gateway / S3)
+5. Deploy
+
+```java
+// Java Lambda Handler
+public class MyHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+
+    @Override
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
+        return new APIGatewayProxyResponseEvent()
+            .withStatusCode(200)
+            .withBody("Hello from Lambda!");
+    }
+}
+```
+
+---
+
+### 5. 🌐 Amazon API Gateway — REST API Manager
+
+**What it is:**
+API Gateway creates, publishes, and secures REST/HTTP APIs. Acts as the front door to Lambda or EC2.
+
+**Interview Answer:**
+> I use API Gateway to expose Lambda functions as REST endpoints. It handles throttling, auth, and CORS.
+
+**Steps:**
+1. Go to API Gateway → Create API → REST API
+2. Create Resource (e.g., `/users`)
+3. Create Method (GET, POST)
+4. Integrate with Lambda
+5. Deploy to a Stage (dev/prod)
+
+```
+Flow:
+Client → https://api.execute-api.us-east-1.amazonaws.com/prod/users
+       → API Gateway
+       → Lambda (MyHandler)
+       → Response
+```
+
+```bash
+# Test API
+curl -X GET https://<api-id>.execute-api.us-east-1.amazonaws.com/prod/users
+```
+
+---
+
+### 6. 🚀 Amazon CloudFront — CDN
+
+**What it is:**
+CloudFront is a Content Delivery Network that caches content at edge locations worldwide for fast delivery.
+
+**Interview Answer:**
+> I use CloudFront in front of S3 to serve React static files globally with low latency and HTTPS support.
+
+**Steps:**
+1. Go to CloudFront → Create Distribution
+2. Set Origin = S3 bucket or EC2
+3. Configure cache behavior
+4. Deploy — get a CloudFront URL
+
+```
+Flow:
+User (India) → CloudFront Edge (Mumbai) → Cache Hit → Fast Response
+User (India) → CloudFront Edge (Mumbai) → Cache Miss → Fetch from S3 (US)
+```
+
+---
+
+### 7. 🐳 Amazon ECS / ☸️ EKS — Container Services
+
+**What it is:**
+- ECS = Elastic Container Service (AWS-native Docker orchestration)
+- EKS = Elastic Kubernetes Service (managed Kubernetes)
+
+**Interview Answer:**
+> I use ECS with Fargate to run Docker containers without managing EC2. For complex microservices, EKS with Kubernetes is preferred.
+
+**Steps (ECS):**
+1. Create Docker image → Push to ECR
+2. Create ECS Cluster
+3. Create Task Definition (Docker config)
+4. Create Service → Run tasks
+
+```dockerfile
+# Dockerfile — Spring Boot
+FROM openjdk:17
+COPY target/myapp.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+```
+
+```bash
+# Push image to ECR
+aws ecr get-login-password | docker login --username AWS --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
+docker build -t myapp .
+docker tag myapp:latest <account>.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
+docker push <account>.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
+```
+
+---
+
+### 8. 🔐 AWS IAM — Identity & Access Management
+
+**What it is:**
+IAM manages users, groups, roles, and permissions. Controls who can access what in AWS.
+
+**Interview Answer:**
+> I use IAM roles to give EC2 or Lambda permission to access S3 or RDS without hardcoding credentials.
+
+**Steps:**
+1. Go to IAM → Create Role
+2. Choose trusted entity (EC2 / Lambda)
+3. Attach policy (e.g., AmazonS3FullAccess)
+4. Assign role to EC2 or Lambda
+
+```json
+// IAM Policy — Allow S3 read access
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Resource": "arn:aws:s3:::my-bucket/*"
+    }
+  ]
+}
+```
+
+---
+
+### 9. 📊 Amazon CloudWatch — Monitoring & Logs
+
+**What it is:**
+CloudWatch collects logs, metrics, and events. Set alarms to notify when something goes wrong.
+
+**Interview Answer:**
+> I use CloudWatch to monitor Lambda execution errors, EC2 CPU usage, and set alarms for auto-scaling triggers.
+
+**Steps:**
+1. Go to CloudWatch → Log Groups (auto-created for Lambda)
+2. Create Metric Filter
+3. Create Alarm (e.g., CPU > 80%)
+4. Set SNS notification
+
+```java
+// Spring Boot — Send custom metric to CloudWatch
+@Autowired
+AmazonCloudWatch cloudWatch;
+
+public void sendMetric(String metricName, double value) {
+    cloudWatch.putMetricData(new PutMetricDataRequest()
+        .withNamespace("MyApp")
+        .withMetricData(new MetricDatum()
+            .withMetricName(metricName)
+            .withValue(value)
+            .withUnit(StandardUnit.Count)));
+}
+```
+
+---
+
+### 10. ⚙️ AWS Elastic Beanstalk — Easy App Deployment
+
+**What it is:**
+Elastic Beanstalk deploys and manages applications automatically. You just upload code — AWS handles EC2, load balancer, scaling.
+
+**Interview Answer:**
+> I use Elastic Beanstalk to deploy Spring Boot apps quickly. It provisions EC2, sets up load balancing, and handles scaling automatically.
+
+**Steps:**
+1. Build JAR: `mvn clean package`
+2. Go to Elastic Beanstalk → Create Application
+3. Choose platform: Java
+4. Upload JAR file
+5. Beanstalk auto-provisions EC2, ELB, Auto Scaling
+
+```bash
+# Deploy using EB CLI
+eb init my-app --platform java --region us-east-1
+eb create my-env
+eb deploy
+eb open
+```
+
+```yaml
+# .elasticbeanstalk/config.yml
+branch-defaults:
+  main:
+    environment: my-env
+global:
+  application_name: my-app
+  default_platform: Java 17
+  default_region: us-east-1
+```
+
 
