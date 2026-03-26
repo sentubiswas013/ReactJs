@@ -327,6 +327,15 @@ boolean isActive = true;
 long population = 1000000L;
 ```
 
+## 2. What is the difference between primitive and reference types?
+Primitive types in Java, like int, double, and boolean, store actual values in memory and are stored on the stack. They are fast and have a fixed size.
+
+Reference types, like objects, arrays, and strings, store a reference or memory address pointing to the actual data in the heap. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
+
+```java
+int x = 10;        // primitive - stores value 10
+String name = "John"; // reference - stores address to "John" object
+```
 ## 3. What is autoboxing and unboxing?
 
 * **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
