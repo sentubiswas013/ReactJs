@@ -141,8 +141,12 @@ public class Stream30 {
             .filter(w -> !seen.add(w))
             .collect(Collectors.toSet());
 
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = num02.stream()
+            .filter()
 
-        System.out.println("9. Duplicates: " + duplicates);
+
+        // System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [1, 2]
 
 

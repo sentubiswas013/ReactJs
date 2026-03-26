@@ -1,4 +1,4 @@
-## 1️⃣ Basic AWS Questions
+﻿## 1️⃣ Basic AWS Questions
 
 ### 1. What is Amazon Web Services?
 
@@ -448,3 +448,333 @@ global:
 ```
 
 
+
+---
+
+
+---
+
+## 🔄 CI/CD Complete Pipeline — Code Push to Deployment
+
+---
+
+### Pipeline Overview
+
+```
+STEP 1 — Write code, git push to GitHub
+STEP 2 — GitHub Actions triggers automatically
+STEP 3 — Run Tests  (mvn test)
+STEP 4 — Build JAR  (mvn package)
+STEP 5 — Build Docker Image  (Dockerfile)
+STEP 6 — Push Docker Image to AWS ECR
+STEP 7 — Deploy to AWS ECS Fargate
+STEP 8 — App is LIVE 🚀
+```
+
+---
+
+### Project Files
+
+```
+my-springboot-app/
+├── src/main/java/com/example/HelloController.java
+├── pom.xml
+├── Dockerfile
+├── taskdef.json
+└── .github/workflows/cicd.yml
+```
+
+---
+
+### STEP 1 — Spring Boot Code
+
+```java
+// HelloController.java
+@RestController
+public class HelloController {
+    @GetMapping("/")
+    public String hello() {
+        return "Hello from CI/CD Pipeline!";
+    }
+}
+```
+
+```xml
+<!-- pom.xml -->
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.2.0</version>
+</parent>
+<groupId>com.example</groupId>
+<artifactId>myapp</artifactId>
+<version>1.0.0</version>
+```
+
+---
+
+### STEP 2 — Dockerfile
+
+Stage 1 builds the JAR. Stage 2 runs it. Keeps the final image small.
+
+```dockerfile
+# Stage 1 — Build
+FROM maven:3.9-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2 — Run
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=build /app/target/myapp-1.0.0.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+---
+
+### STEP 3 — One-Time AWS Setup (run once before first deploy)
+
+```bash
+# 1. Create ECR repo to store Docker images
+aws ecr create-repository --repository-name my-springboot-app --region us-east-1
+
+# 2. Create ECS Cluster
+aws ecs create-cluster --cluster-name my-cluster
+
+# 3. Register Task Definition (tells ECS how to run the container)
+aws ecs register-task-definition --cli-input-json file://taskdef.json
+
+# 4. Create ECS Service (keeps container running)
+aws ecs create-service \
+  --cluster my-cluster \
+  --service-name my-service \
+  --task-definition my-task \
+  --desired-count 1 \
+  --launch-type FARGATE \
+  --network-configuration "awsvpcConfiguration={subnets=[subnet-xxxx],securityGroups=[sg-xxxx],assignPublicIp=ENABLED}"
+```
+
+---
+
+### STEP 4 — ECS Task Definition (taskdef.json)
+
+Tells ECS: which image to run, which port, how much CPU/memory.
+
+```json
+{
+  "family": "my-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::<account-id>:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "my-container",
+      "image": "<account-id>.dkr.ecr.us-east-1.amazonaws.com/my-springboot-app:latest",
+      "portMappings": [
+        { "containerPort": 8080, "protocol": "tcp" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/my-task",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
+```
+
+---
+
+### STEP 5 — Add GitHub Secrets
+
+Go to: GitHub Repo → Settings → Secrets → Actions → New secret
+
+| Secret Name | Value |
+|---|---|
+| `AWS_ACCESS_KEY_ID` | IAM user access key |
+| `AWS_SECRET_ACCESS_KEY` | IAM user secret key |
+
+> IAM user must have: `AmazonECR_FullAccess` + `AmazonECS_FullAccess`
+
+---
+
+### STEP 6 — GitHub Actions Pipeline (.github/workflows/cicd.yml)
+
+This file runs automatically on every `git push` to `main`.
+3 jobs run in order: **build → docker → deploy**
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: my-springboot-app
+  ECS_CLUSTER: my-cluster
+  ECS_SERVICE: my-service
+  CONTAINER_NAME: my-container
+
+jobs:
+
+  # JOB 1 — Run Tests and Build JAR
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Build JAR
+        run: mvn clean package -DskipTests
+
+      - name: Save JAR for next job
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-jar
+          path: target/*.jar
+
+  # JOB 2 — Build Docker Image and Push to ECR
+  docker:
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      image: ${{ steps.push.outputs.image }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download JAR from JOB 1
+        uses: actions/download-artifact@v3
+        with:
+          name: app-jar
+          path: target/
+
+      - name: Login to AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push Docker image
+        id: push
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$ECR_REPOSITORY:$TAG .
+          docker push $REGISTRY/$ECR_REPOSITORY:$TAG
+          echo "image=$REGISTRY/$ECR_REPOSITORY:$TAG" >> $GITHUB_OUTPUT
+
+  # JOB 3 — Deploy new image to ECS
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Get current ECS task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition my-task \
+            --query taskDefinition > taskdef.json
+
+      - name: Update task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: taskdef.json
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ needs.docker.outputs.image }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+```
+
+---
+
+### STEP 7 — Push Code and Watch It Deploy
+
+```bash
+git add .
+git commit -m "new feature"
+git push origin main
+# GitHub Actions starts automatically
+```
+
+Watch it: GitHub Repo → Actions tab → see each job running live
+
+---
+
+### What Happens End to End
+
+```
+git push origin main
+    |
+    |-- GitHub Actions starts
+          |
+          |-- JOB 1: mvn test  -->  mvn package  -->  saves myapp.jar
+          |
+          |-- JOB 2: docker build  -->  docker push  -->  image stored in ECR
+          |
+          |-- JOB 3: update ECS task def  -->  ECS pulls new image  -->  rolling deploy
+                                                                              |
+                                                                         App LIVE 🚀
+```
+
+---
+
+### Interview Answer
+
+> I set up CI/CD using GitHub Actions with 3 jobs.
+> On every git push to main:
+> - JOB 1 runs Maven tests and builds the JAR
+> - JOB 2 builds a Docker image using a multi-stage Dockerfile and pushes it to AWS ECR tagged with the commit SHA
+> - JOB 3 updates the ECS task definition with the new image and triggers a rolling deployment on ECS Fargate
+>
+> This gives zero-downtime deployments — every code push is automatically tested and deployed.
+
+---
+
+### CI/CD Tools Comparison
+
+| Tool | Use Case |
+|---|---|
+| GitHub Actions | CI/CD for GitHub repos — free & simple |
+| AWS CodePipeline | Native AWS CI/CD pipeline |
+| AWS CodeBuild | Build & test stage (AWS-native) |
+| AWS CodeDeploy | Deploy to EC2 / ECS / Lambda |
+| Jenkins | Self-hosted CI/CD server |
+| GitLab CI | CI/CD for GitLab repos |
