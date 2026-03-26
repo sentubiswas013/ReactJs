@@ -108,3 +108,181 @@ These **15 methods cover most real problems**:
 | `reduce()`    | Aggregate values           | `reduce(0,Integer::sum)`       |
 | `max()`       | Find maximum               | `max(Integer::compare)`        |
 | `min()`       | Find minimum               | `min(Integer::compare)`        |
+
+
+# ===============================
+
+# When to Use What in Java Stream API
+
+Think like this:
+
+| If you want to…                   | Use                    |
+| --------------------------------- | ---------------------- |
+| Remove some data                  | filter()               |
+| Change data                       | map()                  |
+| Convert List → List/Set/Map       | collect()              |
+| Get single result (sum, max, min) | reduce()               |
+| Flatten nested list               | flatMap()              |
+| Sort data                         | sorted()               |
+| Remove duplicates                 | distinct()             |
+| Limit results                     | limit()                |
+| Skip some data                    | skip()                 |
+| Loop                              | forEach()              |
+| Check condition                   | anyMatch(), allMatch() |
+
+---
+
+# 1. filter() → When Removing Data
+
+### Use when: You want only some elements
+
+Example: Only even numbers
+
+```java
+list.stream()
+    .filter(n -> n % 2 == 0)
+    .forEach(System.out::println);
+```
+
+**Meaning:** Remove odd numbers.
+
+Real-life example:
+
+* Only employees with salary > 50k
+* Only students who passed
+* Only names starting with A
+
+---
+
+# 2. map() → When Changing Data
+
+### Use when: You want to transform data
+
+Example: Number → Square
+
+```java
+list.stream()
+    .map(n -> n * n)
+    .forEach(System.out::println);
+```
+
+Real-life example:
+
+* Employee → Employee name
+* Price → Price with GST
+* String → Uppercase
+
+```java
+employees.stream()
+         .map(emp -> emp.getName())
+         .forEach(System.out::println);
+```
+
+---
+
+# 3. collect() → When Converting Result to List/Set/Map
+
+### Use when: You want result stored somewhere
+
+```java
+List<Integer> even =
+list.stream()
+    .filter(n -> n % 2 == 0)
+    .collect(Collectors.toList());
+```
+
+---
+
+# 4. reduce() → When You Want Single Output
+
+### Use when: Sum, Product, Max, Min
+
+```java
+int sum = list.stream()
+              .reduce(0, (a, b) -> a + b);
+```
+
+---
+
+# 5. flatMap() → When You Have List of Lists
+
+### Use when: Nested collection
+
+```java
+List<List<Integer>> list = Arrays.asList(
+    Arrays.asList(1,2),
+    Arrays.asList(3,4)
+);
+
+list.stream()
+    .flatMap(x -> x.stream())
+    .forEach(System.out::println);
+```
+
+---
+
+# 6. sorted() → When Sorting
+
+```java
+list.stream()
+    .sorted()
+    .forEach(System.out::println);
+```
+
+---
+
+# Real-Life Example (Very Important)
+
+### Problem:
+
+You have list of employees:
+
+* Get employee names
+* Salary > 50,000
+* Sort by salary
+* Store in list
+
+### Solution:
+
+```java
+List<String> names =
+employees.stream()
+         .filter(emp -> emp.getSalary() > 50000) // remove
+         .sorted((e1, e2) -> e1.getSalary() - e2.getSalary()) // sort
+         .map(emp -> emp.getName()) // transform
+         .collect(Collectors.toList()); // store
+```
+
+---
+
+# Easy Way to Remember
+
+```
+filter → remove
+map → change
+sorted → sort
+collect → store
+reduce → single result
+flatMap → flatten
+forEach → print
+```
+
+---
+
+# One Line Interview Answer
+
+**“filter is used for removing data, map is used for transforming data, collect is used for storing result, reduce is used for getting single result.”**
+
+---
+
+# Typical Stream Flow
+
+In real projects, most common pattern is:
+
+```java
+stream()
+.filter()
+.map()
+.sorted()
+.collect()
+```

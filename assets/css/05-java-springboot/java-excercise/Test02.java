@@ -99,7 +99,7 @@ public class Stream30 {
             .orElseThrow();
         
 
-        System.out.println("5. First Non-Repeated: " + result);
+        // System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: w
 
 
@@ -116,12 +116,10 @@ public class Stream30 {
 
         // =======================================================
         // 7. Sum of Numbers
-        int sum = num01.stream()
-            .mapToInt(Integer::intValue)
-            .sum();
+        
 
 
-        // System.out.println("7. Sum: " + sum);
+        System.out.println("7. Sum: " + sum);
         // Output: 7. Sum: 21
 
 
@@ -136,14 +134,11 @@ public class Stream30 {
 
         // =======================================================
         // 9. Find Duplicate Elements 
-        Set<Integer> seen = new HashSet<>();      
-        Set<Integer> duplicates = num02.stream()
-            .filter(w -> !seen.add(w))
-            .collect(Collectors.toSet());
 
         Set<Integer> seen = new HashSet<>();
         Set<Integer> duplicates = num02.stream()
-            .filter()
+            .filter(w -> !seen.add(w))
+            .collect(Collectors.toSet());
 
 
         // System.out.println("9. Duplicates: " + duplicates);
