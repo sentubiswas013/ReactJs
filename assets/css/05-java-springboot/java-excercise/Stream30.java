@@ -38,9 +38,15 @@ public class Stream30 {
         // =======================================================
         // 1. Filter Even Numbers       
         List<Integer> even = num02.stream()
-                .filter(n -> n % 2 == 0)
+                .map(n -> n % 2 == 0)
                 .toList();
-        // System.out.println("1. Even Numbers: " + even);
+
+         List<Integer> even = num02.stream()
+                .map(e -> e % 2 == 0)
+                .distinct()
+                .sorted()
+                .toList();
+        System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]
 
 

@@ -327,30 +327,6 @@ boolean isActive = true;
 long population = 1000000L;
 ```
 
-## 2. What is the difference between primitive and reference types?
-
-**Primitive types** in Java, like `int`, `double`, and `boolean`, store **actual values** in memory and are **stored on the stack**. They are fast and have a fixed size.
-
-**Reference types**, like objects, arrays, and strings, store a **reference or memory address** pointing to the actual data in the **heap**. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
-
-
-**Primitive types:**
-- Stored in stack memory
-- Direct value storage
-- Faster access
-- Default values (0, false, etc.)
-
-**Reference types:**
-- Stored in heap memory
-- Store memory addresses
-- Include classes, arrays, interfaces
-- Default value is null
-
-```java
-int x = 10;        // primitive - stores value 10
-String name = "John"; // reference - stores address to "John" object
-```
-
 ## 3. What is autoboxing and unboxing?
 
 * **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
@@ -399,12 +375,19 @@ System.out.println(a == b); // true, values are equal
 
 ```java
 // String - creates new objects
-String str = "Hello";
-str += " World";  // Creates new String object
+String s = "Hello";
+s.concat(" World");
+System.out.println(s);
 
 // StringBuilder - modifies existing buffer
 StringBuilder sb = new StringBuilder("Hello");
-sb.append(" World");  // Modifies same object
+sb.append(" World");
+System.out.println(sb);
+
+// StringBuffer (Mutable, Thread-safe)
+StringBuffer sb = new StringBuffer("Hello");
+sb.append(" World");
+System.out.println(sb);
 ```
 
 ## 6. Why are strings immutable in Java?

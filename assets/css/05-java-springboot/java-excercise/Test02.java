@@ -38,13 +38,13 @@ public class Stream30 {
         // =======================================================
         // 1. Filter Even Numbers       
         List<Integer> even = num01.stream()
-            .filter(e -> e % 2 == 0)
+            .map(e -> e % 2 == 0)
             .distinct()
             .sorted()
             .toList();
         
 
-        // System.out.println("1. Even Numbers: " + even);
+        System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]
 
 
@@ -119,7 +119,7 @@ public class Stream30 {
         
 
 
-        System.out.println("7. Sum: " + sum);
+        // System.out.println("7. Sum: " + sum);
         // Output: 7. Sum: 21
 
 
