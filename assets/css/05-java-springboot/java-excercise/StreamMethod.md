@@ -8,11 +8,11 @@
 | `equals()`           | Exact string comparison            | `names.stream().filter(n -> n.equals("Java")).toList()`           |
 | `equalsIgnoreCase()` | Compare strings ignoring case      | `names.stream().filter(n -> n.equalsIgnoreCase("java")).toList()` |
 | `length()`           | Get string length                  | `names.stream().filter(n -> n.length() > 4).toList()`             |
+| `isEmpty()`          | Check if string empty              | `names.stream().filter(String::isEmpty).toList()`                 |
 | `toUpperCase()`      | Convert string to uppercase        | `names.stream().map(String::toUpperCase).toList()`                |
 | `toLowerCase()`      | Convert string to lowercase        | `names.stream().map(String::toLowerCase).toList()`                |
 | `substring()`        | Extract part of string             | `names.stream().map(n -> n.substring(0,2)).toList()`              |
 | `trim()`             | Remove spaces at start/end         | `names.stream().map(String::trim).toList()`                       |
-| `isEmpty()`          | Check if string empty              | `names.stream().filter(String::isEmpty).toList()`                 |
 | `charAt()`           | Get character at index             | `names.stream().map(n -> n.charAt(0)).toList()`                   |
 
 ---

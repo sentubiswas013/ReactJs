@@ -109,7 +109,7 @@ public class Stream30 {
             // .mapToInt(Integer::intValue)
             // .average()
             // .orElse(0);
-        .max(Integer::compareTo);
+            .reduce(0, Integer::sum);
 
 
         System.out.println("7. Sum: " + sum);
