@@ -31,7 +31,7 @@ public class Stream30 {
         String sentence="Java Stream API is very powerful";
         List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
         List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
-        List<String> words = Arrays.asList("java","stream","api", "level", "madam");
+        List<String> words = Arrays.asList("java","stream","api", "level", "madam", "mad");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
 
@@ -105,36 +105,42 @@ public class Stream30 {
 
         // =======================================================
         // 7. Sum of Numbers
-        int sum = num01.stream()
-            // .mapToInt(Integer::intValue)
-            // .average()
-            // .orElse(0);
-            .reduce(0, Integer::sum);
+        double sum = num01.stream()
+            .mapToInt(Integer::intValue)
+            .average()
+            .orElse(0);
 
 
-        System.out.println("7. Sum: " + sum);
+        // System.out.println("7. Sum: " + sum);
         // Output: 7. Sum: 21
 
 
         // =======================================================
         // 8. Check if Any String Contains Word
-        boolean result8 = words.stream()
-            .anyMatch(w -> w.contains("api"));        
+        List<String> Contains = words.stream()
+            // .filter(n -> n.contains("mad"))
+            // .toList();
 
-        // System.out.println("8. Contains api: " + result8);
+            .filter(n -> n.equals("java")).toList();
+
+        // System.out.println("8. Contains api: " + Contains);
         // Output: 8. Contains api: true
 
 
         // =======================================================
         // 9. Find Duplicate Elements 
-
         Set<Integer> seen = new HashSet<>();
         Set<Integer> duplicates = num02.stream()
-            .filter(w -> !seen.add(w))
+            .filter(w -> seen.add(w))
             .collect(Collectors.toSet());
 
+        List<Integer> unique = num02.stream()
+                .distinct()
+                .sorted()
+                .toList();
+        System.out.println("17. Unique: " + unique);
 
-        // System.out.println("9. Duplicates: " + duplicates);
+        System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [1, 2]
 
 
@@ -155,7 +161,9 @@ public class Stream30 {
 
         // =======================================================
         // 11. Find Common Elements Between Two Lists
-
+        List<Integer> common = num01.stream()
+            .filter(num02::contains)
+            .toList();
         
 
         // System.out.println("11. Common: " + common);
@@ -164,6 +172,11 @@ public class Stream30 {
 
         // =======================================================
         // 12. Find Top N Elements
+        List<Integer> top3 = num01.stream()
+            .sorted(Comparator.reverseOrder())
+            .skip(0)
+            .limit(1)
+            .toList();
         
 
         // System.out.println("12. Top 3: " + top3);
@@ -172,6 +185,15 @@ public class Stream30 {
 
         // =======================================================
         // 13. Count Frequency of Characters
+        String str = "success";
+        // Map<Character, Long> freq = str.chars()
+        Map<Character, Long> freq = str.chars()
+            .mapToObj(c -> (char) c)
+            // .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+            .collect(Collectors.groupingBy(
+                 c -> c, 
+                 Collectors.counting()
+            ));
         
 
         // System.out.println("13. Frequency: " + freq);
@@ -181,6 +203,13 @@ public class Stream30 {
 
         // =======================================================
         // 14. To merge two arrays and sort the resulting array in ascending order
+        List<Integer> resultSort = Stream.concat(
+            num01.stream().filter(n -> n != 0),
+            num02.stream().filter(n -> n == 0)
+        )
+            // .distinct()
+            // .sorted(Comparator.reverseOrder())
+            .toList();
         
 
         // System.out.println(resultSort);
@@ -189,6 +218,7 @@ public class Stream30 {
 
         // =======================================================
         // 14. 0 should go to outside without change order
+
         
 
         // System.out.println(resultRight);

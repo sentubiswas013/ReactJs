@@ -70,7 +70,7 @@ public class Stream30 {
         List<Integer> sorted = num01.stream()
                 .sorted()
                 .toList();
-                
+
         List<Integer> sorted = num01.stream()
                 .sorted(Comparator.reverseOrder())
                 .toList();
@@ -115,16 +115,29 @@ public class Stream30 {
                 // .mapToInt(e -> e.intValue())
                 .mapToInt(Integer::intValue)
                 .sum();
+
+                // .reduce(0, Integer::sum);
+
+        double average = num01.stream()
+            .mapToInt(Integer::intValue)
+            .average()
+            .orElse(0);
+
         // System.out.println("7. Sum: " + sum);
+        // System.out.println("7. average: " + average);
         // Output: 7. Sum: 21
 
 
         // =======================================================
         // 8. Check if Any String Contains Word
-        boolean result8 = words.stream()
-                .anyMatch(s -> s.contains("api"));
-        // System.out.println("8. Contains api: " + result8);
-        // Output: 8. Contains api: true
+        List<String> Contains = words.stream()
+            .filter(n -> n.contains("api"))
+            .toList();
+
+            //.filter(n -> n.equals("java")).toList();
+
+        // System.out.println("8. Contains api: " + Contains);
+        // Output: 8. Contains api: [api]
 
 
         // =======================================================
@@ -138,7 +151,16 @@ public class Stream30 {
 
 
         // =======================================================
-        // 10. Find Longest String
+        // 10. Remove Duplicates
+        List<Integer> unique = num02.stream()
+                .distinct()
+                .toList();
+        // System.out.println("17. Unique: " + unique);
+        // Output: 17. Unique: [1, 2, 3, 4, 5]
+
+
+        // =======================================================
+        // 11. Find Longest String
         String longest = words.stream()
                 .max(Comparator.comparingInt(String::length))
                 .orElse(null);
@@ -153,7 +175,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 11. Find Common Elements Between Two Lists
+        // 12. Find Common Elements Between Two Lists
         List<Integer> a = Arrays.asList(1,2,3,4);
         List<Integer> b = Arrays.asList(3,4,5,6);
         List<Integer> common = a.stream()
@@ -164,7 +186,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 12. Find Top N Elements
+        // 13. Find Top N Elements
         List<Integer> top3 = num01.stream()
                 .sorted(Comparator.reverseOrder())
                 .limit(3)
@@ -172,30 +194,44 @@ public class Stream30 {
         // System.out.println("12. Top 3: " + top3);
         // Output: 12. Top 3: [6, 5, 4]
 
+        // =======================================================
+        // 14. Find Nth Largest Element
+        int thirdLargest = num01.stream()
+                .sorted(Comparator.reverseOrder())
+                .skip(2)
+                .findFirst()
+                .orElseThrow();
+
+        // System.out.println("16. Third Largest: " + thirdLargest);
+        // output: 16. Third Largest: 4
+
 
         // =======================================================
-        // 13. Count Frequency of Characters
+        // 15. Count Frequency of Characters
         String str = "success";
         Map<Character, Long> freq = str.chars()
                 .mapToObj(c -> (char)c)
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+
         // System.out.println("13. Frequency: " + freq);
         // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
 
 
-
         // =======================================================
-        // 14. To merge two arrays and sort the resulting array in ascending order
-        List<Integer> resultSort = Stream.concat(num01.stream(), num02.stream())
-                             .sorted()
-                             .toList();
+        // 16. To merge two arrays and sort the resulting array in ascending order
+        List<Integer> resultSort = Stream.concat(
+                num01.stream(), 
+                num02.stream()
+                )
+                .sorted()
+                .toList();
 
         System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
 
 
         // =======================================================
-        // 14. 0 should go to outside without change order
+        // 16. 0 should go to outside without change order
         List<Integer> resultRight = Stream.concat(
                 num01.stream().filter(n -> n != 0), // keep order of non-zero
                 num01.stream().filter(n -> n == 0)  // zeros at end
@@ -206,37 +242,19 @@ public class Stream30 {
 
 
         // =======================================================
-        // 15. Partition Even and Odd Numbers
+        // 17. Partition Even and Odd Numbers
         Map<Boolean, List<Integer>> partition = num01.stream()
                 .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+
         // System.out.println("15. Partition: " + partition);
         // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
-
-
-        // =======================================================
-        // 16. Find Nth Largest Element
-        int thirdLargest = num01.stream()
-                .sorted(Comparator.reverseOrder())
-                .skip(2)
-                .findFirst()
-                .orElseThrow();
-        // System.out.println("16. Third Largest: " + thirdLargest);
-        // output: 16. Third Largest: 4
-
-
-        // =======================================================
-        // 17. Remove Duplicates
-        List<Integer> unique = num02.stream()
-                .distinct()
-                .toList();
-        // System.out.println("17. Unique: " + unique);
-        // Output: 17. Unique: [1, 2, 3, 4, 5]
 
 
         // =======================================================
         // 18. Join Strings
         String joined = words.stream()
                 .collect(Collectors.joining(", "));
+
         // System.out.println("18. Joined: " + joined);
         // Output: 18. Joined: java, stream, api
 
@@ -247,18 +265,9 @@ public class Stream30 {
         List<String> clean = wordsWithNull.stream()
                 .filter(Objects::nonNull)
                 .toList();
+
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
-
-
-        // =======================================================
-        // 20. Calculate Average
-        double avg = num01.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0);
-        // System.out.println("20. Average: " + avg);
-        // Output: 20. Average: 3.5
 
 
         // =======================================================
@@ -266,6 +275,7 @@ public class Stream30 {
         List<String> reversed = words.stream()
                 .map(w -> new StringBuilder(w).reverse().toString())
                 .toList();
+
         // System.out.println("23. Reversed: " + reversed);
         // Output: 23. Reversed: [avaj, maerts, ipa]
 
@@ -275,6 +285,7 @@ public class Stream30 {
         List<String> palindromes = words.stream()
                 .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
                 .toList();
+
         // System.out.println("22. Palindromes: " + palindromes);
         // Output: 22. Palindromes: []
 
@@ -296,6 +307,7 @@ public class Stream30 {
         // 24. Group by First Character
         Map<Character, List<String>> mapByFirst = words.stream()
                 .collect(Collectors.groupingBy(w -> w.charAt(0)));
+
         // System.out.println("25. Grouped by First Char: " + mapByFirst);
         // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
