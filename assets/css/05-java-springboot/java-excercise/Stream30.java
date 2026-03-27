@@ -38,11 +38,11 @@ public class Stream30 {
         // =======================================================
         // 1. Filter Even Numbers       
         List<Integer> even = num02.stream()
-                .map(n -> n % 2 == 0)
+                .filter(n -> n % 2 == 0)
                 .toList();
 
-         List<Integer> even = num02.stream()
-                .map(e -> e % 2 == 0)
+        List<Integer> even = num02.stream()
+                .filter(e -> e % 2 == 0)
                 .distinct()
                 .sorted()
                 .toList();
@@ -68,6 +68,10 @@ public class Stream30 {
         // =======================================================
         // 3. Sort List in Descending Order
         List<Integer> sorted = num01.stream()
+                .sorted()
+                .toList();
+                
+        List<Integer> sorted = num01.stream()
                 .sorted(Comparator.reverseOrder())
                 .toList();
         // System.out.println("3. Sorted Descending: " + sorted);
@@ -77,7 +81,7 @@ public class Stream30 {
         // =======================================================
         // 4. Count Strings with Specific Prefix        
         long count = names.stream()
-                .filter(name -> name.startsWith("A"))
+                .filter(w -> w.startsWith("A"))
                 .count();
         // System.out.println("4. Count starting with A: " + count);
         // Output: 4. Count starting with A: 3
@@ -340,7 +344,7 @@ public class Stream30 {
         // =======================================================
         // 27. Count Employees in Each Department
         Map<String, Long> countByDept = employees.stream()
-        .collect(Collectors.groupingBy(
+                .collect(Collectors.groupingBy(
                 Employee::getDepartment,
                 Collectors.counting()
         ));

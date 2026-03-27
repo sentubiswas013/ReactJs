@@ -37,23 +37,21 @@ public class Stream30 {
 
         // =======================================================
         // 1. Filter Even Numbers       
-        List<Integer> even = num01.stream()
-            .map(e -> e % 2 == 0)
-            .distinct()
-            .sorted()
-            .toList();
-        
+        List<Integer> even = num02.stream()
+                .filter(e -> e % 2 == 0)
+                .distinct()
+                .sorted()
+                .toList();        
 
-        System.out.println("1. Even Numbers: " + even);
+        // System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]
 
 
         // =======================================================
         // 2. Find Maximum and minimum Element
         int max = num01.stream()
-            .min(Integer::compareTo)
+            .max(Integer::compareTo)
             .orElseThrow();
-        
 
         // System.out.println("2. Maximum: " + max);
         // System.out.println("2. Minimum: " + min);
@@ -62,9 +60,8 @@ public class Stream30 {
 
         // =======================================================
         // 3. Sort List in Descending Order
-        List<Integer> sorted = num01.stream()
-            .sorted()
-            .distinct()
+        List<Integer> sorted = num02.stream()
+            .sorted(Comparator.reverseOrder())
             .toList();
         
 
@@ -74,29 +71,21 @@ public class Stream30 {
 
         // =======================================================
         // 4. Count Strings with Specific Prefix        
-        long count = names.stream()
-            .filter( w -> w.startsWith("A"))
+        long count = words.stream()
+            .filter(w -> w.startsWith("s"))
             .count();
 
-        // System.out.println("4. Count starting with A: " + count);
+        // ystem.out.println("4. Count starting with A: " + count);
         // Output: 4. Count starting with A: 3
-
 
         // =======================================================
         // 5. Find First Non-Repeated Character
-        // String input = "swiss";
-        // Character result =  input.chars()
-        //     .mapToObj(c -> (char) c)
-        //     .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
-        //     .findFirst()
-        //     .orElseThrow();
-
-        String  input = "swiss";
-        Character result = input.chars()
+        String input = "swiss";
+        char result = input.chars()
             .mapToObj(c -> (char) c)
             .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
             .findFirst()
-            .orElseThrow();
+            .orElse(null);        
         
 
         // System.out.println("5. First Non-Repeated: " + result);
@@ -116,10 +105,14 @@ public class Stream30 {
 
         // =======================================================
         // 7. Sum of Numbers
-        
+        int sum = num01.stream()
+            // .mapToInt(Integer::intValue)
+            // .average()
+            // .orElse(0);
+        .max(Integer::compareTo);
 
 
-        // System.out.println("7. Sum: " + sum);
+        System.out.println("7. Sum: " + sum);
         // Output: 7. Sum: 21
 
 

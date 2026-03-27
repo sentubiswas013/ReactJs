@@ -295,6 +295,39 @@ for (int i = 0; i < fruits.size(); i++) {
 }
 ```
 
+## 1. What are SOLID principles?
+
+**Answer:**
+
+SOLID is an acronym for five design principles that make software more maintainable and scalable:
+
+- **S**ingle Responsibility: A class should have one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subtypes must be substitutable for their base types
+- **I**nterface Segregation: Many specific interfaces are better than one general interface
+- **D**ependency Inversion: Depend on abstractions, not concrete implementations
+
+**Example:**
+```java
+// Single Responsibility Principle
+public class UserService {
+    public void createUser(User user) { /* only user logic */ }
+}
+
+public class EmailService {
+    public void sendEmail(String to, String message) { /* only email logic */ }
+}
+
+// Dependency Inversion Principle
+public interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+public class PayPalProcessor implements PaymentProcessor {
+    public void processPayment(double amount) { /* PayPal logic */ }
+}
+```
+
 # ✅ 2. Data Types and Variables
 
 ## 1. What are data types in Java?
@@ -4729,7 +4762,7 @@ public class UserController {
 
 # ✅ 21. Java Microservices 
 
-## 0. What are CQRS principles?
+## 1. What are CQRS principles?
 **CQRS (Command Query Responsibility Segregation)** is an architectural pattern that **separates read operations (queries) from write operations (commands)** in an application.
 
 * **Command** → Used to **create, update, or delete data**
@@ -4753,38 +4786,7 @@ public User getUser(Long id) {
 }
 ```
 
-## 1. What are SOLID principles?
-
-**Answer:**
-
-SOLID is an acronym for five design principles that make software more maintainable and scalable:
-
-- **S**ingle Responsibility: A class should have one reason to change
-- **O**pen/Closed: Open for extension, closed for modification
-- **L**iskov Substitution: Subtypes must be substitutable for their base types
-- **I**nterface Segregation: Many specific interfaces are better than one general interface
-- **D**ependency Inversion: Depend on abstractions, not concrete implementations
-
-**Example:**
-```java
-// Single Responsibility Principle
-public class UserService {
-    public void createUser(User user) { /* only user logic */ }
-}
-
-public class EmailService {
-    public void sendEmail(String to, String message) { /* only email logic */ }
-}
-
-// Dependency Inversion Principle
-public interface PaymentProcessor {
-    void processPayment(double amount);
-}
-
-public class PayPalProcessor implements PaymentProcessor {
-    public void processPayment(double amount) { /* PayPal logic */ }
-}
-```
+## 2. --
 
 ## 3. What are microservices?
 
