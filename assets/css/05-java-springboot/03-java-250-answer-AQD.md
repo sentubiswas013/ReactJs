@@ -3609,23 +3609,79 @@ Service service;
 
 In Java and Spring, DI helps make code **loosely coupled, easier to test, and more maintainable**. It can be implemented via **constructor injection, setter injection, or field injection**.
 
-**Types of DI:**
-- Constructor injection (recommended)
-- Setter injection
-- Field injection
+**There are 3 main types of DI:**
+1. Constructor Injection – dependencies injected through constructor (recommended)
+2. Setter Injection – dependencies injected through setter method
+3. Field Injection – dependencies injected directly into field using @Autowired
+
+**1. Constructor Injection (Recommended)**
 
 ```java
-// Without DI - tight coupling
-class OrderService {
-    private PaymentService paymentService = new PaymentService(); // Creates dependency
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+class Engine {
+    public void start() {
+        System.out.println("Engine started");
+    }
 }
 
-// With DI - loose coupling
-class OrderService {
-    private PaymentService paymentService;
-    
-    public OrderService(PaymentService paymentService) { // Injected
-        this.paymentService = paymentService;
+@Component
+class Car {
+    private Engine engine;
+
+    @Autowired
+    public Car(Engine engine) {   // Constructor Injection
+        this.engine = engine;
+    }
+
+    public void drive() {
+        engine.start();
+        System.out.println("Car is running");
+    }
+}
+```
+
+
+**2. Setter Injection**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+class Car {
+    private Engine engine;
+
+    @Autowired
+    public void setEngine(Engine engine) {   // Setter Injection
+        this.engine = engine;
+    }
+
+    public void drive() {
+        engine.start();
+        System.out.println("Car is running");
+    }
+}
+```
+
+
+**3. Field Injection**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+class Car {
+
+    @Autowired   // Field Injection
+    private Engine engine;
+
+    public void drive() {
+        engine.start();
+        System.out.println("Car is running");
     }
 }
 ```
@@ -3650,15 +3706,30 @@ Here the **Spring Container creates the `UserService` object and provides it whe
 1. **BeanFactory** – Basic container
 2. **ApplicationContext** – Advanced container (most commonly used)
 
-## 6. What is BeanFactory?
+## 6. What is BeanFactory vs ApplicationContext?
 
 **BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
 It uses **lazy initialization**, so beans are created **only when requested**.
 It is lightweight, but **ApplicationContext** is preferred because it provides more features like event handling and annotation support.
 
+**`ApplicationContext`** is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
+
+**Using BeanFactory (Lazy Loading)**
 ```java
-BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
-UserService userService = (UserService) factory.getBean("userService");
+Resource resource = new ClassPathResource("beans.xml");
+BeanFactory factory = new XmlBeanFactory(resource);
+
+UserService service = (UserService) factory.getBean("userService");
+service.print();
+```
+
+**Using ApplicationContext (Eager Loading)**
+```java
+ApplicationContext context =
+        new ClassPathXmlApplicationContext("beans.xml");
+
+UserService service = context.getBean(UserService.class);
+service.print();
 ```
 
 ## 7. What is the difference between Java Bean and Spring Bean?
@@ -3980,37 +4051,93 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 7. What are the key uses of `@Component`, `@Service`, `@Repository`, and `@Controller` annotations?
+## 7. @Component vs @Service vs @Repository vs @Controller vs @RestController annotations?
 
-These are stereotype annotations that mark classes for Spring's component scanning. They're all specializations of `@Component`.
+
+> All these are Spring stereotype annotations used to create Spring beans.
+
+**@Component** is a generic annotation for any bean.
+**@Service** is used for business logic layer.
+**@Repository** is used for database/DAO layer and provides exception handling.
+**@Controller** is used to handle web requests and return views (like JSP/HTML).
+**@RestController** is used to build REST APIs and returns JSON/XML data instead of views.
+
+Internally, all of them are specialized types of @Component.
+
+**Simple Flow (Easy to Remember)**
+
+```text
+Controller / RestController → Service → Repository → Database
+```
+
+**Repository Layer**
 
 ```java
-@Component  // Generic Spring-managed component
-public class EmailValidator {
-    public boolean isValid(String email) { }
-}
-
-@Service    // Business logic layer
-public class UserService {
-    public User createUser(User user) { }
-}
-
-@Repository // Data access layer
+@Repository
 public class UserRepository {
-    public User findById(Long id) { }
-}
-
-@Controller // Web layer (returns views)
-public class UserController {
-    public String showUsers(Model model) { }
+    public String getUser() {
+        return "User from DB";
+    }
 }
 ```
 
-**Key differences:**
-- `@Service`: Business logic, transaction boundaries
-- `@Repository`: Data access, exception translation
-- `@Controller`: Web requests, view resolution
-- `@Component`: Generic components
+**Service Layer**
+
+```java
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository repo;
+
+    public String getUser() {
+        return repo.getUser();
+    }
+}
+```
+
+**Controller (Returns View)**
+
+```java
+@Controller
+public class UserController {
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/home")
+    public String home(Model model) {
+        model.addAttribute("user", service.getUser());
+        return "home"; // returns HTML/JSP page
+    }
+}
+```
+
+**RestController (Returns JSON)**
+
+```java
+@RestController
+public class UserRestController {
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/api/user")
+    public String getUser() {
+        return service.getUser(); // returns JSON/text
+    }
+}
+```
+
+**Generic Component**
+
+```java
+@Component
+public class EmailUtil {
+    public void sendEmail() {
+        System.out.println("Sending Email");
+    }
+}
+```
+> @RestController = @Controller + @ResponseBody
+
 
 ## 8. What is @Autowired annotation?
 
