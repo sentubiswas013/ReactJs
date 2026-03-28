@@ -3568,7 +3568,7 @@ Spring makes Java development easier by handling common tasks and promoting best
 </dependencies>
 ```
 
-## 2: What are the core features of Spring?
+## 2. What are the core features of Spring?
 
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
@@ -3595,7 +3595,7 @@ Normally, we create objects using `new`.
 But in **IoC (like in Spring)**, the **framework creates the objects and gives them to our class**.
 
 ```java
-// *Without IoC
+// Without IoC
 Service service = new Service();
 
 // With IoC (Spring)
@@ -3605,7 +3605,7 @@ Service service;
 
 ## 4. What is Dependency Injection?
 
-**Dependency Injection (DI)** is a design pattern where an object’s **dependencies are provided externally** rather than the object creating them itself.
+**Dependency Injection (DI)** is a design pattern where an object's **dependencies are provided externally** rather than the object creating them itself.
 
 In Java and Spring, DI helps make code **loosely coupled, easier to test, and more maintainable**. It can be implemented via **constructor injection, setter injection, or field injection**.
 
@@ -3629,131 +3629,8 @@ class OrderService {
     }
 }
 ```
-## 5: What is Spring Data JPA?
 
-**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
-
-It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
-
-* Spring module that simplifies JPA-based data access
-* Provides repository abstraction over JPA
-* **Auto-implementation**: Creates implementation from method names
-* **Query Methods**: Derive queries from method names
-* **Custom Queries**: Support for JPQL and native SQL
-* Reduces boilerplate code significantly
-
-```java
-public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByLastName(String lastName);
-    List<User> findByAgeGreaterThan(int age);
-    
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
-    User findByEmail(String email);
-}
-```
-
-
-## 6: What is Spring Cloud? - asked
-
-**Spring Cloud** is a framework for **building distributed systems and microservices**.
-
-It provides tools for **service discovery (Eureka/Consul)**, **circuit breakers (Hystrix)**, **API gateways (Zuul/Gateway)**, **centralized configuration**, and **client-side load balancing**.
-
-* Framework for building distributed systems and microservices
-* Provides tools for common patterns in distributed systems
-* **Service Discovery**: Eureka, Consul integration
-* **Circuit Breaker**: Hystrix for fault tolerance
-* **API Gateway**: Zuul, Spring Cloud Gateway
-* **Configuration Management**: Centralized configuration
-* **Load Balancing**: Client-side load balancing
-
-```java
-@EnableEurekaClient
-@SpringBootApplication
-public class UserServiceApplication {
-    @LoadBalanced
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-}
-```
-
-
-## 7: What is Spring Security?
-
-**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
-
-It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
-
-
-```java
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin()
-                .and()
-                .build();
-    }
-}
-```
-
-## 8: What is Spring WebFlux?
-
-**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
-
-It’s an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
-
-
-```java
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-@RestController
-public class UserController {
-
-    @GetMapping("/users")
-    public Flux<User> getUsers() {
-        return userService.findAll(); // Returns Flux<User>
-    }
-
-    @GetMapping("/users/{id}")
-    public Mono<User> getUser(@PathVariable String id) {
-        return userService.findById(id); // Returns Mono<User>
-    }
-}
-```
-
-## 9. What is BeanFactory?
-
-**BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
-It uses **lazy initialization**, so beans are created **only when requested**.
-It is lightweight, but **ApplicationContext** is preferred because it provides more features like event handling and annotation support.
-
-
-```java
-BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
-UserService userService = (UserService) factory.getBean("userService");
-```
-
-## 10. What is a Container (Spring Container)?
+## 5. What is a Container (Spring Container)?
 
 A **Spring Container** is the **core part of the Spring Framework that creates, manages, and controls the lifecycle of objects called Beans**.
 
@@ -3773,7 +3650,18 @@ Here the **Spring Container creates the `UserService` object and provides it whe
 1. **BeanFactory** – Basic container
 2. **ApplicationContext** – Advanced container (most commonly used)
 
-## 11. What is the difference between Java Bean and Spring beans?
+## 6. What is BeanFactory?
+
+**BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
+It uses **lazy initialization**, so beans are created **only when requested**.
+It is lightweight, but **ApplicationContext** is preferred because it provides more features like event handling and annotation support.
+
+```java
+BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
+UserService userService = (UserService) factory.getBean("userService");
+```
+
+## 7. What is the difference between Java Bean and Spring Bean?
 
 A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
 
@@ -3819,14 +3707,13 @@ Usage (Dependency Injection):
 private UserService userService;
 ```
 
-
-## 12. What are Bean life cycle in sprintboot 
+## 8. What is the Bean Lifecycle in Spring Boot?
 
 The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
 
 **Steps in Bean Lifecycle**
 
-1. **Bean Instantiation :** Spring creates the bean object.
+1. **Bean Instantiation:** Spring creates the bean object.
 2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
 3. **Bean Initialization:** Initialization methods run using `@PostConstruct` or `afterPropertiesSet()`.
 4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
@@ -3856,7 +3743,8 @@ public class MyBean {
 }
 ```
 
-## 11. What is AOP in spring?
+## 9. What is AOP in Spring?
+
 **AOP (Aspect Oriented Programming)** is a programming concept used to **separate cross-cutting concerns** like **logging, security, transactions, and exception handling** from the main business logic.
 
 Instead of writing this code in every method, AOP lets us **apply it automatically across multiple methods**.
@@ -3876,6 +3764,96 @@ public class LoggingAspect {
     @Before("execution(* com.example.service.*.*(..))")
     public void logBefore(JoinPoint joinPoint) {
         System.out.println("Before method: " + joinPoint.getSignature().getName());
+    }
+}
+```
+
+## 10. What is Spring Data JPA?
+
+**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
+
+It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
+
+* **Auto-implementation**: Creates implementation from method names
+* **Query Methods**: Derive queries from method names
+* **Custom Queries**: Support for JPQL and native SQL
+
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByLastName(String lastName);
+    List<User> findByAgeGreaterThan(int age);
+    
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
+}
+```
+
+## 11. What is Spring Security?
+
+**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
+
+It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/public/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin()
+                .and()
+                .build();
+    }
+}
+```
+
+## 12. What is Spring Cloud? - asked
+
+**Spring Cloud** is a framework for **building distributed systems and microservices**.
+
+It provides tools for **service discovery (Eureka/Consul)**, **circuit breakers (Hystrix)**, **API gateways (Zuul/Gateway)**, **centralized configuration**, and **client-side load balancing**.
+
+* **Service Discovery**: Eureka, Consul integration
+* **Circuit Breaker**: Hystrix for fault tolerance
+* **API Gateway**: Zuul, Spring Cloud Gateway
+* **Configuration Management**: Centralized configuration
+* **Load Balancing**: Client-side load balancing
+
+```java
+@EnableEurekaClient
+@SpringBootApplication
+public class UserServiceApplication {
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+## 13. What is Spring WebFlux?
+
+**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
+
+It's an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
+
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/users")
+    public Flux<User> getUsers() {
+        return userService.findAll(); // Returns Flux<User>
+    }
+
+    @GetMapping("/users/{id}")
+    public Mono<User> getUser(@PathVariable String id) {
+        return userService.findById(id); // Returns Mono<User>
     }
 }
 ```
