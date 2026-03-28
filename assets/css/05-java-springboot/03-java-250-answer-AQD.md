@@ -4143,17 +4143,13 @@ public class EmailUtil {
 > @RestController = @Controller + @ResponseBody
 
 
-## 8. What is @Autowired annotation?
+## 8. What is @Autowired vs @Inject annotation?
 
-`@Autowired` is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
+**`@Autowired`** is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
 It tells the Spring container to automatically inject a required bean into a class.
 
-- Automatic dependency injection
-- Injection by type
-- Can be applied to fields, constructors, methods
-- Required by default (can be made optional)
-
 ```java
+// Using @Autowired (Spring)
 @Service
 public class OrderService {
     
@@ -4165,6 +4161,25 @@ public class OrderService {
     @Autowired
     public OrderService(UserService userService) { // Constructor injection
         this.userService = userService;
+    }
+}
+```
+
+**@Autowired** also used used for dependency injection in Spring, it is provided by Spring Framework, while @Inject is provided by Java (JSR-330).
+
+**Using @Inject (Java JSR-330)**
+
+```java
+import jakarta.inject.Inject;
+
+@Service
+public class UserService {
+
+    @Inject
+    private UserRepository userRepository;
+
+    public void printUser() {
+        System.out.println(userRepository.getUser());
     }
 }
 ```
