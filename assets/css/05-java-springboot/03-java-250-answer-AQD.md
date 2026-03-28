@@ -1341,6 +1341,63 @@ public class Main {
 }
 ```
 
+**Where Multithreading is Usually Used in Java (Important for Interview)**
+
+**1. Web Applications (Spring Boot)**
+
+Very common use:
+
+* Each HTTP request runs in a **separate thread**
+* Multiple users can use the application at the same time
+
+Example:
+
+* 1000 users → 1000 threads → handled by thread pool
+
+---
+
+**2. Calling Multiple APIs**
+
+```java
+CompletableFuture.supplyAsync(() -> apiCall1());
+CompletableFuture.supplyAsync(() -> apiCall2());
+CompletableFuture.supplyAsync(() -> apiCall3());
+```
+
+Used to **reduce API response time**.
+
+**3. Background Jobs**
+
+Used for:
+
+* Sending emails
+* Generating PDF
+* Report generation
+* Data import (Excel/CSV)
+* Image processing
+
+In Spring Boot:
+
+```java
+@Async
+public void sendEmail() {
+    // runs in background thread
+}
+```
+
+**4. Batch Processing**
+
+* Processing large data
+* Bank transactions
+* Log processing
+* Data migration
+
+**5. Real-Time Systems**
+
+* Chat applications
+* Notification systems
+* Live tracking apps
+
 ## 2. How do you create threads in Java?
 
 There are two main ways to create **threads** in Java: **extending Thread** class or implementing **Runnable interfac**e.
@@ -1474,6 +1531,20 @@ public void increment() {
     counter.incrementAndGet(); // Atomic operation
 }
 ```
+
+## What are Important Java Multithreading Concepts
+
+**Thread** is the smallest unit of a process that can run independently.
+In Java, threads are used to perform multiple tasks concurrently to improve performance.
+**Runnable** is an interface used to create a thread in Java. It contains only one method: `run()`.
+**Callable** is an interface and similar to Runnable but **returns a result** and can **throw exceptions**.
+**ExecutorService** is a framework that manages threads and thread pools.
+**ThreadPool** is a group of pre-created threads used to execute tasks, which improves performance and avoids creating threads again and again.
+**synchronized** is a keyword used to **prevent multiple threads from accessing the same resource at the same time** and mainly to achieve thread safety
+**Lock** (ReentrantLock) is similar to synchronized but gives more control like lock, unlock, tryLock.
+**Deadlock** is a situation where two or more threads are blocked forever waiting for each other’s resources.
+**CompletableFuture** is used to run asynchronous tasks and combine multiple async operations.
+**@Async**  is used in Spring Boot to execute a method asynchronously and used to run a method in **background thread** 
 
 # ✅ 9. Java Advanced Concurrency 
 

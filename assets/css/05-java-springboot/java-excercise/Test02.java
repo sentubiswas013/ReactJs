@@ -138,9 +138,9 @@ public class Stream30 {
                 .distinct()
                 .sorted()
                 .toList();
-        System.out.println("17. Unique: " + unique);
+        // System.out.println("17. Unique: " + unique);
 
-        System.out.println("9. Duplicates: " + duplicates);
+        // System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [1, 2]
 
 
@@ -252,7 +252,8 @@ public class Stream30 {
         // =======================================================
         // 18. Join Strings
         String joined = words.stream()
-                .collect(Collectors.joining(", "));
+            .collect(Collectors.joining(" "));
+
         // System.out.println("18. Joined: " + joined);
         // Output: 18. Joined: java, stream, api
 
@@ -275,6 +276,9 @@ public class Stream30 {
 
         // =======================================================
         // 21. Reverse Each String
+        List<String> reversed = words.stream()
+            .map(w -> new StringBuilder(w).reverse().toString())
+            .toList();
         
 
         // System.out.println("23. Reversed: " + reversed);
@@ -291,10 +295,11 @@ public class Stream30 {
 
         // =======================================================
         // 23. Convert List to Map and word length
-        
+        // Map<String, Integer> map = words.stream()
+        //     .collect(Collectors.toMap(w -> w, String::length));
 
-        // Map<Integer, List<String>> map = words.stream()
-        //     .collect(Collectors.groupingBy(String::length));
+        Map<Integer, List<String>> map = words.stream()
+            .collect(Collectors.groupingBy(String::length));
 
         // System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
@@ -324,16 +329,16 @@ public class Stream30 {
             .toList();
 
         // Sceond height salary 
-        List<Double> salaryList = employees.stream()
+       List<Double> salaryList = employees.stream()
             .map(Employee::getSalary)
             .sorted(Comparator.reverseOrder())
             .skip(1)
-            .limit(1)
-            .toList(); 
+            .limit(3)
+            .toList();
         
 
         // System.out.println(salaryByDept);
-        // System.out.println(salaryList);     
+        System.out.println(salaryList);     
         //     [IT, HR, IT, HR]
         //     [50000.0, 40000.0, 60000.0, 45000.0]
 
