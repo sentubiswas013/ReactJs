@@ -1,453 +1,332 @@
-﻿## 1ï¸âƒ£ Basic AWS Questions
+﻿# ✅ 18. Java Spring Framework 
 
-### 1. What is Amazon Web Services?
+## 1. What is Spring Framework?
 
-**Answer:**
+**Spring Framework** is a **comprehensive Java framework** for building enterprise applications.
 
-**Amazon Web Services**, or AWS, is a cloud computing platform provided by **Amazon**.
-It offers services like computing power, storage, databases, networking, and AI over the internet.
+It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
 
-Instead of buying and maintaining physical servers, companies can rent resources from AWS and pay only for what they use.
-
----
-
-### 2. What are the main advantages of AWS cloud?
-
-**Answer:**
-
-Some main advantages of AWS are:
-
-* **Cost-effective** â€“ Pay only for the resources you use.
-* **Scalability** â€“ Easily increase or decrease resources based on demand.
-* **High availability** â€“ Services run across multiple data centers.
-* **Security** â€“ Provides strong security features and compliance.
-* **Global infrastructure** â€“ Services are available in many locations worldwide.
-
----
-
-### 3. What are Regions and Availability Zones in AWS?
-
-**Answer:**
-
-In **Amazon Web Services**, a **Region** is a geographical area where AWS has data centers.
-
-Each region contains multiple **Availability Zones**, which are isolated data centers with separate power, networking, and infrastructure.
-
-This design helps improve **fault tolerance, reliability, and high availability**.
-
----
-
-### 4. What are the cloud service models (IaaS, PaaS, SaaS)?
-
-**Answer:**
-
-Cloud services are mainly divided into three models:
-
-* **IaaS (Infrastructure as a Service)** â€“ Provides virtual servers, storage, and networking. Example: **Amazon EC2**.
-* **PaaS (Platform as a Service)** â€“ Provides a platform to build and deploy applications without managing infrastructure. Example: **AWS Elastic Beanstalk**.
-* **SaaS (Software as a Service)** â€“ Software applications delivered over the internet. Example: **Google Workspace**.
-
----
-
-### 5. What is Elasticity and Scalability in cloud computing?
-
-**Answer:**
-
-**Scalability** means increasing or decreasing resources to handle workload changes.
-
-**Elasticity** means automatically adjusting resources in real time based on demand.
-
-In **Amazon Web Services**, services can scale automatically so applications can handle high traffic without downtime.
-
----
-
-### 6. What is API Gateway?
-
-**Answer:**
-
-**Amazon API Gateway** is a service used to create, publish, and manage APIs. It acts as an entry point where clients send requests, and it forwards them to backend services like Lambda or EC2.
-
-**Example:** Client â†’ API Gateway â†’ Lambda â†’ Response.
-
----
-
-### 7. What is AWS Elastic Beanstalk?
-
-**Answer:**
-
-**AWS Elastic Beanstalk** is a platform service used to deploy and manage applications without worrying about infrastructure.
-
-You upload code, and Beanstalk automatically handles:
-
-* EC2
-* Load balancer
-* Scaling
-* Monitoring
-
----
-
-### 8. What is AWS Fargate?
-
-**Answer:**
-
-**AWS Fargate** is a serverless compute engine for containers used with ECS or EKS. You run containers without managing servers.
-
-**Example:** Run Docker containers without provisioning EC2 instances.
-
----
-
-### 9. What is a Route Table?
-
-**Answer:**
-
-A **Route Table** controls how network traffic moves inside a VPC.
-
-It defines rules like:
-
-* Where traffic should go
-* Whether traffic goes to Internet Gateway, NAT Gateway, or another subnet.
-
----
-
-### 10. What is an AWS Load Balancer?
-
-**Answer:**
-
-**Elastic Load Balancing** distributes incoming traffic across multiple servers to improve availability and performance.
-
-Types:
-
-* Application Load Balancer (ALB)
-* Network Load Balancer (NLB)
-* Classic Load Balancer
-
-**Example:** User requests â†’ Load Balancer â†’ Multiple EC2 instances.
-
----
-
-### 11. Difference Between Lambda and EC2?
-
-**Answer:**
-
-| Lambda                       | EC2                    |
-| ---------------------------- | ---------------------- |
-| Serverless                   | Server-based           |
-| No infrastructure management | Need to manage servers |
-| Event-driven                 | Continuous running     |
-| Auto scaling                 | Manual or auto scaling |
-
----
-
-### 12. How API Gateway and Lambda work together?
-
-**Answer:**
-
-Flow:
-Client â†’ API Gateway â†’ Lambda â†’ Response
-
-API Gateway receives the request and triggers Lambda to process the request.
-
-
-## ðŸŽ¯ Top 10 AWS Services â€” Interview Explanation with Code
-
-### 1. ðŸ–¥ï¸ Amazon EC2 â€” Virtual Servers
-
-**What it is:**
-EC2 (Elastic Compute Cloud) provides resizable virtual machines in the cloud. You choose OS, CPU, RAM, and storage.
-
-**Interview Answer:**
-> EC2 is a virtual server on AWS. I use it to host Java Spring Boot applications. It supports auto-scaling and load balancing.
-
-**Steps:**
-1. Go to AWS Console â†’ EC2 â†’ Launch Instance
-2. Choose AMI (Amazon Linux / Ubuntu)
-3. Choose instance type (t2.micro for free tier)
-4. Configure security group (open port 8080)
-5. Launch and SSH into the server
-
-```bash
-# SSH into EC2
-ssh -i my-key.pem ec2-user@<EC2-PUBLIC-IP>
-
-# Install Java
-sudo yum install java-17 -y
-
-# Run Spring Boot JAR
-java -jar myapp.jar
-```
-
----
-
-### 2. ðŸ“¦ Amazon S3 â€” Object Storage
-
-**What it is:**
-S3 (Simple Storage Service) stores files, images, backups, and static websites. Highly durable (99.999999999%).
-
-**Interview Answer:**
-> I use S3 to store user-uploaded files and serve static React frontends. It integrates with CloudFront for CDN.
-
-**Steps:**
-1. Go to S3 â†’ Create Bucket
-2. Upload files
-3. Set bucket policy for public access (if static site)
-4. Enable static website hosting
+Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
 
 ```java
-// Spring Boot â€” Upload file to S3
-@Autowired
-AmazonS3 s3Client;
-
-public String uploadFile(MultipartFile file) throws IOException {
-    String fileName = file.getOriginalFilename();
-    s3Client.putObject("my-bucket", fileName, file.getInputStream(), new ObjectMetadata());
-    return "https://my-bucket.s3.amazonaws.com/" + fileName;
-}
+// pom.xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>6.1.5</version>
+    </dependency>
+</dependencies>
 ```
 
-```bash
-# AWS CLI â€” Upload file
-aws s3 cp myfile.txt s3://my-bucket/
-```
+## 2: What are the core features of Spring?
 
----
-
-### 3. ðŸ—„ï¸ Amazon RDS â€” Managed Database
-
-**What it is:**
-RDS (Relational Database Service) is a managed database service supporting MySQL, PostgreSQL, Oracle, SQL Server.
-
-**Interview Answer:**
-> I use RDS with MySQL for production databases. AWS handles backups, patching, and multi-AZ failover automatically.
-
-**Steps:**
-1. Go to RDS â†’ Create Database
-2. Choose MySQL / PostgreSQL
-3. Set DB name, username, password
-4. Configure VPC and security group (port 3306)
-5. Connect from Spring Boot
-
-```yaml
-# application.yml â€” Spring Boot RDS connection
-spring:
-  datasource:
-    url: jdbc:mysql://<RDS-ENDPOINT>:3306/mydb
-    username: admin
-    password: <password>
-    driver-class-name: com.mysql.cj.jdbc.Driver
-```
-
----
-
-### 4. âš¡ AWS Lambda â€” Serverless Functions
-
-**What it is:**
-Lambda runs code without provisioning servers. Triggered by events (API Gateway, S3, SQS). Pay per execution.
-
-**Interview Answer:**
-> I use Lambda for event-driven tasks like processing S3 file uploads or handling API requests. No server management needed.
-
-**Steps:**
-1. Go to Lambda â†’ Create Function
-2. Choose runtime (Java 17 / Node.js)
-3. Write handler code
-4. Set trigger (API Gateway / S3)
-5. Deploy
+* **IoC Container**: Manages object lifecycle and dependencies
+* **Dependency Injection**: Automatic wiring of dependencies
+* **AOP Support**: Cross-cutting concerns like logging, security
+* **MVC Framework**: Web application development
+* **Transaction Management**: Declarative transaction support
+* **Integration**: Easy integration with other frameworks and technologies
 
 ```java
-// Java Lambda Handler
-public class MyHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
-    @Override
-    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
-        return new APIGatewayProxyResponseEvent()
-            .withStatusCode(200)
-            .withBody("Hello from Lambda!");
+@Configuration
+public class AppConfig {
+    @Bean
+    public UserService userService() {
+        return new UserService(userRepository());
     }
 }
 ```
 
----
+## 3. What is Inversion of Control (IoC)?
 
-### 5. ðŸŒ Amazon API Gateway â€” REST API Manager
+**Inversion of Control (IoC)** means the **control of object creation and dependency management is given to the framework instead of the developer**.
 
-**What it is:**
-API Gateway creates, publishes, and secures REST/HTTP APIs. Acts as the front door to Lambda or EC2.
-
-**Interview Answer:**
-> I use API Gateway to expose Lambda functions as REST endpoints. It handles throttling, auth, and CORS.
-
-**Steps:**
-1. Go to API Gateway â†’ Create API â†’ REST API
-2. Create Resource (e.g., `/users`)
-3. Create Method (GET, POST)
-4. Integrate with Lambda
-5. Deploy to a Stage (dev/prod)
-
-```
-Flow:
-Client â†’ https://api.execute-api.us-east-1.amazonaws.com/prod/users
-       â†’ API Gateway
-       â†’ Lambda (MyHandler)
-       â†’ Response
-```
-
-```bash
-# Test API
-curl -X GET https://<api-id>.execute-api.us-east-1.amazonaws.com/prod/users
-```
-
----
-
-### 6. ðŸš€ Amazon CloudFront â€” CDN
-
-**What it is:**
-CloudFront is a Content Delivery Network that caches content at edge locations worldwide for fast delivery.
-
-**Interview Answer:**
-> I use CloudFront in front of S3 to serve React static files globally with low latency and HTTPS support.
-
-**Steps:**
-1. Go to CloudFront â†’ Create Distribution
-2. Set Origin = S3 bucket or EC2
-3. Configure cache behavior
-4. Deploy â€” get a CloudFront URL
-
-```
-Flow:
-User (India) â†’ CloudFront Edge (Mumbai) â†’ Cache Hit â†’ Fast Response
-User (India) â†’ CloudFront Edge (Mumbai) â†’ Cache Miss â†’ Fetch from S3 (US)
-```
-
----
-
-### 7. ðŸ³ Amazon ECS / â˜¸ï¸ EKS â€” Container Services
-
-**What it is:**
-- ECS = Elastic Container Service (AWS-native Docker orchestration)
-- EKS = Elastic Kubernetes Service (managed Kubernetes)
-
-**Interview Answer:**
-> I use ECS with Fargate to run Docker containers without managing EC2. For complex microservices, EKS with Kubernetes is preferred.
-
-**Steps (ECS):**
-1. Create Docker image â†’ Push to ECR
-2. Create ECS Cluster
-3. Create Task Definition (Docker config)
-4. Create Service â†’ Run tasks
-
-```dockerfile
-# Dockerfile â€” Spring Boot
-FROM openjdk:17
-COPY target/myapp.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
-```
-
-```bash
-# Push image to ECR
-aws ecr get-login-password | docker login --username AWS --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
-docker build -t myapp .
-docker tag myapp:latest <account>.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
-docker push <account>.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
-```
-
----
-
-### 8. ðŸ” AWS IAM â€” Identity & Access Management
-
-**What it is:**
-IAM manages users, groups, roles, and permissions. Controls who can access what in AWS.
-
-**Interview Answer:**
-> I use IAM roles to give EC2 or Lambda permission to access S3 or RDS without hardcoding credentials.
-
-**Steps:**
-1. Go to IAM â†’ Create Role
-2. Choose trusted entity (EC2 / Lambda)
-3. Attach policy (e.g., AmazonS3FullAccess)
-4. Assign role to EC2 or Lambda
-
-```json
-// IAM Policy â€” Allow S3 read access
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": ["s3:GetObject", "s3:PutObject"],
-      "Resource": "arn:aws:s3:::my-bucket/*"
-    }
-  ]
-}
-```
-
----
-
-### 9. ðŸ“Š Amazon CloudWatch â€” Monitoring & Logs
-
-**What it is:**
-CloudWatch collects logs, metrics, and events. Set alarms to notify when something goes wrong.
-
-**Interview Answer:**
-> I use CloudWatch to monitor Lambda execution errors, EC2 CPU usage, and set alarms for auto-scaling triggers.
-
-**Steps:**
-1. Go to CloudWatch â†’ Log Groups (auto-created for Lambda)
-2. Create Metric Filter
-3. Create Alarm (e.g., CPU > 80%)
-4. Set SNS notification
+Normally, we create objects using `new`.
+But in **IoC (like in Spring)**, the **framework creates the objects and gives them to our class**.
 
 ```java
-// Spring Boot â€” Send custom metric to CloudWatch
-@Autowired
-AmazonCloudWatch cloudWatch;
+// *Without IoC
+Service service = new Service();
 
-public void sendMetric(String metricName, double value) {
-    cloudWatch.putMetricData(new PutMetricDataRequest()
-        .withNamespace("MyApp")
-        .withMetricData(new MetricDatum()
-            .withMetricName(metricName)
-            .withValue(value)
-            .withUnit(StandardUnit.Count)));
+// With IoC (Spring)
+@Autowired
+Service service;
+```
+
+## 4. What is Dependency Injection?
+
+**Dependency Injection (DI)** is a design pattern where an object’s **dependencies are provided externally** rather than the object creating them itself.
+
+In Java and Spring, DI helps make code **loosely coupled, easier to test, and more maintainable**. It can be implemented via **constructor injection, setter injection, or field injection**.
+
+**Types of DI:**
+- Constructor injection (recommended)
+- Setter injection
+- Field injection
+
+```java
+// Without DI - tight coupling
+class OrderService {
+    private PaymentService paymentService = new PaymentService(); // Creates dependency
+}
+
+// With DI - loose coupling
+class OrderService {
+    private PaymentService paymentService;
+    
+    public OrderService(PaymentService paymentService) { // Injected
+        this.paymentService = paymentService;
+    }
+}
+```
+## 5: What is Spring Data JPA?
+
+**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
+
+It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
+
+* Spring module that simplifies JPA-based data access
+* Provides repository abstraction over JPA
+* **Auto-implementation**: Creates implementation from method names
+* **Query Methods**: Derive queries from method names
+* **Custom Queries**: Support for JPQL and native SQL
+* Reduces boilerplate code significantly
+
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByLastName(String lastName);
+    List<User> findByAgeGreaterThan(int age);
+    
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
 }
 ```
 
----
 
-### 10. âš™ï¸ AWS Elastic Beanstalk â€” Easy App Deployment
+## 6: What is Spring Cloud? - asked
 
-**What it is:**
-Elastic Beanstalk deploys and manages applications automatically. You just upload code â€” AWS handles EC2, load balancer, scaling.
+**Spring Cloud** is a framework for **building distributed systems and microservices**.
 
-**Interview Answer:**
-> I use Elastic Beanstalk to deploy Spring Boot apps quickly. It provisions EC2, sets up load balancing, and handles scaling automatically.
+It provides tools for **service discovery (Eureka/Consul)**, **circuit breakers (Hystrix)**, **API gateways (Zuul/Gateway)**, **centralized configuration**, and **client-side load balancing**.
 
-**Steps:**
-1. Build JAR: `mvn clean package`
-2. Go to Elastic Beanstalk â†’ Create Application
-3. Choose platform: Java
-4. Upload JAR file
-5. Beanstalk auto-provisions EC2, ELB, Auto Scaling
+* Framework for building distributed systems and microservices
+* Provides tools for common patterns in distributed systems
+* **Service Discovery**: Eureka, Consul integration
+* **Circuit Breaker**: Hystrix for fault tolerance
+* **API Gateway**: Zuul, Spring Cloud Gateway
+* **Configuration Management**: Centralized configuration
+* **Load Balancing**: Client-side load balancing
 
-```bash
-# Deploy using EB CLI
-eb init my-app --platform java --region us-east-1
-eb create my-env
-eb deploy
-eb open
-```
-
-```yaml
-# .elasticbeanstalk/config.yml
-branch-defaults:
-  main:
-    environment: my-env
-global:
-  application_name: my-app
-  default_platform: Java 17
-  default_region: us-east-1
+```java
+@EnableEurekaClient
+@SpringBootApplication
+public class UserServiceApplication {
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
 ```
 
 
+## 7: What is Spring Security?
 
----
+**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
 
+It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
+
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/public/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin()
+                .and()
+                .build();
+    }
+}
+```
+
+## 8: What is Spring WebFlux?
+
+**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
+
+It’s an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
+
+
+```java
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+public class UserController {
+
+    @GetMapping("/users")
+    public Flux<User> getUsers() {
+        return userService.findAll(); // Returns Flux<User>
+    }
+
+    @GetMapping("/users/{id}")
+    public Mono<User> getUser(@PathVariable String id) {
+        return userService.findById(id); // Returns Mono<User>
+    }
+}
+```
+
+## 9. What is BeanFactory?
+
+**BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
+It uses **lazy initialization**, so beans are created **only when requested**.
+It is lightweight, but **ApplicationContext** is preferred because it provides more features like event handling and annotation support.
+
+
+```java
+BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
+UserService userService = (UserService) factory.getBean("userService");
+```
+
+## 10. What is a Container (Spring Container)?
+
+A **Spring Container** is the **core part of the Spring Framework that creates, manages, and controls the lifecycle of objects called Beans**.
+
+It is responsible for:
+* **Creating objects (Beans)**
+* **Injecting dependencies**
+* **Managing bean lifecycle**
+
+```java
+ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+UserService service = context.getBean(UserService.class);
+```
+Here the **Spring Container creates the `UserService` object and provides it when needed**.
+
+**Types of Spring Container** 
+
+1. **BeanFactory** – Basic container
+2. **ApplicationContext** – Advanced container (most commonly used)
+
+## 11. What is the difference between Java Bean and Spring beans?
+
+A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
+
+```java
+public class User {
+    private String name;
+
+    public User() {}   // no-arg constructor
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+Usage:
+
+```java
+User user = new User();
+user.setName("John");
+```
+
+A **Spring Bean** is an object that is created and managed by the **Spring IoC container**, and it supports features like dependency injection, lifecycle management, and configuration.
+
+```java
+@Component
+public class UserService {
+
+    public void printUser() {
+        System.out.println("User Service Running");
+    }
+}
+```
+
+Usage (Dependency Injection):
+
+```java
+@Autowired
+private UserService userService;
+```
+
+
+## 12. What are Bean life cycle in sprintboot 
+
+The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
+
+**Steps in Bean Lifecycle**
+
+1. **Bean Instantiation :** Spring creates the bean object.
+2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
+3. **Bean Initialization:** Initialization methods run using `@PostConstruct` or `afterPropertiesSet()`.
+4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
+5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
+
+```java
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyBean {
+
+    public MyBean() {
+        System.out.println("Bean Created");
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean Initialized");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean Destroyed");
+    }
+}
+```
+
+## 11. What is AOP in spring?
+**AOP (Aspect Oriented Programming)** is a programming concept used to **separate cross-cutting concerns** like **logging, security, transactions, and exception handling** from the main business logic.
+
+Instead of writing this code in every method, AOP lets us **apply it automatically across multiple methods**.
+
+**Key Concepts in AOP**
+
+* **Aspect** – Class that contains cross-cutting logic (e.g., logging).
+* **Advice** – When the code should run (before, after, around).
+* **Join Point** – A point in program execution (method call).
+* **Pointcut** – Expression that selects join points.
+
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before("execution(* com.example.service.*.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        System.out.println("Before method: " + joinPoint.getSignature().getName());
+    }
+}
+```

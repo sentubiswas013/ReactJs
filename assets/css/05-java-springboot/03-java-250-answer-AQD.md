@@ -5255,9 +5255,6 @@ public class GlobalExceptionHandler {
 
 ## 11. What is Event-Driven Architecture in Java?
 
-
-### What is Event-Driven Architecture in Java?
-
 **Event-Driven Architecture (EDA)** is a design pattern where **services communicate by producing and consuming events** instead of directly calling each other.
 
 When **one event happens**, other components **listen to that event and react to it**.
