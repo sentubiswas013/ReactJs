@@ -4057,9 +4057,13 @@ It's the standard annotation for Spring Boot main classes and enables all essent
 > All these are Spring stereotype annotations used to create Spring beans.
 
 **@Component** is a generic annotation for any bean.
+
 **@Service** is used for business logic layer.
+
 **@Repository** is used for database/DAO layer and provides exception handling.
+
 **@Controller** is used to handle web requests and return views (like JSP/HTML).
+
 **@RestController** is used to build REST APIs and returns JSON/XML data instead of views.
 
 Internally, all of them are specialized types of @Component.
