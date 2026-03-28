@@ -1535,15 +1535,25 @@ public void increment() {
 ## What are Important Java Multithreading Concepts
 
 **Thread** is the smallest unit of a process that can run independently.
+
 In Java, threads are used to perform multiple tasks concurrently to improve performance.
+
 **Runnable** is an interface used to create a thread in Java. It contains only one method: `run()`.
+
 **Callable** is an interface and similar to Runnable but **returns a result** and can **throw exceptions**.
+
 **ExecutorService** is a framework that manages threads and thread pools.
+
 **ThreadPool** is a group of pre-created threads used to execute tasks, which improves performance and avoids creating threads again and again.
+
 **synchronized** is a keyword used to **prevent multiple threads from accessing the same resource at the same time** and mainly to achieve thread safety
+
 **Lock** (ReentrantLock) is similar to synchronized but gives more control like lock, unlock, tryLock.
+
 **Deadlock** is a situation where two or more threads are blocked forever waiting for each other’s resources.
+
 **CompletableFuture** is used to run asynchronous tasks and combine multiple async operations.
+
 **@Async**  is used in Spring Boot to execute a method asynchronously and used to run a method in **background thread** 
 
 # ✅ 9. Java Advanced Concurrency 
@@ -5039,24 +5049,23 @@ public class OrderServiceApplication {
 }
 
 // `- Step 3: Create Feign Client Interface`
-@FeignClient(name = "payment-service")
-public interface PaymentClient {
+@FeignClient(name = "user-service", url = "http://localhost:8081")
+public interface UserClient {
 
-    @GetMapping("/payments/{orderId}")
-    PaymentResponse getPaymentDetails(@PathVariable("orderId") Long orderId);
+    @GetMapping("/users/{id}")
+    User getUserById(@PathVariable int id);
 }
 
 // `- Step 4: use in controller`
-@RestController
-@RequestMapping("/orders")
-public class OrderController {
+@Service
+public class OrderService {
 
     @Autowired
-    private PaymentClient paymentClient;
+    private UserClient userClient;
 
-    @GetMapping("/{orderId}")
-    public PaymentResponse getOrder(@PathVariable Long orderId) {
-        return paymentClient.getPaymentDetails(orderId);
+    public Order getOrder(int userId) {
+        User user = userClient.getUserById(userId);
+        return new Order(user);
     }
 }
 ```
