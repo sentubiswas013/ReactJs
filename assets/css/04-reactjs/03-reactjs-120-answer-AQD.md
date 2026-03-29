@@ -8265,7 +8265,6 @@ async function updateUser(formData) {
 * **Improper Input Validation** – Unvalidated inputs can lead to injections or attacks.
 
 
-
 ### 1. How Does React Prevent XSS?
 
 **React prevents XSS (Cross-Site Scripting)** by automatically escaping values in JSX and providing safe APIs for dynamic content. However, developers must still follow security best practices.
