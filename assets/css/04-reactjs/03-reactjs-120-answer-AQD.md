@@ -6393,37 +6393,6 @@ function Dashboard() {
 }
 ```
 
-### Pattern Comparison
-
-| Pattern | Best For | Pros | Cons |
-|---------|----------|------|------|
-| Custom Hooks | Stateful logic sharing | Simple, composable | React-specific |
-| Render Props | Flexible UI sharing | Very flexible | Can be verbose |
-| Compound Components | Related component groups | Intuitive API | More complex setup |
-| HOCs | Cross-cutting concerns | Reusable, composable | Wrapper hell, prop drilling |
-
-### Best Practices Checklist
-
-```jsx
-// ✅ Use custom hooks for modern React
-const { data, loading } = useApi('/api/users');
-
-// ✅ Render props for flexible rendering
-<DataFetcher render={({ data }) => <UserList users={data} />} />
-
-// ✅ Compound components for related UI
-<Tabs>
-  <Tabs.List>
-    <Tabs.Tab>Tab 1</Tabs.Tab>
-  </Tabs.List>
-</Tabs>
-
-// ⚠️ HOCs are legacy but still useful
-const ProtectedComponent = withAuth(MyComponent);
-
-// ❌ Avoid deep nesting
-withAuth(withLoading(withError(Component))) // Too many wrappers
-```
 
 # 🔵 9. Testing (Modern React)
 
@@ -6844,64 +6813,6 @@ var names = users.map(function(user) { return user.name; });
 - **Build-time process** - Happens during production build
 
 ```jsx
-// Library with multiple exports - utils.js
-export const formatDate = (date) => {
-  return new Intl.DateTimeFormat('en-US').format(date);
-};
-
-export const formatCurrency = (amount) => {
-  return new Intl.NumberFormat('en-US', { 
-    style: 'currency', 
-    currency: 'USD' 
-  }).format(amount);
-};
-
-export const formatNumber = (num) => {
-  return new Intl.NumberFormat('en-US').format(num);
-};
-
-export const validateEmail = (email) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
-
-// App only imports what it needs
-import { formatDate, formatCurrency } from './utils';
-
-function App() {
-  const price = formatCurrency(29.99);
-  const date = formatDate(new Date());
-  
-  return <div>{price} - {date}</div>;
-}
-
-// Tree shaking result:
-// ✅ formatDate and formatCurrency included in bundle
-// ❌ formatNumber and validateEmail removed from bundle
-
-// Webpack tree shaking configuration
-module.exports = {
-  mode: 'production', // Enables tree shaking
-  optimization: {
-    usedExports: true,
-    sideEffects: false // Mark package as side-effect free
-  }
-};
-
-// package.json - Mark as side-effect free
-{
-  "sideEffects": false,
-  // Or specify files with side effects
-  "sideEffects": ["*.css", "*.scss"]
-}
-
-// Bad for tree shaking - Default import
-import * as utils from './utils'; // Imports everything
-utils.formatDate(new Date());
-
-// Good for tree shaking - Named imports
-import { formatDate } from './utils'; // Only imports formatDate
-formatDate(new Date());
-
 // Lodash example
 // ❌ Bad - Imports entire library
 import _ from 'lodash';
@@ -6942,77 +6853,6 @@ function App() {
         </Routes>
       </Suspense>
     </Router>
-  );
-}
-
-// Dynamic import with conditions
-function AdminPanel() {
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [AdvancedComponent, setAdvancedComponent] = useState(null);
-
-  const loadAdvancedFeatures = async () => {
-    if (!AdvancedComponent) {
-      const module = await import('./AdvancedFeatures');
-      setAdvancedComponent(() => module.default);
-    }
-    setShowAdvanced(true);
-  };
-
-  return (
-    <div>
-      <h1>Admin Panel</h1>
-      <button onClick={loadAdvancedFeatures}>
-        Load Advanced Features
-      </button>
-      {showAdvanced && AdvancedComponent && <AdvancedComponent />}
-    </div>
-  );
-}
-
-// Dynamic import for utilities
-async function processData(data) {
-  // Only load heavy processing library when needed
-  const { processLargeDataset } = await import('./heavyProcessing');
-  return processLargeDataset(data);
-}
-
-// Webpack magic comments for chunk naming
-const Dashboard = lazy(() => 
-  import(
-    /* webpackChunkName: "dashboard" */ 
-    './Dashboard'
-  )
-);
-
-// Preload for better UX
-const Settings = lazy(() => 
-  import(
-    /* webpackChunkName: "settings" */
-    /* webpackPreload: true */
-    './Settings'
-  )
-);
-
-// Bundle analysis result:
-/*
-main.js          - 50KB  (Core app)
-dashboard.js     - 30KB  (Loaded when /dashboard visited)
-profile.js       - 20KB  (Loaded when /profile visited)
-settings.js      - 15KB  (Loaded when /settings visited)
-*/
-
-// Error handling with dynamic imports
-function LazyComponent() {
-  return (
-    <Suspense 
-      fallback={<div>Loading component...</div>}
-    >
-      <ErrorBoundary 
-        fallback={<div>Failed to load component</div>}
-      >
-        <DynamicallyLoadedComponent />
-      </ErrorBoundary>
-    </Suspense>
   );
 }
 ```
