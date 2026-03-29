@@ -586,11 +586,9 @@ We use a private constructor to **restrict object creation from outside the clas
 2. **Utility classes** (like Math) → prevent instantiation.
 3. **Factory methods** → control object creation.
 
----
+**Example (Singleton)**
 
-** Example (Singleton)**
-
-```java id="6ffb3w"
+```java
 class Singleton {
     private static Singleton instance = new Singleton();
 
@@ -601,6 +599,7 @@ class Singleton {
         return instance;
     }
 }
+```
 
 ## 3. What is the difference between this and super keywords?
 
@@ -758,6 +757,77 @@ final class Student {
 }
 ```
 
+## 10. Can a constructor be final, static, or abstract in Java?
+
+**Answer:** No, a constructor cannot be **final, static, or abstract**.
+
+**Why:**
+
+* **final** → Constructor is not inherited, so it cannot be overridden.
+* **static** → Static belongs to class, but constructor is used to create object.
+* **abstract** → Abstract methods have no body, but constructor must have a body.
+
+
+## 11. Static Block and Constructor – Order of Execution (Multiple Objects)
+
+**Order of execution:**
+
+1. Static block → runs **once** when class loads
+2. Instance block → runs **every time object is created**
+3. Constructor → runs **every time object is created**
+
+
+```java
+class Test {
+    static {
+        System.out.println("Static block");
+    }
+
+    {
+        System.out.println("Instance block");
+    }
+
+    Test() {
+        System.out.println("Constructor");
+    }
+
+    public static void main(String[] args) {
+        Test t1 = new Test();
+        Test t2 = new Test();
+    }
+}
+// Output: 
+Static block
+Instance block
+Constructor
+Instance block
+Constructor
+```
+
+## 12. What happens if a static block throws an unchecked exception?
+
+If a static block throws an unchecked exception:
+
+* Class **fails to load**
+* JVM throws **ExceptionInInitializerError**
+* Program stops and class cannot be used
+
+
+```java
+class Test {
+    static {
+        int x = 10 / 0; // ArithmeticException
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main method");
+    }
+}
+
+// Output:
+Exception in thread "main" java.lang.ExceptionInInitializerError
+```
+
 # ✅ 4. Java Inheritance 
 
 ## 1. Why doesn't Java support multiple inheritance?
@@ -835,56 +905,122 @@ Parent p = new Child();
 p.display(); // Prints "Parent" - based on reference type
 ```
 
-## 5. What is covariant return type?
 
-Covariant return type allows an overriding method to return a subtype of the return type declared in the parent method. This provides more specific return types in child classes.
+## 5. Variables in Interface vs Abstract Class
 
-- Return type can be more specific in child class
-- Must be subtype of parent's return type
-- Introduced in Java 5
-- Enables more precise API design
+**Interface variables:**
+
+* By default → `public static final` (constants)
+
+**Abstract class variables:**
+
+* Can be **private, protected, public**
+* Can be **normal instance variables**
+
 
 ```java
-class Animal { }
-class Dog extends Animal { }
-
-class AnimalFactory {
-    Animal createAnimal() { return new Animal(); }
+interface TestInterface {
+    int x = 10; // public static final
 }
 
-class DogFactory extends AnimalFactory {
-    @Override
-    Dog createAnimal() { return new Dog(); } // Covariant return
+abstract class TestAbstract {
+    int y = 20; // normal instance variable
 }
 ```
 
-## 6. What is the difference between IS-A and HAS-A relationship?
+**One-line:**
+"Interface variables are public static final constants, abstract class variables can be normal instance variables."
 
-**IS-A relationship** represents inheritance - a child class IS-A type of parent class.
-**HAS-A relationship** represents composition - a class HAS-A reference to another class.
 
-**IS-A (Inheritance):**
-- "extends" keyword
-- Child inherits parent properties
-- Represents specialization
+## 6. Two interfaces with same default method – What happens?
 
-**HAS-A (Composition):**
-- Object as instance variable
-- Represents ownership/containment
-- More flexible than inheritance
+It causes **diamond problem** → compiler error.
+You must **override the method** in the class.
 
 ```java
-// IS-A relationship
-class Dog extends Animal { } // Dog IS-A Animal
-
-// HAS-A relationship  
-class Car {
-    Engine engine; // Car HAS-A Engine
-    
-    public Car() {
-        engine = new Engine();
+interface A {
+    default void show() {
+        System.out.println("A show");
     }
 }
+
+interface B {
+    default void show() {
+        System.out.println("B show");
+    }
+}
+
+class Test implements A, B {
+    public void show() {
+        A.super.show(); // or B.super.show();
+    }
+}
+```
+
+**One-line:**
+"If two interfaces have same default method, class must override and resolve the conflict using InterfaceName.super.method()."
+
+
+## 7. Can an interface have a constructor?
+
+**No**, because:
+
+* Interface **cannot be instantiated**
+* Constructor is used to **initialize object**
+* Interface **has no object**
+
+**One-line:**
+"Interface cannot have constructor because interface cannot be instantiated."
+
+## 8. Can an interface have instance variables?
+
+**No**, interface cannot have instance variables.
+
+It can only have:
+
+* `public static final` variables (constants)
+
+```java
+interface Demo {
+    int MAX = 100; // constant
+}
+```
+
+**One-line:**
+"Interface cannot have instance variables, only public static final constants."
+
+
+## 9. Method call using parent reference – Method Resolution
+
+This is **runtime polymorphism (method overriding)** → JVM decides which method to call at runtime based on object.
+
+**Example:**
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();
+    }
+}
+```
+
+**Output:**
+
+```
+Dog barks
 ```
 
 # ✅ 5. Java Interface & Abstract Class 
@@ -1083,6 +1219,23 @@ interface B extends A {
     void methodB();
 }
 ```
+
+
+## 8. When should you use an interface instead of an abstract class?
+
+Use **interface** when:
+
+* You want **multiple inheritance**
+* You define **only method contracts (what to do, not how)**
+* Different classes share **common behavior but not relationship**
+
+Use **abstract class** when:
+
+* Classes are **closely related**
+* You want **common code + common fields**
+
+
+
 
 # ✅ 6. Java Exception Handling 
 
