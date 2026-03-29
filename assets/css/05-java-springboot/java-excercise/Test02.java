@@ -150,11 +150,15 @@ public class Stream30 {
         //     .max(Comparator.comparingInt(String::length))
         //     .orElse(null);
 
+        String smallest = words.stream()
+                .min(Comparator.comparingInt(String::length))
+                .orElse(null);
+
         String longest = Arrays.stream(sentence.split(" "))
             .max(Comparator.comparingInt(String::length))
             .orElse(null);
         
-
+        System.out.println("10. smallest: " + smallest);   
         // System.out.println("10. Longest: " + longest);
         // Output: 10. Longest: stream
 
@@ -163,9 +167,8 @@ public class Stream30 {
         // 11. Find Common Elements Between Two Lists
         List<Integer> common = num01.stream()
             .filter(num02::contains)
-            .toList();
+            .toList();   
         
-
         // System.out.println("11. Common: " + common);
         // Output: 11. Common: [3, 4]
 

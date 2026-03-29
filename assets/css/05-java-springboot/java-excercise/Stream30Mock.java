@@ -34,7 +34,6 @@ public class Stream30 {
         List<String> words = Arrays.asList("java","stream","api", "level", "madam");
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex");
 
-
         // =======================================================
         // 1. Filter Even Numbers       
         
@@ -73,7 +72,7 @@ public class Stream30 {
         
 
         // System.out.println("5. First Non-Repeated: " + result);
-        // Output: 5. First Non-Repeated: w
+        // Output: 5. First Non-Repeated: 
 
 
         // =======================================================
@@ -85,19 +84,20 @@ public class Stream30 {
 
 
         // =======================================================
-        // 7. Sum of Numbers
+        // 7. Sum and average of Numbers
         
 
         // System.out.println("7. Sum: " + sum);
+        // System.out.println("7. average: " + average);
         // Output: 7. Sum: 21
 
 
         // =======================================================
-        // 8. Check if Any String Contains Word
-        
+        // 8. Check if Any String Contains and equals Word
+    
 
-        // System.out.println("8. Contains api: " + result8);
-        // Output: 8. Contains api: true
+        // System.out.println("8. Contains api: " + Contains);
+        // Output: 8. Contains api: [api]
 
 
         // =======================================================
@@ -109,72 +109,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 10. Find Longest String
-        
-
-        // System.out.println("10. Longest: " + longest);
-        // Output: 10. Longest: stream
-
-
-        // =======================================================
-        // 11. Find Common Elements Between Two Lists
-        
-
-        // System.out.println("11. Common: " + common);
-        // Output: 11. Common: [3, 4]
-
-
-        // =======================================================
-        // 12. Find Top N Elements
-        
-
-        // System.out.println("12. Top 3: " + top3);
-        // Output: 12. Top 3: [6, 5, 4]
-
-
-        // =======================================================
-        // 13. Count Frequency of Characters
-        
-
-        // System.out.println("13. Frequency: " + freq);
-        // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
-
-
-
-        // =======================================================
-        // 14. To merge two arrays and sort the resulting array in ascending order
-        
-
-        // System.out.println(resultSort);
-        // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
-
-
-        // =======================================================
-        // 14. 0 should go to outside without change order
-        
-
-        // System.out.println(resultRight);
-        // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
-
-
-        // =======================================================
-        // 15. Partition Even and Odd Numbers
-        
-
-        // System.out.println("15. Partition: " + partition);
-        // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
-
-
-        // =======================================================
-        // 16. Find Nth Largest Element
-        
-
-        // System.out.println("16. Third Largest: " + thirdLargest);
-        // output: 16. Third Largest: 4
-
-
-        // =======================================================
-        // 17. Remove Duplicates
+        // 10. Remove Duplicates
         
 
         // System.out.println("17. Unique: " + unique);
@@ -182,9 +117,74 @@ public class Stream30 {
 
 
         // =======================================================
+        // 11. Find Longest and smallest String
+        
+
+        // System.out.println("10. Longest: " + longest);
+        // System.out.println("10. smallest: " + smallest);
+        // System.out.println("10. Longest: " + longestWord);
+        // Output: 10. Longest: stream
+
+
+        // =======================================================
+        // 12. Find Common Elements Between Two Lists
+        
+
+        // System.out.println("11. Common: " + common);
+        // Output: 11. Common: [3, 4]
+
+
+        // =======================================================
+        // 13. Find Top N Elements
+        
+
+        // System.out.println("12. Top 3: " + top3);
+        // Output: 12. Top 3: [6, 5, 4]
+
+        // =======================================================
+        // 14. Find Nth Largest Element
+        
+
+        // System.out.println("16. Third Largest: " + thirdLargest);
+        // output: 16. Third Largest: 4
+
+
+        // =======================================================
+        // 15. Count Frequency of Characters
+        
+
+        // System.out.println("13. Frequency: " + freq);
+        // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
+
+
+        // =======================================================
+        // 16. To merge two arrays and sort the resulting array in ascending order
+        
+
+        // System.out.println(resultSort);
+        // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
+
+
+        // =======================================================
+        // 16. 0 should go to outside without change order
+        
+
+        // System.out.println(resultRight);
+        // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
+
+
+        // =======================================================
+        // 17. Partition Even and Odd Numbers
+        
+
+        // System.out.println("15. Partition: " + partition);
+        // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
+
+
+        // =======================================================
         // 18. Join Strings
-       
-       
+        
+
         // System.out.println("18. Joined: " + joined);
         // Output: 18. Joined: java, stream, api
 
@@ -195,14 +195,6 @@ public class Stream30 {
 
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
-
-
-        // =======================================================
-        // 20. Calculate Average
-        
-
-        // System.out.println("20. Average: " + avg);
-        // Output: 20. Average: 3.5
 
 
         // =======================================================
@@ -225,9 +217,6 @@ public class Stream30 {
         // 23. Convert List to Map and word length
         
 
-        // Map<Integer, List<String>> map = words.stream()
-        //     .collect(Collectors.groupingBy(String::length));
-
         // System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
         // Map:  {3=[api], 4=[java], 5=[level, madam], 6=[stream]}
@@ -249,6 +238,7 @@ public class Stream30 {
                 new Employee("IT", 60000),
                 new Employee("HR", 45000)
         );
+
 
         // Salary by Department
         
@@ -292,16 +282,11 @@ public class Stream30 {
                 List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
                 List.of(new Employee("David", 7000), new Employee("Mary", 8000))
         );
-
         
 
         // System.out.println(resultTemp);
         // Output: [Employee@..., Employee@..., Employee@..., Employee@...] (all employees in a single list)
 
-
-        // =======================================================
-        // 30.
-        
 
     }
 }
