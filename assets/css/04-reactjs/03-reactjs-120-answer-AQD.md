@@ -3285,166 +3285,6 @@ function App() {
 export default App;
 ```
 
----
-
-### 8. How does `React.memo` work internally?
-
-**React.memo** is a higher-order component that **prevents unnecessary re-renders** by memoizing a component.
-
-* **Shallow comparison**: Compares props using Object.is()
-* **Memoization**: Caches the rendered result
-* **Performance optimization**: Prevents unnecessary re-renders
-* **Custom comparison**: Can provide custom comparison function
-
-```jsx
-import React, { useState, memo } from "react";
-
-const Child = memo(function Child({ count }) {
-  console.log("Child rendered");
-  return <p>Count: {count}</p>;
-});
-
-function App() {
-  const [count, setCount] = useState(0);
-  const [other, setOther] = useState(0);
-
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Update Count</button>
-      <button onClick={() => setOther(other + 1)}>Update Other</button>
-
-      <Child count={count} />
-    </div>
-  );
-}
-
-export default App;
-```
-
----
-
-### 9. How do you prevent unnecessary re-renders?
-
-Unnecessary re-renders can be prevented by optimizing component rendering, stabilizing references, and designing state efficiently.
-
-* **React.memo**
-  Memoizes functional components so they only re-render when their props change, which is especially useful for presentational or pure components.
-
-* **useMemo**
-  Memoizes the result of expensive computations, ensuring they are recalculated only when their dependencies change.
-
-* **useCallback**
-  Memoizes function references to prevent unnecessary re-renders of child components that rely on referential equality.
-
-* **Proper state structure**
-  Keep state minimal and normalized, avoid storing derived state, and prevent state updates when values haven’t actually changed.
-
-```jsx
-import React, { useState, memo, useMemo, useCallback } from "react";
-
-// Memoized child component
-const Child = memo(({ value, onClick }) => {
-  console.log("Child rendered");
-  return (
-    <div>
-      <p>Value: {value}</p>
-      <button onClick={() => onClick(value)}>Click Me</button>
-    </div>
-  );
-});
-
-function App() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("John");
-
-  // Memoized callback
-  const handleClick = useCallback((val) => {
-    console.log("Clicked:", val);
-  }, []);
-
-  // Memoized expensive value
-  const expensiveValue = useMemo(() => {
-    console.log("Computing expensive value...");
-    return name.length * 100;
-  }, [name]);
-
-  return (
-    <div>
-      <h2>Prevent Re-renders Example</h2>
-      <p>Count: {count}</p>
-      <p>Expensive Value: {expensiveValue}</p>
-
-      <button onClick={() => setCount(count + 1)}>Increment Count</button>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
-
-      <Child value={name} onClick={handleClick} />
-    </div>
-  );
-}
-
-export default App;
-```
-
----
-
-### 10. Why do inline functions cause re-renders?
-
-**Inline functions** cause re-renders because a new function is created every time the component renders.
-Since functions are compared by reference, React sees this as a changed prop when the function is passed to a child component, which can trigger unnecessary re-renders.
-
-* **New reference**: Inline functions create new references each render
-* **Breaks memoization**: React.memo sees different function props
-* **Performance impact**: Causes unnecessary child re-renders
-* **Solution**: Use useCallback or define functions outside render
-
-```jsx
-const Child = React.memo(({ onClick }) => {
-  console.log("Child rendered");
-  return <button onClick={onClick}>Click</button>;
-});
-
-function Parent() {
-  const [count, setCount] = React.useState(0);
-
-  // Inline function (new reference every render)
-  const handleClick = () => {
-    console.log("Clicked");
-  };
-
-  return (
-    <>
-      <button onClick={() => setCount(count + 1)}>
-        Increase
-      </button>
-      <Child onClick={handleClick} />
-    </>
-  );
-}
-```
-
-**`useCallback`**
-
-```jsx
-function Parent() {
-  const [count, setCount] = React.useState(0);
-
-  const handleClick = React.useCallback(() => {
-    console.log("Clicked");
-  }, []);
-
-  return (
-    <>
-      <button onClick={() => setCount(count + 1)}>
-        Increase
-      </button>
-      <Child onClick={handleClick} />
-    </>
-  );
-}
-```
-
----
-
 ### 11. What is render thrashing?
 
 **Render thrashing** is when a component re-renders repeatedly in a short time due to frequent state or layout updates.
@@ -8410,6 +8250,21 @@ async function updateUser(formData) {
 ```
 
 # 🔴 12. Security & Real-World Scenarios
+
+### 0. What are the secrurity vulnerability issue in Reactjs
+
+* **XSS (Cross-Site Scripting)** – Malicious scripts injected via user input can run in your app.
+* **CSRF (Cross-Site Request Forgery)** – Tricks a logged-in user into performing unwanted actions.
+* **Insecure Token Storage** – Storing JWT in localStorage can expose it to attackers.
+* **Clickjacking** – Your app is embedded in an iframe to trick users into clicking hidden elements.
+* **Open Redirect** – Redirecting users to untrusted URLs can lead to phishing attacks.
+* **Dependency Vulnerabilities** – Third-party npm packages may contain security flaws.
+* **Broken Authentication** – Weak login/session handling allows unauthorized access.
+* **Broken Authorization** – Users can access data/actions they shouldn’t (no proper role checks).
+* **Sensitive Data Exposure** – Secrets like API keys exposed in frontend code.
+* **Improper Input Validation** – Unvalidated inputs can lead to injections or attacks.
+
+
 
 ### 1. How Does React Prevent XSS?
 
