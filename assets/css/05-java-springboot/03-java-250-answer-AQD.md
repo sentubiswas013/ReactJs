@@ -568,7 +568,7 @@ class Student {
 }
 ```
 
-## 2. What is constructor chaining?
+## 2. What is constructor chaining and Can a constructor be private in Java?
 
 **Constructor** chaining is calling one constructor from another constructor in the same class or parent class. It helps avoid code duplication.
 
@@ -576,21 +576,31 @@ class Student {
 - Use `super()` to call parent class constructor
 - Must be the first statement in constructor
 
-```java
-public class Student {
-    String name;
-    int age;
-    
-    public Student() {
-        this("Unknown", 0); // Calls parameterized constructor
-    }
-    
-    public Student(String name, int age) {
-        this.name = name;
-        this.age = age;
+Yes, a constructor can be **private** in Java.
+
+**Why / When do we use it?**
+
+We use a private constructor to **restrict object creation from outside the class**.
+
+1. **Singleton Design Pattern** → ensure only one object is created.
+2. **Utility classes** (like Math) → prevent instantiation.
+3. **Factory methods** → control object creation.
+
+---
+
+** Example (Singleton)**
+
+```java id="6ffb3w"
+class Singleton {
+    private static Singleton instance = new Singleton();
+
+    // private constructor
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return instance;
     }
 }
-```
 
 ## 3. What is the difference between this and super keywords?
 
