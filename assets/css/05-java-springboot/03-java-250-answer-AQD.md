@@ -927,7 +927,7 @@ c.add(1.0, 2.0);   // calls double version
 
 ---
 
-## 6. What is the difference between an abstract class and an interface in Java?
+## 6. Difference between an abstract class and an interface in Java?
 
 | Feature | Abstract Class | Interface |
 |---|---|---|
@@ -951,43 +951,6 @@ interface Flyable {
 }
 ```
 
----
-
-## 7. When should you use an interface instead of an abstract class?
-
-**Use an interface when:**
-- You want to define a **contract** (capability) that unrelated classes can share
-- You need **multiple inheritance** — a class can implement many interfaces
-- You have no shared state or common implementation to provide
-
-**Use an abstract class when:**
-- Classes share **common state** (instance variables) or **common behavior**
-- You want to provide a **partial implementation** that subclasses build on
-- You need a **constructor** to initialize shared fields
-
-```java
-// Interface — unrelated classes share the same capability
-interface Printable {
-    void print();
-}
-class Invoice implements Printable { public void print() { /*...*/ } }
-class Report  implements Printable { public void print() { /*...*/ } }
-
-// Abstract class — related classes share common state + behavior
-abstract class Shape {
-    String color;                       // shared state
-    Shape(String color) { this.color = color; }
-    abstract double area();             // subclass must implement
-}
-class Circle extends Shape {
-    double radius;
-    Circle(String color, double radius) { super(color); this.radius = radius; }
-    public double area() { return Math.PI * radius * radius; }
-}
-```
-
----
-
 ## 8. How are variables defined differently in interfaces compared to abstract classes?
 
 | | Abstract Class | Interface |
@@ -1008,10 +971,6 @@ interface Config {
     // int count = 0;       // ❌ cannot be reassigned — it's final
 }
 ```
-
-> Any variable declared in an interface is **implicitly** `public static final`, even if you don't write those keywords.
-
----
 
 ## 9. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
 
@@ -1039,10 +998,6 @@ class C implements A, B {
     }
 }
 ```
-
-> Use `InterfaceName.super.methodName()` to explicitly delegate to a specific interface's default method.
-
----
 
 ## 10. Can an interface have a constructor in Java, and why or why not?
 
@@ -1094,8 +1049,6 @@ class Circle implements MathConstants {
 System.out.println(MathConstants.PI);       // 3.14159
 System.out.println(MathConstants.MAX_VALUE); // 100
 ```
-
----
 
 ## 12. In an inheritance hierarchy, how is a method resolved when called using a parent reference?
 
