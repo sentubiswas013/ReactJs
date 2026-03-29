@@ -432,7 +432,17 @@ sb.append(" World");
 System.out.println(sb);
 ```
 
-## 6. Why are strings immutable in Java?
+## 6. what is immutable and Why are strings immutable in Java?
+
+Immutable means **once an object is created, its state (data) cannot be changed**. If you try to change it, a **new object is created instead of modifying the existing one**.
+
+**Strings are immutable in Java because:**
+
+1. **String Pool memory optimization**
+2. **Thread safety**
+3. **HashMap key reliability (hashcode caching)**
+4. **Security (class loading, file paths, URLs)**
+
 
 In Java, **strings are immutable**, meaning once a `String` object is created, its value **cannot be changed**.
 
@@ -510,21 +520,52 @@ int i = (int) d; // Explicit casting required - double to int
 
 # ✅ 3. Classes and Objects
 
-## 1. What is a constructor in Java?
+## 1. What is a constructor in Java and how do they work?
 
-A constructor is a special method that initializes objects when they're created. It has the same name as the class and no return type.
+A constructor in Java is a **special method used to initialize objects**.
+
+It is called **automatically when an object is created** and has the **same name as the class**.
+Constructors do not have a return type.
+
+There are three type of constructor:
+
+1. **Default Constructor:** No parameters, provided by Java if no constructor is defined.
+2. **Parameterized Constructor:** Takes parameters to initialize object with specific values.
+3. **Copy Constructor:** Creates a new object by copying an existing object.
 
 ```java
-public class Person {
+class Student {
+    int id;
     String name;
-    
-    // Constructor
-    public Person(String name) {
+
+    // 1. Default constructor
+    Student() {
+        id = 0;
+        name = "Unknown";
+    }
+
+    // 2. Parameterized constructor
+    Student(int id, String name) {
+        this.id = id;
         this.name = name;
     }
-}
 
-Person p = new Person("John"); // Constructor called
+    // 3. Copy constructor
+    Student(Student s) {
+        this.id = s.id;
+        this.name = s.name;
+    }
+
+    public static void main(String[] args) {
+        Student s1 = new Student(); // default
+        Student s2 = new Student(1, "John"); // parameterized
+        Student s3 = new Student(s2); // copy
+
+        System.out.println(s1.id + " " + s1.name);
+        System.out.println(s2.id + " " + s2.name);
+        System.out.println(s3.id + " " + s3.name);
+    }
+}
 ```
 
 ## 2. What is constructor chaining?
@@ -675,6 +716,36 @@ class NoMain {
     }
 }
 // Works in older Java versions, not recommended
+```
+
+## 9. How do you create an immutable class in Java?
+
+An immutable class in Java is a class whose objects cannot be changed after they are created. To create an immutable class:
+
+1. Make the class `final` so it cannot be subclassed.
+2. Make all fields `private` and `final`.
+3. Do not provide setters.
+4. Initialize fields through constructor.
+5. Return copies of mutable objects (defensive copy).
+
+```java
+final class Student {
+    private final int id;
+    private final String name;
+
+    public Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
 ```
 
 # ✅ 4. Java Inheritance 
