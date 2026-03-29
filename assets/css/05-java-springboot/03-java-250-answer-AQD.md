@@ -1831,7 +1831,7 @@ public void increment() {
 }
 ```
 
-## What are Important Java Multithreading Concepts
+## 9. What are Important Java Multithreading Concepts
 
 **Thread** is the smallest unit of a process that can run independently.
 
