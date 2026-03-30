@@ -5022,58 +5022,28 @@ public class ApiController {
  
 ## 21. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
 
-These annotations define lifecycle callbacks that execute after bean initialization and before destruction.
+**@PostConstruct** annotations is used to run initialization logic after Spring creates the bean and injects dependencies.
 
-```java
-@Service
-public class DatabaseService {
-    
-    private Connection connection;
-    
-    @PostConstruct
-    public void init() {
-        // Called after dependency injection
-        connection = DriverManager.getConnection("jdbc:h2:mem:testdb");
-        System.out.println("Database connection established");
-    }
-    
-    @PreDestroy
-    public void cleanup() {
-        // Called before bean destruction
-        if (connection != null) {
-            connection.close();
-        }
-        System.out.println("Database connection closed");
-    }
-}
-```
+**@PreDestroy** annotation is used to clean up resources before the bean is destroyed.
+
+**@Scope** defines the lifecycle and visibility of Spring beans. It controls how many instances Spring creates.
+
 **Lifecycle order:** Constructor → Dependency Injection → @PostConstruct → Bean Ready → @PreDestroy → Destruction
 
-`@Scope` defines the lifecycle and visibility of Spring beans. It controls how many instances Spring creates.
-
 ```java
 @Component
-@Scope("singleton") // Default scope
-public class ConfigService {
-    // One instance per Spring container
-}
+@Scope("prototype")  // new object every time
+public class MyService {
 
-@Component
-@Scope("prototype")
-public class TaskProcessor {
-    // New instance every time it's requested
-}
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean initialized");
+    }
 
-@Component
-@Scope("request")
-public class RequestContext {
-    // One instance per HTTP request
-}
-
-@Component
-@Scope("session")
-public class UserSession {
-    // One instance per HTTP session
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean destroyed");
+    }
 }
 ```
 
