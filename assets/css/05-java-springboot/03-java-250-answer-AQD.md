@@ -6582,7 +6582,70 @@ public class OptimizedUserService {
 ```
 
 
-## 4: What is profiling in Java?
+## 4: What is JVM tuning?
+
+**JVM tuning** is the process of **optimizing JVM settings** for better performance.
+
+It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
+
+* Process of optimizing JVM parameters for better performance
+* **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
+* **Garbage Collection**: Choose appropriate GC algorithm
+* **Thread Stack**: -Xss for thread stack size
+* **Metaspace**: -XX:MetaspaceSize for class metadata
+* **GC Tuning**: -XX:NewRatio, -XX:SurvivorRatio for generation sizes
+* **Monitoring**: Enable GC logging and JFR
+
+```bash
+# Common JVM tuning parameters
+java -Xms2g -Xmx4g \
+     -XX:+UseG1GC \
+     -XX:MaxGCPauseMillis=200 \
+     -XX:+PrintGC \
+     -XX:+PrintGCDetails \
+     -XX:+PrintGCTimeStamps \
+     -XX:+HeapDumpOnOutOfMemoryError \
+     -XX:HeapDumpPath=/tmp/heapdump.hprof \
+     -jar myapp.jar
+
+# G1GC tuning for low latency
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=100
+-XX:G1HeapRegionSize=16m
+```
+
+
+## 5: What are the JVM parameters for performance tuning?
+
+* **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
+* **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
+* **GC Tuning**: -XX:MaxGCPauseMillis, -XX:GCTimeRatio
+* **Compilation**: -XX:+TieredCompilation, -XX:CompileThreshold
+* **Monitoring**: -XX:+PrintGC, -XX:+FlightRecorder
+* **Debug**: -XX:+HeapDumpOnOutOfMemoryError
+
+```bash
+# Performance-focused JVM parameters
+# For high-throughput applications
+-Xms8g -Xmx8g
+-XX:+UseParallelGC
+-XX:ParallelGCThreads=8
+-XX:+UseCompressedOops
+
+# For low-latency applications
+-Xms4g -Xmx4g
+-XX:+UseZGC
+-XX:+UnlockExperimentalVMOptions
+
+# For microservices
+-Xms512m -Xmx1g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=50
+-XX:+UseStringDeduplication
+```
+
+
+## 6: What is profiling in Java?
 
 **Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
 
@@ -6619,69 +6682,6 @@ public class ProfiledService {
             .collect(Collectors.toList());
     }
 }
-```
-
-
-## 5: What is JVM tuning?
-
-**JVM tuning** is the process of **optimizing JVM settings** for better performance.
-
-It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
-
-* Process of optimizing JVM parameters for better performance
-* **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
-* **Garbage Collection**: Choose appropriate GC algorithm
-* **Thread Stack**: -Xss for thread stack size
-* **Metaspace**: -XX:MetaspaceSize for class metadata
-* **GC Tuning**: -XX:NewRatio, -XX:SurvivorRatio for generation sizes
-* **Monitoring**: Enable GC logging and JFR
-
-```bash
-# Common JVM tuning parameters
-java -Xms2g -Xmx4g \
-     -XX:+UseG1GC \
-     -XX:MaxGCPauseMillis=200 \
-     -XX:+PrintGC \
-     -XX:+PrintGCDetails \
-     -XX:+PrintGCTimeStamps \
-     -XX:+HeapDumpOnOutOfMemoryError \
-     -XX:HeapDumpPath=/tmp/heapdump.hprof \
-     -jar myapp.jar
-
-# G1GC tuning for low latency
--XX:+UseG1GC
--XX:MaxGCPauseMillis=100
--XX:G1HeapRegionSize=16m
-```
-
-
-## 6: What are the JVM parameters for performance tuning?
-
-* **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
-* **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
-* **GC Tuning**: -XX:MaxGCPauseMillis, -XX:GCTimeRatio
-* **Compilation**: -XX:+TieredCompilation, -XX:CompileThreshold
-* **Monitoring**: -XX:+PrintGC, -XX:+FlightRecorder
-* **Debug**: -XX:+HeapDumpOnOutOfMemoryError
-
-```bash
-# Performance-focused JVM parameters
-# For high-throughput applications
--Xms8g -Xmx8g
--XX:+UseParallelGC
--XX:ParallelGCThreads=8
--XX:+UseCompressedOops
-
-# For low-latency applications
--Xms4g -Xmx4g
--XX:+UseZGC
--XX:+UnlockExperimentalVMOptions
-
-# For microservices
--Xms512m -Xmx1g
--XX:+UseG1GC
--XX:MaxGCPauseMillis=50
--XX:+UseStringDeduplication
 ```
 
 
@@ -7708,19 +7708,7 @@ server {
 }
 ```
 
-## 16. How do you monitor application health in production?
-
-Application health in production is monitored using **monitoring and logging tools** like **Spring Boot Actuator, Prometheus, Grafana, or CloudWatch**. These tools track **metrics like CPU usage, memory, response time, error rates, and logs** to detect issues and ensure the application runs smoothly.
-
-**Monitoring Tools**
-
-* Prometheus – collects metrics
-* Grafana – visual dashboards
-* Spring Boot Actuator – health endpoints
-* New Relic – APM monitoring
-
-
-## **17. How do you handle rollback strategies?**
+## **16. How do you handle rollback strategies?**
 
 
 In production deployments, rollback strategies are important in case a new release causes issues.
@@ -7732,7 +7720,7 @@ For database-related changes, we maintain **backup scripts and migration rollbac
 This ensures the system is restored quickly with minimal downtime.
 
 
-## **18. How do you manage database migrations?**
+## **17. How do you manage database migrations?**
 
 
 We manage database migrations using tools like **Flyway or Liquibase**.
@@ -7749,7 +7737,7 @@ V2__add_email_column.sql
 ```
 
 
-## **19. How do you ensure zero downtime deployments?**
+## **18. How do you ensure zero downtime deployments?**
 
 
 To ensure zero downtime deployments, we use **rolling deployments or blue-green deployments**.
@@ -7768,7 +7756,7 @@ In cloud environments like Kubernetes, we configure **readiness and liveness pro
 * Health checks
 
 
-## **20. How do you manage logs across microservices?**
+## **19. How do you manage logs across microservices?**
 
 
 In microservices, logs are distributed across multiple services, so we use **centralized logging**.
@@ -7777,6 +7765,17 @@ All services send logs to a central logging system like **ELK Stack (Elasticsear
 
 We also use **correlation IDs** to trace a request across multiple services.
 This helps in debugging and monitoring the system efficiently.
+
+## 20. How do you monitor application health in production?
+
+Application health in production is monitored using **monitoring and logging tools** like **Spring Boot Actuator, Prometheus, Grafana, or CloudWatch**. These tools track **metrics like CPU usage, memory, response time, error rates, and logs** to detect issues and ensure the application runs smoothly.
+
+**Monitoring Tools**
+
+* Prometheus – collects metrics
+* Grafana – visual dashboards
+* Spring Boot Actuator – health endpoints
+* New Relic – APM monitoring
 
 
 ## **21. How do you implement auto-scaling?**
@@ -7822,19 +7821,35 @@ If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
 
 It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
 
-Here are **most common Monitoring Tools used in Production** 
+**Production Monitoring Tools (Simple Detailed Table)**
 
-| Monitoring Tool   | Purpose                                                                                     |
-| ----------------- | ------------------------------------------------------------------------------------------- |
-| Prometheus        | Collects and stores application metrics like CPU, memory, request count, and response time. |
-| Grafana           | Creates dashboards and visualizes metrics data collected from tools like Prometheus.        |
-| Spring Boot Admin | Provides a web UI to monitor Spring Boot applications (health, metrics, logs).              |
-| ELK Stack         | Centralized logging system to collect, search, and analyze logs.                            |
-| Micrometer        | Metrics collection library used in Spring Boot to send metrics to monitoring systems.       |
-| Datadog           | Cloud-based monitoring for infrastructure, logs, and application performance.               |
-| New Relic         | Application Performance Monitoring (APM) tool used to monitor performance and errors.       |
-| Dynatrace         | AI-powered monitoring tool for full-stack applications and microservices.                   |
+| Tool              | Type            | Why We Use It                               | What It Monitors                                      | Example                     |
+| ----------------- | --------------- | ------------------------------------------- | ----------------------------------------------------- | --------------------------- |
+| Prometheus        | Metrics         | Collect metrics from application            | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
+| Grafana           | Dashboard       | Show metrics in graphs                      | Dashboard, Alerts, Charts                             | CPU usage graph             |
+| Micrometer        | Metrics Library | Send metrics from Spring Boot to Prometheus | JVM, Custom metrics                                   | Heap memory                 |
+| ELK Stack         | Logging         | Store and search logs                       | Error logs, Application logs                          | Exception logs              |
+| Spring Boot Admin | Monitoring      | Monitor Spring Boot apps                    | Health, Beans, Endpoints                              | App status UP/DOWN          |
+| Zipkin            | Tracing         | Track request flow between services         | Service call flow                                     | Order → Payment → Inventory |
+| Jaeger            | Tracing         | Track microservice request                  | API calls                                             | Request time per service    |
+| Datadog           | APM             | Full system monitoring                      | Infra, Logs, APIs                                     | Server CPU                  |
+| New Relic         | APM             | Application performance monitoring          | Slow API, DB calls                                    | Slow query                  |
+| Dynatrace         | APM             | AI monitoring                               | Full stack                                            | Root cause detection        |
+| AWS CloudWatch    | Cloud           | Monitor AWS services                        | EC2, RDS, Logs                                        | EC2 CPU                     |
 
+
+**What We Monitor in Production (Simple Table)**
+
+| Area          | What We Monitor           | Example Alert       |
+| ------------- | ------------------------- | ------------------- |
+| Server        | CPU, Memory, Disk         | CPU > 80%           |
+| Application   | Request count, Error rate | Error rate > 5%     |
+| API           | Response time             | API > 3 sec         |
+| Database      | Query time                | Query > 2 sec       |
+| JVM           | Heap memory, GC           | Memory > 80%        |
+| Logs          | Errors                    | Too many exceptions |
+| Microservices | Service response          | Service down        |
+| Business      | Orders, Payments          | Payment failure     |
 
 ```java
 // Application monitoring with Micrometer
@@ -8100,152 +8115,6 @@ public class LoggingConfig {
     }
 }
 ```
-
-## 8: What is metrics collection?
-
-**Metrics collection** is the process of gathering **quantitative data about system and application performance** over time.
-
-It includes system metrics (CPU, memory), application metrics (response time, error rate), and business metrics, and is commonly done using tools like **Micrometer**, **Prometheus**, **InfluxDB**, and **Amazon CloudWatch**.
-
-
-## 9: What is JMX monitoring?
-
-**JMX (Java Management Extensions) monitoring** is a standard way to **monitor and manage Java applications**.
-
-It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
-
-## 10: A microservice is running in production, and one of the services is failing. How to identify  the issue
-
-
-**1. Check Service Logs**
-
-The first step is to check the **application logs** of the failing service.
-
-Logs help identify:
-
-* Exceptions
-* Stack traces
-* Database errors
-* Timeout issues
-
-Common logging tools:
-
-* **ELK Stack**
-* **Splunk**
-
-
-**2. Check Monitoring & Metrics**
-
-Use monitoring tools to see **CPU, memory, request rate, and error rate**.
-
-This helps determine if the issue is due to:
-
-* High traffic
-* Memory leak
-* Slow response time
-
-Common tools:
-
-* **Prometheus**
-* **Grafana**
-
-
-**3. Use Distributed Tracing**
-
-In microservices, one request travels through multiple services.
-
-Tracing tools help track the **full request path** and identify **which service call failed**.
-
-Examples:
-
-* **Jaeger**
-* **Zipkin**
-
-
-**4. Check Service Health**
-
-Verify if the service instance is **running or crashed**.
-
-If using **Kubernetes**, check:
-
-* Pod status
-* Restart count
-* CrashLoopBackOff errors
-
-Commands like:
-
-* `kubectl get pods`
-* `kubectl describe pod`
-* `kubectl logs`
-
-
-**5. Verify Dependencies**
-
-Sometimes the service fails because its **dependent services are down**.
-
-Check:
-
-* Database connectivity
-* Message queues
-* Other APIs
-
-For example:
-
-* **PostgreSQL**
-* **Apache Kafka**
-* **Redis**
-
-
-**6. Check Recent Changes**
-
-Look at **recent deployments or configuration changes**.
-
-Tools like:
-
-* **Jenkins**
-* **Git**
-
-
-
-## 11: A microservice is running in production, and one of the services is failing. How do you identify and fix the issue?
-
-**Answer way one:**
-
-If a microservice fails in production, I follow a systematic troubleshooting approach.
-
-First, I check the **monitoring dashboard** such as **Grafana** or **Prometheus** to identify which service is failing and observe metrics like error rate, latency, CPU, and memory usage.
-
-Second, I analyze the **application logs** using tools like the **ELK Stack** to find exceptions, timeout errors, or database connection issues.
-
-Third, if the service is containerized, I check the pod or container status in **Kubernetes** by verifying whether the pod is running, restarting, or crashing.
-
-Next, I check **downstream dependencies** such as the database (**PostgreSQL**), cache (**Redis**), or message broker (**Apache Kafka**) because sometimes the service fails due to dependency issues.
-
-Then I verify whether there was a **recent deployment or configuration change** through CI/CD tools like **Jenkins**. If the issue started after deployment, I may roll back to the previous stable version.
-
-Finally, after identifying the root cause, I fix the issue, redeploy the service if required, and ensure proper monitoring, logging, and alerts are in place to prevent similar issues in the future.
-
-
-**Answer way Two:**
-
-In production microservice environments, there are several ways to identify and fix issues.
-
-First, I use **distributed tracing** tools like **Jaeger** or **Zipkin** to trace the request flow across services and identify exactly which microservice is failing or where latency or timeouts occur.
-
-Second, I check **health check endpoints** using **Spring Boot Actuator** in **Spring Boot**. For example, the `/actuator/health` endpoint helps verify the service status, database connectivity, and other system health indicators.
-
-To prevent cascading failures, I use the **circuit breaker pattern** with tools like **Resilience4j** or **Hystrix**. This stops further calls to a failing service and provides a fallback response so the system remains stable.
-
-If the issue is caused by **high traffic**, I scale the service using **Kubernetes** by increasing the number of service instances.
-
-Sometimes the issue may be temporary, such as a memory leak or thread deadlock, so **restarting the service or container** can resolve it.
-
-I also verify **configuration settings**, such as environment variables or centralized configuration using **Spring Cloud Config**, to ensure there are no misconfigurations.
-
-Finally, if the issue started after a new release, I check the CI/CD pipeline using tools like **Jenkins** and perform a **rollback to the previous stable version** if necessary.
-
-Overall, by using tracing, health checks, circuit breakers, scaling, configuration checks, and deployment rollback, we can quickly identify the root cause and restore the service in production.
-
 
 
 
