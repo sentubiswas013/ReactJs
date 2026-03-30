@@ -308,23 +308,155 @@ SOLID is an acronym for five design principles that make software more maintaina
 - **D**ependency Inversion: Depend on abstractions, not concrete implementations
 
 **Example:**
+**S — Single Responsibility Principle (SRP)**
+
+One class should have only one responsibility.
+
+❌ Wrong:
+
 ```java
-// Single Responsibility Principle
-public class UserService {
-    public void createUser(User user) { /* only user logic */ }
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+✅ Correct:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
 }
 
-public class EmailService {
-    public void sendEmail(String to, String message) { /* only email logic */ }
+class EmailService {
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+---
+
+**O — Open/Closed Principle (OCP)**
+
+Open for extension, closed for modification.
+
+```java
+interface Payment {
+    void pay();
 }
 
-// Dependency Inversion Principle
-public interface PaymentProcessor {
-    void processPayment(double amount);
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
 }
 
-public class PayPalProcessor implements PaymentProcessor {
-    public void processPayment(double amount) { /* PayPal logic */ }
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI payment");
+    }
+}
+
+class PaymentService {
+    public void processPayment(Payment payment) {
+        payment.pay();
+    }
+}
+```
+
+Now we can add **NetBankingPayment** without changing existing code.
+
+---
+
+**L — Liskov Substitution Principle (LSP)**
+
+Child class should replace parent class without breaking code.
+
+```java
+class Bird {
+    public void fly() {
+        System.out.println("Bird can fly");
+    }
+}
+
+class Sparrow extends Bird {
+    public void fly() {
+        System.out.println("Sparrow can fly");
+    }
+}
+```
+
+Bad example: Penguin cannot fly → violates LSP.
+
+---
+
+**I — Interface Segregation Principle (ISP)**
+
+Create small interfaces.
+
+```java
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class Human implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+```
+
+Robot does not implement eat() → Correct.
+
+---
+
+**D — Dependency Inversion Principle (DIP)
+
+Depend on abstraction, not concrete class.
+
+```java
+interface Payment {
+    void pay();
+}
+
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+class OrderService {
+    private Payment payment;
+
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay();
+    }
 }
 ```
 
