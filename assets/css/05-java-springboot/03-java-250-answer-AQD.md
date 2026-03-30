@@ -4464,7 +4464,7 @@ public class OrderService {
 }
 ```
 
-**@Autowired** also used used for dependency injection in Spring, it is provided by Spring Framework, while @Inject is provided by Java (JSR-330).
+**@Inject** also used used for dependency injection in Spring, it is provided by Spring Framework, while @Inject is provided by Java (JSR-330).
 
 **Using @Inject (Java JSR-330)**
 
