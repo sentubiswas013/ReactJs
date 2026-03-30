@@ -4485,9 +4485,7 @@ It's the standard annotation for Spring Boot main classes and enables all essent
 ## 7. @Component vs @Service vs @Repository vs @Controller vs @RestController annotations?
 
 
-> All these are Spring stereotype annotations used to create Spring beans.
-
-**@Component** is a generic annotation for any bean.
+**@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
 
 **@Service** is used for business logic layer.
 
@@ -4643,7 +4641,9 @@ public class DevDataLoader {
 
 ## 10. What is ApplicationContext?
 
-`ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
+ApplicationContext is the core container in Spring Framework that manages beans, dependency injection, bean lifecycle, and configuration of the application.
+
+It provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
 - Central interface for Spring applications
 - Manages bean lifecycle and dependencies
