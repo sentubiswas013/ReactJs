@@ -7851,35 +7851,6 @@ It includes monitoring metrics like response time, errors, CPU, and memory, alon
 | Microservices | Service response          | Service down        |
 | Business      | Orders, Payments          | Payment failure     |
 
-```java
-// Application monitoring with Micrometer
-@RestController
-public class UserController {
-    
-    private final MeterRegistry meterRegistry;
-    private final Counter userCreationCounter;
-    private final Timer responseTimer;
-    
-    public UserController(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
-        this.userCreationCounter = Counter.builder("users.created")
-            .description("Number of users created")
-            .register(meterRegistry);
-        this.responseTimer = Timer.builder("api.response.time")
-            .register(meterRegistry);
-    }
-    
-    @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
-        return responseTimer.recordCallable(() -> {
-            User created = userService.create(user);
-            userCreationCounter.increment();
-            return created;
-        });
-    }
-}
-```
-
 
 ## 2: What is logging framework?
 
