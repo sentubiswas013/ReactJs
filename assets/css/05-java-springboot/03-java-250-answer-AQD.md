@@ -5863,15 +5863,14 @@ If any step fails, the system performs **compensating actions** to undo the prev
 - Distributed transaction
 
 **Example:**
-
-In an online order system:
-Order Created → Payment Done → Inventory Reserved.
+- In an online order system:
+- Order Created → Payment Done → Inventory Reserved.
 
 If inventory fails, Saga will **refund payment and cancel the order**.
 
 There are **two ways to implement Saga**:
-**Choreography** – services communicate using events.
-**Orchestration** – a central service controls the workflow.
+- **Choreography** – services communicate using events.
+- **Orchestration** – a central service controls the workflow.
 
 Order Created → Payment Done → Inventory Reserved
 If **inventory fails → refund payment + cancel order**
