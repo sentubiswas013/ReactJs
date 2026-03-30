@@ -5851,7 +5851,7 @@ resilience4j:
         sliding-window-size: 10
 ```
 
-## 14. Saga Pattern or How do you handle payment failure?
+## 14. What is Saga Pattern or How it handle payment failure?
 
 Saga Pattern is used in **microservices architecture** to manage transactions across multiple services. Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
 
@@ -5936,6 +5936,107 @@ public class InventoryService {
 2. Charge Payment
 3. Reserve Inventory
 4. If inventory fails → **Refund Payment + Cancel Order**
+
+
+## 15: What is resilience4j pattern?
+
+Resilience4j is a fault tolerance library used in microservices to make services resilient when dependent services fail.
+It provides patterns like Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout to prevent system failure.
+
+
+**Why we use Resilience4j in real-time**
+
+* Order Service calls Payment Service
+* Payment Service is slow or down
+* Without protection → Order Service will also fail
+* With Resilience4j → It will stop calling temporarily and return fallback response
+
+This prevents **system crash / cascading failure**.
+
+**Main Modules in Resilience4j**
+
+| Module          | Purpose                      |
+| --------------- | ---------------------------- |
+| Circuit Breaker | Stops calling failed service |
+| Retry           | Retry failed request         |
+| Rate Limiter    | Limit number of requests     |
+| Bulkhead        | Limit concurrent users       |
+| Time Limiter    | Timeout for slow service     |
+
+
+**1. Maven Dependency**
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+**2. application.yml Configuration**
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+
+  retry:
+    instances:
+      paymentService:
+        maxAttempts: 3
+        waitDuration: 2s
+
+  ratelimiter:
+    instances:
+      paymentService:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 1s
+
+  timelimiter:
+    instances:
+      paymentService:
+        timeoutDuration: 3s
+```
+
+**3. Service Class Example**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+    @Retry(name = "paymentService")
+    @RateLimiter(name = "paymentService")
+    @TimeLimiter(name = "paymentService")
+    public String callPaymentService() {
+        return restTemplate.getForObject(
+                "http://PAYMENT-SERVICE/pay", String.class);
+    }
+
+    public String fallback(Exception e) {
+        return "Payment service is down. Try later.";
+    }
+}
+```
+
+**Circuit Breaker States (Important Interview Question)**
+
+| State     | Meaning                        |
+| --------- | ------------------------------ |
+| CLOSED    | Normal calls                   |
+| OPEN      | Service failing, calls blocked |
+| HALF-OPEN | Testing if service recovered   |
 
 ## 15. What is service discovery?
 
@@ -6403,49 +6504,7 @@ public class JwtService {
 ```
 
 
-## 11: What is CSRF protection?
-
-**CSRF protection** prevents **unauthorized actions** caused by malicious websites.
-
-It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
-
-
-## 12: What is XSS protection?
-
-**XSS protection** prevents **malicious script injection** in web applications.
-
-It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
-
-
-## 13: What is input validation?
-
-**Input validation** is the process of **checking user input for correctness and security**.
-
-It should be done on the **server side** (never trust client), use a **whitelist approach**, apply **sanitization**, and can use **Bean Validation annotations** like `@Valid`, `@NotNull`, and `@Pattern`.
-
-
-```java
-// Input validation with Bean Validation
-public class UserRegistration {
-    @NotBlank(message = "Username is required")
-    @Pattern(regexp = "^[a-zA-Z0-9_]{3,20}$", message = "Invalid username format")
-    private String username;
-    
-    @Email(message = "Invalid email format")
-    private String email;
-    
-    @Size(min = 8, message = "Password must be at least 8 characters")
-    private String password;
-}
-
-@PostMapping("/register")
-public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user) {
-    // Validation automatically applied
-    return ResponseEntity.ok("User registered successfully");
-}
-```
-
-## 14: What is OAuth 2.0?
+## 11: What is OAuth 2.0?
 
 **OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
 
@@ -6475,6 +6534,49 @@ public class ApiController {
     @GetMapping("/api/data")
     @PreAuthorize("#oauth2.hasScope('read')")
     public String getData() { return "Protected data"; }
+}
+```
+
+
+## 12: What is CSRF protection?
+
+**CSRF protection** prevents **unauthorized actions** caused by malicious websites.
+
+It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
+
+
+## 13: What is XSS protection?
+
+**XSS protection** prevents **malicious script injection** in web applications.
+
+It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
+
+
+## 14: What is input validation?
+
+**Input validation** is the process of **checking user input for correctness and security**.
+
+It should be done on the **server side** (never trust client), use a **whitelist approach**, apply **sanitization**, and can use **Bean Validation annotations** like `@Valid`, `@NotNull`, and `@Pattern`.
+
+
+```java
+// Input validation with Bean Validation
+public class UserRegistration {
+    @NotBlank(message = "Username is required")
+    @Pattern(regexp = "^[a-zA-Z0-9_]{3,20}$", message = "Invalid username format")
+    private String username;
+    
+    @Email(message = "Invalid email format")
+    private String email;
+    
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
+}
+
+@PostMapping("/register")
+public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user) {
+    // Validation automatically applied
+    return ResponseEntity.ok("User registered successfully");
 }
 ```
 
@@ -7869,106 +7971,6 @@ public class UserService {
     }
 }
 ```
-
-## 3: What is resilience4j?
-
-Resilience4j is a fault tolerance library used in microservices to make services resilient when dependent services fail.
-It provides patterns like Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout to prevent system failure.
-
-
-**Why we use Resilience4j in real-time**
-
-* Order Service calls Payment Service
-* Payment Service is slow or down
-* Without protection → Order Service will also fail
-* With Resilience4j → It will stop calling temporarily and return fallback response
-
-This prevents **system crash / cascading failure**.
-
-**Main Modules in Resilience4j**
-
-| Module          | Purpose                      |
-| --------------- | ---------------------------- |
-| Circuit Breaker | Stops calling failed service |
-| Retry           | Retry failed request         |
-| Rate Limiter    | Limit number of requests     |
-| Bulkhead        | Limit concurrent users       |
-| Time Limiter    | Timeout for slow service     |
-
-
-**1. Maven Dependency**
-
-```xml
-<dependency>
-    <groupId>io.github.resilience4j</groupId>
-    <artifactId>resilience4j-spring-boot3</artifactId>
-</dependency>
-```
-
-**2. application.yml Configuration**
-
-```yaml
-resilience4j:
-  circuitbreaker:
-    instances:
-      paymentService:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        minimumNumberOfCalls: 5
-        failureRateThreshold: 50
-        waitDurationInOpenState: 10s
-        permittedNumberOfCallsInHalfOpenState: 3
-
-  retry:
-    instances:
-      paymentService:
-        maxAttempts: 3
-        waitDuration: 2s
-
-  ratelimiter:
-    instances:
-      paymentService:
-        limitForPeriod: 5
-        limitRefreshPeriod: 10s
-        timeoutDuration: 1s
-
-  timelimiter:
-    instances:
-      paymentService:
-        timeoutDuration: 3s
-```
-
-**3. Service Class Example**
-
-```java
-@Service
-public class OrderService {
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
-    @Retry(name = "paymentService")
-    @RateLimiter(name = "paymentService")
-    @TimeLimiter(name = "paymentService")
-    public String callPaymentService() {
-        return restTemplate.getForObject(
-                "http://PAYMENT-SERVICE/pay", String.class);
-    }
-
-    public String fallback(Exception e) {
-        return "Payment service is down. Try later.";
-    }
-}
-```
-
-**Circuit Breaker States (Important Interview Question)**
-
-| State     | Meaning                        |
-| --------- | ------------------------------ |
-| CLOSED    | Normal calls                   |
-| OPEN      | Service failing, calls blocked |
-| HALF-OPEN | Testing if service recovered   |
 
 ## 3: What is Log4j?
 
