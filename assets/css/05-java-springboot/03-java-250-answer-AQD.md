@@ -5961,12 +5961,11 @@ public class OrderController {
 }
 ```
 
-## 16. Multiple users ordering same product
+## 16. How do you handle Multiple users ordering same product at the same time?
 
-**Spoken Answer:**
-“When multiple users order the same product, we prevent **overselling** using **atomic database updates or locking**. Only one request can successfully reduce stock when inventory is limited.”
+When multiple users order the same product, we prevent **overselling** using **atomic database updates or locking**. Only one request can successfully reduce stock when inventory is limited.
 
-### 💻 Spring Boot Example (Atomic Update)
+**Spring Boot Example (Atomic Update)**
 
 ```java
 @Repository
@@ -6000,9 +5999,9 @@ public class OrderService {
 ```
 
 
-## 17. Prevent duplicate payment
+## 17. How do you Prevent duplicate payment?
 
-“We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.”
+We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.
 
 **Entity with Unique Constraint**
 
@@ -6048,9 +6047,9 @@ public class PaymentService {
 ```
 
 
-## 18. Payment success but order failed
+## 18. What happens if payment is successful but order update fails?
 
-“This is handled using **event-driven architecture and retry/compensation (Saga pattern)**. If order creation fails after payment, we retry or trigger refund.”
+This is handled using **event-driven architecture and retry/compensation (Saga pattern)**. If order creation fails after payment, we retry or trigger refund.
 
 
 **Event + Retry Example**
@@ -6755,40 +6754,6 @@ public class MonitoredController {
 **AOP** is used to separate **cross-cutting concerns** like logging, security, and transactions from business logic.
 It improves **code modularity and reusability**.
 Common AOP concepts include **Aspect, Advice, Join Point, Pointcut, and Weaving**.
-
-## 10: What is code profiling?
-
-**Code profiling** is the process of analyzing how your code runs to find performance issues.
-
-It measures **execution time, memory usage, and method hotspots**, using static or runtime (dynamic) analysis tools to identify slow or inefficient parts of the code.
-
-
-```java
-// Code profiling with annotations
-@Component
-public class ProfiledCodeService {
-    
-    // Profile specific methods
-    @Profile("development")
-    @EventListener
-    public void onMethodExecution(MethodExecutionEvent event) {
-        if (event.getDuration() > 100) {
-            logger.info("Slow method: {} took {}ms", 
-                event.getMethodName(), event.getDuration());
-        }
-    }
-    
-    // Benchmark critical code sections
-    @Benchmark
-    public String optimizedStringOperation(List<String> items) {
-        StringBuilder sb = new StringBuilder();
-        for (String item : items) {
-            sb.append(item).append(",");
-        }
-        return sb.toString();
-    }
-}
-```
 
 
 ## 11: What is database optimization?
