@@ -4735,6 +4735,10 @@ Using `Long` tells Spring Data JPA what type of value to expect when performing 
 **@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**. 
 A **transaction** means a group of database operations that must **all succeed or all fail together**.
 
+**Use when:**
+Monolithic application
+Single database
+Strong consistency required
 
 Why **@Transactional** Matters
 
@@ -5849,12 +5853,15 @@ resilience4j:
 
 ## 14. Saga Pattern or How do you handle payment failure?
 
-Saga Pattern is used in **microservices architecture** to manage transactions across multiple services.
-
-Instead of one big transaction, the process is divided into **multiple small local transactions**.
-Each service completes its own step.
+Saga Pattern is used in **microservices architecture** to manage transactions across multiple services. Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
 
 If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
+
+**Use when:**
+
+Microservices architecture
+Each service has its own database
+Distributed transaction
 
 **Example:**
 In an online order system:
