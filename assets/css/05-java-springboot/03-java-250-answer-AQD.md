@@ -5091,6 +5091,7 @@ public class User {
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
+    // cascade = CascadeType.ALL means all operations performed on the parent entity will also be applied to the child entities automatically.
 }
 
 // Many Orders belong to One User
@@ -7085,6 +7086,7 @@ public class User {
     // Lazy loading - orders loaded only when accessed
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
+    // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
     
     // Eager loading - always loaded with user
     @ManyToOne(fetch = FetchType.EAGER)
@@ -7128,10 +7130,14 @@ public class Order {
     // Eager loading - customer always loaded with order
     @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;
+
+     // fetch = FetchType.EAGER means the related entity is loaded immediately along with the parent entity
     
     // Lazy loading - items loaded on demand
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderItem> items;
+
+     // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
 }
 
 @Repository
