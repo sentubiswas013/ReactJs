@@ -8238,8 +8238,8 @@ String classpath = System.getProperty("java.class.path");
 System.out.println("Classpath: " + classpath);
 ```
 
-## 5. What are Java security issues?
-Common **Java security issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
+## 5. What are Java security vulnerability issues?
+Common **Java security vulnerability issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
 
 1. **SQL Injection**
 This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
@@ -8286,26 +8286,6 @@ stmt.setInt(1, userId);
 // Strategic logging
 logger.debug("Processing user: {}, status: {}", userId, status);
 ```
-
-## 7. What are problem-solving methodologies?
-
-**Problem-solving methodologies** are structured approaches used to **analyze and resolve technical problems effectively.**
-
-**Common Methodologies :**
-
-1. **Define the Problem :**
-   Clearly understand what the issue is.
-2. **Analyze the Root Cause :**
-   Identify why the problem occurred.
-3. **Develop Possible Solutions :**
-   Consider multiple ways to fix the issue.
-4. **Implement the Solution :**
-   Apply the best solution.
-5. **Test the Solution :**
-   Verify that the issue is resolved.
-6. **Document the Solution :**
-   Record the fix for future reference.
-
 
 # ✅ 28. Real Production Scenario 
 
