@@ -5961,7 +5961,131 @@ public class OrderController {
 }
 ```
 
-## 16. Java 11 HttpClient API, and how does it differ from earlier Java versions?
+## 16. Multiple users ordering same product
+
+**Spoken Answer:**
+“When multiple users order the same product, we prevent **overselling** using **atomic database updates or locking**. Only one request can successfully reduce stock when inventory is limited.”
+
+### 💻 Spring Boot Example (Atomic Update)
+
+```java
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    @Modifying
+    @Query("UPDATE Product p SET p.stock = p.stock - :qty " +
+           "WHERE p.id = :id AND p.stock >= :qty")
+    int reduceStock(@Param("id") Long id, @Param("qty") int qty);
+}
+```
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Transactional
+    public void placeOrder(Long productId, int qty) {
+        int updated = productRepository.reduceStock(productId, qty);
+
+        if (updated == 0) {
+            throw new RuntimeException("Out of stock");
+        }
+
+        // proceed with order creation
+    }
+}
+```
+
+
+## 17. Prevent duplicate payment
+
+“We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.”
+
+**Entity with Unique Constraint**
+
+```java
+@Entity
+@Table(name = "payments", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "transactionId")
+})
+public class Payment {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String transactionId;
+    private double amount;
+    private String status;
+}
+```
+
+
+**Service Logic**
+
+```java
+@Service
+public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    public Payment processPayment(String txnId, double amount) {
+
+        return paymentRepository.findByTransactionId(txnId)
+                .orElseGet(() -> {
+                    Payment p = new Payment();
+                    p.setTransactionId(txnId);
+                    p.setAmount(amount);
+                    p.setStatus("SUCCESS");
+                    return paymentRepository.save(p);
+                });
+    }
+}
+```
+
+
+## 18. Payment success but order failed
+
+“This is handled using **event-driven architecture and retry/compensation (Saga pattern)**. If order creation fails after payment, we retry or trigger refund.”
+
+
+**Event + Retry Example**
+
+```java
+@Service
+public class PaymentHandler {
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    public void handlePaymentSuccess(Payment payment) {
+        try {
+            orderService.createOrder(payment);
+        } catch (Exception e) {
+
+            // Retry logic (can be Kafka/RabbitMQ in real systems)
+            retry(payment);
+
+            // Or compensation (refund)
+            paymentService.refund(payment.getTransactionId());
+        }
+    }
+
+    private void retry(Payment payment) {
+        // simple retry logic
+        orderService.createOrder(payment);
+    }
+}
+```
+
+## 19. Java 11 HttpClient API, and how does it differ from earlier Java versions?
 
 In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
