@@ -7756,29 +7756,7 @@ In cloud environments like Kubernetes, we configure **readiness and liveness pro
 * Health checks
 
 
-## **19. How do you manage logs across microservices?**
-
-
-In microservices, logs are distributed across multiple services, so we use **centralized logging**.
-
-All services send logs to a central logging system like **ELK Stack (Elasticsearch, Logstash, Kibana)** or **CloudWatch**.
-
-We also use **correlation IDs** to trace a request across multiple services.
-This helps in debugging and monitoring the system efficiently.
-
-## 20. How do you monitor application health in production?
-
-Application health in production is monitored using **monitoring and logging tools** like **Spring Boot Actuator, Prometheus, Grafana, or CloudWatch**. These tools track **metrics like CPU usage, memory, response time, error rates, and logs** to detect issues and ensure the application runs smoothly.
-
-**Monitoring Tools**
-
-* Prometheus – collects metrics
-* Grafana – visual dashboards
-* Spring Boot Actuator – health endpoints
-* New Relic – APM monitoring
-
-
-## **21. How do you implement auto-scaling?**
+## **19. How do you implement auto-scaling?**
 
 
 Auto-scaling automatically increases or decreases the number of service instances based on traffic.
@@ -7796,7 +7774,7 @@ scale when CPU 70%
 ```
 
 
-## **22. What is Rate Limiting and how does it work? Where do you implement it?**
+## **20. What is Rate Limiting and how does it work? Where do you implement it?**
 
 
 Rate limiting is used to **control how many requests a client can send to an API within a specific time period**.
