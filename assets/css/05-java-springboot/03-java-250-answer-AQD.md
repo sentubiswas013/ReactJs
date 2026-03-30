@@ -5935,6 +5935,38 @@ public class InventoryService {
 
 **Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
+Service Discovery is used in microservices to automatically find the location (IP address and port) of services.
+Because in microservices, service instances change dynamically, we cannot hardcode URLs.
+So services register themselves in a Service Registry, and other services discover and call them.
+
+**Example Flow:**
+
+1. Payment Service registers in Service Registry
+2. Order Service asks registry: “Where is Payment Service?”
+3. Registry returns IP
+4. Order Service calls Payment Service
+
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+**application.yml**
+
+```yaml
+spring:
+  application:
+    name: payment-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+```
+
 ```java
 // Service registration with Eureka
 @SpringBootApplication
