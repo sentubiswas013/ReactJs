@@ -3978,6 +3978,86 @@ coffee = new SugarDecorator(coffee);
 // Result: "Simple coffee, milk, sugar" - $2.7
 ```
 
+## 8. What is Builder pattern?
+
+The **Builder Pattern** is used to create complex objects step by step. It is useful when an object has many optional fields and we want readable object creation.
+
+**Simple Real-Life Example**
+
+Think of ordering a **Burger**:
+
+* Bread
+* Cheese
+* Egg
+* Chicken
+* Sauce
+
+You choose items step by step → then the burger is built.
+This is Builder Pattern.
+
+
+**Step 1: Product Class**
+
+```java
+class Burger {
+    private String bread;
+    private String cheese;
+    private String sauce;
+
+    private Burger(BurgerBuilder builder) {
+        this.bread = builder.bread;
+        this.cheese = builder.cheese;
+        this.sauce = builder.sauce;
+    }
+
+    public void showBurger() {
+        System.out.println(bread + " " + cheese + " " + sauce);
+    }
+
+    public static class BurgerBuilder {
+        private String bread;
+        private String cheese;
+        private String sauce;
+
+        public BurgerBuilder setBread(String bread) {
+            this.bread = bread;
+            return this;
+        }
+
+        public BurgerBuilder setCheese(String cheese) {
+            this.cheese = cheese;
+            return this;
+        }
+
+        public BurgerBuilder setSauce(String sauce) {
+            this.sauce = sauce;
+            return this;
+        }
+
+        public Burger build() {
+            return new Burger(this);
+        }
+    }
+}
+```
+
+**Step 2: Use Builder**
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Burger burger = new Burger.BurgerBuilder()
+                .setBread("Wheat Bread")
+                .setCheese("Cheddar")
+                .setSauce("Mayo")
+                .build();
+
+        burger.showBurger();
+    }
+}
+```
+
+
 # ✅ 18. Java Spring Framework 
 
 ## 1. What is Spring Framework?
@@ -5397,7 +5477,43 @@ public User getUser(Long id) {
 }
 ```
 
-## 2. --
+## 2. Blocking vs No blocking db call in Microservice?
+
+Here’s a **simple short spoken answer** for interview:
+
+---
+
+## 🗣️ Spoken Answer
+
+A **blocking DB call** means the thread waits until the database response comes back.
+
+A **non-blocking DB call** means the thread does not wait; it can handle other requests while waiting for the DB response.
+
+Non-blocking is better for high-traffic microservices because it improves performance and scalability.
+
+**Blocking Example (Spring Boot – JPA)**
+
+```java
+@GetMapping("/users/{id}")
+public User getUser(@PathVariable Long id) {
+    return userRepository.findById(id).orElse(null); 
+}
+```
+
+- Here thread **waits** until DB returns result → Blocking
+
+
+**Non-Blocking Example (Spring WebFlux)**
+
+```java
+@GetMapping("/users/{id}")
+public Mono<User> getUser(@PathVariable Long id) {
+    return userRepository.findById(id);
+}
+```
+
+- Returns **Mono** → Thread **does not wait** → Non-blocking
+
 
 ## 3. What are microservices?
 
