@@ -5858,14 +5858,12 @@ Saga Pattern is used in **microservices architecture** to manage transactions ac
 If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
 
 **Use when:**
-
-Microservices architecture
-
-Each service has its own database
-
-Distributed transaction
+- Microservices architecture
+- Each service has its own database
+- Distributed transaction
 
 **Example:**
+
 In an online order system:
 Order Created → Payment Done → Inventory Reserved.
 
