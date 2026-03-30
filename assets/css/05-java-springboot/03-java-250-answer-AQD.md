@@ -5860,7 +5860,9 @@ If any step fails, the system performs **compensating actions** to undo the prev
 **Use when:**
 
 Microservices architecture
+
 Each service has its own database
+
 Distributed transaction
 
 **Example:**
