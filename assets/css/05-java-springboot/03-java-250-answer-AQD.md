@@ -7870,6 +7870,105 @@ public class UserService {
 }
 ```
 
+## 3: What is resilience4j?
+
+Resilience4j is a fault tolerance library used in microservices to make services resilient when dependent services fail.
+It provides patterns like Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout to prevent system failure.
+
+
+**Why we use Resilience4j in real-time**
+
+* Order Service calls Payment Service
+* Payment Service is slow or down
+* Without protection → Order Service will also fail
+* With Resilience4j → It will stop calling temporarily and return fallback response
+
+This prevents **system crash / cascading failure**.
+
+**Main Modules in Resilience4j**
+
+| Module          | Purpose                      |
+| --------------- | ---------------------------- |
+| Circuit Breaker | Stops calling failed service |
+| Retry           | Retry failed request         |
+| Rate Limiter    | Limit number of requests     |
+| Bulkhead        | Limit concurrent users       |
+| Time Limiter    | Timeout for slow service     |
+
+
+**1. Maven Dependency**
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+**2. application.yml Configuration**
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+
+  retry:
+    instances:
+      paymentService:
+        maxAttempts: 3
+        waitDuration: 2s
+
+  ratelimiter:
+    instances:
+      paymentService:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 1s
+
+  timelimiter:
+    instances:
+      paymentService:
+        timeoutDuration: 3s
+```
+
+**3. Service Class Example**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+    @Retry(name = "paymentService")
+    @RateLimiter(name = "paymentService")
+    @TimeLimiter(name = "paymentService")
+    public String callPaymentService() {
+        return restTemplate.getForObject(
+                "http://PAYMENT-SERVICE/pay", String.class);
+    }
+
+    public String fallback(Exception e) {
+        return "Payment service is down. Try later.";
+    }
+}
+```
+
+**Circuit Breaker States (Important Interview Question)**
+
+| State     | Meaning                        |
+| --------- | ------------------------------ |
+| CLOSED    | Normal calls                   |
+| OPEN      | Service failing, calls blocked |
+| HALF-OPEN | Testing if service recovered   |
 
 ## 3: What is Log4j?
 
