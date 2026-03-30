@@ -4641,7 +4641,7 @@ public class DevDataLoader {
 
 ## 10. What is ApplicationContext?
 
-ApplicationContext is the core container in Spring Framework that manages beans, dependency injection, bean lifecycle, and configuration of the application.
+**ApplicationContext** is the core container in Spring Framework that manages beans, dependency injection, bean lifecycle, and configuration of the application.
 
 It provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
