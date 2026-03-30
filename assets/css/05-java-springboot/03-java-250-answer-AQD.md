@@ -4764,7 +4764,7 @@ public class CustomHealthIndicator implements HealthIndicator {
 }
 ```
 
-## 13. How do you secure a Java Spring Boot application?
+## 13. How do you ensure security a Spring Boot Microservices application?
 
 To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
 
