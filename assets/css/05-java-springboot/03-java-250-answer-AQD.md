@@ -2085,7 +2085,6 @@ public class Test {
     }
 }
 ```
-```
 
 ## 8. What is race condition and atomic operation?
 
