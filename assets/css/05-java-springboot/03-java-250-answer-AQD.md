@@ -1867,13 +1867,14 @@ t.start();
 
 
 ```java
-// Runnable allows extending other classes
-class MyTask extends SomeClass implements Runnable {
+// Thread extension limits inheritance
+class MyThread extends Thread { // Cannot extend anything else
     public void run() { }
 }
 
-// Thread extension limits inheritance
-class MyThread extends Thread { // Cannot extend anything else
+
+// Runnable allows extending other classes
+class MyTask extends SomeClass implements Runnable {
     public void run() { }
 }
 ```
@@ -1882,6 +1883,66 @@ class MyThread extends Thread { // Cannot extend anything else
 
 * **`sleep()`** pauses the current thread for a specified time but **does not release the lock**.
 * **`wait()`** pauses the thread **and releases the lock**, allowing other threads to execute. It must be used inside a **synchronized block**.
+
+```java
+// sleep() Example (Lock NOT Released)
+class SleepExample {
+    public static void main(String[] args) {
+
+        Object lock = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 1 acquired lock");
+                try {
+                    Thread.sleep(3000); // sleeping but STILL holding lock
+                } catch (InterruptedException e) {}
+                System.out.println("Thread 1 finished");
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+
+// wait() Example (Lock Released)
+class WaitExample {
+    public static void main(String[] args) {
+
+        Object lock = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                try {
+                    System.out.println("Thread 1 waiting...");
+                    lock.wait(); // releases lock
+                    System.out.println("Thread 1 resumed");
+                } catch (InterruptedException e) {}
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+                lock.notify(); // wakes up t1
+                System.out.println("Thread 2 notified");
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+
+```
+
 
 ## 5. What is synchronization in Java?
 
