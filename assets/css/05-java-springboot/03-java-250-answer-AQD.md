@@ -2027,38 +2027,153 @@ Thread2: lock(A) -> lock(B)
 **Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
 
 ```java
-class SharedData {
-    private volatile boolean flag = false;
-    
-    public void setFlag() {
-        flag = true; // Immediately visible to all threads
-    }
-    
-    public boolean isFlag() {
-        return flag; // Always reads from main memory
+**Real-Time Example: Stop Thread (Very Common Interview Example)**
+
+**Scenario:**
+
+One thread runs a task, another thread stops it.
+
+**Without volatile (Problem)**
+
+```java id="g0k2xw"
+class Task implements Runnable {
+    boolean running = true;
+
+    public void run() {
+        while (running) {
+            System.out.println("Task is running...");
+        }
+        System.out.println("Task stopped");
     }
 }
+```
+
+Another thread sets:
+
+```java id="v3n2po"
+task.running = false;
+```
+
+❌ Thread may **never stop** because it may use cached value.
+
+---
+
+**With volatile (Solution)**
+
+```java
+class Task implements Runnable {
+    volatile boolean running = true;
+
+    public void run() {
+        while (running) {
+            System.out.println("Task is running...");
+        }
+        System.out.println("Task stopped");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        Task task = new Task();
+        Thread t1 = new Thread(task);
+        t1.start();
+
+        Thread.sleep(3000);
+
+        task.running = false; // stop thread
+        System.out.println("Stopped by main thread");
+    }
+}
+```
 ```
 
 ## 8. What is race condition and atomic operation?
 
-A **race condition** in **Java** occurs when **multiple threads access and modify shared data at the same time**, causing unpredictable or incorrect results.
+**Race Condition :**
 
-An **atomic operation** is an operation that **executes completely in a single step without interruption**, so no other thread can interfere during its execution.
+A race condition occurs when multiple threads access and modify the same shared resource at the same time, and the final result becomes unpredictable or incorrect.
 
-```java
-// Race condition example
-private int counter = 0;
-public void increment() {
-    counter++; // Not atomic: read -> increment -> write
-}
 
-// Atomic solution
-private AtomicInteger counter = new AtomicInteger(0);
-public void increment() {
-    counter.incrementAndGet(); // Atomic operation
+**E-commerce Website – Product Stock**
+
+* Only 1 product left
+* Two users click **Buy** at the same time
+* Both threads read stock = 1
+* Both reduce stock → stock becomes **-1**
+  This is a **race condition**.
+
+
+**Atomic Operation**
+
+An atomic operation is an operation that is completed in a single step without interruption by other threads.
+
+This prevents race conditions.
+
+* `count++` → Not atomic ❌
+* `AtomicInteger.incrementAndGet()` → Atomic ✅
+
+## When to Use in Real-Time Applications
+
+| Scenario                       | Use                 |
+| ------------------------------ | ------------------- |
+| Counter (views, likes, visits) | Atomic              |
+| Bank balance update            | synchronized / Lock |
+| Product stock update           | Atomic / Lock       |
+| Ticket booking                 | Lock                |
+| Payment status update          | Atomic              |
+| Order status flag              | volatile            |
+| Read-heavy config              | volatile            |
+
+
+**Real-Time Example Code (Product Stock)**
+
+**x Race Condition**
+
+```java id="o5x9c2"
+class Product {
+    int stock = 1;
+
+    void buy() {
+        if (stock > 0) {
+            stock--;
+            System.out.println("Product purchased. Remaining: " + stock);
+        } else {
+            System.out.println("Out of stock");
+        }
+    }
 }
 ```
+
+Two threads → both may buy → stock becomes **-1**
+
+
+**Atomic Solution
+
+```java id="h3v9kd"
+import java.util.concurrent.atomic.AtomicInteger;
+
+class Product {
+    AtomicInteger stock = new AtomicInteger(1);
+
+    void buy() {
+        if (stock.get() > 0) {
+            stock.decrementAndGet();
+            System.out.println("Product purchased. Remaining: " + stock.get());
+        } else {
+            System.out.println("Out of stock");
+        }
+    }
+}
+```
+
+**Simple Rule (Remember for Interview)**
+
+| Use          | When                     |
+| ------------ | ------------------------ |
+| volatile     | Only visibility          |
+| Atomic       | Single variable update   |
+| synchronized | Multiple operations      |
+| Lock         | Complex critical section |
 
 ## 9. What are Important Java Multithreading Concepts
 
