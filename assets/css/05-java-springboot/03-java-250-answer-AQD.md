@@ -2112,7 +2112,7 @@ This prevents race conditions.
 * `count++` → Not atomic ❌
 * `AtomicInteger.incrementAndGet()` → Atomic ✅
 
-## When to Use in Real-Time Applications
+**When to Use in Real-Time Applications**
 
 | Scenario                       | Use                 |
 | ------------------------------ | ------------------- |
@@ -2129,7 +2129,7 @@ This prevents race conditions.
 
 **x Race Condition**
 
-```java id="o5x9c2"
+```java
 class Product {
     int stock = 1;
 
@@ -2147,9 +2147,9 @@ class Product {
 Two threads → both may buy → stock becomes **-1**
 
 
-**Atomic Solution
+**Atomic Solution**
 
-```java id="h3v9kd"
+```java
 import java.util.concurrent.atomic.AtomicInteger;
 
 class Product {
