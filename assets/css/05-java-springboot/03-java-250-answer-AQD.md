@@ -1955,15 +1955,49 @@ class WaitExample {
 **In simple words:** It makes multithreaded access to shared data **safe and consistent**.
 
 ```java
-// Synchronized method
-public synchronized void increment() {
-    count++;
+// Multiple users try to withdraw money from the same account at the same time.
+
+// Without Synchronization (Wrong Behavior)
+class BankAccount {
+    int balance = 1000;
+
+    void withdraw(int amount) {
+        if (balance >= amount) {
+            System.out.println(Thread.currentThread().getName() + " withdrawing...");
+            balance = balance - amount;
+            System.out.println("Remaining balance: " + balance);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
 }
 
-// Synchronized block
-public void decrement() {
-    synchronized(this) {
-        count--;
+// With Synchronization (Correct Behavior)
+class BankAccount {
+    int balance = 1000;
+
+    synchronized void withdraw(int amount) {
+        if (balance >= amount) {
+            System.out.println(Thread.currentThread().getName() + " withdrawing...");
+            balance = balance - amount;
+            System.out.println("Remaining balance: " + balance);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+}
+
+// Main Class (Simulation)
+public class Test {
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount();
+
+        Thread user1 = new Thread(() -> account.withdraw(700), "User1");
+        Thread user2 = new Thread(() -> account.withdraw(700), "User2");
+
+        user1.start();
+        user2.start();
     }
 }
 ```
