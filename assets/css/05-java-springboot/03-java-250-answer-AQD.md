@@ -5154,44 +5154,8 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
-## 16. What is Transactional and Why @Transactional Matters in Spring Boot?
-**@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**. 
-A **transaction** means a group of database operations that must **all succeed or all fail together**.
 
-**Use when:**
-Monolithic application
-Single database
-Strong consistency required
-
-Why **@Transactional** Matters
-
-1. **Data Consistency**
-   Ensures all database operations are completed successfully. If one fails, everything is rolled back.
-
-2. **Automatic Rollback**
-   If an exception occurs, Spring automatically **rolls back the transaction**.
-
-3. **Simplifies Code**
-   Developers don't need to manually write **commit or rollback logic**.
-
-4. **Maintains Data Integrity**
-   Prevents partial updates in the database.
-
-```java
-@Service
-public class PaymentService {
-
-    @Transactional
-    public void transferMoney() {
-        debitAccount();
-        creditAccount();
-    }
-}
-```
-
-If **creditAccount() fails**, Spring will **rollback debitAccount()** automatically.
-
-## 17. What is Distributed Tracing?
+## 16. What is Distributed Tracing?
 
 **Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
 
@@ -5205,7 +5169,7 @@ It helps developers **identify performance issues, delays, and failures** by sho
 4. **Inventory Service** updates stock
 5. **Notification Service** sends email/SMS
 
-## 18. What is Spring Scheduler?
+## 17. What is Spring Scheduler?
 
 **Spring Scheduler** is a feature in **Spring Framework** used to **run tasks automatically at a scheduled time or at fixed intervals**.
 
@@ -5246,7 +5210,7 @@ Task running every 5 seconds
 Task running every 5 seconds
 ```
 
-## 19. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
+## 18. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
 
 Configure logging levels in application.properties for different packages and classes.
 
@@ -5286,7 +5250,7 @@ public class UserService {
 }
 ```
 
-## 20. What is the role of `@RestController` and `@Controller` in Spring Boot?
+## 19. What is the role of `@RestController` and `@Controller` in Spring Boot?
 
 Both handle HTTP requests, but `@RestController` automatically serializes return values to JSON/XML, while `@Controller` returns view names.
 
@@ -5311,7 +5275,7 @@ public class ApiController {
 `@RestController` = `@Controller` + `@ResponseBody`
 
  
-## 21. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
+## 20. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
 
 **@PostConstruct** annotations is used to run initialization logic after Spring creates the bean and injects dependencies.
 
@@ -5338,7 +5302,7 @@ public class MyService {
 }
 ```
 
-## 22. How do you manage Spring Beans in Spring Boot?
+## 21. How do you manage Spring Beans in Spring Boot?
 
 Spring Boot automatically manages beans through component scanning and auto-configuration. You can also define custom beans explicitly.
 
@@ -5369,7 +5333,7 @@ public class BeanConfig {
 
 Spring manages the entire lifecycle: creation, dependency injection, initialization, and destruction.
 
-## 23. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
+## 22. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
 
 These annotations define JPA relationships between entities with different cardinalities.
 
@@ -5402,7 +5366,7 @@ public class Order {
 - `@ManyToOne`: Multiple entities relate to one entity
 - They're opposite sides of the same relationship
 
-## 24. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
+## 23. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
 
 Use `PagingAndSortingRepository` or `Pageable` parameter in repository methods for automatic pagination.
 
@@ -6530,9 +6494,10 @@ public class OrderController {
 }
 ```
 
-## 16. How do you handle Multiple users ordering same product at the same time?
+## 16. What is Transactional and Why @Transactional Matters in Spring Boot?
+It is mainly use in Monolothic application where one database is use.
 
-When multiple users order the same product, we prevent **overselling** using **atomic database updates or locking**. Only one request can successfully reduce stock when inventory is limited.
+When multiple users order the same product, we prevent **overselling** using **atomic database updates or locking**. Only one request can successfully reduce stock when inventory is limited. 
 
 **Spring Boot Example (Atomic Update)**
 
@@ -7318,12 +7283,6 @@ public class MonitoredController {
     }
 }
 ```
-
-## 10: what is AOP (Aspect Oriented Programming) and its types?
-
-**AOP** is used to separate **cross-cutting concerns** like logging, security, and transactions from business logic.
-It improves **code modularity and reusability**.
-Common AOP concepts include **Aspect, Advice, Join Point, Pointcut, and Weaving**.
 
 
 ## 11: What is database optimization?

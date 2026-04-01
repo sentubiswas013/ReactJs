@@ -32,7 +32,7 @@ public class Stream30 {
         List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
         List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
         List<String> arr01 = Arrays.asList("java","stream","api", "level", "madam");
-        List<String> arr01 = Arrays.asList("Alice","Bob","Annie","Alex", null);
+        List<String> arr02 = Arrays.asList("Alice","Bob","Annie","Alex", null);
 
 
         // =======================================================
@@ -53,12 +53,12 @@ public class Stream30 {
 
 
         // =======================================================
-        // 2. Find Common Elements Between Two Listsx
+        // 2. Find Common Elements Between Two List
         List<Integer> common = num01.stream()
                 .filter(num02::contains)
                 .toList();
         // System.out.println("11. Common: " + common);
-        // Output: 11. Common: [3, 4]
+        // Output: 11. Common: [0, 1, 2, 3, 0, 4, 5, 0, 6]
 
 
 
