@@ -523,8 +523,8 @@ names.stream()
 
 ## 12. What is `hashCode()` in Java?
 
-**`hashCode()`** is a method used to generate a **unique integer value (hash value)** for an object.
-It is mainly used in **HashMap, HashSet, Hashtable** for fast searching. It is part of **Java Object class**.
+**`hashCode()`** is used to generate a hash value for an object and is used internally by HashMap, HashSet for fast retrieval. If two objects are equal, their hashCode must be equal.
+
 
 ```java
 class Test {
