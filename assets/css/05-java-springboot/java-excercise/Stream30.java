@@ -36,7 +36,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 1. Filter Even Numbers       
+        // 1. Filter Even Numbers   // filter: Remove unwanted elements  // toList: Convert stream to List
         List<Integer> even = num02.stream()
                 .filter(n -> n % 2 == 0)
                 .toList();
@@ -275,7 +275,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 19. Convert List to Uppercase        
+        // 19. Convert List to Uppercase    // Map: Transform elements    
         List<String> upper = arr01.stream()
                 // .map(e -> e.toUpperCase())
                 .map(String::toUpperCase)
@@ -297,7 +297,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 21. Partition Even and Odd Numbers
+        // 21. Partition Even and Odd Numbers // collect: Convert stream to collection
         Map<Boolean, List<Integer>> partition = num01.stream()
                 .collect(Collectors.partitioningBy(n -> n % 2 == 0));
 

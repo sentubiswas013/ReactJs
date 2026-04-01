@@ -36,7 +36,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 1. Filter Even Numbers       
+        // 1. Filter Even Numbers   // filter: Remove unwanted elements  // toList: Convert stream to List 
         
                 
         // System.out.println("1. Even Numbers: " + even);
@@ -204,7 +204,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 19. Convert List to Uppercase        
+        // 19. Convert List to Uppercase    // Map: Transform elements     
         
 
         // System.out.println("6. Uppercase: " + upper);
@@ -222,7 +222,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 21. Partition Even and Odd Numbers
+        // 21. Partition Even and Odd Numbers // collect: Convert stream to collection
         
 
         // System.out.println("15. Partition: " + partition);
