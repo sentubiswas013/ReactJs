@@ -432,20 +432,7 @@ System.out.println(s1); // Hello World
 System.out.println(s2); // Hello
 ```
 
-## 7. What is string pooling?
-
-String pooling is Java's memory optimization technique where identical string literals share the same memory location in the String Pool (part of heap memory).
-
-```java
-String a = "hello";    // stored in string pool
-String b = "hello";    // reuses same memory location
-String c = new String("hello"); // creates new object in heap
-
-System.out.println(a == b);  // true - same reference
-System.out.println(a == c);  // false - different references
-```
-
-## 8. What is the difference between final, finally, and finalize?
+## 7. What is the difference between final, finally, and finalize?
 
 - **final:** Keyword for constants, preventing inheritance/override
 - **finally:** Block that always executes after try-catch
@@ -471,7 +458,21 @@ protected void finalize() {
 }
 ```
 
+
 **final** is for immutability, **finally** for cleanup code, **finalize** for garbage collection (rarely used).
+
+## 8. What is string pooling?
+
+String pooling is Java's memory optimization technique where identical string literals share the same memory location in the String Pool (part of heap memory).
+
+```java
+String a = "hello";    // stored in string pool
+String b = "hello";    // reuses same memory location
+String c = new String("hello"); // creates new object in heap
+
+System.out.println(a == b);  // true - same reference
+System.out.println(a == c);  // false - different references
+```
 
 ## 9. What is coercion in Java?
 
@@ -501,7 +502,7 @@ System.out.println(a instanceof Dog);    // true
 System.out.println(a instanceof Animal); // true
 ```
 
-## 11. What is instance of in java
+## 11. What is Predicate in java
 
 In Java, a **Predicate** is a functional interface used to **test a condition** and return a boolean result (**true or false**).
 
