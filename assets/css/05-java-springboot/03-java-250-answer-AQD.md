@@ -4506,9 +4506,9 @@ The **bean lifecycle** describes the steps a bean goes through from **creation t
 
 **Steps in Bean Lifecycle**
 
-1. **Bean Instantiation:** Spring creates the bean object.
+1. **Bean Instantiated:** Spring creates the bean object.
 2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
-3. **Bean Initialization:** Initialization methods run using `@PostConstruct` or `afterPropertiesSet()`.
+3. **Bean Initialization:** Initialization methods run using `@PostConstruct`.
 4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
 5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
 
