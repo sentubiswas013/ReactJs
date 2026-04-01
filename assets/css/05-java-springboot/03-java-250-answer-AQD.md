@@ -295,170 +295,7 @@ for (int i = 0; i < fruits.size(); i++) {
 }
 ```
 
-## 1. What are SOLID principles?
 
-**Answer:**
-
-SOLID is an acronym for five design principles that make software more maintainable and scalable:
-
-- **S**ingle Responsibility: A class should have one reason to change
-- **O**pen/Closed: Open for extension, closed for modification
-- **L**iskov Substitution: Subtypes must be substitutable for their base types
-- **I**nterface Segregation: Many specific interfaces are better than one general interface
-- **D**ependency Inversion: Depend on abstractions, not concrete implementations
-
-**Example:**
-**S — Single Responsibility Principle (SRP)**
-
-One class should have only one responsibility.
-
-❌ Wrong:
-
-```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
-
-    public void sendEmail() {
-        // send email
-    }
-}
-```
-
-✅ Correct:
-
-```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
-}
-
-class EmailService {
-    public void sendEmail() {
-        // send email
-    }
-}
-```
-
----
-
-**O — Open/Closed Principle (OCP)**
-
-Open for extension, closed for modification.
-
-```java
-interface Payment {
-    void pay();
-}
-
-class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Card payment");
-    }
-}
-
-class UpiPayment implements Payment {
-    public void pay() {
-        System.out.println("UPI payment");
-    }
-}
-
-class PaymentService {
-    public void processPayment(Payment payment) {
-        payment.pay();
-    }
-}
-```
-
-Now we can add **NetBankingPayment** without changing existing code.
-
----
-
-**L — Liskov Substitution Principle (LSP)**
-
-Child class should replace parent class without breaking code.
-
-```java
-class Bird {
-    public void fly() {
-        System.out.println("Bird can fly");
-    }
-}
-
-class Sparrow extends Bird {
-    public void fly() {
-        System.out.println("Sparrow can fly");
-    }
-}
-```
-
-Bad example: Penguin cannot fly → violates LSP.
-
----
-
-**I — Interface Segregation Principle (ISP)**
-
-Create small interfaces.
-
-```java
-interface Workable {
-    void work();
-}
-
-interface Eatable {
-    void eat();
-}
-
-class Human implements Workable, Eatable {
-    public void work() {
-        System.out.println("Human working");
-    }
-
-    public void eat() {
-        System.out.println("Human eating");
-    }
-}
-
-class Robot implements Workable {
-    public void work() {
-        System.out.println("Robot working");
-    }
-}
-```
-
-Robot does not implement eat() → Correct.
-
----
-
-**D — Dependency Inversion Principle (DIP)
-
-Depend on abstraction, not concrete class.
-
-```java
-interface Payment {
-    void pay();
-}
-
-class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Card payment");
-    }
-}
-
-class OrderService {
-    private Payment payment;
-
-    public OrderService(Payment payment) {
-        this.payment = payment;
-    }
-
-    public void placeOrder() {
-        payment.pay();
-    }
-}
-```
 
 # ✅ 2. Data Types and Variables
 
@@ -648,6 +485,66 @@ double result = num; // Automatic coercion - int to double
 double d = 10.5;
 int i = (int) d; // Explicit casting required - double to int
 ```
+
+## 10. What is instance of in java
+
+**`instanceof`** in Java is an **operator** used to check whether an object is an **instance of a specific class or interface**. it is introduce in Java 16+
+
+
+```java
+class Animal {}
+class Dog extends Animal {}
+
+Animal a = new Dog();
+
+System.out.println(a instanceof Dog);    // true
+System.out.println(a instanceof Animal); // true
+```
+
+## 11. What is instance of in java
+
+In Java, a **Predicate** is a functional interface used to **test a condition** and return a boolean result (**true or false**).
+
+It is part of the java.util.function package (introduced in Java 8).
+
+
+** Real-Time Example (Filtering)**
+
+```java
+List<String> names = Arrays.asList("John", "Sam", "Alex");
+
+Predicate<String> startsWithA = name -> name.startsWith("A");
+
+names.stream()
+     .filter(startsWithA)
+     .forEach(System.out::println);  // Output: Alex
+```
+
+## 12. What is `hashCode()` in Java?
+
+**`hashCode()`** is a method used to generate a **unique integer value (hash value)** for an object.
+It is mainly used in **HashMap, HashSet, Hashtable** for fast searching. It is part of **Java Object class**.
+
+```java
+class Test {
+    public static void main(String[] args) {
+        String a = new String("Hello");
+        String b = new String("Hello");
+
+        System.out.println(a.equals(b));   // true
+        System.out.println(a.hashCode()); // same
+        System.out.println(b.hashCode()); // same
+    }
+}
+```
+
+**Important Rule Table**
+
+| Condition         | Rule                     |
+| ----------------- | ------------------------ |
+| equals() true     | hashCode must be same    |
+| hashCode same     | equals may be true/false |
+| equals overridden | hashCode must override   |
 
 
 # ✅ 3. Classes and Objects
@@ -1431,7 +1328,170 @@ Use **abstract class** when:
 * Classes are **closely related**
 * You want **common code + common fields**
 
+## 9. What are SOLID principles?
 
+**Answer:**
+
+SOLID is an acronym for five design principles that make software more maintainable and scalable:
+
+- **S**ingle Responsibility: A class should have one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subtypes must be substitutable for their base types
+- **I**nterface Segregation: Many specific interfaces are better than one general interface
+- **D**ependency Inversion: Depend on abstractions, not concrete implementations
+
+**Example:**
+**S — Single Responsibility Principle (SRP)**
+
+One class should have only one responsibility.
+
+❌ Wrong:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+✅ Correct:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+}
+
+class EmailService {
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+---
+
+**O — Open/Closed Principle (OCP)**
+
+Open for extension, closed for modification.
+
+```java
+interface Payment {
+    void pay();
+}
+
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI payment");
+    }
+}
+
+class PaymentService {
+    public void processPayment(Payment payment) {
+        payment.pay();
+    }
+}
+```
+
+Now we can add **NetBankingPayment** without changing existing code.
+
+---
+
+**L — Liskov Substitution Principle (LSP)**
+
+Child class should replace parent class without breaking code.
+
+```java
+class Bird {
+    public void fly() {
+        System.out.println("Bird can fly");
+    }
+}
+
+class Sparrow extends Bird {
+    public void fly() {
+        System.out.println("Sparrow can fly");
+    }
+}
+```
+
+Bad example: Penguin cannot fly → violates LSP.
+
+---
+
+**I — Interface Segregation Principle (ISP)**
+
+Create small interfaces.
+
+```java
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class Human implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+```
+
+Robot does not implement eat() → Correct.
+
+---
+
+**D — Dependency Inversion Principle (DIP)
+
+Depend on abstraction, not concrete class.
+
+```java
+interface Payment {
+    void pay();
+}
+
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+class OrderService {
+    private Payment payment;
+
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay();
+    }
+}
+```
 
 
 # ✅ 6. Java Exception Handling 
