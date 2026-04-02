@@ -867,11 +867,11 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 
 # ✅ 4. Java Inheritance 
 
-## 1. Why doesn't Java support multiple inheritance?
+## 1. Why doesn't Java support multiple inheritance (with classes)?
 
-Java does not support **multiple inheritance with classes** mainly to avoid complexity and ambiguity, especially the **diamond problem**, where a class could inherit the same method from multiple parent classes and the compiler wouldn’t know which one to use.
+Java does not support multiple inheritance with **classes** to avoid the **Diamond Problem** and complexity.
 
-To keep the language simpler and more maintainable, Java allows **multiple inheritance through interfaces instead of classes**, so a class can implement multiple interfaces without inheriting conflicting implementations.
+But Java does support multiple inheritance with **interfaces**.
 
 ```java
 class A {
