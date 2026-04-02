@@ -724,23 +724,21 @@ public class Test {
 * Since it is **static**, it belongs to the class, not the object.
 * Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
 
-## 7. Are we allowed to override a static method in Java?
+## 7. Can you override static methods?
 
-**Static methods cannot be overridden** in Java.
-
-They can be **hidden** in a subclass, and calls are resolved based on the **reference type**, not the object type.
-
-* **No, static methods cannot be overridden**
-* Static methods can be **hidden** (method hiding)
-* Called based on reference type, not object type
+No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
 
 ```java
 class Parent {
-    static void show() { System.out.println("Parent"); }
+    static void display() { System.out.println("Parent"); }
 }
+
 class Child extends Parent {
-    static void show() { System.out.println("Child"); } // Hiding, not overriding
+    static void display() { System.out.println("Child"); } // Hiding, not overriding
 }
+
+Parent p = new Child();
+p.display(); // Prints "Parent" - based on reference type
 ```
 
 ## 8. Is it possible to execute a program without defining a main() method?
@@ -925,26 +923,9 @@ class C implements A, B {
 }
 ```
 
-## 4. Can you override static methods?
-
-No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
-
-```java
-class Parent {
-    static void display() { System.out.println("Parent"); }
-}
-
-class Child extends Parent {
-    static void display() { System.out.println("Child"); } // Hiding, not overriding
-}
-
-Parent p = new Child();
-p.display(); // Prints "Parent" - based on reference type
-```
-
 ## 5. Which type of polymorphism does method overloading represent?
 
-Method overloading represents **compile-time polymorphism** (also called static polymorphism or early binding).
+**Method overloading** represents **compile-time polymorphism** (also called static polymorphism or early binding).
 
 The compiler resolves which overloaded method to call **at compile time** based on the method signature (number and types of parameters).
 
