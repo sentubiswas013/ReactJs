@@ -8790,10 +8790,6 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 
 # ✅ 28. Real Production Scenario 
 
-# Java + Spring Boot + Microservices — Scenario-Based Interview Answers
-
----
-
 ## Java
 
 ---
@@ -8845,7 +8841,6 @@ More threads don't help if the **bottleneck is not the CPU** — it's something 
 
 > "Thread pool size only helps if threads are actually doing work. If they're all waiting on DB or I/O, adding more threads just adds more waiting threads."
 
----
 
 ## Spring Boot
 
@@ -8904,7 +8899,6 @@ spring:
 
 > "I check if connections are being returned properly, look for long-running transactions, and tune HikariCP pool size based on load."
 
----
 
 ## Microservices
 
@@ -8962,7 +8956,6 @@ Reasons it stays open:
 
 > "I check the Resilience4j config — specifically `waitDurationInOpenState` and the success threshold in half-open state. Also check if slow responses are being counted as failures."
 
----
 
 ## System Thinking
 
