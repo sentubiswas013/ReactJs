@@ -843,19 +843,22 @@ Constructor
 
 If a static block throws an unchecked exception:
 
-* Class **fails to load**
-* JVM throws **ExceptionInInitializerError**
+* Class will **fails to load**
+* JVM will throws **ExceptionInInitializerError**
 * Program stops and class cannot be used
 
 
 ```java
+public class Main {
+    public static void main(String[] args) {
+        Test t = new Test();
+    }
+}
+
 class Test {
     static {
+        System.out.println("Static block running");
         int x = 10 / 0; // ArithmeticException
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Main method");
     }
 }
 
