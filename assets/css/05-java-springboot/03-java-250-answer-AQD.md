@@ -340,13 +340,13 @@ String name = "John"; // reference - stores address to "John" object
 ```
 ## 3. What is autoboxing and unboxing and Casting?
 
-* **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
+**Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
   ```java
   int num = 10;
   Integer numObj = num;  // Autoboxing: int → Integer
   ```
 
-* **Unboxing** is the automatic conversion of a **wrapper class** back to its **primitive type**.
+**Unboxing** is the automatic conversion of a **wrapper class** back to its **primitive type**.
   ```java
   Integer numObj = 20;
   int num = numObj;  // Unboxing: Integer → int
