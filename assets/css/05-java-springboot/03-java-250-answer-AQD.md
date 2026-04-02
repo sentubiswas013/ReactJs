@@ -338,7 +338,7 @@ Reference types, like objects, arrays, and strings, store a reference or memory 
 int x = 10;        // primitive - stores value 10
 String name = "John"; // reference - stores address to "John" object
 ```
-## 3. What is autoboxing and unboxing?
+## 3. What is autoboxing and unboxing and Casting?
 
 * **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
   ```java
@@ -351,6 +351,13 @@ String name = "John"; // reference - stores address to "John" object
   Integer numObj = 20;
   int num = numObj;  // Unboxing: Integer → int
   ```
+
+**Casting** in Java means **converting one data type into another data type**.
+```java
+double a = 10.5;
+int b = (int) a;  // Manual casting
+System.out.println(b); // 10
+```
 
 ## 4. What is the difference between == and equals() method?
 
