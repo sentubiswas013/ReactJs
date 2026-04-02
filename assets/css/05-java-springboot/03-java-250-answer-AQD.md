@@ -6925,6 +6925,7 @@ public class OAuth2Config {
 }
 ```
 
+**OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
 
 ## 11: What is OAuth 2.0?
 
@@ -6958,6 +6959,8 @@ public class ApiController {
     public String getData() { return "Protected data"; }
 }
 ```
+
+**OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
 
 
 ## 11: What is JWT (JSON Web Token)?
