@@ -5715,11 +5715,6 @@ public User getUser(Long id) {
 
 ## 2. Blocking vs No blocking db call in Microservice?
 
-Here’s a **simple short spoken answer** for interview:
-
----
-
-## 🗣️ Spoken Answer
 
 A **blocking DB call** means the thread waits until the database response comes back.
 
@@ -6931,35 +6926,6 @@ public class OAuth2Config {
 ```
 
 
-## 10: What is JWT (JSON Web Token)?
-
-**JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
-
-It has three parts: **Header.Payload.Signature**, is **stateless and self-contained**, and is commonly used for **authentication and API authorization**, being **signed (optionally encrypted)** for security.
-
-```java
-// JWT creation and validation
-@Service
-public class JwtService {
-    private String secretKey = "mySecretKey";
-    
-    public String generateToken(String username) {
-        return Jwts.builder()
-            .setSubject(username)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24 hours
-            .signWith(SignatureAlgorithm.HS256, secretKey)
-            .compact();
-    }
-    
-    public String extractUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-            .getBody().getSubject();
-    }
-}
-```
-
-
 ## 11: What is OAuth 2.0?
 
 **OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
@@ -6990,6 +6956,35 @@ public class ApiController {
     @GetMapping("/api/data")
     @PreAuthorize("#oauth2.hasScope('read')")
     public String getData() { return "Protected data"; }
+}
+```
+
+
+## 11: What is JWT (JSON Web Token)?
+
+**JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
+
+It has three parts: **Header.Payload.Signature**, is **stateless and self-contained**, and is commonly used for **authentication and API authorization**, being **signed (optionally encrypted)** for security.
+
+```java
+// JWT creation and validation
+@Service
+public class JwtService {
+    private String secretKey = "mySecretKey";
+    
+    public String generateToken(String username) {
+        return Jwts.builder()
+            .setSubject(username)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24 hours
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
+    }
+    
+    public String extractUsername(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+            .getBody().getSubject();
+    }
 }
 ```
 
