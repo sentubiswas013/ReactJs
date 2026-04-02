@@ -6301,94 +6301,7 @@ resilience4j:
         sliding-window-size: 10
 ```
 
-## 14. What is Saga Pattern or How it handle payment failure?
-
-Saga Pattern is used in **microservices architecture** to manage transactions across multiple services. Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
-
-If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
-
-**Use when:**
-- Microservices architecture
-- Each service has its own database
-- Distributed transaction
-
-**Example:**
-- In an online order system:
-- Order Created → Payment Done → Inventory Reserved.
-
-If inventory fails, Saga will **refund payment and cancel the order**.
-
-There are **two ways to implement Saga**:
-- **Choreography** – services communicate using events.
-- **Orchestration** – a central service controls the workflow.
-
-Order Created → Payment Done → Inventory Reserved
-If **inventory fails → refund payment + cancel order**
-
-```java
-@Service
-public class OrderSagaService {
-    @Autowired
-    private PaymentService paymentService;
-
-    @Autowired
-    private InventoryService inventoryService;
-
-    @Autowired
-    private OrderService orderService;
-
-    public void placeOrder(Order order) {
-        orderService.createOrder(order);
-        try {
-            paymentService.charge(order);        // Step 1
-            inventoryService.reserve(order);     // Step 2
-            orderService.updateStatus(order, "COMPLETED");
-
-        } catch (Exception e) {
-            // Compensation actions
-            paymentService.refund(order);
-            orderService.cancelOrder(order);
-            System.out.println("Order failed, rollback completed");
-        }
-    }
-}
-```
-
-**Payment Service**
-```java
-@Service
-public class PaymentService {
-    public void charge(Order order) {
-        System.out.println("Payment charged for order " + order.getId());
-    }
-
-    public void refund(Order order) {
-        System.out.println("Payment refunded for order " + order.getId());
-    }
-}
-```
-
-**Inventory Service**
-```java
-@Service
-public class InventoryService {
-    public void reserve(Order order) {
-        System.out.println("Inventory reserved for order " + order.getId());
-        
-        // simulate failure
-        throw new RuntimeException("Inventory not available");
-    }
-}
-```
-
-**Flow**
-1. Create Order
-2. Charge Payment
-3. Reserve Inventory
-4. If inventory fails → **Refund Payment + Cancel Order**
-
-
-## 15: What is resilience4j pattern?
+## 14: What is resilience4j pattern?
 
 Resilience4j is a fault tolerance library used in microservices to make services resilient when dependent services fail.
 It provides patterns like Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout to prevent system failure.
@@ -6480,13 +6393,6 @@ public class OrderService {
 }
 ```
 
-**Circuit Breaker States (Important Interview Question)**
-
-| State     | Meaning                        |
-| --------- | ------------------------------ |
-| CLOSED    | Normal calls                   |
-| OPEN      | Service failing, calls blocked |
-| HALF-OPEN | Testing if service recovered   |
 
 ## 15. What is service discovery?
 
@@ -6550,7 +6456,95 @@ public class OrderController {
 }
 ```
 
-## 16. What is Transactional and Why @Transactional Matters in Spring Boot?
+
+## 16. What is Saga Pattern or How it handle payment failure?
+
+Saga Pattern is used in **microservices architecture** to manage transactions across multiple services. Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
+
+If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
+
+**Use when:**
+- Microservices architecture
+- Each service has its own database
+- Distributed transaction
+
+**Example:**
+- In an online order system:
+- Order Created → Payment Done → Inventory Reserved.
+
+If inventory fails, Saga will **refund payment and cancel the order**.
+
+There are **two ways to implement Saga**:
+- **Choreography** – services communicate using events.
+- **Orchestration** – a central service controls the workflow.
+
+Order Created → Payment Done → Inventory Reserved
+If **inventory fails → refund payment + cancel order**
+
+```java
+@Service
+public class OrderSagaService {
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private OrderService orderService;
+
+    public void placeOrder(Order order) {
+        orderService.createOrder(order);
+        try {
+            paymentService.charge(order);        // Step 1
+            inventoryService.reserve(order);     // Step 2
+            orderService.updateStatus(order, "COMPLETED");
+
+        } catch (Exception e) {
+            // Compensation actions
+            paymentService.refund(order);
+            orderService.cancelOrder(order);
+            System.out.println("Order failed, rollback completed");
+        }
+    }
+}
+```
+
+**Payment Service**
+```java
+@Service
+public class PaymentService {
+    public void charge(Order order) {
+        System.out.println("Payment charged for order " + order.getId());
+    }
+
+    public void refund(Order order) {
+        System.out.println("Payment refunded for order " + order.getId());
+    }
+}
+```
+
+**Inventory Service**
+```java
+@Service
+public class InventoryService {
+    public void reserve(Order order) {
+        System.out.println("Inventory reserved for order " + order.getId());
+        
+        // simulate failure
+        throw new RuntimeException("Inventory not available");
+    }
+}
+```
+
+**Flow**
+1. Create Order
+2. Charge Payment
+3. Reserve Inventory
+4. If inventory fails → **Refund Payment + Cancel Order**
+
+
+## 17. What is Transactional and Why @Transactional Matters in Spring Boot?
 It is mainly use in Monolothic application where one database is use.
 
 When multiple users order the same product, we prevent **overselling** using **atomic database updates or locking**. Only one request can successfully reduce stock when inventory is limited. 
@@ -6589,7 +6583,7 @@ public class OrderService {
 ```
 
 
-## 17. How do you Prevent duplicate payment?
+## 18. How do you Prevent duplicate payment?
 
 We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.
 
@@ -6637,7 +6631,7 @@ public class PaymentService {
 ```
 
 
-## 18. What happens if payment is successful but order update fails?
+## 19. What happens if payment is successful but order update fails?
 
 This is handled using **event-driven architecture and retry/compensation (Saga pattern)**. If order creation fails after payment, we retry or trigger refund.
 
@@ -6674,7 +6668,7 @@ public class PaymentHandler {
 }
 ```
 
-## 19. Java 11 HttpClient API, and how does it differ from earlier Java versions?
+## 20. Java 11 HttpClient API, and how does it differ from earlier Java versions?
 
 In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
