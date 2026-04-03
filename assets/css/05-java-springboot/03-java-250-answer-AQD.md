@@ -4414,6 +4414,66 @@ public class Main {
 }
 ```
 
+## 8. What is Prototype pattern?
+
+## What is Prototype Pattern?
+
+**Prototype Pattern** is a **Creational Design Pattern** used to create **new objects by copying (cloning) an existing object**, instead of creating a new object from scratch.
+
+This is useful when **object creation is costly** (e.g., DB call, API call, complex object creation).
+
+
+**Real-Time Example**
+
+* Employee object from database
+* Instead of loading from DB again → clone existing employee object
+
+
+**Prototype Pattern Example in Java**
+```java
+class Student implements Cloneable {
+    int id;
+    String name;
+
+    Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        Student s1 = new Student(1, "John");
+        Student s2 = (Student) s1.clone();
+
+        System.out.println(s1.name);
+        System.out.println(s2.name);
+    }
+}
+```
+
+**Where Used in Real Projects**
+
+* Spring Framework (Prototype Bean scope)
+* Hibernate (entity cloning)
+* Game development (duplicate characters)
+* Caching objects
+* Creating multiple similar objects
+
+
+**Difference between Shallow Copy vs Deep Copy**
+
+| Shallow Copy        | Deep Copy             |
+| ------------------- | --------------------- |
+| Copies reference    | Copies actual object  |
+| Changes affect both | Changes do not affect |
+| `super.clone()`     | Manual clone          |
+
+
 
 # ✅ 18. Java Spring Framework 
 
