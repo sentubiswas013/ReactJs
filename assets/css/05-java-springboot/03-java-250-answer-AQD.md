@@ -2106,10 +2106,8 @@ Another thread sets:
 ```java id="v3n2po"
 task.running = false;
 ```
-
 ❌ Thread may **never stop** because it may use cached value.
 
----
 
 **With volatile (Solution)**
 
@@ -2250,6 +2248,8 @@ In Java, threads are used to perform multiple tasks concurrently to improve perf
 **CompletableFuture** is used to run asynchronous tasks and combine multiple async operations.
 
 **@Async**  is used in Spring Boot to execute a method asynchronously and used to run a method in **background thread** 
+
+
 
 # ✅ 9. Java Advanced Concurrency 
 
