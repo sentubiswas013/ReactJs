@@ -4714,7 +4714,7 @@ public class UserController {
 * `@Component`
 * `@Service`
 
-## 2. What is Spring Boot?
+## 2. What is Spring Boot and How does it Works Internally?
 
 **Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
 
@@ -4724,38 +4724,8 @@ Spring Boot mainly uses **MVC, Dependency Injection, Singleton, Factory, and DAO
 **Design Principle:**
 Spring Boot follows principles like Convention over **Configuration, Dependency Injection, Auto-Configuration, and Standalone** Applications.
 
-- Rapid application development
-- Auto-configuration based on classpath
-- Embedded servers (Tomcat, Jetty)
-- Production-ready features out of the box
-- Minimal configuration required
 
-Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
-
-## 3. Spring Boot Flow Architecture works?
-
-Spring Boot follows a **layered architecture** where a request flows through different layers:
-
-**Flow:**
-
-**Client → DispatcherServlet → Controller → Service → Repository → Database → Response**
-
-**Short Explanation:**
-
-1. **Client** – Sends HTTP request (browser/Postman).
-2. **DispatcherServlet** (from Spring MVC) – Receives the request and routes it.
-3. **Controller** – Handles the API request.
-4. **Service** – Contains business logic.
-5. **Repository/DAO** – Interacts with the database using Spring Data JPA.
-6. **Database** – Stores and retrieves data.
-7. **Response** – Data returns back to the client.
-
-
-## 4. How does Spring Boot Works Internally?
-
-**Spring Boot** starts with `SpringApplication.run()`, which initializes the Spring context. It performs auto-configuration based on project dependencies, scans components to create beans in the IoC container, and starts an embedded server like Apache Tomcat. After that, the application becomes ready to handle requests.
-
-**Internal Flow:**
+**How does it Works Internally:**
 
 1. **Application Starts :** The `main()` method calls **`SpringApplication.run()`** to start the application.
 2. **Auto Configuration** Spring Boot automatically configures beans based on dependencies using **`@EnableAutoConfiguration`**.
@@ -4782,6 +4752,31 @@ public class DemoApplication {
 @ComponentScan
 public class MyApplication { }
 ```
+
+
+## 3. Spring Boot Flow Architecture works?
+
+Spring Boot follows a **layered architecture** where a request flows through different layers:
+
+**Flow:**
+
+**Client → DispatcherServlet → Controller → Service → Repository → Database → Response**
+
+**Short Explanation:**
+
+1. **Client** – Sends HTTP request (browser/Postman).
+2. **DispatcherServlet** (from Spring MVC) – Receives the request and routes it.
+3. **Controller** – Handles the API request.
+4. **Service** – Contains business logic.
+5. **Repository/DAO** – Interacts with the database using Spring Data JPA.
+6. **Database** – Stores and retrieves data.
+7. **Response** – Data returns back to the client.
+
+
+## 4. ---
+
+
+
 
 ## 5. How can you disable specific auto-configurations in Spring Boot?
 
@@ -4858,7 +4853,7 @@ public class UserService {
 }
 ```
 
-**@Controlle (Returns View)r** is used to handle web requests and return views (like JSP/HTML).
+**@Controller (Returns View)r** is used to handle web requests and return views (like JSP/HTML).
 
 ```java
 @Controller
