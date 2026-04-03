@@ -4773,7 +4773,48 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 7. **Response** – Data returns back to the client.
 
 
-## 4. ---
+## 4. what is @Bean and @Configuration
+
+
+`@Configuration` is used to declare a class as a **Spring configuration class**.
+It tells the **Spring Framework** that this class contains bean definitions.
+
+
+```java
+@Configuration
+public class AppConfig {
+}
+```
+
+**Purpose:**
+
+* Marks the class as a configuration class
+* Replaces old XML-based configuration
+* Tells Spring: “Look here for object creation logic”
+
+
+`@Bean` is used to **create a Spring Bean object** and give it to the Spring container.
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public Student student() {
+        return new Student();
+    }
+}
+```
+
+**`@Bean` vs `@Component` (Quick Difference)**
+
+| Feature    | `@Bean`                        | `@Component`             |
+| ---------- | ------------------------------ | ------------------------ |
+| Defined in | Method inside config class     | Directly on class        |
+| Control    | More manual control            | Auto-detected (scanning) |
+| Use case   | Third-party or complex objects | Your own classes         |
+
+
 
 
 
