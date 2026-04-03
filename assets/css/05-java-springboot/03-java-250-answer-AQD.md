@@ -2079,8 +2079,8 @@ public class Test {
 
 **Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
 
-```java
-// Real-Time Example: Stop Thread (Very Common Interview Example)
+
+Real-Time Example: Stop Thread (Very Common Interview Example)
 
 // Scenario:
 
