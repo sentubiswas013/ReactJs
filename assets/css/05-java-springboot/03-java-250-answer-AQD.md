@@ -1996,7 +1996,28 @@ class WaitExample {
 ```
 
 
-## 5. What is synchronization in Java?
+## 5. What is deadlock and how do you prevent it?
+
+**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
+
+**Prevention strategies:**
+* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
+* **Use consistent lock order** – Always acquire locks in the same order.
+* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
+* **Minimize synchronized blocks** – Keep lock scope as small as possible.
+
+```java
+// Deadlock scenario
+Thread1: lock(A) -> lock(B)
+Thread2: lock(B) -> lock(A)
+
+// Prevention - consistent ordering
+Thread1: lock(A) -> lock(B)
+Thread2: lock(A) -> lock(B)
+```
+
+
+## 6. What is synchronization in Java?
 
 **Synchronization** in Java ensures that **only one thread at a time** can access a shared resource, preventing **race conditions**.
 
@@ -2052,26 +2073,6 @@ public class Test {
         user2.start();
     }
 }
-```
-
-## 6. What is deadlock and how do you prevent it?
-
-**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
-
-**Prevention strategies:**
-* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
-* **Use consistent lock order** – Always acquire locks in the same order.
-* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
-* **Minimize synchronized blocks** – Keep lock scope as small as possible.
-
-```java
-// Deadlock scenario
-Thread1: lock(A) -> lock(B)
-Thread2: lock(B) -> lock(A)
-
-// Prevention - consistent ordering
-Thread1: lock(A) -> lock(B)
-Thread2: lock(A) -> lock(B)
 ```
 
 ## 7. What is volatile keyword?
