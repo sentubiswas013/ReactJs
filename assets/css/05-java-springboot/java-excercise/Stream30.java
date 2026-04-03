@@ -29,7 +29,7 @@ public class Stream30 {
 
     public static void main(String[] args) {
         String sentence="Java Stream API is very powerful";
-        List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
+        List<Integer> num01 = Arrays.asList(0,1,7, 3,0,4,5,0,6,9);
         List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
         List<String> arr01 = Arrays.asList("java","stream","api", "level", "madam");
         List<String> arr02 = Arrays.asList("Alice","Bob","Annie","Alex", null);
@@ -75,10 +75,10 @@ public class Stream30 {
         // =======================================================
         // 4. Check if Any String Contains and equals Word
         List<String> Contains = arr01.stream()
-                .filter(n -> n.contains("api"))
+                .filter(w -> w.contains("api"))
                 .toList();
 
-            //.filter(n -> n.equals("java")).toList();
+            //.filter(w -> w.equals("java")).toList();
 
         // System.out.println("8. Contains api: " + Contains);
         // Output: 8. Contains api: [api]
@@ -86,7 +86,9 @@ public class Stream30 {
 
 
         // =======================================================
-        // 5. Remove Null Values
+        // 5. Remove Null Values and missing number from array
+
+        // Remove Null Values
         List<String> clean = arr02.stream()
                 .filter(Objects::nonNull)
                 .toList();
@@ -94,6 +96,15 @@ public class Stream30 {
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
 
+
+        // missing number from array
+        List<Integer> missing = IntStream.range(0, 10)
+                .filter(n -> !num01.contains(n))
+                .boxed() // Convert int → Integer
+                .toList();
+
+        // System.out.println("19. Missing Number: " + missing);
+        // Output: 19. Clean: [2, 8]
 
 
         // =======================================================
