@@ -3045,24 +3045,6 @@ public class GenericClass<T> {
 
 # ✅ 13. Java Annotations & Reflection 
 
-## 1.  What is `@Bean` in Java?
-
-`@Bean` is a Spring annotation used to declare and manage an object inside the Spring container.
-
-```java
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class AppConfig {
-
-    @Bean
-    public Student student() {
-        return new Student();
-    }
-}
-```
-
 
 ## 1. What are annotations in Java?
 
