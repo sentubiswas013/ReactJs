@@ -2361,7 +2361,7 @@ import java.util.concurrent.Executors;
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
 ```
 
-## 1. What is ExecutorService?
+## 2. What is ExecutorService?
 
 **ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, in the background.
 
@@ -2420,25 +2420,84 @@ executor.shutdown(); // Graceful shutdown
 * One thread → update database
 
 
-## 3. What is CountDownLatch?
+## 3. What is CountDownLatch and CyclicBarrier?
 
 **CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
 
 ```java
-CountDownLatch latch = new CountDownLatch(3);
+import java.util.concurrent.CountDownLatch;
 
-// Worker threads
-for (int i = 0; i < 3; i++) {
-    new Thread(() -> {
-        // Do work
-        System.out.println("Task completed");
-        latch.countDown(); // Decrease count
-    }).start();
+public class Test {
+    public static void main(String[] args) throws Exception {
+
+        CountDownLatch latch = new CountDownLatch(3);
+
+        Runnable task = () -> {
+            System.out.println(Thread.currentThread().getName() + " finished work");
+            latch.countDown();
+        };
+
+        new Thread(task).start();
+        new Thread(task).start();
+        new Thread(task).start();
+
+        latch.await(); // wait until count = 0
+
+        System.out.println("All tasks completed. Main thread starts");
+    }
 }
 
-latch.await(); // Wait for all tasks to complete
-System.out.println("All tasks finished");
+// Output:
+Thread-0 finished work
+Thread-1 finished work
+Thread-2 finished work
+All tasks completed. Main thread starts
 ```
+
+**CyclicBarrier** is a synchronization tool in Java that makes **a group of threads wait for each other** until all threads reach a common point (barrier), and then all threads continue execution.
+
+
+```java
+import java.util.concurrent.CyclicBarrier;
+
+public class Test {
+    public static void main(String[] args) {
+
+        CyclicBarrier barrier = new CyclicBarrier(3);
+
+        Runnable task = () -> {
+            System.out.println(Thread.currentThread().getName() + " reached barrier");
+            try {
+                barrier.await(); // wait for others
+            } catch (Exception e) {}
+
+            System.out.println(Thread.currentThread().getName() + " crossed barrier");
+        };
+
+        new Thread(task).start();
+        new Thread(task).start();
+        new Thread(task).start();
+    }
+}
+
+// Output:
+Thread-0 reached barrier
+Thread-1 reached barrier
+Thread-2 reached barrier
+Thread-2 crossed barrier
+Thread-0 crossed barrier
+Thread-1 crossed barrier
+```
+
+**Difference: CountDownLatch vs CyclicBarrier**
+
+| CountDownLatch          | CyclicBarrier           |
+| ----------------------- | ----------------------- |
+| One thread waits        | All threads wait        |
+| Not reusable            | Reusable                |
+| Used for one-time event | Used for repeated tasks |
+| countDown()             | await()                 |
+
 
 ## 4. What is ReentrantLock?
 
