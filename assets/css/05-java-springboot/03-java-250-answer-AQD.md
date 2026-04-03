@@ -2374,7 +2374,7 @@ It handle **thread creation, reuse, and termination**, and allowing **task track
 * Controls number of threads
 * Used in real-time applications (APIs, DB calls, Microservices)
 
-```java
+
 ```java
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
