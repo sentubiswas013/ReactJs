@@ -3988,8 +3988,93 @@ public class AppProperties {
 }
 ```
 
+## 10. How can we configure multiple databases in Spring Boot?
 
-## 19. What is a Cursor in SQL and when should it be used??
+Yes — you can configure **multiple databases in Spring Boot without using `application.properties` or XML** by using **Java-based configuration (pure @Configuration classes)**.
+
+
+You define **DataSource, EntityManager, and TransactionManager manually in Java classes**.
+
+
+**First Database Config**
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.app.repo.db1",
+    entityManagerFactoryRef = "db1EntityManager",
+    transactionManagerRef = "db1TransactionManager"
+)
+public class DB1Config {
+
+    @Bean
+    public DataSource db1DataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/db1");
+        ds.setUsername("root");
+        ds.setPassword("root");
+        return ds;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean db1EntityManager() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(db1DataSource());
+        em.setPackagesToScan("com.app.entity.db1");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        return em;
+    }
+
+    @Bean
+    public PlatformTransactionManager db1TransactionManager() {
+        JpaTransactionManager tm = new JpaTransactionManager();
+        tm.setEntityManagerFactory(db1EntityManager().getObject());
+        return tm;
+    }
+}
+```
+
+**Second Database Config**
+```java
+@Configuration
+@EnableJpaRepositories(
+    basePackages = "com.app.repo.db2",
+    entityManagerFactoryRef = "db2EntityManager",
+    transactionManagerRef = "db2TransactionManager"
+)
+public class DB2Config {
+
+    @Bean
+    public DataSource db2DataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/db2");
+        ds.setUsername("root");
+        ds.setPassword("root");
+        return ds;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean db2EntityManager() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(db2DataSource());
+        em.setPackagesToScan("com.app.entity.db2");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        return em;
+    }
+
+    @Bean
+    public PlatformTransactionManager db2TransactionManager() {
+        JpaTransactionManager tm = new JpaTransactionManager();
+        tm.setEntityManagerFactory(db2EntityManager().getObject());
+        return tm;
+    }
+}
+```
+
+
+## 11. What is a Cursor in SQL and when should it be used??
 
 A **Cursor** is used to **process database rows one by one** instead of all at once.
 It is useful when we need **row-by-row processing**, but it should be used carefully because it can be **slower than set-based queries**
@@ -4002,8 +4087,32 @@ It is useful when we need **row-by-row processing**, but it should be used caref
 
 
 ```java
-@Query("SELECT p FROM Product p")
-Stream<Product> findAllByStream();
+DECLARE @name VARCHAR(50)
+
+-- 1. Declare Cursor
+DECLARE emp_cursor CURSOR FOR
+SELECT name FROM employees
+
+-- 2. Open Cursor
+OPEN emp_cursor
+
+-- 3. Fetch first row
+FETCH NEXT FROM emp_cursor INTO @name
+
+-- Loop through all rows
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    PRINT @name
+
+    -- Fetch next row
+    FETCH NEXT FROM emp_cursor INTO @name
+END
+
+-- 5. Close Cursor
+CLOSE emp_cursor
+
+-- 6. Deallocate Cursor
+DEALLOCATE emp_cursor
 ```
 
 ```java
@@ -4017,7 +4126,7 @@ public void processProducts() {
 }
 ```
 
-## 11. What is Batch Processing?
+## 12. What is Batch Processing?
 
 Processing records in **small fixed-size chunks** (like 1000 records per batch)
 
