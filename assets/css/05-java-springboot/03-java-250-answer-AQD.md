@@ -4554,7 +4554,7 @@ class Car {
 }
 ```
 
-## 5. What is a Container (Spring Container)?
+## 5. What is a Spring Container?
 
 A **Spring Container** is the **core part of the Spring Framework that creates, manages, and controls the lifecycle of objects called Beans**.
 
@@ -4646,7 +4646,7 @@ Usage (Dependency Injection):
 private UserService userService;
 ```
 
-## 8. What is the Bean Lifecycle in Spring Boot?
+## 8. What is Bean Lifecycle?
 
 The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
 
@@ -4751,7 +4751,7 @@ public class SecurityConfig {
 }
 ```
 
-## 12. What is Spring Cloud? - asked
+## 12. What is Spring Cloud? 
 
 **Spring Cloud** is a framework for **building distributed systems and microservices**.
 
