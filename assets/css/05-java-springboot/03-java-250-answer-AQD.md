@@ -4732,7 +4732,7 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
-## 3. How does Spring Boot Flow Architecture works?
+## 3. Spring Boot Flow Architecture works?
 
 Spring Boot follows a **layered architecture** where a request flows through different layers:
 
@@ -4828,36 +4828,23 @@ It's the standard annotation for Spring Boot main classes and enables all essent
 ## 7. @Component vs @Service vs @Repository vs @Controller vs @RestController annotations?
 
 
-**@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
-
-**@Service** is used for business logic layer.
-
-**@Repository** is used for database/DAO layer and provides exception handling.
-
-**@Controller** is used to handle web requests and return views (like JSP/HTML).
-
-**@RestController** is used to build REST APIs and returns JSON/XML data instead of views.
-
-Internally, all of them are specialized types of @Component.
-
 **Simple Flow (Easy to Remember)**
 
 ```text
 Controller / RestController → Service → Repository → Database
 ```
 
-**Repository Layer**
+**@Repository** is used for database/DAO layer and provides exception handling.
 
 ```java
 @Repository
-public class UserRepository {
-    public String getUser() {
-        return "User from DB";
-    }
+public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findByName(String name, Pageable pageable);
+    Page<User> findAll(Pageable pageable);
 }
 ```
 
-**Service Layer**
+**@Service** is used for business logic layer.
 
 ```java
 @Service
@@ -4871,7 +4858,7 @@ public class UserService {
 }
 ```
 
-**Controller (Returns View)**
+**@Controlle (Returns View)r** is used to handle web requests and return views (like JSP/HTML).
 
 ```java
 @Controller
@@ -4887,8 +4874,8 @@ public class UserController {
 }
 ```
 
-**RestController (Returns JSON)**
 
+**@RestController (Returns JSON)** is used to build REST APIs and returns JSON/XML data instead of views.
 ```java
 @RestController
 public class UserRestController {
@@ -4900,10 +4887,10 @@ public class UserRestController {
         return service.getUser(); // returns JSON/text
     }
 }
+`@RestController` = `@Controller` + `@ResponseBody`
 ```
 
-**Generic Component**
-
+**@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
 ```java
 @Component
 public class EmailUtil {
@@ -4912,7 +4899,7 @@ public class EmailUtil {
     }
 }
 ```
-> @RestController = @Controller + @ResponseBody
+
 
 
 ## 8. What is @Autowired vs @Inject annotation?
@@ -5302,29 +5289,7 @@ public class UserService {
 }
 ```
 
-## 19. What is the role of `@RestController` and `@Controller` in Spring Boot?
-
-Both handle HTTP requests, but `@RestController` automatically serializes return values to JSON/XML, while `@Controller` returns view names.
-
-```java
-@Controller
-public class WebController {
-    @GetMapping("/home")
-    public String home(Model model) {
-        return "home"; // Returns view name
-    }
-}
-
-@RestController
-public class ApiController {
-    @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.findAll(); // Returns JSON
-    }
-}
-```
-
-`@RestController` = `@Controller` + `@ResponseBody`
+## 19. ---
 
  
 ## 20. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?

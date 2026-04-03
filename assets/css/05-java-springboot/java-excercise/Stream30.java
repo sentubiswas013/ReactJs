@@ -233,7 +233,8 @@ public class Stream30 {
         List<Integer> resultRight = Stream.concat(
                 num01.stream().filter(n -> n != 0), // keep order of non-zero
                 num01.stream().filter(n -> n == 0)  // zeros at end
-        ).collect(Collectors.toList());
+                )
+                .collect(Collectors.toList());
 
         // System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
