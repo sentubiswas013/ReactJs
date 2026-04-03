@@ -2331,21 +2331,7 @@ public class Main {
 | May run on one CPU         | Requires multiple cores                 |
 
 
-## 1. What is ExecutorService?
-
-**ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, handling **thread creation, reuse, and termination**, and allowing **task tracking with Future**.
-
-```java
-ExecutorService executor = Executors.newFixedThreadPool(5);
-
-// Submit tasks
-executor.submit(() -> System.out.println("Task executed"));
-executor.execute(() -> System.out.println("Another task"));
-
-executor.shutdown(); // Graceful shutdown
-```
-
-## 2.  What is a Thread Pool and What are the types of thread pools?
+## 1.  What is a Thread Pool and What are the types of thread pools?
 
 A **Thread Pool** is a collection of **pre-created threads** that are reused to execute multiple tasks.
 
@@ -2373,26 +2359,66 @@ import java.util.concurrent.Executors;
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
    // Scheduled Thread Pool
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
-
-    // Simple explanation for interview:
-    // Here we create a thread pool with 3 threads.
-    // We submit 5 tasks to the pool.
-    // The same 3 threads are reused to execute all tasks instead of creating new threads each time.
-    public class ThreadPoolExample {
-        public static void main(String[] args) {
-            ExecutorService executor = Executors.newFixedThreadPool(3);
-            for(int i = 1; i <= 5; i++) {
-                int task = i;
-
-                executor.submit(() -> {
-                    System.out.println("Task " + task + " executed by " + Thread.currentThread().getName());
-                });
-            }
-
-            executor.shutdown();
-        }
-    }
 ```
+
+## 1. What is ExecutorService?
+
+**ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, in the background.
+
+It handle **thread creation, reuse, and termination**, and allowing **task tracking with Future**.
+
+**Why Use ExecutorService?**
+
+* Reuses threads (Thread Pool)
+* Improves performance
+* Controls number of threads
+* Used in real-time applications (APIs, DB calls, Microservices)
+
+```java
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Test {
+    public static void main(String[] args) {
+
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        for (int i = 1; i <= 5; i++) {
+            int task = i;
+            executor.submit(() -> {
+                System.out.println("Task " + task + " executed by " 
+                                   + Thread.currentThread().getName());
+            });
+        }
+
+        executor.shutdown();
+    }
+}
+
+// Output
+Task 1 executed by pool-1-thread-1
+Task 2 executed by pool-1-thread-2
+Task 3 executed by pool-1-thread-3
+Task 4 executed by pool-1-thread-1
+Task 5 executed by pool-1-thread-2
+
+
+
+// Submit tasks
+executor.submit(() -> System.out.println("Task executed"));
+executor.execute(() -> System.out.println("Another task"));
+
+executor.shutdown(); // Graceful shutdown
+```
+
+**Realtime Example:** Food delivery app
+
+* One thread → take order
+* One thread → payment
+* One thread → send notification
+* One thread → update database
+
 
 ## 3. What is CountDownLatch?
 
