@@ -2088,7 +2088,7 @@ One thread runs a task, another thread stops it.
 
 **Without volatile (Problem)**
 
-```java id="g0k2xw"
+```java
 class Task implements Runnable {
     boolean running = true;
 
