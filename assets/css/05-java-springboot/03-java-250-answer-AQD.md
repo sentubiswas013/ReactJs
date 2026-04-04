@@ -1573,28 +1573,8 @@ try {
 }
 ```
 
-## 6. What is try-with-resources?
 
-**Try-with-resources** in **Java** is a feature used to **automatically close resources** (like files or database connections) after the program finishes using them.
-
-
-```java
-// Old way
-FileReader file = null;
-try {
-    file = new FileReader("data.txt");
-} finally {
-    if (file != null) file.close();
-}
-
-// Try-with-resources
-try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
-    System.out.println(br.readLine());
-} // Automatically closed
-```
-
-
-## 7. How do you create custom exceptions?
+## 6. How do you create custom exceptions?
 
 **Custom exceptions** are created by extending Exception class for checked exceptions or RuntimeException for unchecked exceptions. They provide specific error information for your application.
 
@@ -1621,7 +1601,7 @@ class InsufficientBalanceException extends RuntimeException {
 }
 ```
 
-## 8. What is exception chaining?
+## 7. What is exception chaining?
 
 **Exception chaining** links exceptions together, preserving the original cause when wrapping exceptions. It helps maintain the complete error trail for better debugging.
 
@@ -1645,7 +1625,7 @@ re.initCause(originalException);
 throw re;
 ```
 
-## 9. How do you Handle Exception Handling in Spring Boot?
+## 8. How do you Handle Exception Handling in Spring Boot?
 
 In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
 
@@ -1689,6 +1669,26 @@ public class GlobalExceptionHandler {
         return ex.getMessage();
     }
 }
+```
+
+## 9. What is try-with-resources?
+
+**Try-with-resources** in **Java** is a feature used to **automatically close resources** (like files or database connections) after the program finishes using them.
+
+
+```java
+// Old way
+FileReader file = null;
+try {
+    file = new FileReader("data.txt");
+} finally {
+    if (file != null) file.close();
+}
+
+// Try-with-resources
+try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+    System.out.println(br.readLine());
+} // Automatically closed
 ```
 
 # ✅ 7. Java Collections Framework
