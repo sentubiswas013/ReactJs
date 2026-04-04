@@ -1645,6 +1645,52 @@ re.initCause(originalException);
 throw re;
 ```
 
+## 9. How do you Handle Exception Handling in Spring Boot?
+
+In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
+
+
+**1. Create Custom Exception**
+```java
+public class UserNotFoundException extends RuntimeException {
+
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+}
+```
+
+
+**2. Controller (Throw Exception)**
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/user/{id}")
+    public String getUser(@PathVariable int id) {
+
+        if (id == 0) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        return "User Found";
+    }
+}
+```
+
+
+**3. Global Exception Handler**
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public String handleUserNotFound(UserNotFoundException ex) {
+        return ex.getMessage();
+    }
+}
+```
+
 # ✅ 7. Java Collections Framework
 
 ## 1. What is Java Collections Framework?
@@ -6336,51 +6382,7 @@ management:
 
 Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
 
-## 10. How do you Handle Exception Handling in Spring Boot?
-
-In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
-
-
-**1. Create Custom Exception**
-```java
-public class UserNotFoundException extends RuntimeException {
-
-    public UserNotFoundException(String message) {
-        super(message);
-    }
-}
-```
-
-
-**2. Controller (Throw Exception)**
-```java
-@RestController
-public class UserController {
-
-    @GetMapping("/user/{id}")
-    public String getUser(@PathVariable int id) {
-
-        if (id == 0) {
-            throw new UserNotFoundException("User not found");
-        }
-
-        return "User Found";
-    }
-}
-```
-
-
-**3. Global Exception Handler**
-```java
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public String handleUserNotFound(UserNotFoundException ex) {
-        return ex.getMessage();
-    }
-}
-```
+## 10. ---
 
 
 ## 11. What is Event-Driven Architecture in Java?
