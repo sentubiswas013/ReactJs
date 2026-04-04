@@ -1625,7 +1625,7 @@ re.initCause(originalException);
 throw re;
 ```
 
-## 8. How do you Handle Exception Handling in Spring Boot?
+## 8. How do you Handle Global Exception in Spring Boot?
 
 In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
 
