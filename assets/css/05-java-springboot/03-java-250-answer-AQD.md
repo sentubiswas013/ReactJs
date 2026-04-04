@@ -7143,7 +7143,7 @@ public class Main {
 # ✅ 22. Java and Application Security
 
 
-## 0. What are Java security vulnerability issues?
+## 0. What are security vulnerability issues?
 Common **Java security vulnerability issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
 
 1. **SQL Injection**
