@@ -6962,7 +6962,7 @@ public class OrderService {
 ```
 
 
-## 18. How do you Prevent duplicate payment?
+## 18. How do you Prevent duplicate payment(idempotency)?
 
 We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.
 
