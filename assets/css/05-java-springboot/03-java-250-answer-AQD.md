@@ -1625,51 +1625,87 @@ re.initCause(originalException);
 throw re;
 ```
 
-## 8. How do you Handle Global Exception in Spring Boot?
+## 8. How do you Handle Global Exception?
 
 In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
 
 
-**1. Create Custom Exception**
-```java
-public class UserNotFoundException extends RuntimeException {
+**Global exception handling is implemented using @ControllerAdvice in Spring Boot to handle exceptions across the entire application in a centralized way.**
 
-    public UserNotFoundException(String message) {
-        super(message);
+Other than this There are **two ways** depending on the application type:
+
+| Application Type | Global Exception Handling                   |
+| ---------------- | ------------------------------------------- |
+| Core Java        | try-catch / Thread.UncaughtExceptionHandler |
+| Spring Boot      | @ControllerAdvice                           |
+
+
+**1. Global Exception Handling in Core Java**
+
+Use **UncaughtExceptionHandler** to handle exceptions globally.
+
+```java
+class MyExceptionHandler implements Thread.UncaughtExceptionHandler {
+    public void uncaughtException(Thread t, Throwable e) {
+        System.out.println("Global Exception Caught: " + e.getMessage());
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler());
+
+        int a = 10 / 0; // Exception
     }
 }
 ```
 
+**2. Global Exception Handling in Spring Boot (Most Important for Interview)**
 
-**2. Controller (Throw Exception)**
+
 ```java
-@RestController
-public class UserController {
+@ControllerAdvice
+```
 
-    @GetMapping("/user/{id}")
-    public String getUser(@PathVariable int id) {
+This handles exceptions for the **entire application**
 
-        if (id == 0) {
-            throw new UserNotFoundException("User not found");
-        }
+```java
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-        return "User Found";
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex) {
+        return "Error occurred: " + ex.getMessage();
     }
 }
 ```
 
+**Handle Specific Exception**
 
-**3. Global Exception Handler**
+```java
+@ExceptionHandler(NullPointerException.class)
+public String handleNullPointer(NullPointerException ex) {
+    return "Null value found";
+}
+```
+
+**REST API Global Exception**
+
 ```java
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public String handleUserNotFound(UserNotFoundException ex) {
-        return ex.getMessage();
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception ex) {
+        return new ResponseEntity<>("Error: " + ex.getMessage(),
+                                     HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 ```
+
 
 ## 9. What is try-with-resources?
 
