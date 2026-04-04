@@ -3642,7 +3642,7 @@ List<String> result = names.stream()
 Generally, a **for loop is faster** than the Stream API because it has **less overhead** and runs directly in the JVM.
 Stream API provides **better readability, functional style, and parallel processing**, but it may have a **small performance cost**.
 
-## 6. What is parallel streams? - asked 
+## 6. What is parallel streams? 
 
 **Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
 
@@ -5116,7 +5116,7 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 7. **Response** – Data returns back to the client.
 
 
-## 4. what is @Bean and @Configuration
+## 4. What is @Bean and @Configuration
 
 
 `@Configuration` is used to declare a class as a **Spring configuration class**.
