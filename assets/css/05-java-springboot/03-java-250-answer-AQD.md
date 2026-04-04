@@ -7026,6 +7026,9 @@ try {
 
 We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.
 
+**Idempotency means :** Running the same data pipeline multiple times should produce the same result, without duplicate data or incorrect data.
+
+
 **Entity with Unique Constraint**
 
 ```java
