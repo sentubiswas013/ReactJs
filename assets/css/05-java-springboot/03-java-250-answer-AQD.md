@@ -6423,11 +6423,7 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 ## 11. What is Event-Driven Architecture in Java?
 
-
-## What is Event-Driven Architecture in Java?
-
 **Event-Driven Architecture (EDA)** is a design pattern where **one service produces an event and another service consumes the event** and performs some action.
-
 
 **Real-Time Example: E-commerce Application:**
 
