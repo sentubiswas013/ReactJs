@@ -4525,8 +4525,6 @@ public class Main {
 
 ## 8. What is Prototype pattern?
 
-## What is Prototype Pattern?
-
 **Prototype Pattern** is a **Creational Design Pattern** used to create **new objects by copying (cloning) an existing object**, instead of creating a new object from scratch.
 
 This is useful when **object creation is costly** (e.g., DB call, API call, complex object creation).
@@ -7243,16 +7241,81 @@ public class JwtService {
 
 ## 12: What is CSRF protection?
 
-**CSRF protection** prevents **unauthorized actions** caused by malicious websites.
+**CSRF (Cross-Site Request Forgery)** is a security attack where a **malicious website tricks a logged-in user into performing an unwanted action** on another website.
 
-It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
+* You log in to your bank
+* You open a malicious website in another tab
+* That site sends a request to transfer money from your bank
+* Since you are already logged in → request is executed
+* This is **CSRF attack**
+
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+    }
+}
+```
+
+**JWT-based REST APIs usually disable CSRF** because they don’t use session cookies.
+
+```java
+http.csrf().disable();
+```
 
 
 ## 13: What is XSS protection?
 
-**XSS protection** prevents **malicious script injection** in web applications.
+**XSS is an attack where malicious scripts are injected into web pages and executed in users' browsers, and it is prevented using input validation, output encoding, and security headers.**
 
-It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
+**Simple Example (XSS Attack)**
+```html
+<script>alert('Hacked!')</script>
+```
+
+**How to Prevent XSS (XSS Protection)**
+
+**1. Input Validation**
+
+* Do not allow script tags
+* Validate user input
+
+
+**2. Output Encoding (Most Important)**
+
+Convert special characters:
+
+```html
+< → &lt;
+> → &gt;
+```
+
+**3. Use HTTP Security Headers**
+
+* Content-Security-Policy (CSP)
+* X-XSS-Protection
+
+
+**4. Use Framework Security**
+
+In **Spring Security**:
+
+* Escapes output automatically in many cases
+* Prevents common attacks
+
+
+**5. Avoid Direct HTML Rendering**
+
+Avoid:
+
+```java
+out.println(userInput);
+```
 
 
 ## 14: What is input validation?
