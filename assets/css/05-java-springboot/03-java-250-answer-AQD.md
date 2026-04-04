@@ -6923,41 +6923,98 @@ public class InventoryService {
 4. If inventory fails → **Refund Payment + Cancel Order**
 
 
-## 17. What is Transactional and Why @Transactional Matters in Spring Boot?
-It is mainly use in Monolothic application where one database is use.
+## 17. What is a transaction? How do you handle rollback?
 
-When multiple users order the same product, we prevent **overselling** using **atomic database updates or locking**. Only one request can successfully reduce stock when inventory is limited. 
+A **transaction** is a group of database operations that are executed as **one single unit of work**.
 
-**Spring Boot Example (Atomic Update)**
+All operations succeed → COMMIT
+Any operation fails → ROLLBACK
 
-```java
-@Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+| Property    | Meaning                            |
+| ----------- | ---------------------------------- |
+| Atomicity   | All operations succeed or all fail |
+| Consistency | Data remains valid                 |
+| Isolation   | Transactions don’t interfere       |
+| Durability  | Data is saved permanently          |
 
-    @Modifying
-    @Query("UPDATE Product p SET p.stock = p.stock - :qty " +
-           "WHERE p.id = :id AND p.stock >= :qty")
-    int reduceStock(@Param("id") Long id, @Param("qty") int qty);
-}
-```
+**Example (Bank Transfer)**
+
+Transfer ₹100 from Account A → Account B:
+
+1. Debit from A
+2. Credit to B
+
+If credit fails, debit must be undone → **Rollback**
+
+
+**1. Using Spring `@Transactional` (Most Common)**
 
 ```java
 @Service
-public class OrderService {
-
-    @Autowired
-    private ProductRepository productRepository;
+public class BankService {
 
     @Transactional
-    public void placeOrder(Long productId, int qty) {
-        int updated = productRepository.reduceStock(productId, qty);
-
-        if (updated == 0) {
-            throw new RuntimeException("Out of stock");
-        }
-
-        // proceed with order creation
+    public void transferMoney() {
+        debitFromAccountA();
+        creditToAccountB();
     }
+}
+```
+
+If any exception occurs → **Automatic Rollback**
+
+---
+
+**2. Force Rollback When Error Happens**
+
+```java
+@Transactional
+public void transferMoney() {
+    debit();
+
+    if (true) {
+        throw new RuntimeException("Error occurred");
+    }
+
+    credit();
+}
+```
+
+→ Transaction will **rollback**
+
+---
+
+**3. Rollback for Checked Exception**
+
+By default, Spring rolls back only for **RuntimeException**.
+
+```java
+@Transactional(rollbackFor = Exception.class)
+public void transferMoney() throws Exception {
+    debit();
+    credit();
+}
+```
+
+---
+
+**4. Manual Transaction (JDBC)**
+
+```java
+Connection con = dataSource.getConnection();
+
+try {
+    con.setAutoCommit(false);
+
+    debit(con);
+    credit(con);
+
+    con.commit();
+
+} catch (Exception e) {
+    con.rollback();
+} finally {
+    con.close();
 }
 ```
 
