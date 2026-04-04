@@ -4211,7 +4211,7 @@ public class DB2Config {
 ```
 
 
-## 11. What is a Cursor in SQL and when should it be used??
+## 11. What is a Cursor in SQL and when should it be used ?
 
 A **Cursor** is used to **process database rows one by one** instead of all at once.
 It is useful when we need **row-by-row processing**, but it should be used carefully because it can be **slower than set-based queries**
@@ -7142,6 +7142,33 @@ public class Main {
 
 # ✅ 22. Java and Application Security
 
+
+## 0. What are Java security vulnerability issues?
+Common **Java security vulnerability issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
+
+1. **SQL Injection**
+This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
+2. **Cross-Site Scripting (XSS)**
+Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
+3. **Cross-Site Request Forgery (CSRF) :** - 
+An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
+4. **Insecure Deserialization :** - 
+If an application **deserializes untrusted data**, attackers may execute malicious code.
+5. **Sensitive Data Exposure :** - 
+Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
+6. **Improper Authentication and Authorization :** - 
+Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
+7. **Using Outdated Libraries :** - 
+Old dependencies may contain **known security vulnerabilities**.
+
+```java
+// Prevent SQL injection
+String sql = "SELECT * FROM users WHERE id = ?";
+PreparedStatement stmt = conn.prepareStatement(sql);
+stmt.setInt(1, userId);
+```
+
+
 ## 1: What is Java security model?
 
 **Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
@@ -9238,30 +9265,6 @@ String classpath = System.getProperty("java.class.path");
 System.out.println("Classpath: " + classpath);
 ```
 
-## 5. What are Java security vulnerability issues?
-Common **Java security vulnerability issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
-
-1. **SQL Injection**
-This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
-2. **Cross-Site Scripting (XSS)**
-Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
-3. **Cross-Site Request Forgery (CSRF) :** - 
-An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
-4. **Insecure Deserialization :** - 
-If an application **deserializes untrusted data**, attackers may execute malicious code.
-5. **Sensitive Data Exposure :** - 
-Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
-6. **Improper Authentication and Authorization :** - 
-Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
-7. **Using Outdated Libraries :** - 
-Old dependencies may contain **known security vulnerabilities**.
-
-```java
-// Prevent SQL injection
-String sql = "SELECT * FROM users WHERE id = ?";
-PreparedStatement stmt = conn.prepareStatement(sql);
-stmt.setInt(1, userId);
-```
 
 ## 6. What are debugging strategies?
 
