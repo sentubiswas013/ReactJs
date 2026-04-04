@@ -6923,12 +6923,15 @@ public class InventoryService {
 4. If inventory fails → **Refund Payment + Cancel Order**
 
 
-## 17. What is a transaction? How do you handle rollback?
+## 17. What is a transaction (ACID properties)? How do you handle rollback?
 
 A **transaction** is a group of database operations that are executed as **one single unit of work**.
 
 All operations succeed → COMMIT
 Any operation fails → ROLLBACK
+
+
+It follows **ACID properties:**
 
 | Property    | Meaning                            |
 | ----------- | ---------------------------------- |
