@@ -6423,63 +6423,103 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 ## 11. What is Event-Driven Architecture in Java?
 
-**Event-Driven Architecture (EDA)** is a design pattern where **services communicate by producing and consuming events** instead of directly calling each other.
 
-When **one event happens**, other components **listen to that event and react to it**.
+## What is Event-Driven Architecture in Java?
 
-Example:
-If a **user registers**, an event is published → email service sends welcome email → notification service logs activity.
+**Event-Driven Architecture (EDA)** is a design pattern where **one service produces an event and another service consumes the event** and performs some action.
 
 
+**Real-Time Example: E-commerce Application:**
 
-**1. Create Event**
+* User places order → Event: *OrderCreated*
+* Payment service listens → processes payment
+* Email service listens → sends email
+* Inventory service listens → updates stock
+
+All services work **independently**.
+
+
+**Flow Diagram**
+
+```
+Order Service → Event → Payment Service
+                      → Email Service
+                      → Inventory Service
+```
+
+
+## Example in Java (Simple)
+
+Using Spring Events:
 
 ```java
-public class UserRegisteredEvent {
+// Event Class
+import org.springframework.context.ApplicationEvent;
 
-    private String username;
+public class OrderEvent extends ApplicationEvent {
+    private String orderId;
 
-    public UserRegisteredEvent(String username) {
-        this.username = username;
+    public OrderEvent(Object source, String orderId) {
+        super(source);
+        this.orderId = orderId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getOrderId() {
+        return orderId;
     }
 }
 ```
 
-
-**2. Publish Event**
-
 ```java
+// Publisher
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+
 @Service
-public class UserService {
+public class OrderService {
 
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    public void registerUser(String username) {
-        System.out.println("User registered: " + username);
-
-        publisher.publishEvent(new UserRegisteredEvent(username));
+    public void createOrder() {
+        System.out.println("Order Created");
+        publisher.publishEvent(new OrderEvent(this, "123"));
     }
 }
 ```
-
-
-**3. Listen to Event**
 
 ```java
+// Listener
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
 @Component
-public class EmailService {
+public class OrderListener {
 
     @EventListener
-    public void handleUserRegistered(UserRegisteredEvent event) {
-        System.out.println("Sending welcome email to: " + event.getUsername());
+    public void handleOrderEvent(OrderEvent event) {
+        System.out.println("Send Email for Order " + event.getOrderId());
     }
 }
 ```
+
+**Tools Used in Real Projects**
+
+* Apache Kafka
+* RabbitMQ
+* ActiveMQ
+
+Used with **Spring Boot** microservices.
+
+
+| Advantage      | Description          |
+| -------------- | -------------------- |
+| Loose coupling | Services independent |
+| Scalable       | Easy to scale        |
+| Faster         | Async processing     |
+| Reliable       | Events stored        |
+
 
 ## 12. What is API Gateway?
 
