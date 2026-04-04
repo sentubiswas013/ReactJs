@@ -3485,19 +3485,74 @@ public class UserServlet extends HttpServlet {
 </html>
 ```
 
-## 5. What is Spring Data JPA?
+## 5. What is Hibernate?
 
-**Spring Data JPA** is a **Spring framework module** that simplifies working with **JPA-based data access**. It provides **ready-made repository interfaces** like `CrudRepository` and `JpaRepository`, so you can perform common CRUD operations without writing boilerplate code.
+**Hibernate** is an **ORM framework** that helps map Java objects to database tables and perform database operations without writing SQL.
 
-It also supports **custom queries, pagination, and sorting**, and integrates seamlessly with Spring Boot, making **database access faster, cleaner, and easier to maintain**.
 
 ```java
+Student student = new Student();
+student.setName("John");
+session.save(student);
+```
+
+## 6. What is JPA?
+
+**Spring JPA** is a **Spring framework module** that simplifies working with **JPA-based data access**. It provides **ready-made repository interfaces** like `CrudRepository` and `JpaRepository`
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 }
 ```
 
-## 6. What is JPA and how it works?
+## 7. What is ORM?
+
+**ORM (Object Relational Mapping)** is a technique to map **Java objects ↔ database tables**.
+
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "student")
+public class Student {
+
+    @Id
+    private int id;
+    private String name;
+
+    // getters and setters
+}
+```
+
+
+**8. Difference between `save()` and `persist()`**
+
+| Feature                   | save()                  | persist()          |
+| ------------------------- | ----------------------- | ------------------ |
+| Belongs to                | Hibernate               | JPA                |
+| Return type               | Returns ID              | void               |
+| Works outside transaction | Yes                     | No                 |
+| Standard                  | No (Hibernate specific) | Yes (JPA standard) |
+
+
+```java
+// save()
+int id = (int) session.save(student);
+
+// persist()
+entityManager.persist(student);
+
+* **save() → returns generated ID**
+* **persist() → does not return anything**
+```
+
+## 9. What is JPA and how it works?
 
 **JPA (Java Persistence API)** is a **Java specification** for managing relational data in Java applications. It allows you to **map Java objects to database tables** using annotations like `@Entity`, `@Table`, and `@Id`.
 
@@ -3540,7 +3595,7 @@ public class UserService {
 }
 ```
 
-## 7. What is the difference between DAO and DTO?
+## 10. What is the difference between DAO and DTO?
 
 **DAO (Data Access Object)** is used to **interact with the database** and perform CRUD operations like save, update, delete, and fetch data.
 
@@ -6442,9 +6497,6 @@ Order Service → Event → Payment Service
                       → Email Service
                       → Inventory Service
 ```
-
-
-## Example in Java (Simple)
 
 Using Spring Events:
 
