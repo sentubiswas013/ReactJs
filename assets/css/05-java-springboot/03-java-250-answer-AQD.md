@@ -4010,52 +4010,173 @@ In Java, caching can be broadly categorized into **three main types** based on w
 
 - **Local Cache (In-Memory Cache):** Data is stored **inside the application memory** for fast access. Example using Caffeine
 
-```java
-<dependency>
-  <groupId>com.github.ben-manes.caffeine</groupId>
-  <artifactId>caffeine</artifactId>
-  <version>3.1.8</version>
-</dependency>
 
+**1. Local Cache – Caffeine (Real-Time Example: Product Catalog)**
+
+**Use case:** Frequently accessed product data → store in local cache to avoid DB calls.
+
+**Service Class**
+
+```java
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
-public class Main {
+import java.util.concurrent.TimeUnit;
+
+public class ProductService {
+
+    private static Cache<Long, String> productCache = Caffeine.newBuilder()
+            .maximumSize(100)
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .build();
+
+    public String getProduct(Long id) {
+
+        String product = productCache.getIfPresent(id);
+
+        if (product != null) {
+            System.out.println("From Cache");
+            return product;
+        }
+
+        // Simulate DB call
+        System.out.println("From Database");
+        product = "Laptop";
+
+        productCache.put(id, product);
+
+        return product;
+    }
+
     public static void main(String[] args) {
+        ProductService service = new ProductService();
 
-        Cache<Integer, String> cache =Caffeine.newBuilder().maximumSize(100).build();
-
-        cache.put(1, "John");
-
-        System.out.println(cache.getIfPresent(1));
+        System.out.println(service.getProduct(1L)); // DB
+        System.out.println(service.getProduct(1L)); // Cache
     }
 }
 ```
 
-- **Distributed Cache :** Cache is **shared across multiple servers or applications**.  Shared across **multiple servers**. Example using Redis with Spring Boot.
+**2. Distributed Cache – Redis (Real-Time Example: User Service)**
+
+**Use case:** Multiple servers → shared cache → Redis
+
+**application.properties**
+
+```properties
+spring.cache.type=redis
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+```
+
+**Enable Cache**
 
 ```java
-@Cacheable("users")
-public User getUser(Long id) {
-    System.out.println("Fetching from DB...");
-    return userRepository.findById(id).orElse(null);
+@Configuration
+@EnableCaching
+public class CacheConfig {
 }
 ```
 
-- **Database Cache :** Data is cached **at the database level** to reduce repeated queries.
-Example using Hibernate second-level cache.
+**Service**
 
 ```java
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Cacheable(value = "users", key = "#id")
+    public User getUser(Long id) {
+        System.out.println("Fetching from DB...");
+        return userRepository.findById(id).orElse(new User(id, "Default User"));
+    }
+}
+```
+
+**Controller**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return service.getUser(id);
+    }
+}
+```
+
+**First call → DB**
+**Second call → Redis cache**
+
+
+**3. Database Cache – Hibernate Second Level Cache (Real-Time Example: Product Table)**
+
+**Entity**
+
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Cacheable;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Product {
 
     @Id
     private Long id;
     private String name;
+
+    // getters and setters
 }
 ```
+
+**application.properties**
+
+```properties
+spring.jpa.properties.hibernate.cache.use_second_level_cache=true
+spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.jcache.JCacheRegionFactory
+spring.cache.jcache.config=classpath:ehcache.xml
+```
+
+**ehcache.xml**
+
+```xml
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'>
+
+    <cache alias="Product">
+        <heap unit="entries">1000</heap>
+        <expiry>
+            <ttl unit="minutes">10</ttl>
+        </expiry>
+    </cache>
+</config>
+```
+
+**First time → DB**
+**Second time → Hibernate L2 Cache**
+
+
+**Real-Time When to Use What**
+
+| Scenario              | Cache Type   |
+| --------------------- | ------------ |
+| Single application    | Caffeine     |
+| Multiple servers      | Redis        |
+| ORM level caching     | Hibernate L2 |
+| Frequently read data  | Cache        |
+| Frequently write data | Avoid cache  |
+
 
 ## 6. What is SQL injection and how to prevent it?
 
@@ -4126,64 +4247,156 @@ try {
 
 ## 8. How do you Handle Large Data Processing?
 
-**Streaming (Low Memory)**
-I process large files or datasets **line by line** using Java Streams.
-This avoids loading everything into memory.
-
+**1. Streaming Large File (Low Memory) – Runnable Code**
 
 ```java
-Files.lines(Path.of("large-file.txt"))
-     .filter(l -> l.contains("ERROR"))
-     .forEach(this::processError);
-```
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
+public class LargeFileProcessor {
 
-- **Batch Processing**
-Instead of processing all data at once, I divide it into **smaller batches** (like 1000 records per batch).
-This reduces memory usage and improves performance.
-In Spring Boot, I use **Spring Batch** for this.
+    public static void main(String[] args) {
+        try (Stream<String> lines = Files.lines(Path.of("large-file.txt"))) {
+            lines.filter(l -> l.contains("ERROR"))
+                 .forEach(LargeFileProcessor::processError);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-```java
-int BATCH = 1000;
-
-for (int i = 0; i < data.size(); i += BATCH) {
-    processBatch(data.subList(i, Math.min(i + BATCH, data.size())));
+    private static void processError(String line) {
+        System.out.println("Processing error: " + line);
+    }
 }
 ```
 
-- **Database Pagination (Spring Data JPA)**
-When data comes from a database, I fetch and process it **page by page** using `PageRequest`.
-This prevents memory overflow and keeps processing stable.
+**Important Fix:** Use `try-with-resources` so the file stream is closed.
+
+
+**2. Batch Processing – Runnable Code**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class BatchProcessingExample {
+
+    public static void main(String[] args) {
+        List<String> data = new ArrayList<>();
+
+        for (int i = 1; i <= 5000; i++) {
+            data.add("Record " + i);
+        }
+
+        int BATCH = 1000;
+
+        for (int i = 0; i < data.size(); i += BATCH) {
+            List<String> batch = data.subList(i, Math.min(i + BATCH, data.size()));
+            processBatch(batch);
+        }
+    }
+
+    private static void processBatch(List<String> batch) {
+        System.out.println("Processing batch of size: " + batch.size());
+    }
+}
+```
+
+
+**3. Database Pagination (Spring Data JPA) – Correct Logic**
 
 ```java
 int page = 0;
 Page<DataItem> result;
 
 do {
-    result = repo.findByStatus("PENDING", PageRequest.of(page++, 1000));
+    result = repo.findByStatus("PENDING", PageRequest.of(page, 1000));
     processBatch(result.getContent());
+    page++;
 } while (result.hasNext());
 ```
 
+**Fix:** Increment `page` after fetching.
 
-- **Async / Parallel Processing**
-I use **CompletableFuture and Parallel Streams** to process data in parallel across CPU cores.
-This improves speed and handles large volumes efficiently.
+
+**4. Async / Parallel Processing – Correct Code**
 
 ```java
-CompletableFuture.runAsync(() ->
-    data.parallelStream()
-        .filter(this::isValid)
-        .forEach(this::save)
-);
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+public class AsyncProcessing {
+
+    public static void main(String[] args) {
+
+        List<Integer> data = List.of(1,2,3,4,5,6,7,8,9,10);
+
+        CompletableFuture.runAsync(() ->
+            data.parallelStream()
+                .filter(AsyncProcessing::isValid)
+                .forEach(AsyncProcessing::save)
+        ).join(); // wait for completion
+    }
+
+    private static boolean isValid(int num) {
+        return num % 2 == 0;
+    }
+
+    private static void save(int num) {
+        System.out.println("Saving: " + num);
+    }
+}
+```
+
+**Fix:** Add `.join()` so main thread waits.
+
+
+**5. Memory Efficient Cache – Correct Code**
+
+```java
+import java.lang.ref.WeakReference;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class WeakCacheExample {
+
+    private static Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
+
+    public static void main(String[] args) {
+        Data data = new Data("Sample");
+        cache.put("key1", new WeakReference<>(data));
+
+        Data cachedData = cache.get("key1").get();
+
+        if (cachedData != null) {
+            System.out.println("From cache: " + cachedData.value);
+        } else {
+            System.out.println("Object was garbage collected");
+        }
+    }
+
+    static class Data {
+        String value;
+        Data(String value) {
+            this.value = value;
+        }
+    }
+}
 ```
 
 
-- **Memory-Efficient Caching**
+If interviewer asks **“Which one do you use in real project?”**, answer:
 
-```java
-Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
-```
+| Scenario         | Method     |
+| ---------------- | ---------- |
+| Large file       | Streaming  |
+| Large DB data    | Pagination |
+| Large processing | Batch      |
+| Performance      | Parallel   |
+| Frequent reads   | Cache      |
+
 ## 9. What is application.properties file and how value read from there?
 
 `application.properties` is a **configuration file in Spring Boot** used to store **application settings**, such as database URLs, server ports, or custom values.
