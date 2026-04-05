@@ -3244,7 +3244,7 @@ public void legacyMethod() { } // Warns users about deprecation
 List list = new ArrayList(); // Suppresses unchecked warning
 ```
 
-## 3. ## 3. What is @Target, @Documented, @Inherited?
+## 3. What is @Target, @Documented, @Inherited?
 
 ** @Target** defines **where we can use the annotation** (class, method, field, etc.).
 
@@ -4082,10 +4082,10 @@ ResultSet rs = pstmt.executeQuery();
 **Transaction management** ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
 
 **ACID Properties:**
-- **Atomicity:** All or nothing execution
-- **Consistency:** Data remains valid
-- **Isolation:** Concurrent transactions don't interfere
-- **Durability:** Committed changes are permanent
+* **Atomicity** – All operations succeed or none (all-or-nothing).
+* **Consistency** – Data remains valid and follows all rules.
+* **Isolation** – Transactions do not interfere with each other.
+* **Durability** – Once committed, data is permanently saved even after a crash.
 
 **Transaction Control:**
 - `setAutoCommit(false)` - Start transaction
