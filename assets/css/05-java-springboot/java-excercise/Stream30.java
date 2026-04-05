@@ -135,7 +135,7 @@ public class Stream30 {
                 .distinct()
                 .toList();
         // System.out.println("17. Unique: " + unique);
-        // Output: 17. Unique: [1, 2, 3, 4, 5]
+        // Output: 17. Unique: [6, 1, 0, 2, 3, 4, 5]
 
 
 

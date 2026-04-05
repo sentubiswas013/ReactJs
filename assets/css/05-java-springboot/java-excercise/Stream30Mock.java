@@ -72,12 +72,19 @@ public class Stream30 {
 
 
         // =======================================================
-        // 5. Remove Null Values
+        // 5. Remove Null Values and missing number from array
+        // Remove Null Values
         
 
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
 
+
+        // missing number from array
+        
+
+        // System.out.println("19. Missing Number: " + missing);
+        // Output: 19. Clean: [2, 8]
 
 
         // =======================================================

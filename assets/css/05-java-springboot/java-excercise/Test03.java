@@ -1,6 +1,7 @@
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 public class Stream30 {
     
@@ -51,13 +52,16 @@ public class Stream30 {
                 .toList();
         
 
-         System.out.println("11. Common: " + common);
+        // System.out.println("11. Common: " + common);
         // Output: 11. Common: [0, 1, 2, 3, 0, 4, 5, 0, 6]
 
 
 
         // =======================================================
-        // 3. Count Strings with Specific Prefix        
+        // 3. Count Strings with Specific Prefix 
+        Long count = arr01.stream()
+            .filter(w -> w.startsWith("A"))
+            .count();
         
 
         // System.out.println("4. Count starting with A: " + count);
@@ -67,7 +71,9 @@ public class Stream30 {
 
         // =======================================================
         // 4. Check if Any String Contains and equals Word
-        
+        List<String> Contains = arr01.stream()
+            .filter(w -> w.contains("api"))
+            .toList();
 
         // System.out.println("8. Contains api: " + Contains);
         // Output: 8. Contains api: [api]
@@ -75,16 +81,33 @@ public class Stream30 {
 
 
         // =======================================================
-        // 5. Remove Null Values
+        // 5. Remove Null Values and missing number from array
+        // Remove Null Values
+        List<String> clean = arr02.stream()
+            .filter(Objects::nonNull)
+            .toList();
         
 
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
 
+        // missing number from array
+        List<Integer> missing =  IntStream.range(0, 10)
+            .filter(n -> !num01.contains(n))
+            .boxed()
+            .toList();
+        
+
+        // System.out.println("19. Missing Number: " + missing);
+        // Output: 19. Clean: [2, 8]
+
 
 
         // =======================================================
         // 6. Find Palindromes
+        List<String> palindromes = arr01.stream()
+            .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
+            .toList();
         
 
         // System.out.println("22. Palindromes: " + palindromes);
@@ -93,26 +116,40 @@ public class Stream30 {
 
 
         // =======================================================
-        // 7. Find Duplicate Elements        
+        // 7. Find Duplicate Elements
+         Set<Integer> seen = new HashSet<>();
+         Set<Integer> duplicates = num02.stream()
+            .filter(n -> !seen.add(n))
+            .collect(Collectors.toSet());
+
         
 
         // System.out.println("9. Duplicates: " + duplicates);
-        // Output: 9. Duplicates: [1, 2]
+        // Output: 9. Duplicates: [0, 1, 2]
 
 
 
         // =======================================================
         // 8. Remove Duplicates
+        List<Integer> unique = num02.stream()
+            .distinct()
+            .toList();
         
 
         // System.out.println("17. Unique: " + unique);
-        // Output: 17. Unique: [1, 2, 3, 4, 5]
+        // Output: 17. Unique: [6, 1, 0, 2, 3, 4, 5]
 
 
 
         // =======================================================
         // 9. Find Maximum and minimum number
+        int max = num01.stream()
+            .max(Integer::compareTo)
+            .orElseThrow();
         
+        int min = num01.stream()
+            .min(Integer::compareTo)
+            .orElseThrow();
 
         // System.out.println("2. Maximum: " + max);
         // System.out.println("2. Minimum: " + min);
@@ -122,7 +159,15 @@ public class Stream30 {
 
         // =======================================================
         // 10. Find Longest and smallest String
-        
+        String longest = arr01.stream()
+            .max(Comparator.comparingInt(String::length))
+            .orElse(null);
+
+
+        String smallest = arr01.stream()
+            .min(Comparator.comparingInt(String::length))
+            .orElse(null);
+
 
         // System.out.println("10. Longest: " + longest);
         // System.out.println("10. smallest: " + smallest);
@@ -133,6 +178,10 @@ public class Stream30 {
 
         // =======================================================
         // 11. Sort List in Descending Order
+        List<Integer> sorted = num01.stream()
+            .sorted(Comparator.reverseOrder())
+            .distinct()
+            .toList();
         
 
         // System.out.println("3. Sorted Descending: " + sorted);
@@ -142,6 +191,11 @@ public class Stream30 {
 
         // =======================================================
         // 12. Find Top N Elements
+        List<Integer> top3 = num01.stream()
+            .sorted(Comparator.reverseOrder())
+            .skip(1)
+            .limit(3)
+            .toList();
         
 
         // System.out.println("12. Top 3: " + top3);
@@ -160,7 +214,13 @@ public class Stream30 {
 
         // =======================================================
         // 14. To merge two arrays and sort the resulting array in ascending order
-        
+        List<Integer> resultSort = Stream.concat(
+            num01.stream(), 
+            num02.stream()
+        )
+            .sorted()
+            .distinct()
+            .toList();
 
         // System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
@@ -169,16 +229,21 @@ public class Stream30 {
 
         // =======================================================
         // 15. 0 should go to outside without change order
-        
+        List<Integer> resultRight = Stream.concat(
+                num01.stream().filter(n -> n != 0),
+                num01.stream().filter(n -> n == 0)
+            )
+            .collect(Collectors.toList());
 
-        // System.out.println(resultRight);
+         System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
 
 
 
         // =======================================================
         // 16. Count Frequency of Characters
-        String str = "success";
+        // String str = "success";
+        // Char freq = 
         
 
         // System.out.println("13. Frequency: " + freq);
@@ -189,9 +254,15 @@ public class Stream30 {
         // =======================================================
         // 17. Find First Non-Repeated Character
         String input = "swiss";
+        Map<String, Long> result = arr01.chars()
+            .mapToObj(c -> (char) c)
+            .collect(Collectors.groupingBy(
+                    c -> c,
+                    Collectors.counting()
+                ))
         
 
-        // System.out.println("5. First Non-Repeated: " + result);
+        System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: w
 
 

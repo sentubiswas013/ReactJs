@@ -2370,28 +2370,35 @@ In Java, threads are used to perform multiple tasks concurrently to improve perf
 
 ```java
 // Method 1: extends Thread
-class MyTask extends Thread {
+class MyThreadTask extends Thread {
     public void run() {
         System.out.println("Task running in thread: " + Thread.currentThread().getName());
     }
 }
 
 // Method 2: Implementing Runnable
-
-class MyTask implements Runnable {
+class MyRunnableTask implements Runnable {
     public void run() {
-        System.out.println("Task running");
+        System.out.println("Task running in thread: " + Thread.currentThread().getName());
     }
 }
-Thread t = new Thread(new MyTask());
-t.start();
 
 public class Main {
     public static void main(String[] args) {
-        MyTask t1 = new MyTask();
-        t1.start(); // Runs concurrently
+        
+        // Using Thread class
+        MyThreadTask t1 = new MyThreadTask();
+        t1.start();
+
+        // Using Runnable interface
+        Thread t2 = new Thread(new MyRunnableTask());
+        t2.start();
     }
 }
+
+// Output:
+Task running in thread: Thread-1
+Task running in thread: Thread-0
 ```
 
 * **How concurrency is achieved in Java**
