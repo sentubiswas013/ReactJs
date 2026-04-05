@@ -3244,30 +3244,61 @@ public void legacyMethod() { } // Warns users about deprecation
 List list = new ArrayList(); // Suppresses unchecked warning
 ```
 
-## 3. How do you create custom annotations?
+## 3. ## 3. What is @Target, @Documented, @Inherited?
 
-Custom annotations are created using @interface keyword and can include elements with default values. They require retention and target policies.
+** @Target** defines **where we can use the annotation** (class, method, field, etc.).
+
 
 ```java
-// Custom annotation definition
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface MyAnnotation {
-    String value() default "default";
-    int priority() default 1;
-}
+import java.lang.annotation.*;
 
-// Usage
-@MyAnnotation(value = "important", priority = 5)
-public void annotatedMethod() {
-    // Method implementation
+@Target(ElementType.TYPE)
+@interface MyAnnotation {
 }
-
-// Processing annotation
-Method method = MyClass.class.getMethod("annotatedMethod");
-MyAnnotation annotation = method.getAnnotation(MyAnnotation.class);
-String value = annotation.value(); // "important"
 ```
+
+**Use:**
+
+```java
+@MyAnnotation
+class Test {
+}
+```
+
+**@Documented** means the annotation **will appear in JavaDoc documentation**.
+
+```java
+import java.lang.annotation.*;
+
+@Documented
+@Target(ElementType.TYPE)
+@interface MyAnnotation {
+}
+```
+
+
+**@Inherited** means the annotation **can be inherited from parent class to child class**.
+
+```java
+import java.lang.annotation.*;
+
+@Inherited
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@interface Role {
+    String value();
+}
+
+@Role("Admin")
+class Parent {
+}
+
+class Child extends Parent {
+}
+```
+
+Child class automatically gets `@Role`.
+
 
 ## 4. What is retention policy?
 
