@@ -2650,26 +2650,48 @@ It allows:
 * Reentrancy (same thread can acquire the lock multiple times)
 
 ```java
-ReentrantLock lock = new ReentrantLock();
+import java.util.concurrent.locks.ReentrantLock;
 
-public void method1() {
-    lock.lock();
-    try {
-        // Critical section
-        method2(); // Same thread can acquire lock again
-    } finally {
-        lock.unlock();
+public class Test {
+
+    ReentrantLock lock = new ReentrantLock();
+
+    public void method1() {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + " inside method1");
+            method2(); // Same thread can acquire lock again
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void method2() {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + " inside method2");
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        Test obj = new Test();
+
+        Runnable task = () -> {
+            obj.method1();
+        };
+
+        new Thread(task).start();
+        new Thread(task).start();
     }
 }
 
-public void method2() {
-    lock.lock();
-    try {
-        // Another critical section
-    } finally {
-        lock.unlock();
-    }
-}
+//Output: 
+Thread-0 inside method1
+Thread-0 inside method2
+Thread-1 inside method1
+Thread-1 inside method2
 ```
 
 ## 5. What is immutability in Java? 
