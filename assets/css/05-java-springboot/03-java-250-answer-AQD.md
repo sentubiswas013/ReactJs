@@ -2439,15 +2439,49 @@ This **improves performance**, **reduces thread creation overhead**, and **contr
  ```java
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-    // Fixed Thread Pool
-   ExecutorService fixedPool = Executors.newFixedThreadPool(3);
-   // Cached Thread Pool
-   ExecutorService cachedPool = Executors.newCachedThreadPool();
-   // Single Thread Pool
-   ExecutorService singlePool = Executors.newSingleThreadExecutor();
-   // Scheduled Thread Pool
-   ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
+public class Main {
+    public static void main(String[] args) {
+
+        // Fixed Thread Pool
+        ExecutorService fixedPool = Executors.newFixedThreadPool(3);
+
+        // Cached Thread Pool
+        ExecutorService cachedPool = Executors.newCachedThreadPool();
+
+        // Single Thread Pool
+        ExecutorService singlePool = Executors.newSingleThreadExecutor();
+
+        // Scheduled Thread Pool
+        ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
+
+        // Task
+        Runnable task = () -> {
+            System.out.println("Task executed by: " + Thread.currentThread().getName());
+        };
+
+        // Submit tasks
+        fixedPool.submit(task);
+        cachedPool.submit(task);
+        singlePool.submit(task);
+
+        // Scheduled task (runs after 3 seconds)
+        scheduledPool.schedule(task, 3, TimeUnit.SECONDS);
+
+        // Shutdown
+        fixedPool.shutdown();
+        cachedPool.shutdown();
+        singlePool.shutdown();
+        scheduledPool.shutdown();
+    }
+}
+
+// Output:
+Task executed by: pool-3-thread-1
+Task executed by: pool-1-thread-1
+Task executed by: pool-2-thread-1
 ```
 
 ## 2. What is ExecutorService?
@@ -2473,6 +2507,7 @@ public class Test {
 
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
+        // Submit multiple tasks
         for (int i = 1; i <= 5; i++) {
             int task = i;
             executor.submit(() -> {
@@ -2481,24 +2516,23 @@ public class Test {
             });
         }
 
+        // Additional tasks
+        executor.submit(() -> System.out.println("Task executed"));
+        executor.execute(() -> System.out.println("Another task"));
+
+        // Shutdown executor
         executor.shutdown();
     }
 }
 
-// Output
-Task 1 executed by pool-1-thread-1
+/// Output: 
 Task 2 executed by pool-1-thread-2
+Task 1 executed by pool-1-thread-1
 Task 3 executed by pool-1-thread-3
 Task 4 executed by pool-1-thread-1
 Task 5 executed by pool-1-thread-2
-
-
-
-// Submit tasks
-executor.submit(() -> System.out.println("Task executed"));
-executor.execute(() -> System.out.println("Another task"));
-
-executor.shutdown(); // Graceful shutdown
+Task executed
+Another task
 ```
 
 **Realtime Example:** Food delivery app
@@ -2517,20 +2551,26 @@ executor.shutdown(); // Graceful shutdown
 import java.util.concurrent.CountDownLatch;
 
 public class Test {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws InterruptedException {
 
         CountDownLatch latch = new CountDownLatch(3);
 
         Runnable task = () -> {
-            System.out.println(Thread.currentThread().getName() + " finished work");
-            latch.countDown();
+            try {
+                Thread.sleep(1000); // Simulate some work
+                System.out.println(Thread.currentThread().getName() + " finished work");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                latch.countDown(); // Reduce count
+            }
         };
 
         new Thread(task).start();
         new Thread(task).start();
         new Thread(task).start();
 
-        latch.await(); // wait until count = 0
+        latch.await(); // Main thread waits
 
         System.out.println("All tasks completed. Main thread starts");
     }
@@ -2538,8 +2578,8 @@ public class Test {
 
 // Output:
 Thread-0 finished work
-Thread-1 finished work
 Thread-2 finished work
+Thread-1 finished work
 All tasks completed. Main thread starts
 ```
 
@@ -2552,15 +2592,23 @@ import java.util.concurrent.CyclicBarrier;
 public class Test {
     public static void main(String[] args) {
 
-        CyclicBarrier barrier = new CyclicBarrier(3);
+        // Barrier with 3 threads and barrier action
+        CyclicBarrier barrier = new CyclicBarrier(3, () -> {
+            System.out.println("All threads reached barrier. Starting next phase...");
+        });
 
         Runnable task = () -> {
-            System.out.println(Thread.currentThread().getName() + " reached barrier");
             try {
-                barrier.await(); // wait for others
-            } catch (Exception e) {}
+                System.out.println(Thread.currentThread().getName() + " reached barrier");
+                
+                Thread.sleep(1000); // Simulate work
+                
+                barrier.await(); // Wait for other threads
 
-            System.out.println(Thread.currentThread().getName() + " crossed barrier");
+                System.out.println(Thread.currentThread().getName() + " crossed barrier");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         };
 
         new Thread(task).start();
@@ -2570,12 +2618,13 @@ public class Test {
 }
 
 // Output:
-Thread-0 reached barrier
-Thread-1 reached barrier
 Thread-2 reached barrier
-Thread-2 crossed barrier
+Thread-1 reached barrier
+Thread-0 reached barrier
+All threads reached barrier. Starting next phase...
 Thread-0 crossed barrier
 Thread-1 crossed barrier
+Thread-2 crossed barrier
 ```
 
 **Difference: CountDownLatch vs CyclicBarrier**
