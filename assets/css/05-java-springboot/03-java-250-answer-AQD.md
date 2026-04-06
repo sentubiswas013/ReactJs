@@ -8025,63 +8025,42 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 # ✅ 23. Java Performance and Optimization
 
 
-## 1: How do you measure application performance in Java?
+## 1: How do you measure and Monitor application performance in Java?
 
-**1. Response Time :** Time taken to complete a request.
+**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
 
-* Micrometer – Collect response time metrics
-* Prometheus – Store metrics
-* Grafana – Dashboard visualization
-* New Relic – Production monitoring
+It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
 
-**2. Throughput :** Number of requests processed per second.
+**Production Monitoring Tools (Simple Detailed Table)**
 
-* Prometheus – Measure requests/sec
-* Grafana – Throughput dashboard
-* AppDynamics – Transaction throughput monitoring
-
-**3. Resource Utilization :** CPU, Memory, Disk, Network usage.
-
-* VisualVM – CPU & memory monitoring
-* JConsole – JVM memory & CPU
-* Dynatrace – Server & infrastructure monitoring
-
-**4. JVM Metrics :** Heap usage, GC frequency, thread count.
-
-* JConsole – Heap, Threads
-* VisualVM – Heap dump, Thread dump
-* JProfiler – Memory leaks & GC analysis
-
-**5. Profiling (Find Performance Issues) :** To find memory leaks, slow methods, thread issues.
-
-* JProfiler – Memory leak detection
-* VisualVM – CPU & thread analysis
-
-**6. APM Tools (Production Monitoring) :** Used in production for end-to-end monitoring.
-
-* New Relic
-* AppDynamics
-* Dynatrace
+| Tool              | Type            | Why We Use It                               | What It Monitors                                      | Example                     |
+| ----------------- | --------------- | ------------------------------------------- | ----------------------------------------------------- | --------------------------- |
+| Prometheus        | Metrics         | Collect metrics from application            | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
+| Grafana           | Dashboard       | Show metrics in graphs                      | Dashboard, Alerts, Charts                             | CPU usage graph             |
+| Micrometer        | Metrics Library | Send metrics from Spring Boot to Prometheus | JVM, Custom metrics                                   | Heap memory                 |
+| ELK Stack         | Logging         | Store and search logs                       | Error logs, Application logs                          | Exception logs              |
+| Spring Boot Admin | Monitoring      | Monitor Spring Boot apps                    | Health, Beans, Endpoints                              | App status UP/DOWN          |
+| Zipkin            | Tracing         | Track request flow between services         | Service call flow                                     | Order → Payment → Inventory |
+| Jaeger            | Tracing         | Track microservice request                  | API calls                                             | Request time per service    |
+| Datadog           | APM             | Full system monitoring                      | Infra, Logs, APIs                                     | Server CPU                  |
+| New Relic         | APM             | Application performance monitoring          | Slow API, DB calls                                    | Slow query                  |
+| Dynatrace         | APM             | AI monitoring                               | Full stack                                            | Root cause detection        |
+| AWS CloudWatch    | Cloud           | Monitor AWS services                        | EC2, RDS, Logs                                        | EC2 CPU                     |
 
 
-## 2: What are the common performance bottlenecks in Java?
+**What We Monitor in Production (Simple Table)**
 
-* **Memory Issues**: Memory leaks, excessive GC, heap exhaustion
-* **CPU Intensive**: Inefficient algorithms, excessive loops
-* **I/O Bottlenecks**: Database queries, file operations, network calls
-* **Threading Issues**: Synchronization overhead, thread contention
-* **JVM Configuration**: Inappropriate heap size, GC settings
-* **Database**: Slow queries, missing indexes, connection pooling
-* **Caching**: Lack of caching or cache misses
+| Area          | What We Monitor           | Example Alert       |
+| ------------- | ------------------------- | ------------------- |
+| Server        | CPU, Memory, Disk         | CPU > 80%           |
+| Application   | Request count, Error rate | Error rate > 5%     |
+| API           | Response time             | API > 3 sec         |
+| Database      | Query time                | Query > 2 sec       |
+| JVM           | Heap memory, GC           | Memory > 80%        |
+| Logs          | Errors                    | Too many exceptions |
+| Microservices | Service response          | Service down        |
+| Business      | Orders, Payments          | Payment failure     |
 
-```java
-// Common bottleneck examples
-public class PerformanceBottlenecks {
-    
-    // Memory leak - static collection grows indefinitely
-    private static List<String> cache = new ArrayList<>();
-}
-```
 
 
 ## 3: How do you optimize code for performance in Java?
@@ -9301,41 +9280,8 @@ If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
 
 # ✅ 26. Monitoring and Logging
 
-## 1: What is application monitoring?
+## 1: 
 
-**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
-
-It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
-
-**Production Monitoring Tools (Simple Detailed Table)**
-
-| Tool              | Type            | Why We Use It                               | What It Monitors                                      | Example                     |
-| ----------------- | --------------- | ------------------------------------------- | ----------------------------------------------------- | --------------------------- |
-| Prometheus        | Metrics         | Collect metrics from application            | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
-| Grafana           | Dashboard       | Show metrics in graphs                      | Dashboard, Alerts, Charts                             | CPU usage graph             |
-| Micrometer        | Metrics Library | Send metrics from Spring Boot to Prometheus | JVM, Custom metrics                                   | Heap memory                 |
-| ELK Stack         | Logging         | Store and search logs                       | Error logs, Application logs                          | Exception logs              |
-| Spring Boot Admin | Monitoring      | Monitor Spring Boot apps                    | Health, Beans, Endpoints                              | App status UP/DOWN          |
-| Zipkin            | Tracing         | Track request flow between services         | Service call flow                                     | Order → Payment → Inventory |
-| Jaeger            | Tracing         | Track microservice request                  | API calls                                             | Request time per service    |
-| Datadog           | APM             | Full system monitoring                      | Infra, Logs, APIs                                     | Server CPU                  |
-| New Relic         | APM             | Application performance monitoring          | Slow API, DB calls                                    | Slow query                  |
-| Dynatrace         | APM             | AI monitoring                               | Full stack                                            | Root cause detection        |
-| AWS CloudWatch    | Cloud           | Monitor AWS services                        | EC2, RDS, Logs                                        | EC2 CPU                     |
-
-
-**What We Monitor in Production (Simple Table)**
-
-| Area          | What We Monitor           | Example Alert       |
-| ------------- | ------------------------- | ------------------- |
-| Server        | CPU, Memory, Disk         | CPU > 80%           |
-| Application   | Request count, Error rate | Error rate > 5%     |
-| API           | Response time             | API > 3 sec         |
-| Database      | Query time                | Query > 2 sec       |
-| JVM           | Heap memory, GC           | Memory > 80%        |
-| Logs          | Errors                    | Too many exceptions |
-| Microservices | Service response          | Service down        |
-| Business      | Orders, Payments          | Payment failure     |
 
 
 ## 2: What is logging framework?
