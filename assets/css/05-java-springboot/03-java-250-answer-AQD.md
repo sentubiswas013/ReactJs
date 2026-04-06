@@ -7485,7 +7485,7 @@ try {
 
 We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.
 
-**Idempotency means :** Running the same data pipeline multiple times should produce the same result, without duplicate data or incorrect data.
+**Idempotency means :** Doing the same operation multiple times gives the same result (no duplicate effect).
 
 
 **Entity with Unique Constraint**
@@ -7512,6 +7512,11 @@ public class Payment {
 
 ```java
 @Service
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+@Service
 public class PaymentService {
 
     @Autowired
@@ -7519,14 +7524,20 @@ public class PaymentService {
 
     public Payment processPayment(String txnId, double amount) {
 
-        return paymentRepository.findByTransactionId(txnId)
-                .orElseGet(() -> {
-                    Payment p = new Payment();
-                    p.setTransactionId(txnId);
-                    p.setAmount(amount);
-                    p.setStatus("SUCCESS");
-                    return paymentRepository.save(p);
-                });
+        // Step 1: Check existing transaction
+        Optional<Payment> existing = paymentRepository.findByTransactionId(txnId);
+        if (existing.isPresent()) {
+            return existing.get();
+        }
+
+        // Step 2: Process and save payment
+        try {
+            Payment payment = new Payment(txnId, amount, "SUCCESS");
+            return paymentRepository.save(payment);
+        } catch (DataIntegrityViolationException e) {
+            // Step 3: Handle duplicate transaction (race condition)
+            return paymentRepository.findByTransactionId(txnId).get();
+        }
     }
 }
 ```
