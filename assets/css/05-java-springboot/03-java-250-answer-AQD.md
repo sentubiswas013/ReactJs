@@ -8576,19 +8576,32 @@ public class UserRepository extends JpaRepository<User, Long> {
 
 ## 16. What is JIT compilation?
 
-JIT (Just-In-Time) compilation is a runtime optimization where the JVM compiles frequently executed bytecode into native machine code for better performance.
 
-**How JIT works:**
-- **Interpretation:** Initially executes bytecode in interpreter
-- **Profiling:** Monitors method execution frequency and patterns
-- **Compilation:** Compiles hot methods to native code
-- **Optimization:** Applies advanced optimizations based on runtime data
 
-**JIT Optimizations:**
-- **Inlining:** Embed method calls directly
-- **Dead code elimination:** Remove unused code
-- **Loop optimization:** Optimize frequently executed loops
-- **Escape analysis:** Optimize object allocations
+**JIT (Just-In-Time) Compilation** is a feature of the **JVM** that **converts bytecode into native machine code at runtime** to make Java programs faster.
+
+Java normally works like this:
+
+```
+.java → compiled → .class (bytecode) → JVM → Machine Code → Run
+```
+
+**How JIT Works**
+
+1. Java code compiled → Bytecode
+2. JVM runs bytecode
+3. JIT finds frequently used code (hotspot)
+4. JIT converts it to machine code
+5. Execution becomes faster
+
+
+**JIT vs Interpreter**
+
+| Interpreter            | JIT                      |
+| ---------------------- | ------------------------ |
+| Line by line execution | Compiles to machine code |
+| Slower                 | Faster                   |
+| Starts fast            | Gets faster over time    |
 
 ```java
 // JIT compilation example
