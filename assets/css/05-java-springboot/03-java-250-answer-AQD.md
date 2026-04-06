@@ -1380,13 +1380,13 @@ interface Payment {
 
 class CardPayment implements Payment {
     public void pay() {
-        System.out.println("Card payment");
+        System.out.println("Paid by Card");
     }
 }
 
 class UpiPayment implements Payment {
     public void pay() {
-        System.out.println("UPI payment");
+        System.out.println("Paid by UPI");
     }
 }
 
@@ -1395,6 +1395,22 @@ class PaymentService {
         payment.pay();
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        PaymentService service = new PaymentService();
+
+        Payment p1 = new CardPayment();
+        service.processPayment(p1);
+
+        Payment p2 = new UpiPayment();
+        service.processPayment(p2);
+    }
+}
+
+// Output:
+Paid by Card
+Paid by UPI
 ```
 
 Now we can add **NetBankingPayment** without changing existing code.
@@ -1413,10 +1429,30 @@ class Bird {
 }
 
 class Sparrow extends Bird {
+    @Override
     public void fly() {
         System.out.println("Sparrow can fly");
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Bird b = new Bird();
+        b.fly();
+
+        Sparrow s = new Sparrow();
+        s.fly();
+
+        Bird b2 = new Sparrow(); // Runtime Polymorphism
+        b2.fly();
+    }
+}
+
+
+// Output:
+Bird can fly
+Sparrow can fly
+Sparrow can fly
 ```
 
 Bad example: Penguin cannot fly → violates LSP.
@@ -1451,6 +1487,24 @@ class Robot implements Workable {
         System.out.println("Robot working");
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
+// Output:
+Human working
+Human eating
+Robot working
 ```
 
 Robot does not implement eat() → Correct.
@@ -1483,6 +1537,18 @@ class OrderService {
         payment.pay();
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Payment payment = new CardPayment();   // Inject dependency
+        OrderService orderService = new OrderService(payment);
+
+        orderService.placeOrder();
+    }
+}
+
+//Output:
+Card payment
 ```
 
 
