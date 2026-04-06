@@ -8084,7 +8084,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 # ✅ 23. Java Performance and Optimization
 
 
-## 1: How do you measure and Monitor application performance in Java?
+## 0: How do you measure and Monitor application performance in Java?
 
 **Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
 
@@ -8121,43 +8121,88 @@ It includes monitoring metrics like response time, errors, CPU, and memory, alon
 | Business      | Orders, Payments          | Payment failure     |
 
 
+## 1. What are common Java performance issues?
 
-## 3: How do you optimize code for performance in Java?
+Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
+Here is a **simple one-line explanation for each point**:
 
-* **Algorithm Optimization**: Use efficient data structures and algorithms
-* **Memory Management**: Avoid object creation in loops, use object pools
-* **Caching**: Cache expensive computations and database results
-* **Lazy Loading**: Load data only when needed
-* **Batch Operations**: Process data in batches instead of one-by-one
-* **Asynchronous Processing**: Use CompletableFuture for non-blocking operations
-* **Database Optimization**: Use proper indexes, optimize queries
+* **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
+* **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
+* **Database Issues** – Slow queries or poor connection pool management delay database responses.
+* **Thread Contention** – Multiple threads compete for the same resource, causing delays and blocking.
+* **Too Many Object Creations** – Creating many objects increases memory usage and garbage collection work.
+* **Garbage Collection Overhead** – Frequent garbage collection pauses the application and affects performance.
+* **Blocking I/O Operations** – File, network, or API calls block threads and reduce application throughput.
+
 
 ```java
-// Performance optimization examples
-@Service
-public class OptimizedUserService {
+// Memory leak example
+public class LeakExample {
+    private static List<String> cache = new ArrayList<>();
     
-    // Cache expensive operations
-    @Cacheable("users")
-    public User findById(Long id) {
-        return userRepository.findById(id);
+    public void addToCache(String data) {
+        cache.add(data); // Never cleared - memory leak
     }
-    
-    // Batch processing instead of individual operations
-    public void updateUsers(List<User> users) {
-        userRepository.saveAll(users); // Batch instead of individual saves
-    }
-    
-    // Asynchronous processing
-    @Async
-    public CompletableFuture<String> processAsync(String data) {
-        // Long-running operation
-        return CompletableFuture.completedFuture(processData(data));
-    }
-    
-    // Efficient string concatenation
-    public String buildMessage(List<String> parts) {
-        return String.join(", ", parts); // Instead of += in loop
+}
+```
+
+## 2. How do you Improve Performance(optimize) in Spring Boot Application?
+Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
+
+1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
+2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
+3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
+4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
+5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
+6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
+7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
+8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
+9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
+10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
+11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
+12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
+
+
+## 3. What are Java memory issues?
+* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
+* **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
+* **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
+* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
+* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
+
+```java
+// Stack overflow example
+public void recursiveMethod() {
+    recursiveMethod(); // No base case - stack overflow
+}
+
+// Memory optimization
+List<String> list = new ArrayList<>(1000); // Pre-size collections
+```
+
+## 3. What are Java concurrency issues?
+
+Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
+
+1. **race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
+2. **Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
+3. **Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
+4. **Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
+5. **Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
+6. **Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
+7. **Improper Synchronization**
+Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
+
+
+```java
+// Race condition fix
+private volatile boolean flag = false;
+private final Object lock = new Object();
+
+public void safeMethod() {
+    synchronized(lock) {
+        // Thread-safe operation
+        flag = !flag;
     }
 }
 ```
@@ -9581,93 +9626,7 @@ public class LoggingConfig {
 
 # ✅ 27.  Common Issues
 
-## 0. What are common Java performance issues?
-
-Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
-Here is a **simple one-line explanation for each point**:
-
-* **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
-* **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
-* **Database Issues** – Slow queries or poor connection pool management delay database responses.
-* **Thread Contention** – Multiple threads compete for the same resource, causing delays and blocking.
-* **Too Many Object Creations** – Creating many objects increases memory usage and garbage collection work.
-* **Garbage Collection Overhead** – Frequent garbage collection pauses the application and affects performance.
-* **Blocking I/O Operations** – File, network, or API calls block threads and reduce application throughput.
-
-
-```java
-// Memory leak example
-public class LeakExample {
-    private static List<String> cache = new ArrayList<>();
-    
-    public void addToCache(String data) {
-        cache.add(data); // Never cleared - memory leak
-    }
-}
-```
-
-## 1. How do you Improve Performance in Spring Boot Application?
-Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
-
-1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
-2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
-3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
-4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
-5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
-6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
-7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
-8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
-9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
-10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
-11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
-12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
-
-
-## 2. What are Java memory issues?
-* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
-* **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
-* **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
-* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
-* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
-
-```java
-// Stack overflow example
-public void recursiveMethod() {
-    recursiveMethod(); // No base case - stack overflow
-}
-
-// Memory optimization
-List<String> list = new ArrayList<>(1000); // Pre-size collections
-```
-
-## 3. What are Java concurrency issues?
-
-Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
-
-1. **race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
-2. **Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
-3. **Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
-4. **Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
-5. **Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
-6. **Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
-7. **Improper Synchronization**
-Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
-
-
-```java
-// Race condition fix
-private volatile boolean flag = false;
-private final Object lock = new Object();
-
-public void safeMethod() {
-    synchronized(lock) {
-        // Thread-safe operation
-        flag = !flag;
-    }
-}
-```
-
-## 4. What are Java deployment issues?
+## 1. What are Java deployment issues?
 
 **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
@@ -9693,7 +9652,7 @@ System.out.println("Classpath: " + classpath);
 ```
 
 
-## 6. What are debugging strategies?
+## 2. What are debugging strategies?
 
 **Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
 
