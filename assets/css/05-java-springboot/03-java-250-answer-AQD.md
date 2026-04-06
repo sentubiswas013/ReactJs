@@ -4651,7 +4651,52 @@ public void processProducts() {
 }
 ```
 
-## 12. What is Batch Processing?
+## 12. How to secure username and password?
+
+To secure username and password, we should **never store passwords in plain text**.
+We store **hashed passwords** using algorithms like **BCrypt**.
+We also store secrets in **environment variables or secure vaults**, not in code.
+We use **HTTPS** to encrypt data in transit and **Spring Security** for authentication and authorization.
+
+
+** Simple Example (Spring Boot – BCrypt)**
+
+```java
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+public class Test {
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String rawPassword = "admin123";
+        String encodedPassword = encoder.encode(rawPassword);
+
+        System.out.println("Encoded Password: " + encodedPassword);
+
+        // Check password
+        boolean isMatch = encoder.matches("admin123", encodedPassword);
+        System.out.println("Password Match: " + isMatch);
+    }
+}
+```
+
+
+* `encode()` → Hash password
+* `matches()` → Verify password
+* Even if DB is hacked, real password is not visible
+
+
+** Where to Store Passwords Securely**
+
+| Location | How                                   |
+| -------- | ------------------------------------- |
+| Local    | Environment Variables                 |
+| Cloud    | AWS Secrets Manager / Azure Key Vault |
+| Database | Store Hashed Password Only            |
+| Network  | Use HTTPS                             |
+
+
+## 13. What is Batch Processing?
 
 Processing records in **small fixed-size chunks** (like 1000 records per batch)
 
@@ -5572,7 +5617,7 @@ It tells the **Spring Framework** that this class contains bean definitions.
 * Tells Spring: “Look here for object creation logic”
 
 
-**Spring Bean** is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
+**@Bean** is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
 
 **Step 1 — Create a Bean Class**
 
