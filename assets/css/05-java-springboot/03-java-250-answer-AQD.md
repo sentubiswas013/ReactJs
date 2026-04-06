@@ -1552,6 +1552,64 @@ public class Main {
 Card payment
 ```
 
+## 10. What is `.class` and When do we use in Java?
+
+We use .class when we need to pass class metadata, for example in Spring configuration, exception handling, reflection, and getting beans from the Spring container.
+
+
+**Common Places Where We Use `.class`**
+
+**1. Spring Configuration**
+```java
+ApplicationContext context =
+    new AnnotationConfigApplicationContext(AppConfig.class);
+```
+Spring uses it to read configuration from the class.
+
+
+**2. Exception Handling**
+```java
+@ExceptionHandler(Exception.class)
+```
+Tells Spring: handle this type of exception.
+
+
+**3. Getting Bean from Spring**
+```java
+Student s = context.getBean(Student.class);
+```
+Spring will find bean of type `Student`.
+
+
+**4. Reflection**
+```java
+Class<?> c = Student.class;
+```
+Used in reflection to get class information.
+
+**5. Annotations**
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+```
+These also use `.class` internally to store metadata.
+
+
+**`.class` vs `new`**
+
+| `.class` | `new` |
+|----------|------|
+| Class metadata | Creates object |
+| No memory for object | Object created |
+| Used by frameworks | Used by developers |
+
+Example:
+```java
+Student.class   // Class info
+new Student()   // Object
+```
+
+
 
 # ✅ 6. Java Exception Handling 
 
