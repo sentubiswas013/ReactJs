@@ -5500,7 +5500,7 @@ public class UserController {
 * `@Component`
 * `@Service`
 
-## 2. What is Spring Boot and How does it Works Internally?
+## 2. What is Spring Boot and How does it Works Internally(Lifecycle)?
 
 **Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
 
