@@ -6191,7 +6191,7 @@ public class UserService {
 
 **@PreDestroy** annotation is used to clean up resources before the bean is destroyed.
 
-**@Scope** defines the lifecycle and visibility of Spring beans. It controls how many instances Spring creates.
+`@Scope` is a **Spring annotation** used to define **how many objects (beans) Spring should create** for a class.
 
 **Lifecycle order:** Constructor → Dependency Injection → @PostConstruct → Bean Ready → @PreDestroy → Destruction
 
