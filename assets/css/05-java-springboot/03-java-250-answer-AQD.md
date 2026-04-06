@@ -7774,6 +7774,8 @@ byte[] decrypted = cipher.doFinal(encrypted);
 
 ## 7: What is SSL/TLS in Java?
 
+**SSL** stands for Secure Sockets Layer, and **TLS** stands for Transport Layer Security
+
 **SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
 
 They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
