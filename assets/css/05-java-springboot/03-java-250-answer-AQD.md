@@ -8025,7 +8025,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 # ✅ 23. Java Performance and Optimization
 
 
-## 1: How do you measure Java application performance?
+## 1: How do you measure application performance in Java?
 
 * **Response Time**: Time to complete requests
 * **Throughput**: Requests processed per second
@@ -8075,7 +8075,7 @@ public class PerformanceBottlenecks {
 ```
 
 
-## 3: How do you optimize Java code for performance?
+## 3: How do you optimize code for performance in Java?
 
 * **Algorithm Optimization**: Use efficient data structures and algorithms
 * **Memory Management**: Avoid object creation in loops, use object pools
