@@ -8027,33 +8027,60 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 
 ## 1: How do you measure application performance in Java?
 
-* **Response Time**: Time to complete requests
-* **Throughput**: Requests processed per second
-* **Resource Utilization**: CPU, memory, disk, network usage
-* **JVM Metrics**: Heap usage, GC frequency, thread count
-* **Tools**: JProfiler, VisualVM, JConsole, Micrometer
-* **APM Solutions**: New Relic, AppDynamics, Dynatrace
+** 1. Response Time**
 
-```java
-// Micrometer metrics example
-@RestController
-public class UserController {
-    private final MeterRegistry meterRegistry;
-    private final Timer requestTimer;
-    
-    public UserController(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
-        this.requestTimer = Timer.builder("user.requests")
-            .description("User API request duration")
-            .register(meterRegistry);
-    }
-    
-    @GetMapping("/users/{id}")
-    public User getUser(@PathVariable Long id) {
-        return requestTimer.recordCallable(() -> userService.findById(id));
-    }
-}
-```
+Time taken to complete a request.
+**Tools used:**
+
+* Micrometer – Collect response time metrics
+* Prometheus – Store metrics
+* Grafana – Dashboard visualization
+* New Relic – Production monitoring
+
+** 2. Throughput**
+
+Number of requests processed per second.
+**Tools used:**
+
+* Prometheus – Measure requests/sec
+* Grafana – Throughput dashboard
+* AppDynamics – Transaction throughput monitoring
+
+** 3. Resource Utilization**
+
+CPU, Memory, Disk, Network usage.
+**Tools used:**
+
+* VisualVM – CPU & memory monitoring
+* JConsole – JVM memory & CPU
+* Dynatrace – Server & infrastructure monitoring
+
+** 4. JVM Metrics**
+
+Heap usage, GC frequency, thread count.
+**Tools used:**
+
+* JConsole – Heap, Threads
+* VisualVM – Heap dump, Thread dump
+* JProfiler – Memory leaks & GC analysis
+
+** 5. Profiling (Find Performance Issues)**
+
+To find memory leaks, slow methods, thread issues.
+**Tools used:**
+
+* JProfiler – Memory leak detection
+* VisualVM – CPU & thread analysis
+
+** 6. APM Tools (Production Monitoring)**
+
+Used in production for end-to-end monitoring.
+**Tools used:**
+
+* New Relic
+* AppDynamics
+* Dynatrace
+
 
 ## 2: What are the common performance bottlenecks in Java?
 
