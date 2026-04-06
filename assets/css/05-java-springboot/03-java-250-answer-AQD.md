@@ -195,6 +195,7 @@ abstract class Animal {
 public class Student implements Serializable {
     private String username;
     private transient String password;
+    // `transient` is a serialization keyword in Java. password will NOT be saved.
 }
 ```
 
