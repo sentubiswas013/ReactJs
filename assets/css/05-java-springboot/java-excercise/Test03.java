@@ -235,7 +235,7 @@ public class Stream30 {
             )
             .collect(Collectors.toList());
 
-         System.out.println(resultRight);
+        // System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
 
 
@@ -254,21 +254,28 @@ public class Stream30 {
         // =======================================================
         // 17. Find First Non-Repeated Character
         String input = "swiss";
-        Map<String, Long> result = arr01.chars()
+        Character result = input.chars()
             .mapToObj(c -> (char) c)
-            .collect(Collectors.groupingBy(
-                    c -> c,
-                    Collectors.counting()
-                ))
+            .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
+            .findFirst()
+            .orElse(null);
         
 
-        System.out.println("5. First Non-Repeated: " + result);
+        // System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: w
 
 
 
         // =======================================================
         // 18. Sum and average of Numbers
+        int sum = num01.stream()
+            .mapToInt(Integer::intValue)
+            .sum();
+
+        double average = num01.stream()
+            .mapToInt(Integer::intValue)
+            .average()
+            .orElse(0);
         
 
         // System.out.println("7. Sum: " + sum);
@@ -278,7 +285,10 @@ public class Stream30 {
 
 
         // =======================================================
-        // 19. Convert List to Uppercase    // Map: Transform elements     
+        // 19. Convert List to Uppercase    // Map: Transform elements  
+        List<String> upper = arr01.stream()
+            .map(String::toUpperCase)
+            .toList();
         
 
         // System.out.println("6. Uppercase: " + upper);
@@ -288,6 +298,9 @@ public class Stream30 {
 
         // =======================================================
         // 20. Reverse Each String
+        List<String> reversed = arr01.stream()   
+            .map(w -> new StringBuilder(w).reverse().toString())
+            .toList();
         
 
         // System.out.println("23. Reversed: " + reversed);
@@ -299,6 +312,7 @@ public class Stream30 {
         // 21. Partition Even and Odd Numbers // collect: Convert stream to collection
         
 
+
         // System.out.println("15. Partition: " + partition);
         // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
 
@@ -306,7 +320,8 @@ public class Stream30 {
 
         // =======================================================
         // 22. Join Strings
-        
+        String joined = arr01.stream()
+            .collect(Collectors.joining(" "));
 
         // System.out.println("18. Joined: " + joined);
         // Output: 18. Joined: java, stream, api
@@ -315,9 +330,11 @@ public class Stream30 {
 
         // =======================================================
         // 23. Convert List to Map and word length
-        
+        Map<Integer, List<String>> map = arr01.stream()
+            .collect(Collectors.groupingBy(String::length));
+            // .collect(Collectors.groupingBy(String::length));
 
-        // System.out.println("21. Map: " + map);
+        System.out.println("21. Map: " + map);
         // Output: 21. Map: {java=4, stream=6, api=3}
         // Map:  {3=[api], 4=[java], 5=[level, madam], 6=[stream]}
 
@@ -325,9 +342,11 @@ public class Stream30 {
 
         // =======================================================
         // 24. Group by First Character
+        Map<Character, List<String>> mapByFirst = arr01.stream()
+            .collect(Collectors.groupingBy(w -> w.charAt(0)));
         
 
-        // System.out.println("25. Grouped by First Char: " + mapByFirst);
+         System.out.println("25. Grouped by First Char: " + mapByFirst);
         // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
 

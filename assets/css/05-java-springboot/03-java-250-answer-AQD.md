@@ -5493,18 +5493,11 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 7. **Response** – Data returns back to the client.
 
 
-## 4. What is @Bean and @Configuration
+## 4. What is @Configuration and @Bean?
 
 
-`@Configuration` is used to declare a class as a **Spring configuration class**.
+**@Configuration** is used to declare a class as a **Spring configuration class**.
 It tells the **Spring Framework** that this class contains bean definitions.
-
-
-```java
-@Configuration
-public class AppConfig {
-}
-```
 
 **Purpose:**
 
@@ -5513,17 +5506,54 @@ public class AppConfig {
 * Tells Spring: “Look here for object creation logic”
 
 
-`@Bean` is used to **create a Spring Bean object** and give it to the Spring container.
+**Spring Bean** is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
+
+**Step 1 — Create a Bean Class**
 
 ```java
+public class GreetingService {
+
+    public String greet() {
+        return "Hello, Welcome to Spring!";
+    }
+}
+```
+
+**Step 2 — Configuration Class**
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 @Configuration
 public class AppConfig {
 
     @Bean
-    public Student student() {
-        return new Student();
+    public GreetingService greetingService() {
+        return new GreetingService();
     }
 }
+```
+
+**Step 3 — Use the Bean**
+
+```java
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class TestApp {
+
+    public static void main(String[] args) {
+        ApplicationContext context =
+                new AnnotationConfigApplicationContext(AppConfig.class);
+
+        GreetingService service = context.getBean(GreetingService.class);
+        System.out.println(service.greet());
+    }
+}
+
+// Output:
+Hello, Welcome to Spring!
 ```
 
 **`@Bean` vs `@Component` (Quick Difference)**
@@ -5533,10 +5563,6 @@ public class AppConfig {
 | Defined in | Method inside config class     | Directly on class        |
 | Control    | More manual control            | Auto-detected (scanning) |
 | Use case   | Third-party or complex objects | Your own classes         |
-
-
-
-
 
 
 ## 5. How can you disable specific auto-configurations in Spring Boot?
