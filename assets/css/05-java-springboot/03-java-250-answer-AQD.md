@@ -5682,30 +5682,6 @@ It's the standard annotation for Spring Boot main classes and enables all essent
 Controller / RestController → Service → Repository → Database
 ```
 
-**@Repository** is used for database/DAO layer and provides exception handling.
-
-```java
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Page<User> findByName(String name, Pageable pageable);
-    Page<User> findAll(Pageable pageable);
-}
-```
-
-**@Service** is used for business logic layer.
-
-```java
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository repo;
-
-    public String getUser() {
-        return repo.getUser();
-    }
-}
-```
-
 **@Controller (Returns View)r** is used to handle web requests and return views (like JSP/HTML).
 
 ```java
@@ -5722,7 +5698,6 @@ public class UserController {
 }
 ```
 
-
 **@RestController (Returns JSON)** is used to build REST APIs and returns JSON/XML data instead of views.
 ```java
 @RestController
@@ -5738,6 +5713,32 @@ public class UserRestController {
 `@RestController` = `@Controller` + `@ResponseBody`
 ```
 
+
+**@Service** is used for business logic layer.
+
+```java
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository repo;
+
+    public String getUser() {
+        return repo.getUser();
+    }
+}
+```
+
+
+**@Repository** is used for database/DAO layer and provides exception handling.
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findByName(String name, Pageable pageable);
+    Page<User> findAll(Pageable pageable);
+}
+```
+
 **@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
 ```java
 @Component
@@ -5747,8 +5748,6 @@ public class EmailUtil {
     }
 }
 ```
-
-
 
 ## 8. What is @Autowired vs @Inject annotation?
 
