@@ -1869,6 +1869,17 @@ Set<Integer> set = new HashSet<>();
 Map<String, Integer> map = new HashMap<>();
 ```
 
+Here’s a cleaner and corrected version of your table:
+
+```
+Interface    | Common Classes                         | Description
+-------------|----------------------------------------|-----------------------------------------
+List         | ArrayList, LinkedList                  | Ordered collection that allows duplicates
+Set          | HashSet, TreeSet, LinkedHashSet        | Collection of unique elements (no duplicates)
+Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs with unique keys
+```
+
+
 ## 2. What is the difference between ArrayList and LinkedList?
 
 **ArrayList** uses a **dynamic array**, so it gives **fast random access (O(1))**, but **slow insertions/deletions in the middle** due to shifting.
