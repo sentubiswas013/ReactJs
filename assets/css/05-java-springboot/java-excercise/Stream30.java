@@ -28,6 +28,7 @@ public class Stream30 {
     }
 
     public static void main(String[] args) {
+        String input = "madam";
         String sentence="Java Stream API is very powerful";
         List<Integer> num01 = Arrays.asList(0,1,7, 3,0,4,5,0,6,9);
         List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
@@ -112,6 +113,16 @@ public class Stream30 {
         List<String> palindromes = arr01.stream()
                 .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
                 .toList();
+
+        List<String> palindromes = Arrays.stream(input.split(" "))
+            .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
+            .toList();
+
+            if (!palindromes.isEmpty()) {
+                    palindromes.forEach(System.out::println);
+            } else {
+                System.out.println("No palindromes found");
+            }
 
         // System.out.println("22. Palindromes: " + palindromes);
         // Output: 22. Palindromes: []
@@ -243,9 +254,8 @@ public class Stream30 {
 
         // =======================================================
         // 16. Count Frequency of Characters
-        String str = "success";
-        Map<Character, Long> freq = str.chars()
-                .mapToObj(c -> (char)c)
+        Map<Character, Long> freq = input.chars()
+                .mapToObj(c -> (char) c)
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
 
         // System.out.println("13. Frequency: " + freq);
@@ -255,7 +265,6 @@ public class Stream30 {
 
         // =======================================================
         // 17. Find First Non-Repeated Character
-        String input = "swiss";
         Character result = input.chars()
                 .mapToObj(c -> (char)c)
                 .filter(c -> input.indexOf(c) == input.lastIndexOf(c))

@@ -29,6 +29,7 @@ public class Stream30 {
     }
 
     public static void main(String[] args) {
+        String input = "madam";
         String sentence="Java Stream API is very powerful";
         List<Integer> num01 = Arrays.asList(0,1,7,2,3,0,4,5,0,6,9);
         List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);

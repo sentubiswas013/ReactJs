@@ -3371,7 +3371,7 @@ List list = new ArrayList(); // Suppresses unchecked warning
 
 ## 3. What is @Target, @Documented, @Inherited?
 
-** @Target** defines **where we can use the annotation** (class, method, field, etc.).
+**@Target** defines **where we can use the annotation** (class, method, field, etc.).
 
 
 ```java
