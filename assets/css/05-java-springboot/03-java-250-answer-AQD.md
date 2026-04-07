@@ -9979,3 +9979,51 @@ Testing environments don't replicate production conditions:
 
 
 # ✅ 29. Miscellaneous
+
+## **Q0. Tell me about yourself (Java Developer)**
+
+I am a Java Full Stack Developer with around **10+ years of experience** in designing and developing scalable web applications. My primary expertise is in **Java, Spring Boot, and microservices architecture** for backend development, and **React or Angular** for frontend development.
+
+In my current role, I work on building **RESTful APIs using Spring Boot**, implementing business logic, and integrating services with **databases like MySQL or PostgreSQL**. On the frontend side, I develop responsive user interfaces and integrate them with backend APIs.
+
+I also have experience with **microservices architecture**, where I work with tools like **Spring Cloud, Feign Client, Kafka for event-driven communication, and Redis for caching**. For security, I have implemented **JWT-based authentication using Spring Security**.
+
+From a DevOps perspective, I have worked with **Docker, Kubernetes, and CI/CD pipelines using Jenkins or GitHub Actions**, and deployed applications on **cloud platforms like AWS**.
+
+I follow **clean coding practices, unit testing with JUnit and Mockito, and Agile development methodologies**. I enjoy solving performance issues, improving system scalability, and collaborating with cross-functional teams to deliver reliable software solutions.
+
+
+## **Q1. Current role responsibilities & day-to-day activity (Java Developer)**
+
+In my current role, I mainly develop **REST APIs using Java and Spring Boot**, implement business logic, and work with **microservices architecture**.
+
+I handle **database operations with MySQL/PostgreSQL**, and on the frontend side I build **UI components using React or Angular**.
+
+I also write **unit tests, participate in code reviews, and support CI/CD deployments using Docker and Jenkins**.
+
+Additionally, I work closely with QA and product teams in **Agile ceremonies like daily stand-ups and sprint planning** to deliver features efficiently.
+
+
+## **Q2. Explain agile stategy**
+
+In **Agile**, teams usually have **4–5 regular meetings (ceremonies/calls)** in each **Scrum** sprint.
+
+1. **Sprint Planning :**
+**Purpose:** Decide **what work will be done in the sprint** and how the team will complete it.
+**Participants:** Product Owner, Scrum Master, Development Team.
+
+2. **Daily Stand-up (Daily Scrum) :**
+**Purpose:** Quick **15-minute daily call** to discuss:
+
+* What you did yesterday
+* What you will do today
+* Any blockers
+
+3. **Sprint Review :**
+**Purpose:** Demonstrate the **completed work to stakeholders** and get feedback.
+
+4. **Sprint Retrospective :**
+**Purpose:** Team discusses **what went well, what didn’t, and improvements for next sprint**.
+
+5. **Backlog Refinement (Grooming)  *(optional but common)* : **
+**Purpose:** Review and **clarify upcoming backlog items** so they are ready for future sprints.
