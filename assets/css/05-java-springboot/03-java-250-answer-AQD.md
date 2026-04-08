@@ -2576,6 +2576,42 @@ Task running in thread: Thread-0
 ## 2.  What is ConcurrentHashMap and when to use?
 
 
+**“`ConcurrentHashMap` is a thread-safe implementation of `Map` that allows multiple threads to read and write data concurrently without locking the entire map.”**
+
+
+**Why Not `HashMap`**
+
+* ❌ Not thread-safe
+* ❌ Data inconsistency in multi-threading
+* ❌ Can cause unpredictable behavior
+
+
+**Why `ConcurrentHashMap`?**
+
+* ✅ Thread-safe
+* ✅ Better performance
+* ✅ Allows parallel reads & writes
+* ❌ Does NOT allow `null` key/value
+
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+
+map.put("A", 1);
+map.put("B", 2);
+```
+
+**Real-Time Use Cases**
+
+* Caching frequently accessed data (user/session data)
+* Counting API hits or tracking events
+* Multi-threaded data processing
+* Real-time applications (chat apps, dashboards, trading systems)
+* Spring Boot in-memory caching / shared state between threads
+
+
 ## 3.  What is a Thread Pool and What are the types of thread pools?
 
 A **Thread Pool** is a collection of **pre-created threads** that are reused to execute multiple tasks.
