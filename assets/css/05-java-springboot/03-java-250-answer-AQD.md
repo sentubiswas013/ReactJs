@@ -6096,11 +6096,71 @@ public class SecureController {
 ```
 ## 14. What is Lombok in Java and and whe can we use?
 
-**Lombok** is a Java library that reduces boilerplate code by automatically generating getters, setters, constructors, and other methods using annotations.
 
-If we don’t want to manually write **getters and setters** in Java, we can use **Lombok’s `@Getter` and `@Setter` annotations** on the class or fields.
+## 🚀 What is Lombok in Java?
 
-Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
+**Lombok** is a **Java library** that helps reduce boilerplate code by generating common methods automatically at compile time using annotations.
+
+
+**Example Without Lombok**
+
+```java
+public class User {
+    private String name;
+    private int age;
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+}
+```
+
+**Same Code Using Lombok**
+
+```java
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class User {
+    private String name;
+    private int age;
+}
+```
+
+**Lombok automatically generates getter & setter at compile time.**
+
+---
+
+**Common Lombok Annotations**
+
+| Annotation            | Purpose                                                 |
+| --------------------- | ------------------------------------------------------- |
+| `@Getter` / `@Setter` | Generates getters & setters                             |
+| `@ToString`           | Generates `toString()`                                  |
+| `@EqualsAndHashCode`  | Generates `equals()` & `hashCode()`                     |
+| `@NoArgsConstructor`  | No-arg constructor                                      |
+| `@AllArgsConstructor` | All-arg constructor                                     |
+| `@Builder`            | Builder pattern                                         |
+| `@Data`               | Combines multiple (`Getter + Setter + ToString + etc.`) |
+
+
+
+**Use Lombok when:**
+
+* Creating **DTOs / POJOs**
+* Working with **Spring Boot projects**
+* You want **clean and readable code**
+* Reducing boilerplate
+
+**Avoid Lombok when:**
+
+* Debugging is critical (generated code not visible)
+* Team is not familiar with Lombok
+* You want explicit control over methods
 
 ## 17. How can you create a custom configuration and auto-configuration in Spring Boot?
 
