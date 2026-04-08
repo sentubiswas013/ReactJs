@@ -3997,6 +3997,17 @@ numbers.stream()
 
 `flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
 
+**`map()`**
+
+* Transforms each element → **1 to 1**
+* Returns same number of elements
+
+**`flatMap()`**
+
+* Transforms each element → **1 to many**
+* Flattens nested structure
+
+
 ```java
 List<String> words = Arrays.asList("Hello", "World");
 
