@@ -3099,11 +3099,11 @@ export class ComparisonComponent {
 These are **transformation operators** that modify Observable streams. Each serves different purposes for data transformation and flattening.
 
 **Operators:**
-- `map` - Transform values
-- `filter` - Filter values
-- `switchMap` - Switch to new Observable (cancel previous)
-- `mergeMap` - Merge multiple Observables
-- `concatMap` - Concatenate Observables sequentially
+- `map` - Transforms each emitted value into a new value (1 → 1).
+- `filter` - Filters emitted values based on a condition and allows only matching values.
+- `switchMap` - Cancels the previous observable and switches to a new one, emitting only the latest result.
+- `mergeMap` - Subscribes to multiple observables in parallel and merges their results
+- `concatMap` - Processes observables sequentially, waiting for each to complete before starting the next.
 
 **1. `switchMap` ✅ (Best for search / typeahead)**
 
