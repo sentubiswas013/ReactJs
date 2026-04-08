@@ -5677,9 +5677,7 @@ public class SecurityConfig {
 
 ## 12. What is Spring Cloud? 
 
-**Spring Cloud** is a framework for **building distributed systems and microservices**.
-
-It provides tools for **service discovery (Eureka/Consul)**, **circuit breakers (Hystrix)**, **API gateways (Zuul/Gateway)**, **centralized configuration**, and **client-side load balancing**.
+Spring Cloud is a framework that helps developers build and manage microservices easily. It provides ready-made solutions for common problems like service discovery, load balancing, configuration management, and fault tolerance.
 
 * **Service Discovery**: Eureka, Consul integration
 * **Circuit Breaker**: Hystrix for fault tolerance
