@@ -2514,7 +2514,7 @@ In Java, threads are used to perform multiple tasks concurrently to improve perf
 
 # ✅ 9. Java Advanced Concurrency 
 
-## 0. What is **Concurrency in Java**?
+## 1. What is **Concurrency in Java**?
 
 **Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
 
@@ -2573,7 +2573,10 @@ Task running in thread: Thread-0
 | May run on one CPU         | Requires multiple cores                 |
 
 
-## 1.  What is a Thread Pool and What are the types of thread pools?
+## 2.  What is ConcurrentHashMap and when to use?
+
+
+## 3.  What is a Thread Pool and What are the types of thread pools?
 
 A **Thread Pool** is a collection of **pre-created threads** that are reused to execute multiple tasks.
 
@@ -2637,7 +2640,7 @@ Task executed by: pool-1-thread-1
 Task executed by: pool-2-thread-1
 ```
 
-## 2. What is ExecutorService?
+## 4. What is ExecutorService?
 
 **ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, in the background.
 
@@ -2696,7 +2699,7 @@ Another task
 * One thread → update database
 
 
-## 3. What is CountDownLatch and CyclicBarrier?
+## 5. What is CountDownLatch and CyclicBarrier?
 
 **CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
 
@@ -2790,7 +2793,7 @@ Thread-2 crossed barrier
 | countDown()             | await()                 |
 
 
-## 4. What is ReentrantLock?
+## 6. What is ReentrantLock?
 
 **ReentrantLock** is a class in Java (`java.util.concurrent.locks`) that provides an explicit and more flexible locking mechanism than `synchronized`.
 
@@ -2847,7 +2850,7 @@ Thread-1 inside method1
 Thread-1 inside method2
 ```
 
-## 5. What is immutability in Java? 
+## 7. What is immutability in Java? 
 
 **Immutability** in **Java** means that **once an object is created, its state (data) cannot be changed**. If any modification is needed, a **new object is created instead**.
 
