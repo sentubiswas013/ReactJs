@@ -29,6 +29,23 @@ JRE = JVM + Core Libraries (java.lang, java.util, etc.)
 JVM = Runtime execution environment
 ```
 
+**JVM Architecture  Diagram** 
+
+```text
+        Class Loader
+             ↓
+     Runtime Data Areas
+   ------------------------
+   Heap | Stack | Method Area
+   ------------------------
+             ↓
+     Execution Engine
+   (Interpreter + JIT)
+             ↓
+      Garbage Collector
+```
+
+
 ## 3. What are the main principles of Object-Oriented Programming?
 
 **Object-Oriented Programming** is based on four fundamental principles that promote code reusability, maintainability, and modularity.
