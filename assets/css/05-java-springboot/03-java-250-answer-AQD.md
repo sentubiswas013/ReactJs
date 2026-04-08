@@ -4009,17 +4009,29 @@ numbers.stream()
 
 
 ```java
-List<String> words = Arrays.asList("Hello", "World");
 
 // map() - one-to-one
-List<Integer> lengths = words.stream()
-    .map(String::length)        // ["Hello", "World"] → [5, 5]
-    .collect(Collectors.toList());
+List<String> names = List.of("java", "spring");
+
+List<String> result = names.stream()
+    .map(String::toUpperCase)
+    .toList();
+
+System.out.println(result);
+// Output: [JAVA, SPRING]
 
 // flatMap() - one-to-many, then flatten
-List<String> letters = words.stream()
-    .flatMap(word -> Arrays.stream(word.split(""))) // Flatten arrays
-    .collect(Collectors.toList()); // [H, e, l, l, o, W, o, r, l, d]
+List<List<String>> list = List.of(
+    List.of("A", "B"),
+    List.of("C", "D")
+);
+
+List<String> result = list.stream()
+    .flatMap(Collection::stream)
+    .toList();
+
+System.out.println(result);
+// Output: [A, B, C, D]
 ```
 
 ## 10. What is Optional class?
