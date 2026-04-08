@@ -3105,6 +3105,83 @@ These are **transformation operators** that modify Observable streams. Each serv
 - `mergeMap` - Merge multiple Observables
 - `concatMap` - Concatenate Observables sequentially
 
+**1. `switchMap` ✅ (Best for search / typeahead)**
+
+* Cancels previous request when a new one comes
+* Only keeps **latest result**
+* Prevents unnecessary API calls
+
+**Use when:**
+
+* User typing search
+* Autocomplete / filters
+* Real-time queries
+
+```ts
+this.searchControl.valueChanges.pipe(
+  debounceTime(300),
+  distinctUntilChanged(),
+  switchMap(value => this.api.search(value))
+).subscribe(data => console.log(data));
+```
+
+✔ Best for **millions of data search**
+✔ Avoids backend overload
+✔ Improves UX
+
+---
+
+**2. `mergeMap` ⚡ (Parallel execution)**
+
+* Executes multiple API calls **in parallel**
+* Does NOT cancel previous calls
+
+**Use when:**
+
+* You need all responses
+* Independent API calls
+
+```ts
+from(ids).pipe(
+  mergeMap(id => this.api.getData(id))
+).subscribe();
+```
+
+❌ Dangerous for large datasets
+→ Can overload server if too many requests
+
+---
+
+**3. `forkJoin` 📦 (Wait for all)**
+
+* Executes multiple calls in parallel
+* Returns result **only when ALL complete**
+
+**Use when:**
+
+* Page load with multiple APIs
+* Dashboard data
+
+```ts
+forkJoin({
+  users: this.api.getUsers(),
+  orders: this.api.getOrders()
+}).subscribe(res => console.log(res));
+```
+
+❌ Not for dynamic search
+❌ Not scalable for large datasets
+
+
+**Simple Comparison**
+
+| Operator  | Use Case       | Good for Millions Data? |
+| --------- | -------------- | ----------------------- |
+| switchMap | Search         | ✅ YES (Best)            |
+| mergeMap  | Parallel calls | ⚠️ Limited use          |
+| forkJoin  | Initial load   | ❌ NO                    |
+
+
 ```typescript
 // map - transform each value
 const numbers$ = of(1, 2, 3, 4);
