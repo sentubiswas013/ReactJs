@@ -575,6 +575,45 @@ class Test {
 
 # ✅ 3. Classes and Objects
 
+## 0. What is class loader and how do they work?
+
+A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
+
+
+**How ClassLoader Works**
+
+Java follows a **Delegation Hierarchy Model**:
+
+1. **Bootstrap ClassLoader**
+
+   * Loads core Java classes (e.g., `java.lang.*`)
+2. **Extension (Platform) ClassLoader**
+
+   * Loads classes from `jre/lib/ext`
+3. **Application (System) ClassLoader**
+
+   * Loads classes from classpath
+
+
+```java
+public class Test {
+    public static void main(String[] args) {
+
+        // Application ClassLoader
+        ClassLoader appLoader = Test.class.getClassLoader();
+        System.out.println("Application ClassLoader: " + appLoader);
+
+        // Extension ClassLoader
+        ClassLoader extLoader = appLoader.getParent();
+        System.out.println("Extension ClassLoader: " + extLoader);
+
+        // Bootstrap ClassLoader (returns null)
+        ClassLoader bootstrapLoader = extLoader.getParent();
+        System.out.println("Bootstrap ClassLoader: " + bootstrapLoader);
+    }
+}
+```
+
 ## 1. What is a constructor in Java and how do they work?
 
 A constructor in Java is a **special method used to initialize objects**.
