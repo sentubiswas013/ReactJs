@@ -867,13 +867,25 @@ abstract class Animal {
 
 Abstract class can have both implemented and abstract methods, while interface is fully abstract (before Java 8). Interface supports multiple inheritance.
 
+| Feature | Abstract Class | Interface |
+|---|---|---|
+| Methods | Abstract + concrete | Abstract + default + static (Java 8+) |
+| Variables | Any type (instance, static) | `public static final` only |
+| Constructors | ✅ Yes | ❌ No |
+| Multiple inheritance | ❌ One class only | ✅ Multiple interfaces |
+| Access modifiers | Any | Methods are `public` by default |
+
 ```java
-abstract class A {
-    void show() {}
+abstract class Animal {
+    String name;                        // instance variable ✅
+    abstract void sound();              // abstract method
+    void breathe() { System.out.println("breathing"); } // concrete method
 }
 
-interface B {
-    void display();
+interface Flyable {
+    int MAX_HEIGHT = 1000;              // public static final ✅
+    void fly();                         // abstract method
+    default void land() { System.out.println("landing"); } // default method (Java 8+)
 }
 ```
 
@@ -1058,7 +1070,30 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 
 # ✅ 4. Java Inheritance 
 
-## 1. Why doesn't Java support multiple inheritance (with classes)?
+
+
+## 1. What is Inheritance in Java?
+
+Inheritance is a feature where one class **gets properties and methods of another class**.
+
+👉 *In simple words:* child class uses parent class code.
+
+```java
+class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Barking...");
+    }
+}
+```
+
+
+## 2. Why doesn't Java support multiple inheritance (with classes)?
 
 Java does not support multiple inheritance with **classes** to avoid the **Diamond Problem** and complexity.
 
@@ -1085,7 +1120,7 @@ class D extends B, C {   // ❌ Not allowed in Java
 }
 ```
 
-## 2. What is the diamond problem?
+## 3. What is the diamond problem?
 
 The diamond problem occurs when a class inherits from two classes that both inherit from the same base class, creating ambiguity about which method to call.
 
@@ -1116,7 +1151,353 @@ class C implements A, B {
 }
 ```
 
-## 5. Which type of polymorphism does method overloading represent?
+
+## 4. Why do we use Inheritance?
+
+We use inheritance to:
+
+* **Reuse code**
+* **Avoid duplication**
+* **Make code cleaner and organized**
+
+👉 *Example:* Dog already gets `eat()` from Animal, no need to rewrite it.
+
+
+## 5. What is `extends` keyword?
+
+`extends` is used to **inherit a class**.
+
+```java
+class Dog extends Animal {
+}
+```
+
+👉 Dog is inheriting from Animal using `extends`.
+
+
+## 6. What is IS-A Relationship?
+
+IS-A means **one object is a type of another**.
+
+👉 Example:
+
+* Dog IS-A Animal ✅
+
+```java
+Dog d = new Dog(); // Dog is also an Animal
+```
+
+
+## 7. What is Method Overriding?
+
+Method overriding means **child class provides its own version of parent method**.
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+👉 Same method name, but different behavior.
+
+
+## 8. Types of Inheritance in Java
+
+Java supports:
+
+* **Single**
+* **Multilevel**
+* **Hierarchical**
+
+👉 *Note:* Multiple inheritance is not supported with classes.
+
+
+## 9. Does Java support Multiple Inheritance? Why?
+
+❌ No, Java does not support multiple inheritance with classes.
+
+👉 *Reason:* To avoid **ambiguity problem (Diamond problem)**.
+
+✅ But it supports it using **interfaces**.
+
+
+## 10. What is Multilevel Inheritance?
+
+When a class inherits from a class, which already inherits another class.
+
+```java
+class Animal {
+    void eat() {}
+}
+
+class Dog extends Animal {
+    void bark() {}
+}
+
+class Puppy extends Dog {
+    void weep() {}
+}
+```
+
+👉 Puppy → Dog → Animal
+
+
+## 11. What is Hierarchical Inheritance?
+
+Multiple child classes inherit from one parent class.
+
+```java
+class Animal {
+    void eat() {}
+}
+
+class Dog extends Animal {}
+class Cat extends Animal {}
+```
+
+👉 Dog and Cat both inherit Animal
+
+
+
+## 12. Can we override static methods?
+
+❌ No
+
+👉 Static methods are **not overridden**, they are **hidden**.
+
+
+## 13. Can we override final methods?
+
+❌ No
+
+👉 Final methods cannot be changed in child class.
+
+```java
+class Animal {
+    final void run() {}
+}
+
+class Dog extends Animal {
+    // ❌ Error: cannot override final method
+}
+```
+
+
+## 14. What is runtime polymorphism?
+
+👉 *“Runtime polymorphism means method execution is decided at runtime based on object type using method overriding.”*
+
+```java
+class A {
+    void show() { System.out.println("A"); }
+}
+
+class B extends A {
+    void show() { System.out.println("B"); }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        A obj = new B();
+        obj.show(); // Output: B
+    }
+}
+```
+
+
+## 15. How does method overriding work internally?
+
+👉 *“JVM uses dynamic method dispatch. It decides method call at runtime based on actual object, not reference.”*
+
+
+## 16. What are rules for method overriding?
+
+👉 *“Same name, same parameters, same or covariant return type, and cannot reduce access level.”*
+
+* Cannot override `final`, `static`, `private`
+* Access modifier can be same or more open
+
+
+## 17. What is covariant return type?
+
+👉 *“Child class can return a more specific type than parent method.”*
+
+```java
+class A {}
+class B extends A {}
+
+class Parent {
+    A get() { return new A(); }
+}
+
+class Child extends Parent {
+    B get() { return new B(); } // allowed
+}
+```
+
+
+## 18. Can constructors be inherited?
+
+👉 *“No, constructors are not inherited because they belong to class initialization.”*
+
+
+## 19. What is the order of constructor execution?
+
+👉 *“Parent constructor executes first, then child constructor.”*
+
+```java
+class A {
+    A() { System.out.println("Parent"); }
+}
+
+class B extends A {
+    B() { System.out.println("Child"); }
+}
+```
+
+**Output:**
+
+```
+Parent
+Child
+```
+
+
+## 20. What happens if parent constructor is not called?
+
+👉 *“Java automatically calls default parent constructor using super().”*
+
+```java
+class A {
+    A() { System.out.println("Parent"); }
+}
+
+class B extends A {
+    B() {
+        // super() is added automatically
+        System.out.println("Child");
+    }
+}
+```
+
+
+## 21. Can we extend multiple classes in Java?
+
+👉 *“No, Java does not support multiple inheritance for classes to avoid ambiguity.”*
+
+```java id="7c8h3n"
+// class C extends A, B {} ❌ NOT ALLOWED
+```
+
+
+## 22. Can we inherit private members?
+
+👉 *“Yes, but we cannot access them directly outside the class.”*
+
+```java 
+class A {
+    private int x = 10;
+
+    int getX() { return x; } // access via method
+}
+
+class B extends A {
+    void show() {
+        // System.out.println(x); ❌ ERROR
+        System.out.println(getX()); // ✅
+    }
+}
+```
+
+
+## 23. Can we override private methods?
+
+👉 *“No, private methods are not visible, so they cannot be overridden.”*
+
+```java 
+class A {
+    private void show() {}
+}
+
+class B extends A {
+    // void show() {} ❌ not overriding, new method
+}
+```
+
+
+## 24. Can we change access modifier while overriding?
+
+👉 *“Yes, but only to increase visibility, not decrease.”*
+
+```java id="c2h9rf"
+class A {
+    protected void show() {}
+}
+
+class B extends A {
+    public void show() {} // ✅ allowed
+}
+```
+
+
+## 25. What happens if parent and child have same variable name?
+
+👉 *“Variable hiding happens. Access depends on reference type.”*
+
+```java id="6y5kdn"
+class A { int x = 10; }
+class B extends A { int x = 20; }
+
+public class Test {
+    public static void main(String[] args) {
+        A obj = new B();
+        System.out.println(obj.x); // 10
+    }
+}
+```
+
+
+## 26. Can abstract class have constructor?
+
+👉 *“Yes, it is used to initialize variables when child object is created.”*
+
+```java id="ux1l7p"
+abstract class A {
+    A() { System.out.println("Abstract constructor"); }
+}
+
+class B extends A {}
+```
+
+
+## 27. Can interface extend class?
+
+👉 *“No, interface can only extend another interface.”*
+
+```java id="1jxv8n"
+// interface A extends B {} (only if B is interface)
+```
+
+
+## 28. Can class extend interface?
+
+👉 *“No, class cannot extend interface. It uses implements keyword.”*
+
+```java id="8mz4tt"
+interface A {}
+
+class B implements A {}
+```
+
+## 29. Which type of polymorphism does method overloading represent?
 
 **Method overloading** represents **compile-time polymorphism** (also called static polymorphism or early binding).
 
@@ -1134,56 +1515,8 @@ c.add(1, 2);       // calls int version
 c.add(1.0, 2.0);   // calls double version
 ```
 
-> **Contrast:** Method **overriding** = runtime polymorphism (resolved at runtime based on actual object type).
 
----
-
-## 6. Difference between an abstract class and an interface in Java?
-
-| Feature | Abstract Class | Interface |
-|---|---|---|
-| Methods | Abstract + concrete | Abstract + default + static (Java 8+) |
-| Variables | Any type (instance, static) | `public static final` only |
-| Constructors | ✅ Yes | ❌ No |
-| Multiple inheritance | ❌ One class only | ✅ Multiple interfaces |
-| Access modifiers | Any | Methods are `public` by default |
-
-```java
-abstract class Animal {
-    String name;                        // instance variable ✅
-    abstract void sound();              // abstract method
-    void breathe() { System.out.println("breathing"); } // concrete method
-}
-
-interface Flyable {
-    int MAX_HEIGHT = 1000;              // public static final ✅
-    void fly();                         // abstract method
-    default void land() { System.out.println("landing"); } // default method (Java 8+)
-}
-```
-
-## 8. How are variables defined differently in interfaces compared to abstract classes?
-
-| | Abstract Class | Interface |
-|---|---|---|
-| Variable types | Instance, static, final, non-final | `public static final` **only** |
-| Mutability | Can be mutable | Always constants (immutable) |
-| Access modifiers | Any (`private`, `protected`, `public`) | Always `public` |
-
-```java
-abstract class Vehicle {
-    int speed = 0;          // mutable instance variable ✅
-    static int count = 0;   // mutable static variable ✅
-    final int MAX = 200;    // constant ✅
-}
-
-interface Config {
-    int TIMEOUT = 30;       // compiler treats as: public static final int TIMEOUT = 30
-    // int count = 0;       // ❌ cannot be reassigned — it's final
-}
-```
-
-## 9. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
+## 30. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
 
 Java gives a **compile-time error** — the class must **override** the conflicting default method to resolve the ambiguity.
 
@@ -1210,7 +1543,7 @@ class C implements A, B {
 }
 ```
 
-## 10. Can an interface have a constructor in Java, and why or why not?
+## 31. Can an interface have a constructor in Java, and why or why not?
 
 **No.** Interfaces cannot have constructors.
 
@@ -1233,9 +1566,8 @@ class Dog implements Animal {
 }
 ```
 
----
 
-## 11. Can an interface have instance variables in Java, and if not, what type of variables can it have?
+## 31. Can an interface have instance variables in Java, and if not, what type of variables can it have?
 
 **No.** Interfaces cannot have instance variables.
 
@@ -1259,43 +1591,6 @@ class Circle implements MathConstants {
 // Access without an instance
 System.out.println(MathConstants.PI);       // 3.14159
 System.out.println(MathConstants.MAX_VALUE); // 100
-```
-
-## 12. In an inheritance hierarchy, how is a method resolved when called using a parent reference?
-
-Java uses **dynamic dispatch (runtime polymorphism)**:
-- The **reference type** determines which methods are *accessible* (compile-time check)
-- The **actual object type** determines which method *runs* (runtime decision)
-
-```java
-class Animal {
-    void sound() { System.out.println("Some sound"); }
-    static void type() { System.out.println("Animal"); }  // static — NOT overridden
-}
-
-class Dog extends Animal {
-    @Override
-    void sound() { System.out.println("Woof"); }          // overrides parent
-    static void type() { System.out.println("Dog"); }     // hides parent (not override)
-}
-
-Animal a = new Dog();   // parent reference, child object
-
-a.sound();  // "Woof"   — runtime: actual object is Dog → Dog's sound() runs
-a.type();   // "Animal" — static methods use reference type (compile-time binding)
-```
-
-**Resolution rules:**
-1. **Instance methods** → resolved at **runtime** based on actual object type (dynamic dispatch)
-2. **Static methods** → resolved at **compile time** based on reference type (no polymorphism)
-3. **Instance variables** → resolved at **compile time** based on reference type (no polymorphism)
-
-```java
-class Parent { String name = "Parent"; }
-class Child extends Parent { String name = "Child"; }
-
-Parent p = new Child();
-System.out.println(p.name);  // "Parent" — variables use reference type, not object type
 ```
 
 
