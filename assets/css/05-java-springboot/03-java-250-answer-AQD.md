@@ -1381,7 +1381,7 @@ Use **abstract class** when:
 
 **Answer:**
 
-SOLID is an acronym for five design principles that make software more maintainable and scalable:
+**SOLID** is a set of five object-oriented design principles that help write clean, maintainable, and scalable code.
 
 - **S**ingle Responsibility: A class should have one reason to change
 - **O**pen/Closed: Open for extension, closed for modification
@@ -1389,136 +1389,109 @@ SOLID is an acronym for five design principles that make software more maintaina
 - **I**nterface Segregation: Many specific interfaces are better than one general interface
 - **D**ependency Inversion: Depend on abstractions, not concrete implementations
 
-**Example:**
-**S — Single Responsibility Principle (SRP)**
+**S – Single Responsibility Principle (SRP)**
 
-One class should have only one responsibility.
+👉 *One class should have only one responsibility*
 
-❌ Wrong:
+❌ Bad:
 
 ```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
-
-    public void sendEmail() {
-        // send email
-    }
+class User {
+    void saveUser() {}
+    void sendEmail() {}
 }
 ```
 
-✅ Correct:
+✅ Good:
 
 ```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
+class User {
+    // user data
+}
+
+class UserService {
+    void saveUser() {}
 }
 
 class EmailService {
-    public void sendEmail() {
-        // send email
+    void sendEmail() {}
+}
+```
+
+
+**O – Open/Closed Principle (OCP)**
+
+👉 *Open for extension, closed for modification*
+
+❌ Bad:
+
+```java
+class Payment {
+    void pay(String type) {
+        if(type.equals("UPI")) {}
+        else if(type.equals("Card")) {}
     }
 }
 ```
 
----
-
-**O — Open/Closed Principle (OCP)**
-
-Open for extension, closed for modification.
+✅ Good:
 
 ```java
 interface Payment {
     void pay();
 }
 
-class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Paid by Card");
-    }
-}
-
 class UpiPayment implements Payment {
-    public void pay() {
-        System.out.println("Paid by UPI");
-    }
+    public void pay() {}
 }
 
-class PaymentService {
-    public void processPayment(Payment payment) {
-        payment.pay();
-    }
+class CardPayment implements Payment {
+    public void pay() {}
 }
-
-public class Main {
-    public static void main(String[] args) {
-        PaymentService service = new PaymentService();
-
-        Payment p1 = new CardPayment();
-        service.processPayment(p1);
-
-        Payment p2 = new UpiPayment();
-        service.processPayment(p2);
-    }
-}
-
-// Output:
-Paid by Card
-Paid by UPI
 ```
 
-Now we can add **NetBankingPayment** without changing existing code.
+**L – Liskov Substitution Principle (LSP)**
 
----
+👉 *Child class should work in place of parent class*
 
-**L — Liskov Substitution Principle (LSP)**
-
-Child class should replace parent class without breaking code.
+❌ Bad:
 
 ```java
 class Bird {
-    public void fly() {
-        System.out.println("Bird can fly");
+    void fly() {
+        System.out.println("Bird is flying");
     }
 }
 
-class Sparrow extends Bird {
-    @Override
-    public void fly() {
-        System.out.println("Sparrow can fly");
+class Ostrich extends Bird {
+    void fly() {
+        throw new UnsupportedOperationException("Ostrich can't fly");
     }
 }
 
-public class Main {
+public class Test {
     public static void main(String[] args) {
-        Bird b = new Bird();
-        b.fly();
-
-        Sparrow s = new Sparrow();
-        s.fly();
-
-        Bird b2 = new Sparrow(); // Runtime Polymorphism
-        b2.fly();
+        Bird bird = new Ostrich(); // using child as parent
+        bird.fly(); // ❌ runtime error
     }
 }
-
-
-// Output:
-Bird can fly
-Sparrow can fly
-Sparrow can fly
 ```
 
-Bad example: Penguin cannot fly → violates LSP.
 
----
+**I – Interface Segregation Principle (ISP)**
 
-**I — Interface Segregation Principle (ISP)**
+👉 *Don’t force classes to implement unused methods*
 
-Create small interfaces.
+❌ Bad:
+
+```java
+interface Worker {
+    void work();
+    void eat();
+}
+```
+
+✅ Good:
 
 ```java
 interface Workable {
@@ -1528,84 +1501,34 @@ interface Workable {
 interface Eatable {
     void eat();
 }
-
-class Human implements Workable, Eatable {
-    public void work() {
-        System.out.println("Human working");
-    }
-
-    public void eat() {
-        System.out.println("Human eating");
-    }
-}
-
-class Robot implements Workable {
-    public void work() {
-        System.out.println("Robot working");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Workable w1 = new Human();
-        w1.work();
-
-        Eatable e1 = new Human();
-        e1.eat();
-
-        Workable w2 = new Robot();
-        w2.work();
-    }
-}
-
-// Output:
-Human working
-Human eating
-Robot working
 ```
 
-Robot does not implement eat() → Correct.
+**D – Dependency Inversion Principle (DIP)**
 
----
+👉 *Depend on abstraction, not concrete class*
 
-**D — Dependency Inversion Principle (DIP)
-
-Depend on abstraction, not concrete class.
+❌ Bad:
 
 ```java
-interface Payment {
-    void pay();
+class Notification {
+    EmailService email = new EmailService();
+}
+```
+
+✅ Good:
+
+```java
+interface MessageService {
+    void send();
 }
 
-class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Card payment");
+class Notification {
+    MessageService service;
+
+    Notification(MessageService service) {
+        this.service = service;
     }
 }
-
-class OrderService {
-    private Payment payment;
-
-    public OrderService(Payment payment) {
-        this.payment = payment;
-    }
-
-    public void placeOrder() {
-        payment.pay();
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Payment payment = new CardPayment();   // Inject dependency
-        OrderService orderService = new OrderService(payment);
-
-        orderService.placeOrder();
-    }
-}
-
-//Output:
-Card payment
 ```
 
 ## 10. What is `.class` and When do we use in Java?
