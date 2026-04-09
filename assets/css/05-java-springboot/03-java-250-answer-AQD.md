@@ -614,56 +614,7 @@ public class Test {
 }
 ```
 
-## 2. What is a constructor in Java and how do they work?
-
-A constructor in Java is a **special method used to initialize objects**.
-
-It is called **automatically when an object is created** and has the **same name as the class**.
-Constructors do not have a return type.
-
-There are three type of constructor:
-
-1. **Default Constructor:** No parameters, provided by Java if no constructor is defined.
-2. **Parameterized Constructor:** Takes parameters to initialize object with specific values.
-3. **Copy Constructor:** Creates a new object by copying an existing object.
-
-```java
-class Student {
-    int id;
-    String name;
-
-    // 1. Default constructor
-    Student() {
-        id = 0;
-        name = "Unknown";
-    }
-
-    // 2. Parameterized constructor
-    Student(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    // 3. Copy constructor
-    Student(Student s) {
-        this.id = s.id;
-        this.name = s.name;
-    }
-
-    public static void main(String[] args) {
-        Student s1 = new Student(); // default
-        Student s2 = new Student(1, "John"); // parameterized
-        Student s3 = new Student(s2); // copy
-
-        System.out.println(s1.id + " " + s1.name);
-        System.out.println(s2.id + " " + s2.name);
-        System.out.println(s3.id + " " + s3.name);
-    }
-}
-```
-
-
-## 3. What is the difference between this and super keywords?
+## 2. What is the difference between this and super keywords?
 
 **this** refers to the current object instance,  
 **super** refers to the immediate parent class object.
@@ -683,7 +634,7 @@ class Child extends Parent {
 }
 ```
 
-## 4. What is method overloading?
+## 3. What is method overloading?
 
 Method overloading is a feature in Java where multiple methods have the **same name** but **different parameter lists** (different number, type, or order of parameters) in the same class.
 
@@ -703,7 +654,7 @@ public class Calculator {
 }
 ```
 
-## 5. What is method overriding?
+## 4. What is method overriding?
 
 **Method overriding** is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
 
@@ -723,137 +674,13 @@ class Dog extends Animal {
 }
 ```
 
-## 6. Is it allowed to overload main() method in Java?
-
-**Yes, the `main()` method can be overloaded** in Java.
-
-The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
-
-```java
-public class Test {
-    public static void main(String[] args) { } // JVM entry point
-    public static void main(int x) { }         // Overloaded
-    public static void main() { }              // Overloaded
-}
-```
-
-## 6. Is it allowed to override main() method in Java?
-
-❌ **No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
-
-* The `main()` method is:
-
-  ```java
-  public static void main(String[] args)
-  ```
-* Since it is **static**, it belongs to the class, not the object.
-* Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
-
-## 7. Can you override static methods?
-
-No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
-
-```java
-class Parent {
-    static void display() { System.out.println("Parent"); }
-}
-
-class Child extends Parent {
-    static void display() { System.out.println("Child"); } // Hiding, not overriding
-}
-
-Parent p = new Child();
-p.display(); // Prints "Parent" - based on reference type
-```
-
-## 8. Is it possible to execute a program without defining a main() method?
-
-It is **technically possible** to run code in a **static block** without a `main()` method, but **modern Java requires `main()`** as the entry point.
-
-Using static blocks alone is **not recommended** and violates standard practices.
-
-* **Yes, using static blocks** (before Java 7)
-* **Modern Java requires main()** method for execution
-* **Static blocks execute** but program exits with error
-* **Not recommended** - violates standard practices
-
-```java
-class NoMain {
-    static {
-        System.out.println("Executing without main");
-        System.exit(0); // Required to prevent error
-    }
-}
-// Works in older Java versions, not recommended
-```
-
-## 9. How do you create an immutable class in Java?
-
-An immutable class in Java is a class whose objects cannot be changed after they are created. To create an immutable class:
-
-1. Make the class `final` so it cannot be subclassed.
-2. Make all fields `private` and `final`.
-3. Do not provide setters.
-4. Initialize fields through constructor.
-5. Return copies of mutable objects (defensive copy).
-
-```java
-final class Student {
-    private final int id;
-    private final String name;
-
-    public Student(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-}
-```
-
-## 10. Can a constructor be final, static, or abstract in Java?
-
-**Answer:** No, a constructor cannot be **final, static, or abstract**.
-
-**Why:**
-
-* **final** → Constructor is not inherited, so it cannot be overridden.
-* **static** → Static belongs to class, but constructor is used to create object.
-* **abstract** → Abstract methods have no body, but constructor must have a body.
 
 
-## 11. What happens if a static block throws an unchecked exception?
-
-If a static block throws an unchecked exception:
-
-* Class will **fails to load**
-* JVM will throws **ExceptionInInitializerError**
-* Program stops and class cannot be used
 
 
-```java
-public class Main {
-    public static void main(String[] args) {
-        Test t = new Test();
-    }
-}
 
-class Test {
-    static {
-        System.out.println("Static block running");
-        int x = 10 / 0; // ArithmeticException
-    }
-}
 
-// Output:
-Exception in thread "main" java.lang.ExceptionInInitializerError
-```
+
 
 # ✅ 4. Java Inheritance 
 
