@@ -263,6 +263,18 @@ public class Stream30 {
 
 
 
+       // =======================================================
+        // 17. Find First Non-Repeated Character
+        Map<Character, Long> vowels = input.toLowerCase().chars()
+                .mapToObj(c -> (char) c)
+                .filter(ch -> "aeiou".indexOf(ch) != -1)
+                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+
+        // System.out.println("vowels: " + vowels);
+        // Output: 5. {a=2}                
+
+
+
         // =======================================================
         // 17. Find First Non-Repeated Character
         Character result = input.chars()
@@ -272,6 +284,7 @@ public class Stream30 {
                 .orElse(null);
         // System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: w
+
 
 
 

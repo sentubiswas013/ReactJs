@@ -3549,7 +3549,171 @@ Thread-1 inside method1
 Thread-1 inside method2
 ```
 
-## 7. What is immutability in Java? 
+
+## 7. How to call three APIs concurrently:
+
+// Way One
+
+“To call three APIs concurrently in Spring Boot, we can use `CompletableFuture` with `@Async` so that all services like User, Payment, and Inventory are called in parallel, improving performance.”
+
+User Service
+Payment Service
+Inventory Service
+
+**Step 1: Enable Async**
+
+```java id="8k6y8x"
+@SpringBootApplication
+@EnableAsync
+public class Application {
+}
+```
+
+**Step 2: Create Async Service Methods**
+
+```java id="c8s8l2"
+@Service
+public class ApiService {
+
+    @Async
+    public CompletableFuture<String> getUser() {
+        // call User Service API
+        return CompletableFuture.completedFuture("User Data");
+    }
+
+    @Async
+    public CompletableFuture<String> getPayment() {
+        // call Payment Service API
+        return CompletableFuture.completedFuture("Payment Data");
+    }
+
+    @Async
+    public CompletableFuture<String> getInventory() {
+        // call Inventory Service API
+        return CompletableFuture.completedFuture("Inventory Data");
+    }
+}
+```
+
+**Step 3: Call All APIs Concurrently**
+
+```java id="fqhmr2"
+@RestController
+public class MyController {
+
+    @Autowired
+    private ApiService apiService;
+
+    @GetMapping("/getAllData")
+    public String getAllData() throws Exception {
+
+        CompletableFuture<String> user = apiService.getUser();
+        CompletableFuture<String> payment = apiService.getPayment();
+        CompletableFuture<String> inventory = apiService.getInventory();
+
+        // Wait for all to complete
+        CompletableFuture.allOf(user, payment, inventory).join();
+
+        return user.get() + " | " + payment.get() + " | " + inventory.get();
+    }
+}
+```
+
+
+// Way two:: WebClient (Reactive - Non-Blocking)
+
+We can use WebClient from Spring WebFlux to make non-blocking concurrent API calls using Mono or Flux, which is more scalable than threads.
+
+
+```java
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ApiService {
+
+    private WebClient webClient = WebClient.create();
+
+    public Mono<String> getUser() {
+        return webClient.get()
+                .uri("http://user-service/api")
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getPayment() {
+        return webClient.get()
+                .uri("http://payment-service/api")
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getInventory() {
+        return webClient.get()
+                .uri("http://inventory-service/api")
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+}
+```
+
+
+### ✅ Combine All Calls
+
+```java
+@GetMapping("/getAll")
+public Mono<String> getAll() {
+
+    Mono<String> user = apiService.getUser();
+    Mono<String> payment = apiService.getPayment();
+    Mono<String> inventory = apiService.getInventory();
+
+    return Mono.zip(user, payment, inventory)
+            .map(data -> data.getT1() + " | " +
+                         data.getT2() + " | " +
+                         data.getT3());
+}
+```
+
+
+// Way Three::  ExecutorService (Manual Thread Pool)
+
+We can use ExecutorService to manually create threads and submit tasks to call APIs in parallel.
+
+```java
+import java.util.concurrent.*;
+
+@Service
+public class ApiService {
+
+    ExecutorService executor = Executors.newFixedThreadPool(3);
+
+    public String getAllData() throws Exception {
+
+        Callable<String> userTask = () -> "User Data";
+        Callable<String> paymentTask = () -> "Payment Data";
+        Callable<String> inventoryTask = () -> "Inventory Data";
+
+        Future<String> user = executor.submit(userTask);
+        Future<String> payment = executor.submit(paymentTask);
+        Future<String> inventory = executor.submit(inventoryTask);
+
+        return user.get() + " | " + payment.get() + " | " + inventory.get();
+    }
+}
+```
+
+
+| Feature     | WebClient                | ExecutorService |
+| ----------- | ------------------------ | --------------- |
+| Type        | Non-blocking             | Blocking        |
+| Threads     | Less usage               | More threads    |
+| Performance | High scalability         | Moderate        |
+| Complexity  | Reactive learning needed | Easy            |
+
+
+
+## 8. What is immutability in Java? 
 
 **Immutability** in **Java** means that **once an object is created, its state (data) cannot be changed**. If any modification is needed, a **new object is created instead**.
 
