@@ -3655,9 +3655,6 @@ public class ApiService {
 }
 ```
 
-
-### ✅ Combine All Calls
-
 ```java
 @GetMapping("/getAll")
 public Mono<String> getAll() {
@@ -3723,7 +3720,7 @@ String s = "Hello";
 s.concat(" World"); // creates a new object, original string is unchanged
 ```
 
-## ✅ 9. What is CompletableFuture and how does it work?
+## 9. What is CompletableFuture and how does it work?
 
 **CompletableFuture** is an advanced version of Future in Java that allows asynchronous, non-blocking programming. It lets you run tasks in the background and chain multiple operations without blocking the main thread.
 
@@ -3749,7 +3746,7 @@ public class Test {
 ```
 
 
-## ✅ 10. Difference between Future and CompletableFuture
+## 10. Difference between Future and CompletableFuture
 
 **Future** is used to get the result of an async task, but it is blocking and limited. CompletableFuture is non-blocking and supports chaining, combining, and better async flow control.
 
@@ -3776,8 +3773,6 @@ public class Test {
     }
 }
 ```
-
-
 
 # ✅ 10. Java JVM & Memory Management 
 
