@@ -3723,6 +3723,61 @@ String s = "Hello";
 s.concat(" World"); // creates a new object, original string is unchanged
 ```
 
+## ✅ 9. What is CompletableFuture and how does it work?
+
+**CompletableFuture** is an advanced version of Future in Java that allows asynchronous, non-blocking programming. It lets you run tasks in the background and chain multiple operations without blocking the main thread.
+
+👉 **It works by:**
+
+* Running tasks asynchronously (`supplyAsync`, `runAsync`)
+* Chaining results (`thenApply`, `thenAccept`)
+* Combining multiple tasks (`thenCombine`, `allOf`)
+
+```java
+import java.util.concurrent.CompletableFuture;
+
+public class Test {
+    public static void main(String[] args) {
+
+        CompletableFuture<String> future =
+                CompletableFuture.supplyAsync(() -> "Hello")
+                                 .thenApply(result -> result + " World");
+
+        System.out.println(future.join()); // Hello World
+    }
+}
+```
+
+
+## ✅ 10. Difference between Future and CompletableFuture
+
+**Future** is used to get the result of an async task, but it is blocking and limited. CompletableFuture is non-blocking and supports chaining, combining, and better async flow control.
+
+
+| Feature            | Future        | CompletableFuture        |
+| ------------------ | ------------- | ------------------------ |
+| Blocking           | Yes (`get()`) | No (`thenApply`)         |
+| Chaining           | ❌ No          | ✅ Yes                    |
+| Combine tasks      | ❌ No          | ✅ Yes                    |
+| Manual completion  | ❌ No          | ✅ Yes                    |
+| Exception handling | Limited       | Better (`exceptionally`) |
+
+```java
+import java.util.concurrent.*;
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        Future<String> future = executor.submit(() -> "Hello");
+
+        System.out.println(future.get()); // Blocks
+    }
+}
+```
+
+
 
 # ✅ 10. Java JVM & Memory Management 
 
@@ -10067,118 +10122,6 @@ spec:
       containers:
       - name: app
         image: myapp:v2.0.0
-```
-
-
-## 8: What is blue-green deployment?
-
-**Blue-Green deployment** is a strategy where two identical production environments are maintained — one live (**Blue**) and one with the new version (**Green**).
-
-After testing, traffic is switched to Green, ensuring **zero downtime and quick rollback**, but it requires double infrastructure resources.
-
-* Deployment strategy using two identical production environments
-* **Blue**: Current live environment serving users
-* **Green**: New environment with updated application
-* **Switch**: Instant switch from blue to green after validation
-* **Zero Downtime**: No service interruption during deployment
-* **Quick Rollback**: Instant rollback by switching back to blue
-* **Resource Cost**: Requires double the infrastructure resources
-
-```yaml
-# Blue-Green deployment with Kubernetes
-# Blue environment (current)
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-service
-spec:
-  selector:
-    app: myapp
-    version: blue  # Currently pointing to blue
-  ports:
-  - port: 80
-    targetPort: 8080
-
-# Green deployment (new version)
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: myapp-green
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: myapp
-      version: green
-  template:
-    metadata:
-      labels:
-        app: myapp
-        version: green
-    spec:
-      containers:
-      - name: app
-        image: myapp:v2.0.0
-```
-
-
-## 9: What is canary deployment?
-
-**Canary deployment** is a strategy where a new version of an application is released to a **small percentage of users first**, and then gradually rolled out to everyone.
-
-It helps **reduce risk, monitor performance, and quickly roll back** if issues are detected.
-
-* Deployment strategy that releases new version to small subset of users first
-* **Gradual Rollout**: Start with 5-10% of traffic, gradually increase
-* **Risk Mitigation**: Limit blast radius of potential issues
-* **Monitoring**: Monitor metrics and user feedback during rollout
-* **Automated Rollback**: Automatic rollback if metrics degrade
-* **A/B Testing**: Can be combined with A/B testing for feature validation
-* **Traffic Splitting**: Use load balancers or service mesh for traffic control
-
-```yaml
-# Canary deployment with Istio
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: myapp
-spec:
-  http:
-  - match:
-    - headers:
-        canary:
-          exact: "true"
-    route:
-    - destination:
-        host: myapp
-        subset: v2
-  - route:
-    - destination:
-        host: myapp
-        subset: v1
-      weight: 90  # 90% to stable version
-    - destination:
-        host: myapp
-        subset: v2
-      weight: 10  # 10% to canary version
-```
-
-```java
-// Feature flag for canary deployment
-@RestController
-public class UserController {
-    
-    @Autowired
-    private FeatureToggleService featureToggle;
-    
-    @GetMapping("/users")
-    public List<User> getUsers() {
-        if (featureToggle.isEnabled("new-user-api", getCurrentUser())) {
-            return newUserService.getUsers(); // Canary version
-        }
-        return userService.getUsers(); // Stable version
-    }
-}
 ```
 
 ## 10: What is containerization?
