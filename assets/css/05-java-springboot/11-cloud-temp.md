@@ -1,106 +1,133 @@
-# ✅ 1. Java Basic Concepts
+# ✅ 1. Java Basic Concepts 
+
 ## 1. What is Java and what are its key features?
 ## 2. Explain the difference between JDK, JRE, and JVM.
 ## 3. What are the main principles of Object-Oriented Programming?
-## 4. What is a package in Java?
+## 4. What is a package in Java? 
 ## 5. Normal, final, static, static final, volatile, abstract, transient?
 ## 6. What is Instance, Static, Abstract, and Final Methods?
 ## 7. How do you read user input from the console in Java?
 ## 8. How do you iterate through a collection in Java?
 
 # ✅ 2. Data Types and Variables
+
 ## 1. What are data types in Java?
 ## 2. What is the difference between primitive and reference types?
 ## 3. What is autoboxing and unboxing and Casting?
 ## 4. What is the difference between == and equals() method?
 ## 5. What is the difference between String, StringBuilder, and StringBuffer?
-## 6. What is immutable and Why are strings immutable in Java?
+## 6. what is immutable and Why are strings immutable in Java?
 ## 7. What is the difference between final, finally, and finalize?
 ## 8. What is string pooling?
 ## 9. What is coercion in Java?
-## 10. What is instanceof in Java?
-## 11. What is Predicate in Java?
+## 10. What is instance of in java
+## 11. What is Predicate in java
 ## 12. What is `hashCode()` in Java?
-## 13. What is `var` keyword in Java (Java 10+)?
 
 # ✅ 3. Classes and Objects
-## 1. What is the difference between this and super keywords?
-## 2. What is a class in Java?
-## 3. What is class loader and how do they work?
-## 4. How do you create an immutable class in Java?
-## 5. What is an object?
-## 6. Difference between class and object?
-## 7. How to create a class and object?
-## 8. What are instance variables and methods?
-## 9. What is a constructor? Types? Can a class have multiple constructors?
-## 10. What is the static keyword? Difference: static vs non-static?
-## 11. Can a constructor be final, static, or abstract in Java?
-## 12. Can we make a class `final`? Why?
-## 13. Can we make a class `abstract`?
-## 14. What is the difference between interface and abstract class?
-## 15. Can a class be both abstract and final?
-## 16. What is inner class? Types?
-## 17. What is singleton class?
-## 18. Is it allowed to overload main() method in Java?
-## 19. Is it allowed to override main() method in Java?
-## 20. Is it possible to execute a program without defining a main() method?
-## 21. Can we create object without `new` keyword?
-## 22. What happens if a class has no constructor?
-## 23. Can a class be private or protected?
-## 24. What happens if a static block throws an unchecked exception?
 
-# ✅ 4. Java Inheritance
-## 1. What is Inheritance in Java? Why do we use it?
-## 2. Types of Inheritance in Java
-## 3. What is the diamond problem and how does Java solve it?
-## 4. Why doesn't Java support multiple inheritance (with classes)?
+## 1. What is the difference between this and super keywords?
+## 2. What is method overloading?
+## 3. What is method overriding?
+## 4. What is a class in Java?
+## 5. What is class loader and how do they work?
+## 6. How do you create an immutable class in Java?
+## 7. What is an object?
+## 8. Difference between class and object?
+## 9. How to create a class and object?
+## 10. What are instance variables and methods?
+## 11. What is a constructor? Types?
+## 12. What is default constructor?
+## 5. What is the static keyword?
+## 14. Difference: static vs non-static?
+## 15. Can a class have multiple constructors?
+## 16. Can a constructor be final, static, or abstract in Java?
+## 17. Can we make a class `final`? Why?
+## 18. Can we make a class `abstract`?
+## 19. What is the difference between interface and abstract class?
+## 20. Can a class be both abstract and final? 
+## 21. What is inner class? Types?
+## 22. What is singleton class?
+## 23. Is it allowed to overload main() method in Java?
+## 24. Is it allowed to override main() method in Java?
+## 25. Can you override static methods?
+## 26. Is it possible to execute a program without defining a main() method?
+## 27. Can we create object without `new` keyword?
+## 28. What happens if a class has no constructor?
+## 29. Can a class be private or protected?
+## 30. What happens if a static block throws an unchecked exception?
+
+# ✅ 4. Java Inheritance 
+
+## 1. What is Inheritance in Java?
+## 2. Why doesn't Java support multiple inheritance (with classes)?
+## 3. What is the diamond problem?
+## 3. How does Java solve the diamond problem?
+## 4. Why do we use Inheritance?
 ## 5. What is `extends` keyword?
 ## 6. What is IS-A Relationship?
-## 7. What is Method Overriding? Rules? How does it work internally?
-## 8. What is method overloading?
-## 9. What is Multilevel Inheritance?
-## 10. What is Hierarchical Inheritance?
-## 11. Can we override static methods?
-## 12. Can we override final methods?
-## 13. What is runtime polymorphism?
-## 14. What is covariant return type?
-## 15. Can constructors be inherited?
-## 16. What is the order of constructor execution?
-## 17. What happens if parent constructor is not called?
-## 18. Can we extend multiple classes in Java?
-## 19. Can we inherit private members?
-## 20. Can we override private methods?
-## 21. Can we change access modifier while overriding?
-## 22. What happens if parent and child have same variable name?
-## 23. Can abstract class have constructor?
-## 24. Can an interface extend another interface?
-## 25. Can class extend interface?
-## 26. Which type of polymorphism does method overloading represent?
-## 27. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
-## 28. Can an interface have a constructor in Java, and why or why not?
-## 29. Can an interface have instance variables in Java, and if not, what type of variables can it have?
+## 7. What is Method Overriding?
+## 8. Types of Inheritance in Java
+## 9. Does Java support Multiple Inheritance? Why?
+## 10. What is Multilevel Inheritance?
+## 11. What is Hierarchical Inheritance?
+## 12. Can we override static methods?
+## 13. Can we override final methods?
+## 14. What is runtime polymorphism?
+## 15. How does method overriding work internally?
+## 16. What are rules for method overriding?
+## 17. What is covariant return type?
+## 18. Can constructors be inherited?
+## 19. What is the order of constructor execution?
+## 20. What happens if parent constructor is not called?
+## 21. Can we extend multiple classes in Java?
+## 22. Can we inherit private members?
+## 23. Can we override private methods?
+## 24. Can we change access modifier while overriding?
+## 25. What happens if parent and child have same variable name?
+## 26. Can abstract class have constructor?
+## 27. Can interface extend class?
+## 27. Can an interface extend another interface?
+## 28. Can class extend interface?
+## 29. Which type of polymorphism does method overloading represent?
+## 30. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
+## 31. Can an interface have a constructor in Java, and why or why not?
+## 31. Can an interface have instance variables in Java, and if not, what type of variables can it have?
 
-# ✅ 5. Java Interface & Abstract Class
+# ✅ 5. Java Interface & Abstract Class 
+
 ## 1. What is an Interface?
-## 2. What are the interfaces available in Java?
-## 3. What is an Abstract Class?
-## 4. When should we use interface vs abstract class?
-## 5. Can we create object of interface or abstract class?
-## 6. What are default and static methods in interface?
-## 7. Can abstract class have both abstract and concrete methods?
-## 8. Can a class implement multiple interfaces?
-## 9. Can an abstract class implement an interface?
-## 10. Can a class extend multiple abstract classes?
-## 11. Can interface have private methods?
-## 12. Can abstract class be final?
-## 13. Can interface have main method?
-## 14. Can we use both interface and abstract class together?
-## 15. What access modifiers are allowed in interface?
-## 16. Can we instantiate interface using lambda?
-## 17. What are SOLID principles?
-## 18. What is `.class` and When do we use in Java?
+## 2. What are the interface available in Java?
+## 3. What are static methods in interfaces?
+## 4. What is an Abstract Class?
+## 5. When should you use an interface instead of an abstract class?
+## 6. Can we create object of interface or abstract class?
+## 7. Can an interface have methods with implementation? (Java 8+)
+## 8. What are default and static methods in interface?
+## 9. Can abstract class have constructor? Why?
+## 10. Can abstract class have both abstract and concrete methods?
+## 11. Can interface have variables? What type?
+## 12. When should we use interface vs abstract class?
+## 13. Can a class implement multiple interfaces?
+## 14. Can an abstract class implement an interface?
+## 15. Can an interface extend another interface?
+## 16. Can an interface extend a class? (Tricky)
+## 17. Can a class extend multiple abstract classes?
+## 18. Can interface have constructor?
+## 19. Can abstract class have constructor?
+## 20. Can interface have private methods?
+## 21. Can we override static methods in interface?
+## 22. What if two interfaces have same default method?
+## 23. Can abstract class be final?
+## 24. Can interface have main method?
+## 25. Can we use both interface and abstract class together?
+## 26. What access modifiers are allowed in interface?
+## 27. Can we instantiate interface using lambda?
+## 9. What are SOLID principles?
+## 10. What is `.class` and When do we use in Java?
 
-# ✅ 6. Java Exception Handling
+# ✅ 6. Java Exception Handling 
+
 ## 1. What is an exception in Java?
 ## 2. What is the exception hierarchy in Java?
 ## 3. What are checked and unchecked exceptions?
@@ -112,28 +139,31 @@
 ## 9. What is try-with-resources?
 
 # ✅ 7. Java Collections Framework
+
 ## 1. What is Java Collections Framework?
 ## 2. What is the difference between ArrayList and LinkedList?
 ## 3. What is the difference between HashMap and TreeMap?
-## 4. What is the difference between HashMap and Hashtable?
+## 4. What is the difference between HashMap Hashtable?
 ## 5. How does HashMap work internally?
 ## 6. What is hash collision and how is it handled?
 ## 7. What is the difference between Comparable and Comparator?
 ## 8. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
-# ✅ 8. Java Multithreading & Synchronization
-## 1. What is thread and what are its life cycle states?
-## 2. What is multithreading?
-## 3. How do you create threads in Java?
-## 4. What is the difference between extending Thread and implementing Runnable?
-## 5. What are `sleep()` vs `wait()` in Multithreading?
-## 6. What is deadlock and how do you prevent it?
-## 7. What is synchronization in Java?
-## 8. What is volatile keyword?
-## 9. What is race condition and how to resolve it?
-## 10. What are Important Java Multithreading Concepts?
+# ✅ 8. Java Multithreading & Synchronization 
 
-# ✅ 9. Java Advanced Concurrency
+## 0. What is thread and what are life cycle?
+## 1. What is multithreading?
+## 2. How do you create threads in Java?
+## 3. What is the difference between extending Thread and implementing Runnable?
+## 4. What are `sleep()` vs `wait()` in Multithreading?
+## 5. What is deadlock and how do you prevent it?
+## 6. What is synchronization in Java?
+## 7. What is volatile keyword?
+## 8. What is race condition and how to resolve it?
+## 9. What are Important Java Multithreading Concepts
+
+# ✅ 9. Java Advanced Concurrency 
+
 ## 1. What is Concurrency in Java?
 ## 2. What is ConcurrentHashMap and when to use?
 ## 3. What is a Thread Pool and What are the types of thread pools?
@@ -143,215 +173,252 @@
 ## 7. How to call three APIs concurrently?
 ## 8. What is immutability in Java?
 ## 9. What is CompletableFuture and how does it work?
-## 10. What is the difference between Future and CompletableFuture?
+## 10.What is the difference between Future and CompletableFuture?
 
-# ✅ 10. Java JVM & Memory Management
-## 1. What is Java Memory Model (JMM)?
-## 2. What are the different memory areas in JVM?
-## 3. What is the difference between heap and stack?
-## 4. What is the difference between PermGen and Metaspace?
-## 5. What is garbage collection?
-## 6. What are the types of garbage collectors?
-## 7. What is generational garbage collection?
-## 8. What is the difference between minor GC and major GC?
-## 9. What are GC roots?
+# ✅ 10. Java JVM & Memory Management 
 
-# ✅ 11. Java Input/Output (I/O)
+## 0. What is Java Memory Model (JMM)?
+## 1. What are the different memory areas in JVM?
+## 2. What is the difference between heap and stack?
+## 3. What is the difference between PermGen and Metaspace?
+## 4. What is garbage collection?
+## 5. What are the types of garbage collectors?
+## 6. What is generational garbage collection?
+## 7. What is the difference between minor GC and major GC?
+## 8. What are GC roots?
+
+# ✅ 11. Java Input/Output (I/O) 
+
 ## 1. What are the different ways to read a file in Java?
 ## 2. What is the difference between InputStream and Reader?
 ## 3. What is BufferedReader and BufferedWriter?
 ## 4. How do you handle large files efficiently?
-## 5. What is NIO in Java? Difference between IO and NIO? When to use NIO?
+## 5. What is NIO in Java?
+## 6. What is the difference between IO and NIO?
+## 7. When would you use NIO over traditional I/O?
 
-# ✅ 12. Java Generics
-## 1. What are generics in Java? Why were they introduced?
-## 2. What is type erasure?
-## 3. What is the difference between <? extends T> and <? super T>?
-## 4. What is PECS principle?
-## 5. What are the limitations of generics?
+# ✅ 12. Java Generics 
 
-# ✅ 13. Java Annotations & Reflection
-## 1. What are annotations in Java? What are built-in annotations?
-## 2. What is @Target, @Documented, @Inherited?
-## 3. What is retention policy?
-## 4. What is reflection in Java? When should you use it?
-## 5. What are the performance and security implications of reflection?
-## 6. How do you handle exceptions in reflection?
-## 7. What is Mockito?
+## 1. What are generics in Java?
+## 2. Why were generics introduced?
+## 3. What is type erasure?
+## 4. What is the difference between <? extends T> and <? super T>?
+## 5. What is PECS principle?
+## 6. What are the limitations of generics?
 
-# ✅ 14. Java Web Development - Servlets and JSP
+# ✅ 13. Java Annotations & Reflection 
+
+## 1. What are annotations in Java?
+## 2. What are built-in annotations?
+## 3. What is @Target, @Documented, @Inherited?
+## 4. What is retention policy?
+## 5. What is the difference between @Override and @Overload?
+## 6. What is reflection in Java?
+## 7. When should you use reflection?
+## 8. What are the performance implications of reflection?
+## 9. What are the security implications of reflection?
+## 10. How do you handle exceptions in reflection?
+## 11. What is Mockito?
+
+# 14. ✅ Java Web Development - Servlets and JSP
+
 ## 1. What is servlet in Java?
 ## 2. What is the servlet lifecycle?
 ## 3. What is JSP (JavaServer Pages)?
 ## 4. What is the difference between servlet and JSP?
 ## 5. What is Hibernate?
-## 6. What is JPA and how it works?
+## 6. What is JPA?
 ## 7. What is ORM?
 ## 8. Difference between `save()` and `persist()`
-## 9. What is the difference between DAO and DTO?
-## 10. What is the N+1 query problem and how do you fix it?
-## 11. What is `@Transactional` propagation levels?
-## 12. What is optimistic vs pessimistic locking?
-## 13. What is JPQL vs native query?
-## 14. What are JPA cascade types?
-## 15. What is database indexing and when to use it?
-## 16. What is FetchType.LAZY vs FetchType.EAGER in depth?
+## 9. What is JPA and how it works?
+## 10. What is the difference between DAO and DTO?
+## 11. What is the difference between DAO and DTO?
+## 12. What is the N+1 query problem and how do you fix it?
+## 13. What is `@Transactional` propagation levels?
+## 14. What is optimistic vs pessimistic locking?
+## 15. What is JPQL vs native query?
+## 16. What are JPA cascade types?
+## 17. What is database indexing and when to use it?
+## 18. What is FetchType.LAZY vs FetchType.EAGER in depth?
 
-# ✅ 15. Java Lambda Expressions & Streams API
-## 1. What are lambda expressions?
-## 2. What are method references?
-## 3. What is the difference between lambda and anonymous class?
-## 4. What is Stream API?
-## 5. What is parallel streams?
-## 6. What is the difference between Collection and Stream?
-## 7. What are intermediate and terminal operations?
-## 8. What is the difference between map() and flatMap()?
-## 9. What is Optional class?
-## 10. What are functional interfaces? (Supplier, Consumer, Function, BiFunction)
+# ✅ 15. Java Lambda Expressions & Streams API 
 
-# ✅ 16. Java JDBC
+## 2. What are lambda expressions?
+## 3. What are method references?
+## 4. What is the difference between lambda and anonymous class?
+## 5. What is Stream API?
+## 6. What is parallel streams? 
+## 7. What is the difference between Collection and Stream?
+## 8. What are intermediate and terminal operations?
+## 9. What is the difference between map() and flatMap()?
+## 10. What is Optional class?
+
+# ✅ 16. Java JDBC 
+
 ## 1. What is JDBC?
 ## 2. What are the steps to connect to a database using JDBC?
 ## 3. What is the difference between Statement and PreparedStatement?
 ## 4. What is connection pooling and how it works internally?
-## 5. What is caching and how it works internally (Implementation)?
+## 5. What is caching and how it works inernally(Implementation)?
 ## 6. What is SQL injection and how to prevent it?
 ## 7. What is transaction management in JDBC?
 ## 8. How do you Handle Large Data Processing?
-## 9. What is application.properties file and how are values read from there?
+## 9. What is application.properties file and how value read from there?
 ## 10. How can we configure multiple databases in Spring Boot?
 ## 11. What is a Cursor in SQL and when should it be used?
 ## 12. How to secure username and password?
 ## 13. What is Batch Processing?
 
-# ✅ 17. Java Design Patterns
+# ✅ 17. Java Design Patterns 
+
 ## 1. What are design patterns?
-## 2. What is Singleton pattern? How do you implement thread-safe Singleton?
-## 3. What is Factory pattern?
-## 4. What is Observer pattern?
-## 5. What is Strategy pattern?
-## 6. What is Adapter pattern?
-## 7. What is Decorator pattern?
-## 8. What is Builder pattern?
-## 9. What is Prototype pattern?
+## 2. What is Singleton pattern?
+## 3. How do you implement thread-safe Singleton?
+## 4. What is Factory pattern?
+## 5. What is Observer pattern?
+## 6. What is Strategy pattern?
+## 7. What is Adapter pattern?
+## 8. What is Decorator pattern?
+## 9. What is Builder pattern?
+## 10. What is Prototype pattern?
 
-# ✅ 18. Java Spring Framework
-## 1. What is Spring Framework and its core features?
-## 2. What is Inversion of Control (IoC)?
-## 3. What is Dependency Injection? Types?
-## 4. What is a Spring Container?
-## 5. What is BeanFactory vs ApplicationContext?
-## 6. What is the difference between Java Bean and Spring Bean?
-## 7. What is Bean Lifecycle?
-## 8. What is AOP in Spring?
-## 9. What is Spring Data JPA?
-## 10. What is Spring Security?
-## 11. What is Spring Cloud?
-## 12. What is Spring WebFlux?
-## 13. How does Spring handle circular dependency?
+# ✅ 18. Java Spring Framework 
 
-# ✅ 19. Java Spring Boot
-## 1. What is Spring Boot and How does it Work Internally (Lifecycle)?
-## 2. Spring Boot Flow Architecture?
-## 3. What is @Configuration and @Bean?
-## 4. How can you disable specific auto-configurations in Spring Boot?
-## 5. What is @SpringBootApplication annotation?
-## 6. @Component vs @Service vs @Repository vs @Controller vs @RestController?
-## 7. What is @Autowired vs @Inject annotation?
-## 8. What is @Profile Annotation?
-## 9. What is @Primary, @Qualifier and @PatchMapping annotation?
-## 10. Explain Spring Boot Actuator endpoints.
-## 11. How do you ensure security in a Spring Boot Microservices application?
-## 12. What is Lombok in Java and when can we use it?
-## 13. Why do we use Long in JpaRepository<Employee, Long>?
-## 14. What is Distributed Tracing?
-## 15. What is Spring Scheduler?
-## 16. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
-## 17. How can you create a custom configuration and auto-configuration in Spring Boot?
-## 18. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
-## 19. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
-## 20. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
-## 21. How does `@Transactional` work internally?
-## 22. How does `@EnableAutoConfiguration` work internally?
-## 23. What is `@Async` and how does it work?
-## 24. What is `@EventListener` in Spring Boot?
-## 25. What is `ResponseEntity` and when to use it?
-## 26. What is `@ExceptionHandler` vs `@ControllerAdvice`?
+## 1. What is Spring Framework?
+## 2. What are the core features of Spring?
+## 3. What is Inversion of Control (IoC)?
+## 4. What is Dependency Injection?
+## 5. What is a Spring Container?
+## 6. What is BeanFactory vs ApplicationContext?
+## 7. What is the difference between Java Bean and Spring Bean?
+## 8. What is Bean Lifecycle?
+## 9. What is AOP in Spring?
+## 10. What is Spring Data JPA?
+## 11. What is Spring Security?
+## 12. What is Spring Cloud?
+## 13. What is Spring WebFlux?
+## 14. How does Spring handle circular dependency?
 
-# ✅ 20. RESTful Services
+# ✅ 19. Java Spring Boot 
+
+## 1. What is annotations in Java?
+## 2. What is Spring Boot and How does it Works Internally(Lifecycle)?
+## 3. Spring Boot Flow Architecture works?
+## 4. What is @Configuration and @Bean?
+## 5. How can you disable specific auto-configurations in Spring Boot?
+## 6. What is @SpringBootApplication annotation?
+## 7. @Component vs @Service vs @Repository vs @Controller vs @RestController annotations?
+## 8. What is @Autowired vs @Inject annotation?
+## 9. What is @Profile Annotation?
+## 10. What is ApplicationContext?
+## 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+## 12. Explain Spring Boot Actuator endpoints.
+## 13. How do you ensure security a Spring Boot Microservices application?
+## 14. What is Lombok in Java and when can we use?
+## 15. Why do we use Long in JpaRepository<Employee, Long>?
+## 16. What is Distributed Tracing?
+## 17. What is Spring Scheduler?
+## 18. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
+## 19. How can you create a custom configuration and auto-configuration in Spring Boot?
+## 20. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
+## 21. How do you manage Spring Beans in Spring Boot?
+## 22. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
+## 23. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
+## 24. How does `@Transactional` work internally?
+## 25. How does `@EnableAutoConfiguration` work internally?
+## 26. What is `@Async` and how does it work?
+## 27. What is `@EventListener` in Spring Boot?
+## 28. What is `ResponseEntity` and when to use it?
+## 29. What is `@ExceptionHandler` vs `@ControllerAdvice`?
+
+
+# ✅ 20. RESTful Services 
+
 ## 1. What is CORS, and how does it work?
-## 2. What is an API and what are different types of API?
-## 3. What are RESTful web services and its principles?
-## 4. What is XML and how to return XML in response?
-## 5. What are HTTP methods and their usage?
-## 6. What is the difference between PUT and POST?
-## 7. What are HTTP status codes?
+## 2. What is an API and what are different type of API?
+## 3. What are RESTful web services?
+## 4. What are the principles of REST?
+## 5. What is XML how to return XML in response?
+## 6. What are HTTP methods and their usage?
+## 7. What is the difference between PUT and POST?
+## 8. What are HTTP status codes?
 
-# ✅ 21. Java Microservices
-## 1. What are microservices? Monolithic vs Microservices Architecture?
-## 2. What are the advantages and challenges of microservices?
-## 3. What design patterns are used in Microservices architecture?
-## 4. What are CQRS principles?
-## 5. Blocking vs Non-blocking DB call in Microservice?
-## 6. How do microservices communicate with each other?
-## 7. How do you Handle Failures in Microservices?
-## 8. What is Event-Driven Architecture in Java?
-## 9. What is API Gateway?
-## 10. What is circuit breaker pattern?
-## 11. What is resilience4j pattern?
-## 12. What is service discovery?
-## 13. What is Saga Pattern and how does it handle payment failure?
-## 14. What is a transaction (ACID properties)? How do you handle rollback?
-## 15. How do you Prevent duplicate payment (idempotency)?
-## 16. What happens if payment is successful but order update fails?
-## 17. What is Java 11 HttpClient API, and how does it differ from earlier Java versions?
-## 18. What is Kafka and how does it work?
-## 19. What is RabbitMQ and when to use it over Kafka?
-## 20. What is gRPC and how does it differ from REST?
-## 21. What is service mesh (Istio)?
-## 22. What is Zipkin and how does distributed tracing work?
+# ✅ 21. Java Microservices 
+
+## 1. What are CQRS principles?
+## 2. Blocking vs Non-blocking db call in Microservice?
+## 3. What are microservices?
+## 4. What design patterns used in Microservices architecture?
+## 5. Monolithic vs Microservices Architecture?
+## 6. What are the advantages of microservices?
+## 7. What are the challenges of microservices?
+## 8. How microservices communicate with each other?
+## 9. How do you Handle Failures in Microservices?
+## 10. What is Event-Driven Architecture in Java?
+## 11. What is API Gateway?
+## 12. What is circuit breaker pattern?
+## 13. What is resilience4j pattern?
+## 14. What is service discovery?
+## 15. What is Saga Pattern or How it handle payment failure?
+## 16. What is a transaction (ACID properties)? How do you handle rollback?
+## 17. How do you Prevent duplicate payment(idempotency)?
+## 18. What happens if payment is successful but order update fails?
+## 19. What is Java 11 HttpClient API, and how does it differ from earlier Java versions?
+## 20. What is Kafka and how does it work?
+## 21. What is RabbitMQ and when to use it over Kafka?
+## 22. What is gRPC and how does it differ from REST?
+## 23. What is service mesh (Istio)?
+## 24. What is Zipkin and how does distributed tracing work?
+
 
 # ✅ 22. Java and Application Security
-## 1. What are security vulnerability issues?
-## 2. What is Java security model?
-## 3. What is sandbox and bytecode verification in Java?
+
+## 0. What are security vulnerability issues?
+## 1. What is Java security model?
+## 2. What is sandbox in Java?
+## 3. What is bytecode verification?
 ## 4. What is the security manager?
 ## 5. What are digital signatures in Java?
 ## 6. What is encryption and decryption in Java?
 ## 7. What is SSL/TLS in Java?
 ## 8. What is authentication vs authorization?
-## 9. What is OAuth and OAuth 2.0?
-## 10. What is JWT (JSON Web Token)?
-## 11. What is CSRF protection?
-## 12. What is XSS protection?
-## 13. What is input validation?
-## 14. What is SAML?
+## 9. What is OAuth?
+## 10. What is OAuth 2.0?
+## 11. What is JWT (JSON Web Token)?
+## 12. What is CSRF protection?
+## 13. What is XSS protection?
+## 14. What is input validation?
+## 15. What is SAML?
 
 # ✅ 23. Java Performance and Optimization
-## 1. How do you measure and monitor application performance in Java?
-## 2. What are common Java performance issues?
-## 3. How do you improve performance in a Spring Boot Application?
-## 4. What are Java memory issues?
-## 5. What are Java concurrency issues?
-## 6. What is JVM tuning and its parameters?
-## 7. What is profiling in Java? (CPU, Memory, APM)
-## 8. What is database and query optimization?
-## 9. What is lazy loading vs eager loading?
-## 10. What is pagination?
-## 11. What is JIT compilation?
+
+## 0. How do you measure and Monitor application performance in Java?
+## 1. What are common Java performance issues?
+## 2. How do you Improve Performance(optimize) in Spring Boot Application?
+## 3. What are Java memory issues?
+## 4. What are Java concurrency issues?
+## 5. What is JVM tuning?
+## 6. What are the JVM parameters for performance tuning?
+## 7. What is profiling in Java?
+## 8. What is memory profiling?
+## 9. What is CPU profiling?
+## 10. What is application performance monitoring (APM)?
+## 11. What is database optimization?
+## 12. What is query optimization?
+## 13. What is lazy loading?
+## 14. What is eager loading?
+## 15. What is pagination?
+## 16. What is JIT compilation?
 
 # ✅ 24. Modern Java Features
+
 ## 1. What are the features in Java 8?
 ## 2. What are the features in Java 11?
 ## 3. What are the features in Java 17?
 ## 4. What is the Java release cycle and LTS versions?
-## 5. What are Records in Java 16+?
-## 6. What are Sealed Classes in Java 17?
-## 7. What are Text Blocks in Java 15+?
-## 8. What are Switch Expressions in Java 14+?
-## 9. What is Pattern Matching for instanceof in Java 16+?
 
 # ✅ 25. SQL
+
 ## 1. What are the types of SQL JOINs? (INNER, LEFT, RIGHT, FULL)
 ## 2. What is the difference between WHERE and HAVING?
 ## 3. What is GROUP BY and ORDER BY?
@@ -379,35 +446,45 @@
 ## 12. How would you design a caching strategy?
 
 # ✅ 27. CI/CD and DevOps
-## 1. What is CI/CD (Continuous Integration and Continuous Deployment)?
-## 2. What is Jenkins?
-## 3. What is Git and version control?
-## 4. What is infrastructure as code?
-## 5. What are deployment strategies? (Rolling, Blue-Green, Canary)
-## 6. What is containerization? What is Docker?
-## 7. What is Kubernetes?
-## 8. What is cloud computing?
-## 9. What is distributed system?
-## 10. What is load balancing?
-## 11. How do you handle rollback strategies?
-## 12. How do you manage database migrations?
-## 13. How do you ensure zero downtime deployments?
-## 14. How do you implement auto-scaling?
-## 15. What is Rate Limiting and how does it work?
+
+## 1. What is continuous integration?
+## 2. What is continuous deployment?
+## 3. What is Jenkins?
+## 4. What is Git?
+## 5. What is version control?
+## 6. What is infrastructure as code?
+## 7. What are deployment strategies?
+## 8. What is blue-green deployment?
+## 9. What is canary deployment?
+## 10. What is containerization?
+## 11. What is Docker?
+## 12. What is Kubernetes?
+## 13. What is cloud computing?
+## 14. What is distributed system?
+## 15. What is load balancing?
+## 16. How do you handle rollback strategies?
+## 17. How do you manage database migrations?
+## 18. How do you ensure zero downtime deployments?
+## 19. How do you implement auto-scaling?
+## 20. What is Rate Limiting and how does it work? Where do you implement it?
 
 # ✅ 28. Monitoring and Logging
-## 1. What is logging framework?
-## 2. What is Log4j?
-## 3. What is SLF4J?
-## 4. What is Logback?
-## 5. What is structured logging?
-## 6. What is centralized logging?
 
-# ✅ 29. Common Issues
+## 1.
+## 2. What is logging framework?
+## 3. What is Log4j?
+## 4. What is SLF4J?
+## 5. What is Logback?
+## 6. What is structured logging?
+## 7. What is centralized logging?
+
+# ✅ 28. Common Issues
+
 ## 1. What are Java deployment issues?
 ## 2. What are debugging strategies?
 
 # ✅ 30. Real Production Scenario
+
 ## 1. Your service is slow but CPU and memory are normal. What do you check first?
 ## 2. Multiple threads update shared data and results become inconsistent. Why?
 ## 3. Increasing thread pool size didn't improve performance. What could be the reason?
