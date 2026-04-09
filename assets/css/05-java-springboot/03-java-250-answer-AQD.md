@@ -1090,8 +1090,6 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 
 # ✅ 4. Java Inheritance 
 
-
-
 ## 1. What is Inheritance in Java?
 
 Inheritance is a feature where one class **gets properties and methods of another class**.
@@ -10440,8 +10438,6 @@ If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
 # ✅ 26. Monitoring and Logging
 
 ## 1: 
-
-
 
 ## 2: What is logging framework?
 
