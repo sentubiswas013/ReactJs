@@ -1389,109 +1389,136 @@ Use **abstract class** when:
 - **I**nterface Segregation: Many specific interfaces are better than one general interface
 - **D**ependency Inversion: Depend on abstractions, not concrete implementations
 
-**S – Single Responsibility Principle (SRP)**
+**Example:**
+**S — Single Responsibility Principle (SRP)**
 
-👉 *One class should have only one responsibility*
+One class should have only one responsibility.
 
-❌ Bad:
-
-```java
-class User {
-    void saveUser() {}
-    void sendEmail() {}
-}
-```
-
-✅ Good:
+❌ Wrong:
 
 ```java
-class User {
-    // user data
-}
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
 
-class UserService {
-    void saveUser() {}
-}
-
-class EmailService {
-    void sendEmail() {}
-}
-```
-
-
-**O – Open/Closed Principle (OCP)**
-
-👉 *Open for extension, closed for modification*
-
-❌ Bad:
-
-```java
-class Payment {
-    void pay(String type) {
-        if(type.equals("UPI")) {}
-        else if(type.equals("Card")) {}
+    public void sendEmail() {
+        // send email
     }
 }
 ```
 
-✅ Good:
+✅ Correct:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+}
+
+class EmailService {
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+---
+
+**O — Open/Closed Principle (OCP)**
+
+Open for extension, closed for modification.
 
 ```java
 interface Payment {
     void pay();
 }
 
-class UpiPayment implements Payment {
-    public void pay() {}
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid by Card");
+    }
 }
 
-class CardPayment implements Payment {
-    public void pay() {}
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid by UPI");
+    }
 }
+
+class PaymentService {
+    public void processPayment(Payment payment) {
+        payment.pay();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        PaymentService service = new PaymentService();
+
+        Payment p1 = new CardPayment();
+        service.processPayment(p1);
+
+        Payment p2 = new UpiPayment();
+        service.processPayment(p2);
+    }
+}
+
+// Output:
+Paid by Card
+Paid by UPI
 ```
 
-**L – Liskov Substitution Principle (LSP)**
+Now we can add **NetBankingPayment** without changing existing code.
 
-👉 *Child class should work in place of parent class*
+---
 
-❌ Bad:
+**L — Liskov Substitution Principle (LSP)**
+
+Child class should replace parent class without breaking code.
 
 ```java
 class Bird {
-    void fly() {
-        System.out.println("Bird is flying");
+    public void fly() {
+        System.out.println("Bird can fly");
     }
 }
 
-class Ostrich extends Bird {
-    void fly() {
-        throw new UnsupportedOperationException("Ostrich can't fly");
+class Sparrow extends Bird {
+    @Override
+    public void fly() {
+        System.out.println("Sparrow can fly");
     }
 }
 
-public class Test {
+public class Main {
     public static void main(String[] args) {
-        Bird bird = new Ostrich(); // using child as parent
-        bird.fly(); // ❌ runtime error
+        Bird b = new Bird();
+        b.fly();
+
+        Sparrow s = new Sparrow();
+        s.fly();
+
+        Bird b2 = new Sparrow(); // Runtime Polymorphism
+        b2.fly();
     }
 }
+
+
+// Output:
+Bird can fly
+Sparrow can fly
+Sparrow can fly
 ```
 
+Bad example: Penguin cannot fly → violates LSP.
 
-**I – Interface Segregation Principle (ISP)**
+---
 
-👉 *Don’t force classes to implement unused methods*
+**I — Interface Segregation Principle (ISP)**
 
-❌ Bad:
-
-```java
-interface Worker {
-    void work();
-    void eat();
-}
-```
-
-✅ Good:
+Create small interfaces.
 
 ```java
 interface Workable {
@@ -1501,34 +1528,84 @@ interface Workable {
 interface Eatable {
     void eat();
 }
-```
 
-**D – Dependency Inversion Principle (DIP)**
+class Human implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human working");
+    }
 
-👉 *Depend on abstraction, not concrete class*
-
-❌ Bad:
-
-```java
-class Notification {
-    EmailService email = new EmailService();
-}
-```
-
-✅ Good:
-
-```java
-interface MessageService {
-    void send();
-}
-
-class Notification {
-    MessageService service;
-
-    Notification(MessageService service) {
-        this.service = service;
+    public void eat() {
+        System.out.println("Human eating");
     }
 }
+
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
+// Output:
+Human working
+Human eating
+Robot working
+```
+
+Robot does not implement eat() → Correct.
+
+---
+
+**D — Dependency Inversion Principle (DIP)
+
+Depend on abstraction, not concrete class.
+
+```java
+interface Payment {
+    void pay();
+}
+
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+class OrderService {
+    private Payment payment;
+
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Payment payment = new CardPayment();   // Inject dependency
+        OrderService orderService = new OrderService(payment);
+
+        orderService.placeOrder();
+    }
+}
+
+//Output:
+Card payment
 ```
 
 ## 10. What is `.class` and When do we use in Java?
