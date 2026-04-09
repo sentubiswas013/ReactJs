@@ -1,15 +1,47 @@
-1) Java: Your service is slow but CPU and memory are normal. What do you check first?
-2) Java: Multiple threads update shared data and results become inconsistent. Why?
-3) Java: Increasing thread pool size didn’t improve performance. What could be the reason?
 
-4) Spring Boot: API works locally but is slow in production. What might be different?
-5) Spring Boot: @Transactional is present but rollback doesn’t happen. Why?
-6) Spring Boot: Connection pool gets exhausted under load. What causes this?
+# ✅ **Basic Level Questions**
 
-7) Microservices: One slow service increases latency across the system. How do you handle it?
-8) Microservices: Retries between services start causing system overload. Why?
-9) Microservices: Circuit breaker remains open even when service is healthy. Why?
+* What is inheritance in Java?
+* Why do we use inheritance?
+* What is `extends` keyword?
+* What is IS-A relationship?
+* What is method overriding?
 
-10) System Thinking: Adding more instances didn’t improve performance. What might be the bottleneck?
-11) System Thinking: Cache improved speed but caused inconsistent data. Why?
-12) System Thinking: System works in testing but fails under real traffic. Why?
+---
+
+# ✅ **Intermediate Level Questions**
+
+* Types of inheritance in Java?
+* Does Java support multiple inheritance? Why?
+* What is multilevel inheritance?
+* What is hierarchical inheritance?
+* What is `super` keyword?
+* Difference between method overloading and overriding?
+* Can we override static methods?
+* Can we override final methods?
+
+---
+
+# ✅ **Advanced Level Questions**
+
+* What is runtime polymorphism?
+* How does method overriding work internally?
+* What are rules for method overriding?
+* What is covariant return type?
+* Can constructors be inherited?
+* What is the order of constructor execution in inheritance?
+* What happens if parent constructor is not called?
+
+---
+
+# 🔥 **Tricky / Frequently Asked**
+
+* Can we extend multiple classes in Java?
+* Can we inherit private members?
+* Can we override private methods?
+* Can we change access modifier while overriding?
+* What happens if parent and child have same variable name?
+* Can abstract class have constructor?
+* Can interface extend class?
+* Can class extend interface?
+
