@@ -788,15 +788,28 @@ Student s = new Student(); // calls default constructor
 ```
 
 
-## 13. What is static keyword?
+## 5. What is the static keyword?
 
-static keyword is used for class-level variables and methods shared by all objects.
+**`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
 
 ```java
-class Company {
-    static String companyName = "TCS";
+class Example {
+    static int count = 0;
+
+    static void show() {
+        System.out.println("Static method");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Example.show();   // No object needed
+    }
 }
 ```
+
+`static` members are **shared by all objects and can be accessed using the class name**.
+
 
 
 ## 14. Difference: static vs non-static?
@@ -863,34 +876,41 @@ abstract class Animal {
 ```
 
 
-## 19. Difference: Abstract class vs Interface?
+## 19. What is the difference between interface and abstract class?
 
-Abstract class can have both implemented and abstract methods, while interface is fully abstract (before Java 8). Interface supports multiple inheritance.
+An **interface** is used to define a **contract** that classes must implement. It mainly contains **abstract methods**, and variables are **public, static, and final by default**.
+```java
+interface Animal {
+    void sound();   // abstract method
+}
 
-| Feature | Abstract Class | Interface |
-|---|---|---|
-| Methods | Abstract + concrete | Abstract + default + static (Java 8+) |
-| Variables | Any type (instance, static) | `public static final` only |
-| Constructors | ✅ Yes | ❌ No |
-| Multiple inheritance | ❌ One class only | ✅ Multiple interfaces |
-| Access modifiers | Any | Methods are `public` by default |
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+An **abstract class** is used when classes share **common behavior and state**. It can have **abstract methods and concrete methods**, and it can also have **instance variables and constructors**.
 
 ```java
 abstract class Animal {
-    String name;                        // instance variable ✅
-    abstract void sound();              // abstract method
-    void breathe() { System.out.println("breathing"); } // concrete method
+    abstract void sound();   // abstract method
+
+    void eat() {             // concrete method
+        System.out.println("Animal is eating");
+    }
 }
 
-interface Flyable {
-    int MAX_HEIGHT = 1000;              // public static final ✅
-    void fly();                         // abstract method
-    default void land() { System.out.println("landing"); } // default method (Java 8+)
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
 }
 ```
 
 
-## 20. Can a class be both abstract and final? (Tricky)
+## 20. Can a class be both abstract and final? 
 
 No, because abstract needs inheritance and final restricts inheritance.
 
@@ -1487,6 +1507,22 @@ class B extends A {}
 ```
 
 
+## 27. Can an interface extend another interface?
+
+Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
+A child interface inherits all methods from the parent interface.
+
+```java
+interface A {
+    void methodA();
+}
+
+interface B extends A {
+    void methodB();
+}
+```
+
+
 ## 28. Can class extend interface?
 
 👉 *“No, class cannot extend interface. It uses implements keyword.”*
@@ -1596,214 +1632,19 @@ System.out.println(MathConstants.MAX_VALUE); // 100
 
 # ✅ 5. Java Interface & Abstract Class 
 
-## 1. What is an interface in Java?
-
-**An Interface in Java** is a **blueprint that defines a set of methods without implementation**.
-
-Any class that implements the interface **must provide the implementation for those methods**, and it is mainly used to achieve **abstraction and multiple inheritance**.
 
 
-```java
-interface Animal {
-    void sound();   // abstract method
-}
-
-class Dog implements Animal {
-    public void sound() {
-        System.out.println("Bark");
-    }
-}
-```
-
-## 2. What are the interface available in Java?
-
-In Java, interfaces are mainly of four types:
-
-**Normal Interface :**
-A normal interface defines a contract with multiple abstract methods that a class must implement.
-
-```java
-interface Payment {
-    void pay();
-}
-```
-
-**Functional Interface :**
-A functional interface contains exactly one abstract method and is used for lambda expressions.
-
-```java
-@FunctionalInterface
-interface Calculator {
-    int calculate(int a, int b); // single abstract method
-    
-    default void print() { } // default methods allowed
-}
-
-// Usage with lambda
-Calculator add = (a, b) -> a + b;
-int result = add.calculate(5, 3);
-```
-
-**Marker Interface :**
-A marker interface is an empty interface used to tag a class for special behavior.
-
-```java
-import java.io.Serializable;
-
-// Marker interface
-interface Serializable {
-    // Empty - just marks the class
-}
-
-class Student implements Serializable {
-    String name;
-    // This class can now be serialized
-}
-```
-
-**Nested Interface :**
-A nested interface is declared inside a class or another interface for logical grouping.
-
-```java
-class Bank {
-    interface RBI {
-        void rule();
-    }
-}
-```
-
-## 3. What is the difference between interface and abstract class?
-
-An **interface** is used to define a **contract** that classes must implement. It mainly contains **abstract methods**, and variables are **public, static, and final by default**.
-```java
-interface Animal {
-    void sound();   // abstract method
-}
-
-class Dog implements Animal {
-    public void sound() {
-        System.out.println("Dog barks");
-    }
-}
-```
-
-An **abstract class** is used when classes share **common behavior and state**. It can have **abstract methods and concrete methods**, and it can also have **instance variables and constructors**.
-
-```java
-abstract class Animal {
-    abstract void sound();   // abstract method
-
-    void eat() {             // concrete method
-        System.out.println("Animal is eating");
-    }
-}
-
-class Dog extends Animal {
-    void sound() {
-        System.out.println("Dog barks");
-    }
-}
-```
-
-**Key difference:**
-A class can **extend only one abstract class**, but it can **implement multiple interfaces**, which helps achieve **multiple inheritance in Java**.
 
 
-## 4. What are default methods in interfaces?
-
-**Default methods** are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
-
-- Provide default implementation in interface
-- Use 'default' keyword
-- Can be overridden in implementing classes
-- Enable interface evolution without breaking compatibility
-
-```java
-interface Vehicle {
-    void start(); // abstract method
-    
-    default void honk() { // default method
-        System.out.println("Beep beep!");
-    }
-}
-
-class Car implements Vehicle {
-    public void start() { System.out.println("Car started"); }
-    // honk() is inherited, can be overridden if needed
-}
-```
-
-## 5. What is the static keyword?
-
-**`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
-
-```java
-class Example {
-    static int count = 0;
-
-    static void show() {
-        System.out.println("Static method");
-    }
-}
-
-public class Test {
-    public static void main(String[] args) {
-        Example.show();   // No object needed
-    }
-}
-```
-
-`static` members are **shared by all objects and can be accessed using the class name**.
 
 
-## 6. What are static methods in interfaces?
-
-**Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
-They **belong to the interface itself and are called using the interface name**, not by implementing classes.
-
-```java
-interface MyInterface {
-
-    static void show() {
-        System.out.println("Static method in interface");
-    }
-}
-
-public class Test {
-    public static void main(String[] args) {
-        MyInterface.show();  // called using interface name
-    }
-}
-```
-
-## 7. Can an interface extend another interface?
-
-Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
-A child interface inherits all methods from the parent interface.
-
-```java
-interface A {
-    void methodA();
-}
-
-interface B extends A {
-    void methodB();
-}
-```
 
 
-## 8. When should you use an interface instead of an abstract class?
 
-Use **interface** when:
 
-* You want **multiple inheritance**
-* You define **only method contracts (what to do, not how)**
-* Different classes share **common behavior but not relationship**
 
-Use **abstract class** when:
 
-* Classes are **closely related**
-* You want **common code + common fields**
+
 
 ## 9. What are SOLID principles?
 
