@@ -4712,7 +4712,7 @@ public class Student {
 ```
 
 
-**8. Difference between `save()` and `persist()`**
+## 8. Difference between `save()` and `persist()`
 
 | Feature                   | save()                  | persist()          |
 | ------------------------- | ----------------------- | ------------------ |
@@ -4786,6 +4786,173 @@ public class UserService {
 
 * **DAO:** `EmployeeRepository` that accesses the database.
 * **DTO:** `EmployeeDTO` used to send employee data in API requests or responses.
+
+
+## 10. What is the N+1 Query Problem and How Do You Fix It?
+
+So the N+1 problem happens when you load a list of entities and then for each entity, JPA fires a separate query to load its related data.
+
+For example, you load 10 orders — that's 1 query. Then for each order, it loads the customer — that's 10 more queries. Total = 11 queries. That's N+1.
+
+**Fix it using JOIN FETCH:**
+
+```java
+@Query("SELECT o FROM Order o JOIN FETCH o.customer")
+List<Order> findAllWithCustomer();
+```
+
+Or use `@EntityGraph`:
+
+```java
+@EntityGraph(attributePaths = {"customer"})
+List<Order> findAll();
+```
+
+This loads everything in a single query instead of N+1 separate ones.
+
+---
+
+## 11. What is `@Transactional` Propagation Levels?
+
+Propagation tells Spring — *what should happen to the transaction when one transactional method calls another?*
+
+| Level | Behavior |
+|---|---|
+| `REQUIRED` (default) | Join existing transaction, or create new one |
+| `REQUIRES_NEW` | Always create a new transaction, suspend the existing one |
+| `NESTED` | Run inside a nested transaction (savepoint) |
+| `SUPPORTS` | Use existing transaction if present, else run without |
+| `NOT_SUPPORTED` | Suspend existing transaction, run without |
+| `MANDATORY` | Must have an existing transaction, else throw exception |
+| `NEVER` | Must NOT have a transaction, else throw exception |
+
+```java
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void saveAuditLog() {
+    // always runs in its own transaction
+}
+```
+
+Most of the time you'll use `REQUIRED` or `REQUIRES_NEW`.
+
+---
+
+## 12. What is Optimistic vs Pessimistic Locking?
+
+Both handle concurrent access to the same data — but differently.
+
+**Optimistic Locking** — assumes conflicts are rare. It uses a `@Version` field. When you update, it checks if the version matches. If someone else already updated it, it throws `OptimisticLockException`.
+
+```java
+@Entity
+public class Product {
+    @Version
+    private int version;
+}
+```
+
+**Pessimistic Locking** — assumes conflicts are likely. It locks the row in the database immediately using `SELECT FOR UPDATE`.
+
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT p FROM Product p WHERE p.id = :id")
+Product findByIdWithLock(@Param("id") Long id);
+```
+
+Use optimistic for read-heavy apps, pessimistic for write-heavy or financial systems.
+
+---
+
+## 13. What is JPQL vs Native Query?
+
+**JPQL** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
+
+```java
+@Query("SELECT e FROM Employee e WHERE e.department = :dept")
+List<Employee> findByDept(@Param("dept") String dept);
+```
+
+**Native Query** uses actual SQL with real table and column names. Use it when you need database-specific features or complex queries JPQL can't handle.
+
+```java
+@Query(value = "SELECT * FROM employee WHERE department = :dept", nativeQuery = true)
+List<Employee> findByDeptNative(@Param("dept") String dept);
+```
+
+Prefer JPQL for portability. Use native query only when needed.
+
+---
+
+## 14. What are JPA Cascade Types?
+
+Cascade means — *when you do an operation on a parent entity, automatically apply it to child entities too.*
+
+| Type | Behavior |
+|---|---|
+| `PERSIST` | Save child when parent is saved |
+| `MERGE` | Update child when parent is updated |
+| `REMOVE` | Delete child when parent is deleted |
+| `REFRESH` | Refresh child when parent is refreshed |
+| `DETACH` | Detach child when parent is detached |
+| `ALL` | Apply all of the above |
+
+```java
+@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+private List<OrderItem> items;
+```
+
+Be careful with `REMOVE` — it can delete child records you didn't intend to delete.
+
+---
+
+## 15. What is Database Indexing and When to Use It?
+
+An index is like a book's table of contents — it helps the database find rows faster without scanning the whole table.
+
+**When to use:**
+- Columns used in `WHERE`, `JOIN`, `ORDER BY`, or `GROUP BY`
+- Foreign key columns
+- Columns with high cardinality (many unique values)
+
+**When NOT to use:**
+- Small tables
+- Columns that are updated very frequently
+- Columns with very low cardinality (like boolean flags)
+
+```sql
+CREATE INDEX idx_employee_email ON employee(email);
+```
+
+In JPA:
+```java
+@Table(indexes = @Index(name = "idx_email", columnList = "email"))
+public class Employee { }
+```
+
+Indexes speed up reads but slow down writes — so use them wisely.
+
+---
+
+## 16. What is `FetchType.LAZY` vs `FetchType.EAGER` In Depth?
+
+**EAGER** — loads related data immediately when the parent is loaded, even if you don't need it.
+
+**LAZY** — loads related data only when you actually access it (on-demand).
+
+```java
+@OneToMany(fetch = FetchType.LAZY)   // default for collections
+private List<Order> orders;
+
+@ManyToOne(fetch = FetchType.EAGER)  // default for single associations
+private Department department;
+```
+
+**The problem with LAZY** — if you access lazy data outside a transaction (after the session is closed), you get `LazyInitializationException`.
+
+**Fix:** Use `JOIN FETCH` or `@Transactional` to keep the session open, or use DTOs.
+
+**Best practice:** Always prefer LAZY. Load eagerly only when you always need the related data together.
+
 
 
 # ✅ 15. Java Lambda Expressions & Streams API 
@@ -6570,6 +6737,40 @@ public class UserController {
 }
 ```
 
+## 13 (Spring). How Does Spring Handle Circular Dependency?
+
+A circular dependency is when Bean A depends on Bean B, and Bean B depends on Bean A.
+
+**With constructor injection** — Spring throws `BeanCurrentlyInCreationException` because it can't create either bean first.
+
+**With field/setter injection** — Spring can handle it using a 3-level cache (early bean references). It creates a partially initialized bean and injects it.
+
+```java
+// Avoid this with constructor injection — causes error
+@Component
+public class A {
+    @Autowired B b;
+}
+
+@Component
+public class B {
+    @Autowired A a;
+}
+```
+
+**Best fix:** Refactor to remove the circular dependency. If you must keep it, use `@Lazy` on one of the injections:
+
+```java
+@Autowired
+@Lazy
+private B b;
+```
+
+`@Lazy` tells Spring to inject a proxy first and resolve the real bean later.
+
+In Spring Boot 2.6+, circular dependencies are disabled by default. You need to explicitly enable them or fix the design.
+
+
 # ✅ 19. Java Spring Boot 
 
 ## 1. What is annotations in Java?
@@ -7398,7 +7599,194 @@ public class UserController {
     }
 }
 ```
-**URL example:** `/users?page=0&size=5&sortBy=name`
+
+## 24. How Does `@Transactional` Work Internally?
+
+Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around your bean.
+
+When the method is called:
+1. The proxy intercepts the call
+2. Opens a transaction (or joins an existing one based on propagation)
+3. Executes your method
+4. If no exception → commits the transaction
+5. If a `RuntimeException` is thrown → rolls back
+
+```java
+@Transactional
+public void transferMoney(Long from, Long to, double amount) {
+    debit(from, amount);
+    credit(to, amount);  // if this throws, debit also rolls back
+}
+```
+
+**Important gotcha:** `@Transactional` only works on **public methods** and only when called from **outside the class** (because the proxy is bypassed on self-invocation).
+
+---
+
+## 25. How Does `@EnableAutoConfiguration` Work Internally?
+
+It's the magic behind Spring Boot's "convention over configuration."
+
+When your app starts:
+1. Spring Boot scans `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` (or `spring.factories` in older versions)
+2. That file lists hundreds of auto-configuration classes
+3. Each class is annotated with `@ConditionalOn...` — so it only activates if certain conditions are met (e.g., a class is on the classpath, a bean is missing, a property is set)
+
+```java
+@ConditionalOnClass(DataSource.class)
+@ConditionalOnMissingBean(DataSource.class)
+public class DataSourceAutoConfiguration { ... }
+```
+
+So if you add `spring-boot-starter-data-jpa`, Spring Boot automatically configures a `DataSource`, `EntityManagerFactory`, and transaction manager — without you writing any config.
+
+`@SpringBootApplication` = `@Configuration` + `@ComponentScan` + `@EnableAutoConfiguration` combined.
+
+---
+
+## 26. What is `@Async` and How Does It Work?
+
+`@Async` runs a method in a **separate thread** — so the caller doesn't wait for it to finish.
+
+**Setup:**
+```java
+@SpringBootApplication
+@EnableAsync
+public class MyApp { }
+```
+
+```java
+@Async
+public void sendEmail(String to) {
+    // runs in a background thread
+    emailService.send(to);
+}
+```
+
+Internally, Spring wraps the method in a proxy and submits it to a `TaskExecutor` (thread pool). By default it uses `SimpleAsyncTaskExecutor` — but in production, always configure a proper thread pool:
+
+```java
+@Bean
+public Executor taskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(5);
+    executor.setMaxPoolSize(10);
+    executor.initialize();
+    return executor;
+}
+```
+
+**Gotcha:** Same as `@Transactional` — self-invocation won't work. Must be called from another bean.
+
+If you need the result, return `CompletableFuture<T>` instead of `void`.
+
+---
+
+## 27. What is `@EventListener` in Spring Boot?
+
+It's Spring's built-in **event-driven mechanism** — publish an event, and any listener picks it up.
+
+**Create an event:**
+```java
+public class UserRegisteredEvent {
+    private final String email;
+    public UserRegisteredEvent(String email) { this.email = email; }
+    public String getEmail() { return email; }
+}
+```
+
+**Publish it:**
+```java
+@Autowired ApplicationEventPublisher publisher;
+
+public void register(String email) {
+    // save user...
+    publisher.publishEvent(new UserRegisteredEvent(email));
+}
+```
+
+**Listen to it:**
+```java
+@EventListener
+public void onUserRegistered(UserRegisteredEvent event) {
+    sendWelcomeEmail(event.getEmail());
+}
+```
+
+By default it's **synchronous**. Combine with `@Async` to make it non-blocking.
+
+Use it to decouple logic — like sending emails, notifications, or audit logging — without tight coupling between services.
+
+---
+
+## 28. What is `ResponseEntity` and When to Use It?
+
+`ResponseEntity` gives you **full control** over the HTTP response — status code, headers, and body.
+
+```java
+// Simple return — no control
+@GetMapping("/user/{id}")
+public User getUser(@PathVariable Long id) {
+    return userService.find(id);
+}
+
+// With ResponseEntity — full control
+@GetMapping("/user/{id}")
+public ResponseEntity<User> getUser(@PathVariable Long id) {
+    User user = userService.find(id);
+    if (user == null) {
+        return ResponseEntity.notFound().build();           // 404
+    }
+    return ResponseEntity.ok(user);                        // 200
+}
+```
+
+You can also set custom headers:
+```java
+return ResponseEntity
+    .status(HttpStatus.CREATED)
+    .header("X-Custom-Header", "value")
+    .body(savedUser);
+```
+
+Use it when you need to return different status codes, add headers, or return an empty body with a specific status.
+
+---
+
+## 29. What is `@ExceptionHandler` vs `@ControllerAdvice`?
+
+Both handle exceptions — but at different scopes.
+
+**`@ExceptionHandler`** — handles exceptions **only within the same controller**.
+
+```java
+@RestController
+public class UserController {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(UserNotFoundException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+}
+```
+
+**`@ControllerAdvice`** — handles exceptions **globally across all controllers**. One place to handle all errors.
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(UserNotFoundException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGeneral(Exception ex) {
+        return ResponseEntity.status(500).body("Something went wrong");
+    }
+}
+```
 
 
 # ✅ 20. RESTful Services 
@@ -8704,6 +9092,161 @@ public class Main {
     }
 }
 ```
+
+## 21. What is Kafka and How Does It Work?
+
+Kafka is a **distributed event streaming platform** — used for high-throughput, real-time data pipelines.
+
+**Core concepts:**
+- **Producer** — sends messages to a topic
+- **Topic** — a named channel (like a queue, but persistent)
+- **Partition** — topics are split into partitions for parallelism
+- **Consumer** — reads messages from a topic
+- **Consumer Group** — multiple consumers share the load; each partition is read by one consumer in the group
+- **Broker** — a Kafka server that stores messages
+
+```
+Producer → Topic (Partitions) → Consumer Group → Consumers
+```
+
+Messages are **persisted on disk** and retained for a configurable period — so consumers can replay events.
+
+```java
+// Producer
+kafkaTemplate.send("order-topic", "order-created");
+
+// Consumer
+@KafkaListener(topics = "order-topic", groupId = "order-group")
+public void consume(String message) {
+    System.out.println("Received: " + message);
+}
+```
+
+Use Kafka for: event sourcing, log aggregation, real-time analytics, microservice communication at scale.
+
+---
+
+## 22. What is RabbitMQ and When to Use It Over Kafka?
+
+RabbitMQ is a **traditional message broker** — it routes messages between producers and consumers using queues and exchanges.
+
+**Core concepts:**
+- **Producer** → sends to an **Exchange**
+- **Exchange** → routes to one or more **Queues** (based on routing rules)
+- **Consumer** → reads from a Queue
+- Once a message is consumed and acknowledged, it's **deleted**
+
+```java
+// Send
+rabbitTemplate.convertAndSend("order-exchange", "order.created", payload);
+
+// Receive
+@RabbitListener(queues = "order-queue")
+public void receive(String message) { }
+```
+
+**RabbitMQ vs Kafka:**
+
+| | RabbitMQ | Kafka |
+|---|---|---|
+| Message retention | Deleted after consumed | Retained (replayable) |
+| Throughput | Moderate | Very high |
+| Use case | Task queues, RPC, routing | Event streaming, audit logs |
+| Ordering | Per-queue | Per-partition |
+| Complexity | Simpler | More complex |
+
+Use **RabbitMQ** for task queues, job processing, and complex routing.
+Use **Kafka** for event streaming, high-volume data, and replay scenarios.
+
+---
+
+## 23. What is gRPC and How Does It Differ from REST?
+
+gRPC is a **high-performance RPC framework** by Google. It uses **Protocol Buffers (protobuf)** for serialization and **HTTP/2** for transport.
+
+You define your API in a `.proto` file:
+```proto
+service OrderService {
+  rpc GetOrder (OrderRequest) returns (OrderResponse);
+}
+```
+
+gRPC generates client and server code automatically from this contract.
+
+**gRPC vs REST:**
+
+| | REST | gRPC |
+|---|---|---|
+| Protocol | HTTP/1.1 | HTTP/2 |
+| Format | JSON (text) | Protobuf (binary) |
+| Speed | Slower | Much faster |
+| Streaming | Limited | Built-in (bi-directional) |
+| Browser support | Full | Limited |
+| Contract | Optional (OpenAPI) | Strict (.proto file) |
+
+Use gRPC for **internal microservice communication** where performance matters. Use REST for **public APIs** and browser clients.
+
+---
+
+## 24. What is a Service Mesh (Istio)?
+
+A service mesh is an **infrastructure layer** that handles service-to-service communication in microservices — without changing your application code.
+
+**Istio** is the most popular service mesh. It works by injecting a **sidecar proxy (Envoy)** alongside every service pod in Kubernetes.
+
+All traffic goes through the sidecar, which handles:
+- **Load balancing**
+- **mTLS (mutual TLS)** — encrypted, authenticated service-to-service calls
+- **Traffic management** — canary deployments, retries, timeouts, circuit breaking
+- **Observability** — metrics, logs, distributed tracing automatically
+
+```
+Service A → [Envoy Sidecar] ──── [Envoy Sidecar] → Service B
+                    ↕                       ↕
+               Istio Control Plane (Istiod)
+```
+
+Without Istio, you'd have to implement retries, timeouts, and mTLS in every service manually.
+
+Use it in large Kubernetes-based microservice architectures where you need security, observability, and traffic control at scale.
+
+---
+
+## 25. What is Zipkin and How Does Distributed Tracing Work?
+
+In microservices, a single request can pass through 5–10 services. When something fails or is slow, how do you find where? That's what **distributed tracing** solves.
+
+**Zipkin** is a distributed tracing system. It collects timing data from all services and lets you visualize the full request journey.
+
+**How it works:**
+1. Each request gets a unique **Trace ID**
+2. Each service call within that request gets a **Span ID**
+3. Services report their spans (start time, duration, status) to Zipkin
+4. Zipkin assembles them into a full trace timeline
+
+**Spring Boot setup:**
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-brave</artifactId>
+</dependency>
+```
+
+```yaml
+management:
+  tracing:
+    sampling:
+      probability: 1.0  # trace 100% of requests
+```
+
+```
+Request → [Service A] → [Service B] → [Service C]
+              span1          span2          span3
+              └──────── Trace ID: abc123 ──────────┘
+```
+
+In Zipkin UI, you can see exactly which service was slow or failed. Often used with **Sleuth** (older) or **Micrometer Tracing** (Spring Boot 3+).
+
 
 # ✅ 22. Java and Application Security
 
