@@ -6737,7 +6737,7 @@ public class UserController {
 }
 ```
 
-## 13 (Spring). How Does Spring Handle Circular Dependency?
+## 14 How Does Spring Handle Circular Dependency?
 
 A circular dependency is when Bean A depends on Bean B, and Bean B depends on Bean A.
 
