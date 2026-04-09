@@ -575,46 +575,8 @@ class Test {
 
 # ✅ 3. Classes and Objects
 
-## 1. What is class loader and how do they work?
 
-A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
-
-
-**How ClassLoader Works**
-
-Java follows a **Delegation Hierarchy Model**:
-
-1. **Bootstrap ClassLoader**
-
-   * Loads core Java classes (e.g., `java.lang.*`)
-2. **Extension (Platform) ClassLoader**
-
-   * Loads classes from `jre/lib/ext`
-3. **Application (System) ClassLoader**
-
-   * Loads classes from classpath
-
-
-```java
-public class Test {
-    public static void main(String[] args) {
-
-        // Application ClassLoader
-        ClassLoader appLoader = Test.class.getClassLoader();
-        System.out.println("Application ClassLoader: " + appLoader);
-
-        // Extension ClassLoader
-        ClassLoader extLoader = appLoader.getParent();
-        System.out.println("Extension ClassLoader: " + extLoader);
-
-        // Bootstrap ClassLoader (returns null)
-        ClassLoader bootstrapLoader = extLoader.getParent();
-        System.out.println("Bootstrap ClassLoader: " + bootstrapLoader);
-    }
-}
-```
-
-## 2. What is the difference between this and super keywords?
+## 1. What is the difference between this and super keywords?
 
 **this** refers to the current object instance,  
 **super** refers to the immediate parent class object.
@@ -634,7 +596,7 @@ class Child extends Parent {
 }
 ```
 
-## 3. What is method overloading?
+## 2. What is method overloading?
 
 Method overloading is a feature in Java where multiple methods have the **same name** but **different parameter lists** (different number, type, or order of parameters) in the same class.
 
@@ -654,7 +616,7 @@ public class Calculator {
 }
 ```
 
-## 4. What is method overriding?
+## 3. What is method overriding?
 
 **Method overriding** is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
 
@@ -675,10 +637,412 @@ class Dog extends Animal {
 ```
 
 
+## 4. What is a class in Java?
+
+A class is a blueprint or template used to create objects. It defines properties and behavior.
+
+```java
+class Car {
+    String color;
+    void drive() {
+        System.out.println("Car is driving");
+    }
+}
+```
+
+
+## 5. What is class loader and how do they work?
+
+A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
+
+
+**How ClassLoader Works**
+
+Java follows a **Delegation Hierarchy Model**:
+
+1. **Bootstrap ClassLoader**
+
+   * Loads core Java classes (e.g., `java.lang.*`)
+2. **Extension (Platform) ClassLoader**
+
+   * Loads classes from `jre/lib/ext`
+3. **Application (System) ClassLoader**
+
+   * Loads classes from classpath
 
 
 
+## 6. How do you create an immutable class in Java?
 
+An immutable class in Java is a class whose objects cannot be changed after they are created. To create an immutable class:
+
+1. Make the class `final` so it cannot be subclassed.
+2. Make all fields `private` and `final`.
+3. Do not provide setters.
+4. Initialize fields through constructor.
+5. Return copies of mutable objects (defensive copy).
+
+```java
+final class Student {
+    private final int id;
+    private final String name;
+
+    public Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+```
+
+
+## 7. What is an object?
+
+An object is an instance of a class. It represents real-world entities.
+
+```java
+Car c = new Car();  // object creation
+```
+
+
+## 8. Difference between class and object?
+
+Class is a blueprint, object is the actual implementation of that blueprint.
+
+* Class → logical
+* Object → physical (exists in memory)
+
+
+
+## 9. How to create a class and object?
+
+We create a class using class keyword and object using new keyword.
+
+```java
+class Student {
+    String name;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s = new Student(); // object
+        s.name = "John";
+        System.out.println(s.name);
+    }
+}
+```
+
+
+## 10. What are instance variables and methods?
+
+Instance variables belong to object and methods define behavior of object.
+
+```java
+class Employee {
+    String name; // instance variable
+
+    void work() { // instance method
+        System.out.println("Working...");
+    }
+}
+```
+
+
+## 11. What is a constructor? Types?
+
+Constructor is a special method used to initialize objects. It is called automatically when object is created.
+
+**Types:**
+
+* Default
+* Parameterized
+
+```java
+class Student {
+    String name;
+
+    Student() { // default
+        name = "Unknown";
+    }
+
+    Student(String n) { // parameterized
+        name = n;
+    }
+}
+```
+
+
+## 12. What is default constructor?
+
+A constructor with no parameters. If we don’t create one, Java provides it automatically.
+
+```java
+Student s = new Student(); // calls default constructor
+```
+
+
+## 13. What is static keyword?
+
+static keyword is used for class-level variables and methods shared by all objects.
+
+```java
+class Company {
+    static String companyName = "TCS";
+}
+```
+
+
+## 14. Difference: static vs non-static?
+
+Static belongs to class, non-static belongs to object.
+
+| Static           | Non-Static               |
+| ---------------- | ------------------------ |
+| Shared           | Separate for each object |
+| No object needed | Object required          |
+
+```java
+class Test {
+    static void show1() {}
+    void show2() {}
+}
+```
+
+
+## 15. Can a class have multiple constructors?
+
+Yes, this is called constructor overloading.
+
+```java
+class Student {
+    Student() {}
+    Student(String name) {}
+    Student(int age) {}
+}
+```
+
+
+## 16. Can a constructor be final, static, or abstract in Java?
+
+No, a constructor cannot be **final, static, or abstract**.
+
+**Why:**
+
+* **final** → Constructor is not inherited, so it cannot be overridden.
+* **static** → Static belongs to class, but constructor is used to create object.
+* **abstract** → Abstract methods have no body, but constructor must have a body.
+
+
+
+## 17. Can we make a class `final`? Why?
+
+Yes, final class cannot be extended. It is used to prevent inheritance for security or immutability.
+
+```java
+final class A {}
+
+// class B extends A {} ❌ ERROR
+```
+
+
+## 18. Can we make a class `abstract`?
+
+Yes, abstract class cannot be instantiated and can have abstract and non-abstract methods.
+
+```java
+abstract class Animal {
+    abstract void sound();
+}
+```
+
+
+## 19. Difference: Abstract class vs Interface?
+
+Abstract class can have both implemented and abstract methods, while interface is fully abstract (before Java 8). Interface supports multiple inheritance.
+
+```java
+abstract class A {
+    void show() {}
+}
+
+interface B {
+    void display();
+}
+```
+
+
+## 20. Can a class be both abstract and final? (Tricky)
+
+No, because abstract needs inheritance and final restricts inheritance.
+
+
+
+## 21. What is inner class? Types?
+
+Inner class is a class inside another class, used for better grouping.
+
+**Types:**
+
+* Member inner class
+* Static nested class
+* Local inner class
+* Anonymous class
+
+```java
+class Outer {
+    class Inner {
+        void show() {
+            System.out.println("Inner class");
+        }
+    }
+}
+```
+
+
+## 22. What is singleton class?
+
+Singleton class allows only one object creation.
+
+```java
+class Singleton {
+    private static Singleton obj = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return obj;
+    }
+}
+```
+
+## 23. Is it allowed to overload main() method in Java?
+
+**Yes, the `main()` method can be overloaded** in Java.
+
+The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
+
+```java
+public class Test {
+    public static void main(String[] args) { } // JVM entry point
+    public static void main(int x) { }         // Overloaded
+    public static void main() { }              // Overloaded
+}
+```
+
+
+## 24. Is it allowed to override main() method in Java?
+
+❌ **No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
+
+* The `main()` method is:
+
+  ```java
+  public static void main(String[] args)
+  ```
+* Since it is **static**, it belongs to the class, not the object.
+* Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
+
+
+
+## 25. Can you override static methods?
+
+No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
+
+```java
+class Parent {
+    static void display() { System.out.println("Parent"); }
+}
+
+class Child extends Parent {
+    static void display() { System.out.println("Child"); } // Hiding, not overriding
+}
+
+Parent p = new Child();
+p.display(); // Prints "Parent" - based on reference type
+```
+
+
+## 26. Is it possible to execute a program without defining a main() method?
+
+It is **technically possible** to run code in a **static block** without a `main()` method, but **modern Java requires `main()`** as the entry point.
+
+Using static blocks alone is **not recommended** and violates standard practices.
+
+```java
+class NoMain {
+    static {
+        System.out.println("Executing without main");
+        System.exit(0); // Required to prevent error
+    }
+}
+// Works in older Java versions, not recommended
+```
+
+
+## 27. Can we create object without `new` keyword?
+
+Yes, using methods like clone(), factory methods, reflection, or deserialization.
+
+```java
+// Example using clone
+class A implements Cloneable {
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+```
+
+
+## 28. What happens if a class has no constructor?
+
+Java provides a default constructor automatically.
+
+
+
+## 29. Can a class be private or protected?
+
+Top-level class cannot be private or protected, only public or default. Inner classes can be private/protected.
+
+```java
+class Outer {
+    private class Inner {}
+}
+```
+
+
+## 30. What happens if a static block throws an unchecked exception?
+
+If a static block throws an unchecked exception:
+
+* Class will **fails to load**
+* JVM will throws **ExceptionInInitializerError**
+* Program stops and class cannot be used
+
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Test t = new Test();
+    }
+}
+
+class Test {
+    static {
+        System.out.println("Static block running");
+        int x = 10 / 0; // ArithmeticException
+    }
+}
+
+// Output:
+Exception in thread "main" java.lang.ExceptionInInitializerError
+```
 
 
 
