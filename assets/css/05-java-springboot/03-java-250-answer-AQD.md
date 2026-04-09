@@ -575,7 +575,7 @@ class Test {
 
 # ✅ 3. Classes and Objects
 
-## 0. What is class loader and how do they work?
+## 1. What is class loader and how do they work?
 
 A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
 
@@ -614,7 +614,7 @@ public class Test {
 }
 ```
 
-## 1. What is a constructor in Java and how do they work?
+## 2. What is a constructor in Java and how do they work?
 
 A constructor in Java is a **special method used to initialize objects**.
 
@@ -662,38 +662,6 @@ class Student {
 }
 ```
 
-## 2. What is constructor chaining and Can a constructor be private in Java?
-
-**Constructor** chaining is calling one constructor from another constructor in the same class or parent class. It helps avoid code duplication.
-
-- Use `this()` to call another constructor in same class
-- Use `super()` to call parent class constructor
-- Must be the first statement in constructor
-
-Yes, a constructor can be **private** in Java.
-
-**Why / When do we use it?**
-
-We use a private constructor to **restrict object creation from outside the class**.
-
-1. **Singleton Design Pattern** → ensure only one object is created.
-2. **Utility classes** (like Math) → prevent instantiation.
-3. **Factory methods** → control object creation.
-
-**Example (Singleton)**
-
-```java
-class Singleton {
-    private static Singleton instance = new Singleton();
-
-    // private constructor
-    private Singleton() {}
-
-    public static Singleton getInstance() {
-        return instance;
-    }
-}
-```
 
 ## 3. What is the difference between this and super keywords?
 
@@ -860,43 +828,7 @@ final class Student {
 * **abstract** → Abstract methods have no body, but constructor must have a body.
 
 
-## 11. Static Block and Constructor – Order of Execution (Multiple Objects)
-
-**Order of execution:**
-
-1. Static block → runs **once** when class loads
-2. Instance block → runs **every time object is created**
-3. Constructor → runs **every time object is created**
-
-
-```java
-class Test {
-    static {
-        System.out.println("Static block");
-    }
-
-    {
-        System.out.println("Instance block");
-    }
-
-    Test() {
-        System.out.println("Constructor");
-    }
-
-    public static void main(String[] args) {
-        Test t1 = new Test();
-        Test t2 = new Test();
-    }
-}
-// Output: 
-Static block
-Instance block
-Constructor
-Instance block
-Constructor
-```
-
-## 12. What happens if a static block throws an unchecked exception?
+## 11. What happens if a static block throws an unchecked exception?
 
 If a static block throws an unchecked exception:
 
