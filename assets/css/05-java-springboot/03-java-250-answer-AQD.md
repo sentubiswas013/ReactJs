@@ -3956,6 +3956,10 @@ public class UserService {
 They were introduced in **Java 8** to support **functional programming** and make code more readable and concise.
 
 ```java
+(parameters) -> expression
+```
+
+```java
 // Before lambda - anonymous class
 Runnable r1 = new Runnable() {
     public void run() {
@@ -4134,20 +4138,26 @@ System.out.println(result);
 **Optional class** is a container class that may or may not contain a value. It helps avoid **NullPointerException** and makes null handling more explicit and safer.
 
 ```java
-// Creating Optional
-Optional<String> optional = Optional.of("Hello");
-Optional<String> empty = Optional.empty();
-Optional<String> nullable = Optional.ofNullable(getString());
+import java.util.Optional;
 
-// Using Optional
-optional.ifPresent(System.out::println);        // Execute if present
-String result = optional.orElse("Default");     // Provide default
-String result2 = optional.orElseGet(() -> "Default"); // Lazy default
+public class Test {
+    public static void main(String[] args) {
 
-// Chaining operations
-optional.filter(s -> s.length() > 3)
-        .map(String::toUpperCase)
-        .ifPresent(System.out::println);
+        String name = null;
+
+        Optional<String> optional = Optional.ofNullable(name);
+
+        // optional way one
+        if (optional.isPresent()) {
+            System.out.println(optional.get());
+        } else {
+            System.out.println("Value is null");
+        }
+
+        // optional way two
+        System.out.println(optional.orElse("Default Value"));
+    }
+}
 ```
 
 # ✅ 16. Java JDBC 
