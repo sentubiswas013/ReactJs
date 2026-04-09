@@ -920,6 +920,16 @@ class Singleton {
         return obj;
     }
 }
+
+// How t use
+public class Test {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1 == s2); // true (same object)
+    }
+}
 ```
 
 ## 23. Is it allowed to overload main() method in Java?
@@ -939,7 +949,7 @@ public class Test {
 
 ## 24. Is it allowed to override main() method in Java?
 
-❌ **No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
+**No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
 
 * The `main()` method is:
 
