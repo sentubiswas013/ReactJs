@@ -1,57 +1,68 @@
+// ─────────────────────────────────────────────────────────────
+// PRACTICE CODE
+// ─────────────────────────────────────────────────────────────
 public class Main {
     public static void main(String[] args) {
-
-        // Abstract class ref → child object (Polymorphism)
         BankAccount savings = new SavingsAccount(1000);
         BankAccount current = new CurrentAccount(1000);
 
-        savings.showInterest();     // SavingsAccount specific interest
-        current.showInterest();     // CurrentAccount specific interest
+        savings.showInterest();
+        current.showInterest();
+        savings.deposit(500);
 
-        savings.deposit(500);       // Common method from abstract class
-        current.deposit(500);       // Common method from abstract class
+        // Real-world
+        Delivery bike  = new BikeDelivery();
+        Delivery drone = new DroneDelivery();
+        bike.deliver("123 Street");
+        drone.deliver("456 Avenue");
+        bike.track();
     }
 }
 
-abstract class BankAccount {            // Abstract class — cannot be instantiated
+abstract class BankAccount {
     double balance;
-
-    BankAccount(double balance) {
-        this.balance = balance;
-    }
-
-    abstract void showInterest();       // Abstract — every account MUST define its own interest
-
-    void deposit(double amount) {       // Concrete — common for all accounts
+    BankAccount(double balance) { this.balance = balance; }
+    abstract void showInterest();
+    void deposit(double amount) {
         balance += amount;
         System.out.println("Deposited: $" + amount + " | Balance: $" + balance);
     }
 }
 
-class SavingsAccount extends BankAccount {      // Single Inheritance
-    SavingsAccount(double balance) {
-        super(balance);
-    }
-
-    @Override
-    void showInterest() {                       // Overriding abstract method
-        System.out.println("Savings Interest: " + (balance * 0.04) + " (4%)");
-    }
+class SavingsAccount extends BankAccount {
+    SavingsAccount(double b) { super(b); }
+    @Override void showInterest() { System.out.println("Savings: " + (balance * 0.04) + " (4%)"); }
 }
 
-class CurrentAccount extends BankAccount {     // Hierarchical Inheritance
-    CurrentAccount(double balance) {
-        super(balance);
-    }
+class CurrentAccount extends BankAccount {
+    CurrentAccount(double b) { super(b); }
+    @Override void showInterest() { System.out.println("Current: " + (balance * 0.01) + " (1%)"); }
+}
 
+// ─────────────────────────────────────────────────────────────
+// REAL-WORLD CODE
+// Delivery system — each type delivers differently
+// ─────────────────────────────────────────────────────────────
+abstract class Delivery {
+    abstract void deliver(String address);      // each type must implement
+
+    void track() { System.out.println("Tracking order..."); }  // common for all
+}
+
+class BikeDelivery extends Delivery {
     @Override
-    void showInterest() {                       // Overriding abstract method
-        System.out.println("Current Interest: " + (balance * 0.01) + " (1%)");
-    }
+    void deliver(String address) { System.out.println("Bike delivering to: " + address); }
+}
+
+class DroneDelivery extends Delivery {
+    @Override
+    void deliver(String address) { System.out.println("Drone flying to: " + address); }
 }
 
 // Output:
-// Savings Interest: 40.0 (4%)
-// Current Interest: 10.0 (1%)
+// Savings: 40.0 (4%)
+// Current: 10.0 (1%)
 // Deposited: $500.0 | Balance: $1500.0
-// Deposited: $500.0 | Balance: $1500.0
+// Bike delivering to: 123 Street
+// Drone flying to: 456 Avenue
+// Tracking order...

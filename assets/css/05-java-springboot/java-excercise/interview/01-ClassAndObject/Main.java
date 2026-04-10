@@ -1,39 +1,46 @@
-
+// ─────────────────────────────────────────────────────────────
+// PRACTICE CODE
+// ─────────────────────────────────────────────────────────────
 public class Main {
-	public static void main(String[] args) {
-		System.out.println("Hello Worlld");
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.name = "Alice";
+        p.age  = 25;
+        System.out.println(p.info());
 
-		Person obj = new Person();	
-		obj.name = "Sentu";
-		obj.age = 2132131;
-		System.out.println(obj.info());
-	}
+        // Real-world
+        Product product = new Product("Laptop", 999.99);
+        System.out.println(product.info());
+    }
 }
 
 class Person {
-	String name = "sentu";
-	int age = 2432;
+    String name;
+    int age;
 
-	String info () {
-		// return age + " -- " + name;
-		return age + " -- " + name;
-	}
+    String info() {
+        return name + " | " + age;
+    }
 }
 
+// ─────────────────────────────────────────────────────────────
+// REAL-WORLD CODE
+// E-commerce product with fields and behaviour
+// ─────────────────────────────────────────────────────────────
+class Product {
+    String name;
+    double price;
 
-// public class Main {
-//     public static void main(String[] args) {
-//         Person p = new Person();
-//         p.name = "Alice";
-//         p.age = 25;
-//         p.introduce();
-//     }
-// }
-// class Person {
-//     String name;
-//     int age;
+    Product(String name, double price) {
+        this.name  = name;
+        this.price = price;
+    }
 
-//     void introduce() {
-//         System.out.println(name + ", " + age);
-//     }
-// }
+    String info() {
+        return name + " costs $" + price;
+    }
+}
+
+// Output:
+// Alice | 25
+// Laptop costs $999.99

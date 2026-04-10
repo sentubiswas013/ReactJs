@@ -1,46 +1,49 @@
+// ─────────────────────────────────────────────────────────────
+// PRACTICE CODE
+// ─────────────────────────────────────────────────────────────
 public class Main {
     public static void main(String[] args) {
-
-        // Parent ref → Child object (Runtime Polymorphism)
         Payment p = new CreditCard();
-        p.pay(100);                 // CreditCard pay() called
-
+        p.pay(100);
         p = new PayPal();
-        p.pay(200);                 // PayPal pay() called
-
+        p.pay(200);
         p = new Crypto();
-        p.pay(300);                 // Crypto pay() called
+        p.pay(300);
+
+        // Real-world
+        Discount d = new SeasonalDiscount();
+        System.out.println("After discount: $" + d.apply(1000));
+        d = new LoyaltyDiscount();
+        System.out.println("After discount: $" + d.apply(1000));
     }
 }
 
-class Payment {                         // Parent class
-    void pay(double amount) {
-        System.out.println("Paying: $" + amount);
-    }
+class Payment { void pay(double amount) { System.out.println("Paying: $" + amount); } }
+class CreditCard extends Payment { @Override void pay(double amount) { System.out.println("CreditCard: $" + amount + " + 2% fee"); } }
+class PayPal     extends Payment { @Override void pay(double amount) { System.out.println("PayPal: $" + amount + " + 1% fee"); } }
+class Crypto     extends Payment { @Override void pay(double amount) { System.out.println("Crypto: $" + amount + " no fee"); } }
+
+// ─────────────────────────────────────────────────────────────
+// REAL-WORLD CODE
+// Discount strategy — swap discount type without changing caller
+// ─────────────────────────────────────────────────────────────
+class Discount {
+    double apply(double price) { return price; }
 }
 
-class CreditCard extends Payment {      // Child 1
+class SeasonalDiscount extends Discount {
     @Override
-    void pay(double amount) {           // Runtime — decided at runtime which pay() to call
-        System.out.println("CreditCard: $" + amount + " + 2% fee");
-    }
+    double apply(double price) { return price * 0.80; }  // 20% off
 }
 
-class PayPal extends Payment {          // Child 2
+class LoyaltyDiscount extends Discount {
     @Override
-    void pay(double amount) {           // Runtime — decided at runtime which pay() to call
-        System.out.println("PayPal: $" + amount + " + 1% fee");
-    }
-}
-
-class Crypto extends Payment {          // Child 3
-    @Override
-    void pay(double amount) {           // Runtime — decided at runtime which pay() to call
-        System.out.println("Crypto: $" + amount + " no fee");
-    }
+    double apply(double price) { return price * 0.90; }  // 10% off
 }
 
 // Output:
 // CreditCard: $100.0 + 2% fee
 // PayPal: $200.0 + 1% fee
 // Crypto: $300.0 no fee
+// After discount: $800.0
+// After discount: $900.0

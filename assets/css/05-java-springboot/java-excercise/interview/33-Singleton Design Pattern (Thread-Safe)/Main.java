@@ -1,9 +1,3 @@
-public class Main {
-    public static void main(String[] args) {
-        System.out.println(Singleton.getInstance());
-    }
-}
-
 // ─────────────────────────────────────────────────────────────
 // SINGLETON RULES
 // ─────────────────────────────────────────────────────────────
@@ -17,22 +11,66 @@ public class Main {
 // 6. SYNCHRONIZED block          — locks only on creation, not on every call (performance)
 // ─────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────
+// PRACTICE CODE
+// ─────────────────────────────────────────────────────────────
+public class Main {
+    public static void main(String[] args) {
+
+        // Practice
+        System.out.println(Singleton.getInstance());
+
+        // Real-world
+        DatabaseConnection db1 = DatabaseConnection.getInstance();
+        DatabaseConnection db2 = DatabaseConnection.getInstance();
+        db1.query("SELECT * FROM users");
+        System.out.println(db1 == db2); // true — same instance
+    }
+}
+
 class Singleton {
 
-    private static volatile Singleton instance;  // Rule 2 + 3
+    private static Singleton instance;          // Rule 2
 
-    private Singleton() {}                       // Rule 1
+    private Singleton() {}                      // Rule 1
 
-    public static Singleton getInstance() {      // Rule 4
-        if (instance == null) {                  // Rule 5 — first check (no lock)
-            synchronized (Singleton.class) {     // Rule 6 — lock only when needed
-                if (instance == null) {          // Rule 5 — second check (inside lock)
-                    instance = new Singleton();
-                }
-            }
+    public static Singleton getInstance() {     // Rule 4
+        if (instance == null) {
+            instance = new Singleton();
         }
         return instance;
     }
 }
 
+// ─────────────────────────────────────────────────────────────
+// REAL-WORLD CODE  (Thread-Safe with Double-Checked Locking)
+// ─────────────────────────────────────────────────────────────
+class DatabaseConnection {
 
+    private static volatile DatabaseConnection instance;  // Rule 2 + 3
+
+    private DatabaseConnection() {                        // Rule 1
+        System.out.println("DB connected");
+    }
+
+    public static DatabaseConnection getInstance() {      // Rule 4
+        if (instance == null) {                           // Rule 5 — first check
+            synchronized (DatabaseConnection.class) {    // Rule 6
+                if (instance == null) {                  // Rule 5 — second check
+                    instance = new DatabaseConnection();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public void query(String sql) {
+        System.out.println("Executing: " + sql);
+    }
+}
+
+// Output:
+// Main@<hashcode>                     ← Singleton instance
+// DB connected                        ← created only ONCE
+// Executing: SELECT * FROM users
+// true                                ← db1 and db2 are same object

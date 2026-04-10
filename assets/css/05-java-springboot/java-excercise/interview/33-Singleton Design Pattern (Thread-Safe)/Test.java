@@ -1,18 +1,19 @@
 public class Test {
     public static void main(String[] args) {
         // TODO: practice Singleton Design Pattern (Thread-Safe)
+        System.out.println(Singleton.getInstance());
     }
 }
-
 
 class Singleton {
     private static volatile Singleton instance;
 
-    private Singleton() {};
+    private Singleton () {}
 
-    public static Singleton getInstance () {
+    public static Singleton getInstance() {
         if(instance == null) {
-            
+            instance = new Singleton();
         }
+        return instance;
     }
 }
