@@ -3048,7 +3048,73 @@ public class Test {
 }
 ```
 
-## 8. What is race condition and how to resolve it?
+## 8. What is the difference between synchronized and concurrent collections?
+
+**Synchronized collections** use a **single lock** to control access, which can block all threads and reduce performance under high concurrency.
+
+**Concurrent collections** use **fine-grained locking or non-blocking algorithms**, allowing better **parallelism and performance**.
+
+Example: `Collections.synchronizedList()` vs `ConcurrentHashMap`.
+
+* **Locking mechanism** - Synchronized uses single lock, concurrent uses fine-grained locking
+* **Performance** - Concurrent collections offer better performance under high concurrency
+* **Blocking behavior** - Synchronized blocks all threads, concurrent allows some parallelism
+* **Examples** - Collections.synchronizedList() vs ConcurrentHashMap
+
+```java
+// Synchronized collection - single lock for entire collection
+List<String> syncList = Collections.synchronizedList(new ArrayList<>());
+synchronized (syncList) {  // Manual synchronization needed for iteration
+    for (String item : syncList) {
+        System.out.println(item);
+    }
+}
+
+// Concurrent collection - fine-grained locking
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+concurrentMap.put("key1", 1);  // Non-blocking for different segments
+concurrentMap.put("key2", 2);  // Can happen concurrently
+
+// No external synchronization needed for iteration
+for (Map.Entry<String, Integer> entry : concurrentMap.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+```
+
+## 9. What is ConcurrentHashMap and how is it different from HashMap?
+
+**ConcurrentHashMap** is a **thread-safe map** designed for high concurrency.
+
+Unlike **HashMap**, it **does not allow null keys or values** and uses **segment-based (fine-grained) locking** instead of full synchronization, providing **better performance** in multi-threaded environments.
+
+* **Thread safety** - ConcurrentHashMap is thread-safe, HashMap is not
+* **Locking strategy** - Uses segment-based locking instead of full synchronization
+* **Null values** - ConcurrentHashMap doesn't allow null keys/values, HashMap does
+* **Performance** - Better concurrent performance than synchronized HashMap
+
+```java
+// HashMap - not thread-safe
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put("key1", 1);
+hashMap.put(null, 2);     // Null key allowed
+hashMap.put("key2", null); // Null value allowed
+
+// ConcurrentHashMap - thread-safe with better performance
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+concurrentMap.put("key1", 1);
+// concurrentMap.put(null, 2);     // NullPointerException
+// concurrentMap.put("key2", null); // NullPointerException
+
+// Atomic operations
+concurrentMap.putIfAbsent("key3", 3);
+concurrentMap.compute("key1", (k, v) -> v + 1);
+concurrentMap.merge("key1", 5, Integer::sum);
+
+// Thread-safe iteration without external synchronization
+concurrentMap.forEach((k, v) -> System.out.println(k + ": " + v));
+```
+
+## 10. What is race condition and how to resolve it?
 
 A **race condition** happens when **multiple threads access and modify the same shared data at the same time**, and the final result depends on which thread runs first.
 
@@ -3160,9 +3226,7 @@ class Counter {
 }
 ```
 
-
-
-## 9. What are Important Java Multithreading Concepts
+## 11. What are Important Java Multithreading Concepts
 
 **Thread** is the smallest unit of a process that can run independently.
 
