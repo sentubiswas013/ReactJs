@@ -21,16 +21,6 @@ class Person {
 }
 
 
-// Create immutable  class
-public class Student {
-	
-}
-
-
-
-
-
-
 // public class Main {
 //     public static void main(String[] args) {
 //         Person p = new Person();
