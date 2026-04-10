@@ -16,7 +16,7 @@ class Person {
         // System.out.println(this.name + this.age);
         this.name = "Sentu";
         this.age = 23;
-       //  return this.name + " " + this.age;
+        return this.name + " " + this.age;
     }
 }
 
