@@ -1,57 +1,45 @@
 public class Main {
-
     public static void main(String[] args) {
-         System.out.println("Hello World");
-         Person obj = new Person();
-         obj.Info();
+        Car a = new Car();
+        Car b = new Car("Toyota", "Camry", 2023);
+        Car c = new Car(b);
+
+        System.out.println(a.getInfo());
+        System.out.println(b.getInfo());
+        System.out.println(c.getInfo());
     }
 }
 
-class Person {
-    String name; 
-    int age;
+class Car {
+    String brand;
+    String model;
+    int year;
 
-    String Info () {
-       //  return this.nanme + this.age
-        // System.out.println(this.name + this.age);
-        this.name = "Sentu";
-        this.age = 23;
-        return this.name + " " + this.age;
+    Car() {
+        this.brand = "Unknown";
+        this.model = "Unknown";
+        this.year = 0;
+    }
+
+    Car(String brand, String model, int year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+
+    Car(Car c) {
+        this.brand = c.brand;
+        this.model = c.model;
+        this.year = c.year;
+    }
+
+    String getInfo() {
+        return brand + " " + model + " (" + year + ")";
     }
 }
+// Output:
+// Unknown Unknown (0)
+// Toyota Camry (2023)
+// Toyota Camry (2023)
 
-
-
-// public class Main {
-//     public static void main(String[] args) {
-//         Box a = new Box();
-//         Box b = new Box(2, 3);
-//         Box c = new Box(b);
-
-//         System.out.println(a.area() + " " + b.area() + " " + c.area());
-//     }
-// }
-
-// class Box {
-//     int w, h;
-
-//     Box() {
-//         this.w = 1;
-//         this.h = 1;
-//     }
-
-//     Box(int w, int h) {
-//         this.w = w;
-//         this.h = h;
-//     }
-
-//     Box(Box b) {
-//         this.w = b.w;
-//         this.h = b.h;
-//     }
-
-//     int area() {
-//         return w * h;
-//     }
-// }
 

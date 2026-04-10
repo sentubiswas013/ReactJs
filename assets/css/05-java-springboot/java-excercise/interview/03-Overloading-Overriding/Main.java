@@ -1,26 +1,30 @@
 public class Main {
     public static void main(String[] args) {
-        Calc c = new Calc();
-        AdvCalc ac = new AdvCalc();
+        Payment p = new Payment();
+        p.pay(100);                               // Overloading
+        p.pay(100, "Card");                // Overloading
+        
+        UpiPayment upi = new UpiPayment();
+        upi.pay(100);                             // Overriding
+    }
+}
+// Output:
+// Paid: $100
+// Paid: $100 via Card
+// UPI Payment: $100
 
-        System.out.println(c.add(1, 2));
-        System.out.println(ac.add(1, 2));
+class Payment {
+    void pay(int amount) {                        // Overloading - pay by amount
+        System.out.println("Paid: $" + amount);
+    }
+    void pay(int amount, String method) {         // Overloading - pay by amount + method
+        System.out.println("Paid: $" + amount + " via " + method);
     }
 }
 
-class Calc {
-    int add(int a, int b) {
-        return a + b;
-    }
-
-    int add(int a, int b, int c) {   // Overloading
-        return a + b + c;
-    }
-}
-
-class AdvCalc extends Calc {
+class UpiPayment extends Payment {
     @Override
-    int add(int a, int b) {           // Overriding
-        return super.add(a, b) + 1;
+    void pay(int amount) {                        // Overriding - UPI specific payment
+        System.out.println("UPI Payment: $" + amount);
     }
 }
