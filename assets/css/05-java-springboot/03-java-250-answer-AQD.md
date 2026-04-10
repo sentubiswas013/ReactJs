@@ -7331,8 +7331,6 @@ public class SecureController {
 ## 14. What is Lombok in Java and and whe can we use?
 
 
-## 🚀 What is Lombok in Java?
-
 **Lombok** is a **Java library** that helps reduce boilerplate code by generating common methods automatically at compile time using annotations.
 
 
