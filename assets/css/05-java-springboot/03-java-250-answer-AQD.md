@@ -9186,13 +9186,68 @@ Producer → Topic (Partitions) → Consumer Group → Consumers
 Messages are **persisted on disk** and retained for a configurable period — so consumers can replay events.
 
 ```java
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>3.7.0</version>
+</dependency>
+
 // Producer
-kafkaTemplate.send("order-topic", "order-created");
+import org.apache.kafka.clients.producer.*;
+
+import java.util.Properties;
+
+public class KafkaProducerExample {
+    public static void main(String[] args) {
+
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("key.serializer", 
+                  "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer", 
+                  "org.apache.kafka.common.serialization.StringSerializer");
+
+        Producer<String, String> producer = new KafkaProducer<>(props);
+
+        ProducerRecord<String, String> record =
+                new ProducerRecord<>("my-topic", "key1", "Hello Kafka!");
+
+        producer.send(record);
+
+        producer.close();
+    }
+}
 
 // Consumer
-@KafkaListener(topics = "order-topic", groupId = "order-group")
-public void consume(String message) {
-    System.out.println("Received: " + message);
+import org.apache.kafka.clients.consumer.*;
+
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Properties;
+
+public class KafkaConsumerExample {
+    public static void main(String[] args) {
+
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("group.id", "my-group");
+        props.put("key.deserializer", 
+                  "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer", 
+                  "org.apache.kafka.common.serialization.StringDeserializer");
+
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+        consumer.subscribe(Collections.singletonList("my-topic"));
+
+        while (true) {
+            ConsumerRecords<String, String> records =
+                    consumer.poll(Duration.ofMillis(100));
+
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.println("Received: " + record.value());
+            }
+        }
+    }
 }
 ```
 
