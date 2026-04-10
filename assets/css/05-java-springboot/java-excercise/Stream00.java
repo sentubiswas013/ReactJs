@@ -3,7 +3,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.IntStream;
 
-public class Test01 {
+public class Stream01 {
     
     static class Employee {
         private String department;

@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 // ## ✅ Hello World Program
-public class Linkedin01 {
+public class Linkedin00 {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
         // fnSumTwoNumbers();
