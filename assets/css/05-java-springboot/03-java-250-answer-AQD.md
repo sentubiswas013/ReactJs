@@ -573,6 +573,23 @@ class Test {
 | equals overridden | hashCode must override   |
 
 
+## 13. What is `var` keyword in Java(10)?
+
+**var** in Java 10 is used for local variable type inference. It means the compiler automatically detects the type based on the value assigned, so we don’t need to explicitly declare the type.
+
+```java
+var name = "Kali";     // String
+var age = 25;          // int
+var list = List.of(1,2,3); // List<Integer>
+
+// Compiler converts it internally:
+String name = "Kali";
+int age = 25;
+List<Integer> list = List.of(1,2,3);
+```
+
+
+
 # ✅ 3. Classes and Objects
 
 

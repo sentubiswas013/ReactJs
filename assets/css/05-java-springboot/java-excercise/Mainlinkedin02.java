@@ -1,6 +1,6 @@
-## ✅ Class and Object Demo
+// ✅ Class and Object Demo
 
-```java
+
 class Person {
     String name;
     int age;
@@ -18,11 +18,11 @@ public class Main {
         p.introduce();
     }
 }
-```
 
-## ✅ Constructor Demo (Default, Parameterized, Copy)
 
-```java
+// ✅ Constructor Demo (Default, Parameterized, Copy)
+
+
 class Box {
     int w, h;
 
@@ -55,11 +55,11 @@ public class Main {
         System.out.println(a.area() + " " + b.area() + " " + c.area());
     }
 }
-```
 
-## ✅ Method Overloading & Overriding
 
-```java
+// ✅ Method Overloading & Overriding
+
+
 class Calc {
     int add(int a, int b) {
         return a + b;
@@ -86,11 +86,11 @@ public class Main {
         System.out.println(ac.add(1, 2));
     }
 }
-```
 
-## ✅ Inheritance Example (Single, Multilevel, Hierarchical)
 
-```java
+// ✅ Inheritance Example (Single, Multilevel, Hierarchical)
+
+
 class A {
     void f() {
         System.out.println("A");
@@ -127,11 +127,11 @@ public class Main {
         d.i();
     }
 }
-```
 
-## ✅ Abstract Class Program
 
-```java
+// ✅ Abstract Class Program
+
+
 abstract class Shape {
     abstract double area();
 }
@@ -154,11 +154,11 @@ public class Main {
         System.out.println(s.area());
     }
 }
-```
 
-## ✅ Interface Example
 
-```java
+// ✅ Interface Example
+
+
 interface Drawable {
     void draw();
 }
@@ -175,11 +175,11 @@ public class Main {
         d.draw();
     }
 }
-```
 
-## ✅ Encapsulation (Getters & Setters)
 
-```java
+// ✅ Encapsulation (Getters & Setters)
+
+
 class Employee {
     private int id;
     private String name;
@@ -210,11 +210,11 @@ public class Main {
         System.out.println(e.getId() + ": " + e.getName());
     }
 }
-```
 
-## ✅ Polymorphism Demo
 
-```java
+// ✅ Polymorphism Demo
+
+
 class Animal {
     void sound() {
         System.out.println("some sound");
@@ -242,11 +242,11 @@ public class Main {
         a.sound();
     }
 }
-```
 
-## ✅ Static Keyword Demo
 
-```java
+// ✅ Static Keyword Demo
+
+
 public class Main {
 
     static int count = 0;
@@ -262,11 +262,11 @@ public class Main {
         System.out.println(Main.count);
     }
 }
-```
 
-## ✅ `this` and `super` Keyword Usage
 
-```java
+// ✅ `this` and `super` Keyword Usage
+
+
 class Base {
     int x = 10;
 
@@ -289,11 +289,11 @@ public class Main {
         new Derived();
     }
 }
-```
 
-## ✅ Try–Catch–Finally Example
 
-```java
+// ✅ Try–Catch–Finally Example
+
+
 public class Main {
     public static void main(String[] args) {
 
@@ -306,11 +306,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ `throw` and `throws` Usage
 
-```java
+// ✅ `throw` and `throws` Usage
+
+
 public class Main {
 
     static int div(int a, int b) throws ArithmeticException {
@@ -324,11 +324,11 @@ public class Main {
         System.out.println(div(10, 2));
     }
 }
-```
 
-## ✅ Custom Exception Program
 
-```java
+// ✅ Custom Exception Program
+
+
 class InvalidAgeException extends Exception {
     InvalidAgeException(String msg) {
         super(msg);
@@ -351,11 +351,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ Read from a File
 
-```java
+// ✅ Read from a File
+
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -371,11 +371,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ Write to a File
 
-```java
+// ✅ Write to a File
+
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
@@ -387,11 +387,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ Count Words in a File
 
-```java
+// ✅ Count Words in a File
+
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -413,11 +413,11 @@ public class Main {
         System.out.println(words);
     }
 }
-```
 
-## ✅ Copy Content of One File to Another
 
-```java
+// ✅ Copy Content of One File to Another
+
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
@@ -441,11 +441,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ ArrayList Demo (Add, Remove, Iterate)
 
-```java
+// ✅ ArrayList Demo (Add, Remove, Iterate)
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -463,11 +463,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ LinkedList Demo
 
-```java
+// ✅ LinkedList Demo
+
+
 import java.util.LinkedList;
 
 public class Main {
@@ -482,11 +482,11 @@ public class Main {
         System.out.println(queue);
     }
 }
-```
 
-## ✅ HashSet & TreeSet Demo
 
-```java
+// ✅ HashSet & TreeSet Demo
+
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -505,11 +505,11 @@ public class Main {
         System.out.println(ts);
     }
 }
-```
 
-## ✅ HashMap & TreeMap Demo
 
-```java
+// ✅ HashMap & TreeMap Demo
+
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -527,11 +527,11 @@ public class Main {
         System.out.println(tmap);
     }
 }
-```
 
-## ✅ Iterate Through HashMap (entrySet, keySet, values)
 
-```java
+// ✅ Iterate Through HashMap (entrySet, keySet, values)
+
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -555,11 +555,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ Sort Elements Using `Collections.sort()`
 
-```java
+// ✅ Sort Elements Using `Collections.sort()`
+
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -576,11 +576,11 @@ public class Main {
         System.out.println(list);
     }
 }
-```
 
-## ✅ Convert Array to List and Vice Versa
 
-```java
+// ✅ Convert Array to List and Vice Versa
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -596,11 +596,11 @@ public class Main {
         System.out.println(list + " | " + Arrays.toString(back));
     }
 }
-```
 
-## ✅ Frequency of Elements Using HashMap
 
-```java
+// ✅ Frequency of Elements Using HashMap
+
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -618,11 +618,11 @@ public class Main {
         System.out.println(freq);
     }
 }
-```
 
-## ✅ Remove Duplicates from List Using Set
 
-```java
+// ✅ Remove Duplicates from List Using Set
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -640,11 +640,11 @@ public class Main {
         System.out.println(unique);
     }
 }
-```
 
-## ✅ Reverse Words in a Sentence
 
-```java
+// ✅ Reverse Words in a Sentence
+
+
 public class Main {
     public static void main(String[] args) {
 
@@ -663,11 +663,11 @@ public class Main {
         System.out.println(sb.toString());
     }
 }
-```
 
-## ✅ Check Balanced Parentheses Using Stack
 
-```java
+// ✅ Check Balanced Parentheses Using Stack
+
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -701,11 +701,11 @@ public class Main {
         System.out.println(balanced("{[()]}"));
     }
 }
-```
 
-## ✅ Find Factorial Using Recursion
 
-```java
+// ✅ Find Factorial Using Recursion
+
+
 public class Main {
 
     static long factorial(int n) {
@@ -716,11 +716,11 @@ public class Main {
         System.out.println(factorial(5));
     }
 }
-```
 
-## ✅ Find Nth Fibonacci Number Using Recursion
 
-```java
+// ✅ Find Nth Fibonacci Number Using Recursion
+
+
 public class Main {
 
     static long fibonacci(int n) {
@@ -731,11 +731,11 @@ public class Main {
         System.out.println(fibonacci(10));
     }
 }
-```
 
-## ✅ Binary Search Implementation
 
-```java
+// ✅ Binary Search Implementation
+
+
 public class Main {
 
     static int binarySearch(int[] arr, int key) {
@@ -766,11 +766,11 @@ public class Main {
         System.out.println(binarySearch(arr, 7));
     }
 }
-```
 
-## ✅ Linear Search Implementation
 
-```java
+// ✅ Linear Search Implementation
+
+
 public class Main {
 
     static int linearSearch(int[] arr, int key) {
@@ -789,11 +789,11 @@ public class Main {
         System.out.println(linearSearch(arr, 7));
     }
 }
-```
 
-## ✅ Bubble Sort, Selection Sort, Insertion Sort
 
-```java
+// ✅ Bubble Sort, Selection Sort, Insertion Sort
+
+
 import java.util.Arrays;
 
 public class Main {
@@ -853,11 +853,11 @@ public class Main {
         System.out.println("Insertion Sort: " + Arrays.toString(b3));
     }
 }
-```
 
-## ✅ Quick Sort & Merge Sort
 
-```java
+// ✅ Quick Sort & Merge Sort
+
+
 import java.util.Arrays;
 
 public class Main {
@@ -918,11 +918,11 @@ public class Main {
         System.out.println("Merge Sort: " + Arrays.toString(m));
     }
 }
-```
 
-## ✅ Count Occurrences of Each Word in a String
 
-```java
+// ✅ Count Occurrences of Each Word in a String
+
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -939,11 +939,11 @@ public class Main {
         System.out.println(map);
     }
 }
-```
 
-## ✅ Longest Substring Without Repeating Characters
 
-```java
+// ✅ Longest Substring Without Repeating Characters
+
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -970,11 +970,11 @@ public class Main {
         System.out.println(maxLength);
     }
 }
-```
 
-## ✅ LRU Cache Implementation using `LinkedHashMap`
 
-```java
+// ✅ LRU Cache Implementation using `LinkedHashMap`
+
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -1006,11 +1006,11 @@ public class Main {
         System.out.println(cache.keySet()); // [1, 3]
     }
 }
-```
 
-## ✅ Producer–Consumer Problem using Threads
 
-```java
+// ✅ Producer–Consumer Problem using Threads
+
+
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Main {
@@ -1042,11 +1042,11 @@ public class Main {
         consumer.join();
     }
 }
-```
 
-## ✅ Deadlock Example in Java
 
-```java
+// ✅ Deadlock Example in Java
+
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
@@ -1078,7 +1078,7 @@ public class Main {
         t2.join();
     }
 }
-```
+
 
 🔹 **Interview Tip**:
 Deadlock occurs due to
@@ -1087,9 +1087,9 @@ Deadlock occurs due to
 3️⃣ No preemption
 4️⃣ Circular wait
 
-## ✅ Singleton Design Pattern (Thread-Safe)
+// ✅ Singleton Design Pattern (Thread-Safe)
 
-```java
+
 class Singleton {
 
     private static volatile Singleton instance;
@@ -1113,11 +1113,11 @@ public class Main {
         System.out.println(Singleton.getInstance());
     }
 }
-```
 
-## ✅ Create Thread using `Thread` Class
 
-```java
+// ✅ Create Thread using `Thread` Class
+
+
 public class Main extends Thread {
 
     @Override
@@ -1129,11 +1129,11 @@ public class Main extends Thread {
         new Main().start();
     }
 }
-```
 
-## ✅ Create Thread using `Runnable` Interface
 
-```java
+// ✅ Create Thread using `Runnable` Interface
+
+
 public class Main {
 
     public static void main(String[] args) {
@@ -1141,11 +1141,11 @@ public class Main {
         new Thread(r).start();
     }
 }
-```
 
-## ✅ Synchronization Example
 
-```java
+// ✅ Synchronization Example
+
+
 class Counter {
 
     int count = 0;
@@ -1181,11 +1181,11 @@ public class Main {
         System.out.println(counter.count);
     }
 }
-```
 
-## ✅ Inter-Thread Communication (`wait()` / `notify()`)
 
-```java
+// ✅ Inter-Thread Communication (`wait()` / `notify()`)
+
+
 class Shared {
 
     private int data;
@@ -1234,11 +1234,11 @@ public class Main {
         consumer.join();
     }
 }
-```
 
-## ✅ Thread Pool Example (`ExecutorService`)
 
-```java
+// ✅ Thread Pool Example (`ExecutorService`)
+
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -1258,11 +1258,11 @@ public class Main {
         pool.shutdown();
     }
 }
-```
 
-## ✅ Lambda Expression Example
 
-```java
+// ✅ Lambda Expression Example
+
+
 interface Operation {
     int apply(int a, int b);
 }
@@ -1274,11 +1274,11 @@ public class Main {
         System.out.println(add.apply(2, 3));
     }
 }
-```
 
-## ✅ Functional Interfaces (`Predicate`, `Function`, `Consumer`)
 
-```java
+// ✅ Functional Interfaces (`Predicate`, `Function`, `Consumer`)
+
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -1295,11 +1295,11 @@ public class Main {
         }
     }
 }
-```
 
-## ✅ Streams API (`filter`, `map`, `reduce`, `collect`)
 
-```java
+// ✅ Streams API (`filter`, `map`, `reduce`, `collect`)
+
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -1320,11 +1320,11 @@ public class Main {
         System.out.println(sumSquaresOfEven + " " + doubled);
     }
 }
-```
 
-## ✅ Method References
 
-```java
+// ✅ Method References
+
+
 import java.util.*;
 
 public class Main {
@@ -1339,11 +1339,11 @@ public class Main {
         list.forEach(Main::print);
     }
 }
-```
 
-## ✅ Optional Class Usage
 
-```java
+// ✅ Optional Class Usage
+
+
 import java.util.Optional;
 
 public class Main {
@@ -1353,11 +1353,11 @@ public class Main {
         System.out.println(optional.orElse("default"));
     }
 }
-```
 
-## ✅ Library Management System (Mini Demo)
 
-```java
+// ✅ Library Management System (Mini Demo)
+
+
 import java.util.*;
 
 class Book {
@@ -1406,11 +1406,11 @@ public class Main {
         lib.list();
     }
 }
-```
 
-## ✅ Banking System (Deposit, Withdraw, Balance)
 
-```java
+// ✅ Banking System (Deposit, Withdraw, Balance)
+
+
 class Account {
 
     private int balance;
@@ -1446,11 +1446,11 @@ public class Main {
         System.out.println(account.getBalance());
     }
 }
-```
 
-## ✅ Employee Management System (Mini)
 
-```java
+// ✅ Employee Management System (Mini)
+
+
 import java.util.*;
 
 class Employee {
@@ -1485,11 +1485,11 @@ public class Main {
         System.out.println(ems.get(1).name);
     }
 }
-```
 
-## ✅ Student Management System (mini)
 
-```java
+// ✅ Student Management System (mini)
+
+
 import java.util.*;
 
 class Student {
@@ -1521,4 +1521,3 @@ public class Main {
         System.out.println(sms.get(1).name);
     }
 }
-```
