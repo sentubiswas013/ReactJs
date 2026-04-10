@@ -1,6 +1,19 @@
 import java.util.HashMap;
 import java.util.Map;
 
+public class Main {
+    public static void main(String[] args) {
+
+        SMS sms = new SMS();
+        sms.add(new Student(1, "Alice"));
+        sms.add(new Student(2, "Bob"));
+
+        sms.list();
+        System.out.println(sms.get(1).name); // Alice
+    }
+}
+
+
 class Student {
     int id;
     String name;
@@ -27,14 +40,3 @@ class SMS {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-
-        SMS sms = new SMS();
-        sms.add(new Student(1, "Alice"));
-        sms.add(new Student(2, "Bob"));
-
-        sms.list();
-        System.out.println(sms.get(1).name); // Alice
-    }
-}

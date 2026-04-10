@@ -1,5 +1,18 @@
 import java.util.*;
 
+
+public class Main {
+    public static void main(String[] args) {
+
+        Library lib = new Library();
+        lib.add(new Book("1", "Java Basics"));
+        lib.add(new Book("2", "DSA"));
+
+        lib.issue("1");
+        lib.list();
+    }
+}
+
 class Book {
     String id;
     String title;
@@ -35,14 +48,3 @@ class Library {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-
-        Library lib = new Library();
-        lib.add(new Book("1", "Java Basics"));
-        lib.add(new Book("2", "DSA"));
-
-        lib.issue("1");
-        lib.list();
-    }
-}

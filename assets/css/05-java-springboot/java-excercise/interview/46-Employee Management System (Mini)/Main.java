@@ -1,5 +1,15 @@
 import java.util.*;
 
+public class Main {
+    public static void main(String[] args) {
+
+        EMS ems = new EMS();
+        ems.add(new Employee(1, "Ana"));
+
+        System.out.println(ems.get(1).name);
+    }
+}
+
 class Employee {
     int id;
     String name;
@@ -23,12 +33,3 @@ class EMS {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-
-        EMS ems = new EMS();
-        ems.add(new Employee(1, "Ana"));
-
-        System.out.println(ems.get(1).name);
-    }
-}

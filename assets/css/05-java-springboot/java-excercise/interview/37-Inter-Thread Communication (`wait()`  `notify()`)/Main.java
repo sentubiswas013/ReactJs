@@ -1,26 +1,3 @@
-class Shared {
-
-    private int data;
-    private boolean ready = false;
-
-    synchronized void produce(int value) throws InterruptedException {
-        while (ready) {
-            wait();
-        }
-        data = value;
-        ready = true;
-        notify();
-    }
-
-    synchronized int consume() throws InterruptedException {
-        while (!ready) {
-            wait();
-        }
-        ready = false;
-        notify();
-        return data;
-    }
-}
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -46,3 +23,28 @@ public class Main {
         consumer.join();
     }
 }
+
+class Shared {
+
+    private int data;
+    private boolean ready = false;
+
+    synchronized void produce(int value) throws InterruptedException {
+        while (ready) {
+            wait();
+        }
+        data = value;
+        ready = true;
+        notify();
+    }
+
+    synchronized int consume() throws InterruptedException {
+        while (!ready) {
+            wait();
+        }
+        ready = false;
+        notify();
+        return data;
+    }
+}
+

@@ -1,3 +1,14 @@
+public class Main {
+    public static void main(String[] args) {
+
+        Account account = new Account(1000);
+        account.deposit(500);
+        account.withdraw(200);
+
+        System.out.println(account.getBalance());
+    }
+}
+
 class Account {
 
     private int balance;
@@ -23,13 +34,3 @@ class Account {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-
-        Account account = new Account(1000);
-        account.deposit(500);
-        account.withdraw(200);
-
-        System.out.println(account.getBalance());
-    }
-}

@@ -1,3 +1,9 @@
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(Singleton.getInstance());
+    }
+}
+
 class Singleton {
 
     private static volatile Singleton instance;
@@ -16,8 +22,3 @@ class Singleton {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println(Singleton.getInstance());
-    }
-}

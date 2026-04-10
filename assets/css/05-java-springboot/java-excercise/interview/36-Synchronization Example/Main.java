@@ -1,12 +1,3 @@
-class Counter {
-
-    int count = 0;
-
-    synchronized void increment() {
-        count++;
-    }
-}
-
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
@@ -31,5 +22,14 @@ public class Main {
         t2.join();
 
         System.out.println(counter.count);
+    }
+}
+
+class Counter {
+
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
     }
 }
