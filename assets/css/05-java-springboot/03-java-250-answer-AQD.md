@@ -588,8 +588,6 @@ int age = 25;
 List<Integer> list = List.of(1,2,3);
 ```
 
-
-
 # ✅ 3. Classes and Objects
 
 
