@@ -3,3 +3,16 @@ public class Test {
         // TODO: practice Singleton Design Pattern (Thread-Safe)
     }
 }
+
+
+class Singleton {
+    private static volatile Singleton instance;
+
+    private Singleton() {};
+
+    public static Singleton getInstance () {
+        if(instance == null) {
+            
+        }
+    }
+}

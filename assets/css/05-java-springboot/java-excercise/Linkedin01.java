@@ -211,7 +211,7 @@ public class Linkedin01 {
 
     // ## ✅ Pyramid Pattern
     public static void fnPyramidPattern() {
-
+        
     }
     // Output:
     //     *
