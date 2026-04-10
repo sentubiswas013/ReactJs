@@ -671,20 +671,13 @@ class Car {
 A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
 
 
-**How ClassLoader Works**
+**How ClassLoader Works :**
 
 Java follows a **Delegation Hierarchy Model**:
 
-1. **Bootstrap ClassLoader**
-
-   * Loads core Java classes (e.g., `java.lang.*`)
-2. **Extension (Platform) ClassLoader**
-
-   * Loads classes from `jre/lib/ext`
-3. **Application (System) ClassLoader**
-
-   * Loads classes from classpath
-
+1. **Bootstrap ClassLoader** Loads core Java classes (e.g., `java.lang.*`)
+2. **Extension (Platform) ClassLoader** Loads classes from `jre/lib/ext`
+3. **Application (System) ClassLoader** Loads classes from classpath
 
 
 ## 6. How do you create an immutable class in Java?
