@@ -21,6 +21,12 @@ class Person {
 }
 
 
+// Create immutable  class
+public class Student {
+	
+}
+
+
 
 
 
