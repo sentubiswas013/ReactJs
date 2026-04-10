@@ -19,7 +19,7 @@ import java.util.OptionalInt;
 
 
 // ## ✅ Hello World Program
-public class InterviewAttended01 {
+public class Tricky01 {
     public static void main(String[] args) {
         // System.out.println("Hello, World!");
         
