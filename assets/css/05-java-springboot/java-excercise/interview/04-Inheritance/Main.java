@@ -1,37 +1,48 @@
 public class Main {
     public static void main(String[] args) {
-        C c = new C();
-        c.f();
-        c.g();
-        c.h();
 
-        D d = new D();
-        d.f();
-        d.i();
+        // Multilevel: Manager → Employee → Person
+        Manager m = new Manager();
+        m.breathe();        // from Person      (Single)
+        m.work();           // from Employee    (Multilevel)
+        m.manage();         // own method
+
+        // Hierarchical: Developer also extends Employee
+        Developer d = new Developer();
+        d.breathe();        // from Person      (Hierarchical)
+        d.work();           // from Employee    (Hierarchical)
+        d.code();           // own method
     }
 }
 
-class A {
-    void f() {
-        System.out.println("A");
+class Person {                              // Base class
+    void breathe() {
+        System.out.println("Person: breathe");
     }
 }
 
-class B extends A {                  // Single
-    void g() {
-        System.out.println("B");
+class Employee extends Person {            // Single Inheritance
+    void work() {
+        System.out.println("Employee: work");
     }
 }
 
-class C extends B {                  // Multilevel
-    void h() {
-        System.out.println("C");
+class Manager extends Employee {           // Multilevel Inheritance
+    void manage() {
+        System.out.println("Manager: manage team");
     }
 }
 
-class D extends A {                  // Hierarchical
-    void i() {
-        System.out.println("D");
+class Developer extends Employee {         // Hierarchical Inheritance
+    void code() {
+        System.out.println("Developer: write code");
     }
 }
 
+// Output:
+// Person: breathe
+// Employee: work
+// Manager: manage team
+// Person: breathe
+// Employee: work
+// Developer: write code
