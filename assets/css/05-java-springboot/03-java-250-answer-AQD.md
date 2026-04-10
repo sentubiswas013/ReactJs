@@ -10804,6 +10804,28 @@ Use `UNION ALL` when you know there are no duplicates or you want all rows — i
 
 ---
 
+## 12. What is sharding in databases?
+
+Sharding is a way to scale a database horizontally by dividing data into smaller pieces called shards. Each shard is stored in a separate database instance, which helps improve performance and handle large traffic.
+
+
+Imagine a **users table** with millions of records:
+
+Instead of storing everything in one DB:
+
+* **Shard 1** → Users with ID 1–1,00,000
+* **Shard 2** → Users with ID 1,00,001–2,00,000
+* **Shard 3** → Users with ID 2,00,001–3,00,000
+
+Each shard is stored on a different server.
+
+
+**Why Sharding?**
+
+* 🚀 Improves performance (queries run faster)
+* 📈 Handles large-scale data
+* ⚖️ Distributes load across servers
+
 
 # ✅ 26. System Design
 ## 1. What is CAP theorem?
