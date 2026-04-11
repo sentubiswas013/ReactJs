@@ -1,17 +1,4 @@
 // ─────────────────────────────────────────────────────────────
-// SINGLETON RULES
-// ─────────────────────────────────────────────────────────────
-// 1. PRIVATE constructor         — prevents `new Singleton()` from outside
-// 2. PRIVATE STATIC instance     — holds the one and only object
-// 3. VOLATILE keyword            — ensures visibility across threads (no stale cache)
-// 4. PUBLIC STATIC getInstance() — the only way to access the instance
-// 5. DOUBLE-CHECKED LOCKING      — first null check avoids lock overhead after init
-//                                  second null check inside sync block prevents
-//                                  duplicate creation when two threads pass first check
-// 6. SYNCHRONIZED block          — locks only on creation, not on every call (performance)
-// ─────────────────────────────────────────────────────────────
-
-// ─────────────────────────────────────────────────────────────
 // PRACTICE CODE
 // ─────────────────────────────────────────────────────────────
 public class Main {
@@ -30,14 +17,27 @@ public class Main {
 
 class Singleton {
 
-    private static Singleton instance;          // Rule 2
+    // 1️⃣ Static variable to hold only ONE instance of the class
+    private static Singleton instance;
 
-    private Singleton() {}                      // Rule 1
+    // 2️⃣ Private constructor prevents object creation from outside the class
+    private Singleton() {}
 
-    public static Singleton getInstance() {     // Rule 4
-        if (instance == null) {
+    // synchronized ensures only ONE thread executes at a time
+    // == public static synchronized Singleton getInstance() {
+
+    // 3️⃣ Public method to provide global access to the instance
+    public static Singleton getInstance() {
+
+        // 4️⃣ Lazy initialization:
+        // Object is created ONLY when it is needed (first call)
+        if(instance == null) {
+
+            // 5️⃣ Only ONE object is created and stored in static variable
             instance = new Singleton();
         }
+
+        // 6️⃣ Always return the SAME instance (no new object creation)
         return instance;
     }
 }

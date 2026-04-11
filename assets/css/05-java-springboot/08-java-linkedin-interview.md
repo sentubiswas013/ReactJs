@@ -1,23 +1,3 @@
-
-## ✅ **Tell me about yourself (Java Developer)**
-
-> I am a Full Stack Java Developer with over 3.5 years of experience in designing, developing, and maintaining enterprise-level web applications. My primary expertise is in Java, Spring Boot, and microservices architecture, along with hands-on experience in RESTful APIs, database design, and frontend technologies like React and Angular.
->
-> Currently, I am working at OqulusTech LLC, where I am involved in building scalable backend services, integrating third-party APIs, and optimizing application performance. I follow clean coding practices, write unit and integration tests, and collaborate closely with cross-functional teams to deliver high-quality software solutions.
->
-> I am passionate about solving complex problems, learning new technologies, and contributing to systems that are reliable, secure, and scalable.
-
----
-
-## ✅ **Current role & day-to-day responsibilities (Java Developer)**
-
-> In my current role, my day-to-day responsibilities include designing and developing REST APIs using Java and Spring Boot, implementing business logic, and ensuring code quality through unit testing with JUnit and Mockito.
->
-> I work extensively with relational databases like MySQL and PostgreSQL, writing optimized queries and managing schema changes. I also participate in code reviews, bug fixing, and performance tuning.
->
-> As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
-
-
 1. Why does a Spring Boot app consume more memory over time?
 2. How do you detect bean initialization issues in large applications?
 3. What happens if @PostConstruct throws an exception?
@@ -195,13 +175,24 @@ How do Java 8 features improve code readability and performance?
 
 ==========
 
-Review every Angular question carefully and understand the context. 
-For every Questions Questions 104 to 112 provide short, natural, real-time spoken answer (each answer should be 15–40 seconds), answer should be in bullet point and short example code. 
-Keep all spoken answers simple, confident, and practical. 
-Then compile all answers together into a single .md (Markdown) file.
-
-
-Review every Angular question carefully and understand the context. 
-For every Questions Questions 448 to 457 provide short, natural, real-time spoken answer (each answer should be 15–40 seconds), answer should be in bullet point and short example code. 
-Keep all spoken answers simple, confident, and practical. 
-Then compile all answers together into a single .md (Markdown) file.
+𝐧𝐭𝐞𝐫𝐯𝐢𝐞𝐰 𝐐𝐮𝐞𝐬𝐭𝐢𝐨𝐧𝐬 𝐀𝐬𝐤𝐞𝐝
+1️⃣ If API response time suddenly increased, how will you debug?
+2️⃣ In case one microservice is down, then how will you handle fallback?
+3️⃣ If duplicate records are getting inserted, then how do you find the root cause & fix it?
+4️⃣ When there is a high DB load, then how do you optimize queries & indexing?
+5️⃣ Scenario: Memory leak in production → how will you identify?
+6️⃣ Write thread-safe caching mechanism (Java)
+7️⃣ Group employees by dept & get max salary with Stream API
+8️⃣ Remove duplicates & sort custom object with Stream API
+9️⃣ Convert List<List<String>> → List<String> using flatMap
+🔟 Write Spring Boot REST API with validation & exception handling
+1️⃣1️⃣ Write down code to implement global exception handling
+1️⃣2️⃣ Write JPA custom query (JPQL + Native)
+1️⃣3️⃣ In case the transaction rollback is not happening, what will be the reason?
+1️⃣4️⃣ Explain @Transactional propagation with use case.
+1️⃣5️⃣ Design API for high concurrent users (rate limiting, caching)
+1️⃣6️⃣ When multiple services are updating the same data, how do you handle data consistency?
+1️⃣7️⃣ How will you implement Circuit Breaker in Spring Boot?
+1️⃣8️⃣ Difference between Feign vs WebClient (which in high load?)
+1️⃣9️⃣ Scenario: Need async processing → how to implement?
+2️⃣0️⃣ ExecutorService use case in real-time project

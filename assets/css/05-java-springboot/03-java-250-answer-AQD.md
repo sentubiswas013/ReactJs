@@ -691,19 +691,15 @@ An immutable class in Java is a class whose objects cannot be changed after they
 5. Return copies of mutable objects (defensive copy).
 
 ```java
+// Immutable class
 final class Student {
-    private final int id;
     private final String name;
-
-    public Student(int id, String name) {
-        this.id = id;
+    
+    
+    public Student(String name) {
         this.name = name;
     }
-
-    public int getId() {
-        return id;
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -2564,6 +2560,9 @@ List         | ArrayList, LinkedList                  | Ordered collection that 
 Set          | HashSet, TreeSet, LinkedHashSet        | Collection of unique elements (no duplicates)
 Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs with unique keys
 ```
+
+ArrayList : add(), get(), set(), and remove() to manage your list of elements.
+LinkedList
 
 
 ## 2. What is the difference between ArrayList and LinkedList?
