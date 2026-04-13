@@ -58,7 +58,9 @@ public class Stream01 {
 
         // =======================================================
         // 3. Count Strings with Specific Prefix 
-        
+        Long count = arr01.stream()
+            .filter(w -> w.startsWith("A"))
+            .count();
         
 
         // System.out.println("4. Count starting with A: " + count);
@@ -78,14 +80,19 @@ public class Stream01 {
         // =======================================================
         // 5. Remove Null Values and missing number from array
         // Remove Null Values
-       
+        List<String> clean = arr02.stream()
+            .filter(Objects::nonNull)
+            .toList();
         
 
         // System.out.println("19. Clean: " + clean);
         // Output: 19. Clean: [java, stream, api]
 
         // missing number from array
-        
+        List<Integer> missing = IntStream.range(0, 10)
+            .filter(n -> !num01.contains(n))
+            .boxed()
+            .toList();        
         
 
         // System.out.println("19. Missing Number: " + missing);
@@ -95,7 +102,18 @@ public class Stream01 {
 
         // =======================================================
         // 6. Find Palindromes
-        
+        List<String> palindromes = Arrays.stream(input.split(" "))
+            .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
+            .toList();
+
+
+        System.out.println("This is palindromes " + palindromes); 
+
+         if(palindromes.isEmpty()) {
+            System.out.println("This is palindromes ");
+         } else {
+            System.out.println("This is not palindromes ");
+         }
         
 
         // System.out.println("22. Palindromes: " + palindromes);
@@ -273,7 +291,7 @@ public class Stream01 {
         // 24. Group by First Character
         
 
-        
+
         // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
 

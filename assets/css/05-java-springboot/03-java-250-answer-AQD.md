@@ -2683,7 +2683,7 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 
 # ✅ 8. Java Multithreading & Synchronization 
 
-## 0. What is thread and what are life cycle?
+## 1. What is thread and what are life cycle?
 
 A **thread** is the **smallest unit of execution in a program** that allows multiple tasks to run simultaneously. 
 
@@ -2697,94 +2697,6 @@ Every Java application starts with at least one thread (the main thread), and yo
 4. **Waiting / Blocked** – Thread waits for a resource or another thread.
 5. **Terminated (Dead)** – Thread execution is completed.
 
-## 1. What is multithreading?
-
-**Multithreading** allows a program to run **multiple threads concurrently** within the same memory space, improving **CPU utilization, performance, and responsiveness**. Threads can **share data** and the **JVM handles scheduling**.
-
-**In simple words:** It lets a program do **many tasks at the same time** efficiently.
-
-```java
-// Realtime example
-class PrintTask extends Thread {
-    public void run() {
-        System.out.println("Printing document...");
-    }
-}
-
-class SaveTask extends Thread {
-    public void run() {
-        System.out.println("Saving document...");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-
-        PrintTask t1 = new PrintTask();
-        SaveTask t2 = new SaveTask();
-
-        t1.start();   // Thread for printing
-        t2.start();   // Thread for saving
-    }
-}
-```
-
-**Where Multithreading is Usually Used in Java (Important for Interview)**
-
-**1. Web Applications (Spring Boot)**
-
-Very common use:
-
-* Each HTTP request runs in a **separate thread**
-* Multiple users can use the application at the same time
-
-Example:
-
-* 1000 users → 1000 threads → handled by thread pool
-
----
-
-**2. Calling Multiple APIs**
-
-```java
-CompletableFuture.supplyAsync(() -> apiCall1());
-CompletableFuture.supplyAsync(() -> apiCall2());
-CompletableFuture.supplyAsync(() -> apiCall3());
-```
-
-Used to **reduce API response time**.
-
-**3. Background Jobs**
-
-Used for:
-
-* Sending emails
-* Generating PDF
-* Report generation
-* Data import (Excel/CSV)
-* Image processing
-
-In Spring Boot:
-
-```java
-@Async
-public void sendEmail() {
-    // runs in background thread
-}
-```
-
-**4. Batch Processing**
-
-* Processing large data
-* Bank transactions
-* Log processing
-* Data migration
-
-**5. Real-Time Systems**
-
-* Chat applications
-* Notification systems
-* Live tracking apps
 
 ## 2. How do you create threads in Java?
 
@@ -3245,6 +3157,95 @@ In Java, threads are used to perform multiple tasks concurrently to improve perf
 
 
 # ✅ 9. Java Advanced Concurrency 
+
+## 0. What is multithreading?
+
+**Multithreading** allows a program to run **multiple threads concurrently** within the same memory space, improving **CPU utilization, performance, and responsiveness**. Threads can **share data** and the **JVM handles scheduling**.
+
+**In simple words:** It lets a program do **many tasks at the same time** efficiently.
+
+```java
+// Realtime example
+class PrintTask extends Thread {
+    public void run() {
+        System.out.println("Printing document...");
+    }
+}
+
+class SaveTask extends Thread {
+    public void run() {
+        System.out.println("Saving document...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        PrintTask t1 = new PrintTask();
+        SaveTask t2 = new SaveTask();
+
+        t1.start();   // Thread for printing
+        t2.start();   // Thread for saving
+    }
+}
+```
+
+**Where Multithreading is Usually Used in Java (Important for Interview)**
+
+**1. Web Applications (Spring Boot)**
+
+Very common use:
+
+* Each HTTP request runs in a **separate thread**
+* Multiple users can use the application at the same time
+
+Example:
+
+* 1000 users → 1000 threads → handled by thread pool
+
+---
+
+**2. Calling Multiple APIs**
+
+```java
+CompletableFuture.supplyAsync(() -> apiCall1());
+CompletableFuture.supplyAsync(() -> apiCall2());
+CompletableFuture.supplyAsync(() -> apiCall3());
+```
+
+Used to **reduce API response time**.
+
+**3. Background Jobs**
+
+Used for:
+
+* Sending emails
+* Generating PDF
+* Report generation
+* Data import (Excel/CSV)
+* Image processing
+
+In Spring Boot:
+
+```java
+@Async
+public void sendEmail() {
+    // runs in background thread
+}
+```
+
+**4. Batch Processing**
+
+* Processing large data
+* Bank transactions
+* Log processing
+* Data migration
+
+**5. Real-Time Systems**
+
+* Chat applications
+* Notification systems
+* Live tracking apps
 
 ## 1. What is **Concurrency in Java**?
 
@@ -9841,27 +9842,22 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 # ✅ 23. Java Performance and Optimization
 
 
-## 0: How do you measure and Monitor application performance in Java?
+| Tool                 | Type                | Why We Use It                                 | What It Monitors                                      | Example                     |
+| -------------------- | ------------------- | --------------------------------------------- | ----------------------------------------------------- | --------------------------- |
+| Prometheus           | Metrics             | Collect metrics from application              | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
+| Grafana              | Dashboard           | Show metrics in graphs                        | Dashboards, Alerts, Charts                            | CPU usage graph             |
+| Micrometer           | Metrics Library     | Send metrics from Spring Boot to Prometheus   | JVM, Custom metrics                                   | Heap memory                 |
+| ELK Stack            | Logging             | Store and search logs                         | Error logs, Application logs                          | Exception logs              |
+| Splunk               | Logging / Analytics | Advanced log analysis & monitoring            | Logs, Events, Security data                           | Payment failure logs        |
+| Spring Boot Admin    | Monitoring          | Monitor Spring Boot apps                      | Health, Beans, Endpoints                              | App status UP/DOWN          |
+| Spring Boot Actuator | Monitoring          | Expose application health & metrics endpoints | Health, Metrics, Info, Thread dump                    | `/actuator/health`          |
+| Zipkin               | Tracing             | Track request flow between services           | Service call flow                                     | Order → Payment → Inventory |
+| Jaeger               | Tracing             | Track microservice request                    | API calls                                             | Request time per service    |
+| Datadog              | APM                 | Full system monitoring                        | Infra, Logs, APIs                                     | Server CPU                  |
+| New Relic            | APM                 | Application performance monitoring            | Slow API, DB calls                                    | Slow query                  |
+| Dynatrace            | APM                 | AI-based full stack monitoring                | Full stack                                            | Root cause detection        |
+| AWS CloudWatch       | Cloud               | Monitor AWS services                          | EC2, RDS, Logs                                        | EC2 CPU                     |
 
-**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
-
-It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
-
-**Production Monitoring Tools (Simple Detailed Table)**
-
-| Tool              | Type            | Why We Use It                               | What It Monitors                                      | Example                     |
-| ----------------- | --------------- | ------------------------------------------- | ----------------------------------------------------- | --------------------------- |
-| Prometheus        | Metrics         | Collect metrics from application            | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
-| Grafana           | Dashboard       | Show metrics in graphs                      | Dashboard, Alerts, Charts                             | CPU usage graph             |
-| Micrometer        | Metrics Library | Send metrics from Spring Boot to Prometheus | JVM, Custom metrics                                   | Heap memory                 |
-| ELK Stack         | Logging         | Store and search logs                       | Error logs, Application logs                          | Exception logs              |
-| Spring Boot Admin | Monitoring      | Monitor Spring Boot apps                    | Health, Beans, Endpoints                              | App status UP/DOWN          |
-| Zipkin            | Tracing         | Track request flow between services         | Service call flow                                     | Order → Payment → Inventory |
-| Jaeger            | Tracing         | Track microservice request                  | API calls                                             | Request time per service    |
-| Datadog           | APM             | Full system monitoring                      | Infra, Logs, APIs                                     | Server CPU                  |
-| New Relic         | APM             | Application performance monitoring          | Slow API, DB calls                                    | Slow query                  |
-| Dynatrace         | APM             | AI monitoring                               | Full stack                                            | Root cause detection        |
-| AWS CloudWatch    | Cloud           | Monitor AWS services                        | EC2, RDS, Logs                                        | EC2 CPU                     |
 
 
 **What We Monitor in Production (Simple Table)**

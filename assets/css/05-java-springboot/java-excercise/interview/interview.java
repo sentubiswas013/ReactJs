@@ -12,7 +12,7 @@ class Main {
 		tr1.run();
 		tr2.run();
 		tr3.run();
-		System.out.println("====================================");
+		System.out.println("==============================");
 		
 		// Section: Singleton
 		Singleton s1 = Singleton.getInstance();
@@ -21,20 +21,22 @@ class Main {
 		System.out.println("S1 - " + s1);
 		System.out.println("S2 - " + s2);
 		System.out.println(s1 == s2);
-		System.out.println("====================================");
+		System.out.println("==============================");
 		
 		// Section: Immutable class
 		Student st = new Student("Sentu");
 		System.out.println("Immutable - " + st.getName());
-		System.out.println("====================================");
+		System.out.println("==============================");
 		
-	   Section: This and super
+	   // Section: This and super
 	   Child sup = new Child();
 	   sup.name();
+	   System.out.println("==============================");
 	   
-	   
-	   
-	   
+	   // Abstract Class
+	   Dog abs = new Dog();
+	   abs.sound();
+	   abs.eat();
     }
 }
 
@@ -73,8 +75,7 @@ class Singleton {
 
 // Section: Immutable class
 final class Student {
-	private final String name;
-	
+	private final String name;	
 	
 	public Student(String name) {
 		this.name = name;
@@ -96,6 +97,21 @@ class Child extends Parent {
 	void name () {
 		System.out.println(this.name);
 		System.out.println(super.name);
+	}
+}
+
+// abstract class 
+abstract class Animal {
+	abstract void sound ();
+	
+	void eat () {
+		System.out.println("Eating");
+	}
+}
+
+class Dog extends Animal {
+	void sound () {
+		System.out.println("bark");
 	}
 }
 
