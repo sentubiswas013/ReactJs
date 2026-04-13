@@ -9842,6 +9842,14 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 # ✅ 23. Java Performance and Optimization
 
 
+## 0: How do you measure and Monitor application performance in Java?
+
+**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
+
+It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
+
+**Production Monitoring Tools (Simple Detailed Table)**
+
 | Tool                 | Type                | Why We Use It                                 | What It Monitors                                      | Example                     |
 | -------------------- | ------------------- | --------------------------------------------- | ----------------------------------------------------- | --------------------------- |
 | Prometheus           | Metrics             | Collect metrics from application              | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
