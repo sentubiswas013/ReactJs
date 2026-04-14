@@ -3246,21 +3246,29 @@ class Counter {
 
 ## 11. What are Important Java Multithreading Concepts
 
-**Thread** is the smallest unit of a process that can run independently.
+**Thread** is the smallest unit of execution in a program that allows multiple tasks to run simultaneously.
 
-In Java, threads are used to perform multiple tasks concurrently to improve performance.
+**ThreadPool** is a group of pre-created threads used to execute tasks, which improves performance and avoids creating threads again and again.
+ 
+**Multithreading** allows a program to run multiple threads concurrently within the same memory space, improving CPU utilization, performance, and responsiveness.
+
+**Concurrency** is the ability of a program to execute multiple tasks at the same time by using multiple threads. These tasks can run in parallel on multiple CPU cores
+
+**ConcurrentHashMap**  is a thread-safe implementation of Map that allows multiple threads to read and write data concurrently without locking the entire map.
 
 **Runnable** is an interface used to create a thread in Java. It contains only one method: `run()`.
 
 **Callable** is an interface and similar to Runnable but **returns a result** and can **throw exceptions**.
 
-**ExecutorService** is a framework that manages threads and thread pools.
+**ExecutorService** is a framework that manages threads and thread pools and execute tasks asynchronously, in the background.
 
-**ThreadPool** is a group of pre-created threads used to execute tasks, which improves performance and avoids creating threads again and again.
+**Volatile** is keyword to ensures that a variable's value is always read from and written to main memory, not from thread's local cache.
 
-**synchronized** is a keyword used to **prevent multiple threads from accessing the same resource at the same time** and mainly to achieve thread safety
+**synchronized** is a keyword to ensures that only one thread at a time can access a shared resource, preventing race conditions to achieve thread safety.
 
 **Lock** (ReentrantLock) is similar to synchronized but gives more control like lock, unlock, tryLock.
+
+**CountDownLatch** is a synchronization utility that blocks threads until a set count reaches zero, using countDown() to decrement and await() to wait.
 
 **Deadlock** is a situation where two or more threads are blocked forever waiting for each other’s resources.
 
