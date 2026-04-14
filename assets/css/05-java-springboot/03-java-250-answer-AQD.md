@@ -3244,7 +3244,7 @@ class Counter {
 }
 ```
 
-## 11. What are Important Java Multithreading Concepts
+## 11. What are Important Java Multithreading Concepts?
 
 **Thread** is the smallest unit of execution in a program that allows multiple tasks to run simultaneously.
 
