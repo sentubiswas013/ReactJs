@@ -1860,6 +1860,8 @@ function useFetch(url) {
   
   return { data, loading, error };
 }
+// use
+const { data, error, isLoading } = useApi("https://api.example.com/users");
 
 // Local storage hook
 function useLocalStorage(key, initialValue) {
