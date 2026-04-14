@@ -1835,7 +1835,7 @@ function useCounter(initialValue = 0) {
 }
 
 // Data fetching hook
-function useFetch(url) {
+const useApi = (url) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
