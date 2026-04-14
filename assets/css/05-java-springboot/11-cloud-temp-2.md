@@ -1,360 +1,261 @@
-import java.util.Scanner;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.LinkedHashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-// ## ✅ Hello World Program
-public class Linkedin01 {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-        // fnSumTwoNumbers();
-        // fnCheckEvenOrOdd();
-        // fnLargestOfTwoNumbers();
-        // fnLargestOfThreeNumbers();
-        // fnPositiveNegativeOrZeroCheck();
-        // fnFeapYearCheck();
-        // fnSwapTwoNumbers();
-        // fnFactorialOfNumber();
-        // fnFindFactorialUsingRecursion(5)
-        // fnFibonacciSeries();
-        // fnFindNthFibonacciNumberUsingRecursion(10)
-        // fnReverseNumberAndString();
-        // fnPalindromeNumberAndStringCheck();
-        // fnArmstrongNumberCheck();
-        // fnPrimeNumberCheck();
-        // fnPrintAllPrimeNumbers();
-        // fnMultiplicationTableFfNumber();
-        // fnSumAllElements();
-        // fnSumOfDigitsOfNumber();
-        // fnPrintNumbersWithoutLoop();
-        // fnSquarePattern();
-        // fnRightTrianglePattern();
-        // fnIvertedTrianglePattern();
-        // fnPyramidPattern();
-        // fnDiamondPattern();
-        // fnNumberPattern();
-        // fnAlphabetPattern();
-        // fnFindLargestAndSmallestElement();
-        // fneRverseArray();
-        // fnSortAnArrayWithBuildMethodAndWithoutMethod();
-        // fnDuplicateCharacters();
-        // fnFindDuplicateElementsWithInbuildMethodandWithout();
-        // fnFindMissingNumberInArray();
-        // fnSecondHighestNumber();
-        // fnMatrixAdditionSubtractionMultiplication();
-        // fnTransposeOfMatrix();
-        // fnVowelConsonantCount();
-        // fnCountOccurrencesInString();
-        // fnFirstNonRepeatedChar();
-        // fnAnagramCheck();
-        // fnCommonElementsInTwoArrays();
-        // fnFindSubstring("Hello", "Hello World");
-        // fnLongestSubstring();
-    }
-
-    // ## ✅ Sum of Two Numbers
-    public static void fnSumTwoNumbers() {
-
-    }
-    // Output: 5 10
-
-    // ## ✅ Check Even or Odd
-    public static void fnCheckEvenOrOdd() {
-
-    }
-    // Output: Odd
-
-    // ## ✅ Largest of Two Numbers
-    public static void fnLargestOfTwoNumbers() {
-
-    }
-    // Output: 23
-
-    // ## ✅ Largest of Three Numbers
-    public static void fnLargestOfThreeNumbers() {
-
-    }
-    // Output: 55
-
-    // ## ✅ Positive, Negative, or Zero Check
-    public static void fnPositiveNegativeOrZeroCheck() {
-
-    }
-    // Output: Positive
-
-    // ## ✅ Leap Year Check
-    public static void fnFeapYearCheck() {
-
-    }
-    // Output: Leap Year
-
-    // ## ✅ Swap Two Numbers (With & Without Third Variable)
-    public static void fnSwapTwoNumbers() {
-
-    }
-    // Output: 20 10
-
-    // ## ✅ Factorial of a Number (Iterative)
-    public static void fnFactorialOfNumber() {
-
-    }
-    // Output: 120
-
-    // ## ✅ Find Factorial Using Recursion
-    static long fnFindFactorialUsingRecursion(int n) {
-        return 0;
-    }
-    // Output: 120
-
-    // ## ✅ Fibonacci Series (First N Terms)
-    public static void fnFibonacciSeries() {
-
-    }
-    // Output: 0 1 1 2 3
-
-    // ## ✅ Find Nth Fibonacci Number Using Recursion
-    static long fnFindNthFibonacciNumberUsingRecursion(int n) {
-        return 0;
-    }
-    // Output: 55
-
-    // ## ✅ Reverse a Number and String
-    public static void fnReverseNumberAndString() {
-
-    }
-    // Output: 54321 | dlroWolleH
-
-    // ## ✅ Palindrome Number and String Check
-    public static void fnPalindromeNumberAndStringCheck() {
-
-    }
-    // Output: madam is a palindrome. | 121 is a palindrome number.
-
-    // ## ✅ Armstrong Number Check (3-digit)
-    public static void fnArmstrongNumberCheck() {
-
-    }
-    // Output: Not Armstrong
-
-    // ## ✅ Prime Number Check
-    public static void fnPrimeNumberCheck() {
-
-    }
-    // Output: Not Prime
-
-    // ## ✅ Print All Prime Numbers Between 1 and N
-    public static void fnPrintAllPrimeNumbers() {
-
-    }
-    // Output: 2 3 5 7
-
-    // ## ✅ Multiplication Table of a Number
-    public static void fnMultiplicationTableFfNumber() {
-
-    }
-    // Output: 5 x 1 = 5 ... 5 x 10 = 50
-
-    // ## ✅ Sum All Elements of an Array
-    public static void fnSumAllElements() {
-
-    }
-    // Output: Sum of all elements in the array: 15
-
-    // ## ✅ Sum of Digits of a Number
-    public static void fnSumOfDigitsOfNumber() {
-
-    }
-    // Output: 1
-
-    // ## ✅ Print Numbers 1 to N Without Loop (Using Recursion)
-    public static void fnPrintNumbersWithoutLoop(int i) {
-
-    }
-    // Output: 1 2 3 4 5 6 7 8 9 10
-
-    // ## ✅ Square Pattern (`****`)
-    public static void fnSquarePattern() {
-
-    }
-    // Output:
-    // ****
-    // ****
-    // ****
-    // ****
-
-    // ## ✅ Right Triangle Pattern
-    public static void fnRightTrianglePattern() {
-
-    }
-    // Output:
-    // *
-    // **
-    // ***
-    // ****
-    // *****
-
-    // ## ✅ Inverted Triangle Pattern
-    public static void fnIvertedTrianglePattern() {
-
-    }
-    // Output:
-    // *****
-    // ****
-    // ***
-    // **
-    // *
-
-    // ## ✅ Pyramid Pattern
-    public static void fnPyramidPattern() {
-
-    }
-    // Output:
-    //     *
-    //    ***
-    //   *****
-    //  *******
-    // *********
-
-    // ## ✅ Diamond Pattern
-    public static void fnDiamondPattern() {
-
-    }
-    // Output:
-    //     *
-    //    ***
-    //   *****
-    //  *******
-    // *********
-    //  *******
-    //   *****
-    //    ***
-    //     *
-
-    // ## ✅ Number Pattern (1, 12, 123, ...)
-    public static void fnNumberPattern() {
-
-    }
-    // Output:
-    // 1
-    // 12
-    // 123
-    // 1234
-    // 12345
-
-    // ## ✅ Alphabet Pattern (A, AB, ABC, ...)
-    public static void fnAlphabetPattern() {
-
-    }
-    // Output:
-    // A
-    // AB
-    // ABC
-    // ABCD
-    // ABCDE
-
-    // ## ✅ Find Largest and Smallest Element in an Array
-    public static void fnFindLargestAndSmallestElement() {
-
-    }
-    // Output: Min = -1, Max = 9
-
-    // ## ✅ Reverse an Array
-    public static void fneRverseArray() {
-
-    }
-    // Output: [5, 4, 3, 2, 1]
-
-    // ## ✅ Sort an Array (Ascending / Descending)
-    public static void fnSortAnArrayWithBuildMethodAndWithoutMethod() {
-
-    }
-    // Output: [1, 2, 3, 4, 5] | [5, 4, 3, 2, 1]
-
-    // ## ✅ Find the Duplicate Characters in a String
-    public static void fnDuplicateCharacters() {
-
-    }
-    // Output: Duplicate characters: r g m
-
-    // ## ✅ Find Duplicate Elements in an Array
-    public static void fnFindDuplicateElementsWithInbuildMethodandWithout() {
-
-    }
-    // Output: [1, 2]
-
-    // ## ✅ Find Missing Number in an Array (1 to N)
-    public static void fnFindMissingNumberInArray() {
-
-    }
-    // Output: 3
-
-    // ## ✅ Find Second Largest Element in an Array
-    public static void fnSecondHighestNumber() {
-
-    }
-    // Output: Second-highest number: 20
-
-    // ## ✅ Matrix Addition, Subtraction, and Multiplication
-    public static void fnMatrixAdditionSubtractionMultiplication() {
-
-    }
-    // Output:
-    // 19 22
-    // 43 50
-
-    // ## ✅ Transpose of a Matrix
-    public static void fnTransposeOfMatrix() {
-
-    }
-    // Output:
-    // 1 4
-    // 2 5
-    // 3 6
-
-    // ## ✅ Count Vowels and Consonants in a String
-    public static void fnVowelConsonantCount() {
-
-    }
-    // Output: Vowels: 3 | Consonants: 7
-
-    // ## ✅ Count Occurrences of Each Word in a String
-    public static void fnCountOccurrencesInString() {
-
-    }
-    // Output: {to=2, be=2, or=1, not=1}
-
-    // ## ✅ Find First Non-Repeated Character in a String
-    public static void fnFirstNonRepeatedChar() {
-
-    }
-    // Output: t
-
-    // ## ✅ Check Anagram Strings
-    public static void fnAnagramCheck() {
-
-    }
-    // Output: listen and silent are anagrams.
-
-    // ## ✅ Find the Common Elements Between Two Arrays
-    public static void fnCommonElementsInTwoArrays() {
-
-    }
-    // Output: Common elements: 3 4 5
-
-    // ## ✅ Find Substring in a String (Without using contains())
-    public static void fnFindSubstring(String sub, String s) {
-
-    }
-    // Output: true | The string contains the substring.
-
-    // ## ✅ Longest Substring Without Repeating Characters
-    public static void fnLongestSubstring() {
-
-    }
-    // Output: 3
-}
+# ✅ 1. Java Basic Concepts
+1) What are static blocks and static initializers in Java?
+7) Why java is platform independent?
+8) What is method overloading in java?
+9) What is difference between c++ and Java?
+10) What is JIT compiler?
+11) What is bytecode in java?
+13) What is a class?
+14) What is an object?
+15) What is method in java?
+17) Why main() method is public, static and void in java?
+18) Explain about main() method in java?
+19) What is constructor in java?
+20) What is difference between length and length() method in java?
+21) What is ASCII Code?
+22) What is Unicode?
+23) Difference between Character Constant and String Constant in java?
+24) What are constants and how to create constants in java?
+25) Difference between '>>' and '>>>' operators in java?
+36) What does null mean in java?
+37) Can we have multiple classes in single file?
+39) What are packages in java?
+40) Can we have more than one package statement in source file?
+41) Can we define package statement after import statement in java?
+42) What are identifiers in java?
+153) Will the compiler creates a default constructor if I have a parameterized constructor in the class?
+154) Can we have a method name same as class name in java?
+163) Explain wrapper classes in java?
+164) Explain different types of wrapper classes in java?
+165) Explain about transient variables in java?
+167) What is type conversion in java?
+168) Explain about Automatic type conversion in java?
+169) Explain about narrowing conversion in java?
+170) Explain the importance of import keyword in java?
+171) Explain naming conventions for packages?
+172) What is classpath?
+173) What is jar?
+185) Explain about Varargs in java?
+186) Explain where variables are created in memory?
+187) Can we use Switch statement with Strings?
+188) In java how do we copy objects?
+
+# ✅ 2. Data Types and Variables
+174) What is the scope or life time of instance variables?
+175) Explain the scope or life time of class variables or static variables?
+176) Explain scope or life time of local variables in java?
+
+# ✅ 3. Classes and Objects
+2) How to call one constructor from the other constructor?
+12) Difference between this() and super() in java?
+16) What is encapsulation?
+26) Explain Java Coding Standards for classes or Java coding conventions for classes?
+27) Explain Java Coding standards for interfaces?
+28) Explain Java Coding standards for Methods?
+29) Explain Java Coding Standards for variables?
+30) Explain Java Coding Standards for Constants?
+35) Explain about instanceof operator in java?
+38) What all access modifiers are allowed for top class?
+43) What are access modifiers in java?
+44) What is the difference between access specifiers and access modifiers in java?
+45) What access modifiers can be used for class?
+46) Explain what access modifiers can be used for methods?
+47) Explain what access modifiers can be used for variables?
+48) What is final access modifier in java?
+151) How to do encapsulation in Java?
+152) What are reference variables in java?
+155) Can we override constructors in java?
+156) Can Static methods access instance variables in java?
+157) How do we access static members in java?
+158) Can we override static methods in java?
+159) Difference between object and reference?
+160) Objects or references which of them gets garbage collected?
+161) How many times finalize method will be invoked? who invokes finalize() method in java?
+162) Can we able to pass objects as an arguments in java?
+177) Explain about static imports in java?
+
+# ✅ 4. Java Inheritance
+3) What is method overriding in java?
+4) What is super keyword in java?
+5) Difference between method overloading and method overriding in java?
+31) Difference between overriding and overloading in java?
+32) What is 'IS-A' relationship in java?
+33) What is 'HAS-A' relationship in java?
+34) Difference between 'IS-A' and 'HAS-A' relationship in java?
+184) Explain about field hiding in java?
+189) Explain about procedural programming language or structured programming language and its features?
+190) Explain about object oriented programming and its features?
+191) List out benefits of object oriented programming language?
+192) Differences between traditional programming language and object oriented programming language?
+193) Explain oops concepts in detail?
+194) Explain what is encapsulation?
+195) What is inheritance?
+196) Explain importance of inheritance in java?
+197) What is polymorphism in java?
+
+# ✅ 5. Java Interface & Abstract Class
+6) Difference between abstract class and interface?
+49) Explain about abstract classes in java?
+50) Can we create constructor in abstract class?
+51) What are abstract methods in java?
+139) What are nested classes in java?
+140) What are inner classes or non static nested classes in java?
+141) Why to use nested classes in java?
+142) Explain about static nested classes in java?
+143) How to instantiate static nested classes in java?
+144) Explain about method local inner classes or local inner classes in java?
+145) Explain about features of local inner class?
+146) Explain about anonymous inner classes in java?
+147) Explain restrictions for using anonymous inner classes?
+148) Is this valid in java? can we instantiate interface in java?
+149) Explain about member inner classes?
+150) How to instantiate member inner class?
+178) Can we define static methods inside interface?
+179) Define interface in java?
+180) What is the purpose of interface?
+181) Explain features of interfaces in java?
+182) Explain enumeration in java?
+183) Explain restrictions on using enum?
+
+# ✅ 6. Java Exception Handling
+52) What is an exception in java?
+53) State some situations where exceptions may arise in java?
+54) What is Exception handling in java?
+55) What is an error in Java?
+56) What are advantages of Exception handling in java?
+57) In how many ways we can do exception handling in java?
+58) List out five keywords related to Exception handling?
+59) Explain try and catch keywords in java?
+60) Can we have try block without catch block?
+61) Can we have multiple catch block for a try block?
+62) Explain importance of finally block in java?
+63) Can we have any code between try and catch blocks?
+64) Can we have any code between try and finally blocks?
+65) Can we catch more than one exception in single catch block?
+66) What are checked Exceptions?
+67) What are unchecked exceptions in java?
+68) Explain differences between checked and Unchecked exceptions in java?
+69) What is default Exception handling in java?
+70) Explain throw keyword in java?
+71) Can we write any code after throw statement?
+72) Explain importance of throws keyword in java?
+73) Explain the importance of finally over return statement?
+74) Explain a situation where finally block will not be executed?
+75) Can we use catch statement for checked exceptions?
+76) What are user defined exceptions?
+77) Can we rethrow the same exception from catch handler?
+78) Can we nested try statements in java?
+79) Explain the importance of throwable class and its methods?
+80) Explain when ClassNotFoundException will be raised?
+81) Explain when NoClassDefFoundError will be raised?
+
+# ✅ 7. Java Collections Framework
+198) What is collections framework?
+199) What is collection?
+200) Difference between collection, Collection and Collections in java?
+201) Explain about Collection interface in java?
+202) List the interfaces which extends collection interface?
+203) Explain List interface?
+204) Explain methods specific to List interface?
+205) List implementations of List Interface?
+206) Explain about ArrayList?
+207) Difference between Array and ArrayList?
+208) What is vector?
+209) Difference between arraylist and vector?
+210) Define Linked List and its features with signature?
+211) Define Iterator and methods in Iterator?
+212) In which order the Iterator iterates over collection?
+212) Explain ListIterator and methods in ListIterator?
+213) Explain about Sets?
+214) Implementations of Set interface?
+215) Explain HashSet and its features?
+216) Explain Tree Set and its features?
+217) When do we use HashSet over TreeSet?
+218) What is Linked HashSet and its features?
+219) Explain about Map interface in java?
+220) What is linked hashmap and its features?
+221) What is SortedMap interface?
+222) What is Hashtable and explain features of Hashtable?
+223) Difference between HashMap and Hashtable?
+224) Difference between arraylist and linkedlist?
+225) Difference between Comparator and Comparable in java?
+226) What is concurrent hashmap and its features?
+227) Difference between Concurrent HashMap and Hashtable and collections.synchronizedHashMap?
+228) Explain copyOnWriteArrayList and when do we use copyOnWriteArrayList?
+229) Explain about fail fast iterators in java?
+230) Explain about fail safe iterators in java?
+
+# ✅ 8. Java Multithreading & Synchronization
+83) What is process?
+84) What is thread in java?
+85) Difference between process and thread?
+86) What is multitasking?
+87) What are different types of multitasking?
+88) What are the benefits of multithreaded programming?
+89) Explain thread in java?
+90) List Java API that supports threads?
+91) Explain about main thread in java?
+92) In how many ways we can create threads in java?
+93) Explain creating threads by implementing Runnable class?
+94) Explain creating threads by extending Thread class?
+95) Which is the best approach for creating thread?
+96) Explain the importance of thread scheduler in java?
+97) Explain the life cycle of thread?
+98) Can we restart a dead thread in java?
+99) Can one thread block the other thread?
+100) Can we restart a thread already started in java?
+101) What happens if we don't override run method?
+102) Can we overload run() method in java?
+105) What is a lock or purpose of locks in java?
+106) In how many ways we can do synchronization in java?
+107) What are synchronized methods?
+108) When do we use synchronized methods in java?
+109) When a thread is executing synchronized methods, then is it possible to execute other synchronized methods simultaneously by other threads?
+110) When a thread is executing a synchronized method, then is it possible for the same thread to access other synchronized methods of an object?
+111) What are synchronized blocks in java?
+112) When do we use synchronized blocks and advantages of using synchronized blocks?
+113) What is class level lock?
+114) Can we synchronize static methods in java?
+115) Can we use synchronized block for primitives?
+116) What are thread priorities and importance of thread priorities in java?
+117) Explain different types of thread priorities?
+118) How to change the priority of thread or how to set priority of thread?
+119) If two threads have same priority which thread will be executed first?
+120) What all methods are used to prevent thread execution?
+121) Explain yield() method in thread class?
+122) Is it possible for yielded thread to get chance for its execution again?
+123) Explain the importance of join() method in thread class?
+124) Explain purpose of sleep() method in java?
+125) Assume a thread has lock on it, calling sleep() method on that thread will release the lock?
+126) Can sleep() method causes another thread to sleep?
+127) Explain about interrupt() method of thread class?
+128) Explain about interthread communication and how it takes place in java?
+129) Explain wait(), notify() and notifyAll() methods of object class?
+130) Explain why wait(), notify() and notifyAll() methods are in Object class rather than in thread class?
+131) Explain IllegalMonitorStateException and when it will be thrown?
+132) When wait(), notify(), notifyAll() methods are called does it releases the lock or holds the acquired lock?
+133) Explain which of the following methods releases the lock when yield(), join(), sleep(), wait(), notify(), notifyAll() methods are executed?
+134) What are thread groups?
+135) What are thread local variables?
+136) What are daemon threads in java?
+137) How to make a non daemon thread as daemon?
+138) Can we make main() thread as daemon?
+
+# ✅ 9. Java Advanced Concurrency
+(Questions to be added)
+
+# ✅ 10. Java JVM & Memory Management
+(Questions to be added)
+
+# ✅ 11. Java Input/Output (I/O)
+231) What is serialization in java?
+232) What is the main purpose of serialization in java?
+233) What are alternatives to java serialization?
+234) Explain about serializable interface in java?
+235) How to make object serializable in java?
+236) What is serial version UID and its importance in java?
+237) What happens if we don't define serial version UID?
+238) Can we serialize static variables in java?
+239) When we serialize an object does the serialization mechanism saves its references too?
+240) If we don't want some of the fields not to serialize How to do that?
+166) Can we serialize static variables in java?

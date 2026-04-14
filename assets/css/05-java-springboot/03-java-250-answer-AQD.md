@@ -2778,6 +2778,12 @@ class SleepExample {
         t2.start();
     }
 }
+// Output: ================
+// Thread 1 acquired lock
+// (wait 3 sec)
+// Thread 1 finished
+// Thread 2 acquired lock
+
 
 // wait() Example (Lock Released)
 class WaitExample {
@@ -2808,6 +2814,11 @@ class WaitExample {
     }
 }
 
+// Output: ================
+// Thread 1 waiting...
+// Thread 2 acquired lock
+// Thread 2 notified
+// Thread 1 resumed
 ```
 
 

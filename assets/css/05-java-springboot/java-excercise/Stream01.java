@@ -107,13 +107,13 @@ public class Stream01 {
             .toList();
 
 
-        System.out.println("This is palindromes " + palindromes); 
+        // System.out.println("This is palindromes " + palindromes); 
 
-         if(palindromes.isEmpty()) {
-            System.out.println("This is palindromes ");
-         } else {
-            System.out.println("This is not palindromes ");
-         }
+         // if(!palindromes.isEmpty()) {
+         //    System.out.println("This is palindromes ");
+         // } else {
+         //    System.out.println("This is not palindromes ");
+         // }
         
 
         // System.out.println("22. Palindromes: " + palindromes);
@@ -123,18 +123,21 @@ public class Stream01 {
 
         // =======================================================
         // 7. Find Duplicate Elements
+        set<Integer> duplicates = new HashSet<>();
         
 
         
 
-        // System.out.println("9. Duplicates: " + duplicates);
+        System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [0, 1, 2]
 
 
 
         // =======================================================
         // 8. Remove Duplicates
-        
+        List<Integer> unique = num02.stream()
+            .distinct()
+            .toList();
 
         // System.out.println("17. Unique: " + unique);
         // Output: 17. Unique: [6, 1, 0, 2, 3, 4, 5]
