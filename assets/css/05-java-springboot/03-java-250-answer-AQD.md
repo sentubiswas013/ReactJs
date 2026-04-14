@@ -2820,7 +2820,110 @@ class WaitExample {
 // Thread 2 notified
 // Thread 1 resumed
 ```
+## 4. When we have 5 threads, in which sequence will they execute? Will I get the same result every time?
 
+
+* Threads run **concurrently**, not strictly one after another
+* The CPU decides which thread runs first
+* Execution order can change every time you run the program
+
+```java
+for (int i = 1; i <= 5; i++) {
+    new Thread(() -> {
+        System.out.println(Thread.currentThread().getName());
+    }).start();
+}
+
+// Possible Outputs (different each time):
+Thread-2
+Thread-1
+Thread-4
+Thread-0
+Thread-3
+
+// OR ===
+
+Thread-0
+Thread-3
+Thread-1
+Thread-2
+Thread-4
+```
+
+**When We want same result every time?**
+
+✔️ Only if you control execution using:
+
+* `synchronized`
+* `Lock`
+* `join()`
+* `ExecutorService` (single thread)
+
+
+**Using `synchronized` (Avoid race condition)**
+
+👉 Ensures only one thread modifies shared data at a time
+
+```java
+class Counter {
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+public class SyncExample {
+    public static void main(String[] args) throws InterruptedException {
+
+        Counter counter = new Counter();
+
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 10; i++) counter.increment();
+        });
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 10; i++) counter.increment();
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println(counter.count);
+    }
+}
+// Output will ALWAYS be:
+2000
+```
+
+
+**Using Single Thread Executor (Best practice)**
+
+👉 Guarantees order automatically
+
+```java
+import java.util.concurrent.*;
+
+public class ExecutorExample {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.submit(() -> System.out.println("Task 1"));
+        executor.submit(() -> System.out.println("Task 2"));
+        executor.submit(() -> System.out.println("Task 3"));
+
+        executor.shutdown();
+    }
+}
+// Output ALWAYS:
+
+Task 1
+Task 2
+Task 3
+```
 
 ## 5. What is deadlock and how do you prevent it?
 
