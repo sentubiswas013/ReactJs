@@ -76,22 +76,27 @@ public class Student {
         List<Student> studentNameA = studlist.stream()
                 .filter(s -> s.getFirstName().startsWith("A"))
                 .collect(Collectors.toList());
+
         System.out.println("Students whose name starts with A: " + studentNameA);
         // Output: Students whose name starts with A: [Student [id=3, firstName=Ankit, lastName=Patil, age=25, gender=Female, departmantName=Mechanical Engineering, joinedYear=2019, city=Kerala, rank=164]]
 
         // 2. Group by department
-        Map<String, List<Student>> departMentList =
-                studlist.stream().collect(Collectors.groupingBy(Student::getDepartmantName));
+        Map<String, List<Student>> departMentList = studlist.stream()
+                .collect(Collectors.groupingBy(Student::getDepartmantName));
+
         System.out.println("Group by department: " + departMentList);
         // Output: Group by department: {Mechanical Engineering=[Student [id=1, firstName=Rohit, lastName=Kumar, age =30, gender=Male, departmantName=Mechanical Engineering, joinedYear=2015, city=Mumbai, rank=122], Student [id=3, firstName=Ankit, lastName=Patil, age=25, gender=Female    , departmantName=Mechanical Engineering, joinedYear=2019, city=Kerala, rank=164], Student [id=4, firstName=Satish, lastName=Malag,
 
         // 3. Count students
         long count = studlist.stream().count();
         System.out.println("Total students: " + count);
+
         // Output: Total students: 10
 
         // 4. Max age
-        OptionalInt maxAge = studlist.stream().mapToInt(Student::getAge).max();
+        OptionalInt maxAge = studlist.stream()
+                .mapToInt(Student::getAge).max();
+
         System.out.println("Max age: " + maxAge.getAsInt());
         // Output: Max age: 56
 
@@ -100,12 +105,18 @@ public class Student {
                 .map(Student::getDepartmantName)
                 .distinct()
                 .collect(Collectors.toList());
+
         System.out.println("Departments: " + lstDepartments);
         // Output: Departments: [Mechanical Engineering, Computer Engineering, Biotech Engineering, Electronics Engineering, Instrumentation Engineering]
 
         // 6. Count students in each department
-        Map<String, Long> countStudentEachDepartment =
-                studlist.stream().collect(Collectors.groupingBy(Student::getDepartmantName, Collectors.counting()));
+        Map<String, Long> countStudentEachDepartment = studlist.stream()
+                .collect(Collectors.groupingBy(
+                        Student::getDepartmantName, 
+                        Collectors.counting()
+                    )
+                );
+        
         System.out.println("Students in each department: " + countStudentEachDepartment);
         // Output: Students in each department: {Mechanical Engineering=3, Computer Engineering=3, Biotech Engineering=1, Electronics Engineering=1, Instrumentation Engineering=1}
 
@@ -113,6 +124,7 @@ public class Student {
         List<Student> lessAge30 = studlist.stream()
                 .filter(s -> s.getAge() < 30)
                 .collect(Collectors.toList());
+
         System.out.println("Students below 30: " + lessAge30);
         // Output: Students below 30: [Student [id=3, firstName=Ankit, lastName=Patil, age
 
@@ -120,20 +132,31 @@ public class Student {
         List<Student> rankList = studlist.stream()
                 .filter(st -> st.getRank() > 50 && st.getRank() < 100)
                 .collect(Collectors.toList());
+
         System.out.println("Rank between 50 and 100: " + rankList);
         // Output: Rank between 50 and 100: [Student [id=2, firstName=Pulkit, lastName=Singh,
 
         // 9. Average age by gender
-        Map<String, Double> mapAvgAge =
-                studlist.stream().collect(Collectors.groupingBy(Student::getGender, Collectors.averagingInt(Student::getAge)));
+        Map<String, Double> mapAvgAge = studlist.stream()
+                .collect(Collectors.groupingBy(
+                        Student::getGender, 
+                        Collectors.averagingInt(Student::getAge)
+                    )
+                );
+        
         System.out.println("Average age by gender: " + mapAvgAge);
         // Output: Average
 
         // 10. Department with max students
         Entry<String, Long> entry = studlist.stream()
-                .collect(Collectors.groupingBy(Student::getDepartmantName, Collectors.counting()))
+                .collect(Collectors.groupingBy(
+                                Student::getDepartmantName, 
+                                Collectors.counting()
+                            )
+                        )
                 .entrySet().stream()
                 .max(Map.Entry.comparingByValue()).get();
+
         System.out.println("Department with max students: " + entry);
         // Output: Department with max students: Computer Engineering=3
 
@@ -142,21 +165,31 @@ public class Student {
                 .filter(dt -> dt.getCity().equals("Delhi"))
                 .sorted(Comparator.comparing(Student::getFirstName))
                 .collect(Collectors.toList());
+
         System.out.println("Students in Delhi sorted by name: " + studentLocation);
         // Output: Students in Delhi sorted by name: [Student [id=2, firstName=Pulkit, lastName=Singh, 
 
         // 12. Average rank per department
-        Map<String, Double> avgRankDept =
-                studlist.stream().collect(Collectors.groupingBy(Student::getDepartmantName, Collectors.averagingInt(Student::getRank)));
+        Map<String, Double> avgRankDept =  studlist.stream()
+                .collect(
+                        Collectors.groupingBy(
+                                Student::getDepartmantName, 
+                                Collectors.averagingInt(Student::getRank)
+                        )
+                );
+        
         System.out.println("Average rank by department: " + avgRankDept);
         // Output: Average rank by department: {Mechanical Engineering=100.66666666666667, Computer Engineering=169.0, Biotech Engineering=12.0, Electronics Engineering=324.0, Instrumentation Engineering=98.0}
 
         // 13. Highest rank in each department
-        Map<String, Optional<Student>> studentData =
-                studlist.stream().collect(Collectors.groupingBy(
+        Map<String, Optional<Student>> studentData = studlist.stream()
+                .collect(Collectors.groupingBy(
                         Student::getDepartmantName,
-                        Collectors.minBy(Comparator.comparing(Student::getRank))
+                        Collectors.minBy(
+                                Comparator.comparing(Student::getRank)
+                        )
                 ));
+
         System.out.println("Highest rank in each department: " + studentData);
         // Output: Highest rank in each department: {Mechanical Engineering=Optional[Student [id=4, firstName=Satish, lastName=Malag, age
 
@@ -164,6 +197,7 @@ public class Student {
         List<Student> stuRankSorted = studlist.stream()
                 .sorted(Comparator.comparing(Student::getRank))
                 .collect(Collectors.toList());
+
         System.out.println("Students sorted by rank: " + stuRankSorted);
         // Output: Students sorted by rank: [Student [id=5, firstName=Roshan, lastName=Mukd, age
 
@@ -173,6 +207,7 @@ public class Student {
                 .skip(1)
                 .findFirst()
                 .get();
+
         System.out.println("Second highest rank student: " + student);
         // Output: Second highest rank student: Student [id=10, firstName=Shubham, lastName
     }  

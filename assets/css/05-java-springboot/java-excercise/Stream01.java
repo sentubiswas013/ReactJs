@@ -123,12 +123,13 @@ public class Stream01 {
 
         // =======================================================
         // 7. Find Duplicate Elements
-        set<Integer> duplicates = new HashSet<>();
-        set
-
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = num02.stream()
+            .filter(n -> !seen.add(n))
+            .collect(Collectors.toSet());
         
 
-        System.out.println("9. Duplicates: " + duplicates);
+        // System.out.println("9. Duplicates: " + duplicates);
         // Output: 9. Duplicates: [0, 1, 2]
 
 
@@ -146,7 +147,13 @@ public class Stream01 {
 
         // =======================================================
         // 9. Find Maximum and minimum number
+        int max = num01.stream()
+            .max(Integer::compareTo)
+            .orElseThrow();
         
+        int min = num01.stream()
+            .min(Integer::compareTo)
+            .orElseThrow();
 
         // System.out.println("2. Maximum: " + max);
         // System.out.println("2. Minimum: " + min);
@@ -156,8 +163,14 @@ public class Stream01 {
 
         // =======================================================
         // 10. Find Longest and smallest String
-        
+        String longest = arr01.stream()
+            .max(Comparator.comparingInt(String::length))
+            .orElse(null);
 
+
+        String smallest = arr01.stream()
+            .min(Comparator.comparingInt(String::length))
+            .orElse(null);
 
         // System.out.println("10. Longest: " + longest);
         // System.out.println("10. smallest: " + smallest);
@@ -168,7 +181,11 @@ public class Stream01 {
 
         // =======================================================
         // 11. Sort List in Descending Order
-        
+        List<Integer> sorted = num02.stream()
+            .sorted(Comparator.reverseOrder())
+            .skip(1)
+            .limit(2)
+            .toList();
         
 
         // System.out.println("3. Sorted Descending: " + sorted);
@@ -309,20 +326,32 @@ public class Stream01 {
 
 
         // Salary by Department
-        
+        List<String> salaryByDept = employees.stream()
+            .map(Employee::getDepartment)
+            .toList();
 
         // Sceond height salary 
+        List<Double> salaryList = employees.stream()
+            .map(Employee::getSalary)
+            .toList();
         
 
         // System.out.println(salaryByDept);
         // System.out.println(salaryList);     
-        //     [IT, HR, IT, HR]
-        //     [50000.0, 40000.0, 60000.0, 45000.0]
+        // [IT, HR, IT, HR]
+        // [50000.0, 40000.0, 60000.0, 45000.0]
 
 
 
         // =======================================================
         // 26. Find Average Salary by Department
+        Map<String, Double> avgSalary = employees.stream()
+            .collect(
+                Collectors.groupingBy(
+                    Employee::getDepartment,
+                    Collectors.averagingDouble(Employee::getSalary)
+                )
+            );
         
 
         // System.out.println(avgSalary);
@@ -332,6 +361,11 @@ public class Stream01 {
 
         // =======================================================
         // 27. Count Employees in Each Department
+        Map<String, Long> countByDept = employees.stream()
+            .collect(Collectors.groupingBy(
+                Employee::getDepartment,
+                Collectors.counting()
+            ));
         
 
         // System.out.println(countByDept);
@@ -342,7 +376,10 @@ public class Stream01 {
 
         // =======================================================
         // 28. Find All Employees Grouped by Department
-        
+        Map<String, List<Employee>> employeesByDept = employees.stream()
+            .collect(Collectors.groupingBy(
+                Employee::getDepartment
+            ));
 
         // System.out.println(employeesByDept);
         // Output: {HR=[Employee@..., Employee@...], IT=[Employee@..., Employee@...]} 
