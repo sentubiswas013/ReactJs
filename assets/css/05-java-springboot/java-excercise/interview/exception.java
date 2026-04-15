@@ -1,65 +1,105 @@
+// ============================================================
+// 🚀 MAIN CLASS
+// ============================================================
 class Main {
     public static void main(String[] args) {
 
-        // 1. Exception Handling
-        processPayment(-50);
-        processPayment(200);
+        PaymentService paymentService = new PaymentService();
+        BankService bankService = new BankService();
+        VotingService votingService = new VotingService();
+
+        // 1. Exception Handling (try-catch-finally)
+        paymentService.processPayment(-50);
+        paymentService.processPayment(200);
 
         // 2. throw vs throws
         try {
-            withdraw(500, 600);
+            bankService.withdraw(500, 600);
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
         // 3. Custom Exception
         try {
-            vote(16);
+            votingService.vote(16);
         } catch (InvalidAgeException e) {
             System.out.println(e.getMessage());
         }
     }
+}
 
-    // ─────────────────────────────
-    // 1. try-catch-finally
-    // ─────────────────────────────
-    static void processPayment(double amount) {
+
+// ============================================================
+// 1. Exception Handling (SRP applied)
+// ============================================================
+class PaymentService {
+
+    public void processPayment(double amount) {
         try {
-            if (amount <= 0)
-                throw new IllegalArgumentException("Invalid amount");
-
+            validate(amount);
             System.out.println("Payment successful");
 
         } catch (IllegalArgumentException e) {
-            System.out.println("Payment failed");
+            System.out.println("Payment failed: " + e.getMessage());
 
         } finally {
-            System.out.println("Logged");
+            log();
         }
     }
 
-    // ─────────────────────────────
-    // 2. throw vs throws
-    // ─────────────────────────────
-    static void withdraw(double balance, double amount) throws IllegalArgumentException {
-        if (amount > balance)
-            throw new IllegalArgumentException("Insufficient balance");
-
-        System.out.println("Withdraw successful");
+    private void validate(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid amount");
+        }
     }
 
-    // ─────────────────────────────
-    // 3. Custom Exception
-    // ─────────────────────────────
-    static void vote(int age) throws InvalidAgeException {
-        if (age < 18)
-            throw new InvalidAgeException("Underage");
+    private void log() {
+        System.out.println("Transaction logged");
     }
 }
 
+
+// ============================================================
+// 2. throw vs throws
+// ============================================================
+class BankService {
+
+    // "throws" declares exception
+    public void withdraw(double balance, double amount) throws IllegalArgumentException {
+
+        // "throw" actually throws exception
+        if (amount > balance) {
+            throw new IllegalArgumentException("Insufficient balance");
+        }
+
+        System.out.println("Withdraw successful");
+    }
+}
+
+
+// ============================================================
+// 3. Custom Exception Handling
+// ============================================================
+class VotingService {
+
+    public void vote(int age) throws InvalidAgeException {
+        validateAge(age);
+        System.out.println("Vote successful");
+    }
+
+    private void validateAge(int age) throws InvalidAgeException {
+        if (age < 18) {
+            throw new InvalidAgeException("Underage - Not eligible to vote");
+        }
+    }
+}
+
+
+// ============================================================
 // Custom Exception
+// ============================================================
 class InvalidAgeException extends Exception {
-    InvalidAgeException(String msg) {
-        super(msg);
+    public InvalidAgeException(String message) {
+        super(message);
     }
 }
