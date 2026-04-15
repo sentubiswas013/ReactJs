@@ -195,7 +195,11 @@ public class Stream01 {
 
         // =======================================================
         // 12. Find Top N Elements
-        
+        List<Integer> top3 = num02.stream()
+            .sorted(Comparator.reverseOrder())
+            .skip(2)
+            .limit(1)
+            .toList();
         
 
         // System.out.println("12. Top 3: " + top3);
@@ -214,7 +218,12 @@ public class Stream01 {
 
         // =======================================================
         // 14. To merge two arrays and sort the resulting array in ascending order
-        
+        List<Integer> resultSort = Stream.concat(
+            num01.stream().filter(n -> n == 0),
+            num02.stream().filter(n -> n != 0)
+        )
+            .toList();
+
 
         // System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
@@ -232,8 +241,12 @@ public class Stream01 {
 
         // =======================================================
         // 16. Count Frequency of Characters
-        // String str = "success";
-        // Char freq = 
+        Character freq = input.chars()
+            .mapToObj(c -> (char) c)
+            .collect(Collectors.groupingBy(
+                c -> c,
+                Collectors.counting()
+            ));
         
 
         // System.out.println("13. Frequency: " + freq);
@@ -295,6 +308,8 @@ public class Stream01 {
         // 22. Join Strings
        
         
+        // System.out.println("18. Joined: " + joined);
+        // Output: 18. Joined: java, stream, api
 
 
         // =======================================================
@@ -399,7 +414,7 @@ public class Stream01 {
                 .findFirst()
                 .get();
 
-        System.out.println("Second highest salary employees: " + employee);
+        // System.out.println("Second highest salary employees: " + employee);
 
 
         // =======================================================

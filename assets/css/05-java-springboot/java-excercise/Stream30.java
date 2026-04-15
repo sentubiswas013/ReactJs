@@ -263,7 +263,7 @@ public class Stream30 {
 
 
 
-       // =======================================================
+        // =======================================================
         // 17. Find First Non-Repeated Character
         Map<Character, Long> vowels = input.toLowerCase().chars()
                 .mapToObj(c -> (char) c)
