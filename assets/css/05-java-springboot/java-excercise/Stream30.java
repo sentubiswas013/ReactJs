@@ -353,15 +353,19 @@ public class Stream30 {
 
         // =======================================================
         // 23. Convert List to Map and word length
-        Map<String, Integer> map = Arrays.stream(sentence.split(" "))
+        // Map from String
+        Map<String, Integer> mapStr = Arrays.stream(sentence.split(" "))
                 .collect(Collectors.toMap(w -> w, String::length));
 
-        Map<Integer, List<String>> map = arr01.stream()
+        // System.out.println("21. mapStr: " + mapStr);
+        // Output: 21. Map: {Java=4, very=4, powerful=8, Stream=6, API=3, is=2}  
+
+        // Map from array
+        Map<Integer, List<String>> mapArr = arr01.stream()
                 .collect(Collectors.groupingBy(String::length));
 
-        // System.out.println("21. Map: " + map);
-        // Output: 21. Map: {java=4, stream=6, api=3}
-        // Map:  {3=[api], 4=[java], 5=[level, madam], 6=[stream]}
+        // System.out.println("21. mapArr: " + mapArr);
+        // Output: 21. Map: {3=[api], 4=[java], 5=[level, madam], 6=[stream]} 
 
 
 
@@ -442,16 +446,23 @@ public class Stream30 {
 
 
 
+        // 29. Second highest salary
+        Employee employee = employees.stream()
+                .sorted(Comparator.comparing(Employee::getSalary))
+                .skip(1)
+                .findFirst()
+                .get();
+
+        // System.out.println("Second highest salary employees: " + employee);
+        // Output: Second highest salary employees: HR : 45000.0
+
+
         // =======================================================
-        // 29. flatMap() is used to flatten nested collections.
+        // 30. flatMap() is used to flatten nested collections.
         List<List<Employee>> inputTemp = List.of(
                 List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
                 List.of(new Employee("David", 7000), new Employee("Mary", 8000))
         );
-
-        List<Employee> resultTemp = inputTemp.stream()
-                .flatMap(List::stream)
-                .toList();
 
         // System.out.println(resultTemp);
         // Output: [Employee@..., Employee@..., Employee@..., Employee@...] (all employees in a single list)
