@@ -1,5 +1,5 @@
 // ============================================================
-// 01–10: OOP Concepts in One File (Interview Ready)
+// 01–10 + Static + Final Concepts in One File (Interview Ready)
 // ============================================================
 
 class Main {
@@ -10,7 +10,7 @@ class Main {
         s1.display();
 
         // 02. Constructor
-        Student s2 = new Student(); // default constructor
+        Student s2 = new Student();
         s2.display();
 
         // 03. Overloading
@@ -18,9 +18,9 @@ class Main {
         System.out.println("Add: " + mu.add(10, 20));
         System.out.println("Add (double): " + mu.add(10.5, 20.5));
 
-        // 03. Overriding + 04. Inheritance + 07. Polymorphism
-        Animal a = new Dog(); // upcasting
-        a.sound(); // runtime polymorphism
+        // 04 + 07: Inheritance + Runtime Polymorphism
+        Animal a = new Dog();
+        a.sound();
 
         // 05. Abstract
         Shape shape = new Circle();
@@ -35,8 +35,19 @@ class Main {
         Vehicle v = new Car();
         v.start();
 
-        // 09. Static Keyword
+        // 09. Static Variable
         System.out.println("Static count: " + Student.count);
+
+        // Static Method
+        Student.showCount();
+
+        // Static Nested Class
+        Student.StaticHelper helper = new Student.StaticHelper();
+        helper.showMessage();
+
+        // Final variable usage
+        FinalExample fe = new FinalExample();
+        fe.show();
 
         // 10. this & super
         Child c = new Child();
@@ -46,21 +57,24 @@ class Main {
 
 
 // ============================================================
-// 01 & 02: Class, Object, Constructor
+// Class, Constructor + Static + Final Variable
 // ============================================================
 class Student {
     String name;
     int age;
-    static int count = 0;
 
-    // Default constructor
+    static int count = 0; // static variable
+
+    static {
+        System.out.println("Static block executed");
+    }
+
     Student() {
         this("Default", 0);
     }
 
-    // Parameterized constructor
     Student(String name, int age) {
-        this.name = name; // this keyword
+        this.name = name;
         this.age = age;
         count++;
     }
@@ -68,25 +82,82 @@ class Student {
     void display() {
         System.out.println("Student: " + name + ", " + age);
     }
+
+    static void showCount() {
+        System.out.println("Total Students: " + count);
+    }
+
+    static class StaticHelper {
+        void showMessage() {
+            System.out.println("Inside Static Nested Class");
+        }
+    }
 }
 
 
 // ============================================================
-// 03: Method Overloading
+// Final Variable + Final Method
+// ============================================================
+class FinalExample {
+
+    // final variable (constant)
+    final int MAX_VALUE = 100;
+
+    void show() {
+        System.out.println("Final variable: " + MAX_VALUE);
+    }
+
+    // final method (cannot be overridden)
+    final void displayMessage() {
+        System.out.println("This is a final method");
+    }
+}
+
+
+// Trying to override final method → NOT allowed
+class FinalChild extends FinalExample {
+
+    // ❌ This will give compile error if uncommented
+    /*
+    void displayMessage() {
+        System.out.println("Overriding not allowed");
+    }
+    */
+}
+
+
+// ============================================================
+// Final Class (cannot be extended)
+// ============================================================
+final class FinalClass {
+    void show() {
+        System.out.println("Final class method");
+    }
+}
+
+// ❌ Not allowed
+/*
+class Test extends FinalClass {
+}
+*/
+
+
+// ============================================================
+// Method Overloading
 // ============================================================
 class MathUtils {
     int add(int a, int b) {
         return a + b;
     }
 
-    double add(double a, double b) { // overloaded
+    double add(double a, double b) {
         return a + b;
     }
 }
 
 
 // ============================================================
-// 04: Inheritance + 07: Polymorphism + 03: Overriding
+// Inheritance + Polymorphism + Overriding
 // ============================================================
 class Animal {
     void sound() {
@@ -103,7 +174,7 @@ class Dog extends Animal {
 
 
 // ============================================================
-// 05: Abstract Class
+// Abstract Class
 // ============================================================
 abstract class Shape {
     abstract void draw();
@@ -117,7 +188,7 @@ class Circle extends Shape {
 
 
 // ============================================================
-// 06: Encapsulation
+// Encapsulation
 // ============================================================
 class Person {
     private String name;
@@ -133,7 +204,7 @@ class Person {
 
 
 // ============================================================
-// 08: Interface
+// Interface
 // ============================================================
 interface Vehicle {
     void start();
@@ -147,7 +218,7 @@ class Car implements Vehicle {
 
 
 // ============================================================
-// 10: this & super
+// this & super
 // ============================================================
 class Parent {
     String msg = "Parent";
@@ -161,7 +232,7 @@ class Child extends Parent {
     String msg = "Child";
 
     Child() {
-        super(); // calls parent constructor
+        super();
     }
 
     void show() {
