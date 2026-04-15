@@ -269,6 +269,7 @@ public class Stream30 {
                 .mapToObj(c -> (char) c)
                 .filter(ch -> "aeiou".indexOf(ch) != -1)
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+                
 
         // System.out.println("vowels: " + vowels);
         // Output: 5. {a=2}                
