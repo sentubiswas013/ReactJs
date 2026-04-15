@@ -1,53 +1,84 @@
 // ============================================================
-// SOLID Principles (Interview Ready)
+// SOLID Principles - Single File (Interview Ready)
 // ============================================================
 
 class Main {
+
     public static void main(String[] args) {
 
-        // SRP
-        Invoice invoice = new Invoice();
+        // ================= SRP =================
+        Invoice invoice = new Invoice(1000);
         InvoicePrinter printer = new InvoicePrinter();
-        printer.print(invoice);
+        InvoiceRepository repository = new InvoiceRepository();
 
-        // OCP
+        printer.print(invoice);
+        repository.save(invoice);
+
+        // ================= OCP =================
         Discount discount = new PercentageDiscount();
         System.out.println("Discount: " + discount.calculate(1000));
 
-        // LSP
-        Bird bird = new Sparrow();
-        bird.fly();
+        Discount festival = new FestivalDiscount();
+        System.out.println("Festival Discount: " + festival.calculate(1000));
 
-        // ISP
-        Worker worker = new Developer();
-        worker.work();
+        // ================= LSP =================
+        Bird sparrow = new Sparrow();
+        sparrow.move();
 
-        // DIP
-        NotificationService service = new NotificationService(new EmailSender());
-        service.send("Hello SOLID");
+        Bird penguin = new Penguin();
+        penguin.move();
+
+        // ================= ISP =================
+        Workable developer = new Developer();
+        developer.work();
+
+        Eatable robot = new Robot();
+        robot.eat();
+
+        // ================= DIP =================
+        NotificationService emailService = new NotificationService(new EmailSender());
+        emailService.send("Email Notification");
+
+        NotificationService smsService = new NotificationService(new SmsSender());
+        smsService.send("SMS Notification");
     }
 }
 
-
 // ============================================================
 // 1. SRP (Single Responsibility Principle)
-// One class = one responsibility
 // ============================================================
+// Bad Design: Invoice doing too many things ❌
+// Good Design: Split responsibilities ✅
+
 class Invoice {
-    int amount = 1000;
+    private int amount;
+
+    public Invoice(int amount) {
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
 }
 
 class InvoicePrinter {
-    void print(Invoice invoice) {
-        System.out.println("Printing invoice: " + invoice.amount);
+    public void print(Invoice invoice) {
+        System.out.println("Printing invoice: " + invoice.getAmount());
+    }
+}
+
+class InvoiceRepository {
+    public void save(Invoice invoice) {
+        System.out.println("Saving invoice to DB: " + invoice.getAmount());
     }
 }
 
 
 // ============================================================
 // 2. OCP (Open/Closed Principle)
-// Open for extension, closed for modification
 // ============================================================
+
 interface Discount {
     double calculate(double amount);
 }
@@ -64,43 +95,69 @@ class FlatDiscount implements Discount {
     }
 }
 
-
-// ============================================================
-// 3. LSP (Liskov Substitution Principle)
-// Child should replace parent without breaking behavior
-// ============================================================
-class Bird {
-    void fly() {
-        System.out.println("Flying");
+class FestivalDiscount implements Discount {
+    public double calculate(double amount) {
+        return amount * 0.2;
     }
 }
 
+
+// ============================================================
+// 3. LSP (Liskov Substitution Principle)
+// ============================================================
+// Bad Design ❌
+// Penguin cannot fly → violates LSP
+
+// Good Design ✅
+
+abstract class Bird {
+    abstract void move();
+}
+
 class Sparrow extends Bird {
-    void fly() {
+    public void move() {
         System.out.println("Sparrow flying");
+    }
+}
+
+class Penguin extends Bird {
+    public void move() {
+        System.out.println("Penguin swimming");
     }
 }
 
 
 // ============================================================
 // 4. ISP (Interface Segregation Principle)
-// Don't force classes to implement unused methods
 // ============================================================
-interface Worker {
+// Bad ❌
+// interface Worker { work(), eat() }
+
+interface Workable {
     void work();
 }
 
-class Developer implements Worker {
+interface Eatable {
+    void eat();
+}
+
+class Developer implements Workable {
     public void work() {
         System.out.println("Writing code");
+    }
+}
+
+class Robot implements Eatable {
+    public void eat() {
+        System.out.println("Charging battery");
     }
 }
 
 
 // ============================================================
 // 5. DIP (Dependency Inversion Principle)
-// Depend on abstraction, not concrete class
 // ============================================================
+
 interface MessageSender {
     void sendMessage(String msg);
 }
@@ -111,14 +168,20 @@ class EmailSender implements MessageSender {
     }
 }
 
+class SmsSender implements MessageSender {
+    public void sendMessage(String msg) {
+        System.out.println("SMS sent: " + msg);
+    }
+}
+
 class NotificationService {
     private MessageSender sender;
 
-    NotificationService(MessageSender sender) {
+    public NotificationService(MessageSender sender) {
         this.sender = sender;
     }
 
-    void send(String msg) {
+    public void send(String msg) {
         sender.sendMessage(msg);
     }
 }
