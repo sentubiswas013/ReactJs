@@ -62,7 +62,7 @@ class Main {
 
 
 // ============================================================
-// 1. Singleton
+// 1. Singleton Pattern - Thread Safe with Double-Checked Locking 
 // ============================================================
 class Singleton {
     private static volatile Singleton instance;
@@ -82,7 +82,7 @@ class Singleton {
 
 
 // ============================================================
-// 2. Factory Pattern
+// 2. Factory Pattern:  Create objects without exposing creation logic
 // ============================================================
 interface Shape {
     void draw();
@@ -112,7 +112,7 @@ class ShapeFactory {
 
 
 // ============================================================
-// 3. Builder Pattern
+// 3. Builder Pattern - Step-by-step object creation
 // ============================================================
 class User {
     private String name;
@@ -149,7 +149,7 @@ class User {
 
 
 // ============================================================
-// 4. Prototype Pattern
+// 4. Prototype Pattern - Clone existing object 
 // ============================================================
 class Prototype implements Cloneable {
     String value;

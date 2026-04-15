@@ -9,7 +9,6 @@ class Main {
         concurrentHashMapDemo();
         lruCacheDemo();
         producerConsumerDemo();
-        singletonDemo();
         threadClassDemo();
         runnableDemo();
         synchronizationDemo();
@@ -71,14 +70,6 @@ class Main {
         producer.join();  consumer.join();
     }
 
-    // ─────────────────────────────────────────────
-    // Singleton
-    // ─────────────────────────────────────────────
-    static void singletonDemo() {
-        Singleton s1 = Singleton.getInstance();
-        Singleton s2 = Singleton.getInstance();
-        System.out.println("Same instance: " + (s1 == s2));
-    }
 
     // ─────────────────────────────────────────────
     // Thread Class
@@ -238,21 +229,6 @@ class LRUCache<K, V> extends LinkedHashMap<K, V> {
     }
 }
 
-class Singleton {
-    private static volatile Singleton instance;
-
-    private Singleton() {}
-
-    public static Singleton getInstance() {
-        if (instance == null) {
-            synchronized (Singleton.class) {
-                if (instance == null)
-                    instance = new Singleton();
-            }
-        }
-        return instance;
-    }
-}
 
 class MyThread extends Thread {
     public void run() {
