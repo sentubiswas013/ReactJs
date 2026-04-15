@@ -1,64 +1,65 @@
-import java.util.*;
-import java.util.ArrayList;
-
 class Main {
-    public static void main(String[] args)  {
-		// Section 1: exception handling using try-catch-finally
+    public static void main(String[] args) {
+
+        // 1. Exception Handling
         processPayment(-50);
         processPayment(200);
 
-
-		// Section 2: trow-throws
-		try {
-            withdraw(500, 200);
+        // 2. throw vs throws
+        try {
             withdraw(500, 600);
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-
-		// Section 3: custom exception
-		try {
-            vote(6);
+        // 3. Custom Exception
+        try {
+            vote(16);
         } catch (InvalidAgeException e) {
             System.out.println(e.getMessage());
         }
     }
 
-	// Section 1: exception handling using try-catch-finally
-	static void processPayment(double amount) {
-		try {
-			if (amount <= 0)
-				throw new IllegalArgumentException("Invalid amount: $" + amount);
+    // ─────────────────────────────
+    // 1. try-catch-finally
+    // ─────────────────────────────
+    static void processPayment(double amount) {
+        try {
+            if (amount <= 0)
+                throw new IllegalArgumentException("Invalid amount");
 
-			System.out.println("Payment successful: $" + amount);
+            System.out.println("Payment successful");
 
-		} catch (IllegalArgumentException e) {
-			System.out.println("Payment failed: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Payment failed");
 
-		} catch (Exception e) { // fallback
-			System.out.println("Unexpected error: " + e.getMessage());
-
-		} finally {
-			System.out.println("Payment attempt logged");
-		}
-	}
-
-	// Section 2: trow-throws
-	static double withdraw(double balance, double amount) throws IllegalArgumentException {
-        if (amount > balance) throw new IllegalArgumentException("Insufficient balance: $" + balance);
-        balance -= amount;
-        System.out.println("Withdrawn: $" + amount + " | Remaining: $" + balance);
-        return balance;
+        } finally {
+            System.out.println("Logged");
+        }
     }
 
-	// Section 3: custom exception
-	static void vote(int age) throws InvalidAgeException {
-        if (age < 18) throw new InvalidAgeException("Underage: " + age);
+    // ─────────────────────────────
+    // 2. throw vs throws
+    // ─────────────────────────────
+    static void withdraw(double balance, double amount) throws IllegalArgumentException {
+        if (amount > balance)
+            throw new IllegalArgumentException("Insufficient balance");
+
+        System.out.println("Withdraw successful");
+    }
+
+    // ─────────────────────────────
+    // 3. Custom Exception
+    // ─────────────────────────────
+    static void vote(int age) throws InvalidAgeException {
+        if (age < 18)
+            throw new InvalidAgeException("Underage");
     }
 }
 
+// Custom Exception
 class InvalidAgeException extends Exception {
-    InvalidAgeException(String msg) { super(msg); }
+    InvalidAgeException(String msg) {
+        super(msg);
+    }
 }
-
