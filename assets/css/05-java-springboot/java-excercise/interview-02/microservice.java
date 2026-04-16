@@ -1,20 +1,29 @@
 // ============================================================
 // FILE: MicroserviceInterviewDemo.java
-// (Represents: MainApplication.java in real project)
+// (Includes: Caching + Microservices Concepts)
 // ============================================================
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Service;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Async;
+
 import org.springframework.web.client.RestTemplate;
 
+import org.springframework.cache.annotation.*;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+
 import jakarta.persistence.*;
+
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -32,6 +41,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 // ============================================================
 @EnableAsync
 @EnableFeignClients
+@EnableCaching  // ✅ ENABLE CACHING
 @SpringBootApplication
 class MicroserviceInterviewDemo {
 
@@ -40,16 +50,21 @@ class MicroserviceInterviewDemo {
     }
 
     // FILE: AppConfig.java
-    // RestTemplate Bean Configuration
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    // FILE: CacheConfig.java
+    @Bean
+    public ConcurrentMapCacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("users");
     }
 }
 
 
 // ============================================================
-// ENTITY: USER (Parent)
+// ENTITY: USER
 // FILE: entity/User.java
 // ============================================================
 @Entity
@@ -72,7 +87,7 @@ class User {
 
 
 // ============================================================
-// ENTITY: ORDER (Child)
+// ENTITY: ORDER
 // FILE: entity/Order.java
 // ============================================================
 @Entity
@@ -107,7 +122,7 @@ interface OrderRepository extends JpaRepository<Order, Long> {}
 
 
 // ============================================================
-// REST TEMPLATE CLIENT (Legacy Communication)
+// REST TEMPLATE CLIENT
 // FILE: client/RestTemplateClient.java
 // ============================================================
 @Service
@@ -129,7 +144,7 @@ class RestTemplateClient {
 
 
 // ============================================================
-// FEIGN CLIENT (Modern Communication)
+// FEIGN CLIENT
 // FILE: client/PaymentClient.java
 // ============================================================
 @FeignClient(name = "payment-service", url = "http://localhost:8082")
@@ -141,7 +156,7 @@ interface PaymentClient {
 
 
 // ============================================================
-// SERVICE: USER + ORDER (TRANSACTIONAL)
+// SERVICE: USER + CACHE + TRANSACTION
 // FILE: service/UserService.java
 // ============================================================
 @Service
@@ -156,9 +171,24 @@ class UserService {
         this.orderRepo = orderRepo;
     }
 
+    // SAVE USER (Update Cache)
     @Transactional
+    @CachePut(value = "users", key = "#result.id")
     public User saveUser(User user) {
         return userRepo.save(user);
+    }
+
+    // GET USER (Cache Read)
+    @Cacheable(value = "users", key = "#id")
+    public User getUser(Long id) {
+        System.out.println("Fetching from DB...");
+        return userRepo.findById(id).orElseThrow();
+    }
+
+    // DELETE USER (Evict Cache)
+    @CacheEvict(value = "users", key = "#id")
+    public void deleteUser(Long id) {
+        userRepo.deleteById(id);
     }
 
     @Transactional
@@ -203,7 +233,7 @@ class AsyncService {
 
 
 // ============================================================
-// SAGA ORCHESTRATOR (Distributed Transaction)
+// SAGA ORCHESTRATOR
 // FILE: service/OrderSagaService.java
 // ============================================================
 @Service
@@ -227,31 +257,24 @@ class OrderSagaService {
     public String executeSaga() {
 
         try {
-            // Step 1: Order Created
             System.out.println("Order Created");
 
-            // Step 2: Circuit Breaker Payment
             String payment = paymentService.processPayment();
             System.out.println(payment);
 
-            // Step 3: RestTemplate Call
             String restResponse = restClient.callPaymentService();
             System.out.println("RestTemplate: " + restResponse);
 
-            // Step 4: Feign Call
             String feignResponse = feignClient.pay();
             System.out.println("Feign: " + feignResponse);
 
-            // Step 5: Async Processing
             asyncService.asyncTask();
 
             return "ORDER SUCCESS";
 
         } catch (Exception e) {
 
-            // Compensation Logic
             System.out.println("Rolling back order...");
-
             return "ORDER FAILED - SAGA ROLLBACK";
         }
     }
@@ -259,7 +282,7 @@ class OrderSagaService {
 
 
 // ============================================================
-// CONTROLLER (API Layer)
+// CONTROLLER
 // FILE: controller/UserController.java
 // ============================================================
 @RestController
@@ -275,20 +298,28 @@ class UserController {
         this.sagaService = sagaService;
     }
 
-    // Create User
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
-    // Add Order
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUser(id);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "Deleted";
+    }
+
     @PostMapping("/users/{id}/orders")
     public Order addOrder(@PathVariable Long id,
                           @RequestBody Order order) {
         return userService.addOrder(id, order);
     }
 
-    // Run Saga Flow
     @PostMapping("/saga")
     public String runSaga() {
         return sagaService.executeSaga();
