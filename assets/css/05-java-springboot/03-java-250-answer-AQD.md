@@ -6568,7 +6568,7 @@ Spring makes Java development easier by handling common tasks and promoting best
 </dependencies>
 ```
 
-## 2. What are the core features of Spring?
+## 2. What are the features of Spring?
 
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
