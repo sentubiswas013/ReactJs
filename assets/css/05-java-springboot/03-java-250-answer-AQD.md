@@ -588,6 +588,31 @@ int age = 25;
 List<Integer> list = List.of(1,2,3);
 ```
 
+## 14. Summary Data Types and Variables
+
+**🔹 Data Types**
+
+* **Data Type:** Specifies what type of value a variable can store.
+* **Primitive Data Types:** Basic types that store actual values (int, float, char, boolean).
+* **Non-Primitive Data Types:** Store references to objects (String, Arrays, Classes).
+* **Type Casting:** Converting one data type to another (implicit/explicit).
+
+
+**🔹 Variables**
+
+* **Variable:** A named memory location used to store data.
+* **Local Variable:** Declared inside a method and accessible only within it.
+* **Instance Variable:** Declared inside a class, unique for each object.
+* **Static Variable:** Shared among all objects of a class.
+* **Final Variable:** Value cannot be changed once assigned (constant).
+
+
+**🔹 Memory Concept**
+
+* **Primitive Variables:** Stored directly in stack memory.
+* **Reference Variables:** Stored in stack but point to objects in heap memory.
+
+
 # ✅ 3. Classes and Objects
 
 
@@ -1089,6 +1114,30 @@ class Test {
 // Output:
 Exception in thread "main" java.lang.ExceptionInInitializerError
 ```
+
+## 31. Summary Classes and Objects
+
+**🔹 Class**
+
+* **Class:** A blueprint/template used to create objects.
+* **Fields (Variables):** Represent the state of the object.
+* **Methods:** Define the behavior of the object.
+* **Constructor:** Special method used to initialize object values.
+
+
+**🔹 Object**
+
+* **Object:** Instance of a class with state and behavior.
+* **State:** Represented by variables (data).
+* **Behavior:** Represented by methods (functions).
+* **Memory:** Objects are created in heap memory.
+
+
+**🔹 Key Concepts**
+
+* **Encapsulation:** Wrapping data and methods together and restricting access using private/public.
+* **this keyword:** Refers to the current object.
+* **new keyword:** Used to create an object.
 
 
 
@@ -1630,6 +1679,38 @@ class Circle implements MathConstants {
 System.out.println(MathConstants.PI);       // 3.14159
 System.out.println(MathConstants.MAX_VALUE); // 100
 ```
+
+## 32. Summary Java Inheritance
+
+**🔹 Basics**
+
+* **Inheritance:** Mechanism where one class acquires properties and behavior of another class.
+* **Parent Class (Super Class):** Class whose properties are inherited.
+* **Child Class (Sub Class):** Class that inherits from parent class.
+* **extends keyword:** Used to inherit a class.
+
+
+**🔹 Key Concepts**
+
+* **Code Reusability:** Avoids duplication by reusing existing code.
+* **Method Overriding:** Child class provides its own implementation of parent method.
+* **super keyword:** Used to access parent class methods/constructors.
+* **IS-A Relationship:** Represents inheritance relationship (e.g., Dog is an Animal).
+
+
+**🔹 Types of Inheritance**
+
+* **Single Inheritance:** One parent → one child.
+* **Multilevel Inheritance:** Chain of inheritance (A → B → C).
+* **Hierarchical Inheritance:** One parent → multiple children.
+* **Multiple Inheritance:** Not supported with classes (supported via interfaces).
+
+
+**⚠️ Important Points**
+
+* Constructors are **not inherited**, but can be called using `super()`.
+* Private members are **not directly accessible** in child class.
+
 
 
 # ✅ 5. Java Interface & Abstract Class 
@@ -2291,6 +2372,24 @@ Student.class   // Class info
 new Student()   // Object
 ```
 
+## 11.  Summary Java Interface & Abstract Class
+
+**🔹 Interface**
+
+* **Interface:** A contract that defines methods a class must implement.
+* **Methods:** By default abstract (Java 8+ supports default & static methods).
+* **implements keyword:** Used to implement an interface.
+* **Multiple Inheritance:** Supported via interfaces.
+* **No Constructors:** Interfaces cannot have constructors.
+* **Variables:** By default `public static final` (constants).
+
+**🔹 Abstract Class**
+
+* **Abstract Class:** A class that can have both abstract and concrete methods.
+* **abstract keyword:** Used to declare abstract class/method.
+* **Constructor:** Allowed and used for initialization.
+* **Single Inheritance:** A class can extend only one abstract class.
+* **Partial Abstraction:** Supports both implemented and unimplemented methods.
 
 
 # ✅ 6. Java Exception Handling 
