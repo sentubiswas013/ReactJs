@@ -4159,6 +4159,91 @@ public class Example {
 }
 ```
 
+## 9. Java Memory Management Summary?
+
+
+**🔹 JVM Basics**
+
+* **JVM:** Runtime engine that executes Java bytecode and manages memory.
+* **JDK vs JRE vs JVM:** JDK = development tools, JRE = runtime, JVM = execution engine.
+* **ClassLoader:** Loads class files into memory dynamically at runtime.
+
+
+**📦 Memory Areas**
+
+* **Heap:** Shared memory where objects are stored and managed by GC.
+* **Stack:** Thread-specific memory for method calls and local variables.
+* **Metaspace:** Stores class metadata in native memory (Java 8+).
+* **PC Register:** Holds current executing instruction per thread.
+* **Native Method Stack:** Executes native (C/C++) methods.
+
+
+**🧠 PermGen vs Metaspace**
+
+* **PermGen:** Fixed-size memory (pre-Java 8) for class metadata, prone to memory issues.
+* **Metaspace:** Replaces PermGen, uses native memory and grows dynamically.
+
+
+**⚖️ Heap vs Stack**
+
+* **Heap:** Shared, object storage, GC-managed, slower access.
+* **Stack:** Thread-local, method execution, fast and auto-managed.
+
+
+**🧩 Heap Structure**
+
+* **Young Generation:** Where new objects are created.
+* **Eden Space:** Initial allocation area for new objects.
+* **Survivor Space:** Stores objects that survive minor GC.
+* **Old Generation:** Stores long-lived objects.
+
+
+**♻️ Garbage Collection**
+
+* **GC:** Removes unreachable objects to free memory.
+* **Minor GC:** Cleans Young Generation.
+* **Major GC:** Cleans Old Generation.
+* **Full GC:** Cleans entire heap.
+* **Stop-The-World:** Application pauses during GC execution.
+
+
+**⚙️ GC Algorithms**
+
+* **Serial GC:** Single-threaded, simple but slow.
+* **Parallel GC:** Multi-threaded, high throughput.
+* **G1 GC:** Region-based, low pause time (modern default).
+* **CMS GC:** Low pause but deprecated.
+
+
+**⚙️ JVM Internals**
+
+* **JIT Compiler:** Converts bytecode to native code for faster execution.
+* **Bytecode:** Platform-independent intermediate code.
+* **Interpreter vs JIT:** Interpreter executes line-by-line, JIT optimizes frequently used code.
+
+
+**⚠️ Errors**
+
+* **OutOfMemoryError:** Heap or Metaspace memory exhausted.
+* **StackOverflowError:** Stack memory exceeded (deep recursion).
+
+
+**🔍 Advanced Concepts**
+
+* **Memory Leak:** Objects not GC’d due to active references.
+* **Heap Dump:** Memory snapshot used for debugging.
+* **GC Tuning:** Adjusting JVM parameters for performance.
+
+
+**⚙️ JVM Parameters**
+
+* **-Xms:** Initial heap size.
+* **-Xmx:** Maximum heap size.
+* **-XX:+UseG1GC:** Enables G1 garbage collector.
+* **-XX:MaxMetaspaceSize:** Limits Metaspace size.
+
+
+
 # ✅ 11. Java Input/Output (I/O) 
 
 ## 1. What are the different ways to read a file in Java?
