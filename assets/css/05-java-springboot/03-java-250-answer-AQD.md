@@ -8159,6 +8159,104 @@ public class GlobalExceptionHandler {
 }
 ```
 
+## 30. Top 50 Spring Boot Annotations 
+
+| #  | Annotation                 | Purpose                                                                                                                                     |
+| -- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | `@SpringBootApplication`   | Marks the main class of a Spring Boot app; combines configuration, auto-configuration, and component scanning to bootstrap the application. |
+| 2  | `@EnableAutoConfiguration` | Automatically configures Spring beans based on classpath dependencies, reducing manual setup.                                               |
+| 3  | `@ComponentScan`           | Scans specified packages to detect and register Spring components (beans) automatically.                                                    |
+| 4  | `@Configuration`           | Indicates a class contains bean definitions and acts as a source of Spring configuration.                                                   |
+| 5  | `@Bean`                    | Declares a method that returns an object managed as a Spring bean in the application context.                                               |
+| 6  | `@Component`               | Marks a class as a generic Spring-managed component for dependency injection.                                                               |
+| 7  | `@Autowired`               | Automatically injects dependencies by type into constructors, fields, or setters.                                                           |
+| 8  | `@Qualifier`               | Specifies which bean to inject when multiple beans of the same type exist.                                                                  |
+| 9  | `@Primary`                 | Designates a bean as the default choice when multiple candidates are available.                                                             |
+| 10 | `@Value`                   | Injects values from properties files, environment variables, or expressions into fields.                                                    |
+
+
+**✅ Stereotype / Layer Annotations**
+
+| #  | Annotation        | Purpose                                                                                      |
+| -- | ----------------- | -------------------------------------------------------------------------------------------- |
+| 11 | `@Controller`     | Handles incoming web requests and typically returns a view (like JSP/Thymeleaf).             |
+| 12 | `@RestController` | Combines `@Controller` and `@ResponseBody` to return JSON/XML responses directly.            |
+| 13 | `@Service`        | Marks a class as a service layer component containing business logic.                        |
+| 14 | `@Repository`     | Indicates a data access component and enables exception translation for database operations. |
+
+
+**✅ REST API Annotations**
+
+| #  | Annotation        | Purpose                                                                            |
+| -- | ----------------- | ---------------------------------------------------------------------------------- |
+| 15 | `@RequestMapping` | Maps HTTP requests to handler methods with configurable URL, method, headers, etc. |
+| 16 | `@GetMapping`     | Shortcut for handling HTTP GET requests for retrieving data.                       |
+| 17 | `@PostMapping`    | Handles HTTP POST requests for creating resources.                                 |
+| 18 | `@PutMapping`     | Handles HTTP PUT requests for updating entire resources.                           |
+| 19 | `@DeleteMapping`  | Handles HTTP DELETE requests to remove resources.                                  |
+| 20 | `@PatchMapping`   | Handles partial updates of a resource using HTTP PATCH.                            |
+| 21 | `@PathVariable`   | Binds URI template variables from the URL to method parameters.                    |
+| 22 | `@RequestParam`   | Extracts query parameters from the request URL into method parameters.             |
+| 23 | `@RequestBody`    | Converts HTTP request body (JSON/XML) into a Java object.                          |
+| 24 | `@ResponseBody`   | Converts Java object into HTTP response body (JSON/XML).                           |
+| 25 | `@ResponseStatus` | Sets the HTTP response status code for a method or exception.                      |
+
+
+**✅ Spring Data JPA**
+
+| #  | Annotation        | Purpose                                                                       |
+| -- | ----------------- | ----------------------------------------------------------------------------- |
+| 26 | `@Entity`         | Marks a class as a JPA entity mapped to a database table.                     |
+| 27 | `@Table`          | Specifies the table name and schema details for an entity.                    |
+| 28 | `@Id`             | Defines the primary key of an entity.                                         |
+| 29 | `@GeneratedValue` | Specifies strategy for auto-generating primary key values.                    |
+| 30 | `@Column`         | Customizes column mapping such as name, length, nullable, unique constraints. |
+| 31 | `@Transient`      | Excludes a field from being persisted to the database.                        |
+| 32 | `@OneToOne`       | Defines a one-to-one relationship between two entities.                       |
+| 33 | `@OneToMany`      | Defines a one-to-many relationship between entities.                          |
+| 34 | `@ManyToOne`      | Defines a many-to-one relationship between entities.                          |
+| 35 | `@ManyToMany`     | Defines a many-to-many relationship using a join table.                       |
+
+
+**✅ Transaction & AOP**
+
+| #  | Annotation                     | Purpose                                                                             |
+| -- | ------------------------------ | ----------------------------------------------------------------------------------- |
+| 36 | `@Transactional`               | Ensures methods execute within a database transaction with commit/rollback support. |
+| 37 | `@EnableTransactionManagement` | Enables Spring’s annotation-driven transaction management.                          |
+| 38 | `@Aspect`                      | Declares a class for cross-cutting concerns like logging, security, or auditing.    |
+| 39 | `@Before`                      | Executes advice before the target method runs.                                      |
+| 40 | `@After`                       | Executes advice after the target method completes (regardless of outcome).          |
+
+
+**✅ Exception Handling**
+
+| #  | Annotation              | Purpose                                                                 |
+| -- | ----------------------- | ----------------------------------------------------------------------- |
+| 41 | `@ControllerAdvice`     | Provides global exception handling and shared logic across controllers. |
+| 42 | `@RestControllerAdvice` | Same as `@ControllerAdvice` but returns REST responses (JSON).          |
+| 43 | `@ExceptionHandler`     | Handles specific exceptions and defines custom error responses.         |
+
+
+**✅ Validation**
+
+| #  | Annotation  | Purpose                                                                                |
+| -- | ----------- | -------------------------------------------------------------------------------------- |
+| 44 | `@Valid`    | Triggers validation of request body or method parameters using validation annotations. |
+| 45 | `@NotNull`  | Ensures a field is not null during validation.                                         |
+| 46 | `@NotBlank` | Ensures a string is not null, empty, or only whitespace.                               |
+| 47 | `@Size`     | Validates size constraints for strings, collections, or arrays.                        |
+| 48 | `@Email`    | Validates that a field contains a properly formatted email address.                    |
+
+
+**✅ Async & Scheduling**
+
+| #  | Annotation     | Purpose                                                   |
+| -- | -------------- | --------------------------------------------------------- |
+| 49 | `@EnableAsync` | Enables asynchronous method execution in the application. |
+| 50 | `@Async`       | Executes a method in a separate thread asynchronously.    |
+
+
 
 # ✅ 20. RESTful Services 
 
