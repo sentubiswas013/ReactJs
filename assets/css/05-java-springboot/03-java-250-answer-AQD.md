@@ -2780,6 +2780,62 @@ Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache im
 Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
 ```
 
+## 8. Java Collections Framework summary
+
+**🔹 Basics**
+
+* **Java Collections Framework (JCF):** A set of classes and interfaces used to store and manipulate groups of data.
+* **Collection Interface:** Root interface for most collection types (List, Set, Queue).
+* **Map Interface:** Stores key-value pairs (not part of Collection interface).
+
+
+**🔹 List (Ordered, Allows Duplicates)**
+
+* **List:** Maintains insertion order and allows duplicate elements.
+* **ArrayList:** Dynamic array, fast for read operations.
+* **LinkedList:** Doubly linked list, fast for insert/delete operations.
+* **Vector:** Thread-safe but slower (legacy).
+
+
+**🔹 Set (No Duplicates)**
+
+* **Set:** Does not allow duplicate elements.
+* **HashSet:** Unordered, fast performance.
+* **LinkedHashSet:** Maintains insertion order.
+* **TreeSet:** Sorted order (uses Red-Black Tree).
+
+
+**🔹 Map (Key-Value Pair)**
+
+* **Map:** Stores data as key-value pairs.
+* **HashMap:** Unordered, allows one null key.
+* **LinkedHashMap:** Maintains insertion order.
+* **TreeMap:** Sorted by keys.
+* **Hashtable:** Thread-safe but legacy.
+
+
+**🔹 Queue**
+
+* **Queue:** Follows FIFO (First In First Out).
+* **PriorityQueue:** Elements processed based on priority.
+* **Deque:** Double-ended queue (add/remove from both ends).
+
+
+**🔹 Important Concepts**
+
+* **Iterator:** Used to traverse collection elements.
+* **Comparable:** Used for natural sorting.
+* **Comparator:** Used for custom sorting.
+* **Collections Class:** Utility methods (sort, reverse, shuffle).
+
+
+**⚠️ Key Differences**
+
+* **List vs Set:** List allows duplicates, Set does not.
+* **ArrayList vs LinkedList:** ArrayList fast read, LinkedList fast insert/delete.
+* **HashMap vs TreeMap:** HashMap unordered, TreeMap sorted.
+
+
 # ✅ 8. Java Multithreading & Synchronization 
 
 ## 1. What is thread and what are life cycle?
