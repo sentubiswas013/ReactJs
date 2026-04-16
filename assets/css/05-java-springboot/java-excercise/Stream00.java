@@ -203,7 +203,7 @@ public class Stream01 {
 
 
         // =======================================================
-        // 17. Find First Non-Repeated Character
+        // 17. Check Vowel Frequency
         
                 
 
@@ -217,7 +217,7 @@ public class Stream01 {
         
 
         // System.out.println("5. First Non-Repeated: " + result);
-        // Output: 5. First Non-Repeated: 
+        // Output: 5. First Non-Repeated: d
 
 
         // =======================================================

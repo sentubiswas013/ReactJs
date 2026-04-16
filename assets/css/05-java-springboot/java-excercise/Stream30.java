@@ -264,7 +264,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 17. Find First Non-Repeated Character
+        // 17. Check Vowel Frequency
         Map<Character, Long> vowels = input.toLowerCase().chars()
                 .mapToObj(c -> (char) c)
                 .filter(ch -> "aeiou".indexOf(ch) != -1)
@@ -284,7 +284,7 @@ public class Stream30 {
                 .findFirst()
                 .orElse(null);
         // System.out.println("5. First Non-Repeated: " + result);
-        // Output: 5. First Non-Repeated: w
+        // Output: 5. First Non-Repeated: d
 
 
 

@@ -14,6 +14,12 @@ class Main {
         System.out.println("\n===== COLLECTIONS =====");
         
         System.out.println("\n===== COMMUNICATION =====");
+
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+
+        Thread tr1 = new Thread(() -> map.put("sentu", 1000));
+            tr1.start();
+            System.out.println("ConcurrentHashMap: " + map);
         
 
         System.out.println("\n===== EXECUTORS =====");
@@ -31,7 +37,16 @@ class Main {
 // ============================================================
 // 1. Thread vs Runnable
 // ============================================================
+// class ThreadExample {
+//     MyThread tr1 = new MyThread();
+//     tr1.start();
+// }
 
+// class MyThread extends Thread{
+//     public void run() {
+//         System.out.println("Thread: " + getName());
+//     }
+// }
 
 
 // ============================================================
@@ -44,8 +59,11 @@ class Main {
 // 3. ConcurrentHashMap
 // ============================================================
 
+// ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
 
-
+// Thread tr1 = new Thread(() -> map.put("sentu", 1000));
+//        tr1.start();
+//        System.out.println("ConcurrentHashMap: " + map);
 // ============================================================
 // 4. LRU Cache
 // ============================================================

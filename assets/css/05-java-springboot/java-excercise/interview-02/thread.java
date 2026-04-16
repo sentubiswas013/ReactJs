@@ -92,11 +92,12 @@ class ConcurrentMapExample {
     static void run() throws InterruptedException {
         ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
 
-        Thread t1 = new Thread(() -> map.put("A", 1));
-        Thread t2 = new Thread(() -> map.put("B", 2));
+        Thread t1 = new Thread(() -> map.put("A", 1000));
+        Thread t2 = new Thread(() -> map.put("B", 2000));
+        Thread t3 = new Thread(() -> map.put("C", 3000));
 
-        t1.start(); t2.start();
-        t1.join();  t2.join();
+        t1.start(); t2.start(); t3.start();
+        t1.join();  t2.join();  t3.join();
 
         System.out.println("ConcurrentHashMap: " + map);
     }

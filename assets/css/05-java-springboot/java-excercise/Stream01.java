@@ -241,7 +241,7 @@ public class Stream01 {
 
         // =======================================================
         // 16. Count Frequency of Characters
-        Character freq = input.chars()
+        Map<Character, Long> freq = input.chars()
             .mapToObj(c -> (char) c)
             .collect(Collectors.groupingBy(
                 c -> c,
@@ -255,22 +255,47 @@ public class Stream01 {
 
 
         // =======================================================
+        // 17. Check Vowel Frequency
+        Map<Character, Long> vowels = input.chars()
+            .mapToObj(c -> (char) c)
+            .filter(ch -> "aeiou".indexOf(ch) != -1)
+            .collect(Collectors.groupingBy(
+                c -> c,
+                Collectors.counting()
+            ));
+                
+
+        // System.out.println("vowels: " + vowels);
+        // Output: 5. {a=2}  
+
+
+        // =======================================================
         // 17. Find First Non-Repeated Character
-        
+        Character result = input.chars()
+            .mapToObj(c -> (char) c)
+            .filter(ch -> input.indexOf(ch) == input.lastIndexOf(ch))
+            .findFirst()
+            .orElse(null);
         
 
-        // System.out.println("5. First Non-Repeated: " + result);
-        // Output: 5. First Non-Repeated: w
+        System.out.println("5. First Non-Repeated: " + result);
+        // Output: 5. First Non-Repeated: d
 
 
 
         // =======================================================
         // 18. Sum and average of Numbers
+        int sum = num01.stream()
+            .mapToInt(Integer::intValue)
+            .sum();
         
-        
+        double average = num01.stream()
+            .mapToInt(Integer::intValue)
+            .average()
+            .orElse(0);
 
-        // System.out.println("7. Sum: " + sum);
-        // System.out.println("7. average: " + average);
+        System.out.println("7. Sum: " + sum);
+        System.out.println("7. average: " + average);
         // Output: 7. Sum: 21
 
 
