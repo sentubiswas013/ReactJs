@@ -45,7 +45,6 @@ public class Calculator {
 
 **Method overriding** is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
 
-
 ```java
 class Animal {
     public void sound() {
@@ -80,14 +79,13 @@ class Car {
 
 A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
 
-
-**How ClassLoader Works :**
+**How ClassLoader Works:**
 
 Java follows a **Delegation Hierarchy Model**:
 
-1. **Bootstrap ClassLoader** Loads core Java classes (e.g., `java.lang.*`)
-2. **Extension (Platform) ClassLoader** Loads classes from `jre/lib/ext`
-3. **Application (System) ClassLoader** Loads classes from classpath
+1. **Bootstrap ClassLoader** — Loads core Java classes (e.g., `java.lang.*`)
+2. **Extension (Platform) ClassLoader** — Loads classes from `jre/lib/ext`
+3. **Application (System) ClassLoader** — Loads classes from classpath
 
 
 ## 6. How do you create an immutable class in Java?
@@ -101,10 +99,8 @@ An immutable class in Java is a class whose objects cannot be changed after they
 5. Return copies of mutable objects (defensive copy).
 
 ```java
-// Immutable class
 final class Student {
     private final String name;
-    
     
     public Student(String name) {
         this.name = name;
@@ -134,27 +130,7 @@ Class is a blueprint, object is the actual implementation of that blueprint.
 * Object → physical (exists in memory)
 
 
-
-## 9. How to create a class and object?
-
-We create a class using class keyword and object using new keyword.
-
-```java
-class Student {
-    String name;
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Student s = new Student(); // object
-        s.name = "John";
-        System.out.println(s.name);
-    }
-}
-```
-
-
-## 10. What are instance variables and methods?
+## 9. What are instance variables and methods?
 
 Instance variables belong to object and methods define behavior of object.
 
@@ -169,14 +145,14 @@ class Employee {
 ```
 
 
-## 11. What is a constructor? Types?
+## 10. What is a constructor? Types?
 
 Constructor is a special method used to initialize objects. It is called automatically when object is created.
 
 **Types:**
 
-* Default
-* Parameterized
+* Default — no parameters; Java provides it automatically if none is defined.
+* Parameterized — accepts arguments to initialize fields.
 
 ```java
 class Student {
@@ -193,18 +169,9 @@ class Student {
 ```
 
 
-## 12. What is default constructor?
+## 11. What is the static keyword?
 
-A constructor with no parameters. If we don’t create one, Java provides it automatically.
-
-```java
-Student s = new Student(); // calls default constructor
-```
-
-
-## 5. What is the static keyword?
-
-**`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
+**`static`** is a keyword in Java used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
 
 ```java
 class Example {
@@ -225,8 +192,7 @@ public class Test {
 `static` members are **shared by all objects and can be accessed using the class name**.
 
 
-
-## 14. Difference: static vs non-static?
+## 12. Difference: static vs non-static?
 
 Static belongs to class, non-static belongs to object.
 
@@ -235,15 +201,8 @@ Static belongs to class, non-static belongs to object.
 | Shared           | Separate for each object |
 | No object needed | Object required          |
 
-```java
-class Test {
-    static void show1() {}
-    void show2() {}
-}
-```
 
-
-## 15. Can a class have multiple constructors?
+## 13. Can a class have multiple constructors?
 
 Yes, this is called constructor overloading.
 
@@ -256,7 +215,7 @@ class Student {
 ```
 
 
-## 16. Can a constructor be final, static, or abstract in Java?
+## 14. Can a constructor be final, static, or abstract in Java?
 
 No, a constructor cannot be **final, static, or abstract**.
 
@@ -267,8 +226,7 @@ No, a constructor cannot be **final, static, or abstract**.
 * **abstract** → Abstract methods have no body, but constructor must have a body.
 
 
-
-## 17. Can we make a class `final`? Why?
+## 15. Can we make a class `final`? Why?
 
 Yes, final class cannot be extended. It is used to prevent inheritance for security or immutability.
 
@@ -279,7 +237,7 @@ final class A {}
 ```
 
 
-## 18. Can we make a class `abstract`?
+## 16. Can we make a class `abstract`?
 
 Yes, abstract class cannot be instantiated and can have abstract and non-abstract methods.
 
@@ -290,9 +248,10 @@ abstract class Animal {
 ```
 
 
-## 19. What is the difference between interface and abstract class?
+## 17. What is the difference between interface and abstract class?
 
 An **interface** is used to define a **contract** that classes must implement. It mainly contains **abstract methods**, and variables are **public, static, and final by default**.
+
 ```java
 interface Animal {
     void sound();   // abstract method
@@ -324,13 +283,12 @@ class Dog extends Animal {
 ```
 
 
-## 20. Can a class be both abstract and final? 
+## 18. Can a class be both abstract and final?
 
 No, because abstract needs inheritance and final restricts inheritance.
 
 
-
-## 21. What is inner class? Types?
+## 19. What is inner class? Types?
 
 Inner class is a class inside another class, used for better grouping.
 
@@ -352,7 +310,7 @@ class Outer {
 ```
 
 
-## 22. What is singleton class?
+## 20. What is singleton class?
 
 Singleton class allows only one object creation.
 
@@ -367,7 +325,6 @@ class Singleton {
     }
 }
 
-// How t use
 public class Test {
     public static void main(String[] args) {
         Singleton s1 = Singleton.getInstance();
@@ -378,7 +335,7 @@ public class Test {
 }
 ```
 
-## 23. Is it allowed to overload main() method in Java?
+## 21. Is it allowed to overload main() method in Java?
 
 **Yes, the `main()` method can be overloaded** in Java.
 
@@ -393,23 +350,16 @@ public class Test {
 ```
 
 
-## 24. Is it allowed to override main() method in Java?
+## 22. Is it allowed to override main() method in Java?
 
-**No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
+**No**, because `main()` is **static**, and static methods cannot be overridden — they are hidden.
 
-* The `main()` method is:
-
-  ```java
-  public static void main(String[] args)
-  ```
-* Since it is **static**, it belongs to the class, not the object.
-* Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
+Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
 
 
+## 23. Can you override static methods?
 
-## 25. Can you override static methods?
-
-No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
+No. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type (method hiding, not overriding).
 
 ```java
 class Parent {
@@ -425,11 +375,9 @@ p.display(); // Prints "Parent" - based on reference type
 ```
 
 
-## 26. Is it possible to execute a program without defining a main() method?
+## 24. Is it possible to execute a program without defining a main() method?
 
 It is **technically possible** to run code in a **static block** without a `main()` method, but **modern Java requires `main()`** as the entry point.
-
-Using static blocks alone is **not recommended** and violates standard practices.
 
 ```java
 class NoMain {
@@ -442,12 +390,11 @@ class NoMain {
 ```
 
 
-## 27. Can we create object without `new` keyword?
+## 25. Can we create object without `new` keyword?
 
 Yes, using methods like clone(), factory methods, reflection, or deserialization.
 
 ```java
-// Example using clone
 class A implements Cloneable {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -456,13 +403,12 @@ class A implements Cloneable {
 ```
 
 
-## 28. What happens if a class has no constructor?
+## 26. What happens if a class has no constructor?
 
 Java provides a default constructor automatically.
 
 
-
-## 29. Can a class be private or protected?
+## 27. Can a class be private or protected?
 
 Top-level class cannot be private or protected, only public or default. Inner classes can be private/protected.
 
@@ -473,34 +419,23 @@ class Outer {
 ```
 
 
-## 30. What happens if a static block throws an unchecked exception?
+## 28. What happens if a static block throws an unchecked exception?
 
-If a static block throws an unchecked exception:
-
-* Class will **fails to load**
-* JVM will throws **ExceptionInInitializerError**
+* Class will **fail to load**
+* JVM throws **ExceptionInInitializerError**
 * Program stops and class cannot be used
 
-
 ```java
-public class Main {
-    public static void main(String[] args) {
-        Test t = new Test();
-    }
-}
-
 class Test {
     static {
         System.out.println("Static block running");
         int x = 10 / 0; // ArithmeticException
     }
 }
-
-// Output:
-Exception in thread "main" java.lang.ExceptionInInitializerError
+// Exception in thread "main" java.lang.ExceptionInInitializerError
 ```
 
-## 31. Summary Classes and Objects
+## 29. Summary Classes and Objects
 
 **🔹 Class**
 
@@ -526,13 +461,11 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 
 
 
-# ✅ 4. Java Inheritance 
+# ✅ 4. Java Inheritance
 
 ## 1. What is Inheritance in Java?
 
 Inheritance is a feature where one class **gets properties and methods of another class**.
-
-👉 *In simple words:* child class uses parent class code.
 
 ```java
 class Animal {
@@ -551,32 +484,13 @@ class Dog extends Animal {
 
 ## 2. Why doesn't Java support multiple inheritance (with classes)?
 
-Java does not support multiple inheritance with **classes** to avoid the **Diamond Problem** and complexity.
-
-But Java does support multiple inheritance with **interfaces**.
+Java does not support multiple inheritance with **classes** to avoid the **Diamond Problem** and complexity. But Java does support multiple inheritance with **interfaces**.
 
 ```java
-class A {
-    void show() {
-        System.out.println("From class A");
-    }
-}
-
-class B extends A {
-}
-
-class C extends A {
-}
-
-class D extends B, C {   // ❌ Not allowed in Java
-    public static void main(String[] args) {
-        D obj = new D();
-        obj.show();  // Which show()? From B or C?
-    }
-}
+// class D extends B, C {}  // ❌ Not allowed in Java
 ```
 
-## 3. What is the diamond problem?
+## 3. What is the diamond problem and how does Java solve it?
 
 The diamond problem occurs when a class inherits from two classes that both inherit from the same base class, creating ambiguity about which method to call.
 
@@ -588,12 +502,7 @@ The diamond problem occurs when a class inherits from two classes that both inhe
     D
 ```
 
-If classes B and C both override a method from A, and D inherits from both B and C, which version should D use? This creates confusion and compilation errors.
-
-## 3. How does Java solve the diamond problem?
-
-Java solves the **diamond problem** by not allowing multiple class inheritance but supporting multiple interface inheritance with **default methods**.
-
+Java solves it by not allowing multiple class inheritance but supporting multiple interface inheritance with **default methods**, requiring explicit override to resolve conflicts.
 
 ```java
 interface A { default void method() { } }
@@ -610,13 +519,9 @@ class C implements A, B {
 
 ## 4. Why do we use Inheritance?
 
-We use inheritance to:
-
 * **Reuse code**
 * **Avoid duplication**
 * **Make code cleaner and organized**
-
-👉 *Example:* Dog already gets `eat()` from Animal, no need to rewrite it.
 
 
 ## 5. What is `extends` keyword?
@@ -624,48 +529,20 @@ We use inheritance to:
 `extends` is used to **inherit a class**.
 
 ```java
-class Dog extends Animal {
-}
+class Dog extends Animal {}
 ```
-
-👉 Dog is inheriting from Animal using `extends`.
 
 
 ## 6. What is IS-A Relationship?
 
 IS-A means **one object is a type of another**.
 
-👉 Example:
-
-* Dog IS-A Animal ✅
-
 ```java
 Dog d = new Dog(); // Dog is also an Animal
 ```
 
 
-## 7. What is Method Overriding?
-
-Method overriding means **child class provides its own version of parent method**.
-
-```java
-class Animal {
-    void sound() {
-        System.out.println("Animal makes sound");
-    }
-}
-
-class Dog extends Animal {
-    void sound() {
-        System.out.println("Dog barks");
-    }
-}
-```
-
-👉 Same method name, but different behavior.
-
-
-## 8. Types of Inheritance in Java
+## 7. Types of Inheritance in Java
 
 Java supports:
 
@@ -673,68 +550,35 @@ Java supports:
 * **Multilevel**
 * **Hierarchical**
 
-👉 *Note:* Multiple inheritance is not supported with classes.
+Multiple inheritance is not supported with classes.
 
 
-## 9. Does Java support Multiple Inheritance? Why?
-
-❌ No, Java does not support multiple inheritance with classes.
-
-👉 *Reason:* To avoid **ambiguity problem (Diamond problem)**.
-
-✅ But it supports it using **interfaces**.
-
-
-## 10. What is Multilevel Inheritance?
+## 8. What is Multilevel Inheritance?
 
 When a class inherits from a class, which already inherits another class.
 
 ```java
-class Animal {
-    void eat() {}
-}
-
-class Dog extends Animal {
-    void bark() {}
-}
-
-class Puppy extends Dog {
-    void weep() {}
-}
+class Animal { void eat() {} }
+class Dog extends Animal { void bark() {} }
+class Puppy extends Dog { void weep() {} }
+// Puppy → Dog → Animal
 ```
 
-👉 Puppy → Dog → Animal
 
-
-## 11. What is Hierarchical Inheritance?
+## 9. What is Hierarchical Inheritance?
 
 Multiple child classes inherit from one parent class.
 
 ```java
-class Animal {
-    void eat() {}
-}
-
+class Animal { void eat() {} }
 class Dog extends Animal {}
 class Cat extends Animal {}
 ```
 
-👉 Dog and Cat both inherit Animal
 
+## 10. Can we override final methods?
 
-
-## 12. Can we override static methods?
-
-❌ No
-
-👉 Static methods are **not overridden**, they are **hidden**.
-
-
-## 13. Can we override final methods?
-
-❌ No
-
-👉 Final methods cannot be changed in child class.
+❌ No. Final methods cannot be changed in child class.
 
 ```java
 class Animal {
@@ -747,9 +591,9 @@ class Dog extends Animal {
 ```
 
 
-## 14. What is runtime polymorphism?
+## 11. What is runtime polymorphism?
 
-👉 *“Runtime polymorphism means method execution is decided at runtime based on object type using method overriding.”*
+Method execution is decided at runtime based on object type using method overriding.
 
 ```java
 class A {
@@ -769,22 +613,21 @@ public class Test {
 ```
 
 
-## 15. How does method overriding work internally?
+## 12. How does method overriding work internally?
 
-👉 *“JVM uses dynamic method dispatch. It decides method call at runtime based on actual object, not reference.”*
+JVM uses **dynamic method dispatch** — it decides method call at runtime based on actual object, not reference.
 
 
-## 16. What are rules for method overriding?
+## 13. What are rules for method overriding?
 
-👉 *“Same name, same parameters, same or covariant return type, and cannot reduce access level.”*
-
+* Same name, same parameters, same or covariant return type
+* Cannot reduce access level
 * Cannot override `final`, `static`, `private`
-* Access modifier can be same or more open
 
 
-## 17. What is covariant return type?
+## 14. What is covariant return type?
 
-👉 *“Child class can return a more specific type than parent method.”*
+Child class can return a more specific type than parent method.
 
 ```java
 class A {}
@@ -800,14 +643,14 @@ class Child extends Parent {
 ```
 
 
-## 18. Can constructors be inherited?
+## 15. Can constructors be inherited?
 
-👉 *“No, constructors are not inherited because they belong to class initialization.”*
+No, constructors are not inherited because they belong to class initialization.
 
 
-## 19. What is the order of constructor execution?
+## 16. What is the order of constructor execution?
 
-👉 *“Parent constructor executes first, then child constructor.”*
+Parent constructor executes first, then child constructor.
 
 ```java
 class A {
@@ -817,83 +660,43 @@ class A {
 class B extends A {
     B() { System.out.println("Child"); }
 }
-```
-
-**Output:**
-
-```
-Parent
-Child
+// Output: Parent → Child
 ```
 
 
-## 20. What happens if parent constructor is not called?
+## 17. What happens if parent constructor is not called?
 
-👉 *“Java automatically calls default parent constructor using super().”*
+Java automatically calls default parent constructor using `super()`.
+
+
+## 18. Can we inherit private members?
+
+Yes, but we cannot access them directly — only via public/protected methods.
 
 ```java
 class A {
-    A() { System.out.println("Parent"); }
-}
-
-class B extends A {
-    B() {
-        // super() is added automatically
-        System.out.println("Child");
-    }
-}
-```
-
-
-## 21. Can we extend multiple classes in Java?
-
-👉 *“No, Java does not support multiple inheritance for classes to avoid ambiguity.”*
-
-```java id="7c8h3n"
-// class C extends A, B {} ❌ NOT ALLOWED
-```
-
-
-## 22. Can we inherit private members?
-
-👉 *“Yes, but we cannot access them directly outside the class.”*
-
-```java 
-class A {
     private int x = 10;
-
-    int getX() { return x; } // access via method
+    int getX() { return x; }
 }
 
 class B extends A {
     void show() {
-        // System.out.println(x); ❌ ERROR
         System.out.println(getX()); // ✅
     }
 }
 ```
 
 
-## 23. Can we override private methods?
+## 19. Can we override private methods?
 
-👉 *“No, private methods are not visible, so they cannot be overridden.”*
-
-```java 
-class A {
-    private void show() {}
-}
-
-class B extends A {
-    // void show() {} ❌ not overriding, new method
-}
-```
+No, private methods are not visible, so they cannot be overridden.
 
 
-## 24. Can we change access modifier while overriding?
+## 20. Can we change access modifier while overriding?
 
-👉 *“Yes, but only to increase visibility, not decrease.”*
+Yes, but only to increase visibility, not decrease.
 
-```java id="c2h9rf"
+```java
 class A {
     protected void show() {}
 }
@@ -904,11 +707,11 @@ class B extends A {
 ```
 
 
-## 25. What happens if parent and child have same variable name?
+## 21. What happens if parent and child have same variable name?
 
-👉 *“Variable hiding happens. Access depends on reference type.”*
+Variable hiding happens. Access depends on reference type.
 
-```java id="6y5kdn"
+```java
 class A { int x = 10; }
 class B extends A { int x = 20; }
 
@@ -921,11 +724,11 @@ public class Test {
 ```
 
 
-## 26. Can abstract class have constructor?
+## 22. Can abstract class have constructor?
 
-👉 *“Yes, it is used to initialize variables when child object is created.”*
+Yes, it is used to initialize variables when child object is created.
 
-```java id="ux1l7p"
+```java
 abstract class A {
     A() { System.out.println("Abstract constructor"); }
 }
@@ -934,19 +737,9 @@ class B extends A {}
 ```
 
 
-## 27. Can interface extend class?
+## 23. Can an interface extend another interface?
 
-👉 *“No, interface can only extend another interface.”*
-
-```java id="1jxv8n"
-// interface A extends B {} (only if B is interface)
-```
-
-
-## 27. Can an interface extend another interface?
-
-Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
-A child interface inherits all methods from the parent interface.
+Yes, using the `extends` keyword. A child interface inherits all methods from the parent interface.
 
 ```java
 interface A {
@@ -959,38 +752,30 @@ interface B extends A {
 ```
 
 
-## 28. Can class extend interface?
+## 24. Can class extend interface?
 
-👉 *“No, class cannot extend interface. It uses implements keyword.”*
+No, class cannot extend interface. It uses `implements` keyword.
 
-```java id="8mz4tt"
+```java
 interface A {}
-
 class B implements A {}
 ```
 
-## 29. Which type of polymorphism does method overloading represent?
+## 25. Which type of polymorphism does method overloading represent?
 
-**Method overloading** represents **compile-time polymorphism** (also called static polymorphism or early binding).
-
-The compiler resolves which overloaded method to call **at compile time** based on the method signature (number and types of parameters).
+**Method overloading** represents **compile-time polymorphism** (static polymorphism / early binding).
 
 ```java
 class Calculator {
     int add(int a, int b)          { return a + b; }
     double add(double a, double b) { return a + b; }
 }
-
-// Resolved at compile time — no runtime decision needed
-Calculator c = new Calculator();
-c.add(1, 2);       // calls int version
-c.add(1.0, 2.0);   // calls double version
 ```
 
 
-## 30. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
+## 26. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
 
-Java gives a **compile-time error** — the class must **override** the conflicting default method to resolve the ambiguity.
+Java gives a **compile-time error** — the class must **override** the conflicting default method.
 
 ```java
 interface A {
@@ -1001,95 +786,49 @@ interface B {
     default void greet() { System.out.println("Hello from B"); }
 }
 
-// ❌ Compile error without override
 class C implements A, B {
-
-    // ✅ Must override to resolve conflict
     @Override
     public void greet() {
-        A.super.greet();    // explicitly call A's version, OR
-        // B.super.greet(); // explicitly call B's version, OR
-        // write your own implementation
-        System.out.println("Hello from C");
+        A.super.greet(); // explicitly choose
     }
 }
 ```
 
-## 31. Can an interface have a constructor in Java, and why or why not?
+## 27. Can an interface have a constructor?
 
-**No.** Interfaces cannot have constructors.
+**No.** Interfaces cannot have constructors because they cannot be instantiated and have no instance state to initialize.
 
-**Why:**
-- A constructor's purpose is to **initialize an object's instance state**
-- Interfaces cannot be instantiated directly — you never write `new Flyable()`
-- Interfaces have **no instance variables** to initialize
-- Only the implementing class is instantiated, and its constructor handles initialization
+## 28. Can an interface have instance variables?
 
-```java
-interface Animal {
-    // Animal() { }  // ❌ Compile error: interfaces cannot have constructors
-    void sound();
-}
-
-class Dog implements Animal {
-    String name;
-    Dog(String name) { this.name = name; }  // ✅ constructor in the implementing class
-    public void sound() { System.out.println("Woof"); }
-}
-```
-
-
-## 31. Can an interface have instance variables in Java, and if not, what type of variables can it have?
-
-**No.** Interfaces cannot have instance variables.
-
-All variables in an interface are implicitly **`public static final`** (constants). They belong to the interface itself, not to any instance.
+**No.** All variables in an interface are implicitly **`public static final`** (constants).
 
 ```java
 interface MathConstants {
-    double PI = 3.14159;        // public static final double PI = 3.14159
-    int MAX_VALUE = 100;        // public static final int MAX_VALUE = 100
-
-    // int counter;             // ❌ not allowed — would be an instance variable
-    // private int x = 5;       // ❌ private instance variable not allowed
+    double PI = 3.14159;   // public static final
+    int MAX_VALUE = 100;
 }
-
-class Circle implements MathConstants {
-    double area(double r) {
-        return PI * r * r;      // access constant directly
-    }
-}
-
-// Access without an instance
-System.out.println(MathConstants.PI);       // 3.14159
-System.out.println(MathConstants.MAX_VALUE); // 100
 ```
 
-## 32. Summary Java Inheritance
+## 29. Summary Java Inheritance
 
 **🔹 Basics**
 
 * **Inheritance:** Mechanism where one class acquires properties and behavior of another class.
-* **Parent Class (Super Class):** Class whose properties are inherited.
-* **Child Class (Sub Class):** Class that inherits from parent class.
 * **extends keyword:** Used to inherit a class.
-
+* **super keyword:** Used to access parent class methods/constructors.
 
 **🔹 Key Concepts**
 
 * **Code Reusability:** Avoids duplication by reusing existing code.
 * **Method Overriding:** Child class provides its own implementation of parent method.
-* **super keyword:** Used to access parent class methods/constructors.
 * **IS-A Relationship:** Represents inheritance relationship (e.g., Dog is an Animal).
-
 
 **🔹 Types of Inheritance**
 
-* **Single Inheritance:** One parent → one child.
-* **Multilevel Inheritance:** Chain of inheritance (A → B → C).
-* **Hierarchical Inheritance:** One parent → multiple children.
-* **Multiple Inheritance:** Not supported with classes (supported via interfaces).
-
+* **Single:** One parent → one child.
+* **Multilevel:** Chain of inheritance (A → B → C).
+* **Hierarchical:** One parent → multiple children.
+* **Multiple:** Not supported with classes (supported via interfaces).
 
 **⚠️ Important Points**
 
@@ -1098,13 +837,12 @@ System.out.println(MathConstants.MAX_VALUE); // 100
 
 
 
-# ✅ 5. Java Interface & Abstract Class 
+# ✅ 5. Java Interface & Abstract Class
 
 
 ## 1. What is an Interface?
 
 An interface in Java is a blueprint that contains only abstract methods (by default) and constants. It is used to achieve 100% abstraction and multiple inheritance.
-
 
 ```java
 interface Animal {
@@ -1118,12 +856,9 @@ class Dog implements Animal {
 }
 ```
 
-## 2. What are the interface available in Java?
+## 2. What are the types of interfaces available in Java?
 
-In Java, interfaces are mainly of four types:
-
-**Normal Interface :**
-A normal interface defines a contract with multiple abstract methods that a class must implement.
+**Normal Interface:** Defines a contract with multiple abstract methods.
 
 ```java
 interface Payment {
@@ -1131,41 +866,26 @@ interface Payment {
 }
 ```
 
-**Functional Interface :**
-A functional interface contains exactly one abstract method and is used for lambda expressions.
+**Functional Interface:** Contains exactly one abstract method; used for lambda expressions.
 
 ```java
 @FunctionalInterface
 interface Calculator {
-    int calculate(int a, int b); // single abstract method
-    
-    default void print() { } // default methods allowed
+    int calculate(int a, int b);
 }
 
-// Usage with lambda
 Calculator add = (a, b) -> a + b;
-int result = add.calculate(5, 3);
 ```
 
-**Marker Interface :**
-A marker interface is an empty interface used to tag a class for special behavior.
+**Marker Interface:** An empty interface used to tag a class for special behavior (e.g., `Serializable`).
 
 ```java
-import java.io.Serializable;
-
-// Marker interface
-interface Serializable {
-    // Empty - just marks the class
-}
-
 class Student implements Serializable {
     String name;
-    // This class can now be serialized
 }
 ```
 
-**Nested Interface :**
-A nested interface is declared inside a class or another interface for logical grouping.
+**Nested Interface:** Declared inside a class or another interface for logical grouping.
 
 ```java
 class Bank {
@@ -1175,33 +895,9 @@ class Bank {
 }
 ```
 
-## 3. What are static methods in interfaces?
-
-**Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
-They **belong to the interface itself and are called using the interface name**, not by implementing classes.
-
-```java
-interface MyInterface {
-
-    static void show() {
-        System.out.println("Static method in interface");
-    }
-}
-
-public class Test {
-    public static void main(String[] args) {
-        MyInterface.show();  // called using interface name
-    }
-}
-```
-
-
-## 4. What is an Abstract Class?
-
+## 3. What is an Abstract Class?
 
 An abstract class is a class that can have both abstract methods and concrete methods. It is used when we want partial abstraction.
-
-
 
 ```java
 abstract class Animal {
@@ -1220,54 +916,31 @@ class Dog extends Animal {
 ```
 
 
-## 5. When should you use an interface instead of an abstract class?
+## 4. When should you use an interface instead of an abstract class?
 
 Use **interface** when:
-
 * You want **multiple inheritance**
-* You define **only method contracts (what to do, not how)**
+* You define **only method contracts**
 * Different classes share **common behavior but not relationship**
 
 Use **abstract class** when:
-
 * Classes are **closely related**
 * You want **common code + common fields**
 
 
-## 6. Can we create object of interface or abstract class?
+## 5. Can we create object of interface or abstract class?
 
-
-No, we cannot create objects of interface or abstract class directly. But we can create objects using their implementing or child classes.
-
-
+No, we cannot create objects directly. But we can create objects using their implementing or child classes.
 
 ```java
 Animal a = new Dog(); // valid
 ```
 
 
-## 7. Can an interface have methods with implementation? (Java 8+)
+## 6. What are default and static methods in interface? (Java 8+)
 
-
-Yes, from Java 8 onwards, interfaces can have methods with implementation using default and static keywords.
-
-
-
-```java
-interface Animal {
-    default void eat() {
-        System.out.println("Eating");
-    }
-}
-```
-
-
-## 8. What are default and static methods in interface?
-
-
-Default methods are instance methods with implementation that can be overridden. Static methods belong to the interface and cannot be overridden.
-
-
+**Default methods** are instance methods with implementation that can be overridden.  
+**Static methods** belong to the interface and cannot be overridden.
 
 ```java
 interface Animal {
@@ -1292,12 +965,9 @@ public class Test {
 ```
 
 
-## 9. Can abstract class have constructor? Why?
-
+## 7. Can abstract class have constructor? Why?
 
 Yes, abstract class can have a constructor because it is used to initialize common properties when a subclass object is created.
-
-
 
 ```java
 abstract class Animal {
@@ -1314,12 +984,9 @@ class Dog extends Animal {
 ```
 
 
-## 10. Can abstract class have both abstract and concrete methods?
+## 8. Can abstract class have both abstract and concrete methods?
 
-
-Yes, abstract class can have both abstract methods and concrete methods, which is why it provides partial abstraction.
-
-
+Yes, which is why it provides partial abstraction.
 
 ```java
 abstract class Animal {
@@ -1332,12 +999,9 @@ abstract class Animal {
 ```
 
 
-## 11. Can interface have variables? What type?
+## 9. Can interface have variables? What type?
 
-
-Yes, interface can have variables, but they are by default public, static, and final constants.
-
-
+Yes, but they are by default **public, static, and final** constants.
 
 ```java
 interface Animal {
@@ -1346,16 +1010,11 @@ interface Animal {
 ```
 
 
-## 12. When should we use interface vs abstract class?
+## 10. Can a class implement multiple interfaces?
 
-👉 *Use interface when we need 100% abstraction and multiple inheritance. Use abstract class when we need partial abstraction with shared code.*
+Yes, to achieve multiple inheritance.
 
-
-## 13. Can a class implement multiple interfaces?
-
-👉 *Yes, a class can implement multiple interfaces to achieve multiple inheritance.*
-
-```java id="l3p9sx"
+```java
 interface A { void show(); }
 interface B { void display(); }
 
@@ -1366,11 +1025,11 @@ class C implements A, B {
 ```
 
 
-## 14. Can an abstract class implement an interface?
+## 11. Can an abstract class implement an interface?
 
-👉 *Yes, abstract class can implement interface and may or may not provide implementation.*
+Yes, abstract class can implement interface and may or may not provide implementation.
 
-```java id="9v2tqg"
+```java
 interface A {
     void show();
 }
@@ -1381,58 +1040,29 @@ abstract class B implements A {
 ```
 
 
-## 15. Can an interface extend another interface?
+## 12. Can an interface extend a class?
 
-👉 *Yes, interface can extend one or more interfaces.*
-
-```java id="y6m2an"
-interface A {
-    void show();
-}
-
-interface B extends A {
-    void display();
-}
-```
+No, interface can only extend interfaces.
 
 
-## 16. Can an interface extend a class? (Tricky)
+## 13. Can a class extend multiple abstract classes?
 
-👉 *No, interface cannot extend a class, it can only extend interfaces.*
-
-
-## 17. Can a class extend multiple abstract classes?
-
-👉 *No, Java does not support multiple inheritance for classes, even abstract classes.*
-
-```java id="g8x4qp"
-// class C extends A, B {} ❌ NOT ALLOWED
-```
+No, Java does not support multiple inheritance for classes, even abstract classes.
 
 
-## 18. Can interface have constructor?
+## 14. Can interface have private methods?
 
-👉 ❌ No (no object creation)
-
-
-## 19. Can abstract class have constructor?
-
-👉 ✅ Yes (used during object creation of subclass)
+✅ Yes (Java 9+)
 
 
-## 20. Can interface have private methods?
+## 15. Can we override static methods in interface?
 
-👉 ✅ Yes (Java 9+)
-
-
-## 21. Can we override static methods in interface?
-
-👉 ❌ No (only hide)
+❌ No (only hide)
 
 
-## 22. What if two interfaces have same default method?
+## 16. What if two interfaces have same default method?
 
-👉 Must override:
+Must override:
 
 ```java
 class Test implements A, B {
@@ -1443,35 +1073,33 @@ class Test implements A, B {
 ```
 
 
-## 23. Can abstract class be final?
+## 17. Can abstract class be final?
 
-👉 ❌ No (conflict)
-
-
-## 24. Can interface have main method?
-
-👉 ✅ Yes (Java 8+)
+❌ No (conflict — abstract requires subclassing, final prevents it)
 
 
-## 25. Can we use both interface and abstract class together?
+## 18. Can interface have main method?
 
-👉 ✅ Yes (very common)
-
-
-## 26. What access modifiers are allowed in interface?
-
-👉 Methods → public (default)
-👉 Variables → public static final
+✅ Yes (Java 8+)
 
 
-## 27. Can we instantiate interface using lambda?
+## 19. Can we use both interface and abstract class together?
 
-👉 ✅ Yes (functional interface)
+✅ Yes (very common pattern)
 
 
-## 9. What are SOLID principles?
+## 20. What access modifiers are allowed in interface?
 
-**Answer:**
+* Methods → `public` (default)
+* Variables → `public static final`
+
+
+## 21. Can we instantiate interface using lambda?
+
+✅ Yes (functional interface)
+
+
+## 22. What are SOLID principles?
 
 **SOLID** is a set of five object-oriented design principles that help write clean, maintainable, and scalable code.
 
@@ -1481,38 +1109,15 @@ class Test implements A, B {
 - **I**nterface Segregation: Many specific interfaces are better than one general interface
 - **D**ependency Inversion: Depend on abstractions, not concrete implementations
 
-**Example:**
 **S — Single Responsibility Principle (SRP)**
 
-One class should have only one responsibility.
-
-❌ Wrong:
-
 ```java
 class OrderService {
-    public void createOrder() {
-        // create order
-    }
-
-    public void sendEmail() {
-        // send email
-    }
-}
-```
-
-✅ Correct:
-
-```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
+    public void createOrder() { }
 }
 
 class EmailService {
-    public void sendEmail() {
-        // send email
-    }
+    public void sendEmail() { }
 }
 ```
 
@@ -1520,23 +1125,17 @@ class EmailService {
 
 **O — Open/Closed Principle (OCP)**
 
-Open for extension, closed for modification.
-
 ```java
 interface Payment {
     void pay();
 }
 
 class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Paid by Card");
-    }
+    public void pay() { System.out.println("Paid by Card"); }
 }
 
 class UpiPayment implements Payment {
-    public void pay() {
-        System.out.println("Paid by UPI");
-    }
+    public void pay() { System.out.println("Paid by UPI"); }
 }
 
 class PaymentService {
@@ -1544,135 +1143,51 @@ class PaymentService {
         payment.pay();
     }
 }
-
-public class Main {
-    public static void main(String[] args) {
-        PaymentService service = new PaymentService();
-
-        Payment p1 = new CardPayment();
-        service.processPayment(p1);
-
-        Payment p2 = new UpiPayment();
-        service.processPayment(p2);
-    }
-}
-
-// Output:
-Paid by Card
-Paid by UPI
 ```
-
-Now we can add **NetBankingPayment** without changing existing code.
 
 ---
 
 **L — Liskov Substitution Principle (LSP)**
 
-Child class should replace parent class without breaking code.
-
 ```java
 class Bird {
-    public void fly() {
-        System.out.println("Bird can fly");
-    }
+    public void fly() { System.out.println("Bird can fly"); }
 }
 
 class Sparrow extends Bird {
     @Override
-    public void fly() {
-        System.out.println("Sparrow can fly");
-    }
+    public void fly() { System.out.println("Sparrow can fly"); }
 }
-
-public class Main {
-    public static void main(String[] args) {
-        Bird b = new Bird();
-        b.fly();
-
-        Sparrow s = new Sparrow();
-        s.fly();
-
-        Bird b2 = new Sparrow(); // Runtime Polymorphism
-        b2.fly();
-    }
-}
-
-
-// Output:
-Bird can fly
-Sparrow can fly
-Sparrow can fly
+// Bad example: Penguin cannot fly → violates LSP
 ```
-
-Bad example: Penguin cannot fly → violates LSP.
 
 ---
 
 **I — Interface Segregation Principle (ISP)**
 
-Create small interfaces.
-
 ```java
-interface Workable {
-    void work();
-}
-
-interface Eatable {
-    void eat();
-}
+interface Workable { void work(); }
+interface Eatable  { void eat();  }
 
 class Human implements Workable, Eatable {
-    public void work() {
-        System.out.println("Human working");
-    }
-
-    public void eat() {
-        System.out.println("Human eating");
-    }
+    public void work() { System.out.println("Human working"); }
+    public void eat()  { System.out.println("Human eating");  }
 }
 
 class Robot implements Workable {
-    public void work() {
-        System.out.println("Robot working");
-    }
+    public void work() { System.out.println("Robot working"); }
 }
-
-public class Main {
-    public static void main(String[] args) {
-        Workable w1 = new Human();
-        w1.work();
-
-        Eatable e1 = new Human();
-        e1.eat();
-
-        Workable w2 = new Robot();
-        w2.work();
-    }
-}
-
-// Output:
-Human working
-Human eating
-Robot working
 ```
-
-Robot does not implement eat() → Correct.
 
 ---
 
-**D — Dependency Inversion Principle (DIP)
-
-Depend on abstraction, not concrete class.
+**D — Dependency Inversion Principle (DIP)**
 
 ```java
-interface Payment {
-    void pay();
-}
+interface Payment { void pay(); }
 
 class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Card payment");
-    }
+    public void pay() { System.out.println("Card payment"); }
 }
 
 class OrderService {
@@ -1682,96 +1197,49 @@ class OrderService {
         this.payment = payment;
     }
 
-    public void placeOrder() {
-        payment.pay();
-    }
+    public void placeOrder() { payment.pay(); }
 }
-
-public class Main {
-    public static void main(String[] args) {
-        Payment payment = new CardPayment();   // Inject dependency
-        OrderService orderService = new OrderService(payment);
-
-        orderService.placeOrder();
-    }
-}
-
-//Output:
-Card payment
 ```
 
-## 10. What is `.class` and When do we use in Java?
+## 23. What is `.class` and when do we use it in Java?
 
-We use .class when we need to pass class metadata, for example in Spring configuration, exception handling, reflection, and getting beans from the Spring container.
+We use `.class` when we need to pass class metadata — for example in Spring configuration, exception handling, reflection, and getting beans from the Spring container.
 
-
-**Common Places Where We Use `.class`**
-
-**1. Spring Configuration**
 ```java
-ApplicationContext context =
-    new AnnotationConfigApplicationContext(AppConfig.class);
-```
-Spring uses it to read configuration from the class.
+// Spring Configuration
+ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-
-**2. Exception Handling**
-```java
+// Exception Handling
 @ExceptionHandler(Exception.class)
-```
-Tells Spring: handle this type of exception.
 
-
-**3. Getting Bean from Spring**
-```java
+// Getting Bean from Spring
 Student s = context.getBean(Student.class);
-```
-Spring will find bean of type `Student`.
 
-
-**4. Reflection**
-```java
+// Reflection
 Class<?> c = Student.class;
 ```
-Used in reflection to get class information.
 
-**5. Annotations**
-```java
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-```
-These also use `.class` internally to store metadata.
+| `.class`          | `new`              |
+| ----------------- | ------------------ |
+| Class metadata    | Creates object     |
+| No object created | Object in memory   |
+| Used by frameworks| Used by developers |
 
-
-**`.class` vs `new`**
-
-| `.class` | `new` |
-|----------|------|
-| Class metadata | Creates object |
-| No memory for object | Object created |
-| Used by frameworks | Used by developers |
-
-Example:
-```java
-Student.class   // Class info
-new Student()   // Object
-```
-
-## 11.  Summary Java Interface & Abstract Class
+## 24. Summary Java Interface & Abstract Class
 
 **🔹 Interface**
 
-* **Interface:** A contract that defines methods a class must implement.
-* **Methods:** By default abstract (Java 8+ supports default & static methods).
-* **implements keyword:** Used to implement an interface.
-* **Multiple Inheritance:** Supported via interfaces.
-* **No Constructors:** Interfaces cannot have constructors.
-* **Variables:** By default `public static final` (constants).
+* A contract that defines methods a class must implement.
+* Methods: by default abstract (Java 8+ supports default & static methods).
+* `implements` keyword used to implement an interface.
+* Multiple Inheritance: supported via interfaces.
+* No Constructors allowed.
+* Variables: by default `public static final` (constants).
 
 **🔹 Abstract Class**
 
-* **Abstract Class:** A class that can have both abstract and concrete methods.
-* **abstract keyword:** Used to declare abstract class/method.
-* **Constructor:** Allowed and used for initialization.
-* **Single Inheritance:** A class can extend only one abstract class.
-* **Partial Abstraction:** Supports both implemented and unimplemented methods.
+* Can have both abstract and concrete methods.
+* `abstract` keyword used to declare abstract class/method.
+* Constructor: allowed and used for initialization.
+* Single Inheritance: a class can extend only one abstract class.
+* Supports both implemented and unimplemented methods.

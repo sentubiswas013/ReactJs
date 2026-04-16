@@ -4918,7 +4918,7 @@ public void testGetUser() {
 }
 ```
 
-# 14. ✅ Java Web Development - Servlets and JSP
+# ✅ 14. Java Web Development - Servlets and JSP
 
 ## 1. What is servlet in Java?
 
