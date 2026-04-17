@@ -53,7 +53,18 @@ class Main {
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
 // ============================================================
+class Singleton {
+    private static Singleton obj;
+    private Singleton() {}
 
+    public static Singleton getObj() {
+        if(obj == null) {
+            obj = new Singleton();
+        }
+        return obj;
+    }
+
+}
 
 
 // ============================================================

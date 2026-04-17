@@ -45,7 +45,9 @@ class Main {
 // Penguin cannot fly → violates LSP
 
 // Good Design ✅
-
+interface a {
+    void work();
+}
 
 
 // ============================================================

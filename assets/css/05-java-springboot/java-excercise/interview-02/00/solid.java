@@ -40,6 +40,7 @@ class Main {
 
 // ============================================================
 // 3. LSP (Liskov Substitution Principle)
+// Child class should replace parent class without breaking code.
 // ============================================================
 // Bad Design ❌
 // Penguin cannot fly → violates LSP
@@ -50,6 +51,7 @@ class Main {
 
 // ============================================================
 // 4. ISP (Interface Segregation Principle)
+// Create small interfaces.
 // ============================================================
 // Bad ❌
 // interface Worker { work(), eat() }
@@ -58,4 +60,5 @@ class Main {
 
 // ============================================================
 // 5. DIP (Dependency Inversion Principle)
+// Depend on abstraction, not concrete class.
 // ============================================================

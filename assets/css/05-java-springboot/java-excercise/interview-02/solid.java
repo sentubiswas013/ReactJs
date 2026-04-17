@@ -104,6 +104,7 @@ class FestivalDiscount implements Discount {
 
 // ============================================================
 // 3. LSP (Liskov Substitution Principle)
+// Child class should replace parent class without breaking code.
 // ============================================================
 // Bad Design ❌
 // Penguin cannot fly → violates LSP
@@ -129,6 +130,7 @@ class Penguin extends Bird {
 
 // ============================================================
 // 4. ISP (Interface Segregation Principle)
+// Child class should replace parent class without breaking code.
 // ============================================================
 // Bad ❌
 // interface Worker { work(), eat() }
