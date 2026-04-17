@@ -2787,7 +2787,7 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 * **Java Collections Framework (JCF):** A set of classes and interfaces used to store and manipulate groups of data.
 * **Collection Interface:** Root interface for most collection types (List, Set, Queue).
 * **Map Interface:** Stores key-value pairs (not part of Collection interface).
-
+fWhat is JDBC
 
 **🔹 List (Ordered, Allows Duplicates)**
 
@@ -5599,7 +5599,7 @@ public class Test {
 
 # ✅ 16. Java JDBC 
 
-## 1. What is JDBC?
+## 1. What is JDBC ?
 
 JDBC (Java Database Connectivity) is a Java API that provides a standard way to connect and interact with relational databases. It acts as a bridge between Java applications and databases.
 
@@ -9036,7 +9036,7 @@ Used with **Spring Boot** microservices.
 | Reliable       | Events stored        |
 
 
-## 12. What is API Gateway?
+## 12. What is API Gateway and predicates?
 
 **Answer**
 
@@ -9096,6 +9096,13 @@ public class ApiGatewayApplication {
             .build();
     }
 }
+```
+
+**predicates :** A condition that decides when a request should be routed to a specific service.
+
+```java
+predicates:
+  - Path=/students/**
 ```
 
 ## 13. What is circuit breaker pattern?
