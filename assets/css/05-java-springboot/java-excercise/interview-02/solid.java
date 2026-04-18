@@ -1,5 +1,6 @@
 // ============================================================
 // 1. SRP (Single Responsibility Principle)
+// One class should have only one responsibility.
 // ============================================================
 // Bad Design: Invoice doing too many things ❌
 class UserService {
@@ -33,6 +34,7 @@ class EmailService {
 
 // ============================================================
 // 2. OCP (Open/Closed Principle)
+// Open for extension, closed for modification
 // ============================================================
 
 interface Payment {
@@ -159,6 +161,7 @@ public class Main {
 
 // ============================================================
 // 5. DIP (Dependency Inversion Principle)
+// Depend on abstractions, not concrete implementations
 // ============================================================
 
 interface Payment {

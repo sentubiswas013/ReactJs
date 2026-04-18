@@ -1,63 +1,56 @@
 // ============================================================
-// SOLID Principles - Single File (Interview Ready)
-// ============================================================
-
-class Main {
-
-    public static void main(String[] args) {
-
-        // ================= SRP =================
-      
-
-        // ================= OCP =================
-        
-
-        // ================= LSP =================
-        
-
-        // ================= ISP =================
-        
-
-        // ================= DIP =================
-        
-    }
-}
-
-// ============================================================
 // 1. SRP (Single Responsibility Principle)
+// One class should have only one responsibility.
 // ============================================================
-// Bad Design: Invoice doing too many things ❌
-// Good Design: Split responsibilities ✅
 
 
 
 // ============================================================
 // 2. OCP (Open/Closed Principle)
+// Open for extension, closed for modification
 // ============================================================
 
 
+
+// Output:
+// Paid by Card
+// Paid by UPI
 
 
 // ============================================================
 // 3. LSP (Liskov Substitution Principle)
+// Child class should replace parent class without breaking code.
 // ============================================================
-// Bad Design ❌
-// Penguin cannot fly → violates LSP
 
-// Good Design ✅
-interface a {
-    void work();
-}
+
+
+
+// Output:
+// Bird can fly
+// Sparrow can fly
+// Sparrow can fly
 
 
 // ============================================================
 // 4. ISP (Interface Segregation Principle)
+// Child class should replace parent class without breaking code.
 // ============================================================
-// Bad ❌
-// interface Worker { work(), eat() }
 
+
+
+
+
+// Output:
+// Human working
+// Human eating
+// Robot working
 
 
 // ============================================================
 // 5. DIP (Dependency Inversion Principle)
+// Depend on abstractions, not concrete implementations
 // ============================================================
+
+
+//Output:
+// Card payment
