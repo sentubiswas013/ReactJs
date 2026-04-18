@@ -143,3 +143,85 @@
 - Have you worked with clients directly? How do you explain a technical solution to a client?
 - Why are you looking for a change?
 - Notice period & availability. Salary expectations.
+
+=============
+🔹 1. How does HashMap work internally?  
+→ It uses hashing to store key-value pairs in buckets.  
+→ Collision is handled using LinkedList / Tree (after Java 8).
+
+🔹 2. HashMap vs ConcurrentHashMap?  
+→ HashMap is not thread-safe.  
+→ ConcurrentHashMap allows concurrent access using segment-level locking.
+
+🔹 3. synchronized vs ReentrantLock?  
+→ synchronized is simple but less flexible.  
+→ ReentrantLock provides tryLock(), fairness, and better control.
+
+🔹 4. What does volatile keyword do?  
+→ Ensures visibility of variable changes across threads.  
+→ Does NOT guarantee atomicity.
+
+🔹 5. Explain JVM memory structure.  
+→ Heap (objects), Stack (method calls), Metaspace (class metadata).  
+→ Each thread has its own stack.
+
+🔹 6. What is Garbage Collection?  
+→ Automatic memory cleanup of unused objects.  
+→ G1 GC is commonly used for better performance.
+
+🔹 7. Why String is immutable?  
+→ Ensures security, caching, and thread safety.  
+→ Used in String pool for performance.
+
+🔹 8. Comparable vs Comparator?  
+→ Comparable = natural sorting (inside class).  
+→ Comparator = custom sorting (external logic).
+
+🔹 9. What is dependency injection?  
+→ Providing dependencies from outside instead of creating them.  
+→ Promotes loose coupling.
+
+🔹 10. Component vs Service vs Repository?  
+→ All are Spring beans.  
+→ Service → business logic, Repository → DB layer.
+
+🔹 11. What does Transactional do?  
+→ Manages database transactions automatically.  
+→ Rolls back on runtime exceptions.
+
+🔹 12. How do you design REST APIs?  
+→ Use proper HTTP methods (GET, POST, PUT, DELETE).  
+→ Follow naming conventions and status codes.
+
+🔹 13. What is idempotency in APIs?  
+→ Multiple requests give same result.  
+→ Example: PUT, GET.
+
+🔹 14. How does indexing improve SQL performance?  
+→ Reduces full table scan.  
+→ Works like a lookup pointer.
+
+🔹 15. WHERE vs HAVING?  
+→ WHERE filters rows before grouping.  
+→ HAVING filters after GROUP BY.
+
+
+🔹 16. What is normalization?  
+→ Reduces redundancy by splitting tables.  
+→ Improves data integrity.
+
+🔹 17. What is connection pooling?  
+→ Reuses DB connections instead of creating new ones.  
+→ Improves performance.
+
+🔹 18. How do you handle exceptions in Spring Boot?  
+→ Use ControllerAdvice + ExceptionHandler.  
+→ Centralized error handling.
+
+🔹 19. What is caching?  
+→ Storing frequently used data (e.g., Redis).  
+→ Reduces DB load.
+
+🔹 20. How to improve API performance?  
+→ Use caching, indexing, async processing.  
+→ Optimize DB queries.
