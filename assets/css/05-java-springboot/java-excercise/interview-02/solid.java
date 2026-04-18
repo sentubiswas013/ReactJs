@@ -1,76 +1,32 @@
 // ============================================================
-// SOLID Principles - Single File (Interview Ready)
-// ============================================================
-
-class Main {
-
-    public static void main(String[] args) {
-
-        // ================= SRP =================
-        Invoice invoice = new Invoice(1000);
-        InvoicePrinter printer = new InvoicePrinter();
-        InvoiceRepository repository = new InvoiceRepository();
-
-        printer.print(invoice);
-        repository.save(invoice);
-
-        // ================= OCP =================
-        Discount discount = new PercentageDiscount();
-        System.out.println("Discount: " + discount.calculate(1000));
-
-        Discount festival = new FestivalDiscount();
-        System.out.println("Festival Discount: " + festival.calculate(1000));
-
-        // ================= LSP =================
-        Bird sparrow = new Sparrow();
-        sparrow.move();
-
-        Bird penguin = new Penguin();
-        penguin.move();
-
-        // ================= ISP =================
-        Workable developer = new Developer();
-        developer.work();
-
-        Eatable robot = new Robot();
-        robot.eat();
-
-        // ================= DIP =================
-        NotificationService emailService = new NotificationService(new EmailSender());
-        emailService.send("Email Notification");
-
-        NotificationService smsService = new NotificationService(new SmsSender());
-        smsService.send("SMS Notification");
-    }
-}
-
-// ============================================================
 // 1. SRP (Single Responsibility Principle)
 // ============================================================
 // Bad Design: Invoice doing too many things ❌
+class UserService {
+
+    public void registerUser() {
+        System.out.println("User registered");
+    }
+
+    public void sendEmail() {
+        System.out.println("Email sent");
+    }
+}
+// Problem:
+// Handles user logic + email logic
+
 // Good Design: Split responsibilities ✅
+class UserService {
 
-class Invoice {
-    private int amount;
-
-    public Invoice(int amount) {
-        this.amount = amount;
-    }
-
-    public int getAmount() {
-        return amount;
+    public void registerUser() {
+        System.out.println("User registered");
     }
 }
 
-class InvoicePrinter {
-    public void print(Invoice invoice) {
-        System.out.println("Printing invoice: " + invoice.getAmount());
-    }
-}
+class EmailService {
 
-class InvoiceRepository {
-    public void save(Invoice invoice) {
-        System.out.println("Saving invoice to DB: " + invoice.getAmount());
+    public void sendEmail() {
+        System.out.println("Email sent");
     }
 }
 
@@ -79,62 +35,85 @@ class InvoiceRepository {
 // 2. OCP (Open/Closed Principle)
 // ============================================================
 
-interface Discount {
-    double calculate(double amount);
+interface Payment {
+    void pay();
 }
 
-class PercentageDiscount implements Discount {
-    public double calculate(double amount) {
-        return amount * 0.1;
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid by Card");
     }
 }
 
-class FlatDiscount implements Discount {
-    public double calculate(double amount) {
-        return amount - 100;
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid by UPI");
     }
 }
 
-class FestivalDiscount implements Discount {
-    public double calculate(double amount) {
-        return amount * 0.2;
+class PaymentService {
+    public void processPayment(Payment payment) {
+        payment.pay();
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        PaymentService service = new PaymentService();
+
+        Payment p1 = new CardPayment();
+        service.processPayment(p1);
+
+        Payment p2 = new UpiPayment();
+        service.processPayment(p2);
+    }
+}
+
+// Output:
+// Paid by Card
+// Paid by UPI
 
 
 // ============================================================
 // 3. LSP (Liskov Substitution Principle)
 // Child class should replace parent class without breaking code.
 // ============================================================
-// Bad Design ❌
-// Penguin cannot fly → violates LSP
-
-// Good Design ✅
-
-abstract class Bird {
-    abstract void move();
+class Bird {
+    public void fly() {
+        System.out.println("Bird can fly");
+    }
 }
 
 class Sparrow extends Bird {
-    public void move() {
-        System.out.println("Sparrow flying");
+    @Override
+    public void fly() {
+        System.out.println("Sparrow can fly");
     }
 }
 
-class Penguin extends Bird {
-    public void move() {
-        System.out.println("Penguin swimming");
+public class Main {
+    public static void main(String[] args) {
+        Bird b = new Bird();
+        b.fly();
+
+        Sparrow s = new Sparrow();
+        s.fly();
+
+        Bird b2 = new Sparrow(); // Runtime Polymorphism
+        b2.fly();
     }
 }
+
+// Output:
+// Bird can fly
+// Sparrow can fly
+// Sparrow can fly
 
 
 // ============================================================
 // 4. ISP (Interface Segregation Principle)
 // Child class should replace parent class without breaking code.
 // ============================================================
-// Bad ❌
-// interface Worker { work(), eat() }
-
 interface Workable {
     void work();
 }
@@ -143,47 +122,75 @@ interface Eatable {
     void eat();
 }
 
-class Developer implements Workable {
+class Human implements Workable, Eatable {
     public void work() {
-        System.out.println("Writing code");
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
     }
 }
 
-class Robot implements Eatable {
-    public void eat() {
-        System.out.println("Charging battery");
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
     }
 }
+
+public class Main {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
+// Output:
+// Human working
+// Human eating
+// Robot working
 
 
 // ============================================================
 // 5. DIP (Dependency Inversion Principle)
 // ============================================================
 
-interface MessageSender {
-    void sendMessage(String msg);
+interface Payment {
+    void pay();
 }
 
-class EmailSender implements MessageSender {
-    public void sendMessage(String msg) {
-        System.out.println("Email sent: " + msg);
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
     }
 }
 
-class SmsSender implements MessageSender {
-    public void sendMessage(String msg) {
-        System.out.println("SMS sent: " + msg);
+class OrderService {
+    private Payment payment;
+
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay();
     }
 }
 
-class NotificationService {
-    private MessageSender sender;
+public class Main {
+    public static void main(String[] args) {
+        Payment payment = new CardPayment();   // Inject dependency
+        OrderService orderService = new OrderService(payment);
 
-    public NotificationService(MessageSender sender) {
-        this.sender = sender;
-    }
-
-    public void send(String msg) {
-        sender.sendMessage(msg);
+        orderService.placeOrder();
     }
 }
+
+//Output:
+// Card payment
