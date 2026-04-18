@@ -88,6 +88,7 @@ class Singleton {
 
 // ============================================================
 // 2. Factory Pattern (Best Practice using Enum)
+// Factory method to create objects based on type
 // ============================================================
 
 enum ShapeType {

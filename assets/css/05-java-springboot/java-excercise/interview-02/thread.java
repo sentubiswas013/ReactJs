@@ -8,86 +8,86 @@ import java.util.concurrent.locks.*;
 class Main {
     public static void main(String[] args) throws Exception {
 
-        System.out.println("===== BASIC =====");
-        ThreadExample.run();
-        SynchronizationExample.run();
-
-        System.out.println("\n===== COLLECTIONS =====");
-        ConcurrentMapExample.run();
-        LRUCacheExample.run();
-
-        System.out.println("\n===== COMMUNICATION =====");
-        ProducerConsumerExample.run();
-        WaitNotifyExample.run();
-
-        System.out.println("\n===== EXECUTORS =====");
-        ThreadPoolExample.run();
-        FutureExample.run();
-        CompletableFutureExample.run();
-
-        System.out.println("\n===== LOCKS =====");
-        ReentrantLockExample.run();
-        VolatileExample.run();
-
-        System.out.println("\n===== RACE CONDITION =====");
-        RaceConditionExample.run();
+         System.out.println("Hello Java Threads!");
     }
 }
 
 
 // ============================================================
-// 1. Thread vs Runnable
+// 1. Using Thread class
 // ============================================================
-class ThreadExample {
-    static void run() throws InterruptedException {
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Thread running: " + Thread.currentThread().getName());
+    }
+}
 
-        Thread t1 = new MyThread();
+public class Main {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        t1.start(); // start new thread
+    }
+}
 
-        Thread t2 = new Thread(() ->
-                System.out.println("Runnable: " + Thread.currentThread().getName())
-        );
+
+// ============================================================
+// 2. Using Runnable interface
+// ============================================================
+class MyTask implements Runnable {
+
+    @Override
+    public void run() {
+        System.out.println("Runnable thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new MyTask());
+        t1.start();
+    }
+}
+
+// ============================================================
+// 2. Synchronization
+// ============================================================
+class BankAccount {
+    private int balance = 1000;
+
+    public synchronized void deposit(int amount) { // simpler
+        balance += amount;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        BankAccount acc = new BankAccount();
+
+        Thread t1 = new Thread(() -> acc.deposit(1000));
+        Thread t2 = new Thread(() -> acc.deposit(1000));
 
         t1.start();
         t2.start();
 
         t1.join();
         t2.join();
+
+        System.out.println(acc.getBalance());
     }
-}
-
-class MyThread extends Thread {
-    public void run() {
-        System.out.println("Thread: " + getName());
-    }
-}
-
-
-// ============================================================
-// 2. Synchronization
-// ============================================================
-class SynchronizationExample {
-    static void run() throws InterruptedException {
-        SafeCounter counter = new SafeCounter();
-
-        Thread t1 = new Thread(counter::increment);
-        Thread t2 = new Thread(counter::increment);
-
-        t1.start(); t2.start();
-        t1.join();  t2.join();
-
-        System.out.println("Safe Counter: " + counter.count);
-    }
-}
-
-class SafeCounter {
-    int count = 0;
-    synchronized void increment() { count++; }
 }
 
 
 // ============================================================
 // 3. ConcurrentHashMap
 // ============================================================
+import java.util.concurrent.ConcurrentHashMap; // ✅ required import
+
 class ConcurrentMapExample {
     static void run() throws InterruptedException {
         ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
@@ -101,143 +101,93 @@ class ConcurrentMapExample {
 
         System.out.println("ConcurrentHashMap: " + map);
     }
-}
 
-
-// ============================================================
-// 4. LRU Cache
-// ============================================================
-class LRUCacheExample {
-    static void run() {
-        LRUCache<Integer, String> cache = new LRUCache<>(2);
-
-        cache.put(1, "One");
-        cache.put(2, "Two");
-        cache.get(1);
-        cache.put(3, "Three");
-
-        System.out.println("LRU Cache: " + cache.keySet());
+    public static void main(String[] args) throws InterruptedException {
+        run(); // ✅ added main method
     }
 }
-
-class LRUCache<K, V> extends LinkedHashMap<K, V> {
-    private final int capacity;
-
-    LRUCache(int capacity) {
-        super(capacity, 0.75f, true);
-        this.capacity = capacity;
-    }
-
-    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-        return size() > capacity;
-    }
-}
-
-
-// ============================================================
-// 5. Producer-Consumer
-// ============================================================
-class ProducerConsumerExample {
-    static void run() throws InterruptedException {
-        BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(2);
-
-        Thread producer = new Thread(() -> {
-            try { queue.put(1); } catch (Exception ignored) {}
-        });
-
-        Thread consumer = new Thread(() -> {
-            try { System.out.println("Consumed: " + queue.take()); } catch (Exception ignored) {}
-        });
-
-        producer.start(); consumer.start();
-        producer.join();  consumer.join();
-    }
-}
-
 
 // ============================================================
 // 6. wait/notify
 // ============================================================
-class WaitNotifyExample {
-    static void run() throws InterruptedException {
+class Main {
+    public static void main(String[] args) throws Exception {
+
         Message msg = new Message();
 
-        Thread sender = new Thread(() -> {
-            try { msg.send("Hello"); } catch (Exception ignored) {}
-        });
+        new Thread(() -> {
+            try { msg.send("Hello"); } catch (Exception e) {}
+        }).start();
 
-        Thread receiver = new Thread(() -> {
-            try { System.out.println("Received: " + msg.receive()); } catch (Exception ignored) {}
-        });
-
-        sender.start(); receiver.start();
-        sender.join();  receiver.join();
+        new Thread(() -> {
+            try { System.out.println(msg.receive()); } catch (Exception e) {}
+        }).start();
     }
 }
 
 class Message {
-    private String message;
-    private boolean hasMessage = false;
+    private String data;
+    private boolean available = false;
 
-    synchronized void send(String msg) throws InterruptedException {
-        while (hasMessage) wait();
-        message = msg;
-        hasMessage = true;
+    public synchronized void send(String msg) throws InterruptedException {
+        if (available) wait();
+
+        data = msg;
+        available = true;
+
         notify();
     }
 
-    synchronized String receive() throws InterruptedException {
-        while (!hasMessage) wait();
-        hasMessage = false;
+    public synchronized String receive() throws InterruptedException {
+        if (!available) wait();
+
+        available = false;
+
         notify();
-        return message;
+        return data;
     }
 }
 
 
 // ============================================================
-// 7. Thread Pool
+// 7. ExecutorService
 // ============================================================
-class ThreadPoolExample {
-    static void run() throws InterruptedException {
-        ExecutorService pool = Executors.newFixedThreadPool(2);
+import java.util.concurrent.*;
 
-        pool.submit(() ->
-                System.out.println("Task: " + Thread.currentThread().getName())
-        );
+public class Main {
+    public static void main(String[] args) {
 
-        pool.shutdown();
-        pool.awaitTermination(2, TimeUnit.SECONDS);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+        executor.submit(() -> {
+            System.out.println("Task 1: " + Thread.currentThread().getName());
+        });
+
+        executor.submit(() -> {
+            System.out.println("Task 2: " + Thread.currentThread().getName());
+        });
+        
+        executor.execute(() -> System.out.println("Task 3"));
+
+        executor.shutdown();
     }
 }
-
-
-// ============================================================
-// 8. Future
-// ============================================================
-class FutureExample {
-    static void run() throws Exception {
-        ExecutorService ex = Executors.newSingleThreadExecutor();
-
-        Future<Integer> result = ex.submit(() -> 10 + 20);
-
-        System.out.println("Future Result: " + result.get());
-
-        ex.shutdown();
-    }
-}
-
 
 // ============================================================
 // 9. CompletableFuture
 // ============================================================
-class CompletableFutureExample {
-    static void run() {
-        CompletableFuture<String> future =
-                CompletableFuture.supplyAsync(() -> "Task")
-                        .thenApply(s -> s + " Done");
+import java.util.concurrent.CompletableFuture;
 
-        System.out.println("CompletableFuture: " + future.join());
+public class Main {
+    public static void main(String[] args) {
+
+        CompletableFuture<String> future =
+                CompletableFuture.supplyAsync(() -> {
+                    try { Thread.sleep(2000); } catch (Exception e) {}
+                    return "Hello";
+                }).thenApply(s -> s + " World");
+
+        System.out.println(future.join());
     }
 }
 
@@ -245,13 +195,16 @@ class CompletableFutureExample {
 // ============================================================
 // 10. ReentrantLock
 // ============================================================
-class ReentrantLockExample {
-    static void run() {
+import java.util.concurrent.locks.*;
+
+public class Main {
+    public static void main(String[] args) {
+
         Lock lock = new ReentrantLock();
 
         lock.lock();
         try {
-            System.out.println("Inside Lock");
+            System.out.println("Task inside lock");
         } finally {
             lock.unlock();
         }
@@ -262,18 +215,18 @@ class ReentrantLockExample {
 // ============================================================
 // 11. Volatile
 // ============================================================
-class VolatileExample {
-    static void run() throws InterruptedException {
+public class Main {
+    public static void main(String[] args) throws Exception {
+
         Flag flag = new Flag();
 
-        Thread t = new Thread(() -> {
-            while (flag.running) {}
+        new Thread(() -> {
+            while (flag.running) {}   // keeps checking
             System.out.println("Stopped");
-        });
+        }).start();
 
-        t.start();
-        Thread.sleep(100);
-        flag.running = false;
+        Thread.sleep(1000);
+        flag.running = false; // stop thread
     }
 }
 
@@ -285,21 +238,28 @@ class Flag {
 // ============================================================
 // 12. Race Condition
 // ============================================================
-class RaceConditionExample {
-    static void run() throws InterruptedException {
-        UnsafeCounter counter = new UnsafeCounter();
+public class Main {
+    public static void main(String[] args) throws Exception {
 
-        Thread t1 = new Thread(counter::increment);
-        Thread t2 = new Thread(counter::increment);
+        Counter counter = new Counter();
 
-        t1.start(); t2.start();
-        t1.join();  t2.join();
+        Thread t1 = new Thread(() -> counter.increment());
+        Thread t2 = new Thread(() -> counter.increment());
 
-        System.out.println("Race Condition Count: " + counter.count);
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println(counter.count);
     }
 }
 
-class UnsafeCounter {
+class Counter {
     int count = 0;
-    void increment() { count++; }
+
+    void increment() {
+        count++; // not thread-safe
+    }
 }

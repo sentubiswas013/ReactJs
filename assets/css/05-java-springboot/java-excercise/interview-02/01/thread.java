@@ -7,28 +7,6 @@ import java.util.concurrent.locks.*;
 // ============================================================
 class Main {
     public static void main(String[] args) throws Exception {
-
-        System.out.println("===== BASIC =====");
-        
-
-        System.out.println("\n===== COLLECTIONS =====");
-        
-        System.out.println("\n===== COMMUNICATION =====");
-
-        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-
-        Thread tr1 = new Thread(() -> map.put("sentu", 1000));
-            tr1.start();
-            System.out.println("ConcurrentHashMap: " + map);
-        
-
-        System.out.println("\n===== EXECUTORS =====");
-       
-
-        System.out.println("\n===== LOCKS =====");
-        
-
-        System.out.println("\n===== RACE CONDITION =====");
         
     }
 }

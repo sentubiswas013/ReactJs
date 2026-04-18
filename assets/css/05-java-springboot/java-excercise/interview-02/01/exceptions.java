@@ -38,5 +38,10 @@ class Main {
 
 
 // ============================================================
-// Custom Exception
+// Global Exception Handler (Single Responsibility)
 // ============================================================
+@RestControllerAdvice
+public class GlobalExpectionHandler {
+    @ExceptionHandler(UserNotFoundException.clss)
+    public ResponseEntity<String> handleNotFound
+}
