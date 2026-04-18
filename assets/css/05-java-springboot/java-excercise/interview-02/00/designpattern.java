@@ -7,67 +7,45 @@ class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("===== SINGLETON =====");
-        singletonDemo();
 
-        System.out.println("\n===== FACTORY =====");
-        factoryDemo();
-
-        System.out.println("\n===== BUILDER =====");
-        builderDemo();
-
-        System.out.println("\n===== PROTOTYPE =====");
-        prototypeDemo();
-    }
-
-    // ============================================================
-    // 1. Singleton Pattern
-    // ============================================================
-    static void singletonDemo() {
-        
-    }
-
-    // ============================================================
-    // 2. Factory Pattern
-    // ============================================================
-    static void factoryDemo() {
-        
-    }
-
-    // ============================================================
-    // 3. Builder Pattern
-    // ============================================================
-    static void builderDemo() {
-        
-    }
-
-    // ============================================================
-    // 4. Prototype Pattern
-    // ============================================================
-    static void prototypeDemo() {
-        
     }
 }
 
 
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
+// Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
 // ============================================================
 
+
+// Output: 
+// Singleton instance created: 1530262698
+// Thread-2 got instance: 1530262698
+// Thread-1 got instance: 1530262698
 
 
 // ============================================================
 // 2. Factory Pattern (Best Practice using Enum)
+// Factory Design Pattern is used to create objects without using new keyword directly, by using a factory method.
 // ============================================================
 
+
+// Output:
+// Drawing Circle
+// Drawing Square
 
 
 // ============================================================
 // 3. Builder Pattern (Immutable Object - BEST PRACTICE)
+// Builder Pattern is used to create complex objects step by step, especially when an object has many optional parameters.
 // ============================================================
 
 
+// Output:
+// User{name='Alice', age=0}
+// User{name='Bob', age=25}
 
 // ============================================================
 // 4. Prototype Pattern (Cloning)
+// Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 // ============================================================

@@ -110,21 +110,6 @@ class ConcurrentMapExample {
 // ============================================================
 // 6. wait/notify
 // ============================================================
-class Main {
-    public static void main(String[] args) throws Exception {
-
-        Message msg = new Message();
-
-        new Thread(() -> {
-            try { msg.send("Hello"); } catch (Exception e) {}
-        }).start();
-
-        new Thread(() -> {
-            try { System.out.println(msg.receive()); } catch (Exception e) {}
-        }).start();
-    }
-}
-
 class Message {
     private String data;
     private boolean available = false;
@@ -145,6 +130,21 @@ class Message {
 
         notify();
         return data;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws Exception {
+
+        Message msg = new Message();
+
+        new Thread(() -> {
+            try { msg.send("Hello"); } catch (Exception e) {}
+        }).start();
+
+        new Thread(() -> {
+            try { System.out.println(msg.receive()); } catch (Exception e) {}
+        }).start();
     }
 }
 
