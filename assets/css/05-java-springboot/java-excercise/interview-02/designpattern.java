@@ -7,71 +7,21 @@ class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("===== SINGLETON =====");
-        singletonDemo();
 
-        System.out.println("\n===== FACTORY =====");
-        factoryDemo();
-
-        System.out.println("\n===== BUILDER =====");
-        builderDemo();
-
-        System.out.println("\n===== PROTOTYPE =====");
-        prototypeDemo();
-    }
-
-    // ============================================================
-    // 1. Singleton Pattern
-    // ============================================================
-    static void singletonDemo() {
-        Singleton s1 = Singleton.getInstance();
-        Singleton s2 = Singleton.getInstance();
-
-        System.out.println("Same instance: " + (s1 == s2));
-    }
-
-    // ============================================================
-    // 2. Factory Pattern
-    // ============================================================
-    static void factoryDemo() {
-        Shape shape1 = ShapeFactory.getShape(ShapeType.CIRCLE);
-        shape1.draw();
-
-        Shape shape2 = ShapeFactory.getShape(ShapeType.SQUARE);
-        shape2.draw();
-    }
-
-    // ============================================================
-    // 3. Builder Pattern
-    // ============================================================
-    static void builderDemo() {
-        User user = new User.Builder("John")  // required field
-                .age(25)                     // optional field
-                .build();
-
-        System.out.println(user);
-    }
-
-    // ============================================================
-    // 4. Prototype Pattern
-    // ============================================================
-    static void prototypeDemo() {
-        Prototype original = new Prototype("Data");
-        Prototype copy = original.clone();
-
-        System.out.println("Original: " + original.getValue());
-        System.out.println("Copy: " + copy.getValue());
     }
 }
 
 
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
+// Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
 // ============================================================
 class Singleton {
     private static volatile Singleton instance;
 
-    private Singleton() {}
+    private Singleton() {
+        System.out.println("Singleton instance created: " + this.hashCode());
+    }
 
     public static Singleton getInstance() {
         if (instance == null) {
@@ -85,12 +35,35 @@ class Singleton {
     }
 }
 
+public class Main {
+    public static void main(String[] args) {
+
+        // Create multiple threads to test thread safety
+        Runnable task = () -> {
+            Singleton instance = Singleton.getInstance();
+            System.out.println(Thread.currentThread().getName() +
+                    " got instance: " + instance.hashCode());
+        };
+
+        // Creating multiple threads
+        Thread t1 = new Thread(task, "Thread-1");
+        Thread t2 = new Thread(task, "Thread-2");
+
+        t1.start();
+        t2.start();
+    }
+}
+
+// Output: 
+// Singleton instance created: 1530262698
+// Thread-2 got instance: 1530262698
+// Thread-1 got instance: 1530262698
+
 
 // ============================================================
 // 2. Factory Pattern (Best Practice using Enum)
-// Factory method to create objects based on type
+// Factory Design Pattern is used to create objects without using new keyword directly, by using a factory method.
 // ============================================================
-
 enum ShapeType {
     CIRCLE, SQUARE
 }
@@ -126,9 +99,27 @@ class ShapeFactory {
     }
 }
 
+public class Main {
+    public static void main(String[] args) {
+
+        // Create Circle
+        Shape shape1 = ShapeFactory.getShape(ShapeType.CIRCLE);
+        shape1.draw();
+
+        // Create Square
+        Shape shape2 = ShapeFactory.getShape(ShapeType.SQUARE);
+        shape2.draw();
+    }
+}
+
+// Output:
+// Drawing Circle
+// Drawing Square
+
 
 // ============================================================
 // 3. Builder Pattern (Immutable Object - BEST PRACTICE)
+// Builder Pattern is used to create complex objects step by step, especially when an object has many optional parameters.
 // ============================================================
 final class User {
     private final String name;
@@ -162,28 +153,50 @@ final class User {
     }
 }
 
+public class Main {
+    public static void main(String[] args) {
+
+        // Create user with only required field
+        User user1 = new User.Builder("Alice").build();
+
+        // Create user with optional field
+        User user2 = new User.Builder("Bob")
+                            .age(25)
+                            .build();
+
+        System.out.println(user1);
+        System.out.println(user2);
+    }
+}
+
+// Output:
+// User{name='Alice', age=0}
+// User{name='Bob', age=25}
 
 // ============================================================
 // 4. Prototype Pattern (Cloning)
+// Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 // ============================================================
-class Prototype implements Cloneable {
+public class Test {
+    public static void main(String[] args) throws Exception {
+        Student s1 = new Student(1, "John");
+        Student s2 = (Student) s1.clone();
 
-    private String value;
+        System.out.println(s1.name);
+        System.out.println(s2.name);
+    }
+}
 
-    public Prototype(String value) {
-        this.value = value;
+class Student implements Cloneable {
+    int id;
+    String name;
+
+    Student(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public Prototype clone() {
-        try {
-            return (Prototype) super.clone(); // shallow copy
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

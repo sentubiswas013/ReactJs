@@ -6387,6 +6387,22 @@ Design patterns are proven reusable solutions to common software design problems
 
 **Singleton Pattern** is a design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
 
+When to use:
+
+* **Database Connection Manager** – one shared connection pool for the whole app
+* **Logger Service** – single logging instance used everywhere
+* **Configuration Manager** – load config once and reuse globally
+* **Cache Manager** – one shared cache for fast data access
+
+---
+
+### 🎯 One-line (interview)
+
+> Singleton is used where only one shared instance is needed across the application.
+
+
+
+
 ```java
 class Singleton {
 
@@ -6450,6 +6466,15 @@ public enum EnumSingleton {
 ## 4. What is Factory pattern?
 
 **Factory pattern** creates objects without specifying their exact classes. It provides an interface for creating objects but lets subclasses decide which class to instantiate.
+
+Here are **4 real-time places to use Factory Pattern**:
+
+* **Payment Processing System** – create different payment types (Card, UPI, NetBanking) based on user choice
+* **Notification Service** – create Email, SMS, or Push notification objects dynamically
+* **Document Generator** – create PDF, Excel, or CSV generators based on request
+* **Database Driver Selection** – create MySQL, PostgreSQL, or Oracle connection objects
+
+
 
 ```java
 // Product interface
@@ -6665,6 +6690,11 @@ Think of ordering a **Burger**:
 
 You choose items step by step → then the burger is built.
 This is Builder Pattern.
+
+Here are **2 real-time places to use Builder Pattern**:
+
+* **User/Profile Creation** – when a user object has many optional fields (name, age, address, phone, etc.)
+* **API Request/Response Objects** – building complex request objects with optional parameters
 
 
 **Step 1: Product Class**
