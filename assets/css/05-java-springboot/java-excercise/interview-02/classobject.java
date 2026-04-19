@@ -1,42 +1,7 @@
 // ============================================================
 // Class, Constructor + Static + Final Variable
 // ============================================================
-class Student {
-    String name;
-    int age;
-
-    static int count = 0; // static variable
-
-    static {
-        System.out.println("Static block executed");
-    }
-
-    Student() {
-        this("Default", 0);
-    }
-
-    Student(String name, int age) {
-        this.name = name;
-        this.age = age;
-        count++;
-    }
-
-    void display() {
-        System.out.println("Student: " + name + ", " + age);
-    }
-
-    static void showCount() {
-        System.out.println("Total Students: " + count);
-    }
-
-    static class StaticHelper {
-        void showMessage() {
-            System.out.println("Inside Static Nested Class");
-        }
-    }
-}
-
-public class Main {
+class Main {
     public static void main(String[] args) {
 
         // Creating objects
@@ -52,11 +17,61 @@ public class Main {
         // Show total count
         Student.showCount();
 
-        // Access static nested class
+        // Access static nested class (no need to create outer object)
         Student.StaticHelper helper = new Student.StaticHelper();
         helper.showMessage();
     }
 }
+
+class Student {
+    private String name;
+    private int age;
+
+    private static int count = 0; // encapsulated
+
+    // Static block
+    static {
+        System.out.println("Static block executed");
+    }
+
+    // Default constructor
+    Student() {
+        this("Default", 0);
+    }
+
+    // Parameterized constructor
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+        count++;
+    }
+
+    // Display method
+    void display() {
+        System.out.println("Student: " + name + ", " + age);
+    }
+
+    // Static method
+    static void showCount() {
+        System.out.println("Total Students: " + count);
+    }
+
+    // Static Nested Class
+    static class StaticHelper {
+        void showMessage() {
+            System.out.println("Inside Static Nested Class");
+        }
+    }
+}
+
+// Output: 
+// Static block executed
+// Student: Pintu, 25
+// Student: Raju, 22
+// Student: Default, 0
+// Total Students: 3
+// Inside Static Nested Class
+
 
 
 // ============================================================
@@ -130,6 +145,14 @@ public class Main {
 // ============================================================
 // this & super
 // ============================================================
+
+class Main {
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.show();
+    }
+}
+
 class Parent {
     String msg = "Parent";
 
@@ -151,12 +174,6 @@ class Child extends Parent {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        Child c = new Child();
-        c.show();
-    }
-}
 
 // Output
 // Parent Constructor
@@ -167,31 +184,40 @@ public class Main {
 // ============================================================
 // Immutable class is a class whose object state cannot be changed after it is created.
 // ============================================================
-**Immutable Class Rules**
+// **Immutable Class Rules**
 
-* ✔ **Make the class `final`**
-  → Prevents subclassing (so no one can override behavior)
+// * ✔ **Make the class `final`**
+//   → Prevents subclassing (so no one can override behavior)
 
-* ✔ **Make all fields `private`**
-  → Data cannot be accessed directly from outside
+// * ✔ **Make all fields `private`**
+//   → Data cannot be accessed directly from outside
 
-* ✔ **Make all fields `final`**
-  → Values can be assigned only once (during object creation)
+// * ✔ **Make all fields `final`**
+//   → Values can be assigned only once (during object creation)
 
-* ✔ **Initialize fields through constructor only**
-  → No other way to set values
+// * ✔ **Initialize fields through constructor only**
+//   → No other way to set values
 
-* ✔ **Do NOT provide setter methods**
-  → Prevents modification after object creation
+// * ✔ **Do NOT provide setter methods**
+//   → Prevents modification after object creation
 
-* ✔ **Provide only getter methods**
-  → To read data safely
+// * ✔ **Provide only getter methods**
+//   → To read data safely
 
-* ✔ **For mutable objects, return a copy (defensive copy)**
-  → Avoid exposing internal state
-  Example: return new List instead of original
+// * ✔ **For mutable objects, return a copy (defensive copy)**
+//   → Avoid exposing internal state
+//   Example: return new List instead of original
 
-  
+class Main {
+    public static void main(String[] args) {
+        Person p = new Person("Pintu");
+
+        System.out.println(p.getName()); // Pintu
+
+        // p.name = "Raju"; ❌ Not allowed
+        // No setter method ❌
+    }
+}
 final class Person {
 
     private final String name;
@@ -207,13 +233,3 @@ final class Person {
     }
 }
 
-class Main {
-    public static void main(String[] args) {
-        Person p = new Person("Pintu");
-
-        System.out.println(p.getName()); // Pintu
-
-        // p.name = "Raju"; ❌ Not allowed
-        // No setter method ❌
-    }
-}
