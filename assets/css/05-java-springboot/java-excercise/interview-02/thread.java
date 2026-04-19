@@ -3,17 +3,6 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
 // ============================================================
-// 🚀 MAIN CLASS (Entry Point)
-// ============================================================
-class Main {
-    public static void main(String[] args) throws Exception {
-
-         System.out.println("Hello Java Threads!");
-    }
-}
-
-
-// ============================================================
 // 1. Using Thread class
 // ============================================================
 class MyThread extends Thread {

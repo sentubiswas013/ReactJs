@@ -1,26 +1,23 @@
 // ============================================================
-// 1. Global Exception Handler
+// Encapsulation: Data is private and accessed using getter and setter methods.
+// ============================================================
+
+
+// ============================================================
+// Inheritance: Child class inherits properties from parent class using extends.
 // ============================================================
 
 
 
 // ============================================================
-// 2. Global Exception Handler using spring
+// Polymorphism: Method Overloading
 // ============================================================
 
 
 
 // ============================================================
-// 3. throw vs throws
+// Abstraction abstract class or interface
 // ============================================================
 
 
 
-// ============================================================
-// 4. Custom Exception Handling
-// ============================================================
-
-
-// Output
-// Vote successful
-// Exception: Underage - Not eligible to vote

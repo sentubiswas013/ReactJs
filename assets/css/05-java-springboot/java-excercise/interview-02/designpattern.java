@@ -1,18 +1,4 @@
 // ============================================================
-// 🚀 DESIGN PATTERNS - INTERVIEW MASTER FILE
-// Covers: Singleton, Factory, Builder, Prototype
-// ============================================================
-
-class Main {
-
-    public static void main(String[] args) {
-
-
-    }
-}
-
-
-// ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
 // Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
 // ============================================================

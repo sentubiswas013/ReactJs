@@ -9,6 +9,8 @@ Implement a program to print "Thread1" and "Thread2" from two parallel threads i
 Synchronized block vs synchronized method vs Locks
 How do you propagate an exception from a worker thread back to the main thread.
 Why would you prefer a SingleThreadExecutor over a manually created Thread.
+Design and implement a thread-safe in-memory key-value store that supports TTL (Time-To-Live) for each entry.
+
 What is the N+1 problem in Hibernate?
 
 What is Feign Client?
