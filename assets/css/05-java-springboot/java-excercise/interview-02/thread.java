@@ -5,11 +5,10 @@ import java.util.concurrent.locks.*;
 // ============================================================
 // 1. Using Thread class
 // ============================================================
-
-class Main {
+class ThreadClassExample {
     public static void main(String[] args) {
         MyThread t1 = new MyThread();
-        t1.start(); // start new thread
+        t1.start();
     }
 }
 
@@ -23,8 +22,7 @@ class MyThread extends Thread {
 // ============================================================
 // 2. Using Runnable interface
 // ============================================================
-
-class Main {
+class RunnableExample {
     public static void main(String[] args) {
         Thread t1 = new Thread(new MyTask());
         t1.start();
@@ -32,19 +30,48 @@ class Main {
 }
 
 class MyTask implements Runnable {
-
     @Override
     public void run() {
         System.out.println("Runnable thread: " + Thread.currentThread().getName());
     }
 }
 
-// ============================================================
-// 2. Synchronization
-// ============================================================
-class Main {
-    public static void main(String[] args) throws Exception {
 
+// ============================================================
+// 2. Using lambda expression (Java 8+)
+// ============================================================
+class LambdaThreadExample1 {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(() -> {
+            System.out.println("Lambda thread: " + Thread.currentThread().getName());
+        });
+        t1.start();
+    }
+}
+
+// This is more concise and commonly used in modern Java code. You can also reuse the same lambda for multiple threads:
+class LambdaThreadExample2 {
+    public static void main(String[] args) {
+
+        Runnable task = () -> {
+            System.out.println("Running: " + Thread.currentThread().getName());
+        };
+
+        Thread t1 = new Thread(task, "Thread-1");
+        Thread t2 = new Thread(task, "Thread-2");
+        Thread t3 = new Thread(task, "Thread-3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+
+// ============================================================
+// 3. Synchronization
+// ============================================================
+class SynchronizationExample {
+    public static void main(String[] args) throws Exception {
         BankAccount acc = new BankAccount();
 
         Thread t1 = new Thread(() -> acc.deposit(1000));
@@ -63,7 +90,7 @@ class Main {
 class BankAccount {
     private int balance = 1000;
 
-    public synchronized void deposit(int amount) { // simpler
+    public synchronized void deposit(int amount) {
         balance += amount;
     }
 
@@ -72,12 +99,9 @@ class BankAccount {
     }
 }
 
-
 // ============================================================
-// 3. ConcurrentHashMap
+// 4. ConcurrentHashMap
 // ============================================================
-import java.util.concurrent.ConcurrentHashMap; // ✅ required import
-
 class ConcurrentMapExample {
     static void run() throws InterruptedException {
         ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
@@ -93,16 +117,15 @@ class ConcurrentMapExample {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        run(); // ✅ added main method
+        run();
     }
 }
 
 // ============================================================
-// 6. wait/notify
+// 5. wait/notify
 // ============================================================
-class Main {
+class WaitNotifyExample {
     public static void main(String[] args) throws Exception {
-
         Message msg = new Message();
 
         new Thread(() -> {
@@ -121,41 +144,28 @@ class Message {
 
     public synchronized void send(String msg) throws InterruptedException {
         if (available) wait();
-
         data = msg;
         available = true;
-
         notify();
     }
 
     public synchronized String receive() throws InterruptedException {
         if (!available) wait();
-
         available = false;
-
         notify();
         return data;
     }
 }
 
 // ============================================================
-// 7. ExecutorService
+// 6. ExecutorService
 // ============================================================
-import java.util.concurrent.*;
-
-class Main {
+class ExecutorServiceExample {
     public static void main(String[] args) {
-
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
-        executor.submit(() -> {
-            System.out.println("Task 1: " + Thread.currentThread().getName());
-        });
-
-        executor.submit(() -> {
-            System.out.println("Task 2: " + Thread.currentThread().getName());
-        });
-        
+        executor.submit(() -> System.out.println("Task 1: " + Thread.currentThread().getName()));
+        executor.submit(() -> System.out.println("Task 2: " + Thread.currentThread().getName()));
         executor.execute(() -> System.out.println("Task 3"));
 
         executor.shutdown();
@@ -163,30 +173,24 @@ class Main {
 }
 
 // ============================================================
-// 9. CompletableFuture
+// 7. CompletableFuture
 // ============================================================
-import java.util.concurrent.CompletableFuture;
-
-class Main {
+class CompletableFutureExample {
     public static void main(String[] args) {
-
         CompletableFuture<String> future =
-                CompletableFuture.supplyAsync(() -> {
-                    try { Thread.sleep(2000); } catch (Exception e) {}
-                    return "Hello";
-                }).thenApply(s -> s + " World");
+            CompletableFuture.supplyAsync(() -> {
+                try { Thread.sleep(2000); } catch (Exception e) {}
+                return "Hello";
+            }).thenApply(s -> s + " World");
 
         System.out.println(future.join());
     }
 }
 
-
 // ============================================================
-// 10. ReentrantLock
+// 8. ReentrantLock
 // ============================================================
-import java.util.concurrent.locks.*;
-
-class Main {
+class ReentrantLockExample {
     public static void main(String[] args) {
         Lock lock = new ReentrantLock();
 
@@ -199,21 +203,20 @@ class Main {
     }
 }
 
-
 // ============================================================
-// 11. Volatile
+// 9. Volatile
 // ============================================================
-class Main {
+class VolatileExample {
     public static void main(String[] args) throws Exception {
         Flag flag = new Flag();
 
         new Thread(() -> {
-            while (flag.running) {}   // keeps checking
+            while (flag.running) {}
             System.out.println("Stopped");
         }).start();
 
         Thread.sleep(1000);
-        flag.running = false; // stop thread
+        flag.running = false;
     }
 }
 
@@ -221,13 +224,11 @@ class Flag {
     volatile boolean running = true;
 }
 
-
 // ============================================================
-// 12. Race Condition
+// 10. Race Condition
 // ============================================================
-class Main {
+class RaceConditionExample {
     public static void main(String[] args) throws Exception {
-
         Counter counter = new Counter();
 
         Thread t1 = new Thread(() -> counter.increment());
@@ -247,18 +248,14 @@ class Counter {
     int count = 0;
 
     void increment() {
-        count++; // not thread-safe
+        count++; // not thread-safe — intentional demo
     }
 }
 
-
 // ============================================================
-// 12. LRUCache
+// 11. LRU Cache
 // ============================================================
-import java.util.*;
-
 class LRUCacheExample {
-
     public static void main(String[] args) {
         run();
     }
@@ -269,14 +266,13 @@ class LRUCacheExample {
         cache.put(1, "One");
         cache.put(2, "Two");
 
-        cache.get(1);        // Access 1 → makes it MRU
-        cache.put(3, "Three"); // Evicts key 2
+        cache.get(1);            // Access 1 → makes it MRU
+        cache.put(3, "Three");   // Evicts key 2
 
         System.out.println("LRU Cache: " + cache);
     }
 }
 
-// LRU using LinkedHashMap
 class LRUCache<K, V> extends LinkedHashMap<K, V> {
     private final int capacity;
 
