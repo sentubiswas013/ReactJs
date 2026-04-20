@@ -41,7 +41,7 @@ class MyTask implements Runnable {
 
 
 // ============================================================
-// 2. Using lambda expression (Java 8+)
+// 3. Using lambda expression (Java 8+)
 // ============================================================
 class LambdaThreadExample1 {
     public static void main(String[] args) {
@@ -71,7 +71,7 @@ class LambdaThreadExample2 {
 }
 
 // ============================================================
-// 3. Synchronization
+// 4. Synchronization
 // ============================================================
 
 // Main Class (Simulation)
@@ -105,7 +105,7 @@ class BankAccount {
 
 
 // ============================================================
-// 9. Volatile
+// 5. Volatile
 // ============================================================
 class VolatileExp {
     public static void main(String[] args) throws Exception {
@@ -143,7 +143,7 @@ class Task implements Runnable {
 
 
 // ============================================================
-// 4. AtomicInteger example
+// 6. AtomicInteger example
 // ============================================================
 class AtomicExample {
 
@@ -170,30 +170,9 @@ class AtomicExample {
     }
 }
 
-// ============================================================
-// 4. ConcurrentHashMap
-// ============================================================
-class ConcurrentMapExample {
-    static void run() throws InterruptedException {
-        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-
-        Thread t1 = new Thread(() -> map.put("A", 1000));
-        Thread t2 = new Thread(() -> map.put("B", 2000));
-        Thread t3 = new Thread(() -> map.put("C", 3000));
-
-        t1.start(); t2.start(); t3.start();
-        t1.join();  t2.join();  t3.join();
-
-        System.out.println("ConcurrentHashMap: " + map);
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        run();
-    }
-}
 
 // ============================================================
-// 5. Sleep
+// 7. Sleep
 // ============================================================
 class SleepExample {
     public static void main(String[] args) {
@@ -222,7 +201,7 @@ class SleepExample {
 }
 
 // ============================================================
-// 5. wait
+// 8. wait
 // ============================================================
 class WaitExample {
     public static void main(String[] args) {
@@ -254,7 +233,7 @@ class WaitExample {
 
 
 // ============================================================
-// 5. wait/notify
+// 9. wait/notify
 // ============================================================
 class WaitNotifyExample {
     public static void main(String[] args) throws Exception {
@@ -290,7 +269,29 @@ class Message {
 }
 
 // ============================================================
-// 6. ExecutorService
+// 10. ConcurrentHashMap
+// ============================================================
+class ConcurrentMapExample {
+    static void run() throws InterruptedException {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+
+        Thread t1 = new Thread(() -> map.put("A", 1000));
+        Thread t2 = new Thread(() -> map.put("B", 2000));
+        Thread t3 = new Thread(() -> map.put("C", 3000));
+
+        t1.start(); t2.start(); t3.start();
+        t1.join();  t2.join();  t3.join();
+
+        System.out.println("ConcurrentHashMap: " + map);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        run();
+    }
+}
+
+// ============================================================
+// 11. ExecutorService
 // ============================================================
 class ExecutorServiceExample {
     public static void main(String[] args) {
@@ -305,7 +306,7 @@ class ExecutorServiceExample {
 }
 
 // ============================================================
-// 7. CompletableFuture
+// 12. CompletableFuture
 // ============================================================
 class CompletableFutureExample {
     public static void main(String[] args) {
@@ -320,7 +321,7 @@ class CompletableFutureExample {
 }
 
 // ============================================================
-// 8. ReentrantLock
+// 13. ReentrantLock
 // ============================================================
 class ReentrantLockExample {
     public static void main(String[] args) {
@@ -337,7 +338,7 @@ class ReentrantLockExample {
 
 
 // ============================================================
-// 10. Race Condition
+// 15. Race Condition
 // ============================================================
 class RaceConditionExample {
     public static void main(String[] args) throws Exception {
@@ -365,7 +366,7 @@ class Counter {
 }
 
 // ============================================================
-// 11. LRU Cache
+// 16. LRU Cache
 // ============================================================
 class LRUCacheExample {
     public static void main(String[] args) {
