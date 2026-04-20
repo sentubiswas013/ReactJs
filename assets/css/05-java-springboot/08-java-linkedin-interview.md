@@ -225,3 +225,31 @@
 🔹 20. How to improve API performance?  
 → Use caching, indexing, async processing.  
 → Optimize DB queries.
+
+=================
+
+1. Your Spring Boot app starts returning 500 errors after deployment. How will you debug it?
+2. You hit BeanCreationException at startup. What could be wrong?
+3. A bean works locally but throws NoSuchBeanDefinitionException in prod. How will you fix it?
+4. You get CircularDependencyException between beans. How will you resolve it?
+5. Your API throws HttpMessageNotReadableException for valid payloads. How will you debug it?
+6. LazyInitializationException appears in prod only. How will you fix it?
+7. Wrong values are picked from config after deploy. How will you manage properties safely?
+8. DataIntegrityViolationException occurs during save. What checks will you add?
+9. TransactionRequiredException appears during updates. How will you fix transaction boundaries?
+10. After enabling debug logs, response time increases. How will you optimize logging?
+11. Memory usage keeps growing in the app. How will you detect and fix leaks?
+12. Intermittent DB connection failures occur. How will you debug datasource issues?
+13. Downstream REST calls time out. How will you add resilience and timeouts?
+14. Wrong profile is active in prod. How will you enforce correct environment configs?
+15. Duplicate requests are processed due to retries. How will you ensure idempotency?
+16. Unhandled exceptions crash the service. How will you design global exception handling?
+17. High thread usage is observed. How will you tune executors/thread pools?
+18. A scheduled job runs multiple times across instances. How will you prevent it?
+19. App fails due to dependency/version conflicts after build. How will you resolve it?
+20. Concurrent transactions cause inconsistent data. How will you handle isolation and locking?
+21. Logs are insufficient to trace issues. How will you improve structured logging?
+22. API Gateway returns errors due to downstream failures. How will you add fallbacks?
+23. App becomes unresponsive under load. How will you investigate bottlenecks?
+24. You need zero-downtime deployment. What rollout strategy will you use?
+25. Behavior differs between local and prod. How will you systematically debug it?

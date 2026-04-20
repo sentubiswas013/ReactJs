@@ -9,8 +9,13 @@ public class Main {
         tr.start();
 
         // Schroynosized 
-        SynchronizationExample syn = new SynchronizationExample();
-        
+        synchronizedExp account = new synchronizedExp();
+        Thread user1 = new Thread(() -> account.withdraw(700));
+        Thread user2 = new Thread(() -> account.withdraw(700));
+       
+        user1.start();
+        user2.start();
+
     }
 }
 
@@ -54,15 +59,17 @@ class RunThread implements Runnable {
 // ============================================================
 // 2. Synchronization
 // ============================================================
-class SynchronizationExample {
+class synchronizedExp {
 	private int balance = 1000;
 
-	public synchronized void deposit(int amount) {
-		balance += amount;
-	}
-
-	public getBanlance () {
-		return balance;
+	public synchronized void withdraw(int amount) {
+		if(balance >=  amount) {			
+			balance = balance - amount;
+			System.out.println("Remaining balance: " + balance);
+		} else {
+			System.out.println("Insufficient balance");
+		}
+		
 	}
 }
 

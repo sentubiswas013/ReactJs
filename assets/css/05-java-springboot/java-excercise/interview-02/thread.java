@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
-
+import java.util.concurrent.atomic.AtomicInteger;
 // ============================================================
 // 1. Using Thread class
 // ============================================================
@@ -92,12 +92,81 @@ class BankAccount {
 
     synchronized void withdraw(int amount) {
         if (balance >= amount) {
-            System.out.println(Thread.currentThread().getName() + " withdrawing...");
+            System.out.println(
+                Thread.currentThread().getName() + " withdrawing..."
+            );
             balance = balance - amount;
             System.out.println("Remaining balance: " + balance);
         } else {
             System.out.println("Insufficient balance");
         }
+    }
+}
+
+
+// ============================================================
+// 9. Volatile
+// ============================================================
+class VolatileExp {
+    public static void main(String[] args) throws Exception {
+        Task task = new Task();
+        Thread t1 = new Thread(task, "Worker-Thread");
+        t1.start();
+
+        Thread.sleep(3000);
+
+        task.stop(); // proper stop method
+        System.out.println("Stopped by main thread");
+    }
+}
+
+class Task implements Runnable {
+    private volatile boolean running = true;
+
+    public void stop() {
+        running = false;
+    }
+
+    public void run() {
+        while (running) {
+            System.out.println("Task is running...");
+            try {
+                Thread.sleep(500); // prevent CPU overuse
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println("Task stopped");
+    }
+}
+
+
+
+// ============================================================
+// 4. AtomicInteger example
+// ============================================================
+class AtomicExample {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        AtomicInteger count = new AtomicInteger(0);
+
+        Runnable task = () -> {
+            for (int i = 0; i < 1000; i++) {
+                count.incrementAndGet();
+            }
+        };
+
+        Thread t1 = new Thread(task);
+        Thread t2 = new Thread(task);
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println("Final Count: " + count.get());
     }
 }
 
@@ -266,26 +335,6 @@ class ReentrantLockExample {
     }
 }
 
-// ============================================================
-// 9. Volatile
-// ============================================================
-class VolatileExample {
-    public static void main(String[] args) throws Exception {
-        Flag flag = new Flag();
-
-        new Thread(() -> {
-            while (flag.running) {}
-            System.out.println("Stopped");
-        }).start();
-
-        Thread.sleep(1000);
-        flag.running = false;
-    }
-}
-
-class Flag {
-    volatile boolean running = true;
-}
 
 // ============================================================
 // 10. Race Condition
