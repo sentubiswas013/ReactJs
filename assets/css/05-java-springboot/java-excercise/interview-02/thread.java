@@ -73,32 +73,31 @@ class LambdaThreadExample2 {
 // ============================================================
 // 3. Synchronization
 // ============================================================
+
+// Main Class (Simulation)
 class SynchronizationExample {
-    public static void main(String[] args) throws Exception {
-        BankAccount acc = new BankAccount();
+    public static void main(String[] args) {
 
-        Thread t1 = new Thread(() -> acc.deposit(1000));
-        Thread t2 = new Thread(() -> acc.deposit(1000));
+        BankAccount account = new BankAccount();
 
-        t1.start();
-        t2.start();
+        Thread user1 = new Thread(() -> account.withdraw(700), "User1");
+        Thread user2 = new Thread(() -> account.withdraw(700), "User2");
 
-        t1.join();
-        t2.join();
-
-        System.out.println(acc.getBalance());
+        user1.start();
+        user2.start();
     }
 }
-
 class BankAccount {
-    private int balance = 1000;
+    int balance = 1000;
 
-    public synchronized void deposit(int amount) {
-        balance += amount;
-    }
-
-    public int getBalance() {
-        return balance;
+    synchronized void withdraw(int amount) {
+        if (balance >= amount) {
+            System.out.println(Thread.currentThread().getName() + " withdrawing...");
+            balance = balance - amount;
+            System.out.println("Remaining balance: " + balance);
+        } else {
+            System.out.println("Insufficient balance");
+        }
     }
 }
 

@@ -821,6 +821,13 @@ function debounce(func, delay) {
         timeoutId = setTimeout(() => func.apply(this, args), delay);
     };
 }
+// Usage examples
+const searchFunction = (query) => console.log("Searching:", query);
+const debouncedSearch = debounce(searchFunction, 300);
+// Call multiple times quickly
+debouncedSearch("a");
+debouncedSearch("ab");
+debouncedSearch("abc");
 
 // Throttle - limits execution frequency
 function throttle(func, limit) {
@@ -835,7 +842,6 @@ function throttle(func, limit) {
 }
 
 // Usage examples
-const debouncedSearch = debounce(searchFunction, 300);
 const throttledScroll = throttle(scrollHandler, 100);
 ```
 
