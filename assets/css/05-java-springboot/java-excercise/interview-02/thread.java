@@ -5,6 +5,14 @@ import java.util.concurrent.locks.*;
 // ============================================================
 // 1. Using Thread class
 // ============================================================
+
+class Main {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        t1.start(); // start new thread
+    }
+}
+
 class MyThread extends Thread {
     @Override
     public void run() {
@@ -12,17 +20,17 @@ class MyThread extends Thread {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        MyThread t1 = new MyThread();
-        t1.start(); // start new thread
-    }
-}
-
-
 // ============================================================
 // 2. Using Runnable interface
 // ============================================================
+
+class Main {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new MyTask());
+        t1.start();
+    }
+}
+
 class MyTask implements Runnable {
 
     @Override
@@ -31,29 +39,10 @@ class MyTask implements Runnable {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        Thread t1 = new Thread(new MyTask());
-        t1.start();
-    }
-}
-
 // ============================================================
 // 2. Synchronization
 // ============================================================
-class BankAccount {
-    private int balance = 1000;
-
-    public synchronized void deposit(int amount) { // simpler
-        balance += amount;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-}
-
-public class Main {
+class Main {
     public static void main(String[] args) throws Exception {
 
         BankAccount acc = new BankAccount();
@@ -68,6 +57,18 @@ public class Main {
         t2.join();
 
         System.out.println(acc.getBalance());
+    }
+}
+
+class BankAccount {
+    private int balance = 1000;
+
+    public synchronized void deposit(int amount) { // simpler
+        balance += amount;
+    }
+
+    public int getBalance() {
+        return balance;
     }
 }
 
@@ -99,6 +100,21 @@ class ConcurrentMapExample {
 // ============================================================
 // 6. wait/notify
 // ============================================================
+class Main {
+    public static void main(String[] args) throws Exception {
+
+        Message msg = new Message();
+
+        new Thread(() -> {
+            try { msg.send("Hello"); } catch (Exception e) {}
+        }).start();
+
+        new Thread(() -> {
+            try { System.out.println(msg.receive()); } catch (Exception e) {}
+        }).start();
+    }
+}
+
 class Message {
     private String data;
     private boolean available = false;
@@ -122,28 +138,12 @@ class Message {
     }
 }
 
-class Main {
-    public static void main(String[] args) throws Exception {
-
-        Message msg = new Message();
-
-        new Thread(() -> {
-            try { msg.send("Hello"); } catch (Exception e) {}
-        }).start();
-
-        new Thread(() -> {
-            try { System.out.println(msg.receive()); } catch (Exception e) {}
-        }).start();
-    }
-}
-
-
 // ============================================================
 // 7. ExecutorService
 // ============================================================
 import java.util.concurrent.*;
 
-public class Main {
+class Main {
     public static void main(String[] args) {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -167,7 +167,7 @@ public class Main {
 // ============================================================
 import java.util.concurrent.CompletableFuture;
 
-public class Main {
+class Main {
     public static void main(String[] args) {
 
         CompletableFuture<String> future =
@@ -186,9 +186,8 @@ public class Main {
 // ============================================================
 import java.util.concurrent.locks.*;
 
-public class Main {
+class Main {
     public static void main(String[] args) {
-
         Lock lock = new ReentrantLock();
 
         lock.lock();
@@ -204,9 +203,8 @@ public class Main {
 // ============================================================
 // 11. Volatile
 // ============================================================
-public class Main {
+class Main {
     public static void main(String[] args) throws Exception {
-
         Flag flag = new Flag();
 
         new Thread(() -> {
@@ -227,7 +225,7 @@ class Flag {
 // ============================================================
 // 12. Race Condition
 // ============================================================
-public class Main {
+class Main {
     public static void main(String[] args) throws Exception {
 
         Counter counter = new Counter();
@@ -250,5 +248,45 @@ class Counter {
 
     void increment() {
         count++; // not thread-safe
+    }
+}
+
+
+// ============================================================
+// 12. LRUCache
+// ============================================================
+import java.util.*;
+
+class LRUCacheExample {
+
+    public static void main(String[] args) {
+        run();
+    }
+
+    static void run() {
+        LRUCache<Integer, String> cache = new LRUCache<>(2);
+
+        cache.put(1, "One");
+        cache.put(2, "Two");
+
+        cache.get(1);        // Access 1 → makes it MRU
+        cache.put(3, "Three"); // Evicts key 2
+
+        System.out.println("LRU Cache: " + cache);
+    }
+}
+
+// LRU using LinkedHashMap
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    LRUCache(int capacity) {
+        super(capacity, 0.75f, true); // accessOrder = true
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
     }
 }
