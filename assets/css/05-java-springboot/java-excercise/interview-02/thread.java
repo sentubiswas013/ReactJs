@@ -125,6 +125,67 @@ class ConcurrentMapExample {
 }
 
 // ============================================================
+// 5. Sleep
+// ============================================================
+class SleepExample {
+    public static void main(String[] args) {
+
+        Object lock = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 1 acquired lock");
+                try {
+                    Thread.sleep(3000); // sleeping but STILL holding lock
+                } catch (InterruptedException e) {}
+                System.out.println("Thread 1 finished");
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+
+// ============================================================
+// 5. wait
+// ============================================================
+class WaitExample {
+    public static void main(String[] args) {
+
+        Object lock = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                try {
+                    System.out.println("Thread 1 waiting...");
+                    lock.wait(); // releases lock
+                    System.out.println("Thread 1 resumed");
+                } catch (InterruptedException e) {}
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+                lock.notify(); // wakes up t1
+                System.out.println("Thread 2 notified");
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+
+
+// ============================================================
 // 5. wait/notify
 // ============================================================
 class WaitNotifyExample {
