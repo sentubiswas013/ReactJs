@@ -3,7 +3,7 @@
 // One class should have only one responsibility.
 // ============================================================
 // Bad Design: Invoice doing too many things ❌
-class UserService {
+class UserService1 {
 
     public void registerUser() {
         System.out.println("User registered");
@@ -59,7 +59,7 @@ class PaymentService {
     }
 }
 
-public class Main {
+class OpenClosedDemo {
     public static void main(String[] args) {
         PaymentService service = new PaymentService();
 
@@ -93,7 +93,7 @@ class Sparrow extends Bird {
     }
 }
 
-public class Main {
+class LiskovSubstitutionDemo {
     public static void main(String[] args) {
         Bird b = new Bird();
         b.fly();
@@ -140,7 +140,7 @@ class Robot implements Workable {
     }
 }
 
-public class Main {
+class InterfaceSegregationDemo {
     public static void main(String[] args) {
         Workable w1 = new Human();
         w1.work();
@@ -186,7 +186,7 @@ class OrderService {
     }
 }
 
-public class Main {
+class DependencyInversionDemo {
     public static void main(String[] args) {
         Payment payment = new CardPayment();   // Inject dependency
         OrderService orderService = new OrderService(payment);

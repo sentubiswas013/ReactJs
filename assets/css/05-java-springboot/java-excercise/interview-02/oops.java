@@ -18,7 +18,7 @@ class Person {
     }
 }
 
-class Main {
+class EncapsulationDemo {
     public static void main(String[] args) {
         Person p = new Person();
         p.setName("John");
@@ -47,7 +47,7 @@ class Dog extends Animal {
     }
 }
 
-class Main {
+class InheritanceDemo {
     public static void main(String[] args) {
         Dog d = new Dog();
         d.eat();   // inherited method
@@ -80,7 +80,7 @@ class Calculator {
     }
 }
 
-class Main {
+class PolymorphismDemo {
     public static void main(String[] args) {
         Calculator c = new Calculator();
         System.out.println(c.add(5, 10));
@@ -100,7 +100,7 @@ class Main {
 // Improves security
 // Makes code flexible & maintainable
 
-class Main {
+class AbstractionDemo {
     public static void main(String[] args) {
         Vehicle v = new Car();
         v.start();

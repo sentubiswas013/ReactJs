@@ -808,7 +808,9 @@ const expensiveFunction = memoize((n) => {
 
 ###  36: What is debounce and throttle in JavaScript?
 
-Debounce delays function execution until after a specified time has passed since the last call. Throttle limits function execution to once per specified time interval. Debounce is great for search inputs, throttle is perfect for scroll or resize events.
+**Debounce** delays function execution until after a specified time has passed since the last call. 
+
+**Throttle** limits function execution to once per specified time interval. Debounce is great for search inputs, throttle is perfect for scroll or resize events.
 
 ```javascript
 // Debounce - waits for pause in calls

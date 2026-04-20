@@ -211,6 +211,14 @@ public class Stream30 {
         // Output: 12. Top 3: [6, 5, 4]
 
 
+        List<String> sortedArr = arr02.stream()
+                .filter(Objects::nonNull) // remove nulls
+                .sorted(Comparator.comparingInt(String::length))
+                .toList();
+
+        System.out.println(sortedArr);
+        // Output: [Bob, Alex, Alice, Annie]
+
 
         // =======================================================
         // 13. Find Nth Largest Element
