@@ -22,25 +22,23 @@ class ThreadClassExample {
 
         MyThread t3 = new MyThread();
         t3.start();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
     }
 }
 
 class MyThread extends Thread {
-    @Override
+   @Override
     public void run() {
         System.out.println("Thread running: " + Thread.currentThread().getName());
     }
 }
 
-
-
-
-
 // ============================================================
 // 2. Using Runnable interface
 // ============================================================
 
-
+class
 
 // ============================================================
 // 2. Synchronization
