@@ -6394,14 +6394,7 @@ When to use:
 * **Configuration Manager** – load config once and reuse globally
 * **Cache Manager** – one shared cache for fast data access
 
----
-
-### 🎯 One-line (interview)
-
-> Singleton is used where only one shared instance is needed across the application.
-
-
-
+Singleton is used where only one shared instance is needed across the application.
 
 ```java
 class Singleton {
