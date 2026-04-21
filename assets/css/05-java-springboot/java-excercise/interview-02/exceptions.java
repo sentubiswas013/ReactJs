@@ -33,7 +33,7 @@ class GlobalExceptionHandler {
     }
 }
 
-public class Main {
+class Main {
     public static void main(String[] args) {
 
         VotingService service = new VotingService();
@@ -56,15 +56,15 @@ public class Main {
 // ============================================================
 // 2. Global Exception Handler using spring
 // ============================================================
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+// import org.springframework.boot.SpringApplication;
+// import org.springframework.boot.autoconfigure.SpringBootApplication;
+// import org.springframework.web.bind.annotation.*;
+// import org.springframework.web.bind.annotation.RestControllerAdvice;
+// import org.springframework.http.HttpStatus;
+// import org.springframework.http.ResponseEntity;
 
 @SpringBootApplication
-public class DemoApplication {
+class DemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -144,7 +144,7 @@ class VotingService {
     }
 }
 
-public class Main {
+class CustomExceptionDemo {
     public static void main(String[] args) {
 
         VotingService service = new VotingService();

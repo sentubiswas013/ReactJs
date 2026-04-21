@@ -109,6 +109,38 @@
 // 4. ISP (Interface Segregation Principle)
 // Child class should replace parent class without breaking code.
 // ============================================================
+// class LiskovSubstitutionDemo {
+// 	public static void main(String[] args) {
+// 		Human hm = new Human();
+// 		hm.work();
+// 		hm.eat();
+
+// 		Robot rb = new Robot();
+// 		rb.work();
+// 	}
+// }
+
+// interface Workable {
+// 	public void work();
+// }
+// interface Eatable {
+// 	public void eat();
+// }
+
+// class Human implements Workable, Eatable {
+// 	public void work() {
+// 		System.out.println("Human Work.");
+// 	}
+// 	public void eat() {
+// 		System.out.println("HUman Eat.");
+// 	}
+// }
+
+// class Robot implements Workable{
+// 	public void work() {
+// 		System.out.println("Robot Work.");
+// 	}
+// }
 
 
 // Output:
@@ -121,6 +153,35 @@
 // 5. DIP (Dependency Inversion Principle)
 // Depend on abstractions, not concrete implementations
 // ============================================================
+class DependencyInversionDemo {
+	public static void main(String[] args) {
+		CardPayment pay = new CardPayment();
+		OderService order = new OderService(pay);
+		order.placeOrder();
+	}
+}
+
+interface Payment {
+	void pay();
+}
+
+class CardPayment implements Payment{
+	public void pay() {
+		System.out.println("Pay");
+	}
+}
+
+class OderService {
+	private Payment payment;
+
+	public OderService (Payment payment) {
+		this.payment = payment;
+	}
+
+	public void placeOrder() {
+		payment.pay();
+	}
+}
 
 
 //Output:

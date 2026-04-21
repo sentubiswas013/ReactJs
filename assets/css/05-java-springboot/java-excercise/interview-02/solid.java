@@ -133,7 +133,7 @@ class LiskovSubstitutionDemo {
 
 // ============================================================
 // 4. ISP (Interface Segregation Principle)
-// Child class should replace parent class without breaking code.
+// Many specific interfaces are better than one general interface
 // ============================================================
 // Bad Design: Worker interface has both work and eat methods ❌
 interface Worker {
@@ -198,9 +198,9 @@ class Laptop {
 class DependencyInversionDemo {
     public static void main(String[] args) {
         PaymentB payment = new CardPaymentB();   // Inject dependency
-        OrderService orderService = new OrderService(payment);
+        OrderService order = new OrderService(payment);
 
-        orderService.placeOrder();
+        order.placeOrder();
     }
 }
 

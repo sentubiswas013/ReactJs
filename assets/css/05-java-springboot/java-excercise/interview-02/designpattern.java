@@ -24,7 +24,7 @@ class Singleton {
     }
 }
 
-class Main {
+class SingletonDemo {
     public static void main(String[] args) {
 
         // Create multiple threads to test thread safety
@@ -97,7 +97,7 @@ class ShapeFactory {
     }
 }
 
-class Main {
+class FactoryDesignDemo {
     public static void main(String[] args) {
 
         // Create Circle
@@ -156,7 +156,7 @@ final class User {
     }
 }
 
-class Main {
+class BuilderPatternDemo {
     public static void main(String[] args) {
 
         // Create user with only required field
@@ -180,7 +180,7 @@ class Main {
 // 4. Prototype Pattern (Cloning)
 // Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 // ============================================================
-class Test {
+class PrototypeDemo {
     public static void main(String[] args) throws Exception {
         Student s1 = new Student(1, "John");
         Student s2 = (Student) s1.clone();
