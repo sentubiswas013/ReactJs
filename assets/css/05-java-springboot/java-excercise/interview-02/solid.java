@@ -78,7 +78,7 @@ class OpenClosedDemo {
 
 // ============================================================
 // 3. LSP (Liskov Substitution Principle)
-// Child class should replace parent class without breaking code.
+// Subtypes must be substitutable for their base types
 // ============================================================
 class Bird {
     public void fly() {

@@ -73,7 +73,6 @@ class LambdaThreadExample2 {
 // ============================================================
 // 4. Synchronization
 // ============================================================
-
 // Main Class (Simulation)
 class SynchronizationExample {
     public static void main(String[] args) {
@@ -290,6 +289,41 @@ class ConcurrentMapExample {
     }
 }
 
+
+// Real-world Example: Counting word frequency in logs using ConcurrentHashMap
+// import java.util.concurrent.*;
+
+class ConcurrentMapRealTimeExample {
+
+    public static void main(String[] args) throws Exception {
+
+        ConcurrentHashMap<String, Integer> wordCount = new ConcurrentHashMap<>();
+
+        Runnable task1 = () -> processLogs("error warning info", wordCount);
+        Runnable task2 = () -> processLogs("error error info", wordCount);
+        Runnable task3 = () -> processLogs("warning info", wordCount);
+
+        Thread t1 = new Thread(task1);
+        Thread t2 = new Thread(task2);
+        Thread t3 = new Thread(task3);
+
+        t1.start(); t2.start(); t3.start();
+
+        t1.join(); t2.join(); t3.join();
+
+        System.out.println("Final Word Count: " + wordCount);
+    }
+
+    static void processLogs(String log, ConcurrentHashMap<String, Integer> map) {
+        String[] words = log.split(" ");
+
+        for (String word : words) {
+            // Thread-safe update
+            map.merge(word, 1, Integer::sum);
+        }
+    }
+}
+
 // ============================================================
 // 11. ExecutorService
 // ============================================================
@@ -302,6 +336,40 @@ class ExecutorServiceExample {
         executor.execute(() -> System.out.println("Task 3"));
 
         executor.shutdown();
+    }
+}
+
+// Real-world Example: Processing multiple orders in parallel using ExecutorService
+// import java.util.concurrent.*;
+class ExecutorServiceRealTimeExample {
+
+    public static void main(String[] args) throws Exception {
+
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        Callable<String> order1 = () -> processOrder("Order-1");
+        Callable<String> order2 = () -> processOrder("Order-2");
+        Callable<String> order3 = () -> processOrder("Order-3");
+
+        Future<String> f1 = executor.submit(order1);
+        Future<String> f2 = executor.submit(order2);
+        Future<String> f3 = executor.submit(order3);
+
+        // Get results
+        System.out.println(f1.get());
+        System.out.println(f2.get());
+        System.out.println(f3.get());
+
+        executor.shutdown();
+    }
+
+    static String processOrder(String orderId) {
+        try {
+            System.out.println("Processing " + orderId + " by " + Thread.currentThread().getName());
+            Thread.sleep(2000); // simulate work
+        } catch (Exception e) {}
+
+        return orderId + " processed";
     }
 }
 
@@ -320,10 +388,57 @@ class CompletableFutureExample {
     }
 }
 
+// Real-world Example: Calling multiple APIs in parallel and combining results
+// import java.util.concurrent.CompletableFuture;
+class CompletableFutureRealTimeExample {
+
+    public static void main(String[] args) {
+
+        // Call APIs in parallel
+        CompletableFuture<String> userFuture =
+                CompletableFuture.supplyAsync(() -> getUser());
+
+        CompletableFuture<String> orderFuture =
+                CompletableFuture.supplyAsync(() -> getOrders());
+
+        CompletableFuture<String> paymentFuture =
+                CompletableFuture.supplyAsync(() -> getPayments());
+
+        // Combine all results
+        CompletableFuture<String> finalResult =
+                userFuture.thenCombine(orderFuture, (user, orders) ->
+                        user + " | " + orders)
+                .thenCombine(paymentFuture, (combined, payment) ->
+                        combined + " | " + payment);
+
+        // Wait and print result
+        System.out.println(finalResult.join());
+    }
+
+    static String getUser() {
+        sleep(2);
+        return "User: John";
+    }
+
+    static String getOrders() {
+        sleep(3);
+        return "Orders: 5";
+    }
+
+    static String getPayments() {
+        sleep(1);
+        return "Payments: Done";
+    }
+
+    static void sleep(int seconds) {
+        try { Thread.sleep(seconds * 1000); } catch (Exception e) {}
+    }
+}
+
 // ============================================================
 // 13. ReentrantLock
 // ============================================================
-class ReentrantLockExample {
+class ReentrantLockExampleOne {
     public static void main(String[] args) {
         Lock lock = new ReentrantLock();
 
@@ -336,27 +451,47 @@ class ReentrantLockExample {
     }
 }
 
+//  Realtime Example:
+class ReentrantLockExampleTwo {
+    public static void main(String[] args) {
+        BankAccountExm account = new BankAccountExm();
+
+        Runnable task1 = () -> account.withdraw("User-1", 700);
+        Runnable task2 = () -> account.withdraw("User-2", 500);
+
+        new Thread(task1).start();
+        new Thread(task2).start();
+    }
+}
+
+class BankAccountExm {
+    private int balance = 1000;
+    private final ReentrantLock lock = new ReentrantLock();
+
+    // withdraw money safely
+    void withdraw(String user, int amount) {
+        lock.lock(); // critical section
+        try {
+            if (balance >= amount) {
+                System.out.println(user + " is withdrawing " + amount);
+                Thread.sleep(500); // simulate delay
+                balance -= amount;
+                System.out.println(user + " completed withdrawal. Remaining: " + balance);
+            } else {
+                System.out.println(user + " insufficient balance!");
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            lock.unlock(); // always release
+        }
+    }
+}
+
 
 // ============================================================
 // 15. Race Condition
 // ============================================================
-class RaceConditionExample {
-    public static void main(String[] args) throws Exception {
-        Counter counter = new Counter();
-
-        Thread t1 = new Thread(() -> counter.increment());
-        Thread t2 = new Thread(() -> counter.increment());
-
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
-
-        System.out.println(counter.count);
-    }
-}
-
 class Counter {
     int count = 0;
 
@@ -364,6 +499,53 @@ class Counter {
         count++; // not thread-safe — intentional demo
     }
 }
+// Real-world Example: Booking system where multiple users try to book the last seat simultaneously
+class RaceConditionExample {
+    public static void main(String[] args) throws Exception {
+        TicketBooking booking = new TicketBooking();
+
+        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
+        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+    }
+}
+
+class TicketBooking {
+    int seats = 1;
+
+    void bookTicket() {
+        if (seats > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat");
+            seats--;
+        } else {
+            System.out.println(Thread.currentThread().getName() + " → No seats available");
+        }
+    }
+}
+
+// To Fix race condition, we can synchronize the method:
+class TicketBooking2 {
+    int seats = 1;
+
+    synchronized void bookTicket() {
+        if (seats > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat");
+            seats--;
+        } else {
+            System.out.println(Thread.currentThread().getName() + " → No seats available");
+        }
+    }
+}
+
+// Output:
+// User-1 booked seat
+// User-2 booked seat   ❌ (wrong – only 1 seat!)
+
 
 // ============================================================
 // 16. LRU Cache
@@ -397,5 +579,98 @@ class LRUCache<K, V> extends LinkedHashMap<K, V> {
     @Override
     protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
         return size() > capacity;
+    }
+}
+
+// Real-world Example: Caching DB results, API responses, etc.
+
+// Fetching user data from DB is slow → cache recent results.
+class DatabaseService {
+    private final LRUCache<Integer, String> cache = new LRUCache<>(3);
+
+    public String getUserById(int id) {
+        if (cache.containsKey(id)) {
+            System.out.println("Cache HIT for user " + id);
+            return cache.get(id);
+        }
+
+        // Simulate DB call
+        System.out.println("Fetching from DB for user " + id);
+        String data = "User-" + id;
+
+        cache.put(id, data);
+        return data;
+    }
+
+    static void main(String[] args) {
+        DatabaseService service = new DatabaseService();
+
+        service.getUserById(1);
+        service.getUserById(2);
+        service.getUserById(1); // Cache hit
+        service.getUserById(3);
+        service.getUserById(4); // Evicts least used
+        service.getUserById(2); // DB call again
+    }
+}
+
+// Calling external APIs (payment/user service) is expensive → cache response.
+class ApiService {
+    private final LRUCache<String, String> cache = new LRUCache<>(2);
+
+    public String fetchData(String url) {
+        if (cache.containsKey(url)) {
+            System.out.println("Cache HIT for API: " + url);
+            return cache.get(url);
+        }
+
+        // Simulate API call
+        System.out.println("Calling API: " + url);
+        String response = "Response from " + url;
+
+        cache.put(url, response);
+        return response;
+    }
+
+    public static void main(String[] args) {
+        ApiService api = new ApiService();
+
+        api.fetchData("user/1");
+        api.fetchData("user/2");
+        api.fetchData("user/1"); // Cache hit
+        api.fetchData("user/3"); // Evicts least used
+    }
+}
+
+// Frequently viewed products → cache to reduce DB load.
+class ProductService {
+    private final LRUCache<Integer, String> cache = new LRUCache<>(2);
+
+    public String getProduct(int id) {
+        if (cache.containsKey(id)) {
+            System.out.println("Cache HIT for product " + id);
+            return cache.get(id);
+        }
+
+        // Simulate DB call
+        System.out.println("Fetching product from DB: " + id);
+        String product = "Product-" + id;
+
+        cache.put(id, product);
+        return product;
+    }
+}
+
+// Session Cache: Store recently active user sessions.
+class SessionService {
+    private final LRUCache<String, String> sessionCache = new LRUCache<>(2);
+
+    public void login(String userId) {
+        sessionCache.put(userId, "ACTIVE");
+        System.out.println("User logged in: " + userId);
+    }
+
+    public boolean isActive(String userId) {
+        return sessionCache.containsKey(userId);
     }
 }

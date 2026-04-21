@@ -334,9 +334,20 @@ public class Stream30 {
                 .map(w -> new StringBuilder(w).reverse().toString())
                 .toList();
 
+
         // System.out.println("23. Reversed: " + reversed);
         // Output: 23. Reversed: [avaj, maerts, ipa]
 
+
+        String reversed = new StringBuilder(input)
+        .reverse()
+        .toString();
+
+        if (input.equals(reversed)) {
+            System.out.println("Palindrome");
+        } else {
+            System.out.println("Not Palindrome");
+        }
 
 
         // =======================================================
