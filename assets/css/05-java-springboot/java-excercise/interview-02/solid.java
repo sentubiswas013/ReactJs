@@ -36,7 +36,15 @@ class EmailService {
 // 2. OCP (Open/Closed Principle)
 // Open for extension, closed for modification
 // ============================================================
+// bad Impplementation: Adding new payment type requires modifying existing code ❌
+class Payment1 {
+    void pay(String type) {
+        if(type.equals("UPI")) {}
+        else if(type.equals("CARD")) {}
+    }
+}
 
+// Good Implementation: Easy to extend without modifying existing code ✅
 interface Payment {
     void pay();
 }
@@ -80,6 +88,17 @@ class OpenClosedDemo {
 // 3. LSP (Liskov Substitution Principle)
 // Subtypes must be substitutable for their base types
 // ============================================================
+
+// Bad implementation: Ostrich can't fly, violates LSP ❌
+class Bird1 {
+    void fly() {}
+}
+
+class Ostrich extends Bird1 {
+    void fly() { throw new RuntimeException(); }
+}
+
+// Good implementation: Separate flying and non-flying birds ✅
 class Bird {
     public void fly() {
         System.out.println("Bird can fly");
@@ -116,6 +135,26 @@ class LiskovSubstitutionDemo {
 // 4. ISP (Interface Segregation Principle)
 // Child class should replace parent class without breaking code.
 // ============================================================
+// Bad Design: Worker interface has both work and eat methods ❌
+interface Worker {
+    void work();
+    void eat();
+}
+
+// Good Design: Separate interfaces for different responsibilities ✅
+class InterfaceSegregationDemo {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
 interface Workable {
     void work();
 }
@@ -140,19 +179,6 @@ class Robot implements Workable {
     }
 }
 
-class InterfaceSegregationDemo {
-    public static void main(String[] args) {
-        Workable w1 = new Human();
-        w1.work();
-
-        Eatable e1 = new Human();
-        e1.eat();
-
-        Workable w2 = new Robot();
-        w2.work();
-    }
-}
-
 // Output:
 // Human working
 // Human eating
@@ -163,21 +189,35 @@ class InterfaceSegregationDemo {
 // 5. DIP (Dependency Inversion Principle)
 // Depend on abstractions, not concrete implementations
 // ============================================================
+// Bad Design: Laptop directly depends on WiredMouse ❌
+class Laptop {
+    CardPaymentB mouse = new CardPaymentB();
+}
 
-interface Payment {
+// Good Design: Laptop depends on Mouse interface, not specific implementation ✅
+class DependencyInversionDemo {
+    public static void main(String[] args) {
+        PaymentB payment = new CardPaymentB();   // Inject dependency
+        OrderService orderService = new OrderService(payment);
+
+        orderService.placeOrder();
+    }
+}
+
+interface PaymentB {
     void pay();
 }
 
-class CardPayment implements Payment {
+class CardPaymentB implements PaymentB {
     public void pay() {
         System.out.println("Card payment");
     }
 }
 
 class OrderService {
-    private Payment payment;
+    private PaymentB payment;
 
-    public OrderService(Payment payment) {
+    public OrderService(PaymentB payment) {
         this.payment = payment;
     }
 
@@ -186,14 +226,7 @@ class OrderService {
     }
 }
 
-class DependencyInversionDemo {
-    public static void main(String[] args) {
-        Payment payment = new CardPayment();   // Inject dependency
-        OrderService orderService = new OrderService(payment);
 
-        orderService.placeOrder();
-    }
-}
 
 //Output:
 // Card payment

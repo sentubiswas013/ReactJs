@@ -59,6 +59,7 @@ JVM = Runtime execution environment
 
 
 - **1. Encapsulation:** Data is `private` and accessed using `getter and setter methods`.
+👉 Hide data and control access. Keep data safe and access it through methods
 
 ```java
 class Person {
@@ -83,6 +84,7 @@ public class Main {
 ```
 
 - **2. Inheritance:** Child class `inherits properties from parent class` using `extends`.
+👉 Reuse parent properties in child. Child gets features from parent
 
 ```java
 class Animal {
@@ -107,7 +109,7 @@ public class Main {
 ```
 
 - **3. Polymorphism:** Method Overloading
-
+👉 Same method, different behavior. One thing, many forms
 ```java
 class Calculator {
     int add(int a, int b) {
@@ -129,7 +131,7 @@ public class Main {
 ```
 
 - **4. Abstraction** abstract class or interface
-
+👉 Hide complexity, show only needed parts. Show what is needed, hide the rest.
 ```java
 abstract class Vehicle {
     abstract void start();   // abstract method
