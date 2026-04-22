@@ -112,7 +112,7 @@ class AbstractionDemo {
 // You want some methods implemented, some not
 // You want to reuse code
 // You need instance variables (state)
-abstract class Animal {
+abstract class AnimalB {
     abstract void sound(); // no implementation
 
     void eat() { // concrete method
@@ -120,7 +120,7 @@ abstract class Animal {
     }
 }
 
-class Dog extends Animal {
+class DogB extends Animal {
     void sound() {
         System.out.println("Dog barks");
     }
@@ -132,11 +132,11 @@ class Dog extends Animal {
 // No shared state needed
 // You want multiple inheritance
 
-interface Animal {
+interface AnimalC {
     void sound();
 }
 
-class Dog implements Animal {
+class DogC implements AnimalC {
     public void sound() {
         System.out.println("Dog barks");
     }

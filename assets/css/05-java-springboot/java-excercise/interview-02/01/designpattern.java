@@ -7,41 +7,35 @@
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
 // Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
-// ============================================================
-class Main {
+// ============================================================lass SingletonDemo {
+	
+public class SingletonDemo {
     public static void main(String[] args) {
+    	Singleton s1 = Singleton.getInstance();
+    	Singleton s2 = Singleton.getInstance();
 
-        // Runnable tasks = () -> {
-        // 	Singleton s1 = Singleton.getInstance();
-        // 	System.out.println(Thread.currentThread().getName());
-        // };
-
-        Runnable tasks = () -> {
-            Singleton s1 = Singleton.getInstance();
-            System.out.println(Thread.currentThread().getName() + " -> " + s1);
-        };
-
-        Thread t1 = new Thread(tasks, "Thread-1");
-        Thread t2 = new Thread(tasks, "Thread-2");
-
-        t1.start();
-        t2.start();
+        System.out.println("Result 1 : " + s1);
+        System.out.println("Result 2 : " + s2);
     }
 }
 
 
 class Singleton {
-	private static Singleton instance;
-
+	private static volatile Singleton instance;
 	private Singleton() {}
 
 	public static Singleton getInstance() {
-		if(instance == null) {
-			instance = new Singleton();
+		if (instance == null) {
+			synchronized (Singleton.class) {
+				if(instance == null) {
+					instance = new Singleton();
+				}
+			}
 		}
-		return instance;
+		return instance;	
 	} 
 }
+
 
 // Output: 
 // Singleton instance created: 1530262698

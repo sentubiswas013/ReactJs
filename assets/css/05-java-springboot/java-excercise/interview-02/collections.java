@@ -50,7 +50,9 @@ class Main {
 
     // ─────────────────────────────────────────────
     // 19. Set (HashSet, TreeSet, LinkedHashSet)
-    // No duplicates
+    // HashSet (unique and no order), 
+    // TreeSet (unique and sorted), 
+    // LinkedHashSet (unique and insertion order)
     // ─────────────────────────────────────────────
     static void setDemo() {
 
