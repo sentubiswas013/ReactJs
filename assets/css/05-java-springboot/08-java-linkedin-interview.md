@@ -504,3 +504,29 @@ What are indexes and their pros/cons
 - Are you using AI tools for coding?
 - What are their pros, cons, and risks?
 - How do you validate AI-generated code?
+
+===========================
+
+1. Your Spring Boot app throws OutOfMemoryError after running for some time. How will you identify and fix the root cause?
+2. You start seeing NullPointerException in production but not locally. How will you debug it?
+3. A REST API becomes slow due to heavy object creation. How will you optimize Java performance?
+4. Multiple threads update shared data causing inconsistent results. How will you handle concurrency?
+5. Your application throws ConcurrentModificationException. How will you fix it?
+6. A thread pool gets exhausted under load. How will you tune and manage it?
+7. Your Spring Boot service fails due to improper exception handling. How will you design global exception handling?
+8. You face LazyInitializationException in production. How will you resolve it?
+9. A scheduled task runs multiple times across instances. How will you control execution?
+10. Your application shows high GC pauses affecting performance. How will you optimize memory usage?
+11. You encounter DataIntegrityViolationException while saving data. What checks will you add?
+12. A transaction fails midway causing inconsistent data. How will you handle rollback properly?
+13. Your service crashes due to unhandled runtime exceptions. How will you prevent it?
+14. You observe thread starvation in your application. How will you resolve it?
+15. A service behaves differently in production due to environment configs. How will you debug it?
+16. Your API processes duplicate requests due to retries. How will you ensure idempotency?
+17. You face deadlocks due to improper synchronization. How will you detect and resolve them?
+18. Your application fails due to class loading issues. How will you debug ClassNotFoundException?
+19. A long-running task blocks request threads. How will you redesign it?
+20. Your logs are not enough to debug issues. How will you improve logging and monitoring?
+
+======================
+
