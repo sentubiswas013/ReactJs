@@ -6302,6 +6302,7 @@ Design patterns are proven reusable solutions to common software design problems
 * **Observer** – Defines a one-to-many relationship where multiple objects are notified automatically when one object changes state.
 * **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
 * **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
+* **Prototype** –  Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 
 ## 2. What is Singleton pattern?
 
