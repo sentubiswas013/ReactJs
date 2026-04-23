@@ -530,3 +530,53 @@ What are indexes and their pros/cons
 
 ======================
 
+
+CORE JAVA
+
+1. Difference between ArrayList vs LinkedList – internal working
+2. How does HashMap resolve collisions? What is treeification?
+3. Difference between Comparable vs Comparator
+4. Explain immutability in Java – how to create an immutable class
+5. What is ExecutorService and different thread pools?
+6. Difference between synchronized vs Lock API
+7. How does ConcurrentHashMap achieve thread-safety?
+8. What is volatile, and when do you need it?
+9. Explain fail-fast vs fail-safe iterators
+10. When does Java throw OutOfMemoryError and how to fix it?
+11. Explain Java Streams API
+12. In what places have you used Java Streams in your projects?
+13. Find distinct elements using Java Streams
+14. Print N numbers while skipping specified numbers using streams
+15. What is ConcurrentHashMap? Explain its internal working
+16. How will you make a class thread-safe?
+17. How do you avoid deadlocks in Java?
+18. Explain Garbage Collection in brief
+
+
+SPRING & SPRING BOOT
+
+19. How does Spring IoC container work internally?
+20. Difference between @Component, @Service, @Repository
+21. Explain Bean Scopes – prototype, request, session
+22. How does Spring Boot auto-configuration work?
+23. What is Spring Boot Starter and why do we use it?
+24. How do you implement Global Exception Handler?
+25. Explain AOP with real use case (audit logging/security)
+26. What is WebClient vs RestTemplate?
+27. How do you secure APIs using JWT + Spring Security?
+28. How do you set up profiles for multiple environments?
+
+
+JPA, HIBERNATE & SQL
+
+29. Difference between persist(), merge(), save()
+30. Explain lazy loading vs eager loading with real examples
+31. What is N+1 problem and how to avoid it?
+32. Explain @OneToMany, @ManyToOne, @ManyToMany
+33. What is CascadeType.ALL vs orphanRemoval?
+34. How do you perform pagination & sorting in JPA?
+35. How do you optimize slow SQL queries? (indexes, EXPLAIN PLAN)
+36. How to perform batch insert/update in Hibernate?
+37. What is a transaction isolation level?
+38. How do you handle deadlocks in SQL databases?
+
