@@ -125,17 +125,25 @@ public class Stream01 {
 
         // =======================================================
         // 9. Find Maximum and minimum number
+        int max = num01.stream()
+        		.max(Integer::compareTo )
+        		.orElseThrow();
+        
+        int min = num01.stream()
+        		.min(Integer::compareTo )
+        		.orElseThrow();
         
 
-        // System.out.println("2. Maximum: " + max);
-        // System.out.println("2. Minimum: " + min);
+//        System.out.println("2. Maximum: " + max);
+//        System.out.println("2. Minimum: " + min);
         // Output: 2. Maximum: 6
 
 
 
         // =======================================================
         // 10. Find Longest and smallest String
-        
+        String longest = arr01.stream()
+        		.max(Comparator.comparing(String.counting) );
 
 
         // System.out.println("10. Longest: " + longest);
@@ -370,7 +378,7 @@ public class Stream01 {
             .get();
           
 
-        System.out.println("Second highest salary employees: " + employee);
+        // System.out.println("Second highest salary employees: " + employee);
         // Output: Second highest salary employees: HR : 45000.0
 
 
