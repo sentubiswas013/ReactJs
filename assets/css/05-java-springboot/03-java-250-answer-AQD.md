@@ -3772,40 +3772,90 @@ It handle **thread creation, reuse, and termination**, and allowing **task track
 
 
 ```java
+import java.util.concurrent.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Test {
+// Basic Example
+public class Demo {
     public static void main(String[] args) {
-
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
-        // Submit multiple tasks
-        for (int i = 1; i <= 5; i++) {
-            int task = i;
-            executor.submit(() -> {
-                System.out.println("Task " + task + " executed by " 
-                                   + Thread.currentThread().getName());
-            });
-        }
+        executor.submit(() -> {
+            System.out.println("Task executed by: " + Thread.currentThread().getName());
+        });
 
-        // Additional tasks
-        executor.submit(() -> System.out.println("Task executed"));
-        executor.execute(() -> System.out.println("Another task"));
-
-        // Shutdown executor
         executor.shutdown();
     }
 }
 
-/// Output: 
-Task 2 executed by pool-1-thread-2
-Task 1 executed by pool-1-thread-1
-Task 3 executed by pool-1-thread-3
-Task 4 executed by pool-1-thread-1
-Task 5 executed by pool-1-thread-2
-Task executed
-Another task
+
+// Real-Time Use Case (Very Important)
+// 🧠 Scenario: Handling Multiple API Requests (Backend Server)
+
+// 👉 Imagine:
+
+// 1000 users hit your API at the same time
+// You cannot create 1000 threads manually ❌
+// You use a thread pool ✅
+
+
+import java.util.concurrent.*;
+
+public class Server {
+    public static void main(String[] args) {
+
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        // ExecutorService executor = Executors.newSingleThreadExecutor(); 
+        // It will execute in scequnce
+
+        for (int i = 1; i <= 10; i++) {
+            executor.submit(new UserRequest("User-" + i));
+        }
+
+        executor.shutdown();
+    }
+}
+
+class UserRequest implements Runnable {
+    private String user;
+
+    UserRequest(String user) {
+        this.user = user;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Processing request for " + user +
+                " by " + Thread.currentThread().getName());
+
+        try {
+            Thread.sleep(1000); // simulate processing
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+// Why use ExecutorService here?
+// Limits threads (e.g., 5 threads only)
+// Reuses threads → better performance
+// Prevents system crash due to too many threads
+
+
+// Output
+// Processing request for User-5 by pool-1-thread-5
+// Processing request for User-3 by pool-1-thread-3
+// Processing request for User-2 by pool-1-thread-2
+// Processing request for User-1 by pool-1-thread-1
+// Processing request for User-4 by pool-1-thread-4
+// Processing request for User-6 by pool-1-thread-3
+// Processing request for User-8 by pool-1-thread-2
+// Processing request for User-7 by pool-1-thread-4
+// Processing request for User-9 by pool-1-thread-1
+// Processing request for User-10 by pool-1-thread-5
+
+
 ```
 
 **Realtime Example:** Food delivery app
