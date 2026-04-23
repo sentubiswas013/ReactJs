@@ -3289,6 +3289,75 @@ concurrentMap.merge("key1", 5, Integer::sum);
 concurrentMap.forEach((k, v) -> System.out.println(k + ": " + v));
 ```
 
+**Basic Example**
+```Java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Demo {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+
+        map.put("A", 1);
+        map.put("B", 2);
+
+        map.putIfAbsent("A", 100); // won't overwrite
+
+        System.out.println(map.get("A")); // 1
+    }
+}
+```
+
+// Real-Time Use Case (Important for Interviews)
+// 🧠 Scenario: Caching User Sessions
+// 👉 In real applications (like backend APIs), multiple users access/update data simultaneously.
+
+```Java
+import java.util.concurrent.ConcurrentHashMap;
+
+class UserSession {
+    String userId;
+    long loginTime;
+
+    UserSession(String userId) {
+        this.userId = userId;
+        this.loginTime = System.currentTimeMillis();
+    }
+}
+
+public class SessionManager {
+
+    private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
+
+    // Add session
+    public static void login(String userId) {
+        sessionCache.put(userId, new UserSession(userId));
+    }
+
+    // Get session
+    public static UserSession getSession(String userId) {
+        return sessionCache.get(userId);
+    }
+
+    // Remove session
+    public static void logout(String userId) {
+        sessionCache.remove(userId);
+    }
+
+    public static void main(String[] args) {
+        login("user1");
+        login("user2");
+
+        System.out.println(getSession("user1").userId);
+
+        logout("user1");
+    }
+}
+// Why use ConcurrentHashMap here?
+// Many users logging in/out at the same time
+// No need to lock entire structure
+// Faster than Collections.synchronizedMap()
+```
+
 ## 10. What is race condition and how to resolve it?
 
 A **race condition** happens when **multiple threads access and modify the same shared data at the same time**, and the final result depends on which thread runs first.
