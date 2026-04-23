@@ -293,34 +293,43 @@ class ConcurrentMapExample {
 // Real-world Example: Counting word frequency in logs using ConcurrentHashMap
 // import java.util.concurrent.*;
 
-class ConcurrentMapRealTimeExample {
+// import java.util.concurrent.ConcurrentHashMap;
 
-    public static void main(String[] args) throws Exception {
+class UserSession {
+    String userId;
+    long loginTime;
 
-        ConcurrentHashMap<String, Integer> wordCount = new ConcurrentHashMap<>();
+    UserSession(String userId) {
+        this.userId = userId;
+        this.loginTime = System.currentTimeMillis();
+    }
+}
 
-        Runnable task1 = () -> processLogs("error warning info", wordCount);
-        Runnable task2 = () -> processLogs("error error info", wordCount);
-        Runnable task3 = () -> processLogs("warning info", wordCount);
+class SessionManager {
+    private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
 
-        Thread t1 = new Thread(task1);
-        Thread t2 = new Thread(task2);
-        Thread t3 = new Thread(task3);
-
-        t1.start(); t2.start(); t3.start();
-
-        t1.join(); t2.join(); t3.join();
-
-        System.out.println("Final Word Count: " + wordCount);
+    // Add session
+    public static void login(String userId) {
+        sessionCache.put(userId, new UserSession(userId));
     }
 
-    static void processLogs(String log, ConcurrentHashMap<String, Integer> map) {
-        String[] words = log.split(" ");
+    // Get session
+    public static UserSession getSession(String userId) {
+        return sessionCache.get(userId);
+    }
 
-        for (String word : words) {
-            // Thread-safe update
-            map.merge(word, 1, Integer::sum);
-        }
+    // Remove session
+    public static void logout(String userId) {
+        sessionCache.remove(userId);
+    }
+
+    public static void main(String[] args) {
+        login("user1");
+        login("user2");
+
+        System.out.println(getSession("user1").userId);
+
+        logout("user1");
     }
 }
 

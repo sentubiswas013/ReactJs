@@ -144,88 +144,6 @@
 - Why are you looking for a change?
 - Notice period & availability. Salary expectations.
 
-=============
-🔹 1. How does HashMap work internally?  
-→ It uses hashing to store key-value pairs in buckets.  
-→ Collision is handled using LinkedList / Tree (after Java 8).
-
-🔹 2. HashMap vs ConcurrentHashMap?  
-→ HashMap is not thread-safe.  
-→ ConcurrentHashMap allows concurrent access using segment-level locking.
-
-🔹 3. synchronized vs ReentrantLock?  
-→ synchronized is simple but less flexible.  
-→ ReentrantLock provides tryLock(), fairness, and better control.
-
-🔹 4. What does volatile keyword do?  
-→ Ensures visibility of variable changes across threads.  
-→ Does NOT guarantee atomicity.
-
-🔹 5. Explain JVM memory structure.  
-→ Heap (objects), Stack (method calls), Metaspace (class metadata).  
-→ Each thread has its own stack.
-
-🔹 6. What is Garbage Collection?  
-→ Automatic memory cleanup of unused objects.  
-→ G1 GC is commonly used for better performance.
-
-🔹 7. Why String is immutable?  
-→ Ensures security, caching, and thread safety.  
-→ Used in String pool for performance.
-
-🔹 8. Comparable vs Comparator?  
-→ Comparable = natural sorting (inside class).  
-→ Comparator = custom sorting (external logic).
-
-🔹 9. What is dependency injection?  
-→ Providing dependencies from outside instead of creating them.  
-→ Promotes loose coupling.
-
-🔹 10. Component vs Service vs Repository?  
-→ All are Spring beans.  
-→ Service → business logic, Repository → DB layer.
-
-🔹 11. What does Transactional do?  
-→ Manages database transactions automatically.  
-→ Rolls back on runtime exceptions.
-
-🔹 12. How do you design REST APIs?  
-→ Use proper HTTP methods (GET, POST, PUT, DELETE).  
-→ Follow naming conventions and status codes.
-
-🔹 13. What is idempotency in APIs?  
-→ Multiple requests give same result.  
-→ Example: PUT, GET.
-
-🔹 14. How does indexing improve SQL performance?  
-→ Reduces full table scan.  
-→ Works like a lookup pointer.
-
-🔹 15. WHERE vs HAVING?  
-→ WHERE filters rows before grouping.  
-→ HAVING filters after GROUP BY.
-
-
-🔹 16. What is normalization?  
-→ Reduces redundancy by splitting tables.  
-→ Improves data integrity.
-
-🔹 17. What is connection pooling?  
-→ Reuses DB connections instead of creating new ones.  
-→ Improves performance.
-
-🔹 18. How do you handle exceptions in Spring Boot?  
-→ Use ControllerAdvice + ExceptionHandler.  
-→ Centralized error handling.
-
-🔹 19. What is caching?  
-→ Storing frequently used data (e.g., Redis).  
-→ Reduces DB load.
-
-🔹 20. How to improve API performance?  
-→ Use caching, indexing, async processing.  
-→ Optimize DB queries.
-
 =================
 
 1. Your Spring Boot app starts returning 500 errors after deployment. How will you debug it?
@@ -302,7 +220,7 @@ public class Main {
 
 ∆ Java 8:
 
--Find the occurrence of each string in a list using the Stream API.
+- Find the occurrence of each string in a list using the Stream API.
 
 - What improvements related to memory management were introduced in Java 8, and how do they impact performance?
 
@@ -373,37 +291,7 @@ public class Main {
 49. What tools do you use for debugging?
 50. Biggest production issue you handled?
 =======================
-One of the TOUGHEST scenario questions asked in a Java Backend interview
 
-Question: "Your payment service is processing 10,000 transactions per second. Suddenly response time jumps from 20ms to 8 seconds. No errors in logs. No alerts fired. Business is losing money every second. How do you debug this?"
-
-This question separates tutorial developers from production engineers.
-STAR Framework Answer (with real project reflection)
-
-Situation: In production, our payment service response time spiked from 20ms to 8 seconds during peak traffic. No exceptions in logs. No OOM errors. No infrastructure alerts. But transactions were timing out and customers were getting charged without order confirmation.
-
-Task: As the backend engineer on call, my task was to identify the root cause across the entire request chain without taking the service down and restore normal response times within minutes.
-
-Action: First I checked what changed. Recent deployments. Config changes. Traffic patterns. Nothing obvious. Then I followed the request.
-
-Step 1: Check thread pool ExecutorService thread pool was at 100% utilization. All threads waiting. No threads available to process new requests. This was the symptom not the cause.
-
-Step 2: Find what threads were waiting on Thread dump showed all threads blocked on database connection pool. HikariCP pool size was 10. All 10 connections held open. None being released.
-
-Step 3: Find why connections weren't releasing One specific query introduced in last deployment. Missing index on a foreign key column. Full table scan on every transaction. 100ms query became 7 second query under load. Connection held for 7 seconds per transaction. Pool exhausted in seconds.
-
-Step 4: Immediate fix Increased connection pool size temporarily bought 10 minutes. Added database index query dropped from 7 seconds to 8ms. Thread pool cleared instantly. Response time back to 20ms.
-
-Step 5: Permanent fix Added query performance testing to CI/CD pipeline. EXPLAIN ANALYZE on every new query before deployment. Connection pool monitoring alert at 70% utilization. Never caught this way again.
-
-Result: Service restored in 11 minutes. Root cause identified and fixed permanently. Incident led to mandatory query review process for all future deployments. Zero recurrence in 14 months.
-
-This is what separates a developer who builds features from an engineer who owns systems.
-Anyone can write code that works at 100 users.
-Production engineers write code that survives at 100,000.
-
-The concepts behind this answer thread pools, connection pooling, query optimization, HikariCP internals are exactly what I documented in my Java Backend Engineering Guide.
-Not theory. Real production scenarios.
 ----------------
 • Core Java
 Explain OOPS concepts with real-time examples Difference between abstract class vs interface
@@ -580,3 +468,53 @@ JPA, HIBERNATE & SQL
 37. What is a transaction isolation level?
 38. How do you handle deadlocks in SQL databases?
 
+============
+
+
+1. Concurrency & Multithreading
+Scenario-Based
+You have a shared in-memory cache accessed by multiple threads.
+👉 How do you prevent race conditions and ensure high performance?
+Multiple threads are updating the same user balance.
+👉 How do you ensure data consistency without hurting scalability?
+Your system processes 10,000 requests/sec.
+👉 How would you design a thread pool strategy?
+Threads must execute tasks in order (like logs or transactions).
+👉 How would you enforce ordering?
+A thread is blocked due to a slow API call.
+👉 How do you prevent thread starvation?
+
+
+Java concurrency interview questions that are commonly asked in machine coding rounds at big product-based FAANG level companies:
+
+Design a Job Scheduler
+Implement a job scheduler that can schedule and execute multiple jobs concurrently, taking into account dependencies and priorities.
+
+Thread-Safe Job Queue
+Implement a thread-safe job queue in Java that supports adding jobs, removing jobs, and retrieving the next job to execute efficiently. My Solution on YouTube
+
+Thread-safe LRU Cache
+Implement a thread-safe LRU (Least Recently Used) cache with support for concurrent read and write operations, considering efficiency and thread safety.
+
+Concurrent Task Scheduler
+Implement a concurrent task scheduler that can execute multiple tasks concurrently while limiting the maximum number of parallel executions.
+
+Print N Numbers Using Different Even-Odd Threads
+The goal is to print the numbers in order, while one thread only prints the even numbers and the other thread only prints the odd numbers. My Solution on YouTube
+
+Parallel Matrix Multiplication
+Implement a program that performs matrix multiplication using multiple threads to achieve parallel processing and improve performance.
+
+Thread Safety in Singleton
+Design a thread-safe singleton class in Java, ensuring that only a single instance is created even in a multi-threaded environment.
+
+Priority Job Scheduler
+Implement a job scheduler that supports job priorities and allows for dynamically changing the priority of running jobs.
+
+Distributed Lock Manager
+Design a distributed lock manager that can coordinate job execution across multiple nodes to prevent concurrent execution of conflicting jobs.
+
+Rate Limiter
+Implement a rate limiter that can control the rate of job execution, ensuring that jobs are not executed more frequently than a specified limit
+
+===============
