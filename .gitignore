@@ -7,6 +7,16 @@
 # Only exists if Bazel was run
 /bazel-out
 
+# Java compiled classes
+bin/
+*.class
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+build/
+
 # dependencies
 node_modules/*
 
