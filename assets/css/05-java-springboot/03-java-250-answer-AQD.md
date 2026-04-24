@@ -6908,7 +6908,7 @@ Service service;
 
 **Dependency Injection (DI)** is a design pattern where objects **don’t create their dependencies**, instead **dependencies are provided by the framework (Spring)**.
 
-👉 This makes code:  **Loosely coupled**,  ** Easy to test**, **Easy to maintain**
+👉 This makes code:  **Loosely coupled**,  **Easy to test**, **Easy to maintain**
 
 **There are 3 main types of DI:**
 1. Constructor Injection – dependencies injected through constructor (recommended)
@@ -6944,7 +6944,7 @@ class Car {
     }
 }
 ```
-👉 Best because: * Mandatory dependency * Immutable (using `final`) * Easy to test
+👉 Best because: **Mandatory dependency**, **Immutable (using `final`)**, **Easy to test**
 
 **2. Setter Injection**
 
@@ -6964,7 +6964,8 @@ public void setEngine(Engine engine) {
 @Autowired
 private Engine engine;
 ```
-👉 Avoid because: * Hard to test * Not immutable * Hidden dependency
+👉 Avoid because: **Hard to test**, **Not immutable**, **Hidden dependency**
+
 
 ## 5. What is a Spring Container?
 
