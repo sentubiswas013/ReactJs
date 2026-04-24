@@ -6933,6 +6933,7 @@ Car car = new Car(engine);    // Spring does: injected
 ```
 
 **We can implement this way**
+
 **1. Constructor Injection (Recommended)**
 
 ```java
@@ -6955,9 +6956,9 @@ class Car {
 public void setEngine(Engine engine) {
     this.engine = engine;
 }
+👉 Used when dependency is optional
 
 ```
-👉 Used when dependency is **optional**
 
 
 **3. Field Injection**
@@ -6965,8 +6966,8 @@ public void setEngine(Engine engine) {
 ```java
 @Autowired
 private Engine engine;
+👉 Avoid because: Hard to test, Not immutable, Hidden dependency
 ```
-👉 Avoid because: **Hard to test**, **Not immutable**, **Hidden dependency**
 
 
 ## 5. What is a Spring Container?
