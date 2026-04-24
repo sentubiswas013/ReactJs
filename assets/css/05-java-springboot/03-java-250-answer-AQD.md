@@ -6906,16 +6906,18 @@ Service service;
 
 ## 4. What is Dependency Injection?
 
-**Dependency Injection (DI)** is a design pattern where an object's **dependencies are provided externally** rather than the object creating them itself.
+**Dependency Injection (DI)** is a design pattern where objects **don’t create their dependencies**, instead **dependencies are provided by the framework (Spring)**.
 
-In Java and Spring, DI helps make code **loosely coupled, easier to test, and more maintainable**. It can be implemented via **constructor injection, setter injection, or field injection**.
+👉 This makes code:
+* Loosely coupled
+* Easy to test
+* Easy to maintain
 
 **There are 3 main types of DI:**
 1. Constructor Injection – dependencies injected through constructor (recommended)
 2. Setter Injection – dependencies injected through setter method
 3. Field Injection – dependencies injected directly into field using @Autowired
 
-**1. Constructor Injection (Recommended)**
 
 ```java
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6927,64 +6929,52 @@ class Engine {
         System.out.println("Engine started");
     }
 }
+```
 
+Instead of :
+
+```java
+Engine engine = new Engine(); // tightly coupled
+```
+
+Spring does:
+
+```java
+Car car = new Car(engine); // injected
+```
+
+**1. Constructor Injection (Recommended)**
+
+```java
 @Component
 class Car {
-    private Engine engine;
+    private final Engine engine;
 
-    @Autowired
-    public Car(Engine engine) {   // Constructor Injection
+    public Car(Engine engine) {
         this.engine = engine;
     }
-
-    public void drive() {
-        engine.start();
-        System.out.println("Car is running");
-    }
 }
+👉 Best because: * Mandatory dependency * Immutable (using `final`) * Easy to test
 ```
 
 
 **2. Setter Injection**
 
 ```java
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-@Component
-class Car {
-    private Engine engine;
-
-    @Autowired
-    public void setEngine(Engine engine) {   // Setter Injection
-        this.engine = engine;
-    }
-
-    public void drive() {
-        engine.start();
-        System.out.println("Car is running");
-    }
+@Autowired
+public void setEngine(Engine engine) {
+    this.engine = engine;
 }
+👉 Used when dependency is **optional**
 ```
 
 
 **3. Field Injection**
 
 ```java
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-@Component
-class Car {
-
-    @Autowired   // Field Injection
-    private Engine engine;
-
-    public void drive() {
-        engine.start();
-        System.out.println("Car is running");
-    }
-}
+@Autowired
+private Engine engine;
+👉 Avoid because: * Hard to test * Not immutable * Hidden dependency
 ```
 
 ## 5. What is a Spring Container?

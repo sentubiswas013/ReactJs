@@ -27,17 +27,28 @@ class ExceptioHandler implements Thread.UncaughtExceptionHandler {
 class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidAgeException.class)
-    public String handleInvalidAge(InvalidAgeException ex) {
-        return "Error: " + ex.getMessage();
+    public ResponseEntity<String> handleInvalidAge(InvalidAgeException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
     }
 }
-// VotingService.java
-@Service
-class VotingService {
-    public void vote(int age) {
-        if (age < 18) {
-            throw new InvalidAgeException("Underage - Not eligible to vote");
-        }
+
+// VotingController.java
+@RestController
+@RequestMapping("/api")
+class VotingController {
+
+    private final VotingService votingService;
+
+    public VotingController(VotingService votingService) {
+        this.votingService = votingService;
+    }
+
+    @GetMapping("/vote")
+    public ResponseEntity<String> vote(@RequestParam int age) {
+        votingService.vote(age);
+        return ResponseEntity.ok("Vote successful");
     }
 }
 

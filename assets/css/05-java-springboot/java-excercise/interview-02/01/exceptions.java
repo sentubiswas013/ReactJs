@@ -20,6 +20,17 @@ class ExceptioHandler implements Thread.UncaughtExceptionHandler {
 // ============================================================
 // 2. Global Exception Handler using spring
 // ============================================================
+@ControllerAdvic
+class GlobalExceptionHanlder {
+	@ExceptioHandler(InvalidAgeException.class)
+	public ResponEntity<String> HandleException(Exception e) {
+		return new ResponeEntity<>(
+				"Error " + e.getMessage(),
+				httpStatus.Internal_SERVER_ERROR
+			)
+	}
+}
+
 
 
 
