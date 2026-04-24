@@ -6932,6 +6932,7 @@ Engine engine = new Engine(); // Spring does: tightly coupled
 Car car = new Car(engine);    // Spring does: injected
 ```
 
+**We can implement this way**
 **1. Constructor Injection (Recommended)**
 
 ```java
@@ -6943,8 +6944,9 @@ class Car {
         this.engine = engine;
     }
 }
+👉 Best because: Mandatory dependency, Immutable (using final), Easy to test
 ```
-👉 Best because: **Mandatory dependency**, **Immutable (using `final`)**, **Easy to test**
+
 
 **2. Setter Injection**
 
