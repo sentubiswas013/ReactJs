@@ -6908,10 +6908,7 @@ Service service;
 
 **Dependency Injection (DI)** is a design pattern where objects **don’t create their dependencies**, instead **dependencies are provided by the framework (Spring)**.
 
-👉 This makes code:
-* Loosely coupled
-* Easy to test
-* Easy to maintain
+👉 This makes code: * Loosely coupled * Easy to test * Easy to maintain
 
 **There are 3 main types of DI:**
 1. Constructor Injection – dependencies injected through constructor (recommended)
@@ -6929,18 +6926,10 @@ class Engine {
         System.out.println("Engine started");
     }
 }
-```
 
-Instead of :
-
-```java
-Engine engine = new Engine(); // tightly coupled
-```
-
-Spring does:
-
-```java
-Car car = new Car(engine); // injected
+// Instead of :
+Engine engine = new Engine(); // Spring does: tightly coupled
+Car car = new Car(engine);    // Spring does: injected
 ```
 
 **1. Constructor Injection (Recommended)**
