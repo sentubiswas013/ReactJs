@@ -5482,6 +5482,43 @@ function useApi(url) {
 }
 ```
 
+### 7. Basic Timer (Start / Stop / Reset)
+```jsx
+import React, { useState, useEffect } from "react";
+
+export default function Timer() {
+  const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let interval;
+
+    if (isRunning) {
+      interval = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(interval); // cleanup
+  }, [isRunning]);
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>⏱ Timer: {seconds}s</h1>
+
+      <button onClick={() => setIsRunning(true)}>Start</button>
+      <button onClick={() => setIsRunning(false)}>Stop</button>
+      <button onClick={() => {
+        setSeconds(0);
+        setIsRunning(false);
+      }}>
+        Reset
+      </button>
+    </div>
+  );
+}
+```
+
 ### 7. Debounce Search?
 ```jsx
 import { useRef } from "react";
