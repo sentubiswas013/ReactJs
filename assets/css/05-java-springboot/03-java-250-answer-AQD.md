@@ -2581,8 +2581,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 @ControllerAdvice
 class GlobalExceptionHandler {
 
-    @ExceptionHandler(InvalidAgeException.class)
-    public ResponseEntity<String> handleInvalidAge(InvalidAgeException ex) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGlobalException(Exception ex) {
         return ResponseEntity
                 .badRequest()
                 .body(ex.getMessage());
