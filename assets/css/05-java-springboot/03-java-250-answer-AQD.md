@@ -6909,6 +6909,7 @@ Service service;
 **Dependency Injection (DI)** is a design pattern where objects **don’t create their dependencies**, instead **dependencies are provided by the framework (Spring)**.
 
 👉 This makes code: * Loosely coupled * Easy to test * Easy to maintain
+👉 his makes code:  **Loosely coupled** | **Easy to test** | **Easy to maintain**
 
 **There are 3 main types of DI:**
 1. Constructor Injection – dependencies injected through constructor (recommended)
