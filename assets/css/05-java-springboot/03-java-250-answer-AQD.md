@@ -6145,6 +6145,32 @@ If interviewer asks **“Which one do you use in real project?”**, answer:
 | Performance      | Parallel   |
 | Frequent reads   | Cache      |
 
+
+## 9. What is @Profile Annotation?
+
+**Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
+
+```java
+# application.properties
+spring.profiles.active=dev
+
+# application-dev.properties
+server.port=8080
+spring.datasource.url=jdbc:h2:mem:testdb
+
+# application-prod.properties
+server.port=80
+spring.datasource.url=jdbc:mysql://prod-server:3306/mydb
+```
+
+```java
+@Component
+@Profile("dev")
+public class DevDataLoader {
+    // Only loaded in dev profile
+}
+```
+
 ## 9. What is application.properties file and how value read from there?
 
 `application.properties` is a **configuration file in Spring Boot** used to store **application settings**, such as database URLs, server ports, or custom values.
