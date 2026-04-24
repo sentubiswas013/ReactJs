@@ -5482,6 +5482,37 @@ function useApi(url) {
 }
 ```
 
+### 7. Debounce Search?
+```jsx
+import { useRef } from "react";
+
+function App() {
+  const timerRef = useRef(null);
+
+  const debounce = (func, delay) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
+      func();
+    }, delay);
+  };
+
+  const search = (event) => {
+    const str = event.target.value.toLowerCase();
+    setSearchStr(str);
+
+    debounce(() => {
+      console.log("API call with:", str);
+      // call your API here
+    }, 1000);
+  };
+
+  return <input onChange={search} />;
+}
+```
+
 ### 7. How Do You Handle Race Conditions?
 
 **Race conditions** occur when multiple async operations complete in unexpected order. Common solutions include request cancellation, ignore flags, and proper state management.
