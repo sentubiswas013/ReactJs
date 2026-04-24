@@ -2553,27 +2553,24 @@ Other than this There are **two ways** depending on the application type:
 Use **UncaughtExceptionHandler** to handle exceptions globally.
 
 ```java
-class MyExceptionHandler implements Thread.UncaughtExceptionHandler {
-    public void uncaughtException(Thread t, Throwable e) {
-        System.out.println("Global Exception Caught: " + e.getMessage());
-    }
-}
-
-public class Test {
+class TestApp {
     public static void main(String[] args) {
-        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler());
-
-        int a = 10 / 0; // Exception
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptioHandler());
+        Thread tr = new Thread(() ->{
+            throw new RuntimeException("There is erro");
+        });
+        tr.start();
+    }
+}
+class ExceptioHandler implements Thread.UncaughtExceptionHandler {
+    public void uncaughtException (Thread t, Throwable e) {
+        System.out.println("Global Exception caught " + e.getMessage());
     }
 }
 ```
 
-**2. Global Exception Handling in Spring Boot (Most Important for Interview)**
-
-
-```java
-@ControllerAdvice
-```
+**2. Global Exception Handling in Spring Boot (@ControllerAdvice, @RestControllerAdvice
+)**
 
 This handles exceptions for the **entire application**
 
@@ -2581,22 +2578,23 @@ This handles exceptions for the **entire application**
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// GlobalExceptionHandler.java
 @ControllerAdvice
-public class GlobalExceptionHandler {
+class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public String handleException(Exception ex) {
-        return "Error occurred: " + ex.getMessage();
+    @ExceptionHandler(InvalidAgeException.class)
+    public String handleInvalidAge(InvalidAgeException ex) {
+        return "Error: " + ex.getMessage();
     }
 }
-```
-
-**Handle Specific Exception**
-
-```java
-@ExceptionHandler(NullPointerException.class)
-public String handleNullPointer(NullPointerException ex) {
-    return "Null value found";
+// VotingService.java
+@Service
+class VotingService {
+    public void vote(int age) {
+        if (age < 18) {
+            throw new InvalidAgeException("Underage - Not eligible to vote");
+        }
+    }
 }
 ```
 

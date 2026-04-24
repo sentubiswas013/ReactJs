@@ -1,104 +1,43 @@
 // ============================================================
-// 1. Global Exception Handler
+// 1. Global Exception Handler usig Thread.UncaughtExceptionHandler
 // ============================================================
-class InvalidAgeException extends RuntimeException {
-    public InvalidAgeException(String message) {
-        super(message);
-    }
-}
-
-class VotingService {
-
-    public void vote(int age) {
-        validateAge(age);
-        System.out.println("Vote successful");
-    }
-
-    private void validateAge(int age) {
-        if (age < 18) {
-            throw new InvalidAgeException("Underage - Not eligible to vote");
-        }
-    }
-}
-
-// Global Exception Handler (Simulation)
-class GlobalExceptionHandler {
-
-    public static void handle(Exception e) {
-        if (e instanceof InvalidAgeException) {
-            System.out.println("Handled Globally: " + e.getMessage());
-        } else {
-            System.out.println("Unexpected error: " + e.getMessage());
-        }
-    }
-}
-
-class Main {
+class TestApp {
     public static void main(String[] args) {
-
-        VotingService service = new VotingService();
-
-        try {
-            service.vote(16); // will throw exception
-        } catch (Exception e) {
-            GlobalExceptionHandler.handle(e);
-        }
-
-        try {
-            service.vote(20); // valid case
-        } catch (Exception e) {
-            GlobalExceptionHandler.handle(e);
-        }
+    	Thread.setDefaultUncaughtExceptionHandler(new ExceptioHandler());
+    	Thread tr = new Thread(() ->{
+    		throw new RuntimeException("There is erro");
+    	});
+    	tr.start();
     }
 }
-
+class ExceptioHandler implements Thread.UncaughtExceptionHandler {
+	public void uncaughtException (Thread t, Throwable e) {
+		System.out.println("Global Exception caught " + e.getMessage());
+	}
+}
 
 // ============================================================
 // 2. Global Exception Handler using spring
 // ============================================================
-// import org.springframework.boot.SpringApplication;
-// import org.springframework.boot.autoconfigure.SpringBootApplication;
+// package com.example.demo.exception;
 // import org.springframework.web.bind.annotation.*;
-// import org.springframework.web.bind.annotation.RestControllerAdvice;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
 
-@SpringBootApplication
-class DemoApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-}
-
-// Controller
-@RestController
-@RequestMapping("/vote")
-class VotingController {
-
-    @GetMapping("/{age}")
-    public String vote(@PathVariable int age) {
-        if (age < 18) {
-            throw new InvalidAgeException("Underage - Not eligible to vote");
-        }
-        return "Vote successful";
-    }
-}
-
-// Custom Exception
-class InvalidAgeException extends RuntimeException {
-    public InvalidAgeException(String message) {
-        super(message);
-    }
-}
-
-// Global Exception Handler
-@RestControllerAdvice
+// GlobalExceptionHandler.java
+@ControllerAdvice
 class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidAgeException.class)
-    public ResponseEntity<String> handleInvalidAge(InvalidAgeException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public String handleInvalidAge(InvalidAgeException ex) {
+        return "Error: " + ex.getMessage();
+    }
+}
+// VotingService.java
+@Service
+class VotingService {
+    public void vote(int age) {
+        if (age < 18) {
+            throw new InvalidAgeException("Underage - Not eligible to vote");
+        }
     }
 }
 
@@ -124,36 +63,21 @@ class BankService {
 // ============================================================
 // 4. Custom Exception Handling
 // ============================================================
-class InvalidAgeException extends Exception {
-    public InvalidAgeException(String message) {
+class InvalidAgeExceptions extends RuntimeException {
+    public InvalidAgeExceptions(String message) {
         super(message);
     }
 }
 
 class VotingService {
-
-    public void vote(int age) throws InvalidAgeException {
+    public void vote(int age) {
         validateAge(age);
         System.out.println("Vote successful");
     }
 
-    private void validateAge(int age) throws InvalidAgeException {
+    private void validateAge(int age) {
         if (age < 18) {
-            throw new InvalidAgeException("Underage - Not eligible to vote");
-        }
-    }
-}
-
-class CustomExceptionDemo {
-    public static void main(String[] args) {
-
-        VotingService service = new VotingService();
-
-        try {
-            service.vote(20);
-            service.vote(16); // will throw exception
-        } catch (InvalidAgeException e) {
-            System.out.println("Exception: " + e.getMessage());
+            throw new InvalidAgeExceptions("Underage - Not eligible to vote");
         }
     }
 }
