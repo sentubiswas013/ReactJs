@@ -6221,6 +6221,66 @@ public class AppProperties {
 }
 ```
 
+## 10. I have three application.yaml files: dev, stage, and prod. In my application, I want to use dev configuration for everything and apply stage configuration only for a specific area. How can I implement this? implement this in Java Spring Boot.
+
+In Spring Boot, you can achieve this by using Spring Profiles. You can define different profiles for your environments (dev, stage, prod) and then specify which profile to use for different parts of your application.    
+
+Here's how you can implement this:
+1. Define your application.yaml files for each profile:
+application-dev.yaml:
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/dev_db
+    username: dev_user
+    password: dev_pass
+```
+application-stage.yaml:
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/stage_db
+    username: stage_user
+    password: stage_pass
+```
+application-prod.yaml:
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/prod_db
+    username: prod_user
+    password: prod_pass
+```
+2. In your main application class, you can specify the active profile:
+```java
+@Profile("dev")
+@SpringBootApplication
+public class MyApp {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApp.class, args);
+        app.setAdditionalProfiles("dev");
+    }
+}
+```
+
+
+3. To use the stage configuration for a specific area, you can create a separate configuration class and annotate it with @Profile("stage"):
+```java
+@Configuration
+@Profile("stage")
+public class StageConfig {
+    // Define beans that should use stage configuration
+}
+```
+4. For the rest of your application, you can use the dev profile by default. You can set the active profile in your application.properties or application.yaml:
+```yaml
+spring:
+  profiles:
+    active: dev
+``` 
+
+
+
 ## 10. How can we configure multiple databases in Spring Boot?
 
 Yes — you can configure **multiple databases in Spring Boot without using `application.properties` or XML** by using **Java-based configuration (pure @Configuration classes)**.
