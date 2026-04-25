@@ -3512,7 +3512,7 @@ class Counter {
 
 
 
-# ✅ 9. Java Advanced Concurrency 
+# ✅ 9. Java Concurrency 
 
 ## 0. What is multithreading?
 
@@ -4947,25 +4947,6 @@ Retention policy determines how long annotations are retained - in source code, 
 @interface RuntimeAnnotation { }
 ```
 
-## 5. What is the difference between @Override and @Overload?
-
-**@Override** is a **Java annotation** used when a subclass provides a new implementation of a **parent class or interface method** with the same method signature. It helps the compiler catch mistakes if the method doesn’t actually override anything.
-
-**Overloading** is **not an annotation**—it’s a **concept**. Method overloading happens when multiple methods have the **same name but different parameters** (different type, number, or order) within the same class.
-
-```java
-class Parent {
-    public void method() { }
-}
-
-class Child extends Parent {
-    @Override
-    public void method() { } // Overriding - uses @Override
-    
-    public void method(int x) { } // Overloading - no annotation needed
-    public void method(String s) { } // Another overload
-}
-```
 
 ## 6. What is reflection in Java?
 

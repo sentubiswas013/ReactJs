@@ -71,7 +71,7 @@ class LambdaThreadExample2 {
 }
 
 // ============================================================
-// 4. Synchronization
+// 4. Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
 // ============================================================
 // Main Class (Simulation)
 class SynchronizationExample {
@@ -104,7 +104,7 @@ class BankAccount {
 
 
 // ============================================================
-// 5. Volatile
+// 5. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
 // ============================================================
 class VolatileExp {
     public static void main(String[] args) throws Exception {
@@ -142,7 +142,7 @@ class Task implements Runnable {
 
 
 // ============================================================
-// 6. AtomicInteger example
+// AtomicInteger provides thread-safe operations without synchronization - useful for counters in concurrent programming
 // ============================================================
 class AtomicExample {
 
@@ -171,8 +171,7 @@ class AtomicExample {
 
 
 // ============================================================
-// 7. Sleep
-// ============================================================
+// Sleep pauses thread execution for specified time but keeps locks (can cause blocking)// ============================================================
 class SleepExample {
     public static void main(String[] args) {
 
@@ -268,7 +267,7 @@ class Message {
 }
 
 // ============================================================
-// 10. ConcurrentHashMap
+// ConcurrentHashMap: Thread-safe HashMap that allows multiple threads to read/write simultaneously without external synchronization
 // ============================================================
 class ConcurrentMapExample {
     static void run() throws InterruptedException {
@@ -334,7 +333,7 @@ class SessionManager {
 }
 
 // ============================================================
-// 11. ExecutorService
+// ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
 // ============================================================
 class ExecutorServiceExample {
     public static void main(String[] args) {
@@ -383,7 +382,7 @@ class ExecutorServiceRealTimeExample {
 }
 
 // ============================================================
-// 12. CompletableFuture
+// 12. CompletableFuture is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
 // ============================================================
 class CompletableFutureExample {
     public static void main(String[] args) {
