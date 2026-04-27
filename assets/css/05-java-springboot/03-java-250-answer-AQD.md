@@ -11241,10 +11241,12 @@ Indexes speed up reads but slow down writes (INSERT/UPDATE/DELETE). Use them wis
 
 ---
 
-## 5. What is the Difference Between Stored Procedure and Function?
+## 5. What is the Difference Between Stored Procedure and Aggregate Function?
 
 **Stored Procedure** is a **precompiled SQL program** stored in the database. It can accept **parameters**, contain **business logic (IF, loops)**, and return results.
 
+**Aggregate Functions** perform calculations on multiple rows and return a **single value**.
+Common examples: `COUNT`, `SUM`, `AVG`, `MAX`, `MIN`.
 
 | | Stored Procedure | Function |
 |---|---|---|
