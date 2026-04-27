@@ -11926,7 +11926,7 @@ In cloud environments like Kubernetes, we configure **readiness and liveness pro
 * Health checks
 
 
-## **19. How do you implement auto-scaling?**
+## **19. How do you implement auto-scaling, Horizontal and vertical scaling?**
 
 
 Auto-scaling automatically increases or decreases the number of service instances based on traffic.
@@ -11934,6 +11934,10 @@ Auto-scaling automatically increases or decreases the number of service instance
 In Kubernetes, we use **Horizontal Pod Autoscaler (HPA)**, which scales pods based on metrics like **CPU usage or request count**.
 
 In AWS, we configure **Auto Scaling Groups** to scale EC2 instances when traffic increases.
+
+**Horizontal scaling** means adding more machines to handle load, Horizontal scaling is more scalable and fault-tolerant
+
+**vertical scaling** means increasing the power of a single machine like CPU or RAM. vertical scaling is simpler but has hardware limits.
 
 **Example**
 
