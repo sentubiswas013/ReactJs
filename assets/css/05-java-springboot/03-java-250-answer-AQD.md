@@ -9364,6 +9364,10 @@ public class InventoryService {
 
 A **transaction** is a group of database operations that are executed as **one single unit of work**.
 
+`@Transactional` is an annotation in **Spring Framework** that tells Spring:
+
+👉 “Run this method inside a database transaction”
+
 All operations succeed → COMMIT
 Any operation fails → ROLLBACK
 
@@ -9478,6 +9482,42 @@ public void transferMoney(Long from, Long to, double amount) {
 ```
 
 **Important gotcha:** `@Transactional` only works on **public methods** and only when called from **outside the class** (because the proxy is bypassed on self-invocation).
+
+---
+
+
+## 17. What is a Transaction in SQL?
+
+A transaction is a **group of SQL operations** that execute as a single unit. Either all succeed or all fail — no partial updates.
+
+* **`@Transactional`** = A **wrapper/helper** that uses SQL transactions automatically
+
+Transactions follow **ACID** properties:
+* **Atomicity** – All operations succeed or none (all-or-nothing).
+* **Consistency** – Data remains valid and follows all rules.
+* **Isolation** – Transactions do not interfere with each other.
+* **Durability** – Once committed, data is permanently saved even after a crash.
+
+**Transaction Control:**
+- `setAutoCommit(false)` - Start transaction
+- `commit()` - Save changes
+- `rollback()` - Undo changes
+- `setSavepoint()` - Create checkpoint
+
+```sql
+BEGIN TRANSACTION;
+
+UPDATE account SET balance = balance - 500 WHERE id = 1;  -- debit
+UPDATE account SET balance = balance + 500 WHERE id = 2;  -- credit
+
+-- If both succeed
+COMMIT;
+
+-- If anything fails
+ROLLBACK;
+```
+
+Without transactions, if the debit succeeds but the credit fails, you lose money. Transactions prevent that.
 
 ---
 
@@ -10837,7 +10877,7 @@ java -XX:+PrintCompilation \      # Print compilation events
      JITExample
 ```
 
-# ✅ 24. Modern Java Features 
+# ✅ 24. Java Features 
 
 ## 1. What are the features in Java 8?
 
@@ -11001,7 +11041,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 - **Migration strategy:** Plan upgrades around LTS releases
 
 
-# ✅ 25. SQL
+# ✅ 25. Java SQL
 
 ## 1. What are the Types of SQL JOINs?
 
@@ -11253,70 +11293,6 @@ SELECT * FROM high_salary_employees;
 **Limitation:** A regular view doesn't store data. For performance, use a **Materialized View** (stores the result physically, needs refresh).
 
 ---
-
-## 10. What is a Transaction in SQL?
-
-A transaction is a **group of SQL operations** that execute as a single unit. Either all succeed or all fail — no partial updates.
-
-Transactions follow **ACID** properties:
-* **Atomicity** – All operations succeed or none (all-or-nothing).
-* **Consistency** – Data remains valid and follows all rules.
-* **Isolation** – Transactions do not interfere with each other.
-* **Durability** – Once committed, data is permanently saved even after a crash.
-
-**Transaction Control:**
-- `setAutoCommit(false)` - Start transaction
-- `commit()` - Save changes
-- `rollback()` - Undo changes
-- `setSavepoint()` - Create checkpoint
-
-```sql
-BEGIN TRANSACTION;
-
-UPDATE account SET balance = balance - 500 WHERE id = 1;  -- debit
-UPDATE account SET balance = balance + 500 WHERE id = 2;  -- credit
-
--- If both succeed
-COMMIT;
-
--- If anything fails
-ROLLBACK;
-```
-```java
-Connection conn = null;
-try {
-    conn = DriverManager.getConnection(url, user, password);
-    conn.setAutoCommit(false); // Start transaction
-    
-    // Multiple database operations
-    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE account SET balance = balance - ? WHERE id = ?");
-    pstmt1.setDouble(1, 100.0);
-    pstmt1.setInt(2, 1);
-    pstmt1.executeUpdate();
-    
-    PreparedStatement pstmt2 = conn.prepareStatement("UPDATE account SET balance = balance + ? WHERE id = ?");
-    pstmt2.setDouble(1, 100.0);
-    pstmt2.setInt(2, 2);
-    pstmt2.executeUpdate();
-    
-    conn.commit(); // All operations successful
-    
-} catch (SQLException e) {
-    if (conn != null) {
-        conn.rollback(); // Undo all changes
-    }
-} finally {
-    if (conn != null) {
-        conn.setAutoCommit(true); // Reset to default
-        conn.close();
-    }
-}
-```
-
-Without transactions, if the debit succeeds but the credit fails, you lose money. Transactions prevent that.
-
----
-
 
 ## 11. What are different types of **JOINs**?
 
