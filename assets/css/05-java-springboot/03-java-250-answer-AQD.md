@@ -5908,74 +5908,7 @@ spring.cache.jcache.config=classpath:ehcache.xml
 | Frequently write data | Avoid cache  |
 
 
-## 6. What is SQL injection and how to prevent it?
-
-**SQL Injection** is a **security vulnerability** where an attacker injects malicious SQL code into application queries, to **manipulate or access the database illegally**.
-
-It can be prevented by using **Prepared Statements (Parameterized Queries)**, **input validation**, **ORM frameworks (like JPA/Hibernate)**, **stored procedures**, and **proper access control**.
-
-
-```java
-// Vulnerable code - SQL injection possible
-String userId = request.getParameter("id");
-String sql = "SELECT * FROM users WHERE id = " + userId;
-// If userId = "1 OR 1=1", returns all users!
-
-// Safe code - using PreparedStatement
-String sql = "SELECT * FROM users WHERE id = ?";
-PreparedStatement pstmt = conn.prepareStatement(sql);
-pstmt.setString(1, userId); // Safe parameter binding
-ResultSet rs = pstmt.executeQuery();
-```
-
-## 7. What is transaction management in JDBC?
-
-**Transaction management** ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
-
-**ACID Properties:**
-* **Atomicity** – All operations succeed or none (all-or-nothing).
-* **Consistency** – Data remains valid and follows all rules.
-* **Isolation** – Transactions do not interfere with each other.
-* **Durability** – Once committed, data is permanently saved even after a crash.
-
-**Transaction Control:**
-- `setAutoCommit(false)` - Start transaction
-- `commit()` - Save changes
-- `rollback()` - Undo changes
-- `setSavepoint()` - Create checkpoint
-
-```java
-Connection conn = null;
-try {
-    conn = DriverManager.getConnection(url, user, password);
-    conn.setAutoCommit(false); // Start transaction
-    
-    // Multiple database operations
-    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE account SET balance = balance - ? WHERE id = ?");
-    pstmt1.setDouble(1, 100.0);
-    pstmt1.setInt(2, 1);
-    pstmt1.executeUpdate();
-    
-    PreparedStatement pstmt2 = conn.prepareStatement("UPDATE account SET balance = balance + ? WHERE id = ?");
-    pstmt2.setDouble(1, 100.0);
-    pstmt2.setInt(2, 2);
-    pstmt2.executeUpdate();
-    
-    conn.commit(); // All operations successful
-    
-} catch (SQLException e) {
-    if (conn != null) {
-        conn.rollback(); // Undo all changes
-    }
-} finally {
-    if (conn != null) {
-        conn.setAutoCommit(true); // Reset to default
-        conn.close();
-    }
-}
-```
-
-## 8. How do you Handle Large Data Processing?
+## 6. How do you Handle Large Data Processing?
 
 **1. Streaming Large File (Low Memory) – Runnable Code**
 
@@ -6128,7 +6061,7 @@ If interviewer asks **“Which one do you use in real project?”**, answer:
 | Frequent reads   | Cache      |
 
 
-## 9. What is @Profile Annotation?
+## 7. What is @Profile Annotation?
 
 **Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
 
@@ -6262,7 +6195,6 @@ spring:
 ``` 
 
 
-
 ## 10. How can we configure multiple databases in Spring Boot?
 
 Yes — you can configure **multiple databases in Spring Boot without using `application.properties` or XML** by using **Java-based configuration (pure @Configuration classes)**.
@@ -6348,59 +6280,6 @@ public class DB2Config {
 }
 ```
 
-
-## 11. What is a Cursor in SQL and when should it be used ?
-
-A **Cursor** is used to **process database rows one by one** instead of all at once.
-It is useful when we need **row-by-row processing**, but it should be used carefully because it can be **slower than set-based queries**
-
-**Why use it?**
-
-* Prevents **OutOfMemoryError**
-* Good for very large datasets
-* Reduces heap usage
-
-
-```java
-DECLARE @name VARCHAR(50)
-
--- 1. Declare Cursor
-DECLARE emp_cursor CURSOR FOR
-SELECT name FROM employees
-
--- 2. Open Cursor
-OPEN emp_cursor
-
--- 3. Fetch first row
-FETCH NEXT FROM emp_cursor INTO @name
-
--- Loop through all rows
-WHILE @@FETCH_STATUS = 0
-BEGIN
-    PRINT @name
-
-    -- Fetch next row
-    FETCH NEXT FROM emp_cursor INTO @name
-END
-
--- 5. Close Cursor
-CLOSE emp_cursor
-
--- 6. Deallocate Cursor
-DEALLOCATE emp_cursor
-```
-
-```java
-@Transactional
-public void processProducts() {
-    try (Stream<Product> stream = repo.findAllByStream()) {
-        stream.forEach(product -> {
-            // process record
-        });
-    }
-}
-```
-
 ## 12. How to secure username and password?
 
 To secure username and password, we should **never store passwords in plain text**.
@@ -6445,21 +6324,6 @@ public class Test {
 | Database | Store Hashed Password Only            |
 | Network  | Use HTTPS                             |
 
-
-## 13. What is Batch Processing?
-
-Processing records in **small fixed-size chunks** (like 1000 records per batch)
-
-**Why use it?**
-
-* Handles large data safely
-* Supports retry & restart
-* Good for ETL jobs
-* Production-ready
-
-```java
-.chunk(1000)
-```
 
 
 # ✅ 17. Java Design Patterns 
