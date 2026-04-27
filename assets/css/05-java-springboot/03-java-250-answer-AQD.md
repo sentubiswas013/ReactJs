@@ -8903,10 +8903,7 @@ management:
 
 Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
 
-## 10. ---
-
-
-## 11. What is Event-Driven Architecture in Java?
+## 10. What is Event-Driven Architecture in Java?
 
 **Event-Driven Architecture (EDA)** is a design pattern where **one service produces an event and another service consumes the event** and performs some action.
 
@@ -8999,7 +8996,7 @@ Used with **Spring Boot** microservices.
 | Reliable       | Events stored        |
 
 
-## 12. What is API Gateway and predicates?
+## 11. What is API Gateway and predicates?
 
 **Answer**
 
@@ -9068,7 +9065,7 @@ predicates:
   - Path=/students/**
 ```
 
-## 13. What is circuit breaker pattern?
+## 12. What is circuit breaker pattern?
 
 The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
 
@@ -9117,7 +9114,7 @@ resilience4j:
         sliding-window-size: 10
 ```
 
-## 14: What is resilience4j pattern?
+## 13: What is resilience4j pattern?
 
 Resilience4j is a fault tolerance library used in microservices to make services resilient when dependent services fail.
 It provides patterns like Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout to prevent system failure.
@@ -9210,7 +9207,7 @@ public class OrderService {
 ```
 
 
-## 15. What is service discovery?
+## 14. What is service discovery?
 
 **Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
@@ -9273,7 +9270,7 @@ public class OrderController {
 ```
 
 
-## 16. What is Saga Pattern or How it handle payment failure?
+## 15. What is Saga Pattern or How it handle payment failure?
 
 Saga Pattern is used in **microservices architecture** to manage transactions across multiple services. Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
 
@@ -9360,7 +9357,7 @@ public class InventoryService {
 4. If inventory fails → **Refund Payment + Cancel Order**
 
 
-## 17. What is a Transactional (ACID properties)? How do you handle rollback?
+## 16. What is a Transactional (ACID properties)? How do you handle rollback?
 
 A **transaction** is a group of database operations that are executed as **one single unit of work**.
 
@@ -9462,7 +9459,7 @@ try {
 }
 ```
 
-## 18. How Does `@Transactional` Work Internally?
+## 17. How Does `@Transactional` Work Internally?
 
 Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around your bean.
 
