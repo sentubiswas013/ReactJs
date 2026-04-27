@@ -11465,22 +11465,7 @@ Each shard is stored on a different server.
 * ⚖️ Distributes load across servers
 
 
-# ✅ 26. System Design
-## 1. What is CAP theorem?
-## 2. What is eventual consistency?
-## 3. What is consistent hashing?
-## 4. How would you design a URL shortener?
-## 5. How would you design a rate limiter?
-## 6. How would you design a notification system?
-## 7. How would you design a chat application?
-## 8. What is horizontal vs vertical scaling?
-## 9. What is sharding in databases?
-## 10. What is a message queue and when to use it?
-## 11. What is the difference between SQL and NoSQL databases?
-## 12. How would you design a caching strategy?
-
-
-# ✅ 27. CI/CD and DevOp
+# ✅ 27. Java CI/CD and DevOp
 
 ## 1: What is continuous integration?
 
@@ -11976,11 +11961,9 @@ For example, we can limit a user to **100 requests per minute**.
 If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
 
 
-# ✅ 28. Monitoring and Logging
+# ✅ 28. Java Monitoring and Logging
 
-## 1: 
-
-## 2: What is logging framework?
+## 1: What is logging framework?
 
 A **logging framework** is a library that provides a structured way to record application events and errors.
 
@@ -12017,7 +12000,7 @@ public class UserService {
 }
 ```
 
-## 3: What is Log4j?
+## 2: What is Log4j?
 
 **Apache Log4j** is a popular Java logging framework developed by the Apache Software Foundation.
 
@@ -12047,7 +12030,7 @@ It provides hierarchical loggers, multiple appenders (console, file, etc.), flex
 ```
 
 
-## 4: What is SLF4J?
+## 3: What is SLF4J?
 
 **SLF4J** (Simple Logging Facade for Java) is a logging abstraction layer that provides a common API for different logging frameworks.
 
@@ -12088,7 +12071,7 @@ public class OrderService {
 ```
 
 
-## 5: What is Logback?
+## 4: What is Logback?
 
 **Logback** is a logging framework and the native implementation of SLF4J, designed as the successor to Log4j.
 It provides **better performance, flexible configuration, and is the default logging framework in Spring Boot.**
@@ -12110,7 +12093,7 @@ It provides **better performance, flexible configuration, and is the default log
 ```
 
 
-## 6: What is structured logging?
+## 5: What is structured logging?
 
 **Structured logging** is a logging approach where logs are written in a **machine-readable format** (like JSON) using **key-value pairs** instead of plain text.
 
@@ -12154,7 +12137,7 @@ public class PaymentService {
 ```
 
 
-## 7: What is centralized logging?
+## 6: What is centralized logging?
 
 **Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
 
@@ -12214,7 +12197,7 @@ public class LoggingConfig {
 }
 ```
 
-## 8. What are Java deployment issues?
+## 7. What are Java deployment issues?
 
 **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
@@ -12240,7 +12223,7 @@ System.out.println("Classpath: " + classpath);
 ```
 
 
-## 9. What are debugging strategies?
+## 8. What are debugging strategies?
 
 **Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
 
