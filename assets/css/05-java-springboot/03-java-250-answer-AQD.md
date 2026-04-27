@@ -11243,7 +11243,8 @@ Indexes speed up reads but slow down writes (INSERT/UPDATE/DELETE). Use them wis
 
 ## 5. What is the Difference Between Stored Procedure and Function?
 
-Both are reusable SQL blocks — but with key differences.
+**Stored Procedure** is a **precompiled SQL program** stored in the database. It can accept **parameters**, contain **business logic (IF, loops)**, and return results.
+
 
 | | Stored Procedure | Function |
 |---|---|---|
