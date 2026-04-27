@@ -11418,7 +11418,28 @@ Without transactions, if the debit succeeds but the credit fails, you lose money
 
 ---
 
-## 11. What is the Difference Between UNION and UNION ALL?
+
+## 11. What are different types of **JOINs**?
+
+**Answer:**
+
+**JOIN** is used to combine rows from two or more tables based on a related column.
+
+Main types:
+
+* **INNER JOIN** – Returns only matching rows from both tables.
+* **LEFT JOIN** – Returns all rows from left table and matching rows from right table.
+* **RIGHT JOIN** – Returns all rows from right table and matching rows from left table.
+* **FULL OUTER JOIN** – Returns all rows from both tables.
+* **CROSS JOIN** – Returns Cartesian product (all possible combinations).
+
+
+## 12. What is a **Primary Key** and **Foreign Key** ?
+
+**PRIMARY KEY** – Ensures uniqueness and **cannot be NULL**. A table can have **only one** primary key.
+**Foreign Key** is a column that **references the Primary Key of another table**.
+
+## 12. What is the Difference Between UNION and UNION ALL?
 
 Both combine results of two SELECT queries — but handle duplicates differently.
 
@@ -11445,7 +11466,7 @@ Use `UNION ALL` when you know there are no duplicates or you want all rows — i
 
 ---
 
-## 12. What is sharding in databases?
+## 13. What is sharding in databases?
 
 Sharding is a way to scale a database horizontally by dividing data into smaller pieces called shards. Each shard is stored in a separate database instance, which helps improve performance and handle large traffic.
 
