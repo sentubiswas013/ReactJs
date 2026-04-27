@@ -2103,6 +2103,7 @@ class Test implements A, B {
 
 One class should have only one responsibility.
 
+
 ❌ Wrong:
 
 ```java
@@ -12213,11 +12214,7 @@ public class LoggingConfig {
 }
 ```
 
-
-
-# ✅ 29.  Common Issues
-
-## 1. What are Java deployment issues?
+## 8. What are Java deployment issues?
 
 **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
@@ -12243,7 +12240,7 @@ System.out.println("Classpath: " + classpath);
 ```
 
 
-## 2. What are debugging strategies?
+## 9. What are debugging strategies?
 
 **Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
 
@@ -12267,7 +12264,7 @@ System.out.println("Classpath: " + classpath);
 logger.debug("Processing user: {}, status: {}", userId, status);
 ```
 
-# ✅ 30. Real Production Scenario 
+# ✅ 29. Real Production Scenario 
 
 ## 1. API works locally but is slow in production. What might be different?
 
@@ -12332,7 +12329,7 @@ Testing environments don't replicate production conditions:
 > "The gap is always load, data size, and concurrency. I recommend load testing with realistic data volumes before going to production — tools like JMeter or Gatling."
 
 
-# ✅ 31. Miscellaneous
+# ✅ 30. Miscellaneous
 
 ## **Q0. Tell me about yourself (Java Developer)**
 
