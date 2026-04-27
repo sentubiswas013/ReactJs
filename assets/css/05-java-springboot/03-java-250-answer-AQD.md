@@ -45,6 +45,39 @@ JVM = Runtime execution environment
       Garbage Collector
 ```
 
+## 3. What is the difference between Structured Programming and OOP?
+
+**Structured Programming:**
+- Code is organized as a sequence of **functions/procedures**
+- Data and functions are **separate**
+- Top-down approach — break problem into functions
+- Example languages: C, Pascal, early BASIC
+
+```c
+// Structured — data and logic are separate
+struct Employee { char name[50]; double salary; };
+
+void giveRaise(struct Employee *e, double amount) {
+    e->salary += amount;
+}
+```
+
+**Object-Oriented Programming (OOP):**
+- Code is organized as **objects** that bundle data + behavior together
+- Bottom-up approach — model real-world entities
+- Supports inheritance, polymorphism, encapsulation, abstraction
+- Example languages: Java, C++, Python
+
+```java
+// OOP — data and behavior together in one object
+class Employee {
+    private double salary;
+
+    public void giveRaise(double amount) {
+        this.salary += amount;  // behavior operates on its own data
+    }
+}
+```
 
 ## 3. What are the main principles of Object-Oriented Programming?
 
@@ -6181,6 +6214,75 @@ spring:
 
 ---
 
+### 13. How can we create a centralized configuration for all microservices?
+
+Use **Spring Cloud Config Server**:
+
+**Config Server** — one dedicated service that serves config to all others:
+```yaml
+# Config Server application.yml
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/your-org/config-repo  # configs stored in Git
+```
+
+**Config Repo (Git)** — stores config files per service:
+```
+config-repo/
+├── employee-service.yml
+├── order-service.yml
+├── employee-service-prod.yml
+└── order-service-prod.yml
+```
+
+**Client microservice** — fetches config from Config Server on startup:
+```yaml
+# bootstrap.yml in each microservice
+spring:
+  application:
+    name: employee-service
+  config:
+    import: "configserver:http://config-server:8888"
+```
+
+**AWS alternative** — use **AWS AppConfig** or **AWS Parameter Store**:
+```yaml
+aws:
+  paramstore:
+    prefix: /myapp
+    enabled: true
+```
+
+---
+
+### 14. How do microservices load configuration from a central source?
+
+On startup, each microservice:
+
+```
+Microservice starts
+    ↓
+Reads bootstrap.yml → finds Config Server URL
+    ↓
+HTTP GET http://config-server:8888/employee-service/prod
+    ↓
+Config Server fetches from Git repo
+    ↓
+Returns merged config (common + service-specific + profile-specific)
+    ↓
+Microservice loads properties into Spring Environment
+    ↓
+@Value, @ConfigurationProperties beans are populated
+```
+
+For **live refresh** without restart:
+- Add `@RefreshScope` on beans that need to reload
+- Call `POST /actuator/refresh` on the microservice
+- Or use Spring Cloud Bus (broadcasts refresh to all instances via RabbitMQ/Kafka)
+
 ## 12. How do you use `@ConfigurationProperties` in Spring Boot?
 
 Binds a group of related properties to a POJO — cleaner than injecting one-by-one with `@Value`.
@@ -6455,6 +6557,31 @@ public class Test {
 | Database | Store Hashed Password Only            |
 | Network  | Use HTTPS                             |
 
+
+## 18. What happens if DB goes down?
+
+- Active requests fail with a `DataAccessException` — handle it gracefully with proper error responses.
+- Connection pool (HikariCP) keeps retrying to get a connection up to `connectionTimeout`.
+- If the pool is exhausted, new requests fail fast.
+- Use circuit breaker (Resilience4j) to stop hammering a dead DB.
+- Health checks (`/actuator/health`) will show DB as DOWN.
+
+## 19. How do you deploy the same code to multiple environments?
+
+Build once, deploy everywhere — the jar doesn't change between environments.
+
+- Externalize all environment-specific config (URLs, credentials, feature flags).
+- Use Spring profiles activated via `SPRING_PROFILES_ACTIVE` env variable.
+- In CI/CD (Jenkins, GitHub Actions), pass the profile and secrets as environment variables at deploy time.
+- Use Docker: same image, different env vars per environment.
+
+```bash
+# Dev
+docker run -e SPRING_PROFILES_ACTIVE=dev app.jar
+
+# Prod
+docker run -e SPRING_PROFILES_ACTIVE=prod -e DB_PASS=secret app.jar
+```
 
 
 # ✅ 17. Java Design Patterns 
