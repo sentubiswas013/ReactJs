@@ -6195,7 +6195,7 @@ spring:
 ``` 
 
 
-## 10. How can we configure multiple databases in Spring Boot?
+## 11. How can we configure multiple databases in Spring Boot?
 
 Yes — you can configure **multiple databases in Spring Boot without using `application.properties` or XML** by using **Java-based configuration (pure @Configuration classes)**.
 
