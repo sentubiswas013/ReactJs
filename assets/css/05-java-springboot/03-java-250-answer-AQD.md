@@ -8013,29 +8013,6 @@ public class UserController {
 }
 ```
 
-## 24. How Does `@Transactional` Work Internally?
-
-Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around your bean.
-
-When the method is called:
-1. The proxy intercepts the call
-2. Opens a transaction (or joins an existing one based on propagation)
-3. Executes your method
-4. If no exception → commits the transaction
-5. If a `RuntimeException` is thrown → rolls back
-
-```java
-@Transactional
-public void transferMoney(Long from, Long to, double amount) {
-    debit(from, amount);
-    credit(to, amount);  // if this throws, debit also rolls back
-}
-```
-
-**Important gotcha:** `@Transactional` only works on **public methods** and only when called from **outside the class** (because the proxy is bypassed on self-invocation).
-
----
-
 ## 25. How Does `@EnableAutoConfiguration` Work Internally?
 
 It's the magic behind Spring Boot's "convention over configuration."
@@ -9383,7 +9360,7 @@ public class InventoryService {
 4. If inventory fails → **Refund Payment + Cancel Order**
 
 
-## 17. What is a transaction (ACID properties)? How do you handle rollback?
+## 17. What is a Transactional (ACID properties)? How do you handle rollback?
 
 A **transaction** is a group of database operations that are executed as **one single unit of work**.
 
@@ -9481,6 +9458,28 @@ try {
 }
 ```
 
+## 18. How Does `@Transactional` Work Internally?
+
+Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around your bean.
+
+When the method is called:
+1. The proxy intercepts the call
+2. Opens a transaction (or joins an existing one based on propagation)
+3. Executes your method
+4. If no exception → commits the transaction
+5. If a `RuntimeException` is thrown → rolls back
+
+```java
+@Transactional
+public void transferMoney(Long from, Long to, double amount) {
+    debit(from, amount);
+    credit(to, amount);  // if this throws, debit also rolls back
+}
+```
+
+**Important gotcha:** `@Transactional` only works on **public methods** and only when called from **outside the class** (because the proxy is bypassed on self-invocation).
+
+---
 
 ## 18. How do you Prevent duplicate payment(idempotency)?
 
