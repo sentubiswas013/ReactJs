@@ -1,10 +1,9 @@
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.IntStream;
 
-public class Stream01 {
+public class Stream02 {
     
     static class Employee {
         private String department;
@@ -118,7 +117,6 @@ public class Stream01 {
         // 8. Remove Duplicates
         
         
-        
 
         // System.out.println("17. Unique: " + unique);
         // Output: 17. Unique: [6, 1, 0, 2, 3, 4, 5]
@@ -129,30 +127,23 @@ public class Stream01 {
         // 9. Find Maximum and minimum number
         int max = num01.stream()
         		.max(Integer::compareTo)
-        		.orElseThrow();
-        		
-        int min = num01.stream()
-        		.min(Integer::compareTo)
-        		.orElseThrow();
-        		
+                .orElse(null);
+        
 
-//        System.out.println("2. Maximum: " + max);
-//        System.out.println("2. Minimum: " + min);
+        // System.out.println("2. Maximum: " + max);
+        // System.out.println("2. Minimum: " + min);
         // Output: 2. Maximum: 6
 
 
 
         // =======================================================
         // 10. Find Longest and smallest String
-//        String longest = arr01.stream()
-//        		.max(Comparator.comparing(String.counting));
-        
         String longest = arr01.stream()
-        		.max(Comparator.comparing(String::length))
+        		.max(Comparator.comparingInt(String::length))
         		.orElse(null);
 
 
-        System.out.println("10. Longest: " + longest);
+        // System.out.println("10. Longest: " + longest);
         // System.out.println("10. smallest: " + smallest);
         // System.out.println("10. Longest: " + longestWord);
         // Output: 10. Longest: stream
@@ -161,7 +152,6 @@ public class Stream01 {
 
         // =======================================================
         // 11. Sort List in Descending Order
-        
         
         
 
@@ -175,20 +165,13 @@ public class Stream01 {
         List<Integer> top3 = num01.stream()
         		.sorted(Comparator.reverseOrder())
         		.distinct()
-        		.skip(1)
-        		.limit(3)
         		.toList();
         
 
-        // System.out.println("12. Top 3: " + top3);
+        System.out.println("12. Top 3: " + top3);
         // Output: 12. Top 3: [6, 5, 4]
-         
-         List<String> sortedArr = arr01.stream()
-        		.sorted(Comparator.comparingInt(String::length))
-        		.sorted(Comparator.reverseOrder())
-        		.toList();
-         
-         // System.out.println("12. Top 3: " + sortedArr);
+
+
 
         // =======================================================
         // 13. Find Nth Largest Element
@@ -210,31 +193,19 @@ public class Stream01 {
 
         // =======================================================
         // 15. 0 should go to outside without change order
-        List<Integer> resultRight = Stream.concat(
-        			num01.stream().filter(n -> n != 0),
-        			num01.stream().filter(n -> n == 0 )
-        		)
-        		.toList();
         
-        		
 
-        System.out.println(resultRight);
+        // System.out.println(resultRight);
         // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
 
 
 
         // =======================================================
         // 16. Count Frequency of Characters
-        Map<Character, Long> freq = input.chars()
-        	.mapToObj(c -> (char) c)
-        	.collect(Collectors.groupingBy(
-        				c -> c,
-        				Collectors.counting()
-        			));
-        	
+        
         
 
-        System.out.println("13. Frequency: " + freq);
+        // System.out.println("13. Frequency: " + freq);
         // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
 
 

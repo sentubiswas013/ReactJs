@@ -6136,7 +6136,138 @@ public class AppProperties {
 }
 ```
 
-## 10. I have three application.yaml files: dev, stage, and prod. In my application, I want to use dev configuration for everything and apply stage configuration only for a specific area. How can I implement this? implement this in Java Spring Boot.
+## 10. How does Spring Boot decide which configuration file to load?
+
+Spring Boot loads config in this priority order (higher overrides lower):
+
+1. Command-line args (`--server.port=9090`)
+2. `SPRING_APPLICATION_JSON` env variable
+3. OS environment variables
+4. `application-{profile}.properties` (profile-specific)
+5. `application.properties` (default)
+6. `@PropertySource` annotations
+7. Default values in code
+
+File locations searched (in order):
+```
+./config/
+./
+classpath:/config/
+classpath:/          ← lowest priority
+```
+
+---
+
+## 11. What is centralized configuration in microservices?
+
+When you have 10+ microservices, managing config per service is painful. Centralized config means one place holds all configs.
+
+Solution: **Spring Cloud Config Server**
+
+```
+[Config Server] ←→ [Git Repo with all configs]
+      ↑
+[Service A] [Service B] [Service C]  ← all fetch config from Config Server
+```
+
+```yaml
+# bootstrap.yml in each microservice
+spring:
+  config:
+    import: "configserver:http://config-server:8888"
+  application:
+    name: order-service   # fetches order-service.yml from git
+```
+
+---
+
+## 12. How do you use `@ConfigurationProperties` in Spring Boot?
+
+Binds a group of related properties to a POJO — cleaner than injecting one-by-one with `@Value`.
+
+```yaml
+# application.yml
+app:
+  name: MyApp
+  timeout: 5000
+  retry: 3
+```
+
+```java
+@ConfigurationProperties(prefix = "app")
+@Component
+public class AppConfig {
+    private String name;
+    private int timeout;
+    private int retry;
+    // getters + setters
+}
+```
+
+Inject and use:
+```java
+@Autowired
+private AppConfig appConfig;
+
+appConfig.getTimeout(); // 5000
+```
+
+---
+
+## 13. What is the use of prefix in configuration properties?
+
+The `prefix` acts as a namespace — it maps only the matching keys from the config file to the POJO, avoiding conflicts.
+
+```yaml
+mail:
+  host: smtp.gmail.com
+  port: 587
+
+db:
+  host: localhost
+  port: 5432
+```
+
+```java
+@ConfigurationProperties(prefix = "mail")  // only binds mail.* keys
+public class MailConfig {
+    private String host;  // smtp.gmail.com
+    private int port;     // 587
+}
+
+@ConfigurationProperties(prefix = "db")    // only binds db.* keys
+public class DbConfig {
+    private String host;  // localhost
+    private int port;     // 5432
+}
+```
+
+This avoids collision when multiple configs share the same field names like `host` or `port`.
+
+## 14. How to remove default server from springboot application?
+By default, Spring Boot comes with an embedded server like Apache Tomcat. If we want to remove it, we exclude the default starter dependency and optionally add another server like Jetty or Undertow.
+
+```xml
+// Remove Inbuild Server
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+//Add New Server
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jetty</artifactId>
+</dependency>
+```
+
+## 15. I have three application.yaml files: dev, stage, and prod. In my application, I want to use dev configuration for everything and apply stage configuration only for a specific area. How can I implement this? implement this in Java Spring Boot.
 
 In Spring Boot, you can achieve this by using Spring Profiles. You can define different profiles for your environments (dev, stage, prod) and then specify which profile to use for different parts of your application.    
 
@@ -6195,7 +6326,7 @@ spring:
 ``` 
 
 
-## 11. How can we configure multiple databases in Spring Boot?
+## 16. How can we configure multiple databases in Spring Boot?
 
 Yes — you can configure **multiple databases in Spring Boot without using `application.properties` or XML** by using **Java-based configuration (pure @Configuration classes)**.
 
@@ -6280,7 +6411,7 @@ public class DB2Config {
 }
 ```
 
-## 12. How to secure username and password?
+## 17. How to secure username and password?
 
 To secure username and password, we should **never store passwords in plain text**.
 We store **hashed passwords** using algorithms like **BCrypt**.
@@ -6659,6 +6790,9 @@ coffee = new SugarDecorator(coffee);
 ## 8. What is Builder pattern?
 
 The **Builder Pattern** is used to create complex objects step by step. It is useful when an object has many optional fields and we want readable object creation.
+
+Real time use case
+
 
 **Simple Real-Life Example**
 
