@@ -6480,6 +6480,12 @@ class AnimalFactory {
 
 **Observer pattern** defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
+👉 Real use:
+Email service
+Logging
+Notifications
+
+
 ```java
 // Observer interface
 interface Observer {
@@ -6592,6 +6598,9 @@ class MediaAdapter implements MediaPlayer {
 ## 8. What is Decorator pattern?
 
 **Decorator pattern** allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
+
+When to use:
+* Adding features to objects at runtime
 
 ```java
 // Component interface
