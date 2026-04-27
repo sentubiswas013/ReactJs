@@ -9490,7 +9490,7 @@ public void transferMoney(Long from, Long to, double amount) {
 
 A transaction is a **group of SQL operations** that execute as a single unit. Either all succeed or all fail — no partial updates.
 
-* **`@Transactional`** = A **wrapper/helper** that uses SQL transactions automatically
+* **`@Transactional annotation`** = is **wrapper/helper** that uses SQL transactions automatically
 
 Transactions follow **ACID** properties:
 * **Atomicity** – All operations succeed or none (all-or-nothing).
