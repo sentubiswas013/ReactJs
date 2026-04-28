@@ -155,3 +155,57 @@ class Main {
         System.out.println("Sorted: " + list);
     }
 }
+
+//## 8. You need to implement a caching mechanism without using external libraries. How do you do it?
+// import java.util.Map;
+// import java.util.concurrent.ConcurrentHashMap;
+
+class SimpleCache<KeyType, ValueType> {
+
+    private final Map<KeyType, CacheEntry<ValueType>> cache = new ConcurrentHashMap<>();
+    private final long ttlMillis;
+
+    public SimpleCache(long ttlMillis) {
+        this.ttlMillis = ttlMillis;
+    }
+
+    public ValueType get(KeyType key) {
+        CacheEntry<ValueType> entry = cache.get(key);
+        if (entry == null) return null;
+
+        if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
+            cache.remove(key);
+            return null;
+        }
+
+        return entry.value;
+    }
+
+    public void put(KeyType key, ValueType value) {
+        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
+    }
+
+    static class CacheEntry<ValueType> {
+        final ValueType value;
+        final long timestamp;
+
+        CacheEntry(ValueType value, long timestamp) {
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+
+    // ✅ TEST METHOD
+    public static void main(String[] args) throws InterruptedException {
+
+        SimpleCache<String, String> cache = new SimpleCache<>(3000);
+
+        cache.put("key1", "Hello World");
+
+        System.out.println("Before expiry: " + cache.get("key1"));
+
+        Thread.sleep(4000);
+
+        System.out.println("After expiry: " + cache.get("key1"));
+    }
+}

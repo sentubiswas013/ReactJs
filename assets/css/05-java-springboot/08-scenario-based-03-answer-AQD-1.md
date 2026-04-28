@@ -145,37 +145,56 @@ Map<Key, Value> cache = new WeakHashMap<>();
 Use a ConcurrentHashMap to store cached data with keys. Add expiration by storing timestamp with each entry and checking on retrieval. Implement LRU eviction using LinkedHashMap with access order. For thread safety, use ConcurrentHashMap or synchronize access.
 
 ```java
-public class SimpleCache<K, V> {
-    private final Map<K, CacheEntry<V>> cache = new ConcurrentHashMap<>();
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+class SimpleCache<KeyType, ValueType> {
+
+    private final Map<KeyType, CacheEntry<ValueType>> cache = new ConcurrentHashMap<>();
     private final long ttlMillis;
-    
+
     public SimpleCache(long ttlMillis) {
         this.ttlMillis = ttlMillis;
     }
-    
-    public void put(K key, V value) {
-        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
-    }
-    
-    public V get(K key) {
-        CacheEntry<V> entry = cache.get(key);
+
+    public ValueType get(KeyType key) {
+        CacheEntry<ValueType> entry = cache.get(key);
         if (entry == null) return null;
-        
+
         if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
             cache.remove(key);
             return null;
         }
+
         return entry.value;
     }
-    
-    private static class CacheEntry<V> {
-        final V value;
+
+    public void put(KeyType key, ValueType value) {
+        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
+    }
+
+    static class CacheEntry<ValueType> {
+        final ValueType value;
         final long timestamp;
-        
-        CacheEntry(V value, long timestamp) {
+
+        CacheEntry(ValueType value, long timestamp) {
             this.value = value;
             this.timestamp = timestamp;
         }
+    }
+
+    // ✅ TEST METHOD
+    public static void main(String[] args) throws InterruptedException {
+
+        SimpleCache<String, String> cache = new SimpleCache<>(3000);
+
+        cache.put("key1", "Hello World");
+
+        System.out.println("Before expiry: " + cache.get("key1"));
+
+        Thread.sleep(4000);
+
+        System.out.println("After expiry: " + cache.get("key1"));
     }
 }
 ```
