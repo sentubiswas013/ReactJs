@@ -86,7 +86,7 @@ class SynchronizationExample {
         user2.start();
     }
 }
-class BankAccount {
+class BankAccount { 
     int balance = 1000;
 
     synchronized void withdraw(int amount) {

@@ -272,7 +272,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 17. Check Vowel Frequency
+        // 17. Check Vowel numbers mapping 
         Map<Character, Long> vowels = input.toLowerCase().chars()
                 .mapToObj(c -> (char) c)
                 .filter(ch -> "aeiou".indexOf(ch) != -1)
@@ -293,7 +293,6 @@ public class Stream30 {
                 .orElse(null);
         // System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: d
-
 
 
 

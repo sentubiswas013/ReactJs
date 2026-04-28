@@ -6277,7 +6277,7 @@ spring:
 
 ---
 
-### 13. How can we create a centralized configuration for all microservices?
+## 13. How can we create a centralized configuration for all microservices?
 
 Use **Spring Cloud Config Server**:
 
@@ -6321,7 +6321,7 @@ aws:
 
 ---
 
-### 14. How do microservices load configuration from a central source?
+## 14. How do microservices load configuration from a central source?
 
 On startup, each microservice:
 
