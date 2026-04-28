@@ -2824,7 +2824,70 @@ Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache im
 Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
 ```
 
-## 8. Java Collections Framework summary
+## 8. You need to implement a caching mechanism without using external libraries. How do you do it?
+
+```Java
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+class Main<K, V> {
+
+    private final Map<K, CacheEntry<V>> cache = new ConcurrentHashMap<>();
+    private final long ttlMillis;
+
+    public Main(long ttlMillis) {
+        this.ttlMillis = ttlMillis;
+    }
+
+    public V get(K key) {
+        CacheEntry<V> entry = cache.get(key);
+        if (entry == null) return null;
+
+        if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
+            cache.remove(key);
+            return null;
+        }
+
+        return entry.value;
+    }
+
+    public void put(K key, V value) {
+        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
+    }
+
+    static class CacheEntry<V> {
+        final V value;
+        final long timestamp;
+
+        CacheEntry(V value, long timestamp) {
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+
+    // ✅ TEST MAIN METHOD
+    public static void main(String[] args) throws InterruptedException {
+
+        // Create cache with TTL = 3 seconds
+        Main<String, String> cache = new Main<>(3000);
+
+        // Put value
+        cache.put("key1", "Hello World");
+
+        // Get immediately
+        System.out.println("Before expiry: " + cache.get("key1"));
+
+        // Wait 4 seconds (expire)
+        Thread.sleep(4000);
+
+        // Try again
+        System.out.println("After expiry: " + cache.get("key1"));
+    }
+}
+```
+
+
+## 9. Java Collections Framework summary
 
 **🔹 Basics**
 
