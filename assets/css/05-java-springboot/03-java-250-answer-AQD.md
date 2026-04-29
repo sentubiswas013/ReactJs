@@ -6281,42 +6281,172 @@ spring:
 
 Use **Spring Cloud Config Server**:
 
-**Config Server** — one dedicated service that serves config to all others:
+
+**🏗️ Architecture**
+
+```
+Git Repo (configs)
+        ↓
+Config Server
+        ↓
+Microservices (Client)
+```
+
+---
+
+**1️⃣ Create Config Repository (Git)**
+
+Create a Git repo (local or remote):
+
+```
+config-repo/
+ ├── user-service.yml
+ ├── order-service.yml
+ ├── application.yml
+```
+
+Example: `user-service.yml`
+
 ```yaml
-# Config Server application.yml
+server:
+  port: 8081
+
+db:
+  url: jdbc:mysql://localhost:3306/userdb
+```
+
+---
+
+**2️⃣ Create Config Server**
+
+**Add dependency**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+```
+
+**Enable config server**
+
+```java
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+```
+
+---
+
+**Configure `application.yml`**
+
+```yaml
+server:
+  port: 8888
+
 spring:
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/your-org/config-repo  # configs stored in Git
+          uri: https://github.com/your-repo/config-repo
 ```
 
-**Config Repo (Git)** — stores config files per service:
+---
+
+**Run server**
+
+Access:
+
 ```
-config-repo/
-├── employee-service.yml
-├── order-service.yml
-├── employee-service-prod.yml
-└── order-service-prod.yml
+http://localhost:8888/user-service/default
 ```
 
-**Client microservice** — fetches config from Config Server on startup:
+---
+
+**3️⃣ Configure Microservice (Client)**
+
+Add dependency:
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-config</artifactId>
+</dependency>
+```
+
+---
+
+**Create `bootstrap.yml` (IMPORTANT)**
+
 ```yaml
-# bootstrap.yml in each microservice
 spring:
   application:
-    name: employee-service
-  config:
-    import: "configserver:http://config-server:8888"
+    name: user-service
+
+  cloud:
+    config:
+      uri: http://localhost:8888
 ```
 
-**AWS alternative** — use **AWS AppConfig** or **AWS Parameter Store**:
-```yaml
-aws:
-  paramstore:
-    prefix: /myapp
-    enabled: true
+---
+
+**4️⃣ Use configuration in code**
+
+```java
+@Value("${db.url}")
+private String dbUrl;
+```
+
+or
+
+```java
+@ConfigurationProperties(prefix = "db")
+@Component
+public class DbConfig {
+    private String url;
+}
+```
+
+---
+
+**5️⃣ Enable dynamic refresh (optional but powerful)**
+
+Add dependency:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+---
+
+**Add annotation**
+
+```java
+@RefreshScope
+@RestController
+public class MyController {
+    
+    @Value("${db.url}")
+    private String dbUrl;
+}
+```
+
+---
+
+**Refresh config without restart**
+
+Call:
+
+```
+POST http://localhost:8081/actuator/refresh
 ```
 
 ---

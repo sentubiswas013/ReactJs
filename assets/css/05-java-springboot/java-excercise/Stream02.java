@@ -168,7 +168,7 @@ public class Stream02 {
         		.toList();
         
 
-        System.out.println("12. Top 3: " + top3);
+        // System.out.println("12. Top 3: " + top3);
         // Output: 12. Top 3: [6, 5, 4]
 
 
@@ -184,7 +184,12 @@ public class Stream02 {
 
         // =======================================================
         // 14. To merge two arrays and sort the resulting array in ascending order
-       
+         List<Integer> resultSort = Stream.concat(
+        		 num01.stream().filter(n -> n != 0),
+        		 num01.stream().filter(n -> n == 0)
+        		)
+        		.distinct()
+        		.toList();
 
         // System.out.println(resultSort);
         // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
@@ -202,6 +207,12 @@ public class Stream02 {
 
         // =======================================================
         // 16. Count Frequency of Characters
+        Map<Character, Long> freq = input.chars()
+        		.mapToObj(c -> (char) c)
+        		.collect(Collectors.groupingBy(
+        				c -> c,
+        				Collectors.counting()
+        			));       
         
         
 
@@ -212,8 +223,19 @@ public class Stream02 {
 
         // =======================================================
         // 17. Check Vowel Frequency
-        
-                
+        Map<Character, Long> vowels = input.toLowerCase()
+        	    .chars()
+        	   
+
+        	    .mapToObj(c -> (char) c)
+        	    .peek(c -> System.out.println("Step 1 - int value: " + c))
+        	    .peek(ch -> System.out.println("Step 2 - char: " + ch))
+
+        	    .filter(ch -> "aeiou".indexOf(ch) != -1)
+        	    .peek(ch -> System.out.println("Step 3 - vowel only: " + ch))
+
+        	    .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+        	
 
         // System.out.println("vowels: " + vowels);
         // Output: 5. {a=2}  
@@ -221,10 +243,14 @@ public class Stream02 {
 
         // =======================================================
         // 17. Find First Non-Repeated Character
-        
+        Character result = input.chars()
+        		.mapToObj(c -> (char) c)
+        		.filter(ch -> input.indexOf(ch) == input.lastIndexOf(ch))
+        		.findFirst()
+        		.orElse(null);        
         
 
-        // System.out.println("5. First Non-Repeated: " + result);
+        System.out.println("5. First Non-Repeated: " + result);
         // Output: 5. First Non-Repeated: d
 
 
