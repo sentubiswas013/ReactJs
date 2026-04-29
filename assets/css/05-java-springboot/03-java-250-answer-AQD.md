@@ -10761,113 +10761,227 @@ A: Implement refresh tokens or require re-authentication when tokens expire.
 A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
 
 
-## 12: What is CSRF protection?
+### 1. What is CSRF Protection?
 
-**CSRF (Cross-Site Request Forgery)** is a security attack where a **malicious website tricks a logged-in user into performing an unwanted action** on another website.
+**CSRF (Cross-Site Request Forgery)** — attacker tricks a logged-in user's browser into sending an unwanted request to your server.
 
-* You log in to your bank
-* You open a malicious website in another tab
-* That site sends a request to transfer money from your bank
-* Since you are already logged in → request is executed
-* This is **CSRF attack**
+**Example attack:**
+- User is logged into `bank.com`
+- Attacker sends a link: `<img src="http://bank.com/transfer?to=attacker&amount=1000">`
+- Browser auto-sends the request with the user's cookies → money transferred
 
+**How CSRF Token fixes it:**
+- Server generates a unique token per session
+- Every form/request must include this token
+- Server validates it — attacker can't guess it
 
+---
+
+**Step 1: Add Spring Security dependency**
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+**Step 2: CSRF is ENABLED by default in Spring Security**
+```java
+// Spring Security enables CSRF protection automatically
+// No extra config needed for traditional form-based apps
+```
+
+**Step 3: For REST APIs — disable CSRF (stateless, uses JWT)**
 ```java
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+            .csrf(csrf -> csrf.disable())          // disable for stateless REST APIs
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        return http.build();
     }
 }
 ```
 
-**JWT-based REST APIs usually disable CSRF** because they don’t use session cookies.
-
-```java
-http.csrf().disable();
-```
-
-
-## 13: What is XSS protection?
-
-**XSS is an attack where malicious scripts are injected into web pages and executed in users' browsers, and it is prevented using input validation, output encoding, and security headers.**
-
-**Simple Example (XSS Attack)**
+**Step 4: For form-based apps — include CSRF token in forms (Thymeleaf does it auto)**
 ```html
-<script>alert('Hacked!')</script>
+<!-- Thymeleaf auto-injects CSRF token -->
+<form th:action="@{/submit}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Submit</button>
+</form>
 ```
 
-**How to Prevent XSS (XSS Protection)**
+**Interview Answer:**
+> "CSRF is enabled by default in Spring Security. For REST APIs with JWT, I disable it since requests are stateless and don't rely on cookies. For form-based apps, Spring Security + Thymeleaf handles CSRF tokens automatically."
 
-**1. Input Validation**
+---
 
-* Do not allow script tags
-* Validate user input
+### 2. What is XSS Protection?
 
+**XSS (Cross-Site Scripting)** — attacker injects malicious JavaScript into your web page, which runs in other users' browsers.
 
-**2. Output Encoding (Most Important)**
+**Example attack:**
+```
+User submits comment: <script>document.cookie</script>
+Server stores it → next user loads page → script runs → cookie stolen
+```
 
-Convert special characters:
+**Types:**
+- **Stored XSS** — malicious script saved in DB, served to all users
+- **Reflected XSS** — script in URL, reflected back in response
+- **DOM-based XSS** — script manipulates DOM directly
 
+---
+
+**Step 1: Add security headers via Spring Security**
+```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .headers(headers -> headers
+            .xssProtection(xss -> xss.enable())                        // X-XSS-Protection header
+            .contentSecurityPolicy(csp ->
+                csp.policyDirectives("script-src 'self'"))             // CSP header
+        );
+    return http.build();
+}
+```
+
+**Step 2: Sanitize user input using OWASP Java HTML Sanitizer**
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+    <artifactId>owasp-java-html-sanitizer</artifactId>
+    <version>20220608.1</version>
+</dependency>
+```
+
+```java
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
+
+@Service
+public class SanitizationService {
+
+    private static final PolicyFactory POLICY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
+
+    public String sanitize(String input) {
+        return POLICY.sanitize(input);   // strips <script> tags etc.
+    }
+}
+```
+
+**Step 3: Encode output in Thymeleaf (auto-escapes by default)**
 ```html
-< → &lt;
-> → &gt;
+<!-- Thymeleaf escapes HTML by default — safe -->
+<p th:text="${userComment}"></p>
+
+<!-- th:utext is UNSAFE — renders raw HTML, avoid it -->
+<p th:utext="${userComment}"></p>
 ```
 
-**3. Use HTTP Security Headers**
-
-* Content-Security-Policy (CSP)
-* X-XSS-Protection
-
-
-**4. Use Framework Security**
-
-In **Spring Security**:
-
-* Escapes output automatically in many cases
-* Prevents common attacks
-
-
-**5. Avoid Direct HTML Rendering**
-
-Avoid:
-
+**Step 4: Use Content Security Policy (CSP) header**
 ```java
-out.println(userInput);
+.contentSecurityPolicy(csp ->
+    csp.policyDirectives("default-src 'self'; script-src 'self'; object-src 'none'"))
 ```
 
+**Interview Answer:**
+> "I prevent XSS by: 1) enabling X-XSS-Protection and CSP headers via Spring Security, 2) sanitizing user input with OWASP HTML Sanitizer before storing, 3) using Thymeleaf which auto-escapes output by default."
 
-## 14: What is input validation?
+---
 
-**Input validation** is the process of **checking user input for correctness and security**.
+### 3. What is Input Validation?
 
-It should be done on the **server side** (never trust client), use a **whitelist approach**, apply **sanitization**, and can use **Bean Validation annotations** like `@Valid`, `@NotNull`, and `@Pattern`.
+**Input Validation** — ensuring data received from the user is correct, safe, and expected before processing it.
 
+**Why it matters:**
+- Prevents SQL Injection, XSS, buffer overflows
+- Ensures business rules are enforced (e.g., age > 0)
+- Fails fast before bad data reaches DB
 
+---
+
+**Step 1: Add validation dependency**
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+```
+
+**Step 2: Annotate your DTO/model with constraints**
 ```java
-// Input validation with Bean Validation
-public class UserRegistration {
-    @NotBlank(message = "Username is required")
-    @Pattern(regexp = "^[a-zA-Z0-9_]{3,20}$", message = "Invalid username format")
-    private String username;
-    
+public class UserRequest {
+
+    @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 50, message = "Name must be 2-50 chars")
+    private String name;
+
     @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
     private String email;
-    
-    @Size(min = 8, message = "Password must be at least 8 characters")
-    private String password;
-}
 
-@PostMapping("/register")
-public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user) {
-    // Validation automatically applied
-    return ResponseEntity.ok("User registered successfully");
+    @Min(value = 18, message = "Age must be at least 18")
+    @Max(value = 120, message = "Age must be under 120")
+    private int age;
+
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone must be 10 digits")
+    private String phone;
+
+    // getters + setters
 }
 ```
 
+**Step 3: Enable validation in controller with `@Valid`**
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @PostMapping
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest request) {
+        // if validation fails, MethodArgumentNotValidException is thrown automatically
+        return ResponseEntity.ok("User created");
+    }
+}
+```
+
+**Step 4: Handle validation errors globally**
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationErrors(
+            MethodArgumentNotValidException ex) {
+
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+          .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+}
+```
+
+**Step 5: Response when validation fails**
+```json
+{
+  "name": "Name is required",
+  "email": "Invalid email format",
+  "age": "Age must be at least 18"
+}
+```
 
 ## 15: What is SAML?
 
