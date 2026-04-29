@@ -10633,6 +10633,7 @@ HEADER.PAYLOAD.SIGNATURE
 **Implementation Flow**
 
 **1. User Authenticationjava**
+```Java
 @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody AuthRequest request) {
     authenticationManager.authenticate(
@@ -10645,7 +10646,11 @@ public ResponseEntity<?> login(@RequestBody AuthRequest request) {
     String token = jwtUtil.generateToken(request.getUsername());
     return ResponseEntity.ok(new AuthResponse(token));
 }
+```
+
 **2. JWT Token Generationjava**
+
+```Java
 public String generateToken(String username) {
     return Jwts.builder()
         .setSubject(username)
@@ -10654,9 +10659,10 @@ public String generateToken(String username) {
         .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
         .compact();
 }
+```
 
 **3. JWT Filter for Token Validationjava**
-
+```Java
 String authHeader = request.getHeader("Authorization");
 
 if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -10675,8 +10681,10 @@ if (authHeader != null && authHeader.startsWith("Bearer ")) {
         }
     }
 }
+```
 
 **4. Security Configurationjava**
+```Java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
@@ -10688,6 +10696,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
 }
+```
 
 **Key Components**
 
