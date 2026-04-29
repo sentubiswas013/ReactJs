@@ -10761,7 +10761,7 @@ A: Implement refresh tokens or require re-authentication when tokens expire.
 A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
 
 
-### 12. What is CSRF Protection?
+## 12. What is CSRF Protection?
 
 **CSRF (Cross-Site Request Forgery)** — attacker tricks a logged-in user's browser into sending an unwanted request to your server.
 
@@ -10823,7 +10823,7 @@ public class SecurityConfig {
 
 ---
 
-### 13. What is XSS Protection?
+## 13. What is XSS Protection?
 
 **XSS (Cross-Site Scripting)** — attacker injects malicious JavaScript into your web page, which runs in other users' browsers.
 
@@ -10899,7 +10899,7 @@ public class SanitizationService {
 
 ---
 
-### 14. What is Input Validation?
+## 14. What is Input Validation?
 
 **Input Validation** — ensuring data received from the user is correct, safe, and expected before processing it.
 
