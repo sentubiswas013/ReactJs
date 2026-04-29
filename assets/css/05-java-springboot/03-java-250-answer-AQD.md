@@ -2134,11 +2134,14 @@ class Test implements A, B {
 - **I**nterface Segregation: Many specific interfaces are better than one general interface
 - **D**ependency Inversion: Depend on abstractions, not concrete implementations
 
+
+
 **Example:**
 **S — Single Responsibility Principle (SRP)**
 
 One class should have only one responsibility.
 
+use case:  
 
 ❌ Wrong:
 
@@ -2177,43 +2180,65 @@ class EmailService {
 Open for extension, closed for modification.
 
 ```java
+// OCP: Open for extension, closed for modification
+
+// This is the abstraction (interface)
+// We can add new payment types without changing existing code
 interface Payment {
-    void pay();
+    void pay(); // common method for all payment types
 }
 
+// Concrete implementation 1
 class CardPayment implements Payment {
     public void pay() {
+        // specific logic for card payment
         System.out.println("Paid by Card");
     }
 }
 
+// Concrete implementation 2
 class UpiPayment implements Payment {
     public void pay() {
+        // specific logic for UPI payment
         System.out.println("Paid by UPI");
     }
 }
 
+// This class uses the abstraction (Payment interface)
+// It does NOT depend on concrete classes like CardPayment or UpiPayment
 class PaymentService {
+
+    // This method is CLOSED for modification
+    // We don't need to change this method when new payment types are added
     public void processPayment(Payment payment) {
+        // This is OPEN for extension because any new Payment type can be passed here
         payment.pay();
     }
 }
 
 public class Main {
     public static void main(String[] args) {
+
+        // Create service object
         PaymentService service = new PaymentService();
 
+        // Using Card payment
         Payment p1 = new CardPayment();
         service.processPayment(p1);
 
+        // Using UPI payment
         Payment p2 = new UpiPayment();
         service.processPayment(p2);
+
+        // If we add a new payment type (e.g., WalletPayment),
+        // we DO NOT modify PaymentService
+        // We only create a new class implementing Payment
     }
 }
 
 // Output:
-Paid by Card
-Paid by UPI
+// Paid by Card
+// Paid by UPI
 ```
 
 Now we can add **NetBankingPayment** without changing existing code.
