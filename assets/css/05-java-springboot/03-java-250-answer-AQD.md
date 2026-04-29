@@ -10626,9 +10626,37 @@ The backend server checks credentials using:
 
 A JWT consists of three Base64-encoded parts separated by dots:
 HEADER.PAYLOAD.SIGNATURE
+
+**Sample JWT Token:**
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lIiwiaWF0IjoxNjE2MjM5MDIyLCJleHAiOjE2MTYzMjU0MjIsInJvbGVzIjpbIlVTRVIiLCJBRE1JTiJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+**Decoded Structure:**
+
 - **Header**: Contains algorithm information (e.g., HS256)
+  ```json
+  {
+    "alg": "HS256",
+    "typ": "JWT"
+  }
+  ```
+
 - **Payload**: Contains claims (username, roles, expiration)
+  ```json
+  {
+    "sub": "johndoe",
+    "iat": 1616239022,
+    "exp": 1616325422,
+    "roles": ["USER", "ADMIN"]
+  }
+  ```
+
 - **Signature**: Ensures token integrity and authenticity
+  ```
+  HMACSHA256(
+    base64UrlEncode(header) + "." +
+    base64UrlEncode(payload),
+    secret
+  )
+  ```
 
 **Implementation Flow**
 
@@ -10662,6 +10690,7 @@ public String generateToken(String username) {
 ```
 
 **3. JWT Filter for Token Validation**
+
 ```Java
 String authHeader = request.getHeader("Authorization");
 
