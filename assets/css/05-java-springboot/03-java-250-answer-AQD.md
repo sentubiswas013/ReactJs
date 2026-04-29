@@ -2392,36 +2392,56 @@ Robot does not implement eat() → Correct.
 Depend on abstraction, not concrete class.
 
 ```java
+// DIP: Depend on abstraction, not concrete implementation
+
+// Abstraction
 interface Payment {
     void pay();
 }
 
+// Concrete implementation
 class CardPayment implements Payment {
     public void pay() {
         System.out.println("Card payment");
     }
 }
 
+// High-level module (business logic)
 class OrderService {
+
+    // Depends on abstraction, not CardPayment directly
     private Payment payment;
 
+    // Dependency is injected via constructor
     public OrderService(Payment payment) {
         this.payment = payment;
     }
 
     public void placeOrder() {
-        payment.pay();
+        payment.pay(); // uses abstraction
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Payment payment = new CardPayment();   // Inject dependency
+
+        // Inject concrete implementation at runtime
+        Payment payment = new CardPayment();
+
+        // OrderService is not tightly coupled to CardPayment
         OrderService orderService = new OrderService(payment);
 
-        orderService.placeOrder();
+        orderService.placeOrder(); // Output: Card payment
     }
 }
+
+/*
+Interview Points (Quick):
+
+- High-level class (OrderService) should NOT depend on low-level class (CardPayment)
+- Both depend on abstraction (Payment)
+- Easy to switch implementation (UPI, Wallet, etc.) without changing OrderService
+*/
 
 //Output:
 Card payment
