@@ -10608,33 +10608,114 @@ public class ApiController {
 **OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
 
 
-## 11: What is JWT (JSON Web Token)?
+## 11:  How JWT(JSON Web Token) Authentication works in Spring Boot
 
-**JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
+JWT authentication is a stateless security mechanism where a token is issued after login and used to authorize subsequent requests without storing session data on the server.
 
-It has three parts: **Header.Payload.Signature**, is **stateless and self-contained**, and is commonly used for **authentication and API authorization**, being **signed (optionally encrypted)** for security.
+**How JWT Works**
 
-```java
-// JWT creation and validation
-@Service
-public class JwtService {
-    private String secretKey = "mySecretKey";
+1. **Login**: Client sends credentials → Server validates → Returns JWT token
+2. **Authorization**: Client includes JWT in request headers → Server validates token → Grants access
+
+**JWT Structure**
+
+A JWT consists of three Base64-encoded parts separated by dots:
+HEADER.PAYLOAD.SIGNATURE
+- **Header**: Contains algorithm information (e.g., HS256)
+- **Payload**: Contains claims (username, roles, expiration)
+- **Signature**: Ensures token integrity and authenticity
+
+**Implementation Flow**
+
+**1. User Authenticationjava**
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            request.getUsername(),
+            request.getPassword()
+        )
+    );
     
-    public String generateToken(String username) {
-        return Jwts.builder()
-            .setSubject(username)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24 hours
-            .signWith(SignatureAlgorithm.HS256, secretKey)
-            .compact();
-    }
-    
-    public String extractUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-            .getBody().getSubject();
+    String token = jwtUtil.generateToken(request.getUsername());
+    return ResponseEntity.ok(new AuthResponse(token));
+}
+**2. JWT Token Generationjava**
+public String generateToken(String username) {
+    return Jwts.builder()
+        .setSubject(username)
+        .setIssuedAt(new Date())
+        .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
+        .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+        .compact();
+}
+
+**3. JWT Filter for Token Validationjava**
+
+String authHeader = request.getHeader("Authorization");
+
+if (authHeader != null && authHeader.startsWith("Bearer ")) {
+    String token = authHeader.substring(7);
+
+    String username = jwtUtil.extractUsername(token);
+
+    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        if (jwtUtil.validateToken(token, userDetails)) {
+            UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
     }
 }
-```
+
+**4. Security Configurationjava**
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http
+        .csrf().disable()
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated()
+        )
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
+}
+
+**Key Components**
+
+1. **JWT Utility Class**: Handles token generation, validation, and extraction
+2. **JWT Filter**: Intercepts requests to validate tokens
+3. **Security Configuration**: Configures Spring Security with JWT
+4. **Authentication Controller**: Handles login and token generation
+
+**Advantages**
+
+- **Stateless**: No server-side session storage required
+- **Scalable**: Easy to scale across multiple servers
+- **Cross-domain**: Works across different domains
+- **Self-contained**: All necessary information is in the token
+
+**Security Considerations**
+
+- Use strong secret keys and store them securely
+- Implement token expiration
+- Use HTTPS for all communications
+- Don't store sensitive data in JWT payload (it's only Base64 encoded)
+- Consider implementing refresh tokens for better security
+
+**Common Interview Questions**
+
+**Q: JWT vs Session-based authentication?**
+A: JWT is stateless (no server storage), while sessions require server-side storage. JWT is better for microservices and scalability.
+
+**Q: How do you handle token expiration?**
+A: Implement refresh tokens or require re-authentication when tokens expire.
+
+**Q: Can JWT be revoked?**
+A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
 
 
 ## 12: What is CSRF protection?
