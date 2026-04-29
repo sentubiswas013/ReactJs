@@ -10617,6 +10617,11 @@ JWT authentication is a stateless security mechanism where a token is issued aft
 1. **Login**: Client sends credentials → Server validates → Returns JWT token
 2. **Authorization**: Client includes JWT in request headers → Server validates token → Grants access
 
+
+The backend server checks credentials using:
+- Database (MySQL, PostgreSQL, etc.)
+- or external provider (LDAP, OAuth, etc.)
+
 **JWT Structure**
 
 A JWT consists of three Base64-encoded parts separated by dots:
