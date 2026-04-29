@@ -10632,7 +10632,7 @@ HEADER.PAYLOAD.SIGNATURE
 
 **Implementation Flow**
 
-**1. User Authenticationjava**
+**1. User Authentication**
 ```Java
 @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody AuthRequest request) {
@@ -10648,7 +10648,7 @@ public ResponseEntity<?> login(@RequestBody AuthRequest request) {
 }
 ```
 
-**2. JWT Token Generationjava**
+**2. JWT Token Generation**
 
 ```Java
 public String generateToken(String username) {
@@ -10661,7 +10661,7 @@ public String generateToken(String username) {
 }
 ```
 
-**3. JWT Filter for Token Validationjava**
+**3. JWT Filter for Token Validation**
 ```Java
 String authHeader = request.getHeader("Authorization");
 
@@ -10683,7 +10683,7 @@ if (authHeader != null && authHeader.startsWith("Bearer ")) {
 }
 ```
 
-**4. Security Configurationjava**
+**4. Security Configuration**
 ```Java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
