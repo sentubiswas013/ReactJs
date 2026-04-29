@@ -750,6 +750,9 @@ An immutable class in Java is a class whose objects cannot be changed after they
 4. Initialize fields through constructor.
 5. Return copies of mutable objects (defensive copy).
 
+**Use Case:**
+Immutable classes are useful for thread safety, caching, and as keys in collections. Examples include `String`, `Integer`, and `LocalDate` in Java.
+
 ```java
 // Immutable class
 final class Student {
