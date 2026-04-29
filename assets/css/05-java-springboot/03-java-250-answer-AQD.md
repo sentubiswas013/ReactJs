@@ -2250,13 +2250,24 @@ Now we can add **NetBankingPayment** without changing existing code.
 Child class should replace parent class without breaking code.
 
 ```java
+// LSP: Liskov Substitution Principle
+// Objects of a child class should be able to replace objects of the parent class
+// WITHOUT breaking the expected behavior of the program.
+
 class Bird {
+
+    // Base class method
+    // Defines general behavior that all birds SHOULD follow
     public void fly() {
         System.out.println("Bird can fly");
     }
 }
 
+// Child class extending Bird
 class Sparrow extends Bird {
+
+    // Overriding the parent method
+    // Behavior is consistent with parent (still "fly")
     @Override
     public void fly() {
         System.out.println("Sparrow can fly");
@@ -2265,16 +2276,53 @@ class Sparrow extends Bird {
 
 public class Main {
     public static void main(String[] args) {
+
+        // Parent object
         Bird b = new Bird();
-        b.fly();
+        b.fly(); 
+        // Output: Bird can fly
 
+        // Child object
         Sparrow s = new Sparrow();
-        s.fly();
+        s.fly(); 
+        // Output: Sparrow can fly
 
-        Bird b2 = new Sparrow(); // Runtime Polymorphism
-        b2.fly();
+        // LSP in action (Runtime Polymorphism)
+        // Parent reference holding child object
+        Bird b2 = new Sparrow();
+
+        // This should NOT break behavior
+        // Even though reference is Bird, actual object is Sparrow
+        b2.fly(); 
+        // Output: Sparrow can fly
+
+        // ✔ This works perfectly → LSP is satisfied
     }
 }
+
+/*
+Key Interview Points:
+
+1. LSP means:
+   Child class must be substitutable for parent class.
+
+2. In this example:
+   - Sparrow IS-A Bird
+   - Sparrow does not change expected behavior
+   - So it follows LSP
+
+3. Why this is correct:
+   - No exception thrown
+   - No unexpected behavior
+   - Same logical meaning of "fly"
+
+4. When LSP is violated:
+   Example: If we create Penguin extends Bird but override fly() to throw exception
+   → That breaks LSP because Penguin cannot truly replace Bird
+
+5. Real-world idea:
+   If parent says "can fly", child must honor that contract
+*/
 
 
 // Output:
