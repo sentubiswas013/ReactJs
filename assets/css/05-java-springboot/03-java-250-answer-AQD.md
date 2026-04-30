@@ -251,18 +251,14 @@ public class Student implements Serializable {
 }
 ```
 
-**Difference Table**
+**Difference between `transient` and `volatile`**
 
-| Keyword      | Belongs To    | Can Change? | Purpose                  |
-| ------------ | ------------- | ----------- | ------------------------ |
-| Normal       | Object        | Yes         | Regular variable         |
-| final        | Object        | No          | Constant value           |
-| static       | Class         | Yes         | Shared among objects     |
-| static final | Class         | No          | Class constant           |
-| volatile     | Object        | Yes         | Thread visibility        |
-| abstract     | ❌ Not allowed | ❌           | Only for methods/classes |
-| transient    | Object        | Yes         | Skip serialization       |
-
+| Feature       | `transient`                                      | `volatile`                                          |
+|---------------|--------------------------------------------------|-----------------------------------------------------|
+| Purpose       | Excludes field from **serialization**            | Ensures **visibility** of field across threads      |
+| Context       | Used with Java Serialization (`Serializable`)    | Used in multi-threaded programming                  |
+| Effect        | Field is skipped when object is serialized       | Field is always read/written from main memory       |
+| Thread safety | No effect on threads                             | Provides visibility guarantee (not atomicity)       |
 
 
 ## 6. What is Instance, Static, Abstract, and Final Methods?
