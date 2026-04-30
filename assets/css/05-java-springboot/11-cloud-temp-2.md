@@ -102,29 +102,3 @@ public class ReportGenerator { ... }
 - `Prototype` — stateful beans where each caller needs an independent instance (e.g., report generators, command objects).
 
 **Gotcha:** Injecting a prototype bean into a singleton bean won't give a new instance each time — use `ApplicationContext.getBean()` or `@Lookup` to get a fresh prototype.
-
----
-
-## 7. What happens if the thread pool is exhausted?
-
-When all threads in the pool are busy and the task queue is also full:
-
-1. **New tasks are rejected** — the `RejectedExecutionHandler` is triggered.
-2. Default policy in `ThreadPoolExecutor` is `AbortPolicy` — throws `RejectedExecutionException`.
-
-**Other rejection policies:**
-| Policy               | Behavior                                                   |
-|----------------------|------------------------------------------------------------|
-| `AbortPolicy`        | Throws `RejectedExecutionException` (default)              |
-| `CallerRunsPolicy`   | The calling thread runs the task itself (slows the caller) |
-| `DiscardPolicy`      | Silently drops the new task                                |
-| `DiscardOldestPolicy`| Drops the oldest queued task and retries submission        |
-
-**In Spring Boot (Tomcat):**
-- If the request thread pool is exhausted, incoming HTTP requests are **queued** up to `server.tomcat.accept-count` limit.
-- Beyond that, connections are **refused** with a connection timeout or HTTP 503.
-
-**Best practices:**
-- Monitor thread pool metrics.
-- Use `CallerRunsPolicy` as a backpressure mechanism.
-- Size the pool appropriately: `(CPU cores * (1 + wait time / compute time))`.

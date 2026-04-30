@@ -4461,6 +4461,14 @@ public class Test {
 }
 ```
 
+## 11. What happens if the thread pool is exhausted?
+
+When all threads in the pool are busy and the task queue is also full:
+
+1. **New tasks are rejected** — the `RejectedExecutionHandler` is triggered.
+2. Default policy in `ThreadPoolExecutor` is `AbortPolicy` — throws `RejectedExecutionException`.
+
+
 # ✅ 10. Java JVM & Memory Management 
 
 ## 0. What is Java Memory Model (JMM)?
@@ -8455,21 +8463,81 @@ public class UserService {
 
 **Lifecycle order:** Constructor → Dependency Injection → @PostConstruct → Bean Ready → @PreDestroy → Destruction
 
+**Singleton vs Prototype Scope**
+
+| Feature              | Singleton                              | Prototype                                  |
+|----------------------|----------------------------------------|--------------------------------------------|
+| Instances created    | One per Spring container               | New instance every time it is requested    |
+| Default scope        | Yes (default in Spring)                | No                                         |
+| Memory               | Shared, memory efficient               | More memory usage                          |
+| State                | Shared state — be careful with mutable fields | Each caller gets its own state        |
+| Annotation           | `@Scope("singleton")` or default       | `@Scope("prototype")`                      |
+
+
+**🔹 1. Singleton Scope (Default)**
+
+👉 Only **one instance** is created and shared.
+
 ```java
+import org.springframework.stereotype.Component;
+
 @Component
-@Scope("prototype")  // new object every time
-public class MyService {
-
-    @PostConstruct
-    public void init() {
-        System.out.println("Bean initialized");
-    }
-
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Bean destroyed");
+class MyService {
+    public void print() {
+        System.out.println("Singleton instance: " + this);
     }
 }
+```
+
+```java
+@Autowired
+MyService s1;
+
+@Autowired
+MyService s2;
+
+s1.print();
+s2.print();
+
+
+// Output (same object)
+Singleton instance: MyService@123
+Singleton instance: MyService@123
+```
+
+**🔹 2. Prototype Scope**
+
+👉 **New object every time** it is requested.
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope("prototype")
+class ReportGenerator {
+    public void print() {
+        System.out.println("Prototype instance: " + this);
+    }
+}
+```
+
+```java
+import org.springframework.context.ApplicationContext;
+
+@Autowired
+ApplicationContext context;
+
+ReportGenerator r1 = context.getBean(ReportGenerator.class);
+ReportGenerator r2 = context.getBean(ReportGenerator.class);
+
+r1.print();
+r2.print();
+
+//  Output (different objects)
+
+Prototype instance: ReportGenerator@111
+Prototype instance: ReportGenerator@222
 ```
 
 ## 21. How do you manage Spring Beans in Spring Boot?
