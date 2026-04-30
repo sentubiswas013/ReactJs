@@ -3380,12 +3380,14 @@ public class Test {
 
 **Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
 
+**Problem it solves:**
+Without `volatile`, each thread may cache a variable locally. One thread's update may not be visible to another thread.
 
-Real-Time Example: Stop Thread (Very Common Interview Example)
+**When to use:**
+- When a variable is shared across threads and only **one thread writes** while others read.
+- For simple flags or state variables.
+- Does NOT guarantee atomicity — use `AtomicBoolean` / `synchronized` for compound operations like `count++`.
 
-// Scenario:
-
-One thread runs a task, another thread stops it.
 
 **Without volatile (Problem)**
 
@@ -3404,7 +3406,7 @@ class Task implements Runnable {
 
 Another thread sets:
 
-```java id="v3n2po"
+```java
 task.running = false;
 ```
 ❌ Thread may **never stop** because it may use cached value.
@@ -6556,6 +6558,7 @@ A: `@RefreshScope` re-initializes only the annotated bean at runtime via `/actua
 
 **Q: How to push config changes to all instances at once?**  
 A: Use **Spring Cloud Bus** with a message broker (Kafka/RabbitMQ). One `POST /actuator/busrefresh` call propagates to all instances.
+
 ---
 
 ## 14. How do microservices load configuration from a central source?
@@ -6981,12 +6984,14 @@ class AnimalFactory {
 **Observer pattern** defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 👉 Real use:
-Email service
-Logging
+Email service, 
+Logging, 
 Notifications
 
 
 ```java
+import java.util.*;
+
 // Observer interface
 interface Observer {
     void update(String message);
@@ -6996,16 +7001,16 @@ interface Observer {
 class NewsAgency {
     private List<Observer> observers = new ArrayList<>();
     private String news;
-    
+
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
-    
+
     public void setNews(String news) {
         this.news = news;
         notifyObservers();
     }
-    
+
     private void notifyObservers() {
         observers.forEach(observer -> observer.update(news));
     }
@@ -7013,15 +7018,49 @@ class NewsAgency {
 
 // Concrete observer
 class NewsChannel implements Observer {
+    private String name;
+
+    public NewsChannel(String name) {
+        this.name = name;
+    }
+
     public void update(String news) {
-        System.out.println("Breaking news: " + news);
+        System.out.println(name + " received: " + news);
     }
 }
+
+// Test class
+public class Main {
+    public static void main(String[] args) {
+
+        NewsAgency agency = new NewsAgency();
+
+        // Create observers
+        Observer channel1 = new NewsChannel("CNN");
+        Observer channel2 = new NewsChannel("BBC");
+
+        // Register observers
+        agency.addObserver(channel1);
+        agency.addObserver(channel2);
+
+        // Publish news
+        agency.setNews("Java is awesome!");
+        agency.setNews("Observer pattern in action!");
+    }
+}
+
+// Output
+CNN received: Java is awesome!
+BBC received: Java is awesome!
+CNN received: Observer pattern in action!
+BBC received: Observer pattern in action!
 ```
 
 ## 6. What is Strategy pattern?
 
 **Strategy pattern** defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+
+Use Case: 
 
 ```java
 // Strategy interface

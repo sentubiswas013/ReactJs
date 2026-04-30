@@ -55,41 +55,9 @@ public class MyController {
 
 ---
 
-## 2. Difference between ConcurrentHashMap and HashMap, and when to use what
 
-| Feature              | HashMap                        | ConcurrentHashMap                        |
-|----------------------|--------------------------------|------------------------------------------|
-| Thread Safety        | Not thread-safe                | Thread-safe                              |
-| Null keys/values     | Allows one null key, null values | Does NOT allow null key or null value  |
-| Performance          | Faster in single-threaded      | Slightly slower due to locking           |
-| Locking mechanism    | None                           | Segment-level / bucket-level locking     |
-| Fail behavior        | Throws ConcurrentModificationException | Does not throw it               |
-
-**When to use:**
-- Use `HashMap` in single-threaded or read-only scenarios.
-- Use `ConcurrentHashMap` in multi-threaded environments where multiple threads read/write simultaneously (e.g., caches, shared state).
 
 ---
-
-## 3. What is `volatile`, and when do you need it?
-
-`volatile` is a Java keyword that ensures a variable's value is always read from and written to **main memory**, not from a thread's local CPU cache.
-
-**Problem it solves:**
-Without `volatile`, each thread may cache a variable locally. One thread's update may not be visible to another thread.
-
-```java
-private volatile boolean running = true;
-
-public void stop() {
-    running = false; // visible to all threads immediately
-}
-```
-
-**When to use:**
-- When a variable is shared across threads and only **one thread writes** while others read.
-- For simple flags or state variables.
-- Does NOT guarantee atomicity — use `AtomicBoolean` / `synchronized` for compound operations like `count++`.
 
 ---
 
@@ -109,24 +77,6 @@ class User implements Serializable {
 
     volatile boolean isLoggedIn; // always visible across threads
 }
-```
-
----
-
-## 5. What happens if port is not mentioned in `application.properties`?
-
-Spring Boot uses **port 8080 by default**.
-
-- If 8080 is already in use, the application will **fail to start** with a port-in-use error.
-- To use a random available port, set: `server.port=0`
-- Spring Boot will then assign a random free port at startup.
-
-```properties
-# Default behavior (no entry needed for 8080)
-server.port=8080
-
-# Random port
-server.port=0
 ```
 
 ---
