@@ -672,18 +672,10 @@ class Child extends Parent {
 Method overloading is a feature in Java where multiple methods have the **same name** but **different parameter lists** (different number, type, or order of parameters) in the same class.
 
 ```java
-public class Calculator {
-    public int add(int a, int b) {
-        return a + b;
-    }
-    
-    public double add(double a, double b) {
-        return a + b;
-    }
-    
-    public int add(int a, int b, int c) {
-        return a + b + c;
-    }
+class Calculator {
+    int    add(int a, int b)          { return a + b; }
+    double add(double a, double b) { return a + b; }
+    int    add(int a, int b, int c)   { return a + b + c; }
 }
 ```
 
@@ -694,23 +686,22 @@ public class Calculator {
 
 ```java
 class Animal {
-    public void sound() {
-        System.out.println("Animal makes sound");
-    }
+    void sound() { System.out.println("Some sound"); }
 }
 
 class Dog extends Animal {
     @Override
-    public void sound() {
-        System.out.println("Dog barks");
-    }
+    void sound() { System.out.println("Dog barks"); }
 }
+
+Animal a = new Dog();
+a.sound(); // Dog barks
 ```
 
 
 ## 4. What is a class in Java?
 
-A class is a blueprint or template used to create objects. It defines properties and behavior.
+A class is a blueprint or template used to create objects. It defines properties(fields) and behavior(methods).
 
 ```java
 class Car {
@@ -771,7 +762,7 @@ final class Student {
 An object is an instance of a class. It represents real-world entities.
 
 ```java
-Car c = new Car();  // object creation
+Car myCar = new Car();  //  // myCar is an object of class Car
 ```
 
 
@@ -782,11 +773,21 @@ Class is a blueprint, object is the actual implementation of that blueprint.
 * Class → logical
 * Object → physical (exists in memory)
 
+| Class | Object |
+|-------|--------|
+| Blueprint / template | Instance of a class |
+| Logical entity | Physical entity (exists in memory) |
+| Declared once | Can be created many times |
+| No memory at declaration | Memory allocated on `new` |
 
+```java
+class Dog { }           // class — blueprint
+Dog d = new Dog();      // object — actual instance
+```
 
 ## 9. How to create a class and object?
 
-We create a class using class keyword and object using new keyword.
+We create a class using `class` keyword and object using `new` keyword.
 
 ```java
 class Student {
@@ -795,7 +796,7 @@ class Student {
 
 public class Main {
     public static void main(String[] args) {
-        Student s = new Student(); // object
+        Student s = new Student(); // object created
         s.name = "John";
         System.out.println(s.name);
     }
@@ -805,22 +806,27 @@ public class Main {
 
 ## 10. What are instance variables and methods?
 
-Instance variables belong to object and methods define behavior of object.
+- **Instance variables** — fields declared inside a class but outside methods. Each object gets its own copy.
+- **Instance methods** — methods that operate on instance variables. Require an object to be called.
 
 ```java
 class Employee {
-    String name; // instance variable
+    String name;    // instance variable
+    int salary;     // instance variable
 
-    void work() { // instance method
-        System.out.println("Working...");
+    void work() {   // instance method
+        System.out.println(name + " is working");
     }
 }
-```
 
+Employee e = new Employee();
+e.name = "Bob";
+e.work();   // Bob is working
+```
 
 ## 11. What is a constructor? Types?
 
-Constructor is a special method used to initialize objects. It is called automatically when object is created.
+A constructor is a **special method** with the same name as the class, used to **initialize objects**. It has no return type and is called automatically when an object is created.
 
 **Types:**
 
@@ -847,7 +853,10 @@ class Student {
 A constructor with no parameters. If we don’t create one, Java provides it automatically.
 
 ```java
-Student s = new Student(); // calls default constructor
+class Box { int width; }
+
+Box b = new Box();              // default constructor called
+System.out.println(b.width);   // 0
 ```
 
 
@@ -855,20 +864,25 @@ Student s = new Student(); // calls default constructor
 
 **`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
 
+**Used for:**
+- Static variables (shared state)
+- Static methods (utility methods)
+- Static blocks (one-time initialization)
+- Static nested classes
+
 ```java
-class Example {
-    static int count = 0;
+class Counter {
+    static int count = 0;   // shared across all objects
 
-    static void show() {
-        System.out.println("Static method");
+    Counter() { count++; }
+
+    static void showCount() {
+        System.out.println("Count: " + count);
     }
 }
 
-public class Test {
-    public static void main(String[] args) {
-        Example.show();   // No object needed
-    }
-}
+new Counter(); new Counter(); new Counter();
+Counter.showCount();   // Count: 3
 ```
 
 `static` members are **shared by all objects and can be accessed using the class name**.
@@ -879,22 +893,31 @@ public class Test {
 
 Static belongs to class, non-static belongs to object.
 
-| Static           | Non-Static               |
-| ---------------- | ------------------------ |
-| Shared           | Separate for each object |
-| No object needed | Object required          |
+| Static | Non-Static |
+|--------|-----------|
+| Belongs to the class | Belongs to the object |
+| Shared across all instances | Separate copy per object |
+| Accessed via class name | Accessed via object reference |
+| Cannot access `this` | Can access `this` |
+| Loaded at class loading time | Created when object is created |
 
 ```java
-class Test {
-    static void show1() {}
-    void show2() {}
+class Demo {
+    static int x = 10;   // static
+    int y = 20;          // non-static
+
+    static void show() { System.out.println(x); }   // static method
+    void display()     { System.out.println(y); }   // non-static method
 }
+
+Demo.show();              // no object needed
+new Demo().display();     // object needed
 ```
 
 
 ## 15. Can a class have multiple constructors?
 
-Yes, this is called constructor overloading.
+Yes. This is called **constructor overloading** — multiple constructors with different parameter lists.
 
 ```java
 class Student {
@@ -919,12 +942,17 @@ No, a constructor cannot be **final, static, or abstract**.
 
 ## 17. Can we make a class `final`? Why?
 
-Yes, final class cannot be extended. It is used to prevent inheritance for security or immutability.
+Yes. A `final` class **cannot be extended (subclassed)**. Used to:
+- Prevent inheritance for security (e.g., `String`, `Integer`)
+- Ensure immutability
+- Prevent unintended behavior changes
 
 ```java
-final class A {}
+final class Constants {
+    static final double PI = 3.14159;
+}
 
-// class B extends A {} ❌ ERROR
+// class MyConstants extends Constants { }  // ❌ Compile error
 ```
 
 
@@ -934,7 +962,10 @@ Yes, abstract class cannot be instantiated and can have abstract and non-abstrac
 
 ```java
 abstract class Animal {
-    abstract void sound();
+    abstract void sound();            // must be implemented by subclass
+    void display() {                 // concrete method
+        System.out.println("Area: " + area());
+    }
 }
 ```
 
@@ -942,6 +973,7 @@ abstract class Animal {
 ## 19. What is the difference between interface and abstract class?
 
 An **interface** is used to define a **contract** that classes must implement. It mainly contains **abstract methods**, and variables are **public, static, and final by default**.
+
 ```java
 interface Animal {
     void sound();   // abstract method
@@ -975,8 +1007,7 @@ class Dog extends Animal {
 
 ## 20. Can a class be both abstract and final? 
 
-No, because abstract needs inheritance and final restricts inheritance.
-
+**No.** `abstract` requires the class to be subclassed (to implement abstract methods), while `final` prevents subclassing. They directly contradict each other — Java gives a compile error.
 
 
 ## 21. What is inner class? Types?
@@ -1003,16 +1034,19 @@ class Outer {
 
 ## 22. What is singleton class?
 
-Singleton class allows only one object creation.
+A singleton class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
 
 ```java
 class Singleton {
-    private static Singleton obj = new Singleton();
+    private static Singleton instance;
 
-    private Singleton() {}
+    private Singleton() { }   // private constructor
 
     public static Singleton getInstance() {
-        return obj;
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
     }
 }
 
@@ -1107,8 +1141,14 @@ class A implements Cloneable {
 
 ## 28. What happens if a class has no constructor?
 
-Java provides a default constructor automatically.
+Java automatically provides a **default no-argument constructor** that calls `super()` implicitly. All fields are initialized to their default values (`0`, `null`, `false`).
 
+```java
+class Box { int width; }       // Java adds: Box() { super(); }
+
+Box b = new Box();             // works fine
+System.out.println(b.width);  // 0
+```
 
 
 ## 29. Can a class be private or protected?
@@ -1117,8 +1157,11 @@ Top-level class cannot be private or protected, only public or default. Inner cl
 
 ```java
 class Outer {
-    private class Inner {}
+    private class Inner { }      // ✅ allowed
+    protected class Helper { }   // ✅ allowed
 }
+
+// private class TopLevel { }   // ❌ compile error
 ```
 
 
