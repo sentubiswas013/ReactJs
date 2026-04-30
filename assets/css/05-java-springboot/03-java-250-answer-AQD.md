@@ -2920,7 +2920,21 @@ Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache im
 Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
 ```
 
-## 8. You need to implement a caching mechanism without using external libraries. How do you do it?
+## 9. Difference between ConcurrentHashMap and HashMap, and when to use what
+
+| Feature              | HashMap                        | ConcurrentHashMap                        |
+|----------------------|--------------------------------|------------------------------------------|
+| Thread Safety        | Not thread-safe                | Thread-safe                              |
+| Null keys/values     | Allows one null key, null values | Does NOT allow null key or null value  |
+| Performance          | Faster in single-threaded      | Slightly slower due to locking           |
+| Locking mechanism    | None                           | Segment-level / bucket-level locking     |
+| Fail behavior        | Throws ConcurrentModificationException | Does not throw it               |
+
+**When to use:**
+- Use `HashMap` in single-threaded or read-only scenarios.
+- Use `ConcurrentHashMap` in multi-threaded environments where multiple threads read/write simultaneously (e.g., caches, shared state).
+
+## 10. You need to implement a caching mechanism without using external libraries. How do you do it?
 
 ```Java
 import java.util.Map;
@@ -2983,7 +2997,7 @@ class Main<K, V> {
 ```
 
 
-## 9. Java Collections Framework summary
+## 11. Java Collections Framework summary
 
 **🔹 Basics**
 
