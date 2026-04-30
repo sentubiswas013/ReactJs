@@ -6352,7 +6352,11 @@ classpath:/          ← lowest priority
 
 ## 11. What is centralized configuration in microservices?
 
-When you have 10+ microservices, managing config per service is painful. Centralized config means one place holds all configs.
+Centralized configuration means storing all microservice configurations in a **single external location** (like a Git repo) instead of bundling them inside each service's JAR/WAR.
+
+- All services fetch their config from a **Config Server** at startup
+- Changes can be applied **without redeploying** services
+- Supports environment-specific configs (dev, staging, prod)
 
 Solution: **Spring Cloud Config Server**
 
@@ -6375,48 +6379,9 @@ spring:
 
 ## 13. How can we create a centralized configuration for all microservices?
 
-Use **Spring Cloud Config Server**:
+**Step 1: Create Config Server**
 
-
-**🏗️ Architecture**
-
-```
-Git Repo (configs)
-        ↓
-Config Server
-        ↓
-Microservices (Client)
-```
-
----
-
-**1️⃣ Create Config Repository (Git)**
-
-Create a Git repo (local or remote):
-
-```
-config-repo/
- ├── user-service.yml
- ├── order-service.yml
- ├── application.yml
-```
-
-Example: `user-service.yml`
-
-```yaml
-server:
-  port: 8081
-
-db:
-  url: jdbc:mysql://localhost:3306/userdb
-```
-
----
-
-**2️⃣ Create Config Server**
-
-**Add dependency**
-
+**pom.xml dependency:**
 ```xml
 <dependency>
     <groupId>org.springframework.cloud</groupId>
@@ -6424,8 +6389,7 @@ db:
 </dependency>
 ```
 
-**Enable config server**
-
+**Main class:**
 ```java
 @SpringBootApplication
 @EnableConfigServer
@@ -6436,10 +6400,7 @@ public class ConfigServerApplication {
 }
 ```
 
----
-
-**Configure `application.yml`**
-
+**application.yml:**
 ```yaml
 server:
   port: 8888
@@ -6449,25 +6410,35 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/your-repo/config-repo
+          uri: https://github.com/your-org/config-repo
+          default-label: main
 ```
 
 ---
 
-**Run server**
+**Step 2: Create Git Config Repository**
 
-Access:
+Create a GitHub repo (e.g., `config-repo`) and add config files:
 
 ```
-http://localhost:8888/user-service/default
+config-repo/
+  order-service.yml
+  order-service-dev.yml
+  order-service-prod.yml
+```
+
+**order-service.yml:**
+```yaml
+app:
+  message: "Hello from Config Server"
+  timeout: 5000
 ```
 
 ---
 
-**3️⃣ Configure Microservice (Client)**
+**Step 3: Configure Client Microservice**
 
-Add dependency:
-
+**pom.xml dependency:**
 ```xml
 <dependency>
     <groupId>org.springframework.cloud</groupId>
@@ -6475,45 +6446,41 @@ Add dependency:
 </dependency>
 ```
 
----
-
-**Create `bootstrap.yml` (IMPORTANT)**
-
+**application.yml (client):**
 ```yaml
 spring:
   application:
-    name: user-service
-
-  cloud:
-    config:
-      uri: http://localhost:8888
+    name: order-service        # must match filename in config-repo
+  config:
+    import: "configserver:http://localhost:8888"
+  profiles:
+    active: dev
 ```
 
 ---
 
-**4️⃣ Use configuration in code**
+**Step 4: Use Config Values in Code**
 
 ```java
-@Value("${db.url}")
-private String dbUrl;
-```
+@RestController
+@RefreshScope   // enables runtime refresh without restart
+public class OrderController {
 
-or
+    @Value("${app.message}")
+    private String message;
 
-```java
-@ConfigurationProperties(prefix = "db")
-@Component
-public class DbConfig {
-    private String url;
+    @GetMapping("/info")
+    public String info() {
+        return message;
+    }
 }
 ```
 
 ---
 
-**5️⃣ Enable dynamic refresh (optional but powerful)**
+**Step 5: Dynamic Refresh (Without Restart)**
 
-Add dependency:
-
+Add Actuator dependency:
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -6521,30 +6488,60 @@ Add dependency:
 </dependency>
 ```
 
----
+Expose refresh endpoint in client's `application.yml`:
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+```
 
-**Add annotation**
-
-```java
-@RefreshScope
-@RestController
-public class MyController {
-    
-    @Value("${db.url}")
-    private String dbUrl;
-}
+Trigger refresh after config change:
+```bash
+POST http://localhost:8080/actuator/refresh
 ```
 
 ---
 
-**Refresh config without restart**
-
-Call:
+**Config Resolution Order**
 
 ```
-POST http://localhost:8081/actuator/refresh
+{app-name}-{profile}.yml  →  {app-name}.yml  →  application.yml
 ```
 
+Example for `order-service` with `dev` profile:
+1. `order-service-dev.yml`
+2. `order-service.yml`
+3. `application.yml`
+
+---
+
+**Interview Key Points**
+
+| Point | Answer |
+|---|---|
+| Default Config Server port | 8888 |
+| Annotation on server | `@EnableConfigServer` |
+| Annotation for runtime refresh | `@RefreshScope` |
+| Config file naming | `{spring.application.name}-{profile}.yml` |
+| Refresh without restart | `POST /actuator/refresh` |
+| Bus refresh (all instances) | Spring Cloud Bus + Kafka/RabbitMQ |
+
+---
+**Common Interview Questions**
+
+**Q: What happens if Config Server is down at startup?**  
+A: Service fails to start. Use `spring.cloud.config.fail-fast=true` to fail immediately, or `spring.cloud.config.retry.*` for retry logic.
+
+**Q: How to secure Config Server?**  
+A: Add Spring Security to Config Server, use Basic Auth or OAuth2. Encrypt sensitive values using `{cipher}` prefix with symmetric/asymmetric keys.
+
+**Q: Difference between `@RefreshScope` and restart?**  
+A: `@RefreshScope` re-initializes only the annotated bean at runtime via `/actuator/refresh`. Restart reloads the entire application context.
+
+**Q: How to push config changes to all instances at once?**  
+A: Use **Spring Cloud Bus** with a message broker (Kafka/RabbitMQ). One `POST /actuator/busrefresh` call propagates to all instances.
 ---
 
 ## 14. How do microservices load configuration from a central source?
@@ -6657,64 +6654,6 @@ By default, Spring Boot comes with an embedded server like Apache Tomcat. If we 
     <artifactId>spring-boot-starter-jetty</artifactId>
 </dependency>
 ```
-
-## 15. I have three application.yaml files: dev, stage, and prod. In my application, I want to use dev configuration for everything and apply stage configuration only for a specific area. How can I implement this? implement this in Java Spring Boot.
-
-In Spring Boot, you can achieve this by using Spring Profiles. You can define different profiles for your environments (dev, stage, prod) and then specify which profile to use for different parts of your application.    
-
-Here's how you can implement this:
-1. Define your application.yaml files for each profile:
-application-dev.yaml:
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/dev_db
-    username: dev_user
-    password: dev_pass
-```
-application-stage.yaml:
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/stage_db
-    username: stage_user
-    password: stage_pass
-```
-application-prod.yaml:
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/prod_db
-    username: prod_user
-    password: prod_pass
-```
-2. In your main application class, you can specify the active profile:
-```java
-@Profile("dev")
-@SpringBootApplication
-public class MyApp {
-    public static void main(String[] args) {
-        SpringApplication.run(MyApp.class, args);
-        app.setAdditionalProfiles("dev");
-    }
-}
-```
-
-
-3. To use the stage configuration for a specific area, you can create a separate configuration class and annotate it with @Profile("stage"):
-```java
-@Configuration
-@Profile("stage")
-public class StageConfig {
-    // Define beans that should use stage configuration
-}
-```
-4. For the rest of your application, you can use the dev profile by default. You can set the active profile in your application.properties or application.yaml:
-```yaml
-spring:
-  profiles:
-    active: dev
-``` 
 
 
 ## 16. How can we configure multiple databases in Spring Boot?

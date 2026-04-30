@@ -622,46 +622,51 @@ class DatabaseService {
     }
 }
 
-// Calling external APIs (payment/user service) is expensive → cache response.
+// **** Calling external APIs (payment/user service) is expensive → cache response.
+
+// 1. Generic LRU Cache
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true); // access-order = true
+        this.capacity = capacity;
+    }
+
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+}
+
+// 2. API Cache Example
 class ApiService {
     private final LRUCache<String, String> cache = new LRUCache<>(2);
 
     public String fetchData(String url) {
         if (cache.containsKey(url)) {
-            System.out.println("Cache HIT for API: " + url);
-            return cache.get(url);
+            System.out.println("Cache HIT: " + url);
+            return cache.get(url); // updates LRU
         }
 
-        // Simulate API call
         System.out.println("Calling API: " + url);
         String response = "Response from " + url;
 
         cache.put(url, response);
         return response;
     }
-
-    public static void main(String[] args) {
-        ApiService api = new ApiService();
-
-        api.fetchData("user/1");
-        api.fetchData("user/2");
-        api.fetchData("user/1"); // Cache hit
-        api.fetchData("user/3"); // Evicts least used
-    }
 }
 
-// Frequently viewed products → cache to reduce DB load.
+// 3. Product Cache (DB Example)
 class ProductService {
     private final LRUCache<Integer, String> cache = new LRUCache<>(2);
 
     public String getProduct(int id) {
         if (cache.containsKey(id)) {
-            System.out.println("Cache HIT for product " + id);
+            System.out.println("Cache HIT: Product " + id);
             return cache.get(id);
         }
 
-        // Simulate DB call
-        System.out.println("Fetching product from DB: " + id);
+        System.out.println("Fetching from DB: " + id);
         String product = "Product-" + id;
 
         cache.put(id, product);
@@ -669,16 +674,103 @@ class ProductService {
     }
 }
 
-// Session Cache: Store recently active user sessions.
+// 4. Session Cache
 class SessionService {
-    private final LRUCache<String, String> sessionCache = new LRUCache<>(2);
+    private final LRUCache<String, String> cache = new LRUCache<>(2);
 
     public void login(String userId) {
-        sessionCache.put(userId, "ACTIVE");
+        cache.put(userId, "ACTIVE");
         System.out.println("User logged in: " + userId);
     }
 
     public boolean isActive(String userId) {
-        return sessionCache.containsKey(userId);
+        return cache.get(userId) != null; // important: use get()
+    }
+}
+
+// 5. Main Test
+public class Main {
+    public static void main(String[] args) {
+
+        ApiService api = new ApiService();
+        api.fetchData("user/1");
+        api.fetchData("user/2");
+        api.fetchData("user/1"); // cache hit
+        api.fetchData("user/3"); // evicts LRU
+
+        System.out.println("-----------");
+
+        ProductService product = new ProductService();
+        product.getProduct(1);
+        product.getProduct(2);
+        product.getProduct(1); // cache hit
+        product.getProduct(3); // evicts LRU
+
+        System.out.println("-----------");
+
+        SessionService session = new SessionService();
+        session.login("user1");
+        session.login("user2");
+        session.login("user3"); // evicts user1
+
+        System.out.println("user1 active? " + session.isActive("user1")); // false
+        System.out.println("user2 active? " + session.isActive("user2")); // true
+    }
+}
+
+
+// ============================================================
+// 17. You need to implement a caching mechanism without using external libraries. How do you do it?
+// ============================================================
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+class SimpleCache<KeyType, ValueType> {
+
+    private final Map<KeyType, CacheEntry<ValueType>> cache = new ConcurrentHashMap<>();
+    private final long ttlMillis;
+
+    public SimpleCache(long ttlMillis) {
+        this.ttlMillis = ttlMillis;
+    }
+
+    public ValueType get(KeyType key) {
+        CacheEntry<ValueType> entry = cache.get(key);
+        if (entry == null) return null;
+
+        if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
+            cache.remove(key);
+            return null;
+        }
+
+        return entry.value;
+    }
+
+    public void put(KeyType key, ValueType value) {
+        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
+    }
+
+    static class CacheEntry<ValueType> {
+        final ValueType value;
+        final long timestamp;
+
+        CacheEntry(ValueType value, long timestamp) {
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+
+    // ✅ TEST METHOD
+    public static void main(String[] args) throws InterruptedException {
+
+        SimpleCache<String, String> cache = new SimpleCache<>(3000);
+
+        cache.put("key1", "Hello World");
+
+        System.out.println("Before expiry: " + cache.get("key1"));
+
+        Thread.sleep(4000);
+
+        System.out.println("After expiry: " + cache.get("key1"));
     }
 }

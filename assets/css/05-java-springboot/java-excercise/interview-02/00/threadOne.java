@@ -163,18 +163,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 // Session Cache: Store recently active user sessions.
 
-class SessionService {
-    private final LRUCache<String, String> sessionCache = new LRUCache<>(2);
 
-    public void login(String userId) {
-        sessionCache.put(userId, "active");
-        System.out.println("User login in " + userId);
-    }
-
-    public boolean isActive (String userId) {
-        return sessionCache.containsKey(userId);
-    }
-}
 
 // ============================================================
 // 17. You need to implement a caching mechanism without using external libraries. How do you do it?
