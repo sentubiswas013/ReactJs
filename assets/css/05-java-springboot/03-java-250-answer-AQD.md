@@ -346,7 +346,7 @@ for (int i = 0; i < fruits.size(); i++) {
 
 
 
-# ✅ 2. Data Types and Variables
+# ✅ 2. Java Data Types and Variables
 
 ## 1. What are data types in Java?
 
@@ -644,7 +644,7 @@ List<Integer> list = List.of(1,2,3);
 * **Reference Variables:** Stored in stack but point to objects in heap memory.
 
 
-# ✅ 3. Classes and Objects
+# ✅ 3. Java Classes and Objects
 
 
 ## 1. What is the difference between this and super keywords?
