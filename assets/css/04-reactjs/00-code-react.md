@@ -94,7 +94,7 @@ function App() {
 ```
 
 =====================================================================
-// Implement  Debounce Search
+// Implement Basic Timer / Stop Watch (Start / Stop / Reset)
 ----------------------------------------------------------------------
 ```jsx
 import React, { useState, useEffect } from "react";
@@ -370,6 +370,113 @@ const useApi = (url) => {
   
   return { data, loading, error };
 }
-// use
-const { data, error, isLoading } = useApi("https://api.example.com/users");
+
+
+// 1. Custom hooks for shared logic
+function useAuth() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuthStatus().then(userData => {
+      setUser(userData);
+      setLoading(false);
+    });
+  }, []);
+
+  const login = async (credentials) => {
+    const userData = await authAPI.login(credentials);
+    setUser(userData);
+  };
+
+  const logout = () => {
+    authAPI.logout();
+    setUser(null);
+  };
+
+  return { user, loading, login, logout };
+}
+
+// Usage across multiple pages
+function Dashboard() {
+  const { user, logout } = useAuth();
+  return <div>Welcome {user?.name} <button onClick={logout}>Logout</button></div>;
+}
+```
+
+=====================================================================
+// How to implement Higher-Order Components (HOC);
+----------------------------------------------------------------------
+```jsx
+// Authentication HOC
+function withAuth(WrappedComponent) {
+  return function AuthenticatedComponent(props) {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      checkAuthStatus().then(userData => {
+        setUser(userData);
+        setLoading(false);
+      });
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+    if (!user) return <LoginForm />;
+    
+    return <WrappedComponent {...props} user={user} />;
+  };
+}
+
+// Usage
+const ProtectedDashboard = withAuth(Dashboard);
+const ProtectedProfile = withAuth(Profile);
+
+function Dashboard({ user }) {
+  return <h1>Welcome to Dashboard, {user.name}!</h1>;
+}
+
+// Loading HOC
+function withLoading(WrappedComponent) {
+  return function LoadingComponent({ isLoading, ...props }) {
+    if (isLoading) {
+      return <div className="spinner">Loading...</div>;
+    }
+    
+    return <WrappedComponent {...props} />;
+  };
+}
+
+
+// Compose multiple HOCs
+const EnhancedUserList = withErrorBoundary(
+  withAuth(
+    withLoading(UserList)
+  )
+);
+
+// Modern alternative with custom hooks
+function useAuth() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuthStatus().then(userData => {
+      setUser(userData);
+      setLoading(false);
+    });
+  }, []);
+
+  return { user, loading };
+}
+
+// Component using hook instead of HOC
+function Dashboard() {
+  const { user, loading } = useAuth();
+  
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <LoginForm />;
+  
+  return <h1>Welcome to Dashboard, {user.name}!</h1>;
+}
 ```
