@@ -436,25 +436,6 @@ function Dashboard({ user }) {
   return <h1>Welcome to Dashboard, {user.name}!</h1>;
 }
 
-// Loading HOC
-function withLoading(WrappedComponent) {
-  return function LoadingComponent({ isLoading, ...props }) {
-    if (isLoading) {
-      return <div className="spinner">Loading...</div>;
-    }
-    
-    return <WrappedComponent {...props} />;
-  };
-}
-
-
-// Compose multiple HOCs
-const EnhancedUserList = withErrorBoundary(
-  withAuth(
-    withLoading(UserList)
-  )
-);
-
 // Modern alternative with custom hooks
 function useAuth() {
   const [user, setUser] = useState(null);
