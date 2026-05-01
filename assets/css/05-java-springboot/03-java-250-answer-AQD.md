@@ -604,7 +604,38 @@ class Test {
 | equals overridden | hashCode must override   |
 
 
-## 13. What is `var` keyword in Java(10)?
+## 13. How to Override the hashCode Method Properly in Java?
+To override the `hashCode()` method properly in Java, you should follow these guidelines:
+1. **Use the same fields** that are used in the `equals()` method to compute the hash code.
+2. **Use a consistent algorithm** to combine the hash codes of the fields, such as multiplying by a prime number.
+
+* ✔ Used **same fields (`name`, `age`) in both `equals()` and `hashCode()`**
+* ✔ Used `Objects.hash()` (clean and modern)
+* ✔ Proper `equals()` implementation (`instanceof`, null-safe)
+
+```java
+// import java.util.Objects;
+
+class Person {
+    private String name;
+    private int age;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person p)) return false;
+        return age == p.age && Objects.equals(name, p.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+}
+```
+
+
+## 14. What is `var` keyword in Java(10)?
 
 **var** in Java 10 is used for local variable type inference. It means the compiler automatically detects the type based on the value assigned, so we don’t need to explicitly declare the type.
 
@@ -619,7 +650,7 @@ int age = 25;
 List<Integer> list = List.of(1,2,3);
 ```
 
-## 14. Summary Data Types and Variables
+## 15. Summary Data Types and Variables
 
 **🔹 Data Types**
 
@@ -6099,6 +6130,24 @@ public class Test {
     }
 }
 ```
+
+## 11. What is diffence between Arrays.asList() vs List.of()?
+`Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
+
+`List.of()` creates an **immutable list** that does not allow `null` values. You cannot modify, add, or remove elements from this list.
+
+```java
+// Arrays.asList() - fixed-size, allows null   
+List<String> list1 = Arrays.asList("a", "b", null);
+list1.set(0, "x"); // OK - modifies element
+// list1.add("c"); // Error - cannot add
+// List.of() - immutable, does not allow null
+
+List<String> list2 = List.of("a", "b", "c");
+// list2.set(0, "x"); // Error - cannot modify
+// list2.add("d"); // Error - cannot add
+```
+
 
 # ✅ 16. Java JDBC 
 
