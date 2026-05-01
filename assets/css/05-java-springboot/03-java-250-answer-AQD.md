@@ -577,7 +577,7 @@ names.stream()
      .forEach(System.out::println);  // Output: Alex
 ```
 
-## 12. What is `hashCode()` in Java?
+## 12. What is `hashCode()` in Java amd How does equals() and hashCode()?
 
 **`hashCode()`** is used to generate a hash value for an object and is used internally by HashMap, HashSet for fast retrieval. If two objects are equal, their hashCode must be equal.
 
@@ -603,8 +603,17 @@ class Test {
 | hashCode same     | equals may be true/false |
 | equals overridden | hashCode must override   |
 
+**How does equals() and hashCode()**
+
+In Java, the `equals()` and `hashCode()` methods work together to ensure that objects can be compared for equality and stored efficiently in hash-based collections like `HashMap` and `HashSet`.
+- **equals()** checks if two objects are logically equal (same content).
+- **hashCode()** generates an integer hash code for the object, which is used to determine the bucket location in hash-based collections.
+When you override `equals()`, you must also override `hashCode()` to maintain the contract that equal objects must have the same hash code. This ensures that collections like `HashMap` can retrieve objects correctly.
+
+
 
 ## 13. How to Override the hashCode Method Properly in Java?
+
 To override the `hashCode()` method properly in Java, you should follow these guidelines:
 1. **Use the same fields** that are used in the `equals()` method to compute the hash code.
 2. **Use a consistent algorithm** to combine the hash codes of the fields, such as multiplying by a prime number.
@@ -7723,6 +7732,8 @@ Service service;
 2. Setter Injection – dependencies injected through setter method
 3. Field Injection – dependencies injected directly into field using @Autowired
 
+## How does Dependency Injection work in Java
+
 
 ```java
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12080,16 +12091,33 @@ Optional<String> optional = Optional.ofNullable(getString());
 optional.ifPresent(System.out::println);
 
 // Default methods in interfaces
-List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+interface MyInterface {
+    default void defaultMethod() {
+        System.out.println("This is a default method");
+    }
+}
 
 // Static method reference
-names.forEach(System.out::println);
+List<String> numbers = Arrays.asList("1", "2", "3");
+List<Integer> integers = numbers.stream()
+    .map(Integer::parseInt)  // Static method reference
+    .collect(Collectors.toList());
+
 
 // Instance method reference
-names.sort(String::compareToIgnoreCase);
+List<String> names = Arrays.asList("john", "jane", "bob");
+List<String> upperNames = names.stream()
+    .map(String::toUpperCase)  // Instance method reference
+    .collect(Collectors.toList());
+
 
 // Constructor reference
-Supplier<List<String>> listSupplier = ArrayList::new;
+List<String> strings = Arrays.asList("Hello", "World");
+List<StringBuilder> builders = strings.stream()
+    .map(StringBuilder::new)  // Constructor reference
+    .collect(Collectors.toList());
+
+
 ```
 
 ## 2. What are the features in Java 11?
