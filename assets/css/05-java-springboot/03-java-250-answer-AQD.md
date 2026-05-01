@@ -1222,7 +1222,7 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 
 ## 1. What is Inheritance in Java?
 
-Inheritance is a feature where one class **gets properties and methods of another class**.
+Inheritance is a feature where one class **gets properties and methods of another class** using the `extends` keyword. It promotes **code reuse** and establishes an IS-A relationship..
 
 👉 *In simple words:* child class uses parent class code.
 
@@ -1238,13 +1238,16 @@ class Dog extends Animal {
         System.out.println("Barking...");
     }
 }
+
+Dog d = new Dog();
+d.eat();    // inherited from Animal
+d.bark();   // own method
 ```
 
 
 ## 2. Why doesn't Java support multiple inheritance (with classes)?
 
 Java does not support multiple inheritance with **classes** to avoid the **Diamond Problem** and complexity.
-
 But Java does support multiple inheritance with **interfaces**.
 
 ```java
@@ -1304,68 +1307,87 @@ class C implements A, B {
 
 We use inheritance to:
 
-* **Reuse code**
-* **Avoid duplication**
-* **Make code cleaner and organized**
+- **Code reuse** — avoid writing the same code in multiple classes
+- **Method overriding** — customize parent behavior in child
+- **Polymorphism** — treat child objects as parent type
+- **Maintainability** — change in parent reflects in all children
 
 👉 *Example:* Dog already gets `eat()` from Animal, no need to rewrite it.
 
 
 ## 5. What is `extends` keyword?
 
-`extends` is used to **inherit a class**.
+`extends` is used to **inherit a class** in Java. The child class gets all non-private members of the parent class.
 
 ```java
-class Dog extends Animal {
+class Parent {
+    void display() { System.out.println("Parent"); }
 }
+
+class Child extends Parent {
+    void show() { System.out.println("Child"); }
+}
+
+Child c = new Child();
+c.display();   // inherited
+c.show();      // own
 ```
-
-👉 Dog is inheriting from Animal using `extends`.
-
 
 ## 6. What is IS-A Relationship?
 
-IS-A means **one object is a type of another**.
-
-👉 Example:
-
-* Dog IS-A Animal ✅
+IS-A is an inheritance relationship — it means **one object is a type of another**. Implemented using `extends` or `implements`. Used to check with `instanceof`.
 
 ```java
-Dog d = new Dog(); // Dog is also an Animal
+class Animal { }
+class Dog extends Animal { }
+
+Dog d = new Dog();
+System.out.println(d instanceof Dog);     // true
+System.out.println(d instanceof Animal);  // true — Dog IS-A Animal
 ```
 
 
 ## 7. What is Method Overriding?
 
-Method overriding means **child class provides its own version of parent method**.
+Method overriding is when a **child class provides its own implementation** of a method already defined in the parent class with the **same name, return type, and parameters**.
 
 ```java
 class Animal {
-    void sound() {
-        System.out.println("Animal makes sound");
-    }
+    void sound() { System.out.println("Some sound"); }
 }
 
-class Dog extends Animal {
-    void sound() {
-        System.out.println("Dog barks");
-    }
+class Cat extends Animal {
+    @Override
+    void sound() { System.out.println("Cat meows"); }
 }
+
+Animal a = new Cat();
+a.sound();   // Cat meows — runtime decision
 ```
-
-👉 Same method name, but different behavior.
 
 
 ## 8. Types of Inheritance in Java
 
-Java supports:
+| Type | Description |
+|------|-------------|
+| Single | One parent → one child |
+| Multilevel | A → B → C (chain) |
+| Hierarchical | One parent → multiple children |
+| Multiple | Not supported with classes; supported via interfaces |
+| Hybrid | Combination — only via interfaces |
 
-* **Single**
-* **Multilevel**
-* **Hierarchical**
+```java
+// Single
+class A { }  
+class B extends A { }
 
-👉 *Note:* Multiple inheritance is not supported with classes.
+// Multilevel
+class C extends B { }
+
+// Hierarchical
+class D extends A { }  
+class E extends A { }
+```
 
 
 ## 9. Does Java support Multiple Inheritance? Why?
@@ -1395,8 +1417,6 @@ class Puppy extends Dog {
 }
 ```
 
-👉 Puppy → Dog → Animal
-
 
 ## 11. What is Hierarchical Inheritance?
 
@@ -1411,22 +1431,31 @@ class Dog extends Animal {}
 class Cat extends Animal {}
 ```
 
-👉 Dog and Cat both inherit Animal
-
-
-
 ## 12. Can we override static methods?
 
-❌ No
+❌ No, Static methods are **not overridden**, they are **hidden**.
 
-👉 Static methods are **not overridden**, they are **hidden**.
+```java
+class Parent {
+    static void show() { 
+        System.out.println("Parent"); 
+    }
+}
+
+class Child extends Parent {
+    static void show() { 
+        System.out.println("Child"); 
+    }  // hiding
+}
+
+Parent p = new Child();
+p.show();   // Parent — reference type decides, not object type
+```
 
 
 ## 13. Can we override final methods?
 
-❌ No
-
-👉 Final methods cannot be changed in child class.
+❌ No, Final methods cannot be changed in child class.
 
 ```java
 class Animal {
@@ -1434,14 +1463,14 @@ class Animal {
 }
 
 class Dog extends Animal {
-    // ❌ Error: cannot override final method
+    // void run() { }  ❌ Error: cannot override final method
 }
 ```
 
 
 ## 14. What is runtime polymorphism?
 
-👉 *“Runtime polymorphism means method execution is decided at runtime based on object type using method overriding.”*
+Runtime polymorphism means method execution is decided at runtime based on object type using method overriding.
 
 ```java
 class A {
@@ -1463,20 +1492,47 @@ public class Test {
 
 ## 15. How does method overriding work internally?
 
-👉 *“JVM uses dynamic method dispatch. It decides method call at runtime based on actual object, not reference.”*
+JVM uses dynamic method dispatch. It decides method call at runtime based on actual object, not reference.
+
+```
+Parent ref → points to Child object
+JVM checks Child's vtable → finds overridden method → calls Child's version
+```
+
+This is why `Animal a = new Dog(); a.sound();` calls `Dog`'s `sound()`, not `Animal`'s.
 
 
 ## 16. What are rules for method overriding?
 
-👉 *“Same name, same parameters, same or covariant return type, and cannot reduce access level.”*
+Same name, same parameters, same or covariant return type, and cannot reduce access level.
 
 * Cannot override `final`, `static`, `private`
 * Access modifier can be same or more open
 
+| Rule | Detail |
+|------|--------|
+| Same method name | Must match exactly |
+| Same parameters | Same type, number, order |
+| Return type | Same or covariant (subtype) |
+| Access modifier | Same or more accessible (not more restrictive) |
+| Exceptions | Can throw fewer/narrower checked exceptions |
+| Cannot override | `static`, `final`, `private` methods |
+
+```java
+class Parent {
+    protected Number getValue() throws Exception { return 1; }
+}
+
+class Child extends Parent {
+    @Override
+    public Integer getValue() { return 42; }  // ✅ covariant return, wider access, fewer exceptions
+}
+```
+
 
 ## 17. What is covariant return type?
 
-👉 *“Child class can return a more specific type than parent method.”*
+Child class can return a more specific type than parent method.
 
 ```java
 class A {}
@@ -1494,12 +1550,26 @@ class Child extends Parent {
 
 ## 18. Can constructors be inherited?
 
-👉 *“No, constructors are not inherited because they belong to class initialization.”*
+**No.** Constructors are not inherited because they are tied to the class they belong to. 
+However, a child class can **call the parent constructor** using `super()`.
+
+```java
+class Animal {
+    Animal(String name) { System.out.println("Animal: " + name); }
+}
+
+class Dog extends Animal {
+    Dog(String name) {
+        super(name);   // explicitly calling parent constructor
+        System.out.println("Dog: " + name);
+    }
+}
+```
 
 
 ## 19. What is the order of constructor execution?
 
-👉 *“Parent constructor executes first, then child constructor.”*
+Parent constructor executes first, then child constructor.
 
 ```java
 class A {
@@ -1509,11 +1579,8 @@ class A {
 class B extends A {
     B() { System.out.println("Child"); }
 }
-```
 
-**Output:**
-
-```
+//Output:
 Parent
 Child
 ```
@@ -1521,7 +1588,7 @@ Child
 
 ## 20. What happens if parent constructor is not called?
 
-👉 *“Java automatically calls default parent constructor using super().”*
+Java automatically calls default parent constructor using super().
 
 ```java
 class A {
@@ -1539,28 +1606,35 @@ class B extends A {
 
 ## 21. Can we extend multiple classes in Java?
 
-👉 *“No, Java does not support multiple inheritance for classes to avoid ambiguity.”*
+**No.** Java does not support extending multiple classes. A class can only extend **one** class. For multiple inheritance of behavior, use **interfaces**.
 
-```java id="7c8h3n"
-// class C extends A, B {} ❌ NOT ALLOWED
+```java
+// class C extends A, B { }  // ❌ Not allowed
+
+interface A { void methodA(); }
+interface B { void methodB(); }
+
+class C implements A, B {    // ✅ multiple interfaces allowed
+    public void methodA() { }
+    public void methodB() { }
+}
 ```
 
 
 ## 22. Can we inherit private members?
 
-👉 *“Yes, but we cannot access them directly outside the class.”*
+**Yes, they are inherited** but **not directly accessible** in the child class. They can be accessed indirectly through `public` or `protected` getter/setter methods.
 
-```java 
-class A {
-    private int x = 10;
-
-    int getX() { return x; } // access via method
+```java
+class Parent {
+    private int secret = 42;
+    int getSecret() { return secret; }   // public accessor
 }
 
-class B extends A {
+class Child extends Parent {
     void show() {
-        // System.out.println(x); ❌ ERROR
-        System.out.println(getX()); // ✅
+        // System.out.println(secret);      // ❌ not accessible
+        System.out.println(getSecret());    // ✅ accessed via method
     }
 }
 ```
@@ -1568,7 +1642,7 @@ class B extends A {
 
 ## 23. Can we override private methods?
 
-👉 *“No, private methods are not visible, so they cannot be overridden.”*
+“No, private methods are not visible, so they cannot be overridden.
 
 ```java 
 class A {
@@ -1583,54 +1657,78 @@ class B extends A {
 
 ## 24. Can we change access modifier while overriding?
 
-👉 *“Yes, but only to increase visibility, not decrease.”*
+**Yes, but only to increase visibility** (make it more accessible). You cannot reduce the access level.
 
-```java id="c2h9rf"
-class A {
-    protected void show() {}
+| Parent Modifier | Allowed in Child |
+|----------------|-----------------|
+| `private` | Cannot override |
+| `default` | `default`, `protected`, `public` |
+| `protected` | `protected`, `public` |
+| `public` | `public` only |
+
+```java
+class Parent {
+    protected void show() { }
 }
 
-class B extends A {
-    public void show() {} // ✅ allowed
+class Child extends Parent {
+    @Override
+    public void show() { }    // ✅ widened from protected to public
+
+    // private void show() { }  // ❌ narrowed — compile error
 }
 ```
 
-
 ## 25. What happens if parent and child have same variable name?
 
-👉 *“Variable hiding happens. Access depends on reference type.”*
+This is called **variable hiding**. The variable accessed depends on the **reference type**, not the object type. Unlike methods, variables do not follow runtime polymorphism.
 
-```java id="6y5kdn"
-class A { int x = 10; }
-class B extends A { int x = 20; }
+```java
+class Parent { int x = 10; }
+class Child extends Parent  { int x = 20; }
 
-public class Test {
-    public static void main(String[] args) {
-        A obj = new B();
-        System.out.println(obj.x); // 10
-    }
-}
+Parent p = new Child();
+System.out.println(p.x);   // 10 — reference type (Parent) decides
+
+Child c = new Child();
+System.out.println(c.x);   // 20 — reference type (Child) decides
 ```
 
 
 ## 26. Can abstract class have constructor?
 
-👉 *“Yes, it is used to initialize variables when child object is created.”*
+**Yes.** An abstract class can have a constructor. It is called when a child class object is created via `super()`. It is used to initialize common fields.
 
-```java id="ux1l7p"
-abstract class A {
-    A() { System.out.println("Abstract constructor"); }
+```java
+abstract class Shape {
+    String color;
+
+    Shape(String color) {
+        this.color = color;
+        System.out.println("Shape created: " + color);
+    }
+
+    abstract double area();
 }
 
-class B extends A {}
+class Circle extends Shape {
+    double radius;
+
+    Circle(String color, double radius) {
+        super(color);   // calls abstract class constructor
+        this.radius = radius;
+    }
+
+    double area() { return Math.PI * radius * radius; }
+}
 ```
 
 
 ## 27. Can interface extend class?
 
-👉 *“No, interface can only extend another interface.”*
+**No.** An interface cannot extend a class. An interface can only **extend another interface**.
 
-```java id="1jxv8n"
+```java
 // interface A extends B {} (only if B is interface)
 ```
 
@@ -1653,12 +1751,16 @@ interface B extends A {
 
 ## 28. Can class extend interface?
 
-👉 *“No, class cannot extend interface. It uses implements keyword.”*
+**No.** A class cannot `extend` an interface. A class must use `implements` to use an interface.
 
-```java id="8mz4tt"
-interface A {}
+```java
+interface Printable { void print(); }
 
-class B implements A {}
+// class Doc extends Printable { }     // ❌ Not allowed
+
+class Doc implements Printable {       // ✅ correct
+    public void print() { System.out.println("Printing..."); }
+}
 ```
 
 ## 29. Which type of polymorphism does method overloading represent?

@@ -871,11 +871,15 @@ Both `Dog` and `Cat` inherit `breathe()` from `Animal`.
 
 ```java
 class Parent {
-    static void show() { System.out.println("Parent"); }
+    static void show() { 
+        System.out.println("Parent"); 
+    }
 }
 
 class Child extends Parent {
-    static void show() { System.out.println("Child"); }  // hiding
+    static void show() { 
+        System.out.println("Child"); 
+    }  // hiding
 }
 
 Parent p = new Child();
