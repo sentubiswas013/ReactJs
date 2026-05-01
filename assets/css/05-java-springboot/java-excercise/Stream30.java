@@ -275,7 +275,7 @@ public class Stream30 {
         // 17. Check Vowel numbers mapping 
         Map<Character, Long> vowels = input.toLowerCase().chars()
                 .mapToObj(c -> (char) c)
-                .filter(ch -> "aeiou".indexOf(ch) != -1)
+                .filter(ch -> "aeiou".indexOf(ch) != -1)        
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
                 
 

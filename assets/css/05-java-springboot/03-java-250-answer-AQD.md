@@ -1992,10 +1992,7 @@ public class Test {
 
 ## 4. What is an Abstract Class?
 
-
 An abstract class is a class that can have both abstract methods and concrete methods. It is used when we want partial abstraction.
-
-
 
 ```java
 abstract class Animal {
@@ -2013,7 +2010,6 @@ class Dog extends Animal {
 }
 ```
 
-
 ## 5. When should you use an interface instead of an abstract class?
 
 Use **interface** when:
@@ -2030,22 +2026,14 @@ Use **abstract class** when:
 
 ## 6. Can we create object of interface or abstract class?
 
-
 No, we cannot create objects of interface or abstract class directly. But we can create objects using their implementing or child classes.
-
-
 
 ```java
 Animal a = new Dog(); // valid
 ```
 
-
 ## 7. Can an interface have methods with implementation? (Java 8+)
-
-
 Yes, from Java 8 onwards, interfaces can have methods with implementation using default and static keywords.
-
-
 
 ```java
 interface Animal {
@@ -2055,13 +2043,9 @@ interface Animal {
 }
 ```
 
-
 ## 8. What are default and static methods in interface?
 
-
 Default methods are instance methods with implementation that can be overridden. Static methods belong to the interface and cannot be overridden.
-
-
 
 ```java
 interface Animal {
@@ -2085,13 +2069,9 @@ public class Test {
 }
 ```
 
-
 ## 9. Can abstract class have constructor? Why?
 
-
 Yes, abstract class can have a constructor because it is used to initialize common properties when a subclass object is created.
-
-
 
 ```java
 abstract class Animal {
@@ -2107,13 +2087,9 @@ class Dog extends Animal {
 }
 ```
 
-
 ## 10. Can abstract class have both abstract and concrete methods?
 
-
 Yes, abstract class can have both abstract methods and concrete methods, which is why it provides partial abstraction.
-
-
 
 ```java
 abstract class Animal {
@@ -2125,13 +2101,9 @@ abstract class Animal {
 }
 ```
 
-
 ## 11. Can interface have variables? What type?
 
-
 Yes, interface can have variables, but they are by default public, static, and final constants.
-
-
 
 ```java
 interface Animal {
@@ -2139,15 +2111,13 @@ interface Animal {
 }
 ```
 
-
 ## 12. When should we use interface vs abstract class?
 
-👉 *Use interface when we need 100% abstraction and multiple inheritance. Use abstract class when we need partial abstraction with shared code.*
-
+Use interface when we need 100% abstraction and multiple inheritance. Use abstract class when we need partial abstraction with shared code.
 
 ## 13. Can a class implement multiple interfaces?
 
-👉 *Yes, a class can implement multiple interfaces to achieve multiple inheritance.*
+Yes, a class can implement multiple interfaces to achieve multiple inheritance.
 
 ```java id="l3p9sx"
 interface A { void show(); }
@@ -2159,10 +2129,9 @@ class C implements A, B {
 }
 ```
 
-
 ## 14. Can an abstract class implement an interface?
 
-👉 *Yes, abstract class can implement interface and may or may not provide implementation.*
+Yes, abstract class can implement interface and may or may not provide implementation.
 
 ```java id="9v2tqg"
 interface A {
@@ -2174,10 +2143,9 @@ abstract class B implements A {
 }
 ```
 
-
 ## 15. Can an interface extend another interface?
 
-👉 *Yes, interface can extend one or more interfaces.*
+Yes, interface can extend one or more interfaces.
 
 ```java id="y6m2an"
 interface A {
@@ -2192,75 +2160,224 @@ interface B extends A {
 
 ## 16. Can an interface extend a class? (Tricky)
 
-👉 *No, interface cannot extend a class, it can only extend interfaces.*
+**No.** An interface cannot extend a class. An interface can only extend another **interface**. A class uses `implements` for interfaces and `extends` for classes.
+
+```java
+class MyClass { }
+// interface MyInterface extends MyClass { }   // ❌ compile error
+
+interface A { void methodA(); }
+interface B extends A { void methodB(); }       // ✅ interface extends interface
+```
 
 
 ## 17. Can a class extend multiple abstract classes?
 
-👉 *No, Java does not support multiple inheritance for classes, even abstract classes.*
+**No.** Java does not support multiple class inheritance — a class can only `extend` **one** class (abstract or concrete). Use interfaces for multiple inheritance of behavior.
 
-```java id="g8x4qp"
-// class C extends A, B {} ❌ NOT ALLOWED
+```java
+abstract class A { abstract void methodA(); }
+abstract class B { abstract void methodB(); }
+
+// class C extends A, B { }   // ❌ Not allowed
+
+interface IA { void methodA(); }
+interface IB { void methodB(); }
+class C implements IA, IB {   // ✅ multiple interfaces allowed
+    public void methodA() { }
+    public void methodB() { }
+}
 ```
 
 
 ## 18. Can interface have constructor?
 
-👉 ❌ No (no object creation)
+**No.** Interfaces cannot have constructors because they cannot be instantiated. There is no object state to initialize. Only the implementing class is instantiated.
+
+```java
+interface Vehicle {
+    // Vehicle() { }   // ❌ compile error
+    void start();
+}
+```
 
 
 ## 19. Can abstract class have constructor?
 
-👉 ✅ Yes (used during object creation of subclass)
+**Yes.** Abstract classes can have constructors. They are invoked when a subclass object is created via `super()`. Used to initialize common fields.
+
+```java
+abstract class Employee {
+    String name;
+    double salary;
+
+    Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    abstract void work();
+}
+
+class Developer extends Employee {
+    Developer(String name, double salary) {
+        super(name, salary);
+    }
+    void work() { System.out.println(name + " writes code"); }
+}
+```
 
 
 ## 20. Can interface have private methods?
 
-👉 ✅ Yes (Java 9+)
-
-
-## 21. Can we override static methods in interface?
-
-👉 ❌ No (only hide)
-
-
-## 22. What if two interfaces have same default method?
-
-👉 Must override:
+**Yes**, from **Java 9** onwards. Private methods in interfaces are used as **helper methods** for `default` or `static` methods to avoid code duplication. They cannot be accessed by implementing classes.
 
 ```java
-class Test implements A, B {
-    public void show() {
-        A.super.show();
+interface Logger {
+    default void logInfo(String msg)  { log("INFO", msg); }
+    default void logError(String msg) { log("ERROR", msg); }
+
+    private void log(String level, String msg) {   // Java 9+
+        System.out.println("[" + level + "] " + msg);
     }
 }
 ```
 
 
+## 21. Can we override static methods in interface?
+
+**No.** Static methods in interfaces belong to the interface itself and **cannot be overridden** by implementing classes. If a class defines a method with the same name, it is a completely separate method — not an override.
+
+```java
+interface Printer {
+    static void print() { 
+        System.out.println("Interface print"); 
+    }
+}
+
+class MyPrinter implements Printer {
+    static void print() { 
+        System.out.println("Class print"); 
+    }  // new method, not override
+}
+
+Printer.print();        // Interface print
+MyPrinter.print();      // Class print
+```
+
+
+## 22. What if two interfaces have same default method?
+
+Java gives a **compile-time error**. The implementing class **must override** the conflicting method. It can then choose which interface's default to call using `InterfaceName.super.method()`.
+
+```java
+interface A { default void greet() { System.out.println("Hello from A"); } }
+interface B { default void greet() { System.out.println("Hello from B"); } }
+
+class C implements A, B {
+    @Override
+    public void greet() {
+        A.super.greet();   // explicitly choose A's version
+    }
+}
+
+new C().greet();   // Hello from A
+```
+
+
 ## 23. Can abstract class be final?
 
-👉 ❌ No (conflict)
+**No.** `abstract` requires the class to be subclassed (to implement abstract methods), while `final` prevents subclassing. They directly contradict each other — Java gives a compile error.
+
+```java
+// abstract final class Shape { }   // ❌ compile error: illegal combination
+```
 
 
 ## 24. Can interface have main method?
 
-👉 ✅ Yes (Java 8+)
+**Yes**, from **Java 8** onwards. Since interfaces can have `static` methods, they can have a `main` method. The JVM can execute it directly.
+
+```java
+interface App {
+    static void main(String[] args) {
+        System.out.println("Main method inside interface");
+    }
+}
+// Run: java App  → Main method inside interface
+```
 
 
 ## 25. Can we use both interface and abstract class together?
 
-👉 ✅ Yes (very common)
+**Yes.** This is a very common pattern. An abstract class implements an interface partially, and concrete subclasses complete the implementation.
+
+```java
+interface Reportable {
+    void generate();
+    void export();
+}
+
+abstract class BaseReport implements Reportable {
+    @Override
+    public void export() {                          // common implementation
+        System.out.println("Exporting to PDF...");
+    }
+    // generate() left for subclasses
+}
+
+class SalesReport extends BaseReport {
+    @Override
+    public void generate() {
+        System.out.println("Generating Sales Report");
+    }
+}
+
+SalesReport r = new SalesReport();
+r.generate();   // Generating Sales Report
+r.export();     // Exporting to PDF...
+```
 
 
 ## 26. What access modifiers are allowed in interface?
 
-👉 Methods → public (default)
-👉 Variables → public static final
+| Member | Default Modifier | Allowed Modifiers |
+|--------|-----------------|-------------------|
+| Abstract methods | `public abstract` | `public` only |
+| Default methods | `public` | `public` only |
+| Static methods | `public` | `public` only |
+| Private methods | `private` | `private` only (Java 9+) |
+| Variables | `public static final` | `public static final` only |
+
+```java
+interface Demo {
+    int VALUE = 10;                        // public static final
+    void abstractMethod();                 // public abstract
+    default void defaultMethod() { }       // public
+    static void staticMethod() { }         // public
+    private void helperMethod() { }        // private (Java 9+)
+}
+```
 
 
 ## 27. Can we instantiate interface using lambda?
 
-👉 ✅ Yes (functional interface)
+**Yes**, but only for **functional interfaces** (interfaces with exactly one abstract method). A lambda expression provides the implementation of that single abstract method inline.
+
+```java
+@FunctionalInterface
+interface Greeting {
+    void greet(String name);
+}
+
+// Lambda instantiates the functional interface
+Greeting g = name -> System.out.println("Hello, " + name + "!");
+g.greet("Alice");   // Hello, Alice!
+
+// Another example
+Runnable r = () -> System.out.println("Running...");
+r.run();
+```
 
 
 ## 9. What are SOLID principles?
