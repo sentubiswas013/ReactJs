@@ -2,6 +2,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
 // ============================================================
 // 1. Using Thread class
 // ============================================================
@@ -73,10 +74,9 @@ class LambdaThreadExample2 {
 // ============================================================
 // 4. Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
 // ============================================================
-// Main Class (Simulation)
+// Real-world Example: Bank account withdrawal where multiple users try to withdraw money at the same time, leading to inconsistent balance if not synchronized.
 class SynchronizationExample {
     public static void main(String[] args) {
-
         BankAccount account = new BankAccount();
 
         Thread user1 = new Thread(() -> account.withdraw(700), "User1");
@@ -106,55 +106,59 @@ class BankAccount {
 // ============================================================
 // 5. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
 // ============================================================
-class VolatileExp {
+// Real-world Example: A flag to stop a thread gracefully from another thread without using synchronization.
+class VolatileExample {
     public static void main(String[] args) throws Exception {
-        Task task = new Task();
-        Thread t1 = new Thread(task, "Worker-Thread");
-        t1.start();
+        FileProcessor processor = new FileProcessor();
+        Thread t = new Thread(processor);
+        t.start();
 
         Thread.sleep(3000);
 
-        task.stop(); // proper stop method
-        System.out.println("Stopped by main thread");
+        processor.stopProcessing(); // stop from another thread
     }
 }
 
-class Task implements Runnable {
+class FileProcessor implements Runnable {
     private volatile boolean running = true;
 
-    public void stop() {
+    public void stopProcessing() {
         running = false;
     }
 
+    @Override
     public void run() {
         while (running) {
-            System.out.println("Task is running...");
+            System.out.println("Processing files...");
+            
             try {
-                Thread.sleep(500); // prevent CPU overuse
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
-        System.out.println("Task stopped");
+        System.out.println("File processing stopped");
     }
 }
-
-
 
 // ============================================================
 // AtomicInteger provides thread-safe operations without synchronization - useful for counters in concurrent programming
 // ============================================================
-class AtomicExample {
+// Real-world Example: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
+class RequestCounter {
+    private AtomicInteger requestCount = new AtomicInteger(0);
 
+    public void handleRequest() {
+        int count = requestCount.incrementAndGet();
+        System.out.println("Handling request #" + count);
+    }
+}
+
+class Main {
     public static void main(String[] args) throws InterruptedException {
+        RequestCounter counter = new RequestCounter();
 
-        AtomicInteger count = new AtomicInteger(0);
-
-        Runnable task = () -> {
-            for (int i = 0; i < 1000; i++) {
-                count.incrementAndGet();
-            }
-        };
+        Runnable task = counter::handleRequest;
 
         Thread t1 = new Thread(task);
         Thread t2 = new Thread(task);
@@ -164,17 +168,15 @@ class AtomicExample {
 
         t1.join();
         t2.join();
-
-        System.out.println("Final Count: " + count.get());
     }
 }
 
 
 // ============================================================
-// Sleep pauses thread execution for specified time but keeps locks (can cause blocking)// ============================================================
+// Sleep pauses thread execution for specified time but keeps locks (can cause blocking)// 
+// ============================================================
 class SleepExample {
     public static void main(String[] args) {
-
         Object lock = new Object();
 
         Thread t1 = new Thread(() -> {
@@ -197,38 +199,6 @@ class SleepExample {
         t2.start();
     }
 }
-
-// ============================================================
-// 8. wait
-// ============================================================
-class WaitExample {
-    public static void main(String[] args) {
-
-        Object lock = new Object();
-
-        Thread t1 = new Thread(() -> {
-            synchronized (lock) {
-                try {
-                    System.out.println("Thread 1 waiting...");
-                    lock.wait(); // releases lock
-                    System.out.println("Thread 1 resumed");
-                } catch (InterruptedException e) {}
-            }
-        });
-
-        Thread t2 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 2 acquired lock");
-                lock.notify(); // wakes up t1
-                System.out.println("Thread 2 notified");
-            }
-        });
-
-        t1.start();
-        t2.start();
-    }
-}
-
 
 // ============================================================
 // 9. wait/notify
@@ -269,41 +239,10 @@ class Message {
 // ============================================================
 // ConcurrentHashMap: Thread-safe HashMap that allows multiple threads to read/write simultaneously without external synchronization
 // ============================================================
-class ConcurrentMapExample {
-    static void run() throws InterruptedException {
-        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-
-        Thread t1 = new Thread(() -> map.put("A", 1000));
-        Thread t2 = new Thread(() -> map.put("B", 2000));
-        Thread t3 = new Thread(() -> map.put("C", 3000));
-
-        t1.start(); t2.start(); t3.start();
-        t1.join();  t2.join();  t3.join();
-
-        System.out.println("ConcurrentHashMap: " + map);
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        run();
-    }
-}
-
-
 // Real-world Example: Counting word frequency in logs using ConcurrentHashMap
 // import java.util.concurrent.*;
 
 // import java.util.concurrent.ConcurrentHashMap;
-
-class UserSession {
-    String userId;
-    long loginTime;
-
-    UserSession(String userId) {
-        this.userId = userId;
-        this.loginTime = System.currentTimeMillis();
-    }
-}
-
 class SessionManager {
     private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
 
@@ -332,21 +271,19 @@ class SessionManager {
     }
 }
 
-// ============================================================
-// ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
-// ============================================================
-class ExecutorServiceExample {
-    public static void main(String[] args) {
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+class UserSession {
+    String userId;
+    long loginTime;
 
-        executor.submit(() -> System.out.println("Task 1: " + Thread.currentThread().getName()));
-        executor.submit(() -> System.out.println("Task 2: " + Thread.currentThread().getName()));
-        executor.execute(() -> System.out.println("Task 3"));
-
-        executor.shutdown();
+    UserSession(String userId) {
+        this.userId = userId;
+        this.loginTime = System.currentTimeMillis();
     }
 }
 
+// ============================================================
+// ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
+// ============================================================
 // Real-world Example: Processing multiple orders in parallel using ExecutorService
 // import java.util.concurrent.*;
 class ExecutorServiceRealTimeExample {
@@ -384,40 +321,22 @@ class ExecutorServiceRealTimeExample {
 // ============================================================
 // 12. CompletableFuture is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
 // ============================================================
-class CompletableFutureExample {
-    public static void main(String[] args) {
-        CompletableFuture<String> future =
-            CompletableFuture.supplyAsync(() -> {
-                try { Thread.sleep(2000); } catch (Exception e) {}
-                return "Hello";
-            }).thenApply(s -> s + " World");
-
-        System.out.println(future.join());
-    }
-}
-
 // Real-world Example: Calling multiple APIs in parallel and combining results
 // import java.util.concurrent.CompletableFuture;
 class CompletableFutureRealTimeExample {
 
     public static void main(String[] args) {
-
         // Call APIs in parallel
-        CompletableFuture<String> userFuture =
-                CompletableFuture.supplyAsync(() -> getUser());
-
-        CompletableFuture<String> orderFuture =
-                CompletableFuture.supplyAsync(() -> getOrders());
-
-        CompletableFuture<String> paymentFuture =
-                CompletableFuture.supplyAsync(() -> getPayments());
+        CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(() -> getUser());
+        CompletableFuture<String> orderFuture = CompletableFuture.supplyAsync(() -> getOrders());
+        CompletableFuture<String> paymentFuture = CompletableFuture.supplyAsync(() -> getPayments());
 
         // Combine all results
-        CompletableFuture<String> finalResult =
-                userFuture.thenCombine(orderFuture, (user, orders) ->
-                        user + " | " + orders)
-                .thenCombine(paymentFuture, (combined, payment) ->
-                        combined + " | " + payment);
+        CompletableFuture<String> finalResult = userFuture.thenCombine(
+                    orderFuture, (user, orders) ->
+                        user + " | " + orders
+                    )
+                    .thenCombine(paymentFuture, (combined, payment) -> combined + " | " + payment);
 
         // Wait and print result
         System.out.println(finalResult.join());
@@ -446,19 +365,6 @@ class CompletableFutureRealTimeExample {
 // ============================================================
 // 13. ReentrantLock
 // ============================================================
-class ReentrantLockExampleOne {
-    public static void main(String[] args) {
-        Lock lock = new ReentrantLock();
-
-        lock.lock();
-        try {
-            System.out.println("Task inside lock");
-        } finally {
-            lock.unlock();
-        }
-    }
-}
-
 //  Realtime Example:
 class ReentrantLockExampleTwo {
     public static void main(String[] args) {
@@ -500,13 +406,6 @@ class BankAccountExm {
 // ============================================================
 // 15. Race Condition
 // ============================================================
-class Counter {
-    int count = 0;
-
-    void increment() {
-        count++; // not thread-safe — intentional demo
-    }
-}
 // Real-world Example: Booking system where multiple users try to book the last seat simultaneously
 class RaceConditionExample {
     public static void main(String[] args) throws Exception {
@@ -558,71 +457,36 @@ class TicketBooking2 {
 // ============================================================
 // 16. LRU Cache
 // ============================================================
-class LRUCacheExample {
-    public static void main(String[] args) {
-        run();
-    }
-
-    static void run() {
-        LRUCache<Integer, String> cache = new LRUCache<>(2);
-
-        cache.put(1, "One");
-        cache.put(2, "Two");
-
-        cache.get(1);            // Access 1 → makes it MRU
-        cache.put(3, "Three");   // Evicts key 2
-
-        System.out.println("LRU Cache: " + cache);
-    }
-}
-
-class LRUCache<K, V> extends LinkedHashMap<K, V> {
-    private final int capacity;
-
-    LRUCache(int capacity) {
-        super(capacity, 0.75f, true); // accessOrder = true
-        this.capacity = capacity;
-    }
-
-    @Override
-    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-        return size() > capacity;
-    }
-}
-
-// Real-world Example: Caching DB results, API responses, etc.
-
-// Fetching user data from DB is slow → cache recent results.
-class DatabaseService {
-    private final LRUCache<Integer, String> cache = new LRUCache<>(3);
-
-    public String getUserById(int id) {
-        if (cache.containsKey(id)) {
-            System.out.println("Cache HIT for user " + id);
-            return cache.get(id);
-        }
-
-        // Simulate DB call
-        System.out.println("Fetching from DB for user " + id);
-        String data = "User-" + id;
-
-        cache.put(id, data);
-        return data;
-    }
-
-    static void main(String[] args) {
-        DatabaseService service = new DatabaseService();
-
-        service.getUserById(1);
-        service.getUserById(2);
-        service.getUserById(1); // Cache hit
-        service.getUserById(3);
-        service.getUserById(4); // Evicts least used
-        service.getUserById(2); // DB call again
-    }
-}
-
 // **** Calling external APIs (payment/user service) is expensive → cache response.
+
+public class threadOne {
+    public static void main(String[] args) {
+
+        ApiService api = new ApiService();
+        api.fetchData("user/1");
+        api.fetchData("user/2");
+        api.fetchData("user/1"); // cache hit
+        api.fetchData("user/3"); // evicts LRU
+
+        System.out.println("-----------");
+
+        ProductService product = new ProductService();
+        product.getProduct(1);
+        product.getProduct(2);
+        product.getProduct(1); // cache hit
+        product.getProduct(3); // evicts LRU
+
+        System.out.println("-----------");
+
+        SessionService session = new SessionService();
+        session.login("user1");
+        session.login("user2");
+        session.login("user3"); // evicts user1
+
+        System.out.println("user1 active? " + session.isActive("user1")); // false
+        System.out.println("user2 active? " + session.isActive("user2")); // true
+    }
+}
 
 // 1. Generic LRU Cache
 class LRUCache<K, V> extends LinkedHashMap<K, V> {
@@ -688,89 +552,3 @@ class SessionService {
     }
 }
 
-// 5. Main Test
-public class Main {
-    public static void main(String[] args) {
-
-        ApiService api = new ApiService();
-        api.fetchData("user/1");
-        api.fetchData("user/2");
-        api.fetchData("user/1"); // cache hit
-        api.fetchData("user/3"); // evicts LRU
-
-        System.out.println("-----------");
-
-        ProductService product = new ProductService();
-        product.getProduct(1);
-        product.getProduct(2);
-        product.getProduct(1); // cache hit
-        product.getProduct(3); // evicts LRU
-
-        System.out.println("-----------");
-
-        SessionService session = new SessionService();
-        session.login("user1");
-        session.login("user2");
-        session.login("user3"); // evicts user1
-
-        System.out.println("user1 active? " + session.isActive("user1")); // false
-        System.out.println("user2 active? " + session.isActive("user2")); // true
-    }
-}
-
-
-// ============================================================
-// 17. You need to implement a caching mechanism without using external libraries. How do you do it?
-// ============================================================
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-class SimpleCache<KeyType, ValueType> {
-
-    private final Map<KeyType, CacheEntry<ValueType>> cache = new ConcurrentHashMap<>();
-    private final long ttlMillis;
-
-    public SimpleCache(long ttlMillis) {
-        this.ttlMillis = ttlMillis;
-    }
-
-    public ValueType get(KeyType key) {
-        CacheEntry<ValueType> entry = cache.get(key);
-        if (entry == null) return null;
-
-        if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
-            cache.remove(key);
-            return null;
-        }
-
-        return entry.value;
-    }
-
-    public void put(KeyType key, ValueType value) {
-        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
-    }
-
-    static class CacheEntry<ValueType> {
-        final ValueType value;
-        final long timestamp;
-
-        CacheEntry(ValueType value, long timestamp) {
-            this.value = value;
-            this.timestamp = timestamp;
-        }
-    }
-
-    // ✅ TEST METHOD
-    public static void main(String[] args) throws InterruptedException {
-
-        SimpleCache<String, String> cache = new SimpleCache<>(3000);
-
-        cache.put("key1", "Hello World");
-
-        System.out.println("Before expiry: " + cache.get("key1"));
-
-        Thread.sleep(4000);
-
-        System.out.println("After expiry: " + cache.get("key1"));
-    }
-}
