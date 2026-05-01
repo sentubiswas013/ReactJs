@@ -11257,6 +11257,7 @@ Server stores it → next user loads page → script runs → cookie stolen
 **Step 1: Add security headers via Spring Security**
 ```java
 @Bean
+// filterChain 
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .headers(headers -> headers
@@ -11397,7 +11398,17 @@ public class GlobalExceptionHandler {
 }
 ```
 
-## 15: What is SAML?
+
+## 15: What is Filter Chain?
+A Filter Chain is a sequence of filters that process a request before it reaches the target (like a controller) and/or after the response is generated.
+
+**Real-Time Use Cases**
+- Authentication (login/JWT validation)
+- Logging requests
+- Input validation
+- CORS handling
+
+## 16: What is SAML?
 
 **SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
 
