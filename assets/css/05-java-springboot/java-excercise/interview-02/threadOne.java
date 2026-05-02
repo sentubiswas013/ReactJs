@@ -489,6 +489,8 @@ public class threadOne {
 }
 
 // 1. Generic LRU Cache
+// LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
+
 class LRUCache<K, V> extends LinkedHashMap<K, V> {
     private final int capacity;
 

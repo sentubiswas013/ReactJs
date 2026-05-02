@@ -9785,12 +9785,17 @@ We also use **fallback methods, health checks, centralized logging, monitoring, 
 </dependency>
 
 // Step 2: Configure RestTemplate Bean
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
 @Configuration
 public class AppConfig {
 
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+        // RestTemplate is now in maintenance mode. In modern Spring Boot, we prefer WebClient for non-blocking and reactive applications.
     }
 }
 
@@ -10213,11 +10218,6 @@ Saga Pattern is used in **microservices architecture** to manage transactions ac
 
 If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
 
-**Use when:**
-- Microservices architecture
-- Each service has its own database
-- Distributed transaction
-
 **Example:**
 - In an online order system:
 - Order Created → Payment Done → Inventory Reserved.
@@ -10231,67 +10231,82 @@ There are **two ways to implement Saga**:
 Order Created → Payment Done → Inventory Reserved
 If **inventory fails → refund payment + cancel order**
 
+
+**1. Choreography (Event-Based) – No Central Control**
 ```java
+// Order → Payment → Inventory → (Failure → Compensation)
+
+// Order Service
 @Service
-public class OrderSagaService {
+public class OrderService {
     @Autowired
-    private PaymentService paymentService;
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    public void createOrder() {
+        System.out.println("Order Created");
+        kafkaTemplate.send("order-created", "order123");
+    }
+}
+
+// Payment Service (Listens to Order Event)
+@KafkaListener(topics = "order-created")
+public void processPayment(String orderId) {
+    System.out.println("Payment Done for " + orderId);
+
+    kafkaTemplate.send("payment-success", orderId);
+}
+
+// Inventory Service (Failure Scenario)
+@KafkaListener(topics = "payment-success")
+public void reserveInventory(String orderId) {
+    System.out.println("Inventory Failed for " + orderId);
+
+    kafkaTemplate.send("inventory-failed", orderId);
+}
+
+// Compensation (Refund + Cancel)
+@KafkaListener(topics = "inventory-failed")
+public void handleFailure(String orderId) {
+    System.out.println("Refund Payment for " + orderId);
+    System.out.println("Cancel Order for " + orderId);
+}
+
+```
+
+**2. Using Orchestrator Service**
+```java
+// Flow: Orchestrator → Order → Payment → Inventory
+@Service
+public class OrderOrchestrator {
 
     @Autowired
-    private InventoryService inventoryService;
+    private RestTemplate restTemplate;
 
-    @Autowired
-    private OrderService orderService;
+    public void placeOrder() {
 
-    public void placeOrder(Order order) {
-        orderService.createOrder(order);
         try {
-            paymentService.charge(order);        // Step 1
-            inventoryService.reserve(order);     // Step 2
-            orderService.updateStatus(order, "COMPLETED");
+            // Step 1: Create Order
+            restTemplate.postForObject("http://order-service/create", null, String.class);
+
+            // Step 2: Payment
+            restTemplate.postForObject("http://payment-service/pay", null, String.class);
+
+            // Step 3: Inventory
+            restTemplate.postForObject("http://inventory-service/reserve", null, String.class);
+
+            System.out.println("Order Completed");
 
         } catch (Exception e) {
-            // Compensation actions
-            paymentService.refund(order);
-            orderService.cancelOrder(order);
-            System.out.println("Order failed, rollback completed");
+
+            // Compensation logic
+            restTemplate.postForObject("http://payment-service/refund", null, String.class);
+            restTemplate.postForObject("http://order-service/cancel", null, String.class);
+
+            System.out.println("Transaction Failed → Rolled Back");
         }
     }
 }
 ```
-
-**Payment Service**
-```java
-@Service
-public class PaymentService {
-    public void charge(Order order) {
-        System.out.println("Payment charged for order " + order.getId());
-    }
-
-    public void refund(Order order) {
-        System.out.println("Payment refunded for order " + order.getId());
-    }
-}
-```
-
-**Inventory Service**
-```java
-@Service
-public class InventoryService {
-    public void reserve(Order order) {
-        System.out.println("Inventory reserved for order " + order.getId());
-        
-        // simulate failure
-        throw new RuntimeException("Inventory not available");
-    }
-}
-```
-
-**Flow**
-1. Create Order
-2. Charge Payment
-3. Reserve Inventory
-4. If inventory fails → **Refund Payment + Cancel Order**
 
 
 ## 16. What is a Transactional (ACID properties)? How do you handle rollback?

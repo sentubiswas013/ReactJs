@@ -146,6 +146,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 // Real-world Example: Caching DB results, API responses, etc.
+class LRUCache<k, v> extends LinkedHashMap<k, v> {
+    private final int capacity;
+    public LRUCache (int capacity) {
+        super(capacity, 0.75f, true);
+        this.capacity = capacity;
+    }
+
+    protected boolean removeEldestEntry(Map.entry<k, v> eldest) {
+        return size() capacity;
+    }
+}
+
 
 // Fetching user data from DB is slow → cache recent results.
 
