@@ -1,5 +1,5 @@
 # 1. String Methods (Commonly Used with Streams)
-Sample Data: List<String> names = Arrays.asList( "Alice", "Bob", "Arjun", "Ravi", "Kiran" );
+- Sample Data :: List<String> names = Arrays.asList( "Alice", "Bob", "Arjun", "Ravi", "Kiran" );
 
 | Method               | When to Use                        | Example                                                           |
 | -------------------- | ---------------------------------- | ----------------------------------------------------------------- |
@@ -19,7 +19,7 @@ Sample Data: List<String> names = Arrays.asList( "Alice", "Bob", "Arjun", "Ravi"
 ---
 
 # 2. Number / Numeric Stream Methods
-// Sample  Data: 
+- Sample Data :: List<Integer> numbers = Arrays.asList(10, 20, 30, 40, 50);
 
 | Method                    | When to Use                      | Example                                                  |
 | ------------------------- | -------------------------------- | -------------------------------------------------------- |
@@ -37,6 +37,9 @@ Sample Data: List<String> names = Arrays.asList( "Alice", "Bob", "Arjun", "Ravi"
 ---
 
 # 3. Array Methods
+- Sample data: 
+int[] arr = {5, 2, 9, 1, 7};
+String[] names = {"Alice", "Bob", "Charlie"};
 
 | Method            | When to Use             | Example                    |
 | ----------------- | ----------------------- | -------------------------- |
@@ -49,6 +52,7 @@ Sample Data: List<String> names = Arrays.asList( "Alice", "Bob", "Arjun", "Ravi"
 ---
 
 # 4. Collection Stream Methods
+- Sample Data :: List<Integer> numbers = Arrays.asList(5, 10, 15, 20, 10, 5);
 
 | Method               | When to Use                    | Example                                           |
 | -------------------- | ------------------------------ | ------------------------------------------------- |
@@ -76,6 +80,7 @@ Sample Data: List<String> names = Arrays.asList( "Alice", "Bob", "Arjun", "Ravi"
 ---
 
 # 5. Collectors (Used with collect())
+- Sample Data :: List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve", "Bob");
 
 | Method                        | When to Use                           | Example                                                       |
 | ----------------------------- | ------------------------------------- | ------------------------------------------------------------- |
