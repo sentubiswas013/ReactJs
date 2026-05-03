@@ -1,4 +1,5 @@
 # 1. String Methods (Commonly Used with Streams)
+Sample Data: List<String> names = Arrays.asList( "Alice", "Bob", "Arjun", "Ravi", "Kiran" );
 
 | Method               | When to Use                        | Example                                                           |
 | -------------------- | ---------------------------------- | ----------------------------------------------------------------- |
@@ -18,6 +19,7 @@
 ---
 
 # 2. Number / Numeric Stream Methods
+// Sample  Data: 
 
 | Method                    | When to Use                      | Example                                                  |
 | ------------------------- | -------------------------------- | -------------------------------------------------------- |

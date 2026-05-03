@@ -432,6 +432,11 @@ public class Stream30 {
                         Collectors.averagingDouble(Employee::getSalary)
         ));
 
+        double avgSalary = employees.stream()
+            .mapToDouble(Employee::getSalary)
+            .average()
+            .orElse(0.0);  
+
         // System.out.println(avgSalary);
         // Output: 26. Highest Salary by Dept: {HR=42500.0, IT=55000.0, TR=40000.0}
 
@@ -463,13 +468,13 @@ public class Stream30 {
 
 
         // 29. Second highest salary
-        Employee employee = employees.stream()
+        Employee SecondHighest = employees.stream()
                 .sorted(Comparator.comparing(Employee::getSalary))
                 .skip(1)
                 .findFirst()
                 .get();
 
-        // System.out.println("Second highest salary employees: " + employee);
+        // System.out.println("Second highest salary employees: " + SecondHighest);
         // Output: Second highest salary employees: HR : 45000.0
 
 

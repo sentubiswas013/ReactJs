@@ -223,18 +223,7 @@ public class Stream02 {
 
         // =======================================================
         // 17. Check Vowel Frequency
-        Map<Character, Long> vowels = input.toLowerCase()
-        	    .chars()
-        	   
-
-        	    .mapToObj(c -> (char) c)
-        	    .peek(c -> System.out.println("Step 1 - int value: " + c))
-        	    .peek(ch -> System.out.println("Step 2 - char: " + ch))
-
-        	    .filter(ch -> "aeiou".indexOf(ch) != -1)
-        	    .peek(ch -> System.out.println("Step 3 - vowel only: " + ch))
-
-        	    .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+        
         	
 
         // System.out.println("vowels: " + vowels);
@@ -340,16 +329,18 @@ public class Stream02 {
 
 
         // Salary by Department
-        List<String> salaryByDept = employees.stream()
+        List<String> salaryByDept    = employees.stream()
             .map(Employee::getDepartment)
             .toList();
             
 
-        // Sceond height salary 
-        List<Double> salaryList = employees.stream()
-        .map(Employee::getSalary)
-        .sorted(Comparator.reverseOrder())
-        .toList();
+        // Sceond height salary
+        double salaryList = employees.stream()
+            .map(Employee::getSalary)
+            .sorted(Comparator.reverseOrder())
+            .skip(1)
+            .findFirst()
+            .orElse(0.0);
         
 
         // System.out.println(salaryByDept);
@@ -361,6 +352,11 @@ public class Stream02 {
 
         // =======================================================
         // 26. Find Average Salary by Department
+        // double avgSalary = employees.stream()
+        //     .mapToDouble(Employee::getSalary)
+        //     .average()
+        //     .orElse(0.0);  
+
         Map<String, Double> avgSalary = employees.stream()
             .collect(Collectors.groupingBy(
                 Employee::getDepartment,
@@ -372,7 +368,6 @@ public class Stream02 {
         // Output: 26. Highest Salary by Dept: {HR=42500.0, IT=55000.0, TR=40000.0}
 
 
-
         // =======================================================
         // 27. Count Employees in Each Department
         Map<String, Long> countByDept = employees.stream()
@@ -380,6 +375,7 @@ public class Stream02 {
                 Employee::getDepartment,
                 Collectors.counting()
             ));
+        
 
         // System.out.println(countByDept);
         // Output: {HR=2, IT=2}
@@ -388,23 +384,24 @@ public class Stream02 {
         // =======================================================
         // 28. Find All Employees Grouped by Department
         Map<String, List<Employee>> employeesByDept = employees.stream()
-            .collect(Collectors.groupingBy(
-                Employee::getDepartment
-            ));
+            .collect(Collectors.groupingBy(Employee::getDepartment));
+        
 
-        // System.out.println(employeesByDept);
-        // Output: {HR=[Employee@..., Employee@...], IT=[Employee@..., Employee@...]} 
+        System.out.println(employeesByDept);
+        // Output: {HR=[HR : 40000.0, HR : 45000.0], IT=[IT : 50000.0, IT : 60000.0]}
+        // Second highest salary employees: {HR=[HR : 40000.0, HR : 45000.0], IT=[IT : 50000.0, IT : 60000.0]}
 
 
         // 29. Second highest salary
-        Employee employee = employees.stream()
-            .sorted(Comparator.comparing(Employee::getSalary))
-            .skip(1)
-            .findFirst()
-            .get();
-          
+        List<String> = arr01.stream()
+            // .sorted(Comparator.comparing(Employee::getSalary))
+            // .skip(1)
+            // .findFirst()
+            // .get();
+            .findFirst();        
 
-        // System.out.println("Second highest salary employees: " + employee);
+
+        System.out.println("Second highest salary employees: " + SecondHighest);
         // Output: Second highest salary employees: HR : 45000.0
 
 
@@ -414,7 +411,6 @@ public class Stream02 {
                 List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
                 List.of(new Employee("David", 7000), new Employee("Mary", 8000))
         );
-
         
 
         // System.out.println(resultTemp);

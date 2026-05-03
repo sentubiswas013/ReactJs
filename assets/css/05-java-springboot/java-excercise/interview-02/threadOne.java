@@ -3,6 +3,12 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// class MyThread {
+//     public static void main(String[] args) {
+//         System.out.println("Hello");
+//     }
+// }
+
 // ============================================================
 // 1. Using Thread class
 // ============================================================
@@ -27,7 +33,7 @@ class MyThread extends Thread {
 // 2. Using Runnable interface
 // ============================================================
 class RunnableExample {
-    public static void main(String[] args) {
+     public static void main(String[] args) throws InterruptedException {
         Thread t1 = new Thread(new MyTask());
         t1.start();
     }
@@ -45,11 +51,12 @@ class MyTask implements Runnable {
 // 3. Using lambda expression (Java 8+)
 // ============================================================
 class LambdaThreadExample1 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Thread t1 = new Thread(() -> {
             System.out.println("Lambda thread: " + Thread.currentThread().getName());
         });
         t1.start();
+        t1.join(); // wait for thread to finish
     }
 }
 
@@ -109,35 +116,31 @@ class BankAccount {
 // Real-world Example: A flag to stop a thread gracefully from another thread without using synchronization.
 class VolatileExample {
     public static void main(String[] args) throws Exception {
-        FileProcessor processor = new FileProcessor();
-        Thread t = new Thread(processor);
-        t.start();
 
-        Thread.sleep(3000);
+        Task task = new Task();
+        Thread worker = new Thread(task);
 
-        processor.stopProcessing(); // stop from another thread
+        worker.start();
+
+        Thread.sleep(2000); // let it run for 2 sec
+
+        task.stop(); // stop from main thread
+        System.out.println("Stopped by main thread");
     }
 }
 
-class FileProcessor implements Runnable {
+class Task implements Runnable {
     private volatile boolean running = true;
 
-    public void stopProcessing() {
+    public void stop() {
         running = false;
     }
 
-    @Override
     public void run() {
         while (running) {
-            System.out.println("Processing files...");
-            
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            System.out.println("Task running...");
         }
-        System.out.println("File processing stopped");
+        System.out.println("Task stopped");
     }
 }
 
@@ -145,29 +148,33 @@ class FileProcessor implements Runnable {
 // AtomicInteger provides thread-safe operations without synchronization - useful for counters in concurrent programming
 // ============================================================
 // Real-world Example: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
-class RequestCounter {
-    private AtomicInteger requestCount = new AtomicInteger(0);
+// import java.util.concurrent.atomic.AtomicInteger;
+class AtomicIntegerExp {
+    public static void main(String[] args) throws Exception {
+        TicketBooking booking = new TicketBooking();
 
-    public void handleRequest() {
-        int count = requestCount.incrementAndGet();
-        System.out.println("Handling request #" + count);
-    }
-}
-
-class Main {
-    public static void main(String[] args) throws InterruptedException {
-        RequestCounter counter = new RequestCounter();
-
-        Runnable task = counter::handleRequest;
-
-        Thread t1 = new Thread(task);
-        Thread t2 = new Thread(task);
+        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
+        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
 
         t1.start();
         t2.start();
 
         t1.join();
         t2.join();
+    }
+}
+
+class TicketBooking {
+    private AtomicInteger seat = new AtomicInteger(1);
+
+    public void bookTicket() {
+        int remaining = seat.getAndDecrement();
+
+        if (remaining > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat.");
+        } else {
+            System.out.println(Thread.currentThread().getName() + " no seat available.");
+        }
     }
 }
 
@@ -411,8 +418,8 @@ class RaceConditionExample {
     public static void main(String[] args) throws Exception {
         TicketBooking booking = new TicketBooking();
 
-        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
-        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
+        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1 ");
+        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2 ");
 
         t1.start();
         t2.start();
@@ -459,7 +466,7 @@ class TicketBooking2 {
 // ============================================================
 // **** Calling external APIs (payment/user service) is expensive → cache response.
 
-public class threadOne {
+class LRUCacheExample {
     public static void main(String[] args) {
 
         ApiService api = new ApiService();

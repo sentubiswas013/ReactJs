@@ -2,11 +2,43 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
+// class MyThread {
+//     public static void main(String[] args) {
+//         System.out.println("Hello");
+//     }
+// }
+
 // ============================================================
 // 1. Using Thread class
 // ============================================================
+// class ThreadExp {
+//     public static void main(String[] args) throws Exception{
+//         Thread tr1 = new Thread(() -> { 
+//             System.out.println("Lambda thread: " + Thread.currentThread().getName());
+//         });
 
 
+//         Thread tr2 = new Thread(() -> { 
+//             System.out.println("Lambda thread: " + Thread.currentThread().getName());
+//         });
+
+//         tr1.start();
+//         tr1.join();
+
+//         tr2.start();        
+//         tr2.join();
+
+//         MyThread tr2 = new MyThread();
+//         tr2.start();
+//     }
+// }
+
+// class MyThread extends Thread {
+//     public void run () {
+//         System.out.println("Hello world.");
+//     }
+// }
 
 // ============================================================
 // 2. Using Runnable interface
@@ -27,10 +59,36 @@ import java.util.concurrent.atomic.AtomicInteger;
 // ============================================================
 // 4. Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
 // ============================================================
-// Main Class (Simulation)
+// class SynchronizationExp {
+//     public static void main(String[] args) throws Exception {
+//         // System.out.println("Hello");
+//         BankAccount account = new BankAccount();
 
+//         Thread tr1 = new Thread(() -> account.withdraw(700), "User1");
+//         Thread tr2 = new Thread(() -> account.withdraw(600), "User2");
 
+//         tr1.start();
+//         tr2.start();
 
+//         tr1.join();
+//         tr2.join();
+
+//     }
+// }
+
+// class BankAccount {
+//     private int balance = 1000;
+
+//     public synchronized void withdraw(int amount) {
+//         if (balance >= amount) {
+//             System.out.println("withdraw : " + Thread.currentThread().getName());
+//             balance = balance - amount;
+//              System.out.println("Remaining balance: " + balance);
+//         } else {
+//             System.out.println("There is no enought balance ");
+//         }
+//     }
+// }
 
 
 // ============================================================
@@ -127,7 +185,36 @@ import java.util.concurrent.atomic.AtomicInteger;
 // ============================================================
 // 15. Race Condition
 // ============================================================
+// class RaceConditionExp {
+//     public static void main(String[] args) throws Exception {
+//         TicketBooking booking = new TicketBooking();
 
+//         // Thread tr1 = new Thread(() ->  booking.bookTicket(), "User-1");
+
+//         Thread tr1 = new Thread(() ->  booking.bookTicket(), "user 1 ");
+//         Thread tr2 = new Thread(() ->  booking.bookTicket(), "user 2 ");
+
+//         tr1.start();
+//         tr2.start(); 
+
+//         tr1.join();
+//         tr2.join();
+//     } 
+// }
+
+
+// class  TicketBooking {
+//     private int seat = 1;
+
+//     public synchronized void bookTicket() {
+//         if(seat > 0) {
+//             System.out.println(Thread.currentThread().getName() + "Book seat.");
+//             seat --;
+//         } else {
+//             System.out.println(Thread.currentThread().getName() + "No seat available.");
+//         }
+//     }
+// }
 
 
 // To Fix race condition, we can synchronize the method:
@@ -142,22 +229,33 @@ import java.util.concurrent.atomic.AtomicInteger;
 // ============================================================
 // 16. LRU Cache
 // ============================================================
+class LRUCacheExample {
+    public static void main(String[] args) {
+        SessionService session = new SessionService();
+        session.login("user 1");
+        session.login("user 2");
+        session.login("user 3");
+        session.login("user 4");
 
+        System.out.println("user1 active? " + session.isActive("user1")); // false
+        System.out.println("user2 active? " + session.isActive("user2")); // true
+    }
+}
 
 
 // Real-world Example: Caching DB results, API responses, etc.
 class LRUCache<k, v> extends LinkedHashMap<k, v> {
     private final int capacity;
-    public LRUCache (int capacity) {
+
+    public LRUCache(int capacity) {
         super(capacity, 0.75f, true);
         this.capacity = capacity;
     }
 
-    protected boolean removeEldestEntry(Map.entry<k, v> eldest) {
-        return size() capacity;
+    public boolean removeOldEntry (Map.Entry<k, v> eldest) {
+        return size() > capacity;
     }
 }
-
 
 // Fetching user data from DB is slow → cache recent results.
 
@@ -174,19 +272,20 @@ class LRUCache<k, v> extends LinkedHashMap<k, v> {
 
 
 // Session Cache: Store recently active user sessions.
-
 class SessionService {
-    private final LRUCache<String, String> sessionCache = new LRUCache<>(2);
+    private final LRUCache<String, String> cache = new LRUCache<>(2);
 
-    public void login(String userId) {
-        sessionCache.put(userId, "active");
-        System.out.println("User login in " + userId);
-    }
+    public void login (String userId) {
+        cache.put(userId, "ACTIVE");
+        // cache.put(userId, "ACTIVE");
+        System.out.println("User id " + userId);
+    } 
 
-    public boolean isActive (String userId) {
-        return sessionCache.containsKey(userId);
+    public boolean isActive(String userId) {
+        return cache.get(userId) != null;
     }
 }
+
 
 // ============================================================
 // 17. You need to implement a caching mechanism without using external libraries. How do you do it?
