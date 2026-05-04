@@ -217,3 +217,101 @@ public List<ClaimResult> processClaims(List<Claim> claims) {
             .toList();
 }
 ```
+
+## Given an array arr[] and an integer target, you need to find all distinct pairs in the array such that their sum equals target 
+## Input: arr[] = [1, 5, 7, -1, 5], target= 6 Output: [[1, 5], [-1, 7]]
+```Java
+import java.util.*;
+
+public class PairSum {
+    public static List<List<Integer>> findPairs(int[] arr, int target) {
+        Set<Integer> seen = new HashSet<>();
+        Set<List<Integer>> result = new HashSet<>();
+
+        for (int num : arr) {
+            int complement = target - num;
+
+            if (seen.contains(complement)) {
+                int a = Math.min(num, complement);
+                int b = Math.max(num, complement);
+                result.add(Arrays.asList(a, b)); // avoids duplicates
+            }
+
+            seen.add(num);
+        }
+
+        return new ArrayList<>(result);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 5, 7, -1, 5};
+        System.out.println(findPairs(arr, 6));
+    }
+}
+```
+
+## Given an integer array arr[], find the sum of any two elements whose sum is closest to zero.
+Input: [-8, 5, 2, -6], Output: -1
+```Java
+import java.util.*;
+
+public class ClosestToZero {
+    public static int closestSum(int[] arr) {
+        Arrays.sort(arr);
+
+        int left = 0, right = arr.length - 1;
+        int closest = Integer.MAX_VALUE;
+
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+
+            if (Math.abs(sum) < Math.abs(closest)) {
+                closest = sum;
+            }
+
+            if (sum < 0) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return closest;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {-8, 5, 2, -6};
+        System.out.println(closestSum(arr)); // Output: -1
+    }
+}
+```
+
+## int[] numbers = {1,3,4,5,7,4,6,8}
+## input = 8
+## ouput = {3, 5}
+
+```java
+ import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] numbers = {1, 3, 4, 5, 7, 4, 6, 8};
+        int target = 8;
+
+        Set<Integer> seen = new HashSet<>();
+
+        for (int num : numbers) {
+            int complement = target - num;
+
+            if (seen.contains(complement)) {
+                System.out.println("Pair: [" + complement + ", " + num + "]");
+                return;
+            }
+
+            seen.add(num);
+        }
+
+        System.out.println("No pair found");
+    }
+}
+```
