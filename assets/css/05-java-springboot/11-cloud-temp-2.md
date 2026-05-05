@@ -285,7 +285,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 17. Find First Non-Repeated Character
+        // 18. Find First Non-Repeated Character
         Character result = input.chars()
                 .mapToObj(c -> (char)c)
                 .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
@@ -297,7 +297,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 18. Sum and average of Numbers
+        // 19. Sum and average of Numbers
         int sum = num01.stream()
                 //.mapToInt(e -> e.intValue())
                 .mapToInt(Integer::intValue)
@@ -317,7 +317,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 19. Convert List to Uppercase    // Map: Transform elements    
+        // 20. Convert List to Uppercase    // Map: Transform elements    
         List<String> upper = arr01.stream()
                 // .map(e -> e.toUpperCase())
                 .map(String::toUpperCase)
@@ -328,16 +328,16 @@ public class Stream30 {
 
 
         // =======================================================
-        // 20. Reverse Each String
-        List<String> reversed = arr01.stream()
+        // 21. Reverse Each String
+        List<String> reversedList = arr01.stream()
                 .map(w -> new StringBuilder(w).reverse().toString())
                 .toList();
 
-
-        // System.out.println("23. Reversed: " + reversed);
+        // System.out.println("23. Reversed: " + reversedList);
         // Output: 23. Reversed: [avaj, maerts, ipa]
 
 
+        // Check if input string is Palindrome
         String reversed = new StringBuilder(input).reverse().toString();
 
         if (input.equals(reversed)) {
@@ -348,7 +348,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 21. Partition Even and Odd Numbers // collect: Convert stream to collection
+        // 22. Partition Even and Odd Numbers // collect: Convert stream to collection
         Map<Boolean, List<Integer>> partition = num01.stream()
                 .collect(Collectors.partitioningBy(n -> n % 2 == 0));
 
@@ -358,7 +358,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 22. Join Strings
+        // 23. Join Strings
         String joined = arr01.stream()
                 .collect(Collectors.joining(", "));
 
@@ -368,7 +368,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 23. Convert List to Map and word length
+        // 24. Convert List to Map and word length
         // Map from String
         Map<String, Integer> mapStr = Arrays.stream(sentence.split(" "))
                 .collect(Collectors.toMap(w -> w, String::length));
@@ -386,7 +386,7 @@ public class Stream30 {
 
 
         // =======================================================
-        // 24. Group by First Character
+        // 25. Group by First Character
         Map<Character, List<String>> mapByFirst = arr01.stream()
                 .collect(Collectors.groupingBy(w -> w.charAt(0)));
 
@@ -395,21 +395,53 @@ public class Stream30 {
 
 
         // =======================================================
-         List<Employee> employees = Arrays.asList(
+        List<Employee> employees = Arrays.asList(
                 new Employee("IT", 50000),
                 new Employee("HR", 40000),
                 new Employee("IT", 60000),
                 new Employee("HR", 45000)
         );
 
-        // 25. Get Departments
+        // =======================================================
+        // 26. Get Departments
         List<String> salaryByDept = employees.stream()
                 .map(Employee::getDepartment)
                 .toList();
         System.out.println("Departments: " + salaryByDept);
 
         // =======================================================
-        // 29. Second Highest Salary (Correct Way)
+        // 27. Average Salary by Department
+        Map<String, Double> avgSalaryByDep = employees.stream()
+                .collect(Collectors.groupingBy(
+                        Employee::getDepartment,
+                        Collectors.averagingDouble(Employee::getSalary)
+                ));
+        System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
+
+        // Overall average
+        double avgSalary = employees.stream()
+                .mapToDouble(Employee::getSalary)
+                .average()
+                .orElse(0.0);
+        System.out.println("Overall Avg Salary: " + avgSalary);
+
+        // =======================================================
+        // 28. Count Employees by Department
+        Map<String, Long> countByDept = employees.stream()
+                .collect(Collectors.groupingBy(
+                        Employee::getDepartment,
+                        Collectors.counting()
+                ));
+        System.out.println("Count by Dept: " + countByDept);
+
+        // =======================================================
+        // 29. Group Employees by Department
+        Map<String, List<Employee>> employeesByDept = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
+        System.out.println("Employees by Dept: " + employeesByDept);
+
+        // =======================================================
+        // 30. Second Highest Salary
         Employee secondHighest = employees.stream()
                 .sorted(Comparator.comparing(Employee::getSalary).reversed())
                 .skip(1)
@@ -428,39 +460,7 @@ public class Stream30 {
         System.out.println("Second Highest Salary: " + secondHighestSalary);
 
         // =======================================================
-        // 26. Average Salary by Department
-        Map<String, Double> avgSalaryByDep = employees.stream()
-                .collect(Collectors.groupingBy(
-                        Employee::getDepartment,
-                        Collectors.averagingDouble(Employee::getSalary)
-                ));
-        System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
-
-        // Overall average
-        double avgSalary = employees.stream()
-                .mapToDouble(Employee::getSalary)
-                .average()
-                .orElse(0.0);
-        System.out.println("Overall Avg Salary: " + avgSalary);
-
-        // =======================================================
-        // 27. Count Employees by Department
-        Map<String, Long> countByDept = employees.stream()
-                .collect(Collectors.groupingBy(
-                        Employee::getDepartment,
-                        Collectors.counting()
-                ));
-        System.out.println("Count by Dept: " + countByDept);
-
-        // =======================================================
-        // 28. Group Employees by Department
-        Map<String, List<Employee>> employeesByDept = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment));
-        System.out.println("Employees by Dept: " + employeesByDept);       
-
-
-        // =======================================================
-        // 30. flatMap() is used to flatten nested collections.
+        // 31. flatMap() is used to flatten nested collections.
         List<List<Employee>> inputTemp = List.of(
                 List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
                 List.of(new Employee("David", 7000), new Employee("Mary", 8000))
