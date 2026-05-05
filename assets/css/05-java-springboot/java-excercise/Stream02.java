@@ -40,7 +40,7 @@ public class Stream30 {
         // 1. Filter Even Numbers   // filter: Remove unwanted elements  // toList: Convert stream to List
         // even ----------------------
         
-        
+
         // System.out.println("1. Even Numbers: " + even);
         // Output: 1. Even Numbers: [2, 4, 6]
 
@@ -239,18 +239,13 @@ public class Stream30 {
         // =======================================================
         // 19. Sum and average of Numbers
 
-        int sum = num01.stream()
-                //.mapToInt(e -> e.intValue())
-                .mapToInt(Integer::intValue)
-                .sum();
+        
 
         // System.out.println("7. Sum: " + sum);  Output: 7
 
         // average --------------------------------------------
-        double average = num01.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0);
+        
+
 
         // System.out.println("7. average: " + average); Output: Sum: 21
 
@@ -329,22 +324,38 @@ public class Stream30 {
 
         // =======================================================
         // 26. Get Departments 
+        List<Double> department = employees.stream()
+            .map(Employee::getSalary)
+            .toList();
         
-
         // System.out.println("departments: " + department);
         // Output: Departments: [IT, HR, IT, HR]
 
         // =======================================================
-        // 27. Average Salary by Department 
+        // 27. Average Salary by Department
+        Map<String, Double> avgSalaryByDep = employees.stream()
+        	.collect(Collectors.groupingBy(
+        			Employee::getDepartment,
+        			Collectors.averagingDouble(Employee::getSalary)
+        		));       	
+        		
         
 
         // System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
         // Output: Avg Salary by Dept: {HR=42500.0, IT=55000.0}
 
         // Salary by Department ------------------------------
+        // List<Integer> salaryByDept = employees.stream()
+        //     .collect(Collectors)
+        Map<String, List<Double>> salaryByDept = employees.stream()
+        		.collect(Collector.groupingBy(
+        				Employee :: getDepart.
+        				Collector:: toMap(Employee::getDepartment)
+        		));
+        		
 
         
-        // System.out.println("Overall Avg Salary: " + salaryByDept);
+        System.out.println("Overall Avg Salary: " + salaryByDept);
         // Output: Salary by Dept: {HR=[40000.0, 45000.0], IT=[50000.0, 60000.0]}
 
 

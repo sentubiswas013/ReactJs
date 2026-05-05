@@ -418,6 +418,7 @@ public class Stream30 {
                         Employee::getDepartment,
                         Collectors.averagingDouble(Employee::getSalary)
                 ));
+                
         // System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
         // Output: Avg Salary by Dept: {HR=42500.0, IT=55000.0}
 

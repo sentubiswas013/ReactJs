@@ -1,473 +1,517 @@
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+# Apache Kafka Interview Questions & Answers with Code
 
-public class Stream30 {
-    
-    static class Employee {
-        private String department;
-        private double salary;
+---
 
-        public Employee(String department, double salary) {
-            this.department = department;
-            this.salary = salary;
-        }
+**1. What is Apache Kafka, and what are its main components?**
+Kafka is a distributed publish-subscribe messaging system for high-throughput, fault-tolerant event streaming.
+Components: Producer, Consumer, Broker, Topic, Partition, Offset, Consumer Group, ZooKeeper/KRaft.
 
-        public String getDepartment() {
-            return department;
-        }
+```java
+// Maven dependency
+// <artifactId>spring-kafka</artifactId>
+```
 
-        public double getSalary() {
-            return salary;
-        }
+---
 
-        @Override
-        public String toString() {
-            return department + " : " + salary;
-        }
-    }
+**2. Explain Kafka's architecture briefly.**
+Producers → Topics (split into Partitions on Brokers) → Consumers pull via offsets. ZooKeeper/KRaft manages metadata.
 
-    public static void main(String[] args) {
-        String input = "madam";
-        String sentence="Java Stream API is very powerful";
-        List<Integer> num01 = Arrays.asList(0,1,7, 3,0,4,5,0,6,9);
-        List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
-        List<String> arr01 = Arrays.asList("java","stream","api", "level", "madam");
-        List<String> arr02 = Arrays.asList("Alice","Bob","Annie","Alex", null);
+```
+Producer → [Broker1: Topic-P0, P1] → Consumer Group
+                [Broker2: Topic-P2]
+```
 
+---
 
-        // =======================================================
-        // 1. Filter Even Numbers   // filter: Remove unwanted elements  // toList: Convert stream to List
-        List<Integer> even = num02.stream()
-                .filter(n -> n % 2 == 0)
-                .toList();
+**3. What is a Kafka broker?**
+A Kafka server that stores partitions and handles producer/consumer requests. Multiple brokers form a cluster.
 
-        List<Integer> even = num02.stream()
-                .filter(e -> e % 2 == 0)
-                .distinct()
-                .sorted()
-                // .sorted(Comparator.reverseOrder())
-                .toList();
-        // System.out.println("1. Even Numbers: " + even);
-        // Output: 1. Even Numbers: [2, 4, 6]
+```properties
+# server.properties
+broker.id=1
+listeners=PLAINTEXT://localhost:9092
+log.dirs=/var/kafka-logs
+```
 
+---
 
+**4. What is a topic in Kafka?**
+A named category/feed where producers write and consumers read messages. Topics are split into partitions.
 
-        // =======================================================
-        // 2. Find Common Elements Between Two List
-        List<Integer> common = num01.stream()
-                .filter(num02::contains)
-                .toList();
-        // System.out.println("11. Common: " + common);
-        // Output: 11. Common: [0, 1, 2, 3, 0, 4, 5, 0, 6]
+```java
+// Create topic programmatically
+NewTopic topic = new NewTopic("orders", 3, (short) 2); // 3 partitions, replication=2
+adminClient.createTopics(Collections.singleton(topic));
+```
 
+---
 
+**5. What is the purpose of partitions in Kafka?**
+Partitions enable parallelism — multiple producers/consumers can work simultaneously on different partitions.
 
-        // =======================================================
-        // 3. Count Strings with Specific Prefix        
-        long count = arr02.stream()
-                .filter(w -> w.startsWith("A"))
-                .count();
-        // System.out.println("4. Count starting with A: " + count);
-        // Output: 4. Count starting with A: 3
+```java
+// Producer sends to specific partition using key
+ProducerRecord<String, String> record =
+    new ProducerRecord<>("orders", "user-123", "order-data");
+producer.send(record); // same key → same partition always
+```
 
+---
 
+**6. Explain the role of ZooKeeper in Kafka.**
+ZooKeeper manages broker registration, leader election, and cluster metadata. Kafka 3.x+ supports KRaft (no ZooKeeper).
 
-        // =======================================================
-        // 4. Check if Any String Contains and equals Word
-        List<String> Contains = arr01.stream()
-                .filter(w -> w.contains("api"))
-                .toList();
+```properties
+# server.properties (ZooKeeper mode)
+zookeeper.connect=localhost:2181
 
-            //.filter(w -> w.equals("java")).toList();
+# KRaft mode (no ZooKeeper)
+process.roles=broker,controller
+```
 
-        // System.out.println("8. Contains api: " + Contains);
-        // Output: 8. Contains api: [api]
+---
 
+**7. What are producers and consumers in Kafka?**
+Producer publishes messages; Consumer reads messages from topics using offsets.
 
+```java
+// Producer
+KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+producer.send(new ProducerRecord<>("topic", "key", "value"));
 
-        // =======================================================
-        // 5. Remove Null Values and missing number from array
+// Consumer
+KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+consumer.subscribe(List.of("topic"));
+ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+```
 
-        // Remove Null Values
-        List<String> clean = arr02.stream()
-                .filter(Objects::nonNull)
-                .toList();
+---
 
-        // System.out.println("19. Clean: " + clean);
-        // Output: 19. Clean: [java, stream, api]
+**8. Describe a Kafka cluster.**
+A group of brokers sharing topic partitions. One broker is the controller managing partition leadership.
 
+```properties
+# Broker 1
+broker.id=1
+# Broker 2
+broker.id=2
+# Broker 3
+broker.id=3
+# All connect to same ZooKeeper
+zookeeper.connect=localhost:2181
+```
 
-        // missing number from array
-        List<Integer> missing = IntStream.range(0, 10)
-                .filter(n -> !num01.contains(n))
-                .boxed() // Convert int → Integer
-                .toList();
+---
 
-        // System.out.println("19. Missing Number: " + missing);
-        // Output: 19. Clean: [2, 8]
+**9. What are consumer groups?**
+A set of consumers sharing a topic's partitions. Each partition is consumed by exactly one consumer in the group.
 
+```java
+props.put(ConsumerConfig.GROUP_ID_CONFIG, "order-service-group");
+KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+consumer.subscribe(List.of("orders")); // partitions split across group members
+```
 
-        // =======================================================
-        // 6. Find Palindromes
-        List<String> palindromes = arr01.stream()
-                .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
-                .toList();
+---
 
-        List<String> palindromes = Arrays.stream(input.split(" "))
-            .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
-            .toList();
+**10. How does Kafka ensure message ordering?**
+Ordering is guaranteed within a partition. Use the same key to route related messages to the same partition.
 
-            if (!palindromes.isEmpty()) {
-                    palindromes.forEach(System.out::println);
-            } else {
-                System.out.println("No palindromes found");
-            }
+```java
+// All events for "user-123" go to the same partition → ordered
+producer.send(new ProducerRecord<>("events", "user-123", "login"));
+producer.send(new ProducerRecord<>("events", "user-123", "purchase"));
+```
 
-        // System.out.println("22. Palindromes: " + palindromes);
-        // Output: 22. Palindromes: []
+---
 
+**11. What is an offset in Kafka?**
+A unique sequential ID per message within a partition. Consumers use offsets to track their read position.
 
-
-        // =======================================================
-        // 7. Find Duplicate Elements        
-        Set<Integer> seen = new HashSet<>();
-        Set<Integer> duplicates = num02.stream()
-                .filter(n -> !seen.add(n))
-                .collect(Collectors.toSet());
-        // System.out.println("9. Duplicates: " + duplicates);
-        // Output: 9. Duplicates: [1, 2]
-
-
-
-        // =======================================================
-        // 8. Remove Duplicates
-        List<Integer> unique = num02.stream()
-                .distinct()
-                .toList();
-        // System.out.println("17. Unique: " + unique);
-        // Output: 17. Unique: [6, 1, 0, 2, 3, 4, 5]
-
-
-
-        // =======================================================
-        // 9. Find Maximum and minimum number
-        int max = num01.stream()
-                .max(Integer::compareTo)
-                .orElseThrow();
-
-        int min = num01.stream()
-                .min(Integer::compareTo)
-                .orElseThrow();
-
-        // System.out.println("2. Maximum: " + max);
-        // System.out.println("2. Minimum: " + min);
-        // Output: 2. Maximum: 6
-
-
-
-        // =======================================================
-        // 10. Find Longest and smallest String
-        String longest = arr01.stream()
-                .max(Comparator.comparingInt(String::length))
-                .orElse(null);
-
-        String smallest = arr01.stream()
-                .min(Comparator.comparingInt(String::length))
-                .orElse(null);
-
-        String longestWord = Arrays.stream(sentence.split(" "))
-                .max(Comparator.comparingInt(String::length))
-                .orElse(null);
-
-        // System.out.println("10. Longest: " + longest);
-        // System.out.println("10. smallest: " + smallest);
-        // System.out.println("10. Longest: " + longestWord);
-        // Output: 10. Longest: stream
-
-
-
-        // =======================================================
-        // 11. Sort List in Descending Order
-        List<Integer> sorted = num01.stream()
-                .sorted()
-                .toList();
-
-        List<Integer> sorted = num01.stream()
-                .sorted(Comparator.reverseOrder())
-                .toList();
-        // System.out.println("3. Sorted Descending: " + sorted);
-        // Output: 3. Sorted Descending: [6, 5, 4, 3, 2, 1]
-
-
-
-        // =======================================================
-        // 12. Find Top N Elements
-        List<Integer> top3 = num01.stream()
-                .sorted(Comparator.reverseOrder())
-                .limit(3)
-                .toList();
-        // System.out.println("12. Top 3: " + top3);
-        // Output: 12. Top 3: [6, 5, 4]
-
-
-        List<String> sortedArr = arr02.stream()
-                .filter(Objects::nonNull) // remove nulls
-                .sorted(Comparator.comparingInt(String::length))
-                .toList();
-
-        System.out.println(sortedArr);
-        // Output: [Bob, Alex, Alice, Annie]
-
-
-        // =======================================================
-        // 13. Find Nth Largest Element
-        int thirdLargest = num01.stream()
-                .sorted(Comparator.reverseOrder())
-                .skip(2)
-                .findFirst()
-                .orElseThrow();
-
-        // System.out.println("16. Third Largest: " + thirdLargest);
-        // output: 16. Third Largest: 4
-
-
-
-        // =======================================================
-        // 14. To merge two arrays and sort the resulting array in ascending order
-        List<Integer> resultSort = Stream.concat(
-                num01.stream(), 
-                num02.stream()
-                )
-                .sorted()
-                .toList();
-
-        // System.out.println(resultSort);
-        // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
-
-
-
-        // =======================================================
-        // 15. 0 should go to outside without change order
-        List<Integer> resultRight = Stream.concat(
-                num01.stream().filter(n -> n != 0), // keep order of non-zero
-                num01.stream().filter(n -> n == 0)  // zeros at end
-                )
-                .collect(Collectors.toList());
-
-        // System.out.println(resultRight);
-        // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
-
-
-
-        // =======================================================
-        // 16. Count Frequency of Characters
-        Map<Character, Long> freq = input.chars()
-                .mapToObj(c -> (char) c)
-                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
-
-        // System.out.println("13. Frequency: " + freq);
-        // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
-
-
-
-        // =======================================================
-        // 17. Check Vowel numbers mapping 
-        Map<Character, Long> vowels = input.toLowerCase().chars()
-                .mapToObj(c -> (char) c)
-                .filter(ch -> "aeiou".indexOf(ch) != -1)        
-                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
-                
-
-        // System.out.println("vowels: " + vowels);
-        // Output: 5. {a=2}                
-
-
-
-        // =======================================================
-        // 18. Find First Non-Repeated Character
-        Character result = input.chars()
-                .mapToObj(c -> (char)c)
-                .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
-                .findFirst()
-                .orElse(null);
-        // System.out.println("5. First Non-Repeated: " + result);
-        // Output: 5. First Non-Repeated: d
-
-
-
-        // =======================================================
-        // 19. Sum and average of Numbers
-        int sum = num01.stream()
-                //.mapToInt(e -> e.intValue())
-                .mapToInt(Integer::intValue)
-                .sum();
-
-                // .reduce(0, Integer::sum);
-
-        double average = num01.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0);
-
-        // System.out.println("7. Sum: " + sum);
-        // System.out.println("7. average: " + average);
-        // Output: 7. Sum: 21
-
-
-
-        // =======================================================
-        // 20. Convert List to Uppercase    // Map: Transform elements    
-        List<String> upper = arr01.stream()
-                // .map(e -> e.toUpperCase())
-                .map(String::toUpperCase)
-                .toList();
-        // System.out.println("6. Uppercase: " + upper);
-        // Output: 6. Uppercase: [JAVA, STREAM, API]
-        
-
-
-        // =======================================================
-        // 21. Reverse Each String
-        List<String> reversedList = arr01.stream()
-                .map(w -> new StringBuilder(w).reverse().toString())
-                .toList();
-
-        // System.out.println("23. Reversed: " + reversedList);
-        // Output: 23. Reversed: [avaj, maerts, ipa]
-
-
-        // Check if input string is Palindrome
-        String reversed = new StringBuilder(input).reverse().toString();
-
-        if (input.equals(reversed)) {
-            System.out.println("Palindrome");
-        } else {
-            System.out.println("Not Palindrome");
-        }
-
-
-        // =======================================================
-        // 22. Partition Even and Odd Numbers // collect: Convert stream to collection
-        Map<Boolean, List<Integer>> partition = num01.stream()
-                .collect(Collectors.partitioningBy(n -> n % 2 == 0));
-
-        // System.out.println("15. Partition: " + partition);
-        // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
-
-
-
-        // =======================================================
-        // 23. Join Strings
-        String joined = arr01.stream()
-                .collect(Collectors.joining(", "));
-
-        // System.out.println("18. Joined: " + joined);
-        // Output: 18. Joined: java, stream, api
-        
-
-
-        // =======================================================
-        // 24. Convert List to Map and word length
-        // Map from String
-        Map<String, Integer> mapStr = Arrays.stream(sentence.split(" "))
-                .collect(Collectors.toMap(w -> w, String::length));
-
-        // System.out.println("21. mapStr: " + mapStr);
-        // Output: 21. Map: {Java=4, very=4, powerful=8, Stream=6, API=3, is=2}  
-
-        // Map from array
-        Map<Integer, List<String>> mapArr = arr01.stream()
-                .collect(Collectors.groupingBy(String::length));
-
-        // System.out.println("21. mapArr: " + mapArr);
-        // Output: 21. Map: {3=[api], 4=[java], 5=[level, madam], 6=[stream]} 
-
-
-
-        // =======================================================
-        // 25. Group by First Character
-        Map<Character, List<String>> mapByFirst = arr01.stream()
-                .collect(Collectors.groupingBy(w -> w.charAt(0)));
-
-        // System.out.println("25. Grouped by First Char: " + mapByFirst);
-        // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
-
-
-        // =======================================================
-        List<Employee> employees = Arrays.asList(
-                new Employee("IT", 50000),
-                new Employee("HR", 40000),
-                new Employee("IT", 60000),
-                new Employee("HR", 45000)
-        );
-
-        // =======================================================
-        // 26. Get Departments
-        List<String> salaryByDept = employees.stream()
-                .map(Employee::getDepartment)
-                .toList();
-        System.out.println("Departments: " + salaryByDept);
-
-        // =======================================================
-        // 27. Average Salary by Department
-        Map<String, Double> avgSalaryByDep = employees.stream()
-                .collect(Collectors.groupingBy(
-                        Employee::getDepartment,
-                        Collectors.averagingDouble(Employee::getSalary)
-                ));
-        System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
-
-        // Overall average
-        double avgSalary = employees.stream()
-                .mapToDouble(Employee::getSalary)
-                .average()
-                .orElse(0.0);
-        System.out.println("Overall Avg Salary: " + avgSalary);
-
-        // =======================================================
-        // 28. Count Employees by Department
-        Map<String, Long> countByDept = employees.stream()
-                .collect(Collectors.groupingBy(
-                        Employee::getDepartment,
-                        Collectors.counting()
-                ));
-        System.out.println("Count by Dept: " + countByDept);
-
-        // =======================================================
-        // 29. Group Employees by Department
-        Map<String, List<Employee>> employeesByDept = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment));
-        System.out.println("Employees by Dept: " + employeesByDept);
-
-        // =======================================================
-        // 30. Second Highest Salary
-        Employee secondHighest = employees.stream()
-                .sorted(Comparator.comparing(Employee::getSalary).reversed())
-                .skip(1)
-                .findFirst()
-                .orElse(null);
-        System.out.println("Second Highest Employee: " + secondHighest);
-
-        // OR just salary
-        Double secondHighestSalary = employees.stream()
-                .map(Employee::getSalary)
-                .distinct()
-                .sorted(Comparator.reverseOrder())
-                .skip(1)
-                .findFirst()
-                .orElse(0.0);
-        System.out.println("Second Highest Salary: " + secondHighestSalary);
-
-        // =======================================================
-        // 31. flatMap() is used to flatten nested collections.
-        List<List<Employee>> inputTemp = List.of(
-                List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
-                List.of(new Employee("David", 7000), new Employee("Mary", 8000))
-        );
-
-        // System.out.println(resultTemp);
-        // Output: [Employee@..., Employee@..., Employee@..., Employee@...] (all employees in a single list)
-
-    }
+```java
+for (ConsumerRecord<String, String> record : records) {
+    System.out.println("Partition: " + record.partition()
+        + " Offset: " + record.offset()
+        + " Value: " + record.value());
 }
+```
+
+---
+
+**12. How does Kafka handle data retention?**
+Messages are retained by time or size. After threshold, old log segments are deleted.
+
+```properties
+# Retain for 7 days
+log.retention.hours=168
+
+# Or retain up to 1GB per partition
+log.retention.bytes=1073741824
+```
+
+---
+
+**13. Explain "at least once" and "exactly once" delivery in Kafka.**
+- At least once: may re-deliver on failure (default).
+- Exactly once: idempotent producer + transactions.
+
+```java
+// At least once (default)
+props.put("acks", "all");
+
+// Exactly once
+props.put("enable.idempotence", "true");
+props.put("transactional.id", "tx-1");
+producer.initTransactions();
+producer.beginTransaction();
+producer.send(record);
+producer.commitTransaction();
+```
+
+---
+
+**14. What is Kafka Streams?**
+A Java library for real-time stream processing directly on Kafka topics — no separate cluster needed.
+
+```java
+StreamsBuilder builder = new StreamsBuilder();
+KStream<String, String> stream = builder.stream("input-topic");
+stream.filter((k, v) -> v.contains("ERROR"))
+      .to("error-topic");
+KafkaStreams streams = new KafkaStreams(builder.build(), props);
+streams.start();
+```
+
+---
+
+**15. How does Kafka ensure fault tolerance?**
+Via replication — each partition has replicas on different brokers. If a broker fails, a replica becomes the new leader.
+
+```properties
+# Default replication factor for new topics
+default.replication.factor=3
+min.insync.replicas=2
+```
+
+---
+
+**16. What is log compaction?**
+Retains only the latest message per key, removing older duplicates. Useful for maintaining current state.
+
+```properties
+# Enable log compaction on a topic
+log.cleanup.policy=compact
+
+# Or per topic
+cleanup.policy=compact
+```
+
+---
+
+**17. Explain replication in Kafka.**
+Each partition has 1 leader + N followers. Producers write to leader; followers replicate. Followers in ISR can become leader.
+
+```java
+// Create topic with replication factor 3
+NewTopic topic = new NewTopic("payments", 4, (short) 3);
+adminClient.createTopics(Collections.singleton(topic));
+```
+
+---
+
+**18. What is an ISR (In-Sync Replica)?**
+ISR = replicas fully caught up with the leader. Only ISR members are eligible for leader election.
+
+```properties
+# Minimum ISR replicas required to accept writes
+min.insync.replicas=2
+# Producer must wait for all ISR to acknowledge
+acks=all
+```
+
+---
+
+**19. How does leader election work in Kafka?**
+When a leader fails, the controller picks the first replica from the ISR list as the new leader.
+
+```java
+// Check partition leader info via AdminClient
+Map<String, TopicDescription> desc = adminClient.describeTopics(List.of("orders")).all().get();
+desc.get("orders").partitions().forEach(p ->
+    System.out.println("Leader: " + p.leader().id()));
+```
+
+---
+
+**20. How do partitions help in Kafka scaling?**
+More partitions = more parallelism. Each consumer in a group handles separate partitions simultaneously.
+
+```java
+// 6 partitions → up to 6 consumers can read in parallel
+NewTopic topic = new NewTopic("high-volume-topic", 6, (short) 2);
+adminClient.createTopics(Collections.singleton(topic));
+```
+
+---
+
+**21. What is Kafka Connect?**
+A framework to stream data between Kafka and external systems using Source/Sink connectors.
+
+```json
+// JDBC Source Connector config (REST API)
+{
+  "name": "jdbc-source",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "connection.url": "jdbc:mysql://localhost/db",
+    "table.whitelist": "orders",
+    "mode": "incrementing",
+    "incrementing.column.name": "id",
+    "topic.prefix": "db-"
+  }
+}
+```
+
+---
+
+**22. How does Kafka ensure message durability?**
+Messages are written to disk + replicated. With `acks=all`, broker confirms only after all ISR replicas persist the message.
+
+```java
+props.put(ProducerConfig.ACKS_CONFIG, "all");
+props.put(ProducerConfig.RETRIES_CONFIG, 3);
+props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+```
+
+---
+
+**23. What's Kafka's role in stream processing?**
+Kafka acts as the event backbone — ingesting, buffering, and delivering real-time streams to processors like Kafka Streams, Flink, or Spark.
+
+```java
+// Kafka Streams word count example
+KStream<String, String> text = builder.stream("text-input");
+text.flatMapValues(v -> Arrays.asList(v.split(" ")))
+    .groupBy((k, v) -> v)
+    .count()
+    .toStream()
+    .to("word-count-output");
+```
+
+---
+
+**24. How is Kafka different from traditional messaging systems?**
+Kafka persists messages to disk, supports replay, and scales horizontally via partitions. Traditional MQs delete messages after consumption.
+
+```
+Traditional MQ:  Producer → Queue → Consumer (message deleted)
+Kafka:           Producer → Topic/Partition → Consumer (message retained, replayable)
+```
+
+---
+
+**25. What is the replication factor?**
+Number of copies of each partition across brokers. Factor of 3 = 1 leader + 2 followers.
+
+```java
+// Replication factor = 3
+NewTopic topic = new NewTopic("orders", 3, (short) 3);
+adminClient.createTopics(Collections.singleton(topic));
+```
+
+---
+
+**26. How do leaders and followers work in Kafka replication?**
+Leader handles all reads/writes. Followers replicate from leader. On leader failure, ISR follower is promoted.
+
+```properties
+# Ensure followers stay in sync
+replica.lag.time.max.ms=10000
+```
+
+---
+
+**27. How do consumers read data in Kafka?**
+Consumers pull messages by specifying topic + partition + offset. Offsets are committed to `__consumer_offsets`.
+
+```java
+consumer.subscribe(List.of("orders"));
+while (true) {
+    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+    for (ConsumerRecord<String, String> r : records)
+        System.out.println(r.offset() + ": " + r.value());
+}
+```
+
+---
+
+**28. What are producer acknowledgments?**
+`acks` controls when the broker confirms a write to the producer.
+
+```java
+props.put("acks", "0");   // no ack — fastest, data loss possible
+props.put("acks", "1");   // leader ack — default
+props.put("acks", "all"); // all ISR ack — safest
+```
+
+---
+
+**29. What is the transaction API in Kafka?**
+Allows atomic writes across multiple partitions/topics — all succeed or none are visible.
+
+```java
+props.put("transactional.id", "order-tx-1");
+producer.initTransactions();
+try {
+    producer.beginTransaction();
+    producer.send(new ProducerRecord<>("orders", "k", "v"));
+    producer.send(new ProducerRecord<>("audit", "k", "v"));
+    producer.commitTransaction();
+} catch (Exception e) {
+    producer.abortTransaction();
+}
+```
+
+---
+
+**30. Explain Kafka's "exactly once" semantics.**
+Combines idempotent producer + transactions + consumer `read_committed` isolation.
+
+```java
+// Producer side
+props.put("enable.idempotence", "true");
+props.put("transactional.id", "tx-producer-1");
+
+// Consumer side
+props.put("isolation.level", "read_committed");
+```
+
+---
+
+**31. How does Kafka manage backpressure?**
+Pull-based consumers control their own pace. Producers buffer locally and block if buffer is full.
+
+```java
+props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);  // 32MB buffer
+props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 5000);       // block 5s if buffer full
+```
+
+---
+
+**32. What is linger.ms in Kafka producers?**
+Time the producer waits to accumulate more messages into a batch before sending. Higher = better throughput, slightly more latency.
+
+```java
+props.put(ProducerConfig.LINGER_MS_CONFIG, 10);      // wait 10ms
+props.put(ProducerConfig.BATCH_SIZE_CONFIG, 32768);  // 32KB batch
+```
+
+---
+
+**33. How does Kafka handle message compression?**
+Producer compresses batches; broker stores compressed. Consumer decompresses on read.
+
+```java
+props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy"); // gzip, lz4, zstd, snappy
+```
+
+---
+
+**34. What is batch.size in producers?**
+Max bytes per batch. Producer sends when batch is full or `linger.ms` expires.
+
+```java
+props.put(ProducerConfig.BATCH_SIZE_CONFIG, 65536);  // 64KB
+props.put(ProducerConfig.LINGER_MS_CONFIG, 5);
+```
+
+---
+
+**35. How does Kafka handle consumer offsets?**
+Offsets stored in internal topic `__consumer_offsets`. Can be committed automatically or manually.
+
+```java
+// Auto commit
+props.put("enable.auto.commit", "true");
+props.put("auto.commit.interval.ms", "1000");
+
+// Manual commit
+props.put("enable.auto.commit", "false");
+consumer.commitSync();
+```
+
+---
+
+**36. What is auto.offset.reset in Kafka consumers?**
+Defines start position when no committed offset exists for a partition.
+
+```java
+props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); // read from beginning
+// props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest"); // read only new messages
+// props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "none");   // throw exception
+```
+
+---
+
+**37. How do rebalances work in consumer groups?**
+Triggered when consumers join/leave or partitions change. Group coordinator reassigns partitions. Use `CooperativeStickyAssignor` to minimize disruption.
+
+```java
+props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG,
+    CooperativeStickyAssignor.class.getName()); // incremental rebalance
+```
+
+---
+
+**38. What is the purpose of the Schema Registry?**
+Stores and enforces Avro/JSON/Protobuf schemas. Ensures producers and consumers agree on message structure.
+
+```java
+props.put("schema.registry.url", "http://localhost:8081");
+props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
+props.put("value.deserializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer");
+```
+
+---
+
+**39. How does Kafka handle topic deletion?**
+Marks topic for async deletion across all brokers. Requires `delete.topic.enable=true`.
+
+```properties
+# server.properties
+delete.topic.enable=true
+```
+
+```java
+// Delete via AdminClient
+adminClient.deleteTopics(Collections.singleton("old-topic")).all().get();
+```
+
+---
+
+**40. Explain commitSync() vs commitAsync() in Kafka consumers.**
+- `commitSync()`: Blocks, retries on failure — safe but slower.
+- `commitAsync()`: Non-blocking, no retry — faster but may miss commits.
+
+```java
+// commitSync — safe, used on shutdown
+consumer.commitSync();
+
+// commitAsync — fast, used during normal processing
+consumer.commitAsync((offsets, e) -> {
+    if (e != null) log.error("Commit failed", e);
+});
+
+// Best practice: async during loop, sync on close
+try {
+    while (running) {
+        consumer.poll(Duration.ofMillis(100));
+        consumer.commitAsync();
+    }
+} finally {
+    consumer.commitSync(); // ensure final commit
+    consumer.close();
+}
+```
+
+---
