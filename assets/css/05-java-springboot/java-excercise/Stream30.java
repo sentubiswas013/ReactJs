@@ -395,87 +395,68 @@ public class Stream30 {
 
 
         // =======================================================
-        // 25. Find Salary by Department
-        List<Employee> employees = Arrays.asList(
+         List<Employee> employees = Arrays.asList(
                 new Employee("IT", 50000),
                 new Employee("HR", 40000),
                 new Employee("IT", 60000),
                 new Employee("HR", 45000)
         );
 
-
-        // Salary by Department
+        // 25. Get Departments
         List<String> salaryByDept = employees.stream()
                 .map(Employee::getDepartment)
                 .toList();
-
-        // Sceond height salary 
-        List<Double> salaryList = employees.stream()
-                .map(Employee::getSalary)
-                .sorted(Comparator.reverseOrder())
-                .skip(1)
-                .limit(1)
-                .toList();
-
-        // System.out.println(salaryByDept);
-        // System.out.println(salaryList);     
-        //     [IT, HR, IT, HR]
-        //     [50000.0, 40000.0, 60000.0, 45000.0]
-
-
+        System.out.println("Departments: " + salaryByDept);
 
         // =======================================================
-        // 26. Find Average Salary by Department
-        Map<String, Double> avgSalary = employees.stream()
+        // 29. Second Highest Salary (Correct Way)
+        Employee secondHighest = employees.stream()
+                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .skip(1)
+                .findFirst()
+                .orElse(null);
+        System.out.println("Second Highest Employee: " + secondHighest);
+
+        // OR just salary
+        Double secondHighestSalary = employees.stream()
+                .map(Employee::getSalary)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .skip(1)
+                .findFirst()
+                .orElse(0.0);
+        System.out.println("Second Highest Salary: " + secondHighestSalary);
+
+        // =======================================================
+        // 26. Average Salary by Department
+        Map<String, Double> avgSalaryByDep = employees.stream()
                 .collect(Collectors.groupingBy(
                         Employee::getDepartment,
                         Collectors.averagingDouble(Employee::getSalary)
-        ));
+                ));
+        System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
 
+        // Overall average
         double avgSalary = employees.stream()
-            .mapToDouble(Employee::getSalary)
-            .average()
-            .orElse(0.0);  
-
-        // System.out.println(avgSalary);
-        // Output: 26. Highest Salary by Dept: {HR=42500.0, IT=55000.0, TR=40000.0}
-
-
+                .mapToDouble(Employee::getSalary)
+                .average()
+                .orElse(0.0);
+        System.out.println("Overall Avg Salary: " + avgSalary);
 
         // =======================================================
-        // 27. Count Employees in Each Department
+        // 27. Count Employees by Department
         Map<String, Long> countByDept = employees.stream()
                 .collect(Collectors.groupingBy(
                         Employee::getDepartment,
                         Collectors.counting()
-        ));
-
-        // System.out.println(countByDept);
-        // Output: {HR=2, IT=2}
-
-
-
+                ));
+        System.out.println("Count by Dept: " + countByDept);
 
         // =======================================================
-        // 28. Find All Employees Grouped by Department
+        // 28. Group Employees by Department
         Map<String, List<Employee>> employeesByDept = employees.stream()
                 .collect(Collectors.groupingBy(Employee::getDepartment));
-
-        // System.out.println(employeesByDept);
-        // Output: {HR=[Employee@..., Employee@...], IT=[Employee@..., Employee@...]} 
-
-
-
-
-        // 29. Second highest salary
-        Employee SecondHighest = employees.stream()
-                .sorted(Comparator.comparing(Employee::getSalary))
-                .skip(1)
-                .findFirst()
-                .get();
-
-        // System.out.println("Second highest salary employees: " + SecondHighest);
-        // Output: Second highest salary employees: HR : 45000.0
+        System.out.println("Employees by Dept: " + employeesByDept);       
 
 
         // =======================================================
