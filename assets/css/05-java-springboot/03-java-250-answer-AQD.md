@@ -1976,9 +1976,26 @@ interface Calculator {
     default void print() { } // default methods allowed
 }
 
-// Usage with lambda
+// 1. Usage with lambda
 Calculator add = (a, b) -> a + b;
 int result = add.calculate(5, 3);
+
+// 2. Using Separate Class
+class AddCalculator implements Calculator {
+    public int calculate(int a, int b) {
+        return a + b;
+    }
+
+    public void print() {
+        System.out.println("Print here");
+    }
+}
+
+Calculator add = new AddCalculator();
+int result = add.calculate(5, 3);
+System.out.println(result);
+
+add.print();
 ```
 
 **Marker Interface :**
