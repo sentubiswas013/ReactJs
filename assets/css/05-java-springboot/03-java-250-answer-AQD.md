@@ -3389,7 +3389,8 @@ Every Java application starts with at least one thread (the main thread), and yo
 
 There are two main ways to create **threads** in Java: **extending Thread** class or implementing **Runnable interfac**e.
 
-**Method 1: Extending Thread**
+**Method 1: Extending Thread** means creating a new class that inherits from the `Thread` class to define the task in its `run()` method.
+
 ```java
 class MyThread extends Thread {
     public void run() {
@@ -3400,7 +3401,8 @@ MyThread t = new MyThread();
 t.start();
 ```
 
-**Method 2: Implementing Runnable**
+**Method 2: Implementing Runnable** means creating a class that implements the `Runnable` interface and defines the task in its `run()` method, which can then be executed by a `Thread` object.
+
 ```java
 class MyTask implements Runnable {
     public void run() {
@@ -3409,28 +3411,6 @@ class MyTask implements Runnable {
 }
 Thread t = new Thread(new MyTask());
 t.start();
-```
-
-## 3. What is the difference between extending Thread and implementing Runnable?
-
-**Extending `Thread`** means creating a new class that inherits from the `Thread` class to define the task in its `run()` method.
-
-**Implementing `Runnable`** means creating a class that implements the `Runnable` interface and defines the task in its `run()` method, which can then be executed by a `Thread` object.
-
-**In simple words:** Use **Runnable** for better design; **Thread** for quick/simple cases.
-
-
-```java
-// Thread extension limits inheritance
-class MyThread extends Thread { // Cannot extend anything else
-    public void run() { }
-}
-
-
-// Runnable allows extending other classes
-class MyTask extends SomeClass implements Runnable {
-    public void run() { }
-}
 ```
 
 ## 4. What are `sleep()` vs `wait()` in Multithreading?
@@ -3507,6 +3487,49 @@ class WaitExample {
 // Thread 2 notified
 // Thread 1 resumed
 ```
+
+## 3. Execute 10 Thread. 
+
+**Execute Thread Without any scequence**
+```java
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<MyKey, String> map = new HashMap<>();
+
+        // Add many keys with same hashCode
+        for (int i = 1; i <= 10; i++) {
+            map.put(new MyKey(i), "Value" + i);
+        }
+
+        System.out.println("Size: " + map.size());
+    }
+}
+```
+
+**Execute Thread in scequence**
+```java
+class Main {
+    private static final Object lock = new Object();
+
+    public static void main(String[] args) {
+
+        System.out.println("Start small. Ship something.");
+
+        for (int i = 0; i <= 6; i++) {
+            Thread tr = new Thread(() -> {
+                synchronized (lock) {
+                    System.out.println("Thread " + Thread.currentThread().getName());
+                }
+            });
+            tr.start();
+        }
+    }
+}
+```
+
+
 ## 4. When we have 5 threads, in which sequence will they execute? Will I get the same result every time?
 
 
