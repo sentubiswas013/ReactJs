@@ -1,5 +1,81 @@
 # Java & Spring Boot Interview Questions - Answers (Questions 1-10)
 
+## What happens when you enter a URL?
+
+**1. URL Parsing**
+
+* Browser splits URL into:
+
+  * Protocol (HTTP/HTTPS)
+  * Domain (e.g., `google.com`)
+  * Path (`/home`)
+
+---
+
+**2. DNS Resolution**
+
+* Converts domain → IP address
+* Checks:
+
+  * Browser cache
+  * OS cache
+  * ISP DNS server
+
+---
+
+**3. TCP Connection (3-Way Handshake)**
+
+* SYN → SYN-ACK → ACK
+* Connection established between client & server
+
+---
+
+**4. SSL/TLS() Handshake (Only HTTPS)**
+
+* Verifies server certificate
+* Establishes encrypted connection 🔒
+
+---
+
+**5. HTTP Request**
+
+* Browser sends request:
+
+  * Method (GET/POST)
+  * Headers
+  * Body (if any)
+
+---
+
+**6. Server Processing**
+
+* Request hits server (e.g., Spring Boot)
+* Flow:
+
+  * Controller → Service → Repository → Database
+
+---
+
+**7. HTTP Response**
+
+* Server returns:
+
+  * Status code (200, 404, 500)
+  * Response data (HTML/JSON)
+
+---
+
+**8. Browser Rendering**
+
+* Parses HTML → DOM
+* Applies CSS
+* Executes JavaScript
+* Renders UI
+
+
+👉 **URL → DNS → TCP → SSL → Request → Server → Response → Render**
+
+
 ## Core Java Fundamentals
 
 ### 1. You have a multi-threaded application where multiple threads access shared data. How do you ensure thread safety?

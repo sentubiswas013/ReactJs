@@ -327,9 +327,16 @@ public class Stream30 {
         List<Double> department = employees.stream()
             .map(Employee::getSalary)
             .toList();
+
+        List<Double> salary = employees.stream()
+                .map(Employee::getSalary)
+                .toList();
         
         // System.out.println("departments: " + department);
         // Output: Departments: [IT, HR, IT, HR]
+
+        // System.out.println("departments: " + salary);
+        // Output: salary:  [50000.0, 40000.0, 60000.0, 45000.0]
 
         // =======================================================
         // 27. Average Salary by Department
@@ -347,14 +354,14 @@ public class Stream30 {
         // Salary by Department ------------------------------
         // List<Integer> salaryByDept = employees.stream()
         //     .collect(Collectors)
-        Map<String, List<Double>> salaryByDept = employees.stream()
-        		.collect(Collector.groupingBy(
-        				Employee :: getDepart,
-        				Collector:: toMap(Employee::getDepartment)
-        		));        		
+        // Map<String, List<Double>> salaryByDept = employees.stream()
+        // 		.collect(Collector.groupingBy(
+        // 				Employee :: getDepart,
+        // 				Collector:: toMap(Employee::getDepartment)
+        // 		));        		
 
         
-        System.out.println("Overall Avg Salary: " + salaryByDept);
+        //System.out.println("Overall Avg Salary: " + salaryByDept);
         // Output: Salary by Dept: {HR=[40000.0, 45000.0], IT=[50000.0, 60000.0]}
 
 

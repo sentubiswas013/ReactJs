@@ -404,12 +404,20 @@ public class Stream30 {
         );
 
         // =======================================================
-        // 26. Get Departments
-        List<String> department = employees.stream()
-                .map(Employee::getDepartment)
+        // 26. Get Departments or salary
+        List<Double> department = employees.stream()
+            .map(Employee::getSalary)
+            .toList();
+
+        List<Double> salary = employees.stream()
+                .map(Employee::getSalary)
                 .toList();
+        
         // System.out.println("departments: " + department);
         // Output: Departments: [IT, HR, IT, HR]
+
+        // System.out.println("departments: " + salary);
+        // Output: salary:  [50000.0, 40000.0, 60000.0, 45000.0]
 
         // =======================================================
         // 27. Average Salary by Department

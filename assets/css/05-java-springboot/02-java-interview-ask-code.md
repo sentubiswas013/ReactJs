@@ -315,3 +315,47 @@ public class Main {
     }
 }
 ```
+// ==========================================================================
+Input: [2,3, 5, 15, 45, 90, 6];
+Output: Sublist/sublists which contains the maximum number of elements that are divisible by previous elements.
+[[3,15,45,90], [5,15,45,90]]
+// ==========================================================================
+```java
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+
+        int[] arr = {2, 3, 5, 15, 45, 90, 6};
+        Arrays.sort(arr); // step 1
+
+        List<List<Integer>> result = new ArrayList<>();
+        int maxSize = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            List<Integer> temp = new ArrayList<>();
+            temp.add(arr[i]);
+
+            int prev = arr[i];
+
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] % prev == 0) {
+                    temp.add(arr[j]);
+                    prev = arr[j];
+                }
+            }
+
+            // track max size lists
+            if (temp.size() > maxSize) {
+                result.clear();
+                result.add(temp);
+                maxSize = temp.size();
+            } else if (temp.size() == maxSize) {
+                result.add(temp);
+            }
+        }
+
+        System.out.println(result);
+    }
+}
+```
