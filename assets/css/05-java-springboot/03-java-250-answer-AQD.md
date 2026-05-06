@@ -3510,21 +3510,25 @@ public class Main {
 
 **Execute Thread in scequence**
 ```java
-class Main {
-    private static final Object lock = new Object();
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+class Main {
     public static void main(String[] args) {
 
-        System.out.println("Start small. Ship something.");
+        ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        for (int i = 0; i <= 6; i++) {
-            Thread tr = new Thread(() -> {
-                synchronized (lock) {
-                    System.out.println("Thread " + Thread.currentThread().getName());
-                }
+        for (int i = 1; i <= 5; i++) {
+            int index = i;
+
+            executor.submit(() -> {
+                System.out.println("Task-" + Thread.currentThread().getName());
+                try { Thread.sleep(500); } catch (Exception e) {}
+                System.out.println("End Task-" + index);
             });
-            tr.start();
         }
+
+        executor.shutdown();
     }
 }
 ```
