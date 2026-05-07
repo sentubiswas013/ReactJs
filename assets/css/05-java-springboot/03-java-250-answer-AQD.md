@@ -7776,9 +7776,6 @@ Service service;
 2. Setter Injection – dependencies injected through setter method
 3. Field Injection – dependencies injected directly into field using @Autowired
 
-## How does Dependency Injection work in Java
-
-
 ```java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -7832,6 +7829,11 @@ private Engine engine;
 👉 Avoid because: Hard to test, Not immutable, Hidden dependency
 ```
 
+**If I inject the same bean multiple times using Dependency Injection, will it create multiple instances every time?** 
+
+No, injecting the same bean multiple times using Dependency Injection does not create multiple instances every time because Spring beans are singleton by default. The same instance is reused from the IOC container. Multiple instances are created only if the bean scope is configured as prototype.
+
+
 
 ## 5. What is a Spring Container?
 
@@ -7852,6 +7854,7 @@ Here the **Spring Container creates the `UserService` object and provides it whe
 
 1. **BeanFactory** – Basic container
 2. **ApplicationContext** – Advanced container (most commonly used)
+
 
 ## 6. What is BeanFactory vs ApplicationContext?
 
