@@ -7767,7 +7767,7 @@ Service service;
 
 ## 4. What is Dependency Injection?
 
-**Dependency Injection (DI)** is a design pattern where objects **don’t create their dependencies**, instead **dependencies are provided by the framework (Spring)**.
+**Dependency Injection (DI)** is a design pattern where an object’s dependencies are provided by another object/container instead of the object creating them itself.
 
 👉 This makes code:  **Loosely coupled**,  **Easy to test**, **Easy to maintain**
 
