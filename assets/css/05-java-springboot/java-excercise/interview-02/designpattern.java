@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
 // Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
@@ -14,6 +17,7 @@
 // 2. When you want to ensure that only one instance of a class is created and used throughout the application (like a configuration manager).
 // 3. When you want to implement a global point of access to a resource (like a logging service).   
 // ============================================================
+
 class Singleton {
     private static volatile Singleton instance;
 
@@ -74,45 +78,138 @@ class SingletonDemo {
 
 // ============================================================
 enum ShapeType {
-    CIRCLE, SQUARE
+    CARD, UPI
 }
 
-interface Shape {
-    void draw();
+// Step 1: Interface
+interface Payment {
+    void pay();
 }
 
-class Circle implements Shape {
-    public void draw() {
-        System.out.println("Drawing Circle");
+// Step 2: Implementations
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
     }
 }
 
-class ShapeFactory {
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI payment");
+    }
+}
 
-    public static Shape getShape(ShapeType type) {
+// Step 3: Factory Class
+class PaymentFactory {
 
-        switch (type) {
-            case CIRCLE:
-                return new Circle();
+    public static Payment getPayment(String type) {
+
+        switch (type.toUpperCase()) {
+
+            case "CARD":
+                return new CardPayment();
+
+            case "UPI":
+                return new UpiPayment();
+
             default:
-                throw new IllegalArgumentException("Invalid shape type");
+                throw new IllegalArgumentException("Invalid payment type");
         }
     }
 }
 
-class FactoryDesignDemo {
-    
+// Step 4: Main Class
+class FactoryPatternDemo {
     public static void main(String[] args) {
 
-        // Create Circle
-        Shape shape1 = ShapeFactory.getShape(ShapeType.CIRCLE);
-        shape1.draw();
+        Payment payment = PaymentFactory.getPayment("UPI");
+        payment.pay();
     }
 }
 
+
 // Output:
-// Drawing Circle
-// Drawing Square
+// UPI payment
+
+
+// ============================================================
+// 2. Observer Pattern (Best Practice using Enum)
+// Observer pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
+
+// Rules to create Observer Pattern:
+// 1. Create an Observer interface with an update() method.
+// 2. Create a Subject class that maintains a list of observers and has methods to attach/detach observers and notify them of changes.
+// 3. Create concrete Observer classes that implement the Observer interface and define the update() method to react to changes in the Subject.
+
+// When to use Observer Pattern:
+//  Real use: Email service, Logging, Notifications
+
+// ============================================================
+// import java.util.*;
+
+// Observer interface
+// Step 1: Observer Interface
+interface Observer {
+    void update(String message);
+}
+
+// Step 2: Concrete Observer
+class NewsChannel implements Observer {
+    private String name;
+
+    public NewsChannel(String name) {
+        this.name = name;
+    }
+
+    public void update(String news) {
+        System.out.println(name + " received: " + news);
+    }
+}
+
+// Step 3: Subject
+class NewsAgency {
+    private List<Observer> observers = new ArrayList<>();
+    private String news;
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void setNews(String news) {
+        this.news = news;
+        notifyObservers();
+    }
+
+    private void notifyObservers() {
+        observers.forEach(observer -> observer.update(news));
+    }
+}
+
+// Step 4: Main Class
+class ObserverPatternExp {
+    public static void main(String[] args) {
+
+        NewsAgency agency = new NewsAgency();
+
+        // Create observers
+        Observer channel1 = new NewsChannel("CNN");
+        Observer channel2 = new NewsChannel("BBC");
+
+        // Register observers
+        agency.addObserver(channel1);
+        agency.addObserver(channel2);
+
+        // Publish news
+        agency.setNews("Java is awesome!");
+        agency.setNews("Observer pattern in action!");
+    }
+}
+
+// Output
+// CNN received: Java is awesome!
+// BBC received: Java is awesome!
+// CNN received: Observer pattern in action!
+// BBC received: Observer pattern in action!
 
 
 // ============================================================
@@ -129,58 +226,68 @@ class FactoryDesignDemo {
 // 1. When you have a class with many parameters (especially optional ones) and want to avoid constructor overloading.
 // 2. When you want to create immutable objects with many parameters.
 
+// Real use: StringBuilder, Lombok @Builder, etc.
 // ============================================================
-final class User {
-    private final String name;
-    private final int age;
+// ❌ Problem Without Builder
+// Employee e = new Employee(1, "Rahul", 25, "Bangalore", "Developer");
 
-    private User(Builder builder) {
+// 👉 Hard to read
+// 👉 Constructor becomes huge
+
+class Employee {
+
+    private int id;
+    private String name;
+
+    // private constructor
+    private Employee(EmployeeBuilder builder) {
+        this.id = builder.id;
         this.name = builder.name;
-        this.age = builder.age;
     }
 
-    public static class Builder {
-        private final String name; // required
-        private int age;           // optional
+    public String display() {
+        return "Employee{id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
-        public Builder(String name) {
-            this.name = name;
-        }
+    // Builder class
+    static class EmployeeBuilder {
 
-        public Builder age(int age) {
-            this.age = age;
+        private int id;
+        private String name;
+
+        public EmployeeBuilder setId(int id) {
+            this.id = id;
             return this;
         }
 
-        public User build() {
-            return new User(this);
+        public EmployeeBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Employee build() {
+            return new Employee(this);
         }
     }
-
-    public String toString() {
-        return "User{name='" + name + "', age=" + age + "}";
-    }
 }
 
+// Main Class
 class BuilderPatternDemo {
     public static void main(String[] args) {
+        Employee emp = new Employee.EmployeeBuilder()
+                .setId(1)
+                .setName("Rahul")
+                .build();
 
-        // Create user with only required field
-        User user1 = new User.Builder("Alice").build();
-
-        // Create user with optional field
-        User user2 = new User.Builder("Bob")
-                            .age(25)
-                            .build();
-
-        System.out.println(user1);
-        System.out.println(user2);
+        System.out.println(emp.display());
     }
 }
 
-// Output:
-// User{name='Alice', age=0}
-// User{name='Bob', age=25}
+
+// Output
+// Employee{id=1, name='Rahul'}
 
 // ============================================================
 // 4. Prototype Pattern (Cloning)

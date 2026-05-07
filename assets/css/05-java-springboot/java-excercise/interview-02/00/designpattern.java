@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
 // Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
@@ -14,6 +17,12 @@
 // 2. When you want to ensure that only one instance of a class is created and used throughout the application (like a configuration manager).
 // 3. When you want to implement a global point of access to a resource (like a logging service).   
 // ============================================================
+
+
+
+
+
+
 
 
 
@@ -43,9 +52,41 @@
 
 
 
+
+
+
+
 // Output:
 // Drawing Circle
 // Drawing Square
+
+
+// ============================================================
+// 2. Observer Pattern (Best Practice using Enum)
+// Observer Design Pattern is used to create objects without using new keyword directly, by using a factory method.
+
+// Rules to create Observer Pattern:
+// 1. Create an Observer interface with an update() method.
+// 2. Create a Subject class that maintains a list of observers and has methods to attach/detach observers and notify them of changes.
+// 3. Create concrete Observer classes that implement the Observer interface and define the update() method to react to changes in the Subject.
+
+// When to use Observer Pattern:
+//  Real use: Email service, Logging, Notifications
+
+// ============================================================
+
+
+
+
+
+
+
+
+// Output
+// CNN received: Java is awesome!
+// BBC received: Java is awesome!
+// CNN received: Observer pattern in action!
+// BBC received: Observer pattern in action!
 
 
 // ============================================================
@@ -66,6 +107,11 @@
 
 
 
+
+
+
+
+
 // Output:
 // User{name='Alice', age=0}
 // User{name='Bob', age=25}
@@ -83,6 +129,10 @@
 // 1. When object creation is expensive and you want to create new objects by copying existing ones.
 // 2. When you want to hide the creation logic from the client code.
 // ============================================================
+
+
+
+
 
 
 

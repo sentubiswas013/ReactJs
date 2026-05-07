@@ -1,9 +1,31 @@
-// class Main {
-//     public static void main(String[] args) throws Exception {
-        
-//     }
-// }
+import java.util.ArrayList;
+import java.util.List;
 
+class DesignPattern {
+	public static void main(String[] args) {
+		// 1. Singleton pattern ----------------------
+
+
+		// 1. Factory pattern ------------------------	
+
+
+		// 3. Section Ovserver pattern ---------------
+		NewAgency agency = new NewAgency();
+
+		// Create Observers 
+		Observer channel1 = new NewsChannel("Republic");
+		Observer channel2 = new NewsChannel("First");
+
+		agency.addObserver(channel1);
+		agency.addObserver(channel2);
+
+		agency.setNews("Java is awesome");
+		agency.setNews("Observer pattern is action");
+
+
+
+	}
+}
 
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
@@ -21,6 +43,12 @@
 // 2. When you want to ensure that only one instance of a class is created and used throughout the application (like a configuration manager).
 // 3. When you want to implement a global point of access to a resource (like a logging service).   
 // ============================================================
+
+
+
+
+
+
 
 
 
@@ -46,43 +74,77 @@
 // 2. When you want to decouple the client code from the actual implementation of the objects it needs to create.
 
 // ============================================================
-class Main {
-    public static void main(String[] args) throws Exception {
-        Shape Shape1 = ShapeFactory.getShape();
-    }
-}
-
-enum ShapeType {
-	CIRCLE, SQUARE
-}
-
-interface shape {
-	void draw();
-}
-
-class Circle implements shape{
-	public void draw() {
-		System.out.println("Drawing Circle");
-	}
-}
 
 
-class ShapeFactory {
-	public static shape getShape(ShapeType type) {
-		switch(type) {
-			case CIRCLE:
-				return new Circle();
-			default:
-				throw new IllegalArgumentException("Invalid shape  type")
-		}
 
-	}
 
-}
+
+
+
 
 // Output:
 // Drawing Circle
 // Drawing Square
+
+
+// ============================================================
+// 2. Observer Pattern (Best Practice using Enum)
+// Observer pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
+
+// Rules to create Observer Pattern:
+// 1. Create an Observer interface with an update() method.
+// 2. Create a Subject class that maintains a list of observers and has methods to attach/detach observers and notify them of changes.
+// 3. Create concrete Observer classes that implement the Observer interface and define the update() method to react to changes in the Subject.
+
+// When to use Observer Pattern:
+//  Real use: Email service, Logging, Notifications
+
+// ============================================================
+
+interface Observer {
+	void update(String message);
+}
+
+// Concrete Observer
+class NewsChannel implements Observer {
+	private String name;
+
+	public NewsChannel (String name) {
+		this.name = name;
+	}
+
+	public void update(String news) {
+		System.out.println(name + " received " + news);
+	}
+}
+
+// Subject
+class NewAgency {
+	private List<Observer> observers = new ArrayList<>();
+	private String news;
+
+	public void addObserver(Observer observer) {
+		observers.add(observer);
+	}
+
+	public void setNews(String news) {
+		this.news = news;
+		NotifyObserver();
+	}
+
+	public void NotifyObserver() {
+		observers.forEach(observer -> observer.update(news));
+	}
+}
+
+
+
+
+// Output
+// CNN received: Java is awesome!
+// BBC received: Java is awesome!
+// CNN received: Observer pattern in action!
+// BBC received: Observer pattern in action!
 
 
 // ============================================================
@@ -100,18 +162,12 @@ class ShapeFactory {
 // 2. When you want to create immutable objects with many parameters.
 
 // ============================================================
-class Main {
-    public static void main(String[] args) throws Exception {
-        
-    }
-}
 
-// final class User {
-// 	private final String name;
-// 	private final int age;
 
-// 	public void  User 
-// }
+
+
+
+
 
 
 // Output:
@@ -132,29 +188,10 @@ class Main {
 // 2. When you want to hide the creation logic from the client code.
 // ============================================================
 
-// class PrototypeDemo {
-//     public static void main(String[] args) throws Exception {
-//         Student s1 = new Student(1, "Sentu");
-//         Student s2 = (Student) s1.clone();
 
-//         System.out.println("Result " + s1.name);
-//         System.out.println("Result " + s2.name);
-//     }
-// }
 
-// class Student implements Cloneable {
-// 	int id;
-//     String name;
 
-// 	Student(int id, String name) {
-// 		this.id = id;
-// 		this.name = name;
-// 	}
 
-// 	public Object clone() throws CloneNotSupportedException {
-// 		return super.clone();
-// 	}
-// }
 
 
 // Output:
