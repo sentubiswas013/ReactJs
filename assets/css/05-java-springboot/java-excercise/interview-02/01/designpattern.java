@@ -131,7 +131,6 @@ class NewAgency {
 
 
 
-
 // Output
 // CNN received: Java is awesome!
 // BBC received: Java is awesome!

@@ -228,7 +228,7 @@ class ObserverPatternExp {
 
 // ============================================================
 // 4. Builder Pattern (Immutable Object - BEST PRACTICE)
-// Builder Pattern is used to create complex objects step by step, especially when an object has many optional parameters.
+// Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
 
 // Rules to create Builder Pattern:
 // 1. Create a static nested Builder class inside the main class.
@@ -242,7 +242,7 @@ class ObserverPatternExp {
 
 // Use case: Employee class with id, name, age, department, and salary.
 
-// Real use: StringBuilder, Lombok @Builder, etc.
+// Real use: API Request Objects, Complex DTO / Response Objects, Lombok @Builder, etc.
 // ============================================================
 // ❌ Problem Without Builder
 // Employee e = new Employee(1, "Rahul", 25, "Bangalore", "Developer");
