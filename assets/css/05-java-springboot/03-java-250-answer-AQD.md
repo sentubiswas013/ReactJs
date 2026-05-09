@@ -7891,88 +7891,6 @@ UserService service = context.getBean(UserService.class);
 service.print();
 ```
 
-## 7. What is the difference between Java Bean and Spring Bean?
-
-A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
-
-```java
-public class User {
-    private String name;
-
-    public User() {}   // no-arg constructor
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-```
-
-Usage:
-
-```java
-User user = new User();
-user.setName("John");
-```
-
-A **Spring Bean** is an object that is created and managed by the **Spring IoC container**, and it supports features like dependency injection, lifecycle management, and configuration.
-
-```java
-@Component
-public class UserService {
-
-    public void printUser() {
-        System.out.println("User Service Running");
-    }
-}
-```
-
-Usage (Dependency Injection):
-
-```java
-@Autowired
-private UserService userService;
-```
-
-## 8. What is Bean Lifecycle?
-
-The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
-
-**Steps in Bean Lifecycle**
-
-1. **Bean Instantiated:** Spring creates the bean object.
-2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
-3. **Bean Initialization:** Initialization methods run using `@PostConstruct`.
-4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
-5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
-
-```java
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import org.springframework.stereotype.Component;
-
-@Component
-public class MyBean {
-
-    public MyBean() {
-        System.out.println("Bean Created");
-    }
-
-    @PostConstruct
-    public void init() {
-        System.out.println("Bean Initialized");
-    }
-
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Bean Destroyed");
-    }
-}
-```
-
 ## 9. What is AOP in Spring?
 
 **AOP (Aspect Oriented Programming)** is a programming concept used to **separate cross-cutting concerns** like **logging, security, transactions, and exception handling** from the main business logic.
@@ -8286,7 +8204,44 @@ class OrderController {
 | Use case   | Third-party or complex objects | Your own classes         |
 
 
-## 5. How can you disable specific auto-configurations in Spring Boot?
+## 5. Explain Bean Lifecycle?
+
+The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
+
+**Steps in Bean Lifecycle**
+
+1. **Bean Instantiated:** Spring creates the bean object.
+2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
+3. **Bean Initialization:** Initialization methods run using `@PostConstruct`.
+4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
+5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
+
+```java
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyBean {
+
+    public MyBean() {
+        System.out.println("Bean Created");
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean Initialized");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean Destroyed");
+    }
+}
+```
+
+
+## 6. How can you disable specific auto-configurations in Spring Boot?
 
 Use `@SpringBootApplication(exclude)` or `spring.autoconfigure.exclude` property to disable unwanted auto-configurations.
 
@@ -8307,7 +8262,7 @@ public class Application {
 spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 ```
 
-## 6. What is @SpringBootApplication annotation?
+## 7. What is @SpringBootApplication annotation?
 
 @SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 
@@ -8328,7 +8283,7 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 7.  @Controller, @RestController, @Service, @Repository annotations?
+## 8.  @Controller, @RestController, @Service, @Repository annotations?
 
 
 **Simple Flow (Easy to Remember)**
@@ -8394,7 +8349,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 }
 ```
 
-## 8. What is @Autowired vs @Inject annotation?
+## 9. What is @Autowired vs @Inject annotation?
 
 **`@Autowired`** is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
 It tells the Spring container to automatically inject a required bean into a class.
@@ -8435,7 +8390,7 @@ public class UserService {
 }
 ```
 
-## 9. What is @Profile Annotation?
+## 10. What is @Profile Annotation?
 
 **Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
 
@@ -8461,7 +8416,7 @@ public class DevDataLoader {
 ```
 
 
-## 10. What is ApplicationContext?
+## 11. What is ApplicationContext?
 
 **ApplicationContext** is the core container in Spring Framework that manages beans, dependency injection, bean lifecycle, and configuration of the application.
 
@@ -8491,7 +8446,7 @@ public class MyService {
 ```
 
 
-## 11. What is @Component, @Configuration, @Primary, @Qualifier, @PatchMapping annotation?
+## 12. What is @Component, @Configuration, @Primary, @Qualifier, @PatchMapping annotation?
 
 **@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
@@ -8552,7 +8507,7 @@ public ResponseEntity<User> updateEmail(
 }
 ```
 
-## 12. Explain Spring Boot Actuator endpoints.
+## 13. Explain Spring Boot Actuator endpoints.
 
 **Answer:**
 Actuator provides production-ready features like health checks, metrics, and monitoring endpoints. Common endpoints: `/health`, `/metrics`, `/info`, `/env`.
@@ -8586,7 +8541,7 @@ public class CustomHealthIndicator implements HealthIndicator {
 }
 ```
 
-## 13. How do you ensure security a Spring Boot Microservices application?
+## 14. How do you ensure security a Spring Boot Microservices application?
 
 To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
 
@@ -8624,7 +8579,7 @@ public class SecureController {
     }
 }
 ```
-## 14. What is Lombok in Java and and whe can we use?
+## 15. What is Lombok in Java and and whe can we use?
 
 
 **Lombok** is a **Java library** that helps reduce boilerplate code by generating common methods automatically at compile time using annotations.
@@ -8738,13 +8693,13 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.MyAutoConfiguration
 ```
 
-## 15. Why do we use Long in JpaRepository<Employee, Long>?
+## 16. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
 
-## 16. What is Distributed Tracing?
+## 17. What is Distributed Tracing?
 
 **Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
 
@@ -8758,7 +8713,7 @@ It helps developers **identify performance issues, delays, and failures** by sho
 4. **Inventory Service** updates stock
 5. **Notification Service** sends email/SMS
 
-## 17. What is Spring Scheduler?
+## 18. What is Spring Scheduler?
 
 **Spring Scheduler** is a feature in **Spring Framework** used to **run tasks automatically at a scheduled time or at fixed intervals**.
 
@@ -8799,7 +8754,7 @@ Task running every 5 seconds
 Task running every 5 seconds
 ```
 
-## 18. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
+## 19. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
 
 Configure logging levels in application.properties for different packages and classes.
 
@@ -8838,8 +8793,6 @@ public class UserService {
     }
 }
 ```
-
-## 19. ---
 
  
 ## 20. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
