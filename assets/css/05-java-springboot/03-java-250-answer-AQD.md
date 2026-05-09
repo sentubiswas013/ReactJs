@@ -6773,6 +6773,13 @@ spring:
 
 ## 13. How can we create a centralized configuration for all microservices?
 
+**In microservive If I do change in application.yml file, do I need to restart the the service everytime. will that chagne to apply** 
+
+By default, Spring Boot loads the configuration only during application startup, so runtime changes in `application.yml` are not automatically picked up.
+
+However, using tools like `@RefreshScope`, Spring Cloud Config, and Actuator refresh endpoints, some configuration changes can be applied without restarting the service.
+
+
 **Step 1: Create Config Server**
 
 **pom.xml dependency:**
