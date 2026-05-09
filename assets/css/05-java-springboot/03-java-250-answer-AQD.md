@@ -7802,8 +7802,6 @@ Engine engine = new Engine(); // Spring does: tightly coupled
 Car car = new Car(engine);    // Spring does: injected
 ```
 
-**We can implement this way**
-
 **1. Constructor Injection (Recommended)**
 
 ```java
@@ -7816,7 +7814,9 @@ class Car {
     }
 }
 👉 Best because: Mandatory dependency, Immutable (using final), Easy to test
+Reason To use: 
 ```
+Reason to use: 
 
 
 **2. Setter Injection**
@@ -13491,4 +13491,204 @@ System.out.println("Classpath: " + classpath);
 ```java
 // Strategic logging
 logger.debug("Processing user: {}, status: {}", userId, status);
+```
+
+# ✅ 29. Java Testing
+
+##  1. What is unit testing in Java?
+Unit testing is a software testing technique where individual components or modules of a software application are tested in isolation
+It helps ensure that each unit of code performs as expected and catches bugs early in developmentjava
+
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+@Test
+public void testAdd() {
+    Calculator calc = new Calculator();
+    assertEquals(5, calc.add(2, 3));
+}
+```
+
+## 2. What is JUnit?
+JUnit is a popular open-source testing framework for Java that provides annotations and assertions for writing and running unit testsjava
+
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class StringUtilsTest {
+    @Test
+    public void testIsEmpty() {
+        assertTrue(StringUtils.isEmpty(""));
+        assertFalse(StringUtils.isEmpty("hello"));
+    }
+}
+```
+
+## 3. What are the annotations used in JUnit?
+Common JUnit annotations include @Test, @BeforeEach, @AfterEach, @BeforeAll, @AfterAll, @DisplayName, 
+
+```java
+@Disabledjava
+public class LifecycleTest {
+    @BeforeAll
+    static void setupAll() { /* runs once before all tests */ }
+    
+    @BeforeEach
+    void setup() { /* runs before each test */ }
+    
+    @Test
+    @DisplayName("Test addition operation")
+    void testAddition() { /* test method */ }
+    
+    @AfterEach
+    void tearDown() { /* runs after each test */ }
+    
+    @AfterAll
+    static void tearDownAll() { /* runs once after all tests */ }
+}
+```
+
+## 4. What is TestNG?
+
+TestNG is a testing framework inspired by JUnit but with more powerful features like data providers, parallel execution, and flexible test configurationjava
+
+```java
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+
+public class TestNGExample {
+    @DataProvider
+    public Object[][] testData() {
+        return new Object[][]{{1, 2, 3}, {4, 5, 9}};
+    }
+    
+    @Test(dataProvider = "testData")
+    public void testAdd(int a, int b, int expected) {
+        assertEquals(a + b, expected);
+    }
+}
+```
+
+## 5. What is the difference between JUnit and TestNG?
+JUnit is simpler and widely adopted, while TestNG offers more advanced features like data providers, parallel execution, and better test configurationjava
+
+```java
+// JUnit 5
+@ParameterizedTest
+@ValueSource(strings = {"hello", "world"})
+void testWithJUnit(String word) {
+    assertNotNull(word);
+}
+
+// TestNG
+@Test(dataProvider = "words")
+void testWithTestNG(String word) {
+    assertNotNull(word);
+}
+```
+
+## 6. What is mocking in Java testing?
+Mocking is creating fake objects that simulate the behavior of real objects to isolate the unit being tested from its dependenciesjava
+
+```java
+// Using Mockito
+@Mock
+private UserRepository userRepository;
+
+@Test
+void testGetUser() {
+    User mockUser = new User("John", "john@email.com");
+    when(userRepository.findById(1L)).thenReturn(mockUser);
+    
+    User result = userService.getUser(1L);
+    assertEquals("John", result.getName());
+}
+```
+
+## 7. What is Mockito?
+Mockito is a popular Java mocking framework that allows you to create mock objects and define their behavior for testingjava
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @Mock
+    private EmailService emailService;
+    
+    @InjectMocks
+    private UserService userService;
+    
+    @Test
+    void testSendWelcomeEmail() {
+        userService.registerUser("john@email.com");
+        verify(emailService).sendEmail("john@email.com", "Welcome!");
+    }
+}
+```
+
+## 8. What is integration testing?
+Integration testing verifies that different modules or services work correctly when integrated togetherjava
+
+```java
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
+class UserControllerIntegrationTest {
+    @Autowired
+    private TestRestTemplate restTemplate;
+    
+    @Test
+    void testCreateUser() {
+        User user = new User("John", "john@email.com");
+        ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+}
+```
+
+## 9. What is test-driven development (TDD)?
+TDD is a development approach where you write tests first, then write the minimum code to make tests pass, then refactorjava
+
+```java
+// Step 1: Write failing test
+@Test
+void testCalculateArea() {
+    Circle circle = new Circle(5);
+    assertEquals(78.54, circle.calculateArea(), 0.01);
+}
+
+// Step 2: Write minimum code to pass
+public class Circle {
+    private double radius;
+    
+    public Circle(double radius) { this.radius = radius; }
+    
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+```
+
+## 10. What is behavior-driven development (BDD)?
+BDD extends TDD by writing tests in natural language that describes the behavior of the application from user's perspectivejava
+
+```java
+// Using Cucumber with Java
+@Given("a user with email {string}")
+public void aUserWithEmail(String email) {
+    user = new User(email);
+}
+
+@When("the user logs in")
+public void theUserLogsIn() {
+    loginResult = authService.login(user);
+}
+
+@Then("the login should be successful")
+public void theLoginShouldBeSuccessful() {
+    assertTrue(loginResult.isSuccess());
+}
 ```
