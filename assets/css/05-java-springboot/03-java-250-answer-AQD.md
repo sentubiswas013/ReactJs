@@ -8108,7 +8108,7 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 7. **Response** – Data returns back to the client.
 
 
-## 4. What is @Component and @Bean?
+## 4. What is Java Bean, @Component and @Bean?
 
 **@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
 
