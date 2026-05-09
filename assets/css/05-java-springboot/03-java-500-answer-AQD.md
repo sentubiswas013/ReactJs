@@ -10743,7 +10743,7 @@ Kafka achieves high performance using:
 * Zero-copy transfer
 * Partition-based parallelism
 
-## Performance Config Example
+**Performance Config Example**
 
 ```java id="f4m8qa"
 props.put("batch.size", 16384);
@@ -10753,7 +10753,7 @@ props.put("linger.ms", 5);
 props.put("compression.type", "snappy");
 ```
 
-## Explanation
+**Explanation**
 
 * `batch.size` → Sends messages in batches
 * `linger.ms` → Waits briefly to create larger batch
@@ -10769,7 +10769,7 @@ props.put("compression.type", "snappy");
 | Used to organize messages    | Used for scalability & parallelism   |
 | No global ordering           | Ordering guaranteed within partition |
 
-## Example
+**Example**
 
 ```txt id="4v7kzp"
 Topic: orders
@@ -10779,7 +10779,7 @@ Partition 1 → msg2, msg5, msg8
 Partition 2 → msg3, msg6, msg9
 ```
 
-## Create Topic Example
+**Create Topic Example**
 
 ```java id="x9m2wr"
 NewTopic topic =
@@ -10802,7 +10802,7 @@ Kafka handles durability using:
 * Persistent storage
 * ISR (In-Sync Replicas)
 
-## Flow
+**Flow**
 
 ```txt id="r8m4qp"
 Leader Partition
@@ -10816,7 +10816,7 @@ If leader broker fails:
 Follower becomes new leader automatically
 ```
 
-## Durable Producer Config
+**Durable Producer Config**
 
 ```java id="5k9wqm"
 props.put("acks", "all");
@@ -10824,7 +10824,7 @@ props.put("acks", "all");
 props.put("min.insync.replicas", "2");
 ```
 
-## Explanation
+**Explanation**
 
 * `acks=all` → Wait for all replicas acknowledgment
 * `min.insync.replicas=2` → At least 2 replicas must sync
@@ -10835,12 +10835,12 @@ props.put("min.insync.replicas", "2");
 
 A consumer group is a group of consumers working together to consume messages from a topic.
 
-## Rules
+**Rules**
 
 * One partition is consumed by only one consumer within same group
 * Multiple groups can consume same topic independently
 
-## Example
+**Example**
 
 ```txt id="2m8xqa"
 Topic → 3 partitions
@@ -10851,7 +10851,7 @@ Consumer B → Partition 1
 Consumer C → Partition 2
 ```
 
-## Important
+**Important**
 
 ```txt id="3q7vwp"
 Consumers > Partitions
@@ -10859,7 +10859,7 @@ Consumers > Partitions
 Extra consumers remain idle
 ```
 
-## Consumer Example
+**Consumer Example**
 
 ```java id="9r4kxm"
 props.put("group.id", "order-service");
@@ -10877,7 +10877,7 @@ consumer.subscribe(
 
 Kafka guarantees ordering only within a partition.
 
-## How?
+**How?**
 
 Messages are stored using offsets:
 
@@ -10889,7 +10889,7 @@ Offset 2
 
 Consumers read sequentially.
 
-## Best Practice
+**Best Practice**
 
 Use same key for related messages.
 
