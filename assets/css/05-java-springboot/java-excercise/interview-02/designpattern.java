@@ -3,7 +3,7 @@ import java.util.List;
 
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
-// Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
+// Singleton Pattern Creational Design Patterns that ensures a class has only one object (instance) and provides a global access point to that instance.
 
 // Rules to create Singleton Pattern:
 // 1. Make Constructor private
@@ -134,7 +134,7 @@ class FactoryPatternDemo {
 
 // ============================================================
 // 3. Observer Pattern (Best Practice using Enum)
-// Observer pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
+// Observer pattern is Behavioral Design Patterns defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 // Rules to create Observer Pattern (exmaple News Agency):
 // News agency - > News Channel -> Observer Pattern
