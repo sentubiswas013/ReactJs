@@ -8491,7 +8491,7 @@ public class MyService {
 ```
 
 
-## 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+## 11. What is @Component, @Configuration, @Primary, @Qualifier, @PatchMapping annotation?
 
 **@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
