@@ -8192,64 +8192,68 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 
 ## 4. What is @Component and @Bean?
 
-
 **@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
 
-**Purpose:**
-
-* Marks the class as a configuration class
-* Replaces old XML-based configuration
-* Tells Spring: “Look here for object creation logic”
-
-
 **@Bean** is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
-
-**Step 1 — Create a Bean Class**
-
-```java
-public class GreetingService {
-
-    public String greet() {
-        return "Hello, Welcome to Spring!";
-    }
-}
-```
-
-**Step 2 — Configuration Class**
 
 ```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
+// @Component Example  ------
+@Component
+class UserService {
+    public void createUser() {
+        System.out.println("User Created");
+    }
+}
+
+// @Bean Example ------------
+interface OrderService {
+    void process(String item);
+}
+
+class OrderServiceImpl implements OrderService {
+    @Override
+    public void process(String item) {
+        System.out.println("Processing order for: " + item);
+    }
+}
+
+// Configuration Class
 @Configuration
-public class AppConfig {
-
+class AppConfig {
     @Bean
-    public GreetingService greetingService() {
-        return new GreetingService();
-    }
-}
-```
-
-**Step 3 — Use the Bean**
-
-```java
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-public class TestApp {
-
-    public static void main(String[] args) {
-        ApplicationContext context =
-                new AnnotationConfigApplicationContext(AppConfig.class);
-
-        GreetingService service = context.getBean(GreetingService.class);
-        System.out.println(service.greet());
+    public OrderService orderService() {
+        return new OrderServiceImpl();
     }
 }
 
-// Output:
-Hello, Welcome to Spring!
+// Both Bean Used in Controller
+@RestController
+@RequestMapping("/orders")
+class OrderController {
+    private final OrderService orderService;
+    private final UserService userService;
+
+    // Constructor Injection
+    public OrderController(
+            OrderService orderService,
+            UserService userService) 
+    {
+        this.orderService = orderService;
+        this.userService = userService;
+    }
+
+    @PostMapping("/{item}")
+    public String createOrder(@PathVariable String item) {
+        userService.createUser();
+        orderService.process(item);
+        return "Order received for " + item;
+    }
+}
 ```
 
 **`@Bean` vs `@Component` (Quick Difference)**
