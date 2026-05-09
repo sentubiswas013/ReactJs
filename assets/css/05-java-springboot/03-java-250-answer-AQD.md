@@ -1076,6 +1076,14 @@ class Outer {
 
 A singleton class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
 
+
+**How to Create**
+
+1. Create class // class Singleton {}
+2. Create One Static Instance Variable // private static Singleton instance
+2. Constructor Must Be private  // private Singleton() { } 
+3. Provide Public Static Method  //public static Singleton getInstance() {}
+
 ```java
 class Singleton {
     private static Singleton instance;

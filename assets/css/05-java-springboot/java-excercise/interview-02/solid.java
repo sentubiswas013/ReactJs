@@ -86,7 +86,7 @@ class OpenClosedDemo {
 
 // ============================================================
 // 3. LSP (Liskov Substitution Principle)
-// Subtypes must be substitutable for their base types
+// A child class should be able to replace its parent class without breaking the program behavior.
 // ============================================================
 
 // Bad implementation: Ostrich can't fly, violates LSP ❌
@@ -190,43 +190,68 @@ class Robot implements Workable {
 // Depend on abstractions, not concrete implementations
 // ============================================================
 // Bad Design: Laptop directly depends on WiredMouse ❌
-class Laptop {
-    CardPaymentB mouse = new CardPaymentB();
+class Keyboard2 {
+
+    public void type() {
+        System.out.println("Typing with keyboard");
+    }
+}
+
+class Computer2 {
+    private Keyboard2 keyboard = new Keyboard2();
+    public void start() {
+        keyboard.type();
+    }
+}
+
+class MainTest {
+        public static void main(String[] args) {
+        Computer2 computer = new Computer2();
+        computer.start();
+    }
 }
 
 // Good Design: Laptop depends on Mouse interface, not specific implementation ✅
+// Step 1: Create Interface
+interface InputDevice {
+    void type();
+}
+
+// Step 2: Implement Interface
+class Keyboard implements InputDevice {
+    public void type() {
+        System.out.println("Typing with keyboard");
+    }
+}
+class WirelessKeyboard implements InputDevice {
+    public void type() {
+        System.out.println("Typing with wireless keyboard");
+    }
+}
+
+// Step 3: High-Level Class Depends on Interface
+class Computer {
+    private InputDevice inputDevice;
+
+    // Dependency Injection
+    public Computer(InputDevice inputDevice) {
+        this.inputDevice = inputDevice;
+    }
+
+    public void start() {
+        inputDevice.type();
+    }
+}
+
+// Step 4: Main Class
 class DependencyInversionDemo {
     public static void main(String[] args) {
-        PaymentB payment = new CardPaymentB();   // Inject dependency
-        OrderService order = new OrderService(payment);
+        InputDevice device = new WirelessKeyboard();
+        Computer computer = new Computer(device);
 
-        order.placeOrder();
+        computer.start();
     }
 }
-
-interface PaymentB {
-    void pay();
-}
-
-class CardPaymentB implements PaymentB {
-    public void pay() {
-        System.out.println("Card payment");
-    }
-}
-
-class OrderService {
-    private PaymentB payment;
-
-    public OrderService(PaymentB payment) {
-        this.payment = payment;
-    }
-
-    public void placeOrder() {
-        payment.pay();
-    }
-}
-
-
 
 //Output:
-// Card payment
+// Typing with wireless keyboard

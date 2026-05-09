@@ -6,11 +6,7 @@ import java.util.List;
 // Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
 
 // Rules to create Singleton Pattern:
-// Make class final to prevent subclassing
-// Private constructor to prevent instantiation from outside the class
-// Private static variable to hold the single instance of the class
-// Public static method that returns the instance of the class, creating it if it doesn't exist yet
-
+// private constructor - > static instance -> public getInstance() -> null check -> synchronized -> double null check -> create object
 
 // When to use Singleton Pattern in real life:
 // 1. When you want to control access to a shared resource (like a database connection).
@@ -101,11 +97,8 @@ class UpiPayment implements Payment {
 
 // Step 3: Factory Class
 class PaymentFactory {
-
     public static Payment getPayment(String type) {
-
         switch (type.toUpperCase()) {
-
             case "CARD":
                 return new CardPayment();
 
@@ -225,6 +218,8 @@ class ObserverPatternExp {
 // When to use Builder Pattern:
 // 1. When you have a class with many parameters (especially optional ones) and want to avoid constructor overloading.
 // 2. When you want to create immutable objects with many parameters.
+
+// Use case: Employee class with id, name, age, department, and salary.
 
 // Real use: StringBuilder, Lombok @Builder, etc.
 // ============================================================
