@@ -50,11 +50,7 @@ git merge feature/login
 # Conflict occurs
 
 # Edit conflicted file
-<<<<<<< HEAD
-String name = "John";
-=======
 String name = "Jane";
->>>>>>> feature/login
 
 # Choose one or combine
 String name = "John";
