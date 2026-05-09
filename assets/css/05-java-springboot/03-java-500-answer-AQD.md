@@ -10733,7 +10733,7 @@ Use Kafka for: event sourcing, log aggregation, real-time analytics, microservic
 
 ---
 
-# 22. How does Kafka achieve high throughput and low latency?
+## 22. How does Kafka achieve high throughput and low latency?
 
 Kafka achieves high performance using:
 
@@ -10761,7 +10761,7 @@ props.put("compression.type", "snappy");
 
 ---
 
-# 23. What is the difference between a topic and a partition?
+## 23. What is the difference between a topic and a partition?
 
 | Topic                        | Partition                            |
 | ---------------------------- | ------------------------------------ |
@@ -10793,7 +10793,7 @@ Meaning:
 
 ---
 
-# 24. How does Kafka handle durability and fault tolerance?
+## 24. How does Kafka handle durability and fault tolerance?
 
 Kafka handles durability using:
 
@@ -10831,7 +10831,7 @@ props.put("min.insync.replicas", "2");
 
 ---
 
-# 25. What is a consumer group and how does it work?
+## 25. What is a consumer group and how does it work?
 
 A consumer group is a group of consumers working together to consume messages from a topic.
 
@@ -10873,7 +10873,7 @@ consumer.subscribe(
 
 ---
 
-# 26. How does Kafka ensure message ordering?
+## 26. How does Kafka ensure message ordering?
 
 Kafka guarantees ordering only within a partition.
 
