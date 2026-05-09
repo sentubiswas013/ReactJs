@@ -10733,7 +10733,177 @@ Use Kafka for: event sourcing, log aggregation, real-time analytics, microservic
 
 ---
 
-## 22. What is RabbitMQ and When to Use It Over Kafka?
+# 22. How does Kafka achieve high throughput and low latency?
+
+Kafka achieves high performance using:
+
+* Sequential disk writes
+* Batching
+* Compression
+* Zero-copy transfer
+* Partition-based parallelism
+
+## Performance Config Example
+
+```java id="f4m8qa"
+props.put("batch.size", 16384);
+
+props.put("linger.ms", 5);
+
+props.put("compression.type", "snappy");
+```
+
+## Explanation
+
+* `batch.size` → Sends messages in batches
+* `linger.ms` → Waits briefly to create larger batch
+* `compression.type` → Reduces network traffic
+
+---
+
+# 23. What is the difference between a topic and a partition?
+
+| Topic                        | Partition                            |
+| ---------------------------- | ------------------------------------ |
+| Logical category of messages | Physical subdivision of topic        |
+| Used to organize messages    | Used for scalability & parallelism   |
+| No global ordering           | Ordering guaranteed within partition |
+
+## Example
+
+```txt id="4v7kzp"
+Topic: orders
+
+Partition 0 → msg1, msg4, msg7
+Partition 1 → msg2, msg5, msg8
+Partition 2 → msg3, msg6, msg9
+```
+
+## Create Topic Example
+
+```java id="x9m2wr"
+NewTopic topic =
+        new NewTopic("orders", 3, (short) 2);
+```
+
+Meaning:
+
+* 3 partitions
+* Replication factor = 2
+
+---
+
+# 24. How does Kafka handle durability and fault tolerance?
+
+Kafka handles durability using:
+
+* Replication
+* Leader/Follower architecture
+* Persistent storage
+* ISR (In-Sync Replicas)
+
+## Flow
+
+```txt id="r8m4qp"
+Leader Partition
+      ↓
+Follower Replicas
+```
+
+If leader broker fails:
+
+```txt id="7n1xpv"
+Follower becomes new leader automatically
+```
+
+## Durable Producer Config
+
+```java id="5k9wqm"
+props.put("acks", "all");
+
+props.put("min.insync.replicas", "2");
+```
+
+## Explanation
+
+* `acks=all` → Wait for all replicas acknowledgment
+* `min.insync.replicas=2` → At least 2 replicas must sync
+
+---
+
+# 25. What is a consumer group and how does it work?
+
+A consumer group is a group of consumers working together to consume messages from a topic.
+
+## Rules
+
+* One partition is consumed by only one consumer within same group
+* Multiple groups can consume same topic independently
+
+## Example
+
+```txt id="2m8xqa"
+Topic → 3 partitions
+
+Consumer Group:
+Consumer A → Partition 0
+Consumer B → Partition 1
+Consumer C → Partition 2
+```
+
+## Important
+
+```txt id="3q7vwp"
+Consumers > Partitions
+↓
+Extra consumers remain idle
+```
+
+## Consumer Example
+
+```java id="9r4kxm"
+props.put("group.id", "order-service");
+
+KafkaConsumer<String, String> consumer =
+        new KafkaConsumer<>(props);
+
+consumer.subscribe(
+        Collections.singletonList("orders"));
+```
+
+---
+
+# 26. How does Kafka ensure message ordering?
+
+Kafka guarantees ordering only within a partition.
+
+## How?
+
+Messages are stored using offsets:
+
+```txt id="8v1mzp"
+Offset 0
+Offset 1
+Offset 2
+```
+
+Consumers read sequentially.
+
+## Best Practice
+
+Use same key for related messages.
+
+```java id="6m3xqw"
+producer.send(
+    new ProducerRecord<>(
+        "orders",
+        "user-123",
+        "order-created"
+    )
+);
+```
+
+## 27. What is RabbitMQ and When to Use It Over Kafka?
 
 RabbitMQ is a **traditional message broker** — it routes messages between producers and consumers using queues and exchanges.
 
@@ -10767,7 +10937,7 @@ Use **Kafka** for event streaming, high-volume data, and replay scenarios.
 
 ---
 
-## 23. What is gRPC and How Does It Differ from REST?
+## 28. What is gRPC and How Does It Differ from REST?
 
 gRPC is a **high-performance RPC framework** by Google. It uses **Protocol Buffers (protobuf)** for serialization and **HTTP/2** for transport.
 
@@ -10795,7 +10965,7 @@ Use gRPC for **internal microservice communication** where performance matters. 
 
 ---
 
-## 24. What is a Service Mesh (Istio)?
+## 29. What is a Service Mesh (Istio)?
 
 A service mesh is an **infrastructure layer** that handles service-to-service communication in microservices — without changing your application code.
 
@@ -10819,7 +10989,7 @@ Use it in large Kubernetes-based microservice architectures where you need secur
 
 ---
 
-## 25. What is Zipkin and How Does Distributed Tracing Work?
+## 30. What is Zipkin and How Does Distributed Tracing Work?
 
 In microservices, a single request can pass through 5–10 services. When something fails or is slow, how do you find where? That's what **distributed tracing** solves.
 
