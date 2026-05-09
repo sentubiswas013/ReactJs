@@ -8190,11 +8190,10 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 7. **Response** – Data returns back to the client.
 
 
-## 4. What is @Configuration and @Bean?
+## 4. What is @Component and @Bean?
 
 
-**@Configuration** is used to declare a class as a **Spring configuration class**.
-It tells the **Spring Framework** that this class contains bean definitions.
+**@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
 
 **Purpose:**
 
@@ -8304,7 +8303,7 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 7. @Component vs @Service vs @Repository vs @Controller vs @RestController annotations?
+## 7.  @Controller, @RestController, @Service, @Repository annotations?
 
 
 **Simple Flow (Easy to Remember)**
@@ -8367,16 +8366,6 @@ public class UserService {
 public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findByName(String name, Pageable pageable);
     Page<User> findAll(Pageable pageable);
-}
-```
-
-**@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
-```java
-@Component
-public class EmailUtil {
-    public void sendEmail() {
-        System.out.println("Sending Email");
-    }
 }
 ```
 
