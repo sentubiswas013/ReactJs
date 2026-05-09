@@ -8252,7 +8252,7 @@ class AppConfig {
 }
 
 
-// Controller
+// Both Bean used in Controller -----
 @RestController
 @RequestMapping("/orders")
 class OrderController {
