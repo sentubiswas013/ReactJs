@@ -8197,41 +8197,62 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 **@Bean** is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
 
 ```java
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-// @Component Example  ------
+// @Component Bean ------------
 @Component
 class UserService {
+
     public void createUser() {
         System.out.println("User Created");
     }
 }
 
-// @Bean Example ------------
+// @Bean ----------------------
+// Service Interface
 interface OrderService {
     void process(String item);
 }
 
-class OrderServiceImpl implements OrderService {
+// First Implementation
+class OnlineOrderServiceImpl implements OrderService {
     @Override
     public void process(String item) {
-        System.out.println("Processing order for: " + item);
+        System.out.println("Online Order Processing: " + item);
     }
 }
+
+// Second Implementation
+class OfflineOrderServiceImpl implements OrderService {
+    @Override
+    public void process(String item) {
+        System.out.println("Offline Order Processing: " + item);
+    }
+}
+
 
 // Configuration Class
 @Configuration
 class AppConfig {
+    // Bean name = buyItem
     @Bean
-    public OrderService orderService() {
-        return new OrderServiceImpl();
+    public OrderService buyItem() {
+        return new OnlineOrderServiceImpl();
+    }
+
+    // Bean name = shopItem
+    @Bean
+    public OrderService shopItem() {
+        return new OfflineOrderServiceImpl();
     }
 }
 
-// Both Bean Used in Controller
+
+// Controller
 @RestController
 @RequestMapping("/orders")
 class OrderController {
@@ -8240,9 +8261,9 @@ class OrderController {
 
     // Constructor Injection
     public OrderController(
+            @Qualifier("buyItem")
             OrderService orderService,
-            UserService userService) 
-    {
+            UserService userService) {
         this.orderService = orderService;
         this.userService = userService;
     }
