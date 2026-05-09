@@ -65,7 +65,7 @@ class SingletonDemo {
 
 // ============================================================
 // 2. Factory Pattern (Best Practice using Enum)
-// Factory Design Pattern is used to create objects without using new keyword directly, by using a factory method.
+// Factory Design Pattern is creational design pattern that provides an interface for creating objects and lets the factory decide which object to create.
 
 // Rules to create Factory Pattern exmaple Payment:: 
 // step 0: Define an enum for the Payment types 
@@ -74,10 +74,12 @@ class SingletonDemo {
 // Step 3: Factory Class with a static method to create objects based on input :: PaymentFactory with a static method getPayment(String type)
 
 
-// When to use Factory Pattern:
-// 1. When you have a super class with multiple sub-classes and based on input, you need to return one of the sub-class.
-// 2. When you want to decouple the client code from the actual implementation of the objects it needs to create.
-
+// 👉 Real use:
+// - Payment systems
+// - Notification services
+// - Logger creation
+// - Database drivers
+// - Spring BeanFactory
 // ============================================================
 enum PaymentType {
     CARD, UPI
@@ -135,7 +137,6 @@ class FactoryPatternDemo {
 // Observer pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 // Rules to create Observer Pattern (exmaple News Agency):
-// News Agency have multiple news channels (observers) that want to receive updates when news changes.
 // News agency - > News Channel -> Observer Pattern
 // 1. Create an Observer interface with an update() method.
 // 2. Create a Subject class that maintains a list of observers and has methods to attach/detach observers and notify them of changes.
@@ -149,7 +150,13 @@ class FactoryPatternDemo {
 // Subscribers Receive Update
 
 // When to use Observer Pattern:
-//  Real use: Email service, Logging, Notifications
+
+// 👉 Real use:
+// - YouTube Notifications
+// - News Channel System, 
+// - Stock Market Apps
+// - Kafka / RabbitMQ Consumers
+
 
 // ============================================================
 // import java.util.*;

@@ -7326,16 +7326,15 @@ public enum EnumSingleton {
 
 ## 4. What is Factory pattern?
 
-**Factory pattern** creates objects without specifying their exact classes. It provides an interface for creating objects but lets subclasses decide which class to instantiate.
-
-Here are **4 real-time places to use Factory Pattern**:
-
-* **Payment Processing System** – create different payment types (Card, UPI, NetBanking) based on user choice
-* **Notification Service** – create Email, SMS, or Push notification objects dynamically
-* **Document Generator** – create PDF, Excel, or CSV generators based on request
-* **Database Driver Selection** – create MySQL, PostgreSQL, or Oracle connection objects
+**Factory Design** Pattern is creational design pattern that provides an interface for creating objects and lets the factory decide which object to create.
 
 
+👉 Real use:
+- Payment systems
+- Notification services
+- Logger creation
+- Database drivers
+- Spring BeanFactory
 
 ```java
 // Product interface
@@ -7368,7 +7367,6 @@ class AnimalFactory {
 
 **Observer Pattern** allows one object (publisher) to notify multiple dependent objects (subscribers) automatically when state changes.
 
-**Observer pattern** defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 👉 Real use:
 - YouTube Notifications
