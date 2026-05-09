@@ -4,42 +4,32 @@ import java.util.List;
 class DesignPattern {
 	public static void main(String[] args) throws Exception {
 		// 1. Singleton pattern ----------------------
-        Singleton st1 = Singleton.getInstance();
-        Singleton st2 = Singleton.getInstance();
-
-        System.out.println("Result : " + st1 + " -- " + st2);
+        
 
 		// 1. Factory pattern ------------------------	
-		Payment payment = PaymentFactory.getPayment("UPI");
-        payment.pay();
 
+
+		
 		// 3. Section Ovserver pattern ---------------
-		NewAgency agency = new NewAgency();
+		NewAgency agency = new NewAgency();		
 
 		// Create Observers 
-		Observer channel1 = new NewsChannel("Republic");
-		Observer channel2 = new NewsChannel("First");
+		NewsChannel channel1 = new NewsChannel("Republic");
+		NewsChannel channel2 = new NewsChannel("ZEE");
 
+		// Register Observer
 		agency.addObserver(channel1);
 		agency.addObserver(channel2);
 
-		agency.setNews("Java is awesome");
-		agency.setNews("Observer pattern is action");
+		agency.setnews("Republic is good");
+		agency.setnews("Zee is good");
+		
 
 		// 4. Section Vuilder pattern ---------------
-		Employee emp = new Employee.EmployeeBuilder()
-			.setId(1)
-			.setName("Sentu")
-			.build();
-
-		emp.display();
+		
 
 		// 4. Section Prototype pattern -------------
-		Student s1 = new Student(1, "sentu");
-		Student s2 = (Student) s1.clone();
-
-		System.out.println("s1 " + s1);
-		System.out.println("s2 " + s2);
+		
 	}
 }
 
@@ -59,22 +49,7 @@ class DesignPattern {
 // 2. When you want to ensure that only one instance of a class is created and used throughout the application (like a configuration manager).
 // 3. When you want to implement a global point of access to a resource (like a logging service).   
 // ============================================================
-class Singleton {
-	private static volatile Singleton instance;
 
-	private Singleton () {};
-
-	public static Singleton getInstance() {
-		if(instance == null) {
-			synchronized (Singleton.class) {
-				if(instance == null) {
-					instance = new Singleton();
-				}
-			}
-		}
-		return instance;
-	}
-}
 
 
 
@@ -99,42 +74,6 @@ class Singleton {
 // 2. When you want to decouple the client code from the actual implementation of the objects it needs to create.
 
 // ============================================================
-enum type {
-	UPI, CARD
-}
-
-interface Payment {
-	void pay();
-}
-
-class UpiPayment implements Payment {
-	public void pay() {
-		System.out.println("Upi Payment");
-	}
-}
-
-
-class CardPayment implements Payment {
-	public void pay() {
-		System.out.println("Card Payment");
-	}
-}
-
-
-class PaymentFactory {
-	public static Payment getPayment(String type) {
-		switch (type.toUpperCase()) {
-			case "CARD":
-				return new CardPayment();
-			case "UPI":
-				return new UpiPayment(); 
-			default:
-				throw new IllegalArgumentException("Error");
-		}
-	}
-}
-
-
 
 
 
@@ -144,7 +83,7 @@ class PaymentFactory {
 
 
 // ============================================================
-// 2. Observer Pattern (Best Practice using Enum)
+// 3. Observer Pattern (Best Practice using Enum)
 // Observer pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 // Rules to create Observer Pattern:
@@ -156,40 +95,37 @@ class PaymentFactory {
 //  Real use: Email service, Logging, Notifications
 
 // ============================================================
-
 interface Observer {
 	void update(String message);
 }
 
-// Concrete Observer
 class NewsChannel implements Observer {
 	private String name;
-
 	public NewsChannel (String name) {
 		this.name = name;
 	}
-
 	public void update(String news) {
 		System.out.println(name + " received " + news);
 	}
 }
 
-// Subject
 class NewAgency {
 	private List<Observer> observers = new ArrayList<>();
 	private String news;
 
 	public void addObserver(Observer observer) {
-		observers.add(observer);
-	}
+        observers.add(observer);
+    }
 
-	public void setNews(String news) {
+	public void setnews(String news) {
 		this.news = news;
 		NotifyObserver();
 	}
 
 	public void NotifyObserver() {
-		observers.forEach(observer -> observer.update(news));
+		observers.forEach(
+			observer -> observer.update(news)
+		);
 	}
 }
 
@@ -204,7 +140,7 @@ class NewAgency {
 
 
 // ============================================================
-// 3. Builder Pattern (Immutable Object - BEST PRACTICE)
+// 4. Builder Pattern (Immutable Object - BEST PRACTICE)
 // Builder Pattern is used to create complex objects step by step, especially when an object has many optional parameters.
 
 // Rules to create Builder Pattern:
@@ -218,38 +154,7 @@ class NewAgency {
 // 2. When you want to create immutable objects with many parameters.
 
 // ============================================================
-class Employee {
-	private int id;
-	private String name;
 
-	// private constructor
-	private Employee (EmployeeBuilder builder) {
-		this.id = builder.id;
-		this.name = builder.name;
-	}	
-
-	public void display() {
-	    System.out.println("Hello " + id + " --- " + name);
-	}
-
-	static class EmployeeBuilder {
-		private int id;
-		private String name;
-
-		public EmployeeBuilder setId(int id) {
-			this.id = id;
-			return this;
-		}
-		public EmployeeBuilder setName(String name) {
-			this.name = name;
-			return this;
-		}
-
-		public Employee build () {
-			return new Employee(this);
-		}
-	}
-}
 
 
 
@@ -259,7 +164,7 @@ class Employee {
 // User{name='Bob', age=25}
 
 // ============================================================
-// 4. Prototype Pattern (Cloning)
+// 5. Prototype Pattern (Cloning)
 // Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 
 // Rules to create Prototype Pattern:
@@ -271,19 +176,6 @@ class Employee {
 // 1. When object creation is expensive and you want to create new objects by copying existing ones.
 // 2. When you want to hide the creation logic from the client code.
 // ============================================================
-class Student implements Cloneable {
-	int id;
-	String name;
-
-	Student (int id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
-	}
-}
 
 
 

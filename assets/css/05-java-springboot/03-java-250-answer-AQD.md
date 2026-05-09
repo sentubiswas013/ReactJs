@@ -7366,12 +7366,15 @@ class AnimalFactory {
 
 ## 5. What is Observer pattern?
 
+**Observer Pattern** allows one object (publisher) to notify multiple dependent objects (subscribers) automatically when state changes.
+
 **Observer pattern** defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 👉 Real use:
-Email service, 
-Logging, 
-Notifications
+- YouTube Notifications
+- News Channel System, 
+- Stock Market Apps
+- Kafka / RabbitMQ Consumers
 
 
 ```java
