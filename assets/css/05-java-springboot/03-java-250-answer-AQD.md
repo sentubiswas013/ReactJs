@@ -8114,6 +8114,20 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 
 **@Bean** is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
 
+A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
+
+```java
+public class User {
+    private String name;
+    public User() {}   // no-arg constructor
+    public String getName() { return name;}
+    public void setName(String name) {this.name = name;}
+}
+
+User user = new User();
+user.setName("John");
+```
+
 ```java
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
