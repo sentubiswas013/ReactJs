@@ -1,9 +1,10 @@
 class Solid {
 	public static void main(String[] args) {
-		//  Section 1: Single Responsibility
+		// 1: Single Responsibility ------------------------
 
 
-		//  Section 2: Open Close
+
+		// 2: Open Close -----------------------------------
 		PaymentService service = new PaymentService();
 		CardPayment p1 = new CardPayment();
 		UpiPayment p2 = new UpiPayment();
@@ -11,7 +12,7 @@ class Solid {
 		service.PaymentProcess(p2);
 
 
-		//  Section 3: Liskov Substitution
+		// 3: Liskov Substitution --------------------------
 		Bird b1 = new Bird();
 		b1.fly();
 
@@ -23,7 +24,7 @@ class Solid {
 
 
 
-		//  Section 4: Interface Segregation Principle
+		// 4: Interface Segregation Principle --------------
 		InputDevice device = new Keyboard();
 		Computer computer = new Computer(device);
 
@@ -68,7 +69,7 @@ class UserService2 {
 // 2. OCP (Open/Closed Principle)
 // Open for extension, closed for modification
 // ============================================================
-// bad Impplementation: Adding new payment type requires modifying existing code ❌
+// bad : Adding new payment type requires modifying existing code ❌
 // class Payment1 {
 //     void pay(String type) {
 //         if(type.equals("UPI")) {}
@@ -76,7 +77,7 @@ class UserService2 {
 //     }
 // }
 
-// Good Implementation: Easy to extend without modifying existing code ✅
+// Good : Easy to extend without modifying existing code ✅
 interface Payment {
 	void pay();
 }
@@ -108,7 +109,7 @@ class PaymentService {
 // 3. LSP (Liskov Substitution Principle)
 // A child class should be able to replace its parent class without breaking the program behavior.
 // ============================================================
-// Bad implementation: Ostrich can't fly, violates LSP ❌
+// Bad: Ostrich can't fly, violates LSP ❌
 // class Bird1 {
 //     void fly() {}
 // }
@@ -117,7 +118,7 @@ class PaymentService {
 //     void fly() { throw new RuntimeException(); }
 // }
 
-// Good implementation: Separate flying and non-flying birds ✅
+// Good: Separate flying and non-flying birds ✅
 class Bird {
 	public void fly() {
 		System.out.println("Bird can fly");
@@ -143,13 +144,13 @@ class Sparrow extends Bird {
 // 4. ISP (Interface Segregation Principle)
 // Child class should replace parent class without breaking code.
 // ============================================================
-// Bad Design: Worker interface has both work and eat methods ❌
+// Bad : Worker interface has both work and eat methods ❌
 // interface Worker {
 //     void work();
 //     void eat();
 // }
 
-// Good Design: Separate interfaces for different responsibilities ✅
+// Good : Separate interfaces for different responsibilities ✅
 
 
 interface workable {
@@ -180,12 +181,12 @@ class Human implements workable, eatable {
 // 5. DIP (Dependency Inversion Principle)
 // Depend on abstractions, not concrete implementations
 // ============================================================
-// Bad Design: Laptop directly depends on WiredMouse ❌
+// Bad : Laptop directly depends on WiredMouse ❌
 // class Laptop {
 //     CardPaymentB mouse = new CardPaymentB();
 // }
 
-// Good Design: Laptop depends on Mouse interface, not specific implementation ✅
+// Good : Laptop depends on Mouse interface, not specific implementation ✅
 interface InputDevice {
 	void type();
 }

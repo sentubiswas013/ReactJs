@@ -156,7 +156,9 @@ public class Stream30 {
         // =======================================================
         // 10. Find Longest and smallest String
         // longest -------------------------------
-        
+        String longest = Arrays.stream(sentence.split(" "))
+            .max(String::compareTo)
+            .orElse(null);
 
         // smallest -------------------------------
         
@@ -164,7 +166,7 @@ public class Stream30 {
         // longestWord ----------------------------
         
 
-        // System.out.println("10. Longest: " + longest);
+        System.out.println("10. Longest: " + longest);
         // System.out.println("10. smallest: " + smallest);
         // System.out.println("10. Longest: " + longestWord);
         // Output: 10. Longest: stream

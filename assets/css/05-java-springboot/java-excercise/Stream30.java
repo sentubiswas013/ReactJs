@@ -180,9 +180,9 @@ public class Stream30 {
                 .max(Comparator.comparingInt(String::length))
                 .orElse(null);
 
-        // System.out.println("10. Longest: " + longest);
+        // System.out.println("10. Longest:  " + longest);
         // System.out.println("10. smallest: " + smallest);
-        // System.out.println("10. Longest: " + longestWord);
+        // System.out.println("10. Longest:  " + longestWord);
         // Output: 10. Longest: stream
 
 
