@@ -18,14 +18,12 @@ class UserService1 {
 
 // Good Design: Split responsibilities ✅
 class UserService {
-
     public void registerUser() {
         System.out.println("User registered");
     }
 }
 
 class EmailService {
-
     public void sendEmail() {
         System.out.println("Email sent");
     }
@@ -191,7 +189,6 @@ class Robot implements Workable {
 // ============================================================
 // Bad Design: Laptop directly depends on WiredMouse ❌
 class Keyboard2 {
-
     public void type() {
         System.out.println("Typing with keyboard");
     }
