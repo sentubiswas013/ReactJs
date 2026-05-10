@@ -26,10 +26,19 @@ class DesignPattern {
 		
 
 		// 4. Section Vuilder pattern ---------------
-		
+		Employee emp = new Employee.EmployeeBuilder()
+			.setId(1)
+			.setName("Sentu Biswas")
+			.build();
+
+			emp.display();
 
 		// 4. Section Prototype pattern -------------
-		
+		Student s1 = new Student(1, "John");
+		Student s2 = (Student) s1.clone();
+
+		System.out.println("S1 " + s1);
+		System.out.println("S2 " + s2);
 	}
 }
 
@@ -63,7 +72,7 @@ class DesignPattern {
 // 2. Factory Pattern (Best Practice using Enum)
 // Factory Design Pattern is used to create objects without using new keyword directly, by using a factory method.
 
-// Rules to create Factory Pattern:
+// Rules to create Factory Pattern: 
 // 1. Create an interface or abstract class for the type of object you want to create.
 // 2. Create concrete classes that implement the interface or extend the abstract class.
 // 3. Create a Factory class with a static method that takes input (like an enum
@@ -153,8 +162,39 @@ class NewAgency {
 // 2. When you want to create immutable objects with many parameters.
 
 // ============================================================
+class Employee {
+	private int id;
+	private String name;
+
+	private Employee(EmployeeBuilder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
+	}
+
+	public void display() {
+		// return "Employee{"
+		System.out.println("Hello " + id + " " + name);
+	}
 
 
+	static class EmployeeBuilder {
+		private int id;
+		private String name;
+
+		public EmployeeBuilder setId(int id) {
+			this.id = id;
+			return this;
+		}
+		public EmployeeBuilder setName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public Employee build() {
+			return new Employee(this);
+		}
+	}
+}
 
 
 
@@ -176,6 +216,19 @@ class NewAgency {
 // 2. When you want to hide the creation logic from the client code.
 // ============================================================
 
+class Student implements Cloneable{
+	private int id;
+	private String name;
+
+	Student (int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+}
 
 
 

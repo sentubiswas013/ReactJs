@@ -13319,12 +13319,100 @@ These tools allow us to maintain **version-controlled SQL scripts** for schema c
 During application startup or deployment, the migration tool automatically applies pending changes to the database.
 This ensures **consistent schema across all environments like dev, QA, and production**.
 
-**Example**
-
 ```
-V1__create_user_table.sql
+**Step 1 → Add Dependency :: Maven**
+
+```xml
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
+```
+
+**Step 2 → Configure Database :: application.yml**
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    username: root
+    password: root
+
+  flyway:
+    enabled: true
+```
+
+**Step 3 → Create Migration Folder :: Create folder**
+
+```txt
+src/main/resources/db/migration
+```
+
+**Step 4 → Create SQL Migration File :: File name format**
+
+```txt
+V1__create_employee_table.sql
+```
+
+```txt
+// Important:
+V<version>__<description>.sql
+```
+
+**Step 5 → Add SQL :: V1__create_employee_table.sql**
+
+```sql
+CREATE TABLE employee (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    salary DOUBLE
+);
+```
+
+**Step 6 → Start Application :: When Spring Boot starts:**
+
+```txt
+Flyway automatically:
+- checks migration history
+- executes new scripts
+- updates flyway_schema_history table
+```
+
+**Step 7 → Add New Migration :: Create new file:**
+
+```txt
 V2__add_email_column.sql
 ```
+
+```sql
+ALTER TABLE employee
+ADD email VARCHAR(100);
+
+Restart app → Flyway runs only V2.
+```
+
+
+
+**Internal Working**
+
+```txt
+Application Start
+      ↓
+Check flyway_schema_history
+      ↓
+Find pending migrations
+      ↓
+Execute SQL scripts
+      ↓
+Update migration history
+```
+
+**Generated Table :: Flyway creates:**
+
+```txt
+flyway_schema_history
+```
+
 
 
 ## **18. How do you ensure zero downtime deployments?**

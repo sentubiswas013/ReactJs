@@ -20,7 +20,12 @@ import java.util.List;
 
 class Singleton {
     private static volatile Singleton instance;
-    // Singleton : because the variable must store an object of the same class type.
+    // volatile ensures visibility of changes across threads and prevents multiple threads from creating separate objects
+    // during Singleton initialization.
+
+    // volatile makes Singleton thread-safe
+    // Singleton is the datatype/class type of the variable.
+    // 'instance' stores the single object of Singleton class.
 
     private Singleton() {
         System.out.println("Singleton instance created: " + this.hashCode());
