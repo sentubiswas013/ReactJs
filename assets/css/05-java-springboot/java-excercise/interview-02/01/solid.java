@@ -4,19 +4,46 @@ class Solid {
 
 
 
+
+		System.out.println("==============================");
 		// 2: Open Close -----------------------------------
+		PaymentService service = new PaymentService();
+
+		CardPayment p1 = new CardPayment(); 
+		service.ProcessPayment(p1);
+
+		UpiPayment p2  = new UpiPayment(); 
+		service.ProcessPayment(p2);
 		
 
-
-
+		System.out.println("==============================");
 		// 3: Liskov Substitution --------------------------
-		
+		Bird b = new Bird();
+		b.fly();
+
+		Sparrow s = new Sparrow();
+		s.fly();
+
+		Bird b2 = new Sparrow();
+		b2.fly();
 
 
 
+		System.out.println("==============================");
 		// 4: Interface Segregation Principle --------------
+		Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.Eat();
+
+        Workable w2 = new Human();
+        w2.work();
 		
-		
+
+		System.out.println("==============================");
+		// 5: DIP (Dependency Inversion Principle) ---------
+
 	}
 }
 
@@ -40,8 +67,12 @@ class Solid {
 
 // Good Design: Split responsibilities ✅
 
-
-
+class RegisterService {
+	public void register() {}
+}
+class EmailService {
+	public void createEmail() {}
+}
 
 // ============================================================
 // 2. OCP (Open/Closed Principle)
@@ -56,8 +87,27 @@ class Solid {
 // }
 
 // Good : Easy to extend without modifying existing code ✅
+interface Payment {
+	void pay();
+}
 
+class CardPayment implements Payment {
+	public void pay() {
+		System.out.println("Card");
+	};
+}
 
+class UpiPayment implements Payment {
+	public void pay() {
+		System.out.println("Upi");
+	};
+}
+
+class PaymentService {
+	public void ProcessPayment(Payment payment) {
+		payment.pay();
+	}
+}
 
 
 // Output:
@@ -79,7 +129,18 @@ class Solid {
 // }
 
 // Good: Separate flying and non-flying birds ✅
+class Bird {
+	public void fly() {
+		System.out.println("Fly");
+	}
+}
 
+class Sparrow extends Bird {
+	@Override
+	public void fly() {
+		System.out.println("Sparrow can Fly");
+	}
+}
 
 
 
@@ -100,7 +161,28 @@ class Solid {
 // }
 
 // Good : Separate interfaces for different responsibilities ✅
+interface Workable {
+	void work();
+}
 
+interface Eatable {
+	void Eat();
+}
+
+class Human implements Workable, Eatable {
+	public void work() {
+		System.out.println("Work");
+	}
+	public void Eat() {
+		System.out.println("Eat");
+	}
+}
+
+class Robot implements Workable {
+	public void work() {
+		System.out.println("Work");
+	}
+}
 
 
 
@@ -122,7 +204,32 @@ class Solid {
 // }
 
 // Good : Laptop depends on Mouse interface, not specific implementation ✅
+interface MessageService {
+	void send();
+}
 
+class EmailService implements MessageService {
+	public void send() {
+		System.out.println("Hello");
+	}
+}
+
+class SmsService implements MessageService {
+	public void send() {
+		System.out.println("Sms");
+	}
+}
+
+class NootificationService {
+	private MessageService messageService;
+	NootificationService(MessageService messageService) {
+		this,messageService = messageService;
+	}
+
+	public void notiFyUser() {
+		messageService.send();
+	}
+}
 
 
 

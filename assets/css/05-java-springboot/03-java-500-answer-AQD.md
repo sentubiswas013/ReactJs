@@ -13963,3 +13963,284 @@ public void theLoginShouldBeSuccessful() {
     assertTrue(loginResult.isSuccess());
 }
 ```
+
+
+## How to Start System Design From Scratch
+
+System design should start with understanding requirements, estimating scale, designing high-level architecture, choosing databases/APIs, and then improving scalability, reliability, and maintainability.
+
+
+**1. Understand Requirements**
+
+First ask questions.
+
+**Functional Requirements**
+
+What system should do?
+
+Example for Food Delivery:
+
+* User login
+* Search restaurants
+* Place order
+* Payment
+* Track delivery
+
+## Non-Functional Requirements
+
+How system should behave?
+
+* Scalability
+* Security
+* High availability
+* Low latency
+* Fault tolerance
+
+---
+
+**2. Estimate Scale**
+
+Estimate:
+
+* Daily active users
+* Requests per second (RPS)
+* Storage
+* Traffic
+
+Example:
+
+```text id="7g1vgh"
+1 million users
+100k daily orders
+500 requests/sec
+```
+
+This helps decide architecture.
+
+---
+
+**3. Identify Core Entities**
+
+Find main objects.
+
+Example for E-commerce:
+
+```text id="o49gpk"
+User
+Product
+Cart
+Order
+Payment
+Inventory
+```
+
+---
+
+**4. Design High-Level Architecture (HLD)**
+
+Draw big components.
+
+Example:
+
+```text id="h83x71"
+Client → Load Balancer → API Gateway
+                        ↓
+              Microservices
+                        ↓
+              Database / Cache / Queue
+```
+
+Components:
+
+* Frontend
+* Backend
+* Database
+* Cache
+* Messaging queue
+* CDN
+* Storage
+
+---
+
+**5. Database Design**
+
+Choose DB:
+
+| Use Case           | Database         |
+| ------------------ | ---------------- |
+| Structured data    | MySQL/PostgreSQL |
+| Huge scalable data | MongoDB          |
+| Fast caching       | Redis            |
+| Search             | Elasticsearch    |
+
+Create tables/schema.
+
+Example:
+
+```text id="n5s2uw"
+User(id, name, email)
+Order(id, userId, total)
+```
+
+---
+
+**6. API Design**
+
+Design REST APIs.
+
+Example:
+
+```http id="9qkhtm"
+POST /orders
+GET /products
+PUT /cart
+```
+
+Think about:
+
+* Request
+* Response
+* Status codes
+* Pagination
+
+---
+
+**7. Decide Architecture Style**
+
+Choose:
+
+| Type          | When Used              |
+| ------------- | ---------------------- |
+| Monolith      | Small projects         |
+| Microservices | Large scalable systems |
+| Event Driven  | Async processing       |
+
+---
+
+**8. Add Scalability**
+
+Think:
+
+## Horizontal Scaling
+
+```text id="ggxyl4"
+Multiple backend servers
+```
+
+Use:
+
+* Load balancer
+* Auto scaling
+
+---
+
+**9. Add Performance Optimization**
+
+Use:
+
+* Redis cache
+* CDN
+* DB indexing
+* Lazy loading
+* Compression
+
+---
+
+**10. Handle Reliability**
+
+Add:
+
+* Retry mechanism
+* Circuit breaker
+* Replication
+* Backup
+* Failover
+
+---
+
+**11. Security Design**
+
+Think about:
+
+* Authentication
+* Authorization
+* JWT/OAuth
+* HTTPS
+* Rate limiting
+
+---
+
+**12. Monitoring & Logging**
+
+Use:
+
+* ELK Stack
+* Prometheus
+* Grafana
+* CloudWatch
+
+---
+
+**13. Deep Dive (LLD)**
+
+Now design classes.
+
+Example:
+
+```java id="crd5dn"
+interface PaymentStrategy {
+    void pay();
+}
+```
+
+Use:
+
+* SOLID principles
+* Design patterns
+* UML
+* OOP
+
+---
+
+**Example Interview Flow**
+
+If interviewer asks:
+
+> Design WhatsApp
+
+You should answer in order:
+
+1. Requirements
+2. Scale estimation
+3. HLD
+4. DB design
+5. Message flow
+6. Real-time communication
+7. Scaling
+8. Reliability
+9. Security
+
+---
+
+**Common Technologies**
+
+| Component  | Technology     |
+| ---------- | -------------- |
+| API        | Spring Boot    |
+| Database   | PostgreSQL     |
+| Cache      | Redis          |
+| Queue      | Kafka/RabbitMQ |
+| Search     | Elasticsearch  |
+| Storage    | S3             |
+| Monitoring | Grafana        |
+
+---
+
+**Golden Rule**
+
+Start with:
+
+```text id="c0f6wj"
+Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
+```
+

@@ -1,5 +1,5 @@
 // ============================================================
-// 1. SRP (Single Responsibility Principle)
+// 1. SRP (Single Responsibility Principle) : Ex User Registration
 // One class should have only one responsibility.
 // ============================================================
 // Bad Design: Invoice doing too many things ❌
@@ -23,7 +23,7 @@ class UserService {
     }
 }
 
-class EmailService {
+class EmailSentService {
     public void sendEmail() {
         System.out.println("Email sent");
     }
@@ -31,7 +31,7 @@ class EmailService {
 
 
 // ============================================================
-// 2. OCP (Open/Closed Principle)
+// 2. OCP (Open/Closed Principle) : Ex Payment System
 // Open for extension, closed for modification
 // ============================================================
 // bad Impplementation: Adding new payment type requires modifying existing code ❌
@@ -83,7 +83,7 @@ class OpenClosedDemo {
 
 
 // ============================================================
-// 3. LSP (Liskov Substitution Principle)
+// 3. LSP (Liskov Substitution Principle) : Ex Bird and Ostrich Example
 // A child class should be able to replace its parent class without breaking the program behavior.
 // ============================================================
 
@@ -130,7 +130,7 @@ class LiskovSubstitutionDemo {
 
 
 // ============================================================
-// 4. ISP (Interface Segregation Principle)
+// 4. ISP (Interface Segregation Principle) Ex: Worker Interface 
 // Many specific interfaces are better than one general interface
 // ============================================================
 // Bad Design: Worker interface has both work and eat methods ❌
@@ -140,19 +140,6 @@ interface Worker {
 }
 
 // Good Design: Separate interfaces for different responsibilities ✅
-class InterfaceSegregationDemo {
-    public static void main(String[] args) {
-        Workable w1 = new Human();
-        w1.work();
-
-        Eatable e1 = new Human();
-        e1.eat();
-
-        Workable w2 = new Robot();
-        w2.work();
-    }
-}
-
 interface Workable {
     void work();
 }
@@ -177,6 +164,19 @@ class Robot implements Workable {
     }
 }
 
+class InterfaceSegregationDemo {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
 // Output:
 // Human working
 // Human eating
@@ -184,69 +184,61 @@ class Robot implements Workable {
 
 
 // ============================================================
-// 5. DIP (Dependency Inversion Principle)
+// 5. DIP (Dependency Inversion Principle) - Ex: Notification Service
 // Depend on abstractions, not concrete implementations
 // ============================================================
 // Bad Design: Laptop directly depends on WiredMouse ❌
-class Keyboard2 {
-    public void type() {
-        System.out.println("Typing with keyboard");
+class EmailService1 {
+    void send() {
+        System.out.println("Email Sent");
     }
 }
 
-class Computer2 {
-    private Keyboard2 keyboard = new Keyboard2();
-    public void start() {
-        keyboard.type();
-    }
-}
-
-class MainTest {
-        public static void main(String[] args) {
-        Computer2 computer = new Computer2();
-        computer.start();
+class NotificationService1 {
+    private EmailService1 emailService = new EmailService1();
+    void notifyUser() {
+        emailService.send();
     }
 }
 
 // Good Design: Laptop depends on Mouse interface, not specific implementation ✅
 // Step 1: Create Interface
-interface InputDevice {
-    void type();
+interface MessageService {
+    void send();
 }
 
 // Step 2: Implement Interface
-class Keyboard implements InputDevice {
-    public void type() {
-        System.out.println("Typing with keyboard");
+class EmailService implements MessageService {
+    public void send() {
+        System.out.println("Email Sent");
     }
 }
-class WirelessKeyboard implements InputDevice {
-    public void type() {
-        System.out.println("Typing with wireless keyboard");
+
+class SmsService implements MessageService {
+    public void send() {
+        System.out.println("SMS Sent");
     }
 }
 
 // Step 3: High-Level Class Depends on Interface
-class Computer {
-    private InputDevice inputDevice;
-
-    // Dependency Injection
-    public Computer(InputDevice inputDevice) {
-        this.inputDevice = inputDevice;
+class NotificationService {
+    private MessageService messageService;
+    NotificationService(MessageService messageService) {
+        this.messageService = messageService;
     }
 
-    public void start() {
-        inputDevice.type();
+    void notifyUser() {
+        messageService.send();
     }
 }
 
 // Step 4: Main Class
-class DependencyInversionDemo {
+class Main {
     public static void main(String[] args) {
-        InputDevice device = new WirelessKeyboard();
-        Computer computer = new Computer(device);
+        MessageService service = new EmailService();
+        NotificationService notification = new NotificationService(service);
 
-        computer.start();
+        notification.notifyUser();
     }
 }
 
