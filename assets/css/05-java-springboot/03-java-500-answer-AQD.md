@@ -7326,8 +7326,15 @@ public enum EnumSingleton {
 
 ## 4. What is Factory pattern?
 
-**Factory Design** Pattern is creational design pattern that provides an interface for creating objects and lets the factory decide which object to create.
+**Factory Pattern** is a creational design pattern used to: Create objects without exposing object creation logic to the client.
 
+Instead of creating objects directly using **new**, the client asks the factory to create the required object.
+
+**Advantages**
+- Loose coupling
+- Hides object creation logic
+- Easy maintenance
+- Easy to extend
 
 👉 Real use:
 - Payment systems
@@ -7337,36 +7344,56 @@ public enum EnumSingleton {
 - Spring BeanFactory
 
 ```java
-// Product interface
-interface Animal {
-    void makeSound();
+enum PaymentType {
+    CARD, UPI
 }
 
-// Concrete products
-class Dog implements Animal {
-    public void makeSound() { System.out.println("Woof"); }
+// Step 1: Interface
+interface Payment {
+    void pay();
 }
 
-class Cat implements Animal {
-    public void makeSound() { System.out.println("Meow"); }
+// Step 2: Implementations
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
 }
 
-// Factory
-class AnimalFactory {
-    public static Animal createAnimal(String type) {
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI payment");
+    }
+}
+
+// Step 3: Factory Class
+class PaymentFactory {
+    public static Payment getPayment(PaymentType type) {
         switch (type) {
-            case "dog": return new Dog();
-            case "cat": return new Cat();
-            default: throw new IllegalArgumentException("Unknown animal");
+            case CARD:
+                return new CardPayment();
+
+            case UPI:
+                return new UpiPayment();
+
+            default:
+                throw new IllegalArgumentException("Invalid payment type");
         }
+    }
+}
+
+// Step 4: Main Class
+class FactoryPatternDemo {
+    public static void main(String[] args) {
+        Payment payment = PaymentFactory.getPayment(PaymentType.UPI);
+        payment.pay();
     }
 }
 ```
 
 ## 5. What is Observer pattern?
 
-**Observer Pattern** allows one object (publisher) to notify multiple dependent objects (subscribers) automatically when state changes.
-
+**Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 👉 Real use:
 - YouTube Notifications
@@ -7376,14 +7403,25 @@ class AnimalFactory {
 
 
 ```java
-import java.util.*;
-
-// Observer interface
+// Step 1: Observer Interface
 interface Observer {
     void update(String message);
 }
 
-// Subject
+// Step 2: Concrete Observer
+class NewsChannel implements Observer {
+    private String name;
+
+    public NewsChannel(String name) {
+        this.name = name;
+    }
+
+    public void update(String news) {
+        System.out.println(name + " received: " + news);
+    }
+}
+
+// Step 3: Subject
 class NewsAgency {
     private List<Observer> observers = new ArrayList<>();
     private String news;
@@ -7402,21 +7440,8 @@ class NewsAgency {
     }
 }
 
-// Concrete observer
-class NewsChannel implements Observer {
-    private String name;
-
-    public NewsChannel(String name) {
-        this.name = name;
-    }
-
-    public void update(String news) {
-        System.out.println(name + " received: " + news);
-    }
-}
-
-// Test class
-public class Main {
+// Step 4: Main Class
+class ObserverPatternExp {
     public static void main(String[] args) {
 
         NewsAgency agency = new NewsAgency();
@@ -7583,87 +7608,67 @@ coffee = new SugarDecorator(coffee);
 
 ## 8. What is Builder pattern?
 
-The **Builder Pattern** is used to create complex objects step by step. It is useful when an object has many optional fields and we want readable object creation.
+Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
 
-Real time use case
+**Real time use case**
 
-
-**Simple Real-Life Example**
-
-Think of ordering a **Burger**:
-
-* Bread
-* Cheese
-* Egg
-* Chicken
-* Sauce
-
-You choose items step by step → then the burger is built.
-This is Builder Pattern.
-
-Here are **2 real-time places to use Builder Pattern**:
-
-* **User/Profile Creation** – when a user object has many optional fields (name, age, address, phone, etc.)
-* **API Request/Response Objects** – building complex request objects with optional parameters
-
-
-**Step 1: Product Class**
+- API Request Objects, Complex DTO / Response Objects, Lombok @Builder, etc.
 
 ```java
-class Burger {
-    private String bread;
-    private String cheese;
-    private String sauce;
+// ❌ Problem Without Builder
+// Employee e = new Employee(1, "Rahul", 25, "Bangalore", "Developer");
 
-    private Burger(BurgerBuilder builder) {
-        this.bread = builder.bread;
-        this.cheese = builder.cheese;
-        this.sauce = builder.sauce;
+// 👉 Hard to read
+// 👉 Constructor becomes huge
+
+class Employee {
+
+    private int id;
+    private String name;
+
+    // private constructor
+    private Employee(EmployeeBuilder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
     }
 
-    public void showBurger() {
-        System.out.println(bread + " " + cheese + " " + sauce);
+    public String display() {
+        return "Employee{id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
-    public static class BurgerBuilder {
-        private String bread;
-        private String cheese;
-        private String sauce;
+    // Builder class
+    static class EmployeeBuilder {
 
-        public BurgerBuilder setBread(String bread) {
-            this.bread = bread;
+        private int id;
+        private String name;
+
+        public EmployeeBuilder setId(int id) {
+            this.id = id;
             return this;
         }
 
-        public BurgerBuilder setCheese(String cheese) {
-            this.cheese = cheese;
+        public EmployeeBuilder setName(String name) {
+            this.name = name;
             return this;
         }
 
-        public BurgerBuilder setSauce(String sauce) {
-            this.sauce = sauce;
-            return this;
-        }
-
-        public Burger build() {
-            return new Burger(this);
+        public Employee build() {
+            return new Employee(this);
         }
     }
 }
-```
 
-**Step 2: Use Builder**
-
-```java
-public class Main {
+// Main Class
+class BuilderPatternDemo {
     public static void main(String[] args) {
-        Burger burger = new Burger.BurgerBuilder()
-                .setBread("Wheat Bread")
-                .setCheese("Cheddar")
-                .setSauce("Mayo")
+        Employee emp = new Employee.EmployeeBuilder()
+                .setId(1)
+                .setName("Rahul")
                 .build();
 
-        burger.showBurger();
+        System.out.println(emp.display());
     }
 }
 ```

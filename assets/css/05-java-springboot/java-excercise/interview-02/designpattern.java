@@ -70,16 +70,23 @@ class SingletonDemo {
 
 // ============================================================
 // 2. Factory Pattern (Best Practice using Enum)
-// Factory Design Pattern is creational design pattern that provides an interface for creating objects and lets the factory decide which object to create.
+// **Factory Pattern** is a creational design pattern used to: Create objects without exposing object creation logic to the client. Instead of creating objects directly using **new**, the client asks the factory to create the required object.
 
-// Rules to create Factory Pattern exmaple Payment:: 
+// Flow:: Client  -----> Factory (Creates CARD / UPI object) ----> Required Object ("Give me CARD payment object")
+
+// Rules to create :: Payment:: 
 // step 0: Define an enum for the Payment types 
 // Step 1: Interface or Abstract Class :: payment interface with a method pay()
 // Step 2: Concrete Implementations :: CardPayment, UpiPayment classes that implement the Payment interface
 // Step 3: Factory Class with a static method to create objects based on input :: PaymentFactory with a static method getPayment(String type)
 
+// Advantages   : -----------
+// Loose coupling
+// Hides object creation logic
+// Easy maintenance
+// Easy to extend
 
-// 👉 Real use:
+// 👉 Real use : -----------
 // - Payment systems
 // - Notification services
 // - Logger creation
@@ -139,22 +146,17 @@ class FactoryPatternDemo {
 
 // ============================================================
 // 3. Observer Pattern (Best Practice using Enum)
-// Observer pattern is Behavioral Design Patterns defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
+// **Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
-// Rules to create Observer Pattern (exmaple News Agency):
+// Rules to create :: (exmaple News Agency):
 // News agency - > News Channel -> Observer Pattern
+
 // 1. Create an Observer interface with an update() method.
 // 2. Create a Subject class that maintains a list of observers and has methods to attach/detach observers and notify them of changes.
 // 3. Create concrete Observer classes that implement the Observer interface and define the update() method to react to changes in the Subject.
 
 // Flow:
-// News Changed
-// ↓
-// Publisher Notifies Everyone
-// ↓
-// Subscribers Receive Update
-
-// When to use Observer Pattern:
+// News Changed  ---> Publisher Notifies Everyone ---> Subscribers Receive Update  ---> When to use Observer Pattern:
 
 // 👉 Real use:
 // - YouTube Notifications
