@@ -11,34 +11,34 @@ class DesignPattern {
 
 		
 		// 3. Section Ovserver pattern ---------------
-		//NewAgency agency = new NewAgency();		
+		NewAgency agency = new NewAgency();		
 
 		// Create Observers 
-		// NewsChannel channel1 = new NewsChannel("Republic");
-		// NewsChannel channel2 = new NewsChannel("ZEE");
+		NewsChannel channel1 = new NewsChannel("Republic");
+		NewsChannel channel2 = new NewsChannel("ZEE");
 
 		// Register Observer
-		// agency.addObserver(channel1);
-		// agency.addObserver(channel2);
+		agency.addObserver(channel1);
+		agency.addObserver(channel2);
 
-		// agency.setnews("Republic is good");
-		// agency.setnews("Zee is good");
+		agency.setnews("Republic is good");
+		agency.setnews("Zee is good");
 		
 
 		// 4. Section Vuilder pattern ---------------
-		// Employee emp = new Employee.EmployeeBuilder()
-		// 	.setId(1)
-		// 	.setName("Sentu Biswas")
-		// 	.build();
+		Employee emp = new Employee.EmployeeBuilder()
+			.setId(1)
+			.setName("Sentu Biswas")
+			.build();
 
-		// 	emp.display();
+			emp.display();
 
 		// 4. Section Prototype pattern -------------
-		// Student s1 = new Student(1, "John");
-		// Student s2 = (Student) s1.clone();
+		Student s1 = new Student(1, "John");
+		Student s2 = (Student) s1.clone();
 
-		// System.out.println("S1 " + s1);
-		// System.out.println("S2 " + s2);
+		System.out.println("S1 " + s1);
+		System.out.println("S2 " + s2);
 	}
 }
 
@@ -87,7 +87,8 @@ class DesignPattern {
 
 
 // Output:
-
+// Drawing Circle
+// Drawing Square
 
 
 // ============================================================
@@ -103,7 +104,39 @@ class DesignPattern {
 //  Real use: Email service, Logging, Notifications
 
 // ============================================================
+interface Observer {
+	void update(String message);
+}
 
+class NewsChannel implements Observer {
+	private String name;
+	public NewsChannel (String name) {
+		this.name = name;
+	}
+	public void update(String news) {
+		System.out.println(name + " received " + news);
+	}
+}
+
+class NewAgency {
+	private List<Observer> observers = new ArrayList<>();
+	private String news;
+
+	public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+	public void setnews(String news) {
+		this.news = news;
+		NotifyObserver();
+	}
+
+	public void NotifyObserver() {
+		observers.forEach(
+			observer -> observer.update(news)
+		);
+	}
+}
 
 
 
@@ -129,7 +162,39 @@ class DesignPattern {
 // 2. When you want to create immutable objects with many parameters.
 
 // ============================================================
+class Employee {
+	private int id;
+	private String name;
 
+	private Employee(EmployeeBuilder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
+	}
+
+	public void display() {
+		// return "Employee{"
+		System.out.println("Hello " + id + " " + name);
+	}
+
+
+	static class EmployeeBuilder {
+		private int id;
+		private String name;
+
+		public EmployeeBuilder setId(int id) {
+			this.id = id;
+			return this;
+		}
+		public EmployeeBuilder setName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public Employee build() {
+			return new Employee(this);
+		}
+	}
+}
 
 
 
@@ -151,6 +216,19 @@ class DesignPattern {
 // 2. When you want to hide the creation logic from the client code.
 // ============================================================
 
+class Student implements Cloneable{
+	private int id;
+	private String name;
+
+	Student (int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+}
 
 
 

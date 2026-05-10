@@ -5,17 +5,30 @@ class Solid {
 
 
 		// 2: Open Close -----------------------------------
-		
-
+		PaymentService service = new PaymentService();
+		CardPayment p1 = new CardPayment();
+		UpiPayment p2 = new UpiPayment();
+		service.PaymentProcess(p1);
+		service.PaymentProcess(p2);
 
 
 		// 3: Liskov Substitution --------------------------
-		
+		Bird b1 = new Bird();
+		b1.fly();
+
+		Sparrow sp = new Sparrow();
+		sp.fly();
+
+		Bird b2 = new Sparrow();
+		b2.fly();
 
 
 
 		// 4: Interface Segregation Principle --------------
-		
+		InputDevice device = new Keyboard();
+		Computer computer = new Computer(device);
+
+		computer.start();
 		
 	}
 }
@@ -39,7 +52,16 @@ class Solid {
 // Handles user logic + email logic
 
 // Good Design: Split responsibilities ✅
-
+class UserService1 {
+	public void registerUser() {
+		System.out.println("Hello");
+	}
+}
+class UserService2 {
+	public void sendEmail() {
+		System.out.println("Hello");
+	}
+}
 
 
 
@@ -56,9 +78,27 @@ class Solid {
 // }
 
 // Good : Easy to extend without modifying existing code ✅
+interface Payment {
+	void pay();
+}
 
+class CardPayment implements Payment {
+	public void pay() {
+		System.out.println("Card payment");
+	}
+}
 
+class UpiPayment implements Payment {
+	public void pay() {
+		System.out.println("Upi payment");
+	}
+}
 
+class PaymentService {
+	public void PaymentProcess(Payment payment) {
+		payment.pay();
+	}
+} 
 
 // Output:
 // Paid by Card
@@ -79,7 +119,18 @@ class Solid {
 // }
 
 // Good: Separate flying and non-flying birds ✅
+class Bird {
+	public void fly() {
+		System.out.println("Bird can fly");
+	}
+}
 
+class Sparrow extends Bird {
+	@Override
+	public void fly() {
+		System.out.println("Sparrow can fly");
+	}
+}
 
 
 
@@ -102,7 +153,21 @@ class Solid {
 // Good : Separate interfaces for different responsibilities ✅
 
 
+interface workable {
+	void work();
+}
+interface eatable {
+	void eat();
+}
 
+class Human implements workable, eatable {
+	public void work() {
+		System.out.println("Work");
+	}
+	public void eat() {
+		System.out.println("eat");
+	}
+}
 
 
 
@@ -122,7 +187,25 @@ class Solid {
 // }
 
 // Good : Laptop depends on Mouse interface, not specific implementation ✅
+interface InputDevice {
+	void type();
+}
 
+class Keyboard implements InputDevice {
+	public void type() {
+		System.out.println("Keyboard");
+	}
+}
+class Computer {
+	private InputDevice inputDevice;
+	public Computer (InputDevice inputDevice) {
+		this.inputDevice = inputDevice;
+	}
+
+	public void start() {
+		inputDevice.type();
+	}
+}
 
 
 
