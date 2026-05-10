@@ -5552,24 +5552,6 @@ Use **reflection** when you need dynamic behavior that cannot be achieved with n
 - Performance-critical code
 - When compile-time solutions exist
 
-## 11. What is Mockito?
-
-**Mockito** is a testing framework that **creates fake objects** called mocks for unit testing. You can control what these mock objects return when their methods are called, which helps isolate the code you're testing from its dependencies. It's very popular for testing Spring applications.
-
-```java
-@Mock
-private UserRepository userRepository;
-
-@Test
-public void testGetUser() {
-    when(userRepository.findById(1L)).thenReturn(new User("John"));
-    
-    User result = userService.getUser(1L);
-    
-    assertEquals("John", result.getName());
-    verify(userRepository).findById(1L);
-}
-```
 
 # ✅ 14. Java Web Development - Servlets and JSP
 
