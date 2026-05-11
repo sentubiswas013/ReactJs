@@ -1,780 +1,537 @@
-﻿## 1️⃣ Basic AWS Questions
-
-### 1. What is Amazon Web Services?
-
-**Answer:**
-
-**Amazon Web Services**, or AWS, is a cloud computing platform provided by **Amazon**.
-It offers services like computing power, storage, databases, networking, and AI over the internet.
-
-Instead of buying and maintaining physical servers, companies can rent resources from AWS and pay only for what they use.
-
----
-
-### 2. What are the main advantages of AWS cloud?
-
-**Answer:**
-
-Some main advantages of AWS are:
-
-* **Cost-effective** – Pay only for the resources you use.
-* **Scalability** – Easily increase or decrease resources based on demand.
-* **High availability** – Services run across multiple data centers.
-* **Security** – Provides strong security features and compliance.
-* **Global infrastructure** – Services are available in many locations worldwide.
-
----
-
-### 3. What are Regions and Availability Zones in AWS?
-
-**Answer:**
-
-In **Amazon Web Services**, a **Region** is a geographical area where AWS has data centers.
-
-Each region contains multiple **Availability Zones**, which are isolated data centers with separate power, networking, and infrastructure.
-
-This design helps improve **fault tolerance, reliability, and high availability**.
-
----
-
-### 4. What are the cloud service models (IaaS, PaaS, SaaS)?
-
-**Answer:**
-
-Cloud services are mainly divided into three models:
-
-* **IaaS (Infrastructure as a Service)** – Provides virtual servers, storage, and networking. Example: **Amazon EC2**.
-* **PaaS (Platform as a Service)** – Provides a platform to build and deploy applications without managing infrastructure. Example: **AWS Elastic Beanstalk**.
-* **SaaS (Software as a Service)** – Software applications delivered over the internet. Example: **Google Workspace**.
-
----
-
-### 5. What is Elasticity and Scalability in cloud computing?
-
-**Answer:**
-
-**Scalability** means increasing or decreasing resources to handle workload changes.
-
-**Elasticity** means automatically adjusting resources in real time based on demand.
-
-In **Amazon Web Services**, services can scale automatically so applications can handle high traffic without downtime.
-
----
-
-### 6. What is API Gateway?
-
-**Answer:**
-
-**Amazon API Gateway** is a service used to create, publish, and manage APIs. It acts as an entry point where clients send requests, and it forwards them to backend services like Lambda or EC2.
-
-**Example:** Client → API Gateway → Lambda → Response.
-
----
-
-### 7. What is AWS Elastic Beanstalk?
-
-**Answer:**
-
-**AWS Elastic Beanstalk** is a platform service used to deploy and manage applications without worrying about infrastructure.
-
-You upload code, and Beanstalk automatically handles:
-
-* EC2
-* Load balancer
-* Scaling
-* Monitoring
-
----
-
-### 8. What is AWS Fargate?
-
-**Answer:**
-
-**AWS Fargate** is a serverless compute engine for containers used with ECS or EKS. You run containers without managing servers.
-
-**Example:** Run Docker containers without provisioning EC2 instances.
-
----
-
-### 9. What is a Route Table?
-
-**Answer:**
-
-A **Route Table** controls how network traffic moves inside a VPC.
-
-It defines rules like:
-
-* Where traffic should go
-* Whether traffic goes to Internet Gateway, NAT Gateway, or another subnet.
-
----
-
-### 10. What is an AWS Load Balancer?
-
-**Answer:**
-
-**Elastic Load Balancing** distributes incoming traffic across multiple servers to improve availability and performance.
-
-Types:
-
-* Application Load Balancer (ALB)
-* Network Load Balancer (NLB)
-* Classic Load Balancer
-
-**Example:** User requests → Load Balancer → Multiple EC2 instances.
-
----
-
-### 11. Difference Between Lambda and EC2?
-
-**Answer:**
-
-| Lambda                       | EC2                    |
-| ---------------------------- | ---------------------- |
-| Serverless                   | Server-based           |
-| No infrastructure management | Need to manage servers |
-| Event-driven                 | Continuous running     |
-| Auto scaling                 | Manual or auto scaling |
-
----
-
-### 12. How API Gateway and Lambda work together?
-
-**Answer:**
-
-Flow:
-Client → API Gateway → Lambda → Response
-
-API Gateway receives the request and triggers Lambda to process the request.
-
-
-## 🎯 Top 10 AWS Services — Interview Explanation with Code
-
-### 1. 🖥️ Amazon EC2 — Virtual Servers
-
-**What it is:**
-EC2 (Elastic Compute Cloud) provides resizable virtual machines in the cloud. You choose OS, CPU, RAM, and storage.
-
-**Interview Answer:**
-> EC2 is a virtual server on AWS. I use it to host Java Spring Boot applications. It supports auto-scaling and load balancing.
-
-**Steps:**
-1. Go to AWS Console → EC2 → Launch Instance
-2. Choose AMI (Amazon Linux / Ubuntu)
-3. Choose instance type (t2.micro for free tier)
-4. Configure security group (open port 8080)
-5. Launch and SSH into the server
-
-```bash
-# SSH into EC2
-ssh -i my-key.pem ec2-user@<EC2-PUBLIC-IP>
-
-# Install Java
-sudo yum install java-17 -y
-
-# Run Spring Boot JAR
-java -jar myapp.jar
-```
-
----
-
-### 2. 📦 Amazon S3 — Object Storage
-
-**What it is:**
-S3 (Simple Storage Service) stores files, images, backups, and static websites. Highly durable (99.999999999%).
-
-**Interview Answer:**
-> I use S3 to store user-uploaded files and serve static React frontends. It integrates with CloudFront for CDN.
-
-**Steps:**
-1. Go to S3 → Create Bucket
-2. Upload files
-3. Set bucket policy for public access (if static site)
-4. Enable static website hosting
-
-```java
-// Spring Boot — Upload file to S3
-@Autowired
-AmazonS3 s3Client;
-
-public String uploadFile(MultipartFile file) throws IOException {
-    String fileName = file.getOriginalFilename();
-    s3Client.putObject("my-bucket", fileName, file.getInputStream(), new ObjectMetadata());
-    return "https://my-bucket.s3.amazonaws.com/" + fileName;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
+// ============================================================
+// 1. Using Thread class
+// ============================================================
+class ThreadClassExample {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        t1.start();
+
+        MyThread t2 = new MyThread();
+        t2.start();
+    }
 }
-```
 
-```bash
-# AWS CLI — Upload file
-aws s3 cp myfile.txt s3://my-bucket/
-```
-
----
-
-### 3. 🗄️ Amazon RDS — Managed Database
-
-**What it is:**
-RDS (Relational Database Service) is a managed database service supporting MySQL, PostgreSQL, Oracle, SQL Server.
-
-**Interview Answer:**
-> I use RDS with MySQL for production databases. AWS handles backups, patching, and multi-AZ failover automatically.
-
-**Steps:**
-1. Go to RDS → Create Database
-2. Choose MySQL / PostgreSQL
-3. Set DB name, username, password
-4. Configure VPC and security group (port 3306)
-5. Connect from Spring Boot
-
-```yaml
-# application.yml — Spring Boot RDS connection
-spring:
-  datasource:
-    url: jdbc:mysql://<RDS-ENDPOINT>:3306/mydb
-    username: admin
-    password: <password>
-    driver-class-name: com.mysql.cj.jdbc.Driver
-```
-
----
-
-### 4. ⚡ AWS Lambda — Serverless Functions
-
-**What it is:**
-Lambda runs code without provisioning servers. Triggered by events (API Gateway, S3, SQS). Pay per execution.
-
-**Interview Answer:**
-> I use Lambda for event-driven tasks like processing S3 file uploads or handling API requests. No server management needed.
-
-**Steps:**
-1. Go to Lambda → Create Function
-2. Choose runtime (Java 17 / Node.js)
-3. Write handler code
-4. Set trigger (API Gateway / S3)
-5. Deploy
-
-```java
-// Java Lambda Handler
-public class MyHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
+class MyThread extends Thread {
     @Override
-    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
-        return new APIGatewayProxyResponseEvent()
-            .withStatusCode(200)
-            .withBody("Hello from Lambda!");
+    public void run() {
+        System.out.println("Thread running: " + Thread.currentThread().getName());
     }
 }
-```
 
----
-
-### 5. 🌐 Amazon API Gateway — REST API Manager
-
-**What it is:**
-API Gateway creates, publishes, and secures REST/HTTP APIs. Acts as the front door to Lambda or EC2.
-
-**Interview Answer:**
-> I use API Gateway to expose Lambda functions as REST endpoints. It handles throttling, auth, and CORS.
-
-**Steps:**
-1. Go to API Gateway → Create API → REST API
-2. Create Resource (e.g., `/users`)
-3. Create Method (GET, POST)
-4. Integrate with Lambda
-5. Deploy to a Stage (dev/prod)
-
-```
-Flow:
-Client → https://api.execute-api.us-east-1.amazonaws.com/prod/users
-       → API Gateway
-       → Lambda (MyHandler)
-       → Response
-```
-
-```bash
-# Test API
-curl -X GET https://<api-id>.execute-api.us-east-1.amazonaws.com/prod/users
-```
-
----
-
-### 6. 🚀 Amazon CloudFront — CDN
-
-**What it is:**
-CloudFront is a Content Delivery Network that caches content at edge locations worldwide for fast delivery.
-
-**Interview Answer:**
-> I use CloudFront in front of S3 to serve React static files globally with low latency and HTTPS support.
-
-**Steps:**
-1. Go to CloudFront → Create Distribution
-2. Set Origin = S3 bucket or EC2
-3. Configure cache behavior
-4. Deploy — get a CloudFront URL
-
-```
-Flow:
-User (India) → CloudFront Edge (Mumbai) → Cache Hit → Fast Response
-User (India) → CloudFront Edge (Mumbai) → Cache Miss → Fetch from S3 (US)
-```
-
----
-
-### 7. 🐳 Amazon ECS / ☸️ EKS — Container Services
-
-**What it is:**
-- ECS = Elastic Container Service (AWS-native Docker orchestration)
-- EKS = Elastic Kubernetes Service (managed Kubernetes)
-
-**Interview Answer:**
-> I use ECS with Fargate to run Docker containers without managing EC2. For complex microservices, EKS with Kubernetes is preferred.
-
-**Steps (ECS):**
-1. Create Docker image → Push to ECR
-2. Create ECS Cluster
-3. Create Task Definition (Docker config)
-4. Create Service → Run tasks
-
-```dockerfile
-# Dockerfile — Spring Boot
-FROM openjdk:17
-COPY target/myapp.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
-```
-
-```bash
-# Push image to ECR
-aws ecr get-login-password | docker login --username AWS --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
-docker build -t myapp .
-docker tag myapp:latest <account>.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
-docker push <account>.dkr.ecr.us-east-1.amazonaws.com/myapp:latest
-```
-
----
-
-### 8. 🔐 AWS IAM — Identity & Access Management
-
-**What it is:**
-IAM manages users, groups, roles, and permissions. Controls who can access what in AWS.
-
-**Interview Answer:**
-> I use IAM roles to give EC2 or Lambda permission to access S3 or RDS without hardcoding credentials.
-
-**Steps:**
-1. Go to IAM → Create Role
-2. Choose trusted entity (EC2 / Lambda)
-3. Attach policy (e.g., AmazonS3FullAccess)
-4. Assign role to EC2 or Lambda
-
-```json
-// IAM Policy — Allow S3 read access
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": ["s3:GetObject", "s3:PutObject"],
-      "Resource": "arn:aws:s3:::my-bucket/*"
-    }
-  ]
-}
-```
-
----
-
-### 9. 📊 Amazon CloudWatch — Monitoring & Logs
-
-**What it is:**
-CloudWatch collects logs, metrics, and events. Set alarms to notify when something goes wrong.
-
-**Interview Answer:**
-> I use CloudWatch to monitor Lambda execution errors, EC2 CPU usage, and set alarms for auto-scaling triggers.
-
-**Steps:**
-1. Go to CloudWatch → Log Groups (auto-created for Lambda)
-2. Create Metric Filter
-3. Create Alarm (e.g., CPU > 80%)
-4. Set SNS notification
-
-```java
-// Spring Boot — Send custom metric to CloudWatch
-@Autowired
-AmazonCloudWatch cloudWatch;
-
-public void sendMetric(String metricName, double value) {
-    cloudWatch.putMetricData(new PutMetricDataRequest()
-        .withNamespace("MyApp")
-        .withMetricData(new MetricDatum()
-            .withMetricName(metricName)
-            .withValue(value)
-            .withUnit(StandardUnit.Count)));
-}
-```
-
----
-
-### 10. ⚙️ AWS Elastic Beanstalk — Easy App Deployment
-
-**What it is:**
-Elastic Beanstalk deploys and manages applications automatically. You just upload code — AWS handles EC2, load balancer, scaling.
-
-**Interview Answer:**
-> I use Elastic Beanstalk to deploy Spring Boot apps quickly. It provisions EC2, sets up load balancing, and handles scaling automatically.
-
-**Steps:**
-1. Build JAR: `mvn clean package`
-2. Go to Elastic Beanstalk → Create Application
-3. Choose platform: Java
-4. Upload JAR file
-5. Beanstalk auto-provisions EC2, ELB, Auto Scaling
-
-```bash
-# Deploy using EB CLI
-eb init my-app --platform java --region us-east-1
-eb create my-env
-eb deploy
-eb open
-```
-
-```yaml
-# .elasticbeanstalk/config.yml
-branch-defaults:
-  main:
-    environment: my-env
-global:
-  application_name: my-app
-  default_platform: Java 17
-  default_region: us-east-1
-```
-
-
-
----
-
-
----
-
-## 🔄 CI/CD Complete Pipeline — Code Push to Deployment
-
----
-
-### Pipeline Overview
-
-```
-STEP 1 — Write code, git push to GitHub
-STEP 2 — GitHub Actions triggers automatically
-STEP 3 — Run Tests  (mvn test)
-STEP 4 — Build JAR  (mvn package)
-STEP 5 — Build Docker Image  (Dockerfile)
-STEP 6 — Push Docker Image to AWS ECR
-STEP 7 — Deploy to AWS ECS Fargate
-STEP 8 — App is LIVE 🚀
-```
-
----
-
-### Project Files
-
-```
-my-springboot-app/
-├── src/main/java/com/example/HelloController.java
-├── pom.xml
-├── Dockerfile
-├── taskdef.json
-└── .github/workflows/cicd.yml
-```
-
----
-
-### STEP 1 — Spring Boot Code
-
-```java
-// HelloController.java
-@RestController
-public class HelloController {
-    @GetMapping("/")
-    public String hello() {
-        return "Hello from CI/CD Pipeline!";
+// ============================================================
+// 2. Using Runnable interface
+// ============================================================
+class RunnableExample {
+     public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(new MyTask());
+        t1.start();
     }
 }
-```
 
-```xml
-<!-- pom.xml -->
-<parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.0</version>
-</parent>
-<groupId>com.example</groupId>
-<artifactId>myapp</artifactId>
-<version>1.0.0</version>
-```
+class MyTask implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Runnable thread: " + Thread.currentThread().getName());
+    }
+}
 
----
+// ============================================================
+// 3. Using lambda expression (Java 8+)
+// ============================================================
+class LambdaThreadExample1 {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(() -> {
+            System.out.println("Lambda thread: " + Thread.currentThread().getName());
+        });
+        t1.start();
+        t1.join(); // wait for thread to finish
+    }
+}
 
-### STEP 2 — Dockerfile
+// This is more concise and commonly used in modern Java code. You can also reuse the same lambda for multiple threads:
+class LambdaThreadExample2 {
+    public static void main(String[] args) {
 
-Stage 1 builds the JAR. Stage 2 runs it. Keeps the final image small.
+        Runnable task = () -> {
+            System.out.println("Running: " + Thread.currentThread().getName());
+        };
 
-```dockerfile
-# Stage 1 — Build
-FROM maven:3.9-eclipse-temurin-17 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+        Thread t1 = new Thread(task, "Thread-1");
+        Thread t2 = new Thread(task, "Thread-2");
+        Thread t3 = new Thread(task, "Thread-3");
 
-# Stage 2 — Run
-FROM eclipse-temurin:17-jre
-WORKDIR /app
-COPY --from=build /app/target/myapp-1.0.0.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
 
----
+// ============================================================
+// 4. Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
+// ============================================================
+// Real-world Example: Bank account withdrawal where multiple users try to withdraw money at the same time, leading to inconsistent balance if not synchronized.
+class SynchronizationExample {
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount();
 
-### STEP 3 — One-Time AWS Setup (run once before first deploy)
+        Thread user1 = new Thread(() -> account.withdraw(700), "User1");
+        Thread user2 = new Thread(() -> account.withdraw(700), "User2");
 
-```bash
-# 1. Create ECR repo to store Docker images
-aws ecr create-repository --repository-name my-springboot-app --region us-east-1
+        user1.start();
+        user2.start();
+    }
+}
+class BankAccount {
+    int balance = 1000;
 
-# 2. Create ECS Cluster
-aws ecs create-cluster --cluster-name my-cluster
-
-# 3. Register Task Definition (tells ECS how to run the container)
-aws ecs register-task-definition --cli-input-json file://taskdef.json
-
-# 4. Create ECS Service (keeps container running)
-aws ecs create-service \
-  --cluster my-cluster \
-  --service-name my-service \
-  --task-definition my-task \
-  --desired-count 1 \
-  --launch-type FARGATE \
-  --network-configuration "awsvpcConfiguration={subnets=[subnet-xxxx],securityGroups=[sg-xxxx],assignPublicIp=ENABLED}"
-```
-
----
-
-### STEP 4 — ECS Task Definition (taskdef.json)
-
-Tells ECS: which image to run, which port, how much CPU/memory.
-
-```json
-{
-  "family": "my-task",
-  "networkMode": "awsvpc",
-  "requiresCompatibilities": ["FARGATE"],
-  "cpu": "512",
-  "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::<account-id>:role/ecsTaskExecutionRole",
-  "containerDefinitions": [
-    {
-      "name": "my-container",
-      "image": "<account-id>.dkr.ecr.us-east-1.amazonaws.com/my-springboot-app:latest",
-      "portMappings": [
-        { "containerPort": 8080, "protocol": "tcp" }
-      ],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-group": "/ecs/my-task",
-          "awslogs-region": "us-east-1",
-          "awslogs-stream-prefix": "ecs"
+    synchronized void withdraw(int amount) {
+        if (balance >= amount) {
+            System.out.println(
+                Thread.currentThread().getName() + " withdrawing..."
+            );
+            balance = balance - amount;
+            System.out.println("Remaining balance: " + balance);
+        } else {
+            System.out.println("Insufficient balance");
         }
-      }
     }
-  ]
 }
-```
 
----
+// ============================================================
+// 5. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
+// ============================================================
+// Real-world Example: A flag to stop a thread gracefully from another thread without using synchronization.
+class VolatileExample {
+    public static void main(String[] args) throws Exception {
 
-### STEP 5 — Add GitHub Secrets
+        Task task = new Task();
+        Thread worker = new Thread(task);
 
-Go to: GitHub Repo → Settings → Secrets → Actions → New secret
+        worker.start();
 
-| Secret Name | Value |
-|---|---|
-| `AWS_ACCESS_KEY_ID` | IAM user access key |
-| `AWS_SECRET_ACCESS_KEY` | IAM user secret key |
+        Thread.sleep(2000); // let it run for 2 sec
 
-> IAM user must have: `AmazonECR_FullAccess` + `AmazonECS_FullAccess`
+        task.stop(); // stop from main thread
+        System.out.println("Stopped by main thread");
+    }
+}
 
----
+class Task implements Runnable {
+    private volatile boolean running = true;
 
-### STEP 6 — GitHub Actions Pipeline (.github/workflows/cicd.yml)
+    public void stop() {
+        running = false;
+    }
 
-This file runs automatically on every `git push` to `main`.
-3 jobs run in order: **build → docker → deploy**
+    public void run() {
+        while (running) {
+            System.out.println("Task running...");
+        }
+        System.out.println("Task stopped");
+    }
+}
 
-```yaml
-name: CI/CD Pipeline
+// ============================================================
+// 6. AtomicInteger provides thread-safe operations without synchronization - useful for counters in concurrent programming
+// ============================================================
+// Real-world Example: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
+class AtomicIntegerExp {
+    public static void main(String[] args) throws Exception {
+        AtomicTicketBooking booking = new AtomicTicketBooking();
 
-on:
-  push:
-    branches: [ main ]
+        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
+        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
 
-env:
-  AWS_REGION: us-east-1
-  ECR_REPOSITORY: my-springboot-app
-  ECS_CLUSTER: my-cluster
-  ECS_SERVICE: my-service
-  CONTAINER_NAME: my-container
+        t1.start();
+        t2.start();
 
-jobs:
+        t1.join();
+        t2.join();
+    }
+}
 
-  # JOB 1 — Run Tests and Build JAR
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+class AtomicTicketBooking {
+    private AtomicInteger seat = new AtomicInteger(1);
 
-      - uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    public void bookTicket() {
+        int remaining = seat.getAndDecrement();
 
-      - name: Run tests
-        run: mvn test
+        if (remaining > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat.");
+        } else {
+            System.out.println(Thread.currentThread().getName() + " no seat available.");
+        }
+    }
+}
 
-      - name: Build JAR
-        run: mvn clean package -DskipTests
+// ============================================================
+// 7. Sleep pauses thread execution for specified time but keeps locks (can cause blocking)
+// ============================================================
+class SleepExample {
+    public static void main(String[] args) {
+        Object lock = new Object();
 
-      - name: Save JAR for next job
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-jar
-          path: target/*.jar
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 1 acquired lock");
+                try {
+                    Thread.sleep(3000); // sleeping but STILL holding lock
+                } catch (InterruptedException e) {}
+                System.out.println("Thread 1 finished");
+            }
+        });
 
-  # JOB 2 — Build Docker Image and Push to ECR
-  docker:
-    runs-on: ubuntu-latest
-    needs: build
-    outputs:
-      image: ${{ steps.push.outputs.image }}
-    steps:
-      - uses: actions/checkout@v3
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+            }
+        });
 
-      - name: Download JAR from JOB 1
-        uses: actions/download-artifact@v3
-        with:
-          name: app-jar
-          path: target/
+        t1.start();
+        t2.start();
+    }
+}
 
-      - name: Login to AWS
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+// ============================================================
+// 8. wait/notify
+// ============================================================
+class WaitNotifyExample {
+    public static void main(String[] args) throws Exception {
+        Message msg = new Message();
 
-      - name: Login to ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        new Thread(() -> {
+            try { msg.send("Hello"); } catch (Exception e) {}
+        }).start();
 
-      - name: Build and push Docker image
-        id: push
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          TAG: ${{ github.sha }}
-        run: |
-          docker build -t $REGISTRY/$ECR_REPOSITORY:$TAG .
-          docker push $REGISTRY/$ECR_REPOSITORY:$TAG
-          echo "image=$REGISTRY/$ECR_REPOSITORY:$TAG" >> $GITHUB_OUTPUT
+        new Thread(() -> {
+            try { System.out.println(msg.receive()); } catch (Exception e) {}
+        }).start();
+    }
+}
 
-  # JOB 3 — Deploy new image to ECS
-  deploy:
-    runs-on: ubuntu-latest
-    needs: docker
-    steps:
-      - uses: actions/checkout@v3
+class Message {
+    private String data;
+    private boolean available = false;
 
-      - name: Login to AWS
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+    public synchronized void send(String msg) throws InterruptedException {
+        if (available) wait();
+        data = msg;
+        available = true;
+        notify();
+    }
 
-      - name: Get current ECS task definition
-        run: |
-          aws ecs describe-task-definition \
-            --task-definition my-task \
-            --query taskDefinition > taskdef.json
+    public synchronized String receive() throws InterruptedException {
+        if (!available) wait();
+        available = false;
+        notify();
+        return data;
+    }
+}
 
-      - name: Update task definition with new image
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: taskdef.json
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ needs.docker.outputs.image }}
+// ============================================================
+// 9. ConcurrentHashMap: Thread-safe HashMap that allows multiple threads to read/write simultaneously without external synchronization
+// ============================================================
+// Real-world Example: Counting word frequency in logs using ConcurrentHashMap
+class SessionManager {
+    private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
 
-      - name: Deploy to ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
-```
+    public static void login(String userId) {
+        sessionCache.put(userId, new UserSession(userId));
+    }
 
----
+    public static UserSession getSession(String userId) {
+        return sessionCache.get(userId);
+    }
 
-### STEP 7 — Push Code and Watch It Deploy
+    public static void logout(String userId) {
+        sessionCache.remove(userId);
+    }
 
-```bash
-git add .
-git commit -m "new feature"
-git push origin main
-# GitHub Actions starts automatically
-```
+    public static void main(String[] args) {
+        login("user1");
+        login("user2");
 
-Watch it: GitHub Repo → Actions tab → see each job running live
+        System.out.println(getSession("user1").userId);
 
----
+        logout("user1");
+    }
+}
 
-### What Happens End to End
+class UserSession {
+    String userId;
+    long loginTime;
 
-```
-git push origin main
-    |
-    |-- GitHub Actions starts
-          |
-          |-- JOB 1: mvn test  -->  mvn package  -->  saves myapp.jar
-          |
-          |-- JOB 2: docker build  -->  docker push  -->  image stored in ECR
-          |
-          |-- JOB 3: update ECS task def  -->  ECS pulls new image  -->  rolling deploy
-                                                                              |
-                                                                         App LIVE 🚀
-```
+    UserSession(String userId) {
+        this.userId = userId;
+        this.loginTime = System.currentTimeMillis();
+    }
+}
 
----
+// ============================================================
+// 10. ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
+// ============================================================
+// Real-world Example: Processing multiple orders in parallel using ExecutorService
+class ExecutorServiceRealTimeExample {
 
-### Interview Answer
+    public static void main(String[] args) throws Exception {
 
-> I set up CI/CD using GitHub Actions with 3 jobs.
-> On every git push to main:
-> - JOB 1 runs Maven tests and builds the JAR
-> - JOB 2 builds a Docker image using a multi-stage Dockerfile and pushes it to AWS ECR tagged with the commit SHA
-> - JOB 3 updates the ECS task definition with the new image and triggers a rolling deployment on ECS Fargate
->
-> This gives zero-downtime deployments — every code push is automatically tested and deployed.
+        ExecutorService executor = Executors.newFixedThreadPool(3);
 
----
+        Callable<String> order1 = () -> processOrder("Order-1");
+        Callable<String> order2 = () -> processOrder("Order-2");
+        Callable<String> order3 = () -> processOrder("Order-3");
 
-### CI/CD Tools Comparison
+        Future<String> f1 = executor.submit(order1);
+        Future<String> f2 = executor.submit(order2);
+        Future<String> f3 = executor.submit(order3);
 
-| Tool | Use Case |
-|---|---|
-| GitHub Actions | CI/CD for GitHub repos — free & simple |
-| AWS CodePipeline | Native AWS CI/CD pipeline |
-| AWS CodeBuild | Build & test stage (AWS-native) |
-| AWS CodeDeploy | Deploy to EC2 / ECS / Lambda |
-| Jenkins | Self-hosted CI/CD server |
-| GitLab CI | CI/CD for GitLab repos |
+        System.out.println(f1.get());
+        System.out.println(f2.get());
+        System.out.println(f3.get());
+
+        executor.shutdown();
+    }
+
+    static String processOrder(String orderId) {
+        try {
+            System.out.println("Processing " + orderId + " by " + Thread.currentThread().getName());
+            Thread.sleep(2000); // simulate work
+        } catch (Exception e) {}
+
+        return orderId + " processed";
+    }
+}
+
+// ============================================================
+// 11. CompletableFuture is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
+// ============================================================
+// Real-world Example: Calling multiple APIs in parallel and combining results
+class CompletableFutureRealTimeExample {
+
+    public static void main(String[] args) {
+        CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(() -> getUser());
+        CompletableFuture<String> orderFuture = CompletableFuture.supplyAsync(() -> getOrders());
+        CompletableFuture<String> paymentFuture = CompletableFuture.supplyAsync(() -> getPayments());
+
+        CompletableFuture<String> finalResult = userFuture.thenCombine(
+                    orderFuture, (user, orders) ->
+                        user + " | " + orders
+                    )
+                    .thenCombine(paymentFuture, (combined, payment) -> combined + " | " + payment);
+
+        System.out.println(finalResult.join());
+    }
+
+    static String getUser() {
+        sleep(2);
+        return "User: John";
+    }
+
+    static String getOrders() {
+        sleep(3);
+        return "Orders: 5";
+    }
+
+    static String getPayments() {
+        sleep(1);
+        return "Payments: Done";
+    }
+
+    static void sleep(int seconds) {
+        try { Thread.sleep(seconds * 1000); } catch (Exception e) {}
+    }
+}
+
+// ============================================================
+// 12. ReentrantLock
+// ============================================================
+// Real-world Example: Bank account withdrawal with explicit locking
+class ReentrantLockExampleTwo {
+    public static void main(String[] args) {
+        BankAccountExm account = new BankAccountExm();
+
+        Runnable task1 = () -> account.withdraw("User-1", 700);
+        Runnable task2 = () -> account.withdraw("User-2", 500);
+
+        new Thread(task1).start();
+        new Thread(task2).start();
+    }
+}
+
+class BankAccountExm {
+    private int balance = 1000;
+    private final ReentrantLock lock = new ReentrantLock();
+
+    void withdraw(String user, int amount) {
+        lock.lock();
+        try {
+            if (balance >= amount) {
+                System.out.println(user + " is withdrawing " + amount);
+                Thread.sleep(500); // simulate delay
+                balance -= amount;
+                System.out.println(user + " completed withdrawal. Remaining: " + balance);
+            } else {
+                System.out.println(user + " insufficient balance!");
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+
+// ============================================================
+// 13. Race Condition
+// ============================================================
+// Real-world Example: Booking system where multiple users try to book the last seat simultaneously
+class RaceConditionExample {
+    public static void main(String[] args) throws Exception {
+        TicketBooking booking = new TicketBooking();
+
+        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
+        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+    }
+}
+
+class TicketBooking {
+    int seats = 1;
+
+    void bookTicket() {
+        if (seats > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat");
+            seats--;
+        } else {
+            System.out.println(Thread.currentThread().getName() + " → No seats available");
+        }
+    }
+}
+
+// To Fix race condition, we can synchronize the method:
+class TicketBooking2 {
+    int seats = 1;
+
+    synchronized void bookTicket() {
+        if (seats > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat");
+            seats--;
+        } else {
+            System.out.println(Thread.currentThread().getName() + " → No seats available");
+        }
+    }
+}
+
+// Output:
+// User-1 booked seat
+// User-2 booked seat   ❌ (wrong – only 1 seat!)
+
+
+// ============================================================
+// 14. LRU Cache
+// ============================================================
+// Calling external APIs (payment/user service) is expensive → cache response.
+
+class LRUCacheExample {
+    public static void main(String[] args) {
+
+        ApiService api = new ApiService();
+        api.fetchData("user/1");
+        api.fetchData("user/2");
+        api.fetchData("user/1"); // cache hit
+        api.fetchData("user/3"); // evicts LRU
+
+        System.out.println("-----------");
+
+        ProductService product = new ProductService();
+        product.getProduct(1);
+        product.getProduct(2);
+        product.getProduct(1); // cache hit
+        product.getProduct(3); // evicts LRU
+
+        System.out.println("-----------");
+
+        SessionService session = new SessionService();
+        session.login("user1");
+        session.login("user2");
+        session.login("user3"); // evicts user1
+
+        System.out.println("user1 active? " + session.isActive("user1")); // false
+        System.out.println("user2 active? " + session.isActive("user2")); // true
+    }
+}
+
+// 1. Generic LRU Cache
+// LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true); // access-order = true
+        this.capacity = capacity;
+    }
+
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+}
+
+// 2. API Cache Example
+class ApiService {
+    private final LRUCache<String, String> cache = new LRUCache<>(2);
+
+    public String fetchData(String url) {
+        if (cache.containsKey(url)) {
+            System.out.println("Cache HIT: " + url);
+            return cache.get(url);
+        }
+
+        System.out.println("Calling API: " + url);
+        String response = "Response from " + url;
+
+        cache.put(url, response);
+        return response;
+    }
+}
+
+// 3. Product Cache (DB Example)
+class ProductService {
+    private final LRUCache<Integer, String> cache = new LRUCache<>(2);
+
+    public String getProduct(int id) {
+        if (cache.containsKey(id)) {
+            System.out.println("Cache HIT: Product " + id);
+            return cache.get(id);
+        }
+
+        System.out.println("Fetching from DB: " + id);
+        String product = "Product-" + id;
+
+        cache.put(id, product);
+        return product;
+    }
+}
+
+// 4. Session Cache
+class SessionService {
+    private final LRUCache<String, String> cache = new LRUCache<>(2);
+
+    public void login(String userId) {
+        cache.put(userId, "ACTIVE");
+        System.out.println("User logged in: " + userId);
+    }
+
+    public boolean isActive(String userId) {
+        return cache.get(userId) != null; // important: use get()
+    }
+}

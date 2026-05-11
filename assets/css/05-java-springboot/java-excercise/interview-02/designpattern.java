@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // ============================================================
-// 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
+// 1. Singleton Pattern (Thread-safe, Double-Checked Locking) Ex: Logger, Configuration Manager
 // Singleton Pattern Creational Design Patterns that ensures a class has only one object (instance) and provides a global access point to that instance.
 
 // Rules to create Singleton Pattern:
@@ -69,7 +69,7 @@ class SingletonDemo {
 
 
 // ============================================================
-// 2. Factory Pattern (Best Practice using Enum)
+// 2. Factory Pattern (Best Practice using Enum) : Ex: Payment System
 // **Factory Pattern** is a creational design pattern used to: Create objects without exposing object creation logic to the client. Instead of creating objects directly using **new**, the client asks the factory to create the required object.
 
 // Flow:: Client  -----> Factory (Creates CARD / UPI object) ----> Required Object ("Give me CARD payment object")
@@ -145,7 +145,7 @@ class FactoryPatternDemo {
 
 
 // ============================================================
-// 3. Observer Pattern (Best Practice using Enum)
+// 3. Observer Pattern (Best Practice using Enum) : Ex: News Agency
 // **Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 // Rules to create :: (exmaple News Agency):
@@ -234,7 +234,7 @@ class ObserverPatternExp {
 
 
 // ============================================================
-// 4. Builder Pattern (Immutable Object - BEST PRACTICE)
+// 4. Builder Pattern (Immutable Object - BEST PRACTICE) : Ex: Employee Object Creation
 // Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
 
 // Rules to create Builder Pattern:
@@ -313,7 +313,7 @@ class BuilderPatternDemo {
 // Employee{id=1, name='Rahul'}
 
 // ============================================================
-// 5. Prototype Pattern (Cloning)
+// 5. Prototype Pattern (Cloning) :Ex Student Object Creation
 // Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 
 // Rules to create Prototype Pattern:

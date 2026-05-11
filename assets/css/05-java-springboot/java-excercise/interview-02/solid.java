@@ -17,13 +17,13 @@ class UserService1 {
 // Handles user logic + email logic
 
 // Good Design: Split responsibilities ✅
-class UserService {
+class RegisterService {
     public void registerUser() {
         System.out.println("User registered");
     }
 }
 
-class EmailSentService {
+class SendEmailService {
     public void sendEmail() {
         System.out.println("Email sent");
     }

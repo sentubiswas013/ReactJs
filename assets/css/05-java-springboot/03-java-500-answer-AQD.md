@@ -3502,18 +3502,17 @@ class WaitExample {
 
 **Execute Thread Without any scequence**
 ```java
-import java.util.HashMap;
-
-public class Main {
+class ThreadExample {
     public static void main(String[] args) {
-        HashMap<MyKey, String> map = new HashMap<>();
-
-        // Add many keys with same hashCode
         for (int i = 1; i <= 10; i++) {
-            map.put(new MyKey(i), "Value" + i);
-        }
+            int id = i;
 
-        System.out.println("Size: " + map.size());
+            Thread t = new Thread(() -> {
+                System.out.println("Task " + id);
+            });
+
+            t.start();
+        }
     }
 }
 ```
@@ -3730,7 +3729,7 @@ public class Test {
 
 ## 7. What is volatile keyword?
 
-**Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
+**Volatile** is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
 
 **Problem it solves:**
 Without `volatile`, each thread may cache a variable locally. One thread's update may not be visible to another thread.
@@ -4057,7 +4056,7 @@ class Counter {
 
 **ExecutorService** is a framework that manages threads and thread pools and execute tasks asynchronously, in the background.
 
-**Volatile** is keyword to ensures that a variable's value is always read from and written to main memory, not from thread's local cache.
+**Volatile** is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
 
 **synchronized** is a keyword to ensures that only one thread at a time can access a shared resource, preventing race conditions to achieve thread safety.
 
