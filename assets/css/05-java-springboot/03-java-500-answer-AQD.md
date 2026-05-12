@@ -630,10 +630,10 @@ class Person {
     private int age;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person p)) return false;
-        return age == p.age && Objects.equals(name, p.name);
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof Person person)) return false;
+        return age == person.age && Objects.equals(name, person.name);
     }
 
     @Override

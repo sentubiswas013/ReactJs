@@ -48,6 +48,31 @@ class Main {
     // ─────────────────────────────────────────────
 
 
+    // ─────────────────────────────────────────────
+    // 43. Hashcode
+    // Avoid NullPointerException
+    // ─────────────────────────────────────────────
+    class Person {
+        private String name;
+
+        private Person(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(this == obj)  return true;
+            if(!(obj instanceof Person person))  return false; 
+            return age = person.age && Object.equals(name, person.name);
+        }
+
+        @Override 
+        public int Hashcode () {
+
+        }
+    }
+
+
     // ============================================================
     // 🔥 EXTRA IMPORTANT TOPICS
     // ============================================================

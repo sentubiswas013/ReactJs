@@ -97,10 +97,34 @@ class Main {
     // ─────────────────────────────────────────────
     // 43. Hashcode and Equals and Objects Utility
     // ─────────────────────────────────────────────
-    class HashCode {
+    // import java.util.Objects;
+    class Person {
+        private String name;
+        Person(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (this == object)
+                return true;
+
+            if (!(object instanceof Person person))
+                return false;
+
+            return Objects.equals(name, person.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name);
+        }
+    }
+
+    class HascodeEqualsDemo {
         public static void main(String[] args) {
-            Person p1 = new Person("Rahul", 25);
-            Person p2 = new Person("Rahul", 25);
+            Person p1 = new Person("Banani");
+            Person p2 = new Person("Banani");
 
             System.out.println(p1.equals(p2));
 
@@ -109,33 +133,6 @@ class Main {
         }
     }
     
-    class Person {
-        private String name;
-        private int age;
-
-        // Constructor
-        Person(String name, int age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-
-            if (!(obj instanceof Person person))
-                return false;
-
-            return age == person.age &&
-                Objects.equals(name, person.name);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name, age);
-        }
-    }
 
     // ============================================================
     // 🔥 EXTRA IMPORTANT TOPICS
