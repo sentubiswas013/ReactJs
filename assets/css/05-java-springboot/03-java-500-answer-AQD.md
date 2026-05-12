@@ -5962,6 +5962,165 @@ private Department department;
 
 
 
+## 17. Optimistic vs Pessimistic locking?
+
+| | Optimistic | Pessimistic |
+|---|---|---|
+| Mechanism | Version check at commit | DB-level lock (SELECT FOR UPDATE) |
+| Use case | Low contention | High contention |
+| Performance | Better | Slower |
+
+```java
+// Optimistic - uses @Version
+@Entity
+public class Product {
+    @Id private Long id;
+    @Version private int version; // auto-checked on update
+    private int stock;
+}
+
+// Pessimistic - locks row in DB
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT p FROM Product p WHERE p.id = :id")
+Product findByIdForUpdate(@Param("id") Long id);
+```
+
+---
+
+## 18. What is @Version?
+
+`@Version` enables optimistic locking. Hibernate auto-increments the version on each update and throws `OptimisticLockException` if two transactions update the same record.
+
+```java
+@Entity
+public class Account {
+    @Id private Long id;
+    @Version private Long version;  // Hibernate manages this
+    private double balance;
+}
+
+// If two threads update same Account simultaneously,
+// second one gets: javax.persistence.OptimisticLockException
+```
+
+---
+
+## 19. Entity lifecycle states?
+
+| State | Description |
+|---|---|
+| **Transient** | New object, not tracked by JPA |
+| **Managed** | Tracked by persistence context |
+| **Detached** | Was managed, now outside context |
+| **Removed** | Scheduled for deletion |
+
+```java
+User user = new User("John");          // Transient
+
+entityManager.persist(user);           // Managed - changes auto-synced
+
+entityManager.detach(user);            // Detached - changes NOT tracked
+user.setName("Jane");                  // won't be saved
+
+entityManager.merge(user);             // Managed again
+
+entityManager.remove(user);            // Removed
+```
+
+---
+
+## 20. What is dirty checking?
+
+Hibernate automatically detects changes to managed entities and syncs them to DB at flush time — no explicit `save()` needed.
+
+```java
+@Transactional
+public void updateName(Long id, String newName) {
+    User user = userRepository.findById(id).get(); // now Managed
+    user.setName(newName); // dirty checking detects this change
+    // NO save() needed — Hibernate auto-flushes on commit
+}
+```
+
+---
+
+## 21. Difference between save() and saveAndFlush()?
+
+| | save() | saveAndFlush() |
+|---|---|---|
+| Flush to DB | At end of transaction | Immediately |
+| Use case | Normal saves | When you need DB state right away |
+
+```java
+// save() - flushed at transaction commit
+User u1 = userRepository.save(new User("Alice"));
+
+// saveAndFlush() - immediately sent to DB (useful before native queries)
+User u2 = userRepository.saveAndFlush(new User("Bob"));
+```
+
+---
+
+## 22. How auditing works in JPA?
+
+Spring Data JPA provides `@CreatedDate`, `@LastModifiedDate`, `@CreatedBy`, `@LastModifiedBy` via `@EnableJpaAuditing`.
+
+```java
+// 1. Enable auditing
+@SpringBootApplication
+@EnableJpaAuditing
+public class App {}
+
+// 2. Auditable base entity
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class Auditable {
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+}
+
+// 3. Extend it
+@Entity
+public class User extends Auditable {
+    @Id @GeneratedValue private Long id;
+    private String name;
+}
+```
+
+---
+
+## 23. How to handle large data efficiently?
+
+- Use **pagination** instead of `findAll()`
+- Use **projections** to fetch only needed columns
+- Use **streaming** with `Stream<T>` or `Slice<T>`
+- Use **batch inserts** with `spring.jpa.properties.hibernate.jdbc.batch_size`
+
+```java
+// Projection - fetch only needed fields
+public interface UserSummary {
+    String getName();
+    String getEmail();
+}
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<UserSummary> findAllProjectedBy();
+}
+
+// Streaming large result sets
+@Query("SELECT u FROM User u")
+@QueryHints(value = @QueryHint(name = HINT_FETCH_SIZE, value = "500"))
+Stream<User> streamAll();
+
+// application.properties - batch inserts
+// spring.jpa.properties.hibernate.jdbc.batch_size=50
+// spring.jpa.properties.hibernate.order_inserts=true
+```
+
+
+
 # ✅ 15. Java Lambda Expressions & Streams API 
 
 ## 2. What are lambda expressions?
