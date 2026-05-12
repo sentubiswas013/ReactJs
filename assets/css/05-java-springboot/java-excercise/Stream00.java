@@ -239,18 +239,13 @@ public class Stream30 {
         // =======================================================
         // 19. Sum and average of Numbers
 
-        int sum = num01.stream()
-                //.mapToInt(e -> e.intValue())
-                .mapToInt(Integer::intValue)
-                .sum();
+        
 
         // System.out.println("7. Sum: " + sum);  Output: 7
 
         // average --------------------------------------------
-        double average = num01.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0);
+        
+        
 
         // System.out.println("7. average: " + average); Output: Sum: 21
 
