@@ -1,550 +1,499 @@
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-// ============================================================
-// 1. Using Thread class
-// ============================================================
-class ThreadClassExample {
-    public static void main(String[] args) {
-        MyThread t1 = new MyThread();
-        t1.start();
+public class Stream30 {
+    
+    static class Employee {
+        private String department;
+        private double salary;
 
-        MyThread t2 = new MyThread();
-        t2.start();
-    }
-}
-
-class MyThread extends Thread {
-    @Override
-    public void run() {
-        System.out.println("Thread running: " + Thread.currentThread().getName());
-    }
-}
-
-// ============================================================
-// 2. Using Runnable interface
-// ============================================================
-class RunnableExample {
-     public static void main(String[] args) throws InterruptedException {
-        Thread t1 = new Thread(new MyTask());
-        t1.start();
-    }
-}
-
-class MyTask implements Runnable {
-    @Override
-    public void run() {
-        System.out.println("Runnable thread: " + Thread.currentThread().getName());
-    }
-}
-
-// ============================================================
-// 3. Using lambda expression (Java 8+)
-// ============================================================
-class LambdaThreadExample1 {
-    public static void main(String[] args) throws InterruptedException {
-        Thread t1 = new Thread(() -> {
-            System.out.println("Lambda thread: " + Thread.currentThread().getName());
-        });
-        t1.start();
-        t1.join(); // wait for thread to finish
-    }
-}
-
-// This is more concise and commonly used in modern Java code. You can also reuse the same lambda for multiple threads:
-class LambdaThreadExample2 {
-    public static void main(String[] args) {
-
-        Runnable task = () -> {
-            System.out.println("Running: " + Thread.currentThread().getName());
-        };
-
-        Thread t1 = new Thread(task, "Thread-1");
-        Thread t2 = new Thread(task, "Thread-2");
-        Thread t3 = new Thread(task, "Thread-3");
-
-        t1.start();
-        t2.start();
-        t3.start();
-    }
-}
-
-// ============================================================
-// 4. Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
-// Use Case : Bank account withdrawal where multiple users try to withdraw money at the same time, leading to inconsistent balance if not synchronized.
-// ============================================================
-// Real-world Example: Bank account withdrawal where multiple users try to withdraw money at the same time, leading to inconsistent balance if not synchronized.
-class SynchronizationExample {
-    public static void main(String[] args) {
-        BankAccount account = new BankAccount();
-
-        Thread user1 = new Thread(() -> account.withdraw(700), "User1");
-        Thread user2 = new Thread(() -> account.withdraw(700), "User2");
-
-        user1.start();
-        user2.start();
-    }
-}
-class BankAccount {
-    int balance = 1000;
-
-    synchronized void withdraw(int amount) {
-        if (balance >= amount) {
-            System.out.println(
-                Thread.currentThread().getName() + " withdrawing..."
-            );
-            balance = balance - amount;
-            System.out.println("Remaining balance: " + balance);
-        } else {
-            System.out.println("Insufficient balance");
-        }
-    }
-}
-
-// ============================================================
-// 5. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
-// Use Case: A flag to stop a thread gracefully from another thread without using synchronization.
-// Example: A background task that should stop when a flag is set to false.
-// ============================================================
-// Real-world Example: A flag to stop a thread gracefully from another thread without using synchronization.
-class VolatileExample {
-    public static void main(String[] args) throws Exception {
-
-        Task task = new Task();
-        Thread worker = new Thread(task);
-
-        worker.start();
-
-        Thread.sleep(2000); // let it run for 2 sec
-
-        task.stop(); // stop from main thread
-        System.out.println("Stopped by main thread");
-    }
-}
-
-class Task implements Runnable {
-    private volatile boolean running = true;
-
-    public void stop() {
-        running = false;
-    }
-
-    public void run() {
-        while (running) {
-            System.out.println("Task running...");
-        }
-        System.out.println("Task stopped");
-    }
-}
-
-// ============================================================
-// 6. AtomicInteger provides thread-safe operations without synchronization - useful for counters in concurrent programming
-// Use Case: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
-// Example: Ticket booking system where multiple users try to book the last seat simultaneously
-// ============================================================
-class AtomicIntegerExp {
-    public static void main(String[] args) throws Exception {
-        AtomicTicketBooking booking = new AtomicTicketBooking();
-
-        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
-        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
-
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
-    }
-}
-
-class AtomicTicketBooking {
-    private AtomicInteger seat = new AtomicInteger(1);
-
-    public void bookTicket() {
-        int remaining = seat.getAndDecrement();
-
-        if (remaining > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat.");
-        } else {
-            System.out.println(Thread.currentThread().getName() + " no seat available.");
-        }
-    }
-}
-
-// ============================================================
-// 7. Sleep pauses thread execution for specified time but keeps locks (can cause blocking)
-// Example: A thread that holds a lock and goes to sleep, preventing other threads from accessing the locked resource.
-// ============================================================
-class SleepExample {
-    public static void main(String[] args) {
-        Object lock = new Object();
-
-        Thread t1 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 1 acquired lock");
-                try {
-                    Thread.sleep(3000); // sleeping but STILL holding lock
-                } catch (InterruptedException e) {}
-                System.out.println("Thread 1 finished");
-            }
-        });
-
-        Thread t2 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 2 acquired lock");
-            }
-        });
-
-        t1.start();
-        t2.start();
-    }
-}
-
-// ============================================================
-// 8. wait/notify
-// Example: message passing between producer and consumer threads using wait/notify for synchronization.
-// ============================================================
-class WaitNotifyExample {
-    public static void main(String[] args) throws Exception {
-        Message msg = new Message();
-
-        new Thread(() -> {
-            try { msg.send("Hello"); } catch (Exception e) {}
-        }).start();
-
-        new Thread(() -> {
-            try { System.out.println(msg.receive()); } catch (Exception e) {}
-        }).start();
-    }
-}
-
-class Message {
-    private String data;
-    private boolean available = false;
-
-    public synchronized void send(String msg) throws InterruptedException {
-        if (available) wait();
-        data = msg;
-        available = true;
-        notify();
-    }
-
-    public synchronized String receive() throws InterruptedException {
-        if (!available) wait();
-        available = false;
-        notify();
-        return data;
-    }
-}
-
-// ============================================================
-// 9. ConcurrentHashMap: Thread-safe HashMap that allows multiple threads to read/write simultaneously without external synchronization
-// Example: A web application that maintains a concurrent cache of user sessions using ConcurrentHashMap.
-// ============================================================
-// Real-world Example: Counting word frequency in logs using ConcurrentHashMap
-class SessionManager {
-    private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
-
-    // Add session
-    public static void login(String userId) {
-        sessionCache.put(userId, new UserSession(userId));
-    }
-
-    // Get session
-    public static UserSession getSession(String userId) {
-        return sessionCache.get(userId);
-    }
-
-    // Remove session
-    public static void logout(String userId) {
-        sessionCache.remove(userId);
-    }
-
-    public static void main(String[] args) {
-        login("user1");
-        login("user2");
-
-        System.out.println(getSession("user1").userId);
-
-        logout("user1");
-    }
-}
-
-class UserSession {
-    String userId;
-    long loginTime;
-
-    UserSession(String userId) {
-        this.userId = userId;
-        this.loginTime = System.currentTimeMillis();
-    }
-}
-
-// ============================================================
-// 10. ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
-// Example: A web server that uses ExecutorService to handle incoming HTTP requests concurrently without blocking the main thread.
-// ============================================================
-// Real-world Example: Processing multiple orders in parallel using ExecutorService
-// import java.util.concurrent.ExecutorService;
-// import java.util.concurrent.Executors;
-
-class ExecutorServiceRealTimeExample {
-    public static void main(String[] args) {
-        // Create thread pool with 3 threads
-        ExecutorService executor = Executors.newFixedThreadPool(3);
-
-        // Multiple orders
-        for(int i = 0; i<=4; i++) {
-            int orderId = i;
-
-            executor.submit(() ->{
-                System.out.println(Thread.currentThread().getName() + " Order " + orderId);
-            });
-
-            try {
-                Thread.sleep(3000);
-            } catch (Exception ex) {}
-
-            System.out.println("Order completed " + orderId);
+        public Employee(String department, double salary) {
+            this.department = department;
+            this.salary = salary;
         }
 
-        // Shutdown thread pool
-        executor.shutdown();
-    }
-}
+        public String getDepartment() {
+            return department;
+        }
 
-// ============================================================
-// 11. CompletableFuture is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
-// Example: A web application that retrieves user data from a database and then calls an external API to get additional information, all without blocking the main thread.
-// ============================================================
-// Real-world Example: Calling multiple APIs in parallel and combining results
-class CompletableFutureRealTimeExample {
+        public double getSalary() {
+            return salary;
+        }
+
+        @Override
+        public String toString() {
+            return department + " : " + salary;
+        }
+    }
 
     public static void main(String[] args) {
-        // Call APIs in parallel
-        CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(() -> getUser());
-        CompletableFuture<String> orderFuture = CompletableFuture.supplyAsync(() -> getOrders());
-        CompletableFuture<String> paymentFuture = CompletableFuture.supplyAsync(() -> getPayments());
+        String input = "madam";
+        String sentence="Java Stream API is very powerful";
+        List<Integer> num01 = Arrays.asList(0,1,7, 3,0,4,5,0,6,9);
+        List<Integer> num02 = Arrays.asList(6,1,0,2,3,4,0,2,5,1,0);
+        List<String> arr01 = Arrays.asList("java","stream","api", "level", "madam");
+        List<String> arr02 = Arrays.asList("Alice","Bob","Annie","Alex", null);
 
-        // Combine all results
-        CompletableFuture<String> finalResult = userFuture.thenCombine(
-                    orderFuture, (user, orders) ->
-                        user + " | " + orders
-                    )
-                    .thenCombine(paymentFuture, (combined, payment) -> combined + " | " + payment);
 
-        // Wait and print result
-        System.out.println(finalResult.join());
-    }
+        // =======================================================
+        // 1. Filter Even Numbers   // filter: Remove unwanted elements  // toList: Convert stream to List
+        List<Integer> even = num02.stream()
+                .filter(n -> n % 2 == 0)
+                .toList();
 
-    static String getUser() {
-        sleep(2);
-        return "User: John";
-    }
+        List<Integer> even = num02.stream()
+                .filter(e -> e % 2 == 0)
+                .distinct()
+                .sorted()
+                // .sorted(Comparator.reverseOrder())
+                .toList();
+        // System.out.println("1. Even Numbers: " + even);
+        // Output: 1. Even Numbers: [2, 4, 6]
 
-    static String getOrders() {
-        sleep(3);
-        return "Orders: 5";
-    }
 
-    static String getPayments() {
-        sleep(1);
-        return "Payments: Done";
-    }
 
-    static void sleep(int seconds) {
-        try { Thread.sleep(seconds * 1000); } catch (Exception e) {}
-    }
-}
+        // =======================================================
+        // 2. Find Common Elements Between Two List
+        List<Integer> common = num01.stream()
+                .filter(num02::contains)
+                .toList();
+        // System.out.println("11. Common: " + common);
+        // Output: 11. Common: [0, 1, 2, 3, 0, 4, 5, 0, 6]
 
-// ============================================================
-// 12. ReentrantLock
-// Real-world Example: Bank account withdrawal with explicit locking
-// ============================================================
-class ReentrantLockExampleTwo {
-    public static void main(String[] args) {
-        BankAccountExm account = new BankAccountExm();
 
-        Runnable task1 = () -> account.withdraw("User-1", 700);
-        Runnable task2 = () -> account.withdraw("User-2", 500);
 
-        new Thread(task1).start();
-        new Thread(task2).start();
-    }
-}
+        // =======================================================
+        // 3. Count Strings with Specific Prefix        
+        long count = arr02.stream()
+                .filter(w -> w.startsWith("A"))
+                .count();
+        // System.out.println("4. Count starting with A: " + count);
+        // Output: 4. Count starting with A: 3
 
-class BankAccountExm {
-    private int balance = 1000;
-    private final ReentrantLock lock = new ReentrantLock();
 
-    // withdraw money safely
-    void withdraw(String user, int amount) {
-        lock.lock();
-        try {
-            if (balance >= amount) {
-                System.out.println(user + " is withdrawing " + amount);
-                Thread.sleep(500); // simulate delay
-                balance -= amount;
-                System.out.println(user + " completed withdrawal. Remaining: " + balance);
+
+        // =======================================================
+        // 4. Check if Any String Contains and equals Word
+        List<String> Contains = arr01.stream()
+                .filter(w -> w.contains("api"))
+                .toList();
+
+            //.filter(w -> w.equals("java")).toList();
+
+        // System.out.println("8. Contains api: " + Contains);
+        // Output: 8. Contains api: [api]
+
+
+
+        // =======================================================
+        // 5. Remove Null Values and missing number from array
+
+        // Remove Null Values
+        List<String> clean = arr02.stream()
+                .filter(Objects::nonNull)
+                .toList();
+
+        // System.out.println("19. Clean: " + clean);
+        // Output: 19. Clean: [java, stream, api]
+
+
+        // missing number from array
+        List<Integer> missing = IntStream.range(0, 10)
+                .filter(n -> !num01.contains(n))
+                .boxed() // Convert int → Integer
+                .toList();
+
+        // System.out.println("19. Missing Number: " + missing);
+        // Output: 19. Clean: [2, 8]
+
+
+        // =======================================================
+        // 6. Find Palindromes
+        List<String> palindromes = arr01.stream()
+                .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
+                .toList();
+
+        List<String> palindromes = Arrays.stream(input.split(" "))
+            .filter(w -> w.equals(new StringBuilder(w).reverse().toString()))
+            .toList();
+
+            if (!palindromes.isEmpty()) {
+                    palindromes.forEach(System.out::println);
             } else {
-                System.out.println(user + " insufficient balance!");
+                System.out.println("No palindromes found");
             }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } finally {
-            lock.unlock(); // always release
-        }
-    }
-}
 
-// ============================================================
-// 13. Race Condition
-// ============================================================
-// Real-world Example: Booking system where multiple users try to book the last seat simultaneously
-class RaceConditionExample {
-    public static void main(String[] args) throws Exception {
-        TicketBooking booking = new TicketBooking();
+        // System.out.println("22. Palindromes: " + palindromes);
+        // Output: 22. Palindromes: []
 
-        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
-        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
 
-        t1.start();
-        t2.start();
 
-        t1.join();
-        t2.join();
-    }
-}
+        // =======================================================
+        // 7. Find Duplicate Elements        
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = num02.stream()
+                .filter(n -> !seen.add(n))
+                .collect(Collectors.toSet());
+        // System.out.println("9. Duplicates: " + duplicates);
+        // Output: 9. Duplicates: [1, 2]
 
-class TicketBooking {
-    int seats = 1;
 
-    void bookTicket() {
-        if (seats > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat");
-            seats--;
+
+        // =======================================================
+        // 8. Remove Duplicates
+        List<Integer> unique = num02.stream()
+                .distinct()
+                .toList();
+        // System.out.println("17. Unique: " + unique);
+        // Output: 17. Unique: [6, 1, 0, 2, 3, 4, 5]
+
+
+
+        // =======================================================
+        // 9. Find Maximum and minimum number
+        int max = num01.stream()
+                .max(Integer::compareTo)
+                .orElseThrow();
+
+        int min = num01.stream()
+                .min(Integer::compareTo)
+                .orElseThrow();
+
+        // System.out.println("2. Maximum: " + max);
+        // System.out.println("2. Minimum: " + min);
+        // Output: 2. Maximum: 6
+
+
+
+        // =======================================================
+        // 10. Find Longest and smallest String
+        String longest = arr01.stream()
+                .max(Comparator.comparingInt(String::length))
+                .orElse(null);
+
+        String smallest = arr01.stream()
+                .min(Comparator.comparingInt(String::length))
+                .orElse(null);
+
+        String longestWord = Arrays.stream(sentence.split(" "))
+                .max(Comparator.comparingInt(String::length))
+                .orElse(null);
+
+        // System.out.println("10. Longest:  " + longest);
+        // System.out.println("10. smallest: " + smallest);
+        // System.out.println("10. Longest:  " + longestWord);
+        // Output: 10. Longest: stream
+
+
+
+        // =======================================================
+        // 11. Sort List in Assending and Descending Order
+        List<Integer> sortedAsc = num01.stream()
+                .sorted()
+                .toList();
+
+        // System.out.println("3. Sorted Ascending: " + sortedAsc);
+        // Output: 3. Sorted Ascending: [0, 0, 0
+
+        List<Integer> sortedDsc = num01.stream()
+                .sorted(Comparator.reverseOrder())
+                .toList();
+
+        // System.out.println("3. Sorted Descending: " + sortedDsc);
+        // Output: 3. Sorted Descending: [6, 5, 4, 3, 2, 1]
+
+
+        // =======================================================
+        // 12. Find Top N Elements
+        List<Integer> top3 = num01.stream()
+                .sorted(Comparator.reverseOrder())
+                .limit(3)
+                .toList();
+        // System.out.println("12. Top 3: " + top3);
+        // Output: 12. Top 3: [6, 5, 4]
+
+
+        List<String> sortedArr = arr02.stream()
+                .filter(Objects::nonNull) // remove nulls
+                .sorted(Comparator.comparingInt(String::length))
+                .toList();
+
+        System.out.println(sortedArr);
+        // Output: [Bob, Alex, Alice, Annie]
+
+
+        // =======================================================
+        // 13. Find Nth Largest Element
+        int thirdLargest = num01.stream()
+                .sorted(Comparator.reverseOrder())
+                .skip(2)
+                .findFirst()
+                .orElseThrow();
+
+        // System.out.println("16. Third Largest: " + thirdLargest);
+        // output: 16. Third Largest: 4
+
+
+
+        // =======================================================
+        // 14. To merge two arrays and sort the resulting array in ascending order
+        List<Integer> resultSort = Stream.concat(
+                num01.stream(), 
+                num02.stream()
+                )
+                .sorted()
+                .toList();
+
+        // System.out.println(resultSort);
+        // Output: 14. Result: [0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7]
+
+
+
+        // =======================================================
+        // 15. 0 should go to outside without change order
+        List<Integer> resultRight = Stream.concat(
+                num01.stream().filter(n -> n != 0), // keep order of non-zero
+                num01.stream().filter(n -> n == 0)  // zeros at end
+                )
+                .collect(Collectors.toList());
+
+        // System.out.println(resultRight);
+        // Output: [1, 7, 2, 3, 4, 5, 6, 9, 0, 0, 0]
+
+
+
+        // =======================================================
+        // 16. Count Frequency of Characters
+        Map<Character, Long> freq = input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+
+        // System.out.println("13. Frequency: " + freq);
+        // Output: 13. Frequency: {s=3, u=1, c=2, e=1}
+
+
+
+        // =======================================================
+        // 17. Check Vowel numbers mapping 
+        Map<Character, Long> vowels = input.toLowerCase().chars()
+                .mapToObj(c -> (char) c)
+                .filter(ch -> "aeiou".indexOf(ch) != -1)        
+                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+                
+
+        // System.out.println("vowels: " + vowels);
+        // Output: 5. {a=2}                
+
+
+
+        // =======================================================
+        // 18. Find First Non-Repeated Character
+        Character result = input.chars()
+                .mapToObj(c -> (char)c)
+                .filter(c -> input.indexOf(c) == input.lastIndexOf(c))
+                .findFirst()
+                .orElse(null);
+        // System.out.println("5. First Non-Repeated: " + result);
+        // Output: 5. First Non-Repeated: d
+
+
+
+        // =======================================================
+        // 19. Sum and average of Numbers
+        int sum = num01.stream()
+                //.mapToInt(e -> e.intValue())
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        // System.out.println("7. Sum: " + sum);  Output: 7
+
+        double average = num01.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0);
+
+        // System.out.println("7. average: " + average); Output: Sum: 21
+
+
+        // =======================================================
+        // 20. Convert List to Uppercase    // Map: Transform elements    
+        List<String> upper = arr01.stream()
+                // .map(e -> e.toUpperCase())
+                .map(String::toUpperCase)
+                .toList();
+        // System.out.println("6. Uppercase: " + upper);
+        // Output: 6. Uppercase: [JAVA, STREAM, API]
+        
+
+
+        // =======================================================
+        // 21. Reverse Each String
+        List<String> reversedList = arr01.stream()
+                .map(w -> new StringBuilder(w).reverse().toString())
+                .toList();
+
+        // System.out.println("23. Reversed: " + reversedList);
+        // Output: 23. Reversed: [avaj, maerts, ipa]
+
+
+        // Check if input string is Palindrome
+        String reversed = new StringBuilder(input).reverse().toString();
+
+        if (input.equals(reversed)) {
+            System.out.println("Palindrome");
         } else {
-            System.out.println(Thread.currentThread().getName() + " → No seats available");
+            System.out.println("Not Palindrome");
         }
-    }
-}
-
-// To Fix race condition, we can synchronize the method:
-class TicketBooking2 {
-    int seats = 1;
-
-    synchronized void bookTicket() {
-        if (seats > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat");
-            seats--;
-        } else {
-            System.out.println(Thread.currentThread().getName() + " → No seats available");
-        }
-    }
-}
-
-// Output:
-// User-1 booked seat
-// User-2 booked seat   ❌ (wrong – only 1 seat!)
+        // Output: Palindrome
 
 
-// ============================================================
-// 14. LRU Cache
-// ============================================================
-// Calling external APIs (payment/user service) is expensive → cache response.
+        // =======================================================
+        // 22. Partition Even and Odd Numbers // collect: Convert stream to collection
+        Map<Boolean, List<Integer>> partition = num01.stream()
+                .collect(Collectors.partitioningBy(n -> n % 2 == 0));
 
-class LRUCacheExample {
-    public static void main(String[] args) {
+        // System.out.println("15. Partition: " + partition);
+        // Output: 15. Partition: {false=[1, 3, 5], true=[2, 4, 6]}
 
-        ApiService api = new ApiService();
-        api.fetchData("user/1");
-        api.fetchData("user/2");
-        api.fetchData("user/1"); // cache hit
-        api.fetchData("user/3"); // evicts LRU
 
-        System.out.println("-----------");
 
-        ProductService product = new ProductService();
-        product.getProduct(1);
-        product.getProduct(2);
-        product.getProduct(1); // cache hit
-        product.getProduct(3); // evicts LRU
+        // =======================================================
+        // 23. Join Strings
+        String joined = arr01.stream()
+                .collect(Collectors.joining(", "));
 
-        System.out.println("-----------");
+        // System.out.println("18. Joined: " + joined);
+        // Output: 18. Joined: java, stream, api
+        
 
-        SessionService session = new SessionService();
-        session.login("user1");
-        session.login("user2");
-        session.login("user3"); // evicts user1
 
-        System.out.println("user1 active? " + session.isActive("user1")); // false
-        System.out.println("user2 active? " + session.isActive("user2")); // true
-    }
-}
+        // =======================================================
+        // 24. Convert List to Map and word length
+        // Map from String
+        Map<String, Integer> mapStr = Arrays.stream(sentence.split(" "))
+                .collect(Collectors.toMap(w -> w, String::length));
 
-// 1. Generic LRU Cache
-// LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
-class LRUCache<K, V> extends LinkedHashMap<K, V> {
-    private final int capacity;
+        // System.out.println("21. mapStr: " + mapStr);
+        // Output: 21. Map: {Java=4, very=4, powerful=8, Stream=6, API=3, is=2}  
 
-    public LRUCache(int capacity) {
-        super(capacity, 0.75f, true); // access-order = true
-        this.capacity = capacity;
-    }
+        // Map from array
+        Map<Integer, List<String>> mapArr = arr01.stream()
+                .collect(Collectors.groupingBy(String::length));
 
-    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-        return size() > capacity;
-    }
-}
+        // System.out.println("21. mapArr: " + mapArr);
+        // Output: 21. Map: {3=[api], 4=[java], 5=[level, madam], 6=[stream]} 
 
-// 2. API Cache Example
-class ApiService {
-    private final LRUCache<String, String> cache = new LRUCache<>(2);
 
-    public String fetchData(String url) {
-        if (cache.containsKey(url)) {
-            System.out.println("Cache HIT: " + url);
-            return cache.get(url); // updates LRU
-        }
 
-        System.out.println("Calling API: " + url);
-        String response = "Response from " + url;
+        // =======================================================
+        // 25. Group by First Character
+        Map<Character, List<String>> mapByFirst = arr01.stream()
+                .collect(Collectors.groupingBy(w -> w.charAt(0)));
 
-        cache.put(url, response);
-        return response;
-    }
-}
+        // System.out.println("25. Grouped by First Char: " + mapByFirst);
+        // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
-// 3. Product Cache (DB Example)
-class ProductService {
-    private final LRUCache<Integer, String> cache = new LRUCache<>(2);
 
-    public String getProduct(int id) {
-        if (cache.containsKey(id)) {
-            System.out.println("Cache HIT: Product " + id);
-            return cache.get(id);
-        }
+        // =======================================================
+        List<Employee> employees = Arrays.asList(
+                new Employee("IT", 50000),
+                new Employee("HR", 40000),
+                new Employee("IT", 60000),
+                new Employee("HR", 45000)
+        );
 
-        System.out.println("Fetching from DB: " + id);
-        String product = "Product-" + id;
+        // =======================================================
+        // 26. Get Departments or salary
+        List<Double> department = employees.stream()
+            .map(Employee::getSalary)
+            .toList();
 
-        cache.put(id, product);
-        return product;
-    }
-}
+        List<Double> salary = employees.stream()
+                .map(Employee::getSalary)
+                .toList();
+        
+        // System.out.println("departments: " + department);
+        // Output: Departments: [IT, HR, IT, HR]
 
-// 4. Session Cache
-class SessionService {
-    private final LRUCache<String, String> cache = new LRUCache<>(2);
+        // System.out.println("departments: " + salary);
+        // Output: salary:  [50000.0, 40000.0, 60000.0, 45000.0]
 
-    public void login(String userId) {
-        cache.put(userId, "ACTIVE");
-        System.out.println("User logged in: " + userId);
-    }
+        // =======================================================
+        // 27. Average Salary by Department
+        Map<String, Double> avgSalaryByDep = employees.stream()
+                .collect(Collectors.groupingBy(
+                        Employee::getDepartment,
+                        Collectors.averagingDouble(Employee::getSalary)
+                ));
+                
+        // System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
+        // Output: Avg Salary by Dept: {HR=42500.0, IT=55000.0}
 
-    public boolean isActive(String userId) {
-        return cache.get(userId) != null; // important: use get()
+        // Salary by Department
+        Map<String, List<Double>> salaryByDept = employees.stream()
+        .collect(Collectors.groupingBy(
+                Employee::getDepartment,
+                Collectors.mapping(Employee::getSalary, Collectors.toList())
+        ));
+        // Output: Salary by Dept: {HR=[40000.0, 45000.0], IT=[50000.0, 60000.0]}
+
+        // Overall average
+        double avgSalary = employees.stream()
+                .mapToDouble(Employee::getSalary)
+                .average()
+                .orElse(0.0);
+        // System.out.println("Overall Avg Salary: " + avgSalary);
+        // Output: Overall Avg Salary: 48750.0
+
+        // =======================================================
+        // 28. Second Highest Salary
+        Employee secondHighest = employees.stream()
+                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .skip(1)
+                .findFirst()
+                .orElse(null);
+        // System.out.println("Second Highest Employee: " + secondHighest);
+        // Output: Second Highest Salary: 50000.0
+
+        // OR just salary
+        Double secondHighestSalary = employees.stream()
+                .map(Employee::getSalary)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .skip(1)
+                .findFirst()
+                .orElse(0.0);
+        // System.out.println("Second Highest Salary: " + secondHighestSalary);
+        // Output: Second Highest Salary: 50000.0
+
+
+        // =======================================================
+        // 29. Count Employees by Department
+        
+
+        
+        // System.out.println("Count by Dept: " + countByDept);
+        // Output: Count by Dept: {HR=2, IT=2}
+
+        // =======================================================
+        // 30. Group Employees by Department
+        Map<String, List<Employee>> employeesByDept = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
+                
+        // System.out.println("Employees by Dept: " + employeesByDept);
+        // Output: Employees by Dept: {HR=[Employee@..., Employee@...], IT=[Employee@..., Employee@...]}
+
+        
+        // =======================================================
+        // 31. flatMap() is used to flatten nested collections.
+        List<List<Employee>> inputTemp = List.of(
+                List.of(new Employee("John", 5000), new Employee("Sam", 6000)),
+                List.of(new Employee("David", 7000), new Employee("Mary", 8000))
+        );
+
+        // System.out.println(resultTemp);
+        // Output: [Employee@..., Employee@..., Employee@..., Employee@...] (all employees in a single list)
+
     }
 }

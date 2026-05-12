@@ -73,7 +73,6 @@ class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -93,7 +92,6 @@ class User {
 @Entity
 @Table(name = "orders")
 class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

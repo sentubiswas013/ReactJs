@@ -97,6 +97,18 @@ class Main {
     // ─────────────────────────────────────────────
     // 43. Hashcode and Equals and Objects Utility
     // ─────────────────────────────────────────────
+    class HascodeEqualsDemo {
+        public static void main(String[] args) {
+            Person p1 = new Person("Banani");
+            Person p2 = new Person("Banani");
+
+            System.out.println(p1.equals(p2));
+
+            System.out.println(p1.hashCode());
+            System.out.println(p2.hashCode());
+        }
+    }
+    
     // import java.util.Objects;
     class Person {
         private String name;
@@ -120,19 +132,6 @@ class Main {
             return Objects.hash(name);
         }
     }
-
-    class HascodeEqualsDemo {
-        public static void main(String[] args) {
-            Person p1 = new Person("Banani");
-            Person p2 = new Person("Banani");
-
-            System.out.println(p1.equals(p2));
-
-            System.out.println(p1.hashCode());
-            System.out.println(p2.hashCode());
-        }
-    }
-    
 
     // ============================================================
     // 🔥 EXTRA IMPORTANT TOPICS
