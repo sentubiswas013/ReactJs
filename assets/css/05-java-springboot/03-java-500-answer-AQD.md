@@ -10030,7 +10030,44 @@ public class ApiGatewayApplication {
             .build();
     }
 }
+
 ```
+
+For a typical Java/Spring Boot microservices application, commonly used API gateways are:
+
+| Gateway              | Mostly Used With            |
+| -------------------- | --------------------------- |
+| Spring Cloud Gateway | Spring Boot microservices   |
+| AWS API Gateway      | AWS cloud                   |
+| Netflix Zuul         | Older Spring Cloud projects |
+| Kong Gateway         | Cloud-native systems        |
+| NGINX                | Reverse proxy/API gateway   |
+| Azure API Management | Azure cloud                 |
+
+---
+
+**Why Use API Gateway?**
+
+It handles:
+
+* Routing
+* Authentication
+* Rate limiting
+* Logging
+* Load balancing
+* Security
+
+**Why Spring Cloud Gateway Popular?**
+
+Advantages:
+
+* Reactive & non-blocking
+* Easy routing
+* JWT/OAuth support
+* Filter support
+* Works well with Eureka
+* Better than Zuul 1
+
 
 **predicates :** A condition that decides when a request should be routed to a specific service.
 

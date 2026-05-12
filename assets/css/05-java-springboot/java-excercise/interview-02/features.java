@@ -1,6 +1,8 @@
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
+import java.util.HashMap;
+import java.util.Objects;
 
 // ============================================================
 // 39–43 + Extra: Java 8 Features (Interview Ready)
@@ -90,6 +92,49 @@ class Main {
 
         // check value
         name.ifPresent(System.out::println);
+    }
+
+    // ─────────────────────────────────────────────
+    // 43. Hashcode and Equals and Objects Utility
+    // ─────────────────────────────────────────────
+    class HashCode {
+        public static void main(String[] args) {
+            Person p1 = new Person("Rahul", 25);
+            Person p2 = new Person("Rahul", 25);
+
+            System.out.println(p1.equals(p2));
+
+            System.out.println(p1.hashCode());
+            System.out.println(p2.hashCode());
+        }
+    }
+    
+    class Person {
+        private String name;
+        private int age;
+
+        // Constructor
+        Person(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+
+            if (!(obj instanceof Person person))
+                return false;
+
+            return age == person.age &&
+                Objects.equals(name, person.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, age);
+        }
     }
 
     // ============================================================

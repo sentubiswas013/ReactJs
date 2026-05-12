@@ -119,7 +119,7 @@ class AtomicExample {
         t1.start(); t2.start();
         t1.join(); t2.join();
 
-        System.out.println("Count: " + count.get());
+        System.out.println("Count: " + count);
     }
 }
 

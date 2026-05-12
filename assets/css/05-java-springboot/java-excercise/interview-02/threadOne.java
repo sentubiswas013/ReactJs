@@ -287,35 +287,31 @@ class UserSession {
 // Example: A web server that uses ExecutorService to handle incoming HTTP requests concurrently without blocking the main thread.
 // ============================================================
 // Real-world Example: Processing multiple orders in parallel using ExecutorService
+// import java.util.concurrent.ExecutorService;
+// import java.util.concurrent.Executors;
+
 class ExecutorServiceRealTimeExample {
-
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String[] args) {
+        // Create thread pool with 3 threads
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
-        Callable<String> order1 = () -> processOrder("Order-1");
-        Callable<String> order2 = () -> processOrder("Order-2");
-        Callable<String> order3 = () -> processOrder("Order-3");
+        // Multiple orders
+        for(int i = 0; i<=4; i++) {
+            int orderId = i;
 
-        Future<String> f1 = executor.submit(order1);
-        Future<String> f2 = executor.submit(order2);
-        Future<String> f3 = executor.submit(order3);
+            executor.submit(() ->{
+                System.out.println(Thread.currentThread().getName() + " Order " + orderId);
+            });
 
-        // Get results
-        System.out.println(f1.get());
-        System.out.println(f2.get());
-        System.out.println(f3.get());
+            try {
+                Thread.sleep(3000);
+            } catch (Exception ex) {}
 
+            System.out.println("Order completed " + orderId);
+        }
+
+        // Shutdown thread pool
         executor.shutdown();
-    }
-
-    static String processOrder(String orderId) {
-        try {
-            System.out.println("Processing " + orderId + " by " + Thread.currentThread().getName());
-            Thread.sleep(2000); // simulate work
-        } catch (Exception e) {}
-
-        return orderId + " processed";
     }
 }
 
