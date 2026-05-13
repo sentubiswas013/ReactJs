@@ -333,7 +333,7 @@ public class Stream30 {
         // 27. Average Salary by Department 
         
 
-        // System.out.println("Avg Salary by Dept: " + avgSalaryByDep);
+        // System.out.println("Salary by Department: " + avgSalaryByDep);
         // Output: Avg Salary by Dept: {HR=42500.0, IT=55000.0}
 
         // Salary by Department ------------------------------

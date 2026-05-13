@@ -432,10 +432,11 @@ public class Stream30 {
 
         // Salary by Department
         Map<String, List<Double>> salaryByDept = employees.stream()
-        .collect(Collectors.groupingBy(
-                Employee::getDepartment,
-                Collectors.mapping(Employee::getSalary, Collectors.toList())
-        ));
+                .collect(Collectors.groupingBy(
+                        Employee::getDepartment,
+                        Collectors.mapping(Employee::getSalary, Collectors.toList())
+        ));     
+        // System.out.println("Salary by Department: " + salaryByDept);
         // Output: Salary by Dept: {HR=[40000.0, 45000.0], IT=[50000.0, 60000.0]}
 
         // Overall average
