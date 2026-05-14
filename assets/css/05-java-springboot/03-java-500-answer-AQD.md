@@ -11169,42 +11169,6 @@ Without Istio, you'd have to implement retries, timeouts, and mTLS in every serv
 
 Use it in large Kubernetes-based microservice architectures where you need security, observability, and traffic control at scale.
 
----
-
-## 30. What is Zipkin and How Does Distributed Tracing Work?
-
-In microservices, a single request can pass through 5–10 services. When something fails or is slow, how do you find where? That's what **distributed tracing** solves.
-
-**Zipkin** is a distributed tracing system. It collects timing data from all services and lets you visualize the full request journey.
-
-**How it works:**
-1. Each request gets a unique **Trace ID**
-2. Each service call within that request gets a **Span ID**
-3. Services report their spans (start time, duration, status) to Zipkin
-4. Zipkin assembles them into a full trace timeline
-
-**Spring Boot setup:**
-```xml
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-tracing-bridge-brave</artifactId>
-</dependency>
-```
-
-```yaml
-management:
-  tracing:
-    sampling:
-      probability: 1.0  # trace 100% of requests
-```
-
-```
-Request → [Service A] → [Service B] → [Service C]
-              span1          span2          span3
-              └──────── Trace ID: abc123 ──────────┘
-```
-
-In Zipkin UI, you can see exactly which service was slow or failed. Often used with **Sleuth** (older) or **Micrometer Tracing** (Spring Boot 3+).
 
 
 # ✅ 22. Java and Application Security
@@ -12057,40 +12021,11 @@ public void safeMethod() {
 ```
 
 
-## 4: What is JVM tuning?
+## 4: What is JVM tuning and parameters for performance tuning?
 
 **JVM tuning** is the process of **optimizing JVM settings** for better performance.
 
 It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
-
-* Process of optimizing JVM parameters for better performance
-* **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
-* **Garbage Collection**: Choose appropriate GC algorithm
-* **Thread Stack**: -Xss for thread stack size
-* **Metaspace**: -XX:MetaspaceSize for class metadata
-* **GC Tuning**: -XX:NewRatio, -XX:SurvivorRatio for generation sizes
-* **Monitoring**: Enable GC logging and JFR
-
-```bash
-# Common JVM tuning parameters
-java -Xms2g -Xmx4g \
-     -XX:+UseG1GC \
-     -XX:MaxGCPauseMillis=200 \
-     -XX:+PrintGC \
-     -XX:+PrintGCDetails \
-     -XX:+PrintGCTimeStamps \
-     -XX:+HeapDumpOnOutOfMemoryError \
-     -XX:HeapDumpPath=/tmp/heapdump.hprof \
-     -jar myapp.jar
-
-# G1GC tuning for low latency
--XX:+UseG1GC
--XX:MaxGCPauseMillis=100
--XX:G1HeapRegionSize=16m
-```
-
-
-## 5: What are the JVM parameters for performance tuning?
 
 * **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
 * **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
@@ -12118,6 +12053,42 @@ java -Xms2g -Xmx4g \
 -XX:MaxGCPauseMillis=50
 -XX:+UseStringDeduplication
 ```
+
+
+## 5. What is Zipkin and How Does Distributed Tracing Work?
+
+In microservices, a single request can pass through 5–10 services. When something fails or is slow, how do you find where? That's what **distributed tracing** solves.
+
+**Zipkin** is a distributed tracing system. It collects timing data from all services and lets you visualize the full request journey.
+
+**How it works:**
+1. Each request gets a unique **Trace ID**
+2. Each service call within that request gets a **Span ID**
+3. Services report their spans (start time, duration, status) to Zipkin
+4. Zipkin assembles them into a full trace timeline
+
+**Spring Boot setup:**
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-brave</artifactId>
+</dependency>
+```
+
+```yaml
+management:
+  tracing:
+    sampling:
+      probability: 1.0  # trace 100% of requests
+```
+
+```
+Request → [Service A] → [Service B] → [Service C]
+              span1          span2          span3
+              └──────── Trace ID: abc123 ──────────┘
+```
+
+In Zipkin UI, you can see exactly which service was slow or failed. Often used with **Sleuth** (older) or **Micrometer Tracing** (Spring Boot 3+).
 
 
 ## 6: What is profiling in Java?

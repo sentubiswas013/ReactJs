@@ -444,6 +444,10 @@ public class Stream30 {
                 .mapToDouble(Employee::getSalary)
                 .average()
                 .orElse(0.0);
+
+        Double avgSalary = employees.stream()
+            .collect(Collectors.averagingDouble(Employee::getSalary));
+
         // System.out.println("Overall Avg Salary: " + avgSalary);
         // Output: Overall Avg Salary: 48750.0
 
@@ -454,6 +458,13 @@ public class Stream30 {
                 .skip(1)
                 .findFirst()
                 .orElse(null);
+
+        List<Double> secondHighest = employees.stream()
+            .map(Employee::getSalary)
+            .skip(1)
+            .limit(1)
+            .toList();
+            
         // System.out.println("Second Highest Employee: " + secondHighest);
         // Output: Second Highest Salary: 50000.0
 
