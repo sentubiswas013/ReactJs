@@ -3166,8 +3166,8 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted, not accept nu
 
 
 ```java
-Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster, accept null value
-Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, thread-safe, not accept null value
+Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster, not thread-safe, accept null value,
+Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, slow, thread-safe, thread-safe, not accept null value
 ```
 ```
 
