@@ -8866,20 +8866,6 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
 
-## 17. What is Distributed Tracing?
-
-**Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
-
-It helps developers **identify performance issues, delays, and failures** by showing the **complete flow of a request across different services in a system**.
-
-**Real-Time Example**
-
-1. **API Gateway** receives request
-2. **Order Service** processes order
-3. **Payment Service** processes payment
-4. **Inventory Service** updates stock
-5. **Notification Service** sends email/SMS
-
 ## 18. What is Spring Scheduler?
 
 **Spring Scheduler** is a feature in **Spring Framework** used to **run tasks automatically at a scheduled time or at fixed intervals**.
@@ -10442,7 +10428,9 @@ public class OrderController {
 
 ## 15. What is Saga Pattern or How it handle payment failure?
 
-Saga Pattern is used in **microservices architecture** to manage transactions across multiple services. Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
+The Saga Pattern is a design pattern used in microservices architecture to manage distributed transactions across multiple services without using a single global database transaction.
+
+Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
 
 If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
 
@@ -12054,6 +12042,19 @@ It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC alg
 -XX:+UseStringDeduplication
 ```
 
+## 5. What is Distributed Tracing?
+
+**Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
+
+It helps developers **identify performance issues, delays, and failures** by showing the **complete flow of a request across different services in a system**.
+
+**Real-Time Example**
+
+1. **API Gateway** receives request
+2. **Order Service** processes order
+3. **Payment Service** processes payment
+4. **Inventory Service** updates stock
+5. **Notification Service** sends email/SMS
 
 ## 5. What is Zipkin and How Does Distributed Tracing Work?
 
