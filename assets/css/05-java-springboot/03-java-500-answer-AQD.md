@@ -3166,8 +3166,9 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted, not accept nu
 
 
 ```java
-Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster
-Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, thread-safe
+Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster, accept null value
+Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, thread-safe, not accept null value
+```
 ```
 
 ## 5. How does HashMap work internally?
