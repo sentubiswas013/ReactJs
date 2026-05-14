@@ -12516,7 +12516,7 @@ Java 11 is an LTS (Long Term Support) release that introduced several useful fea
 - **Files Methods:** readString(), writeString()
 - **Collection.toArray():** Enhanced method
 - **Nest-Based Access Control:** Better inner class access
-- **Flight Recorder:** Low-overhead profiling
+- **Java Flight Recorder (JFR):** is a built-in profiling and monitoring tool in Java.
 
 ```java
 // var in lambda parameters
@@ -12542,6 +12542,11 @@ System.out.println("Java ".repeat(3));   // "Java Java Java "
 // Files utility methods
 String content = Files.readString(Paths.get("file.txt"));
 Files.writeString(Paths.get("output.txt"), "Hello World");
+
+// Collection.toArray():
+List<String> names = List.of("John", "David", "Mike");
+String[] arr = names.toArray(String[]::new); // Java 11 style
+System.out.println(Arrays.toString(arr));
 ```
 
 ## 3. What are the features in Java 17?
