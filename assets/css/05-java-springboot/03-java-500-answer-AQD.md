@@ -3104,7 +3104,7 @@ try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
 
 **Java Collections** Framework is a unified architecture for storing and manipulating groups of objects. It provides interfaces, implementations, and algorithms to work with collections efficiently.
 
-- Provides common interfaces **like List, Set, Map**
+- Provides common interfaces like **List, Set, Map**
 - Ready-to-use implementations like **ArrayList, HashMap**
 - Algorithms for **sorting, searching, shuffling**
 - Reduces programming effort and increases performance
@@ -3118,7 +3118,7 @@ Map<String, Integer> map = new HashMap<>();
 Here’s a cleaner and corrected version of your table:
 
 ```
-Interface    | Common Classes                         | Description
+Interface    | Common Classes(implementations)        | Description
 -------------|----------------------------------------|-----------------------------------------
 List         | ArrayList, LinkedList                  | Ordered collection that allows duplicates
 Set          | HashSet, TreeSet, LinkedHashSet        | Collection of unique elements (no duplicates)
