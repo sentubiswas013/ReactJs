@@ -3154,8 +3154,8 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 
 
 ```java
-Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered
-Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
+Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered, accept null value
+Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted, not accept null value
 ```
 
 ## 4. What is the difference between HashMap Hashtable?
