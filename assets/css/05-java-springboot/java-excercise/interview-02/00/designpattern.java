@@ -2,24 +2,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 // ============================================================
-// 1. Singleton Pattern (Thread-safe, Double-Checked Locking)
-// Singleton Pattern is a design pattern that ensures a class has only one object (instance) and provides a global access point to that instance.
+// 1. Singleton Pattern (Thread-safe, Double-Checked Locking) Ex: Logger, Configuration Manager
+// Singleton Pattern Creational Design Patterns that ensures a class has only one object (instance) and provides a global access point to that instance.
 
 // Rules to create Singleton Pattern:
-// Make class final to prevent subclassing
-// Private constructor to prevent instantiation from outside the class
-// Private static variable to hold the single instance of the class
-// Public static method that returns the instance of the class, creating it if it doesn't exist yet
-
+// 1. Make Constructor private
+// 2. Create Static Instance Variable
+// 3. Provide Public Static Method getInstance()
+// 4. null check -> synchronized
+// 5. Return Same Object Every Time
 
 // When to use Singleton Pattern in real life:
 // 1. When you want to control access to a shared resource (like a database connection).
 // 2. When you want to ensure that only one instance of a class is created and used throughout the application (like a configuration manager).
 // 3. When you want to implement a global point of access to a resource (like a logging service).   
 // ============================================================
-
-
-
 
 
 
@@ -34,22 +31,30 @@ import java.util.List;
 
 
 // ============================================================
-// 2. Factory Pattern (Best Practice using Enum)
-// Factory Design Pattern is used to create objects without using new keyword directly, by using a factory method.
+// 2. Factory Pattern (Best Practice using Enum) : Ex: Payment System
+// **Factory Pattern** is a creational design pattern used to: Create objects without exposing object creation logic to the client. Instead of creating objects directly using **new**, the client asks the factory to create the required object.
 
-// Rules to create Factory Pattern:
-// 1. Create an interface or abstract class for the type of object you want to create.
-// 2. Create concrete classes that implement the interface or extend the abstract class.
-// 3. Create a Factory class with a static method that takes input (like an enum
+// Flow:: Client  -----> Factory (Creates CARD / UPI object) ----> Required Object ("Give me CARD payment object")
 
+// Rules to create :: Payment:: 
+// step 0: Define an enum for the Payment types 
+// Step 1: Interface or Abstract Class :: payment interface with a method pay()
+// Step 2: Concrete Implementations :: CardPayment, UpiPayment classes that implement the Payment interface
+// Step 3: Factory Class with a static method to create objects based on input :: PaymentFactory with a static method getPayment(String type)
 
-// When to use Factory Pattern:
-// 1. When you have a super class with multiple sub-classes and based on input, you need to return one of the sub-class.
-// 2. When you want to decouple the client code from the actual implementation of the objects it needs to create.
+// Advantages   : -----------
+// Loose coupling
+// Hides object creation logic
+// Easy maintenance
+// Easy to extend
 
+// 👉 Real use : -----------
+// - Payment systems
+// - Notification services
+// - Logger creation
+// - Database drivers
+// - Spring BeanFactory
 // ============================================================
-
-
 
 
 
@@ -57,25 +62,29 @@ import java.util.List;
 
 
 // Output:
-// Drawing Circle
-// Drawing Square
+// UPI payment
 
 
 // ============================================================
-// 2. Observer Pattern (Best Practice using Enum)
-// Observer Design Pattern is used to create objects without using new keyword directly, by using a factory method.
+// 3. Observer Pattern (Best Practice using Enum) : Ex: News Agency
+// **Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
-// Rules to create Observer Pattern:
+// Rules to create :: (exmaple News Agency):
+// News agency - > News Channel -> Observer Pattern
+
 // 1. Create an Observer interface with an update() method.
 // 2. Create a Subject class that maintains a list of observers and has methods to attach/detach observers and notify them of changes.
 // 3. Create concrete Observer classes that implement the Observer interface and define the update() method to react to changes in the Subject.
 
-// When to use Observer Pattern:
-//  Real use: Email service, Logging, Notifications
+// Flow:
+// News Changed  ---> Publisher Notifies Everyone ---> Subscribers Receive Update  ---> When to use Observer Pattern:
 
+// 👉 Real use:
+// - YouTube Notifications
+// - News Channel System, 
+// - Stock Market Apps
+// - Kafka / RabbitMQ Consumers
 // ============================================================
-
-
 
 
 
@@ -90,8 +99,28 @@ import java.util.List;
 
 
 // ============================================================
-// 3. Builder Pattern (Immutable Object - BEST PRACTICE)
-// Builder Pattern is used to create complex objects step by step, especially when an object has many optional parameters.
+// 4. Strategy pattern:  Ex: Payment System
+// Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+// ============================================================
+
+
+
+
+
+
+// ============================================================
+// 5. Adapter pattern: Ex: Media Player
+// Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+// ============================================================
+
+
+
+
+
+
+// ============================================================
+// 6. Builder Pattern (Immutable Object - BEST PRACTICE) : Ex: Employee Object Creation
+// Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
 
 // Rules to create Builder Pattern:
 // 1. Create a static nested Builder class inside the main class.
@@ -103,7 +132,15 @@ import java.util.List;
 // 1. When you have a class with many parameters (especially optional ones) and want to avoid constructor overloading.
 // 2. When you want to create immutable objects with many parameters.
 
+// Use case: Employee class with id, name, age, department, and salary.
+
+// Real use: API Request Objects, Complex DTO / Response Objects, Lombok @Builder, etc.
 // ============================================================
+// ❌ Problem Without Builder
+// Employee e = new Employee(1, "Rahul", 25, "Bangalore", "Developer");
+
+// 👉 Hard to read
+// 👉 Constructor becomes huge
 
 
 
@@ -111,13 +148,12 @@ import java.util.List;
 
 
 
+// Output
+// Employee{id=1, name='Rahul'}
 
-// Output:
-// User{name='Alice', age=0}
-// User{name='Bob', age=25}
 
 // ============================================================
-// 4. Prototype Pattern (Cloning)
+// 7. Prototype Pattern (Cloning) :Ex Student Object Creation
 // Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 
 // Rules to create Prototype Pattern:

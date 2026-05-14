@@ -233,8 +233,82 @@ class ObserverPatternExp {
 // BBC received: Observer pattern in action!
 
 
+
 // ============================================================
-// 4. Builder Pattern (Immutable Object - BEST PRACTICE) : Ex: Employee Object Creation
+// 4. Strategy pattern:  Ex: Payment System
+// Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+// ============================================================
+// Strategy interface
+interface PaymentStrategy {
+    void pay(double amount);
+}
+
+// Concrete strategies
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(double amount) {
+        System.out.println("Paid $" + amount + " using credit card");
+    }
+}
+
+class PayPalPayment implements PaymentStrategy {
+    public void pay(double amount) {
+        System.out.println("Paid $" + amount + " using PayPal");
+    }
+}
+
+// Context
+class ShoppingCart {
+    private PaymentStrategy paymentStrategy;
+    
+    public void setPaymentStrategy(PaymentStrategy strategy) {
+        this.paymentStrategy = strategy;
+    }
+    
+    public void checkout(double amount) {
+        paymentStrategy.pay(amount);
+    }
+}
+
+
+// ============================================================
+// 5. Adapter pattern: Ex: Media Player
+// Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+// ============================================================
+// Target interface (what client expects)
+interface MediaPlayer {
+    void play(String audioType, String fileName);
+}
+
+// Adaptee (existing incompatible interface)
+class AdvancedMediaPlayer {
+    public void playVlc(String fileName) {
+        System.out.println("Playing vlc file: " + fileName);
+    }
+    
+    public void playMp4(String fileName) {
+        System.out.println("Playing mp4 file: " + fileName);
+    }
+}
+
+// Adapter
+class MediaAdapter implements MediaPlayer {
+    private AdvancedMediaPlayer advancedPlayer;
+    
+    public MediaAdapter(String audioType) {
+        advancedPlayer = new AdvancedMediaPlayer();
+    }
+    
+    public void play(String audioType, String fileName) {
+        if (audioType.equals("vlc")) {
+            advancedPlayer.playVlc(fileName);
+        } else if (audioType.equals("mp4")) {
+            advancedPlayer.playMp4(fileName);
+        }
+    }
+}
+
+// ============================================================
+// 6. Builder Pattern (Immutable Object - BEST PRACTICE) : Ex: Employee Object Creation
 // Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
 
 // Rules to create Builder Pattern:
@@ -314,80 +388,7 @@ class BuilderPatternDemo {
 
 
 // ============================================================
-// 5. Strategy pattern:  Ex: Payment System
-// Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
-// ============================================================
-// Strategy interface
-interface PaymentStrategy {
-    void pay(double amount);
-}
-
-// Concrete strategies
-class CreditCardPayment implements PaymentStrategy {
-    public void pay(double amount) {
-        System.out.println("Paid $" + amount + " using credit card");
-    }
-}
-
-class PayPalPayment implements PaymentStrategy {
-    public void pay(double amount) {
-        System.out.println("Paid $" + amount + " using PayPal");
-    }
-}
-
-// Context
-class ShoppingCart {
-    private PaymentStrategy paymentStrategy;
-    
-    public void setPaymentStrategy(PaymentStrategy strategy) {
-        this.paymentStrategy = strategy;
-    }
-    
-    public void checkout(double amount) {
-        paymentStrategy.pay(amount);
-    }
-}
-
-
-// ============================================================
-// 5. Adapter pattern: Ex: Media Player
-// Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
-// ============================================================
-// Target interface (what client expects)
-interface MediaPlayer {
-    void play(String audioType, String fileName);
-}
-
-// Adaptee (existing incompatible interface)
-class AdvancedMediaPlayer {
-    public void playVlc(String fileName) {
-        System.out.println("Playing vlc file: " + fileName);
-    }
-    
-    public void playMp4(String fileName) {
-        System.out.println("Playing mp4 file: " + fileName);
-    }
-}
-
-// Adapter
-class MediaAdapter implements MediaPlayer {
-    private AdvancedMediaPlayer advancedPlayer;
-    
-    public MediaAdapter(String audioType) {
-        advancedPlayer = new AdvancedMediaPlayer();
-    }
-    
-    public void play(String audioType, String fileName) {
-        if (audioType.equals("vlc")) {
-            advancedPlayer.playVlc(fileName);
-        } else if (audioType.equals("mp4")) {
-            advancedPlayer.playMp4(fileName);
-        }
-    }
-}
-
-// ============================================================
-// 5. Prototype Pattern (Cloning) :Ex Student Object Creation
+// 7. Prototype Pattern (Cloning) :Ex Student Object Creation
 // Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 
 // Rules to create Prototype Pattern:

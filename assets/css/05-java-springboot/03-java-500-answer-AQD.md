@@ -197,7 +197,7 @@ public class Helper {
 }
 ```
 
-## 5. Normal, final, static, static final, volatile, abstract, transient?
+## 5. Normal, final, static, static final, volatile, abstract, transient, Serializable?
 
 **Normal Variable** Declared inside a class but outside methods.
 ```java
@@ -228,7 +228,7 @@ class Student {
 }
 ```
 
-**volatile** Used in multithreading. always read from main memory, Prevents caching issues.
+**volatile** Volatile is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
 ```java
 class Test {
     volatile boolean flag = true;
@@ -244,12 +244,72 @@ abstract class Animal {
 
 **transient** Used for serialization and but not saved. Used for sensitive data.
 ```java
-public class Student implements Serializable {
+public class Student implements Serializable { 
     private String username;
-    private transient String password;
+    private transient String password; // If you do NOT want a field to serialize:
     // `transient` is a serialization keyword in Java. password will NOT be saved.
 }
 ```
+
+**Serializable** is a marker interface in Java used to convert an object into a byte stream so that it can be stored, transferred, or reconstructed later.
+
+**Serialize Object**
+```java
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Employee emp = new Employee(101, "John");
+        FileOutputStream file = new FileOutputStream("employee.txt");
+
+        ObjectOutputStream out = new ObjectOutputStream(file);
+        out.writeObject(emp);
+
+        out.close();
+        file.close();
+
+        System.out.println("Object Serialized");
+    }
+}
+```
+
+**Deserialize Object**
+```java
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+
+public class ReadData {
+    public static void main(String[] args) throws Exception {
+
+        FileInputStream file = new FileInputStream("employee.txt");
+
+        ObjectInputStream in = new ObjectInputStream(file);
+        Employee emp = (Employee) in.readObject();
+
+        System.out.println(emp.id);
+        System.out.println(emp.name);
+
+        in.close();
+        file.close();
+    }
+}
+```
+
+
 
 **Difference between `transient` and `volatile`**
 
@@ -379,9 +439,9 @@ long population = 1000000L;
 ```
 
 ## 2. What is the difference between primitive and reference types?
-Primitive types in Java, like int, double, and boolean, store actual values in memory and are stored on the stack. They are fast and have a fixed size.
+**Primitive types** in Java, like int, double, and boolean, store actual values in memory and are stored on the stack. They are fast and have a fixed size.
 
-Reference types, like objects, arrays, and strings, store a reference or memory address pointing to the actual data in the heap. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
+**Reference types**, like objects, arrays, and strings, store a reference or memory address pointing to the actual data in the heap. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
 
 ```java
 int x = 10;        // primitive - stores value 10
