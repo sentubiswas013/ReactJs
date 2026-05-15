@@ -31,7 +31,7 @@ class SendEmailService {
 
 
 // ============================================================
-// 2. OCP (Open/Closed Principle) : Ex Payment System
+// 2. OCP (Open/Closed Principle) : Ex Payment System (Follow up with Strategy Pattern)
 // Open for extension, closed for modification
 // ============================================================
 // bad Impplementation: Adding new payment type requires modifying existing code ❌

@@ -235,7 +235,7 @@ class ObserverPatternExp {
 
 
 // ============================================================
-// 4. Strategy pattern:  Ex: Payment System
+// 4. Strategy pattern:  Ex: Payment System (Open/Closed Principle close implementsation, open for extension)
 // Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 // ============================================================
 // Strategy interface

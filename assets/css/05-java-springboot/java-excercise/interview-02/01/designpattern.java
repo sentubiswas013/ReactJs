@@ -102,6 +102,20 @@ import java.util.List;
 // 4. Strategy pattern:  Ex: Payment System
 // Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 // ============================================================
+interface PaymentStrategy() {
+	void pay(double amount);
+}
+
+class CreditCardPayment interface PaymentStrategy {
+	public void pay(Double amount) {
+		System.out.println("Credit paid " + amount);
+	}
+}
+class paypal interface PaymentStrategy {
+	public void pay(Double amount) {
+		System.out.println("Paypal paid " + amount);
+	}
+}
 
 
 
