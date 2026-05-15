@@ -106,6 +106,9 @@ import java.util.List;
 
 
 
+// Output:
+// Paid $500.0 using Credit Card
+// Paid $1200.0 using PayPal
 
 
 // ============================================================
@@ -116,6 +119,10 @@ import java.util.List;
 
 
 
+
+// Output::
+// Playing vlc file: movie.vlc
+// Playing mp4 file: video.mp4
 
 
 // ============================================================
