@@ -9011,7 +9011,7 @@ public class UserService {
 ```
 
  
-## 20. What is `@PostConstruct`, `@PreDestroy`, `@prototype` and `@Scope` in Spring Boot?
+## 20. What is `@Scope`, `@prototype`, `@PostConstruct` and `@PreDestroy` and  in Spring Boot?
 
 **@Scope**
 
@@ -9020,15 +9020,21 @@ public class UserService {
 * Common Values: prototype, request, session, application.
 * Example: Applied at class level alongside stereotype annotations.
 
+```java
 @Component
 @Scope("prototype")public class ReportGenerator {}
+```
 
 **@prototype**
 
 * Correction: There is no annotation named @prototype in Spring.
 * Actual Use: It is a value passed into the @Scope annotation.
 * Behavior: Instructs Spring to create a brand new instance every single time the bean is requested or injected.
-* Example: @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) or @Scope("prototype").
+* Example:
+ 
+```java
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) or @Scope("prototype").
+```
 
 **@PostConstruct**
 
@@ -9036,9 +9042,11 @@ public class UserService {
 * Common Use: Executing setup logic, populating caches, or validating that mandatory properties are not null.
 * Rule: The method must be void and cannot accept any arguments.
 
+```java
 @PostConstructpublic void init() {
     this.connectionPool = initializePool();
 }
+```
 
 **@PreDestroy**
 
@@ -9046,9 +9054,11 @@ public class UserService {
 * Common Use: Cleaning up resources, closing database connections, stopping background threads, or releasing file handles.
 * Limitation: It does not trigger for prototype scoped beans because Spring loses track of them after creation.
 
+```java
 @PreDestroypublic void cleanup() {
     this.connectionPool.close();
 }
+```
 
 **Singleton vs Prototype Scope**
 
