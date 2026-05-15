@@ -62,8 +62,7 @@ class Main {
     // ─────────────────────────────────────────────
     // 43. Hashcode
     // Avoid NullPointerException
-    // ─────────────────────────────────────────────
-        
+    // ─────────────────────────────────────────────        
     static class Person {
         private String name;
         Person (String name) {

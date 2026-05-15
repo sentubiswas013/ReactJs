@@ -3306,6 +3306,288 @@ Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache im
 Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
 ```
 
+**1. WeakHashMap Example**
+
+Used when keys should be removed automatically by Garbage Collector.
+
+Common use:
+
+* Caching
+* Memory-sensitive applications
+
+```java id="5f2r1j"
+import java.util.Map;
+import java.util.WeakHashMap;
+
+public class WeakHashMapExample {
+    public static void main(String[] args) throws Exception {
+        Map<String, Integer> weakMap = new WeakHashMap<>();
+
+        String key1 = new String("Java");
+        weakMap.put(key1, 100);
+
+        System.out.println("Before GC: " + weakMap);
+
+        // Remove strong reference
+        key1 = null;
+
+        // Request garbage collection
+        System.gc();
+
+        // Wait for GC
+        Thread.sleep(2000);
+
+        System.out.println("After GC: " + weakMap);
+    }
+}
+```
+
+**Output (may vary)**
+
+```text id="53oy9f"
+Before GC: {Java=100}
+After GC: {}
+```
+
+**Why?**
+
+`WeakHashMap` stores keys as weak references.
+If no strong reference exists, GC removes the entry.
+
+---
+
+**2. IdentityHashMap Example**
+
+Compares keys using:
+
+```java id="8v6c3d"
+==
+```
+
+instead of:
+
+```java id="2lm8fx"
+equals()
+```
+
+---
+
+```java id="p8d0mc"
+import java.util.IdentityHashMap;
+import java.util.Map;
+
+public class IdentityHashMapExample {
+
+    public static void main(String[] args) {
+
+        Map<String, Integer> identityMap = new IdentityHashMap<>();
+
+        String s1 = new String("Java");
+        String s2 = new String("Java");
+
+        identityMap.put(s1, 1);
+        identityMap.put(s2, 2);
+
+        System.out.println(identityMap);
+    }
+}
+```
+
+**Output**
+
+```text id="4lr7h8"
+{Java=1, Java=2}
+```
+
+**Why?**
+
+Although content is same:
+
+```java id="4xfrz2"
+s1.equals(s2) --> true
+```
+
+But:
+
+```java id="kq1ly4"
+s1 == s2 --> false
+```
+
+So both keys are treated separately.
+
+---
+
+**3. LinkedHashMap Example**
+
+Maintains insertion order.
+
+Useful for:
+
+* Ordered maps
+* LRU Cache
+
+---
+
+```java id="fjlwm5"
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LinkedHashMapExample {
+
+    public static void main(String[] args) {
+
+        Map<Integer, String> linkedMap = new LinkedHashMap<>();
+
+        linkedMap.put(3, "Java");
+        linkedMap.put(1, "Spring");
+        linkedMap.put(2, "Hibernate");
+
+        System.out.println(linkedMap);
+    }
+}
+```
+
+**Output**
+
+```text id="9ldm4y"
+{3=Java, 1=Spring, 2=Hibernate}
+```
+
+Insertion order preserved.
+
+---
+
+**LinkedHashMap as LRU Cache**
+
+```java id="r6xkm0"
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LRUCacheExample {
+
+    public static void main(String[] args) {
+
+        LinkedHashMap<Integer, String> cache =
+                new LinkedHashMap<>(3, 0.75f, true) {
+
+            protected boolean removeEldestEntry(
+                    Map.Entry<Integer, String> eldest) {
+
+                return size() > 3;
+            }
+        };
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1); // Access key 1
+
+        cache.put(4, "D");
+
+        System.out.println(cache);
+    }
+}
+```
+
+**Output**
+
+```text id="gb5w4c"
+{3=C, 1=A, 4=D}
+```
+
+Key `2` removed because it was least recently used.
+
+---
+
+**4. PriorityQueue Example**
+
+Implements Min Heap by default.
+
+Elements processed based on priority.
+
+---
+
+```java id="gqws4s"
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class PriorityQueueExample {
+
+    public static void main(String[] args) {
+
+        Queue<Integer> priorityQueue = new PriorityQueue<>();
+
+        priorityQueue.offer(30);
+        priorityQueue.offer(10);
+        priorityQueue.offer(50);
+        priorityQueue.offer(20);
+
+        while (!priorityQueue.isEmpty()) {
+            System.out.println(priorityQueue.poll());
+        }
+    }
+}
+```
+
+**Output**
+
+```text id="4ztjlwm"
+10
+20
+30
+50
+```
+
+Smallest element comes first.
+
+---
+
+**Max Heap Example**
+
+```java id="xj5pc5"
+import java.util.Collections;
+import java.util.PriorityQueue;
+
+public class MaxHeapExample {
+
+    public static void main(String[] args) {
+
+        PriorityQueue<Integer> maxHeap =
+                new PriorityQueue<>(Collections.reverseOrder());
+
+        maxHeap.offer(10);
+        maxHeap.offer(50);
+        maxHeap.offer(20);
+
+        while (!maxHeap.isEmpty()) {
+            System.out.println(maxHeap.poll());
+        }
+    }
+}
+```
+
+**Output**
+
+```text id="w7yl3n"
+50
+20
+10
+```
+
+---
+
+**Summary**
+
+| Collection        | Special Feature                  | Common Use                  |
+| ----------------- | -------------------------------- | --------------------------- |
+| `WeakHashMap`     | Removes entries after GC         | Cache                       |
+| `IdentityHashMap` | Uses `==` for key comparison     | Object identity tracking    |
+| `LinkedHashMap`   | Maintains insertion/access order | LRU Cache                   |
+| `PriorityQueue`   | Heap-based priority processing   | Scheduling, task processing |
+
+
+
 ## 9. Difference between ConcurrentHashMap and HashMap, and when to use what
 
 | Feature              | HashMap                        | ConcurrentHashMap                        |

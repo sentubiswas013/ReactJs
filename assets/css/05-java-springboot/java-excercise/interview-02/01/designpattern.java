@@ -102,7 +102,7 @@ import java.util.List;
 // 4. Strategy pattern:  Ex: Payment System
 // Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 // ============================================================
-interface PaymentStrategy() {
+interface PaymentStrategy {
 	void pay(double amount);
 }
 
@@ -116,7 +116,29 @@ class paypal interface PaymentStrategy {
 		System.out.println("Paypal paid " + amount);
 	}
 }
+class ShoppingCart {
+	private PaymentStrategy paymentStrategy;
 
+	public void setPaymentStrategy(PaymentStrategy strategy) {
+		this.paymentStrategy = strategy;
+	}
+
+	public void checkout(double amount) {
+		paymentStrategy.pay(amount);
+	}
+}
+
+class StrategyPatternDemo {
+	public static void main (String[] args) {
+		ShoppingCart cart = new ShoppingCart();
+
+		cart.setPaymentStrategy(new CreditCardPayment());
+		cart.checkout(600);
+
+		cart.setPaymentStrategy(new PaymentStrategy());
+		cart.checkout(500);
+	}
+}
 
 
 
