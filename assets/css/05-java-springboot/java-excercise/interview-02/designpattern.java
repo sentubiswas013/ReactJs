@@ -269,6 +269,25 @@ class ShoppingCart {
     }
 }
 
+// Main class
+class StrategyPatternDemo {
+    public static void main(String[] args) {
+        ShoppingCart cart = new ShoppingCart();
+
+        // Pay using Credit Card
+        cart.setPaymentStrategy(new CreditCardPayment());
+        cart.checkout(500);
+
+        // Pay using PayPal
+        cart.setPaymentStrategy(new PayPalPayment());
+        cart.checkout(1200);
+    }
+}
+
+// Output:
+// Paid $500.0 using Credit Card
+// Paid $1200.0 using PayPal
+
 
 // ============================================================
 // 5. Adapter pattern: Ex: Media Player
@@ -284,7 +303,7 @@ class AdvancedMediaPlayer {
     public void playVlc(String fileName) {
         System.out.println("Playing vlc file: " + fileName);
     }
-    
+
     public void playMp4(String fileName) {
         System.out.println("Playing mp4 file: " + fileName);
     }
@@ -293,19 +312,39 @@ class AdvancedMediaPlayer {
 // Adapter
 class MediaAdapter implements MediaPlayer {
     private AdvancedMediaPlayer advancedPlayer;
-    
+
     public MediaAdapter(String audioType) {
         advancedPlayer = new AdvancedMediaPlayer();
     }
-    
+
     public void play(String audioType, String fileName) {
-        if (audioType.equals("vlc")) {
+        if (audioType.equalsIgnoreCase("vlc")) {
             advancedPlayer.playVlc(fileName);
-        } else if (audioType.equals("mp4")) {
+
+        } else if (audioType.equalsIgnoreCase("mp4")) {
             advancedPlayer.playMp4(fileName);
+
+        } else {
+            System.out.println("Invalid media type");
         }
     }
 }
+
+// Main class
+class AdapterPatternDemo {
+    public static void main(String[] args) {
+        MediaPlayer vlcPlayer = new MediaAdapter("vlc");
+        vlcPlayer.play("vlc", "movie.vlc");
+
+        MediaPlayer mp4Player = new MediaAdapter("mp4");
+        mp4Player.play("mp4", "video.mp4");
+    }
+}
+
+
+// Output::
+// Playing vlc file: movie.vlc
+// Playing mp4 file: video.mp4
 
 // ============================================================
 // 6. Builder Pattern (Immutable Object - BEST PRACTICE) : Ex: Employee Object Creation

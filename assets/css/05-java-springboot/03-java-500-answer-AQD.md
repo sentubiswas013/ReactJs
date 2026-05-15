@@ -7724,7 +7724,7 @@ class AdvancedMediaPlayer {
     public void playVlc(String fileName) {
         System.out.println("Playing vlc file: " + fileName);
     }
-    
+
     public void playMp4(String fileName) {
         System.out.println("Playing mp4 file: " + fileName);
     }
@@ -7733,19 +7733,38 @@ class AdvancedMediaPlayer {
 // Adapter
 class MediaAdapter implements MediaPlayer {
     private AdvancedMediaPlayer advancedPlayer;
-    
+
     public MediaAdapter(String audioType) {
         advancedPlayer = new AdvancedMediaPlayer();
     }
-    
+
+    @Override
     public void play(String audioType, String fileName) {
-        if (audioType.equals("vlc")) {
+        if (audioType.equalsIgnoreCase("vlc")) {
             advancedPlayer.playVlc(fileName);
-        } else if (audioType.equals("mp4")) {
+
+        } else if (audioType.equalsIgnoreCase("mp4")) {
             advancedPlayer.playMp4(fileName);
+
+        } else {
+            System.out.println("Invalid media type");
         }
     }
 }
+
+// Main class
+class AdapterPatternDemo {
+    public static void main(String[] args) {
+        MediaPlayer vlcPlayer = new MediaAdapter("vlc");
+        vlcPlayer.play("vlc", "movie.vlc");
+
+        MediaPlayer mp4Player = new MediaAdapter("mp4");
+        mp4Player.play("mp4", "video.mp4");
+    }
+}
+// Output::
+// Playing vlc file: movie.vlc
+// Playing mp4 file: video.mp4
 ```
 
 ## 8. What is Decorator pattern?
