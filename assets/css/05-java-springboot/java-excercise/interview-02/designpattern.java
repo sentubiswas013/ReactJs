@@ -234,59 +234,86 @@ class ObserverPatternExp {
 
 
 
+
 // ============================================================
-// 4. Strategy pattern:  Ex: Payment System (Open/Closed Principle close implementsation, open for extension)
+// 4. Strategy Pattern Example: Notification System
 // Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+// Real-time Example:
+// Different ways to send notifications (Email, SMS, Push)
+// We can add new notification types without modifying existing code.
+// Open for extension, closed for modification.
 // ============================================================
-// Strategy interface
-interface PaymentStrategy {
-    void pay(double amount);
+
+// Strategy Interface
+interface NotificationStrategy {
+    void send(String message);
 }
 
-// Concrete strategies
-class CreditCardPayment implements PaymentStrategy {
-    public void pay(double amount) {
-        System.out.println("Paid $" + amount + " using credit card");
+// Concrete Strategy 1
+class EmailNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending EMAIL: " + message);
     }
 }
 
-class PayPalPayment implements PaymentStrategy {
-    public void pay(double amount) {
-        System.out.println("Paid $" + amount + " using PayPal");
+// Concrete Strategy 2
+class SMSNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending SMS: " + message);
     }
 }
 
-// Context
-class ShoppingCart {
-    private PaymentStrategy paymentStrategy;
-    
-    public void setPaymentStrategy(PaymentStrategy strategy) {
-        this.paymentStrategy = strategy;
-    }
-    
-    public void checkout(double amount) {
-        paymentStrategy.pay(amount);
+// Concrete Strategy 3
+class PushNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending PUSH Notification: " + message);
     }
 }
 
-// Main class
+// Context Class
+class NotificationService {
+    private NotificationStrategy strategy;
+
+    // Set strategy dynamically
+    public void setStrategy(NotificationStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    // Execute selected strategy
+    public void notifyUser(String message) {
+        strategy.send(message);
+    }
+}
+
+// Main Class
 class StrategyPatternDemo {
     public static void main(String[] args) {
-        ShoppingCart cart = new ShoppingCart();
+        NotificationService service = new NotificationService();
 
-        // Pay using Credit Card
-        cart.setPaymentStrategy(new CreditCardPayment());
-        cart.checkout(500);
+        // Send Email
+        service.setStrategy(new EmailNotification());
+        service.notifyUser("Your order has been placed!");
 
-        // Pay using PayPal
-        cart.setPaymentStrategy(new PayPalPayment());
-        cart.checkout(1200);
+        // Send SMS
+        service.setStrategy(new SMSNotification());
+        service.notifyUser("OTP is 4589");
+
+        // Send Push Notification
+        service.setStrategy(new PushNotification());
+        service.notifyUser("Flash sale starts in 10 minutes!");
     }
 }
 
+
 // Output:
-// Paid $500.0 using Credit Card
-// Paid $1200.0 using PayPal
+// Sending EMAIL: Your order has been placed!
+// Sending SMS: OTP is 4589
+// Sending PUSH Notification: Flash sale starts in 10 minutes!
+
+
 
 
 // ============================================================

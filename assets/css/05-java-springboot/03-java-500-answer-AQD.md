@@ -7959,34 +7959,47 @@ BBC received: Observer pattern in action!
 Use Case: 
 
 ```java
-// Strategy interface
-interface PaymentStrategy {
-    void pay(double amount);
+// Strategy Interface
+interface NotificationStrategy {
+    void send(String message);
 }
 
-// Concrete strategies
-class CreditCardPayment implements PaymentStrategy {
-    public void pay(double amount) {
-        System.out.println("Paid $" + amount + " using credit card");
+// Concrete Strategy 1
+class EmailNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending EMAIL: " + message);
     }
 }
 
-class PayPalPayment implements PaymentStrategy {
-    public void pay(double amount) {
-        System.out.println("Paid $" + amount + " using PayPal");
+// Concrete Strategy 2
+class SMSNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending SMS: " + message);
     }
 }
 
-// Context
-class ShoppingCart {
-    private PaymentStrategy paymentStrategy;
-    
-    public void setPaymentStrategy(PaymentStrategy strategy) {
-        this.paymentStrategy = strategy;
+// Concrete Strategy 3
+class PushNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending PUSH Notification: " + message);
     }
-    
-    public void checkout(double amount) {
-        paymentStrategy.pay(amount);
+}
+
+// Context Class
+class NotificationService {
+    private NotificationStrategy strategy;
+
+    // Set strategy dynamically
+    public void setStrategy(NotificationStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    // Execute selected strategy
+    public void notifyUser(String message) {
+        strategy.send(message);
     }
 }
 ```

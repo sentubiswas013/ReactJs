@@ -1,6 +1,39 @@
 import java.util.ArrayList;
 import java.util.List;
 
+class DesignPattern {
+	public static void main (String[] args) {
+		
+		// 1. Singleton Pattern ==========================================
+
+
+
+		// 2. Factory Pattern ============================================
+
+
+
+		// 3. Observer Pattern ===========================================
+
+
+
+		// 4. Strategy pattern ===========================================
+		
+
+
+		// 5. Adapter pattern ============================================
+
+
+
+		// 6. Builder Pattern ============================================
+
+
+
+		// 7. Prototype Pattern ==========================================
+
+		
+    }
+}
+
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking) Ex: Logger, Configuration Manager
 // Singleton Pattern Creational Design Patterns that ensures a class has only one object (instance) and provides a global access point to that instance.
@@ -99,9 +132,14 @@ import java.util.List;
 
 
 // ============================================================
-// 4. Strategy pattern:  Ex: Payment System
+// 4. Strategy Pattern Example: Notification System
 // Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+
+// Real-time Example: Different ways to send notifications (Email, SMS, Push)
+// We can add new notification types without modifying existing code.
+// Open for extension, closed for modification.
 // ============================================================
+
 
 
 
