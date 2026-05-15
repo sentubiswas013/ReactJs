@@ -7456,6 +7456,8 @@ Design patterns are proven reusable solutions to common software design problems
 
 **Singleton Pattern** is a design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
 
+**The default scope** for a Spring Bean in Spring Boot is the singleton scope
+
 When to use:
 
 * **Database Connection Manager** – one shared connection pool for the whole app
@@ -9009,15 +9011,44 @@ public class UserService {
 ```
 
  
-## 20. What is `@PostConstruct`, `@PreDestroy` and `@Scope` in Spring Boot?
+## 20. What is `@PostConstruct`, `@PreDestroy`, `@prototype` and `@Scope` in Spring Boot?
 
-**@PostConstruct** annotations is used to run initialization logic after Spring creates the bean and injects dependencies.
+**@Scope**
 
-**@PreDestroy** annotation is used to clean up resources before the bean is destroyed.
+* Purpose: Defines the lifecycle and visibility context of a Spring bean.
+* Default: singleton (one instance per container).
+* Common Values: prototype, request, session, application.
+* Example: Applied at class level alongside stereotype annotations.
 
-**@Scope** is a **Spring annotation** used to define **how many objects (beans) Spring should create** for a class.
+@Component
+@Scope("prototype")public class ReportGenerator {}
 
-**Lifecycle order:** Constructor → Dependency Injection → @PostConstruct → Bean Ready → @PreDestroy → Destruction
+**@prototype**
+
+* Correction: There is no annotation named @prototype in Spring.
+* Actual Use: It is a value passed into the @Scope annotation.
+* Behavior: Instructs Spring to create a brand new instance every single time the bean is requested or injected.
+* Example: @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) or @Scope("prototype").
+
+**@PostConstruct**
+
+* Purpose: Marks a method to run exactly once, immediately after Spring finishes initializing the bean and injecting all dependencies.
+* Common Use: Executing setup logic, populating caches, or validating that mandatory properties are not null.
+* Rule: The method must be void and cannot accept any arguments.
+
+@PostConstructpublic void init() {
+    this.connectionPool = initializePool();
+}
+
+**@PreDestroy**
+
+* Purpose: Marks a method to run exactly once, right before the Spring container destroys the bean and removes it from memory.
+* Common Use: Cleaning up resources, closing database connections, stopping background threads, or releasing file handles.
+* Limitation: It does not trigger for prototype scoped beans because Spring loses track of them after creation.
+
+@PreDestroypublic void cleanup() {
+    this.connectionPool.close();
+}
 
 **Singleton vs Prototype Scope**
 
