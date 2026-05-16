@@ -72,36 +72,53 @@ class LambdaThreadExample2 {
 }
 
 // ============================================================
-// 4. Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
-// Use Case : Bank account withdrawal where multiple users try to withdraw money at the same time, leading to inconsistent balance if not synchronized.
+// 4. Race Condition and Synchronization 
+// Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
+// Use Case : ticket booking system where multiple users try to book the last seat simultaneously
 // ============================================================
-// Real-world Example: Bank account withdrawal where multiple users try to withdraw money at the same time, leading to inconsistent balance if not synchronized.
-class SynchronizationExample {
-    public static void main(String[] args) {
-        BankAccount account = new BankAccount();
+// Race Condition ::  Booking system where multiple users try to book the last seat simultaneously
+class RaceConditionExample {
+    public static void main(String[] args) throws Exception {
+        TicketBooking booking = new TicketBooking();
 
-        Thread user1 = new Thread(() -> account.withdraw(700), "User1");
-        Thread user2 = new Thread(() -> account.withdraw(700), "User2");
+        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
+        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
 
-        user1.start();
-        user2.start();
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
     }
 }
-class BankAccount {
-    int balance = 1000;
 
-    synchronized void withdraw(int amount) {
-        if (balance >= amount) {
-            System.out.println(
-                Thread.currentThread().getName() + " withdrawing..."
-            );
-            balance = balance - amount;
-            System.out.println("Remaining balance: " + balance);
+class TicketBooking {
+    int seats = 1;
+
+    void bookTicket() {
+        if (seats > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat");
+            seats--;
         } else {
-            System.out.println("Insufficient balance");
+            System.out.println(Thread.currentThread().getName() + " → No seats available");
         }
     }
 }
+
+// To Fix race condition, we can synchronize the method:
+class TicketBooking2 {
+    int seats = 1;
+
+    synchronized void bookTicket() {
+        if (seats > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat");
+            seats--;
+        } else {
+            System.out.println(Thread.currentThread().getName() + " → No seats available");
+        }
+    }
+}
+
 
 // ============================================================
 // 5. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
@@ -399,51 +416,6 @@ class BankAccountExm {
     }
 }
 
-// ============================================================
-// 13. Race Condition
-// ============================================================
-// Real-world Example: Booking system where multiple users try to book the last seat simultaneously
-class RaceConditionExample {
-    public static void main(String[] args) throws Exception {
-        TicketBooking booking = new TicketBooking();
-
-        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
-        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
-
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
-    }
-}
-
-class TicketBooking {
-    int seats = 1;
-
-    void bookTicket() {
-        if (seats > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat");
-            seats--;
-        } else {
-            System.out.println(Thread.currentThread().getName() + " → No seats available");
-        }
-    }
-}
-
-// To Fix race condition, we can synchronize the method:
-class TicketBooking2 {
-    int seats = 1;
-
-    synchronized void bookTicket() {
-        if (seats > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat");
-            seats--;
-        } else {
-            System.out.println(Thread.currentThread().getName() + " → No seats available");
-        }
-    }
-}
 
 // Output:
 // User-1 booked seat

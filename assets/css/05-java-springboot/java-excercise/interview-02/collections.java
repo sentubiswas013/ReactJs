@@ -1,78 +1,68 @@
 import java.util.*;
-import java.util.Collections;
-import java.util.PriorityQueue;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 // ============================================================
-// 17–21 + Extra: Java Collections (Interview Ready)
+// Java Collections + Important Interview Examples
+// Compact Single File
 // ============================================================
 
-class Main {
-    public static void main(String[] args) {
+class CollectionsDemo {
+    public static void main(String[] args) throws Exception {
         arrayListDemo();
         linkedListDemo();
         setDemo();
         mapDemo();
         iterateMapDemo();
-
-        // 🔥 Extra Important Topics
         queueDemo();
         stackDemo();
         sortingDemo();
+        weakHashMapDemo();
+        identityHashMapDemo();
+        linkedHashMapDemo();
+        lruCacheDemo();
+        priorityQueueDemo();
+        maxHeapDemo();
+        simpleCacheDemo();
     }
 
-    // ─────────────────────────────────────────────
-    // 17. ArrayList
-    // Dynamic array (fast read)
-    // ─────────────────────────────────────────────
+    // ============================================================
+    // 1. ArrayList
+    // ============================================================
+
     static void arrayListDemo() {
         List<String> list = new ArrayList<>();
-
-        list.add("A");
-        list.add("B");
-        list.add("C");
+        list.add("Java");
+        list.add("Spring");
+        list.add("Hibernate");
 
         System.out.println("ArrayList: " + list);
         System.out.println("Element at index 1: " + list.get(1));
     }
 
-    // ─────────────────────────────────────────────
-    // 18. LinkedList
-    // Doubly linked list (fast insert/delete)
-    // ─────────────────────────────────────────────
-    static void linkedListDemo() {
-        List<Integer> list = new LinkedList<>();
+    // ============================================================
+    // 2. LinkedList
+    // ============================================================
 
+    static void linkedListDemo() {
+        LinkedList<Integer> list = new LinkedList<>();
         list.add(10);
         list.add(20);
-        list.addFirst(5); // special method
+        list.addFirst(5);
 
         System.out.println("LinkedList: " + list);
     }
 
-    // ─────────────────────────────────────────────
-    // 19. Set (HashSet, TreeSet, LinkedHashSet)
-    // HashSet (unique and no order), 
-    // TreeSet (unique and sorted), 
-    // LinkedHashSet (unique and insertion order)
-    // ─────────────────────────────────────────────
-    static void setDemo() {
+    // ============================================================
+    // 3. Set
+    // ============================================================
 
-        // HashSet (no order)
+    static void setDemo() {
         Set<Integer> hashSet = new HashSet<>();
         hashSet.add(3);
         hashSet.add(1);
         hashSet.add(2);
 
-        // TreeSet (sorted)
         Set<Integer> treeSet = new TreeSet<>(hashSet);
-
-        // LinkedHashSet (insertion order)
         Set<Integer> linkedHashSet = new LinkedHashSet<>(hashSet);
 
         System.out.println("HashSet: " + hashSet);
@@ -80,24 +70,18 @@ class Main {
         System.out.println("LinkedHashSet: " + linkedHashSet);
     }
 
-    // ─────────────────────────────────────────────
-    // 20. Map (HashMap, TreeMap, LinkedHashMap, Hashtable)
-    // Key-value pairs
-    // ─────────────────────────────────────────────
-    static void mapDemo() {
+    // ============================================================
+    // 4. Map
+    // ============================================================
 
-        // HashMap (no order, not thread-safe)
+    static void mapDemo() {
         Map<String, Integer> hashMap = new HashMap<>();
         hashMap.put("A", 1);
         hashMap.put("B", 2);
 
-        // TreeMap (sorted by key)
         Map<String, Integer> treeMap = new TreeMap<>(hashMap);
-
-        // LinkedHashMap (insertion order)
         Map<String, Integer> linkedMap = new LinkedHashMap<>(hashMap);
 
-        // Hashtable (thread-safe, legacy)
         Map<String, Integer> hashtable = new Hashtable<>();
         hashtable.put("X", 100);
 
@@ -107,93 +91,92 @@ class Main {
         System.out.println("Hashtable: " + hashtable);
     }
 
-    // ─────────────────────────────────────────────
-    // 21. Iterate HashMap
-    // ─────────────────────────────────────────────
+    // ============================================================
+    // 5. Iterate Map
+    // ============================================================
+
     static void iterateMapDemo() {
         Map<String, Integer> map = new HashMap<>();
-        map.put("A", 1);
-        map.put("B", 2);
+        map.put("Java", 1);
+        map.put("Spring", 2);
 
-        // Method 1: entrySet (best)
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
 
-        // Method 2: keySet
         for (String key : map.keySet()) {
             System.out.println(key + " -> " + map.get(key));
         }
 
-        // Method 3: forEach (Java 8)
         map.forEach((k, v) -> System.out.println(k + " = " + v));
     }
 
     // ============================================================
-    // 🔥 EXTRA IMPORTANT TOPICS
+    // 6. Queue
     // ============================================================
 
-    // Queue (FIFO)
     static void queueDemo() {
         Queue<Integer> queue = new LinkedList<>();
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(3);
 
-        queue.add(1);
-        queue.add(2);
-        queue.add(3);
-
-        System.out.println("Queue poll: " + queue.poll());
+        System.out.println("Queue: " + queue);
+        System.out.println("Removed: " + queue.poll());
     }
 
-    // Stack (LIFO)
+    // ============================================================
+    // 7. Stack
+    // ============================================================
+
     static void stackDemo() {
         Stack<Integer> stack = new Stack<>();
-
         stack.push(10);
         stack.push(20);
 
-        System.out.println("Stack pop: " + stack.pop());
+        System.out.println("Stack: " + stack);
+        System.out.println("Popped: " + stack.pop());
     }
 
-    // Sorting
+    // ============================================================
+    // 8. Sorting
+    // ============================================================
+
     static void sortingDemo() {
         List<Integer> list = new ArrayList<>(Arrays.asList(3, 1, 2));
 
         Collections.sort(list);
-        System.out.println("Sorted: " + list);
+
+        System.out.println("Sorted List: " + list);
     }
-}
 
-// =============================================================
-// 8 WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue
+    // ============================================================
+    // 9. WeakHashMap
+    // ============================================================
 
-// =============================================================
-// 1. WeakHashMap Example
-class WeakHashMapExample {
-    public static void main(String[] args) throws Exception {
+    static void weakHashMapDemo() throws Exception {
         Map<String, Integer> weakMap = new WeakHashMap<>();
+        
+        String key = new String("Java");
 
-        String key1 = new String("Java");
-        weakMap.put(key1, 100);
+        weakMap.put(key, 100);
 
         System.out.println("Before GC: " + weakMap);
 
-        // Remove strong reference
-        key1 = null;
+        key = null;
 
-        // Request garbage collection
         System.gc();
 
-        // Wait for GC
         Thread.sleep(2000);
 
         System.out.println("After GC: " + weakMap);
     }
-}
-// Output (may vary)
 
-// 2. IdentityHashMap Example
-class IdentityHashMapExample {
-    public static void main(String[] args) {
+    // ============================================================
+    // 10. IdentityHashMap
+    // ============================================================
+
+    static void identityHashMapDemo() {
         Map<String, Integer> identityMap = new IdentityHashMap<>();
 
         String s1 = new String("Java");
@@ -204,13 +187,12 @@ class IdentityHashMapExample {
 
         System.out.println(identityMap);
     }
-}
-// Output : {Java=1, Java=2}
 
+    // ============================================================
+    // 11. LinkedHashMap
+    // ============================================================
 
-// 3. LinkedHashMap Example
-class LinkedHashMapExample {
-    public static void main(String[] args) {
+    static void linkedHashMapDemo() {
         Map<Integer, String> linkedMap = new LinkedHashMap<>();
 
         linkedMap.put(3, "Java");
@@ -219,36 +201,39 @@ class LinkedHashMapExample {
 
         System.out.println(linkedMap);
     }
-}
-// Output : {3=Java, 1=Spring, 2=Hibernate}
 
+    // ============================================================
+    // 12. LRU Cache
+    // ============================================================
 
-// LinkedHashMap as LRU Cache
-class LRUCacheExample {
-    public static void main(String[] args) {
-        LinkedHashMap<Integer, String> cache = new LinkedHashMap<>(3, 0.75f, true) {
-            protected boolean removeEldestEntry(
-                    Map.Entry<Integer, String> eldest) {
-                return size() > 3;
-            }
-        };
+    static void lruCacheDemo() {
+        LinkedHashMap<Integer, String> cache =
+                new LinkedHashMap<Integer, String>(3, 0.75f, true) {
+
+                    @Override
+                    protected boolean removeEldestEntry(
+                            Map.Entry<Integer, String> eldest) {
+
+                        return size() > 3;
+                    }
+                };
 
         cache.put(1, "A");
         cache.put(2, "B");
         cache.put(3, "C");
 
-        cache.get(1); // Access key 1
+        cache.get(1);
 
         cache.put(4, "D");
 
         System.out.println(cache);
     }
-}
-// Output: {3=C, 1=A, 4=D}
 
-// PriorityQueue Example**
-class PriorityQueueExample {
-    public static void main(String[] args) {
+    // ============================================================
+    // 13. PriorityQueue
+    // ============================================================
+
+    static void priorityQueueDemo() {
         Queue<Integer> priorityQueue = new PriorityQueue<>();
 
         priorityQueue.offer(30);
@@ -260,13 +245,14 @@ class PriorityQueueExample {
             System.out.println(priorityQueue.poll());
         }
     }
-}
-// Output : 10, 20, 30, 50
 
+    // ============================================================
+    // 14. Max Heap
+    // ============================================================
 
-class MaxHeapExample {
-    public static void main(String[] args) {
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+    static void maxHeapDemo() {
+        PriorityQueue<Integer> maxHeap =
+                new PriorityQueue<>(Collections.reverseOrder());
 
         maxHeap.offer(10);
         maxHeap.offer(50);
@@ -276,19 +262,34 @@ class MaxHeapExample {
             System.out.println(maxHeap.poll());
         }
     }
+
+    // ============================================================
+    // 15. Simple Cache
+    // ============================================================
+
+    static void simpleCacheDemo() throws InterruptedException {
+        SimpleCache<String, String> cache =
+                new SimpleCache<>(3000);
+
+        cache.put("key1", "Hello World");
+
+        System.out.println("Before Expiry: " + cache.get("key1"));
+
+        Thread.sleep(4000);
+
+        System.out.println("After Expiry: " + cache.get("key1"));
+    }
 }
-// Output :  50, 20, 10
 
-
-// =============================================================
-//## 9. You need to implement a caching mechanism without using external libraries. How do you do it?
-// import java.util.Map;
-// import java.util.concurrent.ConcurrentHashMap;
-// =============================================================
+// ============================================================
+// Simple Cache Implementation
+// ============================================================
 
 class SimpleCache<KeyType, ValueType> {
 
-    private final Map<KeyType, CacheEntry<ValueType>> cache = new ConcurrentHashMap<>();
+    private final Map<KeyType, CacheEntry<ValueType>> cache =
+            new ConcurrentHashMap<>();
+
     private final long ttlMillis;
 
     public SimpleCache(long ttlMillis) {
@@ -297,7 +298,10 @@ class SimpleCache<KeyType, ValueType> {
 
     public ValueType get(KeyType key) {
         CacheEntry<ValueType> entry = cache.get(key);
-        if (entry == null) return null;
+
+        if (entry == null) {
+            return null;
+        }
 
         if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
             cache.remove(key);
@@ -308,10 +312,13 @@ class SimpleCache<KeyType, ValueType> {
     }
 
     public void put(KeyType key, ValueType value) {
-        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
+        cache.put(key,
+                new CacheEntry<>(value,
+                        System.currentTimeMillis()));
     }
 
     static class CacheEntry<ValueType> {
+
         final ValueType value;
         final long timestamp;
 
@@ -320,19 +327,5 @@ class SimpleCache<KeyType, ValueType> {
             this.timestamp = timestamp;
         }
     }
-
-    // ✅ TEST METHOD
-    public static void main(String[] args) throws InterruptedException {
-        SimpleCache<String, String> cache = new SimpleCache<>(3000);
-        cache.put("key1", "Hello World");
-
-        System.out.println("Before expiry: " + cache.get("key1"));
-
-        Thread.sleep(4000);
-
-        System.out.println("After expiry: " + cache.get("key1"));
-    }
-
-
-
 }
+
