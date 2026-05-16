@@ -72,7 +72,7 @@ class LambdaThreadExample2 {
 
 // ============================================================
 // 4. Race Condition and Synchronization 
-// Synchronization prevents multiple threads from accessing shared resources simultaneously,  thread safety
+// Synchronization :: prevents multiple threads from accessing shared resources simultaneously,  thread safety
 // Use Case: ticket booking system where multiple users try to book the last seat simultaneously
 // ============================================================
 // Race Condition :: Two threads trying to withdraw money from the same bank account at the same time, leading to incorrect balance updates.
@@ -125,7 +125,7 @@ class BankAccountFixed2 {
 
 
 // ============================================================
-// 5. ReentrantLock
+// 5. ReentrantLock :: is a class in Java (java.util.concurrent.locks) that provides an explicit and more flexible locking mechanism than synchronized.
 // Real-world Example: Bank account withdrawal with explicit locking
 // ============================================================
 class ReentrantLockExampleTwo {
@@ -170,8 +170,42 @@ class BankAccountExm {
 // User-2 booked seat   ❌ (wrong – only 1 seat!)
 // User-1 booked seat
 
+
 // ============================================================
-// 6. Volatile:: ensures variable changes are immediately visible to all threads (prevents caching issues)
+// 6. AtomicInteger:: provides thread-safe operations without synchronization - useful for counters in concurrent programming
+// Use Case: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
+// Example: Ticket booking system where multiple users try to book the last seat simultaneously
+// ============================================================
+class AtomicIntegerExp {
+    public static void main(String[] args) throws Exception {
+        AtomicTicketBooking booking = new AtomicTicketBooking();
+
+        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
+        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+    }
+}
+
+class AtomicTicketBooking {
+    private AtomicInteger seat = new AtomicInteger(1);
+    public void bookTicket() {
+        int remaining = seat.getAndDecrement();
+        if (remaining > 0) {
+            System.out.println(Thread.currentThread().getName() + " booked seat.");
+        } else {
+            System.out.println(Thread.currentThread().getName() + " no seat available.");
+        }
+    }
+}
+
+
+// ============================================================
+// 7. Volatile:: ensures variable changes are immediately visible to all threads (prevents caching issues)
 // Use Case: A flag to stop a thread gracefully from another thread without using synchronization.
 // Example: A background task that should stop when a flag is set to false.
 // ============================================================
@@ -206,39 +240,8 @@ class Task implements Runnable {
 }
 
 // ============================================================
-// 7. AtomicInteger:: provides thread-safe operations without synchronization - useful for counters in concurrent programming
-// Use Case: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
-// Example: Ticket booking system where multiple users try to book the last seat simultaneously
-// ============================================================
-class AtomicIntegerExp {
-    public static void main(String[] args) throws Exception {
-        AtomicTicketBooking booking = new AtomicTicketBooking();
-
-        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
-        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
-
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
-    }
-}
-
-class AtomicTicketBooking {
-    private AtomicInteger seat = new AtomicInteger(1);
-    public void bookTicket() {
-        int remaining = seat.getAndDecrement();
-        if (remaining > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat.");
-        } else {
-            System.out.println(Thread.currentThread().getName() + " no seat available.");
-        }
-    }
-}
-
-// ============================================================
-// 8. Sleep pauses thread execution for specified time but keeps locks (can cause blocking)
+// 8. sleep() :: pauses the current thread for a specified time but does not release the lock.
+// wait() :: pauses the thread and releases the lock, allowing other threads to execute. It must be used inside a synchronized block.
 // Example: printer class where one thread is printing and sleeps in between, while another thread tries to print but has to wait for the lock to be released.
 // ============================================================
 class WaitSleepNotifyExample {
@@ -291,7 +294,7 @@ class Printer {
 
 
 // ============================================================
-// 9. ConcurrentHashMap: Thread-safe HashMap that allows multiple threads to read/write simultaneously without external synchronization
+// 9. ConcurrentHashMap: is a thread-safe implementation of Map that allows multiple threads to read and write data concurrently without locking the entire map.
 // Example: A web application that maintains a concurrent cache of user sessions using ConcurrentHashMap.
 // ============================================================
 // Real-world Example: Counting word frequency in logs using ConcurrentHashMap
@@ -334,7 +337,7 @@ class UserSession {
 }
 
 // ============================================================
-// 10. ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
+// 10. ExecutorService :: is a Java API to manage thread pools and execute tasks asynchronously, in the background.
 // Example: A web server that uses ExecutorService to handle incoming HTTP requests concurrently without blocking the main thread.
 // ============================================================
 class ExecutorServiceRealTimeExample {
@@ -363,7 +366,7 @@ class ExecutorServiceRealTimeExample {
 }
 
 // ============================================================
-// 11. CompletableFuture :: is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
+// 11. CompletableFuture :: is used to run asynchronous tasks and combine multiple async operations.
 // Example: A web application that retrieves user data from a database and then calls an external API to get additional information, all without blocking the main thread.
 // ============================================================
 // Real-world Example: Calling multiple APIs in parallel and combining results

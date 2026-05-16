@@ -2,6 +2,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
 // ============================================================
 // 1. Using Thread class
 // ============================================================
@@ -24,109 +25,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 
-// ============================================================
-// 4. Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
-// ============================================================
-// Main Class (Simulation)
-
-
-
-
 
 // ============================================================
-// 5. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
+// 4. Race Condition and Synchronization 
+// Synchronization :: prevents multiple threads from accessing shared resources simultaneously,  thread safety
+// Use Case: ticket booking system where multiple users try to book the last seat simultaneously
 // ============================================================
-
-
-
-
-// ============================================================
-// AtomicInteger provides thread-safe operations without synchronization - useful for counters in concurrent programming
-// ============================================================
-
-
-
-
-// ============================================================
-// Sleep pauses thread execution for specified time but keeps locks (can cause blocking)// ============================================================
-
-
-
-
-// ============================================================
-// 8. wait
-// ============================================================
-
-
-
-
-
-// ============================================================
-// 9. wait/notify
-// ============================================================
-
-
-
-
-
-// ============================================================
-// ConcurrentHashMap: Thread-safe HashMap that allows multiple threads to read/write simultaneously without external synchronization
-// ============================================================
-
-
-
-
-
-// Real-world Example: Counting word frequency in logs using ConcurrentHashMap
-// import java.util.concurrent.*;
-
-// import java.util.concurrent.ConcurrentHashMap;
-
-
-
-
-
-// ============================================================
-// ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
-// ============================================================
-
-
-
-
-// Real-world Example: Processing multiple orders in parallel using ExecutorService
-// import java.util.concurrent.*;
-
-
-
-
-// ============================================================
-// 12. CompletableFuture is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
-// ============================================================
-
-
-
-
-// Real-world Example: Calling multiple APIs in parallel and combining results
-// import java.util.concurrent.CompletableFuture;
-
-
-
-
-// ============================================================
-// 13. ReentrantLock
-// ============================================================
-
-
-
-
-//  Realtime Example:
-
-
-
-
-// ============================================================
-// 15. Race Condition
-// ============================================================
+// Race Condition :: Two threads trying to withdraw money from the same bank account at the same time, leading to incorrect balance updates.
 
 
 
@@ -134,50 +39,94 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 
+// ============================================================
+// 5. ReentrantLock :: is a class in Java (java.util.concurrent.locks) that provides an explicit and more flexible locking mechanism than synchronized.
+// Real-world Example: Bank account withdrawal with explicit locking
+// ============================================================
+
+
+
+
 // Output:
 // User-1 booked seat
 // User-2 booked seat   ❌ (wrong – only 1 seat!)
+// User-1 booked seat
 
 
 // ============================================================
-// 16. LRU Cache
+// 6. AtomicInteger:: provides thread-safe operations without synchronization - useful for counters in concurrent programming
+// Use Case: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
+// Example: Ticket booking system where multiple users try to book the last seat simultaneously
 // ============================================================
 
 
 
-// Real-world Example: Caching DB results, API responses, etc.
+
+// ============================================================
+// 7. Volatile:: ensures variable changes are immediately visible to all threads (prevents caching issues)
+// Use Case: A flag to stop a thread gracefully from another thread without using synchronization.
+// Example: A background task that should stop when a flag is set to false.
+// ============================================================
+// Real-world Example: A flag to stop a thread gracefully from another thread without using synchronization.
 
 
 
-// Fetching user data from DB is slow → cache recent results.
+
+// ============================================================
+// 8. sleep() :: pauses the current thread for a specified time but does not release the lock.
+// wait() :: pauses the thread and releases the lock, allowing other threads to execute. It must be used inside a synchronized block.
+// Example: printer class where one thread is printing and sleeps in between, while another thread tries to print but has to wait for the lock to be released.
+// ============================================================
 
 
 
+
+// Output:
+// Waiting for paper...
+// Paper added
+// Printing documents...
+
+
+// ============================================================
+// 9. ConcurrentHashMap: is a thread-safe implementation of Map that allows multiple threads to read and write data concurrently without locking the entire map.
+// Example: A web application that maintains a concurrent cache of user sessions using ConcurrentHashMap.
+// ============================================================
+// Real-world Example: Counting word frequency in logs using ConcurrentHashMap
+
+
+
+
+// ============================================================
+// 10. ExecutorService :: is a Java API to manage thread pools and execute tasks asynchronously, in the background.
+// Example: A web server that uses ExecutorService to handle incoming HTTP requests concurrently without blocking the main thread.
+// ============================================================
+
+
+
+
+// ============================================================
+// 11. CompletableFuture :: is used to run asynchronous tasks and combine multiple async operations.
+// Example: A web application that retrieves user data from a database and then calls an external API to get additional information, all without blocking the main thread.
+// ============================================================
+// Real-world Example: Calling multiple APIs in parallel and combining results
+
+
+// ============================================================
+// 12. LRU Cache
+// ============================================================
 // Calling external APIs (payment/user service) is expensive → cache response.
 
 
 
-
-// Frequently viewed products → cache to reduce DB load.
-
-
+// 1. Generic LRU Cache
+// LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)
 
 
-// Session Cache: Store recently active user sessions.
+// 2. API Cache Example
 
-class SessionService {
-    private final LRUCache<String, String> sessionCache = new LRUCache<>(2);
 
-    public void login(String userId) {
-        sessionCache.put(userId, "active");
-        System.out.println("User login in " + userId);
-    }
+// 3. Product Cache (DB Example)
 
-    public boolean isActive (String userId) {
-        return sessionCache.containsKey(userId);
-    }
-}
 
-// ============================================================
-// 17. You need to implement a caching mechanism without using external libraries. How do you do it?
-// ============================================================
+
+// 4. Session Cache
