@@ -19,10 +19,10 @@ class CollectionsDemo {
         // weakHashMapDemo();
         // identityHashMapDemo();
         // linkedHashMapDemo();
-        lruCacheDemo();
+        // lruCacheDemo();
         // priorityQueueDemo();
         // maxHeapDemo();
-        // simpleCacheDemo();
+        simpleCacheDemo();
     }
 
     // ============================================================
@@ -131,14 +131,4 @@ class CollectionsDemo {
     // ============================================================
 
     
-
-    // ============================================================
-    // 15. Simple Cache
-    // ============================================================
-
-    
 }
-
-// ============================================================
-// Simple Cache Implementation
-// ============================================================
