@@ -56,7 +56,6 @@ class LambdaThreadExample1 {
 // This is more concise and commonly used in modern Java code. You can also reuse the same lambda for multiple threads:
 class LambdaThreadExample2 {
     public static void main(String[] args) {
-
         Runnable task = () -> {
             System.out.println("Running: " + Thread.currentThread().getName());
         };
@@ -73,62 +72,112 @@ class LambdaThreadExample2 {
 
 // ============================================================
 // 4. Race Condition and Synchronization 
-// Synchronization prevents multiple threads from accessing shared resources simultaneously, ensuring thread safety
-// Use Case : ticket booking system where multiple users try to book the last seat simultaneously
+// Synchronization prevents multiple threads from accessing shared resources simultaneously,  thread safety
+// Use Case: ticket booking system where multiple users try to book the last seat simultaneously
 // ============================================================
-// Race Condition ::  Booking system where multiple users try to book the last seat simultaneously
+// Race Condition :: Two threads trying to withdraw money from the same bank account at the same time, leading to incorrect balance updates.
 class RaceConditionExample {
-    public static void main(String[] args) throws Exception {
-        TicketBooking booking = new TicketBooking();
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount();
 
-        Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
-        Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
+        Thread user1 = new Thread(() -> account.withdraw(700), "User1");
+        Thread user2 = new Thread(() -> account.withdraw(700), "User2");
 
-        t1.start();
-        t2.start();
-
-        t1.join();
-        t2.join();
+        user1.start();
+        user2.start();
     }
 }
 
-class TicketBooking {
-    int seats = 1;
+class BankAccount {
+    private int balance = 1000;
+    void withdraw(int amount) {
+        System.out.println(Thread.currentThread().getName() + " trying to withdraw " + amount);
 
-    void bookTicket() {
-        if (seats > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat");
-            seats--;
+        if (balance >= amount) {
+            // Simulate processing delay
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            balance = balance - amount;
+            System.out.println(Thread.currentThread().getName() + " completed withdrawal");
+            System.out.println("Remaining balance: " + balance);
         } else {
-            System.out.println(Thread.currentThread().getName() + " → No seats available");
+            System.out.println(Thread.currentThread().getName()
+                    + " -> Insufficient balance");
         }
     }
 }
 
 // To Fix race condition, we can synchronize the method:
-class TicketBooking2 {
-    int seats = 1;
+class BankAccountFixed1 {
+    synchronized void withdraw(int amount) {}
+}
 
-    synchronized void bookTicket() {
-        if (seats > 0) {
-            System.out.println(Thread.currentThread().getName() + " booked seat");
-            seats--;
-        } else {
-            System.out.println(Thread.currentThread().getName() + " → No seats available");
-        }
+class BankAccountFixed2 {
+    Object lock = new Object();
+    void withdraw(int amount) {
+        synchronized(lock) {}
     }
 }
 
 
 // ============================================================
-// 5. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
+// 5. ReentrantLock
+// Real-world Example: Bank account withdrawal with explicit locking
+// ============================================================
+class ReentrantLockExampleTwo {
+    public static void main(String[] args) {
+        BankAccountExm account = new BankAccountExm();
+
+        Runnable task1 = () -> account.withdraw("User-1", 700);
+        Runnable task2 = () -> account.withdraw("User-2", 500);
+
+        new Thread(task1).start();
+        new Thread(task2).start();
+    }
+}
+
+class BankAccountExm {
+    private int balance = 1000;
+    private final ReentrantLock lock = new ReentrantLock();
+
+    // withdraw money safely
+    void withdraw(String user, int amount) {
+        lock.lock();
+        try {
+            if (balance >= amount) {
+                System.out.println(user + " is withdrawing " + amount);
+                Thread.sleep(500); // simulate delay
+                balance -= amount;
+                System.out.println(user + " completed withdrawal. Remaining: " + balance);
+            } else {
+                System.out.println(user + " insufficient balance!");
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            lock.unlock(); // always release
+        }
+    }
+}
+
+
+// Output:
+// User-1 booked seat
+// User-2 booked seat   ❌ (wrong – only 1 seat!)
+// User-1 booked seat
+
+// ============================================================
+// 6. Volatile:: ensures variable changes are immediately visible to all threads (prevents caching issues)
 // Use Case: A flag to stop a thread gracefully from another thread without using synchronization.
 // Example: A background task that should stop when a flag is set to false.
 // ============================================================
 // Real-world Example: A flag to stop a thread gracefully from another thread without using synchronization.
 class VolatileExample {
     public static void main(String[] args) throws Exception {
-
         Task task = new Task();
         Thread worker = new Thread(task);
 
@@ -157,7 +206,7 @@ class Task implements Runnable {
 }
 
 // ============================================================
-// 6. AtomicInteger provides thread-safe operations without synchronization - useful for counters in concurrent programming
+// 7. AtomicInteger:: provides thread-safe operations without synchronization - useful for counters in concurrent programming
 // Use Case: Counting the number of requests handled by a server in a multi-threaded environment without using synchronized blocks.
 // Example: Ticket booking system where multiple users try to book the last seat simultaneously
 // ============================================================
@@ -178,10 +227,8 @@ class AtomicIntegerExp {
 
 class AtomicTicketBooking {
     private AtomicInteger seat = new AtomicInteger(1);
-
     public void bookTicket() {
         int remaining = seat.getAndDecrement();
-
         if (remaining > 0) {
             System.out.println(Thread.currentThread().getName() + " booked seat.");
         } else {
@@ -191,10 +238,10 @@ class AtomicTicketBooking {
 }
 
 // ============================================================
-// 7. Sleep pauses thread execution for specified time but keeps locks (can cause blocking)
+// 8. Sleep pauses thread execution for specified time but keeps locks (can cause blocking)
 // Example: printer class where one thread is printing and sleeps in between, while another thread tries to print but has to wait for the lock to be released.
 // ============================================================
-class WaitNotifyExample {
+class WaitSleepNotifyExample {
     public static void main(String[] args) {
         Printer printer = new Printer();
 
@@ -236,6 +283,11 @@ class Printer {
         notify(); // wake up waiting thread
     }
 }
+
+// Output:
+// Waiting for paper...
+// Paper added
+// Printing documents...
 
 
 // ============================================================
@@ -285,10 +337,6 @@ class UserSession {
 // 10. ExecutorService: A thread pool manager that handles task execution without manually creating/managing threads. Provides submit(), execute(), and shutdown() methods for concurrent task processing.
 // Example: A web server that uses ExecutorService to handle incoming HTTP requests concurrently without blocking the main thread.
 // ============================================================
-// Real-world Example: Processing multiple orders in parallel using ExecutorService
-// import java.util.concurrent.ExecutorService;
-// import java.util.concurrent.Executors;
-
 class ExecutorServiceRealTimeExample {
     public static void main(String[] args) {
         // Create thread pool with 3 threads
@@ -315,12 +363,11 @@ class ExecutorServiceRealTimeExample {
 }
 
 // ============================================================
-// 11. CompletableFuture is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
+// 11. CompletableFuture :: is a powerful class in Java that allows you to write asynchronous, non-blocking code. It provides a way to handle the result of an asynchronous computation and chain multiple computations together.
 // Example: A web application that retrieves user data from a database and then calls an external API to get additional information, all without blocking the main thread.
 // ============================================================
 // Real-world Example: Calling multiple APIs in parallel and combining results
 class CompletableFutureRealTimeExample {
-
     public static void main(String[] args) {
         // Call APIs in parallel
         CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(() -> getUser());
@@ -332,7 +379,7 @@ class CompletableFutureRealTimeExample {
                     orderFuture, (user, orders) ->
                         user + " | " + orders
                     )
-                    .thenCombine(paymentFuture, (combined, payment) -> combined + " | " + payment);
+            .thenCombine(paymentFuture, (combined, payment) -> combined + " | " + payment);
 
         // Wait and print result
         System.out.println(finalResult.join());
@@ -359,53 +406,7 @@ class CompletableFutureRealTimeExample {
 }
 
 // ============================================================
-// 12. ReentrantLock
-// Real-world Example: Bank account withdrawal with explicit locking
-// ============================================================
-class ReentrantLockExampleTwo {
-    public static void main(String[] args) {
-        BankAccountExm account = new BankAccountExm();
-
-        Runnable task1 = () -> account.withdraw("User-1", 700);
-        Runnable task2 = () -> account.withdraw("User-2", 500);
-
-        new Thread(task1).start();
-        new Thread(task2).start();
-    }
-}
-
-class BankAccountExm {
-    private int balance = 1000;
-    private final ReentrantLock lock = new ReentrantLock();
-
-    // withdraw money safely
-    void withdraw(String user, int amount) {
-        lock.lock();
-        try {
-            if (balance >= amount) {
-                System.out.println(user + " is withdrawing " + amount);
-                Thread.sleep(500); // simulate delay
-                balance -= amount;
-                System.out.println(user + " completed withdrawal. Remaining: " + balance);
-            } else {
-                System.out.println(user + " insufficient balance!");
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } finally {
-            lock.unlock(); // always release
-        }
-    }
-}
-
-
-// Output:
-// User-1 booked seat
-// User-2 booked seat   ❌ (wrong – only 1 seat!)
-
-
-// ============================================================
-// 14. LRU Cache
+// 12. LRU Cache
 // ============================================================
 // Calling external APIs (payment/user service) is expensive → cache response.
 
