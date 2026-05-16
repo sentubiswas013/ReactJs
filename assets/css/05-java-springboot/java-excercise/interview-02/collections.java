@@ -1,4 +1,12 @@
 import java.util.*;
+import java.util.Collections;
+import java.util.PriorityQueue;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 // ============================================================
 // 17–21 + Extra: Java Collections (Interview Ready)
@@ -6,7 +14,6 @@ import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-
         arrayListDemo();
         linkedListDemo();
         setDemo();
@@ -156,9 +163,128 @@ class Main {
     }
 }
 
-//## 8. You need to implement a caching mechanism without using external libraries. How do you do it?
+// =============================================================
+// 8 WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue
+
+// =============================================================
+// 1. WeakHashMap Example
+class WeakHashMapExample {
+    public static void main(String[] args) throws Exception {
+        Map<String, Integer> weakMap = new WeakHashMap<>();
+
+        String key1 = new String("Java");
+        weakMap.put(key1, 100);
+
+        System.out.println("Before GC: " + weakMap);
+
+        // Remove strong reference
+        key1 = null;
+
+        // Request garbage collection
+        System.gc();
+
+        // Wait for GC
+        Thread.sleep(2000);
+
+        System.out.println("After GC: " + weakMap);
+    }
+}
+// Output (may vary)
+
+// 2. IdentityHashMap Example
+class IdentityHashMapExample {
+    public static void main(String[] args) {
+        Map<String, Integer> identityMap = new IdentityHashMap<>();
+
+        String s1 = new String("Java");
+        String s2 = new String("Java");
+
+        identityMap.put(s1, 1);
+        identityMap.put(s2, 2);
+
+        System.out.println(identityMap);
+    }
+}
+// Output : {Java=1, Java=2}
+
+
+// 3. LinkedHashMap Example
+class LinkedHashMapExample {
+    public static void main(String[] args) {
+        Map<Integer, String> linkedMap = new LinkedHashMap<>();
+
+        linkedMap.put(3, "Java");
+        linkedMap.put(1, "Spring");
+        linkedMap.put(2, "Hibernate");
+
+        System.out.println(linkedMap);
+    }
+}
+// Output : {3=Java, 1=Spring, 2=Hibernate}
+
+
+// LinkedHashMap as LRU Cache
+class LRUCacheExample {
+    public static void main(String[] args) {
+        LinkedHashMap<Integer, String> cache = new LinkedHashMap<>(3, 0.75f, true) {
+            protected boolean removeEldestEntry(
+                    Map.Entry<Integer, String> eldest) {
+                return size() > 3;
+            }
+        };
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1); // Access key 1
+
+        cache.put(4, "D");
+
+        System.out.println(cache);
+    }
+}
+// Output: {3=C, 1=A, 4=D}
+
+// PriorityQueue Example**
+class PriorityQueueExample {
+    public static void main(String[] args) {
+        Queue<Integer> priorityQueue = new PriorityQueue<>();
+
+        priorityQueue.offer(30);
+        priorityQueue.offer(10);
+        priorityQueue.offer(50);
+        priorityQueue.offer(20);
+
+        while (!priorityQueue.isEmpty()) {
+            System.out.println(priorityQueue.poll());
+        }
+    }
+}
+// Output : 10, 20, 30, 50
+
+
+class MaxHeapExample {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        maxHeap.offer(10);
+        maxHeap.offer(50);
+        maxHeap.offer(20);
+
+        while (!maxHeap.isEmpty()) {
+            System.out.println(maxHeap.poll());
+        }
+    }
+}
+// Output :  50, 20, 10
+
+
+// =============================================================
+//## 9. You need to implement a caching mechanism without using external libraries. How do you do it?
 // import java.util.Map;
 // import java.util.concurrent.ConcurrentHashMap;
+// =============================================================
 
 class SimpleCache<KeyType, ValueType> {
 
@@ -197,9 +323,7 @@ class SimpleCache<KeyType, ValueType> {
 
     // ✅ TEST METHOD
     public static void main(String[] args) throws InterruptedException {
-
         SimpleCache<String, String> cache = new SimpleCache<>(3000);
-
         cache.put("key1", "Hello World");
 
         System.out.println("Before expiry: " + cache.get("key1"));
@@ -208,4 +332,7 @@ class SimpleCache<KeyType, ValueType> {
 
         System.out.println("After expiry: " + cache.get("key1"));
     }
+
+
+
 }

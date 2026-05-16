@@ -29,7 +29,11 @@ class DesignPattern {
 
 
 		// 5. Adapter pattern ============================================
-    
+    	// MediaAdapter vlcPlayer = new MediaAdapter("vlc");
+    	// vlcPlayer.play("vlc", "movie.vlc");
+
+    	// MediaAdapter mp4Player = new MediaAdapter("mp4");
+    	// mp4Player.play("mp4", "video.mp4");
 
 		// 6. Builder Pattern ============================================
 
@@ -215,17 +219,17 @@ class AdvancedMediaPlayer {
 class MediaAdapter implements MediaPlayer {
 	private AdvancedMediaPlayer advacedPlayer;
 
-	public MediaAdapter(String fileName) {
+	public MediaAdapter(String audioType) {
 		advacedPlayer= new AdvancedMediaPlayer();
 	} 
 
 	public void play(String audioType, String fileName) {
-		if(audioType.equalsIgnoreOnce("vlc")) {
-			advacedPlayer.playVlc();
-		} else if(audioType.equalsIgnoreOnce("mp4")) {
-			advacedPlayer.playMp4()
+		if(audioType.equalsIgnoreCase("vlc")) {
+			advacedPlayer.playVlc(fileName);
+		} else if(audioType.equalsIgnoreCase("mp4")) {
+			advacedPlayer.playMp4(fileName);
 		} else {
-			System.out.println("Invalid media type.")
+			System.out.println("Invalid media type.");
 		}
 	}
 }
