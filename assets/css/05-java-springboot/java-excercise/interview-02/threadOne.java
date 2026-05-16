@@ -192,26 +192,18 @@ class AtomicTicketBooking {
 
 // ============================================================
 // 7. Sleep pauses thread execution for specified time but keeps locks (can cause blocking)
-// Example: A thread that holds a lock and goes to sleep, preventing other threads from accessing the locked resource.
+// Example: printer class where one thread is printing and sleeps in between, while another thread tries to print but has to wait for the lock to be released.
 // ============================================================
-class SleepExample {
+class WaitNotifyExample {
     public static void main(String[] args) {
-        Object lock = new Object();
+        Printer printer = new Printer();
 
         Thread t1 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 1 acquired lock");
-                try {
-                    Thread.sleep(3000); // sleeping but STILL holding lock
-                } catch (InterruptedException e) {}
-                System.out.println("Thread 1 finished");
-            }
+            printer.printDocuments();
         });
 
         Thread t2 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 2 acquired lock");
-            }
+            printer.addPaper();
         });
 
         t1.start();
@@ -219,42 +211,32 @@ class SleepExample {
     }
 }
 
-// ============================================================
-// 8. wait/notify
-// Example: message passing between producer and consumer threads using wait/notify for synchronization.
-// ============================================================
-class WaitNotifyExample {
-    public static void main(String[] args) throws Exception {
-        Message msg = new Message();
+class Printer {
+    boolean hasPaper = false;
+    synchronized void printDocuments() {
+        System.out.println("Waiting for paper...");
+        while (!hasPaper) {
+            try {
+                wait(); // releases lock and waits
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Printing documents...");
+    }
 
-        new Thread(() -> {
-            try { msg.send("Hello"); } catch (Exception e) {}
-        }).start();
-
-        new Thread(() -> {
-            try { System.out.println(msg.receive()); } catch (Exception e) {}
-        }).start();
+    synchronized void addPaper() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        hasPaper = true;
+        System.out.println("Paper added");
+        notify(); // wake up waiting thread
     }
 }
 
-class Message {
-    private String data;
-    private boolean available = false;
-
-    public synchronized void send(String msg) throws InterruptedException {
-        if (available) wait();
-        data = msg;
-        available = true;
-        notify();
-    }
-
-    public synchronized String receive() throws InterruptedException {
-        if (!available) wait();
-        available = false;
-        notify();
-        return data;
-    }
-}
 
 // ============================================================
 // 9. ConcurrentHashMap: Thread-safe HashMap that allows multiple threads to read/write simultaneously without external synchronization
