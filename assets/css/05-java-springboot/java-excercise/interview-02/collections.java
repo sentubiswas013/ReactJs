@@ -22,7 +22,6 @@ class CollectionsDemo {
         lruCacheDemo();
         priorityQueueDemo();
         maxHeapDemo();
-        simpleCacheDemo();
     }
 
     // ============================================================

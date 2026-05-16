@@ -1,5 +1,6 @@
 // ============================================================
-// Encapsulation: Data is private and accessed using getter and setter methods.
+// Encapsulation:: Data is private and accessed using getter and setter methods. 👉 Hide data and control access. Keep data safe and access it through methods
+
 // Rules for Encapsulation:
 // 1. Make all fields private
 // 2. Provide public getter and setter methods
@@ -28,7 +29,8 @@ class EncapsulationDemo {
 
 
 // ============================================================
-// Inheritance: Inheritance means a child class can use properties and methods of a parent class using extends.
+// Inheritance :: Child class inherits properties from parent class using extends. 👉 Reuse parent properties in child. Child gets features from parent
+
 // Rules for Inheritance:
 // 1. Use `extends` keyword to create a child class
 // 2. Child class inherits all non-private members of parent class
@@ -57,19 +59,13 @@ class InheritanceDemo {
 
 
 // ============================================================
-// Polymorphism: Polymorphism means one method can perform different actions using overloading or overriding.
+// Polymorphism :: Method Overloading 👉 Same method, different behavior. One thing, many forms
+
 // Rules for Polymorphism:
 // 1. Method Overloading: Same method name with different parameters in the same class.
 // 2. Method Overriding: Same method name and parameters in parent and child class, but different implementation in child class.
 // 3. Runtime Polymorphism: Parent reference can point to child object, and overridden method will be called at runtime.
 // ============================================================
-// **Use cases of Polymorphism:**
-
-// 1. **Method Overloading** → Same method name, different parameters
-// 2. **Method Overriding** → Child class provides its own implementation
-// 3. **Runtime Polymorphism** → Parent reference used to handle different objects
-
-
 class Calculator {
     int add(int a, int b) {
         return a + b;
@@ -90,16 +86,17 @@ class PolymorphismDemo {
 
 
 // ============================================================
-// Abstraction means hiding internal implementation and showing only necessary details using abstract class or interface.
+// Abstraction :: abstract class or interface 👉 Hide complexity, show only needed parts. Show what is needed, hide the rest.
+
 // Rules for Abstraction:
 // 1. Use `abstract` keyword to create an abstract class or method.
 // 2. Abstract class can have both abstract and non-abstract methods, while interface can only have
-// ============================================================
+
 // Why Use Abstraction?
 // Hides complexity
 // Improves security
 // Makes code flexible & maintainable
-
+// ============================================================
 class AbstractionDemo {
     public static void main(String[] args) {
         Vehicle v = new Car();
