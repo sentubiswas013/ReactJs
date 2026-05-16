@@ -29,12 +29,7 @@ class DesignPattern {
 
 
 		// 5. Adapter pattern ============================================
-        MediaAdapter vlcplayer = new MediaAdapter();
-		vlcPlayer.play("vlc", "movie.vlc");
-
-		MediaAdapter mp4Player = new MediaAdapter();
-		mp4Player.play("mp4", "video.mp4");
-
+    
 
 		// 6. Builder Pattern ============================================
 
@@ -205,37 +200,35 @@ class ShoppingCart {
 // Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
 // ============================================================
 interface MediaPlayer {
-	void play(String autoType, String filename);
+	void play(String audioType, String fileName);
 }
 
 class AdvancedMediaPlayer {
-	public void playVlc(String filename) {
-		String.out.println("Playing vlc " + filename);
+	public void playVlc(String fileName) {
+		System.out.println("Playing vlc file " + fileName);
 	}
-	public void playMp4(String filename) {
-		String.out.println("Playing mp4 " + filename);
+	public void playMp4(String fileName) {
+		System.out.println("Playing mp4 file " + fileName);
 	}
 }
 
 class MediaAdapter implements MediaPlayer {
-	private AdvancedMediaPlayer advancedPlayer;
+	private AdvancedMediaPlayer advacedPlayer;
 
-	public MediaAdapter(String audioType) {
-		advancedPlayer = new AdvancedMediaPlayer();
-	}	
+	public MediaAdapter(String fileName) {
+		advacedPlayer= new AdvancedMediaPlayer();
+	} 
 
-	public void play(String autoType, String filename) {
-		if (audioType.equalsIgnoreCase("vlc")) {
-			advancedPlayer.playVlc(filename);
-		} else if (audioType.equalsIgnoreCase("mp4")) {
-			advancedPlayer.playMp4(filename);
+	public void play(String audioType, String fileName) {
+		if(audioType.equalsIgnoreOnce("vlc")) {
+			advacedPlayer.playVlc();
+		} else if(audioType.equalsIgnoreOnce("mp4")) {
+			advacedPlayer.playMp4()
 		} else {
-			System.out.println("Invalid media type");
+			System.out.println("Invalid media type.")
 		}
-
 	}
 }
-
 
 
 
