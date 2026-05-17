@@ -97,29 +97,25 @@ class PolymorphismDemo {
 // Improves security
 // Makes code flexible & maintainable
 // ============================================================
-class AbstractionDemo {
-    public static void main(String[] args) {
-        Vehicle v = new Car();
-        v.start();
-    }
-}
-
 // 1. Abstract Class (0–100% abstraction)
 // Use cases:
 // You want some methods implemented, some not
 // You want to reuse code
 // You need instance variables (state)
-abstract class AnimalB {
-    abstract void sound(); // no implementation
+abstract class Vehicle {
+    abstract void start();   // abstract method
+}
 
-    void eat() { // concrete method
-        System.out.println("Animal is eating");
+class Car extends Vehicle {
+    void start() {
+        System.out.println("Car starts with key");
     }
 }
 
-class DogB extends Animal {
-    void sound() {
-        System.out.println("Dog barks");
+class AbstractClassDemo {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        v.start();
     }
 }
 
@@ -129,13 +125,13 @@ class DogB extends Animal {
 // No shared state needed
 // You want multiple inheritance
 
-interface AnimalC {
+interface VehicleB {
     void sound();
 }
 
-class DogC implements AnimalC {
+class CarV implements VehicleB {
     public void sound() {
-        System.out.println("Dog barks");
+        System.out.println("Car makes engine sound");
     }
 }
 

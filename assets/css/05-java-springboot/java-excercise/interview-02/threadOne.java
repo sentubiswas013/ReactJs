@@ -70,6 +70,31 @@ class LambdaThreadExample2 {
     }
 }
 
+// Loop to create multiple threads
+class threadLoop {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            int threadNum = i; // need final or effectively final variable
+            new Thread(() -> {
+                System.out.println("Thread " + threadNum + " is running");
+            }).start();
+        }
+    }
+}
+
+class threadRunnableLoop{
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            int threadNum = i; // need final or effectively final variable
+            Runnable task = () -> {
+                System.out.println("Thread Runnable " + threadNum + " is running");
+            };
+            new Thread(task).start();
+        }
+    }
+     
+}
+
 // ============================================================
 // 4. Race Condition and Synchronization 
 // Synchronization :: prevents multiple threads from accessing shared resources simultaneously,  thread safety
@@ -186,8 +211,8 @@ class AtomicIntegerExp {
         t1.start();
         t2.start();
 
-        t1.join();
-        t2.join();
+        t1.join();  // wait until thread completes
+        t2.join();   // wait until thread completes
     }
 }
 
@@ -385,7 +410,7 @@ class CompletableFutureRealTimeExample {
             .thenCombine(paymentFuture, (combined, payment) -> combined + " | " + payment);
 
         // Wait and print result
-        System.out.println(finalResult.join());
+        System.out.println(finalResult.join());  // wait until thread completes
     }
 
     static String getUser() {
