@@ -1457,6 +1457,60 @@ System.out.println(d instanceof Animal);  // true — Dog IS-A Animal
 ```
 
 
+## 6. What is HAS-A (Composition) Relationship?
+
+A **HAS-A** relationship is achieved by creating an object reference of one class inside another class.
+
+It represents:
+
+* **Composition** (strong relationship)
+* **Aggregation** (weak relationship)
+
+
+**Composition** is a strong HAS-A relationship where one class completely owns another class object.
+
+If the parent object is destroyed, the child object also cannot exist independently.
+
+```java
+class Engine {
+    void start() {
+        System.out.println("Engine Started");
+    }
+}
+
+class Car {
+    // Composition (Car HAS-A Engine)
+    private Engine engine;
+
+    Car() {
+        engine = new Engine();
+    }
+
+    void drive() {
+        engine.start();
+        System.out.println("Car is moving");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.drive();
+    }
+}
+```
+
+
+**Composition vs Inheritance**
+
+| Composition               | Inheritance        |
+| ------------------------- | ------------------ |
+| HAS-A                     | IS-A               |
+| Flexible                  | Tight coupling     |
+| Reuse by object           | Reuse by extending |
+| Example: Car HAS-A Engine | Dog IS-A Animal    |
+
+
 ## 7. What is Method Overriding?
 
 Method overriding is when a **child class provides its own implementation** of a method already defined in the parent class with the **same name, return type, and parameters**.

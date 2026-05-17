@@ -203,7 +203,7 @@ class BankAccountExm {
 // ============================================================
 class AtomicIntegerExp {
     public static void main(String[] args) throws Exception {
-        AtomicTicketBooking booking = new AtomicTicketBooking();
+        TicketBooking booking = new TicketBooking();
 
         Thread t1 = new Thread(() -> booking.bookTicket(), "User-1");
         Thread t2 = new Thread(() -> booking.bookTicket(), "User-2");
@@ -216,7 +216,7 @@ class AtomicIntegerExp {
     }
 }
 
-class AtomicTicketBooking {
+class TicketBooking {
     private AtomicInteger seat = new AtomicInteger(1);
     public void bookTicket() {
         int remaining = seat.getAndDecrement();
@@ -368,7 +368,8 @@ class UserSession {
 class ExecutorServiceRealTimeExample {
     public static void main(String[] args) {
         // Create thread pool with 3 threads
-        ExecutorService executor = Executors.newFixedThreadPool(3);
+        ExecutorService executor = Executors.newSingleThreadExecutor(); // only 1 thread
+        // ExecutorService executor = Executors.newFixedThreadPool(3); // 3 threads
 
         // Multiple orders
         for(int i = 0; i<=4; i++) {
