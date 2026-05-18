@@ -27,6 +27,8 @@ public class Main {
 
     public static void classConstructorDemo() {
 
+        System.out.println("=========================== classConstructorDemo");
+
     }
 
     // ============================================================
@@ -34,6 +36,8 @@ public class Main {
     // ============================================================
 
     public static void finalVariableMethodDemo() {
+
+        System.out.println("=========================== finalVariableMethodDemo");
 
     }
 
@@ -43,6 +47,8 @@ public class Main {
 
     public static void finalClassDemo() {
 
+        System.out.println("=========================== finalClassDemo");
+
     }
 
     // ============================================================
@@ -51,6 +57,8 @@ public class Main {
 
     public static void interfaceDemo() {
 
+        System.out.println("=========================== interfaceDemo");
+
     }
 
     // ============================================================
@@ -58,32 +66,11 @@ public class Main {
     // ============================================================
 
     public static void thisAndSuper() {
-        User us1 = new User();
-        us1.display();
 
-        // Student stu = new Student();
-        // stu.Student();
+        System.out.println("=========================== thisAndSuper");
+        
     }
 
-    static class Student {
-        int age = 10;
-        public Student () {
-            System.out.println("My age" + age);
-        }
-    }
-
-    static class User extends Student{
-        int age = 30;
-
-        User() {
-            super();
-        }
-       
-        public void display () {
-            System.out.println("My Age is 10" + this.age);
-            System.out.println("My Age us 12" + super.age);
-        }
-    }
 
     // Output
     // Parent Constructor
@@ -96,6 +83,8 @@ public class Main {
     // ============================================================
 
     public static void immutableClassDemo() {
+
+        System.out.println("=========================== immutableClassDemo");
 
     }
 }

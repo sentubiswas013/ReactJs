@@ -2,48 +2,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 class DesignPattern {
-	public static void main (String[] args) {
-		
-		// 1. Singleton Pattern ==========================================
-
-
-
-		// 2. Factory Pattern ============================================
-
-
-
-		// 3. Observer Pattern ===========================================
-
-
-
-		// 4. Strategy pattern ===========================================
-		ShoppingCart cart = new ShoppingCart();
-
-        // Pay using Credit Card
-        cart.setPaymentStrategy(new CreditCardPayment());
-        cart.checkout(500);
-
-        // Pay using PayPal
-        cart.setPaymentStrategy(new paypal());
-        cart.checkout(1200);
-
-
-		// 5. Adapter pattern ============================================
-    	// MediaAdapter vlcPlayer = new MediaAdapter("vlc");
-    	// vlcPlayer.play("vlc", "movie.vlc");
-
-    	// MediaAdapter mp4Player = new MediaAdapter("mp4");
-    	// mp4Player.play("mp4", "video.mp4");
-
-		// 6. Builder Pattern ============================================
-
-
-
-		// 7. Prototype Pattern ==========================================
-
-		
+	public static void main (String[] args) {		
+		SingletonPattern();
+		FactoryPattern();
+		ObserverPattern();
+		StrategyPattern();
+		AdapterPattern();
+		BuilderPattern();
+		PrototypePattern();		
     }
-}
+
 
 // ============================================================
 // 1. Singleton Pattern (Thread-safe, Double-Checked Locking) Ex: Logger, Configuration Manager
@@ -61,7 +29,11 @@ class DesignPattern {
 // 2. When you want to ensure that only one instance of a class is created and used throughout the application (like a configuration manager).
 // 3. When you want to implement a global point of access to a resource (like a logging service).   
 // ============================================================
-
+public static void SingletonPattern() {
+	
+	System.out.println("=========================== SingletonPattern");
+	
+}
 
 
 
@@ -100,7 +72,11 @@ class DesignPattern {
 // - Spring BeanFactory
 // ============================================================
 
-
+public static void FactoryPattern() {
+	
+	System.out.println("=========================== FactoryPattern");
+	
+}
 
 
 
@@ -129,7 +105,11 @@ class DesignPattern {
 // - Stock Market Apps
 // - Kafka / RabbitMQ Consumers
 // ============================================================
-
+public static void ObserverPattern() {
+	
+	System.out.println("=========================== ObserverPattern");
+	
+}
 
 
 
@@ -150,44 +130,10 @@ class DesignPattern {
 // We can add new notification types without modifying existing code.
 // Open for extension, closed for modification.
 // ============================================================
-class StrategyPatternDemo {
-	public static void main (String[] args) {
-		ShoppingCart cart = new ShoppingCart();
-
-        // Pay using Credit Card
-        cart.setPaymentStrategy(new CreditCardPayment());
-        cart.checkout(500);
-
-        // Pay using PayPal
-        cart.setPaymentStrategy(new paypal());
-        cart.checkout(1200);
-    }
-}
-
-interface PaymentStrategy {
-	void pay(double amount);
-}
-
-class CreditCardPayment implements PaymentStrategy {
-	public void pay(double amount) {
-		System.out.println("Credit paid " + amount);
-	}
-}
-class paypal implements PaymentStrategy {
-	public void pay(double amount) {
-		System.out.println("Paypal paid " + amount);
-	}
-}
-class ShoppingCart {
-	private PaymentStrategy paymentStrategy;
-
-	public void setPaymentStrategy(PaymentStrategy strategy) {
-		this.paymentStrategy = strategy;
-	}
-
-	public void checkout(double amount) {
-		paymentStrategy.pay(amount);
-	}
+public static void StrategyPattern() {
+	
+	System.out.println("=========================== StrategyPattern");
+	
 }
 
 
@@ -203,35 +149,10 @@ class ShoppingCart {
 // 5. Adapter pattern: Ex: Media Player
 // Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
 // ============================================================
-interface MediaPlayer {
-	void play(String audioType, String fileName);
-}
-
-class AdvancedMediaPlayer {
-	public void playVlc(String fileName) {
-		System.out.println("Playing vlc file " + fileName);
-	}
-	public void playMp4(String fileName) {
-		System.out.println("Playing mp4 file " + fileName);
-	}
-}
-
-class MediaAdapter implements MediaPlayer {
-	private AdvancedMediaPlayer advacedPlayer;
-
-	public MediaAdapter(String audioType) {
-		advacedPlayer= new AdvancedMediaPlayer();
-	} 
-
-	public void play(String audioType, String fileName) {
-		if(audioType.equalsIgnoreCase("vlc")) {
-			advacedPlayer.playVlc(fileName);
-		} else if(audioType.equalsIgnoreCase("mp4")) {
-			advacedPlayer.playMp4(fileName);
-		} else {
-			System.out.println("Invalid media type.");
-		}
-	}
+public static void AdapterPattern() {
+	
+	System.out.println("=========================== AdapterPattern");
+	
 }
 
 
@@ -265,7 +186,11 @@ class MediaAdapter implements MediaPlayer {
 // 👉 Hard to read
 // 👉 Constructor becomes huge
 
-
+public static void BuilderPattern() {
+	
+	System.out.println("=========================== BuilderPattern");
+	
+}
 
 
 
@@ -289,7 +214,11 @@ class MediaAdapter implements MediaPlayer {
 // 2. When you want to hide the creation logic from the client code.
 // ============================================================
 
-
+public static void PrototypePattern() {
+	
+	System.out.println("=========================== PrototypePattern");
+	
+}
 
 
 
@@ -298,3 +227,6 @@ class MediaAdapter implements MediaPlayer {
 // Output:
 // John
 // John
+
+
+}

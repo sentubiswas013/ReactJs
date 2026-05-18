@@ -22,18 +22,18 @@ class Main {
         flatMapDemo();
     }
 
-    // ─────────────────────────────────────────────
+    //=============================================
     // 39. Lambda Expression
-    // ─────────────────────────────────────────────
+    //=============================================
     static void lambdaDemo() {
         Runnable r = () -> System.out.println("Lambda Running");
         r.run();
     }
 
-    // ─────────────────────────────────────────────
+    //=============================================
     // 40. Functional Interfaces
     // Predicate, Function, Consumer
-    // ─────────────────────────────────────────────
+    //=============================================
     static void functionalInterfaceDemo() {
 
         Predicate<Integer> isEven = n -> n % 2 == 0;
@@ -46,10 +46,10 @@ class Main {
         print.accept("Java");
     }
 
-    // ─────────────────────────────────────────────
+    //=============================================
     // 41. Streams API
     // filter, map, reduce, collect
-    // ─────────────────────────────────────────────
+    //=============================================
     static void streamsDemo() {
 
         List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
@@ -69,9 +69,9 @@ class Main {
         System.out.println("Sum: " + sum);
     }
 
-    // ─────────────────────────────────────────────
+    //=============================================
     // 42. Method Reference
-    // ─────────────────────────────────────────────
+    //=============================================
     static void methodReferenceDemo() {
         List<String> list = Arrays.asList("A", "B", "C");
 
@@ -79,10 +79,10 @@ class Main {
         list.forEach(System.out::println);
     }
 
-    // ─────────────────────────────────────────────
+    //=============================================
     // 43. Optional
     // Avoid NullPointerException
-    // ─────────────────────────────────────────────
+    //=============================================
     static void optionalDemo() {
 
         Optional<String> name = Optional.ofNullable(null);
@@ -94,9 +94,9 @@ class Main {
         name.ifPresent(System.out::println);
     }
 
-    // ─────────────────────────────────────────────
+    //=============================================
     // 43. Hashcode and Equals and Objects Utility
-    // ─────────────────────────────────────────────
+    //=============================================
     class HascodeEqualsDemo {
         public static void main(String[] args) {
             Person p1 = new Person("Banani");

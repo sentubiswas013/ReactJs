@@ -2,21 +2,20 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.ExecutorService;
 
 class ThreadOne {
 	public static void main(String[] args) throws Exception {		 
-		// ThreadclassMain();
-		// RunnableInterfaceMain();
-		// LambdaExpressionMain();
-		// RaceConditionMain();
-		// ReentrantLockMain();
-		// AtomicIntegerMain();
-		// VolatileMain();
-		// SleepWaitMain();
-		// ConcurrentHashMapMain();
-		// ExecutorServiceMain();
-		// CompletableFutureMain();
+		ThreadclassMain();
+		RunnableInterfaceMain();
+		LambdaExpressionMain();
+		RaceConditionMain();
+		ReentrantLockMain();
+		AtomicIntegerMain();
+		VolatileMain();
+		SleepWaitMain();
+		ConcurrentHashMapMain();
+		ExecutorServiceMain();
+		CompletableFutureMain();
 		LruCacheMain();
 	}
 
@@ -26,20 +25,9 @@ class ThreadOne {
 // ================================================================================
 static void ThreadclassMain() {
 	System.out.println("==================================== Thread class");
-	MyThread task1 = new MyThread();
-	task1.start();
-
-	MyThread task2 = new MyThread();
-	task2.start();
-
-	// System.out.println("Thread: " + Thread.currentThread().getName());
+	
 }
 
-static class MyThread extends Thread {
-	public void run() {
-		System.out.println("Hello Thread " + Thread.currentThread().getName());
-	}
-}
 
 
 // ================================================================================
@@ -47,67 +35,30 @@ static class MyThread extends Thread {
 // ================================================================================
 static void RunnableInterfaceMain() {
 	System.out.println("==================================== Runnable interface");
-	// Thread t1 = new Thread(new MyTask());
-	Thread task = new Thread(new MyThreadRun());
-	task.start();
+	
 
 }
 
-static class MyThreadRun implements Runnable {
-	@Override
-	public void run() {
-        System.out.println("Runnable thread: " + Thread.currentThread().getName());
-    }
-}
 
 // ================================================================================
 // 3. Using lambda expression (Java 8+)
 // ================================================================================
-static void LambdaExpressionMain() throws Exception {
+static void LambdaExpressionMain() {
 	System.out.println("==================================== lambda expression");
 
-	Runnable task = () -> {
-		System.out.println("Runnable thread: " + Thread.currentThread().getName());
-	};
 
-
-	Thread t1 = new Thread(task, "Thread 1");
-	Thread t2 = new Thread(task, "Thread 2");
-	Thread t3 = new Thread(task, "Thread 3");
-
-	t1.start();
-	t2.start();
-	t3.start();
 
 	// This is more concise and commonly used in modern Java code. You can also reuse the same lambda for multiple threads:
 
 
-
 	// Loop to create multiple threads
-	Object lock = new Object();
-	for(int i = 10; i<15; i++) {	
-	int loopId = i;	
-		synchronized (lock) {
-			Thread task1 = new Thread(() -> {
-				System.out.println("Loop thread: " + loopId + "---" + Thread.currentThread().getName());
-			});
 
-			task1.start();
-			task1.join(); 
-		}
-	}
 
 
 	// Loop to create multiple threads using Runable
-	for (int i = 0; i<= 5; i++) {
-		int id = i;
-		Runnable Task = () -> {
-			System.out.println("Runnable thread: " + id  + " ---" + Thread.currentThread().getName());
-		};
-		new Thread(Task).start();
-	}
-
 }
+
+
 
 
 
@@ -151,33 +102,7 @@ static void ReentrantLockMain() {
 // ================================================================================
 static void AtomicIntegerMain() {
 	System.out.println("==================================== AtomicInteger");
-	TicketBooking ticket = new TicketBooking();
 
-	for (int i = 0; i < 5 ; i++ ) {
-		Runnable task = () -> {
-			ticket.BookTicket();
-		};
-		new Thread(task).start();
-	}	
-}
-
-static class TicketBooking {
-	AtomicInteger ticket = new AtomicInteger(3);
-
-	public void BookTicket () {
-		int balanceTicket =  ticket.getAndDecrement();
-		if(balanceTicket > 0) {
-			try {
-				// Thread.sleep(3000);
-				wait();
-			} catch (Exception e) {
-
-			}
-			System.out.println("Ticket is booked. " + Thread.currentThread().getName());
-		} else {
-			System.out.println("Ticket is not available");
-		}
-	}
 }
 
 
@@ -188,32 +113,11 @@ static class TicketBooking {
 // Example: A background task that should stop when a flag is set to false.
 // ================================================================================
 // Real-world Example: A flag to stop a thread gracefully from another thread without using synchronization.
-static void VolatileMain() throws Exception {
+static void VolatileMain() {
 	System.out.println("==================================== Volatile");
 
-	TaskVol task = new TaskVol();
-	Thread worker = new Thread(task);
-	worker.start();
-	Thread.sleep(3000);
-
-	task.stop();
-	System.out.println("Stoped by main thread");
 }
 
-static class TaskVol implements Runnable {
-	private volatile boolean running = false;
-
-	public void stop() {
-		running = false;
-	}
-
-	public void run () {
-		while(running) {
-			System.out.println("Task running...");
-		}
-		System.out.println("Task is not running...");
-	}
-}
 
 
 // ================================================================================
@@ -242,41 +146,8 @@ static void SleepWaitMain() {
 static void ConcurrentHashMapMain() {
 	System.out.println("==================================== ConcurrentHashMap");
 
-	SessionManager user = new SessionManager();
-	user.login("user1");
-	user.login("user2");
-
-	System.out.println("---" + user.getSession("user1").userid);
-
-	user.logut("user1");
-
 }
 
-static class SessionManager {
-	private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
-
-	public static void login (String userid) {
-		sessionCache.put(userid, new UserSession(userid));
-	}
-
-	public static UserSession getSession(String userid) {
-		return sessionCache.get(userid);
-	}
-
-	public static void logut (String userid) {
-		sessionCache.remove(userid);
-	}
-}
-
-static class UserSession  {
-	String userid;
-	Long loginTime;
-
-	UserSession (String userid) {
-		this.userid = userid;
-		this.loginTime = System.currentTimeMillis();
-	}
-}
 
 
 // ================================================================================
@@ -285,16 +156,7 @@ static class UserSession  {
 // ================================================================================
 static void ExecutorServiceMain() {
 	System.out.println("==================================== ExecutorService ");
-	ExecutorService executor = Executors.newFixedThreadPool(30);
 
-	for(int i = 1; i<=3; i++) {
-		int orderid = i;
-		executor.submit(() -> {
-			System.out.println("Hello == " + orderid + " --- " + Thread.currentThread().getName());
-		});
-
-	}
-	executor.shutdown();
 }
 
 
@@ -307,22 +169,8 @@ static void ExecutorServiceMain() {
 static void CompletableFutureMain() {
 	System.out.println("==================================== CompletableFuture ");
 
-    CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(() -> getUser());
-    CompletableFuture<String> orderFuture = CompletableFuture.supplyAsync(() -> getOrders());
-
-    CompletableFuture<String> finalResult = userFuture.thenCombine(orderFuture,(user, orders) -> user + " | " + orders);
-
-    System.out.println(finalResult.join());
 }
 
-static String getUser() {
-	return "User: John";
-}
-
-
-static String getOrders() {
-	return "Order 5";
-}
 
 
 // ================================================================================
@@ -331,8 +179,6 @@ static String getOrders() {
 // Calling external APIs (payment/user service) is expensive → cache response.
 static void LruCacheMain() {
 	System.out.println("==================================== LRU Cache ");
-
-	
 }
 
 

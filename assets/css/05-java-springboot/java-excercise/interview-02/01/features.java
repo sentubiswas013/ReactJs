@@ -10,113 +10,77 @@ import java.util.Objects;
 class Main {
     public static void main(String[] args) {
 
-        // lambdaDemo();
-        // functionalInterfaceDemo();
-        // streamsDemo();
-        // methodReferenceDemo();
-        // optionalDemo();
+        lambdaDemo();
+        functionalInterfaceDemo();
+        streamsDemo();
+        methodReferenceDemo();
+        optionalDemo();
+        HashcodeDemo();
 
         // 🔥 Extra Important
-        // comparatorLambdaDemo();
-        // flatMapDemo();
-
-
-        // ==============================
-        Person p1 = new Person("Banani");
-        Person p2 = new Person("Banani");
-
-        System.out.println(p1.equals(p2));
-
-        System.out.println(p1.hashCode());
-        System.out.println(p2.hashCode());
+        comparatorLambdaDemo();
+        flatMapDemo();
     }
 
-    // ─────────────────────────────────────────────
+    // ============================================================
     // 39. Lambda Expression
-    // ─────────────────────────────────────────────
-    
+    // ============================================================
+    public static void lambdaDemo() {
+        System.out.println("=========================== lambdaDemo");
+    }
 
-    // ─────────────────────────────────────────────
+    // ============================================================
     // 40. Functional Interfaces
     // Predicate, Function, Consumer
-    // ─────────────────────────────────────────────
-    
-
-    // ─────────────────────────────────────────────
-    // 41. Streams API
-    // filter, map, reduce, collect
-    // ─────────────────────────────────────────────
-    
-
-    // ─────────────────────────────────────────────
-    // 42. Method Reference
-    // ─────────────────────────────────────────────
-
-
-    // ─────────────────────────────────────────────
-    // 43. Optional
-    // Avoid NullPointerException
-    // ─────────────────────────────────────────────
-
-
-    // ─────────────────────────────────────────────
-    // 43. Hashcode
-    // Avoid NullPointerException
-    // ─────────────────────────────────────────────        
-    static class Person {
-        private String name;
-        Person (String name) {
-            this.name = name;
-        }
-
-        @Override
-        public boolean equals (Object object) {
-            if(this == object) return true;
-            if (!(object instanceof Person person)) return false;
-
-            return Objects.equals(name, person.name);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name);
-        }
+    // ============================================================
+    public static void functionalInterfaceDemo() {
+        System.out.println("=========================== functionalInterfaceDemo");
     }
 
+    // ============================================================
+    // 41. Streams API
+    // filter, map, reduce, collect
+    // ============================================================
+    public static void streamsDemo() {
+        System.out.println("=========================== streamsDemo");
+    }
 
-    // static class Person {
-    //     private String name;
-    //     Person(String name) {
-    //         this.name = name;
-    //     }
+    // ============================================================
+    // 42. Method Reference
+    // ============================================================
+    public static void methodReferenceDemo() {
+        System.out.println("=========================== methodReferenceDemo");
+    }
 
-    //     @Override
-    //     public boolean equals(Object object) {
-    //         if (this == object)
-    //             return true;
+    // ============================================================
+    // 43. Optional
+    // Avoid NullPointerException
+    // ============================================================
+    public static void optionalDemo() {
+        System.out.println("=========================== optionalDemo");
+    }
 
-    //         if (!(object instanceof Person person))
-    //             return false;
-
-    //         return Objects.equals(name, person.name);
-    //     }
-
-    //     @Override
-    //     public int hashCode() {
-    //         return Objects.hash(name);
-    //     }
-    // }
+    // ============================================================
+    // 43. Hashcode
+    // Override equal
+    // ============================================================        
+    public static void HashcodeDemo() {
+        System.out.println("=========================== HashcodeDemo");
+    }
 
 
     // ============================================================
     // 🔥 EXTRA IMPORTANT TOPICS
     // ============================================================
-
-
     // Comparator using Lambda
-
+    public static void comparatorLambdaDemo() {
+        System.out.println("=========================== comparatorLambdaDemo");
+    }
 
 
     // flatMap
+    public static void flatMapDemo() {
+        System.out.println("=========================== flatMapDemo");
+    }
 
 }

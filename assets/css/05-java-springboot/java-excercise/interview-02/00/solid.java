@@ -1,33 +1,13 @@
 class Solid {
 	public static void main(String[] args) {
-		// 1: Single Responsibility ------------------------
 
-
-
-
-		System.out.println("==============================");
-		// 2: Open Close -----------------------------------
-		
-		
-
-		System.out.println("==============================");
-		// 3: Liskov Substitution --------------------------
-		
-
-
-
-		System.out.println("==============================");
-		// 4: Interface Segregation Principle --------------
-		
-		
-
-		System.out.println("==============================");
-		// 5: DIP (Dependency Inversion Principle) ---------
-
-		
-
+		SingleResponsibility();
+		OpenClose();
+		LiskovSubstitution();
+		InterfaceSegregation();
+		DependencyInversion();
 	}
-}
+
 
 // ============================================================
 // 1. SRP (Single Responsibility Principle)
@@ -48,7 +28,10 @@ class Solid {
 // Handles user logic + email logic
 
 // Good Design: Split responsibilities ✅
+public static void SingleResponsibility() {
+    System.out.println("=========================== SingleResponsibility");
 
+}
 
 
 
@@ -65,7 +48,10 @@ class Solid {
 // }
 
 // Good : Easy to extend without modifying existing code ✅
-
+public static void OpenClose() {
+    System.out.println("=========================== OpenClose");
+    
+}
 
 
 
@@ -88,7 +74,10 @@ class Solid {
 // }
 
 // Good: Separate flying and non-flying birds ✅
-
+public static void LiskovSubstitution() {
+    System.out.println("=========================== LiskovSubstitution");
+    
+}
 
 
 
@@ -109,7 +98,10 @@ class Solid {
 // }
 
 // Good : Separate interfaces for different responsibilities ✅
-
+public static void InterfaceSegregation() {
+    System.out.println("=========================== InterfaceSegregation");
+    
+}
 
 
 
@@ -129,9 +121,14 @@ class Solid {
 // }
 
 // Good : Laptop depends on Mouse interface, not specific implementation ✅
-
+public static void DependencyInversion() {
+    System.out.println("=========================== DependencyInversion");
+    
+}
 
 
 
 //Output:
 // Card payment
+
+}

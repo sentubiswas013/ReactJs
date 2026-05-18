@@ -27,6 +27,8 @@ public class Main {
 
     public static void classConstructorDemo() {
 
+        System.out.println("=========================== classConstructorDemo");
+
     }
 
     // ============================================================
@@ -34,6 +36,8 @@ public class Main {
     // ============================================================
 
     public static void finalVariableMethodDemo() {
+
+        System.out.println("=========================== finalVariableMethodDemo");
 
     }
 
@@ -43,6 +47,8 @@ public class Main {
 
     public static void finalClassDemo() {
 
+        System.out.println("=========================== finalClassDemo");
+
     }
 
     // ============================================================
@@ -50,6 +56,8 @@ public class Main {
     // ============================================================
 
     public static void interfaceDemo() {
+
+        System.out.println("=========================== interfaceDemo");
 
     }
 
@@ -59,7 +67,10 @@ public class Main {
 
     public static void thisAndSuper() {
 
+        System.out.println("=========================== thisAndSuper");
+        
     }
+
 
     // Output
     // Parent Constructor
@@ -72,6 +83,8 @@ public class Main {
     // ============================================================
 
     public static void immutableClassDemo() {
+
+        System.out.println("=========================== immutableClassDemo");
 
     }
 }

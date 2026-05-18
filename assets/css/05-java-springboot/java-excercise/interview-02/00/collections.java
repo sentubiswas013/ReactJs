@@ -10,161 +10,155 @@ class CollectionsDemo {
 
     public static void main(String[] args) throws Exception {
 
-        // arrayListDemo();
-        // linkedListDemo();
-        // setDemo();
-        // mapDemo();
-        // iterateMapDemo();
-        // queueDemo();
-        // stackDemo();
-        // sortingDemo();
-        // weakHashMapDemo();
-        // identityHashMapDemo();
-        // linkedHashMapDemo();
-        // lruCacheDemo();
-        // priorityQueueDemo();
-        // maxHeapDemo();
-        // simpleCacheDemo();
+        arrayListDemo();
+        linkedListDemo();
+        setDemo();
+        mapDemo();
+        iterateMapDemo();
+        queueDemo();
+        stackDemo();
+        sortingDemo();
+        weakHashMapDemo();
+        identityHashMapDemo();
+        linkedHashMapDemo();
+        lruCacheDemo();
+        priorityQueueDemo();
+        maxHeapDemo();
+        simpleCacheDemo();
     }
 
     // ============================================================
     // 1. ArrayList
-    // ArrayList uses a dynamic array, so it gives fast random
-    // access (O(1)), but slow insertions/deletions in the middle
-    // due to shifting.
     // ============================================================
-
     public static void arrayListDemo() {
+
+        System.out.println("=========================== arrayListDemo");
 
     }
 
     // ============================================================
     // 2. LinkedList
-    // LinkedList uses a doubly linked list, so it has slower
-    // access (O(n)), but faster insertions/deletions since no
-    // shifting is required.
     // ============================================================
-
     public static void linkedListDemo() {
+
+        System.out.println("=========================== linkedListDemo");
 
     }
 
     // ============================================================
     // 3. Set
     // ============================================================
-
     public static void setDemo() {
+
+        System.out.println("=========================== setDemo");
 
     }
 
     // ============================================================
     // 4. Map
-    // map() is used to transform each element in a stream into
-    // another form. It returns one output for each input,
-    // so the structure of the stream stays the same.
     // ============================================================
-
     public static void mapDemo() {
+
+        System.out.println("=========================== mapDemo");
 
     }
 
     // ============================================================
     // 5. Iterate Map
     // ============================================================
-
     public static void iterateMapDemo() {
+
+        System.out.println("=========================== iterateMapDemo");
 
     }
 
     // ============================================================
     // 6. Queue
     // ============================================================
-
     public static void queueDemo() {
+
+        System.out.println("=========================== queueDemo");
 
     }
 
     // ============================================================
     // 7. Stack
     // ============================================================
-
     public static void stackDemo() {
+
+        System.out.println("=========================== stackDemo");
 
     }
 
     // ============================================================
     // 8. Sorting
     // ============================================================
-
     public static void sortingDemo() {
+
+        System.out.println("=========================== sortingDemo");
 
     }
 
     // ============================================================
     // 9. WeakHashMap
-    // A map where keys are stored with weak references,
-    // so entries can be removed automatically by the
-    // Java Garbage Collector when keys are no longer used.
     // ============================================================
-
     public static void weakHashMapDemo() {
+
+        System.out.println("=========================== weakHashMapDemo");
 
     }
 
     // ============================================================
     // 10. IdentityHashMap
-    // A map that compares keys using reference equality (==)
-    // instead of equals().
     // ============================================================
-
     public static void identityHashMapDemo() {
+
+        System.out.println("=========================== identityHashMapDemo");
 
     }
 
     // ============================================================
     // 11. LinkedHashMap
-    // A map that maintains insertion order using a linked list
-    // along with a hash table.
     // ============================================================
-
     public static void linkedHashMapDemo() {
+
+        System.out.println("=========================== linkedHashMapDemo");
 
     }
 
     // ============================================================
     // 12. LRU Cache
-    // LRU (Least Recently Used) cache is a data structure that
-    // evicts the least recently used items when it reaches its
-    // capacity. It can be implemented using LinkedHashMap in Java.
     // ============================================================
-
     public static void lruCacheDemo() {
+
+        System.out.println("=========================== lruCacheDemo");
 
     }
 
     // ============================================================
     // 13. PriorityQueue
-    // A queue that orders elements based on priority
-    // (natural order or comparator) instead of insertion order.
     // ============================================================
-
     public static void priorityQueueDemo() {
+
+        System.out.println("=========================== priorityQueueDemo");
 
     }
 
     // ============================================================
     // 14. Max Heap
     // ============================================================
-
     public static void maxHeapDemo() {
+
+        System.out.println("=========================== maxHeapDemo");
 
     }
 
     // ============================================================
     // 15. Simple Cache
     // ============================================================
-
     public static void simpleCacheDemo() {
+
+        System.out.println("=========================== simpleCacheDemo");
 
     }
 }
