@@ -18,11 +18,11 @@ class CollectionsDemo {
         // queueDemo();
         // stackDemo();
         // sortingDemo();
-        // weakHashMapDemo();
+         weakHashMapDemo();
         // identityHashMapDemo();
         // linkedHashMapDemo();
         // lruCacheDemo();
-         priorityQueueDemo();
+        // priorityQueueDemo();
         // maxHeapDemo();
         // simpleCacheDemo();
     }
@@ -108,6 +108,16 @@ class CollectionsDemo {
     // ============================================================
 
     public static void weakHashMapDemo() {
+        Map<String, Integer> weakMap = new WeakHashMap<>();
+        String key = new String("Java");
+
+        weakMap.put(key, 100);
+        System.out.println("Before weakmap " + weakMap);
+
+        key = null;
+        System.gc();
+
+        System.out.println("After weakmap " + weakMap);
 
     }
 
@@ -118,7 +128,16 @@ class CollectionsDemo {
     // ============================================================
 
     public static void identityHashMapDemo() {
+        IdentityHashMap<String, Integer> identityMap = new IdentityHashMap<>();
 
+        String s1 = new String("Java");
+        String s2 = new String("Java");
+
+        identityMap.put(s1, 1);
+        identityMap.put(s2, 2);
+
+
+        System.out.println("identityMap ---- " + identityMap);
     }
 
     // ============================================================
@@ -186,6 +205,16 @@ class CollectionsDemo {
     // ============================================================
 
     public static void maxHeapDemo() {
+        PriorityQueue<Integer> maxQueue = new PriorityQueue<>(Collections.reverseOrder());
+        maxQueue.offer(10);
+        maxQueue.offer(40);
+        maxQueue.offer(20);
+        maxQueue.offer(60);
+
+
+        while(!maxQueue.isEmpty()) {
+            System.out.println(maxQueue.poll());
+        }
 
     }
 

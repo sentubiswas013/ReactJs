@@ -1,42 +1,77 @@
-// ============================================================
-// Class, Constructor + Static + Final Variable
-// ============================================================
+public class Main {
 
+    public static void main(String[] args) {
 
+        // 01. Class, Constructor + Static + Final Variable
+        classConstructorDemo();
 
-// ============================================================
-// Final Variable + Final Method
-// ============================================================
+        // 02. Final Variable + Final Method
+        finalVariableMethodDemo();
 
+        // 03. Final Class (cannot be extended)
+        finalClassDemo();
 
+        // 04. Interface
+        interfaceDemo();
 
+        // 05. this & super
+        thisAndSuper();
 
-// ============================================================
-// Final Class (cannot be extended)
-// ============================================================
+        // 06. Immutable Class
+        immutableClassDemo();
+    }
 
+    // ============================================================
+    // 01. Class, Constructor + Static + Final Variable
+    // ============================================================
 
+    public static void classConstructorDemo() {
 
-// ============================================================
-// Interface
-// ============================================================
+    }
 
+    // ============================================================
+    // 02. Final Variable + Final Method
+    // ============================================================
 
+    public static void finalVariableMethodDemo() {
 
+    }
 
-// ============================================================
-// this & super
-// ============================================================
+    // ============================================================
+    // 03. Final Class (cannot be extended)
+    // ============================================================
 
+    public static void finalClassDemo() {
 
+    }
 
+    // ============================================================
+    // 04. Interface
+    // ============================================================
 
-// Output
-// Parent Constructor
-// this.msg: Child
-// super.msg: Parent
+    public static void interfaceDemo() {
 
+    }
 
-// ============================================================
-// Immutable class is a class whose object state cannot be changed after it is created.
-// ============================================================
+    // ============================================================
+    // 05. this & super
+    // ============================================================
+
+    public static void thisAndSuper() {
+
+    }
+
+    // Output
+    // Parent Constructor
+    // this.msg: Child
+    // super.msg: Parent
+
+    // ============================================================
+    // 06. Immutable class is a class whose object state
+    // cannot be changed after it is created.
+    // ============================================================
+
+    public static void immutableClassDemo() {
+
+    }
+}

@@ -57,7 +57,6 @@ class VotingController {
 // 3. throw vs throws
 // ============================================================
 class BankService {
-
     // "throws" declares exception
     public void withdraw(double balance, double amount) throws IllegalArgumentException {
 
