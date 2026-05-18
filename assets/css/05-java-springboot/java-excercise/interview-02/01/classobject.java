@@ -58,8 +58,11 @@ public class Main {
     // ============================================================
 
     public static void thisAndSuper() {
-        User user1 = new User();
-        user1.User();
+        User us1 = new User();
+        us1.display();
+
+        // Student stu = new Student();
+        // stu.Student();
     }
 
     static class Student {
@@ -68,11 +71,17 @@ public class Main {
             System.out.println("My age" + age);
         }
     }
-    static class User {
+
+    static class User extends Student{
         int age = 30;
-        super();
-        public User () {
-            System.out.println("My Age us 12" + super().age);
+
+        User() {
+            super();
+        }
+       
+        public void display () {
+            System.out.println("My Age is 10" + this.age);
+            System.out.println("My Age us 12" + super.age);
         }
     }
 

@@ -974,8 +974,8 @@ public class Linkedin50 {
 	}
 
     // ==========================================================================
-    String str = "abc"
-    Output: a, ab, abc, b, bc, c;
+    // String str = "abc"
+    // Output: a, ab, abc, b, bc, c;
     // ==========================================================================
     ```java
     public class Main {
@@ -987,6 +987,80 @@ public class Linkedin50 {
                     System.out.println(str.substring(i, j));
                 }
             }
+        }
+    }
+    ```
+
+    // ==========================================================================
+    // Input(6,9,2,1,8)   // Time Complexity: For subset problems: O(2^n)
+    // target=9 
+    // output((6,2,1),(9),(1,8))
+    // ==========================================================================
+    ```java
+    import java.util.*;
+
+    public class Main {
+        public static void main(String[] args) {
+            int[] nums = {6, 9, 2, 1, 8};
+            int target = 9;
+
+            List<List<Integer>> result = new ArrayList<>();
+            int n = nums.length;
+
+            // Generate all subsets using loops + bit masking
+            for (int i = 0; i < (1 << n); i++) {
+                List<Integer> temp = new ArrayList<>();
+                int sum = 0;
+
+                for (int j = 0; j < n; j++) {
+
+                    // Check if j-th bit is set
+                    if ((i & (1 << j)) != 0) {
+
+                        temp.add(nums[j]);
+
+                        sum += nums[j];
+                    }
+                }
+
+                if (sum == target) {
+                    result.add(temp);
+                }
+            }
+
+            System.out.println(result);
+        }
+    }
+    ```
+
+    // ==========================================================================
+    // Given an array and a chunk size, split the array into subarrays where each subarray has the given chunk size.
+    // If the array cannot be divided evenly, the final subarray may contain fewer elements.
+    // Example:
+    // Input: [1,2,3,4,5,6,7,8,9,10], chunk size = 2
+    // Output: [[1,2], [3,4], [5,6], [7,8], [9,10]]
+    // ==========================================================================
+    ```java
+    import java.util.*;
+    public class Main {
+        public static void main(String[] args) {
+            int[] arr = {1,2,3,4,5,6,7,8,9,10};
+
+            int chunkSize = 2;
+            List<List<Integer>> result = new ArrayList<>();
+
+            for (int i = 0; i < arr.length; i += chunkSize) {
+
+                List<Integer> temp = new ArrayList<>();
+
+                for (int j = i; j < i + chunkSize && j < arr.length; j++) {
+                    temp.add(arr[j]);
+                }
+
+                result.add(temp);
+            }
+
+            System.out.println(result);
         }
     }
     ```
