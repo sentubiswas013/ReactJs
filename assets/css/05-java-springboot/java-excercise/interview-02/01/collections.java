@@ -21,8 +21,8 @@ class CollectionsDemo {
         // weakHashMapDemo();
         // identityHashMapDemo();
         // linkedHashMapDemo();
-         lruCacheDemo();
-        // priorityQueueDemo();
+        // lruCacheDemo();
+         priorityQueueDemo();
         // maxHeapDemo();
         // simpleCacheDemo();
     }
@@ -170,7 +170,15 @@ class CollectionsDemo {
     // ============================================================
 
     public static void priorityQueueDemo() {
+        Queue<Integer> queue = new PriorityQueue<>();
+        queue.offer(40);
+        queue.offer(10);
+        queue.offer(20);
+        queue.offer(30);
 
+        while(!queue.isEmpty()) {
+            System.out.println("queue " + queue.poll());
+        }
     }
 
     // ============================================================
