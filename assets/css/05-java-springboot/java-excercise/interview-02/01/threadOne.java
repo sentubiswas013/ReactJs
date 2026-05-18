@@ -15,8 +15,8 @@ class ThreadOne {
 		// VolatileMain();
 		// SleepWaitMain();
 		// ConcurrentHashMapMain();
-		ExecutorServiceMain();
-		CompletableFutureMain();
+		// ExecutorServiceMain();
+		// CompletableFutureMain();
 		LruCacheMain();
 	}
 
@@ -307,8 +307,22 @@ static void ExecutorServiceMain() {
 static void CompletableFutureMain() {
 	System.out.println("==================================== CompletableFuture ");
 
+    CompletableFuture<String> userFuture = CompletableFuture.supplyAsync(() -> getUser());
+    CompletableFuture<String> orderFuture = CompletableFuture.supplyAsync(() -> getOrders());
+
+    CompletableFuture<String> finalResult = userFuture.thenCombine(orderFuture,(user, orders) -> user + " | " + orders);
+
+    System.out.println(finalResult.join());
 }
 
+static String getUser() {
+	return "User: John";
+}
+
+
+static String getOrders() {
+	return "Order 5";
+}
 
 
 // ================================================================================
@@ -317,6 +331,8 @@ static void CompletableFutureMain() {
 // Calling external APIs (payment/user service) is expensive → cache response.
 static void LruCacheMain() {
 	System.out.println("==================================== LRU Cache ");
+
+	
 }
 
 

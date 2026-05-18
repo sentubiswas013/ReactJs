@@ -11003,18 +11003,22 @@ A **transaction** is a group of database operations that are executed as **one s
 
 👉 “Run this method inside a database transaction”
 
-All operations succeed → COMMIT
-Any operation fails → ROLLBACK
+**@Transactional** : ensures **atomicity**: both user and order saved or both rolled back
+
+- All operations succeed → COMMIT
+- Any operation fails → ROLLBACK
 
 
 It follows **ACID properties:**
 
 | Property    | Meaning                            |
 | ----------- | ---------------------------------- |
-| Atomicity   | All operations succeed or all fail |
-| Consistency | Data remains valid                 |
-| Isolation   | Transactions don’t interfere       |
-| Durability  | Data is saved permanently          |
+| Atomicity   | All operations succeed or none (all-or-nothing). |
+| Consistency | Data remains valid and follows all rules                 |
+| Isolation   | Transactions do not interfere with each other       |
+| Durability  | Once committed, data is permanently saved even after a crash          |
+
+
 
 **Example (Bank Transfer)**
 

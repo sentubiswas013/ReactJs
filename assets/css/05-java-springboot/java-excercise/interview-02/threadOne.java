@@ -404,10 +404,8 @@ class CompletableFutureRealTimeExample {
         CompletableFuture<String> paymentFuture = CompletableFuture.supplyAsync(() -> getPayments());
 
         // Combine all results
-        CompletableFuture<String> finalResult = userFuture.thenCombine(
-                    orderFuture, (user, orders) ->
-                        user + " | " + orders
-                    )
+        CompletableFuture<String> finalResult 
+            = userFuture.thenCombine(orderFuture, (user, orders) -> user + " | " + orders )
             .thenCombine(paymentFuture, (combined, payment) -> combined + " | " + payment);
 
         // Wait and print result
