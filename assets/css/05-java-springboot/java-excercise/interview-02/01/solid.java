@@ -30,10 +30,24 @@ class Solid {
 // Good Design: Split responsibilities ✅
 public static void SingleResponsibility() {
     System.out.println("=========================== SingleResponsibility");
+    UserService1 s1 = new UserService1();
+    UserService2 s2 = new UserService2();
 
+    s1.create();
+    s2.read();
 }
 
+static class UserService1 {
+	public void create() {
+		System.out.println("Create");
+	}
+}
 
+static class UserService2 {
+	public void read() {
+		System.out.println("Read");
+	}
+}
 
 // ============================================================
 // 2. OCP (Open/Closed Principle)
@@ -50,9 +64,36 @@ public static void SingleResponsibility() {
 // Good : Easy to extend without modifying existing code ✅
 public static void OpenClose() {
     System.out.println("=========================== OpenClose");
-    
+    PaymentService service = new PaymentService();
+
+    CardPayment payment1 = new CardPayment();
+    service.ProcessPayment(payment1);
+
+    Payment payment2 = new UpiPayment();
+    service.ProcessPayment(payment2);
 }
 
+interface Payment{
+	void pay();
+}
+
+static class CardPayment implements Payment{
+	public void pay() {
+		System.out.println("Card");
+	}
+}
+
+static class UpiPayment implements Payment{
+	public void pay() {
+		System.out.println("Upi");
+	}
+}
+
+static class PaymentService {
+	public void ProcessPayment (Payment payment) {
+		payment.pay();
+	}
+}
 
 
 // Output:
@@ -76,10 +117,23 @@ public static void OpenClose() {
 // Good: Separate flying and non-flying birds ✅
 public static void LiskovSubstitution() {
     System.out.println("=========================== LiskovSubstitution");
-    
+    Bird br1 = new Bird();
+    br1.fly();
+    Sparrow br2 = new Sparrow();
+    br2.fly();
 }
 
-
+static class Bird {
+	public void fly() {
+		System.out.println("Bird can fly");
+	}
+}
+static class Sparrow extends Bird{
+	@Override
+	public void fly() {
+		System.out.println("Sparrow can fly");
+	}
+}
 
 // Output:
 // Bird can fly
@@ -101,9 +155,36 @@ public static void LiskovSubstitution() {
 public static void InterfaceSegregation() {
     System.out.println("=========================== InterfaceSegregation");
     
+    Workable hm = new Human();
+    Eatable eat = new Human();
+    Workable rb = new Robot();
+
+    hm.work();
+    eat.eat();
+
+    rb.work();
 }
 
+interface Workable {
+	void work();
+}
+interface Eatable {
+	void eat();
+}
 
+static class Human implements Workable, Eatable {
+	public void work () {
+		System.out.println("Work");
+	}
+	public void eat () {
+		System.out.println("Eat");
+	}
+}
+static class Robot implements Workable {
+	public void work () {
+		System.out.println("Work");
+	}
+}
 
 // Output:
 // Human working
@@ -124,9 +205,40 @@ public static void InterfaceSegregation() {
 public static void DependencyInversion() {
     System.out.println("=========================== DependencyInversion");
     
+    EmailService email = new EmailService(); 
+    SmsService sms = new SmsService(); 
+    NotificationService notification1  = new NotificationService(email);    
+    NotificationService notification2  = new NotificationService(sms);    
+
+    notification1.notifyUser();
+    notification2.notifyUser();
+}
+interface MessageService {
+	void send();
 }
 
+static class EmailService implements MessageService {
+	public void send() {
+		System.out.println("Email service");
+	}
+}
 
+static class SmsService implements MessageService {
+	public void send() {
+		System.out.println("Ems service");
+	}
+}
+
+static class NotificationService {
+	private  MessageService messageService;
+	NotificationService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
+	public void notifyUser() {
+		messageService.send();
+	}
+}
 
 //Output:
 // Card payment
