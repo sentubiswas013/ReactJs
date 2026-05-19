@@ -3307,6 +3307,7 @@ Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster, not thread-sa
 Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, slow, thread-safe, thread-safe, not accept null value
 ```
 
+
 ## 5. How does HashMap work internally?
 
 **HashMap** works using an **array of buckets (Node array)**.
@@ -7051,6 +7052,167 @@ spring.cache.jcache.config=classpath:ehcache.xml
 | ORM level caching     | Hibernate L2 |
 | Frequently read data  | Cache        |
 | Frequently write data | Avoid cache  |
+
+
+## 6. Create File upload API to Handle Large Data Processing?
+
+**Step 1 — Client Uploads File**
+
+Controller accepts file without loading everything into memory.
+
+```java id="v50d5s"
+@RestController
+@RequestMapping("/files")
+class FileUploadController {
+
+    private final FileProcessingService service;
+
+    public FileUploadController(FileProcessingService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/upload")
+    public String upload(
+            @RequestParam("file") MultipartFile file
+    ) throws Exception {
+
+        service.processFile(file);
+
+        return "File Accepted";
+    }
+}
+```
+
+---
+
+**Step 2 — Service Layer**
+
+Main orchestration layer.
+
+```java id="cx88hj"
+@Service
+class FileProcessingService {
+
+    private final DataRepository repository;
+
+    private static final int BATCH_SIZE = 1000;
+
+    public FileProcessingService(DataRepository repository) {
+        this.repository = repository;
+    }
+
+    @Async
+    public CompletableFuture<Void> processFile( MultipartFile file) throws Exception {
+
+        List<DataEntity> batch = new ArrayList<>();
+
+        try (
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    file.getInputStream()
+                            )
+                    )
+        ) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                DataEntity entity = mapToEntity(line);
+
+                batch.add(entity);
+
+                if (batch.size() == BATCH_SIZE) {
+
+                    saveBatch(batch);
+
+                    batch.clear();
+                }
+            }
+
+            // remaining records
+            if (!batch.isEmpty()) {
+                saveBatch(batch);
+            }
+        }
+
+        return CompletableFuture.completedFuture(null);
+    }
+
+    private DataEntity mapToEntity(String line) {
+
+        DataEntity entity = new DataEntity();
+
+        entity.setName(line);
+
+        return entity;
+    }
+
+    private void saveBatch(List<DataEntity> batch) {
+
+        repository.saveAll(batch);
+
+        System.out.println(
+                "Saved batch size: " + batch.size()
+        );
+    }
+}
+```
+
+---
+
+**Step 3 — Entity**
+
+```java id="zwv22u"
+@Entity
+class DataEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+---
+
+**Step 4 — Repository**
+
+```java id="v74d5u"
+@Repository
+interface DataRepository
+        extends JpaRepository<DataEntity, Long> {
+}
+```
+
+---
+
+**Step 5 — Enable Async**
+
+```java id="9vkdpn"
+@EnableAsync
+@SpringBootApplication
+public class Main {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+}
+```
 
 
 ## 6. How do you Handle Large Data Processing?
