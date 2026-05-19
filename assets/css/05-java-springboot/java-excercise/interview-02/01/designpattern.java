@@ -32,7 +32,7 @@ class DesignPattern {
 public static void SingletonPattern() {
 	
 	System.out.println("=========================== SingletonPattern");
-	
+
 }
 
 
@@ -75,9 +75,47 @@ public static void SingletonPattern() {
 public static void FactoryPattern() {
 	
 	System.out.println("=========================== FactoryPattern");
-	
+	Payment payment = PaymentFactory.getPayment(PaymentType.CARD);
+	payment.pay();
+
 }
 
+enum PaymentType {
+	UPI, CARD
+}
+
+interface Payment {
+	void pay();
+}
+
+static class UpiPayment implements Payment {
+	public void pay() {
+		System.out.println("Upi");
+	}
+}
+
+static class CardPayment implements Payment {
+	public void pay() {
+		System.out.println("Card");
+	}
+}
+
+static class PaymentFactory {
+	// public static Payment getPayment(PaymentType type) {
+	static Payment getPayment(PaymentType type) {
+
+		switch (type) {
+			case CARD:
+				return new CardPayment();
+
+			case UPI:
+				return new UpiPayment();
+
+			default:
+				throw new IllegalArgumentException("Error");
+		}
+	}
+}
 
 
 
