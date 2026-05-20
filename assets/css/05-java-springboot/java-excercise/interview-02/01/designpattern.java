@@ -32,9 +32,22 @@ class DesignPattern {
 public static void SingletonPattern() {
 	
 	System.out.println("=========================== SingletonPattern");
-
+	Singleton s1 = new Singleton();
+	Singleton s2 = new Singleton();
+	System.out.println("Hello ---" + s1.getInstance() + "=== " + s2.getInstance());
 }
 
+static class Singleton {
+	private static Singleton instance;
+	Singleton() {};
+
+	public static Singleton getInstance () {
+		if(instance == null) {
+			instance = new Singleton();
+		}
+		return instance;
+	}
+}
 
 
 
@@ -148,6 +161,7 @@ public static void ObserverPattern() {
 	System.out.println("=========================== ObserverPattern");
 	
 }
+
 
 
 

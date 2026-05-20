@@ -351,9 +351,13 @@ class Stream01 {
 
         // =======================================================
         // 28. Second Highest Salary
-        
+        List<Double> secondHighest = employees.stream()
+            .map(Employee::getSalary)
+            .skip(1)
+            .limit(1)
+            .toList();
 
-        // System.out.println("Second Highest Employee: " + secondHighest);
+        System.out.println("Second Highest Employee: " + secondHighest);
         // Output: Second Highest Salary: 50000.0
 
         // OR just salary --------------------------------------
