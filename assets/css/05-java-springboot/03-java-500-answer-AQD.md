@@ -3417,37 +3417,17 @@ public class WeakHashMapExample {
         System.out.println("After GC: " + weakMap);
     }
 }
-```
-
-**Output (may vary)**
-
-```text id="53oy9f"
+// Output: 
 Before GC: {Java=100}
 After GC: {}
 ```
-
-**Why?**
-
-`WeakHashMap` stores keys as weak references.
-If no strong reference exists, GC removes the entry.
 
 ---
 
 **2. IdentityHashMap Example : ** A map that compares keys using **reference equality (`==`) instead of `equals()`**.
 
-Compares keys using:
+Compares keys using `==`  instead of: `equals()`;
 
-```java id="8v6c3d"
-==
-```
-
-instead of:
-
-```java id="2lm8fx"
-equals()
-```
-
----
 
 ```java id="p8d0mc"
 import java.util.IdentityHashMap;
@@ -3468,51 +3448,27 @@ public class IdentityHashMapExample {
         System.out.println(identityMap);
     }
 }
-```
-
-**Output**
-
-```text id="4lr7h8"
-{Java=1, Java=2}
-```
-
-**Why?**
-
-Although content is same:
-
-```java id="4xfrz2"
-s1.equals(s2) --> true
-```
-
-But:
-
-```java id="kq1ly4"
-s1 == s2 --> false
-```
+// Output: {Java=1, Java=2}
+// Why : s1.equals(s2) --> true
+// But: s1 == s2 --> false
 
 So both keys are treated separately.
+```
 
 ---
 
-**3. LinkedHashMap Example : ** A map that **maintains insertion order** using a linked list along with a hash table.
+**3. LinkedHashMap Example : ** A map that **maintains insertion order** using a linked list along with a hash table. Maintains insertion order.
 
-Maintains insertion order.
 
-Useful for:
+Useful for: * Ordered maps, * LRU Cache
 
-* Ordered maps
-* LRU Cache
-
----
 
 ```java id="fjlwm5"
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LinkedHashMapExample {
-
     public static void main(String[] args) {
-
         Map<Integer, String> linkedMap = new LinkedHashMap<>();
 
         linkedMap.put(3, "Java");
@@ -3522,15 +3478,8 @@ public class LinkedHashMapExample {
         System.out.println(linkedMap);
     }
 }
+// Output: {3=Java, 1=Spring, 2=Hibernate}
 ```
-
-**Output**
-
-```text id="9ldm4y"
-{3=Java, 1=Spring, 2=Hibernate}
-```
-
-Insertion order preserved.
 
 ---
 
@@ -3541,15 +3490,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LRUCacheExample {
-
     public static void main(String[] args) {
-
-        LinkedHashMap<Integer, String> cache =
-                new LinkedHashMap<>(3, 0.75f, true) {
-
-            protected boolean removeEldestEntry(
-                    Map.Entry<Integer, String> eldest) {
-
+        LinkedHashMap<Integer, String> cache = new LinkedHashMap<>(3, 0.75f, true) {
+            protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest) {
                 return size() > 3;
             }
         };
@@ -3565,34 +3508,21 @@ public class LRUCacheExample {
         System.out.println(cache);
     }
 }
+// Output: {3=C, 1=A, 4=D}
+// Output: Key `2` removed because it was least recently used.
 ```
-
-**Output**
-
-```text id="gb5w4c"
-{3=C, 1=A, 4=D}
-```
-
-Key `2` removed because it was least recently used.
 
 ---
 
 **4. PriorityQueue Example :** A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
 
-Implements Min Heap by default.
-
-Elements processed based on priority.
-
----
 
 ```java id="gqws4s"
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class PriorityQueueExample {
-
     public static void main(String[] args) {
-
         Queue<Integer> priorityQueue = new PriorityQueue<>();
 
         priorityQueue.offer(30);
@@ -3605,18 +3535,12 @@ public class PriorityQueueExample {
         }
     }
 }
+// Output: 
+// 10
+// 20
+// 30
+// 50
 ```
-
-**Output**
-
-```text id="4ztjlwm"
-10
-20
-30
-50
-```
-
-Smallest element comes first.
 
 ---
 
@@ -3642,14 +3566,10 @@ public class MaxHeapExample {
         }
     }
 }
-```
-
-**Output**
-
-```text id="w7yl3n"
-50
-20
-10
+// Output: 
+// 50
+// 20
+// 10
 ```
 
 ---
@@ -3679,70 +3599,9 @@ public class MaxHeapExample {
 - Use `HashMap` in single-threaded or read-only scenarios.
 - Use `ConcurrentHashMap` in multi-threaded environments where multiple threads read/write simultaneously (e.g., caches, shared state).
 
-## 10. You need to implement a caching mechanism without using external libraries. How do you do it?
-
-```Java
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-class Main<K, V> {
-
-    private final Map<K, CacheEntry<V>> cache = new ConcurrentHashMap<>();
-    private final long ttlMillis;
-
-    public Main(long ttlMillis) {
-        this.ttlMillis = ttlMillis;
-    }
-
-    public V get(K key) {
-        CacheEntry<V> entry = cache.get(key);
-        if (entry == null) return null;
-
-        if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
-            cache.remove(key);
-            return null;
-        }
-
-        return entry.value;
-    }
-
-    public void put(K key, V value) {
-        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
-    }
-
-    static class CacheEntry<V> {
-        final V value;
-        final long timestamp;
-
-        CacheEntry(V value, long timestamp) {
-            this.value = value;
-            this.timestamp = timestamp;
-        }
-    }
-
-    // ✅ TEST MAIN METHOD
-    public static void main(String[] args) throws InterruptedException {
-
-        // Create cache with TTL = 3 seconds
-        Main<String, String> cache = new Main<>(3000);
-
-        // Put value
-        cache.put("key1", "Hello World");
-
-        // Get immediately
-        System.out.println("Before expiry: " + cache.get("key1"));
-
-        // Wait 4 seconds (expire)
-        Thread.sleep(4000);
-
-        // Try again
-        System.out.println("After expiry: " + cache.get("key1"));
-    }
-}
-```
 
 
-## 11. Java Collections Framework summary
+## 11. Java Collections Framework
 
 **🔹 Basics**
 
