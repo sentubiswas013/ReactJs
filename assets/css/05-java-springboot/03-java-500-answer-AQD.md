@@ -3388,7 +3388,7 @@ Used when keys should be removed automatically by Garbage Collector.
 
 **Common use :** -Caching, -Memory-sensitive applications
 
-```java id="5f2r1j"
+```java 
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -3418,9 +3418,8 @@ Before GC: {Java=100}
 After GC: {}
 ```
 
----
 
-**2. IdentityHashMap Example : ** A map that compares keys using **reference equality (`==`) instead of `equals()`**.
+**2. IdentityHashMap Example :** A map that compares keys using **reference equality (`==`) instead of `equals()`**.
 
 Compares keys using `==`  instead of: `equals()`;
 
@@ -3453,7 +3452,7 @@ So both keys are treated separately.
 
 ---
 
-**3. LinkedHashMap Example : ** A map that **maintains insertion order** using a linked list along with a hash table. Maintains insertion order.
+**3. LinkedHashMap Example :** A map that **maintains insertion order** using a linked list along with a hash table. Maintains insertion order.
 
 
 Useful for: * Ordered maps, * LRU Cache
