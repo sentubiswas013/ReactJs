@@ -185,10 +185,43 @@ public static void ObserverPattern() {
 public static void StrategyPattern() {
 	
 	System.out.println("=========================== StrategyPattern");
+	NotificationService service = new NotificationService();
 	
+	service.setStrategy(new EmailNotification());
+	service.notifyUser("Email Notification.");
+
+	service.setStrategy(new SmsNotification());
+	service.notifyUser("Sms notification.");
 }
 
+interface NotificationStrategy {
+	void send(String message);
+}
 
+static class EmailNotification implements NotificationStrategy {
+	@Override 
+	public void send(String message) {
+		System.out.println("Send " + message);
+	}
+}
+static class SmsNotification implements NotificationStrategy {
+	@Override 
+	public void send(String message) {
+		System.out.println("Send " + message);
+	}
+}
+
+static class NotificationService {
+	private NotificationStrategy strategy;
+
+	public void setStrategy(NotificationStrategy strategy) {
+		this.strategy = strategy;
+	}
+
+	public void notifyUser(String message) {
+        strategy.send(message);
+    }
+}
 
 
 
