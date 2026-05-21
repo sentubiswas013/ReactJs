@@ -588,6 +588,15 @@ String c = new String("hello"); // creates new object in heap
 
 System.out.println(a == b);  // true - same reference
 System.out.println(a == c);  // false - different references
+--------------------------
+String str1 = "Hello";
+String str2 = "Hello";
+String str3 = new String("Hello");
+
+System.out.println(str1 == str2);      // true
+System.out.println(str1 == str3);      // false
+System.out.println(str1.equals(str2)); // true
+System.out.println(str1.equals(str3)); // true
 ```
 
 ## 9. What is coercion in Java?
