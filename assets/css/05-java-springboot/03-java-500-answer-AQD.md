@@ -3384,7 +3384,6 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 ```
 
 **1. WeakHashMap Example :** A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
-Used when keys should be removed automatically by Garbage Collector.
 
 **Common use :** -Caching, -Memory-sensitive applications
 
