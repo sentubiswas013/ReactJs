@@ -146,7 +146,7 @@ class FactoryPatternDemo {
 
 // ============================================================
 // 3. Observer Pattern (Best Practice using Enum) : Ex: News Agency
-// **Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
+// **Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, it notified all dependent objects and updated automatically.
 
 // Rules to create :: (exmaple News Agency):
 // News agency - > News Channel -> Observer Pattern

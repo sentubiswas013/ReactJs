@@ -3383,7 +3383,7 @@ Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache im
 Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
 ```
 
-**1. WeakHashMap Example**
+**1. WeakHashMap Example :** A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
 
 Used when keys should be removed automatically by Garbage Collector.
 
@@ -3433,7 +3433,7 @@ If no strong reference exists, GC removes the entry.
 
 ---
 
-**2. IdentityHashMap Example**
+**2. IdentityHashMap Example : ** A map that compares keys using **reference equality (`==`) instead of `equals()`**.
 
 Compares keys using:
 
@@ -3494,7 +3494,7 @@ So both keys are treated separately.
 
 ---
 
-**3. LinkedHashMap Example**
+**3. LinkedHashMap Example : ** A map that **maintains insertion order** using a linked list along with a hash table.
 
 Maintains insertion order.
 
@@ -3577,7 +3577,7 @@ Key `2` removed because it was least recently used.
 
 ---
 
-**4. PriorityQueue Example**
+**4. PriorityQueue Example :** A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
 
 Implements Min Heap by default.
 

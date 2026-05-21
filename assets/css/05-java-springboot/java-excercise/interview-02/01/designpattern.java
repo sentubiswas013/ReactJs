@@ -161,6 +161,21 @@ public static void ObserverPattern() {
 	System.out.println("=========================== ObserverPattern");
 	
 }
+interface Observer {
+	void update(String message);
+}
+
+static class NewsChannel implements Observer {
+	private String name;
+
+	public NewsChannel (String name) {
+		this.name = name;
+	}
+	
+	public void update (String news) {
+
+	}
+}
 
 
 
@@ -186,7 +201,7 @@ public static void StrategyPattern() {
 	
 	System.out.println("=========================== StrategyPattern");
 	NotificationService service = new NotificationService();
-	
+
 	service.setStrategy(new EmailNotification());
 	service.notifyUser("Email Notification.");
 
