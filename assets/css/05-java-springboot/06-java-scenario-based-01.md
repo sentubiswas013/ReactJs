@@ -1377,3 +1377,304 @@ spec:
   minReplicas: 2
   maxReplicas: 10
 ```
+
+
+# **6️⃣ Java – Real-Time Scenario Based Questions**
+
+## **Q30. Your application throws ConcurrentModificationException in production. How do you fix it?**
+
+> This happens when a collection is modified while iterating over it. In production, I replaced `ArrayList` with `CopyOnWriteArrayList` for read-heavy scenarios, or used `Iterator.remove()` for safe removal during iteration.
+
+**Bad Code:**
+```java
+for (String item : list) {
+    if (item.equals("remove")) list.remove(item); // throws ConcurrentModificationException
+}
+```
+
+**Fix 1 – Iterator:**
+```java
+Iterator<String> it = list.iterator();
+while (it.hasNext()) {
+    if (it.next().equals("remove")) it.remove();
+}
+```
+
+**Fix 2 – CopyOnWriteArrayList (thread-safe):**
+```java
+List<String> list = new CopyOnWriteArrayList<>(originalList);
+```
+
+---
+
+## **Q31. Your REST API is returning stale data even after DB update. How do you fix it?**
+
+> The issue was Redis cache returning old data. We fixed it by invalidating the cache on update using `@CacheEvict`.
+
+```java
+@CacheEvict(value = "users", key = "#id")
+public User updateUser(Long id, User user) {
+    return userRepository.save(user);
+}
+```
+
+Also added TTL in Redis config to auto-expire stale entries:
+```yaml
+spring:
+  cache:
+    redis:
+      time-to-live: 60000
+```
+
+---
+
+## **Q32. How did you handle a deadlock situation in a Java multi-threaded application?**
+
+> In a payment service, two threads were acquiring locks in opposite order causing a deadlock. We fixed it by enforcing a consistent lock ordering.
+
+**Deadlock Cause:**
+```java
+// Thread 1: locks A then B
+// Thread 2: locks B then A → deadlock
+```
+
+**Fix – Consistent Lock Order:**
+```java
+synchronized (lockA) {
+    synchronized (lockB) {
+        // safe: always A → B
+    }
+}
+```
+
+For DB-level deadlocks, we used `@Retryable` to retry on deadlock exception:
+```java
+@Retryable(value = DeadlockLoserDataAccessException.class, maxAttempts = 3)
+public void processPayment(Long id) {
+    // DB operation
+}
+```
+
+---
+
+## **Q33. Your Spring Boot app is taking too long to start. How do you optimize it?**
+
+> We had 40+ beans loading at startup. We optimized using lazy initialization and removed unused auto-configurations.
+
+**Enable Lazy Init:**
+```yaml
+spring:
+  main:
+    lazy-initialization: true
+```
+
+**Exclude Unused Auto-Config:**
+```java
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+```
+
+**Profile-based bean loading:**
+```java
+@Bean
+@Profile("prod")
+public DataSource prodDataSource() { ... }
+```
+
+Result: startup time reduced from 18s to 6s.
+
+---
+
+## **Q34. How did you handle a scenario where a Kafka consumer was processing duplicate messages?**
+
+> Kafka can redeliver messages on consumer restart. We made the consumer **idempotent** by checking if the event was already processed using a processed-event table.
+
+```java
+@KafkaListener(topics = "order-events")
+public void consume(OrderEvent event) {
+    if (eventRepository.existsById(event.getEventId())) return;
+    processOrder(event);
+    eventRepository.save(new ProcessedEvent(event.getEventId()));
+}
+```
+
+Also configured Kafka consumer for exactly-once semantics:
+```yaml
+spring:
+  kafka:
+    consumer:
+      enable-auto-commit: false
+      isolation-level: read_committed
+```
+
+---
+
+## **Q35. Your microservice is running out of DB connections under load. How did you fix it?**
+
+> The connection pool was exhausted because connections weren't being released properly. We tuned HikariCP settings and fixed missing `@Transactional` boundaries.
+
+**HikariCP Tuning:**
+```yaml
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+```
+
+**Root Cause Fix – Missing transaction boundary:**
+```java
+@Transactional  // ensures connection is released after method
+public void processOrder(Order order) {
+    orderRepository.save(order);
+}
+```
+
+---
+
+## **Q36. How did you implement rate limiting on a REST API in Spring Boot?**
+
+> To prevent abuse, we implemented rate limiting using **Bucket4j** with Redis as the backend store.
+
+```java
+@GetMapping("/api/data")
+public ResponseEntity<String> getData(HttpServletRequest request) {
+    String ip = request.getRemoteAddr();
+    Bucket bucket = bucketService.resolveBucket(ip);
+    if (bucket.tryConsume(1)) {
+        return ResponseEntity.ok("data");
+    }
+    return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Rate limit exceeded");
+}
+```
+
+**Bucket Config:**
+```java
+Bucket.builder()
+    .addLimit(Bandwidth.classic(10, Refill.greedy(10, Duration.ofMinutes(1))))
+    .build();
+```
+
+---
+
+## **Q37. How did you handle a scenario where a scheduled job ran multiple times in a clustered environment?**
+
+> In a multi-instance deployment, `@Scheduled` ran on every pod simultaneously causing duplicate processing. We used **ShedLock** to ensure only one instance runs the job at a time.
+
+```java
+@Scheduled(cron = "0 0 * * * *")
+@SchedulerLock(name = "dailyReportJob", lockAtMostFor = "10m", lockAtLeastFor = "5m")
+public void generateDailyReport() {
+    reportService.generate();
+}
+```
+
+**ShedLock Table (DB-backed lock):**
+```sql
+CREATE TABLE shedlock (
+    name VARCHAR(64) PRIMARY KEY,
+    lock_until TIMESTAMP,
+    locked_at TIMESTAMP,
+    locked_by VARCHAR(255)
+);
+```
+
+---
+
+## **Q38. How did you implement soft delete in a Spring Boot application?**
+
+> Instead of physically deleting records, we marked them as deleted using a flag. This preserved audit history.
+
+**Entity:**
+```java
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
+}
+```
+
+**Repository with filter:**
+```java
+@Query("SELECT u FROM User u WHERE u.deleted = false")
+List<User> findAllActive();
+```
+
+**Service:**
+```java
+public void deleteUser(Long id) {
+    User user = userRepository.findById(id).orElseThrow();
+    user.setDeleted(true);
+    userRepository.save(user);
+}
+```
+
+---
+
+## **Q39. How did you handle token expiry and refresh in a JWT-based system?**
+
+> We issued a short-lived access token (15 min) and a long-lived refresh token (7 days). On expiry, the client used the refresh token to get a new access token.
+
+**Token Generation:**
+```java
+public String generateAccessToken(String username) {
+    return Jwts.builder()
+        .setSubject(username)
+        .setExpiration(new Date(System.currentTimeMillis() + 900000)) // 15 min
+        .signWith(SignatureAlgorithm.HS256, SECRET)
+        .compact();
+}
+```
+
+**Refresh Endpoint:**
+```java
+@PostMapping("/auth/refresh")
+public ResponseEntity<String> refresh(@RequestBody String refreshToken) {
+    String username = jwtService.extractUsername(refreshToken);
+    if (jwtService.isValid(refreshToken)) {
+        return ResponseEntity.ok(jwtService.generateAccessToken(username));
+    }
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+}
+```
+
+---
+
+## **Q40. How did you implement an audit trail for entity changes in Spring Boot?**
+
+> We used **Spring Data Envers** (Hibernate Envers) to automatically track all changes to entities with who changed what and when.
+
+**Enable Auditing:**
+```java
+@SpringBootApplication
+@EnableJpaAuditing
+public class App {}
+```
+
+**Audited Entity:**
+```java
+@Entity
+@Audited
+public class Order {
+    @Id
+    private Long id;
+    private String status;
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+}
+```
+
+**Fetch Revision History:**
+```java
+AuditReader reader = AuditReaderFactory.get(entityManager);
+List<Number> revisions = reader.getRevisions(Order.class, orderId);
+```
