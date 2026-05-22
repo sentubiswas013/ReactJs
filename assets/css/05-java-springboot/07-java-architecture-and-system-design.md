@@ -740,3 +740,638 @@ spec:
 - Monitor scale-in protection for instances processing long jobs
 
 ---
+
+## 13. Database Replication
+
+**What it is:**
+Database Replication is the process of copying data from one database server (primary) to one or more servers (replicas) to improve read performance, availability, and fault tolerance.
+
+**Types:**
+
+**Master-Slave (Primary-Replica):**
+```
+Writes → Primary DB → replicates → Replica 1 (reads)
+                               → Replica 2 (reads)
+```
+- All writes go to primary; reads distributed across replicas
+- ✅ Simple, scales reads well
+- ❌ Primary is single point of failure for writes
+
+**Master-Master (Multi-Primary):**
+```
+Writes → Primary 1 ↔ Primary 2 ← Writes
+```
+- Both nodes accept reads and writes
+- ✅ No single point of failure
+- ❌ Conflict resolution needed for concurrent writes
+
+**Replication modes:**
+| Mode | Description | Trade-off |
+|---|---|---|
+| Synchronous | Primary waits for replica to confirm write | Strong consistency, higher latency |
+| Asynchronous | Primary doesn't wait for replica | Low latency, possible data loss on failover |
+| Semi-synchronous | Wait for at least one replica | Balance between both |
+
+**Replication lag:**
+- Replica may be seconds behind primary
+- Problem: Read-your-own-writes — user writes then immediately reads from replica and sees stale data
+- Solutions: Route reads to primary for critical operations, use session consistency, wait for replication
+
+**Use cases:**
+- Read-heavy apps: route 80% reads to replicas, writes to primary
+- Disaster recovery: replica in different region/AZ
+- Analytics: run heavy queries on replica without impacting production
+- Zero-downtime failover: promote replica to primary if primary fails
+
+**Real-world tools:** MySQL Replication, PostgreSQL Streaming Replication, AWS RDS Multi-AZ, MongoDB Replica Set
+
+---
+
+## 14. Bulkhead Pattern
+
+**What it is:**
+The Bulkhead pattern isolates different parts of a system into separate resource pools (thread pools, connection pools) so that a failure or overload in one part doesn't cascade and exhaust resources for the entire system.
+
+**Origin:** Named after ship bulkheads — watertight compartments that prevent the whole ship from sinking if one section floods.
+
+**The problem without Bulkhead:**
+```
+All services share one thread pool (200 threads)
+Payment service becomes slow → consumes all 200 threads
+Order service, User service → starved of threads → entire app hangs
+```
+
+**With Bulkhead:**
+```
+Payment service  → Thread pool: 50 threads
+Order service    → Thread pool: 80 threads
+User service     → Thread pool: 70 threads
+Each isolated — one slow service can't starve others
+```
+
+**Types:**
+
+**Thread Pool Bulkhead:**
+- Separate thread pool per downstream dependency
+- Requests to a service run in its dedicated pool
+- If pool is full → fail fast, don't block other services
+
+**Semaphore Bulkhead:**
+- Limit concurrent calls using a semaphore counter
+- Lighter than thread pool (no extra threads)
+- Suitable for non-blocking/reactive code
+
+**Spring Boot + Resilience4j Bulkhead:**
+```java
+@Bulkhead(name = "paymentService", type = Bulkhead.Type.THREADPOOL)
+public CompletableFuture<PaymentResponse> processPayment(PaymentRequest req) {
+    return CompletableFuture.supplyAsync(() -> paymentClient.process(req));
+}
+```
+
+```yaml
+resilience4j:
+  bulkhead:
+    instances:
+      paymentService:
+        maxConcurrentCalls: 10
+        maxWaitDuration: 500ms
+  thread-pool-bulkhead:
+    instances:
+      paymentService:
+        maxThreadPoolSize: 10
+        coreThreadPoolSize: 5
+        queueCapacity: 20
+```
+
+**Bulkhead + Circuit Breaker together:**
+- Bulkhead: limits concurrent calls (prevents resource exhaustion)
+- Circuit Breaker: stops calls when failure rate is high (prevents cascading failures)
+- Use both together for robust fault isolation
+
+---
+
+## 15. Distributed Tracing
+
+**What it is:**
+Distributed Tracing tracks a single request as it flows through multiple microservices, providing end-to-end visibility into latency, errors, and service dependencies.
+
+**The problem:**
+```
+User request → API Gateway → Order Service → Payment Service → Notification Service
+                                          → Inventory Service
+If request is slow, which service is the bottleneck? Logs are scattered across 5 services.
+```
+
+**Key concepts:**
+| Term | Description |
+|---|---|
+| Trace | Complete journey of one request across all services |
+| Span | A single unit of work within one service (has start/end time) |
+| Trace ID | Unique ID propagated across all services for one request |
+| Span ID | Unique ID for each individual span |
+| Parent Span ID | Links child span to parent span |
+| Baggage | Key-value pairs propagated with the trace (e.g., user ID) |
+
+**How it works:**
+```
+Request enters API Gateway
+  → Generate Trace ID: abc-123
+  → Span 1: API Gateway (0ms - 5ms)
+    → Span 2: Order Service (5ms - 50ms)
+      → Span 3: Payment Service (10ms - 45ms)   ← bottleneck!
+      → Span 4: Inventory Service (10ms - 20ms)
+    → Span 5: Notification Service (50ms - 55ms)
+```
+
+**Spring Boot + Micrometer Tracing (Zipkin):**
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-brave</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.zipkin.reporter2</groupId>
+    <artifactId>zipkin-reporter-brave</artifactId>
+</dependency>
+```
+
+```yaml
+management:
+  tracing:
+    sampling:
+      probability: 1.0   # 100% sampling (use 0.1 in production)
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+```
+
+- Trace ID automatically propagated via HTTP headers (`X-B3-TraceId`, `traceparent`)
+- Logs automatically include trace ID for correlation
+
+**Real-world tools:** Zipkin, Jaeger, AWS X-Ray, Datadog APM, OpenTelemetry (standard)
+
+**Benefits:**
+- Identify latency bottlenecks across services
+- Root cause analysis for errors
+- Visualize service dependency map
+- SLA monitoring per service
+
+---
+
+## 16. Saga Pattern (Distributed Transactions)
+
+**What it is:**
+The Saga pattern manages distributed transactions across multiple microservices by breaking them into a sequence of local transactions, each publishing events or messages to trigger the next step, with compensating transactions for rollback.
+
+**Why not 2PC (Two-Phase Commit):**
+- 2PC requires all services to lock resources until coordinator confirms
+- Blocking, slow, single point of failure (coordinator)
+- Doesn't work well across microservices with different DBs
+
+**Saga types:**
+
+**Choreography-based Saga:**
+```
+Order Service → publishes OrderCreated
+  → Payment Service listens → processes payment → publishes PaymentCompleted
+    → Inventory Service listens → reserves stock → publishes StockReserved
+      → Shipping Service listens → creates shipment
+```
+- ✅ Decentralized, no single point of failure
+- ❌ Hard to track overall flow, risk of cyclic dependencies
+
+**Orchestration-based Saga:**
+```
+Saga Orchestrator:
+  1. Call Payment Service → success
+  2. Call Inventory Service → success
+  3. Call Shipping Service → FAIL
+  4. Compensate: Cancel Inventory → Cancel Payment
+```
+- ✅ Centralized flow, easy to monitor and debug
+- ❌ Orchestrator can become a bottleneck
+
+**Compensating transactions:**
+| Step | Action | Compensation |
+|---|---|---|
+| 1 | Create Order | Cancel Order |
+| 2 | Charge Payment | Refund Payment |
+| 3 | Reserve Inventory | Release Inventory |
+| 4 | Create Shipment | Cancel Shipment |
+
+**Real-world tools:** Axon Framework, Eventuate Tram, Apache Camel, custom Kafka-based implementation
+
+**Key challenges:**
+- Idempotency: compensating transactions must be safe to retry
+- Isolation: partial state visible to other transactions during saga execution
+- Debugging: harder to trace than a single ACID transaction
+
+---
+
+## 17. Idempotency in Distributed Systems
+
+**What it is:**
+An operation is idempotent if executing it multiple times produces the same result as executing it once. Critical in distributed systems where retries, duplicate messages, and network failures are common.
+
+**Why it matters:**
+```
+Client sends payment request → network timeout → client retries
+Without idempotency: customer charged twice
+With idempotency: second request detected as duplicate → ignored
+```
+
+**Common scenarios requiring idempotency:**
+- Payment processing (most critical)
+- Order creation
+- Message queue consumers (at-least-once delivery)
+- API retries with exponential backoff
+- Webhook handlers
+
+**Implementation techniques:**
+
+**Idempotency Key (Client-generated):**
+```
+POST /api/payments
+Headers:
+  Idempotency-Key: uuid-550e8400-e29b-41d4-a716-446655440000
+
+Server:
+  1. Check if key exists in Redis/DB
+  2. If exists → return cached response
+  3. If not → process → store key + response → return response
+```
+
+```java
+@PostMapping("/payments")
+public ResponseEntity<PaymentResponse> processPayment(
+        @RequestHeader("Idempotency-Key") String idempotencyKey,
+        @RequestBody PaymentRequest request) {
+
+    // Check cache
+    PaymentResponse cached = redisTemplate.opsForValue().get("idem:" + idempotencyKey);
+    if (cached != null) return ResponseEntity.ok(cached);
+
+    // Process
+    PaymentResponse response = paymentService.process(request);
+
+    // Store with TTL
+    redisTemplate.opsForValue().set("idem:" + idempotencyKey, response, 24, TimeUnit.HOURS);
+    return ResponseEntity.ok(response);
+}
+```
+
+**Database unique constraint:**
+```sql
+-- Prevent duplicate orders with same reference
+ALTER TABLE orders ADD CONSTRAINT uk_order_reference UNIQUE (client_reference_id);
+```
+
+**Optimistic locking (version-based):**
+```java
+@Version
+private Long version;  // JPA optimistic lock — prevents concurrent updates
+```
+
+**Kafka consumer idempotency:**
+- Store processed message offsets/IDs in DB
+- Before processing: check if already processed
+- After processing: mark as processed atomically
+
+---
+
+## 18. Microservices Communication Patterns
+
+**What it is:**
+Defines how microservices communicate with each other — synchronous (real-time response needed) or asynchronous (fire and forget / event-driven).
+
+**Synchronous Communication:**
+
+**REST (HTTP/HTTPS):**
+```java
+// Spring Boot RestTemplate / WebClient
+webClient.get()
+    .uri("http://inventory-service/api/stock/{productId}", productId)
+    .retrieve()
+    .bodyToMono(StockResponse.class);
+```
+- ✅ Simple, widely understood, easy debugging
+- ❌ Tight coupling, caller waits, cascading failures
+
+**gRPC:**
+```protobuf
+service InventoryService {
+  rpc CheckStock (StockRequest) returns (StockResponse);
+}
+```
+- ✅ Binary protocol (faster), strongly typed, streaming support
+- ✅ Auto-generated client/server code
+- ❌ Less human-readable, harder to debug
+
+**Asynchronous Communication:**
+
+**Event-Driven (Kafka/SQS):**
+```
+Order Service → publishes OrderPlaced event → Kafka
+  ← Inventory Service consumes → reserves stock
+  ← Notification Service consumes → sends email
+```
+- ✅ Loose coupling, resilient, handles spikes
+- ❌ Eventual consistency, harder to debug
+
+**Choosing sync vs async:**
+| Scenario | Recommendation |
+|---|---|
+| Need immediate response (payment status) | Synchronous REST/gRPC |
+| Fire and forget (send email) | Async message queue |
+| Multiple services need same event | Async Pub/Sub |
+| Long-running process | Async + polling or webhooks |
+| Real-time streaming | gRPC streaming or WebSocket |
+
+**Service Mesh (Istio/Linkerd):**
+- Handles service-to-service communication at infrastructure level
+- mTLS encryption, retries, circuit breaking, observability — without code changes
+- Sidecar proxy (Envoy) injected alongside each service
+
+---
+
+## 19. Database Indexing Strategies
+
+**What it is:**
+Database indexes are data structures that improve query performance by allowing the database to find rows without scanning the entire table, at the cost of additional storage and slower writes.
+
+**How indexes work:**
+```
+Without index: SELECT * FROM orders WHERE customer_id = 123
+  → Full table scan: reads every row → O(n)
+
+With index on customer_id:
+  → B-Tree lookup → O(log n) → much faster
+```
+
+**Types of indexes:**
+
+**B-Tree Index (default):**
+- Balanced tree structure, sorted
+- ✅ Equality (`=`), range (`>`, `<`, `BETWEEN`), ORDER BY, GROUP BY
+- Most common index type
+
+**Hash Index:**
+- Hash map structure
+- ✅ Only equality lookups (`=`) — extremely fast
+- ❌ No range queries, no sorting
+
+**Composite Index:**
+```sql
+CREATE INDEX idx_order_customer_date ON orders(customer_id, order_date);
+-- Efficient for: WHERE customer_id = ? AND order_date > ?
+-- Also efficient for: WHERE customer_id = ?  (leftmost prefix rule)
+-- NOT efficient for: WHERE order_date > ?  (skips leftmost column)
+```
+- **Leftmost prefix rule:** Index used only if query starts with leftmost columns
+
+**Partial Index:**
+```sql
+CREATE INDEX idx_active_users ON users(email) WHERE status = 'ACTIVE';
+-- Smaller index, faster for active user queries
+```
+
+**Covering Index:**
+- Index contains all columns needed by query — no table lookup needed
+```sql
+CREATE INDEX idx_covering ON orders(customer_id, order_date, total_amount);
+SELECT order_date, total_amount FROM orders WHERE customer_id = 123;
+-- All data in index — zero table access
+```
+
+**When NOT to index:**
+- Small tables (full scan is faster)
+- Columns with very low cardinality (e.g., boolean, status with 2 values)
+- Tables with very high write rate (index maintenance overhead)
+- Columns rarely used in WHERE/JOIN/ORDER BY
+
+**Index best practices:**
+- Analyze slow queries with `EXPLAIN ANALYZE`
+- Index foreign keys (JOINs)
+- Avoid over-indexing — each index slows writes
+- Use composite indexes for multi-column WHERE clauses
+- Monitor index usage — drop unused indexes
+
+---
+
+## 20. Designing for Observability (Logs, Metrics, Traces)
+
+**What it is:**
+Observability is the ability to understand the internal state of a system from its external outputs — logs, metrics, and traces (the "three pillars"). It enables teams to detect, diagnose, and resolve issues in production.
+
+**Three Pillars:**
+
+**1. Logs — What happened:**
+- Timestamped records of discrete events
+- Structured logging (JSON) preferred over plain text
+```java
+// Structured log with context
+log.info("Order processed", kv("orderId", orderId), kv("userId", userId),
+         kv("amount", amount), kv("duration_ms", duration));
+```
+```json
+{"timestamp":"2024-01-15T10:30:00Z","level":"INFO","message":"Order processed",
+ "orderId":"ORD-123","userId":"USR-456","amount":99.99,"duration_ms":45,"traceId":"abc-123"}
+```
+- Tools: ELK Stack (Elasticsearch, Logstash, Kibana), AWS CloudWatch Logs, Splunk
+
+**2. Metrics — How the system is performing:**
+- Numeric measurements over time (counters, gauges, histograms)
+```java
+// Micrometer metrics in Spring Boot
+Counter.builder("orders.processed")
+    .tag("status", "success")
+    .register(meterRegistry)
+    .increment();
+
+Timer.builder("payment.duration")
+    .register(meterRegistry)
+    .record(duration, TimeUnit.MILLISECONDS);
+```
+- Key metrics: request rate, error rate, latency (p50/p95/p99), saturation (CPU/memory)
+- Tools: Prometheus + Grafana, AWS CloudWatch, Datadog
+
+**3. Traces — Where time was spent:**
+- End-to-end request flow across services (covered in Q15)
+- Tools: Zipkin, Jaeger, AWS X-Ray, OpenTelemetry
+
+**Spring Boot Actuator setup:**
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus, info
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  tracing:
+    sampling:
+      probability: 0.1  # 10% sampling in production
+```
+
+**Golden Signals (Google SRE):**
+| Signal | Description | Example Alert |
+|---|---|---|
+| Latency | Time to serve a request | p99 > 2s for 5 min |
+| Traffic | Request rate | Sudden 10x spike |
+| Errors | Rate of failed requests | Error rate > 1% |
+| Saturation | Resource utilization | CPU > 85% for 10 min |
+
+**Alerting best practices:**
+- Alert on symptoms (user impact), not causes
+- Avoid alert fatigue — only page for actionable issues
+- Define SLOs (Service Level Objectives): 99.9% requests < 500ms
+- Use error budgets to balance reliability vs feature velocity
+
+**Observability stack example:**
+```
+Spring Boot App
+  → Logs → Logback → ELK / CloudWatch Logs
+  → Metrics → Micrometer → Prometheus → Grafana dashboards + alerts
+  → Traces → OpenTelemetry → Jaeger / Zipkin / AWS X-Ray
+```
+
+---
+
+## 21. Blue-Green and Canary Deployments
+
+**What it is:**
+Deployment strategies that minimize downtime and risk when releasing new versions of software to production.
+
+**Blue-Green Deployment:**
+```
+Blue (v1 - live)   ← 100% traffic
+Green (v2 - new)   ← 0% traffic (deployed, tested)
+
+Switch:
+Blue (v1 - standby) ← 0% traffic
+Green (v2 - live)   ← 100% traffic
+
+Rollback: switch back to Blue instantly
+```
+- ✅ Zero downtime, instant rollback
+- ✅ Full testing of new version before traffic switch
+- ❌ Requires double infrastructure (cost)
+- ❌ Database migrations must be backward compatible
+
+**Canary Deployment:**
+```
+v1 (stable) ← 95% traffic
+v2 (canary) ←  5% traffic  → monitor errors/latency
+
+If healthy → gradually increase: 10% → 25% → 50% → 100%
+If issues  → route 0% to canary, rollback
+```
+- ✅ Gradual rollout, real user testing
+- ✅ Limits blast radius of bad deployments
+- ✅ A/B testing capability
+- ❌ Both versions run simultaneously (DB compatibility needed)
+- ❌ More complex traffic routing
+
+**Feature Flags (Feature Toggles):**
+```java
+if (featureFlags.isEnabled("new-checkout-flow", userId)) {
+    return newCheckoutService.process(request);
+} else {
+    return legacyCheckoutService.process(request);
+}
+```
+- Deploy code without activating feature
+- Enable for specific users/percentage/region
+- Instant rollback without redeployment
+- Tools: LaunchDarkly, AWS AppConfig, Unleash
+
+**Rolling Deployment:**
+```
+10 instances running v1
+Replace 2 at a time with v2:
+  Step 1: 8×v1 + 2×v2
+  Step 2: 6×v1 + 4×v2
+  ...
+  Step 5: 0×v1 + 10×v2
+```
+- ✅ No extra infrastructure needed
+- ❌ Both versions run simultaneously
+- ❌ Slower rollback
+
+**AWS tools:** CodeDeploy (Blue/Green, Canary, Linear), ECS deployment strategies, API Gateway canary releases
+
+---
+
+## 22. Security in Microservices (JWT, OAuth2, mTLS)
+
+**What it is:**
+Securing microservices involves authentication (who are you?), authorization (what can you do?), and securing service-to-service communication.
+
+**JWT (JSON Web Token):**
+```
+Header.Payload.Signature
+eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzIiwicm9sZXMiOlsiVVNFUiJdfQ.signature
+```
+- Stateless — no DB lookup needed to validate
+- Contains claims: sub (subject), roles, exp (expiry), iat (issued at)
+- Signed with secret (HMAC) or private key (RSA/EC)
+- ❌ Cannot be revoked before expiry — use short TTL (15 min) + refresh tokens
+
+**OAuth2 + OpenID Connect flow:**
+```
+User → Login → Authorization Server (Keycloak/Cognito)
+             → Issues Access Token (JWT) + Refresh Token
+User → API call with Bearer token → API Gateway validates token
+                                  → Routes to microservice
+```
+
+**Spring Boot Security + JWT:**
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated())
+            .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
+            .build();
+    }
+}
+```
+
+**Service-to-Service security:**
+
+**mTLS (Mutual TLS):**
+- Both client and server present certificates
+- Cryptographic proof of identity — no tokens needed
+- Used in service mesh (Istio auto-provisions certificates)
+```
+Service A → presents cert → Service B verifies
+Service B → presents cert → Service A verifies
+Both authenticated → encrypted channel established
+```
+
+**API Key (internal services):**
+```
+X-Internal-Api-Key: <secret-key>
+```
+- Simple but less secure — rotate regularly, store in secrets manager
+
+**Security best practices:**
+- Never store secrets in code — use AWS Secrets Manager / Vault
+- Use HTTPS everywhere, even internal traffic
+- Principle of least privilege for service accounts
+- Validate and sanitize all inputs
+- Rate limit authentication endpoints
+- Audit log all sensitive operations
+
+---
