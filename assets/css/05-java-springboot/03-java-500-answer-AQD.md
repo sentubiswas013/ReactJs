@@ -3275,6 +3275,37 @@ ArrayList : add(), get(), set(), and remove() to manage your list of elements.
 LinkedList
 
 
+**Java Collections and Their Best Use Cases**
+
+| Requirement                         | Best Collection     | Why                               | Mostly Used In                       |
+| ----------------------------------- | ------------------- | --------------------------------- | ------------------------------------ |
+| Fast search/access by key           | `HashMap`           | Average O(1) lookup using hashing | Caching, APIs, lookup tables         |
+| Fast unique element lookup          | `HashSet`           | Fast contains/search operations   | Removing duplicates, validations     |
+| Fast indexed access                 | `ArrayList`         | O(1) random access using index    | UI lists, data retrieval             |
+| Thread-safe fast access             | `ConcurrentHashMap` | Better concurrent performance     | Multithreaded applications           |
+| Sorted key-value storage            | `TreeMap`           | Stores keys in sorted order       | Ranking systems, sorted reports      |
+| Maintain insertion order            | `LinkedHashMap`     | Keeps insertion order             | LRU cache, ordered APIs              |
+| Fast insert/delete at beginning/end | `LinkedList`        | Efficient node insertion/removal  | Queue, stack implementations         |
+| Priority-based processing           | `PriorityQueue`     | Processes elements by priority    | Scheduling systems, task processing  |
+| Auto-remove unused keys             | `WeakHashMap`       | Keys removed by Garbage Collector | Memory-sensitive cache               |
+| Reference equality comparison       | `IdentityHashMap`   | Uses `==` instead of `equals()`   | Framework internals, object tracking |
+
+---
+
+**Quick Complexity Overview**
+
+| Collection      | Search     | Insert         | Ordered               |
+| --------------- | ---------- | -------------- | --------------------- |
+| `HashMap`       | O(1)       | O(1)           | No                    |
+| `TreeMap`       | O(log n)   | O(log n)       | Yes (sorted)          |
+| `LinkedHashMap` | O(1)       | O(1)           | Yes (insertion order) |
+| `ArrayList`     | O(1) index | O(1) append    | Yes                   |
+| `LinkedList`    | O(n)       | O(1) insertion | Yes                   |
+| `HashSet`       | O(1)       | O(1)           | No                    |
+| `PriorityQueue` | O(log n)   | O(log n)       | Priority order        |
+
+
+
 ## 2. What is the difference between ArrayList and LinkedList?
 
 **ArrayList** uses a **dynamic array**, so it gives **fast random access (O(1))**, but **slow insertions/deletions in the middle** due to shifting.
