@@ -10930,27 +10930,28 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 
 ---
 
-**Why Use API Gateway?**
+**Advantages of API Gateway**
 
-It handles:
+| Advantage                 | Explanation                         |
+| ------------------------- | ----------------------------------- |
+| Single Entry Point        | Easier client communication         |
+| Better Security           | Centralized authentication          |
+| Reduced Client Complexity | Client doesn't manage many services |
+| Load Balancing            | Traffic distribution                |
+| Centralized Logging       | Easier monitoring                   |
+| Rate Limiting             | Prevent excessive requests          |
+| API Aggregation           | Combine multiple service responses  |
+| Version Management        | Easy API versioning                 |
 
-* Routing
-* Authentication
-* Rate limiting
-* Logging
-* Load balancing
-* Security
+**Disadvantages of API Gateway**
 
-**Why Spring Cloud Gateway Popular?**
-
-Advantages:
-
-* Reactive & non-blocking
-* Easy routing
-* JWT/OAuth support
-* Filter support
-* Works well with Eureka
-* Better than Zuul 1
+| Disadvantage            | Explanation                             |
+| ----------------------- | --------------------------------------- |
+| Single Point of Failure | If gateway fails, all services affected |
+| Additional Latency      | One extra network hop                   |
+| Complex Maintenance     | Gateway rules become complicated        |
+| Bottleneck Risk         | Heavy traffic can overload gateway      |
+| Deployment Complexity   | Requires scaling and monitoring         |
 
 
 **predicates :** A condition that decides when a request should be routed to a specific service.
