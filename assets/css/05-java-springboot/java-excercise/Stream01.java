@@ -3,29 +3,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class Stream01 {
-    
-    static class Employee {
-        private String department;
-        private double salary;
-
-        public Employee(String department, double salary) {
-            this.department = department;
-            this.salary = salary;
-        }
-
-        public String getDepartment() {
-            return department;
-        }
-
-        public double getSalary() {
-            return salary;
-        }
-
-        @Override
-        public String toString() {
-            return department + " : " + salary;
-        }
-    }
 
     public static void main(String[] args) {
         String input = "madam";
@@ -314,80 +291,10 @@ class Stream01 {
         // Output: 25. Grouped by First Char: {a=[api], j=[java], s=[stream]}
 
 
-        // =======================================================
-        List<Employee> employees = Arrays.asList(
-                new Employee("IT", 50000),
-                new Employee("HR", 40000),
-                new Employee("IT", 60000),
-                new Employee("HR", 45000)
-        );
+        // 26. flatMap() is used to flatten nested collections.
 
-        // =======================================================
-        // 26. Get Departments 
-        
-
-        // System.out.println("departments: " + department);
-        // Output: Departments: [IT, HR, IT, HR]
-
-        // =======================================================
-        // 27. Average Salary by Department 
-        
-
-        // System.out.println("Salary by Department: " + avgSalaryByDep);
-        // Output: Avg Salary by Dept: {HR=42500.0, IT=55000.0}
-
-        // Salary by Department ------------------------------
-
-        
-        // System.out.println("Overall Avg Salary: " + salaryByDept);
-        // Output: Salary by Dept: {HR=[40000.0, 45000.0], IT=[50000.0, 60000.0]}
-
-
-        // Overall average  ----------------------------------
-        
-
-        // System.out.println("Overall Avg Salary: " + avgSalary);
-        // Output: Overall Avg Salary: 48750.0
-
-        // =======================================================
-        // 28. Second Highest Salary
-        List<Double> secondHighest = employees.stream()
-            .map(Employee::getSalary)
-            .skip(1)
-            .limit(1)
-            .toList();
-
-        System.out.println("Second Highest Employee: " + secondHighest);
-        // Output: Second Highest Salary: 50000.0
-
-        // OR just salary --------------------------------------
-        
-
-        // System.out.println("Second Highest Salary: " + secondHighestSalary);
-        // Output: Second Highest Salary: 50000.0
-
-
-        // =======================================================
-        // 29. Count Employees by Department
-        
-
-        // System.out.println("Count by Dept: " + countByDept);
-        // Output: Count by Dept: {HR=2, IT=2}
-
-        // =======================================================
-        // 30. Group Employees by Department
-        
-                
-        // System.out.println("Employees by Dept: " + employeesByDept);
-        // Output: Employees by Dept: {HR=[Employee@..., Employee@...], IT=[Employee@..., Employee@...]}
-
-        
-        // =======================================================
-        // 31. flatMap() is used to flatten nested collections.
-        
 
         // System.out.println(resultTemp);
         // Output: [Employee@..., Employee@..., Employee@..., Employee@...] (all employees in a single list)
-
-    }
+    }   
 }

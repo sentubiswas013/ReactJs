@@ -8956,13 +8956,15 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 
 ## 4. What is Java Bean, @Component and @Bean?
 
-**@Component** is a generic annotation and is used to create a Spring-managed bean automatically using component scanning..
+**@Component** Used directly on a class. It is a generic annotation and Spring automatically creates and manages the object using component scanning.
 
-**@Bean** is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
+**@Bean** Used on a method inside a @Configuration class. It is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
+
 
 A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
 
 ```java
+// Example of Java Beans
 public class User {
     private String name;
     public User() {}   // no-arg constructor
@@ -8974,6 +8976,7 @@ User user = new User();
 user.setName("John");
 ```
 
+**Example @Component and @Bean**
 ```java
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -9057,11 +9060,15 @@ class OrderController {
 
 **`@Bean` vs `@Component` (Quick Difference)**
 
-| Feature    | `@Bean`                        | `@Component`             |
-| ---------- | ------------------------------ | ------------------------ |
-| Defined in | Method inside config class     | Directly on class        |
-| Control    | More manual control            | Auto-detected (scanning) |
-| Use case   | Third-party or complex objects | Your own classes         |
+| Feature                      | `@Component` | `@Bean`  |
+| ---------------------------- | ------------ | -------- |
+| Applied On                   | Class        | Method   |
+| Bean Creation                | Automatic    | Manual   |
+| Scanning Needed              | Yes          | No       |
+| Control Over Object Creation | Less         | More     |
+| Third-party Classes          | Not possible | Possible |
+| Configuration Logic          | Limited      | Flexible |
+
 
 
 ## 5. Explain Bean Lifecycle?
