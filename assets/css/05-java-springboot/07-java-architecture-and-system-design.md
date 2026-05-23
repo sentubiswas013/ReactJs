@@ -2,6 +2,441 @@
 
 ---
 
+## 0. What happens when a user enters a URL in the browser?
+
+# What Happens When a User Enters a URL in the Browser?
+
+When you type a URL in the browser and press Enter, many things happen behind the scenes before the webpage appears.
+
+Example:
+
+```text
+https://www.google.com
+```
+
+---
+
+# High-Level Flow
+
+```text
+User types: https://www.example.com/products?id=42
+│
+┌──────────────────────────────────────────────┐
+│ 1. User                                      │
+│ - Enters URL in browser                      │
+│ - Presses Enter                              │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 2. Browser                                   │
+│ - Parses URL                                 │
+│ - Checks browser cache                       │
+│ - Checks DNS cache                           │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 3. DNS Lookup                                │
+│ - Finds domain IP address                    │
+│ - Contacts DNS server if needed              │
+│ - Resolves www.example.com                   │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 4. Get Server IP Address                     │
+│ - Example: 142.250.183.78                    │
+│ - Browser now knows target server            │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 5. TCP Connection                            │
+│ - Starts 3-way handshake                     │
+│ - SYN → SYN-ACK → ACK                        │
+│ - Reliable connection established            │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 6. SSL/TLS Handshake (HTTPS)                 │
+│ - Server sends SSL certificate               │
+│ - Browser validates certificate              │
+│ - Encryption keys exchanged                  │
+│ - Secure connection established              │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 7. HTTP Request                              │
+│ - Sends GET /products?id=42                  │
+│ - Includes headers & cookies                 │
+│ - Authentication token may be included       │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 8. Load Balancer / API Gateway               │
+│ - Distributes traffic                        │
+│ - Routes request to healthy server           │
+│ - Handles authentication/rate limiting       │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 9. Web Server                                │
+│ - NGINX / Apache receives request            │
+│ - Handles static files                       │
+│ - Forwards dynamic requests                  │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 10. Application Server                       │
+│ - Spring Boot/Node.js app executes logic     │
+│ - Controller → Service → Repository          │
+│ - Processes business rules                   │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 11. Database / Cache                         │
+│ - Queries MySQL/PostgreSQL                   │
+│ - Reads cache from Redis if available        │
+│ - Fetches required data                      │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 12. HTTP Response                            │
+│ - Returns HTML/JSON/CSS/JS                   │
+│ - Response code: 200 OK                      │
+│ - Data sent back to browser                  │
+└────────────────┬─────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────┐
+│ 13. Browser Renders Page                     │
+│ - Parses HTML                                │
+│ - Builds DOM & CSSOM                         │
+│ - Executes JavaScript                        │
+│ - Displays final webpage                     │
+└──────────────────────────────────────────────┘
+```
+
+
+---
+
+**Step-by-Step Explanation**
+
+**1. User Enters URL**
+
+Example:
+
+```text
+https://www.google.com
+```
+
+Browser extracts:
+
+| Part                                    | Meaning     |
+| --------------------------------------- | ----------- |
+| https                                   | Protocol    |
+| [www.google.com](http://www.google.com) | Domain Name |
+
+Browser breaks the URL into components:
+
+```
+https://www.example.com:443/products?id=42#section
+  │          │            │     │       │      │
+scheme     host          port  path  query  fragment
+
+scheme   → https (use TLS)
+host     → www.example.com
+port     → 443 (default for HTTPS, 80 for HTTP)
+path     → /products
+query    → id=42
+fragment → #section (never sent to server — browser only)
+```
+
+Browser also checks:
+- Is it a valid URL or a search query?
+- Is it in the **HSTS preload list**? (force HTTPS)
+- Any **cached response** available?
+
+---
+
+**2. Browser Checks Cache**
+
+Browser first checks:
+
+* Browser cache
+* DNS cache
+* OS cache
+
+If IP already exists:
+
+```text
+www.google.com → 142.250.183.78
+```
+
+then browser skips DNS lookup.
+
+---
+
+**3. DNS Lookup**
+
+If IP is not found in cache:
+
+Browser asks DNS server:
+
+```text
+What is IP address of www.google.com?
+```
+
+DNS returns:
+
+```text
+142.250.183.78
+```
+
+---
+
+**DNS Flow Diagram**
+
+```text
+Browser
+   ↓
+Local DNS Cache
+   ↓
+ISP DNS Server
+   ↓
+Root DNS
+   ↓
+TLD DNS (.com)
+   ↓
+Authoritative DNS
+   ↓
+Returns IP Address
+```
+
+---
+
+**4. TCP Connection Establishment**
+
+Browser establishes TCP connection using:
+
+```text
+3-Way Handshake
+```
+
+**TCP Handshake**
+
+```text
+Client                  Server
+  | ---- SYN ---------> |
+  | <--- SYN-ACK ------ |
+  | ---- ACK ---------> |
+```
+
+Connection established.
+
+---
+
+**5. SSL/TLS Handshake (HTTPS)**
+
+If URL uses HTTPS:
+
+Browser and server establish secure encrypted connection.
+
+**SSL Handshake**
+
+```text
+Browser
+   ↓
+Server sends SSL Certificate
+   ↓
+Browser validates certificate
+   ↓
+Encryption keys exchanged
+   ↓
+Secure connection established
+```
+
+---
+
+**6. Browser Sends HTTP Request**
+
+Example:
+
+```http
+GET / HTTP/1.1
+Host: www.google.com
+```
+
+Request contains:
+
+* Headers
+* Cookies
+* Authentication token
+* Request method
+
+---
+
+**7. Request Reaches Load Balancer**
+
+Large systems use load balancer.
+
+## Purpose
+
+* Distribute traffic
+* Prevent overload
+* High availability
+
+## Diagram
+
+```text
+              Load Balancer
+             /      |      \
+            /       |       \
+      Server1   Server2   Server3
+```
+
+---
+
+**8. Web Server Receives Request**
+
+Examples:
+
+* NGINX
+* Apache
+
+Responsibilities:
+
+* Static content
+* Reverse proxy
+* Routing
+* Security
+
+---
+
+**9. Application Server Processes Request**
+
+Backend application executes business logic.
+
+Example:
+
+```text
+Spring Boot / Node.js / Django
+```
+
+Example Flow:
+
+```text
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+Database
+```
+
+---
+
+**10. Database / Cache Access**
+
+Application may fetch data from:
+
+* MySQL
+* PostgreSQL
+* Redis cache
+
+## Example
+
+```text
+Get user profile
+Get product details
+Validate login
+```
+
+---
+
+**11. Server Sends HTTP Response**
+
+Example:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: text/html
+```
+
+Response may contain:
+
+* HTML
+* JSON
+* CSS
+* JavaScript
+* Images
+
+---
+
+**12. Browser Renders Page**
+
+Browser rendering engine:
+
+* Parses HTML
+* Builds DOM tree
+* Loads CSS
+* Executes JavaScript
+* Paints UI on screen
+
+---
+
+**Browser Rendering Flow**
+
+```text
+HTML
+  ↓
+DOM Tree
+  ↓
+CSSOM Tree
+  ↓
+Render Tree
+  ↓
+Layout
+  ↓
+Painting
+  ↓
+Screen Display
+```
+
+---
+
+**Complete End-to-End Diagram**
+
+```text
+User
+  ↓
+Browser
+  ↓
+Cache Check
+  ↓
+DNS Lookup
+  ↓
+Get IP Address
+  ↓
+TCP Handshake
+  ↓
+SSL/TLS Handshake
+  ↓
+HTTP Request
+  ↓
+Load Balancer
+  ↓
+Web Server
+  ↓
+Application Server
+  ↓
+Database / Cache
+  ↓
+HTTP Response
+  ↓
+Browser Rendering
+  ↓
+Web Page Displayed
+```
+
+
 ## 0. How to Start System Design From Scratch
 
 System design should start with understanding requirements, estimating scale, designing high-level architecture, choosing databases/APIs, and then improving scalability, reliability, and maintainability.
