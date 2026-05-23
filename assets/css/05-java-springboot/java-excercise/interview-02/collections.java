@@ -210,6 +210,40 @@ class CollectionsDemo {
     }
 
     // ============================================================
+    // 12. PriorityQueue
+    //  A queue that orders elements based on priority (natural order or comparator) instead of insertion order.
+    // ============================================================
+
+    static void priorityQueueDemo() {
+        Queue<Integer> priorityQueue = new PriorityQueue<>();
+
+        priorityQueue.offer(30);
+        priorityQueue.offer(10);
+        priorityQueue.offer(50);
+        priorityQueue.offer(20);
+
+        while (!priorityQueue.isEmpty()) {
+            System.out.println(priorityQueue.poll());
+        }
+    }
+
+    // ============================================================
+    // 13. Max Heap
+    // ============================================================
+
+    static void maxHeapDemo() {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        maxHeap.offer(10);
+        maxHeap.offer(50);
+        maxHeap.offer(20);
+
+        while (!maxHeap.isEmpty()) {
+            System.out.println(maxHeap.poll());
+        }
+    }
+
+    // ============================================================
     // 12. LRU Cache
     // LRU (Least Recently Used) cache is a data structure that evicts the least recently used items when it reaches its capacity. It can be implemented using LinkedHashMap in Java.
     // ============================================================
@@ -232,39 +266,156 @@ class CollectionsDemo {
 
         System.out.println(cache);
     }
-
     // ============================================================
-    // 13. PriorityQueue
-    //  A queue that orders elements based on priority (natural order or comparator) instead of insertion order.
+    // **# 1. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
     // ============================================================
+    // import java.util.LinkedHashMap;
+    // import java.util.Map;
 
-    static void priorityQueueDemo() {
-        Queue<Integer> priorityQueue = new PriorityQueue<>();
+    class LRUCache<K, V> extends LinkedHashMap<K, V> {
+        private final int capacity;
+        public LRUCache(int capacity) {
+            super(capacity, 0.75f, true);
+            this.capacity = capacity;
+        }
 
-        priorityQueue.offer(30);
-        priorityQueue.offer(10);
-        priorityQueue.offer(50);
-        priorityQueue.offer(20);
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+            return size() > capacity;
+        }
 
-        while (!priorityQueue.isEmpty()) {
-            System.out.println(priorityQueue.poll());
+        public static void main(String[] args) {
+            LRUCache<Integer, String> cache = new LRUCache<>(3);
+
+            cache.put(1, "A");
+            cache.put(2, "B");
+            cache.put(3, "C");
+
+            cache.get(1);
+
+            cache.put(4, "D");
+            System.out.println(cache);
         }
     }
+    // Output: {3=C, 1=A, 4=D}
+    // `2=B` removed because it was least recently used.
 
     // ============================================================
-    // 14. Max Heap
+    // **2. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
     // ============================================================
+    // import java.util.HashMap;
+    // import java.util.Map;
 
-    static void maxHeapDemo() {
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+    class LFUCache {
+        private Map<Integer, String> cache = new HashMap<>();
+        private Map<Integer, Integer> frequency = new HashMap<>();
 
-        maxHeap.offer(10);
-        maxHeap.offer(50);
-        maxHeap.offer(20);
+        public void put(int key, String value) {
+            cache.put(key, value);
+            frequency.put(key, 1);
+        }
 
-        while (!maxHeap.isEmpty()) {
-            System.out.println(maxHeap.poll());
+        public String get(int key) {
+            if (!cache.containsKey(key)) {
+                return null;
+            }
+
+            frequency.put(key, frequency.get(key) + 1);
+            return cache.get(key);
+        }
+
+        public void removeLFU() {
+            int minFreq = Integer.MAX_VALUE;
+            int lfuKey = -1;
+
+            for (int key : frequency.keySet()) {
+                if (frequency.get(key) < minFreq) {
+                    minFreq = frequency.get(key);
+                    lfuKey = key;
+                }
+            }
+
+            cache.remove(lfuKey);
+            frequency.remove(lfuKey);
+        }
+
+        public void print() {
+            System.out.println(cache);
+        }
+
+        public static void main(String[] args) {
+            LFUCache cache = new LFUCache();
+
+            cache.put(1, "A");
+            cache.put(2, "B");
+            cache.put(3, "C");
+
+            cache.get(1);
+            cache.get(1);
+            cache.get(2);
+
+            cache.removeLFU();
+            cache.print();
         }
     }
+    // Output: {1=A, 2=B}
+    // 3=C removed because it was least frequently used.
+
+    // ============================================================
+    // **3. TTL Cache (Time To Live) :** Expires data after fixed duration.
+    // ============================================================
+    // import java.util.HashMap;
+    // import java.util.Map;
+
+    class TTLCache {
+        static class CacheObject {
+            String value;
+            long expiryTime;
+
+            CacheObject(String value, long ttlMillis) {
+                this.value = value;
+                this.expiryTime = System.currentTimeMillis() + ttlMillis;
+            }
+        }
+
+        private Map<Integer, CacheObject> cache = new HashMap<>();
+
+        public void put(int key, String value, long ttlMillis) {
+            cache.put(key, new CacheObject(value, ttlMillis));
+        }
+
+        public String get(int key) {
+            CacheObject obj = cache.get(key);
+
+            if (obj == null) {
+                return null;
+            }
+
+            if (System.currentTimeMillis() > obj.expiryTime) {
+                cache.remove(key);
+                return null;
+            }
+
+            return obj.value;
+        }
+
+        public static void main(String[] args) throws Exception {
+            TTLCache cache = new TTLCache();
+
+            cache.put(1, "Java", 3000);
+
+            System.out.println(cache.get(1));
+
+            Thread.sleep(4000);
+
+            System.out.println(cache.get(1));
+        }
+    }
+    // Output: 
+    // Java
+    // null
+    // After 3 seconds, value expires.
+
+
 }
 
