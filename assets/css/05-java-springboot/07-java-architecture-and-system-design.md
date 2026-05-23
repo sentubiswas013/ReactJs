@@ -517,7 +517,7 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
 
 **How to Explain This in Interview**
 
-#**1. Client Layer
+**1. Client Layer**
 
 Users interact through:
 
@@ -749,8 +749,6 @@ Whenever interviewer asks system design:
 ```text
 Client → LB → API Gateway → Services → Cache/Queue → Database
 ```
-
-This single flow works for most system design interviews.
 
 
 ## 0. How to Start System Design From Scratch
