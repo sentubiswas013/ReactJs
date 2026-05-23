@@ -11529,7 +11529,170 @@ public class PaymentHandler {
 }
 ```
 
-## 20. Java 11 HttpClient API, and how does it differ from earlier Java versions?
+## 20. How would you design communication between multiple microservices without event and messaing system? 
+
+
+* **Java HttpClient (`java.net.http.HttpClient`)** → Native Java HTTP client to call APIs between microservices.
+* **gRPC(gRPC Remote Procedure Call)** → High-performance binary protocol using Protocol Buffers.
+* **HTTP API + API Gateway** → Services communicate through exposed REST endpoints via gateway.
+* **Service Discovery + Direct HTTP Calls** → Use service registry and connect directly.
+* **Database Polling** → One service updates DB; another service periodically checks for updates.
+* **Shared Database (not preferred)** → Multiple services access common DB tables (tight coupling risk).
+* **Outbox Table + Scheduler** → Store updates in DB table and scheduler processes them.
+* **Socket Communication (TCP/UDP)** → Direct network communication.
+* **File-based Exchange (CSV/JSON/XML)** → Services share files through shared storage.
+* **Shared Cache (Redis/Hazelcast)** → Temporary data exchange via distributed cache.
+
+
+**1. gRPC (Remote Procedure Call)**
+
+**Proto file**
+
+```proto
+syntax = "proto3";
+
+service UserService {
+  rpc getUser(UserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+  int32 id = 1;
+}
+
+message UserResponse {
+  string name = 1;
+}
+```
+
+**Server**
+
+```java
+class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
+
+    @Override
+    public void getUser(UserRequest req,
+            StreamObserver<UserResponse> responseObserver) {
+
+        UserResponse response =
+            UserResponse.newBuilder()
+            .setName("Sentu")
+            .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+}
+```
+
+---
+
+**2. HTTP API + API Gateway**
+
+**Order Service**
+
+```java
+@RestController
+class OrderController {
+
+    @GetMapping("/orders")
+    public String getOrders() {
+        return "Order Data";
+    }
+}
+```
+
+**API Gateway forwards request**
+
+```
+Client
+  ↓
+API Gateway
+  ↓
+Order Service
+```
+
+Example:
+
+```
+GET /api/orders
+```
+
+Gateway routes to:
+
+```
+http://order-service/orders
+```
+
+---
+
+**3. Service Discovery + Direct HTTP Calls**
+
+**User Service calls Payment Service using Java HttpClient**
+
+```java
+HttpClient client = HttpClient.newHttpClient();
+
+HttpRequest request =
+    HttpRequest.newBuilder()
+        .uri(URI.create(
+        "http://payment-service/payments"))
+        .GET()
+        .build();
+
+HttpResponse<String> response =
+    client.send(
+        request,
+        HttpResponse.BodyHandlers.ofString()
+    );
+
+System.out.println(response.body());
+```
+
+Service Discovery:
+
+```
+Eureka
+ ├── User-Service
+ └── Payment-Service
+```
+
+User-Service finds Payment-Service location from Eureka.
+
+---
+
+**4. Database Polling**
+
+**Producer Service**
+
+```sql
+INSERT INTO events
+(id, event_name, status)
+VALUES
+(1, 'OrderCreated', 'NEW');
+```
+
+**Consumer Scheduler**
+
+```java
+@Scheduled(fixedDelay = 5000)
+public void processEvents() {
+
+    List<Event> events =
+        repo.findByStatus("NEW");
+
+    for(Event e : events) {
+        System.out.println(
+            "Processing " + e.getEventName()
+        );
+
+        e.setStatus("DONE");
+        repo.save(e);
+    }
+}
+```
+
+
+## 21. Java 11 HttpClient API, and how does it differ from earlier Java versions?
 
 In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 

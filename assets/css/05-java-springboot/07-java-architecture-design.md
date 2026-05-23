@@ -411,41 +411,6 @@ Painting
 Screen Display
 ```
 
----
-
-**Complete End-to-End Diagram**
-
-```text
-User
-  ↓
-Browser
-  ↓
-Cache Check
-  ↓
-DNS Lookup
-  ↓
-Get IP Address
-  ↓
-TCP Handshake
-  ↓
-SSL/TLS Handshake
-  ↓
-HTTP Request
-  ↓
-Load Balancer
-  ↓
-Web Server
-  ↓
-Application Server
-  ↓
-Database / Cache
-  ↓
-HTTP Response
-  ↓
-Browser Rendering
-  ↓
-Web Page Displayed
-```
 
 ## 0. How to Start System Design From Scratch
 
