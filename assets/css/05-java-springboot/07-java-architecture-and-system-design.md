@@ -1,6 +1,19 @@
-# Java Architecture & System Design - Key Concepts
+## 0. Java Architecture & System Design features
 
----
+1. Load Balancing
+2. Caching
+3. Content Delivery Network (CDN)
+4. Message Queue
+5. Publish-Subscribe (Pub/Sub)
+6. API Gateway
+7. Circuit Breaker
+8. Service Discovery
+9. Sharding
+10. Rate Limiting
+11. Consistent Hashing
+12. Auto Scaling
+
+
 
 ## 0. What happens when a user enters a URL in the browser?
 
