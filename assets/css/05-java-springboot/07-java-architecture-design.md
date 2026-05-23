@@ -17,8 +17,6 @@
 
 ## 0. What happens when a user enters a URL in the browser?
 
-# What Happens When a User Enters a URL in the Browser?
-
 When you type a URL in the browser and press Enter, many things happen behind the scenes before the webpage appears.
 
 Example:
