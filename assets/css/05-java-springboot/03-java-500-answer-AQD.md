@@ -3921,6 +3921,35 @@ Thread t = new Thread(new MyTask());
 t.start();
 ```
 
+**Method3: Implementing Callable** is an interface and similar to Runnable but returns a result and can throw checked exceptions.
+
+```java
+// import java.util.concurrent.*;
+
+// Callable works with:: ExecutorService + Future
+
+class MyCallable implements Callable<String> {
+    @Override
+    public String call() throws Exception {
+        return "Callable Task Completed";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<String> future = service.submit(new MyCallable());
+
+        String result = future.get();
+        System.out.println(result);
+        service.shutdown();
+    }
+}
+```
+
+
+
 ## 4. What are `sleep()` vs `wait()` in Multithreading?
 
 * **`sleep()`** pauses the current thread for a specified time but **does not release the lock**.
