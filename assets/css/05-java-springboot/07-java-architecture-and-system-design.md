@@ -501,7 +501,7 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
 
                          +-------------------+
                          |   Database Layer  |
-                         | PostgreSQL/MySQL  |
+                         |  /MySQL  |
                          | MongoDB           |
                          +---------+---------+
                                    |

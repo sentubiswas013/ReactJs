@@ -3618,8 +3618,193 @@ public class MaxHeapExample {
 | `PriorityQueue`   | Heap-based priority processing   | Scheduling, task processing |
 
 
+## 9. How to Implement LRU, LFU and TTL Cache
 
-## 9. Difference between ConcurrentHashMap and HashMap, and when to use what
+**# 1. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
+
+```java id="m5nz5d"
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true);
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+
+    public static void main(String[] args) {
+
+        LRUCache<Integer, String> cache = new LRUCache<>(3);
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1);
+
+        cache.put(4, "D");
+
+        System.out.println(cache);
+    }
+}
+// Output: {3=C, 1=A, 4=D}
+// `2=B` removed because it was least recently used.
+```
+
+---
+
+**2. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
+
+```java id="gh5c2v"
+import java.util.HashMap;
+import java.util.Map;
+
+class LFUCache {
+
+    private Map<Integer, String> cache = new HashMap<>();
+    private Map<Integer, Integer> frequency = new HashMap<>();
+
+    public void put(int key, String value) {
+        cache.put(key, value);
+        frequency.put(key, 1);
+    }
+
+    public String get(int key) {
+
+        if (!cache.containsKey(key)) {
+            return null;
+        }
+
+        frequency.put(key, frequency.get(key) + 1);
+
+        return cache.get(key);
+    }
+
+    public void removeLFU() {
+
+        int minFreq = Integer.MAX_VALUE;
+        int lfuKey = -1;
+
+        for (int key : frequency.keySet()) {
+
+            if (frequency.get(key) < minFreq) {
+                minFreq = frequency.get(key);
+                lfuKey = key;
+            }
+        }
+
+        cache.remove(lfuKey);
+        frequency.remove(lfuKey);
+    }
+
+    public void print() {
+        System.out.println(cache);
+    }
+
+    public static void main(String[] args) {
+
+        LFUCache cache = new LFUCache();
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1);
+        cache.get(1);
+
+        cache.get(2);
+
+        cache.removeLFU();
+
+        cache.print();
+    }
+}
+// Output: {1=A, 2=B}
+// `3=C` removed because it was least frequently used.
+```
+
+---
+
+**3. TTL Cache (Time To Live) :** Expires data after fixed duration.
+
+```java id="9m7nlj"
+import java.util.HashMap;
+import java.util.Map;
+
+class TTLCache {
+
+    static class CacheObject {
+        String value;
+        long expiryTime;
+
+        CacheObject(String value, long ttlMillis) {
+            this.value = value;
+            this.expiryTime = System.currentTimeMillis() + ttlMillis;
+        }
+    }
+
+    private Map<Integer, CacheObject> cache = new HashMap<>();
+
+    public void put(int key, String value, long ttlMillis) {
+        cache.put(key, new CacheObject(value, ttlMillis));
+    }
+
+    public String get(int key) {
+
+        CacheObject obj = cache.get(key);
+
+        if (obj == null) {
+            return null;
+        }
+
+        if (System.currentTimeMillis() > obj.expiryTime) {
+            cache.remove(key);
+            return null;
+        }
+
+        return obj.value;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        TTLCache cache = new TTLCache();
+
+        cache.put(1, "Java", 3000);
+
+        System.out.println(cache.get(1));
+
+        Thread.sleep(4000);
+
+        System.out.println(cache.get(1));
+    }
+}
+// Output: 
+// Java
+// null
+// After 3 seconds, value expires.
+```
+
+---
+
+**Quick Interview Summary**
+
+| Cache Type | Removes Based On      | Mostly Used In                    |
+| ---------- | --------------------- | --------------------------------- |
+| LRU        | Least recently used   | Browser cache, Redis              |
+| LFU        | Least frequently used | Analytics, recommendation systems |
+| TTL        | Time expiration       | Session cache, tokens, OTPs       |
+
+
+
+## 10. Difference between ConcurrentHashMap and HashMap, and when to use what
 
 | Feature              | HashMap                        | ConcurrentHashMap                        |
 |----------------------|--------------------------------|------------------------------------------|
