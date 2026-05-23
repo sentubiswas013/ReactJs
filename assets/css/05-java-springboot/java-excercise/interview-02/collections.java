@@ -267,7 +267,7 @@ class CollectionsDemo {
         System.out.println(cache);
     }
     // ============================================================
-    // **# 1. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
+    // **# 12. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
     // ============================================================
     // import java.util.LinkedHashMap;
     // import java.util.Map;
@@ -301,7 +301,7 @@ class CollectionsDemo {
     // `2=B` removed because it was least recently used.
 
     // ============================================================
-    // **2. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
+    // **13. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
     // ============================================================
     // import java.util.HashMap;
     // import java.util.Map;
@@ -362,7 +362,7 @@ class CollectionsDemo {
     // 3=C removed because it was least frequently used.
 
     // ============================================================
-    // **3. TTL Cache (Time To Live) :** Expires data after fixed duration.
+    // **14. TTL Cache (Time To Live) :** Expires data after fixed duration.
     // ============================================================
     // import java.util.HashMap;
     // import java.util.Map;
