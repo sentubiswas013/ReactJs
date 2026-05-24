@@ -6837,6 +6837,18 @@ spring.cache.jcache.config=classpath:ehcache.xml
 | Frequently write data | Avoid cache  |
 
 
+**Caffeine vs Redis**
+
+| Caffeine                   | Redis                        |
+| -------------------------- | ---------------------------- |
+| Local cache                | Distributed cache            |
+| Stored inside app memory   | Separate server              |
+| Ultra fast                 | Slight network latency       |
+| Not shared across services | Shared across services       |
+| Best for single instance   | Best for distributed systems |
+
+
+
 ## 6. Create File upload API to Handle Large Data Processing?
 
 **Step 1 — Client Uploads File**
