@@ -2593,332 +2593,8 @@ r.run();
 ```
 
 
-## 9. What are SOLID principles?
 
-**Answer:**
-
-**SOLID** is a set of five object-oriented design principles that help write clean, maintainable, and scalable code.
-
-- **S**ingle Responsibility: A class should have one reason to change
-- **O**pen/Closed: Open for extension, closed for modification
-- **L**iskov Substitution: Subtypes must be substitutable for their base types
-- **I**nterface Segregation: Many specific interfaces are better than one general interface
-- **D**ependency Inversion: Depend on abstractions, not concrete implementations
-
-
-
-**Example:**
-**S — Single Responsibility Principle (SRP)**
-
-One class should have only one responsibility.
-
-use case:  
-
-❌ Wrong:
-
-```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
-
-    public void sendEmail() {
-        // send email
-    }
-}
-```
-
-✅ Correct:
-
-```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
-}
-
-class EmailService {
-    public void sendEmail() {
-        // send email
-    }
-}
-```
-
----
-
-**O — Open/Closed Principle (OCP)**
-
-Open for extension, closed for modification.
-
-```java
-// OCP: Open for extension, closed for modification
-
-// This is the abstraction (interface)
-// We can add new payment types without changing existing code
-interface Payment {
-    void pay(); // common method for all payment types
-}
-
-// Concrete implementation 1
-class CardPayment implements Payment {
-    public void pay() {
-        // specific logic for card payment
-        System.out.println("Paid by Card");
-    }
-}
-
-// Concrete implementation 2
-class UpiPayment implements Payment {
-    public void pay() {
-        // specific logic for UPI payment
-        System.out.println("Paid by UPI");
-    }
-}
-
-// This class uses the abstraction (Payment interface)
-// It does NOT depend on concrete classes like CardPayment or UpiPayment
-class PaymentService {
-
-    // This method is CLOSED for modification
-    // We don't need to change this method when new payment types are added
-    public void processPayment(Payment payment) {
-        // This is OPEN for extension because any new Payment type can be passed here
-        payment.pay();
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-
-        // Create service object
-        PaymentService service = new PaymentService();
-
-        // Using Card payment
-        Payment p1 = new CardPayment();
-        service.processPayment(p1);
-
-        // Using UPI payment
-        Payment p2 = new UpiPayment();
-        service.processPayment(p2);
-
-        // If we add a new payment type (e.g., WalletPayment),
-        // we DO NOT modify PaymentService
-        // We only create a new class implementing Payment
-    }
-}
-
-// Output:
-// Paid by Card
-// Paid by UPI
-```
-
-Now we can add **NetBankingPayment** without changing existing code.
-
----
-
-**L — Liskov Substitution Principle (LSP)**
-
-Child class should replace parent class without breaking code.
-
-```java
-// LSP: Liskov Substitution Principle
-// Objects of a child class should be able to replace objects of the parent class
-// WITHOUT breaking the expected behavior of the program.
-
-class Bird {
-
-    // Base class method
-    // Defines general behavior that all birds SHOULD follow
-    public void fly() {
-        System.out.println("Bird can fly");
-    }
-}
-
-// Child class extending Bird
-class Sparrow extends Bird {
-
-    // Overriding the parent method
-    // Behavior is consistent with parent (still "fly")
-    @Override
-    public void fly() {
-        System.out.println("Sparrow can fly");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-
-        // Parent object
-        Bird b = new Bird();
-        b.fly(); 
-        // Output: Bird can fly
-
-        // Child object
-        Sparrow s = new Sparrow();
-        s.fly(); 
-        // Output: Sparrow can fly
-
-        // LSP in action (Runtime Polymorphism)
-        // Parent reference holding child object
-        Bird b2 = new Sparrow();
-
-        // This should NOT break behavior
-        // Even though reference is Bird, actual object is Sparrow
-        b2.fly(); 
-        // Output: Sparrow can fly
-
-        // ✔ This works perfectly → LSP is satisfied
-    }
-}
-
-/*
-Key Interview Points:
-
-1. LSP means:
-   Child class must be substitutable for parent class.
-
-2. In this example:
-   - Sparrow IS-A Bird
-   - Sparrow does not change expected behavior
-   - So it follows LSP
-
-3. Why this is correct:
-   - No exception thrown
-   - No unexpected behavior
-   - Same logical meaning of "fly"
-
-4. When LSP is violated:
-   Example: If we create Penguin extends Bird but override fly() to throw exception
-   → That breaks LSP because Penguin cannot truly replace Bird
-
-5. Real-world idea:
-   If parent says "can fly", child must honor that contract
-*/
-
-
-// Output:
-Bird can fly
-Sparrow can fly
-Sparrow can fly
-```
-
-Bad example: Penguin cannot fly → violates LSP.
-
----
-
-**I — Interface Segregation Principle (ISP)**
-
-Create small interfaces.
-
-```java
-interface Workable {
-    void work();
-}
-
-interface Eatable {
-    void eat();
-}
-
-class Human implements Workable, Eatable {
-    public void work() {
-        System.out.println("Human working");
-    }
-
-    public void eat() {
-        System.out.println("Human eating");
-    }
-}
-
-class Robot implements Workable {
-    public void work() {
-        System.out.println("Robot working");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Workable w1 = new Human();
-        w1.work();
-
-        Eatable e1 = new Human();
-        e1.eat();
-
-        Workable w2 = new Robot();
-        w2.work();
-    }
-}
-
-// Output:
-Human working
-Human eating
-Robot working
-```
-
-Robot does not implement eat() → Correct.
-
----
-
-**D — Dependency Inversion Principle (DIP)
-
-Depend on abstraction, not concrete class.
-
-```java
-// DIP: Depend on abstraction, not concrete implementation
-
-// Abstraction
-interface Payment {
-    void pay();
-}
-
-// Concrete implementation
-class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Card payment");
-    }
-}
-
-// High-level module (business logic)
-class OrderService {
-
-    // Depends on abstraction, not CardPayment directly
-    private Payment payment;
-
-    // Dependency is injected via constructor
-    public OrderService(Payment payment) {
-        this.payment = payment;
-    }
-
-    public void placeOrder() {
-        payment.pay(); // uses abstraction
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-
-        // Inject concrete implementation at runtime
-        Payment payment = new CardPayment();
-
-        // OrderService is not tightly coupled to CardPayment
-        OrderService orderService = new OrderService(payment);
-
-        orderService.placeOrder(); // Output: Card payment
-    }
-}
-
-/*
-Interview Points (Quick):
-
-- High-level class (OrderService) should NOT depend on low-level class (CardPayment)
-- Both depend on abstraction (Payment)
-- Easy to switch implementation (UPI, Wallet, etc.) without changing OrderService
-*/
-
-//Output:
-Card payment
-```
-
-## 10. What is `.class` and When do we use in Java?
+## 9. What is `.class` and When do we use in Java?
 
 We use .class when we need to pass class metadata, for example in Spring configuration, exception handling, reflection, and getting beans from the Spring container.
 
@@ -2975,7 +2651,7 @@ Student.class   // Class info
 new Student()   // Object
 ```
 
-## 11.  Summary Java Interface & Abstract Class
+## 10.  Summary Java Interface & Abstract Class
 
 **🔹 Interface**
 
@@ -8043,6 +7719,333 @@ docker run -e SPRING_PROFILES_ACTIVE=prod -e DB_PASS=secret app.jar
 
 
 # ✅ 17. Java Design Patterns 
+
+
+
+## 0. What are SOLID principles?
+
+**Answer:**
+
+**SOLID** is a set of five object-oriented design principles that help write clean, maintainable, and scalable code.
+
+- **S**ingle Responsibility: A class should have one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subtypes must be substitutable for their base types
+- **I**nterface Segregation: Many specific interfaces are better than one general interface
+- **D**ependency Inversion: Depend on abstractions, not concrete implementations
+
+
+
+**Example:**
+**S — Single Responsibility Principle (SRP)**
+
+One class should have only one responsibility.
+
+use case:  
+
+❌ Wrong:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+✅ Correct:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+}
+
+class EmailService {
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+---
+
+**O — Open/Closed Principle (OCP)**
+
+Open for extension, closed for modification.
+
+```java
+// OCP: Open for extension, closed for modification
+
+// This is the abstraction (interface)
+// We can add new payment types without changing existing code
+interface Payment {
+    void pay(); // common method for all payment types
+}
+
+// Concrete implementation 1
+class CardPayment implements Payment {
+    public void pay() {
+        // specific logic for card payment
+        System.out.println("Paid by Card");
+    }
+}
+
+// Concrete implementation 2
+class UpiPayment implements Payment {
+    public void pay() {
+        // specific logic for UPI payment
+        System.out.println("Paid by UPI");
+    }
+}
+
+// This class uses the abstraction (Payment interface)
+// It does NOT depend on concrete classes like CardPayment or UpiPayment
+class PaymentService {
+
+    // This method is CLOSED for modification
+    // We don't need to change this method when new payment types are added
+    public void processPayment(Payment payment) {
+        // This is OPEN for extension because any new Payment type can be passed here
+        payment.pay();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Create service object
+        PaymentService service = new PaymentService();
+
+        // Using Card payment
+        Payment p1 = new CardPayment();
+        service.processPayment(p1);
+
+        // Using UPI payment
+        Payment p2 = new UpiPayment();
+        service.processPayment(p2);
+
+        // If we add a new payment type (e.g., WalletPayment),
+        // we DO NOT modify PaymentService
+        // We only create a new class implementing Payment
+    }
+}
+
+// Output:
+// Paid by Card
+// Paid by UPI
+```
+
+Now we can add **NetBankingPayment** without changing existing code.
+
+---
+
+**L — Liskov Substitution Principle (LSP)**
+
+Child class should replace parent class without breaking code.
+
+```java
+// LSP: Liskov Substitution Principle
+// Objects of a child class should be able to replace objects of the parent class
+// WITHOUT breaking the expected behavior of the program.
+
+class Bird {
+
+    // Base class method
+    // Defines general behavior that all birds SHOULD follow
+    public void fly() {
+        System.out.println("Bird can fly");
+    }
+}
+
+// Child class extending Bird
+class Sparrow extends Bird {
+
+    // Overriding the parent method
+    // Behavior is consistent with parent (still "fly")
+    @Override
+    public void fly() {
+        System.out.println("Sparrow can fly");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Parent object
+        Bird b = new Bird();
+        b.fly(); 
+        // Output: Bird can fly
+
+        // Child object
+        Sparrow s = new Sparrow();
+        s.fly(); 
+        // Output: Sparrow can fly
+
+        // LSP in action (Runtime Polymorphism)
+        // Parent reference holding child object
+        Bird b2 = new Sparrow();
+
+        // This should NOT break behavior
+        // Even though reference is Bird, actual object is Sparrow
+        b2.fly(); 
+        // Output: Sparrow can fly
+
+        // ✔ This works perfectly → LSP is satisfied
+    }
+}
+
+/*
+Key Interview Points:
+
+1. LSP means:
+   Child class must be substitutable for parent class.
+
+2. In this example:
+   - Sparrow IS-A Bird
+   - Sparrow does not change expected behavior
+   - So it follows LSP
+
+3. Why this is correct:
+   - No exception thrown
+   - No unexpected behavior
+   - Same logical meaning of "fly"
+
+4. When LSP is violated:
+   Example: If we create Penguin extends Bird but override fly() to throw exception
+   → That breaks LSP because Penguin cannot truly replace Bird
+
+5. Real-world idea:
+   If parent says "can fly", child must honor that contract
+*/
+
+
+// Output:
+Bird can fly
+Sparrow can fly
+Sparrow can fly
+```
+
+Bad example: Penguin cannot fly → violates LSP.
+
+---
+
+**I — Interface Segregation Principle (ISP)**
+
+Create small interfaces.
+
+```java
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class Human implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
+// Output:
+Human working
+Human eating
+Robot working
+```
+
+Robot does not implement eat() → Correct.
+
+---
+
+**D — Dependency Inversion Principle (DIP)
+
+Depend on abstraction, not concrete class.
+
+```java
+// DIP: Depend on abstraction, not concrete implementation
+
+// Abstraction
+interface Payment {
+    void pay();
+}
+
+// Concrete implementation
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+// High-level module (business logic)
+class OrderService {
+
+    // Depends on abstraction, not CardPayment directly
+    private Payment payment;
+
+    // Dependency is injected via constructor
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay(); // uses abstraction
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Inject concrete implementation at runtime
+        Payment payment = new CardPayment();
+
+        // OrderService is not tightly coupled to CardPayment
+        OrderService orderService = new OrderService(payment);
+
+        orderService.placeOrder(); // Output: Card payment
+    }
+}
+
+/*
+Interview Points (Quick):
+
+- High-level class (OrderService) should NOT depend on low-level class (CardPayment)
+- Both depend on abstraction (Payment)
+- Easy to switch implementation (UPI, Wallet, etc.) without changing OrderService
+*/
+
+//Output:
+Card payment
+```
 
 ## 1. What are design patterns?
 
