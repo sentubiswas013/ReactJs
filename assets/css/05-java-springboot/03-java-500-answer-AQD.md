@@ -8871,7 +8871,7 @@ public class UserController {
 }
 ```
 
-## 14 How Does Spring Handle Circular Dependency?
+## 14. How Does Spring Handle Circular Dependency?
 
 A circular dependency is when Bean A depends on Bean B, and Bean B depends on Bean A.
 
@@ -8903,6 +8903,155 @@ private B b;
 `@Lazy` tells Spring to inject a proxy first and resolve the real bean later.
 
 In Spring Boot 2.6+, circular dependencies are disabled by default. You need to explicitly enable them or fix the design.
+
+
+## 15. Real Industry Practice?
+
+Here are strong **real industry practice tables** you can use in final-round interviews for deep project discussions.
+
+
+**Microservices Architecture**
+
+| Component         | Local Development    | Cloud / Production                 |
+| ----------------- | -------------------- | ---------------------------------- |
+| Service Discovery | Eureka               | Kubernetes Service Discovery       |
+| API Gateway       | Spring Cloud Gateway | Kong / Nginx Ingress / API Gateway |
+| Config Management | Spring Config Server | ConfigMap + Secrets                |
+| Load Balancer     | Local Nginx          | Kubernetes Ingress / AWS ALB       |
+| Communication     | REST                 | REST + gRPC + Event Driven         |
+| Authentication    | Local JWT            | OAuth2 + Keycloak/Auth0            |
+| Circuit Breaker   | Resilience4j         | Resilience4j + Service Mesh        |
+| Deployment        | Docker Compose       | Kubernetes                         |
+| Containerization  | Docker               | Docker + Kubernetes                |
+| Orchestration     | Manual               | Kubernetes                         |
+| Monitoring        | Prometheus + Grafana | Prometheus + Grafana + ELK         |
+| Logging           | Console Logs         | ELK / Loki / Splunk                |
+| Tracing           | Basic Logs           | Zipkin / Jaeger                    |
+| CI/CD             | Jenkins Local        | Jenkins/GitHub Actions + ArgoCD    |
+
+---
+
+**Database Handling**
+
+| Component         | Local Development     | Cloud / Production           |
+| ----------------- | --------------------- | ---------------------------- |
+| Database          | MySQL/Postgres Docker | RDS / Cloud SQL              |
+| Connection Pool   | HikariCP              | Optimized HikariCP           |
+| Migration         | Flyway Local          | Flyway CI/CD Pipeline        |
+| Read Scaling      | Single DB             | Read Replicas                |
+| Backup            | Manual Dump           | Automated Snapshots          |
+| High Availability | Not Required          | Multi-AZ Deployment          |
+| Sharding          | Rare                  | Used for large-scale systems |
+| Transactions      | Local Transactions    | Distributed/Saga Pattern     |
+
+---
+
+**Cache**
+
+| Component       | Local Development | Cloud / Production |
+| --------------- | ----------------- | ------------------ |
+| Cache           | Local Redis       | Redis Cluster      |
+| Session Storage | In-Memory         | Distributed Redis  |
+| Token Cache     | Local Memory      | Redis              |
+| Eviction Policy | Default           | LRU/LFU Tuned      |
+| Scaling         | Single Node       | Clustered Redis    |
+| HA              | Not Needed        | Sentinel/Cluster   |
+
+---
+
+**Messaging / Event Driven**
+
+| Component           | Local Development     | Cloud / Production        |
+| ------------------- | --------------------- | ------------------------- |
+| Queue               | RabbitMQ/Kafka Docker | Kafka Cluster             |
+| Retry               | Basic Retry           | DLQ + Retry Topics        |
+| Ordering            | Single Partition      | Multi-partition Strategy  |
+| Event Storage       | Temporary             | Persistent                |
+| Consumer Scaling    | Single Consumer       | Consumer Groups           |
+| Async Communication | Basic                 | Event-Driven Architecture |
+| Cloud Native Queue  | Rare                  | AWS SQS/SNS               |
+
+---
+
+**Security**
+
+| Component       | Local Development | Cloud / Production          |
+| --------------- | ----------------- | --------------------------- |
+| Authentication  | Basic JWT         | OAuth2/OpenID Connect       |
+| Authorization   | Role Based        | RBAC + IAM                  |
+| Secrets         | application.yml   | Vault / AWS Secrets Manager |
+| HTTPS           | Optional          | Mandatory                   |
+| API Security    | Simple Filters    | WAF + Rate Limiting         |
+| User Management | Local DB          | Keycloak/Auth0/Cognito      |
+
+---
+
+**Deployment**
+
+| Component             | Local Development | Cloud / Production |
+| --------------------- | ----------------- | ------------------ |
+| Deployment            | Manual Run        | CI/CD Pipeline     |
+| Build Tool            | Maven/Gradle      | Maven + Jenkins    |
+| Container             | Docker            | Docker             |
+| Registry              | Local Images      | Docker Hub/ECR     |
+| Infra                 | Local Machine     | Kubernetes/AWS     |
+| Auto Scaling          | No                | HPA                |
+| Rollback              | Manual            | Automated Rollback |
+| Blue Green Deployment | Rare              | Common             |
+| Canary Deployment     | Rare              | Common             |
+
+---
+
+**Monitoring & Observability**
+
+| Component    | Local Development | Cloud / Production          |
+| ------------ | ----------------- | --------------------------- |
+| Metrics      | Actuator          | Prometheus                  |
+| Dashboard    | Grafana           | Grafana                     |
+| Logging      | Console           | ELK/Loki                    |
+| Alerting     | Minimal           | PagerDuty/Slack Alerts      |
+| Tracing      | Basic Logs        | Jaeger/Zipkin               |
+| Health Check | /actuator/health  | Liveness + Readiness Probes |
+
+---
+
+**High Availability & Scalability**
+
+| Component         | Local Development | Cloud / Production    |
+| ----------------- | ----------------- | --------------------- |
+| Scaling           | Single Instance   | Auto Scaling          |
+| Failover          | Manual Restart    | Automatic Recovery    |
+| Load Balancing    | Simple Nginx      | Ingress + ALB         |
+| Redundancy        | Minimal           | Multi-node            |
+| Disaster Recovery | Rare              | Multi-region Strategy |
+| Zero Downtime     | Not Needed        | Rolling Updates       |
+
+
+
+In local development we use lightweight containerized setups mainly for development convenience and debugging.
+
+In production, we move toward cloud-native and distributed architecture. Kubernetes handles orchestration and service discovery, managed Redis and Kafka are used for scalability and fault tolerance, ConfigMaps and Secrets handle configuration securely, and monitoring/logging are centralized using Prometheus, Grafana, and ELK stack.
+
+---
+
+**Strong Senior-Level Keywords**
+
+* Cloud-native architecture
+* Distributed systems
+* Fault tolerance
+* High availability
+* Horizontal scaling
+* Stateless services
+* Event-driven architecture
+* Container orchestration
+* Observability
+* Resilience
+* Auto-scaling
+* Centralized logging
+* Service mesh
+* Distributed tracing
+
+
 
 
 # ✅ 19. Java Spring Boot 
