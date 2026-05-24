@@ -972,6 +972,114 @@ public class Linkedin50 {
         System.out.println(maxLength);
 		// 3
 	}
+    
+    // ✅ Binary Search Implementation
+    public class Main {
+        static int binarySearch(int[] arr, int key) {
+
+            int left = 0;
+            int right = arr.length - 1;
+
+            while (left <= right) {
+
+                int mid = left + (right - left) / 2;
+
+                if (arr[mid] == key) {
+                    return mid;
+                }
+
+                if (arr[mid] < key) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return -1;
+        }
+
+        public static void main(String[] args) {
+            int[] arr = {1, 3, 5, 7, 9};
+            System.out.println(binarySearch(arr, 7));
+        }
+    }
+
+
+    // ✅ Linear Search Implementation
+    public class Main {
+        static int linearSearch(int[] arr, int key) {
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i] == key) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public static void main(String[] args) {
+            int[] arr = {4, 2, 7, 1};
+            System.out.println(linearSearch(arr, 7));
+        }
+    }
+
+
+    // ✅ Bubble Sort, Selection Sort, Insertion Sort
+    import java.util.Arrays;
+    public class Main {
+        static void bubbleSort(int[] a) {
+            for (int i = 0; i < a.length - 1; i++) {
+                for (int j = 0; j < a.length - 1 - i; j++) {
+                    if (a[j] > a[j + 1]) {
+                        int t = a[j];
+                        a[j] = a[j + 1];
+                        a[j + 1] = t;
+                    }
+                }
+            }
+        }
+
+        static void selectionSort(int[] a) {
+            for (int i = 0; i < a.length - 1; i++) {
+                int min = i;
+                for (int j = i + 1; j < a.length; j++) {
+                    if (a[j] < a[min]) {
+                        min = j;
+                    }
+                }
+                int t = a[i];
+                a[i] = a[min];
+                a[min] = t;
+            }
+        }
+
+        static void insertionSort(int[] a) {
+            for (int i = 1; i < a.length; i++) {
+                int key = a[i];
+                int j = i - 1;
+
+                while (j >= 0 && a[j] > key) {
+                    a[j + 1] = a[j];
+                    j--;
+                }
+                a[j + 1] = key;
+            }
+        }
+
+        public static void main(String[] args) {
+            int[] a = {5, 1, 4, 2, 8};
+
+            int[] b1 = a.clone();
+            bubbleSort(b1);
+            System.out.println("Bubble Sort: " + Arrays.toString(b1));
+
+            int[] b2 = a.clone();
+            selectionSort(b2);
+            System.out.println("Selection Sort: " + Arrays.toString(b2));
+
+            int[] b3 = a.clone();
+            insertionSort(b3);
+            System.out.println("Insertion Sort: " + Arrays.toString(b3));
+        }
+    }
 
     // ==========================================================================
     // String str = "abc"
