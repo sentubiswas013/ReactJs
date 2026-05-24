@@ -6859,9 +6859,7 @@ Controller accepts file without loading everything into memory.
 @RestController
 @RequestMapping("/files")
 class FileUploadController {
-
     private final FileProcessingService service;
-
     public FileUploadController(FileProcessingService service) {
         this.service = service;
     }
@@ -6870,9 +6868,7 @@ class FileUploadController {
     public String upload(
             @RequestParam("file") MultipartFile file
     ) throws Exception {
-
         service.processFile(file);
-
         return "File Accepted";
     }
 }
@@ -6882,14 +6878,10 @@ class FileUploadController {
 
 **Step 2 — Service Layer**
 
-Main orchestration layer.
-
 ```java id="cx88hj"
 @Service
 class FileProcessingService {
-
     private final DataRepository repository;
-
     private static final int BATCH_SIZE = 1000;
 
     public FileProcessingService(DataRepository repository) {
@@ -6898,7 +6890,6 @@ class FileProcessingService {
 
     @Async
     public CompletableFuture<Void> processFile( MultipartFile file) throws Exception {
-
         List<DataEntity> batch = new ArrayList<>();
 
         try (
@@ -6911,17 +6902,11 @@ class FileProcessingService {
         ) {
 
             String line;
-
             while ((line = reader.readLine()) != null) {
-
                 DataEntity entity = mapToEntity(line);
-
                 batch.add(entity);
-
                 if (batch.size() == BATCH_SIZE) {
-
                     saveBatch(batch);
-
                     batch.clear();
                 }
             }
@@ -6936,18 +6921,13 @@ class FileProcessingService {
     }
 
     private DataEntity mapToEntity(String line) {
-
         DataEntity entity = new DataEntity();
-
         entity.setName(line);
-
         return entity;
     }
 
     private void saveBatch(List<DataEntity> batch) {
-
         repository.saveAll(batch);
-
         System.out.println(
                 "Saved batch size: " + batch.size()
         );
@@ -6962,7 +6942,6 @@ class FileProcessingService {
 ```java id="zwv22u"
 @Entity
 class DataEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -6989,8 +6968,7 @@ class DataEntity {
 
 ```java id="v74d5u"
 @Repository
-interface DataRepository
-        extends JpaRepository<DataEntity, Long> {
+interface DataRepository extends JpaRepository<DataEntity, Long> {
 }
 ```
 
@@ -7210,7 +7188,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AppConfig {
-
     @Value("${app.name}")
     private String appName;
 
