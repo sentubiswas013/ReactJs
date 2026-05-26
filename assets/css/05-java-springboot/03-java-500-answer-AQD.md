@@ -6022,58 +6022,47 @@ This loads everything in a single query instead of N+1 separate ones.
 
 ---
 
-## 11. What is `@Transactional` Propagation Levels?
-
-Propagation tells Spring — *what should happen to the transaction when one transactional method calls another?*
-
-| Level | Behavior |
-|---|---|
-| `REQUIRED` (default) | Join existing transaction, or create new one |
-| `REQUIRES_NEW` | Always create a new transaction, suspend the existing one |
-| `NESTED` | Run inside a nested transaction (savepoint) |
-| `SUPPORTS` | Use existing transaction if present, else run without |
-| `NOT_SUPPORTED` | Suspend existing transaction, run without |
-| `MANDATORY` | Must have an existing transaction, else throw exception |
-| `NEVER` | Must NOT have a transaction, else throw exception |
-
-```java
-@Transactional(propagation = Propagation.REQUIRES_NEW)
-public void saveAuditLog() {
-    // always runs in its own transaction
-}
-```
-
-Most of the time you'll use `REQUIRED` or `REQUIRES_NEW`.
-
----
-
-## 12. What is Optimistic vs Pessimistic Locking?
+## 11. What is Optimistic vs Pessimistic Locking?
 
 Both handle concurrent access to the same data — but differently.
 
 **Optimistic Locking** — assumes conflicts are rare. It uses a `@Version` field. When you update, it checks if the version matches. If someone else already updated it, it throws `OptimisticLockException`.
 
 ```java
+// Optimistic - uses @Version
 @Entity
 public class Product {
-    @Version
-    private int version;
+    @Id private Long id;
+    @Version private int version; // auto-checked on update
+    private int stock;
 }
+
+// If two threads update same Account simultaneously,
+// second one gets: javax.persistence.OptimisticLockException
 ```
 
 **Pessimistic Locking** — assumes conflicts are likely. It locks the row in the database immediately using `SELECT FOR UPDATE`.
 
 ```java
+// Pessimistic - locks row in DB
 @Lock(LockModeType.PESSIMISTIC_WRITE)
 @Query("SELECT p FROM Product p WHERE p.id = :id")
-Product findByIdWithLock(@Param("id") Long id);
+Product findByIdForUpdate(@Param("id") Long id);
 ```
+
+**`@Version`** enables optimistic locking. Hibernate auto-increments the version on each update and throws `OptimisticLockException` if two transactions update the same record.
+
+| | Optimistic | Pessimistic |
+|---|---|---|
+| Mechanism | Version check at commit | DB-level lock (SELECT FOR UPDATE) |
+| Use case | Low contention | High contention |
+| Performance | Better | Slower |
 
 Use optimistic for read-heavy apps, pessimistic for write-heavy or financial systems.
 
 ---
 
-## 13. What is JPQL vs Native Query?
+## 12. What is JPQL vs Native Query?
 
 **JPQL** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
 
@@ -6093,7 +6082,7 @@ Prefer JPQL for portability. Use native query only when needed.
 
 ---
 
-## 14. What are JPA Cascade Types?
+## 13. What are JPA Cascade Types?
 
 Cascade means — *when you do an operation on a parent entity, automatically apply it to child entities too.*
 
@@ -6115,7 +6104,7 @@ Be careful with `REMOVE` — it can delete child records you didn't intend to de
 
 ---
 
-## 15. What is Database Indexing and When to Use It?
+## 14. What is Database Indexing and When to Use It?
 
 An index is like a book's table of contents — it helps the database find rows faster without scanning the whole table.
 
@@ -6143,7 +6132,7 @@ Indexes speed up reads but slow down writes — so use them wisely.
 
 ---
 
-## 16. What is `FetchType.LAZY` vs `FetchType.EAGER` In Depth?
+## 15. What is `FetchType.LAZY` vs `FetchType.EAGER` In Depth?
 
 **EAGER** — loads related data immediately when the parent is loaded, even if you don't need it.
 
@@ -6164,51 +6153,9 @@ private Department department;
 **Best practice:** Always prefer LAZY. Load eagerly only when you always need the related data together.
 
 
-
-## 17. Optimistic vs Pessimistic locking?
-
-| | Optimistic | Pessimistic |
-|---|---|---|
-| Mechanism | Version check at commit | DB-level lock (SELECT FOR UPDATE) |
-| Use case | Low contention | High contention |
-| Performance | Better | Slower |
-
-```java
-// Optimistic - uses @Version
-@Entity
-public class Product {
-    @Id private Long id;
-    @Version private int version; // auto-checked on update
-    private int stock;
-}
-
-// Pessimistic - locks row in DB
-@Lock(LockModeType.PESSIMISTIC_WRITE)
-@Query("SELECT p FROM Product p WHERE p.id = :id")
-Product findByIdForUpdate(@Param("id") Long id);
-```
-
 ---
 
-## 18. What is @Version?
-
-`@Version` enables optimistic locking. Hibernate auto-increments the version on each update and throws `OptimisticLockException` if two transactions update the same record.
-
-```java
-@Entity
-public class Account {
-    @Id private Long id;
-    @Version private Long version;  // Hibernate manages this
-    private double balance;
-}
-
-// If two threads update same Account simultaneously,
-// second one gets: javax.persistence.OptimisticLockException
-```
-
----
-
-## 19. Entity lifecycle states?
+## 16. Entity lifecycle states?
 
 | State | Description |
 |---|---|
@@ -6232,9 +6179,9 @@ entityManager.remove(user);            // Removed
 
 ---
 
-## 20. What is dirty checking?
+## 17. What is dirty checking?
 
-Hibernate automatically detects changes to managed entities and syncs them to DB at flush time — no explicit `save()` needed.
+Hibernate automatically checks whether an entity’s data has changed. If changed, it updates the database automatically during transaction commit with calling update().
 
 ```java
 @Transactional
@@ -6247,7 +6194,7 @@ public void updateName(Long id, String newName) {
 
 ---
 
-## 21. Difference between save() and saveAndFlush()?
+## 18. Difference between save() and saveAndFlush()?
 
 | | save() | saveAndFlush() |
 |---|---|---|
@@ -6264,7 +6211,18 @@ User u2 = userRepository.saveAndFlush(new User("Bob"));
 
 ---
 
-## 22. How auditing works in JPA?
+## 19. What is auditing and How it works in JPA?
+
+
+In Java (especially enterprise applications like Spring Boot), **auditing** means **tracking and recording changes made to data**, such as:
+
+* **Who** created the record
+* **When** the record was created
+* **Who** updated the record
+* **When** it was last updated
+
+
+**How it works**
 
 Spring Data JPA provides `@CreatedDate`, `@LastModifiedDate`, `@CreatedBy`, `@LastModifiedBy` via `@EnableJpaAuditing`.
 
@@ -6295,7 +6253,7 @@ public class User extends Auditable {
 
 ---
 
-## 23. How to handle large data efficiently?
+## 20. How to handle large data efficiently?
 
 - Use **pagination** instead of `findAll()`
 - Use **projections** to fetch only needed columns
@@ -11557,6 +11515,27 @@ When the method is called:
 public void transferMoney(Long from, Long to, double amount) {
     debit(from, amount);
     credit(to, amount);  // if this throws, debit also rolls back
+}
+```
+
+**`@Transactional`** Propagation Levels
+
+Propagation tells Spring — *what should happen to the transaction when one transactional method calls another?*
+
+| Level | Behavior |
+|---|---|
+| `REQUIRED` (default) | Join existing transaction, or create new one |
+| `REQUIRES_NEW` | Always create a new transaction, suspend the existing one |
+| `NESTED` | Run inside a nested transaction (savepoint) |
+| `SUPPORTS` | Use existing transaction if present, else run without |
+| `NOT_SUPPORTED` | Suspend existing transaction, run without |
+| `MANDATORY` | Must have an existing transaction, else throw exception |
+| `NEVER` | Must NOT have a transaction, else throw exception |
+
+```java
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void saveAuditLog() {
+    // always runs in its own transaction
 }
 ```
 
