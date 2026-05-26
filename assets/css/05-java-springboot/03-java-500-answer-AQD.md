@@ -581,6 +581,8 @@ protected void finalize() {
 
 String pooling is Java's memory optimization technique where identical string literals share the same memory location in the String Pool (part of heap memory).
 
+**String is immutable** in Java because it provides security, thread safety, String pool optimization, and better HashMap performance. Once a String object is created, its value cannot be changed; any modification creates a new object instead.
+
 ```java
 String a = "hello";    // stored in string pool
 String b = "hello";    // reuses same memory location
