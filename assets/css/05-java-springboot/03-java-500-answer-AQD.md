@@ -4321,6 +4321,8 @@ class Counter {
 
 **Volatile** is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
 
+**Semaphore** is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
+
 **synchronized** is a keyword to ensures that only one thread at a time can access a shared resource, preventing race conditions to achieve thread safety.
 
 **Lock** (ReentrantLock) is similar to synchronized but gives more control like lock, unlock, tryLock.
