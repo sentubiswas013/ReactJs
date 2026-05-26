@@ -3994,7 +3994,66 @@ public class Test {
 }
 ```
 
-## 8. What is the difference between synchronized and concurrent collections?
+## 8. What is Semaphore and how it works?
+
+A semaphore in Java is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
+
+**Real-Time Example**
+
+Suppose:  Parking lot has only 3 parking spaces
+
+If 5 cars come:
+
+* 3 cars can enter
+* 2 cars must wait
+
+
+**How It Works**
+
+Semaphore uses: `permits`, it represents permission to access resource.
+
+
+| Method      | Purpose       |
+| ----------- | ------------- |
+| `acquire()` | Take permit   |
+| `release()` | Return permit |
+
+
+```java
+import java.util.concurrent.Semaphore;
+public class SemaphoreExample {
+    static Semaphore semaphore = new Semaphore(2);
+
+    public static void main(String[] args) {
+        Runnable task = () -> {
+            try {
+                semaphore.acquire();
+                System.out.println(
+                        Thread.currentThread().getName()
+                        + " acquired permit");
+
+                Thread.sleep(3000);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+                System.out.println(
+                        Thread.currentThread().getName()
+                        + " released permit");
+                semaphore.release();
+            }
+        };
+
+        for (int i = 1; i <= 5; i++) {
+            new Thread(task, "Thread-" + i).start();
+        }
+    }
+}
+```
+
+
+## 9. What is the difference between synchronized and concurrent collections?
 
 **Synchronized collections** use a **single lock** to control access, which can block all threads and reduce performance under high concurrency.
 
@@ -4027,7 +4086,7 @@ for (Map.Entry<String, Integer> entry : concurrentMap.entrySet()) {
 }
 ```
 
-## 9. What is ConcurrentHashMap and how is it different from HashMap?
+## 10. What is ConcurrentHashMap and how is it different from HashMap?
 
 **ConcurrentHashMap** is a **thread-safe map** designed for high concurrency.
 
@@ -4129,7 +4188,7 @@ public class SessionManager {
 // Faster than Collections.synchronizedMap()
 ```
 
-## 10. What is race condition and how to resolve it?
+## 11. What is race condition and how to resolve it?
 
 A **race condition** happens when **multiple threads access and modify the same shared data at the same time**, and the final result depends on which thread runs first.
 
@@ -4241,7 +4300,7 @@ class Counter {
 }
 ```
 
-## 11. Multithreading and Concurrency Summary?
+## 12. Multithreading and Concurrency Summary?
 
 **Thread** is the smallest unit of execution in a program that allows multiple tasks to run simultaneously.
 
