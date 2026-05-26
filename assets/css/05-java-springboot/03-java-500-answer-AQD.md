@@ -6086,9 +6086,10 @@ This loads everything in a single query instead of N+1 separate ones.
 
 ## 11. What is Optimistic vs Pessimistic Locking?
 
-Both handle concurrent access to the same data — but differently.
+**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
 
-**Optimistic Locking** — assumes conflicts are rare. It uses a `@Version` field. When you update, it checks if the version matches. If someone else already updated it, it throws `OptimisticLockException`.
+Usually implemented using a **version column**.
+
 
 ```java
 // Optimistic - uses @Version
@@ -6103,7 +6104,7 @@ public class Product {
 // second one gets: javax.persistence.OptimisticLockException
 ```
 
-**Pessimistic Locking** — assumes conflicts are likely. It locks the row in the database immediately using `SELECT FOR UPDATE`.
+**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
 
 ```java
 // Pessimistic - locks row in DB
