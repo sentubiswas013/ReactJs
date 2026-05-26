@@ -3851,28 +3851,7 @@ Task 2
 Task 3
 ```
 
-## 5. What is deadlock and how do you prevent it?
-
-**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
-
-**Prevention strategies:**
-* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
-* **Use consistent lock order** – Always acquire locks in the same order.
-* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
-* **Minimize synchronized blocks** – Keep lock scope as small as possible.
-
-```java
-// Deadlock scenario
-Thread1: lock(A) -> lock(B)
-Thread2: lock(B) -> lock(A)
-
-// Prevention - consistent ordering
-Thread1: lock(A) -> lock(B)
-Thread2: lock(A) -> lock(B)
-```
-
-
-## 6. What is synchronization in Java?
+## 5. What is synchronization in Java?
 
 **Synchronization** in Java ensures that **only one thread at a time** can access a shared resource, preventing **race conditions**.
 
@@ -3930,7 +3909,7 @@ public class Test {
 }
 ```
 
-## 7. What is volatile keyword?
+## 6. What is volatile keyword?
 
 **Volatile** is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
 
@@ -3994,7 +3973,7 @@ public class Test {
 }
 ```
 
-## 8. What is Semaphore and how it works?
+## 7. What is Semaphore and how it works?
 
 A semaphore in Java is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
 
@@ -4053,7 +4032,7 @@ public class SemaphoreExample {
 ```
 
 
-## 9. What is the difference between synchronized and concurrent collections?
+## 8. What is the difference between synchronized and concurrent collections?
 
 **Synchronized collections** use a **single lock** to control access, which can block all threads and reduce performance under high concurrency.
 
@@ -4086,7 +4065,7 @@ for (Map.Entry<String, Integer> entry : concurrentMap.entrySet()) {
 }
 ```
 
-## 10. What is ConcurrentHashMap and how is it different from HashMap?
+## 9. What is ConcurrentHashMap and how is it different from HashMap?
 
 **ConcurrentHashMap** is a **thread-safe map** designed for high concurrency.
 
@@ -4187,6 +4166,28 @@ public class SessionManager {
 // No need to lock entire structure
 // Faster than Collections.synchronizedMap()
 ```
+
+
+## 10. What is deadlock and how do you prevent it?
+
+**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
+
+**Prevention strategies:**
+* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
+* **Use consistent lock order** – Always acquire locks in the same order.
+* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
+* **Minimize synchronized blocks** – Keep lock scope as small as possible.
+
+```java
+// Deadlock scenario
+Thread1: lock(A) -> lock(B)
+Thread2: lock(B) -> lock(A)
+
+// Prevention - consistent ordering
+Thread1: lock(A) -> lock(B)
+Thread2: lock(A) -> lock(B)
+```
+
 
 ## 11. What is race condition and how to resolve it?
 
