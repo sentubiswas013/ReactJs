@@ -10061,22 +10061,36 @@ public class UserController {
 
 ## 25. How Does `@EnableAutoConfiguration` Work Internally?
 
-It's the magic behind Spring Boot's "convention over configuration."
+@EnableAutoConfiguration is a Spring Boot annotation that automatically configures your Spring application based on the dependencies present in your classpath.
 
-When your app starts:
-1. Spring Boot scans `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` (or `spring.factories` in older versions)
-2. That file lists hundreds of auto-configuration classes
-3. Each class is annotated with `@ConditionalOn...` — so it only activates if certain conditions are met (e.g., a class is on the classpath, a bean is missing, a property is set)
+It saves time by removing the need to manually configure beans, like DataSource, DispatcherServlet, etc.
+
+**Where is it used?**
+It is included inside the @SpringBootApplication annotation by default.
 
 ```java
-@ConditionalOnClass(DataSource.class)
-@ConditionalOnMissingBean(DataSource.class)
-public class DataSourceAutoConfiguration { ... }
+@SpringBootApplication
+public class MyApp {
+  public static void main(String[] args) {
+SpringApplication.run(MyApp.class, args);
+  }
+}
 ```
 
-So if you add `spring-boot-starter-data-jpa`, Spring Boot automatically configures a `DataSource`, `EntityManagerFactory`, and transaction manager — without you writing any config.
+👉 @SpringBootApplication =
+@Configuration + @ComponentScan + @EnableAutoConfiguration
 
-`@SpringBootApplication` = `@Configuration` + `@ComponentScan` + `@EnableAutoConfiguration` combined.
+**How it works:**
+It looks at the JARs in your classpath and tries to auto-configure beans accordingly.
+
+For example:
+▪️ If Spring Boot sees spring-boot-starter-web, it will configure Tomcat, Spring MVC, and a default DispatcherServlet.
+▪️ If it sees spring-boot-starter-data-jpa, it will auto-configure Hibernate, DataSource, etc.
+
+**In Interview, Say This:**
+▪️ @EnableAutoConfiguration helps in reducing boilerplate configuration.
+▪️ It allows me to start building features quickly without manual setup.
+▪️ If needed, I can still override its default settings using @Configuration classes 
 
 ---
 
@@ -10129,7 +10143,7 @@ public class EmailService {
 }
 ```
 
-3. Call the MethodWhen you call this method from another class, Spring intercepts the call and runs it in a background thread. 
+3. **Call the Method** When you call this method from another class, Spring intercepts the call and runs it in a background thread. 
 Important Rules & Gotchas 
 
 ---
