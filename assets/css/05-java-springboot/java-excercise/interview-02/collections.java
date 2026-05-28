@@ -244,7 +244,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 12. LRU Cache
+    // 14. LRU Cache
     // LRU (Least Recently Used) cache is a data structure that evicts the least recently used items when it reaches its capacity. It can be implemented using LinkedHashMap in Java.
     // ============================================================
 
@@ -267,11 +267,22 @@ class CollectionsDemo {
         System.out.println(cache);
     }
     // ============================================================
-    // **# 12. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
+    // **# 15. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
     // ============================================================
     // import java.util.LinkedHashMap;
     // import java.util.Map;
+     static void LRUCacheDemo() {
+        LRUCache<Integer, String> cache = new LRUCache<>(3);
 
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1);
+
+        cache.put(4, "D");
+        System.out.println(cache);
+     }
     class LRUCache<K, V> extends LinkedHashMap<K, V> {
         private final int capacity;
         public LRUCache(int capacity) {
@@ -283,29 +294,29 @@ class CollectionsDemo {
         protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
             return size() > capacity;
         }
-
-        public static void main(String[] args) {
-            LRUCache<Integer, String> cache = new LRUCache<>(3);
-
-            cache.put(1, "A");
-            cache.put(2, "B");
-            cache.put(3, "C");
-
-            cache.get(1);
-
-            cache.put(4, "D");
-            System.out.println(cache);
-        }
     }
     // Output: {3=C, 1=A, 4=D}
     // `2=B` removed because it was least recently used.
 
     // ============================================================
-    // **13. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
+    // **16. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
     // ============================================================
     // import java.util.HashMap;
     // import java.util.Map;
+    static void LFUCacheDemo() {
+        LFUCache cache = new LFUCache();
 
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1);
+        cache.get(1);
+        cache.get(2);
+
+        cache.removeLFU();
+        cache.print();
+    }
     class LFUCache {
         private Map<Integer, String> cache = new HashMap<>();
         private Map<Integer, Integer> frequency = new HashMap<>();
@@ -342,32 +353,24 @@ class CollectionsDemo {
         public void print() {
             System.out.println(cache);
         }
-
-        public static void main(String[] args) {
-            LFUCache cache = new LFUCache();
-
-            cache.put(1, "A");
-            cache.put(2, "B");
-            cache.put(3, "C");
-
-            cache.get(1);
-            cache.get(1);
-            cache.get(2);
-
-            cache.removeLFU();
-            cache.print();
-        }
     }
     // Output: {1=A, 2=B}
     // 3=C removed because it was least frequently used.
 
     // ============================================================
-    // **14. TTL Cache (Time To Live) :** Expires data after fixed duration.
+    // **17. TTL Cache (Time To Live) :** Expires data after fixed duration.
     // ============================================================
     // import java.util.HashMap;
     // import java.util.Map;
+    static void TTLCacheDemo() {
+        TTLCache cache = new TTLCache();
+        cache.put(1, "Java", 3000);
+        System.out.println(cache.get(1));
+        Thread.sleep(4000);
+        System.out.println(cache.get(1));
+    }
 
-    class TTLCache {
+    static class TTLCache {
         static class CacheObject {
             String value;
             long expiryTime;
@@ -397,18 +400,6 @@ class CollectionsDemo {
             }
 
             return obj.value;
-        }
-
-        public static void main(String[] args) throws Exception {
-            TTLCache cache = new TTLCache();
-
-            cache.put(1, "Java", 3000);
-
-            System.out.println(cache.get(1));
-
-            Thread.sleep(4000);
-
-            System.out.println(cache.get(1));
         }
     }
     // Output: 

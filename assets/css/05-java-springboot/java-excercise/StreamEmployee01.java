@@ -123,9 +123,11 @@ static class Employee {
         );
 
         // 1. Employees whose name starts with A
-        
+        List<Employee> employeeNameA = empList.stream()
+                .filter(e -> e.getFirstName().startsWith("A"))
+                .collect(Collectors.toList());
 
-        // System.out.println("\n1. Employees whose name starts with A: " + employeeNameA);
+        System.out.println("\n1. Employees whose name starts with A: " + employeeNameA);
 
         // Output:
         // 1. Employees whose name starts with A:
