@@ -7729,10 +7729,10 @@ docker run -e SPRING_PROFILES_ACTIVE=dev app.jar
 docker run -e SPRING_PROFILES_ACTIVE=prod -e DB_PASS=secret app.jar
 ```
 
+## 20. Connecting and Using Multiple Databases with a Single Spring Boot Service?
+
 
 # ✅ 17. Java Design Patterns 
-
-
 
 ## 0. What are SOLID principles?
 
@@ -10060,6 +10060,8 @@ public class UserController {
 ```
 
 ## 25. How Does `@EnableAutoConfiguration` Work Internally?
+
+**DataSource:** 
 
 @EnableAutoConfiguration is a Spring Boot annotation that automatically configures your Spring application based on the dependencies present in your classpath.
 
