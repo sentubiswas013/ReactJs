@@ -10082,24 +10082,14 @@ So if you add `spring-boot-starter-data-jpa`, Spring Boot automatically configur
 
 ## 26. What is `@Async` and How Does It Work?
 
-`@Async` runs a method in a **separate thread** — so the caller doesn't wait for it to finish.
 
-**Setup:**
-```java
-@SpringBootApplication
-@EnableAsync
-public class MyApp { }
-```
+The  annotation in Java is a Spring Framework feature that allows a method to be executed asynchronously—meaning the caller method proceeds immediately without waiting for the async method to finish. This boosts performance by executing independent tasks in parallel. 
+How  Works Under the Hood 
 
-```java
-@Async
-public void sendEmail(String to) {
-    // runs in a background thread
-    emailService.send(to);
-}
-```
+**How @Async Works Under the Hood**
 
-Internally, Spring wraps the method in a proxy and submits it to a `TaskExecutor` (thread pool). By default it uses `SimpleAsyncTaskExecutor` — but in production, always configure a proper thread pool:
+1. **Spring AOP (Aspect-Oriented Programming):** When you annotate a method with , Spring intercepts the call and wraps the target object inside a dynamic proxy. 
+2. **Task Execution:** Instead of executing the method in the caller's main thread, the proxy submits the method's execution to a TaskExecutor (a Thread Pool). 
 
 ```java
 @Bean
@@ -10112,9 +10102,35 @@ public Executor taskExecutor() {
 }
 ```
 
-**Gotcha:** Same as `@Transactional` — self-invocation won't work. Must be called from another bean.
+3. **Immediate Return:** Control is immediately handed back to the calling thread so it can continue running other code, while the async method runs independently.  
 
-If you need the result, return `CompletableFuture<T>` instead of `void`.
+**How to Use It**
+To use  in a Spring/Spring Boot application, you must follow three steps: 
+1. **Enable Async Processing** Add the  annotation to one of your Spring Configuration classes. 
+
+```java
+@Configuration
+@EnableAsync
+public class AppConfig {
+}
+```
+
+2. **Annotate the Method** Add  to the method you want to run in the background. It must be a  method and can return either  or a . CompletableFuture.
+
+```java
+@Service
+public class EmailService {
+
+    @Async
+    public void sendEmail(String recipient) {
+        // Heavy or blocking email-sending logic
+        System.out.println("Email sent to " + recipient);
+    }
+}
+```
+
+3. Call the MethodWhen you call this method from another class, Spring intercepts the call and runs it in a background thread. 
+Important Rules & Gotchas 
 
 ---
 
