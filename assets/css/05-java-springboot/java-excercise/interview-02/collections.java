@@ -22,6 +22,10 @@ class CollectionsDemo {
         lruCacheDemo();
         priorityQueueDemo();
         maxHeapDemo();
+        lruCacheDemo();
+        LRUCacheDemo();
+        LFUCacheDemo();
+        TTLCacheDemo();
     }
 
     // ============================================================
