@@ -10115,13 +10115,13 @@ public Executor taskExecutor() {
     return executor;
 }
 ```
-
 3. **Immediate Return:** Control is immediately handed back to the calling thread so it can continue running other code, while the async method runs independently.  
 
 **How to Use It**
-To use  in a Spring/Spring Boot application, you must follow three steps: 
-1. **Enable Async Processing** Add the  annotation to one of your Spring Configuration classes. 
 
+To use  in a Spring/Spring Boot application, you must follow three steps: 
+
+1. **Enable Async Processing** Add the  annotation to one of your Spring Configuration classes. 
 ```java
 @Configuration
 @EnableAsync
@@ -10130,7 +10130,6 @@ public class AppConfig {
 ```
 
 2. **Annotate the Method** Add  to the method you want to run in the background. It must be a  method and can return either  or a . CompletableFuture.
-
 ```java
 @Service
 public class EmailService {
