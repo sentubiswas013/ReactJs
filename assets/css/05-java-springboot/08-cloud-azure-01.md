@@ -272,3 +272,17 @@ Used for:
 * Metrics
 * Alerts
 * Performance monitoring
+
+
+**🔧 Top 10 Most-Used Azure Services:**
+
+Azure Virtual Machines — IaaS compute backbone
+Azure Blob Storage — object/data lake storage
+Azure App Service — managed web/API hosting
+Microsoft Entra ID — identity & SSO
+Azure Functions — serverless event-driven compute
+Azure Kubernetes Service — managed Kubernetes
+Azure SQL Database — managed relational DB
+Azure Monitor — metrics, logs & alerting
+Azure Key Vault — secrets & certificate management
+Azure Service Bus — enterprise messaging & decoupling
