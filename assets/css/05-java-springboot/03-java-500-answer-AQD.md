@@ -7732,6 +7732,262 @@ docker run -e SPRING_PROFILES_ACTIVE=prod -e DB_PASS=secret app.jar
 ## 20. Connecting and Using Multiple Databases with a Single Spring Boot Service?
 
 
+**Why Use Multiple Databases?**
+
+Connecting to multiple databases can be beneficial for several reasons:
+
+1. **Multitenancy:** Support multiple tenants within the same application.
+
+2. **Dynamic Environment Switching:** Connect to different environments (e.g., development, QA) dynamically.
+
+3. **Data Seeding and Testing:** Simulate various testing scenarios by seeding data across multiple databases.
+
+4. **Organization Support:** Handle multiple organizations within the same app, dynamically routing data based on user login.
+
+5. **Batch Operations:** Run scripts and batch jobs against multiple databases simultaneously.
+
+Setting Up Spring Boot Application
+
+**Step 1: Add Dependencies**
+Add the necessary dependencies to your pom.xml file for MySQL, PostgreSQL, and Spring Data JPA.
+
+```xml
+<dependencies>
+
+    <!-- Spring Boot and JPA -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    
+    <!-- MySQL Connector -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    
+    <!-- PostgreSQL Connector -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+    </dependency>
+
+    <!-- Lombok -->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.12</version>
+        <scope>provided</scope>
+    </dependency>
+
+</dependencies>
+```
+
+**Step 2: Configure Data Sources**
+
+In your application.properties file, configure the connection details for both MySQL and PostgreSQL.
+
+```sql
+# MySQL DataSource Configuration
+spring.datasource.mysql.jdbc-url=jdbc:mysql://localhost:3306/mysqldb
+spring.datasource.mysql.username=root
+spring.datasource.mysql.password=password
+spring.datasource.mysql.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# PostgreSQL DataSource Configuration
+spring.datasource.postgresql.jdbc-url=jdbc:postgresql://localhost:5432/postgresdb
+spring.datasource.postgresql.username=postgres
+spring.datasource.postgresql.password=password
+spring.datasource.postgresql.driver-class-name=org.postgresql.Driver
+```
+
+**Step 3: Create Data Source Configuration Classes**
+
+Create a configuration class for each datasource. 
+
+MySQL Data Source Configuration
+
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.example.repository.mysql",
+    entityManagerFactoryRef = "mysqlEntityManagerFactory",
+    transactionManagerRef = "mysqlTransactionManager"
+)
+
+public class MysqlDataSourceConfig {
+    @Primary
+    @Bean(name = "mysqlDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.mysql")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Primary
+    @Bean(name = "mysqlEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("mysqlDataSource") DataSource dataSource) {
+        return builder
+                .dataSource(dataSource)
+                .packages("com.example.model.mysql")
+                .persistenceUnit("mysql")
+                .build();
+    }
+
+    @Primary
+    @Bean(name = "mysqlTransactionManager")
+    public PlatformTransactionManager transactionManager(@Qualifier("mysqlEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+
+}
+```
+
+PostgreSQL Data Source Configuration
+
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.example.repository.postgresql",
+    entityManagerFactoryRef = "postgresqlEntityManagerFactory",
+    transactionManagerRef = "postgresqlTransactionManager"
+)
+
+public class PostgresqlDataSourceConfig {
+    @Bean(name = "postgresqlDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.postgresql")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "postgresqlEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("postgresqlDataSource") DataSource dataSource) {
+        return builder
+                .dataSource(dataSource)
+                .packages("com.example.model.postgresql")
+                .persistenceUnit("postgresql")
+                .build();
+    }
+
+    @Bean(name = "postgresqlTransactionManager")
+    public PlatformTransactionManager transactionManager(@Qualifier("postgresqlEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+
+}
+```
+
+**Step 4: Define Entities and Repositories**
+
+MySQL Entity and Repository
+
+```java
+// MySQL Entity
+@Entity
+@Table(name = "mysql_entity")
+public class MysqlEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Getters and setters
+
+}
+
+// MySQL Repository
+@Repository
+public interface MysqlRepository extends JpaRepository<MysqlEntity, Long> {
+
+}
+```
+
+PostgreSQL Entity and Repository
+
+```java
+// PostgreSQL Entity
+@Entity
+@Table(name = "postgresql_entity")
+public class PostgresqlEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Getters and setters
+
+}
+
+// PostgreSQL Repository
+@Repository
+public interface PostgresqlRepository extends JpaRepository<PostgresqlEntity, Long> {
+
+}
+```
+
+**Step 5: Using the Repositories in a Service**
+
+Create a service class to use the repositories.
+
+```java
+@Service
+public class MultiDatabaseService {
+    private final MysqlRepository mysqlRepository;
+    private final PostgresqlRepository postgresqlRepository;
+
+    @Autowired
+    public MultiDatabaseService(MysqlRepository mysqlRepository, PostgresqlRepository postgresqlRepository) {
+        this.mysqlRepository = mysqlRepository;
+        this.postgresqlRepository = postgresqlRepository;
+    }
+
+    public List<MysqlEntity> getMysqlEntities() {
+        return mysqlRepository.findAll();
+    }
+
+    public List<PostgresqlEntity> getPostgresqlEntities() {
+        return postgresqlRepository.findAll();
+    }
+
+}
+```
+
+**Step 6: Expose Endpoints to Test**
+
+Create a controller to expose REST endpoints for testing.
+
+```java
+@RestController
+@RequestMapping("/api")
+public class MultiDatabaseController {
+    private final MultiDatabaseService multiDatabaseService;
+
+    @Autowired
+    public MultiDatabaseController(MultiDatabaseService multiDatabaseService) {
+        this.multiDatabaseService = multiDatabaseService;
+    }
+
+    @GetMapping("/mysql")
+    public List<MysqlEntity> getMysqlEntities() {
+        return multiDatabaseService.getMysqlEntities();
+    }
+
+    @GetMapping("/postgresql")
+    public List<PostgresqlEntity> getPostgresqlEntities() {
+        return multiDatabaseService.getPostgresqlEntities();
+    }
+
+}
+```
+
 # ✅ 17. Java Design Patterns 
 
 ## 0. What are SOLID principles?
