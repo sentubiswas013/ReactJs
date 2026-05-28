@@ -47,37 +47,130 @@ JVM = Runtime execution environment
 
 ## 3. What is the difference between Structured Programming and OOP?
 
-**Structured Programming:**
-- Code is organized as a sequence of **functions/procedures**
-- Data and functions are **separate**
-- Top-down approach — break problem into functions
-- Example languages: C, Pascal, early BASIC
+**Structured Programming**
 
-```c
-// Structured — data and logic are separate
-struct Employee { char name[50]; double salary; };
+Structured Programming is a programming approach where the program is divided into small, manageable functions or procedures.
+It mainly focuses on **step-by-step execution of logic**.
 
-void giveRaise(struct Employee *e, double amount) {
-    e->salary += amount;
-}
-```
+**Main Features**
 
-**Object-Oriented Programming (OOP):**
-- Code is organized as **objects** that bundle data + behavior together
-- Bottom-up approach — model real-world entities
-- Supports inheritance, polymorphism, encapsulation, abstraction
-- Example languages: Java, C++, Python
+* Uses:
+
+  * sequence
+  * selection (`if`, `switch`)
+  * iteration (`for`, `while`)
+* Program is divided into methods/functions
+* Top-down approach
+* Data and functions are separate
+
 
 ```java
-// OOP — data and behavior together in one object
-class Employee {
-    private double salary;
+public class Calculator {
 
-    public void giveRaise(double amount) {
-        this.salary += amount;  // behavior operates on its own data
+    static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        int result = add(10, 20);
+        System.out.println(result);
     }
 }
 ```
+
+Here:
+
+* Logic is divided into functions
+* Execution happens step by step
+
+**Advantages**
+
+* Easy to understand
+* Easy debugging
+* Reduces duplicate code
+* Better readability
+
+**Disadvantages**
+
+* Difficult to manage large applications
+* Data security is weak
+* Code reusability is limited
+
+---
+
+**OOP (Object-Oriented Programming)**
+
+OOP is a programming paradigm based on **objects and classes**.
+It combines **data + behavior** into a single unit called an object.
+
+**Main Concepts of OOP**
+
+1. **Class**
+
+   * Blueprint of object
+
+2. **Object**
+
+   * Instance of class
+
+3. **Encapsulation**
+
+   * Wrapping data and methods together
+
+4. **Inheritance**
+
+   * One class acquires properties of another class
+
+5. **Polymorphism**
+
+   * One method behaves differently
+
+6. **Abstraction**
+
+   * Hiding implementation details
+
+---
+
+```java
+class Car {
+
+    String brand;
+
+    void start() {
+        System.out.println(brand + " Car Started");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Car c1 = new Car();
+        c1.brand = "BMW";
+
+        c1.start();
+    }
+}
+```
+
+Here:
+
+* `Car` → class
+* `c1` → object
+* Data + methods together → OOP
+
+---
+
+**Structured Programming vs OOP**
+
+| Feature           | Structured Programming | OOP                |
+| ----------------- | ---------------------- | ------------------ |
+| Focus             | Functions              | Objects            |
+| Approach          | Top-down               | Bottom-up          |
+| Data Security     | Less                   | High               |
+| Reusability       | Limited                | High               |
+| Best For          | Small applications     | Large applications |
+| Example Languages | C, Pascal              | Java, C++, Python  |
+
 
 ## 3. What are the main principles of Object-Oriented Programming?
 
