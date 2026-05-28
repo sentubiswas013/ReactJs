@@ -10083,14 +10083,14 @@ SpringApplication.run(MyApp.class, args);
 **How it works:**
 It looks at the JARs in your classpath and tries to auto-configure beans accordingly.
 
-For example:
-▪️ If Spring Boot sees spring-boot-starter-web, it will configure Tomcat, Spring MVC, and a default DispatcherServlet.
-▪️ If it sees spring-boot-starter-data-jpa, it will auto-configure Hibernate, DataSource, etc.
+**For example:**
+- If Spring Boot sees spring-boot-starter-web, it will configure Tomcat, Spring MVC, and a default DispatcherServlet.
+- If it sees spring-boot-starter-data-jpa, it will auto-configure Hibernate, DataSource, etc.
 
 **In Interview, Say This:**
-▪️ @EnableAutoConfiguration helps in reducing boilerplate configuration.
-▪️ It allows me to start building features quickly without manual setup.
-▪️ If needed, I can still override its default settings using @Configuration classes 
+- @EnableAutoConfiguration helps in reducing boilerplate configuration.
+- It allows me to start building features quickly without manual setup.
+- If needed, I can still override its default settings using @Configuration classes 
 
 ---
 
