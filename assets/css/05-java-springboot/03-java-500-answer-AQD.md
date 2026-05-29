@@ -6033,20 +6033,99 @@ public class UserServlet extends HttpServlet {
 </html>
 ```
 
-## 5. What is Hibernate?
 
-**Hibernate** is an **ORM framework** that helps map Java objects to database tables and perform database operations without writing SQL.
+## 5. What is ORM?
+
+**ORM (Object Relational Mapping)** is a technique to map **Java objects ↔ database tables**.
+
+**What It Does**
+- Converts Java objects → Database tables
+- Converts Database rows → Java objects 
+
+```java
+// Java Object (Object-Oriented)
+Employee employee = new Employee(1L, "John", 50000);
+
+// Becomes this SQL (Relational Database)
+INSERT INTO employee (id, name, salary) VALUES (1, 'John', 50000);
+
+// Without ORM — raw SQL
+String sql = "SELECT * FROM users WHERE id = ?";
+// ...boilerplate JDBC code...
+
+// With ORM — just work with objects
+User user = session.get(User.class, 1);
+```
+
+## 6. What is Hibernate?
+
+**Hibernate ORM** is an open-source ORM (Object Relational Mapping) framework for Java that simplifies database operations by mapping Java objects to database tables. Hibernate is a popular implementation of Jakarta Persistence (JPA).
 
 
 ```java
-Student student = new Student();
-student.setName("John");
-session.save(student);
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+}
 ```
 
-## 6. What is JPA?
+**Analogy:**
+- **ORM** = "Driving a car" (concept) 🚗
+- **JPA** = "Driver's license test" (standard rules) 📋
+- **Hibernate** = "Toyota Camry" (actual car implementing the rules) 🚙
 
-**Spring JPA** is a **Spring framework module** that simplifies working with **JPA-based data access**. It provides **ready-made repository interfaces** like `CrudRepository` and `JpaRepository`
+
+| | ORM | JPA | Hibernate |
+|---|---|---|---|
+| **What it is** | Concept/technique | Java specification | Framework/library |
+| **Who defines it** | General pattern | Oracle / Jakarta EE | Red Hat |
+| **Analogous to** | "web standards" | JDBC interface | A JDBC driver |
+
+
+
+## 7. What is JPA?
+
+**Jakarta Persistence (JPA)** is a Java specification for **Object Relational Mapping (ORM)**. It defines standard APIs, interfaces, and annotations for mapping Java objects to database tables and performing database operations. 
+
+JPA itself is not an implementation; frameworks like Hibernate ORM implement JPA.
+
+Example concepts in JPA:
+
+- `@Entity`
+- `@Table`
+- `@Id`
+- `EntityManager`
+- `JPQL`
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+    public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+}
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+}
+```
+
+**JpaRepository** belongs to Spring Data JPA, not core JPA.
 
 ```java
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -6057,26 +6136,12 @@ import org.springframework.stereotype.Repository;
 }
 ```
 
-## 7. What is ORM?
+| Code                                 | Belongs To      |
+| ------------------------------------ | --------------- |
+| `@Entity`, `@Table`, `EntityManager` | JPA             |
+| `JpaRepository`                      | Spring Data JPA |
+| Hibernate Session                    | Hibernate       |
 
-**ORM (Object Relational Mapping)** is a technique to map **Java objects ↔ database tables**.
-
-```java
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "student")
-public class Student {
-
-    @Id
-    private int id;
-    private String name;
-
-    // getters and setters
-}
-```
 
 
 ## 8. Difference between `save()` and `persist()`
