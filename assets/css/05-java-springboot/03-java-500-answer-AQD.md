@@ -11325,37 +11325,138 @@ public class OrderService {
 }
 ```
 
-**Using RestTemplate**
+**Using Spring RestTemplate (Spring Boot - Legacy but Common)**
 
 ```java
-// Step 1: Create RestTemplate Bean
-@Configuration
-public class AppConfig {
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.*;
 
+// Step 1: Configure as bean
+@Configuration
+public class RestConfig {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }
-```
 
-```java
-// Step 2: Call Payment Service
-import org.springframework.web.client.RestTemplate;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-
-@RestController
-@RequestMapping("/orders")
-public class OrderController {
+// Step 2: Usage in service
+@Service
+public class ExternalApiService {
+    
     @Autowired
     private RestTemplate restTemplate;
+    
+    // GET request
+    public String getData() {
+        String url = "https://api.example.com/data";
+        return restTemplate.getForObject(url, String.class);
+    }
+    
+    // GET with headers
+    public String getDataWithHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        headers.set("Content-Type", "application/json");
+        
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+            "https://api.example.com/data",
+            HttpMethod.GET,
+            entity,
+            String.class
+        );
+        return response.getBody();
+    }
+    
+    // POST request
+    public String postData(Map<String, Object> requestBody) {
+        String url = "https://api.example.com/api";
+        return restTemplate.postForObject(url, requestBody, String.class);
+    }
+    
+    // POST with response entity
+    public ResponseEntity<String> postWithResponse(Map<String, Object> body) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        return restTemplate.postForEntity("https://api.example.com/api", entity, String.class);
+    }
+}
+```
 
-    @GetMapping("/{orderId}")
-    public PaymentResponse getOrder(@PathVariable Long orderId) {
+**Spring WebClient (Spring Boot 5+ - Reactive, Recommended)**
 
-        String url = "http://localhost:8081/payments/" + orderId;
+```java
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.MediaType;
+import reactor.core.publisher.Mono;
 
-        return restTemplate.getForObject(url, PaymentResponse.class);
+// Configure WebClient bean
+@Configuration
+public class WebClientConfig {
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder()
+            .baseUrl("https://api.example.com")
+            .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .build();
+    }
+}
+
+// Usage in service
+@Service
+public class ExternalApiService {
+    
+    @Autowired
+    private WebClient webClient;
+    
+    // GET request
+    public Mono<String> getData() {
+        return webClient.get()
+            .uri("/data")
+            .header("Authorization", "Bearer " + token)
+            .retrieve()
+            .bodyToMono(String.class);
+    }
+    
+    // GET with response body object
+    public Mono<User> getUser(String id) {
+        return webClient.get()
+            .uri("/users/{id}", id)
+            .retrieve()
+            .bodyToMono(User.class);
+    }
+    
+    // POST request
+    public Mono<String> postData(User user) {
+        return webClient.post()
+            .uri("/users")
+            .body(Mono.just(user), User.class)
+            .retrieve()
+            .bodyToMono(String.class);
+    }
+    
+    // POST with headers
+    public Mono<ResponseEntity<Void>> postDataWithHeaders(User user) {
+        return webClient.post()
+            .uri("/users")
+            .header("Authorization", "Bearer " + token)
+            .body(Mono.just(user), User.class)
+            .retrieve()
+            .toBodilessEntity();
+    }
+    
+    // With error handling
+    public Mono<String> getDataWithErrors() {
+        return webClient.get()
+            .uri("/data")
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, 
+                response -> response.bodyToMono(String.class)
+                    .flatMap(error -> Mono.error(new RuntimeException(error))))
+            .bodyToMono(String.class);
     }
 }
 ```
@@ -11366,7 +11467,6 @@ public class OrderController {
 // Producer
 @Autowired
 private KafkaTemplate<String, String> kafkaTemplate;
-
 public void sendMessage() {
     kafkaTemplate.send("order-topic", "Order Created");
 }
@@ -11381,8 +11481,6 @@ public void consume(String message) {
 ```
 
 ## 9. How do you Handle Failures in Microservices?
-
-**Answer**
 
 Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
 
@@ -12255,7 +12353,52 @@ public class PaymentHandler {
 }
 ```
 
-## 20. How would you design communication between multiple microservices without event and messaing system? 
+## 20. Java 11 HttpClient API, and how does it differ from earlier Java versions?
+
+In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
+
+For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
+
+```java
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URI;
+
+// Basic GET request
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/data"))
+    .GET()
+    .build();
+
+HttpResponse<String> response = client.send(request, 
+    HttpResponse.BodyHandlers.ofString());
+
+System.out.println(response.statusCode());
+System.out.println(response.body());
+
+// POST request with JSON body
+HttpRequest postRequest = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/api"))
+    .header("Content-Type", "application/json")
+    .header("Authorization", "Bearer " + token)
+    .POST(HttpRequest.BodyPublishers.ofString("{\"key\":\"value\"}"))
+    .build();
+
+HttpResponse<String> postResponse = client.send(postRequest, 
+    HttpResponse.BodyHandlers.ofString());
+```
+
+**Async version:**
+
+```java
+client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+    .thenApply(HttpResponse::body)
+    .thenAccept(System.out::println);
+```
+
+## 21. How would you design communication between multiple microservices without event and messaing system? 
 
 
 * **Java HttpClient (`java.net.http.HttpClient`)** → Native Java HTTP client to call APIs between microservices.
@@ -12417,36 +12560,6 @@ public void processEvents() {
 }
 ```
 
-
-## 21. Java 11 HttpClient API, and how does it differ from earlier Java versions?
-
-In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
-
-For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
-
-```java
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-
-        HttpClient client = HttpClient.newHttpClient();
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.example.com"))
-                .GET()
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println(response.body());
-    }
-}
-```
 
 ## 21. What is Kafka and How Does It Work?
 
