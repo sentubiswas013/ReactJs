@@ -13624,10 +13624,9 @@ It includes monitoring metrics like response time, errors, CPU, and memory, alon
 | Business      | Orders, Payments          | Payment failure     |
 
 
-## 1. What are common Java performance issues?
+## 1. What are performance issues and How to Improve Performance(optimize)?
 
-Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
-Here is a **simple one-line explanation for each point**:
+Common **Java performance issues :** 
 
 * **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
 * **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
@@ -13649,7 +13648,8 @@ public class LeakExample {
 }
 ```
 
-## 2. How do you Improve Performance(optimize) in Spring Boot Application?
+**Steps to Improve Performance(optimize)**
+
 Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
 
 1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
@@ -13667,6 +13667,7 @@ Here are **key points with one-line explanations** for improving performance in 
 
 
 ## 3. What are Java memory issues?
+
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
 * **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
 * **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
@@ -13682,6 +13683,110 @@ public void recursiveMethod() {
 // Memory optimization
 List<String> list = new ArrayList<>(1000); // Pre-size collections
 ```
+
+## 3. What are common 10 Production Issues?
+
+
+**1. 🔴 Memory Leaks**
+**Symptom:** Heap memory keeps growing over time, leads to frequent Full GC and `OutOfMemoryError`
+
+**Causes:**
+- Unreleased object references
+- Static collections holding objects
+- `ThreadLocal` leaks
+
+---
+
+**2. 🗄️ Connection Pool Exhaustion**
+**Symptom:** All DB connections are used up; requests start waiting and eventually fail
+
+**Causes:**
+- Too many concurrent DB requests
+- Connections not released properly
+- Pool size too small for the load
+
+---
+
+**3. ⏱️ High GC Pause Time**
+**Symptom:** Application becomes slow or unresponsive
+
+**Causes:**
+- JVM spends too much time in Garbage Collection
+- Large heap with too many short-lived objects
+- Wrong GC algorithm for the workload
+
+---
+
+**4. 🔒 Deadlocks**
+**Symptom:** No progress in the system; threads hang forever
+
+**Causes:**
+- Two or more threads waiting for each other's locks
+- Inconsistent lock acquisition order
+- `T1` holds lock A waiting for B, `T2` holds lock B waiting for A
+
+---
+
+**5. 🧵 Thread Pool Starvation**
+**Symptom:** New tasks keep waiting in the queue indefinitely
+
+**Causes:**
+- All worker threads are busy or blocked
+- Pool size too small
+- Blocking I/O inside thread pool tasks
+
+---
+
+**6. 🐢 Slow SQL Queries**
+**Symptom:** Increased response time, locked tables, degraded throughput
+
+**Causes:**
+- Unoptimized or inefficient queries
+- Missing indexes
+- Full table scans on large datasets
+
+---
+
+**7. 📨 Kafka Consumer Lag**
+**Symptom:** Consumers can't keep up with incoming messages; data delays increase
+
+**Causes:**
+- Consumers too slow to process messages
+- Insufficient consumer instances
+- Heavy processing logic inside consumers
+
+---
+
+**8. 📈 CPU Spikes**
+**Symptom:** Overall system performance degrades suddenly
+
+**Causes:**
+- Infinite loops in code
+- Heavy or excessive logging
+- Bad algorithms with high time complexity
+- GC thrashing
+
+---
+
+**9. 🌊 Cascading Failures**
+**Symptom:** System instability spreads across multiple services
+
+**Causes:**
+- One failing service impacts multiple downstream services
+- No circuit breakers in place
+- Retry storms amplifying the failure
+
+---
+
+**10. 🔕 Missing Monitoring & Alerts**
+**Symptom:** Issues exist but nobody notices early; small problems become major outages
+
+**Causes:**
+- No alerting configured for key metrics
+- Lack of observability (logs, metrics, traces)
+- No dashboards tracking system health
+
+
 
 ## 3. What are Java concurrency issues?
 
