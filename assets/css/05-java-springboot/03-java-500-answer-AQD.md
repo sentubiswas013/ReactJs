@@ -6333,7 +6333,7 @@ Be careful with `REMOVE` — it can delete child records you didn't intend to de
 
 ## 14. What is Database Indexing and When to Use It?
 
-An index is like a book's table of contents — it helps the database find rows faster without scanning the whole table.
+**Database indexing** is is a data structure technique used to speed up data retrieval operations. it like a book's table of contents — it helps the database find rows faster without scanning the whole table.
 
 **When to use:**
 - Columns used in `WHERE`, `JOIN`, `ORDER BY`, or `GROUP BY`
