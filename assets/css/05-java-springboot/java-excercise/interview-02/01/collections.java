@@ -24,7 +24,9 @@ class CollectionsDemo {
         lruCacheDemo();
         priorityQueueDemo();
         maxHeapDemo();
-        simpleCacheDemo();
+        LRUCacheDemo();
+        LFUCacheDemo();
+        TTLCacheDemo();
     }
 
     // ============================================================
@@ -123,7 +125,13 @@ class CollectionsDemo {
     public static void linkedHashMapDemo() {
 
         System.out.println("=========================== linkedHashMapDemo");
+        Map<Integer, String> linkedList = new LinkedHashMap<>();
+        linkedList.put(1, "Sentu");
+        linkedList.put(2, "Pintu");
+        linkedList.put(3, "Ranku");
+        linkedList.put(4, "Data");
 
+        // System.out.println("Result " + linkedList);
     }
 
     // ============================================================
@@ -154,11 +162,64 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 15. Simple Cache
+    // 16. LRU Cache
     // ============================================================
-    public static void simpleCacheDemo() {
+    public static void LRUCacheDemo() {
 
-        System.out.println("=========================== simpleCacheDemo");
+        System.out.println("=========================== LRUCacheDemo");
+
+        // LinkedHashMap<Integer, String> cache = new LinkedHashMap<Integer, String>(3, 0.75f, true) {
+        LinkedHashMap<Integer, String> cache = new LinkedHashMap<Integer, String>(3, 0.75f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest){
+                return size() > 3;
+            }
+        };
+
+        cache.put(1, "Sentu");
+        cache.put(2, "Pintu");
+        cache.put(3, "Ranku");       
+
+        cache.get(1);
+        cache.put(4, "Dada");
+        System.out.println("Hello 1" + cache);
+    }
+
+    // ============================================================
+    // 17. LFU Cache
+    // ============================================================
+    public static void LFUCacheDemo() {
+
+        System.out.println("=========================== LFUCacheDemo");
+        LRUCache<Integer, String> cache = new LRUCache<>(3);
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1);
+        cache.put(4, "D");
+        System.out.println("Hello 2" + cache);
+    }
+
+    static class LRUCache<k,v> extends LinkedHashMap<k, v>{
+        private final int capacity;
+        public LRUCache (int capacity) {
+            super(capacity, 0.75f, true);
+            this.capacity = capacity;
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<k,v> eldest) {
+            return size() > capacity;
+        }
+    }
+
+    // ============================================================
+    // 17. TTL Cache
+    // ============================================================
+    public static void TTLCacheDemo() {
+
+        System.out.println("=========================== TTLCacheDemo");
 
     }
 }

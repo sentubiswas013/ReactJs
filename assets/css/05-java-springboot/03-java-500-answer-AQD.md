@@ -6354,18 +6354,38 @@ public void updateName(Long id, String newName) {
 
 ## 18. Difference between save() and saveAndFlush()?
 
-| | save() | saveAndFlush() |
-|---|---|---|
-| Flush to DB | At end of transaction | Immediately |
-| Use case | Normal saves | When you need DB state right away |
+The main difference is that **`save()`** delays writing to the database until transaction commit, while **`saveAndFlush()`** immediately flushes changes to the database during execution.
+
+| Aspect               | save()                                               | saveAndFlush()                                                     |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
+| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
+| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
+| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
+| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
+| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
+
+**How It Works**
 
 ```java
-// save() - flushed at transaction commit
-User u1 = userRepository.save(new User("Alice"));
+// save() - Data stays in memory until commit
+Employee employee = new Employee(1L, "John");
+employeeRepository.save(employee);  // INSERT not executed yet
+// Do other operations...
+// Transaction commits → INSERT executed
 
-// saveAndFlush() - immediately sent to DB (useful before native queries)
-User u2 = userRepository.saveAndFlush(new User("Bob"));
+// saveAndFlush() - Data written immediately
+Employee employee = new Employee(2L, "Jane");
+employeeRepository.saveAndFlush(employee);  // INSERT executed NOW
+// Data is in database immediately
 ```
+
+| save()                                 | saveAndFlush()                   |
+| -------------------------------------- | -------------------------------- |
+| Adding items to shopping cart 🛒       | Tapping "Buy Now" on Amazon ⚡    |
+| Pay at checkout (commit)               | Payment goes through immediately |
+| Can add multiple items before checkout | Single immediate transaction     |
+| More efficient for bulk                | Immediate consistency            |
 
 ---
 
