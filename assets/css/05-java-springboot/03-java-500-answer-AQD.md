@@ -11325,7 +11325,7 @@ public class OrderService {
 }
 ```
 
-**Using Spring RestTemplate (Spring Boot - Legacy but Common)**
+**Using Spring RestTemplate (Spring Boot - Legacy, Sequential Calls (Blocking))**
 
 ```java
 import org.springframework.web.client.RestTemplate;
@@ -11386,7 +11386,7 @@ public class ExternalApiService {
 }
 ```
 
-**Spring WebClient (Spring Boot 5+ - Reactive, Recommended)**
+**Spring WebClient (Spring Boot 5+ - - Sequential Calls , Reactive, Recommended)**
 
 ```java
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12353,7 +12353,7 @@ public class PaymentHandler {
 }
 ```
 
-## 20. Java 11 HttpClient API, and how does it differ from earlier Java versions?
+## 20. Java 11 HttpClient API, and communication between multiple microservices without event and messaing system?
 
 In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
@@ -12398,168 +12398,124 @@ client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
     .thenAccept(System.out::println);
 ```
 
-## 21. How would you design communication between multiple microservices without event and messaing system? 
+## 20. How to call external API and how to handle parallel call in java?
 
-
-* **Java HttpClient (`java.net.http.HttpClient`)** → Native Java HTTP client to call APIs between microservices.
-* **gRPC(gRPC Remote Procedure Call)** → High-performance binary protocol using Protocol Buffers.
-* **HTTP API + API Gateway** → Services communicate through exposed REST endpoints via gateway.
-* **Service Discovery + Direct HTTP Calls** → Use service registry and connect directly.
-* **Database Polling** → One service updates DB; another service periodically checks for updates.
-* **Shared Database (not preferred)** → Multiple services access common DB tables (tight coupling risk).
-* **Outbox Table + Scheduler** → Store updates in DB table and scheduler processes them.
-* **Socket Communication (TCP/UDP)** → Direct network communication.
-* **File-based Exchange (CSV/JSON/XML)** → Services share files through shared storage.
-* **Shared Cache (Redis/Hazelcast)** → Temporary data exchange via distributed cache.
-
-
-**1. gRPC (Remote Procedure Call)**
-
-**Proto file**
-
-```proto
-syntax = "proto3";
-
-service UserService {
-  rpc getUser(UserRequest) returns (UserResponse);
-}
-
-message UserRequest {
-  int32 id = 1;
-}
-
-message UserResponse {
-  string name = 1;
-}
-```
-
-**Server**
+**1. Call Multiple External APIs in Parallel** (Using CompletableFuture)
 
 ```java
-class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
+import java.util.concurrent.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-    @Override
-    public void getUser(UserRequest req,
-            StreamObserver<UserResponse> responseObserver) {
-
-        UserResponse response =
-            UserResponse.newBuilder()
-            .setName("Sentu")
+public class ParallelApiCaller {
+    
+    private final HttpClient client = HttpClient.newHttpClient();
+    
+    // Call multiple APIs in parallel
+    public List<String> callMultipleApisParallel(List<String> urls) {
+        
+        // Create CompletableFuture for each API call
+        List<CompletableFuture<String>> futures = urls.stream()
+            .map(url -> CompletableFuture.supplyAsync(() -> {
+                try {
+                    return callApi(url);
+                } catch (Exception e) {
+                    System.err.println("API call failed for " + url + ": " + e.getMessage());
+                    return null;
+                }
+            }))
+            .collect(Collectors.toList());
+        
+        // Wait for all APIs to complete in parallel
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        
+        // Collect all results
+        return futures.stream()
+            .map(CompletableFuture::join)
+            .filter(result -> result != null)
+            .collect(Collectors.toList());
+    }
+    
+    // Single API call helper method
+    private String callApi(String url) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Authorization", "Bearer YOUR_TOKEN")
+            .GET()
             .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
-}
-```
-
----
-
-**2. HTTP API + API Gateway**
-
-**Order Service**
-
-```java
-@RestController
-class OrderController {
-
-    @GetMapping("/orders")
-    public String getOrders() {
-        return "Order Data";
-    }
-}
-```
-
-**API Gateway forwards request**
-
-```
-Client
-  ↓
-API Gateway
-  ↓
-Order Service
-```
-
-Example:
-
-```
-GET /api/orders
-```
-
-Gateway routes to:
-
-```
-http://order-service/orders
-```
-
----
-
-**3. Service Discovery + Direct HTTP Calls**
-
-**User Service calls Payment Service using Java HttpClient**
-
-```java
-HttpClient client = HttpClient.newHttpClient();
-
-HttpRequest request =
-    HttpRequest.newBuilder()
-        .uri(URI.create(
-        "http://payment-service/payments"))
-        .GET()
-        .build();
-
-HttpResponse<String> response =
-    client.send(
-        request,
-        HttpResponse.BodyHandlers.ofString()
-    );
-
-System.out.println(response.body());
-```
-
-Service Discovery:
-
-```
-Eureka
- ├── User-Service
- └── Payment-Service
-```
-
-User-Service finds Payment-Service location from Eureka.
-
----
-
-**4. Database Polling**
-
-**Producer Service**
-
-```sql
-INSERT INTO events
-(id, event_name, status)
-VALUES
-(1, 'OrderCreated', 'NEW');
-```
-
-**Consumer Scheduler**
-
-```java
-@Scheduled(fixedDelay = 5000)
-public void processEvents() {
-
-    List<Event> events =
-        repo.findByStatus("NEW");
-
-    for(Event e : events) {
-        System.out.println(
-            "Processing " + e.getEventName()
+        
+        HttpResponse<String> response = client.send(
+            request, 
+            HttpResponse.BodyHandlers.ofString()
         );
-
-        e.setStatus("DONE");
-        repo.save(e);
+        
+        return response.body();
+    }
+    
+    // Example usage
+    public static void main(String[] args) {
+        ParallelApiCaller caller = new ParallelApiCaller();
+        
+        List<String> urls = List.of(
+            "https://api.example.com/endpoint1",
+            "https://api.example.com/endpoint2",
+            "https://api.example.com/endpoint3"
+        );
+        
+        long startTime = System.currentTimeMillis();
+        
+        List<String> results = caller.callMultipleApisParallel(urls);
+        
+        long endTime = System.currentTimeMillis();
+        
+        System.out.println("Total time: " + (endTime - startTime) + "ms");
+        System.out.println("Results: " + results);
     }
 }
 ```
 
+**1. Spring Boot - RestTemplate + CompletableFuture (Parallel)**
+
+```java
+@Service
+public class ParallelApiService {
+    
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    // Parallel API calls using CompletableFuture
+    public Map<String, Object> callApisParallel() {
+        
+        // Create futures for each API
+        CompletableFuture<User> userFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/user/1", User.class);
+        });
+        
+        CompletableFuture<List<Order>> ordersFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/user/1/orders", List.class);
+        });
+        
+        CompletableFuture<Product> productFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/product/1", Product.class);
+        });
+        
+        // Wait for all to complete (parallel execution)
+        CompletableFuture.allOf(userFuture, ordersFuture, productFuture).join();
+        
+        // Combine results
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", userFuture.join());
+        result.put("orders", ordersFuture.join());
+        result.put("product", productFuture.join());
+        
+        return result;
+    }
+}
+```
 
 ## 21. What is Kafka and How Does It Work?
 
