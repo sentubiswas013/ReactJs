@@ -6216,7 +6216,7 @@ public class UserService {
 
 **DAO (Data Access Object)** is used to **interact with the database** and perform CRUD operations like save, update, delete, and fetch data.
 
-**DTO (Data Transfer Object)** is used to **transfer data between layers** of an application (Controller, Service, etc.) and usually contains only fields with getters and setters.
+**DTO (Data Transfer Object)** is used to **transfer data between layers** of an application (Controller, Service, etc.). Transfer only required fields instead of full entity objects. it usually contains only fields with getters and setters.
 
 **Example:**
 
