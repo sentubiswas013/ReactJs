@@ -6339,15 +6339,58 @@ entityManager.remove(user);            // Removed
 
 ## 17. What is dirty checking?
 
-Hibernate automatically checks whether an entity’s data has changed. If changed, it updates the database automatically during transaction commit with calling update().
+**Dirty checking** is a mechanism in Hibernate (and JPA) that **automatically detects changes made to entity objects and synchronizes them to the database** without requiring explicit update queries.
+
+**How It Works**
+
+1. **Snapshot Creation**: When Hibernate loads an entity, it creates a copy of all property values (a snapshot) [dev](https://dev.to/yigi/hibernate-dirty-check-4j6m)
+
+2. **Modification Tracking**: When you modify the entity in memory, Hibernate detects the difference between the current state and the snapshot [baeldung](https://www.baeldung.com/java-hibernate-entity-dirty-check)
+
+3. **Automatic Update**: At flush time (when transaction commits), Hibernate compares the current state with the snapshot and generates `UPDATE` SQL for only the changed fields [javacodegeeks](https://www.javacodegeeks.com/java-hibernate-entity-dirty-check-example.html)
+
+```java
+// Load entity
+Employee employee = employeeRepository.findById(1L).get();
+
+// Modify property (no explicit update call needed!)
+employee.setName("John Updated");  // Hibernate detects this change
+
+// Transaction commits → Hibernate automatically generates:
+// UPDATE employee SET name = 'John Updated' WHERE id = 1
+```
+
+**Dirty checking Example**
 
 ```java
 @Transactional
-public void updateName(Long id, String newName) {
-    User user = userRepository.findById(id).get(); // now Managed
-    user.setName(newName); // dirty checking detects this change
-    // NO save() needed — Hibernate auto-flushes on commit
+public void updateEmployee() {
+    Employee employee = employeeRepository.findById(1L).get();
+    // Hibernate creates snapshot: {id: 1, name: "John", salary: 50000}
+    
+    employee.setName("John Updated");  // Modified
+    // Hibernate marks entity as "dirty"
+    
+    // No need to call employeeRepository.save()!
+    // At transaction commit, Hibernate automatically executes:
+    // UPDATE employee SET name = 'John Updated' WHERE id = 1
 }
+```
+
+**How to Disable Dirty Checking (When Not Needed)**
+
+```java
+// 1. Mark transaction as read-only (Spring)
+@Transactional(readOnly = true)
+public Employee getEmployee(Long id) {
+    return employeeRepository.findById(id).get();
+}  // No dirty checking performed [web:9]
+
+// 2. Set entity as read-only
+session.setReadOnly(entity, true);  // Hibernate won't track changes [web:12]
+
+// 3. Evict entity from session
+session.evict(employee);  // Removes from persistence context [web:12]
 ```
 
 ---
