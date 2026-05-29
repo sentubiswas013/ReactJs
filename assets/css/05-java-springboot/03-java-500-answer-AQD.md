@@ -6082,13 +6082,17 @@ public class User {
 - **JPA** = "Driver's license test" (standard rules) 📋
 - **Hibernate** = "Toyota Camry" (actual car implementing the rules) 🚙
 
+| Concept   | Analogy                 |
+| --------- | ----------------------- |
+| ORM       | Online shopping concept |
+| Hibernate | Amazon application      |
+
 
 | | ORM | JPA | Hibernate |
 |---|---|---|---|
 | **What it is** | Concept/technique | Java specification | Framework/library |
 | **Who defines it** | General pattern | Oracle / Jakarta EE | Red Hat |
 | **Analogous to** | "web standards" | JDBC interface | A JDBC driver |
-
 
 
 ## 7. What is JPA?
