@@ -1738,11 +1738,18 @@ class Dog extends Animal {
 
 ## 14. What is polymorphism?
 
-
 **Polymorphism** means **"many forms"**. It allows the same method or interface to behave differently depending on the object.
 
 - Poly - many
 - Morphism - Behaviour
+
+```java
+Animal animal = new Dog(); // Upcasting
+animal.sound();
+
+Reference type = Animal
+Object type = Dog
+```
 
 **Benefits**
 
@@ -1849,6 +1856,67 @@ payment.pay();
 ```
 
 The same `pay()` method behaves differently depending on the actual object.
+
+
+
+## 14. What is Dynamic Method Dispatch?
+
+
+
+**Dynamic Method Dispatch** is the mechanism by which a call to an **overridden method** is resolved at **runtime**, not at compile time.
+
+It is the foundation of **runtime polymorphism** in Java.
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal animal = new Dog(); // Upcasting
+        animal.sound();
+
+        Reference type = Animal
+        Object type = Dog
+    }
+}
+// Output: Dog barks
+```
+
+**How It Works**
+
+At compile time:
+
+```java
+Animal animal = new Dog();
+```
+
+* Reference type = `Animal`
+* Object type = `Dog`
+
+The compiler checks whether `sound()` exists in `Animal` (it does).
+
+At runtime:
+
+```java
+animal.sound();
+```
+
+Java looks at the **actual object type** (`Dog`) and calls `Dog`'s overridden method.
+
+This runtime decision-making is called **Dynamic Method Dispatch**.
+
 
 
 ## 15. How does method overriding work internally?
