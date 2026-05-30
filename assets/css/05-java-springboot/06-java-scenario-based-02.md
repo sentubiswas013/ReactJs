@@ -1,10 +1,15 @@
-Here are **scenario-based interview questions** for a **Java Full Stack Developer / Engineer position** (relevant for architect-level roles like at Archintale), with context and expected answers:
+# Java Full Stack – Scenario-Based Interview Questions (Part 2)
 
-***
+Scenario-based interview questions for **Java Full Stack Developer / Engineer** roles (including architect-level positions), with context and expected answers.
 
-## 🏗️ System Design & Architecture Scenarios
+---
 
-### 1. **High-Traffic Spike Scenario**
+## Part I: Full Stack Developer Scenarios
+
+### 🏗️ System Design & Architecture
+
+#### Q1. High-Traffic Spike Scenario
+
 **Q:** *How would you handle a sudden spike in traffic (e.g., Black Friday sale) where your application goes from 10K to 1M requests per second?* [dev](https://dev.to/bsanju/java-interview-questions-for-experienced-full-stack-engineers-2025-edition-h47)
 
 **Expected Answer:**
@@ -16,7 +21,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Use **message queues** (Kafka, RabbitMQ) for async processing
 - Enable **CDN** for static assets
 
-### 2. **Database Scale Scenario**
+#### Q2. Database Scale Scenario
+
 **Q:** *You have a table with 1 billion records and queries are taking 10+ seconds. How do you optimize it?* [usebraintrust](https://www.usebraintrust.com/hire/interview-questions/full-stack-developers)
 
 **Expected Answer:**
@@ -28,7 +34,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Consider **NoSQL** (MongoDB, Cassandra) for specific use cases
 - Implement **caching** (Redis) for frequently accessed data
 
-### 3. **Microservices Communication Failure**
+#### Q3. Microservices Communication Failure
+
 **Q:** *Service A calls Service B, but Service B is down. How do you handle this gracefully?*
 
 **Expected Answer:**
@@ -39,7 +46,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Use **message queues** for async communication
 - Implement **bulkhead pattern** to isolate failures
 
-### 4. **Distributed Transaction Problem**
+#### Q4. Distributed Transaction Problem
+
 **Q:** *You need to transfer money between two microservices (Service A and Service B). How do you ensure data consistency?*
 
 **Expected Answer:**
@@ -49,7 +57,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Consider **two-phase commit** (2PC) for strong consistency (but avoid if possible)
 - Implement **idempotency** to handle retries
 
-### 5. **Memory Leak in Production**
+#### Q5. Memory Leak in Production
+
 **Q:** *Your Java application is running slowly and consuming increasing memory over time. How do you diagnose and fix it?*
 
 **Expected Answer:**
@@ -61,23 +70,25 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Implement **proper resource cleanup** (try-with-resources)
 - Monitor with **APM tools** (New Relic, Dynatrace)
 
-***
+---
 
-## ☕ Spring & Backend Scenarios
+### ☕ Spring & Backend
 
-### 6. **@Transactional Not Working**
+#### Q6. @Transactional Not Working
+
 **Q:** *You added `@Transactional` to a method but transactions are not being created. What could be the reason?*
 
 **Expected Answer:**
 - **Self-invocation problem** – calling method from within same class bypasses proxy [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
--该方法 is `private` or `final` (proxy can't intercept)
+- Method is `private` or `final` (proxy can't intercept)
 - Exception is **caught and swallowed** (rollback not triggered)
 - Wrong **rollback rules** (only rolls back on `RuntimeException` by default)
 - Using **`REQUIRED`** but calling from non-transactional context
 
 **Fix:** Inject self via constructor or use `AopContext.currentProxy()`
 
-### 7. **Circular Dependency in Spring**
+#### Q7. Circular Dependency in Spring
+
 **Q:** *Service A depends on Service B, and Service B depends on Service A. How do you resolve this?*
 
 **Expected Answer:**
@@ -87,7 +98,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Apply **event-driven architecture** (publish/subscribe)
 - **Redesign** to break the dependency (often the best solution)
 
-### 8. **N+1 Query Problem**
+#### Q8. N+1 Query Problem
+
 **Q:** *You notice 1000 database queries when loading 100 entities. How do you fix this?*
 
 **Expected Answer:**
@@ -97,7 +109,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Enable **Hibernate statistics** to detect N+1
 - Use **DTO projections** instead of full entities
 
-### 9. **API Response Time Too Slow**
+#### Q9. API Response Time Too Slow
+
 **Q:** *Your REST API endpoint takes 5 seconds to respond. How do you optimize it?*
 
 **Expected Answer:**
@@ -109,11 +122,12 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Use **connection pooling** (HikariCP)
 - Profile with **Spring Boot Actuator** and **Micrometer**
 
-***
+---
 
-## 🌐 Frontend Scenarios
+### 🌐 Frontend
 
-### 10. **Frontend Performance Issue**
+#### Q10. Frontend Performance Issue
+
 **Q:** *Your React/Angular application is loading slowly. How do you improve it?* [usebraintrust](https://www.usebraintrust.com/hire/interview-questions/full-stack-developers)
 
 **Expected Answer:**
@@ -125,7 +139,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Use **React.memo** / **useMemo** for memoization
 - Enable **HTTP/2** and **GZIP compression**
 
-### 11. **State Management in SPA**
+#### Q11. State Management in SPA
+
 **Q:** *You're building a complex dashboard with real-time data. How do you manage state?*
 
 **Expected Answer:**
@@ -135,7 +150,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Implement **optimistic updates** for better UX
 - Handle **error boundaries** and **loading states**
 
-### 12. **Cross-Origin Authentication**
+#### Q12. Cross-Origin Authentication
+
 **Q:** *Your frontend is on `app.example.com` and backend on `api.example.com`. How do you handle authentication?*
 
 **Expected Answer:**
@@ -145,11 +161,12 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Implement **refresh token rotation**
 - Set **SameSite** cookie attributes
 
-***
+---
 
-## 🔐 Security Scenarios
+### 🔐 Security
 
-### 13. **SQL Injection Attack**
+#### Q13. SQL Injection Attack
+
 **Q:** *You discover a SQL injection vulnerability in your legacy code. How do you fix it?*
 
 **Expected Answer:**
@@ -160,7 +177,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Add **WAF** (Web Application Firewall)
 - Implement **SQL injection scanning** in CI/CD
 
-### 14. **XSS Attack Prevention**
+#### Q14. XSS Attack Prevention
+
 **Q:** *How do you prevent Cross-Site Scripting (XSS) in your application?*
 
 **Expected Answer:**
@@ -170,7 +188,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Avoid `dangerouslySetInnerHTML` in React
 - Implement **HTTP-only cookies** to prevent XSS stealing cookies
 
-### 15. **API Security Breach**
+#### Q15. API Security Breach
+
 **Q:** *You notice unauthorized API calls happening frequently. How do you secure your APIs?*
 
 **Expected Answer:**
@@ -181,11 +200,12 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Use **IP whitelisting** for sensitive endpoints
 - Enable **audit logging** for all API calls
 
-***
+---
 
-## 🚀 DevOps & Production Scenarios
+### 🚀 DevOps & Production
 
-### 16. **Production Deployment Failure**
+#### Q16. Production Deployment Failure
+
 **Q:** *You deployed a new version but it's causing errors in production. What do you do?*
 
 **Expected Answer:**
@@ -196,7 +216,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Enable **health checks** and **readiness probes**
 - Implement **automated rollback** in CI/CD
 
-### 17. **Database Migration in Production**
+#### Q17. Database Migration in Production
+
 **Q:** *You need to add a new column to a table with 1 billion records without downtime. How do you do it?*
 
 **Expected Answer:**
@@ -209,7 +230,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Use **online schema migration tools** (Liquibase, Flyway)
 - Perform migration during **low-traffic window**
 
-### 18. **Container Orchestration Failure**
+#### Q18. Container Orchestration Failure
+
 **Q:** *Your Kubernetes pods are crashing repeatedly. How do you debug?*
 
 **Expected Answer:**
@@ -220,11 +242,12 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Check **deployment config** and **configmaps**
 - Use **kubectl port-forward** to debug locally
 
-***
+---
 
-## 🧪 Testing Scenarios
+### 🧪 Testing
 
-### 19. **Flaky Tests in CI/CD**
+#### Q19. Flaky Tests in CI/CD
+
 **Q:** *Your integration tests are failing intermittently. How do you fix this?*
 
 **Expected Answer:**
@@ -235,7 +258,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Isolate **test data** (use transactions, clean up after each test)
 - Use **deterministic test data**
 
-### 20. **Performance Testing**
+#### Q20. Performance Testing
+
 **Q:** *How do you ensure your application can handle expected load before production?*
 
 **Expected Answer:**
@@ -246,11 +270,12 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - Use **APM tools** during load testing
 - Perform **stress testing** and **spike testing**
 
-***
+---
 
-## 💼 Behavioral & Leadership Scenarios
+### 💼 Behavioral & Leadership
 
-### 21. **Conflict Among Team Members**
+#### Q21. Conflict Among Team Members
+
 **Q:** *Describe a situation where you had conflict among team members. How did you handle it?* [youtube](https://www.youtube.com/watch?v=pZlV624Fjzk)
 
 **Expected Answer:**
@@ -260,7 +285,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - **Escalate to management** if unresolved
 - **Follow up** to ensure resolution
 
-### 22. **Stakeholder Requesting Architecture Change**
+#### Q22. Stakeholder Requesting Architecture Change
+
 **Q:** *A key stakeholder requests a major architecture change close to deployment. How do you handle it?* [youtube](https://www.youtube.com/watch?v=pZlV624Fjzk)
 
 **Expected Answer:**
@@ -270,7 +296,8 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - **Get sign-off** on timeline delay
 - **Update documentation** and **inform all stakeholders**
 
-### 23. **Production Incident Response**
+#### Q23. Production Incident Response
+
 **Q:** *You discover a critical security vulnerability in production. What do you do?* [youtube](https://www.youtube.com/watch?v=pZlV624Fjzk)
 
 **Expected Answer:**
@@ -281,11 +308,14 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - **Post-mortem analysis** to prevent recurrence
 - **Update security policies** and **training**
 
+---
 
+## Part II: Core Java Scenarios
 
-## 🔥 Core Java Scenario-Based Questions
+### 🔥 Core Java Fundamentals
 
-### 1. **Memory Leak Scenario**
+#### Q24. Memory Leak Scenario (HashMap)
+
 **Q:** *Your Java application is running out of memory gradually over days. You find heap dumps showing many HashMap instances. What could be the cause and how do you fix it?*
 
 **Expected Answer:**
@@ -296,12 +326,12 @@ Here are **scenario-based interview questions** for a **Java Full Stack Develope
 - **Fix**: Implement proper cleanup in `finally` blocks or use try-with-resources
 - **Fix**: Use profiling tools (JVisualVM, MAT) to identify leak sources [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
-***
+#### Q25. ConcurrentModificationException Scenario
 
-### 2. **ConcurrentModificationException Scenario**
 **Q:** *You're iterating over an ArrayList and removing elements inside the loop. You get `ConcurrentModificationException`. How do you fix this?*
 
 **Expected Answer:**
+
 ```java
 // ❌ Wrong - throws ConcurrentModificationException
 for (String item : list) {
@@ -325,13 +355,12 @@ list.removeIf(item -> condition);
 CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
 ```
 
+#### Q26. NullPointerException in Java 8 Streams
 
-***
-
-### 3. **NullPointerException in Java 8 Streams**
 **Q:** *You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?*
 
 **Expected Answer:**
+
 ```java
 // ❌ Problem: stream() on null list
 List<String> list = null;
@@ -351,9 +380,8 @@ if (list != null) {
 }
 ```
 
-***
+#### Q27. Integer Caching Surprise
 
-### 4. **Integer Caching Surprise**
 **Q:** *Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?*
 
 **Expected Answer:**
@@ -363,9 +391,8 @@ if (list != null) {
 - **Fix**: Always use `.equals()` for Integer comparison, not `==`
 - **Lesson**: Never use `==` for object comparison, only for primitives [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
 
-***
+#### Q28. HashMap in Multithreaded Environment
 
-### 5. **HashMap in Multithreaded Environment**
 **Q:** *You're using HashMap in a multithreaded application and experiencing data corruption. What's the problem and solution?*
 
 **Expected Answer:**
@@ -375,9 +402,8 @@ if (list != null) {
 - **Solution 3**: Use `Hashtable` (legacy, slower)
 - **Why ConcurrentHashMap?**: Uses **segment locking** (Java 7) or **CAS + synchronized** (Java 8+) for better performance [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
-***
+#### Q29. String Memory Leak
 
-### 6. **String Memory Leak**
 **Q:** *You're parsing large text files and storing substrings. Memory usage keeps growing. What's wrong?*
 
 **Expected Answer:**
@@ -387,33 +413,36 @@ if (list != null) {
 - **Fix**: Use `substring().intern()` for common strings or explicitly create new String
 - **Fix**: Use `StringBuilder` for string manipulation instead of repeated concatenation [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
 
-***
+---
 
-## ⚙️ Advanced Java Scenario-Based Questions
+### ⚙️ Advanced Java
 
-### 7. **CompletableFuture Performance Issue**
+#### Q30. CompletableFuture Performance Issue
+
 **Q:** *You're using `CompletableFuture.supplyAsync()` for parallel processing but performance is worse than sequential. What's wrong?*
 
 **Expected Answer:**
 - **Problem**: Default `CompletableFuture` uses `ForkJoinPool.commonPool()` (only 3 threads by default)
 - **Problem**: If tasks are I/O-bound, thread pool is underutilized
 - **Fix**: Create custom `ExecutorService` with appropriate thread pool size
+
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(50); // For I/O-bound
 CompletableFuture.supplyAsync(() -> fetchData(), executor);
 ```
+
 - **Fix**: Use `ThreadPoolExecutor` with custom configuration
 - **Rule**: CPU-bound = `CPU cores`, I/O-bound = `CPU cores * 2` or more [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
-***
+#### Q31. ThreadLocal Memory Leak
 
-### 8. **ThreadLocal Memory Leak**
 **Q:** *You're using ThreadLocal in a web application and seeing memory leaks after deployments. Why?*
 
 **Expected Answer:**
 - **Problem**: ThreadLocal stores values in Thread's internal map
 - **Problem**: In web containers (Tomcat), threads are reused and ThreadLocal values persist
 - **Fix**: Always call `threadLocal.remove()` in `finally` block
+
 ```java
 threadLocal.set(value);
 try {
@@ -422,12 +451,12 @@ try {
     threadLocal.remove(); // Critical!
 }
 ```
+
 - **Fix**: Use WeakReference for ThreadLocal keys if needed
 - **Lesson**: ThreadLocal requires manual cleanup in long-lived thread pools [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
-***
+#### Q32. HashMap Key Being Modified
 
-### 9. **HashMap Key Being Modified**
 **Q:** *You're using a custom object as HashMap key, and after modifying a field used in `equals()`/`hashCode()`, you can't retrieve the value. Why?*
 
 **Expected Answer:**
@@ -437,9 +466,8 @@ try {
 - **Fix**: Never modify fields used in `hashCode()` after adding to HashMap
 - **Best Practice**: Make key classes `final` with `private final` fields [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
 
-***
+#### Q33. Garbage Collection Pause Time
 
-### 10. **Garbage Collection Pause Time**
 **Q:** *Your application has 2-second GC pauses affecting user experience. How do you reduce them?*
 
 **Expected Answer:**
@@ -450,9 +478,8 @@ try {
 - **Solution 4**: Reduce object allocation rate (object pooling, StringBuilder)
 - **Solution 5**: Increase young generation (`-XX:NewRatio`) for G1GC [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
-***
+#### Q34. Deadlock Detection
 
-### 11. **Deadlock Detection**
 **Q:** *Your application suddenly stops responding. You suspect a deadlock. How do you detect and fix it?*
 
 **Expected Answer:**
@@ -465,6 +492,7 @@ try {
   - **Timeout**: Use `tryLock(timeout)` instead of `lock()`
   - **Reduce lock scope**: Minimize synchronized blocks
   - **Use ConcurrentHashMap**: Instead of synchronizing entire collections
+
 ```java
 // ✅ Fix: Use tryLock with timeout
 if (lock1.tryLock(1, TimeUnit.SECONDS)) {
@@ -478,10 +506,8 @@ if (lock1.tryLock(1, TimeUnit.SECONDS)) {
 }
 ```
 
+#### Q35. Java Stream Parallel Performance
 
-***
-
-### 12. **Java Stream Parallel Performance**
 **Q:** *You're using `stream().parallel()` but it's slower than sequential. Why?*
 
 **Expected Answer:**
@@ -492,14 +518,16 @@ if (lock1.tryLock(1, TimeUnit.SECONDS)) {
 - **Fix**: Use custom `ExecutorService` for I/O-bound parallel operations
 - **Rule**: Sequential is faster for small datasets due to parallelization overhead [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
-***
+---
 
-## 🏗️ Architecture-Level Java Scenario Questions
+### 🏛️ Design Patterns, Spring Deep-Dive & JVM
 
-### 13. **Singleton in Multithreaded Environment**
+#### Q36. Singleton in Multithreaded Environment
+
 **Q:** *You implemented a singleton pattern but during testing, you find multiple instances are created. What's wrong?*
 
 **Expected Answer:**
+
 ```java
 // ❌ Wrong - not thread-safe
 public static Singleton getInstance() {
@@ -543,17 +571,18 @@ public enum Singleton {
 }
 ```
 
+#### Q37. Exception Handling in Transaction
 
-***
-
-### 14. **Exception Handling in Transaction**
 **Q:** *You have `@Transactional` method that catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?*
+
+> Related: See also **Q6** (@Transactional Not Working)
 
 **Expected Answer:**
 - **Problem**: Spring only rolls back on **unchecked exceptions** (`RuntimeException`, `Error`) by default
 - **Problem**: If you catch `Exception` and don't rethrow, transaction interceptor doesn't know to rollback
 - **Fix 1**: Don't catch exception, let it propagate
 - **Fix 2**: Manually trigger rollback:
+
 ```java
 @Transactional
 public void method() {
@@ -565,30 +594,34 @@ public void method() {
     }
 }
 ```
+
 - **Fix 3**: Use `@Transactional(rollbackFor = Exception.class)` [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
 
-***
+#### Q38. Circular Dependency in Constructor Injection
 
-### 15. **Circular Dependency in Constructor Injection**
 **Q:** *You're using constructor injection and get `BeanCurrentlyInCreationException` due to circular dependency. How do you fix it?*
+
+> Related: See also **Q7** (Circular Dependency in Spring)
 
 **Expected Answer:**
 - **Problem**: Service A requires Service B in constructor, Service B requires Service A
 - **Fix 1**: Use `@Lazy` on one constructor parameter
+
 ```java
 public ServiceA(@Lazy ServiceB serviceB) { ... }
 ```
+
 - **Fix 2**: Refactor to extract common logic to Service C
 - **Fix 3**: Use setter injection for one dependency (not recommended)
 - **Fix 4**: Use event-driven architecture (publish/subscribe)
 - **Best**: Redesign architecture to eliminate circular dependency [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
 
-***
+#### Q39. Java 8 Optional Best Practices
 
-### 16. **Java 8 Optional Best Practices**
 **Q:** *You're using `Optional` but getting `NullPointerException`. What are common mistakes?*
 
 **Expected Answer:**
+
 ```java
 // ❌ Wrong: Optional of null
 Optional<String> opt = Optional.of(null); // Throws NPE
@@ -610,10 +643,8 @@ private Optional<String> field; // Don't do this
 public Optional<String> getData() { ... }
 ```
 
+#### Q40. ClassLoader Issue in Web Application
 
-***
-
-### 17. **ClassLoader Issue in Web Application**
 **Q:** *After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?*
 
 **Expected Answer:**
@@ -625,12 +656,12 @@ public Optional<String> getData() { ... }
 - **Fix**: Use Maven/Gradle dependency management to avoid version conflicts
 - **Fix**: Check for duplicate JARs in classpath [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
-***
+#### Q41. Producer-Consumer Pattern Implementation
 
-### 18. **Producer-Consumer Pattern Implementation**
 **Q:** *You need to implement a producer-consumer pattern for processing 1 million records. How do you do it efficiently?*
 
 **Expected Answer:**
+
 ```java
 // ✅ Fix 1: Use BlockingQueue (best)
 BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(1000);
