@@ -1738,9 +1738,48 @@ class Dog extends Animal {
 
 ## 14. What is runtime polymorphism?
 
-Runtime polymorphism is the process where method execution is decided at runtime based on object type. It is achieved using method overriding and inheritance in Java.
 
+**Polymorphism** means **"many forms"**. It allows the same method or interface to behave differently depending on the object.
 
+**Benefits**
+
+* Code reusability
+* Flexibility
+* Loose coupling
+* Easier maintenance
+* Extensibility
+
+**Types of Polymorphism**
+
+**1. Compile-Time Polymorphism (Method Overloading)**
+
+The method name is the same, but parameters are different.
+
+```java
+class Calculator {
+
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+
+        System.out.println(c.add(10, 20));      // 30
+        System.out.println(c.add(10.5, 20.5));  // 31.0
+    }
+}
+```
+
+**2. Runtime Polymorphism (Method Overriding)**
+
+A child class provides its own implementation of a method defined in the parent class.
 
 ```java
 class Animal {
@@ -1765,20 +1804,48 @@ class Cat extends Animal {
 
 public class Main {
     public static void main(String[] args) {
-        Animal a;
 
-        a = new Dog();
-        a.sound();
+        Animal a1 = new Dog();
+        Animal a2 = new Cat();
 
-        a = new Cat();
-        a.sound();
+        a1.sound(); // Dog barks
+        a2.sound(); // Cat meows
+    }
+}
+```
+
+Here, the **reference type** is `Animal`, but the **object type** is `Dog`. At runtime, Java calls `Dog`'s `sound()` method. This is **runtime polymorphism** (dynamic method dispatch).
+
+**Real-Time Example**
+
+Consider a payment system:
+
+```java
+interface Payment {
+    void pay();
+}
+
+class CreditCardPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid using Credit Card");
     }
 }
 
-// Output: 
-// Dog barks
-// Cat meows
+class UPIPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid using UPI");
+    }
+}
 ```
+
+Usage:
+
+```java
+Payment payment = new UPIPayment();
+payment.pay();
+```
+
+The same `pay()` method behaves differently depending on the actual object.
 
 
 ## 15. How does method overriding work internally?
