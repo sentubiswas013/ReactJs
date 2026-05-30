@@ -10973,7 +10973,7 @@ public class GlobalExceptionHandler {
 
 
 
-# ✅ 20. RESTful Services 
+# ✅ 20. Java RESTful Services 
 
 ## 1. What is CORS, and how does it work?
 
