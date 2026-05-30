@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.*;
 
 // ## ✅ Hello World Program
 public class Linkedin01 {
@@ -42,10 +43,10 @@ public class Linkedin01 {
         // fnFindLargestAndSmallestElement();
         // fneRverseArray();
         // fnSortAnArrayWithBuildMethodAndWithoutMethod();
-         fnDuplicateCharacters();
+        // fnDuplicateCharacters();
         // fnFindDuplicateElementsWithInbuildMethodandWithout();
         // fnFindMissingNumberInArray();
-        // fnSecondHighestNumber();
+         fnSecondHighestNumber();
         // fnMatrixAdditionSubtractionMultiplication();
         // fnTransposeOfMatrix();
         // fnVowelConsonantCount();
@@ -296,11 +297,24 @@ public class Linkedin01 {
     // ## ✅ Find the Duplicate Characters in a String
     public static void fnDuplicateCharacters() {
         String str = "programming";
-        Char[] arrTemp = str.toCharArray();
+        char[] arrTemp = str.toCharArray();
+        ArrayList left = new ArrayList();
+        ArrayList right = new ArrayList();
 
-        for() {
-            
+        for(int i = 0; i<arrTemp.length; i++) {
+            for(int j = i+1; j<arrTemp.length; j++) {
+                if (arrTemp[i] == arrTemp[j]) {
+                    // System.out.println("Result " + arrTemp[i]);
+                    left.add(arrTemp[i]);
+                    break;
+                } else {
+                    // right.add(arrTemp[i]);
+                    // break;
+                   // System.out.println("Result 2" + arrTemp[i]);
+                }                
+            }
         }
+        System.out.println("left " + left.toString());
     }
     // Output: Duplicate characters: r g m
 
@@ -312,13 +326,48 @@ public class Linkedin01 {
 
     // ## ✅ Find Missing Number in an Array (1 to N)
     public static void fnFindMissingNumberInArray() {
+         int[] arr = {1, 2, 4, 5};
+         int n = 5;
+         int arrSum = 0;
 
+         int totalSum = n *(n+1) /2;
+         System.out.println("totalSum " + totalSum);
+
+         for(int val: arr) {
+            arrSum += val;
+         }
+         System.out.println("arrSum " + arrSum);
+         System.out.println(totalSum-arrSum);
+
+         // int sum = 0;
+         // for(int i = 1; i<=5; i++) {
+         //    sum += i;
+            
+         // }
+         // System.out.println("Sum " + sum);
     }
     // Output: 3
 
     // ## ✅ Find Second Largest Element in an Array
     public static void fnSecondHighestNumber() {
+        int[] arr = {10, 5, 20, 20, 15, 5, 30};
+        int height = Integer.MIN_VALUE;
+        int sceondheight = Integer.MIN_VALUE;
+        int thirdheight = Integer.MIN_VALUE;
 
+        for(int val:arr) {
+            if(val > height) {
+                thirdheight = sceondheight;
+                sceondheight = height;
+                height = val;
+            } else if(val > sceondheight && val < height) {
+                sceondheight = val;
+            } else if(val > thirdheight && val < sceondheight) {
+                thirdheight = val;
+            }
+        }
+        System.out.println("sceondheight " + sceondheight);
+        System.out.println("thirdheight  " + thirdheight);
     }
     // Output: Second-highest number: 20
 

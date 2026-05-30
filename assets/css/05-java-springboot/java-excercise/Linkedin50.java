@@ -45,9 +45,7 @@ public class Linkedin50 {
         // fnDuplicateCharacters();
         // fnFindDuplicateElementsWithInbuildMethodandWithout();
         // fnFindMissingNumberInArray();
-        // fnSecondHighestNumber();
-        // fnMatrixAdditionSubtractionMultiplication();
-        // fnTransposeOfMatrix();
+        // fnSecondHighestNumber();        
         // fnVowelConsonantCount();
         // fnCountOccurrencesInString();
         // fnFirstNonRepeatedChar();
@@ -55,6 +53,12 @@ public class Linkedin50 {
         // fnCommonElementsInTwoArrays();
         // fnFindSubstring("Hello", "Hello World");
         // fnLongestSubstring();
+
+        // fnMatrixAdditionSubtractionMultiplication();
+        // fnTransposeOfMatrix();
+        // fnSubstringGeneration();
+        // fnSubsetSumBitMasking();
+        // fnArrayChunking();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -705,71 +709,6 @@ public class Linkedin50 {
         // Second-highest number: 20
     }
 
-    // ## ✅ Matrix Addition, Subtraction, and Multiplication
-    public static void fnMatrixAdditionSubtractionMultiplication() {
-        int[][] A = {{1, 2}, {3, 4}};
-        int[][] B = {{5, 6}, {7, 8}};
-        int n = 2;
-
-        int[][] add = new int[n][n];
-        int[][] sub = new int[n][n];
-        int[][] mul = new int[n][n];
-
-        // Addition & Subtraction
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                add[i][j] = A[i][j] + B[i][j];
-                sub[i][j] = A[i][j] - B[i][j];
-            }
-        }
-
-        // Multiplication
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                for (int k = 0; k < n; k++) {
-                    mul[i][j] += A[i][k] * B[k][j];
-                }
-            }
-        }
-
-        // Print multiplication result
-        for (int[] row : mul) {
-            for (int v : row) {
-                System.out.print(v + " ");
-            }
-            System.out.println();
-        }
-        
-        // 19 22 
-        // 43 50 
-    }
-
-    // ## ✅ Transpose of a Matrix
-    public static void fnTransposeOfMatrix() {
-        int[][] A = {{1, 2, 3}, {4, 5, 6}};
-        int rows = A.length;
-        int cols = A[0].length;
-
-        int[][] T = new int[cols][rows];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                T[j][i] = A[i][j];
-            }
-        }
-
-        for (int[] row : T) {
-            for (int v : row) {
-                System.out.print(v + " ");
-            }
-            System.out.println();
-        }
-        
-        // 1 4 
-        // 2 5 
-        // 3 6 
-    }
-
     // ## ✅ Count Vowels and Consonants in a String
     public static void fnVowelConsonantCount() {
         String str = "Hello World";  // Example string
@@ -1081,65 +1020,120 @@ public class Linkedin50 {
         }
     }
 
+    // ## ✅ Matrix Addition, Subtraction, and Multiplication
+    public static void fnMatrixAdditionSubtractionMultiplication() {
+        int[][] A = {{1, 2}, {3, 4}};
+        int[][] B = {{5, 6}, {7, 8}};
+        int n = 2;
+
+        int[][] add = new int[n][n];
+        int[][] sub = new int[n][n];
+        int[][] mul = new int[n][n];
+
+        // Addition & Subtraction
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                add[i][j] = A[i][j] + B[i][j];
+                sub[i][j] = A[i][j] - B[i][j];
+            }
+        }
+
+        // Multiplication
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    mul[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+
+        // Print multiplication result
+        for (int[] row : mul) {
+            for (int v : row) {
+                System.out.print(v + " ");
+            }
+            System.out.println();
+        }
+        
+        // 19 22 
+        // 43 50 
+    }
+
+    // ## ✅ Transpose of a Matrix
+    public static void fnTransposeOfMatrix() {
+        int[][] A = {{1, 2, 3}, {4, 5, 6}};
+        int rows = A.length;
+        int cols = A[0].length;
+
+        int[][] T = new int[cols][rows];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                T[j][i] = A[i][j];
+            }
+        }
+
+        for (int[] row : T) {
+            for (int v : row) {
+                System.out.print(v + " ");
+            }
+            System.out.println();
+        }
+        
+        // 1 4 
+        // 2 5 
+        // 3 6 
+    }
+
+
     // ==========================================================================
     // String str = "abc"
     // Output: a, ab, abc, b, bc, c;
     // ==========================================================================
-    ```java
-    public class Main {
-        public static void main(String[] args) {
-            String str = "abc";
+    public static void fnSubstringGeneration{   
+        String str = "abc";
 
-            for (int i = 0; i < str.length(); i++) {
-                for (int j = i + 1; j <= str.length(); j++) {
-                    System.out.println(str.substring(i, j));
-                }
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = i + 1; j <= str.length(); j++) {
+                System.out.println(str.substring(i, j));
             }
-        }
+        }            
     }
-    ```
 
     // ==========================================================================
     // Input(6,9,2,1,8)   // Time Complexity: For subset problems: O(2^n)
     // target=9 
     // output((6,2,1),(9),(1,8))
     // ==========================================================================
-    ```java
-    import java.util.*;
+    public static void fnSubsetSumBitMasking() {
+        int[] nums = {6, 9, 2, 1, 8};
+        int target = 9;
 
-    public class Main {
-        public static void main(String[] args) {
-            int[] nums = {6, 9, 2, 1, 8};
-            int target = 9;
+        List<List<Integer>> result = new ArrayList<>();
+        int n = nums.length;
 
-            List<List<Integer>> result = new ArrayList<>();
-            int n = nums.length;
+        // Generate all subsets using loops + bit masking
+        for (int i = 0; i < (1 << n); i++) {
+            List<Integer> temp = new ArrayList<>();
+            int sum = 0;
 
-            // Generate all subsets using loops + bit masking
-            for (int i = 0; i < (1 << n); i++) {
-                List<Integer> temp = new ArrayList<>();
-                int sum = 0;
+            for (int j = 0; j < n; j++) {
 
-                for (int j = 0; j < n; j++) {
+                // Check if j-th bit is set
+                if ((i & (1 << j)) != 0) {
 
-                    // Check if j-th bit is set
-                    if ((i & (1 << j)) != 0) {
+                    temp.add(nums[j]);
 
-                        temp.add(nums[j]);
-
-                        sum += nums[j];
-                    }
-                }
-
-                if (sum == target) {
-                    result.add(temp);
+                    sum += nums[j];
                 }
             }
 
-            System.out.println(result);
+            if (sum == target) {
+                result.add(temp);
+            }
         }
+        System.out.println(result);            
     }
-    ```
 
     // ==========================================================================
     // Given an array and a chunk size, split the array into subarrays where each subarray has the given chunk size.
@@ -1148,28 +1142,19 @@ public class Linkedin50 {
     // Input: [1,2,3,4,5,6,7,8,9,10], chunk size = 2
     // Output: [[1,2], [3,4], [5,6], [7,8], [9,10]]
     // ==========================================================================
-    ```java
-    import java.util.*;
-    public class Main {
-        public static void main(String[] args) {
-            int[] arr = {1,2,3,4,5,6,7,8,9,10};
+    public static void fnArrayChunking() {
+        int[] arr = {1,2,3,4,5,6,7,8,9,10};
+        int chunkSize = 2;
+        List<List<Integer>> result = new ArrayList<>();
 
-            int chunkSize = 2;
-            List<List<Integer>> result = new ArrayList<>();
-
-            for (int i = 0; i < arr.length; i += chunkSize) {
-
-                List<Integer> temp = new ArrayList<>();
-
-                for (int j = i; j < i + chunkSize && j < arr.length; j++) {
-                    temp.add(arr[j]);
-                }
-
-                result.add(temp);
+        for (int i = 0; i < arr.length; i += chunkSize) {
+            List<Integer> temp = new ArrayList<>();
+            for (int j = i; j < i + chunkSize && j < arr.length; j++) {
+                temp.add(arr[j]);
             }
 
-            System.out.println(result);
+            result.add(temp);
         }
+        System.out.println(result);
     }
-    ```
 }
