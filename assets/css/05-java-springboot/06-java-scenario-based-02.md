@@ -1,6 +1,12 @@
 # Java Full Stack – Scenario-Based Interview Questions (Part 2)
 
-Scenario-based interview questions for **Java Full Stack Developer / Engineer** roles (including architect-level positions), with context and expected answers.
+Scenario-based interview questions for **Java Full Stack Developer / Engineer / Architect** roles (Senior / Lead level), with context and expected answers.
+
+| Part | Level | Questions | Topic Areas |
+|------|-------|-----------|-------------|
+| Part I | Full Stack | Q1–Q23 | System Design, Spring, Frontend, Security, DevOps, Testing, Behavioral |
+| Part II | Core Java | Q24–Q41 | Core Java, Advanced Java, Design Patterns & JVM |
+| Part III | Senior / Lead / Architect | Q42–Q61 | Core Java, Architecture, Performance, Microservices, DB / JPA |
 
 ---
 
