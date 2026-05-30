@@ -42,7 +42,7 @@ public class Linkedin01 {
         // fnFindLargestAndSmallestElement();
         // fneRverseArray();
         // fnSortAnArrayWithBuildMethodAndWithoutMethod();
-        // fnDuplicateCharacters();
+         fnDuplicateCharacters();
         // fnFindDuplicateElementsWithInbuildMethodandWithout();
         // fnFindMissingNumberInArray();
         // fnSecondHighestNumber();
@@ -167,7 +167,7 @@ public class Linkedin01 {
 
     // ## ✅ Sum of Digits of a Number
     public static void fnSumOfDigitsOfNumber() {
-
+        
     }
     // Output: 1
 
@@ -179,7 +179,14 @@ public class Linkedin01 {
 
     // ## ✅ Square Pattern (`****`)
     public static void fnSquarePattern() {
-
+        for (int i = 5; i>=0; i--){
+            for (int j = 5; j>=0; j--){
+            // System.out.println("Hello " + i + " x 5 :" + i * 5);
+                System.out.print(" * ");
+                // break;
+            }
+            System.out.println();
+        }
     }
     // Output:
     // ****
@@ -259,8 +266,19 @@ public class Linkedin01 {
 
     // ## ✅ Find Largest and Smallest Element in an Array
     public static void fnFindLargestAndSmallestElement() {
+        int[] arr = {5, 2, 9, -1, 7};
+        int min = arr[0];
+        int max = arr[0];
 
+        for(int val : arr) {            
+            if(val > max)  max = val ;
+            if(val < min)  min = val ;
+        }
+        System.out.println("min " + min);
+        System.out.println("max " + max);
     }
+    
+
     // Output: Min = -1, Max = 9
 
     // ## ✅ Reverse an Array
@@ -277,7 +295,12 @@ public class Linkedin01 {
 
     // ## ✅ Find the Duplicate Characters in a String
     public static void fnDuplicateCharacters() {
+        String str = "programming";
+        Char[] arrTemp = str.toCharArray();
 
+        for() {
+            
+        }
     }
     // Output: Duplicate characters: r g m
 

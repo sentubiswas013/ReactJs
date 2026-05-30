@@ -1736,10 +1736,13 @@ class Dog extends Animal {
 ```
 
 
-## 14. What is runtime polymorphism?
+## 14. What is polymorphism?
 
 
 **Polymorphism** means **"many forms"**. It allows the same method or interface to behave differently depending on the object.
+
+- Poly - many
+- Morphism - Behaviour
 
 **Benefits**
 

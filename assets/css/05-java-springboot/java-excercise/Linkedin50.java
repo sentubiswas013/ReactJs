@@ -972,7 +972,7 @@ public class Linkedin50 {
         System.out.println(maxLength);
 		// 3
 	}
-    
+
     // ✅ Binary Search Implementation
     public class Main {
         static int binarySearch(int[] arr, int key) {
