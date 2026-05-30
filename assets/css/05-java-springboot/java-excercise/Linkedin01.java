@@ -313,8 +313,17 @@ public class Linkedin01 {
     // ## ✅ Find Largest and Smallest Element in an Array
     public static void fnFindLargestAndSmallestElement() {
         System.out.println("=========================== fnFindLargestAndSmallestElement");
+        int[] arr = {5, 2, 9, -1, 7};
+        int min = arr[0];
+        int max = arr[0];
 
+        for(int val : arr) {
+            if(val > min) min = val; 
+            if(val > max) max = val; 
+        }
 
+        System.out.println("min " + min);
+        System.out.println("max " + max);
     }
     
 
@@ -355,15 +364,42 @@ public class Linkedin01 {
     // ## ✅ Find Missing Number in an Array (1 to N)
     public static void fnFindMissingNumberInArray() {
         System.out.println("=========================== fnFindMissingNumberInArray");
-         
+        int[] arr = {1, 2, 4, 5};
+        int result = 0;
+        int subTotal = 5 * (5+1)/2;
+        int total = 0;
+        for(int val : arr) {
+            total += val;
+        }
+        result = subTotal - total;
 
+        System.out.println("subTotal " + result);
     }
     // Output: 3
 
     // ## ✅ Find Second Largest Element in an Array
     public static void fnSecondHighestNumber() {
         System.out.println("=========================== fnSecondHighestNumber");
-        
+        int[] arr = {10, 5, 20, 20, 15, 5, 30};
+        int height = Integer.MIN_VALUE;
+        int sceondheight = Integer.MIN_VALUE;
+        int thirdheight = Integer.MIN_VALUE;
+
+        for(int val : arr) {
+            if(val > height) {
+                thirdheight = sceondheight;
+                sceondheight = height;
+                height = val;
+                                
+            } else if(val > sceondheight && val < height) {
+                sceondheight = val;
+            } else if(val > sceondheight && val < height) {
+                thirdheight = val;
+            }
+        }
+
+        System.out.println("thirdheight " + thirdheight);
+        System.out.println("sceondheight " + sceondheight);
 
     }
     // Output: Second-highest number: 20    
@@ -395,7 +431,20 @@ public class Linkedin01 {
     // ## ✅ Check Anagram Strings
     public static void fnAnagramCheck() {
         System.out.println("=========================== fnAnagramCheck");
+        String str1 = "listen";  // Example strings
+        String str2 = "silent";
 
+        char[] char1 = str1.toCharArray();
+        char[] char2 = str2.toCharArray();
+
+        Arrays.sort(char1);
+        Arrays.sort(char2);
+
+        if(Arrays.equals(char1, char2)) {
+            System.out.println(" are anagrams.");
+        } else {
+            System.out.println(" are not anagrams.");
+        }
 
     }
     // Output: listen and silent are anagrams.
@@ -403,7 +452,10 @@ public class Linkedin01 {
     // ## ✅ Find the Common Elements Between Two Arrays
     public static void fnCommonElementsInTwoArrays() {
         System.out.println("=========================== fnCommonElementsInTwoArrays");
+        int[] arr1 = {1, 2, 3, 4, 5};
+        int[] arr2 = {3, 4, 5, 6, 7};
 
+        
 
     }
     // Output: Common elements: 3 4 5
