@@ -32,6 +32,7 @@ public class Linkedin50 {
         // fnSumAllElements();
         // fnSumOfDigitsOfNumber();
         // fnPrintNumbersWithoutLoop();
+
         // fnSquarePattern();
         // fnRightTrianglePattern();
         // fnIvertedTrianglePattern();
@@ -39,11 +40,12 @@ public class Linkedin50 {
         // fnDiamondPattern();
         // fnNumberPattern();
         // fnAlphabetPattern();
+
         // fnFindLargestAndSmallestElement();
         // fneRverseArray();
-        // fnSortAnArrayWithBuildMethodAndWithoutMethod();
+        // fnSortAnArray();
         // fnDuplicateCharacters();
-        // fnFindDuplicateElementsWithInbuildMethodandWithout();
+        // fnFindDuplicateElements();
         // fnFindMissingNumberInArray();
         // fnSecondHighestNumber();        
         // fnVowelConsonantCount();
@@ -54,7 +56,11 @@ public class Linkedin50 {
         // fnFindSubstring("Hello", "Hello World");
         // fnLongestSubstring();
 
-        // fnMatrixAdditionSubtractionMultiplication();
+        // fnBinarySearch();
+        // fnLinearSearch();
+        // fnBubbleSelectionInsertionSort();
+
+        // fnMatrixCalculate();
         // fnTransposeOfMatrix();
         // fnSubstringGeneration();
         // fnSubsetSumBitMasking();
@@ -567,7 +573,7 @@ public class Linkedin50 {
     }
 
     // ## ✅ Sort an Array (Ascending / Descending)
-    public static void fnSortAnArrayWithBuildMethodAndWithoutMethod () {
+    public static void fnSortAnArray () {
         // with in built function
         Integer[] arrData = {5, 1, 4, 2, 3};
 
@@ -638,7 +644,7 @@ public class Linkedin50 {
 	}
 
     // ## ✅ Find Duplicate Elements in an Array
-    public static void fnFindDuplicateElementsWithInbuildMethodandWithout () {
+    public static void fnFindDuplicateElements() {
         // With Inbuild functions
         int[] arr = {1, 2, 3, 1, 2, 4, 5};
 
@@ -913,115 +919,105 @@ public class Linkedin50 {
 	}
 
     // ✅ Binary Search Implementation
-    public class Main {
-        static int binarySearch(int[] arr, int key) {
-
-            int left = 0;
-            int right = arr.length - 1;
-
-            while (left <= right) {
-
-                int mid = left + (right - left) / 2;
-
-                if (arr[mid] == key) {
-                    return mid;
-                }
-
-                if (arr[mid] < key) {
-                    left = mid + 1;
-                } else {
-                    right = mid - 1;
-                }
-            }
-            return -1;
-        }
-
-        public static void main(String[] args) {
-            int[] arr = {1, 3, 5, 7, 9};
-            System.out.println(binarySearch(arr, 7));
-        }
+    static void fnBinarySearch() {
+        int[] arr = {1, 3, 5, 7, 9};
+        System.out.println(binarySearchImp(arr, 7));
     }
+    static int binarySearchImp(int[] arr, int key) {
+        int left = 0;
+        int right = arr.length - 1;
 
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == key) {
+                return mid;
+            }
+
+            if (arr[mid] < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+    
 
     // ✅ Linear Search Implementation
-    public class Main {
-        static int linearSearch(int[] arr, int key) {
-            for (int i = 0; i < arr.length; i++) {
-                if (arr[i] == key) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        public static void main(String[] args) {
-            int[] arr = {4, 2, 7, 1};
-            System.out.println(linearSearch(arr, 7));
-        }
+    static void fnLinearSearch() {
+        int[] arr = {4, 2, 7, 1};
+        System.out.println(linearSearchIpm(arr, 7));
     }
+    static int linearSearchIpm(int[] arr, int key) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    // Output:: 2
 
 
     // ✅ Bubble Sort, Selection Sort, Insertion Sort
-    import java.util.Arrays;
-    public class Main {
-        static void bubbleSort(int[] a) {
-            for (int i = 0; i < a.length - 1; i++) {
-                for (int j = 0; j < a.length - 1 - i; j++) {
-                    if (a[j] > a[j + 1]) {
-                        int t = a[j];
-                        a[j] = a[j + 1];
-                        a[j + 1] = t;
-                    }
+    static void fnBubbleSelectionInsertionSort() {
+        int[] a = {5, 1, 4, 2, 8};
+
+        int[] b1 = a.clone();
+        bubbleSort(b1);
+        System.out.println("Bubble Sort: " + Arrays.toString(b1));
+
+        int[] b2 = a.clone();
+        selectionSort(b2);
+        System.out.println("Selection Sort: " + Arrays.toString(b2));
+
+        int[] b3 = a.clone();
+        insertionSort(b3);
+        System.out.println("Insertion Sort: " + Arrays.toString(b3));
+    }
+
+    static void bubbleSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            for (int j = 0; j < a.length - 1 - i; j++) {
+                if (a[j] > a[j + 1]) {
+                    int t = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = t;
                 }
             }
         }
+    }
 
-        static void selectionSort(int[] a) {
-            for (int i = 0; i < a.length - 1; i++) {
-                int min = i;
-                for (int j = i + 1; j < a.length; j++) {
-                    if (a[j] < a[min]) {
-                        min = j;
-                    }
+    static void selectionSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
                 }
-                int t = a[i];
-                a[i] = a[min];
-                a[min] = t;
             }
+            int t = a[i];
+            a[i] = a[min];
+            a[min] = t;
         }
+    }
 
-        static void insertionSort(int[] a) {
-            for (int i = 1; i < a.length; i++) {
-                int key = a[i];
-                int j = i - 1;
+    static void insertionSort(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int key = a[i];
+            int j = i - 1;
 
-                while (j >= 0 && a[j] > key) {
-                    a[j + 1] = a[j];
-                    j--;
-                }
-                a[j + 1] = key;
+            while (j >= 0 && a[j] > key) {
+                a[j + 1] = a[j];
+                j--;
             }
-        }
-
-        public static void main(String[] args) {
-            int[] a = {5, 1, 4, 2, 8};
-
-            int[] b1 = a.clone();
-            bubbleSort(b1);
-            System.out.println("Bubble Sort: " + Arrays.toString(b1));
-
-            int[] b2 = a.clone();
-            selectionSort(b2);
-            System.out.println("Selection Sort: " + Arrays.toString(b2));
-
-            int[] b3 = a.clone();
-            insertionSort(b3);
-            System.out.println("Insertion Sort: " + Arrays.toString(b3));
+            a[j + 1] = key;
         }
     }
 
     // ## ✅ Matrix Addition, Subtraction, and Multiplication
-    public static void fnMatrixAdditionSubtractionMultiplication() {
+    public static void fnMatrixCalculate() {
         int[][] A = {{1, 2}, {3, 4}};
         int[][] B = {{5, 6}, {7, 8}};
         int n = 2;
@@ -1061,21 +1057,21 @@ public class Linkedin50 {
 
     // ## ✅ Transpose of a Matrix
     public static void fnTransposeOfMatrix() {
-        int[][] A = {{1, 2, 3}, {4, 5, 6}};
-        int rows = A.length;
-        int cols = A[0].length;
+        int[][] arr = {{1, 2, 3}, {4, 5, 6}};
+        int rows = arr.length;
+        int cols = arr[0].length;
 
-        int[][] T = new int[cols][rows];
+        int[][] top = new int[cols][rows];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                T[j][i] = A[i][j];
+                top[j][i] = arr[i][j];
             }
         }
 
-        for (int[] row : T) {
-            for (int v : row) {
-                System.out.print(v + " ");
+        for (int[] row : top) {
+            for (int val : row) {
+                System.out.print(val + " ");
             }
             System.out.println();
         }

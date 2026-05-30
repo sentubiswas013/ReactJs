@@ -7,179 +7,220 @@ import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.*;
 
 // ## ✅ Hello World Program
 public class Linkedin01 {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
-        // fnSumTwoNumbers();
-        // fnCheckEvenOrOdd();
-        // fnLargestOfTwoNumbers();
-        // fnLargestOfThreeNumbers();
-        // fnPositiveNegativeOrZeroCheck();
-        // fnFeapYearCheck();
-        // fnSwapTwoNumbers();
-        // fnFactorialOfNumber();
-        // fnFindFactorialUsingRecursion(5)
-        // fnFibonacciSeries();
-        // fnFindNthFibonacciNumberUsingRecursion(10)
-        // fnReverseNumberAndString();
-        // fnPalindromeNumberAndStringCheck();
-        // fnArmstrongNumberCheck();
-        // fnPrimeNumberCheck();
-        // fnPrintAllPrimeNumbers();
-        // fnMultiplicationTableFfNumber();
-        // fnSumAllElements();
-        // fnSumOfDigitsOfNumber();
-        // fnPrintNumbersWithoutLoop();
-        // fnSquarePattern();
-        // fnRightTrianglePattern();
-        // fnIvertedTrianglePattern();
-        // fnPyramidPattern();
-        // fnDiamondPattern();
-        // fnNumberPattern();
-        // fnAlphabetPattern();
-        // fnFindLargestAndSmallestElement();
-        // fneRverseArray();
-        // fnSortAnArrayWithBuildMethodAndWithoutMethod();
-        // fnDuplicateCharacters();
-        // fnFindDuplicateElementsWithInbuildMethodandWithout();
-        // fnFindMissingNumberInArray();
-        // fnSecondHighestNumber();
-        // fnMatrixAdditionSubtractionMultiplication();
-        // fnTransposeOfMatrix();
-        // fnVowelConsonantCount();
-        // fnCountOccurrencesInString();
-        // fnFirstNonRepeatedChar();
-        // fnAnagramCheck();
-        // fnCommonElementsInTwoArrays();
-        // fnFindSubstring("Hello", "Hello World");
-        // fnLongestSubstring();
+        fnSumTwoNumbers();
+        fnCheckEvenOrOdd();
+        fnLargestOfTwoNumbers();
+        fnLargestOfThreeNumbers();
+        fnPositiveNegativeOrZeroCheck();
+        fnFeapYearCheck();
+        fnSwapTwoNumbers();
+        fnFactorialOfNumber();
+        fnFindFactorialUsingRecursion(5);
+        fnFibonacciSeries();
+        fnFindNthFibonacciNumberUsingRecursion(6);
+        fnReverseNumberAndString();
+        fnPalindromeNumberAndStringCheck();
+        fnArmstrongNumberCheck();
+        fnPrimeNumberCheck();
+        fnPrintAllPrimeNumbers();
+        fnMultiplicationTableFfNumber();
+        fnSumAllElements();
+        fnSumOfDigitsOfNumber();
+        fnPrintNumbersWithoutLoop(7);
+
+        fnSquarePattern();
+        fnRightTrianglePattern();
+        fnIvertedTrianglePattern();
+        fnPyramidPattern();
+        fnDiamondPattern();
+        fnNumberPattern();
+        fnAlphabetPattern();
+
+        fnFindLargestAndSmallestElement();
+        fneRverseArray();
+        fnSortAnArray();
+        fnDuplicateCharacters();
+        fnFindDuplicateElements();
+        fnFindMissingNumberInArray();
+        fnSecondHighestNumber();        
+        fnVowelConsonantCount();
+        fnCountOccurrencesInString();
+        fnFirstNonRepeatedChar();
+        fnAnagramCheck();
+        fnCommonElementsInTwoArrays();
+        fnFindSubstring("Hello", "Hello World");
+        fnLongestSubstring();
+
+        fnBinarySearch();
+        fnLinearSearch();
+        fnBubbleSelectionInsertionSort();
+
+        fnMatrixCalculate();
+        fnTransposeOfMatrix();
+         fnSubstringGeneration();
+         fnSubsetSumBitMasking();
+         fnArrayChunking();
     }
 
     // ## ✅ Sum of Two Numbers
     public static void fnSumTwoNumbers() {
-
+        System.out.println("=========================== fnSumTwoNumbers");
+        
     }
     // Output: 5 10
 
     // ## ✅ Check Even or Odd
     public static void fnCheckEvenOrOdd() {
-
+        System.out.println("=========================== fnPrimeNumberCheck");
+        
     }
     // Output: Odd
 
     // ## ✅ Largest of Two Numbers
     public static void fnLargestOfTwoNumbers() {
-
+        System.out.println("=========================== fnLargestOfTwoNumbers");
+        
     }
     // Output: 23
 
     // ## ✅ Largest of Three Numbers
     public static void fnLargestOfThreeNumbers() {
-
+        System.out.println("=========================== fnLargestOfThreeNumbers");
+        
     }
     // Output: 55
 
     // ## ✅ Positive, Negative, or Zero Check
     public static void fnPositiveNegativeOrZeroCheck() {
-
+        System.out.println("=========================== fnPositiveNegativeOrZeroCheck");
+        
     }
     // Output: Positive
 
     // ## ✅ Leap Year Check
     public static void fnFeapYearCheck() {
-
+        System.out.println("=========================== fnFeapYearCheck");
+        
     }
     // Output: Leap Year
 
     // ## ✅ Swap Two Numbers (With & Without Third Variable)
     public static void fnSwapTwoNumbers() {
-
+        System.out.println("=========================== fnSwapTwoNumbers");
+        
     }
     // Output: 20 10
 
     // ## ✅ Factorial of a Number (Iterative)
     public static void fnFactorialOfNumber() {
-
+        System.out.println("=========================== fnFactorialOfNumber");
+        
     }
     // Output: 120
 
     // ## ✅ Find Factorial Using Recursion
     static long fnFindFactorialUsingRecursion(int n) {
+        System.out.println("=========================== fnFindFactorialUsingRecursion");
+        
         return 0;
     }
     // Output: 120
 
     // ## ✅ Fibonacci Series (First N Terms)
     public static void fnFibonacciSeries() {
-
+        System.out.println("=========================== fnFibonacciSeries");
+        
     }
     // Output: 0 1 1 2 3
 
     // ## ✅ Find Nth Fibonacci Number Using Recursion
     static long fnFindNthFibonacciNumberUsingRecursion(int n) {
+        System.out.println("=========================== fnFindNthFibonacciNumberUsingRecursion");
+        
         return 0;
     }
     // Output: 55
 
     // ## ✅ Reverse a Number and String
     public static void fnReverseNumberAndString() {
-
+        System.out.println("=========================== fnReverseNumberAndString");
+        
     }
     // Output: 54321 | dlroWolleH
 
     // ## ✅ Palindrome Number and String Check
     public static void fnPalindromeNumberAndStringCheck() {
-
+        System.out.println("=========================== fnPalindromeNumberAndStringCheck");
+        
     }
     // Output: madam is a palindrome. | 121 is a palindrome number.
 
     // ## ✅ Armstrong Number Check (3-digit)
     public static void fnArmstrongNumberCheck() {
-
+        System.out.println("=========================== fnArmstrongNumberCheck");
+        
     }
     // Output: Not Armstrong
 
     // ## ✅ Prime Number Check
     public static void fnPrimeNumberCheck() {
+        System.out.println("=========================== fnPrimeNumberCheck");
+        
 
     }
     // Output: Not Prime
 
     // ## ✅ Print All Prime Numbers Between 1 and N
     public static void fnPrintAllPrimeNumbers() {
+        System.out.println("=========================== fnPrintAllPrimeNumbers");
+
 
     }
     // Output: 2 3 5 7
 
     // ## ✅ Multiplication Table of a Number
     public static void fnMultiplicationTableFfNumber() {
-
+        System.out.println("=========================== fnMultiplicationTableFfNumber");
+        
+        
     }
     // Output: 5 x 1 = 5 ... 5 x 10 = 50
 
     // ## ✅ Sum All Elements of an Array
     public static void fnSumAllElements() {
-
+        System.out.println("=========================== fnSumAllElements");
+        
+        
     }
     // Output: Sum of all elements in the array: 15
 
     // ## ✅ Sum of Digits of a Number
     public static void fnSumOfDigitsOfNumber() {
-
+        System.out.println("=========================== fnSumOfDigitsOfNumber");
+        
+        
     }
     // Output: 1
 
     // ## ✅ Print Numbers 1 to N Without Loop (Using Recursion)
-    public static void fnPrintNumbersWithoutLoop(int i) {
-
+    static long fnPrintNumbersWithoutLoop(int num) {
+        System.out.println("=========================== fnPrintNumbersWithoutLoop");
+        
+        return 0;
     }
     // Output: 1 2 3 4 5 6 7 8 9 10
 
     // ## ✅ Square Pattern (`****`)
     public static void fnSquarePattern() {
+        System.out.println("=========================== fnSquarePattern");
 
+        
     }
     // Output:
     // ****
@@ -189,6 +230,8 @@ public class Linkedin01 {
 
     // ## ✅ Right Triangle Pattern
     public static void fnRightTrianglePattern() {
+        System.out.println("=========================== fnRightTrianglePattern");
+
 
     }
     // Output:
@@ -200,6 +243,8 @@ public class Linkedin01 {
 
     // ## ✅ Inverted Triangle Pattern
     public static void fnIvertedTrianglePattern() {
+        System.out.println("=========================== fnIvertedTrianglePattern");
+
 
     }
     // Output:
@@ -211,6 +256,8 @@ public class Linkedin01 {
 
     // ## ✅ Pyramid Pattern
     public static void fnPyramidPattern() {
+        System.out.println("=========================== fnNumberPattern");
+
 
     }
     // Output:
@@ -222,6 +269,8 @@ public class Linkedin01 {
 
     // ## ✅ Diamond Pattern
     public static void fnDiamondPattern() {
+        System.out.println("=========================== fnDiamondPattern");
+
 
     }
     // Output:
@@ -237,6 +286,8 @@ public class Linkedin01 {
 
     // ## ✅ Number Pattern (1, 12, 123, ...)
     public static void fnNumberPattern() {
+        System.out.println("=========================== fnNumberPattern");
+
 
     }
     // Output:
@@ -248,6 +299,8 @@ public class Linkedin01 {
 
     // ## ✅ Alphabet Pattern (A, AB, ABC, ...)
     public static void fnAlphabetPattern() {
+        System.out.println("=========================== fnAlphabetPattern");
+
 
     }
     // Output:
@@ -259,48 +312,145 @@ public class Linkedin01 {
 
     // ## ✅ Find Largest and Smallest Element in an Array
     public static void fnFindLargestAndSmallestElement() {
+        System.out.println("=========================== fnFindLargestAndSmallestElement");
+
 
     }
+    
+
     // Output: Min = -1, Max = 9
 
     // ## ✅ Reverse an Array
     public static void fneRverseArray() {
+        System.out.println("=========================== fneRverseArray");
+
 
     }
     // Output: [5, 4, 3, 2, 1]
 
     // ## ✅ Sort an Array (Ascending / Descending)
-    public static void fnSortAnArrayWithBuildMethodAndWithoutMethod() {
+    public static void fnSortAnArray() {
+        System.out.println("=========================== fnSortAnArray");
+
 
     }
     // Output: [1, 2, 3, 4, 5] | [5, 4, 3, 2, 1]
 
     // ## ✅ Find the Duplicate Characters in a String
     public static void fnDuplicateCharacters() {
+        System.out.println("=========================== fnFindDuplicateElements");
 
+        
     }
     // Output: Duplicate characters: r g m
 
     // ## ✅ Find Duplicate Elements in an Array
-    public static void fnFindDuplicateElementsWithInbuildMethodandWithout() {
+    public static void fnFindDuplicateElements() {
+        System.out.println("=========================== fnFindDuplicateElements");
+
 
     }
     // Output: [1, 2]
 
     // ## ✅ Find Missing Number in an Array (1 to N)
     public static void fnFindMissingNumberInArray() {
+        System.out.println("=========================== fnFindMissingNumberInArray");
+         
 
     }
     // Output: 3
 
     // ## ✅ Find Second Largest Element in an Array
     public static void fnSecondHighestNumber() {
+        System.out.println("=========================== fnSecondHighestNumber");
+        
 
     }
-    // Output: Second-highest number: 20
+    // Output: Second-highest number: 20    
+
+    // ## ✅ Count Vowels and Consonants in a String
+    public static void fnVowelConsonantCount() {
+        System.out.println("=========================== fnVowelConsonantCount");
+
+
+    }
+    // Output: Vowels: 3 | Consonants: 7
+
+    // ## ✅ Count Occurrences of Each Word in a String
+    public static void fnCountOccurrencesInString() {
+        System.out.println("=========================== fnCountOccurrencesInString");
+
+
+    }
+    // Output: {to=2, be=2, or=1, not=1}
+
+    // ## ✅ Find First Non-Repeated Character in a String
+    public static void fnFirstNonRepeatedChar() {
+        System.out.println("=========================== fnFirstNonRepeatedChar");
+
+
+    }
+    // Output: t
+
+    // ## ✅ Check Anagram Strings
+    public static void fnAnagramCheck() {
+        System.out.println("=========================== fnAnagramCheck");
+
+
+    }
+    // Output: listen and silent are anagrams.
+
+    // ## ✅ Find the Common Elements Between Two Arrays
+    public static void fnCommonElementsInTwoArrays() {
+        System.out.println("=========================== fnCommonElementsInTwoArrays");
+
+
+    }
+    // Output: Common elements: 3 4 5
+
+    // ## ✅ Find Substring in a String (Without using contains())
+    public static void fnFindSubstring(String sub, String s) {
+        System.out.println("=========================== fnFindSubstring");
+
+
+    }
+    // Output: true | The string contains the substring.
+
+    // ## ✅ Longest Substring Without Repeating Characters
+    public static void fnLongestSubstring() {
+        System.out.println("=========================== fnLongestSubstring");
+
+
+    }
+    // Output: 3
+
+    // ✅ Binary Search Implementation
+    static void fnBinarySearch() {
+        System.out.println("=========================== fnBinarySearch");
+
+
+    }
+
+
+    // ✅ Linear Search Implementation
+    static void fnLinearSearch() {
+        System.out.println("=========================== fnLinearSearch");
+
+
+    }
+
+
+    // ✅ Bubble Sort, Selection Sort, Insertion Sort
+    static void fnBubbleSelectionInsertionSort() {
+        System.out.println("=========================== fnBubbleSelectionInsertionSort");
+
+
+    }
 
     // ## ✅ Matrix Addition, Subtraction, and Multiplication
-    public static void fnMatrixAdditionSubtractionMultiplication() {
+    public static void fnMatrixCalculate() {
+        System.out.println("=========================== fnMatrixCalculate");
+
 
     }
     // Output:
@@ -309,6 +459,9 @@ public class Linkedin01 {
 
     // ## ✅ Transpose of a Matrix
     public static void fnTransposeOfMatrix() {
+        System.out.println("=========================== fnTransposeOfMatrix");
+
+        
 
     }
     // Output:
@@ -316,45 +469,27 @@ public class Linkedin01 {
     // 2 5
     // 3 6
 
-    // ## ✅ Count Vowels and Consonants in a String
-    public static void fnVowelConsonantCount() {
+
+    // ## ✅ Substring Generation
+    public static void fnSubstringGeneration() {
+        System.out.println("=========================== fnSubstringGeneration");
+        
+
 
     }
-    // Output: Vowels: 3 | Consonants: 7
+    // Output:
 
-    // ## ✅ Count Occurrences of Each Word in a String
-    public static void fnCountOccurrencesInString() {
+    // ## ✅ Subset Sum Bit Masking
+    public static void fnSubsetSumBitMasking() {
+        System.out.println("=========================== fnSubsetSumBitMasking");
 
-    }
-    // Output: {to=2, be=2, or=1, not=1}
-
-    // ## ✅ Find First Non-Repeated Character in a String
-    public static void fnFirstNonRepeatedChar() {
 
     }
-    // Output: t
+    // Output:
 
-    // ## ✅ Check Anagram Strings
-    public static void fnAnagramCheck() {
-
+    // ## ✅ Array Chunking
+    public static void fnArrayChunking() {
+        System.out.println("=========================== fnSubsetSumBitMasking");
     }
-    // Output: listen and silent are anagrams.
-
-    // ## ✅ Find the Common Elements Between Two Arrays
-    public static void fnCommonElementsInTwoArrays() {
-
-    }
-    // Output: Common elements: 3 4 5
-
-    // ## ✅ Find Substring in a String (Without using contains())
-    public static void fnFindSubstring(String sub, String s) {
-
-    }
-    // Output: true | The string contains the substring.
-
-    // ## ✅ Longest Substring Without Repeating Characters
-    public static void fnLongestSubstring() {
-
-    }
-    // Output: 3
+    // Output:
 }

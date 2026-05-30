@@ -1,4 +1,4 @@
-# ✅ 1. Java Basic Concepts 
+# ✅ 01. Java Basic Concepts 
 
 ## 1. What is Java and what are its key features?
 
@@ -499,7 +499,7 @@ for (int i = 0; i < fruits.size(); i++) {
 
 
 
-# ✅ 2. Java Data Types and Variables
+# ✅ 02. Java Data Types and Variables
 
 ## 1. What are data types in Java?
 
@@ -848,7 +848,7 @@ List<Integer> list = List.of(1,2,3);
 * **Reference Variables:** Stored in stack but point to objects in heap memory.
 
 
-# ✅ 3. Java Classes and Objects
+# ✅ 03. Java Classes and Objects
 
 
 ## 1. What is the difference between this and super keywords?
@@ -1432,7 +1432,7 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 
 
 
-# ✅ 4. Java Inheritance 
+# ✅ 04. Java Inheritance 
 
 ## 1. What is Inheritance in Java?
 
@@ -2321,7 +2321,7 @@ System.out.println(MathConstants.MAX_VALUE); // 100
 
 
 
-# ✅ 5. Java Interface & Abstract Class 
+# ✅ 05. Java Interface & Abstract Class 
 
 
 ## 1. What is an Interface?
@@ -2904,7 +2904,7 @@ new Student()   // Object
 * **Partial Abstraction:** Supports both implemented and unimplemented methods.
 
 
-# ✅ 6. Java Exception Handling 
+# ✅ 06. Java Exception Handling 
 
 ## 1. What is an exception in Java?
 
@@ -3153,7 +3153,7 @@ try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
 } // Automatically closed
 ```
 
-# ✅ 7. Java Collections Framework
+# ✅ 07. Java Collections Framework
 
 ## 1. What is Java Collections Framework?
 
@@ -3785,7 +3785,7 @@ fWhat is JDBC
 * **HashMap vs TreeMap:** HashMap unordered, TreeMap sorted.
 
 
-# ✅ 8. Java Multithreading & Synchronization 
+# ✅ 08. Java Multithreading & Synchronization 
 
 ## 1. What is thread and what are life cycle?
 
@@ -4570,7 +4570,7 @@ class Counter {
 
 
 
-# ✅ 9. Java Concurrency 
+# ✅ 09. Java Concurrency 
 
 ## 0. What is multithreading?
 
