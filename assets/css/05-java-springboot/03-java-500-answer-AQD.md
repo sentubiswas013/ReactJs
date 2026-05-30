@@ -9402,28 +9402,262 @@ service.print();
 
 ## 9. What is AOP in Spring?
 
-**AOP (Aspect Oriented Programming)** is a programming concept used to **separate cross-cutting concerns** like **logging, security, transactions, and exception handling** from the main business logic.
 
-Instead of writing this code in every method, AOP lets us **apply it automatically across multiple methods**.
 
-**Key Concepts in AOP**
+AOP is a programming paradigm that separates **cross-cutting concerns** from your core business logic. Cross-cutting concerns are things that affect multiple parts of your app but aren't part of the core logic — like logging, security, transactions, etc.
 
-* **Aspect** – Class that contains cross-cutting logic (e.g., logging).
-* **Advice** – When the code should run (before, after, around).
-* **Join Point** – A point in program execution (method call).
-* **Pointcut** – Expression that selects join points.
+**The Problem AOP Solves:**
+```java
+// WITHOUT AOP — same boilerplate repeated everywhere
+public class OrderService {
+    public void placeOrder(Order order) {
+        log.info("Method started");          // 😫 repeated
+        checkSecurity();                     // 😫 repeated
+        startTransaction();                  // 😫 repeated
 
+        // actual business logic (3 lines)
+        validateOrder(order);
+        saveOrder(order);
+        notifyUser(order);
+
+        commitTransaction();                 // 😫 repeated
+        log.info("Method ended");            // 😫 repeated
+    }
+}
+
+// WITH AOP — clean business logic only
+public class OrderService {
+    public void placeOrder(Order order) {
+        validateOrder(order);   // ✅ pure business logic
+        saveOrder(order);
+        notifyUser(order);
+    }
+}
+// Logging, security, transactions handled automatically by aspects
+```
+
+---
+
+## Core AOP Concepts
+
+**1. 🎯 Aspect**
+A class that contains the cross-cutting logic (e.g., logging, security).
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+    // cross-cutting logic lives here
+}
+```
+
+**2. 📍 Pointcut**
+An expression that defines **where** the aspect should apply (which methods/classes).
+```java
+// Apply to all methods in service package
+@Pointcut("execution(* com.app.service.*.*(..))")
+public void serviceLayer() {}
+
+// Apply to specific annotation
+@Pointcut("@annotation(com.app.Loggable)")
+public void loggableMethods() {}
+```
+
+**3. 💡 Advice**
+**When** and **what** to execute — the actual logic to run at the join point.
+
+| Advice Type | When it runs |
+|---|---|
+| `@Before` | Before the method executes |
+| `@After` | After method (always, like finally) |
+| `@AfterReturning` | After method returns successfully |
+| `@AfterThrowing` | After method throws an exception |
+| `@Around` | Before AND after (full control) |
+
+**4. 🔗 Join Point**
+The actual point of execution — in Spring AOP, always a **method execution**.
+```java
+@Before("serviceLayer()")
+public void log(JoinPoint joinPoint) {
+    String methodName = joinPoint.getSignature().getName(); // the join point
+}
+```
+
+**5. 🔀 Weaving**
+The process of applying aspects to target objects. Spring does this at **runtime** using proxies.
+
+---
+
+**Types of Advice with Examples**
+
+**@Before**
 ```java
 @Aspect
 @Component
 public class LoggingAspect {
 
-    @Before("execution(* com.example.service.*.*(..))")
+    @Before("execution(* com.app.service.*.*(..))")
     public void logBefore(JoinPoint joinPoint) {
-        System.out.println("Before method: " + joinPoint.getSignature().getName());
+        System.out.println("Calling: " + joinPoint.getSignature().getName());
+        System.out.println("Args: " + Arrays.toString(joinPoint.getArgs()));
     }
 }
 ```
+
+**@AfterReturning**
+```java
+@AfterReturning(
+    pointcut = "execution(* com.app.service.*.*(..))",
+    returning = "result"
+)
+public void logAfterReturning(JoinPoint joinPoint, Object result) {
+    System.out.println("Method returned: " + result);
+}
+```
+
+**@AfterThrowing**
+```java
+@AfterThrowing(
+    pointcut = "execution(* com.app.service.*.*(..))",
+    throwing = "ex"
+)
+public void logException(JoinPoint joinPoint, Exception ex) {
+    System.out.println("Exception in: " + joinPoint.getSignature().getName());
+    System.out.println("Exception: " + ex.getMessage());
+}
+```
+
+**@Around (Most Powerful)**
+```java
+@Around("execution(* com.app.service.*.*(..))")
+public Object measureTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    long start = System.currentTimeMillis();
+
+    Object result = joinPoint.proceed(); // 👈 actually calls the method
+
+    long duration = System.currentTimeMillis() - start;
+    System.out.println(joinPoint.getSignature().getName() + " took " + duration + "ms");
+
+    return result;
+}
+```
+
+---
+
+**Real-World Use Cases**
+
+**✅ 1. Logging**
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    private static final Logger log = LoggerFactory.getLogger(LoggingAspect.class);
+
+    @Around("@annotation(Loggable)")
+    public Object log(ProceedingJoinPoint pjp) throws Throwable {
+        log.info(">> {} started", pjp.getSignature().getName());
+        Object result = pjp.proceed();
+        log.info("<< {} completed", pjp.getSignature().getName());
+        return result;
+    }
+}
+```
+
+**✅ 2. Security Check**
+```java
+@Aspect
+@Component
+public class SecurityAspect {
+
+    @Before("@annotation(secured)")
+    public void checkRole(JoinPoint jp, Secured secured) {
+        String requiredRole = secured.role();
+        if (!currentUser.hasRole(requiredRole)) {
+            throw new AccessDeniedException("Access denied!");
+        }
+    }
+}
+```
+
+**✅ 3. Transaction Management (Spring does this internally)**
+```java
+// @Transactional is itself implemented as an AOP Aspect internally
+@Transactional
+public void transferMoney(Account from, Account to, double amount) {
+    from.debit(amount);
+    to.credit(amount);
+}
+```
+
+**✅ 4. Performance Monitoring**
+```java
+@Aspect
+@Component
+public class PerformanceAspect {
+
+    @Around("execution(* com.app.service.*.*(..))")
+    public Object monitor(ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.nanoTime();
+        Object result = pjp.proceed();
+        long elapsed = System.nanoTime() - start;
+
+        if (elapsed > 1_000_000_000L) { // > 1 second
+            log.warn("SLOW METHOD: {} took {}ms",
+                pjp.getSignature(), elapsed / 1_000_000);
+        }
+        return result;
+    }
+}
+```
+
+---
+
+**How Spring AOP Works Internally (Proxy Pattern)**
+
+```
+Your Code calls → Spring Proxy (AOP magic) → Real Bean
+
+┌─────────────┐       ┌──────────────────────┐       ┌─────────────┐
+│   Caller    │ ────▶ │   Spring Proxy       │ ────▶ │  Real Bean  │
+│             │       │  1. Run @Before      │       │             │
+│ orderSvc    │       │  2. Call real method │       │ placeOrder()│
+│ .placeOrder │       │  3. Run @After       │       │             │
+└─────────────┘       └──────────────────────┘       └─────────────┘
+```
+
+Spring creates a **proxy** around your bean and intercepts method calls to apply aspects.
+
+---
+
+**Setup in Spring Boot**
+
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+```java
+// Enable AOP (auto-enabled in Spring Boot)
+@SpringBootApplication
+@EnableAspectJAutoProxy  // optional — Spring Boot enables this automatically
+public class MyApp { }
+```
+
+---
+
+**AOP vs OOP**
+
+| | OOP | AOP |
+|---|---|---|
+| **Solves** | Core business logic | Cross-cutting concerns |
+| **Unit** | Class / Object | Aspect |
+| **Separation** | By objects/classes | By concerns |
+| **Examples** | Order, User, Product | Logging, Security, Transactions |
+
+
 
 ## 10. What is Spring Data JPA?
 
