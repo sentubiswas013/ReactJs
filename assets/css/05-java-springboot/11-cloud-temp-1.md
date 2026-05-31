@@ -122,6 +122,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Use **message queues** (Kafka, RabbitMQ) for async processing
 - Enable **CDN** for static assets
 
+---
 
 [↑ Back to top](#top)
 
@@ -138,6 +139,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Consider **NoSQL** (MongoDB, Cassandra) for specific use cases
 - Implement **caching** (Redis) for frequently accessed data
 
+---
 
 [↑ Back to top](#top)
 
@@ -153,6 +155,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Use **message queues** for async communication
 - Implement **bulkhead pattern** to isolate failures
 
+---
 
 [↑ Back to top](#top)
 
@@ -167,6 +170,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Consider **two-phase commit** (2PC) for strong consistency (but avoid if possible)
 - Implement **idempotency** to handle retries
 
+---
 
 [↑ Back to top](#top)
 
@@ -185,10 +189,12 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 
 ---
 
-### ☕ Spring & Backend
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### ☕ Spring & Backend
 
 #### Q6. @Transactional Not Working
 
@@ -203,6 +209,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 
 **Fix:** Inject self via constructor or use `AopContext.currentProxy()`
 
+---
 
 [↑ Back to top](#top)
 
@@ -217,6 +224,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Apply **event-driven architecture** (publish/subscribe)
 - **Redesign** to break the dependency (often the best solution)
 
+---
 
 [↑ Back to top](#top)
 
@@ -231,6 +239,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Enable **Hibernate statistics** to detect N+1
 - Use **DTO projections** instead of full entities
 
+---
 
 [↑ Back to top](#top)
 
@@ -249,11 +258,13 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 
 ---
 
+[↑ Back to top](#top)
+
+
+---
+
 
 ### 🔐 Security
-
-
-[↑ Back to top](#top)
 
 #### Q10. SQL Injection Attack
 
@@ -267,6 +278,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Add **WAF** (Web Application Firewall)
 - Implement **SQL injection scanning** in CI/CD
 
+---
 
 [↑ Back to top](#top)
 
@@ -281,6 +293,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Avoid `dangerouslySetInnerHTML` in React
 - Implement **HTTP-only cookies** to prevent XSS stealing cookies
 
+---
 
 [↑ Back to top](#top)
 
@@ -298,10 +311,12 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 
 ---
 
-### 🚀 DevOps & Production
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### 🚀 DevOps & Production
 
 #### Q13. Production Deployment Failure
 
@@ -315,6 +330,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Enable **health checks** and **readiness probes**
 - Implement **automated rollback** in CI/CD
 
+---
 
 [↑ Back to top](#top)
 
@@ -332,6 +348,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Use **online schema migration tools** (Liquibase, Flyway)
 - Perform migration during **low-traffic window**
 
+---
 
 [↑ Back to top](#top)
 
@@ -349,10 +366,12 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 
 ---
 
-### 🧪 Testing
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### 🧪 Testing
 
 #### Q16. Flaky Tests in CI/CD
 
@@ -366,6 +385,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - Isolate **test data** (use transactions, clean up after each test)
 - Use **deterministic test data**
 
+---
 
 [↑ Back to top](#top)
 
@@ -388,6 +408,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 
 ### 🔥 Core Java Fundamentals
 
+---
 
 [↑ Back to top](#top)
 
@@ -403,6 +424,7 @@ Scenario-based **Java-only** interview questions for **Java Full Developer** and
 - **Fix**: Implement proper cleanup in `finally` blocks or use try-with-resources
 - **Fix**: Use profiling tools (JVisualVM, MAT) to identify leak sources [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
+---
 
 [↑ Back to top](#top)
 
@@ -435,6 +457,7 @@ list.removeIf(item -> condition);
 CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
 ```
 
+---
 
 [↑ Back to top](#top)
 
@@ -463,6 +486,7 @@ if (list != null) {
 }
 ```
 
+---
 
 [↑ Back to top](#top)
 
@@ -477,6 +501,7 @@ if (list != null) {
 - **Fix**: Always use `.equals()` for Integer comparison, not `==`
 - **Lesson**: Never use `==` for object comparison, only for primitives [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
 
+---
 
 [↑ Back to top](#top)
 
@@ -491,6 +516,7 @@ if (list != null) {
 - **Solution 3**: Use `Hashtable` (legacy, slower)
 - **Why ConcurrentHashMap?**: Uses **segment locking** (Java 7) or **CAS + synchronized** (Java 8+) for better performance [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
+---
 
 [↑ Back to top](#top)
 
@@ -507,10 +533,12 @@ if (list != null) {
 
 ---
 
-### ⚙️ Advanced Java
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### ⚙️ Advanced Java
 
 #### Q24. CompletableFuture Performance Issue
 
@@ -529,6 +557,7 @@ CompletableFuture.supplyAsync(() -> fetchData(), executor);
 - **Fix**: Use `ThreadPoolExecutor` with custom configuration
 - **Rule**: CPU-bound = `CPU cores`, I/O-bound = `CPU cores * 2` or more [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
+---
 
 [↑ Back to top](#top)
 
@@ -553,6 +582,7 @@ try {
 - **Fix**: Use WeakReference for ThreadLocal keys if needed
 - **Lesson**: ThreadLocal requires manual cleanup in long-lived thread pools [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
+---
 
 [↑ Back to top](#top)
 
@@ -567,6 +597,7 @@ try {
 - **Fix**: Never modify fields used in `hashCode()` after adding to HashMap
 - **Best Practice**: Make key classes `final` with `private final` fields [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
 
+---
 
 [↑ Back to top](#top)
 
@@ -582,6 +613,7 @@ try {
 - **Solution 4**: Reduce object allocation rate (object pooling, StringBuilder)
 - **Solution 5**: Increase young generation (`-XX:NewRatio`) for G1GC [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
+---
 
 [↑ Back to top](#top)
 
@@ -613,6 +645,7 @@ if (lock1.tryLock(1, TimeUnit.SECONDS)) {
 }
 ```
 
+---
 
 [↑ Back to top](#top)
 
@@ -630,10 +663,12 @@ if (lock1.tryLock(1, TimeUnit.SECONDS)) {
 
 ---
 
-### 🏛️ Design Patterns, Spring Deep-Dive & JVM
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### 🏛️ Design Patterns, Spring Deep-Dive & JVM
 
 #### Q30. Singleton in Multithreaded Environment
 
@@ -684,6 +719,7 @@ public enum Singleton {
 }
 ```
 
+---
 
 [↑ Back to top](#top)
 
@@ -713,6 +749,7 @@ public void method() {
 
 - **Fix 3**: Use `@Transactional(rollbackFor = Exception.class)` [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
 
+---
 
 [↑ Back to top](#top)
 
@@ -735,6 +772,7 @@ public ServiceA(@Lazy ServiceB serviceB) { ... }
 - **Fix 4**: Use event-driven architecture (publish/subscribe)
 - **Best**: Redesign architecture to eliminate circular dependency [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
 
+---
 
 [↑ Back to top](#top)
 
@@ -765,6 +803,7 @@ private Optional<String> field; // Don't do this
 public Optional<String> getData() { ... }
 ```
 
+---
 
 [↑ Back to top](#top)
 
@@ -781,6 +820,7 @@ public Optional<String> getData() { ... }
 - **Fix**: Use Maven/Gradle dependency management to avoid version conflicts
 - **Fix**: Check for duplicate JARs in classpath [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
 
+---
 
 [↑ Back to top](#top)
 
@@ -821,6 +861,7 @@ CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
 ### ☕ Core Java
 
+---
 
 [↑ Back to top](#top)
 
@@ -869,7 +910,6 @@ try {
 **Follow-up:** How would you distinguish a memory leak from just insufficient heap sizing? What metrics would you monitor in Prometheus/Grafana?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -924,7 +964,6 @@ public class Singleton {
 
 ---
 
-
 [↑ Back to top](#top)
 
 #### Q38. CompletableFuture Pipeline with Error Handling
@@ -974,7 +1013,6 @@ public CompletableFuture<Feed> buildFeed(long userId) {
 
 ---
 
-
 [↑ Back to top](#top)
 
 #### Q39. G1GC vs ZGC — When to Choose Which
@@ -1023,7 +1061,6 @@ You have two services: a batch processor that runs 30-minute jobs on 32GB heap, 
 **Follow-up:** What are virtual threads in Java 21 and how do they change the GC pressure compared to platform threads in a high-concurrency service?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1083,10 +1120,12 @@ Plugin plugin = (Plugin) pluginClass.getDeclaredConstructor().newInstance();
 
 ---
 
-### 🏗️ Architecture
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### 🏗️ Architecture
 
 #### Q41. Rate-Limiting System for an API Gateway
 
@@ -1151,7 +1190,6 @@ public class RateLimitFilter implements GlobalFilter {
 
 ---
 
-
 [↑ Back to top](#top)
 
 #### Q42. Monolith to Microservices Migration Without Downtime
@@ -1186,7 +1224,6 @@ Incrementally replace monolith functionality by routing traffic through a facade
 **Follow-up:** How would you handle shared database tables that are used by 3 different bounded contexts during migration? What is database-per-service and when is it practical?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1230,7 +1267,6 @@ ack.acknowledge(); // only after push/email confirmed
 **Follow-up:** How would you handle notification preferences (user wants email but not push for "likes")? Where would you store and apply these preferences in the pipeline?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1284,7 +1320,6 @@ public ResponseEntity<Payment> createPayment(
 **Follow-up:** How would you handle idempotency for a payment that takes 30 seconds to process? What response do you give if the same key arrives while the first request is still in flight?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1355,10 +1390,12 @@ spec:
 
 ---
 
-### ⚡ Performance
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### ⚡ Performance
 
 #### Q46. Spring Boot Endpoint Optimization (800ms → 100ms)
 
@@ -1405,7 +1442,6 @@ CompletableFuture.allOf(userF, ordersF, statsF).join();
 **Follow-up:** How do you handle cache invalidation when underlying data changes across multiple services? Describe an event-driven cache invalidation approach.
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1455,7 +1491,6 @@ grep -A 20 "nid=0x<hex>" thread-dump.txt
 **Follow-up:** How would you use virtual threads (Java 21) to prevent thread starvation in a mixed I/O and CPU workload? What are the limitations of virtual threads?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1508,10 +1543,12 @@ public class OrderController {
 
 ---
 
-### 🔗 Microservices
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### 🔗 Microservices
 
 #### Q49. Saga Pattern for Distributed Order Transaction
 
@@ -1562,7 +1599,6 @@ public class OrderSaga {
 **Follow-up:** What is the difference between a Saga and a 2PC (two-phase commit)? When would you actually prefer 2PC despite its drawbacks?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1617,7 +1653,6 @@ public CompletableFuture<PaymentResult> paymentFallback(Order order, Exception e
 **Follow-up:** What is the difference between a circuit breaker and a retry mechanism? Can using both together cause problems?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1682,7 +1717,6 @@ public Order createOrder(OrderRequest req) {
 
 ---
 
-
 [↑ Back to top](#top)
 
 #### Q52. CQRS + Event Sourcing for Financial Ledger
@@ -1740,10 +1774,12 @@ public AccountBalance project(List<LedgerEvent> events) {
 
 ---
 
-### 🗄️ DB / JPA
-
-
 [↑ Back to top](#top)
+
+
+---
+
+### 🗄️ DB / JPA
 
 #### Q53. JPA Queries Causing Database Deadlocks
 
@@ -1798,7 +1834,6 @@ public class Inventory {
 
 ---
 
-
 [↑ Back to top](#top)
 
 #### Q54. Multi-Tenant Data Isolation in SaaS
@@ -1847,7 +1882,6 @@ public class TenantInterceptor implements HandlerInterceptor {
 **Follow-up:** How do you perform cross-tenant analytics (e.g., average order value across all tenants) without violating isolation? What architectural pattern enables this?
 
 ---
-
 
 [↑ Back to top](#top)
 
@@ -1904,4 +1938,7 @@ Your `user_events` table grows by 100M rows/day. Queries are already taking 30 s
 
 **Follow-up:** How do you handle global unique IDs across shards? Why is auto-increment no longer sufficient and what alternatives exist (Snowflake IDs, ULIDs)?
 
+---
+
 [↑ Back to top](#top)
+
