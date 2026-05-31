@@ -2,13 +2,102 @@
 
 Scenario-based **Java-only** interview questions for **Java Full Developer** and **Architecture Engineer** positions (Senior / Lead level). Each question includes production context, expected answers, code examples, and follow-up prompts.
 
-| Section | Questions | Topics |
-|---------|-----------|--------|
-| Section 1 | Q1–Q17 | System Design, Spring Boot, Security, DevOps, Testing |
-| Section 2 | Q18–Q35 | Core Java, Advanced Java, Design Patterns & JVM |
-| Section 3 | Q36–Q55 | Architect-level: Core Java, Architecture, Performance, Microservices, DB/JPA |
-
 **55 questions** · Java / Spring / JVM focus only (no frontend or behavioral)
+
+---
+
+## Table of Contents
+
+### Section 1: System Design, Spring & Backend (Q1–Q17)
+
+**System Design & Architecture**
+- [Q1. High-Traffic Spike Scenario](#q1-high-traffic-spike-scenario)
+- [Q2. Database Scale Scenario](#q2-database-scale-scenario)
+- [Q3. Microservices Communication Failure](#q3-microservices-communication-failure)
+- [Q4. Distributed Transaction Problem](#q4-distributed-transaction-problem)
+- [Q5. Memory Leak in Production](#q5-memory-leak-in-production)
+
+**Spring & Backend**
+- [Q6. @Transactional Not Working](#q6-transactional-not-working)
+- [Q7. Circular Dependency in Spring](#q7-circular-dependency-in-spring)
+- [Q8. N+1 Query Problem](#q8-n1-query-problem)
+- [Q9. API Response Time Too Slow](#q9-api-response-time-too-slow)
+
+**Security**
+- [Q10. SQL Injection Attack](#q10-sql-injection-attack)
+- [Q11. XSS Attack Prevention](#q11-xss-attack-prevention)
+- [Q12. API Security Breach](#q12-api-security-breach)
+
+**DevOps & Production**
+- [Q13. Production Deployment Failure](#q13-production-deployment-failure)
+- [Q14. Database Migration in Production](#q14-database-migration-in-production)
+- [Q15. Container Orchestration Failure](#q15-container-orchestration-failure)
+
+**Testing**
+- [Q16. Flaky Tests in CI/CD](#q16-flaky-tests-in-cicd)
+- [Q17. Performance Testing](#q17-performance-testing)
+
+---
+
+### Section 2: Core Java Scenarios (Q18–Q35)
+
+**Core Java Fundamentals**
+- [Q18. Memory Leak Scenario (HashMap)](#q18-memory-leak-scenario-hashmap)
+- [Q19. ConcurrentModificationException Scenario](#q19-concurrentmodificationexception-scenario)
+- [Q20. NullPointerException in Java 8 Streams](#q20-nullpointerexception-in-java-8-streams)
+- [Q21. Integer Caching Surprise](#q21-integer-caching-surprise)
+- [Q22. HashMap in Multithreaded Environment](#q22-hashmap-in-multithreaded-environment)
+- [Q23. String Memory Leak](#q23-string-memory-leak)
+
+**Advanced Java**
+- [Q24. CompletableFuture Performance Issue](#q24-completablefuture-performance-issue)
+- [Q25. ThreadLocal Memory Leak](#q25-threadlocal-memory-leak)
+- [Q26. HashMap Key Being Modified](#q26-hashmap-key-being-modified)
+- [Q27. Garbage Collection Pause Time](#q27-garbage-collection-pause-time)
+- [Q28. Deadlock Detection](#q28-deadlock-detection)
+- [Q29. Java Stream Parallel Performance](#q29-java-stream-parallel-performance)
+
+**Design Patterns, Spring Deep-Dive & JVM**
+- [Q30. Singleton in Multithreaded Environment](#q30-singleton-in-multithreaded-environment)
+- [Q31. Exception Handling in Transaction](#q31-exception-handling-in-transaction)
+- [Q32. Circular Dependency in Constructor Injection](#q32-circular-dependency-in-constructor-injection)
+- [Q33. Java 8 Optional Best Practices](#q33-java-8-optional-best-practices)
+- [Q34. ClassLoader Issue in Web Application](#q34-classloader-issue-in-web-application)
+- [Q35. Producer-Consumer Pattern Implementation](#q35-producer-consumer-pattern-implementation)
+
+---
+
+### Section 3: Senior / Architect Level Scenarios (Q36–Q55)
+
+**Core Java**
+- [Q36. Memory Leak in a Long-Running Java Service](#q36-memory-leak-in-a-long-running-java-service)
+- [Q37. Java Memory Model & Concurrent Code](#q37-java-memory-model--concurrent-code)
+- [Q38. CompletableFuture Pipeline with Error Handling](#q38-completablefuture-pipeline-with-error-handling)
+- [Q39. G1GC vs ZGC — When to Choose Which](#q39-g1gc-vs-zgc--when-to-choose-which)
+- [Q40. Custom ClassLoader for Plugin Isolation](#q40-custom-classloader-for-plugin-isolation)
+
+**Architecture**
+- [Q41. Rate-Limiting System for an API Gateway](#q41-rate-limiting-system-for-an-api-gateway)
+- [Q42. Monolith to Microservices Migration Without Downtime](#q42-monolith-to-microservices-migration-without-downtime)
+- [Q43. Event-Driven Notification System at Scale](#q43-event-driven-notification-system-at-scale)
+- [Q44. Idempotent REST API for Payment Processing](#q44-idempotent-rest-api-for-payment-processing)
+- [Q45. Blue-Green and Canary Deployments in Kubernetes](#q45-blue-green-and-canary-deployments-in-kubernetes)
+
+**Performance**
+- [Q46. Spring Boot Endpoint Optimization (800ms → 100ms)](#q46-spring-boot-endpoint-optimization-800ms--100ms)
+- [Q47. High CPU Usage During Idle Periods](#q47-high-cpu-usage-during-idle-periods)
+- [Q48. Reactive Programming with Spring WebFlux](#q48-reactive-programming-with-spring-webflux)
+
+**Microservices**
+- [Q49. Saga Pattern for Distributed Order Transaction](#q49-saga-pattern-for-distributed-order-transaction)
+- [Q50. Circuit Breaker with Fallback Behavior](#q50-circuit-breaker-with-fallback-behavior)
+- [Q51. Distributed Tracing Across Microservices](#q51-distributed-tracing-across-microservices)
+- [Q52. CQRS + Event Sourcing for Financial Ledger](#q52-cqrs--event-sourcing-for-financial-ledger)
+
+**DB / JPA**
+- [Q53. JPA Queries Causing Database Deadlocks](#q53-jpa-queries-causing-database-deadlocks)
+- [Q54. Multi-Tenant Data Isolation in SaaS](#q54-multi-tenant-data-isolation-in-saas)
+- [Q55. Database Sharding Strategy for 10 Billion Rows](#q55-database-sharding-strategy-for-10-billion-rows)
 
 ---
 
