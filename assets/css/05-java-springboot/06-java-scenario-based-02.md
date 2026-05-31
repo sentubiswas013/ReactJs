@@ -1,4 +1,4 @@
-# Java Full Stack – Scenario-Based Interview Questions (Part 2)
+# Java Full Stack · Architect Engineer – Scenario-Based Interview Questions (Part 2)
 
 Scenario-based interview questions for **Java Full Stack Developer / Engineer / Architect** roles (Senior / Lead level), with context and expected answers.
 
@@ -692,3 +692,1061 @@ consumer.submit(() -> {
 // ✅ Fix 2: Use CompletableFuture for parallel processing
 CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 ```
+
+---
+
+## Part III: Senior / Lead / Architect Level Scenarios
+
+**Java Full Stack · Architect Engineer · Scenario-Based Questions · Senior / Lead Level**
+
+20 questions · 5 topic areas · Q42–Q61
+
+| # | Q | Topic | Difficulty | Question |
+|---|---|-------|------------|----------|
+| 01 | Q42 | Core Java | HARD | Memory leak in a long-running Java service |
+| 02 | Q43 | Architecture | SENIOR | Rate-limiting system for an API gateway (50K RPS) |
+| 03 | Q44 | Core Java | HARD | Java memory model & concurrent code visibility bug |
+| 04 | Q45 | Microservices | SENIOR | Saga pattern for distributed order transaction |
+| 05 | Q46 | Performance | HARD | Spring Boot endpoint optimization (800ms → 100ms) |
+| 06 | Q47 | Architecture | SENIOR | Monolith to microservices migration without downtime |
+| 07 | Q48 | DB / JPA | HARD | JPA queries causing database deadlocks |
+| 08 | Q49 | Microservices | SENIOR | Circuit breaker with fallback behavior |
+| 09 | Q50 | Core Java | HARD | CompletableFuture pipeline with error handling |
+| 10 | Q51 | Architecture | SENIOR | Event-driven notification system (10M users) |
+| 11 | Q52 | DB / JPA | HARD | Multi-tenant data isolation in SaaS |
+| 12 | Q53 | Core Java | HARD | G1GC vs ZGC — when to choose which |
+| 13 | Q54 | Microservices | HARD | Distributed tracing across 8 microservices |
+| 14 | Q55 | Architecture | SENIOR | Idempotent REST API for payment processing |
+| 15 | Q56 | Performance | HARD | High CPU usage during idle periods |
+| 16 | Q57 | Microservices | SENIOR | CQRS + Event Sourcing for financial ledger |
+| 17 | Q58 | Core Java | HARD | Custom ClassLoader for plugin isolation |
+| 18 | Q59 | DB / JPA | SENIOR | Database sharding strategy for 10 billion rows |
+| 19 | Q60 | Performance | SENIOR | Reactive programming with Spring WebFlux |
+| 20 | Q61 | Architecture | SENIOR | Blue-green and canary deployments in Kubernetes |
+
+---
+
+### ☕ Core Java
+
+#### Q42. Memory Leak in a Long-Running Java Service
+
+**Difficulty:** HARD · **Topic:** Core Java
+
+**Q:** *Memory leak in a long-running Java service — how do you diagnose and fix it?*
+
+Your production microservice starts with 512MB heap. After 3 days of running, it triggers OOM and restarts. GC logs show full GC happening every 5 minutes and reclaiming less each time.
+
+**Expected Answer:**
+
+**Step 1 — Confirm & Capture**
+- Enable JVM flags: `-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/`
+- This captures a heap dump at crash time
+- Also add `-Xlog:gc*:file=/tmp/gc.log` for GC analysis
+
+**Step 2 — Analyze with MAT / VisualVM**
+- Open heap dump in Eclipse MAT → run "Leak Suspects Report"
+- Check "Dominator Tree" — find objects holding most memory
+- Common culprits: unbounded caches (HashMap growth), ThreadLocal not removed, static collections, unclosed streams/connections
+- Check for ClassLoader leaks if using dynamic class loading
+
+**Common Scenario — ThreadLocal Leak**
+
+```java
+// WRONG — ThreadLocal never cleaned in thread pools
+static ThreadLocal<UserContext> ctx = new ThreadLocal<>();
+
+// FIX — always remove in finally
+try {
+    ctx.set(new UserContext(user));
+    processRequest();
+} finally {
+    ctx.remove(); // critical in pooled threads
+}
+```
+
+**Architectural Fix**
+- Use weak references for caches: `WeakHashMap` or Caffeine with size limits
+- Set explicit eviction on all caches (`@Cacheable` with evict policy)
+- Use try-with-resources for all `Closeable` resources
+- Profile with async-profiler in production (low overhead)
+
+**Follow-up:** How would you distinguish a memory leak from just insufficient heap sizing? What metrics would you monitor in Prometheus/Grafana?
+
+---
+
+#### Q44. Java Memory Model & Concurrent Code
+
+**Difficulty:** HARD · **Topic:** Core Java
+
+**Q:** *Explain how the Java memory model affects concurrent code — give a real bug example.*
+
+A senior dev reviews your code and says "this has a visibility bug." Your singleton initialization looks correct to you. Walk through what the JMM guarantees and where the bug is.
+
+**Expected Answer:**
+
+**The Bug — Double-Checked Locking (Pre-Java 5)**
+
+```java
+// BROKEN — CPU can reorder: allocate memory → assign ref → initialize
+private static Singleton instance;
+public static Singleton getInstance() {
+    if (instance == null) {        // Thread B sees non-null but uninitialized!
+        synchronized(Singleton.class) {
+            if (instance == null)
+                instance = new Singleton();
+        }
+    }
+    return instance;
+}
+
+// FIX — volatile creates happens-before fence
+private static volatile Singleton instance;
+```
+
+**JMM Key Guarantees**
+- `volatile` write happens-before `volatile` read of same variable
+- `synchronized` block exit happens-before entry by another thread
+- `Thread.start()` happens-before any code in that thread
+- Without these: CPUs and JIT may reorder instructions for performance
+
+**Better Pattern — Initialization-on-Demand Holder**
+
+```java
+public class Singleton {
+    private static class Holder {
+        static final Singleton INSTANCE = new Singleton();
+    }
+    public static Singleton get() { return Holder.INSTANCE; }
+    // JVM class loading guarantees thread safety — no locks needed
+}
+```
+
+**Follow-up:** What is a "spurious wakeup" and how does it affect code using `Object.wait()`? Show the correct pattern.
+
+---
+
+#### Q50. CompletableFuture Pipeline with Error Handling
+
+**Difficulty:** HARD · **Topic:** Core Java
+
+**Q:** *CompletableFuture pipeline with error handling — design a real async workflow.*
+
+You need to: (1) fetch user from DB, (2) in parallel fetch their orders and preferences, (3) combine them to build a personalized feed, (4) if any step fails, return a degraded response, never throw to the caller.
+
+**Expected Answer:**
+
+**Full Async Pipeline**
+
+```java
+public CompletableFuture<Feed> buildFeed(long userId) {
+    CompletableFuture<User> userF =
+        CompletableFuture.supplyAsync(() -> userRepo.find(userId), executor)
+            .exceptionally(e -> User.anonymous()); // degrade gracefully
+
+    CompletableFuture<List<Order>> ordersF =
+        userF.thenComposeAsync(u -> orderService.getOrders(u.getId()), executor)
+             .exceptionally(e -> Collections.emptyList());
+
+    CompletableFuture<Prefs> prefsF =
+        userF.thenComposeAsync(u -> prefService.getPrefs(u.getId()), executor)
+             .exceptionally(e -> Prefs.defaults());
+
+    return userF.thenCombineAsync(
+        ordersF.thenCombineAsync(prefsF, OrdersAndPrefs::new, executor),
+        (user, op) -> feedBuilder.build(user, op.orders(), op.prefs()),
+        executor
+    ).orTimeout(2, TimeUnit.SECONDS)
+     .exceptionally(e -> Feed.empty());
+}
+```
+
+**Key Methods to Know**
+- `thenApply` — sync transform of result (same thread)
+- `thenCompose` — flatMap: returns a new CompletableFuture
+- `thenCombine` — merge two independent futures
+- `exceptionally` — handle errors with fallback value
+- `orTimeout` — fail with TimeoutException after N time units
+- `allOf` — wait for N futures; use with `thenApply` to collect results
+
+**Follow-up:** What happens to your CompletableFuture if the thread in the executor is interrupted? How do you propagate cancellation properly?
+
+---
+
+#### Q53. G1GC vs ZGC — When to Choose Which
+
+**Difficulty:** HARD · **Topic:** Core Java
+
+**Q:** *Explain how Java garbage collectors differ — when do you choose G1 vs ZGC?*
+
+You have two services: a batch processor that runs 30-minute jobs on 32GB heap, and a real-time API with strict P99 < 10ms SLA. Your DevOps team asks which GC to use for each and why.
+
+**Expected Answer:**
+
+**GC Comparison**
+- **G1GC** (default since Java 9): regional heap, predictable pauses ~200ms, good for heaps 4GB–32GB, tunable with `-XX:MaxGCPauseMillis=200`
+- **ZGC** (Java 15+ production-ready): concurrent GC, pauses < 1ms even on 1TB heap, slight throughput cost, ideal for latency-sensitive services
+- **Shenandoah**: similar to ZGC, lower overhead, good for medium latency requirements
+- **Serial/Parallel**: high throughput, high pauses — avoid for latency-critical work
+
+**For Batch Processor (32GB, throughput matters)**
+
+```bash
+# G1GC — maximize throughput, pauses acceptable
+-XX:+UseG1GC
+-Xms32g -Xmx32g
+-XX:MaxGCPauseMillis=500
+-XX:G1HeapRegionSize=32m
+-XX:+G1UseAdaptiveIHOP
+```
+
+**For Real-Time API (P99 < 10ms)**
+
+```bash
+# ZGC — ultra-low pause regardless of heap size
+-XX:+UseZGC
+-Xms8g -Xmx8g
+-XX:+ZGenerational    # Java 21+ generational ZGC (faster)
+-XX:ConcGCThreads=4
+```
+
+**Key Tuning Tips**
+- Always set `-Xms = -Xmx` to prevent heap resizing pauses
+- Monitor GC with `-Xlog:gc*:file=gc.log:time,uptime`
+- ZGC's weakness: higher memory overhead (~10–20% more than G1)
+- Java 21 Virtual Threads reduce heap pressure significantly for I/O-heavy services
+
+**Follow-up:** What are virtual threads in Java 21 and how do they change the GC pressure compared to platform threads in a high-concurrency service?
+
+---
+
+#### Q58. Custom ClassLoader for Plugin Isolation
+
+**Difficulty:** HARD · **Topic:** Core Java
+
+**Q:** *Walk through a custom ClassLoader implementation and when you would need one.*
+
+You are building a plugin system where customers can upload Java code that your application loads and executes at runtime without restarting. Each plugin must be isolated — a bug in Plugin A must not crash Plugin B or the host application.
+
+**Expected Answer:**
+
+**Custom ClassLoader for Plugin Isolation**
+
+```java
+public class PluginClassLoader extends URLClassLoader {
+    private final ClassLoader parent;
+
+    public PluginClassLoader(URL[] jarUrls, ClassLoader parent) {
+        super(jarUrls, parent);
+        this.parent = parent;
+    }
+
+    @Override
+    protected Class<?> loadClass(String name, boolean resolve)
+            throws ClassNotFoundException {
+        // Reverse delegation: try plugin JAR first (not parent)
+        try {
+            return findClass(name); // check our JAR first
+        } catch (ClassNotFoundException e) {
+            return parent.loadClass(name); // fall back to host
+        }
+    }
+}
+
+// Load and execute plugin
+PluginClassLoader loader = new PluginClassLoader(
+    new URL[]{ pluginJar.toURI().toURL() }, Thread.currentThread().getContextClassLoader()
+);
+Class<?> pluginClass = loader.loadClass("com.customer.Plugin");
+Plugin plugin = (Plugin) pluginClass.getDeclaredConstructor().newInstance();
+```
+
+**Unloading & Memory Management**
+- To unload a plugin: remove all strong references to the ClassLoader and its classes
+- GC will collect the ClassLoader (and all its loaded classes) when no references remain
+- `WeakReference` allows GC to collect it when plugin is unregistered
+- Watch for: static fields in plugin classes holding references back to ClassLoader — prevents GC
+
+**Security Sandbox**
+- Run plugin in separate Thread with custom SecurityManager (deprecated Java 17+)
+- Modern approach: GraalVM Polyglot sandbox or OSGi (Apache Felix)
+- Time-limit plugin execution with `Future.get(timeout)`
+
+**Follow-up:** What is the ClassLoader hierarchy in a typical Spring Boot fat JAR application? How does it differ from a standard Java application?
+
+---
+
+### 🏗️ Architecture
+
+#### Q43. Rate-Limiting System for an API Gateway
+
+**Difficulty:** SENIOR · **Topic:** Architecture
+
+**Q:** *Design a rate-limiting system for an API gateway serving 50,000 RPS.*
+
+You are the architect for a fintech API gateway. One endpoint is being hammered by a rogue client causing 503s for others. You need per-client rate limiting that survives node restarts and works across 10 gateway instances.
+
+**Expected Answer:**
+
+**Algorithm Choice**
+- Use **Token Bucket** (allows bursting) or **Sliding Window Log**
+- For distributed rate limiting across 10 nodes, a local-only counter will fail — you need a shared counter in Redis
+
+**Redis Lua Script — Atomic Sliding Window**
+
+```java
+// Spring Boot + Lettuce + Lua for atomic rate check
+String luaScript = """
+    local key = KEYS[1]
+    local now = tonumber(ARGV[1])
+    local window = tonumber(ARGV[2])
+    local limit = tonumber(ARGV[3])
+    redis.call('ZREMRANGEBYSCORE', key, 0, now - window)
+    local count = redis.call('ZCARD', key)
+    if count < limit then
+        redis.call('ZADD', key, now, now)
+        redis.call('EXPIRE', key, window)
+        return 1
+    end
+    return 0
+""";
+
+// Key: "ratelimit:{clientId}:{endpoint}"
+// Window: 1000ms, Limit: 100 req/sec
+```
+
+**Architecture Layers**
+- **L1** — Local cache (Caffeine, 100ms TTL) for hot clients to reduce Redis round-trips by ~80%
+- **L2** — Redis Cluster with Lua scripts for distributed atomic counting
+- Reject with HTTP 429, `Retry-After` header, and `X-RateLimit-Remaining`
+- Graceful degradation: if Redis is down, fail-open with local limiting only
+
+**Spring Cloud Gateway Filter**
+
+```java
+@Component
+public class RateLimitFilter implements GlobalFilter {
+    @Override
+    public Mono<Void> filter(ServerWebExchange ex, GatewayFilterChain chain) {
+        String clientId = ex.getRequest().getHeaders().getFirst("X-Client-ID");
+        return rateLimiter.isAllowed(clientId)
+            .flatMap(allowed -> allowed
+                ? chain.filter(ex)
+                : tooManyRequests(ex));
+    }
+}
+```
+
+**Follow-up:** How would you handle rate limiting for authenticated vs anonymous users differently? What about IP-based limiting at the CDN layer?
+
+---
+
+#### Q47. Monolith to Microservices Migration Without Downtime
+
+**Difficulty:** SENIOR · **Topic:** Architecture
+
+**Q:** *How would you migrate a monolith to microservices without downtime?*
+
+You have a 5-year-old Spring MVC monolith with 200 tables, 1M active users, and zero tests. The business needs 3 new features that require independent scaling. You cannot afford 6 months of big-bang rewrite.
+
+**Expected Answer:**
+
+**Strangler Fig Pattern**
+Incrementally replace monolith functionality by routing traffic through a facade. New requests go to new services; old requests still hit the monolith. The monolith "strangles" over time.
+
+**Phase 1 — Add an API Gateway (Week 1–2)**
+- Put Kong / Spring Cloud Gateway in front of monolith
+- 100% traffic still routes to monolith initially
+- Gain: observability, rate limiting, auth centralization
+
+**Phase 2 — Extract Bounded Contexts**
+- Identify high-value, loosely-coupled domains first (e.g., Notifications)
+- Use the **Anti-Corruption Layer**: new service talks to monolith DB via a read API, not direct DB access
+- Dual-write period: write to both monolith DB and new service DB, read from monolith
+
+**Phase 3 — Data Migration (Hardest Part)**
+- Shadow reads: compare results from old and new service silently
+- Feature flag to route 1% → 10% → 50% → 100% to new service
+- Use **Change Data Capture** (Debezium) to sync monolith DB changes to new service DB during transition
+- Run both in parallel until confidence is high, then remove monolith code path
+
+**Follow-up:** How would you handle shared database tables that are used by 3 different bounded contexts during migration? What is database-per-service and when is it practical?
+
+---
+
+#### Q51. Event-Driven Notification System at Scale
+
+**Difficulty:** SENIOR · **Topic:** Architecture
+
+**Q:** *Design an event-driven notification system for 10 million users with delivery guarantees.*
+
+Users can subscribe to events (new follower, like, comment). Events are generated at 50,000/second peak. Notifications must be delivered within 5 seconds, must not duplicate, and must survive system restarts. You have Kafka available.
+
+**Expected Answer:**
+
+**Architecture Overview**
+- **Producers**: Order/Social/Payment services → publish to Kafka topics
+- **Notification Router**: consumes events, routes to correct delivery channel
+- **Delivery Workers**: push (FCM/APNs), email (SES), SMS (Twilio) — fan-out
+- **State Store**: Redis for deduplication, Postgres for delivery receipts
+
+**Exactly-Once Delivery**
+
+```java
+// Deduplication with Redis SETNX (TTL 24h)
+String dedupKey = "notif:" + eventId + ":" + userId;
+Boolean isNew = redis.opsForValue()
+    .setIfAbsent(dedupKey, "1", Duration.ofHours(24));
+
+if (Boolean.TRUE.equals(isNew)) {
+    deliverNotification(userId, notification);
+}
+// Kafka consumer: manual commit AFTER successful delivery
+ack.acknowledge(); // only after push/email confirmed
+```
+
+**Scaling Fan-Out for Celebrities**
+- **Problem**: user with 5M followers generates 5M notification records on one event
+- **Solution**: lazy fan-out — store event once, expand to followers in background
+- Priority queues: premium users get fast-path processing
+- Backpressure: if FCM rejects, exponential backoff with dead-letter queue
+
+**Follow-up:** How would you handle notification preferences (user wants email but not push for "likes")? Where would you store and apply these preferences in the pipeline?
+
+---
+
+#### Q55. Idempotent REST API for Payment Processing
+
+**Difficulty:** SENIOR · **Topic:** Architecture
+
+**Q:** *How do you design an idempotent REST API for payment processing?*
+
+A mobile client POSTs `/payments` with $100 charge. Due to a network blip, the client never receives the 200 response. It retries — but your server already processed the payment. How do you prevent double charging?
+
+**Expected Answer:**
+
+**Idempotency Key Pattern**
+
+```http
+POST /payments
+Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+{ "amount": 100, "currency": "USD" }
+```
+
+```java
+@PostMapping("/payments")
+public ResponseEntity<Payment> createPayment(
+        @RequestHeader("Idempotency-Key") String key,
+        @RequestBody PaymentRequest req) {
+
+    // Check if we already processed this key
+    return idempotencyStore.get(key)
+        .map(existing -> ResponseEntity.ok(existing)) // replay stored response
+        .orElseGet(() -> {
+            Payment payment = paymentService.charge(req);
+            idempotencyStore.save(key, payment, Duration.ofDays(1));
+            return ResponseEntity.status(201).body(payment);
+        });
+}
+```
+
+**Storage Considerations**
+- Store idempotency key + full response in Redis (24h TTL)
+- Must be atomic: use Redis SET NX (set if not exists) or DB unique constraint on key
+- Race condition: two simultaneous requests with same key — use distributed lock on key during first processing
+- Include request hash in stored record — reject if same key with different body
+
+**HTTP Status for Replays**
+- Return same 200/201 with original response body
+- Add `Idempotent-Replayed: true` header so client can distinguish
+- Never return 4xx for a valid replay — client should not retry differently
+
+**Follow-up:** How would you handle idempotency for a payment that takes 30 seconds to process? What response do you give if the same key arrives while the first request is still in flight?
+
+---
+
+#### Q61. Blue-Green and Canary Deployments in Kubernetes
+
+**Difficulty:** SENIOR · **Topic:** Architecture
+
+**Q:** *How do you implement blue-green and canary deployments in a Java microservice fleet?*
+
+You have 20 microservices, each deployed in Kubernetes. A critical service has a bug that only appears under 5% of traffic patterns. You need to deploy a fix with zero downtime and the ability to rollback in under 60 seconds.
+
+**Expected Answer:**
+
+**Blue-Green Deployment**
+- Run two identical environments: blue (current) and green (new version)
+- Route 100% traffic to blue, deploy to green, run smoke tests
+- Switch: update Kubernetes Service selector from blue to green instantly
+- Rollback: switch selector back to blue — takes < 5 seconds
+
+**Canary with Argo Rollouts**
+
+```yaml
+# Argo Rollouts canary strategy
+spec:
+  strategy:
+    canary:
+      steps:
+      - setWeight: 5      # 5% to canary
+      - pause: {duration: 10m}
+      - setWeight: 20
+      - pause: {duration: 10m}
+      - setWeight: 50
+      - pause: {}         # manual promotion
+      analysis:
+        templates:
+        - templateName: error-rate
+        args:
+        - name: service-name
+          value: order-service
+```
+
+**Automated Rollback with Analysis**
+
+```yaml
+# AnalysisTemplate: rollback if error rate > 5%
+spec:
+  metrics:
+  - name: error-rate
+    interval: 1m
+    failureLimit: 1
+    provider:
+      prometheus:
+        address: http://prometheus:9090
+        query: |
+          rate(http_requests_total{status=~"5..",
+            service="{{args.service-name}}"}[5m])
+          /
+          rate(http_requests_total{service="{{args.service-name}}"}[5m])
+    successCondition: result[0] < 0.05
+```
+
+**Database Schema Compatibility**
+- Never deploy DB migration that breaks old version — both versions must work during transition
+- Expand/contract pattern: add new column as nullable, deploy, backfill, make required, drop old column
+- Flyway/Liquibase: run migrations before code deployment with backward-compatible changes only
+
+**Follow-up:** How do you handle stateful services (with local cache or session state) in a blue-green deployment? What special considerations apply compared to stateless services?
+
+---
+
+### ⚡ Performance
+
+#### Q46. Spring Boot Endpoint Optimization (800ms → 100ms)
+
+**Difficulty:** HARD · **Topic:** Performance
+
+**Q:** *A Spring Boot endpoint takes 800ms — your target is 100ms. Walk through your optimization process.*
+
+`GET /api/v1/dashboard` returns aggregated data for a user. Currently it fetches from 5 different tables sequentially. P99 latency is 800ms under 500 concurrent users. You need 100ms P99.
+
+**Expected Answer:**
+
+**1. Profile First (Never Guess)**
+- Add Spring Boot Actuator + Micrometer
+- Use async-profiler in prod or YourKit in staging
+- Identify: is it CPU-bound, I/O-bound, or lock-contention?
+
+**2. Fix N+1 and Sequential Queries**
+
+```java
+// BEFORE — 5 sequential DB calls = 5 * 150ms = 750ms
+User user = userRepo.findById(id);
+List<Order> orders = orderRepo.findByUser(id);
+Stats stats = statsRepo.findByUser(id);
+
+// AFTER — CompletableFuture parallel execution
+CompletableFuture<User> userF = CompletableFuture.supplyAsync(() -> userRepo.findById(id));
+CompletableFuture<List<Order>> ordersF = CompletableFuture.supplyAsync(() -> orderRepo.findByUser(id));
+CompletableFuture<Stats> statsF = CompletableFuture.supplyAsync(() -> statsRepo.findByUser(id));
+CompletableFuture.allOf(userF, ordersF, statsF).join();
+// Now runs in max(150ms) = 150ms not 450ms
+```
+
+**3. Add Caching Layer**
+- `@Cacheable` on read-heavy aggregations with 30s TTL
+- Redis for distributed cache — avoid thundering herd with probabilistic early refresh
+- Cache-aside pattern for user-specific data
+
+**4. DB Optimizations**
+- Add composite indexes on frequent WHERE + ORDER BY columns
+- Use database views or materialized views for dashboard aggregates
+- Connection pool sizing: HikariCP `minimum-idle = 10`, `maximum-pool-size = 50`
+- Use `@Query` with JOIN FETCH to avoid N+1 in JPA
+
+**Follow-up:** How do you handle cache invalidation when underlying data changes across multiple services? Describe an event-driven cache invalidation approach.
+
+---
+
+#### Q56. High CPU Usage During Idle Periods
+
+**Difficulty:** HARD · **Topic:** Performance
+
+**Q:** *Your application has high CPU usage during seemingly idle periods — diagnose it.*
+
+Production pods show 80% CPU at 2 AM with zero user traffic. No scheduled jobs are supposed to run. GC logs look normal. How do you find the root cause?
+
+**Expected Answer:**
+
+**Step 1 — Capture Thread Dump + CPU Profile**
+
+```bash
+# Get PID of Java process
+jps -l
+
+# Thread dump — shows what every thread is doing
+jstack <pid> > thread-dump.txt
+
+# CPU profiling with async-profiler (low overhead, safe for prod)
+./profiler.sh -d 30 -f /tmp/profile.html <pid>
+# Open profile.html — flame graph shows hot methods
+```
+
+**Common Culprits at 2 AM**
+- Scheduled tasks (`@Scheduled`) with misconfigured cron — `"0 * * * * *"` fires every minute not every hour
+- Connection pool validation queries — HikariCP `testQuery` running on idle connections
+- Prometheus/Actuator scraping triggering expensive metrics computation
+- Log rotation or compression by logback consuming CPU
+- Background compiler (JIT) still optimizing after warm-up — check `PrintCompilation`
+- Infinite loop in background thread with no sleep/wait
+
+**Finding Spinning Threads**
+
+```bash
+# Find threads consuming most CPU (Linux)
+top -H -p <java_pid>
+# Note TID (thread ID), convert to hex:
+printf '%x\n' <TID>
+# Find in thread dump — "nid=0x<hex>" is your culprit thread
+grep -A 20 "nid=0x<hex>" thread-dump.txt
+```
+
+**Follow-up:** How would you use virtual threads (Java 21) to prevent thread starvation in a mixed I/O and CPU workload? What are the limitations of virtual threads?
+
+---
+
+#### Q60. Reactive Programming with Spring WebFlux
+
+**Difficulty:** SENIOR · **Topic:** Performance
+
+**Q:** *How would you implement reactive programming in a Spring WebFlux service?*
+
+Your REST service must handle 100,000 concurrent connections with minimal threads. Currently your blocking Spring MVC app needs 100,000 threads (100K × 1MB stack = 100GB RAM). Redesign it.
+
+**Expected Answer:**
+
+**Why Reactive Solves This**
+- Reactive uses event loops: 8 threads handle 100K connections by never blocking
+- When I/O completes, a callback resumes the chain
+- No thread sits idle waiting for DB/HTTP response
+
+**Spring WebFlux Reactive Chain**
+
+```java
+@RestController
+public class OrderController {
+
+    @GetMapping("/orders/{id}")
+    public Mono<OrderResponse> getOrder(@PathVariable String id) {
+        return orderRepo.findById(id)           // R2DBC — non-blocking DB
+            .zipWith(inventoryClient.getStock(id)) // parallel non-blocking HTTP
+            .map(tuple -> OrderResponse.from(
+                tuple.getT1(), tuple.getT2()
+            ))
+            .switchIfEmpty(Mono.error(new NotFoundException(id)));
+    }
+}
+```
+
+**Critical Rules**
+- **NEVER** block in a reactive chain: no `Thread.sleep()`, no `.get()` on CompletableFuture, no JDBC (use R2DBC)
+- If you must call blocking code: wrap with `Mono.fromCallable(...).subscribeOn(Schedulers.boundedElastic())`
+- Error handling: `onErrorResume` for fallback, `onErrorMap` to transform exceptions
+- Backpressure: `Flux.limitRate(100)` prevents overwhelming slow consumers
+
+**Java 21 Alternative**
+- Virtual threads (Project Loom) achieve similar scalability WITH blocking code
+- Replace WebFlux with regular Spring MVC + virtual thread executor
+- Much simpler mental model — no reactive streams learning curve
+- Trade-off: reactive is more memory efficient; virtual threads are more dev-friendly
+
+**Follow-up:** How do you propagate security context (e.g., Spring Security authentication) across reactive chains where there is no ThreadLocal?
+
+---
+
+### 🔗 Microservices
+
+#### Q45. Saga Pattern for Distributed Order Transaction
+
+**Difficulty:** SENIOR · **Topic:** Microservices
+
+**Q:** *How do you implement Saga pattern for a distributed order transaction?*
+
+Your e-commerce system has separate Order, Inventory, Payment, and Shipping services. A customer places an order — payment succeeds but inventory reservation fails. You have 2 minutes of partial state. How do you handle this?
+
+**Expected Answer:**
+
+**Two Saga Approaches**
+- **Choreography**: services publish events, others react — good for simple flows, hard to track globally
+- **Orchestration**: a Saga Orchestrator drives the steps — better for complex flows, easier to debug
+
+**Orchestration with Axon / Spring State Machine**
+
+```java
+@Saga
+public class OrderSaga {
+
+    @StartSaga @SagaEventHandler(associationProperty = "orderId")
+    public void on(OrderCreatedEvent e) {
+        commandGateway.send(new ReserveInventoryCommand(e.orderId, e.items));
+    }
+
+    @SagaEventHandler(associationProperty = "orderId")
+    public void on(InventoryReservedEvent e) {
+        commandGateway.send(new ProcessPaymentCommand(e.orderId, e.amount));
+    }
+
+    @SagaEventHandler(associationProperty = "orderId")
+    public void on(PaymentFailedEvent e) {
+        // Compensating transaction
+        commandGateway.send(new ReleaseInventoryCommand(e.orderId));
+        commandGateway.send(new CancelOrderCommand(e.orderId));
+        SagaLifecycle.end();
+    }
+}
+```
+
+**Key Principles**
+- Each step must have a compensating transaction (idempotent)
+- Use **outbox pattern** to guarantee event publishing with DB write
+- Store saga state durably — it must survive crashes
+- Timeouts: if step doesn't complete in X seconds, trigger compensation
+
+**Follow-up:** What is the difference between a Saga and a 2PC (two-phase commit)? When would you actually prefer 2PC despite its drawbacks?
+
+---
+
+#### Q49. Circuit Breaker with Fallback Behavior
+
+**Difficulty:** SENIOR · **Topic:** Microservices
+
+**Q:** *Design a circuit breaker for inter-service communication with fallback behavior.*
+
+Your Order Service calls Payment Service synchronously. Payment Service goes down for 30 seconds. During this time, Order Service creates 10,000 threads waiting for timeouts, runs out of memory, and cascades the outage to 5 other services that depend on Order Service.
+
+**Expected Answer:**
+
+**Resilience4j Circuit Breaker**
+
+```yaml
+# application.yml
+resilience4j.circuitbreaker:
+  instances:
+    paymentService:
+      slidingWindowSize: 10
+      failureRateThreshold: 50       # open if 50% calls fail
+      waitDurationInOpenState: 30s   # stay open 30s
+      permittedNumberOfCallsInHalfOpenState: 3
+      timeoutDuration: 2s            # fail fast, not wait 30s
+```
+
+```java
+@CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
+@TimeLimiter(name = "paymentService")
+public CompletableFuture<PaymentResult> processPayment(Order order) {
+    return paymentClient.charge(order);
+}
+
+public CompletableFuture<PaymentResult> paymentFallback(Order order, Exception e) {
+    // Queue for async processing, respond with "PENDING"
+    outbox.save(new PendingPayment(order.getId()));
+    return CompletableFuture.completedFuture(PaymentResult.PENDING);
+}
+```
+
+**Circuit States & Transitions**
+- **CLOSED** → normal operation, counting failures
+- **OPEN** → fail fast immediately (no calls to downstream), return fallback
+- **HALF-OPEN** → let N test requests through; if they succeed → CLOSED, else → OPEN
+
+**Bulkhead Pattern (Prevent Cascade)**
+- Separate thread pools per downstream service — PaymentService gets max 20 threads
+- Even if payment hangs, order service still has 80 threads for other work
+- Combine with Circuit Breaker for full fault isolation
+
+**Follow-up:** What is the difference between a circuit breaker and a retry mechanism? Can using both together cause problems?
+
+---
+
+#### Q54. Distributed Tracing Across Microservices
+
+**Difficulty:** HARD · **Topic:** Microservices
+
+**Q:** *How do you implement distributed tracing across 8 microservices?*
+
+A customer reports a slow checkout. The request touches Auth → Order → Inventory → Payment → Email services. The P99 is 4 seconds but you cannot tell which service is causing it. You have no tracing yet.
+
+**Expected Answer:**
+
+**OpenTelemetry + Jaeger/Zipkin Setup**
+
+```xml
+<!-- Spring Boot 3 — Micrometer Tracing (replaces Sleuth) -->
+<!-- pom.xml -->
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-otel</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.opentelemetry</groupId>
+    <artifactId>opentelemetry-exporter-otlp</artifactId>
+</dependency>
+```
+
+```yaml
+# application.yml — auto-propagates trace ID via HTTP headers
+management.tracing:
+  sampling.probability: 0.1   # 10% sampling in prod
+  exporter.otlp.endpoint: http://otel-collector:4318
+
+# Trace ID automatically propagates via W3C traceparent header
+# X-B3-TraceId for legacy Zipkin compatibility
+```
+
+**Custom Spans for DB & Business Logic**
+
+```java
+@Autowired Tracer tracer;
+
+public Order createOrder(OrderRequest req) {
+    Span span = tracer.nextSpan().name("inventory-check").start();
+    try (Tracer.SpanInScope ws = tracer.withSpan(span)) {
+        span.tag("items.count", String.valueOf(req.items().size()));
+        return inventoryService.checkAndReserve(req);
+    } finally {
+        span.end();
+    }
+}
+```
+
+**What to Tag on Spans**
+- `http.method`, `http.url`, `http.status_code`
+- `db.statement` (sanitized), `db.operation`, `db.rows_affected`
+- `user.id`, `order.id` — business identifiers for correlation
+- `error=true` + `exception.message` for error spans
+
+**Follow-up:** How do you trace across asynchronous Kafka message boundaries where there is no HTTP header to propagate trace context?
+
+---
+
+#### Q57. CQRS + Event Sourcing for Financial Ledger
+
+**Difficulty:** SENIOR · **Topic:** Microservices
+
+**Q:** *Design a CQRS + Event Sourcing system for an auditable financial ledger.*
+
+You need a banking ledger where: every balance change must be auditable, you must be able to reconstruct account state at any point in time, read queries (balance, statement) must be fast, and you process 10,000 transactions/second.
+
+**Expected Answer:**
+
+**Core Concept**
+- **Event Sourcing**: never store current state, store the sequence of events that led to it
+- **CQRS**: separate the write model (commands → events) from read models (projections optimized for queries)
+
+**Write Side — Command & Event Store**
+
+```java
+// Every change is an immutable event
+sealed interface LedgerEvent {}
+record MoneyDebited(UUID accountId, BigDecimal amount,
+    String reference, Instant at) implements LedgerEvent {}
+record MoneyCredited(UUID accountId, BigDecimal amount,
+    String reference, Instant at) implements LedgerEvent {}
+
+// Append-only event store (EventStoreDB or Postgres with sequence)
+// NEVER update or delete events — immutable audit trail
+```
+
+**Read Side — Projection**
+
+```java
+// Rebuild read model by replaying events
+public AccountBalance project(List<LedgerEvent> events) {
+    return events.stream().reduce(
+        AccountBalance.zero(),
+        (balance, event) -> switch (event) {
+            case MoneyCredited e -> balance.add(e.amount());
+            case MoneyDebited e -> balance.subtract(e.amount());
+        },
+        (a, b) -> a // unused combiner
+    );
+}
+// Snapshot balance every 1000 events for fast rebuild
+```
+
+**Architecture**
+- Event store: append-only Postgres table (`stream_id`, `version`, `event_type`, `data`, `created_at`)
+- Read DB: separate Postgres/Redis with pre-computed balances, updated by event consumer
+- Optimistic concurrency on write: reject if `expected_version != actual version` (prevents lost updates)
+- Snapshots: serialize account state every N events to speed up replay
+
+**Follow-up:** How do you handle schema evolution in Event Sourcing? If the `MoneyDebited` event gains a new required field 6 months later, how do you deal with old events that do not have it?
+
+---
+
+### 🗄️ DB / JPA
+
+#### Q48. JPA Queries Causing Database Deadlocks
+
+**Difficulty:** HARD · **Topic:** DB / JPA
+
+**Q:** *Your JPA queries are causing database deadlocks under load. Diagnose and fix.*
+
+Under 200 concurrent users, your order processing service throws "Deadlock found when trying to get lock" every few minutes. The operations are: update order status and update inventory count, happening simultaneously in different transactions.
+
+**Expected Answer:**
+
+**Why Deadlocks Happen**
+- Thread A locks Order(1) then tries to lock Inventory(5)
+- Thread B locks Inventory(5) then tries to lock Order(1)
+- Circular wait = deadlock
+
+**Fix 1 — Consistent Lock Ordering**
+
+```java
+// Always acquire locks in same order: Order → Inventory → Payment
+@Transactional
+public void processOrder(long orderId, long inventoryId) {
+    // Use SELECT FOR UPDATE with explicit order
+    Order order = em.createQuery(
+        "SELECT o FROM Order o WHERE o.id = :id", Order.class)
+        .setLockMode(LockModeType.PESSIMISTIC_WRITE)
+        .setParameter("id", orderId).getSingleResult();
+    // Only then lock inventory
+    Inventory inv = em.find(Inventory.class, inventoryId,
+        LockModeType.PESSIMISTIC_WRITE);
+}
+```
+
+**Fix 2 — Optimistic Locking (Better for Low Contention)**
+
+```java
+@Entity
+public class Inventory {
+    @Version
+    private int version; // JPA auto-checks on update
+}
+// Throws OptimisticLockException if another TX modified it
+// Retry with @Retryable(OptimisticLockException.class, maxAttempts=3)
+```
+
+**Fix 3 — Reduce Transaction Scope**
+- Keep transactions as short as possible — no external HTTP calls inside `@Transactional`
+- Use `REQUIRES_NEW` for audit/logging to avoid inheriting long transactions
+- Consider event-driven: process inventory update asynchronously via queue
+
+**Follow-up:** What is the difference between optimistic and pessimistic locking? In what scenarios does optimistic locking actually perform worse than pessimistic?
+
+---
+
+#### Q52. Multi-Tenant Data Isolation in SaaS
+
+**Difficulty:** HARD · **Topic:** DB / JPA
+
+**Q:** *Design a multi-tenant data isolation strategy in a SaaS application.*
+
+You are building a B2B SaaS. Customer A must never see Customer B data. You have 500 tenants ranging from 100 to 50,000 rows each. Some tenants need custom columns. Explain your isolation strategy.
+
+**Expected Answer:**
+
+**Three Approaches (Trade-offs)**
+- **DB per tenant**: strongest isolation, expensive at 500 tenants, hard to query across
+- **Schema per tenant**: good isolation, Postgres supports well, manageable at 500
+- **Shared table + tenant_id**: simplest, highest risk of data leak, best performance
+
+**Recommended: Row-Level Security (Postgres)**
+
+```sql
+-- Enable RLS on every tenant table
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY tenant_isolation ON orders
+    USING (tenant_id = current_setting('app.tenant_id')::uuid);
+```
+
+```java
+// In Spring Boot, set tenant_id per-request in HikariCP connection
+@Component
+public class TenantInterceptor implements HandlerInterceptor {
+    public boolean preHandle(HttpServletRequest req, ...) {
+        String tenantId = extractTenantFromJwt(req);
+        TenantContext.setTenantId(tenantId);
+        dataSource.setSessionProperty("app.tenant_id", tenantId);
+        return true;
+    }
+}
+```
+
+**Custom Columns per Tenant**
+- **EAV** (Entity-Attribute-Value): flexible but terrible for queries
+- **JSONB column**: store tenant-specific fields in JSON — Postgres indexes JSONB well
+- **Schema-per-tenant**: each tenant can have truly custom columns via migrations
+
+**Follow-up:** How do you perform cross-tenant analytics (e.g., average order value across all tenants) without violating isolation? What architectural pattern enables this?
+
+---
+
+#### Q59. Database Sharding Strategy for 10 Billion Rows
+
+**Difficulty:** SENIOR · **Topic:** DB / JPA
+
+**Q:** *Design a database sharding strategy for 10 billion rows.*
+
+Your `user_events` table grows by 100M rows/day. Queries are already taking 30 seconds. You cannot afford downtime. Explain your sharding approach, shard key choice, and cross-shard query strategy.
+
+**Expected Answer:**
+
+**Shard Key Selection (Most Critical Decision)**
+- **user_id**: most queries are per-user → data locality, hot shard risk if some users are huge
+- **event_time**: range sharding, good for time-series queries, hot shard on current time period
+- **Consistent hash of user_id**: even distribution, hard to do range queries
+- **Composite (user_id % 256)**: 256 logical shards, map to N physical nodes, rebalance by moving logical shards
+
+**Horizontal Sharding with Vitess**
+
+```json
+{
+  "sharded": true,
+  "vindexes": {
+    "user_hash": { "type": "hash" }
+  },
+  "tables": {
+    "user_events": {
+      "column_vindexes": [
+        { "column": "user_id", "name": "user_hash" }
+      ]
+    }
+  }
+}
+```
+
+```sql
+-- Vitess routes: SELECT * FROM user_events WHERE user_id=123
+-- → automatically goes to correct shard
+```
+
+**Cross-Shard Queries**
+- Scatter-gather: send query to all shards in parallel, merge results in application
+- Expensive — avoid or pre-aggregate with a separate analytics store (ClickHouse, BigQuery)
+- Maintain a global aggregation table updated by streaming (Kafka → Flink → analytics DB)
+- For JOINs across shards: co-locate related data on same shard (denormalize)
+
+**Zero-Downtime Migration**
+- Dual-write: write to both old monolithic DB and new sharded DB simultaneously
+- Backfill historical data using batch jobs reading from old DB
+- Read from new sharded DB when backfill reaches 100%
+- Remove writes to old DB after 2-week validation period
+
+**Follow-up:** How do you handle global unique IDs across shards? Why is auto-increment no longer sufficient and what alternatives exist (Snowflake IDs, ULIDs)?
