@@ -611,7 +611,7 @@ try {
 - **Solution 2**: Use **ZGC** (`-XX:+UseZGC`) for sub-millisecond pauses (Java 11+)
 - **Solution 3**: Tune heap size (`-Xms`, `-Xmx`) to reduce GC frequency
 - **Solution 4**: Reduce object allocation rate (object pooling, StringBuilder)
-- **Solution 5**: Increase young generation (`-XX:NewRatio`) for G1GC [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
+- **Solution 5**: Increase young generation (`-XX:NewRatio`) for G1GC 
 
 ---
 

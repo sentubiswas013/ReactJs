@@ -455,7 +455,21 @@ public class Linkedin01 {
         int[] arr1 = {1, 2, 3, 4, 5};
         int[] arr2 = {3, 4, 5, 6, 7};
 
-        
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : arr1) {
+            set.add(num);
+        }
+        System.out.println("Common elements:");
+        for (int num : arr2) {
+            if (set.contains(num)) {
+                System.out.print(num + " ");
+            }
+        }
+        // for (int num : arr2) {
+        //     if (set.contains(num)) {
+        //         System.out.print(num + " ");
+        //     }
+        // }
 
     }
     // Output: Common elements: 3 4 5

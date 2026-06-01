@@ -321,7 +321,7 @@ class Student {
 }
 ```
 
-**volatile** Volatile is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
+**volatile** is a keyword used in multithreading. it ensures variable changes are immediately visible to all threads (prevents caching issues)
 ```java
 class Test {
     volatile boolean flag = true;
@@ -531,7 +531,7 @@ boolean isActive = true;
 long population = 1000000L;
 ```
 
-## 2. What is the difference between primitive and reference types?
+## 2. What is the difference between primitive and non primitive(reference types)?
 **Primitive types** in Java, like int, double, and boolean, store actual values in memory and are stored on the stack. They are fast and have a fixed size.
 
 **Reference types**, like objects, arrays, and strings, store a reference or memory address pointing to the actual data in the heap. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
