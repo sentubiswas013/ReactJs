@@ -5310,7 +5310,91 @@ public class Test {
 }
 ```
 
-## 11. What happens if the thread pool is exhausted?
+## 11. What is fail-fast and fail-safe iterators?
+
+**Fail-Fast Iterator**
+
+A **Fail-Fast** iterator throws a `ConcurrentModificationException` if the collection is modified while it is being iterated.
+
+
+```java
+List<String> list = new ArrayList<>();
+
+list.add("A");
+list.add("B");
+list.add("C");
+
+for (String s : list) {
+    if (s.equals("B")) {
+        list.remove(s); // ConcurrentModificationException
+    }
+}
+//Output: ConcurrentModificationException
+```
+
+
+**Why?**
+
+The iterator checks whether the collection's structure has changed using an internal `modCount`.
+
+**Collections Using Fail-Fast Iterators**
+
+* ArrayList
+* LinkedList
+* HashMap
+* HashSet
+* TreeMap
+* TreeSet
+
+---
+
+**Fail-Safe Iterator**
+
+A **Fail-Safe** iterator works on a copy (snapshot) of the collection, so modifications during iteration do not throw exceptions.
+
+```java
+CopyOnWriteArrayList<String> list =
+        new CopyOnWriteArrayList<>();
+
+list.add("A");
+list.add("B");
+list.add("C");
+
+for (String s : list) {
+    if (s.equals("B")) {
+        list.remove(s);
+    }
+
+    System.out.println(s);
+}
+// Output:
+A
+B
+C
+```
+
+
+No exception occurs.
+
+**Collections Using Fail-Safe Iterators**
+
+* CopyOnWriteArrayList
+* CopyOnWriteArraySet
+* ConcurrentHashMap (weakly consistent iterator)
+
+
+**Interview Comparison**
+
+| Feature                                | Fail-Fast           | Fail-Safe                               |
+| -------------------------------------- | ------------------- | --------------------------------------- |
+| Throws ConcurrentModificationException | Yes                 | No                                      |
+| Iterates on                            | Original Collection | Copy/Snapshot                           |
+| Performance                            | Faster              | More Memory                             |
+| Thread Safe                            | No                  | Yes                                     |
+| Example                                | ArrayList, HashMap  | CopyOnWriteArrayList, ConcurrentHashMap |
+
+
+## 12. What happens if the thread pool is exhausted?
 
 When all threads in the pool are busy and the task queue is also full:
 
