@@ -1,1944 +1,1501 @@
-# Java Full Developer / Architecture Engineer – Scenario-Based Interview Questions
 
-<a id="top"></a>
+# Java Full Stack Developer & Architecture Engineer
+## Scenario-Based Interview Questions — Senior / Lead Level
 
-Scenario-based **Java-only** interview questions for **Java Full Developer** and **Architecture Engineer** positions (Senior / Lead level). Each question includes production context, expected answers, code examples, and follow-up prompts.
-
-**55 questions** · Java / Spring / JVM focus only (no frontend or behavioral)
+> **How to use this guide:** Each question includes a realistic production scenario, what the interviewer is testing, a model answer with code, and follow-up probes. Practice answering out loud before reading the expected answer.
 
 ---
 
 ## Table of Contents
 
-### Section 1: System Design, Spring & Backend (Q1–Q17)
-
-**System Design & Architecture**
-- [Q1. High-Traffic Spike Scenario](#q1-high-traffic-spike-scenario)
-- [Q2. Database Scale Scenario](#q2-database-scale-scenario)
-- [Q3. Microservices Communication Failure](#q3-microservices-communication-failure)
-- [Q4. Distributed Transaction Problem](#q4-distributed-transaction-problem)
-- [Q5. Memory Leak in Production](#q5-memory-leak-in-production)
-
-**Spring & Backend**
-- [Q6. @Transactional Not Working](#q6-transactional-not-working)
-- [Q7. Circular Dependency in Spring](#q7-circular-dependency-in-spring)
-- [Q8. N+1 Query Problem](#q8-n1-query-problem)
-- [Q9. API Response Time Too Slow](#q9-api-response-time-too-slow)
-
-**Security**
-- [Q10. SQL Injection Attack](#q10-sql-injection-attack)
-- [Q11. XSS Attack Prevention](#q11-xss-attack-prevention)
-- [Q12. API Security Breach](#q12-api-security-breach)
-
-**DevOps & Production**
-- [Q13. Production Deployment Failure](#q13-production-deployment-failure)
-- [Q14. Database Migration in Production](#q14-database-migration-in-production)
-- [Q15. Container Orchestration Failure](#q15-container-orchestration-failure)
-
-**Testing**
-- [Q16. Flaky Tests in CI/CD](#q16-flaky-tests-in-cicd)
-- [Q17. Performance Testing](#q17-performance-testing)
+1. [Core Java & JVM Internals](#1-core-java--jvm-internals)
+2. [Concurrency & Multithreading](#2-concurrency--multithreading)
+3. [Memory Management & GC Tuning](#3-memory-management--gc-tuning)
+4. [Design Patterns & OOP Principles](#4-design-patterns--oop-principles)
+5. [Java Collections & Streams](#5-java-collections--streams)
+6. [Spring Boot & Dependency Injection](#6-spring-boot--dependency-injection)
+7. [Database & JPA / Hibernate](#7-database--jpa--hibernate)
+8. [Microservices Architecture](#8-microservices-architecture)
+9. [Security](#9-security)
+10. [Performance & Scalability](#10-performance--scalability)
+11. [Testing Strategy](#11-testing-strategy)
+12. [Architecture & System Design](#12-architecture--system-design)
 
 ---
 
-### Section 2: Core Java Scenarios (Q18–Q35)
-
-**Core Java Fundamentals**
-- [Q18. Memory Leak Scenario (HashMap)](#q18-memory-leak-scenario-hashmap)
-- [Q19. ConcurrentModificationException Scenario](#q19-concurrentmodificationexception-scenario)
-- [Q20. NullPointerException in Java 8 Streams](#q20-nullpointerexception-in-java-8-streams)
-- [Q21. Integer Caching Surprise](#q21-integer-caching-surprise)
-- [Q22. HashMap in Multithreaded Environment](#q22-hashmap-in-multithreaded-environment)
-- [Q23. String Memory Leak](#q23-string-memory-leak)
-
-**Advanced Java**
-- [Q24. CompletableFuture Performance Issue](#q24-completablefuture-performance-issue)
-- [Q25. ThreadLocal Memory Leak](#q25-threadlocal-memory-leak)
-- [Q26. HashMap Key Being Modified](#q26-hashmap-key-being-modified)
-- [Q27. Garbage Collection Pause Time](#q27-garbage-collection-pause-time)
-- [Q28. Deadlock Detection](#q28-deadlock-detection)
-- [Q29. Java Stream Parallel Performance](#q29-java-stream-parallel-performance)
-
-**Design Patterns, Spring Deep-Dive & JVM**
-- [Q30. Singleton in Multithreaded Environment](#q30-singleton-in-multithreaded-environment)
-- [Q31. Exception Handling in Transaction](#q31-exception-handling-in-transaction)
-- [Q32. Circular Dependency in Constructor Injection](#q32-circular-dependency-in-constructor-injection)
-- [Q33. Java 8 Optional Best Practices](#q33-java-8-optional-best-practices)
-- [Q34. ClassLoader Issue in Web Application](#q34-classloader-issue-in-web-application)
-- [Q35. Producer-Consumer Pattern Implementation](#q35-producer-consumer-pattern-implementation)
+## 1. Core Java & JVM Internals
 
 ---
 
-### Section 3: Senior / Architect Level Scenarios (Q36–Q55)
+### Q1 — ClassLoader Conflict in Production
 
-**Core Java**
-- [Q36. Memory Leak in a Long-Running Java Service](#q36-memory-leak-in-a-long-running-java-service)
-- [Q37. Java Memory Model & Concurrent Code](#q37-java-memory-model--concurrent-code)
-- [Q38. CompletableFuture Pipeline with Error Handling](#q38-completablefuture-pipeline-with-error-handling)
-- [Q39. G1GC vs ZGC — When to Choose Which](#q39-g1gc-vs-zgc--when-to-choose-which)
-- [Q40. Custom ClassLoader for Plugin Isolation](#q40-custom-classloader-for-plugin-isolation)
+**Scenario:**  
+Your team deploys a large enterprise application on JBoss. After deployment, you get `ClassCastException: com.company.UserService cannot be cast to com.company.UserService`. Both sides are literally the same class name. The app worked fine locally.
 
-**Architecture**
-- [Q41. Rate-Limiting System for an API Gateway](#q41-rate-limiting-system-for-an-api-gateway)
-- [Q42. Monolith to Microservices Migration Without Downtime](#q42-monolith-to-microservices-migration-without-downtime)
-- [Q43. Event-Driven Notification System at Scale](#q43-event-driven-notification-system-at-scale)
-- [Q44. Idempotent REST API for Payment Processing](#q44-idempotent-rest-api-for-payment-processing)
-- [Q45. Blue-Green and Canary Deployments in Kubernetes](#q45-blue-green-and-canary-deployments-in-kubernetes)
-
-**Performance**
-- [Q46. Spring Boot Endpoint Optimization (800ms → 100ms)](#q46-spring-boot-endpoint-optimization-800ms--100ms)
-- [Q47. High CPU Usage During Idle Periods](#q47-high-cpu-usage-during-idle-periods)
-- [Q48. Reactive Programming with Spring WebFlux](#q48-reactive-programming-with-spring-webflux)
-
-**Microservices**
-- [Q49. Saga Pattern for Distributed Order Transaction](#q49-saga-pattern-for-distributed-order-transaction)
-- [Q50. Circuit Breaker with Fallback Behavior](#q50-circuit-breaker-with-fallback-behavior)
-- [Q51. Distributed Tracing Across Microservices](#q51-distributed-tracing-across-microservices)
-- [Q52. CQRS + Event Sourcing for Financial Ledger](#q52-cqrs--event-sourcing-for-financial-ledger)
-
-**DB / JPA**
-- [Q53. JPA Queries Causing Database Deadlocks](#q53-jpa-queries-causing-database-deadlocks)
-- [Q54. Multi-Tenant Data Isolation in SaaS](#q54-multi-tenant-data-isolation-in-saas)
-- [Q55. Database Sharding Strategy for 10 Billion Rows](#q55-database-sharding-strategy-for-10-billion-rows)
-
-[↑ Back to top](#top)
-
----
-
-## Section 1: System Design, Spring & Backend
-
-### 🏗️ System Design & Architecture
-
-#### Q1. High-Traffic Spike Scenario
-
-**Q:** *How would you handle a sudden spike in traffic (e.g., Black Friday sale) where your application goes from 10K to 1M requests per second?* [dev](https://dev.to/bsanju/java-interview-questions-for-experienced-full-stack-engineers-2025-edition-h47)
+**What the interviewer is testing:**  
+Understanding of ClassLoader hierarchy, parent delegation model, and isolation.
 
 **Expected Answer:**
-- Implement **auto-scaling** (horizontal scaling with Kubernetes pods)
-- Add **load balancing** (NGINX, AWS ALB)
-- Use **caching layers** (Redis, CDN) for static content
-- Implement **rate limiting** and **circuit breakers** (Resilience4j)
-- Enable **database connection pooling** and **read replicas**
-- Use **message queues** (Kafka, RabbitMQ) for async processing
-- Enable **CDN** for static assets
 
----
+Java's ClassLoader follows a **parent-delegation model**: Bootstrap → Extension → Application. When two different ClassLoaders load the same class, JVM treats them as distinct types — even if bytecode is identical. In app servers like JBoss/WildFly, each deployment gets its own ClassLoader.
 
-[↑ Back to top](#top)
+**Root Cause:** The class was loaded by two different ClassLoaders — e.g., once from the WAR's `WEB-INF/lib` and once from a shared module. JVM identity check fails.
 
-#### Q2. Database Scale Scenario
-
-**Q:** *You have a table with 1 billion records and queries are taking 10+ seconds. How do you optimize it?* [usebraintrust](https://www.usebraintrust.com/hire/interview-questions/full-stack-developers)
-
-**Expected Answer:**
-- Add **proper indexing** (B-tree, composite indexes)
-- Implement **database partitioning** (range, hash, list)
-- Use **query optimization** (EXPLAIN ANALYZE)
-- Implement **database sharding** (horizontal partitioning)
-- Add **read replicas** for read-heavy workloads
-- Consider **NoSQL** (MongoDB, Cassandra) for specific use cases
-- Implement **caching** (Redis) for frequently accessed data
-
----
-
-[↑ Back to top](#top)
-
-#### Q3. Microservices Communication Failure
-
-**Q:** *Service A calls Service B, but Service B is down. How do you handle this gracefully?*
-
-**Expected Answer:**
-- Implement **circuit breaker pattern** (Resilience4j, Hystrix)
-- Use **retry with exponential backoff**
-- Implement **fallback mechanisms** (return cached data or default response)
-- Add **timeout configurations**
-- Use **message queues** for async communication
-- Implement **bulkhead pattern** to isolate failures
-
----
-
-[↑ Back to top](#top)
-
-#### Q4. Distributed Transaction Problem
-
-**Q:** *You need to transfer money between two microservices (Service A and Service B). How do you ensure data consistency?*
-
-**Expected Answer:**
-- Use **Saga pattern** (choreography or orchestration)
-- Implement **outbox pattern** for reliable event publishing
-- Use **eventual consistency** with compensating transactions
-- Consider **two-phase commit** (2PC) for strong consistency (but avoid if possible)
-- Implement **idempotency** to handle retries
-
----
-
-[↑ Back to top](#top)
-
-#### Q5. Memory Leak in Production
-
-**Q:** *Your Java application is running slowly and consuming increasing memory over time. How do you diagnose and fix it?*
-
-**Expected Answer:**
-- Use **heap dump analysis** (MAT, JVisualVM)
-- Enable **GC logging** (`-Xlog:gc*`)
-- Identify **unreleased objects** (static collections, unclosed resources)
-- Check for **connection pool leaks** (database, HTTP)
-- Use **profiling tools** (JProfiler, YourKit)
-- Implement **proper resource cleanup** (try-with-resources)
-- Monitor with **APM tools** (New Relic, Dynatrace)
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### ☕ Spring & Backend
-
-#### Q6. @Transactional Not Working
-
-**Q:** *You added `@Transactional` to a method but transactions are not being created. What could be the reason?*
-
-**Expected Answer:**
-- **Self-invocation problem** – calling method from within same class bypasses proxy [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
-- Method is `private` or `final` (proxy can't intercept)
-- Exception is **caught and swallowed** (rollback not triggered)
-- Wrong **rollback rules** (only rolls back on `RuntimeException` by default)
-- Using **`REQUIRED`** but calling from non-transactional context
-
-**Fix:** Inject self via constructor or use `AopContext.currentProxy()`
-
----
-
-[↑ Back to top](#top)
-
-#### Q7. Circular Dependency in Spring
-
-**Q:** *Service A depends on Service B, and Service B depends on Service A. How do you resolve this?*
-
-**Expected Answer:**
-- Use **`@Lazy` annotation** on one of the dependencies
-- Refactor to **extract common logic** into a third service (Service C)
-- Use **constructor injection** instead of field injection
-- Apply **event-driven architecture** (publish/subscribe)
-- **Redesign** to break the dependency (often the best solution)
-
----
-
-[↑ Back to top](#top)
-
-#### Q8. N+1 Query Problem
-
-**Q:** *You notice 1000 database queries when loading 100 entities. How do you fix this?*
-
-**Expected Answer:**
-- Use **JOIN FETCH** in JPQL queries
-- Implement **EntityGraph** in Spring Data JPA
-- Use **@BatchSize** annotation for batch loading
-- Enable **Hibernate statistics** to detect N+1
-- Use **DTO projections** instead of full entities
-
----
-
-[↑ Back to top](#top)
-
-#### Q9. API Response Time Too Slow
-
-**Q:** *Your REST API endpoint takes 5 seconds to respond. How do you optimize it?*
-
-**Expected Answer:**
-- Add **database indexing** and optimize queries
-- Implement **caching** (Redis, Caffeine)
-- Use **async processing** for non-critical operations
-- Implement **pagination** (don't return all data at once)
-- Add **compression** (GZIP)
-- Use **connection pooling** (HikariCP)
-- Profile with **Spring Boot Actuator** and **Micrometer**
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-
-### 🔐 Security
-
-#### Q10. SQL Injection Attack
-
-**Q:** *You discover a SQL injection vulnerability in your legacy code. How do you fix it?*
-
-**Expected Answer:**
-- Use **parameterized queries** (PreparedStatement)
-- Use **JPA/Hibernate** instead of raw SQL
-- Implement **input validation** and **sanitization**
-- Use **ORM** properly (avoid `nativeQuery` with string concatenation)
-- Add **WAF** (Web Application Firewall)
-- Implement **SQL injection scanning** in CI/CD
-
----
-
-[↑ Back to top](#top)
-
-#### Q11. XSS Attack Prevention
-
-**Q:** *How do you prevent Cross-Site Scripting (XSS) in your application?*
-
-**Expected Answer:**
-- **Escape output** in frontend (React auto-escapes by default)
-- Use **Content Security Policy (CSP)** headers
-- Sanitize **user input** on both frontend and backend
-- Avoid `dangerouslySetInnerHTML` in React
-- Implement **HTTP-only cookies** to prevent XSS stealing cookies
-
----
-
-[↑ Back to top](#top)
-
-#### Q12. API Security Breach
-
-**Q:** *You notice unauthorized API calls happening frequently. How do you secure your APIs?*
-
-**Expected Answer:**
-- Implement **rate limiting** (Token Bucket, Sliding Window)
-- Use **API Gateway** with authentication
-- Add **request signing** and **timestamp validation**
-- Implement **OAuth2 scopes** and **RBAC**
-- Use **IP whitelisting** for sensitive endpoints
-- Enable **audit logging** for all API calls
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### 🚀 DevOps & Production
-
-#### Q13. Production Deployment Failure
-
-**Q:** *You deployed a new version but it's causing errors in production. What do you do?*
-
-**Expected Answer:**
-- **Rollback immediately** to previous stable version
-- Enable **canary deployment** or **blue-green deployment** for safer releases
-- Use **feature flags** to disable problematic features
-- Check **logs** (ELK stack, CloudWatch)
-- Enable **health checks** and **readiness probes**
-- Implement **automated rollback** in CI/CD
-
----
-
-[↑ Back to top](#top)
-
-#### Q14. Database Migration in Production
-
-**Q:** *You need to add a new column to a table with 1 billion records without downtime. How do you do it?*
-
-**Expected Answer:**
-- Use **expanding-contract pattern**:
-  1. Add column (nullable)
-  2. Deploy code that writes to both old and new columns
-  3. Backfill data in batches
-  4. Deploy code that reads from new column
-  5. Remove old column in next deployment
-- Use **online schema migration tools** (Liquibase, Flyway)
-- Perform migration during **low-traffic window**
-
----
-
-[↑ Back to top](#top)
-
-#### Q15. Container Orchestration Failure
-
-**Q:** *Your Kubernetes pods are crashing repeatedly. How do you debug?*
-
-**Expected Answer:**
-- Check **pod logs** (`kubectl logs`)
-- Check **pod events** (`kubectl describe pod`)
-- Check **resource limits** (CPU/memory)
-- Verify **liveness/readiness probes**
-- Check **deployment config** and **configmaps**
-- Use **kubectl port-forward** to debug locally
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### 🧪 Testing
-
-#### Q16. Flaky Tests in CI/CD
-
-**Q:** *Your integration tests are failing intermittently. How do you fix this?*
-
-**Expected Answer:**
-- Use **TestContainers** for real database testing
-- Implement **proper synchronization** (avoid race conditions)
-- Use **mocking** for external dependencies
-- Add **retries** for known flaky tests
-- Isolate **test data** (use transactions, clean up after each test)
-- Use **deterministic test data**
-
----
-
-[↑ Back to top](#top)
-
-#### Q17. Performance Testing
-
-**Q:** *How do you ensure your application can handle expected load before production?*
-
-**Expected Answer:**
-- Use **load testing tools** (JMeter, Gatling, k6)
-- Implement **performance testing** in CI/CD pipeline
-- Test with **realistic data volumes**
-- Monitor **response times**, **throughput**, and **error rates**
-- Use **APM tools** during load testing
-- Perform **stress testing** and **spike testing**
-
----
-
-
-## Section 2: Core Java Scenarios
-
-### 🔥 Core Java Fundamentals
-
----
-
-[↑ Back to top](#top)
-
-#### Q18. Memory Leak Scenario (HashMap)
-
-**Q:** *Your Java application is running out of memory gradually over days. You find heap dumps showing many HashMap instances. What could be the cause and how do you fix it?*
-
-**Expected Answer:**
-- **Cause**: Static HashMap acting as cache without eviction policy (unbounded growth)
-- **Cause**: Uncleared collections (ArrayList, HashMap) holding object references
-- **Cause**: Unclosed resources (InputStream, Connection, Statement)
-- **Fix**: Use `WeakHashMap` or `LinkedHashMap` with `removeEldestEntry()` for cache
-- **Fix**: Implement proper cleanup in `finally` blocks or use try-with-resources
-- **Fix**: Use profiling tools (JVisualVM, MAT) to identify leak sources [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
-
----
-
-[↑ Back to top](#top)
-
-#### Q19. ConcurrentModificationException Scenario
-
-**Q:** *You're iterating over an ArrayList and removing elements inside the loop. You get `ConcurrentModificationException`. How do you fix this?*
-
-**Expected Answer:**
+**Fix:**
 
 ```java
-// ❌ Wrong - throws ConcurrentModificationException
-for (String item : list) {
-    if (condition) {
-        list.remove(item);
-    }
-}
+// Diagnose: print the classloader of the object
+Object obj = someFactory.get();
+System.out.println(obj.getClass().getClassLoader());
+System.out.println(UserService.class.getClassLoader());
 
-// ✅ Fix 1: Use Iterator
-Iterator<String> iterator = list.iterator();
-while (iterator.hasNext()) {
-    if (condition) {
-        iterator.remove();
-    }
-}
-
-// ✅ Fix 2: Use removeIf (Java 8+)
-list.removeIf(item -> condition);
-
-// ✅ Fix 3: Use copyOnWriteArrayList for concurrent scenarios
-CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+// If they differ — you have a classloader isolation problem.
+// Solution: remove the duplicate JAR from one scope,
+// or use a shared module with proper ClassLoader delegation.
 ```
 
+**Prevention:**
+- Keep shared types in a dedicated shared module loaded by the parent ClassLoader.
+- Avoid bundling `provided`-scoped JARs inside WAR/EAR.
+- Use `jboss-deployment-structure.xml` to explicitly control ClassLoader visibility.
+
+**Follow-up Probes:**
+- How does OSGi solve ClassLoader isolation differently?
+- What happens with `Class.forName()` vs `Thread.currentThread().getContextClassLoader().loadClass()`?
+- How would you write a custom ClassLoader for a plugin system?
+
 ---
 
-[↑ Back to top](#top)
+### Q2 — `String` Interning and Memory Leak
 
-#### Q20. NullPointerException in Java 8 Streams
+**Scenario:**  
+A batch processing service reads millions of short String values from a database (e.g., country codes, status flags) and stores them in a `List<String>`. Heap usage grows unbounded over hours. A heap dump shows thousands of duplicate String objects with the same content.
 
-**Q:** *You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?*
+**What the interviewer is testing:**  
+String pool internals, `intern()`, memory efficiency, trade-offs.
 
 **Expected Answer:**
 
+Java Strings are objects on the heap. Without interning, identical strings from `new String(...)` or `ResultSet.getString(...)` are separate heap objects.
+
 ```java
-// ❌ Problem: stream() on null list
-List<String> list = null;
-list.stream().filter(s -> s.length() > 5).forEach(System.out::println);
+// Problem: each of these is a DISTINCT heap object
+String a = new String("ACTIVE");
+String b = new String("ACTIVE");
+System.out.println(a == b);       // false
+System.out.println(a.equals(b));  // true — but wastes memory
 
-// ✅ Fix 1: Optional check
-Optional.ofNullable(list).orElse(Collections.emptyList())
-    .stream()
-    .filter(Objects::nonNull)
-    .filter(s -> s.length() > 5)
-    .forEach(System.out::println);
+// Fix: intern() stores in the String Pool (PermGen/Metaspace)
+String a = "ACTIVE".intern();
+String b = "ACTIVE".intern();
+System.out.println(a == b);       // true — same reference
 
-// ✅ Fix 2: Traditional null check
-if (list != null) {
-    list.stream().filter(s -> s != null && s.length() > 5)
-        .forEach(System.out::println);
+// Better production fix for bounded vocabularies:
+private static final Map<String, String> CACHE = new ConcurrentHashMap<>();
+
+public String deduplicate(String value) {
+    return CACHE.computeIfAbsent(value, v -> v);
 }
 ```
 
+**Trade-off:** `intern()` writes to a native hash table — high contention under load. For bounded vocabularies, prefer a `ConcurrentHashMap`-based dedup cache or an `Enum`.
+
+**Follow-up Probes:**
+- Where does the String pool live in Java 8+ vs Java 7?
+- What's the difference between `==` and `equals()` for Strings in an interview — and what does it mean in production?
+- How does `compact strings` in Java 9 help memory?
+
 ---
 
-[↑ Back to top](#top)
+## 2. Concurrency & Multithreading
 
-#### Q21. Integer Caching Surprise
+---
 
-**Q:** *Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?*
+### Q3 — Deadlock in Payment Processing
+
+**Scenario:**  
+A payment service transfers funds between two bank accounts. Occasionally it hangs completely under load. Thread dump shows multiple threads in `BLOCKED` state, each holding a lock the other needs.
+
+**What the interviewer is testing:**  
+Deadlock detection, lock ordering, alternative locking strategies.
 
 **Expected Answer:**
-- Java caches **Integer objects from -128 to 127** (Integer cache)
-- Autoboxing reuses cached objects for values in this range
-- For values outside range, new objects are created
-- **Fix**: Always use `.equals()` for Integer comparison, not `==`
-- **Lesson**: Never use `==` for object comparison, only for primitives [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
 
----
-
-[↑ Back to top](#top)
-
-#### Q22. HashMap in Multithreaded Environment
-
-**Q:** *You're using HashMap in a multithreaded application and experiencing data corruption. What's the problem and solution?*
-
-**Expected Answer:**
-- **Problem**: HashMap is **not thread-safe** – concurrent modifications can cause infinite loops (Java 7) or data loss
-- **Solution 1**: Use `ConcurrentHashMap` (best for most cases)
-- **Solution 2**: Use `Collections.synchronizedMap(new HashMap<>())`
-- **Solution 3**: Use `Hashtable` (legacy, slower)
-- **Why ConcurrentHashMap?**: Uses **segment locking** (Java 7) or **CAS + synchronized** (Java 8+) for better performance [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
-
----
-
-[↑ Back to top](#top)
-
-#### Q23. String Memory Leak
-
-**Q:** *You're parsing large text files and storing substrings. Memory usage keeps growing. What's wrong?*
-
-**Expected Answer:**
-- **Problem** (Java 6 and earlier): `substring()` shares the same char[] array, preventing garbage collection of entire string
-- **Problem** (all versions): Keeping references to large strings unnecessarily
-- **Fix** (Java 7+): `substring()` creates new char[], but still use carefully
-- **Fix**: Use `substring().intern()` for common strings or explicitly create new String
-- **Fix**: Use `StringBuilder` for string manipulation instead of repeated concatenation [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### ⚙️ Advanced Java
-
-#### Q24. CompletableFuture Performance Issue
-
-**Q:** *You're using `CompletableFuture.supplyAsync()` for parallel processing but performance is worse than sequential. What's wrong?*
-
-**Expected Answer:**
-- **Problem**: Default `CompletableFuture` uses `ForkJoinPool.commonPool()` (only 3 threads by default)
-- **Problem**: If tasks are I/O-bound, thread pool is underutilized
-- **Fix**: Create custom `ExecutorService` with appropriate thread pool size
+Classic deadlock: Thread 1 locks Account A then waits for Account B. Thread 2 locks Account B then waits for Account A.
 
 ```java
-ExecutorService executor = Executors.newFixedThreadPool(50); // For I/O-bound
-CompletableFuture.supplyAsync(() -> fetchData(), executor);
-```
-
-- **Fix**: Use `ThreadPoolExecutor` with custom configuration
-- **Rule**: CPU-bound = `CPU cores`, I/O-bound = `CPU cores * 2` or more [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
-
----
-
-[↑ Back to top](#top)
-
-#### Q25. ThreadLocal Memory Leak
-
-**Q:** *You're using ThreadLocal in a web application and seeing memory leaks after deployments. Why?*
-
-**Expected Answer:**
-- **Problem**: ThreadLocal stores values in Thread's internal map
-- **Problem**: In web containers (Tomcat), threads are reused and ThreadLocal values persist
-- **Fix**: Always call `threadLocal.remove()` in `finally` block
-
-```java
-threadLocal.set(value);
-try {
-    // use value
-} finally {
-    threadLocal.remove(); // Critical!
-}
-```
-
-- **Fix**: Use WeakReference for ThreadLocal keys if needed
-- **Lesson**: ThreadLocal requires manual cleanup in long-lived thread pools [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
-
----
-
-[↑ Back to top](#top)
-
-#### Q26. HashMap Key Being Modified
-
-**Q:** *You're using a custom object as HashMap key, and after modifying a field used in `equals()`/`hashCode()`, you can't retrieve the value. Why?*
-
-**Expected Answer:**
-- **Problem**: HashMap uses `hashCode()` to find bucket. If key object is modified, `hashCode()` changes
-- **Problem**: HashMap looks in wrong bucket, returns `null`
-- **Fix**: Use **immutable objects** as HashMap keys (all fields final)
-- **Fix**: Never modify fields used in `hashCode()` after adding to HashMap
-- **Best Practice**: Make key classes `final` with `private final` fields [youtube](https://www.youtube.com/watch?v=I0WeVvKyf28)
-
----
-
-[↑ Back to top](#top)
-
-#### Q27. Garbage Collection Pause Time
-
-**Q:** *Your application has 2-second GC pauses affecting user experience. How do you reduce them?*
-
-**Expected Answer:**
-- **Diagnosis**: Enable GC logging (`-Xlog:gc*`) to analyze pause times
-- **Solution 1**: Use **G1GC** (`-XX:+UseG1GC`) for predictable pauses
-- **Solution 2**: Use **ZGC** (`-XX:+UseZGC`) for sub-millisecond pauses (Java 11+)
-- **Solution 3**: Tune heap size (`-Xms`, `-Xmx`) to reduce GC frequency
-- **Solution 4**: Reduce object allocation rate (object pooling, StringBuilder)
-- **Solution 5**: Increase young generation (`-XX:NewRatio`) for G1GC [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
-
----
-
-[↑ Back to top](#top)
-
-#### Q28. Deadlock Detection
-
-**Q:** *Your application suddenly stops responding. You suspect a deadlock. How do you detect and fix it?*
-
-**Expected Answer:**
-- **Detection**:
-  - Use `jstack <pid>` to get thread dump
-  - Look for "deadlock detected" in output
-  - Use JVisualVM or JConsole
-- **Prevention**:
-  - **Lock ordering**: Always acquire locks in same order
-  - **Timeout**: Use `tryLock(timeout)` instead of `lock()`
-  - **Reduce lock scope**: Minimize synchronized blocks
-  - **Use ConcurrentHashMap**: Instead of synchronizing entire collections
-
-```java
-// ✅ Fix: Use tryLock with timeout
-if (lock1.tryLock(1, TimeUnit.SECONDS)) {
-    try {
-        if (lock2.tryLock(1, TimeUnit.SECONDS)) {
-            // do work
+// BROKEN: Lock order depends on call order → deadlock possible
+public void transfer(Account from, Account to, BigDecimal amount) {
+    synchronized (from) {
+        synchronized (to) {         // Thread 2 might already hold 'to'
+            from.debit(amount);
+            to.credit(amount);
         }
-    } finally {
-        lock1.unlock();
     }
 }
-```
 
----
+// FIX 1: Consistent lock ordering using account ID
+public void transfer(Account from, Account to, BigDecimal amount) {
+    Account first  = from.getId() < to.getId() ? from : to;
+    Account second = from.getId() < to.getId() ? to   : from;
 
-[↑ Back to top](#top)
-
-#### Q29. Java Stream Parallel Performance
-
-**Q:** *You're using `stream().parallel()` but it's slower than sequential. Why?*
-
-**Expected Answer:**
-- **Problem**: Parallel stream uses ForkJoinPool (limited threads)
-- **Problem**: Overhead of splitting and combining results exceeds benefits for small datasets
-- **Problem**: If operation is already I/O-bound, parallelization adds no value
-- **Fix**: Use parallel stream only for **CPU-bound operations** on **large datasets** (>10,000 elements)
-- **Fix**: Use custom `ExecutorService` for I/O-bound parallel operations
-- **Rule**: Sequential is faster for small datasets due to parallelization overhead [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### 🏛️ Design Patterns, Spring Deep-Dive & JVM
-
-#### Q30. Singleton in Multithreaded Environment
-
-**Q:** *You implemented a singleton pattern but during testing, you find multiple instances are created. What's wrong?*
-
-**Expected Answer:**
-
-```java
-// ❌ Wrong - not thread-safe
-public static Singleton getInstance() {
-    if (instance == null) {
-        instance = new Singleton();
+    synchronized (first) {
+        synchronized (second) {
+            from.debit(amount);
+            to.credit(amount);
+        }
     }
-    return instance;
 }
 
-// ✅ Fix 1: Synchronized method (slow)
-public static synchronized Singleton getInstance() {
-    if (instance == null) {
-        instance = new Singleton();
-    }
-    return instance;
-}
+// FIX 2: tryLock with timeout (preferred for high-contention)
+public boolean transfer(Account from, Account to, BigDecimal amount)
+        throws InterruptedException {
+    ReentrantLock lockA = from.getLock();
+    ReentrantLock lockB = to.getLock();
 
-// ✅ Fix 2: Double-checked locking (best)
-public static Singleton getInstance() {
-    if (instance == null) {
-        synchronized (Singleton.class) {
-            if (instance == null) {
-                instance = new Singleton();
+    while (true) {
+        if (lockA.tryLock(50, TimeUnit.MILLISECONDS)) {
+            try {
+                if (lockB.tryLock(50, TimeUnit.MILLISECONDS)) {
+                    try {
+                        from.debit(amount);
+                        to.credit(amount);
+                        return true;
+                    } finally {
+                        lockB.unlock();
+                    }
+                }
+            } finally {
+                lockA.unlock();
             }
         }
-    }
-    return instance;
-}
-
-// ✅ Fix 3: Bill Pugh Singleton (best practice)
-private static class SingletonHelper {
-    private static final Singleton INSTANCE = new Singleton();
-}
-public static Singleton getInstance() {
-    return SingletonHelper.INSTANCE;
-}
-
-// ✅ Fix 4: Enum Singleton (most secure)
-public enum Singleton {
-    INSTANCE;
-}
-```
-
----
-
-[↑ Back to top](#top)
-
-#### Q31. Exception Handling in Transaction
-
-**Q:** *You have `@Transactional` method that catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?*
-
-> Related: See also **Q6** (@Transactional Not Working)
-
-**Expected Answer:**
-- **Problem**: Spring only rolls back on **unchecked exceptions** (`RuntimeException`, `Error`) by default
-- **Problem**: If you catch `Exception` and don't rethrow, transaction interceptor doesn't know to rollback
-- **Fix 1**: Don't catch exception, let it propagate
-- **Fix 2**: Manually trigger rollback:
-
-```java
-@Transactional
-public void method() {
-    try {
-        // business logic
-    } catch (Exception e) {
-        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        throw e; // Must rethrow
+        Thread.sleep(10); // back-off before retry
     }
 }
 ```
 
-- **Fix 3**: Use `@Transactional(rollbackFor = Exception.class)` [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
+**Follow-up Probes:**
+- How do you detect a deadlock in production without restarting the JVM?
+- What is livelock? Give a realistic example.
+- When would you use `StampedLock` over `ReentrantReadWriteLock`?
 
 ---
 
-[↑ Back to top](#top)
+### Q4 — Race Condition in Singleton Lazy Initialization
 
-#### Q32. Circular Dependency in Constructor Injection
+**Scenario:**  
+Your team ships a `ConfigurationManager` with lazy initialization. Under heavy startup load, two threads simultaneously detect `instance == null`, and two distinct instances are created — causing inconsistent config across the app.
 
-**Q:** *You're using constructor injection and get `BeanCurrentlyInCreationException` due to circular dependency. How do you fix it?*
-
-> Related: See also **Q7** (Circular Dependency in Spring)
-
-**Expected Answer:**
-- **Problem**: Service A requires Service B in constructor, Service B requires Service A
-- **Fix 1**: Use `@Lazy` on one constructor parameter
-
-```java
-public ServiceA(@Lazy ServiceB serviceB) { ... }
-```
-
-- **Fix 2**: Refactor to extract common logic to Service C
-- **Fix 3**: Use setter injection for one dependency (not recommended)
-- **Fix 4**: Use event-driven architecture (publish/subscribe)
-- **Best**: Redesign architecture to eliminate circular dependency [stackoverflow](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
-
----
-
-[↑ Back to top](#top)
-
-#### Q33. Java 8 Optional Best Practices
-
-**Q:** *You're using `Optional` but getting `NullPointerException`. What are common mistakes?*
+**What the interviewer is testing:**  
+Double-checked locking, `volatile`, initialization-on-demand holder, enum singleton.
 
 **Expected Answer:**
 
 ```java
-// ❌ Wrong: Optional of null
-Optional<String> opt = Optional.of(null); // Throws NPE
+// BROKEN: No synchronization
+public class ConfigurationManager {
+    private static ConfigurationManager instance;
 
-// ✅ Fix: Use Optional.ofNullable
-Optional<String> opt = Optional.ofNullable(null); // Returns Optional.empty()
-
-// ❌ Wrong: Calling get() without isPresent()
-String value = opt.get(); // Throws NoSuchElementException
-
-// ✅ Fix: Use orElse or ifPresent
-String value = opt.orElse("default");
-opt.ifPresent(v -> System.out.println(v));
-
-// ❌ Wrong: Using Optional for fields/parameters
-private Optional<String> field; // Don't do this
-
-// ✅ Fix: Only use Optional for return types
-public Optional<String> getData() { ... }
-```
-
----
-
-[↑ Back to top](#top)
-
-#### Q34. ClassLoader Issue in Web Application
-
-**Q:** *After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?*
-
-**Expected Answer:**
-- **Problem**: ClassLoader hierarchy issue in web containers
-- **Problem**: Different versions of same library in different classloaders
-- **Problem**: Static variables holding references to old classes
-- **Fix**: Ensure all dependencies are in `WEB-INF/lib` (not provided by container)
-- **Fix**: Restart application server to clear classloader cache
-- **Fix**: Use Maven/Gradle dependency management to avoid version conflicts
-- **Fix**: Check for duplicate JARs in classpath [blog.techwasti](https://blog.techwasti.com/java-architect-scenario-based-interview-questions-and-answers)
-
----
-
-[↑ Back to top](#top)
-
-#### Q35. Producer-Consumer Pattern Implementation
-
-**Q:** *You need to implement a producer-consumer pattern for processing 1 million records. How do you do it efficiently?*
-
-**Expected Answer:**
-
-```java
-// ✅ Fix 1: Use BlockingQueue (best)
-BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(1000);
-ExecutorService producer = Executors.newFixedThreadPool(4);
-ExecutorService consumer = Executors.newFixedThreadPool(8);
-
-// Producer
-producer.submit(() -> {
-    for (int i = 0; i < 1000000; i++) {
-        queue.put(i); // Blocks if queue is full
-    }
-});
-
-// Consumer
-consumer.submit(() -> {
-    while (!done) {
-        Integer item = queue.take(); // Blocks if queue is empty
-        process(item);
-    }
-});
-
-// ✅ Fix 2: Use CompletableFuture for parallel processing
-CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-```
-
----
-
-## Section 3: Senior / Architect Level Scenarios
-
-### ☕ Core Java
-
----
-
-[↑ Back to top](#top)
-
-#### Q36. Memory Leak in a Long-Running Java Service
-
-**Difficulty:** HARD · **Topic:** Core Java
-
-**Q:** *Memory leak in a long-running Java service — how do you diagnose and fix it?*
-
-Your production microservice starts with 512MB heap. After 3 days of running, it triggers OOM and restarts. GC logs show full GC happening every 5 minutes and reclaiming less each time.
-
-**Expected Answer:**
-
-**Step 1 — Confirm & Capture**
-- Enable JVM flags: `-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/`
-- This captures a heap dump at crash time
-- Also add `-Xlog:gc*:file=/tmp/gc.log` for GC analysis
-
-**Step 2 — Analyze with MAT / VisualVM**
-- Open heap dump in Eclipse MAT → run "Leak Suspects Report"
-- Check "Dominator Tree" — find objects holding most memory
-- Common culprits: unbounded caches (HashMap growth), ThreadLocal not removed, static collections, unclosed streams/connections
-- Check for ClassLoader leaks if using dynamic class loading
-
-**Common Scenario — ThreadLocal Leak**
-
-```java
-// WRONG — ThreadLocal never cleaned in thread pools
-static ThreadLocal<UserContext> ctx = new ThreadLocal<>();
-
-// FIX — always remove in finally
-try {
-    ctx.set(new UserContext(user));
-    processRequest();
-} finally {
-    ctx.remove(); // critical in pooled threads
-}
-```
-
-**Architectural Fix**
-- Use weak references for caches: `WeakHashMap` or Caffeine with size limits
-- Set explicit eviction on all caches (`@Cacheable` with evict policy)
-- Use try-with-resources for all `Closeable` resources
-- Profile with async-profiler in production (low overhead)
-
-**Follow-up:** How would you distinguish a memory leak from just insufficient heap sizing? What metrics would you monitor in Prometheus/Grafana?
-
----
-
-[↑ Back to top](#top)
-
-#### Q37. Java Memory Model & Concurrent Code
-
-**Difficulty:** HARD · **Topic:** Core Java
-
-**Q:** *Explain how the Java memory model affects concurrent code — give a real bug example.*
-
-A senior dev reviews your code and says "this has a visibility bug." Your singleton initialization looks correct to you. Walk through what the JMM guarantees and where the bug is.
-
-**Expected Answer:**
-
-**The Bug — Double-Checked Locking (Pre-Java 5)**
-
-```java
-// BROKEN — CPU can reorder: allocate memory → assign ref → initialize
-private static Singleton instance;
-public static Singleton getInstance() {
-    if (instance == null) {        // Thread B sees non-null but uninitialized!
-        synchronized(Singleton.class) {
-            if (instance == null)
-                instance = new Singleton();
+    public static ConfigurationManager getInstance() {
+        if (instance == null) {               // Thread A and B both see null
+            instance = new ConfigurationManager(); // both create instances
         }
+        return instance;
     }
-    return instance;
 }
 
-// FIX — volatile creates happens-before fence
-private static volatile Singleton instance;
-```
+// FIX 1: Double-checked locking with volatile (Java 5+)
+public class ConfigurationManager {
+    // volatile prevents instruction reordering during construction
+    private static volatile ConfigurationManager instance;
 
-**JMM Key Guarantees**
-- `volatile` write happens-before `volatile` read of same variable
-- `synchronized` block exit happens-before entry by another thread
-- `Thread.start()` happens-before any code in that thread
-- Without these: CPUs and JIT may reorder instructions for performance
+    public static ConfigurationManager getInstance() {
+        if (instance == null) {
+            synchronized (ConfigurationManager.class) {
+                if (instance == null) {
+                    instance = new ConfigurationManager();
+                }
+            }
+        }
+        return instance;
+    }
+}
 
-**Better Pattern — Initialization-on-Demand Holder**
+// FIX 2: Initialization-on-demand holder (preferred — no sync overhead)
+public class ConfigurationManager {
+    private ConfigurationManager() {}
 
-```java
-public class Singleton {
     private static class Holder {
-        static final Singleton INSTANCE = new Singleton();
+        // Class loaded lazily by JVM; class loading is thread-safe
+        static final ConfigurationManager INSTANCE = new ConfigurationManager();
     }
-    public static Singleton get() { return Holder.INSTANCE; }
-    // JVM class loading guarantees thread safety — no locks needed
+
+    public static ConfigurationManager getInstance() {
+        return Holder.INSTANCE;
+    }
+}
+
+// FIX 3: Enum singleton (safest, serialization-safe)
+public enum ConfigurationManager {
+    INSTANCE;
+
+    public String getProperty(String key) { /* ... */ return null; }
 }
 ```
 
-**Follow-up:** What is a "spurious wakeup" and how does it affect code using `Object.wait()`? Show the correct pattern.
+**Follow-up Probes:**
+- Why was double-checked locking broken before Java 5?
+- How does `volatile` prevent the partial-construction visibility problem?
+- How would you handle singleton destruction/cleanup at app shutdown?
 
 ---
 
-[↑ Back to top](#top)
+### Q5 — ThreadLocal Memory Leak in App Server
 
-#### Q38. CompletableFuture Pipeline with Error Handling
+**Scenario:**  
+After several days, a Spring application running on Tomcat starts throwing `OutOfMemoryError`. A heap dump reveals a large number of objects reachable from `Thread` → `threadLocals` map. The threads are from Tomcat's thread pool.
 
-**Difficulty:** HARD · **Topic:** Core Java
-
-**Q:** *CompletableFuture pipeline with error handling — design a real async workflow.*
-
-You need to: (1) fetch user from DB, (2) in parallel fetch their orders and preferences, (3) combine them to build a personalized feed, (4) if any step fails, return a degraded response, never throw to the caller.
+**What the interviewer is testing:**  
+`ThreadLocal` lifecycle, thread pool reuse, cleanup discipline.
 
 **Expected Answer:**
 
-**Full Async Pipeline**
+Thread pools **reuse** threads. If a `ThreadLocal` is set but never removed, it persists in the thread's `threadLocalMap` for the lifetime of the thread — which is the lifetime of the app server.
 
 ```java
-public CompletableFuture<Feed> buildFeed(long userId) {
-    CompletableFuture<User> userF =
-        CompletableFuture.supplyAsync(() -> userRepo.find(userId), executor)
-            .exceptionally(e -> User.anonymous()); // degrade gracefully
+// PROBLEM: ThreadLocal set per request, never cleaned up
+public class RequestContext {
+    private static final ThreadLocal<UserSession> SESSION =
+        new ThreadLocal<>();
 
-    CompletableFuture<List<Order>> ordersF =
-        userF.thenComposeAsync(u -> orderService.getOrders(u.getId()), executor)
-             .exceptionally(e -> Collections.emptyList());
-
-    CompletableFuture<Prefs> prefsF =
-        userF.thenComposeAsync(u -> prefService.getPrefs(u.getId()), executor)
-             .exceptionally(e -> Prefs.defaults());
-
-    return userF.thenCombineAsync(
-        ordersF.thenCombineAsync(prefsF, OrdersAndPrefs::new, executor),
-        (user, op) -> feedBuilder.build(user, op.orders(), op.prefs()),
-        executor
-    ).orTimeout(2, TimeUnit.SECONDS)
-     .exceptionally(e -> Feed.empty());
-}
-```
-
-**Key Methods to Know**
-- `thenApply` — sync transform of result (same thread)
-- `thenCompose` — flatMap: returns a new CompletableFuture
-- `thenCombine` — merge two independent futures
-- `exceptionally` — handle errors with fallback value
-- `orTimeout` — fail with TimeoutException after N time units
-- `allOf` — wait for N futures; use with `thenApply` to collect results
-
-**Follow-up:** What happens to your CompletableFuture if the thread in the executor is interrupted? How do you propagate cancellation properly?
-
----
-
-[↑ Back to top](#top)
-
-#### Q39. G1GC vs ZGC — When to Choose Which
-
-**Difficulty:** HARD · **Topic:** Core Java
-
-**Q:** *Explain how Java garbage collectors differ — when do you choose G1 vs ZGC?*
-
-You have two services: a batch processor that runs 30-minute jobs on 32GB heap, and a real-time API with strict P99 < 10ms SLA. Your DevOps team asks which GC to use for each and why.
-
-**Expected Answer:**
-
-**GC Comparison**
-- **G1GC** (default since Java 9): regional heap, predictable pauses ~200ms, good for heaps 4GB–32GB, tunable with `-XX:MaxGCPauseMillis=200`
-- **ZGC** (Java 15+ production-ready): concurrent GC, pauses < 1ms even on 1TB heap, slight throughput cost, ideal for latency-sensitive services
-- **Shenandoah**: similar to ZGC, lower overhead, good for medium latency requirements
-- **Serial/Parallel**: high throughput, high pauses — avoid for latency-critical work
-
-**For Batch Processor (32GB, throughput matters)**
-
-```bash
-# G1GC — maximize throughput, pauses acceptable
--XX:+UseG1GC
--Xms32g -Xmx32g
--XX:MaxGCPauseMillis=500
--XX:G1HeapRegionSize=32m
--XX:+G1UseAdaptiveIHOP
-```
-
-**For Real-Time API (P99 < 10ms)**
-
-```bash
-# ZGC — ultra-low pause regardless of heap size
--XX:+UseZGC
--Xms8g -Xmx8g
--XX:+ZGenerational    # Java 21+ generational ZGC (faster)
--XX:ConcGCThreads=4
-```
-
-**Key Tuning Tips**
-- Always set `-Xms = -Xmx` to prevent heap resizing pauses
-- Monitor GC with `-Xlog:gc*:file=gc.log:time,uptime`
-- ZGC's weakness: higher memory overhead (~10–20% more than G1)
-- Java 21 Virtual Threads reduce heap pressure significantly for I/O-heavy services
-
-**Follow-up:** What are virtual threads in Java 21 and how do they change the GC pressure compared to platform threads in a high-concurrency service?
-
----
-
-[↑ Back to top](#top)
-
-#### Q40. Custom ClassLoader for Plugin Isolation
-
-**Difficulty:** HARD · **Topic:** Core Java
-
-**Q:** *Walk through a custom ClassLoader implementation and when you would need one.*
-
-You are building a plugin system where customers can upload Java code that your application loads and executes at runtime without restarting. Each plugin must be isolated — a bug in Plugin A must not crash Plugin B or the host application.
-
-**Expected Answer:**
-
-**Custom ClassLoader for Plugin Isolation**
-
-```java
-public class PluginClassLoader extends URLClassLoader {
-    private final ClassLoader parent;
-
-    public PluginClassLoader(URL[] jarUrls, ClassLoader parent) {
-        super(jarUrls, parent);
-        this.parent = parent;
+    public static void set(UserSession session) {
+        SESSION.set(session);       // set on request start
     }
 
+    public static UserSession get() {
+        return SESSION.get();
+    }
+    // Missing: remove() → memory leak on pooled threads!
+}
+
+// FIX: Always remove in a finally block
+public class RequestFilter implements Filter {
     @Override
-    protected Class<?> loadClass(String name, boolean resolve)
-            throws ClassNotFoundException {
-        // Reverse delegation: try plugin JAR first (not parent)
+    public void doFilter(ServletRequest req, ServletResponse res,
+                         FilterChain chain) throws IOException, ServletException {
         try {
-            return findClass(name); // check our JAR first
-        } catch (ClassNotFoundException e) {
-            return parent.loadClass(name); // fall back to host
+            RequestContext.set(buildSession(req));
+            chain.doFilter(req, res);
+        } finally {
+            RequestContext.remove();   // ← CRITICAL: always clean up
         }
     }
 }
 
-// Load and execute plugin
-PluginClassLoader loader = new PluginClassLoader(
-    new URL[]{ pluginJar.toURI().toURL() }, Thread.currentThread().getContextClassLoader()
-);
-Class<?> pluginClass = loader.loadClass("com.customer.Plugin");
-Plugin plugin = (Plugin) pluginClass.getDeclaredConstructor().newInstance();
-```
+// BETTER: Use a try-with-resource wrapper
+public class ScopedContext implements AutoCloseable {
+    private static final ThreadLocal<UserSession> HOLDER = new ThreadLocal<>();
 
-**Unloading & Memory Management**
-- To unload a plugin: remove all strong references to the ClassLoader and its classes
-- GC will collect the ClassLoader (and all its loaded classes) when no references remain
-- `WeakReference` allows GC to collect it when plugin is unregistered
-- Watch for: static fields in plugin classes holding references back to ClassLoader — prevents GC
+    public ScopedContext(UserSession session) {
+        HOLDER.set(session);
+    }
 
-**Security Sandbox**
-- Run plugin in separate Thread with custom SecurityManager (deprecated Java 17+)
-- Modern approach: GraalVM Polyglot sandbox or OSGi (Apache Felix)
-- Time-limit plugin execution with `Future.get(timeout)`
+    public static UserSession get() { return HOLDER.get(); }
 
-**Follow-up:** What is the ClassLoader hierarchy in a typical Spring Boot fat JAR application? How does it differ from a standard Java application?
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### 🏗️ Architecture
-
-#### Q41. Rate-Limiting System for an API Gateway
-
-**Difficulty:** SENIOR · **Topic:** Architecture
-
-**Q:** *Design a rate-limiting system for an API gateway serving 50,000 RPS.*
-
-You are the architect for a fintech API gateway. One endpoint is being hammered by a rogue client causing 503s for others. You need per-client rate limiting that survives node restarts and works across 10 gateway instances.
-
-**Expected Answer:**
-
-**Algorithm Choice**
-- Use **Token Bucket** (allows bursting) or **Sliding Window Log**
-- For distributed rate limiting across 10 nodes, a local-only counter will fail — you need a shared counter in Redis
-
-**Redis Lua Script — Atomic Sliding Window**
-
-```java
-// Spring Boot + Lettuce + Lua for atomic rate check
-String luaScript = """
-    local key = KEYS[1]
-    local now = tonumber(ARGV[1])
-    local window = tonumber(ARGV[2])
-    local limit = tonumber(ARGV[3])
-    redis.call('ZREMRANGEBYSCORE', key, 0, now - window)
-    local count = redis.call('ZCARD', key)
-    if count < limit then
-        redis.call('ZADD', key, now, now)
-        redis.call('EXPIRE', key, window)
-        return 1
-    end
-    return 0
-""";
-
-// Key: "ratelimit:{clientId}:{endpoint}"
-// Window: 1000ms, Limit: 100 req/sec
-```
-
-**Architecture Layers**
-- **L1** — Local cache (Caffeine, 100ms TTL) for hot clients to reduce Redis round-trips by ~80%
-- **L2** — Redis Cluster with Lua scripts for distributed atomic counting
-- Reject with HTTP 429, `Retry-After` header, and `X-RateLimit-Remaining`
-- Graceful degradation: if Redis is down, fail-open with local limiting only
-
-**Spring Cloud Gateway Filter**
-
-```java
-@Component
-public class RateLimitFilter implements GlobalFilter {
     @Override
-    public Mono<Void> filter(ServerWebExchange ex, GatewayFilterChain chain) {
-        String clientId = ex.getRequest().getHeaders().getFirst("X-Client-ID");
-        return rateLimiter.isAllowed(clientId)
-            .flatMap(allowed -> allowed
-                ? chain.filter(ex)
-                : tooManyRequests(ex));
+    public void close() {
+        HOLDER.remove();
     }
 }
-```
 
-**Follow-up:** How would you handle rate limiting for authenticated vs anonymous users differently? What about IP-based limiting at the CDN layer?
-
----
-
-[↑ Back to top](#top)
-
-#### Q42. Monolith to Microservices Migration Without Downtime
-
-**Difficulty:** SENIOR · **Topic:** Architecture
-
-**Q:** *How would you migrate a monolith to microservices without downtime?*
-
-You have a 5-year-old Spring MVC monolith with 200 tables, 1M active users, and zero tests. The business needs 3 new features that require independent scaling. You cannot afford 6 months of big-bang rewrite.
-
-**Expected Answer:**
-
-**Strangler Fig Pattern**
-Incrementally replace monolith functionality by routing traffic through a facade. New requests go to new services; old requests still hit the monolith. The monolith "strangles" over time.
-
-**Phase 1 — Add an API Gateway (Week 1–2)**
-- Put Kong / Spring Cloud Gateway in front of monolith
-- 100% traffic still routes to monolith initially
-- Gain: observability, rate limiting, auth centralization
-
-**Phase 2 — Extract Bounded Contexts**
-- Identify high-value, loosely-coupled domains first (e.g., Notifications)
-- Use the **Anti-Corruption Layer**: new service talks to monolith DB via a read API, not direct DB access
-- Dual-write period: write to both monolith DB and new service DB, read from monolith
-
-**Phase 3 — Data Migration (Hardest Part)**
-- Shadow reads: compare results from old and new service silently
-- Feature flag to route 1% → 10% → 50% → 100% to new service
-- Use **Change Data Capture** (Debezium) to sync monolith DB changes to new service DB during transition
-- Run both in parallel until confidence is high, then remove monolith code path
-
-**Follow-up:** How would you handle shared database tables that are used by 3 different bounded contexts during migration? What is database-per-service and when is it practical?
-
----
-
-[↑ Back to top](#top)
-
-#### Q43. Event-Driven Notification System at Scale
-
-**Difficulty:** SENIOR · **Topic:** Architecture
-
-**Q:** *Design an event-driven notification system for 10 million users with delivery guarantees.*
-
-Users can subscribe to events (new follower, like, comment). Events are generated at 50,000/second peak. Notifications must be delivered within 5 seconds, must not duplicate, and must survive system restarts. You have Kafka available.
-
-**Expected Answer:**
-
-**Architecture Overview**
-- **Producers**: Order/Social/Payment services → publish to Kafka topics
-- **Notification Router**: consumes events, routes to correct delivery channel
-- **Delivery Workers**: push (FCM/APNs), email (SES), SMS (Twilio) — fan-out
-- **State Store**: Redis for deduplication, Postgres for delivery receipts
-
-**Exactly-Once Delivery**
-
-```java
-// Deduplication with Redis SETNX (TTL 24h)
-String dedupKey = "notif:" + eventId + ":" + userId;
-Boolean isNew = redis.opsForValue()
-    .setIfAbsent(dedupKey, "1", Duration.ofHours(24));
-
-if (Boolean.TRUE.equals(isNew)) {
-    deliverNotification(userId, notification);
-}
-// Kafka consumer: manual commit AFTER successful delivery
-ack.acknowledge(); // only after push/email confirmed
-```
-
-**Scaling Fan-Out for Celebrities**
-- **Problem**: user with 5M followers generates 5M notification records on one event
-- **Solution**: lazy fan-out — store event once, expand to followers in background
-- Priority queues: premium users get fast-path processing
-- Backpressure: if FCM rejects, exponential backoff with dead-letter queue
-
-**Follow-up:** How would you handle notification preferences (user wants email but not push for "likes")? Where would you store and apply these preferences in the pipeline?
-
----
-
-[↑ Back to top](#top)
-
-#### Q44. Idempotent REST API for Payment Processing
-
-**Difficulty:** SENIOR · **Topic:** Architecture
-
-**Q:** *How do you design an idempotent REST API for payment processing?*
-
-A mobile client POSTs `/payments` with $100 charge. Due to a network blip, the client never receives the 200 response. It retries — but your server already processed the payment. How do you prevent double charging?
-
-**Expected Answer:**
-
-**Idempotency Key Pattern**
-
-```http
-POST /payments
-Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000
-Content-Type: application/json
-{ "amount": 100, "currency": "USD" }
-```
-
-```java
-@PostMapping("/payments")
-public ResponseEntity<Payment> createPayment(
-        @RequestHeader("Idempotency-Key") String key,
-        @RequestBody PaymentRequest req) {
-
-    // Check if we already processed this key
-    return idempotencyStore.get(key)
-        .map(existing -> ResponseEntity.ok(existing)) // replay stored response
-        .orElseGet(() -> {
-            Payment payment = paymentService.charge(req);
-            idempotencyStore.save(key, payment, Duration.ofDays(1));
-            return ResponseEntity.status(201).body(payment);
-        });
+// Usage
+try (var ctx = new ScopedContext(session)) {
+    chain.doFilter(req, res);
 }
 ```
 
-**Storage Considerations**
-- Store idempotency key + full response in Redis (24h TTL)
-- Must be atomic: use Redis SET NX (set if not exists) or DB unique constraint on key
-- Race condition: two simultaneous requests with same key — use distributed lock on key during first processing
-- Include request hash in stored record — reject if same key with different body
-
-**HTTP Status for Replays**
-- Return same 200/201 with original response body
-- Add `Idempotent-Replayed: true` header so client can distinguish
-- Never return 4xx for a valid replay — client should not retry differently
-
-**Follow-up:** How would you handle idempotency for a payment that takes 30 seconds to process? What response do you give if the same key arrives while the first request is still in flight?
+**Follow-up Probes:**
+- What is `InheritableThreadLocal` and when is it dangerous?
+- How does Spring's `RequestContextHolder` handle this problem?
+- How would you detect `ThreadLocal` leaks in CI before they hit production?
 
 ---
 
-[↑ Back to top](#top)
+## 3. Memory Management & GC Tuning
 
-#### Q45. Blue-Green and Canary Deployments in Kubernetes
+---
 
-**Difficulty:** SENIOR · **Topic:** Architecture
+### Q6 — G1GC Pause Spikes in a Low-Latency Service
 
-**Q:** *How do you implement blue-green and canary deployments in a Java microservice fleet?*
+**Scenario:**  
+A trading platform's REST API must respond under 100ms (P99). Occasionally you see 500ms+ pauses in application logs correlating with GC activity. The heap is 8GB, using default GC settings on Java 17.
 
-You have 20 microservices, each deployed in Kubernetes. A critical service has a bug that only appears under 5% of traffic patterns. You need to deploy a fix with zero downtime and the ability to rollback in under 60 seconds.
+**What the interviewer is testing:**  
+GC algorithm selection, tuning flags, off-heap alternatives.
 
 **Expected Answer:**
 
-**Blue-Green Deployment**
-- Run two identical environments: blue (current) and green (new version)
-- Route 100% traffic to blue, deploy to green, run smoke tests
-- Switch: update Kubernetes Service selector from blue to green instantly
-- Rollback: switch selector back to blue — takes < 5 seconds
+Java 17 defaults to G1GC. Long pauses indicate large GC regions being evacuated, humongous object allocations, or mixed collection storms.
 
-**Canary with Argo Rollouts**
-
-```yaml
-# Argo Rollouts canary strategy
-spec:
-  strategy:
-    canary:
-      steps:
-      - setWeight: 5      # 5% to canary
-      - pause: {duration: 10m}
-      - setWeight: 20
-      - pause: {duration: 10m}
-      - setWeight: 50
-      - pause: {}         # manual promotion
-      analysis:
-        templates:
-        - templateName: error-rate
-        args:
-        - name: service-name
-          value: order-service
-```
-
-**Automated Rollback with Analysis**
-
-```yaml
-# AnalysisTemplate: rollback if error rate > 5%
-spec:
-  metrics:
-  - name: error-rate
-    interval: 1m
-    failureLimit: 1
-    provider:
-      prometheus:
-        address: http://prometheus:9090
-        query: |
-          rate(http_requests_total{status=~"5..",
-            service="{{args.service-name}}"}[5m])
-          /
-          rate(http_requests_total{service="{{args.service-name}}"}[5m])
-    successCondition: result[0] < 0.05
-```
-
-**Database Schema Compatibility**
-- Never deploy DB migration that breaks old version — both versions must work during transition
-- Expand/contract pattern: add new column as nullable, deploy, backfill, make required, drop old column
-- Flyway/Liquibase: run migrations before code deployment with backward-compatible changes only
-
-**Follow-up:** How do you handle stateful services (with local cache or session state) in a blue-green deployment? What special considerations apply compared to stateless services?
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### ⚡ Performance
-
-#### Q46. Spring Boot Endpoint Optimization (800ms → 100ms)
-
-**Difficulty:** HARD · **Topic:** Performance
-
-**Q:** *A Spring Boot endpoint takes 800ms — your target is 100ms. Walk through your optimization process.*
-
-`GET /api/v1/dashboard` returns aggregated data for a user. Currently it fetches from 5 different tables sequentially. P99 latency is 800ms under 500 concurrent users. You need 100ms P99.
-
-**Expected Answer:**
-
-**1. Profile First (Never Guess)**
-- Add Spring Boot Actuator + Micrometer
-- Use async-profiler in prod or YourKit in staging
-- Identify: is it CPU-bound, I/O-bound, or lock-contention?
-
-**2. Fix N+1 and Sequential Queries**
-
-```java
-// BEFORE — 5 sequential DB calls = 5 * 150ms = 750ms
-User user = userRepo.findById(id);
-List<Order> orders = orderRepo.findByUser(id);
-Stats stats = statsRepo.findByUser(id);
-
-// AFTER — CompletableFuture parallel execution
-CompletableFuture<User> userF = CompletableFuture.supplyAsync(() -> userRepo.findById(id));
-CompletableFuture<List<Order>> ordersF = CompletableFuture.supplyAsync(() -> orderRepo.findByUser(id));
-CompletableFuture<Stats> statsF = CompletableFuture.supplyAsync(() -> statsRepo.findByUser(id));
-CompletableFuture.allOf(userF, ordersF, statsF).join();
-// Now runs in max(150ms) = 150ms not 450ms
-```
-
-**3. Add Caching Layer**
-- `@Cacheable` on read-heavy aggregations with 30s TTL
-- Redis for distributed cache — avoid thundering herd with probabilistic early refresh
-- Cache-aside pattern for user-specific data
-
-**4. DB Optimizations**
-- Add composite indexes on frequent WHERE + ORDER BY columns
-- Use database views or materialized views for dashboard aggregates
-- Connection pool sizing: HikariCP `minimum-idle = 10`, `maximum-pool-size = 50`
-- Use `@Query` with JOIN FETCH to avoid N+1 in JPA
-
-**Follow-up:** How do you handle cache invalidation when underlying data changes across multiple services? Describe an event-driven cache invalidation approach.
-
----
-
-[↑ Back to top](#top)
-
-#### Q47. High CPU Usage During Idle Periods
-
-**Difficulty:** HARD · **Topic:** Performance
-
-**Q:** *Your application has high CPU usage during seemingly idle periods — diagnose it.*
-
-Production pods show 80% CPU at 2 AM with zero user traffic. No scheduled jobs are supposed to run. GC logs look normal. How do you find the root cause?
-
-**Expected Answer:**
-
-**Step 1 — Capture Thread Dump + CPU Profile**
-
+**Diagnosis steps:**
 ```bash
-# Get PID of Java process
-jps -l
+# Enable GC logging
+-Xlog:gc*:file=/var/log/app-gc.log:time,uptime,level,tags:filecount=5,filesize=20m
 
-# Thread dump — shows what every thread is doing
-jstack <pid> > thread-dump.txt
-
-# CPU profiling with async-profiler (low overhead, safe for prod)
-./profiler.sh -d 30 -f /tmp/profile.html <pid>
-# Open profile.html — flame graph shows hot methods
+# Watch for:
+# [GC pause (G1 Evacuation Pause)] — normal young GC
+# [GC pause (G1 Mixed)]            — old gen cleanup (can be long)
+# [GC pause (G1 Humongous Allocation)] — objects > region/2
 ```
 
-**Common Culprits at 2 AM**
-- Scheduled tasks (`@Scheduled`) with misconfigured cron — `"0 * * * * *"` fires every minute not every hour
-- Connection pool validation queries — HikariCP `testQuery` running on idle connections
-- Prometheus/Actuator scraping triggering expensive metrics computation
-- Log rotation or compression by logback consuming CPU
-- Background compiler (JIT) still optimizing after warm-up — check `PrintCompilation`
-- Infinite loop in background thread with no sleep/wait
-
-**Finding Spinning Threads**
-
+**Tuning:**
 ```bash
-# Find threads consuming most CPU (Linux)
-top -H -p <java_pid>
-# Note TID (thread ID), convert to hex:
-printf '%x\n' <TID>
-# Find in thread dump — "nid=0x<hex>" is your culprit thread
-grep -A 20 "nid=0x<hex>" thread-dump.txt
+# Target max pause time
+-XX:MaxGCPauseMillis=50
+
+# Increase region size to reduce humongous allocations (if you have large byte[])
+-XX:G1HeapRegionSize=16m
+
+# Initiate mixed GC earlier (before old gen fills up)
+-XX:InitiatingHeapOccupancyPercent=35
+
+# For Java 17: try ZGC for sub-millisecond pauses
+-XX:+UseZGC
 ```
 
-**Follow-up:** How would you use virtual threads (Java 21) to prevent thread starvation in a mixed I/O and CPU workload? What are the limitations of virtual threads?
+```java
+// Application-level fix: avoid humongous allocations
+// BAD: allocating large temporary buffers
+byte[] buffer = new byte[20 * 1024 * 1024]; // 20MB — humongous in G1
+
+// GOOD: pool and reuse buffers
+private static final ObjectPool<byte[]> BUFFER_POOL = ...;
+byte[] buffer = BUFFER_POOL.borrow();
+try {
+    process(buffer);
+} finally {
+    BUFFER_POOL.release(buffer);
+}
+```
+
+**Follow-up Probes:**
+- When would you choose ZGC vs Shenandoah vs G1?
+- What is TLAB and how does it help allocation performance?
+- Explain the difference between minor GC, major GC, and full GC.
 
 ---
 
-[↑ Back to top](#top)
+## 4. Design Patterns & OOP Principles
 
-#### Q48. Reactive Programming with Spring WebFlux
+---
 
-**Difficulty:** SENIOR · **Topic:** Performance
+### Q7 — Overengineered Inheritance Hierarchy
 
-**Q:** *How would you implement reactive programming in a Spring WebFlux service?*
+**Scenario:**  
+You join a team maintaining a `Payment` hierarchy: `AbstractPayment → CreditPayment → InternationalCreditPayment → RecurringInternationalCreditPayment`. Adding a new payment type requires touching 4 classes and understanding 600 lines of inherited state. The team says "it's OOP."
 
-Your REST service must handle 100,000 concurrent connections with minimal threads. Currently your blocking Spring MVC app needs 100,000 threads (100K × 1MB stack = 100GB RAM). Redesign it.
+**What the interviewer is testing:**  
+Composition over inheritance, SOLID principles, refactoring judgment.
 
 **Expected Answer:**
 
-**Why Reactive Solves This**
-- Reactive uses event loops: 8 threads handle 100K connections by never blocking
-- When I/O completes, a callback resumes the chain
-- No thread sits idle waiting for DB/HTTP response
-
-**Spring WebFlux Reactive Chain**
+Deep inheritance couples behavior to hierarchy. The fix is **composition with Strategy/Decorator patterns**.
 
 ```java
-@RestController
-public class OrderController {
+// BEFORE: Fragile inheritance
+public abstract class AbstractPayment {
+    protected BigDecimal amount;
+    protected Currency currency;
+    public abstract void process();
+    public abstract void validate();
+}
 
-    @GetMapping("/orders/{id}")
-    public Mono<OrderResponse> getOrder(@PathVariable String id) {
-        return orderRepo.findById(id)           // R2DBC — non-blocking DB
-            .zipWith(inventoryClient.getStock(id)) // parallel non-blocking HTTP
-            .map(tuple -> OrderResponse.from(
-                tuple.getT1(), tuple.getT2()
-            ))
-            .switchIfEmpty(Mono.error(new NotFoundException(id)));
+public class RecurringInternationalCreditPayment extends InternationalCreditPayment {
+    // Inherits 4 levels of hidden state and behavior
+}
+
+// AFTER: Compose behaviors as strategies
+public interface PaymentProcessor {
+    PaymentResult process(PaymentRequest request);
+}
+
+public interface PaymentValidator {
+    ValidationResult validate(PaymentRequest request);
+}
+
+public interface CurrencyConverter {
+    BigDecimal convert(BigDecimal amount, Currency from, Currency to);
+}
+
+public class Payment {
+    private final PaymentProcessor  processor;
+    private final PaymentValidator  validator;
+    private final CurrencyConverter converter;  // optional
+
+    public Payment(PaymentProcessor processor,
+                   PaymentValidator validator,
+                   CurrencyConverter converter) {
+        this.processor = processor;
+        this.validator = validator;
+        this.converter = converter;
+    }
+
+    public PaymentResult execute(PaymentRequest request) {
+        ValidationResult validation = validator.validate(request);
+        if (!validation.isValid()) {
+            throw new PaymentValidationException(validation);
+        }
+        return processor.process(request);
+    }
+}
+
+// Adding a new type = new implementations, zero changes to existing code (OCP)
+PaymentProcessor stripeProcessor = new StripePaymentProcessor(stripeClient);
+PaymentValidator internationalValidator = new InternationalPaymentValidator(sanctionsService);
+Payment p = new Payment(stripeProcessor, internationalValidator, fxConverter);
+```
+
+**Follow-up Probes:**
+- What SOLID principle does deep inheritance most commonly violate?
+- When IS inheritance the right choice?
+- How would you introduce this refactoring in a live codebase with 300 existing usages?
+
+---
+
+### Q8 — Decorator Pattern for Audit Logging
+
+**Scenario:**  
+You're asked to add audit logging to 15 different `Repository` implementations without modifying each one. The logging must capture method name, duration, user context, and result.
+
+**What the interviewer is testing:**  
+Decorator pattern, AOP awareness, proxy-based approaches.
+
+**Expected Answer:**
+
+```java
+// Core interface
+public interface UserRepository {
+    User findById(Long id);
+    void save(User user);
+    void delete(Long id);
+}
+
+// Real implementation
+public class JpaUserRepository implements UserRepository {
+    @Override public User findById(Long id) { /* JPA logic */ return null; }
+    @Override public void save(User user)   { /* JPA logic */ }
+    @Override public void delete(Long id)  { /* JPA logic */ }
+}
+
+// Decorator: wraps ANY UserRepository with audit logging
+public class AuditingUserRepository implements UserRepository {
+    private final UserRepository delegate;
+    private final AuditLogger    auditLogger;
+
+    public AuditingUserRepository(UserRepository delegate, AuditLogger auditLogger) {
+        this.delegate    = delegate;
+        this.auditLogger = auditLogger;
+    }
+
+    @Override
+    public User findById(Long id) {
+        long start = System.nanoTime();
+        try {
+            User result = delegate.findById(id);
+            auditLogger.log("findById", id, System.nanoTime() - start, "SUCCESS");
+            return result;
+        } catch (Exception e) {
+            auditLogger.log("findById", id, System.nanoTime() - start, "FAILURE");
+            throw e;
+        }
+    }
+
+    @Override public void save(User user)   { /* similar wrapping */ }
+    @Override public void delete(Long id)   { /* similar wrapping */ }
+}
+
+// Wiring (manual)
+UserRepository repo = new AuditingUserRepository(
+    new JpaUserRepository(), auditLogger
+);
+
+// Or: Dynamic proxy approach for all methods at once
+UserRepository repo = (UserRepository) Proxy.newProxyInstance(
+    UserRepository.class.getClassLoader(),
+    new Class[]{UserRepository.class},
+    new AuditInvocationHandler(new JpaUserRepository(), auditLogger)
+);
+```
+
+**Production note:** In Spring, `@Aspect` + `@Around` achieves this declaratively without boilerplate per repository.
+
+**Follow-up Probes:**
+- What's the difference between Decorator and Proxy patterns?
+- How does Spring AOP create proxies internally (JDK dynamic proxy vs CGLIB)?
+- What are limitations of JDK dynamic proxies?
+
+---
+
+## 5. Java Collections & Streams
+
+---
+
+### Q9 — `ConcurrentModificationException` in Production
+
+**Scenario:**  
+A background job iterates over a `List<Order>` while another thread can add orders to the same list. Occasionally you get `ConcurrentModificationException` in production at 2 AM.
+
+**What the interviewer is testing:**  
+Fail-fast iterators, concurrent collections, copy-on-write semantics.
+
+**Expected Answer:**
+
+`ArrayList` uses a `modCount` counter. Any structural modification (add/remove) during iteration throws `ConcurrentModificationException` — this is **fail-fast** behavior, not a thread-safety guarantee.
+
+```java
+// BROKEN: ArrayList is not thread-safe
+List<Order> orders = new ArrayList<>();
+
+// Thread 1: iterating
+for (Order o : orders) {    // uses iterator with modCount snapshot
+    process(o);
+}
+
+// Thread 2 (concurrently): adding
+orders.add(newOrder);       // increments modCount → CME thrown in Thread 1
+
+// FIX 1: CopyOnWriteArrayList (best for read-heavy, rare writes)
+List<Order> orders = new CopyOnWriteArrayList<>();
+// Writes create a NEW internal array — iterators see the snapshot at creation time
+// No CME. Reads are lock-free.
+
+// FIX 2: Synchronized snapshot iteration
+List<Order> snapshot;
+synchronized (orders) {
+    snapshot = new ArrayList<>(orders);
+}
+for (Order o : snapshot) {
+    process(o);
+}
+
+// FIX 3: ConcurrentLinkedQueue (if order doesn't matter)
+Queue<Order> orders = new ConcurrentLinkedQueue<>();
+
+// FIX 4: Iterator.remove() for safe removal during iteration
+Iterator<Order> it = orders.iterator();
+while (it.hasNext()) {
+    Order o = it.next();
+    if (o.isExpired()) {
+        it.remove();    // safe — uses iterator's own remove
     }
 }
 ```
 
-**Critical Rules**
-- **NEVER** block in a reactive chain: no `Thread.sleep()`, no `.get()` on CompletableFuture, no JDBC (use R2DBC)
-- If you must call blocking code: wrap with `Mono.fromCallable(...).subscribeOn(Schedulers.boundedElastic())`
-- Error handling: `onErrorResume` for fallback, `onErrorMap` to transform exceptions
-- Backpressure: `Flux.limitRate(100)` prevents overwhelming slow consumers
-
-**Java 21 Alternative**
-- Virtual threads (Project Loom) achieve similar scalability WITH blocking code
-- Replace WebFlux with regular Spring MVC + virtual thread executor
-- Much simpler mental model — no reactive streams learning curve
-- Trade-off: reactive is more memory efficient; virtual threads are more dev-friendly
-
-**Follow-up:** How do you propagate security context (e.g., Spring Security authentication) across reactive chains where there is no ThreadLocal?
+**Follow-up Probes:**
+- When would you choose `CopyOnWriteArrayList` over `Collections.synchronizedList()`?
+- What is the difference between fail-fast and fail-safe iterators?
+- How does `ConcurrentHashMap` handle concurrent iteration differently from `HashMap`?
 
 ---
 
-[↑ Back to top](#top)
+### Q10 — Stream Pipeline Performance Problem
 
+**Scenario:**  
+A report generator processes a `List<Transaction>` with 2 million entries using multiple chained stream operations. It takes 45 seconds. A colleague says "just add `.parallel()`". You disagree.
 
----
-
-### 🔗 Microservices
-
-#### Q49. Saga Pattern for Distributed Order Transaction
-
-**Difficulty:** SENIOR · **Topic:** Microservices
-
-**Q:** *How do you implement Saga pattern for a distributed order transaction?*
-
-Your e-commerce system has separate Order, Inventory, Payment, and Shipping services. A customer places an order — payment succeeds but inventory reservation fails. You have 2 minutes of partial state. How do you handle this?
+**What the interviewer is testing:**  
+Stream internals, parallel stream pitfalls, when parallelism helps vs hurts.
 
 **Expected Answer:**
 
-**Two Saga Approaches**
-- **Choreography**: services publish events, others react — good for simple flows, hard to track globally
-- **Orchestration**: a Saga Orchestrator drives the steps — better for complex flows, easier to debug
-
-**Orchestration with Axon / Spring State Machine**
-
 ```java
-@Saga
-public class OrderSaga {
+// Current code (sequential, 45s):
+List<ReportLine> report = transactions.stream()
+    .filter(t -> t.getDate().isAfter(cutoff))
+    .map(t -> enrichWithAccountData(t))        // calls DB — IO-bound!
+    .sorted(Comparator.comparing(Transaction::getAmount).reversed())
+    .collect(Collectors.toList());
 
-    @StartSaga @SagaEventHandler(associationProperty = "orderId")
-    public void on(OrderCreatedEvent e) {
-        commandGateway.send(new ReserveInventoryCommand(e.orderId, e.items));
-    }
+// Adding .parallel() is WRONG here because:
+// 1. enrichWithAccountData() hits a database — parallel threads will
+//    saturate the connection pool (e.g., HikariCP default: 10 connections)
+// 2. .sorted() on parallel streams requires a merge sort — expensive
+// 3. ForkJoinPool.commonPool() is shared — you'll starve other parallel ops
 
-    @SagaEventHandler(associationProperty = "orderId")
-    public void on(InventoryReservedEvent e) {
-        commandGateway.send(new ProcessPaymentCommand(e.orderId, e.amount));
-    }
+// CORRECT FIX: Batch the DB calls (N+1 → 1 query)
+Set<Long> accountIds = transactions.stream()
+    .filter(t -> t.getDate().isAfter(cutoff))
+    .map(Transaction::getAccountId)
+    .collect(Collectors.toSet());
 
-    @SagaEventHandler(associationProperty = "orderId")
-    public void on(PaymentFailedEvent e) {
-        // Compensating transaction
-        commandGateway.send(new ReleaseInventoryCommand(e.orderId));
-        commandGateway.send(new CancelOrderCommand(e.orderId));
-        SagaLifecycle.end();
-    }
-}
+Map<Long, Account> accounts = accountRepo.findAllByIdIn(accountIds)  // 1 query
+    .stream()
+    .collect(Collectors.toMap(Account::getId, Function.identity()));
+
+List<ReportLine> report = transactions.stream()
+    .filter(t -> t.getDate().isAfter(cutoff))
+    .map(t -> toReportLine(t, accounts.get(t.getAccountId())))   // in-memory
+    .sorted(Comparator.comparing(ReportLine::getAmount).reversed())
+    .collect(Collectors.toList());
+// Result: < 2s
+
+// Parallel IS appropriate when:
+// - Pure CPU-bound computation (no IO, no shared mutable state)
+// - Large data set (overhead only pays off above ~10k elements)
+// - Splittable data source (ArrayList splits well; LinkedList does not)
+long sum = IntStream.range(0, 10_000_000)
+    .parallel()
+    .filter(n -> n % 2 == 0)
+    .mapToLong(Long::valueOf)
+    .sum();   // legitimate parallel use
 ```
 
-**Key Principles**
-- Each step must have a compensating transaction (idempotent)
-- Use **outbox pattern** to guarantee event publishing with DB write
-- Store saga state durably — it must survive crashes
-- Timeouts: if step doesn't complete in X seconds, trigger compensation
-
-**Follow-up:** What is the difference between a Saga and a 2PC (two-phase commit)? When would you actually prefer 2PC despite its drawbacks?
+**Follow-up Probes:**
+- What thread pool does parallel streams use by default? How do you change it?
+- Why does `LinkedList` perform poorly as a parallel stream source?
+- How would you handle checked exceptions inside a stream lambda?
 
 ---
 
-[↑ Back to top](#top)
-
-#### Q50. Circuit Breaker with Fallback Behavior
-
-**Difficulty:** SENIOR · **Topic:** Microservices
-
-**Q:** *Design a circuit breaker for inter-service communication with fallback behavior.*
-
-Your Order Service calls Payment Service synchronously. Payment Service goes down for 30 seconds. During this time, Order Service creates 10,000 threads waiting for timeouts, runs out of memory, and cascades the outage to 5 other services that depend on Order Service.
-
-**Expected Answer:**
-
-**Resilience4j Circuit Breaker**
-
-```yaml
-# application.yml
-resilience4j.circuitbreaker:
-  instances:
-    paymentService:
-      slidingWindowSize: 10
-      failureRateThreshold: 50       # open if 50% calls fail
-      waitDurationInOpenState: 30s   # stay open 30s
-      permittedNumberOfCallsInHalfOpenState: 3
-      timeoutDuration: 2s            # fail fast, not wait 30s
-```
-
-```java
-@CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
-@TimeLimiter(name = "paymentService")
-public CompletableFuture<PaymentResult> processPayment(Order order) {
-    return paymentClient.charge(order);
-}
-
-public CompletableFuture<PaymentResult> paymentFallback(Order order, Exception e) {
-    // Queue for async processing, respond with "PENDING"
-    outbox.save(new PendingPayment(order.getId()));
-    return CompletableFuture.completedFuture(PaymentResult.PENDING);
-}
-```
-
-**Circuit States & Transitions**
-- **CLOSED** → normal operation, counting failures
-- **OPEN** → fail fast immediately (no calls to downstream), return fallback
-- **HALF-OPEN** → let N test requests through; if they succeed → CLOSED, else → OPEN
-
-**Bulkhead Pattern (Prevent Cascade)**
-- Separate thread pools per downstream service — PaymentService gets max 20 threads
-- Even if payment hangs, order service still has 80 threads for other work
-- Combine with Circuit Breaker for full fault isolation
-
-**Follow-up:** What is the difference between a circuit breaker and a retry mechanism? Can using both together cause problems?
+## 6. Spring Boot & Dependency Injection
 
 ---
 
-[↑ Back to top](#top)
+### Q11 — Circular Dependency Causing Context Startup Failure
 
-#### Q51. Distributed Tracing Across Microservices
+**Scenario:**  
+After merging two feature branches, the Spring context fails to start with: `The dependencies of some of the beans in the application context form a cycle: ServiceA → ServiceB → ServiceA`. Neither developer thought they were creating a cycle.
 
-**Difficulty:** HARD · **Topic:** Microservices
-
-**Q:** *How do you implement distributed tracing across 8 microservices?*
-
-A customer reports a slow checkout. The request touches Auth → Order → Inventory → Payment → Email services. The P99 is 4 seconds but you cannot tell which service is causing it. You have no tracing yet.
+**What the interviewer is testing:**  
+DI fundamentals, how Spring resolves beans, architectural smell recognition.
 
 **Expected Answer:**
 
-**OpenTelemetry + Jaeger/Zipkin Setup**
-
-```xml
-<!-- Spring Boot 3 — Micrometer Tracing (replaces Sleuth) -->
-<!-- pom.xml -->
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-tracing-bridge-otel</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.opentelemetry</groupId>
-    <artifactId>opentelemetry-exporter-otlp</artifactId>
-</dependency>
-```
-
-```yaml
-# application.yml — auto-propagates trace ID via HTTP headers
-management.tracing:
-  sampling.probability: 0.1   # 10% sampling in prod
-  exporter.otlp.endpoint: http://otel-collector:4318
-
-# Trace ID automatically propagates via W3C traceparent header
-# X-B3-TraceId for legacy Zipkin compatibility
-```
-
-**Custom Spans for DB & Business Logic**
+Spring cannot instantiate beans in a circular dependency through **constructor injection** (which is correct — it's a design smell).
 
 ```java
-@Autowired Tracer tracer;
+// BROKEN: Circular dependency
+@Service
+public class OrderService {
+    private final NotificationService notificationService;
 
-public Order createOrder(OrderRequest req) {
-    Span span = tracer.nextSpan().name("inventory-check").start();
-    try (Tracer.SpanInScope ws = tracer.withSpan(span)) {
-        span.tag("items.count", String.valueOf(req.items().size()));
-        return inventoryService.checkAndReserve(req);
-    } finally {
-        span.end();
+    public OrderService(NotificationService notificationService) {  // ← constructor injection
+        this.notificationService = notificationService;
+    }
+}
+
+@Service
+public class NotificationService {
+    private final OrderService orderService;   // ← closes the cycle!
+
+    public NotificationService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+}
+
+// BAD FIX (avoid): @Lazy or field injection — hides the design problem
+@Autowired
+@Lazy
+private OrderService orderService;
+
+// REAL FIX: Break the cycle by introducing a domain event / mediator
+// OrderService raises an event; NotificationService listens to it.
+
+@Service
+public class OrderService {
+    private final ApplicationEventPublisher eventPublisher;
+
+    public OrderService(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
+
+    public void placeOrder(Order order) {
+        // business logic
+        eventPublisher.publishEvent(new OrderPlacedEvent(order));
+    }
+}
+
+@Service
+public class NotificationService {
+    @EventListener
+    public void onOrderPlaced(OrderPlacedEvent event) {
+        // send notification — no dependency on OrderService at all
     }
 }
 ```
 
-**What to Tag on Spans**
-- `http.method`, `http.url`, `http.status_code`
-- `db.statement` (sanitized), `db.operation`, `db.rows_affected`
-- `user.id`, `order.id` — business identifiers for correlation
-- `error=true` + `exception.message` for error spans
-
-**Follow-up:** How do you trace across asynchronous Kafka message boundaries where there is no HTTP header to propagate trace context?
+**Follow-up Probes:**
+- Why does Spring allow circular dependencies with setter/field injection but not constructor injection?
+- What does `@Lazy` actually do to resolve a cycle — and why is it a band-aid?
+- How do you enforce constructor injection across a large codebase?
 
 ---
 
-[↑ Back to top](#top)
+### Q12 — `@Transactional` Not Rolling Back
 
-#### Q52. CQRS + Event Sourcing for Financial Ledger
+**Scenario:**  
+A service method annotated `@Transactional` throws a checked exception (`InsufficientFundsException`). The transaction does NOT roll back, leaving partial data in the database. The team is confused — the annotation is definitely there.
 
-**Difficulty:** SENIOR · **Topic:** Microservices
-
-**Q:** *Design a CQRS + Event Sourcing system for an auditable financial ledger.*
-
-You need a banking ledger where: every balance change must be auditable, you must be able to reconstruct account state at any point in time, read queries (balance, statement) must be fast, and you process 10,000 transactions/second.
+**What the interviewer is testing:**  
+Spring transaction internals, rollback rules, self-invocation, proxy mechanics.
 
 **Expected Answer:**
 
-**Core Concept**
-- **Event Sourcing**: never store current state, store the sequence of events that led to it
-- **CQRS**: separate the write model (commands → events) from read models (projections optimized for queries)
-
-**Write Side — Command & Event Store**
+Spring's `@Transactional` only rolls back on **unchecked exceptions** (`RuntimeException` and `Error`) by default. Checked exceptions commit the transaction unless explicitly configured.
 
 ```java
-// Every change is an immutable event
-sealed interface LedgerEvent {}
-record MoneyDebited(UUID accountId, BigDecimal amount,
-    String reference, Instant at) implements LedgerEvent {}
-record MoneyCredited(UUID accountId, BigDecimal amount,
-    String reference, Instant at) implements LedgerEvent {}
-
-// Append-only event store (EventStoreDB or Postgres with sequence)
-// NEVER update or delete events — immutable audit trail
-```
-
-**Read Side — Projection**
-
-```java
-// Rebuild read model by replaying events
-public AccountBalance project(List<LedgerEvent> events) {
-    return events.stream().reduce(
-        AccountBalance.zero(),
-        (balance, event) -> switch (event) {
-            case MoneyCredited e -> balance.add(e.amount());
-            case MoneyDebited e -> balance.subtract(e.amount());
-        },
-        (a, b) -> a // unused combiner
-    );
-}
-// Snapshot balance every 1000 events for fast rebuild
-```
-
-**Architecture**
-- Event store: append-only Postgres table (`stream_id`, `version`, `event_type`, `data`, `created_at`)
-- Read DB: separate Postgres/Redis with pre-computed balances, updated by event consumer
-- Optimistic concurrency on write: reject if `expected_version != actual version` (prevents lost updates)
-- Snapshots: serialize account state every N events to speed up replay
-
-**Follow-up:** How do you handle schema evolution in Event Sourcing? If the `MoneyDebited` event gains a new required field 6 months later, how do you deal with old events that do not have it?
-
----
-
-[↑ Back to top](#top)
-
-
----
-
-### 🗄️ DB / JPA
-
-#### Q53. JPA Queries Causing Database Deadlocks
-
-**Difficulty:** HARD · **Topic:** DB / JPA
-
-**Q:** *Your JPA queries are causing database deadlocks under load. Diagnose and fix.*
-
-Under 200 concurrent users, your order processing service throws "Deadlock found when trying to get lock" every few minutes. The operations are: update order status and update inventory count, happening simultaneously in different transactions.
-
-**Expected Answer:**
-
-**Why Deadlocks Happen**
-- Thread A locks Order(1) then tries to lock Inventory(5)
-- Thread B locks Inventory(5) then tries to lock Order(1)
-- Circular wait = deadlock
-
-**Fix 1 — Consistent Lock Ordering**
-
-```java
-// Always acquire locks in same order: Order → Inventory → Payment
+// BROKEN: checked exception — Spring commits by default
 @Transactional
-public void processOrder(long orderId, long inventoryId) {
-    // Use SELECT FOR UPDATE with explicit order
-    Order order = em.createQuery(
-        "SELECT o FROM Order o WHERE o.id = :id", Order.class)
-        .setLockMode(LockModeType.PESSIMISTIC_WRITE)
-        .setParameter("id", orderId).getSingleResult();
-    // Only then lock inventory
-    Inventory inv = em.find(Inventory.class, inventoryId,
-        LockModeType.PESSIMISTIC_WRITE);
+public void transferFunds(Long fromId, Long toId, BigDecimal amount)
+        throws InsufficientFundsException {
+    accountRepo.debit(fromId, amount);      // written to DB
+    if (!accountRepo.hasFunds(fromId)) {
+        throw new InsufficientFundsException("Not enough funds");
+        // ← Spring sees a checked exception → COMMITS the debit!
+    }
+    accountRepo.credit(toId, amount);
+}
+
+// FIX 1: Declare rollback for checked exception
+@Transactional(rollbackFor = InsufficientFundsException.class)
+public void transferFunds(Long fromId, Long toId, BigDecimal amount)
+        throws InsufficientFundsException { ... }
+
+// FIX 2: Make it a RuntimeException
+public class InsufficientFundsException extends RuntimeException {
+    public InsufficientFundsException(String msg) { super(msg); }
+}
+
+// HIDDEN TRAP: Self-invocation bypasses the proxy
+@Service
+public class PaymentService {
+    @Transactional
+    public void outerMethod() {
+        innerMethod();     // ← calls 'this.innerMethod()' directly,
+    }                      //   NOT through the Spring proxy!
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void innerMethod() {
+        // This @Transactional is IGNORED when called from outerMethod()
+    }
+}
+
+// FIX for self-invocation: inject self or extract to a new bean
+@Service
+public class PaymentService {
+    @Autowired
+    private PaymentService self;   // Spring injects the proxy
+
+    public void outerMethod() {
+        self.innerMethod();    // goes through proxy — transaction works
+    }
 }
 ```
 
-**Fix 2 — Optimistic Locking (Better for Low Contention)**
+**Follow-up Probes:**
+- What does `Propagation.REQUIRES_NEW` do? When would you use it?
+- What is the difference between `@Transactional` on a class vs a method?
+- How do you test that a transaction actually rolled back?
+
+---
+
+## 7. Database & JPA / Hibernate
+
+---
+
+### Q13 — N+1 Query Problem at Scale
+
+**Scenario:**  
+A product listing API returns `Product` entities with their `Category` and list of `Tag` objects. In development (10 products) it's fine. In production (10,000 products) it fires 20,001 SQL queries per request and times out.
+
+**What the interviewer is testing:**  
+Hibernate lazy loading, fetch strategies, DTO projections, query optimization.
+
+**Expected Answer:**
+
+By default, `@OneToMany` is `FetchType.LAZY`. Accessing the collection in a loop triggers a new SELECT per entity — the N+1 problem.
 
 ```java
+// ENTITY (default: lazy collections)
 @Entity
-public class Inventory {
-    @Version
-    private int version; // JPA auto-checks on update
+public class Product {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Tag> tags;
 }
-// Throws OptimisticLockException if another TX modified it
-// Retry with @Retryable(OptimisticLockException.class, maxAttempts=3)
+
+// BROKEN: 1 query for products + N queries for categories + N for tags
+List<Product> products = productRepo.findAll();
+products.forEach(p -> {
+    String cat = p.getCategory().getName();   // SELECT per product
+    p.getTags().forEach(t -> log(t.getName())); // SELECT per product
+});
+
+// FIX 1: JOIN FETCH (for @ManyToOne and small @OneToMany)
+@Query("SELECT p FROM Product p JOIN FETCH p.category LEFT JOIN FETCH p.tags")
+List<Product> findAllWithDetails();
+// Warning: JOIN FETCH on a @OneToMany returns duplicate Product rows
+// → add DISTINCT or use Set
+
+// FIX 2: EntityGraph (declarative)
+@EntityGraph(attributePaths = {"category", "tags"})
+List<Product> findAll();
+
+// FIX 3: Batch fetching (Hibernate-specific, no query changes)
+@OneToMany
+@BatchSize(size = 50)    // fetches tags for 50 products per query → ~200 queries → 1+200/50 = 5
+private List<Tag> tags;
+
+// FIX 4 (best for read-only APIs): DTO projection — never load entities
+@Query("""
+    SELECT new com.example.ProductDTO(p.id, p.name, c.name)
+    FROM Product p JOIN p.category c
+""")
+List<ProductDTO> findProductSummaries();
 ```
 
-**Fix 3 — Reduce Transaction Scope**
-- Keep transactions as short as possible — no external HTTP calls inside `@Transactional`
-- Use `REQUIRES_NEW` for audit/logging to avoid inheriting long transactions
-- Consider event-driven: process inventory update asynchronously via queue
-
-**Follow-up:** What is the difference between optimistic and pessimistic locking? In what scenarios does optimistic locking actually perform worse than pessimistic?
+**Follow-up Probes:**
+- What is the Hibernate first-level cache and how does it affect N+1?
+- When does `JOIN FETCH` on a collection cause a `MultipleBagFetchException`?
+- How would you profile Hibernate SQL queries in production?
 
 ---
 
-[↑ Back to top](#top)
+### Q14 — Optimistic Locking Conflict in High-Traffic Update
 
-#### Q54. Multi-Tenant Data Isolation in SaaS
+**Scenario:**  
+A ticket booking system lets multiple users book the last seat simultaneously. Without concurrency control, two users both book the same seat and it appears double-booked. The team suggests `synchronized` keyword.
 
-**Difficulty:** HARD · **Topic:** DB / JPA
-
-**Q:** *Design a multi-tenant data isolation strategy in a SaaS application.*
-
-You are building a B2B SaaS. Customer A must never see Customer B data. You have 500 tenants ranging from 100 to 50,000 rows each. Some tenants need custom columns. Explain your isolation strategy.
+**What the interviewer is testing:**  
+Optimistic vs pessimistic locking, `@Version`, database-level locking.
 
 **Expected Answer:**
 
-**Three Approaches (Trade-offs)**
-- **DB per tenant**: strongest isolation, expensive at 500 tenants, hard to query across
-- **Schema per tenant**: good isolation, Postgres supports well, manageable at 500
-- **Shared table + tenant_id**: simplest, highest risk of data leak, best performance
+`synchronized` only works within a single JVM. In a clustered deployment, multiple nodes can proceed independently. You need **database-level** concurrency control.
 
-**Recommended: Row-Level Security (Postgres)**
+```java
+// ENTITY with optimistic locking
+@Entity
+public class Seat {
+    @Id
+    private Long id;
 
-```sql
--- Enable RLS on every tenant table
-ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+    private boolean booked;
 
-CREATE POLICY tenant_isolation ON orders
-    USING (tenant_id = current_setting('app.tenant_id')::uuid);
+    @Version                    // Hibernate increments this on every UPDATE
+    private Long version;
+}
+
+// SERVICE: optimistic locking — no SELECT FOR UPDATE, high concurrency
+@Transactional
+public void bookSeat(Long seatId, Long userId) {
+    Seat seat = seatRepo.findById(seatId)
+        .orElseThrow(() -> new SeatNotFoundException(seatId));
+
+    if (seat.isBooked()) {
+        throw new SeatAlreadyBookedException(seatId);
+    }
+
+    seat.setBooked(true);
+    seat.setBookedBy(userId);
+    // Hibernate emits: UPDATE seat SET booked=true, version=2 WHERE id=? AND version=1
+    // If another transaction already updated, version mismatch → OptimisticLockException
+}
+
+// CALLER: handle contention gracefully
+@Retryable(value = OptimisticLockingFailureException.class, maxAttempts = 3)
+public void bookWithRetry(Long seatId, Long userId) {
+    bookSeat(seatId, userId);
+}
+
+// FOR HIGH-CONTENTION (e.g., flash sale): pessimistic locking
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT s FROM Seat s WHERE s.id = :id")
+Optional<Seat> findByIdForUpdate(@Param("id") Long id);
+// Emits: SELECT ... FOR UPDATE — only one transaction proceeds at a time
+```
+
+**Follow-up Probes:**
+- What exception does Spring throw when optimistic locking fails? How do you catch it?
+- What is the difference between `PESSIMISTIC_READ` and `PESSIMISTIC_WRITE`?
+- How would you implement this without an ORM (pure JDBC)?
+
+---
+
+## 8. Microservices Architecture
+
+---
+
+### Q15 — Cascading Failure Due to Missing Circuit Breaker
+
+**Scenario:**  
+Your `order-service` calls `inventory-service` synchronously. `inventory-service` goes down. Within 60 seconds, `order-service` thread pool is exhausted (all threads waiting on timed-out HTTP connections), and now `order-service` is also down. This cascade takes out 3 more services.
+
+**What the interviewer is testing:**  
+Circuit breaker pattern, bulkhead, timeout design, Resilience4j.
+
+**Expected Answer:**
+
+Synchronous inter-service calls propagate failures. The circuit breaker **detects failure rates** and short-circuits calls before they exhaust resources.
+
+```java
+// Add Resilience4j dependency, then:
+
+// application.yml
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventory:
+        slidingWindowSize: 10
+        failureRateThreshold: 50         # open after 50% failures in last 10 calls
+        waitDurationInOpenState: 10s     # stay open for 10s before half-open
+        permittedNumberOfCallsInHalfOpenState: 3
+  timelimiter:
+    instances:
+      inventory:
+        timeoutDuration: 2s              # don't wait more than 2s
+
+// Service
+@Service
+public class OrderService {
+    private final InventoryClient inventoryClient;
+
+    @CircuitBreaker(name = "inventory", fallbackMethod = "inventoryFallback")
+    @TimeLimiter(name = "inventory")
+    @Bulkhead(name = "inventory")       // limits concurrent calls to inventory
+    public CompletableFuture<InventoryStatus> checkInventory(Long productId) {
+        return CompletableFuture.supplyAsync(
+            () -> inventoryClient.getStatus(productId)
+        );
+    }
+
+    // Fallback: degrade gracefully
+    public CompletableFuture<InventoryStatus> inventoryFallback(
+            Long productId, Exception ex) {
+        log.warn("Inventory service unavailable for product {}: {}", productId, ex.getMessage());
+        // Return a cached value, or allow order to proceed optimistically
+        return CompletableFuture.completedFuture(InventoryStatus.UNKNOWN);
+    }
+}
+```
+
+**Circuit Breaker States:**
+```
+CLOSED → (failure rate > threshold) → OPEN → (wait duration) → HALF_OPEN
+  ↑                                                                  |
+  └────────────── (probe calls succeed) ─────────────────────────────┘
+```
+
+**Follow-up Probes:**
+- What is the difference between a circuit breaker and a retry? When do you combine them?
+- How does the bulkhead pattern prevent one service from consuming all threads?
+- How would you monitor circuit breaker state in production (Actuator / metrics)?
+
+---
+
+### Q16 — Eventual Consistency: Saga vs Two-Phase Commit
+
+**Scenario:**  
+A new feature requires: (1) debit customer wallet, (2) create order record, (3) reduce inventory — each in a different microservice with its own database. You need all three to succeed or all three to roll back.
+
+**What the interviewer is testing:**  
+Distributed transaction understanding, Saga pattern (choreography vs orchestration), 2PC trade-offs.
+
+**Expected Answer:**
+
+**2PC (Two-Phase Commit)** works but: requires a coordinator, blocks resources during prepare phase, coordinator SPOF, poor scalability.
+
+**Saga Pattern** is preferred for microservices:
+
+```
+Orchestration Saga (Saga Orchestrator controls the flow):
+
+OrderSagaOrchestrator
+   1. → WalletService.debit(orderId, amount)        [compensate: credit]
+   2. → OrderService.createOrder(orderDetails)      [compensate: cancelOrder]
+   3. → InventoryService.reserve(productId, qty)    [compensate: release]
+
+   If step 3 fails:
+   → InventoryService: no action needed (failed)
+   → OrderService.cancelOrder(orderId)
+   → WalletService.credit(orderId, amount)
 ```
 
 ```java
-// In Spring Boot, set tenant_id per-request in HikariCP connection
-@Component
-public class TenantInterceptor implements HandlerInterceptor {
-    public boolean preHandle(HttpServletRequest req, ...) {
-        String tenantId = extractTenantFromJwt(req);
-        TenantContext.setTenantId(tenantId);
-        dataSource.setSessionProperty("app.tenant_id", tenantId);
-        return true;
+// Orchestrator using Spring State Machine or a simple pattern:
+@Service
+public class OrderSagaOrchestrator {
+
+    public SagaResult executePlaceOrder(PlaceOrderCommand cmd) {
+        SagaContext ctx = new SagaContext(cmd.getOrderId());
+        Deque<Runnable> compensations = new ArrayDeque<>();
+
+        try {
+            // Step 1
+            walletService.debit(cmd.getCustomerId(), cmd.getAmount());
+            compensations.push(() -> walletService.credit(cmd.getCustomerId(), cmd.getAmount()));
+
+            // Step 2
+            Long orderId = orderService.createOrder(cmd);
+            compensations.push(() -> orderService.cancelOrder(orderId));
+
+            // Step 3
+            inventoryService.reserve(cmd.getProductId(), cmd.getQty());
+            // no compensation needed if this is last step — or add release
+
+            return SagaResult.success(orderId);
+
+        } catch (Exception e) {
+            log.error("Saga failed at step, executing compensations", e);
+            compensations.forEach(Runnable::run);  // LIFO compensation
+            return SagaResult.failure(e.getMessage());
+        }
     }
 }
 ```
 
-**Custom Columns per Tenant**
-- **EAV** (Entity-Attribute-Value): flexible but terrible for queries
-- **JSONB column**: store tenant-specific fields in JSON — Postgres indexes JSONB well
-- **Schema-per-tenant**: each tenant can have truly custom columns via migrations
+**Choreography alternative:** Each service publishes domain events; other services react. No central orchestrator — but harder to trace and reason about.
 
-**Follow-up:** How do you perform cross-tenant analytics (e.g., average order value across all tenants) without violating isolation? What architectural pattern enables this?
+**Follow-up Probes:**
+- What is the difference between orchestration and choreography sagas?
+- What is the "outbox pattern" and why is it critical for reliable event publishing?
+- How do you handle a compensation that also fails?
 
 ---
 
-[↑ Back to top](#top)
+## 9. Security
 
-#### Q55. Database Sharding Strategy for 10 Billion Rows
+---
 
-**Difficulty:** SENIOR · **Topic:** DB / JPA
+### Q17 — SQL Injection in a Legacy Search Endpoint
 
-**Q:** *Design a database sharding strategy for 10 billion rows.*
+**Scenario:**  
+A security audit finds that a legacy search API builds SQL by string concatenation using user input. The endpoint is exposed publicly. You must fix it without a full rewrite.
 
-Your `user_events` table grows by 100M rows/day. Queries are already taking 30 seconds. You cannot afford downtime. Explain your sharding approach, shard key choice, and cross-shard query strategy.
+**What the interviewer is testing:**  
+SQL injection fundamentals, parameterized queries, ORM safety, input validation.
 
 **Expected Answer:**
 
-**Shard Key Selection (Most Critical Decision)**
-- **user_id**: most queries are per-user → data locality, hot shard risk if some users are huge
-- **event_time**: range sharding, good for time-series queries, hot shard on current time period
-- **Consistent hash of user_id**: even distribution, hard to do range queries
-- **Composite (user_id % 256)**: 256 logical shards, map to N physical nodes, rebalance by moving logical shards
+```java
+// VULNERABLE: string concatenation
+public List<User> searchUsers(String name) {
+    String sql = "SELECT * FROM users WHERE name = '" + name + "'";
+    // Input: ' OR '1'='1  →  returns ALL users
+    // Input: '; DROP TABLE users; --  →  catastrophic
+    return jdbcTemplate.query(sql, userRowMapper);
+}
 
-**Horizontal Sharding with Vitess**
+// FIX 1: Parameterized query (JDBC)
+public List<User> searchUsers(String name) {
+    String sql = "SELECT * FROM users WHERE name = ?";
+    return jdbcTemplate.query(sql, userRowMapper, name);
+    // Driver sends query and data separately — injection impossible
+}
 
-```json
-{
-  "sharded": true,
-  "vindexes": {
-    "user_hash": { "type": "hash" }
-  },
-  "tables": {
-    "user_events": {
-      "column_vindexes": [
-        { "column": "user_id", "name": "user_hash" }
-      ]
+// FIX 2: Named parameters (NamedParameterJdbcTemplate)
+public List<User> searchUsers(String name) {
+    String sql = "SELECT * FROM users WHERE name = :name";
+    return namedJdbcTemplate.query(sql, Map.of("name", name), userRowMapper);
+}
+
+// FIX 3: JPA Criteria API (dynamic queries)
+public List<User> searchUsers(String name) {
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<User> cq = cb.createQuery(User.class);
+    Root<User> root = cq.from(User.class);
+    cq.where(cb.equal(root.get("name"), name));  // parameterized internally
+    return em.createQuery(cq).getResultList();
+}
+
+// ALSO: Validate and sanitize input as defence-in-depth
+public List<User> searchUsers(String name) {
+    if (name == null || name.length() > 100 || !name.matches("[a-zA-Z0-9 '-]+")) {
+        throw new InvalidInputException("Invalid name format");
     }
-  }
+    // proceed with parameterized query
 }
 ```
 
-```sql
--- Vitess routes: SELECT * FROM user_events WHERE user_id=123
--- → automatically goes to correct shard
-```
-
-**Cross-Shard Queries**
-- Scatter-gather: send query to all shards in parallel, merge results in application
-- Expensive — avoid or pre-aggregate with a separate analytics store (ClickHouse, BigQuery)
-- Maintain a global aggregation table updated by streaming (Kafka → Flink → analytics DB)
-- For JOINs across shards: co-locate related data on same shard (denormalize)
-
-**Zero-Downtime Migration**
-- Dual-write: write to both old monolithic DB and new sharded DB simultaneously
-- Backfill historical data using batch jobs reading from old DB
-- Read from new sharded DB when backfill reaches 100%
-- Remove writes to old DB after 2-week validation period
-
-**Follow-up:** How do you handle global unique IDs across shards? Why is auto-increment no longer sufficient and what alternatives exist (Snowflake IDs, ULIDs)?
+**Follow-up Probes:**
+- Is LIKE `%?%` still safe with parameterized queries?
+- What is a second-order SQL injection?
+- How would you retrofit parameterized queries across 200 legacy DAO methods efficiently?
 
 ---
 
-[↑ Back to top](#top)
+## 10. Performance & Scalability
 
+---
+
+### Q18 — Hot Spot in a High-Traffic Cache
+
+**Scenario:**  
+Your application uses Redis to cache product data. A celebrity endorses one product. Suddenly that product's cache key gets 50,000 requests/second. Redis handles it fine, but the single app-node thread doing cache population (on cache miss) becomes the bottleneck.
+
+**What the interviewer is testing:**  
+Cache stampede / thundering herd, local caching, probabilistic early expiration.
+
+**Expected Answer:**
+
+When a popular cache entry expires, thousands of threads simultaneously attempt to rebuild it — the **cache stampede** / thundering herd problem.
+
+```java
+// PROBLEM: Every thread on cache miss goes to DB
+public Product getProduct(Long id) {
+    Product cached = redis.get("product:" + id);
+    if (cached == null) {
+        // 50,000 threads all reach here simultaneously!
+        Product product = productRepo.findById(id).orElseThrow();
+        redis.setex("product:" + id, 300, product);
+        return product;
+    }
+    return cached;
+}
+
+// FIX 1: Mutex lock — only one thread rebuilds, others wait
+private final Map<Long, Object> locks = new ConcurrentHashMap<>();
+
+public Product getProduct(Long id) {
+    Product cached = redis.get("product:" + id);
+    if (cached != null) return cached;
+
+    Object lock = locks.computeIfAbsent(id, k -> new Object());
+    synchronized (lock) {
+        // double-check after acquiring lock
+        cached = redis.get("product:" + id);
+        if (cached != null) return cached;
+
+        Product product = productRepo.findById(id).orElseThrow();
+        redis.setex("product:" + id, 300, product);
+        locks.remove(id);
+        return product;
+    }
+}
+
+// FIX 2: Redis distributed lock (for multi-node)
+public Product getProduct(Long id) {
+    String cacheKey = "product:" + id;
+    String lockKey  = "lock:product:" + id;
+
+    Product cached = redis.get(cacheKey);
+    if (cached != null) return cached;
+
+    boolean locked = redis.set(lockKey, "1", "NX", "EX", 5); // SET IF NOT EXISTS
+    if (locked) {
+        try {
+            Product product = productRepo.findById(id).orElseThrow();
+            redis.setex(cacheKey, 300, product);
+            return product;
+        } finally {
+            redis.del(lockKey);
+        }
+    } else {
+        // Another node is rebuilding — wait briefly and retry
+        Thread.sleep(50);
+        return getProduct(id);
+    }
+}
+
+// FIX 3: Probabilistic early expiration (XFetch algorithm)
+// Start refreshing BEFORE expiry to avoid stampede entirely
+public Product getProductWithEarlyRefresh(Long id) {
+    CacheEntry entry = redis.getWithTTL("product:" + id);
+    if (entry != null) {
+        double remainingTTL = entry.getTtlSeconds();
+        double beta = 1.0; // tuning factor
+        if (-beta * Math.log(Math.random()) >= remainingTTL) {
+            // probabilistically refresh early
+            refreshAsync(id);
+        }
+        return entry.getValue();
+    }
+    return rebuild(id);
+}
+```
+
+**Follow-up Probes:**
+- How does Caffeine's local cache with `refreshAfterWrite` help with this?
+- What is a two-tier cache (L1 local + L2 Redis) and what are its consistency trade-offs?
+- How would you warm the cache before a known traffic event (product launch)?
+
+---
+
+## 11. Testing Strategy
+
+---
+
+### Q19 — Testing a Method with External Dependencies
+
+**Scenario:**  
+A `PricingService.calculateFinalPrice()` method calls three external services: a tax API, a discount service, and a currency conversion service. The team has no tests because "it's too hard to mock everything."
+
+**What the interviewer is testing:**  
+Mockito, test design, what to verify vs not, testing philosophy (state vs interaction).
+
+**Expected Answer:**
+
+```java
+// Subject under test
+@Service
+public class PricingService {
+    private final TaxService        taxService;
+    private final DiscountService   discountService;
+    private final CurrencyService   currencyService;
+
+    // constructor injection — easy to test!
+    public PricingService(TaxService taxService,
+                          DiscountService discountService,
+                          CurrencyService currencyService) {
+        this.taxService       = taxService;
+        this.discountService  = discountService;
+        this.currencyService  = currencyService;
+    }
+
+    public Money calculateFinalPrice(Product product, Customer customer, Currency targetCurrency) {
+        BigDecimal basePrice     = product.getBasePrice();
+        BigDecimal discount      = discountService.getDiscount(customer, product);
+        BigDecimal discountedPrice = basePrice.subtract(discount);
+        BigDecimal taxRate       = taxService.getTaxRate(customer.getCountry());
+        BigDecimal priceWithTax  = discountedPrice.multiply(BigDecimal.ONE.add(taxRate));
+        return currencyService.convert(priceWithTax, Currency.USD, targetCurrency);
+    }
+}
+
+// TEST
+@ExtendWith(MockitoExtension.class)
+class PricingServiceTest {
+
+    @Mock TaxService      taxService;
+    @Mock DiscountService discountService;
+    @Mock CurrencyService currencyService;
+
+    @InjectMocks
+    PricingService pricingService;
+
+    @Test
+    void calculateFinalPrice_appliesDiscountTaxAndConversion() {
+        // ARRANGE
+        Product  product  = new Product(new BigDecimal("100.00"));
+        Customer customer = new Customer(Country.US);
+
+        when(discountService.getDiscount(customer, product))
+            .thenReturn(new BigDecimal("10.00"));               // 10% off
+        when(taxService.getTaxRate(Country.US))
+            .thenReturn(new BigDecimal("0.08"));                // 8% tax
+        when(currencyService.convert(any(), eq(Currency.USD), eq(Currency.EUR)))
+            .thenAnswer(inv -> ((BigDecimal) inv.getArgument(0)).multiply(new BigDecimal("0.92")));
+
+        // ACT
+        Money result = pricingService.calculateFinalPrice(product, customer, Currency.EUR);
+
+        // ASSERT — verify the math: (100 - 10) * 1.08 * 0.92 = 89.424
+        assertThat(result.getAmount())
+            .isEqualByComparingTo(new BigDecimal("89.424"));
+
+        // Verify interactions
+        verify(discountService, times(1)).getDiscount(customer, product);
+        verify(taxService, times(1)).getTaxRate(Country.US);
+        verify(currencyService, times(1)).convert(any(), any(), any());
+    }
+
+    @Test
+    void calculateFinalPrice_withZeroDiscount_appliesOnlyTax() {
+        when(discountService.getDiscount(any(), any())).thenReturn(BigDecimal.ZERO);
+        when(taxService.getTaxRate(any())).thenReturn(new BigDecimal("0.10"));
+        when(currencyService.convert(any(), any(), any()))
+            .thenAnswer(inv -> inv.getArgument(0));
+
+        Money result = pricingService.calculateFinalPrice(
+            new Product(new BigDecimal("200.00")),
+            new Customer(Country.UK), Currency.GBP
+        );
+
+        assertThat(result.getAmount()).isEqualByComparingTo("220.00");
+    }
+}
+```
+
+**Follow-up Probes:**
+- What's the difference between `@Mock` and `@Spy`?
+- When would you use `ArgumentCaptor` over argument matchers?
+- How do you test a Spring `@Scheduled` method?
+
+---
+
+## 12. Architecture & System Design
+
+---
+
+### Q20 — Designing a Rate Limiter for a Public API
+
+**Scenario:**  
+Your public REST API is being abused by a single client firing 10,000 requests/minute, affecting other users. Design and implement a rate limiter at the API gateway / Spring filter level.
+
+**What the interviewer is testing:**  
+Algorithm knowledge (token bucket, sliding window), Redis usage, distributed state, trade-offs.
+
+**Expected Answer:**
+
+**Algorithms:**
+| Algorithm | Pros | Cons |
+|---|---|---|
+| Fixed Window | Simple | Burst at window boundary |
+| Sliding Window Log | Accurate | High memory |
+| Token Bucket | Smooth bursts | Slightly complex |
+| Leaky Bucket | Very smooth | No burst tolerance |
+
+```java
+// Token Bucket using Redis (distributed, works across nodes)
+@Component
+public class RateLimiterFilter extends OncePerRequestFilter {
+
+    private final StringRedisTemplate redis;
+    private static final int REQUESTS_PER_MINUTE = 100;
+    private static final int BURST_CAPACITY       = 200;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain chain)
+            throws ServletException, IOException {
+
+        String clientId = extractClientId(request);   // API key or IP
+        String key      = "rate:" + clientId;
+
+        // Lua script — atomic check-and-decrement in Redis
+        String luaScript = """
+            local tokens = tonumber(redis.call('GET', KEYS[1]) or ARGV[2])
+            local refill  = tonumber(ARGV[1])
+            tokens = math.min(tokens + refill, tonumber(ARGV[2]))
+            if tokens >= 1 then
+                redis.call('SET', KEYS[1], tokens - 1, 'EX', 60)
+                return 1
+            else
+                return 0
+            end
+        """;
+
+        Long allowed = redis.execute(
+            RedisScript.of(luaScript, Long.class),
+            List.of(key),
+            "1",                              // refill rate per invocation
+            String.valueOf(BURST_CAPACITY)    // bucket capacity
+        );
+
+        if (allowed != null && allowed == 1L) {
+            chain.doFilter(request, response);
+        } else {
+            response.setStatus(429);           // Too Many Requests
+            response.setHeader("Retry-After", "60");
+            response.setHeader("X-RateLimit-Limit", String.valueOf(REQUESTS_PER_MINUTE));
+            response.getWriter().write("{\"error\": \"Rate limit exceeded\"}");
+        }
+    }
+}
+```
+
+**Follow-up Probes:**
+- Why is a Lua script essential for atomic Redis operations here?
+- How would you implement per-endpoint rate limits (POST vs GET)?
+- What happens to your rate limiter if Redis goes down? (fail-open vs fail-closed)
+
+---
+
+### Q21 — Event-Driven System: Exactly-Once Processing
+
+**Scenario:**  
+An order confirmation consumer reads from Kafka. Occasionally the consumer crashes after processing the message but before committing the offset. On restart, it reprocesses the same order — double-charging the customer.
+
+**What the interviewer is testing:**  
+Kafka semantics (at-least-once / exactly-once), idempotency, outbox pattern.
+
+**Expected Answer:**
+
+Kafka guarantees **at-least-once** delivery by default. Exactly-once requires idempotent consumers or transactional producers.
+
+```java
+// APPROACH 1: Idempotent consumer (simplest, most portable)
+@KafkaListener(topics = "order-confirmed")
+public void handleOrderConfirmed(OrderConfirmedEvent event) {
+    String idempotencyKey = "order-charged:" + event.getOrderId();
+
+    // Check if we've already processed this event
+    if (redis.exists(idempotencyKey)) {
+        log.info("Duplicate event for order {}, skipping", event.getOrderId());
+        return;
+    }
+
+    // Process (charge)
+    paymentService.charge(event.getOrderId(), event.getAmount());
+
+    // Mark as processed with TTL (event.getOrderId() is unique per order)
+    redis.setex(idempotencyKey, Duration.ofDays(7));
+}
+
+// APPROACH 2: Database idempotency key
+@Transactional
+public void handleOrderConfirmed(OrderConfirmedEvent event) {
+    if (chargeRepo.existsByOrderId(event.getOrderId())) {
+        return;  // idempotent — safe to skip
+    }
+    Charge charge = paymentGateway.charge(event.getOrderId(), event.getAmount());
+    chargeRepo.save(charge);   // unique constraint on orderId prevents double insert
+}
+
+// APPROACH 3: Kafka Transactions (exactly-once within Kafka ecosystem)
+// application.yml
+spring:
+  kafka:
+    producer:
+      transaction-id-prefix: tx-
+    consumer:
+      isolation-level: read_committed   # only see committed messages
+
+@Bean
+public KafkaTransactionManager<String, String> transactionManager(
+        ProducerFactory<String, String> pf) {
+    return new KafkaTransactionManager<>(pf);
+}
+
+@Transactional("kafkaTransactionManager")
+@KafkaListener(topics = "order-confirmed")
+public void handle(OrderConfirmedEvent event) {
+    kafkaTemplate.send("charge-result", new ChargeResultEvent(event.getOrderId()));
+    // Both the consume-offset commit and produce happen atomically
+}
+```
+
+**Follow-up Probes:**
+- What is the difference between `enable.idempotence=true` on the producer and exactly-once semantics?
+- What is the Transactional Outbox Pattern and when is it better than Kafka transactions?
+- How do you monitor consumer lag in production?
+
+---
+
+## Quick-Reference: What Interviewers Really Look For
+
+| Signal | Green Flag | Red Flag |
+|---|---|---|
+| **Problem framing** | Asks clarifying questions, identifies constraints | Jumps to code immediately |
+| **Trade-off awareness** | "It depends — here are the options" | "Always use X" |
+| **Production thinking** | Mentions observability, failure modes, rollback | Only happy-path thinking |
+| **Code quality** | Clean, correct, handles edge cases | Works but ignores errors |
+| **System view** | Discusses impact on other services | Silo thinking |
+| **Humility** | "I've seen this fail, here's what I learned" | Overconfident, dismissive |
+
+---
+
+## Recommended Further Depth
+
+- **JVM:** *Java Performance* — Scott Oaks
+- **Concurrency:** *Java Concurrency in Practice* — Goetz et al.
+- **Design Patterns:** *Designing Data-Intensive Applications* — Kleppmann
+- **Microservices:** *Building Microservices* — Sam Newman
+- **Spring:** Official Spring documentation + Baeldung deep dives
+
+---
+
+*Last updated: 2025 · Java 17/21 · Spring Boot 3.x · Kubernetes-aware patterns*
