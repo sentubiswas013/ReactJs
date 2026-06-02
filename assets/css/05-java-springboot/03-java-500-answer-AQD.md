@@ -5402,6 +5402,36 @@ for (int i = 1; i <= 5; i++) {
 * **Atomicity** – Certain operations are executed completely or not at all.
 * **Ordering** – Code execution follows defined rules (happens-before relationship).
 
+**Visibility :** Without `volatile`, one thread may not see the updated value from another thread. Changes made by one thread are visible to other threads.
+
+```java id="kuyjci"
+class SharedData {
+
+    private volatile boolean flag = false;
+
+    public void writer() {
+        flag = true;
+    }
+
+    public void reader() {
+        while (!flag) {
+            // waiting
+        }
+        System.out.println("Flag changed");
+    }
+}
+```
+
+**Atomicity :** An operation completes entirely or not at all.
+
+```java id="w6e1oi"
+synchronized void increment() {
+    count++;
+}
+```
+
+**Ordering :** Ensures instructions execute in a predictable order using the "happens-before" relationship.
+
 ## 1. What are the different memory areas in JVM?
 
 JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
@@ -5433,6 +5463,34 @@ public void method() {
      int x = 10;        // Stack - local variable
 }
 ```
+
+**Memory Representation**
+
+```text
+Stack                      Heap
+-----                      -----
+age = 25
+emp --------->          Employee Object
+                         name = "John"
+```
+
+* `age` is stored directly in the Stack.
+* `emp` reference is stored in the Stack.
+* Actual `Employee` object is stored in the Heap.
+
+---
+
+**Heap vs Stack**
+
+| Feature           | Stack                         | Heap                        |
+| ----------------- | ----------------------------- | --------------------------- |
+| Stores            | Local variables, method calls | Objects, instance variables |
+| Memory Management | Automatic                     | Garbage Collector           |
+| Speed             | Faster                        | Slower                      |
+| Size              | Smaller                       | Larger                      |
+| Thread Safety     | Thread-specific               | Shared across threads       |
+
+
 
 ## 3. What is the difference between PermGen and Metaspace?
 
@@ -5478,8 +5536,20 @@ public void method() {
 The GC identifies objects with no active references and deallocates their memory, making it available for new objects.
 
 ```java
-Object obj = new Object();
-obj = null; // object becomes eligible for garbage collection
+
+public class Main {
+    public static void main(String[] args) {
+        Object obj = new Object();
+        obj = null; // object becomes eligible for garbage collection
+
+
+        String str = new String("Hello");
+        str = null; // Object becomes unreachable
+
+        System.gc(); // Request GC (not guaranteed)
+    }
+}
+
 ```
 
 ## 5. What are the types of garbage collectors?
