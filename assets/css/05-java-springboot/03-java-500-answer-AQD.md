@@ -5272,8 +5272,7 @@ import java.util.concurrent.CompletableFuture;
 public class Test {
     public static void main(String[] args) {
 
-        CompletableFuture<String> future =
-                CompletableFuture.supplyAsync(() -> "Hello")
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello")
                                  .thenApply(result -> result + " World");
 
         System.out.println(future.join()); // Hello World
@@ -5353,8 +5352,7 @@ The iterator checks whether the collection's structure has changed using an inte
 A **Fail-Safe** iterator works on a copy (snapshot) of the collection, so modifications during iteration do not throw exceptions.
 
 ```java
-CopyOnWriteArrayList<String> list =
-        new CopyOnWriteArrayList<>();
+CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
 
 list.add("A");
 list.add("B");
