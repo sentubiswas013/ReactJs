@@ -4240,7 +4240,7 @@ public class Test {
 
 ## 7. What is Semaphore and how it works?
 
-A semaphore in Java is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
+**A semaphore** is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
 
 **Real-Time Example**
 
@@ -4332,14 +4332,24 @@ for (Map.Entry<String, Integer> entry : concurrentMap.entrySet()) {
 
 ## 9. What is ConcurrentHashMap and how is it different from HashMap?
 
-**ConcurrentHashMap** is a **thread-safe map** designed for high concurrency.
+**ConcurrentHashMap** is a **thread-safe map** designed for high concurrency. uses **segment-based (fine-grained) locking**. preferred in multithreaded applications
 
-Unlike **HashMap**, it **does not allow null keys or values** and uses **segment-based (fine-grained) locking** instead of full synchronization, providing **better performance** in multi-threaded environments.
+**HashMap** is not thread-safe and should not be used when multiple threads modify it concurrently. it used in single-threaded scenarios
+
 
 * **Thread safety** - ConcurrentHashMap is thread-safe, HashMap is not
 * **Locking strategy** - Uses segment-based locking instead of full synchronization
 * **Null values** - ConcurrentHashMap doesn't allow null keys/values, HashMap does
 * **Performance** - Better concurrent performance than synchronized HashMap
+
+| Feature     | HashMap                | ConcurrentHashMap            |
+| ----------- | ---------------------- | ---------------------------- |
+| Thread Safe | No                     | Yes                          |
+| Performance | Faster (single thread) | Optimized for multithreading |
+| Null Key    | One allowed            | Not allowed                  |
+| Null Value  | Allowed                | Not allowed                  |
+| Iterator    | Fail-Fast              | Weakly Consistent            |
+
 
 ```java
 // HashMap - not thread-safe
