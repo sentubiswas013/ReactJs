@@ -6818,7 +6818,11 @@ session.evict(employee);  // Removes from persistence context [web:12]
 
 ## 18. Difference between save() and saveAndFlush()?
 
-The main difference is that **`save()`** delays writing to the database until transaction commit, while **`saveAndFlush()`** immediately flushes changes to the database during execution.
+Both `save()` and `saveAndFlush()` persist data using JPA.
+
+**`save()`** stores the entity in the persistence context and the actual SQL may execute later (at transaction commit). 
+
+**`saveAndFlush()`** immediately flushes changes to the database by executing the SQL right away.
 
 | Aspect               | save()                                               | saveAndFlush()                                                     |
 | -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
