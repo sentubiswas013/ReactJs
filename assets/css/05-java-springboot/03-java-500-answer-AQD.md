@@ -3318,6 +3318,16 @@ Comparator<Student> ageComparator = (s1, s2) -> s1.age - s2.age;
 Collections.sort(students, ageComparator);
 ```
 
+**Comparable vs Comparator**
+| Feature               | Comparable    | Comparator    |
+| --------------------- | ------------- | ------------- |
+| Package               | `java.lang`   | `java.util`   |
+| Method                | `compareTo()` | `compare()`   |
+| Sorting Logic         | Inside class  | Outside class |
+| Number of Sort Orders | One           | Multiple      |
+| Modification Needed   | Yes           | No            |
+
+
 ## 8. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
 * **WeakHashMap** – A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
