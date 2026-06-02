@@ -4028,6 +4028,26 @@ Thread-4
 * `join()`
 * `ExecutorService` (single thread)
 
+```java
+for(int i = 0; i < 5; i++) {
+    int threadId = i;
+    Object lock = new Object();
+    Thread tr = new Thread(() -> {
+        synchronized(lock) {
+            System.out.println(threadId +"---"+ Thread.currentThread().getName());
+        }
+    });
+    tr.start();
+    tr.join();      
+}
+// Output::
+// 0---Thread-1
+// 1---Thread-2
+// 2---Thread-3
+// 3---Thread-4
+// 4---Thread-5
+```
+
 
 **Using `synchronized` (Avoid race condition)**
 

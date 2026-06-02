@@ -25,10 +25,15 @@ class ThreadOne {
 // ================================================================================
 static void ThreadclassMain() {
 	System.out.println("==================================== Thread class");
-	
+	MyThread tr = new MyThread();
+	tr.start();
 }
 
-
+static class MyThread extends Thread {
+	public void run () {
+		System.out.println("Hello");
+	}
+}
 
 // ================================================================================
 // 2. Using Runnable interface
@@ -43,7 +48,7 @@ static void RunnableInterfaceMain() {
 // ================================================================================
 // 3. Using lambda expression (Java 8+)
 // ================================================================================
-static void LambdaExpressionMain() {
+static void LambdaExpressionMain() throws Exception {
 	System.out.println("==================================== lambda expression");
 
 
@@ -52,8 +57,33 @@ static void LambdaExpressionMain() {
 
 
 	// Loop to create multiple threads
+	for(int i = 0; i < 5; i++) {
+		int threadId = i;
+		Object lock = new Object();
+		Thread tr = new Thread(() -> {
+			synchronized(lock) {
+				System.out.println(threadId +"---"+ Thread.currentThread().getName());
+				// System.out.println("Running: " + Thread.currentThread().getName());
+			}
+		});
+		tr.start();
+		tr.join();		
+	}
 
+	System.out.println("---");
 
+	for(int j = 0; j < 10; j++) {
+		int threadId = j;
+		Object lock = new Object();
+		Thread tr = new Thread(() -> {
+			synchronized(lock) {
+				System.out.println(threadId +"---"+ Thread.currentThread().getName());
+				// System.out.println("Running: " + Thread.currentThread().getName());
+			}
+		});
+		tr.start();
+		tr.join();		
+	}
 
 	// Loop to create multiple threads using Runable
 }
