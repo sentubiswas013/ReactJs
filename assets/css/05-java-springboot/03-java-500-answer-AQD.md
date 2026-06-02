@@ -5311,75 +5311,40 @@ public class Test {
 
 ## 11. What is fail-fast and fail-safe iterators?
 
-**Fail-Fast Iterator**
 
-A **Fail-Fast** iterator throws a `ConcurrentModificationException` if the collection is modified while it is being iterated.
+**Fail-Fast iterators** throw a `ConcurrentModificationException` if the collection is modified while iterating. Examples are `ArrayList` and `HashMap`.
 
+**Fail-Safe iterators** work on a copy or snapshot of the collection, so modifications during iteration do not throw exceptions. Examples are `CopyOnWriteArrayList` and `ConcurrentHashMap`.
+
+
+**Fail-Fast Example**
 
 ```java
 List<String> list = new ArrayList<>();
 
 list.add("A");
 list.add("B");
-list.add("C");
 
 for (String s : list) {
-    if (s.equals("B")) {
-        list.remove(s); // ConcurrentModificationException
-    }
+    list.remove(s);
 }
-//Output: ConcurrentModificationException
+// Output:
+// ConcurrentModificationException
 ```
 
-
-**Why?**
-
-The iterator checks whether the collection's structure has changed using an internal `modCount`.
-
-**Collections Using Fail-Fast Iterators**
-
-* ArrayList
-* LinkedList
-* HashMap
-* HashSet
-* TreeMap
-* TreeSet
-
----
-
-**Fail-Safe Iterator**
-
-A **Fail-Safe** iterator works on a copy (snapshot) of the collection, so modifications during iteration do not throw exceptions.
+**Fail-Safe Example**
 
 ```java
 CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
 
 list.add("A");
 list.add("B");
-list.add("C");
 
 for (String s : list) {
-    if (s.equals("B")) {
-        list.remove(s);
-    }
-
-    System.out.println(s);
+    list.remove(s);
 }
-// Output:
-A
-B
-C
+// No Exception
 ```
-
-
-No exception occurs.
-
-**Collections Using Fail-Safe Iterators**
-
-* CopyOnWriteArrayList
-* CopyOnWriteArraySet
-* ConcurrentHashMap (weakly consistent iterator)
-
 
 **Interview Comparison**
 
@@ -5394,11 +5359,38 @@ No exception occurs.
 
 ## 12. What happens if the thread pool is exhausted?
 
-When all threads in the pool are busy and the task queue is also full:
+When a thread pool is exhausted, it means all threads are busy and the task queue is full. Any new task cannot be accepted, so the configured `RejectedExecutionHandler` is triggered. By default, Java uses `AbortPolicy`, which throws a `RejectedExecutionException`.
 
-1. **New tasks are rejected** — the `RejectedExecutionHandler` is triggered.
-2. Default policy in `ThreadPoolExecutor` is `AbortPolicy` — throws `RejectedExecutionException`.
 
+```java
+ThreadPoolExecutor executor =
+    new ThreadPoolExecutor(
+        2,  // core threads
+        2,  // max threads
+        60,
+        TimeUnit.SECONDS,
+        new ArrayBlockingQueue<>(2)
+    );
+
+for (int i = 1; i <= 5; i++) {
+    executor.submit(() -> {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    });
+}
+```
+
+```text
+2 tasks → Running
+2 tasks → Waiting in Queue
+5th task → Rejected
+
+// Exception:
+// java.util.concurrent.RejectedExecutionException
+```
 
 # ✅ 10. Java JVM & Memory Management 
 
