@@ -5325,31 +5325,59 @@ public class Test {
 
 ## 10. Difference between Future and CompletableFuture
 
-**Future** is used to get the result of an async task, but it is blocking and limited. CompletableFuture is non-blocking and supports chaining, combining, and better async flow control.
+**`Future`** is used to get the result of an asynchronous task, but it supports only basic operations like `get()`. 
 
+**`CompletableFuture`** is an enhanced version introduced in Java 8 that supports chaining, combining multiple async tasks, exception handling, and non-blocking programming.
 
-| Feature            | Future        | CompletableFuture        |
-| ------------------ | ------------- | ------------------------ |
-| Blocking           | Yes (`get()`) | No (`thenApply`)         |
-| Chaining           | ❌ No          | ✅ Yes                    |
-| Combine tasks      | ❌ No          | ✅ Yes                    |
-| Manual completion  | ❌ No          | ✅ Yes                    |
-| Exception handling | Limited       | Better (`exceptionally`) |
+**Future**
 
 ```java
-import java.util.concurrent.*;
+ExecutorService executor = Executors.newFixedThreadPool(1);
 
-public class Test {
-    public static void main(String[] args) throws Exception {
+Future<String> future = executor.submit(() -> {
+            Thread.sleep(1000);
+            return "Hello";
+        });
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        Future<String> future = executor.submit(() -> "Hello");
-
-        System.out.println(future.get()); // Blocks
-    }
-}
+System.out.println(future.get());
+// Output: Hello
+// Problem: get() blocks the current thread, no chaining support
 ```
+
+**CompletableFuture Example**
+
+```java id="gw9h1k"
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello")
+    .thenApply(s -> s + " Java");
+
+System.out.println(future.get());
+//Output: Hello Java
+```
+
+
+**Exception Handling**
+
+```java id="sqh7g4"
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+        throw new RuntimeException();
+    }).exceptionally(ex -> "Default Value");
+
+System.out.println(future.get());
+//Output: Default Value
+```
+
+
+### Future vs CompletableFuture
+
+| Feature                | Future  | CompletableFuture |
+| ---------------------- | ------- | ----------------- |
+| Asynchronous Execution | Yes     | Yes               |
+| Chaining               | No      | Yes               |
+| Combine Multiple Tasks | No      | Yes               |
+| Exception Handling     | Limited | Rich Support      |
+| Non-Blocking Callbacks | No      | Yes               |
+| Introduced             | Java 5  | Java 8            |
+
 
 ## 11. What is fail-fast and fail-safe iterators?
 
