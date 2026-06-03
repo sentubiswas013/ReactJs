@@ -6824,6 +6824,9 @@ Both `save()` and `saveAndFlush()` persist data using JPA.
 
 **`saveAndFlush()`** immediately flushes changes to the database by executing the SQL right away.
 
+
+
+
 | Aspect               | save()                                               | saveAndFlush()                                                     |
 | -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
 | Repository Interface | CrudRepository                                       | JpaRepository                                                      |
@@ -8933,7 +8936,7 @@ Design patterns are proven reusable solutions to common software design problems
 
 ## 2. What is Singleton pattern?
 
-**Singleton Pattern** is a design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
+**Singleton Pattern** is a creational Design Patterns design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
 
 **The default scope** for a Spring Bean in Spring Boot is the singleton scope
 
@@ -9151,7 +9154,7 @@ BBC received: Observer pattern in action!
 
 ## 6. What is Strategy pattern?
 
-**Strategy pattern** defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+**Strategy pattern** (Behavioral Design Patterns) defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 
 Use Case: 
 
