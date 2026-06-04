@@ -11900,6 +11900,39 @@ public class UserController {
 * Allows **separate scaling of read and write operations**
 * Makes the system **more maintainable**
 
+```text
+src/main/java/com/example/user
+
+├── command
+│   ├── controller
+│   │   └── UserCommandController.java
+│   ├── service
+│   │   └── UserCommandService.java
+│   ├── handler
+│   │   └── CreateUserCommandHandler.java
+│   └── model
+│       └── CreateUserCommand.java
+│
+├── query
+│   ├── controller
+│   │   └── UserQueryController.java
+│   ├── service
+│   │   └── UserQueryService.java
+│   ├── handler
+│   │   └── GetUserQueryHandler.java
+│   └── model
+│       └── GetUserQuery.java
+│
+├── entity
+│   └── User.java
+│
+├── repository
+│   └── UserRepository.java
+│
+└── config
+    └── ApplicationConfig.java
+```
+
 ```java
 // Command (Write)
 public void createUser(User user) {
