@@ -13311,9 +13311,10 @@ public class ParallelApiService {
 }
 ```
 
-✅ 22. Java kafka and RabbitMQ
+# ✅ 22. Java kafka and RabbitMQ
 
-## 21. What is Kafka and How Does It Work?
+
+## 1. What is Kafka and How Does It Work?
 
 Kafka is a **distributed event streaming platform** — used for high-throughput, real-time data pipelines.
 
@@ -13401,7 +13402,7 @@ Use Kafka for: event sourcing, log aggregation, real-time analytics, microservic
 
 ---
 
-## 22. How does Kafka achieve high throughput and low latency?
+## 2. How does Kafka achieve high throughput and low latency?
 
 Kafka achieves high performance using:
 
@@ -13429,7 +13430,7 @@ props.put("compression.type", "snappy");
 
 ---
 
-## 23. What is the difference between a topic and a partition?
+## 3. What is the difference between a topic and a partition?
 
 | Topic                        | Partition                            |
 | ---------------------------- | ------------------------------------ |
@@ -13461,7 +13462,7 @@ Meaning:
 
 ---
 
-## 24. How does Kafka handle durability and fault tolerance?
+## 4. How does Kafka handle durability and fault tolerance?
 
 Kafka handles durability using:
 
@@ -13499,7 +13500,7 @@ props.put("min.insync.replicas", "2");
 
 ---
 
-## 25. What is a consumer group and how does it work?
+## 5. What is a consumer group and how does it work?
 
 A consumer group is a group of consumers working together to consume messages from a topic.
 
@@ -13541,7 +13542,7 @@ consumer.subscribe(
 
 ---
 
-## 26. How does Kafka ensure message ordering?
+## 6. How does Kafka ensure message ordering?
 
 Kafka guarantees ordering only within a partition.
 
@@ -13571,7 +13572,7 @@ producer.send(
 );
 ```
 
-## 26. What Happens If a Consumer Crashes Before Committing the Offset?
+## 7. What Happens If a Consumer Crashes Before Committing the Offset?
 
 If a Kafka consumer crashes after processing a message but before committing the offset, Kafka assumes the message was not successfully processed. When the consumer restarts, it will read the same message again from the last committed offset, which can lead to duplicate processing (at-least-once delivery).
 
@@ -13603,8 +13604,7 @@ while (true) {
 * Use **Kafka transactions** for exactly-once processing when needed.
 
 
-
-## 27. What is RabbitMQ and When to Use It Over Kafka?
+## 8. What is RabbitMQ and When to Use It Over Kafka?
 
 RabbitMQ is a **traditional message broker** — it routes messages between producers and consumers using queues and exchanges.
 
@@ -13638,7 +13638,7 @@ Use **Kafka** for event streaming, high-volume data, and replay scenarios.
 
 ---
 
-## 28. What is gRPC and How Does It Differ from REST?
+## 9. What is gRPC and How Does It Differ from REST?
 
 gRPC is a **high-performance RPC framework** by Google. It uses **Protocol Buffers (protobuf)** for serialization and **HTTP/2** for transport.
 
@@ -13666,7 +13666,7 @@ Use gRPC for **internal microservice communication** where performance matters. 
 
 ---
 
-## 29. What is a Service Mesh (Istio)?
+## 10. What is a Service Mesh (Istio)?
 
 A service mesh is an **infrastructure layer** that handles service-to-service communication in microservices — without changing your application code.
 
@@ -13687,7 +13687,6 @@ Service A → [Envoy Sidecar] ──── [Envoy Sidecar] → Service B
 Without Istio, you'd have to implement retries, timeouts, and mTLS in every service manually.
 
 Use it in large Kubernetes-based microservice architectures where you need security, observability, and traffic control at scale.
-
 
 
 # ✅ 23. Java and Application Security
