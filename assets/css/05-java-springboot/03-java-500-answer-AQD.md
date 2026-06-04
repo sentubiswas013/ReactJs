@@ -4299,36 +4299,38 @@ public class SemaphoreExample {
 
 ## 8. What is the difference between synchronized and concurrent collections?
 
-**Synchronized collections** use a **single lock** to control access, which can block all threads and reduce performance under high concurrency.
+* **Synchronized Collections** (e.g., `Collections.synchronizedList()`) lock the entire collection for every operation, which can reduce performance.
 
-**Concurrent collections** use **fine-grained locking or non-blocking algorithms**, allowing better **parallelism and performance**.
+* **Concurrent Collections** (e.g., `ConcurrentHashMap`, `CopyOnWriteArrayList`) use finer-grained locking or lock-free techniques, allowing multiple threads to work simultaneously and improving performance.
 
-Example: `Collections.synchronizedList()` vs `ConcurrentHashMap`.
 
-* **Locking mechanism** - Synchronized uses single lock, concurrent uses fine-grained locking
-* **Performance** - Concurrent collections offer better performance under high concurrency
-* **Blocking behavior** - Synchronized blocks all threads, concurrent allows some parallelism
-* **Examples** - Collections.synchronizedList() vs ConcurrentHashMap
+**Synchronized Collection**
 
 ```java
-// Synchronized collection - single lock for entire collection
-List<String> syncList = Collections.synchronizedList(new ArrayList<>());
-synchronized (syncList) {  // Manual synchronization needed for iteration
-    for (String item : syncList) {
-        System.out.println(item);
-    }
-}
+List<String> list =
+    Collections.synchronizedList(new ArrayList<>());
 
-// Concurrent collection - fine-grained locking
-ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
-concurrentMap.put("key1", 1);  // Non-blocking for different segments
-concurrentMap.put("key2", 2);  // Can happen concurrently
-
-// No external synchronization needed for iteration
-for (Map.Entry<String, Integer> entry : concurrentMap.entrySet()) {
-    System.out.println(entry.getKey() + ": " + entry.getValue());
-}
+list.add("Java");
 ```
+
+**Concurrent Collection**
+
+```java
+ConcurrentHashMap<Integer, String> map =
+    new ConcurrentHashMap<>();
+
+map.put(1, "Java");
+map.put(2, "Spring");
+```
+
+| Synchronized Collection       | Concurrent Collection                   |
+| ----------------------------- | --------------------------------------- |
+| Locks entire collection       | Uses segment-level/fine-grained locking |
+| Slower under high concurrency | Better performance                      |
+| Introduced before Java 5      | Introduced in `java.util.concurrent`    |
+| Example: synchronizedList     | Example: ConcurrentHashMap              |
+
+
 
 ## 9. What is ConcurrentHashMap and how is it different from HashMap?
 
@@ -4869,7 +4871,7 @@ Task executed by: pool-2-thread-1
 
 **ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, in the background.
 
-It handle **thread creation, reuse, and termination**, and allowing **task tracking with Future**.
+Instead of creating threads manually, we submit tasks to ExecutorService, and it handles thread creation, reuse, and lifecycle management.
 
 **Why Use ExecutorService?**
 
@@ -5130,7 +5132,7 @@ Thread-1 inside method2
 
 // Way One
 
-“To call three APIs concurrently in Spring Boot, we can use `CompletableFuture` with `@Async` so that all services like User, Payment, and Inventory are called in parallel, improving performance.”
+To call three APIs concurrently in Spring Boot, we can use `CompletableFuture` with `@Async` so that all services like User, Payment, and Inventory are called in parallel, improving performance.”
 
 User Service
 Payment Service
