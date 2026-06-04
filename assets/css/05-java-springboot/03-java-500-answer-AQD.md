@@ -14144,7 +14144,6 @@ A: JWT cannot be revoked by default. Implement token blacklisting or use short e
 - Every form/request must include this token
 - Server validates it — attacker can't guess it
 
----
 
 **Step 1: Add Spring Security dependency**
 ```xml
@@ -14188,7 +14187,7 @@ public class SecurityConfig {
 ```
 
 **Interview Answer:**
-> "CSRF is enabled by default in Spring Security. For REST APIs with JWT, I disable it since requests are stateless and don't rely on cookies. For form-based apps, Spring Security + Thymeleaf handles CSRF tokens automatically."
+"CSRF is enabled by default in Spring Security. For REST APIs with JWT, I disable it since requests are stateless and don't rely on cookies. For form-based apps, Spring Security + Thymeleaf handles CSRF tokens automatically."
 
 ---
 
@@ -14206,8 +14205,6 @@ Server stores it → next user loads page → script runs → cookie stolen
 - **Stored XSS** — malicious script saved in DB, served to all users
 - **Reflected XSS** — script in URL, reflected back in response
 - **DOM-based XSS** — script manipulates DOM directly
-
----
 
 **Step 1: Add security headers via Spring Security**
 ```java
