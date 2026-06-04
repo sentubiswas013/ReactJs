@@ -5369,7 +5369,7 @@ System.out.println(future.get());
 ```
 
 
-### Future vs CompletableFuture
+**Future vs CompletableFuture**
 
 | Feature                | Future  | CompletableFuture |
 | ---------------------- | ------- | ----------------- |
