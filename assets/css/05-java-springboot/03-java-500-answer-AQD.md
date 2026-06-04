@@ -13311,6 +13311,8 @@ public class ParallelApiService {
 }
 ```
 
+✅ 22. Java kafka and RabbitMQ
+
 ## 21. What is Kafka and How Does It Work?
 
 Kafka is a **distributed event streaming platform** — used for high-throughput, real-time data pipelines.
@@ -13688,7 +13690,7 @@ Use it in large Kubernetes-based microservice architectures where you need secur
 
 
 
-# ✅ 22. Java and Application Security
+# ✅ 23. Java and Application Security
 
 
 ## 0. What are security vulnerability issues?
@@ -14408,7 +14410,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 }
 ```
 
-# ✅ 23. Java Performance and Optimization
+# ✅ 24. Java Performance and Optimization
 
 
 ## 0: How do you measure and Monitor application performance in Java?
@@ -15106,7 +15108,7 @@ java -XX:+PrintCompilation \      # Print compilation events
      JITExample
 ```
 
-# ✅ 24. Java Features 
+# ✅ 25. Java Features 
 
 ## 1. What are the features in Java 8?
 
@@ -15292,7 +15294,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 - **Migration strategy:** Plan upgrades around LTS releases
 
 
-# ✅ 25. Java SQL
+# ✅ 26. Java SQL
 
 ## 1. What are the Types of SQL JOINs?
 
