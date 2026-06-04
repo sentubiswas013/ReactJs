@@ -14229,12 +14229,15 @@ It includes monitoring metrics like response time, errors, CPU, and memory, alon
 
 Common **Java performance issues :** 
 
+* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
 * **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
 * **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
 * **Database Issues** – Slow queries or poor connection pool management delay database responses.
 * **Thread Contention** – Multiple threads compete for the same resource, causing delays and blocking.
 * **Too Many Object Creations** – Creating many objects increases memory usage and garbage collection work.
 * **Garbage Collection Overhead** – Frequent garbage collection pauses the application and affects performance.
+* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
+* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
 * **Blocking I/O Operations** – File, network, or API calls block threads and reduce application throughput.
 
 
@@ -14266,18 +14269,27 @@ Here are **key points with one-line explanations** for improving performance in 
 11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
 12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
 
+**Tools Used:**
+
+* VisualVM
+* JConsole
+* Eclipse Memory Analyzer
+
+**I usually:**
+
+1. Check heap usage.
+2. Analyze GC logs.
+3. Take heap dumps.
+4. Find large object retainers and memory leaks.
+
 
 ## 3. What are Java Memory Leak Issues?
 
 
 1. **Static Collections** Objects stored in static lists or maps are never released.
-
 2. **Improper Cache Management*** Cache entries grow indefinitely without TTL or eviction policies.
-
 3. **Unclosed Resources** Database connections, streams, or files are not properly closed.
-
 4. **ThreadLocal Misuse** Values remain attached to pooled threads if not removed.
-
 5. **Event Listeners** Registered listeners are not deregistered, keeping objects alive.
 
 **Symptoms**
@@ -14296,7 +14308,7 @@ I usually analyze:
 * GC logs
 * Object retention paths
 
-Tools:
+**Tools:**
 
 * VisualVM
 * Eclipse Memory Analyzer
@@ -14311,42 +14323,7 @@ Tools:
 * Monitor heap usage regularly.
 
 
-## 3. What are Java memory issues?
-
-* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
-* **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
-* **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
-* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
-* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
-
-**How I Diagnose Memory Issues**
-
-Tools:
-
-* VisualVM
-* JConsole
-* Eclipse Memory Analyzer
-
-I usually:
-
-1. Check heap usage.
-2. Analyze GC logs.
-3. Take heap dumps.
-4. Find large object retainers and memory leaks.
-
-
-```java
-// Stack overflow example
-public void recursiveMethod() {
-    recursiveMethod(); // No base case - stack overflow
-}
-
-// Memory optimization
-List<String> list = new ArrayList<>(1000); // Pre-size collections
-```
-
 ## 3. What are common 10 Production Issues?
-
 
 **1. 🔴 Memory Leaks**
 **Symptom:** Heap memory keeps growing over time, leads to frequent Full GC and `OutOfMemoryError`
@@ -14437,7 +14414,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - No alerting configured for key metrics
 - Lack of observability (logs, metrics, traces)
 - No dashboards tracking system health
-
 
 
 ## 3. What are Java concurrency issues?
