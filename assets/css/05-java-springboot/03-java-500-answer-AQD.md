@@ -13569,6 +13569,39 @@ producer.send(
 );
 ```
 
+## 26. What Happens If a Consumer Crashes Before Committing the Offset?
+
+If a Kafka consumer crashes after processing a message but before committing the offset, Kafka assumes the message was not successfully processed. When the consumer restarts, it will read the same message again from the last committed offset, which can lead to duplicate processing (at-least-once delivery).
+
+```java
+while (true) {
+    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+
+    for (ConsumerRecord<String, String> record : records) {
+        process(record.value()); // Message processed
+    }
+
+    // Consumer crashes here before commit
+    consumer.commitSync();
+}
+```
+
+**What Happens?**
+
+1. Message is processed.
+2. Consumer crashes before `commitSync()`.
+3. Offset is not saved.
+4. After restart, Kafka reads the same message again.
+5. Message may be processed twice.
+
+**How to Handle It?**
+
+* Use **idempotent processing** (safe to process the same message multiple times).
+* Store processed message IDs to avoid duplicates.
+* Use **Kafka transactions** for exactly-once processing when needed.
+
+
+
 ## 27. What is RabbitMQ and When to Use It Over Kafka?
 
 RabbitMQ is a **traditional message broker** — it routes messages between producers and consumers using queues and exchanges.
