@@ -11668,9 +11668,44 @@ public class CorsConfig {
 
 ## 3. What are RESTful web services?
 
-**RESTful web services** are **web services based on REST architecture** they use **HTTP methods (GET, POST, PUT, DELETE)** to operate on **resources identified by URLs**.
+**RESTful API** is an API that follows **REST (Representational State Transfer)** principles to enable communication between clients and servers using standard HTTP methods.
 
-They are **stateless, platform-independent**, and typically exchange data in **JSON or XML** format.
+An API is considered **RESTful** when it:
+
+* Uses HTTP methods correctly (**GET, POST, PUT, DELETE**)
+* Has resource-based URLs (e.g., `/users/101`)
+* Is **stateless** (server doesn't store client session data)
+* Returns data in formats like JSON
+* Uses proper HTTP status codes (200, 201, 404, etc.)
+
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUser(id);
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userService.save(user);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody User user) {
+        return userService.update(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+    }
+}
+```
 
 
 ## 4. What are the principles of REST?
