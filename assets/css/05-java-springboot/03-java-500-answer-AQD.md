@@ -11934,6 +11934,36 @@ src/main/java/com/example/user
 ```
 
 ```java
+// Write Request (Command)
+Client
+  ↓
+UserCommandController
+  ↓
+CreateUserCommand
+  ↓
+CreateUserCommandHandler
+  ↓
+UserRepository
+  ↓
+Database
+```
+
+```java
+// Read Request (Query)
+Client
+  ↓
+UserQueryController
+  ↓
+GetUserQuery
+  ↓
+GetUserQueryHandler
+  ↓
+Read Database/View
+  ↓
+Response
+```
+
+```java
 // Command (Write)
 public void createUser(User user) {
     userRepository.save(user);
