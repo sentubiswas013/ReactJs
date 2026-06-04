@@ -12577,7 +12577,7 @@ If any step fails, the system performs **compensating actions** to undo the prev
 If inventory fails, Saga will **refund payment and cancel the order**.
 
 There are **two ways to implement Saga**:
-- **Choreography** – services communicate using events.
+- **Choreography**  – services communicate using events.
 - **Orchestration** – a central service controls the workflow.
 
 Order Created → Payment Done → Inventory Reserved
@@ -12663,13 +12663,12 @@ public class OrderOrchestrator {
 
 ## 16. What is a Transactional (ACID properties)? How do you handle rollback?
 
-A **transaction** is a group of database operations that are executed as **one single unit of work**.
+A **transaction** is a group of database operations that are executed as **one single unit of work**. we use @Transactional to manage transactions automatically.
+
 
 `@Transactional` is an annotation in **Spring Framework** that tells Spring:
 
 👉 “Run this method inside a database transaction”
-
-**@Transactional** : ensures **atomicity**: both user and order saved or both rolled back
 
 - All operations succeed → COMMIT
 - Any operation fails → ROLLBACK
@@ -12709,6 +12708,7 @@ public class BankService {
     }
 }
 ```
+
 
 If any exception occurs → **Automatic Rollback**
 
@@ -12769,7 +12769,7 @@ try {
 
 ## 17. How Does `@Transactional` Work Internally?
 
-Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around your bean.
+Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around the bean.
 
 When the method is called:
 1. The proxy intercepts the call
@@ -12778,17 +12778,28 @@ When the method is called:
 4. If no exception → commits the transaction
 5. If a `RuntimeException` is thrown → rolls back
 
+
+In Spring Boot, we use `@Transactional`:
+
 ```java
 @Transactional
 public void transferMoney(Long from, Long to, double amount) {
     debit(from, amount);
-    credit(to, amount);  // if this throws, debit also rolls back
+    credit(to, amount); // if this throws, debit also rolls back
 }
 ```
 
-**`@Transactional`** Propagation Levels
+If a `RuntimeException` occurs, Spring automatically rolls back the transaction.
 
-Propagation tells Spring — *what should happen to the transaction when one transactional method calls another?*
+For checked exceptions, we can configure rollback explicitly:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+**`@Transactional`** Propagation
+
+**Propagation** defines how a transaction behaves when one transactional method calls another transactional method.
 
 | Level | Behavior |
 |---|---|
@@ -12806,9 +12817,6 @@ public void saveAuditLog() {
     // always runs in its own transaction
 }
 ```
-
-**Important gotcha:** `@Transactional` only works on **public methods** and only when called from **outside the class** (because the proxy is bypassed on self-invocation).
-
 ---
 
 
@@ -14259,6 +14267,50 @@ Here are **key points with one-line explanations** for improving performance in 
 12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
 
 
+## 3. What are Java Memory Leak Issues?
+
+
+1. **Static Collections** Objects stored in static lists or maps are never released.
+
+2. **Improper Cache Management*** Cache entries grow indefinitely without TTL or eviction policies.
+
+3. **Unclosed Resources** Database connections, streams, or files are not properly closed.
+
+4. **ThreadLocal Misuse** Values remain attached to pooled threads if not removed.
+
+5. **Event Listeners** Registered listeners are not deregistered, keeping objects alive.
+
+**Symptoms**
+
+* Increasing heap memory usage
+* Frequent Full GC
+* Application slowdown
+* High memory consumption
+* `OutOfMemoryError`
+
+**Detection**
+
+I usually analyze:
+
+* Heap dumps
+* GC logs
+* Object retention paths
+
+Tools:
+
+* VisualVM
+* Eclipse Memory Analyzer
+* JConsole
+
+**Prevention**
+
+* Remove unused references.
+* Close resources using try-with-resources.
+* Configure cache eviction policies.
+* Clean up ThreadLocal variables.
+* Monitor heap usage regularly.
+
+
 ## 3. What are Java memory issues?
 
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
@@ -14266,6 +14318,22 @@ Here are **key points with one-line explanations** for improving performance in 
 * **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
 * **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
 * **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
+
+**How I Diagnose Memory Issues**
+
+Tools:
+
+* VisualVM
+* JConsole
+* Eclipse Memory Analyzer
+
+I usually:
+
+1. Check heap usage.
+2. Analyze GC logs.
+3. Take heap dumps.
+4. Find large object retainers and memory leaks.
+
 
 ```java
 // Stack overflow example
@@ -14288,7 +14356,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Static collections holding objects
 - `ThreadLocal` leaks
 
----
 
 **2. 🗄️ Connection Pool Exhaustion**
 **Symptom:** All DB connections are used up; requests start waiting and eventually fail
@@ -14298,7 +14365,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Connections not released properly
 - Pool size too small for the load
 
----
 
 **3. ⏱️ High GC Pause Time**
 **Symptom:** Application becomes slow or unresponsive
@@ -14308,7 +14374,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Large heap with too many short-lived objects
 - Wrong GC algorithm for the workload
 
----
 
 **4. 🔒 Deadlocks**
 **Symptom:** No progress in the system; threads hang forever
@@ -14318,7 +14383,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Inconsistent lock acquisition order
 - `T1` holds lock A waiting for B, `T2` holds lock B waiting for A
 
----
 
 **5. 🧵 Thread Pool Starvation**
 **Symptom:** New tasks keep waiting in the queue indefinitely
@@ -14328,7 +14392,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Pool size too small
 - Blocking I/O inside thread pool tasks
 
----
 
 **6. 🐢 Slow SQL Queries**
 **Symptom:** Increased response time, locked tables, degraded throughput
@@ -14338,7 +14401,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Missing indexes
 - Full table scans on large datasets
 
----
 
 **7. 📨 Kafka Consumer Lag**
 **Symptom:** Consumers can't keep up with incoming messages; data delays increase
@@ -14348,7 +14410,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Insufficient consumer instances
 - Heavy processing logic inside consumers
 
----
 
 **8. 📈 CPU Spikes**
 **Symptom:** Overall system performance degrades suddenly
@@ -14359,7 +14420,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - Bad algorithms with high time complexity
 - GC thrashing
 
----
 
 **9. 🌊 Cascading Failures**
 **Symptom:** System instability spreads across multiple services
@@ -14369,7 +14429,6 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 - No circuit breakers in place
 - Retry storms amplifying the failure
 
----
 
 **10. 🔕 Missing Monitoring & Alerts**
 **Symptom:** Issues exist but nobody notices early; small problems become major outages
