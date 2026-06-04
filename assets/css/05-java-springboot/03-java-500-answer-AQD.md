@@ -14352,13 +14352,70 @@ public class GlobalExceptionHandler {
 
 
 ## 15: What is Filter Chain?
-A Filter Chain is a sequence of filters that process a request before it reaches the target (like a controller) and/or after the response is generated.
 
-**Real-Time Use Cases**
-- Authentication (login/JWT validation)
-- Logging requests
-- Input validation
-- CORS handling
+**A Filter Chain is a sequence of filters that intercept an HTTP request before it reaches the controller and also process the response before it goes back to the client.**
+
+In Spring Security, the filter chain is used for tasks like:
+
+* Authentication
+* Authorization
+* CSRF protection
+* Logging
+* JWT validation
+
+For example, when a request comes in, it may first pass through a JWT filter to validate the token, then through an authorization filter to check permissions, and only then reach the controller.
+
+### Flow
+
+```text
+Request
+   |
+   v
+JWT Filter
+   |
+   v
+Authentication Filter
+   |
+   v
+Authorization Filter
+   |
+   v
+Controller
+```
+
+**Custom Filter Example**
+
+```java
+@Component
+public class LoggingFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
+            throws ServletException, IOException {
+
+        System.out.println("Request URI: " + request.getRequestURI());
+
+        filterChain.doFilter(request, response);
+    }
+}
+```
+
+**Add Filter to Spring Security**
+
+```java
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.addFilterBefore(
+            loggingFilter,
+            UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+}
+```
+
 
 ## 16: What is SAML?
 
