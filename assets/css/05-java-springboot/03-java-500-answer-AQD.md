@@ -8519,16 +8519,11 @@ docker run -e SPRING_PROFILES_ACTIVE=prod -e DB_PASS=secret app.jar
 Connecting to multiple databases can be beneficial for several reasons:
 
 1. **Multitenancy:** Support multiple tenants within the same application.
-
 2. **Dynamic Environment Switching:** Connect to different environments (e.g., development, QA) dynamically.
-
 3. **Data Seeding and Testing:** Simulate various testing scenarios by seeding data across multiple databases.
-
 4. **Organization Support:** Handle multiple organizations within the same app, dynamically routing data based on user login.
-
 5. **Batch Operations:** Run scripts and batch jobs against multiple databases simultaneously.
 
-Setting Up Spring Boot Application
 
 **Step 1: Add Dependencies**
 Add the necessary dependencies to your pom.xml file for MySQL, PostgreSQL, and Spring Data JPA.
