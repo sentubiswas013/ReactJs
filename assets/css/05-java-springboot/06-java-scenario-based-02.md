@@ -20,12 +20,10 @@
 ### Question:
 
 A user reports that the Order API takes 20 seconds, but each microservice team says their service is fast. How would you identify where the delay occurs?
+:
 
-### Interview Answer:
+"I would use distributed tracing tools like Zipkin or Jaeger and follow the Trace ID across all services. The trace timeline shows how much time each service spends processing the request, helping me identify exactly where the delay occurs."
 
-> "I would use distributed tracing tools like Zipkin or Jaeger and follow the Trace ID across all services. The trace timeline shows how much time each service spends processing the request, helping me identify exactly where the delay occurs."
-
-### Example Code
 
 ```java
 @GetMapping("/orders/{id}")
@@ -44,12 +42,10 @@ The Trace ID is automatically propagated by OpenTelemetry.
 ### Question:
 
 A request passes through API Gateway → Order Service → Payment Service → Inventory Service. How would you trace the complete request flow across services?
+:
 
-### Interview Answer:
+"I would use the Trace ID generated at the API Gateway. The same Trace ID is propagated to all downstream services, allowing me to view the complete request journey in Zipkin or Jaeger."
 
-> "I would use the Trace ID generated at the API Gateway. The same Trace ID is propagated to all downstream services, allowing me to view the complete request journey in Zipkin or Jaeger."
-
-### Example Code
 
 ```java
 @Autowired
@@ -72,12 +68,10 @@ public void processOrder() {
 ### Question:
 
 Only 5% of requests are failing in production. How would distributed tracing help find the root cause?
+:
 
-### Interview Answer:
+"I would filter traces by error status and compare successful and failed requests. This helps identify which service or external dependency is causing failures for that specific 5% of requests."
 
-> "I would filter traces by error status and compare successful and failed requests. This helps identify which service or external dependency is causing failures for that specific 5% of requests."
-
-### Example Code
 
 ```java
 try {
@@ -97,12 +91,10 @@ The exception becomes visible in the trace.
 ### Question:
 
 After introducing OpenTelemetry, traces are missing for some services. What would you investigate?
+:
 
-### Interview Answer:
+"I would verify OpenTelemetry dependencies, exporter configuration, Trace ID propagation between services, and whether sampling settings are dropping traces."
 
-> "I would verify OpenTelemetry dependencies, exporter configuration, Trace ID propagation between services, and whether sampling settings are dropping traces."
-
-### Example Code
 
 ```yaml
 management:
@@ -122,12 +114,10 @@ This ensures all requests are traced.
 ### Question:
 
 An error occurs in production but developers cannot reproduce it locally. How would you use ELK/Splunk to investigate?
+:
 
-### Interview Answer:
+"I would search the application logs in ELK or Splunk using the error message, timestamp, and service name. Then I would analyze stack traces, request details, and related logs around that time to identify the root cause."
 
-> "I would search the application logs in ELK or Splunk using the error message, timestamp, and service name. Then I would analyze stack traces, request details, and related logs around that time to identify the root cause."
-
-### Example Code
 
 ```java
 try {
@@ -144,12 +134,10 @@ try {
 ### Question:
 
 A customer provides an Order ID and says payment failed. How would you find all related logs?
+:
 
-### Interview Answer:
+"I would search ELK or Splunk using the Order ID or Correlation ID. This allows me to track all logs related to that order across multiple services and identify where the failure occurred."
 
-> "I would search ELK or Splunk using the Order ID or Correlation ID. This allows me to track all logs related to that order across multiple services and identify where the failure occurred."
-
-### Example Code
 
 ```java
 log.info("OrderId={} Payment started", orderId);
@@ -169,12 +157,10 @@ OrderId=12345
 ### Question:
 
 Application performance suddenly degrades. What logs would you analyze first?
+:
 
-### Interview Answer:
+"I would first check error logs, slow API logs, database query logs, timeout logs, and resource utilization logs. These usually reveal bottlenecks causing performance degradation."
 
-> "I would first check error logs, slow API logs, database query logs, timeout logs, and resource utilization logs. These usually reveal bottlenecks causing performance degradation."
-
-### Example Code
 
 ```java
 long start = System.currentTimeMillis();
@@ -194,12 +180,10 @@ This helps identify slow operations.
 ### Question:
 
 Log storage grows from 100GB to 1TB within a week. How would you troubleshoot?
+:
 
-### Interview Answer:
+"I would identify which application is generating excessive logs, check for debug logging enabled in production, analyze repeated error messages, and review log retention policies."
 
-> "I would identify which application is generating excessive logs, check for debug logging enabled in production, analyze repeated error messages, and review log retention policies."
-
-### Example Code
 
 Bad Example:
 
@@ -222,11 +206,9 @@ This can generate millions of log entries.
 
 ## Scenario 1: Messages are being produced but consumers are not receiving them
 
-### Interview Answer
 
-> First, I would verify that messages are actually reaching the Kafka topic. Then I would check whether the consumer is subscribed to the correct topic, using the correct consumer group, and whether there are any offset or connectivity issues. I would also check consumer logs for errors.
+First, I would verify that messages are actually reaching the Kafka topic. Then I would check whether the consumer is subscribed to the correct topic, using the correct consumer group, and whether there are any offset or connectivity issues. I would also check consumer logs for errors.
 
-### Example Code
 
 ```java
 @KafkaListener(topics = "orders", groupId = "order-group")
@@ -247,11 +229,9 @@ public void consume(String message) {
 
 ## Scenario 2: Consumer lag suddenly increases during a sale event
 
-### Interview Answer
 
-> Consumer lag usually increases when producers send messages faster than consumers can process them. I would check consumer processing time, database calls, thread count, partition count, and consumer scaling.
+Consumer lag usually increases when producers send messages faster than consumers can process them. I would check consumer processing time, database calls, thread count, partition count, and consumer scaling.
 
-### Example Code
 
 Increase consumer concurrency:
 
@@ -278,11 +258,9 @@ public void consume(String message) {
 
 ## Scenario 3: Duplicate messages are being processed
 
-### Interview Answer
 
-> Kafka provides at-least-once delivery, so duplicates can occur. I would make the consumer idempotent by checking whether the message has already been processed before executing business logic.
+Kafka provides at-least-once delivery, so duplicates can occur. I would make the consumer idempotent by checking whether the message has already been processed before executing business logic.
 
-### Example Code
 
 ```java
 public void processOrder(OrderEvent event) {
@@ -306,11 +284,9 @@ public void processOrder(OrderEvent event) {
 
 ## Scenario 4: One Kafka partition receives significantly more traffic than others
 
-### Interview Answer
 
-> This is usually called partition skew. I would check the partition key being used. If most messages have the same key, Kafka sends them to the same partition. I would choose a better partition key or implement a custom partitioning strategy.
+This is usually called partition skew. I would check the partition key being used. If most messages have the same key, Kafka sends them to the same partition. I would choose a better partition key or implement a custom partitioning strategy.
 
-### Example Code
 
 Problematic:
 
@@ -365,11 +341,9 @@ public class OrderPartitioner implements Partitioner {
 
 ## Scenario 1: API response time increased from 200ms to 5 seconds after deployment
 
-### Interview Answer
 
-> First, I would compare the new release with the previous version. Then I would check application logs, distributed traces, database queries, external API calls, and JVM metrics. I would use profiling and tracing tools to identify where most of the response time is spent.
+First, I would compare the new release with the previous version. Then I would check application logs, distributed traces, database queries, external API calls, and JVM metrics. I would use profiling and tracing tools to identify where most of the response time is spent.
 
-### Example Code
 
 ```java
 long start = System.currentTimeMillis();
@@ -393,11 +367,9 @@ log.info("Execution Time: {} ms", (end - start));
 
 ## Scenario 2: CPU usage reaches 95% during peak traffic
 
-### Interview Answer
 
-> I would check JVM metrics, thread count, GC activity, database calls, and thread dumps. High CPU is often caused by excessive looping, too many threads, heavy computations, or frequent garbage collection.
+I would check JVM metrics, thread count, GC activity, database calls, and thread dumps. High CPU is often caused by excessive looping, too many threads, heavy computations, or frequent garbage collection.
 
-### Example Code
 
 ```java
 ThreadMXBean bean =
@@ -422,11 +394,9 @@ System.out.println(
 
 ## Scenario 3: Application works fine in QA but becomes slow in Production
 
-### Interview Answer
 
-> I would compare QA and Production environments, including data volume, traffic load, JVM settings, database size, indexes, and infrastructure resources. Most performance issues appear only when production data volume is much larger.
+I would compare QA and Production environments, including data volume, traffic load, JVM settings, database size, indexes, and infrastructure resources. Most performance issues appear only when production data volume is much larger.
 
-### Example Code
 
 ```java
 @Timed(value = "order.api.time")
@@ -449,23 +419,21 @@ public Order getOrder(@PathVariable Long id) {
 
 ## Scenario 4: A specific endpoint is slow only for large datasets
 
-### Interview Answer
 
-> I would analyze database queries, pagination, indexing, memory usage, and algorithm complexity. Large datasets often reveal N+1 query problems, full table scans, or inefficient loops.
+I would analyze database queries, pagination, indexing, memory usage, and algorithm complexity. Large datasets often reveal N+1 query problems, full table scans, or inefficient loops.
 
-### Example Code
 
 Bad:
 
 ```java
-List<Order> orders =
+List<Orderorders =
         orderRepository.findAll();
 ```
 
 Better:
 
 ```java
-Page<Order> orders =
+Page<Orderorders =
         orderRepository.findAll(
             PageRequest.of(0, 100)
         );
@@ -486,11 +454,9 @@ Page<Order> orders =
 
 ## Scenario 1: Production application suddenly becomes unavailable at midnight every day
 
-### Interview Answer
 
-> First, I would check scheduled jobs, batch processes, backups, log rotation, and database maintenance tasks running at midnight. Then I would analyze application logs, CPU, memory, thread dumps, and monitoring dashboards to identify what happens at that exact time.
+First, I would check scheduled jobs, batch processes, backups, log rotation, and database maintenance tasks running at midnight. Then I would analyze application logs, CPU, memory, thread dumps, and monitoring dashboards to identify what happens at that exact time.
 
-### Example Code
 
 ```java
 @Scheduled(cron = "0 0 0 * * ?")
@@ -511,11 +477,9 @@ public void nightlyJob() {
 
 ## Scenario 2: Users receive intermittent 500 errors
 
-### Interview Answer
 
-> I would first identify the affected APIs and check application logs for exceptions. Then I would analyze request patterns, database connectivity, external service failures, timeout issues, and distributed traces to find the root cause.
+I would first identify the affected APIs and check application logs for exceptions. Then I would analyze request patterns, database connectivity, external service failures, timeout issues, and distributed traces to find the root cause.
 
-### Example Code
 
 ```java
 @GetMapping("/orders/{id}")
@@ -532,7 +496,7 @@ Global exception handler:
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handle(Exception ex) {
+    public ResponseEntity<Stringhandle(Exception ex) {
         log.error("Error occurred", ex);
         return ResponseEntity.internalServerError().body("Error");
     }
@@ -551,11 +515,9 @@ public class GlobalExceptionHandler {
 
 ## Scenario 3: One microservice crashes repeatedly while others remain healthy
 
-### Interview Answer
 
-> I would analyze the service logs, heap usage, CPU metrics, container events, and thread dumps. Common reasons are OutOfMemoryError, unhandled exceptions, configuration issues, or dependency failures affecting only that service.
+I would analyze the service logs, heap usage, CPU metrics, container events, and thread dumps. Common reasons are OutOfMemoryError, unhandled exceptions, configuration issues, or dependency failures affecting only that service.
 
-### Example Code
 
 ```java
 try {
@@ -589,11 +551,9 @@ System.out.println(
 
 ## Scenario 4: After deployment, response times increase significantly
 
-### Interview Answer
 
-> First, I would compare the new deployment with the previous version. Then I would check slow queries, external API calls, thread pools, cache performance, and distributed traces to identify what changed after deployment.
+First, I would compare the new deployment with the previous version. Then I would check slow queries, external API calls, thread pools, cache performance, and distributed traces to identify what changed after deployment.
 
-### Example Code
 
 ```java
 long start = System.currentTimeMillis();
@@ -620,11 +580,9 @@ log.info("Execution Time: {} ms",
 
 ## Scenario 1: Application memory usage continuously increases and never comes down
 
-### Interview Answer
 
-> I would suspect a memory leak. First, I would monitor heap usage and GC behavior. Then I would capture a heap dump and analyze it using tools like Eclipse MAT to identify objects that are continuously growing and not being garbage collected.
+I would suspect a memory leak. First, I would monitor heap usage and GC behavior. Then I would capture a heap dump and analyze it using tools like Eclipse MAT to identify objects that are continuously growing and not being garbage collected.
 
-### Example Code
 
 Memory Monitoring:
 
@@ -645,7 +603,7 @@ Memory Leak Example:
 ```java
 public class MemoryLeak {
 
-    private static List<String> cache =
+    private static List<Stringcache =
             new ArrayList<>();
 
     public void addData() {
@@ -666,16 +624,14 @@ public class MemoryLeak {
 
 ## Scenario 2: CPU is low, but application requests are hanging
 
-### Interview Answer
 
-> If CPU is low but requests are stuck, I would take a thread dump and look for threads in BLOCKED, WAITING, or TIMED_WAITING states. This usually indicates lock contention, deadlocks, database waits, or external service calls.
+If CPU is low but requests are stuck, I would take a thread dump and look for threads in BLOCKED, WAITING, or TIMED_WAITING states. This usually indicates lock contention, deadlocks, database waits, or external service calls.
 
-### Example Code
 
 Generate Thread Dump:
 
 ```bash
-jstack <PID> > threaddump.txt
+jstack <PIDthreaddump.txt
 ```
 
 Blocked Thread Example:
@@ -698,11 +654,9 @@ synchronized(lock) {
 
 ## Scenario 3: Users report APIs stop responding randomly
 
-### Interview Answer
 
-> I would capture multiple thread dumps during the issue and compare them. If the same threads are stuck repeatedly, I can identify deadlocks, long-running queries, thread pool exhaustion, or external API waits.
+I would capture multiple thread dumps during the issue and compare them. If the same threads are stuck repeatedly, I can identify deadlocks, long-running queries, thread pool exhaustion, or external API waits.
 
-### Example Code
 
 Thread Pool Example:
 
@@ -715,7 +669,7 @@ If all threads are busy:
 
 ```java
 for(int i=0; i<1000; i++) {
-    executor.submit(() -> process());
+    executor.submit(() -process());
 }
 ```
 
@@ -731,17 +685,15 @@ for(int i=0; i<1000; i++) {
 
 ## Scenario 4: You find thousands of threads running in production
 
-### Interview Answer
 
-> Thousands of threads usually indicate thread leaks, excessive thread creation, or misconfigured thread pools. I would check thread dumps, application code, executor services, and thread pool configurations.
+Thousands of threads usually indicate thread leaks, excessive thread creation, or misconfigured thread pools. I would check thread dumps, application code, executor services, and thread pool configurations.
 
-### Example Code
 
 Bad Practice:
 
 ```java
 while(true) {
-    new Thread(() -> process()).start();
+    new Thread(() -process()).start();
 }
 ```
 
@@ -751,7 +703,7 @@ Better:
 ExecutorService executor =
         Executors.newFixedThreadPool(20);
 
-executor.submit(() -> process());
+executor.submit(() -process());
 ```
 
 Check Thread Count:
@@ -779,11 +731,9 @@ System.out.println(
 
 ## Scenario 1: All backend services are healthy, but users receive 502/504 errors
 
-### Interview Answer
 
-> First, I would check API Gateway logs and metrics. A 502 usually indicates a bad response from the backend, while a 504 indicates a timeout. I would verify routing, network connectivity, timeout settings, and load balancer configurations.
+First, I would check API Gateway logs and metrics. A 502 usually indicates a bad response from the backend, while a 504 indicates a timeout. I would verify routing, network connectivity, timeout settings, and load balancer configurations.
 
-### Example Code
 
 Gateway Timeout Configuration:
 
@@ -808,11 +758,9 @@ spring:
 
 ## Scenario 2: A request reaches the Gateway but never reaches the target service
 
-### Interview Answer
 
-> I would verify route configuration, service discovery registration, load balancing, and Gateway filters. Then I would trace the request using logs and distributed tracing to find where it stops.
+I would verify route configuration, service discovery registration, load balancing, and Gateway filters. Then I would trace the request using logs and distributed tracing to find where it stops.
 
-### Example Code
 
 Route Configuration:
 
@@ -833,7 +781,7 @@ Logging Filter:
 @Component
 public class LoggingFilter implements GlobalFilter {
 
-    public Mono<Void> filter(
+    public Mono<Voidfilter(
             ServerWebExchange exchange,
             GatewayFilterChain chain) {
 
@@ -857,11 +805,9 @@ public class LoggingFilter implements GlobalFilter {
 
 ## Scenario 3: Authentication works directly against the service but fails through the Gateway
 
-### Interview Answer
 
-> I would check whether the Authorization header is being forwarded correctly by the Gateway. Then I would verify JWT validation, security filters, token expiration, and gateway authentication configuration.
+I would check whether the Authorization header is being forwarded correctly by the Gateway. Then I would verify JWT validation, security filters, token expiration, and gateway authentication configuration.
 
-### Example Code
 
 Forward Authorization Header:
 
@@ -870,7 +816,7 @@ Forward Authorization Header:
 public RouteLocator routes(RouteLocatorBuilder builder) {
     return builder.routes()
         .route("order-service",
-            r -> r.path("/orders/**")
+            r -r.path("/orders/**")
             .uri("lb://ORDER-SERVICE"))
         .build();
 }
@@ -895,11 +841,9 @@ String authHeader =
 
 ## Scenario 4: Gateway latency is higher than service latency
 
-### Interview Answer
 
-> If the service responds in 100ms but Gateway takes 500ms, I would investigate authentication, rate limiting, logging filters, network hops, and load balancer delays. Gateway processing itself may be causing the latency.
+If the service responds in 100ms but Gateway takes 500ms, I would investigate authentication, rate limiting, logging filters, network hops, and load balancer delays. Gateway processing itself may be causing the latency.
 
-### Example Code
 
 Measure Gateway Processing Time:
 
@@ -907,7 +851,7 @@ Measure Gateway Processing Time:
 long start = System.currentTimeMillis();
 
 return chain.filter(exchange)
-    .then(Mono.fromRunnable(() -> {
+    .then(Mono.fromRunnable(() -{
         long end =
             System.currentTimeMillis();
 
@@ -931,11 +875,9 @@ return chain.filter(exchange)
 
 ## Scenario 1: Application throws "Cannot get JDBC connection" errors intermittently
 
-### Interview Answer
 
-> First, I would check the connection pool metrics and database availability. Then I would verify whether connections are being leaked, long-running transactions are holding connections, or the pool size is too small for the workload.
+First, I would check the connection pool metrics and database availability. Then I would verify whether connections are being leaked, long-running transactions are holding connections, or the pool size is too small for the workload.
 
-### Example Code
 
 HikariCP Configuration:
 
@@ -964,11 +906,9 @@ try (Connection conn = dataSource.getConnection()) {
 
 ## Scenario 2: Connection pool becomes exhausted during peak traffic
 
-### Interview Answer
 
-> Connection pool exhaustion usually happens when requests are holding database connections for too long or when traffic exceeds the configured pool size. I would check slow queries, transaction duration, and pool metrics.
+Connection pool exhaustion usually happens when requests are holding database connections for too long or when traffic exceeds the configured pool size. I would check slow queries, transaction duration, and pool metrics.
 
-### Example Code
 
 Bad Practice:
 
@@ -1003,11 +943,9 @@ try (Connection conn = dataSource.getConnection()) {
 
 ## Scenario 3: Database CPU is normal, but API response times are very slow
 
-### Interview Answer
 
-> If database CPU is normal, I would investigate connection wait time, network latency, lock contention, slow external services, and application thread pools. The issue may not be database processing itself.
+If database CPU is normal, I would investigate connection wait time, network latency, lock contention, slow external services, and application thread pools. The issue may not be database processing itself.
 
-### Example Code
 
 Measure Query Time:
 
@@ -1034,11 +972,9 @@ log.info("DB Time: {} ms",
 
 ## Scenario 4: After deployment, database connections continuously increase and never decrease
 
-### Interview Answer
 
-> This usually indicates a connection leak. The new code may be opening connections without closing them. I would compare the deployment changes, review database access code, and monitor active connections in the pool.
+This usually indicates a connection leak. The new code may be opening connections without closing them. I would compare the deployment changes, review database access code, and monitor active connections in the pool.
 
-### Example Code
 
 Connection Leak Example:
 
@@ -1091,11 +1027,9 @@ System.out.println(
 
 ## Scenario 1: A service registers successfully in Eureka but cannot be discovered by other services
 
-### Interview Answer
 
-> First, I would verify that the service is registered in Eureka and appears as UP. Then I would check the service name, Eureka client configuration, network connectivity, and load balancer configuration. Sometimes service name mismatches cause discovery failures.
+First, I would verify that the service is registered in Eureka and appears as UP. Then I would check the service name, Eureka client configuration, network connectivity, and load balancer configuration. Sometimes service name mismatches cause discovery failures.
 
-### Example Code
 
 Service Registration:
 
@@ -1131,11 +1065,9 @@ public void checkService() {
 
 ## Scenario 2: Some requests fail because traffic is routed to unhealthy instances
 
-### Interview Answer
 
-> I would check health check configurations and Eureka heartbeat updates. If unhealthy instances are still marked UP, traffic may continue routing to them. I would verify health endpoints and instance status updates.
+I would check health check configurations and Eureka heartbeat updates. If unhealthy instances are still marked UP, traffic may continue routing to them. I would verify health endpoints and instance status updates.
 
-### Example Code
 
 Health Endpoint:
 
@@ -1171,11 +1103,9 @@ management:
 
 ## Scenario 3: A newly deployed service never appears in the service registry
 
-### Interview Answer
 
-> I would verify Eureka client configuration, network access to the Eureka server, startup logs, and registration settings. Usually incorrect Eureka URLs or network issues prevent registration.
+I would verify Eureka client configuration, network access to the Eureka server, startup logs, and registration settings. Usually incorrect Eureka URLs or network issues prevent registration.
 
-### Example Code
 
 Eureka Configuration:
 
@@ -1207,11 +1137,9 @@ spring:
 
 ## Scenario 4: Inter-service communication works locally but fails in Kubernetes
 
-### Interview Answer
 
-> I would verify Kubernetes service names, DNS resolution, namespaces, and service exposure. Most issues are caused by incorrect service names, namespace mismatches, or DNS problems.
+I would verify Kubernetes service names, DNS resolution, namespaces, and service exposure. Most issues are caused by incorrect service names, namespace mismatches, or DNS problems.
 
-### Example Code
 
 Kubernetes Service:
 
@@ -1252,11 +1180,9 @@ kubectl exec -it pod-name -- nslookup order-service
 
 ## Scenario 1: A customer reports that an order was placed but payment was not completed
 
-### Interview Answer
 
-> I would use the Correlation ID or Trace ID to track the request across all services. I would check logs, distributed traces, Kafka events, and database records to identify where the process stopped.
+I would use the Correlation ID or Trace ID to track the request across all services. I would check logs, distributed traces, Kafka events, and database records to identify where the process stopped.
 
-### Example Code
 
 Generate Correlation ID:
 
@@ -1295,11 +1221,9 @@ log.info(
 
 ## Scenario 2: An API call passes through 8 microservices
 
-### Interview Answer
 
-> I would use distributed tracing tools like Zipkin or OpenTelemetry. The trace shows every service involved and the response time of each service, making it easy to identify where the failure occurred.
+I would use distributed tracing tools like Zipkin or OpenTelemetry. The trace shows every service involved and the response time of each service, making it easy to identify where the failure occurred.
 
-### Example Code
 
 Add Trace Context:
 
@@ -1337,11 +1261,9 @@ Payment Service ❌
 
 ## Scenario 3: One transaction takes 30 seconds while similar transactions take 2 seconds
 
-### Interview Answer
 
-> I would compare the slow trace with a normal trace. Then I would identify which service or database query consumed most of the time and investigate that component.
+I would compare the slow trace with a normal trace. Then I would identify which service or database query consumed most of the time and investigate that component.
 
-### Example Code
 
 Measure Execution Time:
 
@@ -1363,14 +1285,14 @@ log.info(
 Slow Query Example:
 
 ```java
-List<Order> orders =
+List<Orderorders =
         repository.findAll();
 ```
 
 Better:
 
 ```java
-Page<Order> orders =
+Page<Orderorders =
         repository.findAll(
             PageRequest.of(0, 100)
         );
@@ -1388,11 +1310,9 @@ Page<Order> orders =
 
 ## Scenario 4: You need to correlate logs, traces, and metrics for a failed transaction
 
-### Interview Answer
 
-> I would use a common Correlation ID or Trace ID across logs, traces, and monitoring systems. This allows me to connect metrics, logs, and distributed traces for the same transaction.
+I would use a common Correlation ID or Trace ID across logs, traces, and monitoring systems. This allows me to connect metrics, logs, and distributed traces for the same transaction.
 
-### Example Code
 
 MDC Logging:
 
@@ -1433,11 +1353,9 @@ Order Created
 
 ## Scenario 1: Black Friday traffic is expected to increase by 10x
 
-### Interview Answer
 
-> I would scale horizontally by adding more service instances, use caching with Redis, enable auto-scaling, optimize database queries, use read replicas, and process non-critical tasks asynchronously through Kafka.
+I would scale horizontally by adding more service instances, use caching with Redis, enable auto-scaling, optimize database queries, use read replicas, and process non-critical tasks asynchronously through Kafka.
 
-### Example Code
 
 Caching with Redis:
 
@@ -1470,11 +1388,9 @@ public void sendEmail(Order order) {
 
 ## Scenario 2: A critical service becomes unavailable
 
-### Interview Answer
 
-> I would implement high availability using multiple service instances, load balancing, circuit breakers, and disaster recovery in another region. If one instance fails, traffic automatically moves to healthy instances.
+I would implement high availability using multiple service instances, load balancing, circuit breakers, and disaster recovery in another region. If one instance fails, traffic automatically moves to healthy instances.
 
-### Example Code
 
 Circuit Breaker:
 
@@ -1508,16 +1424,14 @@ replicas: 3
 
 ## Scenario 3: A database becomes the system bottleneck
 
-### Interview Answer
 
-> I would first optimize queries and indexes. Then I would introduce caching, read replicas, database partitioning, and eventually sharding if the data volume continues growing.
+I would first optimize queries and indexes. Then I would introduce caching, read replicas, database partitioning, and eventually sharding if the data volume continues growing.
 
-### Example Code
 
 Pagination:
 
 ```java
-Page<Order> orders =
+Page<Orderorders =
     repository.findAll(
         PageRequest.of(0, 100)
     );
@@ -1546,11 +1460,9 @@ public Order getOrder(Long id) {
 
 ## Scenario 4: A distributed transaction spans 5 microservices
 
-### Interview Answer
 
-> I would use the Saga Pattern instead of a distributed database transaction. Each service performs a local transaction and publishes an event. If a failure occurs, compensating transactions roll back previous actions. For traceability, I would propagate a Correlation ID across all services.
+I would use the Saga Pattern instead of a distributed database transaction. Each service performs a local transaction and publishes an event. If a failure occurs, compensating transactions roll back previous actions. For traceability, I would propagate a Correlation ID across all services.
 
-### Example Code
 
 Order Created Event:
 
