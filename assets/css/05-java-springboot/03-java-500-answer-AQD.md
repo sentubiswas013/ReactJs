@@ -3221,9 +3221,6 @@ LinkedList
 
 **LinkedList** uses a **doubly linked list**, so it has **slower access (O(n))**, but **faster insertions/deletions** since no shifting is required.
 
-* **O(1) – Constant Time:** Execution time **does not change with input size**.
-* **O(n) – Linear Time:** Execution time **increases proportionally with input size**.
-
 
 ```java
 List<String> arrayList = new ArrayList<>(); // Fast access
@@ -3723,7 +3720,7 @@ class TTLCache {
 
 
 
-## 10. Difference between ConcurrentHashMap and HashMap, and when to use what
+## 10. Difference between ConcurrentHashMap and HashMap, and when to use what?
 
 | Feature              | HashMap                        | ConcurrentHashMap                        |
 |----------------------|--------------------------------|------------------------------------------|
@@ -3738,8 +3735,26 @@ class TTLCache {
 - Use `ConcurrentHashMap` in multi-threaded environments where multiple threads read/write simultaneously (e.g., caches, shared state).
 
 
+## 11. What is O(1) and  O(n)?
 
-## 11. Java Collections Framework
+
+* **O(1) – Constant Time:** means the operation takes the same amount of time regardless of the input size. 
+```java
+int first = arr[0];
+// Accessing the first element is always constant time.
+```
+
+* **O(n) – Linear Time:** means the execution time grows proportionally with the number of elements. 
+
+```java
+for (int num : arr) {
+    System.out.println(num);
+}
+// The loop visits every element once.
+```
+
+
+## 12. Java Collections Framework
 
 **🔹 Basics**
 
