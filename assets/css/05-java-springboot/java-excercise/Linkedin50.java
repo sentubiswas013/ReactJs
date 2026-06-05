@@ -1114,12 +1114,9 @@ public class Linkedin50 {
             int sum = 0;
 
             for (int j = 0; j < n; j++) {
-
                 // Check if j-th bit is set
                 if ((i & (1 << j)) != 0) {
-
                     temp.add(nums[j]);
-
                     sum += nums[j];
                 }
             }
