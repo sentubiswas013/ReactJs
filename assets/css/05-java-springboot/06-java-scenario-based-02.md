@@ -15,12 +15,8 @@
 
 # 1. Distributed Tracing (Zipkin, Jaeger, OpenTelemetry)
 
-## Scenario 1
+## Scenario 1: A user reports that the Order API takes 20 seconds, but each microservice team says their service is fast. How would you identify where the delay occurs?
 
-### Question:
-
-A user reports that the Order API takes 20 seconds, but each microservice team says their service is fast. How would you identify where the delay occurs?
-:
 
 "I would use distributed tracing tools like Zipkin or Jaeger and follow the Trace ID across all services. The trace timeline shows how much time each service spends processing the request, helping me identify exactly where the delay occurs."
 
@@ -37,12 +33,8 @@ The Trace ID is automatically propagated by OpenTelemetry.
 
 ---
 
-## Scenario 2
+## Scenario 2: A request passes through API Gateway → Order Service → Payment Service → Inventory Service. How would you trace the complete request flow across services?
 
-### Question:
-
-A request passes through API Gateway → Order Service → Payment Service → Inventory Service. How would you trace the complete request flow across services?
-:
 
 "I would use the Trace ID generated at the API Gateway. The same Trace ID is propagated to all downstream services, allowing me to view the complete request journey in Zipkin or Jaeger."
 
@@ -63,12 +55,7 @@ public void processOrder() {
 
 ---
 
-## Scenario 3
-
-### Question:
-
-Only 5% of requests are failing in production. How would distributed tracing help find the root cause?
-:
+## Scenario 3: Only 5% of requests are failing in production. How would distributed tracing help find the root cause?
 
 "I would filter traces by error status and compare successful and failed requests. This helps identify which service or external dependency is causing failures for that specific 5% of requests."
 
@@ -86,12 +73,7 @@ The exception becomes visible in the trace.
 
 ---
 
-## Scenario 4
-
-### Question:
-
-After introducing OpenTelemetry, traces are missing for some services. What would you investigate?
-:
+## Scenario 4: After introducing OpenTelemetry, traces are missing for some services. What would you investigate?
 
 "I would verify OpenTelemetry dependencies, exporter configuration, Trace ID propagation between services, and whether sampling settings are dropping traces."
 
@@ -109,12 +91,8 @@ This ensures all requests are traced.
 
 # 2. Logging (ELK, Splunk)
 
-## Scenario 1
+## Scenario 1: An error occurs in production but developers cannot reproduce it locally. How would you use ELK/Splunk to investigate?
 
-### Question:
-
-An error occurs in production but developers cannot reproduce it locally. How would you use ELK/Splunk to investigate?
-:
 
 "I would search the application logs in ELK or Splunk using the error message, timestamp, and service name. Then I would analyze stack traces, request details, and related logs around that time to identify the root cause."
 
@@ -129,12 +107,8 @@ try {
 
 ---
 
-## Scenario 2
+## Scenario 2: A customer provides an Order ID and says payment failed. How would you find all related logs?
 
-### Question:
-
-A customer provides an Order ID and says payment failed. How would you find all related logs?
-:
 
 "I would search ELK or Splunk using the Order ID or Correlation ID. This allows me to track all logs related to that order across multiple services and identify where the failure occurred."
 
@@ -152,12 +126,7 @@ OrderId=12345
 
 ---
 
-## Scenario 3
-
-### Question:
-
-Application performance suddenly degrades. What logs would you analyze first?
-:
+## Scenario 3: Application performance suddenly degrades. What logs would you analyze first?
 
 "I would first check error logs, slow API logs, database query logs, timeout logs, and resource utilization logs. These usually reveal bottlenecks causing performance degradation."
 
@@ -175,12 +144,8 @@ This helps identify slow operations.
 
 ---
 
-## Scenario 4
+## Scenario 4: Log storage grows from 100GB to 1TB within a week. How would you troubleshoot?
 
-### Question:
-
-Log storage grows from 100GB to 1TB within a week. How would you troubleshoot?
-:
 
 "I would identify which application is generating excessive logs, check for debug logging enabled in production, analyze repeated error messages, and review log retention policies."
 
