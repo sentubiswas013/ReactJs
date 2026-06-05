@@ -6736,7 +6736,41 @@ private Department department;
 
 ---
 
-## 16. Entity lifecycle states?
+## 16. What is LazyInitializationException?
+
+**`LazyInitializationException`** occurs when Hibernate tries to load a lazily fetched entity or collection after the Hibernate session has already been closed.
+
+
+```java
+@Entity
+class Employee {
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Address> addresses;
+}
+```
+
+```java
+Employee emp = employeeRepository.findById(1L).get();
+// Session closes here
+
+emp.getAddresses().size(); // LazyInitializationException
+```
+
+Since `addresses` is loaded lazily, Hibernate tries to fetch it only when `getAddresses()` is called. But the session is already closed, so it throws `LazyInitializationException`.
+
+**How to Fix It**
+
+    1. Access the lazy data inside a transaction.
+    2. Use `JOIN FETCH` in JPQL.
+       ```java
+       SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = 1
+       ```
+    3. Use DTO projections instead of entities for web layer.
+    4. Use `FetchType.EAGER` only when necessary.
+
+
+## 17. Entity lifecycle states?
 
 | State | Description |
 |---|---|
@@ -6760,7 +6794,7 @@ entityManager.remove(user);            // Removed
 
 ---
 
-## 17. What is dirty checking?
+## 18. What is dirty checking?
 
 **Dirty checking** is a mechanism in Hibernate (and JPA) that **automatically detects changes made to entity objects and synchronizes them to the database** without requiring explicit update queries.
 
@@ -6818,25 +6852,13 @@ session.evict(employee);  // Removes from persistence context [web:12]
 
 ---
 
-## 18. Difference between save() and saveAndFlush()?
+## 19. Difference between save() and saveAndFlush()?
 
 Both `save()` and `saveAndFlush()` persist data using JPA.
 
 **`save()`** stores the entity in the persistence context and the actual SQL may execute later (at transaction commit). 
 
 **`saveAndFlush()`** immediately flushes changes to the database by executing the SQL right away.
-
-
-
-
-| Aspect               | save()                                               | saveAndFlush()                                                     |
-| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
-| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
-| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
-| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
-| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
-| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
-| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
 
 **How It Works**
 
@@ -6853,6 +6875,17 @@ employeeRepository.saveAndFlush(employee);  // INSERT executed NOW
 // Data is in database immediately
 ```
 
+
+| Aspect               | save()                                               | saveAndFlush()                                                     |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
+| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
+| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
+| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
+| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
+| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
+
+
 | save()                                 | saveAndFlush()                   |
 | -------------------------------------- | -------------------------------- |
 | Adding items to shopping cart 🛒       | Tapping "Buy Now" on Amazon ⚡    |
@@ -6862,7 +6895,7 @@ employeeRepository.saveAndFlush(employee);  // INSERT executed NOW
 
 ---
 
-## 19. What is auditing and How it works in JPA?
+## 20. What is auditing and How it works in JPA?
 
 
 In Java (especially enterprise applications like Spring Boot), **auditing** means **tracking and recording changes made to data**, such as:
