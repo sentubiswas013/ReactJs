@@ -7478,6 +7478,15 @@ spring.cache.jcache.config=classpath:ehcache.xml
 
 ## 6. Create File upload API to Handle Large Data Processing?
 
+* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
+* **Use Batch Processing** to process records in chunks and reduce memory consumption
+* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
+* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
+* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
+* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
+* **Use Sharding** when data becomes too large for a single database server
+
+
 **Step 1 — Client Uploads File**
 
 Controller accepts file without loading everything into memory.
@@ -7492,9 +7501,7 @@ class FileUploadController {
     }
 
     @PostMapping("/upload")
-    public String upload(
-            @RequestParam("file") MultipartFile file
-    ) throws Exception {
+    public String upload(@RequestParam("file") MultipartFile file) throws Exception {
         service.processFile(file);
         return "File Accepted";
     }
@@ -7613,8 +7620,6 @@ public class Main {
     }
 }
 ```
-
-
 
 ## 6. How to handle large data efficiently?
 
@@ -7833,167 +7838,78 @@ public void archiveOldOrders() {
 **Interview Tip:** Explain difference between **clustered vs non-clustered** index and **index selectivity**.
 
 
-
-## 6. How do you Handle Large Data Processing?
-
-* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
-* **Use Batch Processing** to process records in chunks and reduce memory consumption
-* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
-* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
-* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
-* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
-* **Use Sharding** when data becomes too large for a single database server
+## 6. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
 
 
-**1. Streaming Large File (Low Memory) – Runnable Code**
+During bumper offers or Black Friday sales, I would design the system to handle high traffic using load balancing, caching, auto-scaling, message queues, and database optimization. This prevents the application from crashing and ensures a smooth user experience.
+
+**Key Strategies:**
+
+1. **Rate Limiting & Throttling** — Prevent system overload by limiting requests per user
+2. **Queue-Based Processing** — Use message queues (Kafka/RabbitMQ) to handle burst traffic asynchronously.
+3. **Database Optimization** → Use indexing, read replicas, and connection pooling.
+4. **Inventory Locking** — Use database transactions or Redis to prevent overselling
+5. **Caching** — Reduce database calls for frequently accessed data.
+6. **Load Balancing** — Distribute requests across multiple servers
+7. **Auto Scaling** → Automatically add more application instances during peak traffic.
 
 ```java
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.stream.Stream;
-
-public class LargeFileProcessor {
-
-    public static void main(String[] args) {
-        try (Stream<String> lines = Files.lines(Path.of("large-file.txt"))) {
-            lines.filter(l -> l.contains("ERROR"))
-                 .forEach(LargeFileProcessor::processError);
-        } catch (IOException e) {
-            e.printStackTrace();
+// Rate Limiter using Redis
+public class RateLimiter {
+    private RedisTemplate<String, Integer> redis;
+    
+    public boolean allowRequest(String userId, int maxRequests, int windowSeconds) {
+        String key = "rate_limit:" + userId;
+        Integer count = redis.opsForValue().increment(key);
+        
+        if (count == 1) {
+            redis.expire(key, windowSeconds, TimeUnit.SECONDS);
         }
+        
+        return count <= maxRequests; // Return true if under limit
     }
+}
 
-    private static void processError(String line) {
-        System.out.println("Processing error: " + line);
+// Inventory Management with Redis (prevents overselling)
+public class InventoryService {
+    private RedisTemplate<String, Integer> redis;
+    
+    public boolean reserveInventory(String productId, int quantity) {
+        String key = "inventory:" + productId;
+        Integer available = redis.opsForValue().get(key);
+        
+        if (available != null && available >= quantity) {
+            redis.opsForValue().decrement(key, quantity);
+            return true; // Reserved successfully
+        }
+        return false; // Not enough inventory
+    }
+}
+
+// Black Friday Sale Handler
+public class SaleService {
+    private RateLimiter rateLimiter;
+    private InventoryService inventoryService;
+    
+    public PurchaseResult purchaseProduct(String userId, String productId, int quantity) {
+        // 1. Rate limit check
+        if (!rateLimiter.allowRequest(userId, 10, 60)) {
+            return PurchaseResult.REJECTED("Too many requests");
+        }
+        
+        // 2. Reserve inventory
+        if (!inventoryService.reserveInventory(productId, quantity)) {
+            return PurchaseResult.REJECTED("Item out of stock");
+        }
+        
+        // 3. Process order (async via queue)
+        orderQueue.send(new OrderEvent(userId, productId, quantity));
+        
+        return PurchaseResult.SUCCESS("Order placed");
     }
 }
 ```
 
-**Important Fix:** Use `try-with-resources` so the file stream is closed.
-
-
-**2. Batch Processing – Runnable Code**
-
-```java
-import java.util.ArrayList;
-import java.util.List;
-
-public class BatchProcessingExample {
-
-    public static void main(String[] args) {
-        List<String> data = new ArrayList<>();
-
-        for (int i = 1; i <= 5000; i++) {
-            data.add("Record " + i);
-        }
-
-        int BATCH = 1000;
-
-        for (int i = 0; i < data.size(); i += BATCH) {
-            List<String> batch = data.subList(i, Math.min(i + BATCH, data.size()));
-            processBatch(batch);
-        }
-    }
-
-    private static void processBatch(List<String> batch) {
-        System.out.println("Processing batch of size: " + batch.size());
-    }
-}
-```
-
-
-**3. Database Pagination (Spring Data JPA) – Correct Logic**
-
-```java
-int page = 0;
-Page<DataItem> result;
-
-do {
-    result = repo.findByStatus("PENDING", PageRequest.of(page, 1000));
-    processBatch(result.getContent());
-    page++;
-} while (result.hasNext());
-```
-
-**Fix:** Increment `page` after fetching.
-
-
-**4. Async / Parallel Processing – Correct Code**
-
-```java
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-public class AsyncProcessing {
-
-    public static void main(String[] args) {
-
-        List<Integer> data = List.of(1,2,3,4,5,6,7,8,9,10);
-
-        CompletableFuture.runAsync(() ->
-            data.parallelStream()
-                .filter(AsyncProcessing::isValid)
-                .forEach(AsyncProcessing::save)
-        ).join(); // wait for completion
-    }
-
-    private static boolean isValid(int num) {
-        return num % 2 == 0;
-    }
-
-    private static void save(int num) {
-        System.out.println("Saving: " + num);
-    }
-}
-```
-
-**Fix:** Add `.join()` so main thread waits.
-
-
-**5. Memory Efficient Cache – Correct Code**
-
-```java
-import java.lang.ref.WeakReference;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-public class WeakCacheExample {
-
-    private static Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
-
-    public static void main(String[] args) {
-        Data data = new Data("Sample");
-        cache.put("key1", new WeakReference<>(data));
-
-        Data cachedData = cache.get("key1").get();
-
-        if (cachedData != null) {
-            System.out.println("From cache: " + cachedData.value);
-        } else {
-            System.out.println("Object was garbage collected");
-        }
-    }
-
-    static class Data {
-        String value;
-        Data(String value) {
-            this.value = value;
-        }
-    }
-}
-```
-
-
-If interviewer asks **“Which one do you use in real project?”**, answer:
-
-| Scenario         | Method     |
-| ---------------- | ---------- |
-| Large file       | Streaming  |
-| Large DB data    | Pagination |
-| Large processing | Batch      |
-| Performance      | Parallel   |
-| Frequent reads   | Cache      |
 
 
 ## 7. What is @Profile Annotation?
