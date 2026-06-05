@@ -9783,7 +9783,6 @@ service.print();
 ## 9. What is AOP in Spring?
 
 
-
 AOP is a programming paradigm that separates **cross-cutting concerns** from your core business logic. Cross-cutting concerns are things that affect multiple parts of your app but aren't part of the core logic — like logging, security, transactions, etc.
 
 **The Problem AOP Solves:**
@@ -9818,7 +9817,7 @@ public class OrderService {
 
 ---
 
-## Core AOP Concepts
+**Core AOP Concepts**
 
 **1. 🎯 Aspect**
 A class that contains the cross-cutting logic (e.g., logging, security).
@@ -10160,8 +10159,24 @@ private B b;
 
 In Spring Boot 2.6+, circular dependencies are disabled by default. You need to explicitly enable them or fix the design.
 
+## 15. Spring Boot 2.7 vs Spring Boot 3.0
 
-## 15. Real Industry Practice?
+| Feature              | Spring Boot 2.7     | Spring Boot 3.0            |
+| -------------------- | ------------------- | -------------------------- |
+| Java Version         | Java 8, 11, 17      | Java 17+ only              |
+| Spring Framework     | Spring 5.3          | Spring 6.0                 |
+| Namespace            | `javax.*`           | `jakarta.*`                |
+| Native Image Support | Limited             | Built-in GraalVM support   |
+| Observability        | Micrometer only     | Micrometer + OpenTelemetry |
+| Security             | Spring Security 5   | Spring Security 6          |
+| Hibernate            | Hibernate 5         | Hibernate 6                |
+| Servlet API          | Servlet 4.0         | Servlet 6.0                |
+| Validation API       | `javax.validation`  | `jakarta.validation`       |
+| JPA API              | `javax.persistence` | `jakarta.persistence`      |
+
+
+
+## 16. Real Industry Practice?
 
 Here are strong **real industry practice tables** you can use in final-round interviews for deep project discussions.
 
