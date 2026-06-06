@@ -14433,35 +14433,45 @@ public class GlobalExceptionHandler {
 
 ## 15: What is Filter Chain?
 
-**A Filter Chain is a sequence of filters that intercept an HTTP request before it reaches the controller and also process the response before it goes back to the client.**
+> A Filter Chain is a sequence of filters that process an HTTP request before it reaches the controller and process the response before it is sent back to the client.
+>
+> Each filter performs a specific task, such as authentication, authorization, logging, CSRF protection, or JWT validation.
 
-In Spring Security, the filter chain is used for tasks like:
+**How It Works**
+
+> When a request arrives, it passes through multiple filters one by one. If all checks are successful, the request reaches the controller. After the controller generates a response, the response can also pass through filters before being returned to the client.
+
+```text
+Client Request
+      │
+      ▼
+JWT Filter
+      ▼
+Authentication Filter
+      ▼
+Authorization Filter
+      ▼
+Controller
+      ▼
+Response
+```
+
+**Example**
+
+> For example, in a JWT-based application, the request first goes through a JWT filter to validate the token. Then Spring Security checks the user's authentication and permissions. If everything is valid, the request is allowed to reach the controller.
+
+**Why It Is Important**
 
 * Authentication
 * Authorization
-* CSRF protection
-* Logging
-* JWT validation
+* JWT Validation
+* CSRF Protection
+* Request/Response Logging
+* Security Checks
 
-For example, when a request comes in, it may first pass through a JWT filter to validate the token, then through an authorization filter to check permissions, and only then reach the controller.
+**One-Line Interview Summary**
 
-### Flow
-
-```text
-Request
-   |
-   v
-JWT Filter
-   |
-   v
-Authentication Filter
-   |
-   v
-Authorization Filter
-   |
-   v
-Controller
-```
+> **"A Filter Chain is a series of filters that intercept and process HTTP requests and responses, allowing Spring Security to perform tasks such as authentication, authorization, and JWT validation before the request reaches the controller."**
 
 **Custom Filter Example**
 
