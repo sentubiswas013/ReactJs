@@ -15030,8 +15030,7 @@ public class OptimizedUserRepository {
 
 **Query optimization** is the process of improving the performance and execution time of SQL queries.
 
-It involves **using proper indexes, writing efficient joins and WHERE clauses, avoiding unnecessary data fetch (like SELECT *), and analyzing execution plans** to ensure faster query execution.
-
+It involves **using proper indexes, writing efficient joins and WHERE clauses, avoiding unnecessary data fetch (like SELECT *), and analyzing execution plans** to ensure faster query execution
 
 ```java
 // Query optimization examples
@@ -15042,6 +15041,10 @@ public class OptimizedQueryRepository {
     // List<Order> orders = orderRepository.findAll();
     // orders.forEach(order -> order.getCustomer().getName()); // N queries
     
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+
     // Good: Single query with join
     @Query("SELECT o FROM Order o JOIN FETCH o.customer")
     List<Order> findAllOrdersWithCustomers();
