@@ -15803,18 +15803,44 @@ public void processProducts() {
 
 ## 14. What is Batch Processing?
 
-Processing records in **small fixed-size chunks** (like 1000 records per batch)
+Batch Processing is a technique where a large amount of data is processed in groups (batches) instead of processing one record at a time. It improves performance, reduces database calls, and is commonly used for data migration, report generation, payroll processing, and bulk updates.
 
-**Why use it?**
+Suppose you need to update **10,000 employee records**.
 
-* Handles large data safely
-* Supports retry & restart
-* Good for ETL jobs
-* Production-ready
+❌ One-by-one processing:
 
 ```java
-.chunk(1000)
+for (Employee emp : employees) {
+    employeeRepository.save(emp);
+}
 ```
+
+**✅ Batch processing:**
+
+```java
+List<Employee> employees = getEmployees();
+employeeRepository.saveAll(employees);
+```
+The records are processed in batches, reducing database round trips.
+
+
+**Spring Boot Batch Configuration**
+
+```properties
+spring.jpa.properties.hibernate.jdbc.batch_size=50
+spring.jpa.properties.hibernate.order_inserts=true
+spring.jpa.properties.hibernate.order_updates=true
+```
+This allows Hibernate to send records to the database in batches of 50.
+
+**Real-World Examples**
+
+* Payroll processing
+* Bank transaction settlement
+* Data migration
+* Bulk email sending
+* Report generation
+
 
 
 ## 15. What is sharding in databases?
