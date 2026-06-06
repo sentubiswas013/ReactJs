@@ -6470,6 +6470,8 @@ public class User {
 
 JPA itself is not an implementation; frameworks like Hibernate ORM implement JPA.
 
+JPA works by using an **EntityManager** to perform CRUD operations. You write **Java objects**, and JPA handles converting them to SQL queries and storing them in the database. Frameworks like **Hibernate** are common implementations of JPA.
+
 Example concepts in JPA:
 
 - `@Entity`
@@ -6538,67 +6540,47 @@ import org.springframework.stereotype.Repository;
 
 ## 8. Difference between `save()` and `persist()`
 
-| Feature                   | save()                  | persist()          |
-| ------------------------- | ----------------------- | ------------------ |
-| Belongs to                | Hibernate               | JPA                |
-| Return type               | Returns ID              | void               |
-| Works outside transaction | Yes                     | No                 |
-| Standard                  | No (Hibernate specific) | Yes (JPA standard) |
 
 
-```java
-// save()
-int id = (int) session.save(student);
+`persist()` is a JPA method used to make a new entity managed and schedule it for insertion into the database. It does not return anything.
 
-// persist()
-entityManager.persist(student);
+`save()` is a Hibernate/Spring Data method that saves the entity and returns the saved object. It can handle both insert and update operations.
 
-* **save() → returns generated ID**
-* **persist() → does not return anything**
-```
+In modern Spring Boot applications, we typically use `save()` through Spring Data JPA repositories.
 
-## 9. What is JPA and how it works?
 
-**JPA (Java Persistence API)** is a **Java specification** for managing relational data in Java applications. It allows you to **map Java objects to database tables** using annotations like `@Entity`, `@Table`, and `@Id`.
-
-JPA works by using an **EntityManager** to perform CRUD operations. You write **Java objects**, and JPA handles converting them to SQL queries and storing them in the database. Frameworks like **Hibernate** are common implementations of JPA.
+| Feature                | `persist()`           | `save()`                    |
+| ---------------------- | --------------------- | --------------------------- |
+| Defined In             | JPA (`EntityManager`) | Hibernate / Spring Data JPA |
+| Return Type            | `void`                | Entity object               |
+| Insert New Entity      | ✅                     | ✅                           |
+| Update Existing Entity | ❌                     | ✅                           |
+| Standard JPA           | ✅                     | ❌                           |
 
 
 ```java
 @Entity
-@Table(name = "users")
-public class User {
-    
+class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(name = "username")
-    private String username;
-    
-    @Column(name = "email")
-    private String email;
-    
-    // constructors, getters, setters
+    private String name;
 }
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
-}
+Employee emp = new Employee();
+emp.setName("John");
 
-@Service
-public class UserService {
-    
-    @Autowired
-    private UserRepository userRepository;
-    
-    public User createUser(String username, String email) {
-        User user = new User(username, email);
-        return userRepository.save(user); // JPA handles the SQL
-    }
-}
+entityManager.persist(emp);
 ```
+
+```java
+Employee emp = new Employee();
+emp.setName("John");
+
+employeeRepository.save(emp);
+```
+
+
+## 9. XYZ
 
 ## 10. What is the difference between DAO and DTO?
 
