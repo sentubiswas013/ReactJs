@@ -14469,10 +14469,6 @@ Response
 * Request/Response Logging
 * Security Checks
 
-**One-Line Interview Summary**
-
-> **"A Filter Chain is a series of filters that intercept and process HTTP requests and responses, allowing Spring Security to perform tasks such as authentication, authorization, and JWT validation before the request reaches the controller."**
-
 **Custom Filter Example**
 
 ```java
