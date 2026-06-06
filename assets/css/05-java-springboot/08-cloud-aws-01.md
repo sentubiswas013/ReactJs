@@ -233,7 +233,7 @@ app.get('/health', (req, res) => {
 
 # 10. What is Auto Scaling?
 
-Auto Scaling automatically increases or decreases EC2 instances based on traffic.
+Auto Scaling is a cloud feature that automatically increases or decreases the number of application instances based on traffic, CPU usage, memory usage, or other metrics. It helps maintain performance during high load and reduces cost during low traffic.
 
 Benefits:
 
@@ -247,6 +247,34 @@ Benefits:
   "MaxSize": 10,
   "DesiredCapacity": 3
 }
+```
+Suppose your application normally runs with **2 servers**.
+
+* If CPU usage goes above **80%**, Auto Scaling adds more servers.
+* If CPU usage drops below **30%**, Auto Scaling removes extra servers.
+
+```text
+Normal Traffic:
+2 Instances
+
+High Traffic:
+2 → 4 → 6 Instances
+
+Low Traffic:
+6 → 4 → 2 Instances
+```
+
+
+```yaml
+Min Instances: 2
+Desired Instances: 2
+Max Instances: 10
+
+Scale Out:
+CPU > 80% for 5 minutes
+
+Scale In:
+CPU < 30% for 10 minutes
 ```
 
 ---
