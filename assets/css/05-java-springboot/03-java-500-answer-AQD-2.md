@@ -6139,49 +6139,63 @@ List list = new ArrayList(); // Suppresses unchecked warning
 
 ## 3. What is @Target, @Documented, @Inherited?
 
-**@Target** defines **where we can use the annotation** (class, method, field, etc.).
+> These are Java meta-annotations used to define how custom annotations behave.
+>
+> * **`@Target`** specifies where an annotation can be applied.
+> * **`@Documented`** makes the annotation appear in JavaDoc documentation.
+> * **`@Inherited`** allows a child class to inherit an annotation from its parent class.
 
+---
 
-```java
-import java.lang.annotation.*;
+**1. `@Target`**
 
+> `@Target` defines where an annotation can be used, such as on a class, method, field, parameter, or constructor.
+
+```java id="kcgx59"
 @Target(ElementType.TYPE)
 @interface MyAnnotation {
 }
 ```
 
-**Use:**
-
-```java
+```java id="xysodq"
 @MyAnnotation
 class Test {
 }
 ```
 
-**@Documented** means the annotation **will appear in JavaDoc documentation**.
+**Example:** If `@Target(ElementType.TYPE)` is used, the annotation can only be applied to classes or interfaces.
 
-```java
-import java.lang.annotation.*;
+---
 
+**2. `@Documented`**
+
+> `@Documented` indicates that the annotation should be included in the generated JavaDoc documentation.
+
+```java id="yhlzmn"
 @Documented
 @Target(ElementType.TYPE)
 @interface MyAnnotation {
 }
 ```
 
+**Example:** When JavaDoc is generated, this annotation will be visible in the documentation.
 
-**@Inherited** means the annotation **can be inherited from parent class to child class**.
+---
 
-```java
-import java.lang.annotation.*;
+**3. `@Inherited`**
 
+> `@Inherited` allows a child class to automatically inherit an annotation from its parent class.
+
+```java id="lpyg1q"
 @Inherited
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @interface Role {
     String value();
 }
+```
 
+```java id="6xmxvp"
 @Role("Admin")
 class Parent {
 }
@@ -6190,7 +6204,17 @@ class Child extends Parent {
 }
 ```
 
-Child class automatically gets `@Role`.
+**Result:** The `Child` class automatically inherits the `@Role("Admin")` annotation from `Parent`.
+
+---
+
+**Easy Way to Remember**
+
+| Annotation    | Purpose                           |
+| ------------- | --------------------------------- |
+| `@Target`     | Where can the annotation be used? |
+| `@Documented` | Should it appear in JavaDoc?      |
+| `@Inherited`  | Should child classes inherit it?  |
 
 
 ## 4. What is retention policy?
