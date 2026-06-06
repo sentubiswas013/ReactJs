@@ -1,0 +1,17245 @@
+# ✅ 01. Java Basic Concepts 
+
+## 1. What is Java and what are its key features?
+
+Java is a high-level, object-oriented programming language designed for platform independence and enterprise application development. It's known for its "write once, run anywhere" philosophy.
+
+**Key Features:**
+- **Platform Independent:** Runs on any system with JVM
+- **Object-Oriented:** Based on objects and classes
+- **Simple and Secure:** Easy syntax, built-in security features
+- **Robust:** Strong memory management and exception handling
+- **Multithreaded:** Supports concurrent programming
+- **Automatic Memory Management:** Garbage collection handles memory
+
+Java compiles to bytecode that runs on the Java Virtual Machine, making it portable across different operating systems.
+
+## 2. Explain the difference between JDK, JRE, and JVM.
+
+**JVM (Java Virtual Machine)** is the runtime environment that executes Java bytecode on any platform. It’s responsible for **memory management, garbage collection, and execution**.
+
+**JRE (Java Runtime Environment)** includes the **JVM plus core libraries and classes** needed to run Java applications. It doesn’t have tools for development.
+
+**JDK (Java Development Kit)** includes **JRE plus development tools** like `javac` and `jar` for compiling and building Java programs.
+
+
+```
+JDK = JRE + Development Tools (javac, javadoc, jar, etc.)
+JRE = JVM + Core Libraries (java.lang, java.util, etc.)
+JVM = Runtime execution environment
+```
+
+**JVM Architecture  Diagram** 
+
+```text
+        Class Loader
+             ↓
+     Runtime Data Areas
+   ------------------------
+   Heap | Stack | Method Area
+   ------------------------
+             ↓
+     Execution Engine
+   (Interpreter + JIT)
+             ↓
+      Garbage Collector
+```
+
+## 3. What is the difference between Structured Programming and OOP?
+
+**Structured Programming**
+
+Structured Programming is a programming approach where the program is divided into small, manageable functions or procedures.
+It mainly focuses on **step-by-step execution of logic**.
+
+**Main Features**
+
+* Uses:
+
+  * sequence
+  * selection (`if`, `switch`)
+  * iteration (`for`, `while`)
+* Program is divided into methods/functions
+* Top-down approach
+* Data and functions are separate
+
+
+```java
+public class Calculator {
+
+    static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        int result = add(10, 20);
+        System.out.println(result);
+    }
+}
+```
+
+Here:
+
+* Logic is divided into functions
+* Execution happens step by step
+
+**Advantages**
+
+* Easy to understand
+* Easy debugging
+* Reduces duplicate code
+* Better readability
+
+**Disadvantages**
+
+* Difficult to manage large applications
+* Data security is weak
+* Code reusability is limited
+
+---
+
+**OOP (Object-Oriented Programming)**
+
+OOP is a programming paradigm based on **objects and classes**.
+It combines **data + behavior** into a single unit called an object.
+
+**Main Concepts of OOP**
+
+1. **Class**
+
+   * Blueprint of object
+
+2. **Object**
+
+   * Instance of class
+
+3. **Encapsulation**
+
+   * Wrapping data and methods together
+
+4. **Inheritance**
+
+   * One class acquires properties of another class
+
+5. **Polymorphism**
+
+   * One method behaves differently
+
+6. **Abstraction**
+
+   * Hiding implementation details
+
+---
+
+```java
+class Car {
+
+    String brand;
+
+    void start() {
+        System.out.println(brand + " Car Started");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Car c1 = new Car();
+        c1.brand = "BMW";
+
+        c1.start();
+    }
+}
+```
+
+Here:
+
+* `Car` → class
+* `c1` → object
+* Data + methods together → OOP
+
+---
+
+**Structured Programming vs OOP**
+
+| Feature           | Structured Programming | OOP                |
+| ----------------- | ---------------------- | ------------------ |
+| Focus             | Functions              | Objects            |
+| Approach          | Top-down               | Bottom-up          |
+| Data Security     | Less                   | High               |
+| Reusability       | Limited                | High               |
+| Best For          | Small applications     | Large applications |
+| Example Languages | C, Pascal              | Java, C++, Python  |
+
+
+## 3. What are the main principles of Object-Oriented Programming?
+
+**Object-Oriented Programming** is based on four fundamental principles that promote code reusability, maintainability, and modularity.
+
+**Four OOP Principles:**
+
+* **Encapsulation:** Encapsulation means binding data and methods together and protecting data using access modifiers (`private`, `protected`, `public`) and access using getters and setters.
+* **Inheritance:** Inheritance means a child class can use properties and methods of a parent class using `extends`.
+* **Polymorphism:** Polymorphism means one method can perform different actions using overloading or overriding.
+* **Abstraction:** Abstraction means hiding internal implementation and showing only necessary details using abstract class or interface.
+
+
+- **1. Encapsulation:** Data is `private` and accessed using `getter and setter methods`.
+👉 Hide data and control access. Keep data safe and access it through methods
+
+```java
+class Person {
+    private String name;   // private variable
+
+    public void setName(String name) {   // setter
+        this.name = name;
+    }
+
+    public String getName() {   // getter
+        return name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.setName("John");
+        System.out.println(p.getName());
+    }
+}
+```
+
+- **2. Inheritance:** Child class `inherits properties from parent class` using `extends`.
+👉 Reuse parent properties in child. Child gets features from parent
+
+```java
+class Animal {
+    void eat() {
+        System.out.println("Animal is eating");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog is barking");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();   // inherited method
+        d.bark();
+    }
+}
+```
+
+- **3. Polymorphism:** Method Overloading
+👉 Same method, different behavior. One thing, many forms
+```java
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println(c.add(5, 10));
+        System.out.println(c.add(5, 10, 15));
+    }
+}
+```
+
+- **4. Abstraction** abstract class or interface
+👉 Hide complexity, show only needed parts. Show what is needed, hide the rest.
+```java
+abstract class Vehicle {
+    abstract void start();   // abstract method
+}
+
+class Car extends Vehicle {
+    void start() {
+        System.out.println("Car starts with key");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        v.start();
+    }
+}
+```
+
+## 4. What is a package in Java? 
+In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
+
+```java
+package com.example.utils;
+
+public class Helper {
+    public static void printHello() {
+        System.out.println("Hello!");
+    }
+}
+```
+
+## 5. Normal, final, static, static final, volatile, abstract, transient, Serializable?
+
+**Normal Variable** Declared inside a class but outside methods.
+```java
+class Student {
+    int age = 20;   // normal variable
+}
+```
+
+**final** Once assigned, value cannot be changed.
+```java
+class Student {
+    final int age = 20;
+    age = 10;  // allowed only once
+}
+```
+
+**static** Belongs to class, not object. Only one copy in memory.
+```java
+class Student {
+    static String college = "IIT";
+}
+```
+
+**static final** Variable (Constant) in Class-level
+```java
+class Student {
+    static final double PI = 3.14;
+}
+```
+
+**volatile** is a keyword used in multithreading. it ensures variable changes are immediately visible to all threads (prevents caching issues)
+```java
+class Test {
+    volatile boolean flag = true;
+}
+```
+
+**Abstract** Abstract is only for: Classes and  Methods
+```java
+abstract class Animal {
+    abstract void sound();
+}
+```
+
+**transient** Used for serialization and but not saved. Used for sensitive data.
+```java
+public class Student implements Serializable { 
+    private String username;
+    private transient String password; // If you do NOT want a field to serialize:
+    // `transient` is a serialization keyword in Java. password will NOT be saved.
+}
+```
+
+**Serializable** is a marker interface in Java used to convert an object into a byte stream so that it can be stored, transferred, or reconstructed later.
+
+**Serialize Object**
+```java
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Employee emp = new Employee(101, "John");
+        FileOutputStream file = new FileOutputStream("employee.txt");
+
+        ObjectOutputStream out = new ObjectOutputStream(file);
+        out.writeObject(emp);
+
+        out.close();
+        file.close();
+
+        System.out.println("Object Serialized");
+    }
+}
+```
+
+**Deserialize Object**
+```java
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+
+public class ReadData {
+    public static void main(String[] args) throws Exception {
+
+        FileInputStream file = new FileInputStream("employee.txt");
+
+        ObjectInputStream in = new ObjectInputStream(file);
+        Employee emp = (Employee) in.readObject();
+
+        System.out.println(emp.id);
+        System.out.println(emp.name);
+
+        in.close();
+        file.close();
+    }
+}
+```
+
+
+
+**Difference between `transient` and `volatile`**
+
+| Feature       | `transient`                                      | `volatile`                                          |
+|---------------|--------------------------------------------------|-----------------------------------------------------|
+| Purpose       | Excludes field from **serialization**            | Ensures **visibility** of field across threads      |
+| Context       | Used with Java Serialization (`Serializable`)    | Used in multi-threaded programming                  |
+| Effect        | Field is skipped when object is serialized       | Field is always read/written from main memory       |
+| Thread safety | No effect on threads                             | Provides visibility guarantee (not atomicity)       |
+
+
+## 6. What is Instance, Static, Abstract, and Final Methods?
+
+**Instance Method:** A method that belongs to an object and is called using an instance of the class.
+```java
+class Student {
+    void study() {   // Instance method
+        System.out.println("Studying...");
+    }
+}
+
+Student s = new Student();
+s.study();   // Called using object
+```
+
+**Static Method:** A method that belongs to the class and is called using the class name.
+```java
+class Student {
+    static void schoolName() {   // Static method
+        System.out.println("ABC School");
+    }
+}
+
+Student.schoolName();   // Called using class name
+```
+
+**Abstract Method:** A method declared without a body that must be implemented by a subclass.
+```java
+abstract class Animal {
+    abstract void sound();   // Abstract method
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+**Final Method:** A method that cannot be overridden by a subclass.
+```java
+class Animal {
+    final void breathe() {   // Final method
+        System.out.println("Breathing...");
+    }
+}
+
+class Dog extends Animal {
+    // void breathe() {}  ❌ Not allowed (Compile-time error)
+}
+```
+
+## 7. How do you read user input from the console in Java?
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        System.out.println("You entered: " + input);
+
+        scanner.close();
+    }
+}
+```
+
+## 8. How do you iterate through a collection in Java?
+```java
+// Example using for-each loop:
+List<String> fruits = Arrays.asList("Apple", "Banana", "Orange");
+for (String fruit : fruits) {
+   System.out.println(fruit);
+}
+// Example using regular for loop:
+for (int i = 0; i < fruits.size(); i++) {
+   System.out.println(fruits.get(i));
+}
+```
+
+
+
+# ✅ 02. Java Data Types and Variables
+
+## 1. What are data types in Java?
+
+**Answer:**
+There is two type of data Primitive Data and Non-Primitive Data
+
+**8 Primitive Data :**
+- **byte** - 8-bit integer (-128 to 127)
+- **short** - 16-bit integer (-32,768 to 32,767)
+- **int** - 32-bit integer (most commonly used)
+- **long** - 64-bit integer (add 'L' suffix)
+- **float** - 32-bit decimal (add 'f' suffix)
+- **double** - 64-bit decimal (default for decimals)
+- **char** - 16-bit Unicode character
+- **boolean** - true or false
+
+**8 Non-Primitive Data :**
+- **String** - Used to store text
+- **Array** - Used to store multiple values
+- **Class** - Blueprint for objects
+- **Interface** - Defines method structure for classes
+
+**Example:**
+```java
+int age = 25;
+double salary = 50000.50;
+char grade = 'A';
+boolean isActive = true;
+long population = 1000000L;
+```
+
+## 2. What is the difference between primitive and non primitive(reference types)?
+**Primitive types** in Java, like int, double, and boolean, store actual values in memory and are stored on the stack. They are fast and have a fixed size.
+
+**Reference types**, like objects, arrays, and strings, store a reference or memory address pointing to the actual data in the heap. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
+
+```java
+int x = 10;        // primitive - stores value 10
+String name = "John"; // reference - stores address to "John" object
+```
+## 3. What is autoboxing and unboxing and Casting?
+
+**Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
+  ```java
+  int num = 10;
+  Integer numObj = num;  // Autoboxing: int → Integer
+  ```
+
+**Unboxing** is the automatic conversion of a **wrapper class** back to its **primitive type**.
+  ```java
+  Integer numObj = 20;
+  int num = numObj;  // Unboxing: Integer → int
+  ```
+
+**Casting** in Java means **converting one data type into another data type**.
+```java
+double a = 10.5;
+int b = (int) a;  // Manual casting
+System.out.println(b); // 10
+```
+
+## 4. What is the difference between == and equals() method?
+
+**`==` operator:**
+The `==` operator is used to compare **references** of two objects. It checks whether both variables point to the **same memory location**. For primitive data types, it compares the **actual values**.
+
+**`equals()` method:**
+The `equals()` method is used to compare the **content or logical value** of two objects. It is defined in the `Object` class and can be **overridden** by classes (like `String`) to provide meaningful value-based comparison.
+
+
+**Examples:**
+
+```java
+// Using ==
+String s1 = new String("Hello");
+String s2 = new String("Hello");
+System.out.println(s1 == s2); // false, different objects
+
+// Using equals()
+System.out.println(s1.equals(s2)); // true, content is the same
+
+// With primitives
+int a = 5, b = 5;
+System.out.println(a == b); // true, values are equal
+```
+
+## 5. What is the difference between String, StringBuilder, and StringBuffer?
+* **`String`** is **immutable**, meaning every modification creates a **new object**. It’s thread-safe but can be inefficient for repeated changes.
+
+* **`StringBuilder`** is **mutable** and allows **fast modifications** of strings. It is **not thread-safe**, so it’s suitable for single-threaded operations.
+
+* **`StringBuffer`** is also **mutable** but **thread-safe** because its methods are synchronized. It’s slightly slower than `StringBuilder` due to synchronization overhead.
+
+```java
+// String - creates new objects
+String s = "Hello";
+s.concat(" World");
+System.out.println(s);
+
+// StringBuilder - modifies existing buffer
+StringBuilder sb = new StringBuilder("Hello");
+sb.append(" World");
+System.out.println(sb);
+
+// StringBuffer (Mutable, Thread-safe)
+StringBuffer sb = new StringBuffer("Hello");
+sb.append(" World");
+System.out.println(sb);
+```
+
+## 6. what is immutable and Why are strings immutable in Java?
+
+Immutable means **once an object is created, its state (data) cannot be changed**. If you try to change it, a **new object is created instead of modifying the existing one**.
+
+**Strings are immutable in Java because:**
+
+1. **String Pool memory optimization**
+2. **Thread safety**
+3. **HashMap key reliability (hashcode caching)**
+4. **Security (class loading, file paths, URLs)**
+
+
+In Java, **strings are immutable**, meaning once a `String` object is created, its value **cannot be changed**.
+
+- **Security:** Prevents malicious code from changing string values
+- **Thread Safety:** Multiple threads can access without synchronization
+- **String Pool:** Enables efficient memory usage through sharing
+- **Hashcode Caching:** Hash values remain constant for HashMap keys
+- **Performance:** JVM optimizations possible
+
+**Example:**
+
+```java
+String s1 = "Hello";
+String s2 = s1;      // Both point to same object
+
+s1 = s1 + " World";  // Creates a new String object
+System.out.println(s1); // Hello World
+System.out.println(s2); // Hello
+```
+
+## 7. What is the difference between final, finally, and finalize?
+
+- **final:** Keyword for constants, preventing inheritance/override
+- **finally:** Block that always executes after try-catch
+- **finalize:** Method called by garbage collector before object destruction
+
+```java
+// final
+final int MAX_SIZE = 100;
+final class MyClass { }
+
+// finally
+try {
+    // code
+} catch (Exception e) {
+    // handle exception
+} finally {
+    // always executes
+}
+
+// finalize
+protected void finalize() {
+    // cleanup before garbage collection
+}
+```
+
+
+**final** is for immutability, **finally** for cleanup code, **finalize** for garbage collection (rarely used).
+
+## 8. What is string pooling?
+
+String pooling is Java's memory optimization technique where identical string literals share the same memory location in the String Pool (part of heap memory).
+
+**String is immutable** in Java because it provides security, thread safety, String pool optimization, and better HashMap performance. Once a String object is created, its value cannot be changed; any modification creates a new object instead.
+
+```java
+String a = "hello";    // stored in string pool
+String b = "hello";    // reuses same memory location
+String c = new String("hello"); // creates new object in heap
+
+System.out.println(a == b);  // true - same reference
+System.out.println(a == c);  // false - different references
+--------------------------
+String str1 = "Hello";
+String str2 = "Hello";
+String str3 = new String("Hello");
+
+System.out.println(str1 == str2);      // true
+System.out.println(str1 == str3);      // false
+System.out.println(str1.equals(str2)); // true
+System.out.println(str1.equals(str3)); // true
+```
+
+## 9. What is coercion in Java?
+
+**Coercion in Java** is the process of converting a value from one data type to another, either automatically by the compiler or manually by the programmer, to make data types compatible in expressions or assignments.
+
+
+```java
+int num = 10;
+double result = num; // Automatic coercion - int to double
+
+double d = 10.5;
+int i = (int) d; // Explicit casting required - double to int
+```
+
+## 10. What is instance of in java
+
+**`instanceof`** in Java is an **operator** used to check whether an object is an **instance of a specific class or interface**. it is introduce in Java 16+
+
+
+```java
+class Animal {}
+class Dog extends Animal {}
+
+Animal a = new Dog();
+
+System.out.println(a instanceof Dog);    // true
+System.out.println(a instanceof Animal); // true
+```
+
+## 11. What is Predicate in java
+
+In Java, a **Predicate** is a functional interface used to **test a condition** and return a boolean result (**true or false**).
+
+It is part of the java.util.function package (introduced in Java 8).
+
+
+** Real-Time Example (Filtering)**
+
+```java
+List<String> names = Arrays.asList("John", "Sam", "Alex");
+
+Predicate<String> startsWithA = name -> name.startsWith("A");
+
+names.stream()
+     .filter(startsWithA)
+     .forEach(System.out::println);  // Output: Alex
+```
+
+## 12. What is `hashCode()` in Java amd How does equals() and hashCode()?
+
+**`hashCode()`** is used to generate a hash value for an object and is used internally by HashMap, HashSet for fast retrieval. If two objects are equal, their hashCode must be equal.
+
+
+```java
+class Test {
+    public static void main(String[] args) {
+        String a = new String("Hello");
+        String b = new String("Hello");
+
+        System.out.println(a.equals(b));   // true
+        System.out.println(a.hashCode()); // same
+        System.out.println(b.hashCode()); // same
+    }
+}
+```
+
+**Important Rule Table**
+
+| Condition         | Rule                     |
+| ----------------- | ------------------------ |
+| equals() true     | hashCode must be same    |
+| hashCode same     | equals may be true/false |
+| equals overridden | hashCode must override   |
+
+**How does equals() and hashCode()**
+
+In Java, the `equals()` and `hashCode()` methods work together to ensure that objects can be compared for equality and stored efficiently in hash-based collections like `HashMap` and `HashSet`.
+- **equals()** checks if two objects are logically equal (same content).
+- **hashCode()** generates an integer hash code for the object, which is used to determine the bucket location in hash-based collections.
+When you override `equals()`, you must also override `hashCode()` to maintain the contract that equal objects must have the same hash code. This ensures that collections like `HashMap` can retrieve objects correctly.
+
+
+
+## 13. How to Override the hashCode Method Properly in Java?
+
+To override the `hashCode()` method properly in Java, you should follow these guidelines:
+1. **Use the same fields** that are used in the `equals()` method to compute the hash code.
+2. **Use a consistent algorithm** to combine the hash codes of the fields, such as multiplying by a prime number.
+
+* ✔ Used **same fields (`name`, `age`) in both `equals()` and `hashCode()`**
+* ✔ Used `Objects.hash()` (clean and modern)
+* ✔ Proper `equals()` implementation (`instanceof`, null-safe)
+
+```java
+// import java.util.Objects;
+
+class Person {
+    private String name;
+    private int age;
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof Person person)) return false;
+        return age == person.age && Objects.equals(name, person.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+}
+```
+
+
+## 14. What is `var` keyword in Java(10)?
+
+**var** in Java 10 is used for local variable type inference. It means the compiler automatically detects the type based on the value assigned, so we don’t need to explicitly declare the type.
+
+```java
+var name = "Kali";     // String
+var age = 25;          // int
+var list = List.of(1,2,3); // List<Integer>
+
+// Compiler converts it internally:
+String name = "Kali";
+int age = 25;
+List<Integer> list = List.of(1,2,3);
+```
+
+## 15. Summary Data Types and Variables
+
+**🔹 Data Types**
+
+* **Data Type:** Specifies what type of value a variable can store.
+* **Primitive Data Types:** Basic types that store actual values (int, float, char, boolean).
+* **Non-Primitive Data Types:** Store references to objects (String, Arrays, Classes).
+* **Type Casting:** Converting one data type to another (implicit/explicit).
+
+
+**🔹 Variables**
+
+* **Variable:** A named memory location used to store data.
+* **Local Variable:** Declared inside a method and accessible only within it.
+* **Instance Variable:** Declared inside a class, unique for each object.
+* **Static Variable:** Shared among all objects of a class.
+* **Final Variable:** Value cannot be changed once assigned (constant).
+
+
+**🔹 Memory Concept**
+
+* **Primitive Variables:** Stored directly in stack memory.
+* **Reference Variables:** Stored in stack but point to objects in heap memory.
+
+
+# ✅ 03. Java Classes and Objects
+
+
+## 1. What is the difference between this and super keywords?
+
+**this** refers to the current object instance,  
+**super** refers to the immediate parent class object.
+
+```java
+class Parent {
+    String name = "Parent";
+}
+
+class Child extends Parent {
+    String name = "Child";
+    
+    void display() {
+        System.out.println(this.name);  // Child
+        System.out.println(super.name); // Parent
+    }
+}
+```
+
+## 2. What is method overloading?
+
+Method overloading is a feature in Java where multiple methods have the **same name** but **different parameter lists** (different number, type, or order of parameters) in the same class.
+
+```java
+class Calculator {
+    int    add(int a, int b)          { return a + b; }
+    double add(double a, double b) { return a + b; }
+    int    add(int a, int b, int c)   { return a + b + c; }
+}
+```
+
+## 3. What is method overriding?
+
+**Method overriding** is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
+
+
+```java
+class Animal {
+    void sound() { System.out.println("Some sound"); }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() { System.out.println("Dog barks"); }
+}
+
+Animal a = new Dog();
+a.sound(); // Dog barks
+```
+
+
+## 4. What is a class in Java?
+
+A class is a blueprint or template used to create objects. It defines properties(fields) and behavior(methods).
+
+```java
+class Car {
+    String color;
+    void drive() {
+        System.out.println("Car is driving");
+    }
+}
+```
+
+
+## 5. What is class loader and how do they work?
+
+A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
+
+
+**How ClassLoader Works :**
+
+Java follows a **Delegation Hierarchy Model**:
+
+1. **Bootstrap ClassLoader** Loads core Java classes (e.g., `java.lang.*`)
+2. **Extension (Platform) ClassLoader** Loads classes from `jre/lib/ext`
+3. **Application (System) ClassLoader** Loads classes from classpath
+
+
+## 6. How do you create an immutable class in Java?
+
+An immutable class in Java is a class whose objects cannot be changed after they are created. To create an immutable class:
+
+1. Make the class `final` so it cannot be subclassed.
+2. Make all fields `private` and `final`.
+3. Do not provide setters.
+4. Initialize fields through constructor.
+5. Return copies of mutable objects (defensive copy).
+
+**Use Case:**
+Immutable classes are useful for thread safety, caching, and as keys in collections. Examples include `String`, `Integer`, and `LocalDate` in Java.
+
+```java
+// Immutable class
+final class Student {
+    private final String name;
+    
+    
+    public Student(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+}
+```
+
+
+## 7. What is an object?
+
+An object is an instance of a class. It represents real-world entities.
+
+```java
+Car myCar = new Car();  //  // myCar is an object of class Car
+```
+
+
+## 8. Difference between class and object?
+
+Class is a blueprint, object is the actual implementation of that blueprint.
+
+* Class → logical
+* Object → physical (exists in memory)
+
+| Class | Object |
+|-------|--------|
+| Blueprint / template | Instance of a class |
+| Logical entity | Physical entity (exists in memory) |
+| Declared once | Can be created many times |
+| No memory at declaration | Memory allocated on `new` |
+
+```java
+class Dog { }           // class — blueprint
+Dog d = new Dog();      // object — actual instance
+```
+
+## 9. How to create a class and object?
+
+We create a class using `class` keyword and object using `new` keyword.
+
+```java
+class Student {
+    String name;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s = new Student(); // object created
+        s.name = "John";
+        System.out.println(s.name);
+    }
+}
+```
+
+
+## 10. What are instance variables and methods?
+
+- **Instance variables** — fields declared inside a class but outside methods. Each object gets its own copy.
+- **Instance methods** — methods that operate on instance variables. Require an object to be called.
+
+```java
+class Employee {
+    String name;    // instance variable
+    int salary;     // instance variable
+
+    void work() {   // instance method
+        System.out.println(name + " is working");
+    }
+}
+
+Employee e = new Employee();
+e.name = "Bob";
+e.work();   // Bob is working
+```
+
+## 11. What is a constructor? Types?
+
+A constructor is a **special method** with the same name as the class, used to **initialize objects**. It has no return type and is called automatically when an object is created.
+
+**Types:**
+
+* Default
+* Parameterized
+
+```java
+class Student {
+    String name;
+
+    Student() { // default
+        name = "Unknown";
+    }
+
+    Student(String n) { // parameterized
+        name = n;
+    }
+}
+```
+
+
+## 12. What is default constructor?
+
+A constructor with no parameters. If we don’t create one, Java provides it automatically.
+
+```java
+class Box { int width; }
+
+Box b = new Box();              // default constructor called
+System.out.println(b.width);   // 0
+```
+
+
+## 5. What is the static keyword?
+
+**`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
+
+**Used for:**
+- Static variables (shared state)
+- Static methods (utility methods)
+- Static blocks (one-time initialization)
+- Static nested classes
+
+```java
+class Counter {
+    static int count = 0;   // shared across all objects
+
+    Counter() { count++; }
+
+    static void showCount() {
+        System.out.println("Count: " + count);
+    }
+}
+
+new Counter(); new Counter(); new Counter();
+Counter.showCount();   // Count: 3
+```
+
+`static` members are **shared by all objects and can be accessed using the class name**.
+
+
+
+## 14. Difference: static vs non-static?
+
+Static belongs to class, non-static belongs to object.
+
+| Static | Non-Static |
+|--------|-----------|
+| Belongs to the class | Belongs to the object |
+| Shared across all instances | Separate copy per object |
+| Accessed via class name | Accessed via object reference |
+| Cannot access `this` | Can access `this` |
+| Loaded at class loading time | Created when object is created |
+
+```java
+class Demo {
+    static int x = 10;   // static
+    int y = 20;          // non-static
+
+    static void show() { System.out.println(x); }   // static method
+    void display()     { System.out.println(y); }   // non-static method
+}
+
+Demo.show();              // no object needed
+new Demo().display();     // object needed
+```
+
+
+## 15. Can a class have multiple constructors?
+
+Yes. This is called **constructor overloading** — multiple constructors with different parameter lists.
+
+```java
+class Student {
+    Student() {}
+    Student(String name) {}
+    Student(int age) {}
+}
+```
+
+
+## 16. Can a constructor be final, static, or abstract in Java?
+
+No, a constructor cannot be **final, static, or abstract**.
+
+**Why:**
+
+* **final** → Constructor is not inherited, so it cannot be overridden.
+* **static** → Static belongs to class, but constructor is used to create object.
+* **abstract** → Abstract methods have no body, but constructor must have a body.
+
+
+
+## 17. Can we make a class `final`? Why?
+
+Yes. A `final` class **cannot be extended (subclassed)**. Used to:
+- Prevent inheritance for security (e.g., `String`, `Integer`)
+- Ensure immutability
+- Prevent unintended behavior changes
+
+```java
+final class Constants {
+    static final double PI = 3.14159;
+}
+
+// class MyConstants extends Constants { }  // ❌ Compile error
+```
+
+
+## 18. Can we make a class `abstract`?
+
+Yes, abstract class cannot be instantiated and can have abstract and non-abstract methods.
+
+```java
+abstract class Animal {
+    abstract void sound();            // must be implemented by subclass
+    void display() {                 // concrete method
+        System.out.println("Area: " + area());
+    }
+}
+```
+
+
+## 19. What is the difference between interface and abstract class?
+
+An **interface** is used to define a **contract** that classes must implement. It mainly contains **abstract methods**, and variables are **public, static, and final by default**.
+
+```java
+interface Animal {
+    void sound();   // abstract method
+}
+
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+An **abstract class** is used when classes share **common behavior and state**. It can have **abstract methods and concrete methods**, and it can also have **instance variables and constructors**.
+
+```java
+abstract class Animal {
+    abstract void sound();   // abstract method
+
+    void eat() {             // concrete method
+        System.out.println("Animal is eating");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+
+## 20. Can a class be both abstract and final? 
+
+**No.** `abstract` requires the class to be subclassed (to implement abstract methods), while `final` prevents subclassing. They directly contradict each other — Java gives a compile error.
+
+
+## 21. What is inner class? Types?
+
+Inner class is a class inside another class, used for better grouping.
+
+**Types:**
+
+* Member inner class
+* Static nested class
+* Local inner class
+* Anonymous class
+
+```java
+class Outer {
+    class Inner {
+        void show() {
+            System.out.println("Inner class");
+        }
+    }
+}
+```
+
+
+## 22. What is singleton class?
+
+A singleton class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
+
+
+
+
+```java
+// **How to Create**
+
+// 1. Create class // class Singleton {}
+// 2. Create One Static Instance Variable // private static Singleton instance
+// 2. Constructor Must Be private  // private Singleton() { } 
+// 3. Provide Public Static Method  //public static Singleton getInstance() {}
+
+class Singleton {
+    private static Singleton instance;
+
+    private Singleton() { }   // private constructor
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+// How t use
+public class Test {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1 == s2); // true (same object)
+    }
+}
+```
+
+## 23. Is it allowed to overload main() method in Java?
+
+**Yes, the `main()` method can be overloaded** in Java.
+
+The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
+
+```java
+public class Test {
+    public static void main(String[] args) { } // JVM entry point
+    public static void main(int x) { }         // Overloaded
+    public static void main() { }              // Overloaded
+}
+```
+
+
+## 24. Is it allowed to override main() method in Java?
+
+**No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
+
+* The `main()` method is:
+
+  ```java
+  public static void main(String[] args)
+  ```
+* Since it is **static**, it belongs to the class, not the object.
+* Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
+
+
+
+## 25. Can you override static methods?
+
+No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
+
+```java
+class Parent {
+    static void display() { System.out.println("Parent"); }
+}
+
+class Child extends Parent {
+    static void display() { System.out.println("Child"); } // Hiding, not overriding
+}
+
+Parent p = new Child();
+p.display(); // Prints "Parent" - based on reference type
+```
+
+
+## 26. Is it possible to execute a program without defining a main() method?
+
+It is **technically possible** to run code in a **static block** without a `main()` method, but **modern Java requires `main()`** as the entry point.
+
+Using static blocks alone is **not recommended** and violates standard practices.
+
+```java
+class NoMain {
+    static {
+        System.out.println("Executing without main");
+        System.exit(0); // Required to prevent error
+    }
+}
+// Works in older Java versions, not recommended
+```
+
+
+## 27. Can we create object without `new` keyword?
+
+Yes, using methods like clone(), factory methods, reflection, or deserialization.
+
+```java
+// Example using clone
+class A implements Cloneable {
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+```
+
+
+## 28. What happens if a class has no constructor?
+
+Java automatically provides a **default no-argument constructor** that calls `super()` implicitly. All fields are initialized to their default values (`0`, `null`, `false`).
+
+```java
+class Box { int width; }       // Java adds: Box() { super(); }
+
+Box b = new Box();             // works fine
+System.out.println(b.width);  // 0
+```
+
+
+## 29. Can a class be private or protected?
+
+Top-level class cannot be private or protected, only public or default. Inner classes can be private/protected.
+
+```java
+class Outer {
+    private class Inner { }      // ✅ allowed
+    protected class Helper { }   // ✅ allowed
+}
+
+// private class TopLevel { }   // ❌ compile error
+```
+
+
+## 30. What happens if a static block throws an unchecked exception?
+
+If a static block throws an unchecked exception:
+
+* Class will **fails to load**
+* JVM will throws **ExceptionInInitializerError**
+* Program stops and class cannot be used
+
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Test t = new Test();
+    }
+}
+
+class Test {
+    static {
+        System.out.println("Static block running");
+        int x = 10 / 0; // ArithmeticException
+    }
+}
+
+// Output:
+Exception in thread "main" java.lang.ExceptionInInitializerError
+```
+
+## 31. Summary Classes and Objects
+
+**🔹 Class**
+
+* **Class:** A blueprint/template used to create objects.
+* **Fields (Variables):** Represent the state of the object.
+* **Methods:** Define the behavior of the object.
+* **Constructor:** Special method used to initialize object values.
+
+
+**🔹 Object**
+
+* **Object:** Instance of a class with state and behavior.
+* **State:** Represented by variables (data).
+* **Behavior:** Represented by methods (functions).
+* **Memory:** Objects are created in heap memory.
+
+
+**🔹 Key Concepts**
+
+* **Encapsulation:** Wrapping data and methods together and restricting access using private/public.
+* **this keyword:** Refers to the current object.
+* **new keyword:** Used to create an object.
+
+
+
+# ✅ 04. Java Inheritance 
+
+## 1. What is Inheritance in Java?
+
+Inheritance is a feature where one class **gets properties and methods of another class** using the `extends` keyword. It promotes **code reuse** and establishes an IS-A relationship..
+
+👉 *In simple words:* child class uses parent class code.
+
+```java
+class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Barking...");
+    }
+}
+
+Dog d = new Dog();
+d.eat();    // inherited from Animal
+d.bark();   // own method
+```
+
+
+## 2. Why doesn't Java support multiple inheritance (with classes)?
+
+Java does not support multiple inheritance with **classes** to avoid the **Diamond Problem** and complexity.
+But Java does support multiple inheritance with **interfaces**.
+
+```java
+class A {
+    void show() {
+        System.out.println("From class A");
+    }
+}
+
+class B extends A {
+}
+
+class C extends A {
+}
+
+class D extends B, C {   // ❌ Not allowed in Java
+    public static void main(String[] args) {
+        D obj = new D();
+        obj.show();  // Which show()? From B or C?
+    }
+}
+```
+
+## 3. What is the diamond problem?
+
+The diamond problem occurs when a class inherits from two classes that both inherit from the same base class, creating ambiguity about which method to call.
+
+```
+    A
+   / \
+  B   C
+   \ /
+    D
+```
+
+If classes B and C both override a method from A, and D inherits from both B and C, which version should D use? This creates confusion and compilation errors.
+
+## 3. How does Java solve the diamond problem?
+
+Java solves the **diamond problem** by not allowing multiple class inheritance but supporting multiple interface inheritance with **default methods**.
+
+
+```java
+interface A { default void method() { } }
+interface B { default void method() { } }
+
+class C implements A, B {
+    @Override
+    public void method() {
+        A.super.method(); // Explicitly choose which to call
+    }
+}
+```
+
+
+## 4. Why do we use Inheritance?
+
+We use inheritance to:
+
+- **Code reuse** — avoid writing the same code in multiple classes
+- **Method overriding** — customize parent behavior in child
+- **Polymorphism** — treat child objects as parent type
+- **Maintainability** — change in parent reflects in all children
+
+👉 *Example:* Dog already gets `eat()` from Animal, no need to rewrite it.
+
+
+## 5. What is `extends` keyword?
+
+`extends` is used to **inherit a class** in Java. The child class gets all non-private members of the parent class.
+
+```java
+class Parent {
+    void display() { System.out.println("Parent"); }
+}
+
+class Child extends Parent {
+    void show() { System.out.println("Child"); }
+}
+
+Child c = new Child();
+c.display();   // inherited
+c.show();      // own
+```
+
+## 6. What is IS-A Relationship?
+
+IS-A is an inheritance relationship — it means **one object is a type of another**. Implemented using `extends` or `implements`. Used to check with `instanceof`.
+
+```java
+class Animal { }
+class Dog extends Animal { }
+
+Dog d = new Dog();
+System.out.println(d instanceof Dog);     // true
+System.out.println(d instanceof Animal);  // true — Dog IS-A Animal
+```
+
+
+## 6. What is HAS-A (Composition) Relationship?
+
+A **HAS-A** relationship is achieved by creating an object reference of one class inside another class.
+
+It represents:
+
+* **Composition** (strong relationship)
+* **Aggregation** (weak relationship)
+
+
+**Composition** is a strong HAS-A relationship where one class completely owns another class object.
+
+If the parent object is destroyed, the child object also cannot exist independently.
+
+```java
+class Engine {
+    void start() {
+        System.out.println("Engine Started");
+    }
+}
+
+class Car {
+    // Composition (Car HAS-A Engine)
+    private Engine engine;
+
+    Car() {
+        engine = new Engine();
+    }
+
+    void drive() {
+        engine.start();
+        System.out.println("Car is moving");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.drive();
+    }
+}
+```
+
+
+**Composition vs Inheritance**
+
+| Composition               | Inheritance        |
+| ------------------------- | ------------------ |
+| HAS-A                     | IS-A               |
+| Flexible                  | Tight coupling     |
+| Reuse by object           | Reuse by extending |
+| Example: Car HAS-A Engine | Dog IS-A Animal    |
+
+
+## 7. What is Method Overriding?
+
+Method overriding is when a **child class provides its own implementation** of a method already defined in the parent class with the **same name, return type, and parameters**.
+
+```java
+class Animal {
+    void sound() { System.out.println("Some sound"); }
+}
+
+class Cat extends Animal {
+    @Override
+    void sound() { System.out.println("Cat meows"); }
+}
+
+Animal a = new Cat();
+a.sound();   // Cat meows — runtime decision
+```
+
+
+## 8. Types of Inheritance in Java
+
+| Type | Description |
+|------|-------------|
+| Single | One parent → one child |
+| Multilevel | A → B → C (chain) |
+| Hierarchical | One parent → multiple children |
+| Multiple | Not supported with classes; supported via interfaces |
+| Hybrid | Combination — only via interfaces |
+
+```java
+// Single
+class A { }  
+class B extends A { }
+
+// Multilevel
+class C extends B { }
+
+// Hierarchical
+class D extends A { }  
+class E extends A { }
+```
+
+
+## 9. Does Java support Multiple Inheritance? Why?
+
+❌ No, Java does not support multiple inheritance with classes.
+
+👉 *Reason:* To avoid **ambiguity problem (Diamond problem)**.
+
+✅ But it supports it using **interfaces**.
+
+
+## 10. What is Multilevel Inheritance?
+
+When a class inherits from a class, which already inherits another class.
+
+```java
+class Animal {
+    void eat() {}
+}
+
+class Dog extends Animal {
+    void bark() {}
+}
+
+class Puppy extends Dog {
+    void weep() {}
+}
+```
+
+
+## 11. What is Hierarchical Inheritance?
+
+Multiple child classes inherit from one parent class.
+
+```java
+class Animal {
+    void eat() {}
+}
+
+class Dog extends Animal {}
+class Cat extends Animal {}
+```
+
+## 12. Can we override static methods?
+
+❌ No, Static methods are **not overridden**, they are **hidden**.
+
+```java
+class Parent {
+    static void show() { 
+        System.out.println("Parent"); 
+    }
+}
+
+class Child extends Parent {
+    static void show() { 
+        System.out.println("Child"); 
+    }  // hiding
+}
+
+Parent p = new Child();
+p.show();   // Parent — reference type decides, not object type
+```
+
+
+## 13. Can we override final methods?
+
+❌ No, Final methods cannot be changed in child class.
+
+```java
+class Animal {
+    final void run() {}
+}
+
+class Dog extends Animal {
+    // void run() { }  ❌ Error: cannot override final method
+}
+```
+
+
+## 14. What is polymorphism?
+
+**Polymorphism** means **"many forms"**. It allows the same method or interface to behave differently depending on the object.
+
+- Poly - many
+- Morphism - Behaviour
+
+```java
+Animal animal = new Dog(); // Upcasting
+animal.sound();
+
+Reference type = Animal
+Object type = Dog
+```
+
+**Benefits**
+
+* Code reusability
+* Flexibility
+* Loose coupling
+* Easier maintenance
+* Extensibility
+
+**Types of Polymorphism**
+
+**1. Compile-Time Polymorphism (Method Overloading)**
+
+The method name is the same, but parameters are different.
+
+```java
+class Calculator {
+
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+
+        System.out.println(c.add(10, 20));      // 30
+        System.out.println(c.add(10.5, 20.5));  // 31.0
+    }
+}
+```
+
+**2. Runtime Polymorphism (Method Overriding)**
+
+A child class provides its own implementation of a method defined in the parent class.
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal a1 = new Dog();
+        Animal a2 = new Cat();
+
+        a1.sound(); // Dog barks
+        a2.sound(); // Cat meows
+    }
+}
+```
+
+Here, the **reference type** is `Animal`, but the **object type** is `Dog`. At runtime, Java calls `Dog`'s `sound()` method. This is **runtime polymorphism** (dynamic method dispatch).
+
+**Real-Time Example**
+
+Consider a payment system:
+
+```java
+interface Payment {
+    void pay();
+}
+
+class CreditCardPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid using Credit Card");
+    }
+}
+
+class UPIPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid using UPI");
+    }
+}
+```
+
+Usage:
+
+```java
+Payment payment = new UPIPayment();
+payment.pay();
+```
+
+The same `pay()` method behaves differently depending on the actual object.
+
+
+
+## 14. What is Dynamic Method Dispatch?
+
+
+
+**Dynamic Method Dispatch** is the mechanism by which a call to an **overridden method** is resolved at **runtime**, not at compile time.
+
+It is the foundation of **runtime polymorphism** in Java.
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal animal = new Dog(); // Upcasting
+        animal.sound();
+
+        Reference type = Animal
+        Object type = Dog
+    }
+}
+// Output: Dog barks
+```
+
+**How It Works**
+
+At compile time:
+
+```java
+Animal animal = new Dog();
+```
+
+* Reference type = `Animal`
+* Object type = `Dog`
+
+The compiler checks whether `sound()` exists in `Animal` (it does).
+
+At runtime:
+
+```java
+animal.sound();
+```
+
+Java looks at the **actual object type** (`Dog`) and calls `Dog`'s overridden method.
+
+This runtime decision-making is called **Dynamic Method Dispatch**.
+
+
+
+## 15. How does method overriding work internally?
+
+JVM uses dynamic method dispatch. It decides method call at runtime based on actual object, not reference.
+
+```
+Parent ref → points to Child object
+JVM checks Child's vtable → finds overridden method → calls Child's version
+```
+
+This is why `Animal a = new Dog(); a.sound();` calls `Dog`'s `sound()`, not `Animal`'s.
+
+
+## 16. What are rules for method overriding?
+
+Same name, same parameters, same or covariant return type, and cannot reduce access level.
+
+* Cannot override `final`, `static`, `private`
+* Access modifier can be same or more open
+
+| Rule | Detail |
+|------|--------|
+| Same method name | Must match exactly |
+| Same parameters | Same type, number, order |
+| Return type | Same or covariant (subtype) |
+| Access modifier | Same or more accessible (not more restrictive) |
+| Exceptions | Can throw fewer/narrower checked exceptions |
+| Cannot override | `static`, `final`, `private` methods |
+
+```java
+class Parent {
+    protected Number getValue() throws Exception { return 1; }
+}
+
+class Child extends Parent {
+    @Override
+    public Integer getValue() { return 42; }  // ✅ covariant return, wider access, fewer exceptions
+}
+```
+
+
+## 17. What is covariant return type?
+
+Child class can return a more specific type than parent method.
+
+```java
+class A {}
+class B extends A {}
+
+class Parent {
+    A get() { return new A(); }
+}
+
+class Child extends Parent {
+    B get() { return new B(); } // allowed
+}
+```
+
+
+## 18. Can constructors be inherited?
+
+**No.** Constructors are not inherited because they are tied to the class they belong to. 
+However, a child class can **call the parent constructor** using `super()`.
+
+```java
+class Animal {
+    Animal(String name) { System.out.println("Animal: " + name); }
+}
+
+class Dog extends Animal {
+    Dog(String name) {
+        super(name);   // explicitly calling parent constructor
+        System.out.println("Dog: " + name);
+    }
+}
+```
+
+
+## 19. What is the order of constructor execution?
+
+Parent constructor executes first, then child constructor.
+
+```java
+class A {
+    A() { System.out.println("Parent"); }
+}
+
+class B extends A {
+    B() { System.out.println("Child"); }
+}
+
+//Output:
+Parent
+Child
+```
+
+
+## 20. What happens if parent constructor is not called?
+
+Java automatically calls default parent constructor using super().
+
+```java
+class A {
+    A() { System.out.println("Parent"); }
+}
+
+class B extends A {
+    B() {
+        // super() is added automatically
+        System.out.println("Child");
+    }
+}
+```
+
+
+## 21. Can we extend multiple classes in Java?
+
+**No.** Java does not support extending multiple classes. A class can only extend **one** class. For multiple inheritance of behavior, use **interfaces**.
+
+```java
+// class C extends A, B { }  // ❌ Not allowed
+
+interface A { void methodA(); }
+interface B { void methodB(); }
+
+class C implements A, B {    // ✅ multiple interfaces allowed
+    public void methodA() { }
+    public void methodB() { }
+}
+```
+
+
+## 22. Can we inherit private members?
+
+**Yes, they are inherited** but **not directly accessible** in the child class. They can be accessed indirectly through `public` or `protected` getter/setter methods.
+
+```java
+class Parent {
+    private int secret = 42;
+    int getSecret() { return secret; }   // public accessor
+}
+
+class Child extends Parent {
+    void show() {
+        // System.out.println(secret);      // ❌ not accessible
+        System.out.println(getSecret());    // ✅ accessed via method
+    }
+}
+```
+
+
+## 23. Can we override private methods?
+
+“No, private methods are not visible, so they cannot be overridden.
+
+```java 
+class A {
+    private void show() {}
+}
+
+class B extends A {
+    // void show() {} ❌ not overriding, new method
+}
+```
+
+
+## 24. Can we change access modifier while overriding?
+
+**Yes, but only to increase visibility** (make it more accessible). You cannot reduce the access level.
+
+| Parent Modifier | Allowed in Child |
+|----------------|-----------------|
+| `private` | Cannot override |
+| `default` | `default`, `protected`, `public` |
+| `protected` | `protected`, `public` |
+| `public` | `public` only |
+
+```java
+class Parent {
+    protected void show() { }
+}
+
+class Child extends Parent {
+    @Override
+    public void show() { }    // ✅ widened from protected to public
+
+    // private void show() { }  // ❌ narrowed — compile error
+}
+```
+
+## 25. What happens if parent and child have same variable name?
+
+This is called **variable hiding**. The variable accessed depends on the **reference type**, not the object type. Unlike methods, variables do not follow runtime polymorphism.
+
+```java
+class Parent { int x = 10; }
+class Child extends Parent  { int x = 20; }
+
+Parent p = new Child();
+System.out.println(p.x);   // 10 — reference type (Parent) decides
+
+Child c = new Child();
+System.out.println(c.x);   // 20 — reference type (Child) decides
+```
+
+
+## 26. Can abstract class have constructor?
+
+**Yes.** An abstract class can have a constructor. It is called when a child class object is created via `super()`. It is used to initialize common fields.
+
+```java
+abstract class Shape {
+    String color;
+
+    Shape(String color) {
+        this.color = color;
+        System.out.println("Shape created: " + color);
+    }
+
+    abstract double area();
+}
+
+class Circle extends Shape {
+    double radius;
+
+    Circle(String color, double radius) {
+        super(color);   // calls abstract class constructor
+        this.radius = radius;
+    }
+
+    double area() { return Math.PI * radius * radius; }
+}
+```
+
+
+## 27. Can interface extend class?
+
+**No.** An interface cannot extend a class. An interface can only **extend another interface**.
+
+```java
+// interface A extends B {} (only if B is interface)
+```
+
+
+## 27. Can an interface extend another interface?
+
+Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
+A child interface inherits all methods from the parent interface.
+
+```java
+interface A {
+    void methodA();
+}
+
+interface B extends A {
+    void methodB();
+}
+```
+
+
+## 28. Can class extend interface?
+
+**No.** A class cannot `extend` an interface. A class must use `implements` to use an interface.
+
+```java
+interface Printable { void print(); }
+
+// class Doc extends Printable { }     // ❌ Not allowed
+
+class Doc implements Printable {       // ✅ correct
+    public void print() { System.out.println("Printing..."); }
+}
+```
+
+## 29. Which type of polymorphism does method overloading represent?
+
+**Method overloading** represents **compile-time polymorphism** (also called static polymorphism or early binding).
+
+The compiler resolves which overloaded method to call **at compile time** based on the method signature (number and types of parameters).
+
+```java
+class Calculator {
+    int add(int a, int b)          { return a + b; }
+    double add(double a, double b) { return a + b; }
+}
+
+// Resolved at compile time — no runtime decision needed
+Calculator c = new Calculator();
+c.add(1, 2);       // calls int version
+c.add(1.0, 2.0);   // calls double version
+```
+
+
+## 30. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
+
+Java gives a **compile-time error** — the class must **override** the conflicting default method to resolve the ambiguity.
+
+```java
+interface A {
+    default void greet() { System.out.println("Hello from A"); }
+}
+
+interface B {
+    default void greet() { System.out.println("Hello from B"); }
+}
+
+// ❌ Compile error without override
+class C implements A, B {
+
+    // ✅ Must override to resolve conflict
+    @Override
+    public void greet() {
+        A.super.greet();    // explicitly call A's version, OR
+        // B.super.greet(); // explicitly call B's version, OR
+        // write your own implementation
+        System.out.println("Hello from C");
+    }
+}
+```
+
+## 31. Can an interface have a constructor in Java, and why or why not?
+
+**No.** Interfaces cannot have constructors.
+
+**Why:**
+- A constructor's purpose is to **initialize an object's instance state**
+- Interfaces cannot be instantiated directly — you never write `new Flyable()`
+- Interfaces have **no instance variables** to initialize
+- Only the implementing class is instantiated, and its constructor handles initialization
+
+```java
+interface Animal {
+    // Animal() { }  // ❌ Compile error: interfaces cannot have constructors
+    void sound();
+}
+
+class Dog implements Animal {
+    String name;
+    Dog(String name) { this.name = name; }  // ✅ constructor in the implementing class
+    public void sound() { System.out.println("Woof"); }
+}
+```
+
+
+## 31. Can an interface have instance variables in Java, and if not, what type of variables can it have?
+
+**No.** Interfaces cannot have instance variables.
+
+All variables in an interface are implicitly **`public static final`** (constants). They belong to the interface itself, not to any instance.
+
+```java
+interface MathConstants {
+    double PI = 3.14159;        // public static final double PI = 3.14159
+    int MAX_VALUE = 100;        // public static final int MAX_VALUE = 100
+
+    // int counter;             // ❌ not allowed — would be an instance variable
+    // private int x = 5;       // ❌ private instance variable not allowed
+}
+
+class Circle implements MathConstants {
+    double area(double r) {
+        return PI * r * r;      // access constant directly
+    }
+}
+
+// Access without an instance
+System.out.println(MathConstants.PI);       // 3.14159
+System.out.println(MathConstants.MAX_VALUE); // 100
+```
+
+## 32. Summary Java Inheritance
+
+**🔹 Basics**
+
+* **Inheritance:** Mechanism where one class acquires properties and behavior of another class.
+* **Parent Class (Super Class):** Class whose properties are inherited.
+* **Child Class (Sub Class):** Class that inherits from parent class.
+* **extends keyword:** Used to inherit a class.
+
+
+**🔹 Key Concepts**
+
+* **Code Reusability:** Avoids duplication by reusing existing code.
+* **Method Overriding:** Child class provides its own implementation of parent method.
+* **super keyword:** Used to access parent class methods/constructors.
+* **IS-A Relationship:** Represents inheritance relationship (e.g., Dog is an Animal).
+
+
+**🔹 Types of Inheritance**
+
+* **Single Inheritance:** One parent → one child.
+* **Multilevel Inheritance:** Chain of inheritance (A → B → C).
+* **Hierarchical Inheritance:** One parent → multiple children.
+* **Multiple Inheritance:** Not supported with classes (supported via interfaces).
+
+
+**⚠️ Important Points**
+
+* Constructors are **not inherited**, but can be called using `super()`.
+* Private members are **not directly accessible** in child class.
+
+
+
+# ✅ 05. Java Interface & Abstract Class 
+
+
+## 1. What is an Interface?
+
+An interface in Java is a blueprint that contains only abstract methods (by default) and constants. It is used to achieve 100% abstraction and multiple inheritance.
+
+
+```java
+interface Animal {
+    void sound(); // abstract method
+}
+
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+## 2. What are the interface available in Java?
+
+In Java, interfaces are mainly of four types:
+
+**Normal Interface :**
+A normal interface defines a contract with multiple abstract methods that a class must implement.
+
+```java
+interface Payment {
+    void pay();
+}
+```
+
+**Functional Interface :**
+A functional interface contains exactly one abstract method and is used for lambda expressions.
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b); // single abstract method
+    
+    default void print() { } // default methods allowed
+}
+
+// 1. Usage with lambda
+Calculator add = (a, b) -> a + b;
+int result = add.calculate(5, 3);
+
+// 2. Using Separate Class
+class AddCalculator implements Calculator {
+    public int calculate(int a, int b) {
+        return a + b;
+    }
+
+    public void print() {
+        System.out.println("Print here");
+    }
+}
+
+Calculator add = new AddCalculator();
+int result = add.calculate(5, 3);
+System.out.println(result);
+
+add.print();
+```
+
+**Marker Interface :**
+A marker interface is an empty interface used to tag a class for special behavior.
+
+```java
+import java.io.Serializable;
+
+// Marker interface
+interface Serializable {
+    // Empty - just marks the class
+}
+
+class Student implements Serializable {
+    String name;
+    // This class can now be serialized
+}
+```
+
+**Nested Interface :**
+A nested interface is declared inside a class or another interface for logical grouping.
+
+```java
+class Bank {
+    interface RBI {
+        void rule();
+    }
+}
+```
+
+## 3. What are static methods in interfaces?
+
+**Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
+They **belong to the interface itself and are called using the interface name**, not by implementing classes.
+
+```java
+interface MyInterface {
+
+    static void show() {
+        System.out.println("Static method in interface");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        MyInterface.show();  // called using interface name
+    }
+}
+```
+
+
+## 4. What is an Abstract Class?
+
+An abstract class is a class that can have both abstract methods and concrete methods. It is used when we want partial abstraction.
+
+```java
+abstract class Animal {
+    abstract void sound(); // abstract method
+
+    void eat() { // concrete method
+        System.out.println("Eating");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+## 5. When should you use an interface instead of an abstract class?
+
+Use **interface** when:
+
+* You want **multiple inheritance**
+* You define **only method contracts (what to do, not how)**
+* Different classes share **common behavior but not relationship**
+
+Use **abstract class** when:
+
+* Classes are **closely related**
+* You want **common code + common fields**
+
+
+## 6. Can we create object of interface or abstract class?
+
+No, we cannot create objects of interface or abstract class directly. But we can create objects using their implementing or child classes.
+
+```java
+Animal a = new Dog(); // valid
+```
+
+## 7. Can an interface have methods with implementation? (Java 8+)
+Yes, from Java 8 onwards, interfaces can have methods with implementation using default and static keywords.
+
+```java
+interface Animal {
+    default void eat() {
+        System.out.println("Eating");
+    }
+}
+```
+
+## 8. What are default and static methods in interface?
+
+Default methods are instance methods with implementation that can be overridden. Static methods belong to the interface and cannot be overridden.
+
+```java
+interface Animal {
+    default void eat() {
+        System.out.println("Eating");
+    }
+
+    static void info() {
+        System.out.println("Animal Info");
+    }
+}
+
+class Dog implements Animal {}
+
+public class Test {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();           // default method
+        Animal.info();     // static method
+    }
+}
+```
+
+## 9. Can abstract class have constructor? Why?
+
+Yes, abstract class can have a constructor because it is used to initialize common properties when a subclass object is created.
+
+```java
+abstract class Animal {
+    Animal() {
+        System.out.println("Animal constructor");
+    }
+}
+
+class Dog extends Animal {
+    Dog() {
+        System.out.println("Dog constructor");
+    }
+}
+```
+
+## 10. Can abstract class have both abstract and concrete methods?
+
+Yes, abstract class can have both abstract methods and concrete methods, which is why it provides partial abstraction.
+
+```java
+abstract class Animal {
+    abstract void sound();
+
+    void eat() {
+        System.out.println("Eating");
+    }
+}
+```
+
+## 11. Can interface have variables? What type?
+
+Yes, interface can have variables, but they are by default public, static, and final constants.
+
+```java
+interface Animal {
+    int AGE = 5; // public static final by default
+}
+```
+
+## 12. When should we use interface vs abstract class?
+
+Use interface when we need 100% abstraction and multiple inheritance. Use abstract class when we need partial abstraction with shared code.
+
+## 13. Can a class implement multiple interfaces?
+
+Yes, a class can implement multiple interfaces to achieve multiple inheritance.
+
+```java id="l3p9sx"
+interface A { void show(); }
+interface B { void display(); }
+
+class C implements A, B {
+    public void show() {}
+    public void display() {}
+}
+```
+
+## 14. Can an abstract class implement an interface?
+
+Yes, abstract class can implement interface and may or may not provide implementation.
+
+```java id="9v2tqg"
+interface A {
+    void show();
+}
+
+abstract class B implements A {
+    // no implementation (allowed)
+}
+```
+
+## 15. Can an interface extend another interface?
+
+Yes, interface can extend one or more interfaces.
+
+```java id="y6m2an"
+interface A {
+    void show();
+}
+
+interface B extends A {
+    void display();
+}
+```
+
+
+## 16. Can an interface extend a class? (Tricky)
+
+**No.** An interface cannot extend a class. An interface can only extend another **interface**. A class uses `implements` for interfaces and `extends` for classes.
+
+```java
+class MyClass { }
+// interface MyInterface extends MyClass { }   // ❌ compile error
+
+interface A { void methodA(); }
+interface B extends A { void methodB(); }       // ✅ interface extends interface
+```
+
+
+## 17. Can a class extend multiple abstract classes?
+
+**No.** Java does not support multiple class inheritance — a class can only `extend` **one** class (abstract or concrete). Use interfaces for multiple inheritance of behavior.
+
+```java
+abstract class A { abstract void methodA(); }
+abstract class B { abstract void methodB(); }
+
+// class C extends A, B { }   // ❌ Not allowed
+
+interface IA { void methodA(); }
+interface IB { void methodB(); }
+class C implements IA, IB {   // ✅ multiple interfaces allowed
+    public void methodA() { }
+    public void methodB() { }
+}
+```
+
+
+## 18. Can interface have constructor?
+
+**No.** Interfaces cannot have constructors because they cannot be instantiated. There is no object state to initialize. Only the implementing class is instantiated.
+
+```java
+interface Vehicle {
+    // Vehicle() { }   // ❌ compile error
+    void start();
+}
+```
+
+
+## 19. Can abstract class have constructor?
+
+**Yes.** Abstract classes can have constructors. They are invoked when a subclass object is created via `super()`. Used to initialize common fields.
+
+```java
+abstract class Employee {
+    String name;
+    double salary;
+
+    Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    abstract void work();
+}
+
+class Developer extends Employee {
+    Developer(String name, double salary) {
+        super(name, salary);
+    }
+    void work() { System.out.println(name + " writes code"); }
+}
+```
+
+
+## 20. Can interface have private methods?
+
+**Yes**, from **Java 9** onwards. Private methods in interfaces are used as **helper methods** for `default` or `static` methods to avoid code duplication. They cannot be accessed by implementing classes.
+
+```java
+interface Logger {
+    default void logInfo(String msg)  { log("INFO", msg); }
+    default void logError(String msg) { log("ERROR", msg); }
+
+    private void log(String level, String msg) {   // Java 9+
+        System.out.println("[" + level + "] " + msg);
+    }
+}
+```
+
+
+## 21. Can we override static methods in interface?
+
+**No.** Static methods in interfaces belong to the interface itself and **cannot be overridden** by implementing classes. If a class defines a method with the same name, it is a completely separate method — not an override.
+
+```java
+interface Printer {
+    static void print() { 
+        System.out.println("Interface print"); 
+    }
+}
+
+class MyPrinter implements Printer {
+    static void print() { 
+        System.out.println("Class print"); 
+    }  // new method, not override
+}
+
+Printer.print();        // Interface print
+MyPrinter.print();      // Class print
+```
+
+
+## 22. What if two interfaces have same default method?
+
+Java gives a **compile-time error**. The implementing class **must override** the conflicting method. It can then choose which interface's default to call using `InterfaceName.super.method()`.
+
+```java
+interface A { default void greet() { System.out.println("Hello from A"); } }
+interface B { default void greet() { System.out.println("Hello from B"); } }
+
+class C implements A, B {
+    @Override
+    public void greet() {
+        A.super.greet();   // explicitly choose A's version
+    }
+}
+
+new C().greet();   // Hello from A
+```
+
+
+## 23. Can abstract class be final?
+
+**No.** `abstract` requires the class to be subclassed (to implement abstract methods), while `final` prevents subclassing. They directly contradict each other — Java gives a compile error.
+
+```java
+// abstract final class Shape { }   // ❌ compile error: illegal combination
+```
+
+
+## 24. Can interface have main method?
+
+**Yes**, from **Java 8** onwards. Since interfaces can have `static` methods, they can have a `main` method. The JVM can execute it directly.
+
+```java
+interface App {
+    static void main(String[] args) {
+        System.out.println("Main method inside interface");
+    }
+}
+// Run: java App  → Main method inside interface
+```
+
+
+## 25. Can we use both interface and abstract class together?
+
+**Yes.** This is a very common pattern. An abstract class implements an interface partially, and concrete subclasses complete the implementation.
+
+```java
+interface Reportable {
+    void generate();
+    void export();
+}
+
+abstract class BaseReport implements Reportable {
+    @Override
+    public void export() {                          // common implementation
+        System.out.println("Exporting to PDF...");
+    }
+    // generate() left for subclasses
+}
+
+class SalesReport extends BaseReport {
+    @Override
+    public void generate() {
+        System.out.println("Generating Sales Report");
+    }
+}
+
+SalesReport r = new SalesReport();
+r.generate();   // Generating Sales Report
+r.export();     // Exporting to PDF...
+```
+
+
+## 26. What access modifiers are allowed in interface?
+
+| Member | Default Modifier | Allowed Modifiers |
+|--------|-----------------|-------------------|
+| Abstract methods | `public abstract` | `public` only |
+| Default methods | `public` | `public` only |
+| Static methods | `public` | `public` only |
+| Private methods | `private` | `private` only (Java 9+) |
+| Variables | `public static final` | `public static final` only |
+
+```java
+interface Demo {
+    int VALUE = 10;                        // public static final
+    void abstractMethod();                 // public abstract
+    default void defaultMethod() { }       // public
+    static void staticMethod() { }         // public
+    private void helperMethod() { }        // private (Java 9+)
+}
+```
+
+
+## 27. Can we instantiate interface using lambda?
+
+**Yes**, but only for **functional interfaces** (interfaces with exactly one abstract method). A lambda expression provides the implementation of that single abstract method inline.
+
+```java
+@FunctionalInterface
+interface Greeting {
+    void greet(String name);
+}
+
+// Lambda instantiates the functional interface
+Greeting g = name -> System.out.println("Hello, " + name + "!");
+g.greet("Alice");   // Hello, Alice!
+
+// Another example
+Runnable r = () -> System.out.println("Running...");
+r.run();
+```
+
+
+
+## 9. What is `.class` and When do we use in Java?
+
+We use .class when we need to pass class metadata, for example in Spring configuration, exception handling, reflection, and getting beans from the Spring container.
+
+
+**Common Places Where We Use `.class`**
+
+**1. Spring Configuration**
+```java
+ApplicationContext context =
+    new AnnotationConfigApplicationContext(AppConfig.class);
+```
+Spring uses it to read configuration from the class.
+
+
+**2. Exception Handling**
+```java
+@ExceptionHandler(Exception.class)
+```
+Tells Spring: handle this type of exception.
+
+
+**3. Getting Bean from Spring**
+```java
+Student s = context.getBean(Student.class);
+```
+Spring will find bean of type `Student`.
+
+
+**4. Reflection**
+```java
+Class<?> c = Student.class;
+```
+Used in reflection to get class information.
+
+**5. Annotations**
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+```
+These also use `.class` internally to store metadata.
+
+
+**`.class` vs `new`**
+
+| `.class` | `new` |
+|----------|------|
+| Class metadata | Creates object |
+| No memory for object | Object created |
+| Used by frameworks | Used by developers |
+
+Example:
+```java
+Student.class   // Class info
+new Student()   // Object
+```
+
+## 10.  Summary Java Interface & Abstract Class
+
+**🔹 Interface**
+
+* **Interface:** A contract that defines methods a class must implement.
+* **Methods:** By default abstract (Java 8+ supports default & static methods).
+* **implements keyword:** Used to implement an interface.
+* **Multiple Inheritance:** Supported via interfaces.
+* **No Constructors:** Interfaces cannot have constructors.
+* **Variables:** By default `public static final` (constants).
+
+**🔹 Abstract Class**
+
+* **Abstract Class:** A class that can have both abstract and concrete methods.
+* **abstract keyword:** Used to declare abstract class/method.
+* **Constructor:** Allowed and used for initialization.
+* **Single Inheritance:** A class can extend only one abstract class.
+* **Partial Abstraction:** Supports both implemented and unimplemented methods.
+
+
+# ✅ 06. Java Exception Handling 
+
+## 1. What is an exception in Java?
+
+An **exception** is an unexpected event that occurs during program execution and disrupts the normal flow of the program. It's Java's way of **handling runtime errors** gracefully.
+
+```java
+int result = 10 / 0; // ArithmeticException occurs
+String text = null;
+int length = text.length(); // NullPointerException occurs
+```
+
+## 2. What is the exception hierarchy in Java?
+
+Java's **exception hierarchy** starts with Throwable class, which has two main branches: Error and Exception. Exception further divides into checked and unchecked exceptions.
+
+```
+Throwable
+├── Error (unchecked)
+│   ├── OutOfMemoryError
+│   └── StackOverflowError
+└── Exception
+    ├── IOException (checked)
+    ├── SQLException (checked)
+    └── RuntimeException (unchecked)
+        ├── NullPointerException
+        ├── ArithmeticException
+        └── ArrayIndexOutOfBoundsException
+```
+
+- **Error:** System-level problems, usually unrecoverable
+- **Exception:** Application-level problems that can be handled
+
+## 3. What are checked and unchecked exceptions?
+
+**Checked exceptions** must be handled at compile time(IOException, SQLExcepti), while **unchecked exceptions** occur at runtime(NullPointerException, ArithmeticException) and don't require mandatory handling.
+
+```java
+// Checked - must handle
+try {
+    FileReader file = new FileReader("file.txt");
+} catch (IOException e) { }
+
+// Unchecked - optional handling
+int[] arr = {1, 2, 3};
+int value = arr[5]; // ArrayIndexOutOfBoundsException
+```
+
+## 4. What is the difference between throw and throws?
+
+The **`throw`** keyword is used to **actually throw an exception object** inside the method body.
+
+The **`throws`** keyword is used in the **method signature** to declare that the method may throw certain exceptions.
+
+```java
+public void validateAge(int age) throws IllegalArgumentException {
+    if (age < 0) {
+        throw new IllegalArgumentException("Age cannot be negative");
+    }
+}
+// 'throws' warns the caller that this method might fail with an IOException
+public void readFile() throws IOException { 
+    if (fileNotFound) {
+        // 'throw' actually triggers the error right now
+        throw new IOException("File is missing!"); 
+    }
+}
+```
+
+## 5. What is try-catch-finally block?
+
+**Try-catch-finally** is Java's **exception handling** mechanism where try contains risky code, catch handles exceptions, and finally executes cleanup code regardless of exceptions.
+
+- **try:** Contains code that might throw exceptions
+- **catch:** Handles specific exceptions
+- **finally:** Always executes (cleanup code)
+
+```java
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero");
+} finally {
+    System.out.println("This always executes");
+}
+```
+
+
+## 6. How do you create custom exceptions?
+
+**Custom exceptions** are created by extending Exception class for checked exceptions or RuntimeException for unchecked exceptions. They provide specific error information for your application.
+
+- Extend Exception (checked) or RuntimeException (unchecked)
+- Provide constructors for different scenarios
+- Add custom fields/methods if needed
+
+```java
+// Checked custom exception
+class InvalidAgeException extends Exception {
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+}
+
+// Unchecked custom exception
+class InsufficientBalanceException extends RuntimeException {
+    private double balance;
+    
+    public InsufficientBalanceException(String message, double balance) {
+        super(message);
+        this.balance = balance;
+    }
+}
+```
+
+## 7. What is exception chaining?
+
+**Exception chaining** links exceptions together, preserving the original cause when wrapping exceptions. It helps maintain the complete error trail for better debugging.
+
+- Preserves original exception information
+- Uses initCause() method or constructor parameter
+- Helps in debugging complex error scenarios
+- Maintains exception stack trace
+
+```java
+try {
+    // Some database operation
+    connectToDatabase();
+} catch (SQLException e) {
+    // Chain the original exception
+    throw new ServiceException("Service failed", e);
+}
+
+// Or using initCause()
+RuntimeException re = new RuntimeException("Wrapper exception");
+re.initCause(originalException);
+throw re;
+```
+
+## 8. How do you Handle Global Exception?
+
+In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
+
+
+**Global exception handling is implemented using @ControllerAdvice in Spring Boot to handle exceptions across the entire application in a centralized way.**
+
+Other than this There are **two ways** depending on the application type:
+
+| Application Type | Global Exception Handling                   |
+| ---------------- | ------------------------------------------- |
+| Core Java        | try-catch / Thread.UncaughtExceptionHandler |
+| Spring Boot      | @ControllerAdvice                           |
+
+
+**1. Global Exception Handling in Core Java**
+
+Use **UncaughtExceptionHandler** to handle exceptions globally.
+
+```java
+class TestApp {
+    public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptioHandler());
+        Thread tr = new Thread(() ->{
+            throw new RuntimeException("There is erro");
+        });
+        tr.start();
+    }
+}
+class ExceptioHandler implements Thread.UncaughtExceptionHandler {
+    public void uncaughtException (Thread t, Throwable e) {
+        System.out.println("Global Exception caught " + e.getMessage());
+    }
+}
+```
+
+**2. Global Exception Handling in Spring Boot (@ControllerAdvice, @RestControllerAdvice
+)**
+
+This handles exceptions for the **entire application**
+
+```java
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+// GlobalExceptionHandler.java
+@ControllerAdvice
+class GlobalExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGlobalException(Exception ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+}
+
+// VotingController.java
+@RestController
+@RequestMapping("/api")
+class VotingController {
+
+    private final VotingService votingService;
+
+    public VotingController(VotingService votingService) {
+        this.votingService = votingService;
+    }
+
+    @GetMapping("/vote")
+    public ResponseEntity<String> vote(@RequestParam int age) {
+        votingService.vote(age);
+        return ResponseEntity.ok("Vote successful");
+    }
+}
+```
+
+**REST API Global Exception**
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception ex) {
+        return new ResponseEntity<>("Error: " + ex.getMessage(),
+                                     HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+
+
+## 9. What is try-with-resources?
+
+**Try-with-resources** in **Java** is a feature used to **automatically close resources** (like files or database connections) after the program finishes using them.
+
+
+```java
+// Old way
+FileReader file = null;
+try {
+    file = new FileReader("data.txt");
+} finally {
+    if (file != null) file.close();
+}
+
+// Try-with-resources
+try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+    System.out.println(br.readLine());
+} // Automatically closed
+```
+
+# ✅ 07. Java Collections Framework
+
+## 1. What is Java Collections Framework?
+
+**Java Collections** Framework is a unified architecture for storing and manipulating groups of objects. It provides interfaces, implementations, and algorithms to work with collections efficiently.
+
+- Provides common interfaces like **List, Set, Map**
+- Ready-to-use implementations like **ArrayList, HashSet, HashMap**
+- Algorithms for **sorting, searching, shuffling**
+- Reduces programming effort and increases performance
+
+```java
+List<String> list = new ArrayList<>();
+Set<Integer> set = new HashSet<>();
+Map<String, Integer> map = new HashMap<>();
+```
+
+Here’s a cleaner and corrected version of your table:
+
+```
+Interface    | Common Classes(implementations)        | Description
+-------------|----------------------------------------|-----------------------------------------
+List         | ArrayList, LinkedList                  | Ordered collection that allows duplicates
+Set          | HashSet, TreeSet, LinkedHashSet        | Collection of unique elements (no duplicates)
+Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs with unique keys
+```
+
+ArrayList : add(), get(), set(), and remove() to manage your list of elements.
+LinkedList
+
+
+**Java Collections and Their Best Use Cases**
+
+| Requirement                         | Best Collection     | Why                               | Mostly Used In                       |
+| ----------------------------------- | ------------------- | --------------------------------- | ------------------------------------ |
+| Fast search/access by key           | `HashMap`           | Average O(1) lookup using hashing | Caching, APIs, lookup tables         |
+| Fast unique element lookup          | `HashSet`           | Fast contains/search operations   | Removing duplicates, validations     |
+| Fast indexed access                 | `ArrayList`         | O(1) random access using index    | UI lists, data retrieval             |
+| Thread-safe fast access             | `ConcurrentHashMap` | Better concurrent performance     | Multithreaded applications           |
+| Sorted key-value storage            | `TreeMap`           | Stores keys in sorted order       | Ranking systems, sorted reports      |
+| Maintain insertion order            | `LinkedHashMap`     | Keeps insertion order             | LRU cache, ordered APIs              |
+| Fast insert/delete at beginning/end | `LinkedList`        | Efficient node insertion/removal  | Queue, stack implementations         |
+| Priority-based processing           | `PriorityQueue`     | Processes elements by priority    | Scheduling systems, task processing  |
+| Auto-remove unused keys             | `WeakHashMap`       | Keys removed by Garbage Collector | Memory-sensitive cache               |
+| Reference equality comparison       | `IdentityHashMap`   | Uses `==` instead of `equals()`   | Framework internals, object tracking |
+
+---
+
+**Quick Complexity Overview**
+
+| Collection      | Search     | Insert         | Ordered               |
+| --------------- | ---------- | -------------- | --------------------- |
+| `HashMap`       | O(1)       | O(1)           | No                    |
+| `TreeMap`       | O(log n)   | O(log n)       | Yes (sorted)          |
+| `LinkedHashMap` | O(1)       | O(1)           | Yes (insertion order) |
+| `ArrayList`     | O(1) index | O(1) append    | Yes                   |
+| `LinkedList`    | O(n)       | O(1) insertion | Yes                   |
+| `HashSet`       | O(1)       | O(1)           | No                    |
+| `PriorityQueue` | O(log n)   | O(log n)       | Priority order        |
+
+
+
+## 2. What is the difference between ArrayList and LinkedList?
+
+**ArrayList** uses a **dynamic array**, so it gives **fast random access (O(1))**, but **slow insertions/deletions in the middle** due to shifting.
+
+**LinkedList** uses a **doubly linked list**, so it has **slower access (O(n))**, but **faster insertions/deletions** since no shifting is required.
+
+
+```java
+List<String> arrayList = new ArrayList<>(); // Fast access
+List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
+```
+
+## 3. What is the difference between HashMap and TreeMap?
+
+**HashMap** Unordered, allows null keys and values, O(1) average time complexity for basic operations.
+
+**TreeMap** Sorted by keys, doesn't allow null keys, O(log n) time complexity for basic operations.
+
+**In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
+
+
+```java
+Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered, accept null value
+Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted, not accept null value
+```
+
+## 4. What is the difference between HashMap Hashtable?
+
+**HashMap** is a Map implementation that is **not synchronized** and allows **one null key and multiple null values**, making it faster but not thread-safe.
+
+**Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
+
+
+```java
+Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster, not thread-safe, accept null value,
+Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, slow, thread-safe, thread-safe, not accept null value
+```
+
+
+## 5. How does HashMap work internally?
+
+**HashMap** works using an **array of buckets (Node array)**.
+When you insert a key-value pair, it calculates the **hash value** of the key to find the bucket index.
+
+If multiple keys map to the same bucket (**collision**), it stores them using a **linked list or tree (after Java 8)**.
+
+When the number of entries exceeds the **load factor limit**, it performs **rehashing** to increase capacity.
+
+**In simple words:** HashMap uses hashing to store and retrieve data efficiently. 🚀
+
+```java
+// Simplified internal process:
+// 1. hash(key) -> bucket index
+// 2. Store/retrieve from that bucket
+// 3. Handle collisions in same bucket
+
+Map<String, Integer> map = new HashMap<>();
+map.put("key", 100); // hash("key") -> bucket index -> store
+```
+
+## 6. What is hash collision and how is it handled?
+
+**Hash collision** occurs when **two different keys produce the same hash code**, mapping to the same bucket. HashMap handles this using chaining and tree conversion.
+
+- **Chaining:** Multiple entries in same bucket form linked list
+- **Tree conversion:** When chain length > 8, converts to balanced tree
+- **Load factor:** Rehashing when buckets become too full
+- **Open addressing:** Alternative approach (not used in HashMap)
+
+**In simple words:** Collision means two keys go to the same bucket, and HashMap handles it using linked list or tree structure.
+
+```java
+// Collision example:
+// hash("Aa") and hash("BB") might produce same value
+map.put("Aa", 1);
+map.put("BB", 2); // Collision - stored in same bucket as linked list
+```
+
+## 7. What is the difference between Comparable and Comparator?
+
+**Comparable** is used for **natural sorting** and defines the `compareTo()` method inside the same class. It allows **only one sorting logic**.
+
+**Comparator** is used for **custom sorting** and defines the `compare()` method in a separate class. It allows **multiple sorting logics**.
+
+**In simple words:** Comparable = default sorting, Comparator = custom sorting.x
+
+
+```java
+// Comparable - natural ordering
+class Student implements Comparable<Student> {
+    public int compareTo(Student other) {
+        return this.name.compareTo(other.name);
+    }
+}
+
+// Comparator - custom ordering
+Comparator<Student> ageComparator = (s1, s2) -> s1.age - s2.age;
+Collections.sort(students, ageComparator);
+```
+
+**Comparable vs Comparator**
+| Feature               | Comparable    | Comparator    |
+| --------------------- | ------------- | ------------- |
+| Package               | `java.lang`   | `java.util`   |
+| Method                | `compareTo()` | `compare()`   |
+| Sorting Logic         | Inside class  | Outside class |
+| Number of Sort Orders | One           | Multiple      |
+| Modification Needed   | Yes           | No            |
+
+
+## 8. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
+
+* **WeakHashMap** – A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
+* **IdentityHashMap** – A map that compares keys using **reference equality (`==`) instead of `equals()`**.
+* **LinkedHashMap** – A map that **maintains insertion order** using a linked list along with a hash table.
+* **PriorityQueue** – A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
+
+```java
+Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly, Used for: caching
+Map<String, Integer> identityMap = new IdentityHashMap<>(); // for key comparison
+Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache implementations
+Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
+```
+
+**1. WeakHashMap Example :** A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
+
+**Common use :** -Caching, -Memory-sensitive applications
+
+```java 
+import java.util.Map;
+import java.util.WeakHashMap;
+
+public class WeakHashMapExample {
+    public static void main(String[] args) throws Exception {
+        Map<String, Integer> weakMap = new WeakHashMap<>();
+
+        String key1 = new String("Java");
+        weakMap.put(key1, 100);
+
+        System.out.println("Before GC: " + weakMap);
+
+        // Remove strong reference
+        key1 = null;
+
+        // Request garbage collection
+        System.gc();
+
+        // Wait for GC
+        Thread.sleep(2000);
+
+        System.out.println("After GC: " + weakMap);
+    }
+}
+// Output: 
+Before GC: {Java=100}
+After GC: {}
+```
+
+
+**2. IdentityHashMap Example :** A map that compares keys using **reference equality (`==`) instead of `equals()`**.
+
+Compares keys using `==`  instead of: `equals()`;
+
+
+```java id="p8d0mc"
+import java.util.IdentityHashMap;
+import java.util.Map;
+
+public class IdentityHashMapExample {
+
+    public static void main(String[] args) {
+
+        Map<String, Integer> identityMap = new IdentityHashMap<>();
+
+        String s1 = new String("Java");
+        String s2 = new String("Java");
+
+        identityMap.put(s1, 1);
+        identityMap.put(s2, 2);
+
+        System.out.println(identityMap);
+    }
+}
+// Output: {Java=1, Java=2}
+// Why : s1.equals(s2) --> true
+// But: s1 == s2 --> false
+
+So both keys are treated separately.
+```
+
+---
+
+**3. LinkedHashMap Example :** A map that **maintains insertion order** using a linked list along with a hash table. Maintains insertion order.
+
+
+Useful for: * Ordered maps, * LRU Cache
+
+
+```java id="fjlwm5"
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LinkedHashMapExample {
+    public static void main(String[] args) {
+        Map<Integer, String> linkedMap = new LinkedHashMap<>();
+
+        linkedMap.put(3, "Java");
+        linkedMap.put(1, "Spring");
+        linkedMap.put(2, "Hibernate");
+
+        System.out.println(linkedMap);
+    }
+}
+// Output: {3=Java, 1=Spring, 2=Hibernate}
+```
+
+---
+
+**LinkedHashMap as LRU Cache**
+
+```java id="r6xkm0"
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LRUCacheExample {
+    public static void main(String[] args) {
+        LinkedHashMap<Integer, String> cache = new LinkedHashMap<>(3, 0.75f, true) {
+            protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest) {
+                return size() > 3;
+            }
+        };
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1); // Access key 1
+
+        cache.put(4, "D");
+
+        System.out.println(cache);
+    }
+}
+// Output: {3=C, 1=A, 4=D}
+// Output: Key `2` removed because it was least recently used.
+```
+
+---
+
+**4. PriorityQueue Example :** A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
+
+
+```java id="gqws4s"
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class PriorityQueueExample {
+    public static void main(String[] args) {
+        Queue<Integer> priorityQueue = new PriorityQueue<>();
+
+        priorityQueue.offer(30);
+        priorityQueue.offer(10);
+        priorityQueue.offer(50);
+        priorityQueue.offer(20);
+
+        while (!priorityQueue.isEmpty()) {
+            System.out.println(priorityQueue.poll());
+        }
+    }
+}
+// Output: 
+// 10
+// 20
+// 30
+// 50
+```
+
+---
+
+**Max Heap Example**
+
+```java id="xj5pc5"
+import java.util.Collections;
+import java.util.PriorityQueue;
+
+public class MaxHeapExample {
+
+    public static void main(String[] args) {
+
+        PriorityQueue<Integer> maxHeap =
+                new PriorityQueue<>(Collections.reverseOrder());
+
+        maxHeap.offer(10);
+        maxHeap.offer(50);
+        maxHeap.offer(20);
+
+        while (!maxHeap.isEmpty()) {
+            System.out.println(maxHeap.poll());
+        }
+    }
+}
+// Output: 
+// 50
+// 20
+// 10
+```
+
+---
+
+**Summary**
+
+| Collection        | Special Feature                  | Common Use                  |
+| ----------------- | -------------------------------- | --------------------------- |
+| `WeakHashMap`     | Removes entries after GC         | Cache                       |
+| `IdentityHashMap` | Uses `==` for key comparison     | Object identity tracking    |
+| `LinkedHashMap`   | Maintains insertion/access order | LRU Cache                   |
+| `PriorityQueue`   | Heap-based priority processing   | Scheduling, task processing |
+
+
+## 9. How to Implement LRU, LFU and TTL Cache
+
+**# 1. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
+
+```java id="m5nz5d"
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true);
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+
+    public static void main(String[] args) {
+
+        LRUCache<Integer, String> cache = new LRUCache<>(3);
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1);
+
+        cache.put(4, "D");
+
+        System.out.println(cache);
+    }
+}
+// Output: {3=C, 1=A, 4=D}
+// `2=B` removed because it was least recently used.
+```
+
+---
+
+**2. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
+
+```java id="gh5c2v"
+import java.util.HashMap;
+import java.util.Map;
+
+class LFUCache {
+
+    private Map<Integer, String> cache = new HashMap<>();
+    private Map<Integer, Integer> frequency = new HashMap<>();
+
+    public void put(int key, String value) {
+        cache.put(key, value);
+        frequency.put(key, 1);
+    }
+
+    public String get(int key) {
+
+        if (!cache.containsKey(key)) {
+            return null;
+        }
+
+        frequency.put(key, frequency.get(key) + 1);
+
+        return cache.get(key);
+    }
+
+    public void removeLFU() {
+
+        int minFreq = Integer.MAX_VALUE;
+        int lfuKey = -1;
+
+        for (int key : frequency.keySet()) {
+
+            if (frequency.get(key) < minFreq) {
+                minFreq = frequency.get(key);
+                lfuKey = key;
+            }
+        }
+
+        cache.remove(lfuKey);
+        frequency.remove(lfuKey);
+    }
+
+    public void print() {
+        System.out.println(cache);
+    }
+
+    public static void main(String[] args) {
+
+        LFUCache cache = new LFUCache();
+
+        cache.put(1, "A");
+        cache.put(2, "B");
+        cache.put(3, "C");
+
+        cache.get(1);
+        cache.get(1);
+
+        cache.get(2);
+
+        cache.removeLFU();
+
+        cache.print();
+    }
+}
+// Output: {1=A, 2=B}
+// `3=C` removed because it was least frequently used.
+```
+
+---
+
+**3. TTL Cache (Time To Live) :** Expires data after fixed duration.
+
+```java id="9m7nlj"
+import java.util.HashMap;
+import java.util.Map;
+
+class TTLCache {
+
+    static class CacheObject {
+        String value;
+        long expiryTime;
+
+        CacheObject(String value, long ttlMillis) {
+            this.value = value;
+            this.expiryTime = System.currentTimeMillis() + ttlMillis;
+        }
+    }
+
+    private Map<Integer, CacheObject> cache = new HashMap<>();
+
+    public void put(int key, String value, long ttlMillis) {
+        cache.put(key, new CacheObject(value, ttlMillis));
+    }
+
+    public String get(int key) {
+
+        CacheObject obj = cache.get(key);
+
+        if (obj == null) {
+            return null;
+        }
+
+        if (System.currentTimeMillis() > obj.expiryTime) {
+            cache.remove(key);
+            return null;
+        }
+
+        return obj.value;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        TTLCache cache = new TTLCache();
+
+        cache.put(1, "Java", 3000);
+
+        System.out.println(cache.get(1));
+
+        Thread.sleep(4000);
+
+        System.out.println(cache.get(1));
+    }
+}
+// Output: 
+// Java
+// null
+// After 3 seconds, value expires.
+```
+
+---
+
+**Quick Interview Summary**
+
+| Cache Type | Removes Based On      | Mostly Used In                    |
+| ---------- | --------------------- | --------------------------------- |
+| LRU        | Least recently used   | Browser cache, Redis              |
+| LFU        | Least frequently used | Analytics, recommendation systems |
+| TTL        | Time expiration       | Session cache, tokens, OTPs       |
+
+
+
+## 10. Difference between ConcurrentHashMap and HashMap, and when to use what?
+
+| Feature              | HashMap                        | ConcurrentHashMap                        |
+|----------------------|--------------------------------|------------------------------------------|
+| Thread Safety        | Not thread-safe                | Thread-safe                              |
+| Null keys/values     | Allows one null key, null values | Does NOT allow null key or null value  |
+| Performance          | Faster in single-threaded      | Slightly slower due to locking           |
+| Locking mechanism    | None                           | Segment-level / bucket-level locking     |
+| Fail behavior        | Throws ConcurrentModificationException | Does not throw it               |
+
+**When to use:**
+- Use `HashMap` in single-threaded or read-only scenarios.
+- Use `ConcurrentHashMap` in multi-threaded environments where multiple threads read/write simultaneously (e.g., caches, shared state).
+
+
+## 11. What is O(1) and  O(n)?
+
+
+* **O(1) – Constant Time:** means the operation takes the same amount of time regardless of the input size. 
+```java
+int first = arr[0];
+// Accessing the first element is always constant time.
+```
+
+* **O(n) – Linear Time:** means the execution time grows proportionally with the number of elements. 
+
+```java
+for (int num : arr) {
+    System.out.println(num);
+}
+// The loop visits every element once.
+```
+
+
+## 12. Java Collections Framework
+
+**🔹 Basics**
+
+* **Java Collections Framework (JCF):** A set of classes and interfaces used to store and manipulate groups of data.
+* **Collection Interface:** Root interface for most collection types (List, Set, Queue).
+* **Map Interface:** Stores key-value pairs (not part of Collection interface).
+fWhat is JDBC
+
+**🔹 List (Ordered, Allows Duplicates)**
+
+* **List:** Maintains insertion order and allows duplicate elements.
+* **ArrayList:** Dynamic array, fast for read operations.
+* **LinkedList:** Doubly linked list, fast for insert/delete operations.
+* **Vector:** Thread-safe but slower (legacy).
+
+
+**🔹 Set (No Duplicates)**
+
+* **Set:** Does not allow duplicate elements.
+* **HashSet:** Unordered, fast performance.
+* **LinkedHashSet:** Maintains insertion order.
+* **TreeSet:** Sorted order (uses Red-Black Tree).
+
+
+**🔹 Map (Key-Value Pair)**
+
+* **Map:** Stores data as key-value pairs.
+* **HashMap:** Unordered, allows one null key.
+* **LinkedHashMap:** Maintains insertion order.
+* **TreeMap:** Sorted by keys.
+* **Hashtable:** Thread-safe but legacy.
+
+
+**🔹 Queue**
+
+* **Queue:** Follows FIFO (First In First Out).
+* **PriorityQueue:** Elements processed based on priority.
+* **Deque:** Double-ended queue (add/remove from both ends).
+
+
+**🔹 Important Concepts**
+
+* **Iterator:** Used to traverse collection elements.
+* **Comparable:** Used for natural sorting.
+* **Comparator:** Used for custom sorting.
+* **Collections Class:** Utility methods (sort, reverse, shuffle).
+
+
+**⚠️ Key Differences**
+
+* **List vs Set:** List allows duplicates, Set does not.
+* **ArrayList vs LinkedList:** ArrayList fast read, LinkedList fast insert/delete.
+* **HashMap vs TreeMap:** HashMap unordered, TreeMap sorted.
+
+
+# ✅ 08. Java Multithreading & Synchronization 
+
+## 1. What is thread and what are life cycle?
+
+A **thread** is the **smallest unit of execution in a program** that allows multiple tasks to run simultaneously. 
+
+Every Java application starts with at least one thread (the main thread), and you can create additional threads to run tasks concurrently.
+
+**Thread Life Cycle:**
+
+1. **New** – Thread object is created.
+2. **Runnable** – Thread is ready to run after calling `start()`.
+3. **Running** – Thread is executing.
+4. **Waiting / Blocked** – Thread waits for a resource or another thread.
+5. **Terminated (Dead)** – Thread execution is completed.
+
+
+## 2. How do you create threads in Java?
+
+There are two main ways to create **threads** in Java: **extending Thread** class or implementing **Runnable interfac**e.
+
+**Method 1: Extending Thread** means creating a new class that inherits from the `Thread` class to define the task in its `run()` method.
+
+```java
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread running");
+    }
+}
+MyThread t = new MyThread();
+t.start();
+```
+
+**Method 2: Implementing Runnable** means creating a class that implements the `Runnable` interface and defines the task in its `run()` method, which can then be executed by a `Thread` object.
+
+```java
+class MyTask implements Runnable {
+    public void run() {
+        System.out.println("Task running");
+    }
+}
+Thread t = new Thread(new MyTask());
+t.start();
+```
+
+**Method3: Implementing Callable** is an interface and similar to Runnable but returns a result and can throw checked exceptions.
+
+```java
+// import java.util.concurrent.*;
+
+// Callable works with:: ExecutorService + Future
+
+class MyCallable implements Callable<String> {
+    @Override
+    public String call() throws Exception {
+        return "Callable Task Completed";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<String> future = service.submit(new MyCallable());
+
+        String result = future.get();
+        System.out.println(result);
+        service.shutdown();
+    }
+}
+```
+
+
+
+## 4. What are `sleep()` vs `wait()` in Multithreading?
+
+* **`sleep()`** pauses the current thread for a specified time but **does not release the lock**.
+* **`wait()`** pauses the thread **and releases the lock**, allowing other threads to execute. It must be used inside a **synchronized block**.
+
+```java
+// sleep() Example (Lock NOT Released)
+class SleepExample {
+    public static void main(String[] args) {
+
+        Object lock = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 1 acquired lock");
+                try {
+                    Thread.sleep(3000); // sleeping but STILL holding lock
+                } catch (InterruptedException e) {}
+                System.out.println("Thread 1 finished");
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+// Output: ================
+// Thread 1 acquired lock
+// (wait 3 sec)
+// Thread 1 finished
+// Thread 2 acquired lock
+
+
+// wait() Example (Lock Released)
+class WaitExample {
+    public static void main(String[] args) {
+
+        Object lock = new Object();
+
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                try {
+                    System.out.println("Thread 1 waiting...");
+                    lock.wait(); // releases lock
+                    System.out.println("Thread 1 resumed");
+                } catch (InterruptedException e) {}
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+                lock.notify(); // wakes up t1
+                System.out.println("Thread 2 notified");
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+
+// Output: ================
+// Thread 1 waiting...
+// Thread 2 acquired lock
+// Thread 2 notified
+// Thread 1 resumed
+```
+
+## 3. Execute 10 Thread. 
+
+**Execute Thread Without any scequence**
+```java
+class ThreadExample {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 10; i++) {
+            int id = i;
+
+            Thread t = new Thread(() -> {
+                System.out.println("Task " + id);
+            });
+
+            t.start();
+        }
+    }
+}
+```
+
+**Execute Thread in scequence**
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+class Main {
+    public static void main(String[] args) {
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        for (int i = 1; i <= 5; i++) {
+            int index = i;
+
+            executor.submit(() -> {
+                System.out.println("Task-" + Thread.currentThread().getName());
+                try { Thread.sleep(500); } catch (Exception e) {}
+                System.out.println("End Task-" + index);
+            });
+        }
+
+        executor.shutdown();
+    }
+}
+```
+
+
+```java
+for(int i = 0; i < 5; i++) {
+    int threadId = i;
+    Object lock = new Object();
+    Thread tr = new Thread(() -> {
+        synchronized(lock) {
+            System.out.println(threadId +"---"+ Thread.currentThread().getName());
+        }
+    });
+    tr.start();
+    tr.join();      
+}
+// Output::
+// 0---Thread-1
+// 1---Thread-2
+// 2---Thread-3
+// 3---Thread-4
+// 4---Thread-5
+```
+
+
+## 4. When we have 5 threads, in which sequence will they execute? Will I get the same result every time?
+
+
+* Threads run **concurrently**, not strictly one after another
+* The CPU decides which thread runs first
+* Execution order can change every time you run the program
+
+```java
+for (int i = 1; i <= 5; i++) {
+    new Thread(() -> {
+        System.out.println(Thread.currentThread().getName());
+    }).start();
+}
+
+// Possible Outputs (different each time):
+Thread-2
+Thread-1
+Thread-4
+Thread-0
+Thread-3
+
+// OR ===
+
+Thread-0
+Thread-3
+Thread-1
+Thread-2
+Thread-4
+```
+
+**When We want same result every time?**
+
+✔️ Only if you control execution using:
+
+* `synchronized`
+* `Lock`
+* `join()`
+* `ExecutorService` (single thread)
+
+
+
+**Using `synchronized` (Avoid race condition)**
+
+👉 Ensures only one thread modifies shared data at a time
+
+```java
+class Counter {
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+public class SyncExample {
+    public static void main(String[] args) throws InterruptedException {
+
+        Counter counter = new Counter();
+
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 10; i++) counter.increment();
+        });
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 10; i++) counter.increment();
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println(counter.count);
+    }
+}
+// Output will ALWAYS be:
+2000
+```
+
+
+**Using Single Thread Executor (Best practice)**
+
+👉 Guarantees order automatically
+
+```java
+import java.util.concurrent.*;
+
+public class ExecutorExample {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.submit(() -> System.out.println("Task 1"));
+        executor.submit(() -> System.out.println("Task 2"));
+        executor.submit(() -> System.out.println("Task 3"));
+
+        executor.shutdown();
+    }
+}
+// Output ALWAYS:
+
+Task 1
+Task 2
+Task 3
+```
+
+## 5. What is synchronization in Java?
+
+**Synchronization** in Java ensures that **only one thread at a time** can access a shared resource, preventing **race conditions**.
+
+* Achieved using **`synchronized`** keyword or **locks**
+* Can synchronize **methods** or **blocks**
+* Ensures **thread safety** but may reduce performance
+
+**In simple words:** It makes multithreaded access to shared data **safe and consistent**.
+
+```java
+// Multiple users try to withdraw money from the same account at the same time.
+
+// Without Synchronization (Wrong Behavior)
+class BankAccount {
+    int balance = 1000;
+
+    void withdraw(int amount) {
+        if (balance >= amount) {
+            System.out.println(Thread.currentThread().getName() + " withdrawing...");
+            balance = balance - amount;
+            System.out.println("Remaining balance: " + balance);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+}
+
+// With Synchronization (Correct Behavior)
+class BankAccount {
+    int balance = 1000;
+
+    synchronized void withdraw(int amount) {
+        if (balance >= amount) {
+            System.out.println(Thread.currentThread().getName() + " withdrawing...");
+            balance = balance - amount;
+            System.out.println("Remaining balance: " + balance);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+}
+
+// Main Class (Simulation)
+public class Test {
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount();
+
+        Thread user1 = new Thread(() -> account.withdraw(700), "User1");
+        Thread user2 = new Thread(() -> account.withdraw(700), "User2");
+
+        user1.start();
+        user2.start();
+    }
+}
+```
+
+## 6. What is volatile keyword?
+
+**Volatile** is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
+
+**Problem it solves:**
+Without `volatile`, each thread may cache a variable locally. One thread's update may not be visible to another thread.
+
+**When to use:**
+- When a variable is shared across threads and only **one thread writes** while others read.
+- For simple flags or state variables.
+- Does NOT guarantee atomicity — use `AtomicBoolean` / `synchronized` for compound operations like `count++`.
+
+
+**Without volatile (Problem)**
+
+```java
+class Task implements Runnable {
+    boolean running = true;
+
+    public void run() {
+        while (running) {
+            System.out.println("Task is running...");
+        }
+        System.out.println("Task stopped");
+    }
+}
+```
+
+Another thread sets:
+
+```java
+task.running = false;
+```
+❌ Thread may **never stop** because it may use cached value.
+
+
+**With volatile (Solution)**
+
+```java
+class Task implements Runnable {
+    volatile boolean running = true;
+
+    public void run() {
+        while (running) {
+            System.out.println("Task is running...");
+        }
+        System.out.println("Task stopped");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        Task task = new Task();
+        Thread t1 = new Thread(task);
+        t1.start();
+
+        Thread.sleep(3000);
+
+        task.running = false; // stop thread
+        System.out.println("Stopped by main thread");
+    }
+}
+```
+
+## 7. What is Semaphore and how it works?
+
+**A semaphore** is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
+
+**Real-Time Example**
+
+Suppose:  Parking lot has only 3 parking spaces
+
+If 5 cars come:
+
+* 3 cars can enter
+* 2 cars must wait
+
+
+**How It Works**
+
+Semaphore uses: `permits`, it represents permission to access resource.
+
+
+| Method      | Purpose       |
+| ----------- | ------------- |
+| `acquire()` | Take permit   |
+| `release()` | Return permit |
+
+
+```java
+import java.util.concurrent.Semaphore;
+public class SemaphoreExample {
+    static Semaphore semaphore = new Semaphore(2);
+
+    public static void main(String[] args) {
+        Runnable task = () -> {
+            try {
+                semaphore.acquire();
+                System.out.println(
+                        Thread.currentThread().getName()
+                        + " acquired permit");
+
+                Thread.sleep(3000);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+                System.out.println(
+                        Thread.currentThread().getName()
+                        + " released permit");
+                semaphore.release();
+            }
+        };
+
+        for (int i = 1; i <= 5; i++) {
+            new Thread(task, "Thread-" + i).start();
+        }
+    }
+}
+```
+
+
+## 8. What is the difference between synchronized and concurrent collections?
+
+* **Synchronized Collections** (e.g., `Collections.synchronizedList()`) lock the entire collection for every operation, which can reduce performance.
+
+* **Concurrent Collections** (e.g., `ConcurrentHashMap`, `CopyOnWriteArrayList`) use finer-grained locking or lock-free techniques, allowing multiple threads to work simultaneously and improving performance.
+
+
+**Synchronized Collection**
+
+```java
+List<String> list =
+    Collections.synchronizedList(new ArrayList<>());
+
+list.add("Java");
+```
+
+**Concurrent Collection**
+
+```java
+ConcurrentHashMap<Integer, String> map =
+    new ConcurrentHashMap<>();
+
+map.put(1, "Java");
+map.put(2, "Spring");
+```
+
+| Synchronized Collection       | Concurrent Collection                   |
+| ----------------------------- | --------------------------------------- |
+| Locks entire collection       | Uses segment-level/fine-grained locking |
+| Slower under high concurrency | Better performance                      |
+| Introduced before Java 5      | Introduced in `java.util.concurrent`    |
+| Example: synchronizedList     | Example: ConcurrentHashMap              |
+
+
+
+## 9. What is ConcurrentHashMap and how is it different from HashMap?
+
+**ConcurrentHashMap** is a **thread-safe map** designed for high concurrency. uses **segment-based (fine-grained) locking**. preferred in multithreaded applications
+
+**HashMap** is not thread-safe and should not be used when multiple threads modify it concurrently. it used in single-threaded scenarios
+
+
+* **Thread safety** - ConcurrentHashMap is thread-safe, HashMap is not
+* **Locking strategy** - Uses segment-based locking instead of full synchronization
+* **Null values** - ConcurrentHashMap doesn't allow null keys/values, HashMap does
+* **Performance** - Better concurrent performance than synchronized HashMap
+
+| Feature     | HashMap                | ConcurrentHashMap            |
+| ----------- | ---------------------- | ---------------------------- |
+| Thread Safe | No                     | Yes                          |
+| Performance | Faster (single thread) | Optimized for multithreading |
+| Null Key    | One allowed            | Not allowed                  |
+| Null Value  | Allowed                | Not allowed                  |
+| Iterator    | Fail-Fast              | Weakly Consistent            |
+
+
+```java
+// HashMap - not thread-safe
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put("key1", 1);
+hashMap.put(null, 2);     // Null key allowed
+hashMap.put("key2", null); // Null value allowed
+
+// ConcurrentHashMap - thread-safe with better performance
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+concurrentMap.put("key1", 1);
+// concurrentMap.put(null, 2);     // NullPointerException
+// concurrentMap.put("key2", null); // NullPointerException
+
+// Atomic operations
+concurrentMap.putIfAbsent("key3", 3);
+concurrentMap.compute("key1", (k, v) -> v + 1);
+concurrentMap.merge("key1", 5, Integer::sum);
+
+// Thread-safe iteration without external synchronization
+concurrentMap.forEach((k, v) -> System.out.println(k + ": " + v));
+```
+
+**Basic Example**
+```Java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Demo {
+    public static void main(String[] args) {
+        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+
+        map.put("A", 1);
+        map.put("B", 2);
+
+        map.putIfAbsent("A", 100); // won't overwrite
+
+        System.out.println(map.get("A")); // 1
+    }
+}
+```
+
+// Real-Time Use Case (Important for Interviews)
+// 🧠 Scenario: Caching User Sessions
+// 👉 In real applications (like backend APIs), multiple users access/update data simultaneously.
+
+```Java
+import java.util.concurrent.ConcurrentHashMap;
+
+class UserSession {
+    String userId;
+    long loginTime;
+
+    UserSession(String userId) {
+        this.userId = userId;
+        this.loginTime = System.currentTimeMillis();
+    }
+}
+
+public class SessionManager {
+
+    private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
+
+    // Add session
+    public static void login(String userId) {
+        sessionCache.put(userId, new UserSession(userId));
+    }
+
+    // Get session
+    public static UserSession getSession(String userId) {
+        return sessionCache.get(userId);
+    }
+
+    // Remove session
+    public static void logout(String userId) {
+        sessionCache.remove(userId);
+    }
+
+    public static void main(String[] args) {
+        login("user1");
+        login("user2");
+
+        System.out.println(getSession("user1").userId);
+
+        logout("user1");
+    }
+}
+// Why use ConcurrentHashMap here?
+// Many users logging in/out at the same time
+// No need to lock entire structure
+// Faster than Collections.synchronizedMap()
+```
+
+
+## 10. What is deadlock and how do you prevent it?
+
+**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
+
+**Prevention strategies:**
+* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
+* **Use consistent lock order** – Always acquire locks in the same order.
+* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
+* **Minimize synchronized blocks** – Keep lock scope as small as possible.
+
+```java
+// Deadlock scenario
+Thread1: lock(A) -> lock(B)
+Thread2: lock(B) -> lock(A)
+
+// Prevention - consistent ordering
+Thread1: lock(A) -> lock(B)
+Thread2: lock(A) -> lock(B)
+```
+
+
+## 11. What is race condition and how to resolve it?
+
+A **race condition** happens when **multiple threads access and modify the same shared data at the same time**, and the final result depends on which thread runs first.
+
+Because threads run simultaneously, the output becomes **unpredictable**.
+
+
+**Simple Example (Race Condition)**
+
+```java
+class Counter {
+    int count = 0;
+
+    public void increment() {
+        count++;   // Not thread-safe
+    }
+}
+```
+
+```java
+public class Test {
+    public static void main(String[] args) throws Exception {
+        Counter counter = new Counter();
+
+        Thread t1 = new Thread(() -> {
+            for(int i = 0; i < 1000; i++) counter.increment();
+        });
+
+        Thread t2 = new Thread(() -> {
+            for(int i = 0; i < 1000; i++) counter.increment();
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+
+        System.out.println(counter.count);
+    }
+}
+```
+
+**Expected Output:**
+
+```
+2000
+```
+
+**Actual Output (Race Condition):**
+
+```
+1453
+1789
+1932
+```
+
+Because both threads update `count` at the same time.
+
+
+**How to Resolve Race Condition**
+
+**1. Using synchronized**
+
+```java
+class Counter {
+    int count = 0;
+
+    public synchronized void increment() {
+        count++;
+    }
+}
+```
+
+Only one thread can execute at a time.
+
+
+**2. Using Atomic Variable (Best Practice)**
+
+```java
+import java.util.concurrent.atomic.AtomicInteger;
+
+class Counter {
+    AtomicInteger count = new AtomicInteger();
+
+    public void increment() {
+        count.incrementAndGet();
+    }
+}
+```
+
+
+**3. Using Lock**
+
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+class Counter {
+    int count = 0;
+    ReentrantLock lock = new ReentrantLock();
+
+    public void increment() {
+        lock.lock();
+        try {
+            count++;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+## 12. Multithreading and Concurrency Summary?
+
+**Thread** is the smallest unit of execution in a program that allows multiple tasks to run simultaneously.
+
+**ThreadPool** is a group of pre-created threads used to execute tasks, which improves performance and avoids creating threads again and again.
+ 
+**Multithreading** allows a program to run multiple threads concurrently within the same memory space, improving CPU utilization, performance, and responsiveness.
+
+**Concurrency** is the ability of a program to execute multiple tasks at the same time by using multiple threads. These tasks can run in parallel on multiple CPU cores
+
+**ConcurrentHashMap**  is a thread-safe implementation of Map that allows multiple threads to read and write data concurrently without locking the entire map.
+
+**Runnable** is an interface used to create a thread in Java. It contains only one method: `run()`.
+
+**Callable** is an interface and similar to Runnable but **returns a result** and can **throw exceptions**.
+
+**ExecutorService** is a framework that manages threads and thread pools and execute tasks asynchronously, in the background.
+
+**Volatile** is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
+
+**Semaphore** is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
+
+**synchronized** is a keyword to ensures that only one thread at a time can access a shared resource, preventing race conditions to achieve thread safety.
+
+**Lock** (ReentrantLock) is similar to synchronized but gives more control like lock, unlock, tryLock.
+
+**CountDownLatch** is a synchronization utility that blocks threads until a set count reaches zero, using countDown() to decrement and await() to wait.
+
+**Deadlock** is a situation where two or more threads are blocked forever waiting for each other’s resources.
+
+**CompletableFuture** is used to run asynchronous tasks and combine multiple async operations.
+
+**@Async**  is used in Spring Boot to execute a method asynchronously and used to run a method in **background thread** 
+
+
+
+# ✅ 09. Java Concurrency 
+
+## 0. What is multithreading?
+
+**Multithreading** allows a program to run **multiple threads concurrently** within the same memory space, improving **CPU utilization, performance, and responsiveness**. Threads can **share data** and the **JVM handles scheduling**.
+
+**In simple words:** It lets a program do **many tasks at the same time** efficiently.
+
+```java
+// Realtime example
+class PrintTask extends Thread {
+    public void run() {
+        System.out.println("Printing document...");
+    }
+}
+
+class SaveTask extends Thread {
+    public void run() {
+        System.out.println("Saving document...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        PrintTask t1 = new PrintTask();
+        SaveTask t2 = new SaveTask();
+
+        t1.start();   // Thread for printing
+        t2.start();   // Thread for saving
+    }
+}
+```
+
+**Where Multithreading is Usually Used in Java (Important for Interview)**
+
+**1. Web Applications (Spring Boot)**
+
+Very common use:
+
+* Each HTTP request runs in a **separate thread**
+* Multiple users can use the application at the same time
+
+Example:
+
+* 1000 users → 1000 threads → handled by thread pool
+
+---
+
+**2. Calling Multiple APIs**
+
+```java
+CompletableFuture.supplyAsync(() -> apiCall1());
+CompletableFuture.supplyAsync(() -> apiCall2());
+CompletableFuture.supplyAsync(() -> apiCall3());
+```
+
+Used to **reduce API response time**.
+
+**3. Background Jobs**
+
+Used for:
+
+* Sending emails
+* Generating PDF
+* Report generation
+* Data import (Excel/CSV)
+* Image processing
+
+In Spring Boot:
+
+```java
+@Async
+public void sendEmail() {
+    // runs in background thread
+}
+```
+
+**4. Batch Processing**
+
+* Processing large data
+* Bank transactions
+* Log processing
+* Data migration
+
+**5. Real-Time Systems**
+
+* Chat applications
+* Notification systems
+* Live tracking apps
+
+## 1. What is **Concurrency in Java**?
+
+**Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
+
+1. **Thread-based**
+* Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
+
+```java
+// Method 1: extends Thread
+class MyThreadTask extends Thread {
+    public void run() {
+        System.out.println("Task running in thread: " + Thread.currentThread().getName());
+    }
+}
+
+// Method 2: Implementing Runnable
+class MyRunnableTask implements Runnable {
+    public void run() {
+        System.out.println("Task running in thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        
+        // Using Thread class
+        MyThreadTask t1 = new MyThreadTask();
+        t1.start();
+
+        // Using Runnable interface
+        Thread t2 = new Thread(new MyRunnableTask());
+        t2.start();
+    }
+}
+
+// Output:
+Task running in thread: Thread-1
+Task running in thread: Thread-0
+```
+
+* **How concurrency is achieved in Java**
+
+* **Thread & Runnable** – basic units of execution.
+* **ExecutorService** – manages thread pools and asynchronous tasks.
+* **Synchronization** – ensures **thread-safe access** to shared resources.
+* **Locks (ReentrantLock)** – flexible locking with reentrant and fairness options.
+* **Atomic variables** – **lock-free thread-safe operations** on single variables.
+* **Concurrent collections** – thread-safe collections like `ConcurrentHashMap`.
+* **CompletableFuture (Java 8+)** – **asynchronous computation** with callbacks and chaining.
+
+
+* **Concurrency vs Parallelism**
+
+| Concurrency                | Parallelism                             |
+| -------------------------- | --------------------------------------- |
+| Multiple tasks in progress | Multiple tasks executing simultaneously |
+| May run on one CPU         | Requires multiple cores                 |
+
+
+## 2.  What is ConcurrentHashMap and when to use?
+
+
+**“`ConcurrentHashMap` is a thread-safe implementation of `Map` that allows multiple threads to read and write data concurrently without locking the entire map.”**
+
+
+**Why Not `HashMap`**
+
+* ❌ Not thread-safe
+* ❌ Data inconsistency in multi-threading
+* ❌ Can cause unpredictable behavior
+
+
+**Why `ConcurrentHashMap`?**
+
+* ✅ Thread-safe
+* ✅ Better performance
+* ✅ Allows parallel reads & writes
+* ❌ Does NOT allow `null` key/value
+
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+
+map.put("A", 1);
+map.put("B", 2);
+```
+
+**Real-Time Use Cases**
+
+* Caching frequently accessed data (user/session data)
+* Counting API hits or tracking events
+* Multi-threaded data processing
+* Real-time applications (chat apps, dashboards, trading systems)
+* Spring Boot in-memory caching / shared state between threads
+
+
+## 3.  What is a Thread Pool and What are the types of thread pools?
+
+A **Thread Pool** is a collection of **pre-created threads** that are reused to execute multiple tasks.
+
+Instead of creating a **new thread every time a task comes**, the application **takes an available thread from the pool, runs the task, and then returns the thread back to the pool** for reuse.
+
+This **improves performance**, **reduces thread creation overhead**, and **controls the number of threads running in the system**.
+
+
+* **Fixed Thread Pool** – A fixed number of threads handle tasks.
+* **Cached Thread Pool** – Creates new threads when needed and reuses existing ones.
+* **Single Thread Pool** – Uses only one thread to execute tasks sequentially.
+* **Scheduled Thread Pool** – Executes tasks after a delay or periodically.
+
+**Types of thread pools in Java** (via `Executors`) are:
+
+ ```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Fixed Thread Pool
+        ExecutorService fixedPool = Executors.newFixedThreadPool(3);
+
+        // Cached Thread Pool
+        ExecutorService cachedPool = Executors.newCachedThreadPool();
+
+        // Single Thread Pool
+        ExecutorService singlePool = Executors.newSingleThreadExecutor();
+
+        // Scheduled Thread Pool
+        ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
+
+        // Task
+        Runnable task = () -> {
+            System.out.println("Task executed by: " + Thread.currentThread().getName());
+        };
+
+        // Submit tasks
+        fixedPool.submit(task);
+        cachedPool.submit(task);
+        singlePool.submit(task);
+
+        // Scheduled task (runs after 3 seconds)
+        scheduledPool.schedule(task, 3, TimeUnit.SECONDS);
+
+        // Shutdown
+        fixedPool.shutdown();
+        cachedPool.shutdown();
+        singlePool.shutdown();
+        scheduledPool.shutdown();
+    }
+}
+
+// Output:
+Task executed by: pool-3-thread-1
+Task executed by: pool-1-thread-1
+Task executed by: pool-2-thread-1
+```
+
+## 4. What is ExecutorService?
+
+**ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, in the background.
+
+Instead of creating threads manually, we submit tasks to ExecutorService, and it handles thread creation, reuse, and lifecycle management.
+
+**Why Use ExecutorService?**
+
+* Reuses threads (Thread Pool)
+* Improves performance
+* Controls number of threads
+* Used in real-time applications (APIs, DB calls, Microservices)
+
+
+```java
+import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+// Basic Example
+public class Demo {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        executor.submit(() -> {
+            System.out.println("Task executed by: " + Thread.currentThread().getName());
+        });
+
+        executor.shutdown();
+    }
+}
+
+
+// Real-Time Use Case (Very Important)
+// 🧠 Scenario: Handling Multiple API Requests (Backend Server)
+
+// 👉 Imagine:
+
+// 1000 users hit your API at the same time
+// You cannot create 1000 threads manually ❌
+// You use a thread pool ✅
+
+
+import java.util.concurrent.*;
+
+public class Server {
+    public static void main(String[] args) {
+
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        // ExecutorService executor = Executors.newSingleThreadExecutor(); 
+        // It will execute in scequnce
+
+        for (int i = 1; i <= 10; i++) {
+            executor.submit(new UserRequest("User-" + i));
+        }
+
+        executor.shutdown();
+    }
+}
+
+class UserRequest implements Runnable {
+    private String user;
+
+    UserRequest(String user) {
+        this.user = user;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Processing request for " + user +
+                " by " + Thread.currentThread().getName());
+
+        try {
+            Thread.sleep(1000); // simulate processing
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+// Why use ExecutorService here?
+// Limits threads (e.g., 5 threads only)
+// Reuses threads → better performance
+// Prevents system crash due to too many threads
+
+
+// Output
+// Processing request for User-5 by pool-1-thread-5
+// Processing request for User-3 by pool-1-thread-3
+// Processing request for User-2 by pool-1-thread-2
+// Processing request for User-1 by pool-1-thread-1
+// Processing request for User-4 by pool-1-thread-4
+// Processing request for User-6 by pool-1-thread-3
+// Processing request for User-8 by pool-1-thread-2
+// Processing request for User-7 by pool-1-thread-4
+// Processing request for User-9 by pool-1-thread-1
+// Processing request for User-10 by pool-1-thread-5
+
+
+```
+
+**Realtime Example:** Food delivery app
+
+* One thread → take order
+* One thread → payment
+* One thread → send notification
+* One thread → update database
+
+
+## 5. What is CountDownLatch and CyclicBarrier?
+
+**CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
+
+```java
+import java.util.concurrent.CountDownLatch;
+
+public class Test {
+    public static void main(String[] args) throws InterruptedException {
+
+        CountDownLatch latch = new CountDownLatch(3);
+
+        Runnable task = () -> {
+            try {
+                Thread.sleep(1000); // Simulate some work
+                System.out.println(Thread.currentThread().getName() + " finished work");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                latch.countDown(); // Reduce count
+            }
+        };
+
+        new Thread(task).start();
+        new Thread(task).start();
+        new Thread(task).start();
+
+        latch.await(); // Main thread waits
+
+        System.out.println("All tasks completed. Main thread starts");
+    }
+}
+
+// Output:
+Thread-0 finished work
+Thread-2 finished work
+Thread-1 finished work
+All tasks completed. Main thread starts
+```
+
+**CyclicBarrier** is a synchronization tool in Java that makes **a group of threads wait for each other** until all threads reach a common point (barrier), and then all threads continue execution.
+
+
+```java
+import java.util.concurrent.CyclicBarrier;
+
+public class Test {
+    public static void main(String[] args) {
+
+        // Barrier with 3 threads and barrier action
+        CyclicBarrier barrier = new CyclicBarrier(3, () -> {
+            System.out.println("All threads reached barrier. Starting next phase...");
+        });
+
+        Runnable task = () -> {
+            try {
+                System.out.println(Thread.currentThread().getName() + " reached barrier");
+                
+                Thread.sleep(1000); // Simulate work
+                
+                barrier.await(); // Wait for other threads
+
+                System.out.println(Thread.currentThread().getName() + " crossed barrier");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+
+        new Thread(task).start();
+        new Thread(task).start();
+        new Thread(task).start();
+    }
+}
+
+// Output:
+Thread-2 reached barrier
+Thread-1 reached barrier
+Thread-0 reached barrier
+All threads reached barrier. Starting next phase...
+Thread-0 crossed barrier
+Thread-1 crossed barrier
+Thread-2 crossed barrier
+```
+
+**Difference: CountDownLatch vs CyclicBarrier**
+
+| CountDownLatch          | CyclicBarrier           |
+| ----------------------- | ----------------------- |
+| One thread waits        | All threads wait        |
+| Not reusable            | Reusable                |
+| Used for one-time event | Used for repeated tasks |
+| countDown()             | await()                 |
+
+
+## 6. What is ReentrantLock?
+
+**ReentrantLock** is a class in Java (`java.util.concurrent.locks`) that provides an explicit and more flexible locking mechanism than `synchronized`.
+
+It allows:
+
+* Manual `lock()` and `unlock()` control
+* Fair or non-fair locking policy
+* Interruptible lock acquisition
+* `tryLock()` with timeout
+* Reentrancy (same thread can acquire the lock multiple times)
+
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Test {
+
+    ReentrantLock lock = new ReentrantLock();
+
+    public void method1() {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + " inside method1");
+            method2(); // Same thread can acquire lock again
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void method2() {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + " inside method2");
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        Test obj = new Test();
+
+        Runnable task = () -> {
+            obj.method1();
+        };
+
+        new Thread(task).start();
+        new Thread(task).start();
+    }
+}
+
+//Output: 
+Thread-0 inside method1
+Thread-0 inside method2
+Thread-1 inside method1
+Thread-1 inside method2
+```
+
+
+## 7. How to call three APIs concurrently:
+
+// Way One
+
+To call three APIs concurrently in Spring Boot, we can use `CompletableFuture` with `@Async` so that all services like User, Payment, and Inventory are called in parallel, improving performance.”
+
+User Service
+Payment Service
+Inventory Service
+
+**Step 1: Enable Async**
+
+```java id="8k6y8x"
+@SpringBootApplication
+@EnableAsync
+public class Application {
+}
+```
+
+**Step 2: Create Async Service Methods**
+
+```java id="c8s8l2"
+@Service
+public class ApiService {
+
+    @Async
+    public CompletableFuture<String> getUser() {
+        // call User Service API
+        return CompletableFuture.completedFuture("User Data");
+    }
+
+    @Async
+    public CompletableFuture<String> getPayment() {
+        // call Payment Service API
+        return CompletableFuture.completedFuture("Payment Data");
+    }
+
+    @Async
+    public CompletableFuture<String> getInventory() {
+        // call Inventory Service API
+        return CompletableFuture.completedFuture("Inventory Data");
+    }
+}
+```
+
+**Step 3: Call All APIs Concurrently**
+
+```java id="fqhmr2"
+@RestController
+public class MyController {
+
+    @Autowired
+    private ApiService apiService;
+
+    @GetMapping("/getAllData")
+    public String getAllData() throws Exception {
+
+        CompletableFuture<String> user = apiService.getUser();
+        CompletableFuture<String> payment = apiService.getPayment();
+        CompletableFuture<String> inventory = apiService.getInventory();
+
+        // Wait for all to complete
+        CompletableFuture.allOf(user, payment, inventory).join();
+
+        return user.get() + " | " + payment.get() + " | " + inventory.get();
+    }
+}
+```
+
+
+// Way two:: WebClient (Reactive - Non-Blocking)
+
+We can use WebClient from Spring WebFlux to make non-blocking concurrent API calls using Mono or Flux, which is more scalable than threads.
+
+
+```java
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ApiService {
+
+    private WebClient webClient = WebClient.create();
+
+    public Mono<String> getUser() {
+        return webClient.get()
+                .uri("http://user-service/api")
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getPayment() {
+        return webClient.get()
+                .uri("http://payment-service/api")
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getInventory() {
+        return webClient.get()
+                .uri("http://inventory-service/api")
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+}
+```
+
+```java
+@GetMapping("/getAll")
+public Mono<String> getAll() {
+
+    Mono<String> user = apiService.getUser();
+    Mono<String> payment = apiService.getPayment();
+    Mono<String> inventory = apiService.getInventory();
+
+    return Mono.zip(user, payment, inventory)
+            .map(data -> data.getT1() + " | " +
+                         data.getT2() + " | " +
+                         data.getT3());
+}
+```
+
+
+// Way Three::  ExecutorService (Manual Thread Pool)
+
+We can use ExecutorService to manually create threads and submit tasks to call APIs in parallel.
+
+```java
+import java.util.concurrent.*;
+
+@Service
+public class ApiService {
+
+    ExecutorService executor = Executors.newFixedThreadPool(3);
+
+    public String getAllData() throws Exception {
+
+        Callable<String> userTask = () -> "User Data";
+        Callable<String> paymentTask = () -> "Payment Data";
+        Callable<String> inventoryTask = () -> "Inventory Data";
+
+        Future<String> user = executor.submit(userTask);
+        Future<String> payment = executor.submit(paymentTask);
+        Future<String> inventory = executor.submit(inventoryTask);
+
+        return user.get() + " | " + payment.get() + " | " + inventory.get();
+    }
+}
+```
+
+
+| Feature     | WebClient                | ExecutorService |
+| ----------- | ------------------------ | --------------- |
+| Type        | Non-blocking             | Blocking        |
+| Threads     | Less usage               | More threads    |
+| Performance | High scalability         | Moderate        |
+| Complexity  | Reactive learning needed | Easy            |
+
+
+
+## 8. What is immutability in Java? 
+
+**Immutability** in **Java** means that **once an object is created, its state (data) cannot be changed**. If any modification is needed, a **new object is created instead**.
+
+**Example:**
+String is immutable in Java.
+
+```java
+String s = "Hello";
+s.concat(" World"); // creates a new object, original string is unchanged
+```
+
+## 9. What is CompletableFuture and how does it work?
+
+**CompletableFuture** is an advanced version of Future in Java that allows asynchronous, non-blocking programming. It lets you run tasks in the background and chain multiple operations without blocking the main thread.
+
+👉 **It works by:**
+
+* Running tasks asynchronously (`supplyAsync`, `runAsync`)
+* Chaining results (`thenApply`, `thenAccept`)
+* Combining multiple tasks (`thenCombine`, `allOf`)
+
+```java
+import java.util.concurrent.CompletableFuture;
+
+public class Test {
+    public static void main(String[] args) {
+
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello")
+                                 .thenApply(result -> result + " World");
+
+        System.out.println(future.join()); // Hello World
+    }
+}
+```
+
+
+## 10. Difference between Future and CompletableFuture
+
+**`Future`** is used to get the result of an asynchronous task, but it supports only basic operations like `get()`. 
+
+**`CompletableFuture`** is an enhanced version introduced in Java 8 that supports chaining, combining multiple async tasks, exception handling, and non-blocking programming.
+
+**Future**
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(1);
+
+Future<String> future = executor.submit(() -> {
+            Thread.sleep(1000);
+            return "Hello";
+        });
+
+System.out.println(future.get());
+// Output: Hello
+// Problem: get() blocks the current thread, no chaining support
+```
+
+**CompletableFuture Example**
+
+```java id="gw9h1k"
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello")
+    .thenApply(s -> s + " Java");
+
+System.out.println(future.get());
+//Output: Hello Java
+```
+
+
+**Exception Handling**
+
+```java id="sqh7g4"
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+        throw new RuntimeException();
+    }).exceptionally(ex -> "Default Value");
+
+System.out.println(future.get());
+//Output: Default Value
+```
+
+
+**Future vs CompletableFuture**
+
+| Feature                | Future  | CompletableFuture |
+| ---------------------- | ------- | ----------------- |
+| Asynchronous Execution | Yes     | Yes               |
+| Chaining               | No      | Yes               |
+| Combine Multiple Tasks | No      | Yes               |
+| Exception Handling     | Limited | Rich Support      |
+| Non-Blocking Callbacks | No      | Yes               |
+| Introduced             | Java 5  | Java 8            |
+
+
+## 11. What is fail-fast and fail-safe iterators?
+
+
+**Fail-Fast iterators** throw a `ConcurrentModificationException` if the collection is modified while iterating. Examples are `ArrayList` and `HashMap`.
+
+**Fail-Safe iterators** work on a copy or snapshot of the collection, so modifications during iteration do not throw exceptions. Examples are `CopyOnWriteArrayList` and `ConcurrentHashMap`.
+
+
+**Fail-Fast Example**
+
+```java
+List<String> list = new ArrayList<>();
+
+list.add("A");
+list.add("B");
+
+for (String s : list) {
+    list.remove(s);
+}
+// Output:
+// ConcurrentModificationException
+```
+
+**Fail-Safe Example**
+
+```java
+CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+
+list.add("A");
+list.add("B");
+
+for (String s : list) {
+    list.remove(s);
+}
+// No Exception
+```
+
+**Interview Comparison**
+
+| Feature                                | Fail-Fast           | Fail-Safe                               |
+| -------------------------------------- | ------------------- | --------------------------------------- |
+| Throws ConcurrentModificationException | Yes                 | No                                      |
+| Iterates on                            | Original Collection | Copy/Snapshot                           |
+| Performance                            | Faster              | More Memory                             |
+| Thread Safe                            | No                  | Yes                                     |
+| Example                                | ArrayList, HashMap  | CopyOnWriteArrayList, ConcurrentHashMap |
+
+
+## 12. What happens if the thread pool is exhausted?
+
+When a thread pool is exhausted, it means all threads are busy and the task queue is full. Any new task cannot be accepted, so the configured `RejectedExecutionHandler` is triggered. By default, Java uses `AbortPolicy`, which throws a `RejectedExecutionException`.
+
+
+```java
+ThreadPoolExecutor executor =
+    new ThreadPoolExecutor(
+        2,  // core threads
+        2,  // max threads
+        60,
+        TimeUnit.SECONDS,
+        new ArrayBlockingQueue<>(2)
+    );
+
+for (int i = 1; i <= 5; i++) {
+    executor.submit(() -> {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    });
+}
+```
+
+```text
+2 tasks → Running
+2 tasks → Waiting in Queue
+5th task → Rejected
+
+// Exception:
+// java.util.concurrent.RejectedExecutionException
+```
+
+# ✅ 10. Java JVM & Memory Management 
+
+## 0. What is Java Memory Model (JMM)?
+
+**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It ensures visibility, atomicity, and ordering using mechanisms like volatile and synchronized.
+
+* **Visibility** – Changes made by one thread are visible to others.
+* **Atomicity** – Certain operations are executed completely or not at all.
+* **Ordering** – Code execution follows defined rules (happens-before relationship).
+
+**Visibility :** Without `volatile`, one thread may not see the updated value from another thread. Changes made by one thread are visible to other threads.
+
+```java id="kuyjci"
+class SharedData {
+
+    private volatile boolean flag = false;
+
+    public void writer() {
+        flag = true;
+    }
+
+    public void reader() {
+        while (!flag) {
+            // waiting
+        }
+        System.out.println("Flag changed");
+    }
+}
+```
+
+**Atomicity :** An operation completes entirely or not at all.
+
+```java id="w6e1oi"
+synchronized void increment() {
+    count++;
+}
+```
+
+**Ordering :** Ensures instructions execute in a predictable order using the "happens-before" relationship.
+
+## 1. What are the different memory areas in JVM?
+
+JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
+
+**JVM Memory Areas** manage program execution and memory:
+
+* **Heap** – stores **objects and instance variables**, GC-managed.
+* **Stack** – stores **local variables and method calls**, auto-managed.
+* **Method Area (Metaspace)** – stores **class metadata, static variables, and bytecode**.
+* **Program Counter (PC) Register** – tracks **current instruction per thread**.
+* **Native Method Stack** – holds **native method execution info**.
+
+## 2. What is the difference between heap and stack?
+
+**Heap memory** is used for dynamic memory allocation.
+It stores **objects and instance variables** created using `new`.
+Memory in the heap is managed by the **Garbage Collector** in Java.
+It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
+
+**Stack memory** is used for temporary memory allocation.
+It stores **local variables, method calls, and function execution data**.
+Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
+Method variables like `int x = 10` are stored in Stack.
+
+
+```java
+public void method() {
+    String obj = new String("Hello"); // obj reference on stack, object on heap
+     int x = 10;        // Stack - local variable
+}
+```
+
+**Memory Representation**
+
+```text
+Stack                      Heap
+-----                      -----
+age = 25
+emp --------->          Employee Object
+                         name = "John"
+```
+
+* `age` is stored directly in the Stack.
+* `emp` reference is stored in the Stack.
+* Actual `Employee` object is stored in the Heap.
+
+---
+
+**Heap vs Stack**
+
+| Feature           | Stack                         | Heap                        |
+| ----------------- | ----------------------------- | --------------------------- |
+| Stores            | Local variables, method calls | Objects, instance variables |
+| Memory Management | Automatic                     | Garbage Collector           |
+| Speed             | Faster                        | Slower                      |
+| Size              | Smaller                       | Larger                      |
+| Thread Safety     | Thread-specific               | Shared across threads       |
+
+
+
+## 3. What is the difference between PermGen and Metaspace?
+
+**PermGen** (Permanent Generation) is a fixed memory area in Java (up to Java 7) used to store class metadata, method information, and interned strings.
+
+**Characteristics:**
+
+* Fixed size (`-XX:PermSize`, `-XX:MaxPermSize`)
+* Part of JVM memory
+* Can cause `OutOfMemoryError: PermGen space` if full
+
+**Metaspace** (Java 8 onwards) replaces PermGen, storing class metadata in native memory with dynamic sizing, improving memory management.
+* Fixed size (`-XX:PermSize`, `-XX:MaxMetaspaceSize`)
+
+**Characteristics:**
+
+* Dynamically resizable (limited by system memory)
+* Stored in **native memory** outside the JVM heap
+* Reduces PermGen-related memory errors
+
+**Key Differences**
+
+| Feature          | PermGen                           | Metaspace              |
+| ---------------- | --------------------------------- | ---------------------- |
+| Java Version     | Java 7 and earlier                | Java 8 and later       |
+| Stores           | Class metadata + interned strings | Class metadata only    |
+| Memory Size      | Fixed                             | Dynamic (resizable)    |
+| Location         | JVM memory                        | Native memory          |
+| OutOfMemory Risk | High                              | Lower                  |
+| Config Option    | `-XX:MaxPermSize`                 | `-XX:MaxMetaspaceSize` |
+
+
+## 4. What is garbage collection?
+
+**Garbage Collection** is an automatic memory management process in Java in which the JVM **identifies and removes objects that are no longer in use**, freeing up memory.
+
+- Automatic memory cleanup
+- Removes unreferenced objects
+- Prevents memory leaks
+- Runs periodically or when memory is low
+- Frees developers from manual memory management
+
+The GC identifies objects with no active references and deallocates their memory, making it available for new objects.
+
+```java
+
+public class Main {
+    public static void main(String[] args) {
+        Object obj = new Object();
+        obj = null; // object becomes eligible for garbage collection
+
+
+        String str = new String("Hello");
+        str = null; // Object becomes unreachable
+
+        System.gc(); // Request GC (not guaranteed)
+    }
+}
+
+```
+
+## 5. What are the types of garbage collectors?
+
+In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaiming memory** used by objects that are no longer needed. Java provides several types of garbage collectors.
+
+1. **Serial Garbage Collector**
+   * **Single-threaded** collector, good for **small applications**.
+   * Performs GC **stop-the-world** for minor and major collections.
+
+   ```java
+   JVM option: -XX:+UseSerialGC
+   ```
+
+2. **Parallel Garbage Collector (Throughput Collector)**
+   * **Multi-threaded**, uses multiple threads for **minor GC**.
+   * Focused on **high throughput** (less CPU idle time).
+
+   ```text
+   JVM option: -XX:+UseParallelGC
+   ```
+
+3. **Concurrent Mark-Sweep (CMS) Collector**
+   * **Concurrent collector** for **low-latency applications**.
+   * Performs **most GC work concurrently with application threads**.
+
+   ```java
+   JVM option: -XX:+UseConcMarkSweepGC
+   ```
+
+4. **G1 (Garbage-First) Collector**
+   * Divides heap into **regions** and collects **garbage in parallel**.
+   * Designed for **large heaps and low pause times**.
+
+   ```java
+   JVM option: -XX:+UseG1GC
+   ```
+
+5. **Z Garbage Collector (ZGC)**
+   * **Low-latency, scalable** collector for **very large heaps**.
+   * Pauses are typically **<10ms**, even with TB-sized heaps.
+
+   ```java
+   JVM option: -XX:+UseZGC
+   ```
+
+6. **Shenandoah GC**
+   * Focuses on **low pause times** by doing **concurrent compaction**.
+   * Available in **OpenJDK 12+**.
+
+   ```java
+   JVM option: -XX:+UseShenandoahGC
+   ```
+
+**Summary Table**
+
+| Garbage Collector | Threads    | Pause Time     | Use Case                   |
+| ----------------- | ---------- | -------------- | -------------------------- |
+| Serial GC         | Single     | Stop-the-world | Small apps, single CPU     |
+| Parallel GC       | Multiple   | Stop-the-world | High throughput apps       |
+| CMS GC            | Concurrent | Low-latency    | Responsive apps            |
+| G1 GC             | Concurrent | Low-medium     | Large heaps, low pause     |
+| ZGC               | Concurrent | Very low       | Very large heaps, scalable |
+| Shenandoah GC     | Concurrent | Very low       | Low-latency applications   |
+
+
+## 6. What is generational garbage collection?
+
+**Generational Garbage Collection** in **Java** is a technique where the **heap is divided into generations** to improve GC efficiency:
+
+* **Young Generation** – Stores newly created objects. Collected frequently (minor GC). Most objects die here quickly.
+* **Old/Tenured Generation** – Stores long-lived objects that survived multiple GCs. Collected less frequently (major GC).
+* **Permanent/Metaspace** – Stores class metadata and static information.
+
+
+## 7. What is the difference between minor GC and major GC?
+
+A **Minor GC** occurs in the **Young Generation** of the heap and cleans up short-lived objects like temporary variables. It happens frequently and is usually very fast, causing minimal pause.
+
+A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
+
+
+```java
+// Objects that survive multiple minor GCs get promoted to Old Generation
+List<String> longLived = new ArrayList<>(); // Eventually moves to Old Gen
+String temp = "temporary"; // Likely collected in minor GC
+```
+
+## 8. What are GC roots?
+
+**GC roots** are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
+
+```java
+public class Example {
+    static String staticVar = "root";     // GC root - static variable
+    
+    public void method() {
+        String localVar = "root";         // GC root - local variable
+        Object obj = new Object();        // Reachable from localVar
+    }
+}
+```
+
+## 9. Java Memory Management Summary?
+
+
+**🔹 JVM Basics**
+
+* **JVM:** Runtime engine that executes Java bytecode and manages memory.
+* **JDK vs JRE vs JVM:** JDK = development tools, JRE = runtime, JVM = execution engine.
+* **ClassLoader:** Loads class files into memory dynamically at runtime.
+
+
+**📦 Memory Areas**
+
+* **Heap:** Shared memory where objects are stored and managed by GC.
+* **Stack:** Thread-specific memory for method calls and local variables.
+* **Metaspace:** Stores class metadata in native memory (Java 8+).
+* **PC Register:** Holds current executing instruction per thread.
+* **Native Method Stack:** Executes native (C/C++) methods.
+
+
+**🧠 PermGen vs Metaspace**
+
+* **PermGen:** Fixed-size memory (pre-Java 8) for class metadata, prone to memory issues.
+* **Metaspace:** Replaces PermGen, uses native memory and grows dynamically.
+
+
+**⚖️ Heap vs Stack**
+
+* **Heap:** Shared, object storage, GC-managed, slower access.
+* **Stack:** Thread-local, method execution, fast and auto-managed.
+
+
+**🧩 Heap Structure**
+
+* **Young Generation:** Where new objects are created.
+* **Eden Space:** Initial allocation area for new objects.
+* **Survivor Space:** Stores objects that survive minor GC.
+* **Old Generation:** Stores long-lived objects.
+
+
+**♻️ Garbage Collection**
+
+* **GC:** Removes unreachable objects to free memory.
+* **Minor GC:** Cleans Young Generation.
+* **Major GC:** Cleans Old Generation.
+* **Full GC:** Cleans entire heap.
+* **Stop-The-World:** Application pauses during GC execution.
+
+
+**⚙️ GC Algorithms**
+
+* **Serial GC:** Single-threaded, simple but slow.
+* **Parallel GC:** Multi-threaded, high throughput.
+* **G1 GC:** Region-based, low pause time (modern default).
+* **CMS GC:** Low pause but deprecated.
+
+
+**⚙️ JVM Internals**
+
+* **JIT Compiler:** Converts bytecode to native code for faster execution.
+* **Bytecode:** Platform-independent intermediate code.
+* **Interpreter vs JIT:** Interpreter executes line-by-line, JIT optimizes frequently used code.
+
+
+**⚠️ Errors**
+
+* **OutOfMemoryError:** Heap or Metaspace memory exhausted.
+* **StackOverflowError:** Stack memory exceeded (deep recursion).
+
+
+**🔍 Advanced Concepts**
+
+* **Memory Leak:** Objects not GC’d due to active references.
+* **Heap Dump:** Memory snapshot used for debugging.
+* **GC Tuning:** Adjusting JVM parameters for performance.
+
+
+**⚙️ JVM Parameters**
+
+* **-Xms:** Initial heap size.
+* **-Xmx:** Maximum heap size.
+* **-XX:+UseG1GC:** Enables G1 garbage collector.
+* **-XX:MaxMetaspaceSize:** Limits Metaspace size.
+
+
+
+# ✅ 11. Java Input/Output (I/O) 
+
+## 1. What are the different ways to read a file in Java?
+
+Java provides multiple approaches to read files, each suitable for different scenarios and file sizes.
+
+**Common Methods:**
+- **FileInputStream:** Byte-based reading
+- **FileReader:** Character-based reading
+- **BufferedReader:** Efficient line-by-line reading
+- **Scanner:** Convenient parsing with delimiters
+- **Files.readAllLines():** Read entire file into List
+- **Files.lines():** Stream-based reading (Java 8+)
+
+```java
+// BufferedReader - most common
+try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+    String line = br.readLine();
+}
+
+// Files utility - modern approach
+List<String> lines = Files.readAllLines(Paths.get("file.txt"));
+```
+
+## 2. What is the difference between InputStream and Reader?
+
+**InputStream** is a byte-oriented class used to read raw **binary data** (like images, audio, or files) from a source.
+
+**Reader** is a character-oriented class used to read **text data** (characters, strings) from a source, handling character encoding automatically.
+
+```java
+// InputStream - for binary data
+InputStream is = new FileInputStream("image.jpg");
+int byteData = is.read(); // Returns byte as int
+
+// Reader - for text data
+Reader reader = new FileReader("text.txt");
+int charData = reader.read(); // Returns character as int
+```
+
+## 3. What is BufferedReader and BufferedWriter?
+
+**BufferedReader** is a Java class used to read text from an input stream efficiently by **buffering characters**, reducing the number of I/O operations.
+
+**BufferedWriter** is a Java class used to write text to an output stream efficiently by **buffering characters**, reducing the number of I/O operations.
+
+
+```java
+// BufferedReader - efficient reading
+try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+    String line;
+    while ((line = br.readLine()) != null) {
+        System.out.println(line);
+    }
+}
+
+// BufferedWriter - efficient writing
+try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
+    bw.write("Hello World");
+    bw.newLine();
+}
+```
+
+## 4. How do you handle large files efficiently?
+
+For large files, use streaming approaches and buffering to avoid loading entire file into memory.
+
+**Efficient Strategies:**
+- Use BufferedReader/Writer for text files
+- Process line by line, not entire file
+- Use NIO for better performance
+- Stream API for functional processing
+- Memory-mapped files for very large files
+
+```java
+// Stream processing - memory efficient
+try (Stream<String> lines = Files.lines(Paths.get("largefile.txt"))) {
+    lines.filter(line -> line.contains("keyword"))
+         .forEach(System.out::println);
+}
+
+// BufferedReader - traditional approach
+try (BufferedReader br = Files.newBufferedReader(Paths.get("largefile.txt"))) {
+    String line;
+    while ((line = br.readLine()) != null) {
+        // Process line by line
+    }
+}
+```
+
+## 5. What is NIO in Java?
+
+**NIO (New I/O)** in Java is a **high-performance I/O API** introduced in Java 1.4 that provides **non-blocking, buffer-based, and scalable input/output operations**.
+
+It uses **channels, buffers, and selectors** for efficient **file and network communication**.
+
+**Benefits:**
+- Better scalability for server applications
+- Non-blocking I/O operations
+- Memory-mapped file access
+- More efficient for handling many connections
+
+```java
+// NIO file reading
+try (FileChannel channel = FileChannel.open(Paths.get("file.txt"))) {
+    ByteBuffer buffer = ByteBuffer.allocate(1024);
+    channel.read(buffer);
+}
+```
+
+## 6. What is the difference between IO and NIO?
+
+**IO (java.io)** is **blocking and stream-based**, meaning a thread waits until data is read or written. It’s easy to use but not efficient for handling many connections because each request usually needs a separate thread.
+
+**NIO (java.nio)** is **non-blocking and buffer-based**. It uses **channels, buffers, and selectors**, allowing one thread to handle multiple connections. This makes it more scalable and better suited for high-performance applications.
+
+```java
+// Traditional I/O - blocking
+InputStream is = new FileInputStream("file.txt");
+int data = is.read(); // Blocks until data available
+
+// NIO - non-blocking potential
+FileChannel channel = FileChannel.open(Paths.get("file.txt"));
+ByteBuffer buffer = ByteBuffer.allocate(1024);
+channel.read(buffer); // Can be non-blocking with proper setup
+```
+
+## 7. When would you use NIO over traditional I/O?
+
+Use **NIO** when you need **better performance and scalability**, especially for server applications handling many concurrent connections.
+
+**Use NIO when:**
+- Building high-performance servers
+- Handling thousands of concurrent connections
+- Need non-blocking I/O operations
+- Working with large files (memory-mapped files)
+- Building chat servers, web servers
+
+**Use Traditional I/O when:**
+- Simple file operations
+- Few concurrent connections
+- Straightforward read/write operations
+- Rapid development needed
+- Working with small to medium files
+
+# ✅ 12. Java Generics 
+
+## 1. What are generics in Java?
+
+**Generics in Java** let you **write reusable, type-safe code** using **parameterized types (<>)**, ensuring **compile-time type checking** and **no need for explicit casting**.
+
+```java
+// Without generics - requires casting
+List list = new ArrayList();
+list.add("Hello");
+String str = (String) list.get(0); // Casting required
+
+// With generics - type safe
+List<String> list = new ArrayList<>();
+list.add("Hello");
+String str = list.get(0); // No casting needed
+```
+
+## 2. Why were generics introduced?
+
+Generics were introduced to provide compile-time type safety, eliminate casting, and enable programmers to write more robust and readable code.
+
+**Main Benefits:**
+- **Type Safety:** Catch type errors at compile time
+- **Eliminate Casting:** No need for explicit type casting
+- **Code Reusability:** Same code works with different types
+- **Better Performance:** No boxing/unboxing overhead
+- **Clearer APIs:** Self-documenting code
+
+```java
+// Before generics - runtime error possible
+List list = new ArrayList();
+list.add("String");
+list.add(123);
+String str = (String) list.get(1); // ClassCastException at runtime
+
+// With generics - compile-time error
+List<String> list = new ArrayList<>();
+list.add("String");
+list.add(123); // Compile error - type mismatch
+```
+
+## 3. What is type erasure?
+
+Type **erasure** is the process where generic type information is removed during compilation. The compiler replaces generic types with their bounds or Object, maintaining backward compatibility.
+
+- Generic type information removed at runtime
+- Replaced with raw types or bounds
+- Maintains backward compatibility with pre-Java 5 code
+- Bridge methods created for polymorphism
+- Cannot access generic type at runtime
+
+```java
+// Source code
+List<String> stringList = new ArrayList<>();
+List<Integer> intList = new ArrayList<>();
+
+// After type erasure (bytecode equivalent)
+List stringList = new ArrayList();
+List intList = new ArrayList();
+
+// Both have same runtime type
+System.out.println(stringList.getClass() == intList.getClass()); // true
+```
+
+## 4. What is the difference between &lt;? extends T&gt; and &lt;? super T&gt;?
+
+**&lt;? extends T&gt; (Upper Bounded Wildcard):**
+- Accepts T and its subtypes
+- Read-only operations (Producer)
+- Cannot add elements (except null)
+
+**&lt;? super T&gt; (Lower Bounded Wildcard):**
+- Accepts T and its supertypes
+- Write operations allowed (Consumer)
+- Can add T and its subtypes
+
+```java
+// ? extends T - can read, cannot write
+List<? extends Number> numbers = new ArrayList<Integer>();
+Number num = numbers.get(0); // OK - reading
+// numbers.add(10); // Compile error - cannot write
+
+// ? super T - can write, limited reading
+List<? super Integer> integers = new ArrayList<Number>();
+integers.add(10); // OK - writing Integer
+// Integer val = integers.get(0); // Compile error - returns Object
+Object val = integers.get(0); // OK - can read as Object
+```
+
+## 5. What is PECS principle?
+
+**PECS** stands for **"Producer Extends, Consumer Super"** - a guideline for choosing between extends and super wildcards based on how you use the collection.
+
+**Producer Extends:**
+- Use `<? extends T>` when you only read from collection
+- Collection produces/provides elements
+- You're consuming what the collection produces
+
+**Consumer Super:**
+- Use `<? super T>` when you only write to collection
+- Collection consumes/accepts elements
+- You're producing elements for the collection
+
+```java
+// Producer - use extends
+public void processNumbers(List<? extends Number> numbers) {
+    for (Number num : numbers) { // Reading - OK
+        System.out.println(num);
+    }
+}
+
+// Consumer - use super
+public void addNumbers(List<? super Integer> numbers) {
+    numbers.add(10); // Writing - OK
+    numbers.add(20);
+}
+```
+
+## 6. What are the limitations of generics?
+
+**Generics** have several limitations due to type erasure and backward compatibility requirements.
+
+**Key Limitations:**
+- Cannot instantiate generic types: `new T()`
+- Cannot create arrays of parameterized types: `new List<String>[10]`
+- Cannot use primitives as type parameters: `List<int>` (use `List<Integer>`)
+- Cannot catch parameterized exceptions
+- Static context cannot access type parameters
+- Cannot overload methods that differ only in generic parameters
+
+```java
+public class GenericClass<T> {
+    // Cannot do these:
+    // T instance = new T(); // Error - cannot instantiate
+    // T[] array = new T[10]; // Error - cannot create array
+    // static T staticField; // Error - static context
+    
+    // Cannot catch generic exception
+    // try { } catch (T e) { } // Error
+    
+    // Cannot overload based on generics only
+    // void method(List<String> list) { }
+    // void method(List<Integer> list) { } // Error - same erasure
+}
+
+// Workarounds
+public class GenericClass<T> {
+    private Class<T> type;
+    
+    public GenericClass(Class<T> type) {
+        this.type = type;
+    }
+    
+    public T createInstance() throws Exception {
+        return type.newInstance(); // Reflection workaround
+    }
+}
+```
+
+# ✅ 13. Java Annotations & Reflection 
+
+
+## 1. What are annotations in Java?
+
+**Annotations** are metadata that **provide information about code without affecting its execution**. They're used by compilers, development tools, and frameworks to process code automatically.
+
+```java
+@Override
+public String toString() {
+    return "Example";
+}
+
+@Deprecated
+public void oldMethod() {
+    // Legacy code
+}
+```
+
+## 2. What are built-in annotations?
+
+Java provides several built-in annotations for common use cases like method overriding, deprecation warnings, and compiler instructions.
+
+**Common Built-in Annotations:**
+- **@Override:** Indicates method overrides parent method
+- **@Deprecated:** Marks code as outdated
+- **@SuppressWarnings:** Suppresses compiler warnings
+- **@FunctionalInterface:** Marks functional interfaces
+- **@SafeVarargs:** Suppresses varargs warnings
+
+```java
+@Override
+public void method() { } // Ensures proper overriding
+
+@Deprecated
+public void legacyMethod() { } // Warns users about deprecation
+
+@SuppressWarnings("unchecked")
+List list = new ArrayList(); // Suppresses unchecked warning
+```
+
+## 3. What is @Target, @Documented, @Inherited?
+
+**@Target** defines **where we can use the annotation** (class, method, field, etc.).
+
+
+```java
+import java.lang.annotation.*;
+
+@Target(ElementType.TYPE)
+@interface MyAnnotation {
+}
+```
+
+**Use:**
+
+```java
+@MyAnnotation
+class Test {
+}
+```
+
+**@Documented** means the annotation **will appear in JavaDoc documentation**.
+
+```java
+import java.lang.annotation.*;
+
+@Documented
+@Target(ElementType.TYPE)
+@interface MyAnnotation {
+}
+```
+
+
+**@Inherited** means the annotation **can be inherited from parent class to child class**.
+
+```java
+import java.lang.annotation.*;
+
+@Inherited
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@interface Role {
+    String value();
+}
+
+@Role("Admin")
+class Parent {
+}
+
+class Child extends Parent {
+}
+```
+
+Child class automatically gets `@Role`.
+
+
+## 4. What is retention policy?
+
+Retention policy determines how long annotations are retained - in source code, class files, or at runtime.
+
+**Retention Policies:**
+- **SOURCE:** Discarded by compiler (e.g., @Override)
+- **CLASS:** Stored in class files but not available at runtime
+- **RUNTIME:** Available at runtime via reflection
+
+```java
+@Retention(RetentionPolicy.SOURCE)   // Compile-time only
+@interface CompileTime { }
+
+@Retention(RetentionPolicy.RUNTIME)  // Available at runtime
+@interface RuntimeAnnotation { }
+```
+
+
+## 6. What is reflection in Java?
+
+**Reflection in Java** is a feature that allows a program to **inspect and manipulate classes, methods, fields, and constructors at runtime**, even if they are **private**, enabling **dynamic behavior** and **runtime flexibility**.
+
+
+```java
+// Get class information
+Class<?> clazz = String.class;
+Method[] methods = clazz.getMethods();
+
+// Create instance dynamically
+Object obj = clazz.newInstance();
+
+// Invoke method dynamically
+Method method = clazz.getMethod("length");
+int length = (int) method.invoke("Hello");
+```
+
+## 7. When should you use reflection?
+
+Use **reflection** when you need dynamic behavior that cannot be achieved with normal Java code, typically in frameworks and libraries.
+
+**Appropriate Use Cases:**
+- Building frameworks (Spring, Hibernate)
+- Serialization/deserialization libraries
+- Testing frameworks (JUnit)
+- Dependency injection containers
+- Code analysis tools
+- Plugin architectures
+
+**Avoid reflection for:**
+- Normal application logic
+- Performance-critical code
+- When compile-time solutions exist
+
+
+# ✅ 14. Java Web Development - Servlets and JSP
+
+## 1. What is servlet in Java?
+
+A **servlet** is a Java class that **handles HTTP requests and responses** on a web server. It's like a **controller that processes incoming requests**, performs business logic, and sends back responses. Servlets run inside containers like Tomcat and are the foundation of Java web applications.
+
+```java
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Hello World!</h1>");
+    }
+}
+```
+
+## 2. What is the servlet lifecycle?
+
+The **Servlet Lifecycle** defines the stages a servlet goes through from **creation to destruction** in a servlet container like **Apache Tomcat**.
+
+**Lifecycle Phases**
+
+1. **Initialization (`init()`) :** The servlet is loaded and initialized by the container.
+2. **Request Processing (`service()`) :** The servlet handles client requests (`doGet()`, `doPost()`).
+3. **Destruction (`destroy()`) :** The servlet is removed from memory when the server shuts down.
+
+
+```java
+public class LifecycleServlet extends HttpServlet {
+    
+    public void init() throws ServletException {
+        // Called once when servlet loads
+        System.out.println("Servlet initialized");
+    }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        // Called for each request
+        response.getWriter().println("Processing request");
+    }
+    
+    public void destroy() {
+        // Called once when servlet unloads
+        System.out.println("Servlet destroyed");
+    }
+}
+```
+
+## 3. What is JSP (JavaServer Pages)?
+
+**JavaServer Pages (JSP)** is a **server-side technology** used to create **dynamic web pages** using **Java code inside HTML**. It runs on a web server like **Apache Tomcat**.
+
+JSP is internally **converted into a servlet** by the server and then executed.
+
+* Used to build **dynamic web applications**
+* Combines **HTML + Java code**
+* Runs on the **server side**
+* Automatically converted to **Servlet**
+
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Welcome, <%= request.getParameter("username") %>!</h1>
+    
+    <%
+        String currentTime = new java.util.Date().toString();
+    %>
+    
+    <p>Current time: <%= currentTime %></p>
+</body>
+</html>
+```
+
+## 4. What is the difference between servlet and JSP?
+
+**Servlets** are **Java classes** that handle **HTTP requests and responses**. They contain Java code and are mainly used for **processing business logic**, not for generating HTML.
+
+**JSP (JavaServer Pages)** is a **view technology** that allows embedding **Java code inside HTML** to create dynamic web pages. JSPs are easier for creating UI because they focus on **presentation**, while servlets focus on **logic**.
+
+In short: **Servlet = logic/controller**, **JSP = view/presentation**.
+
+**Key differences:**
+
+- Servlets: Java code generating HTML
+- JSP: HTML with embedded Java
+- Servlets: Better for logic
+- JSP: Better for presentation
+- JSP gets converted to servlets anyway
+
+```java
+// Servlet approach
+public class UserServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>User List</h1>");
+        out.println("</body></html>");
+    }
+}
+```
+
+```jsp
+<!-- JSP approach -->
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>User List</h1>
+    <% for(User user : users) { %>
+        <p><%= user.getName() %></p>
+    <% } %>
+</body>
+</html>
+```
+
+
+## 5. What is ORM?
+
+**ORM (Object Relational Mapping)** is a technique to map **Java objects ↔ database tables**.
+
+**What It Does**
+- Converts Java objects → Database tables
+- Converts Database rows → Java objects 
+
+```java
+// Java Object (Object-Oriented)
+Employee employee = new Employee(1L, "John", 50000);
+
+// Becomes this SQL (Relational Database)
+INSERT INTO employee (id, name, salary) VALUES (1, 'John', 50000);
+
+// Without ORM — raw SQL
+String sql = "SELECT * FROM users WHERE id = ?";
+// ...boilerplate JDBC code...
+
+// With ORM — just work with objects
+User user = session.get(User.class, 1);
+```
+
+## 6. What is Hibernate?
+
+**Hibernate ORM** is an open-source ORM (Object Relational Mapping) framework for Java that simplifies database operations by mapping Java objects to database tables. Hibernate is a popular implementation of Jakarta Persistence (JPA).
+
+
+```java
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+}
+```
+
+**Analogy:**
+- **ORM** = "Driving a car" (concept) 🚗
+- **JPA** = "Driver's license test" (standard rules) 📋
+- **Hibernate** = "Toyota Camry" (actual car implementing the rules) 🚙
+
+| Concept   | Analogy                 |
+| --------- | ----------------------- |
+| ORM       | Online shopping concept |
+| Hibernate | Amazon application      |
+
+
+| | ORM | JPA | Hibernate |
+|---|---|---|---|
+| **What it is** | Concept/technique | Java specification | Framework/library |
+| **Who defines it** | General pattern | Oracle / Jakarta EE | Red Hat |
+| **Analogous to** | "web standards" | JDBC interface | A JDBC driver |
+
+
+## 7. What is JPA?
+
+**Jakarta Persistence (JPA)** is a Java specification for **Object Relational Mapping (ORM)**. It defines standard APIs, interfaces, and annotations for mapping Java objects to database tables and performing database operations. 
+
+JPA itself is not an implementation; frameworks like Hibernate ORM implement JPA.
+
+JPA works by using an **EntityManager** to perform CRUD operations. You write **Java objects**, and JPA handles converting them to SQL queries and storing them in the database. Frameworks like **Hibernate** are common implementations of JPA.
+
+Example concepts in JPA:
+
+- `@Entity`
+- `@Table`
+- `@Id`
+- `EntityManager`
+- `JPQL`
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+    public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+}
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+}
+```
+
+**JpaRepository** belongs to Spring Data JPA, not core JPA.
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+    public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+}
+```
+
+| Code                                 | Belongs To      |
+| ------------------------------------ | --------------- |
+| `@Entity`, `@Table`, `EntityManager` | JPA             |
+| `JpaRepository`                      | Spring Data JPA |
+| Hibernate Session                    | Hibernate       |
+
+
+## 7. Different between ORM, JPA and Hibernate?
+
+| Aspect                 | ORM                                                           | JPA                                                                                                                                              | Hibernate                                                                                                                                                |
+| ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| What it is             | Concept/technique for mapping objects to relational databases | Java specification (API) defining how ORM should work                                                                                            | Framework that implements JPA specification stackoverflow+1                                                                                              |
+| Type                   | Approach/methodology (not a tool)                             | Specification/API (interface only)                                                                                                               | Full ORM framework/provider linkedin+1                                                                                                                   |
+| Framework?             | ❌ No framework (it's the concept)                             | ❌ No framework (just API spec)                                                                                                                   | ✅ Yes - full ORM framework interviewbit+1                                                                                                                |
+| Package                | N/A                                                           | javax.persistence or jakarta.persistence                                                                                                         | org.hibernate geeksforgeeks                                                                                                                              |
+| Key Annotations        | N/A                                                           | @Entity, @Id, @Table, @Column, @OneToMany, @ManyToOne, @Transient, @GeneratedValue geeksforgeeks                                                 | All JPA annotations plus Hibernate-specific: @Lazy, @BatchSize, @Formula, @Where, @Cache geeksforgeeks                                                   |
+| Main Interface         | N/A                                                           | EntityManager, EntityManagerFactory                                                                                                              | SessionFactory, Session (Hibernate-specific) + JPA EntityManager geeksforgeeks                                                                           |
+| Query Language         | N/A                                                           | JPQL (Java Persistence Query Language)                                                                                                           | HQL (Hibernate Query Language) + supports JPQL geeksforgeeks                                                                                             |
+| Setup/Maven Dependency | N/A                                                           | Need implementation (e.g., hibernate-core) + javax.persistence-api                                                                               | org.hibernate:hibernate-core or hibernate-entitymanager geeksforgeeks                                                                                    |
+| Config File            | N/A                                                           | persistence.xml (defines persistence unit)                                                                                                       | hibernate.cfg.xml or persistence.xml (JPA mode) + application.properties in Spring Boot geeksforgeeks                                                    |
+| Spring Boot Setup      | N/A                                                           | Auto-configured via spring-boot-starter-data-jpa                                                                                                 | Auto-configured as default JPA provider in Spring Boot youtube                                                                                           |
+| Example Dependency     | N/A                                                           | xml<br><dependency><br>  <groupId>org.springframework.boot</groupId><br>  <artifactId>spring-boot-starter-data-jpa</artifactId><br></dependency> | xml<br><dependency><br>  <groupId>org.hibernate</groupId><br>  <artifactId>hibernate-core</artifactId><br>  <version>6.x.x</version><br></dependency>    |
+| Entity Example         | N/A                                                           | java<br>@Entity<br>@Table(name="users")<br>public class User {<br>  @Id<br>  @GeneratedValue<br>  private Long id;<br>}                          | Same as JPA plus Hibernate extensions: java<br>@Entity<br>@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)<br>@Lazy(false)<br>public class User { ... } |
+| Additional Features    | N/A                                                           | Standard ORM features only                                                                                                                       | Advanced caching, lazy loading strategies, batch processing, dirty checking, second-level cache, native SQL support stackoverflow+1                      |
+| Switchability          | N/A                                                           | ✅ Easy to switch implementations (portable API)                                                                                                  | ❌ Tied to Hibernate if using Hibernate-specific features stackoverflow                                                                                   |
+
+
+## 8. Difference between `save()` and `persist()`
+
+
+
+`persist()` is a JPA method used to make a new entity managed and schedule it for insertion into the database. It does not return anything.
+
+`save()` is a Hibernate/Spring Data method that saves the entity and returns the saved object. It can handle both insert and update operations.
+
+In modern Spring Boot applications, we typically use `save()` through Spring Data JPA repositories.
+
+
+| Feature                | `persist()`           | `save()`                    |
+| ---------------------- | --------------------- | --------------------------- |
+| Defined In             | JPA (`EntityManager`) | Hibernate / Spring Data JPA |
+| Return Type            | `void`                | Entity object               |
+| Insert New Entity      | ✅                     | ✅                           |
+| Update Existing Entity | ❌                     | ✅                           |
+| Standard JPA           | ✅                     | ❌                           |
+
+
+```java
+@Entity
+class Employee {
+    @Id
+    private Long id;
+    private String name;
+}
+
+Employee emp = new Employee();
+emp.setName("John");
+
+entityManager.persist(emp);
+```
+
+```java
+Employee emp = new Employee();
+emp.setName("John");
+
+employeeRepository.save(emp);
+```
+
+
+## 9. XYZ
+
+## 10. What is the difference between DAO and DTO?
+
+**DAO (Data Access Object)** is used to **interact with the database** and perform CRUD operations like save, update, delete, and fetch data.
+
+**DTO (Data Transfer Object)** is used to **transfer data between layers** of an application (Controller, Service, etc.). Transfer only required fields instead of full entity objects. it usually contains only fields with getters and setters.
+
+**Example:**
+
+* **DAO:** `EmployeeRepository` that accesses the database.
+* **DTO:** `EmployeeDTO` used to send employee data in API requests or responses.
+
+
+## 10. What is the N+1 Query Problem and How Do You Fix It?
+
+So the N+1 problem happens when you load a list of entities and then for each entity, JPA fires a separate query to load its related data.
+
+For example, you load 10 orders — that's 1 query. Then for each order, it loads the customer — that's 10 more queries. Total = 11 queries. That's N+1.
+
+**Fix it using JOIN FETCH:**
+
+```java
+@Query("SELECT o FROM Order o JOIN FETCH o.customer")
+List<Order> findAllWithCustomer();
+```
+
+Or use `@EntityGraph`:
+
+```java
+@EntityGraph(attributePaths = {"customer"})
+List<Order> findAll();
+```
+
+This loads everything in a single query instead of N+1 separate ones.
+
+---
+
+## 11. What is Optimistic vs Pessimistic Locking?
+
+**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
+
+Usually implemented using a **version column**.
+
+
+```java
+// Optimistic - uses @Version
+@Entity
+public class Product {
+    @Id private Long id;
+    @Version private int version; // auto-checked on update
+    private int stock;
+}
+
+// If two threads update same Account simultaneously,
+// second one gets: javax.persistence.OptimisticLockException
+```
+
+**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
+
+```java
+// Pessimistic - locks row in DB
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT p FROM Product p WHERE p.id = :id")
+Product findByIdForUpdate(@Param("id") Long id);
+```
+
+**`@Version`** enables optimistic locking. Hibernate auto-increments the version on each update and throws `OptimisticLockException` if two transactions update the same record.
+
+| | Optimistic | Pessimistic |
+|---|---|---|
+| Mechanism | Version check at commit | DB-level lock (SELECT FOR UPDATE) |
+| Use case | Low contention | High contention |
+| Performance | Better | Slower |
+
+Use optimistic for read-heavy apps, pessimistic for write-heavy or financial systems.
+
+---
+
+## 12. What is JPQL vs Native Query?
+
+**JPQL** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
+
+```java
+@Query("SELECT e FROM Employee e WHERE e.department = :dept")
+List<Employee> findByDept(@Param("dept") String dept);
+```
+
+**Native Query** uses actual SQL with real table and column names. Use it when you need database-specific features or complex queries JPQL can't handle.
+
+```java
+@Query(value = "SELECT * FROM employee WHERE department = :dept", nativeQuery = true)
+List<Employee> findByDeptNative(@Param("dept") String dept);
+```
+
+Prefer JPQL for portability. Use native query only when needed.
+
+---
+
+## 13. What are JPA Cascade Types?
+
+Cascade means — *when you do an operation on a parent entity, automatically apply it to child entities too.*
+
+| Type | Behavior |
+|---|---|
+| `PERSIST` | Save child when parent is saved |
+| `MERGE` | Update child when parent is updated |
+| `REMOVE` | Delete child when parent is deleted |
+| `REFRESH` | Refresh child when parent is refreshed |
+| `DETACH` | Detach child when parent is detached |
+| `ALL` | Apply all of the above |
+
+```java
+@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+private List<OrderItem> items;
+```
+
+Be careful with `REMOVE` — it can delete child records you didn't intend to delete.
+
+---
+
+## 14. What is Database Indexing and When to Use It?
+
+**Database indexing** is is a data structure technique used to speed up data retrieval operations. it like a book's table of contents — it helps the database find rows faster without scanning the whole table.
+
+**When to use:**
+- Columns used in `WHERE`, `JOIN`, `ORDER BY`, or `GROUP BY`
+- Foreign key columns
+- Columns with high cardinality (many unique values)
+
+**When NOT to use:**
+- Small tables
+- Columns that are updated very frequently
+- Columns with very low cardinality (like boolean flags)
+
+```sql
+CREATE INDEX idx_employee_email ON employee(email);
+```
+
+In JPA:
+```java
+@Table(indexes = @Index(name = "idx_email", columnList = "email"))
+public class Employee { }
+```
+
+Indexes speed up reads but slow down writes — so use them wisely.
+
+---
+
+## 15. What is `FetchType.LAZY` vs `FetchType.EAGER` In Depth?
+
+**EAGER** — loads related data immediately when the parent is loaded, even if you don't need it.
+
+**LAZY** — loads related data only when you actually access it (on-demand).
+
+```java
+@OneToMany(fetch = FetchType.LAZY)   // default for collections
+private List<Order> orders;
+
+@ManyToOne(fetch = FetchType.EAGER)  // default for single associations
+private Department department;
+```
+
+**The problem with LAZY** — if you access lazy data outside a transaction (after the session is closed), you get `LazyInitializationException`.
+
+**Fix:** Use `JOIN FETCH` or `@Transactional` to keep the session open, or use DTOs.
+
+**Best practice:** Always prefer LAZY. Load eagerly only when you always need the related data together.
+
+
+---
+
+## 16. What is LazyInitializationException?
+
+**`LazyInitializationException`** occurs when Hibernate tries to load a lazily fetched entity or collection after the Hibernate session has already been closed.
+
+
+```java
+@Entity
+class Employee {
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Address> addresses;
+}
+```
+
+```java
+Employee emp = employeeRepository.findById(1L).get();
+// Session closes here
+
+emp.getAddresses().size(); // LazyInitializationException
+```
+
+Since `addresses` is loaded lazily, Hibernate tries to fetch it only when `getAddresses()` is called. But the session is already closed, so it throws `LazyInitializationException`.
+
+**How to Fix It**
+
+    1. Access the lazy data inside a transaction.
+    2. Use `JOIN FETCH` in JPQL.
+       ```java
+       SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = 1
+       ```
+    3. Use DTO projections instead of entities for web layer.
+    4. Use `FetchType.EAGER` only when necessary.
+
+
+## 17. Entity lifecycle states?
+
+| State | Description |
+|---|---|
+| **Transient** | New object, not tracked by JPA |
+| **Managed** | Tracked by persistence context |
+| **Detached** | Was managed, now outside context |
+| **Removed** | Scheduled for deletion |
+
+```java
+User user = new User("John");          // Transient
+
+entityManager.persist(user);           // Managed - changes auto-synced
+
+entityManager.detach(user);            // Detached - changes NOT tracked
+user.setName("Jane");                  // won't be saved
+
+entityManager.merge(user);             // Managed again
+
+entityManager.remove(user);            // Removed
+```
+
+---
+
+## 18. What is dirty checking?
+
+**Dirty checking** is a mechanism in Hibernate (and JPA) that **automatically detects changes made to entity objects and synchronizes them to the database** without requiring explicit update queries.
+
+**How It Works**
+
+1. **Snapshot Creation**: When Hibernate loads an entity, it creates a copy of all property values (a snapshot) [dev](https://dev.to/yigi/hibernate-dirty-check-4j6m)
+
+2. **Modification Tracking**: When you modify the entity in memory, Hibernate detects the difference between the current state and the snapshot [baeldung](https://www.baeldung.com/java-hibernate-entity-dirty-check)
+
+3. **Automatic Update**: At flush time (when transaction commits), Hibernate compares the current state with the snapshot and generates `UPDATE` SQL for only the changed fields [javacodegeeks](https://www.javacodegeeks.com/java-hibernate-entity-dirty-check-example.html)
+
+```java
+// Load entity
+Employee employee = employeeRepository.findById(1L).get();
+
+// Modify property (no explicit update call needed!)
+employee.setName("John Updated");  // Hibernate detects this change
+
+// Transaction commits → Hibernate automatically generates:
+// UPDATE employee SET name = 'John Updated' WHERE id = 1
+```
+
+**Dirty checking Example**
+
+```java
+@Transactional
+public void updateEmployee() {
+    Employee employee = employeeRepository.findById(1L).get();
+    // Hibernate creates snapshot: {id: 1, name: "John", salary: 50000}
+    
+    employee.setName("John Updated");  // Modified
+    // Hibernate marks entity as "dirty"
+    
+    // No need to call employeeRepository.save()!
+    // At transaction commit, Hibernate automatically executes:
+    // UPDATE employee SET name = 'John Updated' WHERE id = 1
+}
+```
+
+**How to Disable Dirty Checking (When Not Needed)**
+
+```java
+// 1. Mark transaction as read-only (Spring)
+@Transactional(readOnly = true)
+public Employee getEmployee(Long id) {
+    return employeeRepository.findById(id).get();
+}  // No dirty checking performed [web:9]
+
+// 2. Set entity as read-only
+session.setReadOnly(entity, true);  // Hibernate won't track changes [web:12]
+
+// 3. Evict entity from session
+session.evict(employee);  // Removes from persistence context [web:12]
+```
+
+---
+
+## 19. Difference between save() and saveAndFlush()?
+
+Both `save()` and `saveAndFlush()` persist data using JPA.
+
+**`save()`** stores the entity in the persistence context and the actual SQL may execute later (at transaction commit). 
+
+**`saveAndFlush()`** immediately flushes changes to the database by executing the SQL right away.
+
+**How It Works**
+
+```java
+// save() - Data stays in memory until commit
+Employee employee = new Employee(1L, "John");
+employeeRepository.save(employee);  // INSERT not executed yet
+// Do other operations...
+// Transaction commits → INSERT executed
+
+// saveAndFlush() - Data written immediately
+Employee employee = new Employee(2L, "Jane");
+employeeRepository.saveAndFlush(employee);  // INSERT executed NOW
+// Data is in database immediately
+```
+
+
+| Aspect               | save()                                               | saveAndFlush()                                                     |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
+| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
+| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
+| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
+| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
+| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
+
+
+| save()                                 | saveAndFlush()                   |
+| -------------------------------------- | -------------------------------- |
+| Adding items to shopping cart 🛒       | Tapping "Buy Now" on Amazon ⚡    |
+| Pay at checkout (commit)               | Payment goes through immediately |
+| Can add multiple items before checkout | Single immediate transaction     |
+| More efficient for bulk                | Immediate consistency            |
+
+---
+
+## 20. What is auditing and How it works in JPA?
+
+
+In Java (especially enterprise applications like Spring Boot), **auditing** means **tracking and recording changes made to data**, such as:
+
+* **Who** created the record
+* **When** the record was created
+* **Who** updated the record
+* **When** it was last updated
+
+
+**How it works**
+
+Spring Data JPA provides `@CreatedDate`, `@LastModifiedDate`, `@CreatedBy`, `@LastModifiedBy` via `@EnableJpaAuditing`.
+
+```java
+// 1. Enable auditing
+@SpringBootApplication
+@EnableJpaAuditing
+public class App {}
+
+// 2. Auditable base entity
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class Auditable {
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+}
+
+// 3. Extend it
+@Entity
+public class User extends Auditable {
+    @Id @GeneratedValue private Long id;
+    private String name;
+}
+```
+
+
+# ✅ 15. Java Lambda Expressions & Streams API 
+
+## 2. What are lambda expressions?
+
+**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
+
+They were introduced in **Java 8** to support **functional programming** and make code more readable and concise.
+
+```java
+(parameters) -> expression
+```
+
+```java
+// Before lambda - anonymous class
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println("Hello");
+    }
+};
+
+// With lambda - concise
+Runnable r2 = () -> System.out.println("Hello");
+
+// Lambda with parameters
+List<String> names = Arrays.asList("John", "Jane");
+names.forEach(name -> System.out.println(name));
+```
+
+## 3. What are method references?
+
+A **Method Reference** is a **shorthand syntax of a lambda expression** that refers to an existing method using `::` operator.
+
+**Types of Method References:**
+- Static method: `ClassName::methodName`
+- Instance method: `object::methodName`
+- Instance method of arbitrary object: `ClassName::methodName`
+- Constructor: `ClassName::new`
+
+```java
+// Lambda expression
+OptionalInt maxAge = studlist.stream()
+        .mapToInt(student -> student.getAge())
+        .max();
+
+// Method reference - more concise
+OptionalInt maxAge = studlist.stream()
+        .mapToInt(Student::getAge)
+        .max();
+
+// Constructor reference
+Supplier<List<String>> listSupplier = ArrayList::new;
+```
+
+## 4. What is the difference between lambda and anonymous class?
+
+**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
+
+**Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
+
+```java
+// Anonymous class - verbose
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println(this.getClass()); // Anonymous class
+    }
+};
+
+// Lambda - concise
+Runnable r2 = () -> {
+    System.out.println(this.getClass()); // Enclosing class
+};
+```
+
+## 5. What is Stream API?
+
+The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like **filtering, mapping, and sorting** without modifying the original data source.
+
+Streams work in a **pipeline** using **intermediate operations** such as `filter()` and `map()`, and a **terminal operation** like `collect()` or `forEach()` to produce a result. This makes code cleaner, more readable, and supports easy parallel processing.
+
+```java
+List<String> names = Arrays.asList("John", "Jane", "Bob", "Alice");
+
+// Stream pipeline
+List<String> result = names.stream()
+    .filter(name -> name.length() > 3)  // Intermediate
+    .map(String::toUpperCase)           // Intermediate
+    .sorted()                           // Intermediate
+    .collect(Collectors.toList());      // Terminal
+```
+
+**Loop vs Stream API** 
+Generally, a **for loop is faster** than the Stream API because it has **less overhead** and runs directly in the JVM.
+Stream API provides **better readability, functional style, and parallel processing**, but it may have a **small performance cost**.
+
+## 6. What is parallel streams? 
+
+**Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
+
+They use the **ForkJoinPool.commonPool()** by default and are ideal for **CPU-intensive operations on large datasets**, making it easy to leverage **multi-core processors**.
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+// Sequential
+int sum = numbers.stream().mapToInt(i -> i * i).sum();
+
+// Parallel - automatically uses multiple threads
+int parallelSum = numbers.parallelStream()
+    .mapToInt(i -> i * i)
+    .sum();
+```
+
+## 7. What is the difference between Collection and Stream?
+
+A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
+
+A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
+
+```java
+List<String> collection = Arrays.asList("a", "b", "c");
+collection.add("d"); // Modifies collection
+
+Stream<String> stream = collection.stream();
+stream.filter(s -> s.length() > 1); // Doesn't modify collection
+// stream.filter(...); // Error - stream already used
+```
+
+## 8. What are intermediate and terminal operations?
+
+In the **Stream API**, **intermediate operations** are operations like `filter()`, `map()`, and `sorted()` that **transform a stream**. They are **lazy**, meaning they don’t execute immediately and return another stream, allowing operations to be chained.
+
+**Terminal operations** are operations like `forEach()`, `collect()`, `reduce()`, and `count()` that **trigger the execution** of the stream pipeline and produce a final result or side effect.
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+numbers.stream()
+    .filter(n -> n > 2)     // Intermediate - lazy
+    .map(n -> n * 2)        // Intermediate - lazy
+    .sorted()               // Intermediate - lazy
+    .forEach(System.out::println); // Terminal - triggers execution
+```
+
+## 9. What is the difference between map() and flatMap()?
+
+`map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
+
+`flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
+
+**`map()`**
+
+* Transforms each element → **1 to 1**
+* Returns same number of elements
+
+**`flatMap()`**
+
+* Transforms each element → **1 to many**
+* Flattens nested structure
+
+
+```java
+
+// map() - one-to-one
+List<String> names = List.of("java", "spring");
+
+List<String> result = names.stream()
+    .map(String::toUpperCase)
+    .toList();
+
+System.out.println(result);
+// Output: [JAVA, SPRING]
+
+// flatMap() - one-to-many, then flatten
+List<List<String>> list = List.of(
+    List.of("A", "B"),
+    List.of("C", "D")
+);
+
+List<String> result = list.stream()
+    .flatMap(Collection::stream)
+    .toList();
+
+System.out.println(result);
+// Output: [A, B, C, D]
+```
+
+## 10. What is Optional class?
+
+**Optional class** is a container class that may or may not contain a value. It helps avoid **NullPointerException** and makes null handling more explicit and safer.
+
+```java
+import java.util.Optional;
+
+public class Test {
+    public static void main(String[] args) {
+
+        String name = null;
+
+        Optional<String> optional = Optional.ofNullable(name);
+
+        // optional way one
+        if (optional.isPresent()) {
+            System.out.println(optional.get());
+        } else {
+            System.out.println("Value is null");
+        }
+
+        // optional way two
+        System.out.println(optional.orElse("Default Value"));
+    }
+}
+```
+
+## 11. What is diffence between Arrays.asList() vs List.of()?
+`Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
+
+`List.of()` creates an **immutable list** that does not allow `null` values. You cannot modify, add, or remove elements from this list.
+
+```java
+// Arrays.asList() - fixed-size, allows null   
+List<String> list1 = Arrays.asList("a", "b", null);
+list1.set(0, "x"); // OK - modifies element
+// list1.add("c"); // Error - cannot add
+// List.of() - immutable, does not allow null
+
+List<String> list2 = List.of("a", "b", "c");
+// list2.set(0, "x"); // Error - cannot modify
+// list2.add("d"); // Error - cannot add
+```
+
+
+# ✅ 16. Java JDBC 
+
+## 1. What is JDBC ?
+
+JDBC (Java Database Connectivity) is a Java API that provides a standard way to connect and interact with relational databases. It acts as a bridge between Java applications and databases.
+
+- Standard API for database connectivity
+- Database-independent interface
+- Supports SQL operations (CRUD)
+- Works with any JDBC-compliant database
+- Part of Java SE platform
+
+JDBC allows Java applications to execute SQL statements, retrieve results, and manage database connections in a portable way across different database vendors.
+
+## 2. What are the steps to connect to a database using JDBC?
+
+There are 5 main steps to establish database connectivity using JDBC.
+
+**Steps:**
+1. **Load Driver:** Register database driver
+2. **Create Connection:** Establish database connection
+3. **Create Statement:** Prepare SQL statement
+4. **Execute Query:** Run SQL and get results
+5. **Close Resources:** Clean up connections
+
+```java
+// Step 1: Load driver (optional in modern JDBC)
+Class.forName("com.mysql.cj.jdbc.Driver");
+
+// Step 2: Create connection
+Connection conn = DriverManager.getConnection(
+    "jdbc:mysql://localhost:3306/mydb", "user", "password");
+
+// Step 3: Create statement
+Statement stmt = conn.createStatement();
+
+// Step 4: Execute query
+ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+
+// Step 5: Close resources
+rs.close(); stmt.close(); conn.close();
+```
+
+## 3. What is the difference between Statement and PreparedStatement?
+
+A **Statement** is used to execute **static SQL queries**. The SQL query is sent to the database every time it runs, so it’s less efficient and more vulnerable to **SQL injection**.
+
+A **PreparedStatement** is used for **parameterized queries**. The SQL is **precompiled and cached** by the database, which improves performance for repeated execution and **prevents SQL injection** by safely handling input values.
+
+```java
+// Statement - vulnerable to SQL injection
+Statement stmt = conn.createStatement();
+String sql = "SELECT * FROM users WHERE id = " + userId; // Dangerous!
+ResultSet rs = stmt.executeQuery(sql);
+
+// PreparedStatement - safe and efficient
+PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+pstmt.setInt(1, userId); // Safe parameter binding
+ResultSet rs = pstmt.executeQuery();
+```
+
+## 4. What is connection pooling and how it works internally?
+
+**Connection pooling is a technique used to reuse database connections instead of creating a new connection every time a request comes.**
+
+**How It Works Internally (Simple Explanation)**
+
+1. When the application starts, it **creates a fixed number of database connections** and stores them in a pool.
+2. When a request needs database access, it **borrows a connection from the pool**.
+3. After completing the work, the connection is **returned back to the pool**, not closed.
+4. The same connection can then be reused by another request.
+5. If all connections are busy:
+
+   * The request either **waits** for a free connection
+   * Or throws a timeout exception (based on configuration)
+
+**Benefits:**
+- **Reduced connection overhead:** Avoid expensive connection creation
+- **Better resource utilization:** Limit concurrent connections
+- **Improved response times:** Reuse existing connections
+- **Database protection:** Prevent connection exhaustion
+- **Scalability:** Handle more concurrent users
+
+**Popular Connection Pools:**
+- HikariCP (fastest)
+- Apache DBCP2
+- C3P0
+- Tomcat JDBC Pool
+
+```java
+// HikariCP example
+HikariConfig config = new HikariConfig();
+config.setJdbcUrl("jdbc:mysql://localhost:3306/mydb");
+config.setUsername("user");
+config.setPassword("password");
+config.setMaximumPoolSize(20);
+
+HikariDataSource dataSource = new HikariDataSource(config);
+Connection conn = dataSource.getConnection(); // From pool
+```
+
+
+## 5. What is caching and how it works inernally(Implementation)?
+
+**Caching** in Java is a technique of **storing frequently used data in memory** so that we don’t have to fetch it again from a slow source like a database or external API.
+
+* **`@Cacheable`** → Stores the method result in cache and returns cached data for the same request instead of executing the method again.
+* **`@CachePut`** → Always executes the method and **updates the cache with the latest result**.
+* **`@CacheEvict`** → Removes specific or all entries from the cache when data becomes invalid or is deleted.
+
+In Java, caching can be broadly categorized into **three main types** based on where the data is stored.
+
+- **Local Cache (In-Memory Cache):** Data is stored **inside the application memory** for fast access. Example using Caffeine
+
+
+**1. Local Cache – Caffeine (Real-Time Example: Product Catalog)**
+
+**Use case:** Frequently accessed product data → store in local cache to avoid DB calls.
+
+**Service Class**
+
+```java
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
+import java.util.concurrent.TimeUnit;
+
+public class ProductService {
+
+    private static Cache<Long, String> productCache = Caffeine.newBuilder()
+            .maximumSize(100)
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .build();
+
+    public String getProduct(Long id) {
+
+        String product = productCache.getIfPresent(id);
+
+        if (product != null) {
+            System.out.println("From Cache");
+            return product;
+        }
+
+        // Simulate DB call
+        System.out.println("From Database");
+        product = "Laptop";
+
+        productCache.put(id, product);
+
+        return product;
+    }
+
+    public static void main(String[] args) {
+        ProductService service = new ProductService();
+
+        System.out.println(service.getProduct(1L)); // DB
+        System.out.println(service.getProduct(1L)); // Cache
+    }
+}
+```
+
+**2. Distributed Cache – Redis (Real-Time Example: User Service)**
+
+**Use case:** Multiple servers → shared cache → Redis
+
+**application.properties**
+
+```properties
+spring.cache.type=redis
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+```
+
+**Enable Cache**
+
+```java
+@Configuration
+@EnableCaching
+public class CacheConfig {
+}
+```
+
+**Service**
+
+```java
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Cacheable(value = "users", key = "#id")
+    public User getUser(Long id) {
+        System.out.println("Fetching from DB...");
+        return userRepository.findById(id).orElse(new User(id, "Default User"));
+    }
+}
+```
+
+**Controller**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return service.getUser(id);
+    }
+}
+```
+
+**First call → DB**
+**Second call → Redis cache**
+
+
+**3. Database Cache – Hibernate Second Level Cache (Real-Time Example: Product Table)**
+
+**Entity**
+
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Cacheable;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+@Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+public class Product {
+
+    @Id
+    private Long id;
+    private String name;
+
+    // getters and setters
+}
+```
+
+**application.properties**
+
+```properties
+spring.jpa.properties.hibernate.cache.use_second_level_cache=true
+spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.jcache.JCacheRegionFactory
+spring.cache.jcache.config=classpath:ehcache.xml
+```
+
+**ehcache.xml**
+
+```xml
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'>
+
+    <cache alias="Product">
+        <heap unit="entries">1000</heap>
+        <expiry>
+            <ttl unit="minutes">10</ttl>
+        </expiry>
+    </cache>
+</config>
+```
+
+**First time → DB**
+**Second time → Hibernate L2 Cache**
+
+
+**Real-Time When to Use What**
+
+| Scenario              | Cache Type   |
+| --------------------- | ------------ |
+| Single application    | Caffeine     |
+| Multiple servers      | Redis        |
+| ORM level caching     | Hibernate L2 |
+| Frequently read data  | Cache        |
+| Frequently write data | Avoid cache  |
+
+
+**Caffeine vs Redis**
+
+| Caffeine                   | Redis                        |
+| -------------------------- | ---------------------------- |
+| Local cache                | Distributed cache            |
+| Stored inside app memory   | Separate server              |
+| Ultra fast                 | Slight network latency       |
+| Not shared across services | Shared across services       |
+| Best for single instance   | Best for distributed systems |
+
+
+
+## 6. Create File upload API to Handle Large Data Processing?
+
+* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
+* **Use Batch Processing** to process records in chunks and reduce memory consumption
+* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
+* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
+* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
+* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
+* **Use Sharding** when data becomes too large for a single database server
+
+
+**Step 1 — Client Uploads File**
+
+Controller accepts file without loading everything into memory.
+
+```java id="v50d5s"
+@RestController
+@RequestMapping("/files")
+class FileUploadController {
+    private final FileProcessingService service;
+    public FileUploadController(FileProcessingService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/upload")
+    public String upload(@RequestParam("file") MultipartFile file) throws Exception {
+        service.processFile(file);
+        return "File Accepted";
+    }
+}
+```
+
+---
+
+**Step 2 — Service Layer**
+
+```java id="cx88hj"
+@Service
+class FileProcessingService {
+    private final DataRepository repository;
+    private static final int BATCH_SIZE = 1000;
+
+    public FileProcessingService(DataRepository repository) {
+        this.repository = repository;
+    }
+
+    @Async
+    public CompletableFuture<Void> processFile( MultipartFile file) throws Exception {
+        List<DataEntity> batch = new ArrayList<>();
+
+        try (
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    file.getInputStream()
+                            )
+                    )
+        ) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                DataEntity entity = mapToEntity(line);
+                batch.add(entity);
+                if (batch.size() == BATCH_SIZE) {
+                    saveBatch(batch);
+                    batch.clear();
+                }
+            }
+
+            // remaining records
+            if (!batch.isEmpty()) {
+                saveBatch(batch);
+            }
+        }
+
+        return CompletableFuture.completedFuture(null);
+    }
+
+    private DataEntity mapToEntity(String line) {
+        DataEntity entity = new DataEntity();
+        entity.setName(line);
+        return entity;
+    }
+
+    private void saveBatch(List<DataEntity> batch) {
+        repository.saveAll(batch);
+        System.out.println(
+                "Saved batch size: " + batch.size()
+        );
+    }
+}
+```
+
+---
+
+**Step 3 — Entity**
+
+```java id="zwv22u"
+@Entity
+class DataEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+---
+
+**Step 4 — Repository**
+
+```java id="v74d5u"
+@Repository
+interface DataRepository extends JpaRepository<DataEntity, Long> {
+}
+```
+
+---
+
+**Step 5 — Enable Async**
+
+```java id="9vkdpn"
+@EnableAsync
+@SpringBootApplication
+public class Main {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+}
+```
+
+## 6. How to handle large data efficiently?
+
+* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
+* **Use Batch Processing** to process records in chunks and reduce memory consumption
+* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
+* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
+* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
+* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
+* **Use Sharding** when data becomes too large for a single database server
+
+
+**1. 🔄 Streaming (Already Have)**
+```java
+// WRONG - Loads everything into memory
+List<User> users = userRepo.findAll(); // OOM risk with millions of records
+
+// RIGHT - Stream row by row
+@Query("SELECT u FROM User u")
+Stream<User> streamAllUsers();
+
+// Usage (must be in @Transactional)
+@Transactional(readOnly = true)
+public void processUsers() {
+    try (Stream<User> stream = userRepo.streamAllUsers()) {
+        stream.forEach(this::processUser);
+    }
+}
+```
+
+
+**2. 🧩 Batch Processing (Already Have)**
+```java
+// Spring Batch - Chunk-Oriented Processing
+@Bean
+public Step processUsersStep() {
+    return stepBuilderFactory.get("processUsers")
+        .<User, ProcessedUser>chunk(1000)   // Read 1000, Process, Write 1000
+        .reader(userItemReader())
+        .processor(userItemProcessor())
+        .writer(userItemWriter())
+        .build();
+}
+```
+**Key Interview Point:** Spring Batch gives you **restart/retry**, **job monitoring**, and **skip logic** out of the box.
+
+
+**3. 📄 Database Pagination (Already Have)**
+```java
+// Page<T> - gives totalCount (extra COUNT query)
+Page<User> page = userRepo.findAll(PageRequest.of(0, 100, Sort.by("id")));
+
+// Slice<T> - No COUNT query, better performance
+Slice<User> slice = userRepo.findAll(PageRequest.of(0, 100));
+
+// Keyset / Cursor Pagination - BEST for large datasets
+@Query("SELECT u FROM User u WHERE u.id > :lastId ORDER BY u.id")
+List<User> findNext(@Param("lastId") Long lastId, Pageable pageable);
+```
+**Key Difference:** Offset pagination degrades at high page numbers. **Keyset pagination stays O(log n)**.
+
+
+**4. ⚡ Async / Parallel Processing (Already Have)**
+```java
+@Async("taskExecutor")
+public CompletableFuture<Result> processChunk(List<User> chunk) {
+    // processed in separate thread
+    return CompletableFuture.completedFuture(result);
+}
+
+// Combine all futures
+List<CompletableFuture<Result>> futures = chunks.stream()
+    .map(this::processChunk)
+    .collect(toList());
+
+CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+```
+
+
+**5. 🗄️ Caching (Already Have)**
+```java
+@Cacheable(value = "users", key = "#id")
+public User getUser(Long id) { ... }
+
+@CacheEvict(value = "users", key = "#id")
+public void updateUser(Long id, User user) { ... }
+```
+**Interview Tip:** Discuss **cache eviction strategies** (LRU, TTL), **cache stampede** problem, and when **NOT to cache** (frequently changing data).
+
+
+**6. 🗃️ JDBC Batch Operations (Already Have)**
+```yaml
+# application.yml
+spring:
+  jpa:
+    properties:
+      hibernate:
+        jdbc.batch_size: 50
+        order_inserts: true   # Critical - groups same entity inserts
+        order_updates: true
+```
+```java
+// Use saveAll() - Hibernate batches automatically
+userRepo.saveAll(listOf1000Users); // 1000 inserts → ~20 batch calls
+```
+
+**7. 🔀 Sharding (Already Have)**
+```
+User Table Sharded by user_id:
+  Shard 0 → user_id % 4 == 0  → DB Server 1
+  Shard 1 → user_id % 4 == 1  → DB Server 2
+  Shard 2 → user_id % 4 == 2  → DB Server 3
+  Shard 3 → user_id % 4 == 3  → DB Server 4
+```
+**Mention:** Apache ShardingSphere or Vitess for Java-based sharding solutions.
+
+
+**🆕 MUST-ADD Points for Interview**
+
+
+**8. 📨 Message Queue / Event-Driven Processing**
+```java
+// Producer - Offload heavy processing
+@Service
+public class OrderService {
+    public void placeOrder(Order order) {
+        orderRepo.save(order);
+        kafkaTemplate.send("order-processing", order); // Non-blocking
+    }
+}
+
+// Consumer - Process asynchronously at own pace
+@KafkaListener(topics = "order-processing", concurrency = "5")
+public void processOrder(Order order) {
+    heavyProcessingService.process(order);
+}
+```
+**Why it matters:** Decouples producers from consumers, handles **back-pressure**, survives **service restarts**.
+
+
+**9. 📊 Read Replicas / CQRS Pattern**
+```java
+// Route reads to replica, writes to primary
+@Bean
+public DataSource routingDataSource() {
+    Map<Object, Object> sources = new HashMap<>();
+    sources.put("WRITE", primaryDataSource());
+    sources.put("READ",  replicaDataSource());
+
+    AbstractRoutingDataSource routing = new AbstractRoutingDataSource() {
+        protected Object determineCurrentLookupKey() {
+            return TransactionSynchronizationManager
+                       .isCurrentTransactionReadOnly() ? "READ" : "WRITE";
+        }
+    };
+    routing.setTargetDataSources(sources);
+    return routing;
+}
+
+@Transactional(readOnly = true) // → Goes to READ replica
+public List<User> getUsers() { ... }
+```
+
+
+**10. 🏗️ Projection / DTO Fetching (Select Only What You Need)**
+```java
+// BAD - Fetches entire entity + all columns
+List<User> users = userRepo.findAll();
+
+// GOOD - Fetch only needed fields
+@Query("SELECT new com.app.dto.UserSummary(u.id, u.name) FROM User u")
+List<UserSummary> findUserSummaries();
+
+// Interface Projection
+public interface UserSummary {
+    Long getId();
+    String getName();
+}
+List<UserSummary> users = userRepo.findBy(); // Spring Data handles it
+```
+**Impact:** Can reduce data transfer by **60-80%** for wide tables.
+
+
+**11. 🗜️ Data Archival / Partitioning**
+```sql
+-- Partition orders table by year (MySQL)
+CREATE TABLE orders (
+    id BIGINT, order_date DATE, ...
+) PARTITION BY RANGE (YEAR(order_date)) (
+    PARTITION p2022 VALUES LESS THAN (2023),
+    PARTITION p2023 VALUES LESS THAN (2024),
+    PARTITION p2024 VALUES LESS THAN (2025)
+);
+```
+```java
+// Archive old data to cold storage
+@Scheduled(cron = "0 0 2 * * SUN") // Every Sunday 2AM
+public void archiveOldOrders() {
+    orderRepo.moveToArchive(LocalDate.now().minusYears(2));
+}
+```
+
+**12. 🔍 Index Optimization (Often Overlooked)**
+```java
+// Composite index for common query patterns
+@Table(indexes = {
+    @Index(name = "idx_user_status_date",
+           columnList = "status, created_date DESC"),
+    @Index(name = "idx_user_email", columnList = "email", unique = true)
+})
+
+// Covering index - query served entirely from index
+@Query(value = "SELECT id, name FROM users USE INDEX (idx_covering) 
+                WHERE status = ?1", nativeQuery = true)
+```
+**Interview Tip:** Explain difference between **clustered vs non-clustered** index and **index selectivity**.
+
+
+## 6. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
+
+
+During bumper offers or Black Friday sales, I would design the system to handle high traffic using load balancing, caching, auto-scaling, message queues, and database optimization. This prevents the application from crashing and ensures a smooth user experience.
+
+**Key Strategies:**
+
+1. **Rate Limiting & Throttling** — Prevent system overload by limiting requests per user
+2. **Queue-Based Processing** — Use message queues (Kafka/RabbitMQ) to handle burst traffic asynchronously.
+3. **Database Optimization** → Use indexing, read replicas, and connection pooling.
+4. **Inventory Locking** — Use database transactions or Redis to prevent overselling
+5. **Caching** — Reduce database calls for frequently accessed data.
+6. **Load Balancing** — Distribute requests across multiple servers
+7. **Auto Scaling** → Automatically add more application instances during peak traffic.
+
+```java
+// Rate Limiter using Redis
+public class RateLimiter {
+    private RedisTemplate<String, Integer> redis;
+    
+    public boolean allowRequest(String userId, int maxRequests, int windowSeconds) {
+        String key = "rate_limit:" + userId;
+        Integer count = redis.opsForValue().increment(key);
+        
+        if (count == 1) {
+            redis.expire(key, windowSeconds, TimeUnit.SECONDS);
+        }
+        
+        return count <= maxRequests; // Return true if under limit
+    }
+}
+
+// Inventory Management with Redis (prevents overselling)
+public class InventoryService {
+    private RedisTemplate<String, Integer> redis;
+    
+    public boolean reserveInventory(String productId, int quantity) {
+        String key = "inventory:" + productId;
+        Integer available = redis.opsForValue().get(key);
+        
+        if (available != null && available >= quantity) {
+            redis.opsForValue().decrement(key, quantity);
+            return true; // Reserved successfully
+        }
+        return false; // Not enough inventory
+    }
+}
+
+// Black Friday Sale Handler
+public class SaleService {
+    private RateLimiter rateLimiter;
+    private InventoryService inventoryService;
+    
+    public PurchaseResult purchaseProduct(String userId, String productId, int quantity) {
+        // 1. Rate limit check
+        if (!rateLimiter.allowRequest(userId, 10, 60)) {
+            return PurchaseResult.REJECTED("Too many requests");
+        }
+        
+        // 2. Reserve inventory
+        if (!inventoryService.reserveInventory(productId, quantity)) {
+            return PurchaseResult.REJECTED("Item out of stock");
+        }
+        
+        // 3. Process order (async via queue)
+        orderQueue.send(new OrderEvent(userId, productId, quantity));
+        
+        return PurchaseResult.SUCCESS("Order placed");
+    }
+}
+```
+
+
+
+## 7. What is @Profile Annotation?
+
+**Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
+
+```java
+# application.properties
+spring.profiles.active=dev
+
+# application-dev.properties
+server.port=8080
+spring.datasource.url=jdbc:h2:mem:testdb
+
+# application-prod.properties
+server.port=80
+spring.datasource.url=jdbc:mysql://prod-server:3306/mydb
+```
+
+```java
+@Component
+@Profile("dev")
+public class DevDataLoader {
+    // Only loaded in dev profile
+}
+```
+
+## 9. What is application.properties file and how value read from there?
+
+`application.properties` is a **configuration file in Spring Boot** used to store **application settings**, such as database URLs, server ports, or custom values.
+
+**Example (`application.properties`):**
+
+```properties id="0z5kqg"
+server.port=8080
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+app.name=MySpringApp
+```
+
+**Read Values from `application.properties`**
+
+**1. Using `@Value`**
+
+```java id="4y9qmr"
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AppConfig {
+    @Value("${app.name}")
+    private String appName;
+
+    public void printName() {
+        System.out.println("Application Name: " + appName);
+    }
+}
+```
+
+**2. Using `@ConfigurationProperties`**
+
+```java id="1sy8y7"
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix = "app")
+public class AppProperties {
+
+    private String name;
+
+    // getter and setter
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+```
+
+## 10. How does Spring Boot decide which configuration file to load?
+
+Spring Boot loads config in this priority order (higher overrides lower):
+
+1. Command-line args (`--server.port=9090`)
+2. `SPRING_APPLICATION_JSON` env variable
+3. OS environment variables
+4. `application-{profile}.properties` (profile-specific)
+5. `application.properties` (default)
+6. `@PropertySource` annotations
+7. Default values in code
+
+File locations searched (in order):
+```
+./config/
+./
+classpath:/config/
+classpath:/          ← lowest priority
+```
+
+---
+
+## 11. What is centralized configuration in microservices?
+
+Centralized configuration means storing all microservice configurations in a **single external location** (like a Git repo) instead of bundling them inside each service's JAR/WAR.
+
+- All services fetch their config from a **Config Server** at startup
+- Changes can be applied **without redeploying** services
+- Supports environment-specific configs (dev, staging, prod)
+
+Solution: **Spring Cloud Config Server**
+
+```
+[Config Server] ←→ [Git Repo with all configs]
+      ↑
+[Service A] [Service B] [Service C]  ← all fetch config from Config Server
+```
+
+```yaml
+# bootstrap.yml in each microservice
+spring:
+  config:
+    import: "configserver:http://config-server:8888"
+  application:
+    name: order-service   # fetches order-service.yml from git
+```
+
+---
+
+## 13. How can we create a centralized configuration for all microservices?
+
+**In microservive If I do change in application.yml file, do I need to restart the the service everytime. will that chagne to apply** 
+
+By default, Spring Boot loads the configuration only during application startup, so runtime changes in `application.yml` are not automatically picked up.
+
+However, using tools like `@RefreshScope`, Spring Cloud Config, and Actuator refresh endpoints, some configuration changes can be applied without restarting the service.
+
+
+**Step 1: Create Config Server**
+
+**pom.xml dependency:**
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+```
+
+**Main class:**
+```java
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+```
+
+**application.yml:**
+```yaml
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/your-org/config-repo
+          default-label: main
+```
+
+---
+
+**Step 2: Create Git Config Repository**
+
+Create a GitHub repo (e.g., `config-repo`) and add config files:
+
+```
+config-repo/
+  order-service.yml
+  order-service-dev.yml
+  order-service-prod.yml
+```
+
+**order-service.yml:**
+```yaml
+app:
+  message: "Hello from Config Server"
+  timeout: 5000
+```
+
+---
+
+**Step 3: Configure Client Microservice**
+
+**pom.xml dependency:**
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-config</artifactId>
+</dependency>
+```
+
+**application.yml (client):**
+```yaml
+spring:
+  application:
+    name: order-service        # must match filename in config-repo
+  config:
+    import: "configserver:http://localhost:8888"
+  profiles:
+    active: dev
+```
+
+---
+
+**Step 4: Use Config Values in Code**
+
+```java
+@RestController
+@RefreshScope   // enables runtime refresh without restart
+public class OrderController {
+
+    @Value("${app.message}")
+    private String message;
+
+    @GetMapping("/info")
+    public String info() {
+        return message;
+    }
+}
+```
+
+---
+
+**Step 5: Dynamic Refresh (Without Restart)**
+
+Add Actuator dependency:
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+Expose refresh endpoint in client's `application.yml`:
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+```
+
+Trigger refresh after config change:
+```bash
+POST http://localhost:8080/actuator/refresh
+```
+
+---
+
+**Config Resolution Order**
+
+```
+{app-name}-{profile}.yml  →  {app-name}.yml  →  application.yml
+```
+
+Example for `order-service` with `dev` profile:
+1. `order-service-dev.yml`
+2. `order-service.yml`
+3. `application.yml`
+
+---
+
+**Interview Key Points**
+
+| Point | Answer |
+|---|---|
+| Default Config Server port | 8888 |
+| Annotation on server | `@EnableConfigServer` |
+| Annotation for runtime refresh | `@RefreshScope` |
+| Config file naming | `{spring.application.name}-{profile}.yml` |
+| Refresh without restart | `POST /actuator/refresh` |
+| Bus refresh (all instances) | Spring Cloud Bus + Kafka/RabbitMQ |
+
+---
+**Common Interview Questions**
+
+**Q: What happens if Config Server is down at startup?**  
+A: Service fails to start. Use `spring.cloud.config.fail-fast=true` to fail immediately, or `spring.cloud.config.retry.*` for retry logic.
+
+**Q: How to secure Config Server?**  
+A: Add Spring Security to Config Server, use Basic Auth or OAuth2. Encrypt sensitive values using `{cipher}` prefix with symmetric/asymmetric keys.
+
+**Q: Difference between `@RefreshScope` and restart?**  
+A: `@RefreshScope` re-initializes only the annotated bean at runtime via `/actuator/refresh`. Restart reloads the entire application context.
+
+**Q: How to push config changes to all instances at once?**  
+A: Use **Spring Cloud Bus** with a message broker (Kafka/RabbitMQ). One `POST /actuator/busrefresh` call propagates to all instances.
+
+---
+
+## 14. How do microservices load configuration from a central source?
+
+On startup, each microservice:
+
+```
+Microservice starts
+    ↓
+Reads bootstrap.yml → finds Config Server URL
+    ↓
+HTTP GET http://config-server:8888/employee-service/prod
+    ↓
+Config Server fetches from Git repo
+    ↓
+Returns merged config (common + service-specific + profile-specific)
+    ↓
+Microservice loads properties into Spring Environment
+    ↓
+@Value, @ConfigurationProperties beans are populated
+```
+
+For **live refresh** without restart:
+- Add `@RefreshScope` on beans that need to reload
+- Call `POST /actuator/refresh` on the microservice
+- Or use Spring Cloud Bus (broadcasts refresh to all instances via RabbitMQ/Kafka)
+
+## 12. How do you use `@ConfigurationProperties` in Spring Boot?
+
+Binds a group of related properties to a POJO — cleaner than injecting one-by-one with `@Value`.
+
+```yaml
+# application.yml
+app:
+  name: MyApp
+  timeout: 5000
+  retry: 3
+```
+
+```java
+@ConfigurationProperties(prefix = "app")
+@Component
+public class AppConfig {
+    private String name;
+    private int timeout;
+    private int retry;
+    // getters + setters
+}
+```
+
+Inject and use:
+```java
+@Autowired
+private AppConfig appConfig;
+
+appConfig.getTimeout(); // 5000
+```
+
+---
+
+## 13. What is the use of prefix in configuration properties?
+
+The `prefix` acts as a namespace — it maps only the matching keys from the config file to the POJO, avoiding conflicts.
+
+```yaml
+mail:
+  host: smtp.gmail.com
+  port: 587
+
+db:
+  host: localhost
+  port: 5432
+```
+
+```java
+@ConfigurationProperties(prefix = "mail")  // only binds mail.* keys
+public class MailConfig {
+    private String host;  // smtp.gmail.com
+    private int port;     // 587
+}
+
+@ConfigurationProperties(prefix = "db")    // only binds db.* keys
+public class DbConfig {
+    private String host;  // localhost
+    private int port;     // 5432
+}
+```
+
+This avoids collision when multiple configs share the same field names like `host` or `port`.
+
+## 14. How to remove default server from springboot application?
+By default, Spring Boot comes with an embedded server like Apache Tomcat. If we want to remove it, we exclude the default starter dependency and optionally add another server like Jetty or Undertow.
+
+```xml
+// Remove Inbuild Server
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+//Add New Server
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jetty</artifactId>
+</dependency>
+```
+
+
+## 16. How can we configure multiple databases in Spring Boot?
+
+Yes — you can configure **multiple databases in Spring Boot without using `application.properties` or XML** by using **Java-based configuration (pure @Configuration classes)**.
+
+
+You define **DataSource, EntityManager, and TransactionManager manually in Java classes**.
+
+
+**First Database Config**
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.app.repo.db1",
+    entityManagerFactoryRef = "db1EntityManager",
+    transactionManagerRef = "db1TransactionManager"
+)
+public class DB1Config {
+
+    @Bean
+    public DataSource db1DataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/db1");
+        ds.setUsername("root");
+        ds.setPassword("root");
+        return ds;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean db1EntityManager() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(db1DataSource());
+        em.setPackagesToScan("com.app.entity.db1");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        return em;
+    }
+
+    @Bean
+    public PlatformTransactionManager db1TransactionManager() {
+        JpaTransactionManager tm = new JpaTransactionManager();
+        tm.setEntityManagerFactory(db1EntityManager().getObject());
+        return tm;
+    }
+}
+```
+
+**Second Database Config**
+```java
+@Configuration
+@EnableJpaRepositories(
+    basePackages = "com.app.repo.db2",
+    entityManagerFactoryRef = "db2EntityManager",
+    transactionManagerRef = "db2TransactionManager"
+)
+public class DB2Config {
+
+    @Bean
+    public DataSource db2DataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/db2");
+        ds.setUsername("root");
+        ds.setPassword("root");
+        return ds;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean db2EntityManager() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(db2DataSource());
+        em.setPackagesToScan("com.app.entity.db2");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        return em;
+    }
+
+    @Bean
+    public PlatformTransactionManager db2TransactionManager() {
+        JpaTransactionManager tm = new JpaTransactionManager();
+        tm.setEntityManagerFactory(db2EntityManager().getObject());
+        return tm;
+    }
+}
+```
+
+## 17. How to secure username and password?
+
+To secure username and password, we should **never store passwords in plain text**.
+We store **hashed passwords** using algorithms like **BCrypt**.
+We also store secrets in **environment variables or secure vaults**, not in code.
+We use **HTTPS** to encrypt data in transit and **Spring Security** for authentication and authorization.
+
+
+** Simple Example (Spring Boot – BCrypt)**
+
+```java
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+public class Test {
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String rawPassword = "admin123";
+        String encodedPassword = encoder.encode(rawPassword);
+
+        System.out.println("Encoded Password: " + encodedPassword);
+
+        // Check password
+        boolean isMatch = encoder.matches("admin123", encodedPassword);
+        System.out.println("Password Match: " + isMatch);
+    }
+}
+```
+
+
+* `encode()` → Hash password
+* `matches()` → Verify password
+* Even if DB is hacked, real password is not visible
+
+
+** Where to Store Passwords Securely**
+
+| Location | How                                   |
+| -------- | ------------------------------------- |
+| Local    | Environment Variables                 |
+| Cloud    | AWS Secrets Manager / Azure Key Vault |
+| Database | Store Hashed Password Only            |
+| Network  | Use HTTPS                             |
+
+
+## 18. What happens if DB goes down?
+
+- Active requests fail with a `DataAccessException` — handle it gracefully with proper error responses.
+- Connection pool (HikariCP) keeps retrying to get a connection up to `connectionTimeout`.
+- If the pool is exhausted, new requests fail fast.
+- Use circuit breaker (Resilience4j) to stop hammering a dead DB.
+- Health checks (`/actuator/health`) will show DB as DOWN.
+
+## 19. How do you deploy the same code to multiple environments?
+
+Build once, deploy everywhere — the jar doesn't change between environments.
+
+- Externalize all environment-specific config (URLs, credentials, feature flags).
+- Use Spring profiles activated via `SPRING_PROFILES_ACTIVE` env variable.
+- In CI/CD (Jenkins, GitHub Actions), pass the profile and secrets as environment variables at deploy time.
+- Use Docker: same image, different env vars per environment.
+
+```bash
+# Dev
+docker run -e SPRING_PROFILES_ACTIVE=dev app.jar
+
+# Prod
+docker run -e SPRING_PROFILES_ACTIVE=prod -e DB_PASS=secret app.jar
+```
+
+## 20. Connecting and Using Multiple Databases with a Single Spring Boot Service?
+
+
+**Why Use Multiple Databases?**
+
+Connecting to multiple databases can be beneficial for several reasons:
+
+1. **Multitenancy:** Support multiple tenants within the same application.
+2. **Dynamic Environment Switching:** Connect to different environments (e.g., development, QA) dynamically.
+3. **Data Seeding and Testing:** Simulate various testing scenarios by seeding data across multiple databases.
+4. **Organization Support:** Handle multiple organizations within the same app, dynamically routing data based on user login.
+5. **Batch Operations:** Run scripts and batch jobs against multiple databases simultaneously.
+
+
+**Step 1: Add Dependencies**
+Add the necessary dependencies to your pom.xml file for MySQL, PostgreSQL, and Spring Data JPA.
+
+```xml
+<dependencies>
+
+    <!-- Spring Boot and JPA -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    
+    <!-- MySQL Connector -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    
+    <!-- PostgreSQL Connector -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+    </dependency>
+
+    <!-- Lombok -->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.12</version>
+        <scope>provided</scope>
+    </dependency>
+
+</dependencies>
+```
+
+**Step 2: Configure Data Sources**
+
+In your application.properties file, configure the connection details for both MySQL and PostgreSQL.
+
+```sql
+# MySQL DataSource Configuration
+spring.datasource.mysql.jdbc-url=jdbc:mysql://localhost:3306/mysqldb
+spring.datasource.mysql.username=root
+spring.datasource.mysql.password=password
+spring.datasource.mysql.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# PostgreSQL DataSource Configuration
+spring.datasource.postgresql.jdbc-url=jdbc:postgresql://localhost:5432/postgresdb
+spring.datasource.postgresql.username=postgres
+spring.datasource.postgresql.password=password
+spring.datasource.postgresql.driver-class-name=org.postgresql.Driver
+```
+
+**Step 3: Create Data Source Configuration Classes**
+
+Create a configuration class for each datasource. 
+
+MySQL Data Source Configuration
+
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.example.repository.mysql",
+    entityManagerFactoryRef = "mysqlEntityManagerFactory",
+    transactionManagerRef = "mysqlTransactionManager"
+)
+
+public class MysqlDataSourceConfig {
+    @Primary
+    @Bean(name = "mysqlDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.mysql")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Primary
+    @Bean(name = "mysqlEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("mysqlDataSource") DataSource dataSource) {
+        return builder
+                .dataSource(dataSource)
+                .packages("com.example.model.mysql")
+                .persistenceUnit("mysql")
+                .build();
+    }
+
+    @Primary
+    @Bean(name = "mysqlTransactionManager")
+    public PlatformTransactionManager transactionManager(@Qualifier("mysqlEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+
+}
+```
+
+PostgreSQL Data Source Configuration
+
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.example.repository.postgresql",
+    entityManagerFactoryRef = "postgresqlEntityManagerFactory",
+    transactionManagerRef = "postgresqlTransactionManager"
+)
+
+public class PostgresqlDataSourceConfig {
+    @Bean(name = "postgresqlDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.postgresql")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "postgresqlEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, @Qualifier("postgresqlDataSource") DataSource dataSource) {
+        return builder
+                .dataSource(dataSource)
+                .packages("com.example.model.postgresql")
+                .persistenceUnit("postgresql")
+                .build();
+    }
+
+    @Bean(name = "postgresqlTransactionManager")
+    public PlatformTransactionManager transactionManager(@Qualifier("postgresqlEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+
+}
+```
+
+**Step 4: Define Entities and Repositories**
+
+MySQL Entity and Repository
+
+```java
+// MySQL Entity
+@Entity
+@Table(name = "mysql_entity")
+public class MysqlEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Getters and setters
+
+}
+
+// MySQL Repository
+@Repository
+public interface MysqlRepository extends JpaRepository<MysqlEntity, Long> {
+
+}
+```
+
+PostgreSQL Entity and Repository
+
+```java
+// PostgreSQL Entity
+@Entity
+@Table(name = "postgresql_entity")
+public class PostgresqlEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Getters and setters
+
+}
+
+// PostgreSQL Repository
+@Repository
+public interface PostgresqlRepository extends JpaRepository<PostgresqlEntity, Long> {
+
+}
+```
+
+**Step 5: Using the Repositories in a Service**
+
+Create a service class to use the repositories.
+
+```java
+@Service
+public class MultiDatabaseService {
+    private final MysqlRepository mysqlRepository;
+    private final PostgresqlRepository postgresqlRepository;
+
+    @Autowired
+    public MultiDatabaseService(MysqlRepository mysqlRepository, PostgresqlRepository postgresqlRepository) {
+        this.mysqlRepository = mysqlRepository;
+        this.postgresqlRepository = postgresqlRepository;
+    }
+
+    public List<MysqlEntity> getMysqlEntities() {
+        return mysqlRepository.findAll();
+    }
+
+    public List<PostgresqlEntity> getPostgresqlEntities() {
+        return postgresqlRepository.findAll();
+    }
+
+}
+```
+
+**Step 6: Expose Endpoints to Test**
+
+Create a controller to expose REST endpoints for testing.
+
+```java
+@RestController
+@RequestMapping("/api")
+public class MultiDatabaseController {
+    private final MultiDatabaseService multiDatabaseService;
+
+    @Autowired
+    public MultiDatabaseController(MultiDatabaseService multiDatabaseService) {
+        this.multiDatabaseService = multiDatabaseService;
+    }
+
+    @GetMapping("/mysql")
+    public List<MysqlEntity> getMysqlEntities() {
+        return multiDatabaseService.getMysqlEntities();
+    }
+
+    @GetMapping("/postgresql")
+    public List<PostgresqlEntity> getPostgresqlEntities() {
+        return multiDatabaseService.getPostgresqlEntities();
+    }
+
+}
+```
+
+# ✅ 17. Java Design Patterns 
+
+## 0. What are SOLID principles?
+
+**Answer:**
+
+**SOLID** is a set of five object-oriented design principles that help write clean, maintainable, and scalable code.
+
+- **S**ingle Responsibility: A class should have one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subtypes must be substitutable for their base types
+- **I**nterface Segregation: Many specific interfaces are better than one general interface
+- **D**ependency Inversion: Depend on abstractions, not concrete implementations
+
+
+
+**Example:**
+**S — Single Responsibility Principle (SRP)**
+
+One class should have only one responsibility.
+
+use case:  
+
+❌ Wrong:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+✅ Correct:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+}
+
+class EmailService {
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+---
+
+**O — Open/Closed Principle (OCP)**
+
+Open for extension, closed for modification.
+
+```java
+// OCP: Open for extension, closed for modification
+
+// This is the abstraction (interface)
+// We can add new payment types without changing existing code
+interface Payment {
+    void pay(); // common method for all payment types
+}
+
+// Concrete implementation 1
+class CardPayment implements Payment {
+    public void pay() {
+        // specific logic for card payment
+        System.out.println("Paid by Card");
+    }
+}
+
+// Concrete implementation 2
+class UpiPayment implements Payment {
+    public void pay() {
+        // specific logic for UPI payment
+        System.out.println("Paid by UPI");
+    }
+}
+
+// This class uses the abstraction (Payment interface)
+// It does NOT depend on concrete classes like CardPayment or UpiPayment
+class PaymentService {
+
+    // This method is CLOSED for modification
+    // We don't need to change this method when new payment types are added
+    public void processPayment(Payment payment) {
+        // This is OPEN for extension because any new Payment type can be passed here
+        payment.pay();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Create service object
+        PaymentService service = new PaymentService();
+
+        // Using Card payment
+        Payment p1 = new CardPayment();
+        service.processPayment(p1);
+
+        // Using UPI payment
+        Payment p2 = new UpiPayment();
+        service.processPayment(p2);
+
+        // If we add a new payment type (e.g., WalletPayment),
+        // we DO NOT modify PaymentService
+        // We only create a new class implementing Payment
+    }
+}
+
+// Output:
+// Paid by Card
+// Paid by UPI
+```
+
+Now we can add **NetBankingPayment** without changing existing code.
+
+---
+
+**L — Liskov Substitution Principle (LSP)**
+
+Child class should replace parent class without breaking code.
+
+```java
+// LSP: Liskov Substitution Principle
+// Objects of a child class should be able to replace objects of the parent class
+// WITHOUT breaking the expected behavior of the program.
+
+class Bird {
+
+    // Base class method
+    // Defines general behavior that all birds SHOULD follow
+    public void fly() {
+        System.out.println("Bird can fly");
+    }
+}
+
+// Child class extending Bird
+class Sparrow extends Bird {
+
+    // Overriding the parent method
+    // Behavior is consistent with parent (still "fly")
+    @Override
+    public void fly() {
+        System.out.println("Sparrow can fly");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Parent object
+        Bird b = new Bird();
+        b.fly(); 
+        // Output: Bird can fly
+
+        // Child object
+        Sparrow s = new Sparrow();
+        s.fly(); 
+        // Output: Sparrow can fly
+
+        // LSP in action (Runtime Polymorphism)
+        // Parent reference holding child object
+        Bird b2 = new Sparrow();
+
+        // This should NOT break behavior
+        // Even though reference is Bird, actual object is Sparrow
+        b2.fly(); 
+        // Output: Sparrow can fly
+
+        // ✔ This works perfectly → LSP is satisfied
+    }
+}
+
+/*
+Key Interview Points:
+
+1. LSP means:
+   Child class must be substitutable for parent class.
+
+2. In this example:
+   - Sparrow IS-A Bird
+   - Sparrow does not change expected behavior
+   - So it follows LSP
+
+3. Why this is correct:
+   - No exception thrown
+   - No unexpected behavior
+   - Same logical meaning of "fly"
+
+4. When LSP is violated:
+   Example: If we create Penguin extends Bird but override fly() to throw exception
+   → That breaks LSP because Penguin cannot truly replace Bird
+
+5. Real-world idea:
+   If parent says "can fly", child must honor that contract
+*/
+
+
+// Output:
+Bird can fly
+Sparrow can fly
+Sparrow can fly
+```
+
+Bad example: Penguin cannot fly → violates LSP.
+
+---
+
+**I — Interface Segregation Principle (ISP)**
+
+Create small interfaces.
+
+```java
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class Human implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
+// Output:
+Human working
+Human eating
+Robot working
+```
+
+Robot does not implement eat() → Correct.
+
+---
+
+**D — Dependency Inversion Principle (DIP)
+
+Depend on abstraction, not concrete class.
+
+```java
+// DIP: Depend on abstraction, not concrete implementation
+
+// Abstraction
+interface Payment {
+    void pay();
+}
+
+// Concrete implementation
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+// High-level module (business logic)
+class OrderService {
+
+    // Depends on abstraction, not CardPayment directly
+    private Payment payment;
+
+    // Dependency is injected via constructor
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay(); // uses abstraction
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Inject concrete implementation at runtime
+        Payment payment = new CardPayment();
+
+        // OrderService is not tightly coupled to CardPayment
+        OrderService orderService = new OrderService(payment);
+
+        orderService.placeOrder(); // Output: Card payment
+    }
+}
+
+/*
+Interview Points (Quick):
+
+- High-level class (OrderService) should NOT depend on low-level class (CardPayment)
+- Both depend on abstraction (Payment)
+- Easy to switch implementation (UPI, Wallet, etc.) without changing OrderService
+*/
+
+//Output:
+Card payment
+```
+
+## 1. What are design patterns?
+
+Design patterns are proven reusable solutions to common software design problems, categorized into Creational, Structural, and Behavioral patterns.
+
+1️⃣ **Creational Design Patterns**
+* **Singleton** – Only one instance of a class is created.
+* **Factory Method** – Creates objects without exposing creation logic.
+* **Abstract Factory** – Creates families of related objects.
+* **Builder** – Builds complex objects step by step.
+* **Prototype** – Creates object by cloning existing object.
+
+2️⃣ **Structural Design Patterns**
+* **Adapter** – Converts one interface into another.
+* **Bridge** – Separates abstraction from implementation.
+* **Decorator** – Adds behavior dynamically.
+* **Facade** – Provides simplified interface to complex system.
+* **Proxy** – Controls access to an object.
+
+3️⃣ **Behavioral Design Patterns**
+* **Observer** – One-to-many dependency (used in event systems).
+* **Strategy** – Select algorithm at runtime.
+* **Command** – Encapsulates a request as an object.
+* **State** – Changes behavior when state changes.
+* **Template Method** – Defines skeleton of algorithm.
+* **Iterator** – Sequential access to collection.
+
+**Most Commonly Asked in Interviews**
+* **Singleton** – Ensures that a class has only one instance and provides a global access point to it.
+* **Factory** – Creates objects without exposing the object creation logic to the client.
+* **Builder** – Constructs complex objects step by step, allowing flexible object creation.
+* **Observer** – Defines a one-to-many relationship where multiple objects are notified automatically when one object changes state.
+* **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
+* **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
+* **Prototype** –  Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
+
+## 2. What is Singleton pattern?
+
+**Singleton Pattern** is a creational Design Patterns design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
+
+**The default scope** for a Spring Bean in Spring Boot is the singleton scope
+
+When to use:
+
+* **Database Connection Manager** – one shared connection pool for the whole app
+* **Logger Service** – single logging instance used everywhere
+* **Configuration Manager** – load config once and reuse globally
+* **Cache Manager** – one shared cache for fast data access
+
+Singleton is used where only one shared instance is needed across the application.
+
+```java
+class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() { }   // private constructor
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1 == s2); // true (same object)
+    }
+}
+```
+
+## 3. How do you implement thread-safe Singleton?
+
+**Thread-safe Singleton** can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
+
+**Methods:**
+- Synchronized method (simple but slow)
+- Double-checked locking (efficient)
+- Enum singleton (best approach)
+- Static inner class (lazy loading)
+
+```java
+// Double-checked locking
+public class ThreadSafeSingleton {
+    private static volatile ThreadSafeSingleton instance;    
+    private ThreadSafeSingleton() { }
+    
+    public static ThreadSafeSingleton getInstance() {
+        if (instance == null) {
+            synchronized (ThreadSafeSingleton.class) {
+                if (instance == null) {
+                    instance = new ThreadSafeSingleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+// Enum singleton - best approach
+public enum EnumSingleton {
+    INSTANCE;    
+    public void doSomething() { }
+}
+```
+
+## 4. What is Factory pattern?
+
+**Factory Pattern** is a creational design pattern used to: Create objects without exposing object creation logic to the client.
+
+Instead of creating objects directly using **new**, the client asks the factory to create the required object.
+
+**Advantages**
+- Loose coupling
+- Hides object creation logic
+- Easy maintenance
+- Easy to extend
+
+👉 Real use:
+- Payment systems
+- Notification services
+- Logger creation
+- Database drivers
+- Spring BeanFactory
+
+```java
+enum PaymentType {
+    CARD, UPI
+}
+
+// Step 1: Interface
+interface Payment {
+    void pay();
+}
+
+// Step 2: Implementations
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI payment");
+    }
+}
+
+// Step 3: Factory Class
+class PaymentFactory {
+    public static Payment getPayment(PaymentType type) {
+        switch (type) {
+            case CARD:
+                return new CardPayment();
+
+            case UPI:
+                return new UpiPayment();
+
+            default:
+                throw new IllegalArgumentException("Invalid payment type");
+        }
+    }
+}
+
+// Step 4: Main Class
+class FactoryPatternDemo {
+    public static void main(String[] args) {
+        Payment payment = PaymentFactory.getPayment(PaymentType.UPI);
+        payment.pay();
+    }
+}
+```
+
+## 5. What is Observer pattern?
+
+**Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
+
+👉 Real use:
+- YouTube Notifications
+- News Channel System, 
+- Stock Market Apps
+- Kafka / RabbitMQ Consumers
+
+
+```java
+// Step 1: Observer Interface
+interface Observer {
+    void update(String message);
+}
+
+// Step 2: Concrete Observer
+class NewsChannel implements Observer {
+    private String name;
+
+    public NewsChannel(String name) {
+        this.name = name;
+    }
+
+    public void update(String news) {
+        System.out.println(name + " received: " + news);
+    }
+}
+
+// Step 3: Subject
+class NewsAgency {
+    private List<Observer> observers = new ArrayList<>();
+    private String news;
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void setNews(String news) {
+        this.news = news;
+        notifyObservers();
+    }
+
+    private void notifyObservers() {
+        observers.forEach(observer -> observer.update(news));
+    }
+}
+
+// Step 4: Main Class
+class ObserverPatternExp {
+    public static void main(String[] args) {
+
+        NewsAgency agency = new NewsAgency();
+
+        // Create observers
+        Observer channel1 = new NewsChannel("CNN");
+        Observer channel2 = new NewsChannel("BBC");
+
+        // Register observers
+        agency.addObserver(channel1);
+        agency.addObserver(channel2);
+
+        // Publish news
+        agency.setNews("Java is awesome!");
+        agency.setNews("Observer pattern in action!");
+    }
+}
+
+// Output
+CNN received: Java is awesome!
+BBC received: Java is awesome!
+CNN received: Observer pattern in action!
+BBC received: Observer pattern in action!
+```
+
+## 6. What is Strategy pattern?
+
+**Strategy pattern** (Behavioral Design Patterns) defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+
+Use Case: 
+
+```java
+// Strategy Interface
+interface NotificationStrategy {
+    void send(String message);
+}
+
+// Concrete Strategy 1
+class EmailNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending EMAIL: " + message);
+    }
+}
+
+// Concrete Strategy 2
+class SMSNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending SMS: " + message);
+    }
+}
+
+// Concrete Strategy 3
+class PushNotification implements NotificationStrategy {
+    @Override
+    public void send(String message) {
+        System.out.println("Sending PUSH Notification: " + message);
+    }
+}
+
+// Context Class
+class NotificationService {
+    private NotificationStrategy strategy;
+
+    // Set strategy dynamically
+    public void setStrategy(NotificationStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    // Execute selected strategy
+    public void notifyUser(String message) {
+        strategy.send(message);
+    }
+}
+```
+
+## 7. What is Adapter pattern?
+
+**Adapter pattern** allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+
+```java
+// Target interface (what client expects)
+interface MediaPlayer {
+    void play(String audioType, String fileName);
+}
+
+// Adaptee (existing incompatible interface)
+class AdvancedMediaPlayer {
+    public void playVlc(String fileName) {
+        System.out.println("Playing vlc file: " + fileName);
+    }
+
+    public void playMp4(String fileName) {
+        System.out.println("Playing mp4 file: " + fileName);
+    }
+}
+
+// Adapter
+class MediaAdapter implements MediaPlayer {
+    private AdvancedMediaPlayer advancedPlayer;
+
+    public MediaAdapter(String audioType) {
+        advancedPlayer = new AdvancedMediaPlayer();
+    }
+
+    @Override
+    public void play(String audioType, String fileName) {
+        if (audioType.equalsIgnoreCase("vlc")) {
+            advancedPlayer.playVlc(fileName);
+
+        } else if (audioType.equalsIgnoreCase("mp4")) {
+            advancedPlayer.playMp4(fileName);
+
+        } else {
+            System.out.println("Invalid media type");
+        }
+    }
+}
+
+// Main class
+class AdapterPatternDemo {
+    public static void main(String[] args) {
+        MediaPlayer vlcPlayer = new MediaAdapter("vlc");
+        vlcPlayer.play("vlc", "movie.vlc");
+
+        MediaPlayer mp4Player = new MediaAdapter("mp4");
+        mp4Player.play("mp4", "video.mp4");
+    }
+}
+// Output::
+// Playing vlc file: movie.vlc
+// Playing mp4 file: video.mp4
+```
+
+## 8. What is Decorator pattern?
+
+**Decorator pattern** allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
+
+When to use:
+* Adding features to objects at runtime
+
+```java
+// Component interface
+interface Coffee {
+    String getDescription();
+    double getCost();
+}
+
+// Concrete component
+class SimpleCoffee implements Coffee {
+    public String getDescription() { return "Simple coffee"; }
+    public double getCost() { return 2.0; }
+}
+
+// Base decorator
+abstract class CoffeeDecorator implements Coffee {
+    protected Coffee coffee;
+    
+    public CoffeeDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+}
+
+// Concrete decorators
+class MilkDecorator extends CoffeeDecorator {
+    public MilkDecorator(Coffee coffee) { super(coffee); }
+    
+    public String getDescription() {
+        return coffee.getDescription() + ", milk";
+    }
+    
+    public double getCost() {
+        return coffee.getCost() + 0.5;
+    }
+}
+
+class SugarDecorator extends CoffeeDecorator {
+    public SugarDecorator(Coffee coffee) { super(coffee); }
+    
+    public String getDescription() {
+        return coffee.getDescription() + ", sugar";
+    }
+    
+    public double getCost() {
+        return coffee.getCost() + 0.2;
+    }
+}
+
+// Usage
+Coffee coffee = new SimpleCoffee();
+coffee = new MilkDecorator(coffee);
+coffee = new SugarDecorator(coffee);
+// Result: "Simple coffee, milk, sugar" - $2.7
+```
+
+## 8. What is Builder pattern?
+
+Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
+
+**Real time use case**
+
+- API Request Objects, Complex DTO / Response Objects, Lombok @Builder, etc.
+
+```java
+// ❌ Problem Without Builder
+// Employee e = new Employee(1, "Rahul", 25, "Bangalore", "Developer");
+
+// 👉 Hard to read
+// 👉 Constructor becomes huge
+
+class Employee {
+
+    private int id;
+    private String name;
+
+    // private constructor
+    private Employee(EmployeeBuilder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+    }
+
+    public String display() {
+        return "Employee{id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    // Builder class
+    static class EmployeeBuilder {
+
+        private int id;
+        private String name;
+
+        public EmployeeBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public EmployeeBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Employee build() {
+            return new Employee(this);
+        }
+    }
+}
+
+// Main Class
+class BuilderPatternDemo {
+    public static void main(String[] args) {
+        Employee emp = new Employee.EmployeeBuilder()
+                .setId(1)
+                .setName("Rahul")
+                .build();
+
+        System.out.println(emp.display());
+    }
+}
+```
+
+## 8. What is Prototype pattern?
+
+**Prototype Pattern** is a **Creational Design Pattern** used to create **new objects by copying (cloning) an existing object**, instead of creating a new object from scratch.
+
+This is useful when **object creation is costly** (e.g., DB call, API call, complex object creation).
+
+
+**Real-Time Example**
+
+* Employee object from database
+* Instead of loading from DB again → clone existing employee object
+
+
+**Prototype Pattern Example in Java**
+```java
+class Student implements Cloneable {
+    int id;
+    String name;
+
+    Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+
+public class Test {
+    public static void main(String[] args) throws Exception {
+        Student s1 = new Student(1, "John");
+        Student s2 = (Student) s1.clone();
+
+        System.out.println(s1.name);
+        System.out.println(s2.name);
+    }
+}
+```
+
+**Where Used in Real Projects**
+
+* Spring Framework (Prototype Bean scope)
+* Hibernate (entity cloning)
+* Game development (duplicate characters)
+* Caching objects
+* Creating multiple similar objects
+
+
+**Difference between Shallow Copy vs Deep Copy**
+
+| Shallow Copy        | Deep Copy             |
+| ------------------- | --------------------- |
+| Copies reference    | Copies actual object  |
+| Changes affect both | Changes do not affect |
+| `super.clone()`     | Manual clone          |
+
+
+
+# ✅ 18. Java Spring Framework 
+
+## 1. What is Spring Framework?
+
+**Spring Framework** is a **comprehensive Java framework** for building enterprise applications.
+
+It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
+
+Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
+
+```java
+// pom.xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>6.1.5</version>
+    </dependency>
+</dependencies>
+```
+
+## 2. What are the features of Spring?
+
+* **IoC Container**: Manages object lifecycle and dependencies
+* **Dependency Injection**: Automatic wiring of dependencies
+* **AOP Support**: Cross-cutting concerns like logging, security
+* **MVC Framework**: Web application development
+* **Transaction Management**: Declarative transaction support
+* **Integration**: Easy integration with other frameworks and technologies
+
+```java
+@Configuration
+public class AppConfig {
+    @Bean
+    public UserService userService() {
+        return new UserService(userRepository());
+    }
+}
+```
+
+## 3. What is Inversion of Control (IoC)?
+
+**Inversion of Control (IoC)** means the **control of object creation and dependency management is given to the framework instead of the developer**.
+
+Normally, we create objects using `new`.
+But in **IoC (like in Spring)**, the **framework creates the objects and gives them to our class**.
+
+```java
+// Without IoC
+Service service = new Service();
+
+// With IoC (Spring)
+@Autowired
+Service service;
+```
+
+## 4. What is Dependency Injection?
+
+**Dependency Injection (DI)** is a design pattern where an object’s dependencies are provided by another object/container instead of the object creating them itself.
+
+👉 This makes code:  **Loosely coupled**,  **Easy to test**, **Easy to maintain**
+
+**There are 3 main types of DI:**
+1. Constructor Injection – dependencies injected through constructor (recommended)
+2. Setter Injection – dependencies injected through setter method
+3. Field Injection – dependencies injected directly into field using @Autowired
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+class Engine {
+    public void start() {
+        System.out.println("Engine started");
+    }
+}
+
+// Instead of :
+Engine engine = new Engine(); // Spring does: tightly coupled
+Car car = new Car(engine);    // Spring does: injected
+```
+
+**1. Constructor Injection (Recommended)**
+
+```java
+@Component
+class Car {
+    private final Engine engine;
+
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+👉 Best because: Mandatory dependency, Immutable (using final), Easy to test
+Reason To use: 
+```
+Reason to use: 
+
+
+**2. Setter Injection**
+
+```java
+@Autowired
+public void setEngine(Engine engine) {
+    this.engine = engine;
+}
+👉 Used when dependency is optional
+
+```
+
+
+**3. Field Injection**
+
+```java
+@Autowired
+private Engine engine;
+👉 Avoid because: Hard to test, Not immutable, Hidden dependency
+```
+
+**If I inject the same bean multiple times using Dependency Injection, will it create multiple instances every time?** 
+
+No, injecting the same bean multiple times using Dependency Injection does not create multiple instances every time because Spring beans are singleton by default. The same instance is reused from the IOC container. Multiple instances are created only if the bean scope is configured as prototype.
+
+
+
+## 5. What is a Spring Container?
+
+A **Spring Container** is the **core part of the Spring Framework that creates, manages, and controls the lifecycle of objects called Beans**.
+
+It is responsible for:
+* **Creating objects (Beans)**
+* **Injecting dependencies**
+* **Managing bean lifecycle**
+
+```java
+ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+UserService service = context.getBean(UserService.class);
+```
+Here the **Spring Container creates the `UserService` object and provides it when needed**.
+
+**Types of Spring Container** 
+
+1. **BeanFactory** – Basic container
+2. **ApplicationContext** – Advanced container (most commonly used)
+
+
+## 6. What is BeanFactory vs ApplicationContext?
+
+**BeanFactory :** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
+It uses **lazy initialization**, so beans are created **only when requested**.
+
+**ApplicationContext :** is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. 
+
+**Using BeanFactory (Lazy Loading)**
+```java
+Resource resource = new ClassPathResource("beans.xml");
+BeanFactory factory = new XmlBeanFactory(resource);
+
+UserService service = (UserService) factory.getBean("userService");
+service.print();
+```
+
+**Using ApplicationContext (Eager Loading)**
+```java
+ApplicationContext context =
+        new ClassPathXmlApplicationContext("beans.xml");
+
+UserService service = context.getBean(UserService.class);
+service.print();
+```
+
+## 9. What is AOP in Spring?
+
+
+AOP is a programming paradigm that separates **cross-cutting concerns** from your core business logic. Cross-cutting concerns are things that affect multiple parts of your app but aren't part of the core logic — like logging, security, transactions, etc.
+
+**The Problem AOP Solves:**
+```java
+// WITHOUT AOP — same boilerplate repeated everywhere
+public class OrderService {
+    public void placeOrder(Order order) {
+        log.info("Method started");          // 😫 repeated
+        checkSecurity();                     // 😫 repeated
+        startTransaction();                  // 😫 repeated
+
+        // actual business logic (3 lines)
+        validateOrder(order);
+        saveOrder(order);
+        notifyUser(order);
+
+        commitTransaction();                 // 😫 repeated
+        log.info("Method ended");            // 😫 repeated
+    }
+}
+
+// WITH AOP — clean business logic only
+public class OrderService {
+    public void placeOrder(Order order) {
+        validateOrder(order);   // ✅ pure business logic
+        saveOrder(order);
+        notifyUser(order);
+    }
+}
+// Logging, security, transactions handled automatically by aspects
+```
+
+---
+
+**Core AOP Concepts**
+
+**1. 🎯 Aspect**
+A class that contains the cross-cutting logic (e.g., logging, security).
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+    // cross-cutting logic lives here
+}
+```
+
+**2. 📍 Pointcut**
+An expression that defines **where** the aspect should apply (which methods/classes).
+```java
+// Apply to all methods in service package
+@Pointcut("execution(* com.app.service.*.*(..))")
+public void serviceLayer() {}
+
+// Apply to specific annotation
+@Pointcut("@annotation(com.app.Loggable)")
+public void loggableMethods() {}
+```
+
+**3. 💡 Advice**
+**When** and **what** to execute — the actual logic to run at the join point.
+
+| Advice Type | When it runs |
+|---|---|
+| `@Before` | Before the method executes |
+| `@After` | After method (always, like finally) |
+| `@AfterReturning` | After method returns successfully |
+| `@AfterThrowing` | After method throws an exception |
+| `@Around` | Before AND after (full control) |
+
+**4. 🔗 Join Point**
+The actual point of execution — in Spring AOP, always a **method execution**.
+```java
+@Before("serviceLayer()")
+public void log(JoinPoint joinPoint) {
+    String methodName = joinPoint.getSignature().getName(); // the join point
+}
+```
+
+**5. 🔀 Weaving**
+The process of applying aspects to target objects. Spring does this at **runtime** using proxies.
+
+---
+
+**Types of Advice with Examples**
+
+**@Before**
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before("execution(* com.app.service.*.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        System.out.println("Calling: " + joinPoint.getSignature().getName());
+        System.out.println("Args: " + Arrays.toString(joinPoint.getArgs()));
+    }
+}
+```
+
+**@AfterReturning**
+```java
+@AfterReturning(
+    pointcut = "execution(* com.app.service.*.*(..))",
+    returning = "result"
+)
+public void logAfterReturning(JoinPoint joinPoint, Object result) {
+    System.out.println("Method returned: " + result);
+}
+```
+
+**@AfterThrowing**
+```java
+@AfterThrowing(
+    pointcut = "execution(* com.app.service.*.*(..))",
+    throwing = "ex"
+)
+public void logException(JoinPoint joinPoint, Exception ex) {
+    System.out.println("Exception in: " + joinPoint.getSignature().getName());
+    System.out.println("Exception: " + ex.getMessage());
+}
+```
+
+**@Around (Most Powerful)**
+```java
+@Around("execution(* com.app.service.*.*(..))")
+public Object measureTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    long start = System.currentTimeMillis();
+
+    Object result = joinPoint.proceed(); // 👈 actually calls the method
+
+    long duration = System.currentTimeMillis() - start;
+    System.out.println(joinPoint.getSignature().getName() + " took " + duration + "ms");
+
+    return result;
+}
+```
+
+---
+
+**Real-World Use Cases**
+
+**✅ 1. Logging**
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    private static final Logger log = LoggerFactory.getLogger(LoggingAspect.class);
+
+    @Around("@annotation(Loggable)")
+    public Object log(ProceedingJoinPoint pjp) throws Throwable {
+        log.info(">> {} started", pjp.getSignature().getName());
+        Object result = pjp.proceed();
+        log.info("<< {} completed", pjp.getSignature().getName());
+        return result;
+    }
+}
+```
+
+**✅ 2. Security Check**
+```java
+@Aspect
+@Component
+public class SecurityAspect {
+
+    @Before("@annotation(secured)")
+    public void checkRole(JoinPoint jp, Secured secured) {
+        String requiredRole = secured.role();
+        if (!currentUser.hasRole(requiredRole)) {
+            throw new AccessDeniedException("Access denied!");
+        }
+    }
+}
+```
+
+**✅ 3. Transaction Management (Spring does this internally)**
+```java
+// @Transactional is itself implemented as an AOP Aspect internally
+@Transactional
+public void transferMoney(Account from, Account to, double amount) {
+    from.debit(amount);
+    to.credit(amount);
+}
+```
+
+**✅ 4. Performance Monitoring**
+```java
+@Aspect
+@Component
+public class PerformanceAspect {
+
+    @Around("execution(* com.app.service.*.*(..))")
+    public Object monitor(ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.nanoTime();
+        Object result = pjp.proceed();
+        long elapsed = System.nanoTime() - start;
+
+        if (elapsed > 1_000_000_000L) { // > 1 second
+            log.warn("SLOW METHOD: {} took {}ms",
+                pjp.getSignature(), elapsed / 1_000_000);
+        }
+        return result;
+    }
+}
+```
+
+---
+
+**How Spring AOP Works Internally (Proxy Pattern)**
+
+```
+Your Code calls → Spring Proxy (AOP magic) → Real Bean
+
+┌─────────────┐       ┌──────────────────────┐       ┌─────────────┐
+│   Caller    │ ────▶ │   Spring Proxy       │ ────▶ │  Real Bean  │
+│             │       │  1. Run @Before      │       │             │
+│ orderSvc    │       │  2. Call real method │       │ placeOrder()│
+│ .placeOrder │       │  3. Run @After       │       │             │
+└─────────────┘       └──────────────────────┘       └─────────────┘
+```
+
+Spring creates a **proxy** around your bean and intercepts method calls to apply aspects.
+
+---
+
+**Setup in Spring Boot**
+
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+```java
+// Enable AOP (auto-enabled in Spring Boot)
+@SpringBootApplication
+@EnableAspectJAutoProxy  // optional — Spring Boot enables this automatically
+public class MyApp { }
+```
+
+---
+
+**AOP vs OOP**
+
+| | OOP | AOP |
+|---|---|---|
+| **Solves** | Core business logic | Cross-cutting concerns |
+| **Unit** | Class / Object | Aspect |
+| **Separation** | By objects/classes | By concerns |
+| **Examples** | Order, User, Product | Logging, Security, Transactions |
+
+
+
+## 10. What is Spring Data JPA?
+
+**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
+
+It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
+
+* **Auto-implementation**: Creates implementation from method names
+* **Query Methods**: Derive queries from method names
+* **Custom Queries**: Support for JPQL and native SQL
+
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByLastName(String lastName);
+    List<User> findByAgeGreaterThan(int age);
+    
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
+}
+```
+
+## 11. What is Spring Security?
+
+**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
+
+It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/public/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin()
+                .and()
+                .build();
+    }
+}
+```
+
+## 12. What is Spring Cloud? 
+
+Spring Cloud is a framework that helps developers build and manage microservices easily. It provides ready-made solutions for common problems like service discovery, load balancing, configuration management, and fault tolerance.
+
+* **Service Discovery**: Eureka, Consul integration
+* **Circuit Breaker**: Hystrix for fault tolerance
+* **API Gateway**: Zuul, Spring Cloud Gateway
+* **Configuration Management**: Centralized configuration
+* **Load Balancing**: Client-side load balancing
+
+```java
+@EnableEurekaClient
+@SpringBootApplication
+public class UserServiceApplication {
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+## 13. What is Spring WebFlux?
+
+**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
+
+It's an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
+
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/users")
+    public Flux<User> getUsers() {
+        return userService.findAll(); // Returns Flux<User>
+    }
+
+    @GetMapping("/users/{id}")
+    public Mono<User> getUser(@PathVariable String id) {
+        return userService.findById(id); // Returns Mono<User>
+    }
+}
+```
+
+## 14. How Does Spring Handle Circular Dependency?
+
+A circular dependency is when Bean A depends on Bean B, and Bean B depends on Bean A.
+
+**With constructor injection** — Spring throws `BeanCurrentlyInCreationException` because it can't create either bean first.
+
+**With field/setter injection** — Spring can handle it using a 3-level cache (early bean references). It creates a partially initialized bean and injects it.
+
+```java
+// Avoid this with constructor injection — causes error
+@Component
+public class A {
+    @Autowired B b;
+}
+
+@Component
+public class B {
+    @Autowired A a;
+}
+```
+
+**Best fix:** Refactor to remove the circular dependency. If you must keep it, use `@Lazy` on one of the injections:
+
+```java
+@Autowired
+@Lazy
+private B b;
+```
+
+`@Lazy` tells Spring to inject a proxy first and resolve the real bean later.
+
+In Spring Boot 2.6+, circular dependencies are disabled by default. You need to explicitly enable them or fix the design.
+
+## 15. Spring Boot 2.7 vs Spring Boot 3.0
+
+| Feature              | Spring Boot 2.7     | Spring Boot 3.0            |
+| -------------------- | ------------------- | -------------------------- |
+| Java Version         | Java 8, 11, 17      | Java 17+ only              |
+| Spring Framework     | Spring 5.3          | Spring 6.0                 |
+| Namespace            | `javax.*`           | `jakarta.*`                |
+| Native Image Support | Limited             | Built-in GraalVM support   |
+| Observability        | Micrometer only     | Micrometer + OpenTelemetry |
+| Security             | Spring Security 5   | Spring Security 6          |
+| Hibernate            | Hibernate 5         | Hibernate 6                |
+| Servlet API          | Servlet 4.0         | Servlet 6.0                |
+| Validation API       | `javax.validation`  | `jakarta.validation`       |
+| JPA API              | `javax.persistence` | `jakarta.persistence`      |
+
+
+
+## 16. Real Industry Practice?
+
+Here are strong **real industry practice tables** you can use in final-round interviews for deep project discussions.
+
+
+**Microservices Architecture**
+
+| Component         | Local Development    | Cloud / Production                 |
+| ----------------- | -------------------- | ---------------------------------- |
+| Service Discovery | Eureka               | Kubernetes Service Discovery       |
+| API Gateway       | Spring Cloud Gateway | Kong / Nginx Ingress / API Gateway |
+| Config Management | Spring Config Server | ConfigMap + Secrets                |
+| Load Balancer     | Local Nginx          | Kubernetes Ingress / AWS ALB       |
+| Communication     | REST                 | REST + gRPC + Event Driven         |
+| Authentication    | Local JWT            | OAuth2 + Keycloak/Auth0            |
+| Circuit Breaker   | Resilience4j         | Resilience4j + Service Mesh        |
+| Deployment        | Docker Compose       | Kubernetes                         |
+| Containerization  | Docker               | Docker + Kubernetes                |
+| Orchestration     | Manual               | Kubernetes                         |
+| Monitoring        | Prometheus + Grafana | Prometheus + Grafana + ELK         |
+| Logging           | Console Logs         | ELK / Loki / Splunk                |
+| Tracing           | Basic Logs           | Zipkin / Jaeger                    |
+| CI/CD             | Jenkins Local        | Jenkins/GitHub Actions + ArgoCD    |
+
+---
+
+**Database Handling**
+
+| Component         | Local Development     | Cloud / Production           |
+| ----------------- | --------------------- | ---------------------------- |
+| Database          | MySQL/Postgres Docker | RDS / Cloud SQL              |
+| Connection Pool   | HikariCP              | Optimized HikariCP           |
+| Migration         | Flyway Local          | Flyway CI/CD Pipeline        |
+| Read Scaling      | Single DB             | Read Replicas                |
+| Backup            | Manual Dump           | Automated Snapshots          |
+| High Availability | Not Required          | Multi-AZ Deployment          |
+| Sharding          | Rare                  | Used for large-scale systems |
+| Transactions      | Local Transactions    | Distributed/Saga Pattern     |
+
+---
+
+**Cache**
+
+| Component       | Local Development | Cloud / Production |
+| --------------- | ----------------- | ------------------ |
+| Cache           | Local Redis       | Redis Cluster      |
+| Session Storage | In-Memory         | Distributed Redis  |
+| Token Cache     | Local Memory      | Redis              |
+| Eviction Policy | Default           | LRU/LFU Tuned      |
+| Scaling         | Single Node       | Clustered Redis    |
+| HA              | Not Needed        | Sentinel/Cluster   |
+
+---
+
+**Messaging / Event Driven**
+
+| Component           | Local Development     | Cloud / Production        |
+| ------------------- | --------------------- | ------------------------- |
+| Queue               | RabbitMQ/Kafka Docker | Kafka Cluster             |
+| Retry               | Basic Retry           | DLQ + Retry Topics        |
+| Ordering            | Single Partition      | Multi-partition Strategy  |
+| Event Storage       | Temporary             | Persistent                |
+| Consumer Scaling    | Single Consumer       | Consumer Groups           |
+| Async Communication | Basic                 | Event-Driven Architecture |
+| Cloud Native Queue  | Rare                  | AWS SQS/SNS               |
+
+---
+
+**Security**
+
+| Component       | Local Development | Cloud / Production          |
+| --------------- | ----------------- | --------------------------- |
+| Authentication  | Basic JWT         | OAuth2/OpenID Connect       |
+| Authorization   | Role Based        | RBAC + IAM                  |
+| Secrets         | application.yml   | Vault / AWS Secrets Manager |
+| HTTPS           | Optional          | Mandatory                   |
+| API Security    | Simple Filters    | WAF + Rate Limiting         |
+| User Management | Local DB          | Keycloak/Auth0/Cognito      |
+
+---
+
+**Deployment**
+
+| Component             | Local Development | Cloud / Production |
+| --------------------- | ----------------- | ------------------ |
+| Deployment            | Manual Run        | CI/CD Pipeline     |
+| Build Tool            | Maven/Gradle      | Maven + Jenkins    |
+| Container             | Docker            | Docker             |
+| Registry              | Local Images      | Docker Hub/ECR     |
+| Infra                 | Local Machine     | Kubernetes/AWS     |
+| Auto Scaling          | No                | HPA                |
+| Rollback              | Manual            | Automated Rollback |
+| Blue Green Deployment | Rare              | Common             |
+| Canary Deployment     | Rare              | Common             |
+
+---
+
+**Monitoring & Observability**
+
+| Component    | Local Development | Cloud / Production          |
+| ------------ | ----------------- | --------------------------- |
+| Metrics      | Actuator          | Prometheus                  |
+| Dashboard    | Grafana           | Grafana                     |
+| Logging      | Console           | ELK/Loki                    |
+| Alerting     | Minimal           | PagerDuty/Slack Alerts      |
+| Tracing      | Basic Logs        | Jaeger/Zipkin               |
+| Health Check | /actuator/health  | Liveness + Readiness Probes |
+
+---
+
+**High Availability & Scalability**
+
+| Component         | Local Development | Cloud / Production    |
+| ----------------- | ----------------- | --------------------- |
+| Scaling           | Single Instance   | Auto Scaling          |
+| Failover          | Manual Restart    | Automatic Recovery    |
+| Load Balancing    | Simple Nginx      | Ingress + ALB         |
+| Redundancy        | Minimal           | Multi-node            |
+| Disaster Recovery | Rare              | Multi-region Strategy |
+| Zero Downtime     | Not Needed        | Rolling Updates       |
+
+
+
+In local development we use lightweight containerized setups mainly for development convenience and debugging.
+
+In production, we move toward cloud-native and distributed architecture. Kubernetes handles orchestration and service discovery, managed Redis and Kafka are used for scalability and fault tolerance, ConfigMaps and Secrets handle configuration securely, and monitoring/logging are centralized using Prometheus, Grafana, and ELK stack.
+
+---
+
+**Strong Senior-Level Keywords**
+
+* Cloud-native architecture
+* Distributed systems
+* Fault tolerance
+* High availability
+* Horizontal scaling
+* Stateless services
+* Event-driven architecture
+* Container orchestration
+* Observability
+* Resilience
+* Auto-scaling
+* Centralized logging
+* Service mesh
+* Distributed tracing
+
+
+
+
+# ✅ 19. Java Spring Boot 
+
+## 1. What is annotations in Java?
+**An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
+
+**Example Annotations:**
+* `@Override`
+* `@Autowired`
+* `@Component`
+* `@Service`
+
+## 2. What is Spring Boot and How does it Works Internally(Lifecycle)?
+
+**Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
+
+**Design patterns:**
+Spring Boot mainly uses **MVC, Dependency Injection, Singleton, Factory, and DAO** design patterns.
+
+**Design Principle:**
+Spring Boot follows principles like Convention over **Configuration, Dependency Injection, Auto-Configuration, and Standalone** Applications.
+
+
+**How does it Works Internally:**
+
+1. **Application Starts :** The `main()` method calls **`SpringApplication.run()`** to start the application.
+2. **Auto Configuration** Spring Boot automatically configures beans based on dependencies using **`@EnableAutoConfiguration`**.
+3. **Component Scanning :** It scans packages for classes annotated with **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`**.
+4. **Bean Creation (IoC Container) :** Spring creates and manages objects (beans) inside the **Spring IoC container**.
+5. **Embedded Server Starts :** Spring Boot starts an embedded server like **Apache Tomcat**, **Jetty**, or **Undertow**.
+6. **Application Ready :** The application is ready to handle HTTP requests.
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication // Combines three annotations
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+// Equivalent to:
+@Configuration
+@EnableAutoConfiguration  
+@ComponentScan
+public class MyApplication { }
+```
+
+
+## 3. Spring Boot Flow Architecture works?
+
+Spring Boot follows a **layered architecture** where a request flows through different layers:
+
+**Flow:**
+
+**Client → DispatcherServlet → Controller → Service → Repository → Database → Response**
+
+**Short Explanation:**
+
+1. **Client** – Sends HTTP request (browser/Postman).
+2. **DispatcherServlet** (from Spring MVC) – Receives the request and routes it.
+3. **Controller** – Handles the API request.
+4. **Service** – Contains business logic.
+5. **Repository/DAO** – Interacts with the database using Spring Data JPA.
+6. **Database** – Stores and retrieves data.
+7. **Response** – Data returns back to the client.
+
+
+## 4. What is Java Bean, @Component and @Bean?
+
+**@Component** Used directly on a class. It is a generic annotation and Spring automatically creates and manages the object using component scanning.
+
+**@Bean** Used on a method inside a @Configuration class. It is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
+
+
+A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
+
+```java
+// Example of Java Beans
+public class User {
+    private String name;
+    public User() {}   // no-arg constructor
+    public String getName() { return name;}
+    public void setName(String name) {this.name = name;}
+}
+
+User user = new User();
+user.setName("John");
+```
+
+**Example @Component and @Bean**
+```java
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
+
+// @Component Bean ------------
+@Component
+class UserService {
+
+    public void createUser() {
+        System.out.println("User Created");
+    }
+}
+
+// @Bean ----------------------
+// Service Interface
+interface OrderService {
+    void process(String item);
+}
+
+// First Implementation
+class OnlineOrderServiceImpl implements OrderService {
+    @Override
+    public void process(String item) {
+        System.out.println("Online Order Processing: " + item);
+    }
+}
+
+// Second Implementation
+class OfflineOrderServiceImpl implements OrderService {
+    @Override
+    public void process(String item) {
+        System.out.println("Offline Order Processing: " + item);
+    }
+}
+
+
+// Configuration Class
+@Configuration
+class AppConfig {
+    // Bean name = buyItem
+    @Bean
+    public OrderService buyItem() {
+        return new OnlineOrderServiceImpl();
+    }
+
+    // Bean name = shopItem
+    @Bean
+    public OrderService shopItem() {
+        return new OfflineOrderServiceImpl();
+    }
+}
+
+
+// Both Bean used in Controller -----
+@RestController
+@RequestMapping("/orders")
+class OrderController {
+    private final OrderService orderService;
+    private final UserService userService;
+
+    // Constructor Injection
+    public OrderController(
+            @Qualifier("buyItem")
+            OrderService orderService,
+            UserService userService) {
+        this.orderService = orderService;
+        this.userService = userService;
+    }
+
+    @PostMapping("/{item}")
+    public String createOrder(@PathVariable String item) {
+        userService.createUser();
+        orderService.process(item);
+        return "Order received for " + item;
+    }
+}
+```
+
+**`@Bean` vs `@Component` (Quick Difference)**
+
+| Feature                      | `@Component` | `@Bean`  |
+| ---------------------------- | ------------ | -------- |
+| Applied On                   | Class        | Method   |
+| Bean Creation                | Automatic    | Manual   |
+| Scanning Needed              | Yes          | No       |
+| Control Over Object Creation | Less         | More     |
+| Third-party Classes          | Not possible | Possible |
+| Configuration Logic          | Limited      | Flexible |
+
+
+
+## 5. Explain Bean Lifecycle?
+
+The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
+
+**Steps in Bean Lifecycle**
+
+1. **Bean Instantiated:** Spring creates the bean object.
+2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
+3. **Bean Initialization:** Initialization methods run using `@PostConstruct`.
+4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
+5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
+
+```java
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyBean {
+
+    public MyBean() {
+        System.out.println("Bean Created");
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean Initialized");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean Destroyed");
+    }
+}
+```
+
+
+## 6. How can you disable specific auto-configurations in Spring Boot?
+
+Use `@SpringBootApplication(exclude)` or `spring.autoconfigure.exclude` property to disable unwanted auto-configurations.
+
+```java
+@SpringBootApplication(exclude = {
+    DataSourceAutoConfiguration.class,
+    SecurityAutoConfiguration.class
+})
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+```properties
+# application.properties
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+```
+
+## 7. What is @SpringBootApplication annotation?
+
+@SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
+
+```java
+@SpringBootApplication // Combines three annotations
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+
+// Equivalent to:
+@Configuration
+@EnableAutoConfiguration  
+@ComponentScan
+public class MyApplication { }
+```
+
+It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
+
+## 8.  @Controller, @RestController, @Service, @Repository annotations?
+
+
+**Simple Flow (Easy to Remember)**
+
+```text
+Controller / RestController → Service → Repository → Database
+```
+
+**@Controller (Returns View)r** is used to handle web requests and return views (like JSP/HTML).
+
+```java
+@Controller
+public class UserController {
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/home")
+    public String home(Model model) {
+        model.addAttribute("user", service.getUser());
+        return "home"; // returns HTML/JSP page
+    }
+}
+```
+
+**@RestController (Returns JSON)** is used to build REST APIs and returns JSON/XML data instead of views.
+```java
+@RestController
+public class UserRestController {
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/api/user")
+    public String getUser() {
+        return service.getUser(); // returns JSON/text
+    }
+}
+`@RestController` = `@Controller` + `@ResponseBody`
+```
+
+
+**@Service** is used for business logic layer.
+
+```java
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository repo;
+
+    public String getUser() {
+        return repo.getUser();
+    }
+}
+```
+
+
+**@Repository** is used for database/DAO layer and provides exception handling.
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findByName(String name, Pageable pageable);
+    Page<User> findAll(Pageable pageable);
+}
+```
+
+## 9. What is @Autowired vs @Inject annotation?
+
+**`@Autowired`** is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
+It tells the Spring container to automatically inject a required bean into a class.
+
+```java
+// Using @Autowired (Spring)
+@Service
+public class OrderService {
+    
+    @Autowired
+    private PaymentService paymentService; // Field injection
+    
+    private UserService userService;
+    
+    @Autowired
+    public OrderService(UserService userService) { // Constructor injection
+        this.userService = userService;
+    }
+}
+```
+
+**@Inject** also used used for dependency injection in Spring, it is provided by Spring Framework, while @Inject is provided by Java (JSR-330).
+
+**Using @Inject (Java JSR-330)**
+
+```java
+import jakarta.inject.Inject;
+
+@Service
+public class UserService {
+
+    @Inject
+    private UserRepository userRepository;
+
+    public void printUser() {
+        System.out.println(userRepository.getUser());
+    }
+}
+```
+
+## 10. What is @Profile Annotation?
+
+**Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
+
+```java
+# application.properties
+spring.profiles.active=dev
+
+# application-dev.properties
+server.port=8080
+spring.datasource.url=jdbc:h2:mem:testdb
+
+# application-prod.properties
+server.port=80
+spring.datasource.url=jdbc:mysql://prod-server:3306/mydb
+```
+
+```java
+@Component
+@Profile("dev")
+public class DevDataLoader {
+    // Only loaded in dev profile
+}
+```
+
+
+## 11. What is ApplicationContext?
+
+**ApplicationContext** is the core container in Spring Framework that manages beans, dependency injection, bean lifecycle, and configuration of the application.
+
+It provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
+
+- Central interface for Spring applications
+- Manages bean lifecycle and dependencies
+- Provides additional enterprise features
+- Event publishing and handling
+- Resource loading and internationalization
+
+```java
+@Component
+public class MyService {
+    
+    @Autowired
+    private ApplicationContext applicationContext;
+    
+    public void doSomething() {
+        // Get bean programmatically
+        UserService userService = applicationContext.getBean(UserService.class);
+        
+        // Publish event
+        applicationContext.publishEvent(new CustomEvent("data"));
+    }
+}
+```
+
+
+## 12. What is @Component, @Configuration, @Primary, @Qualifier, @PatchMapping annotation?
+
+**@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
+
+```java
+@Component
+public class EmailService {
+    public void send() {
+        System.out.println("Sending email");
+    }
+}
+```
+
+**@Configuration**  is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public PaymentService paymentService() {
+        return new PaymentService();
+    }
+}
+```
+
+**@Primary** When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.
+
+```java
+@Component
+@Primary
+public class CreditCardPayment implements PaymentService {
+}
+```
+
+```java
+@Component
+public class UpiPayment implements PaymentService {
+}
+```
+
+**@Qualifier** is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
+
+```java
+@Autowired
+@Qualifier("upiPayment")
+private PaymentService paymentService;
+```
+**@PatchMapping** is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
+
+```java
+@PatchMapping("/users/{id}")
+public ResponseEntity<User> updateEmail(
+        @PathVariable Long id,
+        @RequestBody Map<String, Object> updates) {
+
+    User updatedUser = userService.updateUser(id, updates);
+    return ResponseEntity.ok(updatedUser);
+}
+```
+
+## 13. Explain Spring Boot Actuator endpoints.
+
+**Answer:**
+Actuator provides production-ready features like health checks, metrics, and monitoring endpoints. Common endpoints: `/health`, `/metrics`, `/info`, `/env`.
+
+**Example:**
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+```java
+# application.properties
+management.endpoints.web.exposure.include=health,metrics,info
+management.endpoint.health.show-details=always
+```
+
+```java
+// Custom health indicator
+@Component
+public class CustomHealthIndicator implements HealthIndicator {
+    @Override
+    public Health health() {
+        boolean isHealthy = checkService();
+        if (isHealthy) {
+            return Health.up().withDetail("service", "available").build();
+        }
+        return Health.down().withDetail("service", "unavailable").build();
+    }
+}
+```
+
+## 14. How do you ensure security a Spring Boot Microservices application?
+
+To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
+
+* **Role-based access control** using annotations like `@PreAuthorize` or `@Secured`
+* **JWT or OAuth2 tokens** for stateless authentication
+* **Encrypting passwords** with BCrypt or Argon2
+* **HTTPS/SSL** to secure data in transit
+* **Input validation and CSRF protection** to prevent attacks
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+            .build();
+    }
+}
+
+@RestController
+@PreAuthorize("hasRole('USER')")
+public class SecureController {
+    
+    @GetMapping("/api/user/profile")
+    public UserProfile getProfile(Authentication auth) {
+        return userService.getProfile(auth.getName());
+    }
+}
+```
+## 15. What is Lombok in Java and and whe can we use?
+
+
+**Lombok** is a **Java library** that helps reduce boilerplate code by generating common methods automatically at compile time using annotations.
+
+
+**Example Without Lombok**
+
+```java
+public class User {
+    private String name;
+    private int age;
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+}
+```
+
+**Same Code Using Lombok**
+
+```java
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class User {
+    private String name;
+    private int age;
+}
+```
+
+**Lombok automatically generates getter & setter at compile time.**
+
+---
+
+**Common Lombok Annotations**
+
+| Annotation            | Purpose                                                 |
+| --------------------- | ------------------------------------------------------- |
+| `@Getter` / `@Setter` | Generates getters & setters                             |
+| `@ToString`           | Generates `toString()`                                  |
+| `@EqualsAndHashCode`  | Generates `equals()` & `hashCode()`                     |
+| `@NoArgsConstructor`  | No-arg constructor                                      |
+| `@AllArgsConstructor` | All-arg constructor                                     |
+| `@Builder`            | Builder pattern                                         |
+| `@Data`               | Combines multiple (`Getter + Setter + ToString + etc.`) |
+
+
+
+**Use Lombok when:**
+
+* Creating **DTOs / POJOs**
+* Working with **Spring Boot projects**
+* You want **clean and readable code**
+* Reducing boilerplate
+
+**Avoid Lombok when:**
+
+* Debugging is critical (generated code not visible)
+* Team is not familiar with Lombok
+* You want explicit control over methods
+
+## 17. How can you create a custom configuration and auto-configuration in Spring Boot?
+
+Create **custom configuration** using `@Configuration` and `@Bean` annotations.
+
+```java
+@Configuration
+public class AppConfig {
+    
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+    
+    @Bean
+    @ConditionalOnProperty(name = "app.cache.enabled", havingValue = "true")
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager();
+    }
+}
+```
+
+```properties
+# application.properties
+app.cache.enabled=true
+```
+
+Create a **Auto configuration** class with conditional annotations and register it in `META-INF/spring.factories`.
+
+```java
+@Configuration
+@ConditionalOnClass(MyService.class)
+@EnableConfigurationProperties(MyProperties.class)
+public class MyAutoConfiguration {
+    
+    @Bean
+    @ConditionalOnMissingBean
+    public MyService myService(MyProperties properties) {
+        return new MyService(properties);
+    }
+}
+```
+
+```properties
+# META-INF/spring.factories
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.example.MyAutoConfiguration
+```
+
+## 16. Why do we use Long in JpaRepository<Employee, Long>?
+In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
+
+Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
+
+
+## 18. What is Spring Scheduler?
+
+**Spring Scheduler** is a feature in **Spring Framework** used to **run tasks automatically at a scheduled time or at fixed intervals**.
+
+It is commonly used for **background jobs** like sending emails, cleaning logs, or running periodic tasks using the `@Scheduled` annotation.
+
+**Real-Time Example**
+
+* Sending **daily reports**
+* **Cleaning temporary data** every night
+* **Sending scheduled emails**
+* **Database backup every day**
+
+**Enable Scheduling**
+```java
+@EnableScheduling
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+**Create Scheduled Task**
+```java
+@Component
+public class MyScheduler {
+
+    @Scheduled(fixedRate = 5000)
+    public void runTask() {
+        System.out.println("Task running every 5 seconds");
+    }
+}
+
+//Output
+Task running every 5 seconds
+Task running every 5 seconds
+Task running every 5 seconds
+```
+
+## 19. How would you set up a logging level for Spring Boot (e.g., debug, info, error)?
+
+Configure logging levels in application.properties for different packages and classes.
+
+```properties
+# Root level (applies to all)
+logging.level.root=INFO
+
+# Package-specific levels
+logging.level.com.mycompany.service=DEBUG
+logging.level.com.mycompany.controller=INFO
+
+# Framework levels
+logging.level.org.springframework.web=DEBUG
+logging.level.org.hibernate.SQL=DEBUG
+
+# Specific class
+logging.level.com.mycompany.UserService=TRACE
+```
+
+**Available levels (in order):**
+- TRACE (most detailed)
+- DEBUG
+- INFO
+- WARN
+- ERROR (least detailed)
+
+```java
+@Service
+public class UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+    
+    public User findUser(Long id) {
+        log.debug("Finding user with id: {}", id);
+        log.info("User search completed");
+        return user;
+    }
+}
+```
+
+ 
+## 20. What is `@Scope`, `@prototype`, `@PostConstruct` and `@PreDestroy` and  in Spring Boot?
+
+**@Scope**
+
+* Purpose: Defines the lifecycle and visibility context of a Spring bean.
+* Default: singleton (one instance per container).
+* Common Values: prototype, request, session, application.
+* Example: Applied at class level alongside stereotype annotations.
+
+```java
+@Component
+@Scope("prototype")public class ReportGenerator {}
+```
+
+**@prototype**
+
+* Correction: There is no annotation named @prototype in Spring.
+* Actual Use: It is a value passed into the @Scope annotation.
+* Behavior: Instructs Spring to create a brand new instance every single time the bean is requested or injected.
+* Example:
+ 
+```java
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) or @Scope("prototype").
+```
+
+**@PostConstruct**
+
+* Purpose: Marks a method to run exactly once, immediately after Spring finishes initializing the bean and injecting all dependencies.
+* Common Use: Executing setup logic, populating caches, or validating that mandatory properties are not null.
+* Rule: The method must be void and cannot accept any arguments.
+
+```java
+@PostConstructpublic void init() {
+    this.connectionPool = initializePool();
+}
+```
+
+**@PreDestroy**
+
+* Purpose: Marks a method to run exactly once, right before the Spring container destroys the bean and removes it from memory.
+* Common Use: Cleaning up resources, closing database connections, stopping background threads, or releasing file handles.
+* Limitation: It does not trigger for prototype scoped beans because Spring loses track of them after creation.
+
+```java
+@PreDestroypublic void cleanup() {
+    this.connectionPool.close();
+}
+```
+
+**Singleton vs Prototype Scope**
+
+| Feature              | Singleton                              | Prototype                                  |
+|----------------------|----------------------------------------|--------------------------------------------|
+| Instances created    | One per Spring container               | New instance every time it is requested    |
+| Default scope        | Yes (default in Spring)                | No                                         |
+| Memory               | Shared, memory efficient               | More memory usage                          |
+| State                | Shared state — be careful with mutable fields | Each caller gets its own state        |
+| Annotation           | `@Scope("singleton")` or default       | `@Scope("prototype")`                      |
+
+
+**🔹 1. Singleton Scope (Default)**
+
+👉 Only **one instance** is created and shared.
+
+```java
+import org.springframework.stereotype.Component;
+
+@Component
+class MyService {
+    public void print() {
+        System.out.println("Singleton instance: " + this);
+    }
+}
+```
+
+```java
+@Autowired
+MyService s1;
+
+@Autowired
+MyService s2;
+
+s1.print();
+s2.print();
+
+
+// Output (same object)
+Singleton instance: MyService@123
+Singleton instance: MyService@123
+```
+
+**🔹 2. Prototype Scope**
+
+👉 **New object every time** it is requested.
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope("prototype")
+class ReportGenerator {
+    public void print() {
+        System.out.println("Prototype instance: " + this);
+    }
+}
+```
+
+```java
+import org.springframework.context.ApplicationContext;
+
+@Autowired
+ApplicationContext context;
+
+ReportGenerator r1 = context.getBean(ReportGenerator.class);
+ReportGenerator r2 = context.getBean(ReportGenerator.class);
+
+r1.print();
+r2.print();
+
+//  Output (different objects)
+
+Prototype instance: ReportGenerator@111
+Prototype instance: ReportGenerator@222
+```
+
+## 21. How do you manage Spring Beans in Spring Boot?
+
+Spring Boot automatically manages beans through component scanning and auto-configuration. You can also define custom beans explicitly.
+
+```java
+// Automatic bean management
+@Service
+public class UserService { }
+
+@Repository
+public class UserRepository { }
+
+// Manual bean definition
+@Configuration
+public class BeanConfig {
+    
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager();
+    }
+    
+    @Bean
+    @ConditionalOnProperty("app.redis.enabled")
+    public RedisTemplate redisTemplate() {
+        return new RedisTemplate();
+    }
+}
+```
+
+Spring manages the entire lifecycle: creation, dependency injection, initialization, and destruction.
+
+## 22. What is the difference between `@OneToMany` and `@ManyToOne` in Spring Boot?
+
+These annotations define JPA relationships between entities with different cardinalities.
+
+```java
+// One User has Many Orders
+@Entity
+public class User {
+    @Id
+    private Long id;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
+    // cascade = CascadeType.ALL means all operations performed on the parent entity will also be applied to the child entities automatically.
+}
+
+// Many Orders belong to One User
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+}
+```
+
+**Key differences:**
+- `@OneToMany`: One entity relates to multiple entities
+- `@ManyToOne`: Multiple entities relate to one entity
+- They're opposite sides of the same relationship
+
+## 23. How can you configure pagination and sorting in Spring Boot with Spring Data JPA?
+
+Use `PagingAndSortingRepository` or `Pageable` parameter in repository methods for automatic pagination.
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findByName(String name, Pageable pageable);
+    Page<User> findAll(Pageable pageable);
+}
+
+@RestController
+public class UserController {
+    @Autowired
+    private UserRepository userRepository;
+    
+    @GetMapping("/users")
+    public Page<User> getUsers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userRepository.findAll(pageable);
+    }
+}
+```
+
+## 25. How Does `@EnableAutoConfiguration` Work Internally?
+
+**DataSource:** 
+
+@EnableAutoConfiguration is a Spring Boot annotation that automatically configures your Spring application based on the dependencies present in your classpath.
+
+It saves time by removing the need to manually configure beans, like DataSource, DispatcherServlet, etc.
+
+**Where is it used?**
+It is included inside the @SpringBootApplication annotation by default.
+
+```java
+@SpringBootApplication
+public class MyApp {
+  public static void main(String[] args) {
+SpringApplication.run(MyApp.class, args);
+  }
+}
+```
+
+👉 @SpringBootApplication =
+@Configuration + @ComponentScan + @EnableAutoConfiguration
+
+**How it works:**
+It looks at the JARs in your classpath and tries to auto-configure beans accordingly.
+
+**For example:**
+- If Spring Boot sees spring-boot-starter-web, it will configure Tomcat, Spring MVC, and a default DispatcherServlet.
+- If it sees spring-boot-starter-data-jpa, it will auto-configure Hibernate, DataSource, etc.
+
+**In Interview, Say This:**
+- @EnableAutoConfiguration helps in reducing boilerplate configuration.
+- It allows me to start building features quickly without manual setup.
+- If needed, I can still override its default settings using @Configuration classes 
+
+---
+
+## 26. What is `@Async` and How Does It Work?
+
+
+The  annotation in Java is a Spring Framework feature that allows a method to be executed asynchronously—meaning the caller method proceeds immediately without waiting for the async method to finish. This boosts performance by executing independent tasks in parallel. 
+How  Works Under the Hood 
+
+**How @Async Works Under the Hood**
+
+1. **Spring AOP (Aspect-Oriented Programming):** When you annotate a method with , Spring intercepts the call and wraps the target object inside a dynamic proxy. 
+2. **Task Execution:** Instead of executing the method in the caller's main thread, the proxy submits the method's execution to a TaskExecutor (a Thread Pool). 
+
+```java
+@Bean
+public Executor taskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(5);
+    executor.setMaxPoolSize(10);
+    executor.initialize();
+    return executor;
+}
+```
+3. **Immediate Return:** Control is immediately handed back to the calling thread so it can continue running other code, while the async method runs independently.  
+
+**How to Use It**
+
+To use  in a Spring/Spring Boot application, you must follow three steps: 
+
+1. **Enable Async Processing** Add the  annotation to one of your Spring Configuration classes. 
+```java
+@Configuration
+@EnableAsync
+public class AppConfig {
+}
+```
+
+2. **Annotate the Method** Add  to the method you want to run in the background. It must be a  method and can return either  or a . CompletableFuture.
+```java
+@Service
+public class EmailService {
+
+    @Async
+    public void sendEmail(String recipient) {
+        // Heavy or blocking email-sending logic
+        System.out.println("Email sent to " + recipient);
+    }
+}
+```
+
+3. **Call the Method** When you call this method from another class, Spring intercepts the call and runs it in a background thread. 
+Important Rules & Gotchas 
+
+---
+
+## 27. What is `@EventListener` in Spring Boot?
+
+It's Spring's built-in **event-driven mechanism** — publish an event, and any listener picks it up.
+
+**Create an event:**
+```java
+public class UserRegisteredEvent {
+    private final String email;
+    public UserRegisteredEvent(String email) { this.email = email; }
+    public String getEmail() { return email; }
+}
+```
+
+**Publish it:**
+```java
+@Autowired ApplicationEventPublisher publisher;
+
+public void register(String email) {
+    // save user...
+    publisher.publishEvent(new UserRegisteredEvent(email));
+}
+```
+
+**Listen to it:**
+```java
+@EventListener
+public void onUserRegistered(UserRegisteredEvent event) {
+    sendWelcomeEmail(event.getEmail());
+}
+```
+
+By default it's **synchronous**. Combine with `@Async` to make it non-blocking.
+
+Use it to decouple logic — like sending emails, notifications, or audit logging — without tight coupling between services.
+
+---
+
+## 28. What is `ResponseEntity` and When to Use It?
+
+`ResponseEntity` gives you **full control** over the HTTP response — status code, headers, and body.
+
+```java
+// Simple return — no control
+@GetMapping("/user/{id}")
+public User getUser(@PathVariable Long id) {
+    return userService.find(id);
+}
+
+// With ResponseEntity — full control
+@GetMapping("/user/{id}")
+public ResponseEntity<User> getUser(@PathVariable Long id) {
+    User user = userService.find(id);
+    if (user == null) {
+        return ResponseEntity.notFound().build();           // 404
+    }
+    return ResponseEntity.ok(user);                        // 200
+}
+```
+
+You can also set custom headers:
+```java
+return ResponseEntity
+    .status(HttpStatus.CREATED)
+    .header("X-Custom-Header", "value")
+    .body(savedUser);
+```
+
+Use it when you need to return different status codes, add headers, or return an empty body with a specific status.
+
+---
+
+## 29. What is `@ExceptionHandler` vs `@ControllerAdvice`?
+
+Both handle exceptions — but at different scopes.
+
+**`@ExceptionHandler`** — handles exceptions **only within the same controller**.
+
+```java
+@RestController
+public class UserController {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(UserNotFoundException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+}
+```
+
+**`@ControllerAdvice`** — handles exceptions **globally across all controllers**. One place to handle all errors.
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(UserNotFoundException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGeneral(Exception ex) {
+        return ResponseEntity.status(500).body("Something went wrong");
+    }
+}
+```
+
+## 30. Top 50 Spring Boot Annotations 
+
+| #  | Annotation                 | Purpose                                                                                                                                     |
+| -- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | `@SpringBootApplication`   | Marks the main class of a Spring Boot app; combines configuration, auto-configuration, and component scanning to bootstrap the application. |
+| 2  | `@EnableAutoConfiguration` | Automatically configures Spring beans based on classpath dependencies, reducing manual setup.                                               |
+| 3  | `@ComponentScan`           | Scans specified packages to detect and register Spring components (beans) automatically.                                                    |
+| 4  | `@Configuration`           | Indicates a class contains bean definitions and acts as a source of Spring configuration.                                                   |
+| 5  | `@Bean`                    | Declares a method that returns an object managed as a Spring bean in the application context.                                               |
+| 6  | `@Component`               | Marks a class as a generic Spring-managed component for dependency injection.                                                               |
+| 7  | `@Autowired`               | Automatically injects dependencies by type into constructors, fields, or setters.                                                           |
+| 8  | `@Qualifier`               | Specifies which bean to inject when multiple beans of the same type exist.                                                                  |
+| 9  | `@Primary`                 | Designates a bean as the default choice when multiple candidates are available.                                                             |
+| 10 | `@Value`                   | Injects values from properties files, environment variables, or expressions into fields.                                                    |
+
+
+**✅ Stereotype / Layer Annotations**
+
+| #  | Annotation        | Purpose                                                                                      |
+| -- | ----------------- | -------------------------------------------------------------------------------------------- |
+| 11 | `@Controller`     | Handles incoming web requests and typically returns a view (like JSP/Thymeleaf).             |
+| 12 | `@RestController` | Combines `@Controller` and `@ResponseBody` to return JSON/XML responses directly.            |
+| 13 | `@Service`        | Marks a class as a service layer component containing business logic.                        |
+| 14 | `@Repository`     | Indicates a data access component and enables exception translation for database operations. |
+
+
+**✅ REST API Annotations**
+
+| #  | Annotation        | Purpose                                                                            |
+| -- | ----------------- | ---------------------------------------------------------------------------------- |
+| 15 | `@RequestMapping` | Maps HTTP requests to handler methods with configurable URL, method, headers, etc. |
+| 16 | `@GetMapping`     | Shortcut for handling HTTP GET requests for retrieving data.                       |
+| 17 | `@PostMapping`    | Handles HTTP POST requests for creating resources.                                 |
+| 18 | `@PutMapping`     | Handles HTTP PUT requests for updating entire resources.                           |
+| 19 | `@DeleteMapping`  | Handles HTTP DELETE requests to remove resources.                                  |
+| 20 | `@PatchMapping`   | Handles partial updates of a resource using HTTP PATCH.                            |
+| 21 | `@PathVariable`   | Binds URI template variables from the URL to method parameters.                    |
+| 22 | `@RequestParam`   | Extracts query parameters from the request URL into method parameters.             |
+| 23 | `@RequestBody`    | Converts HTTP request body (JSON/XML) into a Java object.                          |
+| 24 | `@ResponseBody`   | Converts Java object into HTTP response body (JSON/XML).                           |
+| 25 | `@ResponseStatus` | Sets the HTTP response status code for a method or exception.                      |
+
+
+**✅ Spring Data JPA**
+
+| #  | Annotation        | Purpose                                                                       |
+| -- | ----------------- | ----------------------------------------------------------------------------- |
+| 26 | `@Entity`         | Marks a class as a JPA entity mapped to a database table.                     |
+| 27 | `@Table`          | Specifies the table name and schema details for an entity.                    |
+| 28 | `@Id`             | Defines the primary key of an entity.                                         |
+| 29 | `@GeneratedValue` | Specifies strategy for auto-generating primary key values.                    |
+| 30 | `@Column`         | Customizes column mapping such as name, length, nullable, unique constraints. |
+| 31 | `@Transient`      | Excludes a field from being persisted to the database.                        |
+| 32 | `@OneToOne`       | Defines a one-to-one relationship between two entities.                       |
+| 33 | `@OneToMany`      | Defines a one-to-many relationship between entities.                          |
+| 34 | `@ManyToOne`      | Defines a many-to-one relationship between entities.                          |
+| 35 | `@ManyToMany`     | Defines a many-to-many relationship using a join table.                       |
+
+
+**✅ Transaction & AOP**
+
+| #  | Annotation                     | Purpose                                                                             |
+| -- | ------------------------------ | ----------------------------------------------------------------------------------- |
+| 36 | `@Transactional`               | Ensures methods execute within a database transaction with commit/rollback support. |
+| 37 | `@EnableTransactionManagement` | Enables Spring’s annotation-driven transaction management.                          |
+| 38 | `@Aspect`                      | Declares a class for cross-cutting concerns like logging, security, or auditing.    |
+| 39 | `@Before`                      | Executes advice before the target method runs.                                      |
+| 40 | `@After`                       | Executes advice after the target method completes (regardless of outcome).          |
+
+
+**✅ Exception Handling**
+
+| #  | Annotation              | Purpose                                                                 |
+| -- | ----------------------- | ----------------------------------------------------------------------- |
+| 41 | `@ControllerAdvice`     | Provides global exception handling and shared logic across controllers. |
+| 42 | `@RestControllerAdvice` | Same as `@ControllerAdvice` but returns REST responses (JSON).          |
+| 43 | `@ExceptionHandler`     | Handles specific exceptions and defines custom error responses.         |
+
+
+**✅ Validation**
+
+| #  | Annotation  | Purpose                                                                                |
+| -- | ----------- | -------------------------------------------------------------------------------------- |
+| 44 | `@Valid`    | Triggers validation of request body or method parameters using validation annotations. |
+| 45 | `@NotNull`  | Ensures a field is not null during validation.                                         |
+| 46 | `@NotBlank` | Ensures a string is not null, empty, or only whitespace.                               |
+| 47 | `@Size`     | Validates size constraints for strings, collections, or arrays.                        |
+| 48 | `@Email`    | Validates that a field contains a properly formatted email address.                    |
+
+
+**✅ Async & Scheduling**
+
+| #  | Annotation     | Purpose                                                   |
+| -- | -------------- | --------------------------------------------------------- |
+| 49 | `@EnableAsync` | Enables asynchronous method execution in the application. |
+| 50 | `@Async`       | Executes a method in a separate thread asynchronously.    |
+
+
+
+# ✅ 20. Java RESTful Services 
+
+## 1. What is CORS, and how does it work?
+
+**CORS (Cross-Origin Resource Sharing)** is a **browser security mechanism** that restricts cross-domain requests by default.
+
+It works by allowing the **server to send special HTTP headers** (like `Access-Control-Allow-Origin`) to specify which domains are permitted to access its resources.
+
+
+```java
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+public class ApiController {
+    @GetMapping("/api/data")
+    public ResponseEntity<Data> getData() {
+        return ResponseEntity.ok(data);
+    }
+}
+
+// Global CORS configuration
+@Configuration
+public class CorsConfig {
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        return source;
+    }
+}
+```
+
+## 2. What is an API and what are different type of API?
+
+**API (Application Programming Interface)** is a **set of rules that allows different software applications to communicate with each other**.
+
+**Types of APIs:**
+
+* **REST API** – Uses HTTP methods (GET, POST, PUT, DELETE). Commonly uses JSON format.
+* **SOAP API** – is a Protocol-based, uses XML messaging. used in enterprise and banking systems
+* **GraphQL API** – It is query-based API technology, Allows clients to request specific data.
+* **gRPC API** – It is High-performance API framework, it uses Protocol Buffers for fast communication.
+* **WebSocket API** – Enables real-time, two-way communication.
+
+
+## 3. What are RESTful web services?
+
+**RESTful API** is an API that follows **REST (Representational State Transfer)** principles to enable communication between clients and servers using standard HTTP methods.
+
+An API is considered **RESTful** when it:
+
+* Uses HTTP methods correctly (**GET, POST, PUT, DELETE**)
+* Has resource-based URLs (e.g., `/users/101`)
+* Is **stateless** (server doesn't store client session data)
+* Returns data in formats like JSON
+* Uses proper HTTP status codes (200, 201, 404, etc.)
+
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUser(id);
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userService.save(user);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody User user) {
+        return userService.update(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+    }
+}
+```
+
+
+## 4. What are the principles of REST?
+
+REST (Representational State Transfer) is based on six key architectural principles that guide the design of web services.
+
+**REST Principles:**
+- **Stateless:** Each request contains all necessary information
+- **Client-Server:** Separation of concerns between client and server
+- **Cacheable:** Responses can be cached for better performance
+- **Uniform Interface:** Consistent way to interact with resources
+- **Layered System:** Architecture can have multiple layers
+- **Code on Demand:** Optional - server can send executable code
+
+These principles ensure scalability, reliability, and maintainability of web services.
+
+
+## 5: What is XML how to return XML in response?
+
+**XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
+
+It is **verbose**, supports **attributes and namespaces**, is **self-documenting with schema validation**, and is used in **enterprise apps and SOAP services**.
+
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+```java
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+@JacksonXmlRootElement(localName = "user")
+public class User {
+    private int id;
+    private String name;
+
+    // getters setters
+}
+```
+```java
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class StudentController {
+
+    @GetMapping(value = "/student", produces = "application/xml")
+    public Student getStudent() {
+        Student s = new Student();
+        s.setId(1);
+        s.setName("John");
+        return s;
+    }
+}
+
+// Result
+// <student>
+//     <id>1</id>
+//     <name>John</name>
+// </student>
+```
+
+
+## 6. What are HTTP methods and their usage?
+
+**HTTP** methods define the type of operation to be performed on a resource. Each method has a specific purpose and semantic meaning in RESTful services.
+
+**Common HTTP Methods:**
+- **GET:** Retrieve data (read-only)
+- **POST:** Create new resources
+- **PUT:** Update/replace entire resource
+- **PATCH:** Partial update of resource
+- **DELETE:** Remove resource
+- **HEAD:** Get headers only (no body)
+- **OPTIONS:** Get allowed methods
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    
+    @GetMapping("/{id}")        // GET /users/1
+    public User getUser(@PathVariable Long id) { }
+    
+    @PostMapping               // POST /users
+    public User createUser(@RequestBody User user) { }
+    
+    @PutMapping("/{id}")       // PUT /users/1
+    public User updateUser(@PathVariable Long id, @RequestBody User user) { }
+    
+    @DeleteMapping("/{id}")    // DELETE /users/1
+    public void deleteUser(@PathVariable Long id) { }
+}
+```
+
+## 7. What is the difference between PUT and POST?
+
+**PUT:**
+- Updates or replaces entire resource
+- Idempotent (same result when called multiple times)
+- Requires complete resource data
+- Used for updates when you know the resource ID
+
+**POST:**
+- Creates new resources
+- Not idempotent (creates new resource each time)
+- Can send partial data
+- Server typically generates resource ID
+
+```java
+// POST - Create new user (server generates ID)
+POST /users
+{
+    "name": "John",
+    "email": "john@example.com"
+}
+// Response: 201 Created with generated ID
+
+// PUT - Update/replace entire user resource
+PUT /users/123
+{
+    "id": 123,
+    "name": "John Updated",
+    "email": "john.updated@example.com"
+}
+// Response: 200 OK or 204 No Content
+```
+
+## 8. What are HTTP status codes?
+
+HTTP status codes indicate the result of an HTTP request. They're grouped into categories and provide standardized way to communicate request outcomes.
+
+**Status Code Categories:**
+- **1xx:** Informational responses
+- **2xx:** Success responses
+- **3xx:** Redirection responses
+- **4xx:** Client error responses
+- **5xx:** Server error responses
+
+**Common Status Codes:**
+- **200 OK:** Request successful
+- **201 Created:** Resource created successfully
+- **204 No Content:** Success with no response body
+- **400 Bad Request:** Invalid request syntax
+- **401 Unauthorized:** Authentication required
+- **403 Forbidden:** Access denied
+- **404 Not Found:** Resource not found
+- **409 Conflict:** Request conflicts with current state
+- **500 Internal Server Error:** Server error
+
+```java
+@RestController
+public class UserController {
+    
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.findById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user);           // 200 OK
+        } else {
+            return ResponseEntity.notFound().build(); // 404 Not Found
+        }
+    }
+    
+    @PostMapping("/users")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User created = userService.create(user);
+        return ResponseEntity.status(HttpStatus.CREATED)  // 201 Created
+                           .body(created);
+    }
+    
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();    // 204 No Content
+    }
+}
+```
+
+# ✅ 21. Java Microservices 
+
+## 1. What are CQRS principles?
+**CQRS (Command Query Responsibility Segregation)** is an architectural pattern that **separates read operations (queries) from write operations (commands)** in an application.
+
+* **Command** → Used to **create, update, or delete data**
+* **Query** → Used to **read or retrieve data**
+
+**Why Use CQRS?**
+
+* Improves **performance**
+* Allows **separate scaling of read and write operations**
+* Makes the system **more maintainable**
+
+```text
+src/main/java/com/example/user
+
+├── command
+│   ├── controller
+│   │   └── UserCommandController.java
+│   ├── service
+│   │   └── UserCommandService.java
+│   ├── handler
+│   │   └── CreateUserCommandHandler.java
+│   └── model
+│       └── CreateUserCommand.java
+│
+├── query
+│   ├── controller
+│   │   └── UserQueryController.java
+│   ├── service
+│   │   └── UserQueryService.java
+│   ├── handler
+│   │   └── GetUserQueryHandler.java
+│   └── model
+│       └── GetUserQuery.java
+│
+├── entity
+│   └── User.java
+│
+├── repository
+│   └── UserRepository.java
+│
+└── config
+    └── ApplicationConfig.java
+```
+
+```java
+// Write Request (Command)
+Client
+  ↓
+UserCommandController
+  ↓
+CreateUserCommand
+  ↓
+CreateUserCommandHandler
+  ↓
+UserRepository
+  ↓
+Database
+```
+
+```java
+// Read Request (Query)
+Client
+  ↓
+UserQueryController
+  ↓
+GetUserQuery
+  ↓
+GetUserQueryHandler
+  ↓
+Read Database/View
+  ↓
+Response
+```
+
+```java
+// Command (Write)
+public void createUser(User user) {
+    userRepository.save(user);
+}
+
+// Query (Read)
+public User getUser(Long id) {
+    return userRepository.findById(id).orElse(null);
+}
+```
+
+## 2. Blocking vs No blocking db call in Microservice?
+
+
+A **blocking DB call** means the thread waits until the database response comes back.
+
+A **non-blocking DB call** means the thread does not wait; it can handle other requests while waiting for the DB response.
+
+Non-blocking is better for high-traffic microservices because it improves performance and scalability.
+
+**Blocking Example (Spring Boot – JPA)**
+
+```java
+@GetMapping("/users/{id}")
+public User getUser(@PathVariable Long id) {
+    return userRepository.findById(id).orElse(null); 
+}
+```
+
+- Here thread **waits** until DB returns result → Blocking
+
+
+**Non-Blocking Example (Spring WebFlux)**
+
+```java
+@GetMapping("/users/{id}")
+public Mono<User> getUser(@PathVariable Long id) {
+    return userRepository.findById(id);
+}
+```
+
+- Returns **Mono** → Thread **does not wait** → Non-blocking
+
+
+## 3. What are microservices?
+
+**Microservices** are an architectural style where an application is built as **small, independent services**, each handling a **single business function**.
+
+They **communicate via APIs**, are **independently deployable**, **technology-agnostic**, and can be **developed and scaled separately**.
+
+## 4. What design patterns used in Microservices architecture?
+
+Common design patterns in Microservices are:
+
+* **API Gateway** – A single entry point that routes client requests to appropriate microservices.
+* **Service Discovery** – A mechanism that automatically detects and locates available service instances.
+* **Circuit Breaker** – A pattern that stops calls to a failing service to prevent system-wide failure.
+* **Saga Pattern** – A way to manage distributed transactions using a sequence of local transactions.
+* **CQRS (Command Query Responsibility Segregation)** – A pattern that separates read operations from write operations.
+* **Database per Service** – Each microservice has its own dedicated database for data isolation.
+* **Bulkhead Pattern** – A pattern that isolates resources to prevent one service failure from affecting others.
+
+**Example:**
+```java
+// 1. API Gateway Pattern
+@RestController
+public class ApiGatewayController {
+    @Autowired
+    private UserClient userClient;
+    
+    @Autowired
+    private OrderClient orderClient;
+    
+    @GetMapping("/api/user-orders/{userId}")
+    public UserOrdersResponse getUserWithOrders(@PathVariable Long userId) {
+        User user = userClient.getUser(userId);
+        List<Order> orders = orderClient.getOrdersByUser(userId);
+        return new UserOrdersResponse(user, orders);
+    }
+}
+
+// 2. Service Discovery Pattern, Commonly implemented using Netflix Eureka.
+@EnableEurekaClient
+@SpringBootApplication
+public class OrderServiceApplication {
+}
+restTemplate.getForObject("http://PAYMENT-SERVICE/pay", String.class);
+
+// 3. Circuit Breaker Pattern (with Resilience4j)
+@Service
+public class OrderService {
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
+    public Payment processPayment(PaymentRequest request) {
+        return paymentClient.process(request);
+    }
+    
+    public Payment paymentFallback(PaymentRequest request, Exception e) {
+        return new Payment("PENDING", "Payment service unavailable");
+    }
+}
+
+// 4. Saga Pattern (Choreography)
+@Service
+public class OrderSagaService {
+    @Autowired
+    private KafkaTemplate<String, OrderEvent> kafkaTemplate;
+    
+    public void createOrder(Order order) {
+        orderRepository.save(order);
+        kafkaTemplate.send("order-created", new OrderEvent(order.getId()));
+    }
+    
+    @KafkaListener(topics = "payment-failed")
+    public void handlePaymentFailed(PaymentEvent event) {
+        Order order = orderRepository.findById(event.getOrderId()).get();
+        order.setStatus("CANCELLED");
+        orderRepository.save(order);
+    }
+}
+
+// 5. CQRS (Command Query Responsibility Segregation)
+// Command (Write)
+@PostMapping("/orders")
+public void createOrder(@RequestBody Order order) { }
+
+// Query (Read)
+@GetMapping("/orders/{id}")
+public Order getOrder(@PathVariable Long id) { }
+
+// 6. Database per Service
+# order-service application.properties
+spring.datasource.url=jdbc:mysql://localhost:3306/orderdb
+
+// 7. Bulkhead Pattern
+// Example (Resilience4j)
+@Bulkhead(name = "paymentService", type = Bulkhead.Type.THREADPOOL)
+public String processPayment() {
+    return "Processing payment";
+}
+```
+
+## 5. Monolithic vs Microservices Architecture
+
+**Monolithic Architecture:**
+All components (UI, business logic, database) are built and deployed as a **single unit**. It is simple to develop and deploy initially, but becomes difficult to scale and maintain as the application grows.
+
+**Microservices Architecture:**
+The application is divided into **small, independent services** that communicate via APIs. Each service can be developed, deployed, and scaled independently, but it increases complexity in communication, monitoring, and deployment.
+
+So, **monolithic is simple but less scalable**, while **microservices are scalable and flexible but more complex**.
+
+
+Trade-offs:
+- Monolithic: Simple deployment, shared database, single technology stack
+- Microservices: Independent scaling, technology diversity, complex deployment
+- Choose monolithic for small teams, microservices for large organizations
+
+## 6. What are the advantages of microservices?
+
+Microservices offer several benefits over monolithic architectures, particularly for large, complex applications and organizations.
+
+**Key Advantages:**
+- **Independent deployment:** Deploy services separately
+- **Technology diversity:** Different tech stacks per service
+- **Scalability:** Scale individual services based on demand
+- **Fault isolation:** Failure in one service doesn't crash entire system
+- **Team autonomy:** Small teams own complete services
+- **Faster development:** Parallel development of services
+
+These benefits enable organizations to move faster, scale better, and maintain more resilient systems.
+
+## 7. What are the challenges of microservices?
+
+While microservices offer many benefits, they also introduce complexity and challenges that must be carefully managed.
+
+**Major Challenges:**
+- **Distributed system complexity:** Network calls, latency, failures
+- **Data consistency:** Managing transactions across services
+- **Service communication:** Inter-service communication overhead
+- **Monitoring and debugging:** Tracing requests across services
+- **Deployment complexity:** Managing multiple services
+- **Testing challenges:** Integration and end-to-end testing
+
+Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
+
+## 8. How microservices communicate with each other?
+
+
+In our system, microservices mainly communicated using **REST APIs over HTTP**.
+For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
+
+For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
+
+Microservices communicate in two ways:
+
+1. **Synchronous (REST, Feign, WebClient)** – Request/Response model
+2. **Asynchronous (Kafka, RabbitMQ)** – Event-driven model
+
+**Synchronous Communication**
+
+
+**Using Feign Client**
+
+```java
+// `- Step 1: Configure Feign Client`
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+
+// `- Step 2: Enable Feign Client`
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableFeignClients
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
+
+// `- Step 3: Create Feign Client Interface`
+@FeignClient(name = "user-service", url = "http://localhost:8081")
+public interface UserClient {
+
+    @GetMapping("/users/{id}")
+    User getUserById(@PathVariable int id);
+}
+
+// `- Step 4: use in controller`
+@Service
+public class OrderService {
+
+    @Autowired
+    private UserClient userClient;
+
+    public Order getOrder(int userId) {
+        User user = userClient.getUserById(userId);
+        return new Order(user);
+    }
+}
+```
+
+**Using Spring RestTemplate (Spring Boot - Legacy, Sequential Calls (Blocking))**
+
+```java
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.*;
+
+// Step 1: Configure as bean
+@Configuration
+public class RestConfig {
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+
+// Step 2: Usage in service
+@Service
+public class ExternalApiService {
+    
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    // GET request
+    public String getData() {
+        String url = "https://api.example.com/data";
+        return restTemplate.getForObject(url, String.class);
+    }
+    
+    // GET with headers
+    public String getDataWithHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        headers.set("Content-Type", "application/json");
+        
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+            "https://api.example.com/data",
+            HttpMethod.GET,
+            entity,
+            String.class
+        );
+        return response.getBody();
+    }
+    
+    // POST request
+    public String postData(Map<String, Object> requestBody) {
+        String url = "https://api.example.com/api";
+        return restTemplate.postForObject(url, requestBody, String.class);
+    }
+    
+    // POST with response entity
+    public ResponseEntity<String> postWithResponse(Map<String, Object> body) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        return restTemplate.postForEntity("https://api.example.com/api", entity, String.class);
+    }
+}
+```
+
+**Spring WebClient (Spring Boot 5+ - - Sequential Calls , Reactive, Recommended)**
+
+```java
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.MediaType;
+import reactor.core.publisher.Mono;
+
+// Configure WebClient bean
+@Configuration
+public class WebClientConfig {
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder()
+            .baseUrl("https://api.example.com")
+            .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+            .build();
+    }
+}
+
+// Usage in service
+@Service
+public class ExternalApiService {
+    
+    @Autowired
+    private WebClient webClient;
+    
+    // GET request
+    public Mono<String> getData() {
+        return webClient.get()
+            .uri("/data")
+            .header("Authorization", "Bearer " + token)
+            .retrieve()
+            .bodyToMono(String.class);
+    }
+    
+    // GET with response body object
+    public Mono<User> getUser(String id) {
+        return webClient.get()
+            .uri("/users/{id}", id)
+            .retrieve()
+            .bodyToMono(User.class);
+    }
+    
+    // POST request
+    public Mono<String> postData(User user) {
+        return webClient.post()
+            .uri("/users")
+            .body(Mono.just(user), User.class)
+            .retrieve()
+            .bodyToMono(String.class);
+    }
+    
+    // POST with headers
+    public Mono<ResponseEntity<Void>> postDataWithHeaders(User user) {
+        return webClient.post()
+            .uri("/users")
+            .header("Authorization", "Bearer " + token)
+            .body(Mono.just(user), User.class)
+            .retrieve()
+            .toBodilessEntity();
+    }
+    
+    // With error handling
+    public Mono<String> getDataWithErrors() {
+        return webClient.get()
+            .uri("/data")
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, 
+                response -> response.bodyToMono(String.class)
+                    .flatMap(error -> Mono.error(new RuntimeException(error))))
+            .bodyToMono(String.class);
+    }
+}
+```
+
+
+**Asynchronous Communication**
+```java
+// Producer
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
+public void sendMessage() {
+    kafkaTemplate.send("order-topic", "Order Created");
+}
+```
+
+```java
+// Consumer
+@KafkaListener(topics = "order-topic", groupId = "group1")
+public void consume(String message) {
+    System.out.println("Received: " + message);
+}
+```
+
+## 9. How do you Handle Failures in Microservices?
+
+Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
+
+We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
+
+```java
+// Steps 1: Add Dependencies (Maven)
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+// Step 2: Configure RestTemplate Bean
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+        // RestTemplate is now in maintenance mode. In modern Spring Boot, we prefer WebClient for non-blocking and reactive applications.
+    }
+}
+
+// Inject RestTemplate in Your Client
+@Component
+public class UserServiceClient {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
+    @Retry(name = "user-service")
+    public User getUser(Long id) {
+        return restTemplate.getForObject(
+                "http://localhost:8081/users/" + id,
+                User.class);
+    }
+
+    public User fallbackUser(Long id, Exception ex) {
+        return new User(id, "Unknown User", "unknown@example.com");
+    }
+}
+
+// application.yml Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+
+  retry:
+    instances:
+      user-service:
+        maxAttempts: 3
+        waitDuration: 2s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+```
+
+Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
+
+## 10. What is Event-Driven Architecture in Java?
+
+**Event-Driven Architecture (EDA)** is a design pattern where **one service produces an event and another service consumes the event** and performs some action.
+
+**Real-Time Example: E-commerce Application:**
+
+* User places order → Event: *OrderCreated*
+* Payment service listens → processes payment
+* Email service listens → sends email
+* Inventory service listens → updates stock
+
+All services work **independently**.
+
+
+**Flow Diagram**
+
+```
+Order Service → Event → Payment Service
+                      → Email Service
+                      → Inventory Service
+```
+
+Using Spring Events:
+
+```java
+// Event Class
+import org.springframework.context.ApplicationEvent;
+
+public class OrderEvent extends ApplicationEvent {
+    private String orderId;
+
+    public OrderEvent(Object source, String orderId) {
+        super(source);
+        this.orderId = orderId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+}
+```
+
+```java
+// Publisher
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
+    public void createOrder() {
+        System.out.println("Order Created");
+        publisher.publishEvent(new OrderEvent(this, "123"));
+    }
+}
+```
+
+```java
+// Listener
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class OrderListener {
+
+    @EventListener
+    public void handleOrderEvent(OrderEvent event) {
+        System.out.println("Send Email for Order " + event.getOrderId());
+    }
+}
+```
+
+**Tools Used in Real Projects**
+
+* Apache Kafka
+* RabbitMQ
+* ActiveMQ
+
+Used with **Spring Boot** microservices.
+
+
+| Advantage      | Description          |
+| -------------- | -------------------- |
+| Loose coupling | Services independent |
+| Scalable       | Easy to scale        |
+| Faster         | Async processing     |
+| Reliable       | Events stored        |
+
+
+## 11. What is API Gateway and predicates?
+
+**Answer**
+
+An **API Gateway** is a single entry point for all client requests in a microservices architecture.
+
+It handles **routing, authentication, rate limiting, logging, and load balancing**, and forwards requests to appropriate backend services, improving security and simplifying client communication.
+
+```
+Client
+   |
+API Gateway
+ |    |    |
+MS1  MS2  MS3
+```
+
+
+**Basic Configuration (application.yml)**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+```
+
+```yaml
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+
+        - id: order-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/orders/**
+```
+
+```java
+// API Gateway with Spring Cloud Gateway
+@SpringBootApplication
+public class ApiGatewayApplication {
+    
+    @Bean
+    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+            .route("user-service", r -> r.path("/users/**")
+                .uri("lb://user-service"))
+            .route("order-service", r -> r.path("/orders/**")
+                .uri("lb://order-service"))
+            .build();
+    }
+}
+
+```
+
+For a typical Java/Spring Boot microservices application, commonly used API gateways are:
+
+| Gateway              | Mostly Used With            |
+| -------------------- | --------------------------- |
+| Spring Cloud Gateway | Spring Boot microservices   |
+| AWS API Gateway      | AWS cloud                   |
+| Netflix Zuul         | Older Spring Cloud projects |
+| Kong Gateway         | Cloud-native systems        |
+| NGINX                | Reverse proxy/API gateway   |
+| Azure API Management | Azure cloud                 |
+
+---
+
+**Advantages of API Gateway**
+
+| Advantage                 | Explanation                         |
+| ------------------------- | ----------------------------------- |
+| Single Entry Point        | Easier client communication         |
+| Better Security           | Centralized authentication          |
+| Reduced Client Complexity | Client doesn't manage many services |
+| Load Balancing            | Traffic distribution                |
+| Centralized Logging       | Easier monitoring                   |
+| Rate Limiting             | Prevent excessive requests          |
+| API Aggregation           | Combine multiple service responses  |
+| Version Management        | Easy API versioning                 |
+
+**Disadvantages of API Gateway**
+
+| Disadvantage            | Explanation                             |
+| ----------------------- | --------------------------------------- |
+| Single Point of Failure | If gateway fails, all services affected |
+| Additional Latency      | One extra network hop                   |
+| Complex Maintenance     | Gateway rules become complicated        |
+| Bottleneck Risk         | Heavy traffic can overload gateway      |
+| Deployment Complexity   | Requires scaling and monitoring         |
+
+
+**predicates :** A condition that decides when a request should be routed to a specific service.
+
+```java
+predicates:
+  - Path=/students/**
+```
+
+## 12. What is circuit breaker pattern?
+
+The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
+
+After a cooldown period, it moves to a **half-open** state to test if the service has recovered. If successful, the circuit closes and normal traffic resumes. This improves **system resilience and stability**.
+
+**Circuit States:**
+- **Closed:** Normal operation, requests pass through
+- **Open:** Failures detected, requests fail immediately
+- **Half-Open:** Testing if service has recovered
+
+**Benefits:**
+- Prevents cascading failures
+- Faster failure detection
+- Automatic recovery
+- Improves system resilience
+
+```java
+// Circuit breaker with Resilience4j
+@Component
+public class UserServiceClient {
+    
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
+    @TimeLimiter(name = "user-service")
+    public CompletableFuture<User> getUser(Long id) {
+        return CompletableFuture.supplyAsync(() -> {
+            // Call to user service
+            return restTemplate.getForObject("/users/" + id, User.class);
+        });
+    }
+    
+    // Fallback method when circuit is open
+    public CompletableFuture<User> fallbackUser(Long id, Exception ex) {
+        return CompletableFuture.completedFuture(
+            new User(id, "Default User", "default@example.com")
+        );
+    }
+}
+
+// Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        sliding-window-size: 10
+```
+
+## 13: What is resilience4j pattern?
+
+Resilience4j is a fault tolerance library used in microservices to make services resilient when dependent services fail.
+It provides patterns like Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout to prevent system failure.
+
+
+**Why we use Resilience4j in real-time**
+
+* Order Service calls Payment Service
+* Payment Service is slow or down
+* Without protection → Order Service will also fail
+* With Resilience4j → It will stop calling temporarily and return fallback response
+
+This prevents **system crash / cascading failure**.
+
+**Main Modules in Resilience4j**
+
+| Module          | Purpose                      |
+| --------------- | ---------------------------- |
+| Circuit Breaker | Stops calling failed service |
+| Retry           | Retry failed request         |
+| Rate Limiter    | Limit number of requests     |
+| Bulkhead        | Limit concurrent users       |
+| Time Limiter    | Timeout for slow service     |
+
+
+**1. Maven Dependency**
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+**2. application.yml Configuration**
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+
+  retry:
+    instances:
+      paymentService:
+        maxAttempts: 3
+        waitDuration: 2s
+
+  ratelimiter:
+    instances:
+      paymentService:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 1s
+
+  timelimiter:
+    instances:
+      paymentService:
+        timeoutDuration: 3s
+```
+
+**3. Service Class Example**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+    @Retry(name = "paymentService")
+    @RateLimiter(name = "paymentService")
+    @TimeLimiter(name = "paymentService")
+    public String callPaymentService() {
+        return restTemplate.getForObject(
+                "http://PAYMENT-SERVICE/pay", String.class);
+    }
+
+    public String fallback(Exception e) {
+        return "Payment service is down. Try later.";
+    }
+}
+```
+
+
+## 14. What is service discovery?
+
+**Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
+
+Service Discovery is used in microservices to automatically find the location (IP address and port) of services.
+Because in microservices, service instances change dynamically, we cannot hardcode URLs.
+So services register themselves in a Service Registry, and other services discover and call them.
+
+**Example Flow:**
+
+1. Payment Service registers in Service Registry
+2. Order Service asks registry: “Where is Payment Service?”
+3. Registry returns IP
+4. Order Service calls Payment Service
+
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+**application.yml**
+
+```yaml
+spring:
+  application:
+    name: payment-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+```
+
+```java
+// Service registration with Eureka
+@SpringBootApplication
+@EnableEurekaClient
+public class UserServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(UserServiceApplication.class, args);
+    }
+}
+
+// Service discovery usage
+@RestController
+public class OrderController {
+    
+    @Autowired
+    private DiscoveryClient discoveryClient;
+    
+    public void callUserService() {
+        List<ServiceInstance> instances = 
+            discoveryClient.getInstances("user-service");
+        String url = instances.get(0).getUri().toString();
+        // Make HTTP call to user service
+    }
+}
+```
+
+
+## 15. What is Saga Pattern or How it handle payment failure?
+
+The Saga Pattern is a design pattern used in microservices architecture to manage distributed transactions across multiple services without using a single global database transaction.
+
+Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
+
+If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
+
+**Example:**
+- In an online order system:
+- Order Created → Payment Done → Inventory Reserved.
+
+If inventory fails, Saga will **refund payment and cancel the order**.
+
+There are **two ways to implement Saga**:
+- **Choreography**  – services communicate using events.
+- **Orchestration** – a central service controls the workflow.
+
+Order Created → Payment Done → Inventory Reserved
+If **inventory fails → refund payment + cancel order**
+
+
+**1. Choreography (Event-Based) – No Central Control**
+```java
+// Order → Payment → Inventory → (Failure → Compensation)
+
+// Order Service
+@Service
+public class OrderService {
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    public void createOrder() {
+        System.out.println("Order Created");
+        kafkaTemplate.send("order-created", "order123");
+    }
+}
+
+// Payment Service (Listens to Order Event)
+@KafkaListener(topics = "order-created")
+public void processPayment(String orderId) {
+    System.out.println("Payment Done for " + orderId);
+
+    kafkaTemplate.send("payment-success", orderId);
+}
+
+// Inventory Service (Failure Scenario)
+@KafkaListener(topics = "payment-success")
+public void reserveInventory(String orderId) {
+    System.out.println("Inventory Failed for " + orderId);
+
+    kafkaTemplate.send("inventory-failed", orderId);
+}
+
+// Compensation (Refund + Cancel)
+@KafkaListener(topics = "inventory-failed")
+public void handleFailure(String orderId) {
+    System.out.println("Refund Payment for " + orderId);
+    System.out.println("Cancel Order for " + orderId);
+}
+
+```
+
+**2. Using Orchestrator Service**
+```java
+// Flow: Orchestrator → Order → Payment → Inventory
+@Service
+public class OrderOrchestrator {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public void placeOrder() {
+
+        try {
+            // Step 1: Create Order
+            restTemplate.postForObject("http://order-service/create", null, String.class);
+
+            // Step 2: Payment
+            restTemplate.postForObject("http://payment-service/pay", null, String.class);
+
+            // Step 3: Inventory
+            restTemplate.postForObject("http://inventory-service/reserve", null, String.class);
+
+            System.out.println("Order Completed");
+
+        } catch (Exception e) {
+
+            // Compensation logic
+            restTemplate.postForObject("http://payment-service/refund", null, String.class);
+            restTemplate.postForObject("http://order-service/cancel", null, String.class);
+
+            System.out.println("Transaction Failed → Rolled Back");
+        }
+    }
+}
+```
+
+
+## 16. What is a Transactional (ACID properties)? How do you handle rollback?
+
+A **transaction** is a group of database operations that are executed as **one single unit of work**. we use @Transactional to manage transactions automatically.
+
+
+`@Transactional` is an annotation in **Spring Framework** that tells Spring:
+
+👉 “Run this method inside a database transaction”
+
+- All operations succeed → COMMIT
+- Any operation fails → ROLLBACK
+
+
+It follows **ACID properties:**
+
+| Property    | Meaning                            |
+| ----------- | ---------------------------------- |
+| Atomicity   | All operations succeed or none (all-or-nothing). |
+| Consistency | Data remains valid and follows all rules                 |
+| Isolation   | Transactions do not interfere with each other       |
+| Durability  | Once committed, data is permanently saved even after a crash          |
+
+
+
+**Example (Bank Transfer)**
+
+Transfer ₹100 from Account A → Account B:
+
+1. Debit from A
+2. Credit to B
+
+If credit fails, debit must be undone → **Rollback**
+
+
+**1. Using Spring `@Transactional` (Most Common)**
+
+```java
+@Service
+public class BankService {
+
+    @Transactional
+    public void transferMoney() {
+        debitFromAccountA();
+        creditToAccountB();
+    }
+}
+```
+
+
+If any exception occurs → **Automatic Rollback**
+
+---
+
+**2. Force Rollback When Error Happens**
+
+```java
+@Transactional
+public void transferMoney() {
+    debit();
+
+    if (true) {
+        throw new RuntimeException("Error occurred");
+    }
+
+    credit();
+}
+```
+
+→ Transaction will **rollback**
+
+---
+
+**3. Rollback for Checked Exception**
+
+By default, Spring rolls back only for **RuntimeException**.
+
+```java
+@Transactional(rollbackFor = Exception.class)
+public void transferMoney() throws Exception {
+    debit();
+    credit();
+}
+```
+
+---
+
+**4. Manual Transaction (JDBC)**
+
+```java
+Connection con = dataSource.getConnection();
+
+try {
+    con.setAutoCommit(false);
+
+    debit(con);
+    credit(con);
+
+    con.commit();
+
+} catch (Exception e) {
+    con.rollback();
+} finally {
+    con.close();
+}
+```
+
+## 17. How Does `@Transactional` Work Internally?
+
+Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around the bean.
+
+When the method is called:
+1. The proxy intercepts the call
+2. Opens a transaction (or joins an existing one based on propagation)
+3. Executes your method
+4. If no exception → commits the transaction
+5. If a `RuntimeException` is thrown → rolls back
+
+
+In Spring Boot, we use `@Transactional`:
+
+```java
+@Transactional
+public void transferMoney(Long from, Long to, double amount) {
+    debit(from, amount);
+    credit(to, amount); // if this throws, debit also rolls back
+}
+```
+
+If a `RuntimeException` occurs, Spring automatically rolls back the transaction.
+
+For checked exceptions, we can configure rollback explicitly:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+**`@Transactional`** Propagation
+
+**Propagation** defines how a transaction behaves when one transactional method calls another transactional method.
+
+| Level | Behavior |
+|---|---|
+| `REQUIRED` (default) | Join existing transaction, or create new one |
+| `REQUIRES_NEW` | Always create a new transaction, suspend the existing one |
+| `NESTED` | Run inside a nested transaction (savepoint) |
+| `SUPPORTS` | Use existing transaction if present, else run without |
+| `NOT_SUPPORTED` | Suspend existing transaction, run without |
+| `MANDATORY` | Must have an existing transaction, else throw exception |
+| `NEVER` | Must NOT have a transaction, else throw exception |
+
+```java
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void saveAuditLog() {
+    // always runs in its own transaction
+}
+```
+---
+
+
+## 17. What is a Transaction in SQL?
+
+A transaction is a **group of SQL operations** that execute as a single unit. Either all succeed or all fail — no partial updates.
+
+* **`@Transactional annotation`** = is **wrapper/helper** that uses SQL transactions automatically
+
+Transactions follow **ACID** properties:
+* **Atomicity** – All operations succeed or none (all-or-nothing).
+* **Consistency** – Data remains valid and follows all rules.
+* **Isolation** – Transactions do not interfere with each other.
+* **Durability** – Once committed, data is permanently saved even after a crash.
+
+**Transaction Control:**
+- `setAutoCommit(false)` - Start transaction
+- `commit()` - Save changes
+- `rollback()` - Undo changes
+- `setSavepoint()` - Create checkpoint
+
+```sql
+BEGIN TRANSACTION;
+
+UPDATE account SET balance = balance - 500 WHERE id = 1;  -- debit
+UPDATE account SET balance = balance + 500 WHERE id = 2;  -- credit
+
+-- If both succeed
+COMMIT;
+
+-- If anything fails
+ROLLBACK;
+```
+
+Without transactions, if the debit succeeds but the credit fails, you lose money. Transactions prevent that.
+
+---
+
+## 18. How do you Prevent duplicate payment(idempotency)?
+
+We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.
+
+**Idempotency means :** Doing the same operation multiple times gives the same result (no duplicate effect).
+
+
+**Entity with Unique Constraint**
+
+```java
+@Entity
+@Table(name = "payments", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "transactionId")
+})
+public class Payment {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String transactionId;
+    private double amount;
+    private String status;
+}
+```
+
+
+**Service Logic**
+
+```java
+@Service
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+@Service
+public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    public Payment processPayment(String txnId, double amount) {
+
+        // Step 1: Check existing transaction
+        Optional<Payment> existing = paymentRepository.findByTransactionId(txnId);
+        if (existing.isPresent()) {
+            return existing.get();
+        }
+
+        // Step 2: Process and save payment
+        try {
+            Payment payment = new Payment(txnId, amount, "SUCCESS");
+            return paymentRepository.save(payment);
+        } catch (DataIntegrityViolationException e) {
+            // Step 3: Handle duplicate transaction (race condition)
+            return paymentRepository.findByTransactionId(txnId).get();
+        }
+    }
+}
+```
+
+
+## 19. What happens if payment is successful but order update fails?
+
+This is handled using **event-driven architecture and retry/compensation (Saga pattern)**. If order creation fails after payment, we retry or trigger refund.
+
+
+**Event + Retry Example**
+
+```java
+@Service
+public class PaymentHandler {
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    public void handlePaymentSuccess(Payment payment) {
+        try {
+            orderService.createOrder(payment);
+        } catch (Exception e) {
+
+            // Retry logic (can be Kafka/RabbitMQ in real systems)
+            retry(payment);
+
+            // Or compensation (refund)
+            paymentService.refund(payment.getTransactionId());
+        }
+    }
+
+    private void retry(Payment payment) {
+        // simple retry logic
+        orderService.createOrder(payment);
+    }
+}
+```
+
+## 20. Java 11 HttpClient API, and communication between multiple microservices without event and messaing system?
+
+In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
+
+For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
+
+```java
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.URI;
+
+// Basic GET request
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/data"))
+    .GET()
+    .build();
+
+HttpResponse<String> response = client.send(request, 
+    HttpResponse.BodyHandlers.ofString());
+
+System.out.println(response.statusCode());
+System.out.println(response.body());
+
+// POST request with JSON body
+HttpRequest postRequest = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/api"))
+    .header("Content-Type", "application/json")
+    .header("Authorization", "Bearer " + token)
+    .POST(HttpRequest.BodyPublishers.ofString("{\"key\":\"value\"}"))
+    .build();
+
+HttpResponse<String> postResponse = client.send(postRequest, 
+    HttpResponse.BodyHandlers.ofString());
+```
+
+**Async version:**
+
+```java
+client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+    .thenApply(HttpResponse::body)
+    .thenAccept(System.out::println);
+```
+
+## 20. How to call external API and how to handle parallel call in java?
+
+**1. Call Multiple External APIs in Parallel** (Using CompletableFuture)
+
+```java
+import java.util.concurrent.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+public class ParallelApiCaller {
+    
+    private final HttpClient client = HttpClient.newHttpClient();
+    
+    // Call multiple APIs in parallel
+    public List<String> callMultipleApisParallel(List<String> urls) {
+        
+        // Create CompletableFuture for each API call
+        List<CompletableFuture<String>> futures = urls.stream()
+            .map(url -> CompletableFuture.supplyAsync(() -> {
+                try {
+                    return callApi(url);
+                } catch (Exception e) {
+                    System.err.println("API call failed for " + url + ": " + e.getMessage());
+                    return null;
+                }
+            }))
+            .collect(Collectors.toList());
+        
+        // Wait for all APIs to complete in parallel
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        
+        // Collect all results
+        return futures.stream()
+            .map(CompletableFuture::join)
+            .filter(result -> result != null)
+            .collect(Collectors.toList());
+    }
+    
+    // Single API call helper method
+    private String callApi(String url) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Authorization", "Bearer YOUR_TOKEN")
+            .GET()
+            .build();
+        
+        HttpResponse<String> response = client.send(
+            request, 
+            HttpResponse.BodyHandlers.ofString()
+        );
+        
+        return response.body();
+    }
+    
+    // Example usage
+    public static void main(String[] args) {
+        ParallelApiCaller caller = new ParallelApiCaller();
+        
+        List<String> urls = List.of(
+            "https://api.example.com/endpoint1",
+            "https://api.example.com/endpoint2",
+            "https://api.example.com/endpoint3"
+        );
+        
+        long startTime = System.currentTimeMillis();
+        
+        List<String> results = caller.callMultipleApisParallel(urls);
+        
+        long endTime = System.currentTimeMillis();
+        
+        System.out.println("Total time: " + (endTime - startTime) + "ms");
+        System.out.println("Results: " + results);
+    }
+}
+```
+
+**1. Spring Boot - RestTemplate + CompletableFuture (Parallel)**
+
+```java
+@Service
+public class ParallelApiService {
+    
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    // Parallel API calls using CompletableFuture
+    public Map<String, Object> callApisParallel() {
+        
+        // Create futures for each API
+        CompletableFuture<User> userFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/user/1", User.class);
+        });
+        
+        CompletableFuture<List<Order>> ordersFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/user/1/orders", List.class);
+        });
+        
+        CompletableFuture<Product> productFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/product/1", Product.class);
+        });
+        
+        // Wait for all to complete (parallel execution)
+        CompletableFuture.allOf(userFuture, ordersFuture, productFuture).join();
+        
+        // Combine results
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", userFuture.join());
+        result.put("orders", ordersFuture.join());
+        result.put("product", productFuture.join());
+        
+        return result;
+    }
+}
+```
+
+# ✅ 22. Java kafka and RabbitMQ
+
+
+## 1. What is Kafka and How Does It Work?
+
+Kafka is a **distributed event streaming platform** — used for high-throughput, real-time data pipelines.
+
+**Core concepts:**
+- **Producer** — sends messages to a topic
+- **Topic** — a named channel (like a queue, but persistent)
+- **Partition** — topics are split into partitions for parallelism
+- **Consumer** — reads messages from a topic
+- **Consumer Group** — multiple consumers share the load; each partition is read by one consumer in the group
+- **Broker** — a Kafka server that stores messages
+
+```
+Producer → Topic (Partitions) → Consumer Group → Consumers
+```
+
+Messages are **persisted on disk** and retained for a configurable period — so consumers can replay events.
+
+```java
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>3.7.0</version>
+</dependency>
+
+// Producer
+import org.apache.kafka.clients.producer.*;
+
+import java.util.Properties;
+
+public class KafkaProducerExample {
+    public static void main(String[] args) {
+
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("key.serializer", 
+                  "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer", 
+                  "org.apache.kafka.common.serialization.StringSerializer");
+
+        Producer<String, String> producer = new KafkaProducer<>(props);
+
+        ProducerRecord<String, String> record =
+                new ProducerRecord<>("my-topic", "key1", "Hello Kafka!");
+
+        producer.send(record);
+
+        producer.close();
+    }
+}
+
+// Consumer
+import org.apache.kafka.clients.consumer.*;
+
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Properties;
+
+public class KafkaConsumerExample {
+    public static void main(String[] args) {
+
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("group.id", "my-group");
+        props.put("key.deserializer", 
+                  "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer", 
+                  "org.apache.kafka.common.serialization.StringDeserializer");
+
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+        consumer.subscribe(Collections.singletonList("my-topic"));
+
+        while (true) {
+            ConsumerRecords<String, String> records =
+                    consumer.poll(Duration.ofMillis(100));
+
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.println("Received: " + record.value());
+            }
+        }
+    }
+}
+```
+
+Use Kafka for: event sourcing, log aggregation, real-time analytics, microservice communication at scale.
+
+---
+
+## 2. How does Kafka achieve high throughput and low latency?
+
+Kafka achieves high performance using:
+
+* Sequential disk writes
+* Batching
+* Compression
+* Zero-copy transfer
+* Partition-based parallelism
+
+**Performance Config Example**
+
+```java id="f4m8qa"
+props.put("batch.size", 16384);
+
+props.put("linger.ms", 5);
+
+props.put("compression.type", "snappy");
+```
+
+**Explanation**
+
+* `batch.size` → Sends messages in batches
+* `linger.ms` → Waits briefly to create larger batch
+* `compression.type` → Reduces network traffic
+
+---
+
+## 3. What is the difference between a topic and a partition?
+
+| Topic                        | Partition                            |
+| ---------------------------- | ------------------------------------ |
+| Logical category of messages | Physical subdivision of topic        |
+| Used to organize messages    | Used for scalability & parallelism   |
+| No global ordering           | Ordering guaranteed within partition |
+
+**Example**
+
+```txt id="4v7kzp"
+Topic: orders
+
+Partition 0 → msg1, msg4, msg7
+Partition 1 → msg2, msg5, msg8
+Partition 2 → msg3, msg6, msg9
+```
+
+**Create Topic Example**
+
+```java id="x9m2wr"
+NewTopic topic =
+        new NewTopic("orders", 3, (short) 2);
+```
+
+Meaning:
+
+* 3 partitions
+* Replication factor = 2
+
+---
+
+## 4. How does Kafka handle durability and fault tolerance?
+
+Kafka handles durability using:
+
+* Replication
+* Leader/Follower architecture
+* Persistent storage
+* ISR (In-Sync Replicas)
+
+**Flow**
+
+```txt id="r8m4qp"
+Leader Partition
+      ↓
+Follower Replicas
+```
+
+If leader broker fails:
+
+```txt id="7n1xpv"
+Follower becomes new leader automatically
+```
+
+**Durable Producer Config**
+
+```java id="5k9wqm"
+props.put("acks", "all");
+
+props.put("min.insync.replicas", "2");
+```
+
+**Explanation**
+
+* `acks=all` → Wait for all replicas acknowledgment
+* `min.insync.replicas=2` → At least 2 replicas must sync
+
+---
+
+## 5. What is a consumer group and how does it work?
+
+A consumer group is a group of consumers working together to consume messages from a topic.
+
+**Rules**
+
+* One partition is consumed by only one consumer within same group
+* Multiple groups can consume same topic independently
+
+**Example**
+
+```txt id="2m8xqa"
+Topic → 3 partitions
+
+Consumer Group:
+Consumer A → Partition 0
+Consumer B → Partition 1
+Consumer C → Partition 2
+```
+
+**Important**
+
+```txt id="3q7vwp"
+Consumers > Partitions
+↓
+Extra consumers remain idle
+```
+
+**Consumer Example**
+
+```java id="9r4kxm"
+props.put("group.id", "order-service");
+
+KafkaConsumer<String, String> consumer =
+        new KafkaConsumer<>(props);
+
+consumer.subscribe(
+        Collections.singletonList("orders"));
+```
+
+---
+
+## 6. How does Kafka ensure message ordering?
+
+Kafka guarantees ordering only within a partition.
+
+**How?**
+
+Messages are stored using offsets:
+
+```txt id="8v1mzp"
+Offset 0
+Offset 1
+Offset 2
+```
+
+Consumers read sequentially.
+
+**Best Practice**
+
+Use same key for related messages.
+
+```java id="6m3xqw"
+producer.send(
+    new ProducerRecord<>(
+        "orders",
+        "user-123",
+        "order-created"
+    )
+);
+```
+
+## 7. What Happens If a Consumer Crashes Before Committing the Offset?
+
+If a Kafka consumer crashes after processing a message but before committing the offset, Kafka assumes the message was not successfully processed. When the consumer restarts, it will read the same message again from the last committed offset, which can lead to duplicate processing (at-least-once delivery).
+
+```java
+while (true) {
+    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+
+    for (ConsumerRecord<String, String> record : records) {
+        process(record.value()); // Message processed
+    }
+
+    // Consumer crashes here before commit
+    consumer.commitSync();
+}
+```
+
+**What Happens?**
+
+1. Message is processed.
+2. Consumer crashes before `commitSync()`.
+3. Offset is not saved.
+4. After restart, Kafka reads the same message again.
+5. Message may be processed twice.
+
+**How to Handle It?**
+
+* Use **idempotent processing** (safe to process the same message multiple times).
+* Store processed message IDs to avoid duplicates.
+* Use **Kafka transactions** for exactly-once processing when needed.
+
+
+## 8. What is RabbitMQ and When to Use It Over Kafka?
+
+RabbitMQ is a **traditional message broker** — it routes messages between producers and consumers using queues and exchanges.
+
+**Core concepts:**
+- **Producer** → sends to an **Exchange**
+- **Exchange** → routes to one or more **Queues** (based on routing rules)
+- **Consumer** → reads from a Queue
+- Once a message is consumed and acknowledged, it's **deleted**
+
+```java
+// Send
+rabbitTemplate.convertAndSend("order-exchange", "order.created", payload);
+
+// Receive
+@RabbitListener(queues = "order-queue")
+public void receive(String message) { }
+```
+
+**RabbitMQ vs Kafka:**
+
+| | RabbitMQ | Kafka |
+|---|---|---|
+| Message retention | Deleted after consumed | Retained (replayable) |
+| Throughput | Moderate | Very high |
+| Use case | Task queues, RPC, routing | Event streaming, audit logs |
+| Ordering | Per-queue | Per-partition |
+| Complexity | Simpler | More complex |
+
+Use **RabbitMQ** for task queues, job processing, and complex routing.
+Use **Kafka** for event streaming, high-volume data, and replay scenarios.
+
+---
+
+## 9. What is gRPC and How Does It Differ from REST?
+
+gRPC is a **high-performance RPC framework** by Google. It uses **Protocol Buffers (protobuf)** for serialization and **HTTP/2** for transport.
+
+You define your API in a `.proto` file:
+```proto
+service OrderService {
+  rpc GetOrder (OrderRequest) returns (OrderResponse);
+}
+```
+
+gRPC generates client and server code automatically from this contract.
+
+**gRPC vs REST:**
+
+| | REST | gRPC |
+|---|---|---|
+| Protocol | HTTP/1.1 | HTTP/2 |
+| Format | JSON (text) | Protobuf (binary) |
+| Speed | Slower | Much faster |
+| Streaming | Limited | Built-in (bi-directional) |
+| Browser support | Full | Limited |
+| Contract | Optional (OpenAPI) | Strict (.proto file) |
+
+Use gRPC for **internal microservice communication** where performance matters. Use REST for **public APIs** and browser clients.
+
+---
+
+## 10. What is a Service Mesh (Istio)?
+
+A service mesh is an **infrastructure layer** that handles service-to-service communication in microservices — without changing your application code.
+
+**Istio** is the most popular service mesh. It works by injecting a **sidecar proxy (Envoy)** alongside every service pod in Kubernetes.
+
+All traffic goes through the sidecar, which handles:
+- **Load balancing**
+- **mTLS (mutual TLS)** — encrypted, authenticated service-to-service calls
+- **Traffic management** — canary deployments, retries, timeouts, circuit breaking
+- **Observability** — metrics, logs, distributed tracing automatically
+
+```
+Service A → [Envoy Sidecar] ──── [Envoy Sidecar] → Service B
+                    ↕                       ↕
+               Istio Control Plane (Istiod)
+```
+
+Without Istio, you'd have to implement retries, timeouts, and mTLS in every service manually.
+
+Use it in large Kubernetes-based microservice architectures where you need security, observability, and traffic control at scale.
+
+
+# ✅ 23. Java and Application Security
+
+
+## 0. What are security vulnerability issues?
+Common **Java security vulnerability issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
+
+1. **SQL Injection**
+This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
+2. **Cross-Site Scripting (XSS)**
+Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
+3. **Cross-Site Request Forgery (CSRF) :** - 
+An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
+4. **Insecure Deserialization :** - 
+If an application **deserializes untrusted data**, attackers may execute malicious code.
+5. **Sensitive Data Exposure :** - 
+Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
+6. **Improper Authentication and Authorization :** - 
+Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
+7. **Using Outdated Libraries :** - 
+Old dependencies may contain **known security vulnerabilities**.
+
+```java
+// Prevent SQL injection
+String sql = "SELECT * FROM users WHERE id = ?";
+PreparedStatement stmt = conn.prepareStatement(sql);
+stmt.setInt(1, userId);
+```
+
+
+## 1: What is Java security model?
+
+**Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
+
+* Comprehensive security framework built into Java platform
+* **Bytecode Verification**: Ensures code follows Java language rules
+* **Class Loading**: Secure loading and verification of classes
+* **Security Manager**: Controls access to system resources
+* **Access Control**: Permission-based security for operations
+* **Cryptography**: Built-in encryption and digital signature support
+* **Sandbox**: Restricted execution environment for untrusted code
+
+```java
+// Security Manager example
+import java.lang.SecurityManager;
+
+public class MySecurityManager extends SecurityManager {
+    @Override
+    public void checkRead(String file) {
+        if (file.startsWith("/etc/")) {
+            throw new SecurityException("Access denied to system files");
+        }
+        super.checkRead(file);
+    }
+}
+
+// Enable security manager
+System.setSecurityManager(new MySecurityManager());
+```
+
+## 2: What is sandbox in Java?
+
+**Sandbox in Java** is a **restricted environment** for running untrusted code.
+
+It **limits file, network, and system access**, uses **security policies**, provides **isolation** to protect the host, and was commonly used for **applets**.
+
+```java
+// Applet sandbox restrictions
+public class MyApplet extends Applet {
+    public void init() {
+        // Cannot read local files
+        // Cannot make network connections to other hosts
+        // Cannot execute system commands
+        // Limited to browser security policies
+    }
+}
+```
+
+
+## 3: What is bytecode verification?
+
+**Bytecode Verification** is the process where the **JVM checks Java bytecode** for safety before execution.
+
+It ensures **type safety, correct control flow, and stack usage**, preventing **illegal memory access or security issues**.
+
+```java
+// Bytecode verification checks:
+// 1. Stack overflow/underflow prevention
+// 2. Type consistency
+// 3. Proper exception handling
+// 4. Valid bytecode instructions
+
+// Example: This would fail verification
+// Attempting to call method on wrong type
+// String s = new Integer(5);
+// s.charAt(0); // Type mismatch caught by verifier
+```
+
+
+## 4: What is the security manager?
+
+**Security Manager** is a Java component that **enforces security policies at runtime**.
+
+It performs **permission checks** for file, network, and system access using **policy files**. It is **deprecated and removed in Java 17**, replaced by modern security mechanisms like the module system.
+
+
+```java
+// Security Manager usage (deprecated)
+SecurityManager sm = System.getSecurityManager();
+if (sm != null) {
+    sm.checkRead("/etc/passwd"); // Throws SecurityException if not allowed
+}
+
+// Policy file example
+grant {
+    permission java.io.FilePermission "/tmp/*", "read,write";
+    permission java.net.SocketPermission "localhost:8080", "connect";
+};
+```
+
+
+## 5: What are digital signatures in Java?
+
+**Digital Signatures in Java** are a **cryptographic mechanism** to verify **code authenticity and integrity**.
+
+JAR files are **signed with a private key** and verified using a **public key certificate**, ensuring the code **has not been tampered with** and establishing **trust in the publisher**.
+
+```java
+// Creating digital signature
+Signature signature = Signature.getInstance("SHA256withRSA");
+signature.initSign(privateKey);
+signature.update(data);
+byte[] digitalSignature = signature.sign();
+
+// Verifying signature
+signature.initVerify(publicKey);
+signature.update(data);
+boolean isValid = signature.verify(digitalSignature);
+```
+
+
+## 6: What is encryption and decryption in Java?
+
+**Encryption and Decryption in Java** is the process of converting data to and from a **secure unreadable format**.
+
+It supports **symmetric (AES)** and **asymmetric (RSA)** encryption using **JCA APIs**, ensuring **secure data transmission, password protection, and file security**.
+
+```java
+// AES encryption example
+Cipher cipher = Cipher.getInstance("AES");
+KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+SecretKey secretKey = keyGen.generateKey();
+
+// Encrypt
+cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+byte[] encrypted = cipher.doFinal("Hello World".getBytes());
+
+// Decrypt
+cipher.init(Cipher.DECRYPT_MODE, secretKey);
+byte[] decrypted = cipher.doFinal(encrypted);
+```
+
+
+## 7: What is SSL/TLS in Java?
+
+**SSL** stands for Secure Sockets Layer, and **TLS** stands for Transport Layer Security
+
+**SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
+
+They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
+
+```java
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+</dependency>
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+// SSL/TLS client example
+SSLContext sslContext = SSLContext.getInstance("TLS");
+sslContext.init(null, null, null);
+
+SSLSocketFactory factory = sslContext.getSocketFactory();
+SSLSocket socket = (SSLSocket) factory.createSocket("example.com", 443);
+
+// HTTPS with RestTemplate
+RestTemplate restTemplate = new RestTemplate();
+ResponseEntity<String> response = restTemplate.getForEntity(
+    "https://api.example.com/data", String.class);
+```
+
+## 8: What is authentication vs authorization?
+
+* **Authentication**: Verifies "who you are" - identity verification
+* **Authorization**: Determines "what you can do" - access control
+* **Authentication First**: Must authenticate before authorization
+* **Examples**: Login (authentication), accessing admin panel (authorization)
+* **Mechanisms**: Passwords, tokens, certificates for auth; roles, permissions for authz
+* Both essential for complete security
+
+```java
+// Authentication - verify identity
+@PostMapping("/login")
+public ResponseEntity<String> authenticate(@RequestBody LoginRequest request) {
+    if (userService.validateCredentials(request.getUsername(), request.getPassword())) {
+        String token = jwtService.generateToken(request.getUsername());
+        return ResponseEntity.ok(token);
+    }
+    return ResponseEntity.status(401).body("Invalid credentials");
+}
+
+// Authorization - check permissions
+@PreAuthorize("hasRole('ADMIN')")
+@GetMapping("/admin/users")
+public List<User> getUsers() { return userService.getAllUsers(); }
+```
+
+
+## 9: What is OAuth?
+
+**OAuth** is an **open standard for authorization** that allows third-party apps to access user resources **without sharing passwords**.
+
+It uses **access tokens**, involves **Resource Owner, Client, Authorization Server, and Resource Server**, and supports flows like **authorization code and client credentials**.
+
+```java
+// OAuth 2.0 Spring Security configuration
+@Configuration
+@EnableOAuth2Client
+public class OAuth2Config {
+    @Bean
+    public OAuth2RestTemplate oauth2RestTemplate() {
+        return new OAuth2RestTemplate(clientCredentialsResourceDetails());
+    }
+    
+    @Bean
+    public ClientCredentialsResourceDetails clientCredentialsResourceDetails() {
+        ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
+        details.setClientId("my-client-id");
+        details.setClientSecret("my-client-secret");
+        details.setAccessTokenUri("https://auth-server.com/oauth/token");
+        return details;
+    }
+}
+```
+
+**OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
+
+## 11: What is OAuth 2.0?
+
+**OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
+
+It supports flows like **Authorization Code (most secure), Client Credentials, PKCE**, and uses **scopes** to define permissions, avoiding password sharing.
+
+```java
+// OAuth 2.0 Authorization Server configuration
+@Configuration
+@EnableAuthorizationServer
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+    
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+            .withClient("my-client")
+            .secret(passwordEncoder.encode("my-secret"))
+            .authorizedGrantTypes("authorization_code", "refresh_token")
+            .scopes("read", "write")
+            .redirectUris("http://localhost:8080/callback");
+    }
+}
+
+// Resource server protection
+@EnableResourceServer
+@RestController
+public class ApiController {
+    @GetMapping("/api/data")
+    @PreAuthorize("#oauth2.hasScope('read')")
+    public String getData() { return "Protected data"; }
+}
+```
+
+**OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
+
+
+## 11:  How JWT(JSON Web Token) Authentication works in Spring Boot
+
+JWT authentication is a stateless security mechanism where a token is issued after login and used to authorize subsequent requests without storing session data on the server.
+
+**How JWT Works**
+
+1. **Login**: Client sends credentials → Server validates → Returns JWT token
+2. **Authorization**: Client includes JWT in request headers → Server validates token → Grants access
+
+
+The backend server checks credentials using:
+- Database (MySQL, PostgreSQL, etc.)
+- or external provider (LDAP, OAuth, etc.)
+
+**JWT Structure**
+
+A JWT consists of three Base64-encoded parts separated by dots:
+HEADER.PAYLOAD.SIGNATURE
+
+**Sample JWT Token:**
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lIiwiaWF0IjoxNjE2MjM5MDIyLCJleHAiOjE2MTYzMjU0MjIsInJvbGVzIjpbIlVTRVIiLCJBRE1JTiJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+**Decoded Structure:**
+
+- **Header**: Contains algorithm information (e.g., HS256)
+  ```json
+  {
+    "alg": "HS256",
+    "typ": "JWT"
+  }
+  ```
+
+- **Payload**: Contains claims (username, roles, expiration)
+  ```json
+  {
+    "sub": "johndoe",
+    "iat": 1616239022,
+    "exp": 1616325422,
+    "roles": ["USER", "ADMIN"]
+  }
+  ```
+
+- **Signature**: Ensures token integrity and authenticity
+  ```
+  HMACSHA256(
+    base64UrlEncode(header) + "." +
+    base64UrlEncode(payload),
+    secret
+  )
+  ```
+
+**Implementation Flow**
+
+**1. User Authentication**
+```Java
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            request.getUsername(),
+            request.getPassword()
+        )
+    );
+    
+    String token = jwtUtil.generateToken(request.getUsername());
+    return ResponseEntity.ok(new AuthResponse(token));
+}
+```
+
+**2. JWT Token Generation**
+
+```Java
+public String generateToken(String username) {
+    return Jwts.builder()
+        .setSubject(username)
+        .setIssuedAt(new Date())
+        .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
+        .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+        .compact();
+}
+```
+
+**3. JWT Filter for Token Validation**
+
+```Java
+String authHeader = request.getHeader("Authorization");
+
+if (authHeader != null && authHeader.startsWith("Bearer ")) {
+    String token = authHeader.substring(7);
+
+    String username = jwtUtil.extractUsername(token);
+
+    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        if (jwtUtil.validateToken(token, userDetails)) {
+            UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+    }
+}
+```
+
+**4. Security Configuration**
+```Java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http
+        .csrf().disable()
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated()
+        )
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
+}
+```
+
+**Key Components**
+
+1. **JWT Utility Class**: Handles token generation, validation, and extraction
+2. **JWT Filter**: Intercepts requests to validate tokens
+3. **Security Configuration**: Configures Spring Security with JWT
+4. **Authentication Controller**: Handles login and token generation
+
+**Advantages**
+
+- **Stateless**: No server-side session storage required
+- **Scalable**: Easy to scale across multiple servers
+- **Cross-domain**: Works across different domains
+- **Self-contained**: All necessary information is in the token
+
+**Security Considerations**
+
+- Use strong secret keys and store them securely
+- Implement token expiration
+- Use HTTPS for all communications
+- Don't store sensitive data in JWT payload (it's only Base64 encoded)
+- Consider implementing refresh tokens for better security
+
+**Common Interview Questions**
+
+**Q: JWT vs Session-based authentication?**
+A: JWT is stateless (no server storage), while sessions require server-side storage. JWT is better for microservices and scalability.
+
+**Q: How do you handle token expiration?**
+A: Implement refresh tokens or require re-authentication when tokens expire.
+
+**Q: Can JWT be revoked?**
+A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
+
+
+## 12. What is CSRF Protection?
+
+**CSRF (Cross-Site Request Forgery)** — attacker tricks a logged-in user's browser into sending an unwanted request to your server.
+
+**Example attack:**
+- User is logged into `bank.com`
+- Attacker sends a link: `<img src="http://bank.com/transfer?to=attacker&amount=1000">`
+- Browser auto-sends the request with the user's cookies → money transferred
+
+**How CSRF Token fixes it:**
+- Server generates a unique token per session
+- Every form/request must include this token
+- Server validates it — attacker can't guess it
+
+
+**Step 1: Add Spring Security dependency**
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+**Step 2: CSRF is ENABLED by default in Spring Security**
+```java
+// Spring Security enables CSRF protection automatically
+// No extra config needed for traditional form-based apps
+```
+
+**Step 3: For REST APIs — disable CSRF (stateless, uses JWT)**
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())          // disable for stateless REST APIs
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        return http.build();
+    }
+}
+```
+
+**Step 4: For form-based apps — include CSRF token in forms (Thymeleaf does it auto)**
+```html
+<!-- Thymeleaf auto-injects CSRF token -->
+<form th:action="@{/submit}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Submit</button>
+</form>
+```
+
+**Interview Answer:**
+"CSRF is enabled by default in Spring Security. For REST APIs with JWT, I disable it since requests are stateless and don't rely on cookies. For form-based apps, Spring Security + Thymeleaf handles CSRF tokens automatically."
+
+---
+
+## 13. What is XSS Protection?
+
+**XSS (Cross-Site Scripting)** — attacker injects malicious JavaScript into your web page, which runs in other users' browsers.
+
+**Example attack:**
+```
+User submits comment: <script>document.cookie</script>
+Server stores it → next user loads page → script runs → cookie stolen
+```
+
+**Types:**
+- **Stored XSS** — malicious script saved in DB, served to all users
+- **Reflected XSS** — script in URL, reflected back in response
+- **DOM-based XSS** — script manipulates DOM directly
+
+**Step 1: Add security headers via Spring Security**
+```java
+@Bean
+// filterChain 
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .headers(headers -> headers
+            .xssProtection(xss -> xss.enable())                        // X-XSS-Protection header
+            .contentSecurityPolicy(csp ->
+                csp.policyDirectives("script-src 'self'"))             // CSP header
+        );
+    return http.build();
+}
+```
+
+**Step 2: Sanitize user input using OWASP Java HTML Sanitizer**
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+    <artifactId>owasp-java-html-sanitizer</artifactId>
+    <version>20220608.1</version>
+</dependency>
+```
+
+```java
+import org.owasp.html.PolicyFactory;
+import org.owasp.html.Sanitizers;
+
+@Service
+public class SanitizationService {
+
+    private static final PolicyFactory POLICY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
+
+    public String sanitize(String input) {
+        return POLICY.sanitize(input);   // strips <script> tags etc.
+    }
+}
+```
+
+**Step 3: Encode output in Thymeleaf (auto-escapes by default)**
+```html
+<!-- Thymeleaf escapes HTML by default — safe -->
+<p th:text="${userComment}"></p>
+
+<!-- th:utext is UNSAFE — renders raw HTML, avoid it -->
+<p th:utext="${userComment}"></p>
+```
+
+**Step 4: Use Content Security Policy (CSP) header**
+```java
+.contentSecurityPolicy(csp ->
+    csp.policyDirectives("default-src 'self'; script-src 'self'; object-src 'none'"))
+```
+
+**Interview Answer:**
+> "I prevent XSS by: 1) enabling X-XSS-Protection and CSP headers via Spring Security, 2) sanitizing user input with OWASP HTML Sanitizer before storing, 3) using Thymeleaf which auto-escapes output by default."
+
+---
+
+## 14. What is Input Validation?
+
+**Input Validation** — ensuring data received from the user is correct, safe, and expected before processing it.
+
+**Why it matters:**
+- Prevents SQL Injection, XSS, buffer overflows
+- Ensures business rules are enforced (e.g., age > 0)
+- Fails fast before bad data reaches DB
+
+---
+
+**Step 1: Add validation dependency**
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+```
+
+**Step 2: Annotate your DTO/model with constraints**
+```java
+public class UserRequest {
+
+    @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 50, message = "Name must be 2-50 chars")
+    private String name;
+
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
+    private String email;
+
+    @Min(value = 18, message = "Age must be at least 18")
+    @Max(value = 120, message = "Age must be under 120")
+    private int age;
+
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone must be 10 digits")
+    private String phone;
+
+    // getters + setters
+}
+```
+
+**Step 3: Enable validation in controller with `@Valid`**
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @PostMapping
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest request) {
+        // if validation fails, MethodArgumentNotValidException is thrown automatically
+        return ResponseEntity.ok("User created");
+    }
+}
+```
+
+**Step 4: Handle validation errors globally**
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationErrors(
+            MethodArgumentNotValidException ex) {
+
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+          .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+}
+```
+
+**Step 5: Response when validation fails**
+```json
+{
+  "name": "Name is required",
+  "email": "Invalid email format",
+  "age": "Age must be at least 18"
+}
+```
+
+
+## 15: What is Filter Chain?
+
+> A Filter Chain is a sequence of filters that process an HTTP request before it reaches the controller and process the response before it is sent back to the client.
+>
+> Each filter performs a specific task, such as authentication, authorization, logging, CSRF protection, or JWT validation.
+
+**How It Works**
+
+> When a request arrives, it passes through multiple filters one by one. If all checks are successful, the request reaches the controller. After the controller generates a response, the response can also pass through filters before being returned to the client.
+
+```text
+Client Request
+      │
+      ▼
+JWT Filter
+      ▼
+Authentication Filter
+      ▼
+Authorization Filter
+      ▼
+Controller
+      ▼
+Response
+```
+
+**Example**
+
+> For example, in a JWT-based application, the request first goes through a JWT filter to validate the token. Then Spring Security checks the user's authentication and permissions. If everything is valid, the request is allowed to reach the controller.
+
+**Why It Is Important**
+
+* Authentication
+* Authorization
+* JWT Validation
+* CSRF Protection
+* Request/Response Logging
+* Security Checks
+
+**Custom Filter Example**
+
+```java
+@Component
+public class LoggingFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
+            throws ServletException, IOException {
+
+        System.out.println("Request URI: " + request.getRequestURI());
+
+        filterChain.doFilter(request, response);
+    }
+}
+```
+
+**Add Filter to Spring Security**
+
+```java
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.addFilterBefore(
+            loggingFilter,
+            UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+}
+```
+
+
+## 16: What is SAML?
+
+**SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
+
+It enables **Single Sign-On (SSO)** between an **Identity Provider (IdP)** and a **Service Provider (SP)** using **security assertions**, and is widely used in **enterprise environments**.
+
+```java
+// SAML configuration with Spring Security
+@Configuration
+@EnableWebSecurity
+public class SamlConfig {
+    
+    @Bean
+    public SAMLAuthenticationProvider samlAuthenticationProvider() {
+        SAMLAuthenticationProvider provider = new SAMLAuthenticationProvider();
+        provider.setUserDetails(samlUserDetailsService());
+        return provider;
+    }
+    
+    @Bean
+    public MetadataManager metadata() throws Exception {
+        List<MetadataProvider> providers = new ArrayList<>();
+        providers.add(idpMetadata());
+        return new CachingMetadataManager(providers);
+    }
+    
+    @Bean
+    public ExtendedMetadata extendedMetadata() {
+        ExtendedMetadata metadata = new ExtendedMetadata();
+        metadata.setIdpDiscoveryEnabled(true);
+        metadata.setSignMetadata(false);
+        return metadata;
+    }
+}
+
+// SAML assertion processing
+@Component
+public class SamlUserDetailsService implements SAMLUserDetailsService {
+    public Object loadUserBySAML(SAMLCredential credential) {
+        String username = credential.getNameID().getValue();
+        List<String> roles = credential.getAttributeAsStringArray("Role");
+        return new SamlUser(username, roles);
+    }
+}
+```
+
+# ✅ 24. Java Performance and Optimization
+
+
+## 0: How do you measure and Monitor application performance in Java?
+
+**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
+
+It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
+
+**Production Monitoring Tools (Simple Detailed Table)**
+
+| Tool                 | Type                | Why We Use It                                 | What It Monitors                                      | Example                     |
+| -------------------- | ------------------- | --------------------------------------------- | ----------------------------------------------------- | --------------------------- |
+| Prometheus           | Metrics             | Collect metrics from application              | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
+| Grafana              | Dashboard           | Show metrics in graphs                        | Dashboards, Alerts, Charts                            | CPU usage graph             |
+| Micrometer           | Metrics Library     | Send metrics from Spring Boot to Prometheus   | JVM, Custom metrics                                   | Heap memory                 |
+| ELK Stack            | Logging             | Store and search logs                         | Error logs, Application logs                          | Exception logs              |
+| Splunk               | Logging / Analytics | Advanced log analysis & monitoring            | Logs, Events, Security data                           | Payment failure logs        |
+| Spring Boot Admin    | Monitoring          | Monitor Spring Boot apps                      | Health, Beans, Endpoints                              | App status UP/DOWN          |
+| Spring Boot Actuator | Monitoring          | Expose application health & metrics endpoints | Health, Metrics, Info, Thread dump                    | `/actuator/health`          |
+| Zipkin               | Tracing             | Track request flow between services           | Service call flow                                     | Order → Payment → Inventory |
+| Jaeger               | Tracing             | Track microservice request                    | API calls                                             | Request time per service    |
+| Datadog              | APM                 | Full system monitoring                        | Infra, Logs, APIs                                     | Server CPU                  |
+| New Relic            | APM                 | Application performance monitoring            | Slow API, DB calls                                    | Slow query                  |
+| Dynatrace            | APM                 | AI-based full stack monitoring                | Full stack                                            | Root cause detection        |
+| AWS CloudWatch       | Cloud               | Monitor AWS services                          | EC2, RDS, Logs                                        | EC2 CPU                     |
+
+
+
+**What We Monitor in Production (Simple Table)**
+
+| Area          | What We Monitor           | Example Alert       |
+| ------------- | ------------------------- | ------------------- |
+| Server        | CPU, Memory, Disk         | CPU > 80%           |
+| Application   | Request count, Error rate | Error rate > 5%     |
+| API           | Response time             | API > 3 sec         |
+| Database      | Query time                | Query > 2 sec       |
+| JVM           | Heap memory, GC           | Memory > 80%        |
+| Logs          | Errors                    | Too many exceptions |
+| Microservices | Service response          | Service down        |
+| Business      | Orders, Payments          | Payment failure     |
+
+
+## 1. What are performance issues and How to Improve Performance(optimize)?
+
+Common **Java performance issues :** 
+
+* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
+* **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
+* **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
+* **Database Issues** – Slow queries or poor connection pool management delay database responses.
+* **Thread Contention** – Multiple threads compete for the same resource, causing delays and blocking.
+* **Too Many Object Creations** – Creating many objects increases memory usage and garbage collection work.
+* **Garbage Collection Overhead** – Frequent garbage collection pauses the application and affects performance.
+* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
+* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
+* **Blocking I/O Operations** – File, network, or API calls block threads and reduce application throughput.
+
+
+```java
+// Memory leak example
+public class LeakExample {
+    private static List<String> cache = new ArrayList<>();
+    
+    public void addToCache(String data) {
+        cache.add(data); // Never cleared - memory leak
+    }
+}
+```
+
+**Steps to Improve Performance(optimize)**
+
+Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
+
+1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
+2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
+3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
+4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
+5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
+6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
+7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
+8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
+9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
+10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
+11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
+12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
+
+**Tools Used:**
+
+* VisualVM
+* JConsole
+* Eclipse Memory Analyzer
+
+**I usually:**
+
+1. Check heap usage.
+2. Analyze GC logs.
+3. Take heap dumps.
+4. Find large object retainers and memory leaks.
+
+
+## 3. What are Java Memory Leak Issues?
+
+
+1. **Static Collections** Objects stored in static lists or maps are never released.
+2. **Improper Cache Management*** Cache entries grow indefinitely without TTL or eviction policies.
+3. **Unclosed Resources** Database connections, streams, or files are not properly closed.
+4. **ThreadLocal Misuse** Values remain attached to pooled threads if not removed.
+5. **Event Listeners** Registered listeners are not deregistered, keeping objects alive.
+
+**Symptoms**
+
+* Increasing heap memory usage
+* Frequent Full GC
+* Application slowdown
+* High memory consumption
+* `OutOfMemoryError`
+
+**Detection**
+
+I usually analyze:
+
+* Heap dumps
+* GC logs
+* Object retention paths
+
+**Tools:**
+
+* VisualVM
+* Eclipse Memory Analyzer
+* JConsole
+
+**Prevention**
+
+* Remove unused references.
+* Close resources using try-with-resources.
+* Configure cache eviction policies.
+* Clean up ThreadLocal variables.
+* Monitor heap usage regularly.
+
+
+## 3. What are common 10 Production Issues?
+
+**1. 🔴 Memory Leaks**
+**Symptom:** Heap memory keeps growing over time, leads to frequent Full GC and `OutOfMemoryError`
+
+**Causes:**
+- Unreleased object references
+- Static collections holding objects
+- `ThreadLocal` leaks
+
+
+**2. 🗄️ Connection Pool Exhaustion**
+**Symptom:** All DB connections are used up; requests start waiting and eventually fail
+
+**Causes:**
+- Too many concurrent DB requests
+- Connections not released properly
+- Pool size too small for the load
+
+
+**3. ⏱️ High GC Pause Time**
+**Symptom:** Application becomes slow or unresponsive
+
+**Causes:**
+- JVM spends too much time in Garbage Collection
+- Large heap with too many short-lived objects
+- Wrong GC algorithm for the workload
+
+
+**4. 🔒 Deadlocks**
+**Symptom:** No progress in the system; threads hang forever
+
+**Causes:**
+- Two or more threads waiting for each other's locks
+- Inconsistent lock acquisition order
+- `T1` holds lock A waiting for B, `T2` holds lock B waiting for A
+
+
+**5. 🧵 Thread Pool Starvation**
+**Symptom:** New tasks keep waiting in the queue indefinitely
+
+**Causes:**
+- All worker threads are busy or blocked
+- Pool size too small
+- Blocking I/O inside thread pool tasks
+
+
+**6. 🐢 Slow SQL Queries**
+**Symptom:** Increased response time, locked tables, degraded throughput
+
+**Causes:**
+- Unoptimized or inefficient queries
+- Missing indexes
+- Full table scans on large datasets
+
+
+**7. 📨 Kafka Consumer Lag**
+**Symptom:** Consumers can't keep up with incoming messages; data delays increase
+
+**Causes:**
+- Consumers too slow to process messages
+- Insufficient consumer instances
+- Heavy processing logic inside consumers
+
+
+**8. 📈 CPU Spikes**
+**Symptom:** Overall system performance degrades suddenly
+
+**Causes:**
+- Infinite loops in code
+- Heavy or excessive logging
+- Bad algorithms with high time complexity
+- GC thrashing
+
+
+**9. 🌊 Cascading Failures**
+**Symptom:** System instability spreads across multiple services
+
+**Causes:**
+- One failing service impacts multiple downstream services
+- No circuit breakers in place
+- Retry storms amplifying the failure
+
+
+**10. 🔕 Missing Monitoring & Alerts**
+**Symptom:** Issues exist but nobody notices early; small problems become major outages
+
+**Causes:**
+- No alerting configured for key metrics
+- Lack of observability (logs, metrics, traces)
+- No dashboards tracking system health
+
+
+## 3. What are Java concurrency issues?
+
+Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
+
+1. **race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
+2. **Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
+3. **Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
+4. **Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
+5. **Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
+6. **Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
+7. **Improper Synchronization**
+Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
+
+
+```java
+// Race condition fix
+private volatile boolean flag = false;
+private final Object lock = new Object();
+
+public void safeMethod() {
+    synchronized(lock) {
+        // Thread-safe operation
+        flag = !flag;
+    }
+}
+```
+
+
+## 4: What is JVM tuning and parameters for performance tuning?
+
+**JVM tuning** is the process of **optimizing JVM settings** for better performance.
+
+It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
+
+* **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
+* **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
+* **GC Tuning**: -XX:MaxGCPauseMillis, -XX:GCTimeRatio
+* **Compilation**: -XX:+TieredCompilation, -XX:CompileThreshold
+* **Monitoring**: -XX:+PrintGC, -XX:+FlightRecorder
+* **Debug**: -XX:+HeapDumpOnOutOfMemoryError
+
+```bash
+# Performance-focused JVM parameters
+# For high-throughput applications
+-Xms8g -Xmx8g
+-XX:+UseParallelGC
+-XX:ParallelGCThreads=8
+-XX:+UseCompressedOops
+
+# For low-latency applications
+-Xms4g -Xmx4g
+-XX:+UseZGC
+-XX:+UnlockExperimentalVMOptions
+
+# For microservices
+-Xms512m -Xmx1g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=50
+-XX:+UseStringDeduplication
+```
+
+## 5. What is Distributed Tracing?
+
+**Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
+
+It helps developers **identify performance issues, delays, and failures** by showing the **complete flow of a request across different services in a system**.
+
+**Real-Time Example**
+
+1. **API Gateway** receives request
+2. **Order Service** processes order
+3. **Payment Service** processes payment
+4. **Inventory Service** updates stock
+5. **Notification Service** sends email/SMS
+
+## 5. What is Zipkin and How Does Distributed Tracing Work?
+
+> In a microservices architecture, a single user request often travels through multiple services. If the request is slow or fails, it can be difficult to identify which service caused the problem.
+>
+> **Zipkin** is a distributed tracing tool that helps track a request as it moves across different microservices. It provides end-to-end visibility into the request flow and helps identify performance bottlenecks and failures.
+
+**How Distributed Tracing Works**
+
+> When a request enters the system, a unique **Trace ID** is generated. As the request passes through multiple services, each service creates its own **Span**, which contains information such as start time, end time, duration, and status.
+>
+> All spans share the same Trace ID, allowing Zipkin to connect them and display the complete request journey.
+
+```text
+Client Request
+      │
+      ▼
+Service A ──► Service B ──► Service C
+  Span 1        Span 2        Span 3
+
+      Same Trace ID: abc123
+```
+
+> Suppose a request takes 5 seconds to complete. Zipkin can show:
+>
+> * Service A took 200 ms
+> * Service B took 4.5 seconds
+> * Service C took 300 ms
+>
+> From this trace, we can immediately identify that Service B is the bottleneck.
+
+**Spring Boot 3+**
+
+```xml
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-brave</artifactId>
+</dependency>
+```
+
+```yaml
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+```
+
+
+## 6: What is profiling in Java?
+
+**Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
+
+It includes **CPU, memory, and thread profiling**, using tools like **JProfiler, YourKit, VisualVM, and Java Flight Recorder**, with approaches like **sampling and instrumentation**.
+
+* Process of analyzing application performance to identify bottlenecks
+* **CPU Profiling**: Identifies methods consuming most CPU time
+* **Memory Profiling**: Tracks memory allocation and garbage collection
+* **Thread Profiling**: Analyzes thread behavior and synchronization
+* **Tools**: JProfiler, YourKit, VisualVM, Java Flight Recorder
+* **Sampling vs Instrumentation**: Different profiling approaches
+
+```java
+// Java Flight Recorder (JFR) profiling
+// JVM flags for profiling
+// -XX:+FlightRecorder
+// -XX:StartFlightRecording=duration=60s,filename=profile.jfr
+
+@Component
+public class ProfiledService {
+    
+    // Custom JFR event
+    @JfrEvent(name = "UserOperation")
+    public void processUser(User user) {
+        // Method will be tracked in JFR
+        expensiveOperation(user);
+    }
+    
+    // Method that might need profiling
+    public List<String> processLargeDataset(List<String> data) {
+        return data.stream()
+            .filter(this::isValid)
+            .map(this::transform)
+            .collect(Collectors.toList());
+    }
+}
+```
+
+
+## 7: What is memory profiling?
+
+**Memory profiling** is the analysis of an application's **memory usage and allocation patterns**.
+
+It helps identify **heap usage, object retention, memory leaks**, and uses tools like **Eclipse MAT, JProfiler, VisualVM**, along with **heap dumps** for detailed analysis.
+
+* Analysis of application memory usage patterns and allocation
+* **Heap Analysis**: Object allocation, retention, and garbage collection
+* **Memory Leaks**: Identify objects that aren't being garbage collected
+* **Allocation Patterns**: Track where and how objects are created
+* **Tools**: Eclipse MAT, JProfiler, VisualVM, JConsole
+* **Heap Dumps**: Snapshots of memory for offline analysis
+
+
+## 8: What is CPU profiling?
+
+**CPU profiling** is the analysis of **CPU usage** to find performance hotspots.
+
+It tracks **time spent in methods, call hierarchy**, uses **sampling or instrumentation**, and tools like **JProfiler, async-profiler, and Java Flight Recorder** to identify bottlenecks.
+
+* Analysis of CPU usage to identify performance hotspots
+* **Method Profiling**: Time spent in each method
+* **Call Tree**: Method call hierarchy and execution paths
+* **Sampling**: Periodic snapshots of thread stacks
+* **Instrumentation**: Detailed method entry/exit tracking
+* **Flame Graphs**: Visual representation of CPU usage
+* **Tools**: JProfiler, async-profiler, Java Flight Recorder
+
+
+
+## 9: What is application performance monitoring (APM)?
+
+**Application Performance Monitoring (APM)** is the **real-time monitoring of application performance in production**.
+
+It tracks **metrics, errors, distributed tracing, user experience, and infrastructure performance**, using tools like **New Relic, AppDynamics, Dynatrace, and Elastic APM**.
+
+
+```java
+// APM integration with Micrometer
+@Configuration
+public class ApmConfig {
+    
+    @Bean
+    public MeterRegistry meterRegistry() {
+        return new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    }
+    
+    @Bean
+    public TimedAspect timedAspect(MeterRegistry registry) {
+        return new TimedAspect(registry);
+    }
+}
+
+@RestController
+public class MonitoredController {
+    
+    @Timed(name = "api.requests", description = "API request duration")
+    @Counted(name = "api.calls", description = "API call count")
+    @GetMapping("/api/data")
+    public ResponseEntity<String> getData() {
+        return ResponseEntity.ok("data");
+    }
+}
+```
+
+
+## 11: What is database optimization?
+
+**Database optimization** is the process of improving database performance and query speed.
+
+It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
+
+
+```java
+// Database optimization techniques
+@Repository
+public class OptimizedUserRepository {
+    
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+    
+    // Batch operations
+    @Modifying
+    @Query("UPDATE User u SET u.lastLogin = :now WHERE u.id IN :ids")
+    void updateLastLogin(@Param("ids") List<Long> ids, @Param("now") LocalDateTime now);
+    
+    // Pagination for large datasets
+    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
+    Page<User> findAllUsers(Pageable pageable);
+    
+    // Fetch joins to avoid N+1 queries
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :id")
+    User findUserWithOrders(@Param("id") Long id);
+}
+```
+
+
+## 12: What is query optimization?
+
+**Query optimization** is the process of improving SQL query performance so that data is retrieved faster and database resources are used efficiently.
+
+Common techniques include creating proper indexes, writing efficient JOIN and WHERE clauses, avoiding SELECT *, fetching only required data, using pagination for large datasets, and analyzing execution plans.
+
+For example, if users are frequently searched by email, adding an index on the email column can significantly reduce query execution time.
+
+```java
+// Query optimization examples
+@Repository
+public class OptimizedQueryRepository {
+    
+    // Bad: N+1 query problem
+    // List<Order> orders = orderRepository.findAll();
+    // orders.forEach(order -> order.getCustomer().getName()); // N queries
+    
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+
+    // Good: Single query with join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer")
+    List<Order> findAllOrdersWithCustomers();
+    
+    // Use specific columns instead of SELECT *
+    @Query("SELECT new com.example.UserDto(u.id, u.name, u.email) FROM User u")
+    List<UserDto> findUserSummaries();
+    
+    // Optimize with proper WHERE conditions
+    @Query("SELECT u FROM User u WHERE u.active = true AND u.createdAt > :date")
+    List<User> findActiveUsersAfter(@Param("date") LocalDateTime date);
+    
+    // Use native query for complex optimizations
+    @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
+           nativeQuery = true)
+    List<User> findAboveAverageUsers();
+}
+```
+
+
+## 13: What is lazy loading?
+
+**Lazy loading** is a design pattern where data is loaded **only when it is actually needed**, instead of loading everything at once.
+
+It improves performance and reduces memory usage, but if not handled properly, it can cause issues like the **N+1 query problem**.
+
+* **Proxy Objects**: Hibernate creates proxies for lazy-loaded entities
+
+```java
+// Lazy loading examples
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+    
+    // Lazy loading - orders loaded only when accessed
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Order> orders;
+    // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
+    
+    // Eager loading - always loaded with user
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Department department;
+}
+
+@Service
+public class UserService {
+    
+    // Lazy loading in action
+    public void processUser(Long userId) {
+        User user = userRepository.findById(userId);
+        // Orders not loaded yet
+        
+        if (needsOrders(user)) {
+            user.getOrders().size(); // Now orders are loaded
+        }
+    }
+    
+    // Avoid N+1 with explicit fetch
+    public List<User> getUsersWithOrders() {
+        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
+    }
+}
+```
+
+
+## 14: What is eager loading?
+
+**Eager loading** is a strategy where related data is **loaded immediately along with the main entity**.
+
+It reduces additional database queries later, but increases **initial load time and memory usage**, so it should be used only when the related data is definitely needed.
+
+```java
+// Eager loading examples
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    // Eager loading - customer always loaded with order
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+
+     // fetch = FetchType.EAGER means the related entity is loaded immediately along with the parent entity
+    
+    // Lazy loading - items loaded on demand
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> items;
+
+     // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
+}
+
+@Repository
+public class OrderRepository extends JpaRepository<Order, Long> {
+    
+    // Explicit eager loading with fetch join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
+    List<Order> findAllOrdersWithDetails();
+    
+    // Conditional eager loading
+    @EntityGraph(attributePaths = {"customer", "items"})
+    @Query("SELECT o FROM Order o WHERE o.status = :status")
+    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
+}
+```
+
+
+## 15: What is pagination?
+
+**Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
+
+It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
+
+```java
+// Pagination implementation
+@RestController
+public class UserController {
+    
+    // Basic pagination
+    @GetMapping("/users")
+    public Page<User> getUsers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userService.findAll(pageable);
+    }
+    
+    // Cursor-based pagination for better performance
+    @GetMapping("/users/cursor")
+    public List<User> getUsersCursor(
+        @RequestParam(required = false) Long lastId,
+        @RequestParam(defaultValue = "20") int limit) {
+        
+        return userService.findUsersAfter(lastId, limit);
+    }
+}
+
+@Repository
+public class UserRepository extends JpaRepository<User, Long> {
+    
+    // Cursor pagination query
+    @Query("SELECT u FROM User u WHERE (:lastId IS NULL OR u.id > :lastId) ORDER BY u.id")
+    List<User> findUsersAfter(@Param("lastId") Long lastId, Pageable pageable);
+}
+```
+
+## 16. What is JIT compilation?
+
+
+
+**JIT (Just-In-Time) Compilation** is a feature of the **JVM** that **converts bytecode into native machine code at runtime** to make Java programs faster.
+
+Java normally works like this:
+
+```
+.java → compiled → .class (bytecode) → JVM → Machine Code → Run
+```
+
+**How JIT Works**
+
+1. Java code compiled → Bytecode
+2. JVM runs bytecode
+3. JIT finds frequently used code (hotspot)
+4. JIT converts it to machine code
+5. Execution becomes faster
+
+
+**JIT vs Interpreter**
+
+| Interpreter            | JIT                      |
+| ---------------------- | ------------------------ |
+| Line by line execution | Compiles to machine code |
+| Slower                 | Faster                   |
+| Starts fast            | Gets faster over time    |
+
+```java
+// JIT compilation example
+public class JITExample {
+    public static void main(String[] args) {
+        // This loop will trigger JIT compilation
+        for (int i = 0; i < 100000; i++) {
+            calculateSum(i); // Method becomes "hot" and gets compiled
+        }
+    }
+    
+    private static int calculateSum(int n) {
+        return n * (n + 1) / 2; // Simple calculation
+    }
+}
+
+// JIT compilation flags
+java -XX:+PrintCompilation \      # Print compilation events
+     -XX:CompileThreshold=1000 \  # Compilation threshold
+     JITExample
+```
+
+# ✅ 25. Java Features 
+
+## 1. What are the features in Java 8?
+
+Java 8 was a major release that introduced functional programming features and significantly changed how Java code is written. It's one of the most important Java releases.
+
+**Major Features:**
+* **Lambda Expressions:** Anonymous functions used to write shorter and cleaner code.
+* **Stream API:** Allows processing collections using operations like filter, map, and reduce.
+* **Optional Class:** A container object used to handle possible null values safely.
+* **Default Methods:** Methods in interfaces that have a default implementation.
+* **Method References:** A shorter way to call existing methods using `::` syntax.
+* **Date/Time API:** The `java.time` package provides improved classes for handling date and time.
+* **Nashorn JavaScript Engine:** A Java engine that allows executing JavaScript code inside the JVM.
+  
+
+```java
+// Lambda expressions
+List<String> names = Arrays.asList("John", "Jane", "Bob");
+names.forEach(name -> System.out.println(name));
+
+// Stream API
+List<String> filtered = names.stream()
+    .filter(name -> name.length() > 3)
+    .collect(Collectors.toList());
+
+// Optional
+Optional<String> optional = Optional.ofNullable(getString());
+optional.ifPresent(System.out::println);
+
+// Default methods in interfaces
+interface MyInterface {
+    default void defaultMethod() {
+        System.out.println("This is a default method");
+    }
+}
+
+// Static method reference
+List<String> numbers = Arrays.asList("1", "2", "3");
+List<Integer> integers = numbers.stream()
+    .map(Integer::parseInt)  // Static method reference
+    .collect(Collectors.toList());
+
+
+// Instance method reference
+List<String> names = Arrays.asList("john", "jane", "bob");
+List<String> upperNames = names.stream()
+    .map(String::toUpperCase)  // Instance method reference
+    .collect(Collectors.toList());
+
+
+// Constructor reference
+List<String> strings = Arrays.asList("Hello", "World");
+List<StringBuilder> builders = strings.stream()
+    .map(StringBuilder::new)  // Constructor reference
+    .collect(Collectors.toList());
+
+
+```
+
+## 2. What are the features in Java 11?
+
+Java 11 is an LTS (Long Term Support) release that introduced several useful features and improvements, particularly for modern development practices.
+
+**Key Features:**
+- **Local Variable Type Inference (var):** Enhanced for lambda parameters
+- **HTTP Client API:** Built-in HTTP client
+- **String Methods:** isBlank(), lines(), strip(), repeat()
+- **Files Methods:** readString(), writeString()
+- **Collection.toArray():** Enhanced method
+- **Nest-Based Access Control:** Better inner class access
+- **Java Flight Recorder (JFR):** is a built-in profiling and monitoring tool in Java.
+
+```java
+// var in lambda parameters
+List<String> names = Arrays.asList("John", "Jane");
+names.stream()
+    .map((var name) -> name.toUpperCase())
+    .forEach(System.out::println);
+
+// HTTP Client API
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/users"))
+    .build();
+HttpResponse<String> response = client.send(request, 
+    HttpResponse.BodyHandlers.ofString());
+
+// New String methods
+String text = "  Hello World  ";
+System.out.println(text.strip());        // "Hello World"
+System.out.println(text.isBlank());      // false
+System.out.println("Java ".repeat(3));   // "Java Java Java "
+
+// Files utility methods
+String content = Files.readString(Paths.get("file.txt"));
+Files.writeString(Paths.get("output.txt"), "Hello World");
+
+// Collection.toArray():
+List<String> names = List.of("John", "David", "Mike");
+String[] arr = names.toArray(String[]::new); // Java 11 style
+System.out.println(Arrays.toString(arr));
+```
+
+## 3. What are the features in Java 17?
+
+Java 17 is the latest LTS release with several language enhancements and performance improvements, making Java more modern and developer-friendly.
+
+**Major Features:**
+- **Sealed Classes:** Restrict class inheritance
+- **Pattern Matching for instanceof:** Simplified type checking
+- **Records:** Immutable data classes
+- **Text Blocks:** Multi-line string literals
+- **Switch Expressions:** Enhanced switch statements
+- **Helpful NullPointerExceptions:** Better error messages
+- **Strong Encapsulation:** JDK internals encapsulated
+
+```java
+// Sealed classes
+public sealed class Shape 
+    permits Circle, Rectangle, Triangle {
+}
+
+// Records - immutable data classes
+public record Person(String name, int age) {
+    // Automatically generates constructor, getters, equals, hashCode, toString
+}
+
+// Pattern matching for instanceof
+if (obj instanceof String str) {
+    System.out.println(str.toUpperCase()); // str is automatically cast
+}
+
+// Text blocks
+String json = """
+    {
+        "name": "John",
+        "age": 30,
+        "city": "New York"
+    }
+    """;
+
+// Switch expressions
+String dayType = switch (day) {
+    case MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY -> "Weekday";
+    case SATURDAY, SUNDAY -> "Weekend";
+};
+
+// Enhanced switch with pattern matching (Preview)
+String result = switch (obj) {
+    case Integer i -> "Integer: " + i;
+    case String s -> "String: " + s;
+    case null -> "null value";
+    default -> "Unknown type";
+};
+```
+
+## 4. What is the Java release cycle and LTS versions?
+
+Java moved to a 6-month release cycle in 2017, providing regular updates with new features while maintaining Long Term Support versions for enterprise stability.
+
+**Release Cycle:**
+- **6-month releases:** March and September each year
+- **Feature releases:** Java 9, 10, 12, 13, 14, 15, 16, 18, 19, 20, 21...
+- **LTS releases:** Every 3 years (Java 8, 11, 17, 21...)
+- **Support timeline:** LTS versions supported for 8+ years
+
+**LTS Versions:**
+- **Java 8 (2014):** Lambda expressions, Stream API - supported until 2030+
+- **Java 11 (2018):** HTTP Client, var enhancements - supported until 2026+
+- **Java 17 (2021):** Sealed classes, Records, Pattern matching - supported until 2029+
+- **Java 21 (2023):** Latest LTS with Virtual Threads, Pattern matching
+
+**Benefits of 6-month cycle:**
+- **Faster innovation:** New features delivered quickly
+- **Predictable releases:** Regular schedule for planning
+- **Reduced risk:** Smaller changes per release
+- **LTS stability:** Enterprise applications can stick to LTS versions
+
+**Choosing Java Version:**
+- **Enterprise applications:** Use LTS versions (8, 11, 17, 21)
+- **New projects:** Consider latest LTS (Java 17 or 21)
+- **Experimentation:** Try latest feature releases for new capabilities
+- **Migration strategy:** Plan upgrades around LTS releases
+
+
+# ✅ 26. Java SQL
+
+## 1. What are the Types of SQL JOINs?
+
+JOINs combine rows from two or more tables based on a related column.
+
+- **INNER JOIN** — returns only matching rows from both tables
+- **LEFT JOIN** — returns all rows from the left table + matching rows from right (nulls if no match)
+- **RIGHT JOIN** — returns all rows from the right table + matching from left
+- **FULL OUTER JOIN** — returns all rows from both tables (nulls where no match)
+
+```sql
+-- INNER JOIN
+SELECT e.name, d.name FROM employee e
+INNER JOIN department d ON e.dept_id = d.id;
+
+-- LEFT JOIN (all employees, even without a department)
+SELECT e.name, d.name FROM employee e
+LEFT JOIN department d ON e.dept_id = d.id;
+
+-- FULL OUTER JOIN
+SELECT e.name, d.name FROM employee e
+FULL OUTER JOIN department d ON e.dept_id = d.id;
+```
+
+Think of it as a Venn diagram — INNER is the overlap, LEFT keeps the left circle, FULL keeps both circles.
+
+---
+
+## 2. What is the Difference Between WHERE and HAVING?
+
+Both filter rows — but at different stages.
+
+- **WHERE** — filters rows **before** grouping (works on raw rows)
+- **HAVING** — filters groups **after** `GROUP BY` (works on aggregated results)
+
+```sql
+-- WHERE: filter before grouping
+SELECT dept_id, COUNT(*) FROM employee
+WHERE salary > 50000
+GROUP BY dept_id;
+
+-- HAVING: filter after grouping
+SELECT dept_id, COUNT(*) as total FROM employee
+GROUP BY dept_id
+HAVING COUNT(*) > 5;
+```
+
+Simple rule: if you're filtering on an aggregate function like `COUNT`, `SUM`, `AVG` — use `HAVING`. Otherwise use `WHERE`.
+
+---
+
+## 3. What is GROUP BY and ORDER BY?
+
+- **GROUP BY** — groups rows with the same value into summary rows. Used with aggregate functions like `COUNT`, `SUM`, `AVG`.
+- **ORDER BY** — sorts the result set by one or more columns (ASC by default, or DESC).
+
+```sql
+-- GROUP BY: count employees per department
+SELECT dept_id, COUNT(*) as total
+FROM employee
+GROUP BY dept_id;
+
+-- ORDER BY: sort by salary descending
+SELECT name, salary FROM employee
+ORDER BY salary DESC;
+
+-- Combined
+SELECT dept_id, AVG(salary) as avg_sal
+FROM employee
+GROUP BY dept_id
+ORDER BY avg_sal DESC;
+```
+
+`GROUP BY` collapses rows. `ORDER BY` just sorts them.
+
+---
+
+## 4. What is Database Indexing and When to Use It?
+
+An index is like a book's table of contents — it lets the database find rows fast without scanning the whole table.
+
+**When to use:**
+- Columns in `WHERE`, `JOIN`, `ORDER BY`, `GROUP BY`
+- Foreign key columns
+- High-cardinality columns (many unique values like email, ID)
+
+**When NOT to use:**
+- Small tables
+- Columns updated very frequently
+- Low-cardinality columns (like a boolean `is_active`)
+
+```sql
+CREATE INDEX idx_employee_email ON employee(email);
+
+-- Composite index
+CREATE INDEX idx_dept_salary ON employee(dept_id, salary);
+```
+
+Indexes speed up reads but slow down writes (INSERT/UPDATE/DELETE). Use them wisely — don't over-index.
+
+---
+
+## 5. What is the Difference Between Stored Procedure and Aggregate Function?
+
+**Stored Procedure** is a **precompiled SQL program** stored in the database. It can accept **parameters**, contain **business logic (IF, loops)**, and return results.
+
+**Aggregate Functions** perform calculations on multiple rows and return a **single value**.
+Common examples: `COUNT`, `SUM`, `AVG`, `MAX`, `MIN`.
+
+| | Stored Procedure | Function |
+|---|---|---|
+| Returns | Optional (0 or more values via OUT params) | Must return a single value |
+| Can use in SELECT | No | Yes |
+| Can have DML (INSERT/UPDATE) | Yes | Limited (depends on DB) |
+| Called with | `CALL` / `EXEC` | Used in expressions |
+| Transaction control | Yes | No |
+
+```sql
+-- Stored Procedure
+CREATE PROCEDURE get_employee(IN emp_id INT)
+BEGIN
+  SELECT * FROM employee WHERE id = emp_id;
+END;
+
+CALL get_employee(1);
+
+-- Function
+CREATE FUNCTION get_salary(emp_id INT) RETURNS DECIMAL
+BEGIN
+  DECLARE sal DECIMAL;
+  SELECT salary INTO sal FROM employee WHERE id = emp_id;
+  RETURN sal;
+END;
+
+SELECT get_salary(1);  -- used inline
+```
+
+Use a **function** when you need a return value in a query. Use a **procedure** for business logic, batch operations, or multiple operations.
+
+---
+
+## 6. What is Normalization? Types (1NF, 2NF, 3NF)?
+
+Normalization is the process of organizing a database to **reduce redundancy** and **improve data integrity**.
+
+**1NF (First Normal Form):**
+- Each column has atomic (indivisible) values
+- No repeating groups or arrays in a column
+
+```
+❌ Bad:  | id | name  | phones          |
+         | 1  | Alice | 111, 222, 333   |
+
+✅ Good: | id | name  | phone |
+         | 1  | Alice | 111   |
+         | 1  | Alice | 222   |
+```
+
+**2NF (Second Normal Form):**
+- Must be in 1NF
+- No partial dependency — every non-key column must depend on the **whole** primary key (applies to composite keys)
+
+**3NF (Third Normal Form):**
+- Must be in 2NF
+- No transitive dependency — non-key columns must not depend on other non-key columns
+
+```
+❌ Bad:  | emp_id | dept_id | dept_name |
+         dept_name depends on dept_id, not emp_id
+
+✅ Fix: Split into employee(emp_id, dept_id) and department(dept_id, dept_name)
+```
+
+In practice, aim for 3NF. Sometimes you intentionally denormalize for performance.
+
+---
+
+## 7. What is the Difference Between DELETE, TRUNCATE, and DROP?
+
+All three remove data — but very differently.
+
+| | DELETE | TRUNCATE | DROP |
+|---|---|---|---|
+| Removes | Specific rows | All rows | Entire table + structure |
+| WHERE clause | Yes | No | No |
+| Rollback | Yes (logged) | No (or limited) | No |
+| Triggers fired | Yes | No | No |
+| Resets auto-increment | No | Yes | Yes |
+
+```sql
+DELETE FROM employee WHERE id = 5;     -- removes one row, can rollback
+
+TRUNCATE TABLE employee;               -- removes all rows, fast, no rollback
+
+DROP TABLE employee;                   -- removes table entirely
+```
+
+Use `DELETE` for selective removal. `TRUNCATE` to clear a table fast. `DROP` only when you want to remove the table completely.
+
+---
+
+## 8. What is a Subquery vs a JOIN?
+
+Both retrieve related data — but differently.
+
+**Subquery** — a query nested inside another query. Runs separately, result is used by the outer query.
+
+```sql
+-- Subquery: find employees earning more than average
+SELECT name FROM employee
+WHERE salary > (SELECT AVG(salary) FROM employee);
+```
+
+**JOIN** — combines rows from two tables in a single query execution.
+
+```sql
+-- JOIN: same result, often more efficient
+SELECT e.name FROM employee e
+INNER JOIN department d ON e.dept_id = d.id
+WHERE d.name = 'Engineering';
+```
+
+**When to use which:**
+- Use **JOIN** when you need columns from multiple tables — it's generally faster
+- Use **subquery** when the inner result is a single value or a filtered set that's hard to express as a JOIN
+- Correlated subqueries (referencing outer query) can be slow — prefer JOIN or CTEs
+
+---
+
+## 9. What is a View in SQL?
+
+A view is a **virtual table** — it's a saved SQL query that you can query like a table. It doesn't store data itself.
+
+```sql
+-- Create a view
+CREATE VIEW high_salary_employees AS
+SELECT name, salary, dept_id FROM employee
+WHERE salary > 80000;
+
+-- Query the view like a table
+SELECT * FROM high_salary_employees;
+```
+
+**Benefits:**
+- Simplifies complex queries — write once, reuse everywhere
+- Security — expose only specific columns/rows to users
+- Abstraction — hide underlying table structure
+
+**Limitation:** A regular view doesn't store data. For performance, use a **Materialized View** (stores the result physically, needs refresh).
+
+---
+
+## 11. What are different types of **JOINs**?
+
+**Answer:**
+
+**JOIN** is used to combine rows from two or more tables based on a related column.
+
+Main types:
+
+* **INNER JOIN** – Returns only matching rows from both tables.
+* **LEFT JOIN** – Returns all rows from left table and matching rows from right table.
+* **RIGHT JOIN** – Returns all rows from right table and matching rows from left table.
+* **FULL OUTER JOIN** – Returns all rows from both tables.
+* **CROSS JOIN** – Returns Cartesian product (all possible combinations).
+
+
+## 12. What is a **Primary Key** and **Foreign Key** ?
+
+**PRIMARY KEY** – Ensures uniqueness and **cannot be NULL**. A table can have **only one** primary key.
+**Foreign Key** is a column that **references the Primary Key of another table**.
+
+## 12. What is the Difference Between UNION and UNION ALL?
+
+Both combine results of two SELECT queries — but handle duplicates differently.
+
+- **UNION** — combines results and **removes duplicates** (slower, does a distinct sort)
+- **UNION ALL** — combines results and **keeps all rows including duplicates** (faster)
+
+```sql
+-- UNION: removes duplicates
+SELECT name FROM employee_india
+UNION
+SELECT name FROM employee_us;
+
+-- UNION ALL: keeps duplicates
+SELECT name FROM employee_india
+UNION ALL
+SELECT name FROM employee_us;
+```
+
+**Rules for both:**
+- Same number of columns in both SELECT statements
+- Columns must have compatible data types
+
+Use `UNION ALL` when you know there are no duplicates or you want all rows — it's faster because it skips the deduplication step.
+
+---
+
+
+## 12. What is SQL injection and how to prevent it?
+
+**SQL Injection** is a **security vulnerability** where an attacker injects malicious SQL code into application queries, to **manipulate or access the database illegally**.
+
+It can be prevented by using **Prepared Statements (Parameterized Queries)**, **input validation**, **ORM frameworks (like JPA/Hibernate)**, **stored procedures**, and **proper access control**.
+
+
+```java
+// Vulnerable code - SQL injection possible
+String userId = request.getParameter("id");
+String sql = "SELECT * FROM users WHERE id = " + userId;
+// If userId = "1 OR 1=1", returns all users!
+
+// Safe code - using PreparedStatement
+String sql = "SELECT * FROM users WHERE id = ?";
+PreparedStatement pstmt = conn.prepareStatement(sql);
+pstmt.setString(1, userId); // Safe parameter binding
+ResultSet rs = pstmt.executeQuery();
+```
+
+
+## 13. What is a Cursor in SQL and when should it be used ?
+
+A **Cursor** is used to **process database rows one by one** instead of all at once.
+It is useful when we need **row-by-row processing**, but it should be used carefully because it can be **slower than set-based queries**
+
+**Why use it?**
+
+* Prevents **OutOfMemoryError**
+* Good for very large datasets
+* Reduces heap usage
+
+
+```java
+DECLARE @name VARCHAR(50)
+
+-- 1. Declare Cursor
+DECLARE emp_cursor CURSOR FOR
+SELECT name FROM employees
+
+-- 2. Open Cursor
+OPEN emp_cursor
+
+-- 3. Fetch first row
+FETCH NEXT FROM emp_cursor INTO @name
+
+-- Loop through all rows
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    PRINT @name
+
+    -- Fetch next row
+    FETCH NEXT FROM emp_cursor INTO @name
+END
+
+-- 5. Close Cursor
+CLOSE emp_cursor
+
+-- 6. Deallocate Cursor
+DEALLOCATE emp_cursor
+```
+
+```java
+@Transactional
+public void processProducts() {
+    try (Stream<Product> stream = repo.findAllByStream()) {
+        stream.forEach(product -> {
+            // process record
+        });
+    }
+}
+```
+
+## 14. What is Batch Processing?
+
+Batch Processing is a technique where a large amount of data is processed in groups (batches) instead of processing one record at a time. It improves performance, reduces database calls, and is commonly used for data migration, report generation, payroll processing, and bulk updates.
+
+Suppose you need to update **10,000 employee records**.
+
+❌ One-by-one processing:
+
+```java
+for (Employee emp : employees) {
+    employeeRepository.save(emp);
+}
+```
+
+**✅ Batch processing:**
+
+```java
+List<Employee> employees = getEmployees();
+employeeRepository.saveAll(employees);
+```
+The records are processed in batches, reducing database round trips.
+
+
+**Spring Boot Batch Configuration**
+
+```properties
+spring.jpa.properties.hibernate.jdbc.batch_size=50
+spring.jpa.properties.hibernate.order_inserts=true
+spring.jpa.properties.hibernate.order_updates=true
+```
+This allows Hibernate to send records to the database in batches of 50.
+
+**Real-World Examples**
+
+* Payroll processing
+* Bank transaction settlement
+* Data migration
+* Bulk email sending
+* Report generation
+
+
+
+## 15. What is sharding in databases?
+
+Sharding is a way to scale a database horizontally by dividing data into smaller pieces called shards. Each shard is stored in a separate database instance, which helps improve performance and handle large traffic.
+
+
+Imagine a **users table** with millions of records:
+
+Instead of storing everything in one DB:
+
+* **Shard 1** → Users with ID 1–1,00,000
+* **Shard 2** → Users with ID 1,00,001–2,00,000
+* **Shard 3** → Users with ID 2,00,001–3,00,000
+
+Each shard is stored on a different server.
+
+
+**Why Sharding?**
+
+* 🚀 Improves performance (queries run faster)
+* 📈 Handles large-scale data
+* ⚖️ Distributes load across servers
+
+
+# ✅ 27. Java CI/CD and DevOp
+
+## 1: What is continuous integration?
+
+**Continuous Integration (CI)** is a development practice where developers **frequently merge code into a shared repository**, and each commit triggers an **automated build and test process**.
+
+It helps detect bugs early, ensures code quality, and provides fast feedback using tools like **Jenkins, GitLab CI, or GitHub Actions**.
+
+* Development practice of frequently integrating code changes into shared repository
+* **Automated Builds**: Every commit triggers automated build and test
+* **Early Detection**: Catch integration issues and bugs early
+* **Fast Feedback**: Developers get quick feedback on code changes
+* **Quality Gates**: Automated tests must pass before integration
+* **Tools**: Jenkins, GitLab CI, GitHub Actions, Azure DevOps
+
+```yaml
+# GitHub Actions CI example
+name: CI Pipeline
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+    - name: Run tests
+      run: ./mvnw test
+    - name: Build application
+      run: ./mvnw package
+```
+
+
+## 2: What is continuous deployment?
+
+**Continuous Deployment (CD)** is a practice where code changes are **automatically deployed to production** after passing all tests.
+
+It enables **fast and frequent releases**, reduces risk with small deployments, and requires strong automation, testing, monitoring, and rollback mechanisms.
+
+* Automated deployment of code changes to production after passing all tests
+* **Fully Automated**: No manual intervention in deployment process
+* **Fast Delivery**: Features reach users quickly
+* **Risk Mitigation**: Small, frequent deployments reduce risk
+* **Rollback**: Quick rollback capabilities for issues
+* **Prerequisites**: Requires robust testing, monitoring, and automation
+
+```yaml
+# CD Pipeline example
+deploy:
+  stage: deploy
+  script:
+    - docker build -t myapp:$CI_COMMIT_SHA .
+    - docker push registry.com/myapp:$CI_COMMIT_SHA
+    - kubectl set image deployment/myapp myapp=registry.com/myapp:$CI_COMMIT_SHA
+  only:
+    - main
+  when: manual  # or 'on_success' for full automation
+```
+
+
+## 3: What is Jenkins?
+
+**Jenkins** is an **open-source automation server** used to implement **CI/CD pipelines**.
+
+It automates **build, test, and deployment processes**, supports pipeline as code using a *Jenkinsfile*, and integrates with tools like Git, Maven, Docker, and Kubernetes through plugins.
+
+* Open-source automation server for CI/CD pipelines
+* **Pipeline as Code**: Jenkinsfile defines build pipeline
+* **Plugins**: Extensive plugin ecosystem for integrations
+* **Distributed Builds**: Master-slave architecture for scalability
+* **Web Interface**: User-friendly web-based configuration
+* **Integration**: Integrates with Git, Maven, Docker, Kubernetes
+
+```groovy
+// Jenkinsfile example
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                sh './mvnw clean compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh './mvnw package'
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+        }
+        stage('Deploy') {
+            when { branch 'main' }
+            steps {
+                sh 'docker build -t myapp .'
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+    }
+}
+```
+
+
+## 4: What is Git?
+
+**Git** is a **distributed version control system** used to track and manage code changes.
+
+It allows developers to **create branches, merge code, collaborate through remote repositories**, and maintains complete project history with high performance and data integrity.
+
+* Distributed version control system for tracking code changes
+* **Distributed**: Every developer has complete project history
+* **Branching**: Lightweight branching and merging capabilities
+* **Performance**: Fast operations for most commands
+* **Integrity**: Cryptographic hashing ensures data integrity
+* **Collaboration**: Enables team collaboration through remote repositories
+
+```bash
+# Basic Git commands
+git init                          # Initialize repository
+git add .                         # Stage changes
+git commit -m "Add new feature"   # Commit changes
+git branch feature-branch         # Create branch
+git checkout feature-branch       # Switch branch
+git merge feature-branch          # Merge branch
+git push origin main              # Push to remote
+git pull origin main              # Pull from remote
+```
+
+
+## 5: What is version control?
+
+**Version control** is a system used to **track and manage changes to code or files over time**.
+
+It allows multiple developers to collaborate, maintain version history, create branches, and revert to previous versions. It can be **centralized (like SVN) or distributed (like Git)**.
+
+* System for tracking and managing changes to files over time
+* **History**: Complete history of all changes and versions
+* **Collaboration**: Multiple developers can work on same project
+* **Branching**: Parallel development streams
+* **Backup**: Distributed copies serve as backups
+* **Rollback**: Ability to revert to previous versions
+* **Types**: Centralized (SVN) vs Distributed (Git)
+
+```bash
+# Version control workflow
+git status                    # Check current state
+git log --oneline            # View commit history
+git diff HEAD~1              # Compare with previous version
+git checkout HEAD~2 -- file.java  # Restore file from 2 commits ago
+git tag v1.0.0               # Tag release version
+git revert abc123            # Revert specific commit
+```
+
+
+## 6: What is infrastructure as code?
+
+**Infrastructure as Code (IaC)** is the practice of **managing and provisioning infrastructure using code instead of manual setup**.
+
+It allows infrastructure to be **version-controlled, automated, and reproducible** across environments using tools like Terraform or CloudFormation.
+
+* Managing and provisioning infrastructure through code rather than manual processes
+* **Declarative**: Define desired state, tools ensure it's achieved
+* **Version Control**: Infrastructure changes tracked like application code
+* **Reproducible**: Consistent environments across dev, test, production
+* **Automation**: Automated provisioning and configuration
+* **Tools**: Terraform, CloudFormation, Ansible, Kubernetes manifests
+
+```yaml
+# Kubernetes deployment (IaC)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_URL
+          value: "jdbc:postgresql://db:5432/mydb"
+```
+
+```java
+# Terraform example
+resource "aws_instance" "web" {
+  ami           = "ami-0c55b159cbfafe1d0"
+  instance_type = "t2.micro"
+  
+  tags = {
+    Name = "JavaApp"
+  }
+}
+```
+
+
+## 7: What is deployment strategies?
+
+**Deployment strategies** are different approaches used to release applications to production safely and efficiently.
+
+Common strategies include **Rolling, Blue-Green, Canary, Recreate, and Shadow deployments**, which help minimize downtime, reduce risk, and ensure smooth releases.
+
+* Different approaches for releasing applications to production
+* **Rolling Deployment**: Gradually replace old instances with new ones
+* **Blue-Green**: Switch between two identical environments
+* **Canary**: Deploy to small subset of users first
+* **A/B Testing**: Compare different versions with user groups
+* **Recreate**: Stop old version, start new version (downtime)
+* **Shadow**: Route copy of traffic to new version for testing
+
+```yaml
+# Rolling deployment strategy
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: 5
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:v2.0.0
+```
+
+## 10: What is containerization?
+
+**Containerization** is a technology that **packages applications with their dependencies** into isolated, portable containers.
+
+Containers are **lightweight**, **consistent across environments**, **easy to scale**, and use platforms like **Docker, Podman, or containerd**.
+
+* Technology that packages applications with their dependencies into containers
+* **Isolation**: Applications run in isolated environments
+* **Portability**: Containers run consistently across different environments
+* **Lightweight**: Share OS kernel, more efficient than virtual machines
+* **Scalability**: Easy to scale up/down container instances
+* Popular platforms: Docker, Podman, containerd
+
+```dockerfile
+# Dockerfile for Java application
+FROM openjdk:17-jre-slim
+COPY target/myapp.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+```
+
+
+## 11: What is Docker?
+
+**Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
+
+Docker makes applications **lightweight, portable, fast to deploy**, and easier to scale compared to traditional virtual machines.
+
+```bash
+# Build and run Java application
+docker build -t myapp:latest .
+docker run -p 8080:8080 myapp:latest
+
+# Docker Compose for multi-service setup
+version: '3'
+services:
+  app:
+    build: .
+    ports: ["8080:8080"]
+  db:
+    image: mysql:8.0
+```
+
+## 12. What is Kubernetes?
+
+**Kubernetes** is a **container orchestration platform** used to manage containerized applications at scale. It automates **deployment, scaling, load balancing, and self-healing** of containers across a cluster of machines.
+
+It ensures applications remain **highly available, scalable, and resilient** in production environments.
+
+
+- **Container orchestration:** Manages multiple containers
+- **Automatic scaling:** Scale applications based on demand
+- **Service discovery:** Containers can find and communicate
+- **Load balancing:** Distributes traffic across containers
+- **Self-healing:** Restarts failed containers automatically
+- **Rolling updates:** Deploy new versions without downtime
+
+**Key Components:**
+- **Pods:** Smallest deployable units
+- **Services:** Expose applications to network
+- **Deployments:** Manage application replicas
+- **ConfigMaps/Secrets:** Configuration management
+
+```yaml
+# Kubernetes deployment example
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:latest
+        ports:
+        - containerPort: 8080
+```
+
+## 13. What is cloud computing?
+
+**Cloud computing** is the delivery of computing resources like **servers, storage, databases, networking, and software** over the internet on a **pay-as-you-go** basis. Instead of owning physical infrastructure, you use resources provided by cloud platforms.
+
+It allows easy **scaling, high availability, cost efficiency**, and faster application deployment.
+
+
+**Service Models:**
+- **IaaS (Infrastructure as a Service):** Virtual machines, storage, networks
+- **PaaS (Platform as a Service):** Development platforms, databases
+- **SaaS (Software as a Service):** Ready-to-use applications
+
+**Deployment Models:**
+- **Public Cloud:** AWS, Azure, Google Cloud
+- **Private Cloud:** Organization's dedicated infrastructure
+- **Hybrid Cloud:** Combination of public and private
+
+**Benefits:**
+- **Cost efficiency:** Pay for what you use
+- **Scalability:** Scale resources up/down on demand
+- **Accessibility:** Access from anywhere
+- **Reliability:** High availability and disaster recovery
+
+## 14. What is distributed system?
+
+A **distributed system** is a system where multiple **independent computers or services work together** over a network and appear as a **single system** to the user.
+
+These systems improve **scalability, fault tolerance, and availability**, since work is shared across multiple nodes instead of relying on a single machine.
+
+
+**Characteristics:**
+- **Multiple nodes:** Components run on different machines
+- **Network communication:** Nodes communicate over network
+- **Shared state:** Coordinate to maintain consistency
+- **Fault tolerance:** Continue operating despite failures
+- **Scalability:** Add more nodes to handle increased load
+
+**Challenges:**
+- **Network failures:** Partial failures and partitions
+- **Consistency:** Keeping data synchronized across nodes
+- **Latency:** Network communication delays
+- **Complexity:** Debugging and monitoring difficulties
+
+**Examples:**
+- Microservices architectures
+- Database clusters
+- Content delivery networks (CDNs)
+- Web applications with load balancers
+
+## 15. What is load balancing?
+
+**Load balancing** is the process of **distributing incoming requests** across multiple servers so that no single server becomes overloaded.
+
+It improves **application performance, availability, and reliability** by ensuring traffic is handled efficiently, even when one server fails or traffic increases.
+
+
+**Load Balancing Algorithms:**
+- **Round Robin:** Requests distributed sequentially
+- **Least Connections:** Route to server with fewest active connections
+- **Weighted Round Robin:** Assign weights based on server capacity
+- **IP Hash:** Route based on client IP hash
+- **Health Check:** Only route to healthy servers
+
+**Types:**
+- **Layer 4 (Transport):** Routes based on IP and port
+- **Layer 7 (Application):** Routes based on HTTP content
+- **Hardware Load Balancers:** Dedicated physical devices
+- **Software Load Balancers:** Nginx, HAProxy, AWS ALB
+
+```java
+# Nginx load balancer configuration
+upstream backend {
+    server backend1.example.com weight=3;
+    server backend2.example.com weight=2;
+    server backend3.example.com weight=1;
+}
+
+server {
+    listen 80;
+    location / {
+        proxy_pass http://backend;
+    }
+}
+```
+
+## **16. How do you handle rollback strategies?**
+
+
+In production deployments, rollback strategies are important in case a new release causes issues.
+We usually use **CI/CD pipelines with versioned deployments**. If a deployment fails or causes errors, we quickly **roll back to the previous stable version**.
+
+In Kubernetes or Docker environments, we use commands like **deployment rollback** to restore the last working version.
+For database-related changes, we maintain **backup scripts and migration rollback scripts**.
+
+This ensures the system is restored quickly with minimal downtime.
+
+
+## **17. How do you manage database migrations?**
+
+
+We manage database migrations using tools like **Flyway or Liquibase**.
+These tools allow us to maintain **version-controlled SQL scripts** for schema changes.
+
+During application startup or deployment, the migration tool automatically applies pending changes to the database.
+This ensures **consistent schema across all environments like dev, QA, and production**.
+
+```
+**Step 1 → Add Dependency :: Maven**
+
+```xml
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
+```
+
+**Step 2 → Configure Database :: application.yml**
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    username: root
+    password: root
+
+  flyway:
+    enabled: true
+```
+
+**Step 3 → Create Migration Folder :: Create folder**
+
+```txt
+src/main/resources/db/migration
+```
+
+**Step 4 → Create SQL Migration File :: File name format**
+
+```txt
+V1__create_employee_table.sql
+```
+
+```txt
+// Important:
+V<version>__<description>.sql
+```
+
+**Step 5 → Add SQL :: V1__create_employee_table.sql**
+
+```sql
+CREATE TABLE employee (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    salary DOUBLE
+);
+```
+
+**Step 6 → Start Application :: When Spring Boot starts:**
+
+```txt
+Flyway automatically:
+- checks migration history
+- executes new scripts
+- updates flyway_schema_history table
+```
+
+**Step 7 → Add New Migration :: Create new file:**
+
+```txt
+V2__add_email_column.sql
+```
+
+```sql
+ALTER TABLE employee
+ADD email VARCHAR(100);
+
+Restart app → Flyway runs only V2.
+```
+
+
+
+**Internal Working**
+
+```txt
+Application Start
+      ↓
+Check flyway_schema_history
+      ↓
+Find pending migrations
+      ↓
+Execute SQL scripts
+      ↓
+Update migration history
+```
+
+**Generated Table :: Flyway creates:**
+
+```txt
+flyway_schema_history
+```
+
+
+
+## **18. How do you ensure zero downtime deployments?**
+
+
+To ensure zero downtime deployments, we use **rolling deployments or blue-green deployments**.
+
+In rolling deployment, new instances of the application are gradually started while old instances are terminated one by one.
+This ensures that the system is always available.
+
+In cloud environments like Kubernetes, we configure **readiness and liveness probes** so traffic is only sent to healthy pods.
+
+**Key Techniques**
+
+* Rolling Deployment
+* Blue-Green Deployment
+* Canary Deployment
+* Load balancers
+* Health checks
+
+
+## **19. How do you implement auto-scaling, Horizontal and vertical scaling?**
+
+
+Auto-scaling automatically increases or decreases the number of service instances based on traffic.
+
+In Kubernetes, we use **Horizontal Pod Autoscaler (HPA)**, which scales pods based on metrics like **CPU usage or request count**.
+
+In AWS, we configure **Auto Scaling Groups** to scale EC2 instances when traffic increases.
+
+**Horizontal scaling** means adding more machines to handle load, Horizontal scaling is more scalable and fault-tolerant
+
+**vertical scaling** means increasing the power of a single machine like CPU or RAM. vertical scaling is simpler but has hardware limits.
+
+**Example**
+
+```
+min replicas = 2
+max replicas = 10
+scale when CPU 70%
+```
+
+
+## **20. What is Rate Limiting and how does it work? Where do you implement it?**
+
+
+Rate limiting is used to **control how many requests a client can send to an API within a specific time period**.
+
+It helps protect the system from **abuse, DDoS attacks, and excessive traffic**.
+
+Rate limiting can be implemented at different levels:
+
+* **API Gateway**
+* **Load balancer**
+* **Application layer**
+
+For example, we can limit a user to **100 requests per minute**.
+If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
+
+
+# ✅ 28. Java Monitoring and Logging
+
+## 1: What is logging framework?
+
+A **logging framework** is a library that provides a structured way to record application events and errors.
+
+It supports different **log levels (DEBUG, INFO, WARN, ERROR)**, configurable output destinations (console, file, etc.), and flexible formatting. Popular frameworks include **SLF4J**, **Apache Log4j**, **Logback**, and **java.util.logging**.
+
+| Level | Purpose                         |
+| ----- | ------------------------------- |
+| DEBUG | Detailed debugging information  |
+| INFO  | General application information |
+
+
+```java
+// Logging framework usage
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Service
+public class UserService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    
+    public User createUser(User user) {
+        logger.info("Creating user with email: {}", user.getEmail());
+        
+        try {
+            User created = userRepository.save(user);
+            logger.info("User created successfully with ID: {}", created.getId());
+            return created;
+        } catch (Exception e) {
+            logger.error("Failed to create user: {}", user.getEmail(), e);
+            throw new UserCreationException("User creation failed", e);
+        }
+    }
+}
+```
+
+## 2: What is Log4j?
+
+**Apache Log4j** is a popular Java logging framework developed by the Apache Software Foundation.
+
+It provides hierarchical loggers, multiple appenders (console, file, etc.), flexible configuration, and supports asynchronous logging for high-performance applications.
+
+```xml
+<!-- log4j2.xml configuration -->
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="FileAppender" fileName="logs/application.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </File>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="com.example" level="DEBUG"/>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
+```
+
+
+## 3: What is SLF4J?
+
+**SLF4J** (Simple Logging Facade for Java) is a logging abstraction layer that provides a common API for different logging frameworks.
+
+It allows you to switch the underlying implementation (like Log4j or Logback) without changing code and supports efficient, parameterized logging.
+
+```java
+// SLF4J usage
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+@Service
+public class OrderService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
+    
+    public Order processOrder(Order order) {
+        // Add context to all log messages in this thread
+        MDC.put("orderId", order.getId().toString());
+        MDC.put("userId", order.getUserId().toString());
+        
+        try {
+            logger.info("Processing order for user: {}", order.getUserId());
+            
+            // Parameterized logging - efficient
+            logger.debug("Order details: amount={}, items={}", 
+                order.getAmount(), order.getItems().size());
+            
+            Order processed = processOrderInternal(order);
+            logger.info("Order processed successfully");
+            return processed;
+            
+        } finally {
+            MDC.clear(); // Clean up context
+        }
+    }
+}
+```
+
+
+## 4: What is Logback?
+
+**Logback** is a logging framework and the native implementation of SLF4J, designed as the successor to Log4j.
+It provides **better performance, flexible configuration, and is the default logging framework in Spring Boot.**
+
+**Simple Configuration :**
+```xml
+// logback-spring.xml
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5level %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
+```
+
+
+## 5: What is structured logging?
+
+**Structured logging** is a logging approach where logs are written in a **machine-readable format** (like JSON) using **key-value pairs** instead of plain text.
+
+It improves searchability, filtering, and tracing in monitoring tools like the **Elastic** (ELK Stack) and **Splunk**, and helps include contextual data like correlation IDs for better debugging.
+
+```java
+// Structured logging with Logstash encoder
+import net.logstash.logback.argument.StructuredArguments;
+
+@Service
+public class PaymentService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    
+    public PaymentResult processPayment(Payment payment) {
+        // Structured logging with key-value pairs
+        logger.info("Processing payment",
+            StructuredArguments.kv("paymentId", payment.getId()),
+            StructuredArguments.kv("amount", payment.getAmount()),
+            StructuredArguments.kv("currency", payment.getCurrency()),
+            StructuredArguments.kv("userId", payment.getUserId()));
+        
+        try {
+            PaymentResult result = paymentGateway.process(payment);
+            
+            logger.info("Payment processed",
+                StructuredArguments.kv("paymentId", payment.getId()),
+                StructuredArguments.kv("status", result.getStatus()),
+                StructuredArguments.kv("transactionId", result.getTransactionId()));
+            
+            return result;
+        } catch (PaymentException e) {
+            logger.error("Payment failed",
+                StructuredArguments.kv("paymentId", payment.getId()),
+                StructuredArguments.kv("errorCode", e.getErrorCode()),
+                StructuredArguments.kv("errorMessage", e.getMessage()));
+            throw e;
+        }
+    }
+}
+```
+
+
+## 6: What is centralized logging?
+
+**Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
+
+It helps with unified search, request tracing across services, log retention, and better monitoring using tools like the **Elastic** (ELK Stack), **Fluentd**, and **Splunk**.
+
+```yaml
+# Docker Compose with centralized logging
+version: '3'
+services:
+  app1:
+    image: myapp:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app1
+        
+  app2:
+    image: myapp2:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app2
+        
+  fluentd:
+    image: fluent/fluentd:latest
+    ports:
+      - "24224:24224"
+    volumes:
+      - ./fluentd.conf:/fluentd/etc/fluent.conf
+      
+  elasticsearch:
+    image: elasticsearch:7.9.0
+    
+  kibana:
+    image: kibana:7.9.0
+    ports:
+      - "5601:5601"
+```
+
+```java
+// Application configuration for centralized logging
+@Configuration
+public class LoggingConfig {
+    
+    @Bean
+    public Logger structuredLogger() {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        
+        // Add correlation ID to all logs
+        context.putProperty("service.name", "user-service");
+        context.putProperty("service.version", "1.0.0");
+        
+        return context.getLogger("STRUCTURED");
+    }
+}
+```
+
+## 7. What are Java deployment issues?
+
+**Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
+
+1. **Dependency Conflicts :** - 
+Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
+2. **Environment Configuration Issues :** - 
+Application may fail if **environment variables, configuration files, or profiles** are not set correctly.
+3. **Port Conflicts :** - 
+If the application tries to start on a **port already used by another service**, it will fail to start.
+4. **Database Connection Issues :** - 
+Incorrect **database credentials, network restrictions, or connection pool configuration** can cause deployment failures.
+5. **Missing Resources :** - 
+Required files like **configuration files, certificates, or static resources** may not be included in the deployment package.
+6. **JVM Configuration Problems :** - 
+Improper **JVM memory settings** (`-Xms`, `-Xmx`) can cause performance issues or application crashes.
+7. **Server Compatibility Issues :** - 
+Sometimes the **Java version or application server version** in production is different from development.
+
+```java
+// Check classpath at runtime
+String classpath = System.getProperty("java.class.path");
+System.out.println("Classpath: " + classpath);
+```
+
+
+## 8. What are debugging strategies?
+
+**Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
+
+**Common Debugging Strategies :**
+
+1. **Log Analysis :**
+   Check application logs to identify errors or unusual behavior.
+2. **Using Debugger Tools :**
+   Use IDE debuggers to add **breakpoints**, step through code, and inspect variables.
+3. **Reproduce the Issue :**
+   Try to recreate the bug in the same conditions to understand the problem.
+4. **Divide and Conquer :**
+   Break the code into smaller parts to isolate where the problem occurs.
+5. **Check Recent Changes :**
+   Review recently modified code because bugs often come from recent updates.
+6. **Use Monitoring Tools :**
+   Tools help analyze performance, memory usage, and thread activity.
+
+```java
+// Strategic logging
+logger.debug("Processing user: {}, status: {}", userId, status);
+```
+
+# ✅ 29. Java Testing
+
+##  1. What is unit testing in Java?
+Unit testing is a software testing technique where individual components or modules of a software application are tested in isolation
+It helps ensure that each unit of code performs as expected and catches bugs early in developmentjava
+
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+@Test
+public void testAdd() {
+    Calculator calc = new Calculator();
+    assertEquals(5, calc.add(2, 3));
+}
+```
+
+## 2. What is JUnit?
+JUnit is a popular open-source testing framework for Java that provides annotations and assertions for writing and running unit testsjava
+
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class StringUtilsTest {
+    @Test
+    public void testIsEmpty() {
+        assertTrue(StringUtils.isEmpty(""));
+        assertFalse(StringUtils.isEmpty("hello"));
+    }
+}
+```
+
+## 3. What are the annotations used in JUnit?
+Common JUnit annotations include @Test, @BeforeEach, @AfterEach, @BeforeAll, @AfterAll, @DisplayName, 
+
+```java
+@Disabledjava
+public class LifecycleTest {
+    @BeforeAll
+    static void setupAll() { /* runs once before all tests */ }
+    
+    @BeforeEach
+    void setup() { /* runs before each test */ }
+    
+    @Test
+    @DisplayName("Test addition operation")
+    void testAddition() { /* test method */ }
+    
+    @AfterEach
+    void tearDown() { /* runs after each test */ }
+    
+    @AfterAll
+    static void tearDownAll() { /* runs once after all tests */ }
+}
+```
+
+## 4. What is TestNG?
+
+TestNG is a testing framework inspired by JUnit but with more powerful features like data providers, parallel execution, and flexible test configurationjava
+
+```java
+import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
+
+public class TestNGExample {
+    @DataProvider
+    public Object[][] testData() {
+        return new Object[][]{{1, 2, 3}, {4, 5, 9}};
+    }
+    
+    @Test(dataProvider = "testData")
+    public void testAdd(int a, int b, int expected) {
+        assertEquals(a + b, expected);
+    }
+}
+```
+
+## 5. What is the difference between JUnit and TestNG?
+JUnit is simpler and widely adopted, while TestNG offers more advanced features like data providers, parallel execution, and better test configurationjava
+
+```java
+// JUnit 5
+@ParameterizedTest
+@ValueSource(strings = {"hello", "world"})
+void testWithJUnit(String word) {
+    assertNotNull(word);
+}
+
+// TestNG
+@Test(dataProvider = "words")
+void testWithTestNG(String word) {
+    assertNotNull(word);
+}
+```
+
+## 6. What is mocking in Java testing?
+Mocking is creating fake objects that simulate the behavior of real objects to isolate the unit being tested from its dependenciesjava
+
+```java
+// Using Mockito
+@Mock
+private UserRepository userRepository;
+
+@Test
+void testGetUser() {
+    User mockUser = new User("John", "john@email.com");
+    when(userRepository.findById(1L)).thenReturn(mockUser);
+    
+    User result = userService.getUser(1L);
+    assertEquals("John", result.getName());
+}
+```
+
+## 7. What is Mockito?
+Mockito is a popular Java mocking framework that allows you to create mock objects and define their behavior for testingjava
+import static org.mockito.Mockito.*
+
+```java
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @Mock
+    private EmailService emailService;
+    
+    @InjectMocks
+    private UserService userService;
+    
+    @Test
+    void testSendWelcomeEmail() {
+        userService.registerUser("john@email.com");
+        verify(emailService).sendEmail("john@email.com", "Welcome!");
+    }
+}
+```
+
+## 8. What is integration testing?
+Integration testing verifies that different modules or services work correctly when integrated togetherjava
+
+```java
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
+class UserControllerIntegrationTest {
+    @Autowired
+    private TestRestTemplate restTemplate;
+    
+    @Test
+    void testCreateUser() {
+        User user = new User("John", "john@email.com");
+        ResponseEntity<User> response = restTemplate.postForEntity("/users", user, User.class);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+}
+```
+
+## 9. What is test-driven development (TDD)?
+TDD is a development approach where you write tests first, then write the minimum code to make tests pass, then refactorjava
+
+```java
+// Step 1: Write failing test
+@Test
+void testCalculateArea() {
+    Circle circle = new Circle(5);
+    assertEquals(78.54, circle.calculateArea(), 0.01);
+}
+
+// Step 2: Write minimum code to pass
+public class Circle {
+    private double radius;
+    
+    public Circle(double radius) { this.radius = radius; }
+    
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+```
+
+## 10. What is behavior-driven development (BDD)?
+BDD extends TDD by writing tests in natural language that describes the behavior of the application from user's perspectivejava
+
+```java
+// Using Cucumber with Java
+@Given("a user with email {string}")
+public void aUserWithEmail(String email) {
+    user = new User(email);
+}
+
+@When("the user logs in")
+public void theUserLogsIn() {
+    loginResult = authService.login(user);
+}
+
+@Then("the login should be successful")
+public void theLoginShouldBeSuccessful() {
+    assertTrue(loginResult.isSuccess());
+}
+```
+
+
+## How to Start System Design From Scratch
+
+System design should start with understanding requirements, estimating scale, designing high-level architecture, choosing databases/APIs, and then improving scalability, reliability, and maintainability.
+
+
+**1. Understand Requirements**
+
+First ask questions.
+
+**Functional Requirements**
+
+What system should do?
+
+Example for Food Delivery:
+
+* User login
+* Search restaurants
+* Place order
+* Payment
+* Track delivery
+
+## Non-Functional Requirements
+
+How system should behave?
+
+* Scalability
+* Security
+* High availability
+* Low latency
+* Fault tolerance
+
+---
+
+**2. Estimate Scale**
+
+Estimate:
+
+* Daily active users
+* Requests per second (RPS)
+* Storage
+* Traffic
+
+Example:
+
+```text id="7g1vgh"
+1 million users
+100k daily orders
+500 requests/sec
+```
+
+This helps decide architecture.
+
+---
+
+**3. Identify Core Entities**
+
+Find main objects.
+
+Example for E-commerce:
+
+```text id="o49gpk"
+User
+Product
+Cart
+Order
+Payment
+Inventory
+```
+
+---
+
+**4. Design High-Level Architecture (HLD)**
+
+Draw big components.
+
+Example:
+
+```text id="h83x71"
+Client → Load Balancer → API Gateway
+                        ↓
+              Microservices
+                        ↓
+              Database / Cache / Queue
+```
+
+Components:
+
+* Frontend
+* Backend
+* Database
+* Cache
+* Messaging queue
+* CDN
+* Storage
+
+---
+
+**5. Database Design**
+
+Choose DB:
+
+| Use Case           | Database         |
+| ------------------ | ---------------- |
+| Structured data    | MySQL/PostgreSQL |
+| Huge scalable data | MongoDB          |
+| Fast caching       | Redis            |
+| Search             | Elasticsearch    |
+
+Create tables/schema.
+
+Example:
+
+```text id="n5s2uw"
+User(id, name, email)
+Order(id, userId, total)
+```
+
+---
+
+**6. API Design**
+
+Design REST APIs.
+
+Example:
+
+```http id="9qkhtm"
+POST /orders
+GET /products
+PUT /cart
+```
+
+Think about:
+
+* Request
+* Response
+* Status codes
+* Pagination
+
+---
+
+**7. Decide Architecture Style**
+
+Choose:
+
+| Type          | When Used              |
+| ------------- | ---------------------- |
+| Monolith      | Small projects         |
+| Microservices | Large scalable systems |
+| Event Driven  | Async processing       |
+
+---
+
+**8. Add Scalability**
+
+Think:
+
+## Horizontal Scaling
+
+```text id="ggxyl4"
+Multiple backend servers
+```
+
+Use:
+
+* Load balancer
+* Auto scaling
+
+---
+
+**9. Add Performance Optimization**
+
+Use:
+
+* Redis cache
+* CDN
+* DB indexing
+* Lazy loading
+* Compression
+
+---
+
+**10. Handle Reliability**
+
+Add:
+
+* Retry mechanism
+* Circuit breaker
+* Replication
+* Backup
+* Failover
+
+---
+
+**11. Security Design**
+
+Think about:
+
+* Authentication
+* Authorization
+* JWT/OAuth
+* HTTPS
+* Rate limiting
+
+---
+
+**12. Monitoring & Logging**
+
+Use:
+
+* ELK Stack
+* Prometheus
+* Grafana
+* CloudWatch
+
+---
+
+**13. Deep Dive (LLD)**
+
+Now design classes.
+
+Example:
+
+```java id="crd5dn"
+interface PaymentStrategy {
+    void pay();
+}
+```
+
+Use:
+
+* SOLID principles
+* Design patterns
+* UML
+* OOP
+
+---
+
+**Example Interview Flow**
+
+If interviewer asks:
+
+> Design WhatsApp
+
+You should answer in order:
+
+1. Requirements
+2. Scale estimation
+3. HLD
+4. DB design
+5. Message flow
+6. Real-time communication
+7. Scaling
+8. Reliability
+9. Security
+
+---
+
+**Common Technologies**
+
+| Component  | Technology     |
+| ---------- | -------------- |
+| API        | Spring Boot    |
+| Database   | PostgreSQL     |
+| Cache      | Redis          |
+| Queue      | Kafka/RabbitMQ |
+| Search     | Elasticsearch  |
+| Storage    | S3             |
+| Monitoring | Grafana        |
+
+---
+
+**Golden Rule**
+
+Start with:
+
+```text id="c0f6wj"
+Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
+```
+
