@@ -16833,8 +16833,9 @@ void testGetUser() {
 
 ## 7. What is Mockito?
 Mockito is a popular Java mocking framework that allows you to create mock objects and define their behavior for testingjava
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.*
 
+```java
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
     @Mock
