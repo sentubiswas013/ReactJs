@@ -14433,41 +14433,35 @@ public class GlobalExceptionHandler {
 
 ## 15: What is Filter Chain?
 
-> A Filter Chain is a sequence of filters that process an HTTP request before it reaches the controller and process the response before it is sent back to the client.
->
-> Each filter performs a specific task, such as authentication, authorization, logging, CSRF protection, or JWT validation.
+**A Filter Chain is a sequence of filters that intercept an HTTP request before it reaches the controller and also process the response before it goes back to the client.**
 
-**How It Works**
-
-> When a request arrives, it passes through multiple filters one by one. If all checks are successful, the request reaches the controller. After the controller generates a response, the response can also pass through filters before being returned to the client.
-
-```text
-Client Request
-      │
-      ▼
-JWT Filter
-      ▼
-Authentication Filter
-      ▼
-Authorization Filter
-      ▼
-Controller
-      ▼
-Response
-```
-
-**Example**
-
-> For example, in a JWT-based application, the request first goes through a JWT filter to validate the token. Then Spring Security checks the user's authentication and permissions. If everything is valid, the request is allowed to reach the controller.
-
-**Why It Is Important**
+In Spring Security, the filter chain is used for tasks like:
 
 * Authentication
 * Authorization
-* JWT Validation
-* CSRF Protection
-* Request/Response Logging
-* Security Checks
+* CSRF protection
+* Logging
+* JWT validation
+
+For example, when a request comes in, it may first pass through a JWT filter to validate the token, then through an authorization filter to check permissions, and only then reach the controller.
+
+### Flow
+
+```text
+Request
+   |
+   v
+JWT Filter
+   |
+   v
+Authentication Filter
+   |
+   v
+Authorization Filter
+   |
+   v
+Controller
+```
 
 **Custom Filter Example**
 
@@ -14860,36 +14854,17 @@ It helps developers **identify performance issues, delays, and failures** by sho
 
 ## 5. What is Zipkin and How Does Distributed Tracing Work?
 
-> In a microservices architecture, a single user request often travels through multiple services. If the request is slow or fails, it can be difficult to identify which service caused the problem.
->
-> **Zipkin** is a distributed tracing tool that helps track a request as it moves across different microservices. It provides end-to-end visibility into the request flow and helps identify performance bottlenecks and failures.
+In microservices, a single request can pass through 5–10 services. When something fails or is slow, how do you find where? That's what **distributed tracing** solves.
 
-**How Distributed Tracing Works**
+**Zipkin** is a distributed tracing system. It collects timing data from all services and lets you visualize the full request journey.
 
-> When a request enters the system, a unique **Trace ID** is generated. As the request passes through multiple services, each service creates its own **Span**, which contains information such as start time, end time, duration, and status.
->
-> All spans share the same Trace ID, allowing Zipkin to connect them and display the complete request journey.
+**How it works:**
+1. Each request gets a unique **Trace ID**
+2. Each service call within that request gets a **Span ID**
+3. Services report their spans (start time, duration, status) to Zipkin
+4. Zipkin assembles them into a full trace timeline
 
-```text
-Client Request
-      │
-      ▼
-Service A ──► Service B ──► Service C
-  Span 1        Span 2        Span 3
-
-      Same Trace ID: abc123
-```
-
-> Suppose a request takes 5 seconds to complete. Zipkin can show:
->
-> * Service A took 200 ms
-> * Service B took 4.5 seconds
-> * Service C took 300 ms
->
-> From this trace, we can immediately identify that Service B is the bottleneck.
-
-**Spring Boot 3+**
-
+**Spring Boot setup:**
 ```xml
 <dependency>
     <groupId>io.micrometer</groupId>
@@ -14901,8 +14876,16 @@ Service A ──► Service B ──► Service C
 management:
   tracing:
     sampling:
-      probability: 1.0
+      probability: 1.0  # trace 100% of requests
 ```
+
+```
+Request → [Service A] → [Service B] → [Service C]
+              span1          span2          span3
+              └──────── Trace ID: abc123 ──────────┘
+```
+
+In Zipkin UI, you can see exactly which service was slow or failed. Often used with **Sleuth** (older) or **Micrometer Tracing** (Spring Boot 3+).
 
 
 ## 6: What is profiling in Java?
@@ -15045,11 +15028,10 @@ public class OptimizedUserRepository {
 
 ## 12: What is query optimization?
 
-**Query optimization** is the process of improving SQL query performance so that data is retrieved faster and database resources are used efficiently.
+**Query optimization** is the process of improving the performance and execution time of SQL queries.
 
-Common techniques include creating proper indexes, writing efficient JOIN and WHERE clauses, avoiding SELECT *, fetching only required data, using pagination for large datasets, and analyzing execution plans.
+It involves **using proper indexes, writing efficient joins and WHERE clauses, avoiding unnecessary data fetch (like SELECT *), and analyzing execution plans** to ensure faster query execution.
 
-For example, if users are frequently searched by email, adding an index on the email column can significantly reduce query execution time.
 
 ```java
 // Query optimization examples
@@ -15063,7 +15045,7 @@ public class OptimizedQueryRepository {
     // Use indexes effectively
     @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
     User findByEmail(@Param("email") String email);
-
+    
     // Good: Single query with join
     @Query("SELECT o FROM Order o JOIN FETCH o.customer")
     List<Order> findAllOrdersWithCustomers();
