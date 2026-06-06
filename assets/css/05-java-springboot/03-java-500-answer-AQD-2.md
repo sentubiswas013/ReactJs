@@ -8724,115 +8724,330 @@ public class MultiDatabaseController {
 
 # ✅ 17. Java Design Patterns 
 
-## 0. What are SOLID Principles?
+## 0. What are SOLID principles?
 
-> **SOLID** is a set of five object-oriented design principles that help developers write clean, maintainable, scalable, and loosely coupled code.
->
-> Following SOLID principles makes applications easier to understand, test, extend, and maintain.
+**SOLID** is a set of five object-oriented design principles that help developers write clean, maintainable, scalable, and loosely coupled code.
 
----
+Following SOLID principles makes applications easier to understand, test, extend, and maintain.
 
-**S — Single Responsibility Principle (SRP)**
+- **S**ingle Responsibility: A class should have one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subtypes must be substitutable for their base types
+- **I**nterface Segregation: Many specific interfaces are better than one general interface
+- **D**ependency Inversion: Depend on abstractions, not concrete implementations
 
-> A class should have only one responsibility and one reason to change.
+
 
 **Example:**
+**S — Single Responsibility Principle (SRP)**
 
-* `OrderService` should handle order-related logic.
-* `EmailService` should handle email notifications.
+One class should have only one responsibility.
 
-This keeps classes focused and easier to maintain.
+use case:  
+
+❌ Wrong:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+
+    public void sendEmail() {
+        // send email
+    }
+}
+```
+
+✅ Correct:
+
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+}
+
+class EmailService {
+    public void sendEmail() {
+        // send email
+    }
+}
+```
 
 ---
 
 **O — Open/Closed Principle (OCP)**
 
-> Software entities should be **open for extension but closed for modification**.
+Open for extension, closed for modification.
 
-**Example:**
+```java
+// OCP: Open for extension, closed for modification
 
-If a payment system supports Card and UPI payments, we should be able to add a new payment type like Net Banking by creating a new class, without modifying existing code.
+// This is the abstraction (interface)
+// We can add new payment types without changing existing code
+interface Payment {
+    void pay(); // common method for all payment types
+}
+
+// Concrete implementation 1
+class CardPayment implements Payment {
+    public void pay() {
+        // specific logic for card payment
+        System.out.println("Paid by Card");
+    }
+}
+
+// Concrete implementation 2
+class UpiPayment implements Payment {
+    public void pay() {
+        // specific logic for UPI payment
+        System.out.println("Paid by UPI");
+    }
+}
+
+// This class uses the abstraction (Payment interface)
+// It does NOT depend on concrete classes like CardPayment or UpiPayment
+class PaymentService {
+
+    // This method is CLOSED for modification
+    // We don't need to change this method when new payment types are added
+    public void processPayment(Payment payment) {
+        // This is OPEN for extension because any new Payment type can be passed here
+        payment.pay();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Create service object
+        PaymentService service = new PaymentService();
+
+        // Using Card payment
+        Payment p1 = new CardPayment();
+        service.processPayment(p1);
+
+        // Using UPI payment
+        Payment p2 = new UpiPayment();
+        service.processPayment(p2);
+
+        // If we add a new payment type (e.g., WalletPayment),
+        // we DO NOT modify PaymentService
+        // We only create a new class implementing Payment
+    }
+}
+
+// Output:
+// Paid by Card
+// Paid by UPI
+```
+
+Now we can add **NetBankingPayment** without changing existing code.
 
 ---
 
 **L — Liskov Substitution Principle (LSP)**
 
-> A child class should be able to replace its parent class without breaking the application's behavior.
-
-**Example:**
+Child class should replace parent class without breaking code.
 
 ```java
-Bird bird = new Sparrow();
-bird.fly();
+// LSP: Liskov Substitution Principle
+// Objects of a child class should be able to replace objects of the parent class
+// WITHOUT breaking the expected behavior of the program.
+
+class Bird {
+
+    // Base class method
+    // Defines general behavior that all birds SHOULD follow
+    public void fly() {
+        System.out.println("Bird can fly");
+    }
+}
+
+// Child class extending Bird
+class Sparrow extends Bird {
+
+    // Overriding the parent method
+    // Behavior is consistent with parent (still "fly")
+    @Override
+    public void fly() {
+        System.out.println("Sparrow can fly");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Parent object
+        Bird b = new Bird();
+        b.fly(); 
+        // Output: Bird can fly
+
+        // Child object
+        Sparrow s = new Sparrow();
+        s.fly(); 
+        // Output: Sparrow can fly
+
+        // LSP in action (Runtime Polymorphism)
+        // Parent reference holding child object
+        Bird b2 = new Sparrow();
+
+        // This should NOT break behavior
+        // Even though reference is Bird, actual object is Sparrow
+        b2.fly(); 
+        // Output: Sparrow can fly
+
+        // ✔ This works perfectly → LSP is satisfied
+    }
+}
+
+/*
+Key Interview Points:
+
+1. LSP means:
+   Child class must be substitutable for parent class.
+
+2. In this example:
+   - Sparrow IS-A Bird
+   - Sparrow does not change expected behavior
+   - So it follows LSP
+
+3. Why this is correct:
+   - No exception thrown
+   - No unexpected behavior
+   - Same logical meaning of "fly"
+
+4. When LSP is violated:
+   Example: If we create Penguin extends Bird but override fly() to throw exception
+   → That breaks LSP because Penguin cannot truly replace Bird
+
+5. Real-world idea:
+   If parent says "can fly", child must honor that contract
+*/
+
+
+// Output:
+Bird can fly
+Sparrow can fly
+Sparrow can fly
 ```
 
-This works correctly because a Sparrow is a Bird and behaves as expected.
-
-If a child class changes the expected behavior of the parent, it violates LSP.
+Bad example: Penguin cannot fly → violates LSP.
 
 ---
 
 **I — Interface Segregation Principle (ISP)**
 
-> Clients should not be forced to implement methods they do not need.
+Create small interfaces.
 
-**Example:**
+```java
+interface Workable {
+    void work();
+}
 
-Instead of one large interface, create smaller, focused interfaces.
+interface Eatable {
+    void eat();
+}
 
-* `Workable` → work()
-* `Eatable` → eat()
+class Human implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human working");
+    }
 
-A Robot can implement only `Workable`, while a Human can implement both.
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
+// Output:
+Human working
+Human eating
+Robot working
+```
+
+Robot does not implement eat() → Correct.
 
 ---
 
 **D — Dependency Inversion Principle (DIP)**
 
-> Depend on abstractions (interfaces), not concrete implementations.
-
-**Example:**
+Depend on abstraction, not concrete class.
 
 ```java
+// DIP: Depend on abstraction, not concrete implementation
+
+// Abstraction
 interface Payment {
     void pay();
 }
-```
 
-```java
-class OrderService {
-    private Payment payment;
+// Concrete implementation
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
 }
+
+// High-level module (business logic)
+class OrderService {
+
+    // Depends on abstraction, not CardPayment directly
+    private Payment payment;
+
+    // Dependency is injected via constructor
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay(); // uses abstraction
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Inject concrete implementation at runtime
+        Payment payment = new CardPayment();
+
+        // OrderService is not tightly coupled to CardPayment
+        OrderService orderService = new OrderService(payment);
+
+        orderService.placeOrder(); // Output: Card payment
+    }
+}
+
+/*
+Interview Points (Quick):
+
+- High-level class (OrderService) should NOT depend on low-level class (CardPayment)
+- Both depend on abstraction (Payment)
+- Easy to switch implementation (UPI, Wallet, etc.) without changing OrderService
+*/
+
+//Output:
+Card payment
 ```
-
-`OrderService` depends on the `Payment` interface rather than a specific implementation like `CardPayment`.
-
-This makes the code flexible and easy to extend.
-
----
-
-**Easy Way to Remember**
-
-| Principle | Meaning                                         |
-| --------- | ----------------------------------------------- |
-| **S**     | One class → One responsibility                  |
-| **O**     | Extend behavior without modifying existing code |
-| **L**     | Child should safely replace parent              |
-| **I**     | Create small, focused interfaces                |
-| **D**     | Depend on interfaces, not implementations       |
-
----
-
-**Real-World Example**
-
-In an e-commerce application:
-
-* **SRP** → OrderService and EmailService are separate.
-* **OCP** → Add new payment methods without changing existing code.
-* **LSP** → Any payment type can replace the Payment interface.
-* **ISP** → Separate interfaces for payment, notification, and shipping.
-* **DIP** → OrderService depends on the Payment interface, not CardPayment.
-
 
 ## 1. What are design patterns?
 
