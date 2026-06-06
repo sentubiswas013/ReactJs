@@ -34,18 +34,22 @@ const s3 = new AWS.S3({
 
 Common AWS services used in real projects:
 
-| Service      | Purpose                                  |
-| ------------ | ---------------------------------------- |
-| EC2          | Virtual servers for hosting applications |
-| S3           | File storage                             |
-| RDS          | Managed relational database              |
-| IAM          | Authentication and authorization         |
-| VPC          | Private network setup                    |
-| CloudWatch   | Monitoring and alerts                    |
-| ELB          | Load balancing                           |
-| Auto Scaling | Automatic server scaling                 |
-| Lambda       | Serverless computing                     |
-| Route 53     | DNS management                           |
+| Service      | Purpose           |
+| ------------ | ----------------- |
+| EC2          | Virtual server    |
+| S3           | Storage           |
+| RDS          | Managed database  |
+| IAM          | Authentication and authorization |
+| VPC          | Private network setup   |
+| ELB          | Load balancing    |
+| Auto Scaling | Automatic server scaling |
+| Lambda       | Serverless computing        |
+| CloudWatch   | Monitoring        |
+| CloudTrail   | Auditing          |
+| Route 53     | DNS management               |
+| ECS/EKS      | Containers        |
+| CloudFront   | CDN               |
+
 
 ```yaml
 Services:
@@ -61,34 +65,64 @@ Services:
 
 # 3. Difference Between EC2 and S3
 
-| EC2                   | S3                               |
-| --------------------- | -------------------------------- |
-| Compute service       | Storage service                  |
-| Runs applications     | Stores files                     |
-| Virtual machine       | Object storage                   |
-| Used for backend apps | Used for images, videos, backups |
+**EC2 (Elastic Compute Cloud)** is a virtual server used to run applications and services.
 
-```python
-# Running application on EC2
+**S3 (Simple Storage Service)** is an object storage service used to store files, images, videos, backups, and logs.
 
-from flask import Flask
+In simple terms, **EC2 is for computing**, while **S3 is for storage**.
 
-app = Flask(__name__)
+| Feature   | EC2                             | S3                    |
+| --------- | ------------------------------- | --------------------- |
+| Purpose   | Run applications                | Store files           |
+| Type      | Virtual Server                  | Object Storage        |
+| OS Access | Yes                             | No                    |
+| Use Cases | Spring Boot apps, Microservices | Images, Backups, Logs |
+| Scaling   | Auto Scaling available          | Automatically scales  |
 
-@app.route('/')
-def home():
-    return "Running on EC2"
+**EC2 Example**
+
+Run a Spring Boot application:
+
+```bash
+java -jar employee-service.jar
 ```
 
-```python
-# Upload file to S3
+The application runs on an EC2 server.
 
-import boto3
+---
 
-s3 = boto3.client('s3')
+**S3 Example**
 
-s3.upload_file('photo.jpg', 'my-bucket', 'photo.jpg')
+Store a file in an S3 bucket:
+
+```java
+PutObjectRequest request = PutObjectRequest.builder()
+        .bucket("my-bucket")
+        .key("resume.pdf")
+        .build();
+
+s3Client.putObject(request, Paths.get("resume.pdf"));
 ```
+
+The file is stored in S3 and can be accessed later.
+
+---
+
+**Real-World Scenario**
+
+* **EC2** hosts your Spring Boot application.
+* **S3** stores user-uploaded files, images, reports, and backups.
+
+Example:
+
+```text
+User Uploads Image
+        ↓
+Spring Boot App (EC2)
+        ↓
+Store Image in S3
+```
+
 
 ---
 
@@ -372,12 +406,63 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 # 15. EC2 vs Lambda
 
-| EC2               | Lambda                     |
-| ----------------- | -------------------------- |
-| Server-based      | Serverless                 |
-| Runs continuously | Runs on demand             |
-| Pay hourly        | Pay per execution          |
-| Full OS control   | AWS manages infrastructure |
+
+**EC2** is a virtual server where we manage the operating system, runtime, and application ourselves. It runs continuously.
+
+**Lambda** is a serverless service where AWS manages the infrastructure, and our code runs only when an event triggers it.
+
+Use **EC2** for long-running applications and full server control. Use **Lambda** for event-driven, short-lived tasks.
+
+
+| Feature           | EC2                     | Lambda             |
+| ----------------- | ----------------------- | ------------------ |
+| Server Management | We manage               | AWS manages        |
+| Runtime Duration  | Continuous              | Runs on demand     |
+| Scaling           | Manual/Auto Scaling     | Automatic          |
+| Billing           | Per running instance    | Per execution time |
+| Best For          | Web apps, Microservices | Event-driven tasks |
+
+---
+
+**EC2 Example**
+
+A Spring Boot application running 24/7 on an EC2 server:
+
+```bash
+java -jar employee-service.jar
+```
+
+* Server is always running.
+* You manage OS, patches, memory, and deployments.
+
+
+**Lambda Example**
+
+A Lambda function triggered when a file is uploaded to S3:
+
+```java
+public class FileProcessor {
+    public String handleRequest(String fileName) {
+        return "Processing file: " + fileName;
+    }
+}
+```
+
+* Runs only when triggered.
+* Stops automatically after execution.
+
+✅ **When to Use EC2**
+
+* Spring Boot Microservices
+* Long-running applications
+* Custom server configurations
+
+✅ **When to Use Lambda**
+
+* File processing
+* Scheduled jobs
+* API backends with unpredictable traffic
+* Event-driven workflows
 
 ---
 
@@ -676,23 +761,3 @@ Scalability:
 
 * Auto Scaling
 * ELB
-
----
-
-# Quick Revision Summary
-
-| Service      | Purpose           |
-| ------------ | ----------------- |
-| EC2          | Virtual server    |
-| S3           | Storage           |
-| RDS          | Managed database  |
-| IAM          | Access management |
-| VPC          | Private network   |
-| ELB          | Load balancing    |
-| Auto Scaling | Automatic scaling |
-| Lambda       | Serverless        |
-| CloudWatch   | Monitoring        |
-| CloudTrail   | Auditing          |
-| Route 53     | DNS               |
-| ECS/EKS      | Containers        |
-| CloudFront   | CDN               |
