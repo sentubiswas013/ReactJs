@@ -131,6 +131,10 @@ class CollectionsDemo {
         linkedList.put(3, "Ranku");
         linkedList.put(4, "Data");
 
+        for (String Integer : linkedList.keySet()) {
+            System.out.println(key + " -> " + linkedList.get(key));
+        }
+
         // System.out.println("Result " + linkedList);
     }
 
@@ -161,9 +165,11 @@ class CollectionsDemo {
 
     }
 
+     // ============================================================
+    // 15. LRU Cache
+    // LRU (Least Recently Used) cache is a data structure that evicts the least recently used items when it reaches its capacity. It can be implemented using LinkedHashMap in Java.
     // ============================================================
-    // 16. LRU Cache
-    // ============================================================
+    // **# 2. LRU Cache way 1
     public static void LRUCacheDemo() {
 
         System.out.println("=========================== LRUCacheDemo");
@@ -185,9 +191,8 @@ class CollectionsDemo {
         System.out.println("Hello 1" + cache);
     }
 
-    // ============================================================
-    // 17. LFU Cache
-    // ============================================================
+    // **# 2. LRU Cache way 2
+
     public static void LFUCacheDemo() {
 
         System.out.println("=========================== LFUCacheDemo");
@@ -215,11 +220,19 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 17. TTL Cache
+    // **16. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
+    // ============================================================
+
+
+
+    // ============================================================
+    // 17. TTL Cache (Time To Live) :** Expires data after fixed duration.
     // ============================================================
     public static void TTLCacheDemo() {
 
         System.out.println("=========================== TTLCacheDemo");
+
+
 
     }
 }

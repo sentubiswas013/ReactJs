@@ -251,7 +251,7 @@ class CollectionsDemo {
     // 14. LRU Cache
     // LRU (Least Recently Used) cache is a data structure that evicts the least recently used items when it reaches its capacity. It can be implemented using LinkedHashMap in Java.
     // ============================================================
-
+    // **# 2. LRU Cache way 
     static void lruCacheDemo() {
         LinkedHashMap<Integer, String> cache =  new LinkedHashMap<Integer, String>(3, 0.75f, true) {
             @Override
@@ -270,11 +270,8 @@ class CollectionsDemo {
 
         System.out.println(cache);
     }
-    // ============================================================
-    // **# 15. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
-    // ============================================================
-    // import java.util.LinkedHashMap;
-    // import java.util.Map;
+
+    // **# 2. LRU Cache way 2
      static void LRUCacheDemo() {
         LRUCache<Integer, String> cache = new LRUCache<>(3);
 

@@ -5399,9 +5399,9 @@ System.out.println(future.get());
 ## 11. What is fail-fast and fail-safe iterators?
 
 
-**Fail-Fast iterators** throw a `ConcurrentModificationException` if the collection is modified while iterating. Examples are `ArrayList` and `HashMap`.
+**Fail-Fast iterators** immediately throw a ConcurrentModificationException if the collection is modified while iterating.
 
-**Fail-Safe iterators** work on a copy or snapshot of the collection, so modifications during iteration do not throw exceptions. Examples are `CopyOnWriteArrayList` and `ConcurrentHashMap`.
+**Fail-Safe iterators** work on a copy (snapshot) of the collection, so they do not throw an exception even if the original collection is modified during iteration.
 
 
 **Fail-Fast Example**
@@ -15045,7 +15045,7 @@ public class OptimizedQueryRepository {
     // Use indexes effectively
     @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
     User findByEmail(@Param("email") String email);
-    
+
     // Good: Single query with join
     @Query("SELECT o FROM Order o JOIN FETCH o.customer")
     List<Order> findAllOrdersWithCustomers();
