@@ -232,8 +232,7 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
 
 
 
-## 00. How to Start System Design From Scratch in short?
-
+## 00. How to Start System Design From Scratch in High-Level?
 
 When I design a system, I follow a simple step-by-step approach:
 
