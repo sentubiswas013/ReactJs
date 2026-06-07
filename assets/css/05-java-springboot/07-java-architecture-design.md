@@ -1207,7 +1207,7 @@ Example for Food Delivery:
 * Payment
 * Track delivery
 
-## Non-Functional Requirements
+**Non-Functional Requirements**
 
 How system should behave?
 
@@ -1342,7 +1342,7 @@ Choose:
 
 Think:
 
-## Horizontal Scaling
+**Horizontal Scaling**
 
 ```text id="ggxyl4"
 Multiple backend servers
