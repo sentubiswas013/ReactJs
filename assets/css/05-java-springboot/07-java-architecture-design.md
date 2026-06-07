@@ -153,7 +153,7 @@ User types: https://www.example.com/products?id=42
 ```
 
 
-## 01. Design System Design for your application?
+## 01. System Design Diagram of your application?
 
 Here’s a clean and interview-friendly **Generic System Design Diagram** you can use for most HLD interviews like WhatsApp, Netflix, Uber, Food Delivery, E-commerce, etc.
 
