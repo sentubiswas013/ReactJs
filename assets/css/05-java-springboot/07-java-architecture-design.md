@@ -230,7 +230,10 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
                          +-------------------+
 ```
 
-## 00. How to Start System Design From Scratch
+
+
+## 00. How to Start System Design From Scratch in short?
+
 
 When I design a system, I follow a simple step-by-step approach:
 
@@ -287,6 +290,8 @@ Security
 Low-Level Design
 ```
 
+
+## 00. How to Start System Design From Scratch in details?
 
 **Diagram 1**
 ```text
@@ -552,202 +557,282 @@ Low-Level Design
 ```
 
 
-**Diagram 2**
+System design should start with understanding requirements, estimating scale, designing high-level architecture, choosing databases/APIs, and then improving scalability, reliability, and maintainability.
 
-```text
-┌──────────────────────────────────────────────┐
-│      0. START SYSTEM DESIGN PROCESS          │
-│ Requirements → Scale → HLD → DB → APIs      │
-│ → Scalability → Reliability → Security       │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
 
-┌──────────────────────────────────────────────┐
-│ 1. UNDERSTAND REQUIREMENTS                   │
-├──────────────────────────────────────────────┤
-│ Functional Requirements                      │
-│ - Login                                      │
-│ - Search                                     │
-│ - Order                                      │
-│ - Payment                                    │
-│ - Tracking                                   │
-│                                              │
-│ Non-Functional Requirements                  │
-│ - Scalability                                │
-│ - Security                                   │
-│ - Low Latency                                │
-│ - High Availability                          │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+**1. Understand Requirements**
 
-┌──────────────────────────────────────────────┐
-│ 2. ESTIMATE SCALE                            │
-├──────────────────────────────────────────────┤
-│ - Daily Active Users                         │
-│ - Requests Per Second                        │
-│ - Storage                                    │
-│ - Network Traffic                            │
-│                                              │
-│ Example:                                     │
-│ 1M Users                                     │
-│ 500 RPS                                      │
-│ 100K Orders/Day                              │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+First ask questions.
 
-┌──────────────────────────────────────────────┐
-│ 3. IDENTIFY CORE ENTITIES                    │
-├──────────────────────────────────────────────┤
-│ User                                         │
-│ Product                                      │
-│ Cart                                         │
-│ Order                                        │
-│ Payment                                      │
-│ Inventory                                    │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+**Functional Requirements**
 
-┌──────────────────────────────────────────────┐
-│ 4. HIGH LEVEL DESIGN (HLD)                   │
-├──────────────────────────────────────────────┤
-│ Client                                       │
-│   ↓                                          │
-│ Load Balancer                                │
-│   ↓                                          │
-│ API Gateway                                  │
-│   ↓                                          │
-│ Microservices                                │
-│   ↓                                          │
-│ DB / Cache / Queue / Storage                 │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+What system should do?
 
-┌──────────────────────────────────────────────┐
-│ 5. DATABASE DESIGN                           │
-├──────────────────────────────────────────────┤
-│ SQL      → MySQL/PostgreSQL                  │
-│ NoSQL    → MongoDB                           │
-│ Cache    → Redis                             │
-│ Search   → Elasticsearch                     │
-│                                              │
-│ Example Tables                               │
-│ User(id, name, email)                        │
-│ Order(id, userId, total)                     │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+Example for Food Delivery:
 
-┌──────────────────────────────────────────────┐
-│ 6. API DESIGN                                │
-├──────────────────────────────────────────────┤
-│ POST /orders                                 │
-│ GET  /products                               │
-│ PUT  /cart                                   │
-│                                              │
-│ Think About:                                 │
-│ - Request/Response                           │
-│ - Status Codes                               │
-│ - Pagination                                 │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+* User login
+* Search restaurants
+* Place order
+* Payment
+* Track delivery
 
-┌──────────────────────────────────────────────┐
-│ 7. CHOOSE ARCHITECTURE STYLE                 │
-├──────────────────────────────────────────────┤
-│ Monolith      → Small Projects               │
-│ Microservices → Large Systems                │
-│ Event Driven  → Async Systems                │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+**Non-Functional Requirements**
 
-┌──────────────────────────────────────────────┐
-│ 8. ADD SCALABILITY                           │
-├──────────────────────────────────────────────┤
-│ - Horizontal Scaling                         │
-│ - Multiple Servers                           │
-│ - Load Balancer                              │
-│ - Auto Scaling                               │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+How system should behave?
 
-┌──────────────────────────────────────────────┐
-│ 9. PERFORMANCE OPTIMIZATION                  │
-├──────────────────────────────────────────────┤
-│ - Redis Cache                                │
-│ - CDN                                        │
-│ - DB Indexing                                │
-│ - Lazy Loading                               │
-│ - Compression                                │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+* Scalability
+* Security
+* High availability
+* Low latency
+* Fault tolerance
 
-┌──────────────────────────────────────────────┐
-│ 10. RELIABILITY & FAULT TOLERANCE            │
-├──────────────────────────────────────────────┤
-│ - Retry Mechanism                            │
-│ - Circuit Breaker                            │
-│ - Replication                                │
-│ - Backup                                     │
-│ - Failover                                   │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+---
 
-┌──────────────────────────────────────────────┐
-│ 11. SECURITY DESIGN                          │
-├──────────────────────────────────────────────┤
-│ - Authentication                             │
-│ - Authorization                              │
-│ - JWT / OAuth2                               │
-│ - HTTPS                                      │
-│ - Rate Limiting                              │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+**2. Estimate Scale**
 
-┌──────────────────────────────────────────────┐
-│ 12. MONITORING & LOGGING                     │
-├──────────────────────────────────────────────┤
-│ - ELK Stack                                  │
-│ - Prometheus                                 │
-│ - Grafana                                    │
-│ - CloudWatch                                 │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+Estimate:
 
-┌──────────────────────────────────────────────┐
-│ 13. LOW LEVEL DESIGN (LLD)                   │
-├──────────────────────────────────────────────┤
-│ - Classes                                    │
-│ - Interfaces                                 │
-│ - SOLID Principles                           │
-│ - Design Patterns                            │
-│ - UML                                        │
-│ - OOP                                        │
-└──────────────────────┬───────────────────────┘
-                       │
-────────────────────────────────────────────────────────
+* Daily active users
+* Requests per second (RPS)
+* Storage
+* Traffic
 
-┌──────────────────────────────────────────────┐
-│ FINAL SYSTEM DESIGN OUTPUT                   │
-├──────────────────────────────────────────────┤
-│ Scalable + Secure + Reliable + Maintainable │
-│ Distributed System Architecture              │
-└──────────────────────────────────────────────┘
+Example:
+
+```text id="7g1vgh"
+1 million users
+100k daily orders
+500 requests/sec
 ```
 
+This helps decide architecture.
 
+---
 
+**3. Identify Core Entities**
+
+Find main objects.
+
+Example for E-commerce:
+
+```text id="o49gpk"
+User
+Product
+Cart
+Order
+Payment
+Inventory
+```
+
+---
+
+**4. Design High-Level Architecture (HLD)**
+
+Draw big components.
+
+Example:
+
+```text id="h83x71"
+Client → Load Balancer → API Gateway
+                        ↓
+              Microservices
+                        ↓
+              Database / Cache / Queue
+```
+
+Components:
+
+* Frontend
+* Backend
+* Database
+* Cache
+* Messaging queue
+* CDN
+* Storage
+
+---
+
+**5. Database Design**
+
+Choose DB:
+
+| Use Case           | Database         |
+| ------------------ | ---------------- |
+| Structured data    | MySQL/PostgreSQL |
+| Huge scalable data | MongoDB          |
+| Fast caching       | Redis            |
+| Search             | Elasticsearch    |
+
+Create tables/schema.
+
+Example:
+
+```text id="n5s2uw"
+User(id, name, email)
+Order(id, userId, total)
+```
+
+---
+
+**6. API Design**
+
+Design REST APIs.
+
+Example:
+
+```http id="9qkhtm"
+POST /orders
+GET /products
+PUT /cart
+```
+
+Think about:
+
+* Request
+* Response
+* Status codes
+* Pagination
+
+---
+
+**7. Decide Architecture Style**
+
+Choose:
+
+| Type          | When Used              |
+| ------------- | ---------------------- |
+| Monolith      | Small projects         |
+| Microservices | Large scalable systems |
+| Event Driven  | Async processing       |
+
+---
+
+**8. Add Scalability**
+
+Think:
+
+**Horizontal Scaling**
+
+```text id="ggxyl4"
+Multiple backend servers
+```
+
+Use:
+
+* Load balancer
+* Auto scaling
+
+---
+
+**9. Add Performance Optimization**
+
+Use:
+
+* Redis cache
+* CDN
+* DB indexing
+* Lazy loading
+* Compression
+
+---
+
+**10. Handle Reliability**
+
+Add:
+
+* Retry mechanism
+* Circuit breaker
+* Replication
+* Backup
+* Failover
+
+---
+
+**11. Security Design**
+
+Think about:
+
+* Authentication
+* Authorization
+* JWT/OAuth
+* HTTPS
+* Rate limiting
+
+---
+
+**12. Monitoring & Logging**
+
+Use:
+
+* ELK Stack
+* Prometheus
+* Grafana
+* CloudWatch
+
+---
+
+**13. Deep Dive (LLD)**
+
+Now design classes.
+
+Example:
+
+```java id="crd5dn"
+interface PaymentStrategy {
+    void pay();
+}
+```
+
+Use:
+
+* SOLID principles
+* Design patterns
+* UML
+* OOP
+
+---
+
+**Example Interview Flow**
+
+If interviewer asks:
+
+> Design WhatsApp
+
+You should answer in order:
+
+1. Requirements
+2. Scale estimation
+3. HLD
+4. DB design
+5. Message flow
+6. Real-time communication
+7. Scaling
+8. Reliability
+9. Security
+
+---
+
+**Common Technologies**
+
+| Component  | Technology     |
+| ---------- | -------------- |
+| API        | Spring Boot    |
+| Database   | PostgreSQL     |
+| Cache      | Redis          |
+| Queue      | Kafka/RabbitMQ |
+| Search     | Elasticsearch  |
+| Storage    | S3             |
+| Monitoring | Grafana        |
+
+---
+
+**Golden Rule**
+
+Start with:
+
+```text id="c0f6wj"
+Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
+```
 
 
 
