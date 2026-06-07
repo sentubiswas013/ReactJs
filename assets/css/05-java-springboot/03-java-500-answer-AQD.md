@@ -5399,10 +5399,9 @@ System.out.println(future.get());
 ## 11. What is fail-fast and fail-safe iterators?
 
 
-**Fail-Fast iterators** immediately throw a ConcurrentModificationException if the collection is modified while iterating.
+**Fail-Fast iterators** throw a `ConcurrentModificationException` if the collection is modified while iterating. Examples are `ArrayList` and `HashMap`.
 
-**Fail-Safe iterators** work on a copy (snapshot) of the collection, so they do not throw an exception even if the original collection is modified during iteration.
-
+**Fail-Safe iterators** work on a copy or snapshot of the collection, so modifications during iteration do not throw exceptions. Examples are `CopyOnWriteArrayList` and `ConcurrentHashMap`.
 
 **Fail-Fast Example**
 
