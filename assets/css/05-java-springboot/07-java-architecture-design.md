@@ -351,7 +351,6 @@ Application may fetch data from:
 * PostgreSQL
 * Redis cache
 
-## Example
 
 ```text
 Get user profile
