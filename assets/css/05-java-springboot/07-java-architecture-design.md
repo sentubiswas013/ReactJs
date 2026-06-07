@@ -352,7 +352,6 @@ Application may fetch data from:
 * PostgreSQL
 * Redis cache
 
-## Example
 
 ```text
 Get user profile
@@ -412,7 +411,7 @@ Screen Display
 ```
 
 
-## 0. How to Start System Design From Scratch
+## 01. How to Start System Design From Scratch
 
 Here’s a clean and interview-friendly **Generic System Design Diagram** you can use for most HLD interviews like WhatsApp, Netflix, Uber, Food Delivery, E-commerce, etc.
 
@@ -727,7 +726,8 @@ Client → LB → API Gateway → Services → Cache/Queue → Database
 ```
 
 
-## 0. How to Start System Design From Scratch
+## 00. How to Start System Design From Scratch
+
 **Diagram 1**
 ```text
 ╔══════════════════════════════════════════════════════════════════════════════╗
