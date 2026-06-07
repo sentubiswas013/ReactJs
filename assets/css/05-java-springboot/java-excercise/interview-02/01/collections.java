@@ -131,7 +131,8 @@ class CollectionsDemo {
         linkedList.put(3, "Ranku");
         linkedList.put(4, "Data");
 
-        for (String Integer : linkedList.keySet()) {
+        // for (Integer key : linkedList.keySet()) {
+        for (Integer key : linkedList.keySet()) {
             System.out.println(key + " -> " + linkedList.get(key));
         }
 
