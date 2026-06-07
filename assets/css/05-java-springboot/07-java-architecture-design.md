@@ -19,13 +19,41 @@
 
 When you type a URL in the browser and press Enter, many things happen behind the scenes before the webpage appears.
 
-Example:
-
 ```text
 https://www.google.com
 ```
 
----
+
+When a user enters a URL in the browser, the browser follows several steps to load the webpage:
+
+1. **DNS Lookup** – The browser converts the domain name (e.g., `google.com`) into an IP address.
+2. **TCP Connection** – The browser establishes a connection with the server.
+3. **SSL/TLS Handshake** (for HTTPS) – A secure connection is created between the browser and the server.
+4. **HTTP Request** – The browser sends an HTTP request to the server.
+5. **Server Processing** – The server processes the request, executes business logic, and fetches data from databases if needed.
+6. **HTTP Response** – The server sends back HTML, CSS, JavaScript, and other resources.
+7. **Browser Rendering** – The browser parses the content, builds the page, and displays it to the user.
+
+**Short Flow Diagram**
+
+```text
+User Enters URL
+        ↓
+DNS Lookup
+        ↓
+TCP Connection
+        ↓
+SSL/TLS Handshake (HTTPS)
+        ↓
+HTTP Request
+        ↓
+Server Processing
+        ↓
+HTTP Response
+        ↓
+Browser Renders Page
+```
+
 
 **High-Level Flow**
 
@@ -122,288 +150,6 @@ User types: https://www.example.com/products?id=42
 │ - Executes JavaScript                        │
 │ - Displays final webpage                     │
 └──────────────────────────────────────────────┘
-```
-
-
-**Step-by-Step Explanation**
-
-**1. User Enters URL**
-
-```text
-https://www.google.com
-```
-
-Browser extracts:
-
-| Part                                    | Meaning     |
-| --------------------------------------- | ----------- |
-| https                                   | Protocol    |
-| [www.google.com](http://www.google.com) | Domain Name |
-
-Browser breaks the URL into components:
-
-```
-https://www.example.com:443/products?id=42#section
-  │          │            │     │       │      │
-scheme     host          port  path  query  fragment
-
-scheme   → https (use TLS)
-host     → www.example.com
-port     → 443 (default for HTTPS, 80 for HTTP)
-path     → /products
-query    → id=42
-fragment → #section (never sent to server — browser only)
-```
-
-Browser also checks:
-- Is it a valid URL or a search query?
-- Is it in the **HSTS preload list**? (force HTTPS)
-- Any **cached response** available?
-
----
-
-**2. Browser Checks Cache**
-
-Browser first checks:
-
-* Browser cache
-* DNS cache
-* OS cache
-
-If IP already exists:
-
-```text
-www.google.com → 142.250.183.78
-```
-
-then browser skips DNS lookup.
-
----
-
-**3. DNS Lookup**
-
-If IP is not found in cache:
-
-Browser asks DNS server:
-
-```text
-What is IP address of www.google.com?
-```
-
-DNS returns:
-
-```text
-142.250.183.78
-```
-
----
-
-**DNS Flow Diagram**
-
-```text
-Browser
-   ↓
-Local DNS Cache
-   ↓
-ISP DNS Server
-   ↓
-Root DNS
-   ↓
-TLD DNS (.com)
-   ↓
-Authoritative DNS
-   ↓
-Returns IP Address
-```
-
----
-
-**4. TCP Connection Establishment**
-
-Browser establishes TCP connection using:
-
-```text
-3-Way Handshake
-```
-
-**TCP Handshake**
-
-```text
-Client                  Server
-  | ---- SYN ---------> |
-  | <--- SYN-ACK ------ |
-  | ---- ACK ---------> |
-```
-
-Connection established.
-
----
-
-**5. SSL/TLS Handshake (HTTPS)**
-
-If URL uses HTTPS:
-
-Browser and server establish secure encrypted connection.
-
-**SSL Handshake**
-
-```text
-Browser
-   ↓
-Server sends SSL Certificate
-   ↓
-Browser validates certificate
-   ↓
-Encryption keys exchanged
-   ↓
-Secure connection established
-```
-
----
-
-**6. Browser Sends HTTP Request**
-
-Example:
-
-```http
-GET / HTTP/1.1
-Host: www.google.com
-```
-
-Request contains:
-
-* Headers
-* Cookies
-* Authentication token
-* Request method
-
----
-
-**7. Request Reaches Load Balancer**
-
-Large systems use load balancer.
-
-**Purpose**
-
-* Distribute traffic
-* Prevent overload
-* High availability
-
-**Diagram**
-
-```text
-              Load Balancer
-             /      |      \
-            /       |       \
-      Server1   Server2   Server3
-```
-
----
-
-**8. Web Server Receives Request**
-
-Examples:
-
-* NGINX
-* Apache
-
-Responsibilities:
-
-* Static content
-* Reverse proxy
-* Routing
-* Security
-
----
-
-**9. Application Server Processes Request**
-
-Backend application executes business logic.
-
-Example:
-
-```text
-Spring Boot / Node.js / Django
-```
-
-Example Flow:
-
-```text
-Controller
-   ↓
-Service
-   ↓
-Repository
-   ↓
-Database
-```
-
----
-
-**10. Database / Cache Access**
-
-Application may fetch data from:
-
-* MySQL
-* PostgreSQL
-* Redis cache
-
-
-```text
-Get user profile
-Get product details
-Validate login
-```
-
----
-
-**11. Server Sends HTTP Response**
-
-Example:
-
-```http
-HTTP/1.1 200 OK
-Content-Type: text/html
-```
-
-Response may contain:
-
-* HTML
-* JSON
-* CSS
-* JavaScript
-* Images
-
----
-
-**12. Browser Renders Page**
-
-Browser rendering engine:
-
-* Parses HTML
-* Builds DOM tree
-* Loads CSS
-* Executes JavaScript
-* Paints UI on screen
-
----
-
-**Browser Rendering Flow**
-
-```text
-HTML
-  ↓
-DOM Tree
-  ↓
-CSSOM Tree
-  ↓
-Render Tree
-  ↓
-Layout
-  ↓
-Painting
-  ↓
-Screen Display
 ```
 
 
