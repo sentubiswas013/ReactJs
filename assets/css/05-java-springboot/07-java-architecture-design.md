@@ -1,7 +1,4 @@
-## 0. Stutdy Table
-
-
-## 0. Java Architecture & System Design features
+## #. Java Architecture & System Design features
 
 1. Load Balancing
 2. Caching
@@ -30,7 +27,7 @@ https://www.google.com
 
 ---
 
-# High-Level Flow
+**High-Level Flow**
 
 ```text
 User types: https://www.example.com/products?id=42
@@ -290,13 +287,13 @@ Request contains:
 
 Large systems use load balancer.
 
-## Purpose
+**Purpose**
 
 * Distribute traffic
 * Prevent overload
 * High availability
 
-## Diagram
+**Diagram**
 
 ```text
               Load Balancer
