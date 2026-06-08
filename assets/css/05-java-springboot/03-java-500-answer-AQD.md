@@ -2835,7 +2835,7 @@ r.run();
 
 
 
-## 9. What is `.class` and When do we use in Java?
+## 28. What is `.class` and When do we use in Java?
 
 We use .class when we need to pass class metadata, for example in Spring configuration, exception handling, reflection, and getting beans from the Spring container.
 
@@ -2891,6 +2891,8 @@ Example:
 Student.class   // Class info
 new Student()   // Object
 ```
+
+## 29. What is `.class` and When do we use in Java?
 
 ## 10.  Summary Java Interface & Abstract Class
 
