@@ -1038,7 +1038,7 @@ Redis Cache
 
 ## 11. If Monolith can handle the business, why choose Microservices?
 
-#### Interview Answer
+**Interview Answer:**
 
 > I would choose Microservices when different modules need to scale independently, be deployed separately, or be owned by different teams.
 >
@@ -1053,7 +1053,7 @@ Redis Cache
 
 ## 12. If Microservices are modern, why start with a Monolith?
 
-#### Interview Answer
+**Interview Answer:**
 
 > I usually start with a Monolith because it is faster to develop, easier to test, and simpler to deploy.
 >
@@ -1074,7 +1074,7 @@ Redis Cache
 
 ## 13. If Microservices work well, why consider a Modular Monolith?
 
-#### Interview Answer
+**Interview Answer:**
 
 > A Modular Monolith provides clear module boundaries while keeping deployment simple.
 >
@@ -1097,7 +1097,7 @@ All run in one application but remain logically separated.
 
 ## 14. If REST APIs work fine, why choose Event-Driven Architecture?
 
-#### Interview Answer
+**Interview Answer:**
 
 > REST is synchronous. The caller waits for a response.
 >
@@ -1135,7 +1135,7 @@ Notification Service consumes
 
 ## 15. If Event-Driven Architecture exists, why use Synchronous Communication?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Event-Driven communication is great when immediate responses are not required.
 >
@@ -1166,7 +1166,7 @@ Success or Failure
 
 ## 16. If Service Discovery exists, why use an API Gateway?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Service Discovery helps services find each other.
 >
@@ -1203,7 +1203,7 @@ Client → API Gateway → Microservices
 
 ## 17. If Distributed Systems scale better, why keep some systems centralized?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Distributed systems improve scalability but introduce complexity such as network failures, consistency issues, monitoring, and debugging challenges.
 >
@@ -1224,7 +1224,7 @@ Client → API Gateway → Microservices
 
 ## 18. If One Database can store everything, why use Polyglot Persistence?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Different databases are optimized for different workloads.
 >
@@ -1276,7 +1276,7 @@ Search      → Elasticsearch
 
 ## 19. If REST APIs are enough, why introduce Kafka?
 
-#### Interview Answer
+**Interview Answer:**
 
 > REST works well for synchronous communication where the caller needs an immediate response.
 >
@@ -1317,7 +1317,7 @@ Notification Service consumes
 
 ## 20. If Kafka handles events, why use REST at all?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Kafka is not a replacement for REST.
 >
@@ -1362,7 +1362,7 @@ Both usually work together.
 
 ## 21. If Kafka exists, why use RabbitMQ?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Kafka is designed for event streaming and handling massive volumes of events.
 >
@@ -1412,7 +1412,7 @@ Analytics Platform
 
 ## 22. If Kafka stores messages, why use a Database?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Kafka stores events, not business data.
 >
@@ -1454,7 +1454,7 @@ Status: SHIPPED
 
 ## 23. If Retries exist, why use Circuit Breakers?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Retries help recover from temporary failures.
 >
@@ -1525,7 +1525,7 @@ Used together for resilient microservices.
 
 ## 24. If Database queries work fine, why introduce Redis Cache?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Database queries work well, but repeatedly querying the database for the same data increases latency and database load.
 >
@@ -1574,7 +1574,7 @@ Response Time:
 
 ## 25. If Caching exists, why optimize Database Queries?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Cache reduces database calls, but cache misses still hit the database.
 >
@@ -1611,7 +1611,7 @@ WHERE customer_id = 100;
 
 ## 26. If Read Replicas exist, why use Sharding?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Read Replicas help distribute read traffic.
 >
@@ -1656,7 +1656,7 @@ Now both reads and writes are distributed.
 
 ## 27. If Elasticsearch stores data, why not use it as the Primary Database?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Elasticsearch is optimized for searching and analyzing data, not for transactional business operations.
 
@@ -1697,7 +1697,7 @@ Database remains the source of truth.
 
 ## 28. If Strong Consistency is better, why use Eventual Consistency?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Strong consistency guarantees everyone sees the latest data immediately.
 >
@@ -1738,7 +1738,7 @@ for a few seconds is acceptable.
 
 ## 29. If ACID Transactions exist, why use Eventual Consistency?
 
-#### Interview Answer
+**Interview Answer:**
 
 > ACID transactions work perfectly inside a single database.
 >
@@ -1801,7 +1801,7 @@ The system becomes consistent over time.
 
 ## 30. If Vertical Scaling is possible, why use Horizontal Scaling?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Vertical scaling means increasing resources of a single server, such as CPU, RAM, or storage.
 >
@@ -1846,7 +1846,7 @@ Traffic is distributed across all servers.
 
 ## 31. If Horizontal Scaling is better, why ever scale Vertically?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Horizontal scaling is powerful, but it also introduces complexity such as load balancing, distributed transactions, caching, and synchronization.
 >
@@ -1884,7 +1884,7 @@ Problem solved in minutes.
 
 ## 32. If Load Balancers exist, why use a CDN?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Load Balancers distribute requests among application servers.
 >
@@ -1938,7 +1938,7 @@ Much faster response.
 
 ## 33. If Auto Scaling exists, why optimize code?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Auto Scaling adds more servers when traffic increases.
 >
@@ -2005,7 +2005,7 @@ Now fewer resources are needed.
 
 ## 34. If JWT exists, why use Sessions?
 
-#### Interview Answer
+**Interview Answer:**
 
 > JWT is stateless, meaning the server does not store user session information.
 >
@@ -2054,7 +2054,7 @@ Server looks up user information.
 
 ## 35. If HTTPS is enabled, why encrypt data at rest?
 
-#### Interview Answer
+**Interview Answer:**
 
 > HTTPS protects data while it is moving across the network.
 >
@@ -2103,7 +2103,7 @@ Data remains unreadable
 
 ## 36. If an API Gateway provides security, why secure services individually?
 
-#### Interview Answer
+**Interview Answer:**
 
 > API Gateway is the first security layer, not the only security layer.
 >
@@ -2162,7 +2162,7 @@ Can this user access this order?
 
 ## 37. If Docker works, why use Kubernetes?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Docker packages and runs containers.
 >
@@ -2207,7 +2207,7 @@ Load Balancing
 
 ## 38. If Kubernetes exists, why deploy directly on VMs?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Kubernetes provides powerful orchestration but also introduces operational complexity.
 >
@@ -2243,7 +2243,7 @@ Kubernetes becomes valuable.
 
 ## 39. If CI/CD exists, why have Release Approvals?
 
-#### Interview Answer
+**Interview Answer:**
 
 > CI/CD automates building, testing, and deployment.
 >
@@ -2299,7 +2299,7 @@ Is production ready?
 
 ## 40. If Monitoring exists, why need Distributed Tracing?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Monitoring tells us **that a problem exists**.
 >
@@ -2351,7 +2351,7 @@ Now we know exactly where the bottleneck is.
 
 ## 41. If Logging exists, why use Observability Platforms?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Logs provide individual events and error messages.
 >
@@ -2404,7 +2404,7 @@ Alerts
 
 ## 42. If Backups exist, why need Disaster Recovery?
 
-#### Interview Answer
+**Interview Answer:**
 
 > Backups help recover lost data.
 >
@@ -2456,7 +2456,7 @@ Backup alone cannot restore the complete system quickly.
 
 ## 43. If High Availability exists, why need Disaster Recovery?
 
-#### Interview Answer
+**Interview Answer:**
 
 > High Availability (HA) minimizes downtime caused by normal infrastructure failures.
 >
@@ -2514,6 +2514,8 @@ Region B ✅
 | Logging vs Observability               | Events vs complete system visibility  |
 | Backup vs Disaster Recovery            | Recover data vs recover entire system |
 | High Availability vs Disaster Recovery | Survive failures vs survive disasters |
+
+
 
 
 # ✅ 3. Java System Design features
