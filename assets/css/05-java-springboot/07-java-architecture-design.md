@@ -1,7 +1,5 @@
 # ✅ 1. Java Architecture 
 
-## #. Java Architecture & System Design features
-
 1. Load Balancing
 2. Caching
 3. Content Delivery Network (CDN)
@@ -17,7 +15,7 @@
 
 
 
-## 0. What happens when a user enters a URL in the browser?
+## 1. What happens when a user enters a URL in the browser?
 
 When you type a URL in the browser and press Enter, many things happen behind the scenes before the webpage appears.
 
@@ -234,7 +232,7 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
 
 
 
-## 00. How to Start System Design From Scratch in High-Level?
+## 2. How to Start System Design From Scratch in High-Level?
 
 When I design a system, I follow a simple step-by-step approach:
 
@@ -292,7 +290,7 @@ Low-Level Design
 ```
 
 
-## 00. How to Start System Design From Scratch in details?
+## 3. How to Start System Design From Scratch in details?
 
 **Diagram 1**
 ```text
@@ -835,7 +833,7 @@ Start with:
 Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
 ```
 
-# ✅ 2. Java System Design tools 
+# ✅ 2. Java System Design features
 
 ## 1. Load Balancing
 
