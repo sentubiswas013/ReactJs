@@ -1255,7 +1255,7 @@ Search      → Elasticsearch
 
 ---
 
-## Architect-Level Summary (One-Liners)
+**Architect-Level Summary** (One-Liners)
 
 | Question                          | Short Answer                                    |
 | --------------------------------- | ----------------------------------------------- |
@@ -1511,7 +1511,7 @@ Used together for resilient microservices.
 
 ---
 
-## Architect-Level Summary
+**Architect-Level Summary**
 
 | Question                 | Short Answer                                             |
 | ------------------------ | -------------------------------------------------------- |
@@ -1786,7 +1786,7 @@ The system becomes consistent over time.
 
 ---
 
-## Architect-Level Summary
+**Architect-Level Summary**
 
 | Question                                   | Short Answer                                  |
 | ------------------------------------------ | --------------------------------------------- |
@@ -1990,7 +1990,7 @@ Now fewer resources are needed.
 
 ---
 
-## Architect-Level Summary
+**Architect-Level Summary**
 
 | Question                          | Short Answer                             |
 | --------------------------------- | ---------------------------------------- |
@@ -2282,7 +2282,7 @@ Is production ready?
 
 ---
 
-## Architect-Level Summary
+**Architect-Level Summary**
 
 | Question                        | Short Answer                       |
 | ------------------------------- | ---------------------------------- |
@@ -2506,7 +2506,7 @@ Region B ✅
 
 ---
 
-## Architect-Level Summary
+**Architect-Level Summary**
 
 | Question                               | Short Answer                          |
 | -------------------------------------- | ------------------------------------- |
