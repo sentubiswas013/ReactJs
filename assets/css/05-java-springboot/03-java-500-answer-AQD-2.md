@@ -945,6 +945,14 @@ Java follows a **Delegation Hierarchy Model**:
 
 ## 6. Difference between runtime vs compile-time class loading? 
 
+Compile-time class loading happens when the class is known during compilation. The compiler already knows which class will be used.
+
+Runtime class loading happens when the class is loaded dynamically while the application is running, usually using `Class.forName()` or Reflection.
+
+In short, compile-time loading is static and known in advance, while runtime loading is dynamic and happens during execution.
+
+
+
 > Compile-time class loading happens when the class is known during compilation. The compiler already knows which class will be used.
 >
 > Runtime class loading happens when the class is loaded dynamically while the application is running, usually using `Class.forName()` or Reflection.
