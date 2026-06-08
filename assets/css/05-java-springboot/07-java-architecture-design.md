@@ -833,6 +833,40 @@ Start with:
 Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
 ```
 
+## 5. Describe the Architecture of Your Recent Project
+
+> In my recent project, we followed a **Microservices Architecture**.
+>
+> The system was divided into multiple independent services such as **User Service**, **Order Service**, **Payment Service**, and **Notification Service**. Each service had its own business logic and database.
+>
+> Client requests first came through an **API Gateway**, which handled routing, authentication, and security.
+>
+> Services communicated with each other using **REST APIs** for synchronous communication and **Kafka** for asynchronous event-driven communication.
+>
+> We used **Spring Boot** for developing microservices, **Spring Data JPA/Hibernate** for database operations, and **MySQL** as the database.
+>
+> To improve performance, we used **Redis Cache**. For service discovery, we used **Eureka**. Applications were containerized using **Docker** and deployed through a **CI/CD pipeline** using Jenkins.
+>
+> Monitoring and logging were handled using tools like **ELK Stack** and **Prometheus/Grafana**.
+
+### Architecture Flow
+
+```text
+Client
+   ↓
+API Gateway
+   ↓
+Microservices
+(User, Order, Payment, Notification)
+   ↓
+MySQL Database
+   ↓
+Kafka (Event Communication)
+   ↓
+Redis Cache
+```
+
+
 # ✅ 2. Java System Design features
 
 ## 1. Load Balancing
