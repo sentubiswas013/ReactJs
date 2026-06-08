@@ -3222,8 +3222,69 @@ public class GlobalExceptionHandler {
 }
 ```
 
+## 9. Difference between ClassNotFoundException vs NoClassDefFoundError?
 
-## 9. What is try-with-resources?
+
+`ClassNotFoundException` occurs when JVM tries to load a class dynamically using `Class.forName()`, but the class is not found in the classpath.
+
+`NoClassDefFoundError` occurs when the class was available during compilation, but it is missing at runtime during deployment.
+
+In short, **ClassNotFoundException happens during dynamic loading, whereas NoClassDefFoundError happens when a required class is missing at runtime.**
+
+**Example: ClassNotFoundException**
+
+```java id="95q2oc"
+Class.forName("com.company.Employee");
+```
+
+If the class does not exist:
+
+```text id="kj1icn"
+ClassNotFoundException
+```
+
+**Example: NoClassDefFoundError**
+
+```java id="72tqok"
+Employee emp = new Employee();
+```
+
+The code compiles successfully, but if `Employee.class` is missing from the deployed JAR:
+
+```text id="xhk56m"
+NoClassDefFoundError
+```
+
+
+## 10. What happens if a class is missing in a JAR during deployment?
+
+
+If a class is available during compilation but missing in the deployed JAR, the application will fail at runtime with a `NoClassDefFoundError`.
+
+This usually happens because a required dependency was not packaged, the wrong JAR version was deployed, or a JAR is missing from the classpath.
+
+```java id="7uokki"
+Employee emp = new Employee();
+```
+
+The code compiles successfully because `Employee.class` was available during compilation.
+
+But if `Employee.class` is missing in production:
+
+```text id="gdv5qi"
+java.lang.NoClassDefFoundError:
+com/company/Employee
+```
+
+**Common Reasons**
+
+* Missing dependency JAR
+* Incorrect JAR version
+* Dependency not included in the build
+* Classpath configuration issue
+
+
+## 11. What is try-with-resources?
 
 **Try-with-resources** in **Java** is a feature used to **automatically close resources** (like files or database connections) after the program finishes using them.
 
