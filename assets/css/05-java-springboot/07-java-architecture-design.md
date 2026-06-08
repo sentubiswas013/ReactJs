@@ -874,9 +874,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> I would choose Java when I need enterprise-grade applications, high scalability, strong type safety, and long-term maintainability. Java has a mature ecosystem like Spring Boot, better multithreading support, and is commonly used in banking, insurance, and large-scale systems.
->
-> Node.js is excellent for lightweight APIs and real-time applications, but Java is usually preferred for complex business systems handling heavy workloads.
+I would choose Java when I need enterprise-grade applications, high scalability, strong type safety, and long-term maintainability. Java has a mature ecosystem like Spring Boot, better multithreading support, and is commonly used in banking, insurance, and large-scale systems.
+
+Node.js is excellent for lightweight APIs and real-time applications, but Java is usually preferred for complex business systems handling heavy workloads.
 
 **Example:** Banking, payment gateways, large e-commerce platforms.
 
@@ -886,9 +886,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> I would choose PostgreSQL when I need advanced SQL features, better data integrity, complex queries, JSON support, and high reliability.
->
-> MySQL is simpler and faster for basic CRUD applications, but PostgreSQL is more feature-rich and enterprise-oriented.
+I would choose PostgreSQL when I need advanced SQL features, better data integrity, complex queries, JSON support, and high reliability.
+
+MySQL is simpler and faster for basic CRUD applications, but PostgreSQL is more feature-rich and enterprise-oriented.
 
 **Example:** Financial systems, analytics platforms, ERP systems.
 
@@ -898,9 +898,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> PostgreSQL supports JSON, but it is still primarily a relational database.
->
-> MongoDB is designed for document-based storage where the schema changes frequently. It provides better flexibility for storing semi-structured and rapidly evolving data.
+PostgreSQL supports JSON, but it is still primarily a relational database.
+
+MongoDB is designed for document-based storage where the schema changes frequently. It provides better flexibility for storing semi-structured and rapidly evolving data.
 
 **Example:**
 
@@ -913,9 +913,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> SQL databases scale very well vertically and can scale horizontally with additional effort.
->
-> NoSQL databases are chosen when we need massive horizontal scaling, flexible schemas, and very high write throughput across distributed systems.
+SQL databases scale very well vertically and can scale horizontally with additional effort.
+
+NoSQL databases are chosen when we need massive horizontal scaling, flexible schemas, and very high write throughput across distributed systems.
 
 **Example:**
 
@@ -928,9 +928,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> Redis provides caching plus advanced features like persistence, pub/sub, streams, transactions, and data structures.
->
-> Memcached is simpler and consumes less memory for pure key-value caching. If I only need a lightweight cache, Memcached can be a good choice.
+Redis provides caching plus advanced features like persistence, pub/sub, streams, transactions, and data structures.
+
+Memcached is simpler and consumes less memory for pure key-value caching. If I only need a lightweight cache, Memcached can be a good choice.
 
 **Example:**
 
@@ -943,9 +943,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> GraphQL gives clients flexibility to request exactly the data they need.
->
-> REST is simpler, easier to cache, easier to secure, and widely adopted. For straightforward CRUD APIs, REST is usually the better choice.
+GraphQL gives clients flexibility to request exactly the data they need.
+
+REST is simpler, easier to cache, easier to secure, and widely adopted. For straightforward CRUD APIs, REST is usually the better choice.
 
 **Example:**
 
@@ -958,9 +958,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> REST is ideal for communication between browsers and external clients.
->
-> gRPC uses Protocol Buffers and HTTP/2, making it much faster and more efficient for service-to-service communication in microservices architectures.
+REST is ideal for communication between browsers and external clients.
+
+gRPC uses Protocol Buffers and HTTP/2, making it much faster and more efficient for service-to-service communication in microservices architectures.
 
 **Example:**
 
@@ -973,9 +973,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> OAuth2 is an authorization framework that defines how access is granted.
->
-> JWT is a token format often used within OAuth2. They solve different problems and are commonly used together.
+OAuth2 is an authorization framework that defines how access is granted.
+
+JWT is a token format often used within OAuth2. They solve different problems and are commonly used together.
 
 **Simple Rule:**
 
@@ -990,9 +990,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> Cloud provides scalability, flexibility, and reduced infrastructure management.
->
-> On-Premise is chosen when organizations require strict security, regulatory compliance, complete infrastructure control, or low-latency access to local systems.
+Cloud provides scalability, flexibility, and reduced infrastructure management.
+
+On-Premise is chosen when organizations require strict security, regulatory compliance, complete infrastructure control, or low-latency access to local systems.
 
 **Example:**
 
@@ -1005,9 +1005,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> Kubernetes provides full control over infrastructure, networking, deployment, and scaling.
->
-> Serverless removes infrastructure management completely and automatically scales based on requests. It's ideal for event-driven workloads.
+Kubernetes provides full control over infrastructure, networking, deployment, and scaling.
+
+Serverless removes infrastructure management completely and automatically scales based on requests. It's ideal for event-driven workloads.
 
 **Example:**
 
@@ -1040,9 +1040,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> I would choose Microservices when different modules need to scale independently, be deployed separately, or be owned by different teams.
->
-> A Monolith is simpler and works well initially, but as the system grows, deployments, scaling, and maintenance can become difficult.
+I would choose Microservices when different modules need to scale independently, be deployed separately, or be owned by different teams.
+
+A Monolith is simpler and works well initially, but as the system grows, deployments, scaling, and maintenance can become difficult.
 
 **Example:**
 
@@ -1055,11 +1055,11 @@ Redis Cache
 
 **Interview Answer:**
 
-> I usually start with a Monolith because it is faster to develop, easier to test, and simpler to deploy.
->
-> Many companies adopt Microservices too early and end up managing unnecessary complexity.
->
-> First prove the business, then split services when there is a clear need.
+I usually start with a Monolith because it is faster to develop, easier to test, and simpler to deploy.
+
+Many companies adopt Microservices too early and end up managing unnecessary complexity.
+
+First prove the business, then split services when there is a clear need.
 
 **Example:**
 
@@ -1068,7 +1068,7 @@ Redis Cache
 
 **Rule:**
 
-> Start simple, evolve when required.
+Start simple, evolve when required.
 
 ---
 
@@ -1076,9 +1076,9 @@ Redis Cache
 
 **Interview Answer:**
 
-> A Modular Monolith provides clear module boundaries while keeping deployment simple.
->
-> It gives many benefits of Microservices without network calls, distributed transactions, service discovery, or operational overhead.
+A Modular Monolith provides clear module boundaries while keeping deployment simple.
+
+It gives many benefits of Microservices without network calls, distributed transactions, service discovery, or operational overhead.
 
 **Example Modules:**
 
@@ -1091,7 +1091,7 @@ All run in one application but remain logically separated.
 
 **Rule:**
 
-> Modular Monolith is often the best middle ground between Monolith and Microservices.
+Modular Monolith is often the best middle ground between Monolith and Microservices.
 
 ---
 
@@ -1099,11 +1099,11 @@ All run in one application but remain logically separated.
 
 **Interview Answer:**
 
-> REST is synchronous. The caller waits for a response.
->
-> Event-Driven Architecture is asynchronous. Services publish events and continue processing without waiting.
->
-> This reduces coupling and improves scalability.
+REST is synchronous. The caller waits for a response.
+
+Event-Driven Architecture is asynchronous. Services publish events and continue processing without waiting.
+
+This reduces coupling and improves scalability.
 
 **Example:**
 
@@ -1137,9 +1137,9 @@ Notification Service consumes
 
 **Interview Answer:**
 
-> Event-Driven communication is great when immediate responses are not required.
->
-> Synchronous communication is necessary when the caller needs an instant result.
+Event-Driven communication is great when immediate responses are not required.
+
+Synchronous communication is necessary when the caller needs an instant result.
 
 **Example:**
 
@@ -1168,9 +1168,9 @@ Success or Failure
 
 **Interview Answer:**
 
-> Service Discovery helps services find each other.
->
-> API Gateway manages external traffic entering the system.
+Service Discovery helps services find each other.
+
+API Gateway manages external traffic entering the system.
 
 **API Gateway Responsibilities:**
 
@@ -1197,7 +1197,7 @@ Client → API Gateway → Microservices
 
 **Rule:**
 
-> Service Discovery is for internal communication, API Gateway is for external access.
+Service Discovery is for internal communication, API Gateway is for external access.
 
 ---
 
@@ -1205,9 +1205,9 @@ Client → API Gateway → Microservices
 
 **Interview Answer:**
 
-> Distributed systems improve scalability but introduce complexity such as network failures, consistency issues, monitoring, and debugging challenges.
->
-> Some components are better centralized to maintain a single source of truth.
+Distributed systems improve scalability but introduce complexity such as network failures, consistency issues, monitoring, and debugging challenges.
+
+Some components are better centralized to maintain a single source of truth.
 
 **Examples:**
 
@@ -1218,7 +1218,7 @@ Client → API Gateway → Microservices
 
 **Rule:**
 
-> Distribute what needs scale; centralize what needs consistency.
+Distribute what needs scale; centralize what needs consistency.
 
 ---
 
@@ -1226,9 +1226,9 @@ Client → API Gateway → Microservices
 
 **Interview Answer:**
 
-> Different databases are optimized for different workloads.
->
-> Polyglot Persistence means choosing the best database for each use case instead of forcing one database to handle everything.
+Different databases are optimized for different workloads.
+
+Polyglot Persistence means choosing the best database for each use case instead of forcing one database to handle everything.
 
 **Example**
 
@@ -1251,7 +1251,7 @@ Search      → Elasticsearch
 
 **Rule:**
 
-> Use the right database for the right problem.
+Use the right database for the right problem.
 
 ---
 
@@ -1270,7 +1270,7 @@ Search      → Elasticsearch
 
 **Architecture Golden Rule**
 
-> **Don't choose architecture because it is popular. Choose it because it solves a specific business, scalability, reliability, or operational problem.**
+**Don't choose architecture because it is popular. Choose it because it solves a specific business, scalability, reliability, or operational problem.**
 
 # 3. Messaging & Event Streaming
 
@@ -1278,11 +1278,11 @@ Search      → Elasticsearch
 
 **Interview Answer:**
 
-> REST works well for synchronous communication where the caller needs an immediate response.
->
-> Kafka is used when systems need asynchronous communication, high throughput, event streaming, and loose coupling between services.
->
-> Instead of services calling each other directly, they communicate through events.
+REST works well for synchronous communication where the caller needs an immediate response.
+
+Kafka is used when systems need asynchronous communication, high throughput, event streaming, and loose coupling between services.
+
+Instead of services calling each other directly, they communicate through events.
 
 **Example**
 
@@ -1311,7 +1311,7 @@ Notification Service consumes
 
 **Rule**
 
-> REST for request-response. Kafka for event-driven communication.
+REST for request-response. Kafka for event-driven communication.
 
 ---
 
@@ -1319,11 +1319,11 @@ Notification Service consumes
 
 **Interview Answer:**
 
-> Kafka is not a replacement for REST.
->
-> Kafka is asynchronous, while REST is synchronous.
->
-> Users and external systems often need an immediate response, which Kafka cannot provide directly.
+Kafka is not a replacement for REST.
+
+Kafka is asynchronous, while REST is synchronous.
+
+Users and external systems often need an immediate response, which Kafka cannot provide directly.
 
 **Example**
 
@@ -1364,9 +1364,9 @@ Both usually work together.
 
 **Interview Answer:**
 
-> Kafka is designed for event streaming and handling massive volumes of events.
->
-> RabbitMQ is designed for reliable message delivery and complex routing patterns.
+Kafka is designed for event streaming and handling massive volumes of events.
+
+RabbitMQ is designed for reliable message delivery and complex routing patterns.
 
 **Choose Kafka When**
 
@@ -1404,9 +1404,9 @@ Analytics Platform
 
 **Rule**
 
-> Kafka = Event Streaming Platform.
->
-> RabbitMQ = Message Queue.
+Kafka = Event Streaming Platform.
+
+RabbitMQ = Message Queue.
 
 ---
 
@@ -1414,9 +1414,9 @@ Analytics Platform
 
 **Interview Answer:**
 
-> Kafka stores events, not business data.
->
-> Databases store the current state of the application.
+Kafka stores events, not business data.
+
+Databases store the current state of the application.
 
 **Example**
 
@@ -1446,9 +1446,9 @@ Status: SHIPPED
 
 **Rule**
 
-> Kafka tells us what happened.
->
-> Database tells us what the current state is.
+Kafka tells us what happened.
+
+Database tells us what the current state is.
 
 ---
 
@@ -1456,9 +1456,9 @@ Status: SHIPPED
 
 **Interview Answer:**
 
-> Retries help recover from temporary failures.
->
-> But if a service is completely down, retries can make the situation worse by sending even more requests.
+Retries help recover from temporary failures.
+
+But if a service is completely down, retries can make the situation worse by sending even more requests.
 
 Circuit Breaker prevents repeated calls to a failing service.
 
@@ -1527,9 +1527,9 @@ Used together for resilient microservices.
 
 **Interview Answer:**
 
-> Database queries work well, but repeatedly querying the database for the same data increases latency and database load.
->
-> Redis stores frequently accessed data in memory, making retrieval much faster.
+Database queries work well, but repeatedly querying the database for the same data increases latency and database load.
+
+Redis stores frequently accessed data in memory, making retrieval much faster.
 
 **Example**
 
@@ -1568,7 +1568,7 @@ Response Time:
 
 **Rule**
 
-> Database is for persistence. Redis is for speed.
+Database is for persistence. Redis is for speed.
 
 ---
 
@@ -1576,9 +1576,9 @@ Response Time:
 
 **Interview Answer:**
 
-> Cache reduces database calls, but cache misses still hit the database.
->
-> If queries are inefficient, the system remains slow whenever data is not available in cache.
+Cache reduces database calls, but cache misses still hit the database.
+
+If queries are inefficient, the system remains slow whenever data is not available in cache.
 
 **Example**
 
@@ -1605,7 +1605,7 @@ WHERE customer_id = 100;
 
 **Rule**
 
-> Cache improves performance; query optimization improves efficiency.
+Cache improves performance; query optimization improves efficiency.
 
 ---
 
@@ -1613,9 +1613,9 @@ WHERE customer_id = 100;
 
 **Interview Answer:**
 
-> Read Replicas help distribute read traffic.
->
-> However, all writes still go to the primary database.
+Read Replicas help distribute read traffic.
+
+However, all writes still go to the primary database.
 
 **Example**
 
@@ -1648,9 +1648,9 @@ Now both reads and writes are distributed.
 
 **Rule**
 
-> Read Replicas solve read scaling.
->
-> Sharding solves read and write scaling.
+Read Replicas solve read scaling.
+
+Sharding solves read and write scaling.
 
 ---
 
@@ -1658,7 +1658,7 @@ Now both reads and writes are distributed.
 
 **Interview Answer:**
 
-> Elasticsearch is optimized for searching and analyzing data, not for transactional business operations.
+Elasticsearch is optimized for searching and analyzing data, not for transactional business operations.
 
 **Example**
 
@@ -1691,7 +1691,7 @@ Database remains the source of truth.
 
 **Rule**
 
-> Elasticsearch is a search engine, not a transactional database.
+Elasticsearch is a search engine, not a transactional database.
 
 ---
 
@@ -1699,9 +1699,9 @@ Database remains the source of truth.
 
 **Interview Answer:**
 
-> Strong consistency guarantees everyone sees the latest data immediately.
->
-> However, achieving this across distributed systems can reduce availability and scalability.
+Strong consistency guarantees everyone sees the latest data immediately.
+
+However, achieving this across distributed systems can reduce availability and scalability.
 
 **Example**
 
@@ -1740,9 +1740,9 @@ for a few seconds is acceptable.
 
 **Interview Answer:**
 
-> ACID transactions work perfectly inside a single database.
->
-> In microservices, data is often spread across multiple services and databases.
+ACID transactions work perfectly inside a single database.
+
+In microservices, data is often spread across multiple services and databases.
 
 **Example**
 
@@ -1780,9 +1780,9 @@ The system becomes consistent over time.
 
 **Rule**
 
-> ACID works best within one database.
->
-> Eventual Consistency works across distributed services.
+ACID works best within one database.
+
+Eventual Consistency works across distributed services.
 
 ---
 
@@ -1803,11 +1803,11 @@ The system becomes consistent over time.
 
 **Interview Answer:**
 
-> Vertical scaling means increasing resources of a single server, such as CPU, RAM, or storage.
->
-> Horizontal scaling means adding more servers and distributing traffic among them.
->
-> Vertical scaling has hardware limits, while horizontal scaling can continue growing by adding more machines.
+Vertical scaling means increasing resources of a single server, such as CPU, RAM, or storage.
+
+Horizontal scaling means adding more servers and distributing traffic among them.
+
+Vertical scaling has hardware limits, while horizontal scaling can continue growing by adding more machines.
 
 **Example**
 
@@ -1840,7 +1840,7 @@ Traffic is distributed across all servers.
 
 **Rule**
 
-> Vertical scaling has limits. Horizontal scaling can grow almost indefinitely.
+Vertical scaling has limits. Horizontal scaling can grow almost indefinitely.
 
 ---
 
@@ -1848,9 +1848,9 @@ Traffic is distributed across all servers.
 
 **Interview Answer:**
 
-> Horizontal scaling is powerful, but it also introduces complexity such as load balancing, distributed transactions, caching, and synchronization.
->
-> Sometimes increasing CPU or RAM is the fastest and simplest solution.
+Horizontal scaling is powerful, but it also introduces complexity such as load balancing, distributed transactions, caching, and synchronization.
+
+Sometimes increasing CPU or RAM is the fastest and simplest solution.
 
 **Example**
 
@@ -1878,7 +1878,7 @@ Problem solved in minutes.
 
 **Rule**
 
-> Scale vertically first if it solves the problem quickly. Scale horizontally when growth continues.
+Scale vertically first if it solves the problem quickly. Scale horizontally when growth continues.
 
 ---
 
@@ -1886,9 +1886,9 @@ Problem solved in minutes.
 
 **Interview Answer:**
 
-> Load Balancers distribute requests among application servers.
->
-> CDNs move static content closer to users worldwide.
+Load Balancers distribute requests among application servers.
+
+CDNs move static content closer to users worldwide.
 
 **Example**
 
@@ -1930,9 +1930,9 @@ Much faster response.
 
 **Rule**
 
-> Load Balancer scales applications.
->
-> CDN accelerates content delivery.
+Load Balancer scales applications.
+
+CDN accelerates content delivery.
 
 ---
 
@@ -1940,9 +1940,9 @@ Much faster response.
 
 **Interview Answer:**
 
-> Auto Scaling adds more servers when traffic increases.
->
-> But inefficient code wastes CPU, memory, database connections, and infrastructure costs.
+Auto Scaling adds more servers when traffic increases.
+
+But inefficient code wastes CPU, memory, database connections, and infrastructure costs.
 
 **Example**
 
@@ -1984,9 +1984,9 @@ Now fewer resources are needed.
 
 **Rule**
 
-> Auto Scaling treats the symptom.
->
-> Code optimization fixes the root cause.
+Auto Scaling treats the symptom.
+
+Code optimization fixes the root cause.
 
 ---
 
@@ -2007,11 +2007,11 @@ Now fewer resources are needed.
 
 **Interview Answer:**
 
-> JWT is stateless, meaning the server does not store user session information.
->
-> Sessions are stateful, meaning the server keeps track of logged-in users.
->
-> JWT is great for distributed systems and microservices, while Sessions are often simpler and more secure for traditional web applications.
+JWT is stateless, meaning the server does not store user session information.
+
+Sessions are stateful, meaning the server keeps track of logged-in users.
+
+JWT is great for distributed systems and microservices, while Sessions are often simpler and more secure for traditional web applications.
 
 **Example**
 
@@ -2046,9 +2046,9 @@ Server looks up user information.
 
 **Rule**
 
-> JWT improves scalability.
->
-> Sessions improve control and simplicity.
+JWT improves scalability.
+
+Sessions improve control and simplicity.
 
 ---
 
@@ -2056,9 +2056,9 @@ Server looks up user information.
 
 **Interview Answer:**
 
-> HTTPS protects data while it is moving across the network.
->
-> Encryption at rest protects data when it is stored in databases, backups, or disks.
+HTTPS protects data while it is moving across the network.
+
+Encryption at rest protects data when it is stored in databases, backups, or disks.
 
 **Example**
 
@@ -2095,9 +2095,9 @@ Data remains unreadable
 
 **Rule**
 
-> HTTPS protects data in transit.
->
-> Encryption protects data at rest.
+HTTPS protects data in transit.
+
+Encryption protects data at rest.
 
 ---
 
@@ -2105,9 +2105,9 @@ Data remains unreadable
 
 **Interview Answer:**
 
-> API Gateway is the first security layer, not the only security layer.
->
-> Internal services should never blindly trust incoming requests.
+API Gateway is the first security layer, not the only security layer.
+
+Internal services should never blindly trust incoming requests.
 
 **Example**
 
@@ -2152,9 +2152,9 @@ Can this user access this order?
 
 **Rule**
 
-> Security should exist at every layer.
->
-> Never trust a request just because it passed the API Gateway.
+Security should exist at every layer.
+
+Never trust a request just because it passed the API Gateway.
 
 ---
 
@@ -2164,9 +2164,9 @@ Can this user access this order?
 
 **Interview Answer:**
 
-> Docker packages and runs containers.
->
-> Kubernetes manages containers at scale.
+Docker packages and runs containers.
+
+Kubernetes manages containers at scale.
 
 **Example**
 
@@ -2199,9 +2199,9 @@ Load Balancing
 
 **Rule**
 
-> Docker creates containers.
->
-> Kubernetes orchestrates containers.
+Docker creates containers.
+
+Kubernetes orchestrates containers.
 
 ---
 
@@ -2209,9 +2209,9 @@ Load Balancing
 
 **Interview Answer:**
 
-> Kubernetes provides powerful orchestration but also introduces operational complexity.
->
-> For smaller applications, VMs may be simpler and more cost-effective.
+Kubernetes provides powerful orchestration but also introduces operational complexity.
+
+For smaller applications, VMs may be simpler and more cost-effective.
 
 **Example**
 
@@ -2235,9 +2235,9 @@ Kubernetes becomes valuable.
 
 **Rule**
 
-> Use VMs for simplicity.
->
-> Use Kubernetes when orchestration benefits outweigh complexity.
+Use VMs for simplicity.
+
+Use Kubernetes when orchestration benefits outweigh complexity.
 
 ---
 
@@ -2245,9 +2245,9 @@ Kubernetes becomes valuable.
 
 **Interview Answer:**
 
-> CI/CD automates building, testing, and deployment.
->
-> Release approvals add business and operational control before production releases.
+CI/CD automates building, testing, and deployment.
+
+Release approvals add business and operational control before production releases.
 
 **Example**
 
@@ -2276,9 +2276,9 @@ Is production ready?
 
 **Rule**
 
-> CI/CD ensures technical quality.
->
-> Release approvals ensure business readiness.
+CI/CD ensures technical quality.
+
+Release approvals ensure business readiness.
 
 ---
 
@@ -2301,9 +2301,9 @@ Is production ready?
 
 **Interview Answer:**
 
-> Monitoring tells us **that a problem exists**.
->
-> Distributed Tracing tells us **where the problem occurred** across multiple services.
+Monitoring tells us **that a problem exists**.
+
+Distributed Tracing tells us **where the problem occurred** across multiple services.
 
 **Example**
 
@@ -2343,9 +2343,9 @@ Now we know exactly where the bottleneck is.
 
 **Rule**
 
-> Monitoring tells you there is a problem.
->
-> Distributed Tracing tells you where the problem is.
+Monitoring tells you there is a problem.
+
+Distributed Tracing tells you where the problem is.
 
 ---
 
@@ -2353,9 +2353,9 @@ Now we know exactly where the bottleneck is.
 
 **Interview Answer:**
 
-> Logs provide individual events and error messages.
->
-> Observability platforms combine logs, metrics, and traces to provide a complete system view.
+Logs provide individual events and error messages.
+
+Observability platforms combine logs, metrics, and traces to provide a complete system view.
 
 **Example**
 
@@ -2396,9 +2396,9 @@ Alerts
 
 **Rule**
 
-> Logs show individual events.
->
-> Observability explains overall system behavior.
+Logs show individual events.
+
+Observability explains overall system behavior.
 
 ---
 
@@ -2406,9 +2406,9 @@ Alerts
 
 **Interview Answer:**
 
-> Backups help recover lost data.
->
-> Disaster Recovery helps recover the entire system after a major failure.
+Backups help recover lost data.
+
+Disaster Recovery helps recover the entire system after a major failure.
 
 **Example**
 
@@ -2448,9 +2448,9 @@ Backup alone cannot restore the complete system quickly.
 
 **Rule**
 
-> Backup protects data.
->
-> Disaster Recovery protects business continuity.
+Backup protects data.
+
+Disaster Recovery protects business continuity.
 
 ---
 
@@ -2458,9 +2458,9 @@ Backup alone cannot restore the complete system quickly.
 
 **Interview Answer:**
 
-> High Availability (HA) minimizes downtime caused by normal infrastructure failures.
->
-> Disaster Recovery (DR) handles large-scale catastrophic failures.
+High Availability (HA) minimizes downtime caused by normal infrastructure failures.
+
+Disaster Recovery (DR) handles large-scale catastrophic failures.
 
 **Example**
 
@@ -2500,9 +2500,9 @@ Region B ✅
 
 **Rule**
 
-> High Availability prevents outages.
->
-> Disaster Recovery recovers from disasters.
+High Availability prevents outages.
+
+Disaster Recovery recovers from disasters.
 
 ---
 
