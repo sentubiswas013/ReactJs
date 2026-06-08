@@ -5498,15 +5498,26 @@ synchronized void increment() {
 
 ## 1. What are the different memory areas in JVM?
 
-JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
+JVM memory is divided into different areas to store objects, class metadata, method execution data, and thread-specific information.
 
 **JVM Memory Areas** manage program execution and memory:
 
-* **Heap** – stores **objects and instance variables**, GC-managed.
-* **Stack** – stores **local variables and method calls**, auto-managed.
-* **Method Area (Metaspace)** – stores **class metadata, static variables, and bytecode**.
-* **Program Counter (PC) Register** – tracks **current instruction per thread**.
-* **Native Method Stack** – holds **native method execution info**.
+**Easy Way to Remember**
+
+* **Heap** → Objects
+* **Stack** → Method Execution
+* **Metaspace** → Class Metadata
+* **PC Register** → Current Instruction
+* **Native Stack** → Native Code Execution
+
+| Memory Area             | Purpose                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------ |
+| **Heap**                | Stores objects and instance variables. Shared by all threads.                        |
+| **Stack**               | Stores method calls, local variables, and references. Each thread has its own stack. |
+| **Metaspace**           | Stores class metadata, method information, and static structures.                    |
+| **PC Register**         | Stores the address of the current instruction being executed by a thread.            |
+| **Native Method Stack** | Stores information for native methods written in C/C++ and called through JNI.       |
+
 
 ## 2. What is the difference between heap and stack?
 
