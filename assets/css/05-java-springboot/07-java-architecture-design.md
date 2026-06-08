@@ -1559,7 +1559,7 @@ Response Time:
 < 1 ms
 ```
 
-#### Use Cases
+**Use Cases**
 
 * Product Catalog
 * User Sessions
@@ -1596,7 +1596,7 @@ FROM orders
 WHERE customer_id = 100;
 ```
 
-#### Why Optimization Still Matters
+**Why Optimization Still Matters**
 
 * Cache can expire
 * Cache can fail
@@ -1975,7 +1975,7 @@ Indexes
 
 Now fewer resources are needed.
 
-#### Why Optimization Still Matters
+**Why Optimization Still Matters**
 
 * Lower infrastructure cost
 * Better response time
