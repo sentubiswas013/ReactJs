@@ -795,7 +795,7 @@ Use:
 
 If interviewer asks:
 
-> Design WhatsApp
+Design WhatsApp
 
 You should answer in order:
 
@@ -835,21 +835,21 @@ Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → S
 
 ## 5. Describe the Architecture of Your Recent Project
 
-> In my recent project, we followed a **Microservices Architecture**.
->
-> The system was divided into multiple independent services such as **User Service**, **Order Service**, **Payment Service**, and **Notification Service**. Each service had its own business logic and database.
->
-> Client requests first came through an **API Gateway**, which handled routing, authentication, and security.
->
-> Services communicated with each other using **REST APIs** for synchronous communication and **Kafka** for asynchronous event-driven communication.
->
-> We used **Spring Boot** for developing microservices, **Spring Data JPA/Hibernate** for database operations, and **MySQL** as the database.
->
-> To improve performance, we used **Redis Cache**. For service discovery, we used **Eureka**. Applications were containerized using **Docker** and deployed through a **CI/CD pipeline** using Jenkins.
->
-> Monitoring and logging were handled using tools like **ELK Stack** and **Prometheus/Grafana**.
+In my recent project, we followed a **Microservices Architecture**.
 
-### Architecture Flow
+The system was divided into multiple independent services such as **User Service**, **Order Service**, **Payment Service**, and **Notification Service**. Each service had its own business logic and database.
+
+Client requests first came through an **API Gateway**, which handled routing, authentication, and security.
+
+Services communicated with each other using **REST APIs** for synchronous communication and **Kafka** for asynchronous event-driven communication.
+
+We used **Spring Boot** for developing microservices, **Spring Data JPA/Hibernate** for database operations, and **MySQL** as the database.
+
+To improve performance, we used **Redis Cache**. For service discovery, we used **Eureka**. Applications were containerized using **Docker** and deployed through a **CI/CD pipeline** using Jenkins.
+
+Monitoring and logging were handled using tools like **ELK Stack** and **Prometheus/Grafana**.
+
+**Architecture Flow**
 
 ```text
 Client
@@ -934,7 +934,7 @@ Caching stores frequently accessed data in fast storage (memory) to reduce laten
 - **TTL (Time To Live):** Expires after a set duration
 
 **Cache invalidation challenges:**
-> "There are only two hard things in Computer Science: cache invalidation and naming things." — Phil Karlton
+"There are only two hard things in Computer Science: cache invalidation and naming things." — Phil Karlton
 
 - Stale data if not invalidated properly
 - Solutions: TTL expiry, event-driven invalidation, versioned cache keys
@@ -952,7 +952,7 @@ public void updateProduct(Long id, Product product) {
 }
 ```
 
-**Key metrics:** Cache hit ratio (aim for > 90%), eviction rate, memory usage
+**Key metrics:** Cache hit ratio (aim for 90%), eviction rate, memory usage
 
 ---
 
@@ -1407,7 +1407,7 @@ Counter resets at 60s boundary
 // Atomic increment with expiry (Fixed Window)
 Long count = redisTemplate.opsForValue().increment("rate:" + userId);
 if (count == 1) redisTemplate.expire("rate:" + userId, 60, TimeUnit.SECONDS);
-if (count > 100) throw new RateLimitExceededException();
+if (count 100) throw new RateLimitExceededException();
 ```
 
 **Rate limit response:**
@@ -1490,7 +1490,7 @@ Node C → positions [30, 150, 290, 450, ...]
 
 **Java implementation concept:**
 ```java
-TreeMap<Long, String> ring = new TreeMap<>();
+TreeMap<Long, Stringring = new TreeMap<();
 
 // Add node
 void addNode(String node) {
@@ -1503,7 +1503,7 @@ void addNode(String node) {
 // Get node for key
 String getNode(String key) {
     long hash = hash(key);
-    Map.Entry<Long, String> entry = ring.ceilingEntry(hash);
+    Map.Entry<Long, Stringentry = ring.ceilingEntry(hash);
     return entry != null ? entry.getValue() : ring.firstEntry().getValue();
 }
 ```
@@ -1527,7 +1527,7 @@ Auto Scaling automatically adjusts the number of compute resources (servers/cont
 - Add/remove instances (servers, containers, pods)
 - ✅ No downtime, unlimited scale
 - ✅ Preferred for stateless services
-- Example: Add 5 more EC2 instances when CPU > 70%
+- Example: Add 5 more EC2 instances when CPU 70%
 
 **Vertical Scaling (Scale Up/Down):**
 - Increase/decrease resources of existing instance (CPU, RAM)
@@ -1537,10 +1537,10 @@ Auto Scaling automatically adjusts the number of compute resources (servers/cont
 **Scaling triggers (metrics):**
 | Metric | Example Threshold |
 |---|---|
-| CPU Utilization | Scale out if > 70% for 5 min |
-| Memory Usage | Scale out if > 80% |
-| Request Count | Scale out if > 1000 req/sec |
-| Queue Depth | Scale out if SQS queue > 100 messages |
+| CPU Utilization | Scale out if 70% for 5 min |
+| Memory Usage | Scale out if 80% |
+| Request Count | Scale out if 1000 req/sec |
+| Queue Depth | Scale out if SQS queue 100 messages |
 | Custom Metrics | Business metrics via CloudWatch |
 | Schedule | Scale out every weekday at 9 AM |
 
@@ -1555,7 +1555,7 @@ Keep average CPU at 50% → automatically adds/removes instances
 ```
 CPU 60-70% → add 1 instance
 CPU 70-80% → add 2 instances
-CPU > 80%  → add 4 instances
+CPU 80%  → add 4 instances
 ```
 
 **Scheduled Scaling:** Pre-planned scaling for known traffic patterns
@@ -1599,7 +1599,7 @@ spec:
 ```
 
 **Best practices:**
-- Always set min > 1 for high availability (multi-AZ)
+- Always set min 1 for high availability (multi-AZ)
 - Use warm-up period — new instances need time to be ready
 - Combine with load balancer health checks
 - Test scaling policies with load testing before production
@@ -1691,8 +1691,8 @@ Each isolated — one slow service can't starve others
 **Spring Boot + Resilience4j Bulkhead:**
 ```java
 @Bulkhead(name = "paymentService", type = Bulkhead.Type.THREADPOOL)
-public CompletableFuture<PaymentResponse> processPayment(PaymentRequest req) {
-    return CompletableFuture.supplyAsync(() -> paymentClient.process(req));
+public CompletableFuture<PaymentResponseprocessPayment(PaymentRequest req) {
+    return CompletableFuture.supplyAsync(() -paymentClient.process(req));
 }
 ```
 
@@ -1753,14 +1753,14 @@ Request enters API Gateway
 
 **Spring Boot + Micrometer Tracing (Zipkin):**
 ```xml
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-tracing-bridge-brave</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.zipkin.reporter2</groupId>
-    <artifactId>zipkin-reporter-brave</artifactId>
-</dependency>
+<dependency
+    <groupIdio.micrometer</groupId
+    <artifactIdmicrometer-tracing-bridge-brave</artifactId
+</dependency
+<dependency
+    <groupIdio.zipkin.reporter2</groupId
+    <artifactIdzipkin-reporter-brave</artifactId
+</dependency
 ```
 
 ```yaml
@@ -1871,7 +1871,7 @@ Server:
 
 ```java
 @PostMapping("/payments")
-public ResponseEntity<PaymentResponse> processPayment(
+public ResponseEntity<PaymentResponseprocessPayment(
         @RequestHeader("Idempotency-Key") String idempotencyKey,
         @RequestBody PaymentRequest request) {
 
@@ -1980,7 +1980,7 @@ With index on customer_id:
 
 **B-Tree Index (default):**
 - Balanced tree structure, sorted
-- ✅ Equality (`=`), range (`>`, `<`, `BETWEEN`), ORDER BY, GROUP BY
+- ✅ Equality (`=`), range (``, `<`, `BETWEEN`), ORDER BY, GROUP BY
 - Most common index type
 
 **Hash Index:**
@@ -1991,9 +1991,9 @@ With index on customer_id:
 **Composite Index:**
 ```sql
 CREATE INDEX idx_order_customer_date ON orders(customer_id, order_date);
--- Efficient for: WHERE customer_id = ? AND order_date > ?
+-- Efficient for: WHERE customer_id = ? AND order_date ?
 -- Also efficient for: WHERE customer_id = ?  (leftmost prefix rule)
--- NOT efficient for: WHERE order_date > ?  (skips leftmost column)
+-- NOT efficient for: WHERE order_date ?  (skips leftmost column)
 ```
 - **Leftmost prefix rule:** Index used only if query starts with leftmost columns
 
@@ -2086,10 +2086,10 @@ management:
 **Golden Signals (Google SRE):**
 | Signal | Description | Example Alert |
 |---|---|---|
-| Latency | Time to serve a request | p99 > 2s for 5 min |
+| Latency | Time to serve a request | p99 2s for 5 min |
 | Traffic | Request rate | Sudden 10x spike |
-| Errors | Rate of failed requests | Error rate > 1% |
-| Saturation | Resource utilization | CPU > 85% for 10 min |
+| Errors | Rate of failed requests | Error rate 1% |
+| Saturation | Resource utilization | CPU 85% for 10 min |
 
 **Alerting best practices:**
 - Alert on symptoms (user impact), not causes
@@ -2204,12 +2204,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-            .authorizeHttpRequests(auth -> auth
+            .oauth2ResourceServer(oauth2 -oauth2.jwt(Customizer.withDefaults()))
+            .authorizeHttpRequests(auth -auth
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
-            .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
+            .sessionManagement(s -s.sessionCreationPolicy(STATELESS))
             .build();
     }
 }
@@ -2229,7 +2229,7 @@ Both authenticated → encrypted channel established
 
 **API Key (internal services):**
 ```
-X-Internal-Api-Key: <secret-key>
+X-Internal-Api-Key: <secret-key
 ```
 - Simple but less secure — rotate regularly, store in secrets manager
 
