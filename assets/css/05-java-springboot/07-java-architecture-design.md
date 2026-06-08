@@ -1348,7 +1348,7 @@ Using Kafka would introduce unnecessary delay.
 * Need instant response → REST
 * Can process later → Kafka
 
-#### Real System
+**Real System**
 
 ```text
 Client → REST API
@@ -1478,7 +1478,7 @@ Order Service
 
 This increases load and delays recovery.
 
-#### With Circuit Breaker
+**With Circuit Breaker**
 
 ```text
 Payment Service Down
@@ -1495,7 +1495,7 @@ Fallback Response
 * Retry = Handle temporary failures
 * Circuit Breaker = Stop calling unhealthy services
 
-#### Real Production Pattern
+**Real Production Pattern**
 
 ```text
 Retry
