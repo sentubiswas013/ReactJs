@@ -1,4 +1,4 @@
-# Java Architecture 
+# ✅ 1. Java Architecture 
 
 ## #. Java Architecture & System Design features
 
@@ -835,7 +835,7 @@ Start with:
 Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
 ```
 
-
+# ✅ 2. Java System Design tools 
 
 ## 1. Load Balancing
 
