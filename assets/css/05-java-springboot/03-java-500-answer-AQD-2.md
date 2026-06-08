@@ -930,6 +930,14 @@ Java follows a **Delegation Hierarchy Model**:
 2. **Extension (Platform) ClassLoader** Loads classes from `jre/lib/ext`
 3. **Application (System) ClassLoader** Loads classes from classpath
 
+When JVM sees `String`:
+
+1. Application ClassLoader checks.
+2. Delegates to Parent.
+3. Bootstrap ClassLoader finds `java.lang.String`.
+4. Loads class into memory.
+5. JVM creates Class object.
+
 
 ## 6. How do you create an immutable class in Java?
 
