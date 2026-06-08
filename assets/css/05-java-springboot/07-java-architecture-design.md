@@ -1268,7 +1268,7 @@ Search      → Elasticsearch
 | Distributed vs Centralized        | Scalability vs consistency                      |
 | One DB vs Polyglot Persistence    | Best database for each workload                 |
 
-#### Architecture Golden Rule
+**Architecture Golden Rule**
 
 > **Don't choose architecture because it is popular. Choose it because it solves a specific business, scalability, reliability, or operational problem.**
 
