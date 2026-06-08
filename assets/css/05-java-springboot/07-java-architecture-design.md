@@ -1368,7 +1368,7 @@ Both usually work together.
 >
 > RabbitMQ is designed for reliable message delivery and complex routing patterns.
 
-#### Choose Kafka When
+**Choose Kafka When**
 
 * Millions of events per second
 * Event replay required
@@ -1376,7 +1376,7 @@ Both usually work together.
 * Analytics pipelines
 * Event sourcing
 
-#### Choose RabbitMQ When
+**Choose RabbitMQ When**
 
 * Task queues
 * Job processing
@@ -1435,7 +1435,7 @@ Order ID: 101
 Status: SHIPPED
 ```
 
-#### Difference
+**Difference**
 
 | Kafka               | Database          |
 | ------------------- | ----------------- |
@@ -1920,7 +1920,7 @@ Much faster response.
 * Videos
 * Static Files
 
-#### Difference
+**Difference**
 
 | Load Balancer               | CDN             |
 | --------------------------- | --------------- |
@@ -2189,7 +2189,7 @@ Rolling Updates
 Load Balancing
 ```
 
-#### Difference
+**Difference**
 
 | Docker            | Kubernetes         |
 | ----------------- | ------------------ |
@@ -2489,7 +2489,7 @@ Region A ❌
 Region B ✅
 ```
 
-#### Difference
+**Difference**
 
 | High Availability       | Disaster Recovery             |
 | ----------------------- | ----------------------------- |
