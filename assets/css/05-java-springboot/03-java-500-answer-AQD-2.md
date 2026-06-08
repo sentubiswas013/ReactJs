@@ -992,6 +992,33 @@ Class.forName("com.mysql.cj.jdbc.Driver");
 ```
 This loads the MySQL driver at runtime.
 
+## 5. What happens internally when you create an object using new? 
+
+
+When we create an object using the `new` keyword, JVM first checks whether the class is loaded. If not, it loads the class into memory. Then it allocates memory in the Heap, initializes instance variables with default values, executes the constructor, and finally returns the object reference.
+
+```java id="4v0xfi"
+Employee emp = new Employee();
+```
+
+**Internal Steps**
+
+```text id="f67d4p"
+1. Load Employee class
+2. Allocate memory in Heap
+3. Initialize default values
+4. Call constructor
+5. Return object reference to emp
+```
+
+```java id="w5c7em"
+class Employee {
+
+    Employee() {
+        System.out.println("Constructor Called");
+    }
+}
+```
 
 
 ## 6. How do you create an immutable class in Java?
