@@ -3886,7 +3886,118 @@ class TTLCache {
 - Use `ConcurrentHashMap` in multi-threaded environments where multiple threads read/write simultaneously (e.g., caches, shared state).
 
 
-## 11. What is O(1) and  O(n)?
+## 12. Difference between List and Set? 
+
+
+The main difference is that a **List allows duplicate elements and maintains insertion order**, whereas a **Set does not allow duplicates and typically stores only unique elements**.
+
+We use a List when duplicates are allowed and order matters. We use a Set when uniqueness is required.
+
+
+**List Example**
+
+```java
+List<String> list = new ArrayList<>();
+
+list.add("Java");
+list.add("Spring");
+list.add("Java");
+
+System.out.println(list);
+```
+
+**Output:**
+
+```text
+[Java, Spring, Java]
+```
+
+Duplicates are allowed.
+
+---
+
+**Set Example**
+
+```java
+Set<String> set = new HashSet<>();
+
+set.add("Java");
+set.add("Spring");
+set.add("Java");
+
+System.out.println(set);
+```
+
+**Output:**
+
+```text
+[Java, Spring]
+```
+
+Duplicate value is ignored.
+
+| List                           | Set                                      |
+| ------------------------------ | ---------------------------------------- |
+| Allows duplicates              | No duplicates                            |
+| Maintains insertion order      | Unique elements only                     |
+| Supports index-based access    | No index-based access                    |
+| Example: ArrayList, LinkedList | Example: HashSet, LinkedHashSet, TreeSet |
+
+
+## 13. Difference between List and Array? 
+
+The main difference is that an **Array has a fixed size**, while a **List is dynamic and can grow or shrink at runtime**.
+
+Arrays can store both primitive types and objects, whereas a List stores only objects.
+
+In modern Java applications, we usually prefer a List because it is more flexible and provides many built-in methods.
+
+
+**Array Example**
+
+```java id="h4vmyv"
+int[] numbers = new int[3];
+
+numbers[0] = 10;
+numbers[1] = 20;
+numbers[2] = 30;
+```
+
+Size is fixed to 3 and cannot be increased.
+
+---
+
+**List Example**
+
+```java id="1jrr4h"
+List<Integer> numbers =
+        new ArrayList<>();
+
+numbers.add(10);
+numbers.add(20);
+numbers.add(30);
+numbers.add(40);
+```
+
+The List grows dynamically as elements are added.
+
+---
+
+### Quick Comparison
+
+| Array                         | List                         |
+| ----------------------------- | ---------------------------- |
+| Fixed size                    | Dynamic size                 |
+| Stores primitives and objects | Stores objects only          |
+| Faster                        | More flexible                |
+| Fewer built-in methods        | Rich Collection APIs         |
+| Part of Java language         | Part of Collection Framework |
+
+
+## 14. How do you convert a List to an Array? 
+## 15. How does map.get(key) work internally?
+
+## 16. What is O(1) and  O(n)?
 
 
 * **O(1) – Constant Time:** means the operation takes the same amount of time regardless of the input size. 
