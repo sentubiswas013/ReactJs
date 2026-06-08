@@ -1869,7 +1869,7 @@ Instead of redesigning the architecture:
 
 Problem solved in minutes.
 
-#### When Vertical Scaling Makes Sense
+**When Vertical Scaling Makes Sense**
 
 * Small applications
 * Early-stage startups
@@ -1912,7 +1912,7 @@ Nearest CDN Edge Server
 
 Much faster response.
 
-#### What CDN Typically Serves
+**What CDN Typically Serves**
 
 * Images
 * CSS
@@ -2031,14 +2031,14 @@ User → Session ID → Server Session Store
 
 Server looks up user information.
 
-#### Choose JWT When
+**Choose JWT When**
 
 * Microservices
 * Mobile Applications
 * Multiple APIs
 * Stateless Architecture
 
-#### Choose Sessions When
+**Choose Sessions When**
 
 * Traditional Web Applications
 * Need immediate logout everywhere
@@ -2077,7 +2077,7 @@ Hard Disks
 Cloud Storage
 ```
 
-#### Attack Scenario
+**Attack Scenario**
 
 If someone steals a database backup:
 
@@ -2267,7 +2267,7 @@ Has business approved it?
 Is production ready?
 ```
 
-#### Common Approval Cases
+**Common Approval Cases**
 
 * Banking Systems
 * Healthcare Systems
@@ -2474,7 +2474,7 @@ Server B takes over ✅
 
 Users may not even notice the failure.
 
-#### Disaster Recovery:
+**Disaster Recovery:**
 
 ```text
 Entire Region Down ❌
