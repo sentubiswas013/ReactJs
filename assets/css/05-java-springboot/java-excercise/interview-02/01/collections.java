@@ -229,11 +229,50 @@ class CollectionsDemo {
     // ============================================================
     // 17. TTL Cache (Time To Live) :** Expires data after fixed duration.
     // ============================================================
-    public static void TTLCacheDemo() {
+    public static void TTLCacheDemo() throws Exception {
 
         System.out.println("=========================== TTLCacheDemo");
 
+        TTLCache cache = new TTLCache();
+        cache.put(1, "java", 3000);
 
+        System.out.println(cache.get(1));
+        Thread.sleep(4000);
+        System.out.println(cache.get(1));
 
+    }
+
+    static class TTLCache {
+        static class CacheObject{
+            String value;
+            long expiryTime;
+
+            CacheObject(String value, long ttlMillis) {
+                this.value = value;
+                this.expiryTime = System.currentTimeMillis() + ttlMillis;
+            }
+        }
+
+        // private Map<Integer, String> cache = new HashMap<>();
+        private Map<Integer, CacheObject> cache = new HashMap<>();
+
+        public void put(int key, String value, long ttlMillis) {
+            cache.put(key, new CacheObject(value, ttlMillis));
+        }
+
+        public String get(int key) {
+            CacheObject obj = cache.get(key);
+
+            if(obj == null) {
+                return null;
+            }
+
+            if(System.currentTimeMillis() > obj.expiryTime) {
+                cache.remove(key);
+                return null;
+            }
+
+            return obj.value;
+        }
     }
 }
