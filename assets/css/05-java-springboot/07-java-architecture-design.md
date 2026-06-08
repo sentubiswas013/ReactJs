@@ -153,7 +153,7 @@ User types: https://www.example.com/products?id=42
 ```
 
 
-## 01. System Design Diagram of your application?
+## 2. System Design Diagram of your application?
 
 Here’s a clean and interview-friendly **Generic System Design Diagram** you can use for most HLD interviews like WhatsApp, Netflix, Uber, Food Delivery, E-commerce, etc.
 
@@ -232,7 +232,7 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
 
 
 
-## 2. How to Start System Design From Scratch in High-Level?
+## 3. How to Start System Design From Scratch in High-Level?
 
 When I design a system, I follow a simple step-by-step approach:
 
@@ -290,7 +290,7 @@ Low-Level Design
 ```
 
 
-## 3. How to Start System Design From Scratch in details?
+## 4. How to Start System Design From Scratch in details?
 
 **Diagram 1**
 ```text
