@@ -3995,7 +3995,28 @@ The List grows dynamically as elements are added.
 
 
 ## 14. How do you convert a List to an Array? 
+
+```java
+List<String> names = List.of("John", "David", "Mike");
+
+String[] arr = names.toArray(new String[0]);
+// [John, David, Mike]
+```
+**Why new String[0]?**
+
+The JVM creates an array of the correct size automatically.
+
 ## 15. How does map.get(key) work internally?
+
+`map.get(key)` first calculates the key's `hashCode()` to find the bucket. Then it uses `equals()` to locate the exact key in that bucket and returns the associated value. This is why HashMap retrieval is usually O(1).
+
+```java
+Map<Integer, String> map = new HashMap<>();
+
+map.put(101, "John");
+
+String name = map.get(101);
+```
 
 ## 16. What is O(1) and  O(n)?
 
