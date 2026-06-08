@@ -922,13 +922,9 @@ class Car {
 A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
 
 
-**How ClassLoader Works :**
-
-Java follows a **Delegation Hierarchy Model**:
-
-1. **Bootstrap ClassLoader** Loads core Java classes (e.g., `java.lang.*`)
-2. **Extension (Platform) ClassLoader** Loads classes from `jre/lib/ext`
-3. **Application (System) ClassLoader** Loads classes from classpath
+```
+String str = new String("Hello");
+```
 
 When JVM sees `String`:
 
@@ -938,6 +934,37 @@ When JVM sees `String`:
 4. Loads class into memory.
 5. JVM creates Class object.
 
+**How ClassLoader Works :**
+
+Java follows a **Delegation Hierarchy Model**:
+
+1. **Bootstrap ClassLoader** Loads core Java classes (e.g., `java.lang.*`)
+2. **Extension (Platform) ClassLoader** Loads classes from `jre/lib/ext`
+3. **Application (System) ClassLoader** Loads classes from classpath
+
+
+## 6. Difference between runtime vs compile-time class loading? 
+
+> Compile-time class loading happens when the class is known during compilation. The compiler already knows which class will be used.
+>
+> Runtime class loading happens when the class is loaded dynamically while the application is running, usually using `Class.forName()` or Reflection.
+>
+> In short, compile-time loading is static and known in advance, while runtime loading is dynamic and happens during execution.
+
+
+**Compile-Time Loading**
+
+```java id="6mwd36"
+Employee emp = new Employee();
+```
+
+Here, the compiler already knows the `Employee` class.
+
+**Runtime Loading**
+
+```java id="b4ij59"
+Class.forName("com.company.Employee");
+```
 
 ## 6. How do you create an immutable class in Java?
 
