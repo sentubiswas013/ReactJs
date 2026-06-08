@@ -1635,7 +1635,7 @@ But writes still hit:
 Primary DB
 ```
 
-#### Sharding
+**Sharding**
 
 Data is split across multiple databases.
 
@@ -1679,7 +1679,7 @@ Inventory Updates
 Order Processing
 ```
 
-#### Typical Architecture
+**Typical Architecture**
 
 ```text
 PostgreSQL
