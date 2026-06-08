@@ -5449,13 +5449,24 @@ for (int i = 1; i <= 5; i++) {
 
 ## 0. What is Java Memory Model (JMM)?
 
-**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It ensures visibility, atomicity, and ordering using mechanisms like volatile and synchronized.
+**Java Memory Model (JMM)** defines how threads interact with memory and ensures that changes made by one thread become visible to other threads in a predictable and safe way.
 
-* **Visibility** – Changes made by one thread are visible to others.
-* **Atomicity** – Certain operations are executed completely or not at all.
-* **Ordering** – Code execution follows defined rules (happens-before relationship).
+**Why is JMM Needed?**
 
-**Visibility :** Without `volatile`, one thread may not see the updated value from another thread. Changes made by one thread are visible to other threads.
+In a multithreaded application:
+
+* Each thread can have its own CPU cache.
+* One thread may update a variable, but another thread may not see the latest value immediately.
+* JMM provides rules for **visibility, ordering, and atomicity** to avoid inconsistent behavior.
+
+**Key Concepts**
+
+1. **Visibility** → Changes made by one thread are visible to other threads.
+2. **Atomicity** → Operations happen completely or not at all.
+3. **Ordering** → Instructions execute in the correct order.
+
+`volatile` ensures that when one thread changes `running`, other threads immediately see the updated value.
+
 
 ```java id="kuyjci"
 class SharedData {
