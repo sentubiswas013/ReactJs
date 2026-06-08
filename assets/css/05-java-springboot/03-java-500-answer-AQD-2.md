@@ -966,6 +966,34 @@ Here, the compiler already knows the `Employee` class.
 Class.forName("com.company.Employee");
 ```
 
+## 5. How do you load a class dynamically in Java? 
+
+In Java, we can load a **class dynamically** at runtime using `Class.forName()`. This is useful when the class name is not known at compile time. Once the class is loaded, we can create objects and invoke methods using Reflection.
+
+A common real-world example is loading a JDBC driver.
+
+```java
+Class<?clazz = Class.forName("com.company.Employee");
+```
+
+**Creating an Object Dynamically**
+
+```java
+Class<?clazz = Class.forName("com.company.Employee");
+
+Object obj = clazz.getDeclaredConstructor()
+                  .newInstance();
+```
+
+**JDBC Example**
+
+```java
+Class.forName("com.mysql.cj.jdbc.Driver");
+```
+This loads the MySQL driver at runtime.
+
+
+
 ## 6. How do you create an immutable class in Java?
 
 An immutable class in Java is a class whose objects cannot be changed after they are created. To create an immutable class:
