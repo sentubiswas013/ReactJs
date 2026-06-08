@@ -1230,7 +1230,7 @@ Client → API Gateway → Microservices
 >
 > Polyglot Persistence means choosing the best database for each use case instead of forcing one database to handle everything.
 
-#### Example
+**Example**
 
 | Requirement     | Database      |
 | --------------- | ------------- |
@@ -1284,7 +1284,7 @@ Search      → Elasticsearch
 >
 > Instead of services calling each other directly, they communicate through events.
 
-#### Example
+**Example**
 
 Without Kafka:
 
@@ -1302,14 +1302,14 @@ Inventory Service consumes
 Notification Service consumes
 ```
 
-#### Benefit
+**Benefit**
 
 * Loose coupling
 * Better scalability
 * High throughput
 * Event replay capability
 
-#### Rule
+**Rule**
 
 > REST for request-response. Kafka for event-driven communication.
 
@@ -1325,7 +1325,7 @@ Notification Service consumes
 >
 > Users and external systems often need an immediate response, which Kafka cannot provide directly.
 
-#### Example
+**Example**
 
 Customer Login:
 
@@ -1343,7 +1343,7 @@ immediately.
 
 Using Kafka would introduce unnecessary delay.
 
-#### Rule
+**Rule**
 
 * Need instant response → REST
 * Can process later → Kafka
@@ -1384,7 +1384,7 @@ Both usually work together.
 * Workflow orchestration
 * Complex message routing
 
-#### Example
+**Example**
 
 ```text
 User Registration
@@ -1402,7 +1402,7 @@ Kafka
 Analytics Platform
 ```
 
-#### Rule
+**Rule**
 
 > Kafka = Event Streaming Platform.
 >
@@ -1418,7 +1418,7 @@ Analytics Platform
 >
 > Databases store the current state of the application.
 
-#### Example
+**Example**
 
 Kafka Event:
 
@@ -1444,7 +1444,7 @@ Status: SHIPPED
 | Stream Processing   | Business Queries  |
 | Temporary Retention | Permanent Storage |
 
-#### Rule
+**Rule**
 
 > Kafka tells us what happened.
 >
@@ -1462,7 +1462,7 @@ Status: SHIPPED
 
 Circuit Breaker prevents repeated calls to a failing service.
 
-#### Example
+**Example**
 
 Without Circuit Breaker:
 
@@ -1490,7 +1490,7 @@ Fail Fast
 Fallback Response
 ```
 
-#### Rule
+**Rule**
 
 * Retry = Handle temporary failures
 * Circuit Breaker = Stop calling unhealthy services
@@ -1531,7 +1531,7 @@ Used together for resilient microservices.
 >
 > Redis stores frequently accessed data in memory, making retrieval much faster.
 
-#### Example
+**Example**
 
 Without Redis:
 
@@ -1566,7 +1566,7 @@ Response Time:
 * Frequently Accessed Data
 * Rate Limiting
 
-#### Rule
+**Rule**
 
 > Database is for persistence. Redis is for speed.
 
@@ -1580,7 +1580,7 @@ Response Time:
 >
 > If queries are inefficient, the system remains slow whenever data is not available in cache.
 
-#### Example
+**Example**
 
 Bad Query:
 
@@ -1603,7 +1603,7 @@ WHERE customer_id = 100;
 * New data may not be cached
 * Reports often bypass cache
 
-#### Rule
+**Rule**
 
 > Cache improves performance; query optimization improves efficiency.
 
@@ -1617,7 +1617,7 @@ WHERE customer_id = 100;
 >
 > However, all writes still go to the primary database.
 
-#### Example
+**Example**
 
 Read Replica:
 
@@ -1646,7 +1646,7 @@ Users N-Z → Shard 2
 
 Now both reads and writes are distributed.
 
-#### Rule
+**Rule**
 
 > Read Replicas solve read scaling.
 >
@@ -1660,7 +1660,7 @@ Now both reads and writes are distributed.
 
 > Elasticsearch is optimized for searching and analyzing data, not for transactional business operations.
 
-#### Example
+**Example**
 
 Excellent For:
 
@@ -1689,7 +1689,7 @@ PostgreSQL
 
 Database remains the source of truth.
 
-#### Rule
+**Rule**
 
 > Elasticsearch is a search engine, not a transactional database.
 
@@ -1703,7 +1703,7 @@ Database remains the source of truth.
 >
 > However, achieving this across distributed systems can reduce availability and scalability.
 
-#### Example
+**Example**
 
 Bank Transfer:
 
@@ -1713,7 +1713,7 @@ Account A → Account B
 
 Strong consistency is required.
 
-#### Example
+**Example**
 
 Social Media Like Count:
 
@@ -1729,7 +1729,7 @@ Showing:
 
 for a few seconds is acceptable.
 
-#### Rule
+**Rule**
 
 * Critical business data → Strong Consistency
 * High-scale distributed systems → Eventual Consistency
@@ -1744,7 +1744,7 @@ for a few seconds is acceptable.
 >
 > In microservices, data is often spread across multiple services and databases.
 
-#### Example
+**Example**
 
 Order Service:
 
@@ -1778,7 +1778,7 @@ Inventory Reserved Event
 
 The system becomes consistent over time.
 
-#### Rule
+**Rule**
 
 > ACID works best within one database.
 >
@@ -1809,7 +1809,7 @@ The system becomes consistent over time.
 >
 > Vertical scaling has hardware limits, while horizontal scaling can continue growing by adding more machines.
 
-#### Example
+**Example**
 
 Vertical Scaling:
 
@@ -1831,14 +1831,14 @@ Server 4
 
 Traffic is distributed across all servers.
 
-#### Benefits of Horizontal Scaling
+**Benefit**s of Horizontal Scaling
 
 * Higher scalability
 * Better fault tolerance
 * High availability
 * No single point of failure
 
-#### Rule
+**Rule**
 
 > Vertical scaling has limits. Horizontal scaling can grow almost indefinitely.
 
@@ -1852,7 +1852,7 @@ Traffic is distributed across all servers.
 >
 > Sometimes increasing CPU or RAM is the fastest and simplest solution.
 
-#### Example
+**Example**
 
 Current Server:
 
@@ -1876,7 +1876,7 @@ Problem solved in minutes.
 * Databases that are difficult to shard
 * Temporary traffic increases
 
-#### Rule
+**Rule**
 
 > Scale vertically first if it solves the problem quickly. Scale horizontally when growth continues.
 
@@ -1890,7 +1890,7 @@ Problem solved in minutes.
 >
 > CDNs move static content closer to users worldwide.
 
-#### Example
+**Example**
 
 Without CDN:
 
@@ -1928,7 +1928,7 @@ Much faster response.
 | Protects backend            | Reduces latency |
 | Works inside infrastructure | Works globally  |
 
-#### Rule
+**Rule**
 
 > Load Balancer scales applications.
 >
@@ -1944,7 +1944,7 @@ Much faster response.
 >
 > But inefficient code wastes CPU, memory, database connections, and infrastructure costs.
 
-#### Example
+**Example**
 
 Bad Code:
 
@@ -1982,7 +1982,7 @@ Now fewer resources are needed.
 * Reduced database load
 * Improved user experience
 
-#### Rule
+**Rule**
 
 > Auto Scaling treats the symptom.
 >
@@ -2013,7 +2013,7 @@ Now fewer resources are needed.
 >
 > JWT is great for distributed systems and microservices, while Sessions are often simpler and more secure for traditional web applications.
 
-#### Example
+**Example**
 
 JWT:
 
@@ -2044,7 +2044,7 @@ Server looks up user information.
 * Need immediate logout everywhere
 * Higher control over user sessions
 
-#### Rule
+**Rule**
 
 > JWT improves scalability.
 >
@@ -2060,7 +2060,7 @@ Server looks up user information.
 >
 > Encryption at rest protects data when it is stored in databases, backups, or disks.
 
-#### Example
+**Example**
 
 HTTPS Protects:
 
@@ -2093,7 +2093,7 @@ With Encryption
 Data remains unreadable
 ```
 
-#### Rule
+**Rule**
 
 > HTTPS protects data in transit.
 >
@@ -2109,7 +2109,7 @@ Data remains unreadable
 >
 > Internal services should never blindly trust incoming requests.
 
-#### Example
+**Example**
 
 API Gateway:
 
@@ -2128,7 +2128,7 @@ Input Validation
 Business Rules
 ```
 
-#### Example Flow
+**Example** Flow
 
 ```text
 Client
@@ -2150,7 +2150,7 @@ must still verify:
 Can this user access this order?
 ```
 
-#### Rule
+**Rule**
 
 > Security should exist at every layer.
 >
@@ -2168,7 +2168,7 @@ Can this user access this order?
 >
 > Kubernetes manages containers at scale.
 
-#### Example
+**Example**
 
 Docker:
 
@@ -2197,7 +2197,7 @@ Load Balancing
 | Single host focus | Cluster focus      |
 | Manual scaling    | Automatic scaling  |
 
-#### Rule
+**Rule**
 
 > Docker creates containers.
 >
@@ -2213,7 +2213,7 @@ Load Balancing
 >
 > For smaller applications, VMs may be simpler and more cost-effective.
 
-#### Example
+**Example**
 
 Small Internal Application:
 
@@ -2233,7 +2233,7 @@ Hundreds of Containers
 
 Kubernetes becomes valuable.
 
-#### Rule
+**Rule**
 
 > Use VMs for simplicity.
 >
@@ -2249,7 +2249,7 @@ Kubernetes becomes valuable.
 >
 > Release approvals add business and operational control before production releases.
 
-#### Example
+**Example**
 
 CI/CD verifies:
 
@@ -2274,7 +2274,7 @@ Is production ready?
 * Government Applications
 * High-Risk Production Releases
 
-#### Rule
+**Rule**
 
 > CI/CD ensures technical quality.
 >
@@ -2305,7 +2305,7 @@ Is production ready?
 >
 > Distributed Tracing tells us **where the problem occurred** across multiple services.
 
-#### Example
+**Example**
 
 Monitoring Alert:
 
@@ -2341,7 +2341,7 @@ Database (100ms)
 
 Now we know exactly where the bottleneck is.
 
-#### Rule
+**Rule**
 
 > Monitoring tells you there is a problem.
 >
@@ -2357,7 +2357,7 @@ Now we know exactly where the bottleneck is.
 >
 > Observability platforms combine logs, metrics, and traces to provide a complete system view.
 
-#### Example
+**Example**
 
 Log Entry:
 
@@ -2387,14 +2387,14 @@ Dashboards
 Alerts
 ```
 
-#### Example Tools
+**Example** Tools
 
 * Grafana
 * Datadog
 * New Relic
 * OpenTelemetry
 
-#### Rule
+**Rule**
 
 > Logs show individual events.
 >
@@ -2410,7 +2410,7 @@ Alerts
 >
 > Disaster Recovery helps recover the entire system after a major failure.
 
-#### Example
+**Example**
 
 Backup Handles:
 
@@ -2428,7 +2428,7 @@ Cyber Attack
 Natural Disaster
 ```
 
-#### Example
+**Example**
 
 You have a database backup:
 
@@ -2446,7 +2446,7 @@ Database Server ❌
 
 Backup alone cannot restore the complete system quickly.
 
-#### Rule
+**Rule**
 
 > Backup protects data.
 >
@@ -2462,7 +2462,7 @@ Backup alone cannot restore the complete system quickly.
 >
 > Disaster Recovery (DR) handles large-scale catastrophic failures.
 
-#### Example
+**Example**
 
 High Availability:
 
@@ -2498,7 +2498,7 @@ Region B ✅
 | Same region/data center | Different region/data center  |
 | Focus on uptime         | Focus on recovery             |
 
-#### Rule
+**Rule**
 
 > High Availability prevents outages.
 >
