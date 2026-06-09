@@ -6160,7 +6160,7 @@ try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
 }
 ```
 
-## 4. How do you handle large files efficiently?
+## 4. Create API to handle large files efficiently?
 
 For large files, use streaming approaches and buffering to avoid loading entire file into memory.
 
@@ -6171,23 +6171,188 @@ For large files, use streaming approaches and buffering to avoid loading entire 
 - Stream API for functional processing
 - Memory-mapped files for very large files
 
-```java
-// Stream processing - memory efficient
-try (Stream<String> lines = Files.lines(Paths.get("largefile.txt"))) {
-    lines.filter(line -> line.contains("keyword"))
-         .forEach(System.out::println);
-}
 
-// BufferedReader - traditional approach
-try (BufferedReader br = Files.newBufferedReader(Paths.get("largefile.txt"))) {
-    String line;
-    while ((line = br.readLine()) != null) {
-        // Process line by line
+When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks.
+
+**Controller for File Upload**
+
+```java id="f9v8dn"
+@RestController
+@RequestMapping("/files")
+public class FileController {
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        Path path = Paths.get("uploads/" + file.getOriginalFilename());
+
+        try (InputStream in = file.getInputStream();
+             OutputStream out = Files.newOutputStream(path)) {
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+        return ResponseEntity.ok("File uploaded successfully");
     }
 }
 ```
 
-## 5. What is NIO in Java?
+**Controller for File Download**
+
+```java id="sll1ca"
+@GetMapping("/download/{fileName}")
+public ResponseEntity<Resource> downloadFile(
+        @PathVariable String fileName) throws IOException {
+
+    Path path = Paths.get("uploads/" + fileName);
+
+    Resource resource = new InputStreamResource(
+            Files.newInputStream(path));
+
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=" + fileName)
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(resource);
+}
+```
+
+**Best Practices for Large Files**
+
+* Use **Streaming** instead of loading the entire file into memory.
+* Process files in **Chunks** using a buffer.
+* Store files in **File Storage** (S3, NAS, File System) rather than the database when files are very large.
+* Enable **Multipart Upload** for large uploads.
+* Use **Pagination** or **Range Requests** for large downloads.
+* Configure proper **Timeouts** and **File Size Limits**.
+
+
+## 5. How do you process images into Oracle DB using Java APIs?
+
+In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
+
+**Entity**
+
+```java id="zx5b7g"
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "employee_images")
+public class EmployeeImage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String fileName;
+
+    @Lob
+    @Column(name = "image_data")
+    private byte[] imageData;
+
+    // getters and setters
+}
+```
+
+**Repository**
+
+```java id="5zj6bi"
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeImageRepository
+        extends JpaRepository<EmployeeImage, Long> {
+}
+```
+
+**Service**
+
+```java id="t4p4u4"
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class EmployeeImageService {
+
+    private final EmployeeImageRepository repository;
+
+    public EmployeeImageService(EmployeeImageRepository repository) {
+        this.repository = repository;
+    }
+
+    public Long uploadImage(MultipartFile file) throws Exception {
+
+        EmployeeImage image = new EmployeeImage();
+        image.setFileName(file.getOriginalFilename());
+        image.setImageData(file.getBytes());
+
+        return repository.save(image).getId();
+    }
+
+    public EmployeeImage getImage(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Image not found"));
+    }
+}
+```
+
+**Controller**
+
+```java id="j72oym"
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+@RequestMapping("/images")
+public class EmployeeImageController {
+
+    private final EmployeeImageService service;
+
+    public EmployeeImageController(EmployeeImageService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload(
+            @RequestParam("file") MultipartFile file) throws Exception {
+
+        Long id = service.uploadImage(file);
+
+        return ResponseEntity.ok("Image uploaded. ID: " + id);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> download(
+            @PathVariable Long id) {
+
+        EmployeeImage image = service.getImage(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(image.getImageData());
+    }
+}
+```
+
+**Oracle Table**
+
+```sql id="uvcp58"
+CREATE TABLE employee_images (
+    id NUMBER GENERATED BY DEFAULT AS IDENTITY,
+    file_name VARCHAR2(255),
+    image_data BLOB,
+    PRIMARY KEY(id)
+);
+```
+
+## 6. What is NIO in Java?
 
 **NIO (New I/O)** in Java is a **high-performance I/O API** introduced in Java 1.4 that provides **non-blocking, buffer-based, and scalable input/output operations**.
 
@@ -6207,7 +6372,7 @@ try (FileChannel channel = FileChannel.open(Paths.get("file.txt"))) {
 }
 ```
 
-## 6. What is the difference between IO and NIO?
+## 7. What is the difference between IO and NIO?
 
 **IO (java.io)** is **blocking and stream-based**, meaning a thread waits until data is read or written. It’s easy to use but not efficient for handling many connections because each request usually needs a separate thread.
 
@@ -6224,7 +6389,7 @@ ByteBuffer buffer = ByteBuffer.allocate(1024);
 channel.read(buffer); // Can be non-blocking with proper setup
 ```
 
-## 7. When would you use NIO over traditional I/O?
+## 8. When would you use NIO over traditional I/O?
 
 Use **NIO** when you need **better performance and scalability**, especially for server applications handling many concurrent connections.
 
