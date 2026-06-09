@@ -6522,7 +6522,66 @@ class Child extends Parent {
 | `@Inherited`  | Should child classes inherit it?  |
 
 
-## 4. What is retention policy?
+## 4. Can you create custom annotations in java?
+
+
+## How to Create Custom Annotations in Java
+
+**Yes, Java allows you to create custom annotations** using the **@interface** keyword. Custom annotations are used to add **metadata** to classes, methods, fields, or parameters.
+
+**Creating a Custom Annotation**
+
+```java
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface MyAnnotation {
+    String value();
+}
+```
+
+**Explanation**
+
+* **@interface** – used to create a custom annotation.
+* **@Retention(RetentionPolicy.RUNTIME)** – makes the annotation available at runtime.
+* **@Target(ElementType.METHOD)** – specifies that the annotation can be applied only to methods.
+* **String value()** – defines an attribute for the annotation.
+
+**Using the Annotation**
+
+```java
+public class EmployeeService {
+
+    @MyAnnotation("Employee Validation")
+    public void validate() {
+        System.out.println("Validating employee...");
+    }
+}
+```
+
+**Reading the Annotation with Reflection**
+
+```java
+import java.lang.reflect.Method;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        Method method = EmployeeService.class.getMethod("validate");
+
+        if (method.isAnnotationPresent(MyAnnotation.class)) {
+            MyAnnotation annotation =
+                    method.getAnnotation(MyAnnotation.class);
+
+            System.out.println(annotation.value());
+        }
+    }
+}
+```
+
+
+## 5. What is retention policy?
 
 Retention policy determines how long annotations are retained - in source code, class files, or at runtime.
 
