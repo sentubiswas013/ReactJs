@@ -6162,21 +6162,11 @@ try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
 
 ## 4. Create API to handle large files efficiently?
 
-For large files, use streaming approaches and buffering to avoid loading entire file into memory.
-
-**Efficient Strategies:**
-- Use BufferedReader/Writer for text files
-- Process line by line, not entire file
-- Use NIO for better performance
-- Stream API for functional processing
-- Memory-mapped files for very large files
-
-
-When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks.
+When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks. This reduces memory consumption and improves performance.
 
 **Controller for File Upload**
 
-```java id="f9v8dn"
+```java
 @RestController
 @RequestMapping("/files")
 public class FileController {
@@ -6205,15 +6195,15 @@ public class FileController {
 
 **Controller for File Download**
 
-```java id="sll1ca"
+```java
 @GetMapping("/download/{fileName}")
 public ResponseEntity<Resource> downloadFile(
         @PathVariable String fileName) throws IOException {
 
     Path path = Paths.get("uploads/" + fileName);
 
-    Resource resource = new InputStreamResource(
-            Files.newInputStream(path));
+    Resource resource =
+            new InputStreamResource(Files.newInputStream(path));
 
     return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -6223,14 +6213,26 @@ public ResponseEntity<Resource> downloadFile(
 }
 ```
 
-**Best Practices for Large Files**
+**Efficient Strategies**
 
-* Use **Streaming** instead of loading the entire file into memory.
-* Process files in **Chunks** using a buffer.
-* Store files in **File Storage** (S3, NAS, File System) rather than the database when files are very large.
-* Enable **Multipart Upload** for large uploads.
-* Use **Pagination** or **Range Requests** for large downloads.
-* Configure proper **Timeouts** and **File Size Limits**.
+* Use **Streaming** to process files chunk by chunk.
+* Use **BufferedReader** and **BufferedWriter** for large text files.
+* Process files **line by line** instead of loading the entire file into memory.
+* Use **Java NIO** APIs for better I/O performance.
+* Use **Memory-Mapped Files** for extremely large files.
+* Use **Parallel Processing** when file operations can be executed independently.
+
+**Best Practices**
+
+* Use **Streaming** instead of reading the entire file into memory.
+* Process data in **Chunks** using a buffer (e.g., 8 KB or larger).
+* Store very large files in **Object Storage** such as **Amazon S3** or a file system, and store only metadata in the database.
+* Enable **Multipart Uploads** for large file transfers.
+* Support **Range Requests** for resumable downloads and video streaming.
+* Configure appropriate **File Size Limits** and **Timeouts**.
+* Validate file type and size before processing.
+* Monitor memory usage and I/O performance.
+
 
 
 ## 5. How do you process images into Oracle DB using Java APIs?
@@ -15366,17 +15368,108 @@ It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC alg
 
 ## 5. What is Distributed Tracing?
 
-**Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
+**Distributed Tracing** is a technique used to track a request as it travels through multiple **Microservices**. It helps identify where delays, errors, or performance issues occur in a distributed system.
 
-It helps developers **identify performance issues, delays, and failures** by showing the **complete flow of a request across different services in a system**.
+When a request enters the system, a unique **Trace ID** is created. Every service involved in processing that request uses the same Trace ID, making it easy to follow the entire request flow.
 
-**Real-Time Example**
+**Why is Distributed Tracing Important?**
 
-1. **API Gateway** receives request
-2. **Order Service** processes order
-3. **Payment Service** processes payment
-4. **Inventory Service** updates stock
-5. **Notification Service** sends email/SMS
+* Helps with **Troubleshooting**
+* Identifies **Performance Bottlenecks**
+* Tracks requests across multiple services
+* Improves **Observability**
+* Helps debug failures in **Microservices**
+
+**Key Concepts**
+
+* **Trace** – Complete journey of a request.
+* **Trace ID** – Unique identifier for the entire request.
+* **Span** – A single operation within a trace.
+* **Span ID** – Unique identifier for a span.
+
+Suppose a request goes through:
+
+```text
+API Gateway
+   |
+Order Service
+   |
+Payment Service
+   |
+Notification Service
+```
+
+All services share the same **Trace ID**:
+
+```text
+Trace ID: abc123
+
+Order Service        Span ID: 1
+Payment Service      Span ID: 2
+Notification Service Span ID: 3
+```
+
+This allows us to see exactly where time is spent.
+
+**Spring Boot Example with Micrometer Tracing**
+
+**Maven Dependency**
+
+```xml id="jzptg7"
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-brave</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>io.zipkin.reporter2</groupId>
+    <artifactId>zipkin-reporter-brave</artifactId>
+</dependency>
+```
+
+**Service Class**
+
+```java id="d36xf8"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
+    public void createOrder() {
+        logger.info("Creating order");
+        // Business Logic
+        logger.info("Order created successfully");
+    }
+}
+```
+
+**application.properties**
+
+```properties id="6fzpxt"
+management.tracing.sampling.probability=1.0
+management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
+```
+
+**Sample Log Output**
+
+```text
+2026-06-09 10:00:00
+[traceId=abc123 spanId=xyz789]
+Creating order
+```
+
+The **Trace ID** and **Span ID** automatically appear in logs, making it easy to track requests across services.
+
+**Common Tools**
+
+* **OpenTelemetry**
+* **Zipkin**
+* **Jaeger**
+* **Micrometer Tracing**
+* **Spring Boot Actuator**
+
 
 ## 5. What is Zipkin and How Does Distributed Tracing Work?
 
@@ -17178,6 +17271,86 @@ public class PaymentService {
 
 It helps with unified search, request tracing across services, log retention, and better monitoring using tools like the **Elastic** (ELK Stack), **Fluentd**, and **Splunk**.
 
+**Why is Centralized Logging Important?**
+
+* Easier **Troubleshooting**
+* Faster **Issue Detection**
+* Better **Monitoring**
+* Improved **Security Auditing**
+* Simplified **Log Management**
+* Useful in **Microservices Architecture**
+
+**Common Architecture**
+
+Application Logs → Log Collector → Log Storage → Visualization Dashboard
+
+A popular implementation is the **ELK Stack**:
+
+* **Elasticsearch** – Stores and indexes logs
+* **Logstash** – Collects and processes logs
+* **Kibana** – Visualizes and searches logs
+
+Another common choice is the **EFK Stack**:
+
+* **Elasticsearch**
+* **Fluentd**
+* **Kibana**
+
+**Spring Boot Logging Example**
+
+**Service Class**
+
+```java id="e8hzyt"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeService {
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
+    public void createEmployee() {
+        logger.info("Employee creation started");
+
+        try {
+            // Business logic
+            logger.info("Employee created successfully");
+        } catch (Exception e) {
+            logger.error("Error while creating employee", e);
+        }
+    }
+}
+```
+
+**Logback Configuration**
+
+```xml id="jdr4c7"
+<configuration>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/application.log</file>
+
+        <encoder>
+            <pattern>
+                %d %-5level %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>
+```
+
+**How It Works in Production**
+
+1. **Spring Boot** application generates logs.
+2. Logs are written using **SLF4J** and **Logback**.
+3. A log collector such as **Logstash** or **Fluentd** reads the log files.
+4. Logs are sent to **Elasticsearch**.
+5. **Kibana** provides dashboards and search capabilities.
+
+
 ```yaml
 # Docker Compose with centralized logging
 version: '3'
@@ -17217,8 +17390,7 @@ services:
 ```java
 // Application configuration for centralized logging
 @Configuration
-public class LoggingConfig {
-    
+public class LoggingConfig {    
     @Bean
     public Logger structuredLogger() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
