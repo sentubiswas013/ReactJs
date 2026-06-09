@@ -380,7 +380,8 @@ public class Main {
 }
 ```
 
-**Deserialize Object**
+**Deserialize** is the reverse process of converting the Byte Stream back into a Java Object.
+
 ```java
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
