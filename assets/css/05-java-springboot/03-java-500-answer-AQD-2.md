@@ -6692,9 +6692,6 @@ class Child extends Parent {
 
 ## 4. Can you create custom annotations in java?
 
-
-## How to Create Custom Annotations in Java
-
 **Yes, Java allows you to create custom annotations** using the **@interface** keyword. Custom annotations are used to add **metadata** to classes, methods, fields, or parameters.
 
 **Creating a Custom Annotation**
