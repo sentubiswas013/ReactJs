@@ -12026,7 +12026,237 @@ public class GlobalExceptionHandler {
 }
 ```
 
-## 30. Top 50 Spring Boot Annotations 
+## 30. DispatcherServlet, HttpServletRequest, PathVariable, RequestParam, Interceptors, Filter
+
+**DispatcherServlet**
+
+**DispatcherServlet** is the central **Front Controller** in **Spring MVC**. It receives all incoming HTTP requests and manages the request processing flow.
+
+How it works:
+
+1. Client sends an HTTP request.
+2. **DispatcherServlet** receives the request.
+3. It finds the appropriate **Controller**.
+4. It calls the controller method.
+5. The controller processes the request and returns a result.
+6. **DispatcherServlet** sends the response back to the client.
+
+Example:
+
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return "User List";
+    }
+}
+```
+
+When `/users` is called, the request first reaches **DispatcherServlet**, which then forwards it to the `getUsers()` method.
+
+**Key Point:**
+**DispatcherServlet** is the heart of **Spring MVC**. It handles incoming requests, routes them to the correct controller, and returns the response to the client.
+
+---
+
+**HttpServletRequest**
+
+**HttpServletRequest** is an object that represents an incoming **HTTP request**. It provides access to all request data sent by the client.
+
+Using **HttpServletRequest**, we can access:
+
+* **Request parameters**
+* **HTTP headers**
+* **Request URL**
+* **HTTP method** (GET, POST, PUT, DELETE)
+* **Session information**
+
+Example:
+
+```java
+@GetMapping("/hello")
+public String hello(HttpServletRequest request) {
+
+    String name = request.getParameter("name");
+
+    return "Hello " + name;
+}
+```
+
+Request:
+
+```text
+/hello?name=John
+```
+
+Response:
+
+```text
+Hello John
+```
+
+**@PathVariable**
+
+**@PathVariable** is used to get a value directly from the **URL path**.
+
+Example URL:
+
+```java
+@GetMapping("/users/{id}")
+public String getUser(@PathVariable Long id) {
+    return "User ID: " + id;
+}
+```
+
+Request:
+
+```text
+/users/10
+```
+
+Result:
+
+```text
+User ID: 10
+```
+
+In this example, **10** is taken from the URL and assigned to the variable **id**.
+
+**Key Point:**
+Use **@PathVariable** when the value is part of the URL path and identifies a specific resource.
+
+---
+
+**@RequestParam**
+
+**@RequestParam** is used to get a value from a **query parameter** in the URL.
+
+Example:
+
+```java
+@GetMapping("/users")
+public String getUser(@RequestParam String name) {
+    return "User: " + name;
+}
+```
+
+Request:
+
+```text
+/users?name=John
+```
+
+Result:
+
+```text
+User: John
+```
+
+In this example, **John** is taken from the query parameter **name**.
+
+**Key Point:**
+Use **@RequestParam** when the value is sent as a query parameter after the `?` in the URL.
+
+---
+
+**Difference Between @PathVariable and @RequestParam**
+
+**@PathVariable**
+
+* Value comes from the **URL path**
+* Used to identify a specific resource
+* Example: `/users/10`
+
+**@RequestParam**
+
+* Value comes from the **query string**
+* Used for filtering, searching, sorting, or optional inputs
+* Example: `/users?name=John`
+
+
+**Filter**
+
+A **Filter** is part of the **Servlet API** and executes **before the request reaches the DispatcherServlet**. It can intercept and process every HTTP request and response.
+
+Common use cases:
+
+* **Logging**
+* **Authentication**
+* **CORS handling**
+* **Header modification**
+* **Request/Response preprocessing**
+
+Example:
+
+```java
+@Component
+public class LoggingFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
+                         FilterChain chain)
+            throws IOException, ServletException {
+
+        System.out.println("Request received");
+
+        chain.doFilter(request, response);
+    }
+}
+```
+
+**Key Point:**
+A **Filter** works at the **Servlet Container** level and is executed before Spring MVC processes the request.
+
+---
+
+**Interceptor**
+
+An **Interceptor** is a feature of **Spring MVC** that executes between the **DispatcherServlet** and the **Controller**.
+
+It allows us to execute logic:
+
+* Before the controller method (`preHandle`)
+* After the controller method (`postHandle`)
+* After the complete request is finished (`afterCompletion`)
+
+Example:
+
+```java
+@Component
+public class LoggingInterceptor implements HandlerInterceptor {
+
+    @Override
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response,
+                             Object handler) {
+
+        System.out.println("Before Controller");
+        return true;
+    }
+}
+```
+
+**Key Point:**
+An **Interceptor** is Spring-specific and is mainly used for controller-related processing.
+
+---
+
+**Difference Between Filter and Interceptor**
+
+| **Filter**                        | **Interceptor**                                        |
+| --------------------------------- | ------------------------------------------------------ |
+| Part of **Servlet API**           | Part of **Spring MVC**                                 |
+| Runs before **DispatcherServlet** | Runs after **DispatcherServlet** and before Controller |
+| Works for all HTTP requests       | Works for Spring MVC requests                          |
+| Can modify Request and Response   | Mainly used for application logic                      |
+| Independent of Spring             | Spring-specific                                        |
+
+
+
+## 31. Top 50 Spring Boot Annotations 
 
 | #  | Annotation                 | Purpose                                                                                                                                     |
 | -- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -16064,6 +16294,13 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 
 # ✅ 26. Java SQL
 
+## 1. What is SQL?
+
+**SQL (Structured Query Language)** is the standard language used to communicate with a **Relational Database**. It is used to **store**, **retrieve**, **update**, and **delete** data from database tables.
+
+Databases such as MySQL, Oracle Database, PostgreSQL, and Microsoft SQL Server use SQL.
+
+
 ## 1. What are the Types of SQL JOINs?
 
 JOINs combine rows from two or more tables based on a related column.
@@ -16081,6 +16318,10 @@ INNER JOIN department d ON e.dept_id = d.id;
 -- LEFT JOIN (all employees, even without a department)
 SELECT e.name, d.name FROM employee e
 LEFT JOIN department d ON e.dept_id = d.id;
+
+-- RIGHT JOIN (all employees, even without a department)
+SELECT e.name, d.name FROM employee e
+RIGHT JOIN department d ON e.dept_id = d.id;
 
 -- FULL OUTER JOIN
 SELECT e.name, d.name FROM employee e
