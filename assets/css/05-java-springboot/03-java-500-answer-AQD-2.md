@@ -5781,7 +5781,7 @@ synchronized void increment() {
 
 ## 1. What are the different memory areas in JVM?
 
-JVM memory is divided into different areas to store objects, class metadata, method execution data, and thread-specific information.
+Java has only one memory that is JVM. and JVM memory is divided into different areas to store objects, class metadata, method execution data, and thread-specific information.
 
 **JVM Memory Areas** manage program execution and memory:
 
