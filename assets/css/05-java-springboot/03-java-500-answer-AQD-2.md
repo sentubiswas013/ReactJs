@@ -13727,9 +13727,19 @@ public class OrderOrchestrator {
 ```
 
 
-## 16. What is a Transactional (ACID properties)? How do you handle rollback?
+## 16. What is a @Transactional (ACID properties)? How do you handle rollback?
 
-A **transaction** is a group of database operations that are executed as **one single unit of work**. we use @Transactional to manage transactions automatically.
+
+**@Transactional** is a Spring annotation used to manage **database transactions** automatically. It ensures that a group of database operations is executed as a single unit of work.
+
+**How It Works**
+
+When a method marked with **@Transactional** is called:
+
+1. Spring starts a **Transaction**.
+2. All database operations run inside that transaction.
+3. If everything succeeds, Spring performs a **COMMIT**.
+4. If an exception occurs, Spring performs a **ROLLBACK** and undoes all changes.
 
 
 `@Transactional` is an annotation in **Spring Framework** that tells Spring:
@@ -13750,19 +13760,57 @@ It follows **ACID properties:**
 | Durability  | Once committed, data is permanently saved even after a crash          |
 
 
+**Key Features**
 
-**Example (Bank Transfer)**
+* Automatic **Transaction Management**
+* Supports **COMMIT** and **ROLLBACK**
+* Ensures **ACID** properties
+* Reduces boilerplate code
+* Managed by Spring using **AOP (Proxy)**
 
-Transfer ₹100 from Account A → Account B:
+**Why to Use**
+
+* Maintains data consistency
+* Prevents partial updates
+* Simplifies transaction handling
+* Ensures multiple operations succeed or fail together
+
+**When to Use**
+
+Use **@Transactional** when multiple database operations must be treated as one unit.
+
+Examples:
+
+* Money transfer between accounts
+* Creating an order and updating inventory
+* Saving data in multiple tables
+
+**Code Example**
+
+```java
+@Service
+public class BankService {
+
+    @Transactional
+    public void transferMoney() {
+
+        withdrawMoney();
+        depositMoney();
+    }
+}
+```
+
+If `depositMoney()` fails, Spring rolls back the transaction and `withdrawMoney()` is also undone.
+
+
+**Example (Bank Transfer)** Transfer ₹100 from Account A → Account B:
 
 1. Debit from A
 2. Credit to B
 
 If credit fails, debit must be undone → **Rollback**
 
-
 **1. Using Spring `@Transactional` (Most Common)**
-
 ```java
 @Service
 public class BankService {
