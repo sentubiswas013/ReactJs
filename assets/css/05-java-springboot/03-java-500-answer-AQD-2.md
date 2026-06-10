@@ -96,7 +96,6 @@ Here:
 * Data security is weak
 * Code reusability is limited
 
----
 
 **OOP (Object-Oriented Programming)**
 
@@ -129,7 +128,6 @@ It combines **data + behavior** into a single unit called an object.
 
    * Hiding implementation details
 
----
 
 ```java
 class Car {
@@ -158,7 +156,6 @@ Here:
 * `c1` → object
 * Data + methods together → OOP
 
----
 
 **Structured Programming vs OOP**
 
@@ -683,8 +680,7 @@ String b = "hello";    // reuses same memory location
 String c = new String("hello"); // creates new object in heap
 
 System.out.println(a == b);  // true - same reference
-System.out.println(a == c);  // false - different references
---------------------------
+System.out.println(a == c);  // false - different references-----------------------
 String str1 = "Hello";
 String str2 = "Hello";
 String str3 = new String("Hello");
@@ -3687,8 +3683,7 @@ Map (separate hierarchy)
 Here’s a cleaner and corrected version of your table:
 
 ```
-Interface    | Common Classes(implementations)        | Description
--------------|----------------------------------------|-----------------------------------------
+Interface    | Common Classes(implementations)        | Description----------|----------------------------------------|-----------------------------------------
 List         | ArrayList, LinkedList                  | Ordered collection that allows duplicates
 Set          | HashSet, TreeSet, LinkedHashSet        | Collection of unique elements (no duplicates)
 Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs with unique keys
@@ -3712,7 +3707,6 @@ LinkedList
 | Auto-remove unused keys             | `WeakHashMap`       | Keys removed by Garbage Collector | Memory-sensitive cache               |
 | Reference equality comparison       | `IdentityHashMap`   | Uses `==` instead of `equals()`   | Framework internals, object tracking |
 
----
 
 **Quick Complexity Overview**
 
@@ -3918,7 +3912,6 @@ public class IdentityHashMapExample {
 So both keys are treated separately.
 ```
 
----
 
 **3. LinkedHashMap Example :** A map that **maintains insertion order** using a linked list along with a hash table. Maintains insertion order.
 
@@ -3944,7 +3937,6 @@ public class LinkedHashMapExample {
 // Output: {3=Java, 1=Spring, 2=Hibernate}
 ```
 
----
 
 **LinkedHashMap as LRU Cache**
 
@@ -3975,7 +3967,6 @@ public class LRUCacheExample {
 // Output: Key `2` removed because it was least recently used.
 ```
 
----
 
 **4. PriorityQueue Example :** A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
 
@@ -4005,7 +3996,6 @@ public class PriorityQueueExample {
 // 50
 ```
 
----
 
 **Max Heap Example**
 
@@ -4035,7 +4025,6 @@ public class MaxHeapExample {
 // 10
 ```
 
----
 
 **Summary**
 
@@ -4088,7 +4077,6 @@ class LRUCache<K, V> extends LinkedHashMap<K, V> {
 // `2=B` removed because it was least recently used.
 ```
 
----
 
 **2. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
 
@@ -4160,7 +4148,6 @@ class LFUCache {
 // `3=C` removed because it was least frequently used.
 ```
 
----
 
 **3. TTL Cache (Time To Live) :** Expires data after fixed duration.
 
@@ -4221,7 +4208,6 @@ class TTLCache {
 // After 3 seconds, value expires.
 ```
 
----
 
 **Quick Interview Summary**
 
@@ -4276,7 +4262,6 @@ System.out.println(list);
 
 Duplicates are allowed.
 
----
 
 **Set Example**
 
@@ -4327,7 +4312,6 @@ numbers[2] = 30;
 
 Size is fixed to 3 and cannot be increased.
 
----
 
 **List Example**
 
@@ -4415,7 +4399,6 @@ System.out.println(arr[2]); // 30
 
 Here, accessing `arr[2]` always takes the same time, so the complexity is **O(1)**.
 
----
 
 **- O(n) – Linear Time**
 
@@ -4646,7 +4629,6 @@ public class Main {
 * **sleep()** is a method of the **Thread class** used to pause execution of a thread for a fixed time.
 * **wait()** is a method of the **Object class** used for inter-thread communication, where a thread waits until it is notified.
 
----
 
 **sleep() – Key Features**
 
@@ -4661,7 +4643,6 @@ public class Main {
 * Thread is paused for given milliseconds
 * After time expires, it resumes automatically
 
----
 
 **wait() – Key Features**
 
@@ -4677,14 +4658,12 @@ public class Main {
 * Another thread calls `notify()` / `notifyAll()`
 * Waiting thread resumes execution
 
----
 
 **Why to Use**
 
 * **sleep()** → Delay execution
 * **wait()** → Coordinate between threads
 
----
 
 **When to Use**
 
@@ -4700,7 +4679,6 @@ public class Main {
   * Thread communication
   * Shared resource coordination
 
----
 
 **Example: sleep()**
 
@@ -4721,7 +4699,6 @@ public class Main {
 }
 ```
 
----
 
 **Example: wait() / notify()**
 
@@ -4759,7 +4736,6 @@ public class Main {
 }
 ```
 
----
 
 **sleep() vs wait()**
 
@@ -6182,7 +6158,6 @@ public class Main {
 
 "**CountDownLatch** is a synchronization utility that allows a thread to wait until other threads complete their work. It uses a counter that decreases with `countDown()`, and when the count reaches zero, waiting threads are released. It is a **one-time-use** synchronization mechanism."
 
----
 
 **CyclicBarrier** is a synchronization utility that allows a group of threads to wait for each other at a common barrier point before continuing execution.
 
@@ -6250,7 +6225,6 @@ public class Main {
 
 "**CyclicBarrier** is a synchronization utility that allows multiple threads to wait for each other at a common point. When all participating threads reach the barrier using `await()`, they are released together. Unlike **CountDownLatch**, it is **reusable** and can be used across multiple processing phases."
 
----
 
 **CountDownLatch vs CyclicBarrier**
 
@@ -6765,7 +6739,6 @@ System.out.println(future.get());
 * **Fail-Fast**: Immediately throws an exception if the collection is modified during iteration.
 * **Fail-Safe**: Works on a copy of the collection, so modifications do not cause exceptions.
 
----
 
 **Fail-Fast**
 
@@ -6811,7 +6784,6 @@ public class Main {
 }
 ```
 
----
 
 **Fail-Safe**
 
@@ -7155,8 +7127,7 @@ public void method() {
 **Memory Representation**
 
 ```text
-Stack                      Heap
------                      -----
+Stack                      Heap--                      -----
 age = 25
 emp --------->          Employee Object
                          name = "John"
@@ -7166,7 +7137,6 @@ emp --------->          Employee Object
 * `emp` reference is stored in the Stack.
 * Actual `Employee` object is stored in the Heap.
 
----
 
 **Heap vs Stack**
 
@@ -7979,7 +7949,6 @@ List list = new ArrayList(); // Suppresses unchecked warning
 > * **`@Documented`** makes the annotation appear in JavaDoc documentation.
 > * **`@Inherited`** allows a child class to inherit an annotation from its parent class.
 
----
 
 **1. `@Target`**
 
@@ -7999,7 +7968,6 @@ class Test {
 
 **Example:** If `@Target(ElementType.TYPE)` is used, the annotation can only be applied to classes or interfaces.
 
----
 
 **2. `@Documented`**
 
@@ -8014,7 +7982,6 @@ class Test {
 
 **Example:** When JavaDoc is generated, this annotation will be visible in the documentation.
 
----
 
 **3. `@Inherited`**
 
@@ -8040,7 +8007,6 @@ class Child extends Parent {
 
 **Result:** The `Child` class automatically inherits the `@Role("Admin")` annotation from `Parent`.
 
----
 
 **Easy Way to Remember**
 
@@ -8703,7 +8669,6 @@ public void createEmployee() {
 | Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
 
 
----
 
 ## 10. What is the difference between DAO and DTO?
 
@@ -8739,7 +8704,6 @@ List<Order> findAll();
 
 This loads everything in a single query instead of N+1 separate ones.
 
----
 
 ## 11. What is Optimistic vs Pessimistic Locking?
 
@@ -8780,7 +8744,6 @@ Product findByIdForUpdate(@Param("id") Long id);
 
 Use optimistic for read-heavy apps, pessimistic for write-heavy or financial systems.
 
----
 
 ## 12. What is JPQL vs Native Query?
 
@@ -8800,7 +8763,6 @@ List<Employee> findByDeptNative(@Param("dept") String dept);
 
 Prefer JPQL for portability. Use native query only when needed.
 
----
 
 ## 13. What are JPA Cascade Types?
 
@@ -8822,7 +8784,6 @@ private List<OrderItem> items;
 
 Be careful with `REMOVE` — it can delete child records you didn't intend to delete.
 
----
 
 ## 14. What is Database Indexing and When to Use It?
 
@@ -8850,7 +8811,6 @@ public class Employee { }
 
 Indexes speed up reads but slow down writes — so use them wisely.
 
----
 
 ## 15. What is `FetchType.LAZY` vs `FetchType.EAGER` In Depth?
 
@@ -8873,7 +8833,6 @@ private Department department;
 **Best practice:** Always prefer LAZY. Load eagerly only when you always need the related data together.
 
 
----
 
 ## 16. What is LazyInitializationException?
 
@@ -8931,7 +8890,6 @@ entityManager.merge(user);             // Managed again
 entityManager.remove(user);            // Removed
 ```
 
----
 
 ## 18. What is dirty checking?
 
@@ -9595,7 +9553,6 @@ class FileUploadController {
 }
 ```
 
----
 
 **Step 2 — Service Layer**
 
@@ -9656,7 +9613,6 @@ class FileProcessingService {
 }
 ```
 
----
 
 **Step 3 — Entity**
 
@@ -9683,7 +9639,6 @@ class DataEntity {
 }
 ```
 
----
 
 **Step 4 — Repository**
 
@@ -9693,7 +9648,6 @@ interface DataRepository extends JpaRepository<DataEntity, Long> {
 }
 ```
 
----
 
 **Step 5 — Enable Async**
 
@@ -10093,7 +10047,6 @@ classpath:/config/
 classpath:/          ← lowest priority
 ```
 
----
 
 ## 11. What is centralized configuration in microservices?
 
@@ -10120,7 +10073,6 @@ spring:
     name: order-service   # fetches order-service.yml from git
 ```
 
----
 
 ## 13. How can we create a centralized configuration for all microservices?
 
@@ -10166,7 +10118,6 @@ spring:
           default-label: main
 ```
 
----
 
 **Step 2: Create Git Config Repository**
 
@@ -10186,7 +10137,6 @@ app:
   timeout: 5000
 ```
 
----
 
 **Step 3: Configure Client Microservice**
 
@@ -10209,7 +10159,6 @@ spring:
     active: dev
 ```
 
----
 
 **Step 4: Use Config Values in Code**
 
@@ -10228,7 +10177,6 @@ public class OrderController {
 }
 ```
 
----
 
 **Step 5: Dynamic Refresh (Without Restart)**
 
@@ -10254,7 +10202,6 @@ Trigger refresh after config change:
 POST http://localhost:8080/actuator/refresh
 ```
 
----
 
 **Config Resolution Order**
 
@@ -10267,7 +10214,6 @@ Example for `order-service` with `dev` profile:
 2. `order-service.yml`
 3. `application.yml`
 
----
 
 **Interview Key Points**
 
@@ -10280,7 +10226,6 @@ Example for `order-service` with `dev` profile:
 | Refresh without restart | `POST /actuator/refresh` |
 | Bus refresh (all instances) | Spring Cloud Bus + Kafka/RabbitMQ |
 
----
 **Common Interview Questions**
 
 **Q: What happens if Config Server is down at startup?**  
@@ -10295,7 +10240,6 @@ A: `@RefreshScope` re-initializes only the annotated bean at runtime via `/actua
 **Q: How to push config changes to all instances at once?**  
 A: Use **Spring Cloud Bus** with a message broker (Kafka/RabbitMQ). One `POST /actuator/busrefresh` call propagates to all instances.
 
----
 
 ## 14. How do microservices load configuration from a central source?
 
@@ -10353,7 +10297,6 @@ private AppConfig appConfig;
 appConfig.getTimeout(); // 5000
 ```
 
----
 
 ## 13. What is the use of prefix in configuration properties?
 
@@ -10871,7 +10814,6 @@ class EmailService {
 }
 ```
 
----
 
 **O — Open/Closed Principle (OCP)**
 
@@ -10941,7 +10883,6 @@ public class Main {
 
 Now we can add **NetBankingPayment** without changing existing code.
 
----
 
 **L — Liskov Substitution Principle (LSP)**
 
@@ -11031,7 +10972,6 @@ Sparrow can fly
 
 Bad example: Penguin cannot fly → violates LSP.
 
----
 
 **I — Interface Segregation Principle (ISP)**
 
@@ -11083,7 +11023,6 @@ Robot working
 
 Robot does not implement eat() → Correct.
 
----
 
 **D — Dependency Inversion Principle (DIP)**
 
@@ -11902,7 +11841,6 @@ public class OrderService {
 // Logging, security, transactions handled automatically by aspects
 ```
 
----
 
 **Core AOP Concepts**
 
@@ -11951,7 +11889,6 @@ public void log(JoinPoint joinPoint) {
 **5. 🔀 Weaving**
 The process of applying aspects to target objects. Spring does this at **runtime** using proxies.
 
----
 
 **Types of Advice with Examples**
 
@@ -12007,7 +11944,6 @@ public Object measureTime(ProceedingJoinPoint joinPoint) throws Throwable {
 }
 ```
 
----
 
 **Real-World Use Cases**
 
@@ -12076,7 +12012,6 @@ public class PerformanceAspect {
 }
 ```
 
----
 
 **How Spring AOP Works Internally (Proxy Pattern)**
 
@@ -12093,7 +12028,6 @@ Your Code calls → Spring Proxy (AOP magic) → Real Bean
 
 Spring creates a **proxy** around your bean and intercepts method calls to apply aspects.
 
----
 
 **Setup in Spring Boot**
 
@@ -12112,7 +12046,6 @@ Spring creates a **proxy** around your bean and intercepts method calls to apply
 public class MyApp { }
 ```
 
----
 
 **AOP vs OOP**
 
@@ -12287,7 +12220,6 @@ Here are strong **real industry practice tables** you can use in final-round int
 | Tracing           | Basic Logs           | Zipkin / Jaeger                    |
 | CI/CD             | Jenkins Local        | Jenkins/GitHub Actions + ArgoCD    |
 
----
 
 **Database Handling**
 
@@ -12302,7 +12234,6 @@ Here are strong **real industry practice tables** you can use in final-round int
 | Sharding          | Rare                  | Used for large-scale systems |
 | Transactions      | Local Transactions    | Distributed/Saga Pattern     |
 
----
 
 **Cache**
 
@@ -12315,7 +12246,6 @@ Here are strong **real industry practice tables** you can use in final-round int
 | Scaling         | Single Node       | Clustered Redis    |
 | HA              | Not Needed        | Sentinel/Cluster   |
 
----
 
 **Messaging / Event Driven**
 
@@ -12329,7 +12259,6 @@ Here are strong **real industry practice tables** you can use in final-round int
 | Async Communication | Basic                 | Event-Driven Architecture |
 | Cloud Native Queue  | Rare                  | AWS SQS/SNS               |
 
----
 
 **Security**
 
@@ -12342,7 +12271,6 @@ Here are strong **real industry practice tables** you can use in final-round int
 | API Security    | Simple Filters    | WAF + Rate Limiting         |
 | User Management | Local DB          | Keycloak/Auth0/Cognito      |
 
----
 
 **Deployment**
 
@@ -12358,7 +12286,6 @@ Here are strong **real industry practice tables** you can use in final-round int
 | Blue Green Deployment | Rare              | Common             |
 | Canary Deployment     | Rare              | Common             |
 
----
 
 **Monitoring & Observability**
 
@@ -12371,7 +12298,6 @@ Here are strong **real industry practice tables** you can use in final-round int
 | Tracing      | Basic Logs        | Jaeger/Zipkin               |
 | Health Check | /actuator/health  | Liveness + Readiness Probes |
 
----
 
 **High Availability & Scalability**
 
@@ -12390,7 +12316,6 @@ In local development we use lightweight containerized setups mainly for developm
 
 In production, we move toward cloud-native and distributed architecture. Kubernetes handles orchestration and service discovery, managed Redis and Kafka are used for scalability and fault tolerance, ConfigMaps and Secrets handle configuration securely, and monitoring/logging are centralized using Prometheus, Grafana, and ELK stack.
 
----
 
 **Strong Senior-Level Keywords**
 
@@ -13011,7 +12936,6 @@ public class User {
 
 **Lombok automatically generates getter & setter at compile time.**
 
----
 
 **Common Lombok Annotations**
 
@@ -13429,7 +13353,6 @@ It looks at the JARs in your classpath and tries to auto-configure beans accordi
 - It allows me to start building features quickly without manual setup.
 - If needed, I can still override its default settings using @Configuration classes 
 
----
 
 ## 26. What is `@Async` and How Does It Work?
 
@@ -13482,7 +13405,6 @@ public class EmailService {
 3. **Call the Method** When you call this method from another class, Spring intercepts the call and runs it in a background thread. 
 Important Rules & Gotchas 
 
----
 
 ## 27. What is `@EventListener` in Spring Boot?
 
@@ -13519,7 +13441,6 @@ By default it's **synchronous**. Combine with `@Async` to make it non-blocking.
 
 Use it to decouple logic — like sending emails, notifications, or audit logging — without tight coupling between services.
 
----
 
 ## 28. What is `ResponseEntity` and When to Use It?
 
@@ -13553,7 +13474,6 @@ return ResponseEntity
 
 Use it when you need to return different status codes, add headers, or return an empty body with a specific status.
 
----
 
 ## 29. What is `@ExceptionHandler` vs `@ControllerAdvice`?
 
@@ -13623,7 +13543,6 @@ When `/users` is called, the request first reaches **DispatcherServlet**, which 
 **Key Point:**
 **DispatcherServlet** is the heart of **Spring MVC**. It handles incoming requests, routes them to the correct controller, and returns the response to the client.
 
----
 
 **HttpServletRequest**
 
@@ -13691,7 +13610,6 @@ In this example, **10** is taken from the URL and assigned to the variable **id*
 **Key Point:**
 Use **@PathVariable** when the value is part of the URL path and identifies a specific resource.
 
----
 
 **@RequestParam**
 
@@ -13723,7 +13641,6 @@ In this example, **John** is taken from the query parameter **name**.
 **Key Point:**
 Use **@RequestParam** when the value is sent as a query parameter after the `?` in the URL.
 
----
 
 **Difference Between @PathVariable and @RequestParam**
 
@@ -13774,7 +13691,6 @@ public class LoggingFilter implements Filter {
 **Key Point:**
 A **Filter** works at the **Servlet Container** level and is executed before Spring MVC processes the request.
 
----
 
 **Interceptor**
 
@@ -13806,7 +13722,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
 **Key Point:**
 An **Interceptor** is Spring-specific and is mainly used for controller-related processing.
 
----
 
 **Difference Between Filter and Interceptor**
 
@@ -14934,7 +14849,6 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 | NGINX                | Reverse proxy/API gateway   |
 | Azure API Management | Azure cloud                 |
 
----
 
 **Advantages of API Gateway**
 
@@ -15370,7 +15284,6 @@ public class BankService {
 
 If any exception occurs → **Automatic Rollback**
 
----
 
 **2. Force Rollback When Error Happens**
 
@@ -15473,7 +15386,6 @@ public void saveAuditLog() {
     // always runs in its own transaction
 }
 ```
----
 
 
 ## 17. What is a Transaction in SQL?
@@ -15509,7 +15421,6 @@ ROLLBACK;
 
 Without transactions, if the debit succeeds but the credit fails, you lose money. Transactions prevent that.
 
----
 
 ## 18. How do you Prevent duplicate payment(idempotency)?
 
@@ -15863,7 +15774,6 @@ public class KafkaConsumerExample {
 
 Use Kafka for: event sourcing, log aggregation, real-time analytics, microservice communication at scale.
 
----
 
 ## 2. How does Kafka achieve high throughput and low latency?
 
@@ -15891,7 +15801,6 @@ props.put("compression.type", "snappy");
 * `linger.ms` → Waits briefly to create larger batch
 * `compression.type` → Reduces network traffic
 
----
 
 ## 3. What is the difference between a topic and a partition?
 
@@ -15923,7 +15832,6 @@ Meaning:
 * 3 partitions
 * Replication factor = 2
 
----
 
 ## 4. How does Kafka handle durability and fault tolerance?
 
@@ -15961,7 +15869,6 @@ props.put("min.insync.replicas", "2");
 * `acks=all` → Wait for all replicas acknowledgment
 * `min.insync.replicas=2` → At least 2 replicas must sync
 
----
 
 ## 5. What is a consumer group and how does it work?
 
@@ -16003,7 +15910,6 @@ consumer.subscribe(
         Collections.singletonList("orders"));
 ```
 
----
 
 ## 6. How does Kafka ensure message ordering?
 
@@ -16099,7 +16005,6 @@ public void receive(String message) { }
 Use **RabbitMQ** for task queues, job processing, and complex routing.
 Use **Kafka** for event streaming, high-volume data, and replay scenarios.
 
----
 
 ## 9. What is gRPC and How Does It Differ from REST?
 
@@ -16127,7 +16032,6 @@ gRPC generates client and server code automatically from this contract.
 
 Use gRPC for **internal microservice communication** where performance matters. Use REST for **public APIs** and browser clients.
 
----
 
 ## 10. What is a Service Mesh (Istio)?
 
@@ -16652,7 +16556,6 @@ public class SecurityConfig {
 **Interview Answer:**
 "CSRF is enabled by default in Spring Security. For REST APIs with JWT, I disable it since requests are stateless and don't rely on cookies. For form-based apps, Spring Security + Thymeleaf handles CSRF tokens automatically."
 
----
 
 ## 13. What is XSS Protection?
 
@@ -16727,7 +16630,6 @@ public class SanitizationService {
 **Interview Answer:**
 > "I prevent XSS by: 1) enabling X-XSS-Protection and CSP headers via Spring Security, 2) sanitizing user input with OWASP HTML Sanitizer before storing, 3) using Thymeleaf which auto-escapes output by default."
 
----
 
 ## 14. What is Input Validation?
 
@@ -16738,7 +16640,6 @@ public class SanitizationService {
 - Ensures business rules are enforced (e.g., age > 0)
 - Fails fast before bad data reaches DB
 
----
 
 **Step 1: Add validation dependency**
 ```xml
@@ -17961,7 +17862,6 @@ FULL OUTER JOIN department d ON e.dept_id = d.id;
 
 Think of it as a Venn diagram — INNER is the overlap, LEFT keeps the left circle, FULL keeps both circles.
 
----
 
 ## 2. What is the Difference Between WHERE and HAVING?
 
@@ -17984,7 +17884,6 @@ HAVING COUNT(*) > 5;
 
 Simple rule: if you're filtering on an aggregate function like `COUNT`, `SUM`, `AVG` — use `HAVING`. Otherwise use `WHERE`.
 
----
 
 ## 3. What is GROUP BY and ORDER BY?
 
@@ -18010,7 +17909,6 @@ ORDER BY avg_sal DESC;
 
 `GROUP BY` collapses rows. `ORDER BY` just sorts them.
 
----
 
 ## 4. What is Database Indexing and When to Use It?
 
@@ -18035,7 +17933,6 @@ CREATE INDEX idx_dept_salary ON employee(dept_id, salary);
 
 Indexes speed up reads but slow down writes (INSERT/UPDATE/DELETE). Use them wisely — don't over-index.
 
----
 
 ## 5. What is the Difference Between Stored Procedure and Aggregate Function?
 
@@ -18074,7 +17971,6 @@ SELECT get_salary(1);  -- used inline
 
 Use a **function** when you need a return value in a query. Use a **procedure** for business logic, batch operations, or multiple operations.
 
----
 
 ## 6. What is Normalization? Types (1NF, 2NF, 3NF)?
 
@@ -18110,7 +18006,6 @@ Normalization is the process of organizing a database to **reduce redundancy** a
 
 In practice, aim for 3NF. Sometimes you intentionally denormalize for performance.
 
----
 
 ## 7. What is the Difference Between DELETE, TRUNCATE, and DROP?
 
@@ -18134,7 +18029,6 @@ DROP TABLE employee;                   -- removes table entirely
 
 Use `DELETE` for selective removal. `TRUNCATE` to clear a table fast. `DROP` only when you want to remove the table completely.
 
----
 
 ## 8. What is a Subquery vs a JOIN?
 
@@ -18162,7 +18056,6 @@ WHERE d.name = 'Engineering';
 - Use **subquery** when the inner result is a single value or a filtered set that's hard to express as a JOIN
 - Correlated subqueries (referencing outer query) can be slow — prefer JOIN or CTEs
 
----
 
 ## 9. What is a View in SQL?
 
@@ -18185,7 +18078,6 @@ SELECT * FROM high_salary_employees;
 
 **Limitation:** A regular view doesn't store data. For performance, use a **Materialized View** (stores the result physically, needs refresh).
 
----
 
 ## 11. What are different types of **JOINs**?
 
@@ -18232,7 +18124,6 @@ SELECT name FROM employee_us;
 
 Use `UNION ALL` when you know there are no duplicates or you want all rows — it's faster because it skips the deduplication step.
 
----
 
 
 ## 12. What is SQL injection and how to prevent it?
@@ -19559,7 +19450,6 @@ How system should behave?
 * Low latency
 * Fault tolerance
 
----
 
 **2. Estimate Scale**
 
@@ -19580,7 +19470,6 @@ Example:
 
 This helps decide architecture.
 
----
 
 **3. Identify Core Entities**
 
@@ -19597,7 +19486,6 @@ Payment
 Inventory
 ```
 
----
 
 **4. Design High-Level Architecture (HLD)**
 
@@ -19623,7 +19511,6 @@ Components:
 * CDN
 * Storage
 
----
 
 **5. Database Design**
 
@@ -19645,7 +19532,6 @@ User(id, name, email)
 Order(id, userId, total)
 ```
 
----
 
 **6. API Design**
 
@@ -19666,7 +19552,6 @@ Think about:
 * Status codes
 * Pagination
 
----
 
 **7. Decide Architecture Style**
 
@@ -19678,7 +19563,6 @@ Choose:
 | Microservices | Large scalable systems |
 | Event Driven  | Async processing       |
 
----
 
 **8. Add Scalability**
 
@@ -19695,7 +19579,6 @@ Use:
 * Load balancer
 * Auto scaling
 
----
 
 **9. Add Performance Optimization**
 
@@ -19707,7 +19590,6 @@ Use:
 * Lazy loading
 * Compression
 
----
 
 **10. Handle Reliability**
 
@@ -19719,7 +19601,6 @@ Add:
 * Backup
 * Failover
 
----
 
 **11. Security Design**
 
@@ -19731,7 +19612,6 @@ Think about:
 * HTTPS
 * Rate limiting
 
----
 
 **12. Monitoring & Logging**
 
@@ -19742,7 +19622,6 @@ Use:
 * Grafana
 * CloudWatch
 
----
 
 **13. Deep Dive (LLD)**
 
@@ -19763,7 +19642,6 @@ Use:
 * UML
 * OOP
 
----
 
 **Example Interview Flow**
 
@@ -19783,7 +19661,6 @@ You should answer in order:
 8. Reliability
 9. Security
 
----
 
 **Common Technologies**
 
@@ -19797,7 +19674,6 @@ You should answer in order:
 | Storage    | S3             |
 | Monitoring | Grafana        |
 
----
 
 **Golden Rule**
 
