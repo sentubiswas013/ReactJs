@@ -1454,19 +1454,24 @@ class Outer {
 
 ## 22. What is singleton class?
 
-A singleton class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
+A **singleton** class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
 
+**Singleton** is a **Design Pattern** that ensures only **one instance** of a class is created and provides a global access point to that instance.
 
+**Key Features**
 
+* Only **one object** of the class exists
+* Provides **global access** to the object
+* Saves memory and resources
+* Commonly used in Spring beans and configuration classes
+
+**How It Works**
+
+The constructor is made **private** so that objects cannot be created from outside the class. A static method returns the single instance.
+
+**Code Example**
 
 ```java
-// **How to Create**
-
-// 1. Create class // class Singleton {}
-// 2. Create One Static Instance Variable // private static Singleton instance
-// 2. Constructor Must Be private  // private Singleton() { } 
-// 3. Provide Public Static Method  //public static Singleton getInstance() {}
-
 class Singleton {
     private static Singleton instance;
 
@@ -1490,6 +1495,25 @@ public class Test {
     }
 }
 ```
+
+**Why to Use**
+
+* To control object creation
+* To share a single resource across the application
+* To improve resource management
+* To avoid creating unnecessary objects
+
+**When to Use**
+
+Use **Singleton** when exactly one object should exist in the application.
+
+Examples:
+
+* **Logger**
+* **Configuration Manager**
+* **Cache Manager**
+* **Database Connection Manager**
+
 
 ## 23. Is it allowed to overload main() method in Java?
 
