@@ -7598,7 +7598,6 @@ Examples:
 ## 8. Difference between `save()` and `persist()`
 
 
-
 `persist()` is a JPA method used to make a new entity managed and schedule it for insertion into the database. It does not return anything.
 
 `save()` is a Hibernate/Spring Data method that saves the entity and returns the saved object. It can handle both insert and update operations.
@@ -7869,15 +7868,69 @@ entityManager.remove(user);            // Removed
 
 ## 18. What is dirty checking?
 
-**Dirty checking** is a mechanism in Hibernate (and JPA) that **automatically detects changes made to entity objects and synchronizes them to the database** without requiring explicit update queries.
+
+**Dirty Checking** is a feature of **Hibernate/JPA** that automatically detects changes made to a managed entity and updates the database without explicitly calling `save()` or `update()`.
+
+**Key Features**
+
+* Automatic change detection
+* Works inside a **Transaction**
+* Reduces boilerplate code
+* Managed by the **Persistence Context**
+* Automatically generates **UPDATE** queries
 
 **How It Works**
 
-1. **Snapshot Creation**: When Hibernate loads an entity, it creates a copy of all property values (a snapshot) [dev](https://dev.to/yigi/hibernate-dirty-check-4j6m)
+1. Hibernate loads an entity from the database.
+2. The entity becomes **Managed** by the **Persistence Context**.
+3. If the entity's data is modified, Hibernate tracks the changes.
+4. At **Transaction Commit**, Hibernate compares the current state with the original state.
+5. If changes are found, Hibernate automatically executes an **UPDATE** statement.
 
-2. **Modification Tracking**: When you modify the entity in memory, Hibernate detects the difference between the current state and the snapshot [baeldung](https://www.baeldung.com/java-hibernate-entity-dirty-check)
+**Code Example**
 
-3. **Automatic Update**: At flush time (when transaction commits), Hibernate compares the current state with the snapshot and generates `UPDATE` SQL for only the changed fields [javacodegeeks](https://www.javacodegeeks.com/java-hibernate-entity-dirty-check-example.html)
+```java
+@Transactional
+public void updateUser(Long id) {
+
+    User user = userRepository.findById(id).get();
+    // Hibernate creates snapshot: {id: 1, name: "John", salary: 50000}
+
+    user.setName("John Updated");
+
+    // Hibernate marks entity as "dirty"
+    
+    // No need to call employeeRepository.save()!
+    // At transaction commit, Hibernate automatically executes:
+    // UPDATE employee SET name = 'John Updated' WHERE id = 1
+}
+```
+
+No explicit `save()` call is needed.
+
+Hibernate automatically generates:
+
+```sql
+UPDATE users
+SET name = 'John Updated'
+WHERE id = 1;
+```
+
+**Why to Use**
+
+* Reduces manual database updates
+* Simplifies code
+* Improves developer productivity
+* Ensures entity changes are persisted automatically
+
+**When to Use**
+
+Use **Dirty Checking** when working with **managed entities** inside a **@Transactional** method.
+
+**Interview Answer**
+
+**Dirty Checking** is a Hibernate feature that automatically detects changes made to a managed entity and synchronizes those changes with the database during transaction commit. It works by comparing the original entity state with the modified state and automatically generating the required **UPDATE** query, eliminating the need for explicit save or update operations.
+
 
 ```java
 // Load entity
@@ -7888,23 +7941,6 @@ employee.setName("John Updated");  // Hibernate detects this change
 
 // Transaction commits → Hibernate automatically generates:
 // UPDATE employee SET name = 'John Updated' WHERE id = 1
-```
-
-**Dirty checking Example**
-
-```java
-@Transactional
-public void updateEmployee() {
-    Employee employee = employeeRepository.findById(1L).get();
-    // Hibernate creates snapshot: {id: 1, name: "John", salary: 50000}
-    
-    employee.setName("John Updated");  // Modified
-    // Hibernate marks entity as "dirty"
-    
-    // No need to call employeeRepository.save()!
-    // At transaction commit, Hibernate automatically executes:
-    // UPDATE employee SET name = 'John Updated' WHERE id = 1
-}
 ```
 
 **How to Disable Dirty Checking (When Not Needed)**
@@ -7923,7 +7959,6 @@ session.setReadOnly(entity, true);  // Hibernate won't track changes [web:12]
 session.evict(employee);  // Removes from persistence context [web:12]
 ```
 
----
 
 ## 19. Difference between save() and saveAndFlush()?
 
