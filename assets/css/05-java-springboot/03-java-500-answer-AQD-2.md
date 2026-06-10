@@ -12422,7 +12422,28 @@ public class CorsConfig {
 
 ## 3. What are RESTful web services?
 
-**RESTful API** is an API that follows **REST (Representational State Transfer)** principles to enable communication between clients and servers using standard HTTP methods.
+A **RESTful API** is an API that follows the **REST (Representational State Transfer)** architecture and uses **HTTP** methods to communicate between a client and a server.
+
+**Key Features**
+
+* **Stateless** – Each request contains all the information needed to process it.
+* **Resource-Based** – Data is represented as resources identified by URLs.
+* Uses standard **HTTP methods** such as **GET**, **POST**, **PUT**, **PATCH**, and **DELETE**.
+* Usually exchanges data in **JSON** format.
+
+**Why Use RESTful APIs?**
+
+* Simple and easy to understand
+* Scalable and maintainable
+* Easy integration between different systems
+* Widely used in web and mobile applications
+
+**When to Use RESTful APIs?**
+
+* Frontend and Backend communication
+* Microservices communication
+* Mobile applications
+* Third-party integrations
 
 An API is considered **RESTful** when it:
 
