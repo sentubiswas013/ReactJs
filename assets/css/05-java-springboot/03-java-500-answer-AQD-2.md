@@ -7372,47 +7372,190 @@ public class UserServlet extends HttpServlet {
 
 
 ## 5. What is ORM?
+**ORM(Object Relational Mapping)** is a technique that maps **Java Objects** to **Database Tables** and database records to Java objects.
 
-**ORM (Object Relational Mapping)** is a technique to map **Java objects ↔ database tables**.
+**Key Features**
 
-**What It Does**
-- Converts Java objects → Database tables
-- Converts Database rows → Java objects 
+* Maps objects to database tables
+* Reduces SQL boilerplate code
+* Simplifies database operations
+* Improves code readability and maintainability
 
-```java
-// Java Object (Object-Oriented)
-Employee employee = new Employee(1L, "John", 50000);
+**How It Works**
 
-// Becomes this SQL (Relational Database)
-INSERT INTO employee (id, name, salary) VALUES (1, 'John', 50000);
+ORM automatically converts Java objects into database records and database records back into Java objects.
 
-// Without ORM — raw SQL
-String sql = "SELECT * FROM users WHERE id = ?";
-// ...boilerplate JDBC code...
+For example:
 
-// With ORM — just work with objects
-User user = session.get(User.class, 1);
-```
+* **Class** → **Table**
+* **Object** → **Row**
+* **Field** → **Column**
 
-## 6. What is Hibernate?
-
-**Hibernate ORM** is an open-source ORM (Object Relational Mapping) framework for Java that simplifies database operations by mapping Java objects to database tables. Hibernate is a popular implementation of Jakarta Persistence (JPA).
-
+**Code Example**
 
 ```java
-import jakarta.persistence.*;
-
 @Entity
-@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 }
 ```
+
+```java
+User user = new User();
+user.setName("John");
+
+userRepository.save(user);
+```
+
+ORM automatically generates and executes the SQL needed to save the object.
+
+**Why to Use**
+
+* Reduces manual SQL writing
+* Improves developer productivity
+* Makes code more object-oriented
+* Simplifies CRUD operations
+
+**When to Use**
+
+Use **ORM** when working with relational databases and Java applications that need frequent database operations.
+
+Examples:
+
+* Spring Boot applications
+* Enterprise applications
+* Microservices with databases
+
+## 6. What is JPA?
+
+
+**JPA(Java Persistence API)** is a **Java Specification** for managing and persisting data between Java objects and relational databases. It provides a standard way to perform **ORM (Object Relational Mapping)**.
+
+**Key Features**
+
+* Standard API for database persistence
+* Supports **ORM**
+* Uses annotations such as **@Entity**, **@Id**, and **@Table**
+* Reduces boilerplate JDBC code
+* Database-independent
+
+**How It Works**
+
+JPA maps Java classes to database tables and Java objects to table rows.
+
+* **Class** → **Table**
+* **Object** → **Row**
+* **Field** → **Column**
+
+JPA defines the rules, while frameworks such as **Hibernate** implement those rules.
+
+**Code Example**
+
+```java
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    private String name;
+}
+```
+
+```java
+userRepository.save(user);
+```
+
+JPA automatically maps the object and persists it to the database.
+
+**Why to Use**
+
+* Simplifies database operations
+* Reduces SQL and JDBC code
+* Improves productivity
+* Provides a standard persistence approach
+
+**When to Use**
+
+Use **JPA** when building Java applications that interact with relational databases.
+
+Examples:
+
+* Spring Boot applications
+* Enterprise applications
+* Microservices with databases
+
+## 6. What is Hibernate?
+
+**Hibernate** is an **ORM (Object Relational Mapping) Framework** that simplifies database operations by mapping **Java Objects** to **Database Tables**. It is the most popular implementation of **JPA**.
+
+**Key Features**
+
+* Implements **JPA**
+* Provides **ORM** functionality
+* Automatically generates SQL queries
+* Supports **Caching**
+* Supports **Lazy Loading**
+* Reduces JDBC boilerplate code
+
+**How It Works**
+
+Hibernate maps Java classes to database tables and Java objects to table rows.
+
+* **Class** → **Table**
+* **Object** → **Row**
+* **Field** → **Column**
+
+When you save an object, Hibernate automatically generates and executes the required SQL.
+
+**Code Example**
+
+```java
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    private String name;
+}
+```
+
+```java
+User user = new User();
+user.setName("John");
+
+userRepository.save(user);
+```
+
+Hibernate automatically generates SQL similar to:
+
+```sql
+INSERT INTO user (name) VALUES ('John');
+```
+
+**Why to Use**
+
+* Reduces manual SQL writing
+* Simplifies database interaction
+* Improves productivity
+* Provides advanced ORM features
+* Makes applications easier to maintain
+
+**When to Use**
+
+Use **Hibernate** when working with relational databases in Java applications.
+
+Examples:
+
+* Spring Boot applications
+* Enterprise applications
+* Microservices with databases
+
 
 **Analogy:**
 - **ORM** = "Driving a car" (concept) 🚗
@@ -7430,60 +7573,6 @@ public class User {
 | **What it is** | Concept/technique | Java specification | Framework/library |
 | **Who defines it** | General pattern | Oracle / Jakarta EE | Red Hat |
 | **Analogous to** | "web standards" | JDBC interface | A JDBC driver |
-
-
-## 7. What is JPA?
-
-**Jakarta Persistence (JPA)** is a Java specification for **Object Relational Mapping (ORM)**. It defines standard APIs, interfaces, and annotations for mapping Java objects to database tables and performing database operations. 
-
-JPA itself is not an implementation; frameworks like Hibernate ORM implement JPA.
-
-JPA works by using an **EntityManager** to perform CRUD operations. You write **Java objects**, and JPA handles converting them to SQL queries and storing them in the database. Frameworks like **Hibernate** are common implementations of JPA.
-
-Example concepts in JPA:
-
-- `@Entity`
-- `@Table`
-- `@Id`
-- `EntityManager`
-- `JPQL`
-
-```java
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-    public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-}
-
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-}
-```
-
-**JpaRepository** belongs to Spring Data JPA, not core JPA.
-
-```java
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-    public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-}
-```
-
-| Code                                 | Belongs To      |
-| ------------------------------------ | --------------- |
-| `@Entity`, `@Table`, `EntityManager` | JPA             |
-| `JpaRepository`                      | Spring Data JPA |
-| Hibernate Session                    | Hibernate       |
 
 
 ## 7. Different between ORM, JPA and Hibernate?
