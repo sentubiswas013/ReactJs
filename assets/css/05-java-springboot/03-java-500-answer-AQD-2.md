@@ -2080,8 +2080,6 @@ This forms a **diamond-like inheritance structure**, hence the name.
 * Java avoids this issue by **not allowing multiple inheritance with classes**
 * Instead, it allows multiple inheritance using **interfaces**
 
-
-
 **Code Example (Problem Illustration Concept)**
 
 ```
@@ -2135,8 +2133,6 @@ public class Main {
 }
 ```
 
-
-
 If classes B and C both override a method from A, and D inherits from both B and C, which version should D use? This creates confusion and compilation errors.
 
 ## 3. How does Java solve the diamond problem?
@@ -2159,80 +2155,201 @@ class C implements A, B {
 
 ## 4. Why do we use Inheritance?
 
-We use inheritance to:
+**Inheritance** is an OOP concept where a **child class acquires properties and behaviors of a parent class** using the **extends keyword**.
 
-- **Code reuse** — avoid writing the same code in multiple classes
-- **Method overriding** — customize parent behavior in child
-- **Polymorphism** — treat child objects as parent type
-- **Maintainability** — change in parent reflects in all children
+**Key Features**
 
-👉 *Example:* Dog already gets `eat()` from Animal, no need to rewrite it.
+* Promotes **code reusability**
+* Supports **method overriding (runtime polymorphism)**
+* Establishes an **IS-A relationship**
+* Reduces **code duplication**
+* Improves **maintainability and scalability**
+
+**How it works**
+A **child class inherits fields and methods of a parent class**, and can also **extend or override behavior**.
+
+**Why to use**
+
+* To avoid **repeated code writing**
+* To achieve **reusability and cleaner design**
+* To support **OOP principles like polymorphism**
+
+**When to use**
+
+* When there is a clear **IS-A relationship (Dog IS-A Animal)**
+* When multiple classes share **common behavior or properties**
+
+**Code Example**
+
+```java id="1i6tx1"
+class Animal {
+    void eat() {
+        System.out.println("Animal is eating");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog is barking");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();  // inherited method
+        d.bark(); // child method
+    }
+}
+```
 
 
 ## 5. What is `extends` keyword?
 
-`extends` is used to **inherit a class** in Java. The child class gets all non-private members of the parent class.
+**Definition**
+The **extends keyword** in Java is used to create **inheritance**, where a **child class inherits properties and behaviors of a parent class**.
 
-```java
-class Parent {
-    void display() { System.out.println("Parent"); }
+**Key Features**
+
+* Used for **class-to-class inheritance**
+* Supports **IS-A relationship**
+* Allows **code reuse from parent class**
+* Enables **method overriding**
+* A class can extend **only one class (single inheritance)**
+
+**How it works**
+When a class uses **extends**, it automatically gets access to the **non-private members (fields and methods)** of the parent class.
+
+**Why to use**
+
+* To achieve **code reusability**
+* To reduce **duplication of code**
+* To implement **inheritance and polymorphism**
+
+**When to use**
+
+* When a class is a **specialized version of another class**
+* When there is a clear **IS-A relationship**
+
+**Code Example**
+
+```java id="1i6tx1"
+class Animal {
+    void eat() {
+        System.out.println("Animal is eating");
+    }
 }
 
-class Child extends Parent {
-    void show() { System.out.println("Child"); }
+class Dog extends Animal { // extends keyword used
+    void bark() {
+        System.out.println("Dog is barking");
+    }
 }
 
-Child c = new Child();
-c.display();   // inherited
-c.show();      // own
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();  // inherited method
+        d.bark(); // child method
+    }
+}
 ```
+
 
 ## 6. What is IS-A Relationship?
 
-IS-A is an inheritance relationship — it means **one object is a type of another**. Implemented using `extends` or `implements`. Used to check with `instanceof`.
 
-```java
-class Animal { }
-class Dog extends Animal { }
+**Definition**
+The **IS-A relationship** represents **inheritance in Java**, where one class is a **specialized type of another class** using the **extends keyword**.
 
-Dog d = new Dog();
-System.out.println(d instanceof Dog);     // true
-System.out.println(d instanceof Animal);  // true — Dog IS-A Animal
+**Key Features**
+
+* Represents **inheritance (parent-child relationship)**
+* Uses **extends (class inheritance)** or **implements (interface relationship)**
+* Promotes **code reusability**
+* Supports **polymorphism**
+* Defines a **hierarchical relationship**
+
+**How it works**
+If class **Dog extends Animal**, then **Dog IS-A Animal**, meaning Dog inherits all **non-private properties and behaviors** of Animal.
+
+**Why to use**
+
+* To achieve **inheritance and reusability**
+* To build **logical hierarchy of classes**
+* To enable **polymorphism**
+
+**When to use**
+
+* When one class is a **type of another class (Car IS-A Vehicle)**
+* When common behavior should be **shared through inheritance**
+
+**Code Example**
+
+```java id="1i6tx1"
+class Animal {
+    void eat() {
+        System.out.println("Animal is eating");
+    }
+}
+
+class Dog extends Animal { // Dog IS-A Animal
+    void bark() {
+        System.out.println("Dog is barking");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();   // inherited method
+        d.bark();  // own method
+    }
+}
 ```
-
 
 ## 6. What is HAS-A (Composition) Relationship?
 
-A **HAS-A** relationship is achieved by creating an object reference of one class inside another class.
+**Definition**
+The **HAS-A relationship** represents **composition or aggregation**, where one class **contains or uses another class as a member variable**.
 
-It represents:
+**Key Features**
 
-* **Composition** (strong relationship)
-* **Aggregation** (weak relationship)
+* Represents **object composition** (uses-a relationship)
+* Achieved using **instance variables of another class**
+* Promotes **code reusability through composition**
+* Provides **loose coupling compared to inheritance**
+* Can model real-world relationships effectively
 
+**How it works**
+One class **creates or holds an object of another class** and uses its **methods or properties** to perform operations.
 
-**Composition** is a strong HAS-A relationship where one class completely owns another class object.
+**Why to use**
 
-If the parent object is destroyed, the child object also cannot exist independently.
+* To achieve **flexibility over inheritance**
+* To reduce **tight coupling between classes**
+* To model **real-world relationships more accurately**
 
-```java
+**When to use**
+
+* When one object **contains another object (Car HAS-A Engine)**
+* When behavior should be **shared via composition instead of inheritance**
+
+**Code Example**
+
+```java id="1i6tx1"
 class Engine {
     void start() {
-        System.out.println("Engine Started");
+        System.out.println("Engine started");
     }
 }
 
 class Car {
-    // Composition (Car HAS-A Engine)
-    private Engine engine;
-
-    Car() {
-        engine = new Engine();
-    }
+    Engine engine = new Engine(); // HAS-A relationship
 
     void drive() {
         engine.start();
-        System.out.println("Car is moving");
+        System.out.println("Car is driving");
     }
 }
 
@@ -2245,32 +2362,105 @@ public class Main {
 ```
 
 
-**Composition vs Inheritance**
+## 7. Composition and Aggregation?
 
-| Composition               | Inheritance        |
-| ------------------------- | ------------------ |
-| HAS-A                     | IS-A               |
-| Flexible                  | Tight coupling     |
-| Reuse by object           | Reuse by extending |
-| Example: Car HAS-A Engine | Dog IS-A Animal    |
+**Definition**
+**Composition** and **Aggregation** are two types of **HAS-A relationships** in Java used to build objects using other objects.
 
+* **Composition** → Strong relationship where the **child object cannot exist without the parent**
+* **Aggregation** → Weak relationship where the **child object can exist independently**
 
-## 7. What is Method Overriding?
+---
 
-Method overriding is when a **child class provides its own implementation** of a method already defined in the parent class with the **same name, return type, and parameters**.
+**Key Features**
 
-```java
-class Animal {
-    void sound() { System.out.println("Some sound"); }
+**Composition**
+
+* Strong **ownership relationship**
+* Child object's lifecycle depends on **parent object**
+* If parent is destroyed, child is also **destroyed**
+* Used for **tight coupling scenarios**
+
+**Aggregation**
+
+* Weak **association relationship**
+* Child object can **exist independently**
+* No strict lifecycle dependency
+* Used for **loose coupling**
+
+---
+
+**How it works**
+
+* In **Composition**, parent class creates and controls the **dependent objects**
+* In **Aggregation**, parent class uses **external objects passed from outside**
+
+---
+
+**Why to use**
+
+* To represent **real-world relationships clearly**
+* To improve **code reusability and modularity**
+* To choose correct **dependency strength (strong vs weak)**
+
+---
+
+**When to use**
+
+**Composition**
+
+* When child object is **fully dependent (Car HAS-A Engine created inside Car)**
+* When lifecycle is **controlled by parent**
+
+**Aggregation**
+
+* When object is **shared or independent (Student HAS-A Address, but Address exists separately)**
+
+---
+
+**Code Example**
+
+**Composition Example**
+
+```java id="1i6tx1"
+class Engine {
+    void start() {
+        System.out.println("Engine started");
+    }
 }
 
-class Cat extends Animal {
-    @Override
-    void sound() { System.out.println("Cat meows"); }
+class Car {
+    private Engine engine = new Engine(); // Composition
+
+    void drive() {
+        engine.start();
+        System.out.println("Car is moving");
+    }
+}
+```
+
+**Aggregation Example**
+
+```java id="1i6tx1"
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
 }
 
-Animal a = new Cat();
-a.sound();   // Cat meows — runtime decision
+class Student {
+    private Address address; // Aggregation
+
+    Student(Address address) {
+        this.address = address;
+    }
+
+    void show() {
+        System.out.println(address.city);
+    }
+}
 ```
 
 
