@@ -9885,41 +9885,126 @@ Runnable r2 = () -> {
 
 ## 5. What is Stream API?
 
-The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like **filtering, mapping, and sorting** without modifying the original data source.
+**Definition:**
+The **Stream API** is introduced in Java 8 to process **collections of objects in a functional and declarative way**. It allows operations like **filtering, mapping, and reducing** without modifying the original data source.
 
-Streams work in a **pipeline** using **intermediate operations** such as `filter()` and `map()`, and a **terminal operation** like `collect()` or `forEach()` to produce a result. This makes code cleaner, more readable, and supports easy parallel processing.
+
+**Key Features:**
+
+* Supports **functional programming**
+* Works with **Collections, Arrays, I/O**
+* Uses **lambda expressions**
+* Provides **lazy evaluation**
+* Enables **parallel processing**
+* Does not modify the **original data**
+
+
+**How it works:**
+
+* Data source (like **List, Set, Array**) is converted into a **Stream**
+* A sequence of operations is applied:
+
+  * **Intermediate operations** (filter, map)
+  * **Terminal operations** (collect, forEach)
+* Operations are executed only when a **terminal operation is called**
+
+
+**Why to use:**
+
+* To write **clean and readable code**
+* To reduce **boilerplate loops**
+* To improve **performance with parallel processing**
+* To support **functional programming style**
+
+
+**When to use:**
+
+* When processing **collections of data**
+* When applying **filtering, transformation, aggregation**
+* When you want **declarative code instead of loops**
+
+
+**Code Example:**
 
 ```java
-List<String> names = Arrays.asList("John", "Jane", "Bob", "Alice");
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-// Stream pipeline
-List<String> result = names.stream()
-    .filter(name -> name.length() > 3)  // Intermediate
-    .map(String::toUpperCase)           // Intermediate
-    .sorted()                           // Intermediate
-    .collect(Collectors.toList());      // Terminal
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(10, 15, 20, 25, 30);
+        List<Integer> result = numbers.stream()
+                .filter(n -> n % 2 == 0)     // filter even numbers
+                .map(n -> n * n)             // square them
+                .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
 ```
 
 **Loop vs Stream API** 
 Generally, a **for loop is faster** than the Stream API because it has **less overhead** and runs directly in the JVM.
-Stream API provides **better readability, functional style, and parallel processing**, but it may have a **small performance cost**.
+
+**Stream API** provides **better readability, functional style, and parallel processing**, but it may have a **small performance cost**.
+
 
 ## 6. What is parallel streams? 
 
-**Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
+**Definition:**
+A **Parallel Stream** is a type of **Stream API** that processes data **concurrently using multiple threads**, dividing the task into smaller parts and executing them in parallel to improve performance.
 
-They use the **ForkJoinPool.commonPool()** by default and are ideal for **CPU-intensive operations on large datasets**, making it easy to leverage **multi-core processors**.
 
-```java
-List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+**Key Features:**
 
-// Sequential
-int sum = numbers.stream().mapToInt(i -> i * i).sum();
+* Uses **multiple threads (ForkJoinPool framework)**
+* Automatically splits data into **subtasks**
+* Improves **performance for large datasets**
+* Supports **parallel processing**
+* Works with **collections via .parallelStream()**
+* Maintains **functional programming style**
 
-// Parallel - automatically uses multiple threads
-int parallelSum = numbers.parallelStream()
-    .mapToInt(i -> i * i)
-    .sum();
+
+**How it works:**
+
+* Source collection is divided into **multiple chunks**
+* Each chunk is processed in **separate threads**
+* Results are combined using **merge operation**
+* Uses **ForkJoin framework internally**
+
+
+**Why to use:**
+
+* To improve **performance on large data sets**
+* To utilize **multi-core CPU power**
+* To reduce **processing time for heavy operations**
+
+
+**When to use:**
+
+* When working with **large collections**
+* When operations are **CPU-intensive**
+* When tasks are **independent and stateless**
+
+
+**Code Example:**
+
+```java id="k3p9qd"
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
+        numbers.parallelStream()
+                .map(n -> {
+                    System.out.println(Thread.currentThread().getName() + " processing " + n);
+                    return n * n;
+                })
+                .forEach(System.out::println);
+    }
+}
 ```
 
 ## 7. What is the difference between Collection and Stream?
