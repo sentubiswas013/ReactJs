@@ -3604,19 +3604,84 @@ try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
 
 # ✅ 07. Java Collections Framework
 
-## 1. What is Java Collections Framework?
+## 0. What is Java Collections Framework?
 
-**Java Collections** Framework is a unified architecture for storing and manipulating groups of objects. It provides interfaces, implementations, and algorithms to work with collections efficiently.
 
-- Provides common interfaces like **List, Set, Map**
-- Ready-to-use implementations like **ArrayList, HashSet, HashMap**
-- Algorithms for **sorting, searching, shuffling**
-- Reduces programming effort and increases performance
+**Java Collections Framework (JCF)** is a set of **classes** and **interfaces** used to store, manage, and manipulate groups of objects dynamically.
+
+Instead of using arrays with fixed size, Collections provide flexible data structures such as **List**, **Set**, **Queue**, and **Map**.
+
+**Key Features**
+
+* Dynamic size
+* Ready-made data structures
+* Supports searching, sorting, and filtering
+* Improves code reusability
+* Provides high-performance implementations
+
+**How it Works**
+
+The Collection Framework provides **interfaces** and their **implementations**:
+
+| Interface | Implementation Examples   |
+| --------- | ------------------------- |
+| **List**  | ArrayList, LinkedList     |
+| **Set**   | HashSet, TreeSet          |
+| **Queue** | PriorityQueue, LinkedList |
+| **Map**   | HashMap, TreeMap          |
+
+You program against the interface and use a specific implementation based on your requirement.
+
+**Why Use Collections?**
+
+* To store multiple objects efficiently
+* To avoid fixed-size limitations of arrays
+* To perform common operations easily
+* To improve readability and maintainability
+
+**When to Use Which Collection?**
+
+* **ArrayList** → Frequent reading/access
+* **LinkedList** → Frequent insertions/deletions
+* **HashSet** → Unique elements only
+* **HashMap** → Key-value storage
+* **TreeSet/TreeMap** → Sorted data
+* **Queue** → FIFO processing
+
+**Example**
 
 ```java
-List<String> list = new ArrayList<>();
-Set<Integer> set = new HashSet<>();
-Map<String, Integer> map = new HashMap<>();
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>();
+
+        names.add("John");
+        names.add("Alice");
+        names.add("Bob");
+
+        System.out.println(names);
+    }
+}
+```
+
+**Output:**
+
+```java
+[John, Alice, Bob]
+```
+
+**Important Interfaces**
+
+```java
+Collection
+   ├── List
+   ├── Set
+   └── Queue
+
+Map (separate hierarchy)
 ```
 
 Here’s a cleaner and corrected version of your table:
@@ -3632,8 +3697,7 @@ Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs w
 ArrayList : add(), get(), set(), and remove() to manage your list of elements.
 LinkedList
 
-
-**Java Collections and Their Best Use Cases**
+## 1. What is Java Collections and Their Best Use Cases?
 
 | Requirement                         | Best Collection     | Why                               | Mostly Used In                       |
 | ----------------------------------- | ------------------- | --------------------------------- | ------------------------------------ |
@@ -4315,20 +4379,80 @@ String name = map.get(101);
 ## 16. What is O(1) and  O(n)?
 
 
-* **O(1) – Constant Time:** means the operation takes the same amount of time regardless of the input size. 
+**Big O Notation** is used to measure how the **execution time** or **memory usage** of an algorithm grows as the input size increases.
+
+**- O(1) – Constant Time**
+
+**Definition:**
+The operation takes the **same amount of time**, regardless of the size of the input.
+
+**How it works:**
+The algorithm directly accesses the required element without looping through data.
+
+**Key Features:**
+
+* **Fastest** time complexity
+* Performance remains **constant**
+* Input size does not affect execution time
+
+**Why use it?**
+
+* Provides the best performance
+* Suitable for direct lookups and access operations
+
+**When to use it?**
+
+* Accessing an array element by index
+* Getting a value from a hash-based collection like `HashMap`
+
+**Example:**
+
 ```java
-int first = arr[0];
-// Accessing the first element is always constant time.
+int[] arr = {10, 20, 30, 40};
+
+System.out.println(arr[2]); // 30
 ```
 
-* **O(n) – Linear Time:** means the execution time grows proportionally with the number of elements. 
+Here, accessing `arr[2]` always takes the same time, so the complexity is **O(1)**.
+
+---
+
+**- O(n) – Linear Time**
+
+**Definition:**
+The execution time grows **proportionally** to the input size.
+
+**How it works:**
+The algorithm processes each element one by one.
+
+**Key Features:**
+
+* Time increases as data size increases
+* Requires traversing the collection
+* Common in searching and iteration operations
+
+**Why use it?**
+
+* Necessary when every element must be checked
+* Simple and easy to implement
+
+**When to use it?**
+
+* Searching in an unsorted array or list
+* Iterating through all elements
+
+**Example:**
 
 ```java
+int[] arr = {10, 20, 30, 40, 50};
+
 for (int num : arr) {
     System.out.println(num);
 }
-// The loop visits every element once.
 ```
+
+The loop visits every element once, so the complexity is **O(n)**.
+
 
 
 ## 12. Java Collections Framework
