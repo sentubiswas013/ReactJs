@@ -1274,9 +1274,73 @@ final class Constants {
 ```
 
 
-## 18. Can we make a class `abstract`?
+## 18. What is abstract class?
 
-Yes, abstract class cannot be instantiated and can have abstract and non-abstract methods.
+An **Abstract Class** is a class that cannot be instantiated directly. It is used as a base class for other classes and can contain both **abstract methods** (without implementation) and **concrete methods** (with implementation).
+
+**Abstract Class cannot be instantiated directly**
+```java
+abstract class Vehicle {
+    abstract void start();
+}
+
+// ❌ Compilation Error
+Vehicle v = new Vehicle();
+```
+
+**Key Features**
+
+* Cannot create an object of an **Abstract Class**
+* Can contain **abstract** and **non-abstract methods**
+* Can have **fields**, **constructors**, and **methods**
+* Supports **Inheritance**
+* Child classes must implement abstract methods
+
+**How It Works**
+
+An **Abstract Class** defines common behavior that can be shared by multiple subclasses. The subclasses inherit from it and provide implementations for the abstract methods.
+
+**Why to Use**
+
+* To provide a common base for related classes
+* To avoid code duplication
+* To enforce certain methods in child classes
+* To support code reusability
+
+**When to Use**
+
+Use an **Abstract Class** when multiple classes share common fields or methods, but some behavior must be implemented differently by each subclass.
+
+**Code Example**
+
+```java
+abstract class Animal {
+
+    abstract void makeSound();
+
+    void sleep() {
+        System.out.println("Sleeping...");
+    }
+}
+
+class Dog extends Animal {
+
+    @Override
+    void makeSound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+Usage:
+
+```java
+Animal dog = new Dog();
+dog.makeSound();
+dog.sleep();
+```
+
+Abstract class can have abstract and non-abstract methods.
 
 ```java
 abstract class Animal {
