@@ -4567,7 +4567,6 @@ A Java thread goes through different **states** during execution:
 
 ```java id="th1a2b"
 class MyThread extends Thread {
-
     public void run() {
         System.out.println("Thread is running");
     }
@@ -4643,78 +4642,135 @@ public class Main {
 
 ## 4. What are `sleep()` vs `wait()` in Multithreading?
 
-* **`sleep()`** pauses the current thread for a specified time but **does not release the lock**.
-* **`wait()`** pauses the thread **and releases the lock**, allowing other threads to execute. It must be used inside a **synchronized block**.
 
-```java
-// sleep() Example (Lock NOT Released)
-class SleepExample {
+* **sleep()** is a method of the **Thread class** used to pause execution of a thread for a fixed time.
+* **wait()** is a method of the **Object class** used for inter-thread communication, where a thread waits until it is notified.
+
+---
+
+**sleep() – Key Features**
+
+* Belongs to **Thread class**
+* Pauses thread for a **fixed time**
+* Does not release **locks**
+* Does not require synchronization
+* Throws **InterruptedException**
+
+**How it Works**
+
+* Thread is paused for given milliseconds
+* After time expires, it resumes automatically
+
+---
+
+**wait() – Key Features**
+
+* Belongs to **Object class**
+* Used for **inter-thread communication**
+* Releases **lock (monitor)**
+* Requires **synchronized block**
+* Needs `notify()` or `notifyAll()` to resume
+
+**How it Works**
+
+* Thread releases lock and enters **waiting state**
+* Another thread calls `notify()` / `notifyAll()`
+* Waiting thread resumes execution
+
+---
+
+**Why to Use**
+
+* **sleep()** → Delay execution
+* **wait()** → Coordinate between threads
+
+---
+
+**When to Use**
+
+* **sleep()**
+
+  * Adding delay
+  * Retry mechanisms
+  * Timed operations
+
+* **wait()**
+
+  * Producer-consumer problem
+  * Thread communication
+  * Shared resource coordination
+
+---
+
+**Example: sleep()**
+
+```java id="sl1a2b"
+public class Main {
     public static void main(String[] args) {
 
-        Object lock = new Object();
+        System.out.println("Start");
 
-        Thread t1 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 1 acquired lock");
-                try {
-                    Thread.sleep(3000); // sleeping but STILL holding lock
-                } catch (InterruptedException e) {}
-                System.out.println("Thread 1 finished");
-            }
-        });
+        try {
+            Thread.sleep(2000); // pauses thread for 2 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        Thread t2 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 2 acquired lock");
-            }
-        });
-
-        t1.start();
-        t2.start();
+        System.out.println("End");
     }
 }
-// Output: ================
-// Thread 1 acquired lock
-// (wait 3 sec)
-// Thread 1 finished
-// Thread 2 acquired lock
-
-
-// wait() Example (Lock Released)
-class WaitExample {
-    public static void main(String[] args) {
-
-        Object lock = new Object();
-
-        Thread t1 = new Thread(() -> {
-            synchronized (lock) {
-                try {
-                    System.out.println("Thread 1 waiting...");
-                    lock.wait(); // releases lock
-                    System.out.println("Thread 1 resumed");
-                } catch (InterruptedException e) {}
-            }
-        });
-
-        Thread t2 = new Thread(() -> {
-            synchronized (lock) {
-                System.out.println("Thread 2 acquired lock");
-                lock.notify(); // wakes up t1
-                System.out.println("Thread 2 notified");
-            }
-        });
-
-        t1.start();
-        t2.start();
-    }
-}
-
-// Output: ================
-// Thread 1 waiting...
-// Thread 2 acquired lock
-// Thread 2 notified
-// Thread 1 resumed
 ```
+
+---
+
+**Example: wait() / notify()**
+
+```java id="wt3c4d"
+class Shared {
+
+    synchronized void waitMethod() {
+        try {
+            System.out.println("Waiting...");
+            wait(); // releases lock
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Resumed");
+    }
+
+    synchronized void notifyMethod() {
+        System.out.println("Notifying...");
+        notify(); // wakes waiting thread
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Shared obj = new Shared();
+
+        new Thread(obj::waitMethod).start();
+
+        new Thread(() -> {
+            try { Thread.sleep(1000); } catch (Exception e) {}
+            obj.notifyMethod();
+        }).start();
+    }
+}
+```
+
+---
+
+**sleep() vs wait()**
+
+| **sleep()**               | **wait()**                  |
+| ------------------------- | --------------------------- |
+| Thread class method       | Object class method         |
+| Does NOT release lock     | Releases lock               |
+| Fixed time delay          | Waits until notified        |
+| No synchronization needed | Requires synchronized block |
+| Used for pause            | Used for communication      |
+
 
 ## 3. Execute 10 Thread. 
 
