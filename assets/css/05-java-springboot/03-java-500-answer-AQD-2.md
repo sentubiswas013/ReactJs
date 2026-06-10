@@ -4515,18 +4515,76 @@ fWhat is JDBC
 
 ## 1. What is thread and what are life cycle?
 
-A **thread** is the **smallest unit of execution in a program** that allows multiple tasks to run simultaneously. 
+A **Thread** is a lightweight sub-process in Java that allows **concurrent execution** of tasks within a program. Multiple threads can run inside a single process sharing the same memory.
 
-Every Java application starts with at least one thread (the main thread), and you can create additional threads to run tasks concurrently.
+**Key Features of Thread**
 
-**Thread Life Cycle:**
+* Enables **parallel execution**
+* Shares **common memory space**
+* Lightweight compared to processes
+* Managed by **JVM and OS**
+* Supports multitasking
 
-1. **New** – Thread object is created.
-2. **Runnable** – Thread is ready to run after calling `start()`.
-3. **Running** – Thread is executing.
-4. **Waiting / Blocked** – Thread waits for a resource or another thread.
-5. **Terminated (Dead)** – Thread execution is completed.
+**Thread Life Cycle**
 
+A Java thread goes through different **states** during execution:
+
+1. **New :** Thread is created but not started
+2. **Runnable :** Thread is ready to run and waiting for CPU
+3. **Running :** Thread is actively executing
+4. **Blocked / Waiting :** Thread is waiting for resource or signal
+5. **Terminated (Dead) :**  Thread has completed execution
+
+**How It Works**
+
+* A thread is created using **Thread class** or **Runnable interface**
+* It enters **New state**
+* After calling `start()`, it moves to **Runnable**
+* CPU scheduler moves it to **Running**
+* It may move between **Waiting/Blocked**
+* After completion, it enters **Terminated state**
+
+
+**Why to Use Threads**
+
+* Improve **performance**
+* Enable **concurrent execution**
+* Better CPU utilization
+* Faster task processing
+* Responsive applications
+
+
+**When to Use Threads**
+
+* Web servers handling multiple requests
+* Background tasks
+* File processing
+* Real-time systems
+* Parallel computations
+
+
+**Example**
+
+```java id="th1a2b"
+class MyThread extends Thread {
+
+    public void run() {
+        System.out.println("Thread is running");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        t1.start(); // Moves thread to Runnable state
+    }
+}
+```
+
+**Thread Life Cycle Diagram (Text View)**
+```
+New → Runnable → Running → Waiting/Blocked → Running → Terminated
+```
 
 ## 2. How do you create threads in Java?
 
