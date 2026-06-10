@@ -7791,13 +7791,6 @@ public void createEmployee() {
 | Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
 
 
-| save()                                 | saveAndFlush()                   |
-| -------------------------------------- | -------------------------------- |
-| Adding items to shopping cart 🛒       | Tapping "Buy Now" on Amazon ⚡    |
-| Pay at checkout (commit)               | Payment goes through immediately |
-| Can add multiple items before checkout | Single immediate transaction     |
-| More efficient for bulk                | Immediate consistency            |
-
 ---
 
 ## 10. What is the difference between DAO and DTO?
