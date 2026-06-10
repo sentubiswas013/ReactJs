@@ -6301,84 +6301,116 @@ emp --------->          Employee Object
 
 ## 4. What is garbage collection?
 
-**Garbage Collection** is an automatic memory management process in Java in which the JVM **identifies and removes objects that are no longer in use**, freeing up memory.
+**Garbage Collection** is an automatic memory management process in **Java** that removes objects that are no longer being used by the application and frees their memory.
 
-- Automatic memory cleanup
-- Removes unreferenced objects
-- Prevents memory leaks
-- Runs periodically or when memory is low
-- Frees developers from manual memory management
+**Key Features**
 
-The GC identifies objects with no active references and deallocates their memory, making it available for new objects.
+* **Automatic Memory Management**
+* Managed by the **JVM**
+* Removes unused objects
+* Helps prevent **Memory Leaks**
+* Improves application performance and stability
+
+**How It Works**
+
+The **Garbage Collector** periodically checks objects in memory.
+
+* If an object is still referenced, it remains in memory.
+* If an object is no longer referenced, it becomes eligible for **Garbage Collection**.
+* The JVM reclaims the memory used by that object.
+
+**Code Example**
 
 ```java
-
 public class Main {
     public static void main(String[] args) {
-        Object obj = new Object();
-        obj = null; // object becomes eligible for garbage collection
-
-
         String str = new String("Hello");
-        str = null; // Object becomes unreachable
 
-        System.gc(); // Request GC (not guaranteed)
+        str = null; // Object becomes eligible for GC
+        System.gc(); // Request JVM to run GC
     }
 }
-
 ```
+
+**Why to Use**
+
+* Eliminates manual memory management
+* Reduces memory-related bugs
+* Prevents memory leaks
+* Improves application reliability
+
+**When to Use**
+
+**Garbage Collection** runs automatically when the JVM determines that memory needs to be reclaimed. Developers do not usually manage memory manually in Java.
+
 
 ## 5. What are the types of garbage collectors?
 
 In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaiming memory** used by objects that are no longer needed. Java provides several types of garbage collectors.
 
-1. **Serial Garbage Collector**
-   * **Single-threaded** collector, good for **small applications**.
-   * Performs GC **stop-the-world** for minor and major collections.
 
-   ```java
-   JVM option: -XX:+UseSerialGC
-   ```
+Java provides different **Garbage Collectors (GCs)**, each optimized for different use cases.
 
-2. **Parallel Garbage Collector (Throughput Collector)**
-   * **Multi-threaded**, uses multiple threads for **minor GC**.
-   * Focused on **high throughput** (less CPU idle time).
+**1. Serial Garbage Collector**
 
-   ```text
-   JVM option: -XX:+UseParallelGC
-   ```
+* Uses a **single thread** for garbage collection.
+* Suitable for small applications with low memory usage.
+* Simple and low overhead.
 
-3. **Concurrent Mark-Sweep (CMS) Collector**
-   * **Concurrent collector** for **low-latency applications**.
-   * Performs **most GC work concurrently with application threads**.
+JVM Option:
 
-   ```java
-   JVM option: -XX:+UseConcMarkSweepGC
-   ```
+```bash
+-XX:+UseSerialGC
+```
 
-4. **G1 (Garbage-First) Collector**
-   * Divides heap into **regions** and collects **garbage in parallel**.
-   * Designed for **large heaps and low pause times**.
+**2. Parallel Garbage Collector**
 
-   ```java
-   JVM option: -XX:+UseG1GC
-   ```
+* Uses **multiple threads** for garbage collection.
+* Focuses on maximizing **throughput**.
+* Default GC in older Java versions.
 
-5. **Z Garbage Collector (ZGC)**
-   * **Low-latency, scalable** collector for **very large heaps**.
-   * Pauses are typically **<10ms**, even with TB-sized heaps.
+JVM Option:
 
-   ```java
-   JVM option: -XX:+UseZGC
-   ```
+```bash
+-XX:+UseParallelGC
+```
 
-6. **Shenandoah GC**
-   * Focuses on **low pause times** by doing **concurrent compaction**.
-   * Available in **OpenJDK 12+**.
+**3. G1 Garbage Collector (Garbage First)**
 
-   ```java
-   JVM option: -XX:+UseShenandoahGC
-   ```
+* Divides the heap into regions.
+* Prioritizes regions with the most garbage.
+* Balances throughput and low pause times.
+* Default GC since **Java 9**.
+
+JVM Option:
+
+```bash
+-XX:+UseG1GC
+```
+
+**4. Z Garbage Collector (ZGC)**
+
+* Designed for very large heaps.
+* Provides extremely low pause times.
+* Suitable for large-scale applications.
+
+JVM Option:
+
+```bash
+-XX:+UseZGC
+```
+
+**5. Shenandoah Garbage Collector**
+
+* Focuses on low pause times.
+* Performs most GC work concurrently with application threads.
+* Suitable for applications requiring high responsiveness.
+
+JVM Option:
+
+```bash
+-XX:+UseShenandoahGC
+```
 
 **Summary Table**
 
