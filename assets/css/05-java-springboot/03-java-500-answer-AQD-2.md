@@ -4630,7 +4630,6 @@ class MyCallable implements Callable<String> {
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
         ExecutorService service = Executors.newSingleThreadExecutor();
         Future<String> future = service.submit(new MyCallable());
 
@@ -4640,7 +4639,6 @@ public class Main {
     }
 }
 ```
-
 
 
 ## 4. What are `sleep()` vs `wait()` in Multithreading?
