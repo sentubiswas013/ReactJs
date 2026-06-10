@@ -3216,13 +3216,52 @@ new Student()   // Object
 
 ## 1. What is an exception in Java?
 
-An **exception** is an unexpected event that occurs during program execution and disrupts the normal flow of the program. It's Java's way of **handling runtime errors** gracefully.
+An **Exception** is an event that occurs during program execution and disrupts the normal flow of the application.
+
+**Key Features**
+
+* Represents runtime errors
+* Can be **handled** using `try-catch`
+* Helps prevent application crashes
+* Provides information about the error
+
+**How It Works**
+
+When an error occurs, Java creates an **Exception Object** and throws it. The exception can be caught and handled using a **try-catch** block.
+
+**Code Example**
 
 ```java
-int result = 10 / 0; // ArithmeticException occurs
-String text = null;
-int length = text.length(); // NullPointerException occurs
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero");
+}
 ```
+
+**Why to Use**
+
+* To handle errors gracefully
+* To prevent application termination
+* To improve application reliability
+* To provide meaningful error messages
+
+**When to Use**
+
+Use **Exception Handling** whenever an operation may fail.
+
+Examples:
+
+* Reading a file
+* Connecting to a database
+* Calling an external API
+* Performing mathematical operations
+
+**Types of Exceptions**
+
+* **Checked Exceptions** – Checked at compile time, e.g., `IOException`, `SQLException`
+* **Unchecked Exceptions** – Occur at runtime, e.g., `NullPointerException`, `ArithmeticException`
+
 
 ## 2. What is the exception hierarchy in Java?
 
@@ -3262,24 +3301,65 @@ int value = arr[5]; // ArrayIndexOutOfBoundsException
 
 ## 4. What is the difference between throw and throws?
 
-The **`throw`** keyword is used to **actually throw an exception object** inside the method body.
+Both **`throw`** and **`throws`** are used in **Exception Handling**, but they serve different purposes.
 
-The **`throws`** keyword is used in the **method signature** to declare that the method may throw certain exceptions.
+**Key Difference**
+
+* **`throw`** is used to explicitly throw an exception.
+* **`throws`** is used to declare that a method may throw an exception.
+
+**How It Works**
+
+**`throw`**
+
+Used inside a method body to create and throw an exception object.
 
 ```java
-public void validateAge(int age) throws IllegalArgumentException {
-    if (age < 0) {
-        throw new IllegalArgumentException("Age cannot be negative");
-    }
-}
-// 'throws' warns the caller that this method might fail with an IOException
-public void readFile() throws IOException { 
-    if (fileNotFound) {
-        // 'throw' actually triggers the error right now
-        throw new IOException("File is missing!"); 
+public void validateAge(int age) {
+    if (age < 18) {
+        throw new IllegalArgumentException("Age must be 18 or above");
     }
 }
 ```
+
+**`throws`**
+
+Used in the method signature to indicate that the method may throw an exception.
+
+```java
+public void readFile() throws IOException {
+    FileReader file = new FileReader("data.txt");
+}
+```
+
+**Key Features**
+
+| **throw**                             | **throws**                        |
+| ------------------------------------- | --------------------------------- |
+| Used to throw an exception            | Used to declare exceptions        |
+| Used inside a method                  | Used in method signature          |
+| Throws one exception object at a time | Can declare multiple exceptions   |
+| Followed by an exception object       | Followed by exception class names |
+
+**Why to Use**
+
+**`throw`**
+
+* To manually generate an exception
+* To validate business rules
+* To stop execution when an error occurs
+
+**`throws`**
+
+* To inform the caller about possible exceptions
+* To delegate exception handling to another method
+
+**When to Use**
+
+Use **`throw`** when you want to explicitly raise an exception.
+
+Use **`throws`** when a method may produce an exception and you want the caller to handle it.
+
 
 ## 5. What is try-catch-finally block?
 
