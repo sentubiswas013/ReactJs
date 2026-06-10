@@ -5334,131 +5334,134 @@ class Counter {
 
 ## 0. What is multithreading?
 
-**Multithreading** allows a program to run **multiple threads concurrently** within the same memory space, improving **CPU utilization, performance, and responsiveness**. Threads can **share data** and the **JVM handles scheduling**.
+**Multithreading** is a process where **multiple threads** run concurrently within the same application. It helps perform multiple tasks at the same time, improving **performance** and **resource utilization**.
 
-**In simple words:** It lets a program do **many tasks at the same time** efficiently.
+**Key Features**
+
+* **Concurrent execution** of tasks
+* Threads share the same **memory space**
+* Improves **CPU utilization**
+* Faster execution for independent tasks
+* Supports **parallel processing** on multi-core systems
+
+**How It Works**
+
+* A **Thread** is a lightweight sub-process.
+* Multiple threads are created inside a single process.
+* The **JVM Thread Scheduler** decides when each thread runs.
+* Threads execute independently but share application resources.
+
+**Why to Use**
+
+* Improve application **performance**
+* Handle multiple tasks simultaneously
+* Reduce user waiting time
+* Better responsiveness in web and desktop applications
+
+**When to Use**
+
+* Processing large amounts of data
+* File uploads/downloads
+* Background tasks
+* Web servers handling multiple requests
+* Real-time applications
+
+**Example**
 
 ```java
-// Realtime example
-class PrintTask extends Thread {
+class MyThread extends Thread {
     public void run() {
-        System.out.println("Printing document...");
-    }
-}
-
-class SaveTask extends Thread {
-    public void run() {
-        System.out.println("Saving document...");
+        System.out.println("Thread is running");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-
-        PrintTask t1 = new PrintTask();
-        SaveTask t2 = new SaveTask();
-
-        t1.start();   // Thread for printing
-        t2.start();   // Thread for saving
+        MyThread t1 = new MyThread();
+        t1.start(); // Creates a new thread
     }
 }
 ```
 
-**Where Multithreading is Usually Used in Java (Important for Interview)**
-
-**1. Web Applications (Spring Boot)**
-
-Very common use:
-
-* Each HTTP request runs in a **separate thread**
-* Multiple users can use the application at the same time
-
-Example:
-
-* 1000 users → 1000 threads → handled by thread pool
-
----
-
-**2. Calling Multiple APIs**
+**Using Runnable (Recommended)**
 
 ```java
-CompletableFuture.supplyAsync(() -> apiCall1());
-CompletableFuture.supplyAsync(() -> apiCall2());
-CompletableFuture.supplyAsync(() -> apiCall3());
-```
+class MyTask implements Runnable {
+    public void run() {
+        System.out.println("Task is running");
+    }
+}
 
-Used to **reduce API response time**.
-
-**3. Background Jobs**
-
-Used for:
-
-* Sending emails
-* Generating PDF
-* Report generation
-* Data import (Excel/CSV)
-* Image processing
-
-In Spring Boot:
-
-```java
-@Async
-public void sendEmail() {
-    // runs in background thread
+public class Main {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new MyTask());
+        t1.start();
+    }
 }
 ```
 
-**4. Batch Processing**
-
-* Processing large data
-* Bank transactions
-* Log processing
-* Data migration
-
-**5. Real-Time Systems**
-
-* Chat applications
-* Notification systems
-* Live tracking apps
 
 ## 1. What is **Concurrency in Java**?
 
-**Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
 
-1. **Thread-based**
-* Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
+**Concurrency**
+
+**Definition**
+
+**Concurrency** is the ability of a system to handle **multiple tasks at the same time** by making progress on each task. The tasks may not run simultaneously, but they are managed so that they appear to run together.
+
+**Key Features**
+
+* Multiple tasks are in progress at the same time
+* Improves **responsiveness**
+* Efficient use of **system resources**
+* Supports **task switching**
+* Can be achieved using **threads**, **thread pools**, or **asynchronous programming**
+
+**How It Works**
+
+* The CPU switches between multiple tasks.
+* Each task gets a small amount of execution time.
+* While one task waits (e.g., for I/O), another task can execute.
+* This creates the illusion that tasks are running together.
+
+**Why to Use**
+
+* Improve application responsiveness
+* Handle many user requests efficiently
+* Better resource utilization
+* Increase overall throughput
+
+**When to Use**
+
+* Web applications handling multiple requests
+* Database operations
+* File processing
+* Network communication
+* Asynchronous and background tasks
+
+**Example**
 
 ```java
-// Method 1: extends Thread
-class MyThreadTask extends Thread {
-    public void run() {
-        System.out.println("Task running in thread: " + Thread.currentThread().getName());
-    }
-}
-
-// Method 2: Implementing Runnable
-class MyRunnableTask implements Runnable {
-    public void run() {
-        System.out.println("Task running in thread: " + Thread.currentThread().getName());
-    }
-}
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
-        
-        // Using Thread class
-        MyThreadTask t1 = new MyThreadTask();
-        t1.start();
 
-        // Using Runnable interface
-        Thread t2 = new Thread(new MyRunnableTask());
-        t2.start();
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+        executor.submit(() ->
+            System.out.println("Task 1 executing")
+        );
+
+        executor.submit(() ->
+            System.out.println("Task 2 executing")
+        );
+
+        executor.shutdown();
     }
 }
-
-// Output:
-Task running in thread: Thread-1
-Task running in thread: Thread-0
 ```
 
 * **How concurrency is achieved in Java**
@@ -5471,256 +5474,342 @@ Task running in thread: Thread-0
 * **Concurrent collections** – thread-safe collections like `ConcurrentHashMap`.
 * **CompletableFuture (Java 8+)** – **asynchronous computation** with callbacks and chaining.
 
+**Concurrency vs Parallelism**
 
-* **Concurrency vs Parallelism**
-
-| Concurrency                | Parallelism                             |
-| -------------------------- | --------------------------------------- |
-| Multiple tasks in progress | Multiple tasks executing simultaneously |
-| May run on one CPU         | Requires multiple cores                 |
+| **Concurrency**                       | **Parallelism**                           |
+| ------------------------------------- | ----------------------------------------- |
+| Multiple tasks make progress together | Multiple tasks run at the same time       |
+| May use a single CPU core             | Requires multiple CPU cores               |
+| Focuses on managing tasks             | Focuses on executing tasks simultaneously |
 
 
 ## 2.  What is ConcurrentHashMap and when to use?
 
 
-**“`ConcurrentHashMap` is a thread-safe implementation of `Map` that allows multiple threads to read and write data concurrently without locking the entire map.”**
+**ConcurrentHashMap**
 
+**Definition**
 
-**Why Not `HashMap`**
+**ConcurrentHashMap** is a **thread-safe** implementation of **Map** in Java that allows multiple threads to read and write data concurrently without causing data inconsistency.
 
-* ❌ Not thread-safe
-* ❌ Data inconsistency in multi-threading
-* ❌ Can cause unpredictable behavior
+**Key Features**
 
+* **Thread-safe**
+* High **performance** in multi-threaded applications
+* Allows multiple threads to read and write simultaneously
+* Does not lock the entire map for every operation
+* Part of the **java.util.concurrent** package
+* Does **not allow null keys or null values**
 
-**Why `ConcurrentHashMap`?**
+**How It Works**
 
-* ✅ Thread-safe
-* ✅ Better performance
-* ✅ Allows parallel reads & writes
-* ❌ Does NOT allow `null` key/value
+* The map divides data internally into buckets.
+* Multiple threads can access different buckets concurrently.
+* Reads are usually performed without locking.
+* Only the affected portion of the map is locked during updates, improving performance.
 
+**Why to Use**
+
+* Prevent data corruption in multi-threaded environments
+* Better performance than **Hashtable** or synchronized collections
+* Safe concurrent access to shared data
+
+**When to Use**
+
+* Caching
+* Session management
+* Shared application data
+* High-concurrency applications
+* Multi-threaded web applications
+
+**Example**
 
 ```java
 import java.util.concurrent.ConcurrentHashMap;
 
-ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+public class Main {
+    public static void main(String[] args) {
 
-map.put("A", 1);
-map.put("B", 2);
+        ConcurrentHashMap<Integer, String> map =
+                new ConcurrentHashMap<>();
+
+        map.put(1, "Java");
+        map.put(2, "Spring");
+
+        System.out.println(map.get(1));
+    }
+}
 ```
 
-**Real-Time Use Cases**
+**ConcurrentHashMap vs HashMap**
 
-* Caching frequently accessed data (user/session data)
-* Counting API hits or tracking events
-* Multi-threaded data processing
-* Real-time applications (chat apps, dashboards, trading systems)
-* Spring Boot in-memory caching / shared state between threads
+| **HashMap**                                  | **ConcurrentHashMap**                    |
+| -------------------------------------------- | ---------------------------------------- |
+| Not thread-safe                              | Thread-safe                              |
+| Suitable for single-threaded applications    | Suitable for multi-threaded applications |
+| Faster in single-threaded use                | Optimized for concurrent access          |
+| Allows one null key and multiple null values | Does not allow null keys or values       |
 
 
 ## 3.  What is a Thread Pool and What are the types of thread pools?
 
-A **Thread Pool** is a collection of **pre-created threads** that are reused to execute multiple tasks.
 
-Instead of creating a **new thread every time a task comes**, the application **takes an available thread from the pool, runs the task, and then returns the thread back to the pool** for reuse.
+A **Thread Pool** is a collection of **pre-created worker threads** that are reused to execute multiple tasks. Instead of creating a new thread for every task, tasks are assigned to existing threads in the pool.
 
-This **improves performance**, **reduces thread creation overhead**, and **controls the number of threads running in the system**.
+**Key Features**
 
+* **Reuses threads**
+* Improves **performance**
+* Reduces thread creation overhead
+* Better **resource management**
+* Controls the number of concurrent threads
+* Provided by **Executor Framework**
 
-* **Fixed Thread Pool** – A fixed number of threads handle tasks.
-* **Cached Thread Pool** – Creates new threads when needed and reuses existing ones.
-* **Single Thread Pool** – Uses only one thread to execute tasks sequentially.
-* **Scheduled Thread Pool** – Executes tasks after a delay or periodically.
+**How It Works**
 
-**Types of thread pools in Java** (via `Executors`) are:
+1. Create a **Thread Pool** with a fixed or dynamic number of threads.
+2. Submit tasks to the pool.
+3. An available worker thread picks up and executes the task.
+4. After completion, the thread returns to the pool and waits for the next task.
+5. Threads are reused instead of being created repeatedly.
 
- ```java
+**Why to Use**
+
+* Improves application performance
+* Reduces memory and CPU overhead
+* Prevents creating too many threads
+* Simplifies concurrent programming
+
+**When to Use**
+
+* Web applications handling multiple requests
+* Background jobs
+* Batch processing
+* Asynchronous tasks
+* High-concurrency applications
+
+**Example**
+
+```java
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Fixed Thread Pool
-        ExecutorService fixedPool = Executors.newFixedThreadPool(3);
+        ExecutorService executor = Executors.newFixedThreadPool(3);
 
-        // Cached Thread Pool
-        ExecutorService cachedPool = Executors.newCachedThreadPool();
+        for (int i = 1; i <= 5; i++) {
+            int taskId = i;
 
-        // Single Thread Pool
-        ExecutorService singlePool = Executors.newSingleThreadExecutor();
+            executor.submit(() ->
+                System.out.println(
+                    "Executing Task " + taskId +
+                    " by " + Thread.currentThread().getName()
+                )
+            );
+        }
 
-        // Scheduled Thread Pool
-        ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
-
-        // Task
-        Runnable task = () -> {
-            System.out.println("Task executed by: " + Thread.currentThread().getName());
-        };
-
-        // Submit tasks
-        fixedPool.submit(task);
-        cachedPool.submit(task);
-        singlePool.submit(task);
-
-        // Scheduled task (runs after 3 seconds)
-        scheduledPool.schedule(task, 3, TimeUnit.SECONDS);
-
-        // Shutdown
-        fixedPool.shutdown();
-        cachedPool.shutdown();
-        singlePool.shutdown();
-        scheduledPool.shutdown();
+        executor.shutdown();
     }
 }
-
-// Output:
-Task executed by: pool-3-thread-1
-Task executed by: pool-1-thread-1
-Task executed by: pool-2-thread-1
 ```
+
+**Common Types of Thread Pools**
+
+* **FixedThreadPool** – Fixed number of threads
+* **CachedThreadPool** – Creates threads as needed
+* **SingleThreadExecutor** – Uses only one thread
+* **ScheduledThreadPool** – Executes tasks after a delay or periodically
 
 ## 4. What is ExecutorService?
 
-> **ExecutorService is a Java concurrency API used to manage a pool of threads and execute tasks asynchronously.**
->
-> Instead of creating and managing threads manually, we submit tasks to the ExecutorService, which handles thread creation, reuse, scheduling, and lifecycle management.
+**ExecutorService** is a Java interface from the **Executor Framework** used to manage and execute asynchronous tasks using a **Thread Pool**. It simplifies thread management by handling thread creation, reuse, and shutdown automatically.
 
----
+**Key Features**
 
-**Why Do We Use ExecutorService?**
-
-* Reuses threads through a thread pool
+* Manages a **Thread Pool**
+* Executes tasks asynchronously
+* Reuses existing threads
 * Improves application performance
-* Controls the number of concurrent threads
-* Prevents excessive thread creation
-* Commonly used in APIs, database operations, and microservices
-
----
+* Supports **Runnable** and **Callable** tasks
+* Provides graceful thread shutdown
 
 **How It Works**
 
-> When a task is submitted, ExecutorService assigns it to an available thread from the pool. Once the task is completed, the thread is reused for another task instead of creating a new thread.
+1. Create an **ExecutorService**.
+2. Submit tasks using `submit()` or `execute()`.
+3. A thread from the pool executes the task.
+4. After completion, the thread returns to the pool.
+5. Call `shutdown()` when all tasks are finished.
 
-```text
-Task 1 ──► Thread Pool ──► Thread 1
-Task 2 ──► Thread Pool ──► Thread 2
-Task 3 ──► Thread Pool ──► Thread 3
-```
+**Why to Use**
 
----
+* Avoid manual thread creation
+* Better resource management
+* Improves performance through thread reuse
+* Simplifies concurrent programming
 
-**Simple Example**
+**When to Use**
+
+* Web applications
+* Background processing
+* Batch jobs
+* Asynchronous operations
+* High-concurrency systems
+
+**Example**
 
 ```java
-ExecutorService executor = Executors.newFixedThreadPool(3);
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-executor.submit(() ->
-    System.out.println("Task executed by " +
-        Thread.currentThread().getName())
-);
-
-executor.shutdown();
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        executor.submit(() -> System.out.println("Task 1"));
+        executor.submit(() ->System.out.println("Task 2"));
+        executor.shutdown();
+    }
+}
 ```
 
----
+**Important Methods**
 
-**Real-World Example**
+| **Method**      | **Purpose**                          |
+| --------------- | ------------------------------------ |
+| `execute()`     | Executes a Runnable task             |
+| `submit()`      | Executes a task and returns a Future |
+| `shutdown()`    | Stops accepting new tasks            |
+| `shutdownNow()` | Attempts to stop all running tasks   |
+| `invokeAll()`   | Executes multiple tasks              |
 
-> Imagine an e-commerce or food delivery application where thousands of users send requests simultaneously.
->
-> Instead of creating one thread per user request, we use a thread pool. For example, with a pool of 10 threads, requests are processed efficiently while threads are reused, reducing memory usage and improving performance.
+**ExecutorService vs Thread**
 
-```text
-1000 User Requests
-        │
-        ▼
-   Thread Pool (10 Threads)
-        │
-        ▼
- Process Requests Efficiently
-```
-
----
-
-**Food Delivery Example**
-
-When a customer places an order:
-
-* One task processes the order
-* One task handles payment
-* One task sends notifications
-* One task updates the database
-
-These tasks can run asynchronously using ExecutorService.
+| **Thread**                   | **ExecutorService**         |
+| ---------------------------- | --------------------------- |
+| Manual thread management     | Automatic thread management |
+| New thread per task          | Reuses threads              |
+| Less efficient               | More efficient              |
+| Difficult to manage at scale | Easy to manage at scale     |
 
 
 ## 5. What is CountDownLatch and CyclicBarrier?
+               |
 
-**CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
+**CountDownLatch** is a synchronization utility that allows one or more threads to wait until a set of operations performed by other threads is completed.
 
-```java
+**Key Features**
+
+* **Thread synchronization**
+* Uses a **counter**
+* One-time use only
+* Threads wait using `await()`
+* Counter decreases using `countDown()`
+
+**How It Works**
+
+1. Create a latch with a count value.
+2. Worker threads complete their tasks and call `countDown()`.
+3. The waiting thread calls `await()`.
+4. When the count reaches **0**, all waiting threads continue execution.
+
+**Why to Use**
+
+* Wait for multiple tasks to finish
+* Coordinate thread execution
+* Simplify multi-threaded workflows
+
+**When to Use**
+
+* Application startup tasks
+* Parallel data processing
+* Waiting for multiple services to respond
+
+**Example**
+
+```java id="e4uyh6"
 import java.util.concurrent.CountDownLatch;
 
-public class Test {
-    public static void main(String[] args) throws InterruptedException {
+public class Main {
+    public static void main(String[] args) throws Exception {
 
-        CountDownLatch latch = new CountDownLatch(3);
+        CountDownLatch latch = new CountDownLatch(2);
 
-        Runnable task = () -> {
-            try {
-                Thread.sleep(1000); // Simulate some work
-                System.out.println(Thread.currentThread().getName() + " finished work");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                latch.countDown(); // Reduce count
-            }
-        };
+        new Thread(() -> {
+            System.out.println("Task 1 done");
+            latch.countDown();
+        }).start();
 
-        new Thread(task).start();
-        new Thread(task).start();
-        new Thread(task).start();
+        new Thread(() -> {
+            System.out.println("Task 2 done");
+            latch.countDown();
+        }).start();
 
-        latch.await(); // Main thread waits
+        latch.await();
 
-        System.out.println("All tasks completed. Main thread starts");
+        System.out.println("All tasks completed");
     }
 }
-
-// Output:
-Thread-0 finished work
-Thread-2 finished work
-Thread-1 finished work
-All tasks completed. Main thread starts
 ```
 
-**CyclicBarrier** is a synchronization tool in Java that makes **a group of threads wait for each other** until all threads reach a common point (barrier), and then all threads continue execution.
+**Interview Answer**
 
+"**CountDownLatch** is a synchronization utility that allows a thread to wait until other threads complete their work. It uses a counter that decreases with `countDown()`, and when the count reaches zero, waiting threads are released. It is a **one-time-use** synchronization mechanism."
 
-```java
+---
+
+**CyclicBarrier** is a synchronization utility that allows a group of threads to wait for each other at a common barrier point before continuing execution.
+
+**Key Features**
+
+* **Thread synchronization**
+* Reusable (**cyclic**)
+* All threads wait at a barrier
+* Releases all threads together
+* Can execute a barrier action
+
+**How It Works**
+
+1. Create a barrier with the number of participating threads.
+2. Each thread calls `await()`.
+3. Threads wait until all participants reach the barrier.
+4. Once all arrive, the barrier opens and all threads continue.
+5. The barrier automatically resets for reuse.
+
+**Why to Use**
+
+* Coordinate multiple threads
+* Ensure threads reach the same execution point
+* Useful for phased processing
+
+**When to Use**
+
+* Parallel computations
+* Multi-step processing
+* Simulation systems
+* Data aggregation tasks
+
+**Example**
+
+```java id="m6h4uz"
 import java.util.concurrent.CyclicBarrier;
 
-public class Test {
+public class Main {
+
     public static void main(String[] args) {
 
-        // Barrier with 3 threads and barrier action
-        CyclicBarrier barrier = new CyclicBarrier(3, () -> {
-            System.out.println("All threads reached barrier. Starting next phase...");
-        });
+        CyclicBarrier barrier = new CyclicBarrier(2);
 
         Runnable task = () -> {
             try {
-                System.out.println(Thread.currentThread().getName() + " reached barrier");
-                
-                Thread.sleep(1000); // Simulate work
-                
-                barrier.await(); // Wait for other threads
+                System.out.println(Thread.currentThread().getName()
+                        + " reached barrier");
 
-                System.out.println(Thread.currentThread().getName() + " crossed barrier");
+                barrier.await();
+
+                System.out.println(Thread.currentThread().getName()
+                        + " continues");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -5728,91 +5817,132 @@ public class Test {
 
         new Thread(task).start();
         new Thread(task).start();
-        new Thread(task).start();
     }
 }
-
-// Output:
-Thread-2 reached barrier
-Thread-1 reached barrier
-Thread-0 reached barrier
-All threads reached barrier. Starting next phase...
-Thread-0 crossed barrier
-Thread-1 crossed barrier
-Thread-2 crossed barrier
 ```
 
-**Difference: CountDownLatch vs CyclicBarrier**
+**Interview Answer**
 
-| CountDownLatch          | CyclicBarrier           |
-| ----------------------- | ----------------------- |
-| One thread waits        | All threads wait        |
-| Not reusable            | Reusable                |
-| Used for one-time event | Used for repeated tasks |
-| countDown()             | await()                 |
+"**CyclicBarrier** is a synchronization utility that allows multiple threads to wait for each other at a common point. When all participating threads reach the barrier using `await()`, they are released together. Unlike **CountDownLatch**, it is **reusable** and can be used across multiple processing phases."
+
+---
+
+**CountDownLatch vs CyclicBarrier**
+
+| **CountDownLatch**                   | **CyclicBarrier**                  |
+| ------------------------------------ | ---------------------------------- |
+| One-time use                         | Reusable                           |
+| Counter decreases to zero            | Threads wait for each other        |
+| One thread typically waits           | All threads wait                   |
+| Uses `countDown()` and `await()`     | Uses `await()`                     |
+| Suitable for task completion waiting | Suitable for phase synchronization |
 
 
 ## 6. What is ReentrantLock?
 
-**ReentrantLock** is a class in Java (`java.util.concurrent.locks`) that provides an explicit and more flexible locking mechanism than `synchronized`.
 
-It allows:
+**ReentrantLock** is a **thread synchronization** mechanism from the `java.util.concurrent.locks` package that provides explicit locking and unlocking of shared resources. It is an advanced alternative to the **synchronized** keyword.
 
-* Manual `lock()` and `unlock()` control
-* Fair or non-fair locking policy
-* Interruptible lock acquisition
-* `tryLock()` with timeout
-* Reentrancy (same thread can acquire the lock multiple times)
+**Key Features**
 
-```java
+* **Thread-safe**
+* Supports **explicit lock** and unlock
+* A thread can acquire the same lock multiple times (**reentrant**)
+* Supports **fair locking**
+* Supports **tryLock()**
+* Supports **interruptible locking**
+
+**How It Works**
+
+1. A thread acquires the lock using `lock()`.
+2. Other threads trying to acquire the same lock must wait.
+3. The thread executes the critical section.
+4. The lock is released using `unlock()`.
+5. Waiting threads can then acquire the lock.
+
+**Why to Use**
+
+* More flexible than **synchronized**
+* Better control over locking behavior
+* Supports timeout and interrupt handling
+* Useful in complex concurrent applications
+
+**When to Use**
+
+* Multi-threaded applications
+* Shared resource access
+* Complex synchronization requirements
+* When `tryLock()` or fair locking is needed
+
+**Example**
+
+```java id="x9w7k2"
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Test {
+public class Counter {
+    private int count = 0;
+    private ReentrantLock lock = new ReentrantLock();
 
-    ReentrantLock lock = new ReentrantLock();
-
-    public void method1() {
+    public void increment() {
         lock.lock();
+
         try {
-            System.out.println(Thread.currentThread().getName() + " inside method1");
-            method2(); // Same thread can acquire lock again
+            count++;
         } finally {
             lock.unlock();
         }
     }
 
-    public void method2() {
-        lock.lock();
-        try {
-            System.out.println(Thread.currentThread().getName() + " inside method2");
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public static void main(String[] args) {
-        Test obj = new Test();
-
-        Runnable task = () -> {
-            obj.method1();
-        };
-
-        new Thread(task).start();
-        new Thread(task).start();
+    public int getCount() {
+        return count;
     }
 }
-
-//Output: 
-Thread-0 inside method1
-Thread-0 inside method2
-Thread-1 inside method1
-Thread-1 inside method2
 ```
 
+**Using tryLock()**
 
-## 7. How to call three APIs concurrently:
+```java id="y4n8m1"
+import java.util.concurrent.locks.ReentrantLock;
 
-// Way One
+public class Main {
+    private static ReentrantLock lock = new ReentrantLock();
+    public static void main(String[] args) {
+        if (lock.tryLock()) {
+            try {
+                System.out.println("Lock acquired");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            System.out.println("Could not acquire lock");
+        }
+    }
+}
+```
+
+**ReentrantLock vs synchronized**
+
+| **ReentrantLock**                | **synchronized**    |
+| -------------------------------- | ------------------- |
+| Explicit `lock()` and `unlock()` | Automatic locking   |
+| Supports `tryLock()`             | No `tryLock()`      |
+| Supports fairness policy         | No fairness control |
+| Supports interruptible locking   | Limited control     |
+| More flexible                    | Simpler to use      |
+
+
+## 7. How to call three APIs concurrently?
+
+To call **three APIs concurrently**, we execute all API requests at the same time instead of waiting for one request to finish before starting the next. In Java, this is commonly done using **CompletableFuture**.
+
+| **Method**      | **Purpose**                                         |
+| --------------- | --------------------------------------------------- |
+| `supplyAsync()` | Executes a task asynchronously and returns a result |
+| `allOf()`       | Waits for all tasks to complete                     |
+| `join()`        | Gets the result without checked exceptions          |
+| `thenCombine()` | Combines results from multiple tasks                |
+
+**Way One**
 
 To call three APIs concurrently in Spring Boot, we can use `CompletableFuture` with `@Async` so that all services like User, Payment, and Inventory are called in parallel, improving performance.”
 
@@ -5879,8 +6009,7 @@ public class MyController {
 }
 ```
 
-
-// Way two:: WebClient (Reactive - Non-Blocking)
+**Way two:: WebClient (Reactive - Non-Blocking)**
 
 We can use WebClient from Spring WebFlux to make non-blocking concurrent API calls using Mono or Flux, which is more scalable than threads.
 
@@ -5933,7 +6062,7 @@ public Mono<String> getAll() {
 ```
 
 
-// Way Three::  ExecutorService (Manual Thread Pool)
+**Way Three::  ExecutorService (Manual Thread Pool)**
 
 We can use ExecutorService to manually create threads and submit tasks to call APIs in parallel.
 
@@ -5961,6 +6090,7 @@ public class ApiService {
 ```
 
 
+
 | Feature     | WebClient                | ExecutorService |
 | ----------- | ------------------------ | --------------- |
 | Type        | Non-blocking             | Blocking        |
@@ -5972,39 +6102,182 @@ public class ApiService {
 
 ## 8. What is immutability in Java? 
 
-**Immutability** in **Java** means that **once an object is created, its state (data) cannot be changed**. If any modification is needed, a **new object is created instead**.
 
-**Example:**
-String is immutable in Java.
+**Immutability**
 
-```java
-String s = "Hello";
-s.concat(" World"); // creates a new object, original string is unchanged
-```
+**Definition**
 
-## 9. What is CompletableFuture and how does it work?
+**Immutability** means an object's state **cannot be changed after it is created**. If a value needs to change, a **new object** is created instead of modifying the existing one.
 
-**CompletableFuture** is an advanced version of Future in Java that allows asynchronous, non-blocking programming. It lets you run tasks in the background and chain multiple operations without blocking the main thread.
+**Key Features**
 
-👉 **It works by:**
+* Object state cannot be modified after creation
+* Class is usually marked as **final**
+* Fields are **private** and **final**
+* No setter methods
+* Thread-safe by nature
 
-* Running tasks asynchronously (`supplyAsync`, `runAsync`)
-* Chaining results (`thenApply`, `thenAccept`)
-* Combining multiple tasks (`thenCombine`, `allOf`)
+**How It Works**
 
-```java
-import java.util.concurrent.CompletableFuture;
+1. Object is created with initial values.
+2. Fields are assigned only once.
+3. No methods allow modification of the object's state.
+4. Any change requires creating a new object.
 
-public class Test {
-    public static void main(String[] args) {
+**Why to Use**
 
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello")
-                                 .thenApply(result -> result + " World");
+* Improves **thread safety**
+* Prevents accidental data modification
+* Makes code easier to understand and maintain
+* Reduces synchronization issues
 
-        System.out.println(future.join()); // Hello World
+**When to Use**
+
+* Value objects
+* Configuration objects
+* DTOs
+* Multi-threaded applications
+* Cache keys and shared data
+
+**Example**
+
+```java id="d7k4m1"
+public final class Employee {
+
+    private final String name;
+    private final int age;
+
+    public Employee(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 }
 ```
+
+**Usage**
+
+```java id="x8n2p5"
+Employee emp = new Employee("John", 25);
+
+// Cannot modify values
+// emp.setName("Mike"); // Not possible
+```
+
+**How to Create an Immutable Class**
+
+* Make the class **final**
+* Make all fields **private** and **final**
+* Initialize fields through constructor
+* Do not provide setter methods
+* Return defensive copies for mutable objects
+
+**Example: String**
+
+```java id="a3v9q7"
+String s1 = "Java";
+String s2 = s1.concat(" Spring");
+
+System.out.println(s1); // Java
+System.out.println(s2); // Java Spring
+```
+
+Here, **String** is immutable. The original object is not changed; a new object is created.
+
+## 9. What is CompletableFuture and how does it work?
+
+
+**CompletableFuture** is a class in Java used for **asynchronous** and **non-blocking** programming. It allows tasks to run in the background and provides a way to process results when they become available.
+
+**Key Features**
+
+* **Asynchronous execution**
+* **Non-blocking** operations
+* Supports task chaining
+* Combines multiple asynchronous tasks
+* Built on the **Executor Framework**
+* Better alternative to traditional **Future**
+
+**How It Works**
+
+1. Start a task asynchronously using `supplyAsync()` or `runAsync()`.
+2. The task executes in a separate thread.
+3. Continue other work without waiting.
+4. Process the result when the task completes.
+5. Combine multiple tasks if needed.
+
+**Why to Use**
+
+* Improve application performance
+* Avoid blocking the main thread
+* Execute multiple tasks concurrently
+* Simplify asynchronous programming
+
+**When to Use**
+
+* Calling multiple APIs
+* Background processing
+* Microservices communication
+* Data aggregation
+* Long-running operations
+
+**Example**
+
+```java id="cf7m2x"
+import java.util.concurrent.CompletableFuture;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        CompletableFuture<String> future =
+                CompletableFuture.supplyAsync(() -> {
+                    return "Hello Java";
+                });
+
+        String result = future.join();
+
+        System.out.println(result);
+    }
+}
+```
+
+**Task Chaining Example**
+
+```java id="kp9v4n"
+import java.util.concurrent.CompletableFuture;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        CompletableFuture<String> future =
+                CompletableFuture.supplyAsync(() -> "Java")
+                        .thenApply(str -> str + " Spring");
+
+        System.out.println(future.join());
+    }
+}
+```
+
+**Important Methods**
+
+| **Method**      | **Purpose**                                |
+| --------------- | ------------------------------------------ |
+| `runAsync()`    | Executes a task without returning a result |
+| `supplyAsync()` | Executes a task and returns a result       |
+| `thenApply()`   | Transforms the result                      |
+| `thenAccept()`  | Consumes the result                        |
+| `thenCombine()` | Combines two tasks                         |
+| `allOf()`       | Waits for multiple tasks                   |
+| `join()`        | Retrieves the result                       |
 
 
 ## 10. Difference between Future and CompletableFuture
@@ -6012,6 +6285,15 @@ public class Test {
 **`Future`** is used to get the result of an asynchronous task, but it supports only basic operations like `get()`. 
 
 **`CompletableFuture`** is an enhanced version introduced in Java 8 that supports chaining, combining multiple async tasks, exception handling, and non-blocking programming.
+
+**Future vs CompletableFuture**
+
+| **Future**                 | **CompletableFuture**           |
+| -------------------------- | ------------------------------- |
+| Basic asynchronous support | Advanced asynchronous support   |
+| Cannot easily chain tasks  | Supports task chaining          |
+| Limited result processing  | Rich API for result handling    |
+| More blocking operations   | Supports non-blocking workflows |
 
 **Future**
 
@@ -6050,21 +6332,7 @@ System.out.println(future.get());
 //Output: Default Value
 ```
 
-
-**Future vs CompletableFuture**
-
-| Feature                | Future  | CompletableFuture |
-| ---------------------- | ------- | ----------------- |
-| Asynchronous Execution | Yes     | Yes               |
-| Chaining               | No      | Yes               |
-| Combine Multiple Tasks | No      | Yes               |
-| Exception Handling     | Limited | Rich Support      |
-| Non-Blocking Callbacks | No      | Yes               |
-| Introduced             | Java 5  | Java 8            |
-
-
 ## 11. What is fail-fast and fail-safe iterators?
-
 
 **Fail-Fast iterators** throw a `ConcurrentModificationException` if the collection is modified while iterating. Examples are `ArrayList` and `HashMap`.
 
