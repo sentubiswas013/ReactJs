@@ -1274,73 +1274,9 @@ final class Constants {
 ```
 
 
-## 18. What is abstract class?
+## 18. Can we make a class `abstract`?
 
-An **Abstract Class** is a class that cannot be instantiated directly. It is used as a base class for other classes and can contain both **abstract methods** (without implementation) and **concrete methods** (with implementation).
-
-**Abstract Class cannot be instantiated directly**
-```java
-abstract class Vehicle {
-    abstract void start();
-}
-
-// ❌ Compilation Error
-Vehicle v = new Vehicle();
-```
-
-**Key Features**
-
-* Cannot create an object of an **Abstract Class**
-* Can contain **abstract** and **non-abstract methods**
-* Can have **fields**, **constructors**, and **methods**
-* Supports **Inheritance**
-* Child classes must implement abstract methods
-
-**How It Works**
-
-An **Abstract Class** defines common behavior that can be shared by multiple subclasses. The subclasses inherit from it and provide implementations for the abstract methods.
-
-**Why to Use**
-
-* To provide a common base for related classes
-* To avoid code duplication
-* To enforce certain methods in child classes
-* To support code reusability
-
-**When to Use**
-
-Use an **Abstract Class** when multiple classes share common fields or methods, but some behavior must be implemented differently by each subclass.
-
-**Code Example**
-
-```java
-abstract class Animal {
-
-    abstract void makeSound();
-
-    void sleep() {
-        System.out.println("Sleeping...");
-    }
-}
-
-class Dog extends Animal {
-
-    @Override
-    void makeSound() {
-        System.out.println("Bark");
-    }
-}
-```
-
-Usage:
-
-```java
-Animal dog = new Dog();
-dog.makeSound();
-dog.sleep();
-```
-
-Abstract class can have abstract and non-abstract methods.
+Yes, abstract class cannot be instantiated and can have abstract and non-abstract methods.
 
 ```java
 abstract class Animal {
@@ -1352,78 +1288,7 @@ abstract class Animal {
 ```
 
 
-## 19. What is the difference between interface and abstract class?
-
-
-Both **Interface** and **Abstract Class** are used to achieve **Abstraction**, but they serve different purposes.
-
-| **Interface**                                                       | **Abstract Class**                          |
-| ------------------------------------------------------------------- | ------------------------------------------- |
-| Defines a **contract**                                              | Defines a **base class**                    |
-| Supports **multiple inheritance**                                   | Supports only **single inheritance**        |
-| Focuses on **what to do**                                           | Focuses on **what to do and how to do it**  |
-| Cannot have instance fields                                         | Can have instance fields                    |
-| All methods are abstract by default (except default/static methods) | Can have both abstract and concrete methods |
-| Implemented using **implements**                                    | Extended using **extends**                  |
-
-**How It Works**
-
-* Use an **Interface** when unrelated classes need to follow the same contract.
-* Use an **Abstract Class** when classes share common state and behavior.
-
-**Why to Use Interface**
-
-* To achieve **Loose Coupling**
-* To support **Multiple Inheritance**
-* To define a common contract
-
-**Why to Use Abstract Class**
-
-* To share common code among subclasses
-* To avoid code duplication
-* To provide a common base implementation
-
-**When to Use Interface**
-
-When different classes need the same behavior but may implement it differently.
-
-Example:
-
-```java
-interface Animal {
-    void sound();   // abstract method
-}
-
-class Dog implements Animal {
-    public void sound() {
-        System.out.println("Dog barks");
-    }
-}
-```
-
-**When to Use Abstract Class**
-
-When classes have common fields and methods.
-
-Example:
-
-```java
-abstract class Animal {
-    abstract void sound();   // abstract method
-
-    void eat() {             // concrete method
-        System.out.println("Animal is eating");
-    }
-}
-
-class Dog extends Animal {
-    void sound() {
-        System.out.println("Dog barks");
-    }
-}
-```
-
-
+## 19. XYZ
 
 ## 20. Can a class be both abstract and final? 
 
@@ -2756,37 +2621,162 @@ public class Test {
 
 ## 4. What is an Abstract Class?
 
-An abstract class is a class that can have both abstract methods and concrete methods. It is used when we want partial abstraction.
+An **Abstract Class** is a class that cannot be instantiated directly. It is used as a base class for other classes and can contain both **abstract methods** (without implementation) and **concrete methods** (with implementation).
+
+**Abstract Class cannot be instantiated directly**
+```java
+abstract class Vehicle {
+    abstract void start();
+}
+
+// ❌ Compilation Error
+Vehicle v = new Vehicle();
+```
+
+**Key Features**
+
+* Cannot create an object of an **Abstract Class**
+* Can contain **abstract** and **non-abstract methods**
+* Can have **fields**, **constructors**, and **methods**
+* Supports **Inheritance**
+* Child classes must implement abstract methods
+
+**How It Works**
+
+An **Abstract Class** defines common behavior that can be shared by multiple subclasses. The subclasses inherit from it and provide implementations for the abstract methods.
+
+**Why to Use**
+
+* To provide a common base for related classes
+* To avoid code duplication
+* To enforce certain methods in child classes
+* To support code reusability
+
+**When to Use**
+
+Use an **Abstract Class** when multiple classes share common fields or methods, but some behavior must be implemented differently by each subclass.
+
+**Code Example**
 
 ```java
 abstract class Animal {
-    abstract void sound(); // abstract method
+    abstract void makeSound();
 
-    void eat() { // concrete method
-        System.out.println("Eating");
+    void sleep() {
+        System.out.println("Sleeping...");
     }
 }
 
 class Dog extends Animal {
-    void sound() {
+    @Override
+    void makeSound() {
         System.out.println("Bark");
+    }
+}
+```
+
+Usage:
+
+```java
+Animal dog = new Dog();
+dog.makeSound();
+dog.sleep();
+```
+
+Abstract class can have abstract and non-abstract methods.
+
+```java
+abstract class Animal {
+    abstract void sound();            // must be implemented by subclass
+    void display() {                 // concrete method
+        System.out.println("Area: " + area());
     }
 }
 ```
 
 ## 5. When should you use an interface instead of an abstract class?
 
-Use **interface** when:
 
-* You want **multiple inheritance**
-* You define **only method contracts (what to do, not how)**
-* Different classes share **common behavior but not relationship**
+Both **Interface** and **Abstract Class** are used to achieve **Abstraction**, but they serve different purposes.
 
-Use **abstract class** when:
+| **Interface**                                                       | **Abstract Class**                          |
+| ------------------------------------------------------------------- | ------------------------------------------- |
+| Defines a **contract**                                              | Defines a **base class**                    |
+| Supports **multiple inheritance**                                   | Supports only **single inheritance**        |
+| Focuses on **what to do**                                           | Focuses on **what to do and how to do it**  |
+| Cannot have instance fields                                         | Can have instance fields                    |
+| All methods are abstract by default (except default/static methods) | Can have both abstract and concrete methods |
+| Implemented using **implements**                                    | Extended using **extends**                  |
 
-* Classes are **closely related**
-* You want **common code + common fields**
+**How It Works**
 
+* Use an **Interface** when unrelated classes need to follow the same contract.
+* Use an **Abstract Class** when classes share common state and behavior.
+
+**Why to Use Interface**
+
+* To achieve **Loose Coupling**
+* To support **Multiple Inheritance**
+* To define a common contract
+
+**Why to Use Abstract Class**
+
+* To share common code among subclasses
+* To avoid code duplication
+* To provide a common base implementation
+
+**When to Use Interface**
+
+When different classes need the same behavior but may implement it differently.
+
+Example:
+
+```java
+interface Animal {
+    void sound();   // abstract method
+}
+
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+**When to Use Abstract Class**
+
+When classes have common fields and methods.
+
+Example:
+
+```java
+abstract class Animal {
+    abstract void sound();   // abstract method
+
+    void eat() {             // concrete method
+        System.out.println("Animal is eating");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+## 18. Can we make a class `abstract`?
+
+Yes, abstract class cannot be instantiated and can have abstract and non-abstract methods.
+
+```java
+abstract class Animal {
+    abstract void sound();            // must be implemented by subclass
+    void display() {                 // concrete method
+        System.out.println("Area: " + area());
+    }
+}
+```
 
 ## 6. Can we create object of interface or abstract class?
 
