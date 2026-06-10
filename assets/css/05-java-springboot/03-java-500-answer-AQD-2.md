@@ -7595,38 +7595,117 @@ Examples:
 | Switchability          | N/A                                                           | ✅ Easy to switch implementations (portable API)                                                                                                  | ❌ Tied to Hibernate if using Hibernate-specific features stackoverflow                                                                                   |
 
 
-## 8. Difference between `save()` and `persist()`
+## 8. Difference between `save() and `persist()`
 
 
-`persist()` is a JPA method used to make a new entity managed and schedule it for insertion into the database. It does not return anything.
+Both **`save()`** and **`persist()`** are used to store an entity in the database, but they belong to different APIs and have some behavioral differences.
 
-`save()` is a Hibernate/Spring Data method that saves the entity and returns the saved object. It can handle both insert and update operations.
+**Key Features**
 
-In modern Spring Boot applications, we typically use `save()` through Spring Data JPA repositories.
+| Feature      | **save()**                  | **persist()**               |
+| ------------ | --------------------------- | --------------------------- |
+| API          | **Hibernate** method        | **JPA** standard method     |
+| Return Type  | Returns generated **ID**    | Returns **void**            |
+| Standard     | Hibernate-specific          | JPA-standard                |
+| Entity State | Makes entity **Persistent** | Makes entity **Persistent** |
+| Portability  | Less portable               | More portable               |
 
+**How It Works**
 
-| Feature                | `persist()`           | `save()`                    |
-| ---------------------- | --------------------- | --------------------------- |
-| Defined In             | JPA (`EntityManager`) | Hibernate / Spring Data JPA |
-| Return Type            | `void`                | Entity object               |
-| Insert New Entity      | ✅                     | ✅                           |
-| Update Existing Entity | ❌                     | ✅                           |
-| Standard JPA           | ✅                     | ❌                           |
+**- save()**
 
+* A method provided by **Hibernate Session**.
+* Saves the entity and returns the generated **primary key**.
+* Can trigger an immediate insert to generate the ID.
 
 ```java
-@Entity
-class Employee {
-    @Id
-    private Long id;
-    private String name;
-}
+Session session = sessionFactory.openSession();
 
 Employee emp = new Employee();
 emp.setName("John");
 
-entityManager.persist(emp);
+Long id = (Long) session.save(emp);
+
+System.out.println(id);
 ```
+
+**- persist()**
+
+* A method provided by **JPA EntityManager**.
+* Makes the entity managed by the persistence context.
+* Does not return the generated ID.
+* The actual SQL INSERT usually happens during **flush** or **transaction commit**.
+
+```java
+EntityManager em = entityManagerFactory.createEntityManager();
+
+Employee emp = new Employee();
+emp.setName("John");
+
+em.persist(emp);
+```
+
+**Why Use It**
+
+* Use **`persist()`** when working with **JPA** because it follows the standard specification.
+* Use **`save()`** when directly using **Hibernate APIs** and you need the generated ID immediately.
+
+**When to Use**
+
+**Use `persist()`**
+
+* In **Spring Boot + JPA** applications.
+* When writing **portable code** that can work with different JPA providers.
+* Recommended for modern enterprise applications.
+
+```java
+@Repository
+public class EmployeeRepository {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public void save(Employee emp) {
+        em.persist(emp);
+    }
+}
+```
+
+**Use `save()`**
+
+* When working directly with **Hibernate Session**.
+* When you need the generated ID returned immediately.
+
+```java
+Session session = sessionFactory.openSession();
+
+Long id = (Long) session.save(employee);
+```
+
+
+
+## 9. Difference between save() and saveAndFlush()?
+
+
+Both **`save()`** and **`saveAndFlush()`** are methods provided by **Spring Data JPA** to persist entities, but they differ in **when changes are written to the database**.
+
+**Key Features**
+
+| Feature                   | **save()**                 | **saveAndFlush()**                     |
+| ------------------------- | -------------------------- | -------------------------------------- |
+| Save Entity               | Yes                        | Yes                                    |
+| Flush Persistence Context | No                         | Yes                                    |
+| SQL Execution             | At flush/commit time       | Immediately                            |
+| Return Type               | Saved Entity               | Saved Entity                           |
+| Performance               | Better for bulk operations | Slightly slower due to immediate flush |
+
+**How It Works**
+
+**save()**
+
+* Saves the entity in the **Persistence Context**.
+* SQL query is not necessarily executed immediately.
+* Changes are usually sent to the database during **flush** or **transaction commit**.
 
 ```java
 Employee emp = new Employee();
@@ -7635,30 +7714,72 @@ emp.setName("John");
 employeeRepository.save(emp);
 ```
 
+**saveAndFlush()**
 
-## 9. Difference between save() and saveAndFlush()?
-
-Both `save()` and `saveAndFlush()` persist data using JPA.
-
-**`save()`** stores the entity in the persistence context and the actual SQL may execute later (at transaction commit). 
-
-**`saveAndFlush()`** immediately flushes changes to the database by executing the SQL right away.
-
-**How It Works**
+* Saves the entity and immediately calls **flush()**.
+* Forces Hibernate/JPA to execute the SQL statement right away.
+* Changes become visible in the database immediately within the current transaction.
 
 ```java
-// save() - Data stays in memory until commit
-Employee employee = new Employee(1L, "John");
-employeeRepository.save(employee);  // INSERT not executed yet
-// Do other operations...
-// Transaction commits → INSERT executed
+Employee emp = new Employee();
+emp.setName("John");
 
-// saveAndFlush() - Data written immediately
-Employee employee = new Employee(2L, "Jane");
-employeeRepository.saveAndFlush(employee);  // INSERT executed NOW
-// Data is in database immediately
+employeeRepository.saveAndFlush(emp);
 ```
 
+**Why Use It**
+
+**save()**
+
+* Better performance.
+* Lets Hibernate optimize SQL execution.
+* Recommended for most CRUD operations.
+
+**saveAndFlush()**
+
+* Ensures data is immediately written to the database.
+* Useful when subsequent code depends on the database state.
+
+**When to Use**
+
+**Use `save()`**
+
+* Standard create/update operations.
+* Batch inserts or updates.
+* Most Spring Boot applications.
+
+```java
+employeeRepository.save(employee);
+```
+
+**Use `saveAndFlush()`**
+
+* Need the data immediately available in the database.
+* Calling a stored procedure after saving.
+* Running a query in the same transaction that depends on the newly saved data.
+
+```java
+employeeRepository.saveAndFlush(employee);
+
+Employee result =
+        employeeRepository.findById(employee.getId()).get();
+```
+
+**Example**
+
+```java
+@Transactional
+public void createEmployee() {
+
+    Employee emp = new Employee();
+    emp.setName("John");
+
+    employeeRepository.saveAndFlush(emp);
+
+    // SQL INSERT already executed here
+    System.out.println("Employee saved in DB");
+}
+```
 
 | Aspect               | save()                                               | saveAndFlush()                                                     |
 | -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
