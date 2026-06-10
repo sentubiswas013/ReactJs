@@ -6334,85 +6334,304 @@ System.out.println(future.get());
 
 ## 11. What is fail-fast and fail-safe iterators?
 
-**Fail-Fast iterators** throw a `ConcurrentModificationException` if the collection is modified while iterating. Examples are `ArrayList` and `HashMap`.
 
-**Fail-Safe iterators** work on a copy or snapshot of the collection, so modifications during iteration do not throw exceptions. Examples are `CopyOnWriteArrayList` and `ConcurrentHashMap`.
+**Fail-Fast** and **Fail-Safe** describe how Java collections behave when they are modified while being iterated.
 
+* **Fail-Fast**: Immediately throws an exception if the collection is modified during iteration.
+* **Fail-Safe**: Works on a copy of the collection, so modifications do not cause exceptions.
 
-**Fail-Fast Example**
+---
 
-```java
-List<String> list = new ArrayList<>();
+**Fail-Fast**
 
-list.add("A");
-list.add("B");
+**Key Features**
 
-for (String s : list) {
-    list.remove(s);
+* Detects concurrent modifications
+* Throws **ConcurrentModificationException**
+* Uses the original collection
+* Faster and memory efficient
+
+**How It Works**
+
+* Iterator keeps track of collection modifications.
+* If the collection is modified outside the iterator during iteration, it throws **ConcurrentModificationException**.
+
+**Why to Use**
+
+* Detect programming errors early
+* Prevent inconsistent data access
+
+**When to Use**
+
+* Single-threaded applications
+* When collection modifications during iteration are not expected
+
+**Example**
+
+```java id="ff1a2b"
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<String> list = new ArrayList<>();
+        list.add("Java");
+        list.add("Spring");
+
+        for (String item : list) {
+            list.add("AWS"); // Exception
+        }
+    }
 }
-// Output:
-// ConcurrentModificationException
 ```
 
-**Fail-Safe Example**
+---
 
-```java
-CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+**Fail-Safe**
 
-list.add("A");
-list.add("B");
+**Key Features**
 
-for (String s : list) {
-    list.remove(s);
+* Does not throw ConcurrentModificationException
+* Iterates over a snapshot or copy
+* Safe for concurrent modifications
+* Extra memory usage
+
+**How It Works**
+
+* Iterator works on a separate copy of the collection.
+* Changes to the original collection do not affect the iteration.
+
+**Why to Use**
+
+* Safe iteration in concurrent environments
+* Allows modification during iteration
+
+**When to Use**
+
+* Multi-threaded applications
+* Concurrent data access
+
+**Example**
+
+```java id="fs3c4d"
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        CopyOnWriteArrayList<String> list =
+                new CopyOnWriteArrayList<>();
+
+        list.add("Java");
+        list.add("Spring");
+
+        for (String item : list) {
+            list.add("AWS"); // No exception
+        }
+
+        System.out.println(list);
+    }
 }
-// No Exception
 ```
 
-**Interview Comparison**
+**Common Examples**
 
-| Feature                                | Fail-Fast           | Fail-Safe                               |
-| -------------------------------------- | ------------------- | --------------------------------------- |
-| Throws ConcurrentModificationException | Yes                 | No                                      |
-| Iterates on                            | Original Collection | Copy/Snapshot                           |
-| Performance                            | Faster              | More Memory                             |
-| Thread Safe                            | No                  | Yes                                     |
-| Example                                | ArrayList, HashMap  | CopyOnWriteArrayList, ConcurrentHashMap |
+| **Fail-Fast** | **Fail-Safe**        |
+| ------------- | -------------------- |
+| ArrayList     | CopyOnWriteArrayList |
+| HashMap       | ConcurrentHashMap    |
+| HashSet       | CopyOnWriteArraySet  |
+
+**Fail-Fast vs Fail-Safe**
+
+| **Fail-Fast**                            | **Fail-Safe**                        |
+| ---------------------------------------- | ------------------------------------ |
+| Uses original collection                 | Uses copy/snapshot                   |
+| Throws ConcurrentModificationException   | No exception                         |
+| Less memory usage                        | More memory usage                    |
+| Faster                                   | Slightly slower                      |
+| Not suitable for concurrent modification | Suitable for concurrent modification |
 
 
 ## 12. What happens if the thread pool is exhausted?
 
-When a thread pool is exhausted, it means all threads are busy and the task queue is full. Any new task cannot be accepted, so the configured `RejectedExecutionHandler` is triggered. By default, Java uses `AbortPolicy`, which throws a `RejectedExecutionException`.
 
+A **Thread Pool** is considered **exhausted** when all worker threads are busy and the task queue is full, leaving no capacity to accept new tasks.
 
-```java
+**Key Features**
+
+* All threads are occupied
+* Task queue has reached its limit
+* New tasks cannot be processed immediately
+* A **Rejection Policy** is triggered
+
+**How It Works**
+
+1. Tasks are submitted to the thread pool.
+2. Available threads execute the tasks.
+3. If all threads are busy, tasks are placed in the queue.
+4. If both the threads and queue are full, the pool becomes exhausted.
+5. The configured **RejectedExecutionHandler** decides what happens next.
+
+**Why to Know This**
+
+* Prevents application slowdowns
+* Helps avoid task loss
+* Important for system scalability
+* Useful when tuning thread pools in production systems
+
+**When It Happens**
+
+* High traffic web applications
+* Long-running tasks
+* Small thread pool size
+* Small queue capacity
+* Sudden spikes in workload
+
+**Common Rejection Policies**
+
+| **Policy**              | **Behavior**                                        |
+| ----------------------- | --------------------------------------------------- |
+| **AbortPolicy**         | Throws **RejectedExecutionException** (Default)     |
+| **CallerRunsPolicy**    | Calling thread executes the task                    |
+| **DiscardPolicy**       | Silently discards the task                          |
+| **DiscardOldestPolicy** | Removes the oldest queued task and adds the new one |
+
+**Example**
+
+```java id="u7n3qk"
 ThreadPoolExecutor executor =
     new ThreadPoolExecutor(
-        2,  // core threads
-        2,  // max threads
-        60,
-        TimeUnit.SECONDS,
+        2, // Core threads
+        2, // Max threads
+        0L,
+        TimeUnit.MILLISECONDS,
         new ArrayBlockingQueue<>(2)
     );
 
-for (int i = 1; i <= 5; i++) {
-    executor.submit(() -> {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+// 2 tasks run
+// 2 tasks wait in queue
+// 5th task gets rejected
+```
+
+**How to Avoid Thread Pool Exhaustion**
+
+* Increase **pool size**
+* Increase **queue capacity**
+* Optimize slow tasks
+* Use **asynchronous processing**
+* Configure an appropriate **Rejection Policy**
+
+## 13. Fork/Join Framework
+
+
+The **Fork/Join Framework** is a Java framework used for **parallel processing** by breaking a large task into smaller subtasks, executing them in parallel, and then combining the results. It is part of the **java.util.concurrent** package.
+
+**Key Features**
+
+* Based on **divide and conquer** approach
+* Uses **ForkJoinPool**
+* Supports **parallel execution**
+* Uses **work-stealing algorithm**
+* Improves CPU utilization
+* Designed for **recursive tasks**
+
+**How It Works**
+
+1. A large task is split into smaller **subtasks (fork)**.
+2. Subtasks are executed in parallel by worker threads.
+3. Each thread processes its assigned task.
+4. Results are combined (**join**) to produce final output.
+5. Idle threads “steal” work from busy threads using **work-stealing**.
+
+**Why to Use**
+
+* Improve performance for large datasets
+* Efficient CPU utilization
+* Reduce execution time using parallelism
+* Ideal for recursive computations
+
+**When to Use**
+
+* Large data processing
+* Sorting algorithms (like merge sort)
+* Big computational tasks
+* Parallel recursion problems
+* CPU-intensive operations
+
+**Example**
+
+```java id="fj1a2b"
+import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.ForkJoinPool;
+
+class SumTask extends RecursiveTask<Integer> {
+
+    private int start, end;
+    private int[] arr;
+
+    public SumTask(int[] arr, int start, int end) {
+        this.arr = arr;
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    protected Integer compute() {
+
+        if (end - start <= 2) {
+            int sum = 0;
+            for (int i = start; i < end; i++) {
+                sum += arr[i];
+            }
+            return sum;
         }
-    });
+
+        int mid = (start + end) / 2;
+
+        SumTask left = new SumTask(arr, start, mid);
+        SumTask right = new SumTask(arr, mid, end);
+
+        left.fork();
+        int rightResult = right.compute();
+        int leftResult = left.join();
+
+        return leftResult + rightResult;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6};
+
+        ForkJoinPool pool = new ForkJoinPool();
+        SumTask task = new SumTask(arr, 0, arr.length);
+
+        int result = pool.invoke(task);
+        System.out.println(result);
+    }
 }
 ```
 
-```text
-2 tasks → Running
-2 tasks → Waiting in Queue
-5th task → Rejected
+**Important Classes**
 
-// Exception:
-// java.util.concurrent.RejectedExecutionException
-```
+| **Class**           | **Purpose**            |
+| ------------------- | ---------------------- |
+| **ForkJoinPool**    | Manages worker threads |
+| **RecursiveTask**   | Returns a result       |
+| **RecursiveAction** | No result (void tasks) |
+
+**Fork/Join vs Thread Pool**
+
+| **Fork/Join**              | **Thread Pool**        |
+| -------------------------- | ---------------------- |
+| Designed for recursion     | General task execution |
+| Uses work-stealing         | Fixed task assignment  |
+| Best for CPU-heavy tasks   | Good for general tasks |
+| Automatically splits tasks | Manual task management |
+
+
 
 # ✅ 10. Java JVM & Memory Management 
 
