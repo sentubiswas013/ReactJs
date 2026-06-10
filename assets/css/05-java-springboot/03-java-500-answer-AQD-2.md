@@ -10024,11 +10024,72 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 
 ## 8. What are intermediate and terminal operations?
 
-In the **Stream API**, **intermediate operations** are operations like `filter()`, `map()`, and `sorted()` that **transform a stream**. They are **lazy**, meaning they don’t execute immediately and return another stream, allowing operations to be chained.
 
-**Terminal operations** are operations like `forEach()`, `collect()`, `reduce()`, and `count()` that **trigger the execution** of the stream pipeline and produce a final result or side effect.
+**Definition:**
+A **Collection** is a data structure that stores and manages **data in memory**, while a **Stream** is a sequence of elements used to **process data in a functional way without storing it**.
+
+---
+
+**Key Differences:**
+
+| **Aspect**       | **Collection**                                | **Stream**                                           |
+| ---------------- | --------------------------------------------- | ---------------------------------------------------- |
+| **Nature**       | Stores **data**                               | Processes **data**                                   |
+| **Storage**      | Holds elements in **memory**                  | Does not store data, works as a **data pipeline**    |
+| **Modification** | Can be **modified (add/remove elements)**     | **Immutable**, does not modify source data           |
+| **Iteration**    | Uses **external iteration (for/while loops)** | Uses **internal iteration (Stream API operations)**  |
+| **Reusability**  | Can be **reused multiple times**              | Can be used **only once**                            |
+| **Processing**   | Processes data **manually**                   | Uses **functional operations (filter, map, reduce)** |
+
+---
+
+**How it works:**
+
+* **Collection:** Data is stored first, then processed using loops
+* **Stream:** Data flows through a **pipeline of operations** (intermediate + terminal)
+
+---
+
+**Why to use:**
+
+* **Collection:** When you need to **store and manage data**
+* **Stream:** When you need to **process data efficiently and cleanly**
+
+---
+
+**When to use:**
+
+* **Collection:** For CRUD operations and data storage
+* **Stream:** For **data transformation, filtering, aggregation**
+
+---
+
+**Code Example:**
+
+**Collection Example:**
 
 ```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+
+        for (Integer i : list) {
+            System.out.println(i);
+        }
+    }
+}
+```
+
+**Stream Example:**
+
+```java
+import java.util.*;
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 
 numbers.stream()
