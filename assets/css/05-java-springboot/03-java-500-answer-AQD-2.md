@@ -4946,14 +4946,81 @@ Task 3
 
 ## 5. What is synchronization in Java?
 
-**Synchronization** in Java ensures that **only one thread at a time** can access a shared resource, preventing **race conditions**.
+**Synchronization** in Java is a mechanism used to control **access of multiple threads** to a shared resource to prevent **data inconsistency**.
 
-* Achieved using **`synchronized`** keyword or **locks**
-* Can synchronize **methods** or **blocks**
-* Ensures **thread safety** but may reduce performance
+**Key Features**
 
-**In simple words:** It makes multithreaded access to shared data **safe and consistent**.
+* Ensures **thread safety**
+* Allows only **one thread at a time** in critical section
+* Prevents **race conditions**
+* Can be applied using **synchronized method or block**
+* Uses **object-level or class-level lock**
 
+**How It Works**
+
+* When a thread enters a **synchronized block/method**, it acquires a **lock (monitor)**.
+* Other threads must wait until the lock is released.
+* Once execution is complete, the lock is released automatically.
+
+**Why to Use**
+
+* Prevent **data corruption**
+* Ensure **consistency in shared resources**
+* Avoid **race conditions**
+* Maintain correct program behavior in multi-threading
+
+**When to Use**
+
+* Shared variables in multi-threaded environment
+* Banking transactions
+* Inventory management
+* Ticket booking systems
+* Any critical section handling shared data
+
+**Types of Synchronization**
+
+* **Method Synchronization**
+* **Block Synchronization**
+* **Static Synchronization**
+
+**Example: Synchronized Method**
+
+```java id="sy1a2b"
+class Counter {
+    private int count = 0;
+    public synchronized void increment() {
+        count++;
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+```
+
+**Example: Synchronized Block**
+
+```java id="sy3c4d"
+class Counter {
+    private int count = 0;
+    public void increment() {
+        synchronized (this) {
+            count++;
+        }
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+```
+
+**How It Solves Problem**
+
+**Without synchronization:** - Multiple threads update shared data → **inconsistent results**
+**With synchronization:** - Only one thread updates data at a time → **correct output**
+
+**Realtime Problem**
 ```java
 // Multiple users try to withdraw money from the same account at the same time.
 
@@ -5004,18 +5071,46 @@ public class Test {
 
 ## 6. What is volatile keyword?
 
-**Volatile** is a keyword used in multithreading. Volatile ensures variable changes are immediately visible to all threads (prevents caching issues)
-
-**Problem it solves:**
-Without `volatile`, each thread may cache a variable locally. One thread's update may not be visible to another thread.
-
-**When to use:**
-- When a variable is shared across threads and only **one thread writes** while others read.
-- For simple flags or state variables.
-- Does NOT guarantee atomicity — use `AtomicBoolean` / `synchronized` for compound operations like `count++`.
+**volatile** is a Java keyword used to make a variable always read from and written to **main memory**, ensuring **visibility of changes across threads**.
 
 
-**Without volatile (Problem)**
+**Key Features**
+
+* Ensures **visibility** between threads
+* Prevents **thread caching issues**
+* Reads/writes directly from **main memory**
+* Does NOT provide **atomicity**
+* Lightweight alternative to **synchronization** (for visibility only)
+
+
+**How It Works**
+
+* Normally, each thread stores a variable in its **local cache**
+* With **volatile**, every read/write happens directly in **main memory**
+* So all threads always see the **latest value**
+
+
+**Why to Use**
+
+* Ensure **data visibility** in multi-threading
+* Avoid stale or cached values
+* Lightweight alternative to locks for simple cases
+
+
+**When to Use**
+
+* Status flags (e.g., stop thread)
+* Configuration updates
+* Simple coordination between threads
+* When only **visibility**, not atomicity, is needed
+
+
+**How It Solves Problem**
+
+Without **volatile**:
+
+* Thread may keep using **cached value**
+* Changes may not be visible
 
 ```java
 class Task implements Runnable {
@@ -5030,15 +5125,9 @@ class Task implements Runnable {
 }
 ```
 
-Another thread sets:
+With **volatile**:
 
-```java
-task.running = false;
-```
-❌ Thread may **never stop** because it may use cached value.
-
-
-**With volatile (Solution)**
+* Every thread sees **latest updated value immediately**
 
 ```java
 class Task implements Runnable {
@@ -5066,54 +5155,75 @@ public class Test {
 }
 ```
 
+**volatile vs synchronized**
+
+| **volatile**                            | **synchronized**               |
+| --------------------------------------- | ------------------------------ |
+| Ensures visibility only                 | Ensures visibility + atomicity |
+| No locking                              | Uses locks                     |
+| Faster                                  | Slower                         |
+| Not thread-safe for compound operations | Fully thread-safe              |
+
+
 ## 7. What is Semaphore and how it works?
 
-**A semaphore** is a synchronization mechanism used to control how many threads can access a shared resource at the same time.
+**A semaphore** is a synchronization mechanism used to control how many threads can access a shared resource at the same time using **permits**.
 
-**Real-Time Example**
+**Key Features**
 
-Suppose:  Parking lot has only 3 parking spaces
-
-If 5 cars come:
-
-* 3 cars can enter
-* 2 cars must wait
-
-
-**How It Works**
-
-Semaphore uses: `permits`, it represents permission to access resource.
+* Uses **permits** to control access
+* Part of **java.util.concurrent**
+* Supports **binary semaphore (1 permit)** and **counting semaphore (multiple permits)**
+* Prevents **resource overuse**
+* Works with **acquire()** and **release()**
 
 
-| Method      | Purpose       |
-| ----------- | ------------- |
-| `acquire()` | Take permit   |
-| `release()` | Return permit |
+**How it Works**
 
+* A Semaphore is initialized with a fixed number of **permits**
+* A thread calls **acquire()** to take a permit
+* If no permit is available, the thread waits (**blocked**)
+* After execution, the thread calls **release()** to return the permit
+* This ensures controlled **concurrent access**
+
+
+**Why to Use**
+
+* To manage **limited resources safely**
+* To avoid **system overload**
+* To ensure **controlled concurrency**
+* To improve **resource utilization efficiency**
+
+
+**When to Use**
+
+* Limiting **database connections**
+* Controlling **API request rate**
+* Managing **thread pool-like access control**
+* Restricting access to **shared services or hardware**
+
+
+**Code Example (Java)**
 
 ```java
 import java.util.concurrent.Semaphore;
-public class SemaphoreExample {
-    static Semaphore semaphore = new Semaphore(2);
+public class SemaphoreDemo {
+    private static final Semaphore semaphore = new Semaphore(2); // 2 permits
 
     public static void main(String[] args) {
         Runnable task = () -> {
             try {
-                semaphore.acquire();
-                System.out.println(
-                        Thread.currentThread().getName()
-                        + " acquired permit");
+                System.out.println(Thread.currentThread().getName() + " waiting...");
+                semaphore.acquire(); // acquire permit
 
-                Thread.sleep(3000);
+                System.out.println(Thread.currentThread().getName() + " working...");
+                Thread.sleep(2000);
 
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             } finally {
-
-                System.out.println(
-                        Thread.currentThread().getName()
-                        + " released permit");
-                semaphore.release();
+                System.out.println(Thread.currentThread().getName() + " releasing...");
+                semaphore.release(); // release permit
             }
         };
 
@@ -5127,28 +5237,114 @@ public class SemaphoreExample {
 
 ## 8. What is the difference between synchronized and concurrent collections?
 
-* **Synchronized Collections** (e.g., `Collections.synchronizedList()`) lock the entire collection for every operation, which can reduce performance.
 
-* **Concurrent Collections** (e.g., `ConcurrentHashMap`, `CopyOnWriteArrayList`) use finer-grained locking or lock-free techniques, allowing multiple threads to work simultaneously and improving performance.
+**Synchronized Collections** are thread-safe wrappers that ensure **one thread access at a time using full object locking**.
+**Concurrent Collections** are advanced thread-safe collections designed for **high performance with fine-grained locking or lock-free operations**.
 
 
-**Synchronized Collection**
+**Key Features**
 
-```java
-List<String> list =
-    Collections.synchronizedList(new ArrayList<>());
+**Synchronized Collections**
 
-list.add("Java");
+* Provide **thread safety using full synchronization**
+* Example: **Collections.synchronizedList(), synchronizedMap()**
+* Use **single lock mechanism**
+* Simple but **slow under high concurrency**
+
+**Concurrent Collections**
+
+* Provide **high scalability and performance**
+* Example: **ConcurrentHashMap, CopyOnWriteArrayList, ConcurrentLinkedQueue**
+* Use **segment-level locking or CAS (Compare-And-Swap)**
+* Allow **multiple threads to work simultaneously**
+
+
+**How it Works**
+
+**Synchronized Collections**
+
+* Entire collection is locked using **synchronized keyword**
+* Only **one thread can access at a time**
+* Other threads are **blocked until lock is released**
+
+**Concurrent Collections**
+
+* Collection is divided into **smaller parts (segments/buckets)** or uses **lock-free algorithms**
+* Multiple threads can access **different parts concurrently**
+* Uses **atomic operations (CAS)** for safe updates
+
+
+**Why to Use**
+
+**Synchronized Collections**
+
+* To quickly make **legacy collections thread-safe**
+* For **simple, low-concurrency applications**
+
+**Concurrent Collections**
+
+* To handle **high-performance multi-threaded systems**
+* To reduce **thread contention and blocking**
+
+
+**When to Use**
+
+**Synchronized Collections**
+
+* Low traffic applications
+* Simple multi-threading scenarios
+* When performance is not critical
+
+**Concurrent Collections**
+
+* High concurrency systems (web apps, microservices)
+* Caching systems
+* Real-time processing systems
+
+
+**Code Example (Java)**
+
+**Synchronized Collection Example**
+
+```java id="7zv5g2"
+import java.util.*;
+
+public class SyncDemo {
+    public static void main(String[] args) {
+
+        List<String> list = Collections.synchronizedList(new ArrayList<>());
+
+        list.add("Java");
+        list.add("Spring");
+
+        synchronized (list) {
+            for (String item : list) {
+                System.out.println(item);
+            }
+        }
+    }
+}
 ```
 
-**Concurrent Collection**
 
-```java
-ConcurrentHashMap<Integer, String> map =
-    new ConcurrentHashMap<>();
+**Concurrent Collection Example**
 
-map.put(1, "Java");
-map.put(2, "Spring");
+```java id="q9m2xa"
+import java.util.concurrent.*;
+
+public class ConcurrentDemo {
+    public static void main(String[] args) {
+
+        ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
+
+        map.put(1, "Spring Boot");
+        map.put(2, "Microservices");
+
+        map.forEach((k, v) -> {
+            System.out.println(k + " -> " + v);
+        });
+    }
+}
 ```
 
 | Synchronized Collection       | Concurrent Collection                   |
@@ -5162,15 +5358,107 @@ map.put(2, "Spring");
 
 ## 9. What is ConcurrentHashMap and how is it different from HashMap?
 
-**ConcurrentHashMap** is a **thread-safe map** designed for high concurrency. uses **segment-based (fine-grained) locking**. preferred in multithreaded applications
 
-**HashMap** is not thread-safe and should not be used when multiple threads modify it concurrently. it used in single-threaded scenarios
+**HashMap** is a **non-synchronized** collection in Java used to store **key-value pairs**. It allows **one null key** and multiple null values.
+
+**ConcurrentHashMap** is a **thread-safe** version of HashMap designed for **high concurrency** without locking the entire map.
 
 
-* **Thread safety** - ConcurrentHashMap is thread-safe, HashMap is not
-* **Locking strategy** - Uses segment-based locking instead of full synchronization
-* **Null values** - ConcurrentHashMap doesn't allow null keys/values, HashMap does
-* **Performance** - Better concurrent performance than synchronized HashMap
+**Key Features**
+
+**HashMap**
+
+* **Not thread-safe**
+* Allows **1 null key** and multiple null values
+* Faster in **single-threaded** environment
+* Uses **array + linked list / tree (Java 8+)**
+
+**ConcurrentHashMap**
+
+* **Thread-safe**
+* Does NOT allow **null keys or null values**
+* High performance in **multi-threaded** environment
+* Uses **segment-level / bucket-level locking (fine-grained locking)**
+
+
+**How it works**
+
+**HashMap**
+
+* Uses **hashCode()** to find bucket index
+* Stores entries in **buckets**
+* No synchronization → multiple threads may corrupt data
+
+**ConcurrentHashMap**
+
+* Divides map into **segments or buckets**
+* Locks only a **small part of map during write**
+* Multiple threads can read/write **simultaneously safely**
+
+
+**Why to use**
+
+**HashMap**
+
+* When you need **fast performance**
+* When working in **single-threaded applications**
+
+**ConcurrentHashMap**
+
+* When working in **multi-threaded applications**
+* When you need **thread safety without full locking**
+
+
+**When to use**
+
+**HashMap**
+
+* Local caching
+* Single-user data processing
+* No shared access across threads
+
+**ConcurrentHashMap**
+
+* Web applications
+* Shared cache
+* High-concurrency systems (microservices, servers)
+
+
+**Code Example**
+
+**HashMap Example**
+
+```java
+import java.util.HashMap;
+
+public class HashMapExample {
+    public static void main(String[] args) {
+        HashMap<Integer, String> map = new HashMap<>();
+
+        map.put(1, "Java");
+        map.put(2, "Spring");
+
+        System.out.println(map);
+    }
+}
+```
+
+**ConcurrentHashMap Example**
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+public class ConcurrentHashMapExample {
+    public static void main(String[] args) {
+        ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
+
+        map.put(1, "Java");
+        map.put(2, "Spring");
+
+        System.out.println(map);
+    }
+}
+```
 
 | Feature     | HashMap                | ConcurrentHashMap            |
 | ----------- | ---------------------- | ---------------------------- |
@@ -5180,46 +5468,6 @@ map.put(2, "Spring");
 | Null Value  | Allowed                | Not allowed                  |
 | Iterator    | Fail-Fast              | Weakly Consistent            |
 
-
-```java
-// HashMap - not thread-safe
-Map<String, Integer> hashMap = new HashMap<>();
-hashMap.put("key1", 1);
-hashMap.put(null, 2);     // Null key allowed
-hashMap.put("key2", null); // Null value allowed
-
-// ConcurrentHashMap - thread-safe with better performance
-ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();
-concurrentMap.put("key1", 1);
-// concurrentMap.put(null, 2);     // NullPointerException
-// concurrentMap.put("key2", null); // NullPointerException
-
-// Atomic operations
-concurrentMap.putIfAbsent("key3", 3);
-concurrentMap.compute("key1", (k, v) -> v + 1);
-concurrentMap.merge("key1", 5, Integer::sum);
-
-// Thread-safe iteration without external synchronization
-concurrentMap.forEach((k, v) -> System.out.println(k + ": " + v));
-```
-
-**Basic Example**
-```Java
-import java.util.concurrent.ConcurrentHashMap;
-
-public class Demo {
-    public static void main(String[] args) {
-        ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-
-        map.put("A", 1);
-        map.put("B", 2);
-
-        map.putIfAbsent("A", 100); // won't overwrite
-
-        System.out.println(map.get("A")); // 1
-    }
-}
-```
 
 // Real-Time Use Case (Important for Interviews)
 // 🧠 Scenario: Caching User Sessions
@@ -5239,7 +5487,6 @@ class UserSession {
 }
 
 public class SessionManager {
-
     private static ConcurrentHashMap<String, UserSession> sessionCache = new ConcurrentHashMap<>();
 
     // Add session
@@ -5271,7 +5518,6 @@ public class SessionManager {
 // No need to lock entire structure
 // Faster than Collections.synchronizedMap()
 ```
-
 
 ## 10. What is deadlock and how do you prevent it?
 
