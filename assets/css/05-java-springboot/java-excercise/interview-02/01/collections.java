@@ -203,22 +203,28 @@ class CollectionsDemo {
         cache.put(3, "C");
 
         cache.get(1);
+
         cache.put(4, "D");
-        System.out.println("Hello 2" + cache);
+        System.out.println(cache);
+
+        
     }
 
-    static class LRUCache<k,v> extends LinkedHashMap<k, v>{
+    static class LRUCache<k, v> extends LinkedHashMap<k, v> {
         private final int capacity;
-        public LRUCache (int capacity) {
+        public LRUCache(int capacity) {
             super(capacity, 0.75f, true);
             this.capacity = capacity;
         }
 
         @Override
-        protected boolean removeEldestEntry(Map.Entry<k,v> eldest) {
+        protected boolean removeEldestEntry(Map.Entry<k, v> eldest){
             return size() > capacity;
         }
+
+
     }
+
 
     // ============================================================
     // **16. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
@@ -234,8 +240,7 @@ class CollectionsDemo {
         System.out.println("=========================== TTLCacheDemo");
 
         TTLCache cache = new TTLCache();
-        cache.put(1, "java", 3000);
-
+        cache.put(1, "java", 4000);
         System.out.println(cache.get(1));
         Thread.sleep(4000);
         System.out.println(cache.get(1));
@@ -243,21 +248,19 @@ class CollectionsDemo {
     }
 
     static class TTLCache {
-        static class CacheObject{
+        static class CacheObject {
             String value;
             long expiryTime;
 
-            CacheObject(String value, long ttlMillis) {
+            CacheObject(String value, long ttMillis) {
                 this.value = value;
-                this.expiryTime = System.currentTimeMillis() + ttlMillis;
+                this.expiryTime = System.currentTimeMillis() + ttMillis;
             }
         }
 
-        // private Map<Integer, String> cache = new HashMap<>();
         private Map<Integer, CacheObject> cache = new HashMap<>();
-
-        public void put(int key, String value, long ttlMillis) {
-            cache.put(key, new CacheObject(value, ttlMillis));
+        public void put(int key, String value, long ttMillis) {
+            cache.put(key, new CacheObject(value, ttMillis));
         }
 
         public String get(int key) {
@@ -274,5 +277,5 @@ class CollectionsDemo {
 
             return obj.value;
         }
-    }
+    } 
 }

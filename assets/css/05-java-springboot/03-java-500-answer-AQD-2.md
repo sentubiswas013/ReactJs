@@ -1054,11 +1054,34 @@ final class Student {
 
 ## 7. What is an object?
 
-An object is an instance of a class. It represents real-world entities.
+An **Object** is an **instance of a Class**. A class is a blueprint, and an object is the actual entity created from that blueprint.
+
+**Key Features**
+
+* **State** – Data stored in fields.
+* **Behavior** – Actions performed through methods.
+* **Identity** – Each object is unique in memory.
+
+**How It Works**
+
+A **Class** defines the structure and behavior. An **Object** is created using that class and gets its own data and methods.
+
+Example:
 
 ```java
-Car myCar = new Car();  //  // myCar is an object of class Car
+Car car = new Car();
 ```
+
+**Why to Use**
+
+* To represent real-world entities such as **User**, **Car**, or **Employee**.
+* To organize data and behavior together.
+* To support **Object-Oriented Programming (OOP)**.
+* To improve code reusability and maintainability.
+
+**When to Use**
+
+Use objects whenever you need to model an entity that has its own data and behavior.
 
 
 ## 8. Difference between class and object?
