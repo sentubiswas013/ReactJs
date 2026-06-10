@@ -4279,10 +4279,6 @@ numbers.add(40);
 
 The List grows dynamically as elements are added.
 
----
-
-### Quick Comparison
-
 | Array                         | List                         |
 | ----------------------------- | ---------------------------- |
 | Fixed size                    | Dynamic size                 |
