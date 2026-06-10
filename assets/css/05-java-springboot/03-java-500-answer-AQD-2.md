@@ -1652,27 +1652,66 @@ Exception in thread "main" java.lang.ExceptionInInitializerError
 
 ## 1. What is Inheritance in Java?
 
-Inheritance is a feature where one class **gets properties and methods of another class** using the `extends` keyword. It promotes **code reuse** and establishes an IS-A relationship..
+**Inheritance** is an **OOP (Object-Oriented Programming)** concept that allows one class to acquire the properties and methods of another class.
 
-👉 *In simple words:* child class uses parent class code.
+The class being inherited from is called the **Parent Class (Superclass)**, and the class that inherits is called the **Child Class (Subclass)**.
+
+**Key Features**
+
+* Promotes **Code Reusability**
+* Establishes an **IS-A Relationship**
+* Supports **Method Overriding**
+* Reduces code duplication
+* Improves maintainability
+
+**How It Works**
+
+A child class uses the **extends** keyword to inherit fields and methods from the parent class.
+
+**Code Example**
 
 ```java
 class Animal {
+
     void eat() {
-        System.out.println("Eating...");
+        System.out.println("Eating");
     }
 }
 
 class Dog extends Animal {
+
     void bark() {
-        System.out.println("Barking...");
+        System.out.println("Barking");
     }
 }
-
-Dog d = new Dog();
-d.eat();    // inherited from Animal
-d.bark();   // own method
 ```
+
+Usage:
+
+```java
+Dog dog = new Dog();
+
+dog.eat();   // Inherited method
+dog.bark();  // Own method
+```
+
+**Why to Use**
+
+* To reuse existing code
+* To create a hierarchy between classes
+* To avoid duplicate code
+* To support polymorphism
+
+**When to Use**
+
+Use **Inheritance** when there is an **IS-A Relationship** between classes.
+
+Examples:
+
+* **Dog IS-A Animal**
+* **Car IS-A Vehicle**
+* **Manager IS-An Employee**
+
 
 
 ## 2. Why doesn't Java support multiple inheritance (with classes)?
@@ -2542,19 +2581,58 @@ System.out.println(MathConstants.MAX_VALUE); // 100
 
 ## 1. What is an Interface?
 
-An interface in Java is a blueprint that contains only abstract methods (by default) and constants. It is used to achieve 100% abstraction and multiple inheritance.
+An **Interface** is a blueprint that defines a set of methods that a class must implement. It specifies **what** a class should do, but not **how** it should do it.
 
+**Key Features**
+
+* Cannot be instantiated
+* Contains **abstract methods** by default
+* Supports **multiple inheritance**
+* Promotes **Abstraction** and **Loose Coupling**
+* Can contain **default** and **static methods** (Java 8+)
+
+**How It Works**
+
+A class uses the **implements** keyword to implement an interface and provide the implementation of its methods.
+
+**Why to Use**
+
+* To define a common contract for multiple classes
+* To achieve **Abstraction**
+* To reduce dependencies between components
+* To support **Multiple Inheritance**
+
+**When to Use**
+
+Use an **Interface** when different classes should follow the same contract but may have different implementations.
+
+Examples:
+
+* **Payment** interface implemented by CreditCardPayment and PayPalPayment
+* **Notification** interface implemented by EmailNotification and SMSNotification
+
+**Code Example**
 
 ```java
 interface Animal {
-    void sound(); // abstract method
+
+    void makeSound();
 }
 
 class Dog implements Animal {
-    public void sound() {
+
+    @Override
+    public void makeSound() {
         System.out.println("Bark");
     }
 }
+```
+
+Usage:
+
+```java
+Animal dog = new Dog();
+dog.makeSound();
 ```
 
 ## 2. What are the interface available in Java?
