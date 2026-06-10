@@ -1082,22 +1082,70 @@ Use objects whenever you need to model an entity that has its own data and behav
 
 ## 8. Difference between class and object?
 
-Class is a blueprint, object is the actual implementation of that blueprint.
+A **class** is a **blueprint or template** used to create objects.
+An **object** is a **real instance of a class** created in memory.
 
-* Class → logical
-* Object → physical (exists in memory)
+**Key Features**
 
-| Class | Object |
-|-------|--------|
-| Blueprint / template | Instance of a class |
-| Logical entity | Physical entity (exists in memory) |
-| Declared once | Can be created many times |
-| No memory at declaration | Memory allocated on `new` |
+**Class**
 
-```java
-class Dog { }           // class — blueprint
-Dog d = new Dog();      // object — actual instance
+* Acts as a **blueprint/template**
+* Does **not occupy memory until objects are created**
+* Defines **properties (variables) and behavior (methods)**
+
+**Object**
+
+* Is a **real runtime entity**
+* Occupies **memory in heap**
+* Represents a **specific instance of a class**
+
+**How it works**
+A **class defines structure**, and when we use `new`, Java creates an **object in memory** based on that class structure.
+
+**Why to use**
+
+* **Class** helps in designing structure
+* **Object** allows real-world usage of that structure in programs
+
+**When to use**
+
+* Use **class** when defining a model (e.g., Student, Car)
+* Use **object** when you need to **use or store actual data**
+
+**Difference Table**
+
+| **Class**                            | **Object**                  |
+| ------------------------------------ | --------------------------- |
+| Blueprint or template                | Real instance of a class    |
+| Does not occupy memory directly      | Occupies memory in heap     |
+| Declared using `class` keyword       | Created using `new` keyword |
+| Defines structure (fields + methods) | Represents actual data      |
+| Logical entity                       | Physical/runtime entity     |
+| Used for designing                   | Used for execution          |
+
+**Code Example**
+
+```java id="1i6tx1"
+class Student {   // Class
+    String name;
+    int age;
+
+    void display() {
+        System.out.println(name + " " + age);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student(); // Object
+        s1.name = "Rahul";
+        s1.age = 22;
+        s1.display();
+    }
+}
 ```
+
+
 
 ## 9. How to create a class and object?
 
@@ -1140,37 +1188,106 @@ e.work();   // Bob is working
 
 ## 11. What is a constructor? Types?
 
-A constructor is a **special method** with the same name as the class, used to **initialize objects**. It has no return type and is called automatically when an object is created.
 
-**Types:**
+A **constructor** in Java is a special method used to **initialize objects** when a class is instantiated.
+
+**constructor two Types:**
 
 * Default
 * Parameterized
 
+**Key Features**
+
+* Has the **same name as the class**
+* Has **no return type (not even void)**
+* Called **automatically** when an object is created
+* Can be **parameterized or non-parameterized**
+* Can be **overloaded**
+
+**How it works**
+When we create an object using `new`, Java automatically calls the **constructor** to set initial values for the object’s variables.
+
+**Why to use**
+
+* To ensure **proper initialization** of objects
+* To reduce need for manual setup after object creation
+* To enforce **consistent object state**
+
+**When to use**
+
+* When an object needs **initial values at creation time**
+* When we want to **prepare object state automatically**
+
+**Code Example**
+
 ```java
 class Student {
     String name;
+    int age;
 
-    Student() { // default
-        name = "Unknown";
+    // Constructor
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 
-    Student(String n) { // parameterized
-        name = n;
+    void display() {
+        System.out.println(name + " " + age);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student("Rahul", 22);
+        s1.display();
     }
 }
 ```
 
-
 ## 12. What is default constructor?
 
-A constructor with no parameters. If we don’t create one, Java provides it automatically.
+A **default constructor** is a constructor that is provided by the **Java compiler automatically** if no constructor is defined in the class. It initializes the object with **default values**.
 
-```java
-class Box { int width; }
+**Key Features**
 
-Box b = new Box();              // default constructor called
-System.out.println(b.width);   // 0
+* Created **automatically by compiler** if no constructor exists
+* Has **no parameters**
+* Initializes variables with **default values (0, null, false)**
+* Can be **explicitly defined by developer**
+* Always has the **same name as the class**
+
+**How it works**
+When an object is created and no constructor is written, Java inserts a **default constructor internally** and assigns **default values** to instance variables.
+
+**Why to use**
+
+* To allow object creation even when no initialization logic is written
+* Provides **basic safe object state**
+
+**When to use**
+
+* When no custom initialization is needed
+* When we want objects with **default values only**
+
+**Code Example**
+
+```java id="1i6tx1"
+class Student {
+    String name;
+    int age;
+
+    // No constructor defined → compiler adds default constructor
+    void display() {
+        System.out.println(name + " " + age);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student(); // default constructor called
+        s1.display(); // null 0
+    }
+}
 ```
 
 
