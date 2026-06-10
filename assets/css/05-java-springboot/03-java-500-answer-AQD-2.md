@@ -1454,9 +1454,9 @@ class Outer {
 
 ## 22. What is singleton class?
 
-A **singleton** class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
-
 **Singleton** is a **Design Pattern** that ensures only **one instance** of a class is created and provides a global access point to that instance.
+
+A **singleton** class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
 
 **Key Features**
 
