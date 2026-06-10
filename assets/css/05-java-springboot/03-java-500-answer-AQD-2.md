@@ -870,45 +870,155 @@ class Child extends Parent {
 
 ## 2. What is method overloading?
 
-Method overloading is a feature in Java where multiple methods have the **same name** but **different parameter lists** (different number, type, or order of parameters) in the same class.
+**Method overloading** means having **multiple methods in the same class with the same name but different parameters**.
 
-```java
+**Key Features**
+
+* Same **method name**
+* Different **parameter list (type, number, or order)**
+* Happens in the **same class**
+* Supports **compile-time polymorphism**
+* Return type alone is **not enough to overload a method**
+
+**How it works**
+Java decides which method to call based on the **method signature (parameters)** during **compile time**.
+
+**Why to use**
+
+* Improves **code readability**
+* Provides **flexibility** to handle different inputs with same operation name
+* Reduces method naming complexity
+
+**When to use**
+
+* When the same operation needs to work with **different types or number of inputs**
+* Example: adding numbers, printing data in different formats
+
+**Code Example**
+
+```java id="1i6tx1"
 class Calculator {
-    int    add(int a, int b)          { return a + b; }
-    double add(double a, double b) { return a + b; }
-    int    add(int a, int b, int c)   { return a + b + c; }
+
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+
+        System.out.println(c.add(2, 3));
+        System.out.println(c.add(2, 3, 4));
+        System.out.println(c.add(2.5, 3.5));
+    }
 }
 ```
 
+
 ## 3. What is method overriding?
 
-**Method overriding** is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
+**Method overriding** means redefining a **parent class method in a child class with the same method signature** to provide a **specific implementation**.
 
+**Key Features**
 
-```java
+* Requires **inheritance (IS-A relationship)**
+* Same **method name, parameters, and return type**
+* Happens in **different classes (parent-child)**
+* Supports **runtime polymorphism**
+* Uses **@Override annotation (recommended)**
+
+**How it works**
+When a method is called using a **parent reference pointing to a child object**, Java executes the **child class overridden method at runtime**.
+
+**Why to use**
+
+* To provide **specific implementation** in child class
+* To achieve **runtime polymorphism**
+* To extend or modify **parent behavior**
+
+**When to use**
+
+* When child class needs **different behavior from parent class method**
+* When same method should behave differently in **different subclasses**
+
+**Code Example**
+
+```java id="1i6tx1"
 class Animal {
-    void sound() { System.out.println("Some sound"); }
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
 }
 
 class Dog extends Animal {
     @Override
-    void sound() { System.out.println("Dog barks"); }
+    void sound() {
+        System.out.println("Dog barks");
+    }
 }
 
-Animal a = new Dog();
-a.sound(); // Dog barks
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog(); // Parent reference, child object
+        a.sound(); // Dog barks
+    }
+}
 ```
 
 
 ## 4. What is a class in Java?
 
-A class is a blueprint or template used to create objects. It defines properties(fields) and behavior(methods).
+A **class** in Java is a **blueprint or template** used to create **objects**, defining their **properties (fields)** and **behaviors (methods)**.
 
-```java
-class Car {
-    String color;
-    void drive() {
-        System.out.println("Car is driving");
+**Key Features**
+
+* Acts as a **logical blueprint**
+* Contains **variables (state)** and **methods (behavior)**
+* Does not occupy memory until an **object is created**
+* Supports **encapsulation**
+* Can have **constructors, methods, and blocks**
+
+**How it works**
+A **class defines structure**, and when we create an object using **new keyword**, Java allocates memory and creates an **instance of that class**.
+
+**Why to use**
+
+* To model **real-world entities**
+* To organize code into **reusable components**
+* To support **OOP principles**
+
+**When to use**
+
+* When defining any **entity like Student, Car, Employee**
+* When we need to create **multiple objects with same structure**
+
+**Code Example**
+
+```java id="1i6tx1"
+class Student {   // Class
+    String name;
+    int age;
+
+    void display() {
+        System.out.println(name + " " + age);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student(); // Object of class
+        s1.name = "Rahul";
+        s1.age = 22;
+        s1.display();
     }
 }
 ```
@@ -916,52 +1026,141 @@ class Car {
 
 ## 5. What is class loader and how do they work?
 
-A **ClassLoader** in Java is a part of the **JVM** that is responsible for **loading `.class` files into memory** at runtime.
 
 
+
+A **Class Loader** is a part of the **JVM (Java Virtual Machine)** that is responsible for **loading .class files into memory at runtime**.
+
+**Key Features**
+
+* Part of the **JVM architecture**
+* Loads classes **on demand (lazy loading)**
+* Follows a **delegation hierarchy model**
+* Types: **Bootstrap, Extension (Platform), Application ClassLoader**
+* Enables **runtime class loading**
+
+**How it works**
+When a class is needed, the **ClassLoader loads it into JVM memory** in three steps:
+
+1. **Loading** – Finds and loads `.class` file
+2. **Linking** – Verifies and prepares class
+3. **Initialization** – Assigns default/static values and executes static blocks
+
+It follows a **parent delegation model**, meaning request is first sent to **parent ClassLoader**, then to child if not found.
+
+**Why to use**
+
+* To support **dynamic loading of classes**
+* To improve **modularity and flexibility**
+* To separate **system, framework, and user classes**
+
+**When to use**
+
+* When classes are loaded **at runtime instead of compile time**
+* In frameworks like **Spring, Hibernate, JDBC drivers**
+
+**Types of Class Loaders**
+
+* **Bootstrap ClassLoader** → Loads core Java classes (`java.lang.*`)
+* **Platform ClassLoader** → Loads platform libraries
+* **Application ClassLoader** → Loads application classes from classpath
+
+**Code Example (Conceptual)**
+
+```java id="1i6tx1"
+public class Main {
+    public static void main(String[] args) {
+        ClassLoader loader = Main.class.getClassLoader();
+
+        System.out.println(loader); // Application ClassLoader
+        System.out.println(loader.getParent()); // Platform ClassLoader
+        System.out.println(loader.getParent().getParent()); // null (Bootstrap)
+    }
+}
 ```
-String str = new String("Hello");
-```
-
-When JVM sees `String`:
-
-1. Application ClassLoader checks.
-2. Delegates to Parent.
-3. Bootstrap ClassLoader finds `java.lang.String`.
-4. Loads class into memory.
-5. JVM creates Class object.
-
-**How ClassLoader Works :**
-
-Java follows a **Delegation Hierarchy Model**:
-
-1. **Bootstrap ClassLoader** Loads core Java classes (e.g., `java.lang.*`)
-2. **Extension (Platform) ClassLoader** Loads classes from `jre/lib/ext`
-3. **Application (System) ClassLoader** Loads classes from classpath
 
 
 ## 6. Difference between runtime vs compile-time class loading? 
 
-**Compile-time class** loading happens when the class is known during compilation. The compiler already knows which class will be used.
 
-**Runtime class** loading happens when the class is loaded dynamically while the application is running, usually using `Class.forName()` or Reflection.
+**Compile-time class loading** happens when classes are loaded during **program compilation and startup preparation**
 
-In short, compile-time loading is static and known in advance, while runtime loading is dynamic and happens during execution.
+**Runtime class loading** happens when classes are loaded **dynamically during program execution**.
 
+---
 
-**Compile-Time Loading**
+**Compile-time Class Loading**
 
-```java id="6mwd36"
-Employee emp = new Employee();
+**Key Features**
+
+* Classes are loaded at **startup or early JVM phase**
+* Done using **static linking by JVM**
+* All required classes must be **available before execution**
+* No dynamic behavior
+
+**How it works**
+JVM loads required classes during **program start**, before execution begins, using **ClassLoader chain automatically**.
+
+**Why / When to use**
+
+* When all dependencies are **known in advance**
+* For **simple applications** with static structure
+* Faster and predictable loading
+
+---
+
+**Runtime Class Loading**
+
+**Key Features**
+
+* Classes are loaded **during execution**
+* Uses methods like **Class.forName() or custom ClassLoader**
+* Supports **dynamic behavior and plugins**
+* More flexible but slightly slower
+
+**How it works**
+JVM loads class **only when it is first referenced or explicitly requested** during execution.
+
+**Why / When to use**
+
+* When classes are **not known at compile time**
+* In frameworks like **Spring, JDBC drivers, plugin systems**
+* For **dynamic module loading**
+
+---
+
+**Difference Table**
+
+| **Compile-time Loading**        | **Runtime Loading**                      |
+| ------------------------------- | ---------------------------------------- |
+| Happens before execution starts | Happens during execution                 |
+| Static and fixed                | Dynamic and flexible                     |
+| All classes must be known       | Classes can be unknown initially         |
+| Faster startup                  | Slightly slower due to on-demand loading |
+| No late binding                 | Supports late binding                    |
+
+---
+
+**Code Example**
+
+```java id="1i6tx1"
+class Demo {
+    static {
+        System.out.println("Class Loaded");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        // Runtime class loading
+        Class.forName("Demo");
+
+        System.out.println("Main executed");
+    }
+}
 ```
 
-Here, the compiler already knows the `Employee` class.
-
-**Runtime Loading**
-
-```java id="b4ij59"
-Class.forName("com.company.Employee");
-```
 
 ## 5. How do you load a class dynamically in Java? 
 
@@ -1020,29 +1219,59 @@ class Employee {
 
 ## 6. How do you create an immutable class in Java?
 
-An immutable class in Java is a class whose objects cannot be changed after they are created. To create an immutable class:
+An **immutable class** in Java is a class whose **state (data)** cannot be changed after they are created. To create an immutable class:
 
-1. Make the class `final` so it cannot be subclassed.
-2. Make all fields `private` and `final`.
-3. Do not provide setters.
-4. Initialize fields through constructor.
-5. Return copies of mutable objects (defensive copy).
 
-**Use Case:**
-Immutable classes are useful for thread safety, caching, and as keys in collections. Examples include `String`, `Integer`, and `LocalDate` in Java.
+**Key Features**
 
-```java
-// Immutable class
+* Object state is **final and unchangeable** after creation
+* Class is usually marked as **final**
+* Fields are **private and final**
+* No **setter methods**
+* Only **getter methods** are provided
+* Ensures **thread-safety by default**
+
+**How it works**
+All values are set using a **constructor**, and after object creation, there is **no way to modify the internal state**.
+
+**Why to use**
+
+* Provides **thread safety without synchronization**
+* Ensures **data security and consistency**
+* Useful in **caching, multi-threading, and security-sensitive applications**
+
+**When to use**
+
+* When object data should remain **constant after creation**
+* In classes like **String, Wrapper classes, Date-Time APIs**
+
+**Code Example**
+
+```java id="1i6tx1"
 final class Student {
     private final String name;
-    
-    
-    public Student(String name) {
+    private final int age;
+
+    public Student(String name, int age) {
         this.name = name;
+        this.age = age;
     }
-    
+
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student("Rahul", 22);
+
+        System.out.println(s1.getName());
+        System.out.println(s1.getAge());
     }
 }
 ```
@@ -1144,7 +1373,6 @@ public class Main {
     }
 }
 ```
-
 
 
 ## 9. How to create a class and object?
@@ -1293,30 +1521,58 @@ public class Main {
 
 ## 5. What is the static keyword?
 
-**`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
+The **static keyword** in Java is used to define **class-level members** that belong to the **class itself rather than any object**.
 
-**Used for:**
-- Static variables (shared state)
-- Static methods (utility methods)
-- Static blocks (one-time initialization)
-- Static nested classes
+**Key Features**
 
-```java
-class Counter {
-    static int count = 0;   // shared across all objects
+* Belongs to the **class, not object**
+* Shared across all **instances of the class**
+* Can be applied to **variables, methods, blocks, and nested classes**
+* Loaded into memory at **class loading time**
+* Accessed using **class name**
 
-    Counter() { count++; }
+**How it works**
+When a class is loaded, all **static members are stored in method area memory**, and all objects share the same **static data**.
 
-    static void showCount() {
-        System.out.println("Count: " + count);
+**Why to use**
+
+* To share common data across all objects
+* To save memory using **single copy of variable/method**
+* To provide **utility methods (e.g., Math class methods)**
+
+**When to use**
+
+* When data should be **common for all objects (e.g., company name, counter)**
+* When creating **utility/helper methods**
+
+**Code Example**
+
+```java id="1i6tx1"
+class Student {
+    static String college = "ABC College"; // static variable
+    String name;
+
+    Student(String name) {
+        this.name = name;
+    }
+
+    static void displayCollege() { // static method
+        System.out.println(college);
     }
 }
 
-new Counter(); new Counter(); new Counter();
-Counter.showCount();   // Count: 3
-```
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student("Rahul");
+        Student s2 = new Student("Amit");
 
-`static` members are **shared by all objects and can be accessed using the class name**.
+        Student.displayCollege(); // called using class name
+
+        System.out.println(s1.name);
+        System.out.println(s2.name);
+    }
+}
+```
 
 
 
@@ -1718,33 +1974,115 @@ Examples:
 
 ## 2. Why doesn't Java support multiple inheritance (with classes)?
 
-Java does not support multiple inheritance with **classes** to avoid the **Diamond Problem** and complexity.
-But Java does support multiple inheritance with **interfaces**.
+Java does not support **multiple inheritance (using classes)** to avoid **ambiguity and complexity** in the program.
 
-```java
+**Key Features / Reason**
+
+* Prevents **Diamond Problem**
+* Avoids **method ambiguity (confusion which parent method to call)**
+* Keeps Java **simple and clean OOP language**
+* Supports multiple inheritance only through **interfaces**
+
+**How it works (Problem scenario)**
+If Java allowed multiple inheritance, a child class could inherit the **same method from two parent classes**, creating confusion about **which method to execute**.
+
+This is called the **Diamond Problem**.
+
+**Why not supported**
+
+* To avoid **ambiguity in method resolution**
+* To prevent **complexity in inheritance hierarchy**
+* To ensure **better maintainability and readability**
+
+**When to use alternative (Interfaces)**
+
+* When we need multiple behavior inheritance
+* When we want **loose coupling and abstraction**
+* Use **interfaces instead of classes**
+
+**Code Example (Problem Illustration in Theory)**
+
+```java id="1i6tx1"
+// Not allowed in Java (conceptual example)
+
 class A {
     void show() {
-        System.out.println("From class A");
+        System.out.println("Class A");
     }
 }
 
-class B extends A {
+class B {
+    void show() {
+        System.out.println("Class B");
+    }
 }
 
-class C extends A {
+// class C extends A, B  ❌ Not allowed in Java
+```
+
+**Correct Approach using Interface**
+
+```java id="1i6tx1"
+interface A {
+    void show();
 }
 
-class D extends B, C {   // ❌ Not allowed in Java
+interface B {
+    void show();
+}
+
+class C implements A, B {
+    public void show() {
+        System.out.println("Resolved single implementation");
+    }
+}
+
+public class Main {
     public static void main(String[] args) {
-        D obj = new D();
-        obj.show();  // Which show()? From B or C?
+        C obj = new C();
+        obj.show();
     }
 }
 ```
 
+
 ## 3. What is the diamond problem?
 
-The diamond problem occurs when a class inherits from two classes that both inherit from the same base class, creating ambiguity about which method to call.
+**Definition**
+The **Diamond Problem** is an ambiguity issue in **multiple inheritance** where a class inherits the same method from **two parent classes**, causing confusion about **which method to execute**.
+
+**Key Features**
+
+* Occurs in **multiple inheritance scenarios**
+* Creates **method ambiguity**
+* Leads to **conflict in method resolution**
+* Problem of **duplicate inheritance path (diamond shape structure)**
+* Avoided in Java by **not supporting multiple inheritance with classes**
+
+**How it works (Problem scenario)**
+If a class **C inherits from two classes A and B**, and both A and B have the same method, then Java cannot decide **which parent method C should use**.
+
+This forms a **diamond-like inheritance structure**, hence the name.
+
+**Why it is a problem**
+
+* Causes **confusion in method execution**
+* Leads to **inconsistent behavior**
+* Makes code **complex and error-prone**
+
+**When it occurs**
+
+* In languages that support **multiple inheritance (like C++)**
+* When a child class inherits from **two parent classes having same method**
+
+**How Java solves it**
+
+* Java avoids this issue by **not allowing multiple inheritance with classes**
+* Instead, it allows multiple inheritance using **interfaces**
+
+
+
+**Code Example (Problem Illustration Concept)**
 
 ```
     A
@@ -1753,6 +2091,51 @@ The diamond problem occurs when a class inherits from two classes that both inhe
    \ /
     D
 ```
+
+```java id="1i6tx1"
+// Conceptual example (not allowed in Java)
+
+class A {
+    void show() {
+        System.out.println("Class A");
+    }
+}
+
+class B {
+    void show() {
+        System.out.println("Class B");
+    }
+}
+
+// class C extends A, B  ❌ Not allowed due to Diamond Problem
+```
+
+**Solution using Interface**
+
+```java id="1i6tx1"
+interface A {
+    void show();
+}
+
+interface B {
+    void show();
+}
+
+class C implements A, B {
+    public void show() {
+        System.out.println("Resolved implementation in C");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        C obj = new C();
+        obj.show();
+    }
+}
+```
+
+
 
 If classes B and C both override a method from A, and D inherits from both B and C, which version should D use? This creates confusion and compilation errors.
 
