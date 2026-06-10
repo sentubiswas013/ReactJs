@@ -13845,7 +13845,6 @@ public void transferMoney() {
 
 → Transaction will **rollback**
 
----
 
 **3. Rollback for Checked Exception**
 
@@ -13859,7 +13858,6 @@ public void transferMoney() throws Exception {
 }
 ```
 
----
 
 **4. Manual Transaction (JDBC)**
 
