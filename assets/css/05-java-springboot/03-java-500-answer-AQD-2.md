@@ -7636,7 +7636,48 @@ employeeRepository.save(emp);
 ```
 
 
-## 9. XYZ
+## 9. Difference between save() and saveAndFlush()?
+
+Both `save()` and `saveAndFlush()` persist data using JPA.
+
+**`save()`** stores the entity in the persistence context and the actual SQL may execute later (at transaction commit). 
+
+**`saveAndFlush()`** immediately flushes changes to the database by executing the SQL right away.
+
+**How It Works**
+
+```java
+// save() - Data stays in memory until commit
+Employee employee = new Employee(1L, "John");
+employeeRepository.save(employee);  // INSERT not executed yet
+// Do other operations...
+// Transaction commits → INSERT executed
+
+// saveAndFlush() - Data written immediately
+Employee employee = new Employee(2L, "Jane");
+employeeRepository.saveAndFlush(employee);  // INSERT executed NOW
+// Data is in database immediately
+```
+
+
+| Aspect               | save()                                               | saveAndFlush()                                                     |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
+| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
+| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
+| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
+| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
+| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
+
+
+| save()                                 | saveAndFlush()                   |
+| -------------------------------------- | -------------------------------- |
+| Adding items to shopping cart 🛒       | Tapping "Buy Now" on Amazon ⚡    |
+| Pay at checkout (commit)               | Payment goes through immediately |
+| Can add multiple items before checkout | Single immediate transaction     |
+| More efficient for bulk                | Immediate consistency            |
+
+---
 
 ## 10. What is the difference between DAO and DTO?
 
@@ -7927,81 +7968,8 @@ WHERE id = 1;
 
 Use **Dirty Checking** when working with **managed entities** inside a **@Transactional** method.
 
-**Interview Answer**
 
-**Dirty Checking** is a Hibernate feature that automatically detects changes made to a managed entity and synchronizes those changes with the database during transaction commit. It works by comparing the original entity state with the modified state and automatically generating the required **UPDATE** query, eliminating the need for explicit save or update operations.
-
-
-```java
-// Load entity
-Employee employee = employeeRepository.findById(1L).get();
-
-// Modify property (no explicit update call needed!)
-employee.setName("John Updated");  // Hibernate detects this change
-
-// Transaction commits → Hibernate automatically generates:
-// UPDATE employee SET name = 'John Updated' WHERE id = 1
-```
-
-**How to Disable Dirty Checking (When Not Needed)**
-
-```java
-// 1. Mark transaction as read-only (Spring)
-@Transactional(readOnly = true)
-public Employee getEmployee(Long id) {
-    return employeeRepository.findById(id).get();
-}  // No dirty checking performed [web:9]
-
-// 2. Set entity as read-only
-session.setReadOnly(entity, true);  // Hibernate won't track changes [web:12]
-
-// 3. Evict entity from session
-session.evict(employee);  // Removes from persistence context [web:12]
-```
-
-
-## 19. Difference between save() and saveAndFlush()?
-
-Both `save()` and `saveAndFlush()` persist data using JPA.
-
-**`save()`** stores the entity in the persistence context and the actual SQL may execute later (at transaction commit). 
-
-**`saveAndFlush()`** immediately flushes changes to the database by executing the SQL right away.
-
-**How It Works**
-
-```java
-// save() - Data stays in memory until commit
-Employee employee = new Employee(1L, "John");
-employeeRepository.save(employee);  // INSERT not executed yet
-// Do other operations...
-// Transaction commits → INSERT executed
-
-// saveAndFlush() - Data written immediately
-Employee employee = new Employee(2L, "Jane");
-employeeRepository.saveAndFlush(employee);  // INSERT executed NOW
-// Data is in database immediately
-```
-
-
-| Aspect               | save()                                               | saveAndFlush()                                                     |
-| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
-| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
-| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
-| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
-| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
-| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
-| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
-
-
-| save()                                 | saveAndFlush()                   |
-| -------------------------------------- | -------------------------------- |
-| Adding items to shopping cart 🛒       | Tapping "Buy Now" on Amazon ⚡    |
-| Pay at checkout (commit)               | Payment goes through immediately |
-| Can add multiple items before checkout | Single immediate transaction     |
-| More efficient for bulk                | Immediate consistency            |
-
----
+## 19. 0000
 
 ## 20. What is auditing and How it works in JPA?
 
