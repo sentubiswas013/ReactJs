@@ -5521,23 +5521,90 @@ public class SessionManager {
 
 ## 10. What is deadlock and how do you prevent it?
 
-**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
+**Deadlock** is a situation in **multithreading** where two or more threads are **waiting forever** for each other to release **locks**, causing the application to **freeze**.
 
-**Prevention strategies:**
-* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
-* **Use consistent lock order** – Always acquire locks in the same order.
-* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
-* **Minimize synchronized blocks** – Keep lock scope as small as possible.
+**Key Features**
 
-```java
-// Deadlock scenario
-Thread1: lock(A) -> lock(B)
-Thread2: lock(B) -> lock(A)
+* Occurs in **multi-threaded environment**
+* Involves **two or more threads**
+* Requires **circular waiting condition**
+* Threads are stuck in **blocked state permanently**
+* No **automatic recovery**
 
-// Prevention - consistent ordering
-Thread1: lock(A) -> lock(B)
-Thread2: lock(A) -> lock(B)
+**How it works**
+
+Deadlock happens when these four conditions occur together:
+
+* **Mutual Exclusion** → One resource can be used by only one thread
+* **Hold and Wait** → Thread holds one lock and waits for another
+* **No Preemption** → Locks cannot be forcibly taken away
+* **Circular Wait** → Thread A waits for B, B waits for A
+
+Example flow:
+
+* Thread 1 locks **Resource A** and waits for **Resource B**
+* Thread 2 locks **Resource B** and waits for **Resource A**
+* Both threads wait forever → **Deadlock**
+
+
+**Why to use (understanding purpose)**
+We do NOT use deadlock intentionally, but understanding it helps to:
+
+* Design **safe multithreaded applications**
+* Avoid **performance issues and system freeze**
+* Improve **concurrency control**
+
+**When to use (real context awareness)**
+Deadlock is not used directly, but you must consider it when:
+
+* Working with **multiple locks**
+* Designing **shared resource systems**
+* Building **high concurrency applications**
+
+**Code Example (Deadlock Scenario)**
+
+```java id="deadlock1"
+public class DeadlockExample {
+    static final Object lock1 = new Object();
+    static final Object lock2 = new Object();
+
+    public static void main(String[] args) {
+        Thread t1 = new Thread(() -> {
+            synchronized (lock1) {
+                System.out.println("Thread 1 locked lock1");
+
+                try { Thread.sleep(100); } catch (Exception e) {}
+
+                synchronized (lock2) {
+                    System.out.println("Thread 1 locked lock2");
+                }
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (lock2) {
+                System.out.println("Thread 2 locked lock2");
+
+                try { Thread.sleep(100); } catch (Exception e) {}
+
+                synchronized (lock1) {
+                    System.out.println("Thread 2 locked lock1");
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
 ```
+
+**How to avoid Deadlock (Interview point)**
+
+* Always acquire locks in **same order**
+* Use **tryLock() (Lock interface)**
+* Avoid **nested locks**
+* Keep **lock scope minimal**
 
 
 ## 11. What is race condition and how to resolve it?
