@@ -1290,7 +1290,40 @@ abstract class Animal {
 
 ## 19. What is the difference between interface and abstract class?
 
-An **interface** is used to define a **contract** that classes must implement. It mainly contains **abstract methods**, and variables are **public, static, and final by default**.
+
+Both **Interface** and **Abstract Class** are used to achieve **Abstraction**, but they serve different purposes.
+
+| **Interface**                                                       | **Abstract Class**                          |
+| ------------------------------------------------------------------- | ------------------------------------------- |
+| Defines a **contract**                                              | Defines a **base class**                    |
+| Supports **multiple inheritance**                                   | Supports only **single inheritance**        |
+| Focuses on **what to do**                                           | Focuses on **what to do and how to do it**  |
+| Cannot have instance fields                                         | Can have instance fields                    |
+| All methods are abstract by default (except default/static methods) | Can have both abstract and concrete methods |
+| Implemented using **implements**                                    | Extended using **extends**                  |
+
+**How It Works**
+
+* Use an **Interface** when unrelated classes need to follow the same contract.
+* Use an **Abstract Class** when classes share common state and behavior.
+
+**Why to Use Interface**
+
+* To achieve **Loose Coupling**
+* To support **Multiple Inheritance**
+* To define a common contract
+
+**Why to Use Abstract Class**
+
+* To share common code among subclasses
+* To avoid code duplication
+* To provide a common base implementation
+
+**When to Use Interface**
+
+When different classes need the same behavior but may implement it differently.
+
+Example:
 
 ```java
 interface Animal {
@@ -1304,7 +1337,11 @@ class Dog implements Animal {
 }
 ```
 
-An **abstract class** is used when classes share **common behavior and state**. It can have **abstract methods and concrete methods**, and it can also have **instance variables and constructors**.
+**When to Use Abstract Class**
+
+When classes have common fields and methods.
+
+Example:
 
 ```java
 abstract class Animal {
@@ -1321,6 +1358,7 @@ class Dog extends Animal {
     }
 }
 ```
+
 
 
 ## 20. Can a class be both abstract and final? 
