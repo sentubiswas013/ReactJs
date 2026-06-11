@@ -8630,19 +8630,76 @@ Use **NIO** when you need **better performance and scalability**, especially for
 
 ## 1. What are generics in Java?
 
-**Generics in Java** let you **write reusable, type-safe code** using **parameterized types (<>)**, ensuring **compile-time type checking** and **no need for explicit casting**.
+**Generics** allow you to write **type-safe** classes, interfaces, and methods by specifying the **data type** at compile time. They help prevent type-casting errors and improve code reusability.
+
+**Key Features**
+
+* Provides **type safety**.
+* Eliminates unnecessary **type casting**.
+* Detects type errors at **compile time**.
+* Improves **code reusability** and readability.
+
+**How It Works**
+
+* Use a **type parameter** (e.g., `<T>`) as a placeholder for a data type.
+* The actual type is specified when creating an object or calling a method.
+* The compiler ensures only the specified type is used.
+
+**Why to Use**
+
+* Prevents **ClassCastException**.
+* Reduces runtime errors.
+* Makes code more reusable and maintainable.
+* Improves compile-time checking.
+
+**When to Use**
+
+* Working with **Collections** like `List`, `Set`, and `Map`.
+* Creating reusable classes and methods.
+* When the same logic should work with different data types.
+
+**Code Example**
 
 ```java
-// Without generics - requires casting
-List list = new ArrayList();
-list.add("Hello");
-String str = (String) list.get(0); // Casting required
+import java.util.*;
 
-// With generics - type safe
-List<String> list = new ArrayList<>();
-list.add("Hello");
-String str = list.get(0); // No casting needed
+public class Main {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>();
+
+        names.add("John");
+        names.add("Alice");
+
+        String name = names.get(0); // No casting required
+        System.out.println(name);
+    }
+}
 ```
+
+**Generic Class Example**
+
+```java
+class Box<T> {
+    private T value;
+    public void set(T value) {
+        this.value = value;
+    }
+
+    public T get() {
+        return value;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Box<Integer> box = new Box<>();
+        box.set(100);
+
+        System.out.println(box.get());
+    }
+}
+```
+
 
 ## 2. Why were generics introduced?
 
