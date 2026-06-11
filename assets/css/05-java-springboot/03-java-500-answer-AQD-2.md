@@ -1182,7 +1182,6 @@ public class Main {
 
 **Runtime class loading** happens when classes are loaded **dynamically during program execution**.
 
----
 
 **Compile-time Class Loading**
 
@@ -1202,7 +1201,6 @@ JVM loads required classes during **program start**, before execution begins, us
 * For **simple applications** with static structure
 * Faster and predictable loading
 
----
 
 **Runtime Class Loading**
 
@@ -1222,7 +1220,6 @@ JVM loads class **only when it is first referenced or explicitly requested** dur
 * In frameworks like **Spring, JDBC drivers, plugin systems**
 * For **dynamic module loading**
 
----
 
 **Difference Table**
 
@@ -1234,7 +1231,6 @@ JVM loads class **only when it is first referenced or explicitly requested** dur
 | Faster startup                  | Slightly slower due to on-demand loading |
 | No late binding                 | Supports late binding                    |
 
----
 
 **Code Example**
 
@@ -2256,7 +2252,7 @@ public class Main {
 
 
 **Definition**
-The **IS-A relationship** represents **inheritance in Java**, where one class is a **specialized type of another class** using the **extends keyword**.
+**IS-A** is an inheritance relationship — it means **one object is a type of another**. Implemented using `extends` or `implements`. Used to check with `instanceof`.
 
 **Key Features**
 
@@ -2366,7 +2362,6 @@ public class Main {
 * **Composition** → Strong relationship where the **child object cannot exist without the parent**
 * **Aggregation** → Weak relationship where the **child object can exist independently**
 
----
 
 **Key Features**
 
@@ -2384,14 +2379,12 @@ public class Main {
 * No strict lifecycle dependency
 * Used for **loose coupling**
 
----
 
 **How it works**
 
 * In **Composition**, parent class creates and controls the **dependent objects**
 * In **Aggregation**, parent class uses **external objects passed from outside**
 
----
 
 **Why to use**
 
@@ -2399,7 +2392,6 @@ public class Main {
 * To improve **code reusability and modularity**
 * To choose correct **dependency strength (strong vs weak)**
 
----
 
 **When to use**
 
@@ -2412,7 +2404,6 @@ public class Main {
 
 * When object is **shared or independent (Student HAS-A Address, but Address exists separately)**
 
----
 
 **Code Example**
 
@@ -2820,7 +2811,6 @@ Calls Dog's overridden sound() method
 * **Checked exceptions must not be broader** than parent method
 * Overriding is based on **runtime polymorphism**
 
----
 
 **How it works:**
 
@@ -2828,7 +2818,6 @@ Calls Dog's overridden sound() method
 * Child class **redefines the same method**
 * At runtime, Java calls the method of the **actual object type**
 
----
 
 **Why to use:**
 
@@ -2836,7 +2825,6 @@ Calls Dog's overridden sound() method
 * To provide **specific behavior in child classes**
 * To improve **flexibility and reusability**
 
----
 
 **When to use:**
 
@@ -3028,7 +3016,6 @@ System.out.println(c.x);   // 20 — reference type (Child) decides
 **Answer:**
 Yes, an **abstract class can have a constructor** in Java. Even though you **cannot instantiate an abstract class directly**, its constructor is called when a **child class object is created**.
 
----
 
 **Key Features:**
 
@@ -3038,7 +3025,6 @@ Yes, an **abstract class can have a constructor** in Java. Even though you **can
 * Supports **code reuse in inheritance**
 * Executes before child class constructor
 
----
 
 **How it works:**
 
@@ -3047,7 +3033,6 @@ Yes, an **abstract class can have a constructor** in Java. Even though you **can
 * Then the **child class constructor** executes
 * Used to initialize shared state in parent class
 
----
 
 **Why to use:**
 
@@ -3055,7 +3040,6 @@ Yes, an **abstract class can have a constructor** in Java. Even though you **can
 * To reduce **code duplication**
 * To ensure proper **object initialization in inheritance hierarchy**
 
----
 
 **When to use:**
 
@@ -3063,7 +3047,6 @@ Yes, an **abstract class can have a constructor** in Java. Even though you **can
 * When you want to enforce **base setup before child execution**
 * In frameworks using **inheritance-based design**
 
----
 
 **Code Example:**
 
@@ -10024,7 +10007,6 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 **Definition:**
 A **Collection** is a data structure that stores and manages **data in memory**, while a **Stream** is a sequence of elements used to **process data in a functional way without storing it**.
 
----
 
 **Key Differences:**
 
@@ -10037,28 +10019,24 @@ A **Collection** is a data structure that stores and manages **data in memory**,
 | **Reusability**  | Can be **reused multiple times**              | Can be used **only once**                            |
 | **Processing**   | Processes data **manually**                   | Uses **functional operations (filter, map, reduce)** |
 
----
 
 **How it works:**
 
 * **Collection:** Data is stored first, then processed using loops
 * **Stream:** Data flows through a **pipeline of operations** (intermediate + terminal)
 
----
 
 **Why to use:**
 
 * **Collection:** When you need to **store and manage data**
 * **Stream:** When you need to **process data efficiently and cleanly**
 
----
 
 **When to use:**
 
 * **Collection:** For CRUD operations and data storage
 * **Stream:** For **data transformation, filtering, aggregation**
 
----
 
 **Code Example:**
 
