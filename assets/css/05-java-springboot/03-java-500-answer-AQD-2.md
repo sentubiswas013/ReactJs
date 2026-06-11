@@ -15516,7 +15516,91 @@ public class UserController {
 
 # ✅ 21. Java Microservices 
 
-## 1. What are CQRS principles?
+
+## 1. What are microservices?
+
+**Microservices** is an architectural style where a large application is divided into **small, independent, and loosely coupled services**. Each service is responsible for a **single business function** and can be developed, deployed, and scaled independently.
+
+**Key Features**
+
+* **Independent services** with a single responsibility.
+* **Loosely coupled** and communicate through **REST APIs**, **gRPC**, or **message queues**.
+* Each service can have its own **database**.
+* Services can be **developed, deployed, and scaled independently**.
+* Supports **continuous deployment** and **fault isolation**.
+
+**How it Works**
+
+* The application is split into multiple small services such as **User Service**, **Order Service**, and **Payment Service**.
+* Each service runs as a separate application.
+* Services communicate with each other over the network using APIs or messaging systems.
+* If one service fails, the others can continue working.
+
+**Example Architecture**
+
+```text
+Client
+   |
+API Gateway
+   |
+-------------------------------
+|          |          |
+User     Order     Payment
+Service  Service   Service
+|          |          |
+DB         DB         DB
+```
+
+**Why to Use**
+
+* Makes large applications easier to **develop and maintain**.
+* Allows teams to work on different services independently.
+* Improves **scalability** because only the required service needs to be scaled.
+* Increases **fault tolerance** since failure of one service does not bring down the entire application.
+
+**When to Use**
+
+* Large and complex applications with multiple business modules.
+* Applications requiring **high scalability** and **frequent deployments**.
+* Projects where multiple teams work independently.
+* Cloud-native and distributed systems.
+
+**Monolithic vs Microservices**
+
+| **Feature**        | **Monolithic**                     | **Microservices**                      |
+| ------------------ | ---------------------------------- | -------------------------------------- |
+| **Architecture**   | Single application                 | Multiple independent services          |
+| **Deployment**     | Entire application                 | Individual service                     |
+| **Scalability**    | Scale whole application            | Scale only required service            |
+| **Database**       | Usually one shared database        | Each service can have its own database |
+| **Failure Impact** | One issue can affect the whole app | Failure is isolated to one service     |
+
+**Simple Spring Boot Example**
+
+```java id="g5m8xq"
+@RestController
+public class UserController {
+
+    @GetMapping("/users/{id}")
+    public String getUser(@PathVariable int id) {
+        return "User ID: " + id;
+    }
+}
+```
+
+This can be a separate **User Microservice**. Similarly, **Order** and **Payment** services can be separate Spring Boot applications communicating through REST APIs.
+
+**Common Technologies Used**
+
+* **Spring Boot** for service development.
+* **Spring Cloud** for distributed system features.
+* **Eureka** for service discovery.
+* **API Gateway** for request routing.
+* **Kafka** or **RabbitMQ** for asynchronous communication.
+* **Docker** and **Kubernetes** for containerization and orchestration.
+
+
+## 2. What are CQRS principles?
 
 **CQRS (Command Query Responsibility Segregation)** is an **architectural pattern** that separates **read operations (Queries)** from **write operations (Commands)**. Instead of using the same model for both reading and updating data, CQRS uses **different models and logic** for each responsibility.
 
@@ -15665,7 +15749,7 @@ src/main/java/com/example/user
 ```
 
 
-## 2. Blocking vs No blocking db call in Microservice?
+## 3. Blocking vs No blocking db call in Microservice?
 
 
 A **blocking DB call** means the thread waits until the database response comes back.
@@ -15696,13 +15780,6 @@ public Mono<User> getUser(@PathVariable Long id) {
 ```
 
 - Returns **Mono** → Thread **does not wait** → Non-blocking
-
-
-## 3. What are microservices?
-
-**Microservices** are an architectural style where an application is built as **small, independent services**, each handling a **single business function**.
-
-They **communicate via APIs**, are **independently deployable**, **technology-agnostic**, and can be **developed and scaled separately**.
 
 ## 4. What design patterns used in Microservices architecture?
 
