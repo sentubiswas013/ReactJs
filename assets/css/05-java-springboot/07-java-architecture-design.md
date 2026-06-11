@@ -866,6 +866,57 @@ Kafka (Event Communication)
 Redis Cache
 ```
 
+## 6. Core Code Principles in Java
+
+
+**Definition**
+**Code Principles in Java** are a set of **best practices and guidelines** used to write **clean, maintainable, and scalable code**.
+
+**Key Features**
+**• Readability** – code should be easy to understand
+**• Maintainability** – easy to modify and extend
+**• Reusability** – avoid duplicate code
+**• Simplicity** – keep logic simple and clear
+**• Separation of Concerns** – each class has a single responsibility
+**• Loose Coupling & High Cohesion** – reduce dependency between components
+**• DRY Principle** – Don’t Repeat Yourself
+**• KISS Principle** – Keep It Simple, Stupid
+
+**How it works**
+Developers follow principles like **SOLID, DRY, KISS, YAGNI** while designing classes and methods. This ensures code is **modular, testable, and easy to maintain** in real-world applications.
+
+**Why to use**
+To reduce **bugs**, improve **team collaboration**, increase **code quality**, and make the system **easier to scale and maintain**.
+
+**When to use**
+Use code principles:
+
+* While designing **new applications**
+* During **refactoring existing code**
+* In **team-based development**
+* When building **enterprise-level systems**
+
+**Code Example (Single Responsibility Principle – SRP)**
+
+```java id="srp_example"
+public class UserRepository {
+    public void saveUser(User user) {
+        // database save logic
+    }
+}
+
+public class UserService {
+    private UserRepository userRepository = new UserRepository();
+
+    public void registerUser(User user) {
+        if (user != null) {
+            userRepository.saveUser(user);
+        }
+    }
+}
+```
+
+
 # ✅ 2. Java Principal Engineer interviews
 
 # 1. Technology Selection
