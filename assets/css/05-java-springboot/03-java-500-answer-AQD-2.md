@@ -848,27 +848,152 @@ List<Integer> list = List.of(1,2,3);
 # ✅ 03. Java Classes and Objects
 
 
-## 1. What is the difference between this and super keywords?
+## 4. What is a class in Java?
 
-**this** refers to the current object instance,  
-**super** refers to the immediate parent class object.
+A **class** in Java is a **blueprint or template** used to create **objects**, defining their **properties (fields)** and **behaviors (methods)**.
 
-```java
-class Parent {
-    String name = "Parent";
+**Key Features**
+
+* Acts as a **logical blueprint**
+* Contains **variables (state)** and **methods (behavior)**
+* Does not occupy memory until an **object is created**
+* Supports **encapsulation**
+* Can have **constructors, methods, and blocks**
+
+**How it works**
+A **class defines structure**, and when we create an object using **new keyword**, Java allocates memory and creates an **instance of that class**.
+
+**Why to use**
+
+* To model **real-world entities**
+* To organize code into **reusable components**
+* To support **OOP principles**
+
+**When to use**
+
+* When defining any **entity like Student, Car, Employee**
+* When we need to create **multiple objects with same structure**
+
+**Code Example**
+
+```java id="1i6tx1"
+class Student {   // Class
+    String name;
+    int age;
+
+    void display() {
+        System.out.println(name + " " + age);
+    }
 }
 
-class Child extends Parent {
-    String name = "Child";
-    
-    void display() {
-        System.out.println(this.name);  // Child
-        System.out.println(super.name); // Parent
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student(); // Object of class
+        s1.name = "Rahul";
+        s1.age = 22;
+        s1.display();
     }
 }
 ```
 
-## 2. What is method overloading?
+## 2. What is an object?
+
+An **Object** is an **instance of a Class**. A class is a blueprint, and an object is the actual entity created from that blueprint.
+
+**Key Features**
+
+* **State** – Data stored in fields.
+* **Behavior** – Actions performed through methods.
+* **Identity** – Each object is unique in memory.
+
+**How It Works**
+
+A **Class** defines the structure and behavior. An **Object** is created using that class and gets its own data and methods.
+
+Example:
+
+```java
+Car car = new Car();
+```
+
+**Why to Use**
+
+* To represent real-world entities such as **User**, **Car**, or **Employee**.
+* To organize data and behavior together.
+* To support **Object-Oriented Programming (OOP)**.
+* To improve code reusability and maintainability.
+
+**When to Use**
+
+Use objects whenever you need to model an entity that has its own data and behavior.
+
+
+## 3. Difference between class and object?
+
+A **class** is a **blueprint or template** used to create objects.
+An **object** is a **real instance of a class** created in memory.
+
+**Key Features**
+
+**Class**
+
+* Acts as a **blueprint/template**
+* Does **not occupy memory until objects are created**
+* Defines **properties (variables) and behavior (methods)**
+
+**Object**
+
+* Is a **real runtime entity**
+* Occupies **memory in heap**
+* Represents a **specific instance of a class**
+
+**How it works**
+A **class defines structure**, and when we use `new`, Java creates an **object in memory** based on that class structure.
+
+**Why to use**
+
+* **Class** helps in designing structure
+* **Object** allows real-world usage of that structure in programs
+
+**When to use**
+
+* Use **class** when defining a model (e.g., Student, Car)
+* Use **object** when you need to **use or store actual data**
+
+**Difference Table**
+
+| **Class**                            | **Object**                  |
+| ------------------------------------ | --------------------------- |
+| Blueprint or template                | Real instance of a class    |
+| Does not occupy memory directly      | Occupies memory in heap     |
+| Declared using `class` keyword       | Created using `new` keyword |
+| Defines structure (fields + methods) | Represents actual data      |
+| Logical entity                       | Physical/runtime entity     |
+| Used for designing                   | Used for execution          |
+
+**Code Example**
+
+```java id="1i6tx1"
+class Student {   // Class
+    String name;
+    int age;
+
+    void display() {
+        System.out.println(name + " " + age);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student(); // Object
+        s1.name = "Rahul";
+        s1.age = 22;
+        s1.display();
+    }
+}
+```
+
+## 4. What is method overloading?
 
 **Method overloading** means having **multiple methods in the same class with the same name but different parameters**.
 
@@ -924,7 +1049,7 @@ public class Main {
 ```
 
 
-## 3. What is method overriding?
+## 5. What is method overriding?
 
 **Method overriding** means redefining a **parent class method in a child class with the same method signature** to provide a **specific implementation**.
 
@@ -975,59 +1100,28 @@ public class Main {
 ```
 
 
-## 4. What is a class in Java?
+## 6. What is the difference between this and super keywords?
 
-A **class** in Java is a **blueprint or template** used to create **objects**, defining their **properties (fields)** and **behaviors (methods)**.
+**this** refers to the current object instance,  
+**super** refers to the immediate parent class object.
 
-**Key Features**
-
-* Acts as a **logical blueprint**
-* Contains **variables (state)** and **methods (behavior)**
-* Does not occupy memory until an **object is created**
-* Supports **encapsulation**
-* Can have **constructors, methods, and blocks**
-
-**How it works**
-A **class defines structure**, and when we create an object using **new keyword**, Java allocates memory and creates an **instance of that class**.
-
-**Why to use**
-
-* To model **real-world entities**
-* To organize code into **reusable components**
-* To support **OOP principles**
-
-**When to use**
-
-* When defining any **entity like Student, Car, Employee**
-* When we need to create **multiple objects with same structure**
-
-**Code Example**
-
-```java id="1i6tx1"
-class Student {   // Class
-    String name;
-    int age;
-
-    void display() {
-        System.out.println(name + " " + age);
-    }
+```java
+class Parent {
+    String name = "Parent";
 }
 
-public class Main {
-    public static void main(String[] args) {
-        Student s1 = new Student(); // Object of class
-        s1.name = "Rahul";
-        s1.age = 22;
-        s1.display();
+class Child extends Parent {
+    String name = "Child";
+    
+    void display() {
+        System.out.println(this.name);  // Child
+        System.out.println(super.name); // Parent
     }
 }
 ```
 
 
-## 5. What is class loader and how do they work?
-
-
-
+## 7. What is class loader and how do they work?
 
 A **Class Loader** is a part of the **JVM (Java Virtual Machine)** that is responsible for **loading .class files into memory at runtime**.
 
@@ -1080,7 +1174,7 @@ public class Main {
 ```
 
 
-## 6. Difference between runtime vs compile-time class loading? 
+## 8. Difference between runtime vs compile-time class loading? 
 
 
 **Compile-time class loading** happens when classes are loaded during **program compilation and startup preparation**
@@ -1162,7 +1256,7 @@ public class Main {
 ```
 
 
-## 5. How do you load a class dynamically in Java? 
+## 9. How do you load a class dynamically in Java? 
 
 In Java, we can load a **class dynamically** at runtime using `Class.forName()`. This is useful when the class name is not known at compile time. Once the class is loaded, we can create objects and invoke methods using Reflection.
 
@@ -1188,7 +1282,7 @@ Class.forName("com.mysql.cj.jdbc.Driver");
 ```
 This loads the MySQL driver at runtime.
 
-## 5. What happens internally when you create an object using new? 
+## 10. What happens internally when you create an object using new? 
 
 
 When we create an object using the `new` keyword, JVM first checks whether the class is loaded. If not, it loads the class into memory. Then it allocates memory in the Heap, initializes instance variables with default values, executes the constructor, and finally returns the object reference.
@@ -1275,105 +1369,6 @@ public class Main {
     }
 }
 ```
-
-
-## 7. What is an object?
-
-An **Object** is an **instance of a Class**. A class is a blueprint, and an object is the actual entity created from that blueprint.
-
-**Key Features**
-
-* **State** – Data stored in fields.
-* **Behavior** – Actions performed through methods.
-* **Identity** – Each object is unique in memory.
-
-**How It Works**
-
-A **Class** defines the structure and behavior. An **Object** is created using that class and gets its own data and methods.
-
-Example:
-
-```java
-Car car = new Car();
-```
-
-**Why to Use**
-
-* To represent real-world entities such as **User**, **Car**, or **Employee**.
-* To organize data and behavior together.
-* To support **Object-Oriented Programming (OOP)**.
-* To improve code reusability and maintainability.
-
-**When to Use**
-
-Use objects whenever you need to model an entity that has its own data and behavior.
-
-
-## 8. Difference between class and object?
-
-A **class** is a **blueprint or template** used to create objects.
-An **object** is a **real instance of a class** created in memory.
-
-**Key Features**
-
-**Class**
-
-* Acts as a **blueprint/template**
-* Does **not occupy memory until objects are created**
-* Defines **properties (variables) and behavior (methods)**
-
-**Object**
-
-* Is a **real runtime entity**
-* Occupies **memory in heap**
-* Represents a **specific instance of a class**
-
-**How it works**
-A **class defines structure**, and when we use `new`, Java creates an **object in memory** based on that class structure.
-
-**Why to use**
-
-* **Class** helps in designing structure
-* **Object** allows real-world usage of that structure in programs
-
-**When to use**
-
-* Use **class** when defining a model (e.g., Student, Car)
-* Use **object** when you need to **use or store actual data**
-
-**Difference Table**
-
-| **Class**                            | **Object**                  |
-| ------------------------------------ | --------------------------- |
-| Blueprint or template                | Real instance of a class    |
-| Does not occupy memory directly      | Occupies memory in heap     |
-| Declared using `class` keyword       | Created using `new` keyword |
-| Defines structure (fields + methods) | Represents actual data      |
-| Logical entity                       | Physical/runtime entity     |
-| Used for designing                   | Used for execution          |
-
-**Code Example**
-
-```java id="1i6tx1"
-class Student {   // Class
-    String name;
-    int age;
-
-    void display() {
-        System.out.println(name + " " + age);
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Student s1 = new Student(); // Object
-        s1.name = "Rahul";
-        s1.age = 22;
-        s1.display();
-    }
-}
-```
-
 
 ## 9. How to create a class and object?
 
@@ -10100,6 +10095,8 @@ numbers.stream()
 ```
 
 ## 9. What is the difference between map() and flatMap()?
+
+
 
 `map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
 
