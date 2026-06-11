@@ -3387,26 +3387,6 @@ class Bank {
 }
 ```
 
-## 3. What are static methods in interfaces?
-
-**Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
-They **belong to the interface itself and are called using the interface name**, not by implementing classes.
-
-```java
-interface MyInterface {
-
-    static void show() {
-        System.out.println("Static method in interface");
-    }
-}
-
-public class Test {
-    public static void main(String[] args) {
-        MyInterface.show();  // called using interface name
-    }
-}
-```
-
 
 ## 4. What is an Abstract Class?
 
@@ -3483,7 +3463,7 @@ abstract class Animal {
 }
 ```
 
-## 5. When should you use an interface instead of an abstract class?
+## 4. When should you use an interface instead of an abstract class?
 
 
 Both **Interface** and **Abstract Class** are used to achieve **Abstraction**, but they serve different purposes.
@@ -3554,18 +3534,28 @@ class Dog extends Animal {
 }
 ```
 
-## 18. Can we make a class `abstract`?
 
-Yes, abstract class cannot be instantiated and can have abstract and non-abstract methods.
+## 5. What are static methods in interfaces?
+
+**Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
+They **belong to the interface itself and are called using the interface name**, not by implementing classes.
 
 ```java
-abstract class Animal {
-    abstract void sound();            // must be implemented by subclass
-    void display() {                 // concrete method
-        System.out.println("Area: " + area());
+interface MyInterface {
+
+    static void show() {
+        System.out.println("Static method in interface");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        MyInterface.show();  // called using interface name
     }
 }
 ```
+
+
 
 ## 6. Can we create object of interface or abstract class?
 
