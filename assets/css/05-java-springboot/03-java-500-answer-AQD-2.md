@@ -14766,80 +14766,222 @@ An **Interceptor** is Spring-specific and is mainly used for controller-related 
 
 ## 1. What is CORS, and how does it work?
 
-**CORS (Cross-Origin Resource Sharing)** is a **browser security mechanism** that restricts cross-domain requests by default.
+**CORS (Cross-Origin Resource Sharing)** is a **browser security mechanism** that allows or blocks a web application from making requests to a **different domain, protocol, or port** than the one from which it was loaded.
 
-It works by allowing the **server to send special HTTP headers** (like `Access-Control-Allow-Origin`) to specify which domains are permitted to access its resources.
+For example:
 
+* Frontend: `http://localhost:3000`
+* Backend: `http://localhost:8080`
+
+Since the **ports are different**, they are considered **different origins**, and the browser blocks the request unless **CORS** is enabled.
+
+**Key Features**
+
+* Provides **secure cross-origin communication**.
+* Controlled by **HTTP headers**.
+* Prevents unauthorized websites from accessing resources.
+* Works only in **web browsers** (not between backend services).
+* Supports **Simple Requests** and **Preflight Requests**.
+
+**How it Works**
+
+1. The browser sends a request from the frontend to the backend.
+2. The backend checks whether the origin is allowed.
+3. If allowed, it returns headers like:
+
+   ```text
+   Access-Control-Allow-Origin: http://localhost:3000
+   ```
+4. The browser reads the header and allows the request.
+5. If the header is missing or invalid, the browser blocks the request.
+
+For **POST**, **PUT**, **DELETE**, or custom headers, the browser first sends an **OPTIONS** request called a **Preflight Request** to check whether the actual request is permitted.
+
+**Why to Use**
+
+* Protects applications from **unauthorized cross-origin access**.
+* Allows secure communication between **frontend and backend** hosted on different domains.
+* Essential for **Single Page Applications (SPA)** and **Microservices**.
+
+**When to Use**
+
+* Frontend and backend are hosted on **different domains or ports**.
+* Building applications with **React**, **Angular**, or **Vue**.
+* When APIs are consumed by external web applications.
+
+**Spring Boot CORS Example**
+
+**Using `@CrossOrigin` Annotation:**
 
 ```java
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-public class ApiController {
-    @GetMapping("/api/data")
-    public ResponseEntity<Data> getData() {
-        return ResponseEntity.ok(data);
-    }
-}
+public class UserController {
 
-// Global CORS configuration
-@Configuration
-public class CorsConfig {
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        return source;
+    @GetMapping("/users")
+    public String getUsers() {
+        return "User List";
     }
 }
 ```
 
+**Global CORS Configuration:**
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
+    }
+}
+```
+
+**Real-World Example**
+
+A **React** application running on `http://localhost:3000` calls a **Spring Boot API** running on `http://localhost:8080`. Without CORS configuration, the browser blocks the request. By enabling CORS and allowing `http://localhost:3000`, the frontend can securely access the backend API.
+
+
 ## 2. What is an API and what are different type of API?
 
-**API (Application Programming Interface)** is a **set of rules that allows different software applications to communicate with each other**.
 
-**Types of APIs:**
+**API (Application Programming Interface)** is a set of **rules and protocols** that allows two software applications to **communicate and exchange data** with each other without knowing their internal implementation.
 
-* **REST API** – Uses HTTP methods (GET, POST, PUT, DELETE). Commonly uses JSON format.
-* **SOAP API** – is a Protocol-based, uses XML messaging. used in enterprise and banking systems
-* **GraphQL API** – It is query-based API technology, Allows clients to request specific data.
-* **gRPC API** – It is High-performance API framework, it uses Protocol Buffers for fast communication.
-* **WebSocket API** – Enables real-time, two-way communication.
+For example, when a mobile app requests user details from a backend server, it uses an **API**.
+
+**Key Features**
+
+* Enables **communication** between different applications.
+* Hides the **internal implementation** of a system.
+* Promotes **reusability** and **modularity**.
+* Supports **platform-independent** integration.
+* Can exchange data in formats like **JSON** or **XML**.
+
+**How it Works**
+
+1. A **Client** sends an API request.
+2. The **Server** processes the request.
+3. The server accesses the database or business logic.
+4. The server returns a **response** to the client, usually in **JSON** format.
+
+Example:
+
+```text
+Client  --->  API Request  --->  Server
+Client  <---  JSON Response <--- Server
+```
+
+**Why to Use**
+
+* Connects different applications and services.
+* Allows **frontend and backend** to communicate.
+* Simplifies integration with **third-party systems**.
+* Improves **code reusability** and **maintainability**.
+
+**When to Use**
+
+* Building **web**, **mobile**, or **microservices** applications.
+* Integrating with external services like payment gateways or maps.
+* Exposing business functionality to other systems.
+
+**Different Types of API**
+
+| **API Type**      | **Description**                                                                             | **Example**                           |
+| ----------------- | ------------------------------------------------------------------------------------------- | ------------------------------------- |
+| **REST API**      | Uses **HTTP methods** (`GET`, `POST`, `PUT`, `DELETE`) and usually exchanges **JSON** data. | Spring Boot REST API                  |
+| **SOAP API**      | Uses **XML** messages with strict standards and security features.                          | Banking and enterprise systems        |
+| **GraphQL API**   | Client requests only the required data using a single endpoint.                             | Facebook GraphQL                      |
+| **gRPC API**      | High-performance API using **Protocol Buffers** and HTTP/2.                                 | Internal microservices communication  |
+| **WebSocket API** | Provides **real-time, two-way communication** between client and server.                    | Chat applications, live notifications |
+
+**Types of APIs Based on Access**
+
+| **Type**          | **Description**                                    |
+| ----------------- | -------------------------------------------------- |
+| **Public API**    | Available for external developers.                 |
+| **Private API**   | Used only within an organization.                  |
+| **Partner API**   | Shared with authorized business partners.          |
+| **Composite API** | Combines multiple API calls into a single request. |
+
+**Simple Spring Boot REST API Example**
+
+```java
+@RestController
+@RequestMapping("/api")
+public class UserController {
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return "User List";
+    }
+}
+```
+
+Request:
+
+```http
+GET /api/users
+```
+
+Response:
+
+```json
+"User List"
+```
+
 
 
 ## 3. What are RESTful web services?
 
-A **RESTful API** is an API that follows the **REST (Representational State Transfer)** architecture and uses **HTTP** methods to communicate between a client and a server.
+**What are RESTful Web Services?**
+
+**RESTful Web Services** are web services that follow the **REST (Representational State Transfer)** architectural style. They allow applications to communicate over **HTTP** using standard methods like **GET**, **POST**, **PUT**, and **DELETE** to perform operations on resources.
+
+A **resource** can be any data, such as a **User**, **Product**, or **Order**, and it is identified by a **URL**.
 
 **Key Features**
 
-* **Stateless** – Each request contains all the information needed to process it.
-* **Resource-Based** – Data is represented as resources identified by URLs.
-* Uses standard **HTTP methods** such as **GET**, **POST**, **PUT**, **PATCH**, and **DELETE**.
-* Usually exchanges data in **JSON** format.
+* Uses standard **HTTP protocol**.
+* Follows a **Resource-Based Architecture**.
+* Supports **CRUD operations** using HTTP methods.
+* **Stateless** – the server does not store client session information.
+* Usually exchanges data in **JSON** format (can also support XML).
+* Easy to build, consume, and scale.
 
-**Why Use RESTful APIs?**
+**How it Works**
 
-* Simple and easy to understand
-* Scalable and maintainable
-* Easy integration between different systems
-* Widely used in web and mobile applications
+1. The **Client** sends an HTTP request to a URL.
+2. The **REST API** processes the request.
+3. The server performs the required business logic or database operation.
+4. The server returns an HTTP response, usually with **JSON** data.
 
-**When to Use RESTful APIs?**
+**Common HTTP Methods**
 
-* Frontend and Backend communication
-* Microservices communication
-* Mobile applications
-* Third-party integrations
+| **HTTP Method** | **Operation**        | **Example URL** |
+| --------------- | -------------------- | --------------- |
+| **GET**         | Retrieve data        | `/users/1`      |
+| **POST**        | Create new data      | `/users`        |
+| **PUT**         | Update existing data | `/users/1`      |
+| **DELETE**      | Delete data          | `/users/1`      |
 
-An API is considered **RESTful** when it:
+**Why to Use**
 
-* Uses HTTP methods correctly (**GET, POST, PUT, DELETE**)
-* Has resource-based URLs (e.g., `/users/101`)
-* Is **stateless** (server doesn't store client session data)
-* Returns data in formats like JSON
-* Uses proper HTTP status codes (200, 201, 404, etc.)
+* Simple and **lightweight**.
+* Supports **loosely coupled** communication between systems.
+* Easy to integrate with **web**, **mobile**, and **microservices** applications.
+* Works well with **JSON**, making data exchange fast and efficient.
 
+**When to Use**
+
+* Building **Web APIs** and **Microservices**.
+* Communication between **frontend and backend**.
+* Mobile applications consuming backend services.
+* Integration with third-party systems.
+
+**Simple Spring Boot REST API Example**
 
 ```java
 @RestController
@@ -14868,6 +15010,16 @@ public class UserController {
     }
 }
 ```
+
+**Real-World Example**
+
+In an **E-commerce Application**:
+
+* `GET /products` → Get all products.
+* `GET /products/101` → Get a specific product.
+* `POST /orders` → Create a new order.
+* `PUT /orders/101` → Update an order.
+* `DELETE /orders/101` → Cancel an order.
 
 
 ## 4. What are the principles of REST?
@@ -14934,35 +15086,84 @@ public class StudentController {
 
 ## 6. What are HTTP methods and their usage?
 
-**HTTP** methods define the type of operation to be performed on a resource. Each method has a specific purpose and semantic meaning in RESTful services.
+**HTTP Methods** are standard operations used by a client to communicate with a server in a **RESTful Web Service**. They define what action should be performed on a resource, such as **creating**, **reading**, **updating**, or **deleting** data.
 
-**Common HTTP Methods:**
-- **GET:** Retrieve data (read-only)
-- **POST:** Create new resources
-- **PUT:** Update/replace entire resource
-- **PATCH:** Partial update of resource
-- **DELETE:** Remove resource
-- **HEAD:** Get headers only (no body)
-- **OPTIONS:** Get allowed methods
+**Key Features**
+
+* Define the **type of operation** to perform.
+* Work over the **HTTP protocol**.
+* Used in **REST APIs** for CRUD operations.
+* Help create **standardized and predictable APIs**.
+* Can be **safe** and **idempotent** depending on the method.
+
+**How it Works**
+
+1. The **Client** sends an HTTP request with a specific method.
+2. The **Server** identifies the method and processes the request.
+3. The server returns an appropriate **HTTP response** with data or status.
+
+For example:
+
+```text
+Client ---- GET /users/1 ----> Server
+Client <--- User Data -------- Server
+```
+
+**Main HTTP Methods and Their Usage**
+
+| **Method**  | **Purpose**                          | **CRUD Operation** | **Example**                         |
+| ----------- | ------------------------------------ | ------------------ | ----------------------------------- |
+| **GET**     | Retrieve data                        | Read               | Get user details                    |
+| **POST**    | Create new data                      | Create             | Create a new user                   |
+| **PUT**     | Update or replace existing data      | Update             | Update user details                 |
+| **PATCH**   | Partially update existing data       | Update             | Update only user's email            |
+| **DELETE**  | Remove data                          | Delete             | Delete a user                       |
+| **OPTIONS** | Returns supported HTTP methods       | N/A                | Used in **CORS Preflight** requests |
+| **HEAD**    | Same as GET but returns only headers | N/A                | Check if a resource exists          |
+
+**Why to Use**
+
+* Provides a **standard way** to interact with APIs.
+* Makes APIs **easy to understand and maintain**.
+* Supports **CRUD operations** in a RESTful manner.
+* Improves interoperability between different systems.
+
+**When to Use**
+
+* Building **RESTful APIs**.
+* Communication between **frontend and backend**.
+* **Microservices** and third-party API integrations.
+* Web and mobile application development.
+
+**Spring Boot Example**
 
 ```java
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    
-    @GetMapping("/{id}")        // GET /users/1
-    public User getUser(@PathVariable Long id) { }
-    
-    @PostMapping               // POST /users
-    public User createUser(@RequestBody User user) { }
-    
-    @PutMapping("/{id}")       // PUT /users/1
-    public User updateUser(@PathVariable Long id, @RequestBody User user) { }
-    
-    @DeleteMapping("/{id}")    // DELETE /users/1
-    public void deleteUser(@PathVariable Long id) { }
+
+    @GetMapping("/{id}")
+    public String getUser(@PathVariable int id) {
+        return "Get User";
+    }
+
+    @PostMapping
+    public String createUser() {
+        return "Create User";
+    }
+
+    @PutMapping("/{id}")
+    public String updateUser(@PathVariable int id) {
+        return "Update User";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable int id) {
+        return "Delete User";
+    }
 }
 ```
+
 
 ## 7. What is the difference between PUT and POST?
 
@@ -15051,16 +15252,119 @@ public class UserController {
 # ✅ 21. Java Microservices 
 
 ## 1. What are CQRS principles?
-**CQRS (Command Query Responsibility Segregation)** is an architectural pattern that **separates read operations (queries) from write operations (commands)** in an application.
 
-* **Command** → Used to **create, update, or delete data**
-* **Query** → Used to **read or retrieve data**
+**CQRS (Command Query Responsibility Segregation)** is an **architectural pattern** that separates **read operations (Queries)** from **write operations (Commands)**. Instead of using the same model for both reading and updating data, CQRS uses **different models and logic** for each responsibility.
 
-**Why Use CQRS?**
+**Key Features**
 
-* Improves **performance**
-* Allows **separate scaling of read and write operations**
-* Makes the system **more maintainable**
+* Separates **Commands** (Write) and **Queries** (Read).
+* Uses **different models** for updating and fetching data.
+* Improves **scalability** and **performance**.
+* Supports **Event-Driven Architecture** and **Microservices**.
+* Often used with **Event Sourcing** (optional).
+
+**How it Works**
+
+1. A **Command** performs an action like **Create**, **Update**, or **Delete** data.
+2. The command updates the **Write Database**.
+3. An event may be published to synchronize the **Read Database**.
+4. A **Query** retrieves data only from the **Read Database** without modifying it.
+
+**Example Flow:**
+
+```text
+Client
+   |
+   |---- Command (Create Order) ----> Write Model ----> Write DB
+   |
+   |---- Query (Get Order) ---------> Read Model -----> Read DB
+```
+
+**Why to Use**
+
+* Improves **read and write performance** independently.
+* Allows separate optimization of **read** and **write** databases.
+* Reduces complexity in applications with heavy business logic.
+* Makes systems easier to **scale** and maintain.
+
+**When to Use**
+
+* In **Microservices Architecture**.
+* In applications with **high read and write traffic**.
+* When **read and write operations have different performance requirements**.
+* In systems using **Event-Driven Architecture** or **Event Sourcing**.
+
+**Command vs Query**
+
+| **Command**                        | **Query**                     |
+| ---------------------------------- | ----------------------------- |
+| Changes data                       | Reads data                    |
+| Uses **POST**, **PUT**, **DELETE** | Uses **GET**                  |
+| Updates the **Write Model**        | Reads from the **Read Model** |
+| Returns success/failure            | Returns requested data        |
+
+**Simple Java Example**
+
+**Command Service (Write):**
+
+```java
+@Service
+public class UserCommandService {
+
+    public void createUser(User user) {
+        // Save user to database
+        System.out.println("User Created");
+    }
+}
+```
+
+**Query Service (Read):**
+
+```java
+@Service
+public class UserQueryService {
+
+    public User getUserById(Long id) {
+        // Fetch user from database
+        return new User(id, "John");
+    }
+}
+```
+
+**Controller:**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserCommandService commandService;
+
+    @Autowired
+    private UserQueryService queryService;
+
+    @PostMapping
+    public void createUser(@RequestBody User user) {
+        commandService.createUser(user);
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return queryService.getUserById(id);
+    }
+}
+```
+
+**Real-World Example**
+
+In an **E-commerce Application**:
+
+* **Command Side** handles operations like **Place Order**, **Update Inventory**, and **Process Payment**.
+* **Query Side** handles operations like **View Order History** and **Search Products**.
+
+The read database can be optimized for fast searches, while the write database focuses on data consistency.
+
 
 ```text
 src/main/java/com/example/user
@@ -15095,47 +15399,6 @@ src/main/java/com/example/user
     └── ApplicationConfig.java
 ```
 
-```java
-// Write Request (Command)
-Client
-  ↓
-UserCommandController
-  ↓
-CreateUserCommand
-  ↓
-CreateUserCommandHandler
-  ↓
-UserRepository
-  ↓
-Database
-```
-
-```java
-// Read Request (Query)
-Client
-  ↓
-UserQueryController
-  ↓
-GetUserQuery
-  ↓
-GetUserQueryHandler
-  ↓
-Read Database/View
-  ↓
-Response
-```
-
-```java
-// Command (Write)
-public void createUser(User user) {
-    userRepository.save(user);
-}
-
-// Query (Read)
-public User getUser(Long id) {
-    return userRepository.findById(id).orElse(null);
-}
-```
 
 ## 2. Blocking vs No blocking db call in Microservice?
 
@@ -15612,37 +15875,59 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 ## 10. What is Event-Driven Architecture in Java?
 
-**Event-Driven Architecture (EDA)** is a design pattern where **one service produces an event and another service consumes the event** and performs some action.
+**Event-Driven Architecture (EDA)** is an **architectural pattern** where different services communicate by **producing and consuming events**. Instead of calling each other directly, one service publishes an event, and other interested services react to it asynchronously.
 
-**Real-Time Example: E-commerce Application:**
+**Key Features**
 
-* User places order → Event: *OrderCreated*
-* Payment service listens → processes payment
-* Email service listens → sends email
-* Inventory service listens → updates stock
+* **Asynchronous communication** between services.
+* Uses **Events**, **Producers**, and **Consumers**.
+* Services are **loosely coupled**.
+* Supports **scalability** and **high availability**.
+* Commonly implemented using **Kafka**, **RabbitMQ**, or other **message brokers**.
 
-All services work **independently**.
+**How it Works**
 
+1. A service performs an action (for example, an order is created).
+2. It publishes an **event** like `OrderCreated`.
+3. The **message broker** delivers the event.
+4. Other services, such as **Payment Service**, **Inventory Service**, and **Notification Service**, consume the event and perform their tasks independently.
 
-**Flow Diagram**
+**Example Flow:**
 
 ```
-Order Service → Event → Payment Service
-                      → Email Service
-                      → Inventory Service
+Order Service
+      |
+      |  Publish: OrderCreated Event
+      v
+   Kafka / RabbitMQ
+   /        |        \
+  v         v         v
+Payment  Inventory  Notification
+Service   Service      Service
 ```
 
-Using Spring Events:
+**Why to Use**
+
+* Reduces **tight coupling** between services.
+* Improves **performance** by processing tasks asynchronously.
+* Makes the system easier to **scale** and **extend**.
+* Supports **real-time processing** and **eventual consistency**.
+
+**When to Use**
+
+* In **Microservices Architecture**.
+* For **real-time applications** like order processing, notifications, and analytics.
+* When multiple services need to react to the same event.
+* When high **scalability** and **fault tolerance** are required.
+
+**Simple Java Example with Spring Event**
 
 ```java
-// Event Class
-import org.springframework.context.ApplicationEvent;
-
-public class OrderEvent extends ApplicationEvent {
+// Event
+public class OrderCreatedEvent {
     private String orderId;
 
-    public OrderEvent(Object source, String orderId) {
-        super(source);
+    public OrderCreatedEvent(String orderId) {
         this.orderId = orderId;
     }
 
@@ -15653,54 +15938,38 @@ public class OrderEvent extends ApplicationEvent {
 ```
 
 ```java
-// Publisher
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-@Service
-public class OrderService {
+// Event Publisher
+@Autowired
+private ApplicationEventPublisher publisher;
 
-    @Autowired
-    private ApplicationEventPublisher publisher;
-
-    public void createOrder() {
-        System.out.println("Order Created");
-        publisher.publishEvent(new OrderEvent(this, "123"));
-    }
+public void createOrder() {
+    System.out.println("Order Created");
+    publisher.publishEvent(new OrderCreatedEvent("ORD-101"));
 }
 ```
 
 ```java
-// Listener
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
-
-@Component
-public class OrderListener {
-
-    @EventListener
-    public void handleOrderEvent(OrderEvent event) {
-        System.out.println("Send Email for Order " + event.getOrderId());
-    }
+// Event Listener
+@EventListener
+public void handleOrderCreated(OrderCreatedEvent event) {
+    System.out.println("Processing payment for: " + event.getOrderId());
 }
 ```
 
-**Tools Used in Real Projects**
+**Real-World Example**
 
-* Apache Kafka
-* RabbitMQ
-* ActiveMQ
+In an **E-commerce Application**:
 
-Used with **Spring Boot** microservices.
+* **Order Service** publishes an `OrderCreated` event.
+* **Payment Service** processes the payment.
+* **Inventory Service** updates stock.
+* **Notification Service** sends an email or SMS.
 
-
-| Advantage      | Description          |
-| -------------- | -------------------- |
-| Loose coupling | Services independent |
-| Scalable       | Easy to scale        |
-| Faster         | Async processing     |
-| Reliable       | Events stored        |
+All these services work **independently** without directly calling each other.
 
 
 ## 11. What is API Gateway and predicates?
@@ -18426,11 +18695,39 @@ public class OptimizedQueryRepository {
 
 ## 13: What is lazy loading?
 
-**Lazy loading** is a design pattern where data is loaded **only when it is actually needed**, instead of loading everything at once.
 
-It improves performance and reduces memory usage, but if not handled properly, it can cause issues like the **N+1 query problem**.
+**Lazy Loading** is a technique where data or objects are **loaded only when they are actually needed**, instead of loading them immediately. It helps improve **performance** and reduces unnecessary memory usage.
 
-* **Proxy Objects**: Hibernate creates proxies for lazy-loaded entities
+**Key Features**
+
+* Loads data **on demand**.
+* Improves **application performance**.
+* Reduces **memory consumption**.
+* Decreases initial loading time.
+* Commonly used in **Hibernate/JPA** relationships.
+
+**How It Works**
+
+1. The main object is loaded first.
+2. Related objects are not fetched immediately.
+3. When the related data is accessed, Hibernate executes a query and loads it.
+4. Data is fetched only when required.
+
+**Why Use Lazy Loading?**
+
+* Improves performance by avoiding unnecessary database calls.
+* Reduces memory usage.
+* Faster application startup and response time.
+* Efficient for large object graphs.
+
+**When to Use**
+
+* Large datasets.
+* Relationships that are not always needed.
+* Performance-sensitive applications.
+* One-to-Many and Many-to-Many associations.
+
+**Code Example**
 
 ```java
 // Lazy loading examples
@@ -18470,13 +18767,51 @@ public class UserService {
 }
 ```
 
+**Lazy vs Eager Loading**
+
+| **Lazy Loading**                   | **Eager Loading**                       |
+| ---------------------------------- | --------------------------------------- |
+| Loads data when needed             | Loads data immediately                  |
+| Better performance for unused data | Can load unnecessary data               |
+| Lower memory usage                 | Higher memory usage                     |
+| Default for collections in JPA     | Often used when data is always required |
+
 
 ## 14: What is eager loading?
 
-**Eager loading** is a strategy where related data is **loaded immediately along with the main entity**.
 
-It reduces additional database queries later, but increases **initial load time and memory usage**, so it should be used only when the related data is definitely needed.
+**Definition**
 
+**Eager Loading** is a technique where related data is **loaded immediately** along with the main entity in a **single query** or as soon as the entity is fetched.
+
+**Key Features**
+
+* **Loads related objects instantly**
+* Reduces the **N+1 Query Problem**
+* Improves performance when related data is definitely needed
+* May load **extra data** that is not used
+
+**How It Works**
+
+When the main entity is fetched, its associated entities are fetched at the same time.
+
+Example:
+
+If you load an **Employee**, the related **Department** is also loaded immediately.
+
+**Why Use It?**
+
+* Reduces the number of database queries
+* Improves performance for frequently accessed relationships
+* Avoids additional database hits later
+
+**When to Use**
+
+* When related data is **always required**
+* For reports, dashboards, and detailed views
+* To avoid repeated database queries
+
+**Example (JPA/Hibernate)**
 ```java
 // Eager loading examples
 @Entity
