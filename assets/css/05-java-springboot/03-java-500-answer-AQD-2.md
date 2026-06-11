@@ -15982,19 +15982,50 @@ public class OrderService {
 
 ## 14. What is service discovery?
 
-**Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
-Service Discovery is used in microservices to automatically find the location (IP address and port) of services.
-Because in microservices, service instances change dynamically, we cannot hardcode URLs.
-So services register themselves in a Service Registry, and other services discover and call them.
+**Definition**
+**Service Discovery** is a mechanism in **microservices architecture** that allows services to **automatically find and communicate with each other** without hardcoding IP addresses or URLs.
 
-**Example Flow:**
+**Key Features**
+**• Automatic Service Registration** – services register themselves on startup
+**• Dynamic Service Lookup** – services discover other services at runtime
+**• Load Balancing Support** – requests can be distributed across instances
+**• Scalability** – easily add or remove service instances
+**• Fault Tolerance** – unhealthy instances can be excluded automatically
 
-1. Payment Service registers in Service Registry
-2. Order Service asks registry: “Where is Payment Service?”
-3. Registry returns IP
-4. Order Service calls Payment Service
+**How it works**
+A **Service Registry** maintains information about all available service instances.
 
+1. A service starts and **registers** itself with the registry.
+2. Another service queries the registry to **discover** the target service.
+3. The request is routed to an available service instance.
+
+Common tools: **Netflix Eureka**, **Consul**, and **Apache ZooKeeper**.
+
+**Why to use**
+To eliminate **hardcoded service locations**, simplify **service communication**, and support **dynamic scaling** in distributed systems.
+
+**When to use**
+Use Service Discovery when:
+
+* Building **Microservices**
+* Deploying on **Cloud Platforms**
+* Running **Multiple Service Instances**
+* Using **Containerized Applications**
+* Needing **Dynamic Scaling**
+
+**Code Example (Spring Cloud Eureka Client)**
+
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+public class UserServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(UserServiceApplication.class, args);
+    }
+}
+```
 
 ```xml
 <dependency>
@@ -16008,39 +16039,16 @@ So services register themselves in a Service Registry, and other services discov
 ```yaml
 spring:
   application:
-    name: payment-service
+    name: user-service
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://localhost:8761/eureka/
 ```
 
-```java
-// Service registration with Eureka
-@SpringBootApplication
-@EnableEurekaClient
-public class UserServiceApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(UserServiceApplication.class, args);
-    }
-}
+This registers **user-service** with the **Eureka Server**, allowing other services to discover it automatically.
 
-// Service discovery usage
-@RestController
-public class OrderController {
-    
-    @Autowired
-    private DiscoveryClient discoveryClient;
-    
-    public void callUserService() {
-        List<ServiceInstance> instances = 
-            discoveryClient.getInstances("user-service");
-        String url = instances.get(0).getUri().toString();
-        // Make HTTP call to user service
-    }
-}
-```
 
 
 ## 15. What is Saga Pattern or How it handle payment failure?
