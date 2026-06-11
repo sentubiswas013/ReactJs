@@ -15811,20 +15811,46 @@ predicates:
 
 ## 12. What is circuit breaker pattern?
 
+
+**Circuit Breaker**
+
+**Definition**
 The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
+
+
+
+**Key Features**
+**• Failure Detection** – monitors service failures
+**• Automatic Protection** – stops calls to unhealthy services
+**• Fallback Mechanism** – provides an alternative response
+**• Improved Resilience** – keeps the system stable during failures
+**• Automatic Recovery** – retries when the service becomes healthy again
+
+**How it works**
 
 After a cooldown period, it moves to a **half-open** state to test if the service has recovered. If successful, the circuit closes and normal traffic resumes. This improves **system resilience and stability**.
 
-**Circuit States:**
-- **Closed:** Normal operation, requests pass through
-- **Open:** Failures detected, requests fail immediately
-- **Half-Open:** Testing if service has recovered
+A Circuit Breaker has **3 states**:
 
-**Benefits:**
-- Prevents cascading failures
-- Faster failure detection
-- Automatic recovery
-- Improves system resilience
+**1. Closed** – Requests flow normally. Failures are monitored.
+
+**2. Open** – If failures exceed a threshold, requests are blocked and fallback logic is executed.
+
+**3. Half-Open** – After a waiting period, a few test requests are allowed. If successful, the circuit returns to **Closed**; otherwise, it goes back to **Open**.
+
+**Why to use**
+To prevent **system overload**, improve **fault tolerance**, and ensure **high availability** when dependent services are failing.
+
+**When to use**
+Use Circuit Breaker when:
+
+* Building **Microservices**
+* Calling **External APIs**
+* Communicating with **Remote Services**
+* Handling **Network Failures**
+* Designing **Distributed Systems**
+
+**Code Example (Resilience4j in Spring Boot)**
 
 ```java
 // Circuit breaker with Resilience4j
@@ -15857,6 +15883,9 @@ resilience4j:
         wait-duration-in-open-state: 30s
         sliding-window-size: 10
 ```
+
+If **userClient.getUser()** fails repeatedly, the **Circuit Breaker** opens and the **fallback method** is executed instead of continuously calling the failing service.
+
 
 ## 13: What is resilience4j pattern?
 
