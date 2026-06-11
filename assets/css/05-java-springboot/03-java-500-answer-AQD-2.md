@@ -15599,188 +15599,6 @@ This can be a separate **User Microservice**. Similarly, **Order** and **Payment
 * **Kafka** or **RabbitMQ** for asynchronous communication.
 * **Docker** and **Kubernetes** for containerization and orchestration.
 
-
-## 2. What are CQRS principles?
-
-**CQRS (Command Query Responsibility Segregation)** is an **architectural pattern** that separates **read operations (Queries)** from **write operations (Commands)**. Instead of using the same model for both reading and updating data, CQRS uses **different models and logic** for each responsibility.
-
-**Key Features**
-
-* Separates **Commands** (Write) and **Queries** (Read).
-* Uses **different models** for updating and fetching data.
-* Improves **scalability** and **performance**.
-* Supports **Event-Driven Architecture** and **Microservices**.
-* Often used with **Event Sourcing** (optional).
-
-**How it Works**
-
-1. A **Command** performs an action like **Create**, **Update**, or **Delete** data.
-2. The command updates the **Write Database**.
-3. An event may be published to synchronize the **Read Database**.
-4. A **Query** retrieves data only from the **Read Database** without modifying it.
-
-**Example Flow:**
-
-```text
-Client
-   |
-   |---- Command (Create Order) ----> Write Model ----> Write DB
-   |
-   |---- Query (Get Order) ---------> Read Model -----> Read DB
-```
-
-**Why to Use**
-
-* Improves **read and write performance** independently.
-* Allows separate optimization of **read** and **write** databases.
-* Reduces complexity in applications with heavy business logic.
-* Makes systems easier to **scale** and maintain.
-
-**When to Use**
-
-* In **Microservices Architecture**.
-* In applications with **high read and write traffic**.
-* When **read and write operations have different performance requirements**.
-* In systems using **Event-Driven Architecture** or **Event Sourcing**.
-
-**Command vs Query**
-
-| **Command**                        | **Query**                     |
-| ---------------------------------- | ----------------------------- |
-| Changes data                       | Reads data                    |
-| Uses **POST**, **PUT**, **DELETE** | Uses **GET**                  |
-| Updates the **Write Model**        | Reads from the **Read Model** |
-| Returns success/failure            | Returns requested data        |
-
-**Simple Java Example**
-
-**Command Service (Write):**
-
-```java
-@Service
-public class UserCommandService {
-
-    public void createUser(User user) {
-        // Save user to database
-        System.out.println("User Created");
-    }
-}
-```
-
-**Query Service (Read):**
-
-```java
-@Service
-public class UserQueryService {
-
-    public User getUserById(Long id) {
-        // Fetch user from database
-        return new User(id, "John");
-    }
-}
-```
-
-**Controller:**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @Autowired
-    private UserCommandService commandService;
-
-    @Autowired
-    private UserQueryService queryService;
-
-    @PostMapping
-    public void createUser(@RequestBody User user) {
-        commandService.createUser(user);
-    }
-
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return queryService.getUserById(id);
-    }
-}
-```
-
-**Real-World Example**
-
-In an **E-commerce Application**:
-
-* **Command Side** handles operations like **Place Order**, **Update Inventory**, and **Process Payment**.
-* **Query Side** handles operations like **View Order History** and **Search Products**.
-
-The read database can be optimized for fast searches, while the write database focuses on data consistency.
-
-
-```text
-src/main/java/com/example/user
-
-├── command
-│   ├── controller
-│   │   └── UserCommandController.java
-│   ├── service
-│   │   └── UserCommandService.java
-│   ├── handler
-│   │   └── CreateUserCommandHandler.java
-│   └── model
-│       └── CreateUserCommand.java
-│
-├── query
-│   ├── controller
-│   │   └── UserQueryController.java
-│   ├── service
-│   │   └── UserQueryService.java
-│   ├── handler
-│   │   └── GetUserQueryHandler.java
-│   └── model
-│       └── GetUserQuery.java
-│
-├── entity
-│   └── User.java
-│
-├── repository
-│   └── UserRepository.java
-│
-└── config
-    └── ApplicationConfig.java
-```
-
-
-## 3. Blocking vs No blocking db call in Microservice?
-
-
-A **blocking DB call** means the thread waits until the database response comes back.
-
-A **non-blocking DB call** means the thread does not wait; it can handle other requests while waiting for the DB response.
-
-Non-blocking is better for high-traffic microservices because it improves performance and scalability.
-
-**Blocking Example (Spring Boot – JPA)**
-
-```java
-@GetMapping("/users/{id}")
-public User getUser(@PathVariable Long id) {
-    return userRepository.findById(id).orElse(null); 
-}
-```
-
-- Here thread **waits** until DB returns result → Blocking
-
-
-**Non-Blocking Example (Spring WebFlux)**
-
-```java
-@GetMapping("/users/{id}")
-public Mono<User> getUser(@PathVariable Long id) {
-    return userRepository.findById(id);
-}
-```
-
-- Returns **Mono** → Thread **does not wait** → Non-blocking
-
 ## 4. What design patterns used in Microservices architecture?
 
 Common design patterns in Microservices are:
@@ -15988,6 +15806,188 @@ public class OrderController {
 
 Each controller can run as a separate **Spring Boot** application and communicate through **REST APIs**.
 
+
+
+## 2. What are CQRS principles?
+
+**CQRS (Command Query Responsibility Segregation)** is an **architectural pattern** that separates **read operations (Queries)** from **write operations (Commands)**. Instead of using the same model for both reading and updating data, CQRS uses **different models and logic** for each responsibility.
+
+**Key Features**
+
+* Separates **Commands** (Write) and **Queries** (Read).
+* Uses **different models** for updating and fetching data.
+* Improves **scalability** and **performance**.
+* Supports **Event-Driven Architecture** and **Microservices**.
+* Often used with **Event Sourcing** (optional).
+
+**How it Works**
+
+1. A **Command** performs an action like **Create**, **Update**, or **Delete** data.
+2. The command updates the **Write Database**.
+3. An event may be published to synchronize the **Read Database**.
+4. A **Query** retrieves data only from the **Read Database** without modifying it.
+
+**Example Flow:**
+
+```text
+Client
+   |
+   |---- Command (Create Order) ----> Write Model ----> Write DB
+   |
+   |---- Query (Get Order) ---------> Read Model -----> Read DB
+```
+
+**Why to Use**
+
+* Improves **read and write performance** independently.
+* Allows separate optimization of **read** and **write** databases.
+* Reduces complexity in applications with heavy business logic.
+* Makes systems easier to **scale** and maintain.
+
+**When to Use**
+
+* In **Microservices Architecture**.
+* In applications with **high read and write traffic**.
+* When **read and write operations have different performance requirements**.
+* In systems using **Event-Driven Architecture** or **Event Sourcing**.
+
+**Command vs Query**
+
+| **Command**                        | **Query**                     |
+| ---------------------------------- | ----------------------------- |
+| Changes data                       | Reads data                    |
+| Uses **POST**, **PUT**, **DELETE** | Uses **GET**                  |
+| Updates the **Write Model**        | Reads from the **Read Model** |
+| Returns success/failure            | Returns requested data        |
+
+**Simple Java Example**
+
+**Command Service (Write):**
+
+```java
+@Service
+public class UserCommandService {
+
+    public void createUser(User user) {
+        // Save user to database
+        System.out.println("User Created");
+    }
+}
+```
+
+**Query Service (Read):**
+
+```java
+@Service
+public class UserQueryService {
+
+    public User getUserById(Long id) {
+        // Fetch user from database
+        return new User(id, "John");
+    }
+}
+```
+
+**Controller:**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserCommandService commandService;
+
+    @Autowired
+    private UserQueryService queryService;
+
+    @PostMapping
+    public void createUser(@RequestBody User user) {
+        commandService.createUser(user);
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return queryService.getUserById(id);
+    }
+}
+```
+
+**Real-World Example**
+
+In an **E-commerce Application**:
+
+* **Command Side** handles operations like **Place Order**, **Update Inventory**, and **Process Payment**.
+* **Query Side** handles operations like **View Order History** and **Search Products**.
+
+The read database can be optimized for fast searches, while the write database focuses on data consistency.
+
+
+```text
+src/main/java/com/example/user
+
+├── command
+│   ├── controller
+│   │   └── UserCommandController.java
+│   ├── service
+│   │   └── UserCommandService.java
+│   ├── handler
+│   │   └── CreateUserCommandHandler.java
+│   └── model
+│       └── CreateUserCommand.java
+│
+├── query
+│   ├── controller
+│   │   └── UserQueryController.java
+│   ├── service
+│   │   └── UserQueryService.java
+│   ├── handler
+│   │   └── GetUserQueryHandler.java
+│   └── model
+│       └── GetUserQuery.java
+│
+├── entity
+│   └── User.java
+│
+├── repository
+│   └── UserRepository.java
+│
+└── config
+    └── ApplicationConfig.java
+```
+
+
+## 3. Blocking vs No blocking db call in Microservice?
+
+
+A **blocking DB call** means the thread waits until the database response comes back.
+
+A **non-blocking DB call** means the thread does not wait; it can handle other requests while waiting for the DB response.
+
+Non-blocking is better for high-traffic microservices because it improves performance and scalability.
+
+**Blocking Example (Spring Boot – JPA)**
+
+```java
+@GetMapping("/users/{id}")
+public User getUser(@PathVariable Long id) {
+    return userRepository.findById(id).orElse(null); 
+}
+```
+
+- Here thread **waits** until DB returns result → Blocking
+
+
+**Non-Blocking Example (Spring WebFlux)**
+
+```java
+@GetMapping("/users/{id}")
+public Mono<User> getUser(@PathVariable Long id) {
+    return userRepository.findById(id);
+}
+```
+
+- Returns **Mono** → Thread **does not wait** → Non-blocking
 
 
 ## 6. What are the advantages of microservices?
