@@ -7891,47 +7891,58 @@ Java has only one memory that is JVM. and JVM memory is divided into different a
 
 ## 2. What is the difference between heap and stack?
 
-**Heap memory** is used for dynamic memory allocation.
-It stores **objects and instance variables** created using `new`.
-Memory in the heap is managed by the **Garbage Collector** in Java.
-It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
+**Heap** and **Stack** are two different memory areas in the **JVM**, and each serves a different purpose.
 
-**Stack memory** is used for temporary memory allocation.
-It stores **local variables, method calls, and function execution data**.
-Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
-Method variables like `int x = 10` are stored in Stack.
+| Feature               | **Stack Memory**                                                   | **Heap Memory**                             |
+| --------------------- | ------------------------------------------------------------------ | ------------------------------------------- |
+| **Stores**            | Local variables, method calls, primitive values, object references | Objects and instance variables              |
+| **Memory Allocation** | Automatic when a method is called                                  | Dynamic using **`new`** keyword             |
+| **Access Speed**      | Very **fast**                                                      | Comparatively **slower**                    |
+| **Thread Scope**      | **Thread-specific** (each thread has its own stack)                | **Shared** among all threads                |
+| **Memory Management** | Automatically removed when method finishes                         | Managed by the **Garbage Collector (GC)**   |
+| **Lifetime**          | Exists only during method execution                                | Exists until object is no longer referenced |
+| **Error**             | **StackOverflowError** (deep recursion)                            | **OutOfMemoryError** (heap full)            |
 
+**How it Works**
+
+* When a method is called, a new **stack frame** is created in the **Stack Memory**.
+* Local variables and references are stored in that stack frame.
+* When an object is created using **`new`**, the actual object is stored in the **Heap Memory**, while its reference is stored in the **Stack**.
+* After the method completes, the stack frame is removed automatically.
+* Objects in the heap remain until the **Garbage Collector** frees the unused memory.
+
+**Why to Use**
+
+* **Stack** provides **fast and efficient** memory management for method execution.
+* **Heap** allows **dynamic object creation** and sharing of objects across methods and threads.
+
+**When to Use**
+
+* Use **Stack** for temporary data like **local variables** and **method execution**.
+* Use **Heap** whenever you create **objects**, **arrays**, or any data that needs to live beyond a single method call.
+
+**Example**
 
 ```java
-public void method() {
-    String obj = new String("Hello"); // obj reference on stack, object on heap
-     int x = 10;        // Stack - local variable
+public class MemoryExample {
+    public static void main(String[] args) {
+        int age = 25;                  // Stored in Stack
+        Person p = new Person();       // Reference 'p' in Stack
+                                      // Object 'Person' in Heap
+        p.name = "John";
+    }
+}
+
+class Person {
+    String name;
 }
 ```
 
-**Memory Representation**
+**In the above example:**
 
-```text
-Stack                      Heap--                      -----
-age = 25
-emp --------->          Employee Object
-                         name = "John"
-```
-
-* `age` is stored directly in the Stack.
-* `emp` reference is stored in the Stack.
-* Actual `Employee` object is stored in the Heap.
-
-
-**Heap vs Stack**
-
-| Feature           | Stack                         | Heap                        |
-| ----------------- | ----------------------------- | --------------------------- |
-| Stores            | Local variables, method calls | Objects, instance variables |
-| Memory Management | Automatic                     | Garbage Collector           |
-| Speed             | Faster                        | Slower                      |
-| Size              | Smaller                       | Larger                      |
-| Thread Safety     | Thread-specific               | Shared across threads       |
+* **`age`** is stored in the **Stack Memory**.
+* Reference variable **`p`** is stored in the **Stack Memory**.
+* The actual **`Person` object** and its field **`name`** are stored in the **Heap Memory**.
 
 
 
@@ -7948,11 +7959,65 @@ emp --------->          Employee Object
 **Metaspace** (Java 8 onwards) replaces PermGen, storing class metadata in native memory with dynamic sizing, improving memory management.
 * Fixed size (`-XX:PermSize`, `-XX:MaxMetaspaceSize`)
 
-**Characteristics:**
 
-* Dynamically resizable (limited by system memory)
-* Stored in **native memory** outside the JVM heap
-* Reduces PermGen-related memory errors
+| Feature             | **PermGen**                                          | **Metaspace**                               |
+| ------------------- | ---------------------------------------------------- | ------------------------------------------- |
+| **Available In**    | Java 7 and earlier                                   | Java 8 and later                            |
+| **Memory Location** | Part of the **JVM Heap**                             | Uses **Native (OS) Memory**                 |
+| **Stores**          | Class metadata, static variables, method information | Class metadata and method information       |
+| **Size**            | Fixed, manually configured                           | Dynamically grows by default                |
+| **Configuration**   | `-XX:MaxPermSize`                                    | `-XX:MaxMetaspaceSize`                      |
+| **Common Error**    | **`java.lang.OutOfMemoryError: PermGen space`**      | **`java.lang.OutOfMemoryError: Metaspace`** |
+| **Performance**     | More frequent tuning required                        | Better memory management and less tuning    |
+
+**Key Features**
+
+* **PermGen** had a **fixed size**, so applications with many dynamically loaded classes could run out of memory.
+* **Metaspace** uses **native memory**, allowing it to grow automatically as needed.
+* **Metaspace** reduces memory tuning and improves JVM flexibility.
+
+**How it Works**
+
+* When the JVM loads a class, it stores the class metadata (class name, methods, fields, etc.).
+* In **Java 7**, this metadata was stored in **PermGen**.
+* In **Java 8+**, it is stored in **Metaspace**, which allocates memory from the operating system instead of the heap.
+
+**Why to Use**
+
+* **PermGen** was used in older Java versions for class metadata storage.
+* **Metaspace** was introduced to eliminate the limitations of fixed-size PermGen and reduce **OutOfMemoryError** issues.
+
+**When to Use**
+
+* If working with **Java 7 or earlier**, you may need to configure **PermGen** size.
+* For **Java 8+**, JVM uses **Metaspace** automatically, and you can optionally limit it using **`-XX:MaxMetaspaceSize`**.
+
+**Example**
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}
+```
+
+When the `Test` class is loaded:
+
+* In **Java 7**, its metadata is stored in **PermGen**.
+* In **Java 8+**, its metadata is stored in **Metaspace**.
+
+**JVM Configuration Example**
+
+```bash
+# Java 7
+-XX:PermSize=128m
+-XX:MaxPermSize=256m
+
+# Java 8+
+-XX:MetaspaceSize=128m
+-XX:MaxMetaspaceSize=256m
+```
 
 **Key Differences**
 
