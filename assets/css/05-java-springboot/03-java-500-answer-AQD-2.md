@@ -15599,7 +15599,7 @@ This can be a separate **User Microservice**. Similarly, **Order** and **Payment
 * **Kafka** or **RabbitMQ** for asynchronous communication.
 * **Docker** and **Kubernetes** for containerization and orchestration.
 
-## 4. What design patterns used in Microservices architecture?
+## 2. What design patterns used in Microservices architecture?
 
 Common design patterns in Microservices are:
 
@@ -15690,7 +15690,7 @@ public String processPayment() {
 }
 ```
 
-## 5. Monolithic vs Microservices Architecture
+## 3. Monolithic vs Microservices Architecture
 
 **Monolithic** and **Microservices** are two different software architecture styles. In a **Monolithic architecture**, the entire application is built and deployed as a **single unit**, while in **Microservices**, the application is divided into **small, independent services**.
 
@@ -15807,8 +15807,35 @@ public class OrderController {
 Each controller can run as a separate **Spring Boot** application and communicate through **REST APIs**.
 
 
+## 4. What are the advantages of microservices?
 
-## 2. What are CQRS principles?
+Microservices offer several benefits over monolithic architectures, particularly for large, complex applications and organizations.
+
+**Key Advantages:**
+- **Independent deployment:** Deploy services separately
+- **Technology diversity:** Different tech stacks per service
+- **Scalability:** Scale individual services based on demand
+- **Fault isolation:** Failure in one service doesn't crash entire system
+- **Team autonomy:** Small teams own complete services
+- **Faster development:** Parallel development of services
+
+These benefits enable organizations to move faster, scale better, and maintain more resilient systems.
+
+## 5. What are the challenges of microservices?
+
+While microservices offer many benefits, they also introduce complexity and challenges that must be carefully managed.
+
+**Major Challenges:**
+- **Distributed system complexity:** Network calls, latency, failures
+- **Data consistency:** Managing transactions across services
+- **Service communication:** Inter-service communication overhead
+- **Monitoring and debugging:** Tracing requests across services
+- **Deployment complexity:** Managing multiple services
+- **Testing challenges:** Integration and end-to-end testing
+
+Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
+
+## 6. What are CQRS principles?
 
 **CQRS (Command Query Responsibility Segregation)** is an **architectural pattern** that separates **read operations (Queries)** from **write operations (Commands)**. Instead of using the same model for both reading and updating data, CQRS uses **different models and logic** for each responsibility.
 
@@ -15957,7 +15984,7 @@ src/main/java/com/example/user
 ```
 
 
-## 3. Blocking vs No blocking db call in Microservice?
+## 7. Blocking vs No blocking db call in Microservice?
 
 
 A **blocking DB call** means the thread waits until the database response comes back.
@@ -15989,34 +16016,6 @@ public Mono<User> getUser(@PathVariable Long id) {
 
 - Returns **Mono** → Thread **does not wait** → Non-blocking
 
-
-## 6. What are the advantages of microservices?
-
-Microservices offer several benefits over monolithic architectures, particularly for large, complex applications and organizations.
-
-**Key Advantages:**
-- **Independent deployment:** Deploy services separately
-- **Technology diversity:** Different tech stacks per service
-- **Scalability:** Scale individual services based on demand
-- **Fault isolation:** Failure in one service doesn't crash entire system
-- **Team autonomy:** Small teams own complete services
-- **Faster development:** Parallel development of services
-
-These benefits enable organizations to move faster, scale better, and maintain more resilient systems.
-
-## 7. What are the challenges of microservices?
-
-While microservices offer many benefits, they also introduce complexity and challenges that must be carefully managed.
-
-**Major Challenges:**
-- **Distributed system complexity:** Network calls, latency, failures
-- **Data consistency:** Managing transactions across services
-- **Service communication:** Inter-service communication overhead
-- **Monitoring and debugging:** Tracing requests across services
-- **Deployment complexity:** Managing multiple services
-- **Testing challenges:** Integration and end-to-end testing
-
-Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
 
 ## 8. How microservices communicate with each other?
 
