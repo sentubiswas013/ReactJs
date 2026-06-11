@@ -15874,19 +15874,121 @@ public String processPayment() {
 
 ## 5. Monolithic vs Microservices Architecture
 
-**Monolithic Architecture:**
-All components (UI, business logic, database) are built and deployed as a **single unit**. It is simple to develop and deploy initially, but becomes difficult to scale and maintain as the application grows.
+**Monolithic** and **Microservices** are two different software architecture styles. In a **Monolithic architecture**, the entire application is built and deployed as a **single unit**, while in **Microservices**, the application is divided into **small, independent services**.
 
-**Microservices Architecture:**
-The application is divided into **small, independent services** that communicate via APIs. Each service can be developed, deployed, and scaled independently, but it increases complexity in communication, monitoring, and deployment.
+| **Feature**          | **Monolithic**                             | **Microservices**                                 |
+| -------------------- | ------------------------------------------ | ------------------------------------------------- |
+| **Architecture**     | Single, unified application                | Collection of small independent services          |
+| **Deployment**       | Entire application is deployed together    | Each service is deployed independently            |
+| **Scalability**      | Scale the whole application                | Scale only the required service                   |
+| **Codebase**         | Single codebase                            | Multiple smaller codebases                        |
+| **Database**         | Usually one shared database                | Each service can have its own database            |
+| **Technology Stack** | Generally one technology stack             | Different services can use different technologies |
+| **Failure Impact**   | Failure can affect the entire application  | Failure is isolated to one service                |
+| **Development**      | Simpler for small projects                 | Better for large and complex projects             |
+| **Maintenance**      | Becomes difficult as the application grows | Easier because services are independent           |
 
-So, **monolithic is simple but less scalable**, while **microservices are scalable and flexible but more complex**.
+**Key Features**
+
+* **Monolithic:** Simple architecture, easy to develop and deploy initially.
+* **Microservices:** Loosely coupled, independently deployable, and highly scalable.
+* **Microservices** communicate using **REST APIs**, **gRPC**, or **message queues**.
+
+**How it Works**
+
+* In a **Monolithic application**, modules like User, Order, and Payment are all part of one application.
+* In **Microservices**, each module runs as a separate service with its own logic and possibly its own database.
+
+**Architecture Example**
+
+```text
+Monolithic:
++--------------------------------------+
+| User | Order | Payment | Inventory   |
++--------------------------------------+
+           Single Application
+```
+
+```text
+Microservices:
+Client
+   |
+API Gateway
+   |
+---------------------------------
+|        |         |            |
+User   Order    Payment    Inventory
+Service Service  Service     Service
+|        |         |            |
+DB       DB        DB           DB
+```
+
+**Why to Use**
+
+* **Monolithic** is easier to build, test, and deploy for small applications.
+* **Microservices** provide better scalability, flexibility, and fault isolation for large applications.
+
+**When to Use**
+
+* Choose **Monolithic** for:
+
+  * Small or startup projects.
+  * Simple business logic.
+  * Small development teams.
+* Choose **Microservices** for:
+
+  * Large and complex applications.
+  * Multiple independent teams.
+  * High scalability and frequent deployments.
+  * Cloud-native and distributed systems.
+
+**Code Example**
+
+**Monolithic (Single Application)**
+
+```java
+@RestController
+public class AppController {
+
+    @GetMapping("/user")
+    public String getUser() {
+        return "User Service";
+    }
+
+    @GetMapping("/order")
+    public String getOrder() {
+        return "Order Service";
+    }
+}
+```
+
+**Microservices (Separate Applications)**
+
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return "User Microservice";
+    }
+}
+```
+
+```java
+@RestController
+public class OrderController {
+
+    @GetMapping("/orders")
+    public String getOrders() {
+        return "Order Microservice";
+    }
+}
+```
+
+Each controller can run as a separate **Spring Boot** application and communicate through **REST APIs**.
 
 
-Trade-offs:
-- Monolithic: Simple deployment, shared database, single technology stack
-- Microservices: Independent scaling, technology diversity, complex deployment
-- Choose monolithic for small teams, microservices for large organizations
 
 ## 6. What are the advantages of microservices?
 
