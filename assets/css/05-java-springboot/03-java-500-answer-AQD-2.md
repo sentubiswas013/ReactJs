@@ -8848,17 +8848,76 @@ public class GenericClass<T> {
 
 ## 1. What are annotations in Java?
 
-**Annotations** are metadata that **provide information about code without affecting its execution**. They're used by compilers, development tools, and frameworks to process code automatically.
+**Annotations** are **metadata** that provide additional information about classes, methods, fields, or parameters. They do **not directly change the program logic**, but they help the **compiler**, **JVM**, or **frameworks** process the code.
+
+**Key Features**
+
+* Provide **metadata** about the code.
+* Improve **readability** and reduce XML/configuration files.
+* Can be processed at **compile time** or **runtime**.
+* Widely used in frameworks like **Spring**, **Hibernate**, and **JUnit**.
+* Can create **custom annotations**.
+
+**How it Works**
+
+* An annotation is added using the **`@`** symbol.
+* The **compiler**, **JVM**, or a **framework** reads the annotation.
+* Based on the annotation, it performs specific actions automatically.
+
+**Why to Use**
+
+* Reduces boilerplate code and manual configuration.
+* Makes code cleaner and easier to maintain.
+* Enables features like **dependency injection**, **ORM mapping**, and **unit testing**.
+
+**When to Use**
+
+* Use **`@Override`** to indicate method overriding.
+* Use **`@Deprecated`** to mark old methods.
+* Use **`@SuppressWarnings`** to suppress compiler warnings.
+* In **Spring**, use annotations like **`@Component`**, **`@Service`**, and **`@Autowired`**.
+* In **Hibernate**, use **`@Entity`**, **`@Table`**, and **`@Column`**.
+
+**Common Built-in Annotations**
+
+| **Annotation**             | **Purpose**                                       |
+| -------------------------- | ------------------------------------------------- |
+| **`@Override`**            | Indicates a method overrides a parent method      |
+| **`@Deprecated`**          | Marks a method or class as outdated               |
+| **`@SuppressWarnings`**    | Suppresses compiler warnings                      |
+| **`@FunctionalInterface`** | Ensures an interface has only one abstract method |
+
+**Code Example**
 
 ```java
-@Override
-public String toString() {
-    return "Example";
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
 }
 
-@Deprecated
-public void oldMethod() {
-    // Legacy code
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+```
+
+In this example:
+
+* **`@Override`** tells the compiler that `sound()` must override the parent class method.
+* If the method signature is incorrect, the compiler will generate an error.
+
+**Custom Annotation Example**
+
+```java
+@interface MyAnnotation {
+    String value();
+}
+
+@MyAnnotation(value = "Java")
+class Test {
 }
 ```
 
@@ -8886,78 +8945,83 @@ List list = new ArrayList(); // Suppresses unchecked warning
 
 ## 3. What is @Target, @Documented, @Inherited?
 
-> These are Java meta-annotations used to define how custom annotations behave.
->
-> * **`@Target`** specifies where an annotation can be applied.
-> * **`@Documented`** makes the annotation appear in JavaDoc documentation.
-> * **`@Inherited`** allows a child class to inherit an annotation from its parent class.
 
+These are **meta-annotations**, which means they are **annotations used to define the behavior of other annotations**.
 
-**1. `@Target`**
+| **Meta-Annotation** | **Purpose**                                                                |
+| ------------------- | -------------------------------------------------------------------------- |
+| **`@Target`**       | Specifies where an annotation can be applied (class, method, field, etc.). |
+| **`@Documented`**   | Includes the annotation information in the generated **JavaDoc**.          |
+| **`@Inherited`**    | Allows a custom annotation to be inherited by child classes.               |
 
-> `@Target` defines where an annotation can be used, such as on a class, method, field, parameter, or constructor.
+**Key Features**
 
-```java id="kcgx59"
-@Target(ElementType.TYPE)
-@interface MyAnnotation {
-}
-```
+* **`@Target`** restricts the valid locations for an annotation.
+* **`@Documented`** makes the annotation visible in API documentation.
+* **`@Inherited`** allows subclasses to automatically inherit a class-level annotation.
+* These are mainly used while creating **custom annotations**.
 
-```java id="xysodq"
-@MyAnnotation
-class Test {
-}
-```
+**How it Works**
 
-**Example:** If `@Target(ElementType.TYPE)` is used, the annotation can only be applied to classes or interfaces.
+* **`@Target`** defines where the annotation is allowed.
+* **`@Documented`** tells the JavaDoc tool to include the annotation in generated documentation.
+* **`@Inherited`** allows a subclass to access the annotation present on its parent class.
 
+**Why to Use**
 
-**2. `@Documented`**
+* Prevents incorrect annotation usage with **`@Target`**.
+* Improves API documentation with **`@Documented`**.
+* Reduces duplicate annotations in inheritance hierarchies with **`@Inherited`**.
 
-> `@Documented` indicates that the annotation should be included in the generated JavaDoc documentation.
+**When to Use**
 
-```java id="yhlzmn"
+* Use **`@Target`** when creating a custom annotation and you want to limit where it can be applied.
+* Use **`@Documented`** when the annotation should appear in generated documentation.
+* Use **`@Inherited`** when child classes should automatically inherit the parent class annotation.
+
+**Code Example**
+
+```java id="p8rj2z"
+import java.lang.annotation.*;
+
 @Documented
-@Target(ElementType.TYPE)
-@interface MyAnnotation {
-}
-```
-
-**Example:** When JavaDoc is generated, this annotation will be visible in the documentation.
-
-
-**3. `@Inherited`**
-
-> `@Inherited` allows a child class to automatically inherit an annotation from its parent class.
-
-```java id="lpyg1q"
 @Inherited
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@interface Role {
-    String value();
+@interface MyAnnotation {
 }
-```
 
-```java id="6xmxvp"
-@Role("Admin")
+@MyAnnotation
 class Parent {
 }
 
 class Child extends Parent {
 }
+
+public class Test {
+    public static void main(String[] args) {
+        System.out.println(
+            Child.class.isAnnotationPresent(MyAnnotation.class)
+        ); // true
+    }
+}
 ```
 
-**Result:** The `Child` class automatically inherits the `@Role("Admin")` annotation from `Parent`.
+**In this example:**
 
+* **`@Target(ElementType.TYPE)`** allows `@MyAnnotation` to be used only on **classes, interfaces, or enums**.
+* **`@Documented`** ensures `@MyAnnotation` appears in the generated **JavaDoc**.
+* **`@Inherited`** allows the `Child` class to inherit the annotation from `Parent`.
 
-**Easy Way to Remember**
+**Common `ElementType` Values for `@Target`**
 
-| Annotation    | Purpose                           |
-| ------------- | --------------------------------- |
-| `@Target`     | Where can the annotation be used? |
-| `@Documented` | Should it appear in JavaDoc?      |
-| `@Inherited`  | Should child classes inherit it?  |
+| **ElementType**       | **Used On**            |
+| --------------------- | ---------------------- |
+| **`TYPE`**            | Class, interface, enum |
+| **`METHOD`**          | Method                 |
+| **`FIELD`**           | Field or variable      |
+| **`PARAMETER`**       | Method parameter       |
+| **`CONSTRUCTOR`**     | Constructor            |
+| **`ANNOTATION_TYPE`** | Another annotation     |
 
 
 ## 4. Can you create custom annotations in java?
@@ -9018,19 +9082,62 @@ public class Main {
 
 ## 5. What is retention policy?
 
-Retention policy determines how long annotations are retained - in source code, class files, or at runtime.
+**Retention Policy** defines **how long an annotation is available** in the Java program. It is specified using the **`@Retention`** meta-annotation and the **`RetentionPolicy`** enum.
 
-**Retention Policies:**
-- **SOURCE:** Discarded by compiler (e.g., @Override)
-- **CLASS:** Stored in class files but not available at runtime
-- **RUNTIME:** Available at runtime via reflection
+**Key Features**
 
-```java
-@Retention(RetentionPolicy.SOURCE)   // Compile-time only
-@interface CompileTime { }
+* Controls the **lifecycle** of an annotation.
+* Applied using the **`@Retention`** annotation.
+* Has **three types**: **`SOURCE`**, **`CLASS`**, and **`RUNTIME`**.
+* Important when creating **custom annotations**.
 
-@Retention(RetentionPolicy.RUNTIME)  // Available at runtime
-@interface RuntimeAnnotation { }
+**Retention Policy Types**
+
+| **Retention Policy** | **Available Until**                                  | **Use Case**                               |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------ |
+| **`SOURCE`**         | Source code only                                     | Compiler checks, removed after compilation |
+| **`CLASS`**          | Stored in `.class` file but not available at runtime | Default behavior                           |
+| **`RUNTIME`**        | Available during runtime through **Reflection**      | Spring, Hibernate, JUnit                   |
+
+**How it Works**
+
+* The **compiler** reads the `@Retention` annotation.
+* Based on the selected `RetentionPolicy`, it decides how long the annotation should be kept.
+* If `RUNTIME` is used, the annotation can be accessed using **Reflection API**.
+
+**Why to Use**
+
+* Controls whether an annotation is needed only during compilation or also at runtime.
+* Improves performance by keeping annotations only as long as required.
+* Enables frameworks like **Spring** and **Hibernate** to read annotations dynamically.
+
+**When to Use**
+
+* Use **`SOURCE`** for compile-time tools and checks.
+* Use **`CLASS`** when the annotation should exist in the bytecode but is not needed at runtime.
+* Use **`RUNTIME`** when frameworks or reflection need to access the annotation while the application is running.
+
+**Code Example**
+
+```java id="3r7n2f"
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@interface MyAnnotation {
+}
+
+@MyAnnotation
+class Test {
+}
+
+public class Main {
+    public static void main(String[] args) {
+        boolean present =
+            Test.class.isAnnotationPresent(MyAnnotation.class);
+
+        System.out.println(present); // true
+    }
+}
 ```
 
 
