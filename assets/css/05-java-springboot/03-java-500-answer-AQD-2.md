@@ -16417,22 +16417,68 @@ All these services work **independently** without directly calling each other.
 
 ## 11. What is API Gateway and predicates?
 
-**Answer**
+An **API Gateway** is a **single entry point** for all client requests in a **Microservices** architecture. It receives the request, applies rules, and forwards it to the appropriate microservice.
 
-An **API Gateway** is a single entry point for all client requests in a microservices architecture.
+**Predicates** are **conditions or matching rules** used by the API Gateway to decide **which request should be routed to which service**.
 
-It handles **routing, authentication, rate limiting, logging, and load balancing**, and forwards requests to appropriate backend services, improving security and simplifying client communication.
+**Key Features**
 
-```
+* **API Gateway**
+
+  * Single entry point for all APIs.
+  * Routes requests to the correct microservice.
+  * Can handle **authentication**, **authorization**, **load balancing**, **logging**, and **rate limiting**.
+* **Predicates**
+
+  * Define routing conditions.
+  * Match requests based on **Path**, **Method**, **Header**, **Host**, **Query Parameter**, etc.
+  * Used before forwarding the request.
+
+**How it Works**
+
+1. The client sends a request to the **API Gateway**.
+2. The gateway checks the configured **predicates**.
+3. If a predicate matches, the request is routed to the corresponding microservice.
+4. The microservice processes the request and returns the response through the gateway.
+
+**Example Flow**
+
+```text id="u6knw2"
 Client
    |
 API Gateway
- |    |    |
-MS1  MS2  MS3
+   |
+   |-- /users/**  ----> User Service
+   |
+   |-- /orders/** ----> Order Service
+   |
+   |-- /payment/** ---> Payment Service
 ```
 
+**Why to Use**
 
-**Basic Configuration (application.yml)**
+* Hides the internal microservice structure from clients.
+* Reduces the number of client calls.
+* Centralizes security, logging, and routing.
+* Makes the system easier to manage and scale.
+
+**When to Use**
+
+* In **Microservices architectures** with multiple backend services.
+* When a single entry point for APIs is needed.
+* When implementing centralized **security**, **monitoring**, or **request routing**.
+
+**Common Predicate Types**
+
+| **Predicate** | **Purpose**                           |
+| ------------- | ------------------------------------- |
+| **Path**      | Matches the URL path                  |
+| **Method**    | Matches HTTP methods like GET or POST |
+| **Header**    | Matches request headers               |
+| **Host**      | Matches the host name                 |
+| **Query**     | Matches query parameters              |
+
+**Spring Cloud Gateway Example**
 
 ```xml
 <dependency>
@@ -16441,10 +16487,9 @@ MS1  MS2  MS3
 </dependency>
 ```
 
-```yaml
-server:
-  port: 8080
+**`application.yml`**
 
+```yaml
 spring:
   cloud:
     gateway:
@@ -16514,90 +16559,88 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 | Deployment Complexity   | Requires scaling and monitoring         |
 
 
-**predicates :** A condition that decides when a request should be routed to a specific service.
-
-```java
-predicates:
-  - Path=/students/**
-```
-
 ## 12. What is circuit breaker pattern?
 
-
-**Circuit Breaker**
-
-**Definition**
-The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
-
-
+A **Circuit Breaker** is a **design pattern** used in **Microservices** to prevent repeated calls to a failing service. It detects failures and temporarily stops requests to avoid overloading the unavailable service.
 
 **Key Features**
-**• Failure Detection** – monitors service failures
-**• Automatic Protection** – stops calls to unhealthy services
-**• Fallback Mechanism** – provides an alternative response
-**• Improved Resilience** – keeps the system stable during failures
-**• Automatic Recovery** – retries when the service becomes healthy again
 
-**How it works**
+* Prevents **cascade failures** in distributed systems.
+* Improves **fault tolerance** and **system stability**.
+* Supports **fallback methods** when a service is unavailable.
+* Automatically recovers when the failed service becomes healthy.
+* Commonly implemented using **Resilience4j** or **Hystrix** (older).
 
-After a cooldown period, it moves to a **half-open** state to test if the service has recovered. If successful, the circuit closes and normal traffic resumes. This improves **system resilience and stability**.
+**How it Works**
 
-A Circuit Breaker has **3 states**:
+A Circuit Breaker has **three states**:
 
-**1. Closed** – Requests flow normally. Failures are monitored.
+| **State**     | **Description**                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Closed**    | Normal state. Requests are sent to the target service.                                                                   |
+| **Open**      | Too many failures occurred. Requests are blocked, and a fallback response is returned.                                   |
+| **Half-Open** | After a waiting period, a few test requests are allowed. If they succeed, the circuit closes; otherwise, it opens again. |
 
-**2. Open** – If failures exceed a threshold, requests are blocked and fallback logic is executed.
+**Flow**
 
-**3. Half-Open** – After a waiting period, a few test requests are allowed. If successful, the circuit returns to **Closed**; otherwise, it goes back to **Open**.
+```text id="j9p4qs"
+Closed  -->  (Many Failures)  -->  Open
+   ^                                |
+   |                                |
+   +---- (Success in Half-Open) <---+
+                Half-Open
+```
 
-**Why to use**
-To prevent **system overload**, improve **fault tolerance**, and ensure **high availability** when dependent services are failing.
+**Why to Use**
 
-**When to use**
-Use Circuit Breaker when:
+* Prevents one failed service from affecting the entire application.
+* Reduces unnecessary network calls to unavailable services.
+* Improves application availability by providing fallback responses.
+* Helps maintain a better user experience during service outages.
 
-* Building **Microservices**
-* Calling **External APIs**
-* Communicating with **Remote Services**
-* Handling **Network Failures**
-* Designing **Distributed Systems**
+**When to Use**
 
-**Code Example (Resilience4j in Spring Boot)**
+* In **Microservices** where services communicate over the network.
+* When calling external APIs or third-party services.
+* In systems where temporary failures or network issues are common.
 
-```java
-// Circuit breaker with Resilience4j
-@Component
-public class UserServiceClient {
-    
-    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
-    @TimeLimiter(name = "user-service")
-    public CompletableFuture<User> getUser(Long id) {
-        return CompletableFuture.supplyAsync(() -> {
-            // Call to user service
-            return restTemplate.getForObject("/users/" + id, User.class);
-        });
+**Spring Boot with Resilience4j Example**
+
+```java id="cb9w2m"
+@RestController
+public class UserController {
+
+    @CircuitBreaker(name = "userService", fallbackMethod = "fallback")
+    @GetMapping("/users")
+    public String getUsers() {
+        // Call to another microservice
+        throw new RuntimeException("Service Down");
     }
-    
-    // Fallback method when circuit is open
-    public CompletableFuture<User> fallbackUser(Long id, Exception ex) {
-        return CompletableFuture.completedFuture(
-            new User(id, "Default User", "default@example.com")
-        );
+
+    public String fallback(Exception ex) {
+        return "User Service is temporarily unavailable.";
     }
 }
+```
 
-// Configuration
+**How the Above Works**
+
+* The `getUsers()` method calls another service.
+* If failures exceed the configured threshold, the **Circuit Breaker** moves to the **Open** state.
+* New requests do not call the failed service; instead, the **`fallback()`** method returns a default response.
+* After a timeout, the breaker enters **Half-Open** state and checks whether the service has recovered.
+
+**Common Configuration (application.yml)**
+
+```yaml id="7khw6y"
 resilience4j:
   circuitbreaker:
     instances:
-      user-service:
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 30s
-        sliding-window-size: 10
+      userService:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
 ```
-
-If **userClient.getUser()** fails repeatedly, the **Circuit Breaker** opens and the **fallback method** is executed instead of continuously calling the failing service.
-
 
 ## 13: What is resilience4j pattern?
 
