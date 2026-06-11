@@ -7982,54 +7982,6 @@ class Person {
 * In **Java 7**, this metadata was stored in **PermGen**.
 * In **Java 8+**, it is stored in **Metaspace**, which allocates memory from the operating system instead of the heap.
 
-**Why to Use**
-
-* **PermGen** was used in older Java versions for class metadata storage.
-* **Metaspace** was introduced to eliminate the limitations of fixed-size PermGen and reduce **OutOfMemoryError** issues.
-
-**When to Use**
-
-* If working with **Java 7 or earlier**, you may need to configure **PermGen** size.
-* For **Java 8+**, JVM uses **Metaspace** automatically, and you can optionally limit it using **`-XX:MaxMetaspaceSize`**.
-
-**Example**
-
-```java
-public class Test {
-    public static void main(String[] args) {
-        System.out.println("Hello, Java!");
-    }
-}
-```
-
-When the `Test` class is loaded:
-
-* In **Java 7**, its metadata is stored in **PermGen**.
-* In **Java 8+**, its metadata is stored in **Metaspace**.
-
-**JVM Configuration Example**
-
-```bash
-# Java 7
--XX:PermSize=128m
--XX:MaxPermSize=256m
-
-# Java 8+
--XX:MetaspaceSize=128m
--XX:MaxMetaspaceSize=256m
-```
-
-**Key Differences**
-
-| Feature          | PermGen                           | Metaspace              |
-| ---------------- | --------------------------------- | ---------------------- |
-| Java Version     | Java 7 and earlier                | Java 8 and later       |
-| Stores           | Class metadata + interned strings | Class metadata only    |
-| Memory Size      | Fixed                             | Dynamic (resizable)    |
-| Location         | JVM memory                        | Native memory          |
-| OutOfMemory Risk | High                              | Lower                  |
-| Config Option    | `-XX:MaxPermSize`                 | `-XX:MaxMetaspaceSize` |
-
 
 ## 4. What is garbage collection?
 
@@ -8158,11 +8110,59 @@ JVM Option:
 
 ## 6. What is generational garbage collection?
 
-**Generational Garbage Collection** in **Java** is a technique where the **heap is divided into generations** to improve GC efficiency:
 
-* **Young Generation** – Stores newly created objects. Collected frequently (minor GC). Most objects die here quickly.
-* **Old/Tenured Generation** – Stores long-lived objects that survived multiple GCs. Collected less frequently (major GC).
-* **Permanent/Metaspace** – Stores class metadata and static information.
+**Generational Garbage Collection (GC)** is a JVM memory management technique that divides the **Heap Memory** into different generations because **most objects die young**.
+
+**Key Features**
+
+* **Heap** is divided into:
+
+  * **Young Generation** (Eden + Survivor S0 + Survivor S1)
+  * **Old (Tenured) Generation**
+* Objects are first created in the **Eden Space**.
+* Short-lived objects are removed quickly using **Minor GC**.
+* Long-lived objects are moved (promoted) to the **Old Generation**.
+* **Major/Full GC** cleans the Old Generation.
+
+**How it Works**
+
+1. A new object is created and stored in the **Eden Space**.
+2. When Eden becomes full, a **Minor GC** runs.
+3. Objects that are still in use survive and move to the **Survivor Space**.
+4. After surviving several GC cycles, they are promoted to the **Old Generation**.
+5. When the Old Generation becomes full, a **Major GC** or **Full GC** is triggered to reclaim memory.
+
+**Memory Flow**
+
+```text
+Eden  →  Survivor (S0/S1)  →  Old Generation
+   Minor GC         Minor GC        Major/Full GC
+```
+
+**Why to Use**
+
+* Improves **GC performance** by collecting short-lived objects quickly.
+* Reduces the time spent scanning the entire heap.
+* Minimizes application pause times and improves memory efficiency.
+
+**When to Use**
+
+* Used automatically by the **JVM** in almost all Java applications.
+* Especially beneficial for applications that create many temporary objects, such as **web applications**, **microservices**, and **high-throughput systems**.
+
+**Code Example**
+
+```java
+public class GCExample {
+    public static void main(String[] args) {
+        for (int i = 0; i < 100000; i++) {
+            String str = new String("Java GC"); // Short-lived object
+        }
+        System.out.println("Objects created");
+    }
+}
+```
+
 
 
 ## 7. What is the difference between minor GC and major GC?
