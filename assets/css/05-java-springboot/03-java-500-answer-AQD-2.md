@@ -16644,29 +16644,52 @@ resilience4j:
 
 ## 13: What is resilience4j pattern?
 
-Resilience4j is a fault tolerance library used in microservices to make services resilient when dependent services fail.
-It provides patterns like Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout to prevent system failure.
 
 
-**Why we use Resilience4j in real-time**
+**Resilience4j** is a **lightweight fault-tolerance library** used in Java and **Spring Boot** applications. It helps make **Microservices** more reliable by handling failures gracefully using patterns like **Circuit Breaker**, **Retry**, **Rate Limiter**, **Bulkhead**, and **Time Limiter**.
 
-* Order Service calls Payment Service
-* Payment Service is slow or down
-* Without protection → Order Service will also fail
-* With Resilience4j → It will stop calling temporarily and return fallback response
+**Key Features**
 
-This prevents **system crash / cascading failure**.
+* Implements **Circuit Breaker** pattern.
+* Supports **Retry** for failed requests.
+* Provides **Rate Limiter** to control request traffic.
+* Uses **Bulkhead** to isolate resources and prevent cascading failures.
+* Supports **Time Limiter** for handling slow responses.
+* Easy integration with **Spring Boot** and **Spring Cloud**.
+* Lightweight and a modern replacement for **Hystrix**.
 
-**Main Modules in Resilience4j**
+**How it Works**
 
-| Module          | Purpose                      |
-| --------------- | ---------------------------- |
-| Circuit Breaker | Stops calling failed service |
-| Retry           | Retry failed request         |
-| Rate Limiter    | Limit number of requests     |
-| Bulkhead        | Limit concurrent users       |
-| Time Limiter    | Timeout for slow service     |
+* A request is wrapped with a **Resilience4j component** (for example, a Circuit Breaker).
+* If the target service fails or becomes slow, Resilience4j applies the configured rule.
+* It can **retry the request**, **return a fallback response**, or **block further calls** until the service recovers.
 
+**Common Modules**
+
+| **Module**          | **Purpose**                                        |
+| ------------------- | -------------------------------------------------- |
+| **Circuit Breaker** | Stops calls to a failing service                   |
+| **Retry**           | Retries failed requests automatically              |
+| **Rate Limiter**    | Limits the number of incoming requests             |
+| **Bulkhead**        | Isolates resources to prevent system-wide failures |
+| **Time Limiter**    | Sets a timeout for service calls                   |
+| **Cache**           | Stores frequently used results                     |
+
+**Why to Use**
+
+* Improves **fault tolerance** in distributed systems.
+* Prevents **cascade failures**.
+* Provides **fallback responses** when services are unavailable.
+* Increases system stability and user experience.
+
+**When to Use**
+
+* In **Microservices** architectures.
+* When calling external APIs or third-party services.
+* In applications that require high availability and resilience.
+* With **Spring Boot** applications using REST APIs.
+
+**Spring Boot Example**
 
 **1. Maven Dependency**
 
@@ -16734,11 +16757,9 @@ public class OrderService {
 }
 ```
 
-
 ## 14. What is service discovery?
 
 
-**Definition**
 **Service Discovery** is a mechanism in **microservices architecture** that allows services to **automatically find and communicate with each other** without hardcoding IP addresses or URLs.
 
 **Key Features**
