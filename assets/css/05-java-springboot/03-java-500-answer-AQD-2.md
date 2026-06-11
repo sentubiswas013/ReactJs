@@ -20841,7 +20841,6 @@ public class PaymentService {
 }
 ```
 
-
 ## 6: What is centralized logging?
 
 **Centralized Logging** is a technique where logs from all **Microservices** or applications are collected and stored in a **single central location**. Instead of checking logs on individual servers, developers can view and analyze all logs from one place.
@@ -21031,7 +21030,101 @@ public class LoggingConfig {
 }
 ```
 
-## 7. What are Java deployment issues?
+## 7: What is Config Server?
+
+A **Config Server** is a **centralized configuration management service** used in **Microservices**. It stores and manages configuration files (such as database URLs, API keys, and application properties) in one place and provides them to all microservices at runtime.
+
+**Key Features**
+
+* Provides **centralized configuration management**.
+* Stores configuration in a **Git repository** or other external storage.
+* Allows **multiple microservices** to share common configurations.
+* Supports **environment-specific** configurations (Dev, QA, Prod).
+* Configuration can be refreshed without rebuilding the application.
+
+**How it Works**
+
+1. Configuration files are stored in a **Git repository**.
+2. The **Spring Cloud Config Server** reads these files.
+3. When a microservice starts, it contacts the Config Server.
+4. The Config Server returns the required configuration based on the application name and environment.
+5. The microservice loads and uses the configuration.
+
+**Architecture Example**
+
+```text id="8mtvhi"
+              Git Repository
+          (application.yml)
+                    |
+            Config Server
+                    |
+      ---------------------------
+      |            |            |
+ User Service  Order Service  Payment Service
+```
+
+**Why to Use**
+
+* Eliminates duplicate configuration files across services.
+* Makes configuration changes easier and more consistent.
+* Improves security by storing sensitive configurations centrally.
+* Simplifies environment management for Dev, Test, and Production.
+
+**When to Use**
+
+* In **Microservices** architectures with multiple services.
+* When the same configuration is shared across applications.
+* When configurations need to be updated without changing application code.
+* For centralized management of environment-specific settings.
+
+**Common Technologies Used**
+
+| **Component**                  | **Purpose**                                  |
+| ------------------------------ | -------------------------------------------- |
+| **Spring Cloud Config Server** | Centralized configuration service            |
+| **Git**                        | Stores configuration files                   |
+| **Spring Cloud Config Client** | Fetches configuration from the Config Server |
+| **Spring Boot Actuator**       | Refreshes configuration dynamically          |
+
+**Config Server Example**
+
+**Enable Config Server**
+
+```java id="j0k5vq"
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+```
+
+**Config Server `application.yml`**
+
+```yaml id="tk1l3m"
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/example/config-repo
+```
+
+**Client Configuration**
+
+```yaml id="g8r4dw"
+spring:
+  application:
+    name: user-service
+  config:
+    import: configserver:http://localhost:8888
+```
+
+## 8. What are Java deployment issues?
 
 **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
@@ -21057,7 +21150,7 @@ System.out.println("Classpath: " + classpath);
 ```
 
 
-## 8. What are debugging strategies?
+## 9. What are debugging strategies?
 
 **Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
 
