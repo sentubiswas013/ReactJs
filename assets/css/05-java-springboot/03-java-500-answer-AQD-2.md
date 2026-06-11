@@ -16700,12 +16700,17 @@ public class OrderService {
 
 **Key Features**
 **• Automatic Service Registration** – services register themselves on startup
+
 **• Dynamic Service Lookup** – services discover other services at runtime
+
 **• Load Balancing Support** – requests can be distributed across instances
+
 **• Scalability** – easily add or remove service instances
+
 **• Fault Tolerance** – unhealthy instances can be excluded automatically
 
 **How it works**
+
 A **Service Registry** maintains information about all available service instances.
 
 1. A service starts and **registers** itself with the registry.
@@ -16715,9 +16720,11 @@ A **Service Registry** maintains information about all available service instanc
 Common tools: **Netflix Eureka**, **Consul**, and **Apache ZooKeeper**.
 
 **Why to use**
+
 To eliminate **hardcoded service locations**, simplify **service communication**, and support **dynamic scaling** in distributed systems.
 
 **When to use**
+
 Use Service Discovery when:
 
 * Building **Microservices**
