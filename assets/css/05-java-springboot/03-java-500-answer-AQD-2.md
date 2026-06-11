@@ -2248,6 +2248,157 @@ public class Main {
 ```
 
 
+
+
+## 14. What is polymorphism?
+
+
+
+**Definition**
+**Polymorphism** means **one entity having many forms**, where a single method or object behaves differently in different situations.
+
+- Poly - many
+- Morphism - Behaviour
+
+**Key Features**
+
+* Supports **method overloading and method overriding**
+* Enables **code flexibility and reusability**
+* Works through **compile-time and runtime polymorphism**
+* Improves **maintainability and scalability**
+* Core concept of **OOP (Object-Oriented Programming)**
+
+
+**How it works**
+
+* In **compile-time polymorphism**, method selection happens using **method overloading**
+* In **runtime polymorphism**, method selection happens using **method overriding via dynamic method dispatch**
+
+
+**Why to use**
+
+* To achieve **flexible and reusable code**
+* To reduce **code duplication**
+* To support **dynamic behavior at runtime**
+
+
+**When to use**
+
+* When same method name should work with **different inputs (overloading)**
+* When child class needs **different implementation (overriding)**
+* When designing **scalable systems**
+
+
+**Code Example**
+
+**Compile-time Polymorphism (Method Overloading)**
+The method name is the same, but parameters are different.
+```java id="1i6tx1"
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+```
+
+**Runtime Polymorphism (Method Overriding)**
+A child class provides its own implementation of a method defined in the parent class.
+```java id="1i6tx1"
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog(); // Runtime polymorphism
+        a.sound();
+    }
+}
+```
+
+
+## 14. What is Dynamic Method Dispatch?
+
+
+**Dynamic Method Dispatch** is a mechanism in Java where the **method to be executed is decided at runtime**, not at compile time. It happens when a **parent class reference** points to a **child class object** and the child class **overrides** a method of the parent class. It is the foundation of **runtime polymorphism**.
+
+**Key Features**
+
+* **Runtime Polymorphism** – Method call is resolved during execution.
+* **Method Overriding** – Child class provides its own implementation.
+* **Parent Reference, Child Object** – A superclass reference can refer to a subclass object.
+* **Flexibility** – Same method call can produce different behaviors.
+
+**How it works**
+
+1. Create a **parent class** with a method.
+2. **Override** that method in the child class.
+3. Create a **parent class reference** and assign it a **child class object**.
+4. When the method is called, Java executes the **child class version** based on the actual object type.
+
+**Why do we use it?**
+
+* To achieve **runtime polymorphism**.
+* To write **flexible and extensible code**.
+* To allow a single interface to work with multiple implementations.
+* To reduce tight coupling between classes.
+
+**When to use it?**
+
+* When multiple child classes have different implementations of the same method.
+* When using **Inheritance** and **Method Overriding**.
+* In **frameworks**, **Spring applications**, and **design patterns** where behavior changes dynamically.
+
+**Simple Interview Answer**
+
+> **Dynamic Method Dispatch is a feature of Java where a parent class reference calls the overridden method of a child class object at runtime. It is used to achieve runtime polymorphism and make the code more flexible and reusable.**
+
+**Example Code**
+
+```java
+// Parent class
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+// Child class
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal obj = new Dog(); // Parent reference, child object
+        obj.sound();            // Calls Dog's sound() at runtime
+    }
+}
+```
+
+**Output**
+
+```text
+Dog barks
+```
+
+
 ## 6. What is IS-A Relationship?
 
 
@@ -2550,155 +2701,6 @@ class Animal {
 class Dog extends Animal {
     // void run() { }  ❌ Error: cannot override final method
 }
-```
-
-
-## 14. What is polymorphism?
-
-
-
-**Definition**
-**Polymorphism** means **one entity having many forms**, where a single method or object behaves differently in different situations.
-
-- Poly - many
-- Morphism - Behaviour
-
-**Key Features**
-
-* Supports **method overloading and method overriding**
-* Enables **code flexibility and reusability**
-* Works through **compile-time and runtime polymorphism**
-* Improves **maintainability and scalability**
-* Core concept of **OOP (Object-Oriented Programming)**
-
-
-**How it works**
-
-* In **compile-time polymorphism**, method selection happens using **method overloading**
-* In **runtime polymorphism**, method selection happens using **method overriding via dynamic method dispatch**
-
-
-**Why to use**
-
-* To achieve **flexible and reusable code**
-* To reduce **code duplication**
-* To support **dynamic behavior at runtime**
-
-
-**When to use**
-
-* When same method name should work with **different inputs (overloading)**
-* When child class needs **different implementation (overriding)**
-* When designing **scalable systems**
-
-
-**Code Example**
-
-**Compile-time Polymorphism (Method Overloading)**
-The method name is the same, but parameters are different.
-```java id="1i6tx1"
-class Calculator {
-    int add(int a, int b) {
-        return a + b;
-    }
-
-    int add(int a, int b, int c) {
-        return a + b + c;
-    }
-}
-```
-
-**Runtime Polymorphism (Method Overriding)**
-A child class provides its own implementation of a method defined in the parent class.
-```java id="1i6tx1"
-class Animal {
-    void sound() {
-        System.out.println("Animal sound");
-    }
-}
-
-class Dog extends Animal {
-    @Override
-    void sound() {
-        System.out.println("Dog barks");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Animal a = new Dog(); // Runtime polymorphism
-        a.sound();
-    }
-}
-```
-
-
-## 14. What is Dynamic Method Dispatch?
-
-
-**Dynamic Method Dispatch** is a mechanism in Java where the **method to be executed is decided at runtime**, not at compile time. It happens when a **parent class reference** points to a **child class object** and the child class **overrides** a method of the parent class. It is the foundation of **runtime polymorphism**.
-
-**Key Features**
-
-* **Runtime Polymorphism** – Method call is resolved during execution.
-* **Method Overriding** – Child class provides its own implementation.
-* **Parent Reference, Child Object** – A superclass reference can refer to a subclass object.
-* **Flexibility** – Same method call can produce different behaviors.
-
-**How it works**
-
-1. Create a **parent class** with a method.
-2. **Override** that method in the child class.
-3. Create a **parent class reference** and assign it a **child class object**.
-4. When the method is called, Java executes the **child class version** based on the actual object type.
-
-**Why do we use it?**
-
-* To achieve **runtime polymorphism**.
-* To write **flexible and extensible code**.
-* To allow a single interface to work with multiple implementations.
-* To reduce tight coupling between classes.
-
-**When to use it?**
-
-* When multiple child classes have different implementations of the same method.
-* When using **Inheritance** and **Method Overriding**.
-* In **frameworks**, **Spring applications**, and **design patterns** where behavior changes dynamically.
-
-**Simple Interview Answer**
-
-> **Dynamic Method Dispatch is a feature of Java where a parent class reference calls the overridden method of a child class object at runtime. It is used to achieve runtime polymorphism and make the code more flexible and reusable.**
-
-**Example Code**
-
-```java
-// Parent class
-class Animal {
-    void sound() {
-        System.out.println("Animal makes a sound");
-    }
-}
-
-// Child class
-class Dog extends Animal {
-    @Override
-    void sound() {
-        System.out.println("Dog barks");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Animal obj = new Dog(); // Parent reference, child object
-        obj.sound();            // Calls Dog's sound() at runtime
-    }
-}
-```
-
-**Output**
-
-```text
-Dog barks
 ```
 
 ## 15. How does method overriding work internally?
@@ -3313,7 +3315,7 @@ Animal dog = new Dog();
 dog.makeSound();
 ```
 
-## 2. What are the interface available in Java?
+## 2. Interface types in Java?
 
 In Java, interfaces are mainly of four types:
 
