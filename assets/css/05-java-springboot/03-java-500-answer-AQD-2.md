@@ -16759,7 +16759,6 @@ public class OrderService {
 
 ## 14. What is service discovery?
 
-
 **Service Discovery** is a mechanism in **microservices architecture** that allows services to **automatically find and communicate with each other** without hardcoding IP addresses or URLs.
 
 **Key Features**
@@ -20845,34 +20844,84 @@ public class PaymentService {
 
 ## 6: What is centralized logging?
 
-**Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
+**Centralized Logging** is a technique where logs from all **Microservices** or applications are collected and stored in a **single central location**. Instead of checking logs on individual servers, developers can view and analyze all logs from one place.
 
-It helps with unified search, request tracing across services, log retention, and better monitoring using tools like the **Elastic** (ELK Stack), **Fluentd**, and **Splunk**.
+**Key Features**
 
-**Why is Centralized Logging Important?**
+* Collects logs from multiple services into one system.
+* Provides **centralized monitoring** and troubleshooting.
+* Supports **searching**, **filtering**, and **visualizing** logs.
+* Helps track requests across multiple microservices.
+* Integrates with monitoring and alerting tools.
 
-* Easier **Troubleshooting**
-* Faster **Issue Detection**
-* Better **Monitoring**
-* Improved **Security Auditing**
-* Simplified **Log Management**
-* Useful in **Microservices Architecture**
+**How it Works**
 
-**Common Architecture**
+1. Each microservice generates logs.
+2. A **log collector** (such as **Filebeat** or **Fluentd**) gathers the logs.
+3. Logs are sent to a centralized storage system like **Elasticsearch**.
+4. A visualization tool like **Kibana** displays and searches the logs.
 
-Application Logs → Log Collector → Log Storage → Visualization Dashboard
+**Architecture Example**
 
-A popular implementation is the **ELK Stack**:
+```text id="1a5r9w"
+User Service   Order Service   Payment Service
+      |               |               |
+      ---------------------------------
+                    |
+             Log Collector
+          (Filebeat/Fluentd)
+                    |
+              Elasticsearch
+                    |
+                 Kibana
+```
 
-* **Elasticsearch** – Stores and indexes logs
-* **Logstash** – Collects and processes logs
-* **Kibana** – Visualizes and searches logs
+**Why to Use**
 
-Another common choice is the **EFK Stack**:
+* Makes debugging easier in **distributed systems**.
+* Eliminates the need to log in to multiple servers.
+* Helps identify errors and performance issues quickly.
+* Improves system monitoring and incident analysis.
 
-* **Elasticsearch**
-* **Fluentd**
-* **Kibana**
+**When to Use**
+
+* In **Microservices** architectures.
+* In cloud-native or distributed applications.
+* When multiple services generate large amounts of logs.
+* For production systems requiring monitoring and auditing.
+
+**Common Tools Used**
+
+| **Tool**               | **Purpose**                       |
+| ---------------------- | --------------------------------- |
+| **Logback / Log4j2**   | Generate application logs         |
+| **Filebeat / Fluentd** | Collect and forward logs          |
+| **Elasticsearch**      | Store and index logs              |
+| **Kibana**             | Search and visualize logs         |
+| **ELK Stack**          | Elasticsearch + Logstash + Kibana |
+| **EFK Stack**          | Elasticsearch + Fluentd + Kibana  |
+
+**Spring Boot Logging Example**
+
+```java id="2q8v7m"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(UserController.class);
+
+    @GetMapping("/users")
+    public String getUsers() {
+        logger.info("Fetching user details");
+        return "Users List";
+    }
+}
+```
 
 **Spring Boot Logging Example**
 
