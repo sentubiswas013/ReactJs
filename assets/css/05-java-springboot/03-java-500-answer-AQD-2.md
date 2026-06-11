@@ -16699,6 +16699,7 @@ public class OrderService {
 **Service Discovery** is a mechanism in **microservices architecture** that allows services to **automatically find and communicate with each other** without hardcoding IP addresses or URLs.
 
 **Key Features**
+
 **• Automatic Service Registration** – services register themselves on startup
 
 **• Dynamic Service Lookup** – services discover other services at runtime
