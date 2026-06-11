@@ -8180,18 +8180,54 @@ String temp = "temporary"; // Likely collected in minor GC
 
 ## 8. What are GC roots?
 
-**GC roots** are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
+**GC Roots** are special references from which the **Garbage Collector (GC)** starts checking which objects are still **reachable** in memory. Any object that can be reached from a GC Root is **not eligible for garbage collection**.
+
+**Key Features**
+
+* **Starting point** for GC traversal.
+* Objects reachable from GC Roots are **alive**.
+* Unreachable objects become **eligible for garbage collection**.
+* Helps JVM identify **unused memory**.
+
+**Common GC Roots in Java**
+
+* **Local variables** in active methods (stack references).
+* **Static variables**.
+* **Active threads**.
+* **JNI (Native) references**.
+
+**How It Works**
+
+1. GC starts from all **GC Roots**.
+2. It traverses all referenced objects.
+3. Reachable objects are marked as **live**.
+4. Unreachable objects are considered **garbage** and can be removed.
+
+**Why to Use**
+
+* Prevents accidental deletion of objects still in use.
+* Enables efficient **memory management**.
+* Helps avoid **memory leaks** and **OutOfMemoryError**.
+
+**When to Use**
+
+* Understanding **Garbage Collection** internals.
+* Analyzing **memory leaks**.
+* Debugging JVM memory issues.
+
+**Code Example**
 
 ```java
-public class Example {
-    static String staticVar = "root";     // GC root - static variable
-    
-    public void method() {
-        String localVar = "root";         // GC root - local variable
-        Object obj = new Object();        // Reachable from localVar
+public class GCRootExample {
+    static Object staticObj = new Object(); // GC Root
+    public static void main(String[] args) {
+        Object localObj = new Object(); // GC Root (local variable)
+
+        localObj = null; // No longer referenced
     }
 }
 ```
+
 
 ## 9. Java Memory Management Summary?
 
