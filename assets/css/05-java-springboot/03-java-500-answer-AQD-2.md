@@ -659,28 +659,89 @@ System.out.println(a == b); // true, values are equal
 ```
 
 ## 5. What is the difference between String, StringBuilder, and StringBuffer?
-* **`String`** is **immutable**, meaning every modification creates a **new object**. It’s thread-safe but can be inefficient for repeated changes.
 
-* **`StringBuilder`** is **mutable** and allows **fast modifications** of strings. It is **not thread-safe**, so it’s suitable for single-threaded operations.
+All three are used to handle **text (sequence of characters)** in Java, but they differ in **mutability**, **performance**, and **thread safety**.
 
-* **`StringBuffer`** is also **mutable** but **thread-safe** because its methods are synchronized. It’s slightly slower than `StringBuilder` due to synchronization overhead.
+* **String**: **Immutable** (cannot be changed after creation).
+* **StringBuilder**: **Mutable** and **not thread-safe**.
+* **StringBuffer**: **Mutable** and **thread-safe** because its methods are **synchronized**.
+
+**Simple Interview Answer**
+
+> **`String` is immutable, so every modification creates a new object. `StringBuilder` and `StringBuffer` are mutable, so they modify the same object. `StringBuilder` is faster but not thread-safe, while `StringBuffer` is thread-safe but slightly slower due to synchronization.**
+
+**Key Differences**
+
+| **Feature**       | **String**                         | **StringBuilder**                   | **StringBuffer**                   |
+| ----------------- | ---------------------------------- | ----------------------------------- | ---------------------------------- |
+| **Mutability**    | Immutable                          | Mutable                             | Mutable                            |
+| **Thread Safety** | Yes (because immutable)            | No                                  | Yes (synchronized)                 |
+| **Performance**   | Slow for frequent modifications    | Fastest                             | Slower than `StringBuilder`        |
+| **Memory Usage**  | Creates new object on every change | Reuses same object                  | Reuses same object                 |
+| **Use Case**      | Fixed text                         | Single-threaded string manipulation | Multi-threaded string manipulation |
+
+**How It Works**
+
+* **String**: Every operation like `+` or `concat()` creates a **new object** in memory.
+* **StringBuilder**: Methods like `append()` and `insert()` modify the **same object**, avoiding unnecessary object creation.
+* **StringBuffer**: Works like `StringBuilder`, but methods are **synchronized**, making it safe for multiple threads.
+
+**Why to Use**
+
+* Use **`String`** when the value should not change and for **constant or fixed data**.
+* Use **`StringBuilder`** for **frequent string modifications** in a **single-threaded** environment.
+* Use **`StringBuffer`** for **frequent string modifications** in a **multi-threaded** environment where thread safety is required.
+
+**When to Use**
+
+| **Scenario**                                             | **Best Choice**   |
+| -------------------------------------------------------- | ----------------- |
+| Fixed message or constant value                          | **String**        |
+| Building SQL queries, loops, or large text in one thread | **StringBuilder** |
+| Shared string object modified by multiple threads        | **StringBuffer**  |
+
+**Code Example**
 
 ```java
-// String - creates new objects
-String s = "Hello";
-s.concat(" World");
-System.out.println(s);
+// String (Immutable)
+String str = "Hello";
+str = str + " World";   // Creates a new object
+System.out.println(str);
 
-// StringBuilder - modifies existing buffer
+// StringBuilder (Mutable, Fast)
 StringBuilder sb = new StringBuilder("Hello");
-sb.append(" World");
+sb.append(" World");    // Modifies same object
 System.out.println(sb);
 
 // StringBuffer (Mutable, Thread-safe)
-StringBuffer sb = new StringBuffer("Hello");
-sb.append(" World");
-System.out.println(sb);
+StringBuffer sf = new StringBuffer("Hello");
+sf.append(" World");    // Modifies same object with synchronization
+System.out.println(sf);
 ```
+
+**Performance Example**
+
+```java
+// Not efficient for repeated updates
+String result = "";
+for (int i = 0; i < 5; i++) {
+    result += i;
+}
+
+// Efficient for repeated updates
+StringBuilder builder = new StringBuilder();
+for (int i = 0; i < 5; i++) {
+    builder.append(i);
+}
+System.out.println(builder);
+```
+
+**Easy Way to Remember**
+
+* **String = Immutable + Safe + Slow for updates**
+* **StringBuilder = Mutable + Fast + Single Thread**
+* **StringBuffer = Mutable + Thread-Safe + Multi Thread**
+
 
 ## 6. what is immutable and Why are strings immutable in Java?
 
