@@ -51,11 +51,6 @@ JDK
 3. **JRE** provides the runtime environment to start the application.
 4. **JVM** loads the bytecode, converts it into **machine code** using the **JIT (Just-In-Time) Compiler**, and executes it.
 
-**Why to Use**
-
-* **JVM**: Enables **"Write Once, Run Anywhere (WORA)"** by running the same bytecode on any operating system.
-* **JRE**: Allows users to execute Java applications without needing development tools.
-* **JDK**: Provides everything needed for Java application development.
 
 **When to Use**
 
@@ -191,12 +186,6 @@ myapp.ear
       └── application.xml
 ```
 
-**Why to Use**
-
-* Use **`JAR`** to package reusable libraries or standalone Java applications.
-* Use **`WAR`** to deploy web applications.
-* Use **`EAR`** to deploy large enterprise applications with multiple modules.
-
 **When to Use**
 
 | **Scenario**                                       | **Best Choice** |
@@ -292,11 +281,6 @@ myapp.ear
   * Breaks a problem into **objects**.
   * Each object contains **data (fields)** and **behavior (methods)**.
   * Objects interact with each other to perform tasks.
-
-**Why to Use**
-
-* Use **Structured Programming** for **small, simple applications** where modular functions are sufficient.
-* Use **OOP** for **large, scalable, and maintainable applications** that require code reuse and better organization.
 
 **When to Use**
 
@@ -821,12 +805,6 @@ All three are used to handle **text (sequence of characters)** in Java, but they
 * **StringBuilder**: Methods like `append()` and `insert()` modify the **same object**, avoiding unnecessary object creation.
 * **StringBuffer**: Works like `StringBuilder`, but methods are **synchronized**, making it safe for multiple threads.
 
-**Why to Use**
-
-* Use **`String`** when the value should not change and for **constant or fixed data**.
-* Use **`StringBuilder`** for **frequent string modifications** in a **single-threaded** environment.
-* Use **`StringBuffer`** for **frequent string modifications** in a **multi-threaded** environment where thread safety is required.
-
 **When to Use**
 
 | **Scenario**                                             | **Best Choice**   |
@@ -1028,11 +1006,6 @@ class Test {
 }
 ```
 
-**Why to Use**
-
-* Use **`final`** to create **constants**, prevent method overriding, or stop class inheritance.
-* Use **`finally`** to ensure important cleanup code always executes.
-* Do **not** use **`finalize()`** in modern applications because it is deprecated.
 
 **When to Use**
 
@@ -1094,12 +1067,6 @@ Here, only **one object** `"Java"` is created in the **String Pool**, and both `
 * **Reduces memory usage** by avoiding duplicate objects.
 * **Improves performance** because object creation is minimized.
 * Works because **`String` is immutable**.
-
-**Why to Use**
-
-* Saves **heap memory** by reusing existing string objects.
-* Improves application **performance** by reducing object creation.
-* Makes string comparison using `==` possible for pooled string literals.
 
 **When to Use**
 
@@ -1214,11 +1181,6 @@ System.out.println(isEven.test(4)); // true
 System.out.println(isEven.test(5)); // false
 ```
 
-**Why to Use**
-
-* Makes code **cleaner and more readable**.
-* Reduces the need for separate methods for simple conditions.
-* Commonly used for **filtering collections**, **validating data**, and **conditional processing**.
 
 **When to Use**
 
@@ -3117,12 +3079,6 @@ public class Main {
 3. Create a **parent class reference** and assign it a **child class object**.
 4. When the method is called, Java executes the **child class version** based on the actual object type.
 
-**Why do we use it?**
-
-* To achieve **runtime polymorphism**.
-* To write **flexible and extensible code**.
-* To allow a single interface to work with multiple implementations.
-* To reduce tight coupling between classes.
 
 **When to use it?**
 
@@ -3490,11 +3446,6 @@ class Dog extends Animal {
 4. At runtime, the **JVM** checks the actual object type.
 5. The JVM calls the **overridden method** from the child class using **Dynamic Method Dispatch**.
 
-**Why do we use it?**
-
-* To achieve **runtime polymorphism**.
-* To allow different classes to provide their own implementation of the same method.
-* To write **loosely coupled** and **maintainable** code.
 
 **When to use it?**
 
@@ -15170,15 +15121,10 @@ public class Main {
 
 ## 1. What is Spring Framework?
 
-**Work?**
-
 **Spring Framework** is an **open-source Java framework** used to build **enterprise-level applications**. It provides a comprehensive infrastructure for developing **loosely coupled, modular, scalable, and maintainable** applications by using concepts like **IoC (Inversion of Control)** and **Dependency Injection (DI)**.
 
 In simple words, **Spring manages the creation and wiring of objects, so developers can focus on business logic instead of infrastructure code.**
 
-**Why do we use Spring Framework?**
-
-Traditional Java applications require developers to manually create and manage object dependencies, which leads to **tight coupling** and difficult maintenance. **Spring automates object creation and dependency management**, making applications easier to develop, test, and scale.
 
 **Key Features**
 
@@ -15310,10 +15256,6 @@ public class AppConfig {
 
 In simple words, **you don't create objects; Spring creates and manages them for you.**
 
-**Why do we use IoC?**
-
-Without IoC, classes create their own dependent objects using the `new` keyword, leading to **tight coupling**. IoC promotes **loose coupling** by letting the Spring Container manage object creation and dependency management.
-
 **Key Features**
 
 * Transfers object creation and management to the **Spring Container**.
@@ -15416,9 +15358,6 @@ Here:
 
 In simple words, **a class does not create its dependent objects using `new`; Spring injects them automatically.**
 
-**Why do we use Dependency Injection?**
-
-Without DI, classes create their own dependencies, leading to **tight coupling** and making the code difficult to test and maintain. DI promotes **loose coupling** by separating object creation from business logic.
 
 **Key Features**
 
@@ -15801,9 +15740,6 @@ Here, `SpringApplication.run()` internally creates and initializes the **`Applic
 
 In simple words, **AOP allows you to add extra behavior to a method without modifying its actual code.**
 
-**Why do we use AOP?**
-
-Without AOP, common code like logging or security checks gets repeated in many classes. **AOP avoids code duplication** and keeps the application **clean, modular, and maintainable**.
 
 **Key Features**
 
@@ -16014,10 +15950,6 @@ public class PerformanceAspect {
 
 In simple words, **you only define an interface, and Spring Data JPA automatically provides the implementation at runtime.**
 
-**Why do we use Spring Data JPA?**
-
-Without Spring Data JPA, developers need to write a lot of **DAO classes**, **EntityManager code**, and **SQL/JPQL queries**. Spring Data JPA eliminates most of this repetitive code, making development **faster** and **cleaner**.
-
 **Key Features**
 
 * Provides built-in **CRUD operations**.
@@ -16117,9 +16049,7 @@ In the above example:
 
 In simple words, **Spring Security controls who can log in and what resources they are allowed to access.**
 
-**Why do we use Spring Security?**
 
-Without Spring Security, developers need to manually implement login, access control, password encryption, and security checks. **Spring Security provides these features out of the box**, making applications more secure and easier to maintain.
 
 **Key Features**
 
@@ -16227,9 +16157,6 @@ In this example:
 
 In simple words, **Spring Cloud makes it easier for multiple microservices to communicate, scale, and work together efficiently.**
 
-**Why do we use Spring Cloud?**
-
-In a microservices environment, managing configuration, service communication, and fault handling manually is complex. **Spring Cloud provides built-in solutions**, reducing development effort and improving reliability.
 
 **Key Features**
 
@@ -16334,9 +16261,6 @@ In this example:
 
 In simple words, **Spring WebFlux can handle many requests concurrently without blocking threads, making it ideal for high-traffic applications.**
 
-**Why do we use Spring WebFlux?**
-
-Traditional **Spring MVC** follows a **blocking, thread-per-request model**, where each request occupies a thread until processing is complete. **Spring WebFlux uses a non-blocking, event-driven model**, allowing a small number of threads to handle many requests efficiently.
 
 **Key Features**
 
@@ -18938,12 +18862,6 @@ Since the **ports are different**, they are considered **different origins**, an
 
 For **POST**, **PUT**, **DELETE**, or custom headers, the browser first sends an **OPTIONS** request called a **Preflight Request** to check whether the actual request is permitted.
 
-**Why to Use**
-
-* Protects applications from **unauthorized cross-origin access**.
-* Allows secure communication between **frontend and backend** hosted on different domains.
-* Essential for **Single Page Applications (SPA)** and **Microservices**.
-
 **When to Use**
 
 * Frontend and backend are hosted on **different domains or ports**.
@@ -19014,13 +18932,6 @@ Example:
 Client  --->  API Request  --->  Server
 Client  <---  JSON Response <--- Server
 ```
-
-**Why to Use**
-
-* Connects different applications and services.
-* Allows **frontend and backend** to communicate.
-* Simplifies integration with **third-party systems**.
-* Improves **code reusability** and **maintainability**.
 
 **When to Use**
 
@@ -19108,12 +19019,6 @@ A **resource** can be any data, such as a **User**, **Product**, or **Order**, a
 | **PUT**         | Update existing data | `/users/1`      |
 | **DELETE**      | Delete data          | `/users/1`      |
 
-**Why to Use**
-
-* Simple and **lightweight**.
-* Supports **loosely coupled** communication between systems.
-* Easy to integrate with **web**, **mobile**, and **microservices** applications.
-* Works well with **JSON**, making data exchange fast and efficient.
 
 **When to Use**
 
@@ -19262,12 +19167,6 @@ Client <--- User Data -------- Server
 | **OPTIONS** | Returns supported HTTP methods       | N/A                | Used in **CORS Preflight** requests |
 | **HEAD**    | Same as GET but returns only headers | N/A                | Check if a resource exists          |
 
-**Why to Use**
-
-* Provides a **standard way** to interact with APIs.
-* Makes APIs **easy to understand and maintain**.
-* Supports **CRUD operations** in a RESTful manner.
-* Improves interoperability between different systems.
 
 **When to Use**
 
@@ -19427,12 +19326,6 @@ Service  Service   Service
 DB         DB         DB
 ```
 
-**Why to Use**
-
-* Makes large applications easier to **develop and maintain**.
-* Allows teams to work on different services independently.
-* Improves **scalability** because only the required service needs to be scaled.
-* Increases **fault tolerance** since failure of one service does not bring down the entire application.
 
 **When to Use**
 
@@ -19617,10 +19510,6 @@ Service Service  Service     Service
 DB       DB        DB           DB
 ```
 
-**Why to Use**
-
-* **Monolithic** is easier to build, test, and deploy for small applications.
-* **Microservices** provide better scalability, flexibility, and fault isolation for large applications.
 
 **When to Use**
 
@@ -19739,13 +19628,6 @@ Client
    |
    |---- Query (Get Order) ---------> Read Model -----> Read DB
 ```
-
-**Why to Use**
-
-* Improves **read and write performance** independently.
-* Allows separate optimization of **read** and **write** databases.
-* Reduces complexity in applications with heavy business logic.
-* Makes systems easier to **scale** and maintain.
 
 **When to Use**
 
@@ -20225,12 +20107,6 @@ Payment  Inventory  Notification
 Service   Service      Service
 ```
 
-**Why to Use**
-
-* Reduces **tight coupling** between services.
-* Improves **performance** by processing tasks asynchronously.
-* Makes the system easier to **scale** and **extend**.
-* Supports **real-time processing** and **eventual consistency**.
 
 **When to Use**
 
@@ -20331,12 +20207,6 @@ API Gateway
    |-- /payment/** ---> Payment Service
 ```
 
-**Why to Use**
-
-* Hides the internal microservice structure from clients.
-* Reduces the number of client calls.
-* Centralizes security, logging, and routing.
-* Makes the system easier to manage and scale.
 
 **When to Use**
 
@@ -20467,12 +20337,6 @@ Closed  -->  (Many Failures)  -->  Open
                 Half-Open
 ```
 
-**Why to Use**
-
-* Prevents one failed service from affecting the entire application.
-* Reduces unnecessary network calls to unavailable services.
-* Improves application availability by providing fallback responses.
-* Helps maintain a better user experience during service outages.
 
 **When to Use**
 
@@ -20549,12 +20413,6 @@ resilience4j:
 | **Time Limiter**    | Sets a timeout for service calls                   |
 | **Cache**           | Stores frequently used results                     |
 
-**Why to Use**
-
-* Improves **fault tolerance** in distributed systems.
-* Prevents **cascade failures**.
-* Provides **fallback responses** when services are unavailable.
-* Increases system stability and user experience.
 
 **When to Use**
 
@@ -20657,9 +20515,6 @@ A **Service Registry** maintains information about all available service instanc
 
 Common tools: **Netflix Eureka**, **Consul**, and **Apache ZooKeeper**.
 
-**Why to use**
-
-To eliminate **hardcoded service locations**, simplify **service communication**, and support **dynamic scaling** in distributed systems.
 
 **When to use**
 
@@ -20848,12 +20703,6 @@ It follows **ACID properties:**
 * Reduces boilerplate code
 * Managed by Spring using **AOP (Proxy)**
 
-**Why to Use**
-
-* Maintains data consistency
-* Prevents partial updates
-* Simplifies transaction handling
-* Ensures multiple operations succeed or fail together
 
 **When to Use**
 
@@ -20994,11 +20843,6 @@ Commit (Success) / Rollback (Exception)
 * **`PlatformTransactionManager`** – Starts, commits, or rolls back transactions.
 * **Database Connection** – Executes SQL operations within the transaction.
 
-**Why to Use**
-
-* Ensures **data consistency** and **atomicity**.
-* Automatically handles **commit** and **rollback**.
-* Eliminates manual transaction management code.
 
 **When to Use**
 
@@ -21053,11 +20897,6 @@ When a method annotated with **`@Transactional`** is invoked, Spring checks if a
 * Helps manage **nested service operations**.
 * Provides flexibility for **commit** and **rollback** behavior.
 
-**Why to Use**
-
-* To define how multiple service methods should share or isolate transactions.
-* To handle complex business operations involving multiple database actions.
-
 **When to Use**
 
 * **`REQUIRED`** – Most common choice for normal business logic.
@@ -21111,11 +20950,6 @@ A **Transaction** in SQL is a **group of one or more database operations** that 
 3. If everything is successful, use **`COMMIT`** to save the changes.
 4. If any error occurs, use **`ROLLBACK`** to undo all changes made during the transaction.
 
-**Why to Use**
-
-* To maintain **data integrity**.
-* To avoid **partial updates**.
-* To ensure **reliable and consistent** database operations.
 
 **When to Use**
 
@@ -21167,11 +21001,6 @@ ROLLBACK;
 3. If the key is **new**, the payment is processed and the result is stored with that key.
 4. If the same key is received again, the server **does not process the payment again** and simply returns the previously stored response.
 
-**Why to Use**
-
-* Prevents **duplicate payments** caused by retries.
-* Handles **network failures** and client timeouts safely.
-* Improves **reliability** and **data consistency** in distributed systems.
 
 **When to Use**
 
@@ -24719,13 +24548,6 @@ User Service   Order Service   Payment Service
                  Kibana
 ```
 
-**Why to Use**
-
-* Makes debugging easier in **distributed systems**.
-* Eliminates the need to log in to multiple servers.
-* Helps identify errors and performance issues quickly.
-* Improves system monitoring and incident analysis.
-
 **When to Use**
 
 * In **Microservices** architectures.
@@ -24906,13 +24728,6 @@ A **Config Server** is a **centralized configuration management service** used i
       |            |            |
  User Service  Order Service  Payment Service
 ```
-
-**Why to Use**
-
-* Eliminates duplicate configuration files across services.
-* Makes configuration changes easier and more consistent.
-* Improves security by storing sensitive configurations centrally.
-* Simplifies environment management for Dev, Test, and Production.
 
 **When to Use**
 
