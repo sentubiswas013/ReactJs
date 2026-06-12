@@ -5561,21 +5561,108 @@ public class Demo {
 
 ## 6. What is hash collision and how is it handled?
 
-**Hash collision** occurs when **two different keys produce the same hash code**, mapping to the same bucket. HashMap handles this using chaining and tree conversion.
+**Definition**
 
-- **Chaining:** Multiple entries in same bucket form linked list
-- **Tree conversion:** When chain length > 8, converts to balanced tree
-- **Load factor:** Rehashing when buckets become too full
-- **Open addressing:** Alternative approach (not used in HashMap)
+A **Hash Collision** occurs when **two different keys generate the same hash code or map to the same bucket** in a **`HashMap`**.
 
-**In simple words:** Collision means two keys go to the same bucket, and HashMap handles it using linked list or tree structure.
 
-```java
-// Collision example:
-// hash("Aa") and hash("BB") might produce same value
-map.put("Aa", 1);
-map.put("BB", 2); // Collision - stored in same bucket as linked list
+**How It Works**
+
+1. Java calls the key's **`hashCode()`**.
+2. It calculates the **bucket index**.
+3. If the bucket is empty, the entry is stored there.
+4. If another key maps to the same bucket, a **hash collision** occurs.
+5. Java stores both entries in the same bucket and uses **`equals()`** to identify the correct key during retrieval.
+
+**Example**
+
+Suppose two different keys produce the same bucket index:
+
+```text id="j8ed2u"
+Key1.hashCode() ──► Bucket 3
+Key2.hashCode() ──► Bucket 3
 ```
+
+Both entries are stored in **Bucket 3**, creating a **hash collision**.
+
+**Key Features**
+
+* Occurs when multiple keys map to the **same bucket**.
+* Handled internally by **Linked List** or **Red-Black Tree**.
+* **`hashCode()`** finds the bucket, and **`equals()`** finds the exact key.
+* Does not cause data loss because all colliding entries are stored.
+
+**Collision Handling in Java**
+
+| **Java Version**       | **Collision Handling**                                                    |
+| ---------------------- | ------------------------------------------------------------------------- |
+| **Java 7 and Earlier** | Linked List                                                               |
+| **Java 8 and Later**   | Linked List, converted to **Red-Black Tree** if bucket size exceeds **8** |
+
+The **Red-Black Tree** improves worst-case search performance from **O(n)** to **O(log n)**.
+
+**Why to Use Collision Handling**
+
+* Prevents data from being overwritten.
+* Allows multiple keys to coexist in the same bucket.
+* Maintains efficient lookup and insertion performance.
+
+**When Does It Happen?**
+
+* Different objects produce the same **`hashCode()`**.
+* The calculated bucket index for different keys becomes the same.
+* Poorly implemented **`hashCode()`** methods increase collisions.
+
+**Code Example**
+
+```java id="zqzhx7"
+import java.util.HashMap;
+
+class Employee {
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1; // Same hash code for all objects
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.id == ((Employee) obj).id;
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        HashMap<Employee, String> map = new HashMap<>();
+
+        map.put(new Employee(1), "Alice");
+        map.put(new Employee(2), "Bob");
+
+        System.out.println(map.size()); // 2
+    }
+}
+```
+
+In this example, both objects have the **same hash code**, causing a **hash collision**, but `HashMap` stores both entries correctly using `equals()`.
+
+**How to Reduce Hash Collisions**
+
+* Override **`hashCode()`** properly.
+* Use **`Objects.hash()`** for generating good hash values.
+* Ensure that fields used in **`equals()`** are also used in **`hashCode()`**.
+
+**Easy Way to Remember**
+
+* **`hashCode()` = Finds the Bucket**
+* **Same Bucket = Hash Collision**
+* **`equals()` = Finds the Correct Key**
+* **Java 8+ = Linked List + Red-Black Tree**
+
 
 ## 7. What is the difference between Comparable and Comparator?
 
