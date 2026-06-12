@@ -14700,6 +14700,7 @@ Here:
 **In short: IoC is the concept, and DI is the implementation.**
 
 
+
 ## 4. What is Dependency Injection?
 
 **Dependency Injection (DI)** is a design pattern in which the **Spring Container automatically provides the required dependencies (objects) to a class instead of the class creating them itself**.
@@ -14750,7 +14751,6 @@ Use DI when:
 ```java id="y7m4kp"
 @Repository
 public class UserRepository {
-
     public void save() {
         System.out.println("User saved");
     }
@@ -14762,7 +14762,6 @@ public class UserRepository {
 ```java id="w2n8xr"
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
 
     @Autowired
