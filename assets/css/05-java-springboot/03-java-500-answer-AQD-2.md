@@ -5666,238 +5666,349 @@ In this example, both objects have the **same hash code**, causing a **hash coll
 
 ## 7. What is the difference between Comparable and Comparator?
 
-**Comparable** is used for **natural sorting** and defines the `compareTo()` method inside the same class. It allows **only one sorting logic**.
+**Definition**
 
-**Comparator** is used for **custom sorting** and defines the `compare()` method in a separate class. It allows **multiple sorting logics**.
+Both **`Comparable`** and **`Comparator`** are interfaces in Java used for **sorting objects**, but they differ in where and how the sorting logic is defined.
 
-**In simple words:** Comparable = default sorting, Comparator = custom sorting.x
+* **`Comparable`** defines the **natural/default ordering** of an object.
+* **`Comparator`** defines a **custom ordering** and allows multiple sorting strategies.
 
+**Simple Interview Answer**
 
-```java
-// Comparable - natural ordering
-class Student implements Comparable<Student> {
-    public int compareTo(Student other) {
-        return this.name.compareTo(other.name);
+> **`Comparable` is used when a class has a single natural sorting order and implements the `compareTo()` method. `Comparator` is used when we want custom or multiple sorting orders and implements the `compare()` method.**
+
+**Key Differences**
+
+| **Feature**                  | **Comparable**                     | **Comparator**                       |
+| ---------------------------- | ---------------------------------- | ------------------------------------ |
+| **Package**                  | `java.lang`                        | `java.util`                          |
+| **Method**                   | `compareTo()`                      | `compare()`                          |
+| **Sorting Type**             | Natural (default) ordering         | Custom ordering                      |
+| **Modification Required**    | Requires modifying the class       | No need to modify the class          |
+| **Number of Sorting Logics** | One                                | Multiple                             |
+| **Used By**                  | `Collections.sort()` automatically | `Collections.sort(list, comparator)` |
+
+**How It Works**
+
+* **`Comparable`**
+
+  * The class itself implements the **`Comparable`** interface.
+  * Sorting logic is written inside the **`compareTo()`** method.
+
+* **`Comparator`**
+
+  * A separate class or lambda expression implements the **`Comparator`** interface.
+  * Sorting logic is written inside the **`compare()`** method.
+
+**Why to Use**
+
+* Use **`Comparable`** when there is a **single, default sorting order**.
+* Use **`Comparator`** when you need **multiple sorting criteria** or cannot modify the existing class.
+
+**When to Use**
+
+| **Scenario**                           | **Best Choice** |
+| -------------------------------------- | --------------- |
+| Sort employees by ID (default order)   | **Comparable**  |
+| Sort employees by Name, Salary, or Age | **Comparator**  |
+| Cannot modify the original class       | **Comparator**  |
+| Need only one natural ordering         | **Comparable**  |
+
+**Code Example Using `Comparable`**
+
+```java id="zz2vfh"
+import java.util.*;
+
+class Employee implements Comparable<Employee> {
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public int compareTo(Employee e) {
+        return this.id - e.id;
     }
 }
 
-// Comparator - custom ordering
-Comparator<Student> ageComparator = (s1, s2) -> s1.age - s2.age;
-Collections.sort(students, ageComparator);
+public class Demo {
+    public static void main(String[] args) {
+        List<Employee> list = Arrays.asList(
+            new Employee(3),
+            new Employee(1),
+            new Employee(2)
+        );
+
+        Collections.sort(list);
+
+        for (Employee e : list) {
+            System.out.println(e.id);
+        }
+    }
+}
 ```
 
-**Comparable vs Comparator**
-| Feature               | Comparable    | Comparator    |
-| --------------------- | ------------- | ------------- |
-| Package               | `java.lang`   | `java.util`   |
-| Method                | `compareTo()` | `compare()`   |
-| Sorting Logic         | Inside class  | Outside class |
-| Number of Sort Orders | One           | Multiple      |
-| Modification Needed   | Yes           | No            |
+**Code Example Using `Comparator`**
+
+```java id="glivuq"
+import java.util.*;
+
+class Employee {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+
+        List<Employee> list = Arrays.asList(
+            new Employee(2, "Bob"),
+            new Employee(1, "Alice")
+        );
+
+        Collections.sort(list, (e1, e2) -> e1.name.compareTo(e2.name));
+
+        for (Employee e : list) {
+            System.out.println(e.name);
+        }
+    }
+}
+```
+
+**Method Signatures**
+
+```java id="1c13x7"
+// Comparable
+public interface Comparable<T> {
+    int compareTo(T o);
+}
+
+// Comparator
+public interface Comparator<T> {
+    int compare(T o1, T o2);
+}
+```
+
+**Key Features**
+
+* **`Comparable`**
+
+  * Defines **natural ordering**.
+  * Sorting logic is part of the class itself.
+  * Uses **`compareTo()`**.
+
+* **`Comparator`**
+
+  * Defines **custom ordering**.
+  * Supports multiple sorting rules.
+  * Uses **`compare()`** and works well with **lambda expressions**.
+
 
 
 ## 8. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
-* **WeakHashMap** – A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
-* **IdentityHashMap** – A map that compares keys using **reference equality (`==`) instead of `equals()`**.
-* **LinkedHashMap** – A map that **maintains insertion order** using a linked list along with a hash table.
-* **PriorityQueue** – A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
+**`WeakHashMap`**
 
-```java
-Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly, Used for: caching
-Map<String, Integer> identityMap = new IdentityHashMap<>(); // for key comparison
-Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache implementations
-Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
-```
+**Definition**
 
-**1. WeakHashMap Example :** A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
+A **`WeakHashMap`** is a special implementation of the **`Map`** interface where the **keys are stored as weak references**. If a key is no longer referenced anywhere else, the **Garbage Collector (GC)** can automatically remove the entry from the map.
 
-**Common use :** -Caching, -Memory-sensitive applications
 
-```java 
-import java.util.Map;
+**Key Features**
+
+* Keys use **weak references**.
+* Entries are automatically removed by the **Garbage Collector**.
+* Allows **one `null` key** and multiple `null` values.
+* Not synchronized.
+
+**How It Works**
+
+* If a key object is no longer used outside the map, GC clears the key and its associated entry.
+
+**Why to Use**
+
+* Prevents **memory leaks**.
+* Useful for **caching** and storing temporary metadata.
+
+**When to Use**
+
+* Cache implementations.
+* Memory-sensitive applications.
+
+**Code Example**
+
+```java id="vslx4n"
 import java.util.WeakHashMap;
 
-public class WeakHashMapExample {
-    public static void main(String[] args) throws Exception {
-        Map<String, Integer> weakMap = new WeakHashMap<>();
+WeakHashMap<String, String> map = new WeakHashMap<>();
+String key = new String("A");
 
-        String key1 = new String("Java");
-        weakMap.put(key1, 100);
+map.put(key, "Apple");
+key = null;
 
-        System.out.println("Before GC: " + weakMap);
-
-        // Remove strong reference
-        key1 = null;
-
-        // Request garbage collection
-        System.gc();
-
-        // Wait for GC
-        Thread.sleep(2000);
-
-        System.out.println("After GC: " + weakMap);
-    }
-}
-// Output: 
-Before GC: {Java=100}
-After GC: {}
+System.gc(); // Entry may be removed by GC
 ```
 
+---
 
-**2. IdentityHashMap Example :** A map that compares keys using **reference equality (`==`) instead of `equals()`**.
+**`IdentityHashMap`**
 
-Compares keys using `==`  instead of: `equals()`;
+**Definition**
+
+An **`IdentityHashMap`** is a `Map` implementation that compares keys using **`==` (reference equality)** instead of **`equals()`**.
 
 
-```java id="p8d0mc"
+**Key Features**
+
+* Uses **reference equality (`==`)**.
+* Does not use **`equals()`** for key comparison.
+* Uses **`System.identityHashCode()`** instead of the object's `hashCode()`.
+
+**How It Works**
+
+```java id="2zw17k"
+String s1 = new String("Java");
+String s2 = new String("Java");
+```
+
+Although `s1.equals(s2)` is `true`, `s1 == s2` is `false`, so `IdentityHashMap` treats them as different keys.
+
+**Why to Use**
+
+* When object **identity** is more important than object content.
+* Used internally by frameworks and serialization libraries.
+
+**When to Use**
+
+* Object graph processing.
+* Maintaining object identity.
+
+**Code Example**
+
+```java id="tb4jqo"
 import java.util.IdentityHashMap;
-import java.util.Map;
 
-public class IdentityHashMapExample {
+IdentityHashMap<String, Integer> map = new IdentityHashMap<>();
 
-    public static void main(String[] args) {
+map.put(new String("Java"), 1);
+map.put(new String("Java"), 2);
 
-        Map<String, Integer> identityMap = new IdentityHashMap<>();
-
-        String s1 = new String("Java");
-        String s2 = new String("Java");
-
-        identityMap.put(s1, 1);
-        identityMap.put(s2, 2);
-
-        System.out.println(identityMap);
-    }
-}
-// Output: {Java=1, Java=2}
-// Why : s1.equals(s2) --> true
-// But: s1 == s2 --> false
-
-So both keys are treated separately.
+System.out.println(map.size()); // 2
 ```
 
+---
 
-**3. LinkedHashMap Example :** A map that **maintains insertion order** using a linked list along with a hash table. Maintains insertion order.
+**`LinkedHashMap`**
+
+**Definition**
+
+A **`LinkedHashMap`** is a `HashMap` implementation that maintains the **insertion order** (or access order) of elements by using a **doubly linked list** along with a hash table.
 
 
-Useful for: * Ordered maps, * LRU Cache
+**Key Features**
 
+* Maintains **insertion order**.
+* Uses **Hash Table + Doubly Linked List**.
+* Allows **one `null` key** and multiple `null` values.
+* Slightly slower than `HashMap` because of ordering maintenance.
 
-```java id="fjlwm5"
+**How It Works**
+
+* Internally uses a **hash table** for fast lookup and a **linked list** to preserve order.
+
+**Why to Use**
+
+* When the order of elements must be preserved.
+* For implementing **LRU (Least Recently Used) caches**.
+
+**When to Use**
+
+* Ordered map iteration.
+* Cache implementations.
+
+**Code Example**
+
+```java id="zhf7dz"
 import java.util.LinkedHashMap;
-import java.util.Map;
 
-public class LinkedHashMapExample {
-    public static void main(String[] args) {
-        Map<Integer, String> linkedMap = new LinkedHashMap<>();
+LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
 
-        linkedMap.put(3, "Java");
-        linkedMap.put(1, "Spring");
-        linkedMap.put(2, "Hibernate");
+map.put(3, "C");
+map.put(1, "A");
+map.put(2, "B");
 
-        System.out.println(linkedMap);
-    }
-}
-// Output: {3=Java, 1=Spring, 2=Hibernate}
+System.out.println(map); // {3=C, 1=A, 2=B}
 ```
 
+---
 
-**LinkedHashMap as LRU Cache**
+**`PriorityQueue`**
 
-```java id="r6xkm0"
-import java.util.LinkedHashMap;
-import java.util.Map;
+**Definition**
 
-public class LRUCacheExample {
-    public static void main(String[] args) {
-        LinkedHashMap<Integer, String> cache = new LinkedHashMap<>(3, 0.75f, true) {
-            protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest) {
-                return size() > 3;
-            }
-        };
-
-        cache.put(1, "A");
-        cache.put(2, "B");
-        cache.put(3, "C");
-
-        cache.get(1); // Access key 1
-
-        cache.put(4, "D");
-
-        System.out.println(cache);
-    }
-}
-// Output: {3=C, 1=A, 4=D}
-// Output: Key `2` removed because it was least recently used.
-```
+A **`PriorityQueue`** is a queue implementation that stores elements according to their **priority** rather than insertion order. Internally, it uses a **Binary Heap**.
 
 
-**4. PriorityQueue Example :** A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
+**Key Features**
 
+* Uses a **Binary Heap** internally.
+* By default, follows **natural ascending order** (Min Heap).
+* Can use a **`Comparator`** for custom ordering.
+* Does not allow `null` elements.
 
-```java id="gqws4s"
-import java.util.PriorityQueue;
-import java.util.Queue;
+**How It Works**
 
-public class PriorityQueueExample {
-    public static void main(String[] args) {
-        Queue<Integer> priorityQueue = new PriorityQueue<>();
+* Elements are inserted into the heap.
+* The root element (highest priority) is always available at the front.
+* `poll()` removes the highest-priority element.
 
-        priorityQueue.offer(30);
-        priorityQueue.offer(10);
-        priorityQueue.offer(50);
-        priorityQueue.offer(20);
+**Why to Use**
 
-        while (!priorityQueue.isEmpty()) {
-            System.out.println(priorityQueue.poll());
-        }
-    }
-}
-// Output: 
-// 10
-// 20
-// 30
-// 50
-```
+* Efficient priority-based processing.
+* Frequently used in **scheduling**, **task management**, and **graph algorithms** like Dijkstra's algorithm.
 
+**When to Use**
 
-**Max Heap Example**
+* Task scheduling.
+* Job queues.
+* Algorithms requiring priority-based retrieval.
 
-```java id="xj5pc5"
-import java.util.Collections;
+**Code Example**
+
+```java id="pnm7e5"
 import java.util.PriorityQueue;
 
-public class MaxHeapExample {
+PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-    public static void main(String[] args) {
+pq.offer(30);
+pq.offer(10);
+pq.offer(20);
 
-        PriorityQueue<Integer> maxHeap =
-                new PriorityQueue<>(Collections.reverseOrder());
-
-        maxHeap.offer(10);
-        maxHeap.offer(50);
-        maxHeap.offer(20);
-
-        while (!maxHeap.isEmpty()) {
-            System.out.println(maxHeap.poll());
-        }
-    }
-}
-// Output: 
-// 50
-// 20
-// 10
+System.out.println(pq.poll()); // 10
+System.out.println(pq.poll()); // 20
 ```
 
+**Key Comparison Table**
 
-**Summary**
+| **Collection**        | **Internal Structure**          | **Special Feature**                      | **Best Use Case**                        |
+| --------------------- | ------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| **`WeakHashMap`**     | Hash Table                      | Weak references for keys                 | Caching, memory-sensitive data           |
+| **`IdentityHashMap`** | Hash Table                      | Compares keys using `==`                 | Object identity tracking                 |
+| **`LinkedHashMap`**   | Hash Table + Doubly Linked List | Maintains insertion/access order         | Ordered maps, LRU cache                  |
+| **`PriorityQueue`**   | Binary Heap                     | Retrieves highest-priority element first | Scheduling and priority-based processing |
 
-| Collection        | Special Feature                  | Common Use                  |
-| ----------------- | -------------------------------- | --------------------------- |
-| `WeakHashMap`     | Removes entries after GC         | Cache                       |
-| `IdentityHashMap` | Uses `==` for key comparison     | Object identity tracking    |
-| `LinkedHashMap`   | Maintains insertion/access order | LRU Cache                   |
-| `PriorityQueue`   | Heap-based priority processing   | Scheduling, task processing |
+**Easy Way to Remember**
+
+* **`WeakHashMap` = Weak Keys + GC Removes Entries**
+* **`IdentityHashMap` = `==` Comparison**
+* **`LinkedHashMap` = Ordered `HashMap`**
+* **`PriorityQueue` = Heap + Priority-Based Retrieval**
 
 
 ## 9. How to Implement LRU, LFU and TTL Cache
