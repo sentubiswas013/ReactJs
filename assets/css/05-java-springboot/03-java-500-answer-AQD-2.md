@@ -16939,94 +16939,287 @@ public class DevDataLoader {
 
 ## 11. What is ApplicationContext?
 
-**ApplicationContext** is the core container in Spring Framework that manages beans, dependency injection, bean lifecycle, and configuration of the application.
+**Definition**
 
-It provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
+**`ApplicationContext`** is the **central interface of the Spring Container**. It is responsible for **creating, configuring, storing, and managing the lifecycle of Spring beans** and providing them to the application whenever needed.
 
-- Central interface for Spring applications
-- Manages bean lifecycle and dependencies
-- Provides additional enterprise features
-- Event publishing and handling
-- Resource loading and internationalization
+**Key Features**
 
-```java
-@Component
-public class MyService {
-    
-    @Autowired
-    private ApplicationContext applicationContext;
-    
-    public void doSomething() {
-        // Get bean programmatically
-        UserService userService = applicationContext.getBean(UserService.class);
-        
-        // Publish event
-        applicationContext.publishEvent(new CustomEvent("data"));
+* Manages the complete **Bean Lifecycle**.
+* Supports **Dependency Injection (DI)** and **Inversion of Control (IoC)**.
+* Automatically performs **component scanning**.
+* Supports **internationalization (i18n)**, **event publishing**, and **AOP integration**.
+* Loads configuration from **Java Config**, **XML**, or **annotations**.
+
+**How it Works**
+
+When the application starts, **`ApplicationContext`** reads the configuration, scans for Spring annotations like **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`**, creates the required beans, injects dependencies, and stores them inside the **Spring Container**. Whenever a bean is requested, it returns the managed object.
+
+**Why to Use**
+
+* To let Spring **manage object creation and dependencies**.
+* To avoid manual object creation using the **`new`** keyword.
+* To get advanced Spring features like **AOP**, **events**, and **bean lifecycle management**.
+
+**When to Use**
+
+* In any **Spring or Spring Boot application**.
+* When you need **Dependency Injection** and centralized bean management.
+* When building applications with **loosely coupled components**.
+
+**Common Methods**
+
+| **Method**                     | **Purpose**                             |
+| ------------------------------ | --------------------------------------- |
+| **`getBean()`**                | Retrieves a bean from the container     |
+| **`containsBean()`**           | Checks if a bean exists                 |
+| **`getBeanDefinitionNames()`** | Returns all registered bean names       |
+| **`close()`**                  | Closes the container and destroys beans |
+
+**Code Example**
+
+**Creating and Using `ApplicationContext`**
+
+```java id="v4j7n8"
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+ApplicationContext context =
+        new AnnotationConfigApplicationContext(AppConfig.class);
+
+UserService userService = context.getBean(UserService.class);
+
+userService.display();
+```
+
+**Spring Managed Bean**
+
+```java id="u4xkn1"
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    public void display() {
+        System.out.println("Bean from ApplicationContext");
     }
 }
 ```
+
+**`BeanFactory` vs `ApplicationContext`**
+
+| **BeanFactory**                          | **ApplicationContext**                           |
+| ---------------------------------------- | ------------------------------------------------ |
+| Basic IoC container                      | Advanced Spring container                        |
+| Lazy bean initialization by default      | Eager singleton bean initialization by default   |
+| Limited features                         | Supports **AOP**, **events**, **i18n**, and more |
+| Mainly used for lightweight applications | Commonly used in all Spring Boot applications    |
+
 
 
 ## 12. What is @Component, @Configuration, @Primary, @Qualifier, @PatchMapping annotation?
 
-**@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
+
+**`@Component` Annotation**
+
+**Definition**
+
+**`@Component`** is a **Spring stereotype annotation** used to mark a class as a **Spring-managed bean**. Spring automatically detects it during **component scanning** and registers it in the **ApplicationContext**.
+
+**Key Features**
+
+* Enables **automatic bean creation**.
+* Managed by the **Spring Container**.
+* Parent annotation for **`@Service`**, **`@Repository`**, and **`@Controller`**.
+* Supports **Dependency Injection (DI)**.
+
+**How it Works**
+
+Spring scans the package for classes annotated with `@Component`, creates their objects, and stores them as beans in the container.
+
+**Why to Use**
+
+* To avoid manual bean configuration.
+* To let Spring automatically manage object creation.
+
+**When to Use**
+
+* For utility classes or custom components that need to be managed by Spring.
+
+**Code Example**
 
 ```java
+import org.springframework.stereotype.Component;
+
 @Component
 public class EmailService {
-    public void send() {
-        System.out.println("Sending email");
-    }
 }
 ```
 
-**@Configuration**  is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
+
+**`@Configuration` Annotation**
+
+**Definition**
+
+**`@Configuration`** indicates that a class contains **bean definitions**. It is used to define and configure beans using **`@Bean`** methods.
+
+**Key Features**
+
+* Used for **Java-based configuration**.
+* Replaces XML configuration.
+* Supports one or more **`@Bean`** methods.
+* Classes are managed by the **Spring Container**.
+
+**How it Works**
+
+Spring loads the `@Configuration` class, executes its `@Bean` methods, and registers the returned objects as beans.
+
+**Why to Use**
+
+* To create beans manually.
+* To configure **third-party or external library classes**.
+
+**When to Use**
+
+* When custom bean creation or configuration is required.
+
+**Code Example**
 
 ```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 @Configuration
 public class AppConfig {
 
     @Bean
-    public PaymentService paymentService() {
-        return new PaymentService();
+    public EmailService emailService() {
+        return new EmailService();
     }
 }
 ```
 
-**@Primary** When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.
+
+**`@Primary` Annotation**
+
+**Definition**
+
+**`@Primary`** tells Spring to use a particular bean **by default** when multiple beans of the same type are available.
+
+**Key Features**
+
+* Resolves **bean ambiguity**.
+* Applied to a bean class or `@Bean` method.
+* Works with **Dependency Injection**.
+
+**How it Works**
+
+If multiple beans match the required type, Spring automatically injects the bean marked with `@Primary`.
+
+**Why to Use**
+
+* To specify the **default implementation**.
+
+**When to Use**
+
+* When multiple implementations of the same interface exist.
+
+**Code Example**
 
 ```java
-@Component
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
+
+@Service
 @Primary
-public class CreditCardPayment implements PaymentService {
+public class MySqlDatabaseService implements DatabaseService {
 }
 ```
 
+**`@Qualifier` Annotation**
+
+**Definition**
+
+**`@Qualifier`** is used with **`@Autowired`** to specify exactly which bean should be injected when multiple beans of the same type exist.
+
+**Key Features**
+
+* Resolves **multiple bean conflicts**.
+* Works together with **`@Autowired`** or **`@Inject`**.
+* Allows selecting a bean by **name**.
+
+**How it Works**
+
+Spring checks the value provided in `@Qualifier` and injects the matching bean.
+
+**Why to Use**
+
+* To inject a specific implementation instead of the default one.
+
+**When to Use**
+
+* When multiple implementations of an interface are available and `@Primary` is not sufficient.
+
+**Code Example**
+
 ```java
-@Component
-public class UpiPayment implements PaymentService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    public UserService(@Qualifier("oracleDatabaseService")
+                       DatabaseService databaseService) {
+    }
 }
 ```
 
-**@Qualifier** is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
+
+**`@PatchMapping` Annotation**
+
+**Definition**
+
+**`@PatchMapping`** is a **Spring MVC** annotation used to handle **HTTP PATCH requests**. It is mainly used for **partial updates** of a resource.
+
+**Key Features**
+
+* Maps **HTTP PATCH** requests.
+* Used in **REST APIs**.
+* Shortcut for `@RequestMapping(method = RequestMethod.PATCH)`.
+* Supports **partial resource modification**.
+
+**How it Works**
+
+When a client sends a **PATCH** request to a specific URL, Spring routes the request to the method annotated with `@PatchMapping`.
+
+**Why to Use**
+
+* To update only selected fields instead of replacing the entire object.
+
+**When to Use**
+
+* In REST APIs where partial updates are required, such as updating only a user's email or phone number.
+
+**Code Example**
 
 ```java
-@Autowired
-@Qualifier("upiPayment")
-private PaymentService paymentService;
-```
-**@PatchMapping** is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-```java
-@PatchMapping("/users/{id}")
-public ResponseEntity<User> updateEmail(
-        @PathVariable Long id,
-        @RequestBody Map<String, Object> updates) {
+@RestController
+public class UserController {
 
-    User updatedUser = userService.updateUser(id, updates);
-    return ResponseEntity.ok(updatedUser);
+    @PatchMapping("/users/{id}")
+    public String updateUser(@PathVariable Long id) {
+        return "User updated successfully";
+    }
 }
 ```
+
 
 ## 13. Explain Spring Boot Actuator endpoints.
 
