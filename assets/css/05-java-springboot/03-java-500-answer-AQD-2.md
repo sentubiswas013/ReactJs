@@ -6717,79 +6717,139 @@ String name = map.get(101);
 
 ## 16. What is O(1) and  O(n)?
 
+**Definition**
 
-**Big O Notation** is used to measure how the **execution time** or **memory usage** of an algorithm grows as the input size increases.
+**`O(1)`** and **`O(n)`** are examples of **Big O Notation**, which is used to describe the **time complexity** of an algorithm. It tells us how the execution time grows as the input size (`n`) increases.
 
-**- O(1) – Constant Time**
+**What is `O(1)`?**
 
-**Definition:**
-The operation takes the **same amount of time**, regardless of the size of the input.
+**`O(1)` (Constant Time)** means the operation takes the **same amount of time**, whether there are **10 elements or 10 million elements**.
 
-**How it works:**
-The algorithm directly accesses the required element without looping through data.
+**How It Works**
 
-**Key Features:**
+* The algorithm performs a fixed number of operations.
+* Execution time does not depend on the input size.
 
-* **Fastest** time complexity
-* Performance remains **constant**
-* Input size does not affect execution time
+**Example**
 
-**Why use it?**
-
-* Provides the best performance
-* Suitable for direct lookups and access operations
-
-**When to use it?**
-
-* Accessing an array element by index
-* Getting a value from a hash-based collection like `HashMap`
-
-**Example:**
-
-```java
+```java id="4zqgxz"
 int[] arr = {10, 20, 30, 40};
 
-System.out.println(arr[2]); // 30
+System.out.println(arr[2]); // O(1)
 ```
 
-Here, accessing `arr[2]` always takes the same time, so the complexity is **O(1)**.
+Accessing an array element by index always takes constant time.
 
+**Common `O(1)` Operations**
 
-**- O(n) – Linear Time**
+* Array element access by index.
+* `HashMap.get()` (average case).
+* `HashMap.put()` (average case).
+* `Stack.push()` and `Stack.pop()`.
 
-**Definition:**
-The execution time grows **proportionally** to the input size.
+**What is `O(n)`?**
 
-**How it works:**
-The algorithm processes each element one by one.
+**`O(n)` (Linear Time)** means the execution time increases **proportionally to the number of input elements**.
 
-**Key Features:**
+**How It Works**
 
-* Time increases as data size increases
-* Requires traversing the collection
-* Common in searching and iteration operations
+* The algorithm processes each element one by one.
+* If the input size doubles, the execution time roughly doubles.
 
-**Why use it?**
+**Example**
 
-* Necessary when every element must be checked
-* Simple and easy to implement
-
-**When to use it?**
-
-* Searching in an unsorted array or list
-* Iterating through all elements
-
-**Example:**
-
-```java
-int[] arr = {10, 20, 30, 40, 50};
+```java id="ghs6un"
+int[] arr = {10, 20, 30, 40};
 
 for (int num : arr) {
     System.out.println(num);
 }
 ```
 
-The loop visits every element once, so the complexity is **O(n)**.
+The loop visits every element once, so the time complexity is **`O(n)`**.
+
+**Common `O(n)` Operations**
+
+* Linear search in an array or list.
+* Iterating through a collection.
+* Finding the maximum or minimum element in an unsorted array.
+
+**Key Differences**
+
+| **Feature**                | **O(1)**           | **O(n)**              |
+| -------------------------- | ------------------ | --------------------- |
+| **Meaning**                | Constant Time      | Linear Time           |
+| **Depends on Input Size?** | No                 | Yes                   |
+| **Performance**            | Very Fast          | Slower as input grows |
+| **Example**                | Array index access | Loop through an array |
+
+**Why to Use Big O Notation**
+
+* Measures algorithm efficiency.
+* Helps compare different solutions.
+* Important for designing scalable and high-performance applications.
+
+**When to Use**
+
+| **Scenario**                        | **Preferred Complexity** |
+| ----------------------------------- | ------------------------ |
+| Fast lookup by key                  | **O(1)**                 |
+| Traversing all elements             | **O(n)**                 |
+| Searching in an unsorted list       | **O(n)**                 |
+| Accessing an array element by index | **O(1)**                 |
+
+**Real-World Examples**
+
+| **Operation**                              | **Time Complexity** |
+| ------------------------------------------ | ------------------- |
+| Open a book to page number 50 (known page) | **O(1)**            |
+| Find a person in an unsorted contact list  | **O(n)**            |
+| `HashMap.get()` (average case)             | **O(1)**            |
+| Iterate through an `ArrayList`             | **O(n)**            |
+
+**Code Example**
+
+```java id="g6j6jm"
+import java.util.HashMap;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        // O(1)
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "Java");
+        System.out.println(map.get(1));
+
+        // O(n)
+        int[] numbers = {10, 20, 30, 40};
+        for (int n : numbers) {
+            System.out.println(n);
+        }
+    }
+}
+```
+
+**Key Features**
+
+* **`O(1)`**
+
+  * Constant execution time.
+  * Does not depend on input size.
+  * Best possible time complexity for most operations.
+
+* **`O(n)`**
+
+  * Execution time grows linearly with input size.
+  * Common in loops and linear searches.
+  * Performance decreases as data size increases.
+
+**Easy Way to Remember**
+
+* **`O(1)` = One Step, No Matter How Much Data**
+* **`O(n)` = One Step Per Element**
+* **Fast Lookup → `O(1)`**
+* **Full Traversal → `O(n)`**
+
 
 
 
