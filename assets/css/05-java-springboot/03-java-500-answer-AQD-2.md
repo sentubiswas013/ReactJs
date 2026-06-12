@@ -14461,11 +14461,57 @@ public class Test {
 
 ## 1. What is Spring Framework?
 
-**Spring Framework** is a **comprehensive Java framework** for building enterprise applications.
+**Work?**
 
-It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
+**Spring Framework** is an **open-source Java framework** used to build **enterprise-level applications**. It provides a comprehensive infrastructure for developing **loosely coupled, modular, scalable, and maintainable** applications by using concepts like **IoC (Inversion of Control)** and **Dependency Injection (DI)**.
 
-Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
+In simple words, **Spring manages the creation and wiring of objects, so developers can focus on business logic instead of infrastructure code.**
+
+**Why do we use Spring Framework?**
+
+Traditional Java applications require developers to manually create and manage object dependencies, which leads to **tight coupling** and difficult maintenance. **Spring automates object creation and dependency management**, making applications easier to develop, test, and scale.
+
+**Key Features**
+
+* **IoC (Inversion of Control)** and **Dependency Injection (DI)**.
+* Promotes **Loose Coupling** between components.
+* Built-in support for **AOP (Aspect-Oriented Programming)**.
+* Simplifies **database access** with **Spring Data** and JDBC support.
+* Integrates easily with **Hibernate**, **JPA**, and other frameworks.
+* Provides modules for **Security**, **Web MVC**, **Microservices**, and **Reactive Programming**.
+* Supports **transaction management** and **testing**.
+
+**How It Works**
+
+1. The application starts and loads the **Spring Container**.
+2. The container scans classes marked with annotations like `@Component`, `@Service`, `@Repository`, and `@Controller`.
+3. Spring creates and manages these objects as **Beans**.
+4. Dependencies are automatically injected using **Dependency Injection**.
+5. The application uses these managed beans to execute business logic.
+
+**Core Modules of Spring Framework**
+
+| **Module**             | **Purpose**                                              |
+| ---------------------- | -------------------------------------------------------- |
+| **Spring Core**        | Provides IoC and Dependency Injection                    |
+| **Spring AOP**         | Handles cross-cutting concerns like logging and security |
+| **Spring MVC**         | Builds web applications and REST APIs                    |
+| **Spring Data**        | Simplifies database operations                           |
+| **Spring Security**    | Provides authentication and authorization                |
+| **Spring Transaction** | Manages database transactions                            |
+| **Spring Test**        | Supports unit and integration testing                    |
+
+**When to Use Spring Framework?**
+
+Use Spring Framework when:
+
+* Building **enterprise Java applications**.
+* Developing **REST APIs** or **web applications**.
+* Creating **microservices** with Spring Boot and Spring Cloud.
+* Building applications that require **security**, **database access**, and **transaction management**.
+* You want a **loosely coupled** and **testable** architecture.
+
+**Simple Example**
 
 ```java
 // pom.xml
@@ -14477,6 +14523,57 @@ Spring makes Java development easier by handling common tasks and promoting best
     </dependency>
 </dependencies>
 ```
+
+**Service Class**
+
+```java id="u4k8zp"
+@Service
+public class UserService {
+
+    public String getUser() {
+        return "John";
+    }
+}
+```
+
+**Controller Class**
+
+```java id="b2m5lx"
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/user")
+    public String getUser() {
+        return userService.getUser();
+    }
+}
+```
+
+In this example:
+
+* `@Service` tells Spring to create and manage the `UserService` bean.
+* `@Autowired` automatically injects the dependency into `UserController`.
+* The developer does not need to manually create the `UserService` object.
+
+**How Spring Framework Works Internally**
+
+1. The **Spring Container** starts when the application launches.
+2. It scans the classpath for Spring annotations.
+3. It creates **Bean Definitions** and stores them in the **ApplicationContext**.
+4. Dependencies are resolved and injected automatically using **IoC** and **DI**.
+5. Additional features like **AOP**, **transactions**, and **security** are applied using **proxies** and interceptors.
+
+**Advantages of Spring Framework**
+
+* **Reduces boilerplate code**.
+* Encourages **loose coupling** and **modular design**.
+* Simplifies **testing** and maintenance.
+* Provides excellent integration with third-party frameworks.
+* Supports both **monolithic** and **microservices** architectures.
+
 
 ## 2. What are the features of Spring?
 
@@ -14499,25 +14596,217 @@ public class AppConfig {
 
 ## 3. What is Inversion of Control (IoC)?
 
-**Inversion of Control (IoC)** means the **control of object creation and dependency management is given to the framework instead of the developer**.
 
-Normally, we create objects using `new`.
-But in **IoC (like in Spring)**, the **framework creates the objects and gives them to our class**.
+**Inversion of Control (IoC)** is a design principle in which the **control of creating and managing objects is transferred from the application code to the Spring Container**. Instead of a class creating its own dependencies, **Spring creates the objects and injects the required dependencies automatically**.
 
-```java
-// Without IoC
-Service service = new Service();
+In simple words, **you don't create objects; Spring creates and manages them for you.**
 
-// With IoC (Spring)
-@Autowired
-Service service;
+**Why do we use IoC?**
+
+Without IoC, classes create their own dependent objects using the `new` keyword, leading to **tight coupling**. IoC promotes **loose coupling** by letting the Spring Container manage object creation and dependency management.
+
+**Key Features**
+
+* Transfers object creation and management to the **Spring Container**.
+* Promotes **Loose Coupling** between classes.
+* Improves **code reusability**, **maintainability**, and **testability**.
+* Works together with **Dependency Injection (DI)**.
+* Makes it easy to replace or mock dependencies during testing.
+
+**How It Works**
+
+1. The application starts and initializes the **Spring Container** (`ApplicationContext`).
+2. Spring scans classes annotated with `@Component`, `@Service`, `@Repository`, or `@Controller`.
+3. The container creates these classes as **Beans**.
+4. Required dependencies are automatically injected into the beans.
+5. The application uses these managed objects instead of creating them manually.
+
+**IoC vs Traditional Approach**
+
+| **Traditional Java**                    | **Using IoC (Spring)**           |
+| --------------------------------------- | -------------------------------- |
+| Application creates objects using `new` | Spring Container creates objects |
+| Tight coupling                          | Loose coupling                   |
+| Manual dependency management            | Automatic dependency management  |
+| Harder to test                          | Easier to test and maintain      |
+
+**When to Use IoC?**
+
+Use IoC when:
+
+* Building **Spring-based applications**.
+* You want **loosely coupled** components.
+* You need easier **unit testing** and **mocking**.
+* Developing **large enterprise** or **microservices** applications.
+* Managing multiple object dependencies efficiently.
+
+**Simple Example**
+
+**Without IoC**
+
+```java id="j8w3xp"
+public class UserService {
+    private UserRepository repository = new UserRepository();
+    public void saveUser() {
+        repository.save();
+    }
+}
 ```
+
+Here, `UserService` creates its own dependency, causing **tight coupling**.
+
+**With IoC (Spring)**
+
+```java id="n5v2km"
+@Repository
+public class UserRepository {
+    public void save() {
+        System.out.println("User saved");
+    }
+}
+```
+
+```java id="r4q7yb"
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository repository;
+
+    public void saveUser() {
+        repository.save();
+    }
+}
+```
+
+Here:
+
+* Spring creates both `UserRepository` and `UserService` objects.
+* `@Autowired` tells Spring to inject the required dependency automatically.
+* The developer does not use the `new` keyword.
+
+**How IoC Works Internally**
+
+1. The **Spring Container** reads the application configuration.
+2. It scans and identifies Spring-managed classes.
+3. It creates **Bean Definitions** and instantiates the objects.
+4. Dependencies are resolved and injected using **Dependency Injection**.
+5. The container manages the complete lifecycle of these beans.
+
+**Relationship Between IoC and DI**
+
+* **IoC** is the **principle** of giving control of object creation to the container.
+* **Dependency Injection (DI)** is the **mechanism** used by Spring to achieve IoC.
+
+**In short: IoC is the concept, and DI is the implementation.**
+
 
 ## 4. What is Dependency Injection?
 
-**Dependency Injection (DI)** is a design pattern where an object’s dependencies are provided by another object/container instead of the object creating them itself.
+**Dependency Injection (DI)** is a design pattern in which the **Spring Container automatically provides the required dependencies (objects) to a class instead of the class creating them itself**.
 
-👉 This makes code:  **Loosely coupled**,  **Easy to test**, **Easy to maintain**
+In simple words, **a class does not create its dependent objects using `new`; Spring injects them automatically.**
+
+**Why do we use Dependency Injection?**
+
+Without DI, classes create their own dependencies, leading to **tight coupling** and making the code difficult to test and maintain. DI promotes **loose coupling** by separating object creation from business logic.
+
+**Key Features**
+
+* Promotes **Loose Coupling** between classes.
+* Improves **code reusability** and **maintainability**.
+* Makes **unit testing** easier by allowing mock objects.
+* Reduces the use of the **`new` keyword**.
+* Implemented by the **Spring IoC Container**.
+
+**How It Works**
+
+1. The **Spring Container** starts and scans the application.
+2. It creates objects (called **Beans**) for classes annotated with `@Component`, `@Service`, `@Repository`, or `@Controller`.
+3. Spring identifies the required dependencies.
+4. The container automatically injects those dependencies into the target class.
+5. The application uses these fully initialized beans.
+
+**Types of Dependency Injection**
+
+| **Type**                  | **Description**                                                      |
+| ------------------------- | -------------------------------------------------------------------- |
+| **Constructor Injection** | Dependencies are injected through the constructor. **(Recommended)** |
+| **Setter Injection**      | Dependencies are injected using setter methods.                      |
+| **Field Injection**       | Dependencies are injected directly into fields using `@Autowired`.   |
+
+**When to Use Dependency Injection?**
+
+Use DI when:
+
+* Building **Spring or Spring Boot** applications.
+* You want **loosely coupled** and **modular** code.
+* You need easy **unit testing** and **mocking**.
+* Managing multiple service or repository dependencies.
+
+**Simple Example**
+
+**Repository Class**
+
+```java id="y7m4kp"
+@Repository
+public class UserRepository {
+
+    public void save() {
+        System.out.println("User saved");
+    }
+}
+```
+
+**Service Class Using Constructor Injection**
+
+```java id="w2n8xr"
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void saveUser() {
+        userRepository.save();
+    }
+}
+```
+
+In this example:
+
+* Spring creates the `UserRepository` bean.
+* Spring creates the `UserService` bean.
+* The `UserRepository` object is automatically **injected** into `UserService` through the constructor.
+* No need to manually create objects using the `new` keyword.
+
+**How Dependency Injection Works Internally**
+
+1. The **Spring IoC Container** scans the application for Spring-managed classes.
+2. It creates **Bean Definitions** and instantiates the required beans.
+3. When a bean depends on another bean, Spring resolves the dependency.
+4. The container injects the dependency using **constructor**, **setter**, or **field injection**.
+5. The fully initialized bean is stored in the **ApplicationContext** and used throughout the application.
+
+**Constructor Injection vs Setter Injection**
+
+| **Feature**             | **Constructor Injection** | **Setter Injection**           |
+| ----------------------- | ------------------------- | ------------------------------ |
+| **Dependency Required** | Yes                       | Optional                       |
+| **Immutability**        | Supported                 | Not Supported                  |
+| **Testing**             | Easier                    | Moderate                       |
+| **Recommended**         | ✅ Yes                     | Only for optional dependencies |
+
+**Relationship Between IoC and DI**
+
+* **IoC (Inversion of Control)** is the **design principle** where object creation is controlled by the Spring Container.
+* **DI (Dependency Injection)** is the **technique** used by Spring to implement IoC by injecting required dependencies automatically.
+
+**In short: IoC is the concept, and DI is the implementation.**
+
 
 **There are 3 main types of DI:**
 1. Constructor Injection – dependencies injected through constructor (recommended)
