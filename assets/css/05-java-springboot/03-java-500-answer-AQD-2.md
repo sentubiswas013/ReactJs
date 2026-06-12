@@ -5024,8 +5024,7 @@ try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
 
 # ✅ 07. Java Collections Framework
 
-## 0. What is Java Collections Framework?
-
+## 0. What is Java Collections?
 
 **Java Collections Framework (JCF)** is a set of **classes** and **interfaces** used to store, manage, and manipulate groups of objects dynamically.
 
@@ -5116,7 +5115,7 @@ Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs w
 ArrayList : add(), get(), set(), and remove() to manage your list of elements.
 LinkedList
 
-## 1. What is Java Collections and Their Best Use Cases?
+## 1. Java Collections and Their Best Use Cases?
 
 | Requirement                         | Best Collection     | Why                               | Mostly Used In                       |
 | ----------------------------------- | ------------------- | --------------------------------- | ------------------------------------ |
@@ -5148,15 +5147,107 @@ LinkedList
 
 ## 2. What is the difference between ArrayList and LinkedList?
 
-**ArrayList** uses a **dynamic array**, so it gives **fast random access (O(1))**, but **slow insertions/deletions in the middle** due to shifting.
 
-**LinkedList** uses a **doubly linked list**, so it has **slower access (O(n))**, but **faster insertions/deletions** since no shifting is required.
+**Definition**
+
+Both **`ArrayList`** and **`LinkedList`** are implementations of the **`List`** interface in the Java Collections Framework, but they use different internal data structures.
+
+* **`ArrayList`** uses a **dynamic array**.
+* **`LinkedList`** uses a **doubly linked list**.
 
 
-```java
-List<String> arrayList = new ArrayList<>(); // Fast access
-List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
+**Key Differences**
+
+| **Feature**                      | **ArrayList**           | **LinkedList**                        |
+| -------------------------------- | ----------------------- | ------------------------------------- |
+| **Internal Structure**           | Dynamic Array           | Doubly Linked List                    |
+| **Access by Index (`get`)**      | **Fast - O(1)**         | **Slow - O(n)**                       |
+| **Insertion/Deletion at End**    | Fast - O(1) (amortized) | Fast - O(1)                           |
+| **Insertion/Deletion in Middle** | Slow - O(n)             | Faster - O(1) after reaching the node |
+| **Memory Usage**                 | Less memory             | More memory (extra pointers)          |
+| **Implements**                   | `List`                  | `List` and `Deque`                    |
+| **Best For**                     | Frequent reading        | Frequent insertion/deletion           |
+
+**How It Works**
+
+* **`ArrayList`**
+
+  * Stores elements in a **contiguous array**.
+  * If the array becomes full, it automatically creates a larger array and copies existing elements.
+
+* **`LinkedList`**
+
+  * Stores each element in a **node**.
+  * Each node contains the **data**, a **reference to the next node**, and a **reference to the previous node**.
+
+**Why to Use**
+
+* Use **`ArrayList`** when your application performs **frequent reads or searches**.
+* Use **`LinkedList`** when your application performs **frequent insertions or deletions**, especially at the beginning or middle of the list.
+
+**When to Use**
+
+| **Scenario**                     | **Best Choice** |
+| -------------------------------- | --------------- |
+| Frequent element access by index | **ArrayList**   |
+| Frequent insertion/deletion      | **LinkedList**  |
+| Large number of read operations  | **ArrayList**   |
+| Queue or Deque implementation    | **LinkedList**  |
+
+**Code Example**
+
+```java id="n5r7uk"
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        List<String> arrayList = new ArrayList<>();
+        arrayList.add("Java");
+        arrayList.add("Spring");
+
+        List<String> linkedList = new LinkedList<>();
+        linkedList.add("Java");
+        linkedList.add("Spring");
+
+        System.out.println(arrayList.get(1));   // Fast access
+        System.out.println(linkedList.get(1));  // Slower access
+    }
+}
 ```
+
+**Performance Comparison**
+
+| **Operation**                         | **ArrayList**    | **LinkedList**       |
+| ------------------------------------- | ---------------- | -------------------- |
+| **Add at End**                        | O(1) (amortized) | O(1)                 |
+| **Add/Delete at Beginning or Middle** | O(n)             | O(1) after traversal |
+| **Get by Index**                      | O(1)             | O(n)                 |
+| **Search**                            | O(n)             | O(n)                 |
+
+**Key Features**
+
+* **`ArrayList`**
+
+  * Fast random access.
+  * Better cache locality.
+  * Lower memory overhead.
+
+* **`LinkedList`**
+
+  * Efficient insertion and deletion.
+  * Can act as both a **List** and a **Queue/Deque**.
+  * No need to resize an internal array.
+
+**Easy Way to Remember**
+
+* **`ArrayList` = Dynamic Array + Fast Read**
+* **`LinkedList` = Nodes + Fast Insert/Delete**
+* **Read More → `ArrayList`**
+* **Modify More → `LinkedList`**
+
 
 ## 3. What is the difference between HashMap and TreeMap?
 
