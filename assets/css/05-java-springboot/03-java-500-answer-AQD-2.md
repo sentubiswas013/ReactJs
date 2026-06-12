@@ -16,12 +16,86 @@ Java compiles to bytecode that runs on the Java Virtual Machine, making it porta
 
 ## 2. Explain the difference between JDK, JRE, and JVM.
 
-**JVM (Java Virtual Machine)** is the runtime environment that executes Java bytecode on any platform. It’s responsible for **memory management, garbage collection, and execution**.
+These are the three main components of the Java platform:
 
-**JRE (Java Runtime Environment)** includes the **JVM plus core libraries and classes** needed to run Java applications. It doesn’t have tools for development.
+* **JVM (Java Virtual Machine)**: Executes Java **bytecode** and provides platform independence.
+* **JRE (Java Runtime Environment)**: Contains the **JVM + libraries** required to **run** Java applications.
+* **JDK (Java Development Kit)**: Contains the **JRE + development tools** required to **develop, compile, and run** Java applications.
 
-**JDK (Java Development Kit)** includes **JRE plus development tools** like `javac` and `jar` for compiling and building Java programs.
+**Simple Interview Answer**
 
+> **JDK is used to develop Java applications, JRE is used to run them, and JVM is the engine that actually executes the Java bytecode. In short, JDK = JRE + development tools, and JRE = JVM + libraries.**
+
+**Relationship**
+
+```text
+JDK
+ ├── JRE
+ │    ├── JVM
+ │    └── Java Class Libraries
+ └── Development Tools (javac, java, javadoc, jar, etc.)
+```
+
+**Key Features**
+
+| **Component** | **Purpose**                      | **Contains**                                                     | **Used By**           |
+| ------------- | -------------------------------- | ---------------------------------------------------------------- | --------------------- |
+| **JVM**       | Executes bytecode                | Class Loader, Memory Management, Garbage Collector, JIT Compiler | Running Java programs |
+| **JRE**       | Provides runtime environment     | JVM + Java libraries                                             | End users             |
+| **JDK**       | Provides development environment | JRE + Compiler + Development tools                               | Java developers       |
+
+**How It Works**
+
+1. Developer writes Java code (`.java` file).
+2. **JDK** uses the **`javac` compiler** to convert it into **bytecode** (`.class` file).
+3. **JRE** provides the runtime environment to start the application.
+4. **JVM** loads the bytecode, converts it into **machine code** using the **JIT (Just-In-Time) Compiler**, and executes it.
+
+**Why to Use**
+
+* **JVM**: Enables **"Write Once, Run Anywhere (WORA)"** by running the same bytecode on any operating system.
+* **JRE**: Allows users to execute Java applications without needing development tools.
+* **JDK**: Provides everything needed for Java application development.
+
+**When to Use**
+
+* Use **JDK** when you are **developing or compiling** Java applications.
+* Use **JRE** when you only need to **run** Java applications.
+* **JVM** works internally whenever a Java program is executed.
+
+**Common JDK Tools**
+
+| **Tool**      | **Purpose**                                |
+| ------------- | ------------------------------------------ |
+| **`javac`**   | Compiles `.java` files into `.class` files |
+| **`java`**    | Launches and runs Java applications        |
+| **`jar`**     | Creates and manages JAR files              |
+| **`javadoc`** | Generates API documentation                |
+| **`jdb`**     | Java debugger                              |
+
+**Code Example**
+
+```java
+// HelloWorld.java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}
+```
+
+**Compilation and Execution**
+
+```bash
+javac HelloWorld.java   // JDK compiler creates HelloWorld.class
+java HelloWorld         // JRE starts JVM, JVM executes bytecode
+```
+
+**Easy Way to Remember**
+
+* **JDK = Develop + Run**
+* **JRE = Run Only**
+* **JVM = Execute Bytecode**
 
 ```
 JDK = JRE + Development Tools (javac, javadoc, jar, etc.)
