@@ -19863,8 +19863,6 @@ resilience4j:
 
 ## 13: What is resilience4j pattern?
 
-
-
 **Resilience4j** is a **lightweight fault-tolerance library** used in Java and **Spring Boot** applications. It helps make **Microservices** more reliable by handling failures gracefully using patterns like **Circuit Breaker**, **Retry**, **Rate Limiter**, **Bulkhead**, and **Time Limiter**.
 
 **Key Features**
