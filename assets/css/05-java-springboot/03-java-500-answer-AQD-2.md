@@ -6325,74 +6325,262 @@ class TTLCache {
 
 ## 10. Difference between ConcurrentHashMap and HashMap, and when to use what?
 
-| Feature              | HashMap                        | ConcurrentHashMap                        |
-|----------------------|--------------------------------|------------------------------------------|
-| Thread Safety        | Not thread-safe                | Thread-safe                              |
-| Null keys/values     | Allows one null key, null values | Does NOT allow null key or null value  |
-| Performance          | Faster in single-threaded      | Slightly slower due to locking           |
-| Locking mechanism    | None                           | Segment-level / bucket-level locking     |
-| Fail behavior        | Throws ConcurrentModificationException | Does not throw it               |
 
-**When to use:**
-- Use `HashMap` in single-threaded or read-only scenarios.
-- Use `ConcurrentHashMap` in multi-threaded environments where multiple threads read/write simultaneously (e.g., caches, shared state).
+**Definition**
+
+Both **`HashMap`** and **`ConcurrentHashMap`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ mainly in **thread safety** and **concurrent access handling**.
+
+* **`HashMap`** is **not thread-safe**.
+* **`ConcurrentHashMap`** is **thread-safe** and designed for **multi-threaded environments**.
 
 
-## 12. Difference between List and Set? 
+**Key Differences**
 
+| **Feature**           | **HashMap**                            | **ConcurrentHashMap**                                                |
+| --------------------- | -------------------------------------- | -------------------------------------------------------------------- |
+| **Thread Safety**     | Not thread-safe                        | Thread-safe                                                          |
+| **Synchronization**   | No synchronization                     | Fine-grained synchronization and CAS (Compare-And-Swap)              |
+| **Performance**       | Faster in single-threaded applications | High performance in multi-threaded applications                      |
+| **Multiple Threads**  | May cause data inconsistency           | Safe for concurrent access                                           |
+| **Null Key**          | Allows one `null` key                  | Does **not** allow `null` keys                                       |
+| **Null Values**       | Allows multiple `null` values          | Does **not** allow `null` values                                     |
+| **Iterator Behavior** | Fail-fast                              | Weakly consistent (does not throw `ConcurrentModificationException`) |
+| **Best Use Case**     | Single-threaded applications           | Multi-threaded applications                                          |
 
-The main difference is that a **List allows duplicate elements and maintains insertion order**, whereas a **Set does not allow duplicates and typically stores only unique elements**.
+**How It Works**
 
-We use a List when duplicates are allowed and order matters. We use a Set when uniqueness is required.
+* **`HashMap`**
 
+  * Uses a **hash table** internally.
+  * Multiple threads modifying the map simultaneously can lead to **data corruption** or inconsistent results.
 
-**List Example**
+* **`ConcurrentHashMap`**
+
+  * Also uses a **hash table**, but supports concurrent access.
+  * In **Java 8+**, it uses **CAS (Compare-And-Swap)** and **bucket-level locking** instead of locking the entire map.
+  * Multiple threads can read and update different buckets simultaneously.
+
+**Why to Use**
+
+* Use **`HashMap`** when thread safety is not required and maximum performance is needed.
+* Use **`ConcurrentHashMap`** when multiple threads need to access and modify the map safely.
+
+**When to Use**
+
+| **Scenario**                  | **Best Choice**       |
+| ----------------------------- | --------------------- |
+| Single-threaded application   | **HashMap**           |
+| Multi-threaded application    | **ConcurrentHashMap** |
+| Shared cache between threads  | **ConcurrentHashMap** |
+| High-speed local data storage | **HashMap**           |
+
+**Code Example**
+
+**Using `HashMap`**
 
 ```java
-List<String> list = new ArrayList<>();
+import java.util.HashMap;
 
-list.add("Java");
-list.add("Spring");
-list.add("Java");
+HashMap<Integer, String> map = new HashMap<>();
+map.put(1, "Java");
+map.put(2, "Spring");
 
-System.out.println(list);
+System.out.println(map.get(1));
 ```
 
-**Output:**
-
-```text
-[Java, Spring, Java]
-```
-
-Duplicates are allowed.
-
-
-**Set Example**
+**Using `ConcurrentHashMap`**
 
 ```java
-Set<String> set = new HashSet<>();
+import java.util.concurrent.ConcurrentHashMap;
 
-set.add("Java");
-set.add("Spring");
-set.add("Java");
+ConcurrentHashMap<Integer, String> map =
+        new ConcurrentHashMap<>();
 
-System.out.println(set);
+map.put(1, "Java");
+map.put(2, "Spring");
+
+System.out.println(map.get(1));
 ```
 
-**Output:**
+**Iterator Behavior**
 
-```text
-[Java, Spring]
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+ConcurrentHashMap<Integer, String> map =
+        new ConcurrentHashMap<>();
+
+map.put(1, "A");
+map.put(2, "B");
+
+for (Integer key : map.keySet()) {
+    map.put(3, "C");   // No ConcurrentModificationException
+}
 ```
 
-Duplicate value is ignored.
+A **`HashMap`** iterator is **fail-fast** and throws **`ConcurrentModificationException`** if the map is modified during iteration. A **`ConcurrentHashMap`** iterator is **weakly consistent** and safely reflects some or all updates.
 
-| List                           | Set                                      |
-| ------------------------------ | ---------------------------------------- |
-| Allows duplicates              | No duplicates                            |
-| Maintains insertion order      | Unique elements only                     |
-| Supports index-based access    | No index-based access                    |
-| Example: ArrayList, LinkedList | Example: HashSet, LinkedHashSet, TreeSet |
+**Key Features**
+
+* **`HashMap`**
+
+  * Fast and lightweight.
+  * Allows one `null` key and multiple `null` values.
+  * Best for non-concurrent environments.
+
+* **`ConcurrentHashMap`**
+
+  * Thread-safe with high concurrency.
+  * Uses **CAS** and **fine-grained locking**.
+  * Does not allow `null` keys or values.
+  * Suitable for shared data in multi-threaded applications.
+
+**Easy Way to Remember**
+
+* **`HashMap` = Fast + Not Thread-Safe + Allows `null`**
+* **`ConcurrentHashMap` = Thread-Safe + Concurrent Access + No `null`**
+* **Single Thread → `HashMap`**
+* **Multiple Threads → `ConcurrentHashMap`**
+
+
+## 12. Difference between `List`, `Set`, `Map`, and `Queue`? 
+
+**Definition**
+
+**`List`**, **`Set`**, **`Map`**, and **`Queue`** are the main interfaces in the **Java Collections Framework** used to store and manage data in different ways.
+
+* **`List`** stores an **ordered collection** of elements.
+* **`Set`** stores **unique elements** without duplicates.
+* **`Map`** stores data as **key-value pairs**.
+* **`Queue`** stores elements for **processing in a specific order** (typically FIFO).
+
+
+**Key Differences**
+
+| **Feature**            | **List**              | **Set**                   | **Map**                                               | **Queue**                      |
+| ---------------------- | --------------------- | ------------------------- | ----------------------------------------------------- | ------------------------------ |
+| **Stores**             | Elements              | Unique Elements           | Key-Value Pairs                                       | Elements                       |
+| **Duplicates Allowed** | Yes                   | No                        | Duplicate keys: No, Duplicate values: Yes             | Yes                            |
+| **Maintains Order**    | Yes (insertion order) | Depends on implementation | Depends on implementation                             | Yes (FIFO by default)          |
+| **Access by Index**    | Yes                   | No                        | Access by Key                                         | No                             |
+| **Null Allowed**       | Yes                   | Usually one `null`        | One `null` key (`HashMap`) and multiple `null` values | Depends on implementation      |
+| **Main Use**           | Ordered collection    | Unique collection         | Fast key-value lookup                                 | Task scheduling and processing |
+
+**How It Works**
+
+* **`List`**
+
+  * Stores elements sequentially.
+  * Allows duplicate values and index-based access.
+
+* **`Set`**
+
+  * Automatically prevents duplicate elements.
+  * Uses hashing or sorting depending on the implementation.
+
+* **`Map`**
+
+  * Stores each value with a unique key.
+  * Retrieves data quickly using the key.
+
+* **`Queue`**
+
+  * Follows the **FIFO (First In, First Out)** principle by default.
+  * Elements are added at the rear and removed from the front.
+
+**Popular Implementations**
+
+| **Interface** | **Common Implementations**                                 |
+| ------------- | ---------------------------------------------------------- |
+| **`List`**    | `ArrayList`, `LinkedList`, `Vector`                        |
+| **`Set`**     | `HashSet`, `LinkedHashSet`, `TreeSet`                      |
+| **`Map`**     | `HashMap`, `LinkedHashMap`, `TreeMap`, `ConcurrentHashMap` |
+| **`Queue`**   | `LinkedList`, `PriorityQueue`, `ArrayDeque`                |
+
+**Why to Use**
+
+* Use **`List`** when order and duplicates matter.
+* Use **`Set`** when uniqueness is required.
+* Use **`Map`** when data should be stored and retrieved using a key.
+* Use **`Queue`** for scheduling, buffering, or task processing.
+
+**When to Use**
+
+| **Scenario**                         | **Best Choice** |
+| ------------------------------------ | --------------- |
+| Store student names with duplicates  | **List**        |
+| Store unique email IDs               | **Set**         |
+| Store employee ID and employee name  | **Map**         |
+| Process print jobs or tasks in order | **Queue**       |
+
+**Code Example**
+
+```java id="xg4h9m"
+import java.util.*;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        // List
+        List<String> list = new ArrayList<>();
+        list.add("Java");
+        list.add("Java");
+
+        // Set
+        Set<String> set = new HashSet<>();
+        set.add("Java");
+        set.add("Java");
+
+        // Map
+        Map<Integer, String> map = new HashMap<>();
+        map.put(101, "Alice");
+        map.put(102, "Bob");
+
+        // Queue
+        Queue<String> queue = new LinkedList<>();
+        queue.offer("Task1");
+        queue.offer("Task2");
+
+        System.out.println(list);         // [Java, Java]
+        System.out.println(set);          // [Java]
+        System.out.println(map);          // {101=Alice, 102=Bob}
+        System.out.println(queue.poll()); // Task1
+    }
+}
+```
+
+**Key Features**
+
+* **`List`**
+
+  * Ordered collection.
+  * Allows duplicates.
+  * Supports index-based access.
+
+* **`Set`**
+
+  * Stores only unique elements.
+  * No duplicate values.
+  * Fast search using hashing.
+
+* **`Map`**
+
+  * Stores **key-value pairs**.
+  * Keys must be unique.
+  * Fast retrieval using keys.
+
+* **`Queue`**
+
+  * Follows **FIFO** order by default.
+  * Ideal for task scheduling and message processing.
+  * `PriorityQueue` processes elements based on priority instead of insertion order.
+
+**Easy Way to Remember**
+
+* **`List` = Ordered + Duplicates Allowed**
+* **`Set` = Unique Elements Only**
+* **`Map` = Key + Value**
+* **`Queue` = FIFO Processing**
 
 
 ## 13. Difference between List and Array? 
