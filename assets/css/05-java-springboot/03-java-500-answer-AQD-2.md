@@ -14654,22 +14654,30 @@ public enum EnumSingleton {
 
 ## 4. What is Factory pattern?
 
-**Factory Pattern** is a creational design pattern used to: Create objects without exposing object creation logic to the client.
+The **Factory Pattern** is a **Creational Design Pattern** that provides a **centralized way to create objects** without exposing the object creation logic to the client. Instead of using `new` directly, the client asks the **factory** to create the required object.
 
-Instead of creating objects directly using **new**, the client asks the factory to create the required object.
+**Key Features:**
 
-**Advantages**
-- Loose coupling
-- Hides object creation logic
-- Easy maintenance
-- Easy to extend
+* Encapsulates **object creation logic**.
+* Promotes **loose coupling** between client and implementation classes.
+* Makes code **easier to extend and maintain**.
+* Follows the **Open/Closed Principle (OCP)**.
 
-👉 Real use:
-- Payment systems
-- Notification services
-- Logger creation
-- Database drivers
-- Spring BeanFactory
+**How it Works:**
+
+1. Create a **common interface** or abstract class.
+2. Create multiple classes that implement the interface.
+3. Create a **Factory class** that decides which object to create based on input.
+4. The client requests an object from the factory instead of creating it directly.
+
+**When to Use:**
+
+* When the exact type of object is determined **at runtime**.
+* When object creation logic is **complex**.
+* When you want to reduce **tight coupling** between classes.
+* Commonly used in **Spring**, **Hibernate**, and **JDBC DriverManager**.
+
+**Code Example:**
 
 ```java
 enum PaymentType {
@@ -14719,376 +14727,442 @@ class FactoryPatternDemo {
 }
 ```
 
+**Advantages:**
+
+* Hides **object creation details**.
+* Improves **code flexibility** and **reusability**.
+* Makes it easier to add new implementations without changing client code.
+
+
 ## 5. What is Observer pattern?
 
-**Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
+### **Observer Pattern**
 
-👉 Real use:
-- YouTube Notifications
-- News Channel System, 
-- Stock Market Apps
-- Kafka / RabbitMQ Consumers
+The **Observer Pattern** is a **Behavioral Design Pattern** in which **one object (Subject)** automatically **notifies multiple dependent objects (Observers)** whenever its state changes. It establishes a **one-to-many relationship** between objects.
 
+**Key Features:**
 
-```java
-// Step 1: Observer Interface
+* Supports **one-to-many communication**.
+* Promotes **loose coupling** between the subject and observers.
+* Observers are **automatically updated** when the subject changes.
+* Easy to **add or remove observers** without changing the subject.
+
+**How it Works:**
+
+1. A **Subject** maintains a list of registered **Observers**.
+2. Observers **subscribe** to the subject.
+3. When the subject's state changes, it calls the **`update()`** method on all observers.
+4. Each observer performs its own action based on the notification.
+
+**When to Use:**
+
+* **Event-driven systems**.
+* **Notification services** (Email, SMS, Push Notifications).
+* **Stock price** or **weather update** applications.
+* Commonly used in **Spring Event Listeners** and **GUI frameworks**.
+
+**Code Example:**
+
+```java id="n4v8kp"
 interface Observer {
     void update(String message);
 }
 
-// Step 2: Concrete Observer
-class NewsChannel implements Observer {
-    private String name;
-
-    public NewsChannel(String name) {
-        this.name = name;
-    }
-
-    public void update(String news) {
-        System.out.println(name + " received: " + news);
+class EmailObserver implements Observer {
+    public void update(String message) {
+        System.out.println("Email received: " + message);
     }
 }
 
-// Step 3: Subject
-class NewsAgency {
+class Subject {
     private List<Observer> observers = new ArrayList<>();
-    private String news;
 
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
 
-    public void setNews(String news) {
-        this.news = news;
-        notifyObservers();
-    }
-
-    private void notifyObservers() {
-        observers.forEach(observer -> observer.update(news));
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.update(message);
+        }
     }
 }
-
-// Step 4: Main Class
-class ObserverPatternExp {
-    public static void main(String[] args) {
-
-        NewsAgency agency = new NewsAgency();
-
-        // Create observers
-        Observer channel1 = new NewsChannel("CNN");
-        Observer channel2 = new NewsChannel("BBC");
-
-        // Register observers
-        agency.addObserver(channel1);
-        agency.addObserver(channel2);
-
-        // Publish news
-        agency.setNews("Java is awesome!");
-        agency.setNews("Observer pattern in action!");
-    }
-}
-
-// Output
-CNN received: Java is awesome!
-BBC received: Java is awesome!
-CNN received: Observer pattern in action!
-BBC received: Observer pattern in action!
 ```
+
+**Using the Observer Pattern:**
+
+```java id="m7q2tx"
+public class Main {
+    public static void main(String[] args) {
+        Subject subject = new Subject();
+        subject.addObserver(new EmailObserver());
+
+        subject.notifyObservers("Order Placed Successfully!");
+    }
+}
+```
+
+**Advantages:**
+
+* Reduces **tight coupling** between objects.
+* Makes the system **flexible** and **extensible**.
+* Supports **event-based communication**.
+
 
 ## 6. What is Strategy pattern?
 
-**Strategy pattern** (Behavioral Design Patterns) defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+### **Strategy Pattern**
 
-Use Case: 
+The **Strategy Pattern** is a **Behavioral Design Pattern** that defines a **family of algorithms**, encapsulates each one in a separate class, and allows them to be **interchanged at runtime** without changing the client code.
 
-```java
-// Strategy Interface
-interface NotificationStrategy {
-    void send(String message);
+**Key Features:**
+
+* Encapsulates **different algorithms** in separate classes.
+* Allows changing the **behavior at runtime**.
+* Promotes **loose coupling**.
+* Follows the **Open/Closed Principle (OCP)** by allowing new strategies without modifying existing code.
+
+**How it Works:**
+
+1. Define a common **Strategy interface**.
+2. Create multiple classes implementing the interface, each with a different algorithm.
+3. The **Context** class holds a reference to a strategy.
+4. At runtime, the client selects the required strategy, and the context delegates the work to it.
+
+**When to Use:**
+
+* When there are **multiple ways to perform the same task**.
+* To avoid large **`if-else`** or **`switch`** statements.
+* When the algorithm needs to be **changed dynamically**.
+* Commonly used for **payment methods**, **sorting algorithms**, and **discount calculations**.
+
+**Code Example:**
+
+```java id="g8n4tx"
+interface PaymentStrategy {
+    void pay(int amount);
 }
 
-// Concrete Strategy 1
-class EmailNotification implements NotificationStrategy {
-    @Override
-    public void send(String message) {
-        System.out.println("Sending EMAIL: " + message);
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using Credit Card");
     }
 }
 
-// Concrete Strategy 2
-class SMSNotification implements NotificationStrategy {
-    @Override
-    public void send(String message) {
-        System.out.println("Sending SMS: " + message);
+class UpiPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using UPI");
     }
 }
 
-// Concrete Strategy 3
-class PushNotification implements NotificationStrategy {
-    @Override
-    public void send(String message) {
-        System.out.println("Sending PUSH Notification: " + message);
-    }
-}
+class PaymentService {
+    private PaymentStrategy strategy;
 
-// Context Class
-class NotificationService {
-    private NotificationStrategy strategy;
-
-    // Set strategy dynamically
-    public void setStrategy(NotificationStrategy strategy) {
+    public PaymentService(PaymentStrategy strategy) {
         this.strategy = strategy;
     }
 
-    // Execute selected strategy
-    public void notifyUser(String message) {
-        strategy.send(message);
+    public void processPayment(int amount) {
+        strategy.pay(amount);
     }
 }
 ```
+
+**Using the Strategy Pattern:**
+
+```java id="d5k9mp"
+public class Main {
+    public static void main(String[] args) {
+        PaymentService service = new PaymentService(new UpiPayment());
+        service.processPayment(1000);
+    }
+}
+```
+
+**Advantages:**
+
+* Eliminates complex **conditional logic**.
+* Makes code **easy to extend and maintain**.
+* Allows **runtime selection** of algorithms.
+
+
 
 ## 7. What is Adapter pattern?
 
-**Adapter pattern** allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+The **Adapter Pattern** is a **Structural Design Pattern** that allows **two incompatible interfaces** to work together by acting as a **bridge** between them. It converts the interface of one class into another interface that the client expects.
 
-```java
-// Target interface (what client expects)
-interface MediaPlayer {
-    void play(String audioType, String fileName);
+**Key Features:**
+
+* Connects **incompatible classes** without modifying their code.
+* Promotes **code reusability**.
+* Provides **loose coupling** between client and implementation.
+* Also known as a **Wrapper Pattern**.
+
+**How it Works:**
+
+1. The client expects a specific interface.
+2. An existing class has a different, incompatible interface.
+3. The **Adapter** implements the expected interface and internally calls the existing class.
+4. The client interacts with the adapter without knowing about the incompatible class.
+
+**When to Use:**
+
+* When integrating **third-party libraries** or **legacy systems**.
+* When existing classes cannot be modified.
+* To make incompatible interfaces work together.
+* Commonly used in **Spring**, where adapters convert one API format into another.
+
+**Code Example:**
+
+```java id="w8n4kp"
+interface Charger {
+    void charge();
 }
 
-// Adaptee (existing incompatible interface)
-class AdvancedMediaPlayer {
-    public void playVlc(String fileName) {
-        System.out.println("Playing vlc file: " + fileName);
-    }
-
-    public void playMp4(String fileName) {
-        System.out.println("Playing mp4 file: " + fileName);
+class MicroUsbCharger {
+    public void microUsbCharge() {
+        System.out.println("Charging with Micro USB");
     }
 }
 
-// Adapter
-class MediaAdapter implements MediaPlayer {
-    private AdvancedMediaPlayer advancedPlayer;
-
-    public MediaAdapter(String audioType) {
-        advancedPlayer = new AdvancedMediaPlayer();
-    }
+class ChargerAdapter implements Charger {
+    private MicroUsbCharger charger = new MicroUsbCharger();
 
     @Override
-    public void play(String audioType, String fileName) {
-        if (audioType.equalsIgnoreCase("vlc")) {
-            advancedPlayer.playVlc(fileName);
-
-        } else if (audioType.equalsIgnoreCase("mp4")) {
-            advancedPlayer.playMp4(fileName);
-
-        } else {
-            System.out.println("Invalid media type");
-        }
+    public void charge() {
+        charger.microUsbCharge();
     }
 }
-
-// Main class
-class AdapterPatternDemo {
-    public static void main(String[] args) {
-        MediaPlayer vlcPlayer = new MediaAdapter("vlc");
-        vlcPlayer.play("vlc", "movie.vlc");
-
-        MediaPlayer mp4Player = new MediaAdapter("mp4");
-        mp4Player.play("mp4", "video.mp4");
-    }
-}
-// Output::
-// Playing vlc file: movie.vlc
-// Playing mp4 file: video.mp4
 ```
+
+**Using the Adapter:**
+
+```java id="t3m7qx"
+public class Main {
+    public static void main(String[] args) {
+        Charger charger = new ChargerAdapter();
+        charger.charge();
+    }
+}
+```
+
+**Advantages:**
+
+* Reuses existing code without modification.
+* Improves **flexibility** and **maintainability**.
+* Simplifies integration with **legacy or external systems**.
+
 
 ## 8. What is Decorator pattern?
 
-**Decorator pattern** allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
+The **Decorator Pattern** is a **Structural Design Pattern** that allows you to **add new functionality to an object dynamically** without changing its existing code. It works by **wrapping** the original object inside a decorator object.
 
-When to use:
-* Adding features to objects at runtime
+**Key Features:**
 
-```java
-// Component interface
+* Adds **new behavior** without modifying the original class.
+* Uses **composition over inheritance**.
+* Promotes **flexibility** and **code reusability**.
+* Follows the **Open/Closed Principle (OCP)**.
+
+**How it Works:**
+
+1. Define a common **interface**.
+2. Create a **base implementation** of that interface.
+3. Create a **Decorator** class that also implements the interface and holds a reference to the original object.
+4. The decorator adds extra behavior before or after delegating the call to the wrapped object.
+
+**When to Use:**
+
+* When you need to **add features dynamically** at runtime.
+* When using inheritance would create too many subclasses.
+* For adding **logging**, **security**, **compression**, or **caching** functionality.
+* Commonly used in Java I/O classes like **`BufferedReader`** and **`BufferedInputStream`**.
+
+**Code Example:**
+
+```java id="x7m4kp"
 interface Coffee {
     String getDescription();
-    double getCost();
 }
 
-// Concrete component
 class SimpleCoffee implements Coffee {
-    public String getDescription() { return "Simple coffee"; }
-    public double getCost() { return 2.0; }
+    public String getDescription() {
+        return "Simple Coffee";
+    }
 }
 
-// Base decorator
-abstract class CoffeeDecorator implements Coffee {
-    protected Coffee coffee;
-    
-    public CoffeeDecorator(Coffee coffee) {
+class MilkDecorator implements Coffee {
+    private Coffee coffee;
+
+    public MilkDecorator(Coffee coffee) {
         this.coffee = coffee;
     }
-}
 
-// Concrete decorators
-class MilkDecorator extends CoffeeDecorator {
-    public MilkDecorator(Coffee coffee) { super(coffee); }
-    
     public String getDescription() {
-        return coffee.getDescription() + ", milk";
-    }
-    
-    public double getCost() {
-        return coffee.getCost() + 0.5;
+        return coffee.getDescription() + " + Milk";
     }
 }
-
-class SugarDecorator extends CoffeeDecorator {
-    public SugarDecorator(Coffee coffee) { super(coffee); }
-    
-    public String getDescription() {
-        return coffee.getDescription() + ", sugar";
-    }
-    
-    public double getCost() {
-        return coffee.getCost() + 0.2;
-    }
-}
-
-// Usage
-Coffee coffee = new SimpleCoffee();
-coffee = new MilkDecorator(coffee);
-coffee = new SugarDecorator(coffee);
-// Result: "Simple coffee, milk, sugar" - $2.7
 ```
+
+**Using the Decorator:**
+
+```java id="n5q8tx"
+public class Main {
+    public static void main(String[] args) {
+        Coffee coffee = new MilkDecorator(new SimpleCoffee());
+        System.out.println(coffee.getDescription());
+    }
+}
+```
+
+**Advantages:**
+
+* Adds functionality **without changing existing code**.
+* Avoids creating many subclasses.
+* Makes the system **flexible** and **easy to extend**.
+
 
 ## 8. What is Builder pattern?
 
-Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
+The **Builder Pattern** is a **Creational Design Pattern** used to **construct complex objects step by step**. It is especially useful when an object has **many optional parameters** and you want to avoid multiple constructors.
 
-**Real time use case**
+**Key Features:**
 
-- API Request Objects, Complex DTO / Response Objects, Lombok @Builder, etc.
+* Builds objects **step by step**.
+* Handles **many optional fields** cleanly.
+* Creates **immutable objects** easily.
+* Improves **code readability** and **maintainability**.
+* Avoids the **Telescoping Constructor Problem** (too many constructor parameters).
 
-```java
-// ❌ Problem Without Builder
-// Employee e = new Employee(1, "Rahul", 25, "Bangalore", "Developer");
+**How it Works:**
 
-// 👉 Hard to read
-// 👉 Constructor becomes huge
+1. Create a **Builder** class inside or outside the target class.
+2. The builder contains methods to set each field.
+3. Each method returns the **Builder object** to allow **method chaining**.
+4. Call the **`build()`** method to create the final object.
 
-class Employee {
+**When to Use:**
 
-    private int id;
+* When a class has **many fields**, especially optional ones.
+* When constructors become too large or confusing.
+* When creating **immutable objects**.
+* Commonly used in **Spring**, **Lombok (`@Builder`)**, and Java libraries.
+
+**Code Example:**
+
+```java id="r8m4kp"
+public class User {
     private String name;
+    private int age;
 
-    // private constructor
-    private Employee(EmployeeBuilder builder) {
-        this.id = builder.id;
+    private User(Builder builder) {
         this.name = builder.name;
+        this.age = builder.age;
     }
 
-    public String display() {
-        return "Employee{id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    // Builder class
-    static class EmployeeBuilder {
-
-        private int id;
+    public static class Builder {
         private String name;
+        private int age;
 
-        public EmployeeBuilder setId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public EmployeeBuilder setName(String name) {
+        public Builder name(String name) {
             this.name = name;
             return this;
         }
 
-        public Employee build() {
-            return new Employee(this);
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
         }
     }
 }
+```
 
-// Main Class
-class BuilderPatternDemo {
+**Using the Builder:**
+
+```java id="w5q9tx"
+public class Main {
     public static void main(String[] args) {
-        Employee emp = new Employee.EmployeeBuilder()
-                .setId(1)
-                .setName("Rahul")
-                .build();
-
-        System.out.println(emp.display());
+        User user = new User.Builder()
+                        .name("Alice")
+                        .age(25)
+                        .build();
     }
 }
 ```
+
+**Advantages:**
+
+* Makes object creation **clear and readable**.
+* Eliminates constructors with too many parameters.
+* Supports **immutable object creation**.
+* Easy to extend with new optional fields.
+
 
 ## 8. What is Prototype pattern?
 
-**Prototype Pattern** is a **Creational Design Pattern** used to create **new objects by copying (cloning) an existing object**, instead of creating a new object from scratch.
+The **Prototype Pattern** is a **Creational Design Pattern** that creates new objects by **copying (cloning) an existing object** instead of creating a new one from scratch. It is useful when object creation is **expensive or complex**.
 
-This is useful when **object creation is costly** (e.g., DB call, API call, complex object creation).
+**Key Features:**
 
+* Creates objects by **cloning existing instances**.
+* Reduces the cost of **expensive object creation**.
+* Promotes **code reusability**.
+* Supports **shallow copy** and **deep copy**.
 
-**Real-Time Example**
+**How it Works:**
 
-* Employee object from database
-* Instead of loading from DB again → clone existing employee object
+1. A class implements the **`Cloneable`** interface.
+2. It overrides the **`clone()`** method.
+3. Instead of using `new`, the client calls `clone()` on an existing object.
+4. A new object is created as a copy of the original.
 
+**When to Use:**
 
-**Prototype Pattern Example in Java**
-```java
-class Student implements Cloneable {
-    int id;
+* When object creation is **time-consuming** or resource-intensive.
+* When you need **multiple similar objects** with slight modifications.
+* When creating objects from scratch is costly.
+* Commonly used in **caching**, **game development**, and **object templates**.
+
+**Code Example:**
+
+```java id="k4m8xp"
+class Employee implements Cloneable {
     String name;
 
-    Student(int id, String name) {
-        this.id = id;
+    Employee(String name) {
         this.name = name;
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-}
-
-public class Test {
-    public static void main(String[] args) throws Exception {
-        Student s1 = new Student(1, "John");
-        Student s2 = (Student) s1.clone();
-
-        System.out.println(s1.name);
-        System.out.println(s2.name);
+    @Override
+    public Employee clone() throws CloneNotSupportedException {
+        return (Employee) super.clone();
     }
 }
 ```
 
-**Where Used in Real Projects**
+**Using the Prototype Pattern:**
 
-* Spring Framework (Prototype Bean scope)
-* Hibernate (entity cloning)
-* Game development (duplicate characters)
-* Caching objects
-* Creating multiple similar objects
+```java id="v9q3tn"
+public class Main {
+    public static void main(String[] args) throws CloneNotSupportedException {
 
+        Employee emp1 = new Employee("Alice");
+        Employee emp2 = emp1.clone();
 
-**Difference between Shallow Copy vs Deep Copy**
+        System.out.println(emp2.name);
+    }
+}
+```
 
-| Shallow Copy        | Deep Copy             |
-| ------------------- | --------------------- |
-| Copies reference    | Copies actual object  |
-| Changes affect both | Changes do not affect |
-| `super.clone()`     | Manual clone          |
+**Advantages:**
+
+* Improves performance by avoiding repeated object creation.
+* Simplifies creating **similar objects**.
+* Reduces the need for complex constructors.
 
 
 
