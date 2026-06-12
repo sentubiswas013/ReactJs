@@ -8000,62 +8000,44 @@ public class DeadlockExample {
 
 ## 11. What is race condition and how to resolve it?
 
-A **race condition** happens when **multiple threads access and modify the same shared data at the same time**, and the final result depends on which thread runs first.
+A **Race Condition** occurs when **multiple threads** access and modify the **same shared resource** at the same time, and the final result depends on the **order of execution**. This can lead to **incorrect or inconsistent data**.
 
-Because threads run simultaneously, the output becomes **unpredictable**.
+**Key Features:**
 
+* Happens in **multithreaded** or **concurrent** applications.
+* Occurs when threads share **mutable data**.
+* Produces **unpredictable results**.
+* Common in **banking**, **inventory**, and **counter** operations.
 
-**Simple Example (Race Condition)**
+**How it Works:**
 
-```java
-class Counter {
-    int count = 0;
+1. Two or more threads read the same shared value.
+2. Each thread modifies the value independently.
+3. Both write back the result.
+4. One update may overwrite the other, causing **data loss**.
 
-    public void increment() {
-        count++;   // Not thread-safe
-    }
-}
-```
+**Example:**
+If two threads increment a counter from **100** at the same time:
 
-```java
-public class Test {
-    public static void main(String[] args) throws Exception {
-        Counter counter = new Counter();
+* Thread 1 reads **100**.
+* Thread 2 reads **100**.
+* Both update it to **101**.
+* Final value becomes **101** instead of **102**.
 
-        Thread t1 = new Thread(() -> {
-            for(int i = 0; i < 1000; i++) counter.increment();
-        });
+**How to Resolve It:**
 
-        Thread t2 = new Thread(() -> {
-            for(int i = 0; i < 1000; i++) counter.increment();
-        });
+* Use **`synchronized`** methods or blocks.
+* Use **`Lock`** implementations like **`ReentrantLock`**.
+* Use **Atomic classes** such as **`AtomicInteger`**.
+* Use **Optimistic** or **Pessimistic Locking** for database operations.
+* Avoid sharing mutable data whenever possible.
 
-        t1.start();
-        t2.start();
+**When to Use These Solutions:**
 
-        t1.join();
-        t2.join();
-
-        System.out.println(counter.count);
-    }
-}
-```
-
-**Expected Output:**
-
-```
-2000
-```
-
-**Actual Output (Race Condition):**
-
-```
-1453
-1789
-1932
-```
-
-Because both threads update `count` at the same time.
+* **`synchronized`**: Simple thread-safe operations.
+* **`ReentrantLock`**: More control over locking.
+* **`AtomicInteger`**: High-performance counter updates.
+* **Database Locking**: Concurrent updates to the same database record.
 
 
 **How to Resolve Race Condition**
@@ -8071,10 +8053,6 @@ class Counter {
     }
 }
 ```
-
-Only one thread can execute at a time.
-
-
 **2. Using Atomic Variable (Best Practice)**
 
 ```java
