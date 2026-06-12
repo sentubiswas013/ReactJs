@@ -20305,52 +20305,135 @@ try {
 
 ## 17. How Does `@Transactional` Work Internally?
 
-Spring uses **AOP (Aspect-Oriented Programming)** under the hood. When you annotate a method with `@Transactional`, Spring creates a **proxy** around the bean.
 
-When the method is called:
-1. The proxy intercepts the call
-2. Opens a transaction (or joins an existing one based on propagation)
-3. Executes your method
-4. If no exception → commits the transaction
-5. If a `RuntimeException` is thrown → rolls back
+**`@Transactional`** works using **Spring AOP (Proxy Pattern)**. When a method annotated with `@Transactional` is called, Spring creates a **proxy object** around the target class to manage the transaction automatically.
 
+**How It Works**
 
-In Spring Boot, we use `@Transactional`:
+1. Spring detects the **`@Transactional`** annotation during bean creation.
+2. It creates a **proxy** (JDK Dynamic Proxy or CGLIB Proxy) for that bean.
+3. When the transactional method is invoked, the call goes through the **proxy**.
+4. The proxy asks the **Transaction Manager** to **start a transaction**.
+5. The actual business method executes.
+6. If the method completes successfully, the proxy **commits** the transaction.
+7. If an **unchecked exception (`RuntimeException`)** occurs, the proxy **rolls back** the transaction.
+
+**Internal Flow**
+
+```text
+Client
+   ↓
+Spring Proxy (AOP)
+   ↓
+Transaction Manager → Begin Transaction
+   ↓
+Target Method Execution
+   ↓
+Commit (Success) / Rollback (Exception)
+```
+
+**Key Components**
+
+* **`@Transactional`** – Marks a method or class as transactional.
+* **Spring AOP Proxy** – Intercepts method calls.
+* **`PlatformTransactionManager`** – Starts, commits, or rolls back transactions.
+* **Database Connection** – Executes SQL operations within the transaction.
+
+**Why to Use**
+
+* Ensures **data consistency** and **atomicity**.
+* Automatically handles **commit** and **rollback**.
+* Eliminates manual transaction management code.
+
+**When to Use**
+
+* In **Service layer** methods that perform **multiple database operations**.
+* When all operations should either **succeed together or fail together**.
+
+**Example**
 
 ```java
-@Transactional
-public void transferMoney(Long from, Long to, double amount) {
-    debit(from, amount);
-    credit(to, amount); // if this throws, debit also rolls back
+@Service
+public class EmployeeService {
+
+    @Transactional
+    public void saveEmployee(Employee emp) {
+        employeeRepository.save(emp);
+        // other database operations
+    }
 }
 ```
 
-If a `RuntimeException` occurs, Spring automatically rolls back the transaction.
+If any operation inside `saveEmployee()` fails with a **`RuntimeException`**, Spring automatically **rolls back** the entire transaction.
 
-For checked exceptions, we can configure rollback explicitly:
+
+## 17. What is **`@Transactional`** Propagation?
+
+**Transaction Propagation** defines **how a transactional method should behave when it is called from another transactional method**. It decides whether to **join the existing transaction or create a new one**.
+
+**How It Works**
+
+When a method annotated with **`@Transactional`** is invoked, Spring checks if a transaction already exists. Based on the **`propagation`** setting, it either:
+
+* **Joins** the current transaction.
+* **Creates** a new transaction.
+* **Executes without** a transaction.
+* **Throws an exception** if transaction rules are violated.
+
+**Common Propagation Types**
+
+| **Propagation Type**       | **Behavior**                                                                            |
+| -------------------------- | --------------------------------------------------------------------------------------- |
+| **`REQUIRED`** *(Default)* | Joins the existing transaction; creates a new one if none exists.                       |
+| **`REQUIRES_NEW`**         | Always creates a **new transaction** and suspends the current one.                      |
+| **`SUPPORTS`**             | Uses the current transaction if available; otherwise runs without one.                  |
+| **`NOT_SUPPORTED`**        | Always runs **without a transaction** and suspends any existing one.                    |
+| **`MANDATORY`**            | Must run inside an existing transaction; otherwise throws an exception.                 |
+| **`NEVER`**                | Must run without a transaction; throws an exception if one exists.                      |
+| **`NESTED`**               | Runs inside the current transaction using a **savepoint**; can roll back independently. |
+
+**Key Features**
+
+* Controls **transaction boundaries** between method calls.
+* Helps manage **nested service operations**.
+* Provides flexibility for **commit** and **rollback** behavior.
+
+**Why to Use**
+
+* To define how multiple service methods should share or isolate transactions.
+* To handle complex business operations involving multiple database actions.
+
+**When to Use**
+
+* **`REQUIRED`** – Most common choice for normal business logic.
+* **`REQUIRES_NEW`** – For independent operations like **audit logs** or **notifications** that should commit even if the main transaction fails.
+* **`NESTED`** – When a part of the transaction can be rolled back without affecting the whole transaction.
+
+**Example**
 
 ```java
-@Transactional(rollbackFor = Exception.class)
-```
+@Service
+public class OrderService {
 
-**`@Transactional`** Propagation
+    @Transactional
+    public void placeOrder() {
+        saveOrder();
+        auditService.saveAuditLog();
+    }
 
-**Propagation** defines how a transaction behaves when one transactional method calls another transactional method.
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveOrder() {
+        // joins current transaction
+    }
+}
 
-| Level | Behavior |
-|---|---|
-| `REQUIRED` (default) | Join existing transaction, or create new one |
-| `REQUIRES_NEW` | Always create a new transaction, suspend the existing one |
-| `NESTED` | Run inside a nested transaction (savepoint) |
-| `SUPPORTS` | Use existing transaction if present, else run without |
-| `NOT_SUPPORTED` | Suspend existing transaction, run without |
-| `MANDATORY` | Must have an existing transaction, else throw exception |
-| `NEVER` | Must NOT have a transaction, else throw exception |
+@Service
+public class AuditService {
 
-```java
-@Transactional(propagation = Propagation.REQUIRES_NEW)
-public void saveAuditLog() {
-    // always runs in its own transaction
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveAuditLog() {
+        // executes in a new transaction
+    }
 }
 ```
 
