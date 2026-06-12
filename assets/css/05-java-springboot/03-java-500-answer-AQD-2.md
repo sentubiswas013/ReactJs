@@ -15940,7 +15940,71 @@ Product findByIdForUpdate(Long id);
 ```
 
 
-## 16. Spring Boot 2.7 vs Spring Boot 3.0
+## 16. What is `@Async` and How Does It Work?
+
+**`@Async`** is a **Spring annotation** used to execute a method **asynchronously** in a **separate thread**. It allows the caller to continue execution without waiting for the method to finish.
+
+**Key Features:**
+
+* Executes methods in a **background thread**.
+* Improves **application responsiveness**.
+* Uses a **Thread Pool (`TaskExecutor`)** internally.
+* Can return **`void`**, **`Future`**, or **`CompletableFuture`**.
+
+**How it Works:**
+
+1. Enable asynchronous processing using **`@EnableAsync`**.
+2. Annotate a method with **`@Async`**.
+3. Spring creates a **proxy** for the bean.
+4. When the method is called from another bean, the proxy submits the task to a **thread pool**.
+5. The method runs in a **different thread**, while the caller continues without blocking.
+
+**When to Use:**
+
+* Sending **emails** or **notifications**.
+* Processing **background jobs**.
+* Calling **external APIs**.
+* Running **time-consuming tasks** without blocking the main request thread.
+
+**Code Example:**
+
+```java id="j8v2nq"
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+}
+```
+
+```java id="w7s4mp"
+@Service
+public class EmailService {
+
+    @Async
+    public void sendEmail() {
+        System.out.println("Sending email: " +
+                Thread.currentThread().getName());
+    }
+}
+```
+
+```java id="w9k3lb"
+@RestController
+public class UserController {
+
+    @Autowired
+    private EmailService emailService;
+
+    @GetMapping("/register")
+    public String register() {
+        emailService.sendEmail(); // Runs asynchronously
+        return "User registered!";
+    }
+}
+```
+
+
+
+## 17. Spring Boot 2.7 vs Spring Boot 3.0
 
 | Feature              | Spring Boot 2.7     | Spring Boot 3.0            |
 | -------------------- | ------------------- | -------------------------- |
@@ -17864,58 +17928,6 @@ It looks at the JARs in your classpath and tries to auto-configure beans accordi
 - @EnableAutoConfiguration helps in reducing boilerplate configuration.
 - It allows me to start building features quickly without manual setup.
 - If needed, I can still override its default settings using @Configuration classes 
-
-
-## 26. What is `@Async` and How Does It Work?
-
-
-The  annotation in Java is a Spring Framework feature that allows a method to be executed asynchronously—meaning the caller method proceeds immediately without waiting for the async method to finish. This boosts performance by executing independent tasks in parallel. 
-How  Works Under the Hood 
-
-**How @Async Works Under the Hood**
-
-1. **Spring AOP (Aspect-Oriented Programming):** When you annotate a method with , Spring intercepts the call and wraps the target object inside a dynamic proxy. 
-2. **Task Execution:** Instead of executing the method in the caller's main thread, the proxy submits the method's execution to a TaskExecutor (a Thread Pool). 
-
-```java
-@Bean
-public Executor taskExecutor() {
-    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-    executor.setCorePoolSize(5);
-    executor.setMaxPoolSize(10);
-    executor.initialize();
-    return executor;
-}
-```
-3. **Immediate Return:** Control is immediately handed back to the calling thread so it can continue running other code, while the async method runs independently.  
-
-**How to Use It**
-
-To use  in a Spring/Spring Boot application, you must follow three steps: 
-
-1. **Enable Async Processing** Add the  annotation to one of your Spring Configuration classes. 
-```java
-@Configuration
-@EnableAsync
-public class AppConfig {
-}
-```
-
-2. **Annotate the Method** Add  to the method you want to run in the background. It must be a  method and can return either  or a . CompletableFuture.
-```java
-@Service
-public class EmailService {
-
-    @Async
-    public void sendEmail(String recipient) {
-        // Heavy or blocking email-sending logic
-        System.out.println("Email sent to " + recipient);
-    }
-}
-```
-
-3. **Call the Method** When you call this method from another class, Spring intercepts the call and runs it in a background thread. 
-Important Rules & Gotchas 
 
 
 ## 27. What is `@EventListener` in Spring Boot?
