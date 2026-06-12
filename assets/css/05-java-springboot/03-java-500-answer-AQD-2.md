@@ -5241,39 +5241,195 @@ public class Demo {
   * Can act as both a **List** and a **Queue/Deque**.
   * No need to resize an internal array.
 
-**Easy Way to Remember**
-
-* **`ArrayList` = Dynamic Array + Fast Read**
-* **`LinkedList` = Nodes + Fast Insert/Delete**
-* **Read More → `ArrayList`**
-* **Modify More → `LinkedList`**
-
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-**HashMap** Unordered, allows null keys and values, O(1) average time complexity for basic operations.
+**Definition**
 
-**TreeMap** Sorted by keys, doesn't allow null keys, O(log n) time complexity for basic operations.
+Both **`HashMap`** and **`TreeMap`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ in how they store and organize data.
 
-**In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
+* **`HashMap`** stores entries using a **hash table**.
+* **`TreeMap`** stores entries using a **Red-Black Tree** (a self-balancing binary search tree).
 
 
-```java
-Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered, accept null value
-Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted, not accept null value
+**Key Differences**
+
+| **Feature**                                  | **HashMap**                   | **TreeMap**                    |
+| -------------------------------------------- | ----------------------------- | ------------------------------ |
+| **Internal Structure**                       | Hash Table                    | Red-Black Tree                 |
+| **Order of Keys**                            | No ordering                   | Keys are automatically sorted  |
+| **Time Complexity (`put`, `get`, `remove`)** | **O(1)** average              | **O(log n)**                   |
+| **Null Keys**                                | Allows **one** `null` key     | Does **not** allow `null` keys |
+| **Null Values**                              | Allows multiple `null` values | Allows multiple `null` values  |
+| **Implements**                               | `Map`                         | `NavigableMap`, `SortedMap`    |
+| **Best For**                                 | Fast lookup and insertion     | Sorted data and range queries  |
+
+**How It Works**
+
+* **`HashMap`**
+
+  * Calculates the **`hashCode()`** of the key.
+  * Uses the hash value to find the appropriate bucket.
+  * If multiple keys map to the same bucket, it uses **`equals()`** to find the correct entry.
+
+* **`TreeMap`**
+
+  * Stores keys in a **Red-Black Tree**.
+  * Automatically keeps keys in **ascending order** (or custom order using a `Comparator`).
+
+**Why to Use**
+
+* Use **`HashMap`** when you need **fast access** and do not care about the order of keys.
+* Use **`TreeMap`** when you need **sorted keys** or operations like finding the smallest, largest, or a range of keys.
+
+**When to Use**
+
+| **Scenario**                         | **Best Choice** |
+| ------------------------------------ | --------------- |
+| Fast insert and lookup               | **HashMap**     |
+| Maintain sorted order of keys        | **TreeMap**     |
+| Range queries (`headMap`, `tailMap`) | **TreeMap**     |
+| General-purpose key-value storage    | **HashMap**     |
+
+**Code Example**
+
+```java id="9ifxrf"
+import java.util.HashMap;
+import java.util.TreeMap;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        HashMap<Integer, String> hashMap = new HashMap<>();
+        hashMap.put(3, "C");
+        hashMap.put(1, "A");
+        hashMap.put(2, "B");
+
+        TreeMap<Integer, String> treeMap = new TreeMap<>();
+        treeMap.put(3, "C");
+        treeMap.put(1, "A");
+        treeMap.put(2, "B");
+
+        System.out.println(hashMap); // Order not guaranteed
+        System.out.println(treeMap); // {1=A, 2=B, 3=C}
+    }
+}
 ```
+
+**Performance Comparison**
+
+| **Operation**    | **HashMap**  | **TreeMap** |
+| ---------------- | ------------ | ----------- |
+| **`put()`**      | O(1) average | O(log n)    |
+| **`get()`**      | O(1) average | O(log n)    |
+| **`remove()`**   | O(1) average | O(log n)    |
+| **Key Ordering** | No           | Yes         |
+
+**Key Features**
+
+* **`HashMap`**
+
+  * Very fast access.
+  * Unordered collection.
+  * Uses **`hashCode()`** and **`equals()`** internally.
+
+* **`TreeMap`**
+
+  * Maintains keys in **sorted order**.
+  * Supports **`firstKey()`**, **`lastKey()`**, **`headMap()`**, and **`tailMap()`**.
+  * Uses **natural ordering** or a custom **`Comparator`**.
+
 
 ## 4. What is the difference between HashMap Hashtable?
 
-**HashMap** is a Map implementation that is **not synchronized** and allows **one null key and multiple null values**, making it faster but not thread-safe.
+**Definition**
 
-**Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
+Both **`HashMap`** and **`Hashtable`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ mainly in **thread safety**, **performance**, and **handling of `null` values**.
 
 
-```java
-Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster, not thread-safe, accept null value,
-Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, slow, thread-safe, thread-safe, not accept null value
+**Key Differences**
+
+| **Feature**                  | **HashMap**                   | **Hashtable**                                     |
+| ---------------------------- | ----------------------------- | ------------------------------------------------- |
+| **Thread Safety**            | Not synchronized              | Synchronized                                      |
+| **Performance**              | Faster                        | Slower due to synchronization                     |
+| **Null Key**                 | Allows **one** `null` key     | Not allowed                                       |
+| **Null Values**              | Allows multiple `null` values | Not allowed                                       |
+| **Introduced In**            | Java 1.2                      | Java 1.0                                          |
+| **Inheritance**              | Extends `AbstractMap`         | Extends `Dictionary`                              |
+| **Iterator Support**         | Uses `Iterator`               | Uses `Enumeration` and `Iterator`                 |
+| **Recommended for New Code** | Yes                           | No (prefer `ConcurrentHashMap` for thread safety) |
+
+**How It Works**
+
+* **`HashMap`**
+
+  * Uses a **hash table** and stores data based on the **`hashCode()`** of the key.
+  * Not thread-safe, so multiple threads can cause inconsistent results without external synchronization.
+
+* **`Hashtable`**
+
+  * Also uses a **hash table**, but all its methods are **synchronized**.
+  * Only one thread can access it at a time, making it thread-safe but reducing performance.
+
+**Why to Use**
+
+* Use **`HashMap`** for **single-threaded** applications or when synchronization is handled externally.
+* Use **`Hashtable`** only for maintaining compatibility with legacy code. For modern multi-threaded applications, **`ConcurrentHashMap`** is preferred.
+
+**When to Use**
+
+| **Scenario**                          | **Best Choice**       |
+| ------------------------------------- | --------------------- |
+| Single-threaded application           | **HashMap**           |
+| High-performance map operations       | **HashMap**           |
+| Legacy code requiring synchronization | **Hashtable**         |
+| Modern multi-threaded application     | **ConcurrentHashMap** |
+
+**Code Example**
+
+```java id="bzhv9w"
+import java.util.HashMap;
+import java.util.Hashtable;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        HashMap<Integer, String> hashMap = new HashMap<>();
+        hashMap.put(1, "Java");
+        hashMap.put(null, "Spring"); // Allowed
+
+        Hashtable<Integer, String> hashtable = new Hashtable<>();
+        hashtable.put(1, "Java");
+        // hashtable.put(null, "Spring"); // Throws NullPointerException
+
+        System.out.println(hashMap);
+        System.out.println(hashtable);
+    }
+}
 ```
+
+**Performance Comparison**
+
+| **Operation**     | **HashMap**  | **Hashtable**                                |
+| ----------------- | ------------ | -------------------------------------------- |
+| **`put()`**       | O(1) average | O(1) average (slower due to synchronization) |
+| **`get()`**       | O(1) average | O(1) average (slower due to synchronization) |
+| **Thread Safety** | No           | Yes                                          |
+
+**Key Features**
+
+* **`HashMap`**
+
+  * Fast and efficient.
+  * Allows one `null` key and multiple `null` values.
+  * Not synchronized.
+
+* **`Hashtable`**
+
+  * Thread-safe because methods are synchronized.
+  * Does not allow `null` keys or values.
+  * Considered a **legacy class**.
 
 
 ## 5. How does HashMap work internally?
