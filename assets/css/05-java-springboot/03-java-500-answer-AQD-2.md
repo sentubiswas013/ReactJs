@@ -14841,6 +14841,39 @@ AOP is based on the following concepts:
 | **@AfterThrowing**  | If the method throws an exception     |
 | **@Around**         | Before and after the method execution |
 
+**How Spring AOP Works Internally (Proxy Pattern)**
+
+```
+Your Code calls → Spring Proxy (AOP magic) → Real Bean
+
+┌─────────────┐       ┌──────────────────────┐       ┌─────────────┐
+│   Caller    │ ────▶ │   Spring Proxy       │ ────▶ │  Real Bean  │
+│             │       │  1. Run @Before      │       │             │
+│ orderSvc    │       │  2. Call real method │       │ placeOrder()│
+│ .placeOrder │       │  3. Run @After       │       │             │
+└─────────────┘       └──────────────────────┘       └─────────────┘
+```
+
+Spring creates a **proxy** around your bean and intercepts method calls to apply aspects.
+
+
+**Setup in Spring Boot**
+
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+```java
+// Enable AOP (auto-enabled in Spring Boot)
+@SpringBootApplication
+@EnableAspectJAutoProxy  // optional — Spring Boot enables this automatically
+public class MyApp { }
+```
+
 **When to Use AOP?**
 
 Use AOP when you need to implement functionalities that are common across multiple modules, such as:
@@ -14856,6 +14889,26 @@ Use AOP when you need to implement functionalities that are common across multip
 **Simple Example**
 
 ```java
+// WITHOUT AOP — same boilerplate repeated everywhere
+public class OrderService {
+    public void placeOrder(Order order) {
+        log.info("Method started");          // 😫 repeated
+        checkSecurity();                     // 😫 repeated
+        startTransaction();                  // 😫 repeated
+
+        // actual business logic (3 lines)
+        validateOrder(order);
+        saveOrder(order);
+        notifyUser(order);
+
+        commitTransaction();                 // 😫 repeated
+        log.info("Method ended");            // 😫 repeated
+    }
+}
+```
+
+```java
+// WITH AOP — same boilerplate repeated everywhere
 @Aspect
 @Component
 public class LoggingAspect {
@@ -14893,140 +14946,6 @@ Here, the **logging code is executed automatically before the `createUser()` met
 3. The proxy checks whether any **Aspect** matches the method.
 4. If matched, the configured **Advice** executes.
 5. Finally, the actual target method is invoked.
-
-
-**The Problem AOP Solves:**
-```java
-// WITHOUT AOP — same boilerplate repeated everywhere
-public class OrderService {
-    public void placeOrder(Order order) {
-        log.info("Method started");          // 😫 repeated
-        checkSecurity();                     // 😫 repeated
-        startTransaction();                  // 😫 repeated
-
-        // actual business logic (3 lines)
-        validateOrder(order);
-        saveOrder(order);
-        notifyUser(order);
-
-        commitTransaction();                 // 😫 repeated
-        log.info("Method ended");            // 😫 repeated
-    }
-}
-
-// WITH AOP — clean business logic only
-public class OrderService {
-    public void placeOrder(Order order) {
-        validateOrder(order);   // ✅ pure business logic
-        saveOrder(order);
-        notifyUser(order);
-    }
-}
-// Logging, security, transactions handled automatically by aspects
-```
-
-
-**Core AOP Concepts**
-
-**1. 🎯 Aspect**
-A class that contains the cross-cutting logic (e.g., logging, security).
-```java
-@Aspect
-@Component
-public class LoggingAspect {
-    // cross-cutting logic lives here
-}
-```
-
-**2. 📍 Pointcut**
-An expression that defines **where** the aspect should apply (which methods/classes).
-```java
-// Apply to all methods in service package
-@Pointcut("execution(* com.app.service.*.*(..))")
-public void serviceLayer() {}
-
-// Apply to specific annotation
-@Pointcut("@annotation(com.app.Loggable)")
-public void loggableMethods() {}
-```
-
-**3. 💡 Advice**
-**When** and **what** to execute — the actual logic to run at the join point.
-
-| Advice Type | When it runs |
-|---|---|
-| `@Before` | Before the method executes |
-| `@After` | After method (always, like finally) |
-| `@AfterReturning` | After method returns successfully |
-| `@AfterThrowing` | After method throws an exception |
-| `@Around` | Before AND after (full control) |
-
-**4. 🔗 Join Point**
-The actual point of execution — in Spring AOP, always a **method execution**.
-```java
-@Before("serviceLayer()")
-public void log(JoinPoint joinPoint) {
-    String methodName = joinPoint.getSignature().getName(); // the join point
-}
-```
-
-**5. 🔀 Weaving**
-The process of applying aspects to target objects. Spring does this at **runtime** using proxies.
-
-
-**Types of Advice with Examples**
-
-**@Before**
-```java
-@Aspect
-@Component
-public class LoggingAspect {
-
-    @Before("execution(* com.app.service.*.*(..))")
-    public void logBefore(JoinPoint joinPoint) {
-        System.out.println("Calling: " + joinPoint.getSignature().getName());
-        System.out.println("Args: " + Arrays.toString(joinPoint.getArgs()));
-    }
-}
-```
-
-**@AfterReturning**
-```java
-@AfterReturning(
-    pointcut = "execution(* com.app.service.*.*(..))",
-    returning = "result"
-)
-public void logAfterReturning(JoinPoint joinPoint, Object result) {
-    System.out.println("Method returned: " + result);
-}
-```
-
-**@AfterThrowing**
-```java
-@AfterThrowing(
-    pointcut = "execution(* com.app.service.*.*(..))",
-    throwing = "ex"
-)
-public void logException(JoinPoint joinPoint, Exception ex) {
-    System.out.println("Exception in: " + joinPoint.getSignature().getName());
-    System.out.println("Exception: " + ex.getMessage());
-}
-```
-
-**@Around (Most Powerful)**
-```java
-@Around("execution(* com.app.service.*.*(..))")
-public Object measureTime(ProceedingJoinPoint joinPoint) throws Throwable {
-    long start = System.currentTimeMillis();
-
-    Object result = joinPoint.proceed(); // 👈 actually calls the method
-
-    long duration = System.currentTimeMillis() - start;
-    System.out.println(joinPoint.getSignature().getName() + " took " + duration + "ms");
-
-    return result;
-}
-```
 
 
 **Real-World Use Cases**
@@ -15096,172 +15015,547 @@ public class PerformanceAspect {
 }
 ```
 
-
-**How Spring AOP Works Internally (Proxy Pattern)**
-
-```
-Your Code calls → Spring Proxy (AOP magic) → Real Bean
-
-┌─────────────┐       ┌──────────────────────┐       ┌─────────────┐
-│   Caller    │ ────▶ │   Spring Proxy       │ ────▶ │  Real Bean  │
-│             │       │  1. Run @Before      │       │             │
-│ orderSvc    │       │  2. Call real method │       │ placeOrder()│
-│ .placeOrder │       │  3. Run @After       │       │             │
-└─────────────┘       └──────────────────────┘       └─────────────┘
-```
-
-Spring creates a **proxy** around your bean and intercepts method calls to apply aspects.
-
-
-**Setup in Spring Boot**
-
-```xml
-<!-- pom.xml -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-aop</artifactId>
-</dependency>
-```
-
-```java
-// Enable AOP (auto-enabled in Spring Boot)
-@SpringBootApplication
-@EnableAspectJAutoProxy  // optional — Spring Boot enables this automatically
-public class MyApp { }
-```
-
-
-**AOP vs OOP**
-
-| | OOP | AOP |
-|---|---|---|
-| **Solves** | Core business logic | Cross-cutting concerns |
-| **Unit** | Class / Object | Aspect |
-| **Separation** | By objects/classes | By concerns |
-| **Examples** | Order, User, Product | Logging, Security, Transactions |
-
-
-
 ## 10. What is Spring Data JPA?
 
-**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
 
-It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
+**Spring Data JPA** is a **Spring module** that simplifies database access by reducing the amount of **boilerplate code** required for working with **JPA (Java Persistence API)**. It provides ready-made implementations for common **CRUD (Create, Read, Update, Delete)** operations and automatically generates queries based on method names.
 
-* **Auto-implementation**: Creates implementation from method names
-* **Query Methods**: Derive queries from method names
-* **Custom Queries**: Support for JPQL and native SQL
+In simple words, **you only define an interface, and Spring Data JPA automatically provides the implementation at runtime.**
+
+**Why do we use Spring Data JPA?**
+
+Without Spring Data JPA, developers need to write a lot of **DAO classes**, **EntityManager code**, and **SQL/JPQL queries**. Spring Data JPA eliminates most of this repetitive code, making development **faster** and **cleaner**.
+
+**Key Features**
+
+* Provides built-in **CRUD operations**.
+* Automatically generates queries from **method names**.
+* Supports **custom JPQL and native SQL queries** using `@Query`.
+* Integrates seamlessly with **Hibernate** and other JPA providers.
+* Supports **pagination**, **sorting**, and **auditing**.
+* Reduces **boilerplate code** and improves maintainability.
+
+**How It Works**
+
+1. Create an **Entity** class mapped to a database table.
+2. Create a **Repository Interface** that extends `JpaRepository`.
+3. Spring automatically creates the implementation at runtime.
+4. Use the repository methods to perform database operations without writing SQL.
+
+**When to Use Spring Data JPA?**
+
+Use Spring Data JPA when:
+
+* Building **Spring Boot** applications with relational databases.
+* You need standard **CRUD operations**.
+* You want to reduce database-related boilerplate code.
+* You need features like **pagination**, **sorting**, and **custom queries**.
+
+**Simple Example**
+
+**Entity Class**
 
 ```java
-public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByLastName(String lastName);
-    List<User> findByAgeGreaterThan(int age);
-    
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
-    User findByEmail(String email);
+@Entity
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Getters and Setters
 }
 ```
 
-## 11. What is Spring Security?
-
-**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
-
-It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
+**Repository Interface**
 
 ```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    User findByName(String name);
+}
+```
+
+**Service Class**
+
+```java
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public void saveUser() {
+        User user = new User();
+        user.setName("John");
+        userRepository.save(user);
+    }
+}
+```
+
+In the above example:
+
+* `save()` is a built-in **CRUD** method provided by `JpaRepository`.
+* `findByName()` is a **derived query method**. Spring automatically generates the SQL based on the method name.
+
+**How Spring Data JPA Works Internally**
+
+1. The application starts, and Spring scans for interfaces extending **`JpaRepository`**.
+2. Spring creates a **proxy implementation** of the repository.
+3. When a repository method is called, Spring converts it into the appropriate **JPQL/SQL query**.
+4. The **JPA provider (usually Hibernate)** executes the query using the **EntityManager**.
+5. The result is mapped back to Java objects (**Entities**).
+
+**Common Repository Interfaces**
+
+| **Interface**                  | **Purpose**                                              |
+| ------------------------------ | -------------------------------------------------------- |
+| **CrudRepository**             | Basic CRUD operations                                    |
+| **PagingAndSortingRepository** | CRUD + Pagination + Sorting                              |
+| **JpaRepository**              | Full JPA features + CRUD + Pagination + Batch operations |
+
+
+## 11. What is Spring Security?
+
+**Spring Security** is a powerful **Spring framework module** used to provide **authentication** and **authorization** for Java applications. It protects applications from unauthorized access and common security attacks such as **CSRF**, **session fixation**, and **clickjacking**.
+
+In simple words, **Spring Security controls who can log in and what resources they are allowed to access.**
+
+**Why do we use Spring Security?**
+
+Without Spring Security, developers need to manually implement login, access control, password encryption, and security checks. **Spring Security provides these features out of the box**, making applications more secure and easier to maintain.
+
+**Key Features**
+
+* Provides **Authentication** (verifies user identity).
+* Provides **Authorization** (controls user permissions).
+* Supports **Role-Based Access Control (RBAC)**.
+* Built-in support for **JWT**, **OAuth2**, and **LDAP**.
+* Protects against **CSRF**, **Session Fixation**, and other common attacks.
+* Supports **password encryption** using **BCrypt**.
+* Easily integrates with **Spring Boot** and **Spring Data JPA**.
+
+**How It Works**
+
+1. The user sends a request to the application.
+2. The request passes through the **Spring Security Filter Chain**.
+3. Spring Security authenticates the user by validating credentials.
+4. If authentication is successful, it checks the user's roles and permissions.
+5. Based on authorization rules, access is either **granted** or **denied**.
+
+**Authentication vs Authorization**
+
+| **Concept**        | **Meaning**                                          |
+| ------------------ | ---------------------------------------------------- |
+| **Authentication** | Verifies **who the user is** (Login).                |
+| **Authorization**  | Verifies **what the user can access** (Permissions). |
+
+**When to Use Spring Security?**
+
+Use Spring Security when:
+
+* Building **REST APIs** or **web applications**.
+* Implementing **login and registration** functionality.
+* Restricting access based on **roles and permissions**.
+* Securing applications using **JWT**, **OAuth2**, or **Basic Authentication**.
+* Protecting sensitive business data and APIs.
+
+**Simple Example**
+
+**Security Configuration**
+
+```java id="k9q8zw"
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin()
-                .and()
-                .build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
+
+        http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated()
+            )
+            .formLogin();
+
+        return http.build();
     }
 }
 ```
 
-## 12. What is Spring Cloud? 
+**Controller**
 
-Spring Cloud is a framework that helps developers build and manage microservices easily. It provides ready-made solutions for common problems like service discovery, load balancing, configuration management, and fault tolerance.
-
-* **Service Discovery**: Eureka, Consul integration
-* **Circuit Breaker**: Hystrix for fault tolerance
-* **API Gateway**: Zuul, Spring Cloud Gateway
-* **Configuration Management**: Centralized configuration
-* **Load Balancing**: Client-side load balancing
-
-```java
-@EnableEurekaClient
-@SpringBootApplication
-public class UserServiceApplication {
-    @LoadBalanced
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-}
-```
-
-## 13. What is Spring WebFlux?
-
-**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
-
-It's an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
-
-```java
+```java id="3bjwpi"
 @RestController
 public class UserController {
 
-    @GetMapping("/users")
-    public Flux<User> getUsers() {
-        return userService.findAll(); // Returns Flux<User>
-    }
-
-    @GetMapping("/users/{id}")
-    public Mono<User> getUser(@PathVariable String id) {
-        return userService.findById(id); // Returns Mono<User>
+    @GetMapping("/user/profile")
+    public String profile() {
+        return "User Profile";
     }
 }
 ```
+
+In this example:
+
+* Users with **ROLE_ADMIN** can access `/admin/**`.
+* Users with **ROLE_USER** or **ROLE_ADMIN** can access `/user/**`.
+* All other requests require the user to be **authenticated**.
+
+**How Spring Security Works Internally**
+
+1. Spring creates a **Security Filter Chain** that intercepts every HTTP request.
+2. The filter extracts the user's credentials (username/password or JWT token).
+3. The **AuthenticationManager** validates the credentials using a **UserDetailsService**.
+4. If valid, an **Authentication Object** is stored in the **SecurityContext**.
+5. Spring checks the user's roles and permissions before allowing access to the requested resource.
+
+**Common Components**
+
+| **Component**             | **Purpose**                           |
+| ------------------------- | ------------------------------------- |
+| **SecurityFilterChain**   | Intercepts and secures HTTP requests  |
+| **AuthenticationManager** | Validates user credentials            |
+| **UserDetailsService**    | Loads user details from database      |
+| **PasswordEncoder**       | Encrypts and verifies passwords       |
+| **SecurityContext**       | Stores authenticated user information |
+
+
+## 12. What is Spring Cloud? 
+
+
+**Spring Cloud** is a collection of **Spring-based tools and libraries** that helps developers build and manage **Microservices Architecture**. It provides ready-made solutions for common distributed system challenges such as **service discovery, configuration management, API gateway, load balancing, and fault tolerance**.
+
+In simple words, **Spring Cloud makes it easier for multiple microservices to communicate, scale, and work together efficiently.**
+
+**Why do we use Spring Cloud?**
+
+In a microservices environment, managing configuration, service communication, and fault handling manually is complex. **Spring Cloud provides built-in solutions**, reducing development effort and improving reliability.
+
+**Key Features**
+
+* **Centralized Configuration Management** using **Config Server**.
+* **Service Discovery and Registration** using **Eureka** or other discovery services.
+* **API Gateway** for routing client requests.
+* **Client-Side Load Balancing**.
+* **Fault Tolerance** and **Circuit Breaker** support (using **Resilience4j**).
+* Supports **Distributed Tracing** and monitoring.
+* Easy integration with **Spring Boot** applications.
+
+**How It Works**
+
+1. Each microservice registers itself with a **Service Registry** (like Eureka).
+2. Services discover and communicate with each other using the registry.
+3. Configuration is managed centrally through a **Config Server**.
+4. Client requests pass through an **API Gateway**.
+5. Spring Cloud handles **load balancing**, **fault tolerance**, and **service communication** automatically.
+
+**When to Use Spring Cloud?**
+
+Use Spring Cloud when:
+
+* Building a **Microservices Architecture**.
+* Managing multiple distributed services.
+* You need **centralized configuration**.
+* You require **service discovery**, **API gateway**, and **load balancing**.
+* You want built-in support for **fault tolerance** and **resilience**.
+
+**Common Spring Cloud Components**
+
+| **Component**            | **Purpose**                                        |
+| ------------------------ | -------------------------------------------------- |
+| **Config Server**        | Centralized configuration management               |
+| **Eureka Server**        | Service registration and discovery                 |
+| **Spring Cloud Gateway** | API Gateway for routing requests                   |
+| **OpenFeign**            | Simplifies REST API communication between services |
+| **Resilience4j**         | Circuit breaker and fault tolerance                |
+| **LoadBalancer**         | Distributes requests across service instances      |
+
+**Simple Example**
+
+**Enable Feign Client**
+
+```java id="1m6s4r"
+@SpringBootApplication
+@EnableFeignClients
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
+```
+
+**Feign Client**
+
+```java id="a8h2xq"
+@FeignClient(name = "product-service")
+public interface ProductClient {
+
+    @GetMapping("/products/{id}")
+    String getProduct(@PathVariable Long id);
+}
+```
+
+**Service Class**
+
+```java id="fj4l8n"
+@Service
+public class OrderService {
+
+    @Autowired
+    private ProductClient productClient;
+
+    public String getOrderDetails(Long id) {
+        return productClient.getProduct(id);
+    }
+}
+```
+
+In this example:
+
+* `@FeignClient` automatically creates a REST client.
+* `product-service` is discovered through the **Service Registry**.
+* The developer does not need to write HTTP connection code manually.
+
+**How Spring Cloud Works Internally**
+
+1. Microservices start and register themselves with **Eureka Server**.
+2. **Config Server** provides centralized configuration to all services.
+3. When one service calls another, it looks up the target service in Eureka.
+4. **Spring Cloud LoadBalancer** selects an available instance.
+5. If a service fails, **Resilience4j** can provide fallback logic and prevent cascading failures.
+
+
+## 13. What is Spring WebFlux?
+
+
+**What is Spring WebFlux?**
+
+**Spring WebFlux** is a **reactive, non-blocking web framework** introduced in **Spring 5** for building **high-performance and scalable web applications and REST APIs**. It is based on the **Reactive Streams API** and uses **Mono** and **Flux** to handle asynchronous data processing.
+
+In simple words, **Spring WebFlux can handle many requests concurrently without blocking threads, making it ideal for high-traffic applications.**
+
+**Why do we use Spring WebFlux?**
+
+Traditional **Spring MVC** follows a **blocking, thread-per-request model**, where each request occupies a thread until processing is complete. **Spring WebFlux uses a non-blocking, event-driven model**, allowing a small number of threads to handle many requests efficiently.
+
+**Key Features**
+
+* **Non-blocking** and **asynchronous** request processing.
+* Built on the **Reactive Streams** specification.
+* Uses **Mono** (0 or 1 result) and **Flux** (0 to many results).
+* Supports **high concurrency** with fewer threads.
+* Works with **Netty**, **Tomcat**, **Jetty**, and **Undertow** servers.
+* Integrates with **Reactive databases** and **WebClient**.
+
+**How It Works**
+
+1. A client sends a request to the application.
+2. The request is handled by an **event loop** instead of assigning a dedicated thread.
+3. Processing continues asynchronously without blocking the thread.
+4. The result is returned as a **Mono** or **Flux** object.
+5. Once the data is ready, the response is sent back to the client.
+
+**Mono vs Flux**
+
+| **Reactive Type** | **Description**                   |
+| ----------------- | --------------------------------- |
+| **Mono<T>**       | Represents **0 or 1** result.     |
+| **Flux<T>**       | Represents **0 to many** results. |
+
+**When to Use Spring WebFlux?**
+
+Use Spring WebFlux when:
+
+* Building **high-concurrency REST APIs**.
+* Developing **real-time applications** like chat or live notifications.
+* Working with **streaming data**.
+* Integrating with **reactive databases** or external asynchronous services.
+* Building **microservices** that require better scalability.
+
+Avoid WebFlux for simple CRUD applications where **Spring MVC** is sufficient and the application is mostly blocking.
+
+**Simple Example**
+
+**Controller Using `Mono`**
+
+```java id="m8w4pl"
+@RestController
+public class UserController {
+
+    @GetMapping("/user")
+    public Mono<String> getUser() {
+        return Mono.just("John");
+    }
+}
+```
+
+**Controller Using `Flux`**
+
+```java id="h5x9qr"
+@RestController
+public class ProductController {
+
+    @GetMapping("/products")
+    public Flux<String> getProducts() {
+        return Flux.just("Laptop", "Mobile", "Tablet");
+    }
+}
+```
+
+In this example:
+
+* `Mono.just("John")` returns a **single asynchronous value**.
+* `Flux.just(...)` returns **multiple asynchronous values**.
+
+**How Spring WebFlux Works Internally**
+
+1. A request reaches the **WebFlux Dispatcher Handler**.
+2. Instead of allocating one thread per request, WebFlux uses an **event-loop architecture** (commonly powered by **Netty**).
+3. Business logic returns a **Mono** or **Flux** rather than waiting for the result.
+4. The thread is released while I/O operations are in progress.
+5. When the operation completes, WebFlux resumes processing and sends the response.
+
+**Spring MVC vs Spring WebFlux**
+
+| **Feature**           | **Spring MVC**                | **Spring WebFlux**                         |
+| --------------------- | ----------------------------- | ------------------------------------------ |
+| **Programming Model** | Blocking                      | Non-blocking                               |
+| **Thread Model**      | One thread per request        | Event-driven with fewer threads            |
+| **Return Types**      | Objects                       | **Mono** / **Flux**                        |
+| **Best For**          | Traditional CRUD applications | High-concurrency and reactive applications |
+| **Scalability**       | Moderate                      | High                                       |
+
 
 ## 14. How Does Spring Handle Circular Dependency?
 
-A circular dependency is when Bean A depends on Bean B, and Bean B depends on Bean A.
 
-**With constructor injection** — Spring throws `BeanCurrentlyInCreationException` because it can't create either bean first.
+**What is Circular Dependency in Spring?**
 
-**With field/setter injection** — Spring can handle it using a 3-level cache (early bean references). It creates a partially initialized bean and injects it.
+A **Circular Dependency** occurs when **two or more Spring beans depend on each other directly or indirectly**, creating a cycle. For example, **Bean A needs Bean B**, and **Bean B also needs Bean A** to be created.
 
-```java
-// Avoid this with constructor injection — causes error
-@Component
-public class A {
-    @Autowired B b;
-}
+In simple words, **Spring gets stuck because it cannot decide which bean to create first.**
 
-@Component
-public class B {
-    @Autowired A a;
+**Why is Circular Dependency a Problem?**
+
+* Prevents proper **bean initialization**.
+* Makes the code **tightly coupled** and harder to maintain.
+* Can cause **`BeanCurrentlyInCreationException`** during application startup.
+* Indicates a poor class design that should usually be refactored.
+
+**Key Features**
+
+* Happens due to **mutual dependency** between beans.
+* Most common with **constructor injection**.
+* Can occur **directly** (`A → B → A`) or **indirectly** (`A → B → C → A`).
+* **Setter injection** or **`@Lazy`** can sometimes resolve it.
+* Best practice is to **redesign the application** to remove the dependency cycle.
+
+**How It Works**
+
+Suppose:
+
+* **ServiceA** depends on **ServiceB**.
+* **ServiceB** depends on **ServiceA**.
+
+When Spring tries to create `ServiceA`, it first needs `ServiceB`. But to create `ServiceB`, it again needs `ServiceA`. This creates an infinite loop, resulting in a circular dependency.
+
+**When Does It Occur?**
+
+* Using **constructor injection** between mutually dependent beans.
+* Poorly designed **service or component relationships**.
+* Tight coupling between business modules.
+
+**Simple Example**
+
+**Problematic Code (Constructor Injection)**
+
+```java id="t6x4pn"
+@Service
+public class ServiceA {
+
+    private final ServiceB serviceB;
+
+    public ServiceA(ServiceB serviceB) {
+        this.serviceB = serviceB;
+    }
 }
 ```
 
-**Best fix:** Refactor to remove the circular dependency. If you must keep it, use `@Lazy` on one of the injections:
+```java id="v2m8qk"
+@Service
+public class ServiceB {
 
-```java
-@Autowired
-@Lazy
-private B b;
+    private final ServiceA serviceA;
+
+    public ServiceB(ServiceA serviceA) {
+        this.serviceA = serviceA;
+    }
+}
 ```
 
-`@Lazy` tells Spring to inject a proxy first and resolve the real bean later.
+This causes a **Circular Dependency** because each service requires the other during object creation.
 
-In Spring Boot 2.6+, circular dependencies are disabled by default. You need to explicitly enable them or fix the design.
+**How to Resolve Circular Dependency?**
+
+#**1. Redesign the Application (Best Approach)**
+
+Extract the common logic into a third service so that both classes depend on it instead of each other.
+
+#**2. Use `@Lazy`**
+
+```java id="k7f3ra"
+@Service
+public class ServiceB {
+
+    private final ServiceA serviceA;
+
+    public ServiceB(@Lazy ServiceA serviceA) {
+        this.serviceA = serviceA;
+    }
+}
+```
+
+`@Lazy` delays the creation of `ServiceA` until it is actually needed.
+
+#**3. Use Setter Injection**
+
+```java id="d4n9jw"
+@Service
+public class ServiceA {
+
+    private ServiceB serviceB;
+
+    @Autowired
+    public void setServiceB(ServiceB serviceB) {
+        this.serviceB = serviceB;
+    }
+}
+```
+
+With setter injection, Spring can create the beans first and inject the dependencies afterward.
+
+**How Spring Handles Circular Dependency Internally**
+
+* For **singleton beans with setter injection**, Spring can temporarily expose an **early bean reference** and complete dependency injection later.
+* For **constructor injection**, Spring cannot create a partially initialized object, so it throws a **`BeanCurrentlyInCreationException`**.
+* In recent versions of **Spring Boot**, circular dependencies are **disabled by default**, encouraging better application design.
+
+**When to Use `@Lazy` or Setter Injection?**
+
+Use them only when:
+
+* Refactoring is not immediately possible.
+* Legacy applications already have circular dependencies.
+* A temporary solution is needed while redesigning the architecture.
+
 
 ## 15. Spring Boot 2.7 vs Spring Boot 3.0
 
