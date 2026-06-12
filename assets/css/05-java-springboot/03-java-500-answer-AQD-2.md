@@ -6585,47 +6585,110 @@ public class Demo {
 
 ## 13. Difference between List and Array? 
 
-The main difference is that an **Array has a fixed size**, while a **List is dynamic and can grow or shrink at runtime**.
+**Definition**
 
-Arrays can store both primitive types and objects, whereas a List stores only objects.
+* **`Array`** is a built-in data structure in Java that stores a **fixed-size collection** of elements of the same type.
 
-In modern Java applications, we usually prefer a List because it is more flexible and provides many built-in methods.
+* **`List`** is an interface in the **Java Collections Framework** that stores an **ordered, dynamic collection** of elements.
 
+**Key Differences**
 
-**Array Example**
+| **Feature**                 | **Array**      | **List**                                           |
+| --------------------------- | -------------- | -------------------------------------------------- |
+| **Size**                    | Fixed          | Dynamic (Resizable)                                |
+| **Part of**                 | Java Language  | Java Collections Framework                         |
+| **Can Add/Remove Elements** | No             | Yes                                                |
+| **Access by Index**         | Yes            | Yes                                                |
+| **Stores Primitive Types**  | Yes            | No (stores objects, uses wrapper classes)          |
+| **Built-in Methods**        | Very Limited   | Rich API (`add()`, `remove()`, `contains()`, etc.) |
+| **Performance**             | Faster         | Slightly slower due to extra features              |
+| **Type**                    | Data Structure | Interface                                          |
 
-```java id="h4vmyv"
-int[] numbers = new int[3];
+**How It Works**
 
-numbers[0] = 10;
-numbers[1] = 20;
-numbers[2] = 30;
+* **`Array`**
+
+  * Memory is allocated for a fixed number of elements when the array is created.
+  * Size cannot be changed later.
+
+* **`List`**
+
+  * Implementations like **`ArrayList`** internally use a dynamic array.
+  * When capacity is full, a larger array is created and existing elements are copied automatically.
+
+**Why to Use**
+
+* Use **`Array`** when the number of elements is known and fixed.
+* Use **`List`** when the number of elements can change dynamically or when you need collection utility methods.
+
+**When to Use**
+
+| **Scenario**                          | **Best Choice** |
+| ------------------------------------- | --------------- |
+| Fixed number of elements              | **Array**       |
+| Frequent add/remove operations        | **List**        |
+| Need built-in collection methods      | **List**        |
+| High-performance, simple data storage | **Array**       |
+
+**Code Example**
+
+**Using an Array**
+
+```java id="h4m9pr"
+int[] numbers = {10, 20, 30};
+
+System.out.println(numbers[1]); // 20
 ```
 
-Size is fixed to 3 and cannot be increased.
+**Using a List**
 
+```java id="8vzk3x"
+import java.util.ArrayList;
+import java.util.List;
 
-**List Example**
-
-```java id="1jrr4h"
-List<Integer> numbers =
-        new ArrayList<>();
+List<Integer> numbers = new ArrayList<>();
 
 numbers.add(10);
 numbers.add(20);
 numbers.add(30);
-numbers.add(40);
+
+System.out.println(numbers.get(1)); // 20
 ```
 
-The List grows dynamically as elements are added.
+**Key Features**
 
-| Array                         | List                         |
-| ----------------------------- | ---------------------------- |
-| Fixed size                    | Dynamic size                 |
-| Stores primitives and objects | Stores objects only          |
-| Faster                        | More flexible                |
-| Fewer built-in methods        | Rich Collection APIs         |
-| Part of Java language         | Part of Collection Framework |
+* **`Array`**
+
+  * Fixed size.
+  * Can store **primitive types** (`int`, `char`, `double`, etc.).
+  * Faster access with lower memory overhead.
+
+* **`List`**
+
+  * Dynamic and resizable.
+  * Provides many utility methods.
+  * Can only store **objects** (primitive types are automatically converted using **autoboxing**).
+
+**Example of Dynamic Behavior**
+
+```java id="q2h1sk"
+List<String> list = new ArrayList<>();
+list.add("Java");
+list.add("Spring");
+list.remove("Java");
+
+System.out.println(list); // [Spring]
+```
+
+The equivalent operation is not possible directly with a fixed-size array.
+
+**Easy Way to Remember**
+
+* **`Array` = Fixed Size + Faster + Stores Primitives**
+* **`List` = Dynamic Size + Rich Methods + Stores Objects**
+* **Known Size → `Array`**
+* **Variable Size → `List`**
+
 
 
 ## 14. How do you convert a List to an Array? 
