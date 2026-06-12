@@ -1159,7 +1159,6 @@ System.out.println(condition.test(9));  // false
 
 * **`hashCode()`** is a method from the `Object` class that returns an **integer hash value** representing the object, mainly used in **hash-based collections** like `HashMap`, `HashSet`, and `Hashtable`.
 
-**
 
 **Key Features**
 
@@ -1261,13 +1260,122 @@ This works correctly because both **`equals()`** and **`hashCode()`** are overri
 
 ## 13. How to Override the hashCode Method Properly in Java?
 
-To override the `hashCode()` method properly in Java, you should follow these guidelines:
-1. **Use the same fields** that are used in the `equals()` method to compute the hash code.
-2. **Use a consistent algorithm** to combine the hash codes of the fields, such as multiplying by a prime number.
+**Definition**
 
-* ✔ Used **same fields (`name`, `age`) in both `equals()` and `hashCode()`**
-* ✔ Used `Objects.hash()` (clean and modern)
-* ✔ Proper `equals()` implementation (`instanceof`, null-safe)
+The **`hashCode()`** method returns an **integer hash value** for an object. It is mainly used by **hash-based collections** like **`HashMap`**, **`HashSet`**, and **`Hashtable`** for fast storage and retrieval.
+
+
+**Key Rules (hashCode Contract)**
+
+1. If **`obj1.equals(obj2)` is `true`**, then **`obj1.hashCode() == obj2.hashCode()`**.
+2. If two objects have the **same hash code**, they **may or may not be equal**.
+3. If you **override `equals()`**, you **must also override `hashCode()`**.
+4. Use only the **fields involved in `equals()`** when calculating the hash code.
+
+**How It Works**
+
+* When an object is inserted into a **`HashMap`** or **`HashSet`**, Java first calls **`hashCode()`** to find the bucket.
+* If multiple objects have the same hash code, Java uses **`equals()`** to identify the correct object.
+
+**Why to Use**
+
+* Ensures correct behavior of **`HashMap`**, **`HashSet`**, and other hash-based collections.
+* Improves lookup performance.
+* Maintains consistency between **logical equality** and **hash values**.
+
+**When to Use**
+
+* Whenever you override **`equals()`**.
+* When custom objects are used as **keys in a `HashMap`** or **elements in a `HashSet`**.
+
+**Recommended Way (Using `Objects.hash()`)**
+
+```java id="qv6svj"
+import java.util.Objects;
+
+class Employee {
+    private int id;
+    private String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Employee)) return false;
+
+        Employee other = (Employee) obj;
+        return id == other.id &&
+               Objects.equals(name, other.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+}
+```
+
+**Manual Way (How `hashCode()` is Traditionally Written)**
+
+```java id="tq95bw"
+@Override
+public int hashCode() {
+    int result = 17;
+    result = 31 * result + id;
+    result = 31 * result + (name == null ? 0 : name.hashCode());
+    return result;
+}
+```
+
+**Why use `31`?**
+
+* **31** is a prime number that helps generate a better distribution of hash values and reduces collisions.
+
+**Example**
+
+```java id="f2xepm"
+Employee e1 = new Employee(101, "Alice");
+Employee e2 = new Employee(101, "Alice");
+
+System.out.println(e1.equals(e2));    // true
+System.out.println(e1.hashCode());    // Same hash code
+System.out.println(e2.hashCode());    // Same hash code
+```
+
+**Common Mistake**
+
+```java id="7bmsx6"
+class Employee {
+    int id;
+
+    @Override
+    public boolean equals(Object obj) {
+        return true;
+    }
+    // hashCode() not overridden
+}
+```
+
+This breaks the **`equals()`-`hashCode()` contract** and causes incorrect behavior in **`HashMap`** and **`HashSet`**.
+
+**Best Practices**
+
+* **Always override `hashCode()` when overriding `equals()`**.
+* Use **`Objects.hash()`** for simplicity and readability.
+* Use only **immutable or stable fields** in hash code calculations.
+* Do not use fields that frequently change after the object is added to a hash-based collection.
+
+**Easy Way to Remember**
+
+* **`equals()` = Compare Object Content**
+* **`hashCode()` = Find Object Bucket**
+* **Same Content = Same Hash Code**
+* **Override Both Together**
+
 
 ```java
 // import java.util.Objects;
