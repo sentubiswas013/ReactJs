@@ -743,7 +743,7 @@ System.out.println(builder);
 * **StringBuffer = Mutable + Thread-Safe + Multi Thread**
 
 
-## 6. what is immutable and Why are strings immutable in Java?
+## 6. What is immutable and Why are strings immutable in Java?
 
 Immutable means **once an object is created, its state (data) cannot be changed**. If you try to change it, a **new object is created instead of modifying the existing one**.
 
