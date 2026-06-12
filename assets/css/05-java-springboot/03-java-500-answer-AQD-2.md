@@ -11597,27 +11597,126 @@ public void createEmployee() {
 
 ## 10. What is the difference between DAO and DTO?
 
-**DAO (Data Access Object)** is used to **interact with the database** and perform CRUD operations like save, update, delete, and fetch data.
+**DAO (Data Access Object)** and **DTO (Data Transfer Object)** are common design patterns used in Java applications.
 
-**DTO (Data Transfer Object)** is used to **transfer data between layers** of an application (Controller, Service, etc.). Transfer only required fields instead of full entity objects. it usually contains only fields with getters and setters.
+* **DAO** is responsible for **accessing and managing data** in the database.
+* **DTO** is a simple object used to **transfer data** between different layers of an application.
 
-**Example:**
+| **Feature**        | **DAO**                                    | **DTO**                                                    |
+| ------------------ | ------------------------------------------ | ---------------------------------------------------------- |
+| **Full Form**      | **Data Access Object**                     | **Data Transfer Object**                                   |
+| **Purpose**        | Interacts with the **database**.           | Transfers **data between layers**.                         |
+| **Contains**       | Database operations like **CRUD**.         | Only **fields, getters, and setters** (no business logic). |
+| **Layer**          | **Persistence/Data Access Layer**.         | Used between **Controller, Service, and DAO** layers.      |
+| **Responsibility** | Fetches, saves, updates, and deletes data. | Carries data from one layer to another.                    |
 
-* **DAO:** `EmployeeRepository` that accesses the database.
-* **DTO:** `EmployeeDTO` used to send employee data in API requests or responses.
+**How it Works:**
+
+1. The **Controller** receives a request.
+2. The **Service** layer processes the business logic.
+3. The **DAO** fetches or updates data in the database.
+4. The data is mapped to a **DTO**.
+5. The **DTO** is returned to the client without exposing the internal entity.
+
+**Key Features:**
+
+* **DAO** separates **database logic** from business logic.
+* **DTO** reduces unnecessary data transfer and improves security.
+* Together, they help create a **clean and maintainable architecture**.
+
+**When to Use:**
+
+* Use **DAO** when interacting with a **database**.
+* Use **DTO** when sending or receiving data between **application layers** or **REST APIs**.
+
+**Code Example:**
+
+**DTO:**
+
+```java id="j4z8np"
+public class UserDTO {
+    private Long id;
+    private String name;
+
+    // Getters and Setters
+}
+```
+
+**DAO:**
+
+```java id="g6x3tr"
+@Repository
+public class UserDAO {
+
+    @Autowired
+    private UserRepository repository;
+
+    public User save(User user) {
+        return repository.save(user);
+    }
+
+    public User findById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+}
+```
 
 
 ## 11. What is the N+1 Query Problem and How Do You Fix It?
 
-So the N+1 problem happens when you load a list of entities and then for each entity, JPA fires a separate query to load its related data.
+The **N+1 Query Problem** is a performance issue in **JPA/Hibernate** where **1 query** is executed to fetch the parent records, and then **N additional queries** are executed to fetch the related child records. This results in **too many database calls** and slower performance.
 
-For example, you load 10 orders — that's 1 query. Then for each order, it loads the customer — that's 10 more queries. Total = 11 queries. That's N+1.
+**Key Features:**
 
-**Fix it using JOIN FETCH:**
+* Commonly occurs with **`LAZY`** loading.
+* Causes **multiple unnecessary SQL queries**.
+* Degrades **application performance**.
+* Frequently seen in **`@OneToMany`** and **`@ManyToOne`** relationships.
 
-```java
-@Query("SELECT o FROM Order o JOIN FETCH o.customer")
-List<Order> findAllWithCustomer();
+**How it Works:**
+
+1. Fetch all parent entities with **1 query**.
+2. Iterate over the parent entities.
+3. Access a lazy-loaded child collection.
+4. Hibernate executes **one extra query for each parent entity**.
+5. Total queries = **1 + N**.
+
+**Example:**
+Suppose there are **10 Users**, and each has a list of **Orders**:
+
+* `SELECT * FROM users;` → **1 query**
+* For each user: `SELECT * FROM orders WHERE user_id = ?;` → **10 queries**
+
+**Total = 11 queries (1 + N).**
+
+**How to Fix It:**
+
+* Use **`JOIN FETCH`** in JPQL.
+* Use **`@EntityGraph`** to fetch related entities together.
+* Use **DTO projections** when only specific data is needed.
+* Avoid changing everything to **`EAGER`** fetching, as it can create other performance issues.
+
+**When to Use the Fix:**
+
+* When loading **parent and child entities together**.
+* In APIs or reports where related data is always required.
+* To reduce **database round trips** and improve performance.
+
+**Code Example (Using `JOIN FETCH`):**
+
+```java id="p8v4mq"
+@Query("SELECT u FROM User u JOIN FETCH u.orders")
+List<User> findAllUsersWithOrders();
+```
+
+**Code Example (Problem Scenario):**
+
+```java id="x2n7kr"
+List<User> users = userRepository.findAll();
+
+for (User user : users) {
+    System.out.println(user.getOrders().size()); // Triggers extra query for each user
+}
 ```
 
 Or use `@EntityGraph`:
@@ -11627,27 +11726,61 @@ Or use `@EntityGraph`:
 List<Order> findAll();
 ```
 
-This loads everything in a single query instead of N+1 separate ones.
-
-
 
 ## 12. What is JPQL vs Native Query?
 
-**JPQL** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
+**JPQL (Java Persistence Query Language)** and **Native Query** are two ways to query a database in **JPA/Hibernate**.
 
-```java
-@Query("SELECT e FROM Employee e WHERE e.department = :dept")
-List<Employee> findByDept(@Param("dept") String dept);
+* **JPQL** works with **Java Entity objects**.
+* **Native Query** uses **database-specific SQL** directly.
+
+| **Feature**               | **JPQL**                                | **Native Query**                                                    |
+| ------------------------- | --------------------------------------- | ------------------------------------------------------------------- |
+| **Works On**              | **Entity classes and their fields**.    | **Database tables and columns**.                                    |
+| **Syntax**                | Java object-oriented query language.    | Standard SQL syntax.                                                |
+| **Database Independence** | **Database-independent**.               | May be **database-specific**.                                       |
+| **Portability**           | High.                                   | Lower due to SQL dialect differences.                               |
+| **Complex Queries**       | Limited for advanced database features. | Supports all SQL features, joins, functions, and stored procedures. |
+
+**How it Works:**
+
+* **JPQL:** Hibernate translates the JPQL statement into the appropriate SQL for the underlying database.
+* **Native Query:** The SQL query is sent directly to the database without translation.
+
+**Key Features:**
+
+* **JPQL**
+
+  * Works with **entities**.
+  * Easy to maintain.
+  * Portable across different databases.
+* **Native Query**
+
+  * Uses **raw SQL**.
+  * Better for **complex queries** and database-specific features.
+  * Can provide better performance in some cases.
+
+**When to Use:**
+
+* Use **JPQL** for most CRUD operations and when you want **database-independent** code.
+* Use **Native Query** for **complex SQL**, **stored procedures**, or when you need **database-specific functions**.
+
+**Code Example:**
+
+**JPQL:** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
+
+```java id="b7n3kp"
+@Query("SELECT u FROM User u WHERE u.name = :name")
+User findByName(String name);
 ```
 
-**Native Query** uses actual SQL with real table and column names. Use it when you need database-specific features or complex queries JPQL can't handle.
+**Native Query:** uses actual SQL with real table and column names. Use it when you need database-specific features or complex queries JPQL can't handle.
 
-```java
-@Query(value = "SELECT * FROM employee WHERE department = :dept", nativeQuery = true)
-List<Employee> findByDeptNative(@Param("dept") String dept);
+```java id="m4x8qr"
+@Query(value = "SELECT * FROM users WHERE name = :name",
+       nativeQuery = true)
+User findByNameNative(String name);
 ```
-
-Prefer JPQL for portability. Use native query only when needed.
 
 
 ## 13. What are JPA Cascade Types?
