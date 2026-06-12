@@ -823,34 +823,115 @@ Both `a` and `b` point to the **same object** in the **String Pool**, which is p
 * **Any modification = New Object Created**
 * **Original String Always Remains Unchanged**
 
+
 ## 7. What is the difference between final, finally, and finalize?
 
-- **final:** Keyword for constants, preventing inheritance/override
-- **finally:** Block that always executes after try-catch
-- **finalize:** Method called by garbage collector before object destruction
+**Definition**
 
-```java
-// final
-final int MAX_SIZE = 100;
-final class MyClass { }
+Although they sound similar, **`final`**, **`finally`**, and **`finalize()`** are completely different concepts in Java.
 
-// finally
-try {
-    // code
-} catch (Exception e) {
-    // handle exception
-} finally {
-    // always executes
+* **`final`**: A **keyword** used to restrict modification.
+* **`finally`**: A **block** used with exception handling to execute code regardless of whether an exception occurs.
+* **`finalize()`**: A **method** that was called by the **Garbage Collector** before object destruction. It is **deprecated** and should not be used in modern Java.
+
+
+**Key Differences**
+
+| **Feature**       | **`final`**                 | **`finally`**                   | **`finalize()`**                          |
+| ----------------- | --------------------------- | ------------------------------- | ----------------------------------------- |
+| **Type**          | Keyword                     | Block                           | Method                                    |
+| **Purpose**       | Prevent modification        | Execute cleanup code            | Perform cleanup before object destruction |
+| **Used With**     | Variables, methods, classes | `try-catch` blocks              | Objects and Garbage Collector             |
+| **Execution**     | At compile time             | Always runs after `try`/`catch` | Called by GC (not guaranteed)             |
+| **Current Usage** | Commonly used               | Commonly used                   | **Deprecated** (avoid using)              |
+
+**How It Works**
+
+**1. `final`**
+
+* A **`final` variable** cannot be reassigned.
+* A **`final` method** cannot be overridden.
+* A **`final` class** cannot be inherited.
+
+```java id="rzm81o"
+final int age = 25;
+// age = 30; // Compilation Error
+
+final class Animal {
 }
 
-// finalize
-protected void finalize() {
-    // cleanup before garbage collection
+// class Dog extends Animal {} // Compilation Error
+```
+
+**2. `finally`**
+
+* The `finally` block executes whether an exception occurs or not.
+* Commonly used to close files, database connections, or release resources.
+
+```java id="0oxh3i"
+try {
+    int result = 10 / 2;
+} catch (Exception e) {
+    System.out.println("Exception occurred");
+} finally {
+    System.out.println("Cleanup code always executes");
 }
 ```
 
+**3. `finalize()`**
 
-**final** is for immutability, **finally** for cleanup code, **finalize** for garbage collection (rarely used).
+* `finalize()` was invoked by the **Garbage Collector** before reclaiming an object's memory.
+* Its execution was **not guaranteed**, and it caused performance and reliability issues.
+* It is **deprecated from Java 9** and should be replaced with **`try-with-resources`** or explicit cleanup methods.
+
+```java id="jlwmau"
+class Test {
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Finalize called");
+    }
+}
+```
+
+**Why to Use**
+
+* Use **`final`** to create **constants**, prevent method overriding, or stop class inheritance.
+* Use **`finally`** to ensure important cleanup code always executes.
+* Do **not** use **`finalize()`** in modern applications because it is deprecated.
+
+**When to Use**
+
+| **Scenario**                                  | **Use**                                                                           |
+| --------------------------------------------- | --------------------------------------------------------------------------------- |
+| Constant value or read-only variable          | **`final`**                                                                       |
+| Prevent overriding or inheritance             | **`final`**                                                                       |
+| Close files, sockets, or database connections | **`finally`**                                                                     |
+| Object cleanup before GC                      | **Do not use `finalize()`; use `try-with-resources` or explicit cleanup instead** |
+
+**Code Example**
+
+```java id="1c9p5g"
+public class Demo {
+
+    final int MAX = 100;
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Inside try block");
+        } finally {
+            System.out.println("Finally block executed");
+        }
+    }
+}
+```
+
+**Easy Way to Remember**
+
+* **`final` = Cannot Change**
+* **`finally` = Always Executes**
+* **`finalize()` = Garbage Collector Cleanup (Deprecated)**
+
+
 
 ## 8. What is string pooling?
 
