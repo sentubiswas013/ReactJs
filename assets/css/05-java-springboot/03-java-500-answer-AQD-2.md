@@ -11431,7 +11431,7 @@ public void createEmployee() {
 * **DTO:** `EmployeeDTO` used to send employee data in API requests or responses.
 
 
-## 10. What is the N+1 Query Problem and How Do You Fix It?
+## 11. What is the N+1 Query Problem and How Do You Fix It?
 
 So the N+1 problem happens when you load a list of entities and then for each entity, JPA fires a separate query to load its related data.
 
@@ -11453,45 +11453,6 @@ List<Order> findAll();
 
 This loads everything in a single query instead of N+1 separate ones.
 
-
-## 11. What is Optimistic vs Pessimistic Locking?
-
-**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
-
-Usually implemented using a **version column**.
-
-
-```java
-// Optimistic - uses @Version
-@Entity
-public class Product {
-    @Id private Long id;
-    @Version private int version; // auto-checked on update
-    private int stock;
-}
-
-// If two threads update same Account simultaneously,
-// second one gets: javax.persistence.OptimisticLockException
-```
-
-**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
-
-```java
-// Pessimistic - locks row in DB
-@Lock(LockModeType.PESSIMISTIC_WRITE)
-@Query("SELECT p FROM Product p WHERE p.id = :id")
-Product findByIdForUpdate(@Param("id") Long id);
-```
-
-**`@Version`** enables optimistic locking. Hibernate auto-increments the version on each update and throws `OptimisticLockException` if two transactions update the same record.
-
-| | Optimistic | Pessimistic |
-|---|---|---|
-| Mechanism | Version check at commit | DB-level lock (SELECT FOR UPDATE) |
-| Use case | Low contention | High contention |
-| Performance | Better | Slower |
-
-Use optimistic for read-heavy apps, pessimistic for write-heavy or financial systems.
 
 
 ## 12. What is JPQL vs Native Query?
@@ -15909,7 +15870,77 @@ Use them only when:
 * A temporary solution is needed while redesigning the architecture.
 
 
-## 15. Spring Boot 2.7 vs Spring Boot 3.0
+## 15. What is Optimistic vs Pessimistic Locking?
+
+**Optimistic Locking** and **Pessimistic Locking** are concurrency control mechanisms used to prevent **data inconsistency** when multiple users or threads update the same data simultaneously.
+
+**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
+
+
+**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
+
+
+| **Feature**          | **Optimistic Locking**                                                           | **Pessimistic Locking**                                 |
+| -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **Approach**         | Assumes **conflicts are rare**.                                                  | Assumes **conflicts are likely**.                       |
+| **Locking**          | **Does not lock** the record while reading.                                      | **Locks** the record immediately.                       |
+| **Performance**      | Better for **high-read, low-write** applications.                                | Better for **high-conflict** scenarios.                 |
+| **Concurrency**      | Allows multiple users to read and update simultaneously.                         | Prevents other users from modifying the locked data.    |
+| **Failure Handling** | Throws **`OptimisticLockException`** if data was changed by another transaction. | Other transactions **wait** until the lock is released. |
+
+**How it Works:**
+
+**Optimistic Locking:**
+
+1. Read the record with a **version number**.
+2. Modify the data.
+3. Before updating, check if the **version is unchanged**.
+4. If the version changed, the update fails and an exception is thrown.
+
+**Pessimistic Locking:**
+
+1. Read and **lock the record**.
+2. No other transaction can update it until the lock is released.
+3. Update the data and commit the transaction.
+
+**Key Features:**
+
+* **Optimistic Locking:** Uses a **`@Version`** field, provides **better performance**, and avoids unnecessary locks.
+* **Pessimistic Locking:** Uses **database-level locks**, ensures strong consistency, but may reduce concurrency.
+
+**When to Use:**
+
+* Use **Optimistic Locking** when **read operations are frequent** and update conflicts are rare (e.g., **e-commerce product catalog**).
+* Use **Pessimistic Locking** when **data conflicts are common** and consistency is critical (e.g., **banking transactions**).
+
+**Code Example:**
+
+**Optimistic Locking (JPA):**
+
+```java
+@Entity
+public class Product {
+
+    @Id
+    private Long id;
+
+    @Version
+    private Integer version;
+
+    private String name;
+}
+```
+
+**Pessimistic Locking (JPA):**
+
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT p FROM Product p WHERE p.id = :id")
+Product findByIdForUpdate(Long id);
+```
+
+
+## 16. Spring Boot 2.7 vs Spring Boot 3.0
 
 | Feature              | Spring Boot 2.7     | Spring Boot 3.0            |
 | -------------------- | ------------------- | -------------------------- |
@@ -15926,7 +15957,7 @@ Use them only when:
 
 
 
-## 16. Real Industry Practice?
+## 17. Real Industry Practice?
 
 Here are strong **real industry practice tables** you can use in final-round interviews for deep project discussions.
 
