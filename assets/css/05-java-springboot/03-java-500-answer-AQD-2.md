@@ -1377,41 +1377,86 @@ This breaks the **`equals()`-`hashCode()` contract** and causes incorrect behavi
 * **Override Both Together**
 
 
+## 14. What is `var` keyword in Java(10)?
+
+**var** is a feature introduced in **Java 10** that allows **Local Variable Type Inference**, meaning the compiler automatically determines the variable's type from the assigned value.
+
+**Key Features**
+
+* **Reduces boilerplate code**.
+* Type is inferred at **compile time**.
+* Works only with **local variables**.
+* Improves code readability when the type is obvious.
+* Still maintains **strong typing**.
+
+**How It Works**
+
+The compiler looks at the value assigned to the variable and automatically determines its type.
+
 ```java
-// import java.util.Objects;
+var name = "John";    // String
+var age = 25;         // int
+var salary = 5000.50; // double
+```
 
-class Person {
-    private String name;
-    private int age;
+The compiler internally treats them as:
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof Person person)) return false;
-        return age == person.age && Objects.equals(name, person.name);
-    }
+```java
+String name = "John";
+int age = 25;
+double salary = 5000.50;
+```
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, age);
+**Why Use**
+
+* Makes code shorter and cleaner.
+* Useful when the type is long or obvious.
+* Improves readability in loops and collections.
+
+**When to Use**
+
+* Local variables inside methods.
+* Loop variables.
+* Collection and Stream operations.
+* When the variable type is clear from the assignment.
+
+**Code Example**
+
+```java
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        var name = "Java";
+        var version = 21;
+
+        List<String> languages =
+                List.of("Java", "Python");
+
+        for (var language : languages) {
+            System.out.println(language);
+        }
     }
 }
 ```
 
+**Limitations**
 
-## 14. What is `var` keyword in Java(10)?
+**var** cannot be used for:
 
-**var** in Java 10 is used for local variable type inference. It means the compiler automatically detects the type based on the value assigned, so we don’t need to explicitly declare the type.
+* Instance variables.
+* Static variables.
+* Method parameters.
+* Method return types.
+* Variables without initialization.
 
 ```java
-var name = "Kali";     // String
-var age = 25;          // int
-var list = List.of(1,2,3); // List<Integer>
+var x;        // Compilation Error
 
-// Compiler converts it internally:
-String name = "Kali";
-int age = 25;
-List<Integer> list = List.of(1,2,3);
+class Test {
+    var name = "John"; // Compilation Error
+}
 ```
 
 ## 15. Summary Data Types and Variables
