@@ -14698,8 +14698,6 @@ Destroy Bean (on application shutdown)
 
 ## 6. What is BeanFactory vs ApplicationContext?
 
-**Difference Between `BeanFactory` and `ApplicationContext`**
-
 **Definition**
 
 Both **`BeanFactory`** and **`ApplicationContext`** are **Spring IoC (Inversion of Control) containers** used to create, configure, and manage Spring beans.
@@ -14807,8 +14805,95 @@ Here, `SpringApplication.run()` internally creates and initializes the **`Applic
 
 ## 9. What is AOP in Spring?
 
+**AOP (Aspect-Oriented Programming)** is a programming technique in **Spring** that helps separate **cross-cutting concerns** (common functionalities) such as **logging, security, transaction management, caching, and exception handling** from the main business logic.
 
-AOP is a programming paradigm that separates **cross-cutting concerns** from your core business logic. Cross-cutting concerns are things that affect multiple parts of your app but aren't part of the core logic — like logging, security, transactions, etc.
+In simple words, **AOP allows you to add extra behavior to a method without modifying its actual code.**
+
+**Why do we use AOP?**
+
+Without AOP, common code like logging or security checks gets repeated in many classes. **AOP avoids code duplication** and keeps the application **clean, modular, and maintainable**.
+
+**Key Features**
+
+* **Separates business logic** from common functionalities.
+* Reduces **duplicate code**.
+* Improves **code reusability** and **maintainability**.
+* Makes applications easier to **manage and extend**.
+* Works using **dynamic proxies** in Spring.
+
+**How AOP Works**
+
+AOP is based on the following concepts:
+
+* **Aspect**: A class that contains cross-cutting logic (e.g., logging).
+* **Advice**: The action to perform (Before, After, Around, etc.).
+* **Join Point**: A point during execution, usually a method call.
+* **Pointcut**: Expression that decides where the advice should be applied.
+* **Weaving**: The process of linking aspects with target objects at runtime.
+
+**Types of Advice**
+
+| **Advice Type**     | **When It Executes**                  |
+| ------------------- | ------------------------------------- |
+| **@Before**         | Before the target method runs         |
+| **@After**          | After the target method completes     |
+| **@AfterReturning** | After the method returns successfully |
+| **@AfterThrowing**  | If the method throws an exception     |
+| **@Around**         | Before and after the method execution |
+
+**When to Use AOP?**
+
+Use AOP when you need to implement functionalities that are common across multiple modules, such as:
+
+* **Logging**
+* **Authentication & Authorization**
+* **Transaction Management**
+* **Performance Monitoring**
+* **Caching**
+* **Exception Handling**
+* **Audit Tracking**
+
+**Simple Example**
+
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before("execution(* com.example.service.*.*(..))")
+    public void logBeforeMethod() {
+        System.out.println("Method execution started...");
+    }
+}
+```
+
+```java
+@Service
+public class UserService {
+
+    public void createUser() {
+        System.out.println("User created.");
+    }
+}
+```
+
+**Output:**
+
+```
+Method execution started...
+User created.
+```
+
+Here, the **logging code is executed automatically before the `createUser()` method without changing the business logic.**
+
+**How Spring AOP Works Internally**
+
+1. Spring creates a **Proxy Object** for the target bean.
+2. When a method is called, the call first goes to the **proxy**.
+3. The proxy checks whether any **Aspect** matches the method.
+4. If matched, the configured **Advice** executes.
+5. Finally, the actual target method is invoked.
+
 
 **The Problem AOP Solves:**
 ```java
