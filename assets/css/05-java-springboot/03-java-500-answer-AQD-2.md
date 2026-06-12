@@ -14585,49 +14585,225 @@ No, injecting the same bean multiple times using Dependency Injection does not c
 
 ## 5. What is a Spring Container?
 
-A **Spring Container** is the **core part of the Spring Framework that creates, manages, and controls the lifecycle of objects called Beans**.
+**Definition**
 
-It is responsible for:
-* **Creating objects (Beans)**
-* **Injecting dependencies**
-* **Managing bean lifecycle**
+A **Spring Container** is the **core component of the Spring Framework** that is responsible for **creating, configuring, managing, and destroying Spring beans**. It implements the **Inversion of Control (IoC)** and **Dependency Injection (DI)** principles.
 
-```java
-ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-UserService service = context.getBean(UserService.class);
+
+**How It Works**
+
+1. Spring reads the configuration (**XML**, **Java Configuration**, or **Annotations**).
+2. It scans and identifies classes marked with annotations like **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`**.
+3. The container creates the required **bean objects**.
+4. It injects dependencies using **`@Autowired`**, constructor injection, or setter injection.
+5. It manages the complete bean lifecycle until the application shuts down.
+
+**Key Features**
+
+* Implements **IoC (Inversion of Control)**.
+* Supports **Dependency Injection (DI)**.
+* Manages the **bean lifecycle**.
+* Handles **bean creation, configuration, and destruction**.
+* Supports **AOP (Aspect-Oriented Programming)**, **event handling**, and **transaction management**.
+* Reduces **tight coupling** between classes.
+
+**Types of Spring Container**
+
+| **Container**            | **Description**                                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| **`BeanFactory`**        | Basic IoC container with **lazy initialization**.                                                                |
+| **`ApplicationContext`** | Advanced IoC container with features like **AOP, event handling, annotation support, and eager initialization**. |
+
+**Why to Use**
+
+* Eliminates manual object creation using `new`.
+* Promotes **loose coupling** and better maintainability.
+* Simplifies dependency management.
+* Makes applications easier to test and extend.
+
+**When to Use**
+
+| **Scenario**                             | **Use Spring Container?** |
+| ---------------------------------------- | ------------------------- |
+| Managing object creation automatically   | **Yes**                   |
+| Dependency Injection required            | **Yes**                   |
+| Enterprise and Spring Boot applications  | **Yes**                   |
+| Small standalone Java program without DI | **Optional**              |
+
+**Code Example**
+
+```java id="z4qk7x"
+@Service
+public class UserService {
+
+    public void display() {
+        System.out.println("User Service Called");
+    }
+}
 ```
-Here the **Spring Container creates the `UserService` object and provides it when needed**.
 
-**Types of Spring Container** 
+```java id="u8c5nm"
+@SpringBootApplication
+public class DemoApplication {
 
-1. **BeanFactory** – Basic container
-2. **ApplicationContext** – Advanced container (most commonly used)
+    public static void main(String[] args) {
+        ApplicationContext context =
+                SpringApplication.run(DemoApplication.class, args);
+
+        UserService service = context.getBean(UserService.class);
+        service.display();
+    }
+}
+```
+
+In this example, the **Spring Container** automatically creates the **`UserService`** bean and returns it through **`getBean()`**.
+
+**Bean Lifecycle Managed by Spring Container**
+
+```text
+Load Configuration
+        ↓
+Create Bean
+        ↓
+Inject Dependencies
+        ↓
+Initialize Bean
+        ↓
+Bean Ready to Use
+        ↓
+Destroy Bean (on application shutdown)
+```
+
+**Common Annotations Used by the Spring Container**
+
+| **Annotation**       | **Purpose**                           |
+| -------------------- | ------------------------------------- |
+| **`@Component`**     | Marks a class as a Spring bean        |
+| **`@Service`**       | Marks a service-layer bean            |
+| **`@Repository`**    | Marks a DAO/repository bean           |
+| **`@Controller`**    | Marks a web controller bean           |
+| **`@Autowired`**     | Injects dependencies automatically    |
+| **`@Configuration`** | Defines Spring configuration class    |
+| **`@Bean`**          | Creates and registers a bean manually |
+
+**Easy Way to Remember**
+
+* **Spring Container = Bean Manager**
+* **Creates Beans + Injects Dependencies + Manages Lifecycle**
+* **`BeanFactory` = Basic Container**
+* **`ApplicationContext` = Advanced Container**
+* **Spring Boot Internally Uses `ApplicationContext`**
+
 
 
 ## 6. What is BeanFactory vs ApplicationContext?
 
-**BeanFactory :** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
-It uses **lazy initialization**, so beans are created **only when requested**.
+**Difference Between `BeanFactory` and `ApplicationContext`**
 
-**ApplicationContext :** is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. 
+**Definition**
 
-**Using BeanFactory (Lazy Loading)**
-```java
+Both **`BeanFactory`** and **`ApplicationContext`** are **Spring IoC (Inversion of Control) containers** used to create, configure, and manage Spring beans.
+
+* **`BeanFactory`** is the **basic IoC container**.
+* **`ApplicationContext`** is an **advanced IoC container** built on top of `BeanFactory` with many additional enterprise features.
+
+
+**Key Differences**
+
+| **Feature**                     | **BeanFactory**                                | **ApplicationContext**                                            |
+| ------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
+| **Type**                        | Basic IoC Container                            | Advanced IoC Container                                            |
+| **Bean Initialization**         | **Lazy Loading** (creates bean when requested) | **Eager Loading** (creates singleton beans at startup by default) |
+| **Performance at Startup**      | Faster                                         | Slightly slower                                                   |
+| **Event Handling**              | Not Supported                                  | Supported                                                         |
+| **Internationalization (i18n)** | Not Supported                                  | Supported                                                         |
+| **Annotation Support**          | Limited                                        | Full Support                                                      |
+| **AOP Integration**             | Basic                                          | Full Support                                                      |
+| **Common Usage**                | Lightweight or legacy applications             | Modern Spring and Spring Boot applications                        |
+
+**How It Works**
+
+* **`BeanFactory`**
+
+  * Reads bean configuration.
+  * Creates a bean only when **`getBean()`** is called.
+
+* **`ApplicationContext`**
+
+  * Loads the configuration.
+  * Creates all **singleton beans** during container startup (unless marked `@Lazy`).
+  * Provides additional services such as event publishing and resource management.
+
+**Why to Use**
+
+* Use **`BeanFactory`** when you need a lightweight container with lazy initialization.
+* Use **`ApplicationContext`** for almost all enterprise applications because it provides additional Spring features.
+
+**When to Use**
+
+| **Scenario**                               | **Best Choice**        |
+| ------------------------------------------ | ---------------------- |
+| Learning basic Spring IoC                  | **BeanFactory**        |
+| Spring Boot application                    | **ApplicationContext** |
+| Enterprise application with AOP and events | **ApplicationContext** |
+| Need lazy bean creation only               | **BeanFactory**        |
+
+**Code Example**
+
+**Using `BeanFactory`**
+
+```java id="c0u1tk"
 Resource resource = new ClassPathResource("beans.xml");
 BeanFactory factory = new XmlBeanFactory(resource);
 
-UserService service = (UserService) factory.getBean("userService");
-service.print();
+Student student = (Student) factory.getBean("student");
 ```
 
-**Using ApplicationContext (Eager Loading)**
-```java
+**Using `ApplicationContext`**
+
+```java id="vkryie"
 ApplicationContext context =
-        new ClassPathXmlApplicationContext("beans.xml");
+    new ClassPathXmlApplicationContext("beans.xml");
 
-UserService service = context.getBean(UserService.class);
-service.print();
+Student student = context.getBean("student", Student.class);
 ```
+
+**Key Features**
+
+* **`BeanFactory`**
+
+  * Basic dependency injection container.
+  * Supports lazy initialization.
+  * Lower memory usage at startup.
+
+* **`ApplicationContext`**
+
+  * Extends `BeanFactory`.
+  * Supports **AOP**, **events**, **i18n**, and **annotation-based configuration**.
+  * Default container used by **Spring Boot**.
+
+**How Spring Boot Uses It**
+
+In **Spring Boot**, the framework automatically creates an **`ApplicationContext`** when the application starts.
+
+```java id="k7t0dx"
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+```
+
+Here, `SpringApplication.run()` internally creates and initializes the **`ApplicationContext`**.
+
+**Easy Way to Remember**
+
+* **`BeanFactory` = Basic + Lazy Loading**
+* **`ApplicationContext` = BeanFactory + Extra Features**
+* **Learning/Lightweight → `BeanFactory`**
+* **Real Projects/Spring Boot → `ApplicationContext`**
+
 
 ## 9. What is AOP in Spring?
 
