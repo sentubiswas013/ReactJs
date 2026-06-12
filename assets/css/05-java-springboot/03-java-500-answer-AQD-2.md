@@ -14865,11 +14865,6 @@ private Engine engine;
 👉 Avoid because: Hard to test, Not immutable, Hidden dependency
 ```
 
-**If I inject the same bean multiple times using Dependency Injection, will it create multiple instances every time?** 
-
-No, injecting the same bean multiple times using Dependency Injection does not create multiple instances every time because Spring beans are singleton by default. The same instance is reused from the IOC container. Multiple instances are created only if the bean scope is configured as prototype.
-
-
 
 ## 5. What is a Spring Container?
 
@@ -16006,201 +16001,537 @@ In production, we move toward cloud-native and distributed architecture. Kuberne
 # ✅ 19. Java Spring Boot 
 
 ## 1. What is annotations in Java?
-**An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
 
-**Example Annotations:**
-* `@Override`
-* `@Autowired`
-* `@Component`
-* `@Service`
+
+**Definition:**
+**Annotations** are **special metadata (information about the code)** that provide instructions to the **compiler**, **JVM**, or **frameworks** like Spring. They do not directly change the program logic but help automate configuration and processing.
+
+**Key Features:**
+
+* Add **metadata** to classes, methods, fields, or parameters.
+* Reduce the need for **XML configuration**.
+* Used by the **compiler**, **JVM**, and **frameworks** at runtime.
+* Improve **readability** and **maintainability** of code.
+* Support **compile-time** and **runtime** processing.
+
+**How It Works:**
+
+1. An annotation is added to a class, method, or field.
+2. The **compiler** or a **framework** reads the annotation.
+3. Based on the annotation, the required action is performed automatically.
+4. For example, Spring scans `@Component` and creates a **Bean** in the Spring Container.
+
+**Why to Use Annotations?**
+
+* Reduces **boilerplate code**.
+* Eliminates complex **XML configurations**.
+* Makes applications easier to configure and maintain.
+* Enables powerful framework features like **Dependency Injection**, **AOP**, and **ORM mapping**.
+
+**When to Use?**
+
+* To configure **Spring Beans** (`@Component`, `@Service`).
+* For **Dependency Injection** (`@Autowired`).
+* For **REST APIs** (`@RestController`, `@RequestMapping`).
+* For **JPA/Hibernate** entity mapping (`@Entity`, `@Table`).
+* For compiler instructions like `@Override` and `@Deprecated`.
+
+**Common Built-in Annotations:**
+
+| **Annotation**             | **Purpose**                                              |
+| -------------------------- | -------------------------------------------------------- |
+| **`@Override`**            | Indicates that a method overrides a parent class method. |
+| **`@Deprecated`**          | Marks a method or class as outdated.                     |
+| **`@SuppressWarnings`**    | Suppresses compiler warnings.                            |
+| **`@FunctionalInterface`** | Declares an interface with exactly one abstract method.  |
+
+**Common Spring Annotations:**
+
+| **Annotation**                        | **Purpose**                              |
+| ------------------------------------- | ---------------------------------------- |
+| **`@Component`**                      | Marks a class as a Spring Bean.          |
+| **`@Service`**                        | Indicates a service layer component.     |
+| **`@Repository`**                     | Indicates a data access layer component. |
+| **`@Controller` / `@RestController`** | Defines a web controller.                |
+| **`@Autowired`**                      | Automatically injects dependencies.      |
+
+**Simple Code Example:**
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal Sound");
+    }
+}
+
+class Dog extends Animal {
+
+    @Override
+    void sound() {
+        System.out.println("Dog Barks");
+    }
+}
+```
+
+Here, **`@Override`** tells the compiler that `sound()` is overriding a method from the parent class. If the method signature is incorrect, the compiler will generate an error.
+
+**Spring Example:**
+
+```java
+@Component
+class Engine {
+}
+
+@Service
+class CarService {
+
+    @Autowired
+    private Engine engine;
+}
+```
+
+Here, Spring reads the annotations and automatically creates the objects and injects the dependency.
+
 
 ## 2. What is Spring Boot and How does it Works Internally(Lifecycle)?
 
-**Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
 
-**Design patterns:**
-Spring Boot mainly uses **MVC, Dependency Injection, Singleton, Factory, and DAO** design patterns.
+**Definition:**
+**Spring Boot** is an **extension of the Spring Framework** that simplifies the development of Java applications by providing **auto-configuration**, **embedded servers**, and **starter dependencies**. It helps developers build and run production-ready applications with **minimal configuration**.
 
-**Design Principle:**
-Spring Boot follows principles like Convention over **Configuration, Dependency Injection, Auto-Configuration, and Standalone** Applications.
+**Key Features:**
 
+* **Auto Configuration** – Automatically configures the application based on the dependencies available in the classpath.
+* **Starter Dependencies** – Predefined dependency bundles like `spring-boot-starter-web` and `spring-boot-starter-data-jpa`.
+* **Embedded Server** – Comes with built-in **Tomcat**, **Jetty**, or **Undertow**, so no external server setup is needed.
+* **Production-Ready Features** – Provides **Actuator**, health checks, metrics, and monitoring.
+* **Minimal Configuration** – Reduces XML and manual configuration using annotations.
 
-**How does it Works Internally:**
+**Why to Use Spring Boot?**
 
-1. **Application Starts :** The `main()` method calls **`SpringApplication.run()`** to start the application.
-2. **Auto Configuration** Spring Boot automatically configures beans based on dependencies using **`@EnableAutoConfiguration`**.
-3. **Component Scanning :** It scans packages for classes annotated with **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`**.
-4. **Bean Creation (IoC Container) :** Spring creates and manages objects (beans) inside the **Spring IoC container**.
-5. **Embedded Server Starts :** Spring Boot starts an embedded server like **Apache Tomcat**, **Jetty**, or **Undertow**.
-6. **Application Ready :** The application is ready to handle HTTP requests.
+* Reduces **boilerplate code** and configuration.
+* Speeds up application development.
+* Makes deployment easier with a **self-contained JAR**.
+* Simplifies microservices and enterprise application development.
+* Integrates seamlessly with the Spring ecosystem.
 
-```java
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+**When to Use?**
 
-@SpringBootApplication // Combines three annotations
+* Building **REST APIs** and **Microservices**.
+* Developing **Enterprise Applications**.
+* Creating applications that require **quick setup and deployment**.
+* When you want to avoid complex Spring XML configuration.
+
+**How Spring Boot Works Internally (Lifecycle)?**
+
+**1. Application Starts**
+
+* The `main()` method calls **`SpringApplication.run()`**.
+* This is the entry point of every Spring Boot application.
+
+```java id="9qvfj8"
+@SpringBootApplication
 public class DemoApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 }
-
-// Equivalent to:
-@Configuration
-@EnableAutoConfiguration  
-@ComponentScan
-public class MyApplication { }
 ```
+
+**2. Create and Initialize SpringApplication**
+
+* `SpringApplication.run()` creates a **SpringApplication** object.
+* It identifies whether the application is a **Web**, **Reactive**, or **Non-Web** application.
+
+**3. Load Configuration**
+
+* Spring Boot loads configuration from:
+
+  * `application.properties`
+  * `application.yml`
+  * Environment variables
+  * Command-line arguments
+
+**4. Create the Spring IoC Container**
+
+* An **ApplicationContext** (Spring Container) is created.
+* This container will manage all **Spring Beans**.
+
+**5. Component Scanning**
+
+* `@SpringBootApplication` internally combines:
+
+  * **`@Configuration`**
+  * **`@EnableAutoConfiguration`**
+  * **`@ComponentScan`**
+* Spring scans the package and sub-packages for classes annotated with `@Component`, `@Service`, `@Repository`, `@Controller`, etc.
+
+**6. Auto Configuration**
+
+* **`@EnableAutoConfiguration`** checks the dependencies available in the project.
+* Based on the classpath, Spring Boot automatically configures required components.
+* Example: If `spring-boot-starter-web` is present, it automatically configures **DispatcherServlet** and an embedded **Tomcat** server.
+
+**7. Bean Creation and Dependency Injection**
+
+* The **Spring Container** creates all required **Beans**.
+* Dependencies are injected automatically using **`@Autowired`** or constructor injection.
+
+**8. Embedded Server Starts**
+
+* The embedded **Tomcat/Jetty/Undertow** server starts.
+* The application is deployed automatically inside the embedded server.
+
+**9. Application Ready**
+
+* All Beans are initialized.
+* The application starts accepting HTTP requests and serving users.
+
+**Simple Lifecycle Flow:**
+
+```text
+main()
+   ↓
+SpringApplication.run()
+   ↓
+Load Configuration
+   ↓
+Create ApplicationContext
+   ↓
+Component Scanning
+   ↓
+Auto Configuration
+   ↓
+Create Beans & Inject Dependencies
+   ↓
+Start Embedded Server
+   ↓
+Application Ready
+```
+
+**Important Annotation:**
+
+```java id="xydn6m"
+@SpringBootApplication
+```
+
+This single annotation is equivalent to:
+
+```java id="7b8i5a"
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+```
+
+* **`@Configuration`** → Marks the class as a source of Bean definitions.
+* **`@EnableAutoConfiguration`** → Enables automatic configuration.
+* **`@ComponentScan`** → Scans and registers Spring Beans.
+
+**Simple Code Example:**
+
+```java id="29ybwv"
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello, Spring Boot!";
+    }
+}
+```
+
+With `spring-boot-starter-web`, Spring Boot automatically:
+
+* Creates the **Spring Container**.
+* Registers `HelloController` as a Bean.
+* Starts the embedded **Tomcat** server.
+* Maps `/hello` to the `hello()` method.
 
 
 ## 3. Spring Boot Flow Architecture works?
 
-Spring Boot follows a **layered architecture** where a request flows through different layers:
 
-**Flow:**
+**Definition:**
+**Spring Boot Flow Architecture** describes how a request travels through the application, from the moment the application starts until a response is returned to the client. Internally, Spring Boot uses the **Spring Container**, **DispatcherServlet**, and **IoC/DI** to manage the complete flow automatically.
 
-**Client → DispatcherServlet → Controller → Service → Repository → Database → Response**
+**Key Features:**
 
-**Short Explanation:**
+* **Auto Configuration** for automatic setup.
+* **Spring IoC Container** manages all Beans.
+* **Embedded Server** (Tomcat/Jetty/Undertow).
+* **DispatcherServlet** acts as the front controller.
+* Supports **MVC Architecture** (Controller → Service → Repository → Database).
 
-1. **Client** – Sends HTTP request (browser/Postman).
-2. **DispatcherServlet** (from Spring MVC) – Receives the request and routes it.
-3. **Controller** – Handles the API request.
-4. **Service** – Contains business logic.
-5. **Repository/DAO** – Interacts with the database using Spring Data JPA.
-6. **Database** – Stores and retrieves data.
-7. **Response** – Data returns back to the client.
+**How It Works (Application Startup):**
+
+1. **`main()` Method Starts**
+
+   * The application starts with `SpringApplication.run()`.
+
+2. **Spring Boot Initializes**
+
+   * Loads configuration from `application.properties` or `application.yml`.
+
+3. **Spring Container (ApplicationContext) is Created**
+
+   * Creates and manages all **Beans**.
+
+4. **Component Scanning**
+
+   * Scans classes annotated with `@Component`, `@Service`, `@Repository`, and `@RestController`.
+
+5. **Auto Configuration**
+
+   * Configures required components automatically based on project dependencies.
+
+6. **Dependency Injection**
+
+   * Injects required dependencies into Beans using **`@Autowired`** or constructor injection.
+
+7. **Embedded Server Starts**
+
+   * Starts the embedded **Tomcat/Jetty/Undertow** server and deploys the application.
+
+8. **Application is Ready**
+
+   * The application starts listening for incoming HTTP requests.
+
+**Request Processing Flow:**
+
+```text
+Client Request
+      ↓
+Embedded Tomcat Server
+      ↓
+DispatcherServlet (Front Controller)
+      ↓
+Controller (@RestController)
+      ↓
+Service (@Service)
+      ↓
+Repository (@Repository)
+      ↓
+Database
+      ↓
+Repository
+      ↓
+Service
+      ↓
+Controller
+      ↓
+DispatcherServlet
+      ↓
+HTTP Response to Client
+```
+
+**How a Request Works Internally:**
+
+* The **Client** sends an HTTP request.
+* The **Embedded Tomcat Server** receives the request.
+* The **DispatcherServlet** intercepts every request and acts as the **Front Controller**.
+* It finds the appropriate **Controller** method using URL mappings (`@GetMapping`, `@PostMapping`).
+* The **Controller** calls the **Service** layer for business logic.
+* The **Service** layer interacts with the **Repository** layer.
+* The **Repository** communicates with the **Database**.
+* The result flows back through **Repository → Service → Controller**.
+* The **DispatcherServlet** converts the result into an HTTP response (usually JSON) and sends it back to the client.
+
+**Why to Use This Architecture?**
+
+* Promotes **Separation of Concerns (SoC)**.
+* Makes applications **loosely coupled** and **easy to maintain**.
+* Simplifies testing and future enhancements.
+* Supports scalable **layered architecture**.
+
+**When to Use?**
+
+* Building **REST APIs**.
+* Developing **Microservices**.
+* Creating **Enterprise Java Applications**.
+* Any application following the **Spring MVC** pattern.
+
+**Simple Code Example:**
+
+```java id="j3h0eo"
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return userService.getUsers();
+    }
+}
+```
+
+```java id="vhe9gu"
+@Service
+public class UserService {
+
+    public String getUsers() {
+        return "List of Users";
+    }
+}
+```
+
+**Flow for the Above Example:**
+
+1. Client calls `/users`.
+2. **DispatcherServlet** receives the request.
+3. It forwards the request to `UserController`.
+4. `UserController` calls `UserService`.
+5. `UserService` processes the logic and returns data.
+6. The response is sent back to the client as JSON or plain text.
 
 
 ## 4. What is Java Bean, @Component and @Bean?
 
-**@Component** Used directly on a class. It is a generic annotation and Spring automatically creates and manages the object using component scanning.
 
-**@Bean** Used on a method inside a @Configuration class. It is an object that is created, managed, and stored by the Spring IoC container. Instead of creating objects using `new`, Spring creates and injects them automatically.
+**Definition**
 
+* **Java Bean** is a **plain Java class** that follows certain conventions: it has a **no-argument constructor**, **private fields**, and **public getter/setter methods**.
+* **`@Component`** is a **Spring annotation** used to automatically register a class as a **Spring Bean** through **Component Scanning**.
+* **`@Bean`** is a **Spring annotation** used on a method inside a **`@Configuration`** class to manually create and register a Spring Bean.
 
-A **Java Bean** is a simple Java class with private fields, getters/setters, and a no-argument constructor, and it is created manually using the `new` keyword.
+**Key Features**
+
+| **Feature**           | **Java Bean**                         | **`@Component`**                       | **`@Bean`**                         |
+| --------------------- | ------------------------------------- | -------------------------------------- | ----------------------------------- |
+| **What it is**        | Java class following bean conventions | Annotation for automatic bean creation | Annotation for manual bean creation |
+| **Managed By**        | JVM                                   | Spring Container                       | Spring Container                    |
+| **Bean Registration** | Not automatic                         | Automatic via component scanning       | Manual via configuration method     |
+| **Best For**          | Data/POJO classes                     | Your own application classes           | Third-party or customized objects   |
+| **Customization**     | N/A                                   | Limited                                | Full control over object creation   |
+
+**How it Works**
+
+1. You create a **Java Bean** by following Java Bean conventions.
+2. If the class is annotated with **`@Component`**, Spring automatically detects and registers it during startup.
+3. If a method is annotated with **`@Bean`**, Spring executes that method and stores the returned object in the **IoC Container**.
+4. The created Spring Beans can be injected into other classes using **Dependency Injection (DI)**.
+
+**Why to Use**
+
+* **Java Bean**: To create reusable and encapsulated data or business objects.
+* **`@Component`**: To reduce manual configuration and let Spring automatically manage your classes.
+* **`@Bean`**: To create beans with custom initialization logic or for classes you cannot modify.
+
+**When to Use**
+
+* Use **Java Bean** when creating a normal Java object with standard properties.
+* Use **`@Component`** for your own classes like **Service**, **Repository**, or **Controller**.
+* Use **`@Bean`** for **third-party libraries** or when bean creation needs custom logic.
+
+**Code Example**
 
 ```java
-// Example of Java Beans
-public class User {
+// Java Bean
+public class Employee {
+
     private String name;
-    public User() {}   // no-arg constructor
-    public String getName() { return name;}
-    public void setName(String name) {this.name = name;}
-}
 
-User user = new User();
-user.setName("John");
+    public Employee() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
 ```
 
-**Example @Component and @Bean**
 ```java
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
-
-// @Component Bean ------------
+// @Component
 @Component
-class UserService {
+public class EmailService {
 
-    public void createUser() {
-        System.out.println("User Created");
-    }
-}
-
-// @Bean ----------------------
-// Service Interface
-interface OrderService {
-    void process(String item);
-}
-
-// First Implementation
-class OnlineOrderServiceImpl implements OrderService {
-    @Override
-    public void process(String item) {
-        System.out.println("Online Order Processing: " + item);
-    }
-}
-
-// Second Implementation
-class OfflineOrderServiceImpl implements OrderService {
-    @Override
-    public void process(String item) {
-        System.out.println("Offline Order Processing: " + item);
-    }
-}
-
-
-// Configuration Class
-@Configuration
-class AppConfig {
-    // Bean name = buyItem
-    @Bean
-    public OrderService buyItem() {
-        return new OnlineOrderServiceImpl();
-    }
-
-    // Bean name = shopItem
-    @Bean
-    public OrderService shopItem() {
-        return new OfflineOrderServiceImpl();
-    }
-}
-
-
-// Both Bean used in Controller -----
-@RestController
-@RequestMapping("/orders")
-class OrderController {
-    private final OrderService orderService;
-    private final UserService userService;
-
-    // Constructor Injection
-    public OrderController(
-            @Qualifier("buyItem")
-            OrderService orderService,
-            UserService userService) {
-        this.orderService = orderService;
-        this.userService = userService;
-    }
-
-    @PostMapping("/{item}")
-    public String createOrder(@PathVariable String item) {
-        userService.createUser();
-        orderService.process(item);
-        return "Order received for " + item;
+    public void sendEmail() {
+        System.out.println("Email Sent");
     }
 }
 ```
 
-**`@Bean` vs `@Component` (Quick Difference)**
+```java
+// @Bean
+@Configuration
+public class AppConfig {
 
-| Feature                      | `@Component` | `@Bean`  |
-| ---------------------------- | ------------ | -------- |
-| Applied On                   | Class        | Method   |
-| Bean Creation                | Automatic    | Manual   |
-| Scanning Needed              | Yes          | No       |
-| Control Over Object Creation | Less         | More     |
-| Third-party Classes          | Not possible | Possible |
-| Configuration Logic          | Limited      | Flexible |
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
 
+```java
+// Dependency Injection
+@Service
+public class UserService {
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private RestTemplate restTemplate;
+}
+```
 
 
 ## 5. Explain Bean Lifecycle?
 
-The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
 
-**Steps in Bean Lifecycle**
+**Definition**
 
-1. **Bean Instantiated:** Spring creates the bean object.
-2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
-3. **Bean Initialization:** Initialization methods run using `@PostConstruct`.
-4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
-5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
+The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes through from its **creation** to its **destruction** inside the **Spring Container**.
+
+**Bean Lifecycle Flow**
+
+1. **Bean Instantiation** – Spring creates the bean object.
+2. **Dependency Injection** – Required dependencies are injected using **constructor**, **setter**, or **field injection**.
+3. **Aware Interfaces (Optional)** – Spring calls methods like `BeanNameAware`, `BeanFactoryAware`, etc., if implemented.
+4. **BeanPostProcessor (Before Initialization)** – `postProcessBeforeInitialization()` is executed.
+5. **Initialization** – Spring calls initialization methods:
+
+   * `@PostConstruct`
+   * `InitializingBean.afterPropertiesSet()`
+   * Custom `init-method`
+6. **Bean Ready for Use** – The bean is fully initialized and available in the **Spring Container**.
+7. **BeanPostProcessor (After Initialization)** – `postProcessAfterInitialization()` is executed.
+8. **Bean Destruction** – When the container shuts down, Spring calls:
+
+   * `@PreDestroy`
+   * `DisposableBean.destroy()`
+   * Custom `destroy-method`
+
+**Key Features**
+
+* **Managed automatically** by the **Spring Container**.
+* Supports **custom initialization** and **cleanup logic**.
+* Allows **pre-processing** and **post-processing** of beans.
+* Works with annotations like **`@PostConstruct`** and **`@PreDestroy`**.
+
+**How it Works**
+
+When the application starts, the **Spring Container** scans and creates beans, injects dependencies, performs initialization callbacks, and makes the bean available for use. When the application stops, it executes the bean's destruction callbacks and removes it from memory.
+
+**Why to Use**
+
+* To perform **resource initialization** (database connections, cache loading, etc.).
+* To execute **cleanup tasks** before bean destruction.
+* To customize bean behavior during **creation** and **destruction**.
+
+**When to Use**
+
+* When a bean requires **setup** before use.
+* When external resources need to be **released properly**.
+* When implementing **custom initialization or cleanup logic**.
+
+**Code Example**
 
 ```java
 import jakarta.annotation.PostConstruct;
@@ -16208,15 +16539,15 @@ import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MyBean {
-
-    public MyBean() {
-        System.out.println("Bean Created");
-    }
+public class EmailService {
 
     @PostConstruct
     public void init() {
         System.out.println("Bean Initialized");
+    }
+
+    public void sendEmail() {
+        System.out.println("Sending Email...");
     }
 
     @PreDestroy
@@ -16224,6 +16555,22 @@ public class MyBean {
         System.out.println("Bean Destroyed");
     }
 }
+```
+
+**Simple Lifecycle Diagram**
+
+```text
+Bean Creation
+      ↓
+Dependency Injection
+      ↓
+@PostConstruct / afterPropertiesSet()
+      ↓
+Bean Ready for Use
+      ↓
+@PreDestroy / destroy()
+      ↓
+Bean Removed
 ```
 
 
@@ -16272,113 +16619,301 @@ It's the standard annotation for Spring Boot main classes and enables all essent
 ## 8.  @Controller, @RestController, @Service, @Repository annotations?
 
 
-**Simple Flow (Easy to Remember)**
+**Definition**
 
-```text
-Controller / RestController → Service → Repository → Database
-```
+These are **Spring Stereotype Annotations** used to mark different layers of an application. They help the **Spring Container** automatically detect and manage classes as **beans** during **component scanning**.
 
 **@Controller (Returns View)r** is used to handle web requests and return views (like JSP/HTML).
 
-```java
-@Controller
-public class UserController {
-    @Autowired
-    private UserService service;
-
-    @GetMapping("/home")
-    public String home(Model model) {
-        model.addAttribute("user", service.getUser());
-        return "home"; // returns HTML/JSP page
-    }
-}
-```
-
 **@RestController (Returns JSON)** is used to build REST APIs and returns JSON/XML data instead of views.
-```java
-@RestController
-public class UserRestController {
-    @Autowired
-    private UserService service;
-
-    @GetMapping("/api/user")
-    public String getUser() {
-        return service.getUser(); // returns JSON/text
-    }
-}
-`@RestController` = `@Controller` + `@ResponseBody`
-```
-
 
 **@Service** is used for business logic layer.
 
-```java
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository repo;
+**@Repository** is used for database/DAO layer and provides exception handling.
 
-    public String getUser() {
-        return repo.getUser();
+**Key Features**
+
+* All are **specialized versions of `@Component`**.
+* Automatically detected by **component scanning**.
+* Improve **code organization** by separating application layers.
+* Enable Spring-specific features based on the annotation used.
+
+**How it Works**
+
+When the application starts, the **Spring Container** scans the packages for these annotations, creates their objects (beans), and manages their lifecycle. Each annotation represents a specific responsibility in the application architecture.
+
+**Difference Between Annotations**
+
+| **Annotation**        | **Purpose**                                            | **Used In**        | **Special Feature**                                                 |
+| --------------------- | ------------------------------------------------------ | ------------------ | ------------------------------------------------------------------- |
+| **`@Controller`**     | Handles web requests and returns a **view (HTML/JSP)** | Presentation Layer | Used with **Spring MVC**                                            |
+| **`@RestController`** | Handles REST APIs and returns **JSON/XML data**        | Presentation Layer | Combines **`@Controller` + `@ResponseBody`**                        |
+| **`@Service`**        | Contains **business logic**                            | Service Layer      | Improves code readability and design                                |
+| **`@Repository`**     | Handles **database operations**                        | Persistence Layer  | Automatically translates database exceptions into Spring exceptions |
+
+**Why to Use**
+
+* To follow a **layered architecture**.
+* To make classes **Spring-managed beans**.
+* To separate **presentation**, **business**, and **data access** logic.
+* To get additional Spring features like **exception translation** and **automatic response conversion**.
+
+**When to Use**
+
+* Use **`@Controller`** when returning web pages (JSP, Thymeleaf, etc.).
+* Use **`@RestController`** when building **RESTful APIs**.
+* Use **`@Service`** for implementing business rules and application logic.
+* Use **`@Repository`** for interacting with the database using **JPA**, **Hibernate**, or JDBC.
+
+**Code Example**
+
+**`@Controller`**
+
+```java
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
     }
 }
 ```
 
-
-**@Repository** is used for database/DAO layer and provides exception handling.
+**`@RestController`**
 
 ```java
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Page<User> findByName(String name, Pageable pageable);
-    Page<User> findAll(Pageable pageable);
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    @GetMapping("/user")
+    public String getUser() {
+        return "John";
+    }
 }
+```
+
+**`@Service`**
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    public String getUserName() {
+        return "John";
+    }
+}
+```
+
+**`@Repository`**
+
+```java
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserRepository {
+
+    public void save() {
+        System.out.println("User Saved");
+    }
+}
+```
+
+**Simple Flow**
+
+```text
+Client Request
+      ↓
+@Controller / @RestController
+      ↓
+@Service
+      ↓
+@Repository
+      ↓
+Database
 ```
 
 ## 9. What is @Autowired vs @Inject annotation?
 
-**`@Autowired`** is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
-It tells the Spring container to automatically inject a required bean into a class.
+**Definition**
+
+* **`@Autowired`** is a **Spring-specific** annotation used for **Dependency Injection (DI)**.
+* **`@Inject`** is a **Java Standard (JSR-330)** annotation used for DI and is supported by Spring as well as other DI frameworks.
+
+**Key Features**
+
+* Both are used to **automatically inject dependencies**.
+* Both can be applied to **constructor, setter, and field injection**.
+* **Constructor injection** is the recommended approach with either annotation.
+* **`@Autowired`** provides additional Spring-specific features.
+
+**How it Works**
+
+When the **Spring Container** creates a bean, it looks for `@Autowired` or `@Inject`. It then searches for a matching bean in the container and injects it automatically into the target class.
+
+**Difference Between `@Autowired` and `@Inject`**
+
+| **Feature**             | **`@Autowired`**                                | **`@Inject`**                                          |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------------ |
+| **Standard**            | Spring-specific                                 | Java Standard (**JSR-330**)                            |
+| **Package**             | `org.springframework.beans.factory.annotation`  | `jakarta.inject` (or `javax.inject` in older versions) |
+| **Required Dependency** | Supports `required = false`                     | No `required` attribute                                |
+| **Optional Injection**  | `@Autowired(required = false)` or `Optional<T>` | Use `Optional<T>` or `Provider<T>`                     |
+| **Qualifier Support**   | `@Qualifier`                                    | `@Named` (or Spring's `@Qualifier`)                    |
+| **Portability**         | Works only with Spring                          | Works across multiple DI frameworks                    |
+
+**Why to Use**
+
+* Use **`@Autowired`** when you are building a **Spring-only** application and want Spring-specific features.
+* Use **`@Inject`** when you want your code to follow the **Java standard** and remain more **framework-independent**.
+
+**When to Use**
+
+* **`@Autowired`**
+
+  * Spring Boot applications.
+  * When using features like `required = false`.
+  * When relying on Spring-specific annotations.
+
+* **`@Inject`**
+
+  * Projects following **JSR-330 standards**.
+  * Applications that may switch between different DI frameworks.
+  * When writing more portable and framework-agnostic code.
+
+**Code Example**
+
+**Using `@Autowired`**
 
 ```java
-// Using @Autowired (Spring)
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 @Service
-public class OrderService {
-    
+public class UserService {
+
     @Autowired
-    private PaymentService paymentService; // Field injection
-    
-    private UserService userService;
-    
-    @Autowired
-    public OrderService(UserService userService) { // Constructor injection
-        this.userService = userService;
-    }
+    private UserRepository userRepository;
 }
 ```
 
-**@Inject** also used used for dependency injection in Spring, it is provided by Spring Framework, while @Inject is provided by Java (JSR-330).
-
-**Using @Inject (Java JSR-330)**
+**Using `@Inject`**
 
 ```java
 import jakarta.inject.Inject;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     @Inject
     private UserRepository userRepository;
+}
+```
 
-    public void printUser() {
-        System.out.println(userRepository.getUser());
+**Recommended Constructor Injection**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    @Autowired    // Optional in Spring 4.3+ if only one constructor exists
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }
 ```
 
 ## 10. What is @Profile Annotation?
 
-**Profiles** allow you to segregate parts of your application configuration for different environments like dev, test, and production.
+**Definition**
+
+**`@Profile`** is a **Spring annotation** used to activate or register a bean only for a specific **environment** such as **development (`dev`)**, **testing (`test`)**, or **production (`prod`)**.
+
+**Key Features**
+
+* Enables **environment-specific bean configuration**.
+* Prevents loading unnecessary beans for other environments.
+* Can be used on **`@Component`**, **`@Service`**, **`@Repository`**, **`@Configuration`**, or **`@Bean`** methods.
+* Supports **multiple profiles** and profile expressions.
+
+**How it Works**
+
+When the application starts, Spring checks the **active profile** (configured using `spring.profiles.active`). It creates and registers only those beans whose `@Profile` value matches the active profile.
+
+**Why to Use**
+
+* To maintain **different configurations** for different environments.
+* To avoid changing code manually when moving from **dev** to **test** or **production**.
+* To load only the required beans, improving **maintainability** and **flexibility**.
+
+**When to Use**
+
+* Different **database configurations** for development and production.
+* Different implementations of a service for testing and real environments.
+* Environment-specific settings such as **logging**, **security**, or **external APIs**.
+
+**Code Example**
+
+**Using `@Profile` on a Bean**
+
+```java id="wokf0t"
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+
+@Service
+@Profile("dev")
+public class DevEmailService {
+
+    public void send() {
+        System.out.println("Using Development Email Service");
+    }
+}
+```
+
+```java id="76xvjo"
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+
+@Service
+@Profile("prod")
+public class ProdEmailService {
+
+    public void send() {
+        System.out.println("Using Production Email Service");
+    }
+}
+```
+
+**Activate a Profile**
+
+```properties
+spring.profiles.active=dev
+```
+
+With the above configuration, Spring will create only the **`DevEmailService`** bean.
+
+**Difference Between Common Profiles**
+
+| **Profile** | **Purpose**                                |
+| ----------- | ------------------------------------------ |
+| **`dev`**   | Local development and debugging            |
+| **`test`**  | Unit and integration testing               |
+| **`prod`**  | Production environment with real resources |
+
 
 ```java
 # application.properties
