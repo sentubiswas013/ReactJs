@@ -9146,7 +9146,141 @@ System.out.println(future.get());
 //Output: Default Value
 ```
 
-## 11. What is fail-fast and fail-safe iterators?
+
+## 11. What is Optimistic vs Pessimistic Locking?
+
+**Optimistic Locking** and **Pessimistic Locking** are concurrency control mechanisms used to prevent **data inconsistency** when multiple users or threads update the same data simultaneously.
+
+**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
+
+
+**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
+
+
+| **Feature**          | **Optimistic Locking**                                                           | **Pessimistic Locking**                                 |
+| -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **Approach**         | Assumes **conflicts are rare**.                                                  | Assumes **conflicts are likely**.                       |
+| **Locking**          | **Does not lock** the record while reading.                                      | **Locks** the record immediately.                       |
+| **Performance**      | Better for **high-read, low-write** applications.                                | Better for **high-conflict** scenarios.                 |
+| **Concurrency**      | Allows multiple users to read and update simultaneously.                         | Prevents other users from modifying the locked data.    |
+| **Failure Handling** | Throws **`OptimisticLockException`** if data was changed by another transaction. | Other transactions **wait** until the lock is released. |
+
+**How it Works:**
+
+**Optimistic Locking:**
+
+1. Read the record with a **version number**.
+2. Modify the data.
+3. Before updating, check if the **version is unchanged**.
+4. If the version changed, the update fails and an exception is thrown.
+
+**Pessimistic Locking:**
+
+1. Read and **lock the record**.
+2. No other transaction can update it until the lock is released.
+3. Update the data and commit the transaction.
+
+**Key Features:**
+
+* **Optimistic Locking:** Uses a **`@Version`** field, provides **better performance**, and avoids unnecessary locks.
+* **Pessimistic Locking:** Uses **database-level locks**, ensures strong consistency, but may reduce concurrency.
+
+**When to Use:**
+
+* Use **Optimistic Locking** when **read operations are frequent** and update conflicts are rare (e.g., **e-commerce product catalog**).
+* Use **Pessimistic Locking** when **data conflicts are common** and consistency is critical (e.g., **banking transactions**).
+
+**Code Example:**
+
+**Optimistic Locking (JPA):**
+
+```java
+@Entity
+public class Product {
+
+    @Id
+    private Long id;
+
+    @Version
+    private Integer version;
+
+    private String name;
+}
+```
+
+**Pessimistic Locking (JPA):**
+
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT p FROM Product p WHERE p.id = :id")
+Product findByIdForUpdate(Long id);
+```
+
+
+## 12. What is `@Async` and How Does It Work?
+
+**`@Async`** is a **Spring annotation** used to execute a method **asynchronously** in a **separate thread**. It allows the caller to continue execution without waiting for the method to finish.
+
+**Key Features:**
+
+* Executes methods in a **background thread**.
+* Improves **application responsiveness**.
+* Uses a **Thread Pool (`TaskExecutor`)** internally.
+* Can return **`void`**, **`Future`**, or **`CompletableFuture`**.
+
+**How it Works:**
+
+1. Enable asynchronous processing using **`@EnableAsync`**.
+2. Annotate a method with **`@Async`**.
+3. Spring creates a **proxy** for the bean.
+4. When the method is called from another bean, the proxy submits the task to a **thread pool**.
+5. The method runs in a **different thread**, while the caller continues without blocking.
+
+**When to Use:**
+
+* Sending **emails** or **notifications**.
+* Processing **background jobs**.
+* Calling **external APIs**.
+* Running **time-consuming tasks** without blocking the main request thread.
+
+**Code Example:**
+
+```java id="j8v2nq"
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+}
+```
+
+```java id="w7s4mp"
+@Service
+public class EmailService {
+
+    @Async
+    public void sendEmail() {
+        System.out.println("Sending email: " +
+                Thread.currentThread().getName());
+    }
+}
+```
+
+```java id="w9k3lb"
+@RestController
+public class UserController {
+
+    @Autowired
+    private EmailService emailService;
+
+    @GetMapping("/register")
+    public String register() {
+        emailService.sendEmail(); // Runs asynchronously
+        return "User registered!";
+    }
+}
+```
+
+
+## 13. What is fail-fast and fail-safe iterators?
 
 
 **Fail-Fast** and **Fail-Safe** describe how Java collections behave when they are modified while being iterated.
@@ -9266,7 +9400,7 @@ public class Main {
 | Not suitable for concurrent modification | Suitable for concurrent modification |
 
 
-## 12. What happens if the thread pool is exhausted?
+## 14. What happens if the thread pool is exhausted?
 
 
 A **Thread Pool** is considered **exhausted** when all worker threads are busy and the task queue is full, leaving no capacity to accept new tasks.
@@ -9335,7 +9469,7 @@ ThreadPoolExecutor executor =
 * Use **asynchronous processing**
 * Configure an appropriate **Rejection Policy**
 
-## 13. Fork/Join Framework
+## 15. Fork/Join Framework
 
 
 The **Fork/Join Framework** is a Java framework used for **parallel processing** by breaking a large task into smaller subtasks, executing them in parallel, and then combining the results. It is part of the **java.util.concurrent** package.
@@ -15870,141 +16004,7 @@ Use them only when:
 * A temporary solution is needed while redesigning the architecture.
 
 
-## 15. What is Optimistic vs Pessimistic Locking?
-
-**Optimistic Locking** and **Pessimistic Locking** are concurrency control mechanisms used to prevent **data inconsistency** when multiple users or threads update the same data simultaneously.
-
-**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
-
-
-**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
-
-
-| **Feature**          | **Optimistic Locking**                                                           | **Pessimistic Locking**                                 |
-| -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| **Approach**         | Assumes **conflicts are rare**.                                                  | Assumes **conflicts are likely**.                       |
-| **Locking**          | **Does not lock** the record while reading.                                      | **Locks** the record immediately.                       |
-| **Performance**      | Better for **high-read, low-write** applications.                                | Better for **high-conflict** scenarios.                 |
-| **Concurrency**      | Allows multiple users to read and update simultaneously.                         | Prevents other users from modifying the locked data.    |
-| **Failure Handling** | Throws **`OptimisticLockException`** if data was changed by another transaction. | Other transactions **wait** until the lock is released. |
-
-**How it Works:**
-
-**Optimistic Locking:**
-
-1. Read the record with a **version number**.
-2. Modify the data.
-3. Before updating, check if the **version is unchanged**.
-4. If the version changed, the update fails and an exception is thrown.
-
-**Pessimistic Locking:**
-
-1. Read and **lock the record**.
-2. No other transaction can update it until the lock is released.
-3. Update the data and commit the transaction.
-
-**Key Features:**
-
-* **Optimistic Locking:** Uses a **`@Version`** field, provides **better performance**, and avoids unnecessary locks.
-* **Pessimistic Locking:** Uses **database-level locks**, ensures strong consistency, but may reduce concurrency.
-
-**When to Use:**
-
-* Use **Optimistic Locking** when **read operations are frequent** and update conflicts are rare (e.g., **e-commerce product catalog**).
-* Use **Pessimistic Locking** when **data conflicts are common** and consistency is critical (e.g., **banking transactions**).
-
-**Code Example:**
-
-**Optimistic Locking (JPA):**
-
-```java
-@Entity
-public class Product {
-
-    @Id
-    private Long id;
-
-    @Version
-    private Integer version;
-
-    private String name;
-}
-```
-
-**Pessimistic Locking (JPA):**
-
-```java
-@Lock(LockModeType.PESSIMISTIC_WRITE)
-@Query("SELECT p FROM Product p WHERE p.id = :id")
-Product findByIdForUpdate(Long id);
-```
-
-
-## 16. What is `@Async` and How Does It Work?
-
-**`@Async`** is a **Spring annotation** used to execute a method **asynchronously** in a **separate thread**. It allows the caller to continue execution without waiting for the method to finish.
-
-**Key Features:**
-
-* Executes methods in a **background thread**.
-* Improves **application responsiveness**.
-* Uses a **Thread Pool (`TaskExecutor`)** internally.
-* Can return **`void`**, **`Future`**, or **`CompletableFuture`**.
-
-**How it Works:**
-
-1. Enable asynchronous processing using **`@EnableAsync`**.
-2. Annotate a method with **`@Async`**.
-3. Spring creates a **proxy** for the bean.
-4. When the method is called from another bean, the proxy submits the task to a **thread pool**.
-5. The method runs in a **different thread**, while the caller continues without blocking.
-
-**When to Use:**
-
-* Sending **emails** or **notifications**.
-* Processing **background jobs**.
-* Calling **external APIs**.
-* Running **time-consuming tasks** without blocking the main request thread.
-
-**Code Example:**
-
-```java id="j8v2nq"
-@Configuration
-@EnableAsync
-public class AsyncConfig {
-}
-```
-
-```java id="w7s4mp"
-@Service
-public class EmailService {
-
-    @Async
-    public void sendEmail() {
-        System.out.println("Sending email: " +
-                Thread.currentThread().getName());
-    }
-}
-```
-
-```java id="w9k3lb"
-@RestController
-public class UserController {
-
-    @Autowired
-    private EmailService emailService;
-
-    @GetMapping("/register")
-    public String register() {
-        emailService.sendEmail(); // Runs asynchronously
-        return "User registered!";
-    }
-}
-```
-
-
-
-## 17. Spring Boot 2.7 vs Spring Boot 3.0
+## 15. Spring Boot 2.7 vs Spring Boot 3.0
 
 | Feature              | Spring Boot 2.7     | Spring Boot 3.0            |
 | -------------------- | ------------------- | -------------------------- |
@@ -16021,7 +16021,7 @@ public class UserController {
 
 
 
-## 17. Real Industry Practice?
+## 16. Real Industry Practice?
 
 Here are strong **real industry practice tables** you can use in final-round interviews for deep project discussions.
 
