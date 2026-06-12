@@ -11987,9 +11987,160 @@ WHERE id = 1;
 Use **Dirty Checking** when working with **managed entities** inside a **@Transactional** method.
 
 
-## 19. 0000
+## 19: What is lazy loading?
 
-## 20. What is auditing and How it works in JPA?
+**Lazy Loading** is a technique where data or objects are **loaded only when they are actually needed**, instead of loading them immediately. It helps improve **performance** and reduces unnecessary memory usage.
+
+**Key Features**
+
+* Loads data **on demand**.
+* Improves **application performance**.
+* Reduces **memory consumption**.
+* Decreases initial loading time.
+* Commonly used in **Hibernate/JPA** relationships.
+
+**How It Works**
+
+1. The main object is loaded first.
+2. Related objects are not fetched immediately.
+3. When the related data is accessed, Hibernate executes a query and loads it.
+4. Data is fetched only when required.
+
+**Why Use Lazy Loading?**
+
+* Improves performance by avoiding unnecessary database calls.
+* Reduces memory usage.
+* Faster application startup and response time.
+* Efficient for large object graphs.
+
+**When to Use**
+
+* Large datasets.
+* Relationships that are not always needed.
+* Performance-sensitive applications.
+* One-to-Many and Many-to-Many associations.
+
+**Code Example**
+
+```java
+// Lazy loading examples
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+    
+    // Lazy loading - orders loaded only when accessed
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Order> orders;
+    // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
+    
+    // Eager loading - always loaded with user
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Department department;
+}
+
+@Service
+public class UserService {
+    
+    // Lazy loading in action
+    public void processUser(Long userId) {
+        User user = userRepository.findById(userId);
+        // Orders not loaded yet
+        
+        if (needsOrders(user)) {
+            user.getOrders().size(); // Now orders are loaded
+        }
+    }
+    
+    // Avoid N+1 with explicit fetch
+    public List<User> getUsersWithOrders() {
+        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
+    }
+}
+```
+
+**Lazy vs Eager Loading**
+
+| **Lazy Loading**                   | **Eager Loading**                       |
+| ---------------------------------- | --------------------------------------- |
+| Loads data when needed             | Loads data immediately                  |
+| Better performance for unused data | Can load unnecessary data               |
+| Lower memory usage                 | Higher memory usage                     |
+| Default for collections in JPA     | Often used when data is always required |
+
+
+## 20: What is eager loading?
+
+
+**Definition**
+
+**Eager Loading** is a technique where related data is **loaded immediately** along with the main entity in a **single query** or as soon as the entity is fetched.
+
+**Key Features**
+
+* **Loads related objects instantly**
+* Reduces the **N+1 Query Problem**
+* Improves performance when related data is definitely needed
+* May load **extra data** that is not used
+
+**How It Works**
+
+When the main entity is fetched, its associated entities are fetched at the same time.
+
+Example:
+
+If you load an **Employee**, the related **Department** is also loaded immediately.
+
+**Why Use It?**
+
+* Reduces the number of database queries
+* Improves performance for frequently accessed relationships
+* Avoids additional database hits later
+
+**When to Use**
+
+* When related data is **always required**
+* For reports, dashboards, and detailed views
+* To avoid repeated database queries
+
+**Example (JPA/Hibernate)**
+```java
+// Eager loading examples
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    // Eager loading - customer always loaded with order
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+
+     // fetch = FetchType.EAGER means the related entity is loaded immediately along with the parent entity
+    
+    // Lazy loading - items loaded on demand
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> items;
+
+     // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
+}
+
+@Repository
+public class OrderRepository extends JpaRepository<Order, Long> {
+    
+    // Explicit eager loading with fetch join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
+    List<Order> findAllOrdersWithDetails();
+    
+    // Conditional eager loading
+    @EntityGraph(attributePaths = {"customer", "items"})
+    @Query("SELECT o FROM Order o WHERE o.status = :status")
+    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
+}
+```
+
+
+## 21. What is auditing and How it works in JPA?
 
 
 In Java (especially enterprise applications like Spring Boot), **auditing** means **tracking and recording changes made to data**, such as:
