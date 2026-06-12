@@ -11782,7 +11782,6 @@ User findByName(String name);
 User findByNameNative(String name);
 ```
 
-
 ## 13. What are JPA Cascade Types?
 
 Cascade means — *when you do an operation on a parent entity, automatically apply it to child entities too.*
@@ -11806,51 +11805,67 @@ Be careful with `REMOVE` — it can delete child records you didn't intend to de
 
 ## 14. What is Database Indexing and When to Use It?
 
-**Database indexing** is is a data structure technique used to speed up data retrieval operations. it like a book's table of contents — it helps the database find rows faster without scanning the whole table.
+A **Database Index** is a special **data structure** that improves the speed of **data retrieval** operations. It works like the **index of a book**, allowing the database to find rows quickly without scanning the entire table.
 
-**When to use:**
-- Columns used in `WHERE`, `JOIN`, `ORDER BY`, or `GROUP BY`
-- Foreign key columns
-- Columns with high cardinality (many unique values)
+**Key Features:**
 
-**When NOT to use:**
-- Small tables
-- Columns that are updated very frequently
-- Columns with very low cardinality (like boolean flags)
+* Improves **`SELECT`** query performance.
+* Reduces the need for **full table scans**.
+* Can be created on one or more columns.
+* Uses additional **storage space** and slightly slows down **`INSERT`**, **`UPDATE`**, and **`DELETE`** operations.
+
+**How it Works:**
+
+1. An index stores the values of indexed columns in a sorted structure (commonly a **B-Tree**).
+2. When a query searches by an indexed column, the database looks up the index first.
+3. The index quickly points to the required row location, avoiding a full table scan.
+
+**Example:**
+Without an index:
 
 ```sql
-CREATE INDEX idx_employee_email ON employee(email);
+SELECT * FROM users WHERE email = 'abc@example.com';
 ```
 
-In JPA:
-```java
-@Table(indexes = @Index(name = "idx_email", columnList = "email"))
-public class Employee { }
+The database may scan the **entire `users` table**.
+
+With an index on the **`email`** column:
+
+```sql
+CREATE INDEX idx_email ON users(email);
 ```
 
-Indexes speed up reads but slow down writes — so use them wisely.
+The database can directly locate the matching row, making the query much faster.
 
+**When to Use:**
 
-## 15. What is `FetchType.LAZY` vs `FetchType.EAGER` In Depth?
+* Columns frequently used in **`WHERE`** conditions.
+* Columns used in **`JOIN`**, **`ORDER BY`**, or **`GROUP BY`** clauses.
+* **Primary Keys** and **Foreign Keys**.
+* Columns with **high search frequency**.
 
-**EAGER** — loads related data immediately when the parent is loaded, even if you don't need it.
+**When to Avoid:**
 
-**LAZY** — loads related data only when you actually access it (on-demand).
+* Very small tables.
+* Columns that are rarely queried.
+* Columns with frequent updates if read performance is not critical, because indexes add maintenance overhead.
 
-```java
-@OneToMany(fetch = FetchType.LAZY)   // default for collections
-private List<Order> orders;
+**Code Example (JPA):**
 
-@ManyToOne(fetch = FetchType.EAGER)  // default for single associations
-private Department department;
+```java id="v3n8qy"
+@Entity
+@Table(name = "users",
+       indexes = {
+           @Index(name = "idx_email", columnList = "email")
+       })
+public class User {
+
+    @Id
+    private Long id;
+
+    private String email;
+}
 ```
-
-**The problem with LAZY** — if you access lazy data outside a transaction (after the session is closed), you get `LazyInitializationException`.
-
-**Fix:** Use `JOIN FETCH` or `@Transactional` to keep the session open, or use DTOs.
-
-**Best practice:** Always prefer LAZY. Load eagerly only when you always need the related data together.
-
 
 
 ## 16. What is LazyInitializationException?
@@ -20781,31 +20796,29 @@ ROLLBACK;
 
 ## 18. How do you Prevent duplicate payment(idempotency)?
 
-### **How Do You Prevent Duplicate Payment (Idempotency)?**
-
 **Idempotency** is a technique that ensures **multiple identical requests produce the same result**. In payment systems, it prevents a customer from being **charged more than once** if the same request is retried due to network failures or timeouts.
 
-### **Key Features**
+**Key Features**
 
 * **Unique Idempotency Key** for each payment request.
 * **Single Processing** of the request.
 * **Safe Retries** without creating duplicate payments.
 * **Stored Response** is returned for repeated requests with the same key.
 
-### **How It Works**
+**How It Works**
 
 1. The client generates and sends a unique **Idempotency Key** (for example, a UUID) with the payment request.
 2. The server checks if this key already exists in the database or cache.
 3. If the key is **new**, the payment is processed and the result is stored with that key.
 4. If the same key is received again, the server **does not process the payment again** and simply returns the previously stored response.
 
-### **Why to Use**
+**Why to Use**
 
 * Prevents **duplicate payments** caused by retries.
 * Handles **network failures** and client timeouts safely.
 * Improves **reliability** and **data consistency** in distributed systems.
 
-### **When to Use**
+**When to Use**
 
 Use idempotency for operations that should happen **only once**, such as:
 
@@ -20815,7 +20828,7 @@ Use idempotency for operations that should happen **only once**, such as:
 * **Ticket or seat booking**
 * **API operations with retry mechanisms**
 
-### **Code Example (Spring Boot)**
+**Code Example (Spring Boot)**
 
 **Entity with Unique Constraint**
 
@@ -20853,7 +20866,7 @@ public PaymentResponse makePayment(
 }
 ```
 
-### **Database Table Example**
+**Database Table Example**
 
 | idempotency_key | payment_id | status  |
 | --------------- | ---------- | ------- |
@@ -22833,160 +22846,6 @@ public class OptimizedQueryRepository {
     @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
            nativeQuery = true)
     List<User> findAboveAverageUsers();
-}
-```
-
-
-## 13: What is lazy loading?
-
-
-**Lazy Loading** is a technique where data or objects are **loaded only when they are actually needed**, instead of loading them immediately. It helps improve **performance** and reduces unnecessary memory usage.
-
-**Key Features**
-
-* Loads data **on demand**.
-* Improves **application performance**.
-* Reduces **memory consumption**.
-* Decreases initial loading time.
-* Commonly used in **Hibernate/JPA** relationships.
-
-**How It Works**
-
-1. The main object is loaded first.
-2. Related objects are not fetched immediately.
-3. When the related data is accessed, Hibernate executes a query and loads it.
-4. Data is fetched only when required.
-
-**Why Use Lazy Loading?**
-
-* Improves performance by avoiding unnecessary database calls.
-* Reduces memory usage.
-* Faster application startup and response time.
-* Efficient for large object graphs.
-
-**When to Use**
-
-* Large datasets.
-* Relationships that are not always needed.
-* Performance-sensitive applications.
-* One-to-Many and Many-to-Many associations.
-
-**Code Example**
-
-```java
-// Lazy loading examples
-@Entity
-public class User {
-    @Id
-    private Long id;
-    private String name;
-    
-    // Lazy loading - orders loaded only when accessed
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Order> orders;
-    // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
-    
-    // Eager loading - always loaded with user
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Department department;
-}
-
-@Service
-public class UserService {
-    
-    // Lazy loading in action
-    public void processUser(Long userId) {
-        User user = userRepository.findById(userId);
-        // Orders not loaded yet
-        
-        if (needsOrders(user)) {
-            user.getOrders().size(); // Now orders are loaded
-        }
-    }
-    
-    // Avoid N+1 with explicit fetch
-    public List<User> getUsersWithOrders() {
-        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
-    }
-}
-```
-
-**Lazy vs Eager Loading**
-
-| **Lazy Loading**                   | **Eager Loading**                       |
-| ---------------------------------- | --------------------------------------- |
-| Loads data when needed             | Loads data immediately                  |
-| Better performance for unused data | Can load unnecessary data               |
-| Lower memory usage                 | Higher memory usage                     |
-| Default for collections in JPA     | Often used when data is always required |
-
-
-## 14: What is eager loading?
-
-
-**Definition**
-
-**Eager Loading** is a technique where related data is **loaded immediately** along with the main entity in a **single query** or as soon as the entity is fetched.
-
-**Key Features**
-
-* **Loads related objects instantly**
-* Reduces the **N+1 Query Problem**
-* Improves performance when related data is definitely needed
-* May load **extra data** that is not used
-
-**How It Works**
-
-When the main entity is fetched, its associated entities are fetched at the same time.
-
-Example:
-
-If you load an **Employee**, the related **Department** is also loaded immediately.
-
-**Why Use It?**
-
-* Reduces the number of database queries
-* Improves performance for frequently accessed relationships
-* Avoids additional database hits later
-
-**When to Use**
-
-* When related data is **always required**
-* For reports, dashboards, and detailed views
-* To avoid repeated database queries
-
-**Example (JPA/Hibernate)**
-```java
-// Eager loading examples
-@Entity
-public class Order {
-    @Id
-    private Long id;
-    
-    // Eager loading - customer always loaded with order
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Customer customer;
-
-     // fetch = FetchType.EAGER means the related entity is loaded immediately along with the parent entity
-    
-    // Lazy loading - items loaded on demand
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> items;
-
-     // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
-}
-
-@Repository
-public class OrderRepository extends JpaRepository<Order, Long> {
-    
-    // Explicit eager loading with fetch join
-    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
-    List<Order> findAllOrdersWithDetails();
-    
-    // Conditional eager loading
-    @EntityGraph(attributePaths = {"customer", "items"})
-    @Query("SELECT o FROM Order o WHERE o.status = :status")
-    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
 }
 ```
 
