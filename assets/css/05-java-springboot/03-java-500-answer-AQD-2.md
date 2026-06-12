@@ -20440,44 +20440,97 @@ public class AuditService {
 
 ## 17. What is a Transaction in SQL?
 
-A transaction is a **group of SQL operations** that execute as a single unit. Either all succeed or all fail — no partial updates.
+A **Transaction** in SQL is a **group of one or more database operations** that are executed as a **single unit of work**. It ensures that either **all operations are completed successfully** or **none of them are applied**, maintaining **data consistency**.
 
-* **`@Transactional annotation`** = is **wrapper/helper** that uses SQL transactions automatically
+**Key Features (ACID Properties)**
 
-Transactions follow **ACID** properties:
-* **Atomicity** – All operations succeed or none (all-or-nothing).
-* **Consistency** – Data remains valid and follows all rules.
-* **Isolation** – Transactions do not interfere with each other.
-* **Durability** – Once committed, data is permanently saved even after a crash.
+* **Atomicity** – Either **all** operations succeed or **all** are rolled back.
+* **Consistency** – The database remains in a **valid state** before and after the transaction.
+* **Isolation** – Multiple transactions do not interfere with each other.
+* **Durability** – Once a transaction is **committed**, the changes are permanently saved.
 
-**Transaction Control:**
-- `setAutoCommit(false)` - Start transaction
-- `commit()` - Save changes
-- `rollback()` - Undo changes
-- `setSavepoint()` - Create checkpoint
+**How It Works**
+
+1. **BEGIN TRANSACTION** (or `START TRANSACTION`) starts the transaction.
+2. SQL statements (`INSERT`, `UPDATE`, `DELETE`, etc.) are executed.
+3. If everything is successful, use **`COMMIT`** to save the changes.
+4. If any error occurs, use **`ROLLBACK`** to undo all changes made during the transaction.
+
+**Why to Use**
+
+* To maintain **data integrity**.
+* To avoid **partial updates**.
+* To ensure **reliable and consistent** database operations.
+
+**When to Use**
+
+Use transactions whenever multiple related operations must succeed together, such as:
+
+* **Bank money transfers**
+* **Order placement and payment processing**
+* **Inventory updates**
+* **Booking or reservation systems**
+
+**Example**
 
 ```sql
-BEGIN TRANSACTION;
+START TRANSACTION;
 
-UPDATE account SET balance = balance - 500 WHERE id = 1;  -- debit
-UPDATE account SET balance = balance + 500 WHERE id = 2;  -- credit
+UPDATE accounts
+SET balance = balance - 1000
+WHERE account_id = 1;
 
--- If both succeed
+UPDATE accounts
+SET balance = balance + 1000
+WHERE account_id = 2;
+
 COMMIT;
-
--- If anything fails
-ROLLBACK;
 ```
 
-Without transactions, if the debit succeeds but the credit fails, you lose money. Transactions prevent that.
+If any statement fails:
+
+```sql
+ROLLBACK;
+```
 
 
 ## 18. How do you Prevent duplicate payment(idempotency)?
 
-We prevent duplicate payments using an **idempotency key (transaction ID)**. Even if user clicks multiple times, payment is processed only once.
+### **How Do You Prevent Duplicate Payment (Idempotency)?**
 
-**Idempotency means :** Doing the same operation multiple times gives the same result (no duplicate effect).
+**Idempotency** is a technique that ensures **multiple identical requests produce the same result**. In payment systems, it prevents a customer from being **charged more than once** if the same request is retried due to network failures or timeouts.
 
+### **Key Features**
+
+* **Unique Idempotency Key** for each payment request.
+* **Single Processing** of the request.
+* **Safe Retries** without creating duplicate payments.
+* **Stored Response** is returned for repeated requests with the same key.
+
+### **How It Works**
+
+1. The client generates and sends a unique **Idempotency Key** (for example, a UUID) with the payment request.
+2. The server checks if this key already exists in the database or cache.
+3. If the key is **new**, the payment is processed and the result is stored with that key.
+4. If the same key is received again, the server **does not process the payment again** and simply returns the previously stored response.
+
+### **Why to Use**
+
+* Prevents **duplicate payments** caused by retries.
+* Handles **network failures** and client timeouts safely.
+* Improves **reliability** and **data consistency** in distributed systems.
+
+### **When to Use**
+
+Use idempotency for operations that should happen **only once**, such as:
+
+* **Payment processing**
+* **Order creation**
+* **Money transfers**
+* **Ticket or seat booking**
+* **API operations with retry mechanisms**
+
+### **Code Example (Spring Boot)**
 
 **Entity with Unique Constraint**
 
@@ -20498,40 +20551,30 @@ public class Payment {
 }
 ```
 
-
-**Service Logic**
-
 ```java
-@Service
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
+@PostMapping("/pay")
+public PaymentResponse makePayment(
+        @RequestHeader("Idempotency-Key") String key,
+        @RequestBody PaymentRequest request) {
 
-@Service
-public class PaymentService {
-
-    @Autowired
-    private PaymentRepository paymentRepository;
-
-    public Payment processPayment(String txnId, double amount) {
-
-        // Step 1: Check existing transaction
-        Optional<Payment> existing = paymentRepository.findByTransactionId(txnId);
-        if (existing.isPresent()) {
-            return existing.get();
-        }
-
-        // Step 2: Process and save payment
-        try {
-            Payment payment = new Payment(txnId, amount, "SUCCESS");
-            return paymentRepository.save(payment);
-        } catch (DataIntegrityViolationException e) {
-            // Step 3: Handle duplicate transaction (race condition)
-            return paymentRepository.findByTransactionId(txnId).get();
-        }
+    if (paymentRepository.existsByIdempotencyKey(key)) {
+        return paymentRepository.getResponseByKey(key);
     }
+
+    PaymentResponse response = paymentService.processPayment(request);
+    paymentRepository.save(key, response);
+
+    return response;
 }
 ```
+
+### **Database Table Example**
+
+| idempotency_key | payment_id | status  |
+| --------------- | ---------- | ------- |
+| abc123          | 1001       | SUCCESS |
+
+A **UNIQUE constraint** on the **`idempotency_key`** column ensures that the same payment request cannot be stored twice.
 
 
 ## 19. What happens if payment is successful but order update fails?
