@@ -10993,8 +10993,6 @@ Use **reflection** when you need dynamic behavior that cannot be achieved with n
 
 ## 1. What is servlet in Java?
 
-### **Servlet in Java**
-
 A **Servlet** is a **Java class** that runs inside a **Servlet Container** (like **Tomcat**) and handles **client HTTP requests** and generates **HTTP responses**. It is the core technology behind many Java web applications.
 
 **Key Features:**
@@ -11045,8 +11043,6 @@ public class HelloServlet extends HttpServlet {
 ```
 
 ## 2. What is the servlet lifecycle?
-
-### **Servlet Lifecycle in Java**
 
 The **Servlet Lifecycle** defines the stages a **Servlet** goes through from **creation** to **destruction**. The **Servlet Container** (like **Tomcat**) manages this lifecycle automatically.
 
@@ -11154,8 +11150,6 @@ public class DemoServlet extends HttpServlet {
 
 
 ## 4. What is the difference between servlet and JSP?
-
-### **Difference Between Servlet and JSP**
 
 | **Feature**                | **Servlet**                                             | **JSP (JavaServer Pages)**                                        |
 | -------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------- |
