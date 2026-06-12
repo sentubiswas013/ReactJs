@@ -933,28 +933,88 @@ public class Demo {
 
 
 
-## 8. What is string pooling?
+## 8. What is string pooling in java?
 
-String pooling is Java's memory optimization technique where identical string literals share the same memory location in the String Pool (part of heap memory).
+**Definition**
 
-**String is immutable** in Java because it provides security, thread safety, String pool optimization, and better HashMap performance. Once a String object is created, its value cannot be changed; any modification creates a new object instead.
+**String Pooling** is a Java memory optimization technique where **string literals are stored in a special memory area called the String Pool**. If the same string value already exists in the pool, Java reuses the existing object instead of creating a new one.
 
-```java
-String a = "hello";    // stored in string pool
-String b = "hello";    // reuses same memory location
-String c = new String("hello"); // creates new object in heap
 
-System.out.println(a == b);  // true - same reference
-System.out.println(a == c);  // false - different references-----------------------
-String str1 = "Hello";
-String str2 = "Hello";
-String str3 = new String("Hello");
+**How It Works**
 
-System.out.println(str1 == str2);      // true
-System.out.println(str1 == str3);      // false
-System.out.println(str1.equals(str2)); // true
-System.out.println(str1.equals(str3)); // true
+* When a string literal is created using double quotes (`""`), Java first checks the **String Pool**.
+* If the value already exists, Java returns a reference to the existing object.
+* If it does not exist, Java creates a new object and stores it in the pool.
+
+```java id="4skp0r"
+String s1 = "Java";
+String s2 = "Java";
 ```
+
+Here, only **one object** `"Java"` is created in the **String Pool**, and both `s1` and `s2` point to the same object.
+
+**Key Features**
+
+* **Stores only one copy** of identical string literals.
+* **Reduces memory usage** by avoiding duplicate objects.
+* **Improves performance** because object creation is minimized.
+* Works because **`String` is immutable**.
+
+**Why to Use**
+
+* Saves **heap memory** by reusing existing string objects.
+* Improves application **performance** by reducing object creation.
+* Makes string comparison using `==` possible for pooled string literals.
+
+**When to Use**
+
+* Whenever you create strings using **string literals** (`"Hello"`), Java automatically uses the String Pool.
+* For dynamically created strings using `new String()`, use **`intern()`** if you want to place them into the String Pool.
+
+**Code Example**
+
+```java id="cwlfzr"
+String s1 = "Hello";
+String s2 = "Hello";
+
+System.out.println(s1 == s2); // true
+```
+
+Both variables point to the **same pooled object**, so `==` returns `true`.
+
+**Using `new String()`**
+
+```java id="b5q7to"
+String s1 = "Hello";
+String s2 = new String("Hello");
+
+System.out.println(s1 == s2); // false
+System.out.println(s1.equals(s2)); // true
+```
+
+Here:
+
+* `s1` points to the object in the **String Pool**.
+* `s2` points to a **new object** created in the heap.
+* `==` compares **references**, while `equals()` compares **content**.
+
+**Using `intern()`**
+
+```java id="t0odqg"
+String s1 = new String("Java");
+String s2 = s1.intern();
+
+System.out.println(s2 == "Java"); // true
+```
+
+The **`intern()`** method returns the reference from the **String Pool** if it exists, or adds the string to the pool if it does not.
+
+**Easy Way to Remember**
+
+* **String Literal (`"Java"`) = Uses String Pool**
+* **`new String("Java")` = Creates New Object**
+* **`intern()` = Moves or Returns String from the Pool**
+
 
 ## 9. What is coercion in Java?
 
@@ -984,58 +1044,219 @@ System.out.println(a instanceof Dog);    // true
 System.out.println(a instanceof Animal); // true
 ```
 
-## 11. What is Predicate in java
+## 11. What is Predicate in java?
 
-In Java, a **Predicate** is a functional interface used to **test a condition** and return a boolean result (**true or false**).
+**Definition**
 
-It is part of the java.util.function package (introduced in Java 8).
+A **`Predicate<T>`** is a **functional interface** introduced in **Java 8** in the `java.util.function` package. It takes **one input argument** and returns a **boolean (`true` or `false`)** result.
 
+**Method Signature**
 
-** Real-Time Example (Filtering)**
-
-```java
-List<String> names = Arrays.asList("John", "Sam", "Alex");
-
-Predicate<String> startsWithA = name -> name.startsWith("A");
-
-names.stream()
-     .filter(startsWithA)
-     .forEach(System.out::println);  // Output: Alex
+```java id="of0zyj"
+@FunctionalInterface
+public interface Predicate<T> {
+    boolean test(T t);
+}
 ```
 
-## 12. What is `hashCode()` in Java amd How does equals() and hashCode()?
+**Key Features**
 
-**`hashCode()`** is used to generate a hash value for an object and is used internally by HashMap, HashSet for fast retrieval. If two objects are equal, their hashCode must be equal.
+* **Functional Interface** with a single abstract method: **`test()`**.
+* Takes **one input** and returns **`true` or `false`**.
+* Works seamlessly with **Lambda Expressions** and the **Stream API**.
+* Supports combining multiple conditions using **`and()`**, **`or()`**, and **`negate()`**.
 
+**How It Works**
 
-```java
-class Test {
+* You define a condition using a lambda expression.
+* The **`test()`** method checks whether the input satisfies that condition.
+* It returns **`true`** if the condition matches, otherwise **`false`**.
+
+```java id="iq2it6"
+Predicate<Integer> isEven = n -> n % 2 == 0;
+
+System.out.println(isEven.test(4)); // true
+System.out.println(isEven.test(5)); // false
+```
+
+**Why to Use**
+
+* Makes code **cleaner and more readable**.
+* Reduces the need for separate methods for simple conditions.
+* Commonly used for **filtering collections**, **validating data**, and **conditional processing**.
+
+**When to Use**
+
+| **Scenario**                            | **Use `Predicate`?**           |
+| --------------------------------------- | ------------------------------ |
+| Filter a list using Stream API          | **Yes**                        |
+| Validate user input                     | **Yes**                        |
+| Check if an object matches a condition  | **Yes**                        |
+| Perform calculations and return a value | **No, use `Function` instead** |
+
+**Code Example**
+
+```java id="f4xrfb"
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class Demo {
     public static void main(String[] args) {
-        String a = new String("Hello");
-        String b = new String("Hello");
+        List<Integer> numbers = Arrays.asList(10, 15, 20, 25);
 
-        System.out.println(a.equals(b));   // true
-        System.out.println(a.hashCode()); // same
-        System.out.println(b.hashCode()); // same
+        Predicate<Integer> isEven = n -> n % 2 == 0;
+
+        numbers.stream()
+               .filter(isEven)
+               .forEach(System.out::println);
     }
 }
 ```
 
-**Important Rule Table**
+**Output:**
 
-| Condition         | Rule                     |
-| ----------------- | ------------------------ |
-| equals() true     | hashCode must be same    |
-| hashCode same     | equals may be true/false |
-| equals overridden | hashCode must override   |
+```text id="0lfew3"
+10
+20
+```
 
-**How does equals() and hashCode()**
+**Combining Predicates**
 
-In Java, the `equals()` and `hashCode()` methods work together to ensure that objects can be compared for equality and stored efficiently in hash-based collections like `HashMap` and `HashSet`.
-- **equals()** checks if two objects are logically equal (same content).
-- **hashCode()** generates an integer hash code for the object, which is used to determine the bucket location in hash-based collections.
-When you override `equals()`, you must also override `hashCode()` to maintain the contract that equal objects must have the same hash code. This ensures that collections like `HashMap` can retrieve objects correctly.
+```java id="p07m4e"
+Predicate<Integer> greaterThan10 = n -> n > 10;
+Predicate<Integer> isEven = n -> n % 2 == 0;
 
+Predicate<Integer> condition =
+        greaterThan10.and(isEven);
+
+System.out.println(condition.test(12)); // true
+System.out.println(condition.test(9));  // false
+```
+
+**Common Methods**
+
+| **Method**      | **Purpose**                          |
+| --------------- | ------------------------------------ |
+| **`test(T t)`** | Evaluates the condition              |
+| **`and()`**     | Combines two predicates with **AND** |
+| **`or()`**      | Combines two predicates with **OR**  |
+| **`negate()`**  | Reverses the result                  |
+| **`isEqual()`** | Checks object equality               |
+
+**Easy Way to Remember**
+
+* **`Predicate` = One Input + Boolean Output**
+* **Used for Filtering and Validation**
+* **Main Method = `test()`**
+
+
+## 12. What are `equals()` and `hashCode()` in Java??
+
+**Definition**
+
+* **`equals()`** is a method from the `Object` class used to compare the **content or logical equality** of two objects.
+
+* **`hashCode()`** is a method from the `Object` class that returns an **integer hash value** representing the object, mainly used in **hash-based collections** like `HashMap`, `HashSet`, and `Hashtable`.
+
+**
+
+**Key Features**
+
+| **Feature**            | **`equals()`**          | **`hashCode()`**       |
+| ---------------------- | ----------------------- | ---------------------- |
+| **Purpose**            | Compares object content | Generates hash value   |
+| **Return Type**        | `boolean`               | `int`                  |
+| **Defined In**         | `Object` class          | `Object` class         |
+| **Used By**            | Equality checking       | Hash-based collections |
+| **Can Be Overridden?** | Yes                     | Yes                    |
+
+**How It Works**
+
+1. When an object is added to a **`HashMap`** or **`HashSet`**, Java first calls **`hashCode()`** to find the correct bucket.
+2. If multiple objects have the same hash code, Java then calls **`equals()`** to compare their actual contents.
+3. This combination provides **fast lookup** and **correct equality checking**.
+
+**Contract Between `equals()` and `hashCode()`**
+
+* If **two objects are equal (`equals()` returns `true`)**, they **must have the same `hashCode()`**.
+* If two objects have the same `hashCode()`, they **may or may not be equal**.
+* If you **override `equals()`**, you should also **override `hashCode()`**.
+
+**Why to Use**
+
+* To define **logical equality** instead of reference equality.
+* To ensure objects work correctly in **`HashMap`**, **`HashSet`**, and other hash-based collections.
+* To improve lookup performance using hash codes.
+
+**When to Use**
+
+| **Scenario**                        | **Use `equals()` and `hashCode()`?** |
+| ----------------------------------- | ------------------------------------ |
+| Comparing object data               | **Yes**                              |
+| Using objects as `HashMap` keys     | **Yes**                              |
+| Storing custom objects in `HashSet` | **Yes**                              |
+| Comparing primitive values          | **No, use `==`**                     |
+
+**Code Example**
+
+```java id="n7z3ka"
+class Employee {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Employee)) return false;
+
+        Employee emp = (Employee) obj;
+        return id == emp.id && name.equals(emp.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id, name);
+    }
+}
+```
+
+**Usage Example**
+
+```java id="jj71he"
+Employee e1 = new Employee(1, "John");
+Employee e2 = new Employee(1, "John");
+
+System.out.println(e1.equals(e2));      // true
+System.out.println(e1.hashCode());      // Same value
+System.out.println(e2.hashCode());      // Same value
+```
+
+**What Happens in `HashMap`?**
+
+```java id="3frbch"
+Map<Employee, String> map = new HashMap<>();
+
+map.put(new Employee(1, "John"), "Developer");
+
+System.out.println(
+    map.get(new Employee(1, "John"))
+); // Developer
+```
+
+This works correctly because both **`equals()`** and **`hashCode()`** are overridden.
+
+**Easy Way to Remember**
+
+* **`equals()` = Compare Object Content**
+* **`hashCode()` = Generate Hash Value**
+* **Equal Objects = Same Hash Code**
+* **Always override both together**
 
 
 ## 13. How to Override the hashCode Method Properly in Java?
