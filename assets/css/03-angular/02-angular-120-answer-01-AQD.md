@@ -70,35 +70,94 @@ bootstrapApplication(AppComponent);
 
 ### 1. What are the new feature in Angular 17, 19, and 21 ?
 
-**Angular 17 Features**
+**Overview**
 
-* Built-in **Control Flow Syntax** (`@if`, `@for`, `@switch`) replacing `*ngIf`, `*ngFor`.
-* **Deferrable Views (`@defer`)** for lazy loading UI components.
-* **New SSR package (`@angular/ssr`)** for server-side rendering.
-* **New lifecycle hooks** like `afterRender()` and `afterNextRender()`.
-* **Improved performance** with faster build tools (Vite + esbuild).
-* **View Transitions API** for smoother route animations.
-* **Better hydration support** for SSR applications.
+These versions continue Angular's evolution toward a **Standalone Component Architecture**, **better performance**, **improved developer experience**, and **faster rendering**.
 
+| Feature               | **Angular 17**                        | **Angular 19**         | **Angular 21**             |
+| --------------------- | ------------------------------------- | ---------------------- | -------------------------- |
+| Standalone Components | Stable & Recommended                  | Default Approach       | Further Enhanced           |
+| Control Flow Syntax   | Introduced (`@if`, `@for`, `@switch`) | Improved               | Optimized                  |
+| Signals               | Developer Preview                     | Stable & Widely Used   | Enhanced Reactivity        |
+| SSR & Hydration       | Improved                              | Faster Hydration       | More Optimized             |
+| Performance           | Better than Angular 16                | Faster Build & Runtime | Best Performance           |
+| Developer Experience  | Simplified Templates                  | Reduced Boilerplate    | More Productivity Features |
 
-**Angular 19 Features**
+**Key Features**
 
-* **Standalone components by default** (less dependency on NgModules).
-* **Hot Module Replacement (HMR)** for faster development without full page reload.
-* **Improved security** with automatic Content Security Policy (CSP).
-* **Unused import detection** in components.
-* **Better template type checking** and compiler improvements.
-* **Enhanced performance** and smaller bundle sizes.
+**Angular 17**
 
+* Introduced **Built-in Control Flow** (`@if`, `@for`, `@switch`)
+* Improved **Server-Side Rendering (SSR)**
+* Better performance and build speed
+* Focus on modern Angular development
 
-**Angular 21 Features**
+**Angular 19**
 
-* **Signal-based Forms (Signal Forms)** for reactive form handling.
-* **Zoneless Angular** (optional removal of `zone.js` for better performance).
-* **Vitest support** as modern test runner (replacing Karma).
-* **Improved Server-Side Rendering and Hydration**.
-* **Angular ARIA library** for accessible UI components.
-* **Better CLI tooling and faster builds**.
+* **Standalone Components** became the preferred approach
+* **Signals** matured and became production-ready
+* Improved hydration and rendering
+* Better tooling and developer experience
+
+**Angular 21**
+
+* Enhanced **Signals-Based Reactivity**
+* Faster rendering and change detection
+* Improved SSR and hydration
+* More optimized builds and application startup time
+
+**How It Works**
+
+**Angular 17**
+
+* Reduced dependency on structural directives like `*ngIf` and `*ngFor`
+* Introduced cleaner template syntax
+
+**Angular 19**
+
+* Uses **Signals** for efficient state updates
+* Encourages fully standalone applications
+
+**Angular 21**
+
+* Further optimizes reactive updates
+* Minimizes unnecessary UI re-renders for better performance
+
+**Why Use These Versions?**
+
+* Better **Performance**
+* Cleaner and simpler code
+* Improved **Developer Productivity**
+* Faster application startup
+* Better support for modern web applications
+
+**When to Use?**
+
+* Use **Angular 17** when migrating from older Angular versions.
+* Use **Angular 19** for new projects adopting **Signals** and **Standalone Components**.
+* Use **Angular 21** for the latest performance improvements and modern Angular development.
+
+**Angular 17 Control Flow Example**
+
+```html
+@if (isLoggedIn) {
+  <h2>Welcome User</h2>
+} @else {
+  <h2>Please Login</h2>
+}
+```
+
+**Angular 19/21 Signal Example**
+
+```typescript
+import { signal } from '@angular/core';
+
+count = signal(0);
+
+increment() {
+  this.count.update(value => value + 1);
+}
+```
 
 ---
 
