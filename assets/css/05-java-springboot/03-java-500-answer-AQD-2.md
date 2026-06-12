@@ -743,36 +743,85 @@ System.out.println(builder);
 * **StringBuffer = Mutable + Thread-Safe + Multi Thread**
 
 
-## 6. What is immutable and Why are strings immutable in Java?
+## 6. What strings is immutable in Java?
 
-Immutable means **once an object is created, its state (data) cannot be changed**. If you try to change it, a **new object is created instead of modifying the existing one**.
+**Definition**
 
-**Strings are immutable in Java because:**
+A **`String`** in Java is **immutable**, which means **once a `String` object is created, its value cannot be changed**. If you modify a string, Java creates a **new object** instead of changing the existing one.
 
-1. **String Pool memory optimization**
-2. **Thread safety**
-3. **HashMap key reliability (hashcode caching)**
-4. **Security (class loading, file paths, URLs)**
+**How It Works**
 
-
-In Java, **strings are immutable**, meaning once a `String` object is created, its value **cannot be changed**.
-
-- **Security:** Prevents malicious code from changing string values
-- **Thread Safety:** Multiple threads can access without synchronization
-- **String Pool:** Enables efficient memory usage through sharing
-- **Hashcode Caching:** Hash values remain constant for HashMap keys
-- **Performance:** JVM optimizations possible
-
-**Example:**
+When you modify a string, Java does not update the existing object. Instead, it creates a **new object** with the updated value.
 
 ```java
-String s1 = "Hello";
-String s2 = s1;      // Both point to same object
-
-s1 = s1 + " World";  // Creates a new String object
-System.out.println(s1); // Hello World
-System.out.println(s2); // Hello
+String str = "Hello";
+str = str + " World";
 ```
+
+**Internally:**
+
+1. `"Hello"` object is created.
+2. `str + " World"` creates a **new object** `"Hello World"`.
+3. The variable `str` now points to the new object.
+
+**Key Features**
+
+* **Immutable**: Value cannot be changed after creation.
+* **Thread-Safe**: Multiple threads can safely share the same string object.
+* **Memory Efficient**: Supports the **String Pool**, where identical string literals share the same object.
+* **Secure**: Used for sensitive data like **class names, file paths, and URLs** because values cannot be altered.
+
+**Why is String Immutable?**
+
+1. **Security**
+
+   * Prevents accidental or malicious modification of important values such as file paths, network connections, and class loading information.
+
+2. **Thread Safety**
+
+   * Since the object never changes, multiple threads can use the same string without synchronization.
+
+3. **String Pool Optimization**
+
+   * Java stores string literals in the **String Pool** and reuses them, saving memory.
+
+4. **Caching**
+
+   * Methods like `hashCode()` can cache their result because the string value never changes.
+
+**When to Use**
+
+* Use **`String`** for **fixed or constant text**.
+* Use **`StringBuilder`** or **`StringBuffer`** when frequent modifications are required.
+
+**Code Example**
+
+```java
+String s1 = "Java";
+String s2 = s1.concat(" Programming");
+
+System.out.println(s1); // Java
+System.out.println(s2); // Java Programming
+```
+
+In the above example, `concat()` does **not** change `s1`. It creates a **new object** and stores it in `s2`.
+
+**String Pool Example**
+
+```java
+String a = "Hello";
+String b = "Hello";
+
+System.out.println(a == b); // true
+```
+
+Both `a` and `b` point to the **same object** in the **String Pool**, which is possible because strings are immutable.
+
+**Easy Way to Remember**
+
+* **Immutable = Cannot Change**
+* **Any modification = New Object Created**
+* **Original String Always Remains Unchanged**
 
 ## 7. What is the difference between final, finally, and finalize?
 
