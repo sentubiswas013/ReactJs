@@ -1209,6 +1209,7 @@ A **Class Loader** is a part of the **JVM (Java Virtual Machine)** that is respo
 * Enables **runtime class loading**
 
 **How it works**
+
 When a class is needed, the **ClassLoader loads it into JVM memory** in three steps:
 
 1. **Loading** – Finds and loads `.class` file
@@ -1250,7 +1251,6 @@ public class Main {
 
 
 ## 8. Difference between runtime vs compile-time class loading? 
-
 
 **Compile-time class loading** happens when classes are loaded during **program compilation and startup preparation**
 
