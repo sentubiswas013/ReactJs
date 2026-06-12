@@ -14093,16 +14093,69 @@ public class MultiDatabaseController {
 
 ## 0. What are SOLID principles?
 
-**SOLID** is a set of five object-oriented design principles that help developers write clean, maintainable, scalable, and loosely coupled code.
+**SOLID** is a set of **five object-oriented design principles** that help developers write **clean, maintainable, scalable, and loosely coupled code**.
 
-Following SOLID principles makes applications easier to understand, test, extend, and maintain.
+| **Principle**                                 | **Meaning**                                                                                                      |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **S - Single Responsibility Principle (SRP)** | A class should have **only one reason to change**, meaning it should have **one responsibility**.                |
+| **O - Open/Closed Principle (OCP)**           | Software entities should be **open for extension but closed for modification**.                                  |
+| **L - Liskov Substitution Principle (LSP)**   | A subclass should be able to **replace its parent class** without changing the program's behavior.               |
+| **I - Interface Segregation Principle (ISP)** | Clients should not be forced to depend on **interfaces they do not use**. Create **small, specific interfaces**. |
+| **D - Dependency Inversion Principle (DIP)**  | High-level modules should depend on **abstractions (interfaces)**, not concrete implementations.                 |
 
-- **S**ingle Responsibility: A class should have one reason to change
-- **O**pen/Closed: Open for extension, closed for modification
-- **L**iskov Substitution: Subtypes must be substitutable for their base types
-- **I**nterface Segregation: Many specific interfaces are better than one general interface
-- **D**ependency Inversion: Depend on abstractions, not concrete implementations
+**Key Features:**
 
+* Promotes **loose coupling**.
+* Improves **code reusability** and **maintainability**.
+* Makes applications easier to **test** and **extend**.
+* Reduces the impact of future changes.
+
+**How it Works:**
+
+* Break responsibilities into smaller classes (**SRP**).
+* Add new features by extending code instead of modifying existing code (**OCP**).
+* Ensure subclasses behave correctly when replacing parent classes (**LSP**).
+* Create focused interfaces instead of large, general ones (**ISP**).
+* Depend on interfaces and use **Dependency Injection** (**DIP**).
+
+**When to Use:**
+
+* Designing **object-oriented applications**.
+* Building **Spring Boot** or **enterprise Java** applications.
+* When writing code that needs to be **scalable, testable, and maintainable**.
+
+**Code Example (Dependency Inversion Principle):**
+
+```java id="k3m8pq"
+interface MessageService {
+    void send(String message);
+}
+
+class EmailService implements MessageService {
+    public void send(String message) {
+        System.out.println("Sending Email: " + message);
+    }
+}
+
+class Notification {
+    private MessageService service;
+
+    public Notification(MessageService service) {
+        this.service = service;
+    }
+
+    public void notifyUser() {
+        service.send("Hello User");
+    }
+}
+```
+
+**Easy Memory Trick:**
+**S → One Responsibility**
+**O → Open for Extension, Closed for Modification**
+**L → Subclass should replace Parent**
+**I → Small Specific Interfaces**
+**D → Depend on Interfaces, Not Implementations**
 
 
 **Example:**
@@ -14414,7 +14467,59 @@ Card payment
 
 ## 1. What are design patterns?
 
-Design patterns are proven reusable solutions to common software design problems, categorized into Creational, Structural, and Behavioral patterns.
+### **What are Design Patterns?**
+
+**Design Patterns** are **proven, reusable solutions** to common software design problems. They are **templates or best practices**, not complete code, that help developers write **clean, maintainable, and scalable** applications.
+
+**Key Features:**
+
+* Provide **standard solutions** to recurring problems.
+* Promote **code reusability** and **loose coupling**.
+* Improve **maintainability** and **readability**.
+* Follow **object-oriented design principles** like **SOLID**.
+
+**Types of Design Patterns:**
+
+| **Category**   | **Purpose**                                   | **Examples**                            |
+| -------------- | --------------------------------------------- | --------------------------------------- |
+| **Creational** | Deals with **object creation**.               | **Singleton**, **Factory**, **Builder** |
+| **Structural** | Deals with **class and object composition**.  | **Adapter**, **Decorator**, **Facade**  |
+| **Behavioral** | Deals with **communication between objects**. | **Strategy**, **Observer**, **Command** |
+
+**How it Works:**
+
+* Identify a common design problem.
+* Apply a suitable design pattern instead of creating a custom solution from scratch.
+* The pattern provides a flexible and maintainable structure for the code.
+
+**When to Use:**
+
+* When building **large or scalable applications**.
+* When the same design problem occurs repeatedly.
+* To improve **code organization**, **extensibility**, and **maintainability**.
+* Commonly used in **Spring Framework**, **Hibernate**, and enterprise Java applications.
+
+**Code Example (Singleton Pattern):**
+
+```java id="m8t2qx"
+public class Singleton {
+
+    private static final Singleton instance = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+```
+
+**Easy Memory Trick:**
+
+* **Creational** → How objects are **created**.
+* **Structural** → How objects are **connected**.
+* **Behavioral** → How objects **communicate**.
+
 
 1️⃣ **Creational Design Patterns**
 * **Singleton** – Only one instance of a class is created.
@@ -14438,38 +14543,55 @@ Design patterns are proven reusable solutions to common software design problems
 * **Template Method** – Defines skeleton of algorithm.
 * **Iterator** – Sequential access to collection.
 
-**Most Commonly Asked in Interviews**
-* **Singleton** – Ensures that a class has only one instance and provides a global access point to it.
-* **Factory** – Creates objects without exposing the object creation logic to the client.
-* **Builder** – Constructs complex objects step by step, allowing flexible object creation.
-* **Observer** – Defines a one-to-many relationship where multiple objects are notified automatically when one object changes state.
-* **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
-* **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
-* **Prototype** –  Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
 
 ## 2. What is Singleton pattern?
 
-**Singleton Pattern** is a creational Design Patterns design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
+The **Singleton Pattern** is a **Creational Design Pattern** that ensures a class has **only one instance** throughout the application and provides a **global access point** to that instance.
 
-**The default scope** for a Spring Bean in Spring Boot is the singleton scope
+**Key Features:**
 
-When to use:
+* Creates **only one object** of a class.
+* Provides a **single global access point**.
+* Saves **memory and resources**.
+* Can be made **thread-safe** for multithreaded applications.
 
-* **Database Connection Manager** – one shared connection pool for the whole app
-* **Logger Service** – single logging instance used everywhere
-* **Configuration Manager** – load config once and reuse globally
-* **Cache Manager** – one shared cache for fast data access
+**How it Works:**
 
-Singleton is used where only one shared instance is needed across the application.
+1. Make the **constructor `private`** so no other class can create an object.
+2. Create a **static instance** of the class.
+3. Provide a **public static method** (usually `getInstance()`) to return the single instance.
 
-```java
-class Singleton {
+**When to Use:**
 
-    private static Singleton instance;
+* For **logging** services.
+* For **configuration** or **properties** management.
+* For **cache** managers.
+* When only **one shared instance** is required across the application.
+* Commonly used in **Spring**, where beans are **singleton-scoped by default**.
 
-    private Singleton() { }   // private constructor
+**Code Example (Eager Initialization):**
+
+```java id="f6w9kp"
+public class Singleton {
+
+    private static final Singleton instance = new Singleton();
+
+    private Singleton() {}
 
     public static Singleton getInstance() {
+        return instance;
+    }
+}
+```
+
+**Thread-Safe Lazy Initialization:**
+
+```java id="p4m8xt"
+public class Singleton {
+    private static Singleton instance;
+    private Singleton() {}
+
+    public static synchronized Singleton getInstance() {
         if (instance == null) {
             instance = new Singleton();
         }
@@ -14486,6 +14608,14 @@ public class Main {
     }
 }
 ```
+
+**Advantages:**
+
+* **Controlled access** to a single instance.
+* **Reduces object creation overhead**.
+* Easy to share common resources across the application.
+
+
 
 ## 3. How do you implement thread-safe Singleton?
 
