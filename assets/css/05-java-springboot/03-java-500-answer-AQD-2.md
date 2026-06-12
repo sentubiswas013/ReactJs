@@ -5434,24 +5434,130 @@ public class Demo {
 
 ## 5. How does HashMap work internally?
 
-**HashMap** works using an **array of buckets (Node array)**.
-When you insert a key-value pair, it calculates the **hash value** of the key to find the bucket index.
+**Definition**
 
-If multiple keys map to the same bucket (**collision**), it stores them using a **linked list or tree (after Java 8)**.
+A **`HashMap`** is a data structure in Java that stores data as **key-value pairs**. Internally, it uses a **hash table** to provide very fast **insertion**, **deletion**, and **lookup** operations.
 
-When the number of entries exceeds the **load factor limit**, it performs **rehashing** to increase capacity.
 
-**In simple words:** HashMap uses hashing to store and retrieve data efficiently. 🚀
+**How It Works**
 
-```java
-// Simplified internal process:
-// 1. hash(key) -> bucket index
-// 2. Store/retrieve from that bucket
-// 3. Handle collisions in same bucket
+**1. Calculate `hashCode()`**
 
-Map<String, Integer> map = new HashMap<>();
-map.put("key", 100); // hash("key") -> bucket index -> store
+* When you call `put(key, value)`, Java calls the key's **`hashCode()`** method.
+
+```java id="drgqhj"
+int hash = key.hashCode();
 ```
+
+**2. Find the Bucket Index**
+
+* The hash value is converted into an array index (bucket index).
+
+```java id="v7g0w7"
+index = hash % arraySize;
+```
+
+(Java internally uses a more optimized calculation.)
+
+**3. Store the Entry**
+
+* If the bucket is empty, the key-value pair is stored there.
+* If the bucket already contains data (**hash collision**), Java stores multiple entries in the same bucket.
+
+**4. Handle Hash Collisions**
+
+* In **Java 7 and earlier**, collisions are handled using a **Linked List**.
+* In **Java 8 and later**, if the number of entries in a bucket exceeds a threshold (default **8**), the linked list is converted into a **Red-Black Tree** for faster searching.
+
+**5. Retrieve the Value**
+
+* When `get(key)` is called:
+
+  1. Java calculates the key's **`hashCode()`**.
+  2. Finds the correct bucket.
+  3. Uses **`equals()`** to compare keys if multiple entries exist in the bucket.
+  4. Returns the matching value.
+
+**Internal Flow**
+
+```text id="x6f7fh"
+put(key, value)
+      │
+      ▼
+Call key.hashCode()
+      │
+      ▼
+Calculate Bucket Index
+      │
+      ▼
+Bucket Empty?
+   Yes      No
+    │        │
+ Store    Check equals()
+ Object      │
+             ▼
+      Add to Linked List
+      or Red-Black Tree
+```
+
+**Key Features**
+
+* Stores data as **Key-Value Pairs**.
+* Uses **`hashCode()`** and **`equals()`** internally.
+* Average **O(1)** time complexity for `put()` and `get()`.
+* Handles collisions using **Linked List** or **Red-Black Tree**.
+* Allows **one `null` key** and multiple `null` values.
+* Not thread-safe.
+
+**Why to Use**
+
+* Very fast data retrieval and insertion.
+* Efficient for storing and searching large amounts of data.
+* Widely used for caching, indexing, and lookup operations.
+
+**When to Use**
+
+| **Scenario**                          | **Use `HashMap`?**          |
+| ------------------------------------- | --------------------------- |
+| Fast key-value lookup                 | **Yes**                     |
+| Data order is not important           | **Yes**                     |
+| Frequent insert and search operations | **Yes**                     |
+| Need sorted keys                      | **No, use `TreeMap`**       |
+| Multi-threaded access                 | **Use `ConcurrentHashMap`** |
+
+**Role of `equals()` and `hashCode()`**
+
+* **`hashCode()`** determines the **bucket**.
+* **`equals()`** identifies the **exact key** inside the bucket.
+
+This is why **if you override `equals()`, you must also override `hashCode()`**.
+
+**Code Example**
+
+```java id="xk9yau"
+import java.util.HashMap;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        HashMap<Integer, String> map = new HashMap<>();
+
+        map.put(101, "Alice");
+        map.put(102, "Bob");
+
+        System.out.println(map.get(101)); // Alice
+    }
+}
+```
+
+**Time Complexity**
+
+| **Operation**  | **Average Case** | **Worst Case**                 |
+| -------------- | ---------------- | ------------------------------ |
+| **`put()`**    | O(1)             | O(log n) (after treeification) |
+| **`get()`**    | O(1)             | O(log n) (after treeification) |
+| **`remove()`** | O(1)             | O(log n) (after treeification) |
+
 
 ## 6. What is hash collision and how is it handled?
 
