@@ -10811,49 +10811,123 @@ Use **reflection** when you need dynamic behavior that cannot be achieved with n
 
 ## 1. What is servlet in Java?
 
-A **servlet** is a Java class that **handles HTTP requests and responses** on a web server. It's like a **controller that processes incoming requests**, performs business logic, and sends back responses. Servlets run inside containers like Tomcat and are the foundation of Java web applications.
+### **Servlet in Java**
+
+A **Servlet** is a **Java class** that runs inside a **Servlet Container** (like **Tomcat**) and handles **client HTTP requests** and generates **HTTP responses**. It is the core technology behind many Java web applications.
+
+**Key Features:**
+
+* **Server-side** Java component.
+* Handles **HTTP GET, POST, PUT, DELETE** requests.
+* Supports **multithreading** (one servlet instance can serve multiple requests).
+* Managed by a **Servlet Container**.
+
+**How it Works:**
+
+1. Client sends an **HTTP request**.
+2. The **Servlet Container** receives the request.
+3. It creates **`HttpServletRequest`** and **`HttpServletResponse`** objects.
+4. The container calls the servlet's **`service()`** method.
+5. Based on the request type, `service()` invokes **`doGet()`**, **`doPost()`**, etc.
+6. The servlet processes the request and sends back an **HTTP response** to the client.
+
+**Servlet Lifecycle:**
+
+* **`init()`** → Called **once** when the servlet is created.
+* **`service()`** → Called for **every incoming request**.
+* **`destroy()`** → Called **once** before the servlet is removed.
+
+**When to Use:**
+
+* To build **Java web applications** and **REST APIs**.
+* When you need to process **HTTP requests** and generate **dynamic web content**.
+* It is the **foundation** on which frameworks like **Spring MVC** and **Spring Boot** work.
+
+**Code Example:**
 
 ```java
+import java.io.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.WebServlet;
+
 @WebServlet("/hello")
 public class HelloServlet extends HttpServlet {
-    
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<h1>Hello World!</h1>");
+
+    @Override
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/plain");
+        resp.getWriter().write("Hello, Servlet!");
     }
 }
 ```
 
 ## 2. What is the servlet lifecycle?
 
-The **Servlet Lifecycle** defines the stages a servlet goes through from **creation to destruction** in a servlet container like **Apache Tomcat**.
+### **Servlet Lifecycle in Java**
 
-**Lifecycle Phases**
+The **Servlet Lifecycle** defines the stages a **Servlet** goes through from **creation** to **destruction**. The **Servlet Container** (like **Tomcat**) manages this lifecycle automatically.
 
-1. **Initialization (`init()`) :** The servlet is loaded and initialized by the container.
-2. **Request Processing (`service()`) :** The servlet handles client requests (`doGet()`, `doPost()`).
-3. **Destruction (`destroy()`) :** The servlet is removed from memory when the server shuts down.
+**Lifecycle Methods:**
 
+1. **`init()`**
+
+   * Called **only once** when the servlet is loaded.
+   * Used for **initialization**, such as loading configuration or creating resources.
+
+2. **`service()`**
+
+   * Called for **every client request**.
+   * It processes the request and internally calls methods like **`doGet()`**, **`doPost()`**, **`doPut()`**, etc., based on the HTTP method.
+
+3. **`destroy()`**
+
+   * Called **only once** before the servlet is removed from memory.
+   * Used to **release resources**, such as closing database connections or files.
+
+**How it Works:**
+
+1. The **Servlet Container** loads the servlet.
+2. It creates **one servlet instance**.
+3. Calls **`init()`** once.
+4. For every incoming request, calls **`service()`**.
+5. When the server shuts down or the servlet is undeployed, calls **`destroy()`**.
+
+**Key Features:**
+
+* **Managed by the Servlet Container**.
+* **`init()`** and **`destroy()`** are called only once.
+* **`service()`** is called for every request.
+* A **single servlet instance** can handle **multiple requests using multiple threads**.
+
+**When to Use:**
+
+* When building **Java web applications** that process **HTTP requests and responses**.
+* Understanding the lifecycle helps in **resource initialization**, **request handling**, and **resource cleanup**.
+
+**Code Example:**
 
 ```java
-public class LifecycleServlet extends HttpServlet {
-    
-    public void init() throws ServletException {
-        // Called once when servlet loads
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.WebServlet;
+import java.io.IOException;
+
+@WebServlet("/demo")
+public class DemoServlet extends HttpServlet {
+
+    @Override
+    public void init() {
         System.out.println("Servlet initialized");
     }
-    
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        // Called for each request
-        response.getWriter().println("Processing request");
+
+    @Override
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws IOException {
+        resp.getWriter().write("Handling GET request");
     }
-    
+
+    @Override
     public void destroy() {
-        // Called once when servlet unloads
         System.out.println("Servlet destroyed");
     }
 }
@@ -10861,72 +10935,67 @@ public class LifecycleServlet extends HttpServlet {
 
 ## 3. What is JSP (JavaServer Pages)?
 
-**JavaServer Pages (JSP)** is a **server-side technology** used to create **dynamic web pages** using **Java code inside HTML**. It runs on a web server like **Apache Tomcat**.
+**JSP (JavaServer Pages)** is a **server-side technology** used to create **dynamic web pages** by embedding **Java code** inside **HTML**. It simplifies web development by allowing developers to mix presentation (HTML) with Java logic.
 
-JSP is internally **converted into a servlet** by the server and then executed.
+**Key Features:**
 
-* Used to build **dynamic web applications**
-* Combines **HTML + Java code**
-* Runs on the **server side**
-* Automatically converted to **Servlet**
+* Creates **dynamic web content**.
+* Combines **HTML** and **Java** in a single file.
+* Runs on top of the **Servlet** technology.
+* Supports **Expression Language (EL)** and **JSTL** for cleaner code.
 
+**How it Works:**
+
+1. A client requests a **`.jsp`** page.
+2. The **Servlet Container** (e.g., Tomcat) translates the JSP into a **Servlet**.
+3. The generated Servlet is **compiled** into a Java class.
+4. The Servlet executes and generates an **HTML response**.
+5. The HTML is sent back to the client browser.
+6. On subsequent requests, the already compiled Servlet is reused unless the JSP file changes.
+
+**When to Use:**
+
+* To build **dynamic web pages** in traditional **Java web applications**.
+* When you need to display data received from **Servlets** or **backend services**.
+* Commonly used with the **MVC (Model-View-Controller)** pattern as the **View** layer.
+
+**Code Example:**
 
 ```jsp
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<!DOCTYPE html>
 <html>
 <body>
-    <h1>Welcome, <%= request.getParameter("username") %>!</h1>
-    
-    <%
-        String currentTime = new java.util.Date().toString();
-    %>
-    
-    <p>Current time: <%= currentTime %></p>
+    <h2>Welcome to JSP!</h2>
+    <p>Current Time: <%= new java.util.Date() %></p>
 </body>
 </html>
 ```
+
 
 ## 4. What is the difference between servlet and JSP?
 
-**Servlets** are **Java classes** that handle **HTTP requests and responses**. They contain Java code and are mainly used for **processing business logic**, not for generating HTML.
+### **Difference Between Servlet and JSP**
 
-**JSP (JavaServer Pages)** is a **view technology** that allows embedding **Java code inside HTML** to create dynamic web pages. JSPs are easier for creating UI because they focus on **presentation**, while servlets focus on **logic**.
+| **Feature**                | **Servlet**                                             | **JSP (JavaServer Pages)**                                        |
+| -------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Purpose**                | Used for **request processing** and **business logic**. | Used for **presentation** and generating **dynamic web pages**.   |
+| **Code Style**             | Written completely in **Java**.                         | Written mainly in **HTML** with embedded **Java/EL/JSTL**.        |
+| **Compilation**            | Directly compiled into **bytecode**.                    | First **translated into a Servlet**, then compiled.               |
+| **Ease of UI Development** | Difficult because HTML is written inside Java code.     | Easy because Java code is embedded inside HTML.                   |
+| **Performance**            | Slightly faster since it is already compiled.           | First request is slower due to JSP-to-Servlet conversion.         |
+| **Role in MVC**            | Usually acts as the **Controller**.                     | Usually acts as the **View**.                                     |
+| **Extension**              | `.java`                                                 | `.jsp`                                                            |
+| **Inheritance**            | Extends **`HttpServlet`**.                              | Internally converted into a class that extends **`HttpServlet`**. |
 
-In short: **Servlet = logic/controller**, **JSP = view/presentation**.
+**Key Difference:**
 
-**Key differences:**
+* **Servlet** is mainly used for **handling requests and implementing business logic**.
+* **JSP** is mainly used for **displaying data and creating dynamic user interfaces**.
 
-- Servlets: Java code generating HTML
-- JSP: HTML with embedded Java
-- Servlets: Better for logic
-- JSP: Better for presentation
-- JSP gets converted to servlets anyway
+**When to Use:**
 
-```java
-// Servlet approach
-public class UserServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>User List</h1>");
-        out.println("</body></html>");
-    }
-}
-```
+* Use **Servlet** for **request handling, validation, and controller logic**.
+* Use **JSP** for **rendering dynamic HTML pages**.
 
-```jsp
-<!-- JSP approach -->
-<!DOCTYPE html>
-<html>
-<body>
-    <h1>User List</h1>
-    <% for(User user : users) { %>
-        <p><%= user.getName() %></p>
-    <% } %>
-</body>
-</html>
-```
 
 
 ## 5. What is ORM?
