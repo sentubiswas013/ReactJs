@@ -119,26 +119,199 @@ JVM = Runtime execution environment
       Garbage Collector
 ```
 
+## 3. **Difference Between `JAR`, `WAR`, and `EAR`**
+
+
+**Definition**
+
+**`JAR`**, **`WAR`**, and **`EAR`** are Java packaging formats used to bundle and deploy applications.
+
+* **`JAR (Java ARchive)`**: Packages Java classes and libraries.
+* **`WAR (Web Application ARchive)`**: Packages Java web applications.
+* **`EAR (Enterprise ARchive)`**: Packages complete enterprise applications containing multiple modules.
+
+
+**Key Differences**
+
+| **Feature**    | **JAR**                              | **WAR**                           | **EAR**                                       |
+| -------------- | ------------------------------------ | --------------------------------- | --------------------------------------------- |
+| **Full Form**  | Java ARchive                         | Web Application ARchive           | Enterprise ARchive                            |
+| **Purpose**    | Package Java classes/libraries       | Package web applications          | Package enterprise applications               |
+| **Extension**  | `.jar`                               | `.war`                            | `.ear`                                        |
+| **Contains**   | `.class` files, resources, libraries | JARs + Servlets + JSP + `WEB-INF` | WARs + JARs + deployment descriptors          |
+| **Deployment** | JVM                                  | Web Server (Tomcat, Jetty)        | Application Server (JBoss, WebLogic, WildFly) |
+| **Main Use**   | Standalone apps and libraries        | Web applications                  | Multi-module enterprise systems               |
+
+**How It Works**
+
+* **`JAR`**
+
+  * Bundles compiled Java classes and resources into a single file.
+  * Can be executed directly if it contains a **`Main-Class`** entry in `MANIFEST.MF`.
+
+* **`WAR`**
+
+  * Packages all web components like **Servlets**, **JSP**, HTML, CSS, JavaScript, and libraries.
+  * Deployed to a **Servlet Container** such as **Tomcat**.
+
+* **`EAR`**
+
+  * Bundles multiple **JAR** and **WAR** files into one deployment unit.
+  * Deployed to a full **Java EE/Jakarta EE Application Server**.
+
+**Typical Structure**
+
+**JAR Structure**
+
+```text id="epm6bq"
+myapp.jar
+ ├── META-INF/
+ │    └── MANIFEST.MF
+ └── com/example/*.class
+```
+
+**WAR Structure**
+
+```text id="l2u4kq"
+myapp.war
+ ├── index.jsp
+ ├── WEB-INF/
+ │    ├── web.xml
+ │    ├── classes/
+ │    └── lib/
+```
+
+**EAR Structure**
+
+```text id="6g4ovr"
+myapp.ear
+ ├── app.war
+ ├── service.jar
+ └── META-INF/
+      └── application.xml
+```
+
+**Why to Use**
+
+* Use **`JAR`** to package reusable libraries or standalone Java applications.
+* Use **`WAR`** to deploy web applications.
+* Use **`EAR`** to deploy large enterprise applications with multiple modules.
+
+**When to Use**
+
+| **Scenario**                                       | **Best Choice** |
+| -------------------------------------------------- | --------------- |
+| Java utility or standalone application             | **JAR**         |
+| Spring Boot application (embedded server)          | **JAR**         |
+| Traditional web application on Tomcat              | **WAR**         |
+| Large enterprise application with multiple modules | **EAR**         |
+
+**Code Example**
+
+**Create a JAR using Maven**
+
+```xml id="waw4me"
+<packaging>jar</packaging>
+```
+
+**Create a WAR using Maven**
+
+```xml id="tw3kwg"
+<packaging>war</packaging>
+```
+
+**Create an EAR using Maven**
+
+```xml id="6a3ukm"
+<packaging>ear</packaging>
+```
+
+**Spring Boot Interview Point**
+
+* **Spring Boot** applications are usually packaged as **`JAR`** because they include an **embedded Tomcat/Jetty server** and can run independently.
+* Traditional **Spring MVC** applications are often packaged as **`WAR`** and deployed to an external server.
+
+**Key Features**
+
+* **`JAR`**
+
+  * Lightweight and executable.
+  * Commonly used for libraries and Spring Boot applications.
+
+* **`WAR`**
+
+  * Contains all web application resources.
+  * Runs on a web server or servlet container.
+
+* **`EAR`**
+
+  * Supports multiple modules in a single deployment.
+  * Used in large-scale enterprise applications.
+
+**Easy Way to Remember**
+
+* **`JAR` = Java Application or Library**
+* **`WAR` = Web Application**
+* **`EAR` = Enterprise Application**
+* **Spring Boot → Usually `JAR`**
+* **Traditional Web App → Usually `WAR`**
+
+
 ## 3. What is the difference between Structured Programming and OOP?
 
-**Structured Programming**
 
-Structured Programming is a programming approach where the program is divided into small, manageable functions or procedures.
-It mainly focuses on **step-by-step execution of logic**.
+**Definition**
 
-**Main Features**
-
-* Uses:
-
-  * sequence
-  * selection (`if`, `switch`)
-  * iteration (`for`, `while`)
-* Program is divided into methods/functions
-* Top-down approach
-* Data and functions are separate
+* **Structured Programming** is a programming paradigm that organizes code into **functions or procedures** and follows a **top-down approach**.
+* **Object-Oriented Programming (OOP)** is a programming paradigm that organizes code into **objects and classes** and follows a **bottom-up approach**.
 
 
-```java
+**Key Differences**
+
+| **Feature**             | **Structured Programming**   | **Object-Oriented Programming (OOP)**    |
+| ----------------------- | ---------------------------- | ---------------------------------------- |
+| **Main Focus**          | Functions/Procedures         | Objects and Classes                      |
+| **Approach**            | Top-Down                     | Bottom-Up                                |
+| **Data & Functions**    | Separate                     | Combined into objects                    |
+| **Reusability**         | Limited                      | High through inheritance and composition |
+| **Data Security**       | Less secure                  | Better security through encapsulation    |
+| **Code Maintenance**    | Difficult for large projects | Easier for large and complex projects    |
+| **Real-World Modeling** | Not natural                  | Models real-world entities effectively   |
+| **Examples**            | C, Pascal                    | Java, C++, C#, Python                    |
+
+**How It Works**
+
+* **Structured Programming**
+
+  * Breaks a large problem into smaller **functions**.
+  * Functions operate on shared data.
+  * Execution flows sequentially using loops and conditional statements.
+
+* **Object-Oriented Programming**
+
+  * Breaks a problem into **objects**.
+  * Each object contains **data (fields)** and **behavior (methods)**.
+  * Objects interact with each other to perform tasks.
+
+**Why to Use**
+
+* Use **Structured Programming** for **small, simple applications** where modular functions are sufficient.
+* Use **OOP** for **large, scalable, and maintainable applications** that require code reuse and better organization.
+
+**When to Use**
+
+| **Scenario**                          | **Best Choice**            |
+| ------------------------------------- | -------------------------- |
+| Small utility programs                | **Structured Programming** |
+| Large enterprise applications         | **OOP**                    |
+| Applications requiring code reuse     | **OOP**                    |
+| Programs with simple sequential logic | **Structured Programming** |
+
+**Code Example**
+
+**Structured Programming (Function-Based)**
+
+```java id="x3t9zk"
 public class Calculator {
 
     static int add(int a, int b) {
@@ -146,101 +319,63 @@ public class Calculator {
     }
 
     public static void main(String[] args) {
-        int result = add(10, 20);
-        System.out.println(result);
+        System.out.println(add(10, 20));
     }
 }
 ```
 
-Here:
+**Object-Oriented Programming (Object-Based)**
 
-* Logic is divided into functions
-* Execution happens step by step
+```java id="krz8xq"
+class Calculator {
+    int a, b;
 
-**Advantages**
+    Calculator(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
 
-* Easy to understand
-* Easy debugging
-* Reduces duplicate code
-* Better readability
-
-**Disadvantages**
-
-* Difficult to manage large applications
-* Data security is weak
-* Code reusability is limited
-
-
-**OOP (Object-Oriented Programming)**
-
-OOP is a programming paradigm based on **objects and classes**.
-It combines **data + behavior** into a single unit called an object.
-
-**Main Concepts of OOP**
-
-1. **Class**
-
-   * Blueprint of object
-
-2. **Object**
-
-   * Instance of class
-
-3. **Encapsulation**
-
-   * Wrapping data and methods together
-
-4. **Inheritance**
-
-   * One class acquires properties of another class
-
-5. **Polymorphism**
-
-   * One method behaves differently
-
-6. **Abstraction**
-
-   * Hiding implementation details
-
-
-```java
-class Car {
-
-    String brand;
-
-    void start() {
-        System.out.println(brand + " Car Started");
+    int add() {
+        return a + b;
     }
 }
 
-public class Main {
+public class Demo {
     public static void main(String[] args) {
-
-        Car c1 = new Car();
-        c1.brand = "BMW";
-
-        c1.start();
+        Calculator calc = new Calculator(10, 20);
+        System.out.println(calc.add());
     }
 }
 ```
 
-Here:
+**Key Features**
 
-* `Car` → class
-* `c1` → object
-* Data + methods together → OOP
+* **Structured Programming**
 
+  * Function-oriented.
+  * Simple and easy for small programs.
+  * Limited reusability.
 
-**Structured Programming vs OOP**
+* **Object-Oriented Programming**
 
-| Feature           | Structured Programming | OOP                |
-| ----------------- | ---------------------- | ------------------ |
-| Focus             | Functions              | Objects            |
-| Approach          | Top-down               | Bottom-up          |
-| Data Security     | Less                   | High               |
-| Reusability       | Limited                | High               |
-| Best For          | Small applications     | Large applications |
-| Example Languages | C, Pascal              | Java, C++, Python  |
+  * Object-oriented and modular.
+  * Supports **Encapsulation**, **Inheritance**, **Polymorphism**, and **Abstraction**.
+  * Promotes high code reusability and maintainability.
+
+**Advantages of OOP Over Structured Programming**
+
+* Better **code reusability**.
+* Improved **security** through encapsulation.
+* Easier **maintenance** and **scalability**.
+* Closer representation of **real-world problems**.
+
+**Easy Way to Remember**
+
+* **Structured Programming = Functions + Top-Down**
+* **OOP = Objects + Bottom-Up**
+* **Small Projects → Structured Programming**
+* **Large, Scalable Projects → OOP**
+
 
 
 ## 3. What are the main principles of Object-Oriented Programming?
