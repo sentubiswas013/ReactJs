@@ -15117,11 +15117,10 @@ public class Main {
 
 
 
-# ✅ 18. Java Spring Framework 
+# ✅ 18. Java Spring Framework x
 
-## 1. What is Spring Framework?
+**Spring Framework** is a **lightweight, open-source Java framework** used to build **enterprise and web applications**. It simplifies Java development by providing features like **Dependency Injection (DI)**, **Inversion of Control (IoC)**, **AOP**, and **transaction management**.
 
-**Spring Framework** is an **open-source Java framework** used to build **enterprise-level applications**. It provides a comprehensive infrastructure for developing **loosely coupled, modular, scalable, and maintainable** applications by using concepts like **IoC (Inversion of Control)** and **Dependency Injection (DI)**.
 
 In simple words, **Spring manages the creation and wiring of objects, so developers can focus on business logic instead of infrastructure code.**
 
@@ -21265,370 +21264,620 @@ public class ParallelApiService {
 
 ## 1. What is Kafka and How Does It Work?
 
-Kafka is a **distributed event streaming platform** — used for high-throughput, real-time data pipelines.
+**Apache Kafka** is a **distributed event streaming platform** used to **publish, store, and process real-time data streams**. It enables different applications to communicate **asynchronously** through messages.
 
-**Core concepts:**
-- **Producer** — sends messages to a topic
-- **Topic** — a named channel (like a queue, but persistent)
-- **Partition** — topics are split into partitions for parallelism
-- **Consumer** — reads messages from a topic
-- **Consumer Group** — multiple consumers share the load; each partition is read by one consumer in the group
-- **Broker** — a Kafka server that stores messages
+**Key Features:**
 
-```
-Producer → Topic (Partitions) → Consumer Group → Consumers
-```
+* **High throughput** and **low latency**.
+* Supports **asynchronous communication**.
+* **Scalable** and **fault-tolerant**.
+* Stores messages durably for a configurable period.
+* Supports **multiple producers and consumers**.
 
-Messages are **persisted on disk** and retained for a configurable period — so consumers can replay events.
+**Main Components:**
 
-```java
-<dependency>
-    <groupId>org.apache.kafka</groupId>
-    <artifactId>kafka-clients</artifactId>
-    <version>3.7.0</version>
-</dependency>
+* **Producer** → Sends messages to Kafka.
+* **Topic** → A logical channel where messages are stored.
+* **Partition** → A topic is divided into partitions for parallel processing.
+* **Broker** → Kafka server that stores and manages messages.
+* **Consumer** → Reads messages from a topic.
+* **Consumer Group** → Multiple consumers working together to process messages.
 
-// Producer
-import org.apache.kafka.clients.producer.*;
+**How it Works:**
 
-import java.util.Properties;
+1. A **Producer** sends a message to a **Topic**.
+2. The message is stored in one of the topic's **Partitions** on a **Kafka Broker**.
+3. Kafka persists the message for a configured retention period.
+4. A **Consumer** or **Consumer Group** reads the message from the topic.
+5. Multiple consumers can process messages independently and asynchronously.
 
-public class KafkaProducerExample {
-    public static void main(String[] args) {
+**When to Use:**
 
-        Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
-        props.put("key.serializer", 
-                  "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("value.serializer", 
-                  "org.apache.kafka.common.serialization.StringSerializer");
+* Building **microservices** with **event-driven architecture**.
+* **Real-time data processing** and analytics.
+* **Log aggregation** and monitoring.
+* Processing **orders**, **payments**, **notifications**, or **user activity events**.
+* Decoupling services for better **scalability** and **reliability**.
 
-        Producer<String, String> producer = new KafkaProducer<>(props);
+**Code Example (Spring Boot):**
 
-        ProducerRecord<String, String> record =
-                new ProducerRecord<>("my-topic", "key1", "Hello Kafka!");
+**Producer:**
 
-        producer.send(record);
+```java id="k8m4xp"
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
 
-        producer.close();
-    }
-}
-
-// Consumer
-import org.apache.kafka.clients.consumer.*;
-
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Properties;
-
-public class KafkaConsumerExample {
-    public static void main(String[] args) {
-
-        Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
-        props.put("group.id", "my-group");
-        props.put("key.deserializer", 
-                  "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put("value.deserializer", 
-                  "org.apache.kafka.common.serialization.StringDeserializer");
-
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.subscribe(Collections.singletonList("my-topic"));
-
-        while (true) {
-            ConsumerRecords<String, String> records =
-                    consumer.poll(Duration.ofMillis(100));
-
-            for (ConsumerRecord<String, String> record : records) {
-                System.out.println("Received: " + record.value());
-            }
-        }
-    }
+public void sendMessage() {
+    kafkaTemplate.send("orders-topic", "Order Created");
 }
 ```
 
-Use Kafka for: event sourcing, log aggregation, real-time analytics, microservice communication at scale.
+**Consumer:**
+
+```java id="v5q9tn"
+@KafkaListener(topics = "orders-topic", groupId = "order-group")
+public void consume(String message) {
+    System.out.println("Received: " + message);
+}
+```
 
 
 ## 2. How does Kafka achieve high throughput and low latency?
 
-Kafka achieves high performance using:
+**Kafka** achieves **high throughput** and **low latency** by using an efficient **distributed architecture** and optimized disk and network operations.
 
-* Sequential disk writes
-* Batching
-* Compression
-* Zero-copy transfer
-* Partition-based parallelism
+**Key Features:**
 
-**Performance Config Example**
+* **Sequential disk writes** instead of random writes.
+* **Partitioning** for parallel processing.
+* **Batch processing** of messages.
+* Uses **zero-copy** data transfer.
+* Supports **horizontal scaling** with multiple brokers.
 
-```java id="f4m8qa"
-props.put("batch.size", 16384);
+**How it Works:**
 
-props.put("linger.ms", 5);
+1. **Producers** send messages to a **Topic**.
+2. The topic is divided into **Partitions**, allowing multiple producers and consumers to work in parallel.
+3. Kafka writes messages **sequentially** to disk, which is much faster than random writes.
+4. Messages are sent and fetched in **batches**, reducing network overhead.
+5. Kafka uses the **zero-copy** technique, transferring data directly from disk to the network without unnecessary copying between application and kernel memory.
+6. Multiple **Consumers** in a **Consumer Group** read different partitions simultaneously, increasing throughput.
 
-props.put("compression.type", "snappy");
+**Main Reasons for High Performance:**
+
+* **Sequential I/O** → Fast disk operations.
+* **Partitioning** → Parallel read and write operations.
+* **Batching** → Fewer network requests.
+* **Zero-Copy** → Reduced CPU and memory usage.
+* **Distributed Brokers** → Easy horizontal scaling.
+
+**When to Use:**
+
+* **Real-time event streaming**.
+* **High-volume message processing**.
+* **Microservices communication**.
+* **Log aggregation**, **analytics**, and **payment/order processing** systems.
+
+**Code Example (Parallel Processing with Partitions):**
+
+```java id="h7m4xp"
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
+
+public void sendOrder(String orderId) {
+    kafkaTemplate.send("orders-topic", orderId);
+}
 ```
 
-**Explanation**
-
-* `batch.size` → Sends messages in batches
-* `linger.ms` → Waits briefly to create larger batch
-* `compression.type` → Reduces network traffic
+```java id="p5q8tn"
+@KafkaListener(topics = "orders-topic", groupId = "order-group")
+public void consume(String message) {
+    System.out.println("Processing: " + message);
+}
+```
 
 
 ## 3. What is the difference between a topic and a partition?
 
-| Topic                        | Partition                            |
-| ---------------------------- | ------------------------------------ |
-| Logical category of messages | Physical subdivision of topic        |
-| Used to organize messages    | Used for scalability & parallelism   |
-| No global ordering           | Ordering guaranteed within partition |
+A **Topic** is a **logical category or channel** where messages are published, while a **Partition** is a **physical subdivision of a topic** used to store and process messages in parallel.
 
-**Example**
+| **Feature**      | **Topic**                                   | **Partition**                                       |
+| ---------------- | ------------------------------------------- | --------------------------------------------------- |
+| **Definition**   | A logical stream of messages.               | A smaller unit inside a topic.                      |
+| **Purpose**      | Organizes related messages.                 | Enables **parallel processing** and scalability.    |
+| **Data Storage** | Does not store data directly.               | Actually stores the messages.                       |
+| **Scalability**  | A topic can have multiple partitions.       | More partitions increase throughput.                |
+| **Ordering**     | No global ordering across the entire topic. | Messages are ordered **within a single partition**. |
 
-```txt id="4v7kzp"
-Topic: orders
+**How it Works:**
 
-Partition 0 → msg1, msg4, msg7
-Partition 1 → msg2, msg5, msg8
-Partition 2 → msg3, msg6, msg9
+1. A **Producer** sends a message to a **Topic**.
+2. Kafka places the message into one of the topic's **Partitions** (based on a key or round-robin).
+3. Each partition stores messages in the order they arrive.
+4. **Consumers** in a **Consumer Group** can read different partitions simultaneously, enabling parallel processing.
+
+**Key Features:**
+
+* **Topic** = Logical container for messages.
+* **Partition** = Physical storage unit inside a topic.
+* More **partitions** mean higher **throughput** and better **scalability**.
+* Message ordering is guaranteed **only within a partition**.
+
+**When to Use:**
+
+* Create a **Topic** for each type of event (e.g., `orders`, `payments`, `notifications`).
+* Increase the number of **Partitions** when you need higher parallelism and want multiple consumers to process data concurrently.
+
+**Code Example:**
+
+```java id="k8m3xp"
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
+
+public void sendOrder() {
+    kafkaTemplate.send("orders-topic", "Order Created");
+}
 ```
 
-**Create Topic Example**
+In this example:
 
-```java id="x9m2wr"
-NewTopic topic =
-        new NewTopic("orders", 3, (short) 2);
-```
+* **`orders-topic`** is the **Topic**.
+* Kafka internally stores the message in one of the topic's **Partitions**.
 
-Meaning:
+**Easy Memory Trick:**
 
-* 3 partitions
-* Replication factor = 2
+* **Topic = Folder** 📁 (logical category)
+* **Partition = File inside the folder** 📄 (actual storage unit)
+
 
 
 ## 4. How does Kafka handle durability and fault tolerance?
 
-Kafka handles durability using:
+**Kafka** achieves **durability** and **fault tolerance** by **persisting messages to disk** and **replicating partitions across multiple brokers**. This ensures that data is not lost even if a server fails.
 
-* Replication
-* Leader/Follower architecture
-* Persistent storage
-* ISR (In-Sync Replicas)
+**Key Features:**
 
-**Flow**
+* **Persistent storage** of messages on disk.
+* **Partition replication** across multiple brokers.
+* **Leader-Follower architecture**.
+* Automatic **failover** if a broker goes down.
+* Configurable **replication factor** for higher reliability.
 
-```txt id="r8m4qp"
-Leader Partition
-      ↓
-Follower Replicas
+**How it Works:**
+
+1. A **Producer** sends a message to a **Topic Partition**.
+2. The partition has one **Leader** and one or more **Follower replicas**.
+3. The **Leader** writes the message to disk and replicates it to the followers.
+4. If the leader broker fails, Kafka automatically promotes an **in-sync follower** to become the new leader.
+5. Consumers continue reading from the new leader with minimal interruption.
+
+**Key Concepts:**
+
+* **Durability** → Messages are stored on disk and retained for a configured period.
+* **Replication Factor** → Number of copies of a partition across brokers.
+* **Leader Partition** → Handles all read and write requests.
+* **Follower Partition** → Keeps a synchronized copy of the leader's data.
+* **Fault Tolerance** → If one broker fails, another replica takes over automatically.
+
+**When to Use:**
+
+* **Critical business systems** like payments and order processing.
+* **Event-driven microservices** requiring reliable messaging.
+* Applications that require **high availability** and **data reliability**.
+
+**Code Example (Spring Kafka Producer):**
+
+```java id="k7m4xp"
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
+
+public void sendOrder() {
+    kafkaTemplate.send("orders-topic", "Order Created");
+}
 ```
 
-If leader broker fails:
+**Example Configuration:**
 
-```txt id="7n1xpv"
-Follower becomes new leader automatically
+```properties
+# Replicate each partition to 3 brokers
+replication.factor=3
+
+# Wait for all replicas to acknowledge
+acks=all
 ```
 
-**Durable Producer Config**
+**Easy Memory Trick:**
 
-```java id="5k9wqm"
-props.put("acks", "all");
+* **Durability = Store on Disk** 💾
+* **Fault Tolerance = Replicate Across Brokers** 🔄
 
-props.put("min.insync.replicas", "2");
-```
-
-**Explanation**
-
-* `acks=all` → Wait for all replicas acknowledgment
-* `min.insync.replicas=2` → At least 2 replicas must sync
 
 
 ## 5. What is a consumer group and how does it work?
 
-A consumer group is a group of consumers working together to consume messages from a topic.
+A **Consumer Group** in **Kafka** is a group of **consumers** that work together to read messages from a **topic**. Kafka distributes the topic's **partitions** among the consumers so that each message is processed **only once per group**.
 
-**Rules**
+**Key Features:**
 
-* One partition is consumed by only one consumer within same group
-* Multiple groups can consume same topic independently
+* Enables **parallel message processing**.
+* Provides **load balancing** across consumers.
+* Ensures each partition is consumed by **only one consumer** within the same group.
+* Supports **fault tolerance** through automatic **rebalancing**.
 
-**Example**
+**How it Works:**
 
-```txt id="2m8xqa"
-Topic → 3 partitions
+1. Multiple consumers join the same **Consumer Group** using a common **`groupId`**.
+2. Kafka assigns the topic's **partitions** among the consumers.
+3. Each consumer reads messages only from its assigned partitions.
+4. If a consumer fails, Kafka automatically **reassigns** its partitions to the remaining consumers.
+5. If a new consumer joins, Kafka performs **rebalancing** and redistributes the partitions.
 
-Consumer Group:
-Consumer A → Partition 0
-Consumer B → Partition 1
-Consumer C → Partition 2
-```
+**Example:**
 
-**Important**
+* Topic: **`orders-topic`**
+* Partitions: **4**
+* Consumer Group: **`order-group`**
+* Consumers: **2**
 
-```txt id="3q7vwp"
-Consumers > Partitions
-↓
-Extra consumers remain idle
-```
+Kafka assigns:
 
-**Consumer Example**
+* **Consumer 1** → Partition 0, 1
+* **Consumer 2** → Partition 2, 3
 
-```java id="9r4kxm"
-props.put("group.id", "order-service");
+This allows messages to be processed **in parallel**, increasing throughput.
 
-KafkaConsumer<String, String> consumer =
-        new KafkaConsumer<>(props);
+**When to Use:**
 
-consumer.subscribe(
-        Collections.singletonList("orders"));
+* Building **scalable event-driven applications**.
+* Processing **large volumes of messages**.
+* **Microservices** that need load balancing and fault tolerance.
+* Systems like **order processing**, **payment processing**, and **log analytics**.
+
+**Code Example:**
+
+```java id="k8m4xp"
+@KafkaListener(
+    topics = "orders-topic",
+    groupId = "order-group"
+)
+public void consume(String message) {
+    System.out.println("Received: " + message);
+}
 ```
 
 
 ## 6. How does Kafka ensure message ordering?
 
-Kafka guarantees ordering only within a partition.
+**Kafka** guarantees **message ordering within a single partition**. Messages are stored and consumed in the **same order** they are written to that partition.
 
-**How?**
+**Key Features:**
 
-Messages are stored using offsets:
+* **Ordering is guaranteed only within a partition**.
+* Messages are assigned a unique **offset** in sequence.
+* Using the same **message key** ensures related messages go to the same partition.
+* Multiple partitions improve scalability but do **not** guarantee global ordering.
 
-```txt id="8v1mzp"
-Offset 0
-Offset 1
-Offset 2
+**How it Works:**
+
+1. A **Producer** sends messages to a **Topic**.
+2. Kafka assigns each message to a **Partition**.
+3. Messages inside a partition are written sequentially and given increasing **offsets**.
+4. A **Consumer** reads messages in offset order, preserving the original sequence.
+
+**Example:**
+If all messages for **Order ID = 101** use the same key:
+
+```text
+Order Created
+Order Paid
+Order Shipped
+Order Delivered
 ```
 
-Consumers read sequentially.
+Kafka sends them to the **same partition**, so they are consumed in the **exact same order**.
 
-**Best Practice**
+**When to Use:**
 
-Use same key for related messages.
+* **Order processing** systems.
+* **Banking and payment** transactions.
+* **Inventory management**.
+* Any application where the **sequence of events matters**.
 
-```java id="6m3xqw"
-producer.send(
-    new ProducerRecord<>(
-        "orders",
-        "user-123",
-        "order-created"
-    )
-);
-```
+**Code Example:**
 
-## 7. What Happens If a Consumer Crashes Before Committing the Offset?
+```java id="k7m4xp"
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
 
-If a Kafka consumer crashes after processing a message but before committing the offset, Kafka assumes the message was not successfully processed. When the consumer restarts, it will read the same message again from the last committed offset, which can lead to duplicate processing (at-least-once delivery).
-
-```java
-while (true) {
-    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
-
-    for (ConsumerRecord<String, String> record : records) {
-        process(record.value()); // Message processed
-    }
-
-    // Consumer crashes here before commit
-    consumer.commitSync();
+public void sendOrderEvent() {
+    kafkaTemplate.send(
+        "orders-topic",
+        "101",                  // Message Key
+        "Order Created"
+    );
 }
 ```
 
-**What Happens?**
+Using the same **key (`101`)** ensures all events for that order are routed to the **same partition**, maintaining their order.
 
-1. Message is processed.
-2. Consumer crashes before `commitSync()`.
-3. Offset is not saved.
-4. After restart, Kafka reads the same message again.
-5. Message may be processed twice.
+**Important Point:**
 
-**How to Handle It?**
+* **Single Partition** → Ordering guaranteed.
+* **Multiple Partitions** → Ordering guaranteed **only within each partition**, not across the entire topic.
 
-* Use **idempotent processing** (safe to process the same message multiple times).
-* Store processed message IDs to avoid duplicates.
-* Use **Kafka transactions** for exactly-once processing when needed.
+
+## 7. What Happens If a Consumer Crashes Before Committing the Offset?
+
+### **What Happens If a Consumer Crashes Before Committing the Offset?**
+
+If a **Kafka Consumer** crashes **before committing the offset**, Kafka assumes the message was **not successfully processed**. When the consumer restarts (or another consumer in the same group takes over), it **re-reads the message from the last committed offset**.
+
+**Key Features:**
+
+* Kafka tracks the **last committed offset** for each consumer group.
+* If the offset is **not committed**, the message will be **consumed again**.
+* Prevents **message loss**.
+* May result in **duplicate message processing**.
+
+**How it Works:**
+
+1. The consumer reads a message from a partition.
+2. It starts processing the message.
+3. Before committing the offset, the consumer crashes.
+4. Kafka triggers a **rebalance** and assigns the partition to another consumer (or the same consumer after restart).
+5. The new consumer starts reading from the **last committed offset**, so the uncommitted message is processed again.
+
+**Example:**
+
+* Last committed offset = **10**
+* Consumer reads and processes offset **11**
+* Consumer crashes before committing **11**
+* After restart, Kafka starts reading again from **offset 11**
+
+As a result, **offset 11 is processed twice**, but **no message is lost**.
+
+**When to Use This Behavior:**
+
+* Systems where **data loss is unacceptable**, such as:
+
+  * **Payment processing**
+  * **Order management**
+  * **Banking transactions**
+  * **Inventory updates**
+
+In these cases, applications should implement **idempotency** to safely handle duplicate messages.
+
+**Code Example (Manual Offset Commit):**
+
+```java id="k8m4xp"
+@KafkaListener(topics = "orders-topic")
+public void consume(String message,
+                    Acknowledgment ack) {
+
+    processMessage(message);
+
+    ack.acknowledge(); // Commit offset after successful processing
+}
+```
+
+If the application crashes **before `ack.acknowledge()`**, the message will be consumed again after recovery.
+
+**Easy Memory Trick:**
+
+* **Commit Done** → Message will **not** be reprocessed.
+* **Commit Not Done** → Message will be **read again**.
+
 
 
 ## 8. What is RabbitMQ and When to Use It Over Kafka?
 
-RabbitMQ is a **traditional message broker** — it routes messages between producers and consumers using queues and exchanges.
+**RabbitMQ** is an **open-source message broker** that enables applications to communicate by sending and receiving messages through **queues**. It is designed for **reliable message delivery** and **task-based communication**.
 
-**Core concepts:**
-- **Producer** → sends to an **Exchange**
-- **Exchange** → routes to one or more **Queues** (based on routing rules)
-- **Consumer** → reads from a Queue
-- Once a message is consumed and acknowledged, it's **deleted**
+**Key Features:**
 
-```java
-// Send
-rabbitTemplate.convertAndSend("order-exchange", "order.created", payload);
+* Uses **queues** to store and deliver messages.
+* Supports **message acknowledgments** and **retries**.
+* Provides **routing**, **exchange types**, and **dead-letter queues (DLQ)**.
+* Easy to set up for **request-response** and **task queue** scenarios.
+* Supports multiple messaging protocols like **AMQP**.
 
-// Receive
-@RabbitListener(queues = "order-queue")
-public void receive(String message) { }
-```
+**How it Works:**
+
+1. A **Producer** sends a message to an **Exchange**.
+2. The exchange routes the message to one or more **Queues** based on routing rules.
+3. A **Consumer** reads the message from the queue.
+4. After successful processing, the consumer sends an **acknowledgment**, and RabbitMQ removes the message from the queue.
 
 **RabbitMQ vs Kafka:**
 
-| | RabbitMQ | Kafka |
-|---|---|---|
-| Message retention | Deleted after consumed | Retained (replayable) |
-| Throughput | Moderate | Very high |
-| Use case | Task queues, RPC, routing | Event streaming, audit logs |
-| Ordering | Per-queue | Per-partition |
-| Complexity | Simpler | More complex |
+| **Feature**           | **RabbitMQ**                                  | **Kafka**                                            |
+| --------------------- | --------------------------------------------- | ---------------------------------------------------- |
+| **Model**             | Message Broker                                | Event Streaming Platform                             |
+| **Message Storage**   | Queue-based                                   | Topic and Partition-based                            |
+| **Throughput**        | Moderate                                      | Very High                                            |
+| **Message Retention** | Removed after acknowledgment                  | Retained for a configured period                     |
+| **Ordering**          | Queue order                                   | Guaranteed within a partition                        |
+| **Best For**          | Task queues, request-response, job processing | Real-time streaming, event-driven systems, analytics |
 
-Use **RabbitMQ** for task queues, job processing, and complex routing.
-Use **Kafka** for event streaming, high-volume data, and replay scenarios.
+**When to Use RabbitMQ Over Kafka:**
 
+* **Task queues** and background job processing.
+* **Request-response** communication.
+* Systems requiring **complex message routing**.
+* Applications where messages should be **removed after successful processing**.
+* Email sending, notification services, and order processing workflows.
 
-## 9. What is gRPC and How Does It Differ from REST?
+**When to Use Kafka Instead:**
 
-gRPC is a **high-performance RPC framework** by Google. It uses **Protocol Buffers (protobuf)** for serialization and **HTTP/2** for transport.
+* **High-volume event streaming**.
+* **Microservices event-driven architecture**.
+* **Real-time analytics** and log aggregation.
+* Applications that need **high throughput** and **message retention**.
 
-You define your API in a `.proto` file:
-```proto
-service OrderService {
-  rpc GetOrder (OrderRequest) returns (OrderResponse);
+**Code Example (Spring Boot with RabbitMQ):**
+
+```java id="k8m4xp"
+@Autowired
+private RabbitTemplate rabbitTemplate;
+
+public void sendMessage() {
+    rabbitTemplate.convertAndSend(
+        "orderQueue",
+        "Order Created"
+    );
 }
 ```
 
-gRPC generates client and server code automatically from this contract.
+**Consumer:**
+
+```java id="p5q9tn"
+@RabbitListener(queues = "orderQueue")
+public void receive(String message) {
+    System.out.println("Received: " + message);
+}
+```
+
+**Easy Memory Trick:**
+
+* **RabbitMQ = Queue + Task Processing** 🐇
+* **Kafka = Stream + Event Processing** 📡
+
+
+
+## 9. What is gRPC and How Does It Differ from REST ?
+
+**gRPC (Google Remote Procedure Call)** is a **high-performance communication framework** that allows one service to call methods on another service as if they were local. It uses **HTTP/2** for transport and **Protocol Buffers (Protobuf)** for efficient binary data serialization.
+
+**Key Features:**
+
+* Uses **HTTP/2** for fast communication.
+* Uses **Protocol Buffers (Protobuf)** instead of JSON.
+* Supports **bi-directional streaming**.
+* Generates client and server code automatically.
+* Ideal for **microservices** and **internal service-to-service communication**.
+
+**How it Works:**
+
+1. Define the service and message structure in a **`.proto`** file.
+2. gRPC generates client and server code from the `.proto` definition.
+3. The client calls a remote method.
+4. Data is serialized using **Protobuf** and sent over **HTTP/2**.
+5. The server processes the request and returns the response.
 
 **gRPC vs REST:**
 
-| | REST | gRPC |
-|---|---|---|
-| Protocol | HTTP/1.1 | HTTP/2 |
-| Format | JSON (text) | Protobuf (binary) |
-| Speed | Slower | Much faster |
-| Streaming | Limited | Built-in (bi-directional) |
-| Browser support | Full | Limited |
-| Contract | Optional (OpenAPI) | Strict (.proto file) |
+| **Feature**         | **gRPC**                              | **REST**                           |
+| ------------------- | ------------------------------------- | ---------------------------------- |
+| **Protocol**        | **HTTP/2**                            | **HTTP/1.1** (commonly)            |
+| **Data Format**     | **Protocol Buffers (Binary)**         | **JSON (Text)**                    |
+| **Performance**     | Faster and lightweight                | Slower due to JSON parsing         |
+| **Streaming**       | Supports **bi-directional streaming** | Limited streaming support          |
+| **Code Generation** | Automatic from `.proto` files         | Manual API client creation         |
+| **Best For**        | Internal microservices communication  | Public APIs and web/mobile clients |
 
-Use gRPC for **internal microservice communication** where performance matters. Use REST for **public APIs** and browser clients.
+**When to Use:**
+
+* Use **gRPC** for:
+
+  * **Microservices** communication.
+  * **Low-latency, high-performance** systems.
+  * Real-time applications requiring **streaming**.
+* Use **REST** for:
+
+  * **Public APIs**.
+  * Web and mobile applications.
+  * Systems where **human-readable JSON** is preferred.
+
+**Code Example (`.proto` file):**
+
+```proto id="x7m4kp"
+syntax = "proto3";
+
+service UserService {
+  rpc getUser(UserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+  int32 id = 1;
+}
+
+message UserResponse {
+  string name = 1;
+}
+```
+
+**Easy Memory Trick:**
+
+* **gRPC = Fast + Binary + HTTP/2 + Microservices** ⚡
+* **REST = Simple + JSON + HTTP + Public APIs** 🌐
 
 
 ## 10. What is a Service Mesh (Istio)?
 
-A service mesh is an **infrastructure layer** that handles service-to-service communication in microservices — without changing your application code.
+A **Service Mesh** is an infrastructure layer that **manages communication between microservices**. **Istio** is one of the most popular service mesh implementations, providing features like **traffic management**, **security**, **load balancing**, and **monitoring** without changing application code.
 
-**Istio** is the most popular service mesh. It works by injecting a **sidecar proxy (Envoy)** alongside every service pod in Kubernetes.
+**Key Features:**
 
-All traffic goes through the sidecar, which handles:
-- **Load balancing**
-- **mTLS (mutual TLS)** — encrypted, authenticated service-to-service calls
-- **Traffic management** — canary deployments, retries, timeouts, circuit breaking
-- **Observability** — metrics, logs, distributed tracing automatically
+* **Service-to-service communication** management.
+* Built-in **load balancing** and **traffic routing**.
+* **Mutual TLS (mTLS)** for secure communication.
+* **Observability** with metrics, logs, and distributed tracing.
+* Supports **circuit breaking**, **retries**, and **fault injection**.
 
+**How it Works:**
+
+1. Each microservice gets a lightweight **sidecar proxy** (usually **Envoy**) deployed alongside it.
+2. All incoming and outgoing network traffic passes through the sidecar proxy.
+3. **Istio's Control Plane** configures and manages these proxies.
+4. The proxies handle tasks like **routing**, **security**, **monitoring**, and **traffic policies**, while the application focuses only on business logic.
+
+**Main Components:**
+
+* **Data Plane** → Collection of **Envoy sidecar proxies** handling traffic.
+* **Control Plane** → **Istio** components that configure and manage the proxies.
+
+**When to Use:**
+
+* In **microservices architectures** with many services.
+* When you need **secure service-to-service communication**.
+* For **traffic management**, **canary deployments**, and **A/B testing**.
+* When implementing **observability** and **distributed tracing**.
+
+**Example:**
+Suppose **Order Service** calls **Payment Service**:
+
+* Without Istio: The application handles retries, security, and monitoring.
+* With Istio: The **sidecar proxies** automatically manage **retries**, **load balancing**, **mTLS encryption**, and **metrics collection**.
+
+**Advantages:**
+
+* Removes networking concerns from application code.
+* Improves **security**, **reliability**, and **observability**.
+* Simplifies management of large-scale **microservices**.
+* Supports advanced deployment strategies like **canary releases**.
+
+**Code Example (Istio Virtual Service):**
+
+```yaml id="k8m4xp"
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: order-service
+spec:
+  hosts:
+  - order-service
+  http:
+  - route:
+    - destination:
+        host: order-service
 ```
-Service A → [Envoy Sidecar] ──── [Envoy Sidecar] → Service B
-                    ↕                       ↕
-               Istio Control Plane (Istiod)
-```
 
-Without Istio, you'd have to implement retries, timeouts, and mTLS in every service manually.
+**Easy Memory Trick:**
 
-Use it in large Kubernetes-based microservice architectures where you need security, observability, and traffic control at scale.
+* **Microservices = Cities** 🏙️
+* **Service Mesh = Road Network** 🛣️
+* **Istio = Smart Traffic Controller** 🚦
+
 
 
 # ✅ 23. Java and Application Security
