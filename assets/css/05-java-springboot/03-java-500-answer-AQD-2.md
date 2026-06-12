@@ -1497,12 +1497,6 @@ class Employee {
 
 This breaks the **`equals()`-`hashCode()` contract** and causes incorrect behavior in **`HashMap`** and **`HashSet`**.
 
-**Best Practices**
-
-* **Always override `hashCode()` when overriding `equals()`**.
-* Use **`Objects.hash()`** for simplicity and readability.
-* Use only **immutable or stable fields** in hash code calculations.
-* Do not use fields that frequently change after the object is added to a hash-based collection.
 
 **Easy Way to Remember**
 
