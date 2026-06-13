@@ -12404,7 +12404,6 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 
 ## 8. What are intermediate and terminal operations?
 
-
 **Definition:**
 A **Collection** is a data structure that stores and manages **data in memory**, while a **Stream** is a sequence of elements used to **process data in a functional way without storing it**.
 
@@ -12421,23 +12420,17 @@ A **Collection** is a data structure that stores and manages **data in memory**,
 | **Processing**   | Processes data **manually**                   | Uses **functional operations (filter, map, reduce)** |
 
 
-**How it works:**
+**How It Works**
 
-* **Collection:** Data is stored first, then processed using loops
-* **Stream:** Data flows through a **pipeline of operations** (intermediate + terminal)
-
-
-**Why to use:**
-
-* **Collection:** When you need to **store and manage data**
-* **Stream:** When you need to **process data efficiently and cleanly**
+1. Create a stream from a collection.
+2. Apply one or more **intermediate operations** to build the pipeline.
+3. Call a **terminal operation**, which executes all intermediate operations and produces the final output.
 
 
 **When to use:**
 
-* **Collection:** For CRUD operations and data storage
-* **Stream:** For **data transformation, filtering, aggregation**
-
+* Use **Intermediate Operations** to **filter, transform, or sort** data.
+* Use **Terminal Operations** when you need the **final result** or want to **perform an action**.
 
 **Code Example:**
 
@@ -12476,61 +12469,97 @@ numbers.stream()
 
 ## 9. What is the difference between map() and flatMap()?
 
-
-
 `map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
 
 `flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
 
-**`map()`**
+| **Feature**     | **`map()`**                                            | **`flatMap()`**                                                     |
+| --------------- | ------------------------------------------------------ | ------------------------------------------------------------------- |
+| **Purpose**     | Transforms **each element** into another element.      | Transforms and **flattens nested structures** into a single stream. |
+| **Output**      | Returns **one output element for each input element**. | Returns **multiple elements and merges them into one stream**.      |
+| **Use Case**    | Simple data transformation.                            | Working with **nested collections or streams**.                     |
+| **Result Type** | `Stream<T> → Stream<R>`                                | `Stream<T> → Stream<R>` (after flattening nested streams).          |
 
-* Transforms each element → **1 to 1**
-* Returns same number of elements
+**How It Works**
 
-**`flatMap()`**
+* **`map()`** applies a function to each element and returns the transformed result.
+* **`flatMap()`** applies a function that returns a **Stream**, then combines all those streams into a **single stream**.
 
-* Transforms each element → **1 to many**
-* Flattens nested structure
+**When to Use**
 
+* Use **`map()`** when converting one value to another (e.g., convert names to uppercase).
+* Use **`flatMap()`** when dealing with **nested lists, arrays, or streams** and you want a single flattened result.
 
-```java
+**Code Example**
 
-// map() - one-to-one
-List<String> names = List.of("java", "spring");
+```java id="8psr6z"
+List<String> names = List.of("alice", "bob");
 
-List<String> result = names.stream()
-    .map(String::toUpperCase)
-    .toList();
+// map() - transforms each element
+List<String> upperNames = names.stream()
+                               .map(String::toUpperCase)
+                               .toList();
 
-System.out.println(result);
-// Output: [JAVA, SPRING]
+System.out.println(upperNames);   // [ALICE, BOB]
 
-// flatMap() - one-to-many, then flatten
-List<List<String>> list = List.of(
+// flatMap() - flattens nested lists
+List<List<String>> nested = List.of(
     List.of("A", "B"),
     List.of("C", "D")
 );
 
-List<String> result = list.stream()
-    .flatMap(Collection::stream)
-    .toList();
+List<String> flatList = nested.stream()
+                              .flatMap(List::stream)
+                              .toList();
 
-System.out.println(result);
-// Output: [A, B, C, D]
+System.out.println(flatList);   // [A, B, C, D]
 ```
+
 
 ## 10. What is Optional class?
 
-**Optional class** is a container class that may or may not contain a value. It helps avoid **NullPointerException** and makes null handling more explicit and safer.
+**`Optional`** is a **container object** introduced in **Java 8** that can either **hold a value or be empty**. It is mainly used to **avoid `NullPointerException`** and write cleaner, safer code.
+
+**Key Features**
+
+* **Prevents `NullPointerException`** by handling missing values explicitly.
+* Can contain **a value or no value**.
+* Provides utility methods like **`of()`**, **`ofNullable()`**, **`isPresent()`**, **`orElse()`**, and **`ifPresent()`**.
+* Encourages **functional and readable code**.
+
+**How It Works**
+
+* Create an `Optional` object using `of()` or `ofNullable()`.
+* Check or process the value using methods like `isPresent()`, `ifPresent()`, or provide a default value with `orElse()`.
+
+**When to Use**
+
+* Use **`Optional`** as a **return type** when a method may or may not return a value.
+* Use it to **avoid explicit null checks**.
+* Do **not** use it for class fields or method parameters in most cases.
+
+**Code Example**
+
+```java id="j9q4mk"
+Optional<String> name = Optional.ofNullable(getName());
+String result = name.orElse("Default User");
+System.out.println(result);
+```
+
+Another common example:
+
+```java id="l2v7np"
+Optional<String> name = Optional.of("Alice");
+
+name.ifPresent(System.out::println);   // Prints: Alice
+```
 
 ```java
 import java.util.Optional;
 
 public class Test {
     public static void main(String[] args) {
-
         String name = null;
-
         Optional<String> optional = Optional.ofNullable(name);
 
         // optional way one
@@ -12547,20 +12576,42 @@ public class Test {
 ```
 
 ## 11. What is diffence between Arrays.asList() vs List.of()?
+
 `Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
 
 `List.of()` creates an **immutable list** that does not allow `null` values. You cannot modify, add, or remove elements from this list.
 
-```java
-// Arrays.asList() - fixed-size, allows null   
-List<String> list1 = Arrays.asList("a", "b", null);
-list1.set(0, "x"); // OK - modifies element
-// list1.add("c"); // Error - cannot add
-// List.of() - immutable, does not allow null
 
-List<String> list2 = List.of("a", "b", "c");
-// list2.set(0, "x"); // Error - cannot modify
-// list2.add("d"); // Error - cannot add
+| **Feature**       | **`Arrays.asList()`**                                                          | **`List.of()`**                                                    |
+| ----------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| **Introduced In** | **Java 5**                                                                     | **Java 9**                                                         |
+| **Modifiable**    | **Fixed-size** list (cannot add/remove, but can update elements).              | **Completely immutable** (cannot add, remove, or update elements). |
+| **Null Values**   | **Allows `null`** elements.                                                    | **Does not allow `null`** (throws `NullPointerException`).         |
+| **Backed By**     | Backed by the **original array**, so changes to the array reflect in the list. | Creates an **independent immutable list**.                         |
+| **Best Use Case** | When you need a **fixed-size view of an array**.                               | When you need a **read-only immutable list**.                      |
+
+**How It Works**
+
+* **`Arrays.asList()`** converts an array into a **fixed-size List**.
+* **`List.of()`** creates an **immutable List** with the given elements.
+
+**When to Use**
+
+* Use **`Arrays.asList()`** when you need to work with an existing array and may want to **modify element values**.
+* Use **`List.of()`** when you need a **safe, immutable list** that should not be changed.
+
+**Code Example**
+
+```java id="3s7kqa"
+// Arrays.asList()
+List<String> list1 = Arrays.asList("A", "B", "C");
+list1.set(0, "X");          // Allowed
+// list1.add("D");          // Throws UnsupportedOperationException
+
+// List.of()
+List<String> list2 = List.of("A", "B", "C");
+// list2.set(0, "X");        // Throws UnsupportedOperationException
+// list2.add("D");           // Throws UnsupportedOperationException
 ```
 
 
