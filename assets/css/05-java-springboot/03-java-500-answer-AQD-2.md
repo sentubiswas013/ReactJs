@@ -22780,121 +22780,157 @@ public class GlobalExceptionHandler {
 
 ## 15: What is Filter Chain?
 
-> A Filter Chain is a sequence of filters that process an HTTP request before it reaches the controller and process the response before it is sent back to the client.
->
-> Each filter performs a specific task, such as authentication, authorization, logging, CSRF protection, or JWT validation.
+A **Filter Chain** is a sequence of **filters** that process an HTTP request and response **before** it reaches the controller and **after** the response is returned. In **Spring Security**, the filter chain is used to perform tasks like **authentication**, **authorization**, **JWT validation**, and **CSRF protection**.
 
-**How It Works**
+**Key Features:**
 
-> When a request arrives, it passes through multiple filters one by one. If all checks are successful, the request reaches the controller. After the controller generates a response, the response can also pass through filters before being returned to the client.
+* Processes requests in a **defined order**.
+* Each filter performs a **specific task**.
+* Can **modify**, **allow**, or **block** a request.
+* Central part of **Spring Security**.
+* Supports custom filters like **JWT authentication filters**.
 
-```text
+**How It Works:**
+
+1. A client sends an HTTP request.
+2. The request passes through the **Filter Chain**.
+3. Each filter checks or processes the request (e.g., validate JWT, check CSRF token).
+4. If all filters pass, the request reaches the **Spring MVC Controller**.
+5. The response travels back through the filter chain before being sent to the client.
+
+**Typical Spring Security Filter Flow:**
+
+```text id="j4v9qm"
 Client Request
       │
       ▼
-JWT Filter
+Security Filter Chain
+      │
+      ├── Authentication Filter
+      ├── JWT Filter
+      ├── CSRF Filter
+      ├── Authorization Filter
+      │
       ▼
-Authentication Filter
+Spring MVC Controller
+      │
       ▼
-Authorization Filter
-      ▼
-Controller
-      ▼
-Response
+Client Response
 ```
 
-**Example**
+**When to Use:**
 
-> For example, in a JWT-based application, the request first goes through a JWT filter to validate the token. Then Spring Security checks the user's authentication and permissions. If everything is valid, the request is allowed to reach the controller.
+* **Authentication** and **authorization**.
+* **JWT token validation**.
+* **Logging** and **request tracking**.
+* **CSRF**, **CORS**, and other security checks.
+* Any requirement to process requests before they reach the controller.
 
-**Why It Is Important**
+**Simple Custom Filter Example:**
 
-* Authentication
-* Authorization
-* JWT Validation
-* CSRF Protection
-* Request/Response Logging
-* Security Checks
-
-**Custom Filter Example**
-
-```java
+```java id="fc8p2x"
 @Component
 public class LoggingFilter extends OncePerRequestFilter {
-
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
             throws ServletException, IOException {
 
         System.out.println("Request URI: " + request.getRequestURI());
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response); // Pass request to next filter
     }
 }
 ```
 
-**Add Filter to Spring Security**
+**Adding a JWT Filter to the Security Filter Chain:**
 
-```java
+```java id="k7m3zn"
 @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.addFilterBefore(
-            loggingFilter,
-            UsernamePasswordAuthenticationFilter.class);
+SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().authenticated());
 
     return http.build();
 }
 ```
 
-
 ## 16: What is SAML?
 
-**SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
+**SAML (Security Assertion Markup Language)** is an **XML-based authentication and authorization standard** that enables **Single Sign-On (SSO)**. It allows users to log in once and access multiple applications without entering their credentials again.
 
-It enables **Single Sign-On (SSO)** between an **Identity Provider (IdP)** and a **Service Provider (SP)** using **security assertions**, and is widely used in **enterprise environments**.
+**Example:** A company employee logs into the corporate portal once and can then access applications like HR, email, and internal dashboards without separate logins.
 
-```java
-// SAML configuration with Spring Security
-@Configuration
-@EnableWebSecurity
-public class SamlConfig {
-    
-    @Bean
-    public SAMLAuthenticationProvider samlAuthenticationProvider() {
-        SAMLAuthenticationProvider provider = new SAMLAuthenticationProvider();
-        provider.setUserDetails(samlUserDetailsService());
-        return provider;
-    }
-    
-    @Bean
-    public MetadataManager metadata() throws Exception {
-        List<MetadataProvider> providers = new ArrayList<>();
-        providers.add(idpMetadata());
-        return new CachingMetadataManager(providers);
-    }
-    
-    @Bean
-    public ExtendedMetadata extendedMetadata() {
-        ExtendedMetadata metadata = new ExtendedMetadata();
-        metadata.setIdpDiscoveryEnabled(true);
-        metadata.setSignMetadata(false);
-        return metadata;
-    }
-}
+**Key Features:**
 
-// SAML assertion processing
-@Component
-public class SamlUserDetailsService implements SAMLUserDetailsService {
-    public Object loadUserBySAML(SAMLCredential credential) {
-        String username = credential.getNameID().getValue();
-        List<String> roles = credential.getAttributeAsStringArray("Role");
-        return new SamlUser(username, roles);
-    }
+* Provides **Single Sign-On (SSO)**.
+* Uses **XML-based security assertions**.
+* Eliminates the need to share passwords between applications.
+* Supports **centralized authentication**.
+* Widely used in **enterprise applications**.
+
+**How It Works:**
+
+1. The user tries to access an application (**Service Provider - SP**).
+2. The application redirects the user to the **Identity Provider (IdP)**.
+3. The user authenticates with the IdP.
+4. The IdP generates a **SAML Assertion** (an XML document containing user identity and permissions).
+5. The assertion is digitally signed and sent back to the Service Provider.
+6. The Service Provider verifies the signature and grants access to the user.
+
+**Main Components:**
+
+* **Identity Provider (IdP)** – Authenticates the user (e.g., corporate login server).
+* **Service Provider (SP)** – The application the user wants to access.
+* **SAML Assertion** – XML document containing authentication and authorization information.
+
+**When to Use:**
+
+* **Enterprise Single Sign-On (SSO)**.
+* Corporate applications with **centralized identity management**.
+* Integration with identity providers like **Active Directory Federation Services (ADFS)** or **Okta**.
+* Large organizations where users need access to multiple applications.
+
+**Simple Spring Security SAML Configuration:**
+
+```java id="saml9q"
+@Bean
+SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().authenticated())
+        .saml2Login();
+
+    return http.build();
 }
 ```
+
+The `.saml2Login()` configuration enables **SAML 2.0-based Single Sign-On** in a Spring Boot application.
+
+**SAML Authentication Flow:**
+
+```text id="sml4r8"
+User
+  │
+  ▼
+Service Provider (Application)
+  │
+  ▼
+Identity Provider (Login Server)
+  │
+  ▼
+SAML Assertion (XML)
+  │
+  ▼
+Service Provider Validates Assertion
+  │
+  ▼
+Access Granted
+```
+
 
 # ✅ 24. Java Performance and Optimization
 
