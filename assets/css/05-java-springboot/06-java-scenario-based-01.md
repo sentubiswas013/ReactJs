@@ -768,17 +768,176 @@ for (int i = 0; i < 5; i++) {
 
 ### 31. You added `@Transactional` to a method but transactions are not being created. What could be the reason?
 
+**How to Identify**
+
+* Check if the method is being called through a **Spring Proxy**.
+* Enable **transaction logs** and verify whether a transaction is started.
+* Check if the bean is managed by **Spring Container**.
+
+**Common Reasons**
+
+* **Self-invocation** (method inside the same class calls another `@Transactional` method).
+* Method is **private**, **static**, or **final**.
+* Class is created using **new** instead of Spring dependency injection.
+* Missing **@EnableTransactionManagement** or transaction configuration.
+* Wrong **TransactionManager** configuration.
+
+**How to Resolve**
+
+* Call the method through a **Spring-managed bean**.
+* Use **public** methods for `@Transactional`.
+* Avoid **self-invocation** or move transactional logic to another service.
+* Ensure proper **Spring Transaction** configuration.
+* Verify the correct **PlatformTransactionManager** is configured.
+
+**Key Point:** `@Transactional` works through **Spring AOP Proxies**. If the call bypasses the proxy, the transaction will not be created.
+
 
 ### 32. A `@Transactional` method catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?
+
+**How to Identify**
+
+* Data is still **committed** even though an exception occurred.
+* No **rollback** messages appear in transaction logs.
+* Exception is handled inside the method and never reaches Spring.
+
+**Common Reasons**
+
+* **Spring** rolls back transactions only when it detects an exception leaving the method.
+* If the exception is **caught and swallowed**, Spring assumes the method completed successfully.
+* By default, rollback happens for **RuntimeException** and **Error**, not checked exceptions.
+
+**How to Resolve**
+
+* **Rethrow** the exception after logging it.
+* Use `rollbackFor = Exception.class` for checked exceptions.
+* Manually mark the transaction for rollback if you must handle the exception.
+
+```java
+@Transactional
+public void process() {
+    try {
+        // business logic
+    } catch (Exception e) {
+        throw e; // rethrow for rollback
+    }
+}
+```
+
+Or:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+public void process() throws Exception {
+    // business logic
+}
+```
+
+**Key Point:** If an exception is **caught and not rethrown**, Spring sees the transaction as **successful** and performs a **commit instead of a rollback**.
 
 
 ### 33. Service A depends on Service B, and Service B depends on Service A. How do you resolve the circular dependency?
 
+**How to Identify**
+
+* Application fails to start with **Circular Dependency** or **BeanCurrentlyInCreationException**.
+* Service A requires Service B, and Service B requires Service A during initialization.
+
+**Common Reasons**
+
+* Poor **service design** where two services directly depend on each other.
+* Using **constructor injection** on both sides.
+* Business logic is tightly coupled between services.
+
+**How to Resolve**
+
+* **Refactor** and move shared logic into a separate service.
+* Use **event-driven communication** instead of direct dependency.
+* Use **@Lazy** as a temporary workaround.
+* Prefer redesigning dependencies to avoid circular references.
+
+```java
+@Service
+public class ServiceA {
+
+    private final ServiceB serviceB;
+
+    public ServiceA(@Lazy ServiceB serviceB) {
+        this.serviceB = serviceB;
+    }
+}
+```
+
+**Key Point:** The best solution is usually **refactoring the design** to remove the circular dependency. **@Lazy** can help, but it should not replace a proper architectural fix.
+
 
 ### 34. You notice 1000 database queries when loading 100 entities. How do you fix this?
 
+**How to Identify**
+
+* Enable **SQL Logging** and check generated queries.
+* Use **Hibernate Statistics**, **APM**, or database monitoring tools.
+* Notice one query loads entities, then many additional queries load related data.
+
+**Common Reasons**
+
+* **N+1 Query Problem** caused by lazy-loaded relationships.
+* Fetching related entities one by one inside a loop.
+* Improper **JPA/Hibernate** fetch strategy.
+
+**How to Resolve**
+
+* Use **JOIN FETCH** to load related data in a single query.
+* Use **EntityGraph** for optimized fetching.
+* Fetch only required fields using **DTO Projections**.
+* Review **Lazy** and **Eager** loading strategies.
+
+```java
+@Query("""
+    SELECT o
+    FROM Order o
+    JOIN FETCH o.customer
+    """)
+List<Order> findAllWithCustomer();
+```
+
+**Key Point:** This is usually the **N+1 Query Problem**. Instead of executing **1 + 1000 queries**, use **JOIN FETCH**, **EntityGraph**, or **DTO Projections** to reduce it to **a single optimized query**.
+
 
 ### 35. You're using constructor injection and get `BeanCurrentlyInCreationException`. How do you fix it?
+
+**How to Identify**
+
+* Application fails to start with **BeanCurrentlyInCreationException**.
+* Stack trace shows two or more beans depending on each other.
+* Commonly occurs with **constructor injection**.
+
+**Common Reasons**
+
+* **Circular Dependency** between beans.
+* Service A requires Service B, and Service B requires Service A.
+* Spring cannot create either bean because both are waiting for each other.
+
+**How to Resolve**
+
+* **Refactor** the design and move shared logic to a separate service.
+* Use **event-driven communication** if appropriate.
+* Use **@Lazy** on one dependency as a temporary workaround.
+* Consider **setter injection** if redesign is not immediately possible.
+
+```java
+@Service
+public class ServiceA {
+
+    private final ServiceB serviceB;
+
+    public ServiceA(@Lazy ServiceB serviceB) {
+        this.serviceB = serviceB;
+    }
+}
+```
+
+**Key Point:** `BeanCurrentlyInCreationException` is usually caused by a **circular dependency**. The best solution is to **remove the circular dependency through refactoring**, while **@Lazy** can be used as a short-term fix.
 
 ---
 
@@ -786,13 +945,193 @@ for (int i = 0; i < 5; i++) {
 
 ### 36. Application throws "Cannot get JDBC connection" errors intermittently. What do you check?
 
+**What is the issue?**
+
+The application is unable to obtain a **database connection** from the **connection pool**, causing requests to fail intermittently.
+
+**How to Identify**
+
+* Check application logs for **JDBC connection** errors.
+* Monitor **connection pool metrics** (Active, Idle, Waiting connections).
+* Check database logs for **connection limits** or failures.
+* Verify database **CPU, memory, and network** health.
+* Look for **long-running queries** holding connections.
+
+**Common Reasons**
+
+* **Connection pool exhaustion**
+* **Connection leaks** (connections not closed)
+* **Database overload**
+* **Network instability**
+* Incorrect **database credentials/configuration**
+* Database reached **maximum connection limit**
+
+**How to Resolve**
+
+* Increase **connection pool size** if needed.
+* Ensure connections are properly closed using **try-with-resources**.
+* Fix **slow queries** and add proper indexing.
+* Configure **connection timeout** and **idle timeout** settings.
+* Monitor and fix **connection leaks**.
+* Verify database capacity and network connectivity.
+
+**Code Example**
+
+```java
+try (Connection conn = dataSource.getConnection();
+     PreparedStatement ps = conn.prepareStatement(sql)) {
+
+    ResultSet rs = ps.executeQuery();
+
+} catch (SQLException e) {
+    e.printStackTrace();
+}
+```
+
+Using **try-with-resources** ensures connections are automatically closed and returned to the pool.
+
+
 ### 37. Connection pool becomes exhausted during peak traffic. How do you diagnose and fix?
+
+**Common Symptoms**
+
+* **High response time** or request timeout.
+* Errors like **`Connection is not available`** or **`HikariPool - Connection is not available, request timed out`**.
+* Threads stuck waiting for a database connection.
+* Database shows many active or idle connections.
+
+**How to Diagnose**
+
+1. Check **application logs** for connection timeout errors.
+2. Monitor pool metrics (**active, idle, pending connections**) using **Spring Boot Actuator, Micrometer, Prometheus, or Grafana**.
+3. Take a **thread dump (`jstack`)** to see if threads are blocked waiting for connections.
+4. Check the database for **long-running queries** using commands like `SHOW PROCESSLIST` (MySQL) or `pg_stat_activity` (PostgreSQL).
+5. Verify that every connection is properly **closed and returned to the pool**.
+
+**Common Causes**
+
+* **Connection leak** (connections not closed).
+* **Slow or unoptimized SQL queries**.
+* **Long-running transactions**.
+* **Pool size too small** for peak load.
+* External API calls made **inside a database transaction**, keeping connections occupied.
+
+**How to Fix**
+
+* Always use **try-with-resources** or let **Spring `@Transactional`** manage connection lifecycle.
+* **Optimize SQL queries** and add proper **indexes**.
+* Keep **transactions short**; avoid network/API calls inside them.
+* Tune pool settings (`maximumPoolSize`, `minimumIdle`, `connectionTimeout`) based on traffic and database capacity.
+* Enable **leak detection** (for example, `leakDetectionThreshold` in **HikariCP**).
+* Scale the application or database if the workload has genuinely increased.
+
+**Example (HikariCP Configuration)**
+
+```properties
+spring.datasource.hikari.maximum-pool-size=30
+spring.datasource.hikari.minimum-idle=10
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.leak-detection-threshold=5000
+```
+
+
 
 ### 38. After deployment, database connections continuously increase and never decrease. What's wrong?
 
+This usually indicates a **database connection leak**, where connections are **opened but not properly closed**, so they are never returned to the **connection pool**.
+
+**How to Identify**
+
+* **Active database connections** keep increasing over time.
+* Logs show **`Connection pool exhausted`** or **`Connection timeout`** errors.
+* Monitor **HikariCP metrics** (`active`, `idle`, `pending` connections).
+* Enable **`leakDetectionThreshold`** to detect leaked connections.
+
+**Common Reasons**
+
+* Connections are **not closed** due to missing `close()`.
+* Missing **try-with-resources** block.
+* **Long-running transactions** or blocked queries.
+* External API calls made **inside `@Transactional`** methods.
+* Improper manual connection handling.
+
+**How to Resolve**
+
+* Always use **try-with-resources** or let **Spring `@Transactional`** manage connections.
+* Ensure every connection is **closed in a `finally` block** if managed manually.
+* Keep **transactions short** and avoid external calls inside them.
+* Enable **connection leak detection** and monitor pool metrics.
+* Optimize **slow queries** to release connections faster.
+
+
 ### 39. You have a table with 1 billion records and queries take 10+ seconds. How do you optimize?
 
+**How to Identify**
+
+* Use **EXPLAIN Plan** to analyze query execution.
+* Check for **Full Table Scans**.
+* Monitor **query execution time** and database metrics.
+* Identify **slow queries** using database logs.
+
+**Common Reasons**
+
+* Missing or incorrect **Indexes**
+* **Full Table Scan** on large tables
+* Poorly written **SQL queries**
+* Too much data being fetched
+* Lack of **Partitioning**
+* Outdated database **Statistics**
+
+**How to Resolve**
+
+* Create appropriate **Indexes** on frequently searched columns.
+* Optimize and rewrite **SQL queries**.
+* Use **Pagination** instead of loading all records.
+* Implement **Table Partitioning** for large datasets.
+* Select only required columns instead of `SELECT *`.
+* Update database **Statistics** regularly.
+* Use **Caching** for frequently accessed data.
+
+**Key Optimization Techniques**
+
+* **Indexing**
+* **Partitioning**
+* **Query Optimization**
+* **Caching**
+* **Pagination**
+* **Database Tuning**
+
+
 ### 40. You need to add a new column to a table with 1 billion records without downtime. How?
+
+**How to Identify**
+
+* Table contains **billions of records**.
+* Schema change may cause **table locks**.
+* Application requires **zero downtime** during deployment.
+
+**Common Reasons**
+
+* Direct schema changes can trigger **long table locks**.
+* Updating all existing rows at once can cause **performance issues**.
+* Large tables require **careful migration planning**.
+
+**How to Resolve**
+
+* Add the new column as **NULLABLE** first to avoid rewriting the entire table.
+* Deploy application code that can handle both **old and new schemas**.
+* Backfill data in **small batches** instead of a single update.
+* Add **default values** later if required.
+* Use **online schema migration** tools supported by the database.
+* Monitor database performance throughout the migration.
+
+**Best Practice**
+
+1. **Add nullable column**
+2. **Deploy application changes**
+3. **Backfill data in batches**
+4. **Add constraints/defaults if needed**
+5. **Remove old code after migration**
 
 ---
 
@@ -800,23 +1139,228 @@ for (int i = 0; i < 5; i++) {
 
 ### 41. Service A calls Service B, but Service B is down. How do you handle this gracefully?
 
+**How to Identify**
+
+* API calls to **Service B** are failing.
+* Increased **timeouts** and **error rates**.
+* Monitoring and logs show **Service B unavailable**.
+
+**Common Reasons**
+
+* **Service outage**
+* **Network issues**
+* **High traffic** causing overload
+* **Deployment failure**
+* Dependency or infrastructure problems
+
+**How to Resolve**
+
+* Use a **Circuit Breaker** to stop repeated failed calls.
+* Configure **Timeouts** to fail fast.
+* Implement **Retries** with backoff for temporary failures.
+* Return a **Fallback Response** when possible.
+* Use **Message Queues** for asynchronous processing.
+* Monitor and alert on service health.
+
+**Example**
+
+If **Order Service** calls **Payment Service** and Payment Service is down:
+
+* Return **"Payment processing temporarily unavailable"**
+* Save the request for **retry**
+* Prevent cascading failures using a **Circuit Breaker**
+
+**Key Patterns**
+
+* **Circuit Breaker**
+* **Retry**
+* **Timeout**
+* **Fallback**
+* **Bulkhead**
+* **Queue-Based Processing**
+
+
 ### 42. How do you design a circuit breaker for inter-service communication with fallback behavior?
+
+A **Circuit Breaker** is a design pattern that **stops calling a failing service** after a certain number of failures and returns a **fallback response** instead. This prevents **cascading failures** and improves system stability.
+
+**How it works:**
+
+* **Closed State:** Requests flow normally.
+* **Open State:** After the failure threshold is reached, requests are blocked and the fallback method is executed.
+* **Half-Open State:** After a timeout, a few requests are allowed to check if the service has recovered.
+
+**Fallback Behavior:**
+
+* Return a **default response**.
+* Fetch **cached data**.
+* Call an **alternative service**.
+* Show a **graceful error message** to the user.
+
+**How to Identify:**
+
+* Frequent **timeouts** or **connection errors** between services.
+* One failed service causes **multiple dependent services** to slow down or fail.
+* High **retry traffic** increases system load.
+
+**Common Reasons:**
+
+* Downstream service outage.
+* Network latency or instability.
+* Database or third-party API failures.
+* Excessive traffic causing service overload.
+
+**How to Resolve:**
+
+* Implement a **Circuit Breaker** using libraries like **Resilience4j** or **Hystrix**.
+* Configure **failure threshold**, **timeout**, and **recovery interval**.
+* Add a meaningful **fallback method**.
+* Combine with **Retry**, **Timeout**, and **Bulkhead** patterns for better resilience.
+
+**Simple Example (Resilience4j):**
+
+```java
+@CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+public String processPayment() {
+    return paymentClient.pay();
+}
+
+public String fallback(Exception ex) {
+    return "Payment service is temporarily unavailable. Please try again later.";
+}
+```
+
 
 ### 43. How do you implement the Saga pattern for a distributed order transaction?
 
+The **Saga Pattern** is used to manage **distributed transactions** across multiple microservices without using a global database transaction. It breaks a transaction into **small local transactions**, and if one step fails, **compensating transactions** are executed to undo the previous successful steps.
+
+**How it works:**
+
+1. **Order Service** creates the order.
+2. **Payment Service** processes the payment.
+3. **Inventory Service** reserves the stock.
+4. **Shipping Service** creates the shipment.
+5. If any step fails, compensation actions are triggered (for example, **refund payment** and **release inventory**).
+
+**How to Identify:**
+
+* A business process involves **multiple microservices**.
+* Each service has its **own database**.
+* Data consistency is required without using **distributed locks** or **2PC (Two-Phase Commit)**.
+
+**Common Reasons:**
+
+* Need to maintain consistency across services.
+* Distributed transactions are slow and tightly coupled.
+* Failure in one service can leave partial data updates.
+
+**How to Resolve:**
+
+* Split the workflow into **local transactions**.
+* Define a **compensating action** for every step.
+* Use **event-driven communication** with a message broker like **Kafka** or **RabbitMQ**.
+* Implement Saga using **Choreography** (events) or **Orchestration** (central coordinator).
+
+**Simple Flow:**
+
+```text
+Create Order → Reserve Inventory → Process Payment → Ship Order
+         ↓               ↓                ↓
+      Cancel Order ← Release Stock ← Refund Payment (if failure)
+```
+
 ### 44. You need to transfer money between two microservices. How do you ensure data consistency?
+
+For **money transfer** between two microservices, I would use the **Saga Pattern** with **local transactions** and **compensating actions** instead of a distributed database transaction. This ensures **data consistency** and avoids partial updates.
+
+**How it works:**
+
+1. **Debit** the amount from the sender account.
+2. Publish an **event** to the message broker.
+3. **Credit** the amount to the receiver account.
+4. If the credit step fails, execute a **compensating transaction** to **refund** the sender account.
+
+**How to Identify:**
+
+* A transaction spans **multiple microservices**.
+* Each service has its **own database**.
+* Partial updates can lead to **inconsistent financial data**.
+
+**Common Reasons:**
+
+* Service failure during transaction processing.
+* Network timeout or communication issues.
+* Duplicate requests due to retries.
+* Message delivery failures.
+
+**How to Resolve:**
+
+* Implement the **Saga Pattern** with **compensating transactions**.
+* Use the **Transactional Outbox Pattern** to reliably publish events.
+* Make APIs and event processing **idempotent** to prevent duplicate transfers.
+* Use a **message broker** like **Kafka** or **RabbitMQ** for reliable asynchronous communication.
+* Add **retry** and **Circuit Breaker** mechanisms for temporary failures.
+
+**Simple Flow:**
+
+```text id="2l6s7k"
+Debit Account → Publish Event → Credit Account
+       ↓                            ↓
+   Refund Account  ←  If Credit Fails
+```
+
 
 ### 45. How do you implement distributed tracing across 8 microservices, including async Kafka boundaries?
 
+I would use **Distributed Tracing** with a **Trace ID** and **Span ID** that are propagated across all microservices and **Kafka messages**. Tools like **OpenTelemetry**, **Jaeger**, or **Zipkin** help collect and visualize the complete request flow.
+
+**How it works:**
+
+1. The first service generates a **Trace ID**.
+2. Each microservice creates its own **Span** and passes the Trace ID to the next service through **HTTP headers**.
+3. For **Kafka**, include the Trace ID in the **message headers**.
+4. Consumer services read the Trace ID from the Kafka headers and continue the same trace.
+
+**How to Identify:**
+
+* A request passes through **multiple microservices**.
+* Logs from different services cannot be easily correlated.
+* Async **Kafka events** make debugging difficult.
+
+**Common Reasons:**
+
+* Missing Trace ID propagation.
+* Kafka producers/consumers not forwarding message headers.
+* Independent logging without a common correlation ID.
+* Asynchronous processing breaking the request chain.
+
+**How to Resolve:**
+
+* Use **OpenTelemetry** instrumentation in all services.
+* Propagate **Trace ID** and **Span ID** through **HTTP** and **Kafka headers**.
+* Integrate with **Jaeger** or **Zipkin** for trace visualization.
+* Add the **Trace ID** to application logs for easy log correlation.
+
+**Simple Flow:**
+
+```text id="p5m8x2"
+Client → Service A → Service B → Kafka → Service C → Service D
+             │            │          │          │
+        Trace ID ─────────────────────────────────▶ Same Trace
+```
 ---
 
 # 9. API Gateway & Service Discovery
 
 ### 46. All backend services are healthy, but users receive 502/504 errors. How do you investigate?
 
+
 ### 47. Authentication works directly against the service but fails through the Gateway. Why?
 
+
 ### 48. A service registers successfully in Eureka but cannot be discovered by other services.
+
 
 ### 49. Inter-service communication works locally but fails in Kubernetes. What could be wrong?
 
@@ -826,13 +1370,18 @@ for (int i = 0; i < 5; i++) {
 
 ### 50. How would you handle a sudden spike from 10K to 1M RPS? (Black Friday scenario)
 
+
 ### 51. Design a rate-limiting system for an API gateway serving 50,000 RPS.
+
 
 ### 52. How would you migrate a monolith to microservices without downtime?
 
+
 ### 53. Design an event-driven notification system for 10 million users with delivery guarantees.
 
+
 ### 54. How do you design an idempotent REST API for payment processing?
+
 
 ### 55. Design a CQRS + Event Sourcing system for an auditable financial ledger.
 
@@ -842,11 +1391,15 @@ for (int i = 0; i < 5; i++) {
 
 ### 56. You deployed a new version but it's causing errors in production. What do you do first?
 
+
 ### 57. Your Kubernetes pods are crashing repeatedly. How do you debug?
+
 
 ### 58. How do you implement blue-green and canary deployments in a Java microservice fleet?
 
+
 ### 59. Production application suddenly becomes unavailable at midnight every day. How do you diagnose?
+
 
 ### 60. Your integration tests are failing intermittently in CI/CD. How do you fix flaky tests?
 
@@ -856,19 +1409,27 @@ for (int i = 0; i < 5; i++) {
 
 ### 61. Why does `Integer a = 127 == Integer b = 127` print `true`, but `128` print `false`?
 
+
 ### 62. You implemented a singleton but multiple instances are created in multithreaded tests. What's wrong?
+
 
 ### 63. You're using a custom object as HashMap key and after modifying a field, you can't retrieve the value. Why?
 
+
 ### 64. You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?
+
 
 ### 65. You're using `Optional` but getting `NullPointerException`. What are common mistakes?
 
+
 ### 66. After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?
+
 
 ### 67. How would you implement reactive programming in a Spring WebFlux service?
 
+
 ### 68. How do you use Java 21 virtual threads to prevent thread starvation in mixed I/O and CPU workloads?
+
 
 ### 69. Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?
 
