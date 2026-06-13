@@ -1669,10 +1669,7 @@ class Test {
 
 # ✅ 03. Java Classes and Objects
 
-
 ## 4. What is a class in Java?
-
-**What is a Class in Java?**
 
 A **Class** in Java is a **blueprint or template** used to create **objects**. It defines the **properties (fields/variables)** and **behaviors (methods)** that an object will have.
 
