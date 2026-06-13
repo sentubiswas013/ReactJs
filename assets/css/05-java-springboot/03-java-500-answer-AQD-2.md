@@ -12619,15 +12619,50 @@ List<String> list2 = List.of("A", "B", "C");
 
 ## 1. What is JDBC ?
 
-JDBC (Java Database Connectivity) is a Java API that provides a standard way to connect and interact with relational databases. It acts as a bridge between Java applications and databases.
+**What is JDBC?**
 
-- Standard API for database connectivity
-- Database-independent interface
-- Supports SQL operations (CRUD)
-- Works with any JDBC-compliant database
-- Part of Java SE platform
+**JDBC (Java Database Connectivity)** is a **Java API** that allows Java applications to **connect to a database, execute SQL queries, and retrieve or update data**.
 
-JDBC allows Java applications to execute SQL statements, retrieve results, and manage database connections in a portable way across different database vendors.
+**Key Features**
+
+* Provides a **standard API** for database access.
+* Supports **CRUD operations** (**Create, Read, Update, Delete**).
+* Works with different databases using **JDBC drivers** (MySQL, Oracle, PostgreSQL, etc.).
+* Supports **transactions**, **batch processing**, and **prepared statements**.
+
+**How It Works**
+
+1. Load the **JDBC Driver**.
+2. Create a **Connection** to the database.
+3. Create a **Statement** or **PreparedStatement**.
+4. Execute the **SQL query**.
+5. Process the **ResultSet** (if any).
+6. Close the resources.
+
+**When to Use**
+
+* Use **JDBC** when a Java application needs to **communicate directly with a relational database**.
+* Commonly used in **Spring Boot**, **Hibernate**, and standalone Java applications for database operations.
+
+**Code Example**
+
+```java id="u8x3mv"
+Connection con = DriverManager.getConnection(
+    "jdbc:mysql://localhost:3306/testdb", "root", "password");
+
+PreparedStatement ps =
+    con.prepareStatement("SELECT * FROM employee");
+
+ResultSet rs = ps.executeQuery();
+
+while (rs.next()) {
+    System.out.println(rs.getString("name"));
+}
+
+rs.close();
+ps.close();
+con.close();
+```
 
 ## 2. What are the steps to connect to a database using JDBC?
 
@@ -12664,62 +12699,150 @@ A **Statement** is used to execute **static SQL queries**. The SQL query is sent
 
 A **PreparedStatement** is used for **parameterized queries**. The SQL is **precompiled and cached** by the database, which improves performance for repeated execution and **prevents SQL injection** by safely handling input values.
 
-```java
-// Statement - vulnerable to SQL injection
-Statement stmt = conn.createStatement();
-String sql = "SELECT * FROM users WHERE id = " + userId; // Dangerous!
-ResultSet rs = stmt.executeQuery(sql);
 
-// PreparedStatement - safe and efficient
-PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
-pstmt.setInt(1, userId); // Safe parameter binding
-ResultSet rs = pstmt.executeQuery();
+| **Feature**           | **`Statement`**                                           | **`PreparedStatement`**                                      |
+| --------------------- | --------------------------------------------------------- | ------------------------------------------------------------ |
+| **Query Compilation** | SQL query is **compiled every time** it is executed.      | SQL query is **precompiled once** and reused.                |
+| **Parameters**        | Values are **concatenated directly** into the SQL string. | Uses **`?` placeholders** for parameters.                    |
+| **Performance**       | **Slower** for repeated execution.                        | **Faster** for repeated execution because of precompilation. |
+| **Security**          | **Vulnerable to SQL Injection**.                          | **Prevents SQL Injection** by parameter binding.             |
+| **Best Use Case**     | Simple, one-time static queries.                          | Dynamic queries and frequently executed SQL statements.      |
+
+**How It Works**
+
+* **`Statement`** executes a complete SQL query passed as a string.
+* **`PreparedStatement`** first compiles the SQL query with placeholders (`?`), then values are set using methods like `setString()` and `setInt()`.
+
+**When to Use**
+
+* Use **`Statement`** for **simple static queries** that run only once.
+* Use **`PreparedStatement`** for **dynamic queries, user input, and repeated execution**. It is the **preferred choice** in real-world applications.
+
+**Code Example**
+
+```java id="3jh7xa"
+// Statement
+Statement stmt = con.createStatement();
+ResultSet rs = stmt.executeQuery(
+    "SELECT * FROM employee WHERE id = 1");
+
+// PreparedStatement
+PreparedStatement ps =
+    con.prepareStatement("SELECT * FROM employee WHERE id = ?");
+ps.setInt(1, 1);
+ResultSet rs2 = ps.executeQuery();
 ```
 
 ## 4. What is connection pooling and how it works internally?
 
-**Connection pooling is a technique used to reuse database connections instead of creating a new connection every time a request comes.**
+**Connection Pooling** is a technique where a **pool of reusable database connections** is created and maintained, so the application can **reuse existing connections instead of creating a new one for every request**.
 
-**How It Works Internally (Simple Explanation)**
+**Key Features**
 
-1. When the application starts, it **creates a fixed number of database connections** and stores them in a pool.
-2. When a request needs database access, it **borrows a connection from the pool**.
-3. After completing the work, the connection is **returned back to the pool**, not closed.
-4. The same connection can then be reused by another request.
-5. If all connections are busy:
+* **Improves performance** by avoiding repeated connection creation.
+* **Reduces database load** and resource usage.
+* **Reuses existing connections** efficiently.
+* Supports **maximum pool size**, **idle timeout**, and **connection validation**.
+* Common implementations: **HikariCP**, **Apache DBCP**, and **C3P0**.
 
-   * The request either **waits** for a free connection
-   * Or throws a timeout exception (based on configuration)
+**How It Works Internally**
 
-**Benefits:**
-- **Reduced connection overhead:** Avoid expensive connection creation
-- **Better resource utilization:** Limit concurrent connections
-- **Improved response times:** Reuse existing connections
-- **Database protection:** Prevent connection exhaustion
-- **Scalability:** Handle more concurrent users
+1. When the application starts, the pool creates a predefined number of **database connections**.
+2. When a request needs database access, it **borrows** an available connection from the pool.
+3. The application executes SQL operations using that connection.
+4. Instead of closing it, the connection is **returned to the pool** after use.
+5. The pool reuses the same connection for future requests. If all connections are busy, new requests wait until a connection becomes available (up to the configured limit).
 
-**Popular Connection Pools:**
-- HikariCP (fastest)
-- Apache DBCP2
-- C3P0
-- Tomcat JDBC Pool
+**When to Use**
 
-```java
-// HikariCP example
-HikariConfig config = new HikariConfig();
-config.setJdbcUrl("jdbc:mysql://localhost:3306/mydb");
-config.setUsername("user");
-config.setPassword("password");
-config.setMaximumPoolSize(20);
+* Use **Connection Pooling** in **web applications, microservices, and enterprise systems** where the database is accessed frequently.
+* It is recommended for **high-performance and high-concurrency** applications.
 
-HikariDataSource dataSource = new HikariDataSource(config);
-Connection conn = dataSource.getConnection(); // From pool
+**Code Example (Spring Boot with HikariCP)**
+
+```java id="k7m2pv"
+// application.properties
+spring.datasource.url=jdbc:mysql://localhost:3306/testdb
+spring.datasource.username=root
+spring.datasource.password=password
+
+// HikariCP Pool Settings
+spring.datasource.hikari.maximum-pool-size=10
+spring.datasource.hikari.minimum-idle=5
 ```
 
 
 ## 5. What is caching and how it works inernally(Implementation)?
 
-**Caching** in Java is a technique of **storing frequently used data in memory** so that we don’t have to fetch it again from a slow source like a database or external API.
+**Caching** is a technique of **storing frequently accessed data in fast memory** so that future requests can be served **without repeatedly querying the database or external API**.
+
+**Key Features**
+
+* **Improves performance** and reduces response time.
+* **Reduces database load** and network calls.
+* Stores **frequently read, rarely updated** data.
+* Supports **automatic expiration (TTL)** and cache eviction.
+* Common cache providers: **Caffeine**, **Redis**, and **Ehcache**.
+
+**How It Works Internally**
+
+1. A client requests data.
+2. The application first checks the **cache**.
+3. If the data exists (**Cache Hit**), it is returned immediately.
+4. If the data is not found (**Cache Miss**), the application fetches it from the **database**.
+5. The fetched data is stored in the cache for future requests.
+6. When the data is updated or deleted, the cache is **updated (`@CachePut`)** or **removed (`@CacheEvict`)** to keep it consistent.
+
+**Spring Cache Annotations**
+
+* **`@Cacheable`** → Checks the cache first. If data is present, returns it; otherwise executes the method and stores the result in the cache.
+* **`@CachePut`** → Always executes the method and **updates the cache** with the latest value.
+* **`@CacheEvict`** → Removes one or all cache entries when data changes.
+
+**Types of Caching**
+
+| **Cache Type**         | **Description**                                                           | **Example**                                |
+| ---------------------- | ------------------------------------------------------------------------- | ------------------------------------------ |
+| **Local Cache**        | Stored inside application memory. Best for a single application instance. | **Caffeine**                               |
+| **Distributed Cache**  | Shared across multiple application servers.                               | **Redis**                                  |
+| **Database/ORM Cache** | Caches database entities at the ORM level.                                | **Hibernate Second-Level Cache (Ehcache)** |
+
+**When to Use**
+
+* Use **Caffeine** for **single-instance applications** requiring ultra-fast access.
+* Use **Redis** for **microservices or multiple server instances** where the cache must be shared.
+* Use **Hibernate L2 Cache** to reduce repeated database queries for frequently accessed entities.
+* Best suited for **frequently read and rarely updated data**.
+
+**Code Example (Spring Boot with `@Cacheable`)**
+
+```java id="r7n4xp"
+@Service
+public class UserService {
+
+    @Cacheable(value = "users", key = "#id")
+    public User getUser(Long id) {
+        System.out.println("Fetching from DB...");
+        return userRepository.findById(id)
+                .orElse(new User(id, "Default User"));
+    }
+}
+```
+
+**Execution Flow**
+
+* **First Call** → Cache Miss → Fetch from **Database** → Store in **Cache**.
+* **Second Call** → Cache Hit → Return directly from **Cache**.
+
+**Caffeine vs Redis**
+
+| **Caffeine**                              | **Redis**                        |
+| ----------------------------------------- | -------------------------------- |
+| **Local in-memory cache**                 | **Distributed cache server**     |
+| Extremely **fast**                        | Slight **network latency**       |
+| Not shared across applications            | Shared across multiple services  |
+| Best for **single-instance applications** | Best for **distributed systems** |
+
 
 * **`@Cacheable`** → Stores the method result in cache and returns cached data for the same request instead of executing the method again.
 * **`@CachePut`** → Always executes the method and **updates the cache with the latest result**.
