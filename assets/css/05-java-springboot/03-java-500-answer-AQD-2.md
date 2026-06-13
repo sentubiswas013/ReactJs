@@ -98,6 +98,10 @@ JRE = JVM + Core Libraries (java.lang, java.util, etc.)
 JVM = Runtime execution environment
 ```
 
+## 3. How Does JVM Work?
+
+**JVM (Java Virtual Machine)** is a part of the **JRE (Java Runtime Environment)** that **executes Java bytecode** and provides the **"Write Once, Run Anywhere"** capability.
+
 **JVM Architecture  Diagram** 
 
 ```text
@@ -112,6 +116,70 @@ JVM = Runtime execution environment
    (Interpreter + JIT)
              ↓
       Garbage Collector
+```
+
+**Key Features**
+
+* Converts **bytecode (`.class` files)** into **machine code**.
+* Provides **platform independence**.
+* Handles **memory management** and **Garbage Collection (GC)**.
+* Manages **thread execution** and runtime environment.
+* Uses **JIT (Just-In-Time) Compiler** for better performance.
+
+**How It Works**
+
+1. Java source code (`.java`) is compiled by the **Java Compiler (`javac`)** into **bytecode (`.class`)**.
+2. The **Class Loader** loads the bytecode into the JVM.
+3. The **Bytecode Verifier** checks the code for security and correctness.
+4. The **Execution Engine** executes the bytecode:
+
+   * **Interpreter** reads and executes bytecode line by line.
+   * **JIT Compiler** converts frequently used bytecode into **native machine code** for faster execution.
+5. The **Garbage Collector (GC)** automatically removes unused objects from memory.
+
+**JVM Internal Components**
+
+* **Class Loader** → Loads `.class` files.
+* **Method Area** → Stores class metadata and static variables.
+* **Heap Memory** → Stores objects and instance variables.
+* **Stack Memory** → Stores method calls and local variables.
+* **PC Register** → Keeps track of the current instruction for each thread.
+* **Native Method Stack** → Handles native (non-Java) method execution.
+* **Execution Engine** → Executes bytecode using the Interpreter and JIT Compiler.
+
+**When to Use**
+
+* JVM works **automatically whenever a Java application runs**.
+* It provides **memory management, portability, and optimized execution** without developer intervention.
+
+**Code Example**
+
+```java id="j4m8vk"
+// Source Code
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, JVM!");
+    }
+}
+```
+
+**Execution Flow**
+
+```text
+.java Source Code
+        ↓ (javac)
+.class Bytecode
+        ↓
+   Class Loader
+        ↓
+Bytecode Verifier
+        ↓
+ Execution Engine
+ (Interpreter + JIT)
+        ↓
+   Machine Code
+        ↓
+      Output
 ```
 
 ## 3. **Difference Between `JAR`, `WAR`, and `EAR`**
