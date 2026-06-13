@@ -4192,6 +4192,45 @@ class Bank {
 }
 ```
 
+## 2. What is a Functional Interface?
+
+A **Functional Interface** is an interface that contains **exactly one abstract method (SAM - Single Abstract Method)**. It was introduced in **Java 8** and is mainly used with **Lambda Expressions** and **Method References**.
+
+**Key Features**
+
+* Contains **only one abstract method**.
+* Can have **multiple `default` and `static` methods**.
+* Can be annotated with **`@FunctionalInterface`** (optional but recommended).
+* Enables **functional programming** in Java.
+* Used extensively in the **Stream API** and lambda expressions.
+
+**How It Works**
+
+* A functional interface defines a single behavior.
+* A **lambda expression** provides the implementation of that abstract method at runtime.
+* The compiler automatically maps the lambda to the functional interface.
+
+**When to Use**
+
+* Use **Functional Interfaces** when you want to pass **behavior as a parameter**.
+* Commonly used with **Lambda Expressions**, **Stream API**, and **callbacks**.
+* Examples: **`Runnable`**, **`Callable`**, **`Comparator`**, **`Consumer`**, **`Supplier`**, **`Function`**, and **`Predicate`**.
+
+**Code Example**
+
+```java id="x4m7pq"
+@FunctionalInterface
+interface Greeting {
+    void sayHello();
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Greeting greeting = () -> System.out.println("Hello!");
+        greeting.sayHello();
+    }
+}
+```
 
 ## 4. What is an Abstract Class?
 
