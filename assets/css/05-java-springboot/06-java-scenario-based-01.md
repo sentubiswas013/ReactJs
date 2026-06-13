@@ -473,13 +473,115 @@
 
 ### 20. Your application has 2-second GC pauses affecting user experience. How do you reduce them?
 
+**How to Identify:**
+
+* Analyze **GC logs** and monitor **GC pause times**.
+* Check **heap usage**, **allocation rate**, and **JVM metrics**.
+* Use **APM/profiling tools** to identify excessive object creation.
+
+**Common Reasons:**
+
+* **Small or poorly tuned heap size**
+* Excessive **short-lived object creation**
+* Inefficient **GC configuration**
+* **Memory leaks** causing frequent Full GC
+
+**How to Resolve:**
+
+* Tune **JVM heap** and **GC settings** (for example, use **G1GC** or **ZGC** for low-latency applications).
+* Reduce unnecessary object creation and optimize memory usage.
+* Fix memory leaks and clear unused caches or collections.
+* Continuously monitor **GC pause times** and heap metrics to ensure the pauses are reduced and user experience improves.
+
 ### 21. You're using ThreadLocal in a web application and seeing memory leaks after deployments. Why?
+
+**How to Identify:**
+
+* Monitor **heap memory** and observe that it keeps increasing after redeployments.
+* Analyze a **heap dump** and check for objects retained by **`ThreadLocal`**.
+* Look for application server worker threads that still hold old `ThreadLocal` values.
+
+**Common Reasons:**
+
+* **`ThreadLocal` values are not removed** after request processing.
+* **Thread pools reuse threads**, so old objects remain attached to long-lived threads.
+* After deployment, old class loader references are retained through `ThreadLocal`, causing a **class loader memory leak**.
+
+**How to Resolve:**
+
+* Always clear `ThreadLocal` values in a `finally` block using **`threadLocal.remove()`**.
+* Avoid storing large or long-lived objects in `ThreadLocal`.
+* Use frameworks or filters/interceptors that automatically clean up `ThreadLocal` data after each request.
+* Verify the fix by checking **heap dumps** and ensuring memory is released correctly after deployments.
+
 
 ### 22. You find thousands of threads running in production. How do you investigate?
 
+**How to Identify:**
+
+* Check **JVM metrics** and **thread count** monitoring.
+* Capture and analyze **thread dumps** (`jstack`) to identify thread states (**RUNNABLE**, **WAITING**, **BLOCKED**).
+* Review **application logs** and **thread pool metrics** to find abnormal thread creation.
+
+**Common Reasons:**
+
+* **Thread leak** due to threads not being terminated
+* Misconfigured or unbounded **thread pools**
+* Threads blocked by **deadlocks** or slow I/O operations
+* Excessive creation of new threads instead of reusing a pool
+
+**How to Resolve:**
+
+* Analyze **thread dumps** to identify the source of excessive threads.
+* Fix thread leaks and ensure threads are properly closed after use.
+* Use a properly sized **thread pool** (`ExecutorService`) instead of creating threads manually.
+* Resolve deadlocks or blocking operations, and continuously monitor thread count after the fix.
+
+
 ### 23. Your Java application is running slowly and consuming increasing memory over time. How do you diagnose and fix it?
 
+**How to Identify:**
+
+* Monitor **heap memory**, **CPU usage**, and **GC logs** for abnormal behavior.
+* Capture **heap dumps** and **thread dumps** to analyze memory and thread activity.
+* Use **APM/profiling tools** to identify slow methods and objects that keep growing.
+
+**Common Reasons:**
+
+* **Memory leak** due to unreleased object references
+* Excessive **Garbage Collection (GC)** caused by growing heap usage
+* Growing **collections, caches, or ThreadLocal** objects
+* Inefficient code or background tasks consuming CPU and memory
+
+**How to Resolve:**
+
+* Analyze the **heap dump** to identify and fix memory leaks.
+* Optimize or remove unnecessary object creation and clear unused caches or collections.
+* Tune **JVM/GC settings** and optimize CPU-intensive code.
+* Continuously monitor **memory usage**, **GC behavior**, and application performance to confirm the issue is resolved.
+
+
 ### 24. Your Java application is running out of memory gradually over days. You find heap dumps showing many HashMap instances. What could be the cause and how do you fix it?
+
+**How to Identify:**
+
+* Monitor **heap usage** and **GC logs** to confirm memory is continuously growing.
+* Capture and analyze a **heap dump** using **MAT** or **VisualVM**.
+* Check if **`HashMap`** objects are retaining large amounts of data and are not being garbage collected.
+
+**Common Reasons:**
+
+* **Memory leak** caused by `HashMap` entries that are never removed.
+* Unbounded **caches** implemented using `HashMap`.
+* **Static `HashMap`** variables holding references for the application's lifetime.
+* Missing cleanup logic causing the map to grow indefinitely.
+
+**How to Resolve:**
+
+* Analyze the heap dump to identify which **`HashMap`** is growing and what objects it holds.
+* Remove unused entries or implement proper cleanup logic.
+* Replace unbounded `HashMap` caches with **bounded caches** (for example, LRU or cache libraries with eviction policies).
+* Avoid unnecessary **static collections** and monitor heap usage after the fix to ensure memory remains stable.
 
 ---
 
@@ -487,15 +589,178 @@
 
 ### 25. Your application suddenly stops responding. You suspect a deadlock. How do you detect and fix it?
 
+**How to Identify**
+
+* Take a **Thread Dump** using **jstack** or **jcmd**.
+* Look for threads in **BLOCKED** state waiting for each other.
+* Check logs for **deadlock detected** messages.
+* Use monitoring tools like **VisualVM** or **JConsole**.
+
+**Common Reasons**
+
+* Threads acquiring locks in a different order.
+* Nested **synchronized** blocks.
+* Multiple threads waiting for resources held by each other.
+* Improper use of **Locks** and shared resources.
+
+**How to Resolve**
+
+* Always acquire locks in a **consistent order**.
+* Reduce lock scope and avoid nested locking.
+* Use **ReentrantLock** with timeout (`tryLock()`).
+* Review thread dump, identify conflicting threads, and refactor the locking logic.
+* Prefer concurrent collections like **ConcurrentHashMap** where possible.
+
+
 ### 26. You're using HashMap in a multithreaded application and experiencing data corruption. What's wrong?
+
+**How to Identify**
+
+* Data is **missing**, **overwritten**, or inconsistent.
+* Random behavior occurs under high concurrency.
+* Multiple threads are reading and writing the same **HashMap**.
+* Thread dumps show concurrent access to shared data.
+
+**Common Reasons**
+
+* **HashMap** is **not thread-safe**.
+* Concurrent updates can corrupt the internal data structure.
+* Race conditions occur when multiple threads modify the map simultaneously.
+* Reads and writes happen without proper synchronization.
+
+**How to Resolve**
+
+* Replace **HashMap** with **ConcurrentHashMap**.
+* Use **synchronized** blocks if shared access must be controlled.
+* Avoid modifying the same map from multiple threads without protection.
+* Use thread-safe collections from `java.util.concurrent` for concurrent access.
+
 
 ### 27. You get `ConcurrentModificationException` while iterating and removing from an ArrayList. How do you fix it?
 
+**How to Identify**
+
+* Application throws **`ConcurrentModificationException`** during iteration.
+* Elements are being removed inside a **for-each loop**.
+* The collection is modified while it is being traversed.
+
+**Common Reasons**
+
+* Removing elements directly from an **ArrayList** during iteration.
+* One thread modifies the collection while another is iterating.
+* Using `list.remove()` inside a **for-each loop**.
+
+**How to Resolve**
+
+* Use an **Iterator** and call `iterator.remove()`.
+* Use **`removeIf()`** for conditional removal.
+* For concurrent access, use thread-safe collections like **CopyOnWriteArrayList**.
+
+**Code Example**
+
+```java
+Iterator<String> it = list.iterator();
+
+while (it.hasNext()) {
+    if (it.next().equals("test")) {
+        it.remove(); // Safe removal
+    }
+}
+```
+
+```java
+list.removeIf(item -> item.equals("test"));
+```
+
+
 ### 28. You're using `stream().parallel()` but it's slower than sequential. Why?
+
+**How to Identify**
+
+* **Parallel Stream** takes longer than a normal stream.
+* CPU usage increases, but performance does not improve.
+* Profiling shows excessive thread management overhead.
+
+**Common Reasons**
+
+* Dataset is too **small** for parallel processing.
+* Tasks are **I/O-bound** instead of CPU-bound.
+* High overhead from **thread creation** and coordination.
+* Contention in the **ForkJoinPool**.
+* Shared resources causing **locking** or synchronization delays.
+
+**How to Resolve**
+
+* Use **parallel streams** only for large, **CPU-intensive** workloads.
+* Benchmark using **JMH** before choosing parallel processing.
+* Avoid shared mutable state and synchronization.
+* Use a custom **ExecutorService** if the common **ForkJoinPool** is overloaded.
+* For small datasets, prefer a **sequential stream**.
+
 
 ### 29. You need to implement a producer-consumer pattern for processing 1 million records efficiently.
 
+**How to Identify:**
+
+* Check if a single thread cannot handle the workload and there is a need for **parallel processing**.
+* Monitor **throughput**, **queue size**, and **consumer processing rate**.
+
+**Common Reasons:**
+
+* Sequential processing becomes a **performance bottleneck**.
+* **Consumers are slower** than producers, causing queue buildup.
+* Improper thread management or unbounded queues.
+
+**How to Resolve:**
+
+* Use a **Producer-Consumer pattern** with a **`BlockingQueue`** and a fixed-size **`ExecutorService`** thread pool.
+* Let producers add records to the queue while multiple consumers process them concurrently.
+* Tune the **thread pool size** and queue capacity based on CPU and system resources to achieve optimal throughput.
+* Monitor queue size and processing metrics to ensure the system handles **1 million records** efficiently without resource exhaustion.
+
+```java
+BlockingQueue<Record> queue = new LinkedBlockingQueue<>();
+
+// Producer
+executor.submit(() -> {
+    for (Record r : records) {
+        queue.put(r);
+    }
+});
+
+// Consumers
+for (int i = 0; i < 5; i++) {
+    executor.submit(() -> {
+        while (true) {
+            Record r = queue.take();
+            process(r);
+        }
+    });
+}
+```
+
+
 ### 30. `CompletableFuture.supplyAsync()` for parallel processing performs worse than sequential. What's wrong?
+
+**How to Identify:**
+
+* Compare **parallel vs sequential execution time**.
+* Monitor **CPU usage**, **thread pool utilization**, and **thread contention**.
+* Check if tasks are **CPU-bound** or **I/O-bound** and review the thread pool being used.
+
+**Common Reasons:**
+
+* Too many small tasks causing **thread management overhead**.
+* Using the default **`ForkJoinPool.commonPool()`**, which may be overloaded.
+* **Thread pool exhaustion** or excessive context switching.
+* Blocking I/O operations inside `supplyAsync()` reducing parallelism.
+
+**How to Resolve:**
+
+* Use a **custom `ExecutorService`** with an appropriate thread pool size instead of the default common pool.
+* Avoid creating too many tiny tasks; **batch** or combine work where possible.
+* Separate **CPU-bound** and **I/O-bound** workloads into different thread pools.
+* Profile and tune the application to ensure that parallel processing provides a real performance benefit over sequential execution.
 
 ---
 
@@ -503,11 +768,15 @@
 
 ### 31. You added `@Transactional` to a method but transactions are not being created. What could be the reason?
 
+
 ### 32. A `@Transactional` method catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?
+
 
 ### 33. Service A depends on Service B, and Service B depends on Service A. How do you resolve the circular dependency?
 
+
 ### 34. You notice 1000 database queries when loading 100 entities. How do you fix this?
+
 
 ### 35. You're using constructor injection and get `BeanCurrentlyInCreationException`. How do you fix it?
 
