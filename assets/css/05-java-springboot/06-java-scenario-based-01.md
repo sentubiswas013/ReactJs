@@ -1355,14 +1355,115 @@ Client → Service A → Service B → Kafka → Service C → Service D
 
 ### 46. All backend services are healthy, but users receive 502/504 errors. How do you investigate?
 
+If all backend services are healthy but users see **502/504 errors**, I would first check the **API Gateway**, **Load Balancer**, and **network communication** between services because these errors usually indicate a **gateway or timeout issue**.
+
+**How to Identify:**
+
+* Backend service health checks are **passing**.
+* Users receive **502 Bad Gateway** or **504 Gateway Timeout**.
+* Application logs show no failures, but **gateway/load balancer logs** show timeouts or connection errors.
+
+**Common Reasons:**
+
+* **API Gateway** or **Load Balancer** timeout is too low.
+* Network latency or connectivity issues between services.
+* **Thread pool** or **database connection pool** exhaustion causing slow responses.
+* DNS or service discovery problems.
+* Misconfigured reverse proxy (e.g., **Nginx** or **Ingress Controller**).
+
+**How to Resolve:**
+
+* Check **API Gateway**, **Load Balancer**, and **Nginx/Ingress** logs.
+* Verify **timeout settings** between gateway and backend services.
+* Monitor **CPU**, **memory**, **thread pool**, and **database connection pool** usage.
+* Check **network latency**, DNS resolution, and service discovery.
+* Use **distributed tracing** and **request correlation IDs** to identify where the request is delayed.
+* Review recent deployments or configuration changes and perform a rollback if needed.
+
 
 ### 47. Authentication works directly against the service but fails through the Gateway. Why?
+
+If authentication works when calling the service directly but fails through the **API Gateway**, the issue is usually related to **token forwarding**, **gateway security configuration**, or **header propagation**.
+
+**How to Identify:**
+
+* Direct API calls succeed, but requests through the **Gateway** return **401 Unauthorized** or **403 Forbidden**.
+* Authentication service is healthy, but the backend service does not receive the **Authorization** header.
+* Gateway logs show authentication or routing failures.
+
+**Common Reasons:**
+
+* **Authorization header** is not being forwarded by the Gateway.
+* Invalid or expired **JWT token**.
+* Incorrect **Gateway security** or route configuration.
+* Token validation keys or issuer configuration mismatch.
+* **CORS** or header filtering configuration removing required headers.
+
+**How to Resolve:**
+
+* Verify that the **Authorization** header is forwarded to downstream services.
+* Check **JWT token** validity, issuer, audience, and expiration.
+* Review **API Gateway** security and routing configuration.
+* Compare Gateway logs with backend service logs using a **Trace ID**.
+* Validate **CORS** and header forwarding settings.
+* Test the same request both directly and through the Gateway to identify where it fails.
 
 
 ### 48. A service registers successfully in Eureka but cannot be discovered by other services.
 
+If a service is registered in **Eureka** but other services cannot discover it, the problem is usually related to **service registration**, **service discovery configuration**, or **network connectivity**.
+
+**How to Identify:**
+
+* The service appears in the **Eureka Dashboard** as **UP**.
+* Direct access using IP/URL works, but **service-name-based** calls fail.
+* Client logs show **`No instances available`** or **service not found** errors.
+
+**Common Reasons:**
+
+* Incorrect **`spring.application.name`** or service name mismatch.
+* Consumer service is not configured with **`@EnableDiscoveryClient`** or Eureka client dependency.
+* Stale or outdated **Eureka registry cache**.
+* Network, DNS, or firewall issues between services.
+* Wrong **hostname/IP** registration (for example, registering a local or unreachable address).
+
+**How to Resolve:**
+
+* Verify that **`spring.application.name`** matches the name used by the client.
+* Check **Eureka client** configuration and ensure both services are connected to the same Eureka server.
+* Refresh or restart the consumer service to update the **registry cache**.
+* Validate the registered **hostname/IP** and use `prefer-ip-address=true` if required.
+* Check network connectivity, firewall rules, and service-to-service communication.
+* Review **Eureka server** and **client logs** for registration and discovery errors.
+
 
 ### 49. Inter-service communication works locally but fails in Kubernetes. What could be wrong?
+
+If inter-service communication works locally but fails in **Kubernetes**, the issue is usually related to **service discovery**, **DNS**, **network policies**, or **service configuration**.
+
+**How to Identify:**
+
+* Services communicate successfully in the local environment but fail after deployment to Kubernetes.
+* Requests return **connection refused**, **timeout**, or **host not found** errors.
+* Pod logs show DNS resolution or connectivity issues.
+
+**Common Reasons:**
+
+* Incorrect **Kubernetes Service** name or namespace.
+* **DNS** resolution failure inside the cluster.
+* Wrong **Service**, **Pod**, or **Container Port** configuration.
+* **NetworkPolicy** rules blocking traffic between pods.
+* Service type or selector labels are misconfigured, so traffic is not routed to the correct pods.
+* Ingress or API Gateway routing configuration is incorrect.
+
+**How to Resolve:**
+
+* Verify the **Service name**, **namespace**, and endpoint configuration.
+* Check **DNS resolution** using tools like `nslookup` or `dig` inside a pod.
+* Validate **Service**, **targetPort**, and **containerPort** mappings.
+* Review **NetworkPolicy**, firewall, and security rules.
+* Ensure pod **labels** and service **selectors** match correctly.
+* Check **Ingress**, API Gateway, and Kubernetes service logs for routing issues.
 
 ---
 
@@ -1370,20 +1471,225 @@ Client → Service A → Service B → Kafka → Service C → Service D
 
 ### 50. How would you handle a sudden spike from 10K to 1M RPS? (Black Friday scenario)
 
+**How to Identify**
+
+* Sudden increase in **RPS (Requests Per Second)**.
+* High **CPU**, **Memory**, or **Database** utilization.
+* Increased **latency**, **timeouts**, and **error rates**.
+* Monitoring dashboards show system saturation.
+
+**Common Reasons**
+
+* **Flash sales** or promotional events.
+* Viral traffic surge.
+* Insufficient infrastructure capacity.
+* Database or downstream service bottlenecks.
+
+**How to Resolve**
+
+* Enable **Auto Scaling** to add more instances automatically.
+* Use **Load Balancers** to distribute traffic.
+* Implement **Caching** (Redis/CDN) to reduce database load.
+* Use **Rate Limiting** to protect services.
+* Process non-critical requests asynchronously using **Queues**.
+* Optimize database with **Read Replicas** and **Partitioning**.
+* Apply **Circuit Breakers** and **Graceful Degradation** for dependent services.
+
 
 ### 51. Design a rate-limiting system for an API gateway serving 50,000 RPS.
+
+**How to Identify**
+
+* APIs are receiving excessive **requests** from some users.
+* Increased **latency**, **timeouts**, or resource exhaustion.
+* Need to protect backend services from overload.
+
+**Common Reasons**
+
+* Traffic spikes
+* Misbehaving clients
+* Bot attacks
+* Lack of request throttling
+* Uneven resource usage
+
+**How to Resolve**
+
+* Implement **Rate Limiting** at the **API Gateway**.
+* Use the **Token Bucket** or **Sliding Window** algorithm.
+* Store counters in a fast distributed cache like **Redis**.
+* Apply limits per **User**, **API Key**, or **IP Address**.
+* Return **HTTP 429 (Too Many Requests)** when limits are exceeded.
+* Use **Horizontal Scaling** to handle 50,000 RPS.
+* Monitor rate-limit metrics and adjust thresholds as needed.
+
+**Example**
+
+* Limit: **100 requests/minute per user**
+* User sends **120 requests**
+* First **100** requests are allowed
+* Remaining **20** requests receive **HTTP 429**
 
 
 ### 52. How would you migrate a monolith to microservices without downtime?
 
+**How to Identify**
+
+* The **Monolith** is becoming difficult to scale, deploy, or maintain.
+* Teams need **independent deployments** and scalability.
+* Frequent changes impact the entire application.
+
+**Common Reasons**
+
+* Tight coupling between modules.
+* Large codebase with slow releases.
+* Scaling the entire application for a small feature.
+
+**How to Resolve**
+
+* Follow the **Strangler Fig Pattern**.
+* Identify and extract one **business domain** at a time.
+* Route selected requests from the monolith to the new microservice.
+* Keep both systems running during migration.
+* Use **API Gateway** for traffic routing.
+* Synchronize data using **events** or replication.
+* Gradually move traffic and monitor performance.
+* Decommission monolith components only after successful migration.
+
+**Migration Steps**
+
+1. Identify a **bounded context**.
+2. Build a new **microservice**.
+3. Redirect traffic through an **API Gateway**.
+4. Gradually increase traffic to the microservice.
+5. Remove the corresponding functionality from the monolith.
+
 
 ### 53. Design an event-driven notification system for 10 million users with delivery guarantees.
+
+For a notification system serving **10 million users**, I would use an **event-driven architecture** with a **message broker** like **Kafka** to handle high throughput and reliable delivery.
+
+**How it works:**
+
+1. The application publishes a **notification event** to Kafka.
+2. A **Notification Service** consumes the event.
+3. The service sends notifications through **Email**, **SMS**, or **Push Notification** providers.
+4. After successful delivery, the event is **acknowledged**. If it fails, it is **retried** or moved to a **Dead Letter Queue (DLQ)**.
+
+**How to Identify:**
+
+* Large number of notifications need to be processed asynchronously.
+* Temporary provider failures should not result in lost messages.
+* Users expect reliable and scalable notification delivery.
+
+**Common Reasons:**
+
+* Consumer or notification service failure.
+* Message duplication due to retries.
+* Third-party Email/SMS provider downtime.
+* High traffic causing queue backlogs.
+
+**How to Resolve:**
+
+* Use **Kafka** with **multiple partitions** for horizontal scalability.
+* Implement **at-least-once delivery** with **idempotent consumers** to avoid duplicate processing.
+* Add **Retry** and **Dead Letter Queue (DLQ)** mechanisms for failed events.
+* Use the **Transactional Outbox Pattern** to ensure events are not lost.
+* Monitor **consumer lag**, queue size, and delivery success metrics.
+
+**Simple Flow:**
+
+```text id="r8m3k1"
+Application → Kafka Topic → Notification Service → Email/SMS/Push Provider
+                     │
+              Retry Queue / DLQ (on failure)
+```
 
 
 ### 54. How do you design an idempotent REST API for payment processing?
 
+An **idempotent REST API** ensures that **multiple identical requests produce the same result** and prevent **duplicate payments**, even if the client retries due to network failures or timeouts.
+
+**How it works:**
+
+1. The client sends a unique **Idempotency Key** with the payment request.
+2. The server stores the key and the corresponding response in a database or cache.
+3. If the same request is received again with the same key, the server returns the **previous response** instead of processing the payment again.
+
+**How to Identify:**
+
+* Payment APIs receive **retry requests** due to timeouts or network issues.
+* Duplicate transactions are observed for the same user action.
+* Multiple identical requests arrive with the same business intent.
+
+**Common Reasons:**
+
+* Client-side retries.
+* Network timeouts or connection failures.
+* Message broker redelivery.
+* User clicking the payment button multiple times.
+
+**How to Resolve:**
+
+* Generate and validate a unique **Idempotency Key** for each payment request.
+* Store the **key**, **request details**, and **response** in persistent storage.
+* Return the existing response if the same key is received again.
+* Use a **unique database constraint** to prevent duplicate transaction records.
+* Set an appropriate **expiration time (TTL)** for stored idempotency keys.
+
+**Simple Example:**
+
+```java id="8k3m1p"
+POST /payments
+Headers:
+Idempotency-Key: 12345-abcde
+
+if (keyExists(idempotencyKey)) {
+    return previousResponse;
+}
+processPayment();
+saveKeyAndResponse();
+```
 
 ### 55. Design a CQRS + Event Sourcing system for an auditable financial ledger.
+
+For an **auditable financial ledger**, I would use **CQRS (Command Query Responsibility Segregation)** with **Event Sourcing**. Instead of storing only the latest balance, every change is stored as an **immutable event**, providing a complete audit trail.
+
+**How it works:**
+
+1. A **Command** (e.g., debit or credit) is received.
+2. The command is validated and stored as an **event** (e.g., `MoneyDebited`, `MoneyCredited`).
+3. Events are saved in an **Event Store**.
+4. A **Read Model** is updated asynchronously from these events for fast queries.
+5. The current account balance is calculated by **replaying events** or using **snapshots**.
+
+**How to Identify:**
+
+* The system requires a complete **audit history**.
+* Every data change must be **traceable and immutable**.
+* Read and write workloads have different scaling requirements.
+
+**Common Reasons:**
+
+* Financial systems require regulatory and audit compliance.
+* Need to recover or rebuild the current state from historical data.
+* High read traffic can affect write performance in a traditional design.
+
+**How to Resolve:**
+
+* Separate **write (Command)** and **read (Query)** operations using **CQRS**.
+* Store every state change as an **immutable event** using **Event Sourcing**.
+* Use **Kafka** or another message broker to propagate events.
+* Create optimized **read models** for reporting and queries.
+* Use **snapshots** periodically to avoid replaying all historical events.
+
+**Simple Flow:**
+
+```text id="q7v2n4"
+Command → Event Store → Kafka → Read Model Database
+               │                    │
+        MoneyDebited          Balance Query
+        MoneyCredited         Transaction History
+```
 
 ---
 
@@ -1391,8 +1697,58 @@ Client → Service A → Service B → Kafka → Service C → Service D
 
 ### 56. You deployed a new version but it's causing errors in production. What do you do first?
 
+If a new deployment is causing production errors, the **first step** is to **reduce customer impact** by **rolling back** or **switching traffic to the last stable version**, while investigating the root cause.
+
+**How to Identify:**
+
+* Error rate, latency, or failed requests increase immediately after deployment.
+* Monitoring dashboards and alerts show abnormal behavior.
+* Logs indicate failures that were not present before the release.
+
+**Common Reasons:**
+
+* Application bugs in the new release.
+* Configuration or environment mismatch.
+* Database migration issues.
+* Dependency or API compatibility problems.
+* Incorrect feature flag or deployment settings.
+
+**How to Resolve:**
+
+* **Rollback** to the previous stable version or perform a **blue-green/canary rollback**.
+* Check **application logs**, **metrics**, and **distributed traces** to identify the issue.
+* Compare the new release with the previous version to find recent changes.
+* Verify configuration, environment variables, and database migrations.
+* Fix the issue, test it in a lower environment, and redeploy safely.
+
 
 ### 57. Your Kubernetes pods are crashing repeatedly. How do you debug?
+
+If **Kubernetes pods** are crashing repeatedly, I would first check the **pod status and logs** to identify the root cause, then verify resource usage and configuration.
+
+**How to Identify:**
+
+* Pods are in **CrashLoopBackOff** or **Error** state.
+* Frequent pod restarts are visible using `kubectl get pods`.
+* Application logs show startup failures or exceptions.
+
+**Common Reasons:**
+
+* Application startup exception or code bug.
+* **Out of Memory (OOMKilled)** due to insufficient memory limits.
+* Incorrect **environment variables**, secrets, or configuration.
+* Failed **liveness** or **readiness probes**.
+* Image, dependency, or database connection issues.
+
+**How to Resolve:**
+
+* Check pod status using **`kubectl get pods`** and **`kubectl describe pod <pod-name>`**.
+* View application logs with **`kubectl logs <pod-name>`**.
+* Verify **memory and CPU limits** and check for **OOMKilled** events.
+* Validate **environment variables**, **ConfigMaps**, and **Secrets**.
+* Review **liveness** and **readiness probe** configurations.
+* Check connectivity to dependent services like databases or external APIs, fix the issue, and redeploy.
+
 
 
 ### 58. How do you implement blue-green and canary deployments in a Java microservice fleet?
