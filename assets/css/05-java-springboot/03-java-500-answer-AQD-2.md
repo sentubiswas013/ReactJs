@@ -4062,61 +4062,51 @@ System.out.println(MathConstants.MAX_VALUE); // 100
 # ✅ 05. Java Interface & Abstract Class 
 
 
-## 1. What is an Interface?
+## 1. What is an Interface in Java?
 
-An **Interface** is a blueprint that defines a set of methods that a class must implement. It specifies **what** a class should do, but not **how** it should do it.
+An **Interface** in Java is a **blueprint of a class** that defines a set of **abstract methods** which implementing classes must provide. It is mainly used to achieve **abstraction** and **multiple inheritance**.
 
 **Key Features**
 
-* Cannot be instantiated
-* Contains **abstract methods** by default
-* Supports **multiple inheritance**
-* Promotes **Abstraction** and **Loose Coupling**
-* Can contain **default** and **static methods** (Java 8+)
+* Defines a **contract** that implementing classes must follow.
+* Supports **abstraction** by hiding implementation details.
+* Allows **multiple inheritance** (a class can implement multiple interfaces).
+* Can contain **abstract methods**, **default methods**, **static methods**, and **private methods** (Java 9+).
+* Variables in an interface are **`public static final`** by default.
 
 **How It Works**
 
-A class uses the **implements** keyword to implement an interface and provide the implementation of its methods.
-
-**Why to Use**
-
-* To define a common contract for multiple classes
-* To achieve **Abstraction**
-* To reduce dependencies between components
-* To support **Multiple Inheritance**
+1. Create an **interface** with method declarations.
+2. A class uses the **`implements`** keyword to implement the interface.
+3. The implementing class provides the method implementations.
 
 **When to Use**
 
-Use an **Interface** when different classes should follow the same contract but may have different implementations.
-
-Examples:
-
-* **Payment** interface implemented by CreditCardPayment and PayPalPayment
-* **Notification** interface implemented by EmailNotification and SMSNotification
+* Use an **Interface** when multiple classes should follow the **same contract** but may have different implementations.
+* Commonly used for **loose coupling**, **Dependency Injection**, and **strategy design patterns**.
 
 **Code Example**
 
-```java
+```java id="f8k3mq"
 interface Animal {
-
-    void makeSound();
+    void sound();
 }
 
 class Dog implements Animal {
-
     @Override
-    public void makeSound() {
+    public void sound() {
         System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal = new Dog();
+        animal.sound();
     }
 }
 ```
 
-Usage:
-
-```java
-Animal dog = new Dog();
-dog.makeSound();
-```
 
 ## 2. Interface types in Java?
 
