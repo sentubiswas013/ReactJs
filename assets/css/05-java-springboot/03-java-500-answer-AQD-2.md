@@ -23365,17 +23365,31 @@ All Services Share the Same Trace ID
 * **Spring Boot Actuator**
 
 
-## 5. What is Zipkin and How Does Distributed Tracing Work?
+## 5. What is Zipkin and how it Works?
 
-> In a microservices architecture, a single user request often travels through multiple services. If the request is slow or fails, it can be difficult to identify which service caused the problem.
->
-> **Zipkin** is a distributed tracing tool that helps track a request as it moves across different microservices. It provides end-to-end visibility into the request flow and helps identify performance bottlenecks and failures.
+**Zipkin** is a **distributed tracing tool** used in **microservices architecture** to track and monitor requests as they travel across multiple services.
 
-**How Distributed Tracing Works**
+It helps developers identify **latency issues**, **performance bottlenecks**, and **service failures**.
 
-> When a request enters the system, a unique **Trace ID** is generated. As the request passes through multiple services, each service creates its own **Span**, which contains information such as start time, end time, duration, and status.
->
-> All spans share the same Trace ID, allowing Zipkin to connect them and display the complete request journey.
+**Key Features**
+
+* **Distributed Tracing**
+* Tracks requests across multiple microservices
+* Shows complete request flow
+* Measures response time of each service
+* Helps in debugging and performance monitoring
+* Provides a visual trace through a web UI
+
+**How It Works**
+
+1. A request enters a microservice.
+2. A unique **Trace ID** is generated.
+3. Each service creates a **Span** (a unit of work).
+4. Trace and span information are propagated to downstream services.
+5. Services send tracing data to **Zipkin Server**.
+6. Zipkin collects and displays the complete request journey.
+
+**Example Flow**
 
 ```text
 Client Request
@@ -23387,29 +23401,48 @@ Service A ──► Service B ──► Service C
       Same Trace ID: abc123
 ```
 
-> Suppose a request takes 5 seconds to complete. Zipkin can show:
->
-> * Service A took 200 ms
-> * Service B took 4.5 seconds
-> * Service C took 300 ms
->
-> From this trace, we can immediately identify that Service B is the bottleneck.
+All services share the same **Trace ID**, while each service has its own **Span ID**.
 
-**Spring Boot 3+**
+**Important Terms**
+
+* **Trace**: Complete journey of a request.
+* **Span**: Single operation within a trace.
+* **Trace ID**: Unique identifier for the entire request.
+* **Span ID**: Unique identifier for a specific operation.
+
+**When to Use**
+
+* Microservices applications
+* Debugging service-to-service communication
+* Finding slow APIs
+* Monitoring distributed systems
+* Performance analysis and troubleshooting
+
+**Spring Boot Example**
+
+**Dependency**
 
 ```xml
 <dependency>
     <groupId>io.micrometer</groupId>
     <artifactId>micrometer-tracing-bridge-brave</artifactId>
 </dependency>
+
+<dependency>
+    <groupId>io.zipkin.reporter2</groupId>
+    <artifactId>zipkin-reporter-brave</artifactId>
+</dependency>
 ```
 
-```yaml
-management:
-  tracing:
-    sampling:
-      probability: 1.0
+**application.properties**
+
+```properties
+management.tracing.sampling.probability=1.0
+management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
 ```
+
+After starting the application, trace data is automatically sent to Zipkin.
+
 
 
 ## 6: What is profiling in Java?
