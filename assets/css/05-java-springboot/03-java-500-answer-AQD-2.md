@@ -23447,108 +23447,276 @@ After starting the application, trace data is automatically sent to Zipkin.
 
 ## 6: What is profiling in Java?
 
-**Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
+**Profiling in Java** is the process of **analyzing the runtime behavior** of a Java application to identify **performance bottlenecks**, **high CPU usage**, **memory leaks**, and **slow methods**. It helps developers optimize application performance.
 
-It includes **CPU, memory, and thread profiling**, using tools like **JProfiler, YourKit, VisualVM, and Java Flight Recorder**, with approaches like **sampling and instrumentation**.
+**Key Features:**
 
-* Process of analyzing application performance to identify bottlenecks
-* **CPU Profiling**: Identifies methods consuming most CPU time
-* **Memory Profiling**: Tracks memory allocation and garbage collection
-* **Thread Profiling**: Analyzes thread behavior and synchronization
-* **Tools**: JProfiler, YourKit, VisualVM, Java Flight Recorder
-* **Sampling vs Instrumentation**: Different profiling approaches
+* Monitors **CPU usage**.
+* Tracks **memory allocation** and **garbage collection (GC)**.
+* Identifies **slow or frequently called methods**.
+* Detects **memory leaks** and **thread issues**.
+* Helps improve **application performance** and **resource utilization**.
 
-```java
-// Java Flight Recorder (JFR) profiling
-// JVM flags for profiling
-// -XX:+FlightRecorder
-// -XX:StartFlightRecording=duration=60s,filename=profile.jfr
+**How It Works:**
 
-@Component
-public class ProfiledService {
-    
-    // Custom JFR event
-    @JfrEvent(name = "UserOperation")
-    public void processUser(User user) {
-        // Method will be tracked in JFR
-        expensiveOperation(user);
-    }
-    
-    // Method that might need profiling
-    public List<String> processLargeDataset(List<String> data) {
-        return data.stream()
-            .filter(this::isValid)
-            .map(this::transform)
-            .collect(Collectors.toList());
+1. A **Java Profiler** is attached to the running application.
+2. The profiler collects runtime metrics such as CPU time, memory usage, thread activity, and method execution.
+3. The collected data is analyzed to find bottlenecks.
+4. Developers optimize the code based on the profiling results.
+
+**Common Metrics Collected:**
+
+* **CPU Usage** – Which methods consume the most CPU time.
+* **Memory Usage** – How much memory objects occupy.
+* **Heap Analysis** – Detects unnecessary object retention.
+* **Thread Activity** – Finds blocked or deadlocked threads.
+* **Garbage Collection (GC)** – Measures GC frequency and pause times.
+
+**Popular Java Profiling Tools:**
+
+* **JVisualVM**
+* **JConsole**
+* **Java Flight Recorder (JFR)**
+* **YourKit Java Profiler**
+* **JProfiler**
+
+**When to Use:**
+
+* Application is running **slowly**.
+* Investigating **memory leaks**.
+* High **CPU** or **heap memory** usage.
+* Performance tuning before **production deployment**.
+* Analyzing **thread contention** or **deadlocks**.
+
+**Simple Example:**
+
+```java id="jp7x2m"
+public class Demo {
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+
+        for (int i = 0; i < 1000000; i++) {
+            Math.sqrt(i);
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.println("Execution Time: " + (end - start) + " ms");
     }
 }
 ```
 
+A **Java Profiler** can analyze this program and show how much **CPU time** is spent inside the loop and whether there are any performance issues.
+
 
 ## 7: What is memory profiling?
 
-**Memory profiling** is the analysis of an application's **memory usage and allocation patterns**.
+**What is Memory Profiling?**
 
-It helps identify **heap usage, object retention, memory leaks**, and uses tools like **Eclipse MAT, JProfiler, VisualVM**, along with **heap dumps** for detailed analysis.
+**Memory Profiling** is the process of **analyzing how a Java application uses memory** during execution. It helps identify **memory leaks**, **excessive object creation**, and **high heap usage** to improve application performance and stability.
 
-* Analysis of application memory usage patterns and allocation
-* **Heap Analysis**: Object allocation, retention, and garbage collection
-* **Memory Leaks**: Identify objects that aren't being garbage collected
-* **Allocation Patterns**: Track where and how objects are created
-* **Tools**: Eclipse MAT, JProfiler, VisualVM, JConsole
-* **Heap Dumps**: Snapshots of memory for offline analysis
+**Key Features:**
+
+* Monitors **heap memory usage**.
+* Tracks **object creation and allocation**.
+* Detects **memory leaks**.
+* Analyzes **Garbage Collection (GC)** behavior.
+* Identifies objects that occupy the most memory.
+
+**How It Works:**
+
+1. A **memory profiler** is attached to the running Java application.
+2. It collects information about **heap usage**, **object allocation**, and **GC activity**.
+3. The profiler shows which objects are consuming memory and whether they are being released correctly.
+4. Developers analyze the data to optimize memory usage and fix leaks.
+
+**Common Metrics Monitored:**
+
+* **Heap Memory Usage**
+* **Object Allocation Rate**
+* **Live Objects Count**
+* **Garbage Collection Frequency**
+* **Memory Leak Detection**
+
+**Popular Memory Profiling Tools:**
+
+* **JVisualVM**
+* **Java Flight Recorder (JFR)**
+* **JProfiler**
+* **YourKit Java Profiler**
+* **Eclipse Memory Analyzer (MAT)**
+
+**When to Use:**
+
+* Application is consuming **too much memory**.
+* Investigating **OutOfMemoryError**.
+* Finding **memory leaks**.
+* Optimizing **heap usage** and **GC performance**.
+* Performance tuning before **production deployment**.
+
+**Simple Example:**
+
+```java id="mp6r2k"
+import java.util.ArrayList;
+import java.util.List;
+
+public class MemoryDemo {
+    public static void main(String[] args) {
+        List<byte[]> list = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            list.add(new byte[1024 * 1024]); // Allocate 1 MB
+        }
+
+        System.out.println("Objects created: " + list.size());
+    }
+}
+```
+
+A **memory profiler** can analyze this program and show how the `byte[]` objects are allocated in the **heap** and whether they are properly released by the **Garbage Collector**.
 
 
 ## 8: What is CPU profiling?
 
-**CPU profiling** is the analysis of **CPU usage** to find performance hotspots.
+**What is CPU Profiling?**
 
-It tracks **time spent in methods, call hierarchy**, uses **sampling or instrumentation**, and tools like **JProfiler, async-profiler, and Java Flight Recorder** to identify bottlenecks.
+**CPU Profiling** is the process of **analyzing how a Java application uses CPU resources** during execution. It helps identify **slow methods**, **performance bottlenecks**, and **high CPU-consuming code** so that the application can be optimized.
 
-* Analysis of CPU usage to identify performance hotspots
-* **Method Profiling**: Time spent in each method
-* **Call Tree**: Method call hierarchy and execution paths
-* **Sampling**: Periodic snapshots of thread stacks
-* **Instrumentation**: Detailed method entry/exit tracking
-* **Flame Graphs**: Visual representation of CPU usage
-* **Tools**: JProfiler, async-profiler, Java Flight Recorder
+**Key Features:**
+
+* Monitors **CPU usage** of the application.
+* Identifies **slow or frequently executed methods**.
+* Detects **performance bottlenecks**.
+* Tracks **method execution time** and **call frequency**.
+* Helps improve **application speed** and **efficiency**.
+
+**How It Works:**
+
+1. A **CPU profiler** is attached to the running Java application.
+2. The profiler records **method calls**, **execution time**, and **CPU consumption**.
+3. It generates a report showing which methods consume the most CPU time.
+4. Developers analyze the report and optimize the expensive code paths.
+
+**Common Metrics Monitored:**
+
+* **CPU Usage Percentage**
+* **Method Execution Time**
+* **Method Call Count**
+* **Hotspots** (methods using the most CPU)
+* **Thread CPU Utilization**
+
+**Popular CPU Profiling Tools:**
+
+* **JVisualVM**
+* **Java Flight Recorder (JFR)**
+* **JProfiler**
+* **YourKit Java Profiler**
+* **Async Profiler**
+
+**When to Use:**
+
+* Application is running **slowly**.
+* Investigating **high CPU utilization**.
+* Finding **performance bottlenecks**.
+* Optimizing **algorithms** and **business logic**.
+* Performance tuning before **production deployment**.
+
+**Simple Example:**
+
+```java id="cpu4x8"
+public class CpuDemo {
+    public static void main(String[] args) {
+        long sum = 0;
+
+        for (int i = 0; i < 10000000; i++) {
+            sum += Math.sqrt(i);
+        }
+
+        System.out.println("Result: " + sum);
+    }
+}
+```
+
+A **CPU profiler** can analyze this program and show that the loop and the `Math.sqrt()` method consume most of the CPU time, helping developers optimize the code.
 
 
 
 ## 9: What is application performance monitoring (APM)?
 
-**Application Performance Monitoring (APM)** is the **real-time monitoring of application performance in production**.
 
-It tracks **metrics, errors, distributed tracing, user experience, and infrastructure performance**, using tools like **New Relic, AppDynamics, Dynatrace, and Elastic APM**.
+**What is Application Performance Monitoring (APM)?**
 
+**Application Performance Monitoring (APM)** is the process of **continuously monitoring and analyzing the performance, availability, and health of an application**. It helps detect **slow responses**, **errors**, **resource bottlenecks**, and **failures** in real time.
 
-```java
-// APM integration with Micrometer
-@Configuration
-public class ApmConfig {
-    
-    @Bean
-    public MeterRegistry meterRegistry() {
-        return new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
-    }
-    
-    @Bean
-    public TimedAspect timedAspect(MeterRegistry registry) {
-        return new TimedAspect(registry);
-    }
-}
+**Key Features:**
 
-@RestController
-public class MonitoredController {
-    
-    @Timed(name = "api.requests", description = "API request duration")
-    @Counted(name = "api.calls", description = "API call count")
-    @GetMapping("/api/data")
-    public ResponseEntity<String> getData() {
-        return ResponseEntity.ok("data");
-    }
-}
+* Monitors **application response time**.
+* Tracks **CPU**, **memory**, and **thread usage**.
+* Detects **errors**, **exceptions**, and **failures**.
+* Supports **distributed tracing** across microservices.
+* Provides **real-time dashboards**, **alerts**, and **performance reports**.
+
+**How It Works:**
+
+1. An **APM agent** is attached to the application.
+2. The agent collects metrics such as **response time**, **CPU usage**, **memory usage**, and **request traces**.
+3. The data is sent to an **APM server**.
+4. The APM tool analyzes and visualizes the data through dashboards.
+5. If a performance issue or failure occurs, the system generates **alerts** for developers or operations teams.
+
+**Common Metrics Monitored:**
+
+* **Response Time**
+* **Throughput (Requests per Second)**
+* **CPU Usage**
+* **Memory Usage**
+* **Error Rate**
+* **Database Query Performance**
+* **Distributed Traces**
+
+**Popular APM Tools:**
+
+* **New Relic**
+* **Dynatrace**
+* **AppDynamics**
+* **Elastic APM**
+* **Prometheus + Grafana**
+* **Zipkin** and **Jaeger** (for distributed tracing)
+
+**When to Use:**
+
+* Monitoring **production applications**.
+* **Microservices** and **cloud-native architectures**.
+* Detecting **performance bottlenecks**.
+* Troubleshooting **application failures** and **latency issues**.
+* Ensuring **high availability** and **system reliability**.
+
+**Simple Spring Boot Example (Actuator + Metrics):**
+
+**Add Dependency:**
+
+```xml id="apm7x2"
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
 ```
+
+**application.yml**
+
+```yaml id="apm3k8"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+```
+
+Now, Spring Boot exposes endpoints like:
+
+* `/actuator/health`
+* `/actuator/metrics`
+
+These metrics can be collected by APM tools such as **Prometheus** and visualized in **Grafana**.
 
 
 ## 11: What is database optimization?
@@ -23730,54 +23898,126 @@ Java 8 was a major release that introduced functional programming features and s
 * **Date/Time API:** The `java.time` package provides improved classes for handling date and time.
 * **Nashorn JavaScript Engine:** A Java engine that allows executing JavaScript code inside the JVM.
   
+**Features in Java 8**
 
-```java
-// Lambda expressions
-List<String> names = Arrays.asList("John", "Jane", "Bob");
-names.forEach(name -> System.out.println(name));
+**Java 8** introduced several powerful features that make code more **concise**, **readable**, and **efficient**, especially for **functional programming** and **parallel data processing**.
 
-// Stream API
-List<String> filtered = names.stream()
-    .filter(name -> name.length() > 3)
-    .collect(Collectors.toList());
+**Key Features:**
 
-// Optional
-Optional<String> optional = Optional.ofNullable(getString());
-optional.ifPresent(System.out::println);
+1. **Lambda Expressions (`->`)**
 
-// Default methods in interfaces
-interface MyInterface {
-    default void defaultMethod() {
-        System.out.println("This is a default method");
-    }
-}
+   * Write anonymous functions with less code.
+   * Reduces boilerplate code.
 
-// Static method reference
-List<String> numbers = Arrays.asList("1", "2", "3");
-List<Integer> integers = numbers.stream()
-    .map(Integer::parseInt)  // Static method reference
-    .collect(Collectors.toList());
+   ```java id="j8l1a2"
+   List<String> names = Arrays.asList("A", "B", "C");
+   names.forEach(name -> System.out.println(name));
+   ```
 
+2. **Functional Interfaces**
 
-// Instance method reference
-List<String> names = Arrays.asList("john", "jane", "bob");
-List<String> upperNames = names.stream()
-    .map(String::toUpperCase)  // Instance method reference
-    .collect(Collectors.toList());
+   * An interface with **only one abstract method**.
+   * Annotated with **`@FunctionalInterface`**.
+   * Examples: `Runnable`, `Callable`, `Comparator`.
 
+   ```java id="j8f3b4"
+   @FunctionalInterface
+   interface MyInterface {
+       void display();
+   }
+   ```
 
-// Constructor reference
-List<String> strings = Arrays.asList("Hello", "World");
-List<StringBuilder> builders = strings.stream()
-    .map(StringBuilder::new)  // Constructor reference
-    .collect(Collectors.toList());
+3. **Stream API**
 
+   * Processes collections using **functional operations** like `filter()`, `map()`, and `collect()`.
+   * Supports **parallel processing**.
 
-```
+   ```java id="j8s5c6"
+   List<String> names = Arrays.asList("John", "Alex", "Bob");
+
+   names.stream()
+        .filter(name -> name.startsWith("J"))
+        .forEach(System.out::println);
+   ```
+
+4. **Method References (`::`)**
+
+   * A shorter way to refer to existing methods.
+
+   ```java id="j8m7d8"
+   List<String> names = Arrays.asList("A", "B", "C");
+   names.forEach(System.out::println);
+   ```
+
+5. **Default and Static Methods in Interfaces**
+
+   * Interfaces can now have method implementations.
+
+   ```java id="j8i9e1"
+   interface Vehicle {
+       default void start() {
+           System.out.println("Vehicle Started");
+       }
+   }
+   ```
+
+6. **Optional Class**
+
+   * Helps avoid **`NullPointerException`** by representing optional values.
+
+   ```java id="j8o2f3"
+   Optional<String> name = Optional.ofNullable(null);
+   System.out.println(name.orElse("Default Name"));
+   ```
+
+7. **New Date and Time API (`java.time`)**
+
+   * Introduces immutable classes like `LocalDate`, `LocalTime`, and `LocalDateTime`.
+
+   ```java id="j8d4g5"
+   LocalDate today = LocalDate.now();
+   System.out.println(today);
+   ```
+
+8. **Parallel Streams**
+
+   * Enables parallel processing of collections using multiple CPU cores.
+
+   ```java id="j8p6h7"
+   List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+   numbers.parallelStream()
+          .forEach(System.out::println);
+   ```
+
+9. **CompletableFuture**
+
+   * Supports **asynchronous** and **non-blocking programming**.
+
+   ```java id="j8c8i9"
+   CompletableFuture.runAsync(() ->
+       System.out.println("Async Task"));
+   ```
+
+**How It Works:**
+
+* Java 8 adds **functional programming capabilities** using **lambda expressions** and **functional interfaces**.
+* The **Stream API** processes collections efficiently.
+* **Optional** handles null values safely.
+* **Parallel Streams** and **CompletableFuture** improve concurrency and performance.
+
+**When to Use:**
+
+* Simplifying collection processing.
+* Writing **clean and readable code**.
+* Implementing **functional programming**.
+* Performing **parallel and asynchronous operations**.
+* Reducing **NullPointerException** using `Optional`.
+
 
 ## 2. What are the features in Java 11?
 
-Java 11 is an LTS (Long Term Support) release that introduced several useful features and improvements, particularly for modern development practices.
+**Java 11** is a **Long-Term Support (LTS)** release that introduced several features to improve **developer productivity**, **performance**, and **HTTP communication**.
 
 **Key Features:**
 - **Local Variable Type Inference (var):** Enhanced for lambda parameters
@@ -23788,40 +24028,90 @@ Java 11 is an LTS (Long Term Support) release that introduced several useful fea
 - **Nest-Based Access Control:** Better inner class access
 - **Java Flight Recorder (JFR):** is a built-in profiling and monitoring tool in Java.
 
-```java
-// var in lambda parameters
-List<String> names = Arrays.asList("John", "Jane");
-names.stream()
-    .map((var name) -> name.toUpperCase())
-    .forEach(System.out::println);
+1. **New HTTP Client API**
 
-// HTTP Client API
-HttpClient client = HttpClient.newHttpClient();
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create("https://api.example.com/users"))
-    .build();
-HttpResponse<String> response = client.send(request, 
-    HttpResponse.BodyHandlers.ofString());
+   * Introduced a modern **`HttpClient`** for sending **HTTP/2** and **WebSocket** requests.
+   * Replaces the older `HttpURLConnection`.
 
-// New String methods
-String text = "  Hello World  ";
-System.out.println(text.strip());        // "Hello World"
-System.out.println(text.isBlank());      // false
-System.out.println("Java ".repeat(3));   // "Java Java Java "
+   ```java id="j11h1"
+   HttpClient client = HttpClient.newHttpClient();
 
-// Files utility methods
-String content = Files.readString(Paths.get("file.txt"));
-Files.writeString(Paths.get("output.txt"), "Hello World");
+   HttpRequest request = HttpRequest.newBuilder()
+           .uri(URI.create("https://example.com"))
+           .build();
 
-// Collection.toArray():
-List<String> names = List.of("John", "David", "Mike");
-String[] arr = names.toArray(String[]::new); // Java 11 style
-System.out.println(Arrays.toString(arr));
-```
+   HttpResponse<String> response =
+           client.send(request, HttpResponse.BodyHandlers.ofString());
+
+   System.out.println(response.body());
+   ```
+
+2. **`var` in Lambda Parameters**
+
+   * Allows using **`var`** for lambda expression parameters to improve readability and support annotations.
+
+   ```java id="j11v2"
+   List<String> names = Arrays.asList("Java", "Spring");
+   names.forEach((var name) -> System.out.println(name));
+   ```
+
+3. **String Utility Methods**
+
+   * Added useful methods like **`isBlank()`**, **`lines()`**, **`strip()`**, **`stripLeading()`**, and **`stripTrailing()`**.
+
+   ```java id="j11s3"
+   String text = "  Java  ";
+   System.out.println(text.strip());
+   System.out.println(text.isBlank());
+   ```
+
+4. **Files Utility Methods**
+
+   * New methods **`readString()`** and **`writeString()`** simplify file handling.
+
+   ```java id="j11f4"
+   Path path = Path.of("data.txt");
+   Files.writeString(path, "Hello Java 11");
+   String content = Files.readString(path);
+   ```
+
+5. **Collection to Array**
+
+   * Added a simpler way to convert collections to arrays using **`toArray()`**.
+
+   ```java id="j11c5"
+   List<String> list = List.of("A", "B", "C");
+   String[] arr = list.toArray(String[]::new);
+   ```
+
+6. **Single-File Source Code Execution**
+
+   * Java programs can be executed without explicit compilation.
+
+   ```text id="j11t6"
+   java HelloWorld.java
+   ```
+
+7. **Nested-Based Access Control**
+
+   * Improves access between nested classes, reducing the need for compiler-generated bridge methods and improving performance.
+
+**How It Works:**
+
+* Java 11 extends Java 8 features with a **modern HTTP client**, **better String and File APIs**, and **simplified coding syntax**.
+* The JVM and standard libraries provide these enhancements without changing existing application logic.
+
+**When to Use:**
+
+* Building **REST clients** using the new `HttpClient`.
+* Simplifying **String** and **file operations**.
+* Running small Java programs quickly with **single-file execution**.
+* Developing enterprise applications on a stable **LTS version**.
+
 
 ## 3. What are the features in Java 17?
 
-Java 17 is the latest LTS release with several language enhancements and performance improvements, making Java more modern and developer-friendly.
+**Java 17** is a **Long-Term Support (LTS)** release that brings improvements in **code readability**, **performance**, **security**, and **developer productivity**. It is widely used for modern **Spring Boot** and **enterprise applications**.
 
 **Major Features:**
 - **Sealed Classes:** Restrict class inheritance
@@ -23832,47 +24122,186 @@ Java 17 is the latest LTS release with several language enhancements and perform
 - **Helpful NullPointerExceptions:** Better error messages
 - **Strong Encapsulation:** JDK internals encapsulated
 
-```java
-// Sealed classes
-public sealed class Shape 
-    permits Circle, Rectangle, Triangle {
-}
 
-// Records - immutable data classes
-public record Person(String name, int age) {
-    // Automatically generates constructor, getters, equals, hashCode, toString
-}
+1. **Sealed Classes**
 
-// Pattern matching for instanceof
-if (obj instanceof String str) {
-    System.out.println(str.toUpperCase()); // str is automatically cast
-}
+   * Restrict which classes can extend or implement a class or interface.
+   * Improves **inheritance control**.
 
-// Text blocks
-String json = """
-    {
-        "name": "John",
-        "age": 30,
-        "city": "New York"
-    }
-    """;
+   ```java id="j17s1"
+   public sealed class Shape
+       permits Circle, Rectangle {
+   }
 
-// Switch expressions
-String dayType = switch (day) {
-    case MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY -> "Weekday";
-    case SATURDAY, SUNDAY -> "Weekend";
-};
+   final class Circle extends Shape { }
+   final class Rectangle extends Shape { }
+   ```
 
-// Enhanced switch with pattern matching (Preview)
-String result = switch (obj) {
-    case Integer i -> "Integer: " + i;
-    case String s -> "String: " + s;
-    case null -> "null value";
-    default -> "Unknown type";
-};
-```
+2. **Pattern Matching for `switch` (Preview)**
 
-## 4. What is the Java release cycle and LTS versions?
+   * Simplifies complex `if-else` and `switch` statements by matching object types.
+
+   ```java id="j17p2"
+   Object obj = "Java";
+
+   switch (obj) {
+       case String s -> System.out.println(s.toUpperCase());
+       default -> System.out.println("Unknown");
+   }
+   ```
+
+3. **Enhanced `switch` Expressions**
+
+   * Allows `switch` to return values with a cleaner syntax.
+
+   ```java id="j17e3"
+   int day = 1;
+
+   String result = switch (day) {
+       case 1 -> "Monday";
+       default -> "Other Day";
+   };
+   ```
+
+4. **Text Blocks**
+
+   * Makes writing **multi-line strings** easier and more readable.
+
+   ```java id="j17t4"
+   String json = """
+       {
+         "name": "Java",
+         "version": 17
+       }
+       """;
+   ```
+
+5. **Records**
+
+   * A compact way to create **immutable data classes** without writing boilerplate code like getters, constructors, and `toString()`.
+
+   ```java id="j17r5"
+   public record Employee(
+       int id,
+       String name
+   ) {}
+   ```
+
+6. **New Random Number Generator API**
+
+   * Introduces improved and flexible random number generators.
+
+   ```java id="j17n6"
+   Random random = new Random();
+   System.out.println(random.nextInt(100));
+   ```
+
+7. **Strong Encapsulation of JDK Internals**
+
+   * Improves **security** by preventing direct access to internal JDK APIs.
+
+**How It Works:**
+
+* Java 17 extends previous Java versions with features that reduce **boilerplate code**, improve **type safety**, and provide **cleaner syntax**.
+* The JVM and compiler support these enhancements while maintaining backward compatibility.
+
+**When to Use:**
+
+* Building modern **Spring Boot 3.x** applications.
+* Creating **immutable data models** using Records.
+* Controlling inheritance with **Sealed Classes**.
+* Writing cleaner code with **Text Blocks** and **enhanced switch expressions**.
+* Enterprise applications requiring a stable **LTS version**.
+
+
+## 4. What are the features in Java 21?
+
+**Java 21** is a **Long-Term Support (LTS)** release that focuses on **simpler concurrency**, **better performance**, and **improved developer productivity**. It introduces modern features that make Java applications easier to write and scale.
+
+**Key Features:**
+
+1. **Virtual Threads**
+
+   * Lightweight threads managed by the JVM.
+   * Allow applications to handle **millions of concurrent tasks** with lower memory usage.
+
+   ```java id="j21v1"
+   Thread.startVirtualThread(() -> {
+       System.out.println("Running in a Virtual Thread");
+   });
+   ```
+
+2. **Record Patterns**
+
+   * Simplifies extracting data from **record objects**.
+
+   ```java id="j21r2"
+   record Person(String name, int age) {}
+
+   Object obj = new Person("John", 25);
+
+   if (obj instanceof Person(String name, int age)) {
+       System.out.println(name + " " + age);
+   }
+   ```
+
+3. **Pattern Matching for `switch`**
+
+   * Allows `switch` statements to match object types directly, reducing complex `if-else` logic.
+
+   ```java id="j21p3"
+   Object obj = "Java";
+
+   switch (obj) {
+       case String s -> System.out.println(s.toUpperCase());
+       default -> System.out.println("Unknown");
+   }
+   ```
+
+4. **Sequenced Collections**
+
+   * Introduces a common API for collections that have a defined encounter order, with methods like `getFirst()` and `getLast()`.
+
+   ```java id="j21s4"
+   List<String> list = List.of("A", "B", "C");
+   System.out.println(list.getFirst());
+   ```
+
+5. **String Templates (Preview)**
+
+   * Provides a cleaner and safer way to create dynamic strings.
+
+   ```java id="j21t5"
+   String name = "Java";
+   String message = STR."Hello \{name}";
+   ```
+
+6. **Unnamed Patterns and Variables (Preview)**
+
+   * Uses `_` to ignore unused variables, making code cleaner.
+
+   ```java id="j21u6"
+   if (obj instanceof Person(_, int age)) {
+       System.out.println(age);
+   }
+   ```
+
+**How It Works:**
+
+* **Virtual Threads** improve concurrency by allowing the JVM to efficiently manage many lightweight threads.
+* **Pattern Matching** and **Record Patterns** reduce boilerplate code.
+* **Sequenced Collections** and **String Templates** make APIs easier to use and code more readable.
+
+**When to Use:**
+
+* Building **high-concurrency** applications and **microservices**.
+* Developing **Spring Boot 3.x** applications on Java 21.
+* Simplifying object processing with **Pattern Matching**.
+* Writing cleaner and more maintainable Java code.
+* Enterprise applications requiring a stable **LTS version**.
+
+
+## 5. What is the Java release cycle and LTS versions?
 
 Java moved to a 6-month release cycle in 2017, providing regular updates with new features while maintaining Long Term Support versions for enterprise stability.
 
