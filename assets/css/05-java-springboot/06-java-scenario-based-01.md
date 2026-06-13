@@ -183,4 +183,3 @@
 
 69. Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?
 
-This is the de-duplicated list. The original set actually contains **69 unique questions**, not 60, because several questions from the second list were additional unique scenarios rather than duplicates.
