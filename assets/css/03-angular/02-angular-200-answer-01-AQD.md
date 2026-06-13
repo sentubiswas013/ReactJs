@@ -2,7 +2,7 @@ For **Angular Interview Preparation**, study topics in this order:
 
 ### **1. Angular Fundamentals**
 
-**What is Angular?**
+**1. What is Angular?**
 
 **Angular** is a **TypeScript-based, open-source front-end framework** developed by **Google** for building **single-page applications (SPAs)** and dynamic web applications.
 
@@ -33,7 +33,7 @@ ng serve
 
 ---
 
-**Angular Architecture**
+**2. Angular Architecture**
 
 **Angular Architecture** is based on **Modules**, **Components**, **Templates**, **Services**, and **Dependency Injection** working together to build an application.
 
@@ -57,7 +57,7 @@ ng serve
 
 ---
 
-**Components**
+**3. Components**
 
 A **Component** is the **basic building block** of an Angular application. It controls a section of the UI and contains **HTML, CSS, and TypeScript logic**.
 
@@ -91,7 +91,7 @@ export class HelloComponent {}
 
 ---
 
-**Modules**
+**4. Modules**
 
 A **Module (`NgModule`)** is a container that groups related **components, directives, pipes, and services** into a single unit.
 
@@ -125,7 +125,7 @@ export class AppModule {}
 
 ---
 
-**Templates**
+**5. Templates**
 
 A **Template** is the **HTML view** of an Angular component. It defines what the user sees on the screen.
 
@@ -153,7 +153,7 @@ A **Template** is the **HTML view** of an Angular component. It defines what the
 
 ---
 
-**Decorators**
+**6. Decorators**
 
 **Decorators** are **special TypeScript annotations** that provide metadata to Angular classes and tell Angular how they should behave.
 
@@ -187,7 +187,7 @@ export class UserComponent {
 }
 ```
 
-**Directives**
+**7. Directives**
 
 **Directives** are Angular classes that **modify the behavior or appearance of DOM elements**.
 
@@ -217,7 +217,7 @@ export class UserComponent {
 
 ---
 
-**Services**
+**8. Services**
 
 A **Service** is a class used to store **reusable business logic, data access, or shared functionality**.
 
@@ -252,7 +252,7 @@ export class UserService {
 
 ---
 
-**Dependency Injection (DI)**
+**9. Dependency Injection (DI)**
 
 **Dependency Injection** is a design pattern where Angular **automatically provides required objects (services) to a class**.
 
@@ -282,7 +282,7 @@ ngOnInit() {
 
 ---
 
-**Bootstrapping**
+**10. Bootstrapping**
 
 **Bootstrapping** is the process of **starting an Angular application** by loading the root module and root component.
 
@@ -309,7 +309,7 @@ platformBrowserDynamic()
 
 ---
 
-**Data Binding**
+**11. Data Binding**
 
 **Data Binding** is the mechanism that **connects component data with the HTML template**.
 
@@ -343,7 +343,7 @@ platformBrowserDynamic()
 
 ---
 
-**Lifecycle Hooks**
+**12. Lifecycle Hooks**
 
 **Lifecycle Hooks** are special Angular methods that allow you to **execute code at different stages of a component's lifecycle**.
 
@@ -382,7 +382,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ---
 
-**Constructor vs `ngOnInit`**
+**13. Constructor vs `ngOnInit`**
 
 | **Constructor**                                      | **`ngOnInit()`**                                |
 | ---------------------------------------------------- | ----------------------------------------------- |
