@@ -1753,11 +1753,111 @@ If **Kubernetes pods** are crashing repeatedly, I would first check the **pod st
 
 ### 58. How do you implement blue-green and canary deployments in a Java microservice fleet?
 
+**How to Identify**
+
+* Need **zero-downtime deployments**.
+* Want to reduce deployment risk.
+* Need a safe way to validate new releases in production.
+
+**Common Reasons**
+
+* Application failures after deployment.
+* New version introduces bugs or performance issues.
+* Large user impact from a bad release.
+
+**How to Resolve**
+
+* Use **Blue-Green Deployment** by running two identical environments (**Blue** and **Green**).
+
+* Deploy the new version to the inactive environment.
+
+* Switch traffic to the new environment after validation.
+
+* Roll back instantly by routing traffic back to the old environment if issues occur.
+
+* Use **Canary Deployment** by releasing the new version to a small percentage of users first.
+
+* Monitor **latency**, **error rates**, and **CPU/Memory** usage.
+
+* Gradually increase traffic from **5% → 25% → 50% → 100%**.
+
+* Roll back if any issues are detected.
+
+**Example**
+
+* **Blue-Green:** Version 1 runs on Blue, deploy Version 2 on Green, then switch all traffic to Green.
+* **Canary:** Send **5%** traffic to Version 2 while **95%** stays on Version 1, then gradually increase traffic.
+
+**Key Technologies**
+
+* **Kubernetes**
+* **Load Balancer**
+* **Service Mesh (Istio)**
+* **Docker**
+* **Jenkins/GitHub Actions**
+* **Monitoring & Alerting** (Prometheus, Grafana)
+
 
 ### 59. Production application suddenly becomes unavailable at midnight every day. How do you diagnose?
 
+If an application fails **at the same time every day**, it is usually caused by a **scheduled activity** rather than a random issue.
+
+**How to Identify**
+
+* Check **application logs** and **server logs** around midnight.
+* Look for **cron jobs**, **batch jobs**, or **scheduled tasks**.
+* Monitor **CPU, Memory, Disk, and Database** metrics.
+* Verify if there are **deployment**, **backup**, or **log rotation** activities running at that time.
+* Check **thread dumps** and **database connection pool** status if the app is hanging.
+
+**Common Reasons**
+
+* **Cron jobs** or **batch processing** consuming all resources.
+* **Database backup** or **maintenance jobs** locking tables.
+* **Log rotation** or **disk cleanup** causing I/O issues.
+* **Cache refresh** or **cache eviction** creating high load.
+* **Certificate/token expiration** or scheduled service restart.
+* **Connection pool** or **thread pool exhaustion** due to long-running jobs.
+
+**How to Resolve**
+
+* Correlate the outage time with **scheduled jobs**.
+* Move heavy jobs to **off-peak hours** or optimize them.
+* Tune **thread pools**, **connection pools**, and **resource limits**.
+* Optimize or reschedule **database maintenance and backup tasks**.
+* Add **monitoring and alerts** for CPU, memory, disk, and application health.
+* Perform a **root cause analysis (RCA)** and implement preventive fixes.
+
 
 ### 60. Your integration tests are failing intermittently in CI/CD. How do you fix flaky tests?
+
+**Flaky tests** are tests that **sometimes pass and sometimes fail** without any code changes. The goal is to find and remove the **non-deterministic behavior**.
+
+**How to Identify**
+
+* Run the same test **multiple times** to reproduce the issue.
+* Check **CI/CD logs** and compare with local execution.
+* Look for failures related to **timing, concurrency, or external dependencies**.
+* Verify if tests **pass individually** but fail when run together.
+* Review **test reports** to identify patterns.
+
+**Common Reasons**
+
+* **Race conditions** or **thread synchronization** issues.
+* **Hardcoded waits (`Thread.sleep`)** instead of proper synchronization.
+* Shared **database or test data** between test cases.
+* Dependency on **external services**, network, or APIs.
+* Tests depending on **execution order**.
+* **Resource contention** in CI/CD (CPU, memory, ports).
+
+**How to Resolve**
+
+* Make tests **independent and isolated**.
+* Replace **fixed delays** with **explicit waits** or retry mechanisms.
+* Use **mock/stub services** for external dependencies.
+* Create and clean up **test data** for every test run.
+* Avoid shared state and ensure **parallel execution safety**.
+* Run flaky tests repeatedly in CI to verify the fix and add proper **logging and monitoring**.
 
 ---
 
@@ -1766,26 +1866,343 @@ If **Kubernetes pods** are crashing repeatedly, I would first check the **pod st
 ### 61. Why does `Integer a = 127 == Integer b = 127` print `true`, but `128` print `false`?
 
 
+`Integer` uses **Integer Caching** for values between **-128 and 127**.
+
+```java
+Integer a = 127;
+Integer b = 127;
+
+System.out.println(a == b); // true
+```
+
+Both `a` and `b` point to the **same cached object**, so `==` returns **true**.
+
+```java
+Integer a = 128;
+Integer b = 128;
+
+System.out.println(a == b); // false
+```
+
+For values outside the cache range, Java creates **new Integer objects**, so `a` and `b` reference **different objects**. Therefore, `==` returns **false**.
+
+**Key Point**
+
+* `==` compares **object references**
+* `.equals()` compares **actual values**
+
+```java
+Integer a = 128;
+Integer b = 128;
+
+System.out.println(a.equals(b)); // true
+```
+
+
 ### 62. You implemented a singleton but multiple instances are created in multithreaded tests. What's wrong?
 
+If multiple instances are created in a **multithreaded environment**, the singleton implementation is likely **not thread-safe**. Multiple threads may enter the instance creation code at the same time.
+
+**How to Identify**
+
+* Run the singleton creation code with **multiple concurrent threads**.
+* Check if the constructor is called **more than once**.
+* Review whether `getInstance()` has **proper synchronization**.
+* Verify if **reflection, serialization, or cloning** can also create new instances.
+
+**Common Reasons**
+
+* **Lazy initialization** without synchronization.
+* Missing or incorrect use of the **`synchronized`** keyword.
+* Incorrect implementation of **double-checked locking**.
+* Singleton broken by **reflection**, **serialization**, or **cloning**.
+* Multiple **class loaders** loading the same singleton class.
+
+**How to Resolve**
+
+* Use **thread-safe singleton** implementations.
+* Implement **Double-Checked Locking (DCL)** with a **`volatile`** instance variable.
+* Or use the **Initialization-on-Demand Holder** pattern.
+* The safest and simplest approach is to use an **`enum` singleton**, which is inherently thread-safe and protects against serialization and reflection issues.
+* Prevent cloning and handle serialization properly if not using `enum`.
+
+**Code Example (Double-Checked Locking)**
+
+```java
+public class Singleton {
+    private static volatile Singleton instance;
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
 
 ### 63. You're using a custom object as HashMap key and after modifying a field, you can't retrieve the value. Why?
+
+A **`HashMap` key should be immutable**. If you modify a field that is used in **`equals()`** or **`hashCode()`** after inserting the key, the hash value changes and the object is placed in the wrong bucket, making retrieval fail.
+
+**How to Identify**
+
+* Check if the key object's fields are modified after `put()`.
+* Verify whether the modified fields are used in **`equals()`** and **`hashCode()`**.
+* Confirm that `equals()` and `hashCode()` are implemented correctly.
+
+**Common Reasons**
+
+* Modifying a key field after inserting it into the `HashMap`.
+* Incorrect or inconsistent implementation of **`equals()`** and **`hashCode()`**.
+* Using **mutable objects** as keys.
+* Updating fields that participate in the hash code calculation.
+
+**How to Resolve**
+
+* Use **immutable objects** as `HashMap` keys.
+* Do not modify fields involved in **`equals()`** or **`hashCode()`** after insertion.
+* Implement **`equals()`** and **`hashCode()`** consistently.
+* If a key must change, **remove the old entry and insert a new one** with the updated key.
+
+**Code Example**
+
+```java
+class Employee {
+    private final int id;
+    private final String name;
+
+    // constructor, equals() and hashCode()
+}
+
+Map<Employee, String> map = new HashMap<>();
+Employee emp = new Employee(101, "John");
+map.put(emp, "Developer");
+
+// Do not modify key fields after insertion.
+```
 
 
 ### 64. You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?
 
+A `**NullPointerException**` in Java 8 Streams usually happens when the **source collection**, an **element**, or an operation inside the stream is `null`.
+
+**How to Identify**
+
+* Check if the **collection itself is null** before calling `.stream()`.
+* Verify whether any **stream element is null**.
+* Review `map()`, `filter()`, or method references that may access null objects.
+* Check the stack trace to identify which stream operation caused the exception.
+
+**Common Reasons**
+
+* Calling `.stream()` on a **null collection**.
+* Stream contains **null elements**.
+* Accessing object properties without a null check, e.g., `user.getName()`.
+* Returning `null` from `map()` and using it later.
+
+**How to Resolve**
+
+* Initialize collections to **empty collections** instead of `null`.
+* Use `**Optional**` or a null check before creating the stream.
+* Filter out null values using `**filter(Objects::nonNull)**`.
+* Add proper null checks inside `map()` and other stream operations.
+
+**Code Example**
+
+```java
+List<String> names = Optional.ofNullable(list)
+        .orElse(Collections.emptyList())
+        .stream()
+        .filter(Objects::nonNull)
+        .toList();
+```
+
 
 ### 65. You're using `Optional` but getting `NullPointerException`. What are common mistakes?
 
+**How to Identify**
+
+* **NullPointerException** occurs even though **Optional** is being used.
+* Stack trace points to **Optional.of()**, **get()**, or a method called on a **null Optional**.
+
+**Common Reasons**
+
+1. Using **`Optional.of(null)`** instead of **`Optional.ofNullable(null)`**.
+2. Calling **`optional.get()`** without checking **`isPresent()`**.
+3. Returning **`null`** instead of **`Optional.empty()`** from a method.
+4. Calling methods on a **null Optional** reference.
+
+**How to Resolve**
+
+* Use **`Optional.ofNullable()`** when the value may be null.
+* Prefer **`orElse()`**, **`orElseGet()`**, or **`orElseThrow()`** instead of **`get()`**.
+* Always return **`Optional.empty()`**, never **`null`**.
+* Ensure the **Optional object itself is not null**.
+
+**Example**
+
+```java
+// Wrong
+Optional<String> name = Optional.of(null); // NPE
+
+// Correct
+Optional<String> name = Optional.ofNullable(null);
+
+String result = name.orElse("Default");
+```
 
 ### 66. After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?
+
+**How to Identify**
+
+* Application fails at startup or runtime with **`ClassNotFoundException`**
+* Logs show missing **JAR / dependency class**
+* Works in local but fails only after **deployment**
+
+**Common Reasons**
+
+1. Missing or not packaged **dependency JAR** in the build artifact (**WAR/JAR**).
+2. Wrong **dependency scope** (e.g., **provided**, **test** in Maven/Gradle).
+3. **Version mismatch** between deployed services or libraries.
+4. Incorrect **fat jar / uber jar** packaging (dependency not included).
+5. Deployment server has **conflicting or outdated libraries**.
+6. Class moved/removed in the **new version of library**.
+
+**How to Resolve**
+
+* Check **build tool configuration (Maven/Gradle)** and ensure correct **dependency scope**.
+* Verify **packaged artifact** (use `jar tf` or inspect WAR).
+* Use **consistent library versions** across environments.
+* Prefer **fat jar / shaded jar** for microservices if needed.
+* Clean and rebuild using **`mvn clean package` / `gradle clean build`**.
+* Check application server **classpath conflicts** and remove old libs.
 
 
 ### 67. How would you implement reactive programming in a Spring WebFlux service?
 
+**How to Identify**
+
+* Requirement for **high concurrency** and **non-blocking APIs**
+* Traditional **Spring MVC causes thread blocking**
+* Need for **streaming or real-time data processing**
+
+**Common Reasons (Need for WebFlux)**
+
+* Too many **blocking calls (JDBC, RestTemplate)** in MVC
+* Requirement for **scalability with fewer threads**
+* Handling **large number of concurrent requests**
+* Need for **event-driven or streaming architecture**
+
+**How to Resolve**
+
+* Use **Spring WebFlux** instead of Spring MVC
+* Return **Mono (single result)** and **Flux (multiple results)**
+* Use **non-blocking server (Netty)** by default
+* Use **reactive databases (R2DBC, Mongo Reactive)**
+* Avoid all **blocking operations** in service layer
+
+**Example**
+
+```java id="rx1"
+@GetMapping("/users/{id}")
+public Mono<User> getUser(@PathVariable String id) {
+    return userService.findById(id);
+}
+```
+
+```java id="rx2"
+@GetMapping("/users")
+public Flux<User> getAllUsers() {
+    return userService.findAll();
+}
+```
 
 ### 68. How do you use Java 21 virtual threads to prevent thread starvation in mixed I/O and CPU workloads?
 
+**How to Identify**
+
+* High **thread pool usage** but low throughput
+* **Thread starvation** in **blocking I/O calls**
+* Application slows down under **concurrent requests**
+* CPU threads are busy waiting on **I/O operations**
+
+**Common Reasons**
+
+* Using **platform threads (fixed thread pool)** for blocking I/O
+* Too many **blocking operations (DB, HTTP calls, file I/O)**
+* Poor separation of **CPU-bound vs I/O-bound tasks**
+* Limited **thread pool size causing queue buildup**
+
+**How to Resolve**
+
+* Use **Java 21 Virtual Threads (Project Loom)**
+* Replace traditional executor with **virtual thread per task model**
+* Keep **CPU-heavy tasks on platform threads** and use virtual threads for **I/O**
+* Avoid blocking bottlenecks by using **structured concurrency where needed**
+
+**Example**
+
+```java id="vt1"
+ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+
+executor.submit(() -> {
+    return httpClient.callExternalService();
+});
+```
+
+```java id="vt2"
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    executor.submit(() -> dbService.fetchData());
+}
+```
 
 ### 69. Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?
 
+
+**How to Identify**
+
+* Same values sometimes return **true with `==`**
+* Different behavior for **127 vs 128**
+* Confusion between **`==` and `.equals()`**
+
+**Common Reasons**
+
+* Java uses **Integer Cache (-128 to 127)**
+* **Auto-boxing** reuses cached Integer objects in this range
+* So **127 points to same object reference**
+* Above 127 (like **128**) creates **new objects**
+* `==` compares **reference, not value**
+
+**How to Resolve**
+
+* Always use **`.equals()` for value comparison**
+* Understand **Integer caching behavior**
+* Avoid relying on **object reference equality for wrappers**
+
+**Example**
+
+```java id="int1"
+Integer a = 127;
+Integer b = 127;
+
+System.out.println(a == b); // true (cached objects)
+```
+
+```java id="int2"
+Integer c = 128;
+Integer d = 128;
+
+System.out.println(c == d); // false (different objects)
+```
+
+**Correct Way**
+
+```java id="int3"
+System.out.println(c.equals(d)); // true
+```
