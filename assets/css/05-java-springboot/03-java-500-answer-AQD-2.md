@@ -12266,11 +12266,33 @@ public class Main {
 }
 ```
 
-**Loop vs Stream API** 
-Generally, a **for loop is faster** than the Stream API because it has **less overhead** and runs directly in the JVM.
+**Key Features Loop and Stream API**
 
-**Stream API** provides **better readability, functional style, and parallel processing**, but it may have a **small performance cost**.
+* **For Loop**
 
+  * **Fastest execution**
+  * **Low memory overhead**
+  * Best for **performance-critical** or **simple iterative tasks**
+
+* **Stream API**
+
+  * **More readable** and **declarative**
+  * Supports **functional programming** (`filter`, `map`, `reduce`)
+  * Easy to use with **parallel processing** using `parallelStream()`
+
+**When to Use loops and Stream**
+
+* Use **`for` loops** when:
+
+  * **Maximum performance** is required.
+  * Working with **large datasets** in tight loops.
+  * The logic is simple and straightforward.
+
+* Use **Stream API** when:
+
+  * **Code readability** and **maintainability** are more important.
+  * Performing multiple operations like filtering, mapping, and collecting.
+  * You want to leverage **parallel processing** easily.
 
 ## 6. What is parallel streams? 
 
