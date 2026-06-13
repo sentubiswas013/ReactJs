@@ -1580,48 +1580,44 @@ class Test {
 
 ## 4. What is a class in Java?
 
-A **class** in Java is a **blueprint or template** used to create **objects**, defining their **properties (fields)** and **behaviors (methods)**.
+**What is a Class in Java?**
+
+A **Class** in Java is a **blueprint or template** used to create **objects**. It defines the **properties (fields/variables)** and **behaviors (methods)** that an object will have.
 
 **Key Features**
 
-* Acts as a **logical blueprint**
-* Contains **variables (state)** and **methods (behavior)**
-* Does not occupy memory until an **object is created**
-* Supports **encapsulation**
-* Can have **constructors, methods, and blocks**
+* **Blueprint** for creating objects.
+* Contains **fields**, **methods**, **constructors**, and **blocks**.
+* Supports **Object-Oriented Programming (OOP)** concepts like **encapsulation**, **inheritance**, and **polymorphism**.
+* An object is an **instance of a class**.
 
-**How it works**
-A **class defines structure**, and when we create an object using **new keyword**, Java allocates memory and creates an **instance of that class**.
+**How It Works**
 
-**Why to use**
+1. Define a **class** with variables and methods.
+2. Create an **object** using the `new` keyword.
+3. Access the object's fields and methods using the object reference.
 
-* To model **real-world entities**
-* To organize code into **reusable components**
-* To support **OOP principles**
+**When to Use**
 
-**When to use**
-
-* When defining any **entity like Student, Car, Employee**
-* When we need to create **multiple objects with same structure**
+* Use a **class** whenever you want to model a **real-world entity** such as `Employee`, `Student`, `Car`, or `Product`.
+* It helps organize code and promotes **reusability** and **maintainability**.
 
 **Code Example**
 
-```java id="1i6tx1"
-class Student {   // Class
+```java id="bn5k2m"
+class Student {
     String name;
-    int age;
 
     void display() {
-        System.out.println(name + " " + age);
+        System.out.println("Name: " + name);
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Student s1 = new Student(); // Object of class
-        s1.name = "Rahul";
-        s1.age = 22;
-        s1.display();
+        Student s = new Student();   // Object creation
+        s.name = "Alice";
+        s.display();
     }
 }
 ```
@@ -1655,8 +1651,28 @@ Car car = new Car();
 
 **When to Use**
 
-Use objects whenever you need to model an entity that has its own data and behavior.
+* Use an **object** whenever you need to represent and work with a **real-world entity**, such as a `Student`, `Employee`, `Car`, or `Product`.
+* Multiple objects can be created from the same class with different data.
 
+**Code Example**
+
+```java id="n5x8pk"
+class Student {
+    String name;
+
+    void display() {
+        System.out.println("Name: " + name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s = new Student();   // Object creation
+        s.name = "Alice";
+        s.display();
+    }
+}
+```
 
 ## 3. Difference between class and object?
 
