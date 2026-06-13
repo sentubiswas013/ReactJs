@@ -3590,7 +3590,7 @@ Calls Dog's overridden sound() method
 ## 16. What are rules for method overriding?
 
 
-**Definition:**
+
 **Method Overriding** happens when a **child class provides a specific implementation** of a method that is already defined in its **parent class**, keeping the **same method signature**.
 
 
@@ -12273,7 +12273,7 @@ Runnable r2 = () -> {
 
 ## 5. What is Stream API?
 
-**Definition:**
+
 The **Stream API** is introduced in Java 8 to process **collections of objects in a functional and declarative way**. It allows operations like **filtering, mapping, and reducing** without modifying the original data source.
 
 
@@ -12362,7 +12362,7 @@ public class Main {
 
 ## 6. What is parallel streams? 
 
-**Definition:**
+
 A **Parallel Stream** is a type of **Stream API** that processes data **concurrently using multiple threads**, dividing the task into smaller parts and executing them in parallel to improve performance.
 
 
@@ -12470,7 +12470,7 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 
 ## 8. What are intermediate and terminal operations?
 
-**Definition:**
+
 A **Collection** is a data structure that stores and manages **data in memory**, while a **Stream** is a sequence of elements used to **process data in a functional way without storing it**.
 
 
@@ -16933,7 +16933,7 @@ In production, we move toward cloud-native and distributed architecture. Kuberne
 ## 1. What is annotations in Java?
 
 
-**Definition:**
+
 **Annotations** are **special metadata (information about the code)** that provide instructions to the **compiler**, **JVM**, or **frameworks** like Spring. They do not directly change the program logic but help automate configuration and processing.
 
 **Key Features:**
@@ -17026,7 +17026,7 @@ Here, Spring reads the annotations and automatically creates the objects and inj
 ## 2. What is Spring Boot and How does it Works Internally(Lifecycle)?
 
 
-**Definition:**
+
 **Spring Boot** is an **extension of the Spring Framework** that simplifies the development of Java applications by providing **auto-configuration**, **embedded servers**, and **starter dependencies**. It helps developers build and run production-ready applications with **minimal configuration**.
 
 **Key Features:**
@@ -17181,7 +17181,7 @@ With `spring-boot-starter-web`, Spring Boot automatically:
 ## 3. Spring Boot Flow Architecture works?
 
 
-**Definition:**
+
 **Spring Boot Flow Architecture** describes how a request travels through the application, from the moment the application starts until a response is returned to the client. Internally, Spring Boot uses the **Spring Container**, **DispatcherServlet**, and **IoC/DI** to manage the complete flow automatically.
 
 **Key Features:**
@@ -26067,14 +26067,14 @@ spec:
 
 **Horizontal Scaling (Scale Out / Scale In):**
 
-* **Definition:** Add or remove **multiple servers or containers**.
+*  Add or remove **multiple servers or containers**.
 * **Example:** Increase Pods from **3 to 6** in Kubernetes.
 * **Best For:** **Microservices**, cloud applications, and distributed systems.
 * **Advantage:** Better fault tolerance and almost unlimited scalability.
 
 **Vertical Scaling (Scale Up / Scale Down):**
 
-* **Definition:** Increase or decrease the **CPU, RAM, or storage** of an existing server.
+*  Increase or decrease the **CPU, RAM, or storage** of an existing server.
 * **Example:** Upgrade a server from **4 GB RAM to 16 GB RAM**.
 * **Best For:** Traditional applications or databases that cannot be easily distributed.
 * **Limitation:** Has a hardware limit and may require downtime.
