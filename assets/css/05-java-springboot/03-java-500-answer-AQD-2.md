@@ -15431,7 +15431,9 @@ public class Main {
 
 
 
-# ✅ 18. Java Spring Framework x
+# ✅ 18. Java Spring Framework 
+
+## 2. What is Spring Framework ?
 
 **Spring Framework** is a **lightweight, open-source Java framework** used to build **enterprise and web applications**. It simplifies Java development by providing features like **Dependency Injection (DI)**, **Inversion of Control (IoC)**, **AOP**, and **transaction management**.
 
@@ -17331,6 +17333,123 @@ public class UserService {
 5. `UserService` processes the logic and returns data.
 6. The response is sent back to the client as JSON or plain text.
 
+
+## 4. @Component vs @Bean?
+
+* **`@Component`**: An annotation used to tell **Spring** to automatically detect and create an object (bean) during **component scanning**.
+
+* **`@Bean`**: An annotation used inside a **`@Configuration`** class to manually create and register a bean in the Spring container.
+
+**Key Difference**
+
+| **@Component**                     | **@Bean**                                       |
+| ---------------------------------- | ----------------------------------------------- |
+| **Automatic bean creation**        | **Manual bean creation**                        |
+| Used on the **class**              | Used on a **method**                            |
+| Detected by **component scanning** | Created when the **`@Bean` method** is executed |
+| Best for classes you **own**       | Best for **third-party or external classes**    |
+
+**How it Works**
+
+* With **`@Component`**, Spring scans the package, finds the annotated class, creates an object, and stores it in the **Spring Container**.
+* With **`@Bean`**, Spring loads the **`@Configuration`** class, calls the **`@Bean`** method, and registers the returned object as a bean.
+
+**Why to Use**
+
+* Use **`@Component`** for your own service, repository, and controller classes because it is simple and requires less configuration.
+* Use **`@Bean`** when you need **custom object creation**, complex initialization, or when the class belongs to an **external library** that you cannot modify.
+
+**When to Use**
+
+* **`@Component`**
+
+  * Service classes (`@Service`)
+  * DAO/Repository classes (`@Repository`)
+  * Controller classes (`@Controller`, `@RestController`)
+  * Custom utility or helper classes
+
+* **`@Bean`**
+
+  * Configuring **third-party libraries**
+  * Creating objects with **custom constructor arguments**
+  * When you need full control over bean creation
+
+**Code Example**
+
+**Using `@Component`**
+
+```java
+import org.springframework.stereotype.Component;
+
+@Component
+public class EmailService {
+
+    public void send() {
+        System.out.println("Email Sent");
+    }
+}
+```
+
+**Using `@Bean`**
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public EmailService emailService() {
+        return new EmailService();
+    }
+}
+```
+
+## 4. Bean vs Object?
+
+An **Object** is any instance of a class created using the `new` keyword.
+
+A **Bean** is an object that is **created, managed, and controlled by the Spring IoC Container**.
+
+| **Feature**              | **Object**                                                  | **Bean**                                                                           |
+| ------------------------ | ----------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Definition**           | An **instance of a class** created using the `new` keyword. | An **object managed by the Spring IoC Container**.                                 |
+| **Creation**             | Created manually by the developer.                          | Created and managed automatically by Spring.                                       |
+| **Lifecycle**            | Developer is responsible for creation and destruction.      | Spring manages the **complete lifecycle** (creation, initialization, destruction). |
+| **Dependency Injection** | Dependencies must be created manually.                      | Supports **Dependency Injection (DI)** automatically.                              |
+| **Management**           | Not managed by the Spring container.                        | Managed inside the **ApplicationContext**.                                         |
+
+**How It Works**
+
+* An **Object** is created directly:
+
+  ```java
+  Student s = new Student();
+  ```
+* A **Bean** is created by Spring using annotations like **`@Component`**, **`@Service`**, or **`@Bean`**, and the Spring container injects it wherever needed.
+
+**When to Use**
+
+* Use an **Object** for simple Java programs where Spring is not involved.
+* Use a **Bean** in **Spring Boot/Spring Framework** applications to take advantage of **IoC** and **Dependency Injection**.
+
+**Code Example**
+
+```java id="m4k8qw"
+// Normal Object
+Student student = new Student();
+
+// Spring Bean
+@Service
+public class StudentService {
+}
+```
+
+```java id="v9r2nh"
+@Autowired
+private StudentService studentService; // Spring injects the Bean
+```
 
 ## 4. What is Java Bean, @Component and @Bean?
 
