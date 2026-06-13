@@ -21884,7 +21884,10 @@ spec:
 
 
 ## 0. What are security vulnerability issues?
-Common **Java security vulnerability issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
+
+**Security vulnerability issues** are **weaknesses or flaws** in an application, system, or network that attackers can exploit to gain **unauthorized access**, **steal data**, or **disrupt services**.
+
+**Key Features:**
 
 1. **SQL Injection**
 This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
@@ -21901,11 +21904,43 @@ Weak authentication or incorrect access control may allow **unauthorized users t
 7. **Using Outdated Libraries :** - 
 Old dependencies may contain **known security vulnerabilities**.
 
+**How It Works:**
+A vulnerability is created due to **coding mistakes**, **misconfigurations**, or **unpatched software**. Attackers identify these weaknesses and exploit them to perform malicious actions like accessing confidential data or executing unauthorized operations.
+
+**Why to Use Security Measures:**
+
+* Protect **user data** and **business information**
+* Prevent **cyberattacks** and **data breaches**
+* Ensure **application reliability** and **compliance**
+* Build **user trust**
+
+**When to Focus on Vulnerabilities:**
+
+* During **application development**
+* Before **production deployment**
+* During **security testing** and **code reviews**
+* Whenever **dependencies or libraries are updated**
+
+**Simple Java Example (SQL Injection Vulnerability):**
+
 ```java
-// Prevent SQL injection
-String sql = "SELECT * FROM users WHERE id = ?";
-PreparedStatement stmt = conn.prepareStatement(sql);
-stmt.setInt(1, userId);
+// Vulnerable Code
+String query = "SELECT * FROM users WHERE username='"
+             + username + "' AND password='" + password + "'";
+Statement stmt = connection.createStatement();
+ResultSet rs = stmt.executeQuery(query);
+```
+
+An attacker could enter malicious input to bypass authentication.
+
+**Secure Version (Using PreparedStatement):**
+
+```java
+String query = "SELECT * FROM users WHERE username=? AND password=?";
+PreparedStatement ps = connection.prepareStatement(query);
+ps.setString(1, username);
+ps.setString(2, password);
+ResultSet rs = ps.executeQuery();
 ```
 
 
@@ -21941,40 +21976,81 @@ System.setSecurityManager(new MySecurityManager());
 
 ## 2: What is sandbox in Java?
 
-**Sandbox in Java** is a **restricted environment** for running untrusted code.
+A **Sandbox** in Java is a **security mechanism** that runs code in a **restricted environment**, preventing it from accessing sensitive resources like the **file system**, **network**, or **operating system** without permission.
 
-It **limits file, network, and system access**, uses **security policies**, provides **isolation** to protect the host, and was commonly used for **applets**.
+**Key Features:**
+
+* **Restricts unauthorized access** to system resources.
+* Provides **secure execution** of untrusted code.
+* Uses **permissions and security policies** to control actions.
+* Helps protect against **malicious or harmful code**.
+
+**How It Works:**
+Java executes code inside the **JVM (Java Virtual Machine)**. The **Security Manager** (used in older Java versions) and **class loaders** enforce rules that allow or deny operations such as reading files, opening network connections, or executing system commands.
+
+**When to Use:**
+
+* Running **third-party or untrusted code**.
+* **Plugin-based** or **script execution** systems.
+* **Online code execution** platforms.
+* Applications that require an **extra security layer**.
+
+**Simple Example:**
 
 ```java
-// Applet sandbox restrictions
-public class MyApplet extends Applet {
-    public void init() {
-        // Cannot read local files
-        // Cannot make network connections to other hosts
-        // Cannot execute system commands
-        // Limited to browser security policies
-    }
+try {
+    System.getSecurityManager().checkRead("secret.txt");
+    System.out.println("File access allowed.");
+} catch (SecurityException e) {
+    System.out.println("File access denied by the Java Sandbox.");
 }
 ```
+
+In this example, the **Java Sandbox** checks whether the application has permission to read the file. If not, a **SecurityException** is thrown.
+
 
 
 ## 3: What is bytecode verification?
 
-**Bytecode Verification** is the process where the **JVM checks Java bytecode** for safety before execution.
+**Bytecode Verification** is a **JVM security mechanism** that checks whether the compiled Java **bytecode (.class file)** is **valid, safe, and follows Java language rules** before it is executed.
 
-It ensures **type safety, correct control flow, and stack usage**, preventing **illegal memory access or security issues**.
+**Key Features:**
 
-```java
-// Bytecode verification checks:
-// 1. Stack overflow/underflow prevention
-// 2. Type consistency
-// 3. Proper exception handling
-// 4. Valid bytecode instructions
+* Ensures **type safety**.
+* Prevents **illegal memory access**.
+* Checks for **stack overflows/underflows**.
+* Verifies that bytecode does not perform **invalid or malicious operations**.
+* Helps make Java a **secure platform**.
 
-// Example: This would fail verification
-// Attempting to call method on wrong type
-// String s = new Integer(5);
-// s.charAt(0); // Type mismatch caught by verifier
+**How It Works:**
+When a `.class` file is loaded, the **Class Loader** passes it to the **Bytecode Verifier**. The verifier checks:
+
+* The bytecode format is correct.
+* Instructions use the **correct data types**.
+* Methods do not access **unauthorized memory locations**.
+* The **operand stack** and **local variables** are used correctly.
+
+If verification fails, the JVM throws a **`VerifyError`** and refuses to execute the class.
+
+**When to Use:**
+Bytecode verification happens **automatically** whenever the JVM loads a class. It is especially important when running **downloaded**, **third-party**, or **untrusted code**.
+
+**Simple Example:**
+
+```java id="znu5d7"
+// Normal Java code
+public class Demo {
+    public static void main(String[] args) {
+        int x = 10;
+        System.out.println(x);
+    }
+}
+```
+
+After compilation, the JVM **verifies the generated bytecode** before execution. If the `.class` file is modified and contains invalid instructions, the JVM throws:
+
+```java id="vlwsqi"
+Exception in thread "main" java.lang.VerifyError
 ```
 
 
@@ -22105,72 +22181,214 @@ public List<User> getUsers() { return userService.getAllUsers(); }
 
 ## 9: What is OAuth?
 
-**OAuth** is an **open standard for authorization** that allows third-party apps to access user resources **without sharing passwords**.
+**OAuth (Open Authorization)** is an **authorization framework** that allows a user to give a third-party application **limited access** to their resources **without sharing their password**.
 
-It uses **access tokens**, involves **Resource Owner, Client, Authorization Server, and Resource Server**, and supports flows like **authorization code and client credentials**.
+**Example:** When you click **"Login with Google"** or **"Login with GitHub"**, OAuth is used to authorize the application.
 
-```java
-// OAuth 2.0 Spring Security configuration
+**Key Features:**
+
+* **Password is never shared** with the third-party application.
+* Uses **access tokens** instead of credentials.
+* Provides **limited and controlled access** through **scopes**.
+* Supports **secure delegated authorization**.
+* Widely used in **REST APIs** and **microservices**.
+
+**How It Works:**
+
+1. User requests to log in using an OAuth provider (e.g., Google).
+2. The application redirects the user to the provider's login page.
+3. User authenticates and grants permission.
+4. The provider returns an **authorization code**.
+5. The application exchanges the code for an **access token**.
+6. The application uses the access token to access the user's allowed resources.
+
+**Main OAuth Components:**
+
+* **Resource Owner** – The user.
+* **Client** – The application requesting access.
+* **Authorization Server** – Issues access tokens.
+* **Resource Server** – Hosts the protected resources.
+* **Access Token** – Temporary token used to access resources.
+
+**When to Use:**
+
+* **Social login** (Google, GitHub, Facebook).
+* Securing **REST APIs**.
+* **Microservices** communication.
+* Allowing third-party apps to access user data securely.
+
+**Simple Spring Boot Example:**
+
+**application.yml**
+
+```yaml
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_CLIENT_ID
+            client-secret: YOUR_CLIENT_SECRET
+```
+
+**Security Configuration**
+
+```java id="2lsn4f"
 @Configuration
-@EnableOAuth2Client
-public class OAuth2Config {
+@EnableWebSecurity
+public class SecurityConfig {
+
     @Bean
-    public OAuth2RestTemplate oauth2RestTemplate() {
-        return new OAuth2RestTemplate(clientCredentialsResourceDetails());
-    }
-    
-    @Bean
-    public ClientCredentialsResourceDetails clientCredentialsResourceDetails() {
-        ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
-        details.setClientId("my-client-id");
-        details.setClientSecret("my-client-secret");
-        details.setAccessTokenUri("https://auth-server.com/oauth/token");
-        return details;
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().authenticated())
+            .oauth2Login();
+
+        return http.build();
     }
 }
 ```
+
+With this configuration, users can securely **log in using their Google account** without sharing their Google password with your application.
+
 
 **OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
 
 ## 11: What is OAuth 2.0?
 
-**OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
+**What is OAuth 2.0?**
 
-It supports flows like **Authorization Code (most secure), Client Credentials, PKCE**, and uses **scopes** to define permissions, avoiding password sharing.
+**OAuth 2.0** is the **latest version of the OAuth authorization framework** that allows a user to grant a third-party application **limited access** to their resources **without sharing their password**. It uses **access tokens** to securely authorize requests.
 
-```java
-// OAuth 2.0 Authorization Server configuration
+**Example:** **"Sign in with Google"** or **"Login with GitHub"** uses OAuth 2.0.
+
+**Key Features:**
+
+* Uses **access tokens** instead of usernames and passwords.
+* Provides **secure delegated authorization**.
+* Supports **scopes** to limit permissions.
+* Supports **refresh tokens** to obtain new access tokens without logging in again.
+* Widely used for **REST APIs**, **microservices**, and **social login**.
+
+**How It Works:**
+
+1. The user requests login through an OAuth 2.0 provider (e.g., Google).
+2. The application redirects the user to the provider's login page.
+3. The user authenticates and grants permission.
+4. The provider returns an **authorization code**.
+5. The application exchanges the code for an **access token** (and optionally a **refresh token**).
+6. The application sends the access token to the **resource server** to access protected resources.
+
+**Main Components:**
+
+* **Resource Owner** – The user.
+* **Client Application** – The app requesting access.
+* **Authorization Server** – Authenticates the user and issues tokens.
+* **Resource Server** – Stores protected resources.
+* **Access Token** – Used to access resources.
+* **Refresh Token** – Used to generate a new access token.
+
+**Common OAuth 2.0 Grant Types:**
+
+* **Authorization Code Grant** (most common and recommended).
+* **Client Credentials Grant** (machine-to-machine communication).
+* **Refresh Token Grant** (renew expired access tokens).
+
+**When to Use:**
+
+* **Social login** (Google, GitHub, Facebook).
+* Securing **REST APIs**.
+* **Microservices** authentication and authorization.
+* Allowing third-party applications to access user data securely.
+
+**Simple Spring Boot Example:**
+
+**application.yml**
+
+```yaml id="x9kl1a"
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_CLIENT_ID
+            client-secret: YOUR_CLIENT_SECRET
+```
+
+**Security Configuration**
+
+```java id="sh8w2m"
 @Configuration
-@EnableAuthorizationServer
-public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
-    
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-            .withClient("my-client")
-            .secret(passwordEncoder.encode("my-secret"))
-            .authorizedGrantTypes("authorization_code", "refresh_token")
-            .scopes("read", "write")
-            .redirectUris("http://localhost:8080/callback");
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().authenticated())
+            .oauth2Login();
+
+        return http.build();
     }
 }
-
-// Resource server protection
-@EnableResourceServer
-@RestController
-public class ApiController {
-    @GetMapping("/api/data")
-    @PreAuthorize("#oauth2.hasScope('read')")
-    public String getData() { return "Protected data"; }
-}
 ```
+
+This configuration enables users to **log in with Google** using the **OAuth 2.0 Authorization Code Flow**.
 
 **OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
 
 
-## 11:  How JWT(JSON Web Token) Authentication works in Spring Boot
+## 11:  How JWT(JSON Web Token) Authentication works in Spring Boot?
 
-JWT authentication is a stateless security mechanism where a token is issued after login and used to authorize subsequent requests without storing session data on the server.
+**JWT (JSON Web Token)** authentication is a **stateless authentication mechanism** where, after successful login, the server generates a **signed token** and sends it to the client. The client includes this token in every request, and Spring Boot validates it before granting access.
+
+**Key Features:**
+
+* **Stateless** – No session is stored on the server.
+* Uses **signed tokens** for security.
+* Easy to use with **REST APIs** and **microservices**.
+* Supports **user roles and permissions** through token claims.
+* Improves **scalability** because the server does not maintain session data.
+
+**How It Works:**
+
+1. The user sends **username** and **password** to the login API.
+2. **Spring Security** authenticates the user.
+3. If authentication is successful, the server generates a **JWT token** containing user details and roles.
+4. The client stores the token (usually in local storage or a secure cookie).
+5. For every API request, the client sends the token in the **Authorization** header:
+
+   ```
+   Authorization: Bearer <JWT_TOKEN>
+   ```
+6. A **JWT Filter** intercepts the request, validates the token, and extracts user information.
+7. If the token is valid, Spring Security sets the authentication in the **SecurityContext**, and the request is allowed. Otherwise, access is denied.
+
+**JWT Structure:**
+A JWT consists of **three parts** separated by dots (`.`):
+
+* **Header** – Contains token type and signing algorithm.
+* **Payload** – Contains user information (**claims**).
+* **Signature** – Verifies that the token has not been modified.
+
+Example:
+
+```text
+xxxxx.yyyyy.zzzzz
+```
+
+**When to Use:**
+
+* **REST APIs**
+* **Microservices architecture**
+* **Single Page Applications (SPA)** like React or Angular
+* **Mobile applications**
+* Systems requiring **stateless authentication**
+
 
 **How JWT Works**
 
@@ -22287,27 +22505,6 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 }
 ```
 
-**Key Components**
-
-1. **JWT Utility Class**: Handles token generation, validation, and extraction
-2. **JWT Filter**: Intercepts requests to validate tokens
-3. **Security Configuration**: Configures Spring Security with JWT
-4. **Authentication Controller**: Handles login and token generation
-
-**Advantages**
-
-- **Stateless**: No server-side session storage required
-- **Scalable**: Easy to scale across multiple servers
-- **Cross-domain**: Works across different domains
-- **Self-contained**: All necessary information is in the token
-
-**Security Considerations**
-
-- Use strong secret keys and store them securely
-- Implement token expiration
-- Use HTTPS for all communications
-- Don't store sensitive data in JWT payload (it's only Base64 encoded)
-- Consider implementing refresh tokens for better security
 
 **Common Interview Questions**
 
@@ -22323,17 +22520,39 @@ A: JWT cannot be revoked by default. Implement token blacklisting or use short e
 
 ## 12. What is CSRF Protection?
 
-**CSRF (Cross-Site Request Forgery)** — attacker tricks a logged-in user's browser into sending an unwanted request to your server.
+**What is CSRF Protection?**
 
-**Example attack:**
-- User is logged into `bank.com`
-- Attacker sends a link: `<img src="http://bank.com/transfer?to=attacker&amount=1000">`
-- Browser auto-sends the request with the user's cookies → money transferred
+**CSRF (Cross-Site Request Forgery) Protection** is a **security mechanism** that prevents attackers from tricking an authenticated user into performing unwanted actions on a web application without their consent.
 
-**How CSRF Token fixes it:**
-- Server generates a unique token per session
-- Every form/request must include this token
-- Server validates it — attacker can't guess it
+**Example:** A user is logged into a banking website. If they visit a malicious website, it could secretly send a money transfer request using the user's active session. **CSRF protection blocks this attack.**
+
+**Key Features:**
+
+* Prevents **unauthorized requests** from malicious websites.
+* Uses a unique **CSRF token** to validate requests.
+* Protects **state-changing operations** like **POST**, **PUT**, **PATCH**, and **DELETE**.
+* Enabled **by default** in **Spring Security** for session-based applications.
+
+**How It Works:**
+
+1. The server generates a unique **CSRF token** for the user's session.
+2. The token is sent to the client (usually in a hidden form field or HTTP header).
+3. The client includes the token in every state-changing request.
+4. Spring Security compares the received token with the stored token.
+5. If the tokens match, the request is allowed; otherwise, it is rejected.
+
+**When to Use:**
+
+* **Session-based authentication** using cookies.
+* Traditional **Spring MVC** or server-rendered web applications.
+* Any application where the browser automatically sends **session cookies**.
+
+**When CSRF Protection is Usually Disabled:**
+
+* **Stateless REST APIs** using **JWT** or **OAuth 2.0 Bearer Tokens**.
+* APIs where authentication is sent explicitly in the **Authorization** header instead of cookies.
+
+**Simple Spring Security Example:**
 
 
 **Step 1: Add Spring Security dependency**
@@ -22345,56 +22564,70 @@ A: JWT cannot be revoked by default. Implement token blacklisting or use short e
 </dependency>
 ```
 
-**Step 2: CSRF is ENABLED by default in Spring Security**
-```java
-// Spring Security enables CSRF protection automatically
-// No extra config needed for traditional form-based apps
-```
+**CSRF Enabled (Default):**
 
-**Step 3: For REST APIs — disable CSRF (stateless, uses JWT)**
-```java
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
+```java id="r4t9mk"
+@Bean
+SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().authenticated())
+        .formLogin();
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())          // disable for stateless REST APIs
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        return http.build();
-    }
+    return http.build();
 }
 ```
 
-**Step 4: For form-based apps — include CSRF token in forms (Thymeleaf does it auto)**
-```html
-<!-- Thymeleaf auto-injects CSRF token -->
-<form th:action="@{/submit}" method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <button type="submit">Submit</button>
-</form>
+**Disable CSRF for JWT-Based REST API:**
+
+```java id="v8n2qp"
+@Bean
+SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().authenticated());
+
+    return http.build();
+}
 ```
-
-**Interview Answer:**
-"CSRF is enabled by default in Spring Security. For REST APIs with JWT, I disable it since requests are stateless and don't rely on cookies. For form-based apps, Spring Security + Thymeleaf handles CSRF tokens automatically."
-
 
 ## 13. What is XSS Protection?
 
-**XSS (Cross-Site Scripting)** — attacker injects malicious JavaScript into your web page, which runs in other users' browsers.
+**What is XSS Protection?**
 
-**Example attack:**
-```
-User submits comment: <script>document.cookie</script>
-Server stores it → next user loads page → script runs → cookie stolen
-```
+**XSS (Cross-Site Scripting) Protection** is a **security mechanism** that prevents attackers from injecting and executing **malicious JavaScript code** in a web application. It protects users from attacks such as **cookie theft**, **session hijacking**, and **data manipulation**.
 
-**Types:**
-- **Stored XSS** — malicious script saved in DB, served to all users
-- **Reflected XSS** — script in URL, reflected back in response
-- **DOM-based XSS** — script manipulates DOM directly
+**Example:** If a comment field allows users to submit `<script>alert('Hacked')</script>`, an attacker could execute JavaScript in other users' browsers. **XSS protection blocks or sanitizes such input.**
+
+**Key Features:**
+
+* Prevents **malicious script injection**.
+* Protects against **session hijacking** and **cookie theft**.
+* Uses **input validation** and **output encoding**.
+* Can be enhanced with **Content Security Policy (CSP)** headers.
+* Important for any application that displays **user-generated content**.
+
+**How It Works:**
+
+1. The application receives input from the user.
+2. Before storing or displaying it, the input is **validated** or **sanitized**.
+3. When rendering the data in HTML, special characters are **encoded** (e.g., `<` becomes `&lt;`).
+4. The browser displays the text as plain content instead of executing it as JavaScript.
+
+**Common Types of XSS:**
+
+* **Stored XSS** – Malicious script is stored in the database and executed when users view the page.
+* **Reflected XSS** – Malicious script comes from the request and is immediately reflected in the response.
+* **DOM-based XSS** – The vulnerability exists in client-side JavaScript code.
+
+**When to Use:**
+
+* Applications with **forms**, **comments**, or **search fields**.
+* Websites displaying **user-generated content**.
+* Any **web application** that accepts and renders user input.
+
+**Simple Example:**
 
 **Step 1: Add security headers via Spring Security**
 ```java
@@ -22427,7 +22660,6 @@ import org.owasp.html.Sanitizers;
 
 @Service
 public class SanitizationService {
-
     private static final PolicyFactory POLICY = Sanitizers.FORMATTING.and(Sanitizers.LINKS);
 
     public String sanitize(String input) {
@@ -22451,8 +22683,15 @@ public class SanitizationService {
     csp.policyDirectives("default-src 'self'; script-src 'self'; object-src 'none'"))
 ```
 
-**Interview Answer:**
-> "I prevent XSS by: 1) enabling X-XSS-Protection and CSP headers via Spring Security, 2) sanitizing user input with OWASP HTML Sanitizer before storing, 3) using Thymeleaf which auto-escapes output by default."
+Now, `<script>` is displayed as plain text instead of being executed.
+
+**How to Prevent XSS:**
+
+* **Validate and sanitize user input**.
+* **Encode output** before rendering HTML.
+* Use **Content Security Policy (CSP)**.
+* Avoid directly inserting untrusted data into the **DOM**.
+* Keep frameworks and libraries **updated**.
 
 
 ## 14. What is Input Validation?
