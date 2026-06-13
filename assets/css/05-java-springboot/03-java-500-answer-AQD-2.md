@@ -3078,11 +3078,7 @@ public class Main {
 ```
 
 
-
-
 ## 14. What is polymorphism?
-
-
 
 **Definition**
 **Polymorphism** means **one entity having many forms**, where a single method or object behaves differently in different situations.
@@ -3162,45 +3158,35 @@ public class Main {
 
 ## 14. What is Dynamic Method Dispatch?
 
-
-**Dynamic Method Dispatch** is a mechanism in Java where the **method to be executed is decided at runtime**, not at compile time. It happens when a **parent class reference** points to a **child class object** and the child class **overrides** a method of the parent class. It is the foundation of **runtime polymorphism**.
+**Dynamic Method Dispatch** is the mechanism by which **the method to be executed is determined at runtime based on the actual object, not the reference type**. It is the foundation of **runtime polymorphism** in Java.
 
 **Key Features**
 
-* **Runtime Polymorphism** – Method call is resolved during execution.
-* **Method Overriding** – Child class provides its own implementation.
-* **Parent Reference, Child Object** – A superclass reference can refer to a subclass object.
-* **Flexibility** – Same method call can produce different behaviors.
+* Achieves **Runtime Polymorphism**.
+* Method call is resolved **at runtime**.
+* Uses a **parent class reference** to refer to a **child class object**.
+* Works only with **overridden methods**, not with overloaded methods.
 
-**How it works**
+**How It Works**
 
-1. Create a **parent class** with a method.
-2. **Override** that method in the child class.
-3. Create a **parent class reference** and assign it a **child class object**.
-4. When the method is called, Java executes the **child class version** based on the actual object type.
+1. Create a **parent class reference**.
+2. Assign it to a **child class object**.
+3. When an overridden method is called, the **JVM checks the actual object type** and invokes the corresponding child class method.
 
+**When to Use**
 
-**When to use it?**
+* Use **Dynamic Method Dispatch** when multiple classes share a common parent and you want **different behaviors for the same method call**.
+* Commonly used in **polymorphism**, **frameworks**, and **design patterns**.
 
-* When multiple child classes have different implementations of the same method.
-* When using **Inheritance** and **Method Overriding**.
-* In **frameworks**, **Spring applications**, and **design patterns** where behavior changes dynamically.
+**Code Example**
 
-**Simple Interview Answer**
-
-> **Dynamic Method Dispatch is a feature of Java where a parent class reference calls the overridden method of a child class object at runtime. It is used to achieve runtime polymorphism and make the code more flexible and reusable.**
-
-**Example Code**
-
-```java
-// Parent class
+```java id="k8p4mx"
 class Animal {
     void sound() {
         System.out.println("Animal makes a sound");
     }
 }
 
-// Child class
 class Dog extends Animal {
     @Override
     void sound() {
@@ -3210,21 +3196,20 @@ class Dog extends Animal {
 
 public class Main {
     public static void main(String[] args) {
-        Animal obj = new Dog(); // Parent reference, child object
-        obj.sound();            // Calls Dog's sound() at runtime
+        Animal animal = new Dog(); // Parent reference, Child object
+        animal.sound();            // Calls Dog's sound()
     }
 }
 ```
 
 **Output**
 
-```text
+```text id="j3v9qn"
 Dog barks
 ```
 
 
 ## 6. What is IS-A Relationship?
-
 
 **Definition**
 **IS-A** is an inheritance relationship — it means **one object is a type of another**. Implemented using `extends` or `implements`. Used to check with `instanceof`.
