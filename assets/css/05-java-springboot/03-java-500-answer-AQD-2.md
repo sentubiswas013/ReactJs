@@ -209,7 +209,7 @@ Bytecode Verifier
 ## 3. **Difference Between `JAR`, `WAR`, and `EAR`**
 
 
-**Definition**
+
 
 **`JAR`**, **`WAR`**, and **`EAR`** are Java packaging formats used to bundle and deploy applications.
 
@@ -341,7 +341,7 @@ myapp.ear
 ## 3. What is the difference between Structured Programming and OOP?
 
 
-**Definition**
+
 
 * **Structured Programming** is a programming paradigm that organizes code into **functions or procedures** and follows a **top-down approach**.
 * **Object-Oriented Programming (OOP)** is a programming paradigm that organizes code into **objects and classes** and follows a **bottom-up approach**.
@@ -950,7 +950,7 @@ System.out.println(builder);
 
 ## 6. What strings is immutable in Java?
 
-**Definition**
+
 
 A **`String`** in Java is **immutable**, which means **once a `String` object is created, its value cannot be changed**. If you modify a string, Java creates a **new object** instead of changing the existing one.
 
@@ -1031,7 +1031,7 @@ Both `a` and `b` point to the **same object** in the **String Pool**, which is p
 
 ## 7. What is the difference between final, finally, and finalize?
 
-**Definition**
+
 
 Although they sound similar, **`final`**, **`finally`**, and **`finalize()`** are completely different concepts in Java.
 
@@ -1135,7 +1135,7 @@ public class Demo {
 
 ## 8. What is string pooling in java?
 
-**Definition**
+
 
 **String Pooling** is a Java memory optimization technique where **string literals are stored in a special memory area called the String Pool**. If the same string value already exists in the pool, Java reuses the existing object instead of creating a new one.
 
@@ -1240,7 +1240,7 @@ System.out.println(a instanceof Animal); // true
 
 ## 11. What is Predicate in java?
 
-**Definition**
+
 
 A **`Predicate<T>`** is a **functional interface** introduced in **Java 8** in the `java.util.function` package. It takes **one input argument** and returns a **boolean (`true` or `false`)** result.
 
@@ -1342,7 +1342,7 @@ System.out.println(condition.test(9));  // false
 
 ## 12. What are `equals()` and `hashCode()` in Java??
 
-**Definition**
+
 
 * **`equals()`** is a method from the `Object` class used to compare the **content or logical equality** of two objects.
 
@@ -1449,7 +1449,7 @@ This works correctly because both **`equals()`** and **`hashCode()`** are overri
 
 ## 13. How to Override the hashCode Method Properly in Java?
 
-**Definition**
+
 
 The **`hashCode()`** method returns an **integer hash value** for an object. It is mainly used by **hash-based collections** like **`HashMap`**, **`HashSet`**, and **`Hashtable`** for fast storage and retrieval.
 
@@ -2871,7 +2871,7 @@ public class Main {
 
 ## 3. What is the diamond problem?
 
-**Definition**
+
 The **Diamond Problem** is an ambiguity issue in **multiple inheritance** where a class inherits the same method from **two parent classes**, causing confusion about **which method to execute**.
 
 **Key Features**
@@ -3080,7 +3080,7 @@ public class Main {
 
 ## 14. What is polymorphism?
 
-**Definition**
+
 **Polymorphism** means **one entity having many forms**, where a single method or object behaves differently in different situations.
 
 - Poly - many
@@ -3211,7 +3211,7 @@ Dog barks
 
 ## 6. What is IS-A Relationship?
 
-**Definition**
+
 **IS-A** is an inheritance relationship — it means **one object is a type of another**. Implemented using `extends` or `implements`. Used to check with `instanceof`.
 
 **Key Features**
@@ -3262,7 +3262,6 @@ public class Main {
 
 ## 6. What is HAS-A (Composition) Relationship?
 
-**Definition**
 The **HAS-A relationship** represents **composition or aggregation**, where one class **contains or uses another class as a member variable**.
 
 **Key Features**
@@ -3316,7 +3315,6 @@ public class Main {
 
 ## 7. Composition and Aggregation?
 
-**Definition**
 **Composition** and **Aggregation** are two types of **HAS-A relationships** in Java used to build objects using other objects.
 
 * **Composition** → Strong relationship where the **child object cannot exist without the parent**
@@ -5342,8 +5340,6 @@ LinkedList
 ## 2. What is the difference between ArrayList and LinkedList?
 
 
-**Definition**
-
 Both **`ArrayList`** and **`LinkedList`** are implementations of the **`List`** interface in the Java Collections Framework, but they use different internal data structures.
 
 * **`ArrayList`** uses a **dynamic array**.
@@ -5438,7 +5434,6 @@ public class Demo {
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-**Definition**
 
 Both **`HashMap`** and **`TreeMap`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ in how they store and organize data.
 
@@ -5536,7 +5531,6 @@ public class Demo {
 
 ## 4. What is the difference between HashMap Hashtable?
 
-**Definition**
 
 Both **`HashMap`** and **`Hashtable`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ mainly in **thread safety**, **performance**, and **handling of `null` values**.
 
@@ -5628,7 +5622,7 @@ public class Demo {
 
 ## 5. How does HashMap work internally?
 
-**Definition**
+
 
 A **`HashMap`** is a data structure in Java that stores data as **key-value pairs**. Internally, it uses a **hash table** to provide very fast **insertion**, **deletion**, and **lookup** operations.
 
@@ -5755,7 +5749,7 @@ public class Demo {
 
 ## 6. What is hash collision and how is it handled?
 
-**Definition**
+
 
 A **Hash Collision** occurs when **two different keys generate the same hash code or map to the same bucket** in a **`HashMap`**.
 
@@ -5860,7 +5854,7 @@ In this example, both objects have the **same hash code**, causing a **hash coll
 
 ## 7. What is the difference between Comparable and Comparator?
 
-**Definition**
+
 
 Both **`Comparable`** and **`Comparator`** are interfaces in Java used for **sorting objects**, but they differ in where and how the sorting logic is defined.
 
@@ -6009,7 +6003,7 @@ public interface Comparator<T> {
 
 **`WeakHashMap`**
 
-**Definition**
+
 
 A **`WeakHashMap`** is a special implementation of the **`Map`** interface where the **keys are stored as weak references**. If a key is no longer referenced anywhere else, the **Garbage Collector (GC)** can automatically remove the entry from the map.
 
@@ -6053,7 +6047,7 @@ System.gc(); // Entry may be removed by GC
 
 **`IdentityHashMap`**
 
-**Definition**
+
 
 An **`IdentityHashMap`** is a `Map` implementation that compares keys using **`==` (reference equality)** instead of **`equals()`**.
 
@@ -6100,7 +6094,7 @@ System.out.println(map.size()); // 2
 
 **`LinkedHashMap`**
 
-**Definition**
+
 
 A **`LinkedHashMap`** is a `HashMap` implementation that maintains the **insertion order** (or access order) of elements by using a **doubly linked list** along with a hash table.
 
@@ -6144,7 +6138,7 @@ System.out.println(map); // {3=C, 1=A, 2=B}
 
 **`PriorityQueue`**
 
-**Definition**
+
 
 A **`PriorityQueue`** is a queue implementation that stores elements according to their **priority** rather than insertion order. Internally, it uses a **Binary Heap**.
 
@@ -6391,7 +6385,7 @@ class TTLCache {
 ## 10. Difference between ConcurrentHashMap and HashMap, and when to use what?
 
 
-**Definition**
+
 
 Both **`HashMap`** and **`ConcurrentHashMap`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ mainly in **thread safety** and **concurrent access handling**.
 
@@ -6510,7 +6504,7 @@ A **`HashMap`** iterator is **fail-fast** and throws **`ConcurrentModificationEx
 
 ## 12. Difference between `List`, `Set`, `Map`, and `Queue`? 
 
-**Definition**
+
 
 **`List`**, **`Set`**, **`Map`**, and **`Queue`** are the main interfaces in the **Java Collections Framework** used to store and manage data in different ways.
 
@@ -6650,7 +6644,7 @@ public class Demo {
 
 ## 13. Difference between List and Array? 
 
-**Definition**
+
 
 * **`Array`** is a built-in data structure in Java that stores a **fixed-size collection** of elements of the same type.
 
@@ -6782,7 +6776,7 @@ String name = map.get(101);
 
 ## 16. What is O(1) and  O(n)?
 
-**Definition**
+
 
 **`O(1)`** and **`O(n)`** are examples of **Big O Notation**, which is used to describe the **time complexity** of an algorithm. It tells us how the execution time grows as the input size (`n`) increases.
 
@@ -8265,7 +8259,7 @@ public class Main {
 
 **Concurrency**
 
-**Definition**
+
 
 **Concurrency** is the ability of a system to handle **multiple tasks at the same time** by making progress on each task. The tasks may not run simultaneously, but they are managed so that they appear to run together.
 
@@ -8347,7 +8341,7 @@ public class Main {
 
 **ConcurrentHashMap**
 
-**Definition**
+
 
 **ConcurrentHashMap** is a **thread-safe** implementation of **Map** in Java that allows multiple threads to read and write data concurrently without causing data inconsistency.
 
@@ -8962,7 +8956,7 @@ public class ApiService {
 
 **Immutability**
 
-**Definition**
+
 
 **Immutability** means an object's state **cannot be changed after it is created**. If a value needs to change, a **new object** is created instead of modifying the existing one.
 
@@ -12184,7 +12178,7 @@ public class UserService {
 ## 20: What is eager loading?
 
 
-**Definition**
+
 
 **Eager Loading** is a technique where related data is **loaded immediately** along with the main entity in a **single query** or as soon as the entity is fetched.
 
@@ -15907,7 +15901,7 @@ private Engine engine;
 
 ## 5. What is a Spring Container?
 
-**Definition**
+
 
 A **Spring Container** is the **core component of the Spring Framework** that is responsible for **creating, configuring, managing, and destroying Spring beans**. It implements the **Inversion of Control (IoC)** and **Dependency Injection (DI)** principles.
 
@@ -16020,7 +16014,7 @@ Destroy Bean (on application shutdown)
 
 ## 6. What is BeanFactory vs ApplicationContext?
 
-**Definition**
+
 
 Both **`BeanFactory`** and **`ApplicationContext`** are **Spring IoC (Inversion of Control) containers** used to create, configure, and manage Spring beans.
 
@@ -17490,7 +17484,7 @@ A **Bean** is an object that is **created, managed, and controlled by the Spring
 
 | **Feature**              | **Object**                                                  | **Bean**                                                                           |
 | ------------------------ | ----------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **Definition**           | An **instance of a class** created using the `new` keyword. | An **object managed by the Spring IoC Container**.                                 |
+|            | An **instance of a class** created using the `new` keyword. | An **object managed by the Spring IoC Container**.                                 |
 | **Creation**             | Created manually by the developer.                          | Created and managed automatically by Spring.                                       |
 | **Lifecycle**            | Developer is responsible for creation and destruction.      | Spring manages the **complete lifecycle** (creation, initialization, destruction). |
 | **Dependency Injection** | Dependencies must be created manually.                      | Supports **Dependency Injection (DI)** automatically.                              |
@@ -17530,7 +17524,7 @@ private StudentService studentService; // Spring injects the Bean
 ## 4. What is Java Bean, @Component and @Bean?
 
 
-**Definition**
+
 
 * **Java Bean** is a **plain Java class** that follows certain conventions: it has a **no-argument constructor**, **private fields**, and **public getter/setter methods**.
 * **`@Component`** is a **Spring annotation** used to automatically register a class as a **Spring Bean** through **Component Scanning**.
@@ -17626,7 +17620,7 @@ public class UserService {
 ## 5. Explain Bean Lifecycle?
 
 
-**Definition**
+
 
 The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes through from its **creation** to its **destruction** inside the **Spring Container**.
 
@@ -17760,7 +17754,7 @@ It's the standard annotation for Spring Boot main classes and enables all essent
 ## 8.  @Controller, @RestController, @Service, @Repository annotations?
 
 
-**Definition**
+
 
 These are **Spring Stereotype Annotations** used to mark different layers of an application. They help the **Spring Container** automatically detect and manage classes as **beans** during **component scanning**.
 
@@ -17884,7 +17878,7 @@ Database
 
 ## 9. What is @Autowired vs @Inject annotation?
 
-**Definition**
+
 
 * **`@Autowired`** is a **Spring-specific** annotation used for **Dependency Injection (DI)**.
 * **`@Inject`** is a **Java Standard (JSR-330)** annotation used for DI and is supported by Spring as well as other DI frameworks.
@@ -17980,7 +17974,7 @@ public class UserService {
 
 ## 10. What is @Profile Annotation?
 
-**Definition**
+
 
 **`@Profile`** is a **Spring annotation** used to activate or register a bean only for a specific **environment** such as **development (`dev`)**, **testing (`test`)**, or **production (`prod`)**.
 
@@ -18080,7 +18074,7 @@ public class DevDataLoader {
 
 ## 11. What is ApplicationContext?
 
-**Definition**
+
 
 **`ApplicationContext`** is the **central interface of the Spring Container**. It is responsible for **creating, configuring, storing, and managing the lifecycle of Spring beans** and providing them to the application whenever needed.
 
@@ -18163,7 +18157,7 @@ public class UserService {
 
 **`@Component` Annotation**
 
-**Definition**
+
 
 **`@Component`** is a **Spring stereotype annotation** used to mark a class as a **Spring-managed bean**. Spring automatically detects it during **component scanning** and registers it in the **ApplicationContext**.
 
@@ -18200,7 +18194,7 @@ public class EmailService {
 
 **`@Configuration` Annotation**
 
-**Definition**
+
 
 **`@Configuration`** indicates that a class contains **bean definitions**. It is used to define and configure beans using **`@Bean`** methods.
 
@@ -18243,7 +18237,7 @@ public class AppConfig {
 
 **`@Primary` Annotation**
 
-**Definition**
+
 
 **`@Primary`** tells Spring to use a particular bean **by default** when multiple beans of the same type are available.
 
@@ -18279,7 +18273,7 @@ public class MySqlDatabaseService implements DatabaseService {
 
 **`@Qualifier` Annotation**
 
-**Definition**
+
 
 **`@Qualifier`** is used with **`@Autowired`** to specify exactly which bean should be injected when multiple beans of the same type exist.
 
@@ -18321,7 +18315,7 @@ public class UserService {
 
 **`@PatchMapping` Annotation**
 
-**Definition**
+
 
 **`@PatchMapping`** is a **Spring MVC** annotation used to handle **HTTP PATCH requests**. It is mainly used for **partial updates** of a resource.
 
@@ -21892,7 +21886,7 @@ A **Topic** is a **logical category or channel** where messages are published, w
 
 | **Feature**      | **Topic**                                   | **Partition**                                       |
 | ---------------- | ------------------------------------------- | --------------------------------------------------- |
-| **Definition**   | A logical stream of messages.               | A smaller unit inside a topic.                      |
+|    | A logical stream of messages.               | A smaller unit inside a topic.                      |
 | **Purpose**      | Organizes related messages.                 | Enables **parallel processing** and scalability.    |
 | **Data Storage** | Does not store data directly.               | Actually stores the messages.                       |
 | **Scalability**  | A topic can have multiple partitions.       | More partitions increase throughput.                |
