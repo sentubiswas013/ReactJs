@@ -2,17 +2,41 @@
 
 ## 1. What is Java and what are its key features?
 
-Java is a high-level, object-oriented programming language designed for platform independence and enterprise application development. It's known for its "write once, run anywhere" philosophy.
+**Java** is a **high-level, object-oriented, platform-independent programming language** developed by **Sun Microsystems** (now owned by Oracle). It is widely used for building **web applications, enterprise systems, mobile apps, and microservices**.
 
-**Key Features:**
-- **Platform Independent:** Runs on any system with JVM
-- **Object-Oriented:** Based on objects and classes
-- **Simple and Secure:** Easy syntax, built-in security features
-- **Robust:** Strong memory management and exception handling
-- **Multithreaded:** Supports concurrent programming
-- **Automatic Memory Management:** Garbage collection handles memory
+**Key Features**
 
-Java compiles to bytecode that runs on the Java Virtual Machine, making it portable across different operating systems.
+* **Platform Independent** – Java code is compiled into **bytecode**, which runs on any system with a **JVM (Write Once, Run Anywhere)**.
+* **Object-Oriented** – Supports **Encapsulation, Inheritance, Polymorphism, and Abstraction**.
+* **Simple and Easy to Learn** – Has a clean syntax and automatic memory management.
+* **Robust** – Provides **exception handling** and **Garbage Collection (GC)**.
+* **Secure** – Runs inside the **JVM** with features like bytecode verification and no direct memory access.
+* **Multithreaded** – Supports concurrent execution using multiple threads.
+* **High Performance** – Uses the **JIT (Just-In-Time) Compiler** to convert bytecode into optimized machine code.
+* **Distributed and Scalable** – Suitable for enterprise and microservice-based applications.
+
+**How It Works**
+
+1. Write Java code in a **`.java`** file.
+2. The **Java Compiler (`javac`)** converts it into **bytecode (`.class`)**.
+3. The **JVM** loads and executes the bytecode on any operating system.
+
+**When to Use**
+
+* Building **Spring Boot** and enterprise applications.
+* Developing **REST APIs** and **microservices**.
+* Creating **Android applications**.
+* Developing **high-performance, scalable backend systems**.
+
+**Code Example**
+
+```java id="p6x3nk"
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}
+```
 
 ## 2. Explain the difference between JDK, JRE, and JVM.
 
