@@ -9229,8 +9229,54 @@ public class Product {
 Product findByIdForUpdate(Long id);
 ```
 
+## 12. Synchronous (Sync) and Asynchronous (Async)?
 
-## 12. What is `@Async` and How Does It Work?
+**Synchronous (Sync)** means a task waits for the current task to finish before starting the next one.
+
+**Asynchronous (Async)** means a task can start and continue without waiting for another task to complete.
+
+| **Feature**     | **Synchronous (Sync)**                        | **Asynchronous (Async)**                                       |
+| --------------- | --------------------------------------------- | -------------------------------------------------------------- |
+| **Execution**   | Tasks execute **one after another**.          | Tasks execute **independently without waiting**.               |
+| **Waiting**     | The caller **waits** for the task to finish.  | The caller **does not wait** and can continue other work.      |
+| **Performance** | Can be slower if operations take a long time. | Improves performance for **I/O-bound and long-running tasks**. |
+| **Complexity**  | Simple and easy to understand.                | More complex because of concurrency and callbacks/futures.     |
+| **Use Case**    | Simple operations with immediate results.     | Background tasks, API calls, email sending, file processing.   |
+
+**How It Works**
+
+* **Sync:** A request is sent, and the application **blocks** until it receives the response.
+* **Async:** A request is sent, and the application continues executing other tasks. The result is handled later when it becomes available.
+
+**When to Use**
+
+* Use **Synchronous** communication for **simple, dependent operations** where the next step requires the current result.
+* Use **Asynchronous** communication for **time-consuming tasks** such as sending emails, processing files, calling external APIs, or event-driven microservices.
+
+**Code Example (Spring Boot Async)**
+
+```java id="d7m4xp"
+@Service
+public class EmailService {
+
+    @Async
+    public void sendEmail() {
+        System.out.println("Sending email...");
+    }
+}
+```
+
+```java id="q2k8vn"
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+}
+```
+
+With `@Async`, the `sendEmail()` method runs in a **separate thread**, allowing the caller to continue without waiting.
+
+
+
 
 **`@Async`** is a **Spring annotation** used to execute a method **asynchronously** in a **separate thread**. It allows the caller to continue execution without waiting for the method to finish.
 
