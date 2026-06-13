@@ -25239,85 +25239,139 @@ spec:
         image: my-app:latest
 ```
 
-**Common Kubernetes Command:**
-
-```yaml
-# Kubernetes deployment example
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: myapp-deployment
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: myapp
-  template:
-    metadata:
-      labels:
-        app: myapp
-    spec:
-      containers:
-      - name: myapp
-        image: myapp:latest
-        ports:
-        - containerPort: 8080
-```
 
 ## 13. What is cloud computing?
+### **What is Cloud Computing?**
 
-**Cloud computing** is the delivery of computing resources like **servers, storage, databases, networking, and software** over the internet on a **pay-as-you-go** basis. Instead of owning physical infrastructure, you use resources provided by cloud platforms.
+**Cloud Computing** is the delivery of **computing services** such as **servers, storage, databases, networking, and software** over the **Internet (Cloud)** instead of using local machines or on-premise infrastructure.
 
-It allows easy **scaling, high availability, cost efficiency**, and faster application deployment.
+**Key Features:**
 
+* **On-Demand Access** to computing resources.
+* **Scalability** to increase or decrease resources as needed.
+* **Pay-as-You-Go** pricing model.
+* **High Availability** and reliability.
+* Easy integration with **CI/CD, Docker, and Kubernetes**.
 
-**Service Models:**
-- **IaaS (Infrastructure as a Service):** Virtual machines, storage, networks
-- **PaaS (Platform as a Service):** Development platforms, databases
-- **SaaS (Software as a Service):** Ready-to-use applications
+**How it Works:**
 
-**Deployment Models:**
-- **Public Cloud:** AWS, Azure, Google Cloud
-- **Private Cloud:** Organization's dedicated infrastructure
-- **Hybrid Cloud:** Combination of public and private
+1. A **Cloud Provider** (e.g., AWS, Azure, GCP) offers infrastructure and services.
+2. Users request resources such as virtual machines, databases, or storage.
+3. The cloud platform automatically provisions and manages these resources.
+4. Applications are deployed and accessed over the Internet.
+5. Resources can be scaled up or down based on demand.
 
-**Benefits:**
-- **Cost efficiency:** Pay for what you use
-- **Scalability:** Scale resources up/down on demand
-- **Accessibility:** Access from anywhere
-- **Reliability:** High availability and disaster recovery
+**When to Use:**
+
+* For **web and enterprise applications**.
+* When you need **high scalability** and **high availability**.
+* To reduce the cost of maintaining physical servers.
+* For **microservices**, **containerized applications**, and **CI/CD pipelines**.
+
+**Simple Example (Deploying a Docker Container on the Cloud):**
+
+```bash id="c7m4kx"
+# Build Docker image
+docker build -t my-app .
+
+# Push image to a cloud container registry
+docker push my-app:latest
+
+# Deploy the image to a cloud platform
+kubectl apply -f deployment.yaml
+```
+
+**Common Cloud Service Models:**
+
+| **Model**                              | **Description**                                       | **Example**                          |
+| -------------------------------------- | ----------------------------------------------------- | ------------------------------------ |
+| **IaaS (Infrastructure as a Service)** | Provides virtual servers, storage, and networking.    | AWS EC2, Azure VM                    |
+| **PaaS (Platform as a Service)**       | Provides a platform to build and deploy applications. | Google App Engine, Azure App Service |
+| **SaaS (Software as a Service)**       | Provides ready-to-use software over the Internet.     | Gmail, Microsoft 365                 |
+
 
 ## 14. What is distributed system?
 
-A **distributed system** is a system where multiple **independent computers or services work together** over a network and appear as a **single system** to the user.
+A **Distributed System** is a collection of **multiple independent computers (nodes)** that work together and communicate over a network to function as a **single system**. The workload is shared across multiple machines, improving **scalability, availability, and fault tolerance**.
 
-These systems improve **scalability, fault tolerance, and availability**, since work is shared across multiple nodes instead of relying on a single machine.
+**Key Features:**
 
+* **Multiple Nodes** work together as one system.
+* **Scalability** by adding more servers when demand increases.
+* **Fault Tolerance** because failure of one node does not stop the entire system.
+* **High Availability** through redundancy and replication.
+* **Resource Sharing** across different machines.
 
-**Characteristics:**
-- **Multiple nodes:** Components run on different machines
-- **Network communication:** Nodes communicate over network
-- **Shared state:** Coordinate to maintain consistency
-- **Fault tolerance:** Continue operating despite failures
-- **Scalability:** Add more nodes to handle increased load
+**How it Works:**
 
-**Challenges:**
-- **Network failures:** Partial failures and partitions
-- **Consistency:** Keeping data synchronized across nodes
-- **Latency:** Network communication delays
-- **Complexity:** Debugging and monitoring difficulties
+1. A client sends a request to the system.
+2. A **Load Balancer** distributes the request to one of the available servers.
+3. Multiple servers (nodes) process requests and may communicate with each other.
+4. Data can be stored across multiple databases or replicated for reliability.
+5. If one server fails, another server continues handling requests.
 
-**Examples:**
-- Microservices architectures
-- Database clusters
-- Content delivery networks (CDNs)
-- Web applications with load balancers
+**When to Use:**
+
+* For **large-scale web applications** and **microservices**.
+* When high **scalability** and **availability** are required.
+* For **cloud-native** applications running on multiple servers.
+* In systems handling **high traffic** and **large amounts of data**.
+
+**Simple Example:**
+
+```text
+Client
+   |
+Load Balancer
+   |
+-------------------------
+|           |           |
+Server 1   Server 2   Server 3
+```
+
+In this example, the **Load Balancer** distributes incoming requests among multiple servers, allowing the system to handle more users and continue running even if one server fails.
+
 
 ## 15. What is load balancing?
 
-**Load balancing** is the process of **distributing incoming requests** across multiple servers so that no single server becomes overloaded.
+### **What is Load Balancing?**
 
-It improves **application performance, availability, and reliability** by ensuring traffic is handled efficiently, even when one server fails or traffic increases.
+**Load Balancing** is the process of **distributing incoming client requests across multiple servers** so that no single server becomes overloaded. It improves **performance, scalability, and high availability** of an application.
+
+**Key Features:**
+
+* **Distributes Traffic** evenly across multiple servers.
+* Improves **High Availability** by preventing a single point of failure.
+* Supports **Scalability** by adding or removing servers easily.
+* Increases **Performance** and reduces response time.
+* Provides **Fault Tolerance** by redirecting traffic if a server fails.
+
+**How it Works:**
+
+1. A client sends a request to the application.
+2. The **Load Balancer** receives the request.
+3. It selects a healthy server using an algorithm such as **Round Robin**, **Least Connections**, or **IP Hash**.
+4. The selected server processes the request and returns the response.
+5. If a server becomes unavailable, the load balancer automatically redirects traffic to other healthy servers.
+
+**When to Use:**
+
+* For **high-traffic web applications**.
+* In **Distributed Systems** and **Microservices Architectures**.
+* When **high availability** and **fault tolerance** are required.
+* For applications running on multiple servers or containers.
+
+**Simple Example:**
+
+```text id="l4d8wn"
+          Client Requests
+                 |
+          Load Balancer
+          /     |      \
+    Server1  Server2  Server3
+```
+
+In this setup, the **Load Balancer** distributes requests among **Server1**, **Server2**, and **Server3**, ensuring that the workload is shared evenly.
 
 
 **Load Balancing Algorithms:**
@@ -25351,24 +25405,93 @@ server {
 
 ## **16. How do you handle rollback strategies?**
 
+A **Rollback Strategy** is a process of **reverting an application to the last stable version** if a new deployment causes failures or unexpected issues. The goal is to **minimize downtime and restore service quickly**.
 
-In production deployments, rollback strategies are important in case a new release causes issues.
-We usually use **CI/CD pipelines with versioned deployments**. If a deployment fails or causes errors, we quickly **roll back to the previous stable version**.
+**Key Features:**
 
-In Kubernetes or Docker environments, we use commands like **deployment rollback** to restore the last working version.
-For database-related changes, we maintain **backup scripts and migration rollback scripts**.
+* **Quick Recovery** from failed deployments.
+* **Minimal Downtime** for users.
+* **Risk Reduction** during releases.
+* Works well with **CI/CD pipelines** and **automated deployments**.
+* Supports **versioned artifacts** and **deployment history**.
 
-This ensures the system is restored quickly with minimal downtime.
+**How it Works:**
+
+1. Deploy the new application version.
+2. Continuously monitor **health checks**, logs, and metrics.
+3. If errors or failures are detected, stop routing traffic to the new version.
+4. **Rollback** to the previously stable version.
+5. Investigate and fix the issue before redeploying.
+
+**Common Rollback Approaches:**
+
+* **Blue-Green Deployment:** Switch traffic back from the **Green** environment to the stable **Blue** environment.
+* **Canary Deployment:** Roll back if the small group of users experiences issues.
+* **Rolling Deployment:** Gradually replace the new instances with the old stable version.
+* **Versioned Artifacts:** Redeploy the previous application version stored in the artifact repository.
+
+**When to Use:**
+
+* During **production deployments**.
+* In **CI/CD pipelines** with automated releases.
+* For **microservices** and **cloud-native** applications.
+* Whenever high availability and business continuity are critical.
+
+**Simple Kubernetes Rollback Example:**
+
+```bash id="r6m9tx"
+# Check deployment history
+kubectl rollout history deployment/my-app
+
+# Roll back to the previous version
+kubectl rollout undo deployment/my-app
+```
 
 
-## **17. How do you manage database migrations?**
+## 17. How do you manage database migrations?
 
+**Database Migration** is the process of **applying version-controlled changes** to the database schema, such as creating or modifying tables, columns, indexes, or constraints, without losing existing data.
 
-We manage database migrations using tools like **Flyway or Liquibase**.
-These tools allow us to maintain **version-controlled SQL scripts** for schema changes.
+**Key Features:**
 
-During application startup or deployment, the migration tool automatically applies pending changes to the database.
-This ensures **consistent schema across all environments like dev, QA, and production**.
+* **Version Control** for database changes.
+* **Automated Execution** during application deployment.
+* Ensures **schema consistency** across all environments.
+* Supports **rollback** of failed changes.
+* Commonly managed using tools like **Flyway** or **Liquibase**.
+
+**How it Works:**
+
+1. Create a migration script with the required database changes.
+2. Store the script in the project repository.
+3. During application startup or CI/CD deployment, the migration tool checks the database version.
+4. Only **new migration scripts** are executed in sequence.
+5. The tool records executed migrations to avoid running them again.
+
+**When to Use:**
+
+* When modifying the **database schema**.
+* During **application deployments** in CI/CD pipelines.
+* To keep **development, testing, and production databases synchronized**.
+* In projects where multiple developers work on the same database.
+
+**Simple Flyway Migration Example:**
+
+```sql id="f8k2wp"
+-- File: V1__create_employee_table.sql
+CREATE TABLE employee (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(100),
+    department VARCHAR(50)
+);
+```
+
+**Spring Boot Configuration Example:**
+
+```properties id="m3x7qa"
+spring.flyway.enabled=true
+spring.flyway.locations=classpath:db/migration
+```
 
 ```
 **Step 1 → Add Dependency :: Maven**
@@ -25442,8 +25565,6 @@ ADD email VARCHAR(100);
 Restart app → Flyway runs only V2.
 ```
 
-
-
 **Internal Working**
 
 ```txt
@@ -25465,63 +25586,162 @@ flyway_schema_history
 ```
 
 
-
 ## **18. How do you ensure zero downtime deployments?**
 
+**Zero Downtime Deployment** is a deployment approach where a new application version is released **without interrupting service** for users. The old version continues serving requests until the new version is fully ready.
 
-To ensure zero downtime deployments, we use **rolling deployments or blue-green deployments**.
+**Key Features:**
 
-In rolling deployment, new instances of the application are gradually started while old instances are terminated one by one.
-This ensures that the system is always available.
+* **No Service Interruption** during deployment.
+* **High Availability** for end users.
+* Supports **Automatic Rollback** if issues are detected.
+* Uses **Load Balancing** to redirect traffic.
+* Commonly implemented with **Blue-Green**, **Canary**, or **Rolling Deployments**.
 
-In cloud environments like Kubernetes, we configure **readiness and liveness probes** so traffic is only sent to healthy pods.
+**How it Works:**
 
-**Key Techniques**
+1. Deploy the new application version alongside the current one.
+2. Run **health checks** and validate the new version.
+3. Gradually or instantly switch traffic using a **Load Balancer**.
+4. Monitor logs and application metrics.
+5. If any problem occurs, automatically **rollback** to the previous stable version.
 
-* Rolling Deployment
-* Blue-Green Deployment
-* Canary Deployment
-* Load balancers
-* Health checks
+**Common Techniques:**
 
+* **Blue-Green Deployment:** Keep two environments and switch traffic to the new one after validation.
+* **Canary Deployment:** Release the new version to a small percentage of users before a full rollout.
+* **Rolling Deployment:** Replace old instances with new ones gradually, one by one.
 
-## **19. How do you implement auto-scaling, Horizontal and vertical scaling?**
+**When to Use:**
 
+* For **production deployments** with high user traffic.
+* In **microservices** and **cloud-native** applications.
+* When **high availability** and **business continuity** are critical.
+* In **CI/CD pipelines** with automated deployments.
 
-Auto-scaling automatically increases or decreases the number of service instances based on traffic.
+**Simple Kubernetes Rolling Update Example:**
 
-In Kubernetes, we use **Horizontal Pod Autoscaler (HPA)**, which scales pods based on metrics like **CPU usage or request count**.
-
-In AWS, we configure **Auto Scaling Groups** to scale EC2 instances when traffic increases.
-
-**Horizontal scaling** means adding more machines to handle load, Horizontal scaling is more scalable and fault-tolerant
-
-**vertical scaling** means increasing the power of a single machine like CPU or RAM. vertical scaling is simpler but has hardware limits.
-
-**Example**
-
+```yaml id="z4n8qy"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  strategy:
+    type: RollingUpdate
 ```
-min replicas = 2
-max replicas = 10
-scale when CPU 70%
+
+
+## 9. How do you implement auto-scaling, Horizontal and vertical scaling?
+
+**Auto-Scaling** is the process of **automatically increasing or decreasing application resources** based on workload. It is commonly implemented using cloud platforms or **Kubernetes Horizontal Pod Autoscaler (HPA)**.
+
+**Key Features:**
+
+* **Automatic Resource Adjustment** based on CPU, memory, or custom metrics.
+* Improves **Performance** during traffic spikes.
+* Optimizes **Cost** by reducing unused resources.
+* Provides **High Availability** and better user experience.
+
+**How it Works:**
+
+1. The system continuously monitors metrics such as **CPU** or **Memory Usage**.
+2. If usage exceeds a defined threshold, additional instances or containers are created.
+3. When the load decreases, extra instances are automatically removed.
+4. A **Load Balancer** distributes traffic across the available instances.
+
+**Horizontal Scaling (Scale Out / Scale In):**
+
+* **Definition:** Add or remove **multiple servers or containers**.
+* **Example:** Increase Pods from **3 to 6** in Kubernetes.
+* **Best For:** **Microservices**, cloud applications, and distributed systems.
+* **Advantage:** Better fault tolerance and almost unlimited scalability.
+
+**Vertical Scaling (Scale Up / Scale Down):**
+
+* **Definition:** Increase or decrease the **CPU, RAM, or storage** of an existing server.
+* **Example:** Upgrade a server from **4 GB RAM to 16 GB RAM**.
+* **Best For:** Traditional applications or databases that cannot be easily distributed.
+* **Limitation:** Has a hardware limit and may require downtime.
+
+| **Scaling Type**       | **How it Works**                       | **Example**          |
+| ---------------------- | -------------------------------------- | -------------------- |
+| **Horizontal Scaling** | Add or remove servers/containers.      | 3 Pods → 6 Pods      |
+| **Vertical Scaling**   | Increase or decrease server resources. | 4 GB RAM → 16 GB RAM |
+
+**When to Use:**
+
+* **Auto-Scaling:** For applications with changing traffic patterns.
+* **Horizontal Scaling:** For cloud-native, microservices, and highly available systems.
+* **Vertical Scaling:** For monolithic applications or databases requiring more resources.
+
+**Simple Kubernetes Auto-Scaling Example:**
+
+```bash id="a7k5mq"
+# Create Horizontal Pod Autoscaler
+kubectl autoscale deployment my-app \
+  --cpu-percent=70 \
+  --min=2 \
+  --max=10
 ```
 
+This configuration automatically keeps CPU usage around **70%** by scaling the number of Pods between **2 and 10**.
 
-## **20. What is Rate Limiting and how does it work? Where do you implement it?**
 
+## 20. What is Rate Limiting and how does it work? Where do you implement it?
 
-Rate limiting is used to **control how many requests a client can send to an API within a specific time period**.
+**Rate Limiting** is a technique used to **control the number of requests** a client can make to a service within a specific time period. It helps protect the system from **overload, abuse, and DDoS attacks**.
 
-It helps protect the system from **abuse, DDoS attacks, and excessive traffic**.
+**Key Features:**
 
-Rate limiting can be implemented at different levels:
+* Prevents **API abuse** and excessive traffic.
+* Protects against **DDoS and brute-force attacks**.
+* Improves **system stability** and **resource utilization**.
+* Ensures **fair usage** among all users.
+* Commonly implemented using **API Gateways**, **Load Balancers**, or **Redis**.
 
-* **API Gateway**
-* **Load balancer**
-* **Application layer**
+**How it Works:**
 
-For example, we can limit a user to **100 requests per minute**.
-If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
+1. A client sends a request to the application.
+2. The **Rate Limiter** checks how many requests the client has already made within the configured time window.
+3. If the request count is below the limit, the request is processed.
+4. If the limit is exceeded, the server rejects the request and returns **HTTP 429 (Too Many Requests)**.
+
+**Common Rate Limiting Algorithms:**
+
+* **Fixed Window Counter:** Allows a fixed number of requests per time window.
+* **Sliding Window:** Tracks requests over a moving time window for smoother limiting.
+* **Token Bucket:** Tokens are added at a fixed rate, and each request consumes a token.
+* **Leaky Bucket:** Processes requests at a constant rate, smoothing traffic spikes.
+
+**Where Do You Implement It?**
+
+* **API Gateway** (Preferred) – e.g., Spring Cloud Gateway, Kong, NGINX.
+* **Load Balancer** – To filter excessive requests before they reach the application.
+* **Application Layer** – Using libraries such as **Bucket4j** or **Resilience4j**.
+* **Distributed Cache (Redis)** – To maintain request counts across multiple application instances.
+
+**When to Use:**
+
+* For **public APIs** and microservices.
+* To prevent **brute-force login attempts**.
+* To protect systems from **traffic spikes** and malicious users.
+* In **high-traffic distributed systems** and cloud applications.
+
+**Simple Spring Boot + Bucket4j Example:**
+
+```java id="t8p4xk"
+Bucket bucket = Bucket.builder()
+    .addLimit(limit -> limit.capacity(100)
+    .refillGreedy(100, Duration.ofMinutes(1)))
+    .build();
+
+if (bucket.tryConsume(1)) {
+    return "Request Allowed";
+} else {
+    return "HTTP 429 - Too Many Requests";
+}
+```
 
 
 # ✅ 28. Java Monitoring and Logging
