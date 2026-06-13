@@ -3029,7 +3029,6 @@ public class Main {
 
 ## 5. What is `extends` keyword?
 
-**Definition**
 The **extends keyword** in Java is used to create **inheritance**, where a **child class inherits properties and behaviors of a parent class**.
 
 **Key Features**
