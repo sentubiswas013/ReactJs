@@ -12353,9 +12353,41 @@ public class Main {
 
 ## 7. What is the difference between Collection and Stream?
 
-A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
+| **Feature**      | **Collection**                                              | **Stream**                                                             |
+| ---------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Purpose**      | Used to **store and manage data**.                          | Used to **process and transform data**.                                |
+| **Data Storage** | **Stores elements** in memory.                              | **Does not store data**; it operates on a data source.                 |
+| **Modification** | Supports **adding, removing, and updating** elements.       | Cannot modify the source; it only **processes** the data.              |
+| **Iteration**    | Uses **external iteration** (e.g., `for` loop, `Iterator`). | Uses **internal iteration** managed by the Stream API.                 |
+| **Reusability**  | Can be traversed **multiple times**.                        | A stream can be **consumed only once**.                                |
+| **Performance**  | Best for **data storage and retrieval**.                    | Best for **filtering, mapping, aggregation, and parallel processing**. |
 
-A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
+**How It Works**
+
+* A **Collection** holds objects in memory (e.g., `List`, `Set`, `Map`).
+* A **Stream** takes data from a collection or another source and performs operations like **`filter()`**, **`map()`**, and **`collect()`**.
+
+**When to Use**
+
+* Use **Collection** when you need to **store, update, or manage data**.
+* Use **Stream** when you need to **process data efficiently** using functional-style operations.
+
+**Code Example**
+
+```java
+List<String> names = List.of("Alice", "Bob", "Alex");
+
+// Collection: stores data
+System.out.println(names);
+
+// Stream: processes data
+List<String> result = names.stream()
+                           .filter(name -> name.startsWith("A"))
+                           .map(String::toUpperCase)
+                           .toList();
+
+System.out.println(result);   // [ALICE, ALEX]
+```
 
 ```java
 List<String> collection = Arrays.asList("a", "b", "c");
