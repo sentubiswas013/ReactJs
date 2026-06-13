@@ -12353,6 +12353,10 @@ public class Main {
 
 ## 7. What is the difference between Collection and Stream?
 
+A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
+
+A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
+
 | **Feature**      | **Collection**                                              | **Stream**                                                             |
 | ---------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
 | **Purpose**      | Used to **store and manage data**.                          | Used to **process and transform data**.                                |
