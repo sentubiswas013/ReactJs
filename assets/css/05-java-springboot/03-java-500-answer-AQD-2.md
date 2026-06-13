@@ -9366,121 +9366,75 @@ public class UserController {
 ## 13. What is fail-fast and fail-safe iterators?
 
 
-**Fail-Fast** and **Fail-Safe** describe how Java collections behave when they are modified while being iterated.
+**Fail-Fast** and **Fail-Safe** are behaviors of java collections when they are modified while being iterated.
 
 * **Fail-Fast**: Immediately throws an exception if the collection is modified during iteration.
 * **Fail-Safe**: Works on a copy of the collection, so modifications do not cause exceptions.
 
 
-**Fail-Fast**
+| **Feature**     | **Fail-Fast**                                                      | **Fail-Safe**                                                |
+| --------------- | ------------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Behavior**    | Throws an exception if the collection is modified during iteration | Works on a copy of the collection, so no exception is thrown |
+| **Exception**   | **`ConcurrentModificationException`**                              | No exception                                                 |
+| **Data Access** | Iterates over the **original collection**                          | Iterates over a **cloned/copy collection**                   |
+| **Performance** | Faster, no extra memory needed                                     | Slightly slower, uses extra memory for the copy              |
+| **Examples**    | `ArrayList`, `HashMap`, `HashSet`                                  | `CopyOnWriteArrayList`, `ConcurrentHashMap`                  |
 
-**Key Features**
+**How Fail-Fast Works**
 
-* Detects concurrent modifications
-* Throws **ConcurrentModificationException**
-* Uses the original collection
-* Faster and memory efficient
+* The iterator keeps track of a **modification count (`modCount`)**.
+* If the collection is structurally modified after the iterator is created (except through the iterator's own `remove()` method), the iterator detects the change and throws a **`ConcurrentModificationException`**.
 
-**How It Works**
+**Code Example (Fail-Fast)**
 
-* Iterator keeps track of collection modifications.
-* If the collection is modified outside the iterator during iteration, it throws **ConcurrentModificationException**.
+```java
+List<String> list = new ArrayList<>();
+list.add("A");
+list.add("B");
 
-**Why to Use**
-
-* Detect programming errors early
-* Prevent inconsistent data access
-
-**When to Use**
-
-* Single-threaded applications
-* When collection modifications during iteration are not expected
-
-**Example**
-
-```java id="ff1a2b"
-import java.util.ArrayList;
-import java.util.List;
-
-public class Main {
-    public static void main(String[] args) {
-
-        List<String> list = new ArrayList<>();
-        list.add("Java");
-        list.add("Spring");
-
-        for (String item : list) {
-            list.add("AWS"); // Exception
-        }
-    }
+for (String s : list) {
+    list.add("C");   // Throws ConcurrentModificationException
 }
 ```
 
+**How Fail-Safe Works**
 
-**Fail-Safe**
+* The iterator works on a **snapshot (copy)** of the collection.
+* Changes made to the original collection during iteration do not affect the iterator, so no exception occurs.
 
-**Key Features**
+**Code Example (Fail-Safe)**
 
-* Does not throw ConcurrentModificationException
-* Iterates over a snapshot or copy
-* Safe for concurrent modifications
-* Extra memory usage
+```java
+CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+list.add("A");
+list.add("B");
 
-**How It Works**
-
-* Iterator works on a separate copy of the collection.
-* Changes to the original collection do not affect the iteration.
-
-**Why to Use**
-
-* Safe iteration in concurrent environments
-* Allows modification during iteration
-
-**When to Use**
-
-* Multi-threaded applications
-* Concurrent data access
-
-**Example**
-
-```java id="fs3c4d"
-import java.util.concurrent.CopyOnWriteArrayList;
-
-public class Main {
-    public static void main(String[] args) {
-
-        CopyOnWriteArrayList<String> list =
-                new CopyOnWriteArrayList<>();
-
-        list.add("Java");
-        list.add("Spring");
-
-        for (String item : list) {
-            list.add("AWS"); // No exception
-        }
-
-        System.out.println(list);
-    }
+for (String s : list) {
+    list.add("C");   // No exception
+    System.out.println(s);
 }
 ```
 
-**Common Examples**
+**Key Features**
 
-| **Fail-Fast** | **Fail-Safe**        |
-| ------------- | -------------------- |
-| ArrayList     | CopyOnWriteArrayList |
-| HashMap       | ConcurrentHashMap    |
-| HashSet       | CopyOnWriteArraySet  |
+* **Fail-Fast**
 
-**Fail-Fast vs Fail-Safe**
+  * Detects concurrent modifications quickly.
+  * Prevents unpredictable behavior.
+  * Does **not guarantee thread safety**.
 
-| **Fail-Fast**                            | **Fail-Safe**                        |
-| ---------------------------------------- | ------------------------------------ |
-| Uses original collection                 | Uses copy/snapshot                   |
-| Throws ConcurrentModificationException   | No exception                         |
-| Less memory usage                        | More memory usage                    |
-| Faster                                   | Slightly slower                      |
-| Not suitable for concurrent modification | Suitable for concurrent modification |
+* **Fail-Safe**
+
+  * Safe for concurrent modifications.
+  * Suitable for **multi-threaded environments**.
+  * Uses extra memory because it creates a copy.
+
+**When to Use**
+
+* Use **Fail-Fast** for **single-threaded applications** where modifications during iteration should be detected immediately.
+
+* Use **Fail-Safe** for **multi-threaded applications** where collections may be modified while iterating.
+
 
 
 ## 14. What happens if the thread pool is exhausted?
