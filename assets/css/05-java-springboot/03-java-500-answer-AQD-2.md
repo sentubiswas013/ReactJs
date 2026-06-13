@@ -9439,171 +9439,129 @@ for (String s : list) {
 
 ## 14. What happens if the thread pool is exhausted?
 
+**What Happens if the Thread Pool is Exhausted?**
 
-A **Thread Pool** is considered **exhausted** when all worker threads are busy and the task queue is full, leaving no capacity to accept new tasks.
-
-**Key Features**
-
-* All threads are occupied
-* Task queue has reached its limit
-* New tasks cannot be processed immediately
-* A **Rejection Policy** is triggered
+A **thread pool is exhausted** when **all threads are busy** and the **task queue is full**, so the pool cannot accept any more tasks.
 
 **How It Works**
 
-1. Tasks are submitted to the thread pool.
-2. Available threads execute the tasks.
-3. If all threads are busy, tasks are placed in the queue.
-4. If both the threads and queue are full, the pool becomes exhausted.
-5. The configured **RejectedExecutionHandler** decides what happens next.
+1. A new task arrives.
+2. If a free thread is available, the task is executed.
+3. If all threads are busy, the task is placed in the **queue**.
+4. If the queue is also full and the pool has reached its **maximum size**, the **rejection policy** is triggered.
 
-**Why to Know This**
+**Key Features**
 
-* Prevents application slowdowns
-* Helps avoid task loss
-* Important for system scalability
-* Useful when tuning thread pools in production systems
-
-**When It Happens**
-
-* High traffic web applications
-* Long-running tasks
-* Small thread pool size
-* Small queue capacity
-* Sudden spikes in workload
+* Occurs when **`maxPoolSize`** is reached and the **queue is full**.
+* New tasks cannot be processed immediately.
+* The behavior depends on the configured **`RejectedExecutionHandler`**.
+* Helps prevent the application from creating **unlimited threads** and exhausting system resources.
 
 **Common Rejection Policies**
 
-| **Policy**              | **Behavior**                                        |
-| ----------------------- | --------------------------------------------------- |
-| **AbortPolicy**         | Throws **RejectedExecutionException** (Default)     |
-| **CallerRunsPolicy**    | Calling thread executes the task                    |
-| **DiscardPolicy**       | Silently discards the task                          |
-| **DiscardOldestPolicy** | Removes the oldest queued task and adds the new one |
+| **Policy**                | **Behavior**                                            |
+| ------------------------- | ------------------------------------------------------- |
+| **AbortPolicy** (Default) | Throws **`RejectedExecutionException`**                 |
+| **CallerRunsPolicy**      | The **calling thread** executes the task                |
+| **DiscardPolicy**         | Silently **discards** the new task                      |
+| **DiscardOldestPolicy**   | Removes the **oldest queued task** and adds the new one |
 
-**Example**
+**Code Example**
 
-```java id="u7n3qk"
-ThreadPoolExecutor executor =
-    new ThreadPoolExecutor(
-        2, // Core threads
-        2, // Max threads
-        0L,
-        TimeUnit.MILLISECONDS,
-        new ArrayBlockingQueue<>(2)
-    );
-
-// 2 tasks run
-// 2 tasks wait in queue
-// 5th task gets rejected
+```java id="5ctgmu"
+ThreadPoolExecutor executor = new ThreadPoolExecutor(
+    2,                      // corePoolSize
+    4,                      // maxPoolSize
+    60, TimeUnit.SECONDS,
+    new ArrayBlockingQueue<>(2), // queue capacity
+    new ThreadPoolExecutor.CallerRunsPolicy()
+);
 ```
 
-**How to Avoid Thread Pool Exhaustion**
+In this example:
 
-* Increase **pool size**
-* Increase **queue capacity**
-* Optimize slow tasks
-* Use **asynchronous processing**
-* Configure an appropriate **Rejection Policy**
+* **4 threads** can run simultaneously.
+* **2 tasks** can wait in the queue.
+* If both the threads and queue are full, **`CallerRunsPolicy`** makes the calling thread execute the task.
+
+**When to Use Different Policies**
+
+* **AbortPolicy:** When task rejection should be detected immediately.
+* **CallerRunsPolicy:** To provide **backpressure** and slow down task submission.
+* **DiscardPolicy:** For non-critical background tasks.
+* **DiscardOldestPolicy:** When newer tasks are more important than older queued ones.
+
 
 ## 15. Fork/Join Framework
 
-
-The **Fork/Join Framework** is a Java framework used for **parallel processing** by breaking a large task into smaller subtasks, executing them in parallel, and then combining the results. It is part of the **java.util.concurrent** package.
+The **Fork/Join Framework** is a **parallel processing framework** introduced in **Java 7** that speeds up large tasks by **splitting them into smaller subtasks**, executing them concurrently, and then **combining the results**.
 
 **Key Features**
 
-* Based on **divide and conquer** approach
-* Uses **ForkJoinPool**
-* Supports **parallel execution**
-* Uses **work-stealing algorithm**
-* Improves CPU utilization
-* Designed for **recursive tasks**
+* Uses the **Divide and Conquer** approach.
+* Automatically utilizes **multiple CPU cores**.
+* Uses a special thread pool called **`ForkJoinPool`**.
+* Supports **work-stealing** for better performance.
+* Best suited for **CPU-intensive** tasks, not I/O-intensive tasks.
 
 **How It Works**
 
-1. A large task is split into smaller **subtasks (fork)**.
-2. Subtasks are executed in parallel by worker threads.
-3. Each thread processes its assigned task.
-4. Results are combined (**join**) to produce final output.
-5. Idle threads “steal” work from busy threads using **work-stealing**.
+1. A large task is **forked** (split) into smaller subtasks.
+2. Multiple worker threads execute these subtasks in parallel.
+3. Idle threads can **steal work** from busy threads (**work-stealing algorithm**).
+4. The results of the subtasks are **joined** to produce the final result.
 
-**Why to Use**
+**Main Classes**
 
-* Improve performance for large datasets
-* Efficient CPU utilization
-* Reduce execution time using parallelism
-* Ideal for recursive computations
+* **`ForkJoinPool`** – Manages worker threads.
+* **`RecursiveTask<V>`** – Used when the task returns a result.
+* **`RecursiveAction`** – Used when the task does not return a result.
 
-**When to Use**
+**Code Example**
 
-* Large data processing
-* Sorting algorithms (like merge sort)
-* Big computational tasks
-* Parallel recursion problems
-* CPU-intensive operations
-
-**Example**
-
-```java id="fj1a2b"
-import java.util.concurrent.RecursiveTask;
-import java.util.concurrent.ForkJoinPool;
-
+```java id="kl2f7s"
 class SumTask extends RecursiveTask<Integer> {
 
     private int start, end;
-    private int[] arr;
 
-    public SumTask(int[] arr, int start, int end) {
-        this.arr = arr;
+    SumTask(int start, int end) {
         this.start = start;
         this.end = end;
     }
 
     @Override
     protected Integer compute() {
-
-        if (end - start <= 2) {
+        if (end - start <= 5) {
             int sum = 0;
-            for (int i = start; i < end; i++) {
-                sum += arr[i];
+            for (int i = start; i <= end; i++) {
+                sum += i;
             }
             return sum;
         }
 
         int mid = (start + end) / 2;
+        SumTask left = new SumTask(start, mid);
+        SumTask right = new SumTask(mid + 1, end);
 
-        SumTask left = new SumTask(arr, start, mid);
-        SumTask right = new SumTask(arr, mid, end);
-
-        left.fork();
+        left.fork();                 // Split left task
         int rightResult = right.compute();
-        int leftResult = left.join();
+        int leftResult = left.join(); // Combine result
 
         return leftResult + rightResult;
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4, 5, 6};
-
-        ForkJoinPool pool = new ForkJoinPool();
-        SumTask task = new SumTask(arr, 0, arr.length);
-
-        int result = pool.invoke(task);
-        System.out.println(result);
-    }
-}
+ForkJoinPool pool = new ForkJoinPool();
+int result = pool.invoke(new SumTask(1, 100));
+System.out.println(result);
 ```
 
-**Important Classes**
+**When to Use**
 
-| **Class**           | **Purpose**            |
-| ------------------- | ---------------------- |
-| **ForkJoinPool**    | Manages worker threads |
-| **RecursiveTask**   | Returns a result       |
-| **RecursiveAction** | No result (void tasks) |
+* For **large computational tasks** that can be divided into independent subtasks.
+* For **parallel processing** of arrays, collections, sorting, searching, and mathematical computations.
+* Avoid using it for **database calls**, **network requests**, or other **I/O-bound operations**.
+
 
 **Fork/Join vs Thread Pool**
 
