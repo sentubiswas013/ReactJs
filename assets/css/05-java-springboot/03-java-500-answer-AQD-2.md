@@ -2515,20 +2515,34 @@ class Outer {
 
 ## 22. What is singleton class?
 
-**Singleton** is a **Design Pattern** that ensures only **one instance** of a class is created and provides a global access point to that instance.
-
-A **singleton** class allows **only one instance** to be created throughout the application. Achieved by making the constructor private and providing a static method to return the single instance.
+A **Singleton Class** is a class that **allows only one object (instance) to be created** throughout the application and provides a **global access point** to that instance.
 
 **Key Features**
 
-* Only **one object** of the class exists
-* Provides **global access** to the object
-* Saves memory and resources
-* Commonly used in Spring beans and configuration classes
+* Ensures **only one instance** of the class exists.
+* Provides a **global access method** to get that instance.
+* Constructor is made **`private`** to prevent object creation using `new`.
+* Commonly used for **logging, configuration, caching, and database connection management**.
 
 **How It Works**
 
-The constructor is made **private** so that objects cannot be created from outside the class. A static method returns the single instance.
+1. Make the **constructor `private`** so no other class can create an object.
+2. Create a **static instance** of the class.
+3. Provide a **public static method** (e.g., `getInstance()`) to return that single instance.
+
+**When to Use**
+
+* When exactly **one shared object** is needed across the application.
+* For **configuration classes**, **logging utilities**, **cache managers**, or **resource managers**.
+* In **Spring**, beans are **singleton by default**.
+
+
+Examples:
+
+* **Logger**
+* **Configuration Manager**
+* **Cache Manager**
+* **Database Connection Manager**
 
 **Code Example**
 
@@ -2556,24 +2570,6 @@ public class Test {
     }
 }
 ```
-
-**Why to Use**
-
-* To control object creation
-* To share a single resource across the application
-* To improve resource management
-* To avoid creating unnecessary objects
-
-**When to Use**
-
-Use **Singleton** when exactly one object should exist in the application.
-
-Examples:
-
-* **Logger**
-* **Configuration Manager**
-* **Cache Manager**
-* **Database Connection Manager**
 
 
 ## 23. Is it allowed to overload main() method in Java?
