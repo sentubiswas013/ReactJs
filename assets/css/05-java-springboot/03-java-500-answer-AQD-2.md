@@ -23229,48 +23229,42 @@ It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC alg
 
 ## 5. What is Distributed Tracing?
 
-**Distributed Tracing** is a technique used to track a request as it travels through multiple **Microservices**. It helps identify where delays, errors, or performance issues occur in a distributed system.
+**What is Distributed Tracing?**
 
-When a request enters the system, a unique **Trace ID** is created. Every service involved in processing that request uses the same Trace ID, making it easy to follow the entire request flow.
+**Distributed Tracing** is a **monitoring technique** used in **microservices architecture** to track a request as it travels across multiple services. It helps developers understand the complete path of a request and quickly identify **performance bottlenecks** or **failures**.
 
-**Why is Distributed Tracing Important?**
+**Example:** A request to place an order may go through **API Gateway → Order Service → Payment Service → Inventory Service → Notification Service**. Distributed tracing shows the complete flow of that request.
 
-* Helps with **Troubleshooting**
-* Identifies **Performance Bottlenecks**
-* Tracks requests across multiple services
-* Improves **Observability**
-* Helps debug failures in **Microservices**
+**Key Features:**
 
-**Key Concepts**
+* Tracks a request across **multiple microservices**.
+* Uses a unique **Trace ID** and **Span ID**.
+* Helps identify **slow services** and **errors**.
+* Improves **debugging** and **performance monitoring**.
+* Integrates with tools like **Zipkin**, **Jaeger**, and **OpenTelemetry**.
 
-* **Trace** – Complete journey of a request.
-* **Trace ID** – Unique identifier for the entire request.
-* **Span** – A single operation within a trace.
-* **Span ID** – Unique identifier for a span.
+**How It Works:**
 
-Suppose a request goes through:
+1. A client sends a request to the application.
+2. The first service generates a unique **Trace ID**.
+3. As the request moves between services, the same Trace ID is propagated.
+4. Each service creates a **Span** representing its individual operation.
+5. All spans are collected and sent to a tracing system (e.g., Zipkin or Jaeger).
+6. Developers can view the complete request flow and timing information.
 
-```text
-API Gateway
-   |
-Order Service
-   |
-Payment Service
-   |
-Notification Service
-```
+**Important Terms:**
 
-All services share the same **Trace ID**:
+* **Trace ID** – A unique identifier for the entire request.
+* **Span** – A single operation or unit of work within the trace.
+* **Span ID** – A unique identifier for an individual span.
 
-```text
-Trace ID: abc123
+**When to Use:**
 
-Order Service        Span ID: 1
-Payment Service      Span ID: 2
-Notification Service Span ID: 3
-```
+* **Microservices architecture**.
+* Debugging **service-to-service communication**.
+* Finding **latency issues** and **bottlenecks**.
+* Monitoring **distributed systems** and **cloud-native applications**.
 
-This allows us to see exactly where time is spent.
 
 **Spring Boot Example with Micrometer Tracing**
 
@@ -23286,6 +23280,15 @@ This allows us to see exactly where time is spent.
     <groupId>io.zipkin.reporter2</groupId>
     <artifactId>zipkin-reporter-brave</artifactId>
 </dependency>
+```
+
+**application.yml**
+
+```yaml id="dt1k8p"
+management:
+  tracing:
+    sampling:
+      probability: 1.0
 ```
 
 **Service Class**
@@ -23322,6 +23325,36 @@ Creating order
 ```
 
 The **Trace ID** and **Span ID** automatically appear in logs, making it easy to track requests across services.
+
+With **Spring Boot 3+** and **Micrometer Tracing/OpenTelemetry**, each request automatically gets a **Trace ID** that is propagated across services.
+
+**Distributed Tracing Flow:**
+
+```text id="dtr8w2"
+Client Request
+      │
+      ▼
+API Gateway
+      │
+      ▼
+Order Service
+      │
+      ▼
+Payment Service
+      │
+      ▼
+Inventory Service
+      │
+      ▼
+Notification Service
+      │
+      ▼
+Response to Client
+      │
+      ▼
+All Services Share the Same Trace ID
+```
+
 
 **Common Tools**
 
