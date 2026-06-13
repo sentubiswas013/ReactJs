@@ -1,7 +1,7 @@
 
 # 1. Observability & Tracing
 
-## 1. A user reports Order API takes 20 seconds but each microservice team says their service is fast. How do you identify the delay?
+### 1. A user reports Order API takes 20 seconds but each microservice team says their service is fast. How do you identify the delay?
 
 **How to Identify**
 
@@ -32,7 +32,7 @@
 * Monitor continuously with **tracing** and **APM tools**.
 
 
-## 2. A request passes through API Gateway → Order → Payment → Inventory. How do you trace the complete flow across services?
+### 2. A request passes through API Gateway → Order → Payment → Inventory. How do you trace the complete flow across services?
 
 **How to Identify**
 
@@ -58,7 +58,7 @@
 * Correlate **logs**, **metrics**, and **traces** using the same **Trace ID**.
 
 
-## 3. Only 5% of requests are failing in production. How does distributed tracing help find the root cause?
+### 3. Only 5% of requests are failing in production. How does distributed tracing help find the root cause?
 
 **How to Identify**
 
@@ -83,7 +83,7 @@
 * Use **sampling** and error-based tracing to capture more failed requests for analysis.
 
 
-## 4. After introducing OpenTelemetry, traces are missing for some services. What would you investigate?
+### 4. After introducing OpenTelemetry, traces are missing for some services. What would you investigate?
 
 **How to Identify**
 
@@ -109,7 +109,7 @@
 * Validate traces end-to-end using a known **Trace ID**.
 
 
-## 5. An error occurs in production but devs can't reproduce it locally. How do you use ELK/Splunk to investigate?
+### 5. An error occurs in production but devs can't reproduce it locally. How do you use ELK/Splunk to investigate?
 
 **How to Identify**
 
@@ -134,7 +134,7 @@
 * Reproduce the issue using production-like data and conditions.
 
 
-## 6. A customer provides an Order ID and says payment failed. How do you find all related logs across services?
+### 6. A customer provides an Order ID and says payment failed. How do you find all related logs across services?
 
 **How to Identify:**
 
@@ -158,7 +158,7 @@
 * Fix the root cause, retry or replay the failed request if supported, and ensure proper **distributed tracing** and **structured logging** are enabled for easier debugging in the future.
 
 
-## 7. Application performance suddenly degrades. What logs would you analyze first?
+### 7. Application performance suddenly degrades. What logs would you analyze first?
 
 **How to Identify:**
 
@@ -185,7 +185,7 @@
 
 # 2. Kafka Debugging
 
-## 8. Messages are being produced but consumers are not receiving them. How do you debug?
+### 8. Messages are being produced but consumers are not receiving them. How do you debug?
 
 **How to Identify:**
 
@@ -209,7 +209,7 @@
 * Scale consumers or optimize processing to reduce **consumer lag**, then verify that messages are being consumed successfully.
 
 
-## 9. Consumer lag suddenly increases during a sale event. What do you do?
+### 9. Consumer lag suddenly increases during a sale event. What do you do?
 
 **How to Identify:**
 
@@ -232,7 +232,7 @@
 * Check broker and consumer health, and rebalance partitions if needed.
 * Continuously monitor **consumer lag** and system metrics until it returns to normal.
 
-## 10. Duplicate messages are being processed. How do you prevent this?
+### 10. Duplicate messages are being processed. How do you prevent this?
 
 **How to Identify:**
 
@@ -254,7 +254,7 @@
 * Commit **offsets** only after successful processing.
 * Use **deduplication mechanisms** or **exactly-once processing** features (if supported by the messaging system).
 
-## 11. One Kafka partition receives significantly more traffic than others. How do you fix this?
+### 11. One Kafka partition receives significantly more traffic than others. How do you fix this?
 
 **How to Identify:**
 
@@ -281,7 +281,7 @@
 
 # 3. Performance Analysis
 
-## 12. API response time increased from 200ms to 5 seconds after deployment. How do you diagnose?
+### 12. API response time increased from 200ms to 5 seconds after deployment. How do you diagnose?
 
 **How to Identify:**
 
@@ -304,7 +304,7 @@
 * Optimize the new code, fix slow queries, and verify configuration changes.
 * Monitor the application after the fix to ensure the API response time returns to normal.
 
-## 13. CPU usage reaches 95% during peak traffic. How do you investigate and resolve?
+### 13. CPU usage reaches 95% during peak traffic. How do you investigate and resolve?
 
 **How to Identify:**
 
@@ -327,7 +327,7 @@
 * Scale the application horizontally by adding more instances if needed.
 * Continuously monitor CPU and application metrics to ensure the issue is resolved during peak traffic.
 
-## 14. Application works fine in QA but becomes slow in Production. What differences do you check?
+### 14. Application works fine in QA but becomes slow in Production. What differences do you check?
 
 **How to Identify:**
 
@@ -350,7 +350,7 @@
 * Increase resources or scale the application to handle production load.
 * Perform **load testing** with production-like data to validate the fix before deployment.
 
-## 15. A Spring Boot endpoint takes 800ms — your target is 100ms. Walk through your optimization process.
+### 15. A Spring Boot endpoint takes 800ms — your target is 100ms. Walk through your optimization process.
 
 **How to Identify:**
 
@@ -374,7 +374,7 @@
 * Reduce unnecessary processing, use **asynchronous calls** where appropriate, and optimize external API interactions.
 * Re-test with profiling tools and monitor until the endpoint consistently meets the **100ms** target.
 
-## 16. Your application has high CPU usage during seemingly idle periods. Diagnose it.
+### 16. Your application has high CPU usage during seemingly idle periods. Diagnose it.
 
 **How to Identify:**
 
@@ -397,7 +397,7 @@
 * Tune **JVM/GC settings** and resolve memory leaks.
 * Adjust scheduled task frequency and monitor CPU usage after the changes to confirm the issue is resolved.
 
-## 17. Your REST API endpoint takes 5 seconds to respond. How do you optimize it?
+### 17. Your REST API endpoint takes 5 seconds to respond. How do you optimize it?
 
 **How to Identify:**
 
@@ -425,7 +425,7 @@
 
 # 4. Memory & JVM
 
-## 18. Application memory usage continuously increases and never comes down. How do you debug a memory leak?
+### 18. Application memory usage continuously increases and never comes down. How do you debug a memory leak?
 
 **How to Identify:**
 
@@ -447,7 +447,7 @@
 * Properly close resources and fix long-lived object retention.
 * Tune **JVM/GC settings** if needed and monitor memory usage after the fix to ensure it remains stable.
 
-## 19. Your Java service OOMs after 3 days. GC logs show full GC every 5 minutes reclaiming less each time. What's wrong?
+### 19. Your Java service OOMs after 3 days. GC logs show full GC every 5 minutes reclaiming less each time. What's wrong?
 
 **How to Identify:**
 
@@ -471,135 +471,135 @@
 
 
 
-## 20. Your application has 2-second GC pauses affecting user experience. How do you reduce them?
+### 20. Your application has 2-second GC pauses affecting user experience. How do you reduce them?
 
-## 21. You're using ThreadLocal in a web application and seeing memory leaks after deployments. Why?
+### 21. You're using ThreadLocal in a web application and seeing memory leaks after deployments. Why?
 
-## 22. You find thousands of threads running in production. How do you investigate?
+### 22. You find thousands of threads running in production. How do you investigate?
 
-## 23. Your Java application is running slowly and consuming increasing memory over time. How do you diagnose and fix it?
+### 23. Your Java application is running slowly and consuming increasing memory over time. How do you diagnose and fix it?
 
-## 24. Your Java application is running out of memory gradually over days. You find heap dumps showing many HashMap instances. What could be the cause and how do you fix it?
+### 24. Your Java application is running out of memory gradually over days. You find heap dumps showing many HashMap instances. What could be the cause and how do you fix it?
 
 ---
 
 # 5. Concurrency & Multithreading
 
-## 25. Your application suddenly stops responding. You suspect a deadlock. How do you detect and fix it?
+### 25. Your application suddenly stops responding. You suspect a deadlock. How do you detect and fix it?
 
-## 26. You're using HashMap in a multithreaded application and experiencing data corruption. What's wrong?
+### 26. You're using HashMap in a multithreaded application and experiencing data corruption. What's wrong?
 
-## 27. You get `ConcurrentModificationException` while iterating and removing from an ArrayList. How do you fix it?
+### 27. You get `ConcurrentModificationException` while iterating and removing from an ArrayList. How do you fix it?
 
-## 28. You're using `stream().parallel()` but it's slower than sequential. Why?
+### 28. You're using `stream().parallel()` but it's slower than sequential. Why?
 
-## 29. You need to implement a producer-consumer pattern for processing 1 million records efficiently.
+### 29. You need to implement a producer-consumer pattern for processing 1 million records efficiently.
 
-## 30. `CompletableFuture.supplyAsync()` for parallel processing performs worse than sequential. What's wrong?
+### 30. `CompletableFuture.supplyAsync()` for parallel processing performs worse than sequential. What's wrong?
 
 ---
 
 # 6. Spring Boot & Transactions
 
-## 31. You added `@Transactional` to a method but transactions are not being created. What could be the reason?
+### 31. You added `@Transactional` to a method but transactions are not being created. What could be the reason?
 
-## 32. A `@Transactional` method catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?
+### 32. A `@Transactional` method catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?
 
-## 33. Service A depends on Service B, and Service B depends on Service A. How do you resolve the circular dependency?
+### 33. Service A depends on Service B, and Service B depends on Service A. How do you resolve the circular dependency?
 
-## 34. You notice 1000 database queries when loading 100 entities. How do you fix this?
+### 34. You notice 1000 database queries when loading 100 entities. How do you fix this?
 
-## 35. You're using constructor injection and get `BeanCurrentlyInCreationException`. How do you fix it?
+### 35. You're using constructor injection and get `BeanCurrentlyInCreationException`. How do you fix it?
 
 ---
 
 # 7. Database & Connection Pool
 
-## 36. Application throws "Cannot get JDBC connection" errors intermittently. What do you check?
+### 36. Application throws "Cannot get JDBC connection" errors intermittently. What do you check?
 
-## 37. Connection pool becomes exhausted during peak traffic. How do you diagnose and fix?
+### 37. Connection pool becomes exhausted during peak traffic. How do you diagnose and fix?
 
-## 38. After deployment, database connections continuously increase and never decrease. What's wrong?
+### 38. After deployment, database connections continuously increase and never decrease. What's wrong?
 
-## 39. You have a table with 1 billion records and queries take 10+ seconds. How do you optimize?
+### 39. You have a table with 1 billion records and queries take 10+ seconds. How do you optimize?
 
-## 40. You need to add a new column to a table with 1 billion records without downtime. How?
+### 40. You need to add a new column to a table with 1 billion records without downtime. How?
 
 ---
 
 # 8. Microservices Patterns
 
-## 41. Service A calls Service B, but Service B is down. How do you handle this gracefully?
+### 41. Service A calls Service B, but Service B is down. How do you handle this gracefully?
 
-## 42. How do you design a circuit breaker for inter-service communication with fallback behavior?
+### 42. How do you design a circuit breaker for inter-service communication with fallback behavior?
 
-## 43. How do you implement the Saga pattern for a distributed order transaction?
+### 43. How do you implement the Saga pattern for a distributed order transaction?
 
-## 44. You need to transfer money between two microservices. How do you ensure data consistency?
+### 44. You need to transfer money between two microservices. How do you ensure data consistency?
 
-## 45. How do you implement distributed tracing across 8 microservices, including async Kafka boundaries?
+### 45. How do you implement distributed tracing across 8 microservices, including async Kafka boundaries?
 
 ---
 
 # 9. API Gateway & Service Discovery
 
-## 46. All backend services are healthy, but users receive 502/504 errors. How do you investigate?
+### 46. All backend services are healthy, but users receive 502/504 errors. How do you investigate?
 
-## 47. Authentication works directly against the service but fails through the Gateway. Why?
+### 47. Authentication works directly against the service but fails through the Gateway. Why?
 
-## 48. A service registers successfully in Eureka but cannot be discovered by other services.
+### 48. A service registers successfully in Eureka but cannot be discovered by other services.
 
-## 49. Inter-service communication works locally but fails in Kubernetes. What could be wrong?
+### 49. Inter-service communication works locally but fails in Kubernetes. What could be wrong?
 
 ---
 
 # 10. Architecture & System Design
 
-## 50. How would you handle a sudden spike from 10K to 1M RPS? (Black Friday scenario)
+### 50. How would you handle a sudden spike from 10K to 1M RPS? (Black Friday scenario)
 
-## 51. Design a rate-limiting system for an API gateway serving 50,000 RPS.
+### 51. Design a rate-limiting system for an API gateway serving 50,000 RPS.
 
-## 52. How would you migrate a monolith to microservices without downtime?
+### 52. How would you migrate a monolith to microservices without downtime?
 
-## 53. Design an event-driven notification system for 10 million users with delivery guarantees.
+### 53. Design an event-driven notification system for 10 million users with delivery guarantees.
 
-## 54. How do you design an idempotent REST API for payment processing?
+### 54. How do you design an idempotent REST API for payment processing?
 
-## 55. Design a CQRS + Event Sourcing system for an auditable financial ledger.
+### 55. Design a CQRS + Event Sourcing system for an auditable financial ledger.
 
 ---
 
 # 11. DevOps & Production
 
-## 56. You deployed a new version but it's causing errors in production. What do you do first?
+### 56. You deployed a new version but it's causing errors in production. What do you do first?
 
-## 57. Your Kubernetes pods are crashing repeatedly. How do you debug?
+### 57. Your Kubernetes pods are crashing repeatedly. How do you debug?
 
-## 58. How do you implement blue-green and canary deployments in a Java microservice fleet?
+### 58. How do you implement blue-green and canary deployments in a Java microservice fleet?
 
-## 59. Production application suddenly becomes unavailable at midnight every day. How do you diagnose?
+### 59. Production application suddenly becomes unavailable at midnight every day. How do you diagnose?
 
-## 60. Your integration tests are failing intermittently in CI/CD. How do you fix flaky tests?
+### 60. Your integration tests are failing intermittently in CI/CD. How do you fix flaky tests?
 
 ---
 
 # 12. Core Java & Design Patterns
 
-## 61. Why does `Integer a = 127 == Integer b = 127` print `true`, but `128` print `false`?
+### 61. Why does `Integer a = 127 == Integer b = 127` print `true`, but `128` print `false`?
 
-## 62. You implemented a singleton but multiple instances are created in multithreaded tests. What's wrong?
+### 62. You implemented a singleton but multiple instances are created in multithreaded tests. What's wrong?
 
-## 63. You're using a custom object as HashMap key and after modifying a field, you can't retrieve the value. Why?
+### 63. You're using a custom object as HashMap key and after modifying a field, you can't retrieve the value. Why?
 
-## 64. You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?
+### 64. You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?
 
-## 65. You're using `Optional` but getting `NullPointerException`. What are common mistakes?
+### 65. You're using `Optional` but getting `NullPointerException`. What are common mistakes?
 
-## 66. After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?
+### 66. After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?
 
-## 67. How would you implement reactive programming in a Spring WebFlux service?
+### 67. How would you implement reactive programming in a Spring WebFlux service?
 
-## 68. How do you use Java 21 virtual threads to prevent thread starvation in mixed I/O and CPU workloads?
+### 68. How do you use Java 21 virtual threads to prevent thread starvation in mixed I/O and CPU workloads?
 
-## 69. Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?
+### 69. Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?
 
