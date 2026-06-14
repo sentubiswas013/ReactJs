@@ -2624,7 +2624,7 @@ list.stream()
 
 # **8. Multithreading & Concurrency**
 
-**1. Thread Lifecycle**
+### **1. Thread Lifecycle**
 
 **Definition:**
 The **Thread Lifecycle** describes the different **states** a thread goes through from creation to termination.
@@ -2676,7 +2676,7 @@ public class Main {
 
 ---
 
-**2. Runnable vs Callable**
+### **2. Runnable vs Callable**
 
 **Definition:**
 Both are used to execute tasks in a separate thread, but **Callable** can return a result and throw exceptions, while **Runnable** cannot.
@@ -2725,7 +2725,7 @@ executor.shutdown();
 
 ---
 
-**3. Synchronization**
+### **3. Synchronization**
 
 **Definition:**
 **Synchronization** is a mechanism that allows only one thread at a time to access a shared resource, preventing data inconsistency.
@@ -2767,7 +2767,7 @@ class Counter {
 
 ---
 
-**4. Race Condition**
+### **4. Race Condition**
 
 **Definition:**
 A **Race Condition** occurs when multiple threads access and modify shared data simultaneously, leading to unpredictable results.
@@ -2815,7 +2815,7 @@ class Counter {
     }
 }
 ```
-**5. Deadlock**
+### **5. Deadlock**
 
 **Definition:**
 A **Deadlock** occurs when two or more threads are waiting for each other’s resources indefinitely, causing all of them to stop execution.
@@ -2866,7 +2866,7 @@ Thread t2 = new Thread(() -> {
 
 A **Deadlock** occurs when threads wait for each other forever due to locked resources.
 
-**6. Livelock**
+### **6. Livelock**
 
 **Definition:**
 A **Livelock** occurs when threads are active and continuously responding to each other but never make actual progress.
@@ -2902,7 +2902,7 @@ while(resourceBusy) {
 
 A **Livelock** occurs when threads keep reacting to each other but never complete their work.
 
-**7. Starvation**
+### **7. Starvation**
 
 **Definition:**
 **Starvation** occurs when a thread never gets CPU time or resources because other higher-priority threads continuously consume them.
@@ -2940,7 +2940,7 @@ low.setPriority(Thread.MIN_PRIORITY);
 
 **Starvation** occurs when a thread is continuously denied CPU time or resources.
 
-**8. Volatile Keyword**
+### **8. Volatile Keyword**
 
 **Definition:**
 The **volatile** keyword ensures that a variable's latest value is always read from **main memory**, making updates visible to all threads.
@@ -2980,7 +2980,7 @@ class Task {
 
 **volatile** ensures that variable updates made by one thread are immediately visible to other threads.
 
-**9. Atomic Classes**
+### **9. Atomic Classes**
 
 **Definition:**
 **Atomic Classes** provide thread-safe operations on variables without using explicit synchronization.
@@ -3023,7 +3023,7 @@ counter.incrementAndGet();
 System.out.println(counter.get());
 ```
 
-**10. Executor Framework**
+### **10. Executor Framework**
 
 **Definition:**
 The **Executor Framework** is a Java concurrency framework that simplifies thread management by separating **task submission** from **task execution**.
@@ -3067,7 +3067,7 @@ executor.shutdown();
 
 The **Executor Framework** simplifies thread management by handling thread creation, execution, and reuse automatically.
 
-**11. Thread Pool**
+### **11. Thread Pool**
 
 **Definition:**
 A **Thread Pool** is a collection of pre-created threads that are reused to execute multiple tasks.
@@ -3110,7 +3110,7 @@ pool.shutdown();
 
 A **Thread Pool** reuses a fixed set of threads to execute multiple tasks efficiently.
 
-**12. Future & CompletableFuture**
+### **12. Future & CompletableFuture**
 
 **Definition:**
 Both are used for **Asynchronous Programming**, but **CompletableFuture** provides advanced features such as chaining, combining, and non-blocking execution.
@@ -3168,7 +3168,7 @@ future.thenAccept(System.out::println);
 
 **Future** retrieves an asynchronous result, while **CompletableFuture** supports advanced asynchronous workflows and task chaining.
 
-**13. Fork Join Framework**
+### **13. Fork Join Framework**
 
 **Definition:**
 The **Fork Join Framework** is designed for **Parallel Processing** by splitting a large task into smaller subtasks and combining the results.
@@ -3220,7 +3220,7 @@ The **Fork Join Framework** improves performance by splitting large tasks into s
 
 # **9. Memory Management**
 
-**1. Heap Memory**
+### **1. Heap Memory**
 
 **Definition:**
 **Heap Memory** is the runtime memory area where **Objects** and **Instance Variables** are stored.
@@ -3261,7 +3261,7 @@ public class Main {
 
 **Heap Memory** stores objects and is managed automatically by the **Garbage Collector**.
 
-**2. Stack Memory**
+### **2. Stack Memory**
 
 **Definition:**
 **Stack Memory** stores **Local Variables**, **Method Calls**, and **Object References** for each thread.
@@ -3304,7 +3304,7 @@ public class Main {
 
 **Stack Memory** stores method-specific data and is automatically cleared after method execution.
 
-**3. Metaspace**
+### **3. Metaspace**
 
 **Definition:**
 **Metaspace** is the memory area that stores **Class Metadata**, such as class definitions, methods, and runtime information.
@@ -3342,7 +3342,7 @@ class Employee {
 
 **Metaspace** stores class metadata and replaced **PermGen** in Java 8.
 
-**4. Garbage Collection**
+### **4. Garbage Collection**
 
 **Definition:**
 **Garbage Collection (GC)** is the automatic process of removing unused objects from heap memory.
@@ -3384,7 +3384,7 @@ public class Main {
 
 **Garbage Collection** automatically removes unused objects from heap memory.
 
-**5. GC Types**
+### **5. GC Types**
 
 **Definition:**
 Java provides different **Garbage Collectors** optimized for various performance and memory requirements.
@@ -3398,31 +3398,31 @@ Java provides different **Garbage Collectors** optimized for various performance
 
 **Common GC Types**
 
-**1. Serial GC**
+### **1. Serial GC**
 
 * Single-threaded GC.
 * Suitable for small applications.
 * Uses one thread for garbage collection.
 
-**2. Parallel GC**
+### **2. Parallel GC**
 
 * Uses multiple threads.
 * Focuses on high throughput.
 * Default GC in many Java versions.
 
-**3. G1 GC (Garbage First)**
+### **3. G1 GC (Garbage First)**
 
 * Divides heap into regions.
 * Provides predictable pause times.
 * Default GC in modern Java versions.
 
-**4. ZGC**
+### **4. ZGC**
 
 * Extremely low pause times.
 * Handles very large heaps.
 * Suitable for high-performance applications.
 
-**5. Shenandoah GC**
+### **5. Shenandoah GC**
 
 * Low-latency garbage collector.
 * Performs GC concurrently with application execution.
@@ -3455,7 +3455,7 @@ java -XX:+UseZGC MyApp
 
 **GC Types** are different garbage collection algorithms designed to balance **Throughput**, **Memory Usage**, and **Pause Time**.
 
-**6. Minor GC**
+### **6. Minor GC**
 
 **Definition:**
 **Minor GC** is the garbage collection process that cleans up unused objects from the **Young Generation** of the heap memory.
@@ -3492,7 +3492,7 @@ for (int i = 0; i < 100000; i++) {
 
 **Minor GC** cleans unused objects from the **Young Generation** and is usually fast.
 
-**7. Major GC**
+### **7. Major GC**
 
 **Definition:**
 **Major GC** is the garbage collection process that cleans up unused objects from the **Old Generation**.
@@ -3531,7 +3531,7 @@ for (int i = 0; i < 1000; i++) {
 
 **Major GC** cleans unused objects from the **Old Generation** and is slower than Minor GC.
 
-**8. Full GC**
+### **8. Full GC**
 
 **Definition:**
 **Full GC** is a complete garbage collection process that cleans the entire heap, including **Young Generation**, **Old Generation**, and sometimes **Metaspace**.
@@ -3566,7 +3566,7 @@ System.gc();
 
 **Full GC** performs garbage collection on the entire heap and usually causes the longest pause time.
 
-**9. Memory Leaks**
+### **9. Memory Leaks**
 
 **Definition:**
 A **Memory Leak** occurs when objects are no longer needed but are still referenced, preventing the Garbage Collector from removing them.
@@ -3611,7 +3611,7 @@ public class Demo {
 
 A **Memory Leak** happens when unused objects remain referenced and cannot be garbage collected.
 
-**10. OutOfMemoryError**
+### **10. OutOfMemoryError**
 
 **Definition:**
 **OutOfMemoryError (OOM)** occurs when the JVM cannot allocate more memory because available memory has been exhausted.
@@ -3654,7 +3654,7 @@ public class Demo {
 
 # **10. JVM Internals**
 
-**1. Class Loader**
+### **1. Class Loader**
 
 **Definition:**
 A **Class Loader** is a JVM component responsible for loading `.class` files into memory at runtime.
@@ -3701,7 +3701,7 @@ public class Main {
 
 A **Class Loader** loads Java classes into JVM memory dynamically at runtime.
 
-**2. JVM Architecture**
+### **2. JVM Architecture**
 
 **Definition:**
 **JVM Architecture** is the internal structure of the JVM that loads, manages, and executes Java programs.
@@ -3755,7 +3755,7 @@ public class Main {
 
 **JVM Architecture** consists of components that load, manage, execute, and optimize Java applications.
 
-**3. Execution Engine**
+### **3. Execution Engine**
 
 **Definition:**
 The **Execution Engine** is the JVM component responsible for executing bytecode and converting it into machine code.
@@ -3801,7 +3801,7 @@ public class Main {
 
 The **Execution Engine** converts bytecode into machine code and executes it efficiently.
 
-**4. Bytecode**
+### **4. Bytecode**
 
 **Definition:**
 **Bytecode** is the intermediate code generated by the Java compiler and executed by the JVM.
@@ -3852,7 +3852,7 @@ Main.class
 
 **Bytecode** is the platform-independent code generated by the Java compiler and executed by the JVM.
 
-**5. JIT Compiler**
+### **5. JIT Compiler**
 
 **Definition:**
 The **JIT (Just-In-Time) Compiler** is a JVM component that converts frequently used **Bytecode** into **Native Machine Code** at runtime to improve performance.
@@ -3893,7 +3893,7 @@ public class Main {
 
 The **JIT Compiler** improves performance by converting frequently executed bytecode into native machine code.
 
-**6. Garbage Collectors**
+### **6. Garbage Collectors**
 
 **Definition:**
 **Garbage Collectors (GCs)** are JVM components responsible for automatically removing unused objects from heap memory.
@@ -3940,7 +3940,7 @@ System.gc();
 
 **Garbage Collectors** automatically free heap memory by removing unused objects.
 
-**7. JVM Memory Model**
+### **7. JVM Memory Model**
 
 **Definition:**
 The **JVM Memory Model** defines how memory is organized and shared between threads inside the JVM.
@@ -3985,7 +3985,7 @@ class Counter {
 
 The **JVM Memory Model** defines how threads interact with memory and share data safely.
 
-**8. JVM Tuning Basics**
+### **8. JVM Tuning Basics**
 
 **Definition:**
 **JVM Tuning** is the process of adjusting JVM settings to improve application **Performance**, **Memory Usage**, and **Garbage Collection Efficiency**.
@@ -4038,7 +4038,7 @@ java -XX:+UseG1GC MyApp
 
 # **11. Design Patterns**
 
-**1. Singleton Pattern**
+### **1. Singleton Pattern**
 
 **Definition:**
 The **Singleton Pattern** ensures that only **one instance** of a class is created and provides a global access point to that instance.
@@ -4083,7 +4083,7 @@ public class Singleton {
 
 The **Singleton Pattern** ensures only one object of a class exists throughout the application.
 
-**2. Factory Pattern**
+### **2. Factory Pattern**
 
 **Definition:**
 The **Factory Pattern** provides a way to create objects without exposing the object creation logic to the client.
@@ -4131,7 +4131,7 @@ class ShapeFactory {
 
 The **Factory Pattern** creates objects without exposing the creation logic to the client.
 
-**3. Abstract Factory Pattern**
+### **3. Abstract Factory Pattern**
 
 **Definition:**
 The **Abstract Factory Pattern** provides an interface for creating **families of related objects** without specifying their concrete classes.
@@ -4184,7 +4184,7 @@ class WindowsFactory implements GUIFactory {
 
 The **Abstract Factory Pattern** creates families of related objects through a common factory interface.
 
-**4. Builder Pattern**
+### **4. Builder Pattern**
 
 **Definition:**
 The **Builder Pattern** is used to create complex objects step by step, especially when an object has many optional parameters.
@@ -4252,7 +4252,7 @@ Employee emp = new Employee.Builder()
         .build();
 ```
 
-**5. Prototype Pattern**
+### **5. Prototype Pattern**
 
 **Definition:**
 The **Prototype Pattern** creates new objects by **cloning an existing object** instead of creating a new one from scratch.
@@ -4297,7 +4297,7 @@ Employee emp2 = emp1.clone();
 
 The **Prototype Pattern** creates new objects by cloning existing objects.
 
-**6. Adapter Pattern**
+### **6. Adapter Pattern**
 
 **Definition:**
 The **Adapter Pattern** allows two incompatible interfaces to work together by acting as a bridge between them.
@@ -4348,7 +4348,7 @@ class PrinterAdapter implements Printer {
 
 The **Adapter Pattern** allows incompatible interfaces to work together.
 
-**7. Decorator Pattern**
+### **7. Decorator Pattern**
 
 **Definition:**
 The **Decorator Pattern** adds new functionality to an object dynamically without modifying its existing code.
@@ -4412,7 +4412,7 @@ System.out.println(coffee.getDescription());
 
 The **Decorator Pattern** adds new behavior to an object dynamically without changing its original code.
 
-**8. Facade Pattern**
+### **8. Facade Pattern**
 
 **Definition:**
 The **Facade Pattern** provides a simplified interface to a complex subsystem, making it easier for clients to use.
@@ -4472,7 +4472,7 @@ ComputerFacade computer =
 computer.startComputer();
 ```
 
-**9. Strategy Pattern**
+### **9. Strategy Pattern**
 
 **Definition:**
 The **Strategy Pattern** defines a family of algorithms, encapsulates each one, and allows them to be selected at runtime.
@@ -4536,7 +4536,7 @@ payment.makePayment(1000);
 
 The **Strategy Pattern** allows switching between different algorithms at runtime.
 
-**10. Observer Pattern**
+### **10. Observer Pattern**
 
 **Definition:**
 The **Observer Pattern** creates a **one-to-many relationship** where multiple objects are automatically notified when the state of another object changes.
@@ -4580,7 +4580,7 @@ class User implements Observer {
 
 The **Observer Pattern** automatically notifies dependent objects when a state changes.
 
-**11. Template Method Pattern**
+### **11. Template Method Pattern**
 
 **Definition:**
 The **Template Method Pattern** defines the skeleton of an algorithm in a parent class while allowing subclasses to customize specific steps.
@@ -4636,7 +4636,7 @@ class CSVProcessor extends DataProcessor {
 
 The **Template Method Pattern** defines the overall algorithm while allowing subclasses to customize specific steps.
 
-**12. Chain of Responsibility Pattern**
+### **12. Chain of Responsibility Pattern**
 
 **Definition:**
 The **Chain of Responsibility Pattern** passes a request through a chain of handlers until one of them processes it.
@@ -4699,7 +4699,7 @@ manager.handle("Leave");
 
 # **12. SOLID Principles**
 
-**1. Single Responsibility Principle (SRP)**
+### **1. Single Responsibility Principle (SRP)**
 
 **Definition:**
 A class should have **only one responsibility** and **one reason to change**.
@@ -4750,7 +4750,7 @@ class EmployeeRepository {
 
 A class should have **one responsibility and one reason to change**.
 
-**2. Open Closed Principle (OCP)**
+### **2. Open Closed Principle (OCP)**
 
 **Definition:**
 Software entities should be **open for extension** but **closed for modification**.
@@ -4798,7 +4798,7 @@ class UpiPayment implements Payment {
 
 Classes should be **extendable without modifying existing code**.
 
-**3. Liskov Substitution Principle (LSP)**
+### **3. Liskov Substitution Principle (LSP)**
 
 **Definition:**
 A subclass should be able to **replace its parent class** without breaking application behavior.
@@ -4849,7 +4849,7 @@ interface FlyingBird extends Bird {
 
 A child class should be usable anywhere its parent class is expected.
 
-**4. Interface Segregation Principle (ISP)**
+### **4. Interface Segregation Principle (ISP)**
 
 **Definition:**
 Clients should not be forced to depend on methods they do not use.
@@ -4898,7 +4898,7 @@ interface Eatable {
 
 Create **small, specific interfaces** instead of one large interface.
 
-**5. Dependency Inversion Principle (DIP)**
+### **5. Dependency Inversion Principle (DIP)**
 
 **Definition:**
 High-level modules should depend on **abstractions**, not on concrete implementations.
@@ -4962,7 +4962,7 @@ class UserService {
 
 # **13. Generics**
 
-**1. Generic Classes**
+### **1. Generic Classes**
 
 **Definition:**
 A **Generic Class** allows a class to work with different data types while maintaining **Type Safety**.
@@ -5010,7 +5010,7 @@ box.set("Java");
 
 A **Generic Class** allows one class to work with multiple data types safely.
 
-**2. Generic Methods**
+### **2. Generic Methods**
 
 **Definition:**
 A **Generic Method** is a method that can work with different data types independently of the class type.
@@ -5052,7 +5052,7 @@ Utility.print(100);
 
 A **Generic Method** can process different data types using a single method implementation.
 
-**3. Wildcards**
+### **3. Wildcards**
 
 **Definition:**
 A **Wildcard (`?`)** represents an unknown type and provides flexibility when working with generic collections.
@@ -5098,7 +5098,7 @@ public void display(List<?> list) {
 
 A **Wildcard** represents an unknown type and provides flexibility in generic code.
 
-**4. Bounded Types**
+### **4. Bounded Types**
 
 **Definition:**
 **Bounded Types** restrict the types that can be used as generic parameters.
@@ -5136,7 +5136,7 @@ class Calculator<T extends Number> {
 
 **Bounded Types** restrict generic parameters to specific classes or interfaces.
 
-**5. Type Erasure**
+### **5. Type Erasure**
 
 **Definition:**
 **Type Erasure** is the process where generic type information is removed by the compiler during compilation.
@@ -5177,7 +5177,7 @@ List names = new ArrayList();
 
 **Type Erasure** removes generic type information during compilation to maintain backward compatibility.
 
-**6. Generic Collections**
+### **6. Generic Collections**
 
 **Definition:**
 **Generic Collections** use generics to store only specific data types, providing type safety.
@@ -5217,7 +5217,7 @@ String name = names.get(0);
 
 # **14. Annotations & Reflection**
 
-**1. Built-in Annotations**
+### **1. Built-in Annotations**
 
 **Definition:**
 **Built-in Annotations** are predefined annotations provided by Java to give metadata and instructions to the compiler or JVM.
@@ -5269,7 +5269,7 @@ class Child extends Parent {
 
 **Built-in Annotations** provide metadata and instructions to the compiler and JVM.
 
-**2. Custom Annotations**
+### **2. Custom Annotations**
 
 **Definition:**
 A **Custom Annotation** is a user-defined annotation used to add custom metadata to classes, methods, or fields.
@@ -5312,7 +5312,7 @@ class Employee {}
 
 A **Custom Annotation** is a user-created annotation used to attach custom metadata to code.
 
-**3. Reflection API**
+### **3. Reflection API**
 
 **Definition:**
 The **Reflection API** allows Java programs to inspect and manipulate classes, methods, fields, and constructors at runtime.
@@ -5350,7 +5350,7 @@ System.out.println(cls.getName());
 
 The **Reflection API** allows inspection and manipulation of classes and objects at runtime.
 
-**4. Dynamic Class Loading**
+### **4. Dynamic Class Loading**
 
 **Definition:**
 **Dynamic Class Loading** is the process of loading classes into memory during runtime instead of compile time.
@@ -5389,7 +5389,7 @@ System.out.println(cls.getName());
 
 **Dynamic Class Loading** loads classes into JVM memory during runtime when needed.
 
-**5. Runtime Processing**
+### **5. Runtime Processing**
 
 **Definition:**
 **Runtime Processing** refers to reading and processing metadata, annotations, or class information while the application is running.
@@ -5429,7 +5429,7 @@ if (Employee.class.isAnnotationPresent(Author.class)) {
 
 # **15. File Handling**
 
-**1. File Class**
+### **1. File Class**
 
 **Definition:**
 **File Class** (`java.io.File`) is used to **create, delete, rename, and get information** about files and directories. It does **not read or write data**.
@@ -5471,7 +5471,7 @@ public class Main {
 
 ---
 
-**2. BufferedReader**
+### **2. BufferedReader**
 
 **Definition:**
 **BufferedReader** is used to **read text efficiently** from a file by reading data in **chunks (buffer)** instead of character by character.
@@ -5515,7 +5515,7 @@ public class Main {
 
 ---
 
-**3. BufferedWriter**
+### **3. BufferedWriter**
 
 **Definition:**
 **BufferedWriter** is used to **write text efficiently** to a file using an internal **buffer**.
@@ -5558,7 +5558,7 @@ public class Main {
 
 ---
 
-**4. Serialization**
+### **4. Serialization**
 
 **Definition:**
 **Serialization** is the process of converting an **object into a byte stream** so it can be stored in a file or transferred over a network.
@@ -5606,7 +5606,7 @@ public class Main {
 }
 ```
 
-**5. Deserialization**
+### **5. Deserialization**
 
 **Definition:**
 **Deserialization** is the process of converting a **byte stream back into an object**.
@@ -5658,7 +5658,7 @@ public class Main {
 **Interview One-Liner:**
 **Deserialization** converts a **byte stream back into an object**.
 
-**6. NIO (New I/O)**
+### **6. NIO (New I/O)**
 
 **Definition:**
 **NIO (New Input/Output)** is a modern Java API introduced to provide **faster and more scalable file and network operations** than traditional I/O.
@@ -5701,7 +5701,7 @@ public class Main {
 **Interview One-Liner:**
 **NIO** provides **faster, scalable, and non-blocking I/O operations** using **Channels** and **Buffers**.
 
-**7. Path & Files API**
+### **7. Path & Files API**
 
 **Definition:**
 **Path** and **Files** API (introduced in Java 7) provide a modern and easy way to **work with files and directories**.
@@ -5746,7 +5746,7 @@ public class Main {
 
 # **16. Java Interview Coding Topics**
 
-**1. String Programs**
+### **1. String Programs**
 
 **Definition:**
 **String Programs** are common coding problems that involve manipulating and processing **String** data.
@@ -5790,7 +5790,7 @@ public class Main {
 **Interview One-Liner:**
 **String Programs** test your understanding of **loops, conditions, and String manipulation techniques**.
 
-**2. Array Programs**
+### **2. Array Programs**
 
 **Definition:**
 **Array Programs** involve storing and processing multiple values of the same type using an **Array**.
@@ -5838,7 +5838,7 @@ public class Main {
 **Interview One-Liner:**
 **Arrays** store multiple values in **contiguous memory locations** and provide **fast index-based access**.
 
-**3. Linked List**
+### **3. Linked List**
 
 **Definition:**
 A **Linked List** is a linear data structure where each element (**Node**) contains **data** and a reference to the **next node**.
@@ -5890,7 +5890,7 @@ public class Main {
 **Interview One-Liner:**
 A **Linked List** stores data in **nodes connected through references**, allowing efficient insertions and deletions.
 
-**4. Stack**
+### **4. Stack**
 
 **Definition:**
 A **Stack** is a linear data structure that follows the **LIFO (Last In, First Out)** principle.
@@ -5934,7 +5934,7 @@ public class Main {
 **Interview One-Liner:**
 A **Stack** follows the **LIFO** principle where the **last inserted element is removed first**.
 
-**5. Queue**
+### **5. Queue**
 
 **Definition:**
 A **Queue** is a linear data structure that follows the **FIFO (First In, First Out)** principle.
@@ -5976,7 +5976,7 @@ public class Main {
 }
 ```
 
-**6. Binary Search**
+### **6. Binary Search**
 
 **Definition:**
 **Binary Search** is a searching algorithm that finds an element in a **sorted array** by repeatedly dividing the search space into two halves.
@@ -6030,7 +6030,7 @@ public class Main {
 **Interview One-Liner:**
 **Binary Search** finds an element in a **sorted array** with **O(log n)** time complexity.
 
-**7. Sorting Algorithms**
+### **7. Sorting Algorithms**
 
 **Definition:**
 **Sorting Algorithms** arrange data in a specific order such as **ascending** or **descending**.
@@ -6081,7 +6081,7 @@ public class Main {
 **Interview One-Liner:**
 **Sorting Algorithms** arrange data in a required order to improve processing and searching efficiency.
 
-**8. Recursion**
+### **8. Recursion**
 
 **Definition:**
 **Recursion** is a technique where a method **calls itself** until a **base condition** is reached.
@@ -6126,7 +6126,7 @@ public class Main {
 **Interview One-Liner:**
 **Recursion** is a process where a method **calls itself repeatedly until a base condition is met**.
 
-**9. Hashing**
+### **9. Hashing**
 
 **Definition:**
 **Hashing** is a technique used to store and retrieve data quickly using a **hash function**.
@@ -6171,7 +6171,7 @@ public class Main {
 **Interview One-Liner:**
 **Hashing** provides **near O(1)** insertion, deletion, and retrieval using a **hash function**.
 
-**10. Tree Traversal**
+### **10. Tree Traversal**
 
 **Definition:**
 **Tree Traversal** is the process of visiting every node in a tree exactly once.
@@ -6228,7 +6228,7 @@ public class Main {
 **Interview One-Liner:**
 **Tree Traversal** is the process of visiting all nodes of a tree in a specific order such as **Preorder, Inorder, or Postorder**.
 
-**11. Dynamic Programming Basics**
+### **11. Dynamic Programming Basics**
 
 **Definition:**
 **Dynamic Programming (DP)** is an optimization technique used to solve problems by storing results of previously solved subproblems.
@@ -6277,7 +6277,7 @@ public class Main {
 
 # **17. Functional Programming**
 
-**1. Functional Interfaces**
+### **1. Functional Interfaces**
 
 **Definition:**
 A **Functional Interface** is an interface that contains **exactly one abstract method**. It is the foundation of **Lambda Expressions**.
@@ -6321,7 +6321,7 @@ public class Main {
 **Interview One-Liner:**
 A **Functional Interface** contains **one abstract method** and is mainly used with **Lambda Expressions**.
 
-**2. Lambda Expressions**
+### **2. Lambda Expressions**
 
 **Definition:**
 A **Lambda Expression** is a concise way to implement a **Functional Interface** without creating a separate class.
@@ -6364,7 +6364,7 @@ public class Main {
 **Interview One-Liner:**
 A **Lambda Expression** provides a short and clean way to implement a **Functional Interface**.
 
-**3. Streams**
+### **3. Streams**
 
 **Definition:**
 A **Stream** is a sequence of elements that supports **functional-style operations** such as filtering, mapping, and sorting.
@@ -6408,7 +6408,7 @@ public class Main {
 **Interview One-Liner:**
 A **Stream** processes collection data using **functional operations** without modifying the original collection.
 
-**4. Optional**
+### **4. Optional**
 
 **Definition:**
 **Optional** is a container object used to represent the presence or absence of a value, helping avoid **NullPointerException**.
@@ -6450,7 +6450,7 @@ public class Main {
 **Interview One-Liner:**
 **Optional** helps handle missing values safely and reduces the risk of **NullPointerException**.
 
-**5. Immutability**
+### **5. Immutability**
 
 **Definition:**
 An **Immutable Object** is an object whose state cannot be changed after it is created.
@@ -6494,7 +6494,7 @@ final class Employee {
 **Interview One-Liner:**
 An **Immutable Object** cannot be modified after creation, making it **safe and thread-friendly**.
 
-**6. Higher Order Functions**
+### **6. Higher Order Functions**
 
 **Definition:**
 A **Higher Order Function** is a function that **accepts another function as a parameter** or **returns a function**.
@@ -6546,7 +6546,7 @@ public class Main {
 
 # **19. Microservices-Oriented Java Concepts**
 
-**1. DTO (Data Transfer Object)**
+### **1. DTO (Data Transfer Object)**
 
 **Definition:**
 A **DTO (Data Transfer Object)** is an object used to **transfer data between layers** of an application without containing business logic.
@@ -6592,7 +6592,7 @@ public class EmployeeDTO {
 **Interview One-Liner:**
 A **DTO** is used to **transfer data between application layers** without exposing internal database entities.
 
-**2. Entity**
+### **2. Entity**
 
 **Definition:**
 An **Entity** is a class that represents a **database table** and is managed by JPA/Hibernate.
@@ -6634,7 +6634,7 @@ public class Employee {
 **Interview One-Liner:**
 An **Entity** is a Java class that represents a **database table** and is managed by JPA/Hibernate.
 
-**3. Bean**
+### **3. Bean**
 
 **Definition:**
 A **Bean** is an object whose lifecycle is managed by the **Spring IoC Container**.
@@ -6675,7 +6675,7 @@ public class EmployeeService {
 **Interview One-Liner:**
 A **Bean** is an object that is **created, managed, and injected by the Spring Container**.
 
-**4. POJO (Plain Old Java Object)**
+### **4. POJO (Plain Old Java Object)**
 
 **Definition:**
 A **POJO** is a simple Java object that is **not dependent on any framework or special inheritance**.
@@ -6719,7 +6719,7 @@ public class Employee {
 **Interview One-Liner:**
 A **POJO** is a simple Java object that does not require any special framework-specific rules.
 
-**5. Dependency Injection (DI)**
+### **5. Dependency Injection (DI)**
 
 **Definition:**
 **Dependency Injection** is a design pattern where dependencies are **provided by the Spring Container** instead of being created manually.
@@ -6757,7 +6757,7 @@ public class EmployeeService {
 }
 ```
 
-**6. Serialization**
+### **6. Serialization**
 
 **Definition:**
 **Serialization** is the process of converting a Java **object into a byte stream** so it can be stored in a file, database, or sent over a network.
@@ -6808,7 +6808,7 @@ public class Main {
 **Interview One-Liner:**
 **Serialization** converts an **object into a byte stream** for storage or transmission.
 
-**7. Deserialization**
+### **7. Deserialization**
 
 **Definition:**
 **Deserialization** is the process of converting a **byte stream back into an object**.
@@ -6861,7 +6861,7 @@ public class Main {
 **Interview One-Liner:**
 **Deserialization** converts a **byte stream back into an object**.
 
-**8. API Design**
+### **8. API Design**
 
 **Definition:**
 **API Design** is the process of creating APIs that are **easy to understand, maintain, and use**.
@@ -6915,7 +6915,7 @@ DELETE /employees/1
 **Interview One-Liner:**
 **API Design** focuses on creating **simple, consistent, scalable, and user-friendly APIs**.
 
-**9. REST Principles**
+### **9. REST Principles**
 
 **Definition:**
 **REST (Representational State Transfer)** is an architectural style for designing web services using standard HTTP protocols.
@@ -6968,7 +6968,7 @@ public class EmployeeController {
 
 # **20. Java Best Practices**
 
-**1. Immutable Objects**
+### **1. Immutable Objects**
 
 **Definition:**
 An **Immutable Object** is an object whose state **cannot be changed after creation**.
@@ -7013,7 +7013,7 @@ final class Employee {
 **Interview One-Liner:**
 An **Immutable Object** cannot be modified after creation, making it **safe for concurrent use**.
 
-**2. Defensive Copying**
+### **2. Defensive Copying**
 
 **Definition:**
 **Defensive Copying** creates a copy of mutable objects to prevent external code from modifying internal data.
@@ -7058,7 +7058,7 @@ class Employee {
 **Interview One-Liner:**
 **Defensive Copying** protects internal data by **returning or storing copies instead of original mutable objects**.
 
-**3. Effective Exception Handling**
+### **3. Effective Exception Handling**
 
 **Definition:**
 **Exception Handling** is the process of managing runtime errors gracefully without crashing the application.
@@ -7100,7 +7100,7 @@ public class Main {
 **Interview One-Liner:**
 **Effective Exception Handling** means handling errors gracefully, logging them, and providing meaningful messages.
 
-**4. Proper Logging**
+### **4. Proper Logging**
 
 **Definition:**
 **Logging** is the process of recording application events, errors, and execution details for monitoring and debugging.
@@ -7153,7 +7153,7 @@ public class Main {
 **Interview One-Liner:**
 **Logging** helps track application behavior and diagnose issues without using `System.out.println()`.
 
-**5. Thread Safety**
+### **5. Thread Safety**
 
 **Definition:**
 **Thread Safety** ensures that multiple threads can access shared resources without causing data inconsistency.
@@ -7193,7 +7193,7 @@ class Counter {
 **Interview One-Liner:**
 **Thread Safety** ensures that shared data remains **consistent and correct when accessed by multiple threads**.
 
-**6. Clean Code Principles**
+### **6. Clean Code Principles**
 
 **Definition:**
 **Clean Code** is code that is easy to read, understand, maintain, and modify.
@@ -7241,7 +7241,7 @@ public class EmployeeService {
 
 # **21. Scenario-Based Questions**
 
-**1. How HashMap Works Internally**
+### **1. How HashMap Works Internally**
 
 **Definition:**
 **HashMap** stores data as **Key-Value pairs** and uses a **hashing mechanism** for fast retrieval.
@@ -7290,7 +7290,7 @@ public class Main {
 **Interview One-Liner:**
 **HashMap** uses **hashCode()**, bucket indexing, and collision handling to provide **O(1)** average lookup performance.
 
-**2. How to Make Class Immutable**
+### **2. How to Make Class Immutable**
 
 **Definition:**
 An **Immutable Class** is a class whose objects cannot be modified after creation.
@@ -7336,7 +7336,7 @@ final class Employee {
 **Interview One-Liner:**
 To make a class **Immutable**, make it **final**, use **private final fields**, and avoid setter methods.
 
-**3. How to Prevent Deadlocks**
+### **3. How to Prevent Deadlocks**
 
 **Definition:**
 A **Deadlock** occurs when two or more threads wait indefinitely for resources held by each other.
@@ -7378,7 +7378,7 @@ synchronized(lock1) {
 **Interview One-Liner:**
 **Deadlocks** can be prevented by acquiring locks in a **consistent order** and minimizing nested locking.
 
-**4. Difference Between Heap and Stack**
+### **4. Difference Between Heap and Stack**
 
 **Definition:**
 Both are memory areas used by JVM, but they serve different purposes.
@@ -7420,7 +7420,7 @@ public class Main {
 **Interview One-Liner:**
 **Heap** stores objects, while **Stack** stores local variables and method call information.
 
-**5. Difference Between Comparable and Comparator**
+### **5. Difference Between Comparable and Comparator**
 
 **Definition:**
 Both are used for **sorting objects**, but they differ in where the sorting logic is defined.
@@ -7474,7 +7474,7 @@ class EmployeeNameComparator
 }
 ```
 
-**6. Difference Between Runnable and Callable**
+### **6. Difference Between Runnable and Callable**
 
 **Definition:**
 Both **Runnable** and **Callable** are used to execute tasks in separate threads.
@@ -7525,7 +7525,7 @@ public class Main {
 **Interview One-Liner:**
 **Runnable** performs a task without returning a value, while **Callable** can **return a result and throw checked exceptions**.
 
-**7. Why String is Immutable**
+### **7. Why String is Immutable**
 
 **Definition:**
 A **String** object cannot be changed once it is created.
@@ -7574,7 +7574,7 @@ Java
 **Interview One-Liner:**
 **String** is immutable to provide **security, thread safety, memory optimization, and better hashing performance**.
 
-**8. How ConcurrentHashMap Works**
+### **8. How ConcurrentHashMap Works**
 
 **Definition:**
 **ConcurrentHashMap** is a thread-safe version of **HashMap** designed for high-performance concurrent access.
@@ -7619,7 +7619,7 @@ public class Main {
 **Interview One-Liner:**
 **ConcurrentHashMap** provides thread-safe access using **fine-grained locking**, allowing high concurrency and better performance.
 
-**9. How Garbage Collection Works**
+### **9. How Garbage Collection Works**
 
 **Definition:**
 **Garbage Collection (GC)** is the JVM process that automatically removes unused objects from memory.
@@ -7661,7 +7661,7 @@ public class Main {
 **Interview One-Liner:**
 **Garbage Collection** automatically removes **unreachable objects from heap memory**, helping manage memory efficiently.
 
-**10. How to Optimize Java Performance**
+### **10. How to Optimize Java Performance**
 
 **Definition:**
 **Java Performance Optimization** involves improving application speed, memory usage, and scalability.
@@ -7705,7 +7705,7 @@ for (int i = 0; i < 1000; i++) {
 
 ## **1. Spring Core**
 
-**1. IoC (Inversion of Control) Container**
+### **1. IoC (Inversion of Control) Container**
 
 **Definition**
 
@@ -7754,7 +7754,7 @@ Here, the **IoC Container** creates both `Engine` and `Car` objects and injects 
 
 ---
 
-**2. Dependency Injection (DI)**
+### **2. Dependency Injection (DI)**
 
 **Definition**
 
@@ -7807,7 +7807,7 @@ Spring automatically injects the `Engine` object into `Car`.
 
 ---
 
-**3. Bean Lifecycle**
+### **3. Bean Lifecycle**
 
 **Definition**
 
@@ -7860,7 +7860,7 @@ Bean Destroyed
 
 ---
 
-**4. Bean Scopes**
+### **4. Bean Scopes**
 
 **Definition**
 
@@ -7916,7 +7916,7 @@ Because **prototype scope** creates a new bean instance every time.
 
 ## **2. Spring Boot Fundamentals**
 
-**1. Auto Configuration**
+### **1. Auto Configuration**
 
 **Definition**
 
@@ -7955,7 +7955,7 @@ public class DemoApplication {
 
 If `spring-boot-starter-web` is present, Spring Boot automatically configures **DispatcherServlet**, **Tomcat**, and web-related beans.
 
-**2. Starter Dependencies**
+### **2. Starter Dependencies**
 
 **Definition**
 
@@ -7997,7 +7997,7 @@ If `spring-boot-starter-web` is present, Spring Boot automatically configures **
 
 This single dependency includes Spring MVC, Jackson, Validation, and Embedded Tomcat.
 
-**3. Embedded Servers**
+### **3. Embedded Servers**
 
 **Definition**
 
@@ -8049,7 +8049,7 @@ mvn spring-boot:run
 
 Spring Boot automatically starts the embedded **Tomcat** server.
 
-**4. Spring Boot Annotations**
+### **4. Spring Boot Annotations**
 
 **Definition**
 
@@ -8113,7 +8113,7 @@ public class UserController {
 
 ## **3. REST API Development**
 
-**1. REST Principles**
+### **1. REST Principles**
 
 **Definition**
 
@@ -8165,7 +8165,7 @@ public class UserController {
 
 ---
 
-**2. Request Mapping**
+### **2. Request Mapping**
 
 **Definition**
 
@@ -8218,7 +8218,7 @@ public class UserController {
 
 ---
 
-**3. Path Variables**
+### **3. Path Variables**
 
 **Definition**
 
@@ -8269,7 +8269,7 @@ User Id: 101
 
 ---
 
-**4. Request Parameters**
+### **4. Request Parameters**
 
 **Definition**
 
@@ -8321,7 +8321,7 @@ User Name: John
 
 ---
 
-**5. ResponseEntity**
+### **5. ResponseEntity**
 
 **Definition**
 
@@ -8386,7 +8386,7 @@ Body: User Created
 
 ## **4. Spring Data JPA**
 
-**1. Entity Mapping**
+### **1. Entity Mapping**
 
 **Definition**
 
@@ -8442,7 +8442,7 @@ public class User {
 
 ---
 
-**2. Repository Pattern**
+### **2. Repository Pattern**
 
 **Definition**
 
@@ -8488,7 +8488,7 @@ userRepository.deleteById(1L);
 
 ---
 
-**3. JPQL (Java Persistence Query Language)**
+### **3. JPQL (Java Persistence Query Language)**
 
 **Definition**
 
@@ -8534,7 +8534,7 @@ Uses **User Entity**, not the database table name.
 
 ---
 
-**4. Native Queries**
+### **4. Native Queries**
 
 **Definition**
 
@@ -8582,7 +8582,7 @@ Uses the actual **table name**.
 
 ---
 
-**5. Pagination**
+### **5. Pagination**
 
 **Definition**
 
@@ -8635,7 +8635,7 @@ Page 0
 
 ---
 
-**6. Auditing**
+### **6. Auditing**
 
 **Definition**
 
@@ -8697,7 +8697,7 @@ public class User {
 
 ## **5. Transaction Management**
 
-**1. @Transactional**
+### **1. @Transactional**
 
 **Definition**
 
@@ -8745,7 +8745,7 @@ Both methods execute in a **single transaction**.
 
 ---
 
-**2. Propagation**
+### **2. Propagation**
 
 **Definition**
 
@@ -8798,7 +8798,7 @@ public class OrderService {
 
 ---
 
-**3. Isolation Levels**
+### **3. Isolation Levels**
 
 **Definition**
 
@@ -8846,7 +8846,7 @@ public void updateBalance() {
 
 ---
 
-**4. Rollback**
+### **4. Rollback**
 
 **Definition**
 
@@ -8914,7 +8914,7 @@ public void processPayment() throws Exception {
 
 ## **6. Spring Security**
 
-**1. Authentication**
+### **1. Authentication**
 
 **Authentication** is the process of **verifying a user's identity**.
 
@@ -8950,7 +8950,7 @@ Authentication means **verifying the identity of a user before granting access**
 
 ---
 
-**2. Authorization**
+### **2. Authorization**
 
 **Authorization** is the process of **determining what an authenticated user is allowed to do**.
 
@@ -8988,7 +8988,7 @@ Authorization means **checking what actions or resources a user can access**.
 
 ---
 
-**3. JWT (JSON Web Token)**
+### **3. JWT (JSON Web Token)**
 
 **JWT** is a **compact, secure token** used for authentication and information exchange between client and server.
 
@@ -9034,7 +9034,7 @@ JWT is a **signed token used for stateless authentication and secure user inform
 
 ---
 
-**4. OAuth2**
+### **4. OAuth2**
 
 **OAuth2** is an **authorization framework** that allows users to grant limited access to resources without sharing passwords.
 
@@ -9077,7 +9077,7 @@ OAuth2 allows **secure authorization by granting access through tokens instead o
 
 ---
 
-**5. Role-Based Access Control (RBAC)**
+### **5. Role-Based Access Control (RBAC)**
 
 **RBAC** is a security model where permissions are assigned based on **roles**.
 
@@ -9118,7 +9118,7 @@ public void deleteUser() {
 
 ## **7. Exception Handling**
 
-**1. Global Exception Handling**
+### **1. Global Exception Handling**
 
 **Global Exception Handling** is a mechanism to **handle exceptions centrally** across the entire application instead of writing try-catch blocks in every controller.
 
@@ -9160,7 +9160,7 @@ Global Exception Handling provides **centralized exception management for the en
 
 ---
 
-**2. @ControllerAdvice**
+### **2. @ControllerAdvice**
 
 **@ControllerAdvice** is a Spring annotation used to **handle exceptions globally** and apply common logic across multiple controllers.
 
@@ -9215,7 +9215,7 @@ public class GlobalExceptionHandler {
 
 ---
 
-**3. Custom Exceptions**
+### **3. Custom Exceptions**
 
 **Custom Exceptions** are user-defined exception classes created to represent specific business or application errors.
 
@@ -9268,7 +9268,7 @@ public String handleUserNotFound(UserNotFoundException ex) {
 
 ## **8. Caching**
 
-**1. Cache Management**
+### **1. Cache Management**
 
 **Cache Management** is the process of **storing frequently accessed data in memory** to improve application performance and reduce database calls.
 
@@ -9312,7 +9312,7 @@ Cache Management improves performance by **storing frequently used data in memor
 
 ---
 
-**2. Redis Integration**
+### **2. Redis Integration**
 
 **Redis** is an **in-memory key-value data store** commonly used as a cache in Spring Boot applications.
 
@@ -9369,7 +9369,7 @@ Redis is a **high-speed in-memory data store used for caching, session managemen
 
 ---
 
-**3. Cache Annotations**
+### **3. Cache Annotations**
 
 Spring Boot provides **cache annotations** to manage caching with minimal code.
 
@@ -9431,7 +9431,7 @@ public void deleteUser(Long id) {
 
 ## **9. Testing**
 
-**1. JUnit**
+### **1. JUnit**
 
 **JUnit** is the most popular **Java testing framework** used to write and run unit tests.
 
@@ -9484,7 +9484,7 @@ JUnit is a **Java testing framework used to write and execute automated unit tes
 
 ---
 
-**2. Mockito**
+### **2. Mockito**
 
 **Mockito** is a **mocking framework** used to create fake objects for testing.
 
@@ -9537,7 +9537,7 @@ Mockito is a **mocking framework that creates fake objects to test code independ
 
 ---
 
-**3. Integration Testing**
+### **3. Integration Testing**
 
 **Integration Testing** verifies that multiple components work correctly together.
 
@@ -9590,7 +9590,7 @@ Integration Testing ensures that **multiple application components work together
 
 ---
 
-**4. MockMvc**
+### **4. MockMvc**
 
 **MockMvc** is a Spring testing tool used to **test REST controllers without starting the actual server**.
 
@@ -9641,7 +9641,7 @@ class UserControllerTest {
 
 ## **10. Monitoring & Logging**
 
-**1. Spring Boot Actuator**
+### **1. Spring Boot Actuator**
 
 **Spring Boot Actuator** provides **production-ready monitoring and management endpoints** for a Spring Boot application.
 
@@ -9710,7 +9710,7 @@ Spring Boot Actuator provides **built-in endpoints for monitoring, managing, and
 
 ---
 
-**2. Logging Frameworks**
+### **2. Logging Frameworks**
 
 **Logging Frameworks** are used to **record application events, errors, and debugging information**.
 
@@ -9778,7 +9778,7 @@ Logging Frameworks help **track application events, errors, and system behavior 
 
 ---
 
-**3. Health Checks**
+### **3. Health Checks**
 
 **Health Checks** are mechanisms used to verify whether an application and its dependencies are working properly.
 
@@ -9835,7 +9835,7 @@ public class DatabaseHealthIndicator
 
 ## **11. Performance Optimization**
 
-**1. Connection Pooling**
+### **1. Connection Pooling**
 
 **Connection Pooling** is a technique where a pool of **pre-created database connections** is maintained and reused instead of creating a new connection for every request.
 
@@ -9887,7 +9887,7 @@ Connection Pooling improves performance by **reusing database connections instea
 
 ---
 
-**2. Lazy vs Eager Loading**
+### **2. Lazy vs Eager Loading**
 
 **Lazy Loading** and **Eager Loading** define when related data should be loaded from the database.
 
@@ -9943,7 +9943,7 @@ private List<Order> orders;
 
 ---
 
-**3. Query Optimization**
+### **3. Query Optimization**
 
 **Query Optimization** is the process of improving SQL query performance to reduce execution time and database load.
 
@@ -10002,7 +10002,7 @@ Page<User> users =
 
 ## **12. Spring Boot Deployment**
 
-**1. Profiles**
+### **1. Profiles**
 
 **Profiles** in Spring Boot allow you to **use different configurations for different environments** such as Development, Testing, and Production.
 
@@ -10056,7 +10056,7 @@ Profiles allow Spring Boot to **load different configurations based on the activ
 
 ---
 
-**2. External Configuration**
+### **2. External Configuration**
 
 **External Configuration** allows application settings to be managed **outside the application code**.
 
@@ -10106,7 +10106,7 @@ External Configuration allows application settings to be **managed outside the c
 
 ---
 
-**3. Docker**
+### **3. Docker**
 
 **Docker** is a containerization platform that packages an application and its dependencies into a **portable container**.
 
@@ -10159,7 +10159,7 @@ Docker packages an application and its dependencies into **portable containers f
 
 ---
 
-**4. CI/CD**
+### **4. CI/CD**
 
 **CI/CD** stands for **Continuous Integration** and **Continuous Deployment/Delivery**.
 
@@ -10215,7 +10215,7 @@ steps:
 
 ## **1. Microservices Fundamentals**
 
-**1. Monolith vs Microservices**
+### **1. Monolith vs Microservices**
 
 **Monolith**
 A **Monolithic Architecture** is an application where all modules (UI, Business Logic, Database Access) are built and deployed as a **single unit**.
@@ -10266,7 +10266,7 @@ Separate Deployments
 
 ---
 
-**2. Benefits and Challenges of Microservices**
+### **2. Benefits and Challenges of Microservices**
 
 **Benefits**
 
@@ -10305,7 +10305,7 @@ Svc   Svc     Svc      Svc
 
 ---
 
-**3. Service Decomposition**
+### **3. Service Decomposition**
 
 **Definition**
 
@@ -10384,7 +10384,7 @@ This service handles only **Order Management**, following the **Microservices** 
 
 ## **2. Service Communication**
 
-**1. REST Communication**
+### **1. REST Communication**
 
 **Definition**
 
@@ -10441,7 +10441,7 @@ public class UserController {
 
 ---
 
-**2. Synchronous vs Asynchronous Communication**
+### **2. Synchronous vs Asynchronous Communication**
 
 **Synchronous Communication**
 
@@ -10517,7 +10517,7 @@ kafkaTemplate.send("orders", order);
 
 ---
 
-**3. gRPC**
+### **3. gRPC**
 
 **Definition**
 
@@ -10580,7 +10580,7 @@ public class UserServiceImpl
 
 ---
 
-**4. Event-Driven Architecture**
+### **4. Event-Driven Architecture**
 
 **Definition**
 
@@ -10642,7 +10642,7 @@ public void consume(String message) {
 
 ## **3. API Gateway**
 
-**1. Routing**
+### **1. Routing**
 
 **Definition**
 
@@ -10694,7 +10694,7 @@ public RouteLocator routes(RouteLocatorBuilder builder) {
 
 ---
 
-**2. Authentication**
+### **2. Authentication**
 
 **Definition**
 
@@ -10747,7 +10747,7 @@ String token = Jwts.builder()
 
 ---
 
-**3. Rate Limiting**
+### **3. Rate Limiting**
 
 **Definition**
 
@@ -10799,7 +10799,7 @@ spring:
 
 ---
 
-**4. Load Balancing**
+### **4. Load Balancing**
 
 **Definition**
 
@@ -10853,7 +10853,7 @@ public RestTemplate restTemplate() {
 
 ## **4. Service Discovery**
 
-**1. Eureka**
+### **1. Eureka**
 
 **Definition**
 
@@ -10912,7 +10912,7 @@ eureka:
 
 ---
 
-**2. Consul**
+### **2. Consul**
 
 **Definition**
 
@@ -10969,7 +10969,7 @@ spring:
 
 ---
 
-**3. Registration and Discovery**
+### **3. Registration and Discovery**
 
 **Definition**
 
@@ -11063,7 +11063,7 @@ public class OrderController {
 
 ## **5. Configuration Management**
 
-**1. Centralized Configuration**
+### **1. Centralized Configuration**
 
 **Definition**
 
@@ -11123,7 +11123,7 @@ Store it centrally and let services fetch it automatically.
 
 ---
 
-**2. Spring Cloud Config**
+### **2. Spring Cloud Config**
 
 **Definition**
 
@@ -11219,7 +11219,7 @@ public class UserController {
 
 ## **6. Resilience Patterns**
 
-**1. Circuit Breaker**
+### **1. Circuit Breaker**
 
 **Definition**
 
@@ -11278,7 +11278,7 @@ public String fallback(Exception ex) {
 
 ---
 
-**2. Retry**
+### **2. Retry**
 
 **Definition**
 
@@ -11332,7 +11332,7 @@ Use retries only for **temporary failures**, not permanent errors.
 
 ---
 
-**3. Timeout**
+### **3. Timeout**
 
 **Definition**
 
@@ -11395,7 +11395,7 @@ WebClient.builder()
 
 ---
 
-**4. Bulkhead Pattern**
+### **4. Bulkhead Pattern**
 
 **Definition**
 
@@ -11449,7 +11449,7 @@ public String getPayment() {
 
 ## **7. Distributed Transactions**
 
-**1. Two-Phase Commit (2PC)**
+### **1. Two-Phase Commit (2PC)**
 
 **Definition**
 
@@ -11511,7 +11511,7 @@ public void transferMoney() {
 
 ---
 
-**2. Saga Pattern**
+### **2. Saga Pattern**
 
 **Definition**
 
@@ -11578,7 +11578,7 @@ kafkaTemplate.send(
 
 ---
 
-**3. Eventual Consistency**
+### **3. Eventual Consistency**
 
 **Definition**
 
@@ -11653,7 +11653,7 @@ public void processOrder(String event) {
 
 ## **8. Messaging Systems**
 
-**1. Kafka**
+### **1. Kafka**
 
 **Definition:**
 **Apache Kafka** is a **distributed event streaming platform** used to handle **high-volume real-time data**.
@@ -11689,7 +11689,7 @@ producer.send(new ProducerRecord<>("orders", "Order Created"));
 
 ---
 
-**2. RabbitMQ**
+### **2. RabbitMQ**
 
 **Definition:**
 **RabbitMQ** is a **message broker** that enables applications to communicate through **message queues**.
@@ -11725,7 +11725,7 @@ channel.basicPublish("", "orderQueue", null,
 
 ---
 
-**3. Message Queues**
+### **3. Message Queues**
 
 **Definition:**
 A **Message Queue** is a communication mechanism where messages are stored in a queue until a consumer processes them.
@@ -11760,7 +11760,7 @@ Producer → Queue → Consumer
 
 ---
 
-**4. Event Streaming**
+### **4. Event Streaming**
 
 **Definition:**
 **Event Streaming** is the continuous flow and processing of events in real time as they occur.
@@ -11813,7 +11813,7 @@ Notification Service
 
 ## **9. Database Design**
 
-**1. Database per Service**
+### **1. Database per Service**
 
 **Definition:**
 **Database per Service** is a **microservices design pattern** where each service owns its own database and no other service can access it directly.
@@ -11852,7 +11852,7 @@ Each microservice owns its **own database**, ensuring **independence, scalabilit
 
 ---
 
-**2. CQRS (Command Query Responsibility Segregation)**
+### **2. CQRS (Command Query Responsibility Segregation)**
 
 **Definition:**
 **CQRS** separates **write operations (Commands)** from **read operations (Queries)**.
@@ -11900,7 +11900,7 @@ CQRS separates **reads and writes** to improve **performance, scalability, and m
 
 ---
 
-**3. Event Sourcing**
+### **3. Event Sourcing**
 
 **Definition:**
 **Event Sourcing** stores all changes as a sequence of **events** instead of storing only the current state.
@@ -11953,7 +11953,7 @@ public class MoneyDepositedEvent {
 
 ## **10. Security**
 
-**1. JWT (JSON Web Token)**
+### **1. JWT (JSON Web Token)**
 
 **Definition:**
 **JWT** is a compact and secure token format used for **authentication** and **authorization** between client and server.
@@ -12001,7 +12001,7 @@ JWT is a **stateless authentication token** that securely carries user informati
 
 ---
 
-**2. OAuth2**
+### **2. OAuth2**
 
 **Definition:**
 **OAuth2** is an **authorization framework** that allows applications to access user resources without sharing passwords.
@@ -12041,7 +12041,7 @@ OAuth2 provides **secure authorization** by allowing applications to access reso
 
 ---
 
-**3. API Security**
+### **3. API Security**
 
 **Definition:**
 **API Security** is the practice of protecting APIs from unauthorized access, attacks, and data breaches.
@@ -12092,7 +12092,7 @@ API Security protects APIs using **authentication, authorization, encryption, an
 
 ---
 
-**4. Service-to-Service Authentication**
+### **4. Service-to-Service Authentication**
 
 **Definition:**
 **Service-to-Service Authentication** is a mechanism where one microservice securely verifies the identity of another microservice.
@@ -12144,7 +12144,7 @@ restTemplate.exchange(
 
 ## **11. Observability**
 
-**1. Centralized Logging**
+### **1. Centralized Logging**
 
 **Definition:**
 **Centralized Logging** is the practice of collecting logs from multiple applications and services into a single location for analysis and troubleshooting.
@@ -12189,7 +12189,7 @@ Centralized Logging collects logs from all services into a **single platform** f
 
 ---
 
-**2. Distributed Tracing**
+### **2. Distributed Tracing**
 
 **Definition:**
 **Distributed Tracing** tracks a request as it travels through multiple services in a distributed system.
@@ -12236,7 +12236,7 @@ Distributed Tracing follows a request across multiple services using a **Trace I
 
 ---
 
-**3. Monitoring**
+### **3. Monitoring**
 
 **Definition:**
 **Monitoring** is the continuous observation of application and infrastructure health to detect issues and ensure system reliability.
@@ -12284,7 +12284,7 @@ Monitoring helps track the **health, availability, and performance** of applicat
 
 ---
 
-**4. Metrics Collection**
+### **4. Metrics Collection**
 
 **Definition:**
 **Metrics Collection** is the process of gathering numerical data about application and system performance.
@@ -12342,7 +12342,7 @@ Metrics Collection gathers **numerical performance data** to measure system heal
 
 ## **12. Containerization & Orchestration**
 
-**1. Docker**
+### **1. Docker**
 
 **Definition:**
 **Docker** is a **containerization platform** used to package an application along with its dependencies into a lightweight **container**.
@@ -12389,7 +12389,7 @@ Docker packages an application and its dependencies into a **container**, ensuri
 
 ---
 
-**2. Kubernetes**
+### **2. Kubernetes**
 
 **Definition:**
 **Kubernetes (K8s)** is a **container orchestration platform** used to automate the deployment, scaling, and management of containers.
@@ -12440,7 +12440,7 @@ Kubernetes automates the **deployment, scaling, and management of containers** i
 
 ---
 
-**3. Helm**
+### **3. Helm**
 
 **Definition:**
 **Helm** is the **package manager for Kubernetes** that simplifies deploying and managing Kubernetes applications.
@@ -12499,7 +12499,7 @@ Helm simplifies Kubernetes deployments by packaging applications into reusable *
 
 ## **13. Cloud & Deployment**
 
-**1. AWS Services**
+### **1. AWS Services**
 
 **Definition:**
 **AWS (Amazon Web Services)** is a cloud platform that provides services for computing, storage, databases, networking, security, and deployment.
@@ -12541,7 +12541,7 @@ Monitoring → CloudWatch
 
 ---
 
-**2. CI/CD Pipelines**
+### **2. CI/CD Pipelines**
 
 **Definition:**
 **CI/CD (Continuous Integration / Continuous Deployment)** is an automated process that builds, tests, and deploys code whenever changes are pushed.
@@ -12614,7 +12614,7 @@ pipeline {
 
 ---
 
-**3. Blue-Green Deployment**
+### **3. Blue-Green Deployment**
 
 **Definition:**
 **Blue-Green Deployment** is a release strategy where two identical environments are maintained.
@@ -12675,7 +12675,7 @@ Blue
 
 ---
 
-**4. Rolling Deployment**
+### **4. Rolling Deployment**
 
 **Definition:**
 **Rolling Deployment** updates application instances gradually instead of replacing all servers at once.
@@ -12769,7 +12769,7 @@ spec:
 
 ## **14. Performance & Scalability**
 
-**1. Load Balancing**
+### **1. Load Balancing**
 
 **Definition:**
 **Load Balancing** is a technique that distributes incoming traffic across multiple servers to ensure no single server is overloaded.
@@ -12802,7 +12802,7 @@ Client → Load Balancer → Server1 / Server2 / Server3
 
 ---
 
-**2. Horizontal Scaling**
+### **2. Horizontal Scaling**
 
 **Definition:**
 **Horizontal Scaling** means adding more machines (servers) to handle increased load instead of upgrading a single server.
@@ -12836,7 +12836,7 @@ After: 5 Servers handling same load
 
 ---
 
-**3. Caching**
+### **3. Caching**
 
 **Definition:**
 **Caching** stores frequently used data in fast storage (memory) to reduce database load and improve performance.
@@ -12879,7 +12879,7 @@ public User getUserById(Long id) {
 
 ---
 
-**4. Rate Limiting**
+### **4. Rate Limiting**
 
 **Definition:**
 **Rate Limiting** controls the number of requests a user or client can make in a specific time period.
@@ -12932,7 +12932,7 @@ if (bucket.tryConsume(1)) {
 
 ## **15. Microservice Design Patterns**
 
-**1. API Gateway Pattern**
+### **1. API Gateway Pattern**
 
 **Definition:**
 **API Gateway Pattern** is a single entry point that routes all client requests to appropriate microservices.
@@ -12979,7 +12979,7 @@ spring:
 
 ---
 
-**2. Saga Pattern**
+### **2. Saga Pattern**
 
 **Definition:**
 **Saga Pattern** manages distributed transactions by breaking them into multiple local transactions with compensation steps.
@@ -13015,7 +13015,7 @@ Order rollback (cancel order)
 
 ---
 
-**3. CQRS Pattern**
+### **3. CQRS Pattern**
 
 **Definition:**
 **CQRS (Command Query Responsibility Segregation)** separates read and write operations into different models.
@@ -13064,7 +13064,7 @@ public Order getOrder(@PathVariable Long id) {
 
 ---
 
-**4. Strangler Pattern**
+### **4. Strangler Pattern**
 
 **Definition:**
 **Strangler Pattern** gradually replaces a legacy system with a new system without full downtime.
@@ -13098,7 +13098,7 @@ Client → API Gateway
 
 ---
 
-**5. Database per Service Pattern**
+### **5. Database per Service Pattern**
 
 **Definition:**
 Each microservice owns its own **separate database**, ensuring loose coupling.
@@ -13145,7 +13145,7 @@ order-service:
 
 ## **16. Real-World Troubleshooting**
 
-**1. API Latency Issues**
+### **1. API Latency Issues**
 
 **Definition:**
 **API Latency Issues** occur when API responses take too long due to network, server, or database delays.
@@ -13180,7 +13180,7 @@ System.out.println("Latency: " + (end - start) + "ms");
 
 ---
 
-**2. Distributed Debugging**
+### **2. Distributed Debugging**
 
 **Definition:**
 **Distributed Debugging** is identifying issues across multiple microservices in a distributed system.
@@ -13213,7 +13213,7 @@ log.info("Request ID: {}", requestId);
 
 ---
 
-**3. Kafka Consumer Lag**
+### **3. Kafka Consumer Lag**
 
 **Definition:**
 **Kafka Consumer Lag** is the delay between messages produced and messages consumed.
@@ -13245,7 +13245,7 @@ Lag = Latest Offset - Consumer Offset
 
 ---
 
-**4. Database Bottlenecks**
+### **4. Database Bottlenecks**
 
 **Definition:**
 **Database Bottlenecks** occur when the database cannot handle the load efficiently, slowing down the system.
@@ -13278,7 +13278,7 @@ CREATE INDEX idx_user_id ON users(id);
 
 ---
 
-**5. Production Incident Handling**
+### **5. Production Incident Handling**
 
 **Definition:**
 **Production Incident Handling** is the process of detecting, resolving, and recovering from system failures in production.
@@ -13311,7 +13311,7 @@ Alert → Investigation → Fix/Rollback → Recovery
 
 ---
 
-**6. Root Cause Analysis (RCA)**
+### **6. Root Cause Analysis (RCA)**
 
 **Definition:**
 **RCA (Root Cause Analysis)** is the process of identifying the underlying cause of a production issue.
