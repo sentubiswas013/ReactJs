@@ -7241,209 +7241,6105 @@ public class EmployeeService {
 
 # **21. Scenario-Based Questions**
 
-1. How HashMap Works Internally
-2. How to Make Class Immutable
-3. How to Prevent Deadlocks
-4. Difference Between Heap and Stack
-5. Difference Between Comparable and Comparator
-6. Difference Between Runnable and Callable
-7. Why String is Immutable
-8. How ConcurrentHashMap Works
-9. How Garbage Collection Works
-10. How to Optimize Java Performance
+**1. How HashMap Works Internally**
+
+**Definition:**
+**HashMap** stores data as **Key-Value pairs** and uses a **hashing mechanism** for fast retrieval.
+
+**Key Features:**
+
+* Stores unique keys
+* Allows one null key
+* Average Time Complexity: **O(1)**
+* Uses **Array + Linked List/Tree**
+
+**How it Works:**
+
+1. Key's `hashCode()` is calculated
+2. Hash value determines the bucket index
+3. Data is stored in that bucket
+4. If multiple keys map to the same bucket (**Collision**), Java uses:
+
+   * **Linked List** (Java 7)
+   * **Linked List + Red-Black Tree** (Java 8+)
+
+**When to Use:**
+
+* Fast data lookup
+* Caching
+* Key-value storage
+
+**Code Example:**
+
+```java id="aj2k7m"
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+
+        HashMap<Integer, String> map =
+                new HashMap<>();
+
+        map.put(1, "Java");
+
+        System.out.println(map.get(1));
+    }
+}
+```
+
+**Interview One-Liner:**
+**HashMap** uses **hashCode()**, bucket indexing, and collision handling to provide **O(1)** average lookup performance.
+
+**2. How to Make Class Immutable**
+
+**Definition:**
+An **Immutable Class** is a class whose objects cannot be modified after creation.
+
+**Key Features:**
+
+* Thread-safe
+* Secure
+* No state changes
+* Easier maintenance
+
+**How it Works:**
+
+1. Make class `final`
+2. Make fields `private final`
+3. Initialize fields through constructor
+4. Do not provide setters
+5. Use defensive copying for mutable objects
+
+**When to Use:**
+
+* Configuration objects
+* Shared objects
+* Multi-threaded applications
+
+**Code Example:**
+
+```java id="u5r8tx"
+final class Employee {
+
+    private final String name;
+
+    public Employee(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+```
+
+**Interview One-Liner:**
+To make a class **Immutable**, make it **final**, use **private final fields**, and avoid setter methods.
+
+**3. How to Prevent Deadlocks**
+
+**Definition:**
+A **Deadlock** occurs when two or more threads wait indefinitely for resources held by each other.
+
+**Key Features:**
+
+* Threads become blocked forever
+* Causes application hangs
+* Common in multi-threaded systems
+
+**How it Works:**
+
+* Thread A holds Resource 1 and waits for Resource 2
+* Thread B holds Resource 2 and waits for Resource 1
+* Neither thread can proceed
+
+**How to Prevent:**
+
+* Acquire locks in a fixed order
+* Minimize nested locks
+* Use timeout-based locking
+* Use concurrent utilities
+
+**When to Use:**
+
+* Multi-threaded applications
+* Shared resource management
+
+**Code Example:**
+
+```java id="q4w7np"
+synchronized(lock1) {
+    synchronized(lock2) {
+        // Safe locking order
+    }
+}
+```
+
+**Interview One-Liner:**
+**Deadlocks** can be prevented by acquiring locks in a **consistent order** and minimizing nested locking.
+
+**4. Difference Between Heap and Stack**
+
+**Definition:**
+Both are memory areas used by JVM, but they serve different purposes.
+
+| Feature           | **Heap Memory**         | **Stack Memory**               |
+| ----------------- | ----------------------- | ------------------------------ |
+| Stores            | Objects                 | Local variables & method calls |
+| Shared            | Yes                     | No                             |
+| Access Speed      | Slower                  | Faster                         |
+| Memory Management | Garbage Collector       | Automatic                      |
+| Lifetime          | Until object is removed | Until method ends              |
+
+**Key Features:**
+
+* **Heap** stores objects
+* **Stack** stores method execution data
+* Every thread has its own stack
+* Heap is shared across threads
+
+**Code Example:**
+
+```java id="e8m3zr"
+public class Main {
+
+    public static void main(String[] args) {
+
+        int age = 25;          // Stack
+
+        String name = "John";  // Object in Heap
+    }
+}
+```
+
+**When to Use:**
+
+* **Heap:** Object storage
+* **Stack:** Method execution and local variables
+
+**Interview One-Liner:**
+**Heap** stores objects, while **Stack** stores local variables and method call information.
+
+**5. Difference Between Comparable and Comparator**
+
+**Definition:**
+Both are used for **sorting objects**, but they differ in where the sorting logic is defined.
+
+**Key Features:**
+
+| Feature               | **Comparable** | **Comparator** |
+| --------------------- | -------------- | -------------- |
+| Package               | java.lang      | java.util      |
+| Method                | compareTo()    | compare()      |
+| Sorting Logic         | Inside Class   | Outside Class  |
+| Number of Sort Orders | One            | Multiple       |
+| Modification Needed   | Yes            | No             |
+
+**How it Works:**
+
+* **Comparable:** Class defines its own default sorting
+* **Comparator:** External class defines custom sorting
+
+**When to Use:**
+
+* **Comparable:** Natural ordering
+* **Comparator:** Multiple sorting criteria
+
+**Code Example (Comparable):**
+
+```java id="y6p4cw"
+class Employee implements Comparable<Employee> {
+
+    int id;
+
+    @Override
+    public int compareTo(Employee e) {
+        return this.id - e.id;
+    }
+}
+```
+
+**Code Example (Comparator):**
+
+```java id="x2n8jt"
+import java.util.Comparator;
+
+class EmployeeNameComparator
+        implements Comparator<Employee> {
+
+    public int compare(Employee e1,
+                       Employee e2) {
+        return e1.name.compareTo(e2.name);
+    }
+}
+```
+
+**6. Difference Between Runnable and Callable**
+
+**Definition:**
+Both **Runnable** and **Callable** are used to execute tasks in separate threads.
+
+**Key Features:**
+
+| Feature            | **Runnable**                    | **Callable**                 |
+| ------------------ | ------------------------------- | ---------------------------- |
+| Return Value       | No                              | Yes                          |
+| Exception Handling | Cannot throw checked exceptions | Can throw checked exceptions |
+| Method             | `run()`                         | `call()`                     |
+| Package            | java.lang                       | java.util.concurrent         |
+
+**How it Works:**
+
+* **Runnable** executes a task without returning a result.
+* **Callable** executes a task and returns a result using `Future`.
+
+**When to Use:**
+
+* **Runnable:** Simple background tasks.
+* **Callable:** When a result is required from a thread.
+
+**Code Example:**
+
+```java id="r8m2xp"
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        Callable<String> task =
+                () -> "Task Completed";
+
+        ExecutorService executor =
+                Executors.newSingleThreadExecutor();
+
+        Future<String> result =
+                executor.submit(task);
+
+        System.out.println(result.get());
+
+        executor.shutdown();
+    }
+}
+```
+
+**Interview One-Liner:**
+**Runnable** performs a task without returning a value, while **Callable** can **return a result and throw checked exceptions**.
+
+**7. Why String is Immutable**
+
+**Definition:**
+A **String** object cannot be changed once it is created.
+
+**Key Features:**
+
+* Thread-safe
+* Secure
+* Supports String Pool
+* Improves performance
+
+**Why Java Made String Immutable:**
+
+* **Security:** Prevents modification of sensitive values like database URLs and file paths.
+* **Thread Safety:** Multiple threads can safely share the same String.
+* **String Pool:** Reuse of String objects saves memory.
+* **Hashing:** Stable hashCode improves HashMap performance.
+
+**How it Works:**
+
+* `String` class is `final`
+* Internal character data cannot be modified
+* Any modification creates a new object
+
+**Code Example:**
+
+```java id="n4q7vy"
+public class Main {
+    public static void main(String[] args) {
+
+        String s = "Java";
+
+        s.concat(" Spring");
+
+        System.out.println(s);
+    }
+}
+```
+
+**Output:**
+
+```text id="5u2zmd"
+Java
+```
+
+**Interview One-Liner:**
+**String** is immutable to provide **security, thread safety, memory optimization, and better hashing performance**.
+
+**8. How ConcurrentHashMap Works**
+
+**Definition:**
+**ConcurrentHashMap** is a thread-safe version of **HashMap** designed for high-performance concurrent access.
+
+**Key Features:**
+
+* Thread-safe
+* Better performance than Hashtable
+* Supports concurrent reads and writes
+* No full-map locking
+
+**How it Works:**
+
+* Multiple threads can read simultaneously.
+* Java 8 uses **bucket-level locking** instead of locking the entire map.
+* Only the affected bucket is locked during updates.
+
+**When to Use:**
+
+* Multi-threaded applications
+* Shared cache
+* High-concurrency systems
+
+**Code Example:**
+
+```java id="w9c4kn"
+import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ConcurrentHashMap<Integer, String> map =
+                new ConcurrentHashMap<>();
+
+        map.put(1, "Java");
+
+        System.out.println(map.get(1));
+    }
+}
+```
+
+**Interview One-Liner:**
+**ConcurrentHashMap** provides thread-safe access using **fine-grained locking**, allowing high concurrency and better performance.
+
+**9. How Garbage Collection Works**
+
+**Definition:**
+**Garbage Collection (GC)** is the JVM process that automatically removes unused objects from memory.
+
+**Key Features:**
+
+* Automatic memory management
+* Prevents memory leaks
+* Frees unused objects
+* Managed by JVM
+
+**How it Works:**
+
+1. Objects are created in **Heap Memory**.
+2. JVM tracks object references.
+3. Objects with no reachable references become **eligible for GC**.
+4. Garbage Collector removes those objects and frees memory.
+
+**When to Use:**
+
+* Happens automatically in all Java applications.
+* No manual memory deallocation required.
+
+**Code Example:**
+
+```java id="e6v8rt"
+public class Main {
+    public static void main(String[] args) {
+
+        String str = new String("Java");
+
+        str = null;
+
+        System.gc();
+    }
+}
+```
+
+**Interview One-Liner:**
+**Garbage Collection** automatically removes **unreachable objects from heap memory**, helping manage memory efficiently.
+
+**10. How to Optimize Java Performance**
+
+**Definition:**
+**Java Performance Optimization** involves improving application speed, memory usage, and scalability.
+
+**Key Features:**
+
+* Faster execution
+* Lower memory consumption
+* Better scalability
+* Improved user experience
+
+**How it Works:**
+
+* Identify bottlenecks
+* Optimize code, memory, and database operations
+* Use efficient data structures
+
+**Best Practices:**
+
+* Use **StringBuilder** instead of String concatenation in loops.
+* Choose the right **Collection**.
+* Minimize object creation.
+* Use **Connection Pooling**.
+* Implement **Caching**.
+* Use **Concurrent Collections**.
+* Optimize database queries.
+* Profile applications using monitoring tools.
+
+**Code Example:**
+
+```java id="y3k8pm"
+StringBuilder sb = new StringBuilder();
+
+for (int i = 0; i < 1000; i++) {
+    sb.append(i);
+}
+```
+
 
 # **Spring Boot Interview Categories**
 
 ## **1. Spring Core**
 
-1. IOC Container
-2. Dependency Injection
-3. Bean Lifecycle
-4. Bean Scopes
+**1. IoC (Inversion of Control) Container**
+
+**Definition**
+
+The **IoC Container** is the core of Spring that **creates, configures, and manages objects (Beans)** instead of developers creating them manually using `new`.
+
+**Key Features**
+
+* Manages **Bean creation**
+* Handles **Dependency Injection**
+* Controls **Bean lifecycle**
+* Improves **loose coupling**
+
+**How It Works**
+
+1. Spring starts the container.
+2. Reads configuration (`@Component`, `@Bean`, XML).
+3. Creates beans.
+4. Injects required dependencies.
+5. Makes beans available for use.
+
+**When to Use**
+
+* In almost every **Spring application**
+* To avoid manual object creation
+* To manage application components centrally
+
+**Code Example**
+
+```java
+@Component
+class Engine {
+}
+
+@Component
+class Car {
+    private Engine engine;
+
+    @Autowired
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+```
+
+Here, the **IoC Container** creates both `Engine` and `Car` objects and injects the dependency automatically.
+
+---
+
+**2. Dependency Injection (DI)**
+
+**Definition**
+
+**Dependency Injection** is a design pattern where Spring provides required objects (**dependencies**) to a class instead of the class creating them itself.
+
+**Key Features**
+
+* Promotes **loose coupling**
+* Improves **testability**
+* Easier maintenance
+* Managed by Spring IoC Container
+
+**Types of DI**
+
+1. **Constructor Injection** (Recommended)
+2. **Setter Injection**
+3. **Field Injection**
+
+**How It Works**
+
+1. Class declares required dependency.
+2. Spring creates dependency object.
+3. Spring injects it into the class.
+
+**When to Use**
+
+* Whenever one class depends on another
+* For better unit testing and maintainability
+
+**Code Example**
+
+```java
+@Component
+class Engine {
+}
+
+@Component
+class Car {
+
+    private final Engine engine;
+
+    @Autowired
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+```
+
+Spring automatically injects the `Engine` object into `Car`.
+
+---
+
+**3. Bean Lifecycle**
+
+**Definition**
+
+The **Bean Lifecycle** describes the stages a Spring Bean goes through from creation to destruction.
+
+**Lifecycle Steps**
+
+1. **Bean Instantiation**
+2. **Dependency Injection**
+3. **@PostConstruct**
+4. Bean Ready for Use
+5. **@PreDestroy**
+6. Bean Destroyed
+
+**How It Works**
+
+Spring creates the bean, injects dependencies, calls initialization methods, uses the bean, and finally destroys it when the container shuts down.
+
+**When to Use**
+
+* Resource initialization
+* Database connections
+* Cache loading
+* Cleanup operations
+
+**Code Example**
+
+```java
+@Component
+class DatabaseService {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean Initialized");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean Destroyed");
+    }
+}
+```
+
+**Output**
+
+```text
+Bean Initialized
+Bean Destroyed
+```
+
+---
+
+**4. Bean Scopes**
+
+**Definition**
+
+**Bean Scope** defines how many bean instances Spring creates and how long they live.
+
+**Common Scopes**
+
+| Scope           | Description                              |
+| --------------- | ---------------------------------------- |
+| **singleton**   | One bean instance for entire application |
+| **prototype**   | New bean instance every request          |
+| **request**     | One bean per HTTP request                |
+| **session**     | One bean per HTTP session                |
+| **application** | One bean per web application             |
+
+**How It Works**
+
+Spring checks the configured scope and creates bean instances accordingly.
+
+**When to Use**
+
+* **singleton** – Services, Repositories
+* **prototype** – Stateful objects
+* **request** – Request-specific data
+* **session** – User session data
+
+**Code Example**
+
+```java
+@Component
+@Scope("prototype")
+class Employee {
+}
+```
+
+Each call creates a **new Employee object**.
+
+```java
+Employee e1 = context.getBean(Employee.class);
+Employee e2 = context.getBean(Employee.class);
+
+System.out.println(e1 == e2);
+```
+
+**Output**
+
+```text
+false
+```
+
+Because **prototype scope** creates a new bean instance every time.
+
 
 ## **2. Spring Boot Fundamentals**
 
-1. Auto Configuration
-2. Starter Dependencies
-3. Embedded Servers
-4. Spring Boot Annotations
+**1. Auto Configuration**
+
+**Definition**
+
+**Auto Configuration** is a Spring Boot feature that automatically configures beans based on the dependencies available in the project.
+
+**Key Features**
+
+* Reduces manual configuration
+* Automatically creates required beans
+* Uses sensible defaults
+* Speeds up application development
+
+**How It Works**
+
+1. Spring Boot scans dependencies in the classpath.
+2. Detects required configurations.
+3. Creates and configures beans automatically.
+4. Developers can override default settings if needed.
+
+**When to Use**
+
+* In all Spring Boot applications
+* To minimize XML and Java configuration
+* For faster project setup
+
+**Code Example**
+
+```java
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+```
+
+If `spring-boot-starter-web` is present, Spring Boot automatically configures **DispatcherServlet**, **Tomcat**, and web-related beans.
+
+**2. Starter Dependencies**
+
+**Definition**
+
+**Starter Dependencies** are pre-configured dependency packages that include all libraries needed for a specific feature.
+
+**Key Features**
+
+* Simplifies dependency management
+* Reduces version conflicts
+* Provides commonly used libraries
+* Easy project setup
+
+**How It Works**
+
+1. Add a starter dependency.
+2. Spring Boot downloads required libraries.
+3. Auto Configuration configures them automatically.
+
+**When to Use**
+
+* To quickly add application features
+* To avoid managing multiple dependencies manually
+
+**Common Starters**
+
+* **spring-boot-starter-web**
+* **spring-boot-starter-data-jpa**
+* **spring-boot-starter-security**
+* **spring-boot-starter-test**
+
+**Code Example**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+This single dependency includes Spring MVC, Jackson, Validation, and Embedded Tomcat.
+
+**3. Embedded Servers**
+
+**Definition**
+
+An **Embedded Server** is a web server packaged inside the Spring Boot application, eliminating the need for separate server installation.
+
+**Key Features**
+
+* No external server setup
+* Easy deployment
+* Self-contained application
+* Faster development
+
+**Supported Servers**
+
+* **Tomcat** (Default)
+* **Jetty**
+* **Undertow**
+
+**How It Works**
+
+1. Spring Boot starts the embedded server.
+2. Deploys application automatically.
+3. Begins listening for HTTP requests.
+
+**When to Use**
+
+* Microservices
+* REST APIs
+* Standalone web applications
+
+**Code Example**
+
+```java
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello Spring Boot";
+    }
+}
+```
+
+Run the application:
+
+```bash
+mvn spring-boot:run
+```
+
+Spring Boot automatically starts the embedded **Tomcat** server.
+
+**4. Spring Boot Annotations**
+
+**Definition**
+
+Spring Boot provides annotations to simplify configuration and development.
+
+**Key Features**
+
+* Reduces boilerplate code
+* Enables automatic configuration
+* Simplifies component scanning
+* Improves readability
+
+**Common Annotations**
+
+| Annotation                 | Purpose                     |
+| -------------------------- | --------------------------- |
+| **@SpringBootApplication** | Main Spring Boot annotation |
+| **@RestController**        | Creates REST APIs           |
+| **@Controller**            | Creates MVC controller      |
+| **@Service**               | Business logic layer        |
+| **@Repository**            | Data access layer           |
+| **@Component**             | Generic Spring bean         |
+| **@Autowired**             | Dependency Injection        |
+| **@Configuration**         | Configuration class         |
+| **@Bean**                  | Creates and manages a bean  |
+
+**How It Works**
+
+Spring scans these annotations during startup and automatically registers the corresponding beans.
+
+**When to Use**
+
+* Building REST APIs
+* Creating services and repositories
+* Configuring Spring-managed components
+
+**Code Example**
+
+```java
+@Service
+public class UserService {
+
+    public String getUser() {
+        return "John";
+    }
+}
+
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/user")
+    public String user() {
+        return userService.getUser();
+    }
+}
+```
+
 
 ## **3. REST API Development**
 
-1. REST Principles
-2. Request Mapping
-3. Path Variables
-4. Request Parameters
-5. ResponseEntity
+**1. REST Principles**
+
+**Definition**
+
+**REST (Representational State Transfer)** is an architectural style used to build **scalable web services** using standard HTTP methods.
+
+**Key Features**
+
+* **Client-Server Architecture**
+* **Stateless Communication**
+* **Resource-Based URLs**
+* Uses **HTTP Methods** (GET, POST, PUT, DELETE)
+* Supports multiple formats like **JSON** and **XML**
+
+**How It Works**
+
+1. Client sends an HTTP request.
+2. Server processes the request.
+3. Server returns a response with data and status code.
+
+**When to Use**
+
+* Building REST APIs
+* Microservices communication
+* Web and mobile applications
+
+**Example URLs**
+
+```http
+GET    /users
+GET    /users/1
+POST   /users
+PUT    /users/1
+DELETE /users/1
+```
+
+**Code Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping
+    public String getUsers() {
+        return "All Users";
+    }
+}
+```
+
+---
+
+**2. Request Mapping**
+
+**Definition**
+
+**Request Mapping** is used to map an HTTP request URL to a controller method.
+
+**Key Features**
+
+* Maps URLs to methods
+* Supports HTTP methods
+* Improves API organization
+* Can be applied at class and method level
+
+**How It Works**
+
+1. Client sends a request.
+2. Spring matches URL and HTTP method.
+3. Corresponding controller method executes.
+
+**When to Use**
+
+* Creating REST endpoints
+* Routing requests to controller methods
+
+**Code Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping
+    public String getUsers() {
+        return "All Users";
+    }
+
+    @PostMapping
+    public String createUser() {
+        return "User Created";
+    }
+}
+```
+
+**Common Mapping Annotations**
+
+* **@RequestMapping**
+* **@GetMapping**
+* **@PostMapping**
+* **@PutMapping**
+* **@DeleteMapping**
+
+---
+
+**3. Path Variables**
+
+**Definition**
+
+A **Path Variable** is used to extract values directly from the URL path.
+
+**Key Features**
+
+* Dynamic URL handling
+* Easy resource identification
+* Improves URL readability
+
+**How It Works**
+
+1. Value is passed in the URL.
+2. Spring extracts the value.
+3. Method parameter receives it.
+
+**When to Use**
+
+* Fetching specific resources
+* Updating or deleting records
+
+**Example URL**
+
+```http
+GET /users/101
+```
+
+**Code Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public String getUser(@PathVariable Long id) {
+        return "User Id: " + id;
+    }
+}
+```
+
+**Output**
+
+```text
+User Id: 101
+```
+
+---
+
+**4. Request Parameters**
+
+**Definition**
+
+**Request Parameters** are values passed in the URL after the `?` symbol.
+
+**Key Features**
+
+* Used for filtering and searching
+* Optional or mandatory
+* Supports default values
+
+**How It Works**
+
+1. Client sends parameters in URL.
+2. Spring reads parameters using **@RequestParam**.
+3. Values are passed to the controller method.
+
+**When to Use**
+
+* Search operations
+* Pagination
+* Sorting and filtering
+
+**Example URL**
+
+```http
+GET /users?name=John
+```
+
+**Code Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping
+    public String getUser(@RequestParam String name) {
+        return "User Name: " + name;
+    }
+}
+```
+
+**Output**
+
+```text
+User Name: John
+```
+
+---
+
+**5. ResponseEntity**
+
+**Definition**
+
+**ResponseEntity** represents the complete HTTP response including **body, headers, and status code**.
+
+**Key Features**
+
+* Custom HTTP status codes
+* Custom headers
+* Flexible response handling
+* Better API design
+
+**How It Works**
+
+1. Controller creates a ResponseEntity object.
+2. Sets response body.
+3. Sets status code and headers.
+4. Returns complete HTTP response.
+
+**When to Use**
+
+* Returning custom status codes
+* Error handling
+* REST API responses
+
+**Code Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getUser(
+            @PathVariable Long id) {
+
+        return ResponseEntity
+                .ok("User Found: " + id);
+    }
+}
+```
+
+**Custom Status Example**
+
+```java
+@PostMapping
+public ResponseEntity<String> createUser() {
+
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body("User Created");
+}
+```
+
+**Output**
+
+```http
+HTTP Status: 201 Created
+Body: User Created
+```
+
 
 ## **4. Spring Data JPA**
 
-1. Entity Mapping
-2. Repository Pattern
-3. JPQL
-4. Native Queries
-5. Pagination
-6. Auditing
+**1. Entity Mapping**
+
+**Definition**
+
+**Entity Mapping** is the process of mapping a Java class to a database table using **JPA annotations**.
+
+**Key Features**
+
+* Object-Relational Mapping (**ORM**)
+* Maps classes to tables
+* Maps fields to columns
+* Supports relationships between entities
+
+**How It Works**
+
+1. Create a Java class.
+2. Annotate it with **@Entity**.
+3. JPA maps the class to a database table.
+4. Objects are stored as rows in the table.
+
+**When to Use**
+
+* Database-driven applications
+* Spring Data JPA projects
+* CRUD operations
+
+**Code Example**
+
+```java
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+}
+```
+
+**Common Mapping Annotations**
+
+* **@Entity**
+* **@Table**
+* **@Id**
+* **@Column**
+* **@OneToOne**
+* **@OneToMany**
+* **@ManyToOne**
+* **@ManyToMany**
+
+---
+
+**2. Repository Pattern**
+
+**Definition**
+
+The **Repository Pattern** abstracts database operations and provides a clean way to access data.
+
+**Key Features**
+
+* Separates business logic from data access
+* Reduces boilerplate code
+* Provides built-in CRUD operations
+* Easy database interaction
+
+**How It Works**
+
+1. Create a repository interface.
+2. Extend **JpaRepository**.
+3. Spring automatically generates implementation.
+
+**When to Use**
+
+* Performing database operations
+* CRUD applications
+* Data access layer implementation
+
+**Code Example**
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+}
+```
+
+**Built-in Methods**
+
+```java
+userRepository.save(user);
+userRepository.findById(1L);
+userRepository.findAll();
+userRepository.deleteById(1L);
+```
+
+---
+
+**3. JPQL (Java Persistence Query Language)**
+
+**Definition**
+
+**JPQL** is an object-oriented query language used to query **Entity objects** instead of database tables.
+
+**Key Features**
+
+* Database independent
+* Works with entities
+* Similar to SQL
+* Supports custom queries
+
+**How It Works**
+
+1. Write query using entity names.
+2. JPA converts JPQL into SQL.
+3. Database executes generated SQL.
+
+**When to Use**
+
+* Complex data retrieval
+* Custom filtering
+* Entity-based queries
+
+**Code Example**
+
+```java
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+
+    @Query("SELECT u FROM User u WHERE u.name = :name")
+    List<User> findByName(String name);
+}
+```
+
+**JPQL Example**
+
+```sql
+SELECT u FROM User u
+```
+
+Uses **User Entity**, not the database table name.
+
+---
+
+**4. Native Queries**
+
+**Definition**
+
+A **Native Query** is a database-specific SQL query written directly in SQL.
+
+**Key Features**
+
+* Uses actual SQL syntax
+* Supports database-specific features
+* More control over queries
+* Useful for complex operations
+
+**How It Works**
+
+1. Write SQL query.
+2. Set `nativeQuery = true`.
+3. Spring executes the SQL directly.
+
+**When to Use**
+
+* Complex joins
+* Stored procedures
+* Database-specific optimizations
+
+**Code Example**
+
+```java
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+
+    @Query(
+      value = "SELECT * FROM users WHERE name = ?1",
+      nativeQuery = true)
+    List<User> findByName(String name);
+}
+```
+
+**SQL Example**
+
+```sql
+SELECT * FROM users
+```
+
+Uses the actual **table name**.
+
+---
+
+**5. Pagination**
+
+**Definition**
+
+**Pagination** is the process of retrieving data in smaller chunks (pages) instead of loading all records at once.
+
+**Key Features**
+
+* Improves performance
+* Reduces memory usage
+* Faster API responses
+* Handles large datasets efficiently
+
+**How It Works**
+
+1. Specify page number and size.
+2. Spring fetches only required records.
+3. Returns paginated result.
+
+**When to Use**
+
+* Large datasets
+* Search APIs
+* User listings
+* Reports
+
+**Code Example**
+
+```java
+import org.springframework.data.domain.*;
+
+Page<User> users =
+    userRepository.findAll(
+        PageRequest.of(0, 5));
+```
+
+**Repository**
+
+```java
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+}
+```
+
+**Output**
+
+```text
+Page 0
+5 Records Returned
+```
+
+---
+
+**6. Auditing**
+
+**Definition**
+
+**Auditing** automatically tracks who created or modified data and when those changes occurred.
+
+**Key Features**
+
+* Tracks creation time
+* Tracks update time
+* Reduces manual coding
+* Improves data traceability
+
+**How It Works**
+
+1. Enable JPA auditing.
+2. Add auditing annotations.
+3. Spring automatically updates audit fields.
+
+**When to Use**
+
+* Enterprise applications
+* Logging changes
+* Compliance requirements
+* Tracking user activity
+
+**Code Example**
+
+**Enable Auditing**
+
+```java
+@Configuration
+@EnableJpaAuditing
+public class AuditConfig {
+}
+```
+
+**Entity**
+
+```java
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class User {
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+}
+```
+
+**Audit Annotations**
+
+* **@CreatedDate**
+* **@LastModifiedDate**
+* **@CreatedBy**
+* **@LastModifiedBy**
+
 
 ## **5. Transaction Management**
 
-1. @Transactional
-2. Propagation
-3. Isolation Levels
-4. Rollback
+**1. @Transactional**
+
+**Definition**
+
+**@Transactional** is a Spring annotation used to manage **database transactions** automatically.
+
+A transaction ensures that a group of operations either **all succeed (Commit)** or **all fail (Rollback)**.
+
+**Key Features**
+
+* Automatic transaction management
+* Maintains data consistency
+* Supports rollback on failure
+* Supports propagation and isolation levels
+
+**How It Works**
+
+1. Transaction starts.
+2. Database operations execute.
+3. If successful, transaction commits.
+4. If an exception occurs, transaction rolls back.
+
+**When to Use**
+
+* Money transfers
+* Order processing
+* Multiple database updates
+* Any operation requiring data consistency
+
+**Code Example**
+
+```java
+@Service
+public class AccountService {
+
+    @Transactional
+    public void transferMoney() {
+
+        debitAccount();
+        creditAccount();
+    }
+}
+```
+
+Both methods execute in a **single transaction**.
+
+---
+
+**2. Propagation**
+
+**Definition**
+
+**Propagation** defines how a transaction behaves when one transactional method calls another transactional method.
+
+**Key Features**
+
+* Controls transaction boundaries
+* Supports nested operations
+* Reuses or creates transactions
+* Improves transaction management
+
+**How It Works**
+
+Spring checks whether a transaction already exists and applies the configured propagation behavior.
+
+**Common Propagation Types**
+
+| Propagation       | Description                                   |
+| ----------------- | --------------------------------------------- |
+| **REQUIRED**      | Join existing transaction or create a new one |
+| **REQUIRES_NEW**  | Always create a new transaction               |
+| **SUPPORTS**      | Use existing transaction if available         |
+| **MANDATORY**     | Must run inside an existing transaction       |
+| **NOT_SUPPORTED** | Execute without transaction                   |
+
+**When to Use**
+
+* Parent-child service calls
+* Complex business operations
+* Transaction separation
+
+**Code Example**
+
+```java
+@Service
+public class OrderService {
+
+    @Transactional(
+        propagation = Propagation.REQUIRED)
+    public void placeOrder() {
+        paymentService.pay();
+    }
+}
+```
+
+**Interview One-Line Answer**
+
+**Propagation** defines how Spring handles transactions when one transactional method calls another.
+
+---
+
+**3. Isolation Levels**
+
+**Definition**
+
+**Isolation Level** controls how transactions interact with each other when running concurrently.
+
+**Key Features**
+
+* Prevents data inconsistency
+* Controls concurrent access
+* Balances performance and safety
+* Avoids transaction conflicts
+
+**How It Works**
+
+The database restricts how one transaction can view changes made by another transaction.
+
+**Isolation Levels**
+
+| Level                | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| **READ_UNCOMMITTED** | Can read uncommitted data                      |
+| **READ_COMMITTED**   | Reads only committed data                      |
+| **REPEATABLE_READ**  | Same row returns same data during transaction  |
+| **SERIALIZABLE**     | Highest isolation, fully isolated transactions |
+
+**When to Use**
+
+* Banking systems
+* Financial applications
+* High-concurrency systems
+
+**Code Example**
+
+```java
+@Transactional(
+    isolation = Isolation.READ_COMMITTED)
+public void updateBalance() {
+
+}
+```
+
+**Interview One-Line Answer**
+
+**Isolation Level** controls the visibility of data changes between concurrent transactions.
+
+---
+
+**4. Rollback**
+
+**Definition**
+
+**Rollback** cancels all changes made within a transaction when an error occurs.
+
+**Key Features**
+
+* Maintains data integrity
+* Prevents partial updates
+* Automatic failure recovery
+* Supports custom exception handling
+
+**How It Works**
+
+1. Transaction starts.
+2. Operations execute.
+3. Exception occurs.
+4. All changes are undone.
+
+**When to Use**
+
+* Financial transactions
+* Order management
+* Inventory updates
+* Any critical business operation
+
+**Code Example**
+
+```java
+@Service
+public class PaymentService {
+
+    @Transactional
+    public void processPayment() {
+
+        savePayment();
+
+        if (true) {
+            throw new RuntimeException("Error");
+        }
+
+        updateAccount();
+    }
+}
+```
+
+**Result**
+
+```text
+Transaction Rolled Back
+No Data Saved
+```
+
+**Custom Rollback Example**
+
+```java
+@Transactional(
+    rollbackFor = Exception.class)
+public void processPayment() throws Exception {
+
+    throw new Exception("Failure");
+}
+```
+
 
 ## **6. Spring Security**
 
-1. Authentication
-2. Authorization
-3. JWT
-4. OAuth2
-5. Role-Based Access
+**1. Authentication**
+
+**Authentication** is the process of **verifying a user's identity**.
+
+**Key Features**
+
+* Confirms **who the user is**
+* Uses **username/password**, **OTP**, **biometrics**, or **tokens**
+* First step before authorization
+
+**How It Works**
+
+1. User enters credentials.
+2. System verifies credentials.
+3. User is authenticated and allowed to access the application.
+
+**When to Use**
+
+* Login systems
+* Banking applications
+* Enterprise applications
+
+**Example**
+
+```java
+if(username.equals("admin") && password.equals("123")) {
+    System.out.println("Authenticated");
+}
+```
+
+**Interview One-Liner**
+
+Authentication means **verifying the identity of a user before granting access**.
+
+---
+
+**2. Authorization**
+
+**Authorization** is the process of **determining what an authenticated user is allowed to do**.
+
+**Key Features**
+
+* Controls **permissions and access**
+* Happens **after authentication**
+* Defines access to resources
+
+**How It Works**
+
+1. User is authenticated.
+2. System checks permissions.
+3. Access is granted or denied.
+
+**When to Use**
+
+* Admin/User access control
+* API security
+* Resource protection
+
+**Example**
+
+```java
+if(user.getRole().equals("ADMIN")) {
+    System.out.println("Access Granted");
+} else {
+    System.out.println("Access Denied");
+}
+```
+
+**Interview One-Liner**
+
+Authorization means **checking what actions or resources a user can access**.
+
+---
+
+**3. JWT (JSON Web Token)**
+
+**JWT** is a **compact, secure token** used for authentication and information exchange between client and server.
+
+**Key Features**
+
+* **Stateless**
+* **Digitally signed**
+* Easy to transfer in HTTP headers
+* Contains user information (**claims**)
+
+**JWT Structure**
+
+```text
+Header.Payload.Signature
+```
+
+**How It Works**
+
+1. User logs in.
+2. Server generates JWT.
+3. Client stores token.
+4. Client sends token with every request.
+5. Server validates token and grants access.
+
+**When to Use**
+
+* REST APIs
+* Microservices
+* Stateless authentication
+
+**Example**
+
+```java
+String token = Jwts.builder()
+        .setSubject("user1")
+        .signWith(secretKey)
+        .compact();
+```
+
+**Interview One-Liner**
+
+JWT is a **signed token used for stateless authentication and secure user information exchange**.
+
+---
+
+**4. OAuth2**
+
+**OAuth2** is an **authorization framework** that allows users to grant limited access to resources without sharing passwords.
+
+**Key Features**
+
+* Secure **third-party access**
+* Uses **Access Tokens**
+* Supports multiple grant types
+* Widely used by Google, GitHub, Facebook
+
+**How It Works**
+
+1. User logs in through a provider.
+2. Provider authenticates the user.
+3. Access token is issued.
+4. Application uses the token to access resources.
+
+**When to Use**
+
+* Social login
+* Third-party integrations
+* API authorization
+
+**Example**
+
+```java
+http
+    .oauth2Login(Customizer.withDefaults());
+```
+
+**Real Example**
+
+* Login with Google
+* Login with GitHub
+* Login with Facebook
+
+**Interview One-Liner**
+
+OAuth2 allows **secure authorization by granting access through tokens instead of sharing passwords**.
+
+---
+
+**5. Role-Based Access Control (RBAC)**
+
+**RBAC** is a security model where permissions are assigned based on **roles**.
+
+**Key Features**
+
+* Centralized permission management
+* Easy to maintain
+* Improves security
+* Supports multiple user roles
+
+**How It Works**
+
+1. Assign roles to users.
+2. Assign permissions to roles.
+3. System checks user role before granting access.
+
+**Example Roles**
+
+* **ADMIN** → Full access
+* **MANAGER** → Limited management access
+* **USER** → Basic access
+
+**When to Use**
+
+* Enterprise applications
+* Banking systems
+* E-commerce applications
+
+**Spring Security Example**
+
+```java
+@PreAuthorize("hasRole('ADMIN')")
+public void deleteUser() {
+    System.out.println("User Deleted");
+}
+```
+
 
 ## **7. Exception Handling**
 
-1. Global Exception Handling
-2. @ControllerAdvice
-3. Custom Exceptions
+**1. Global Exception Handling**
+
+**Global Exception Handling** is a mechanism to **handle exceptions centrally** across the entire application instead of writing try-catch blocks in every controller.
+
+**Key Features**
+
+* Centralized error handling
+* Reduces duplicate code
+* Consistent error responses
+* Improves application maintainability
+
+**How It Works**
+
+1. An exception occurs in a controller/service.
+2. Global exception handler catches it.
+3. A custom error response is returned to the client.
+
+**When to Use**
+
+* REST APIs
+* Large applications
+* Common error handling requirements
+
+**Example**
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex) {
+        return "Something went wrong";
+    }
+}
+```
+
+**Interview One-Liner**
+
+Global Exception Handling provides **centralized exception management for the entire application**.
+
+---
+
+**2. @ControllerAdvice**
+
+**@ControllerAdvice** is a Spring annotation used to **handle exceptions globally** and apply common logic across multiple controllers.
+
+**Key Features**
+
+* Global exception handling
+* Shared model attributes
+* Shared data binding configuration
+* Works across all controllers
+
+**How It Works**
+
+1. Spring detects the class annotated with **@ControllerAdvice**.
+2. When an exception occurs, matching **@ExceptionHandler** methods are executed.
+3. A custom response is sent back to the client.
+
+**When to Use**
+
+* Common exception handling
+* Shared controller logic
+* Consistent API error responses
+
+**Example**
+
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(NullPointerException.class)
+    public String handleNullPointer() {
+        return "Null value found";
+    }
+}
+```
+
+**For REST APIs**
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(RuntimeException.class)
+    public String handleRuntimeException() {
+        return "Runtime Error";
+    }
+}
+```
+
+**Interview One-Liner**
+
+**@ControllerAdvice** allows you to **apply exception handling and common controller logic globally**.
+
+---
+
+**3. Custom Exceptions**
+
+**Custom Exceptions** are user-defined exception classes created to represent specific business or application errors.
+
+**Key Features**
+
+* Meaningful error messages
+* Business-specific error handling
+* Better code readability
+* Easier debugging
+
+**How It Works**
+
+1. Create a class extending **Exception** or **RuntimeException**.
+2. Throw the custom exception when a business rule fails.
+3. Handle it using **@ExceptionHandler**.
+
+**When to Use**
+
+* Resource not found
+* Invalid business rules
+* Custom validation failures
+
+**Custom Exception Class**
+
+```java
+public class UserNotFoundException extends RuntimeException {
+
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+}
+```
+
+**Throwing Exception**
+
+```java
+if(user == null) {
+    throw new UserNotFoundException("User not found");
+}
+```
+
+**Handling Exception**
+
+```java
+@ExceptionHandler(UserNotFoundException.class)
+public String handleUserNotFound(UserNotFoundException ex) {
+    return ex.getMessage();
+}
+```
 
 ## **8. Caching**
 
-1. Cache Management
-2. Redis Integration
-3. Cache Annotations
+**1. Cache Management**
+
+**Cache Management** is the process of **storing frequently accessed data in memory** to improve application performance and reduce database calls.
+
+**Key Features**
+
+* Faster data retrieval
+* Reduces database load
+* Improves application performance
+* Supports automatic cache updates
+
+**How It Works**
+
+1. Application requests data.
+2. Cache is checked first.
+3. If data exists (**Cache Hit**), return it immediately.
+4. If data does not exist (**Cache Miss**), fetch from database and store in cache.
+
+**When to Use**
+
+* Frequently accessed data
+* Product catalogs
+* User profiles
+* Configuration data
+
+**Example**
+
+```java
+@Service
+public class ProductService {
+
+    @Cacheable("products")
+    public Product getProduct(Long id) {
+        return productRepository.findById(id).orElse(null);
+    }
+}
+```
+
+**Interview One-Liner**
+
+Cache Management improves performance by **storing frequently used data in memory and reducing database access**.
+
+---
+
+**2. Redis Integration**
+
+**Redis** is an **in-memory key-value data store** commonly used as a cache in Spring Boot applications.
+
+**Key Features**
+
+* Extremely fast
+* In-memory storage
+* Supports expiration (TTL)
+* Distributed caching support
+* Reduces database load
+
+**How It Works**
+
+1. Application requests data.
+2. Redis checks if data exists.
+3. If found, data is returned from Redis.
+4. Otherwise, data is fetched from database and stored in Redis.
+
+**When to Use**
+
+* High-performance applications
+* Microservices
+* Session storage
+* Frequently accessed data
+
+**Dependency**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+```
+
+**Configuration**
+
+```properties
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+```
+
+**Enable Caching**
+
+```java
+@SpringBootApplication
+@EnableCaching
+public class Application {
+}
+```
+
+**Interview One-Liner**
+
+Redis is a **high-speed in-memory data store used for caching, session management, and performance optimization**.
+
+---
+
+**3. Cache Annotations**
+
+Spring Boot provides **cache annotations** to manage caching with minimal code.
+
+**Key Features**
+
+* Declarative caching
+* Automatic cache management
+* Improves performance
+* Reduces boilerplate code
+
+**Important Cache Annotations**
+
+**@Cacheable**
+
+* Stores method result in cache.
+* Returns cached value for future requests.
+
+```java
+@Cacheable("users")
+public User getUser(Long id) {
+    return userRepository.findById(id).orElse(null);
+}
+```
+
+**@CachePut**
+
+* Updates cache every time the method executes.
+
+```java
+@CachePut(value = "users", key = "#user.id")
+public User updateUser(User user) {
+    return userRepository.save(user);
+}
+```
+
+**@CacheEvict**
+
+* Removes data from cache.
+
+```java
+@CacheEvict(value = "users", key = "#id")
+public void deleteUser(Long id) {
+    userRepository.deleteById(id);
+}
+```
+
+**How It Works**
+
+1. Method is called.
+2. Spring checks cache annotations.
+3. Cache is created, updated, or removed automatically.
+
+**When to Use**
+
+* Data caching
+* Performance optimization
+* Reducing database queries
+
 
 ## **9. Testing**
 
-1. JUnit
-2. Mockito
-3. Integration Testing
-4. MockMvc
+**1. JUnit**
+
+**JUnit** is the most popular **Java testing framework** used to write and run unit tests.
+
+**Key Features**
+
+* Automated testing
+* Assertion support
+* Test lifecycle annotations
+* Easy integration with build tools
+
+**How It Works**
+
+1. Create a test class.
+2. Write test methods using **@Test**.
+3. Execute tests.
+4. Verify expected results using assertions.
+
+**When to Use**
+
+* Unit testing
+* Test-driven development (TDD)
+* Validating business logic
+
+**Example**
+
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculatorTest {
+
+    @Test
+    void testAddition() {
+        assertEquals(5, 2 + 3);
+    }
+}
+```
+
+**Common Annotations**
+
+* **@Test**
+* **@BeforeEach**
+* **@AfterEach**
+* **@BeforeAll**
+* **@AfterAll**
+
+**Interview One-Liner**
+
+JUnit is a **Java testing framework used to write and execute automated unit tests**.
+
+---
+
+**2. Mockito**
+
+**Mockito** is a **mocking framework** used to create fake objects for testing.
+
+**Key Features**
+
+* Creates mock objects
+* Isolates unit tests
+* Verifies method calls
+* Reduces dependency on external systems
+
+**How It Works**
+
+1. Create mock objects.
+2. Define mock behavior.
+3. Execute the test.
+4. Verify interactions and results.
+
+**When to Use**
+
+* Unit testing services
+* Testing without database access
+* Testing external dependencies
+
+**Example**
+
+```java
+@Mock
+private UserRepository repository;
+
+@Test
+void testUser() {
+    when(repository.findById(1L))
+            .thenReturn(Optional.of(new User()));
+
+    User user = repository.findById(1L).get();
+
+    assertNotNull(user);
+}
+```
+
+**Verification Example**
+
+```java
+verify(repository).findById(1L);
+```
+
+**Interview One-Liner**
+
+Mockito is a **mocking framework that creates fake objects to test code independently from external dependencies**.
+
+---
+
+**3. Integration Testing**
+
+**Integration Testing** verifies that multiple components work correctly together.
+
+**Key Features**
+
+* Tests complete application flow
+* Loads Spring context
+* Validates database interactions
+* Tests real component integration
+
+**How It Works**
+
+1. Start Spring application context.
+2. Load actual beans.
+3. Execute business operations.
+4. Verify component interaction.
+
+**When to Use**
+
+* Testing service and repository layers
+* Database testing
+* End-to-end application flow validation
+
+**Example**
+
+```java
+@SpringBootTest
+class UserServiceIntegrationTest {
+
+    @Autowired
+    private UserService userService;
+
+    @Test
+    void testCreateUser() {
+        User user = userService.createUser("John");
+        assertNotNull(user);
+    }
+}
+```
+
+**Common Annotation**
+
+```java
+@SpringBootTest
+```
+
+**Interview One-Liner**
+
+Integration Testing ensures that **multiple application components work together correctly in a real environment**.
+
+---
+
+**4. MockMvc**
+
+**MockMvc** is a Spring testing tool used to **test REST controllers without starting the actual server**.
+
+**Key Features**
+
+* Fast API testing
+* No server startup required
+* Tests request and response behavior
+* Supports JSON validation
+
+**How It Works**
+
+1. Send a mock HTTP request.
+2. Controller processes the request.
+3. Verify response status and data.
+
+**When to Use**
+
+* Controller testing
+* REST API testing
+* Request/response validation
+
+**Example**
+
+```java
+@WebMvcTest(UserController.class)
+class UserControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void testGetUsers() throws Exception {
+
+        mockMvc.perform(get("/users"))
+               .andExpect(status().isOk());
+    }
+}
+```
+
+**Common Methods**
+
+* **perform()**
+* **andExpect()**
+* **status()**
+* **content()**
+
 
 ## **10. Monitoring & Logging**
 
-1. Spring Boot Actuator
-2. Logging Frameworks
-3. Health Checks
+**1. Spring Boot Actuator**
+
+**Spring Boot Actuator** provides **production-ready monitoring and management endpoints** for a Spring Boot application.
+
+**Key Features**
+
+* Application health monitoring
+* Metrics collection
+* Environment information
+* Application status monitoring
+* Production diagnostics
+
+**How It Works**
+
+1. Add the Actuator dependency.
+2. Spring exposes monitoring endpoints.
+3. Admins or monitoring tools access these endpoints.
+4. Application status and metrics are returned.
+
+**When to Use**
+
+* Production monitoring
+* Performance tracking
+* Application diagnostics
+* DevOps and cloud environments
+
+**Dependency**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+**Configuration**
+
+```properties
+management.endpoints.web.exposure.include=*
+```
+
+**Common Endpoints**
+
+* **/actuator/health**
+* **/actuator/info**
+* **/actuator/metrics**
+* **/actuator/env**
+* **/actuator/beans**
+
+**Example**
+
+```text
+GET /actuator/health
+```
+
+**Response**
+
+```json
+{
+  "status": "UP"
+}
+```
+
+**Interview One-Liner**
+
+Spring Boot Actuator provides **built-in endpoints for monitoring, managing, and observing application health and performance**.
+
+---
+
+**2. Logging Frameworks**
+
+**Logging Frameworks** are used to **record application events, errors, and debugging information**.
+
+**Key Features**
+
+* Error tracking
+* Debugging support
+* Audit trails
+* Performance monitoring
+* Different log levels
+
+**Common Logging Frameworks**
+
+* **SLF4J** (Logging API)
+* **Logback** (Default in Spring Boot)
+* **Log4j2**
+
+**Log Levels**
+
+* **TRACE**
+* **DEBUG**
+* **INFO**
+* **WARN**
+* **ERROR**
+
+**How It Works**
+
+1. Application generates log messages.
+2. Logging framework captures them.
+3. Logs are written to console, file, or monitoring system.
+
+**When to Use**
+
+* Debugging applications
+* Production monitoring
+* Error analysis
+* Audit logging
+
+**Example**
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class UserService {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(UserService.class);
+
+    public void createUser() {
+        logger.info("User created successfully");
+    }
+}
+```
+
+**Configuration**
+
+```properties
+logging.level.com.example=DEBUG
+```
+
+**Interview One-Liner**
+
+Logging Frameworks help **track application events, errors, and system behavior for debugging and monitoring**.
+
+---
+
+**3. Health Checks**
+
+**Health Checks** are mechanisms used to verify whether an application and its dependencies are working properly.
+
+**Key Features**
+
+* Application availability monitoring
+* Dependency status validation
+* Automatic failure detection
+* Supports cloud deployments
+
+**How It Works**
+
+1. Health endpoint is called.
+2. Application checks critical components.
+3. Status is returned as **UP** or **DOWN**.
+4. Monitoring systems use the result for alerts and recovery.
+
+**When to Use**
+
+* Microservices
+* Kubernetes deployments
+* Cloud-native applications
+* Production monitoring
+
+**Built-in Health Check**
+
+```text
+GET /actuator/health
+```
+
+**Response**
+
+```json
+{
+  "status": "UP"
+}
+```
+
+**Custom Health Check**
+
+```java
+@Component
+public class DatabaseHealthIndicator
+        implements HealthIndicator {
+
+    @Override
+    public Health health() {
+        return Health.up()
+                .withDetail("Database", "Available")
+                .build();
+    }
+}
+```
 
 ## **11. Performance Optimization**
 
-1. Connection Pooling
-2. Lazy vs Eager Loading
-3. Query Optimization
+**1. Connection Pooling**
+
+**Connection Pooling** is a technique where a pool of **pre-created database connections** is maintained and reused instead of creating a new connection for every request.
+
+**Key Features**
+
+* Improves performance
+* Reduces connection creation overhead
+* Better resource utilization
+* Supports high concurrency
+* Faster database access
+
+**How It Works**
+
+1. Application starts and creates a pool of connections.
+2. Request borrows a connection from the pool.
+3. Database operation is performed.
+4. Connection is returned to the pool for reuse.
+
+**When to Use**
+
+* High-traffic applications
+* Enterprise applications
+* Microservices
+* Frequent database operations
+
+**Spring Boot Default Pool**
+
+* **HikariCP** (default connection pool)
+
+**Configuration**
+
+```properties
+spring.datasource.hikari.maximum-pool-size=20
+spring.datasource.hikari.minimum-idle=5
+```
+
+**Example**
+
+```java
+@Autowired
+private DataSource dataSource;
+
+Connection connection = dataSource.getConnection();
+```
+
+**Interview One-Liner**
+
+Connection Pooling improves performance by **reusing database connections instead of creating new ones for every request**.
+
+---
+
+**2. Lazy vs Eager Loading**
+
+**Lazy Loading** and **Eager Loading** define when related data should be loaded from the database.
+
+**Key Features**
+
+| **Lazy Loading**             | **Eager Loading**             |
+| ---------------------------- | ----------------------------- |
+| Loads data only when needed  | Loads data immediately        |
+| Better performance initially | Faster access to related data |
+| Reduces unnecessary queries  | May load unused data          |
+| Default for collections      | Often used for required data  |
+
+**How It Works**
+
+**Lazy Loading**
+
+1. Parent entity is loaded.
+2. Related entity is not loaded initially.
+3. Data is fetched only when accessed.
+
+```java
+@OneToMany(fetch = FetchType.LAZY)
+private List<Order> orders;
+```
+
+**Eager Loading**
+
+1. Parent entity is loaded.
+2. Related entity is loaded immediately.
+
+```java
+@OneToMany(fetch = FetchType.EAGER)
+private List<Order> orders;
+```
+
+**When to Use**
+
+**Lazy Loading**
+
+* Large relationships
+* Better performance
+* Data not always required
+
+**Eager Loading**
+
+* Data always required
+* Small relationships
+* Avoid additional queries
+
+**Interview One-Liner**
+
+**Lazy Loading** fetches data only when needed, while **Eager Loading** fetches related data immediately with the parent entity.
+
+---
+
+**3. Query Optimization**
+
+**Query Optimization** is the process of improving SQL query performance to reduce execution time and database load.
+
+**Key Features**
+
+* Faster query execution
+* Reduced database load
+* Better scalability
+* Improved application performance
+
+**How It Works**
+
+1. Analyze slow queries.
+2. Identify bottlenecks.
+3. Optimize indexes, joins, and query structure.
+4. Reduce unnecessary database operations.
+
+**When to Use**
+
+* Slow database performance
+* Large datasets
+* High-traffic applications
+* Performance tuning
+
+**Best Practices**
+
+* Use **Indexes**
+* Fetch only required columns
+* Avoid unnecessary joins
+* Use pagination
+* Avoid N+1 query problems
+* Use caching when possible
+
+**Bad Example**
+
+```sql
+SELECT * FROM users;
+```
+
+**Optimized Example**
+
+```sql
+SELECT id, name
+FROM users
+WHERE id = 1;
+```
+
+**JPA Pagination Example**
+
+```java
+Page<User> users =
+        userRepository.findAll(
+                PageRequest.of(0, 10));
+```
+
 
 ## **12. Spring Boot Deployment**
 
-1. Profiles
-2. External Configuration
-3. Docker
-4. CI/CD
+**1. Profiles**
+
+**Profiles** in Spring Boot allow you to **use different configurations for different environments** such as Development, Testing, and Production.
+
+**Key Features**
+
+* Environment-specific configuration
+* Easy deployment management
+* Reduces configuration conflicts
+* Supports multiple environments
+
+**How It Works**
+
+1. Create separate configuration files.
+2. Activate a specific profile.
+3. Spring loads only that profile's configuration.
+
+**When to Use**
+
+* Development environment
+* Testing environment
+* Production environment
+
+**Configuration Files**
+
+```text
+application.properties
+application-dev.properties
+application-test.properties
+application-prod.properties
+```
+
+**Activate Profile**
+
+```properties
+spring.profiles.active=dev
+```
+
+**Profile-Specific Bean**
+
+```java
+@Profile("dev")
+@Bean
+public DataSource dataSource() {
+    return new H2DataSource();
+}
+```
+
+**Interview One-Liner**
+
+Profiles allow Spring Boot to **load different configurations based on the active environment**.
+
+---
+
+**2. External Configuration**
+
+**External Configuration** allows application settings to be managed **outside the application code**.
+
+**Key Features**
+
+* No code changes for configuration updates
+* Environment-specific settings
+* Improved security
+* Easier deployment
+
+**How It Works**
+
+1. Configuration values are stored externally.
+2. Spring Boot reads them during startup.
+3. Values are injected into the application.
+
+**When to Use**
+
+* Database credentials
+* API keys
+* Environment-specific properties
+* Cloud deployments
+
+**application.properties**
+
+```properties
+app.name=MyApplication
+server.port=8080
+```
+
+**Using @Value**
+
+```java
+@Value("${app.name}")
+private String appName;
+```
+
+**Using Environment Variable**
+
+```bash
+export SERVER_PORT=9090
+```
+
+**Interview One-Liner**
+
+External Configuration allows application settings to be **managed outside the codebase for flexibility and security**.
+
+---
+
+**3. Docker**
+
+**Docker** is a containerization platform that packages an application and its dependencies into a **portable container**.
+
+**Key Features**
+
+* Consistent environments
+* Easy deployment
+* Lightweight containers
+* Platform independence
+* Faster application delivery
+
+**How It Works**
+
+1. Create a Docker image.
+2. Package application and dependencies.
+3. Run the image as a container anywhere Docker is installed.
+
+**When to Use**
+
+* Microservices
+* Cloud deployments
+* CI/CD pipelines
+* Environment consistency
+
+**Dockerfile**
+
+```dockerfile
+FROM eclipse-temurin:21-jdk
+
+COPY target/app.jar app.jar
+
+ENTRYPOINT ["java","-jar","app.jar"]
+```
+
+**Build Image**
+
+```bash
+docker build -t springboot-app .
+```
+
+**Run Container**
+
+```bash
+docker run -p 8080:8080 springboot-app
+```
+
+**Interview One-Liner**
+
+Docker packages an application and its dependencies into **portable containers for consistent deployment across environments**.
+
+---
+
+**4. CI/CD**
+
+**CI/CD** stands for **Continuous Integration** and **Continuous Deployment/Delivery**.
+
+**Key Features**
+
+* Automated builds
+* Automated testing
+* Faster releases
+* Reduced manual effort
+* Improved software quality
+
+**How It Works**
+
+**Continuous Integration (CI)**
+
+1. Developer pushes code.
+2. Build is triggered automatically.
+3. Automated tests run.
+4. Code is merged if tests pass.
+
+**Continuous Deployment (CD)**
+
+1. Application is packaged.
+2. Deployment is automated.
+3. Changes are released to production.
+
+**When to Use**
+
+* Agile development
+* DevOps environments
+* Frequent releases
+* Large development teams
+
+**Example CI/CD Pipeline**
+
+```yaml
+steps:
+  - Build
+  - Test
+  - Package
+  - Deploy
+```
+
+**Popular CI/CD Tools**
+
+* **Jenkins**
+* **GitHub Actions**
+* **GitLab CI/CD**
+* **Azure DevOps**
+
 
 # **Microservices Interview Categories**
 
 ## **1. Microservices Fundamentals**
 
-1. Monolith vs Microservices
-2. Benefits and Challenges
-3. Service Decomposition
+**1. Monolith vs Microservices**
+
+**Monolith**
+A **Monolithic Architecture** is an application where all modules (UI, Business Logic, Database Access) are built and deployed as a **single unit**.
+
+**Microservices**
+A **Microservices Architecture** is an application split into multiple **independent services**, where each service handles a specific business function and can be developed, deployed, and scaled separately.
+
+**Key Differences**
+
+| Feature        | Monolith                       | Microservices                   |
+| -------------- | ------------------------------ | ------------------------------- |
+| Deployment     | Single deployment              | Independent deployment          |
+| Scalability    | Scale entire application       | Scale individual services       |
+| Development    | Easier initially               | Better for large teams          |
+| Maintenance    | Harder as app grows            | Easier to maintain              |
+| Technology     | Usually one technology stack   | Different technologies possible |
+| Failure Impact | One issue may affect whole app | Failure isolated to one service |
+
+**When to Use**
+
+* **Monolith**: Small applications, startups, simple projects.
+* **Microservices**: Large, complex, highly scalable applications.
+
+**Example**
+
+**Monolith**
+
+```text
+E-Commerce App
+├── User Module
+├── Product Module
+├── Order Module
+└── Payment Module
+
+Single Deployment
+```
+
+**Microservices**
+
+```text
+User Service
+Product Service
+Order Service
+Payment Service
+
+Separate Deployments
+```
+
+---
+
+**2. Benefits and Challenges of Microservices**
+
+**Benefits**
+
+1. **Independent Deployment** – Deploy one service without affecting others.
+2. **Scalability** – Scale only the required service.
+3. **Fault Isolation** – Failure in one service doesn't bring down the entire system.
+4. **Technology Flexibility** – Different services can use different technologies.
+5. **Faster Development** – Multiple teams can work independently.
+
+**Challenges**
+
+1. **Complex Communication** – Services communicate over network calls.
+2. **Distributed Transactions** – Managing data consistency is difficult.
+3. **Monitoring & Logging** – Requires centralized monitoring.
+4. **Deployment Complexity** – Many services to manage.
+5. **Network Latency** – Remote calls are slower than in-process calls.
+
+**How It Works**
+
+```text
+Client
+   |
+API Gateway
+   |
+-------------------------
+|      |       |        |
+User  Order  Product  Payment
+Svc   Svc     Svc      Svc
+```
+
+**When to Use**
+
+* Large enterprise applications.
+* Systems requiring high scalability and availability.
+* Applications managed by multiple teams.
+
+---
+
+**3. Service Decomposition**
+
+**Definition**
+
+**Service Decomposition** is the process of breaking a large application into smaller, independent **microservices**, where each service focuses on a single business capability.
+
+**How It Works**
+
+1. Identify business domains.
+2. Split application into services based on business functions.
+3. Give each service its own database if possible.
+4. Enable communication through APIs or messaging.
+
+**Example**
+
+**Before Decomposition**
+
+```text
+E-Commerce Application
+├── User Management
+├── Product Management
+├── Orders
+└── Payments
+```
+
+**After Decomposition**
+
+```text
+User Service
+Product Service
+Order Service
+Payment Service
+```
+
+**Common Decomposition Strategies**
+
+1. **Business Capability Based**
+
+   * User Service
+   * Order Service
+   * Payment Service
+
+2. **Domain-Driven Design (DDD)**
+
+   * Split services by **Bounded Contexts**.
+
+**Key Features**
+
+* **Single Responsibility**
+* **Loose Coupling**
+* **Independent Deployment**
+* **Independent Scaling**
+* **Better Maintainability**
+
+**When to Use**
+
+* Migrating a large monolithic application.
+* Building scalable enterprise systems.
+* Supporting multiple development teams.
+
+**Spring Boot Example**
+
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    @GetMapping("/{id}")
+    public String getOrder(@PathVariable Long id) {
+        return "Order " + id;
+    }
+}
+```
+
+This service handles only **Order Management**, following the **Microservices** and **Service Decomposition** principles.
+
 
 ## **2. Service Communication**
 
-1. REST Communication
-2. Synchronous vs Asynchronous
-3. gRPC
-4. Event-Driven Architecture
+**1. REST Communication**
+
+**Definition**
+
+**REST (Representational State Transfer)** is an architectural style that allows applications and microservices to communicate using **HTTP protocols**.
+
+**Key Features**
+
+* **Stateless Communication**
+* Uses **HTTP Methods** (GET, POST, PUT, DELETE)
+* Data usually exchanged as **JSON**
+* Simple and widely used
+* Platform independent
+
+**How It Works**
+
+1. Client sends an HTTP request.
+2. Server processes the request.
+3. Server returns an HTTP response.
+
+```text
+Client → REST API → Server
+       ← JSON Response
+```
+
+**Common HTTP Methods**
+
+| Method | Purpose     |
+| ------ | ----------- |
+| GET    | Read Data   |
+| POST   | Create Data |
+| PUT    | Update Data |
+| DELETE | Delete Data |
+
+**When to Use**
+
+* Web applications
+* Mobile applications
+* Communication between microservices
+* Public APIs
+
+**Spring Boot Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public String getUser(@PathVariable int id) {
+        return "User " + id;
+    }
+}
+```
+
+---
+
+**2. Synchronous vs Asynchronous Communication**
+
+**Synchronous Communication**
+
+The sender waits for the response before continuing.
+
+**How It Works**
+
+```text
+Service A → Request → Service B
+Service A ← Response ← Service B
+```
+
+**Key Features**
+
+* Immediate response
+* Easy to implement
+* Strong dependency between services
+
+**When to Use**
+
+* Real-time data retrieval
+* Payment processing
+* User authentication
+
+**Example**
+
+```java
+String response = restTemplate.getForObject(
+        "http://user-service/users/1",
+        String.class);
+```
+
+**Asynchronous Communication**
+
+The sender does not wait for an immediate response.
+
+**How It Works**
+
+```text
+Service A → Message Queue
+                ↓
+            Service B
+```
+
+**Key Features**
+
+* Non-blocking
+* Better scalability
+* Loose coupling
+* High availability
+
+**When to Use**
+
+* Notifications
+* Email sending
+* Order processing
+* Background jobs
+
+**Example**
+
+```java
+kafkaTemplate.send("orders", order);
+```
+
+**Comparison**
+
+| Feature     | Synchronous | Asynchronous |
+| ----------- | ----------- | ------------ |
+| Response    | Immediate   | Later        |
+| Coupling    | Tight       | Loose        |
+| Scalability | Lower       | Higher       |
+| Complexity  | Simple      | More Complex |
+
+---
+
+**3. gRPC**
+
+**Definition**
+
+**gRPC (Google Remote Procedure Call)** is a high-performance communication framework that uses **Protocol Buffers (Protobuf)** instead of JSON.
+
+**Key Features**
+
+* High performance
+* Uses **HTTP/2**
+* Smaller payload size
+* Faster than REST
+* Supports streaming
+
+**How It Works**
+
+1. Define service in a `.proto` file.
+2. Generate client and server code.
+3. Client calls remote methods directly.
+
+```text
+Client → gRPC Call → Server
+       ← Response
+```
+
+**When to Use**
+
+* High-performance microservices
+* Real-time systems
+* Internal service-to-service communication
+
+**Proto File Example**
+
+```proto
+service UserService {
+  rpc GetUser(UserRequest)
+      returns (UserResponse);
+}
+```
+
+**Java Server Example**
+
+```java
+public class UserServiceImpl
+        extends UserServiceGrpc.UserServiceImplBase {
+
+    @Override
+    public void getUser(UserRequest request,
+                        StreamObserver<UserResponse> responseObserver) {
+
+        UserResponse response =
+            UserResponse.newBuilder()
+                        .setName("John")
+                        .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+}
+```
+
+---
+
+**4. Event-Driven Architecture**
+
+**Definition**
+
+**Event-Driven Architecture (EDA)** is a design pattern where services communicate through **events** instead of direct API calls.
+
+**Key Features**
+
+* **Loose Coupling**
+* **Asynchronous Communication**
+* Highly scalable
+* Fault tolerant
+* Event-based processing
+
+**How It Works**
+
+1. A service generates an event.
+2. Event is sent to a message broker.
+3. Interested services consume the event.
+
+```text
+Order Service
+      |
+      | Order Created Event
+      v
+   Kafka/RabbitMQ
+      |
+--------------------
+|                  |
+Email Service   Inventory Service
+```
+
+**When to Use**
+
+* Microservices architecture
+* Real-time processing
+* Notifications
+* Audit logging
+* Distributed systems
+
+**Spring Boot Kafka Example**
+
+**Producer**
+
+```java
+kafkaTemplate.send(
+    "order-topic",
+    "Order Created");
+```
+
+**Consumer**
+
+```java
+@KafkaListener(topics = "order-topic")
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
 
 ## **3. API Gateway**
 
-1. Routing
-2. Authentication
-3. Rate Limiting
-4. Load Balancing
+**1. Routing**
+
+**Definition**
+
+**Routing** is the process of directing incoming client requests to the appropriate microservice based on the request path, URL, or rules.
+
+**Key Features**
+
+* **Request Forwarding**
+* **Path-Based Routing**
+* **Centralized Entry Point**
+* **Improved Security**
+* **Simplified Client Communication**
+
+**How It Works**
+
+1. Client sends a request.
+2. API Gateway receives the request.
+3. Gateway identifies the target service.
+4. Request is forwarded to the correct service.
+
+```text
+Client
+   |
+API Gateway
+   |
+-------------------
+|                 |
+User Service   Order Service
+```
+
+**When to Use**
+
+* Microservices architecture
+* Multiple backend services
+* Centralized request handling
+
+**Spring Cloud Gateway Example**
+
+```java
+@Bean
+public RouteLocator routes(RouteLocatorBuilder builder) {
+    return builder.routes()
+        .route("user-service",
+            r -> r.path("/users/**")
+                  .uri("lb://USER-SERVICE"))
+        .build();
+}
+```
+
+---
+
+**2. Authentication**
+
+**Definition**
+
+**Authentication** is the process of verifying the identity of a user or system before granting access to resources.
+
+**Key Features**
+
+* **Identity Verification**
+* **JWT Support**
+* **OAuth2 Integration**
+* **Secure Access**
+* **Token-Based Security**
+
+**How It Works**
+
+1. User provides credentials.
+2. Server validates credentials.
+3. Server generates a token.
+4. Client sends the token with future requests.
+
+```text
+User Login
+    |
+Authentication Service
+    |
+ JWT Token Generated
+    |
+Access Protected APIs
+```
+
+**When to Use**
+
+* Secure APIs
+* User login systems
+* Microservices security
+
+**JWT Example**
+
+```java
+String token = Jwts.builder()
+        .setSubject("user1")
+        .signWith(secretKey)
+        .compact();
+```
+
+**Authorization vs Authentication**
+
+* **Authentication** = Who are you?
+* **Authorization** = What can you access?
+
+---
+
+**3. Rate Limiting**
+
+**Definition**
+
+**Rate Limiting** restricts the number of requests a client can make within a specific time period.
+
+**Key Features**
+
+* **Prevents Abuse**
+* **Protects APIs**
+* **Improves Stability**
+* **Controls Traffic**
+* **Prevents DDoS-Like Overload**
+
+**How It Works**
+
+1. Client sends requests.
+2. System counts requests.
+3. If limit is exceeded, request is rejected.
+
+```text
+Limit = 100 Requests/Minute
+
+Request 101
+     |
+  Rejected
+```
+
+**When to Use**
+
+* Public APIs
+* Payment APIs
+* High-traffic applications
+* Security-sensitive systems
+
+**Spring Cloud Gateway Example**
+
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: user-service
+        uri: lb://USER-SERVICE
+        predicates:
+        - Path=/users/**
+        filters:
+        - RequestRateLimiter=10,20
+```
+
+---
+
+**4. Load Balancing**
+
+**Definition**
+
+**Load Balancing** distributes incoming requests across multiple service instances to improve performance and availability.
+
+**Key Features**
+
+* **Traffic Distribution**
+* **High Availability**
+* **Fault Tolerance**
+* **Better Performance**
+* **Horizontal Scaling**
+
+**How It Works**
+
+1. Multiple instances of a service are running.
+2. Load balancer receives requests.
+3. Requests are distributed among instances.
+
+```text
+            Load Balancer
+                  |
+       ---------------------
+       |         |         |
+   Instance1 Instance2 Instance3
+```
+
+**Common Algorithms**
+
+1. **Round Robin**
+2. **Least Connections**
+3. **Weighted Round Robin**
+4. **Random Selection**
+
+**When to Use**
+
+* High-traffic applications
+* Cloud-native applications
+* Scalable microservices
+
+**Spring Cloud LoadBalancer Example**
+
+```java
+@Bean
+@LoadBalanced
+public RestTemplate restTemplate() {
+    return new RestTemplate();
+}
+```
+
 
 ## **4. Service Discovery**
 
-1. Eureka
-2. Consul
-3. Registration and Discovery
+**1. Eureka**
+
+**Definition**
+
+**Eureka** is a **Service Discovery Server** provided by **Spring Cloud Netflix** that allows microservices to register themselves and discover other services dynamically.
+
+**Key Features**
+
+* **Automatic Service Registration**
+* **Service Discovery**
+* **Load Balancing Support**
+* **Health Monitoring**
+* **Dynamic Scaling**
+
+**How It Works**
+
+1. Eureka Server starts.
+2. Microservices register with Eureka.
+3. Services query Eureka to find other services.
+4. Requests are routed using service names instead of IP addresses.
+
+```text
+Eureka Server
+      |
+-----------------------
+|                     |
+User Service     Order Service
+```
+
+**When to Use**
+
+* Spring Boot Microservices
+* Dynamic cloud environments
+* Service-to-service communication
+
+**Eureka Server Example**
+
+```java
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(
+            EurekaServerApplication.class, args);
+    }
+}
+```
+
+**Client Configuration**
+
+```yaml
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+```
+
+---
+
+**2. Consul**
+
+**Definition**
+
+**Consul** is a **Service Discovery and Configuration Management Tool** developed by **HashiCorp** for managing distributed applications and microservices.
+
+**Key Features**
+
+* **Service Discovery**
+* **Health Checks**
+* **Key-Value Configuration Store**
+* **Multi-Data Center Support**
+* **DNS and HTTP API Support**
+
+**How It Works**
+
+1. Services register with Consul.
+2. Consul continuously performs health checks.
+3. Healthy services are available for discovery.
+4. Other services query Consul to locate them.
+
+```text
+Consul Server
+      |
+-----------------------
+|                     |
+User Service     Payment Service
+```
+
+**When to Use**
+
+* Cloud-native applications
+* Kubernetes environments
+* Multi-cloud deployments
+* Large distributed systems
+
+**Spring Boot Configuration**
+
+```yaml
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+```
+
+**Consul Advantages**
+
+* Built-in health checks
+* Configuration management
+* Better multi-cloud support
+* DNS-based discovery
+
+---
+
+**3. Registration and Discovery**
+
+**Definition**
+
+**Service Registration and Discovery** is a mechanism where microservices register themselves with a registry and other services discover them dynamically.
+
+**Key Features**
+
+* **Dynamic Service Lookup**
+* **No Hardcoded URLs**
+* **Automatic Scaling Support**
+* **Fault Tolerance**
+* **Load Balancing Integration**
+
+**How It Works**
+
+1. Service starts.
+2. Service registers with a registry (**Eureka**, **Consul**).
+3. Registry stores service details.
+4. Other services request service locations from the registry.
+5. Communication happens using service names.
+
+```text
+1. User Service Registers
+            |
+            v
+      Service Registry
+            ^
+            |
+2. Order Service Discovers
+```
+
+**Why It Is Needed**
+
+Without Service Discovery:
+
+```text
+Order Service
+      |
+http://192.168.1.10:8080
+```
+
+If the IP changes, communication fails.
+
+With Service Discovery:
+
+```text
+Order Service
+      |
+USER-SERVICE
+      |
+Service Registry
+```
+
+The registry automatically provides the current service instance.
+
+**When to Use**
+
+* Any Microservices Architecture
+* Cloud Deployments
+* Containerized Applications
+* Auto-Scaling Systems
+
+**Spring Boot Discovery Example**
+
+```java
+@RestController
+public class OrderController {
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    @GetMapping("/services")
+    public List<String> services() {
+        return discoveryClient.getServices();
+    }
+}
+```
+
+**Eureka vs Consul**
+
+| Feature             | Eureka  | Consul    |
+| ------------------- | ------- | --------- |
+| Developed By        | Netflix | HashiCorp |
+| Service Discovery   | Yes     | Yes       |
+| Health Checks       | Basic   | Advanced  |
+| Configuration Store | No      | Yes       |
+| DNS Support         | No      | Yes       |
+| Multi-Data Center   | Limited | Excellent |
+
+
 
 ## **5. Configuration Management**
 
-1. Centralized Configuration
-2. Spring Cloud Config
+**1. Centralized Configuration**
+
+**Definition**
+
+**Centralized Configuration** is a way of storing application configuration in a **single central location** instead of keeping separate configuration files in every microservice.
+
+**Key Features**
+
+* **Centralized Management**
+* **Single Source of Truth**
+* **Environment-Specific Configurations**
+* **Easy Updates**
+* **Consistent Configuration Across Services**
+
+**How It Works**
+
+1. Configuration is stored in a central repository.
+2. Microservices fetch configuration during startup.
+3. Services use the configuration without storing it locally.
+4. Changes can be managed from one place.
+
+```text
+Configuration Repository
+          |
+-------------------------
+|           |           |
+User      Order      Payment
+Service   Service    Service
+```
+
+**Benefits**
+
+* Easier maintenance
+* Reduced duplication
+* Better consistency
+* Faster configuration changes
+* Simplified deployment
+
+**When to Use**
+
+* Microservices architecture
+* Multiple environments (Dev, QA, Prod)
+* Large distributed systems
+
+**Example**
+
+Instead of storing this in every service:
+
+```yaml
+server:
+  port: 8081
+
+database:
+  url: jdbc:mysql://localhost:3306/appdb
+```
+
+Store it centrally and let services fetch it automatically.
+
+---
+
+**2. Spring Cloud Config**
+
+**Definition**
+
+**Spring Cloud Config** provides **Centralized Configuration Management** for Spring Boot microservices using a dedicated **Config Server**.
+
+**Key Features**
+
+* **Centralized Configuration**
+* **Git-Based Configuration Storage**
+* **Environment Support**
+* **Dynamic Configuration Updates**
+* **Integration with Spring Boot**
+
+**How It Works**
+
+1. Configuration files are stored in a **Git Repository**.
+2. **Config Server** reads configurations from Git.
+3. Microservices request configuration from Config Server.
+4. Configurations are loaded during startup.
+
+```text
+Git Repository
+       |
+Config Server
+       |
+-------------------------
+|           |           |
+User      Order      Payment
+Service   Service    Service
+```
+
+**When to Use**
+
+* Spring Boot Microservices
+* Multiple deployment environments
+* Centralized configuration management
+
+**Config Server Setup**
+
+```java
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(
+            ConfigServerApplication.class,
+            args);
+    }
+}
+```
+
+**Config Server Configuration**
+
+```yaml
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/config-repo
+```
+
+**Client Configuration**
+
+```yaml
+spring:
+  application:
+    name: user-service
+
+  config:
+    import: configserver:http://localhost:8888
+```
+
+**Accessing Configuration**
+
+```java
+@RestController
+public class UserController {
+
+    @Value("${app.message}")
+    private String message;
+
+    @GetMapping("/message")
+    public String getMessage() {
+        return message;
+    }
+}
+```
 
 ## **6. Resilience Patterns**
 
-1. Circuit Breaker
-2. Retry
-3. Timeout
-4. Bulkhead Pattern
+**1. Circuit Breaker**
+
+**Definition**
+
+**Circuit Breaker** is a resilience pattern that prevents repeated calls to a failing service, helping avoid cascading failures in a microservices system.
+
+**Key Features**
+
+* **Failure Detection**
+* **Automatic Recovery**
+* **Fallback Support**
+* **Prevents Cascading Failures**
+* **Improves System Stability**
+
+**How It Works**
+
+1. Service calls are monitored.
+2. If failures exceed a threshold, the circuit opens.
+3. Requests are blocked temporarily.
+4. After a waiting period, a few requests are allowed for testing.
+5. If successful, the circuit closes again.
+
+**States**
+
+* **Closed** – Normal operation.
+* **Open** – Requests blocked.
+* **Half-Open** – Testing recovery.
+
+```text
+Service A
+    |
+Circuit Breaker
+    |
+Service B
+```
+
+**When to Use**
+
+* External API calls
+* Microservice communication
+* Unstable downstream services
+
+**Resilience4j Example**
+
+```java
+@CircuitBreaker(
+    name = "paymentService",
+    fallbackMethod = "fallback")
+public String getPayment() {
+    return paymentClient.getPayment();
+}
+
+public String fallback(Exception ex) {
+    return "Service Unavailable";
+}
+```
+
+---
+
+**2. Retry**
+
+**Definition**
+
+**Retry** automatically attempts a failed operation again before reporting failure.
+
+**Key Features**
+
+* **Automatic Reattempts**
+* **Handles Temporary Failures**
+* **Improves Reliability**
+* **Configurable Attempts**
+* **Works with Circuit Breakers**
+
+**How It Works**
+
+1. Request fails.
+2. System retries after a delay.
+3. If retry succeeds, response is returned.
+4. If all retries fail, an error is returned.
+
+```text
+Request
+   |
+Failure
+   |
+Retry 1
+Retry 2
+Retry 3
+   |
+Success / Failure
+```
+
+**When to Use**
+
+* Network issues
+* Temporary service outages
+* External API communication
+
+**Resilience4j Example**
+
+```java
+@Retry(name = "paymentService")
+public String getPayment() {
+    return paymentClient.getPayment();
+}
+```
+
+**Important**
+
+Use retries only for **temporary failures**, not permanent errors.
+
+---
+
+**3. Timeout**
+
+**Definition**
+
+**Timeout** defines the maximum time an application waits for a response before terminating the request.
+
+**Key Features**
+
+* **Prevents Infinite Waiting**
+* **Improves Performance**
+* **Resource Protection**
+* **Faster Failure Detection**
+* **Works with Retry and Circuit Breaker**
+
+**How It Works**
+
+1. Request is sent.
+2. Timer starts.
+3. If response arrives within limit, process continues.
+4. If limit is exceeded, request fails.
+
+```text
+Request Sent
+      |
+Wait 3 Seconds
+      |
+Response Received
+      |
+Success
+
+OR
+
+No Response
+      |
+Timeout Exception
+```
+
+**When to Use**
+
+* Remote API calls
+* Database calls
+* Microservice communication
+
+**Spring WebClient Example**
+
+```java
+WebClient.builder()
+    .build()
+    .get()
+    .uri("/users")
+    .retrieve()
+    .bodyToMono(String.class)
+    .timeout(Duration.ofSeconds(3));
+```
+
+**Benefits**
+
+* Better user experience
+* Prevents thread blocking
+* Faster error handling
+
+---
+
+**4. Bulkhead Pattern**
+
+**Definition**
+
+**Bulkhead Pattern** isolates resources so that failure in one part of the system does not affect other parts.
+
+**Key Features**
+
+* **Resource Isolation**
+* **Fault Containment**
+* **Improved Availability**
+* **Independent Resource Pools**
+* **Prevents System-Wide Failure**
+
+**How It Works**
+
+1. Separate thread pools or resources are allocated.
+2. Each service uses its own pool.
+3. If one service becomes overloaded, others continue working.
+
+```text
+Application
+    |
+-----------------------
+|          |          |
+Pool A   Pool B    Pool C
+User     Order     Payment
+```
+
+**When to Use**
+
+* High-traffic systems
+* Multiple dependent services
+* Critical business applications
+
+**Resilience4j Example**
+
+```java
+@Bulkhead(name = "paymentService")
+public String getPayment() {
+    return paymentClient.getPayment();
+}
+```
+
+**Benefits**
+
+* Prevents resource exhaustion
+* Increases fault tolerance
+* Improves system stability
+* Protects critical services
+
 
 ## **7. Distributed Transactions**
 
-1. Two-Phase Commit
-2. Saga Pattern
-3. Eventual Consistency
+**1. Two-Phase Commit (2PC)**
+
+**Definition**
+
+**Two-Phase Commit (2PC)** is a distributed transaction protocol that ensures all participating services either **commit** or **rollback** a transaction together.
+
+**Key Features**
+
+* **Strong Consistency**
+* **Atomic Transactions**
+* **Central Coordinator**
+* **Commit or Rollback Together**
+* **Data Integrity**
+
+**How It Works**
+
+**Phase 1: Prepare Phase**
+
+1. Coordinator asks all services if they can commit.
+2. Services prepare the transaction and respond.
+
+**Phase 2: Commit Phase**
+
+1. If all services agree, coordinator sends commit.
+2. If any service fails, coordinator sends rollback.
+
+```text id="1z1jso"
+Coordinator
+     |
+--------------------
+|                  |
+Service A      Service B
+
+Prepare
+   |
+Commit / Rollback
+```
+
+**When to Use**
+
+* Banking systems
+* Financial transactions
+* Systems requiring strict consistency
+
+**Example**
+
+```java id="7w9cyw"
+@Transactional
+public void transferMoney() {
+    debitAccount();
+    creditAccount();
+}
+```
+
+**Challenges**
+
+* Performance overhead
+* Coordinator becomes a single point of failure
+* Not suitable for highly scalable microservices
+
+---
+
+**2. Saga Pattern**
+
+**Definition**
+
+**Saga Pattern** manages distributed transactions using a sequence of **local transactions** and **compensating transactions** instead of a global transaction.
+
+**Key Features**
+
+* **Distributed Transactions**
+* **No Global Locking**
+* **Better Scalability**
+* **Compensation Mechanism**
+* **Event-Driven Support**
+
+**How It Works**
+
+1. First service completes its local transaction.
+2. Event triggers the next service.
+3. Process continues until all transactions succeed.
+4. If a step fails, compensating transactions undo previous changes.
+
+```text id="9vuz7w"
+Create Order
+      |
+Reserve Inventory
+      |
+Process Payment
+      |
+Success
+```
+
+**Failure Scenario**
+
+```text id="m9h0x2"
+Create Order
+      |
+Reserve Inventory
+      |
+Payment Failed
+      |
+Cancel Inventory
+      |
+Cancel Order
+```
+
+**When to Use**
+
+* Microservices architecture
+* E-commerce applications
+* Highly scalable systems
+
+**Event Example**
+
+```java id="yrzd51"
+kafkaTemplate.send(
+    "order-created",
+    orderEvent);
+```
+
+**Benefits**
+
+* Better scalability
+* No distributed locks
+* High availability
+
+---
+
+**3. Eventual Consistency**
+
+**Definition**
+
+**Eventual Consistency** means all services will become consistent over time, but not necessarily immediately after an update.
+
+**Key Features**
+
+* **High Scalability**
+* **Asynchronous Updates**
+* **Better Performance**
+* **Loose Coupling**
+* **Common in Microservices**
+
+**How It Works**
+
+1. Service updates its own database.
+2. An event is published.
+3. Other services consume the event.
+4. Databases synchronize gradually.
+
+```text id="8z0xmw"
+Order Service
+      |
+Order Created Event
+      |
+-----------------------
+|                     |
+Inventory         Payment
+Service           Service
+```
+
+**Example**
+
+1. Order Service creates an order.
+2. Inventory Service updates stock.
+3. Payment Service processes payment.
+4. All services become consistent after event processing.
+
+**When to Use**
+
+* Microservices
+* Event-Driven Architecture
+* Distributed systems
+* High-performance applications
+
+**Kafka Consumer Example**
+
+```java id="3ld7pq"
+@KafkaListener(topics = "order-created")
+public void processOrder(String event) {
+    System.out.println(event);
+}
+```
+
+**Benefits**
+
+* Better scalability
+* Improved availability
+* Faster response times
+* Reduced service dependency
+
+**Comparison**
+
+| Feature                   | Two-Phase Commit | Saga Pattern         | Eventual Consistency |
+| ------------------------- | ---------------- | -------------------- | -------------------- |
+| Consistency               | Strong           | Eventual             | Eventual             |
+| Performance               | Lower            | Higher               | Higher               |
+| Scalability               | Limited          | High                 | Very High            |
+| Rollback                  | Global Rollback  | Compensating Actions | Event-Based Recovery |
+| Microservices Suitability | Low              | High                 | High                 |
+
 
 ## **8. Messaging Systems**
 
-1. Kafka
-2. RabbitMQ
-3. Message Queues
-4. Event Streaming
+**1. Kafka**
+
+**Definition:**
+**Apache Kafka** is a **distributed event streaming platform** used to handle **high-volume real-time data**.
+
+**Key Features:**
+
+* **High Throughput**
+* **Scalable**
+* **Fault Tolerant**
+* **Persistent Storage**
+* **Real-Time Processing**
+
+**How it Works:**
+
+1. **Producer** sends messages to a **Topic**.
+2. Kafka stores messages in **Partitions**.
+3. **Consumer** reads messages from the Topic.
+4. Messages remain stored for a configured retention period.
+
+**When to Use:**
+
+* Real-time analytics
+* Log processing
+* Event-driven microservices
+* Streaming data pipelines
+
+**Example:**
+
+```java
+// Producer
+producer.send(new ProducerRecord<>("orders", "Order Created"));
+```
+
+---
+
+**2. RabbitMQ**
+
+**Definition:**
+**RabbitMQ** is a **message broker** that enables applications to communicate through **message queues**.
+
+**Key Features:**
+
+* **Reliable Message Delivery**
+* **Message Routing**
+* **Acknowledgments**
+* **Queue-Based Communication**
+* **Easy Integration**
+
+**How it Works:**
+
+1. Producer sends a message to an **Exchange**.
+2. Exchange routes the message to a **Queue**.
+3. Consumer reads the message from the Queue.
+4. Consumer sends acknowledgment after processing.
+
+**When to Use:**
+
+* Task processing
+* Order processing
+* Notification systems
+* Reliable asynchronous communication
+
+**Example:**
+
+```java
+channel.basicPublish("", "orderQueue", null,
+        "Order Created".getBytes());
+```
+
+---
+
+**3. Message Queues**
+
+**Definition:**
+A **Message Queue** is a communication mechanism where messages are stored in a queue until a consumer processes them.
+
+**Key Features:**
+
+* **Asynchronous Communication**
+* **Decoupling Services**
+* **Load Balancing**
+* **Reliable Processing**
+* **Improved Scalability**
+
+**How it Works:**
+
+1. Producer sends a message.
+2. Message is stored in a queue.
+3. Consumer retrieves and processes the message.
+4. Message is removed after successful processing.
+
+**When to Use:**
+
+* Background jobs
+* Email sending
+* Payment processing
+* Distributed systems
+
+**Example:**
+
+```text
+Producer → Queue → Consumer
+```
+
+---
+
+**4. Event Streaming**
+
+**Definition:**
+**Event Streaming** is the continuous flow and processing of events in real time as they occur.
+
+**Key Features:**
+
+* **Real-Time Processing**
+* **Continuous Data Flow**
+* **Scalability**
+* **Event Persistence**
+* **Low Latency**
+
+**How it Works:**
+
+1. An event occurs (e.g., order placed).
+2. Event is published to a streaming platform.
+3. Multiple consumers process the event simultaneously.
+4. Applications react immediately to the event.
+
+**When to Use:**
+
+* Live dashboards
+* Fraud detection
+* IoT systems
+* Real-time monitoring
+
+**Example:**
+
+```text
+Order Created Event
+      ↓
+Kafka Topic
+      ↓
+Inventory Service
+Payment Service
+Notification Service
+```
+
+**Kafka vs RabbitMQ**
+
+| Feature         | Kafka                        | RabbitMQ                              |
+| --------------- | ---------------------------- | ------------------------------------- |
+| Type            | **Event Streaming Platform** | **Message Broker**                    |
+| Message Storage | **Long-Term Retention**      | **Usually Removed After Consumption** |
+| Throughput      | **Very High**                | **Moderate**                          |
+| Use Case        | **Real-Time Streaming**      | **Task Queues & Messaging**           |
+| Scalability     | **Excellent**                | **Good**                              |
+| Consumer Model  | **Pull-Based**               | **Push-Based**                        |
+
 
 ## **9. Database Design**
 
-1. Database per Service
-2. CQRS
-3. Event Sourcing
+**1. Database per Service**
+
+**Definition:**
+**Database per Service** is a **microservices design pattern** where each service owns its own database and no other service can access it directly.
+
+**Key Features:**
+
+* **Loose Coupling**
+* **Independent Deployment**
+* **Data Isolation**
+* **Better Scalability**
+* **Technology Flexibility**
+
+**How it Works:**
+
+1. Each microservice has its own database.
+2. Services manage their own data.
+3. Services communicate through **APIs** or **events**.
+4. No direct database sharing between services.
+
+**When to Use:**
+
+* Microservices architecture
+* Independent service scaling
+* Large distributed systems
+
+**Example:**
+
+```text
+User Service     → UserDB
+Order Service    → OrderDB
+Payment Service  → PaymentDB
+```
+
+**Interview One-Liner:**
+Each microservice owns its **own database**, ensuring **independence, scalability, and loose coupling**.
+
+---
+
+**2. CQRS (Command Query Responsibility Segregation)**
+
+**Definition:**
+**CQRS** separates **write operations (Commands)** from **read operations (Queries)**.
+
+**Key Features:**
+
+* **Separate Read and Write Models**
+* **Improved Performance**
+* **Independent Scaling**
+* **Better Flexibility**
+* **Optimized Queries**
+
+**How it Works:**
+
+1. **Command** handles data modification.
+2. **Query** handles data retrieval.
+3. Read and write models can use different databases.
+4. Data is synchronized through events.
+
+**When to Use:**
+
+* Complex business applications
+* High read/write traffic systems
+* Event-driven architectures
+
+**Example:**
+
+```java
+// Command
+orderService.createOrder(order);
+
+// Query
+Order order = orderQueryService.getOrder(id);
+```
+
+**CQRS Structure:**
+
+```text
+Commands → Write Database
+Queries  → Read Database
+```
+
+**Interview One-Liner:**
+CQRS separates **reads and writes** to improve **performance, scalability, and maintainability**.
+
+---
+
+**3. Event Sourcing**
+
+**Definition:**
+**Event Sourcing** stores all changes as a sequence of **events** instead of storing only the current state.
+
+**Key Features:**
+
+* **Complete Audit Trail**
+* **Event History**
+* **Data Recovery**
+* **Easy Debugging**
+* **Supports CQRS**
+
+**How it Works:**
+
+1. User performs an action.
+2. An event is generated and stored.
+3. Current state is rebuilt by replaying events.
+4. Events are never deleted or updated.
+
+**When to Use:**
+
+* Financial systems
+* Audit logging
+* Event-driven applications
+* Systems requiring full history tracking
+
+**Example:**
+
+```text
+Account Created
+Money Deposited ₹1000
+Money Withdrawn ₹200
+```
+
+**Current Balance Calculation:**
+
+```text
+0 + 1000 - 200 = 800
+```
+
+**Simple Event Class:**
+
+```java
+public class MoneyDepositedEvent {
+    private String accountId;
+    private double amount;
+}
+```
+
 
 ## **10. Security**
 
-1. JWT
-2. OAuth2
-3. API Security
-4. Service-to-Service Authentication
+**1. JWT (JSON Web Token)**
+
+**Definition:**
+**JWT** is a compact and secure token format used for **authentication** and **authorization** between client and server.
+
+**Key Features:**
+
+* **Stateless Authentication**
+* **Digitally Signed**
+* **Compact Format**
+* **Secure Data Exchange**
+* **Easy to Use with APIs**
+
+**How it Works:**
+
+1. User logs in with credentials.
+2. Server generates a **JWT token**.
+3. Client stores the token.
+4. Client sends the token in each request.
+5. Server validates the token before granting access.
+
+**JWT Structure:**
+
+```text
+Header.Payload.Signature
+```
+
+**When to Use:**
+
+* REST APIs
+* Microservices
+* Single Sign-On (SSO)
+* Stateless authentication
+
+**Example:**
+
+```java
+String token = Jwts.builder()
+        .setSubject("user1")
+        .signWith(secretKey)
+        .compact();
+```
+
+**Interview One-Liner:**
+JWT is a **stateless authentication token** that securely carries user information between client and server.
+
+---
+
+**2. OAuth2**
+
+**Definition:**
+**OAuth2** is an **authorization framework** that allows applications to access user resources without sharing passwords.
+
+**Key Features:**
+
+* **Secure Authorization**
+* **Token-Based Access**
+* **Third-Party Login Support**
+* **Delegated Access**
+* **Industry Standard**
+
+**How it Works:**
+
+1. User logs in through an **Authorization Server**.
+2. User grants permission.
+3. Authorization Server issues an **Access Token**.
+4. Client uses the token to access protected resources.
+
+**When to Use:**
+
+* Google Login
+* GitHub Login
+* Social Authentication
+* Third-party API access
+
+**Example:**
+
+```text
+User → Google Login
+      → Access Token
+      → Application
+```
+
+**Interview One-Liner:**
+OAuth2 provides **secure authorization** by allowing applications to access resources using **tokens instead of passwords**.
+
+---
+
+**3. API Security**
+
+**Definition:**
+**API Security** is the practice of protecting APIs from unauthorized access, attacks, and data breaches.
+
+**Key Features:**
+
+* **Authentication**
+* **Authorization**
+* **Encryption**
+* **Rate Limiting**
+* **Input Validation**
+
+**How it Works:**
+
+1. Client sends a request.
+2. API validates credentials or token.
+3. User permissions are checked.
+4. Request is processed securely.
+5. Response is returned.
+
+**Common Security Techniques:**
+
+* **JWT Authentication**
+* **OAuth2**
+* **HTTPS**
+* **API Keys**
+* **Rate Limiting**
+
+**When to Use:**
+
+* Public APIs
+* Internal APIs
+* Microservices
+* Cloud applications
+
+**Example:**
+
+```java
+@GetMapping("/users")
+@PreAuthorize("hasRole('ADMIN')")
+public List<User> getUsers() {
+    return userService.findAll();
+}
+```
+
+**Interview One-Liner:**
+API Security protects APIs using **authentication, authorization, encryption, and access control mechanisms**.
+
+---
+
+**4. Service-to-Service Authentication**
+
+**Definition:**
+**Service-to-Service Authentication** is a mechanism where one microservice securely verifies the identity of another microservice.
+
+**Key Features:**
+
+* **Secure Communication**
+* **Mutual Trust**
+* **Token-Based Access**
+* **Microservices Security**
+* **Automated Authentication**
+
+**How it Works:**
+
+1. Service A requests a token.
+2. Authentication Server issues a token.
+3. Service A calls Service B with the token.
+4. Service B validates the token.
+5. Secure communication is established.
+
+**When to Use:**
+
+* Microservices architecture
+* Distributed systems
+* Internal APIs
+* Cloud-native applications
+
+**Example:**
+
+```java
+HttpHeaders headers = new HttpHeaders();
+headers.setBearerAuth(token);
+
+restTemplate.exchange(
+    serviceUrl,
+    HttpMethod.GET,
+    new HttpEntity<>(headers),
+    String.class
+);
+```
+
+**Common Approaches:**
+
+* **JWT Tokens**
+* **OAuth2 Client Credentials Flow**
+* **mTLS (Mutual TLS)**
+* **API Keys**
+
 
 ## **11. Observability**
 
-1. Centralized Logging
-2. Distributed Tracing
-3. Monitoring
-4. Metrics Collection
+**1. Centralized Logging**
+
+**Definition:**
+**Centralized Logging** is the practice of collecting logs from multiple applications and services into a single location for analysis and troubleshooting.
+
+**Key Features:**
+
+* **Single Log Repository**
+* **Easy Troubleshooting**
+* **Real-Time Log Analysis**
+* **Search and Filtering**
+* **Improved Visibility**
+
+**How it Works:**
+
+1. Applications generate logs.
+2. Logs are sent to a central logging system.
+3. Logs are stored and indexed.
+4. Developers search and analyze logs from one place.
+
+**When to Use:**
+
+* Microservices architecture
+* Distributed systems
+* Production monitoring
+* Debugging issues
+
+**Example:**
+
+```java
+log.info("Order created successfully");
+log.error("Payment failed");
+```
+
+**Popular Tools:**
+
+* **ELK Stack (Elasticsearch, Logstash, Kibana)**
+* **Splunk**
+* **Graylog**
+
+**Interview One-Liner:**
+Centralized Logging collects logs from all services into a **single platform** for easier monitoring and troubleshooting.
+
+---
+
+**2. Distributed Tracing**
+
+**Definition:**
+**Distributed Tracing** tracks a request as it travels through multiple services in a distributed system.
+
+**Key Features:**
+
+* **Request Tracking**
+* **Performance Analysis**
+* **Root Cause Detection**
+* **Service Dependency Visibility**
+* **Latency Monitoring**
+
+**How it Works:**
+
+1. A request enters the system.
+2. A unique **Trace ID** is assigned.
+3. Each service records its processing details.
+4. The complete request path can be viewed later.
+
+**When to Use:**
+
+* Microservices
+* API troubleshooting
+* Performance optimization
+* Distributed applications
+
+**Example:**
+
+```text
+Request
+  Service A
+  Service B
+  Database
+```
+
+**Popular Tools:**
+
+* **Zipkin**
+* **Jaeger**
+* **OpenTelemetry**
+
+**Interview One-Liner:**
+Distributed Tracing follows a request across multiple services using a **Trace ID** to identify bottlenecks and failures.
+
+---
+
+**3. Monitoring**
+
+**Definition:**
+**Monitoring** is the continuous observation of application and infrastructure health to detect issues and ensure system reliability.
+
+**Key Features:**
+
+* **Health Checks**
+* **Real-Time Alerts**
+* **Performance Tracking**
+* **Availability Monitoring**
+* **Incident Detection**
+
+**How it Works:**
+
+1. Monitoring tools collect system data.
+2. Metrics are analyzed continuously.
+3. Alerts are triggered when thresholds are exceeded.
+4. Teams investigate and resolve issues.
+
+**When to Use:**
+
+* Production systems
+* Cloud environments
+* High-availability applications
+* Microservices
+
+**Example:**
+
+```java
+@Readiness
+public boolean isHealthy() {
+    return database.isConnected();
+}
+```
+
+**Popular Tools:**
+
+* **Prometheus**
+* **Grafana**
+* **Datadog**
+* **New Relic**
+
+**Interview One-Liner:**
+Monitoring helps track the **health, availability, and performance** of applications and infrastructure.
+
+---
+
+**4. Metrics Collection**
+
+**Definition:**
+**Metrics Collection** is the process of gathering numerical data about application and system performance.
+
+**Key Features:**
+
+* **Performance Measurement**
+* **Resource Tracking**
+* **Trend Analysis**
+* **Alert Generation**
+* **Capacity Planning**
+
+**How it Works:**
+
+1. Applications expose metrics.
+2. Monitoring tools collect the metrics.
+3. Data is stored and visualized.
+4. Teams analyze trends and system behavior.
+
+**Common Metrics:**
+
+* **CPU Usage**
+* **Memory Usage**
+* **Request Count**
+* **Response Time**
+* **Error Rate**
+
+**When to Use:**
+
+* Performance monitoring
+* Capacity planning
+* SLA tracking
+* System optimization
+
+**Example:**
+
+```java
+Counter counter = meterRegistry.counter("orders.created");
+counter.increment();
+```
+
+**Interview One-Liner:**
+Metrics Collection gathers **numerical performance data** to measure system health, performance, and reliability.
+
+**Centralized Logging vs Distributed Tracing vs Monitoring vs Metrics Collection**
+
+| Feature   | Centralized Logging | Distributed Tracing    | Monitoring         | Metrics Collection   |
+| --------- | ------------------- | ---------------------- | ------------------ | -------------------- |
+| Focus     | **Logs**            | **Request Flow**       | **System Health**  | **Numerical Data**   |
+| Purpose   | Troubleshooting     | Request Tracking       | Detect Issues      | Measure Performance  |
+| Data Type | Log Entries         | Trace Information      | Health Status      | Metrics              |
+| Example   | Error Logs          | API Call Path          | Server Status      | CPU Usage            |
+| Best For  | Debugging           | Microservices Analysis | System Reliability | Performance Analysis |
+
 
 ## **12. Containerization & Orchestration**
 
-1. Docker
-2. Kubernetes
-3. Helm
+**1. Docker**
+
+**Definition:**
+**Docker** is a **containerization platform** used to package an application along with its dependencies into a lightweight **container**.
+
+**Key Features:**
+
+* **Containerization**
+* **Portable Across Environments**
+* **Fast Deployment**
+* **Lightweight**
+* **Consistent Execution**
+
+**How it Works:**
+
+1. Create a **Dockerfile**.
+2. Build a **Docker Image**.
+3. Run the image as a **Container**.
+4. The container runs the application in an isolated environment.
+
+**When to Use:**
+
+* Application packaging
+* Microservices deployment
+* CI/CD pipelines
+* Consistent development environments
+
+**Dockerfile Example:**
+
+```dockerfile
+FROM openjdk:17
+COPY app.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+**Commands:**
+
+```bash
+docker build -t myapp .
+docker run -p 8080:8080 myapp
+```
+
+**Interview One-Liner:**
+Docker packages an application and its dependencies into a **container**, ensuring it runs consistently across environments.
+
+---
+
+**2. Kubernetes**
+
+**Definition:**
+**Kubernetes (K8s)** is a **container orchestration platform** used to automate the deployment, scaling, and management of containers.
+
+**Key Features:**
+
+* **Auto Scaling**
+* **Self-Healing**
+* **Load Balancing**
+* **Rolling Updates**
+* **High Availability**
+
+**How it Works:**
+
+1. Applications run inside **Pods**.
+2. Pods are managed by Kubernetes.
+3. Kubernetes monitors pod health.
+4. Failed pods are automatically recreated.
+5. Traffic is distributed through **Services**.
+
+**When to Use:**
+
+* Large-scale microservices
+* Cloud-native applications
+* High-availability systems
+* Container orchestration
+
+**Deployment Example:**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 3
+```
+
+**Commands:**
+
+```bash
+kubectl apply -f deployment.yaml
+kubectl get pods
+```
+
+**Interview One-Liner:**
+Kubernetes automates the **deployment, scaling, and management of containers** in production environments.
+
+---
+
+**3. Helm**
+
+**Definition:**
+**Helm** is the **package manager for Kubernetes** that simplifies deploying and managing Kubernetes applications.
+
+**Key Features:**
+
+* **Reusable Templates**
+* **Version Management**
+* **Easy Deployment**
+* **Configuration Management**
+* **Rollback Support**
+
+**How it Works:**
+
+1. Application configuration is packaged as a **Helm Chart**.
+2. Helm installs the chart into Kubernetes.
+3. Values can be customized using configuration files.
+4. Helm manages upgrades and rollbacks.
+
+**When to Use:**
+
+* Kubernetes deployments
+* Managing complex applications
+* Reusable infrastructure templates
+* Automated releases
+
+**Install Command:**
+
+```bash
+helm install myapp mychart
+```
+
+**Values Example:**
+
+```yaml
+replicaCount: 3
+
+image:
+  repository: myapp
+  tag: latest
+```
+
+**Interview One-Liner:**
+Helm simplifies Kubernetes deployments by packaging applications into reusable **Helm Charts**.
+
+**Docker vs Kubernetes vs Helm**
+
+| Feature    | Docker               | Kubernetes                  | Helm                              |
+| ---------- | -------------------- | --------------------------- | --------------------------------- |
+| Purpose    | **Containerization** | **Container Orchestration** | **Kubernetes Package Management** |
+| Main Unit  | **Container**        | **Pod**                     | **Chart**                         |
+| Scaling    | Manual               | Automatic                   | Uses Kubernetes                   |
+| Deployment | Single Container     | Multiple Containers         | Simplifies Kubernetes Deployment  |
+| Best For   | Packaging Apps       | Managing Containers         | Managing Kubernetes Applications  |
+
 
 ## **13. Cloud & Deployment**
 
-1. AWS Services
-2. CI/CD Pipelines
-3. Blue-Green Deployment
-4. Rolling Deployment
+**1. AWS Services**
+
+**Definition:**
+**AWS (Amazon Web Services)** is a cloud platform that provides services for computing, storage, databases, networking, security, and deployment.
+
+**Key Services**
+
+* **EC2** – Virtual Servers
+* **S3** – Object Storage
+* **RDS** – Managed Database
+* **Lambda** – Serverless Computing
+* **EKS** – Kubernetes Service
+* **IAM** – Identity & Access Management
+* **CloudWatch** – Monitoring & Logging
+* **SNS/SQS** – Messaging Services
+
+**How It Works**
+
+1. Deploy application on **EC2** or **EKS**
+2. Store files in **S3**
+3. Store data in **RDS**
+4. Monitor using **CloudWatch**
+5. Secure access using **IAM**
+
+**When to Use**
+
+* Cloud hosting
+* Scalable applications
+* Microservices architecture
+* Serverless applications
+
+**Example**
+
+```text
+Frontend → EC2
+Images → S3
+Database → RDS
+Monitoring → CloudWatch
+```
+
+---
+
+**2. CI/CD Pipelines**
+
+**Definition:**
+**CI/CD (Continuous Integration / Continuous Deployment)** is an automated process that builds, tests, and deploys code whenever changes are pushed.
+
+**Key Features**
+
+* **Automated Build**
+* **Automated Testing**
+* **Continuous Delivery**
+* **Fast Releases**
+* **Reduced Human Errors**
+
+**How It Works**
+
+1. Developer pushes code to Git
+2. Pipeline triggers automatically
+3. Application is built
+4. Tests are executed
+5. Artifact is created
+6. Application is deployed
+
+**When to Use**
+
+* Agile development
+* Frequent releases
+* DevOps environments
+* Microservices projects
+
+**Pipeline Flow**
+
+```text
+Code Commit
+    ↓
+Build
+    ↓
+Test
+    ↓
+Package
+    ↓
+Deploy
+```
+
+**Jenkins Pipeline Example**
+
+```groovy
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh './deploy.sh'
+            }
+        }
+    }
+}
+```
+
+---
+
+**3. Blue-Green Deployment**
+
+**Definition:**
+**Blue-Green Deployment** is a release strategy where two identical environments are maintained.
+
+* **Blue** → Current Production
+* **Green** → New Version
+
+**How It Works**
+
+1. Production runs on **Blue**
+2. Deploy new version to **Green**
+3. Test Green environment
+4. Switch traffic from Blue to Green
+5. Keep Blue as backup
+
+**Key Features**
+
+* **Zero Downtime**
+* **Easy Rollback**
+* **Safer Releases**
+* **Reduced Risk**
+
+**When to Use**
+
+* Critical applications
+* High availability systems
+* Production deployments
+
+**Example**
+
+```text
+Users
+   ↓
+Load Balancer
+   ↓
+Blue (v1)
+
+Deploy v2 to Green
+Test Green
+Switch Traffic
+
+Users
+   ↓
+Load Balancer
+   ↓
+Green (v2)
+```
+
+**Rollback**
+
+```text
+Green Fails
+    ↓
+Switch Back
+    ↓
+Blue
+```
+
+---
+
+**4. Rolling Deployment**
+
+**Definition:**
+**Rolling Deployment** updates application instances gradually instead of replacing all servers at once.
+
+**How It Works**
+
+1. Update a few servers
+2. Verify health
+3. Update next batch
+4. Continue until all servers are updated
+
+**Key Features**
+
+* **No Downtime**
+* **Gradual Release**
+* **Lower Resource Cost**
+* **Continuous Availability**
+
+**When to Use**
+
+* Kubernetes deployments
+* Large distributed systems
+* Microservices applications
+
+**Example**
+
+```text
+Before Deployment
+
+Server1 v1
+Server2 v1
+Server3 v1
+Server4 v1
+```
+
+```text
+Step 1
+
+Server1 v2
+Server2 v1
+Server3 v1
+Server4 v1
+```
+
+```text
+Step 2
+
+Server1 v2
+Server2 v2
+Server3 v1
+Server4 v1
+```
+
+```text
+Final State
+
+Server1 v2
+Server2 v2
+Server3 v2
+Server4 v2
+```
+
+**Kubernetes Example**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+  template:
+    spec:
+      containers:
+      - name: app
+        image: app:v2
+```
+
+**Blue-Green vs Rolling Deployment**
+
+| Feature             | Blue-Green       | Rolling         |
+| ------------------- | ---------------- | --------------- |
+| Deployment Style    | Two Environments | Gradual Updates |
+| Downtime            | None             | None            |
+| Rollback            | Very Fast        | Slower          |
+| Infrastructure Cost | Higher           | Lower           |
+| Risk                | Very Low         | Moderate        |
+
 
 ## **14. Performance & Scalability**
 
-1. Load Balancing
-2. Horizontal Scaling
-3. Caching
-4. Rate Limiting
+**1. Load Balancing**
+
+**Definition:**
+**Load Balancing** is a technique that distributes incoming traffic across multiple servers to ensure no single server is overloaded.
+
+**Key Features**
+
+* **Traffic Distribution**
+* **High Availability**
+* **Fault Tolerance**
+* **Scalability**
+
+**How It Works**
+
+1. Client sends request
+2. **Load Balancer** receives request
+3. It forwards request to healthy server
+4. Response is returned to client
+
+**When to Use**
+
+* High traffic applications
+* Microservices systems
+* Scalable web apps
+
+**Example**
+
+```text id="lb1"
+Client → Load Balancer → Server1 / Server2 / Server3
+```
+
+---
+
+**2. Horizontal Scaling**
+
+**Definition:**
+**Horizontal Scaling** means adding more machines (servers) to handle increased load instead of upgrading a single server.
+
+**Key Features**
+
+* **Adds more servers**
+* **Better fault tolerance**
+* **Improves performance**
+* **Elastic scaling**
+
+**How It Works**
+
+1. Traffic increases
+2. New servers are added
+3. Load balancer distributes traffic
+4. System handles more requests
+
+**When to Use**
+
+* Cloud applications
+* High traffic systems
+* Distributed systems
+
+**Example**
+
+```text id="hs1"
+Before: 1 Server
+After: 5 Servers handling same load
+```
+
+---
+
+**3. Caching**
+
+**Definition:**
+**Caching** stores frequently used data in fast storage (memory) to reduce database load and improve performance.
+
+**Key Features**
+
+* **Fast Data Access**
+* **Reduces DB load**
+* **Improves latency**
+* **Temporary storage**
+
+**How It Works**
+
+1. User requests data
+2. System checks **cache**
+3. If found → return instantly
+4. If not found → fetch from DB and store in cache
+
+**When to Use**
+
+* Frequently accessed data
+* Read-heavy systems
+* High-performance apps
+
+**Example (Redis Cache Flow)**
+
+```text id="cache1"
+User → Cache (Hit) → Response
+User → Cache (Miss) → DB → Cache → Response
+```
+
+**Spring Boot Example**
+
+```java id="cache2"
+@Cacheable("users")
+public User getUserById(Long id) {
+    return userRepository.findById(id).orElse(null);
+}
+```
+
+---
+
+**4. Rate Limiting**
+
+**Definition:**
+**Rate Limiting** controls the number of requests a user or client can make in a specific time period.
+
+**Key Features**
+
+* **Prevents abuse**
+* **Protects APIs**
+* **Controls traffic**
+* **Improves stability**
+
+**How It Works**
+
+1. Client sends request
+2. System checks request count
+3. If limit exceeded → block request
+4. Else → allow request
+
+**When to Use**
+
+* Public APIs
+* Login systems
+* Payment gateways
+* Prevent DDoS attacks
+
+**Example**
+
+```text id="rl1"
+Limit: 100 requests/minute
+
+User requests:
+1...100 → Allowed
+101 → Blocked
+```
+
+**Spring Boot Bucket4j Example**
+
+```java id="rl2"
+Bucket bucket = Bucket4j.builder()
+    .addLimit(Bandwidth.simple(10, Duration.ofMinutes(1)))
+    .build();
+
+if (bucket.tryConsume(1)) {
+    return "Request Allowed";
+} else {
+    return "Too Many Requests";
+}
+```
+
 
 ## **15. Microservice Design Patterns**
 
-1. API Gateway Pattern
-2. Saga Pattern
-3. CQRS Pattern
-4. Strangler Pattern
-5. Database per Service Pattern
+**1. API Gateway Pattern**
+
+**Definition:**
+**API Gateway Pattern** is a single entry point that routes all client requests to appropriate microservices.
+
+**Key Features**
+
+* **Single Entry Point**
+* **Request Routing**
+* **Authentication & Authorization**
+* **Load Balancing**
+* **Rate Limiting**
+
+**How It Works**
+
+1. Client sends request to **API Gateway**
+2. Gateway authenticates request
+3. Routes request to correct microservice
+4. Aggregates response if needed
+
+**When to Use**
+
+* Microservices architecture
+* Multiple backend services
+* Security centralization
+
+**Example**
+
+```text id="ag1"
+Client → API Gateway → User Service / Order Service / Payment Service
+```
+
+**Spring Cloud Gateway Example**
+
+```yaml id="ag2"
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+```
+
+---
+
+**2. Saga Pattern**
+
+**Definition:**
+**Saga Pattern** manages distributed transactions by breaking them into multiple local transactions with compensation steps.
+
+**Key Features**
+
+* **Distributed Transaction Management**
+* **Event-driven**
+* **Compensation Rollback**
+* **Loosely Coupled Services**
+
+**How It Works**
+
+1. Service executes local transaction
+2. Publishes event
+3. Next service executes its transaction
+4. If failure occurs → compensation actions run
+
+**When to Use**
+
+* Microservices transactions
+* No 2-phase commit required
+* Long-running workflows
+
+**Example**
+
+```text id="sp1"
+Order → Payment → Inventory
+
+If Payment fails:
+Order rollback (cancel order)
+```
+
+---
+
+**3. CQRS Pattern**
+
+**Definition:**
+**CQRS (Command Query Responsibility Segregation)** separates read and write operations into different models.
+
+**Key Features**
+
+* **Separate Read & Write Models**
+* **Scalability**
+* **Performance Optimization**
+* **Event-driven possible**
+
+**How It Works**
+
+1. **Command model** handles write operations
+2. **Query model** handles read operations
+3. Both can use different databases
+
+**When to Use**
+
+* High-scale systems
+* Complex read/write logic
+* Event-driven architecture
+
+**Example**
+
+```text id="cqrs1"
+Write → Order Service → Database A
+Read  → Order Query Service → Database B
+```
+
+**Spring Example**
+
+```java id="cqrs2"
+// Command
+@PostMapping("/orders")
+public void createOrder(@RequestBody Order order) {
+    orderService.save(order);
+}
+
+// Query
+@GetMapping("/orders/{id}")
+public Order getOrder(@PathVariable Long id) {
+    return queryService.findById(id);
+}
+```
+
+---
+
+**4. Strangler Pattern**
+
+**Definition:**
+**Strangler Pattern** gradually replaces a legacy system with a new system without full downtime.
+
+**Key Features**
+
+* **Gradual Migration**
+* **No Big Bang Replacement**
+* **Low Risk**
+* **Backward Compatibility**
+
+**How It Works**
+
+1. New system is built around legacy system
+2. Requests are routed to new services step by step
+3. Legacy system is slowly phased out
+
+**When to Use**
+
+* Legacy system modernization
+* Large monolithic migration
+* Risk reduction scenarios
+
+**Example**
+
+```text id="sp2"
+Client → API Gateway
+        → New Service (preferred)
+        → Legacy System (fallback)
+```
+
+---
+
+**5. Database per Service Pattern**
+
+**Definition:**
+Each microservice owns its own **separate database**, ensuring loose coupling.
+
+**Key Features**
+
+* **Independent Databases**
+* **Loose Coupling**
+* **Better Scalability**
+* **Technology Flexibility**
+
+**How It Works**
+
+1. Each service has its own DB
+2. Services communicate via APIs/events
+3. No direct DB sharing
+
+**When to Use**
+
+* Microservices architecture
+* Independent service scaling
+* Team autonomy
+
+**Example**
+
+```text id="db1"
+User Service → User DB
+Order Service → Order DB
+Payment Service → Payment DB
+```
+
+**Spring Example**
+
+```yaml id="db2"
+user-service:
+  datasource:
+    url: jdbc:mysql://user-db:3306/users
+
+order-service:
+  datasource:
+    url: jdbc:mysql://order-db:3306/orders
+```
+
 
 ## **16. Real-World Troubleshooting**
 
-1. API Latency Issues
-2. Distributed Debugging
-3. Kafka Consumer Lag
-4. Database Bottlenecks
-5. Production Incident Handling
-6. Root Cause Analysis (RCA)
+**1. API Latency Issues**
+
+**Definition:**
+**API Latency Issues** occur when API responses take too long due to network, server, or database delays.
+
+**Key Features**
+
+* **Slow Response Time**
+* **High Server Load**
+* **Network Delays**
+* **DB Query Bottlenecks**
+
+**How It Works**
+
+1. Request hits API
+2. Processing delay occurs (DB / network / CPU)
+3. Response time increases
+
+**When to Use / Detect**
+
+* High traffic systems
+* Performance degradation
+* SLA violations
+
+**Example Fix (Spring Boot Logging)**
+
+```java id="lat1"
+long start = System.currentTimeMillis();
+ResponseEntity<?> response = service.getData();
+long end = System.currentTimeMillis();
+System.out.println("Latency: " + (end - start) + "ms");
+```
+
+---
+
+**2. Distributed Debugging**
+
+**Definition:**
+**Distributed Debugging** is identifying issues across multiple microservices in a distributed system.
+
+**Key Features**
+
+* **Multi-service tracing**
+* **Correlation IDs**
+* **Centralized logs**
+* **End-to-end visibility**
+
+**How It Works**
+
+1. Request enters system
+2. **Correlation ID** is attached
+3. Logs are collected across services
+4. Trace path is analyzed
+
+**When to Use**
+
+* Microservices architecture
+* Complex system failures
+* Production debugging
+
+**Example**
+
+```java id="dbg1"
+log.info("Request ID: {}", requestId);
+```
+
+---
+
+**3. Kafka Consumer Lag**
+
+**Definition:**
+**Kafka Consumer Lag** is the delay between messages produced and messages consumed.
+
+**Key Features**
+
+* **Message backlog**
+* **Performance indicator**
+* **Consumer health metric**
+* **Real-time monitoring**
+
+**How It Works**
+
+1. Producer sends messages
+2. Consumer reads slower than producer
+3. Lag increases in Kafka topic
+
+**When to Use**
+
+* Event-driven systems
+* Streaming pipelines
+* Monitoring Kafka health
+
+**Example Check**
+
+```text id="kafka1"
+Lag = Latest Offset - Consumer Offset
+```
+
+---
+
+**4. Database Bottlenecks**
+
+**Definition:**
+**Database Bottlenecks** occur when the database cannot handle the load efficiently, slowing down the system.
+
+**Key Features**
+
+* **Slow Queries**
+* **Locking Issues**
+* **High CPU/Memory usage**
+* **Connection saturation**
+
+**How It Works**
+
+1. Multiple queries hit DB
+2. Index missing or poor design
+3. Queries slow down system
+
+**When to Use / Detect**
+
+* High traffic systems
+* Slow response times
+* Deadlocks
+
+**Example Fix**
+
+```sql id="db1"
+-- Add index to improve performance
+CREATE INDEX idx_user_id ON users(id);
+```
+
+---
+
+**5. Production Incident Handling**
+
+**Definition:**
+**Production Incident Handling** is the process of detecting, resolving, and recovering from system failures in production.
+
+**Key Features**
+
+* **Incident Detection**
+* **Alerting Systems**
+* **Rollback Strategy**
+* **Post-mortem analysis**
+
+**How It Works**
+
+1. Alert triggered (monitoring tool)
+2. On-call engineer investigates
+3. Fix or rollback applied
+4. System restored
+
+**When to Use**
+
+* System outages
+* Performance degradation
+* Critical failures
+
+**Example Flow**
+
+```text id="pi1"
+Alert → Investigation → Fix/Rollback → Recovery
+```
+
+---
+
+**6. Root Cause Analysis (RCA)**
+
+**Definition:**
+**RCA (Root Cause Analysis)** is the process of identifying the underlying cause of a production issue.
+
+**Key Features**
+
+* **Problem Identification**
+* **Cause Analysis**
+* **Evidence-based investigation**
+* **Preventive actions**
+
+**How It Works**
+
+1. Incident occurs
+2. Logs and metrics analyzed
+3. Root cause identified
+4. Fix + prevention implemented
+
+**When to Use**
+
+* After production incidents
+* Recurring failures
+* System optimization
+
+**Example Method**
+
+```text id="rca1"
+5 Whys Technique:
+Why → Why → Why → Why → Root Cause
+```
+
