@@ -1,4 +1,4 @@
-## **1. React Fundamentals**
+### **1. React Fundamentals**
 
 ### **1. What is React?**
 
@@ -262,7 +262,7 @@ root.render(<App />);
 ```
 
 
-## **2. Components**
+### **2. Components**
 
 ### **1. Functional Components**
 
@@ -598,7 +598,7 @@ function App() {
 This approach makes the application **modular**, **reusable**, and **easy to manage**.
 
 
-## **3. Props & State**
+### **3. Props & State**
 
 ### **191. Props**
 
@@ -835,9 +835,9 @@ setUser({
 ```
 
 
-## **4. React Hooks**
+### **4. React Hooks**
 
-## **1. useState**
+### **1. useState**
 
 **`useState`** is a React Hook used to add and manage **state** in a **functional component**.
 
@@ -873,7 +873,7 @@ function Counter() {
 }
 ```
 
-## **2. useEffect**
+### **2. useEffect**
 
 **`useEffect`** is a React Hook used to perform **side effects** in functional components, such as API calls, timers, or event listeners.
 
@@ -907,7 +907,7 @@ function App() {
 }
 ```
 
-## **3. useContext**
+### **3. useContext**
 
 **`useContext`** is a React Hook used to access data from the **Context API** without passing props manually through every component.
 
@@ -941,7 +941,7 @@ function Child() {
 }
 ```
 
-## **4. useReducer**
+### **4. useReducer**
 
 **`useReducer`** is a React Hook used for **complex state management**. It works similarly to a Redux reducer by using **actions** and a **reducer function**.
 
@@ -986,7 +986,7 @@ function Counter() {
 }
 ```
 
-## **5. useRef**
+### **5. useRef**
 
 **`useRef`** is a React Hook used to create a **mutable reference** that persists across renders without causing a re-render.
 
@@ -1026,7 +1026,7 @@ function App() {
   );
 }
 ```
-## **6. useMemo**
+### **6. useMemo**
 
 **`useMemo`** is a React Hook used to **memoize (cache) the result of an expensive calculation** so it is not recomputed on every render.
 
@@ -1060,7 +1060,7 @@ function App({ numbers }) {
 }
 ```
 
-## **7. useCallback**
+### **7. useCallback**
 
 **`useCallback`** is a React Hook used to **memoize a function** so that it is not recreated on every render.
 
@@ -1093,7 +1093,7 @@ function App() {
 }
 ```
 
-## **8. useLayoutEffect**
+### **8. useLayoutEffect**
 
 **`useLayoutEffect`** is a React Hook that works like `useEffect`, but it runs **synchronously after the DOM update and before the browser paints the screen**.
 
@@ -1129,7 +1129,7 @@ function App() {
 }
 ```
 
-## **9. useImperativeHandle**
+### **9. useImperativeHandle**
 
 **`useImperativeHandle`** is a React Hook used with **`forwardRef`** to customize the values or methods exposed to a parent component through a **ref**.
 
@@ -1166,7 +1166,7 @@ const Input = forwardRef((props, ref) => {
 });
 ```
 
-## **10. Custom Hooks**
+### **10. Custom Hooks**
 
 A **Custom Hook** is a reusable JavaScript function that uses one or more **React Hooks** to share logic between components.
 
@@ -1211,9 +1211,9 @@ function App() {
 ```
 
 
-## **5. Event Handling**
+### **5. Event Handling**
 
-## **1. Synthetic Events**
+### **1. Synthetic Events**
 
 **Synthetic Events** are React's **cross-browser wrapper** around native browser events. They provide a consistent event handling API across all browsers.
 
@@ -1244,7 +1244,7 @@ function App() {
 }
 ```
 
-## **2. Event Binding**
+### **2. Event Binding**
 
 **Event Binding** is the process of connecting an **event handler function** to a React element so it executes when the event occurs.
 
@@ -1275,7 +1275,7 @@ function App() {
 }
 ```
 
-## **3. Event Bubbling**
+### **3. Event Bubbling**
 
 **Event Bubbling** is the process where an event starts from the **target element** and then moves **upward** through its parent elements.
 
@@ -1311,7 +1311,7 @@ Child
 Parent
 ```
 
-## **4. Event Capturing**
+### **4. Event Capturing**
 
 **Event Capturing** is the process where an event travels from the **outer parent element** down to the **target element** before bubbling starts.
 
@@ -1340,7 +1340,7 @@ Parent
 </div>
 ```
 
-## **5. Prevent Default**
+### **5. Prevent Default**
 
 **`preventDefault()`** is a method used to stop the browser's **default behavior** for an event.
 
@@ -1375,7 +1375,7 @@ function App() {
 }
 ```
 
-## **6. Stop Propagation**
+### **6. Stop Propagation**
 
 **`stopPropagation()`** is a method used to stop an event from **continuing to bubble or capture** through parent elements.
 
@@ -1424,9 +1424,9 @@ Child Clicked
 ```
 
 
-## **6. Forms**
+### **6. Forms**
 
-## **1. Controlled Forms**
+### **1. Controlled Forms**
 
 A **Controlled Form** is a form where React **controls the input values** using **state**.
 
@@ -1463,7 +1463,7 @@ function Form() {
 }
 ```
 
-## **2. Uncontrolled Forms**
+### **2. Uncontrolled Forms**
 
 An **Uncontrolled Form** is a form where the **DOM manages the input values** instead of React state. It uses **Refs** to access the form data.
 
@@ -1504,7 +1504,7 @@ function Form() {
 }
 ```
 
-## **3. Form Validation**
+### **3. Form Validation**
 
 **Form Validation** is the process of checking whether the user input meets the required rules before submitting the form.
 
@@ -1545,7 +1545,7 @@ function Form() {
 }
 ```
 
-## **4. React Hook Form**
+### **4. React Hook Form**
 
 **React Hook Form** is a popular library for handling forms in React with **less code** and **better performance**.
 
@@ -1582,7 +1582,7 @@ function Form() {
 }
 ```
 
-## **5. Formik**
+### **5. Formik**
 
 **Formik** is a React library that simplifies **form state management**, **validation**, and **submission handling**.
 
@@ -1619,7 +1619,7 @@ function App() {
 }
 ```
 
-## **6. Dynamic Forms**
+### **6. Dynamic Forms**
 
 **Dynamic Forms** are forms where input fields are **created, removed, or updated dynamically** based on user actions or data.
 
@@ -1664,9 +1664,9 @@ function App() {
 }
 ```
 
-## **7. Conditional Rendering**
+### **7. Conditional Rendering**
 
-## **1. if/else Rendering**
+### **1. if/else Rendering**
 
 **if/else Rendering** is a way to display different UI elements based on a condition using the standard JavaScript `if...else` statement.
 
@@ -1698,7 +1698,7 @@ function User({ isLoggedIn }) {
 }
 ```
 
-## **2. Ternary Operator**
+### **2. Ternary Operator**
 
 The **Ternary Operator (`condition ? true : false`)** is a short way to perform conditional rendering in JSX.
 
@@ -1730,7 +1730,7 @@ function User({ isLoggedIn }) {
 }
 ```
 
-## **3. Logical AND (`&&`)**
+### **3. Logical AND (`&&`)**
 
 The **Logical AND (`&&`)** operator is used to render a component **only when a condition is true**.
 
@@ -1762,7 +1762,7 @@ function Notification({ hasMessage }) {
 }
 ```
 
-## **4. Switch Rendering**
+### **4. Switch Rendering**
 
 **Switch Rendering** uses the JavaScript `switch` statement to render different UI elements based on multiple conditions.
 
@@ -1796,7 +1796,7 @@ function Status({ role }) {
 }
 ```
 
-## **5. Dynamic UI Rendering**
+### **5. Dynamic UI Rendering**
 
 **Dynamic UI Rendering** means creating or updating UI elements dynamically based on **data**, **state**, or **props**.
 
@@ -1834,9 +1834,9 @@ function App() {
 ```
 
 
-## **8. Lists & Keys**
+### **8. Lists & Keys**
 
-## **1. Rendering Lists**
+### **1. Rendering Lists**
 
 **Rendering Lists** in React means displaying multiple items by looping through an array and converting each item into a JSX element, usually using the **`map()`** method.
 
@@ -1872,7 +1872,7 @@ function App() {
 }
 ```
 
-## **2. Keys in React**
+### **2. Keys in React**
 
 A **Key** is a special attribute used to uniquely identify elements in a list. It helps React track which items have changed, been added, or removed.
 
@@ -1910,7 +1910,7 @@ function App() {
 }
 ```
 
-## **3. Why Keys Are Important**
+### **3. Why Keys Are Important**
 
 **Keys** are important because they help React identify which list items have changed, making updates **faster and more efficient**.
 
@@ -1943,7 +1943,7 @@ products.map((product) => (
 ));
 ```
 
-## **4. Index as Key Problems**
+### **4. Index as Key Problems**
 
 Using the **array index as a key** can cause incorrect UI updates when list items are **added, deleted, or reordered**.
 
@@ -1986,9 +1986,9 @@ users.map((user) => (
 ));
 ```
 
-## **9. Component Communication**
+### **9. Component Communication**
 
-## **1. Parent to Child**
+### **1. Parent to Child**
 
 **Parent to Child Communication** is the process of passing data from a parent component to a child component using **Props**.
 
@@ -2020,7 +2020,7 @@ function App() {
 }
 ```
 
-## **2. Child to Parent**
+### **2. Child to Parent**
 
 **Child to Parent Communication** is achieved by passing a **callback function** from the parent to the child through props. The child calls this function to send data back.
 
@@ -2060,7 +2060,7 @@ function App() {
 }
 ```
 
-## **3. Sibling Communication**
+### **3. Sibling Communication**
 
 **Sibling Communication** is the process of sharing data between components that have the **same parent**.
 
@@ -2095,7 +2095,7 @@ function Parent() {
 }
 ```
 
-## **4. Context API**
+### **4. Context API**
 
 **Context API** is a React feature used to share data across multiple components **without passing props manually through every level**.
 
@@ -2129,7 +2129,7 @@ function Child() {
 }
 ```
 
-## **5. Global State Sharing**
+### **5. Global State Sharing**
 
 **Global State Sharing** is the process of storing and accessing common data across the entire application from a central location.
 
@@ -2171,9 +2171,9 @@ function Home() {
 ```
 
 
-## **10. React Lifecycle**
+### **10. React Lifecycle**
 
-## **1. Mounting**
+### **1. Mounting**
 
 **Mounting** is the first phase of the React component lifecycle, where a component is **created and inserted into the DOM**.
 
@@ -2206,7 +2206,7 @@ class App extends React.Component {
 }
 ```
 
-## **2. Updating**
+### **2. Updating**
 
 **Updating** is the lifecycle phase that occurs when a component's **state** or **props** change, causing the component to re-render.
 
@@ -2233,7 +2233,7 @@ this.setState({
 });
 ```
 
-## **3. Unmounting**
+### **3. Unmounting**
 
 **Unmounting** is the final phase of the lifecycle when a component is **removed from the DOM**.
 
@@ -2266,7 +2266,7 @@ class App extends React.Component {
 }
 ```
 
-## **4. ComponentDidMount**
+### **4. ComponentDidMount**
 
 **`componentDidMount()`** is a lifecycle method that runs **once after the component is mounted**.
 
@@ -2293,7 +2293,7 @@ componentDidMount() {
 }
 ```
 
-## **5. ComponentDidUpdate**
+### **5. ComponentDidUpdate**
 
 **`componentDidUpdate()`** is a lifecycle method that runs **after a component updates** because of changes in **state** or **props**.
 
@@ -2322,7 +2322,7 @@ componentDidUpdate(prevProps) {
 }
 ```
 
-## **6. ComponentWillUnmount**
+### **6. ComponentWillUnmount**
 
 **`componentWillUnmount()`** is a lifecycle method that runs **just before a component is removed from the DOM**.
 
@@ -2349,7 +2349,7 @@ componentWillUnmount() {
 }
 ```
 
-## **7. Lifecycle Equivalent in Hooks**
+### **7. Lifecycle Equivalent in Hooks**
 
 In **Functional Components**, the **`useEffect()` Hook** replaces traditional class component lifecycle methods.
 
@@ -2397,9 +2397,9 @@ function App() {
 | **`componentWillUnmount()`** | **`return () => {}` inside `useEffect()`** |
 
 
-## **11. Context API**
+### **11. Context API**
 
-### **1. createContext**
+#### **1. createContext**
 
 **`createContext`** is a React API used to **create a Context object** for sharing data globally without **prop drilling**.
 
@@ -2429,7 +2429,7 @@ export const UserContext = createContext();
 
 ---
 
-### **2. Provider**
+#### **2. Provider**
 
 **`Provider`** is a component that **supplies data** to all child components using the Context.
 
@@ -2464,7 +2464,7 @@ function App() {
 
 ---
 
-### **3. Consumer**
+#### **3. Consumer**
 
 **`Consumer`** is a component used to **read Context data** before Hooks were introduced.
 
@@ -2493,7 +2493,7 @@ function App() {
 
 ---
 
-### **4. useContext**
+#### **4. useContext**
 
 **`useContext`** is a React Hook used to **access Context data directly** inside functional components.
 
@@ -2526,7 +2526,7 @@ function Home() {
 
 ---
 
-### **5. Context vs Redux**
+#### **5. Context vs Redux**
 
 | Feature                | **Context API**               | **Redux**                           |
 | ---------------------- | ----------------------------- | ----------------------------------- |
@@ -2546,9 +2546,9 @@ function Home() {
 * Large applications with **complex state management**, **multiple updates**, and **predictable data flow**.
 
 
-## **12. State Management**
+### **12. State Management**
 
-### **1. Local State**
+#### **1. Local State**
 
 **Local State** is data managed inside a single component using **`useState`** or **`useReducer`**.
 
@@ -2584,7 +2584,7 @@ function Counter() {
 }
 ```
 
-### **2. Context API**
+#### **2. Context API**
 
 **Context API** is React's built-in solution for sharing **global data** without passing props manually.
 
@@ -2618,7 +2618,7 @@ function App() {
 }
 ```
 
-### **3. Redux**
+#### **3. Redux**
 
 **Redux** is a predictable **state management library** for handling complex application state.
 
@@ -2645,7 +2645,7 @@ dispatch({ type: "increment" });
 const count = useSelector((state) => state.count);
 ```
 
-### **4. Redux Toolkit (RTK)**
+#### **4. Redux Toolkit (RTK)**
 
 **Redux Toolkit (RTK)** is the official and recommended way to write Redux code with less boilerplate.
 
@@ -2679,7 +2679,7 @@ const counterSlice = createSlice({
 });
 ```
 
-### **5. Zustand**
+#### **5. Zustand**
 
 **Zustand** is a lightweight state management library with a simple Hook-based API.
 
@@ -2709,7 +2709,7 @@ const useStore = create((set) => ({
 }));
 ```
 
-### **6. Recoil**
+#### **6. Recoil**
 
 **Recoil** is a state management library developed for React that manages state using **atoms** and **selectors**.
 
@@ -2740,7 +2740,7 @@ const countState = atom({
 const [count, setCount] = useRecoilState(countState);
 ```
 
-### **7. MobX**
+#### **7. MobX**
 
 **MobX** is a reactive state management library that automatically updates the UI when state changes.
 
@@ -2779,9 +2779,9 @@ class CounterStore {
 ```
 
 
-## **13. Redux & Redux Toolkit**
+### **13. Redux & Redux Toolkit**
 
-### **1. Store**
+#### **1. Store**
 
 **Store** is the **central place** where the entire Redux application state is stored.
 
@@ -2813,7 +2813,7 @@ export const store = configureStore({
 });
 ```
 
-### **2. Actions**
+#### **2. Actions**
 
 **Actions** are plain JavaScript objects that **describe what happened** in the application.
 
@@ -2847,7 +2847,7 @@ Or with Redux Toolkit:
 dispatch(increment());
 ```
 
-### **3. Reducers**
+#### **3. Reducers**
 
 **Reducers** are pure functions that **update the state** based on the received action.
 
@@ -2880,7 +2880,7 @@ const counterSlice = createSlice({
 });
 ```
 
-### **4. Dispatch**
+#### **4. Dispatch**
 
 **`dispatch`** is a Redux function used to **send an action** to the store.
 
@@ -2910,7 +2910,7 @@ const dispatch = useDispatch();
 dispatch(increment());
 ```
 
-### **5. Middleware**
+#### **5. Middleware**
 
 **Middleware** is a function that runs **between dispatching an action and updating the reducer**.
 
@@ -2939,7 +2939,7 @@ const logger = (store) => (next) => (action) => {
 };
 ```
 
-### **6. Thunk**
+#### **6. Thunk**
 
 **Redux Thunk** is a **middleware** that allows you to write **asynchronous logic** in Redux.
 
@@ -2969,7 +2969,7 @@ export const fetchUsers = () => async (dispatch) => {
 };
 ```
 
-### **7. Redux Saga**
+#### **7. Redux Saga**
 
 **Redux Saga** is a Redux **middleware** that manages complex **asynchronous side effects** using generator functions.
 
@@ -2998,7 +2998,7 @@ function* fetchUsers() {
 }
 ```
 
-### **8. RTK Query**
+#### **8. RTK Query**
 
 **RTK Query** is a powerful data fetching and caching tool built into **Redux Toolkit**.
 
@@ -3024,7 +3024,7 @@ function* fetchUsers() {
 const { data, isLoading } = useGetUsersQuery();
 ```
 
-### **9. createSlice**
+#### **9. createSlice**
 
 **`createSlice`** is a Redux Toolkit function used to create **state, reducers, and actions** in one place.
 
@@ -3060,7 +3060,7 @@ export const { increment } = counterSlice.actions;
 export default counterSlice.reducer;
 ```
 
-### **10. configureStore**
+#### **10. configureStore**
 
 **`configureStore`** is a Redux Toolkit function used to **create and configure the Redux store**.
 
@@ -3093,9 +3093,9 @@ export const store = configureStore({
 });
 ```
 
-## **14. Routing**
+### **14. Routing**
 
-### **1. React Router**
+#### **1. React Router**
 
 **React Router** is a **routing library** for React that allows users to navigate between different pages **without reloading the browser**.
 
@@ -3132,7 +3132,7 @@ function App() {
 }
 ```
 
-### **2. BrowserRouter**
+#### **2. BrowserRouter**
 
 **BrowserRouter** is a component that enables **routing using the browser's History API**. It wraps the entire application and manages URL changes.
 
@@ -3165,7 +3165,7 @@ function App() {
 }
 ```
 
-### **3. Routes**
+#### **3. Routes**
 
 **Routes** is a container component that holds multiple **Route** components and renders the **first matching route**.
 
@@ -3193,7 +3193,7 @@ function App() {
 </Routes>
 ```
 
-### **4. Route**
+#### **4. Route**
 
 **Route** defines a mapping between a **URL path** and the **component** that should be displayed.
 
@@ -3219,7 +3219,7 @@ function App() {
 <Route path="/user/:id" element={<User />} />
 ```
 
-### **5. Navigate**
+#### **5. Navigate**
 
 **Navigate** is a component used to **redirect users programmatically** from one route to another.
 
@@ -3251,7 +3251,7 @@ function Dashboard({ isLoggedIn }) {
 }
 ```
 
-### **6. Nested Routes**
+#### **6. Nested Routes**
 
 **Nested Routes** allow you to define a **child route inside a parent route**, making it easy to build layouts with shared components.
 
@@ -3292,7 +3292,7 @@ function Dashboard() {
 </Routes>
 ```
 
-### **7. Dynamic Routes**
+#### **7. Dynamic Routes**
 
 **Dynamic Routes** are routes that contain **variable values** in the URL, allowing one route to handle multiple similar pages.
 
@@ -3321,7 +3321,7 @@ function Dashboard() {
 
 For `/user/101`, the value of `id` will be `101`.
 
-### **8. Route Parameters**
+#### **8. Route Parameters**
 
 **Route Parameters** are **dynamic values** passed through the URL and accessed inside a component using the `useParams()` hook.
 
@@ -3353,7 +3353,7 @@ function User() {
 
 If the URL is `/user/101`, `useParams()` returns `{ id: "101" }`.
 
-### **9. Protected Routes**
+#### **9. Protected Routes**
 
 **Protected Routes** restrict access to certain pages and allow only **authenticated or authorized users** to view them.
 
@@ -3393,9 +3393,9 @@ function ProtectedRoute({ isLoggedIn, children }) {
 ```
 
 
-## **15. API Integration**
+### **15. API Integration**
 
-### **1. Fetch API**
+#### **1. Fetch API**
 
 **Fetch API** is a built-in JavaScript API used to make **HTTP requests** to a server and retrieve or send data.
 
@@ -3426,7 +3426,7 @@ async function getUsers() {
 }
 ```
 
-### **2. Axios**
+#### **2. Axios**
 
 **Axios** is a popular **HTTP client library** used to make API requests in React and JavaScript applications.
 
@@ -3458,7 +3458,7 @@ async function getUsers() {
 }
 ```
 
-### **3. REST APIs**
+#### **3. REST APIs**
 
 **REST API (Representational State Transfer API)** is a web service architecture that allows applications to communicate using **HTTP methods**.
 
@@ -3501,7 +3501,7 @@ fetch("https://api.example.com/users", {
 });
 ```
 
-### **4. Error Handling**
+#### **4. Error Handling**
 
 **Error Handling** is the process of detecting and managing errors that occur during API requests to prevent application crashes.
 
@@ -3535,7 +3535,7 @@ async function getUsers() {
 }
 ```
 
-### **5. Loading States**
+#### **5. Loading States**
 
 **Loading State** is a UI state that informs users that data is being fetched or processed in the background.
 
@@ -3573,7 +3573,7 @@ useEffect(() => {
 return loading ? <p>Loading...</p> : <UserList users={users} />;
 ```
 
-### **6. API Caching**
+#### **6. API Caching**
 
 **API Caching** is the process of storing previously fetched API data so it can be reused without making repeated network requests.
 
@@ -3609,7 +3609,7 @@ if (cachedData) {
 }
 ```
 
-### **7. Pagination**
+#### **7. Pagination**
 
 **Pagination** is a technique used to display a large amount of data by dividing it into **smaller pages**.
 
@@ -3642,7 +3642,7 @@ fetch(
   .then(data => console.log(data));
 ```
 
-### **8. Infinite Scroll**
+#### **8. Infinite Scroll**
 
 **Infinite Scroll** is a UI pattern where new data is automatically loaded as the user scrolls down the page.
 
@@ -3685,9 +3685,9 @@ window.onscroll = () => {
 ```
 
 
-## **16. React Query / TanStack Query**
+### **16. React Query / TanStack Query**
 
-### **1. useQuery**
+#### **1. useQuery**
 
 **`useQuery`** is a React Query hook used to **fetch, cache, and manage server data** automatically.
 
@@ -3727,7 +3727,7 @@ function Users() {
 }
 ```
 
-### **2. useMutation**
+#### **2. useMutation**
 
 **`useMutation`** is a React Query hook used to **create, update, or delete data** on the server.
 
@@ -3761,7 +3761,7 @@ const mutation = useMutation({
 mutation.mutate({ name: "John" });
 ```
 
-### **3. Query Caching**
+#### **3. Query Caching**
 
 **Query Caching** is the process of **storing fetched API data** in memory so it can be reused without making unnecessary requests.
 
@@ -3792,7 +3792,7 @@ useQuery({
 
 If another component uses the same `queryKey`, React Query returns the **cached data** instead of making a new request.
 
-### **4. Refetching**
+#### **4. Refetching**
 
 **Refetching** is the process of **fetching fresh data again** to keep the UI synchronized with the server.
 
@@ -3825,7 +3825,7 @@ const { data, refetch } = useQuery({
 </button>;
 ```
 
-### **5. Optimistic Updates**
+#### **5. Optimistic Updates**
 
 **Optimistic Updates** update the UI **before the server confirms the request**, making the application feel faster.
 
@@ -3859,7 +3859,7 @@ const mutation = useMutation({
 mutation.mutate({ title: "New Task" });
 ```
 
-### **6. Server State Management**
+#### **6. Server State Management**
 
 **Server State Management** is the process of **fetching, caching, synchronizing, and updating data that comes from a server**.
 
@@ -3888,9 +3888,9 @@ const { data, isLoading } = useQuery({
 });
 ```
 
-## **17. Performance Optimization**
+### **17. Performance Optimization**
 
-### **1. React.memo**
+#### **1. React.memo**
 
 **`React.memo`** is a **Higher-Order Component (HOC)** that prevents a functional component from re-rendering if its **props have not changed**.
 
@@ -3923,7 +3923,7 @@ const Child = React.memo(({ name }) => {
 export default Child;
 ```
 
-### **2. useMemo**
+#### **2. useMemo**
 
 **`useMemo`** is a React hook that **memoizes a calculated value** and recalculates it only when its dependencies change.
 
@@ -3953,7 +3953,7 @@ const total = useMemo(() => {
 }, [items]);
 ```
 
-### **3. useCallback**
+#### **3. useCallback**
 
 **`useCallback`** is a React hook that **memoizes a function** and returns the same function instance unless its dependencies change.
 
@@ -3983,7 +3983,7 @@ const handleClick = useCallback(() => {
 }, []);
 ```
 
-### **4. Lazy Loading**
+#### **4. Lazy Loading**
 
 **Lazy Loading** is a technique where components or resources are **loaded only when they are needed**, reducing the initial bundle size.
 
@@ -4019,7 +4019,7 @@ function App() {
 }
 ```
 
-### **5. Code Splitting**
+#### **5. Code Splitting**
 
 **Code Splitting** is a performance optimization technique that divides the application into **smaller JavaScript bundles**, loading them only when required.
 
@@ -4048,7 +4048,7 @@ const Profile = React.lazy(() => import("./Profile"));
   <Route path="/profile" element={<Profile />} />
 </Routes>
 ```
-### **6. Suspense**
+#### **6. Suspense**
 
 **`Suspense`** is a React component used to **display a fallback UI while waiting for a lazy-loaded component or asynchronous resource to load**.
 
@@ -4084,7 +4084,7 @@ function App() {
 }
 ```
 
-### **7. Virtualization**
+#### **7. Virtualization**
 
 **Virtualization** is a technique that renders **only the visible items** in a large list, improving application performance.
 
@@ -4121,7 +4121,7 @@ import { FixedSizeList } from "react-window";
 </FixedSizeList>
 ```
 
-### **8. Debouncing**
+#### **8. Debouncing**
 
 **Debouncing** is a technique that delays the execution of a function until the user **stops triggering an event for a specified time**.
 
@@ -4155,7 +4155,7 @@ function handleSearch(value) {
 }
 ```
 
-### **9. Throttling**
+#### **9. Throttling**
 
 **Throttling** is a technique that limits a function to execute **at most once within a specified time interval**.
 
@@ -4194,7 +4194,7 @@ function handleScroll() {
 window.addEventListener("scroll", handleScroll);
 ```
 
-### **10. Bundle Optimization**
+#### **10. Bundle Optimization**
 
 **Bundle Optimization** is the process of reducing the **size of JavaScript bundles** to improve application loading and performance.
 
@@ -4228,9 +4228,9 @@ function App() {
 }
 ```
 
-## **18. React 18 Features**
+### **18. React 18 Features**
 
-### **1. Concurrent Rendering**
+#### **1. Concurrent Rendering**
 
 **Concurrent Rendering** is a React 18 feature that allows React to **prepare and render multiple UI updates in the background** without blocking the user interface.
 
@@ -4260,7 +4260,7 @@ const root = createRoot(document.getElementById("root"));
 root.render(<App />);
 ```
 
-### **2. Automatic Batching**
+#### **2. Automatic Batching**
 
 **Automatic Batching** is a React 18 feature that groups **multiple state updates into a single re-render**, improving performance.
 
@@ -4290,7 +4290,7 @@ function handleClick() {
 
 Both state updates are **batched** and cause only one re-render.
 
-### **3. Suspense Improvements**
+#### **3. Suspense Improvements**
 
 **Suspense Improvements** in React 18 make **asynchronous rendering and lazy loading** more efficient and user-friendly.
 
@@ -4321,7 +4321,7 @@ const Profile = React.lazy(() => import("./Profile"));
 </Suspense>;
 ```
 
-### **4. useTransition**
+#### **4. useTransition**
 
 **`useTransition`** is a React hook that allows you to mark certain state updates as **low-priority**, keeping the UI responsive during expensive operations.
 
@@ -4355,7 +4355,7 @@ function handleChange(value) {
 }
 ```
 
-### **5. useDeferredValue**
+#### **5. useDeferredValue**
 
 **`useDeferredValue`** is a React hook that delays updating a value, allowing high-priority UI updates to happen first.
 
@@ -4387,7 +4387,7 @@ const filteredUsers = users.filter(user =>
 );
 ```
 
-### **6. Streaming SSR**
+#### **6. Streaming SSR**
 
 **Streaming SSR (Server-Side Rendering)** is a React 18 feature that sends **HTML to the browser in small chunks** instead of waiting for the entire page to be ready.
 
@@ -4420,9 +4420,9 @@ renderToPipeableStream(<App />, {
 ```
 
 
-## **19. Error Handling**
+### **19. Error Handling**
 
-### **1. Error Boundaries**
+#### **1. Error Boundaries**
 
 **Error Boundaries** are React components that **catch JavaScript errors in the component tree** and display a fallback UI instead of crashing the entire application.
 
@@ -4460,7 +4460,7 @@ class ErrorBoundary extends React.Component {
 }
 ```
 
-### **2. Try-Catch with Async APIs**
+#### **2. Try-Catch with Async APIs**
 
 **`try...catch`** is used to handle **errors in asynchronous operations**, such as API calls made with `fetch` or `axios`.
 
@@ -4494,7 +4494,7 @@ async function fetchUsers() {
 }
 ```
 
-### **3. Global Error Handling**
+#### **3. Global Error Handling**
 
 **Global Error Handling** is a centralized approach for **capturing and managing application-wide errors**.
 
@@ -4522,7 +4522,7 @@ window.onerror = function (message, source, line) {
 };
 ```
 
-### **4. Fallback UI**
+#### **4. Fallback UI**
 
 **Fallback UI** is a backup interface displayed when an error occurs or while content is loading, ensuring a better user experience.
 
@@ -4551,9 +4551,9 @@ import React, { Suspense } from "react";
 </Suspense>;
 ```
 
-## **20. React Design Patterns**
+### **20. React Design Patterns**
 
-### **1. HOC (Higher-Order Component)**
+#### **1. HOC (Higher-Order Component)**
 
 **HOC (Higher-Order Component)** is a function that **takes a component as input and returns a new enhanced component** with additional functionality.
 
@@ -4590,7 +4590,7 @@ const Home = () => <h1>Home Page</h1>;
 export default withMessage(Home);
 ```
 
-### **2. Render Props**
+#### **2. Render Props**
 
 **Render Props** is a pattern where a component shares logic by passing a **function as a prop** that returns JSX.
 
@@ -4622,7 +4622,7 @@ function DataProvider({ render }) {
 />;
 ```
 
-### **3. Compound Components**
+#### **3. Compound Components**
 
 **Compound Components** are components that **work together and share state internally**, giving users a flexible API.
 
@@ -4658,7 +4658,7 @@ Tabs.Tab = function Tab({ label }) {
 </Tabs>;
 ```
 
-### **4. Custom Hooks**
+#### **4. Custom Hooks**
 
 **Custom Hooks** are JavaScript functions that **reuse stateful logic** by combining React hooks into a reusable function.
 
@@ -4692,7 +4692,7 @@ function useCounter() {
 }
 ```
 
-### **5. Container-Presenter Pattern**
+#### **5. Container-Presenter Pattern**
 
 **Container-Presenter Pattern** separates **business logic** from **UI rendering** by dividing components into two types.
 
@@ -4727,9 +4727,9 @@ function UserContainer() {
 }
 ```
 
-## **21. Authentication & Authorization**
+### **21. Authentication & Authorization**
 
-### **1. JWT Authentication**
+#### **1. JWT Authentication**
 
 **JWT (JSON Web Token) Authentication** is a method of verifying users by using a **signed token** instead of storing session data on the server.
 
@@ -4761,7 +4761,7 @@ axios.get("/api/profile", {
 });
 ```
 
-### **2. Token Storage**
+#### **2. Token Storage**
 
 **Token Storage** is the process of saving the authentication token on the client so it can be used for future API requests.
 
@@ -4789,7 +4789,7 @@ localStorage.setItem("token", jwtToken);
 const token = localStorage.getItem("token");
 ```
 
-### **3. Refresh Tokens**
+#### **3. Refresh Tokens**
 
 **Refresh Tokens** are long-lived tokens used to **generate a new access token** when the current access token expires.
 
@@ -4817,7 +4817,7 @@ axios.post("/api/refresh-token", {
 });
 ```
 
-### **4. Protected Routes**
+#### **4. Protected Routes**
 
 **Protected Routes** restrict access to certain pages and allow only **authenticated users** to view them.
 
@@ -4849,7 +4849,7 @@ function ProtectedRoute({ children }) {
 }
 ```
 
-### **5. Role-Based Access Control (RBAC)**
+#### **5. Role-Based Access Control (RBAC)**
 
 **Role-Based Access Control (RBAC)** is an authorization mechanism that grants or restricts access based on a user's **role**, such as Admin, Manager, or User.
 
@@ -4879,9 +4879,9 @@ function AdminPage({ user }) {
 }
 ```
 
-## **22. Testing**
+### **22. Testing**
 
-### **1. Jest**
+#### **1. Jest**
 
 **Jest** is a popular **JavaScript testing framework** used to write and run tests for React applications.
 
@@ -4909,7 +4909,7 @@ test("adds two numbers", () => {
 });
 ```
 
-### **2. React Testing Library**
+#### **2. React Testing Library**
 
 **React Testing Library (RTL)** is a library for testing React components by focusing on **how users interact with the UI**.
 
@@ -4940,7 +4940,7 @@ render(<button>Submit</button>);
 expect(screen.getByText("Submit")).toBeInTheDocument();
 ```
 
-### **3. Unit Testing**
+#### **3. Unit Testing**
 
 **Unit Testing** is the process of testing the **smallest individual unit of code**, such as a function or component, in isolation.
 
@@ -4972,7 +4972,7 @@ test("adds correctly", () => {
 });
 ```
 
-### **4. Integration Testing**
+#### **4. Integration Testing**
 
 **Integration Testing** verifies that **multiple components or modules work together correctly**.
 
@@ -5002,7 +5002,7 @@ render(<button onClick={() => alert("Saved")}>Save</button>);
 fireEvent.click(screen.getByText("Save"));
 ```
 
-### **5. Mocking APIs**
+#### **5. Mocking APIs**
 
 **Mocking APIs** means creating **fake API responses** during testing instead of making real network requests.
 
@@ -5031,7 +5031,7 @@ global.fetch = jest.fn(() =>
 );
 ```
 
-### **6. Snapshot Testing**
+#### **6. Snapshot Testing**
 
 **Snapshot Testing** is a technique that compares the **current UI output** of a component with a previously saved snapshot file.
 
@@ -5062,9 +5062,9 @@ test("matches snapshot", () => {
 });
 ```
 
-## **23. React Security**
+### **23. React Security**
 
-### **1. XSS Prevention**
+#### **1. XSS Prevention**
 
 **XSS (Cross-Site Scripting) Prevention** is the practice of protecting an application from malicious scripts injected by attackers into web pages.
 
@@ -5096,7 +5096,7 @@ function App() {
 
 React safely renders the text instead of executing the script.
 
-### **2. Sanitization**
+#### **2. Sanitization**
 
 **Sanitization** is the process of **cleaning and filtering user input** to remove potentially harmful content before displaying or storing it.
 
@@ -5124,7 +5124,7 @@ import DOMPurify from "dompurify";
 const cleanHTML = DOMPurify.sanitize(userInput);
 ```
 
-### **3. Secure Token Storage**
+#### **3. Secure Token Storage**
 
 **Secure Token Storage** is the practice of storing authentication tokens in a way that minimizes security risks.
 
@@ -5152,7 +5152,7 @@ const cleanHTML = DOMPurify.sanitize(userInput);
 // Browser automatically sends it with requests.
 ```
 
-### **4. CSRF Protection**
+#### **4. CSRF Protection**
 
 **CSRF (Cross-Site Request Forgery) Protection** prevents attackers from forcing authenticated users to perform unwanted actions on a website.
 
@@ -5184,7 +5184,7 @@ fetch("/api/profile", {
 });
 ```
 
-### **5. Authentication Security**
+#### **5. Authentication Security**
 
 **Authentication Security** is the set of practices used to **protect user login and authentication mechanisms** from attacks.
 
@@ -5215,9 +5215,9 @@ axios.get("/api/dashboard", {
 });
 ```
 
-## **24. Build & Deployment**
+### **24. Build & Deployment**
 
-### **1. Vite**
+#### **1. Vite**
 
 **Vite** is a modern **frontend build tool** that provides **fast development** and **optimized production builds**.
 
@@ -5248,7 +5248,7 @@ npm run dev
 
 ---
 
-### **2. Webpack Basics**
+#### **2. Webpack Basics**
 
 **Webpack** is a **module bundler** that combines JavaScript, CSS, images, and other assets into optimized bundles.
 
@@ -5280,7 +5280,7 @@ module.exports = {
 
 ---
 
-### **3. Environment Variables**
+#### **3. Environment Variables**
 
 **Environment Variables** are configuration values used to store data like **API URLs**, **tokens**, or **application settings** without hardcoding them.
 
@@ -5313,7 +5313,7 @@ console.log(apiUrl);
 
 ---
 
-### **4. Production Builds**
+#### **4. Production Builds**
 
 A **Production Build** is the optimized version of an application that is deployed to users.
 
@@ -5349,7 +5349,7 @@ dist/
 
 The generated **`dist`** folder contains the optimized files that can be deployed to a web server.
 
-### **5. CI/CD**
+#### **5. CI/CD**
 
 **CI/CD (Continuous Integration / Continuous Deployment)** is a process that **automatically builds, tests, and deploys** an application whenever code is pushed to the repository.
 
@@ -5389,7 +5389,7 @@ jobs:
 
 ---
 
-### **6. Deployment to AWS, Azure, Netlify, Vercel**
+#### **6. Deployment to AWS, Azure, Netlify, Vercel**
 
 **Deployment** is the process of publishing an application so users can access it online.
 
@@ -5422,9 +5422,9 @@ Code → Build → Test → Deploy → Live Application
 ```
 
 
-## **25. SSR & Modern React**
+### **25. SSR & Modern React**
 
-### **1. Server-Side Rendering (SSR)**
+#### **1. Server-Side Rendering (SSR)**
 
 **Server-Side Rendering (SSR)** is a rendering technique where the **HTML is generated on the server** and sent to the browser before JavaScript loads.
 
@@ -5459,7 +5459,7 @@ export async function getServerSideProps() {
 
 ---
 
-### **2. CSR vs SSR**
+#### **2. CSR vs SSR**
 
 **CSR (Client-Side Rendering)** and **SSR (Server-Side Rendering)** are two different ways to render web pages.
 
@@ -5492,7 +5492,7 @@ SSR: Server → HTML → Browser → Hydration
 
 ---
 
-### **3. Hydration**
+#### **3. Hydration**
 
 **Hydration** is the process where React attaches **JavaScript event handlers** to the HTML generated by the server.
 
@@ -5525,7 +5525,7 @@ hydrateRoot(
 
 ---
 
-### **4. React Server Components**
+#### **4. React Server Components**
 
 **React Server Components (RSC)** are components that run **only on the server** and send the rendered result to the client without including their JavaScript bundle.
 
@@ -5562,7 +5562,7 @@ export default Products;
 
 ---
 
-### **5. SEO Optimization**
+#### **5. SEO Optimization**
 
 **SEO (Search Engine Optimization)** is the process of improving a website so that **search engines can easily find, understand, and rank it**.
 
@@ -5598,9 +5598,9 @@ import { Helmet } from "react-helmet";
 ```
 
 
-## **26. Next.js (Highly Recommended)**
+### **26. Next.js (Highly Recommended)**
 
-### **1. App Router**
+#### **1. App Router**
 
 **App Router** is the **new routing system** in **Next.js 13+** that uses the **`app/`** directory to define routes and supports **Server Components** by default.
 
@@ -5632,7 +5632,7 @@ app/
 
 ---
 
-### **2. Pages Router**
+#### **2. Pages Router**
 
 **Pages Router** is the **traditional routing system** in Next.js that uses the **`pages/`** directory.
 
@@ -5661,7 +5661,7 @@ pages/
 
 ---
 
-### **3. Server Components**
+#### **3. Server Components**
 
 **Server Components** are React components that run **only on the server** and send rendered HTML to the browser.
 
@@ -5693,7 +5693,7 @@ export default async function Users() {
 
 ---
 
-### **4. Client Components**
+#### **4. Client Components**
 
 **Client Components** are React components that run in the **browser** and support interactivity.
 
@@ -5731,7 +5731,7 @@ export default function Counter() {
 
 ---
 
-### **5. Dynamic Routes**
+#### **5. Dynamic Routes**
 
 **Dynamic Routes** allow you to create pages with **dynamic URL parameters** instead of fixed paths.
 
@@ -5765,7 +5765,7 @@ export default function Product({ params }) {
 }
 ```
 
-### **6. Middleware**
+#### **6. Middleware**
 
 **Middleware** is a function that runs **before a request reaches a route or page**, allowing you to modify the request or response.
 
@@ -5796,7 +5796,7 @@ export function middleware(request) {
 
 ---
 
-### **7. API Routes**
+#### **7. API Routes**
 
 **API Routes** allow you to create **backend APIs** directly inside a Next.js application without a separate server.
 
@@ -5827,7 +5827,7 @@ export async function GET() {
 
 ---
 
-### **8. SSR**
+#### **8. SSR**
 
 **SSR (Server-Side Rendering)** is a rendering method where the **HTML is generated on the server** for every request.
 
@@ -5860,7 +5860,7 @@ export async function getServerSideProps() {
 
 ---
 
-### **9. SSG**
+#### **9. SSG**
 
 **SSG (Static Site Generation)** is a rendering method where pages are **generated at build time** and served as static HTML files.
 
@@ -5893,7 +5893,7 @@ export async function getStaticProps() {
 
 ---
 
-### **10. ISR**
+#### **10. ISR**
 
 **ISR (Incremental Static Regeneration)** is a feature that combines the benefits of **SSG** and **SSR** by updating static pages after deployment.
 
@@ -5926,9 +5926,9 @@ export async function getStaticProps() {
 }
 ```
 
-## **27. TypeScript with React**
+### **27. TypeScript with React**
 
-### **1. React with TypeScript**
+#### **1. React with TypeScript**
 
 **React with TypeScript** combines React with **static typing** to catch errors during development and improve code quality.
 
@@ -5957,7 +5957,7 @@ function App(): JSX.Element {
 
 ---
 
-### **2. Props Typing**
+#### **2. Props Typing**
 
 **Props Typing** defines the **type and structure** of data passed from a parent component to a child component.
 
@@ -5990,7 +5990,7 @@ function User({ name, age }: UserProps) {
 
 ---
 
-### **3. State Typing**
+#### **3. State Typing**
 
 **State Typing** specifies the data type stored in a React component's **state**.
 
@@ -6018,7 +6018,7 @@ const [count, setCount] = useState<number>(0);
 
 ---
 
-### **4. Generic Components**
+#### **4. Generic Components**
 
 **Generic Components** are reusable components that can work with **different data types** using TypeScript generics.
 
@@ -6050,7 +6050,7 @@ function List<T>({ items }: ListProps<T>) {
 
 ---
 
-### **5. Custom Hook Typing**
+#### **5. Custom Hook Typing**
 
 **Custom Hook Typing** defines the types for the **parameters and return values** of a custom React hook.
 
@@ -6082,7 +6082,7 @@ function useCounter(initial: number): [number, () => void] {
 
 ---
 
-### **6. API Response Typing**
+#### **6. API Response Typing**
 
 **API Response Typing** defines the expected structure of data returned from an API.
 
@@ -6115,9 +6115,9 @@ async function getUser(): Promise<User> {
 ```
 
 
-## **28. React Architecture & System Design**
+### **28. React Architecture & System Design**
 
-### **1. Folder Structure**
+#### **1. Folder Structure**
 
 **Folder Structure** is the way files and directories are organized in a React project to keep the code clean and maintainable.
 
@@ -6149,7 +6149,7 @@ src/
 
 ---
 
-### **2. Feature-Based Architecture**
+#### **2. Feature-Based Architecture**
 
 **Feature-Based Architecture** organizes code by **business features** instead of file types.
 
@@ -6180,7 +6180,7 @@ src/
 
 ---
 
-### **3. Component Design**
+#### **3. Component Design**
 
 **Component Design** is the practice of creating **small, reusable, and independent UI components**.
 
@@ -6209,7 +6209,7 @@ function Button({ text }: { text: string }) {
 
 ---
 
-### **4. Shared Components**
+#### **4. Shared Components**
 
 **Shared Components** are reusable UI components that can be used across multiple features or pages.
 
@@ -6239,7 +6239,7 @@ src/
 
 ---
 
-### **5. Reusable Hooks**
+#### **5. Reusable Hooks**
 
 **Reusable Hooks** are custom React hooks that encapsulate **shared business logic** and can be used by multiple components.
 
@@ -6275,7 +6275,7 @@ function useCounter() {
 
 ---
 
-### **6. API Layer Design**
+#### **6. API Layer Design**
 
 **API Layer Design** is the practice of keeping all **API calls and backend communication** in a separate service layer.
 
@@ -6305,7 +6305,7 @@ export const getUsers = () => {
 
 ---
 
-### **7. Large Scale React Applications**
+#### **7. Large Scale React Applications**
 
 **Large Scale React Applications** are projects designed with a modular architecture to support **multiple features, teams, and growing codebases**.
 
@@ -6339,9 +6339,9 @@ src/
 ```
 
 
-## **29. Real-Time Interview Scenarios**
+### **29. Real-Time Interview Scenarios**
 
-### **1. Login & Authentication Flow**
+#### **1. Login & Authentication Flow**
 
 **Login & Authentication Flow** is the process of **verifying a user’s identity** and allowing access to protected resources.
 
@@ -6375,7 +6375,7 @@ const handleLogin = async () => {
 
 ---
 
-### **2. Search with Debounce**
+#### **2. Search with Debounce**
 
 **Search with Debounce** delays an API call until the user stops typing for a short time, reducing unnecessary requests.
 
@@ -6408,7 +6408,7 @@ useEffect(() => {
 
 ---
 
-### **3. Infinite Scroll**
+#### **3. Infinite Scroll**
 
 **Infinite Scroll** is a technique that automatically loads more data when the user reaches the bottom of the page.
 
@@ -6442,7 +6442,7 @@ window.addEventListener("scroll", () => {
 
 ---
 
-### **4. Shopping Cart**
+#### **4. Shopping Cart**
 
 **Shopping Cart** is a feature that allows users to **add, update, and remove products** before checkout.
 
@@ -6471,7 +6471,7 @@ const addToCart = (product) => {
 
 ---
 
-### **5. Dashboard Development**
+#### **5. Dashboard Development**
 
 **Dashboard Development** involves building a central interface that displays **important data, charts, and user information**.
 
@@ -6500,7 +6500,7 @@ useEffect(() => {
 }, []);
 ```
 
-### **6. Role-Based Access Control (RBAC)**
+#### **6. Role-Based Access Control (RBAC)**
 
 **Role-Based Access Control (RBAC)** is a security model where users get access to features based on their **assigned roles**.
 
@@ -6529,7 +6529,7 @@ return isAdmin ? <AdminPanel /> : <AccessDenied />;
 
 ---
 
-### **7. API Caching**
+#### **7. API Caching**
 
 **API Caching** stores API responses temporarily so repeated requests can use cached data instead of calling the server again.
 
@@ -6560,7 +6560,7 @@ const { data } = useQuery({
 
 ---
 
-### **8. File Upload**
+#### **8. File Upload**
 
 **File Upload** allows users to send files such as images, documents, or videos from the browser to the server.
 
@@ -6593,7 +6593,7 @@ fetch("/api/upload", {
 
 ---
 
-### **9. Multi-Step Form**
+#### **9. Multi-Step Form**
 
 **Multi-Step Form** divides a long form into **multiple smaller steps** to improve the user experience.
 
@@ -6624,7 +6624,7 @@ const [step, setStep] = useState(1);
 
 ---
 
-### **10. Real-Time Notifications**
+#### **10. Real-Time Notifications**
 
 **Real-Time Notifications** instantly update users when new events occur without requiring a page refresh.
 
