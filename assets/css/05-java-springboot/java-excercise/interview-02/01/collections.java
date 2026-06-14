@@ -238,44 +238,44 @@ class CollectionsDemo {
     public static void TTLCacheDemo() throws Exception {
 
         System.out.println("=========================== TTLCacheDemo");
-
         TTLCache cache = new TTLCache();
-        cache.put(1, "java", 4000);
+        cache.put(1, "java", 3000);
+
         System.out.println(cache.get(1));
         Thread.sleep(4000);
         System.out.println(cache.get(1));
+       
 
     }
 
-    static class TTLCache {
+    class TTLCache {
         static class CacheObject {
             String value;
             long expiryTime;
 
-            CacheObject(String value, long ttMillis) {
+            CacheObject (String value, long ttMillis) {
                 this.value = value;
                 this.expiryTime = System.currentTimeMillis() + ttMillis;
             }
-        }
 
-        private Map<Integer, CacheObject> cache = new HashMap<>();
-        public void put(int key, String value, long ttMillis) {
-            cache.put(key, new CacheObject(value, ttMillis));
-        }
-
-        public String get(int key) {
-            CacheObject obj = cache.get(key);
-
-            if(obj == null) {
-                return null;
+            private Map<Integer, CacheObject> cache = new HashMap<>();
+            public void put(int key, String value, long ttMillis) {
+                cache.put(key, new CacheObject(value, ttMillis));
             }
 
-            if(System.currentTimeMillis() > obj.expiryTime) {
-                cache.remove(key);
-                return null;
-            }
+            public String get(int key) {
+                CacheObject obj = cache.get(key);
 
-            return obj.value;
+                if(obj == null) {
+                    return null;
+                }
+
+                if(System.currentTimeMillis() > obj.expiryTime) {
+                    cache.remove(key);
+                    return null;
+                }
+                return obj.value;
+            }
         }
-    } 
+    }
 }
