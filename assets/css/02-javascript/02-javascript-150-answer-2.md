@@ -27,7 +27,7 @@ console.log("Hello World");
 Hello World
 ```
 
-**2. Difference between var, let, const**
+## **2. Difference between var, let, const**
 
 | Feature    | **var**        | **let**     | **const**   |
 | ---------- | -------------- | ----------- | ----------- |
@@ -54,7 +54,7 @@ b = 25; // Allowed
 // c = 35; // Error
 ```
 
-**3. What is Hoisting?**
+## **3. What is Hoisting?**
 
 **Hoisting** is JavaScript's behavior of moving **declarations** to the top of their scope before code execution.
 
@@ -91,7 +91,7 @@ console.log(x);
 x = 10;
 ```
 
-**4. What is Temporal Dead Zone (TDZ)?**
+## **4. What is Temporal Dead Zone (TDZ)?**
 
 **Temporal Dead Zone (TDZ)** is the period between entering a scope and declaring a **let** or **const** variable.
 
@@ -119,7 +119,7 @@ let name = "John";
 ReferenceError: Cannot access 'name' before initialization
 ```
 
-**5. What are Data Types in JavaScript?**
+## **5. What are Data Types in JavaScript?**
 
 **Data Types** define the type of value a variable can store.
 
@@ -150,7 +150,7 @@ let id = Symbol();       // Symbol
 let user = {name: "John"}; // Object
 ```
 
-**6. Difference between null and undefined?**
+## **6. Difference between null and undefined?**
 
 **null** and **undefined** both represent absence of a value, but they are used differently.
 
@@ -180,7 +180,7 @@ console.log(a); // null
 console.log(b); // undefined
 ```
 
-**7. What is NaN?**
+## **7. What is NaN?**
 
 **NaN (Not a Number)** is a special value that represents an invalid numeric result.
 
@@ -207,7 +207,7 @@ console.log("abc" / 2);
 NaN
 ```
 
-**8. typeof NaN returns what?**
+## **8. typeof NaN returns what?**
 
 **typeof NaN** returns **"number"**.
 
@@ -232,7 +232,7 @@ number
 
 **NaN** means an invalid numeric result, but JavaScript still treats it as a **Number**, so `typeof NaN` returns **"number"**.
 
-**9. What is Type Coercion?**
+## **9. What is Type Coercion?**
 
 **Type Coercion** is the automatic conversion of one data type into another by JavaScript.
 
@@ -304,7 +304,7 @@ false
 In JavaScript, every value is treated as either **true** or **false** when used in a boolean context.
 
 **Falsy Values**
-There are only **7 falsy values**:
+There are only ## **7 falsy values**:
 
 * **false**
 * **0**
@@ -649,9 +649,9 @@ console.log(name);
 ReferenceError
 ```
 
-**20. Types of Scope?**
+## **20. Types of Scope?**
 
-JavaScript mainly has **3 types of scope**.
+JavaScript mainly has ## **3 types of scope**.
 
 ## **1. Global Scope**
 
@@ -668,7 +668,7 @@ function show() {
 }
 ```
 
-**2. Function Scope**
+## **2. Function Scope**
 
 * Variables declared inside a function.
 * Accessible only within that function.
@@ -682,7 +682,7 @@ function test() {
 }
 ```
 
-**3. Block Scope**
+## **3. Block Scope**
 
 * Variables declared using **let** and **const** inside `{}`.
 * Accessible only within that block.
@@ -696,7 +696,7 @@ function test() {
 }
 ```
 
-**21. What is Closure?**
+## **21. What is Closure?**
 
 A **Closure** is a function that remembers and can access variables from its **outer function scope** even after the outer function has finished executing.
 
@@ -737,7 +737,7 @@ console.log(counter());
 2
 ```
 
-**22. Practical Use of Closures?**
+## **22. Practical Use of Closures?**
 
 Closures are mainly used for **data privacy**, **state management**, and **callbacks**.
 
@@ -778,7 +778,7 @@ console.log(account.getBalance());
 
 Here, **balance** cannot be accessed directly from outside.
 
-**23. What is Lexical Scope?**
+## **23. What is Lexical Scope?**
 
 **Lexical Scope** means a function can access variables based on where it is **defined**, not where it is called.
 
@@ -815,7 +815,7 @@ outer();
 John
 ```
 
-**24. What is Execution Context?**
+## **24. What is Execution Context?**
 
 An **Execution Context** is the environment in which JavaScript code is executed.
 
@@ -851,7 +851,7 @@ greet();
 
 The global code runs in the **Global Execution Context**, and `greet()` creates a new **Function Execution Context**.
 
-**25. What is Call Stack?**
+## **25. What is Call Stack?**
 
 The **Call Stack** is a data structure that keeps track of function execution in JavaScript.
 
@@ -909,7 +909,7 @@ Pop two()
 Pop one()
 ```
 
-**26. What is Event Loop?**
+## **26. What is Event Loop?**
 
 The **Event Loop** is a mechanism that allows JavaScript to perform **asynchronous operations** even though JavaScript is **single-threaded**.
 
@@ -948,7 +948,7 @@ End
 Timeout
 ```
 
-**27. Microtask vs Macrotask?**
+## **27. Microtask vs Macrotask?**
 
 JavaScript maintains separate queues for **Microtasks** and **Macrotasks**.
 
@@ -994,7 +994,7 @@ Promise
 Timeout
 ```
 
-**28. setTimeout vs setImmediate?**
+## **28. setTimeout vs setImmediate?**
 
 Both are used for asynchronous execution, but they are scheduled differently.
 
@@ -1032,7 +1032,7 @@ setImmediate(() => {
 Execution order may vary depending on environment.
 ```
 
-**29. What is Callback?**
+## **29. What is Callback?**
 
 A **Callback Function** is a function passed as an argument to another function and executed later.
 
@@ -1069,7 +1069,7 @@ Hello John
 Completed
 ```
 
-**30. What is Callback Hell?**
+## **30. What is Callback Hell?**
 
 **Callback Hell** occurs when multiple nested callbacks make code difficult to read, understand, and maintain.
 
@@ -1098,7 +1098,7 @@ getUser(function(user) {
 
 This structure becomes difficult to manage as nesting increases.
 
-**31. What is a Promise?**
+## **31. What is a Promise?**
 
 A **Promise** is an object that represents the **eventual result** of an asynchronous operation.
 
@@ -1133,20 +1133,20 @@ promise.then(result => {
 Success
 ```
 
-**32. Promise States?**
+## **32. Promise States?**
 
-A **Promise** can be in one of **3 states**.
+A **Promise** can be in one of ## **3 states**.
 
 ## **1. Pending**
 
 * Initial state.
 * Operation is still running.
 
-**2. Fulfilled**
+## **2. Fulfilled**
 
 * Operation completed successfully.
 
-**3. Rejected**
+## **3. Rejected**
 
 * Operation failed.
 
@@ -1176,7 +1176,7 @@ Or
 Pending → Rejected
 ```
 
-**33. What is async/await?**
+## **33. What is async/await?**
 
 **async/await** is a modern way to work with Promises that makes asynchronous code look synchronous.
 
@@ -1227,7 +1227,7 @@ getData();
 Hello
 ```
 
-**34. Error Handling in async/await?**
+## **34. Error Handling in async/await?**
 
 Errors in **async/await** are handled using **try...catch** blocks.
 
@@ -1263,7 +1263,7 @@ getData();
 Error Occurred
 ```
 
-**35. What is 'this' Keyword?**
+## **35. What is 'this' Keyword?**
 
 The **this** keyword refers to the object that is currently executing the function.
 
@@ -1310,7 +1310,7 @@ show();
 
 The value of `this` depends on where and how the function is executed.
 
-**36. this in Arrow vs Normal Function?**
+## **36. this in Arrow vs Normal Function?**
 
 The value of **this** behaves differently in **arrow functions** and **normal functions**.
 
@@ -1360,7 +1360,7 @@ undefined
 
 **Normal functions** have their own **this**, while **arrow functions** inherit **this** from the outer scope.
 
-**37. bind vs call vs apply?**
+## **37. bind vs call vs apply?**
 
 All three methods are used to control the value of **this**.
 
@@ -1427,7 +1427,7 @@ John Delhi
 * **apply()**: Executes immediately with arguments passed as an array.
 * **bind()**: Returns a new function with a fixed `this`.
 
-**38. What is Prototype?**
+## **38. What is Prototype?**
 
 A **Prototype** is an object from which other objects inherit properties and methods.
 
@@ -1463,7 +1463,7 @@ p1.greet();
 Hello
 ```
 
-**39. What is Prototype Chain?**
+## **39. What is Prototype Chain?**
 
 A **Prototype Chain** is the mechanism JavaScript uses to search for properties and methods.
 
@@ -1503,7 +1503,7 @@ Hello
 
 Here, `greet()` is found through the prototype chain.
 
-**40. What is Inheritance in JS?**
+## **40. What is Inheritance in JS?**
 
 **Inheritance** is the ability of one object to access properties and methods of another object.
 
@@ -1541,7 +1541,7 @@ Eating
 `dog` inherits the `eat()` method from `animal`.
 
 
-**41. Object.create vs Class?**
+## **41. Object.create vs Class?**
 
 Both **Object.create()** and **class** are used to create objects and implement inheritance.
 
@@ -1603,7 +1603,7 @@ Hello
 
 `Object.create()` directly creates objects using prototypes, while **class** provides a cleaner and more readable syntax for the same prototype-based inheritance.
 
-**42. What is Class in JS?**
+## **42. What is Class in JS?**
 
 A **Class** is a blueprint for creating objects with properties and methods.
 
@@ -1642,7 +1642,7 @@ user.greet();
 Hello John
 ```
 
-**43. Constructor Function?**
+## **43. Constructor Function?**
 
 A **Constructor Function** is a regular function used to create multiple objects with the same structure.
 
@@ -1677,7 +1677,7 @@ console.log(user.name);
 John
 ```
 
-**44. What is the new Keyword?**
+## **44. What is the new Keyword?**
 
 The **new** keyword creates a new object from a constructor function or class.
 
@@ -1713,7 +1713,7 @@ console.log(user.name);
 John
 ```
 
-**45. What is Shallow Copy?**
+## **45. What is Shallow Copy?**
 
 A **Shallow Copy** creates a new object, but nested objects are still shared by reference.
 
@@ -1754,7 +1754,7 @@ Mumbai
 
 Both objects share the same nested `address` object.
 
-**46. What is Deep Copy?**
+## **46. What is Deep Copy?**
 
 A **Deep Copy** creates a completely independent copy of an object, including all nested objects.
 
@@ -1795,7 +1795,7 @@ Delhi
 Mumbai
 ```
 
-**47. JSON.parse/stringify Limitations?**
+## **47. JSON.parse/stringify Limitations?**
 
 `JSON.parse(JSON.stringify())` is a common way to create a deep copy, but it has limitations.
 
@@ -1838,7 +1838,7 @@ console.log(copy);
 
 The function is removed and Date becomes a string.
 
-**48. What is structuredClone?**
+## **48. What is structuredClone?**
 
 **structuredClone()** is a modern JavaScript method used to create a true deep copy of an object.
 
@@ -1877,7 +1877,7 @@ console.log(user1.address.city);
 Delhi
 ```
 
-**49. What is Immutability?**
+## **49. What is Immutability?**
 
 **Immutability** means an object or value cannot be changed after it is created.
 
@@ -1915,7 +1915,7 @@ John
 Mike
 ```
 
-**50. Why is Immutability Important?**
+## **50. Why is Immutability Important?**
 
 **Immutability** improves code quality and application performance.
 
@@ -1952,7 +1952,7 @@ console.log(newNumbers);
 
 The original array remains unchanged.
 
-**51. What is Destructuring?**
+## **51. What is Destructuring?**
 
 **Destructuring** is an ES6 feature that allows you to extract values from **arrays** or **objects** and assign them to variables in a shorter way.
 
@@ -1988,7 +1988,7 @@ John
 25
 ```
 
-**52. Array vs Object Destructuring?**
+## **52. Array vs Object Destructuring?**
 
 Both are used to extract values, but they work differently.
 
@@ -2039,7 +2039,7 @@ console.log(name);
 John
 ```
 
-**53. Spread vs Rest Operator?**
+## **53. Spread vs Rest Operator?**
 
 Both use the same syntax `...` but serve different purposes.
 
@@ -2090,7 +2090,7 @@ sum(1, 2, 3);
 
 **Spread** expands values, while **Rest** collects multiple values into a single variable.
 
-**54. What are Template Literals?**
+## **54. What are Template Literals?**
 
 **Template Literals** are strings enclosed in backticks (`` ` ``) that allow variable interpolation and multi-line strings.
 
@@ -2130,7 +2130,7 @@ World
 console.log(message);
 ```
 
-**55. What are Default Parameters?**
+## **55. What are Default Parameters?**
 
 **Default Parameters** allow function parameters to have predefined values if no argument is provided.
 
@@ -2163,7 +2163,7 @@ Hello Guest
 Hello John
 ```
 
-**56. What is Optional Chaining (`?.`)?**
+## **56. What is Optional Chaining (`?.`)?**
 
 **Optional Chaining (`?.`)** is an operator that safely accesses nested object properties without causing an error if a property is `null` or `undefined`.
 
@@ -2207,7 +2207,7 @@ console.log(user.address.city);
 TypeError
 ```
 
-**57. What is Nullish Coalescing (`??`)?**
+## **57. What is Nullish Coalescing (`??`)?**
 
 **Nullish Coalescing (`??`)** provides a default value only when the left side is `null` or `undefined`.
 
@@ -2249,7 +2249,7 @@ console.log(count ?? 10);
 0
 ```
 
-**58. What are Modules in JS?**
+## **58. What are Modules in JS?**
 
 **Modules** allow code to be split into separate files and reused across applications.
 
@@ -2285,7 +2285,7 @@ console.log(add(2, 3));
 5
 ```
 
-**59. import vs require?**
+## **59. import vs require?**
 
 Both are used to load modules, but they belong to different module systems.
 
@@ -2318,7 +2318,7 @@ const add = require("./math");
 
 **import** belongs to **ES Modules**, while **require** belongs to **CommonJS**.
 
-**60. What is Dynamic Import?**
+## **60. What is Dynamic Import?**
 
 **Dynamic Import** allows modules to be loaded only when needed.
 
@@ -2352,7 +2352,7 @@ loadModule();
 5
 ```
 
-**61. Map vs Object?**
+## **61. Map vs Object?**
 
 Both **Map** and **Object** store data as key-value pairs, but they have important differences.
 
@@ -2407,7 +2407,7 @@ John
 
 **Map** supports any type of key and provides built-in utilities, while **Object** is mainly used to represent structured data.
 
-**62. Set vs Array?**
+## **62. Set vs Array?**
 
 Both store collections of values, but they behave differently.
 
@@ -2454,7 +2454,7 @@ console.log(arr);
 [1, 2, 2, 3]
 ```
 
-**63. What is WeakMap?**
+## **63. What is WeakMap?**
 
 A **WeakMap** is a collection of key-value pairs where keys must be objects.
 
@@ -2491,7 +2491,7 @@ John
 
 A **WeakMap** stores object keys with automatic memory cleanup when the key object is no longer referenced.
 
-**64. What is WeakSet?**
+## **64. What is WeakSet?**
 
 A **WeakSet** is a collection that stores only objects and holds them weakly.
 
@@ -2530,7 +2530,7 @@ true
 
 A **WeakSet** stores unique objects and automatically removes them when they are no longer referenced.
 
-**65. What is Symbol?**
+## **65. What is Symbol?**
 
 A **Symbol** is a unique and immutable primitive data type introduced in ES6.
 
@@ -2578,7 +2578,7 @@ console.log(user[id]);
 101
 ```
 
-**66. What are Iterators?**
+## **66. What are Iterators?**
 
 An **Iterator** is an object that allows you to traverse a collection one element at a time.
 
@@ -2618,7 +2618,7 @@ console.log(iterator.next());
 
 An **Iterator** is an object that provides a standard way to access elements one by one using the `next()` method.
 
-**67. What are Generators?**
+## **67. What are Generators?**
 
 A **Generator** is a special function that can pause and resume its execution.
 
@@ -2662,7 +2662,7 @@ console.log(gen.next());
 
 A **Generator** is a special function that produces values one at a time using `yield`.
 
-**68. for...in vs for...of?**
+## **68. for...in vs for...of?**
 
 Both are used for iteration, but they iterate over different things.
 
@@ -2720,7 +2720,7 @@ for (let value of arr) {
 * **for...in** iterates over object keys.
 * **for...of** iterates over iterable values.
 
-**69. Promise.all vs Promise.allSettled?**
+## **69. Promise.all vs Promise.allSettled?**
 
 Both execute multiple promises together, but they handle failures differently.
 
@@ -2777,7 +2777,7 @@ Promise.allSettled([
 * **Promise.all()** fails if any promise fails.
 * **Promise.allSettled()** returns results of all promises regardless of success or failure.
 
-**70. What is Promise.race()?**
+## **70. What is Promise.race()?**
 
 **Promise.race()** returns the result of the first promise that settles, whether it succeeds or fails.
 
@@ -2813,7 +2813,7 @@ Promise.race([p1, p2])
 Fast
 ```
 
-**71. What is Promise.any()?**
+## **71. What is Promise.any()?**
 
 **Promise.any()** returns the result of the **first fulfilled promise** and ignores rejected promises.
 
@@ -2851,7 +2851,7 @@ Success
 
 **Promise.any()** returns the first successful promise and ignores failures unless all promises fail.
 
-**72. What is Debounce?**
+## **72. What is Debounce?**
 
 **Debounce** limits a function execution until a specified delay has passed since the last event.
 
@@ -2879,7 +2879,7 @@ If a user types continuously, the search function runs only once after typing st
 
 **Debounce** delays execution until events stop occurring for a specified time.
 
-**73. What is Throttle?**
+## **73. What is Throttle?**
 
 **Throttle** limits a function to execute at most once within a specified time interval.
 
@@ -2907,7 +2907,7 @@ The function executes at most once every second.
 
 **Throttle** ensures a function executes only once during a specified time interval.
 
-**74. How to Implement Debounce?**
+## **74. How to Implement Debounce?**
 
 **Debounce Implementation**
 
@@ -2948,7 +2948,7 @@ search();
 
 A **Debounce Function** delays execution and runs only after the specified waiting period.
 
-**75. How to Implement Throttle?**
+## **75. How to Implement Throttle?**
 
 **Throttle Implementation**
 
@@ -2992,7 +2992,7 @@ scrollHandler();
 A **Throttle Function** limits execution to once per specified time interval.
 
 
-**76. What is Currying?**
+## **76. What is Currying?**
 
 **Currying** is a technique of transforming a function with multiple arguments into a sequence of functions that take one argument at a time.
 
@@ -3029,7 +3029,7 @@ console.log(add(2)(3));
 
 **Currying** converts a function with multiple parameters into a chain of functions that take one parameter at a time.
 
-**77. What is Function Composition?**
+## **77. What is Function Composition?**
 
 **Function Composition** is the process of combining multiple functions to create a new function.
 
@@ -3065,7 +3065,7 @@ console.log(result);
 
 **Function Composition** combines multiple functions where the output of one function becomes the input of the next.
 
-**78. What is Memoization?**
+## **78. What is Memoization?**
 
 **Memoization** is an optimization technique that stores previously computed results to avoid repeated calculations.
 
@@ -3115,7 +3115,7 @@ console.log(square(5));
 
 **Memoization** stores computed results in a cache to improve performance for repeated calls.
 
-**79. What is a Pure Function?**
+## **79. What is a Pure Function?**
 
 A **Pure Function** is a function that always produces the same output for the same input and has no side effects.
 
@@ -3151,7 +3151,7 @@ console.log(add(2, 3));
 
 A **Pure Function** always returns the same result for the same input and does not affect anything outside the function.
 
-**80. What are Side Effects?**
+## **80. What are Side Effects?**
 
 A **Side Effect** is any operation that modifies data or interacts with resources outside the function.
 
@@ -3188,7 +3188,7 @@ console.log(count);
 
 Here, the function changes an external variable, which is a side effect.
 
-**81. What is DOM?**
+## **81. What is DOM?**
 
 **DOM (Document Object Model)** is a programming interface that represents an HTML document as a tree of objects.
 
@@ -3216,7 +3216,7 @@ heading.textContent = "Hello JavaScript";
 
 **DOM** is a tree-like representation of an HTML document that allows JavaScript to manipulate web page content and structure.
 
-**82. DOM vs Virtual DOM?**
+## **82. DOM vs Virtual DOM?**
 
 Both are used to represent UI elements, but they work differently.
 
@@ -3244,7 +3244,7 @@ Both are used to represent UI elements, but they work differently.
 
 **DOM** is the actual page structure, while **Virtual DOM** is a lightweight copy used to optimize updates and improve performance.
 
-**83. What is Event Delegation?**
+## **83. What is Event Delegation?**
 
 **Event Delegation** is a technique where a parent element handles events for its child elements.
 
@@ -3280,7 +3280,7 @@ document.getElementById("list")
 
 **Event Delegation** uses a single event listener on a parent element to manage events for multiple child elements.
 
-**84. Bubbling vs Capturing?**
+## **84. Bubbling vs Capturing?**
 
 These are two phases of event propagation in JavaScript.
 
@@ -3323,7 +3323,7 @@ element.addEventListener("click", handler, true);
 * **Bubbling**: Event travels from child to parent.
 * **Capturing**: Event travels from parent to child.
 
-**85. stopPropagation vs preventDefault?**
+## **85. stopPropagation vs preventDefault?**
 
 Both control event behavior, but they serve different purposes.
 
@@ -3359,7 +3359,7 @@ document.querySelector("a")
     });
 ```
 
-**86. What is Reflow?**
+## **86. What is Reflow?**
 
 **Reflow** is the process where the browser recalculates the **layout and position** of elements on a web page.
 
@@ -3388,7 +3388,7 @@ Changing the width may trigger a **Reflow** because the layout needs to be recal
 
 **Reflow** is the browser process of recalculating element layout, size, and position after structural changes.
 
-**87. What is Repaint?**
+## **87. What is Repaint?**
 
 **Repaint** is the process where the browser redraws an element without changing its layout.
 
@@ -3417,7 +3417,7 @@ Changing color triggers a **Repaint** because only the appearance changes.
 
 **Repaint** is the browser process of redrawing an element when only its visual appearance changes.
 
-**88. What is Lazy Loading?**
+## **88. What is Lazy Loading?**
 
 **Lazy Loading** is a technique where resources are loaded only when they are needed.
 
@@ -3444,7 +3444,7 @@ The image loads only when the user scrolls near it.
 
 **Lazy Loading** delays loading resources until they are actually needed.
 
-**89. What is Code Splitting?**
+## **89. What is Code Splitting?**
 
 **Code Splitting** is a technique that breaks a large JavaScript bundle into smaller chunks.
 
@@ -3475,7 +3475,7 @@ The module is loaded only when required.
 
 **Code Splitting** divides a large JavaScript bundle into smaller files that load when needed.
 
-**90. What is Tree Shaking?**
+## **90. What is Tree Shaking?**
 
 **Tree Shaking** is a build optimization technique that removes unused code from the final bundle.
 
@@ -3507,7 +3507,7 @@ import { add } from "./math.js";
 Only `add` is included in the final bundle, while `subtract` is removed.
 
 
-**91. What is CORS?**
+## **91. What is CORS?**
 
 **CORS (Cross-Origin Resource Sharing)** is a browser security mechanism that allows a website to request resources from a different origin (domain, protocol, or port).
 
@@ -3540,7 +3540,7 @@ Access-Control-Allow-Origin: *
 
 ---
 
-**92. What is Same-Origin Policy?**
+## **92. What is Same-Origin Policy?**
 
 **Same-Origin Policy (SOP)** is a browser security rule that prevents a webpage from accessing resources from a different origin.
 
@@ -3576,7 +3576,7 @@ fetch("https://other-site.com/data");
 
 ---
 
-**93. LocalStorage vs SessionStorage**
+## **93. LocalStorage vs SessionStorage**
 
 | Feature   | LocalStorage                      | SessionStorage          |
 | --------- | --------------------------------- | ----------------------- |
@@ -3608,7 +3608,7 @@ console.log(sessionStorage.getItem("theme"));
 
 ---
 
-**94. Cookies vs Storage**
+## **94. Cookies vs Storage**
 
 | Feature        | Cookies                     | LocalStorage / SessionStorage |
 | -------------- | --------------------------- | ----------------------------- |
@@ -3637,7 +3637,7 @@ localStorage.setItem("username", "John");
 
 ---
 
-**95. What is Service Worker?**
+## **95. What is Service Worker?**
 
 A **Service Worker** is a background JavaScript file that runs separately from a web page and enables features like **offline support**, **caching**, and **push notifications**.
 
@@ -3672,7 +3672,7 @@ self.addEventListener("install", () => {
 });
 ```
 
-**96. What is Web Worker?**
+## **96. What is Web Worker?**
 
 A **Web Worker** is a JavaScript feature that allows code to run in a **background thread** without blocking the main UI thread.
 
@@ -3716,7 +3716,7 @@ self.onmessage = () => {
 * Image manipulation
 * Large calculations
 
-**97. What does Single-Threaded mean?**
+## **97. What does Single-Threaded mean?**
 
 **Single-Threaded** means JavaScript executes **one task at a time** using a single call stack.
 
@@ -3755,7 +3755,7 @@ C
 
 ---
 
-**98. How does JavaScript handle Concurrency?**
+## **98. How does JavaScript handle Concurrency?**
 
 JavaScript handles **concurrency** using the **Event Loop**, **Callback Queue**, and **Web APIs**, even though it is single-threaded.
 
@@ -3801,7 +3801,7 @@ Async Task
 
 ---
 
-**99. What are Memory Leaks?**
+## **99. What are Memory Leaks?**
 
 A **Memory Leak** occurs when memory that is no longer needed is not released, causing unnecessary memory consumption.
 
