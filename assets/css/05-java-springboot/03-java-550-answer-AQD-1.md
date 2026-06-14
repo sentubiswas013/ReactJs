@@ -1,4 +1,4 @@
-# **1. Core Java Fundamentals**
+# ✅ **1. Core Java Fundamentals**
 
 ### **1. Java Features**
 
@@ -528,7 +528,7 @@ public class Main {
 
 
 
-# **2. OOPs Concepts**
+# ✅ **2. OOPs Concepts**
 
 ### **1. Encapsulation**
 
@@ -806,7 +806,7 @@ class Car {
 
 
 
-# **3. Collections Framework**
+# ✅ **3. Collections Framework**
 
 ### **1. List**
 
@@ -1304,7 +1304,7 @@ System.out.println(list);
 ```
 
 
-# **4. Internal Working of Collections**
+# ✅ **4. Internal Working of Collections**
 
 ### **1. How HashMap Works Internally**
 
@@ -1603,7 +1603,7 @@ class Student {
 ```
 
 
-# **5. Exception Handling**
+# ✅ **5. Exception Handling**
 
 ### **1. Checked Exception**
 
@@ -1892,7 +1892,7 @@ public class Main {
 ```
 
 
-# **6. Java 8 Features**
+# ✅ **6. Java 8 Features**
 
 ### **1. Lambda Expressions**
 
@@ -2287,7 +2287,7 @@ public class Main {
 ```
 
 
-# **7. Stream API**
+# ✅ **7. Stream API**
 
 ### **1. filter()**
 
@@ -2622,7 +2622,7 @@ list.stream()
 ```
 
 
-# **8. Multithreading & Concurrency**
+# ✅ **8. Multithreading & Concurrency**
 
 ### **1. Thread Lifecycle**
 
@@ -3218,7 +3218,7 @@ The **Fork Join Framework** improves performance by splitting large tasks into s
 
 
 
-# **9. Memory Management**
+# ✅ **9. Memory Management**
 
 ### **1. Heap Memory**
 
@@ -3652,7 +3652,7 @@ public class Demo {
 }
 ```
 
-# **10. JVM Internals**
+# ✅ **10. JVM Internals**
 
 ### **1. Class Loader**
 
@@ -4036,7 +4036,7 @@ java -XX:+UseG1GC MyApp
 **JVM Tuning** optimizes memory settings and garbage collection to improve application performance.
 
 
-# **11. Design Patterns**
+# ✅ **11. Design Patterns**
 
 ### **1. Singleton Pattern**
 
@@ -4697,7 +4697,7 @@ manager.handle("Leave");
 
 
 
-# **12. SOLID Principles**
+# ✅ **12. SOLID Principles**
 
 ### **1. Single Responsibility Principle (SRP)**
 
@@ -4960,7 +4960,7 @@ class UserService {
 | **DIP**   | Depend on abstractions, not implementations |
 
 
-# **13. Generics**
+# ✅ **13. Generics**
 
 ### **1. Generic Classes**
 
@@ -5215,7 +5215,7 @@ String name = names.get(0);
 ```
 
 
-# **14. Annotations & Reflection**
+# ✅ **14. Annotations & Reflection**
 
 ### **1. Built-in Annotations**
 
@@ -5427,7 +5427,7 @@ if (Employee.class.isAnnotationPresent(Author.class)) {
 ```
 
 
-# **15. File Handling**
+# ✅ **15. File Handling**
 
 ### **1. File Class**
 
@@ -5744,7 +5744,7 @@ public class Main {
 ```
 
 
-# **16. Java Interview Coding Topics**
+# ✅ **16. Java Interview Coding Topics**
 
 ### **1. String Programs**
 
@@ -7703,7 +7703,7 @@ for (int i = 0; i < 1000; i++) {
 
 # **Spring Boot Interview Categories**
 
-## **1. Spring Core**
+## ✅ **1. Spring Core**
 
 ### **1. IoC (Inversion of Control) Container**
 
@@ -7914,7 +7914,7 @@ false
 Because **prototype scope** creates a new bean instance every time.
 
 
-## **2. Spring Boot Fundamentals**
+## ✅ **2. Spring Boot Fundamentals**
 
 ### **1. Auto Configuration**
 
@@ -8111,7 +8111,7 @@ public class UserController {
 ```
 
 
-## **3. REST API Development**
+## ✅ **3. REST API Development**
 
 ### **1. REST Principles**
 
@@ -8384,7 +8384,7 @@ Body: User Created
 ```
 
 
-## **4. Spring Data JPA**
+## ✅ **4. Spring Data JPA**
 
 ### **1. Entity Mapping**
 
@@ -8695,7 +8695,7 @@ public class User {
 * **@LastModifiedBy**
 
 
-## **5. Transaction Management**
+## ✅ **5. Transaction Management**
 
 ### **1. @Transactional**
 
@@ -8912,7 +8912,7 @@ public void processPayment() throws Exception {
 ```
 
 
-## **6. Spring Security**
+## ✅ **6. Spring Security**
 
 ### **1. Authentication**
 
@@ -9116,7 +9116,7 @@ public void deleteUser() {
 ```
 
 
-## **7. Exception Handling**
+## ✅ **7. Exception Handling**
 
 ### **1. Global Exception Handling**
 
@@ -9266,7 +9266,7 @@ public String handleUserNotFound(UserNotFoundException ex) {
 }
 ```
 
-## **8. Caching**
+## ✅ **8. Caching**
 
 ### **1. Cache Management**
 
@@ -9429,7 +9429,7 @@ public void deleteUser(Long id) {
 * Reducing database queries
 
 
-## **9. Testing**
+## ✅ **9. Testing**
 
 ### **1. JUnit**
 
@@ -9639,7 +9639,7 @@ class UserControllerTest {
 * **content()**
 
 
-## **10. Monitoring & Logging**
+## ✅ **10. Monitoring & Logging**
 
 ### **1. Spring Boot Actuator**
 
@@ -9833,7 +9833,7 @@ public class DatabaseHealthIndicator
 }
 ```
 
-## **11. Performance Optimization**
+## ✅ **11. Performance Optimization**
 
 ### **1. Connection Pooling**
 
@@ -10000,7 +10000,7 @@ Page<User> users =
 ```
 
 
-## **12. Spring Boot Deployment**
+## ✅ **12. Spring Boot Deployment**
 
 ### **1. Profiles**
 
@@ -10213,7 +10213,7 @@ steps:
 
 # **Microservices Interview Categories**
 
-## **1. Microservices Fundamentals**
+## ✅ **1. Microservices Fundamentals**
 
 ### **1. Monolith vs Microservices**
 
@@ -10382,7 +10382,7 @@ public class OrderController {
 This service handles only **Order Management**, following the **Microservices** and **Service Decomposition** principles.
 
 
-## **2. Service Communication**
+## ✅ **2. Service Communication**
 
 ### **1. REST Communication**
 
@@ -10640,7 +10640,7 @@ public void consume(String message) {
 ```
 
 
-## **3. API Gateway**
+## ✅ **3. API Gateway**
 
 ### **1. Routing**
 
@@ -10851,7 +10851,7 @@ public RestTemplate restTemplate() {
 ```
 
 
-## **4. Service Discovery**
+## ✅ **4. Service Discovery**
 
 ### **1. Eureka**
 
@@ -11061,7 +11061,7 @@ public class OrderController {
 
 
 
-## **5. Configuration Management**
+## ✅ **5. Configuration Management**
 
 ### **1. Centralized Configuration**
 
@@ -11217,7 +11217,7 @@ public class UserController {
 }
 ```
 
-## **6. Resilience Patterns**
+## ✅ **6. Resilience Patterns**
 
 ### **1. Circuit Breaker**
 
@@ -11447,7 +11447,7 @@ public String getPayment() {
 * Protects critical services
 
 
-## **7. Distributed Transactions**
+## ✅ **7. Distributed Transactions**
 
 ### **1. Two-Phase Commit (2PC)**
 
@@ -11651,7 +11651,7 @@ public void processOrder(String event) {
 | Microservices Suitability | Low              | High                 | High                 |
 
 
-## **8. Messaging Systems**
+## ✅ **8. Messaging Systems**
 
 ### **1. Kafka**
 
@@ -11811,7 +11811,7 @@ Notification Service
 | Consumer Model  | **Pull-Based**               | **Push-Based**                        |
 
 
-## **9. Database Design**
+## ✅ **9. Database Design**
 
 ### **1. Database per Service**
 
@@ -11951,7 +11951,7 @@ public class MoneyDepositedEvent {
 ```
 
 
-## **10. Security**
+## ✅ **10. Security**
 
 ### **1. JWT (JSON Web Token)**
 
@@ -12142,7 +12142,7 @@ restTemplate.exchange(
 * **API Keys**
 
 
-## **11. Observability**
+## ✅ **11. Observability**
 
 ### **1. Centralized Logging**
 
@@ -12340,7 +12340,7 @@ Metrics Collection gathers **numerical performance data** to measure system heal
 | Best For  | Debugging           | Microservices Analysis | System Reliability | Performance Analysis |
 
 
-## **12. Containerization & Orchestration**
+## ✅ **12. Containerization & Orchestration**
 
 ### **1. Docker**
 
@@ -12497,7 +12497,7 @@ Helm simplifies Kubernetes deployments by packaging applications into reusable *
 | Best For   | Packaging Apps       | Managing Containers         | Managing Kubernetes Applications  |
 
 
-## **13. Cloud & Deployment**
+## ✅ **13. Cloud & Deployment**
 
 ### **1. AWS Services**
 
@@ -12767,7 +12767,7 @@ spec:
 | Risk                | Very Low         | Moderate        |
 
 
-## **14. Performance & Scalability**
+## ✅ **14. Performance & Scalability**
 
 ### **1. Load Balancing**
 
@@ -12930,7 +12930,7 @@ if (bucket.tryConsume(1)) {
 ```
 
 
-## **15. Microservice Design Patterns**
+## ✅ **15. Microservice Design Patterns**
 
 ### **1. API Gateway Pattern**
 
@@ -13143,7 +13143,7 @@ order-service:
 ```
 
 
-## **16. Real-World Troubleshooting**
+## ✅ **16. Real-World Troubleshooting**
 
 ### **1. API Latency Issues**
 
