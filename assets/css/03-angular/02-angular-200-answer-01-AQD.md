@@ -1,6 +1,6 @@
 For **Angular Interview Preparation**, study topics in this order:
 
-### **1. Angular Fundamentals**
+# ✅ **1. Angular Fundamentals**
 
 **1. What is Angular?**
 
@@ -418,7 +418,7 @@ export class UserComponent implements OnInit {
 ```
 
 
-### **2. Templates & Directives**
+# ✅ **2. Templates & Directives**
 
 **1. `ngIf`**
 
@@ -813,7 +813,7 @@ trackById(index: number, user: any) {
 export class CustomPipe {}
 ```
 
-### **3. Forms**
+# ✅ **3. Forms**
 
 **1. Template-Driven Forms**
 
@@ -1112,7 +1112,7 @@ get skills() {
 ```
 
 
-### **4. Routing & Navigation**
+# ✅ **4. Routing & Navigation**
 
 **1. Angular Router**
 
@@ -1482,7 +1482,7 @@ if (userLoggedIn) {
 ```
 
 
-### **5. HTTP & Backend Integration**
+# ✅ **5. HTTP & Backend Integration**
 
 **1. HttpClient**
 
@@ -1829,7 +1829,7 @@ public class UserController {
 Without proper **CORS** configuration, the browser blocks the request even if the API is working correctly.
 
 
-### **6. RxJS**
+# ✅ **6. RxJS**
 
 **1. Observable**
 
@@ -2260,7 +2260,7 @@ this.searchControl.valueChanges.pipe(
 ```
 
 
-### **7. Component Communication**
+# ✅ **7. Component Communication**
 
 **1. `@Input`**
 
@@ -2662,7 +2662,7 @@ this.sharedService.message.subscribe(
 );
 ```
 
-### **8. Dependency Injection (Advanced)**
+# ✅ **8. Dependency Injection (Advanced)**
 
 **1. Injector**
 
@@ -2882,7 +2882,7 @@ providers: [
 
 
 
-### **9. Change Detection**
+# ✅ **9. Change Detection**
 
 **1. Change Detection Strategy**
 
@@ -3091,7 +3091,7 @@ export class CounterComponent {
 ```
 
 
-### **10. Angular Signals (Important)**
+# ✅ **10. Angular Signals (Important)**
 
 **1. `signal()`**
 
@@ -3298,7 +3298,7 @@ constructor(public counterService: CounterService) {}
 </button>
 ```
 
-### **11. State Management**
+# ✅ **11. State Management**
 
 **1. Services + BehaviorSubject**
 
@@ -3583,7 +3583,7 @@ export const selectUsers = createSelector(
 this.users$ = this.store.select(selectUsers);
 ```
 
-### **12. Performance Optimization**
+# ✅ **12. Performance Optimization**
 
 **1. Lazy Loading**
 
@@ -3904,7 +3904,7 @@ bootstrapApplication(AppComponent, {
 ```
 
 
-### **13. Angular Security**
+# ✅ **13. Angular Security**
 
 **1. XSS (Cross-Site Scripting)**
 
@@ -4101,7 +4101,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 ```
 
 
-### **14. Testing**
+# ✅ **14. Testing**
 
 **1. Jasmine**
 
@@ -4306,7 +4306,7 @@ beforeEach(() => {
 ```
 
 
-### **15. Angular Build & Deployment**
+# ✅ **15. Angular Build & Deployment**
 
 **1. Angular CLI**
 
@@ -4519,7 +4519,7 @@ dist/my-app/
 ```
 
 
-### **16. Angular 17+ Features**
+# ✅ **16. Angular 17+ Features**
 
 **1. Standalone Components**
 
@@ -4722,7 +4722,7 @@ ng add @angular/ssr
 This command adds **SSR** and **Hydration** support to the Angular application.
 
 
-### **17. Angular Architecture & System Design**
+# ✅ **17. Angular Architecture & System Design**
 
 **1. Folder Structure**
 
@@ -4960,7 +4960,7 @@ app/
 ```
 
 
-### **18. Real-Time Interview Scenarios**
+# ✅ **18. Real-Time Interview Scenarios**
 
 **1. Auth Flow Implementation**
 
