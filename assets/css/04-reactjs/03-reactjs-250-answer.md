@@ -1,6 +1,6 @@
 ## **1. React Fundamentals**
 
-## **1. What is React?**
+### **1. What is React?**
 
 **React** is an **open-source JavaScript library** used to build **fast, interactive, and reusable User Interfaces (UI)**, especially for **Single Page Applications (SPAs)**. It was developed by **Facebook (Meta)**.
 
@@ -34,7 +34,7 @@ function App() {
 export default App;
 ```
 
-## **2. Features of React**
+### **2. Features of React**
 
 **React** provides several features that make front-end development easier and faster.
 
@@ -52,7 +52,7 @@ export default App;
 
 * When you need a **maintainable**, **high-performance**, and **interactive** UI.
 
-## **3. SPA vs MPA**
+### **3. SPA vs MPA**
 
 | Feature             | **SPA (Single Page Application)**   | **MPA (Multi Page Application)**     |
 | ------------------- | ----------------------------------- | ------------------------------------ |
@@ -72,7 +72,7 @@ export default App;
 * **SPA:** For **modern web applications** with rich user interactions.
 * **MPA:** For **large content-driven websites** or applications requiring separate pages.
 
-## **4. Virtual DOM**
+### **4. Virtual DOM**
 
 **Virtual DOM (VDOM)** is a **lightweight in-memory copy of the Real DOM**. React uses it to improve performance by updating only the changed elements instead of re-rendering the entire page.
 
@@ -108,7 +108,7 @@ function Counter() {
 }
 ```
 
-## **5. Real DOM vs Virtual DOM**
+### **5. Real DOM vs Virtual DOM**
 
 | Feature          | **Real DOM**                        | **Virtual DOM**                      |
 | ---------------- | ----------------------------------- | ------------------------------------ |
@@ -127,7 +127,7 @@ function Counter() {
 
 * **Virtual DOM** is ideal for **dynamic and interactive applications** with frequent UI updates.
 
-## **6. JSX**
+### **6. JSX**
 
 **JSX (JavaScript XML)** is a syntax extension for JavaScript that allows you to write **HTML-like code inside JavaScript**. React converts JSX into regular JavaScript using **Babel**.
 
@@ -158,7 +158,7 @@ function App() {
 export default App;
 ```
 
-## **7. React Architecture**
+### **7. React Architecture**
 
 **React Architecture** is based on a **Component-Based Architecture**, where the application is divided into small, reusable, and independent components.
 
@@ -190,7 +190,7 @@ App
  └── Footer
 ```
 
-## **8. React Rendering Process**
+### **8. React Rendering Process**
 
 The **React Rendering Process** is the way React updates the UI when **state** or **props** change.
 
@@ -227,7 +227,7 @@ function Counter() {
 }
 ```
 
-## **9. React 18 Features**
+### **9. React 18 Features**
 
 **React 18** introduced several improvements for better **performance**, **user experience**, and **concurrent rendering**.
 
@@ -264,7 +264,7 @@ root.render(<App />);
 
 ## **2. Components**
 
-## **10. Functional Components**
+### **1. Functional Components**
 
 **Functional Components** are simple JavaScript functions that return **JSX**. They are the modern and recommended way to create React components and can use **Hooks** for state and lifecycle features.
 
@@ -294,7 +294,7 @@ function Welcome(props) {
 export default Welcome;
 ```
 
-## **11. Class Components**
+### **2. Class Components**
 
 **Class Components** are ES6 classes that extend `React.Component`. They were used before Hooks were introduced and support **state** and **lifecycle methods**.
 
@@ -325,7 +325,7 @@ class Welcome extends React.Component {
 export default Welcome;
 ```
 
-## **12. Component Lifecycle**
+### **3. Component Lifecycle**
 
 The **Component Lifecycle** is the sequence of stages a React component goes through from creation to removal.
 
@@ -363,7 +363,7 @@ class App extends React.Component {
 }
 ```
 
-## **13. Pure Components**
+### **4. Pure Components**
 
 A **Pure Component** is a special type of class component that prevents unnecessary re-rendering by performing a **shallow comparison** of **props** and **state**.
 
@@ -392,7 +392,7 @@ class User extends React.PureComponent {
 }
 ```
 
-## **14. Higher Order Components (HOC)**
+### **5. Higher Order Components (HOC)**
 
 A **Higher Order Component (HOC)** is a function that takes a component as input and returns a **new enhanced component** with additional functionality.
 
@@ -432,7 +432,7 @@ function Home() {
 export default withMessage(Home);
 ```
 
-## **15. Controlled Components**
+### **6. Controlled Components**
 
 A **Controlled Component** is a form element whose value is controlled by **React State**. React manages the form data and updates the UI.
 
@@ -471,7 +471,7 @@ function Form() {
 }
 ```
 
-## **16. Uncontrolled Components**
+### **7. Uncontrolled Components**
 
 An **Uncontrolled Component** is a form element where the data is handled by the **DOM itself** instead of React state. It uses **Refs** to access the input value.
 
@@ -512,7 +512,7 @@ function Form() {
 }
 ```
 
-## **17. Reusable Components**
+### **8. Reusable Components**
 
 **Reusable Components** are components that can be used multiple times with different data by passing **props**. They reduce code duplication and improve maintainability.
 
@@ -549,7 +549,7 @@ function App() {
 }
 ```
 
-## **18. Component Composition**
+### **9. Component Composition**
 
 **Component Composition** is the process of building complex UIs by combining **small, reusable components** instead of using inheritance.
 
@@ -600,7 +600,7 @@ This approach makes the application **modular**, **reusable**, and **easy to man
 
 ## **3. Props & State**
 
-## **19. Props**
+### **191. Props**
 
 **Props (Properties)** are **read-only inputs** used to pass data from a **parent component** to a **child component**.
 
@@ -632,7 +632,7 @@ function App() {
 }
 ```
 
-## **20. State**
+### **2. State**
 
 **State** is a built-in React object used to store and manage **dynamic data** inside a component. When the state changes, React automatically re-renders the component.
 
@@ -668,7 +668,7 @@ function Counter() {
 }
 ```
 
-## **21. Props vs State**
+### **3. Props vs State**
 
 | Feature        | **Props**                        | **State**                          |
 | -------------- | -------------------------------- | ---------------------------------- |
@@ -683,7 +683,7 @@ function Counter() {
 * Use **Props** to **pass data** between components.
 * Use **State** to **store and update local data**.
 
-## **22. State Updates**
+### **4. State Updates**
 
 **State Updates** are the process of changing a component's state using the **state updater function** returned by `useState()`.
 
@@ -714,7 +714,7 @@ setCount(count + 1);
 setCount(prevCount => prevCount + 1);
 ```
 
-## **23. State Lifting**
+### **5. State Lifting**
 
 **State Lifting** means moving the **shared state** from child components to their **closest common parent** so multiple components can use the same data.
 
@@ -748,7 +748,7 @@ function Child({ text }) {
 }
 ```
 
-## **24. Prop Drilling**
+### **6. Prop Drilling**
 
 **Prop Drilling** is the process of passing **props through multiple intermediate components** to reach a deeply nested child component.
 
@@ -785,7 +785,7 @@ function Child({ name }) {
 }
 ```
 
-## **25. Immutable State Updates**
+### **7. Immutable State Updates**
 
 **Immutable State Updates** mean creating a **new copy of the state** instead of modifying the existing state directly.
 
