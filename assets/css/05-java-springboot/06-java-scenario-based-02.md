@@ -273,7 +273,7 @@ kafkaTemplate.send(
 );
 ```
 
-### Custom Partitioner Example
+**Custom Partitioner Example**
 
 ```java
 public class OrderPartitioner implements Partitioner {
