@@ -1,3 +1,4 @@
+
 **1. What is JavaScript?**
 
 **JavaScript** is a **high-level, interpreted, and dynamically typed programming language** used to make web pages **interactive and dynamic**.
