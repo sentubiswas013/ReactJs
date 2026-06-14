@@ -1,5 +1,5 @@
 
-**1. What is JavaScript?**
+## **1. What is JavaScript?**
 
 **JavaScript** is a **high-level, interpreted, and dynamically typed programming language** used to make web pages **interactive and dynamic**.
 
@@ -265,7 +265,7 @@ Explanation:
 * `"5" + 2` → String concatenation → `"52"`
 * `"5" - 2` → Number conversion → `3`
 
-**10. == vs ===?**
+## **10. == vs ===?**
 
 Both are comparison operators, but they work differently.
 
@@ -299,7 +299,7 @@ true
 false
 ```
 
-**11. What is Truthy and Falsy?**
+## **11. What is Truthy and Falsy?**
 
 In JavaScript, every value is treated as either **true** or **false** when used in a boolean context.
 
@@ -345,7 +345,7 @@ if (0) {
 Truthy
 ```
 
-**12. What are Primitive Types?**
+## **12. What are Primitive Types?**
 
 **Primitive Types** are basic data types that store a **single value** and are **immutable**.
 
@@ -388,7 +388,7 @@ console.log(b);
 20
 ```
 
-**13. What are Reference Types?**
+## **13. What are Reference Types?**
 
 **Reference Types** store references (memory addresses) instead of actual values.
 
@@ -425,7 +425,7 @@ console.log(obj1.name);
 Mike
 ```
 
-**14. What is a Function?**
+## **14. What is a Function?**
 
 A **Function** is a reusable block of code designed to perform a specific task.
 
@@ -457,7 +457,7 @@ console.log(greet("John"));
 Hello John
 ```
 
-**15. Function Declaration vs Function Expression**
+## **15. Function Declaration vs Function Expression**
 
 A **Function Declaration** defines a function using the **function** keyword with a name.
 
@@ -501,7 +501,7 @@ sayHello();
 Hello
 ```
 
-**16. What is an Arrow Function?**
+## **16. What is an Arrow Function?**
 
 An **Arrow Function** is a shorter syntax for writing functions introduced in **ES6**.
 
@@ -539,7 +539,7 @@ console.log(add(2, 3));
 const add = (a, b) => a + b;
 ```
 
-**17. Difference between Arrow and Normal Function?**
+## **17. Difference between Arrow and Normal Function?**
 
 | Feature            | **Normal Function** | **Arrow Function**         |
 | ------------------ | ------------------- | -------------------------- |
@@ -577,7 +577,7 @@ John
 
 **Arrow functions** are shorter and inherit **this** from the surrounding scope, while **normal functions** create their own **this**.
 
-**18. What is IIFE?**
+## **18. What is IIFE?**
 
 **IIFE (Immediately Invoked Function Expression)** is a function that executes immediately after it is created.
 
@@ -606,7 +606,7 @@ John
 IIFE Executed
 ```
 
-**19. What is Scope?**
+## **19. What is Scope?**
 
 **Scope** determines where variables and functions can be accessed in a program.
 
@@ -653,7 +653,7 @@ ReferenceError
 
 JavaScript mainly has **3 types of scope**.
 
-**1. Global Scope**
+## **1. Global Scope**
 
 * Variables declared outside any function or block.
 * Accessible everywhere.
@@ -1137,7 +1137,7 @@ Success
 
 A **Promise** can be in one of **3 states**.
 
-**1. Pending**
+## **1. Pending**
 
 * Initial state.
 * Operation is still running.
@@ -3837,7 +3837,7 @@ Repeated calls keep increasing memory usage.
 
 ---
 
-**100. How to Avoid Memory Leaks?**
+## **100. How to Avoid Memory Leaks?**
 
 Memory leaks can be prevented by properly releasing unused resources.
 
@@ -3873,7 +3873,7 @@ const id = setInterval(() => {
 clearInterval(id);
 ```
 
-**101. What is Garbage Collection?**
+## **101. What is Garbage Collection?**
 
 **Garbage Collection (GC)** is an automatic memory management process in JavaScript that removes objects that are no longer reachable or used.
 
@@ -3907,7 +3907,7 @@ The object can now be removed by the garbage collector.
 * Reduces memory leaks.
 * Improves application performance.
 
-**102. What is Mark and Sweep?**
+## **102. What is Mark and Sweep?**
 
 **Mark and Sweep** is the most common **Garbage Collection algorithm** used in JavaScript.
 
@@ -3946,7 +3946,7 @@ Since the object is no longer reachable, it is not marked and gets removed durin
 * **Reachable = Keep**
 * **Unreachable = Delete**
 
-**103. What is Event Listener Leak?**
+## **103. What is Event Listener Leak?**
 
 An **Event Listener Leak** happens when an event listener remains in memory even after the related DOM element is removed.
 
@@ -3987,7 +3987,7 @@ btn.removeEventListener("click", handleClick);
 
 * Always remove listeners when no longer needed.
 
-**104. What are Passive Event Listeners?**
+## **104. What are Passive Event Listeners?**
 
 **Passive Event Listeners** tell the browser that the event handler will **not call `preventDefault()`**, allowing better scrolling performance.
 
@@ -4020,7 +4020,7 @@ window.addEventListener(
 * Better mobile performance
 * Improved user experience
 
-**105. What is requestAnimationFrame()?**
+## **105. What is requestAnimationFrame()?**
 
 **requestAnimationFrame()** is a browser API used to create smooth and efficient animations.
 
@@ -4067,7 +4067,7 @@ requestAnimationFrame(animate);
 * Visual effects
 
 
-**106. What is requestIdleCallback()?**
+## **106. What is requestIdleCallback()?**
 
 **requestIdleCallback()** is a browser API that executes tasks when the browser is **idle**, so it doesn't affect important UI work.
 
@@ -4101,7 +4101,7 @@ requestIdleCallback(() => {
 
 ---
 
-**107. What is IntersectionObserver?**
+## **107. What is IntersectionObserver?**
 
 **IntersectionObserver** is an API used to detect when an element enters or leaves the viewport.
 
@@ -4141,7 +4141,7 @@ observer.observe(document.getElementById("box"));
 
 ---
 
-**108. What is MutationObserver?**
+## **108. What is MutationObserver?**
 
 **MutationObserver** is an API that watches for changes in the **DOM**.
 
@@ -4180,7 +4180,7 @@ observer.observe(document.body, {
 
 ---
 
-**109. Performance Optimization Techniques?**
+## **109. Performance Optimization Techniques?**
 
 **Performance Optimization** means improving application speed, responsiveness, and resource usage.
 
@@ -4220,7 +4220,7 @@ function search() {
 
 ---
 
-**110. What is Critical Rendering Path?**
+## **110. What is Critical Rendering Path?**
 
 The **Critical Rendering Path (CRP)** is the sequence of steps the browser follows to convert HTML, CSS, and JavaScript into pixels on the screen.
 
@@ -4276,7 +4276,7 @@ Layout → Paint
 
 * Render content as quickly as possible for a faster user experience.
 
-**111. Closure Loop Output (var vs let)?**
+## **111. Closure Loop Output (var vs let)?**
 
 A **Closure** remembers variables from its outer scope even after the outer function has finished executing.
 
@@ -4332,7 +4332,7 @@ for (let i = 0; i < 3; i++) {
 
 ---
 
-**112. Output of setTimeout in Loop?**
+## **112. Output of setTimeout in Loop?**
 
 `setTimeout()` is asynchronous and executes after the loop finishes.
 
@@ -4379,7 +4379,7 @@ for (let i = 1; i <= 3; i++) {
 
 ---
 
-**113. var vs let in Loop?**
+## **113. var vs let in Loop?**
 
 **var**
 
@@ -4431,7 +4431,7 @@ for (let i = 0; i < 3; i++) {
 
 ---
 
-**114. Explain Event Loop with Example?**
+## **114. Explain Event Loop with Example?**
 
 The **Event Loop** is a mechanism that allows JavaScript to handle asynchronous operations while remaining single-threaded.
 
@@ -4484,7 +4484,7 @@ Timeout
 
 ---
 
-**115. Promise Chaining Output?**
+## **115. Promise Chaining Output?**
 
 **Promise Chaining** means connecting multiple `.then()` methods where each receives the result of the previous one.
 
@@ -4530,7 +4530,7 @@ Promise.resolve(1)
 
 * Whatever is returned from one `.then()` becomes the input of the next `.then()`.
 
-**116. async/await vs .then()?**
+## **116. async/await vs .then()?**
 
 Both **async/await** and **.then()** are used to handle **Promises**.
 
@@ -4573,7 +4573,7 @@ async function getData() {
 
 ---
 
-**117. Why can't Arrow Functions be Constructors?**
+## **117. Why can't Arrow Functions be Constructors?**
 
 **Arrow Functions** cannot be used as constructors because they do not have their own **`this`** and **`prototype`**.
 
@@ -4615,7 +4615,7 @@ const p = new Person("John");
 
 ---
 
-**118. What Happens When You Return an Object in a Constructor?**
+## **118. What Happens When You Return an Object in a Constructor?**
 
 Normally, a constructor returns the newly created object.
 
@@ -4670,7 +4670,7 @@ John
 
 ---
 
-**119. How Does JavaScript Handle Memory?**
+## **119. How Does JavaScript Handle Memory?**
 
 JavaScript automatically manages memory using **Memory Allocation**, **Usage**, and **Garbage Collection**.
 
@@ -4716,7 +4716,7 @@ The object becomes unreachable and can be cleaned up.
 
 ---
 
-**120. How to Polyfill bind()?**
+## **120. How to Polyfill bind()?**
 
 A **Polyfill** is custom code that implements a feature if it is not available in the environment.
 
@@ -4786,7 +4786,7 @@ John
 4. Set `this` to the provided context.
 
 
-**121. How to Polyfill Array.map?**
+## **121. How to Polyfill Array.map?**
 
 A **Polyfill** for `Array.map()` creates a new array by applying a callback function to each element.
 
@@ -4852,7 +4852,7 @@ console.log(result);
 
 ---
 
-**122. What is Call Stack Overflow?**
+## **122. What is Call Stack Overflow?**
 
 A **Call Stack Overflow** occurs when the call stack exceeds its maximum size, usually because of infinite or excessive recursion.
 
@@ -4898,7 +4898,7 @@ run(5);
 
 ---
 
-**123. What is Tail Call Optimization?**
+## **123. What is Tail Call Optimization?**
 
 **Tail Call Optimization (TCO)** is a technique where the JavaScript engine reuses the current function's stack frame if the recursive call is the last operation.
 
@@ -4939,7 +4939,7 @@ function sum(n, total = 0) {
 
 ---
 
-**124. Why is JavaScript Single-Threaded?**
+## **124. Why is JavaScript Single-Threaded?**
 
 JavaScript is **Single-Threaded** because it executes one task at a time using a single call stack.
 
@@ -4981,7 +4981,7 @@ This provides concurrency without multiple main threads.
 
 ---
 
-**125. Can JavaScript Be Multi-Threaded?**
+## **125. Can JavaScript Be Multi-Threaded?**
 
 **Yes**, JavaScript can perform multi-threaded work using **Web Workers** (browser) and **Worker Threads** (Node.js).
 
@@ -5014,7 +5014,7 @@ self.onmessage = () => {
 3. Communication happens through messages.
 4. Main thread continues running normally.
 
-**126. What is Proxy?**
+## **126. What is Proxy?**
 
 A **Proxy** is a special object that allows you to intercept and customize operations performed on another object.
 
@@ -5065,7 +5065,7 @@ John
 
 ---
 
-**127. What is Reflect?**
+## **127. What is Reflect?**
 
 **Reflect** is a built-in object that provides methods for performing object operations programmatically.
 
@@ -5120,7 +5120,7 @@ console.log(user.age);
 
 ---
 
-**128. What is Intl API?**
+## **128. What is Intl API?**
 
 The **Intl API (Internationalization API)** provides language-sensitive formatting for dates, numbers, currencies, and more.
 
@@ -5172,7 +5172,7 @@ console.log(
 
 ---
 
-**129. What is BigInt?**
+## **129. What is BigInt?**
 
 **BigInt** is a numeric type used to represent integers larger than JavaScript's safe integer limit.
 
@@ -5229,7 +5229,7 @@ const big = BigInt(
 
 ---
 
-**130. What is Temporal API?**
+## **130. What is Temporal API?**
 
 The **Temporal API** is a modern JavaScript API for working with **dates and times** more accurately than the traditional `Date` object.
 
@@ -5276,7 +5276,7 @@ console.log(now);
 * Better timezone handling
 * Cleaner API than `Date`
 
-**131. What is Shadow DOM?**
+## **131. What is Shadow DOM?**
 
 **Shadow DOM** is a browser feature that creates an isolated DOM tree inside an element, preventing styles and code from affecting the outside DOM.
 
@@ -5318,7 +5318,7 @@ shadow.innerHTML = `
 
 ---
 
-**132. What is Hydration?**
+## **132. What is Hydration?**
 
 **Hydration** is the process of attaching JavaScript behavior to HTML that was already rendered on the server.
 
@@ -5357,7 +5357,7 @@ button.addEventListener("click", () => {
 
 ---
 
-**133. CSR vs SSR?**
+## **133. CSR vs SSR?**
 
 **CSR (Client-Side Rendering)**
 
@@ -5400,7 +5400,7 @@ fetch("/api")
 
 ---
 
-**134. What is a Module Bundler?**
+## **134. What is a Module Bundler?**
 
 A **Module Bundler** is a tool that combines multiple JavaScript files and assets into optimized bundles.
 
@@ -5444,7 +5444,7 @@ The bundler combines all required files into a single optimized bundle.
 
 ---
 
-**135. What is V8 Engine?**
+## **135. What is V8 Engine?**
 
 **V8** is Google's high-performance JavaScript engine used in **Google Chrome** and **Node.js**.
 
@@ -5477,7 +5477,7 @@ The V8 engine converts this JavaScript into machine code and executes it.
 * Optimizer
 * Garbage Collector
 
-**136. How JS Code is Executed Internally?**
+## **136. How JS Code is Executed Internally?**
 
 JavaScript code goes through several steps before execution.
 
@@ -5526,7 +5526,7 @@ Execution
 
 ---
 
-**137. Parsing vs Compiling?**
+## **137. Parsing vs Compiling?**
 
 **Parsing** and **Compiling** are two different stages of code execution.
 
@@ -5567,7 +5567,7 @@ The compiler converts this into machine code for execution.
 
 ---
 
-**138. What is JIT Compilation?**
+## **138. What is JIT Compilation?**
 
 **JIT (Just-In-Time) Compilation** is a technique where JavaScript is compiled into machine code during execution.
 
@@ -5611,7 +5611,7 @@ The engine notices repeated execution and optimizes the function.
 
 ---
 
-**139. What are Hidden Classes?**
+## **139. What are Hidden Classes?**
 
 **Hidden Classes** are internal structures used by JavaScript engines to optimize object property access.
 
@@ -5659,7 +5659,7 @@ A different property order may create a different hidden class.
 
 ---
 
-**140. What is Inline Caching?**
+## **140. What is Inline Caching?**
 
 **Inline Caching (IC)** is an optimization technique that speeds up repeated property access and method calls.
 
