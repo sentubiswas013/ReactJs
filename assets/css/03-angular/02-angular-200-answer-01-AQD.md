@@ -1,8 +1,8 @@
 For **Angular Interview Preparation**, study topics in this order:
 
-# ✅ **1. Angular Fundamentals**
+# ✅ ### **1. Angular Fundamentals**
 
-**1. What is Angular?**
+### **1. What is Angular?**
 
 **Angular** is a **TypeScript-based, open-source front-end framework** developed by **Google** for building **single-page applications (SPAs)** and dynamic web applications.
 
@@ -33,7 +33,7 @@ ng serve
 
 ---
 
-**2. Angular Architecture**
+### **2. Angular Architecture**
 
 **Angular Architecture** is based on **Modules**, **Components**, **Templates**, **Services**, and **Dependency Injection** working together to build an application.
 
@@ -57,7 +57,7 @@ ng serve
 
 ---
 
-**3. Components**
+### **3. Components**
 
 A **Component** is the **basic building block** of an Angular application. It controls a section of the UI and contains **HTML, CSS, and TypeScript logic**.
 
@@ -91,7 +91,7 @@ export class HelloComponent {}
 
 ---
 
-**4. Modules**
+### **4. Modules**
 
 A **Module (`NgModule`)** is a container that groups related **components, directives, pipes, and services** into a single unit.
 
@@ -125,7 +125,7 @@ export class AppModule {}
 
 ---
 
-**5. Templates**
+### **5. Templates**
 
 A **Template** is the **HTML view** of an Angular component. It defines what the user sees on the screen.
 
@@ -153,7 +153,7 @@ A **Template** is the **HTML view** of an Angular component. It defines what the
 
 ---
 
-**6. Decorators**
+### **6. Decorators**
 
 **Decorators** are **special TypeScript annotations** that provide metadata to Angular classes and tell Angular how they should behave.
 
@@ -187,7 +187,7 @@ export class UserComponent {
 }
 ```
 
-**7. Directives**
+### **7. Directives**
 
 **Directives** are Angular classes that **modify the behavior or appearance of DOM elements**.
 
@@ -217,7 +217,7 @@ export class UserComponent {
 
 ---
 
-**8. Services**
+### **8. Services**
 
 A **Service** is a class used to store **reusable business logic, data access, or shared functionality**.
 
@@ -252,7 +252,7 @@ export class UserService {
 
 ---
 
-**9. Dependency Injection (DI)**
+### **9. Dependency Injection (DI)**
 
 **Dependency Injection** is a design pattern where Angular **automatically provides required objects (services) to a class**.
 
@@ -282,7 +282,7 @@ ngOnInit() {
 
 ---
 
-**10. Bootstrapping**
+### **10. Bootstrapping**
 
 **Bootstrapping** is the process of **starting an Angular application** by loading the root module and root component.
 
@@ -309,7 +309,7 @@ platformBrowserDynamic()
 
 ---
 
-**11. Data Binding**
+### **11. Data Binding**
 
 **Data Binding** is the mechanism that **connects component data with the HTML template**.
 
@@ -343,7 +343,7 @@ platformBrowserDynamic()
 
 ---
 
-**12. Lifecycle Hooks**
+### **12. Lifecycle Hooks**
 
 **Lifecycle Hooks** are special Angular methods that allow you to **execute code at different stages of a component's lifecycle**.
 
@@ -382,7 +382,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ---
 
-**13. Constructor vs `ngOnInit`**
+### **13. Constructor vs `ngOnInit`**
 
 | **Constructor**                                      | **`ngOnInit()`**                                |
 | ---------------------------------------------------- | ----------------------------------------------- |
@@ -418,9 +418,9 @@ export class UserComponent implements OnInit {
 ```
 
 
-# ✅ **2. Templates & Directives**
+# ✅ ### **2. Templates & Directives**
 
-**1. `ngIf`**
+### **1. `ngIf`**
 
 **`ngIf`** is a **structural directive** used to **conditionally display or remove an element** from the DOM.
 
@@ -446,7 +446,7 @@ export class UserComponent implements OnInit {
 </div>
 ```
 
-**2. `ngFor`**
+### **2. `ngFor`**
 
 **`ngFor`** is a **structural directive** used to **repeat an element for each item in a collection**.
 
@@ -474,7 +474,7 @@ export class UserComponent implements OnInit {
 </ul>
 ```
 
-**3. `@if`, `@for` (Angular 17+)**
+### **3. `@if`, `@for` (Angular 17+)**
 
 **`@if`** and **`@for`** are the **new built-in control flow statements** introduced in **Angular 17** as a cleaner replacement for `*ngIf` and `*ngFor`.
 
@@ -504,7 +504,7 @@ export class UserComponent implements OnInit {
 }
 ```
 
-**4. `ngSwitch`**
+### **4. `ngSwitch`**
 
 **`ngSwitch`** is a **structural directive** used to **display one block of content from multiple conditions**.
 
@@ -532,7 +532,7 @@ export class UserComponent implements OnInit {
 </div>
 ```
 
-**5. `ngClass`**
+### **5. `ngClass`**
 
 **`ngClass`** is an **attribute directive** used to **dynamically add or remove CSS classes**.
 
@@ -558,7 +558,7 @@ export class UserComponent implements OnInit {
 </p>
 ```
 
-**6. `ngStyle`**
+### **6. `ngStyle`**
 
 **`ngStyle`** is an **attribute directive** used to **apply inline CSS styles dynamically**.
 
@@ -584,7 +584,7 @@ export class UserComponent implements OnInit {
 </p>
 ```
 
-**7. Template Reference Variables**
+### **7. Template Reference Variables**
 
 **Template Reference Variables (`#`)** are local variables used to **reference an HTML element, Angular component, or directive directly in the template**.
 
@@ -609,7 +609,7 @@ export class UserComponent implements OnInit {
 <button (click)="show(userName.value)">Submit</button>
 ```
 
-**8. `ng-template`**
+### **8. `ng-template`**
 
 **`ng-template`** is a special Angular element used to **define a block of HTML that is not rendered until needed**.
 
@@ -639,7 +639,7 @@ export class UserComponent implements OnInit {
 </ng-template>
 ```
 
-**9. `ng-container`**
+### **9. `ng-container`**
 
 **`ng-container`** is a logical container that **groups elements without adding an extra HTML element to the DOM**.
 
@@ -666,7 +666,7 @@ export class UserComponent implements OnInit {
 </ng-container>
 ```
 
-**10. `ng-content`**
+### **10. `ng-content`**
 
 **`ng-content`** is used for **content projection**, allowing a parent component to pass HTML content into a child component.
 
@@ -698,7 +698,7 @@ export class UserComponent implements OnInit {
 </app-card>
 ```
 
-**11. Custom Directives**
+### **11. Custom Directives**
 
 **Custom Directives** are user-defined directives used to **add custom behavior to HTML elements**.
 
@@ -735,7 +735,7 @@ export class HighlightDirective {
 <p appHighlight>Highlighted Text</p>
 ```
 
-**12. `trackBy`**
+### **12. `trackBy`**
 
 **`trackBy`** is a function used with **`ngFor`** to help Angular **identify list items uniquely**, improving rendering performance.
 
@@ -767,7 +767,7 @@ trackById(index: number, user: any) {
 }
 ```
 
-**13. Pipes (Pure vs Impure)**
+### **13. Pipes (Pure vs Impure)**
 
 **Pipes** are used to **transform data before displaying it in the template**.
 
@@ -813,9 +813,9 @@ trackById(index: number, user: any) {
 export class CustomPipe {}
 ```
 
-# ✅ **3. Forms**
+# ✅ ### **3. Forms**
 
-**1. Template-Driven Forms**
+### **1. Template-Driven Forms**
 
 **Template-Driven Forms** are forms where **most of the form logic is handled in the HTML template** using Angular directives.
 
@@ -842,7 +842,7 @@ export class CustomPipe {}
 </form>
 ```
 
-**2. Reactive Forms**
+### **2. Reactive Forms**
 
 **Reactive Forms** are forms where **the form structure and logic are defined in the TypeScript component class**.
 
@@ -875,7 +875,7 @@ userForm = new FormGroup({
 </form>
 ```
 
-**3. `ngModel`**
+### **3. `ngModel`**
 
 **`ngModel`** is a directive used for **two-way data binding** between a form field and a component property.
 
@@ -900,7 +900,7 @@ userForm = new FormGroup({
 <p>{{ username }}</p>
 ```
 
-**4. FormGroup**
+### **4. FormGroup**
 
 **`FormGroup`** is a class that **groups multiple `FormControl` objects into a single form model**.
 
@@ -927,7 +927,7 @@ userForm = new FormGroup({
 });
 ```
 
-**5. FormControl**
+### **5. FormControl**
 
 **`FormControl`** is a class that **represents and manages a single form input field**.
 
@@ -955,7 +955,7 @@ nameControl = new FormControl('');
 <input [formControl]="nameControl">
 ```
 
-**6. FormBuilder**
+### **6. FormBuilder**
 
 **`FormBuilder`** is an Angular service that **simplifies the creation of Reactive Forms** by reducing boilerplate code.
 
@@ -984,7 +984,7 @@ userForm = this.fb.group({
 });
 ```
 
-**7. Validators**
+### **7. Validators**
 
 **Validators** are built-in Angular functions used to **check whether form data is valid**.
 
@@ -1013,7 +1013,7 @@ userForm = new FormGroup({
 });
 ```
 
-**8. Custom Validators**
+### **8. Custom Validators**
 
 **Custom Validators** are user-defined functions used to **implement validation rules that are not provided by Angular**.
 
@@ -1049,7 +1049,7 @@ export function noSpaceValidator(
 username: new FormControl('', [noSpaceValidator])
 ```
 
-**9. Async Validators**
+### **9. Async Validators**
 
 **Async Validators** are validators that **perform validation asynchronously**, usually by calling a server or database.
 
@@ -1077,7 +1077,7 @@ username: new FormControl(
 )
 ```
 
-**10. Dynamic Forms**
+### **10. Dynamic Forms**
 
 **Dynamic Forms** are forms where **form fields are created or modified at runtime based on data or user actions**.
 
@@ -1112,9 +1112,9 @@ get skills() {
 ```
 
 
-# ✅ **4. Routing & Navigation**
+# ✅ ### **4. Routing & Navigation**
 
-**1. Angular Router**
+### **1. Angular Router**
 
 **Angular Router** is a built-in feature that enables **navigation** between different views or components in a **Single Page Application (SPA)** without reloading the page.
 
@@ -1150,7 +1150,7 @@ const routes: Routes = [
 <router-outlet></router-outlet>
 ```
 
-**2. RouterModule**
+### **2. RouterModule**
 
 **RouterModule** is an Angular module that provides the **routing infrastructure** and registers route configurations.
 
@@ -1180,7 +1180,7 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-**3. Route Parameters**
+### **3. Route Parameters**
 
 **Route Parameters** are dynamic values passed as part of the **URL path** to identify a specific resource.
 
@@ -1217,7 +1217,7 @@ ngOnInit() {
 
 **Example URL:** `localhost:4200/user/101`
 
-**4. Query Parameters**
+### **4. Query Parameters**
 
 **Query Parameters** are optional key-value pairs added after `?` in the URL to pass additional information.
 
@@ -1251,7 +1251,7 @@ const category =
 
 **Example URL:** `localhost:4200/products?category=mobile&page=1`
 
-**5. Child Routes**
+### **5. Child Routes**
 
 **Child Routes** allow you to define **nested routes** inside a parent route, making it easy to organize related pages.
 
@@ -1296,7 +1296,7 @@ const routes: Routes = [
 * `localhost:4200/dashboard/profile`
 * `localhost:4200/dashboard/settings`
 
-**6. Lazy Loading**
+### **6. Lazy Loading**
 
 **Lazy Loading** is an Angular feature that loads a **module only when it is needed**, instead of loading the entire application at startup.
 
@@ -1330,7 +1330,7 @@ const routes: Routes = [
 
 ---
 
-**7. Route Guards**
+### **7. Route Guards**
 
 **Route Guards** are Angular services that control whether a user can **access**, **leave**, or **load** a route.
 
@@ -1363,7 +1363,7 @@ const routes: Routes = [
 
 ---
 
-**8. AuthGuard**
+### **8. AuthGuard**
 
 **AuthGuard** is a common **Route Guard** used to check whether a user is **logged in** before allowing access to a route.
 
@@ -1404,7 +1404,7 @@ export class AuthGuard implements CanActivate {
 
 ---
 
-**9. Resolvers**
+### **9. Resolvers**
 
 **Resolvers** are Angular services that **fetch data before a route is activated**, ensuring the component receives the required data immediately.
 
@@ -1450,7 +1450,7 @@ this.route.data.subscribe(data => {
 
 ---
 
-**10. Authentication vs Authorization**
+### **10. Authentication vs Authorization**
 
 | **Authentication**                       | **Authorization**                                  |
 | ---------------------------------------- | -------------------------------------------------- |
@@ -1482,9 +1482,9 @@ if (userLoggedIn) {
 ```
 
 
-# ✅ **5. HTTP & Backend Integration**
+# ✅ ### **5. HTTP & Backend Integration**
 
-**1. HttpClient**
+### **1. HttpClient**
 
 **HttpClient** is an Angular service used to communicate with a **backend API** and perform HTTP requests such as **GET**, **POST**, **PUT**, and **DELETE**.
 
@@ -1517,7 +1517,7 @@ getUsers() {
 }
 ```
 
-**2. GET, POST, PUT, DELETE**
+### **2. GET, POST, PUT, DELETE**
 
 These are the most common **HTTP methods** used to perform **CRUD (Create, Read, Update, Delete)** operations.
 
@@ -1562,7 +1562,7 @@ this.http.put('/api/users/1', user);
 this.http.delete('/api/users/1');
 ```
 
-**3. HTTP Headers**
+### **3. HTTP Headers**
 
 **HTTP Headers** are additional information sent with an HTTP request or response, such as **authentication tokens** or **content type**.
 
@@ -1594,7 +1594,7 @@ const headers = new HttpHeaders({
 this.http.get('/api/users', { headers });
 ```
 
-**4. Query Parameters**
+### **4. Query Parameters**
 
 **Query Parameters** are key-value pairs added to the URL to send optional data to the server.
 
@@ -1628,7 +1628,7 @@ this.http.get('/api/users', { params });
 **Example URL:**
 `https://api.example.com/users?page=1&search=angular`
 
-**5. Error Handling**
+### **5. Error Handling**
 
 **Error Handling** is the process of catching and managing errors that occur during HTTP requests.
 
@@ -1670,7 +1670,7 @@ getUsers() {
 * **404** – Not Found
 * **500** – Internal Server Error
 
-**6. Interceptors**
+### **6. Interceptors**
 
 **Interceptors** are Angular services that **intercept and modify HTTP requests and responses** before they reach the server or the application.
 
@@ -1720,7 +1720,7 @@ providers: [
 ]
 ```
 
-**7. JWT Authentication**
+### **7. JWT Authentication**
 
 **JWT (JSON Web Token) Authentication** is a secure method where the server sends a **token** after successful login, and the client sends it with every protected request.
 
@@ -1756,7 +1756,7 @@ const headers = new HttpHeaders({
 this.http.get('/api/users', { headers });
 ```
 
-**8. File Upload**
+### **8. File Upload**
 
 **File Upload** is the process of sending files from the Angular application to the backend server.
 
@@ -1793,7 +1793,7 @@ onFileSelected(event: any) {
 }
 ```
 
-**9. CORS**
+### **9. CORS**
 
 **CORS (Cross-Origin Resource Sharing)** is a browser security mechanism that controls whether a frontend application can access resources from a different domain.
 
@@ -1829,9 +1829,9 @@ public class UserController {
 Without proper **CORS** configuration, the browser blocks the request even if the API is working correctly.
 
 
-# ✅ **6. RxJS**
+# ✅ ### **6. RxJS**
 
-**1. Observable**
+### **1. Observable**
 
 **Observable** is an RxJS object that represents a stream of **asynchronous data** that can emit multiple values over time.
 
@@ -1865,7 +1865,7 @@ const observable = new Observable(observer => {
 observable.subscribe(data => console.log(data));
 ```
 
-**2. Observer**
+### **2. Observer**
 
 **Observer** is an object that **subscribes to an Observable** and receives the emitted values, errors, and completion notifications.
 
@@ -1896,7 +1896,7 @@ const observer = {
 observable.subscribe(observer);
 ```
 
-**3. Subject**
+### **3. Subject**
 
 **Subject** is a special type of Observable that acts as both an **Observable** and an **Observer**.
 
@@ -1935,7 +1935,7 @@ A: Hello
 B: Hello
 ```
 
-**4. BehaviorSubject**
+### **4. BehaviorSubject**
 
 **BehaviorSubject** is a type of Subject that **stores the latest value** and immediately sends it to new subscribers.
 
@@ -1976,7 +1976,7 @@ Admin
 Admin
 ```
 
-**5. ReplaySubject**
+### **5. ReplaySubject**
 
 **ReplaySubject** is a type of Subject that stores a specified number of previous values and replays them to new subscribers.
 
@@ -2016,7 +2016,7 @@ B
 C
 ```
 
-**6. AsyncSubject**
+### **6. AsyncSubject**
 
 **AsyncSubject** is a type of Subject that emits **only the last value** and only after the Observable is **completed**.
 
@@ -2056,7 +2056,7 @@ subject.complete();
 ```
 30
 ```
-**7. Subscription**
+### **7. Subscription**
 
 **Subscription** is the process of connecting an **Observer** to an **Observable** to receive emitted data.
 
@@ -2087,7 +2087,7 @@ const subscription = this.http.get('/api/users')
 subscription.unsubscribe();
 ```
 
-**8. Operators (`map`, `filter`, `switchMap`, `mergeMap`, `concatMap`)**
+### **8. Operators (`map`, `filter`, `switchMap`, `mergeMap`, `concatMap`)**
 
 **Operators** are RxJS functions used to **transform**, **filter**, or **combine** Observable data streams.
 
@@ -2131,7 +2131,7 @@ of(1, 2, 3, 4).pipe(
 40
 ```
 
-**9. `forkJoin`**
+### **9. `forkJoin`**
 
 **`forkJoin`** is an RxJS operator that waits for **all Observables to complete** and then returns their final values together.
 
@@ -2164,7 +2164,7 @@ forkJoin({
 });
 ```
 
-**10. `combineLatest`**
+### **10. `combineLatest`**
 
 **`combineLatest`** combines multiple Observables and emits the **latest value from each** whenever any Observable emits a new value.
 
@@ -2196,7 +2196,7 @@ combineLatest([
 });
 ```
 
-**11. `debounceTime`**
+### **11. `debounceTime`**
 
 **`debounceTime`** delays the emission of values until there is no new value for a specified time.
 
@@ -2227,7 +2227,7 @@ this.searchControl.valueChanges.pipe(
 });
 ```
 
-**12. `distinctUntilChanged`**
+### **12. `distinctUntilChanged`**
 
 **`distinctUntilChanged`** emits a value only if it is **different from the previous emitted value**.
 
@@ -2260,9 +2260,9 @@ this.searchControl.valueChanges.pipe(
 ```
 
 
-# ✅ **7. Component Communication**
+# ✅ ### **7. Component Communication**
 
-**1. `@Input`**
+### **1. `@Input`**
 
 **`@Input`** is a decorator used to **pass data from a parent component to a child component**.
 
@@ -2305,7 +2305,7 @@ export class ChildComponent {
 
 ---
 
-**2. `@Output`**
+### **2. `@Output`**
 
 **`@Output`** is a decorator used to **send data or events from a child component to a parent component**.
 
@@ -2359,7 +2359,7 @@ receiveData(data: string) {
 
 ---
 
-**3. EventEmitter**
+### **3. EventEmitter**
 
 **`EventEmitter`** is an Angular class used with **`@Output`** to emit custom events from a child component.
 
@@ -2395,7 +2395,7 @@ saveData() {
 
 ---
 
-**4. ViewChild**
+### **4. ViewChild**
 
 **`ViewChild`** is a decorator used to access a **child component, directive, or DOM element** inside the same component's template.
 
@@ -2434,7 +2434,7 @@ export class AppComponent implements AfterViewInit {
 
 ---
 
-**5. ContentChild**
+### **5. ContentChild**
 
 **`ContentChild`** is a decorator used to access **projected content** that is passed into a component using **`<ng-content>`**.
 
@@ -2480,7 +2480,7 @@ export class CardComponent implements AfterContentInit {
   }
 }
 ```
-**6. Parent → Child Communication**
+### **6. Parent → Child Communication**
 
 **Parent → Child Communication** is the process of sending data from a **parent component** to a **child component** using the **`@Input`** decorator.
 
@@ -2515,7 +2515,7 @@ export class CardComponent implements AfterContentInit {
 
 ---
 
-**7. Child → Parent Communication**
+### **7. Child → Parent Communication**
 
 **Child → Parent Communication** is the process of sending data or events from a **child component** to a **parent component** using **`@Output`** and **`EventEmitter`**.
 
@@ -2561,7 +2561,7 @@ receiveData(data: string) {
 
 ---
 
-**8. Sibling Communication**
+### **8. Sibling Communication**
 
 **Sibling Communication** is the exchange of data between two components that have the **same parent**.
 
@@ -2613,7 +2613,7 @@ this.dataService.currentMessage.subscribe(
 
 ---
 
-**9. Shared Service Communication**
+### **9. Shared Service Communication**
 
 **Shared Service Communication** is a common Angular technique where multiple components communicate through a **shared service** using **RxJS Subjects or BehaviorSubjects**.
 
@@ -2662,9 +2662,9 @@ this.sharedService.message.subscribe(
 );
 ```
 
-# ✅ **8. Dependency Injection (Advanced)**
+# ✅ ### **8. Dependency Injection (Advanced)**
 
-**1. Injector**
+### **1. Injector**
 
 **Injector** is the Angular object responsible for **creating and providing service instances** to components or other services.
 
@@ -2700,7 +2700,7 @@ export class HomeComponent {
 
 ---
 
-**2. Provider**
+### **2. Provider**
 
 **Provider** tells Angular **how to create or supply a dependency** for the Injector.
 
@@ -2736,7 +2736,7 @@ providers: [UserService]
 
 ---
 
-**3. Injection Token**
+### **3. Injection Token**
 
 **Injection Token** is used to inject values or objects that **do not have a class type**, such as configuration values or interfaces.
 
@@ -2777,7 +2777,7 @@ constructor(
 
 ---
 
-**4. Hierarchical DI**
+### **4. Hierarchical DI**
 
 **Hierarchical Dependency Injection (DI)** means Angular maintains a **tree of Injectors**, allowing services to be shared or scoped at different levels.
 
@@ -2811,7 +2811,7 @@ Here, `ChildComponent` gets its own `UserService` instance instead of using the 
 
 ---
 
-**5. Singleton Services**
+### **5. Singleton Services**
 
 **Singleton Services** are services for which Angular creates **only one instance** and shares it across the entire application.
 
@@ -2844,7 +2844,7 @@ All components injecting `AuthService` will use the same instance.
 
 ---
 
-**6. Multi Providers**
+### **6. Multi Providers**
 
 **Multi Providers** allow multiple values or services to be associated with the **same injection token**.
 
@@ -2882,9 +2882,9 @@ providers: [
 
 
 
-# ✅ **9. Change Detection**
+# ✅ ### **9. Change Detection**
 
-**1. Change Detection Strategy**
+### **1. Change Detection Strategy**
 
 **Change Detection Strategy** is the Angular mechanism that determines **when and how the UI is updated** when application data changes.
 
@@ -2918,7 +2918,7 @@ export class UserComponent {
 }
 ```
 
-**2. Default Strategy**
+### **2. Default Strategy**
 
 **Default Strategy** is the standard Angular change detection mode where Angular checks **all components** whenever an event occurs.
 
@@ -2951,7 +2951,7 @@ export class HomeComponent {
 }
 ```
 
-**3. OnPush Strategy**
+### **3. OnPush Strategy**
 
 **OnPush Strategy** tells Angular to run change detection **only when necessary**, improving application performance.
 
@@ -2989,7 +2989,7 @@ export class UserComponent {
 }
 ```
 
-**4. Zone.js**
+### **4. Zone.js**
 
 **Zone.js** is a library used by Angular to **detect asynchronous operations** and automatically trigger change detection.
 
@@ -3018,7 +3018,7 @@ setTimeout(() => {
 
 Here, **Zone.js** detects the `setTimeout()` completion and Angular automatically updates the UI.
 
-**5. Manual Change Detection**
+### **5. Manual Change Detection**
 
 **Manual Change Detection** allows developers to explicitly trigger UI updates when Angular does not detect changes automatically.
 
@@ -3050,7 +3050,7 @@ updateData() {
 }
 ```
 
-**6. Signals**
+### **6. Signals**
 
 **Signals** are a new Angular reactive feature that automatically tracks data changes and updates the UI efficiently.
 
@@ -3091,9 +3091,9 @@ export class CounterComponent {
 ```
 
 
-# ✅ **10. Angular Signals (Important)**
+# ✅ ### **10. Angular Signals (Important)**
 
-**1. `signal()`**
+### **1. `signal()`**
 
 **`signal()`** is an Angular API used to create a **reactive state variable** that automatically updates the UI when its value changes.
 
@@ -3133,7 +3133,7 @@ increment() {
 
 ---
 
-**2. `computed()`**
+### **2. `computed()`**
 
 **`computed()`** is used to create a **derived signal** whose value is automatically calculated from one or more other signals.
 
@@ -3169,7 +3169,7 @@ total = computed(() => this.price() * this.quantity());
 
 ---
 
-**3. `effect()`**
+### **3. `effect()`**
 
 **`effect()`** is used to perform **side effects** whenever one or more signals change.
 
@@ -3206,7 +3206,7 @@ Whenever `count` changes, the `effect()` runs automatically.
 
 ---
 
-**4. Signal vs Observable**
+### **4. Signal vs Observable**
 
 **Signals** and **Observables** are both used for reactive programming, but they solve different problems.
 
@@ -3248,7 +3248,7 @@ this.http.get('/api/users')
 
 ---
 
-**5. Signal-based State Management**
+### **5. Signal-based State Management**
 
 **Signal-based State Management** is a way of managing application or component state using **Signals** instead of external state libraries.
 
@@ -3298,9 +3298,9 @@ constructor(public counterService: CounterService) {}
 </button>
 ```
 
-# ✅ **11. State Management**
+# ✅ ### **11. State Management**
 
-**1. Services + BehaviorSubject**
+### **1. Services + BehaviorSubject**
 
 **Services + `BehaviorSubject`** is a simple Angular state management approach where a service stores shared data and `BehaviorSubject` broadcasts updates to components.
 
@@ -3343,7 +3343,7 @@ this.userService.user$.subscribe(data => console.log(data));
 
 ---
 
-**2. Signals Store**
+### **2. Signals Store**
 
 **Signals Store** is a state management approach that uses Angular **Signals** to manage and share application state reactively.
 
@@ -3384,7 +3384,7 @@ export class CounterStore {
 
 ---
 
-**3. NgRx Basics**
+### **3. NgRx Basics**
 
 **NgRx** is a Redux-inspired state management library for Angular that manages application state in a **single centralized Store**.
 
@@ -3417,7 +3417,7 @@ this.users$ = this.store.select(selectUsers);
 
 ---
 
-**4. Store**
+### **4. Store**
 
 **Store** is the central container that holds the **entire application state** in NgRx.
 
@@ -3446,7 +3446,7 @@ this.users$ = this.store.select(selectUsers);
 
 ---
 
-**5. Actions**
+### **5. Actions**
 
 **Actions** are plain objects that describe **what happened** in the application.
 
@@ -3480,7 +3480,7 @@ this.store.dispatch(loadUsers());
 
 ---
 
-**6. Reducers**
+### **6. Reducers**
 
 **Reducers** are pure functions that take the current state and an action, then return a **new updated state**.
 
@@ -3512,7 +3512,7 @@ export const counterReducer = createReducer(
 
 ---
 
-**7. Effects**
+### **7. Effects**
 
 **Effects** handle **side effects** such as API calls, logging, or asynchronous operations outside the Reducer.
 
@@ -3549,7 +3549,7 @@ loadUsers$ = createEffect(() =>
 
 ---
 
-**8. Selectors**
+### **8. Selectors**
 
 **Selectors** are functions used to **read and retrieve specific data** from the NgRx Store.
 
@@ -3583,9 +3583,9 @@ export const selectUsers = createSelector(
 this.users$ = this.store.select(selectUsers);
 ```
 
-# ✅ **12. Performance Optimization**
+# ✅ ### **12. Performance Optimization**
 
-**1. Lazy Loading**
+### **1. Lazy Loading**
 
 **Lazy Loading** is an Angular feature that loads a **module only when it is required**, instead of loading the entire application at startup.
 
@@ -3618,7 +3618,7 @@ const routes: Routes = [
 
 ---
 
-**2. Preloading Strategy**
+### **2. Preloading Strategy**
 
 **Preloading Strategy** is an Angular feature that loads **lazy-loaded modules in the background** after the application starts.
 
@@ -3654,7 +3654,7 @@ export class AppModule {}
 
 ---
 
-**3. `trackBy`**
+### **3. `trackBy`**
 
 **`trackBy`** is an Angular optimization feature used with **`*ngFor`** to uniquely identify list items and avoid unnecessary DOM updates.
 
@@ -3688,7 +3688,7 @@ trackById(index: number, user: any) {
 
 ---
 
-**4. OnPush**
+### **4. OnPush**
 
 **OnPush** is an Angular **Change Detection Strategy** that checks a component only when specific events occur, improving performance.
 
@@ -3728,7 +3728,7 @@ export class UserComponent {
 
 ---
 
-**5. Memoization**
+### **5. Memoization**
 
 **Memoization** is a performance optimization technique that **stores the result of a computation** and reuses it when the same input occurs again.
 
@@ -3766,7 +3766,7 @@ function square(num: number): number {
 console.log(square(5)); // Calculates and stores
 console.log(square(5)); // Returns cached value
 ```
-**6. Tree Shaking**
+### **6. Tree Shaking**
 
 **Tree Shaking** is a build optimization technique that **removes unused code** from the final JavaScript bundle.
 
@@ -3809,7 +3809,7 @@ Here, **`subtract()`** is not used, so **Tree Shaking** removes it from the fina
 
 ---
 
-**7. Bundle Optimization**
+### **7. Bundle Optimization**
 
 **Bundle Optimization** is the process of reducing the **size and loading time** of the Angular application bundle.
 
@@ -3837,7 +3837,7 @@ This command enables production optimizations such as **minification**, **Tree S
 
 ---
 
-**8. SSR**
+### **8. SSR**
 
 **SSR (Server-Side Rendering)** is a technique where Angular renders the application **on the server** and sends the generated HTML to the browser.
 
@@ -3870,7 +3870,7 @@ After enabling **SSR**, Angular renders the initial page on the server before se
 
 ---
 
-**9. Hydration**
+### **9. Hydration**
 
 **Hydration** is the process where Angular **reuses the HTML generated by SSR** and attaches event listeners instead of rebuilding the page from scratch.
 
@@ -3904,9 +3904,9 @@ bootstrapApplication(AppComponent, {
 ```
 
 
-# ✅ **13. Angular Security**
+# ✅ ### **13. Angular Security**
 
-**1. XSS (Cross-Site Scripting)**
+### **1. XSS (Cross-Site Scripting)**
 
 **Definition:**
 **XSS** is a security attack where a malicious script is injected into a web page and executed in another user's browser.
@@ -3938,7 +3938,7 @@ Use **Angular's built-in sanitization** and avoid rendering untrusted HTML direc
 
 ---
 
-**2. CSRF (Cross-Site Request Forgery)**
+### **2. CSRF (Cross-Site Request Forgery)**
 
 **Definition:**
 **CSRF** is an attack where a malicious website tricks an authenticated user into performing unwanted actions.
@@ -3969,7 +3969,7 @@ provideHttpClient(withXsrfConfiguration({
 
 ---
 
-**3. Sanitization**
+### **3. Sanitization**
 
 **Definition:**
 **Sanitization** removes or escapes unsafe content before rendering it in the browser.
@@ -3998,7 +3998,7 @@ Angular sanitizes `content` before rendering.
 
 ---
 
-**4. JWT Storage**
+### **4. JWT Storage**
 
 **Definition:**
 **JWT (JSON Web Token)** is used to securely store user authentication information.
@@ -4027,7 +4027,7 @@ const headers = new HttpHeaders({
 
 ---
 
-**5. Route Protection**
+### **5. Route Protection**
 
 **Definition:**
 **Route Protection** restricts access to certain pages based on authentication or user roles.
@@ -4064,7 +4064,7 @@ export const authGuard: CanActivateFn = () => {
 
 ---
 
-**6. Secure HTTP Calls**
+### **6. Secure HTTP Calls**
 
 **Definition:**
 Secure HTTP calls ensure data is transmitted and accessed safely between the client and server.
@@ -4103,7 +4103,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 # ✅ **14. Testing**
 
-**1. Jasmine**
+### **1. Jasmine**
 
 **Definition:**
 **Jasmine** is a **JavaScript testing framework** used to write and run unit tests in Angular applications.
@@ -4133,7 +4133,7 @@ describe('Calculator', () => {
 });
 ```
 
-**2. Karma**
+### **2. Karma**
 
 **Definition:**
 **Karma** is a **test runner** that executes Angular tests in real browsers.
@@ -4161,7 +4161,7 @@ ng test
 
 This command starts **Karma** and runs all Jasmine tests.
 
-**3. Unit Testing**
+### **3. Unit Testing**
 
 **Definition:**
 **Unit Testing** tests a small piece of code, such as a method or function, in isolation.
@@ -4188,7 +4188,7 @@ it('should return true', () => {
 });
 ```
 
-**4. Component Testing**
+### **4. Component Testing**
 
 **Definition:**
 **Component Testing** verifies that an Angular component works correctly, including its template and logic.
@@ -4216,7 +4216,7 @@ it('should create the component', () => {
 });
 ```
 
-**5. Service Testing**
+### **5. Service Testing**
 
 **Definition:**
 **Service Testing** verifies the business logic inside Angular services.
@@ -4244,7 +4244,7 @@ it('should return user name', () => {
 });
 ```
 
-**6. Mocking Dependencies**
+### **6. Mocking Dependencies**
 
 **Definition:**
 **Mocking** means replacing real dependencies with fake objects during testing.
@@ -4272,7 +4272,7 @@ spyOn(userService, 'getUser').and.returnValue({
 });
 ```
 
-**7. TestBed**
+### **7. TestBed**
 
 **Definition:**
 **TestBed** is Angular's primary utility for configuring and creating a testing environment.
@@ -4308,7 +4308,7 @@ beforeEach(() => {
 
 # ✅ **15. Angular Build & Deployment**
 
-**1. Angular CLI**
+### **1. Angular CLI**
 
 **Definition:**
 **Angular CLI (Command Line Interface)** is a tool that helps developers create, build, test, and manage Angular applications.
@@ -4335,7 +4335,7 @@ ng generate component home
 ng serve
 ```
 
-**2. Environment Files**
+### **2. Environment Files**
 
 **Definition:**
 **Environment Files** store configuration values for different environments like **development** and **production**.
@@ -4372,7 +4372,7 @@ export const environment = {
 };
 ```
 
-**3. Build Configurations**
+### **3. Build Configurations**
 
 **Definition:**
 **Build Configurations** allow different build settings for development, testing, and production.
@@ -4405,7 +4405,7 @@ ng build --configuration=production
 }
 ```
 
-**4. Production Build**
+### **4. Production Build**
 
 **Definition:**
 A **Production Build** creates an optimized version of the Angular application for deployment.
@@ -4431,7 +4431,7 @@ Use before deploying the application to production servers.
 ng build --configuration=production
 ```
 
-**5. AOT Compilation**
+### **5. AOT Compilation**
 
 **Definition:**
 **AOT (Ahead-of-Time) Compilation** compiles Angular templates into JavaScript during the build process.
@@ -4456,7 +4456,7 @@ Use for **production builds** to improve performance and security.
 ng build --aot
 ```
 
-**6. Ahead-of-Time (AOT) vs JIT (Just-in-Time)**
+### **6. Ahead-of-Time (AOT) vs JIT (Just-in-Time)**
 
 | Feature          | **AOT**          | **JIT**                       |
 | ---------------- | ---------------- | ----------------------------- |
@@ -4486,7 +4486,7 @@ ng build --aot
 ng serve
 ```
 
-**7. Deployment Strategies**
+### **7. Deployment Strategies**
 
 **Definition:**
 **Deployment Strategies** are methods used to publish an Angular application to a web server or cloud platform.
@@ -4521,7 +4521,7 @@ dist/my-app/
 
 # ✅ **16. Angular 17+ Features**
 
-**1. Standalone Components**
+### **1. Standalone Components**
 
 **Definition:**
 **Standalone Components** are Angular components that work **without an NgModule** by setting `standalone: true`.
@@ -4555,7 +4555,7 @@ import { CommonModule } from '@angular/common';
 export class HomeComponent {}
 ```
 
-**2. Standalone Routing**
+### **2. Standalone Routing**
 
 **Definition:**
 **Standalone Routing** configures Angular routes without using `AppRoutingModule`.
@@ -4593,7 +4593,7 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-**3. Signals**
+### **3. Signals**
 
 **Definition:**
 **Signals** are Angular's reactive state management feature that automatically tracks and updates UI when data changes.
@@ -4630,7 +4630,7 @@ increment() {
 <button (click)="increment()">Increment</button>
 ```
 
-**4. Control Flow (`@if`, `@for`, `@switch`)**
+### **4. Control Flow (`@if`, `@for`, `@switch`)**
 
 **Definition:**
 **Control Flow** introduces a new template syntax that replaces traditional structural directives like `*ngIf` and `*ngFor`.
@@ -4664,7 +4664,7 @@ Use in modern Angular applications instead of `*ngIf`, `*ngFor`, and `ngSwitch`.
 }
 ```
 
-**5. Deferrable Views (`@defer`)**
+### **5. Deferrable Views (`@defer`)**
 
 **Definition:**
 **Deferrable Views** allow parts of the UI to load only when needed, improving initial page load performance.
@@ -4693,7 +4693,7 @@ Use for **heavy components**, **charts**, or content that is not immediately vis
 }
 ```
 
-**6. SSR & Hydration**
+### **6. SSR & Hydration**
 
 **Definition:**
 **SSR (Server-Side Rendering)** renders the Angular application on the server, while **Hydration** reuses that HTML and activates it in the browser without rebuilding the page.
@@ -4724,7 +4724,7 @@ This command adds **SSR** and **Hydration** support to the Angular application.
 
 # ✅ **17. Angular Architecture & System Design**
 
-**1. Folder Structure**
+### **1. Folder Structure**
 
 **Definition:**
 A good **Folder Structure** organizes Angular files in a clean and scalable way, making the application easier to maintain.
@@ -4758,7 +4758,7 @@ src/
  └── assets/
 ```
 
-**2. Feature Modules**
+### **2. Feature Modules**
 
 **Definition:**
 A **Feature Module** groups all files related to a specific business feature, such as **User**, **Admin**, or **Product**.
@@ -4789,7 +4789,7 @@ import { UserComponent } from './user.component';
 export class UserModule {}
 ```
 
-**3. Shared Modules**
+### **3. Shared Modules**
 
 **Definition:**
 A **Shared Module** contains reusable components, directives, pipes, and common Angular modules that are used across multiple features.
@@ -4823,7 +4823,7 @@ import { HeaderComponent } from './header.component';
 export class SharedModule {}
 ```
 
-**4. Core Modules**
+### **4. Core Modules**
 
 **Definition:**
 A **Core Module** contains application-wide singleton services and components that should be loaded only once.
@@ -4853,7 +4853,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class CoreModule {}
 ```
-**5. Reusable Components**
+### **5. Reusable Components**
 
 **Definition:**
 **Reusable Components** are generic Angular components that can be used in multiple places without rewriting the same code.
@@ -4892,7 +4892,7 @@ export class ButtonComponent {
 <app-button [label]="'Save'"></app-button>
 ```
 
-**6. Micro Frontends**
+### **6. Micro Frontends**
 
 **Definition:**
 **Micro Frontends** is an architecture where a large frontend application is divided into smaller, independent applications that work together.
@@ -4924,7 +4924,7 @@ new ModuleFederationPlugin({
 });
 ```
 
-**7. Large Scale Angular Architecture**
+### **7. Large Scale Angular Architecture**
 
 **Definition:**
 **Large Scale Angular Architecture** is a structured approach for organizing and managing complex Angular applications with many features and teams.
@@ -4962,7 +4962,7 @@ app/
 
 # ✅ **18. Real-Time Interview Scenarios**
 
-**1. Auth Flow Implementation**
+### **1. Auth Flow Implementation**
 
 **Definition:**
 **Authentication Flow** is the process of verifying a user and controlling access to protected resources.
@@ -5002,7 +5002,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 };
 ```
 
-**2. API Caching**
+### **2. API Caching**
 
 **Definition:**
 **API Caching** stores API responses temporarily to avoid unnecessary network requests.
@@ -5037,7 +5037,7 @@ getUsers() {
 }
 ```
 
-**3. Infinite Scrolling**
+### **3. Infinite Scrolling**
 
 **Definition:**
 **Infinite Scrolling** loads additional data automatically as the user scrolls down the page.
@@ -5072,7 +5072,7 @@ onScroll() {
 </div>
 ```
 
-**4. Search with Debounce**
+### **4. Search with Debounce**
 
 **Definition:**
 **Debounce** delays the search request until the user stops typing for a specified time.
@@ -5103,7 +5103,7 @@ searchControl.valueChanges.pipe(
 });
 ```
 
-**5. File Upload**
+### **5. File Upload**
 
 **Definition:**
 **File Upload** allows users to send files from the browser to the server.
@@ -5141,7 +5141,7 @@ uploadFile(event: any) {
 <input type="file" (change)="uploadFile($event)">
 ```
 
-**6. Dynamic Forms**
+### **6. Dynamic Forms**
 
 **Definition:**
 **Dynamic Forms** are forms that are created at runtime based on configuration or data instead of hardcoded HTML.
@@ -5183,7 +5183,7 @@ this.form = this.fb.group(
 </div>
 ```
 
-**7. Role-Based Access Control (RBAC)**
+### **7. Role-Based Access Control (RBAC)**
 
 **Definition:**
 **RBAC (Role-Based Access Control)** restricts access to features and pages based on the user's role.
@@ -5217,7 +5217,7 @@ export const adminGuard: CanActivateFn = () => {
 </button>
 ```
 
-**8. Dashboard Design**
+### **8. Dashboard Design**
 
 **Definition:**
 **Dashboard Design** is the process of organizing and displaying important data and actions in a single, user-friendly interface.
@@ -5248,7 +5248,7 @@ Use for **admin panels**, **analytics pages**, and **business monitoring systems
 </div>
 ```
 
-**9. Performance Optimization Cases**
+### **9. Performance Optimization Cases**
 
 **Definition:**
 **Performance Optimization** improves the speed and efficiency of an Angular application by reducing unnecessary rendering and network usage.
