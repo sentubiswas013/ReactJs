@@ -274,6 +274,7 @@ class CollectionsDemo {
                     cache.remove(key);
                     return null;
                 }
+                
                 return obj.value;
             }
         }

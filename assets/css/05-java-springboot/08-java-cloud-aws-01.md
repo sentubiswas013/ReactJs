@@ -1,763 +1,911 @@
-# AWS Interview Notes for Java / Spring Boot Developers
+
+
+# **1. AWS Core Concepts**
+
+**1. What is AWS?**
+**AWS (Amazon Web Services)** is a **cloud computing platform** by Amazon that provides **on-demand IT resources** like servers, storage, databases, and networking over the internet.
+
+**Key Features:**
+
+* **Pay-as-you-go pricing**
+* **Highly scalable infrastructure**
+* **Global availability (regions & AZs)**
+* **Managed services**
+
+**How it works:**
+AWS provides resources through the internet. You select a service (like EC2 or S3), configure it, and use it without managing physical hardware.
+
+**Example:**
+Hosting a website using **EC2 + S3 + RDS** instead of physical servers.
 
 ---
 
-# 1. What is AWS and why is it used?
+**2. What is cloud computing?**
+**Cloud computing** is the delivery of **computing services (servers, storage, databases, networking)** over the internet on a **pay-per-use model**.
 
-**AWS (Amazon Web Services)** is a cloud computing platform that provides services like servers, databases, storage, networking, monitoring, and security over the internet.
+**Key Features:**
 
-It helps companies:
+* **On-demand resources**
+* **Elastic scalability**
+* **Cost efficiency**
+* **No hardware maintenance**
 
-* Deploy applications quickly
-* Scale applications automatically
-* Reduce infrastructure cost
-* Avoid managing physical servers
-* Improve availability and reliability
+**How it works:**
+Instead of owning infrastructure, you access resources from cloud providers like AWS and scale them up/down as needed.
 
-AWS follows a **pay-as-you-go** model.
-
-```javascript
-// Example: Connecting to AWS S3 using Node.js
-
-const AWS = require('aws-sdk');
-
-const s3 = new AWS.S3({
-  region: 'us-east-1',
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_KEY
-});
-```
+**Example:**
+Using **Google Drive or AWS S3** to store files instead of local storage.
 
 ---
 
-# 2. Main AWS Services Used
+**3. What is AMI?**
+An **AMI (Amazon Machine Image)** is a **pre-configured template** used to launch **EC2 instances**.
 
-Common AWS services used in real projects:
+**Key Features:**
 
-| Service      | Purpose           |
-| ------------ | ----------------- |
-| EC2          | Virtual server    |
-| S3           | Storage           |
-| RDS          | Managed database  |
-| IAM          | Authentication and authorization |
-| VPC          | Private network setup   |
-| ELB          | Load balancing    |
-| Auto Scaling | Automatic server scaling |
-| Lambda       | Serverless computing        |
-| CloudWatch   | Monitoring        |
-| CloudTrail   | Auditing          |
-| Route 53     | DNS management               |
-| ECS/EKS      | Containers        |
-| CloudFront   | CDN               |
+* Contains **OS + software + configuration**
+* Can be **custom or public**
+* Used to launch multiple identical servers
 
+**How it works:**
+You select an AMI → AWS creates an EC2 instance using that image → same environment is replicated.
 
-```yaml
-Services:
-  - EC2: Application hosting
-  - S3: Images, videos, backups
-  - RDS: MySQL/PostgreSQL database
-  - Lambda: Background jobs
-  - CloudFront: CDN
-  - CloudWatch: Monitoring
-```
+**Example:**
+Using a **Linux AMI with Java + Tomcat installed** to launch multiple servers.
 
 ---
 
-# 3. Difference Between EC2 and S3
+**4. What is EC2?**
+**EC2 (Elastic Compute Cloud)** is a service that provides **virtual servers in the cloud** to run applications.
 
-**EC2 (Elastic Compute Cloud)** is a virtual server used to run applications and services.
+**Key Features:**
 
-**S3 (Simple Storage Service)** is an object storage service used to store files, images, videos, backups, and logs.
+* **Resizable compute capacity**
+* Multiple instance types (CPU, memory optimized)
+* Secure via **security groups**
+* Auto scaling support
 
-In simple terms, **EC2 is for computing**, while **S3 is for storage**.
+**How it works:**
+You choose an AMI, select instance type, configure storage/network, and launch a virtual server.
 
-| Feature   | EC2                             | S3                    |
-| --------- | ------------------------------- | --------------------- |
-| Purpose   | Run applications                | Store files           |
-| Type      | Virtual Server                  | Object Storage        |
-| OS Access | Yes                             | No                    |
-| Use Cases | Spring Boot apps, Microservices | Images, Backups, Logs |
-| Scaling   | Auto Scaling available          | Automatically scales  |
-
-**EC2 Example**
-
-Run a Spring Boot application:
-
-```bash
-java -jar employee-service.jar
-```
-
-The application runs on an EC2 server.
+**Example:**
+Deploying a **Spring Boot application** on an EC2 Linux instance.
 
 ---
 
-**S3 Example**
+**5. What is AWS Lambda?**
+**AWS Lambda** is a **serverless compute service** that runs code without provisioning servers.
 
-Store a file in an S3 bucket:
+**Key Features:**
+
+* **No server management**
+* **Event-driven execution**
+* **Auto scaling**
+* Pay only for execution time
+
+**How it works:**
+You upload code → define trigger (API Gateway, S3, etc.) → Lambda runs code when event occurs.
+
+**Example (Java Lambda):**
 
 ```java
-PutObjectRequest request = PutObjectRequest.builder()
-        .bucket("my-bucket")
-        .key("resume.pdf")
-        .build();
-
-s3Client.putObject(request, Paths.get("resume.pdf"));
-```
-
-The file is stored in S3 and can be accessed later.
-
----
-
-**Real-World Scenario**
-
-* **EC2** hosts your Spring Boot application.
-* **S3** stores user-uploaded files, images, reports, and backups.
-
-Example:
-
-```text
-User Uploads Image
-        ↓
-Spring Boot App (EC2)
-        ↓
-Store Image in S3
-```
-
-
----
-
-# 4. What is IAM?
-
-**IAM (Identity and Access Management)** controls access to AWS resources securely.
-
-Using IAM we can:
-
-* Create users and roles
-* Assign permissions
-* Restrict access
-* Improve security
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Effect": "Allow",
-    "Action": [
-      "s3:GetObject",
-      "s3:PutObject"
-    ],
-    "Resource": "arn:aws:s3:::my-bucket/*"
-  }]
-}
-```
-
----
-
-# 5. What is AMI?
-
-**AMI (Amazon Machine Image)** is a template used to launch EC2 instances.
-
-It contains:
-
-* Operating System
-* Installed software
-* Configurations
-* Application dependencies
-
-```bash
-# Create AMI
-
-aws ec2 create-image \
-  --instance-id i-123456789 \
-  --name "MyApp-AMI"
-
-# Launch EC2 from AMI
-
-aws ec2 run-instances \
-  --image-id ami-123456 \
-  --instance-type t2.micro
-```
-
----
-
-# 6. AWS Region and Availability Zone
-
-| Region              | Availability Zone         |
-| ------------------- | ------------------------- |
-| Geographic location | Data center inside region |
-| Example: us-east-1  | Example: us-east-1a       |
-
-Availability Zones improve:
-
-* High availability
-* Fault tolerance
-* Disaster recovery
-
-```javascript
-const config = {
-  region: 'us-east-1',
-  availabilityZones: [
-    'us-east-1a',
-    'us-east-1b'
-  ]
-};
-```
-
----
-
-# 7. What is VPC?
-
-**VPC (Virtual Private Cloud)** is a private network inside AWS.
-
-Using VPC we can control:
-
-* IP ranges
-* Subnets
-* Routing
-* Security
-
-```bash
-# Create VPC
-
-aws ec2 create-vpc --cidr-block 10.0.0.0/16
-```
-
----
-
-# 8. Public vs Private Subnet
-
-| Public Subnet         | Private Subnet            |
-| --------------------- | ------------------------- |
-| Internet accessible   | No direct internet access |
-| Used for web servers  | Used for databases        |
-| Uses Internet Gateway | Uses NAT Gateway          |
-
-```yaml
-VPC: 10.0.0.0/16
-
-Public Subnet:
-  - Load Balancer
-  - Web Servers
-
-Private Subnet:
-  - Application Servers
-  - Databases
-```
-
----
-
-# 9. What is ELB?
-
-**Elastic Load Balancer (ELB)** distributes traffic across multiple servers.
-
-Benefits:
-
-* High availability
-* Better performance
-* Fault tolerance
-* Health checks
-
-```javascript
-app.get('/health', (req, res) => {
-  res.status(200).send('OK');
-});
-```
-
----
-
-# 10. What is Auto Scaling?
-
-Auto Scaling is a cloud feature that automatically increases or decreases the number of application instances based on traffic, CPU usage, memory usage, or other metrics. It helps maintain performance during high load and reduces cost during low traffic.
-
-Benefits:
-
-* Handles high traffic
-* Reduces cost
-* Improves availability
-
-```json
-{
-  "MinSize": 2,
-  "MaxSize": 10,
-  "DesiredCapacity": 3
-}
-```
-Suppose your application normally runs with **2 servers**.
-
-* If CPU usage goes above **80%**, Auto Scaling adds more servers.
-* If CPU usage drops below **30%**, Auto Scaling removes extra servers.
-
-```text
-Normal Traffic:
-2 Instances
-
-High Traffic:
-2 → 4 → 6 Instances
-
-Low Traffic:
-6 → 4 → 2 Instances
-```
-
-
-```yaml
-Min Instances: 2
-Desired Instances: 2
-Max Instances: 10
-
-Scale Out:
-CPU > 80% for 5 minutes
-
-Scale In:
-CPU < 30% for 10 minutes
-```
-
----
-
-# 11. Deploying Spring Boot Application on AWS
-
-Common deployment methods:
-
-1. EC2
-2. Elastic Beanstalk
-3. ECS/EKS using Docker
-4. AWS Lambda
-
-Most common:
-
-* EC2 for full control
-* Elastic Beanstalk for easier deployment
-
-```bash
-# Build Spring Boot app
-
-mvn clean package
-
-# Run application
-
-java -jar myapp.jar
-```
-
----
-
-# 12. What is Elastic Beanstalk?
-
-Elastic Beanstalk is a Platform as a Service (PaaS).
-
-AWS automatically manages:
-
-* EC2
-* Load Balancer
-* Auto Scaling
-* Monitoring
-
-You only deploy your code.
-
-```bash
-eb init
-eb create production-env
-eb deploy
-```
-
----
-
-# 13. What is AWS Lambda?
-
-Lambda is a serverless service where AWS runs code without managing servers.
-
-Benefits:
-
-* No server management
-* Pay only for execution
-* Automatic scaling
-
-```javascript
-exports.handler = async (event) => {
-
-  return {
-    statusCode: 200,
-    body: 'Hello from Lambda'
-  };
-};
-```
-
----
-
-# 14. What is Containerization?
-
-Containerization packages application code with dependencies using Docker.
-
-AWS container services:
-
-| Service | Purpose                     |
-| ------- | --------------------------- |
-| ECS     | AWS container orchestration |
-| EKS     | Kubernetes service          |
-| Fargate | Serverless containers       |
-
-```dockerfile
-FROM openjdk:17-slim
-
-COPY target/app.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
----
-
-# 15. EC2 vs Lambda
-
-
-**EC2** is a virtual server where we manage the operating system, runtime, and application ourselves. It runs continuously.
-
-**Lambda** is a serverless service where AWS manages the infrastructure, and our code runs only when an event triggers it.
-
-Use **EC2** for long-running applications and full server control. Use **Lambda** for event-driven, short-lived tasks.
-
-
-| Feature           | EC2                     | Lambda             |
-| ----------------- | ----------------------- | ------------------ |
-| Server Management | We manage               | AWS manages        |
-| Runtime Duration  | Continuous              | Runs on demand     |
-| Scaling           | Manual/Auto Scaling     | Automatic          |
-| Billing           | Per running instance    | Per execution time |
-| Best For          | Web apps, Microservices | Event-driven tasks |
-
----
-
-**EC2 Example**
-
-A Spring Boot application running 24/7 on an EC2 server:
-
-```bash
-java -jar employee-service.jar
-```
-
-* Server is always running.
-* You manage OS, patches, memory, and deployments.
-
-
-**Lambda Example**
-
-A Lambda function triggered when a file is uploaded to S3:
-
-```java
-public class FileProcessor {
-    public String handleRequest(String fileName) {
-        return "Processing file: " + fileName;
+public class HelloLambda implements RequestHandler<String, String> {
+    @Override
+    public String handleRequest(String input, Context context) {
+        return "Hello " + input;
     }
 }
 ```
 
-* Runs only when triggered.
-* Stops automatically after execution.
+---
 
-✅ **When to Use EC2**
+# **2. IAM & Security**
 
-* Spring Boot Microservices
-* Long-running applications
-* Custom server configurations
+**6. What is IAM?**
+**IAM (Identity and Access Management)** is an AWS service used to **manage users, groups, roles, and permissions** securely.
 
-✅ **When to Use Lambda**
+**Key Features:**
 
-* File processing
-* Scheduled jobs
-* API backends with unpredictable traffic
-* Event-driven workflows
+* **Centralized access control**
+* **Fine-grained permissions**
+* **Secure authentication & authorization**
+* **Supports MFA**
+
+**How it works:**
+You create **users/groups/roles** and attach **policies** to control what resources they can access in AWS.
+
+**Example:**
+Giving a developer access only to **S3 read-only** instead of full AWS access.
 
 ---
 
-# 16. What is Amazon S3?
+**7. What is IAM Role?**
+An **IAM Role** is an AWS identity with **temporary permissions** that can be assumed by **users, services, or applications**.
 
-S3 is object storage used for:
+**Key Features:**
 
-* Images
-* Videos
-* Backups
-* Static websites
-* Logs
+* **No long-term credentials**
+* Used by **AWS services (EC2, Lambda)**
+* Supports **cross-account access**
 
-Features:
+**How it works:**
+A service (like EC2) assumes a role → gets **temporary security credentials** → accesses AWS resources.
 
-* Highly scalable
-* Durable
-* Secure
-
-```javascript
-await s3.putObject({
-  Bucket: 'my-bucket',
-  Key: 'photo.jpg',
-  Body: fileBuffer
-}).promise();
-```
+**Example:**
+EC2 accessing **S3 bucket** without storing access keys.
 
 ---
 
-# 17. Difference Between S3, EBS, and EFS
+**8. What is IAM Policy?**
+An **IAM Policy** is a **JSON document** that defines **permissions (allow/deny)** for AWS resources.
 
-| Service | Type                | Usage         |
-| ------- | ------------------- | ------------- |
-| S3      | Object storage      | Files         |
-| EBS     | Block storage       | EC2 disks     |
-| EFS     | Shared file storage | Shared access |
+**Key Features:**
 
----
+* Written in **JSON format**
+* Defines **Allow/Deny actions**
+* Attached to **users, groups, roles**
 
-# 18. What is S3 Bucket Policy?
+**How it works:**
+Policy is evaluated when a request is made → AWS checks if action is allowed or denied.
 
-Bucket policy controls access to S3 buckets.
-
-Example:
-
-* Public read access
-* Restrict IP access
-* Cross-account access
+**Example Policy (S3 Read Only):**
 
 ```json
 {
-  "Effect": "Allow",
-  "Principal": "*",
-  "Action": "s3:GetObject"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::my-bucket/*"
+    }
+  ]
 }
 ```
 
 ---
 
-# 19. What is Amazon RDS?
+**9. What is MFA in AWS?**
+**MFA (Multi-Factor Authentication)** adds an extra layer of security requiring **password + second verification factor**.
 
-RDS is a managed relational database service.
+**Key Features:**
 
-AWS handles:
+* **Two-step authentication**
+* Supports **virtual/hardware devices**
+* Prevents unauthorized access even if password is stolen
 
-* Backups
-* Patching
-* Scaling
-* Monitoring
-* Failover
+**How it works:**
+User logs in with password → enters **OTP from MFA device** → access granted.
 
-Supported databases:
-
-* MySQL
-* PostgreSQL
-* Oracle
-* SQL Server
-* MariaDB
-* Aurora
-
-```python
-connection = pymysql.connect(
-    host='mydb.rds.amazonaws.com',
-    user='admin',
-    password='password'
-)
-```
+**Example:**
+AWS Console login using password + **Google Authenticator OTP**.
 
 ---
 
-# 20. What is Multi-AZ?
+**10. What is AWS STS?**
+**AWS STS (Security Token Service)** provides **temporary security credentials** for AWS access.
 
-Multi-AZ creates a standby database in another Availability Zone.
+**Key Features:**
 
-Benefits:
+* Issues **temporary credentials**
+* Used with **IAM roles**
+* Supports **cross-account access**
+* Short-lived security tokens
 
+**How it works:**
+A user/service requests STS → receives **temporary access keys** → uses them to access AWS resources.
+
+**Example (Java STS assume role):**
+
+```java id="sts_example"
+AWSSecurityTokenService stsClient = AWSSecurityTokenServiceClientBuilder.defaultClient();
+
+AssumeRoleRequest request = new AssumeRoleRequest()
+        .withRoleArn("arn:aws:iam::123456789012:role/MyRole")
+        .withRoleSessionName("session1");
+
+AssumeRoleResult response = stsClient.assumeRole(request);
+
+Credentials creds = response.getCredentials();
+System.out.println(creds.getAccessKeyId());
+```
+
+
+---
+
+# **3. Compute Services**
+
+**11. What is EC2 Auto Scaling?**
+**EC2 Auto Scaling** is an AWS service that automatically **adds or removes EC2 instances** based on demand to maintain performance and optimize cost.
+
+**Key Features:**
+
+* **Automatic scaling (up/down)**
+* **High availability & fault tolerance**
+* **Cost optimization**
+* Works with **CloudWatch metrics**
+
+**How it works:**
+You define a **scaling group + policies (CPU, memory, requests)** → AWS monitors load → automatically launches or terminates EC2 instances.
+
+**Example:**
+During high traffic (e.g., sale event), EC2 instances increase automatically.
+
+---
+
+**12. What is Elastic Beanstalk?**
+**AWS Elastic Beanstalk** is a **Platform as a Service (PaaS)** that deploys and manages applications automatically.
+
+**Key Features:**
+
+* **Easy deployment (upload code only)**
+* Manages **EC2, load balancer, scaling**
+* Supports multiple platforms (**Java, Node.js, Python**)
+* Built-in monitoring
+
+**How it works:**
+You upload application code → Beanstalk automatically provisions infrastructure → deploys and manages application lifecycle.
+
+**Example:**
+Deploying a **Spring Boot app without manually creating EC2 instances**.
+
+---
+
+**13. What is ECS?**
+**Amazon ECS (Elastic Container Service)** is a **container orchestration service** to run **Docker containers** on AWS.
+
+**Key Features:**
+
+* Runs **Docker containers**
+* Integrated with **EC2 or Fargate**
+* High scalability
+* Deep AWS integration
+
+**How it works:**
+You define a **task definition (container config)** → ECS schedules containers on EC2/Fargate → manages lifecycle.
+
+**Example:**
+Running a **microservice in a Docker container on ECS cluster**.
+
+---
+
+**14. What is EKS?**
+**Amazon EKS (Elastic Kubernetes Service)** is a **managed Kubernetes service** to run and manage **containerized applications**.
+
+**Key Features:**
+
+* Fully managed **Kubernetes control plane**
+* Auto scaling & self-healing
+* Works with Kubernetes tools
 * High availability
-* Automatic failover
-* Disaster recovery
 
-```bash
-aws rds modify-db-instance \
-  --db-instance-identifier mydb \
-  --multi-az
+**How it works:**
+You define Kubernetes objects (pods, deployments) → EKS manages cluster control plane → runs workloads on worker nodes.
+
+**Example:**
+Deploying a **Spring Boot microservice using Kubernetes deployment YAML**.
+
+---
+
+**15. What is Fargate?**
+**AWS Fargate** is a **serverless compute engine for containers** used with ECS and EKS.
+
+**Key Features:**
+
+* **No server management**
+* Pay per **container execution**
+* Auto scaling
+* Works with **ECS & EKS**
+
+**How it works:**
+You define container task → Fargate runs it without provisioning EC2 → AWS manages infrastructure.
+
+**Example (ECS Task Definition using Fargate):**
+
+```json id="fargate_task"
+{
+  "family": "my-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "containerDefinitions": [
+    {
+      "name": "my-app",
+      "image": "myrepo/myapp:latest",
+      "portMappings": [
+        {
+          "containerPort": 8080
+        }
+      ]
+    }
+  ]
+}
 ```
 
+
 ---
 
-# 21. What is Read Replica?
+# **4. Storage Services**
 
-Read Replica is a read-only copy of a database.
+**16. What is Amazon S3?**
+**Amazon S3 (Simple Storage Service)** is an AWS service used to store **objects (files, images, videos, backups)** in a highly scalable and durable way.
 
-Used for:
+**Key Features:**
 
-* Scaling read traffic
-* Reporting
-* Analytics
+* **Object storage (bucket-based)**
+* **Highly durable (11 9’s durability)**
+* **Scalable & secure**
+* Supports **versioning & lifecycle rules**
 
-```javascript
-// Write to primary DB
-primaryDB.query("INSERT INTO users VALUES (...)");
+**How it works:**
+You create a **bucket** → upload objects (files) → access via URL or AWS SDK.
 
-// Read from replica
-replicaDB.query("SELECT * FROM users");
+**Example:**
+Storing **user profile images or application backups**.
+
+---
+
+**17. What is EBS?**
+**EBS (Elastic Block Store)** provides **persistent block storage** for EC2 instances.
+
+**Key Features:**
+
+* **Block-level storage**
+* **Persistent data (even if EC2 stops)**
+* High performance (**SSD/HDD options**)
+* Attached to **single EC2 instance at a time**
+
+**How it works:**
+You create an EBS volume → attach it to EC2 → OS treats it like a **hard disk**.
+
+**Example:**
+Storing **database files on EC2 instance**.
+
+---
+
+**18. What is EFS?**
+**EFS (Elastic File System)** is a **shared file storage system** for multiple EC2 instances.
+
+**Key Features:**
+
+* **Shared storage across instances**
+* **Auto scaling storage**
+* Fully managed
+* Supports **Linux-based systems**
+
+**How it works:**
+You create an EFS file system → mount it on multiple EC2 instances → all instances access same data.
+
+**Example:**
+Shared uploads folder for **multiple web servers**.
+
+---
+
+**19. What is S3 Versioning?**
+**S3 Versioning** is a feature that keeps **multiple versions of an object** in a bucket.
+
+**Key Features:**
+
+* Stores **old versions of files**
+* Protects against **accidental deletion/overwrite**
+* Enables **data recovery**
+
+**How it works:**
+When versioning is enabled → every update creates a **new object version instead of replacing old one**.
+
+**Example:**
+Recovering an accidentally deleted **configuration file**.
+
+---
+
+**20. What is S3 Lifecycle Policy?**
+**S3 Lifecycle Policy** automatically manages objects by **moving or deleting them based on rules and time**.
+
+**Key Features:**
+
+* Automates **storage cost optimization**
+* Moves data to **cheaper storage classes**
+* Can **delete expired objects**
+
+**How it works:**
+You define rules → AWS applies them based on object age or conditions.
+
+**Example Policy (JSON):**
+
+```json id="s3_lifecycle"
+{
+  "Rules": [
+    {
+      "ID": "MoveToGlacier",
+      "Status": "Enabled",
+      "Prefix": "",
+      "Transitions": [
+        {
+          "Days": 30,
+          "StorageClass": "GLACIER"
+        }
+      ],
+      "Expiration": {
+        "Days": 365
+      }
+    }
+  ]
+}
 ```
 
----
-
-# 22. What is Internet Gateway?
-
-Internet Gateway allows communication between VPC and internet.
-
-```bash
-aws ec2 create-internet-gateway
-```
 
 ---
 
-# 23. What is NAT Gateway?
+# **5. Networking & VPC**
 
-NAT Gateway allows private subnet resources to access internet securely.
+**21. What is VPC?**
+**VPC (Virtual Private Cloud)** is a **logically isolated virtual network** in AWS where you can launch and control AWS resources.
 
-Example:
+**Key Features:**
 
-* Download patches
-* Software updates
+* **Complete network isolation**
+* Control over **IP ranges (CIDR)**
+* Supports **subnets, routing, gateways**
+* Secure cloud networking
 
-But internet cannot directly access private resources.
+**How it works:**
+You create a VPC → define IP range → create subnets, route tables, and gateways → deploy resources inside it.
 
----
-
-# 24. Security Group vs NACL
-
-| Security Group   | NACL                 |
-| ---------------- | -------------------- |
-| Instance level   | Subnet level         |
-| Stateful         | Stateless            |
-| Allow rules only | Allow and Deny rules |
+**Example:**
+Running a **secure application network in AWS isolated from other users**.
 
 ---
 
-# 25. What is Route 53?
+**22. What is Subnet?**
+A **Subnet** is a **subdivision of a VPC** used to group resources in specific IP ranges.
 
-Route 53 is AWS DNS service.
+**Key Features:**
 
-Features:
+* Public or **private subnets**
+* Defined by **CIDR block**
+* Used for resource organization
+* Improves **security & architecture design**
+
+**How it works:**
+VPC is divided into subnets → resources like EC2 are placed in subnets based on accessibility.
+
+**Example:**
+Placing **web servers in public subnet and database in private subnet**.
+
+---
+
+**23. What is Internet Gateway?**
+An **Internet Gateway (IGW)** is a component that allows **communication between VPC and the internet**.
+
+**Key Features:**
+
+* Enables **internet access for public subnets**
+* Highly available
+* Horizontally scalable
+* Attached to **VPC**
+
+**How it works:**
+VPC attaches IGW → route table directs traffic → EC2 in public subnet accesses internet.
+
+**Example:**
+Allowing users to access a **public website hosted on EC2**.
+
+---
+
+**24. What is NAT Gateway?**
+A **NAT Gateway** allows **private subnet instances to access the internet securely without being exposed**.
+
+**Key Features:**
+
+* Outbound internet access only
+* Located in **public subnet**
+* Managed & scalable
+* Secure for private resources
+
+**How it works:**
+Private EC2 → sends request to NAT Gateway → NAT accesses internet → response returned back.
+
+**Example:**
+Private EC2 downloading **software updates from the internet**.
+
+---
+
+**25. What is Route 53?**
+**Amazon Route 53** is a **scalable DNS (Domain Name System) service** that routes users to applications.
+
+**Key Features:**
 
 * Domain registration
-* DNS routing
+* **DNS routing (latency, failover, weighted)**
+* High availability
 * Health checks
-* Traffic routing
 
-```javascript
-{
-  type: 'A',
-  name: 'myapp.com',
-  value: '54.123.45.67'
-}
+**How it works:**
+User enters domain → Route 53 resolves DNS → routes traffic to correct AWS resource.
+
+**Example:**
+Mapping **[www.myapp.com](http://www.myapp.com) → EC2 Load Balancer**.
+
+---
+
+**26. What is Security Group?**
+A **Security Group** is a **virtual firewall for EC2 instances** controlling inbound and outbound traffic.
+
+**Key Features:**
+
+* Works at **instance level**
+* **Allow rules only (no deny rules)**
+* Stateful (return traffic allowed automatically)
+* Multiple rules supported
+
+**How it works:**
+You define rules → AWS filters traffic before reaching EC2 instance.
+
+**Example:**
+Allowing **HTTP (80) and SSH (22)** access to a web server.
+
+---
+
+**27. What is NACL?**
+**NACL (Network Access Control List)** is a **subnet-level firewall** that controls inbound and outbound traffic.
+
+**Key Features:**
+
+* Works at **subnet level**
+* Supports **Allow and Deny rules**
+* Stateless (both inbound & outbound rules needed)
+* Rule evaluation order matters
+
+**How it works:**
+Traffic enters subnet → NACL checks rules → allows or denies traffic.
+
+**Example:**
+Blocking traffic from a **specific IP range at subnet level**.
+
+
+---
+
+# **6. Load Balancing**
+
+**28. What is ELB?**
+**ELB (Elastic Load Balancer)** is an AWS service that **distributes incoming traffic across multiple targets (EC2 instances, containers, IPs)** to improve **availability and reliability**.
+
+**Key Features:**
+
+* **Traffic distribution (load balancing)**
+* Improves **fault tolerance**
+* Supports **health checks**
+* Auto scaling integration
+
+**How it works:**
+User request → ELB receives traffic → routes to healthy backend instances → ensures no single server is overloaded.
+
+**Example:**
+A website handling traffic across **multiple EC2 instances** using ELB.
+
+---
+
+**29. What are types of load balancers in AWS?**
+AWS provides **three main types of Elastic Load Balancers**:
+
+**1. ALB (Application Load Balancer)**
+
+* Works at **Layer 7 (HTTP/HTTPS)**
+* Best for **web applications & microservices**
+* Supports **path-based routing**
+
+**2. NLB (Network Load Balancer)**
+
+* Works at **Layer 4 (TCP/UDP)**
+* Ultra **high performance & low latency**
+* Best for **real-time apps**
+
+**3. CLB (Classic Load Balancer)**
+
+* Legacy load balancer
+* Works at **both Layer 4 & 7**
+* Not recommended for new applications
+
+**How it works:**
+Traffic enters ELB → ELB chooses target based on type and routing rules → forwards request to healthy instance.
+
+---
+
+**30. What is the difference between ALB and NLB?**
+
+**Application Load Balancer (ALB)** vs **Network Load Balancer (NLB)**
+
+**ALB (Application Load Balancer):**
+
+* Works at **Layer 7 (HTTP/HTTPS)**
+* Supports **advanced routing (path, host-based)**
+* Best for **web apps & APIs**
+* Slower compared to NLB but feature-rich
+
+**NLB (Network Load Balancer):**
+
+* Works at **Layer 4 (TCP/UDP)**
+* Handles **millions of requests per second**
+* Ultra **low latency**
+* Best for **gaming, real-time, high throughput apps**
+
+**Key Difference:**
+
+* **ALB = Smart routing (application-aware)**
+* **NLB = Fast routing (network-level performance)**
+
+**How it works:**
+Client request → ALB/NLB receives traffic → routes to target group based on rules (ALB) or IP/port (NLB).
+
+**Example:**
+
+* **ALB:** Routing `/login` → auth service, `/orders` → order service
+* **NLB:** Real-time trading system handling millions of TCP requests quickly
+
+
+---
+
+# **7. Databases**
+
+**31. What is Amazon RDS?**
+**Amazon RDS (Relational Database Service)** is a **managed relational database service** that supports engines like **MySQL, PostgreSQL, Oracle, SQL Server, and MariaDB**.
+
+**Key Features:**
+
+* **Fully managed database service**
+* Automated **backups & patching**
+* **High availability (Multi-AZ support)**
+* Easy **scaling & monitoring**
+
+**How it works:**
+You choose a database engine → AWS provisions DB instance → you connect using standard SQL tools → AWS manages infrastructure.
+
+**Example:**
+Running a **Spring Boot application with MySQL database on RDS**.
+
+---
+
+**32. What is DynamoDB?**
+**Amazon DynamoDB** is a **fully managed NoSQL database** that provides **fast and predictable performance at any scale**.
+
+**Key Features:**
+
+* **NoSQL (key-value & document database)**
+* **Serverless and highly scalable**
+* Millisecond **low latency**
+* Automatic scaling
+
+**How it works:**
+You create a **table with primary key** → store items (JSON-like data) → AWS handles scaling and performance.
+
+**Example:**
+Storing **user sessions or real-time application data**.
+
+**Example (Java AWS SDK):**
+
+```java id="dynamodb_example"
+DynamoDbClient dynamoDb = DynamoDbClient.create();
+
+Map<String, AttributeValue> item = new HashMap<>();
+item.put("UserId", AttributeValue.builder().s("101").build());
+item.put("Name", AttributeValue.builder().s("John").build());
+
+PutItemRequest request = PutItemRequest.builder()
+        .tableName("Users")
+        .item(item)
+        .build();
+
+dynamoDb.putItem(request);
 ```
 
 ---
 
-# 26. What is CloudWatch?
+**33. What is Multi-AZ deployment?**
+**Multi-AZ (Availability Zone) deployment** is a **high availability feature** where AWS automatically replicates data to a **standby instance in another AZ**.
 
-CloudWatch monitors AWS resources.
+**Key Features:**
 
-Used for:
+* **Automatic failover**
+* Synchronous data replication
+* High **availability & durability**
+* Zero manual intervention during failure
 
-* Metrics
-* Logs
-* Alerts
-* Dashboards
+**How it works:**
+Primary database writes data → data is synchronously replicated to standby in another AZ → if primary fails, standby becomes active automatically.
 
-```javascript
-await cloudwatch.putMetricData({
-  Namespace: 'MyApp',
-  MetricData: [{
-    MetricName: 'OrdersProcessed',
-    Value: 100
-  }]
-}).promise();
+**Example:**
+A production **RDS MySQL database running in Multi-AZ for high availability**.
+
+---
+
+**34. What is Read Replica?**
+A **Read Replica** is a **read-only copy of a primary database** used to handle **read-heavy traffic and improve performance**.
+
+**Key Features:**
+
+* **Asynchronous replication**
+* Improves **read scalability**
+* Offloads traffic from primary DB
+* Can be promoted to standalone DB
+
+**How it works:**
+Primary DB handles writes → changes are copied to replica → applications send read queries to replica.
+
+
+---
+
+# **8. Messaging & Event-Driven**
+
+**35. What is SQS?**
+**Amazon SQS (Simple Queue Service)** is a **fully managed message queue service** used to decouple distributed systems.
+
+**Key Features:**
+
+* **Message queuing (producer-consumer model)**
+* **Decouples microservices**
+* Supports **standard & FIFO queues**
+* Automatically scales
+
+**How it works:**
+Producer sends message → message stored in SQS queue → consumer reads and processes message asynchronously.
+
+**Example:**
+Order service sends order events → payment service processes them from SQS.
+
+**Example (Java AWS SDK):**
+
+```java id="sqs_example"
+SqsClient sqs = SqsClient.create();
+
+SendMessageRequest request = SendMessageRequest.builder()
+        .queueUrl("https://sqs.us-east-1.amazonaws.com/123456789/orders")
+        .messageBody("OrderPlaced")
+        .build();
+
+sqs.sendMessage(request);
 ```
 
 ---
 
-# 27. What is CloudTrail?
+**36. What is SNS?**
+**Amazon SNS (Simple Notification Service)** is a **pub/sub messaging service** used to send notifications to multiple subscribers.
 
-CloudTrail records all AWS API activities.
+**Key Features:**
 
-Used for:
+* **Publish-subscribe model**
+* Supports **email, SMS, HTTP, SQS, Lambda**
+* Real-time notifications
+* Fan-out messaging
 
-* Auditing
-* Security monitoring
-* Troubleshooting
+**How it works:**
+Publisher sends message → SNS topic → message delivered to all subscribers.
 
-```json
-{
-  "eventName": "DeleteBucket",
-  "userName": "john.doe"
-}
+**Example:**
+Order confirmation sent via **email + SMS + Lambda processing**.
+
+**Example (Java AWS SDK):**
+
+```java id="sns_example"
+SnsClient sns = SnsClient.create();
+
+PublishRequest request = PublishRequest.builder()
+        .topicArn("arn:aws:sns:us-east-1:123456789:OrderTopic")
+        .message("Order Confirmed")
+        .build();
+
+sns.publish(request);
 ```
 
 ---
 
-# 28. IAM User vs IAM Role
+**37. What is EventBridge?**
+**Amazon EventBridge** is a **serverless event bus service** used to connect applications using **events in real time**.
 
-| IAM User           | IAM Role              |
-| ------------------ | --------------------- |
-| Permanent identity | Temporary identity    |
-| Used by humans     | Used by services      |
-| Uses access keys   | Temporary credentials |
+**Key Features:**
+
+* **Event-driven architecture**
+* Integrates with **AWS services & SaaS apps**
+* Rule-based routing
+* Fully serverless
+
+**How it works:**
+Event source generates event → EventBridge receives it → routes to target services based on rules.
+
+**Example:**
+S3 file upload event triggers **Lambda processing pipeline**.
 
 ---
 
-# 29. High Availability Architecture in AWS
+**38. What is Kinesis?**
+**Amazon Kinesis** is a **real-time data streaming service** used to collect, process, and analyze streaming data.
 
-A highly available AWS architecture includes:
+**Key Features:**
 
-* Multiple Availability Zones
-* Load Balancer
-* Auto Scaling
-* RDS Multi-AZ
-* S3 storage
-* CloudFront CDN
-* Route 53 health checks
+* **Real-time data streaming**
+* High throughput & scalability
+* Multiple services: **Kinesis Data Streams, Firehose, Analytics**
+* Low latency processing
 
-```yaml
-Route53
-  ↓
-CloudFront
-  ↓
-Application Load Balancer
-  ↓
-Auto Scaling Group
-  ├── EC2 - AZ1
-  ├── EC2 - AZ2
-  └── EC2 - AZ3
-  ↓
-RDS Multi-AZ
-  ↓
-S3 Storage
+**How it works:**
+Producers send data streams → Kinesis collects and stores data → consumers process data in real time.
+
+**Example:**
+Processing **clickstream data from a website in real time**.
+
+**Example (Java AWS SDK):**
+
+```java id="kinesis_example"
+KinesisClient kinesis = KinesisClient.create();
+
+PutRecordRequest request = PutRecordRequest.builder()
+        .streamName("ClickStream")
+        .partitionKey("user1")
+        .data(SdkBytes.fromUtf8String("page_view"))
+        .build();
+
+kinesis.putRecord(request);
+```
+
+
+---
+
+# **9. Monitoring & Logging**
+
+**39. What is CloudWatch?**
+**Amazon CloudWatch** is a **monitoring and observability service** used to collect **metrics, logs, and alarms** from AWS resources and applications.
+
+**Key Features:**
+
+* Collects **metrics (CPU, memory, latency)**
+* Centralized **logging system**
+* **Alarms & notifications** (via SNS)
+* Dashboards for visualization
+
+**How it works:**
+AWS services send metrics/logs → CloudWatch stores and monitors them → triggers alarms if thresholds are breached.
+
+**Example:**
+Trigger an alert when **EC2 CPU usage > 80%**.
+
+**Example (AWS CLI):**
+
+```bash
+aws cloudwatch put-metric-alarm \
+  --alarm-name HighCPUAlarm \
+  --metric-name CPUUtilization \
+  --namespace AWS/EC2 \
+  --statistic Average \
+  --period 300 \
+  --threshold 80 \
+  --comparison-operator GreaterThanThreshold \
+  --evaluation-periods 2 \
+  --alarm-actions arn:aws:sns:us-east-1:123456789:NotifyMe
 ```
 
 ---
 
-# 30. Real-Time AWS Project Flow
+**40. What is CloudTrail?**
+**AWS CloudTrail** is a **governance and auditing service** that records **all API calls and actions** made within an AWS account.
 
-```text
-User Request
-    ↓
-Route 53
-    ↓
-CloudFront CDN
-    ↓
-Application Load Balancer
-    ↓
-Spring Boot Application (EC2/ECS)
-    ↓
-RDS Database
-    ↓
-S3 Storage
+**Key Features:**
+
+* Tracks **user activity & API calls**
+* Provides **audit and compliance logs**
+* Stores event history in **S3**
+* Integrates with **CloudWatch for alerts**
+
+**How it works:**
+User/service performs action → CloudTrail logs API request → stores logs in S3 → used for audit, security, and troubleshooting.
+
+**Example:**
+Tracking who **deleted an S3 bucket or modified IAM policies**.
+
+**Example (AWS CLI to enable trail):**
+
+```bash
+aws cloudtrail create-trail \
+  --name MyTrail \
+  --s3-bucket-name my-cloudtrail-logs
 ```
 
-Monitoring:
-
-* CloudWatch
-* CloudTrail
-
-Security:
-
-* IAM
-* Security Groups
-* VPC
-
-Scalability:
-
-* Auto Scaling
-* ELB
