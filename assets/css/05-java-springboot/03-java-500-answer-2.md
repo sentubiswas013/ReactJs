@@ -17017,7 +17017,7 @@ class CarService {
 Here, Spring reads the annotations and automatically creates the objects and injects the dependency.
 
 
-## 2. What is Spring Boot and How does it Works Internally(Lifecycle)?
+## 2. Spring Boot Lifecycle?
 
 
 
