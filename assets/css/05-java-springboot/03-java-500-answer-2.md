@@ -14714,8 +14714,6 @@ Card payment
 
 ## 1. What are design patterns?
 
-### **What are Design Patterns?**
-
 **Design Patterns** are **proven, reusable solutions** to common software design problems. They are **templates or best practices**, not complete code, that help developers write **clean, maintainable, and scalable** applications.
 
 **Key Features:**
@@ -14983,8 +14981,6 @@ class FactoryPatternDemo {
 
 ## 5. What is Observer pattern?
 
-### **Observer Pattern**
-
 The **Observer Pattern** is a **Behavioral Design Pattern** in which **one object (Subject)** automatically **notifies multiple dependent objects (Observers)** whenever its state changes. It establishes a **one-to-many relationship** between objects.
 
 **Key Features:**
@@ -15057,8 +15053,6 @@ public class Main {
 
 
 ## 6. What is Strategy pattern?
-
-### **Strategy Pattern**
 
 The **Strategy Pattern** is a **Behavioral Design Pattern** that defines a **family of algorithms**, encapsulates each one in a separate class, and allows them to be **interchanged at runtime** without changing the client code.
 
