@@ -1022,9 +1022,9 @@ aws cloudtrail create-trail \
 
 ---
 
-# **1. High Traffic Website Scaling**
+# ✅ **1. High Traffic Website Scaling**
 
-**Q1: Your website suddenly gets huge traffic spikes. How will you handle it in AWS?**
+## **Q1: Your website suddenly gets huge traffic spikes. How will you handle it in AWS?**
 
 In Amazon Web Services, this is handled using **automatic scaling + load distribution + caching**
 
@@ -1050,7 +1050,7 @@ In Amazon Web Services, this is handled using **automatic scaling + load distrib
 
 ---
 
-**Q2: How will you design auto scaling for unpredictable traffic patterns?**
+## **Q2: How will you design auto scaling for unpredictable traffic patterns?**
 
 Focus is on **dynamic scaling + predictive rules + performance metrics**
 
@@ -1076,7 +1076,7 @@ Focus is on **dynamic scaling + predictive rules + performance metrics**
 
 ---
 
-**Q3: What will you do if your application crashes during a flash sale event?**
+## **Q3: What will you do if your application crashes during a flash sale event?**
 
 This is handled using **high availability + rapid recovery + fault isolation**
 
@@ -1104,9 +1104,9 @@ This is handled using **high availability + rapid recovery + fault isolation**
 
 ---
 
-# **2. Database Performance Issue**
+# ✅ **2. Database Performance Issue**
 
-**Q1: Your RDS database is slow under heavy load. What will you do?**
+## **Q1: Your RDS database is slow under heavy load. What will you do?**
 
 In Amazon Web Services, slow database is handled using **monitoring + query optimization + scaling**
 
@@ -1133,7 +1133,7 @@ In Amazon Web Services, slow database is handled using **monitoring + query opti
 
 ---
 
-**Q2: How will you identify bottlenecks in a read-heavy database system?**
+## **Q2: How will you identify bottlenecks in a read-heavy database system?**
 
 Focus on **read scaling + query analysis + monitoring tools**
 
@@ -1147,7 +1147,7 @@ Focus on **read scaling + query analysis + monitoring tools**
 
 * All reads hitting **primary database**
 * No caching layer
-* Inefficient **queries or missing indexes**
+* Inefficient ## **Queries or missing indexes**
 
 **How to Resolve:**
 
@@ -1159,7 +1159,7 @@ Focus on **read scaling + query analysis + monitoring tools**
 
 ---
 
-**Q3: What changes will you make if writes are causing database lag?**
+## **Q3: What changes will you make if writes are causing database lag?**
 
 Focus is on **write optimization + scaling strategy + async processing**
 
@@ -1178,7 +1178,7 @@ Focus is on **write optimization + scaling strategy + async processing**
 **How to Resolve:**
 
 * Use **write optimization (batch inserts, bulk updates)**
-* Introduce **queue-based processing (SQS)** for async writes
+* Introduce ## **Queue-based processing (SQS)** for async writes
 * Optimize schema to reduce **lock contention**
 * Use **database partitioning/sharding** for scale
 * Consider **Aurora** for better write performance and scaling**
@@ -1186,9 +1186,9 @@ Focus is on **write optimization + scaling strategy + async processing**
 
 ---
 
-# **3. Server Failure Scenario**
+# ✅ **3. Server Failure Scenario**
 
-**Q1: One EC2 instance fails. How do you ensure application availability?**
+## **Q1: One EC2 instance fails. How do you ensure application availability?**
 
 In Amazon Web Services, availability is ensured using **redundancy + auto recovery + load balancing**
 
@@ -1214,7 +1214,7 @@ In Amazon Web Services, availability is ensured using **redundancy + auto recove
 
 ---
 
-**Q2: How will you design fault tolerance for EC2-based applications?**
+## **Q2: How will you design fault tolerance for EC2-based applications?**
 
 Focus is on **high availability architecture + redundancy + isolation**
 
@@ -1240,7 +1240,7 @@ Focus is on **high availability architecture + redundancy + isolation**
 
 ---
 
-**Q3: What happens if an entire Availability Zone goes down?**
+## **Q3: What happens if an entire Availability Zone goes down?**
 
 Handled using **multi-AZ resilience + failover + distributed architecture**
 
@@ -1267,9 +1267,9 @@ Handled using **multi-AZ resilience + failover + distributed architecture**
 
 ---
 
-# **4. Secure File Storage**
+# ✅ **4. Secure File Storage**
 
-**Q1: How do you securely store sensitive files in AWS?**
+## **Q1: How do you securely store sensitive files in AWS?**
 
 In Amazon Web Services, secure storage is achieved using **encryption + access control + monitoring**
 
@@ -1294,7 +1294,7 @@ In Amazon Web Services, secure storage is achieved using **encryption + access c
 
 ---
 
-**Q2: How will you control access to files stored in S3?**
+## **Q2: How will you control access to files stored in S3?**
 
 Focus is on **IAM + bucket policies + fine-grained permissions**
 
@@ -1320,7 +1320,7 @@ Focus is on **IAM + bucket policies + fine-grained permissions**
 
 ---
 
-**Q3: How do you prevent unauthorized downloads of sensitive data?**
+## **Q3: How do you prevent unauthorized downloads of sensitive data?**
 
 Focus is on **controlled access + encryption + monitoring**
 
@@ -1347,17 +1347,17 @@ Focus is on **controlled access + encryption + monitoring**
 
 ---
 
-# **5. Microservices Communication Problem**
+# ✅ **5. Microservices Communication Problem**
 
-**Q1: Services are tightly coupled and causing failures. How to fix?**
-**Q2: How will you decouple microservices in AWS architecture?**
-**Q3: What pattern will you use for asynchronous service communication?**
+## **Q1: Services are tightly coupled and causing failures. How to fix?**
+## **Q2: How will you decouple microservices in AWS architecture?**
+## **Q3: What pattern will you use for asynchronous service communication?**
 
 ---
 
-# **6. Sudden API Latency Increase**
+# ✅ **6. Sudden API Latency Increase**
 
-**Q1: Your API response time increases suddenly. How will you debug?**
+## **Q1: Your API response time increases suddenly. How will you debug?**
 
 In Amazon Web Services, API latency issues are handled using **observability + tracing + bottleneck isolation**
 
@@ -1383,7 +1383,7 @@ In Amazon Web Services, API latency issues are handled using **observability + t
 
 ---
 
-**Q2: How do you identify whether latency is caused by DB or service layer?**
+## **Q2: How do you identify whether latency is caused by DB or service layer?**
 
 Focus is on **distributed tracing + metric separation + query analysis**
 
@@ -1408,7 +1408,7 @@ Focus is on **distributed tracing + metric separation + query analysis**
 
 ---
 
-**Q3: What AWS tools will you use to analyze API performance issues?**
+## **Q3: What AWS tools will you use to analyze API performance issues?**
 
 Focus is on **monitoring + tracing + logging + diagnostics**
 
@@ -1435,9 +1435,9 @@ Focus is on **monitoring + tracing + logging + diagnostics**
 
 ---
 
-# **7. Disaster Recovery Strategy**
+# ✅ **7. Disaster Recovery Strategy**
 
-**Q1: How will you design a disaster recovery solution?**
+## **Q1: How will you design a disaster recovery solution?**
 
 In Amazon Web Services, Disaster Recovery (DR) is designed using **backup strategy + multi-region setup + failover automation**
 
@@ -1463,7 +1463,7 @@ In Amazon Web Services, Disaster Recovery (DR) is designed using **backup strate
 
 ---
 
-**Q2: What DR strategy will you choose for a critical banking application?**
+## **Q2: What DR strategy will you choose for a critical banking application?**
 
 Focus is on **low RTO + high availability + strong consistency**
 
@@ -1489,7 +1489,7 @@ Focus is on **low RTO + high availability + strong consistency**
 
 ---
 
-**Q3: How do you ensure minimal downtime during region failure?**
+## **Q3: How do you ensure minimal downtime during region failure?**
 
 Focus is on **automatic failover + replication + traffic redirection**
 
@@ -1516,17 +1516,17 @@ Focus is on **automatic failover + replication + traffic redirection**
 
 ---
 
-# **8. Cost Optimization Scenario**
+# ✅ **8. Cost Optimization Scenario**
 
-**Q1: Your AWS bill is very high. How do you reduce cost?**
-**Q2: How will you identify unused AWS resources?**
-**Q3: What strategies will you use to optimize EC2 and storage costs?**
+## **Q1: Your AWS bill is very high. How do you reduce cost?**
+## **Q2: How will you identify unused AWS resources?**
+## **Q3: What strategies will you use to optimize EC2 and storage costs?**
 
 ---
 
-# **9. File Upload System Design**
+# ✅ **9. File Upload System Design**
 
-**Q1: Design a scalable file upload system in AWS.**
+## **Q1: Design a scalable file upload system in AWS.**
 
 In Amazon Web Services, a scalable upload system is designed using **object storage + decoupled processing + auto scaling**
 
@@ -1552,7 +1552,7 @@ In Amazon Web Services, a scalable upload system is designed using **object stor
 
 ---
 
-**Q2: How will you handle large file uploads efficiently?**
+## **Q2: How will you handle large file uploads efficiently?**
 
 Focus is on **chunking + parallel upload + resumability**
 
@@ -1578,7 +1578,7 @@ Focus is on **chunking + parallel upload + resumability**
 
 ---
 
-**Q3: How will you ensure uploaded files are highly available and durable?**
+## **Q3: How will you ensure uploaded files are highly available and durable?**
 
 Focus is on **redundancy + replication + storage durability**
 
@@ -1605,9 +1605,9 @@ Focus is on **redundancy + replication + storage durability**
 
 ---
 
-# **10. Authentication Problem**
+# ✅ **10. Authentication Problem**
 
-**Q1: How do you secure user login for a web application in AWS?**
+## **Q1: How do you secure user login for a web application in AWS?**
 
 In Amazon Web Services, secure login is implemented using **authentication services + encryption + identity management**
 
@@ -1633,7 +1633,7 @@ In Amazon Web Services, secure login is implemented using **authentication servi
 
 ---
 
-**Q2: How will you implement role-based access control in AWS?**
+## **Q2: How will you implement role-based access control in AWS?**
 
 Focus is on **IAM roles + least privilege + policy-based access**
 
@@ -1659,7 +1659,7 @@ Focus is on **IAM roles + least privilege + policy-based access**
 
 ---
 
-**Q3: How do you enforce multi-factor authentication for users?**
+## **Q3: How do you enforce multi-factor authentication for users?**
 
 Focus is on **extra security layer + identity verification + IAM policies**
 
@@ -1686,11 +1686,11 @@ Focus is on **extra security layer + identity verification + IAM policies**
 
 ---
 
-# **11. Message Processing Delay**
+# ✅ **11. Message Processing Delay**
 
-**Q1: Messages are getting delayed in your system. What will you check?**
+## **Q1: Messages are getting delayed in your system. What will you check?**
 
-In Amazon Web Services, message delays are handled by checking **queue health + consumer performance + system throughput**
+In Amazon Web Services, message delays are handled by checking ## **Queue health + consumer performance + system throughput**
 
 **How to Identify:**
 
@@ -1714,13 +1714,13 @@ In Amazon Web Services, message delays are handled by checking **queue health + 
 
 ---
 
-**Q2: How will you troubleshoot SQS or SNS message bottlenecks?**
+## **Q2: How will you troubleshoot SQS or SNS message bottlenecks?**
 
 Focus is on **throughput analysis + consumer scaling + configuration tuning**
 
 **How to Identify:**
 
-* Growing **queue depth in SQS**
+* Growing ## **Queue depth in SQS**
 * SNS delivery delays or retries
 * High **failed message processing rates**
 
@@ -1740,7 +1740,7 @@ Focus is on **throughput analysis + consumer scaling + configuration tuning**
 
 ---
 
-**Q3: What causes consumer lag in distributed messaging systems?**
+## **Q3: What causes consumer lag in distributed messaging systems?**
 
 Focus is on **processing delay + imbalance + resource constraints**
 
@@ -1768,9 +1768,9 @@ Focus is on **processing delay + imbalance + resource constraints**
 
 ---
 
-# **12. Multi-Region Application Design**
+# ✅ **12. Multi-Region Application Design**
 
-**Q1: How do you deploy an application globally?**
+## **Q1: How do you deploy an application globally?**
 
 In Amazon Web Services, global deployment is achieved using **multi-region architecture + edge delivery + global traffic routing**
 
@@ -1796,7 +1796,7 @@ In Amazon Web Services, global deployment is achieved using **multi-region archi
 
 ---
 
-**Q2: How will you design failover between multiple AWS regions?**
+## **Q2: How will you design failover between multiple AWS regions?**
 
 Focus is on **disaster recovery + automated routing + redundancy**
 
@@ -1822,7 +1822,7 @@ Focus is on **disaster recovery + automated routing + redundancy**
 
 ---
 
-**Q3: How do you ensure data consistency in multi-region architecture?**
+## **Q3: How do you ensure data consistency in multi-region architecture?**
 
 Focus is on **replication strategy + consistency model + conflict handling**
 
