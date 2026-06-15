@@ -17188,37 +17188,21 @@ With `spring-boot-starter-web`, Spring Boot automatically:
 
 **How It Works (Application Startup):**
 
-1. **`main()` Method Starts**
+1. **`main()` Method Starts :** The application starts with `SpringApplication.run()`.
 
-   * The application starts with `SpringApplication.run()`.
+2. **Spring Boot Initializes :** Loads configuration from `application.properties` or `application.yml`.
 
-2. **Spring Boot Initializes**
+3. **Spring Container (ApplicationContext) is Created :** Creates and manages all **Beans**.
 
-   * Loads configuration from `application.properties` or `application.yml`.
+4. **Component Scanning :** Scans classes annotated with `@Component`, `@Service`, `@Repository`, and `@RestController`.
 
-3. **Spring Container (ApplicationContext) is Created**
+5. **Auto Configuration :** Configures required components automatically based on project dependencies.
 
-   * Creates and manages all **Beans**.
+6. **Dependency Injection :** Injects required dependencies into Beans using **`@Autowired`** or constructor injection.
 
-4. **Component Scanning**
+7. **Embedded Server Starts :** Starts the embedded **Tomcat/Jetty/Undertow** server and deploys the application.
 
-   * Scans classes annotated with `@Component`, `@Service`, `@Repository`, and `@RestController`.
-
-5. **Auto Configuration**
-
-   * Configures required components automatically based on project dependencies.
-
-6. **Dependency Injection**
-
-   * Injects required dependencies into Beans using **`@Autowired`** or constructor injection.
-
-7. **Embedded Server Starts**
-
-   * Starts the embedded **Tomcat/Jetty/Undertow** server and deploys the application.
-
-8. **Application is Ready**
-
-   * The application starts listening for incoming HTTP requests.
+8. **Application is Ready :** The application starts listening for incoming HTTP requests.
 
 **Request Processing Flow:**
 
