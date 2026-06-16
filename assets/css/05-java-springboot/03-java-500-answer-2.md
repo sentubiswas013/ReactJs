@@ -17294,7 +17294,7 @@ public class UserService {
 6. The response is sent back to the client as JSON or plain text.
 
 
-## 4. @Component vs @Bean?
+## 4. What is @Component vs @Bean?
 
 * **`@Component`**: An annotation used to tell **Spring** to automatically detect and create an object (bean) during **component scanning**.
 
@@ -17366,7 +17366,7 @@ public class AppConfig {
 }
 ```
 
-## 4. Bean vs Object?
+## 4. What is Bean and Object?
 
 An **Object** is any instance of a class created using the `new` keyword.
 
