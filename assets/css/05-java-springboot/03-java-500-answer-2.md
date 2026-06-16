@@ -2987,15 +2987,12 @@ class C implements A, B {
 * Establishes an **IS-A relationship**
 * Reduces **code duplication**
 * Improves **maintainability and scalability**
+* To avoid **repeated code writing**
+* To support **OOP principles like polymorphism**
 
 **How it works**
 A **child class inherits fields and methods of a parent class**, and can also **extend or override behavior**.
 
-**Why to use**
-
-* To avoid **repeated code writing**
-* To achieve **reusability and cleaner design**
-* To support **OOP principles like polymorphism**
 
 **When to use**
 
@@ -4953,18 +4950,7 @@ public void readFile() throws IOException {
 | Throws one exception object at a time | Can declare multiple exceptions   |
 | Followed by an exception object       | Followed by exception class names |
 
-**Why to Use**
 
-**`throw`**
-
-* To manually generate an exception
-* To validate business rules
-* To stop execution when an error occurs
-
-**`throws`**
-
-* To inform the caller about possible exceptions
-* To delegate exception handling to another method
 
 **When to Use**
 
@@ -7687,123 +7673,82 @@ public class SemaphoreDemo {
 
 ## 8. What is the difference between synchronized and concurrent collections?
 
+**Difference Between Synchronized Collections and Concurrent Collections**
 
-**Synchronized Collections** are thread-safe wrappers that ensure **one thread access at a time using full object locking**.
-**Concurrent Collections** are advanced thread-safe collections designed for **high performance with fine-grained locking or lock-free operations**.
+**Definition**
 
+* **Synchronized Collections**: Thread-safe collections where **every operation is protected by a single lock**.
+* **Concurrent Collections**: Thread-safe collections designed for **high concurrency** with better performance in multi-threaded environments.
+
+**Examples**
+
+* **Synchronized Collections**
+
+  * `Collections.synchronizedList()`
+  * `Collections.synchronizedMap()`
+  * `Vector`
+  * `Hashtable`
+
+* **Concurrent Collections**
+
+  * `ConcurrentHashMap`
+  * `CopyOnWriteArrayList`
+  * `ConcurrentLinkedQueue`
+  * `BlockingQueue`
 
 **Key Features**
 
-**Synchronized Collections**
+| **Synchronized Collections**                  | **Concurrent Collections**                       |
+| --------------------------------------------- | ------------------------------------------------ |
+| Uses **single lock**                          | Uses **multiple locks / lock-free techniques**   |
+| Lower performance with many threads           | Better performance with many threads             |
+| One thread accesses at a time                 | Multiple threads can work simultaneously         |
+| Iteration requires **manual synchronization** | Safe iteration without locking entire collection |
+| Suitable for low concurrency                  | Suitable for high concurrency                    |
 
-* Provide **thread safety using full synchronization**
-* Example: **Collections.synchronizedList(), synchronizedMap()**
-* Use **single lock mechanism**
-* Simple but **slow under high concurrency**
+**How It Works**
 
-**Concurrent Collections**
+* **Synchronized Collections**
 
-* Provide **high scalability and performance**
-* Example: **ConcurrentHashMap, CopyOnWriteArrayList, ConcurrentLinkedQueue**
-* Use **segment-level locking or CAS (Compare-And-Swap)**
-* Allow **multiple threads to work simultaneously**
+  * Every method acquires the **same lock**.
+  * Other threads must wait until the lock is released.
 
+* **Concurrent Collections**
 
-**How it Works**
-
-**Synchronized Collections**
-
-* Entire collection is locked using **synchronized keyword**
-* Only **one thread can access at a time**
-* Other threads are **blocked until lock is released**
-
-**Concurrent Collections**
-
-* Collection is divided into **smaller parts (segments/buckets)** or uses **lock-free algorithms**
-* Multiple threads can access **different parts concurrently**
-* Uses **atomic operations (CAS)** for safe updates
-
-
-**Why to Use**
-
-**Synchronized Collections**
-
-* To quickly make **legacy collections thread-safe**
-* For **simple, low-concurrency applications**
-
-**Concurrent Collections**
-
-* To handle **high-performance multi-threaded systems**
-* To reduce **thread contention and blocking**
-
+  * Different parts of the collection can be accessed simultaneously.
+  * Reduces thread contention and improves scalability.
 
 **When to Use**
 
-**Synchronized Collections**
+* Use **Synchronized Collections** when:
 
-* Low traffic applications
-* Simple multi-threading scenarios
-* When performance is not critical
+  * Application has **few threads**.
+  * Simplicity is more important than performance.
 
-**Concurrent Collections**
+* Use **Concurrent Collections** when:
 
-* High concurrency systems (web apps, microservices)
-* Caching systems
-* Real-time processing systems
+  * Application has **many concurrent threads**.
+  * High performance and scalability are required.
 
+**Code Example**
 
-**Code Example (Java)**
+**Synchronized Collection**
 
-**Synchronized Collection Example**
+```java
+List<String> list = Collections.synchronizedList(new ArrayList<>());
 
-```java id="7zv5g2"
-import java.util.*;
-
-public class SyncDemo {
-    public static void main(String[] args) {
-
-        List<String> list = Collections.synchronizedList(new ArrayList<>());
-
-        list.add("Java");
-        list.add("Spring");
-
-        synchronized (list) {
-            for (String item : list) {
-                System.out.println(item);
-            }
-        }
-    }
-}
+list.add("Java");
+list.add("Spring");
 ```
 
+**Concurrent Collection**
 
-**Concurrent Collection Example**
+```java
+ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
 
-```java id="q9m2xa"
-import java.util.concurrent.*;
-
-public class ConcurrentDemo {
-    public static void main(String[] args) {
-
-        ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
-
-        map.put(1, "Spring Boot");
-        map.put(2, "Microservices");
-
-        map.forEach((k, v) -> {
-            System.out.println(k + " -> " + v);
-        });
-    }
-}
+map.put(1, "Java");
+map.put(2, "Spring");
 ```
-
-| Synchronized Collection       | Concurrent Collection                   |
-| ----------------------------- | --------------------------------------- |
-| Locks entire collection       | Uses segment-level/fine-grained locking |
-| Slower under high concurrency | Better performance                      |
-| Introduced before Java 5      | Introduced in `java.util.concurrent`    |
-| Example: synchronizedList     | Example: ConcurrentHashMap              |
-
 
 
 ## 9. What is ConcurrentHashMap and how is it different from HashMap?
@@ -7816,62 +7761,36 @@ public class ConcurrentDemo {
 
 **Key Features**
 
-**HashMap**
+| **HashMap**                                          | **ConcurrentHashMap**                       |
+| ---------------------------------------------------- | ------------------------------------------- |
+| Not thread-safe                                      | Thread-safe                                 |
+| Faster in single-threaded applications               | Optimized for concurrent access             |
+| Multiple threads can cause data inconsistency        | Multiple threads can safely read and write  |
+| Allows **one null key** and **multiple null values** | Does **not allow null keys or null values** |
+| No synchronization                                   | Uses internal concurrency mechanisms        |
 
-* **Not thread-safe**
-* Allows **1 null key** and multiple null values
-* Faster in **single-threaded** environment
-* Uses **array + linked list / tree (Java 8+)**
+**How It Works**
 
-**ConcurrentHashMap**
+* **HashMap**
 
-* **Thread-safe**
-* Does NOT allow **null keys or null values**
-* High performance in **multi-threaded** environment
-* Uses **segment-level / bucket-level locking (fine-grained locking)**
+  * Multiple threads accessing it simultaneously can lead to **race conditions** and corrupted data.
 
+* **ConcurrentHashMap**
 
-**How it works**
+  * Allows multiple threads to read and update the map concurrently.
+  * Uses **fine-grained locking** and **CAS (Compare-And-Swap)** techniques for better performance.
 
-**HashMap**
+**When to Use**
 
-* Uses **hashCode()** to find bucket index
-* Stores entries in **buckets**
-* No synchronization → multiple threads may corrupt data
+* Use **HashMap** when:
 
-**ConcurrentHashMap**
+  * Only one thread accesses the map.
+  * Maximum performance is needed without synchronization.
 
-* Divides map into **segments or buckets**
-* Locks only a **small part of map during write**
-* Multiple threads can read/write **simultaneously safely**
+* Use **ConcurrentHashMap** when:
 
-
-**Why to use**
-
-**HashMap**
-
-* When you need **fast performance**
-* When working in **single-threaded applications**
-
-**ConcurrentHashMap**
-
-* When working in **multi-threaded applications**
-* When you need **thread safety without full locking**
-
-
-**When to use**
-
-**HashMap**
-
-* Local caching
-* Single-user data processing
-* No shared access across threads
-
-**ConcurrentHashMap**
-
-* Web applications
-* Shared cache
-* High-concurrency systems (microservices, servers)
+  * Multiple threads need to read and update data safely.
+  * High concurrency and scalability are required.
 
 
 **Code Example**
@@ -7909,15 +7828,6 @@ public class ConcurrentHashMapExample {
     }
 }
 ```
-
-| Feature     | HashMap                | ConcurrentHashMap            |
-| ----------- | ---------------------- | ---------------------------- |
-| Thread Safe | No                     | Yes                          |
-| Performance | Faster (single thread) | Optimized for multithreading |
-| Null Key    | One allowed            | Not allowed                  |
-| Null Value  | Allowed                | Not allowed                  |
-| Iterator    | Fail-Fast              | Weakly Consistent            |
-
 
 // Real-Time Use Case (Important for Interviews)
 // 🧠 Scenario: Caching User Sessions
@@ -7997,13 +7907,6 @@ Example flow:
 * Both threads wait forever → **Deadlock**
 
 
-**Why to use (understanding purpose)**
-We do NOT use deadlock intentionally, but understanding it helps to:
-
-* Design **safe multithreaded applications**
-* Avoid **performance issues and system freeze**
-* Improve **concurrency control**
-
 **When to use (real context awareness)**
 Deadlock is not used directly, but you must consider it when:
 
@@ -8059,44 +7962,66 @@ public class DeadlockExample {
 
 ## 11. What is race condition and how to resolve it?
 
-A **Race Condition** occurs when **multiple threads** access and modify the **same shared resource** at the same time, and the final result depends on the **order of execution**. This can lead to **incorrect or inconsistent data**.
+A **Race Condition** occurs when **two or more threads** access and modify the **same shared resource** at the same time, and the **final result depends on the order of execution**. This can lead to **unexpected or incorrect output**.
 
-**Key Features:**
+**Key Features**
 
-* Happens in **multithreaded** or **concurrent** applications.
-* Occurs when threads share **mutable data**.
-* Produces **unpredictable results**.
-* Common in **banking**, **inventory**, and **counter** operations.
+* **Occurs in multithreading or concurrent programming**
+* Multiple threads access **shared data**
+* Results are **unpredictable** and may vary every time
+* Can cause **data inconsistency** or corruption
 
-**How it Works:**
+**How it Works**
 
-1. Two or more threads read the same shared value.
-2. Each thread modifies the value independently.
-3. Both write back the result.
-4. One update may overwrite the other, causing **data loss**.
+Suppose two threads try to increment the same variable:
 
-**Example:**
-If two threads increment a counter from **100** at the same time:
+* Initial value = `0`
+* **Thread 1** reads `0`
+* **Thread 2** also reads `0`
+* Both increment it to `1`
+* Both write back `1`
 
-* Thread 1 reads **100**.
-* Thread 2 reads **100**.
-* Both update it to **101**.
-* Final value becomes **101** instead of **102**.
+Expected result = `2`
+Actual result = `1`
 
-**How to Resolve It:**
+This happens because both threads access the variable **simultaneously**.
 
-* Use **`synchronized`** methods or blocks.
-* Use **`Lock`** implementations like **`ReentrantLock`**.
-* Use **Atomic classes** such as **`AtomicInteger`**.
-* Use **Optimistic** or **Pessimistic Locking** for database operations.
-* Avoid sharing mutable data whenever possible.
+**How to Resolve It**
 
-**When to Use These Solutions:**
+Use synchronization mechanisms to ensure that **only one thread can access the shared resource at a time**.
 
-* **`synchronized`**: Simple thread-safe operations.
-* **`ReentrantLock`**: More control over locking.
-* **`AtomicInteger`**: High-performance counter updates.
-* **Database Locking**: Concurrent updates to the same database record.
+**Common Solutions:**
+
+* **`synchronized` keyword**
+* **`Lock` interface (`ReentrantLock`)**
+* **Atomic classes (`AtomicInteger`, `AtomicLong`)**
+* **Thread-safe collections (`ConcurrentHashMap`)**
+
+**When to Use Synchronization**
+
+Use it whenever **multiple threads share and update the same data**, such as:
+
+* Counter variables
+* Bank account balance updates
+* Inventory management
+* Shared collections
+
+**Code Example**
+
+```java
+class Counter {
+    private int count = 0;
+    public synchronized void increment() {
+        count++;
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+```
+
+Here, the **`synchronized`** keyword ensures that **only one thread** can execute `increment()` at a time, preventing a **race condition**.
 
 
 **How to Resolve Race Condition**
