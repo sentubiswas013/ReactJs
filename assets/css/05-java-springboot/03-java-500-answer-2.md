@@ -18045,10 +18045,6 @@ public class UserService {
 ## 12. What is @Component, @Configuration, @Primary, @Qualifier, @PatchMapping annotation?
 
 
-**`@Component` Annotation**
-
-
-
 **`@Component`** is a **Spring stereotype annotation** used to mark a class as a **Spring-managed bean**. Spring automatically detects it during **component scanning** and registers it in the **ApplicationContext**.
 
 **Key Features**
@@ -18062,13 +18058,11 @@ public class UserService {
 
 Spring scans the package for classes annotated with `@Component`, creates their objects, and stores them as beans in the container.
 
-**Why to Use**
-
-* To avoid manual bean configuration.
-* To let Spring automatically manage object creation.
 
 **When to Use**
 
+* To avoid manual bean configuration.
+* To let Spring automatically manage object creation.
 * For utility classes or custom components that need to be managed by Spring.
 
 **Code Example**
@@ -18082,8 +18076,7 @@ public class EmailService {
 ```
 
 
-**`@Configuration` Annotation**
-
+---
 
 
 **`@Configuration`** indicates that a class contains **bean definitions**. It is used to define and configure beans using **`@Bean`** methods.
@@ -18125,8 +18118,7 @@ public class AppConfig {
 ```
 
 
-**`@Primary` Annotation**
-
+---
 
 
 **`@Primary`** tells Spring to use a particular bean **by default** when multiple beans of the same type are available.
@@ -18141,9 +18133,6 @@ public class AppConfig {
 
 If multiple beans match the required type, Spring automatically injects the bean marked with `@Primary`.
 
-**Why to Use**
-
-* To specify the **default implementation**.
 
 **When to Use**
 
@@ -18161,8 +18150,7 @@ public class MySqlDatabaseService implements DatabaseService {
 }
 ```
 
-**`@Qualifier` Annotation**
-
+---
 
 
 **`@Qualifier`** is used with **`@Autowired`** to specify exactly which bean should be injected when multiple beans of the same type exist.
@@ -18177,9 +18165,6 @@ public class MySqlDatabaseService implements DatabaseService {
 
 Spring checks the value provided in `@Qualifier` and injects the matching bean.
 
-**Why to Use**
-
-* To inject a specific implementation instead of the default one.
 
 **When to Use**
 
@@ -18203,8 +18188,7 @@ public class UserService {
 ```
 
 
-**`@PatchMapping` Annotation**
-
+---
 
 
 **`@PatchMapping`** is a **Spring MVC** annotation used to handle **HTTP PATCH requests**. It is mainly used for **partial updates** of a resource.
@@ -18248,7 +18232,7 @@ public class UserController {
 
 ## 13. Explain Spring Boot Actuator endpoints.
 
-**Answer:**
+
 Actuator provides production-ready features like health checks, metrics, and monitoring endpoints. Common endpoints: `/health`, `/metrics`, `/info`, `/env`.
 
 **Example:**
