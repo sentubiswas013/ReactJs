@@ -7673,14 +7673,10 @@ public class SemaphoreDemo {
 
 ## 8. What is the difference between synchronized and concurrent collections?
 
-**Difference Between Synchronized Collections and Concurrent Collections**
-
-**Definition**
 
 * **Synchronized Collections**: Thread-safe collections where **every operation is protected by a single lock**.
-* **Concurrent Collections**: Thread-safe collections designed for **high concurrency** with better performance in multi-threaded environments.
 
-**Examples**
+* **Concurrent Collections**: Thread-safe collections designed for **high concurrency** with better performance in multi-threaded environments.
 
 * **Synchronized Collections**
 
@@ -7696,17 +7692,7 @@ public class SemaphoreDemo {
   * `ConcurrentLinkedQueue`
   * `BlockingQueue`
 
-**Key Features**
 
-| **Synchronized Collections**                  | **Concurrent Collections**                       |
-| --------------------------------------------- | ------------------------------------------------ |
-| Uses **single lock**                          | Uses **multiple locks / lock-free techniques**   |
-| Lower performance with many threads           | Better performance with many threads             |
-| One thread accesses at a time                 | Multiple threads can work simultaneously         |
-| Iteration requires **manual synchronization** | Safe iteration without locking entire collection |
-| Suitable for low concurrency                  | Suitable for high concurrency                    |
-
-**How It Works**
 
 * **Synchronized Collections**
 
@@ -7717,6 +7703,19 @@ public class SemaphoreDemo {
 
   * Different parts of the collection can be accessed simultaneously.
   * Reduces thread contention and improves scalability.
+  
+
+**Key Features**
+
+| **Feature**           | **Synchronized Collections**                                                            | **Concurrent Collections**                                                   |
+| --------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| **Locking**           | Uses **one lock** for the entire collection                                             | Uses **multiple locks** or **lock-free** techniques                          |
+| **Performance**       | **Slower** because only one thread can access at a time                                 | **Faster** because multiple threads can work simultaneously                  |
+| **Read/Write Access** | Both **read** and **write** operations are synchronized                                 | Allows **concurrent reads** and efficient writes                             |
+| **Iterator**          | **Fail-Fast** (throws **ConcurrentModificationException** if modified during iteration) | **Weakly Consistent** (doesn't throw exception and may reflect some updates) |
+| **Scalability**       | Less suitable for high concurrency                                                      | Designed for high-concurrency applications                                   |
+| **Examples**          | **Collections.synchronizedList()**, **Collections.synchronizedMap()**                   | **ConcurrentHashMap**, **CopyOnWriteArrayList**, **ConcurrentLinkedQueue**   |
+
 
 **When to Use**
 
