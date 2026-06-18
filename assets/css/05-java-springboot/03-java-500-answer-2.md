@@ -948,7 +948,7 @@ System.out.println(builder);
 * **StringBuffer = Mutable + Thread-Safe + Multi Thread**
 
 
-## 6. What strings is immutable in Java?
+## 6. Why strings is immutable in Java?
 
 
 
