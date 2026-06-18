@@ -18296,8 +18296,6 @@ public class SecureController {
 ```
 ## 15. What is Lombok in Java and and whe can we use?
 
-**Lombok**
-
 **Lombok** is a Java library that **reduces boilerplate code** by automatically generating code like **getters, setters, constructors, `toString()`, `equals()`, and `hashCode()`** at compile time using **annotations**.
 
 **Key Features**
@@ -18315,11 +18313,6 @@ public class SecureController {
 * During **compilation**, Lombok generates the required code automatically.
 * The generated code behaves as if you had written it manually.
 
-**Why to Use**
-
-* Reduces **boilerplate code**.
-* Improves **readability** and **maintainability**.
-* Speeds up development.
 
 **When to Use**
 
@@ -18733,38 +18726,110 @@ public class UserController {
 
 ## 25. How Does `@EnableAutoConfiguration` Work Internally?
 
-**DataSource:** 
+**`@EnableAutoConfiguration`** is a Spring Boot annotation that **automatically configures** beans based on the **dependencies** available in the project and the **application configuration**, reducing the need for manual configuration.
 
-@EnableAutoConfiguration is a Spring Boot annotation that automatically configures your Spring application based on the dependencies present in your classpath.
+**Key Features**
 
-It saves time by removing the need to manually configure beans, like DataSource, DispatcherServlet, etc.
+* **Automatic Bean Configuration**
+* **Reduces Manual Configuration**
+* Uses **Classpath Detection**
+* Uses **Conditional Annotations**
+* Works with **Spring Boot Starters**
+* Can be **customized or excluded**
 
-**Where is it used?**
-It is included inside the @SpringBootApplication annotation by default.
+**How It Works Internally**
+
+1. The application starts with the **`@SpringBootApplication`** annotation.
+2. **`@SpringBootApplication`** internally includes **`@EnableAutoConfiguration`**.
+3. **`@EnableAutoConfiguration`** imports **`AutoConfigurationImportSelector`**.
+4. **`AutoConfigurationImportSelector`** reads the list of auto-configuration classes from:
+
+   * **Spring Boot 3.x:** `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+   * **Spring Boot 2.x:** `META-INF/spring.factories`
+5. Spring checks the **classpath** and **application properties**.
+6. **Conditional annotations** determine whether a configuration should be applied:
+
+   * **`@ConditionalOnClass`**
+   * **`@ConditionalOnMissingBean`**
+   * **`@ConditionalOnProperty`**
+   * **`@ConditionalOnBean`**
+7. If all conditions are satisfied, Spring automatically creates the required **beans** and registers them in the **IoC Container**.
+
+**Internal Flow**
+
+```text
+@SpringBootApplication
+        │
+        ▼
+@EnableAutoConfiguration
+        │
+        ▼
+AutoConfigurationImportSelector
+        │
+        ▼
+Read Auto Configuration Classes
+        │
+        ▼
+Check Classpath & Properties
+        │
+        ▼
+Evaluate Conditional Annotations
+        │
+        ▼
+Create Required Beans
+        │
+        ▼
+Register Beans in IoC Container
+```
+
+**Common Conditional Annotations**
+
+| **Annotation**                  | **Purpose**                                    |
+| ------------------------------- | ---------------------------------------------- |
+| **`@ConditionalOnClass`**       | Configure only if a class exists               |
+| **`@ConditionalOnMissingBean`** | Create a bean only if it doesn't already exist |
+| **`@ConditionalOnBean`**        | Configure only if another bean exists          |
+| **`@ConditionalOnProperty`**    | Configure based on a property value            |
+
+**When to Use**
+
+* **Spring Boot Applications**
+* **REST APIs**
+* **Microservices**
+* **Database Configuration**
+* **Security Configuration**
+* Any application that needs **minimal manual configuration**
+
+**Code Example**
 
 ```java
 @SpringBootApplication
-public class MyApp {
-  public static void main(String[] args) {
-SpringApplication.run(MyApp.class, args);
-  }
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 }
 ```
 
-👉 @SpringBootApplication =
-@Configuration + @ComponentScan + @EnableAutoConfiguration
+**Disable Specific Auto Configuration**
 
-**How it works:**
-It looks at the JARs in your classpath and tries to auto-configure beans accordingly.
+```java
+@SpringBootApplication(
+    exclude = DataSourceAutoConfiguration.class
+)
+public class DemoApplication {
+}
+```
 
-**For example:**
-- If Spring Boot sees spring-boot-starter-web, it will configure Tomcat, Spring MVC, and a default DispatcherServlet.
-- If it sees spring-boot-starter-data-jpa, it will auto-configure Hibernate, DataSource, etc.
+**Common Interview Follow-up**
 
-**In Interview, Say This:**
-- @EnableAutoConfiguration helps in reducing boilerplate configuration.
-- It allows me to start building features quickly without manual setup.
-- If needed, I can still override its default settings using @Configuration classes 
+**Q: What is the difference between `@ComponentScan` and `@EnableAutoConfiguration`?**
+
+| **`@ComponentScan`**                                                                                      | **`@EnableAutoConfiguration`**                                                                             |
+| --------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Scans the project for **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`** classes. | Automatically configures **Spring-provided beans** based on the project's dependencies and configuration.  |
+| Registers **application beans**.                                                                          | Registers **framework beans** such as **DataSource**, **DispatcherServlet**, and **Jackson ObjectMapper**. |
 
 
 ## 27. What is `@EventListener` in Spring Boot?
