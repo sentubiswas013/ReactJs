@@ -17208,7 +17208,7 @@ public class UserService {
 
 
 
-## 4. What is Bean and Lifecycle?
+## 4. What is Bean and explain Lifecycle?
 
 The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes through from its **creation** to its **destruction** inside the **Spring Container**.
 
