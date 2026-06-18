@@ -17221,11 +17221,14 @@ The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes thro
 | **5. Bean Destruction**     | When the container shuts down, Spring calls **@PreDestroy** or **destroyMethod** to release resources. |
 
 
+**Bean Lifecycle in more details**
+
 1. **Bean Instantiation** – Spring creates the bean object.
 2. **Dependency Injection** – Required dependencies are injected using **constructor**, **setter**, or **field injection**.
 3. **Aware Interfaces (Optional)** – Spring calls methods like `BeanNameAware`, `BeanFactoryAware`, etc., if implemented.
 4. **BeanPostProcessor (Before Initialization)** – `postProcessBeforeInitialization()` is executed.
 5. **Initialization** – Spring calls initialization methods:
+
 
    * `@PostConstruct`
    * `InitializingBean.afterPropertiesSet()`
