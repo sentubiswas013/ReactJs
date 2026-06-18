@@ -7703,7 +7703,7 @@ public class SemaphoreDemo {
 
   * Different parts of the collection can be accessed simultaneously.
   * Reduces thread contention and improves scalability.
-  
+
 
 **Key Features**
 
@@ -7760,13 +7760,15 @@ map.put(2, "Spring");
 
 **Key Features**
 
-| **HashMap**                                          | **ConcurrentHashMap**                       |
-| ---------------------------------------------------- | ------------------------------------------- |
-| Not thread-safe                                      | Thread-safe                                 |
-| Faster in single-threaded applications               | Optimized for concurrent access             |
-| Multiple threads can cause data inconsistency        | Multiple threads can safely read and write  |
-| Allows **one null key** and **multiple null values** | Does **not allow null keys or null values** |
-| No synchronization                                   | Uses internal concurrency mechanisms        |
+| **Feature**       | **HashMap**                                                | **ConcurrentHashMap**                                                     |
+| ----------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **Thread Safety** | **Not thread-safe**                                        | **Thread-safe**                                                           |
+| **Performance**   | Faster in **single-threaded** applications                 | Optimized for **multi-threaded** applications                             |
+| **Locking**       | **No locking**                                             | Uses **fine-grained locking** and **lock-free reads**                     |
+| **Null Values**   | Allows **one null key** and **multiple null values**       | **Does not allow** null keys or null values                               |
+| **Iterator**      | **Fail-Fast** (throws **ConcurrentModificationException**) | **Weakly Consistent** (doesn't throw exception during concurrent updates) |
+| **Best Use**      | Single-threaded applications                               | Multi-threaded applications                                               |
+
 
 **How It Works**
 
