@@ -23663,8 +23663,6 @@ It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC alg
 
 ## 5. What is Distributed Tracing?
 
-**What is Distributed Tracing?**
-
 **Distributed Tracing** is a **monitoring technique** used in **microservices architecture** to track a request as it travels across multiple services. It helps developers understand the complete path of a request and quickly identify **performance bottlenecks** or **failures**.
 
 **Example:** A request to place an order may go through **API Gateway → Order Service → Payment Service → Inventory Service → Notification Service**. Distributed tracing shows the complete flow of that request.
@@ -25141,44 +25139,112 @@ public void processProducts() {
 
 ## 14. What is Batch Processing?
 
-Batch Processing is a technique where a large amount of data is processed in groups (batches) instead of processing one record at a time. It improves performance, reduces database calls, and is commonly used for data migration, report generation, payroll processing, and bulk updates.
+**What is Batch Processing?**
 
-Suppose you need to update **10,000 employee records**.
+**Definition**
 
-❌ One-by-one processing:
+**Batch Processing** is a technique where a **large number of records** are **processed together as a single batch** instead of processing each record individually. It is commonly used for **scheduled**, **repetitive**, and **high-volume** data processing.
+
+**Key Features**
+
+* **Processes Multiple Records** together
+* **Scheduled Execution**
+* **High Performance**
+* **Automatic Retry** and **Restart**
+* **Transaction Management**
+* **Scalable** for large datasets
+
+**How It Works**
+
+1. A **Batch Job** is triggered manually or by a scheduler.
+2. Data is **read** from a source (Database, CSV, File, API).
+3. Data is **processed** (validate, transform, calculate).
+4. Processed data is **written** to the destination.
+5. The job completes and generates a **status/report**.
+
+**Architecture Flow**
+
+```text
+Scheduler
+    │
+    ▼
+Batch Job
+    │
+    ▼
+Item Reader
+    │
+    ▼
+Item Processor
+    │
+    ▼
+Item Writer
+    │
+    ▼
+Database / File
+```
+
+**Main Components (Spring Batch)**
+
+| **Component**     | **Purpose**                           |
+| ----------------- | ------------------------------------- |
+| **Job**           | Represents the complete batch process |
+| **Step**          | A single phase within the job         |
+| **ItemReader**    | Reads data from the source            |
+| **ItemProcessor** | Processes or transforms the data      |
+| **ItemWriter**    | Writes data to the destination        |
+
+**When to Use**
+
+* **Payroll Processing**
+* **Bank Transactions**
+* **Invoice Generation**
+* **Report Generation**
+* **Data Migration**
+* **ETL (Extract, Transform, Load)**
+
+**Code Example**
 
 ```java
-for (Employee emp : employees) {
-    employeeRepository.save(emp);
+@Component
+public class EmployeeProcessor
+        implements ItemProcessor<Employee, Employee> {
+
+    @Override
+    public Employee process(Employee employee) {
+        employee.setSalary(employee.getSalary() * 1.10);
+        return employee;
+    }
 }
 ```
 
-**✅ Batch processing:**
+**Advantages**
 
-```java
-List<Employee> employees = getEmployees();
-employeeRepository.saveAll(employees);
-```
-The records are processed in batches, reducing database round trips.
+* **Efficient** for large datasets
+* **Improves Performance**
+* **Reduces Resource Usage**
+* **Supports Restart** after failure
+* **Easy to Automate**
 
+**Disadvantages**
 
-**Spring Boot Batch Configuration**
+* **Not Suitable** for real-time processing
+* Large jobs may take **more time** to complete
+* Error handling can be **complex**
 
-```properties
-spring.jpa.properties.hibernate.jdbc.batch_size=50
-spring.jpa.properties.hibernate.order_inserts=true
-spring.jpa.properties.hibernate.order_updates=true
-```
-This allows Hibernate to send records to the database in batches of 50.
+**Interview Answer (60 Seconds)**
 
-**Real-World Examples**
+**Batch Processing** is a technique where **multiple records are processed together as a single batch** instead of one by one. In **Spring Batch**, a **Job** contains one or more **Steps**, and each step uses an **ItemReader** to read data, an **ItemProcessor** to process it, and an **ItemWriter** to save the results. Batch processing is ideal for **large-volume**, **scheduled**, and **repetitive** tasks such as **payroll**, **report generation**, **data migration**, and **bank transaction processing**.
 
-* Payroll processing
-* Bank transaction settlement
-* Data migration
-* Bulk email sending
-* Report generation
+**Common Interview Follow-up**
 
+**Q: What is the difference between Batch Processing and Stream Processing?**
+
+| **Batch Processing**                                   | **Stream Processing**                                                    |
+| ------------------------------------------------------ | ------------------------------------------------------------------------ |
+| Processes **data in batches**.                         | Processes **data continuously** as it arrives.                           |
+| Used for **scheduled jobs**.                           | Used for **real-time applications**.                                     |
+| Higher **throughput**.                                 | Lower **latency**.                                                       |
+| Example: **Payroll**, **ETL**, **Invoice Generation**. | Example: **Fraud Detection**, **Live Notifications**, **Stock Trading**. |
 
 
 ## 15. What is sharding in databases?
@@ -27130,269 +27196,3 @@ public void theLoginShouldBeSuccessful() {
     assertTrue(loginResult.isSuccess());
 }
 ```
-
-
-## How to Start System Design From Scratch
-
-System design should start with understanding requirements, estimating scale, designing high-level architecture, choosing databases/APIs, and then improving scalability, reliability, and maintainability.
-
-
-**1. Understand Requirements**
-
-First ask questions.
-
-**Functional Requirements**
-
-What system should do?
-
-Example for Food Delivery:
-
-* User login
-* Search restaurants
-* Place order
-* Payment
-* Track delivery
-
-## Non-Functional Requirements
-
-How system should behave?
-
-* Scalability
-* Security
-* High availability
-* Low latency
-* Fault tolerance
-
-
-**2. Estimate Scale**
-
-Estimate:
-
-* Daily active users
-* Requests per second (RPS)
-* Storage
-* Traffic
-
-Example:
-
-```text id="7g1vgh"
-1 million users
-100k daily orders
-500 requests/sec
-```
-
-This helps decide architecture.
-
-
-**3. Identify Core Entities**
-
-Find main objects.
-
-Example for E-commerce:
-
-```text id="o49gpk"
-User
-Product
-Cart
-Order
-Payment
-Inventory
-```
-
-
-**4. Design High-Level Architecture (HLD)**
-
-Draw big components.
-
-Example:
-
-```text id="h83x71"
-Client → Load Balancer → API Gateway
-                        ↓
-              Microservices
-                        ↓
-              Database / Cache / Queue
-```
-
-Components:
-
-* Frontend
-* Backend
-* Database
-* Cache
-* Messaging queue
-* CDN
-* Storage
-
-
-**5. Database Design**
-
-Choose DB:
-
-| Use Case           | Database         |
-| ------------------ | ---------------- |
-| Structured data    | MySQL/PostgreSQL |
-| Huge scalable data | MongoDB          |
-| Fast caching       | Redis            |
-| Search             | Elasticsearch    |
-
-Create tables/schema.
-
-Example:
-
-```text id="n5s2uw"
-User(id, name, email)
-Order(id, userId, total)
-```
-
-
-**6. API Design**
-
-Design REST APIs.
-
-Example:
-
-```http id="9qkhtm"
-POST /orders
-GET /products
-PUT /cart
-```
-
-Think about:
-
-* Request
-* Response
-* Status codes
-* Pagination
-
-
-**7. Decide Architecture Style**
-
-Choose:
-
-| Type          | When Used              |
-| ------------- | ---------------------- |
-| Monolith      | Small projects         |
-| Microservices | Large scalable systems |
-| Event Driven  | Async processing       |
-
-
-**8. Add Scalability**
-
-Think:
-
-## Horizontal Scaling
-
-```text id="ggxyl4"
-Multiple backend servers
-```
-
-Use:
-
-* Load balancer
-* Auto scaling
-
-
-**9. Add Performance Optimization**
-
-Use:
-
-* Redis cache
-* CDN
-* DB indexing
-* Lazy loading
-* Compression
-
-
-**10. Handle Reliability**
-
-Add:
-
-* Retry mechanism
-* Circuit breaker
-* Replication
-* Backup
-* Failover
-
-
-**11. Security Design**
-
-Think about:
-
-* Authentication
-* Authorization
-* JWT/OAuth
-* HTTPS
-* Rate limiting
-
-
-**12. Monitoring & Logging**
-
-Use:
-
-* ELK Stack
-* Prometheus
-* Grafana
-* CloudWatch
-
-
-**13. Deep Dive (LLD)**
-
-Now design classes.
-
-Example:
-
-```java id="crd5dn"
-interface PaymentStrategy {
-    void pay();
-}
-```
-
-Use:
-
-* SOLID principles
-* Design patterns
-* UML
-* OOP
-
-
-**Example Interview Flow**
-
-If interviewer asks:
-
-> Design WhatsApp
-
-You should answer in order:
-
-1. Requirements
-2. Scale estimation
-3. HLD
-4. DB design
-5. Message flow
-6. Real-time communication
-7. Scaling
-8. Reliability
-9. Security
-
-
-**Common Technologies**
-
-| Component  | Technology     |
-| ---------- | -------------- |
-| API        | Spring Boot    |
-| Database   | PostgreSQL     |
-| Cache      | Redis          |
-| Queue      | Kafka/RabbitMQ |
-| Search     | Elasticsearch  |
-| Storage    | S3             |
-| Monitoring | Grafana        |
-
-
-**Golden Rule**
-
-Start with:
-
-```text id="c0f6wj"
-Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
-```
-
