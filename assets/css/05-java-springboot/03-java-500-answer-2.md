@@ -8266,10 +8266,6 @@ public class Main {
 ## 2.  What is ConcurrentHashMap and when to use?
 
 
-**ConcurrentHashMap**
-
-
-
 **ConcurrentHashMap** is a **thread-safe** implementation of **Map** in Java that allows multiple threads to read and write data concurrently without causing data inconsistency.
 
 **Key Features**
@@ -8475,7 +8471,6 @@ public class Main {
 
 
 ## 5. What is CountDownLatch and CyclicBarrier?
-               |
 
 **CountDownLatch** is a synchronization utility that allows one or more threads to wait until a set of operations performed by other threads is completed.
 
@@ -8879,11 +8874,6 @@ public class ApiService {
 
 
 ## 8. What is immutability in Java? 
-
-
-**Immutability**
-
-
 
 **Immutability** means an object's state **cannot be changed after it is created**. If a value needs to change, a **new object** is created instead of modifying the existing one.
 
@@ -9365,8 +9355,6 @@ for (String s : list) {
 
 
 ## 14. What happens if the thread pool is exhausted?
-
-**What Happens if the Thread Pool is Exhausted?**
 
 A **thread pool is exhausted** when **all threads are busy** and the **task queue is full**, so the pool cannot accept any more tasks.
 
