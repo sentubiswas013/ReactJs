@@ -17308,7 +17308,7 @@ Bean Removed
 
 ## 4. What is Bean Scope in Spring?
 
-**Bean Scope** defines **how many instances** of a Spring bean are created and **how long** they live in the Spring container.
+**Bean Scope** defines the **lifecycle** and **visibility** of a Spring bean. It determines **how many instances** of a bean Spring creates and **how long** they live in the Spring container.
 
 **Types of Bean Scopes**
 
