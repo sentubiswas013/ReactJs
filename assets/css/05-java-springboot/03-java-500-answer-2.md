@@ -7774,12 +7774,13 @@ map.put(2, "Spring");
 
 * **HashMap**
 
-  * Multiple threads accessing it simultaneously can lead to **race conditions** and corrupted data.
+  * Stores data in **buckets** based on the key's **hash code**.
+  * If multiple threads modify it simultaneously, it may produce **inconsistent data**.
 
 * **ConcurrentHashMap**
 
-  * Allows multiple threads to read and update the map concurrently.
-  * Uses **fine-grained locking** and **CAS (Compare-And-Swap)** techniques for better performance.
+  * Divides work internally using **fine-grained locking**.
+  * Allows **multiple threads** to read and update different parts of the map at the same time.
 
 **When to Use**
 
