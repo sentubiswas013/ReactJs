@@ -25183,25 +25183,107 @@ This allows Hibernate to send records to the database in batches of 50.
 
 ## 15. What is sharding in databases?
 
-Sharding is a way to scale a database horizontally by dividing data into smaller pieces called shards. Each shard is stored in a separate database instance, which helps improve performance and handle large traffic.
+**Sharding** is a **database scaling technique** where a large database is **split into smaller, independent databases (called shards)**. Each shard stores a **portion of the data**, allowing the system to handle more users and data efficiently.
 
+**Key Features**
 
-Imagine a **users table** with millions of records:
+* **Horizontal Scaling**
+* **Distributes Data** across multiple databases
+* **Improves Performance**
+* **Reduces Database Load**
+* **Supports High Availability**
+* Each **Shard** is an independent database
 
-Instead of storing everything in one DB:
+**How It Works**
 
-* **Shard 1** → Users with ID 1–1,00,000
-* **Shard 2** → Users with ID 1,00,001–2,00,000
-* **Shard 3** → Users with ID 2,00,001–3,00,000
+1. The application receives a request.
+2. A **Sharding Key** (such as **User ID** or **Customer ID**) is used.
+3. The application determines which **Shard** contains the data.
+4. The request is sent only to that specific **Shard**.
+5. The shard processes the request and returns the result.
 
-Each shard is stored on a different server.
+**Architecture Flow**
 
+```text
+           Client
+              │
+              ▼
+        Application
+              │
+      Sharding Logic
+              │
+    ┌─────────┼─────────┐
+    ▼         ▼         ▼
+ Shard 1   Shard 2   Shard 3
+(User 1-1000) (1001-2000) (2001-3000)
+```
 
-**Why Sharding?**
+**Types of Sharding**
 
-* 🚀 Improves performance (queries run faster)
-* 📈 Handles large-scale data
-* ⚖️ Distributes load across servers
+| **Type**               | **Description**                                           |
+| ---------------------- | --------------------------------------------------------- |
+| **Range Sharding**     | Data is divided by a range (e.g., IDs 1–1000, 1001–2000). |
+| **Hash Sharding**      | A **hash function** decides which shard stores the data.  |
+| **Directory Sharding** | A lookup table maps data to the correct shard.            |
+| **Geo Sharding**       | Data is split based on **region** or **location**.        |
+
+**When to Use**
+
+* **Large Databases**
+* **High Traffic Applications**
+* **Microservices**
+* **E-commerce Platforms**
+* **Banking Systems**
+* **Social Media Applications**
+
+**Code Example**
+
+```java
+int shardId = userId % 3;
+
+switch (shardId) {
+    case 0:
+        // Query Shard 1
+        break;
+    case 1:
+        // Query Shard 2
+        break;
+    case 2:
+        // Query Shard 3
+        break;
+}
+```
+
+**Advantages**
+
+* **Better Performance**
+* **Horizontal Scalability**
+* **Lower Load** on each database
+* **Faster Queries**
+* **Supports Large Datasets**
+
+**Disadvantages**
+
+* **More Complex Architecture**
+* **Cross-Shard Queries** are difficult
+* **Data Rebalancing** is required when adding new shards
+* **Joins Across Shards** are expensive
+
+**Interview Answer (60 Seconds)**
+
+**Sharding** is a **horizontal database partitioning** technique where a large database is split into multiple **smaller databases called shards**. Each shard stores a subset of the data based on a **Sharding Key**, such as **User ID**. When a request arrives, the application uses the sharding key to determine the correct shard and sends the query only to that database. This improves **performance**, **scalability**, and **load distribution**, making sharding ideal for **large-scale applications** with millions of users.
+
+**Common Interview Follow-up**
+
+**Q: What is the difference between Sharding and Partitioning?**
+
+| **Sharding**                                              | **Partitioning**                                                |
+| --------------------------------------------------------- | --------------------------------------------------------------- |
+| **Data is distributed across multiple database servers.** | **Data is divided within the same database server.**            |
+| Supports **Horizontal Scaling**.                          | Supports **Logical Organization** and performance optimization. |
+| Each shard has its own **database instance**.             | All partitions belong to the **same database**.                 |
+| Used for **very large, distributed systems**.             | Used for **managing large tables** within one database.         |
+
 
 
 # ✅ 27. Java CI/CD and DevOp
