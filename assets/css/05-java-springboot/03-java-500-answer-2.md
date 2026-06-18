@@ -16932,9 +16932,7 @@ class CarService {
 Here, Spring reads the annotations and automatically creates the objects and injects the dependency.
 
 
-## 2. Spring Boot Lifecycle?
-
-
+## 2. Explain Spring Boot Lifecycle?
 
 **Spring Boot** is an **extension of the Spring Framework** that simplifies the development of Java applications by providing **auto-configuration**, **embedded servers**, and **starter dependencies**. It helps developers build and run production-ready applications with **minimal configuration**.
 
@@ -17213,6 +17211,15 @@ public class UserService {
 The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes through from its **creation** to its **destruction** inside the **Spring Container**.
 
 **Bean Lifecycle Flow**
+
+| **Stage**                   | **Description**                                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **1. Bean Creation**        | Spring creates the bean object.                                                                        |
+| **2. Dependency Injection** | Spring injects all required dependencies using **constructor**, **setter**, or **field injection**.    |
+| **3. Initialization**       | Spring calls initialization methods such as **@PostConstruct** or **initMethod**.                      |
+| **4. Bean Ready**           | The bean is fully initialized and ready to be used by the application.                                 |
+| **5. Bean Destruction**     | When the container shuts down, Spring calls **@PreDestroy** or **destroyMethod** to release resources. |
+
 
 1. **Bean Instantiation** – Spring creates the bean object.
 2. **Dependency Injection** – Required dependencies are injected using **constructor**, **setter**, or **field injection**.
