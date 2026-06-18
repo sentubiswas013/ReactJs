@@ -10768,7 +10768,7 @@ public class Test {
 | **`ANNOTATION_TYPE`** | Another annotation     |
 
 
-## 4. Can you create custom annotations in java?
+## 4. Hot to create custom annotations in java?
 
 **Yes, Java allows you to create custom annotations** using the **@interface** keyword. Custom annotations are used to add **metadata** to classes, methods, fields, or parameters.
 
@@ -10921,7 +10921,7 @@ Use **reflection** when you need dynamic behavior that cannot be achieved with n
 - When compile-time solutions exist
 
 
-# ✅ 14. Java Web Development - Servlets and JSP
+# ✅ 14. Java - Servlets and JSP (Web Development)
 
 ## 1. What is servlet in Java?
 
@@ -17089,8 +17089,6 @@ With `spring-boot-starter-web`, Spring Boot automatically:
 
 ## 3. Spring Boot Flow Architecture works?
 
-
-
 **Spring Boot Flow Architecture** describes how a request travels through the application, from the moment the application starts until a response is returned to the client. Internally, Spring Boot uses the **Spring Container**, **DispatcherServlet**, and **IoC/DI** to manage the complete flow automatically.
 
 **Key Features:**
@@ -17209,7 +17207,171 @@ public class UserService {
 6. The response is sent back to the client as JSON or plain text.
 
 
-## 4. What is @Component vs @Bean?
+
+## 4. What is Bean and Lifecycle?
+
+The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes through from its **creation** to its **destruction** inside the **Spring Container**.
+
+**Bean Lifecycle Flow**
+
+1. **Bean Instantiation** – Spring creates the bean object.
+2. **Dependency Injection** – Required dependencies are injected using **constructor**, **setter**, or **field injection**.
+3. **Aware Interfaces (Optional)** – Spring calls methods like `BeanNameAware`, `BeanFactoryAware`, etc., if implemented.
+4. **BeanPostProcessor (Before Initialization)** – `postProcessBeforeInitialization()` is executed.
+5. **Initialization** – Spring calls initialization methods:
+
+   * `@PostConstruct`
+   * `InitializingBean.afterPropertiesSet()`
+   * Custom `init-method`
+6. **Bean Ready for Use** – The bean is fully initialized and available in the **Spring Container**.
+7. **BeanPostProcessor (After Initialization)** – `postProcessAfterInitialization()` is executed.
+8. **Bean Destruction** – When the container shuts down, Spring calls:
+
+   * `@PreDestroy`
+   * `DisposableBean.destroy()`
+   * Custom `destroy-method`
+
+**Key Features**
+
+* **Managed automatically** by the **Spring Container**.
+* Supports **custom initialization** and **cleanup logic**.
+* Allows **pre-processing** and **post-processing** of beans.
+* Works with annotations like **`@PostConstruct`** and **`@PreDestroy`**.
+
+**How it Works**
+
+When the application starts, the **Spring Container** scans and creates beans, injects dependencies, performs initialization callbacks, and makes the bean available for use. When the application stops, it executes the bean's destruction callbacks and removes it from memory.
+
+**Why to Use**
+
+* To perform **resource initialization** (database connections, cache loading, etc.).
+* To execute **cleanup tasks** before bean destruction.
+* To customize bean behavior during **creation** and **destruction**.
+
+**When to Use**
+
+* When a bean requires **setup** before use.
+* When external resources need to be **released properly**.
+* When implementing **custom initialization or cleanup logic**.
+
+**Code Example**
+
+```java
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class EmailService {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean Initialized");
+    }
+
+    public void sendEmail() {
+        System.out.println("Sending Email...");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean Destroyed");
+    }
+}
+```
+
+**Simple Lifecycle Diagram**
+
+```text
+Bean Creation
+      ↓
+Dependency Injection
+      ↓
+@PostConstruct / afterPropertiesSet()
+      ↓
+Bean Ready for Use
+      ↓
+@PreDestroy / destroy()
+      ↓
+Bean Removed
+```
+
+## 4. What is Bean Scope in Spring?
+
+**Bean Scope** defines **how many instances** of a Spring bean are created and **how long** they live in the Spring container.
+
+**Types of Bean Scopes**
+
+| **Scope**       | **Description**                                                            |
+| --------------- | -------------------------------------------------------------------------- |
+| **Singleton**   | **One instance** is created for the entire Spring container (**Default**). |
+| **Prototype**   | A **new instance** is created every time the bean is requested.            |
+| **Request**     | One instance is created **per HTTP request**. (Web applications)           |
+| **Session**     | One instance is created **per HTTP session**. (Web applications)           |
+| **Application** | One instance is created for the **entire web application**.                |
+| **WebSocket**   | One instance is created **per WebSocket session**.                         |
+
+**Key Features**
+
+* **Singleton** is the **default** scope.
+* **Prototype** creates a **new object** every time.
+* **Request**, **Session**, **Application**, and **WebSocket** are used only in **Spring Web** applications.
+* Bean scope controls the bean's **lifecycle** and **object creation**.
+
+**How It Works**
+
+* When Spring starts, **Singleton** beans are created once and shared across the application.
+* For **Prototype**, Spring creates a **new bean** whenever it is requested.
+* For web scopes, Spring creates beans based on the **HTTP request**, **session**, or **application lifecycle**.
+
+**When to Use**
+
+* **Singleton**: For **stateless services**, repositories, and controllers.
+* **Prototype**: For **stateful objects** where each user needs a separate instance.
+* **Request**: Store data related to a **single HTTP request**.
+* **Session**: Store **user-specific** data across multiple requests.
+* **Application**: Share data across the **entire web application**.
+* **WebSocket**: Maintain state for a **WebSocket connection**.
+
+**Code Example**
+
+**Singleton (Default)**
+
+```java
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserService {
+}
+```
+
+**Prototype**
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope("prototype")
+public class User {
+}
+```
+
+**Request Scope**
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope(WebApplicationContext.SCOPE_REQUEST)
+public class RequestBean {
+}
+```
+
+
+## 5. What is @Component vs @Bean?
 
 * **`@Component`**: An annotation used to tell **Spring** to automatically detect and create an object (bean) during **component scanning**.
 
@@ -17281,7 +17443,7 @@ public class AppConfig {
 }
 ```
 
-## 4. What is Bean and Object?
+## 5. What is Bean and Object?
 
 An **Object** is any instance of a class created using the `new` keyword.
 
@@ -17326,10 +17488,7 @@ public class StudentService {
 private StudentService studentService; // Spring injects the Bean
 ```
 
-## 4. What is Java Bean, @Component and @Bean?
-
-
-
+## 5. What is Java Bean, @Component and @Bean?
 
 * **Java Bean** is a **plain Java class** that follows certain conventions: it has a **no-argument constructor**, **private fields**, and **public getter/setter methods**.
 * **`@Component`** is a **Spring annotation** used to automatically register a class as a **Spring Bean** through **Component Scanning**.
@@ -17419,98 +17578,6 @@ public class UserService {
     @Autowired
     private RestTemplate restTemplate;
 }
-```
-
-
-## 5. Explain Bean Lifecycle?
-
-
-
-
-The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes through from its **creation** to its **destruction** inside the **Spring Container**.
-
-**Bean Lifecycle Flow**
-
-1. **Bean Instantiation** – Spring creates the bean object.
-2. **Dependency Injection** – Required dependencies are injected using **constructor**, **setter**, or **field injection**.
-3. **Aware Interfaces (Optional)** – Spring calls methods like `BeanNameAware`, `BeanFactoryAware`, etc., if implemented.
-4. **BeanPostProcessor (Before Initialization)** – `postProcessBeforeInitialization()` is executed.
-5. **Initialization** – Spring calls initialization methods:
-
-   * `@PostConstruct`
-   * `InitializingBean.afterPropertiesSet()`
-   * Custom `init-method`
-6. **Bean Ready for Use** – The bean is fully initialized and available in the **Spring Container**.
-7. **BeanPostProcessor (After Initialization)** – `postProcessAfterInitialization()` is executed.
-8. **Bean Destruction** – When the container shuts down, Spring calls:
-
-   * `@PreDestroy`
-   * `DisposableBean.destroy()`
-   * Custom `destroy-method`
-
-**Key Features**
-
-* **Managed automatically** by the **Spring Container**.
-* Supports **custom initialization** and **cleanup logic**.
-* Allows **pre-processing** and **post-processing** of beans.
-* Works with annotations like **`@PostConstruct`** and **`@PreDestroy`**.
-
-**How it Works**
-
-When the application starts, the **Spring Container** scans and creates beans, injects dependencies, performs initialization callbacks, and makes the bean available for use. When the application stops, it executes the bean's destruction callbacks and removes it from memory.
-
-**Why to Use**
-
-* To perform **resource initialization** (database connections, cache loading, etc.).
-* To execute **cleanup tasks** before bean destruction.
-* To customize bean behavior during **creation** and **destruction**.
-
-**When to Use**
-
-* When a bean requires **setup** before use.
-* When external resources need to be **released properly**.
-* When implementing **custom initialization or cleanup logic**.
-
-**Code Example**
-
-```java
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import org.springframework.stereotype.Component;
-
-@Component
-public class EmailService {
-
-    @PostConstruct
-    public void init() {
-        System.out.println("Bean Initialized");
-    }
-
-    public void sendEmail() {
-        System.out.println("Sending Email...");
-    }
-
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Bean Destroyed");
-    }
-}
-```
-
-**Simple Lifecycle Diagram**
-
-```text
-Bean Creation
-      ↓
-Dependency Injection
-      ↓
-@PostConstruct / afterPropertiesSet()
-      ↓
-Bean Ready for Use
-      ↓
-@PreDestroy / destroy()
-      ↓
-Bean Removed
 ```
 
 
