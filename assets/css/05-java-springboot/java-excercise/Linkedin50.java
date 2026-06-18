@@ -1150,4 +1150,44 @@ public class Linkedin50 {
         }
         System.out.println(result);
     }
+
+
+    // ==========================================================================
+    // This code searches for a target element in a sorted and rotated array using Binary Search.
+    // Example array: [5, 6, 7, 8, 9, 10, 1, 2, 3]
+    // Originally it was sorted: [1, 2, 3, 5, 6, 7, 8, 9, 10]
+    // ==========================================================================
+    publoc static void RotatedSortedArraySearchUsingBinarySearch {
+        int[] arr = {5, 6, 7, 8, 9, 10, 1, 2, 3};
+        int target = 2;
+        
+        int low = 0, high = arr.length - 1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if(arr[mid] == target) {
+                return mid;
+            }
+            
+            // Left Sort
+            
+            if(arr[low] <= arr[mid]) {
+                if(target >= arr[low] && target < arr[mid]) {
+                   high  = mid-1;
+                } else {
+                   low = mid + 1;
+                }
+            } else {
+                if(target > arr[mid] && target <= arr[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid-1;
+                }
+            }
+        }
+        
+        return - 1;
+    }
+
+
 }
