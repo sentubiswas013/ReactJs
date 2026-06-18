@@ -65,6 +65,7 @@ public class Linkedin50 {
         // fnSubstringGeneration();
         // fnSubsetSumBitMasking();
         // fnArrayChunking();
+        // RotatedSortedArraySearchUsingBinarySearch();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -1160,7 +1161,7 @@ public class Linkedin50 {
     publoc static void RotatedSortedArraySearchUsingBinarySearch {
         int[] arr = {5, 6, 7, 8, 9, 10, 1, 2, 3};
         int target = 2;
-        
+
         int low = 0, high = arr.length - 1;
         
         while (low <= high) {
@@ -1169,15 +1170,17 @@ public class Linkedin50 {
                 return mid;
             }
             
-            // Left Sort
-            
+            // Left Sort            
             if(arr[low] <= arr[mid]) {
                 if(target >= arr[low] && target < arr[mid]) {
                    high  = mid-1;
                 } else {
                    low = mid + 1;
                 }
-            } else {
+            }
+            
+            // Right Sort
+            else {
                 if(target > arr[mid] && target <= arr[high]) {
                     low = mid + 1;
                 } else {
