@@ -19913,11 +19913,8 @@ public class OrderController {
 
 Each controller can run as a separate **Spring Boot** application and communicate through **REST APIs**.
 
-## 2. What design patterns used in Microservices architecture?
+## 2. What are Microservices Design Patterns?*
 
-**What are Microservices Design Patterns?**
-
-**Definition**
 
 **Microservices Design Patterns** are **proven architectural solutions** used to solve common challenges in **microservices**, such as **service communication**, **fault tolerance**, **data consistency**, **service discovery**, and **scalability**.
 
