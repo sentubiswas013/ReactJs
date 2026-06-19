@@ -20436,42 +20436,123 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 | Deployment Complexity   | Requires scaling and monitoring         |
 
 
-## 6. What is service discovery?
+## 6. What is service discovery Design Pattern?
 
-**Service Discovery** is a mechanism in **microservices architecture** that allows services to **automatically find and communicate with each other** without hardcoding IP addresses or URLs.
+**Service Discovery** is a **Microservices Design Pattern** that allows services to **automatically find and communicate with each other** without using fixed IP addresses or URLs. A **Service Registry** keeps track of all available service instances.
 
 **Key Features**
 
-**• Automatic Service Registration** – services register themselves on startup
+* **Automatic Service Registration**
+* **Dynamic Service Discovery**
+* **Load Balancing**
+* **Supports Auto Scaling**
+* **No Hardcoded IP Addresses**
+* **High Availability**
 
-**• Dynamic Service Lookup** – services discover other services at runtime
+**How It Works**
 
-**• Load Balancing Support** – requests can be distributed across instances
+1. A microservice starts.
+2. It **registers** itself with a **Service Registry** (e.g., **Eureka**, **Consul**).
+3. Another service requests the location of the target service from the registry.
+4. The registry returns an available service instance.
+5. The requesting service communicates with the selected instance.
 
-**• Scalability** – easily add or remove service instances
+**Architecture Flow**
 
-**• Fault Tolerance** – unhealthy instances can be excluded automatically
+```text
+        User Service
+             │
+             ▼
+      Service Registry
+     (Eureka/Consul)
+             │
+      Returns Address
+             │
+             ▼
+      Payment Service
+```
 
-**How it works**
+**Example**
 
-A **Service Registry** maintains information about all available service instances.
+* **Payment Service** starts and registers itself with **Eureka**.
+* **Order Service** needs to call **Payment Service**.
+* Instead of using a fixed URL, **Order Service** asks **Eureka** for the available **Payment Service** instance.
+* **Eureka** returns the service address, and **Order Service** sends the request.
 
-1. A service starts and **registers** itself with the registry.
-2. Another service queries the registry to **discover** the target service.
-3. The request is routed to an available service instance.
+**When to Use**
 
-Common tools: **Netflix Eureka**, **Consul**, and **Apache ZooKeeper**.
+* **Microservices Architecture**
+* **Cloud Applications**
+* **Kubernetes**
+* Applications with **multiple service instances**
+* Systems requiring **auto scaling** and **load balancing**
+
+**Spring Boot Example**
+
+**Enable Eureka Client**
+
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+public class PaymentServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(PaymentServiceApplication.class, args);
+    }
+}
+```
+
+**Register with Eureka**
+
+```properties
+spring.application.name=payment-service
+
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+```
+
+**Call Another Service**
+
+```java
+@Autowired
+private RestTemplate restTemplate;
+
+String response = restTemplate.getForObject(
+    "http://payment-service/pay",
+    String.class
+);
+```
+
+Here, **`payment-service`** is the **service name**, not an IP address.
+
+**Advantages**
+
+* **Dynamic Service Discovery**
+* **Supports Auto Scaling**
+* **Built-in Load Balancing**
+* **No Manual Configuration**
+* **Improves High Availability**
+
+**Disadvantages**
+
+* Requires a **Service Registry**
+* Adds **infrastructure complexity**
+* Registry becomes a **critical component** (usually deployed with multiple instances)
 
 
-**When to use**
+**Common Interview Follow-up**
 
-Use Service Discovery when:
+**Q: Why do we need Service Discovery?**
 
-* Building **Microservices**
-* Deploying on **Cloud Platforms**
-* Running **Multiple Service Instances**
-* Using **Containerized Applications**
-* Needing **Dynamic Scaling**
+In **Microservices**, service instances are created and removed dynamically due to **scaling** and **failures**, so their IP addresses change frequently. **Service Discovery** eliminates the need for hardcoded addresses by allowing services to **register** and **discover** each other automatically.
+
+**Q: What is the difference between Eureka and Load Balancer?**
+
+| **Eureka**                              | **Load Balancer**                                   |
+| --------------------------------------- | --------------------------------------------------- |
+| **Finds** available service instances.  | **Distributes** requests among available instances. |
+| Acts as a **Service Registry**.         | Acts as a **traffic distributor**.                  |
+| Example: **Netflix Eureka**, **Consul** | Example: **Spring Cloud LoadBalancer**, **NGINX**   |
+
 
 **Code Example (Spring Cloud Eureka Client)**
 
@@ -20507,7 +20588,6 @@ eureka:
 ```
 
 This registers **user-service** with the **Eureka Server**, allowing other services to discover it automatically.
-
 
 
 ## 6. What is circuit breaker pattern?
@@ -20587,7 +20667,7 @@ resilience4j:
         waitDurationInOpenState: 10s
 ```
 
-## 7. circuitbreaker - How do you Handle Failures in Microservices?
+## 7. Circuitbreaker - How do you Handle Failures in Microservices?
 
 Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
 
@@ -20675,15 +20755,197 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 ## 8. What is Saga Pattern or How it handle payment failure?
 
-The Saga Pattern is a design pattern used in microservices architecture to manage distributed transactions across multiple services without using a single global database transaction.
+**What is the Saga Design Pattern?**
 
-Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
+**Definition**
 
-If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
+**Saga** is a **Microservices Design Pattern** used to **manage distributed transactions** across multiple microservices. Instead of using one large transaction, it breaks the process into **multiple local transactions**. If any step fails, **compensating transactions** are executed to undo the completed steps.
 
-**Example:**
-- In an online order system:
-- Order Created → Payment Done → Inventory Reserved.
+**Key Features**
+
+* **Distributed Transaction Management**
+* **Local Transactions**
+* **Compensating Transactions (Rollback)**
+* **Event-Driven Communication**
+* **Loose Coupling**
+* **High Scalability**
+
+**How It Works**
+
+1. A business process starts (e.g., place an order).
+2. Each microservice performs its own **local transaction**.
+3. If successful, it triggers the next service.
+4. If any service fails, **compensating transactions** are executed to undo the previous successful transactions.
+5. The system reaches a **consistent state**.
+
+**Architecture Flow**
+
+```text
+Order Service
+      │
+      ▼
+Payment Service
+      │
+      ▼
+Inventory Service
+      │
+      ▼
+Shipping Service
+
+If Inventory Fails:
+Shipping Rollback (if completed)
+Payment Refund
+Order Cancel
+```
+
+**Example**
+
+An **E-commerce Order Processing** system:
+
+1. **Order Service** creates an order.
+2. **Payment Service** deducts the payment.
+3. **Inventory Service** reserves the product.
+4. **Shipping Service** creates the shipment.
+
+If **Inventory Service** fails:
+
+* **Payment Service** refunds the payment.
+* **Order Service** cancels the order.
+
+This ensures **data consistency** without using a single distributed database transaction.
+
+**When to Use**
+
+* **Microservices Architecture**
+* **Distributed Transactions**
+* **Event-Driven Systems**
+* **Cloud-Native Applications**
+* Business processes involving **multiple services**
+
+**Spring Boot Example (Event-Based Saga)**
+
+**Order Service**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
+    public void createOrder(Order order) {
+        // Save order
+        publisher.publishEvent(new OrderCreatedEvent(order.getId()));
+    }
+}
+```
+
+**Payment Service**
+
+```java
+@EventListener
+public void processPayment(OrderCreatedEvent event) {
+    // Deduct payment
+}
+```
+
+**Compensating Transaction**
+
+```java
+public void refundPayment(Long orderId) {
+    // Refund customer if later step fails
+}
+```
+
+**Types of Saga**
+
+**1. Choreography Saga**
+
+* Services communicate using **events**.
+* No central coordinator.
+* Each service decides the next action.
+
+**Flow**
+
+```text
+Order → Payment → Inventory → Shipping
+```
+
+**Advantages**
+
+* **Simple**
+* **Loosely Coupled**
+* **Highly Scalable**
+
+**Disadvantages**
+
+* Harder to **track** and **debug**
+* Complex event flow in large systems
+
+**2. Orchestration Saga**
+
+* A central **Saga Orchestrator** controls the workflow.
+* It tells each service what to do next.
+* Handles rollback when failures occur.
+
+**Flow**
+
+```text
+Saga Orchestrator
+       │
+       ├── Order Service
+       ├── Payment Service
+       ├── Inventory Service
+       └── Shipping Service
+```
+
+**Advantages**
+
+* Easy to **monitor**
+* Easier to **manage complex workflows**
+* Centralized error handling
+
+**Disadvantages**
+
+* Additional **orchestrator service**
+* Slightly more infrastructure
+
+**Advantages**
+
+* **No Distributed Database Transaction**
+* **Better Scalability**
+* **Fault Tolerance**
+* **Data Consistency**
+* **Supports Long-Running Business Processes**
+
+**Disadvantages**
+
+* More **complex** than a normal transaction
+* Requires **compensating transactions**
+* Event ordering can be challenging
+* Debugging can be difficult
+
+
+**Common Interview Follow-up**
+
+**Q: Why can't we use a normal database transaction in Microservices?**
+
+Each microservice has its **own database**, so a single **ACID transaction** cannot span multiple services. **Saga** provides **eventual consistency** by coordinating local transactions and rollback actions.
+
+**Q: What is the difference between Choreography and Orchestration?**
+
+| **Choreography**                      | **Orchestration**                               |
+| ------------------------------------- | ----------------------------------------------- |
+| **No central coordinator**            | **Central Saga Orchestrator** controls the flow |
+| Services communicate using **events** | Services receive commands from the orchestrator |
+| **Loosely coupled**                   | Easier to monitor and manage                    |
+| Better for **simple workflows**       | Better for **complex business processes**       |
+
+**Q: What is a Compensating Transaction?**
+
+A **Compensating Transaction** is a **rollback action** that reverses a previously completed local transaction when a later step in the Saga fails.
+
+
 
 If inventory fails, Saga will **refund payment and cancel the order**.
 
