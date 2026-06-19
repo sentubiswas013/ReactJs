@@ -20669,9 +20669,177 @@ resilience4j:
 
 ## 7. Circuitbreaker - How do you Handle Failures in Microservices?
 
-Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
+**Circuit Breaker** is a **Microservices Resilience Design Pattern** that **prevents repeated calls to a failing service**. Instead of continuously sending requests to an unavailable service, it **temporarily stops the requests** and returns a **fallback response** or an error. This prevents **cascading failures** and improves system stability.
 
-We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
+**Key Features**
+
+* **Prevents Cascading Failures**
+* **Stops Repeated Calls to Failed Services**
+* **Automatic Recovery**
+* **Fallback Support**
+* **Improves System Availability**
+* **Works Well with Retry and Bulkhead**
+
+**How It Works**
+
+A Circuit Breaker has **three states**:
+
+**1. Closed State (Normal)**
+
+* All requests are allowed.
+* Requests go to the target service.
+* Failure count is monitored.
+
+**2. Open State (Failure)**
+
+* If failures exceed a configured threshold, the circuit **opens**.
+* New requests are **blocked immediately**.
+* A **fallback response** or error is returned.
+
+**3. Half-Open State (Recovery)**
+
+* After a waiting period, a few test requests are allowed.
+* If they succeed, the circuit **closes**.
+* If they fail, the circuit **opens** again.
+
+**Architecture Flow**
+
+```text
+           Request
+              │
+              ▼
+      Circuit Breaker
+              │
+     ┌────────┴────────┐
+     │                 │
+ Circuit Closed   Circuit Open
+     │                 │
+     ▼                 ▼
+Payment Service    Fallback/Error
+```
+
+**Example**
+
+An **Order Service** calls the **Payment Service**.
+
+* Payment Service becomes unavailable.
+* Several requests fail.
+* The **Circuit Breaker** opens.
+* New requests are blocked immediately.
+* Users receive a **fallback response** like **"Payment service is temporarily unavailable."**
+* After a configured wait time, a few requests are tested.
+* If successful, the circuit closes and normal traffic resumes.
+
+**When to Use**
+
+* **Microservices Communication**
+* **External API Calls**
+* **Cloud Applications**
+* Services with **frequent network failures**
+* Systems requiring **high availability**
+
+**Spring Boot Example (Resilience4j Circuit Breaker)**
+
+**Dependency**
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+**Circuit Breaker Annotation**
+
+```java
+@Service
+public class PaymentService {
+
+    @CircuitBreaker(
+        name = "paymentService",
+        fallbackMethod = "fallbackPayment"
+    )
+    public String processPayment() {
+        return restTemplate.getForObject(
+            "http://payment-service/pay",
+            String.class
+        );
+    }
+
+    public String fallbackPayment(Exception ex) {
+        return "Payment service is temporarily unavailable.";
+    }
+}
+```
+
+**application.yml**
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        slidingWindowSize: 10
+```
+
+If **50%** of the last **10 requests** fail, the circuit opens for **10 seconds** before testing recovery.
+
+**Advantages**
+
+* **Prevents Cascading Failures**
+* **Improves Fault Tolerance**
+* **Reduces Unnecessary Requests**
+* **Supports Automatic Recovery**
+* **Improves User Experience** with fallback responses
+
+**Disadvantages**
+
+* Additional **configuration**
+* Requires a good **fallback strategy**
+* Incorrect thresholds may block healthy services or delay recovery
+
+
+**Common Interview Follow-up**
+
+**Q: What are the three states of a Circuit Breaker?**
+
+| **State**     | **Purpose**                                                            |
+| ------------- | ---------------------------------------------------------------------- |
+| **Closed**    | Normal operation. All requests are allowed.                            |
+| **Open**      | Requests are blocked because the service is failing.                   |
+| **Half-Open** | A few test requests are allowed to check if the service has recovered. |
+
+**Q: What is a Fallback Method?**
+
+A **Fallback Method** provides an **alternative response** when the target service is unavailable.
+
+**Example:**
+
+```java
+public String fallbackPayment(Exception ex) {
+    return "Payment service is temporarily unavailable.";
+}
+```
+
+**Q: What is the difference between Retry and Circuit Breaker?**
+
+| **Retry**                       | **Circuit Breaker**                       |
+| ------------------------------- | ----------------------------------------- |
+| **Retries** failed requests     | **Stops** requests to a failing service   |
+| Used for **temporary failures** | Used for **continuous failures**          |
+| May increase load if overused   | Reduces load on failing services          |
+| Waits and retries               | Opens the circuit after repeated failures |
+
+**Q: Can Retry and Circuit Breaker be used together?**
+
+**Yes.**
+
+* **Retry** handles **temporary failures** by retrying requests.
+* If failures continue, the **Circuit Breaker** opens and blocks further requests.
+* This combination provides **better resilience** and **fault tolerance**.
+
 
 ```java
 // Steps 1: Add Dependencies (Maven)
