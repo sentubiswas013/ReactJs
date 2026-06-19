@@ -20436,7 +20436,7 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 | Deployment Complexity   | Requires scaling and monitoring         |
 
 
-## 14. What is service discovery?
+## 6. What is service discovery?
 
 **Service Discovery** is a mechanism in **microservices architecture** that allows services to **automatically find and communicate with each other** without hardcoding IP addresses or URLs.
 
@@ -20510,7 +20510,7 @@ This registers **user-service** with the **Eureka Server**, allowing other servi
 
 
 
-## 12. What is circuit breaker pattern?
+## 6. What is circuit breaker pattern?
 
 A **Circuit Breaker** is a **design pattern** used in **Microservices** to prevent repeated calls to a failing service. It detects failures and temporarily stops requests to avoid overloading the unavailable service.
 
@@ -20587,7 +20587,7 @@ resilience4j:
         waitDurationInOpenState: 10s
 ```
 
-## 9. circuitbreaker - How do you Handle Failures in Microservices?
+## 7. circuitbreaker - How do you Handle Failures in Microservices?
 
 Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
 
@@ -20673,7 +20673,7 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 
 
-## 15. What is Saga Pattern or How it handle payment failure?
+## 8. What is Saga Pattern or How it handle payment failure?
 
 The Saga Pattern is a design pattern used in microservices architecture to manage distributed transactions across multiple services without using a single global database transaction.
 
@@ -20772,7 +20772,7 @@ public class OrderOrchestrator {
 ```
 
 
-## 6. What are CQRS principles?
+## 9. What are CQRS principles?
 
 **CQRS (Command Query Responsibility Segregation)** is an **architectural pattern** that separates **read operations (Queries)** from **write operations (Commands)**. Instead of using the same model for both reading and updating data, CQRS uses **different models and logic** for each responsibility.
 
@@ -21008,15 +21008,15 @@ In an **E-commerce Application**:
 All these services work **independently** without directly calling each other.
 
 
-## 12. Database per Service Design Pattern? 
+## 11. Database per Service Design Pattern? 
 
 ## 12. Bulkhead Design Pattern
 
-## 12. Retry Design Pattern
+## 13. Retry Design Pattern
 
-## 12. Strangler Design Pattern
+## 14. Strangler Design Pattern
 
-## 13: What is resilience4j pattern?
+## 15: What is resilience4j pattern?
 
 **Resilience4j** is a **lightweight fault-tolerance library** used in Java and **Spring Boot** applications. It helps make **Microservices** more reliable by handling failures gracefully using patterns like **Circuit Breaker**, **Retry**, **Rate Limiter**, **Bulkhead**, and **Time Limiter**.
 
@@ -21327,7 +21327,7 @@ public class EmployeeService {
 If any operation inside `saveEmployee()` fails with a **`RuntimeException`**, Spring automatically **rolls back** the entire transaction.
 
 
-## 17. What is **`@Transactional`** Propagation?
+## 18. What is **`@Transactional`** Propagation?
 
 **Transaction Propagation** defines **how a transactional method should behave when it is called from another transactional method**. It decides whether to **join the existing transaction or create a new one**.
 
@@ -21393,7 +21393,7 @@ public class AuditService {
 ```
 
 
-## 17. What is a Transaction in SQL?
+## 19. What is a Transaction in SQL?
 
 A **Transaction** in SQL is a **group of one or more database operations** that are executed as a **single unit of work**. It ensures that either **all operations are completed successfully** or **none of them are applied**, maintaining **data consistency**.
 
@@ -21444,7 +21444,7 @@ ROLLBACK;
 ```
 
 
-## 18. How do you Prevent duplicate payment(idempotency)?
+## 20. How do you Prevent duplicate payment(idempotency)?
 
 **Idempotency** is a technique that ensures **multiple identical requests produce the same result**. In payment systems, it prevents a customer from being **charged more than once** if the same request is retried due to network failures or timeouts.
 
@@ -21520,7 +21520,7 @@ public PaymentResponse makePayment(
 A **UNIQUE constraint** on the **`idempotency_key`** column ensures that the same payment request cannot be stored twice.
 
 
-## 19. What happens if payment is successful but order update fails?
+## 21. What happens if payment is successful but order update fails?
 
 This is handled using **event-driven architecture and retry/compensation (Saga pattern)**. If order creation fails after payment, we retry or trigger refund.
 
@@ -21557,7 +21557,7 @@ public class PaymentHandler {
 }
 ```
 
-## 20. Java 11 HttpClient API, and communication between multiple microservices without event and messaing system?
+## 22. Java 11 HttpClient API, and communication between multiple microservices without event and messaing system?
 
 In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
@@ -21602,7 +21602,7 @@ client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
     .thenAccept(System.out::println);
 ```
 
-## 20. How to call external API and how to handle parallel call in java?
+## 23. How to call external API and how to handle parallel call in java?
 
 **1. Call Multiple External APIs in Parallel** (Using CompletableFuture)
 
