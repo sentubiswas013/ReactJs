@@ -19673,54 +19673,166 @@ PUT /users/123
 
 ## 8. What are HTTP status codes?
 
-HTTP status codes indicate the result of an HTTP request. They're grouped into categories and provide standardized way to communicate request outcomes.
+**What are HTTP Status Codes?**
 
-**Status Code Categories:**
-- **1xx:** Informational responses
-- **2xx:** Success responses
-- **3xx:** Redirection responses
-- **4xx:** Client error responses
-- **5xx:** Server error responses
+**Definition**
 
-**Common Status Codes:**
-- **200 OK:** Request successful
-- **201 Created:** Resource created successfully
-- **204 No Content:** Success with no response body
-- **400 Bad Request:** Invalid request syntax
-- **401 Unauthorized:** Authentication required
-- **403 Forbidden:** Access denied
-- **404 Not Found:** Resource not found
-- **409 Conflict:** Request conflicts with current state
-- **500 Internal Server Error:** Server error
+**HTTP Status Codes** are **3-digit response codes** returned by a web server to indicate the **result of an HTTP request**. They help the client understand whether the request was **successful**, **redirected**, **invalid**, or **failed**.
+
+**Key Features**
+
+* **Standard HTTP Response Codes**
+* **Indicate Request Status**
+* **Used in REST APIs**
+* **Help in Error Handling**
+* **Improve Client-Server Communication**
+
+**How It Works**
+
+1. A client sends an **HTTP request**.
+2. The server processes the request.
+3. The server returns an **HTTP Status Code** along with the response.
+4. The client uses the status code to decide the next action.
+
+**Architecture Flow**
+
+```text
+Client
+   │
+HTTP Request
+   │
+   ▼
+Server
+   │
+HTTP Status Code + Response
+   │
+   ▼
+Client
+```
+
+**HTTP Status Code Categories**
+
+| **Category** | **Range**   | **Meaning**   |
+| ------------ | ----------- | ------------- |
+| **1xx**      | **100–199** | Informational |
+| **2xx**      | **200–299** | Success       |
+| **3xx**      | **300–399** | Redirection   |
+| **4xx**      | **400–499** | Client Error  |
+| **5xx**      | **500–599** | Server Error  |
+
+**Common HTTP Status Codes**
+
+| **Code**                       | **Meaning**                          | **When Used**               |
+| ------------------------------ | ------------------------------------ | --------------------------- |
+| **200 OK**                     | Request successful                   | GET, PUT                    |
+| **201 Created**                | Resource created                     | POST                        |
+| **204 No Content**             | Success with no response body        | DELETE                      |
+| **301 Moved Permanently**      | Resource moved permanently           | URL changed                 |
+| **302 Found**                  | Temporary redirect                   | Temporary URL change        |
+| **304 Not Modified**           | Cached resource is valid             | Browser caching             |
+| **400 Bad Request**            | Invalid request                      | Invalid input               |
+| **401 Unauthorized**           | Authentication required              | Missing/Invalid token       |
+| **403 Forbidden**              | Access denied                        | User lacks permission       |
+| **404 Not Found**              | Resource not found                   | Invalid URL or ID           |
+| **405 Method Not Allowed**     | HTTP method not supported            | POST on GET endpoint        |
+| **409 Conflict**               | Resource conflict                    | Duplicate record            |
+| **415 Unsupported Media Type** | Invalid content type                 | Wrong Content-Type header   |
+| **429 Too Many Requests**      | Rate limit exceeded                  | Too many API calls          |
+| **500 Internal Server Error**  | Unexpected server error              | Application failure         |
+| **502 Bad Gateway**            | Invalid response from another server | Gateway/Proxy issue         |
+| **503 Service Unavailable**    | Service temporarily unavailable      | Server overload/maintenance |
+| **504 Gateway Timeout**        | Upstream server timeout              | Microservice timeout        |
+
+**When to Use**
+
+* **REST APIs**
+* **Web Applications**
+* **Microservices**
+* **API Error Handling**
+* **Client-Server Communication**
+
+**Spring Boot Example**
 
 ```java
 @RestController
+@RequestMapping("/users")
 public class UserController {
-    
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        User user = userService.findById(id);
-        if (user != null) {
-            return ResponseEntity.ok(user);           // 200 OK
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getUser(@PathVariable Long id) {
+
+        if (id == 1) {
+            return ResponseEntity.ok("User Found");
         }
-    }
-    
-    @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User created = userService.create(user);
-        return ResponseEntity.status(HttpStatus.CREATED)  // 201 Created
-                           .body(created);
-    }
-    
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.delete(id);
-        return ResponseEntity.noContent().build();    // 204 No Content
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body("User Not Found");
     }
 }
 ```
+
+**Possible Responses**
+
+**Success**
+
+```http
+HTTP/1.1 200 OK
+
+User Found
+```
+
+**Failure**
+
+```http
+HTTP/1.1 404 Not Found
+
+User Not Found
+```
+
+**Advantages**
+
+* **Standardized Communication**
+* **Easy Error Handling**
+* **Improves API Readability**
+* **Helps in Debugging**
+* **Widely Supported**
+
+
+**Common Interview Follow-up**
+
+**Q: What is the difference between 401 and 403?**
+
+| **401 Unauthorized**          | **403 Forbidden**                            |
+| ----------------------------- | -------------------------------------------- |
+| User is **not authenticated** | User is **authenticated but not authorized** |
+| Login or valid token required | User lacks permission                        |
+
+**Q: What is the difference between 200 and 201?**
+
+| **200 OK**                     | **201 Created**                   |
+| ------------------------------ | --------------------------------- |
+| Request processed successfully | New resource created successfully |
+| Commonly used for **GET**      | Commonly used for **POST**        |
+
+**Q: What is the difference between 404 and 500?**
+
+| **404 Not Found**                    | **500 Internal Server Error** |
+| ------------------------------------ | ----------------------------- |
+| Resource does not exist              | Unexpected server-side error  |
+| Client requested an invalid resource | Application or server failed  |
+
+**Q: Which HTTP status codes are commonly used in REST APIs?**
+
+* **200 OK** – Successful request
+* **201 Created** – Resource created
+* **204 No Content** – Successful deletion
+* **400 Bad Request** – Invalid request
+* **401 Unauthorized** – Authentication required
+* **403 Forbidden** – Permission denied
+* **404 Not Found** – Resource not found
+* **409 Conflict** – Duplicate or conflicting resource
+* **500 Internal Server Error** – Server error
+
 
 # ✅ 21. Java Microservices 
 
