@@ -20298,6 +20298,832 @@ public String processPayment() {
 ```
 
 
+
+## 11. What is API Gateway and predicates?
+
+An **API Gateway** is a **single entry point** for all client requests in a **Microservices** architecture. It receives the request, applies rules, and forwards it to the appropriate microservice.
+
+**Predicates** are **conditions or matching rules** used by the API Gateway to decide **which request should be routed to which service**.
+
+**Key Features**
+
+* **API Gateway**
+
+  * Single entry point for all APIs.
+  * Routes requests to the correct microservice.
+  * Can handle **authentication**, **authorization**, **load balancing**, **logging**, and **rate limiting**.
+* **Predicates**
+
+  * Define routing conditions.
+  * Match requests based on **Path**, **Method**, **Header**, **Host**, **Query Parameter**, etc.
+  * Used before forwarding the request.
+
+**How it Works**
+
+1. The client sends a request to the **API Gateway**.
+2. The gateway checks the configured **predicates**.
+3. If a predicate matches, the request is routed to the corresponding microservice.
+4. The microservice processes the request and returns the response through the gateway.
+
+**Example Flow**
+
+```text id="u6knw2"
+Client
+   |
+API Gateway
+   |
+   |-- /users/**  ----> User Service
+   |
+   |-- /orders/** ----> Order Service
+   |
+   |-- /payment/** ---> Payment Service
+```
+
+
+**When to Use**
+
+* In **Microservices architectures** with multiple backend services.
+* When a single entry point for APIs is needed.
+* When implementing centralized **security**, **monitoring**, or **request routing**.
+
+**Common Predicate Types**
+
+| **Predicate** | **Purpose**                           |
+| ------------- | ------------------------------------- |
+| **Path**      | Matches the URL path                  |
+| **Method**    | Matches HTTP methods like GET or POST |
+| **Header**    | Matches request headers               |
+| **Host**      | Matches the host name                 |
+| **Query**     | Matches query parameters              |
+
+**Spring Cloud Gateway Example**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+```
+
+**`application.yml`**
+
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+
+        - id: order-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/orders/**
+```
+
+```java
+// API Gateway with Spring Cloud Gateway
+@SpringBootApplication
+public class ApiGatewayApplication {
+    
+    @Bean
+    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+            .route("user-service", r -> r.path("/users/**")
+                .uri("lb://user-service"))
+            .route("order-service", r -> r.path("/orders/**")
+                .uri("lb://order-service"))
+            .build();
+    }
+}
+
+```
+
+For a typical Java/Spring Boot microservices application, commonly used API gateways are:
+
+| Gateway              | Mostly Used With            |
+| -------------------- | --------------------------- |
+| Spring Cloud Gateway | Spring Boot microservices   |
+| AWS API Gateway      | AWS cloud                   |
+| Netflix Zuul         | Older Spring Cloud projects |
+| Kong Gateway         | Cloud-native systems        |
+| NGINX                | Reverse proxy/API gateway   |
+| Azure API Management | Azure cloud                 |
+
+
+**Advantages of API Gateway**
+
+| Advantage                 | Explanation                         |
+| ------------------------- | ----------------------------------- |
+| Single Entry Point        | Easier client communication         |
+| Better Security           | Centralized authentication          |
+| Reduced Client Complexity | Client doesn't manage many services |
+| Load Balancing            | Traffic distribution                |
+| Centralized Logging       | Easier monitoring                   |
+| Rate Limiting             | Prevent excessive requests          |
+| API Aggregation           | Combine multiple service responses  |
+| Version Management        | Easy API versioning                 |
+
+**Disadvantages of API Gateway**
+
+| Disadvantage            | Explanation                             |
+| ----------------------- | --------------------------------------- |
+| Single Point of Failure | If gateway fails, all services affected |
+| Additional Latency      | One extra network hop                   |
+| Complex Maintenance     | Gateway rules become complicated        |
+| Bottleneck Risk         | Heavy traffic can overload gateway      |
+| Deployment Complexity   | Requires scaling and monitoring         |
+
+
+## 14. What is service discovery?
+
+**Service Discovery** is a mechanism in **microservices architecture** that allows services to **automatically find and communicate with each other** without hardcoding IP addresses or URLs.
+
+**Key Features**
+
+**• Automatic Service Registration** – services register themselves on startup
+
+**• Dynamic Service Lookup** – services discover other services at runtime
+
+**• Load Balancing Support** – requests can be distributed across instances
+
+**• Scalability** – easily add or remove service instances
+
+**• Fault Tolerance** – unhealthy instances can be excluded automatically
+
+**How it works**
+
+A **Service Registry** maintains information about all available service instances.
+
+1. A service starts and **registers** itself with the registry.
+2. Another service queries the registry to **discover** the target service.
+3. The request is routed to an available service instance.
+
+Common tools: **Netflix Eureka**, **Consul**, and **Apache ZooKeeper**.
+
+
+**When to use**
+
+Use Service Discovery when:
+
+* Building **Microservices**
+* Deploying on **Cloud Platforms**
+* Running **Multiple Service Instances**
+* Using **Containerized Applications**
+* Needing **Dynamic Scaling**
+
+**Code Example (Spring Cloud Eureka Client)**
+
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+public class UserServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(UserServiceApplication.class, args);
+    }
+}
+```
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+**application.yml**
+
+```yaml
+spring:
+  application:
+    name: user-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+```
+
+This registers **user-service** with the **Eureka Server**, allowing other services to discover it automatically.
+
+
+
+## 12. What is circuit breaker pattern?
+
+A **Circuit Breaker** is a **design pattern** used in **Microservices** to prevent repeated calls to a failing service. It detects failures and temporarily stops requests to avoid overloading the unavailable service.
+
+**Key Features**
+
+* Prevents **cascade failures** in distributed systems.
+* Improves **fault tolerance** and **system stability**.
+* Supports **fallback methods** when a service is unavailable.
+* Automatically recovers when the failed service becomes healthy.
+* Commonly implemented using **Resilience4j** or **Hystrix** (older).
+
+**How it Works**
+
+A Circuit Breaker has **three states**:
+
+| **State**     | **Description**                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Closed**    | Normal state. Requests are sent to the target service.                                                                   |
+| **Open**      | Too many failures occurred. Requests are blocked, and a fallback response is returned.                                   |
+| **Half-Open** | After a waiting period, a few test requests are allowed. If they succeed, the circuit closes; otherwise, it opens again. |
+
+**Flow**
+
+```text id="j9p4qs"
+Closed  -->  (Many Failures)  -->  Open
+   ^                                |
+   |                                |
+   +---- (Success in Half-Open) <---+
+                Half-Open
+```
+
+
+**When to Use**
+
+* In **Microservices** where services communicate over the network.
+* When calling external APIs or third-party services.
+* In systems where temporary failures or network issues are common.
+
+**Spring Boot with Resilience4j Example**
+
+```java id="cb9w2m"
+@RestController
+public class UserController {
+
+    @CircuitBreaker(name = "userService", fallbackMethod = "fallback")
+    @GetMapping("/users")
+    public String getUsers() {
+        // Call to another microservice
+        throw new RuntimeException("Service Down");
+    }
+
+    public String fallback(Exception ex) {
+        return "User Service is temporarily unavailable.";
+    }
+}
+```
+
+**How the Above Works**
+
+* The `getUsers()` method calls another service.
+* If failures exceed the configured threshold, the **Circuit Breaker** moves to the **Open** state.
+* New requests do not call the failed service; instead, the **`fallback()`** method returns a default response.
+* After a timeout, the breaker enters **Half-Open** state and checks whether the service has recovered.
+
+**Common Configuration (application.yml)**
+
+```yaml id="7khw6y"
+resilience4j:
+  circuitbreaker:
+    instances:
+      userService:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+```
+
+## 9. circuitbreaker - How do you Handle Failures in Microservices?
+
+Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
+
+We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
+
+```java
+// Steps 1: Add Dependencies (Maven)
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+// Step 2: Configure RestTemplate Bean
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+        // RestTemplate is now in maintenance mode. In modern Spring Boot, we prefer WebClient for non-blocking and reactive applications.
+    }
+}
+
+// Inject RestTemplate in Your Client
+@Component
+public class UserServiceClient {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
+    @Retry(name = "user-service")
+    public User getUser(Long id) {
+        return restTemplate.getForObject(
+                "http://localhost:8081/users/" + id,
+                User.class);
+    }
+
+    public User fallbackUser(Long id, Exception ex) {
+        return new User(id, "Unknown User", "unknown@example.com");
+    }
+}
+
+// application.yml Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+
+  retry:
+    instances:
+      user-service:
+        maxAttempts: 3
+        waitDuration: 2s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+```
+
+Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
+
+
+
+## 15. What is Saga Pattern or How it handle payment failure?
+
+The Saga Pattern is a design pattern used in microservices architecture to manage distributed transactions across multiple services without using a single global database transaction.
+
+Instead of one big transaction, the process is divided into **multiple small local transactions**. Each service completes its own step.
+
+If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
+
+**Example:**
+- In an online order system:
+- Order Created → Payment Done → Inventory Reserved.
+
+If inventory fails, Saga will **refund payment and cancel the order**.
+
+There are **two ways to implement Saga**:
+- **Choreography**  – services communicate using events.
+- **Orchestration** – a central service controls the workflow.
+
+Order Created → Payment Done → Inventory Reserved
+If **inventory fails → refund payment + cancel order**
+
+
+**1. Choreography (Event-Based) – No Central Control**
+```java
+// Order → Payment → Inventory → (Failure → Compensation)
+
+// Order Service
+@Service
+public class OrderService {
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    public void createOrder() {
+        System.out.println("Order Created");
+        kafkaTemplate.send("order-created", "order123");
+    }
+}
+
+// Payment Service (Listens to Order Event)
+@KafkaListener(topics = "order-created")
+public void processPayment(String orderId) {
+    System.out.println("Payment Done for " + orderId);
+
+    kafkaTemplate.send("payment-success", orderId);
+}
+
+// Inventory Service (Failure Scenario)
+@KafkaListener(topics = "payment-success")
+public void reserveInventory(String orderId) {
+    System.out.println("Inventory Failed for " + orderId);
+
+    kafkaTemplate.send("inventory-failed", orderId);
+}
+
+// Compensation (Refund + Cancel)
+@KafkaListener(topics = "inventory-failed")
+public void handleFailure(String orderId) {
+    System.out.println("Refund Payment for " + orderId);
+    System.out.println("Cancel Order for " + orderId);
+}
+
+```
+
+**2. Using Orchestrator Service**
+```java
+// Flow: Orchestrator → Order → Payment → Inventory
+@Service
+public class OrderOrchestrator {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public void placeOrder() {
+
+        try {
+            // Step 1: Create Order
+            restTemplate.postForObject("http://order-service/create", null, String.class);
+
+            // Step 2: Payment
+            restTemplate.postForObject("http://payment-service/pay", null, String.class);
+
+            // Step 3: Inventory
+            restTemplate.postForObject("http://inventory-service/reserve", null, String.class);
+
+            System.out.println("Order Completed");
+
+        } catch (Exception e) {
+
+            // Compensation logic
+            restTemplate.postForObject("http://payment-service/refund", null, String.class);
+            restTemplate.postForObject("http://order-service/cancel", null, String.class);
+
+            System.out.println("Transaction Failed → Rolled Back");
+        }
+    }
+}
+```
+
+
+## 6. What are CQRS principles?
+
+**CQRS (Command Query Responsibility Segregation)** is an **architectural pattern** that separates **read operations (Queries)** from **write operations (Commands)**. Instead of using the same model for both reading and updating data, CQRS uses **different models and logic** for each responsibility.
+
+**Key Features**
+
+* Separates **Commands** (Write) and **Queries** (Read).
+* Uses **different models** for updating and fetching data.
+* Improves **scalability** and **performance**.
+* Supports **Event-Driven Architecture** and **Microservices**.
+* Often used with **Event Sourcing** (optional).
+
+**How it Works**
+
+1. A **Command** performs an action like **Create**, **Update**, or **Delete** data.
+2. The command updates the **Write Database**.
+3. An event may be published to synchronize the **Read Database**.
+4. A **Query** retrieves data only from the **Read Database** without modifying it.
+
+**Example Flow:**
+
+```text
+Client
+   |
+   |---- Command (Create Order) ----> Write Model ----> Write DB
+   |
+   |---- Query (Get Order) ---------> Read Model -----> Read DB
+```
+
+**When to Use**
+
+* In **Microservices Architecture**.
+* In applications with **high read and write traffic**.
+* When **read and write operations have different performance requirements**.
+* In systems using **Event-Driven Architecture** or **Event Sourcing**.
+
+**Command vs Query**
+
+| **Command**                        | **Query**                     |
+| ---------------------------------- | ----------------------------- |
+| Changes data                       | Reads data                    |
+| Uses **POST**, **PUT**, **DELETE** | Uses **GET**                  |
+| Updates the **Write Model**        | Reads from the **Read Model** |
+| Returns success/failure            | Returns requested data        |
+
+**Simple Java Example**
+
+**Command Service (Write):**
+
+```java
+@Service
+public class UserCommandService {
+
+    public void createUser(User user) {
+        // Save user to database
+        System.out.println("User Created");
+    }
+}
+```
+
+**Query Service (Read):**
+
+```java
+@Service
+public class UserQueryService {
+
+    public User getUserById(Long id) {
+        // Fetch user from database
+        return new User(id, "John");
+    }
+}
+```
+
+**Controller:**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserCommandService commandService;
+
+    @Autowired
+    private UserQueryService queryService;
+
+    @PostMapping
+    public void createUser(@RequestBody User user) {
+        commandService.createUser(user);
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return queryService.getUserById(id);
+    }
+}
+```
+
+**Real-World Example**
+
+In an **E-commerce Application**:
+
+* **Command Side** handles operations like **Place Order**, **Update Inventory**, and **Process Payment**.
+* **Query Side** handles operations like **View Order History** and **Search Products**.
+
+The read database can be optimized for fast searches, while the write database focuses on data consistency.
+
+
+```text
+src/main/java/com/example/user
+
+├── command
+│   ├── controller
+│   │   └── UserCommandController.java
+│   ├── service
+│   │   └── UserCommandService.java
+│   ├── handler
+│   │   └── CreateUserCommandHandler.java
+│   └── model
+│       └── CreateUserCommand.java
+│
+├── query
+│   ├── controller
+│   │   └── UserQueryController.java
+│   ├── service
+│   │   └── UserQueryService.java
+│   ├── handler
+│   │   └── GetUserQueryHandler.java
+│   └── model
+│       └── GetUserQuery.java
+│
+├── entity
+│   └── User.java
+│
+├── repository
+│   └── UserRepository.java
+│
+└── config
+    └── ApplicationConfig.java
+```
+
+
+
+## 10. What is Event-Driven Architecture in Java?
+
+**Event-Driven Architecture (EDA)** is an **architectural pattern** where different services communicate by **producing and consuming events**. Instead of calling each other directly, one service publishes an event, and other interested services react to it asynchronously.
+
+**Key Features**
+
+* **Asynchronous communication** between services.
+* Uses **Events**, **Producers**, and **Consumers**.
+* Services are **loosely coupled**.
+* Supports **scalability** and **high availability**.
+* Commonly implemented using **Kafka**, **RabbitMQ**, or other **message brokers**.
+
+**How it Works**
+
+1. A service performs an action (for example, an order is created).
+2. It publishes an **event** like `OrderCreated`.
+3. The **message broker** delivers the event.
+4. Other services, such as **Payment Service**, **Inventory Service**, and **Notification Service**, consume the event and perform their tasks independently.
+
+**Example Flow:**
+
+```
+Order Service
+      |
+      |  Publish: OrderCreated Event
+      v
+   Kafka / RabbitMQ
+   /        |        \
+  v         v         v
+Payment  Inventory  Notification
+Service   Service      Service
+```
+
+
+**When to Use**
+
+* In **Microservices Architecture**.
+* For **real-time applications** like order processing, notifications, and analytics.
+* When multiple services need to react to the same event.
+* When high **scalability** and **fault tolerance** are required.
+
+**Simple Java Example with Spring Event**
+
+```java
+// Event
+public class OrderCreatedEvent {
+    private String orderId;
+
+    public OrderCreatedEvent(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+}
+```
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+
+// Event Publisher
+@Autowired
+private ApplicationEventPublisher publisher;
+
+public void createOrder() {
+    System.out.println("Order Created");
+    publisher.publishEvent(new OrderCreatedEvent("ORD-101"));
+}
+```
+
+```java
+// Event Listener
+@EventListener
+public void handleOrderCreated(OrderCreatedEvent event) {
+    System.out.println("Processing payment for: " + event.getOrderId());
+}
+```
+
+**Real-World Example**
+
+In an **E-commerce Application**:
+
+* **Order Service** publishes an `OrderCreated` event.
+* **Payment Service** processes the payment.
+* **Inventory Service** updates stock.
+* **Notification Service** sends an email or SMS.
+
+All these services work **independently** without directly calling each other.
+
+
+## 12. Database per Service Design Pattern? 
+
+## 12. Bulkhead Design Pattern
+
+## 12. Retry Design Pattern
+
+## 12. Strangler Design Pattern
+
+## 13: What is resilience4j pattern?
+
+**Resilience4j** is a **lightweight fault-tolerance library** used in Java and **Spring Boot** applications. It helps make **Microservices** more reliable by handling failures gracefully using patterns like **Circuit Breaker**, **Retry**, **Rate Limiter**, **Bulkhead**, and **Time Limiter**.
+
+**Key Features**
+
+* Implements **Circuit Breaker** pattern.
+* Supports **Retry** for failed requests.
+* Provides **Rate Limiter** to control request traffic.
+* Uses **Bulkhead** to isolate resources and prevent cascading failures.
+* Supports **Time Limiter** for handling slow responses.
+* Easy integration with **Spring Boot** and **Spring Cloud**.
+* Lightweight and a modern replacement for **Hystrix**.
+
+**How it Works**
+
+* A request is wrapped with a **Resilience4j component** (for example, a Circuit Breaker).
+* If the target service fails or becomes slow, Resilience4j applies the configured rule.
+* It can **retry the request**, **return a fallback response**, or **block further calls** until the service recovers.
+
+**Common Modules**
+
+| **Module**          | **Purpose**                                        |
+| ------------------- | -------------------------------------------------- |
+| **Circuit Breaker** | Stops calls to a failing service                   |
+| **Retry**           | Retries failed requests automatically              |
+| **Rate Limiter**    | Limits the number of incoming requests             |
+| **Bulkhead**        | Isolates resources to prevent system-wide failures |
+| **Time Limiter**    | Sets a timeout for service calls                   |
+| **Cache**           | Stores frequently used results                     |
+
+
+**When to Use**
+
+* In **Microservices** architectures.
+* When calling external APIs or third-party services.
+* In applications that require high availability and resilience.
+* With **Spring Boot** applications using REST APIs.
+
+**Spring Boot Example**
+
+**1. Maven Dependency**
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+**2. application.yml Configuration**
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+
+  retry:
+    instances:
+      paymentService:
+        maxAttempts: 3
+        waitDuration: 2s
+
+  ratelimiter:
+    instances:
+      paymentService:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 1s
+
+  timelimiter:
+    instances:
+      paymentService:
+        timeoutDuration: 3s
+```
+
+**3. Service Class Example**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+    @Retry(name = "paymentService")
+    @RateLimiter(name = "paymentService")
+    @TimeLimiter(name = "paymentService")
+    public String callPaymentService() {
+        return restTemplate.getForObject(
+                "http://PAYMENT-SERVICE/pay", String.class);
+    }
+
+    public String fallback(Exception e) {
+        return "Payment service is down. Try later.";
+    }
+}
+```
+
 ## 16. What is a @Transactional (ACID properties)? How do you handle rollback?
 
 
