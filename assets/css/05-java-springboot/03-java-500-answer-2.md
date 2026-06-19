@@ -19801,6 +19801,118 @@ This can be a separate **User Microservice**. Similarly, **Order** and **Payment
 * **Kafka** or **RabbitMQ** for asynchronous communication.
 * **Docker** and **Kubernetes** for containerization and orchestration.
 
+## 3. Monolithic vs Microservices Architecture
+
+**Monolithic** and **Microservices** are two different software architecture styles. In a **Monolithic architecture**, the entire application is built and deployed as a **single unit**, while in **Microservices**, the application is divided into **small, independent services**.
+
+| **Feature**          | **Monolithic**                             | **Microservices**                                 |
+| -------------------- | ------------------------------------------ | ------------------------------------------------- |
+| **Architecture**     | Single, unified application                | Collection of small independent services          |
+| **Deployment**       | Entire application is deployed together    | Each service is deployed independently            |
+| **Scalability**      | Scale the whole application                | Scale only the required service                   |
+| **Codebase**         | Single codebase                            | Multiple smaller codebases                        |
+| **Database**         | Usually one shared database                | Each service can have its own database            |
+| **Technology Stack** | Generally one technology stack             | Different services can use different technologies |
+| **Failure Impact**   | Failure can affect the entire application  | Failure is isolated to one service                |
+| **Development**      | Simpler for small projects                 | Better for large and complex projects             |
+| **Maintenance**      | Becomes difficult as the application grows | Easier because services are independent           |
+
+**Key Features**
+
+* **Monolithic:** Simple architecture, easy to develop and deploy initially.
+* **Microservices:** Loosely coupled, independently deployable, and highly scalable.
+* **Microservices** communicate using **REST APIs**, **gRPC**, or **message queues**.
+
+**How it Works**
+
+* In a **Monolithic application**, modules like User, Order, and Payment are all part of one application.
+* In **Microservices**, each module runs as a separate service with its own logic and possibly its own database.
+
+**Architecture Example**
+
+```text
+Monolithic:
++--------------------------------------+
+| User | Order | Payment | Inventory   |
++--------------------------------------+
+           Single Application
+```
+
+```text
+Microservices:
+Client
+   |
+API Gateway
+   |
+---------------------------------
+|        |         |            |
+User   Order    Payment    Inventory
+Service Service  Service     Service
+|        |         |            |
+DB       DB        DB           DB
+```
+
+
+**When to Use**
+
+* Choose **Monolithic** for:
+
+  * Small or startup projects.
+  * Simple business logic.
+  * Small development teams.
+* Choose **Microservices** for:
+
+  * Large and complex applications.
+  * Multiple independent teams.
+  * High scalability and frequent deployments.
+  * Cloud-native and distributed systems.
+
+**Code Example**
+
+**Monolithic (Single Application)**
+
+```java
+@RestController
+public class AppController {
+
+    @GetMapping("/user")
+    public String getUser() {
+        return "User Service";
+    }
+
+    @GetMapping("/order")
+    public String getOrder() {
+        return "Order Service";
+    }
+}
+```
+
+**Microservices (Separate Applications)**
+
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return "User Microservice";
+    }
+}
+```
+
+```java
+@RestController
+public class OrderController {
+
+    @GetMapping("/orders")
+    public String getOrders() {
+        return "Order Microservice";
+    }
+}
+```
+
+Each controller can run as a separate **Spring Boot** application and communicate through **REST APIs**.
+
 ## 2. What design patterns used in Microservices architecture?
 
 **What are Microservices Design Patterns?**
@@ -19970,122 +20082,6 @@ public String processPayment() {
     return "Processing payment";
 }
 ```
-
-## 3. Monolithic vs Microservices Architecture
-
-**Monolithic** and **Microservices** are two different software architecture styles. In a **Monolithic architecture**, the entire application is built and deployed as a **single unit**, while in **Microservices**, the application is divided into **small, independent services**.
-
-| **Feature**          | **Monolithic**                             | **Microservices**                                 |
-| -------------------- | ------------------------------------------ | ------------------------------------------------- |
-| **Architecture**     | Single, unified application                | Collection of small independent services          |
-| **Deployment**       | Entire application is deployed together    | Each service is deployed independently            |
-| **Scalability**      | Scale the whole application                | Scale only the required service                   |
-| **Codebase**         | Single codebase                            | Multiple smaller codebases                        |
-| **Database**         | Usually one shared database                | Each service can have its own database            |
-| **Technology Stack** | Generally one technology stack             | Different services can use different technologies |
-| **Failure Impact**   | Failure can affect the entire application  | Failure is isolated to one service                |
-| **Development**      | Simpler for small projects                 | Better for large and complex projects             |
-| **Maintenance**      | Becomes difficult as the application grows | Easier because services are independent           |
-
-**Key Features**
-
-* **Monolithic:** Simple architecture, easy to develop and deploy initially.
-* **Microservices:** Loosely coupled, independently deployable, and highly scalable.
-* **Microservices** communicate using **REST APIs**, **gRPC**, or **message queues**.
-
-**How it Works**
-
-* In a **Monolithic application**, modules like User, Order, and Payment are all part of one application.
-* In **Microservices**, each module runs as a separate service with its own logic and possibly its own database.
-
-**Architecture Example**
-
-```text
-Monolithic:
-+--------------------------------------+
-| User | Order | Payment | Inventory   |
-+--------------------------------------+
-           Single Application
-```
-
-```text
-Microservices:
-Client
-   |
-API Gateway
-   |
----------------------------------
-|        |         |            |
-User   Order    Payment    Inventory
-Service Service  Service     Service
-|        |         |            |
-DB       DB        DB           DB
-```
-
-
-**When to Use**
-
-* Choose **Monolithic** for:
-
-  * Small or startup projects.
-  * Simple business logic.
-  * Small development teams.
-* Choose **Microservices** for:
-
-  * Large and complex applications.
-  * Multiple independent teams.
-  * High scalability and frequent deployments.
-  * Cloud-native and distributed systems.
-
-**Code Example**
-
-**Monolithic (Single Application)**
-
-```java
-@RestController
-public class AppController {
-
-    @GetMapping("/user")
-    public String getUser() {
-        return "User Service";
-    }
-
-    @GetMapping("/order")
-    public String getOrder() {
-        return "Order Service";
-    }
-}
-```
-
-**Microservices (Separate Applications)**
-
-```java
-@RestController
-public class UserController {
-
-    @GetMapping("/users")
-    public String getUsers() {
-        return "User Microservice";
-    }
-}
-```
-
-```java
-@RestController
-public class OrderController {
-
-    @GetMapping("/orders")
-    public String getOrders() {
-        return "Order Microservice";
-    }
-}
-```
-
-Each controller can run as a separate **Spring Boot** application and communicate through **REST APIs**.
-
-
-
-
 
 
 
