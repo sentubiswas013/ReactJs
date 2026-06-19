@@ -21270,11 +21270,443 @@ In an **E-commerce Application**:
 All these services work **independently** without directly calling each other.
 
 
-## 11. Database per Service Design Pattern? 
+## 11. What is the Database per Service Design Pattern?
 
-## 12. Bulkhead Design Pattern
+**Database per Service** is a **Microservices Design Pattern** where **each microservice owns its own database**. No other service can directly access that database. Services communicate through **APIs** or **events**, ensuring **loose coupling** and **independent deployment**.
 
-## 13. Retry Design Pattern
+**Key Features**
+
+* **Each Service Owns Its Database**
+* **No Shared Database**
+* **Loose Coupling**
+* **Independent Deployment**
+* **Technology Flexibility** (SQL or NoSQL)
+* **Better Scalability**
+
+**How It Works**
+
+1. Each microservice has its **own private database**.
+2. Only the owning service can **read or write** its database.
+3. Other services access data by calling the service's **REST API**, **gRPC**, or **events**.
+4. Cross-service business transactions are handled using patterns like **Saga**.
+
+**Architecture Flow**
+
+```text
+             Client
+                │
+        ┌───────┼────────┐
+        │       │        │
+        ▼       ▼        ▼
+ Order Service  Payment Service  Inventory Service
+        │            │                 │
+        ▼            ▼                 ▼
+ Order DB      Payment DB      Inventory DB
+```
+
+Each service manages its **own database**, and databases are **never shared**.
+
+**Example**
+
+An **E-commerce** application:
+
+* **Order Service** → **OrderDB**
+* **Payment Service** → **PaymentDB**
+* **Inventory Service** → **InventoryDB**
+
+If **Order Service** needs payment information, it **calls Payment Service API** instead of directly querying **PaymentDB**.
+
+**When to Use**
+
+* **Microservices Architecture**
+* **Cloud-Native Applications**
+* Applications requiring **independent scaling**
+* Systems where services are developed by **different teams**
+* Large distributed applications
+
+**Spring Boot Example**
+
+**Order Entity**
+
+```java
+@Entity
+public class Order {
+
+    @Id
+    private Long id;
+
+    private String product;
+}
+```
+
+**Order Repository**
+
+```java
+public interface OrderRepository
+        extends JpaRepository<Order, Long> {
+}
+```
+
+**Calling Another Service**
+
+```java
+@Autowired
+private RestTemplate restTemplate;
+
+String paymentStatus = restTemplate.getForObject(
+    "http://payment-service/payment/1",
+    String.class
+);
+```
+
+Here, **Order Service** does **not** access **PaymentDB** directly. It calls the **Payment Service API**.
+
+**Advantages**
+
+* **Loose Coupling**
+* **Independent Deployment**
+* **Independent Database Scaling**
+* **Supports Different Database Technologies**
+* **Improved Fault Isolation**
+* **Better Security** (No direct database access)
+
+**Disadvantages**
+
+* **No Direct JOIN** across databases
+* **Distributed Transactions** become complex
+* Requires **API** or **Event-Based Communication**
+* Data consistency is usually **Eventual Consistency**
+
+
+**Common Interview Follow-up**
+
+**Q: Why shouldn't multiple microservices share the same database?**
+
+A **shared database** creates **tight coupling**. Changes made by one service can affect others, making **deployment**, **maintenance**, and **scaling** difficult.
+
+**Q: How do services access data from another service's database?**
+
+They **do not access the database directly**. Instead, they call the service's **REST API**, **gRPC**, or consume **events**.
+
+**Q: Can different services use different databases?**
+
+**Yes.** Each service can choose the database that best fits its needs.
+
+**Example:**
+
+* **Order Service** → **MySQL**
+* **Inventory Service** → **MongoDB**
+* **Payment Service** → **PostgreSQL**
+
+This is called **Polyglot Persistence**.
+
+**Q: How are transactions managed across multiple databases?**
+
+Since each service has its own database, **distributed transactions** are managed using the **Saga Pattern**, which coordinates local transactions and performs **compensating transactions** if a failure occurs.
+
+
+## 12. What is the Bulkhead Design Pattern?
+
+**Bulkhead** is a **Microservices Resilience Design Pattern** that **isolates resources** (such as **threads**, **connection pools**, or **service instances**) so that a failure in one part of the application **does not affect other parts**. It prevents **cascading failures** and improves system reliability.
+
+**Key Features**
+
+* **Resource Isolation**
+* **Fault Isolation**
+* **Prevents Cascading Failures**
+* **Improves System Availability**
+* **Independent Thread Pools or Connection Pools**
+* **Works Well with Circuit Breaker**
+
+**How It Works**
+
+1. The application is divided into **independent resource pools**.
+2. Each service or operation gets its **own thread pool** or **connection pool**.
+3. If one service becomes slow or fails, only its allocated resources are affected.
+4. Other services continue to work normally using their own resources.
+
+**Architecture Flow**
+
+```text
+                 Client
+                    │
+      ┌─────────────┼─────────────┐
+      ▼             ▼             ▼
+ Order Service  Payment Service  Inventory Service
+(Thread Pool A) (Thread Pool B) (Thread Pool C)
+
+If Payment Service is overloaded,
+only Thread Pool B is affected.
+Order and Inventory continue working.
+```
+
+**Example**
+
+An **E-commerce** application has three services:
+
+* **Order Service**
+* **Payment Service**
+* **Inventory Service**
+
+If the **Payment Service** becomes slow, its **thread pool** gets exhausted. Because each service has its own resources, **Order Service** and **Inventory Service** continue processing requests without interruption.
+
+**When to Use**
+
+* **Microservices Architecture**
+* Applications with **high traffic**
+* Systems calling **external APIs**
+* **Cloud-Native Applications**
+* When preventing **cascading failures** is important
+
+**Spring Boot Example (Resilience4j Bulkhead)**
+
+**Dependency**
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+**Bulkhead Configuration**
+
+```java
+@Service
+public class PaymentService {
+
+    @Bulkhead(name = "paymentService")
+    public String processPayment() {
+        return "Payment Successful";
+    }
+}
+```
+
+**application.yml**
+
+```yaml
+resilience4j:
+  bulkhead:
+    instances:
+      paymentService:
+        maxConcurrentCalls: 5
+        maxWaitDuration: 500ms
+```
+
+This configuration allows only **5 concurrent requests**. Additional requests wait for **500 ms** and then fail if no thread is available.
+
+**Advantages**
+
+* **Prevents Cascading Failures**
+* **Improves Fault Isolation**
+* **Better System Stability**
+* **High Availability**
+* **Independent Resource Management**
+
+**Disadvantages**
+
+* More **configuration** required
+* Additional **resource management**
+* Incorrect pool sizes may reduce performance
+
+
+**Common Interview Follow-up**
+
+**Q: Why is the Bulkhead Pattern needed?**
+
+Without **Bulkhead**, one overloaded service can consume all available threads or connections, causing the **entire application** to become unresponsive.
+
+**Q: What resources can be isolated?**
+
+* **Thread Pools**
+* **Connection Pools**
+* **Service Instances**
+* **Memory Resources**
+
+**Q: What is the difference between Bulkhead and Circuit Breaker?**
+
+| **Bulkhead**                              | **Circuit Breaker**                  |
+| ----------------------------------------- | ------------------------------------ |
+| **Isolates resources**                    | **Stops calls** to a failing service |
+| Prevents **resource exhaustion**          | Prevents repeated failures           |
+| Uses **separate thread/connection pools** | Opens the circuit after failures     |
+| Focuses on **fault isolation**            | Focuses on **failure handling**      |
+
+**Q: Can Bulkhead and Circuit Breaker be used together?**
+
+**Yes.** They are commonly used together:
+
+* **Bulkhead** isolates resources.
+* **Circuit Breaker** stops requests to failing services.
+* Together they provide **better resilience** and **high availability**.
+
+
+## 13. What is the Retry Design Pattern?
+
+
+**Retry** is a **Microservices Resilience Design Pattern** that **automatically retries a failed operation** after a temporary failure, such as a **network issue**, **timeout**, or **temporary service unavailability**. It improves system reliability by handling **transient failures** without user intervention.
+
+**Key Features**
+
+* **Automatic Retry**
+* **Handles Transient Failures**
+* **Configurable Retry Attempts**
+* **Retry Delay (Backoff)**
+* **Improves Reliability**
+* **Works Well with Circuit Breaker**
+
+**How It Works**
+
+1. A service sends a request to another service.
+2. If the request fails due to a **temporary error**, it waits for a configured delay.
+3. The request is retried automatically.
+4. If the request succeeds, the process continues.
+5. If all retry attempts fail, the request returns an error or triggers a **fallback**.
+
+**Architecture Flow**
+
+```text
+Order Service
+      │
+      ▼
+Payment Service
+      │
+      ├── Attempt 1 ❌
+      ├── Wait
+      ├── Attempt 2 ❌
+      ├── Wait
+      └── Attempt 3 ✅
+```
+
+If all attempts fail, the request returns an error or executes a fallback.
+
+**Example**
+
+An **Order Service** calls the **Payment Service**.
+
+* First request → **Timeout**
+* Retry after **1 second**
+* Second request → **Network Error**
+* Retry again
+* Third request → **Success**
+
+The user receives a successful response without manually retrying.
+
+**When to Use**
+
+* **Temporary Network Failures**
+* **Service Timeouts**
+* **External API Calls**
+* **Cloud Applications**
+* **Microservices Communication**
+
+**Do Not Use For**
+
+* **Invalid Input**
+* **Authentication Errors**
+* **Business Validation Errors**
+* **Permanent Failures**
+
+Retrying these errors will not solve the problem.
+
+**Spring Boot Example (Resilience4j Retry)**
+
+**Dependency**
+
+```xml
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot3</artifactId>
+</dependency>
+```
+
+**Retry Annotation**
+
+```java
+@Service
+public class PaymentService {
+
+    @Retry(name = "paymentService")
+    public String processPayment() {
+        return restTemplate.getForObject(
+            "http://payment-service/pay",
+            String.class
+        );
+    }
+}
+```
+
+**application.yml**
+
+```yaml
+resilience4j:
+  retry:
+    instances:
+      paymentService:
+        maxAttempts: 3
+        waitDuration: 2s
+```
+
+This configuration retries the request **3 times** with a **2-second delay** between attempts.
+
+**Advantages**
+
+* **Improves Reliability**
+* **Handles Temporary Failures Automatically**
+* **Reduces User Errors**
+* **Easy to Configure**
+* **Works Well with Circuit Breaker**
+
+**Disadvantages**
+
+* Can increase **response time**
+* Too many retries may overload a failing service
+* Not suitable for **permanent failures**
+
+
+**Common Interview Follow-up**
+
+**Q: When should we use the Retry Pattern?**
+
+Use it for **temporary failures** like:
+
+* **Network Issues**
+* **Timeouts**
+* **Temporary Service Unavailability**
+* **External API Failures**
+
+**Q: When should we avoid Retry?**
+
+Do **not** retry:
+
+* **Authentication Failures (401)**
+* **Authorization Failures (403)**
+* **Invalid Requests (400)**
+* **Business Validation Errors**
+
+These are **permanent failures**, and retrying will not help.
+
+**Q: What is Exponential Backoff?**
+
+Instead of retrying immediately, the delay **increases after each failed attempt**.
+
+**Example:**
+
+* Retry 1 → **1 second**
+* Retry 2 → **2 seconds**
+* Retry 3 → **4 seconds**
+
+This reduces pressure on an overloaded service.
+
+**Q: What is the difference between Retry and Circuit Breaker?**
+
+| **Retry**                       | **Circuit Breaker**                       |
+| ------------------------------- | ----------------------------------------- |
+| **Retries failed requests**     | **Stops requests** to a failing service   |
+| Best for **temporary failures** | Best for **continuous failures**          |
+| Improves success rate           | Prevents system overload                  |
+| Waits and retries               | Opens the circuit after repeated failures |
+
 
 ## 14. Strangler Design Pattern
 
@@ -21385,8 +21817,8 @@ public class OrderService {
 }
 ```
 
-## 16. What is a @Transactional (ACID properties)? How do you handle rollback?
 
+## 16. What is a @Transactional (ACID properties)? How do you handle rollback?
 
 **@Transactional** is a Spring annotation used to manage **database transactions** automatically. It ensures that a group of database operations is executed as a single unit of work.
 
