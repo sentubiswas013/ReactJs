@@ -19913,207 +19913,6 @@ public class OrderController {
 
 Each controller can run as a separate **Spring Boot** application and communicate through **REST APIs**.
 
-## 2. What are Microservices Design Patterns?*
-
-
-**Microservices Design Patterns** are **proven architectural solutions** used to solve common challenges in **microservices**, such as **service communication**, **fault tolerance**, **data consistency**, **service discovery**, and **scalability**.
-
-**Key Features**
-
-* **Loose Coupling**
-* **High Availability**
-* **Fault Tolerance**
-* **Scalability**
-* **Independent Deployment**
-* **Resilience**
-
-**Common Microservices Design Patterns**
-
-| **Pattern**                   | **Purpose**                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| **API Gateway**               | A single entry point that routes client requests to appropriate microservices                   |
-| **Service Discovery**         | A mechanism that automatically detects and locates available service instances.                        |
-| **Circuit Breaker**           | A pattern that stops calls to a failing service to prevent system-wide failure.           |
-| **Saga Pattern**              | A way to manage distributed transactions using a sequence of local transactions.      |
-| **CQRS**                      | A pattern that separates read operations from write operations.                  |
-| **Event-Driven Architecture** | Services communicate using **events**                        |
-| **Database per Service**      | Each microservice has its own dedicated database for data isolation.                      |
-| **Bulkhead**                  | A pattern that isolates resources to prevent one service failure from affecting others.      |
-| **Retry Pattern**             | Retries failed requests automatically                        |
-| **Strangler Pattern**         | Gradually migrates a monolithic application to microservices |
-
-**How It Works**
-
-```text id="kgzgka"
-Client
-   │
-   ▼
-API Gateway
-   │
-   ├────────► User Service
-   ├────────► Order Service
-   └────────► Payment Service
-                 │
-                 ▼
-          Circuit Breaker
-                 │
-        Success / Fallback
-```
-
-**When to Use**
-
-* **Microservices Architecture**
-* **Cloud-Native Applications**
-* **Distributed Systems**
-* **Large-Scale Applications**
-* Applications requiring **high availability** and **fault tolerance**
-
-**Spring Boot Example (Circuit Breaker using Resilience4j)**
-
-```java
-@CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
-public String processPayment() {
-    return restTemplate.getForObject(
-        "http://payment-service/pay",
-        String.class
-    );
-}
-
-public String fallback(Exception ex) {
-    return "Payment service is unavailable.";
-}
-```
-
-**Key Advantages:**
-- **Independent deployment:** Deploy services separately
-- **Technology diversity:** Different tech stacks per service
-- **Scalability:** Scale individual services based on demand
-- **Fault isolation:** Failure in one service doesn't crash entire system
-- **Team autonomy:** Small teams own complete services
-- **Faster development:** Parallel development of services
-
-**Major Challenges:**
-- **Distributed system complexity:** Network calls, latency, failures
-- **Data consistency:** Managing transactions across services
-- **Service communication:** Inter-service communication overhead
-- **Monitoring and debugging:** Tracing requests across services
-- **Deployment complexity:** Managing multiple services
-- **Testing challenges:** Integration and end-to-end testing
-
-
-**Example:**
-```java
-// 1. API Gateway Pattern
-@RestController
-public class ApiGatewayController {
-    @Autowired
-    private UserClient userClient;
-    
-    @Autowired
-    private OrderClient orderClient;
-    
-    @GetMapping("/api/user-orders/{userId}")
-    public UserOrdersResponse getUserWithOrders(@PathVariable Long userId) {
-        User user = userClient.getUser(userId);
-        List<Order> orders = orderClient.getOrdersByUser(userId);
-        return new UserOrdersResponse(user, orders);
-    }
-}
-
-// 2. Service Discovery Pattern, Commonly implemented using Netflix Eureka.
-@EnableEurekaClient
-@SpringBootApplication
-public class OrderServiceApplication {
-}
-restTemplate.getForObject("http://PAYMENT-SERVICE/pay", String.class);
-
-// 3. Circuit Breaker Pattern (with Resilience4j)
-@Service
-public class OrderService {
-    @CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
-    public Payment processPayment(PaymentRequest request) {
-        return paymentClient.process(request);
-    }
-    
-    public Payment paymentFallback(PaymentRequest request, Exception e) {
-        return new Payment("PENDING", "Payment service unavailable");
-    }
-}
-
-// 4. Saga Pattern (Choreography)
-@Service
-public class OrderSagaService {
-    @Autowired
-    private KafkaTemplate<String, OrderEvent> kafkaTemplate;
-    
-    public void createOrder(Order order) {
-        orderRepository.save(order);
-        kafkaTemplate.send("order-created", new OrderEvent(order.getId()));
-    }
-    
-    @KafkaListener(topics = "payment-failed")
-    public void handlePaymentFailed(PaymentEvent event) {
-        Order order = orderRepository.findById(event.getOrderId()).get();
-        order.setStatus("CANCELLED");
-        orderRepository.save(order);
-    }
-}
-
-// 5. CQRS (Command Query Responsibility Segregation)
-// Command (Write)
-@PostMapping("/orders")
-public void createOrder(@RequestBody Order order) { }
-
-// Query (Read)
-@GetMapping("/orders/{id}")
-public Order getOrder(@PathVariable Long id) { }
-
-// 6. Database per Service
-# order-service application.properties
-spring.datasource.url=jdbc:mysql://localhost:3306/orderdb
-
-// 7. Bulkhead Pattern
-// Example (Resilience4j)
-@Bulkhead(name = "paymentService", type = Bulkhead.Type.THREADPOOL)
-public String processPayment() {
-    return "Processing payment";
-}
-```
-
-
-
-
-## 7. Blocking vs No blocking db call in Microservice?
-
-
-A **blocking DB call** means the thread waits until the database response comes back.
-
-A **non-blocking DB call** means the thread does not wait; it can handle other requests while waiting for the DB response.
-
-Non-blocking is better for high-traffic microservices because it improves performance and scalability.
-
-**Blocking Example (Spring Boot – JPA)**
-
-```java
-@GetMapping("/users/{id}")
-public User getUser(@PathVariable Long id) {
-    return userRepository.findById(id).orElse(null); 
-}
-```
-
-- Here thread **waits** until DB returns result → Blocking
-
-
-**Non-Blocking Example (Spring WebFlux)**
-
-```java
-@GetMapping("/users/{id}")
-public Mono<User> getUser(@PathVariable Long id) {
-    return userRepository.findById(id);
-}
-```
-
-- Returns **Mono** → Thread **does not wait** → Non-blocking
 
 
 ## 8. How microservices communicate with each other?
@@ -20331,7 +20130,172 @@ public void consume(String message) {
 }
 ```
 
+## 2. What are Microservices Design Patterns?*
 
+
+**Microservices Design Patterns** are **proven architectural solutions** used to solve common challenges in **microservices**, such as **service communication**, **fault tolerance**, **data consistency**, **service discovery**, and **scalability**.
+
+**Key Features**
+
+* **Loose Coupling**
+* **High Availability**
+* **Fault Tolerance**
+* **Scalability**
+* **Independent Deployment**
+* **Resilience**
+
+**Common Microservices Design Patterns**
+
+| **Pattern**                   | **Purpose**                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+| **API Gateway**               | A single entry point that routes client requests to appropriate microservices                   |
+| **Service Discovery**         | A mechanism that automatically detects and locates available service instances.                        |
+| **Circuit Breaker**           | A pattern that stops calls to a failing service to prevent system-wide failure.           |
+| **Saga Pattern**              | A way to manage distributed transactions using a sequence of local transactions.      |
+| **CQRS**                      | A pattern that separates read operations from write operations.                  |
+| **Event-Driven Architecture** | Services communicate using **events**                        |
+| **Database per Service**      | Each microservice has its own dedicated database for data isolation.                      |
+| **Bulkhead**                  | A pattern that isolates resources to prevent one service failure from affecting others.      |
+| **Retry Pattern**             | Retries failed requests automatically                        |
+| **Strangler Pattern**         | Gradually migrates a monolithic application to microservices |
+
+**How It Works**
+
+```text id="kgzgka"
+Client
+   │
+   ▼
+API Gateway
+   │
+   ├────────► User Service
+   ├────────► Order Service
+   └────────► Payment Service
+                 │
+                 ▼
+          Circuit Breaker
+                 │
+        Success / Fallback
+```
+
+**When to Use**
+
+* **Microservices Architecture**
+* **Cloud-Native Applications**
+* **Distributed Systems**
+* **Large-Scale Applications**
+* Applications requiring **high availability** and **fault tolerance**
+
+**Spring Boot Example (Circuit Breaker using Resilience4j)**
+
+```java
+@CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+public String processPayment() {
+    return restTemplate.getForObject(
+        "http://payment-service/pay",
+        String.class
+    );
+}
+
+public String fallback(Exception ex) {
+    return "Payment service is unavailable.";
+}
+```
+
+**Key Advantages:**
+- **Independent deployment:** Deploy services separately
+- **Technology diversity:** Different tech stacks per service
+- **Scalability:** Scale individual services based on demand
+- **Fault isolation:** Failure in one service doesn't crash entire system
+- **Team autonomy:** Small teams own complete services
+- **Faster development:** Parallel development of services
+
+**Major Challenges:**
+- **Distributed system complexity:** Network calls, latency, failures
+- **Data consistency:** Managing transactions across services
+- **Service communication:** Inter-service communication overhead
+- **Monitoring and debugging:** Tracing requests across services
+- **Deployment complexity:** Managing multiple services
+- **Testing challenges:** Integration and end-to-end testing
+
+
+**Example:**
+```java
+// 1. API Gateway Pattern
+@RestController
+public class ApiGatewayController {
+    @Autowired
+    private UserClient userClient;
+    
+    @Autowired
+    private OrderClient orderClient;
+    
+    @GetMapping("/api/user-orders/{userId}")
+    public UserOrdersResponse getUserWithOrders(@PathVariable Long userId) {
+        User user = userClient.getUser(userId);
+        List<Order> orders = orderClient.getOrdersByUser(userId);
+        return new UserOrdersResponse(user, orders);
+    }
+}
+
+// 2. Service Discovery Pattern, Commonly implemented using Netflix Eureka.
+@EnableEurekaClient
+@SpringBootApplication
+public class OrderServiceApplication {
+}
+restTemplate.getForObject("http://PAYMENT-SERVICE/pay", String.class);
+
+// 3. Circuit Breaker Pattern (with Resilience4j)
+@Service
+public class OrderService {
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
+    public Payment processPayment(PaymentRequest request) {
+        return paymentClient.process(request);
+    }
+    
+    public Payment paymentFallback(PaymentRequest request, Exception e) {
+        return new Payment("PENDING", "Payment service unavailable");
+    }
+}
+
+// 4. Saga Pattern (Choreography)
+@Service
+public class OrderSagaService {
+    @Autowired
+    private KafkaTemplate<String, OrderEvent> kafkaTemplate;
+    
+    public void createOrder(Order order) {
+        orderRepository.save(order);
+        kafkaTemplate.send("order-created", new OrderEvent(order.getId()));
+    }
+    
+    @KafkaListener(topics = "payment-failed")
+    public void handlePaymentFailed(PaymentEvent event) {
+        Order order = orderRepository.findById(event.getOrderId()).get();
+        order.setStatus("CANCELLED");
+        orderRepository.save(order);
+    }
+}
+
+// 5. CQRS (Command Query Responsibility Segregation)
+// Command (Write)
+@PostMapping("/orders")
+public void createOrder(@RequestBody Order order) { }
+
+// Query (Read)
+@GetMapping("/orders/{id}")
+public Order getOrder(@PathVariable Long id) { }
+
+// 6. Database per Service
+# order-service application.properties
+spring.datasource.url=jdbc:mysql://localhost:3306/orderdb
+
+// 7. Bulkhead Pattern
+// Example (Resilience4j)
+@Bulkhead(name = "paymentService", type = Bulkhead.Type.THREADPOOL)
+public String processPayment() {
+    return "Processing payment";
+}
+```
 
 
 ## 16. What is a @Transactional (ACID properties)? How do you handle rollback?
