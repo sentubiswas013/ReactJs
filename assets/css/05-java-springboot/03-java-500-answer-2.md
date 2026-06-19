@@ -19803,15 +19803,94 @@ This can be a separate **User Microservice**. Similarly, **Order** and **Payment
 
 ## 2. What design patterns used in Microservices architecture?
 
-Common design patterns in Microservices are:
+**What are Microservices Design Patterns?**
 
-* **API Gateway** – A single entry point that routes client requests to appropriate microservices.
-* **Service Discovery** – A mechanism that automatically detects and locates available service instances.
-* **Circuit Breaker** – A pattern that stops calls to a failing service to prevent system-wide failure.
-* **Saga Pattern** – A way to manage distributed transactions using a sequence of local transactions.
-* **CQRS (Command Query Responsibility Segregation)** – A pattern that separates read operations from write operations.
-* **Database per Service** – Each microservice has its own dedicated database for data isolation.
-* **Bulkhead Pattern** – A pattern that isolates resources to prevent one service failure from affecting others.
+**Definition**
+
+**Microservices Design Patterns** are **proven architectural solutions** used to solve common challenges in **microservices**, such as **service communication**, **fault tolerance**, **data consistency**, **service discovery**, and **scalability**.
+
+**Key Features**
+
+* **Loose Coupling**
+* **High Availability**
+* **Fault Tolerance**
+* **Scalability**
+* **Independent Deployment**
+* **Resilience**
+
+**Common Microservices Design Patterns**
+
+| **Pattern**                   | **Purpose**                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+| **API Gateway**               | A single entry point that routes client requests to appropriate microservices                   |
+| **Service Discovery**         | A mechanism that automatically detects and locates available service instances.                        |
+| **Circuit Breaker**           | A pattern that stops calls to a failing service to prevent system-wide failure.           |
+| **Saga Pattern**              | A way to manage distributed transactions using a sequence of local transactions.      |
+| **CQRS**                      | A pattern that separates read operations from write operations.                  |
+| **Event-Driven Architecture** | Services communicate using **events**                        |
+| **Database per Service**      | Each microservice has its own dedicated database for data isolation.                      |
+| **Bulkhead**                  | A pattern that isolates resources to prevent one service failure from affecting others.      |
+| **Retry Pattern**             | Retries failed requests automatically                        |
+| **Strangler Pattern**         | Gradually migrates a monolithic application to microservices |
+
+**How It Works**
+
+```text id="kgzgka"
+Client
+   │
+   ▼
+API Gateway
+   │
+   ├────────► User Service
+   ├────────► Order Service
+   └────────► Payment Service
+                 │
+                 ▼
+          Circuit Breaker
+                 │
+        Success / Fallback
+```
+
+**When to Use**
+
+* **Microservices Architecture**
+* **Cloud-Native Applications**
+* **Distributed Systems**
+* **Large-Scale Applications**
+* Applications requiring **high availability** and **fault tolerance**
+
+**Spring Boot Example (Circuit Breaker using Resilience4j)**
+
+```java
+@CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+public String processPayment() {
+    return restTemplate.getForObject(
+        "http://payment-service/pay",
+        String.class
+    );
+}
+
+public String fallback(Exception ex) {
+    return "Payment service is unavailable.";
+}
+```
+
+**Advantages**
+
+* **Improves Reliability**
+* **Better Scalability**
+* **Handles Failures Gracefully**
+* **Independent Deployment**
+* **Easy Maintenance**
+
+**Disadvantages**
+
+* **Higher Complexity**
+* **More Infrastructure**
+* **Distributed Debugging**
+* **Network Latency**
+* **Data Consistency Challenges**
+
 
 **Example:**
 ```java
