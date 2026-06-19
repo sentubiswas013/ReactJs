@@ -22042,8 +22042,6 @@ Using the same **key (`101`)** ensures all events for that order are routed to t
 
 ## 7. What Happens If a Consumer Crashes Before Committing the Offset?
 
-### **What Happens If a Consumer Crashes Before Committing the Offset?**
-
 If a **Kafka Consumer** crashes **before committing the offset**, Kafka assumes the message was **not successfully processed**. When the consumer restarts (or another consumer in the same group takes over), it **re-reads the message from the last committed offset**.
 
 **Key Features:**
