@@ -19801,7 +19801,7 @@ This can be a separate **User Microservice**. Similarly, **Order** and **Payment
 * **Kafka** or **RabbitMQ** for asynchronous communication.
 * **Docker** and **Kubernetes** for containerization and orchestration.
 
-## 3. Monolithic vs Microservices Architecture
+## 2. Monolithic vs Microservices Architecture
 
 **Monolithic** and **Microservices** are two different software architecture styles. In a **Monolithic architecture**, the entire application is built and deployed as a **single unit**, while in **Microservices**, the application is divided into **small, independent services**.
 
@@ -19915,7 +19915,7 @@ Each controller can run as a separate **Spring Boot** application and communicat
 
 
 
-## 8. How microservices communicate with each other?
+## 3. How microservices communicate with each other?
 
 
 In our system, microservices mainly communicated using **REST APIs over HTTP**.
@@ -20130,7 +20130,7 @@ public void consume(String message) {
 }
 ```
 
-## 2. What are Microservices Design Patterns?*
+## 4. What are Microservices Design Patterns?*
 
 
 **Microservices Design Patterns** are **proven architectural solutions** used to solve common challenges in **microservices**, such as **service communication**, **fault tolerance**, **data consistency**, **service discovery**, and **scalability**.
@@ -20298,8 +20298,7 @@ public String processPayment() {
 ```
 
 
-
-## 11. What is API Gateway and predicates?
+## 5. What is API Gateway and predicates?
 
 An **API Gateway** is a **single entry point** for all client requests in a **Microservices** architecture. It receives the request, applies rules, and forwards it to the appropriate microservice.
 
