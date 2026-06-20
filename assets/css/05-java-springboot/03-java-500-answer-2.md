@@ -15438,22 +15438,135 @@ In this example:
 
 ## 2. What are the features of Spring?
 
-* **IoC Container**: Manages object lifecycle and dependencies
-* **Dependency Injection**: Automatic wiring of dependencies
-* **AOP Support**: Cross-cutting concerns like logging, security
-* **MVC Framework**: Web application development
-* **Transaction Management**: Declarative transaction support
-* **Integration**: Easy integration with other frameworks and technologies
+**Features of Spring Framework**
 
-```java
-@Configuration
-public class AppConfig {
-    @Bean
-    public UserService userService() {
-        return new UserService(userRepository());
+**Definition**
+
+The **Spring Framework** is a **lightweight, open-source Java framework** used to build **enterprise-grade applications**. It provides **dependency management, modular architecture, and built-in support for web, data, and security layers**.
+
+**Simple Interview Definition**
+
+Spring is a **Java framework** that simplifies development using **dependency injection, modular design, and ready-to-use enterprise features**.
+
+**Key Features of Spring**
+
+* **Dependency Injection (DI)** – manages object creation and wiring automatically.
+* **Inversion of Control (IoC)** – framework controls object lifecycle instead of developer.
+* **Aspect-Oriented Programming (AOP)** – handles cross-cutting concerns like logging and security.
+* **Modular Architecture** – use only required modules (Spring Core, MVC, Data, Security).
+* **Spring MVC** – supports building **web applications and REST APIs**.
+* **Spring Boot Support** – simplifies configuration and setup.
+* **Transaction Management** – handles database transactions easily.
+* **Data Access Integration** – supports JDBC, JPA, Hibernate.
+* **Security Integration** – integrates with **Spring Security for authentication/authorization**.
+* **Cloud & Microservices Support** – works well with distributed systems.
+
+**How It Works**
+
+1. Application starts with **Spring Container (IoC Container)**.
+2. Spring reads **configuration (annotations or XML)**.
+3. Objects (beans) are created and managed by Spring.
+4. Dependencies are automatically **injected (DI)**.
+5. Application runs with managed lifecycle and services.
+
+**Flow**
+
+```text id="spr1"
+Spring Container
+      ↓
+Bean Creation
+      ↓
+Dependency Injection
+      ↓
+Application Execution
+```
+
+**When to Use Spring**
+
+* Building **enterprise applications**
+* Developing **REST APIs (Spring Boot)**
+* Creating **microservices architecture**
+* Database-driven applications
+* Secure applications using **Spring Security**
+* Scalable cloud-based systems
+
+**Spring Example (Dependency Injection)**
+
+```java id="spr2"
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+class UserService {
+    public String getUser() {
+        return "User Data";
+    }
+}
+
+class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    public void showUser() {
+        System.out.println(userService.getUser());
     }
 }
 ```
+
+**Explanation**
+
+* **UserService** is a **Spring Bean**.
+* Spring automatically injects it into **UserController** using **@Autowired**.
+* Developer does not manually create objects.
+
+**Core Spring Modules**
+
+| **Module**          | **Purpose**                            |
+| ------------------- | -------------------------------------- |
+| **Spring Core**     | DI and IoC container                   |
+| **Spring MVC**      | Web applications                       |
+| **Spring Data**     | Database access                        |
+| **Spring Security** | Authentication & Authorization         |
+| **Spring AOP**      | Cross-cutting concerns                 |
+| **Spring Boot**     | Auto-configuration & rapid development |
+
+**Advantages**
+
+* Reduces **boilerplate code**
+* Improves **testability**
+* Supports **loose coupling**
+* Easy **integration with frameworks**
+* Highly **scalable and modular**
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. What is Dependency Injection in Spring?**
+
+It is a design pattern where **Spring automatically injects dependencies** instead of creating them manually.
+
+**2. What is IoC in Spring?**
+
+**Inversion of Control (IoC)** means the **Spring container controls object creation and lifecycle**, not the developer.
+
+**3. Difference between Spring and Spring Boot?**
+
+| **Spring**                    | **Spring Boot**       |
+| ----------------------------- | --------------------- |
+| Requires manual configuration | Auto-configuration    |
+| More setup needed             | Faster development    |
+| More flexible                 | Opinionated framework |
+
+**4. What is Spring MVC?**
+
+A module used to build **web applications and REST APIs** using the **Model-View-Controller pattern**.
+
+**5. Why is Spring widely used?**
+
+Because it provides **loose coupling, modular design, easy integration, scalability, and enterprise-level support**.
+
 
 ## 3. What is Inversion of Control (IoC)?
 
@@ -16460,9 +16573,6 @@ In this example:
 
 ## 13. What is Spring WebFlux?
 
-
-**What is Spring WebFlux?**
-
 **Spring WebFlux** is a **reactive, non-blocking web framework** introduced in **Spring 5** for building **high-performance and scalable web applications and REST APIs**. It is based on the **Reactive Streams API** and uses **Mono** and **Flux** to handle asynchronous data processing.
 
 In simple words, **Spring WebFlux can handle many requests concurrently without blocking threads, making it ideal for high-traffic applications.**
@@ -16557,9 +16667,6 @@ In this example:
 
 
 ## 14. How Does Spring Handle Circular Dependency?
-
-
-**What is Circular Dependency in Spring?**
 
 A **Circular Dependency** occurs when **two or more Spring beans depend on each other directly or indirectly**, creating a cycle. For example, **Bean A needs Bean B**, and **Bean B also needs Bean A** to be created.
 
