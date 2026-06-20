@@ -24369,7 +24369,7 @@ Access Granted
 # ✅ 24. Java Performance and Optimization
 
 
-## 0: How do you measure and Monitor application performance in Java?
+## 0: Monitor application performance in Java?
 
 **Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
 
@@ -24411,7 +24411,6 @@ It includes monitoring metrics like response time, errors, CPU, and memory, alon
 
 ## 1. What are performance issues and How to Improve Performance(optimize)?
 
-Common **Java performance issues :** 
 
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
 * **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
@@ -24630,36 +24629,153 @@ public void safeMethod() {
 
 ## 4: What is JVM tuning and parameters for performance tuning?
 
-**JVM tuning** is the process of **optimizing JVM settings** for better performance.
+**JVM Tuning** is the process of **configuring JVM parameters** to improve **application performance**, **reduce Garbage Collection (GC) pauses**, **optimize memory usage**, and **increase throughput**.
 
-It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
+**Key Features**
 
-* **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
-* **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
-* **GC Tuning**: -XX:MaxGCPauseMillis, -XX:GCTimeRatio
-* **Compilation**: -XX:+TieredCompilation, -XX:CompileThreshold
-* **Monitoring**: -XX:+PrintGC, -XX:+FlightRecorder
-* **Debug**: -XX:+HeapDumpOnOutOfMemoryError
+* **Optimizes Heap Memory** allocation.
+* **Reduces GC pause time**.
+* **Improves application response time**.
+* **Prevents OutOfMemoryError**.
+* **Increases CPU and memory efficiency**.
+
+**How It Works**
+
+1. JVM starts with **default settings**.
+2. We configure **JVM startup parameters** based on application requirements.
+3. JVM uses these settings for **memory allocation**, **GC**, and **thread management**.
+4. Proper tuning results in **better performance** and **stable memory usage**.
+
+**Common JVM Performance Tuning Parameters**
+
+| **Parameter**                       | **Purpose**                  | **Example**                       |
+| ----------------------------------- | ---------------------------- | --------------------------------- |
+| **-Xms**                            | Initial Heap Size            | `-Xms512m`                        |
+| **-Xmx**                            | Maximum Heap Size            | `-Xmx2g`                          |
+| **-Xss**                            | Thread Stack Size            | `-Xss1m`                          |
+| **-XX:+UseG1GC**                    | Enable G1 Garbage Collector  | `-XX:+UseG1GC`                    |
+| **-XX:MaxGCPauseMillis**            | Target Maximum GC Pause Time | `-XX:MaxGCPauseMillis=200`        |
+| **-XX:ParallelGCThreads**           | Number of GC Threads         | `-XX:ParallelGCThreads=8`         |
+| **-XX:+HeapDumpOnOutOfMemoryError** | Generate Heap Dump on OOM    | `-XX:+HeapDumpOnOutOfMemoryError` |
+| **-XX:HeapDumpPath**                | Heap Dump Location           | `-XX:HeapDumpPath=/logs`          |
+| **-XX:+PrintGCDetails** *(Java 8)*  | Print GC Logs                | `-XX:+PrintGCDetails`             |
+| **-Xlog:gc** *(Java 9+)*            | Enable GC Logging            | `-Xlog:gc`                        |
+
+**Most Common JVM Startup Example**
 
 ```bash
-# Performance-focused JVM parameters
-# For high-throughput applications
--Xms8g -Xmx8g
--XX:+UseParallelGC
--XX:ParallelGCThreads=8
--XX:+UseCompressedOops
-
-# For low-latency applications
--Xms4g -Xmx4g
--XX:+UseZGC
--XX:+UnlockExperimentalVMOptions
-
-# For microservices
--Xms512m -Xmx1g
--XX:+UseG1GC
--XX:MaxGCPauseMillis=50
--XX:+UseStringDeduplication
+java -Xms512m -Xmx2g -Xss1m \
+     -XX:+UseG1GC \
+     -XX:MaxGCPauseMillis=200 \
+     -jar application.jar
 ```
+
+**Explanation**
+
+* **-Xms512m** → JVM starts with **512 MB Heap**.
+* **-Xmx2g** → Maximum Heap is **2 GB**.
+* **-Xss1m** → Each thread gets **1 MB Stack**.
+* **UseG1GC** → Uses the **G1 Garbage Collector**.
+* **MaxGCPauseMillis=200** → Tries to keep GC pauses around **200 ms**.
+
+**When to Use JVM Tuning**
+
+* **Spring Boot** applications.
+* **Microservices**.
+* **High-traffic web applications**.
+* **Large enterprise applications**.
+* Applications with **high memory usage** or **frequent GC**.
+* Systems requiring **low response time**.
+
+**Common Performance Tuning Areas**
+
+**1. Heap Memory Tuning**
+
+* Configure **-Xms** and **-Xmx** properly.
+* Keep **Xms = Xmx** in production to avoid heap resizing.
+
+**2. Garbage Collector Tuning**
+
+* Choose the right **GC algorithm**.
+* **G1GC** is the default and recommended for most applications.
+* Tune **MaxGCPauseMillis** if low latency is important.
+
+**3. Thread Tuning**
+
+* Configure **-Xss** based on thread count.
+* Too many threads with large stacks can consume excessive memory.
+
+**4. GC Logging**
+
+Enable GC logs to analyze memory behavior.
+
+**Java 17 Example**
+
+```bash
+-Xlog:gc
+```
+
+**Code Example (Setting JVM Options in Spring Boot)**
+
+```bash
+java -Xms1g -Xmx2g \
+     -XX:+UseG1GC \
+     -XX:MaxGCPauseMillis=200 \
+     -jar springboot-app.jar
+```
+
+**Popular Garbage Collectors**
+
+| **Garbage Collector** | **Best For**                     |
+| --------------------- | -------------------------------- |
+| **Serial GC**         | Small applications               |
+| **Parallel GC**       | High throughput                  |
+| **G1 GC**             | Most enterprise applications     |
+| **ZGC**               | Very low latency and large heaps |
+| **Shenandoah GC**     | Low pause-time applications      |
+
+**Best Practices**
+
+* Set **-Xms** and **-Xmx** appropriately.
+* Use **G1GC** for most production workloads.
+* Enable **GC logging** for analysis.
+* Monitor **Heap**, **GC**, and **CPU** usage regularly.
+* Avoid allocating unnecessary objects.
+* Analyze **Heap Dumps** if memory usage keeps increasing.
+
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between `-Xms` and `-Xmx`?**
+
+* **-Xms** → **Initial Heap Size**.
+* **-Xmx** → **Maximum Heap Size**.
+
+**2. Why is G1GC commonly used?**
+
+Because it provides **predictable GC pause times**, handles **large heaps efficiently**, and offers a good balance between **throughput** and **low latency**.
+
+**3. Why keep `-Xms` and `-Xmx` the same in production?**
+
+It avoids **heap resizing**, reducing GC overhead and improving application stability.
+
+**4. How do you identify JVM performance issues?**
+
+By monitoring:
+
+* **Heap usage**
+* **GC logs**
+* **CPU utilization**
+* **Thread dumps**
+* **Heap dumps**
+
+using tools like **VisualVM**, **Java Flight Recorder (JFR)**, **Java Mission Control (JMC)**, and **Eclipse Memory Analyzer (MAT)**.
+
+**5. Does increasing `-Xmx` always improve performance?**
+
+**No.** A larger heap can reduce GC frequency but may increase **GC pause times**. The heap size should be tuned based on the application's memory usage and workload.
+
+
 
 ## 5. What is Distributed Tracing?
 
