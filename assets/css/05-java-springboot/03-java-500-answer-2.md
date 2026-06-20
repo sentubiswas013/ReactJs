@@ -23588,29 +23588,123 @@ ResponseEntity<String> response = restTemplate.getForEntity(
 
 ## 8: What is authentication vs authorization?
 
-* **Authentication**: Verifies "who you are" - identity verification
-* **Authorization**: Determines "what you can do" - access control
-* **Authentication First**: Must authenticate before authorization
-* **Examples**: Login (authentication), accessing admin panel (authorization)
-* **Mechanisms**: Passwords, tokens, certificates for auth; roles, permissions for authz
-* Both essential for complete security
+**Authentication vs Authorization**
+
+**Definition**
+
+* **Authentication** is the process of **verifying the identity** of a user.
+* **Authorization** is the process of **determining what an authenticated user is allowed to access or perform**.
+
+**Simple Interview Definition**
+
+* **Authentication** = **Who are you?**
+* **Authorization** = **What are you allowed to do?**
+
+**Key Differences**
+
+| **Authentication**                                             | **Authorization**                            |
+| -------------------------------------------------------------- | -------------------------------------------- |
+| Verifies **user identity**                                     | Verifies **user permissions**                |
+| Happens **first**                                              | Happens **after authentication**             |
+| Uses **username, password, OTP, biometrics, JWT, OAuth login** | Uses **roles, permissions, privileges**      |
+| Returns **authenticated user**                                 | Grants or denies **access to resources**     |
+| Example: User logs in                                          | Example: User can access **Admin Dashboard** |
+
+**How It Works**
+
+1. User enters **username and password**.
+2. System verifies the credentials (**Authentication**).
+3. If valid, the user is logged in.
+4. System checks the user's **role or permissions** (**Authorization**).
+5. Access is either **granted** or **denied**.
+
+**Real-World Example**
+
+Imagine entering an office building:
+
+* Showing your **ID card** at the entrance is **Authentication**.
+* Accessing only the **HR floor** or **Server Room** based on your role is **Authorization**.
+
+**When to Use**
+
+**Authentication**
+
+* **Login pages**
+* **Mobile apps**
+* **Web applications**
+* **Banking systems**
+* **Online shopping**
+
+**Authorization**
+
+* **Role-Based Access Control (RBAC)**
+* **Admin/User permissions**
+* **API security**
+* **Microservices**
+* **Enterprise applications**
+
+**Spring Boot Example**
 
 ```java
-// Authentication - verify identity
-@PostMapping("/login")
-public ResponseEntity<String> authenticate(@RequestBody LoginRequest request) {
-    if (userService.validateCredentials(request.getUsername(), request.getPassword())) {
-        String token = jwtService.generateToken(request.getUsername());
-        return ResponseEntity.ok(token);
-    }
-    return ResponseEntity.status(401).body("Invalid credentials");
-}
+@RestController
+public class UserController {
 
-// Authorization - check permissions
-@PreAuthorize("hasRole('ADMIN')")
-@GetMapping("/admin/users")
-public List<User> getUsers() { return userService.getAllUsers(); }
+    @GetMapping("/profile")
+    public String profile() {
+        return "Authenticated User";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        return "User Deleted";
+    }
+}
 ```
+
+**Explanation**
+
+* Accessing **`/profile`** requires the user to be **authenticated**.
+* Accessing **`/users/{id}`** requires the user to have the **ADMIN** role (**authorization**).
+
+**How Authentication is Implemented**
+
+* **Username & Password**
+* **OTP**
+* **JWT (JSON Web Token)**
+* **OAuth 2.0**
+* **Biometric Authentication**
+
+**How Authorization is Implemented**
+
+* **Roles** (ADMIN, USER)
+* **Permissions** (READ, WRITE, DELETE)
+* **Role-Based Access Control (RBAC)**
+* **Attribute-Based Access Control (ABAC)**
+
+
+**Common Interview Follow-up Questions**
+
+**1. Which comes first: Authentication or Authorization?**
+
+**Authentication** always happens **before** **Authorization**.
+
+**2. Can Authorization happen without Authentication?**
+
+**No.** The system must first know **who the user is** before deciding **what they can access**.
+
+**3. What is RBAC?**
+
+**Role-Based Access Control (RBAC)** assigns permissions based on **user roles** such as **ADMIN**, **USER**, or **MANAGER**.
+
+**4. What is JWT used for?**
+
+**JWT (JSON Web Token)** is commonly used for **Authentication**. After successful login, the server issues a token, which the client sends with subsequent requests. The server validates the token and then performs **Authorization** based on the user's roles or permissions.
+
+**5. What HTTP status codes are returned?**
+
+* **401 Unauthorized** → **Authentication failed** (invalid or missing credentials).
+* **403 Forbidden** → **Authentication succeeded**, but the user **does not have permission** to access the resource.
 
 
 ## 9: What is OAuth?
@@ -23691,8 +23785,6 @@ With this configuration, users can securely **log in using their Google account*
 **OAuth 1.0** uses signature-based authentication and is complex, while **OAuth 2.0** is token-based, simpler, faster, and widely used in modern applications.
 
 ## 11: What is OAuth 2.0?
-
-**What is OAuth 2.0?**
 
 **OAuth 2.0** is the **latest version of the OAuth authorization framework** that allows a user to grant a third-party application **limited access** to their resources **without sharing their password**. It uses **access tokens** to securely authorize requests.
 
@@ -23954,8 +24046,6 @@ A: JWT cannot be revoked by default. Implement token blacklisting or use short e
 
 ## 12. What is CSRF Protection?
 
-**What is CSRF Protection?**
-
 **CSRF (Cross-Site Request Forgery) Protection** is a **security mechanism** that prevents attackers from tricking an authenticated user into performing unwanted actions on a web application without their consent.
 
 **Example:** A user is logged into a banking website. If they visit a malicious website, it could secretly send a money transfer request using the user's active session. **CSRF protection blocks this attack.**
@@ -24027,8 +24117,6 @@ SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 ```
 
 ## 13. What is XSS Protection?
-
-**What is XSS Protection?**
 
 **XSS (Cross-Site Scripting) Protection** is a **security mechanism** that prevents attackers from injecting and executing **malicious JavaScript code** in a web application. It protects users from attacks such as **cookie theft**, **session hijacking**, and **data manipulation**.
 
