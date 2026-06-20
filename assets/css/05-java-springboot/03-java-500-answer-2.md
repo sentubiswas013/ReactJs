@@ -13999,16 +13999,169 @@ docker run -e SPRING_PROFILES_ACTIVE=prod -e DB_PASS=secret app.jar
 
 ## 20. Connecting and Using Multiple Databases with a Single Spring Boot Service?
 
+Using **multiple databases in Spring Boot** means configuring the application to connect to **more than one database (e.g., MySQL + PostgreSQL)** and managing them separately within the same service.
 
-**Why Use Multiple Databases?**
+**Simple Interview Definition**
 
-Connecting to multiple databases can be beneficial for several reasons:
+It is the ability of a **Spring Boot application** to connect and operate with **multiple databases simultaneously** using separate **DataSources, EntityManagers, and TransactionManagers**.
 
-1. **Multitenancy:** Support multiple tenants within the same application.
-2. **Dynamic Environment Switching:** Connect to different environments (e.g., development, QA) dynamically.
-3. **Data Seeding and Testing:** Simulate various testing scenarios by seeding data across multiple databases.
-4. **Organization Support:** Handle multiple organizations within the same app, dynamically routing data based on user login.
-5. **Batch Operations:** Run scripts and batch jobs against multiple databases simultaneously.
+**Key Features**
+
+* Supports **multiple DataSources**
+* Separate **EntityManagerFactory** for each database
+* Independent **Transaction Management**
+* Flexible **database routing**
+* Useful in **microservices and legacy integration systems**
+
+**How It Works**
+
+1. Define **multiple DataSource configurations**.
+2. Create separate **EntityManagerFactory** for each DB.
+3. Configure **TransactionManager** per database.
+4. Use **@Primary** to define default DB.
+5. Inject specific repositories based on database context.
+
+**Flow**
+
+```text id="db1"
+Spring Boot App
+     ↓
+Multiple DataSources
+     ↓
+EntityManagerFactory (DB1, DB2)
+     ↓
+Repositories
+     ↓
+Separate Databases
+```
+
+**When to Use**
+
+* Migrating from **legacy systems**
+* Integrating **multiple data sources**
+* **Microservices** with separate databases
+* **Read/Write separation**
+* Multi-tenant applications
+* Reporting databases + transactional databases
+
+**Spring Boot Configuration Example (Two Databases)**
+
+**1. Application Properties**
+
+```properties id="db2"
+# Primary DB (MySQL)
+spring.datasource.primary.url=jdbc:mysql://localhost:3306/db1
+spring.datasource.primary.username=root
+spring.datasource.primary.password=root
+
+# Secondary DB (PostgreSQL)
+spring.datasource.secondary.url=jdbc:postgresql://localhost:5432/db2
+spring.datasource.secondary.username=postgres
+spring.datasource.secondary.password=postgres
+```
+
+**2. Primary Database Configuration**
+
+```java id="db3"
+@Configuration
+@EnableJpaRepositories(
+    basePackages = "com.example.primary.repo",
+    entityManagerFactoryRef = "primaryEntityManager",
+    transactionManagerRef = "primaryTransactionManager"
+)
+public class PrimaryDBConfig {
+
+    @Primary
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.primary")
+    public DataSource primaryDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+}
+```
+
+**3. Secondary Database Configuration**
+
+```java id="db4"
+@Configuration
+@EnableJpaRepositories(
+    basePackages = "com.example.secondary.repo",
+    entityManagerFactoryRef = "secondaryEntityManager",
+    transactionManagerRef = "secondaryTransactionManager"
+)
+public class SecondaryDBConfig {
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.secondary")
+    public DataSource secondaryDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+}
+```
+
+**Explanation**
+
+* Two separate **DataSources** are defined.
+* Each database has its own **repositories and entity managers**.
+* Spring routes queries based on **package configuration**.
+
+**Example Usage**
+
+```java id="db5"
+@Service
+public class UserService {
+
+    @Autowired
+    private PrimaryUserRepository primaryRepo;
+
+    @Autowired
+    private SecondaryUserRepository secondaryRepo;
+
+    public void saveData() {
+        primaryRepo.save(new User("Primary DB User"));
+        secondaryRepo.save(new User("Secondary DB User"));
+    }
+}
+```
+
+**Advantages**
+
+* Supports **scalable architectures**
+* Enables **data separation**
+* Improves **system modularity**
+* Helps in **migration scenarios**
+* Allows **optimized database usage**
+
+**Challenges**
+
+* Complex **configuration**
+* Harder **transaction management**
+* Requires careful **routing logic**
+* Increased **maintenance effort**
+
+
+**Common Interview Follow-up Questions**
+
+**1. How does Spring know which database to use?**
+
+Spring uses **@EnableJpaRepositories** with specific **base packages** and links them to the correct **DataSource and EntityManagerFactory**.
+
+**2. What is @Primary used for?**
+
+It defines the **default DataSource** when multiple beans are present.
+
+**3. Can transactions span multiple databases?**
+
+Not by default. You need **distributed transactions (JTA/XA)** for cross-database transactions.
+
+**4. What is the main challenge of multiple DBs?**
+
+Managing **transactions, consistency, and configuration complexity**.
+
+**5. When should you avoid multiple databases?**
+
+When a single database can handle the workload, as multiple DBs increase **complexity and overhead**.
+
 
 
 **Step 1: Add Dependencies**
