@@ -5293,7 +5293,7 @@ Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs w
 ArrayList : add(), get(), set(), and remove() to manage your list of elements.
 LinkedList
 
-## 1. Java Collections and Their Best Use Cases?
+## 1. Java Collections Use Cases?
 
 | Requirement                         | Best Collection     | Why                               | Mostly Used In                       |
 | ----------------------------------- | ------------------- | --------------------------------- | ------------------------------------ |
