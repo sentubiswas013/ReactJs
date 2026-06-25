@@ -3259,8 +3259,6 @@ public class Main {
 
 ## 6. What is HAS-A (Composition) Relationship?
 
-**What is HAS-A Relationship?**
-
 A **HAS-A Relationship** is an **Object-Oriented Programming (OOP)** concept where one class **contains** an object of another class. It represents a **part-of** or **ownership** relationship and is implemented using **Composition** or **Aggregation**.
 
 **Example:** A **Car HAS-A Engine**.
