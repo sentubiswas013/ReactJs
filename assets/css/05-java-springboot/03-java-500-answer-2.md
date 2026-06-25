@@ -3259,45 +3259,46 @@ public class Main {
 
 ## 6. What is HAS-A (Composition) Relationship?
 
-The **HAS-A relationship** represents **composition or aggregation**, where one class **contains or uses another class as a member variable**.
+**What is HAS-A Relationship?**
+
+A **HAS-A Relationship** is an **Object-Oriented Programming (OOP)** concept where one class **contains** an object of another class. It represents a **part-of** or **ownership** relationship and is implemented using **Composition** or **Aggregation**.
+
+**Example:** A **Car HAS-A Engine**.
 
 **Key Features**
 
-* Represents **object composition** (uses-a relationship)
-* Achieved using **instance variables of another class**
-* Promotes **code reusability through composition**
-* Provides **loose coupling compared to inheritance**
-* Can model real-world relationships effectively
+* Represents **ownership** or **containment**.
+* Achieved by creating an object of one class inside another class.
+* Promotes **Code Reusability**.
+* Provides **Loose Coupling** compared to inheritance.
+* Implemented using **Composition** or **Aggregation**.
 
-**How it works**
-One class **creates or holds an object of another class** and uses its **methods or properties** to perform operations.
+**How It Works**
 
-**Why to use**
+A class stores another class as a **member variable** and uses its functionality.
 
-* To achieve **flexibility over inheritance**
-* To reduce **tight coupling between classes**
-* To model **real-world relationships more accurately**
+**When to Use**
 
-**When to use**
-
-* When one object **contains another object (Car HAS-A Engine)**
-* When behavior should be **shared via composition instead of inheritance**
+* When one object is a **part of** another object.
+* When classes have a **uses-a** or **contains-a** relationship.
+* When you want **flexibility** and **better maintainability**.
+* When **Inheritance (IS-A)** is not the right fit.
 
 **Code Example**
 
-```java id="1i6tx1"
+```java
 class Engine {
     void start() {
-        System.out.println("Engine started");
+        System.out.println("Engine Started");
     }
 }
 
 class Car {
-    Engine engine = new Engine(); // HAS-A relationship
+    private Engine engine = new Engine(); // HAS-A Relationship
 
     void drive() {
         engine.start();
-        System.out.println("Car is driving");
+        System.out.println("Car is moving");
     }
 }
 
@@ -3308,6 +3309,33 @@ public class Main {
     }
 }
 ```
+
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between IS-A and HAS-A Relationship?**
+
+| **IS-A**                   | **HAS-A**                              |
+| -------------------------- | -------------------------------------- |
+| Represents **Inheritance** | Represents **Composition/Aggregation** |
+| Uses **extends** keyword   | Uses **object reference**              |
+| Example: Dog IS-A Animal   | Example: Car HAS-A Engine              |
+
+**2. What is Composition?**
+
+**Composition** is a strong HAS-A relationship where the contained object cannot exist independently of the owner object.
+
+**Example:** A House has Rooms.
+
+**3. What is Aggregation?**
+
+**Aggregation** is a weak HAS-A relationship where the contained object can exist independently.
+
+**Example:** A Department has Employees.
+
+**4. Why is Composition often preferred over Inheritance?**
+
+Because it provides **Loose Coupling**, **Better Flexibility**, and avoids deep inheritance hierarchies.
 
 
 ## 7. Composition and Aggregation?

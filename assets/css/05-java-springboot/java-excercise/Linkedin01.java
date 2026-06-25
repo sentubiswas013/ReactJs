@@ -66,6 +66,7 @@ public class Linkedin01 {
         fnSubstringGeneration();
         fnSubsetSumBitMasking();
         fnArrayChunking();
+        RotatedSortedArraySearchUsingBinarySearch();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -470,7 +471,7 @@ public class Linkedin01 {
         //         System.out.print(num + " ");
         //     }
         // }
-
+        System.out.println(" ");
     }
     // Output: Common elements: 3 4 5
 
@@ -599,4 +600,43 @@ public class Linkedin01 {
         System.out.println(result); 
     }
     // Output: [[1,2], [3,4], [5,6], [7,8], [9,10]]
+
+
+    // ==========================================================================
+    // This code searches for a target element in a sorted and rotated array using Binary Search.
+    // Example array: [5, 6, 7, 8, 9, 10, 1, 2, 3]
+    // Originally it was sorted: [1, 2, 3, 5, 6, 7, 8, 9, 10]
+    // ==========================================================================
+    public static void RotatedSortedArraySearchUsingBinarySearch() {
+        System.out.println("=========================== RotatedSortedArraySearchUsingBinarySearch");
+        int[] arr = {5, 6, 7, 8, 9, 10, 1, 2, 3};
+        int target = 3;
+
+        int low = 0, high = arr.length - 1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if(arr[mid] == target) {
+                System.out.println(mid);
+                return;
+            }
+
+            if(arr[low] <= arr[mid]) {
+                if(target >= arr[low] && target < arr[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {
+                if(target > arr[mid] && target <= arr[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+        System.out.println(-1);
+    }
+
+
 }
