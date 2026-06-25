@@ -27261,10 +27261,6 @@ public void processProducts() {
 
 ## 14. What is Batch Processing?
 
-**What is Batch Processing?**
-
-**Definition**
-
 **Batch Processing** is a technique where a **large number of records** are **processed together as a single batch** instead of processing each record individually. It is commonly used for **scheduled**, **repetitive**, and **high-volume** data processing.
 
 **Key Features**
@@ -27945,7 +27941,6 @@ spec:
 
 
 ## 13. What is cloud computing?
-### **What is Cloud Computing?**
 
 **Cloud Computing** is the delivery of **computing services** such as **servers, storage, databases, networking, and software** over the **Internet (Cloud)** instead of using local machines or on-premise infrastructure.
 
@@ -28480,7 +28475,139 @@ kubectl autoscale deployment my-app \
 This configuration automatically keeps CPU usage around **70%** by scaling the number of Pods between **2 and 10**.
 
 
-## 11. What is Rate Limiting and how does it work? Where do you implement it?
+## 11. Blue-Green deployment strategy?
+
+**Blue-Green Deployment** is a deployment technique where two identical production environments are maintained:
+
+* **Blue Environment** = Current live version serving users.
+* **Green Environment** = New version deployed and tested.
+
+Once the new version is verified, traffic is switched from **Blue** to **Green** with minimal or no downtime.
+
+**Key Features**
+
+* **Zero or Near-Zero Downtime**
+* **Quick Rollback**
+* **Reduced Deployment Risk**
+* **High Availability**
+* **Production Testing Before Release**
+
+**How It Works**
+
+1. **Blue** environment is serving live traffic.
+2. Deploy the new application version to **Green** environment.
+3. Perform testing and validation on Green.
+4. Switch traffic from Blue to Green using a **Load Balancer** or **Ingress Controller**.
+5. If issues occur, route traffic back to Blue immediately.
+
+**When to Use**
+
+* **Production deployments** requiring high availability.
+* Applications where **downtime is unacceptable**.
+* **Microservices** and **Cloud-Native** applications.
+* Systems requiring **fast rollback** capabilities.
+
+**Example Flow**
+
+```text
+Before Deployment
+
+Users
+   |
+ Blue (v1 - Live)
+
+After Deployment
+
+Users
+   |
+ Green (v2 - Live)
+
+Blue remains available for rollback.
+```
+
+**Kubernetes Example**
+
+**Blue Deployment**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-blue
+spec:
+  replicas: 3
+```
+
+**Green Deployment**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-green
+spec:
+  replicas: 3
+```
+
+**Service Initially Points to Blue**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    version: blue
+```
+
+**Switch Traffic to Green**
+
+```yaml
+spec:
+  selector:
+    version: green
+```
+
+**Advantages**
+
+* **No Downtime Deployments**
+* **Instant Rollback**
+* Safer releases with pre-production validation.
+* Better user experience during deployments.
+
+**Disadvantages**
+
+* Requires **double infrastructure** during deployment.
+* Higher infrastructure cost.
+* Database changes must be handled carefully.
+
+
+**Common Interview Follow-up Questions**
+
+**1. What is the biggest advantage of Blue-Green Deployment?**
+
+**Zero Downtime** and **Instant Rollback**.
+
+**2. How is traffic switched between Blue and Green?**
+
+Using a **Load Balancer**, **Reverse Proxy**, **DNS Switch**, or **Kubernetes Service/Ingress**.
+
+**3. What is the difference between Blue-Green and Canary Deployment?**
+
+| **Blue-Green**               | **Canary**                                    |
+| ---------------------------- | --------------------------------------------- |
+| Switches all traffic at once | Releases to a small percentage of users first |
+| Simple rollback              | Gradual rollout                               |
+| Requires two environments    | Requires traffic splitting                    |
+
+**4. What challenge exists with databases in Blue-Green Deployment?**
+
+**Database schema changes** must be backward compatible because both Blue and Green environments may need to work with the same database during the transition.
+
+
+
+## 12. What is Rate Limiting and how does it work? Where do you implement it?
 
 **Rate Limiting** is a technique used to **control the number of requests** a client can make to a service within a specific time period. It helps protect the system from **overload, abuse, and DDoS attacks**.
 
