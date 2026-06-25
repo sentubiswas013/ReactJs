@@ -28335,8 +28335,97 @@ spec:
     type: RollingUpdate
 ```
 
+## 9. What is Autoscaling and How is it Implemented??
 
-## 9. How do you implement auto-scaling, Horizontal and vertical scaling?
+**Autoscaling** is a cloud and microservices feature that automatically **increases** or **decreases** the number of application instances based on traffic, CPU usage, memory usage, or custom metrics.
+
+**Key Features**
+
+* **Automatic Scaling** based on workload.
+* Improves **Performance** and **Availability**.
+* Reduces **Infrastructure Cost** by scaling down when traffic is low.
+* Supports **Horizontal Scaling** (adding/removing instances).
+* Ensures better **Resource Utilization**.
+
+**How It Works**
+
+1. **Monitor Metrics** such as CPU, Memory, Request Count, or Response Time.
+2. Define **Scaling Rules** and thresholds.
+3. When the threshold is exceeded, new instances are automatically created (**Scale Out**).
+4. When load decreases, unnecessary instances are removed (**Scale In**).
+
+**When to Use**
+
+* Applications with **variable traffic**.
+* **Microservices** and **Cloud-native** applications.
+* High-availability systems.
+* E-commerce, banking, and streaming platforms.
+
+**Kubernetes Autoscaling Example**
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: user-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: user-service
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+```
+
+**How the Above Example Works**
+
+* Minimum **2 Pods** always run.
+* Maximum **10 Pods** can be created.
+* If **CPU Usage** exceeds **70%**, Kubernetes automatically adds more pods.
+* When CPU usage drops, extra pods are removed.
+
+**Interview Answer**
+
+**Autoscaling** is the process of automatically adjusting the number of application instances based on system load. It helps maintain **high availability**, **performance**, and **cost efficiency**. In Kubernetes, it is commonly implemented using **Horizontal Pod Autoscaler (HPA)**, which monitors metrics like **CPU** and **Memory** and scales pods up or down automatically.
+
+**Common Interview Follow-up Questions**
+
+**1. What is Horizontal Scaling vs Vertical Scaling?**
+
+| **Horizontal Scaling**  | **Vertical Scaling**                |
+| ----------------------- | ----------------------------------- |
+| Add more instances/pods | Increase CPU/RAM of existing server |
+| Better fault tolerance  | Limited by hardware                 |
+| Used in Microservices   | Used in Monolithic applications     |
+
+**2. What is HPA in Kubernetes?**
+
+**Horizontal Pod Autoscaler (HPA)** automatically scales the number of pods based on metrics such as **CPU**, **Memory**, or **Custom Metrics**.
+
+**3. What metrics can be used for Autoscaling?**
+
+* **CPU Usage**
+* **Memory Usage**
+* **Request Count**
+* **Response Time**
+* **Custom Business Metrics**
+
+**4. What are the benefits of Autoscaling?**
+
+* **High Availability**
+* **Better Performance**
+* **Cost Optimization**
+* **Efficient Resource Utilization**
+
+
+## 10. How do you implement auto-scaling, Horizontal and vertical scaling?
 
 **Auto-Scaling** is the process of **automatically increasing or decreasing application resources** based on workload. It is commonly implemented using cloud platforms or **Kubernetes Horizontal Pod Autoscaler (HPA)**.
 
@@ -28392,7 +28481,7 @@ kubectl autoscale deployment my-app \
 This configuration automatically keeps CPU usage around **70%** by scaling the number of Pods between **2 and 10**.
 
 
-## 20. What is Rate Limiting and how does it work? Where do you implement it?
+## 11. What is Rate Limiting and how does it work? Where do you implement it?
 
 **Rate Limiting** is a technique used to **control the number of requests** a client can make to a service within a specific time period. It helps protect the system from **overload, abuse, and DDoS attacks**.
 
