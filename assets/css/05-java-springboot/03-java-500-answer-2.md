@@ -28038,7 +28038,6 @@ In this example, the **Load Balancer** distributes incoming requests among multi
 
 ## 15. What is load balancing?
 
-### **What is Load Balancing?**
 
 **Load Balancing** is the process of **distributing incoming client requests across multiple servers** so that no single server becomes overloaded. It improves **performance, scalability, and high availability** of an application.
 
