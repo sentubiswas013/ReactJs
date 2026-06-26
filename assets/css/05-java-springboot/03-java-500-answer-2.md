@@ -10077,199 +10077,6 @@ try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
 }
 ```
 
-## 4. Create API to handle large files efficiently?
-
-When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks. This reduces memory consumption and improves performance.
-
-**Controller for File Upload**
-
-```java
-@RestController
-@RequestMapping("/files")
-public class FileController {
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(
-            @RequestParam("file") MultipartFile file) throws IOException {
-
-        Path path = Paths.get("uploads/" + file.getOriginalFilename());
-
-        try (InputStream in = file.getInputStream();
-             OutputStream out = Files.newOutputStream(path)) {
-
-            byte[] buffer = new byte[8192];
-            int bytesRead;
-
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-        }
-
-        return ResponseEntity.ok("File uploaded successfully");
-    }
-}
-```
-
-**Controller for File Download**
-
-```java
-@GetMapping("/download/{fileName}")
-public ResponseEntity<Resource> downloadFile(
-        @PathVariable String fileName) throws IOException {
-
-    Path path = Paths.get("uploads/" + fileName);
-
-    Resource resource =
-            new InputStreamResource(Files.newInputStream(path));
-
-    return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=" + fileName)
-            .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .body(resource);
-}
-```
-
-**Efficient Strategies**
-
-* Use **Streaming** to process files chunk by chunk.
-* Use **BufferedReader** and **BufferedWriter** for large text files.
-* Process files **line by line** instead of loading the entire file into memory.
-* Use **Java NIO** APIs for better I/O performance.
-* Use **Memory-Mapped Files** for extremely large files.
-* Use **Parallel Processing** when file operations can be executed independently.
-
-**Best Practices**
-
-* Use **Streaming** instead of reading the entire file into memory.
-* Process data in **Chunks** using a buffer (e.g., 8 KB or larger).
-* Store very large files in **Object Storage** such as **Amazon S3** or a file system, and store only metadata in the database.
-* Enable **Multipart Uploads** for large file transfers.
-* Support **Range Requests** for resumable downloads and video streaming.
-* Configure appropriate **File Size Limits** and **Timeouts**.
-* Validate file type and size before processing.
-* Monitor memory usage and I/O performance.
-
-
-
-## 5. How do you process images into Oracle DB using Java APIs?
-
-In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
-
-**Entity**
-
-```java id="zx5b7g"
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "employee_images")
-public class EmployeeImage {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String fileName;
-
-    @Lob
-    @Column(name = "image_data")
-    private byte[] imageData;
-
-    // getters and setters
-}
-```
-
-**Repository**
-
-```java id="5zj6bi"
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface EmployeeImageRepository
-        extends JpaRepository<EmployeeImage, Long> {
-}
-```
-
-**Service**
-
-```java id="t4p4u4"
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-@Service
-public class EmployeeImageService {
-
-    private final EmployeeImageRepository repository;
-
-    public EmployeeImageService(EmployeeImageRepository repository) {
-        this.repository = repository;
-    }
-
-    public Long uploadImage(MultipartFile file) throws Exception {
-
-        EmployeeImage image = new EmployeeImage();
-        image.setFileName(file.getOriginalFilename());
-        image.setImageData(file.getBytes());
-
-        return repository.save(image).getId();
-    }
-
-    public EmployeeImage getImage(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Image not found"));
-    }
-}
-```
-
-**Controller**
-
-```java id="j72oym"
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-@RestController
-@RequestMapping("/images")
-public class EmployeeImageController {
-
-    private final EmployeeImageService service;
-
-    public EmployeeImageController(EmployeeImageService service) {
-        this.service = service;
-    }
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> upload(
-            @RequestParam("file") MultipartFile file) throws Exception {
-
-        Long id = service.uploadImage(file);
-
-        return ResponseEntity.ok("Image uploaded. ID: " + id);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<byte[]> download(
-            @PathVariable Long id) {
-
-        EmployeeImage image = service.getImage(id);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(image.getImageData());
-    }
-}
-```
-
-**Oracle Table**
-
-```sql id="uvcp58"
-CREATE TABLE employee_images (
-    id NUMBER GENERATED BY DEFAULT AS IDENTITY,
-    file_name VARCHAR2(255),
-    image_data BLOB,
-    PRIMARY KEY(id)
-);
-```
 
 ## 6. What is NIO in Java?
 
@@ -19808,10 +19615,6 @@ PUT /users/123
 
 ## 8. What are HTTP status codes?
 
-**What are HTTP Status Codes?**
-
-**Definition**
-
 **HTTP Status Codes** are **3-digit response codes** returned by a web server to indicate the **result of an HTTP request**. They help the client understand whether the request was **successful**, **redirected**, **invalid**, or **failed**.
 
 **Key Features**
@@ -19969,8 +19772,755 @@ User Not Found
 * **500 Internal Server Error** – Server error
 
 
-# ✅ 21. Java Microservices 
 
+## 9. How to call external API and how to handle parallel call in java?
+
+**1. Call Multiple External APIs in Parallel** (Using CompletableFuture)
+
+```java
+import java.util.concurrent.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+public class ParallelApiCaller {
+    
+    private final HttpClient client = HttpClient.newHttpClient();
+    
+    // Call multiple APIs in parallel
+    public List<String> callMultipleApisParallel(List<String> urls) {
+        
+        // Create CompletableFuture for each API call
+        List<CompletableFuture<String>> futures = urls.stream()
+            .map(url -> CompletableFuture.supplyAsync(() -> {
+                try {
+                    return callApi(url);
+                } catch (Exception e) {
+                    System.err.println("API call failed for " + url + ": " + e.getMessage());
+                    return null;
+                }
+            }))
+            .collect(Collectors.toList());
+        
+        // Wait for all APIs to complete in parallel
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        
+        // Collect all results
+        return futures.stream()
+            .map(CompletableFuture::join)
+            .filter(result -> result != null)
+            .collect(Collectors.toList());
+    }
+    
+    // Single API call helper method
+    private String callApi(String url) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .header("Authorization", "Bearer YOUR_TOKEN")
+            .GET()
+            .build();
+        
+        HttpResponse<String> response = client.send(
+            request, 
+            HttpResponse.BodyHandlers.ofString()
+        );
+        
+        return response.body();
+    }
+    
+    // Example usage
+    public static void main(String[] args) {
+        ParallelApiCaller caller = new ParallelApiCaller();
+        
+        List<String> urls = List.of(
+            "https://api.example.com/endpoint1",
+            "https://api.example.com/endpoint2",
+            "https://api.example.com/endpoint3"
+        );
+        
+        long startTime = System.currentTimeMillis();
+        
+        List<String> results = caller.callMultipleApisParallel(urls);
+        
+        long endTime = System.currentTimeMillis();
+        
+        System.out.println("Total time: " + (endTime - startTime) + "ms");
+        System.out.println("Results: " + results);
+    }
+}
+```
+
+**1. Spring Boot - RestTemplate + CompletableFuture (Parallel)**
+
+```java
+@Service
+public class ParallelApiService {
+    
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    // Parallel API calls using CompletableFuture
+    public Map<String, Object> callApisParallel() {
+        
+        // Create futures for each API
+        CompletableFuture<User> userFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/user/1", User.class);
+        });
+        
+        CompletableFuture<List<Order>> ordersFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/user/1/orders", List.class);
+        });
+        
+        CompletableFuture<Product> productFuture = CompletableFuture.supplyAsync(() -> {
+            return restTemplate.getForObject(
+                "https://api.example.com/product/1", Product.class);
+        });
+        
+        // Wait for all to complete (parallel execution)
+        CompletableFuture.allOf(userFuture, ordersFuture, productFuture).join();
+        
+        // Combine results
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", userFuture.join());
+        result.put("orders", ordersFuture.join());
+        result.put("product", productFuture.join());
+        
+        return result;
+    }
+}
+```
+
+## 10. Create File upload API to Handle Large Data Processing?
+
+* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
+* **Use Batch Processing** to process records in chunks and reduce memory consumption
+* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
+* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
+* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
+* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
+* **Use Sharding** when data becomes too large for a single database server
+
+
+**Step 1 — Client Uploads File**
+
+Controller accepts file without loading everything into memory.
+
+```java id="v50d5s"
+@RestController
+@RequestMapping("/files")
+class FileUploadController {
+    private final FileProcessingService service;
+    public FileUploadController(FileProcessingService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/upload")
+    public String upload(@RequestParam("file") MultipartFile file) throws Exception {
+        service.processFile(file);
+        return "File Accepted";
+    }
+}
+```
+
+
+**Step 2 — Service Layer**
+
+```java id="cx88hj"
+@Service
+class FileProcessingService {
+    private final DataRepository repository;
+    private static final int BATCH_SIZE = 1000;
+
+    public FileProcessingService(DataRepository repository) {
+        this.repository = repository;
+    }
+
+    @Async
+    public CompletableFuture<Void> processFile( MultipartFile file) throws Exception {
+        List<DataEntity> batch = new ArrayList<>();
+
+        try (
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    file.getInputStream()
+                            )
+                    )
+        ) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                DataEntity entity = mapToEntity(line);
+                batch.add(entity);
+                if (batch.size() == BATCH_SIZE) {
+                    saveBatch(batch);
+                    batch.clear();
+                }
+            }
+
+            // remaining records
+            if (!batch.isEmpty()) {
+                saveBatch(batch);
+            }
+        }
+
+        return CompletableFuture.completedFuture(null);
+    }
+
+    private DataEntity mapToEntity(String line) {
+        DataEntity entity = new DataEntity();
+        entity.setName(line);
+        return entity;
+    }
+
+    private void saveBatch(List<DataEntity> batch) {
+        repository.saveAll(batch);
+        System.out.println(
+                "Saved batch size: " + batch.size()
+        );
+    }
+}
+```
+
+
+**Step 3 — Entity**
+
+```java id="zwv22u"
+@Entity
+class DataEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+
+**Step 4 — Repository**
+
+```java id="v74d5u"
+@Repository
+interface DataRepository extends JpaRepository<DataEntity, Long> {
+}
+```
+
+
+**Step 5 — Enable Async**
+
+```java id="9vkdpn"
+@EnableAsync
+@SpringBootApplication
+public class Main {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+}
+```
+
+## 11. How to handle large data efficiently?
+
+* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
+* **Use Batch Processing** to process records in chunks and reduce memory consumption
+* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
+* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
+* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
+* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
+* **Use Sharding** when data becomes too large for a single database server
+
+
+**1. 🔄 Streaming (Already Have)**
+```java
+// WRONG - Loads everything into memory
+List<User> users = userRepo.findAll(); // OOM risk with millions of records
+
+// RIGHT - Stream row by row
+@Query("SELECT u FROM User u")
+Stream<User> streamAllUsers();
+
+// Usage (must be in @Transactional)
+@Transactional(readOnly = true)
+public void processUsers() {
+    try (Stream<User> stream = userRepo.streamAllUsers()) {
+        stream.forEach(this::processUser);
+    }
+}
+```
+
+
+**2. 🧩 Batch Processing (Already Have)**
+```java
+// Spring Batch - Chunk-Oriented Processing
+@Bean
+public Step processUsersStep() {
+    return stepBuilderFactory.get("processUsers")
+        .<User, ProcessedUser>chunk(1000)   // Read 1000, Process, Write 1000
+        .reader(userItemReader())
+        .processor(userItemProcessor())
+        .writer(userItemWriter())
+        .build();
+}
+```
+**Key Interview Point:** Spring Batch gives you **restart/retry**, **job monitoring**, and **skip logic** out of the box.
+
+
+**3. 📄 Database Pagination (Already Have)**
+```java
+// Page<T> - gives totalCount (extra COUNT query)
+Page<User> page = userRepo.findAll(PageRequest.of(0, 100, Sort.by("id")));
+
+// Slice<T> - No COUNT query, better performance
+Slice<User> slice = userRepo.findAll(PageRequest.of(0, 100));
+
+// Keyset / Cursor Pagination - BEST for large datasets
+@Query("SELECT u FROM User u WHERE u.id > :lastId ORDER BY u.id")
+List<User> findNext(@Param("lastId") Long lastId, Pageable pageable);
+```
+**Key Difference:** Offset pagination degrades at high page numbers. **Keyset pagination stays O(log n)**.
+
+
+**4. ⚡ Async / Parallel Processing (Already Have)**
+```java
+@Async("taskExecutor")
+public CompletableFuture<Result> processChunk(List<User> chunk) {
+    // processed in separate thread
+    return CompletableFuture.completedFuture(result);
+}
+
+// Combine all futures
+List<CompletableFuture<Result>> futures = chunks.stream()
+    .map(this::processChunk)
+    .collect(toList());
+
+CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+```
+
+
+**5. 🗄️ Caching (Already Have)**
+```java
+@Cacheable(value = "users", key = "#id")
+public User getUser(Long id) { ... }
+
+@CacheEvict(value = "users", key = "#id")
+public void updateUser(Long id, User user) { ... }
+```
+**Interview Tip:** Discuss **cache eviction strategies** (LRU, TTL), **cache stampede** problem, and when **NOT to cache** (frequently changing data).
+
+
+**6. 🗃️ JDBC Batch Operations (Already Have)**
+```yaml
+# application.yml
+spring:
+  jpa:
+    properties:
+      hibernate:
+        jdbc.batch_size: 50
+        order_inserts: true   # Critical - groups same entity inserts
+        order_updates: true
+```
+```java
+// Use saveAll() - Hibernate batches automatically
+userRepo.saveAll(listOf1000Users); // 1000 inserts → ~20 batch calls
+```
+
+**7. 🔀 Sharding (Already Have)**
+```
+User Table Sharded by user_id:
+  Shard 0 → user_id % 4 == 0  → DB Server 1
+  Shard 1 → user_id % 4 == 1  → DB Server 2
+  Shard 2 → user_id % 4 == 2  → DB Server 3
+  Shard 3 → user_id % 4 == 3  → DB Server 4
+```
+**Mention:** Apache ShardingSphere or Vitess for Java-based sharding solutions.
+
+
+**🆕 MUST-ADD Points for Interview**
+
+
+**8. 📨 Message Queue / Event-Driven Processing**
+```java
+// Producer - Offload heavy processing
+@Service
+public class OrderService {
+    public void placeOrder(Order order) {
+        orderRepo.save(order);
+        kafkaTemplate.send("order-processing", order); // Non-blocking
+    }
+}
+
+// Consumer - Process asynchronously at own pace
+@KafkaListener(topics = "order-processing", concurrency = "5")
+public void processOrder(Order order) {
+    heavyProcessingService.process(order);
+}
+```
+**Why it matters:** Decouples producers from consumers, handles **back-pressure**, survives **service restarts**.
+
+
+**9. 📊 Read Replicas / CQRS Pattern**
+```java
+// Route reads to replica, writes to primary
+@Bean
+public DataSource routingDataSource() {
+    Map<Object, Object> sources = new HashMap<>();
+    sources.put("WRITE", primaryDataSource());
+    sources.put("READ",  replicaDataSource());
+
+    AbstractRoutingDataSource routing = new AbstractRoutingDataSource() {
+        protected Object determineCurrentLookupKey() {
+            return TransactionSynchronizationManager
+                       .isCurrentTransactionReadOnly() ? "READ" : "WRITE";
+        }
+    };
+    routing.setTargetDataSources(sources);
+    return routing;
+}
+
+@Transactional(readOnly = true) // → Goes to READ replica
+public List<User> getUsers() { ... }
+```
+
+
+**10. 🏗️ Projection / DTO Fetching (Select Only What You Need)**
+```java
+// BAD - Fetches entire entity + all columns
+List<User> users = userRepo.findAll();
+
+// GOOD - Fetch only needed fields
+@Query("SELECT new com.app.dto.UserSummary(u.id, u.name) FROM User u")
+List<UserSummary> findUserSummaries();
+
+// Interface Projection
+public interface UserSummary {
+    Long getId();
+    String getName();
+}
+List<UserSummary> users = userRepo.findBy(); // Spring Data handles it
+```
+**Impact:** Can reduce data transfer by **60-80%** for wide tables.
+
+
+**11. 🗜️ Data Archival / Partitioning**
+```sql
+-- Partition orders table by year (MySQL)
+CREATE TABLE orders (
+    id BIGINT, order_date DATE, ...
+) PARTITION BY RANGE (YEAR(order_date)) (
+    PARTITION p2022 VALUES LESS THAN (2023),
+    PARTITION p2023 VALUES LESS THAN (2024),
+    PARTITION p2024 VALUES LESS THAN (2025)
+);
+```
+```java
+// Archive old data to cold storage
+@Scheduled(cron = "0 0 2 * * SUN") // Every Sunday 2AM
+public void archiveOldOrders() {
+    orderRepo.moveToArchive(LocalDate.now().minusYears(2));
+}
+```
+
+**12. 🔍 Index Optimization (Often Overlooked)**
+```java
+// Composite index for common query patterns
+@Table(indexes = {
+    @Index(name = "idx_user_status_date",
+           columnList = "status, created_date DESC"),
+    @Index(name = "idx_user_email", columnList = "email", unique = true)
+})
+
+// Covering index - query served entirely from index
+@Query(value = "SELECT id, name FROM users USE INDEX (idx_covering) 
+                WHERE status = ?1", nativeQuery = true)
+```
+**Interview Tip:** Explain difference between **clustered vs non-clustered** index and **index selectivity**.
+
+
+## 12. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
+
+
+During bumper offers or Black Friday sales, I would design the system to handle high traffic using load balancing, caching, auto-scaling, message queues, and database optimization. This prevents the application from crashing and ensures a smooth user experience.
+
+**Key Strategies:**
+
+1. **Rate Limiting & Throttling** — Prevent system overload by limiting requests per user
+2. **Queue-Based Processing** — Use message queues (Kafka/RabbitMQ) to handle burst traffic asynchronously.
+3. **Database Optimization** → Use indexing, read replicas, and connection pooling.
+4. **Inventory Locking** — Use database transactions or Redis to prevent overselling
+5. **Caching** — Reduce database calls for frequently accessed data.
+6. **Load Balancing** — Distribute requests across multiple servers
+7. **Auto Scaling** → Automatically add more application instances during peak traffic.
+
+```java
+// Rate Limiter using Redis
+public class RateLimiter {
+    private RedisTemplate<String, Integer> redis;
+    
+    public boolean allowRequest(String userId, int maxRequests, int windowSeconds) {
+        String key = "rate_limit:" + userId;
+        Integer count = redis.opsForValue().increment(key);
+        
+        if (count == 1) {
+            redis.expire(key, windowSeconds, TimeUnit.SECONDS);
+        }
+        
+        return count <= maxRequests; // Return true if under limit
+    }
+}
+
+// Inventory Management with Redis (prevents overselling)
+public class InventoryService {
+    private RedisTemplate<String, Integer> redis;
+    
+    public boolean reserveInventory(String productId, int quantity) {
+        String key = "inventory:" + productId;
+        Integer available = redis.opsForValue().get(key);
+        
+        if (available != null && available >= quantity) {
+            redis.opsForValue().decrement(key, quantity);
+            return true; // Reserved successfully
+        }
+        return false; // Not enough inventory
+    }
+}
+
+// Black Friday Sale Handler
+public class SaleService {
+    private RateLimiter rateLimiter;
+    private InventoryService inventoryService;
+    
+    public PurchaseResult purchaseProduct(String userId, String productId, int quantity) {
+        // 1. Rate limit check
+        if (!rateLimiter.allowRequest(userId, 10, 60)) {
+            return PurchaseResult.REJECTED("Too many requests");
+        }
+        
+        // 2. Reserve inventory
+        if (!inventoryService.reserveInventory(productId, quantity)) {
+            return PurchaseResult.REJECTED("Item out of stock");
+        }
+        
+        // 3. Process order (async via queue)
+        orderQueue.send(new OrderEvent(userId, productId, quantity));
+        
+        return PurchaseResult.SUCCESS("Order placed");
+    }
+}
+```
+
+
+
+
+## 13. Create API to handle large files efficiently?
+
+When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks. This reduces memory consumption and improves performance.
+
+**Controller for File Upload**
+
+```java
+@RestController
+@RequestMapping("/files")
+public class FileController {
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        Path path = Paths.get("uploads/" + file.getOriginalFilename());
+
+        try (InputStream in = file.getInputStream();
+             OutputStream out = Files.newOutputStream(path)) {
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+        return ResponseEntity.ok("File uploaded successfully");
+    }
+}
+```
+
+**Controller for File Download**
+
+```java
+@GetMapping("/download/{fileName}")
+public ResponseEntity<Resource> downloadFile(
+        @PathVariable String fileName) throws IOException {
+
+    Path path = Paths.get("uploads/" + fileName);
+
+    Resource resource =
+            new InputStreamResource(Files.newInputStream(path));
+
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=" + fileName)
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(resource);
+}
+```
+
+**Efficient Strategies**
+
+* Use **Streaming** to process files chunk by chunk.
+* Use **BufferedReader** and **BufferedWriter** for large text files.
+* Process files **line by line** instead of loading the entire file into memory.
+* Use **Java NIO** APIs for better I/O performance.
+* Use **Memory-Mapped Files** for extremely large files.
+* Use **Parallel Processing** when file operations can be executed independently.
+
+**Best Practices**
+
+* Use **Streaming** instead of reading the entire file into memory.
+* Process data in **Chunks** using a buffer (e.g., 8 KB or larger).
+* Store very large files in **Object Storage** such as **Amazon S3** or a file system, and store only metadata in the database.
+* Enable **Multipart Uploads** for large file transfers.
+* Support **Range Requests** for resumable downloads and video streaming.
+* Configure appropriate **File Size Limits** and **Timeouts**.
+* Validate file type and size before processing.
+* Monitor memory usage and I/O performance.
+
+
+
+## 14. How do you process images into Oracle DB using Java APIs?
+
+In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
+
+**Entity**
+
+```java id="zx5b7g"
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "employee_images")
+public class EmployeeImage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String fileName;
+
+    @Lob
+    @Column(name = "image_data")
+    private byte[] imageData;
+
+    // getters and setters
+}
+```
+
+**Repository**
+
+```java id="5zj6bi"
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeImageRepository
+        extends JpaRepository<EmployeeImage, Long> {
+}
+```
+
+**Service**
+
+```java id="t4p4u4"
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class EmployeeImageService {
+
+    private final EmployeeImageRepository repository;
+
+    public EmployeeImageService(EmployeeImageRepository repository) {
+        this.repository = repository;
+    }
+
+    public Long uploadImage(MultipartFile file) throws Exception {
+
+        EmployeeImage image = new EmployeeImage();
+        image.setFileName(file.getOriginalFilename());
+        image.setImageData(file.getBytes());
+
+        return repository.save(image).getId();
+    }
+
+    public EmployeeImage getImage(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Image not found"));
+    }
+}
+```
+
+**Controller**
+
+```java id="j72oym"
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+@RequestMapping("/images")
+public class EmployeeImageController {
+
+    private final EmployeeImageService service;
+
+    public EmployeeImageController(EmployeeImageService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload(
+            @RequestParam("file") MultipartFile file) throws Exception {
+
+        Long id = service.uploadImage(file);
+
+        return ResponseEntity.ok("Image uploaded. ID: " + id);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> download(
+            @PathVariable Long id) {
+
+        EmployeeImage image = service.getImage(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(image.getImageData());
+    }
+}
+```
+
+**Oracle Table**
+
+```sql id="uvcp58"
+CREATE TABLE employee_images (
+    id NUMBER GENERATED BY DEFAULT AS IDENTITY,
+    file_name VARCHAR2(255),
+    image_data BLOB,
+    PRIMARY KEY(id)
+);
+```
+
+
+# ✅ 21. Java Microservices 
 
 ## 1. What are microservices?
 
