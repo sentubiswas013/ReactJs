@@ -22668,167 +22668,166 @@ public class PaymentHandler {
 
 ## 22. Java 11 HttpClient API, and communication between multiple microservices without event and messaing system?
 
-In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
+**Java 11 HttpClient API**
 
-For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
+**Java 11 HttpClient** is a modern **HTTP Client API** introduced in **Java 11** to send **HTTP/HTTPS** requests. It replaces the older **HttpURLConnection** and supports both **Synchronous** and **Asynchronous** communication.
+
+**Key Features**
+
+* Supports **HTTP/1.1** and **HTTP/2**
+* **Synchronous** and **Asynchronous** requests
+* Built-in **SSL/TLS** support
+* Supports **Timeouts**, **Authentication**, and **Redirects**
+* Uses **CompletableFuture** for asynchronous calls
+* Lightweight and part of the **Java Standard Library**
+
+**How it Works**
+
+1. Create an **HttpClient**.
+2. Build an **HttpRequest**.
+3. Send the request using **send()** or **sendAsync()**.
+4. Receive the **HttpResponse**.
+
+**Synchronous Example**
 
 ```java
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.net.URI;
+import java.net.http.*;
 
-// Basic GET request
 HttpClient client = HttpClient.newHttpClient();
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create("https://api.example.com/data"))
-    .GET()
-    .build();
 
-HttpResponse<String> response = client.send(request, 
-    HttpResponse.BodyHandlers.ofString());
+HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("http://user-service/users/1"))
+        .GET()
+        .build();
+
+HttpResponse<String> response =
+        client.send(request, HttpResponse.BodyHandlers.ofString());
 
 System.out.println(response.statusCode());
 System.out.println(response.body());
-
-// POST request with JSON body
-HttpRequest postRequest = HttpRequest.newBuilder()
-    .uri(URI.create("https://api.example.com/api"))
-    .header("Content-Type", "application/json")
-    .header("Authorization", "Bearer " + token)
-    .POST(HttpRequest.BodyPublishers.ofString("{\"key\":\"value\"}"))
-    .build();
-
-HttpResponse<String> postResponse = client.send(postRequest, 
-    HttpResponse.BodyHandlers.ofString());
 ```
 
-**Async version:**
+**Asynchronous Example**
 
 ```java
+HttpClient client = HttpClient.newHttpClient();
+
+HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("http://user-service/users/1"))
+        .GET()
+        .build();
+
 client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-    .thenApply(HttpResponse::body)
-    .thenAccept(System.out::println);
+      .thenApply(HttpResponse::body)
+      .thenAccept(System.out::println);
 ```
 
-## 23. How to call external API and how to handle parallel call in java?
+**When to Use**
 
-**1. Call Multiple External APIs in Parallel** (Using CompletableFuture)
+* Calling **REST APIs**
+* Communication between **Microservices**
+* Calling **Third-Party APIs**
+* Core Java applications without **Spring**
+
+**Advantages**
+
+* Modern API
+* Better performance than **HttpURLConnection**
+* Supports **HTTP/2**
+* Easy **Async** programming using **CompletableFuture**
+
+---
+
+**Communication Between Multiple Microservices Without Event or Messaging System**
+
+When **Kafka**, **RabbitMQ**, or any **Event/Messaging System** is not used, microservices communicate using **Synchronous REST APIs** over **HTTP/HTTPS**.
+
+**How it Works**
+
+1. **Client** sends a request to **Service A**.
+2. **Service A** calls **Service B** using **HTTP REST API**.
+3. **Service B** processes the request and returns a response.
+4. If required, **Service B** calls **Service C**.
+5. The response flows back to the client.
+
+```text
+Client
+   |
+Order Service
+   |
+HTTP REST
+   |
+Payment Service
+   |
+HTTP REST
+   |
+Inventory Service
+```
+
+**Example Flow**
+
+* User places an order.
+* **Order Service** calls **Payment Service** to process payment.
+* After successful payment, **Order Service** calls **Inventory Service** to reserve stock.
+* Finally, **Order Service** returns the response to the client.
+
+**Communication Options**
+
+* **Java 11 HttpClient**
+* **Spring WebClient** (**Recommended**)
+* **OpenFeign**
+* **RestTemplate** (**Legacy**)
+
+**Java 11 HttpClient Example**
 
 ```java
-import java.util.concurrent.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+HttpClient client = HttpClient.newHttpClient();
 
-public class ParallelApiCaller {
-    
-    private final HttpClient client = HttpClient.newHttpClient();
-    
-    // Call multiple APIs in parallel
-    public List<String> callMultipleApisParallel(List<String> urls) {
-        
-        // Create CompletableFuture for each API call
-        List<CompletableFuture<String>> futures = urls.stream()
-            .map(url -> CompletableFuture.supplyAsync(() -> {
-                try {
-                    return callApi(url);
-                } catch (Exception e) {
-                    System.err.println("API call failed for " + url + ": " + e.getMessage());
-                    return null;
-                }
-            }))
-            .collect(Collectors.toList());
-        
-        // Wait for all APIs to complete in parallel
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-        
-        // Collect all results
-        return futures.stream()
-            .map(CompletableFuture::join)
-            .filter(result -> result != null)
-            .collect(Collectors.toList());
-    }
-    
-    // Single API call helper method
-    private String callApi(String url) throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .header("Authorization", "Bearer YOUR_TOKEN")
-            .GET()
-            .build();
-        
-        HttpResponse<String> response = client.send(
-            request, 
-            HttpResponse.BodyHandlers.ofString()
-        );
-        
-        return response.body();
-    }
-    
-    // Example usage
-    public static void main(String[] args) {
-        ParallelApiCaller caller = new ParallelApiCaller();
-        
-        List<String> urls = List.of(
-            "https://api.example.com/endpoint1",
-            "https://api.example.com/endpoint2",
-            "https://api.example.com/endpoint3"
-        );
-        
-        long startTime = System.currentTimeMillis();
-        
-        List<String> results = caller.callMultipleApisParallel(urls);
-        
-        long endTime = System.currentTimeMillis();
-        
-        System.out.println("Total time: " + (endTime - startTime) + "ms");
-        System.out.println("Results: " + results);
-    }
-}
+HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("http://payment-service/pay"))
+        .POST(HttpRequest.BodyPublishers.ofString("{\"amount\":1000}"))
+        .header("Content-Type", "application/json")
+        .build();
+
+HttpResponse<String> response =
+        client.send(request, HttpResponse.BodyHandlers.ofString());
+
+System.out.println(response.body());
 ```
 
-**1. Spring Boot - RestTemplate + CompletableFuture (Parallel)**
+**Best Practices**
 
-```java
-@Service
-public class ParallelApiService {
-    
-    @Autowired
-    private RestTemplate restTemplate;
-    
-    // Parallel API calls using CompletableFuture
-    public Map<String, Object> callApisParallel() {
-        
-        // Create futures for each API
-        CompletableFuture<User> userFuture = CompletableFuture.supplyAsync(() -> {
-            return restTemplate.getForObject(
-                "https://api.example.com/user/1", User.class);
-        });
-        
-        CompletableFuture<List<Order>> ordersFuture = CompletableFuture.supplyAsync(() -> {
-            return restTemplate.getForObject(
-                "https://api.example.com/user/1/orders", List.class);
-        });
-        
-        CompletableFuture<Product> productFuture = CompletableFuture.supplyAsync(() -> {
-            return restTemplate.getForObject(
-                "https://api.example.com/product/1", Product.class);
-        });
-        
-        // Wait for all to complete (parallel execution)
-        CompletableFuture.allOf(userFuture, ordersFuture, productFuture).join();
-        
-        // Combine results
-        Map<String, Object> result = new HashMap<>();
-        result.put("user", userFuture.join());
-        result.put("orders", ordersFuture.join());
-        result.put("product", productFuture.join());
-        
-        return result;
-    }
-}
-```
+* Use **Service Discovery** if services are **Dynamic** (their **IP**, **Port**, or **Instances** change frequently)
+* Configure **Connection Timeout** and **Read Timeout**
+* Implement **Retry** for temporary failures
+* Use a **Circuit Breaker** to prevent cascading failures
+* Use **Load Balancing** when multiple service instances exist
+* Secure communication using **HTTPS**, **JWT**, or **OAuth2**
+* Enable **Centralized Logging**, **Distributed Tracing**, and **Monitoring**
+
+**When to Use**
+
+* **Request-Response** communication
+* Immediate response is required
+* CRUD operations
+* Simple microservice architectures
+
+**Advantages**
+
+* Simple to implement
+* Real-time communication
+* Easy to debug
+* No messaging infrastructure required
+
+**Disadvantages**
+
+* **Tight Coupling** between services
+* Higher latency due to multiple HTTP calls
+* Failure of one service can impact others
+* Less scalable than **Asynchronous Messaging**
+
+
 
 # ✅ 22. Java kafka and RabbitMQ
 
