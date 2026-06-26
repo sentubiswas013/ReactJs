@@ -20165,9 +20165,6 @@ Controller
 Client
 ```
 
-
-```
-
 **Benefits**
 
 * **Faster response time**
