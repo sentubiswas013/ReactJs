@@ -87,9 +87,12 @@ User types: https://www.example.com/products?id=42
 └────────────────┬─────────────────────────────┘
                  │
 ┌────────────────▼─────────────────────────────┐
-│ 5. TCP Connection(Transmission control protocol)│
+│ 5. TCP Connection(Transmission control       |
+|    protocol)│                                |
 │ - Starts 3-way handshake                     │
-│ - SYN → SYN-ACK → ACK  (SYN -Synchronize,SYN-ACK - Synchronize + Acknowledge, ACK - Acknowledge )               │
+│ - SYN → SYN-ACK → ACK  (SYN -Synchronize,    |
+|    SYN-ACK - Synchronize + Acknowledge,      |
+|    ACK - Acknowledge )                       │
 │ - Reliable connection established            │
 └────────────────┬─────────────────────────────┘
                  │
