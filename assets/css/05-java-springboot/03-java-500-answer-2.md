@@ -46,9 +46,6 @@ These are the three main components of the Java platform:
 * **JRE (Java Runtime Environment)**: Contains the **JVM + libraries** required to **run** Java applications.
 * **JDK (Java Development Kit)**: Contains the **JRE + development tools** required to **develop, compile, and run** Java applications.
 
-**Simple Interview Answer**
-
-> **JDK is used to develop Java applications, JRE is used to run them, and JVM is the engine that actually executes the Java bytecode. In short, JDK = JRE + development tools, and JRE = JVM + libraries.**
 
 **Relationship**
 
@@ -877,9 +874,6 @@ All three are used to handle **text (sequence of characters)** in Java, but they
 * **StringBuilder**: **Mutable** and **not thread-safe**.
 * **StringBuffer**: **Mutable** and **thread-safe** because its methods are **synchronized**.
 
-**Simple Interview Answer**
-
-> **`String` is immutable, so every modification creates a new object. `StringBuilder` and `StringBuffer` are mutable, so they modify the same object. `StringBuilder` is faster but not thread-safe, while `StringBuffer` is thread-safe but slightly slower due to synchronization.**
 
 **Key Differences**
 
@@ -5873,9 +5867,7 @@ Both **`Comparable`** and **`Comparator`** are interfaces in Java used for **sor
 * **`Comparable`** defines the **natural/default ordering** of an object.
 * **`Comparator`** defines a **custom ordering** and allows multiple sorting strategies.
 
-**Simple Interview Answer**
 
-> **`Comparable` is used when a class has a single natural sorting order and implements the `compareTo()` method. `Comparator` is used when we want custom or multiple sorting orders and implements the `compare()` method.**
 
 **Key Differences**
 
@@ -8554,10 +8546,6 @@ public class Main {
 }
 ```
 
-**Interview Answer**
-
-"**CountDownLatch** is a synchronization utility that allows a thread to wait until other threads complete their work. It uses a counter that decreases with `countDown()`, and when the count reaches zero, waiting threads are released. It is a **one-time-use** synchronization mechanism."
-
 
 **CyclicBarrier** is a synchronization utility that allows a group of threads to wait for each other at a common barrier point before continuing execution.
 
@@ -8620,10 +8608,6 @@ public class Main {
     }
 }
 ```
-
-**Interview Answer**
-
-"**CyclicBarrier** is a synchronization utility that allows multiple threads to wait for each other at a common point. When all participating threads reach the barrier using `await()`, they are released together. Unlike **CountDownLatch**, it is **reusable** and can be used across multiple processing phases."
 
 
 **CountDownLatch vs CyclicBarrier**
@@ -27692,9 +27676,6 @@ public class EmployeeProcessor
 * Large jobs may take **more time** to complete
 * Error handling can be **complex**
 
-**Interview Answer (60 Seconds)**
-
-**Batch Processing** is a technique where **multiple records are processed together as a single batch** instead of one by one. In **Spring Batch**, a **Job** contains one or more **Steps**, and each step uses an **ItemReader** to read data, an **ItemProcessor** to process it, and an **ItemWriter** to save the results. Batch processing is ideal for **large-volume**, **scheduled**, and **repetitive** tasks such as **payroll**, **report generation**, **data migration**, and **bank transaction processing**.
 
 **Common Interview Follow-up**
 
@@ -27796,9 +27777,7 @@ switch (shardId) {
 * **Data Rebalancing** is required when adding new shards
 * **Joins Across Shards** are expensive
 
-**Interview Answer (60 Seconds)**
 
-**Sharding** is a **horizontal database partitioning** technique where a large database is split into multiple **smaller databases called shards**. Each shard stores a subset of the data based on a **Sharding Key**, such as **User ID**. When a request arrives, the application uses the sharding key to determine the correct shard and sends the query only to that database. This improves **performance**, **scalability**, and **load distribution**, making sharding ideal for **large-scale applications** with millions of users.
 
 **Common Interview Follow-up**
 
@@ -28728,9 +28707,6 @@ spec:
 * If **CPU Usage** exceeds **70%**, Kubernetes automatically adds more pods.
 * When CPU usage drops, extra pods are removed.
 
-**Interview Answer**
-
-**Autoscaling** is the process of automatically adjusting the number of application instances based on system load. It helps maintain **high availability**, **performance**, and **cost efficiency**. In Kubernetes, it is commonly implemented using **Horizontal Pod Autoscaler (HPA)**, which monitors metrics like **CPU** and **Memory** and scales pods up or down automatically.
 
 **Common Interview Follow-up Questions**
 
