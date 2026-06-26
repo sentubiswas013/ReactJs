@@ -20725,6 +20725,189 @@ CREATE TABLE employee_images (
 12. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
 
 
+## 15. Create API to roll back @Transaction for fail payment?
+
+**`@Transactional`** ensures that **all database operations are treated as a single transaction**. If the **payment fails** or any exception occurs, **Spring automatically rolls back** all database changes, maintaining **data consistency**.
+
+**Key Features**
+
+* **Automatic Rollback** on exception
+* **Maintains Data Consistency**
+* **Atomic Transaction** (All or Nothing)
+* **Simple to Implement**
+* **Supports ACID Properties**
+
+**How it Works**
+
+1. User places an order.
+2. Save the order to the database.
+3. Process the payment.
+4. If payment is **successful**, the transaction is **committed**.
+5. If payment **fails**, an exception is thrown.
+6. Spring **rolls back** the transaction, so the order is **not saved**.
+
+**When to Use**
+
+* **Order and Payment Processing**
+* **Banking Transactions**
+* **Inventory Management**
+* **Money Transfer**
+* **Any operation requiring data consistency**
+
+**Controller**
+
+```java
+@RestController
+@RequestMapping("/accounts")
+public class AccountController {
+
+    @Autowired
+    private AccountService service;
+
+    @PostMapping("/transfer")
+    public String transfer() {
+        service.transferMoney(1L, 2L, 500);
+        return "Money transferred successfully";
+    }
+}
+```
+
+**Service**
+
+```java
+@Service
+public class AccountService {
+    @Autowired
+    private AccountRepository repository;
+
+    @Transactional
+    public void transferMoney(Long fromId, Long toId, double amount) {
+
+        Account from = repository.findById(fromId)
+                .orElseThrow(() -> new RuntimeException("Sender not found"));
+
+        Account to = repository.findById(toId)
+                .orElseThrow(() -> new RuntimeException("Receiver not found"));
+
+        from.debit(amount);
+        to.credit(amount);
+
+        repository.save(from);
+        repository.save(to);
+    }
+}
+```
+
+**Repository**
+
+```java
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Long> {
+}
+```
+
+
+**Entity**
+
+```java
+@Entity
+public class Account {
+
+    @Id
+    private Long id;
+
+    private String name;
+    private double balance;
+
+    // Getters and Setters
+
+    public void debit(double amount) {
+        this.balance -= amount;
+    }
+
+    public void credit(double amount) {
+        this.balance += amount;
+    }
+}
+```
+
+**Flow**
+
+```text
+Client
+   │
+   ▼
+Controller
+   │
+   ▼
+Spring AOP Proxy
+   │
+Transaction Begins
+   │
+   ▼
+transferMoney()
+   │
+Find Accounts
+Debit Account A
+Credit Account B
+Save Changes
+   │
+   ▼
+No Exception?
+   │
+ ┌───────┴────────┐
+ │                │
+Yes             No
+ │                │
+Commit        Rollback
+ │                │
+ ▼                ▼
+Database      Database Restored
+```
+
+**Important Note**
+
+By default, **Spring rolls back only for unchecked exceptions (`RuntimeException`)**.
+
+To roll back for **checked exceptions**, specify `rollbackFor`.
+
+```java
+@Transactional(rollbackFor = Exception.class)
+public void placeOrder(Order order) {
+    // Business logic
+}
+```
+
+**Common Interview Follow-up Questions**
+
+**1. When does `@Transactional` roll back?**
+
+By default, it rolls back only for **`RuntimeException`** and **`Error`**.
+
+**2. How do you roll back for checked exceptions?**
+
+Use:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+**3. Will `@Transactional` roll back if I catch the exception?**
+
+**No.** If you catch the exception and do not rethrow it, Spring considers the transaction successful and **commits** it.
+
+```java
+try {
+    processPayment();
+} catch (Exception e) {
+    // Transaction will NOT roll back unless exception is rethrown
+}
+```
+
+**4. Does `@Transactional` work across Microservices?**
+
+**No.** `@Transactional` works only **within a single service and database**. For distributed transactions across multiple microservices, use the **Saga Pattern** or **Compensating Transactions**.
+
 
 # ✅ 21. Java Microservices 
 
