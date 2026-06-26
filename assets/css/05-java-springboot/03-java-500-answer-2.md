@@ -19773,126 +19773,403 @@ User Not Found
 
 
 
-## 9. How to call external API and how to handle parallel call in java?
+9. Create API to create communicate in different table?
 
-**1. Call Multiple External APIs in Parallel** (Using CompletableFuture)
+
+A **REST API** can interact with **multiple database tables** within a **single request**. This is commonly done in the **Service Layer** using **JPA Relationships** and **Transactions** to ensure data consistency.
+
+**Example Scenario**
+
+Create an **Order API** that saves data into:
+
+* **orders** table
+* **order_items** table
+
+When a client creates an order, both tables should be updated together.
+
+**Key Features**
+
+* **Single API** updates multiple tables
+* Uses **JPA Relationships** (`@OneToMany`, `@ManyToOne`)
+* Uses **@Transactional** for **Atomicity**
+* Maintains **Data Consistency**
+* Supports **Rollback** if any operation fails
+
+**How it Works**
+
+1. Client sends a **POST** request.
+2. **Controller** receives the request.
+3. **Service Layer** starts a **Transaction**.
+4. Save data into the **Parent Table**.
+5. Save related data into the **Child Table**.
+6. If all operations succeed, **Commit** the transaction.
+7. If any operation fails, **Rollback** all changes.
+
+**Example API**
+
+```http
+POST /orders
+```
+
+**Request**
+
+```json
+{
+  "customerName": "John",
+  "items": [
+    {
+      "product": "Laptop",
+      "quantity": 1
+    },
+    {
+      "product": "Mouse",
+      "quantity": 2
+    }
+  ]
+}
+```
+
+**Entity Relationship**
 
 ```java
-import java.util.concurrent.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+@Entity
+public class Order {
 
-public class ParallelApiCaller {
-    
-    private final HttpClient client = HttpClient.newHttpClient();
-    
-    // Call multiple APIs in parallel
-    public List<String> callMultipleApisParallel(List<String> urls) {
-        
-        // Create CompletableFuture for each API call
-        List<CompletableFuture<String>> futures = urls.stream()
-            .map(url -> CompletableFuture.supplyAsync(() -> {
-                try {
-                    return callApi(url);
-                } catch (Exception e) {
-                    System.err.println("API call failed for " + url + ": " + e.getMessage());
-                    return null;
-                }
-            }))
-            .collect(Collectors.toList());
-        
-        // Wait for all APIs to complete in parallel
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-        
-        // Collect all results
-        return futures.stream()
-            .map(CompletableFuture::join)
-            .filter(result -> result != null)
-            .collect(Collectors.toList());
-    }
-    
-    // Single API call helper method
-    private String callApi(String url) throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .header("Authorization", "Bearer YOUR_TOKEN")
-            .GET()
-            .build();
-        
-        HttpResponse<String> response = client.send(
-            request, 
-            HttpResponse.BodyHandlers.ofString()
-        );
-        
-        return response.body();
-    }
-    
-    // Example usage
-    public static void main(String[] args) {
-        ParallelApiCaller caller = new ParallelApiCaller();
-        
-        List<String> urls = List.of(
-            "https://api.example.com/endpoint1",
-            "https://api.example.com/endpoint2",
-            "https://api.example.com/endpoint3"
-        );
-        
-        long startTime = System.currentTimeMillis();
-        
-        List<String> results = caller.callMultipleApisParallel(urls);
-        
-        long endTime = System.currentTimeMillis();
-        
-        System.out.println("Total time: " + (endTime - startTime) + "ms");
-        System.out.println("Results: " + results);
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String customerName;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items;
+}
+```
+
+```java
+@Entity
+public class OrderItem {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String product;
+    private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+}
+```
+
+**Service Example**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository repository;
+
+    @Transactional
+    public Order save(Order order) {
+        order.getItems().forEach(item -> item.setOrder(order));
+        return repository.save(order);
     }
 }
 ```
 
-**1. Spring Boot - RestTemplate + CompletableFuture (Parallel)**
+**Controller Example**
+
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    @Autowired
+    private OrderService service;
+
+    @PostMapping
+    public Order createOrder(@RequestBody Order order) {
+        return service.save(order);
+    }
+}
+```
+
+**When to Use**
+
+* **Order** and **Order Items**
+* **Employee** and **Address**
+* **Customer** and **Account**
+* **Student** and **Courses**
+* Any **Parent-Child** relationship
+
+**Advantages**
+
+* **Single API** updates multiple tables
+* Ensures **Data Consistency**
+* Automatic **Rollback** on failure
+* Easier maintenance using **JPA Relationships**
+
+
+10. Create API to handle external API call? 
+
+An API can call an **External API** (Third-Party Service) from the **Service Layer** using **Java 11 HttpClient**, **Spring WebClient**, or **OpenFeign**. The application receives the client request, calls the external service, processes the response, and returns the result to the client.
+
+**Key Features**
+
+* Calls **Third-Party APIs**
+* Supports **GET**, **POST**, **PUT**, and **DELETE**
+* Handles **Timeouts** and **Error Responses**
+* Can use **Authentication** (API Key, **JWT**, **OAuth2**)
+* Supports **Synchronous** and **Asynchronous** communication
+
+**How it Works**
+
+1. Client sends a request to your API.
+2. **Controller** receives the request.
+3. **Service Layer** calls the **External API**.
+4. External API returns the response.
+5. Service processes the response.
+6. Controller returns the final response to the client.
+
+```text
+Client
+   |
+Your API
+   |
+Service Layer
+   |
+HTTP Request
+   |
+External API
+```
+
+**Java 11 HttpClient Example**
 
 ```java
 @Service
-public class ParallelApiService {
-    
+public class UserService {
+    public String getUsers() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return response.body();
+    }
+}
+```
+
+**Controller Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
     @Autowired
-    private RestTemplate restTemplate;
-    
-    // Parallel API calls using CompletableFuture
-    public Map<String, Object> callApisParallel() {
-        
-        // Create futures for each API
-        CompletableFuture<User> userFuture = CompletableFuture.supplyAsync(() -> {
-            return restTemplate.getForObject(
-                "https://api.example.com/user/1", User.class);
-        });
-        
-        CompletableFuture<List<Order>> ordersFuture = CompletableFuture.supplyAsync(() -> {
-            return restTemplate.getForObject(
-                "https://api.example.com/user/1/orders", List.class);
-        });
-        
-        CompletableFuture<Product> productFuture = CompletableFuture.supplyAsync(() -> {
-            return restTemplate.getForObject(
-                "https://api.example.com/product/1", Product.class);
-        });
-        
-        // Wait for all to complete (parallel execution)
-        CompletableFuture.allOf(userFuture, ordersFuture, productFuture).join();
-        
-        // Combine results
-        Map<String, Object> result = new HashMap<>();
-        result.put("user", userFuture.join());
-        result.put("orders", ordersFuture.join());
-        result.put("product", productFuture.join());
-        
+    private UserService service;
+
+    @GetMapping
+    public String getUsers() throws Exception {
+        return service.getUsers();
+    }
+}
+```
+
+**Example Flow**
+
+```text
+Client
+   |
+GET /users
+   |
+User Service
+   |
+Java 11 HttpClient
+   |
+External User API
+   |
+JSON Response
+   |
+Client
+```
+
+**Best Practices**
+
+* Configure **Connection Timeout** and **Read Timeout**
+* Implement **Retry** for temporary failures
+* Use a **Circuit Breaker** to prevent cascading failures
+* Handle **HTTP Status Codes** properly
+* Log **Request** and **Response**
+* Secure APIs using **HTTPS**, **API Keys**, or **OAuth2**
+* Use **Caching** if the data changes infrequently
+
+**When to Use**
+
+* Calling **Payment Gateway APIs**
+* Fetching **Weather Data**
+* Calling **Google Maps API**
+* Integrating with **Banking APIs**
+* Calling other **Microservices**
+* Integrating with any **Third-Party Service**
+
+**Advantages**
+
+* Easy integration with external systems
+* Real-time data retrieval
+* Reusable service layer
+* Supports secure communication
+
+
+11. Create API to how to handle parallel API call in java?
+
+**Parallel API calls** allow you to call multiple external services **at the same time** instead of waiting for each one to finish. This improves **performance** and **reduces overall response time**.
+
+**Key Features**
+
+* **Runs multiple API calls concurrently**
+* **Reduces total execution time**
+* **Improves application performance**
+* **Non-blocking** using **CompletableFuture**
+* **Combines multiple API responses** into one result
+
+**How It Works**
+
+1. Receive a client request.
+2. Start multiple API calls using **CompletableFuture.supplyAsync()**.
+3. All APIs execute **in parallel**.
+4. Wait for all responses using **CompletableFuture.allOf()**.
+5. Merge the results and return a single response.
+
+**When to Use**
+
+* Calling **multiple microservices**
+* Fetching data from **different external APIs**
+* Building **dashboard or aggregated responses**
+* Improving **response time** for independent API calls
+
+**Code Example**
+
+```java
+@Service
+public class UserService {
+
+    private final HttpClient client = HttpClient.newHttpClient();
+
+    public String getData(String url) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        try {
+            return client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (Exception e) {
+            return "API Failed";
+        }
+    }
+
+    public Map<String, String> getUserDetails() {
+
+        CompletableFuture<String> profile =
+                CompletableFuture.supplyAsync(() ->
+                        getData("https://api.example.com/profile"));
+
+        CompletableFuture<String> orders =
+                CompletableFuture.supplyAsync(() ->
+                        getData("https://api.example.com/orders"));
+
+        CompletableFuture.allOf(profile, orders).join();
+
+        Map<String, String> result = new HashMap<>();
+        result.put("profile", profile.join());
+        result.put("orders", orders.join());
+
         return result;
     }
 }
 ```
 
-## 10. Create File upload API to Handle Large Data Processing?
+**Benefits**
+
+* **Faster response time**
+* **Better resource utilization**
+* **Higher throughput**
+* **Scalable** for microservices
+* **Improved user experience**
+
+
+12. Create API to File upload Handle Large Data Processing?
+
+When handling **large file uploads**, the goal is to **upload the file efficiently** and **process it in chunks or streams** instead of loading the entire file into memory. This improves **performance** and prevents **OutOfMemoryError**.
+
+**Key Features**
+
+* **Stream-based** file processing
+* **Memory efficient**
+* **Supports large files** (CSV, Excel, JSON, etc.)
+* **Processes data in batches**
+* **Scalable** for high-volume data
+
+**How It Works**
+
+1. Client uploads a large file using **MultipartFile**.
+2. Read the file using **InputStream** or **BufferedReader**.
+3. Process the file **line by line** or **batch by batch**.
+4. Save the processed data into the **database**.
+5. Return the upload status to the client.
+
+**When to Use**
+
+* Uploading **large CSV/Excel files**
+* **Bulk data import**
+* **Batch processing**
+* **ETL (Extract, Transform, Load)** applications
+* Processing **millions of records**
+
+**Code Example**
+
+```java
+@RestController
+@RequestMapping("/files")
+public class FileController {
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam MultipartFile file) throws Exception {
+
+        try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                // Process each record
+                System.out.println(line);
+            }
+        }
+
+        return "File processed successfully";
+    }
+}
+```
+
+**Benefits**
+
+* **Low memory usage**
+* **Fast processing**
+* **Handles very large files**
+* **Prevents OutOfMemoryError**
+* **Suitable for enterprise applications**
+
+
+13. Create API to handle large data(Millions of records) efficiently?
 
 * **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
 * **Use Batch Processing** to process records in chunks and reduce memory consumption
@@ -20033,299 +20310,7 @@ public class Main {
 }
 ```
 
-## 11. How to handle large data efficiently?
-
-* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
-* **Use Batch Processing** to process records in chunks and reduce memory consumption
-* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
-* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
-* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
-* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
-* **Use Sharding** when data becomes too large for a single database server
-
-
-**1. 🔄 Streaming (Already Have)**
-```java
-// WRONG - Loads everything into memory
-List<User> users = userRepo.findAll(); // OOM risk with millions of records
-
-// RIGHT - Stream row by row
-@Query("SELECT u FROM User u")
-Stream<User> streamAllUsers();
-
-// Usage (must be in @Transactional)
-@Transactional(readOnly = true)
-public void processUsers() {
-    try (Stream<User> stream = userRepo.streamAllUsers()) {
-        stream.forEach(this::processUser);
-    }
-}
-```
-
-
-**2. 🧩 Batch Processing (Already Have)**
-```java
-// Spring Batch - Chunk-Oriented Processing
-@Bean
-public Step processUsersStep() {
-    return stepBuilderFactory.get("processUsers")
-        .<User, ProcessedUser>chunk(1000)   // Read 1000, Process, Write 1000
-        .reader(userItemReader())
-        .processor(userItemProcessor())
-        .writer(userItemWriter())
-        .build();
-}
-```
-**Key Interview Point:** Spring Batch gives you **restart/retry**, **job monitoring**, and **skip logic** out of the box.
-
-
-**3. 📄 Database Pagination (Already Have)**
-```java
-// Page<T> - gives totalCount (extra COUNT query)
-Page<User> page = userRepo.findAll(PageRequest.of(0, 100, Sort.by("id")));
-
-// Slice<T> - No COUNT query, better performance
-Slice<User> slice = userRepo.findAll(PageRequest.of(0, 100));
-
-// Keyset / Cursor Pagination - BEST for large datasets
-@Query("SELECT u FROM User u WHERE u.id > :lastId ORDER BY u.id")
-List<User> findNext(@Param("lastId") Long lastId, Pageable pageable);
-```
-**Key Difference:** Offset pagination degrades at high page numbers. **Keyset pagination stays O(log n)**.
-
-
-**4. ⚡ Async / Parallel Processing (Already Have)**
-```java
-@Async("taskExecutor")
-public CompletableFuture<Result> processChunk(List<User> chunk) {
-    // processed in separate thread
-    return CompletableFuture.completedFuture(result);
-}
-
-// Combine all futures
-List<CompletableFuture<Result>> futures = chunks.stream()
-    .map(this::processChunk)
-    .collect(toList());
-
-CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-```
-
-
-**5. 🗄️ Caching (Already Have)**
-```java
-@Cacheable(value = "users", key = "#id")
-public User getUser(Long id) { ... }
-
-@CacheEvict(value = "users", key = "#id")
-public void updateUser(Long id, User user) { ... }
-```
-**Interview Tip:** Discuss **cache eviction strategies** (LRU, TTL), **cache stampede** problem, and when **NOT to cache** (frequently changing data).
-
-
-**6. 🗃️ JDBC Batch Operations (Already Have)**
-```yaml
-# application.yml
-spring:
-  jpa:
-    properties:
-      hibernate:
-        jdbc.batch_size: 50
-        order_inserts: true   # Critical - groups same entity inserts
-        order_updates: true
-```
-```java
-// Use saveAll() - Hibernate batches automatically
-userRepo.saveAll(listOf1000Users); // 1000 inserts → ~20 batch calls
-```
-
-**7. 🔀 Sharding (Already Have)**
-```
-User Table Sharded by user_id:
-  Shard 0 → user_id % 4 == 0  → DB Server 1
-  Shard 1 → user_id % 4 == 1  → DB Server 2
-  Shard 2 → user_id % 4 == 2  → DB Server 3
-  Shard 3 → user_id % 4 == 3  → DB Server 4
-```
-**Mention:** Apache ShardingSphere or Vitess for Java-based sharding solutions.
-
-
-**🆕 MUST-ADD Points for Interview**
-
-
-**8. 📨 Message Queue / Event-Driven Processing**
-```java
-// Producer - Offload heavy processing
-@Service
-public class OrderService {
-    public void placeOrder(Order order) {
-        orderRepo.save(order);
-        kafkaTemplate.send("order-processing", order); // Non-blocking
-    }
-}
-
-// Consumer - Process asynchronously at own pace
-@KafkaListener(topics = "order-processing", concurrency = "5")
-public void processOrder(Order order) {
-    heavyProcessingService.process(order);
-}
-```
-**Why it matters:** Decouples producers from consumers, handles **back-pressure**, survives **service restarts**.
-
-
-**9. 📊 Read Replicas / CQRS Pattern**
-```java
-// Route reads to replica, writes to primary
-@Bean
-public DataSource routingDataSource() {
-    Map<Object, Object> sources = new HashMap<>();
-    sources.put("WRITE", primaryDataSource());
-    sources.put("READ",  replicaDataSource());
-
-    AbstractRoutingDataSource routing = new AbstractRoutingDataSource() {
-        protected Object determineCurrentLookupKey() {
-            return TransactionSynchronizationManager
-                       .isCurrentTransactionReadOnly() ? "READ" : "WRITE";
-        }
-    };
-    routing.setTargetDataSources(sources);
-    return routing;
-}
-
-@Transactional(readOnly = true) // → Goes to READ replica
-public List<User> getUsers() { ... }
-```
-
-
-**10. 🏗️ Projection / DTO Fetching (Select Only What You Need)**
-```java
-// BAD - Fetches entire entity + all columns
-List<User> users = userRepo.findAll();
-
-// GOOD - Fetch only needed fields
-@Query("SELECT new com.app.dto.UserSummary(u.id, u.name) FROM User u")
-List<UserSummary> findUserSummaries();
-
-// Interface Projection
-public interface UserSummary {
-    Long getId();
-    String getName();
-}
-List<UserSummary> users = userRepo.findBy(); // Spring Data handles it
-```
-**Impact:** Can reduce data transfer by **60-80%** for wide tables.
-
-
-**11. 🗜️ Data Archival / Partitioning**
-```sql
--- Partition orders table by year (MySQL)
-CREATE TABLE orders (
-    id BIGINT, order_date DATE, ...
-) PARTITION BY RANGE (YEAR(order_date)) (
-    PARTITION p2022 VALUES LESS THAN (2023),
-    PARTITION p2023 VALUES LESS THAN (2024),
-    PARTITION p2024 VALUES LESS THAN (2025)
-);
-```
-```java
-// Archive old data to cold storage
-@Scheduled(cron = "0 0 2 * * SUN") // Every Sunday 2AM
-public void archiveOldOrders() {
-    orderRepo.moveToArchive(LocalDate.now().minusYears(2));
-}
-```
-
-**12. 🔍 Index Optimization (Often Overlooked)**
-```java
-// Composite index for common query patterns
-@Table(indexes = {
-    @Index(name = "idx_user_status_date",
-           columnList = "status, created_date DESC"),
-    @Index(name = "idx_user_email", columnList = "email", unique = true)
-})
-
-// Covering index - query served entirely from index
-@Query(value = "SELECT id, name FROM users USE INDEX (idx_covering) 
-                WHERE status = ?1", nativeQuery = true)
-```
-**Interview Tip:** Explain difference between **clustered vs non-clustered** index and **index selectivity**.
-
-
-## 12. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
-
-
-During bumper offers or Black Friday sales, I would design the system to handle high traffic using load balancing, caching, auto-scaling, message queues, and database optimization. This prevents the application from crashing and ensures a smooth user experience.
-
-**Key Strategies:**
-
-1. **Rate Limiting & Throttling** — Prevent system overload by limiting requests per user
-2. **Queue-Based Processing** — Use message queues (Kafka/RabbitMQ) to handle burst traffic asynchronously.
-3. **Database Optimization** → Use indexing, read replicas, and connection pooling.
-4. **Inventory Locking** — Use database transactions or Redis to prevent overselling
-5. **Caching** — Reduce database calls for frequently accessed data.
-6. **Load Balancing** — Distribute requests across multiple servers
-7. **Auto Scaling** → Automatically add more application instances during peak traffic.
-
-```java
-// Rate Limiter using Redis
-public class RateLimiter {
-    private RedisTemplate<String, Integer> redis;
-    
-    public boolean allowRequest(String userId, int maxRequests, int windowSeconds) {
-        String key = "rate_limit:" + userId;
-        Integer count = redis.opsForValue().increment(key);
-        
-        if (count == 1) {
-            redis.expire(key, windowSeconds, TimeUnit.SECONDS);
-        }
-        
-        return count <= maxRequests; // Return true if under limit
-    }
-}
-
-// Inventory Management with Redis (prevents overselling)
-public class InventoryService {
-    private RedisTemplate<String, Integer> redis;
-    
-    public boolean reserveInventory(String productId, int quantity) {
-        String key = "inventory:" + productId;
-        Integer available = redis.opsForValue().get(key);
-        
-        if (available != null && available >= quantity) {
-            redis.opsForValue().decrement(key, quantity);
-            return true; // Reserved successfully
-        }
-        return false; // Not enough inventory
-    }
-}
-
-// Black Friday Sale Handler
-public class SaleService {
-    private RateLimiter rateLimiter;
-    private InventoryService inventoryService;
-    
-    public PurchaseResult purchaseProduct(String userId, String productId, int quantity) {
-        // 1. Rate limit check
-        if (!rateLimiter.allowRequest(userId, 10, 60)) {
-            return PurchaseResult.REJECTED("Too many requests");
-        }
-        
-        // 2. Reserve inventory
-        if (!inventoryService.reserveInventory(productId, quantity)) {
-            return PurchaseResult.REJECTED("Item out of stock");
-        }
-        
-        // 3. Process order (async via queue)
-        orderQueue.send(new OrderEvent(userId, productId, quantity));
-        
-        return PurchaseResult.SUCCESS("Order placed");
-    }
-}
-```
-
-
-
-
-## 13. Create API to handle large files efficiently?
+14. Create API to handle large files efficiently?
 
 When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks. This reduces memory consumption and improves performance.
 
@@ -20398,9 +20383,7 @@ public ResponseEntity<Resource> downloadFile(
 * Validate file type and size before processing.
 * Monitor memory usage and I/O performance.
 
-
-
-## 14. How do you process images into Oracle DB using Java APIs?
+15. Create API to process images into Oracle DB using Java APIs?
 
 In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
 
@@ -20518,6 +20501,9 @@ CREATE TABLE employee_images (
     PRIMARY KEY(id)
 );
 ```
+
+12. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
+
 
 
 # ✅ 21. Java Microservices 
