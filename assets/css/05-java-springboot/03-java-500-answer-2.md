@@ -20106,67 +20106,98 @@ public class UserService {
 * **Improved user experience**
 
 
-## 12. Create API to File upload Handle Large Data Processing?
+## 12. Create API for Asynchronous Data Processing?
 
-When handling **large file uploads**, the goal is to **upload the file efficiently** and **process it in chunks or streams** instead of loading the entire file into memory. This improves **performance** and prevents **OutOfMemoryError**.
+
+An **Asynchronous API** processes requests in the **Background** without making the client wait for the task to complete. In **Spring Boot**, this is commonly implemented using **@Async** and **CompletableFuture**.
 
 **Key Features**
 
-* **Stream-based** file processing
-* **Memory efficient**
-* **Supports large files** (CSV, Excel, JSON, etc.)
-* **Processes data in batches**
-* **Scalable** for high-volume data
+* **Non-Blocking** request processing
+* Executes tasks in a **Background Thread**
+* Uses **@Async** and **CompletableFuture**
+* Faster **API Response**
+* Improves **Scalability** and **Performance**
 
-**How It Works**
+**How it Works**
 
-1. Client uploads a large file using **MultipartFile**.
-2. Read the file using **InputStream** or **BufferedReader**.
-3. Process the file **line by line** or **batch by batch**.
-4. Save the processed data into the **database**.
-5. Return the upload status to the client.
+1. Client sends a request.
+2. **Controller** calls the **Service Layer**.
+3. The service method annotated with **@Async** starts processing in a **Background Thread**.
+4. API immediately returns an **Accepted** response.
+5. Background task completes independently.
 
-**When to Use**
-
-* Uploading **large CSV/Excel files**
-* **Bulk data import**
-* **Batch processing**
-* **ETL (Extract, Transform, Load)** applications
-* Processing **millions of records**
-
-**Code Example**
+**Enable Async**
 
 ```java
-@RestController
-@RequestMapping("/files")
-public class FileController {
+@SpringBootApplication
+@EnableAsync
+public class Application {
+}
+```
 
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam MultipartFile file) throws Exception {
+**Service Example**
 
-        try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+```java
+@Service
+public class ReportService {
 
-            String line;
+    @Async
+    public CompletableFuture<String> generateReport() throws Exception {
 
-            while ((line = reader.readLine()) != null) {
-                // Process each record
-                System.out.println(line);
-            }
-        }
+        Thread.sleep(5000); // Long-running task
 
-        return "File processed successfully";
+        return CompletableFuture.completedFuture("Report Generated");
     }
 }
 ```
 
-**Benefits**
+**Controller Example**
 
-* **Low memory usage**
-* **Fast processing**
-* **Handles very large files**
-* **Prevents OutOfMemoryError**
-* **Suitable for enterprise applications**
+```java
+@RestController
+@RequestMapping("/reports")
+public class ReportController {
+
+    @Autowired
+    private ReportService service;
+
+    @GetMapping("/generate")
+    public String generateReport() {
+
+        service.generateReport();
+
+        return "Report generation started";
+    }
+}
+```
+
+**Best Practices**
+
+* Use **@Async** for long-running tasks
+* Return **CompletableFuture** for asynchronous results
+* Configure a custom **Thread Pool**
+* Handle **Exceptions** properly
+* Monitor background tasks using **Logging**
+* Avoid blocking operations inside asynchronous methods
+
+**When to Use**
+
+* **Report Generation**
+* **File Processing**
+* **Email Notifications**
+* **Data Import/Export**
+* **Large File Uploads**
+* **Long-Running Background Jobs**
+
+**Advantages**
+
+* Faster API response
+* Better **User Experience**
+* Improved **Performance**
+* Better **Resource Utilization**
+* Scalable for long-running tasks
+
 
 
 ## 13. Create API to handle large data(Millions of records) efficiently?
