@@ -19772,7 +19772,6 @@ User Not Found
 * **500 Internal Server Error** – Server error
 
 
-
 9. Create API to create communicate in different table?
 
 
@@ -20503,6 +20502,7 @@ CREATE TABLE employee_images (
 ```
 
 12. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
+
 
 
 
