@@ -19913,7 +19913,7 @@ public class OrderController {
 * Easier maintenance using **JPA Relationships**
 
 
-## 10. Create API to handle external API call? 
+## 10. Create API for external API call(HttpClient)? 
 
 An API can call an **External API** (Third-Party Service) from the **Service Layer** using **Java 11 HttpClient**, **Spring WebClient**, or **OpenFeign**. The application receives the client request, calls the external service, processes the response, and returns the result to the client.
 
@@ -20028,7 +20028,8 @@ Client
 * Supports secure communication
 
 
-## 11. Create API to how to handle parallel API call in java?
+
+## 11. Create API for parallel API(Asynchronous) using HttpClient?
 
 **Parallel API calls** allow you to call multiple external services **at the same time** instead of waiting for each one to finish. This improves **performance** and **reduces overall response time**.
 
@@ -20057,6 +20058,83 @@ Client
 
 **Code Example**
 
+**Service Example (Asynchronous)**
+
+```java
+@Service
+public class UserService {
+
+    private final HttpClient client = HttpClient.newHttpClient();
+
+    public CompletableFuture<String> getUsers() {
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
+                .GET()
+                .build();
+
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .exceptionally(ex -> "API Failed: " + ex.getMessage());
+    }
+}
+```
+
+**Controller Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService service;
+
+    @GetMapping
+    public CompletableFuture<String> getUsers() {
+        return service.getUsers();
+    }
+}
+```
+
+**Multiple External APIs in Parallel**
+
+```java
+@Service
+public class UserService {
+
+    private final HttpClient client = HttpClient.newHttpClient();
+
+    public CompletableFuture<Map<String, String>> getUserDetails() {
+
+        HttpRequest profileRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.example.com/profile"))
+                .GET()
+                .build();
+
+        HttpRequest orderRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.example.com/orders"))
+                .GET()
+                .build();
+
+        CompletableFuture<String> profile =
+                client.sendAsync(profileRequest, HttpResponse.BodyHandlers.ofString())
+                        .thenApply(HttpResponse::body);
+
+        CompletableFuture<String> orders =
+                client.sendAsync(orderRequest, HttpResponse.BodyHandlers.ofString())
+                        .thenApply(HttpResponse::body);
+
+        return CompletableFuture.allOf(profile, orders)
+                .thenApply(v -> {
+                    Map<String, String> result = new HashMap<>();
+                    result.put("profile", profile.join());
+                    result.put("orders", orders.join());
+                    return result;
+                });
+    }
+}
+```
 
 **Controller**
 
@@ -20066,57 +20144,43 @@ Client
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserService service;
 
     @GetMapping("/details")
-    public Map<String, String> getUserDetails() {
-        return userService.getUserDetails();
+    public CompletableFuture<Map<String, String>> getUserDetails() {
+        return service.getUserDetails();
     }
 }
 ```
 
-**Service**
+**Execution Flow**
 
-```java
-@Service
-public class UserService {
-
-    private final HttpClient client = HttpClient.newHttpClient();
-
-    public String getData(String url) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-
-        try {
-            return client.send(request, HttpResponse.BodyHandlers.ofString())
-                    .body();
-        } catch (Exception e) {
-            return "API Failed";
-        }
-    }
-
-    public Map<String, String> getUserDetails() {
-
-        CompletableFuture<String> profile =
-                CompletableFuture.supplyAsync(() ->
-                        getData("https://api.example.com/profile"));
-
-        CompletableFuture<String> orders =
-                CompletableFuture.supplyAsync(() ->
-                        getData("https://api.example.com/orders"));
-
-        CompletableFuture.allOf(profile, orders).join();
-
-        Map<String, String> result = new HashMap<>();
-        result.put("profile", profile.join());
-        result.put("orders", orders.join());
-
-        return result;
-    }
-}
+```text
+Client
+   |
+GET /users/details
+   |
+Controller
+   |
+Service
+   |
+sendAsync()
+   |
+-----------------------------
+|                           |
+Profile API            Orders API
+|                           |
+-----------------------------
+        |
+CompletableFuture.allOf()
+        |
+Combined Response
+        |
+Controller
+        |
+Client
 ```
+
 
 ```
 
