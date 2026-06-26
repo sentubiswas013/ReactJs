@@ -20057,6 +20057,26 @@ Client
 
 **Code Example**
 
+
+**Controller**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/details")
+    public Map<String, String> getUserDetails() {
+        return userService.getUserDetails();
+    }
+}
+```
+
+**Service**
+
 ```java
 @Service
 public class UserService {
@@ -20070,7 +20090,8 @@ public class UserService {
                 .build();
 
         try {
-            return client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+            return client.send(request, HttpResponse.BodyHandlers.ofString())
+                    .body();
         } catch (Exception e) {
             return "API Failed";
         }
@@ -20095,6 +20116,8 @@ public class UserService {
         return result;
     }
 }
+```
+
 ```
 
 **Benefits**
@@ -20144,9 +20167,7 @@ public class ReportService {
 
     @Async
     public CompletableFuture<String> generateReport() throws Exception {
-
         Thread.sleep(5000); // Long-running task
-
         return CompletableFuture.completedFuture("Report Generated");
     }
 }
@@ -20166,7 +20187,6 @@ public class ReportController {
     public String generateReport() {
 
         service.generateReport();
-
         return "Report generation started";
     }
 }
