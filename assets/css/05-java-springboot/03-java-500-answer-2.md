@@ -25272,16 +25272,73 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 }
 ```
 
+## 12. JWT follow up common Questions?
 
-**Common Interview Questions**
+**1. Why is JWT called Stateless?**
 
-**Q: JWT vs Session-based authentication?**
+Because the **server does not store user sessions**. Every request contains the JWT, and the server validates it independently.
+
+**2. Where is JWT stored?**
+
+Usually in the **Authorization Header** (`Bearer Token`). It can also be stored in an **HttpOnly Cookie** for better security.
+
+**3. What happens if the token expires?**
+
+The server returns **401 Unauthorized**, and the client must authenticate again or use a **Refresh Token** to obtain a new JWT.
+
+**4. What is the difference between Authentication and Authorization?**
+
+* **Authentication** → Verifies **who the user is**.
+* **Authorization** → Determines **what the user is allowed to access**.
+
+**5. Why use `SessionCreationPolicy.STATELESS`?**
+
+It tells Spring Security **not to create or use HTTP sessions**, making JWT-based authentication fully **stateless**.
+
+
+**6. Where is JWT Stored in the Backend?**
+
+**JWT is generally *not stored* in the backend.** This is what makes **JWT authentication stateless**.
+
+**How it Works**
+
+1. User logs in with **username** and **password**.
+2. Server generates a **JWT** and sends it to the client.
+3. The client stores the token (usually in the **Authorization Header** or an **HttpOnly Cookie**).
+4. For every request, the client sends the JWT.
+5. The backend **validates the token's signature and expiration** using the **secret key** (or **public/private key**) without looking it up in a database.
+
+**7. What Does the Backend Store?**
+
+Normally, the backend stores only:
+
+* **Secret Key** (for HS256) or **Public/Private Keys** (for RS256)
+* **User details** in the database
+* **No JWT tokens** are stored
+
+**8. When Can JWT Be Stored in the Backend?**
+
+Although JWT is designed to be **stateless**, some applications store tokens for additional security:
+
+* **Refresh Tokens** stored in the database
+* **Token Blacklist** for logout or revoked tokens
+* **Redis Cache** for token revocation or session tracking
+
+**9. If JWT is not stored, how does the server verify it?**
+
+The server verifies the **digital signature**, **expiration time**, and **claims** using the configured **secret key** or **public key**.
+
+**10. Why is JWT called Stateless?**
+
+Because the **server does not store session or access token information**. Every request contains all the information needed for authentication.
+
+**11. JWT vs Session-based authentication?**
 A: JWT is stateless (no server storage), while sessions require server-side storage. JWT is better for microservices and scalability.
 
-**Q: How do you handle token expiration?**
+**12. How do you handle token expiration?**
 A: Implement refresh tokens or require re-authentication when tokens expire.
 
-**Q: Can JWT be revoked?**
+**13. Can JWT be revoked?**
 A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
 
 
