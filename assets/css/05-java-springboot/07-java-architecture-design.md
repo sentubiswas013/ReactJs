@@ -74,8 +74,8 @@ User types: https://www.example.com/products?id=42
 └────────────────┬─────────────────────────────┘
                  │
 ┌────────────────▼─────────────────────────────┐
-│ 3. DNS Lookup                                │
-│ - Finds domain IP address                    │
+│ 3. DNS Lookup - (Domain Name System)         │
+│ - Finds domain IP address(Internet Protocol) │
 │ - Contacts DNS server if needed              │
 │ - Resolves www.example.com                   │
 └────────────────┬─────────────────────────────┘
@@ -87,9 +87,9 @@ User types: https://www.example.com/products?id=42
 └────────────────┬─────────────────────────────┘
                  │
 ┌────────────────▼─────────────────────────────┐
-│ 5. TCP Connection(Transmission control protocol)                      │
+│ 5. TCP Connection(Transmission control protocol)│
 │ - Starts 3-way handshake                     │
-│ - SYN → SYN-ACK → ACK                        │
+│ - SYN → SYN-ACK → ACK  (SYN -Synchronize,SYN-ACK - Synchronize + Acknowledge, ACK - Acknowledge )               │
 │ - Reliable connection established            │
 └────────────────┬─────────────────────────────┘
                  │
@@ -102,7 +102,7 @@ User types: https://www.example.com/products?id=42
 └────────────────┬─────────────────────────────┘
                  │
 ┌────────────────▼─────────────────────────────┐
-│ 7. HTTP Request                              │
+│ 7. HTTP Request - HyperText Transfer Protocol Secure                              │
 │ - Sends GET /products?id=42                  │
 │ - Includes headers & cookies                 │
 │ - Authentication token may be included       │
