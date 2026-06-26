@@ -19772,7 +19772,8 @@ User Not Found
 * **500 Internal Server Error** – Server error
 
 
-9. Create API to create communicate in different table?
+
+## 9. Create API to create communicate in different table?
 
 
 A **REST API** can interact with **multiple database tables** within a **single request**. This is commonly done in the **Service Layer** using **JPA Relationships** and **Transactions** to ensure data consistency.
@@ -19912,7 +19913,7 @@ public class OrderController {
 * Easier maintenance using **JPA Relationships**
 
 
-10. Create API to handle external API call? 
+## 10. Create API to handle external API call? 
 
 An API can call an **External API** (Third-Party Service) from the **Service Layer** using **Java 11 HttpClient**, **Spring WebClient**, or **OpenFeign**. The application receives the client request, calls the external service, processes the response, and returns the result to the client.
 
@@ -20027,7 +20028,7 @@ Client
 * Supports secure communication
 
 
-11. Create API to how to handle parallel API call in java?
+## 11. Create API to how to handle parallel API call in java?
 
 **Parallel API calls** allow you to call multiple external services **at the same time** instead of waiting for each one to finish. This improves **performance** and **reduces overall response time**.
 
@@ -20105,7 +20106,7 @@ public class UserService {
 * **Improved user experience**
 
 
-12. Create API to File upload Handle Large Data Processing?
+## 12. Create API to File upload Handle Large Data Processing?
 
 When handling **large file uploads**, the goal is to **upload the file efficiently** and **process it in chunks or streams** instead of loading the entire file into memory. This improves **performance** and prevents **OutOfMemoryError**.
 
@@ -20168,7 +20169,7 @@ public class FileController {
 * **Suitable for enterprise applications**
 
 
-13. Create API to handle large data(Millions of records) efficiently?
+## 13. Create API to handle large data(Millions of records) efficiently?
 
 * **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
 * **Use Batch Processing** to process records in chunks and reduce memory consumption
@@ -20309,7 +20310,7 @@ public class Main {
 }
 ```
 
-14. Create API to handle large files efficiently?
+## 14. Create API to handle large files efficiently?
 
 When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks. This reduces memory consumption and improves performance.
 
@@ -20382,7 +20383,7 @@ public ResponseEntity<Resource> downloadFile(
 * Validate file type and size before processing.
 * Monitor memory usage and I/O performance.
 
-15. Create API to process images into Oracle DB using Java APIs?
+## 15. Create API to process images into Oracle DB using Java APIs?
 
 In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
 
@@ -20502,7 +20503,6 @@ CREATE TABLE employee_images (
 ```
 
 12. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
-
 
 
 
