@@ -28738,6 +28738,99 @@ spec:
 * **Efficient Resource Utilization**
 
 
+## 10. What is Horizontal scaling?
+
+**Horizontal Scaling (Scale Out)** means **adding more servers/instances** to distribute the application load instead of increasing the resources of a single server.
+
+**Key Features**
+
+* **Adds multiple application instances**
+* **Uses a Load Balancer** to distribute requests
+* **High Availability**
+* **Fault Tolerance**
+* **Better Scalability**
+* **Supports Cloud Environments** (AWS, Azure, Kubernetes)
+
+**How it Works**
+
+1. Deploy multiple instances of the application.
+2. Place a **Load Balancer** in front of them.
+3. The Load Balancer distributes incoming requests across all instances.
+4. If traffic increases, add more instances.
+5. If one instance fails, traffic is routed to the remaining healthy instances.
+
+**When to Use**
+
+* **High-Traffic Applications**
+* **Microservices**
+* **Cloud-Native Applications**
+* **E-commerce Websites**
+* **Banking and Payment Systems**
+
+**Architecture**
+
+```text
+              Client Requests
+                     |
+              Load Balancer
+           /       |        \
+      App-1     App-2     App-3
+           \       |        /
+              Shared Database
+```
+
+**Spring Boot Example**
+
+Run multiple instances of the same application on different ports.
+
+**Instance 1**
+
+```properties
+server.port=8081
+```
+
+**Instance 2**
+
+```properties
+server.port=8082
+```
+
+**Instance 3**
+
+```properties
+server.port=8083
+```
+
+Configure a **Load Balancer** (such as **Nginx**) to distribute requests.
+
+```nginx
+upstream springboot-app {
+    server localhost:8081;
+    server localhost:8082;
+    server localhost:8083;
+}
+
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://springboot-app;
+    }
+}
+```
+
+Now, requests sent to **port 80** are automatically distributed across all three Spring Boot instances.
+
+**Advantages**
+
+* **Handles more concurrent users**
+* **Easy to add or remove servers**
+* **No single point of failure**
+* **Improves application availability**
+* **Ideal for cloud deployments**
+
+
+
 ## 10. How do you implement auto-scaling, Horizontal and vertical scaling?
 
 **Auto-Scaling** is the process of **automatically increasing or decreasing application resources** based on workload. It is commonly implemented using cloud platforms or **Kubernetes Horizontal Pod Autoscaler (HPA)**.
