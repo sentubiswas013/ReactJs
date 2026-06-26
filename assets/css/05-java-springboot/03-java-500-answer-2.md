@@ -20464,9 +20464,93 @@ public class Main {
 }
 ```
 
-## 14. Create API to handle large files efficiently?
+## 14. Create API to handle large files(Batch processing) efficiently?
 
 When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks. This reduces memory consumption and improves performance.
+
+**Example for Batch processing**
+
+**Controller**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+
+        userService.processFile(file);
+        return "File processed successfully.";
+    }
+}
+```
+
+**Service**
+
+```java
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository repository;
+    private static final int BATCH_SIZE = 1000;
+
+    public void processFile(MultipartFile file) throws Exception {
+        List<User> batch = new ArrayList<>();
+        try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            String line;
+
+            // Skip Header
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                User user = new User();
+                user.setId(Long.parseLong(data[0]));
+                user.setName(data[1]);
+                user.setEmail(data[2]);
+
+                batch.add(user);
+
+                if (batch.size() == BATCH_SIZE) {
+                    repository.saveAll(batch);
+                    batch.clear();
+                }
+            }
+
+            // Save remaining records
+            if (!batch.isEmpty()) {
+                repository.saveAll(batch);
+            }
+        }
+    }
+}
+```
+
+**Entity**
+
+```java
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+    private String email;
+    // Getters and Setters
+}
+```
+
+**Repository**
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+```
 
 **Controller for File Upload**
 
@@ -20516,100 +20600,6 @@ public ResponseEntity<Resource> downloadFile(
             .body(resource);
 }
 ```
-
-**Example for Batch processing**
-
-
-**Controller**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
-
-        userService.processFile(file);
-
-        return "File processed successfully.";
-    }
-}
-```
-
-**Service**
-
-```java
-@Service
-public class UserService {
-
-    @Autowired
-    private UserRepository repository;
-
-    private static final int BATCH_SIZE = 1000;
-
-    public void processFile(MultipartFile file) throws Exception {
-
-        List<User> batch = new ArrayList<>();
-
-        try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-
-            String line;
-
-            // Skip Header
-            reader.readLine();
-
-            while ((line = reader.readLine()) != null) {
-
-                String[] data = line.split(",");
-
-                User user = new User();
-                user.setId(Long.parseLong(data[0]));
-                user.setName(data[1]);
-                user.setEmail(data[2]);
-
-                batch.add(user);
-
-                if (batch.size() == BATCH_SIZE) {
-                    repository.saveAll(batch);
-                    batch.clear();
-                }
-            }
-
-            // Save remaining records
-            if (!batch.isEmpty()) {
-                repository.saveAll(batch);
-            }
-        }
-    }
-}
-```
-
-**Entity**
-
-```java
-@Entity
-public class User {
-    @Id
-    private Long id;
-    private String name;
-    private String email;
-    // Getters and Setters
-}
-```
-
-**Repository**
-
-```java
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-}
-```
-
 
 
 **Efficient Strategies**
