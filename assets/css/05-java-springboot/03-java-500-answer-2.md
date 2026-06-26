@@ -20198,6 +20198,45 @@ public class ReportController {
 * Better **Resource Utilization**
 * Scalable for long-running tasks
 
+**2. Way to CompletableFuture (Without @Async)**
+
+**How it Works**
+
+* Uses **CompletableFuture.supplyAsync()** with a **Thread Pool**.
+
+**Best For**
+
+* Parallel API calls
+* Parallel database queries
+* CPU-intensive tasks
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(5);
+
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(() -> {
+        return "Processing";
+    }, executor);
+```
+
+**3. Way to ExecutorService**
+
+**How it Works**
+
+* Java's **Thread Pool** executes background tasks.
+
+**Best For**
+
+* Custom thread management
+* Background processing in Core Java
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(5);
+
+executor.submit(() -> {
+    System.out.println("Background Task");
+});
+```
 
 
 ## 13. Create API to handle large data(Millions of records) efficiently?
