@@ -20804,6 +20804,49 @@ This can be a separate **User Microservice**. Similarly, **Order** and **Payment
 * **Kafka** or **RabbitMQ** for asynchronous communication.
 * **Docker** and **Kubernetes** for containerization and orchestration.
 
+
+**Advantages**
+
+* **Independent Deployment**
+* **Independent Scaling**
+* **Better Fault Isolation**
+* **Technology Flexibility**
+* **Faster Development**
+* **Easy Maintenance**
+* **Improved Availability**
+
+**Disadvantages**
+
+* **Distributed System Complexity**
+* **Network Latency**
+* **Complex Data Management**
+* **More Monitoring and Logging**
+* **Inter-Service Communication Overhead**
+
+**Common Interview Follow-up Questions**
+
+**1. How do Microservices communicate?**
+
+* **REST APIs**
+* **Feign Client**
+* **gRPC**
+* **Kafka**
+* **RabbitMQ**
+
+**2. Why does each Microservice have its own database?**
+
+To ensure **loose coupling**, **independent deployment**, and **independent scalability**. One service should not directly access another service's database.
+
+**4. What are common Spring Cloud components used in Microservices?**
+
+* **API Gateway**
+* **Service Discovery (Eureka)**
+* **Config Server**
+* **OpenFeign**
+* **Circuit Breaker (Resilience4j)**
+* **Distributed Tracing (Zipkin/Micrometer)**
+
+
 ## 2. Monolithic vs Microservices Architecture
 
 **Monolithic** and **Microservices** are two different software architecture styles. In a **Monolithic architecture**, the entire application is built and deployed as a **single unit**, while in **Microservices**, the application is divided into **small, independent services**.
