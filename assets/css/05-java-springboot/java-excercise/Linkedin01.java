@@ -494,8 +494,32 @@ public class Linkedin01 {
     // ✅ Binary Search Implementation
     static void fnBinarySearch() {
         System.out.println("=========================== fnBinarySearch");
+        int[] arr = {3,5,7,9,10,5,3};
+        int target = 7;
+        binarySearchImp(arr, target);
 
+    }
 
+    static void binarySearchImp(int[] arr, int target) {
+        System.out.println("Hello --- " + arr);
+
+        int left = 0, right = arr.length-1;
+
+        while (left <= right) {
+            // System.out.println("left " + left + " , right " + right);
+            int mid = left + (right - left) / 2;
+
+            if(arr[left] == target) {
+                System.out.println("mid " + mid);
+            }
+
+            if(arr[mid] <target) {
+                left = mid + 1;
+            } else {
+                right = left + 1;
+            }
+        } 
+        System.out.println("Not found");
     }
 
 
@@ -540,43 +564,42 @@ public class Linkedin01 {
     // ## ✅ Substring Generation
     public static void fnSubstringGeneration() {
         System.out.println("=========================== fnSubstringGeneration");
-        String str = "abc";
+        String str = "abcd";
 
-        for(int i = 0; i <= str.length(); i++) {
-            for(int j = i+1; j <= str.length(); j++) {
-                System.out.println("Result " + str.substring(i, j));
+        for(int i = 0; i<str.length(); i++) {
+           // for (int j = i + 1; j <= str.length(); j++) {
+            for (int j = i + 1; j <= str.length(); j++) {
+                System.out.println(str.substring(i, j));
             }
+            // System.out.println("");
         }
-
-
     }
     // Output:
 
     // ## ✅ Subset Sum Bit Masking
     public static void fnSubsetSumBitMasking() {
         System.out.println("=========================== fnSubsetSumBitMasking");
-        int[] nums = {6, 9, 2, 1, 8};        
+        int[] nums = {6, 9, 2, 13, 1, 8, 11};
         int target = 9;
-
         int len = nums.length;
 
         List<List<Integer>> result = new ArrayList<>();
 
-        for(int i = 0; i < (1 << len); i++ ) {
+        for (int i = 0; i < (1 << len); i++) {
             List<Integer> temp = new ArrayList<>();
             int sum = 0;
 
-            for(int j = 0; j < len; j++ ) {
-                if((i & (1 << j)) != 0) {
+            for (int j = 0; j < len; j++) {
+                if ((i & (1 << j)) != 0) {
                     temp.add(nums[j]);
                     sum += nums[j];
                 }
-            }   
+            }
             if(sum == target) {
                 result.add(temp);
             }
-        }
-        System.out.println(result); 
+        }   
+        System.out.println(result);  
     }
     // Output: [[9], [6, 2, 1], [1, 8]]
 
@@ -591,13 +614,12 @@ public class Linkedin01 {
         for(int i = 0; i<arr.length; i += chunkSize) {
             List<Integer> temp = new ArrayList<>();
 
-           // for(int j = i; j < i + chunkSize && j < arr.length; j++) {
-            for(int j = i; j < i + chunkSize && j < arr.length; j++) {
+            for (int j = i; j < i + chunkSize && j < arr.length; j++) {
                 temp.add(arr[j]);
             }
             result.add(temp);
         }
-        System.out.println(result); 
+        System.out.println(result);
     }
     // Output: [[1,2], [3,4], [5,6], [7,8], [9,10]]
 
@@ -610,32 +632,40 @@ public class Linkedin01 {
     public static void RotatedSortedArraySearchUsingBinarySearch() {
         System.out.println("=========================== RotatedSortedArraySearchUsingBinarySearch");
         int[] arr = {5, 6, 7, 8, 9, 10, 1, 2, 3};
-        int target = 3;
+        int target = 2;
 
-        int low = 0, high = arr.length - 1;
+        int left = 0, right = arr.length - 1;
         
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
             if(arr[mid] == target) {
-                System.out.println(mid);
-                return;
+                System.out.println("Target Found");
+                System.out.println("Index : " + mid);
+                System.out.println("Value : " + arr[mid]);
+                // return mid;
             }
-
-            if(arr[low] <= arr[mid]) {
-                if(target >= arr[low] && target < arr[mid]) {
-                    high = mid - 1;
+            
+            // Left Sort            
+            if(arr[left] <= arr[mid]) {
+                if(target >= arr[left] && target < arr[mid]) {
+                   right  = mid-1;
                 } else {
-                    low = mid + 1;
+                   left = mid + 1;
                 }
-            } else {
-                if(target > arr[mid] && target <= arr[high]) {
-                    low = mid + 1;
+            }
+            
+            // Right Sort
+            else {
+                if(target > arr[mid] && target <= arr[right]) {
+                    left = mid + 1;
                 } else {
-                    high = mid - 1;
+                    right = mid-1;
                 }
             }
         }
-        System.out.println(-1);
+        
+        // return - 1;
+        System.out.println("Target Not Found");
     }
 
 

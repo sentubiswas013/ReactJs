@@ -1099,7 +1099,7 @@ public class Linkedin50 {
 
     // ==========================================================================
     // Input(6,9,2,1,8)   // Time Complexity: For subset problems: O(2^n)
-    // target=9 
+    // target = 9 
     // output((6,2,1),(9),(1,8))
     // ==========================================================================
     public static void fnSubsetSumBitMasking() {
@@ -1107,14 +1107,14 @@ public class Linkedin50 {
         int target = 9;
 
         List<List<Integer>> result = new ArrayList<>();
-        int n = nums.length;
+        int len = nums.length;
 
         // Generate all subsets using loops + bit masking
-        for (int i = 0; i < (1 << n); i++) {
+        for (int i = 0; i < (1 << len); i++) {
             List<Integer> temp = new ArrayList<>();
             int sum = 0;
 
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < len; j++) {
                 // Check if j-th bit is set
                 if ((i & (1 << j)) != 0) {
                     temp.add(nums[j]);
@@ -1162,34 +1162,38 @@ public class Linkedin50 {
         int[] arr = {5, 6, 7, 8, 9, 10, 1, 2, 3};
         int target = 2;
 
-        int low = 0, high = arr.length - 1;
+        int left = 0, right = arr.length - 1;
         
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
             if(arr[mid] == target) {
-                return mid;
+                System.out.println("Target Found");
+                System.out.println("Index : " + mid);
+                System.out.println("Value : " + arr[mid]);
+                // return mid;
             }
             
             // Left Sort            
-            if(arr[low] <= arr[mid]) {
-                if(target >= arr[low] && target < arr[mid]) {
-                   high  = mid-1;
+            if(arr[left] <= arr[mid]) {
+                if(target >= arr[left] && target < arr[mid]) {
+                   right  = mid-1;
                 } else {
-                   low = mid + 1;
+                   left = mid + 1;
                 }
             }
             
             // Right Sort
             else {
-                if(target > arr[mid] && target <= arr[high]) {
-                    low = mid + 1;
+                if(target > arr[mid] && target <= arr[right]) {
+                    left = mid + 1;
                 } else {
-                    high = mid-1;
+                    right = mid-1;
                 }
             }
         }
         
-        return - 1;
+        // return - 1;
+        System.out.println("Target Not Found");
     }
 
 

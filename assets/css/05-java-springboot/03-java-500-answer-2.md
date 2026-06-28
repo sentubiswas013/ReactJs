@@ -777,6 +777,190 @@ for (int i = 0; i < fruits.size(); i++) {
 }
 ```
 
+## 8.  Serialization and Deserialization in Java?
+
+**Serialization** is the process of **converting a Java object into a byte stream** so it can be **stored in a file**, **saved to a database**, or **transmitted over a network**. The reverse process is called **Deserialization**, which converts the byte stream back into a Java object.
+
+
+**Deserialization** is the process of **converting a byte stream back into the original Java object**. It is the **reverse of Serialization** and is commonly used to retrieve objects from a **file**, **database**, or **network**.
+
+**Key Features**
+
+* **Converts Object → Byte Stream**
+* **Supports Object Persistence**
+* **Enables Network Communication**
+* **Uses `Serializable` Interface**
+* **Supports Deserialization**
+* **Can Skip Fields using `transient`**
+
+**How it Works**
+
+1. Create a class that implements **`Serializable`**.
+2. Use **`ObjectOutputStream`** to serialize the object.
+3. Store the byte stream in a file or send it over the network.
+4. Use **`ObjectInputStream`** to deserialize the object.
+5. The original object is reconstructed.
+
+**When to Use**
+
+* **Saving Objects to Files**
+* **Caching Objects**
+* **Sending Objects over Network**
+* **Distributed Systems**
+* **Session Replication**
+
+**Example**
+
+**Employee Class**
+
+```java
+import java.io.Serializable;
+
+public class Employee implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private int id;
+    private String name;
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+```
+
+**Serialization**
+
+```java
+Employee emp = new Employee(101, "John");
+
+ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("employee.ser"));
+
+out.writeObject(emp);
+out.close();
+```
+
+**Deserialization**
+
+```java
+ObjectInputStream in = new ObjectInputStream(new FileInputStream("employee.ser"));
+
+Employee emp = (Employee) in.readObject();
+in.close();
+
+System.out.println(emp);
+```
+
+**Flow**
+
+```text
+Java Object
+     |
+Serialization
+     |
+Byte Stream
+     |
+File / Network
+     |
+Deserialization
+     |
+Java Object
+```
+
+**Advantages**
+
+* **Easy Object Persistence**
+* **Supports Network Communication**
+* **Simple to Implement**
+* **Useful for Caching and Distributed Systems**
+
+
+**Common Serializable Follow-up Questions**
+
+**1. What is the `Serializable` interface?**
+
+It is a **marker interface** with **no methods**. It tells the JVM that the object can be serialized.
+
+```java
+public class Employee implements Serializable {
+}
+```
+
+**2. What is `serialVersionUID`?**
+
+It is a **unique version identifier** used during deserialization to verify that the sender and receiver are using **compatible class versions**.
+
+```java
+private static final long serialVersionUID = 1L;
+```
+
+**3. What is the `transient` keyword?**
+
+A **`transient`** field is **not serialized**.
+
+```java
+class Employee implements Serializable {
+
+    private String name;
+
+    transient String password; // Not serialized
+}
+```
+
+**4. What happens if a class does not implement `Serializable`?**
+
+A **`NotSerializableException`** is thrown during serialization.
+
+**5. What is the difference between Serialization and Deserialization?**
+
+| **Serialization**         | **Deserialization**      |
+| ------------------------- | ------------------------ |
+| Object → Byte Stream      | Byte Stream → Object     |
+| Uses `ObjectOutputStream` | Uses `ObjectInputStream` |
+| Writes object             | Reads object             |
+
+
+**Common Deserialization Follow-up Questions**
+
+**1. Which class is used for Deserialization?**
+
+**`ObjectInputStream`**
+
+```java
+ObjectInputStream in = new ObjectInputStream(new FileInputStream("employee.ser"));
+```
+
+**2. Which method is used for Deserialization?**
+
+**`readObject()`**
+
+```java
+Employee emp = (Employee) in.readObject();
+```
+
+**3. Can every class be deserialized?**
+
+**No.** The class must implement the **`Serializable`** interface.
+
+**4. What happens if `serialVersionUID` is different?**
+
+Java throws an **`InvalidClassException`** because the serialized object version does not match the current class version.
+
+**5. What happens to `transient` fields after deserialization?**
+
+They are **not restored** and receive their **default values**.
+
+```java
+transient String password;
+```
+
+After deserialization:
+
+```java
+password = null;
+```
+
 
 
 # ✅ 02. Java Data Types and Variables
@@ -27117,8 +27301,6 @@ A **Java Profiler** can analyze this program and show how much **CPU time** is s
 
 ## 7: What is memory profiling?
 
-**What is Memory Profiling?**
-
 **Memory Profiling** is the process of **analyzing how a Java application uses memory** during execution. It helps identify **memory leaks**, **excessive object creation**, and **high heap usage** to improve application performance and stability.
 
 **Key Features:**
@@ -27184,8 +27366,6 @@ A **memory profiler** can analyze this program and show how the `byte[]` objects
 
 ## 8: What is CPU profiling?
 
-**What is CPU Profiling?**
-
 **CPU Profiling** is the process of **analyzing how a Java application uses CPU resources** during execution. It helps identify **slow methods**, **performance bottlenecks**, and **high CPU-consuming code** so that the application can be optimized.
 
 **Key Features:**
@@ -27248,9 +27428,6 @@ A **CPU profiler** can analyze this program and show that the loop and the `Math
 
 
 ## 9: What is application performance monitoring (APM)?
-
-
-**What is Application Performance Monitoring (APM)?**
 
 **Application Performance Monitoring (APM)** is the process of **continuously monitoring and analyzing the performance, availability, and health of an application**. It helps detect **slow responses**, **errors**, **resource bottlenecks**, and **failures** in real time.
 
