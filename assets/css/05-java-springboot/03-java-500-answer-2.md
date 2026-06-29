@@ -1889,6 +1889,26 @@ public class Main {
 }
 ```
 
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between a Class and an Object?**
+
+| **Class**                          | **Object**                    |
+| ---------------------------------- | ----------------------------- |
+| **Blueprint** for creating objects | **Instance** of a class       |
+| Logical entity                     | Physical entity               |
+| No memory for instance data        | Occupies memory when created  |
+| Declared using **class** keyword   | Created using **new** keyword |
+
+**2. Can a Class exist without an Object?**
+
+**Yes.** A class can exist without creating any objects. It is simply a **definition** until an object is instantiated.
+
+**3. Can we create multiple Objects from one Class?**
+
+**Yes.** A single class can create **any number of objects**, each having its own separate data.
+
+
 ## 2. What is an object?
 
 An **Object** is an **instance of a Class**. A class is a blueprint, and an object is the actual entity created from that blueprint.
@@ -1940,6 +1960,35 @@ public class Main {
     }
 }
 ```
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between a Class and an Object?**
+
+| **Class**                          | **Object**                      |
+| ---------------------------------- | ------------------------------- |
+| **Blueprint** for creating objects | **Instance** of a class         |
+| Logical entity                     | Physical entity                 |
+| Does not store instance data       | Stores actual data              |
+| No memory for instance data        | Occupies memory in the **Heap** |
+
+**2. Where are Objects stored in Java?**
+
+Objects are stored in the **Heap Memory**, while the **reference variable** is stored in the **Stack Memory** (for local variables).
+
+#### **Example**
+
+```java
+Student s1 = new Student();
+```
+
+* **`Student`** → Class
+* **`new Student()`** → Creates an object in the **Heap**
+* **`s1`** → Reference variable pointing to the object
+
+**3. Can one Class create multiple Objects?**
+
+**Yes.** A single class can create **multiple objects**, and each object has its own independent copy of the instance variables.
 
 ## 3. Difference between class and object?
 
