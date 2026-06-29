@@ -1990,6 +1990,7 @@ Student s1 = new Student();
 
 **Yes.** A single class can create **multiple objects**, and each object has its own independent copy of the instance variables.
 
+
 ## 3. Difference between class and object?
 
 A **class** is a **blueprint or template** used to create objects.
@@ -2112,6 +2113,54 @@ public class Main {
 ```
 
 
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between Method Overloading and Method Overriding?**
+
+| **Method Overloading**                 | **Method Overriding**                       |
+| -------------------------------------- | ------------------------------------------- |
+| Occurs in the **same class**           | Occurs between **parent and child classes** |
+| **Different** parameter list           | **Same** parameter list                     |
+| Achieves **Compile-Time Polymorphism** | Achieves **Runtime Polymorphism**           |
+| Inheritance is **not required**        | **Inheritance is required**                 |
+
+**2. Can we overload methods by changing only the return type?**
+
+**No.** Java does **not** allow overloading based only on the **return type** because it causes ambiguity.
+
+**Invalid Example**
+
+```java
+int add(int a, int b) {
+    return a + b;
+}
+
+double add(int a, int b) {   // Compile-time Error
+    return a + b;
+}
+```
+
+**3. Can constructors be overloaded?**
+
+**Yes.** Constructors can be overloaded by providing **different parameter lists**.
+
+```java
+class Student {
+
+    Student() {}
+
+    Student(String name) {}
+
+    Student(String name, int age) {}
+}
+```
+
+**4. Can we overload a `static` method?**
+
+**Yes.** **`static`** methods can also be overloaded as long as they have **different parameter lists**.
+
+
+
 ## 5. What is method overriding?
 
 **Method overriding** means redefining a **parent class method in a child class with the same method signature** to provide a **specific implementation**.
@@ -2161,6 +2210,33 @@ public class Main {
     }
 }
 ```
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between Method Overloading and Method Overriding?**
+
+| **Method Overloading**                 | **Method Overriding**                       |
+| -------------------------------------- | ------------------------------------------- |
+| Occurs in the **same class**           | Occurs between **parent and child classes** |
+| **Different** parameter list           | **Same** parameter list                     |
+| Achieves **Compile-Time Polymorphism** | Achieves **Runtime Polymorphism**           |
+| Inheritance is **not required**        | **Inheritance is required**                 |
+
+**2. Why do we use the `@Override` annotation?**
+
+The **`@Override`** annotation tells the compiler that the method is intended to override a parent method. If the method signature is incorrect, the compiler reports an error.
+
+**3. Can we override a `static` method?**
+
+**No.** **`static`** methods belong to the class, not the object. They are **method hidden**, not overridden.
+
+**4. Can we override a `final` method?**
+
+**No.** A **`final`** method cannot be overridden because its implementation is fixed.
+
+**5. Can constructors be overridden?**
+
+**No.** Constructors are **not inherited**, so they cannot be overridden.
 
 
 ## 6. What is the difference between this and super keywords?
