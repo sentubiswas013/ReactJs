@@ -27799,36 +27799,6 @@ java -XX:+PrintCompilation \      # Print compilation events
 Databases such as MySQL, Oracle Database, PostgreSQL, and Microsoft SQL Server use SQL.
 
 
-## 1. What are the Types of SQL JOINs?
-
-JOINs combine rows from two or more tables based on a related column.
-
-- **INNER JOIN** — returns only matching rows from both tables
-- **LEFT JOIN** — returns all rows from the left table + matching rows from right (nulls if no match)
-- **RIGHT JOIN** — returns all rows from the right table + matching from left
-- **FULL OUTER JOIN** — returns all rows from both tables (nulls where no match)
-
-```sql
--- INNER JOIN
-SELECT e.name, d.name FROM employee e
-INNER JOIN department d ON e.dept_id = d.id;
-
--- LEFT JOIN (all employees, even without a department)
-SELECT e.name, d.name FROM employee e
-LEFT JOIN department d ON e.dept_id = d.id;
-
--- RIGHT JOIN (all employees, even without a department)
-SELECT e.name, d.name FROM employee e
-RIGHT JOIN department d ON e.dept_id = d.id;
-
--- FULL OUTER JOIN
-SELECT e.name, d.name FROM employee e
-FULL OUTER JOIN department d ON e.dept_id = d.id;
-```
-
-Think of it as a Venn diagram — INNER is the overlap, LEFT keeps the left circle, FULL keeps both circles.
-
-
 ## 2. What is the Difference Between WHERE and HAVING?
 
 Both filter rows — but at different stages.
@@ -28047,17 +28017,32 @@ SELECT * FROM high_salary_employees;
 
 ## 11. What are different types of **JOINs**?
 
-**Answer:**
+JOINs combine rows from two or more tables based on a related column.
 
-**JOIN** is used to combine rows from two or more tables based on a related column.
+- **INNER JOIN** — returns only matching rows from both tables
+- **LEFT JOIN** — returns all rows from the left table + matching rows from right (nulls if no match)
+- **RIGHT JOIN** — returns all rows from the right table + matching from left
+- **FULL OUTER JOIN** — returns all rows from both tables (nulls where no match)
 
-Main types:
+```sql
+-- INNER JOIN
+SELECT e.name, d.name FROM employee e
+INNER JOIN department d ON e.dept_id = d.id;
 
-* **INNER JOIN** – Returns only matching rows from both tables.
-* **LEFT JOIN** – Returns all rows from left table and matching rows from right table.
-* **RIGHT JOIN** – Returns all rows from right table and matching rows from left table.
-* **FULL OUTER JOIN** – Returns all rows from both tables.
-* **CROSS JOIN** – Returns Cartesian product (all possible combinations).
+-- LEFT JOIN (all employees, even without a department)
+SELECT e.name, d.name FROM employee e
+LEFT JOIN department d ON e.dept_id = d.id;
+
+-- RIGHT JOIN (all employees, even without a department)
+SELECT e.name, d.name FROM employee e
+RIGHT JOIN department d ON e.dept_id = d.id;
+
+-- FULL OUTER JOIN
+SELECT e.name, d.name FROM employee e
+FULL OUTER JOIN department d ON e.dept_id = d.id;
+```
+
+Think of it as a Venn diagram — INNER is the overlap, LEFT keeps the left circle, FULL keeps both circles.
 
 
 ## 12. What is a **Primary Key** and **Foreign Key** ?
