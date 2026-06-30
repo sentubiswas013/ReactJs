@@ -26951,7 +26951,7 @@ Common tools include:
 * **Java Flight Recorder (JFR)**
 * **Java Mission Control (JMC)**
 
-## 2. What are Latency isuue in java?
+## 3. What are Latency isuue in java?
 
 A **Latency Issue** is a **delay in processing or responding to a request**. It occurs when an application takes **longer than expected** to complete an operation, resulting in **slow response times**.
 
@@ -27058,7 +27058,123 @@ Check:
 
 **Caching** stores frequently accessed data in memory, reducing repeated **database** or **API** calls and providing much faster responses.
 
-## 3. What are common 10 Production Issues?
+
+## 4: What is database optimization?
+
+**Database optimization** is the process of improving database performance and query speed.
+
+It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
+
+
+```java
+// Database optimization techniques
+@Repository
+public class OptimizedUserRepository {
+    
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+    
+    // Batch operations
+    @Modifying
+    @Query("UPDATE User u SET u.lastLogin = :now WHERE u.id IN :ids")
+    void updateLastLogin(@Param("ids") List<Long> ids, @Param("now") LocalDateTime now);
+    
+    // Pagination for large datasets
+    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
+    Page<User> findAllUsers(Pageable pageable);
+    
+    // Fetch joins to avoid N+1 queries
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :id")
+    User findUserWithOrders(@Param("id") Long id);
+}
+```
+
+
+## 5: What is query optimization?
+
+**Query optimization** is the process of improving SQL query performance so that data is retrieved faster and database resources are used efficiently.
+
+Common techniques include creating proper indexes, writing efficient JOIN and WHERE clauses, avoiding SELECT *, fetching only required data, using pagination for large datasets, and analyzing execution plans.
+
+For example, if users are frequently searched by email, adding an index on the email column can significantly reduce query execution time.
+
+```java
+// Query optimization examples
+@Repository
+public class OptimizedQueryRepository {
+    
+    // Bad: N+1 query problem
+    // List<Order> orders = orderRepository.findAll();
+    // orders.forEach(order -> order.getCustomer().getName()); // N queries
+    
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+
+    // Good: Single query with join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer")
+    List<Order> findAllOrdersWithCustomers();
+    
+    // Use specific columns instead of SELECT *
+    @Query("SELECT new com.example.UserDto(u.id, u.name, u.email) FROM User u")
+    List<UserDto> findUserSummaries();
+    
+    // Optimize with proper WHERE conditions
+    @Query("SELECT u FROM User u WHERE u.active = true AND u.createdAt > :date")
+    List<User> findActiveUsersAfter(@Param("date") LocalDateTime date);
+    
+    // Use native query for complex optimizations
+    @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
+           nativeQuery = true)
+    List<User> findAboveAverageUsers();
+}
+```
+
+
+## 6: What is pagination?
+
+**Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
+
+It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
+
+```java
+// Pagination implementation
+@RestController
+public class UserController {
+    
+    // Basic pagination
+    @GetMapping("/users")
+    public Page<User> getUsers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userService.findAll(pageable);
+    }
+    
+    // Cursor-based pagination for better performance
+    @GetMapping("/users/cursor")
+    public List<User> getUsersCursor(
+        @RequestParam(required = false) Long lastId,
+        @RequestParam(defaultValue = "20") int limit) {
+        
+        return userService.findUsersAfter(lastId, limit);
+    }
+}
+
+@Repository
+public class UserRepository extends JpaRepository<User, Long> {
+    
+    // Cursor pagination query
+    @Query("SELECT u FROM User u WHERE (:lastId IS NULL OR u.id > :lastId) ORDER BY u.id")
+    List<User> findUsersAfter(@Param("lastId") Long lastId, Pageable pageable);
+}
+```
+
+
+## 7. What are common 10 Production Issues?
 
 **1. 🔴 Memory Leaks**
 **Symptom:** Heap memory keeps growing over time, leads to frequent Full GC and `OutOfMemoryError`
@@ -27151,7 +27267,7 @@ Check:
 - No dashboards tracking system health
 
 
-## 3. What are Java concurrency issues?
+## 8. What are Java concurrency issues?
 
 Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
 
@@ -27179,7 +27295,7 @@ public void safeMethod() {
 ```
 
 
-## 4: What is JVM tuning and parameters for performance tuning?
+## 9: What is JVM tuning and parameters for performance tuning?
 
 **JVM Tuning** is the process of **configuring JVM parameters** to improve **application performance**, **reduce Garbage Collection (GC) pauses**, **optimize memory usage**, and **increase throughput**.
 
@@ -27329,7 +27445,7 @@ using tools like **VisualVM**, **Java Flight Recorder (JFR)**, **Java Mission Co
 
 
 
-## 5. What is Distributed Tracing?
+## 10. What is Distributed Tracing?
 
 **Distributed Tracing** is a **monitoring technique** used in **microservices architecture** to track a request as it travels across multiple services. It helps developers understand the complete path of a request and quickly identify **performance bottlenecks** or **failures**.
 
@@ -27465,7 +27581,7 @@ All Services Share the Same Trace ID
 * **Spring Boot Actuator**
 
 
-## 5. What is Zipkin and how it Works?
+## 11. What is Zipkin and how it Works?
 
 **Zipkin** is a **distributed tracing tool** used in **microservices architecture** to track and monitor requests as they travel across multiple services.
 
@@ -27545,7 +27661,7 @@ After starting the application, trace data is automatically sent to Zipkin.
 
 
 
-## 6: What is profiling in Java?
+## 12: What is profiling in Java?
 
 **Profiling in Java** is the process of **analyzing the runtime behavior** of a Java application to identify **performance bottlenecks**, **high CPU usage**, **memory leaks**, and **slow methods**. It helps developers optimize application performance.
 
@@ -27608,7 +27724,7 @@ public class Demo {
 A **Java Profiler** can analyze this program and show how much **CPU time** is spent inside the loop and whether there are any performance issues.
 
 
-## 7: What is memory profiling?
+## 13: What is memory profiling?
 
 **Memory Profiling** is the process of **analyzing how a Java application uses memory** during execution. It helps identify **memory leaks**, **excessive object creation**, and **high heap usage** to improve application performance and stability.
 
@@ -27673,7 +27789,7 @@ public class MemoryDemo {
 A **memory profiler** can analyze this program and show how the `byte[]` objects are allocated in the **heap** and whether they are properly released by the **Garbage Collector**.
 
 
-## 8: What is CPU profiling?
+## 14: What is CPU profiling?
 
 **CPU Profiling** is the process of **analyzing how a Java application uses CPU resources** during execution. It helps identify **slow methods**, **performance bottlenecks**, and **high CPU-consuming code** so that the application can be optimized.
 
@@ -27736,7 +27852,7 @@ A **CPU profiler** can analyze this program and show that the loop and the `Math
 
 
 
-## 9: What is application performance monitoring (APM)?
+## 16: What is application performance monitoring (APM)?
 
 **Application Performance Monitoring (APM)** is the process of **continuously monitoring and analyzing the performance, availability, and health of an application**. It helps detect **slow responses**, **errors**, **resource bottlenecks**, and **failures** in real time.
 
@@ -27812,122 +27928,8 @@ Now, Spring Boot exposes endpoints like:
 These metrics can be collected by APM tools such as **Prometheus** and visualized in **Grafana**.
 
 
-## 11: What is database optimization?
 
-**Database optimization** is the process of improving database performance and query speed.
-
-It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
-
-
-```java
-// Database optimization techniques
-@Repository
-public class OptimizedUserRepository {
-    
-    // Use indexes effectively
-    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
-    User findByEmail(@Param("email") String email);
-    
-    // Batch operations
-    @Modifying
-    @Query("UPDATE User u SET u.lastLogin = :now WHERE u.id IN :ids")
-    void updateLastLogin(@Param("ids") List<Long> ids, @Param("now") LocalDateTime now);
-    
-    // Pagination for large datasets
-    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
-    Page<User> findAllUsers(Pageable pageable);
-    
-    // Fetch joins to avoid N+1 queries
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :id")
-    User findUserWithOrders(@Param("id") Long id);
-}
-```
-
-
-## 12: What is query optimization?
-
-**Query optimization** is the process of improving SQL query performance so that data is retrieved faster and database resources are used efficiently.
-
-Common techniques include creating proper indexes, writing efficient JOIN and WHERE clauses, avoiding SELECT *, fetching only required data, using pagination for large datasets, and analyzing execution plans.
-
-For example, if users are frequently searched by email, adding an index on the email column can significantly reduce query execution time.
-
-```java
-// Query optimization examples
-@Repository
-public class OptimizedQueryRepository {
-    
-    // Bad: N+1 query problem
-    // List<Order> orders = orderRepository.findAll();
-    // orders.forEach(order -> order.getCustomer().getName()); // N queries
-    
-    // Use indexes effectively
-    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
-    User findByEmail(@Param("email") String email);
-
-    // Good: Single query with join
-    @Query("SELECT o FROM Order o JOIN FETCH o.customer")
-    List<Order> findAllOrdersWithCustomers();
-    
-    // Use specific columns instead of SELECT *
-    @Query("SELECT new com.example.UserDto(u.id, u.name, u.email) FROM User u")
-    List<UserDto> findUserSummaries();
-    
-    // Optimize with proper WHERE conditions
-    @Query("SELECT u FROM User u WHERE u.active = true AND u.createdAt > :date")
-    List<User> findActiveUsersAfter(@Param("date") LocalDateTime date);
-    
-    // Use native query for complex optimizations
-    @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
-           nativeQuery = true)
-    List<User> findAboveAverageUsers();
-}
-```
-
-
-## 15: What is pagination?
-
-**Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
-
-It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
-
-```java
-// Pagination implementation
-@RestController
-public class UserController {
-    
-    // Basic pagination
-    @GetMapping("/users")
-    public Page<User> getUsers(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "20") int size,
-        @RequestParam(defaultValue = "id") String sortBy) {
-        
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return userService.findAll(pageable);
-    }
-    
-    // Cursor-based pagination for better performance
-    @GetMapping("/users/cursor")
-    public List<User> getUsersCursor(
-        @RequestParam(required = false) Long lastId,
-        @RequestParam(defaultValue = "20") int limit) {
-        
-        return userService.findUsersAfter(lastId, limit);
-    }
-}
-
-@Repository
-public class UserRepository extends JpaRepository<User, Long> {
-    
-    // Cursor pagination query
-    @Query("SELECT u FROM User u WHERE (:lastId IS NULL OR u.id > :lastId) ORDER BY u.id")
-    List<User> findUsersAfter(@Param("lastId") Long lastId, Pageable pageable);
-}
-```
-
-## 16. What is JIT compilation?
-
+## 17. What is JIT compilation?
 
 
 **JIT (Just-In-Time) Compilation** is a feature of the **JVM** that **converts bytecode into native machine code at runtime** to make Java programs faster.
