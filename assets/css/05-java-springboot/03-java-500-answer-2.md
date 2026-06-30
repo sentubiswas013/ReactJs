@@ -27848,26 +27848,126 @@ ORDER BY avg_sal DESC;
 
 ## 4. What is Database Indexing and When to Use It?
 
-An index is like a book's table of contents — it lets the database find rows fast without scanning the whole table.
 
-**When to use:**
-- Columns in `WHERE`, `JOIN`, `ORDER BY`, `GROUP BY`
-- Foreign key columns
-- High-cardinality columns (many unique values like email, ID)
+A **Database Index** is a **data structure** that improves the **speed of data retrieval** from a table. It works like the **index of a book**, allowing the database to find rows quickly without scanning the entire table.
 
-**When NOT to use:**
-- Small tables
-- Columns updated very frequently
-- Low-cardinality columns (like a boolean `is_active`)
+**Key Features**
+
+* Improves **SELECT** query performance.
+* Reduces the need for a **Full Table Scan**.
+* Created on one or more **columns**.
+* Uses additional **storage space**.
+* Slightly slows down **INSERT, UPDATE, and DELETE** operations because the index must also be updated.
+
+**How It Works**
+
+1. Create an **index** on one or more columns.
+2. The database stores the indexed column values in a **sorted data structure** (commonly a **B-Tree**).
+3. When a query searches on the indexed column, the database uses the index to locate matching rows quickly.
+4. The database retrieves only the required rows instead of scanning the entire table.
+
+**Syntax**
+
+**Create an Index**
 
 ```sql
-CREATE INDEX idx_employee_email ON employee(email);
-
--- Composite index
-CREATE INDEX idx_dept_salary ON employee(dept_id, salary);
+CREATE INDEX idx_employee_name
+ON Employee(Name);
 ```
 
-Indexes speed up reads but slow down writes (INSERT/UPDATE/DELETE). Use them wisely — don't over-index.
+**Create a Unique Index**
+
+```sql
+CREATE UNIQUE INDEX idx_employee_email
+ON Employee(Email);
+```
+
+**Example**
+
+Without an index:
+
+```sql
+SELECT *
+FROM Employee
+WHERE Email = 'john@example.com';
+```
+
+* The database may perform a **Full Table Scan**.
+
+After creating an index:
+
+```sql
+CREATE INDEX idx_email
+ON Employee(Email);
+```
+
+Now the same query:
+
+```sql
+SELECT *
+FROM Employee
+WHERE Email = 'john@example.com';
+```
+
+* The database uses the **index** to find the row much faster.
+
+**When to Use**
+
+* Columns frequently used in the **WHERE** clause.
+* Columns used in **JOIN** conditions.
+* Columns used in **ORDER BY**.
+* Columns used in **GROUP BY**.
+* Columns frequently searched for specific values.
+* **Primary Key** and **Unique** columns (most databases create indexes automatically).
+
+**When Not to Use**
+
+* Small tables where a **Full Table Scan** is faster.
+* Columns with frequent **INSERT, UPDATE, DELETE** operations.
+* Columns with very few unique values (for example, **Gender**, **Status**, **Yes/No**).
+* Columns that are rarely used in queries.
+
+**Advantages**
+
+* Faster **SELECT** queries.
+* Improves **JOIN**, **ORDER BY**, and **GROUP BY** performance.
+* Reduces query execution time.
+* Helps optimize large tables.
+
+**Disadvantages**
+
+* Uses additional **disk space**.
+* Slows down **INSERT**, **UPDATE**, and **DELETE** operations.
+* Too many indexes can reduce overall database performance.
+
+**Common Interview Follow-up Questions**
+
+**1. Why does an index improve performance?**
+
+Because the database searches the **index** instead of scanning every row in the table, reducing the amount of data it needs to examine.
+
+**2. Why do indexes slow down INSERT, UPDATE, and DELETE?**
+
+Whenever data changes, the database must also **update the index**, which adds extra work.
+
+**3. Can a table have multiple indexes?**
+
+**Yes.** A table can have **multiple indexes** on different columns or combinations of columns.
+
+**4. What is the difference between a Primary Key and an Index?**
+
+| **Primary Key**                         | **Index**                           |
+| --------------------------------------- | ----------------------------------- |
+| Ensures **uniqueness** and **NOT NULL** | Improves **query performance**      |
+| Only **one** per table                  | Multiple indexes allowed            |
+| Automatically creates an index          | Can be **unique** or **non-unique** |
+
+**5. What are the common types of indexes?**
+
+* **Clustered Index** – Stores the table data in the same order as the index (usually only one per table).
+* **Non-Clustered Index** – Stores the index separately and points to the actual rows (multiple allowed).
+* **Unique Index** – Ensures all indexed values are unique.
+* **Composite Index** – Created on **multiple columns**.
 
 
 ## 5. What is the Difference Between Stored Procedure and Aggregate Function?
@@ -27910,37 +28010,103 @@ Use a **function** when you need a return value in a query. Use a **procedure** 
 
 ## 6. What is Normalization? Types (1NF, 2NF, 3NF)?
 
-Normalization is the process of organizing a database to **reduce redundancy** and **improve data integrity**.
+**Normalization** is the process of organizing data in a database to **reduce redundancy (duplicate data)** and **improve data integrity** by dividing data into related tables.
 
-**1NF (First Normal Form):**
-- Each column has atomic (indivisible) values
-- No repeating groups or arrays in a column
+**Benefits**
 
-```
-❌ Bad:  | id | name  | phones          |
-         | 1  | Alice | 111, 222, 333   |
+* **Eliminates duplicate data**
+* **Maintains data consistency**
+* **Reduces update, insert, and delete anomalies**
+* **Improves data integrity**
 
-✅ Good: | id | name  | phone |
-         | 1  | Alice | 111   |
-         | 1  | Alice | 222   |
-```
+**1NF (First Normal Form)**
 
-**2NF (Second Normal Form):**
-- Must be in 1NF
-- No partial dependency — every non-key column must depend on the **whole** primary key (applies to composite keys)
+**Rule**
 
-**3NF (Third Normal Form):**
-- Must be in 2NF
-- No transitive dependency — non-key columns must not depend on other non-key columns
+* Each column should contain **atomic (single) values**.
+* No **repeating groups** or multiple values in a single column.
 
-```
-❌ Bad:  | emp_id | dept_id | dept_name |
-         dept_name depends on dept_id, not emp_id
+**Example (Not in 1NF)**
 
-✅ Fix: Split into employee(emp_id, dept_id) and department(dept_id, dept_name)
-```
+| StudentID | Name | Subjects  |
+| --------- | ---- | --------- |
+| 101       | John | Java, SQL |
 
-In practice, aim for 3NF. Sometimes you intentionally denormalize for performance.
+**After 1NF**
+
+| StudentID | Name | Subject |
+| --------- | ---- | ------- |
+| 101       | John | Java    |
+| 101       | John | SQL     |
+
+**2NF (Second Normal Form)**
+
+**Rule**
+
+* Must satisfy **1NF**.
+* Remove **partial dependency**, where a non-key column depends on only part of a composite primary key.
+
+**Example**
+
+**Before 2NF**
+
+| StudentID | CourseID | StudentName | CourseName |
+| --------- | -------- | ----------- | ---------- |
+
+Primary Key: **(StudentID, CourseID)**
+
+Here:
+
+* **StudentName** depends only on **StudentID**.
+* **CourseName** depends only on **CourseID**.
+
+**After 2NF**
+
+**Student Table**
+
+| StudentID | StudentName |
+| --------- | ----------- |
+
+**Course Table**
+
+| CourseID | CourseName |
+| -------- | ---------- |
+
+**Enrollment Table**
+
+| StudentID | CourseID |
+| --------- | -------- |
+
+**3NF (Third Normal Form)**
+
+**Rule**
+
+* Must satisfy **2NF**.
+* Remove **transitive dependency**, where a non-key column depends on another non-key column.
+
+**Example**
+
+**Before 3NF**
+
+| EmployeeID | EmployeeName | DepartmentID | DepartmentName |
+| ---------- | ------------ | ------------ | -------------- |
+
+Here:
+
+* **DepartmentName** depends on **DepartmentID**, not directly on **EmployeeID**.
+
+**After 3NF**
+
+**Employee Table**
+
+| EmployeeID | EmployeeName | DepartmentID |
+| ---------- | ------------ | ------------ |
+
+**Department Table**
+
+| DepartmentID | DepartmentName |
+| ------------ | -------------- |
+
 
 
 ## 7. What is the Between DELETE, TRUNCATE, and DROP?
