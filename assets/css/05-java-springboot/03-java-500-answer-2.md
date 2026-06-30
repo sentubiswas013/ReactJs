@@ -26833,12 +26833,7 @@ Here are **key points with one-line explanations** for improving performance in 
 
 ## 3. What are Java Memory Leak Issues?
 
-
-1. **Static Collections** Objects stored in static lists or maps are never released.
-2. **Improper Cache Management*** Cache entries grow indefinitely without TTL or eviction policies.
-3. **Unclosed Resources** Database connections, streams, or files are not properly closed.
-4. **ThreadLocal Misuse** Values remain attached to pooled threads if not removed.
-5. **Event Listeners** Registered listeners are not deregistered, keeping objects alive.
+A **Memory Leak** in Java occurs when **objects are no longer needed but are still referenced**, so the **Garbage Collector (GC)** cannot remove them. Over time, unused objects accumulate, increasing memory usage and may eventually cause an **OutOfMemoryError**.
 
 **Symptoms**
 
@@ -26848,27 +26843,114 @@ Here are **key points with one-line explanations** for improving performance in 
 * High memory consumption
 * `OutOfMemoryError`
 
-**Detection**
+**Key Features**
 
-I usually analyze:
+* Caused by **unused objects** that are still referenced.
+* **Garbage Collector** cannot reclaim their memory.
+* Increases **heap memory** usage over time.
+* Can lead to **performance issues** and **OutOfMemoryError**.
+* Common in **long-running applications**.
 
-* Heap dumps
-* GC logs
-* Object retention paths
+**How It Works**
 
-**Tools:**
+1. An object is created in the **Heap**.
+2. The application no longer needs the object.
+3. A reference to the object still exists.
+4. **Garbage Collector** considers the object reachable.
+5. The object remains in memory, causing a **Memory Leak**.
 
-* VisualVM
-* Eclipse Memory Analyzer
-* JConsole
+**Example**
 
-**Prevention**
+**Memory Leak**
 
-* Remove unused references.
-* Close resources using try-with-resources.
-* Configure cache eviction policies.
-* Clean up ThreadLocal variables.
-* Monitor heap usage regularly.
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class MemoryLeakExample {
+    private static final List<String> cache = new ArrayList<>();
+    public static void main(String[] args) {
+        while (true) {
+            cache.add("Java"); // Objects are never removed
+        }
+    }
+}
+```
+
+**Why it leaks?**
+
+* The **static List** always holds references to the objects.
+* Since the references exist, the **Garbage Collector** cannot free the memory.
+* Eventually, the application throws **OutOfMemoryError**.
+
+**Fixed Example**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class MemoryLeakFixed {
+    public static void main(String[] args) {
+        List<String> cache = new ArrayList<>();
+
+        cache.add("Java");
+        cache.add("Spring");
+
+        cache.clear(); // Remove references
+    }
+}
+```
+
+**Common Causes of Memory Leaks**
+
+* **Static collections** that keep growing.
+* Objects stored in **HashMap**, **List**, or **Cache** and never removed.
+* **Unclosed resources** such as database connections, files, and streams.
+* **Listener** or **Observer** objects that are never deregistered.
+* **ThreadLocal** variables that are not cleaned up.
+* Long-lived objects holding unnecessary references.
+
+1. **Static Collections** Objects stored in static lists or maps are never released.
+2. **Improper Cache Management*** Cache entries grow indefinitely without TTL or eviction policies.
+3. **Unclosed Resources** Database connections, streams, or files are not properly closed.
+4. **ThreadLocal Misuse** Values remain attached to pooled threads if not removed.
+5. **Event Listeners** Registered listeners are not deregistered, keeping objects alive.
+
+
+**How to Prevent Memory Leaks**
+
+* Remove unused objects from **collections**.
+* Close resources using **try-with-resources**.
+* Deregister **listeners** when no longer needed.
+* Call **ThreadLocal.remove()** after use.
+* Avoid unnecessary **static** references.
+* Use **WeakReference** when appropriate.
+* Monitor memory using profiling tools.
+
+**Common Interview Follow-up Questions**
+
+**1. Does Java have memory leaks even with Garbage Collection?**
+
+**Yes.** **Garbage Collection** removes only **unreachable objects**. If an unused object is still referenced, it cannot be collected, resulting in a **Memory Leak**.
+
+**2. What is the difference between Memory Leak and OutOfMemoryError?**
+
+| **Memory Leak**                           | **OutOfMemoryError**                                              |
+| ----------------------------------------- | ----------------------------------------------------------------- |
+| Unused objects remain referenced          | JVM cannot allocate more memory                                   |
+| Memory usage gradually increases          | Application fails due to insufficient memory                      |
+| Can eventually cause **OutOfMemoryError** | Often the result of severe memory leaks or insufficient heap size |
+
+**3. How do you detect Memory Leaks?**
+
+Common tools include:
+
+* **JVisualVM**
+* **JConsole**
+* **Eclipse Memory Analyzer (MAT)**
+* **Java Flight Recorder (JFR)**
+* **Java Mission Control (JMC)**
+
 
 
 ## 3. What are common 10 Production Issues?
