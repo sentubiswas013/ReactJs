@@ -501,25 +501,24 @@ public class Linkedin01 {
     }
 
     static void binarySearchImp(int[] arr, int target) {
-        System.out.println("Hello --- " + arr);
+        System.out.println("arr --- " + arr  + ", target " + target);
 
         int left = 0, right = arr.length-1;
 
         while (left <= right) {
-            // System.out.println("left " + left + " , right " + right);
             int mid = left + (right - left) / 2;
 
-            if(arr[left] == target) {
+            if(arr[mid] == target) {
                 System.out.println("mid " + mid);
             }
 
-            if(arr[mid] <target) {
+            if(arr[mid] < target) {
                 left = mid + 1;
             } else {
                 right = left + 1;
             }
         } 
-        System.out.println("Not found");
+        System.out.println("Not found ...");
     }
 
 

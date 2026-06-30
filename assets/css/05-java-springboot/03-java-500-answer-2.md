@@ -28370,6 +28370,111 @@ switch (shardId) {
 | Used for **very large, distributed systems**.             | Used for **managing large tables** within one database.         |
 
 
+## 15. What is stored procedure in sql?
+
+
+A **Stored Procedure** is a **precompiled collection of SQL statements** stored in the database that performs a **specific task**. It can accept **input parameters**, execute **multiple SQL operations**, and optionally return **output values**.
+
+**Key Features**
+
+* **Precompiled** for better performance.
+* Stored and managed inside the **database**.
+* Supports **input** and **output parameters**.
+* Can contain **SELECT, INSERT, UPDATE, DELETE**, loops, conditions, and transactions.
+* Improves **code reusability**, **security**, and **maintainability**.
+
+**How It Works**
+
+1. Create the stored procedure once in the database.
+2. Pass required **input parameters** while calling it.
+3. The database executes the stored SQL statements.
+4. Returns **result sets**, **output parameters**, or a **status**.
+
+**Syntax**
+
+```sql
+CREATE PROCEDURE procedure_name
+    @parameter datatype
+AS
+BEGIN
+    -- SQL Statements
+END;
+```
+
+**Example**
+
+**Create Procedure**
+
+```sql
+CREATE PROCEDURE GetEmployeeById
+    @EmpId INT
+AS
+BEGIN
+    SELECT *
+    FROM Employee
+    WHERE Id = @EmpId;
+END;
+```
+
+**Execute Procedure**
+
+```sql
+EXEC GetEmployeeById @EmpId = 101;
+```
+
+**Output**
+
+```text
+Id   Name     Department
+101  John     IT
+```
+
+**When to Use**
+
+* When the **same SQL logic** is executed repeatedly.
+* To improve **performance** by using precompiled execution plans.
+* To **encapsulate business logic** inside the database.
+* To restrict direct table access and improve **security**.
+* To perform **complex database operations** involving multiple SQL statements.
+
+**Advantages**
+
+* **Faster execution** due to precompilation.
+* **Reusable** and reduces duplicate SQL code.
+* Better **security** by granting execute permission instead of table access.
+* Easier **maintenance** since logic is stored in one place.
+* Reduces **network traffic** because a single procedure call can execute multiple statements.
+
+**Limitations**
+
+* Can become difficult to maintain if business logic grows too large.
+* Database-specific syntax may reduce portability between different databases.
+* Debugging complex stored procedures can be challenging.
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between a Stored Procedure and a Function?**
+
+| **Stored Procedure**                   | **Function**                                      |
+| -------------------------------------- | ------------------------------------------------- |
+| May or may not return a value          | Must return a value                               |
+| Can perform **INSERT, UPDATE, DELETE** | Mainly used to compute and return a value         |
+| Called using **EXEC**                  | Can be used inside **SELECT** statements          |
+| Can return multiple result sets        | Returns a single value or table (depending on DB) |
+
+**2. Why are Stored Procedures faster?**
+
+Because they are **precompiled**, the database can **reuse the execution plan**, reducing query parsing and optimization overhead.
+
+**3. Can a Stored Procedure return multiple values?**
+
+Yes. It can return:
+
+* **Result sets**
+* **Output parameters**
+* **Return status code**
+
+
 
 # ✅ 27. Java CI/CD and DevOp
 
