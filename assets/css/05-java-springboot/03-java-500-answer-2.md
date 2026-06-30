@@ -12876,7 +12876,7 @@ spring.datasource.hikari.minimum-idle=5
 ```
 
 
-## 5. What is caching and how it works inernally(Implementation)?
+## 5. What is caching and how it works?
 
 **Caching** is a technique of **storing frequently accessed data in fast memory** so that future requests can be served **without repeatedly querying the database or external API**.
 
@@ -13131,6 +13131,176 @@ spring.cache.jcache.config=classpath:ehcache.xml
 | Ultra fast                 | Slight network latency       |
 | Not shared across services | Shared across services       |
 | Best for single instance   | Best for distributed systems |
+
+
+## 6. How to implement Redis Cache?
+
+
+**Redis Caching** is used to **store frequently accessed data in memory** so that the application can retrieve it much faster instead of querying the database every time.
+
+**Key Features**
+
+* **In-memory** storage for very fast access
+* Reduces **database load**
+* Improves **API response time**
+* Supports **TTL (Time-To-Live)** for automatic cache expiration
+* Easy integration with **Spring Boot Cache**
+
+**How it Works**
+
+1. Client calls an API.
+2. Spring first checks if the data exists in **Redis**.
+3. If found (**Cache Hit**), data is returned directly from Redis.
+4. If not found (**Cache Miss**), data is fetched from the **Database**.
+5. The result is stored in Redis for future requests.
+
+**When to Use**
+
+* **Frequently read** data
+* **Rarely changing** data
+* **Reference/Master** data (Countries, States, Product Categories)
+* **User Profiles**
+* **Configuration** data
+
+**Implementation Steps**
+
+**1. Add Dependency**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+```
+
+**2. Configure Redis**
+
+```properties
+spring.redis.host=localhost
+spring.redis.port=6379
+```
+
+**3. Enable Caching**
+
+```java
+@SpringBootApplication
+@EnableCaching
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+**4. Use `@Cacheable`**
+
+```java
+@Service
+public class EmployeeService {
+
+    @Autowired
+    private EmployeeRepository repository;
+
+    @Cacheable(value = "employees", key = "#id")
+    public Employee getEmployee(Long id) {
+        System.out.println("Fetching from Database...");
+        return repository.findById(id).orElse(null);
+    }
+}
+```
+
+**5. Use `@CachePut`**
+
+```java
+@CachePut(value = "products", key = "#product.id")
+public Product updateProduct(Product product) {
+
+    return productRepository.save(product);
+}
+```
+
+**5. Use `@CacheEvict`**
+
+```java
+@CacheEvict(value = "products", key = "#id")
+public void deleteProduct(Long id) {
+
+    productRepository.deleteById(id);
+}
+```
+
+
+## **Step 7: Configure TTL (Time-To-Live)**
+
+```java
+@Bean
+public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
+    RedisCacheConfiguration config =
+        RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofMinutes(10));
+
+    return RedisCacheManager.builder(factory)
+            .cacheDefaults(config)
+            .build();
+}
+```
+
+**First Call**
+
+* Cache is empty.
+* Data is fetched from the **Database**.
+* Data is stored in **Redis**.
+
+**Second Call**
+
+* Data is returned directly from **Redis**.
+* Database is not accessed.
+
+**Updating Cache**
+
+Use **`@CachePut`** to update both the **Database** and **Redis**.
+
+```java
+@CachePut(value = "employees", key = "#employee.id")
+public Employee update(Employee employee) {
+    return repository.save(employee);
+}
+```
+
+**Removing Cache**
+
+Use **`@CacheEvict`** when data is deleted or changed.
+
+```java
+@CacheEvict(value = "employees", key = "#id")
+public void delete(Long id) {
+    repository.deleteById(id);
+}
+```
+
+**Annotations Used**
+
+| Annotation         | Purpose                                                                 |
+| ------------------ | ----------------------------------------------------------------------- |
+| **@Cacheable**     | Reads from cache; if missing, fetches from DB and stores the result.    |
+| **@CachePut**      | Updates the cache with the latest value every time the method executes. |
+| **@CacheEvict**    | Removes specific or all cache entries.                                  |
+| **@EnableCaching** | Enables Spring's caching support.                                       |
+
+
+**Common Interview Follow-up Questions**
+
+**Q: What is a Cache Hit?**
+A **Cache Hit** occurs when the requested data is found in **Redis**, so the database is not queried.
+
+**Q: What is a Cache Miss?**
+A **Cache Miss** occurs when the data is not found in Redis. The application fetches it from the **Database** and stores it in Redis.
+
+**Q: Why use Redis instead of storing everything in memory?**
+Redis is a **centralized, distributed cache** shared across multiple application instances, while local memory cache is limited to a single application instance.
+
+**Q: When should you avoid caching?**
+Avoid caching **frequently changing**, **real-time**, or **sensitive** data where stale values are unacceptable.
 
 
 
