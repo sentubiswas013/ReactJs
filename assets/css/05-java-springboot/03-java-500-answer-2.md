@@ -13230,7 +13230,7 @@ public void deleteProduct(Long id) {
 ```
 
 
-## **Step 7: Configure TTL (Time-To-Live)**
+**Step 7: Configure TTL (Time-To-Live)**
 
 ```java
 @Bean
