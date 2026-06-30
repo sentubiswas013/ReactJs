@@ -28361,8 +28361,18 @@ Think of it as a Venn diagram — INNER is the overlap, LEFT keeps the left circ
 
 ## 12. What is a **Primary Key** and **Foreign Key** ?
 
-**PRIMARY KEY** – Ensures uniqueness and **cannot be NULL**. A table can have **only one** primary key.
-**Foreign Key** is a column that **references the Primary Key of another table**.
+A **Primary Key** is a column (or combination of columns) that **uniquely identifies** each record in a table.
+
+A **Foreign Key** is a column that **references the Primary Key** of another table to establish a relationship.
+
+| **Feature**      | **Primary Key**                             | **Foreign Key**                                      |
+| ---------------- | ------------------------------------------- | ---------------------------------------------------- |
+| Purpose          | **Uniquely identifies** each row            | **Creates a relationship** between tables            |
+| Duplicate Values | **Not Allowed**                             | **Allowed**                                          |
+| NULL Values      | **Not Allowed**                             | **Allowed** (unless restricted)                      |
+| Number per Table | Only **one Primary Key** (can be composite) | Multiple **Foreign Keys** allowed                    |
+| References       | Own table                                   | **Primary Key** (or **Unique Key**) of another table |
+
 
 ## 12. What is the Difference Between UNION and UNION ALL?
 
