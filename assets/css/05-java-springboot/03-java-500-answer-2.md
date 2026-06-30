@@ -28309,24 +28309,103 @@ WHERE d.name = 'Engineering';
 
 ## 9. What is a View in SQL?
 
-A view is a **virtual table** — it's a saved SQL query that you can query like a table. It doesn't store data itself.
+A **View** is a **virtual table** created from the result of a **SQL query**. It **does not store data** itself; instead, it displays data from one or more underlying tables whenever it is queried.
+
+**Key Features**
+
+* A **virtual table** based on a **SELECT** query.
+* **Does not store data** (except **Materialized Views** in some databases).
+* Can combine data from **multiple tables**.
+* Improves **security** by exposing only required columns or rows.
+* Simplifies **complex SQL queries**.
+
+**How It Works**
+
+1. Create a **View** using a **SELECT** statement.
+2. The database stores only the **query definition**.
+3. When the view is queried, the database executes the stored query.
+4. The latest data from the underlying table(s) is returned.
+
+**Syntax**
 
 ```sql
--- Create a view
-CREATE VIEW high_salary_employees AS
-SELECT name, salary, dept_id FROM employee
-WHERE salary > 80000;
-
--- Query the view like a table
-SELECT * FROM high_salary_employees;
+CREATE VIEW view_name AS
+SELECT column1, column2
+FROM table_name
+WHERE condition;
 ```
 
-**Benefits:**
-- Simplifies complex queries — write once, reuse everywhere
-- Security — expose only specific columns/rows to users
-- Abstraction — hide underlying table structure
+**Example**
 
-**Limitation:** A regular view doesn't store data. For performance, use a **Materialized View** (stores the result physically, needs refresh).
+**Create a View**
+
+```sql
+CREATE VIEW EmployeeView AS
+SELECT EmployeeId, EmployeeName, Department
+FROM Employee
+WHERE Department = 'IT';
+```
+
+**Query the View**
+
+```sql
+SELECT *
+FROM EmployeeView;
+```
+
+**Output**
+
+```text
+EmployeeId  EmployeeName  Department
+101         John          IT
+102         Alice         IT
+```
+
+**When to Use**
+
+* Simplify **complex JOIN** queries.
+* Restrict access to sensitive columns (for example, **Salary**).
+* Reuse frequently executed queries.
+* Present customized data to different users.
+
+**Advantages**
+
+* Improves **security** by hiding sensitive data.
+* Simplifies complex queries.
+* Promotes **code reusability**.
+* Always shows the **latest data** from the underlying tables.
+* Makes SQL easier to maintain.
+
+**Limitations**
+
+* A standard **View** does **not store data**.
+* Complex views may have slower performance.
+* Some views are **not updatable**, especially those using **JOIN**, **GROUP BY**, or aggregate functions.
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. Does a View store data?**
+
+**No.** A standard **View** stores only the **SQL query**, not the actual data. Every time you query the view, it retrieves the latest data from the base table(s).
+
+**2. Can we perform INSERT, UPDATE, or DELETE on a View?**
+
+**Yes**, but only if the view is **updatable**. Views with **JOIN**, **GROUP BY**, **DISTINCT**, or aggregate functions are generally **not updatable**.
+
+**3. What is the difference between a View and a Table?**
+
+| **View**                        | **Table**                 |
+| ------------------------------- | ------------------------- |
+| **Virtual table**               | **Physical table**        |
+| Usually **does not store data** | Stores actual data        |
+| Created from a **SELECT** query | Stores records directly   |
+| Always shows the latest data    | Data is physically stored |
+
+**4. What is a Materialized View?**
+
+A **Materialized View** **stores the query result physically**. It provides **faster read performance** but must be **refreshed** to reflect changes in the underlying tables.
 
 
 ## 11. What are different types of **JOINs**?
