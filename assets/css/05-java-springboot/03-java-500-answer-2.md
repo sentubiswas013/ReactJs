@@ -26774,7 +26774,7 @@ It includes monitoring metrics like response time, errors, CPU, and memory, alon
 | Business      | Orders, Payments          | Payment failure     |
 
 
-## 1. What are performance issues and How to Improve Performance(optimize)?
+## 1. What are performance issues and solutions?
 
 
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
@@ -26831,7 +26831,7 @@ Here are **key points with one-line explanations** for improving performance in 
 4. Find large object retainers and memory leaks.
 
 
-## 3. What are Java Memory Leak Issues?
+## 2. What are Java Memory Leak Issues?
 
 A **Memory Leak** in Java occurs when **objects are no longer needed but are still referenced**, so the **Garbage Collector (GC)** cannot remove them. Over time, unused objects accumulate, increasing memory usage and may eventually cause an **OutOfMemoryError**.
 
@@ -26951,7 +26951,112 @@ Common tools include:
 * **Java Flight Recorder (JFR)**
 * **Java Mission Control (JMC)**
 
+## 2. What are Latency isuue in java?
 
+A **Latency Issue** is a **delay in processing or responding to a request**. It occurs when an application takes **longer than expected** to complete an operation, resulting in **slow response times**.
+
+**Key Features**
+
+* Increases **response time**.
+* Reduces application **performance**.
+* Can affect **user experience**.
+* May occur due to **CPU**, **Memory**, **Database**, **Network**, or **External APIs**.
+* Common in **high-traffic** applications.
+
+**How It Works**
+
+1. A client sends a request.
+2. The application processes the request.
+3. One or more operations become slow (Database, API, Disk I/O, GC, etc.).
+4. The response is delayed, increasing **latency**.
+
+**Common Causes**
+
+* **Slow Database Queries**
+* **Long Garbage Collection (GC) pauses**
+* **Blocking I/O** operations
+* **Slow External API** calls
+* **Network latency**
+* **Thread contention** or **deadlocks**
+* **Insufficient Thread Pool** size
+* **Large file processing**
+* **CPU** or **Memory** bottlenecks
+
+**Example**
+
+**Latency Due to Synchronous API Calls**
+
+```java
+public String getUserDetails() {
+    User user = userService.getUser();
+    // Slow external API call
+    Address address = addressService.getAddress();
+
+    return user.getName() + " - " + address.getCity();
+}
+```
+
+If `getAddress()` takes **5 seconds**, the entire request waits **5 seconds** before responding.
+
+**Better Approach (Asynchronous Processing)**
+
+```java
+CompletableFuture<User> userFuture = CompletableFuture.supplyAsync(() -> userService.getUser());
+
+CompletableFuture<Address> addressFuture = CompletableFuture.supplyAsync(() -> addressService.getAddress());
+
+CompletableFuture.allOf(userFuture, addressFuture).join();
+
+System.out.println(userFuture.join().getName() + " - " +
+                   addressFuture.join().getCity());
+```
+
+Both API calls execute **in parallel**, reducing overall response time.
+
+**How to Reduce Latency**
+
+* Optimize **SQL queries** and add **Indexes**.
+* Use **Caching** (Redis, Caffeine, etc.).
+* Execute independent tasks using **CompletableFuture**.
+* Use **Connection Pooling** for databases.
+* Tune the **JVM** and **Garbage Collector**.
+* Increase or tune the **Thread Pool** size.
+* Avoid unnecessary **blocking** operations.
+* Compress large responses and use **pagination**.
+* Monitor application performance using **APM tools**.
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between Latency and Throughput?**
+
+| **Latency**                            | **Throughput**                                                         |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| Time taken to complete **one request** | Number of requests processed **per second**                            |
+| Measured in **milliseconds (ms)**      | Measured in **Requests/Second (RPS)** or **Transactions/Second (TPS)** |
+| Lower is better                        | Higher is better                                                       |
+
+**2. How do you identify latency issues?**
+
+Use monitoring and profiling tools such as:
+
+* **JVisualVM**
+* **Java Flight Recorder (JFR)**
+* **Java Mission Control (JMC)**
+* **Prometheus + Grafana**
+* **New Relic**, **Dynatrace**, or **AppDynamics**
+
+Check:
+
+* **GC logs**
+* **Thread dumps**
+* **Heap dumps**
+* **Slow SQL queries**
+* **API response times**
+* **CPU** and **Memory** usage
+
+**3. How does Caching reduce latency?**
+
+**Caching** stores frequently accessed data in memory, reducing repeated **database** or **API** calls and providing much faster responses.
 
 ## 3. What are common 10 Production Issues?
 
