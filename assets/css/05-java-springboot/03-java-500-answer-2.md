@@ -13291,15 +13291,19 @@ public void delete(Long id) {
 **Common Interview Follow-up Questions**
 
 **Q: What is a Cache Hit?**
+
 A **Cache Hit** occurs when the requested data is found in **Redis**, so the database is not queried.
 
 **Q: What is a Cache Miss?**
+
 A **Cache Miss** occurs when the data is not found in Redis. The application fetches it from the **Database** and stores it in Redis.
 
 **Q: Why use Redis instead of storing everything in memory?**
+
 Redis is a **centralized, distributed cache** shared across multiple application instances, while local memory cache is limited to a single application instance.
 
 **Q: When should you avoid caching?**
+
 Avoid caching **frequently changing**, **real-time**, or **sensitive** data where stale values are unacceptable.
 
 
