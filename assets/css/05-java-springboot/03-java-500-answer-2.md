@@ -26903,13 +26903,6 @@ public class MemoryLeakFixed {
 
 **Common Causes of Memory Leaks**
 
-* **Static collections** that keep growing.
-* Objects stored in **HashMap**, **List**, or **Cache** and never removed.
-* **Unclosed resources** such as database connections, files, and streams.
-* **Listener** or **Observer** objects that are never deregistered.
-* **ThreadLocal** variables that are not cleaned up.
-* Long-lived objects holding unnecessary references.
-
 1. **Static Collections** Objects stored in static lists or maps are never released.
 2. **Improper Cache Management*** Cache entries grow indefinitely without TTL or eviction policies.
 3. **Unclosed Resources** Database connections, streams, or files are not properly closed.
