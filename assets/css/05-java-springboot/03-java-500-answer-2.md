@@ -26903,11 +26903,15 @@ public class MemoryLeakFixed {
 
 **Common Causes of Memory Leaks**
 
-1. **Static Collections** Objects stored in static lists or maps are never released.
-2. **Improper Cache Management*** Cache entries grow indefinitely without TTL or eviction policies.
-3. **Unclosed Resources** Database connections, streams, or files are not properly closed.
-4. **ThreadLocal Misuse** Values remain attached to pooled threads if not removed.
-5. **Event Listeners** Registered listeners are not deregistered, keeping objects alive.
+1. **Static Collections** – Objects stored in **static** `List`, `Map`, or `Set` remain referenced for the lifetime of the application, preventing **Garbage Collection (GC)**.
+
+2. **Improper Cache Management** – Caches grow indefinitely when **TTL (Time-to-Live)**, **size limits**, or **eviction policies** are not configured, leading to excessive memory usage.
+
+3. **Unclosed Resources** – Database connections, file streams, sockets, or other resources are not properly closed, causing memory and resource leaks. Use **try-with-resources** whenever possible.
+
+4. **ThreadLocal Misuse** – `ThreadLocal` values are not removed after use. In **thread pools**, the values remain attached to reused threads, causing memory leaks.
+
+5. **Event Listener Leaks** – Event listeners, callbacks, or observers are registered but never deregistered, keeping objects referenced and preventing **Garbage Collection (GC)**.
 
 
 **How to Prevent Memory Leaks**
