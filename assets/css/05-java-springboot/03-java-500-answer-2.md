@@ -27943,17 +27943,165 @@ Normalization is the process of organizing a database to **reduce redundancy** a
 In practice, aim for 3NF. Sometimes you intentionally denormalize for performance.
 
 
-## 7. What is the Difference Between DELETE, TRUNCATE, and DROP?
+## 7. What is the Between DELETE, TRUNCATE, and DROP?
 
-All three remove data — but very differently.
 
-| | DELETE | TRUNCATE | DROP |
-|---|---|---|---|
-| Removes | Specific rows | All rows | Entire table + structure |
-| WHERE clause | Yes | No | No |
-| Rollback | Yes (logged) | No (or limited) | No |
-| Triggers fired | Yes | No | No |
-| Resets auto-increment | No | Yes | Yes |
+These are SQL commands used to remove data or database objects, but they work differently.
+
+| **Feature**      | **DELETE**                                | **TRUNCATE**                       | **DROP**                           |
+| ---------------- | ----------------------------------------- | ---------------------------------- | ---------------------------------- |
+| Removes          | **Selected rows**                         | **All rows**                       | **Entire table/object**            |
+| **WHERE** clause | **Yes**                                   | **No**                             | **No**                             |
+| Table structure  | **Remains**                               | **Remains**                        | **Deleted**                        |
+| Rollback         | **Yes** (if transaction is not committed) | **Depends on the database**        | **Depends on the database**        |
+| Speed            | **Slower**                                | **Faster**                         | **Fastest**                        |
+| Type             | **DML (Data Manipulation Language)**      | **DDL (Data Definition Language)** | **DDL (Data Definition Language)** |
+
+**1. DELETE**
+
+**DELETE** removes **specific rows** or **all rows** from a table while keeping the **table structure** intact.
+
+**How It Works**
+
+* Deletes rows **one by one**.
+* Can use a **WHERE** clause to delete selected records.
+* Can be **rolled back** before the transaction is committed (in transactional databases).
+
+**Syntax**
+
+```sql
+DELETE FROM Employee
+WHERE Id = 101;
+```
+
+**Delete All Rows**
+
+```sql
+DELETE FROM Employee;
+```
+
+**When to Use**
+
+* Delete **specific records**.
+* When you need **rollback support**.
+* When deleting based on a **condition**.
+
+**2. TRUNCATE**
+
+**TRUNCATE** removes **all rows** from a table but keeps the **table structure**.
+
+**How It Works**
+
+* Removes **all records at once**.
+* Cannot use a **WHERE** clause.
+* Resets the **identity/auto-increment** value in many databases.
+* Much **faster** than **DELETE** because it deallocates data pages instead of deleting rows one by one.
+
+**Syntax**
+
+```sql
+TRUNCATE TABLE Employee;
+```
+
+**When to Use**
+
+* Remove **all records** quickly.
+* Reset a table before loading fresh data.
+* When individual row deletion is not required.
+
+**3. DROP**
+
+**DROP** permanently removes the **entire database object**, including its **data**, **structure**, indexes, constraints, and permissions.
+
+**How It Works**
+
+* Deletes the **table definition** from the database.
+* The table no longer exists after execution.
+
+**Syntax**
+
+```sql
+DROP TABLE Employee;
+```
+
+**When to Use**
+
+* Remove a table that is **no longer needed**.
+* Delete database objects permanently.
+
+**Example**
+
+Suppose the **Employee** table contains:
+
+```text
+Id   Name
+101  John
+102  Alice
+103  Bob
+```
+
+**DELETE**
+
+```sql
+DELETE FROM Employee
+WHERE Id = 101;
+```
+
+**Result**
+
+```text
+102  Alice
+103  Bob
+```
+
+**TRUNCATE**
+
+```sql
+TRUNCATE TABLE Employee;
+```
+
+**Result**
+
+```text
+Table exists, but contains 0 rows.
+```
+
+**DROP**
+
+```sql
+DROP TABLE Employee;
+```
+
+**Result**
+
+```text
+Employee table no longer exists.
+```
+
+**When to Use Which?**
+
+* Use **DELETE** when removing **specific rows**.
+* Use **TRUNCATE** when removing **all rows** but keeping the **table**.
+* Use **DROP** when removing the **entire table** permanently.
+
+**Common Interview Follow-up Questions**
+
+**1. Which command is the fastest?**
+
+**DROP** is generally the **fastest**, followed by **TRUNCATE**, then **DELETE**.
+
+**2. Which command supports the WHERE clause?**
+
+Only **DELETE** supports the **WHERE** clause.
+
+**3. Which command resets the identity (auto-increment) value?**
+
+**TRUNCATE** resets the **identity/auto-increment** value in many databases.
+
+**4. Which command removes the table structure?**
+
+Only **DROP** removes the **table structure**.
+
 
 ```sql
 DELETE FROM employee WHERE id = 5;     -- removes one row, can rollback
