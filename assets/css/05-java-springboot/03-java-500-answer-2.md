@@ -22376,6 +22376,21 @@ public String fallbackPayment(Exception ex) {
 * This combination provides **better resilience** and **fault tolerance**.
 
 
+**1. Why use Circuit Breaker instead of Retry?**
+
+* **Retry** is useful for **temporary failures**.
+* **Circuit Breaker** prevents repeated calls to an unhealthy service, avoiding resource exhaustion.
+* They are often used **together**.
+
+**2. Which library did you use for Circuit Breaker?**
+
+We used **Resilience4j** integrated with **Spring Boot**.
+
+**3. Why can't @Transactional work across microservices?**
+
+Because each microservice manages its **own database** and **local transaction**. Distributed transactions are avoided due to their complexity and performance overhead, so **Saga Pattern** or **event-driven communication** is preferred.
+
+
 ```java
 // Steps 1: Add Dependencies (Maven)
 <dependency>
@@ -31203,3 +31218,352 @@ public void theLoginShouldBeSuccessful() {
     assertTrue(loginResult.isSuccess());
 }
 ```
+
+# ✅ 29. Current Project
+
+## 1. Can you work throug your current project?
+
+
+I am currently working on a **Healthcare Claims Processing System** for **BCBSA (Blue Cross Blue Shield Association)**. The application is built using **Java 17**, **Spring Boot**, **Microservices**, **Kafka**, and **Oracle Database**. The main goal is to process healthcare claims efficiently while ensuring **high availability**, **security**, and **low latency**.
+
+**Project Modules**
+
+**1. Portal**
+
+The **Portal** is the user-facing application where different users interact with the system.
+
+**Users**
+
+* **Members**
+* **Providers (Hospitals/Clinics)**
+* **Customer Support**
+
+**Features**
+
+* Member Login
+* View Policy Details
+* Submit Claims
+* Track Claim Status
+* View Payment History
+
+**2. BCM (Business Configuration Management)**
+
+**BCM** is used to manage **business rules** without changing application code.
+
+**Features**
+
+* Configure Claim Rules
+* Coverage Rules
+* Deductible Limits
+* Copay Percentage
+* Policy Validation Rules
+
+**Benefit**
+
+Business users can update rules without requiring a new application deployment.
+
+**3. BPD (Business Process Definition)**
+
+**BPD** defines the complete **claim processing workflow**.
+
+**Flow**
+
+* Claim Received
+* Eligibility Validation
+* Provider Verification
+* Claim Validation
+* Benefit Calculation
+* Payment Approval
+* Notification
+
+It controls the sequence of business steps during claim processing.
+
+**4. RTM (Real-Time Monitoring)**
+
+**RTM** monitors the health and performance of the application.
+
+**Features**
+
+* API Response Time
+* Error Monitoring
+* Kafka Message Tracking
+* Microservice Health Checks
+* Production Alerts
+* Dashboard Monitoring
+
+**Tools Used**
+
+* **Splunk**
+* **Dynatrace**
+* **Spring Boot Actuator**
+
+**Claim Processing Flow**
+
+1. A **Member** or **Provider** submits a claim through the **Portal**.
+2. The claim enters the **Claims Service**.
+3. **BCM** validates business rules such as eligibility and coverage.
+4. **BPD** executes the claim workflow step by step.
+5. Microservices communicate using **REST APIs** and **Kafka**.
+6. The claim is **Approved**, **Rejected**, or **Sent for Manual Review**.
+7. The **Payment Service** processes approved claims.
+8. **Notification Service** sends email or SMS updates.
+9. **RTM** continuously monitors the entire process.
+
+**Technology Stack**
+
+* **Java 17**
+* **Spring Boot**
+* **Spring Cloud**
+* **Microservices**
+* **REST APIs**
+* **Apache Kafka**
+* **Oracle Database**
+* **Redis**
+* **Docker**
+* **Kubernetes/OpenShift**
+* **Jenkins**
+* **Git**
+* **JUnit 5**
+* **Mockito**
+* **Resilience4j Circuit Breaker**
+* **Splunk**
+* **Dynatrace**
+
+**My Responsibilities**
+
+* Developed **REST APIs** using **Spring Boot**.
+* Built and maintained **Microservices**.
+* Implemented asynchronous communication using **Kafka**.
+* Used **Circuit Breaker (Resilience4j)** for fault tolerance.
+* Managed database operations using **Spring Data JPA**.
+* Optimized SQL queries and added **Indexes**.
+* Implemented **Redis Caching**.
+* Used **@Transactional** for database consistency.
+* Fixed production issues and performed **Root Cause Analysis (RCA)**.
+* Wrote **JUnit** and **Mockito** test cases.
+* Participated in **Code Reviews**.
+* Deployed applications using **Docker**, **Jenkins**, and **OpenShift**.
+* Monitored applications using **Splunk** and **Dynatrace**.
+* Worked in an **Agile Scrum** environment.
+
+**Challenges Faced**
+
+**Problem**
+
+Claim processing became slow because multiple downstream services were called sequentially.
+
+**Solution**
+
+* Used **CompletableFuture** to execute independent API calls in parallel.
+* Added **Redis Caching** for frequently accessed member data.
+* Optimized slow SQL queries and created **Database Indexes**.
+* Implemented **Circuit Breaker** to handle downstream service failures gracefully.
+
+**Result**
+
+* Reduced API response time from **4–5 seconds** to **1.5–2 seconds**.
+* Improved application availability and throughput.
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. What is your role in the project?**
+
+I work as a **Java Backend Developer**, developing **Spring Boot Microservices**, building **REST APIs**, integrating services using **Kafka**, optimizing database performance, fixing production issues, implementing **Circuit Breaker**, using **Redis Caching**, writing unit tests, and deploying applications through **Jenkins** and **OpenShift**.
+
+**2. Which module do you mainly work on?**
+
+I primarily work on the **Claims Processing**, **BCM**, and backend microservices that support the **Portal**, including business rule validation, claim processing, API development, and database optimization.
+
+**3. Where did you use Kafka?**
+
+We used **Kafka** for asynchronous communication between **Claims Service**, **Payment Service**, and **Notification Service** to improve scalability and avoid tight coupling.
+
+**4. Where did you use Circuit Breaker?**
+
+We used **Resilience4j Circuit Breaker** while calling **Member Service**, **Provider Service**, and **Payment Service** to prevent cascading failures and provide fallback responses.
+
+**5. Where did you use @Transactional?**
+
+We used **@Transactional** in the **Claims Service** to ensure operations like saving claim details, updating claim status, and creating payment records were committed together or rolled back together if any operation failed.
+
+
+## 2. Where did you use Circuit Breaker in your BCBSA Project?
+
+We used **Resilience4j Circuit Breaker** in our **Spring Boot Microservices** whenever one microservice called another microservice or an external system. This prevented **cascading failures** if a downstream service became slow or unavailable.
+
+**Where We Used It**
+
+**1. Claims Service → Member Service**
+
+When a claim is submitted, the **Claims Service** calls the **Member Service** to verify:
+
+* **Member eligibility**
+* **Policy status**
+* **Coverage details**
+
+If the **Member Service** is unavailable, the **Circuit Breaker** opens and returns a fallback response instead of making repeated failed calls.
+
+**2. Claims Service → Provider Service**
+
+Before processing a claim, the application validates:
+
+* Provider registration
+* Network status
+* Provider eligibility
+
+The **Circuit Breaker** protects the system if the **Provider Service** is slow or unavailable.
+
+**3. Claims Service → Payment Service**
+
+After a claim is approved, the **Claims Service** calls the **Payment Service** to generate payment.
+
+If the **Payment Service** is down:
+
+* The **Circuit Breaker** prevents repeated failed requests.
+* The claim is marked as **Payment Pending**.
+* A **Kafka event** is published so the payment can be retried later.
+
+**4. External Healthcare APIs**
+
+Some claims require validation with external healthcare or insurance systems.
+
+If these external APIs are unavailable, the **Circuit Breaker** returns a fallback response and prevents long request timeouts.
+
+**Example**
+
+```java
+@CircuitBreaker(name = "memberService", fallbackMethod = "memberFallback")
+public Member getMember(String memberId) {
+    return memberClient.getMember(memberId);
+}
+
+public Member memberFallback(String memberId, Exception ex) {
+    return new Member("UNKNOWN", false);
+}
+```
+
+**Why We Used Circuit Breaker**
+
+* Prevent **cascading failures**.
+* Avoid long **timeouts**.
+* Improve **system availability**.
+* Return a **fallback response** when a service is unavailable.
+* Allow failed services time to recover.
+
+**Real-Time Scenario**
+
+Suppose a user submits a claim:
+
+1. **Claims Service** calls **Member Service**.
+2. **Member Service** is down.
+3. The **Circuit Breaker** detects repeated failures and opens.
+4. Instead of waiting for every request to time out, it immediately invokes the **fallback method**.
+5. The claim is temporarily marked as **Pending Verification**, and the user receives an appropriate response.
+6. Once the **Member Service** recovers, the circuit closes and normal processing resumes.
+
+
+**Common Interview Follow-up Questions**
+
+**1. Which library did you use?**
+
+We used **Resilience4j** with **Spring Boot**.
+
+**2. Why Circuit Breaker instead of only Retry?**
+
+* **Retry** is suitable for temporary failures.
+* **Circuit Breaker** stops repeated calls to an unhealthy service, preventing resource exhaustion.
+* We often use **Retry** and **Circuit Breaker** together.
+
+**3. What happens when the Circuit Breaker opens?**
+
+New requests fail immediately and the configured **fallback method** is executed until the service shows signs of recovery.
+
+
+## 2. Where did you use `@Transactional` in your BCBSA Project?
+
+
+We used **`@Transactional`** in the **Claims Service** to ensure that **multiple database operations** are treated as a **single transaction**. If any operation failed, all previous database changes were **rolled back** to maintain **data consistency**.
+
+**Real-Time Scenario**
+
+When a **member submits a claim**, several database operations happen together:
+
+1. Save **Claim Details**.
+2. Update **Claim Status**.
+3. Update **Member Claim History**.
+4. Create a **Payment Record** (or Payment Request).
+
+All these operations should either **complete successfully** or **none should be saved**.
+
+**Example**
+
+```java
+@Service
+public class ClaimService {
+
+    @Transactional
+    public void processClaim(ClaimRequest request) {
+
+        claimRepository.save(claim);
+
+        claimStatusRepository.save(status);
+
+        memberHistoryRepository.save(history);
+
+        paymentRepository.save(payment);
+    }
+}
+```
+
+**What Happens If Something Fails?**
+
+Suppose:
+
+* Claim is saved successfully.
+* Claim status is updated.
+* Member history is updated.
+* **Payment record creation fails** because of a database error.
+
+Since the method is annotated with **`@Transactional`**, **all previous database operations are rolled back**, and the database remains consistent.
+
+Without **`@Transactional`**, the claim might be saved while the payment record is missing, resulting in inconsistent data.
+
+**Other Places We Used `@Transactional`**
+
+* **Claim Approval** – Update claim status, audit log, and payment information together.
+* **Claim Cancellation** – Update claim status, reverse payment, and update member history.
+* **Policy Update** – Update policy details and audit records together.
+
+**Why Not Across Microservices?**
+
+We **did not use `@Transactional` across multiple microservices** because each microservice has its **own database**.
+
+For example:
+
+* **Claims Service** → Oracle Database
+* **Payment Service** → Its own database
+
+A Spring **`@Transactional`** annotation works **only within a single service and a single database**.
+
+For communication between microservices, we used:
+
+* **Kafka** for asynchronous messaging.
+* **Saga Pattern (compensation logic)** for distributed transaction management.
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. Why did you use `@Transactional`?**
+
+To ensure **Atomicity**—either **all database operations succeed** or **all are rolled back** if an error occurs.
+
+**2. Does `@Transactional` work across microservices?**
+
+**No.** It works only within a **single microservice** and **single database**. For distributed transactions, we use **Saga Pattern** with **Kafka**.
+
+**3. What happens if an exception occurs inside a `@Transactional` method?**
+
+The transaction is **rolled back**, and none of the database changes are committed (by default for unchecked exceptions).
