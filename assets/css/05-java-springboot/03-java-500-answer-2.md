@@ -31221,7 +31221,7 @@ public void theLoginShouldBeSuccessful() {
 
 # ✅ 29. Current Project
 
-## 1. Can you work throug your current project?
+## 1. Can you work through your current project?
 
 
 I am currently working on a **Healthcare Claims Processing System** for **BCBSA (Blue Cross Blue Shield Association)**. The application is built using **Java 17**, **Spring Boot**, **Microservices**, **Kafka**, and **Oracle Database**. The main goal is to process healthcare claims efficiently while ensuring **high availability**, **security**, and **low latency**.
