@@ -64,6 +64,7 @@ class MicroserviceInterviewDemo {
 
 
 // ============================================================
+// OneToMany and ManyToOne Table Relations
 // ENTITY: USER
 // FILE: entity/User.java
 // ============================================================
@@ -85,10 +86,10 @@ class User {
 }
 
 
-// ============================================================
+
 // ENTITY: ORDER
 // FILE: entity/Order.java
-// ============================================================
+
 @Entity
 @Table(name = "orders")
 class Order {
@@ -110,11 +111,8 @@ class Order {
 }
 
 
-// ============================================================
 // REPOSITORIES
-// FILE: repository/UserRepository.java
-// FILE: repository/OrderRepository.java
-// ============================================================
+
 interface UserRepository extends JpaRepository<User, Long> {}
 interface OrderRepository extends JpaRepository<Order, Long> {}
 
@@ -123,11 +121,23 @@ interface OrderRepository extends JpaRepository<Order, Long> {}
 // REST TEMPLATE CLIENT
 // FILE: client/RestTemplateClient.java
 // ============================================================
+// @Configuration
+//@Bean
+@Configuration
+public class AppConfig {
+
+ @Bean
+ public RestTemplate restTemplate() {
+     return new RestTemplate();
+ }
+}
+
+
+// Use Restemplate in Service
 @Service
 class RestTemplateClient {
-
     private final RestTemplate restTemplate;
-
+    
     public RestTemplateClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -142,14 +152,37 @@ class RestTemplateClient {
 
 
 // ============================================================
-// FEIGN CLIENT
+// Enable Feign Client
 // FILE: client/PaymentClient.java
 // ============================================================
-@FeignClient(name = "payment-service", url = "http://localhost:8082")
-interface PaymentClient {
+// Enable Feign Client
+@SpringBootApplication
+@EnableFeignClients
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
 
-    @PostMapping("/pay")
-    String pay();
+
+// Feign Client
+@FeignClient(name = "product-service")
+public interface ProductClient {
+
+    @GetMapping("/products/{id}")
+    String getProduct(@PathVariable Long id);
+}
+
+
+// Service Class
+@Service
+public class OrderService {
+    @Autowired
+    private ProductClient productClient;
+
+    public String getOrderDetails(Long id) {
+        return productClient.getProduct(id);
+    }
 }
 
 
@@ -199,36 +232,85 @@ class UserService {
 
 
 // ============================================================
+// CIRCUIT BREAKER Implementation
 // SERVICE: PAYMENT (CIRCUIT BREAKER)
 // FILE: service/PaymentService.java
 // ============================================================
-@Service
-class PaymentService {
 
-    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")
+// PaymentService
+@Service
+public class PaymentService {
+
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallbackPayment")
+    @Retry(name = "paymentService")
     public String processPayment() {
-        throw new RuntimeException("Payment Failed");
+        return restTemplate.getForObject(
+            "http://payment-service/pay",
+            String.class
+        );
     }
 
-    public String fallback(Exception ex) {
-        return "Fallback: Payment Service Down";
+    public String fallbackPayment(Exception ex) {
+        return "Payment service is temporarily unavailable.";
     }
 }
+
+// application.yml
+resilience4j:
+	  circuitbreaker:
+	    instances:
+	      paymentService:
+	        failureRateThreshold: 50
+	        waitDurationInOpenState: 10s
+	        slidingWindowSize: 10
 
 
 // ============================================================
 // SERVICE: ASYNC
 // FILE: service/AsyncService.java
 // ============================================================
+// Step: 1
+@SpringBootApplication
+@EnableAsync
+public class Application {
+}
+	        
+// Step 2    
 @Service
-class AsyncService {
+class ApiService {
+	@Async
+    public CompletableFuture<String> getUser() {
+        // call User Service API
+        return CompletableFuture.completedFuture("User Data");
+    }
 
     @Async
-    public CompletableFuture<String> asyncTask() {
-        return CompletableFuture.completedFuture("Async Completed");
+    public CompletableFuture<String> getPayment() {
+        // call Payment Service API
+        return CompletableFuture.completedFuture("Payment Data");
     }
 }
 
+
+// // Step 3
+@RestController
+public class MyController {
+
+    @Autowired
+    private ApiService apiService;
+
+    @GetMapping("/getAllData")
+    public String getAllData() throws Exception {
+
+        CompletableFuture<String> user = apiService.getUser();
+        CompletableFuture<String> payment = apiService.getPayment();
+
+        // Wait for all to complete
+        CompletableFuture.allOf(user, payment, inventory).join();
+
+        return user.get() + " | " + payment.get();
+    }
+}
 
 // ============================================================
 // SAGA ORCHESTRATOR
