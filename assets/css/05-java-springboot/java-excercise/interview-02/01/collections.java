@@ -125,18 +125,7 @@ class CollectionsDemo {
     public static void linkedHashMapDemo() {
 
         System.out.println("=========================== linkedHashMapDemo");
-        Map<Integer, String> linkedList = new LinkedHashMap<>();
-        linkedList.put(1, "Sentu");
-        linkedList.put(2, "Pintu");
-        linkedList.put(3, "Ranku");
-        linkedList.put(4, "Data");
-
-        // for (Integer key : linkedList.keySet()) {
-        for (Integer key : linkedList.keySet()) {
-            System.out.println(key + " -> " + linkedList.get(key));
-        }
-
-        // System.out.println("Result " + linkedList);
+        
     }
 
     // ============================================================
@@ -175,61 +164,21 @@ class CollectionsDemo {
 
         System.out.println("=========================== LRUCacheDemo");
 
-        // LinkedHashMap<Integer, String> cache = new LinkedHashMap<Integer, String>(3, 0.75f, true) {
-        LinkedHashMap<Integer, String> cache = new LinkedHashMap<Integer, String>(3, 0.75f, true) {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest){
-                return size() > 3;
-            }
-        };
-
-        cache.put(1, "Sentu");
-        cache.put(2, "Pintu");
-        cache.put(3, "Ranku");       
-
-        cache.get(1);
-        cache.put(4, "Dada");
-        System.out.println("Hello 1" + cache);
+        
     }
 
     // **# 2. LRU Cache way 2
 
-    public static void LFUCacheDemo() {
-
-        System.out.println("=========================== LFUCacheDemo");
-        LRUCache<Integer, String> cache = new LRUCache<>(3);
-        cache.put(1, "A");
-        cache.put(2, "B");
-        cache.put(3, "C");
-
-        cache.get(1);
-
-        cache.put(4, "D");
-        System.out.println(cache);
-
-        
-    }
-
-    static class LRUCache<k, v> extends LinkedHashMap<k, v> {
-        private final int capacity;
-        public LRUCache(int capacity) {
-            super(capacity, 0.75f, true);
-            this.capacity = capacity;
-        }
-
-        @Override
-        protected boolean removeEldestEntry(Map.Entry<k, v> eldest){
-            return size() > capacity;
-        }
-
-
-    }
+    
 
 
     // ============================================================
     // **16. LFU Cache (Least Frequently Used):** Removes least frequently accessed item.
     // ============================================================
-
+    static void LFUCacheDemo() {
+        System.out.println("=========================== LFUCacheDemo");
+        
+    }
 
 
     // ============================================================
@@ -238,45 +187,10 @@ class CollectionsDemo {
     public static void TTLCacheDemo() throws Exception {
 
         System.out.println("=========================== TTLCacheDemo");
-        TTLCache cache = new TTLCache();
-        cache.put(1, "java", 3000);
-
-        System.out.println(cache.get(1));
-        Thread.sleep(4000);
-        System.out.println(cache.get(1));
+        
        
 
     }
 
-    class TTLCache {
-        static class CacheObject {
-            String value;
-            long expiryTime;
-
-            CacheObject (String value, long ttMillis) {
-                this.value = value;
-                this.expiryTime = System.currentTimeMillis() + ttMillis;
-            }
-
-            private Map<Integer, CacheObject> cache = new HashMap<>();
-            public void put(int key, String value, long ttMillis) {
-                cache.put(key, new CacheObject(value, ttMillis));
-            }
-
-            public String get(int key) {
-                CacheObject obj = cache.get(key);
-
-                if(obj == null) {
-                    return null;
-                }
-
-                if(System.currentTimeMillis() > obj.expiryTime) {
-                    cache.remove(key);
-                    return null;
-                }
-                
-                return obj.value;
-            }
-        }
-    }
+    
 }
