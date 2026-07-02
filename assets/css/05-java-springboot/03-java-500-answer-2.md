@@ -20925,165 +20925,8 @@ public class Main {
 }
 ```
 
-## 14. Create API to handle large files(Batch processing) efficiently?
 
-When handling **Large Files**, we should avoid loading the entire file into memory. Instead, use **Streaming** with **InputStream** and **OutputStream** to process data in chunks. This reduces memory consumption and improves performance.
-
-**Example for Batch processing**
-
-**Controller**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-    @Autowired
-    private UserService userService;
-
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
-
-        userService.processFile(file);
-        return "File processed successfully.";
-    }
-}
-```
-
-**Service**
-
-```java
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository repository;
-    private static final int BATCH_SIZE = 1000;
-
-    public void processFile(MultipartFile file) throws Exception {
-        List<User> batch = new ArrayList<>();
-        try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-            String line;
-
-            // Skip Header
-            reader.readLine();
-
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-
-                User user = new User();
-                user.setId(Long.parseLong(data[0]));
-                user.setName(data[1]);
-                user.setEmail(data[2]);
-
-                batch.add(user);
-
-                if (batch.size() == BATCH_SIZE) {
-                    repository.saveAll(batch);
-                    batch.clear();
-                }
-            }
-
-            // Save remaining records
-            if (!batch.isEmpty()) {
-                repository.saveAll(batch);
-            }
-        }
-    }
-}
-```
-
-**Entity**
-
-```java
-@Entity
-public class User {
-    @Id
-    private Long id;
-    private String name;
-    private String email;
-    // Getters and Setters
-}
-```
-
-**Repository**
-
-```java
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-}
-```
-
-**Controller for File Upload**
-
-```java
-@RestController
-@RequestMapping("/files")
-public class FileController {
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(
-            @RequestParam("file") MultipartFile file) throws IOException {
-
-        Path path = Paths.get("uploads/" + file.getOriginalFilename());
-
-        try (InputStream in = file.getInputStream();
-             OutputStream out = Files.newOutputStream(path)) {
-
-            byte[] buffer = new byte[8192];
-            int bytesRead;
-
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-        }
-
-        return ResponseEntity.ok("File uploaded successfully");
-    }
-}
-```
-
-**Controller for File Download**
-
-```java
-@GetMapping("/download/{fileName}")
-public ResponseEntity<Resource> downloadFile(
-        @PathVariable String fileName) throws IOException {
-
-    Path path = Paths.get("uploads/" + fileName);
-
-    Resource resource =
-            new InputStreamResource(Files.newInputStream(path));
-
-    return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=" + fileName)
-            .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .body(resource);
-}
-```
-
-
-**Efficient Strategies**
-
-* Use **Streaming** to process files chunk by chunk.
-* Use **BufferedReader** and **BufferedWriter** for large text files.
-* Process files **line by line** instead of loading the entire file into memory.
-* Use **Java NIO** APIs for better I/O performance.
-* Use **Memory-Mapped Files** for extremely large files.
-* Use **Parallel Processing** when file operations can be executed independently.
-
-**Best Practices**
-
-* Use **Streaming** instead of reading the entire file into memory.
-* Process data in **Chunks** using a buffer (e.g., 8 KB or larger).
-* Store very large files in **Object Storage** such as **Amazon S3** or a file system, and store only metadata in the database.
-* Enable **Multipart Uploads** for large file transfers.
-* Support **Range Requests** for resumable downloads and video streaming.
-* Configure appropriate **File Size Limits** and **Timeouts**.
-* Validate file type and size before processing.
-* Monitor memory usage and I/O performance.
-
-## 15. Create API to process images into Oracle DB using Java APIs?
+## 14. Create API to process images into Oracle DB using Java APIs?
 
 In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
 
@@ -21203,7 +21046,6 @@ CREATE TABLE employee_images (
 ```
 
 ## 15. Create API to handle large files(Batch processing) efficiently?
-
 
 
 To handle **large files** efficiently, I use **Spring Batch** for **batch processing** and **Async Processing** to run the job in the background without blocking the API request.
@@ -21364,6 +21206,59 @@ public JdbcBatchItemWriter<Employee> writer(DataSource dataSource) {
     return writer;
 }
 ```
+
+**Example for Upload and Download**
+
+**Controller for File Upload**
+
+```java
+@RestController
+@RequestMapping("/files")
+public class FileController {
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        Path path = Paths.get("uploads/" + file.getOriginalFilename());
+
+        try (InputStream in = file.getInputStream();
+             OutputStream out = Files.newOutputStream(path)) {
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+        return ResponseEntity.ok("File uploaded successfully");
+    }
+}
+```
+
+**Controller for File Download**
+
+```java
+@GetMapping("/download/{fileName}")
+public ResponseEntity<Resource> downloadFile(
+        @PathVariable String fileName) throws IOException {
+
+    Path path = Paths.get("uploads/" + fileName);
+
+    Resource resource =
+            new InputStreamResource(Files.newInputStream(path));
+
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=" + fileName)
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(resource);
+}
+```
+
+
 
 **Why Chunk Processing?**
 
