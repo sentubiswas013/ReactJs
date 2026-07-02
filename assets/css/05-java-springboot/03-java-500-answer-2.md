@@ -13983,9 +13983,6 @@ Caching reduces dependency on DB by serving **frequently used data from memory (
 
 ## 19. How do you deploy the same code to multiple environments?
 
-**Deploying the Same Code to Multiple Environments in Spring Boot**
-
-**Definition**
 
 Deploying the same code to multiple environments means running the **same application build** (JAR/WAR) in different environments like **DEV, QA, STAGING, and PRODUCTION** by changing only **configuration settings**, not the code.
 
@@ -15737,9 +15734,6 @@ In this example:
 
 ## 2. What are the features of Spring?
 
-**Features of Spring Framework**
-
-**Definition**
 
 The **Spring Framework** is a **lightweight, open-source Java framework** used to build **enterprise-grade applications**. It provides **dependency management, modular architecture, and built-in support for web, data, and security layers**.
 
@@ -22981,9 +22975,6 @@ Configuration includes failure rate thresholds, wait durations, and retry attemp
 
 ## 8. What is Saga Pattern or How it handle payment failure?
 
-**What is the Saga Design Pattern?**
-
-**Definition**
 
 **Saga** is a **Microservices Design Pattern** used to **manage distributed transactions** across multiple microservices. Instead of using one large transaction, it breaks the process into **multiple local transactions**. If any step fails, **compensating transactions** are executed to undo the completed steps.
 
@@ -25391,9 +25382,6 @@ In this example, the **Java Sandbox** checks whether the application has permiss
 
 ## 3: What is bytecode verification?
 
-**Bytecode Verification in Java**
-
-**Definition**
 
 **Bytecode Verification** is the process where the **JVM (Java Virtual Machine)** checks the compiled **`.class` (bytecode)** before execution to ensure it is **valid**, **safe**, and **does not violate Java security rules**.
 
@@ -25524,9 +25512,6 @@ The JVM throws a **`VerifyError`** and prevents the class from being executed.
 
 ## 4: What is the security manager?
 
-**Security Manager in Java**
-
-**Definition**
 
 **Security Manager** is a **JVM component** that defines and enforces a **security policy** to control what operations a Java program is allowed to perform, such as **file access**, **network access**, or **system resources usage**.
 
@@ -25685,9 +25670,6 @@ boolean isValid = signature.verify(digitalSignature);
 
 ## 6: What is encryption and decryption in Java?
 
-**Encryption and Decryption in Java**
-
-**Definition**
 
 **Encryption** is the process of converting **plain text (readable data)** into **cipher text (unreadable format)** to protect sensitive information.
 **Decryption** is the reverse process of converting **cipher text back to plain text** using a **key**.
@@ -25884,9 +25866,6 @@ ResponseEntity<String> response = restTemplate.getForEntity(
 
 ## 8: What is authentication vs authorization?
 
-**Authentication vs Authorization**
-
-**Definition**
 
 * **Authentication** is the process of **verifying the identity** of a user.
 * **Authorization** is the process of **determining what an authenticated user is allowed to access or perform**.
