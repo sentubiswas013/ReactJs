@@ -21407,6 +21407,199 @@ Use **Skip Policy**, **Retry Policy**, and **SkipListener** to skip invalid reco
 Yes. By combining **Spring Batch** with **Async TaskExecutor**, multiple jobs can run in parallel independently.
 
 
+
+
+
+## 16. Create API to Handle Transaction Failure in Microservices Using Saga Pattern?
+
+
+In **Microservices**, a transaction may involve multiple services, each with its own database. Since **`@Transactional`** cannot manage transactions across multiple services, we use the **Saga Pattern** to maintain **Eventual Consistency** using **Compensating Transactions**.
+
+**Key Features**
+
+* **Saga Pattern** for **distributed transactions**
+* **Local Transaction** in each microservice
+* **Compensating Transaction** to undo completed steps on failure
+* **Eventual Consistency**
+* **Retry** and **Circuit Breaker** for fault tolerance
+* **Idempotency** to avoid duplicate processing
+
+**How It Works**
+
+Suppose we have three services:
+
+* **Order Service**
+* **Payment Service**
+* **Inventory Service**
+
+Flow:
+
+1. Client calls **Create Order API**.
+2. **Order Service** creates the order.
+3. **Payment Service** deducts the payment.
+4. **Inventory Service** reserves the stock.
+5. If all succeed, the order status becomes **COMPLETED**.
+6. If any step fails, **Saga** executes **Compensating Transactions**:
+
+   * Refund payment
+   * Release stock
+   * Cancel order
+
+**When to Use**
+
+* **E-commerce Order Processing**
+* **Banking Transactions**
+* **Insurance Claims**
+* **Flight/Hotel Booking**
+* Any **Distributed Microservices** application
+
+**Architecture**
+
+```text
+Client
+   |
+Create Order API
+   |
+Saga Orchestrator
+   |
+-------------------------------
+|        |                    |
+Order   Payment          Inventory
+Service  Service          Service
+-------------------------------
+        |
+If Failure
+        |
+Refund Payment
+Release Stock
+Cancel Order
+```
+
+**Step 1: Order API**
+
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    @Autowired
+    private SagaService sagaService;
+
+    @PostMapping
+    public ResponseEntity<String> createOrder(@RequestBody OrderRequest request) {
+
+        sagaService.processOrder(request);
+
+        return ResponseEntity.ok("Order Processing Started");
+    }
+}
+```
+
+**Step 2: Saga Orchestrator**
+
+```java
+@Service
+public class SagaService {
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private InventoryService inventoryService;
+    public void processOrder(OrderRequest request) {
+
+        try {
+
+            orderService.createOrder(request);
+            paymentService.makePayment(request);
+            inventoryService.reserveStock(request);
+            orderService.completeOrder(request.getOrderId());
+
+        } catch (Exception ex) {
+            paymentService.refund(request);
+            inventoryService.releaseStock(request);
+            orderService.cancelOrder(request.getOrderId());
+        }
+    }
+}
+```
+
+**Step 3: Payment Service**
+
+```java
+@Service
+public class PaymentService {
+
+    public void makePayment(OrderRequest request) {
+        System.out.println("Payment Successful");
+    }
+
+    public void refund(OrderRequest request) {
+        System.out.println("Payment Refunded");
+    }
+}
+```
+
+**Step 4: Inventory Service**
+
+```java
+@Service
+public class InventoryService {
+    public void reserveStock(OrderRequest request) {
+        System.out.println("Stock Reserved");
+    }
+
+    public void releaseStock(OrderRequest request) {
+        System.out.println("Stock Released");
+    }
+}
+```
+
+**Step 5: Order Service**
+
+```java
+@Service
+public class OrderService {
+    public void createOrder(OrderRequest request) {
+        System.out.println("Order Created");
+    }
+
+    public void completeOrder(Long orderId) {
+        System.out.println("Order Completed");
+    }
+
+    public void cancelOrder(Long orderId) {
+        System.out.println("Order Cancelled");
+    }
+}
+```
+
+**Failure Example**
+
+Suppose the flow is:
+
+* **Order Created**
+* **Payment Successful**
+* **Inventory Reservation Failed**
+
+Saga automatically performs:
+
+* **Refund Payment**
+* **Cancel Order**
+
+The system remains **consistent** without using a distributed transaction.
+
+**Advantages**
+
+* Supports **distributed transactions**
+* Prevents **partial updates**
+* Improves **fault tolerance**
+* Supports **Eventual Consistency**
+* Easy to scale across multiple microservices
+
+
 ## 17. Create API to roll back @Transaction for fail payment?
 
 **`@Transactional`** ensures that **all database operations are treated as a single transaction**. If the **payment fails** or any exception occurs, **Spring automatically rolls back** all database changes, maintaining **data consistency**.
