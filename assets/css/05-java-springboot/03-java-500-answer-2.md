@@ -21202,10 +21202,212 @@ CREATE TABLE employee_images (
 );
 ```
 
-12. A bumper/Black Friday sale has 4 core challenges: high traffic, dynamic pricing, inventory race conditions, and coupon abuse. How to handle it?
+## 15. Create API to handle large files(Batch processing) efficiently?
 
 
-## 15. Create API to roll back @Transaction for fail payment?
+
+To handle **large files** efficiently, I use **Spring Batch** for **batch processing** and **Async Processing** to run the job in the background without blocking the API request.
+
+**Key Features**
+
+* **Spring Batch** processes data in **chunks** instead of loading the entire file into memory.
+* **Async Processing** runs the batch job in a separate thread.
+* **Chunk Processing** improves **memory usage** and **performance**.
+* Supports **restart**, **retry**, **skip failed records**, and **job monitoring**.
+* Suitable for processing **millions of records**.
+
+**How It Works**
+
+1. Client uploads a large file.
+2. API stores the file.
+3. API starts a **Spring Batch Job** asynchronously.
+4. **ItemReader** reads records chunk by chunk.
+5. **ItemProcessor** validates/transforms data.
+6. **ItemWriter** saves records in batches.
+7. API immediately returns **Job Started** while processing continues in the background.
+
+**When to Use**
+
+* **CSV/Excel/XML** file processing.
+* **Bulk database insert/update**.
+* **Payroll processing**.
+* **Bank transactions**.
+* **Insurance claim processing**.
+* **Report generation**.
+
+**Architecture**
+
+```
+Client
+   |
+Upload File API
+   |
+JobLauncher (Async)
+   |
+Spring Batch Job
+   |
+Reader -> Processor -> Writer
+   |
+Database
+```
+
+**Step 1: Enable Async**
+
+```java
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+}
+```
+
+**Step 2: Async Job Launcher Service**
+
+```java
+@Service
+public class BatchService {
+
+    @Autowired
+    private JobLauncher jobLauncher;
+
+    @Autowired
+    private Job importJob;
+
+    @Async
+    public void startJob(String fileName) throws Exception {
+
+        JobParameters params = new JobParametersBuilder()
+                .addString("file", fileName)
+                .addLong("time", System.currentTimeMillis())
+                .toJobParameters();
+
+        jobLauncher.run(importJob, params);
+    }
+}
+```
+
+**Step 3: REST API**
+
+```java
+@RestController
+@RequestMapping("/files")
+public class FileController {
+
+    @Autowired
+    private BatchService batchService;
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload() throws Exception {
+
+        batchService.startJob("employees.csv");
+
+        return ResponseEntity.ok("Batch Job Started Successfully");
+    }
+}
+```
+
+**Step 4: Spring Batch Configuration**
+
+```java
+@Bean
+public Step step(JobRepository jobRepository,
+                 PlatformTransactionManager transactionManager) {
+
+    return new StepBuilder("step", jobRepository)
+            .<Employee, Employee>chunk(1000, transactionManager)
+            .reader(reader())
+            .processor(processor())
+            .writer(writer())
+            .build();
+}
+```
+
+**Reader**
+
+```java
+@Bean
+public FlatFileItemReader<Employee> reader() {
+    FlatFileItemReader<Employee> reader = new FlatFileItemReader<>();
+    reader.setResource(new FileSystemResource("employees.csv"));
+    return reader;
+}
+```
+
+**Processor**
+
+```java
+@Component
+public class EmployeeProcessor
+        implements ItemProcessor<Employee, Employee> {
+
+    @Override
+    public Employee process(Employee employee) {
+        employee.setName(employee.getName().toUpperCase());
+        return employee;
+    }
+}
+```
+
+**Writer**
+
+```java
+@Bean
+public JdbcBatchItemWriter<Employee> writer(DataSource dataSource) {
+
+    JdbcBatchItemWriter<Employee> writer =
+            new JdbcBatchItemWriter<>();
+
+    writer.setDataSource(dataSource);
+    writer.setSql("INSERT INTO employee(id,name) VALUES(:id,:name)");
+    writer.setItemSqlParameterSourceProvider(
+            new BeanPropertyItemSqlParameterSourceProvider<>());
+
+    return writer;
+}
+```
+
+**Why Chunk Processing?**
+
+Suppose the file contains **10 million records**.
+
+* **Without Chunking:** Loads all records into memory, causing **high memory usage** and possible **OutOfMemoryError**.
+* **With Chunk Size = 1000:** Reads **1000 records**, processes them, writes them to the database, clears memory, and continues with the next chunk.
+
+This keeps **memory usage low** and improves **performance**.
+
+**Advantages**
+
+* **Processes very large files efficiently**
+* **Low memory consumption**
+* **Fast batch inserts**
+* **Runs asynchronously**
+* Supports **restart**, **retry**, and **skip logic**
+* Easy to monitor **job status**
+
+
+**Common Interview Follow-up Questions**
+
+**1. Why use Spring Batch instead of normal Java loops?**
+
+Because **Spring Batch** provides **chunk processing**, **restartability**, **retry**, **skip**, **transaction management**, and **job monitoring**, making it suitable for enterprise-scale batch processing.
+
+**2. Why use Async with Spring Batch?**
+
+So the **REST API** returns immediately while the batch job continues in the background, improving **user experience** and avoiding request timeouts.
+
+**3. What is the ideal chunk size?**
+
+It depends on the data and available memory. Common values are **100**, **500**, or **1000** records per chunk.
+
+**4. How do you handle failed records?**
+
+Use **Skip Policy**, **Retry Policy**, and **SkipListener** to skip invalid records, retry transient failures, and log failed records without stopping the entire job.
+
+**5. Can multiple batch jobs run simultaneously?**
+
+Yes. By combining **Spring Batch** with **Async TaskExecutor**, multiple jobs can run in parallel independently.
+
+
+## 16. Create API to roll back @Transaction for fail payment?
 
 **`@Transactional`** ensures that **all database operations are treated as a single transaction**. If the **payment fails** or any exception occurs, **Spring automatically rolls back** all database changes, maintaining **data consistency**.
 
