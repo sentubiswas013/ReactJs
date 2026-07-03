@@ -779,10 +779,10 @@ for (int i = 0; i < fruits.size(); i++) {
 
 ## 8.  Serialization and Deserialization in Java?
 
-**Serialization** is the process of **converting a Java object into a byte stream** so it can be **stored in a file**, **saved to a database**, or **transmitted over a network**. The reverse process is called **Deserialization**, which converts the byte stream back into a Java object.
+**Serialization** is the process of **converting a Java object into a byte stream** so it can be **stored in a file**, **saved to a database**, or **transmitted over a network**. 
 
+**Deserialization** is the reverse process of converting the **Byte Stream** back into the original **Java Object**.
 
-**Deserialization** is the process of **converting a byte stream back into the original Java object**. It is the **reverse of Serialization** and is commonly used to retrieve objects from a **file**, **database**, or **network**.
 
 **Key Features**
 
@@ -811,61 +811,69 @@ for (int i = 0; i < fruits.size(); i++) {
 
 **Example**
 
-**Employee Class**
-
-```java
-import java.io.Serializable;
-
-public class Employee implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private int id;
-    private String name;
-
-    public Employee(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-}
-```
 
 **Serialization**
 
 ```java
-Employee emp = new Employee(101, "John");
+import java.io.*;
 
-ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("employee.ser"));
+class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-out.writeObject(emp);
-out.close();
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+public class SerializeDemo {
+    public static void main(String[] args) throws Exception {
+
+        Employee emp = new Employee(101, "John");
+
+        FileOutputStream fos = new FileOutputStream("employee.ser");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+        oos.writeObject(emp);
+
+        oos.close();
+        System.out.println("Object Serialized");
+    }
+}
 ```
 
 **Deserialization**
 
 ```java
-ObjectInputStream in = new ObjectInputStream(new FileInputStream("employee.ser"));
+import java.io.*;
+public class DeserializeDemo {
+    public static void main(String[] args) throws Exception {
 
-Employee emp = (Employee) in.readObject();
-in.close();
+        FileInputStream fis = new FileInputStream("employee.ser");
+        ObjectInputStream ois = new ObjectInputStream(fis);
 
-System.out.println(emp);
+        Employee emp = (Employee) ois.readObject();
+
+        ois.close();
+
+        System.out.println(emp.id);
+        System.out.println(emp.name);
+    }
+}
 ```
 
-**Flow**
+**Prevents a field from being serialized.**
 
-```text
-Java Object
-     |
-Serialization
-     |
-Byte Stream
-     |
-File / Network
-     |
-Deserialization
-     |
-Java Object
+```Java
+class Employee implements Serializable {
+
+    String name;
+
+    transient String password;
+}
 ```
 
 **Advantages**
