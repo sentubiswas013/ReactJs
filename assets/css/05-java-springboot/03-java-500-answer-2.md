@@ -3470,7 +3470,12 @@ It allows the program to choose the correct method **during execution**, making 
 
 ## 14. What is Dynamic Method Dispatch?
 
-**Dynamic Method Dispatch** is the mechanism by which **the method to be executed is determined at runtime based on the actual object, not the reference type**. It is the foundation of **runtime polymorphism** in Java.
+**Dynamic Method Dispatch** is the mechanism by which **Java decides at runtime** which **overridden method** to execute.
+
+It is the **implementation of Runtime Polymorphism** in Java.
+
+The method that gets executed depends on the **actual object**, **not** the reference type.
+
 
 **Key Features**
 
@@ -3493,33 +3498,64 @@ It allows the program to choose the correct method **during execution**, making 
 **Code Example**
 
 ```java id="k8p4mx"
-class Animal {
-    void sound() {
-        System.out.println("Animal makes a sound");
+interface Payment {
+    void pay();
+}
+
+class CreditCardPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid using Credit Card");
     }
 }
 
-class Dog extends Animal {
-    @Override
-    void sound() {
-        System.out.println("Dog barks");
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("Paid using UPI");
     }
 }
 
-public class Main {
+public class Demo {
     public static void main(String[] args) {
-        Animal animal = new Dog(); // Parent reference, Child object
-        animal.sound();            // Calls Dog's sound()
+
+        Payment payment = new UpiPayment();
+        payment.pay();     // Paid using UPI
     }
 }
 ```
 
-**Output**
+Here, the **JVM** decides at **runtime** to call `UpiPayment.pay()` because the actual object is `UpiPayment`.
 
-```text id="j3v9qn"
-Dog barks
-```
 
+
+**Advantages**
+
+* **Supports Runtime Polymorphism**
+* **Loose coupling**
+* **Easy to extend**
+* **Improves code reusability**
+* **Enhances maintainability**
+
+**Limitations**
+
+* Works only with **overridden instance methods**
+* **Static**, **private**, and **final** methods are **not** dynamically dispatched because they cannot be overridden
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between Dynamic Method Dispatch and Method Overriding?**
+
+| **Method Overriding**                                          | **Dynamic Method Dispatch**                                                      |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| A child class provides a new implementation of a parent method | The **JVM mechanism** that chooses which overridden method to execute at runtime |
+| It is a programming concept                                    | It is the runtime process that supports overriding                               |
+
+**2. Can Dynamic Method Dispatch work with Static Methods?**
+
+**No.** **Static methods** belong to the class, not the object, so they are resolved at **compile time**.
+
+**3. Can Dynamic Method Dispatch work with Private or Final Methods?**
+
+**No.** **Private** and **final** methods cannot be overridden, so they cannot participate in **Dynamic Method Dispatch**.
 
 ## 6. What is IS-A Relationship?
 
