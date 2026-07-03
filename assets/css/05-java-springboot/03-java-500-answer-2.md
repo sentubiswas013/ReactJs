@@ -13771,88 +13771,402 @@ By default, Spring Boot comes with an embedded server like Apache Tomcat. If we 
 
 ## 16. How can we configure multiple databases in Spring Boot?
 
-Yes — you can configure **multiple databases in Spring Boot without using `application.properties` or XML** by using **Java-based configuration (pure @Configuration classes)**.
 
 
-You define **DataSource, EntityManager, and TransactionManager manually in Java classes**.
+In **Spring Boot**, we can connect to **multiple databases** by creating separate configurations for each database. Each database has its own **DataSource**, **EntityManagerFactory**, **TransactionManager**, and **Repository** package.
 
+**Key Features**
 
-**First Database Config**
+* **Supports multiple databases** in a single application.
+* Each database has its own **DataSource**.
+* Separate **EntityManagerFactory** for entity management.
+* Separate **TransactionManager** for transaction handling.
+* Repositories are mapped using **@EnableJpaRepositories**.
+
+**How it works**
+
+1. Configure multiple database properties in **application.yml** or **application.properties**.
+2. Create a separate **DataSource** bean for each database.
+3. Create an **EntityManagerFactory** for each database.
+4. Create a **TransactionManager** for each database.
+5. Enable repositories using **@EnableJpaRepositories** and specify the correct packages.
+
+**Example**
+
+**Project Structure**
+
+```text
+src/main/java
+│
+├── config
+│   ├── MySqlConfig.java
+│   └── PostgresConfig.java
+│
+├── user
+│   ├── entity
+│   │   └── User.java
+│   ├── repository
+│   │   └── UserRepository.java
+│   └── service
+│       └── UserService.java
+│
+├── order
+│   ├── entity
+│   │   └── Order.java
+│   ├── repository
+│   │   └── OrderRepository.java
+│   └── service
+│       └── OrderService.java
+│
+└── MultiDbApplication.java
+```
+
+**Step 1: Add Dependencies**
+
+```xml
+<dependencies>
+
+    <!-- Spring Boot Starter Data JPA -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- MySQL -->
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+    </dependency>
+
+    <!-- PostgreSQL -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+    </dependency>
+
+    <!-- Web -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+</dependencies>
+```
+
+---
+
+**Step 2: Configure application.yml**
+
+```yaml
+spring:
+
+  datasource:
+
+    mysql:
+      url: jdbc:mysql://localhost:3306/userdb
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+    postgres:
+      url: jdbc:postgresql://localhost:5432/orderdb
+      username: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+```
+
+---
+
+**Step 3: Create User Entity (MySQL)**
+
+```java
+@Entity
+@Table(name="users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // getters and setters
+}
+```
+
+---
+
+**Step 4: Create Order Entity (PostgreSQL)**
+
+```java
+@Entity
+@Table(name="orders")
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String product;
+
+    // getters and setters
+}
+```
+
+---
+
+**Step 5: Create Repositories**
+
+#UserRepository
+
+```java
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+```
+
+#OrderRepository
+
+```java
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Long> {
+}
+```
+
+---
+
+**Step 6: Configure MySQL**
+
 ```java
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-    basePackages = "com.app.repo.db1",
-    entityManagerFactoryRef = "db1EntityManager",
-    transactionManagerRef = "db1TransactionManager"
+        basePackages = "com.example.user.repository",
+        entityManagerFactoryRef = "userEntityManagerFactory",
+        transactionManagerRef = "userTransactionManager"
 )
-public class DB1Config {
+public class MySqlConfig {
 
+    @Primary
     @Bean
-    public DataSource db1DataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/db1");
-        ds.setUsername("root");
-        ds.setPassword("root");
-        return ds;
+    @ConfigurationProperties("spring.datasource.mysql")
+    public DataSource userDataSource() {
+        return DataSourceBuilder.create().build();
     }
 
+    @Primary
     @Bean
-    public LocalContainerEntityManagerFactoryBean db1EntityManager() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(db1DataSource());
-        em.setPackagesToScan("com.app.entity.db1");
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        return em;
+    public LocalContainerEntityManagerFactoryBean userEntityManagerFactory(
+            EntityManagerFactoryBuilder builder) {
+
+        return builder
+                .dataSource(userDataSource())
+                .packages("com.example.user.entity")
+                .persistenceUnit("user")
+                .build();
     }
 
+    @Primary
     @Bean
-    public PlatformTransactionManager db1TransactionManager() {
-        JpaTransactionManager tm = new JpaTransactionManager();
-        tm.setEntityManagerFactory(db1EntityManager().getObject());
-        return tm;
+    public PlatformTransactionManager userTransactionManager(
+            @Qualifier("userEntityManagerFactory")
+            EntityManagerFactory emf) {
+
+        return new JpaTransactionManager(emf);
     }
 }
 ```
 
-**Second Database Config**
+---
+
+**Step 7: Configure PostgreSQL**
+
 ```java
 @Configuration
+@EnableTransactionManagement
 @EnableJpaRepositories(
-    basePackages = "com.app.repo.db2",
-    entityManagerFactoryRef = "db2EntityManager",
-    transactionManagerRef = "db2TransactionManager"
+        basePackages = "com.example.order.repository",
+        entityManagerFactoryRef = "orderEntityManagerFactory",
+        transactionManagerRef = "orderTransactionManager"
 )
-public class DB2Config {
+public class PostgresConfig {
 
     @Bean
-    public DataSource db2DataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/db2");
-        ds.setUsername("root");
-        ds.setPassword("root");
-        return ds;
+    @ConfigurationProperties("spring.datasource.postgres")
+    public DataSource orderDataSource() {
+        return DataSourceBuilder.create().build();
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean db2EntityManager() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(db2DataSource());
-        em.setPackagesToScan("com.app.entity.db2");
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        return em;
+    public LocalContainerEntityManagerFactoryBean orderEntityManagerFactory(
+            EntityManagerFactoryBuilder builder) {
+
+        return builder
+                .dataSource(orderDataSource())
+                .packages("com.example.order.entity")
+                .persistenceUnit("order")
+                .build();
     }
 
     @Bean
-    public PlatformTransactionManager db2TransactionManager() {
-        JpaTransactionManager tm = new JpaTransactionManager();
-        tm.setEntityManagerFactory(db2EntityManager().getObject());
-        return tm;
+    public PlatformTransactionManager orderTransactionManager(
+            @Qualifier("orderEntityManagerFactory")
+            EntityManagerFactory emf) {
+
+        return new JpaTransactionManager(emf);
     }
 }
 ```
+
+---
+
+**Step 8: Create Services**
+
+#UserService
+
+```java
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository repository;
+
+    @Transactional("userTransactionManager")
+    public User save(User user) {
+        return repository.save(user);
+    }
+}
+```
+
+#OrderService
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository repository;
+
+    @Transactional("orderTransactionManager")
+    public Order save(Order order) {
+        return repository.save(order);
+    }
+}
+```
+
+---
+
+**Step 9: Create Controller**
+
+```java
+@RestController
+@RequestMapping("/api")
+public class DemoController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @PostMapping("/users")
+    public User saveUser(@RequestBody User user) {
+        return userService.save(user);
+    }
+
+    @PostMapping("/orders")
+    public Order saveOrder(@RequestBody Order order) {
+        return orderService.save(order);
+    }
+}
+```
+
+---
+
+**Step 10: Run the Application**
+
+```java
+@SpringBootApplication
+public class MultiDbApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MultiDbApplication.class, args);
+    }
+}
+```
+
+
+**Bean Relationship**
+
+```text
+                    MySQL
+application.yml
+      │
+      ▼
+userDataSource
+      │
+      ▼
+userEntityManagerFactory
+      │
+      ▼
+userTransactionManager
+      │
+      ▼
+UserRepository
+      │
+      ▼
+UserService
+
+
+                 PostgreSQL
+application.yml
+      │
+      ▼
+orderDataSource
+      │
+      ▼
+orderEntityManagerFactory
+      │
+      ▼
+orderTransactionManager
+      │
+      ▼
+OrderRepository
+      │
+      ▼
+OrderService
+```
+
+
+**When to use**
+
+* **Microservices** connecting to different databases.
+* **Legacy system integration** with multiple data sources.
+* **Reporting** database separate from the transactional database.
+* Applications storing different modules in different databases.
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. Why do we use `@Primary`?**
+
+It tells Spring which **DataSource** should be the **default** when multiple beans of the same type exist.
+
+**2. How do repositories know which database to use?**
+
+Using **`@EnableJpaRepositories`**, we specify the repository package along with its **EntityManagerFactory** and **TransactionManager**.
+
+**3. Can one transaction span multiple databases?**
+
+**No**, a normal **`@Transactional`** works with **one TransactionManager**. For a single transaction across multiple databases, use a **Distributed Transaction** solution such as **JTA/XA** or a **Saga Pattern** in microservices.
+
+**4. Can different databases use different database vendors?**
+
+**Yes.** For example, one can be **MySQL** and another can be **PostgreSQL**, each with its own JDBC driver and configuration.
+
+
+
 
 ## 17. How to secure username and password?
 
