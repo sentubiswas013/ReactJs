@@ -3377,8 +3377,9 @@ public class Main {
 
 ## 14. What is polymorphism?
 
+**Polymorphism** is one of the **four pillars of Object-Oriented Programming (OOP)**. It means **"one object, many forms."**
 
-**Polymorphism** means **one entity having many forms**, where a single method or object behaves differently in different situations.
+It allows the **same method** to perform **different behaviors** depending on the object that calls it.
 
 - Poly - many
 - Morphism - Behaviour
@@ -3397,19 +3398,13 @@ public class Main {
 * In **compile-time polymorphism**, method selection happens using **method overloading**
 * In **runtime polymorphism**, method selection happens using **method overriding via dynamic method dispatch**
 
-
-**Why to use**
-
-* To achieve **flexible and reusable code**
-* To reduce **code duplication**
-* To support **dynamic behavior at runtime**
-
-
 **When to use**
 
 * When same method name should work with **different inputs (overloading)**
 * When child class needs **different implementation (overriding)**
 * When designing **scalable systems**
+* In **Spring Framework**, where interfaces have multiple implementations.
+* In **Microservices**, for different payment, notification, or storage implementations.
 
 
 **Code Example**
@@ -3451,6 +3446,26 @@ public class Main {
     }
 }
 ```
+
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between Method Overloading and Method Overriding?**
+
+| **Method Overloading**                     | **Method Overriding**                     |
+| ------------------------------------------ | ----------------------------------------- |
+| **Compile-time Polymorphism**              | **Runtime Polymorphism**                  |
+| Same method name with different parameters | Same method signature in parent and child |
+| Happens in the same class                  | Happens between parent and child classes  |
+| Decided by the compiler                    | Decided by the JVM at runtime             |
+
+**2. Can we achieve Polymorphism using Interfaces?**
+
+**Yes.** Interfaces are one of the most common ways to achieve **Runtime Polymorphism** because multiple classes can implement the same interface differently.
+
+**3. Why is Runtime Polymorphism important?**
+
+It allows the program to choose the correct method **during execution**, making applications **flexible**, **scalable**, and easier to extend without changing existing code.
 
 
 ## 14. What is Dynamic Method Dispatch?
