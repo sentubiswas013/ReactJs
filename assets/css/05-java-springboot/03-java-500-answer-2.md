@@ -10891,7 +10891,7 @@ public class Test {
 | **`ANNOTATION_TYPE`** | Another annotation     |
 
 
-## 4. Hot to create custom annotations in java?
+## 4. How to create custom annotations in java?
 
 **Yes, Java allows you to create custom annotations** using the **@interface** keyword. Custom annotations are used to add **metadata** to classes, methods, fields, or parameters.
 
@@ -22167,7 +22167,7 @@ public void consume(String message) {
 }
 ```
 
-## 4. What are Microservices Design Patterns?*
+## 4. What are Microservices Design Patterns?
 
 
 **Microservices Design Patterns** are **proven architectural solutions** used to solve common challenges in **microservices**, such as **service communication**, **fault tolerance**, **data consistency**, **service discovery**, and **scalability**.
