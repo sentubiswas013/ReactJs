@@ -3791,7 +3791,7 @@ class Student {
 ```
 
 
-## 8. Types of Inheritance in Java
+## 8. Types of Inheritance(Single, Multilevel, Hierarchical) in Java
 
 | Type | Description |
 |------|-------------|
@@ -5280,7 +5280,9 @@ Throwable
 
 ## 3. What are checked and unchecked exceptions?
 
-**Checked exceptions** must be handled at compile time(IOException, SQLExcepti), while **unchecked exceptions** occur at runtime(NullPointerException, ArithmeticException) and don't require mandatory handling.
+**Checked exceptions** must be handled at compile time(IOException, SQLExcepti).
+
+**unchecked exceptions** occur at runtime(NullPointerException, ArithmeticException) and don't require mandatory handling.
 
 ```java
 // Checked - must handle
