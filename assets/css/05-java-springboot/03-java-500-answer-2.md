@@ -5625,12 +5625,17 @@ You program against the interface and use a specific implementation based on you
 
 **When to Use Which Collection?**
 
-* **ArrayList** → Frequent reading/access
-* **LinkedList** → Frequent insertions/deletions
-* **HashSet** → Unique elements only
-* **HashMap** → Key-value storage
-* **TreeSet/TreeMap** → Sorted data
-* **Queue** → FIFO processing
+* Use **HashMap** for **fast key-value lookup**.
+* Use **HashSet** for **unique elements**.
+* Use **ArrayList** for **frequent reads**.
+* Use **LinkedList** for **frequent insertions/deletions**.
+* Use **ConcurrentHashMap** in **multithreaded applications**.
+* Use **TreeMap** when **sorted data** is required.
+* Use **LinkedHashMap** when **insertion order** must be preserved.
+* Use **PriorityQueue** when processing items based on **priority**.
+* Use **WeakHashMap** for **memory-sensitive caching**.
+* Use **IdentityHashMap** only when **reference equality (`==`)** is required instead of **object equality (`equals()`)**.
+
 
 **Example**
 
@@ -6071,11 +6076,6 @@ Bucket Empty?
 * Allows **one `null` key** and multiple `null` values.
 * Not thread-safe.
 
-**Why to Use**
-
-* Very fast data retrieval and insertion.
-* Efficient for storing and searching large amounts of data.
-* Widely used for caching, indexing, and lookup operations.
 
 **When to Use**
 
