@@ -13771,8 +13771,6 @@ By default, Spring Boot comes with an embedded server like Apache Tomcat. If we 
 
 ## 16. How can we configure multiple databases in Spring Boot?
 
-
-
 In **Spring Boot**, we can connect to **multiple databases** by creating separate configurations for each database. Each database has its own **DataSource**, **EntityManagerFactory**, **TransactionManager**, and **Repository** package.
 
 **Key Features**
