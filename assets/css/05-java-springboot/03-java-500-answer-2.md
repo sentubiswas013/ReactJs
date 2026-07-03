@@ -5682,18 +5682,19 @@ LinkedList
 
 ## 1. Java Collections Use Cases?
 
-| Requirement                         | Best Collection     | Why                               | Mostly Used In                       |
-| ----------------------------------- | ------------------- | --------------------------------- | ------------------------------------ |
-| Fast search/access by key           | `HashMap`           | Average O(1) lookup using hashing | Caching, APIs, lookup tables         |
-| Fast unique element lookup          | `HashSet`           | Fast contains/search operations   | Removing duplicates, validations     |
-| Fast indexed access                 | `ArrayList`         | O(1) random access using index    | UI lists, data retrieval             |
-| Thread-safe fast access             | `ConcurrentHashMap` | Better concurrent performance     | Multithreaded applications           |
-| Sorted key-value storage            | `TreeMap`           | Stores keys in sorted order       | Ranking systems, sorted reports      |
-| Maintain insertion order            | `LinkedHashMap`     | Keeps insertion order             | LRU cache, ordered APIs              |
-| Fast insert/delete at beginning/end | `LinkedList`        | Efficient node insertion/removal  | Queue, stack implementations         |
-| Priority-based processing           | `PriorityQueue`     | Processes elements by priority    | Scheduling systems, task processing  |
-| Auto-remove unused keys             | `WeakHashMap`       | Keys removed by Garbage Collector | Memory-sensitive cache               |
-| Reference equality comparison       | `IdentityHashMap`   | Uses `==` instead of `equals()`   | Framework internals, object tracking |
+| **Requirement**                         | **Best Collection**   | **Why?**                                                                | **Mostly Used In**                                                                    |
+| --------------------------------------- | --------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Fast search/access by key**           | **HashMap**           | Average **O(1)** lookup using hashing                                   | **Caching**, **REST APIs**, **Lookup Tables**, **Configuration Data**                 |
+| **Fast unique element lookup**          | **HashSet**           | Average **O(1)** lookup, stores only unique elements                    | **Removing Duplicates**, **Validation**, **Permission Checks**                        |
+| **Fast indexed access**                 | **ArrayList**         | **O(1)** random access using index                                      | **UI Lists**, **Data Retrieval**, **API Responses**, **Read-heavy Applications**      |
+| **Thread-safe fast access**             | **ConcurrentHashMap** | High-performance concurrent reads/writes without locking the entire map | **Multithreaded Applications**, **Caching**, **Session Management**                   |
+| **Sorted key-value storage**            | **TreeMap**           | Keys are automatically stored in **sorted order**                       | **Leaderboards**, **Ranking Systems**, **Sorted Reports**                             |
+| **Maintain insertion order**            | **LinkedHashMap**     | Preserves insertion order while providing fast lookup                   | **LRU Cache**, **Ordered APIs**, **Configuration Processing**                         |
+| **Fast insert/delete at beginning/end** | **LinkedList**        | Efficient insertion/removal without shifting elements                   | **Queue**, **Deque**, **Stack**, **Undo/Redo Operations**                             |
+| **Priority-based processing**           | **PriorityQueue**     | Automatically processes elements by **priority**                        | **Task Scheduling**, **Job Processing**, **CPU Scheduling**, **Dijkstra's Algorithm** |
+| **Auto-remove unused keys**             | **WeakHashMap**       | Keys are automatically removed by the **Garbage Collector**             | **Memory-sensitive Cache**, **Metadata Storage**                                      |
+| **Reference equality comparison**       | **IdentityHashMap**   | Compares keys using **`==`** instead of **`equals()`**                  | **Framework Internals**, **Object Tracking**, **Serialization**                       |
+
 
 
 **Quick Complexity Overview**
