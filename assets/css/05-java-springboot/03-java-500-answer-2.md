@@ -28581,7 +28581,679 @@ java -XX:+PrintCompilation \      # Print compilation events
 ```
 
 
-# ✅ 26. Java SQL
+# ✅ 26. Java Monitoring and Logging
+
+## 1: What is logging framework?
+
+A **Logging Framework** is a library used to **record application events, errors, and execution details** into log files or monitoring systems. It helps developers **debug, monitor, and troubleshoot** applications.
+
+**Key Features:**
+
+* Records **application events** and **errors**.
+* Supports different **log levels** such as **TRACE, DEBUG, INFO, WARN, and ERROR**.
+* Can write logs to **console, files, or external systems**.
+* Supports **log formatting** and **log rotation**.
+* Integrates with monitoring tools like **ELK Stack** and **Splunk**.
+
+**How it Works:**
+
+1. The application generates log messages.
+2. The **Logging Framework** captures the messages.
+3. Based on the configured **log level**, it decides whether to record the message.
+4. The logs are written to the configured destination (console, file, or centralized logging system).
+5. Developers or monitoring tools analyze the logs for debugging and monitoring.
+
+**Common Logging Frameworks in Java:**
+
+* **SLF4J** – Logging API (facade).
+* **Logback** – Default logging implementation in Spring Boot.
+* **Log4j2** – High-performance logging framework.
+* **java.util.logging (JUL)** – Built-in Java logging framework.
+
+**When to Use:**
+
+* To **debug application issues**.
+* To monitor **application health and performance**.
+* To track **errors, warnings, and user activities**.
+* In **microservices** and **distributed systems** for centralized logging.
+
+**Simple Spring Boot Logging Example:**
+
+```java id="v3k8wp"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class UserService {
+    private static final Logger logger =
+        LoggerFactory.getLogger(UserService.class);
+
+    public void createUser() {
+        logger.info("User created successfully");
+        logger.error("Error while creating user");
+    }
+}
+```
+
+
+## 2: What is Log4j?
+
+**Log4j** is an **open-source Java Logging Framework** developed by the **Apache Software Foundation**. It is used to **generate, manage, and store application logs** for debugging, monitoring, and troubleshooting purposes.
+
+**Key Features:**
+
+* Supports different **Log Levels**: **TRACE, DEBUG, INFO, WARN, ERROR, FATAL**.
+* Can write logs to **Console, File, Database, or Remote Servers**.
+* Supports **Asynchronous Logging** for better performance.
+* Provides flexible **log formatting** and **log rotation**.
+* Integrates with **SLF4J** and many Java frameworks.
+
+**How it Works:**
+
+1. The application generates a log message.
+2. **Log4j Logger** receives the message.
+3. Based on the configured **log level**, it decides whether to log the message.
+4. The message is passed to an **Appender** (Console, File, etc.).
+5. A **Layout** formats the log before it is written to the destination.
+
+**Core Components:**
+
+* **Logger** – Creates log messages.
+* **Appender** – Defines where logs are written.
+* **Layout** – Defines how logs are formatted.
+
+**When to Use:**
+
+* To **debug and troubleshoot** Java applications.
+* To monitor **application behavior and errors**.
+* In **enterprise**, **microservices**, and **distributed systems**.
+* When centralized logging and log management are required.
+
+**Simple Log4j2 Example:**
+
+```java id="l5q2vm"
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class Demo {
+    private static final Logger logger =
+        LogManager.getLogger(Demo.class);
+
+    public static void main(String[] args) {
+        logger.info("Application started");
+        logger.error("An error occurred");
+    }
+}
+```
+
+**Simple `log4j2.xml` Configuration:**
+
+```xml id="y8r4pk"
+<Configuration>
+  <Appenders>
+    <Console name="Console">
+      <PatternLayout pattern="%d %p %c - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>
+```
+
+
+## 3: What is SLF4J?
+
+**SLF4J (Simple Logging Facade for Java)** is a **logging abstraction (facade)** that provides a **common API** for Java logging. Instead of directly depending on a specific logging framework like **Log4j** or **Logback**, applications use SLF4J, which can be connected to any logging implementation.
+
+**Key Features:**
+
+* Provides a **single logging API** for different logging frameworks.
+* Allows easy switching between **Logback**, **Log4j2**, or **java.util.logging (JUL)** without changing application code.
+* Supports **parameterized logging**, improving performance.
+* Reduces dependency on a specific logging implementation.
+* Used as the **default logging API** in Spring Boot.
+
+**How it Works:**
+
+1. The application writes log statements using the **SLF4J API**.
+2. SLF4J forwards the log messages to a configured **logging implementation** (e.g., Logback or Log4j2).
+3. The logging framework processes and writes the logs to the configured destination, such as the **console** or a **file**.
+
+**SLF4J Architecture:**
+
+```text id="f2m8rx"
+Application
+     |
+   SLF4J API
+     |
+-----------------------
+|          |          |
+Logback   Log4j2    JUL
+```
+
+**When to Use:**
+
+* In **Java** and **Spring Boot** applications.
+* When you want the flexibility to change the logging framework later.
+* In **enterprise** and **microservices** applications for standardized logging.
+* To improve maintainability and reduce framework dependency.
+
+**Simple SLF4J Example:**
+
+```java id="k7w4ny"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Demo {
+    private static final Logger logger =
+        LoggerFactory.getLogger(Demo.class);
+
+    public static void main(String[] args) {
+        logger.info("Application started");
+        logger.error("An error occurred");
+    }
+}
+```
+
+
+## 4: What is Logback?
+
+**Logback** is an **open-source Java Logging Framework** and the **default logging implementation in Spring Boot**. It works together with **SLF4J** to provide fast, flexible, and efficient application logging.
+
+**Key Features:**
+
+* **Default Logging Framework** in Spring Boot.
+* Works seamlessly with **SLF4J**.
+* Supports different **Log Levels**: **TRACE, DEBUG, INFO, WARN, and ERROR**.
+* Can write logs to **Console, Files, or External Systems**.
+* Supports **Asynchronous Logging**, **Log Rotation**, and **Custom Log Patterns**.
+
+**How it Works:**
+
+1. The application writes log messages using the **SLF4J API**.
+2. **SLF4J** forwards the messages to **Logback**.
+3. Logback checks the configured **log level**.
+4. It formats the message and sends it to the configured **Appender** (console, file, etc.).
+5. The logs are stored or displayed for monitoring and debugging.
+
+**Core Components:**
+
+* **Logger** – Creates log messages.
+* **Appender** – Defines where logs are written.
+* **Encoder/Layout** – Defines how logs are formatted.
+
+**When to Use:**
+
+* In **Spring Boot** applications.
+* For **application monitoring** and **debugging**.
+* In **microservices** and **distributed systems** requiring centralized logging.
+* When you need a **high-performance** and flexible logging solution.
+
+**Simple Logback Example:**
+
+```java id="q4n7vx"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Demo {
+    private static final Logger logger =
+        LoggerFactory.getLogger(Demo.class);
+
+    public static void main(String[] args) {
+        logger.info("Application started");
+        logger.error("An error occurred");
+    }
+}
+```
+
+**Simple `logback-spring.xml` Configuration:**
+
+```xml id="w8m2kp"
+<configuration>
+    <appender name="CONSOLE"
+        class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
+```
+
+
+## 5: What is structured logging?
+
+**Structured Logging** is a logging approach where log data is stored in a **structured format (such as JSON)** instead of plain text. Each log entry contains **key-value pairs**, making it easier for machines and monitoring tools to **search, filter, and analyze** logs.
+
+**Key Features:**
+
+* Stores logs in a **structured format** (e.g., JSON).
+* Uses **key-value pairs** instead of free-form text.
+* Makes logs easier to **search, filter, and analyze**.
+* Integrates well with centralized logging tools like **ELK Stack**, **Splunk**, and **Grafana Loki**.
+* Improves debugging and monitoring in **microservices** and **distributed systems**.
+
+**How it Works:**
+
+1. The application generates a log event.
+2. The logging framework (e.g., **Logback** or **Log4j2**) formats the log as a structured object.
+3. The log is stored or sent to a centralized logging system.
+4. Monitoring tools index the fields (e.g., `timestamp`, `userId`, `requestId`) for fast searching and analysis.
+
+**Plain Log vs Structured Log:**
+
+**Plain Log:**
+
+```text
+User 101 logged in successfully
+```
+
+**Structured Log (JSON):**
+
+```json id="v6p3kj"
+{
+  "timestamp": "2026-06-13T10:30:00Z",
+  "level": "INFO",
+  "userId": 101,
+  "action": "LOGIN",
+  "message": "User logged in successfully"
+}
+```
+
+**When to Use:**
+
+* In **microservices** and **distributed systems**.
+* For **centralized logging** and monitoring.
+* When using tools like **ELK Stack**, **Splunk**, or **Grafana**.
+* To simplify **debugging**, **troubleshooting**, and **log analytics**.
+
+**Simple SLF4J Example:**
+
+```java id="n4x8qw"
+logger.info("UserId={} Action={} Status={}",
+            101, "LOGIN", "SUCCESS");
+```
+
+## 6: What is centralized logging?
+
+**Centralized Logging** is a technique where logs from all **Microservices** or applications are collected and stored in a **single central location**. Instead of checking logs on individual servers, developers can view and analyze all logs from one place.
+
+**Key Features**
+
+* Collects logs from multiple services into one system.
+* Provides **centralized monitoring** and troubleshooting.
+* Supports **searching**, **filtering**, and **visualizing** logs.
+* Helps track requests across multiple microservices.
+* Integrates with monitoring and alerting tools.
+
+**How it Works**
+
+1. Each microservice generates logs.
+2. A **log collector** (such as **Filebeat** or **Fluentd**) gathers the logs.
+3. Logs are sent to a centralized storage system like **Elasticsearch**.
+4. A visualization tool like **Kibana** displays and searches the logs.
+
+**Architecture Example**
+
+```text id="1a5r9w"
+User Service   Order Service   Payment Service
+      |               |               |
+      ---------------------------------
+                    |
+             Log Collector
+          (Filebeat/Fluentd)
+                    |
+              Elasticsearch
+                    |
+                 Kibana
+```
+
+**When to Use**
+
+* In **Microservices** architectures.
+* In cloud-native or distributed applications.
+* When multiple services generate large amounts of logs.
+* For production systems requiring monitoring and auditing.
+
+**Common Tools Used**
+
+| **Tool**               | **Purpose**                       |
+| ---------------------- | --------------------------------- |
+| **Logback / Log4j2**   | Generate application logs         |
+| **Filebeat / Fluentd** | Collect and forward logs          |
+| **Elasticsearch**      | Store and index logs              |
+| **Kibana**             | Search and visualize logs         |
+| **ELK Stack**          | Elasticsearch + Logstash + Kibana |
+| **EFK Stack**          | Elasticsearch + Fluentd + Kibana  |
+
+**Spring Boot Logging Example**
+
+```java id="2q8v7m"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(UserController.class);
+
+    @GetMapping("/users")
+    public String getUsers() {
+        logger.info("Fetching user details");
+        return "Users List";
+    }
+}
+```
+
+**Spring Boot Logging Example**
+
+**Service Class**
+
+```java id="e8hzyt"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeService {
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
+    public void createEmployee() {
+        logger.info("Employee creation started");
+
+        try {
+            // Business logic
+            logger.info("Employee created successfully");
+        } catch (Exception e) {
+            logger.error("Error while creating employee", e);
+        }
+    }
+}
+```
+
+**Logback Configuration**
+
+```xml id="jdr4c7"
+<configuration>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/application.log</file>
+
+        <encoder>
+            <pattern>
+                %d %-5level %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>
+```
+
+**How It Works in Production**
+
+1. **Spring Boot** application generates logs.
+2. Logs are written using **SLF4J** and **Logback**.
+3. A log collector such as **Logstash** or **Fluentd** reads the log files.
+4. Logs are sent to **Elasticsearch**.
+5. **Kibana** provides dashboards and search capabilities.
+
+
+```yaml
+# Docker Compose with centralized logging
+version: '3'
+services:
+  app1:
+    image: myapp:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app1
+        
+  app2:
+    image: myapp2:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app2
+        
+  fluentd:
+    image: fluent/fluentd:latest
+    ports:
+      - "24224:24224"
+    volumes:
+      - ./fluentd.conf:/fluentd/etc/fluent.conf
+      
+  elasticsearch:
+    image: elasticsearch:7.9.0
+    
+  kibana:
+    image: kibana:7.9.0
+    ports:
+      - "5601:5601"
+```
+
+```java
+// Application configuration for centralized logging
+@Configuration
+public class LoggingConfig {    
+    @Bean
+    public Logger structuredLogger() {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        
+        // Add correlation ID to all logs
+        context.putProperty("service.name", "user-service");
+        context.putProperty("service.version", "1.0.0");
+        
+        return context.getLogger("STRUCTURED");
+    }
+}
+```
+
+## 7: What is Config Server?
+
+A **Config Server** is a **centralized configuration management service** used in **Microservices**. It stores and manages configuration files (such as database URLs, API keys, and application properties) in one place and provides them to all microservices at runtime.
+
+**Key Features**
+
+* Provides **centralized configuration management**.
+* Stores configuration in a **Git repository** or other external storage.
+* Allows **multiple microservices** to share common configurations.
+* Supports **environment-specific** configurations (Dev, QA, Prod).
+* Configuration can be refreshed without rebuilding the application.
+
+**How it Works**
+
+1. Configuration files are stored in a **Git repository**.
+2. The **Spring Cloud Config Server** reads these files.
+3. When a microservice starts, it contacts the Config Server.
+4. The Config Server returns the required configuration based on the application name and environment.
+5. The microservice loads and uses the configuration.
+
+**Architecture Example**
+
+```text id="8mtvhi"
+              Git Repository
+          (application.yml)
+                    |
+            Config Server
+                    |
+      ---------------------------
+      |            |            |
+ User Service  Order Service  Payment Service
+```
+
+**When to Use**
+
+* In **Microservices** architectures with multiple services.
+* When the same configuration is shared across applications.
+* When configurations need to be updated without changing application code.
+* For centralized management of environment-specific settings.
+
+**Common Technologies Used**
+
+| **Component**                  | **Purpose**                                  |
+| ------------------------------ | -------------------------------------------- |
+| **Spring Cloud Config Server** | Centralized configuration service            |
+| **Git**                        | Stores configuration files                   |
+| **Spring Cloud Config Client** | Fetches configuration from the Config Server |
+| **Spring Boot Actuator**       | Refreshes configuration dynamically          |
+
+**Config Server Example**
+
+**Enable Config Server**
+
+```java id="j0k5vq"
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+```
+
+**Config Server `application.yml`**
+
+```yaml id="tk1l3m"
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/example/config-repo
+```
+
+**Client Configuration**
+
+```yaml id="g8r4dw"
+spring:
+  application:
+    name: user-service
+  config:
+    import: configserver:http://localhost:8888
+```
+
+## 8. What are Java deployment issues?
+
+**Java Deployment Issues** are common problems that occur when deploying a Java application from development to testing or production environments. These issues can affect the application's **startup, performance, availability, or compatibility**.
+
+**Key Features:**
+
+* Usually related to **configuration**, **dependencies**, or **environment differences**.
+* Can cause **application startup failures** or **runtime errors**.
+* Often detected during **CI/CD deployments**.
+* Can be minimized using **Docker**, **Kubernetes**, and automated deployment pipelines.
+
+**Common Java Deployment Issues:**
+
+| **Issue**                        | **Description**                                                       |
+| -------------------------------- | --------------------------------------------------------------------- |
+| **Dependency Conflicts**         | Different library versions cause runtime errors.                      |
+| **Configuration Errors**         | Incorrect `application.properties` or environment variables.          |
+| **Java Version Mismatch**        | Application is built with one JDK version but deployed on another.    |
+| **Database Connection Issues**   | Wrong database URL, credentials, or unavailable database.             |
+| **Port Conflicts**               | Another application is already using the required port.               |
+| **Memory Issues**                | Insufficient JVM heap size causing `OutOfMemoryError`.                |
+| **Deployment Failures**          | Incomplete builds, failed artifact uploads, or CI/CD pipeline issues. |
+| **Logging or Permission Issues** | Application cannot write logs or access required files.               |
+
+**How to Handle Them:**
+
+1. Use **CI/CD pipelines** to automate build and deployment.
+2. Use **Docker** to ensure consistent environments.
+3. Manage database changes with **Flyway** or **Liquibase**.
+4. Monitor logs using **SLF4J/Logback** and centralized logging tools.
+5. Implement **health checks**, **rollback strategies**, and **zero downtime deployments**.
+
+**When to Consider These Issues:**
+
+* During **production deployments**.
+* While migrating applications between environments.
+* In **microservices** and **cloud-native** applications.
+* When upgrading **Java versions** or dependencies.
+
+**Simple Spring Boot Configuration Example:**
+
+```properties id="d8m4rp"
+server.port=8080
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=root
+spring.datasource.password=password
+```
+
+
+## 9. What are debugging strategies?
+
+**Debugging Strategies** are systematic approaches used to **identify, analyze, and fix bugs or issues** in an application. The goal is to quickly find the **root cause** and resolve the problem with minimal impact.
+
+**Key Features:**
+
+* Helps identify the **root cause** of issues.
+* Uses **logs, breakpoints, and monitoring tools**.
+* Reduces application downtime and troubleshooting time.
+* Improves application **stability** and **reliability**.
+
+**How it Works:**
+
+1. **Reproduce the issue** consistently.
+2. Check **application logs** and error messages.
+3. Use a **debugger** and set breakpoints to inspect code execution.
+4. Analyze **stack traces**, request flow, and variable values.
+5. Verify external dependencies such as **database, APIs, and network connections**.
+6. Fix the issue, test the solution, and deploy the update.
+
+**Common Debugging Strategies:**
+
+* **Log Analysis:** Check logs using **SLF4J/Logback** or centralized logging tools.
+* **Breakpoint Debugging:** Pause execution and inspect variables using an IDE.
+* **Stack Trace Analysis:** Identify the exact location of exceptions.
+* **Monitoring and Metrics:** Use tools like **Prometheus** and **Grafana** to analyze application health.
+* **Binary Search Debugging:** Disable or isolate parts of the code to narrow down the problem.
+* **Root Cause Analysis (RCA):** Fix the underlying issue instead of only the symptom.
+
+**When to Use:**
+
+* When an application throws **exceptions or errors**.
+* To investigate **performance issues** or memory leaks.
+* During **production incident analysis**.
+* When troubleshooting **deployment** or **integration** problems.
+
+**Simple Java Debugging Example:**
+
+```java id="d5q9vk"
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Demo {
+    private static final Logger logger =
+        LoggerFactory.getLogger(Demo.class);
+
+    public static void main(String[] args) {
+        int value = 10;
+        logger.debug("Value = {}", value);
+    }
+}
+```
+
+
+
+
+# ✅ 27. Java SQL
 
 ## 1. What is SQL?
 
@@ -29655,7 +30327,7 @@ Yes. It can return:
 
 
 
-# ✅ 27. Java CI/CD and DevOp
+# ✅ 28. Java CI/CD and DevOp
 
 ## 1: What is CI/CD (Continuous Integration and Continuous Deployment)?
 
@@ -30934,676 +31606,6 @@ if (bucket.tryConsume(1)) {
     return "Request Allowed";
 } else {
     return "HTTP 429 - Too Many Requests";
-}
-```
-
-
-# ✅ 28. Java Monitoring and Logging
-
-## 1: What is logging framework?
-
-A **Logging Framework** is a library used to **record application events, errors, and execution details** into log files or monitoring systems. It helps developers **debug, monitor, and troubleshoot** applications.
-
-**Key Features:**
-
-* Records **application events** and **errors**.
-* Supports different **log levels** such as **TRACE, DEBUG, INFO, WARN, and ERROR**.
-* Can write logs to **console, files, or external systems**.
-* Supports **log formatting** and **log rotation**.
-* Integrates with monitoring tools like **ELK Stack** and **Splunk**.
-
-**How it Works:**
-
-1. The application generates log messages.
-2. The **Logging Framework** captures the messages.
-3. Based on the configured **log level**, it decides whether to record the message.
-4. The logs are written to the configured destination (console, file, or centralized logging system).
-5. Developers or monitoring tools analyze the logs for debugging and monitoring.
-
-**Common Logging Frameworks in Java:**
-
-* **SLF4J** – Logging API (facade).
-* **Logback** – Default logging implementation in Spring Boot.
-* **Log4j2** – High-performance logging framework.
-* **java.util.logging (JUL)** – Built-in Java logging framework.
-
-**When to Use:**
-
-* To **debug application issues**.
-* To monitor **application health and performance**.
-* To track **errors, warnings, and user activities**.
-* In **microservices** and **distributed systems** for centralized logging.
-
-**Simple Spring Boot Logging Example:**
-
-```java id="v3k8wp"
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class UserService {
-    private static final Logger logger =
-        LoggerFactory.getLogger(UserService.class);
-
-    public void createUser() {
-        logger.info("User created successfully");
-        logger.error("Error while creating user");
-    }
-}
-```
-
-
-## 2: What is Log4j?
-
-**Log4j** is an **open-source Java Logging Framework** developed by the **Apache Software Foundation**. It is used to **generate, manage, and store application logs** for debugging, monitoring, and troubleshooting purposes.
-
-**Key Features:**
-
-* Supports different **Log Levels**: **TRACE, DEBUG, INFO, WARN, ERROR, FATAL**.
-* Can write logs to **Console, File, Database, or Remote Servers**.
-* Supports **Asynchronous Logging** for better performance.
-* Provides flexible **log formatting** and **log rotation**.
-* Integrates with **SLF4J** and many Java frameworks.
-
-**How it Works:**
-
-1. The application generates a log message.
-2. **Log4j Logger** receives the message.
-3. Based on the configured **log level**, it decides whether to log the message.
-4. The message is passed to an **Appender** (Console, File, etc.).
-5. A **Layout** formats the log before it is written to the destination.
-
-**Core Components:**
-
-* **Logger** – Creates log messages.
-* **Appender** – Defines where logs are written.
-* **Layout** – Defines how logs are formatted.
-
-**When to Use:**
-
-* To **debug and troubleshoot** Java applications.
-* To monitor **application behavior and errors**.
-* In **enterprise**, **microservices**, and **distributed systems**.
-* When centralized logging and log management are required.
-
-**Simple Log4j2 Example:**
-
-```java id="l5q2vm"
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-public class Demo {
-    private static final Logger logger =
-        LogManager.getLogger(Demo.class);
-
-    public static void main(String[] args) {
-        logger.info("Application started");
-        logger.error("An error occurred");
-    }
-}
-```
-
-**Simple `log4j2.xml` Configuration:**
-
-```xml id="y8r4pk"
-<Configuration>
-  <Appenders>
-    <Console name="Console">
-      <PatternLayout pattern="%d %p %c - %m%n"/>
-    </Console>
-  </Appenders>
-  <Loggers>
-    <Root level="info">
-      <AppenderRef ref="Console"/>
-    </Root>
-  </Loggers>
-</Configuration>
-```
-
-
-## 3: What is SLF4J?
-
-**SLF4J (Simple Logging Facade for Java)** is a **logging abstraction (facade)** that provides a **common API** for Java logging. Instead of directly depending on a specific logging framework like **Log4j** or **Logback**, applications use SLF4J, which can be connected to any logging implementation.
-
-**Key Features:**
-
-* Provides a **single logging API** for different logging frameworks.
-* Allows easy switching between **Logback**, **Log4j2**, or **java.util.logging (JUL)** without changing application code.
-* Supports **parameterized logging**, improving performance.
-* Reduces dependency on a specific logging implementation.
-* Used as the **default logging API** in Spring Boot.
-
-**How it Works:**
-
-1. The application writes log statements using the **SLF4J API**.
-2. SLF4J forwards the log messages to a configured **logging implementation** (e.g., Logback or Log4j2).
-3. The logging framework processes and writes the logs to the configured destination, such as the **console** or a **file**.
-
-**SLF4J Architecture:**
-
-```text id="f2m8rx"
-Application
-     |
-   SLF4J API
-     |
------------------------
-|          |          |
-Logback   Log4j2    JUL
-```
-
-**When to Use:**
-
-* In **Java** and **Spring Boot** applications.
-* When you want the flexibility to change the logging framework later.
-* In **enterprise** and **microservices** applications for standardized logging.
-* To improve maintainability and reduce framework dependency.
-
-**Simple SLF4J Example:**
-
-```java id="k7w4ny"
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class Demo {
-    private static final Logger logger =
-        LoggerFactory.getLogger(Demo.class);
-
-    public static void main(String[] args) {
-        logger.info("Application started");
-        logger.error("An error occurred");
-    }
-}
-```
-
-
-## 4: What is Logback?
-
-**Logback** is an **open-source Java Logging Framework** and the **default logging implementation in Spring Boot**. It works together with **SLF4J** to provide fast, flexible, and efficient application logging.
-
-**Key Features:**
-
-* **Default Logging Framework** in Spring Boot.
-* Works seamlessly with **SLF4J**.
-* Supports different **Log Levels**: **TRACE, DEBUG, INFO, WARN, and ERROR**.
-* Can write logs to **Console, Files, or External Systems**.
-* Supports **Asynchronous Logging**, **Log Rotation**, and **Custom Log Patterns**.
-
-**How it Works:**
-
-1. The application writes log messages using the **SLF4J API**.
-2. **SLF4J** forwards the messages to **Logback**.
-3. Logback checks the configured **log level**.
-4. It formats the message and sends it to the configured **Appender** (console, file, etc.).
-5. The logs are stored or displayed for monitoring and debugging.
-
-**Core Components:**
-
-* **Logger** – Creates log messages.
-* **Appender** – Defines where logs are written.
-* **Encoder/Layout** – Defines how logs are formatted.
-
-**When to Use:**
-
-* In **Spring Boot** applications.
-* For **application monitoring** and **debugging**.
-* In **microservices** and **distributed systems** requiring centralized logging.
-* When you need a **high-performance** and flexible logging solution.
-
-**Simple Logback Example:**
-
-```java id="q4n7vx"
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class Demo {
-    private static final Logger logger =
-        LoggerFactory.getLogger(Demo.class);
-
-    public static void main(String[] args) {
-        logger.info("Application started");
-        logger.error("An error occurred");
-    }
-}
-```
-
-**Simple `logback-spring.xml` Configuration:**
-
-```xml id="w8m2kp"
-<configuration>
-    <appender name="CONSOLE"
-        class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d %-5level %logger - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-    </root>
-</configuration>
-```
-
-
-## 5: What is structured logging?
-
-**Structured Logging** is a logging approach where log data is stored in a **structured format (such as JSON)** instead of plain text. Each log entry contains **key-value pairs**, making it easier for machines and monitoring tools to **search, filter, and analyze** logs.
-
-**Key Features:**
-
-* Stores logs in a **structured format** (e.g., JSON).
-* Uses **key-value pairs** instead of free-form text.
-* Makes logs easier to **search, filter, and analyze**.
-* Integrates well with centralized logging tools like **ELK Stack**, **Splunk**, and **Grafana Loki**.
-* Improves debugging and monitoring in **microservices** and **distributed systems**.
-
-**How it Works:**
-
-1. The application generates a log event.
-2. The logging framework (e.g., **Logback** or **Log4j2**) formats the log as a structured object.
-3. The log is stored or sent to a centralized logging system.
-4. Monitoring tools index the fields (e.g., `timestamp`, `userId`, `requestId`) for fast searching and analysis.
-
-**Plain Log vs Structured Log:**
-
-**Plain Log:**
-
-```text
-User 101 logged in successfully
-```
-
-**Structured Log (JSON):**
-
-```json id="v6p3kj"
-{
-  "timestamp": "2026-06-13T10:30:00Z",
-  "level": "INFO",
-  "userId": 101,
-  "action": "LOGIN",
-  "message": "User logged in successfully"
-}
-```
-
-**When to Use:**
-
-* In **microservices** and **distributed systems**.
-* For **centralized logging** and monitoring.
-* When using tools like **ELK Stack**, **Splunk**, or **Grafana**.
-* To simplify **debugging**, **troubleshooting**, and **log analytics**.
-
-**Simple SLF4J Example:**
-
-```java id="n4x8qw"
-logger.info("UserId={} Action={} Status={}",
-            101, "LOGIN", "SUCCESS");
-```
-
-## 6: What is centralized logging?
-
-**Centralized Logging** is a technique where logs from all **Microservices** or applications are collected and stored in a **single central location**. Instead of checking logs on individual servers, developers can view and analyze all logs from one place.
-
-**Key Features**
-
-* Collects logs from multiple services into one system.
-* Provides **centralized monitoring** and troubleshooting.
-* Supports **searching**, **filtering**, and **visualizing** logs.
-* Helps track requests across multiple microservices.
-* Integrates with monitoring and alerting tools.
-
-**How it Works**
-
-1. Each microservice generates logs.
-2. A **log collector** (such as **Filebeat** or **Fluentd**) gathers the logs.
-3. Logs are sent to a centralized storage system like **Elasticsearch**.
-4. A visualization tool like **Kibana** displays and searches the logs.
-
-**Architecture Example**
-
-```text id="1a5r9w"
-User Service   Order Service   Payment Service
-      |               |               |
-      ---------------------------------
-                    |
-             Log Collector
-          (Filebeat/Fluentd)
-                    |
-              Elasticsearch
-                    |
-                 Kibana
-```
-
-**When to Use**
-
-* In **Microservices** architectures.
-* In cloud-native or distributed applications.
-* When multiple services generate large amounts of logs.
-* For production systems requiring monitoring and auditing.
-
-**Common Tools Used**
-
-| **Tool**               | **Purpose**                       |
-| ---------------------- | --------------------------------- |
-| **Logback / Log4j2**   | Generate application logs         |
-| **Filebeat / Fluentd** | Collect and forward logs          |
-| **Elasticsearch**      | Store and index logs              |
-| **Kibana**             | Search and visualize logs         |
-| **ELK Stack**          | Elasticsearch + Logstash + Kibana |
-| **EFK Stack**          | Elasticsearch + Fluentd + Kibana  |
-
-**Spring Boot Logging Example**
-
-```java id="2q8v7m"
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class UserController {
-
-    private static final Logger logger =
-            LoggerFactory.getLogger(UserController.class);
-
-    @GetMapping("/users")
-    public String getUsers() {
-        logger.info("Fetching user details");
-        return "Users List";
-    }
-}
-```
-
-**Spring Boot Logging Example**
-
-**Service Class**
-
-```java id="e8hzyt"
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-@Service
-public class EmployeeService {
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
-    public void createEmployee() {
-        logger.info("Employee creation started");
-
-        try {
-            // Business logic
-            logger.info("Employee created successfully");
-        } catch (Exception e) {
-            logger.error("Error while creating employee", e);
-        }
-    }
-}
-```
-
-**Logback Configuration**
-
-```xml id="jdr4c7"
-<configuration>
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/application.log</file>
-
-        <encoder>
-            <pattern>
-                %d %-5level %logger - %msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <root level="INFO">
-        <appender-ref ref="FILE"/>
-    </root>
-
-</configuration>
-```
-
-**How It Works in Production**
-
-1. **Spring Boot** application generates logs.
-2. Logs are written using **SLF4J** and **Logback**.
-3. A log collector such as **Logstash** or **Fluentd** reads the log files.
-4. Logs are sent to **Elasticsearch**.
-5. **Kibana** provides dashboards and search capabilities.
-
-
-```yaml
-# Docker Compose with centralized logging
-version: '3'
-services:
-  app1:
-    image: myapp:latest
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: app1
-        
-  app2:
-    image: myapp2:latest
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: app2
-        
-  fluentd:
-    image: fluent/fluentd:latest
-    ports:
-      - "24224:24224"
-    volumes:
-      - ./fluentd.conf:/fluentd/etc/fluent.conf
-      
-  elasticsearch:
-    image: elasticsearch:7.9.0
-    
-  kibana:
-    image: kibana:7.9.0
-    ports:
-      - "5601:5601"
-```
-
-```java
-// Application configuration for centralized logging
-@Configuration
-public class LoggingConfig {    
-    @Bean
-    public Logger structuredLogger() {
-        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-        
-        // Add correlation ID to all logs
-        context.putProperty("service.name", "user-service");
-        context.putProperty("service.version", "1.0.0");
-        
-        return context.getLogger("STRUCTURED");
-    }
-}
-```
-
-## 7: What is Config Server?
-
-A **Config Server** is a **centralized configuration management service** used in **Microservices**. It stores and manages configuration files (such as database URLs, API keys, and application properties) in one place and provides them to all microservices at runtime.
-
-**Key Features**
-
-* Provides **centralized configuration management**.
-* Stores configuration in a **Git repository** or other external storage.
-* Allows **multiple microservices** to share common configurations.
-* Supports **environment-specific** configurations (Dev, QA, Prod).
-* Configuration can be refreshed without rebuilding the application.
-
-**How it Works**
-
-1. Configuration files are stored in a **Git repository**.
-2. The **Spring Cloud Config Server** reads these files.
-3. When a microservice starts, it contacts the Config Server.
-4. The Config Server returns the required configuration based on the application name and environment.
-5. The microservice loads and uses the configuration.
-
-**Architecture Example**
-
-```text id="8mtvhi"
-              Git Repository
-          (application.yml)
-                    |
-            Config Server
-                    |
-      ---------------------------
-      |            |            |
- User Service  Order Service  Payment Service
-```
-
-**When to Use**
-
-* In **Microservices** architectures with multiple services.
-* When the same configuration is shared across applications.
-* When configurations need to be updated without changing application code.
-* For centralized management of environment-specific settings.
-
-**Common Technologies Used**
-
-| **Component**                  | **Purpose**                                  |
-| ------------------------------ | -------------------------------------------- |
-| **Spring Cloud Config Server** | Centralized configuration service            |
-| **Git**                        | Stores configuration files                   |
-| **Spring Cloud Config Client** | Fetches configuration from the Config Server |
-| **Spring Boot Actuator**       | Refreshes configuration dynamically          |
-
-**Config Server Example**
-
-**Enable Config Server**
-
-```java id="j0k5vq"
-@SpringBootApplication
-@EnableConfigServer
-public class ConfigServerApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(ConfigServerApplication.class, args);
-    }
-}
-```
-
-**Config Server `application.yml`**
-
-```yaml id="tk1l3m"
-server:
-  port: 8888
-
-spring:
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/example/config-repo
-```
-
-**Client Configuration**
-
-```yaml id="g8r4dw"
-spring:
-  application:
-    name: user-service
-  config:
-    import: configserver:http://localhost:8888
-```
-
-## 8. What are Java deployment issues?
-
-**Java Deployment Issues** are common problems that occur when deploying a Java application from development to testing or production environments. These issues can affect the application's **startup, performance, availability, or compatibility**.
-
-**Key Features:**
-
-* Usually related to **configuration**, **dependencies**, or **environment differences**.
-* Can cause **application startup failures** or **runtime errors**.
-* Often detected during **CI/CD deployments**.
-* Can be minimized using **Docker**, **Kubernetes**, and automated deployment pipelines.
-
-**Common Java Deployment Issues:**
-
-| **Issue**                        | **Description**                                                       |
-| -------------------------------- | --------------------------------------------------------------------- |
-| **Dependency Conflicts**         | Different library versions cause runtime errors.                      |
-| **Configuration Errors**         | Incorrect `application.properties` or environment variables.          |
-| **Java Version Mismatch**        | Application is built with one JDK version but deployed on another.    |
-| **Database Connection Issues**   | Wrong database URL, credentials, or unavailable database.             |
-| **Port Conflicts**               | Another application is already using the required port.               |
-| **Memory Issues**                | Insufficient JVM heap size causing `OutOfMemoryError`.                |
-| **Deployment Failures**          | Incomplete builds, failed artifact uploads, or CI/CD pipeline issues. |
-| **Logging or Permission Issues** | Application cannot write logs or access required files.               |
-
-**How to Handle Them:**
-
-1. Use **CI/CD pipelines** to automate build and deployment.
-2. Use **Docker** to ensure consistent environments.
-3. Manage database changes with **Flyway** or **Liquibase**.
-4. Monitor logs using **SLF4J/Logback** and centralized logging tools.
-5. Implement **health checks**, **rollback strategies**, and **zero downtime deployments**.
-
-**When to Consider These Issues:**
-
-* During **production deployments**.
-* While migrating applications between environments.
-* In **microservices** and **cloud-native** applications.
-* When upgrading **Java versions** or dependencies.
-
-**Simple Spring Boot Configuration Example:**
-
-```properties id="d8m4rp"
-server.port=8080
-spring.datasource.url=jdbc:mysql://localhost:3306/mydb
-spring.datasource.username=root
-spring.datasource.password=password
-```
-
-
-## 9. What are debugging strategies?
-
-**Debugging Strategies** are systematic approaches used to **identify, analyze, and fix bugs or issues** in an application. The goal is to quickly find the **root cause** and resolve the problem with minimal impact.
-
-**Key Features:**
-
-* Helps identify the **root cause** of issues.
-* Uses **logs, breakpoints, and monitoring tools**.
-* Reduces application downtime and troubleshooting time.
-* Improves application **stability** and **reliability**.
-
-**How it Works:**
-
-1. **Reproduce the issue** consistently.
-2. Check **application logs** and error messages.
-3. Use a **debugger** and set breakpoints to inspect code execution.
-4. Analyze **stack traces**, request flow, and variable values.
-5. Verify external dependencies such as **database, APIs, and network connections**.
-6. Fix the issue, test the solution, and deploy the update.
-
-**Common Debugging Strategies:**
-
-* **Log Analysis:** Check logs using **SLF4J/Logback** or centralized logging tools.
-* **Breakpoint Debugging:** Pause execution and inspect variables using an IDE.
-* **Stack Trace Analysis:** Identify the exact location of exceptions.
-* **Monitoring and Metrics:** Use tools like **Prometheus** and **Grafana** to analyze application health.
-* **Binary Search Debugging:** Disable or isolate parts of the code to narrow down the problem.
-* **Root Cause Analysis (RCA):** Fix the underlying issue instead of only the symptom.
-
-**When to Use:**
-
-* When an application throws **exceptions or errors**.
-* To investigate **performance issues** or memory leaks.
-* During **production incident analysis**.
-* When troubleshooting **deployment** or **integration** problems.
-
-**Simple Java Debugging Example:**
-
-```java id="d5q9vk"
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class Demo {
-    private static final Logger logger =
-        LoggerFactory.getLogger(Demo.class);
-
-    public static void main(String[] args) {
-        int value = 10;
-        logger.debug("Value = {}", value);
-    }
 }
 ```
 
