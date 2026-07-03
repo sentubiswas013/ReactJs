@@ -22475,7 +22475,9 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 
 ## 6. What is service discovery Design Pattern?
 
-**Service Discovery** is a **Microservices Design Pattern** that allows services to **automatically find and communicate with each other** without using fixed IP addresses or URLs. A **Service Registry** keeps track of all available service instances.
+**Service Discovery** is a **Microservices Design Pattern** that allows services to **automatically find and communicate** with each other **without hardcoding IP addresses or URLs**.
+
+Instead of calling a fixed endpoint, a service asks the **Service Registry** for the location of another service.
 
 **Key Features**
 
@@ -22494,19 +22496,20 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 4. The registry returns an available service instance.
 5. The requesting service communicates with the selected instance.
 
+
 **Architecture Flow**
 
 ```text
-        User Service
-             │
-             ▼
-      Service Registry
-     (Eureka/Consul)
-             │
-      Returns Address
-             │
-             ▼
-      Payment Service
+Order Service
+      |
+      | Request USER-SERVICE
+      |
+Service Registry (Eureka)
+      |
+      | Returns instance
+      |
+User Service (Instance 1)
+User Service (Instance 2)
 ```
 
 **Example**
@@ -22528,6 +22531,15 @@ For a typical Java/Spring Boot microservices application, commonly used API gate
 
 **Enable Eureka Client**
 
+**Add Dependency**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
 ```java
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -22541,22 +22553,45 @@ public class PaymentServiceApplication {
 
 **Register with Eureka**
 
-```properties
-spring.application.name=payment-service
+**application.yml**
 
-eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+```yaml
+spring:
+  application:
+    name: ORDER-SERVICE
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 ```
 
 **Call Another Service**
 
 ```java
-@Autowired
-private RestTemplate restTemplate;
+@RestController
+public class OrderController {
 
-String response = restTemplate.getForObject(
-    "http://payment-service/pay",
-    String.class
-);
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @GetMapping("/orders")
+    public String getOrder() {
+        return restTemplate.getForObject(
+                "http://USER-SERVICE/users",
+                String.class);
+    }
+}
+```
+
+**Load Balanced RestTemplate**
+
+```java
+@Bean
+@LoadBalanced
+public RestTemplate restTemplate() {
+    return new RestTemplate();
+}
 ```
 
 Here, **`payment-service`** is the **service name**, not an IP address.
@@ -22578,6 +22613,26 @@ Here, **`payment-service`** is the **service name**, not an IP address.
 
 **Common Interview Follow-up**
 
+**Q. What is a Service Registry?**
+
+A **Service Registry** is a central server where services **register themselves**, and other services **discover** them.
+
+Examples:
+
+* **Netflix Eureka**
+* **Consul**
+* **Nacos**
+* **Apache ZooKeeper**
+
+**Q. What is the difference between Client-side and Server-side Service Discovery?**
+
+| **Client-side Discovery**                       | **Server-side Discovery**                                      |
+| ----------------------------------------------- | -------------------------------------------------------------- |
+| Client asks the registry for service instances  | Client sends request to a Load Balancer                        |
+| Client performs load balancing                  | Load Balancer performs load balancing                          |
+| Example: **Eureka + Spring Cloud LoadBalancer** | Example: **Kubernetes Service**, **AWS Elastic Load Balancer** |
+
+
 **Q: Why do we need Service Discovery?**
 
 In **Microservices**, service instances are created and removed dynamically due to **scaling** and **failures**, so their IP addresses change frequently. **Service Discovery** eliminates the need for hardcoded addresses by allowing services to **register** and **discover** each other automatically.
@@ -22590,41 +22645,6 @@ In **Microservices**, service instances are created and removed dynamically due 
 | Acts as a **Service Registry**.         | Acts as a **traffic distributor**.                  |
 | Example: **Netflix Eureka**, **Consul** | Example: **Spring Cloud LoadBalancer**, **NGINX**   |
 
-
-**Code Example (Spring Cloud Eureka Client)**
-
-```java
-@SpringBootApplication
-@EnableDiscoveryClient
-public class UserServiceApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(UserServiceApplication.class, args);
-    }
-}
-```
-
-```xml
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-</dependency>
-```
-
-**application.yml**
-
-```yaml
-spring:
-  application:
-    name: user-service
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-```
-
-This registers **user-service** with the **Eureka Server**, allowing other services to discover it automatically.
 
 
 ## 6. What is circuit breaker pattern?
