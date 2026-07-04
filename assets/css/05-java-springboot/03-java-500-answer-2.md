@@ -28454,80 +28454,112 @@ A **CPU profiler** can analyze this program and show that the loop and the `Math
 
 
 
-## 16: What is application performance monitoring (APM)?
+## 16: How do you find Security Vulnerabilities in Production? Which tools do you use?
 
-**Application Performance Monitoring (APM)** is the process of **continuously monitoring and analyzing the performance, availability, and health of an application**. It helps detect **slow responses**, **errors**, **resource bottlenecks**, and **failures** in real time.
 
-**Key Features:**
+In **Production**, we identify **Security Vulnerabilities** using **security monitoring**, **dependency scanning**, **code analysis**, **application security testing**, and **log analysis**. These tools help detect vulnerabilities early so they can be fixed before they are exploited.
 
-* Monitors **application response time**.
-* Tracks **CPU**, **memory**, and **thread usage**.
-* Detects **errors**, **exceptions**, and **failures**.
-* Supports **distributed tracing** across microservices.
-* Provides **real-time dashboards**, **alerts**, and **performance reports**.
+**Key Features**
 
-**How It Works:**
+* Monitor **Security Logs** and **Alerts**.
+* Scan **Dependencies** for known **CVEs**.
+* Perform **Static (SAST)** and **Dynamic (DAST)** security testing.
+* Monitor **Authentication** failures and suspicious activities.
+* Continuously scan **Containers** and **Cloud Infrastructure**.
+* Integrate security scans into the **CI/CD Pipeline**.
 
-1. An **APM agent** is attached to the application.
-2. The agent collects metrics such as **response time**, **CPU usage**, **memory usage**, and **request traces**.
-3. The data is sent to an **APM server**.
-4. The APM tool analyzes and visualizes the data through dashboards.
-5. If a performance issue or failure occurs, the system generates **alerts** for developers or operations teams.
+**How it works**
 
-**Common Metrics Monitored:**
+1. **Monitor logs** for failed logins, unauthorized access, and suspicious requests.
+2. **Scan dependencies** to identify vulnerable libraries.
+3. Run **SAST** tools to detect security issues in source code.
+4. Run **DAST** tools to test the running application.
+5. Monitor **SIEM dashboards** for security alerts.
+6. Patch vulnerable libraries or fix the code.
+7. Test the fix and deploy it to production.
 
-* **Response Time**
-* **Throughput (Requests per Second)**
-* **CPU Usage**
-* **Memory Usage**
-* **Error Rate**
-* **Database Query Performance**
-* **Distributed Traces**
+**Common Tools Used in Production**
 
-**Popular APM Tools:**
+| **Category**                        | **Tools**                                                                 | **Purpose**                                      |
+| ----------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ |
+| **Dependency Scanning**             | **OWASP Dependency-Check**, **Snyk**, **Mend (WhiteSource)**              | Detect vulnerable libraries and **CVEs**         |
+| **Static Code Analysis (SAST)**     | **SonarQube**, **Checkmarx**, **Fortify**                                 | Find security issues in source code              |
+| **Dynamic Security Testing (DAST)** | **OWASP ZAP**, **Burp Suite**                                             | Find vulnerabilities in a running application    |
+| **Container Scanning**              | **Trivy**, **Clair**                                                      | Scan Docker images for vulnerabilities           |
+| **Cloud Security**                  | **AWS Inspector**, **AWS Security Hub**, **Microsoft Defender for Cloud** | Detect cloud security issues                     |
+| **Monitoring / SIEM**               | **Splunk**, **ELK Stack**, **IBM QRadar**                                 | Detect suspicious activities and security alerts |
 
-* **New Relic**
-* **Dynatrace**
-* **AppDynamics**
-* **Elastic APM**
-* **Prometheus + Grafana**
-* **Zipkin** and **Jaeger** (for distributed tracing)
+**Example: Scan Dependencies**
 
-**When to Use:**
+**Maven Plugin**
 
-* Monitoring **production applications**.
-* **Microservices** and **cloud-native architectures**.
-* Detecting **performance bottlenecks**.
-* Troubleshooting **application failures** and **latency issues**.
-* Ensuring **high availability** and **system reliability**.
-
-**Simple Spring Boot Example (Actuator + Metrics):**
-
-**Add Dependency:**
-
-```xml id="apm7x2"
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-actuator</artifactId>
-</dependency>
+```xml
+<plugin>
+    <groupId>org.owasp</groupId>
+    <artifactId>dependency-check-maven</artifactId>
+    <version>12.1.8</version>
+</plugin>
 ```
 
-**application.yml**
+**Run Scan**
 
-```yaml id="apm3k8"
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,metrics
+```bash
+mvn dependency-check:check
 ```
 
-Now, Spring Boot exposes endpoints like:
+The scan generates a report showing **vulnerable dependencies**, **CVE IDs**, and recommended fixes.
 
-* `/actuator/health`
-* `/actuator/metrics`
+**Real-Time Example**
 
-These metrics can be collected by APM tools such as **Prometheus** and visualized in **Grafana**.
+**Issue:** A new **Log4j** vulnerability (**CVE**) is announced.
+
+**Steps:**
+
+1. Run **OWASP Dependency-Check** or **Snyk**.
+2. Verify whether the application uses the vulnerable **Log4j** version.
+3. Check **Splunk/ELK** for any exploit attempts.
+4. Upgrade to the patched version.
+5. Test the application.
+6. Deploy the fix and continue monitoring.
+
+**When to use**
+
+* Before every **Production Release**.
+* During the **CI/CD Pipeline**.
+* After a new **CVE** is published.
+* During **Security Audits**.
+* When suspicious activity is detected in production.
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. Which tools have you used for security scanning?**
+
+* **OWASP Dependency-Check**
+* **Snyk**
+* **SonarQube**
+* **OWASP ZAP**
+* **Burp Suite**
+* **Splunk**
+* **ELK Stack**
+
+**2. What is a CVE?**
+
+A **CVE (Common Vulnerabilities and Exposures)** is a publicly disclosed security vulnerability with a unique identifier.
+
+**3. What is the difference between SAST and DAST?**
+
+* **SAST** scans the **source code** without running the application.
+* **DAST** tests the **running application** by simulating real attacks.
+
+**4. Which tool is most commonly used in Spring Boot projects?**
+
+**SonarQube** for code quality and security, **OWASP Dependency-Check** or **Snyk** for dependency scanning, and **OWASP ZAP** for API security testing.
+
+**5. What do you do if a vulnerability is found in production?**
+
+Analyze the impact, identify the affected component, apply the security patch or upgrade the vulnerable dependency, validate the fix in QA, deploy it to production, and continue monitoring to ensure the issue is resolved.
 
 
 
