@@ -25701,63 +25701,94 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 
 ## 0. What are security vulnerability issues?
 
-**Security vulnerability issues** are **weaknesses or flaws** in an application, system, or network that attackers can exploit to gain **unauthorized access**, **steal data**, or **disrupt services**.
+A **Security Vulnerability** is a **weakness or flaw** in an application, system, or code that attackers can exploit to **steal data, gain unauthorized access, or disrupt services**.
 
-**Key Features:**
+**Key Features**
 
-1. **SQL Injection**
-This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
-2. **Cross-Site Scripting (XSS)**
-Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
-3. **Cross-Site Request Forgery (CSRF) :** - 
-An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
-4. **Insecure Deserialization :** - 
-If an application **deserializes untrusted data**, attackers may execute malicious code.
-5. **Sensitive Data Exposure :** - 
-Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
-6. **Improper Authentication and Authorization :** - 
-Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
-7. **Using Outdated Libraries :** - 
-Old dependencies may contain **known security vulnerabilities**.
+* **Weakness** in code or configuration.
+* Can lead to **data breaches** or **system compromise**.
+* Should be identified using **security scans**, **code reviews**, and **penetration testing**.
+* Fixed by following **secure coding practices**.
 
-**How It Works:**
-A vulnerability is created due to **coding mistakes**, **misconfigurations**, or **unpatched software**. Attackers identify these weaknesses and exploit them to perform malicious actions like accessing confidential data or executing unauthorized operations.
+**Common Security Vulnerabilities**
 
-**Why to Use Security Measures:**
+| **Vulnerability**                     | **Description**                                                  | **Solution**                                       |
+| ------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------- |
+| **SQL Injection**                     | Attacker injects SQL queries to access database data.            | Use **Prepared Statements** / **JPA**              |
+| **Cross-Site Scripting (XSS)**        | Malicious JavaScript is injected into web pages.                 | Validate input and **escape output**               |
+| **Cross-Site Request Forgery (CSRF)** | Tricks users into performing unwanted actions.                   | Enable **CSRF protection**                         |
+| **Broken Authentication**             | Weak login or password handling.                                 | Use **JWT**, **OAuth2**, **MFA**, strong passwords |
+| **Broken Access Control**             | Users access resources without permission.                       | Use **Role-Based Access Control (RBAC)**           |
+| **Sensitive Data Exposure**           | Passwords or personal data are exposed.                          | Use **HTTPS**, **encryption**, password hashing    |
+| **Insecure Deserialization**          | Malicious serialized objects execute harmful code.               | Validate input and avoid untrusted deserialization |
+| **Security Misconfiguration**         | Default settings or unnecessary services expose the application. | Secure configurations and regular updates          |
+| **Using Vulnerable Dependencies**     | Old libraries contain known security flaws.                      | Regularly update dependencies and scan them        |
 
-* Protect **user data** and **business information**
-* Prevent **cyberattacks** and **data breaches**
-* Ensure **application reliability** and **compliance**
-* Build **user trust**
+**How it works**
 
-**When to Focus on Vulnerabilities:**
-
-* During **application development**
-* Before **production deployment**
-* During **security testing** and **code reviews**
-* Whenever **dependencies or libraries are updated**
-
-**Simple Java Example (SQL Injection Vulnerability):**
+Example of **SQL Injection (Vulnerable Code)**
 
 ```java
-// Vulnerable Code
-String query = "SELECT * FROM users WHERE username='"
-             + username + "' AND password='" + password + "'";
-Statement stmt = connection.createStatement();
-ResultSet rs = stmt.executeQuery(query);
+String query = "SELECT * FROM users WHERE username='" + username + "'";
 ```
 
-An attacker could enter malicious input to bypass authentication.
+If the user enters:
 
-**Secure Version (Using PreparedStatement):**
+```sql
+' OR '1'='1
+```
+
+The attacker may retrieve all user records.
+
+**Secure Code**
 
 ```java
-String query = "SELECT * FROM users WHERE username=? AND password=?";
+String query = "SELECT * FROM users WHERE username = ?";
 PreparedStatement ps = connection.prepareStatement(query);
 ps.setString(1, username);
-ps.setString(2, password);
-ResultSet rs = ps.executeQuery();
 ```
+
+Or with **Spring Data JPA**:
+
+```java
+User user = userRepository.findByUsername(username);
+```
+
+**When to use Security Best Practices**
+
+* **REST APIs**
+* **Spring Boot Applications**
+* **Microservices**
+* **Banking Applications**
+* **Healthcare Systems**
+* Any application handling **user data** or **payments**
+
+**How We Handle Security Vulnerabilities in Spring Boot**
+
+* Use **Spring Security** for authentication and authorization.
+* Use **JWT** or **OAuth2** for secure authentication.
+* Validate all **user inputs**.
+* Use **Prepared Statements** or **JPA** to prevent SQL Injection.
+* Store passwords using **BCrypt**.
+* Enable **HTTPS**.
+* Keep dependencies updated using **Maven** or **Gradle**.
+* Perform regular **SAST**, **DAST**, and dependency vulnerability scans.
+
+**Common Interview Follow-up Questions**
+
+**Q: Which security vulnerability is most common in web applications?**
+
+**Answer:** **SQL Injection**, **XSS**, **Broken Authentication**, and **Broken Access Control** are among the most common vulnerabilities.
+
+**Q: How do you identify security vulnerabilities?**
+
+**Answer:** By using **code reviews**, **SAST** (Static Application Security Testing), **DAST** (Dynamic Application Security Testing), **dependency scanners**, and **penetration testing**.
+
+**Q: How do you prevent SQL Injection?**
+
+**Answer:** Use **Prepared Statements**, **Spring Data JPA**, parameterized queries, and never concatenate user input into SQL queries.
+
+
 
 ## 1. How to find Security Vulnerabilities in Production? Which tools do you use?
 
