@@ -32,25 +32,31 @@ class DesignPattern {
 public static void SingletonPattern() {
 	
 	System.out.println("=========================== SingletonPattern");
-	Singleton s1 = new Singleton();
-	Singleton s2 = new Singleton();
-	System.out.println("Hello ---" + s1.getInstance() + "=== " + s2.getInstance());
+
+	Singleton st1 = Singleton.getInstance();
+	Singleton st2 = Singleton.getInstance();
+	Singleton st3 = Singleton.getInstance();
+
+	System.out.println("Result " + st1 + "--" + st2 + "--" + st3);
+	
 }
 
 static class Singleton {
 	private static Singleton instance;
+	// private object lock = new object();
+	private static Object lock = new Object();
+
 	Singleton() {};
 
-	public static Singleton getInstance () {
-		if(instance == null) {
-			instance = new Singleton();
+	public static Singleton getInstance() {
+		synchronized(lock) {
+			if(instance == null) {
+				instance = new Singleton();
+			}		
 		}
 		return instance;
 	}
 }
-
-
-
 
 
 // Output: 
@@ -88,9 +94,8 @@ static class Singleton {
 public static void FactoryPattern() {
 	
 	System.out.println("=========================== FactoryPattern");
-	Payment payment = PaymentFactory.getPayment(PaymentType.CARD);
+	Payment payment = FactoryPattern.getPayment(PaymentType.CARD);
 	payment.pay();
-
 }
 
 enum PaymentType {
@@ -101,35 +106,32 @@ interface Payment {
 	void pay();
 }
 
-static class UpiPayment implements Payment {
+static class PaymentUpi implements Payment {
+	@Override
 	public void pay() {
 		System.out.println("Upi");
 	}
 }
 
-static class CardPayment implements Payment {
+static class PaymentCard implements Payment {
+	@Override
 	public void pay() {
 		System.out.println("Card");
 	}
 }
 
-static class PaymentFactory {
-	// public static Payment getPayment(PaymentType type) {
-	static Payment getPayment(PaymentType type) {
+static class FactoryPattern {
+	public static Payment getPayment (PaymentType type) {
+		if (type == PaymentType.UPI) {
+            return new PaymentUpi();
+        } else if (type == PaymentType.CARD) {
+            return new PaymentCard();
+        }
 
-		switch (type) {
-			case CARD:
-				return new CardPayment();
-
-			case UPI:
-				return new UpiPayment();
-
-			default:
-				throw new IllegalArgumentException("Error");
-		}
+		throw new IllegalArgumentException("Invalid Payment Type");
 	}
+	
 }
-
 
 
 // Output:
@@ -160,25 +162,45 @@ public static void ObserverPattern() {
 	
 	System.out.println("=========================== ObserverPattern");
 	
+	NewAgency agency = new NewAgency();
+	NewsChannel channel1 = new NewsChannel("CNN");
+	NewsChannel channel2 = new NewsChannel("REPB");
+
+	agency.addObserver(channel1);
 }
+
 interface Observer {
 	void update(String message);
 }
 
-static class NewsChannel implements Observer {
+class NewsChannel implements Observer {
 	private String name;
-
-	public NewsChannel (String name) {
+	NewsChannel(String name) {
 		this.name = name;
 	}
-	
-	public void update (String news) {
 
-	}
+	// public void update(String news) {
+	// 	System.out.println("Received " + news);
+	// }
 }
 
+static class NewAgency {
+	// private List<Observer> observers = new ArrayList<>();
+	private List<Observer> observers = new ArrayList<>();
+	private String news; 
 
+	public void addObserver(Observer observer) {
+		observers.add(observer);
+	}
 
+	public void setnews (String news) {
+		this.news = news;
+		notification();
+	}
+	public void notification() {
+		System.out.println("New Released");
+	}
+}
 
 
 
@@ -200,43 +222,10 @@ static class NewsChannel implements Observer {
 public static void StrategyPattern() {
 	
 	System.out.println("=========================== StrategyPattern");
-	NotificationService service = new NotificationService();
-
-	service.setStrategy(new EmailNotification());
-	service.notifyUser("Email Notification.");
-
-	service.setStrategy(new SmsNotification());
-	service.notifyUser("Sms notification.");
+	
 }
 
-interface NotificationStrategy {
-	void send(String message);
-}
 
-static class EmailNotification implements NotificationStrategy {
-	@Override 
-	public void send(String message) {
-		System.out.println("Send " + message);
-	}
-}
-static class SmsNotification implements NotificationStrategy {
-	@Override 
-	public void send(String message) {
-		System.out.println("Send " + message);
-	}
-}
-
-static class NotificationService {
-	private NotificationStrategy strategy;
-
-	public void setStrategy(NotificationStrategy strategy) {
-		this.strategy = strategy;
-	}
-
-	public void notifyUser(String message) {
-        strategy.send(message);
-    }
-}
 
 
 

@@ -13939,7 +13939,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.example.user.repository",
+        basePackages = {
+            "com.example.user.repository",
+            "com.example.order.repository",
+            "com.example.product.repository"
+        },
         entityManagerFactoryRef = "userEntityManagerFactory",
         transactionManagerRef = "userTransactionManager"
 )
