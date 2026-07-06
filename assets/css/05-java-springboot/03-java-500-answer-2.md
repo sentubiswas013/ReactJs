@@ -14020,18 +14020,6 @@ MyApp
 * **`web.xml`** – Configures **Servlets**, **filters**, and **URL mappings**.
 * **`context.xml`** – Configures **DataSource** and other application resources.
 
-**Q: Why is `<scope>provided</scope>` used for the Servlet API?**
-
-**Answer:** Because **Tomcat already provides the Servlet API** at runtime, so it should not be packaged inside the WAR.
-
-**Q: What is the purpose of `server.xml`?**
-
-**Answer:** It configures the **Tomcat server**, including **ports**, **connectors**, and server settings.
-
-**Q: What is the purpose of `web.xml`?**
-
-**Answer:** It defines **Servlets**, **URL mappings**, **filters**, **listeners**, and other web application configurations.
-
 
 
 ## 14. How to remove default server from springboot application?
