@@ -11609,6 +11609,13 @@ Long id = (Long) session.save(employee);
 
 Both **`save()`** and **`saveAndFlush()`** are methods provided by **Spring Data JPA** to persist entities, but they differ in **when changes are written to the database**.
 
+
+* **`save()`**: Saves the entity in the Persistence Context. The SQL is usually executed later during `flush()` or transaction commit.
+
+* **`saveAndFlush()`**: Saves the entity and immediately flushes the Persistence Context, so the SQL is executed in the database right away.
+
+
+
 **Key Features**
 
 | Feature                   | **save()**                 | **saveAndFlush()**                     |
@@ -11700,6 +11707,26 @@ public void createEmployee() {
     System.out.println("Employee saved in DB");
 }
 ```
+
+**Common Interview Follow-up Questions**
+
+**1. Does `saveAndFlush()` commit the transaction?**
+
+No. It only **flushes** changes to the database. The transaction is still committed later.
+
+**2. Can the data be rolled back after `saveAndFlush()`?**
+
+Yes. Even though the SQL has been executed, the transaction can still be **rolled back** if it has not been committed.
+
+**3. Which method is faster?**
+
+**`save()`** is generally faster because it avoids an immediate flush and allows Hibernate to optimize database operations.
+
+**4. What is the difference between `flush()` and `commit()`?**
+
+* **`flush()`** → Sends SQL statements to the database but **does not permanently save** the changes.
+* **`commit()`** → Permanently saves the changes by **committing the transaction**.
+
 
 | Aspect               | save()                                               | saveAndFlush()                                                     |
 | -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
