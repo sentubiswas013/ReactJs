@@ -13745,14 +13745,315 @@ public class DbConfig {
 
 This avoids collision when multiple configs share the same field names like `host` or `port`.
 
-## 14. How to remove default server from springboot application?
-By default, Spring Boot comes with an embedded server like Apache Tomcat. If we want to remove it, we exclude the default starter dependency and optionally add another server like Jetty or Undertow.
+## 14. How to setup tomcat server manually if I don't use spring boot?
+
+Without **Spring Boot**, you need to **install and configure Apache Tomcat** yourself and deploy your application as a **WAR** file.
+
+
+**How it works**
+
+1. Install **JDK** and set **JAVA_HOME**.
+2. Download and extract **Apache Tomcat**.
+3. Set **CATALINA_HOME**.
+4. Create the application as a **WAR** project.
+5. Configure **web.xml** (or use `@WebServlet`).
+6. Build the **WAR** file.
+7. Copy the **WAR** to the **Tomcat webapps** folder.
+8. Start **Tomcat**.
+9. Access the application in the browser.
+
+**Required Configuration**
+
+**Manual Tomcat Configuration Steps (Without Spring Boot)**
+
+**Step 1: Install JDK**
+
+* Install **JDK 17** (or the required version).
+* Set the **JAVA_HOME** environment variable.
+
+Example:
+
+```text
+JAVA_HOME=C:\Program Files\Java\jdk-17
+```
+
+Verify:
+
+```bash
+java -version
+```
+
+**Step 2: Download Apache Tomcat**
+
+* Download **Apache Tomcat**.
+* Extract it to a folder.
+
+Example:
+
+```text
+C:\apache-tomcat-10.1
+```
+
+**Step 3: Configure Environment Variables**
+
+Set:
+
+```text
+JAVA_HOME=C:\Program Files\Java\jdk-17
+CATALINA_HOME=C:\apache-tomcat-10.1
+```
+
+Add to **PATH**:
+
+```text
+%CATALINA_HOME%\bin
+```
+
+Verify:
+
+```bash
+echo %JAVA_HOME%
+echo %CATALINA_HOME%
+```
+
+**Step 4: Create a Maven WAR Project**
+
+In **pom.xml**:
 
 ```xml
-// Remove Inbuild Server
+<packaging>war</packaging>
+```
+
+Add Servlet dependency:
+
+```xml
+<dependency>
+    <groupId>jakarta.servlet</groupId>
+    <artifactId>jakarta.servlet-api</artifactId>
+    <version>6.0.0</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+**Step 5: Configure `web.xml`**
+
+Location:
+
+```text
+src/main/webapp/WEB-INF/web.xml
+```
+
+Example:
+
+```xml
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee">
+
+    <servlet>
+        <servlet-name>HelloServlet</servlet-name>
+        <servlet-class>com.demo.HelloServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HelloServlet</servlet-name>
+        <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+
+</web-app>
+```
+
+**Step 6: Create a Servlet**
+
+```java
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws IOException {
+
+        resp.getWriter().println("Hello Tomcat");
+    }
+}
+```
+
+**Step 7: Build the WAR File**
+
+Using Maven:
+
+```bash
+mvn clean package
+```
+
+Generated file:
+
+```text
+target/myapp.war
+```
+
+**Step 8: Deploy the WAR**
+
+Copy:
+
+```text
+target/myapp.war
+```
+
+To:
+
+```text
+apache-tomcat/webapps/
+```
+
+**Step 9: Configure Tomcat Port (Optional)**
+
+File:
+
+```text
+apache-tomcat/conf/server.xml
+```
+
+Default:
+
+```xml
+<Connector port="8080" protocol="HTTP/1.1"/>
+```
+
+Change if needed:
+
+```xml
+<Connector port="9090" protocol="HTTP/1.1"/>
+```
+
+**Step 10: Configure DataSource (Optional)**
+
+File:
+
+```text
+apache-tomcat/conf/context.xml
+```
+
+Example:
+
+```xml
+<Resource
+    name="jdbc/MyDB"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="com.mysql.cj.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/test"
+    username="root"
+    password="root"/>
+```
+
+**Step 11: Start Tomcat**
+
+**Windows**
+
+```bash
+startup.bat
+```
+
+**Linux/Mac**
+
+```bash
+./startup.sh
+```
+
+Stop:
+
+```bash
+shutdown.bat
+```
+
+**Step 12: Verify Deployment**
+
+Open:
+
+```text
+http://localhost:8080/myapp/hello
+```
+
+Output:
+
+```text
+Hello Tomcat
+```
+
+**Project Structure**
+
+```text
+MyApp
+ ├── src
+ │    ├── main
+ │    │    ├── java
+ │    │    ├── webapp
+ │    │    │    ├── WEB-INF
+ │    │    │    │    └── web.xml
+ │    │    └── resources
+ ├── pom.xml
+ └── target
+      └── myapp.war
+```
+
+**When to use**
+
+* **Servlet** applications.
+* **JSP** applications.
+* **Spring MVC** (without Spring Boot).
+* Applications deployed on an **organization-managed Tomcat server**.
+
+
+**Common Interview Follow-up Questions**
+
+**Q: Why do we package the application as a WAR?**
+
+**Answer:** A **WAR** is the standard deployment format for applications running on an **external Tomcat** server.
+
+**Q: Why is the Servlet API dependency marked as `provided`?**
+
+**Answer:** Because the **Tomcat server already provides the Servlet API**, so it should not be included inside the WAR.
+
+**Q: Which Tomcat configuration files are commonly used?**
+
+**Answer:**
+
+* **`server.xml`** – Configures **ports**, **connectors**, and server settings.
+* **`web.xml`** – Configures **Servlets**, **filters**, and **URL mappings**.
+* **`context.xml`** – Configures **DataSource** and other application resources.
+
+**Q: Why is `<scope>provided</scope>` used for the Servlet API?**
+
+**Answer:** Because **Tomcat already provides the Servlet API** at runtime, so it should not be packaged inside the WAR.
+
+**Q: What is the purpose of `server.xml`?**
+
+**Answer:** It configures the **Tomcat server**, including **ports**, **connectors**, and server settings.
+
+**Q: What is the purpose of `web.xml`?**
+
+**Answer:** It defines **Servlets**, **URL mappings**, **filters**, **listeners**, and other web application configurations.
+
+
+
+## 14. How to remove default server from springboot application?
+
+By default, **Spring Boot** uses **Embedded Tomcat**. If you want to deploy your application to an **external Tomcat server**, you need to **remove the embedded Tomcat** and package the application as a **WAR**.
+
+
+**How it works**
+
+1. Exclude the **Embedded Tomcat** dependency.
+2. Change packaging from **JAR** to **WAR**.
+3. Add **Tomcat** with **provided** scope.
+4. Extend **SpringBootServletInitializer**.
+5. Build the **WAR** and deploy it to the external **Tomcat** server.
+
+**Step 1: Exclude Embedded Tomcat**
+
+```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
+
     <exclusions>
         <exclusion>
             <groupId>org.springframework.boot</groupId>
@@ -13760,13 +14061,82 @@ By default, Spring Boot comes with an embedded server like Apache Tomcat. If we 
         </exclusion>
     </exclusions>
 </dependency>
+```
 
-//Add New Server
+**Step 2: Add Tomcat as `provided`**
+
+```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-jetty</artifactId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <scope>provided</scope>
 </dependency>
 ```
+
+**Step 3: Change Packaging**
+
+```xml
+<packaging>war</packaging>
+```
+
+**Step 4: Extend `SpringBootServletInitializer`**
+
+```java
+@SpringBootApplication
+public class Application extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+**Step 5: Build and Deploy**
+
+Build:
+
+```bash
+mvn clean package
+```
+
+Generated:
+
+```text
+target/myapp.war
+```
+
+Copy the **WAR** file to:
+
+```text
+apache-tomcat/webapps/
+```
+
+Start **Tomcat** and access:
+
+```text
+http://localhost:8080/myapp
+```
+
+
+**Common Interview Follow-up Questions**
+
+**Q: Why use `provided` scope?**
+
+**Answer:** **`provided`** means **Tomcat is supplied by the external server**, so it is **not included** inside the WAR file.
+
+**Q: Why change from JAR to WAR?**
+
+**Answer:** A **JAR** is used with an **embedded server**, while a **WAR** is used for deployment to an **external servlet container** like Tomcat.
+
+**Q: Is `SpringBootServletInitializer` required?**
+
+**Answer:** **Yes**, when deploying a **Spring Boot** application to an **external Tomcat**, it initializes the application inside the servlet container.
+
 
 
 ## 16. How can we configure multiple databases in Spring Boot?
@@ -25901,15 +26271,41 @@ Analyze the impact, identify the affected component, apply the security patch or
 
 ## 1: What is Java security model?
 
-**Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
+The **Java Security Model** is a set of **security mechanisms** that protect Java applications from **unauthorized access**, **malicious code**, and **security vulnerabilities**. It ensures that code runs in a **safe and controlled environment**.
 
-* Comprehensive security framework built into Java platform
-* **Bytecode Verification**: Ensures code follows Java language rules
-* **Class Loading**: Secure loading and verification of classes
-* **Security Manager**: Controls access to system resources
-* **Access Control**: Permission-based security for operations
-* **Cryptography**: Built-in encryption and digital signature support
-* **Sandbox**: Restricted execution environment for untrusted code
+**Key Features**
+
+* **Authentication** – Verifies the identity of users.
+* **Authorization** – Controls what users are allowed to access.
+* **Access Control** – Restricts access to files, network, and system resources.
+* **Class Loader** – Loads classes safely and prevents unauthorized classes from replacing trusted ones.
+* **Bytecode Verifier** – Checks bytecode before execution to ensure it is valid and safe.
+* **Cryptography API** – Supports **encryption**, **decryption**, **digital signatures**, and **hashing**.
+* **Secure Communication** – Supports **SSL/TLS** for secure network communication.
+
+**How it works**
+
+1. **Class Loader** loads Java classes securely.
+2. **Bytecode Verifier** checks that the bytecode is valid and follows Java rules.
+3. **JVM** executes only verified bytecode.
+4. **Access Control** checks whether the code has permission to access resources.
+5. **Authentication** verifies the user, and **Authorization** determines what the user can do.
+
+**Code Example**
+
+Using **Spring Security** to restrict access based on roles:
+
+```java
+@RestController
+public class AdminController {
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String admin() {
+        return "Welcome Admin";
+    }
+}
+```
 
 ```java
 // Security Manager example
@@ -25928,6 +26324,39 @@ public class MySecurityManager extends SecurityManager {
 // Enable security manager
 System.setSecurityManager(new MySecurityManager());
 ```
+
+Only users with the **ADMIN** role can access the `/admin` endpoint.
+
+**When to use**
+
+* **Spring Boot REST APIs**
+* **Microservices**
+* **Banking Applications**
+* **Healthcare Systems**
+* Any application handling **sensitive data** or **user authentication**
+
+
+**Common Interview Follow-up Questions**
+
+**Q: What is the role of the Class Loader?**
+
+**Answer:** The **Class Loader** securely loads Java classes into memory and prevents untrusted classes from replacing trusted ones.
+
+**Q: What does the Bytecode Verifier do?**
+
+**Answer:** It checks that the **bytecode** is valid, type-safe, and follows Java security rules before execution.
+
+**Q: What is the difference between Authentication and Authorization?**
+
+**Answer:**
+
+* **Authentication** verifies **who the user is**.
+* **Authorization** determines **what the user is allowed to access**.
+
+**Q: How is the Java Security Model implemented in Spring Boot?**
+
+**Answer:** By using **Spring Security**, **JWT/OAuth2**, **HTTPS**, **BCrypt** for password hashing, and **role-based access control (RBAC)** to secure APIs and resources.
+
 
 
 ## 2: What is sandbox in Java?
