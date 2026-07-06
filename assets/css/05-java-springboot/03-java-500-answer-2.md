@@ -14597,6 +14597,27 @@ Managing **transactions, consistency, and configuration complexity**.
 When a single database can handle the workload, as multiple DBs increase **complexity and overhead**.
 
 
+**7. Why separate Repository packages?**
+
+* So each repository connects to the **correct database**.
+
+**7. Can one Entity use both databases?**
+
+**No.** A **JPA Entity** is mapped to **only one database** through a specific **EntityManagerFactory**.
+
+**8. Can one service use both databases?**
+
+* **Yes.** Inject both repositories or services and perform operations on each database.
+
+**9. Does each database need its own TransactionManager?**
+
+* **Yes.** Each **DataSource** should have its own **TransactionManager**.
+
+**10. Can we use different database types together?**
+
+* **Yes.** For example, **MySQL** and **PostgreSQL** can be used in the same Spring Boot application.
+
+
 
 ## 17. How to secure username and password?
 
