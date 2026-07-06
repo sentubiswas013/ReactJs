@@ -11734,6 +11734,12 @@ Yes. Even though the SQL has been executed, the transaction can still be **rolle
 * **`commit()`** → Permanently saves the changes by **committing the transaction**.
 
 
+**5. What is `flush()`?**
+
+**A:** **`flush()`** synchronizes the **Persistence Context** with the **database** by executing all pending **INSERT**, **UPDATE**, and **DELETE** SQL statements without committing the transaction.
+
+
+
 | Aspect               | save()                                               | saveAndFlush()                                                     |
 | -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
 | Repository Interface | CrudRepository                                       | JpaRepository                                                      |
