@@ -11887,8 +11887,9 @@ List<Order> findAll();
 
 **JPQL (Java Persistence Query Language)** and **Native Query** are two ways to query a database in **JPA/Hibernate**.
 
-* **JPQL** works with **Java Entity objects**.
-* **Native Query** uses **database-specific SQL** directly.
+* **JPQL** is an object-oriented query language that works with **entity classes and their fields**, not database tables and columns.
+
+* **Native Query** is a database-specific SQL query that works directly with **tables and columns**.
 
 | **Feature**               | **JPQL**                                | **Native Query**                                                    |
 | ------------------------- | --------------------------------------- | ------------------------------------------------------------------- |
@@ -11926,16 +11927,38 @@ List<Order> findAll();
 **JPQL:** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
 
 ```java id="b7n3kp"
-@Query("SELECT u FROM User u WHERE u.name = :name")
-User findByName(String name);
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+
+    private String name;
+    private double salary;
+}
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    @Query("SELECT e FROM Employee e WHERE e.salary > :salary")
+    List<Employee> findEmployeesBySalary(@Param("salary") double salary);
+}
+
+// Usage
+List<Employee> employees = employeeRepository.findEmployeesBySalary(50000);
 ```
 
 **Native Query:** uses actual SQL with real table and column names. Use it when you need database-specific features or complex queries JPQL can't handle.
 
 ```java id="m4x8qr"
-@Query(value = "SELECT * FROM users WHERE name = :name",
-       nativeQuery = true)
-User findByNameNative(String name);
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    @Query(value = "SELECT * FROM employee WHERE salary > :salary",
+           nativeQuery = true)
+    List<Employee> findEmployeesNative(@Param("salary") double salary);
+}
+
+// Usage
+List<Employee> employees = employeeRepository.findEmployeesNative(50000);
 ```
 
 ## 13. What are JPA Cascade Types?
