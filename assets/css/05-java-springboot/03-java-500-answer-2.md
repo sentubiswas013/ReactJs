@@ -11520,6 +11520,12 @@ Examples:
 
 Both **`save()`** and **`persist()`** are used to store an entity in the database, but they belong to different APIs and have some behavioral differences.
 
+
+* **Use `save()`** when working directly with **Hibernate `Session`** and you need the **generated ID** immediately.
+
+* **Use `persist()`** when working with **JPA (`EntityManager`)** because it is the **standard JPA method** and is recommended in **Spring Boot/JPA** applications.
+
+
 **Key Features**
 
 | Feature      | **save()**                  | **persist()**               |
