@@ -26918,37 +26918,84 @@ Encrypted data becomes **unrecoverable**, as decryption is not possible without 
 
 ## 7: What is SSL/TLS in Java?
 
-**SSL** stands for Secure Sockets Layer, and **TLS** stands for Transport Layer Security
 
-**SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
+**SSL (Secure Sockets Layer)** and **TLS (Transport Layer Security)** are security protocols used to **encrypt communication** between a **client** and a **server** over the internet.
 
-They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
+**TLS** is the **newer and more secure** version of **SSL**. Today, almost all applications use **TLS**, although people still commonly say **SSL**.
 
-```java
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-web</artifactId>
-</dependency>
+**Key Features**
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
+* **Encrypts** data during transmission.
+* Protects against **data theft** and **man-in-the-middle attacks**.
+* Ensures **Confidentiality**, **Integrity**, and **Authentication**.
+* Used by **HTTPS**, secure APIs, online banking, and e-commerce websites.
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+**How It Works**
 
-// SSL/TLS client example
-SSLContext sslContext = SSLContext.getInstance("TLS");
-sslContext.init(null, null, null);
+1. Client sends a request to the server using **HTTPS**.
+2. Server sends its **SSL/TLS Certificate**.
+3. Client verifies the certificate.
+4. Client and server perform a **TLS Handshake** and generate a **shared session key**.
+5. All communication is **encrypted** using the session key.
 
-SSLSocketFactory factory = sslContext.getSocketFactory();
-SSLSocket socket = (SSLSocket) factory.createSocket("example.com", 443);
-
-// HTTPS with RestTemplate
-RestTemplate restTemplate = new RestTemplate();
-ResponseEntity<String> response = restTemplate.getForEntity(
-    "https://api.example.com/data", String.class);
+```text
+Client → HTTPS Request
+Server → SSL/TLS Certificate
+Client → Verify Certificate
+TLS Handshake
+Shared Session Key Created
+Encrypted Communication
 ```
+
+**When to Use**
+
+Use **SSL/TLS** when:
+
+* Building **REST APIs**.
+* Sending **login credentials**.
+* Transferring **payment** or **personal data**.
+* Communication between **Microservices**.
+* Any application accessible over the **internet**.
+
+**Spring Boot HTTPS Configuration**
+
+**application.properties**
+
+```properties
+server.port=8443
+server.ssl.enabled=true
+server.ssl.key-store=classpath:keystore.p12
+server.ssl.key-store-password=password
+server.ssl.key-store-type=PKCS12
+```
+
+**Common Interview Follow-up Questions**
+
+**1. What is the difference between SSL and TLS?**
+
+* **SSL** is the **older** protocol and is no longer considered secure.
+* **TLS** is the **newer**, **faster**, and **more secure** protocol.
+* Today, almost all systems use **TLS**.
+
+**2. What is an SSL/TLS Certificate?**
+
+It is a **digital certificate** that verifies the **server's identity** and contains the server's **public key**.
+
+**3. What is HTTPS?**
+
+**HTTPS = HTTP + TLS**. It encrypts communication between the client and server.
+
+**4. Does JWT replace SSL/TLS?**
+
+**No.** They solve different problems:
+
+* **TLS** protects data **during transmission**.
+* **JWT** is used for **authentication** and **authorization**.
+
+**5. Can we use JWT without TLS?**
+
+**Technically yes, but it is not recommended.** Without **TLS**, a JWT can be intercepted during transmission, creating a security risk. In production, **JWT should always be used over HTTPS (TLS)**.
+
 
 ## 8: What is authentication vs authorization?
 
@@ -27453,13 +27500,138 @@ The server verifies the **digital signature**, **expiration time**, and **claims
 Because the **server does not store session or access token information**. Every request contains all the information needed for authentication.
 
 **11. JWT vs Session-based authentication?**
+
 A: JWT is stateless (no server storage), while sessions require server-side storage. JWT is better for microservices and scalability.
 
 **12. How do you handle token expiration?**
+
 A: Implement refresh tokens or require re-authentication when tokens expire.
 
 **13. Can JWT be revoked?**
+
 A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
+
+
+## 12. Difference between JWT and Session?
+
+
+Both are used to **authenticate users**, but they store and manage user authentication differently.
+
+| **Feature**        | **JWT Authentication**                                                       | **Session Authentication**                                    |
+| ------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Storage**        | Token stored on **client** (Browser LocalStorage, SessionStorage, or Cookie) | Session data stored on **server**                             |
+| **Server State**   | **Stateless**                                                                | **Stateful**                                                  |
+| **Authentication** | Client sends **JWT token** with every request                                | Client sends **Session ID** with every request                |
+| **Scalability**    | Better for **Microservices** and distributed systems                         | Better for **Traditional Web Applications**                   |
+| **Performance**    | Faster because server doesn't store session                                  | Slightly slower because server checks session store           |
+| **Logout**         | Harder (token remains valid until expiry unless blacklisted)                 | Easy (server simply destroys the session)                     |
+| **Security**       | Secure if token is protected and sent over **HTTPS**                         | More secure by default because sensitive data stays on server |
+
+**How JWT Authentication Works**
+
+1. User logs in with **username/password**.
+2. Server validates credentials.
+3. Server generates a **JWT Token**.
+4. Client stores the token.
+5. Client sends the token in the **Authorization** header for every request.
+6. Server validates the token and allows access.
+
+```http
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+```
+
+**Spring Boot Example (JWT)**
+
+```java
+@GetMapping("/profile")
+public String profile() {
+    return "Authenticated User";
+}
+```
+
+The request contains:
+
+```http
+Authorization: Bearer <JWT_TOKEN>
+```
+
+Spring Security validates the token before accessing the API.
+
+**How Session Authentication Works**
+
+1. User logs in.
+2. Server creates a **Session** and stores user data.
+3. Server returns a **Session ID** in a cookie.
+4. Browser automatically sends the Session ID with every request.
+5. Server looks up the session and authenticates the user.
+
+**Spring Boot Example (Session)**
+
+```java
+@PostMapping("/login")
+public String login(HttpSession session) {
+    session.setAttribute("user", "John");
+    return "Login Successful";
+}
+```
+
+Later:
+
+```java
+String user = (String) session.getAttribute("user");
+```
+
+**When to Use**
+
+**Use JWT when:**
+
+* Building **REST APIs**
+* Using **Microservices**
+* Supporting **Mobile Applications**
+* Need **Stateless Authentication**
+* Multiple services need to validate the same token
+
+**Use Session when:**
+
+* Building **Traditional Web Applications**
+* Need easy **Logout**
+* Want authentication managed completely by the server
+* Small or medium-sized applications
+
+**Key Features**
+
+**JWT**
+
+* **Stateless**
+* **Token-based**
+* No server session storage
+* Best for **REST APIs** and **Microservices**
+* Better scalability
+
+**Session**
+
+* **Stateful**
+* **Server stores session**
+* Easy logout and session invalidation
+* Best for **Server-rendered Web Applications**
+
+
+**Session Authentication** is **stateful**, where the server stores user session data and the client sends a **Session ID**. The server checks the session on every request, making it ideal for **traditional web applications**.
+
+**Common Interview Follow-up Questions**
+
+**Q: Which is more scalable?**
+**JWT**, because the server does not store session data.
+
+**Q: Which provides easier logout?**
+**Session Authentication**, because the server can immediately destroy the session.
+
+**Q: Why is JWT called stateless?**
+Because the server **does not store user session information**. Each request contains all the authentication information in the **JWT token**.
+
+**Q: Can we use JWT and Session together?**
+Yes. A common approach is to use **Session Authentication** for a web application's UI and **JWT Authentication** for REST APIs or communication between **Microservices**.
+
 
 
 ## 12. What is CSRF Protection?
