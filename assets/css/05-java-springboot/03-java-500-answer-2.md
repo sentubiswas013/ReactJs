@@ -12632,68 +12632,175 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 
 ## 8. What are intermediate and terminal operations?
 
+**Intermediate Operations** are operations that **transform** a stream and return **another Stream**. They are **lazy**, meaning they do **not execute immediately**.
 
-A **Collection** is a data structure that stores and manages **data in memory**, while a **Stream** is a sequence of elements used to **process data in a functional way without storing it**.
+**Terminal Operations** are operations that **produce the final result** or **perform an action**. They **trigger the execution** of the entire stream pipeline.
 
+**How it Works**
 
-**Key Differences:**
+1. Create a **Stream**.
+2. Apply one or more **Intermediate Operations**.
+3. Call a **Terminal Operation**.
+4. The stream pipeline executes and returns the final result.
 
-| **Aspect**       | **Collection**                                | **Stream**                                           |
-| ---------------- | --------------------------------------------- | ---------------------------------------------------- |
-| **Nature**       | Stores **data**                               | Processes **data**                                   |
-| **Storage**      | Holds elements in **memory**                  | Does not store data, works as a **data pipeline**    |
-| **Modification** | Can be **modified (add/remove elements)**     | **Immutable**, does not modify source data           |
-| **Iteration**    | Uses **external iteration (for/while loops)** | Uses **internal iteration (Stream API operations)**  |
-| **Reusability**  | Can be **reused multiple times**              | Can be used **only once**                            |
-| **Processing**   | Processes data **manually**                   | Uses **functional operations (filter, map, reduce)** |
-
-
-**How It Works**
-
-1. Create a stream from a collection.
-2. Apply one or more **intermediate operations** to build the pipeline.
-3. Call a **terminal operation**, which executes all intermediate operations and produces the final output.
-
-
-**When to use:**
-
-* Use **Intermediate Operations** to **filter, transform, or sort** data.
-* Use **Terminal Operations** when you need the **final result** or want to **perform an action**.
-
-**Code Example:**
-
-**Collection Example:**
-
-```java
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) {
-
-        List<Integer> list = new ArrayList<>();
-        list.add(10);
-        list.add(20);
-        list.add(30);
-
-        for (Integer i : list) {
-            System.out.println(i);
-        }
-    }
-}
+```text
+Collection
+    ↓
+Stream
+    ↓
+Intermediate Operations
+(filter → map → sorted)
+    ↓
+Terminal Operation
+(collect / forEach / count)
+    ↓
+Result
 ```
 
-**Stream Example:**
+**Key Features**
+
+| **Intermediate Operations**              | **Terminal Operations**                    |
+| ---------------------------------------- | ------------------------------------------ |
+| Return a **Stream**                      | Return the **final result**                |
+| **Lazy Execution**                       | **Triggers execution**                     |
+| Can be **chained**                       | Ends the stream pipeline                   |
+| Multiple intermediate operations allowed | Only **one terminal operation** per stream |
+
+**Common Intermediate Operations**
+
+* **filter()** – Filters elements
+* **map()** – Transforms elements
+* **sorted()** – Sorts elements
+* **distinct()** – Removes duplicates
+* **limit()** – Limits the number of elements
+* **skip()** – Skips elements
+* **peek()** – Performs an action while processing (mainly for debugging)
+
+**Common Terminal Operations**
+
+* **collect()** – Collects results into a collection
+* **forEach()** – Performs an action on each element
+* **count()** – Counts elements
+* **reduce()** – Combines elements into one result
+* **findFirst()** – Returns the first element
+* **findAny()** – Returns any matching element
+* **anyMatch()**, **allMatch()**, **noneMatch()** – Match operations
+* **min()**, **max()** – Finds minimum or maximum value
+
+**Example**
 
 ```java
-import java.util.*;
-List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+List<String> names = List.of("John", "Alice", "Bob", "David");
 
-numbers.stream()
-    .filter(n -> n > 2)     // Intermediate - lazy
-    .map(n -> n * 2)        // Intermediate - lazy
-    .sorted()               // Intermediate - lazy
-    .forEach(System.out::println); // Terminal - triggers execution
+List<String> result = names.stream()
+        .filter(name -> name.length() > 3)   // Intermediate
+        .map(String::toUpperCase)            // Intermediate
+        .sorted()                            // Intermediate
+        .collect(Collectors.toList());       // Terminal
+
+System.out.println(result);
 ```
+
+**Output**
+
+```text
+[ALICE, DAVID, JOHN]
+```
+
+**Lazy Execution Example**
+
+```java
+Stream.of(1, 2, 3, 4)
+      .filter(n -> {
+          System.out.println(n);
+          return n > 2;
+      });
+```
+
+**Output**
+
+```text
+No Output
+```
+
+Nothing is printed because there is **no Terminal Operation**.
+
+Now add a terminal operation:
+
+```java
+Stream.of(1, 2, 3, 4)
+      .filter(n -> {
+          System.out.println(n);
+          return n > 2;
+      })
+      .count();
+```
+
+**Output**
+
+```text
+1
+2
+3
+4
+```
+
+The **count()** terminal operation triggers the execution.
+
+**When to Use**
+
+**Use Intermediate Operations when:**
+
+* Filtering data
+* Transforming objects
+* Sorting elements
+* Removing duplicates
+* Building a processing pipeline
+
+**Use Terminal Operations when:**
+
+* Collecting results
+* Printing data
+* Counting elements
+* Finding values
+* Performing calculations
+
+
+
+**Common Interview Follow-up Questions**
+
+**Q: Why are Intermediate Operations called lazy?**
+
+Because they **do not execute immediately**. They only execute when a **Terminal Operation** is invoked.
+
+**Q: Can a Stream have multiple Intermediate Operations?**
+
+Yes. You can chain **multiple Intermediate Operations** before calling a **Terminal Operation**.
+
+```java
+list.stream()
+    .filter(...)
+    .map(...)
+    .sorted()
+    .collect(Collectors.toList());
+```
+
+**Q: Can a Stream have multiple Terminal Operations?**
+
+No. A **Stream can have only one Terminal Operation**. After it is executed, the stream is **consumed** and cannot be reused.
+
+```java
+Stream<String> stream = List.of("A", "B").stream();
+
+stream.count();      // OK
+stream.forEach(System.out::println); // Throws IllegalStateException
+```
+
+**Q: Which operation starts the execution of a Stream?**
+
+A **Terminal Operation** starts the execution of the entire stream pipeline.
+
+
 
 ## 9. What is the difference between map() and flatMap()?
 
