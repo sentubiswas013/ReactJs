@@ -24855,7 +24855,7 @@ If any operation inside `saveEmployee()` fails with a **`RuntimeException`**, Sp
 
 ## 18. What is **`@Transactional`** Propagation?
 
-**Transaction Propagation** defines **how a transactional method should behave when it is called from another transactional method**. It decides whether to **join the existing transaction or create a new one**.
+**Transaction Propagation** defines **how a transaction behaves when one `@Transactional` method calls another `@Transactional` method**. It determines whether the called method should **join the existing transaction**, **create a new one**, or **execute without a transaction**.
 
 **How It Works**
 
@@ -24895,7 +24895,6 @@ When a method annotated with **`@Transactional`** is invoked, Spring checks if a
 ```java
 @Service
 public class OrderService {
-
     @Transactional
     public void placeOrder() {
         saveOrder();
@@ -24910,7 +24909,6 @@ public class OrderService {
 
 @Service
 public class AuditService {
-
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveAuditLog() {
         // executes in a new transaction
