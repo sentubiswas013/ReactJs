@@ -31827,6 +31827,99 @@ server {
 }
 ```
 
+## 15. What is AWS load balancing and how it works?
+
+
+**Application Load Balancer (ALB)** is an **AWS Layer 7 Load Balancer** that intelligently distributes **HTTP/HTTPS** requests across multiple backend targets such as **EC2 instances**, **ECS/EKS containers**, **IP addresses**, or **Lambda functions**. It improves **availability**, **scalability**, and **performance**.
+
+**How It Works**
+
+1. A **client** sends an **HTTP/HTTPS** request.
+2. The request reaches the **ALB**.
+3. The **Listener** receives the request on **port 80 (HTTP)** or **443 (HTTPS)**.
+4. ALB checks the **Listener Rules** (based on **URL path**, **host name**, **headers**, etc.).
+5. It selects the appropriate **Target Group**.
+6. ALB performs **Health Checks** and forwards the request only to a **healthy target**.
+7. The backend processes the request and sends the response back through the **ALB** to the client.
+
+**Flow**
+
+```text
+                Client
+                   |
+                   v
+        Application Load Balancer (ALB)
+                   |
+        -----------------------------
+        |             |             |
+   Target Group   Target Group   Target Group
+   User Service   Order Service  Payment Service
+        |             |             |
+      EC2/ECS       EC2/ECS       EC2/ECS
+```
+
+**Key Features**
+
+* **Layer 7 (Application Layer)** Load Balancer.
+* Supports **HTTP** and **HTTPS** traffic.
+* **Path-based Routing** (e.g., `/users`, `/orders`).
+* **Host-based Routing** (e.g., `api.company.com`, `admin.company.com`).
+* Performs **Health Checks** to send traffic only to healthy targets.
+* Supports **SSL/TLS Termination**.
+* Integrates with **Auto Scaling**, **ECS**, **EKS**, and **Lambda**.
+* Supports **WebSocket** and **HTTP/2**.
+
+**When to Use**
+
+* **Spring Boot REST APIs**
+* **Microservices Architecture**
+* **Web Applications**
+* Applications requiring **Path-based** or **Host-based Routing**
+* Applications using **Auto Scaling**
+
+**Real-Time Example**
+
+Suppose an e-commerce application has three microservices:
+
+* **`/users`** → **User Service**
+* **`/orders`** → **Order Service**
+* **`/payments`** → **Payment Service**
+
+When a client requests:
+
+```http
+GET /orders/101
+```
+
+The **ALB** checks the URL path, identifies the **Order Service Target Group**, and forwards the request only to a **healthy Order Service instance**.
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. Why is ALB called a Layer 7 Load Balancer?**
+Because it works at the **Application Layer (Layer 7)** and routes requests based on **HTTP/HTTPS** content like **URL paths**, **host names**, and **headers**.
+
+**2. What is the difference between ALB and NLB?**
+
+| **ALB**                                            | **NLB**                                                  |
+| -------------------------------------------------- | -------------------------------------------------------- |
+| **Layer 7**                                        | **Layer 4**                                              |
+| Supports **HTTP/HTTPS**                            | Supports **TCP/UDP**                                     |
+| Supports **Path-based** and **Host-based Routing** | No application-level routing                             |
+| Best for **Web Applications** and **REST APIs**    | Best for **High-performance**, **low-latency** workloads |
+
+**3. What is a Listener in ALB?**
+A **Listener** listens on a specific **port (80/443)**, receives incoming requests, and applies **Listener Rules** to route them.
+
+**4. What is a Target Group?**
+A **Target Group** is a group of backend resources (**EC2 instances**, **containers**, **IP addresses**, or **Lambda functions**) that receive traffic from the **ALB**.
+
+**5. Can one ALB route traffic to multiple microservices?**
+**Yes.** One **ALB** can route requests to multiple microservices using **Path-based** or **Host-based Routing**, with each service mapped to a different **Target Group**.
+
+
+
 ## **16. How do you handle rollback strategies?**
 
 A **Rollback Strategy** is a process of **reverting an application to the last stable version** if a new deployment causes failures or unexpected issues. The goal is to **minimize downtime and restore service quickly**.
