@@ -24606,25 +24606,15 @@ public class OrderService {
 
 ## 16. What is a @Transactional (ACID properties)? How do you handle rollback?
 
-**@Transactional** is a Spring annotation used to manage **database transactions** automatically. It ensures that a group of database operations is executed as a single unit of work.
+**`@Transactional`** is a **Spring annotation** that manages **database transactions** automatically. It ensures that **all database operations inside a method either complete successfully (Commit) or all changes are rolled back (Rollback)** if an error occurs, keeping the data **consistent**.
 
 **How It Works**
 
-When a method marked with **@Transactional** is called:
-
-1. Spring starts a **Transaction**.
-2. All database operations run inside that transaction.
-3. If everything succeeds, Spring performs a **COMMIT**.
-4. If an exception occurs, Spring performs a **ROLLBACK** and undoes all changes.
-
-
-`@Transactional` is an annotation in **Spring Framework** that tells Spring:
-
-👉 “Run this method inside a database transaction”
-
-- All operations succeed → COMMIT
-- Any operation fails → ROLLBACK
-
+1. A method annotated with **`@Transactional`** is called.
+2. Spring starts a **new transaction**.
+3. All **database operations** execute within that transaction.
+4. If the method completes successfully, Spring **commits** the transaction.
+5. If an **unchecked exception (`RuntimeException`)** occurs, Spring **rolls back** the transaction.
 
 It follows **ACID properties:**
 
@@ -24636,63 +24626,53 @@ It follows **ACID properties:**
 | Durability  | Once committed, data is permanently saved even after a crash          |
 
 
+**Flow**
+
+```text
+Method Called
+      |
+Start Transaction
+      |
+Execute Database Operations
+      |
+Success? ---- Yes ----> Commit
+      |
+      No
+      |
+Rollback
+```
+
 **Key Features**
 
-* Automatic **Transaction Management**
-* Supports **COMMIT** and **ROLLBACK**
-* Ensures **ACID** properties
-* Reduces boilerplate code
-* Managed by Spring using **AOP (Proxy)**
-
+* **Automatic Transaction Management**
+* **Commit** on success.
+* **Rollback** on failure.
+* Maintains **Data Consistency**.
+* Works with **Spring Data JPA**, **Hibernate**, and **JDBC**.
+* Can be applied at **Method** or **Class** level.
 
 **When to Use**
 
-Use **@Transactional** when multiple database operations must be treated as one unit.
+* **Bank money transfer**
+* **Order placement**
+* **Payment processing**
+* Multiple **insert**, **update**, or **delete** operations that must succeed together.
 
-Examples:
-
-* Money transfer between accounts
-* Creating an order and updating inventory
-* Saving data in multiple tables
-
-**Code Example**
+**Example**
 
 ```java
 @Service
 public class BankService {
 
     @Transactional
-    public void transferMoney() {
-
-        withdrawMoney();
-        depositMoney();
+    public void transferMoney(Long fromId, Long toId, double amount) {
+        accountRepository.withdraw(fromId, amount);
+        accountRepository.deposit(toId, amount);
     }
 }
 ```
 
-If `depositMoney()` fails, Spring rolls back the transaction and `withdrawMoney()` is also undone.
-
-
-**Example (Bank Transfer)** Transfer ₹100 from Account A → Account B:
-
-1. Debit from A
-2. Credit to B
-
-If credit fails, debit must be undone → **Rollback**
-
-**1. Using Spring `@Transactional` (Most Common)**
-```java
-@Service
-public class BankService {
-
-    @Transactional
-    public void transferMoney() {
-        debitFromAccountA();
-        creditToAccountB();
-    }
-}
-```
-
+If **`deposit()`** fails, **`withdraw()`** is also rolled back, so no partial update occurs.
 
 If any exception occurs → **Automatic Rollback**
 
@@ -24747,6 +24727,86 @@ try {
     con.close();
 }
 ```
+
+
+**Common Interview Follow-up Questions**
+
+**1. Where can we use `@Transactional`?**
+At the **Method** level or **Class** level. It is commonly placed on the **Service layer**.
+
+**2. Why is `@Transactional` mostly used in the Service layer?**
+The **Service layer** contains **business logic** that may involve multiple database operations, which should be executed in a **single transaction**.
+
+**3. Does `@Transactional` roll back for all exceptions?**
+**No.** By default, it rolls back only for **unchecked exceptions (`RuntimeException` and `Error`)**. For **checked exceptions**, specify:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+**4. Can a private method be `@Transactional`?**
+**No.** Spring uses **AOP proxies**, so **private methods** are not intercepted, and the transaction will not be applied.
+
+**5. What happens if there is no `@Transactional`?**
+Each database operation may execute **independently**, so if one operation fails after another has already succeeded, **partial data** may be saved, leading to **data inconsistency**.
+
+**6. What is the difference between `@Transactional(readOnly = true)` and `@Transactional`?**
+
+* **`@Transactional`** – Used for **Insert**, **Update**, and **Delete** operations.
+* **`@Transactional(readOnly = true)`** – Used for **Read-only** operations. It can improve performance by preventing unnecessary write tracking.
+
+
+**6. is @Transactional work on Monolothic or Microservice?**
+
+
+
+Yes. **`@Transactional` works in both Monolithic and Microservices architectures**, but the scope is different.
+
+| **Monolithic Application**                                                        | **Microservices**                                                       |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **Fully Supported**                                                               | **Supported within a single microservice**                              |
+| Manages transactions across multiple database operations in the same application. | Manages transactions only inside one microservice and its own database. |
+| One transaction can cover multiple repositories.                                  | Cannot manage transactions across multiple microservices.               |
+
+**Monolithic Example**
+
+```java
+@Transactional
+public void createOrder() {
+    orderRepository.save(order);
+    paymentRepository.save(payment);
+    inventoryRepository.updateStock();
+}
+```
+
+All operations are in the **same application** and **same database transaction**. If one fails, **everything is rolled back**.
+
+**Microservices Example**
+
+Suppose you have:
+
+* **Order Service**
+* **Payment Service**
+* **Inventory Service**
+
+```java
+@Transactional
+public void createOrder() {
+    orderRepository.save(order);
+}
+```
+
+Here, **`@Transactional`** manages only the **Order Service's database transaction**.
+
+It **cannot** roll back changes made in **Payment Service** or **Inventory Service**, because each microservice has its **own database** and **own transaction**.
+
+To maintain consistency across multiple microservices, use patterns like:
+
+* **Saga Pattern** (Most commonly used)
+* **Event-Driven Architecture** (Kafka/RabbitMQ)
+* **Compensating Transactions**
+
+
 
 ## 17. How Does `@Transactional` Work Internally?
 
