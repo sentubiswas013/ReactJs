@@ -25044,7 +25044,7 @@ public PaymentResponse makePayment(
 A **UNIQUE constraint** on the **`idempotency_key`** column ensures that the same payment request cannot be stored twice.
 
 
-## 21. How to handle payment fails in microservice using Saga Pattern?
+## 21. How to handle payment failure in microservice using Saga Pattern?
 
 This is a **Distributed Transaction** problem. Since each **Microservice** has its own **Database**, a normal database transaction cannot roll back changes across services.
 
