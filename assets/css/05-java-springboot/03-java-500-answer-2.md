@@ -18979,7 +18979,14 @@ public class UserService {
 ## 12. What is @Component, @Configuration, @Primary, @Qualifier, @PatchMapping annotation?
 
 
-**`@Component`** is a **Spring stereotype annotation** used to mark a class as a **Spring-managed bean**. Spring automatically detects it during **component scanning** and registers it in the **ApplicationContext**.
+* **@Component** creates a **Spring Bean** automatically during component scanning.
+* **@Configuration** is used to define configuration classes that create beans using **@Bean** methods.
+* **@Primary** makes one bean the **default choice** when multiple beans of the same type exist.
+* **@Qualifier** specifies **which bean** should be injected when multiple beans are available.
+**`@PatchMapping`** is a **Spring MVC** annotation used to handle **HTTP PATCH requests**. 
+
+
+**@Component**  is a **Spring stereotype annotation** and tells Spring to automatically **detect and create a Bean** during component scanning and registers it in the **ApplicationContext**.
 
 **Key Features**
 
@@ -19013,7 +19020,7 @@ public class EmailService {
 ---
 
 
-**`@Configuration`** indicates that a class contains **bean definitions**. It is used to define and configure beans using **`@Bean`** methods.
+**@Configuration** marks a class that contains **@Bean methods**. Spring executes these methods and registers their returned objects as beans.
 
 **Key Features**
 
