@@ -16390,9 +16390,11 @@ Because it provides **loose coupling, modular design, easy integration, scalabil
 ## 3. What is Inversion of Control (IoC)?
 
 
-**Inversion of Control (IoC)** is a design principle in which the **control of creating and managing objects is transferred from the application code to the Spring Container**. Instead of a class creating its own dependencies, **Spring creates the objects and injects the required dependencies automatically**.
+**Inversion of Control (IoC)** is a **design principle** where the **Spring Container** controls the creation and lifecycle of objects instead of the application creating them.
 
 In simple words, **you don't create objects; Spring creates and manages them for you.**
+
+* **IoC** = **Who creates the object?** → **Spring Container**
 
 **Key Features**
 
@@ -16418,6 +16420,19 @@ In simple words, **you don't create objects; Spring creates and manages them for
 | Tight coupling                          | Loose coupling                   |
 | Manual dependency management            | Automatic dependency management  |
 | Harder to test                          | Easier to test and maintain      |
+
+
+**Inversion of Control (IoC) VS Dependency Injection (DI)**
+
+Give a simple Polish clean short answer that is easy to explain in an interview with complete clarity(based one question type add Key Features, How it works, when to use and code example etc). if need add Common Interview Follow-up question as well.  Highlight the main keywords in bold. Do not use side notes, arrows, divider line ---, or blockquotes for title instead of ### ** ** format use ** **.**
+
+| **IoC**                        | **DI**                               |
+| ------------------------------ | ------------------------------------ |
+| **Design Principle**           | **Implementation Technique**         |
+| Spring manages object creation | Spring injects required dependencies |
+| Controls bean lifecycle        | Reduces tight coupling               |
+| Improves maintainability       | Makes testing easier                 |
+
 
 **When to Use IoC?**
 
@@ -16496,6 +16511,7 @@ Here:
 
 In simple words, **a class does not create its dependent objects using `new`; Spring injects them automatically.**
 
+* **DI** = **How are dependencies provided?** → **Automatically by Spring**
 
 **Key Features**
 
