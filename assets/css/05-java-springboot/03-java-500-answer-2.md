@@ -24732,12 +24732,15 @@ try {
 **Common Interview Follow-up Questions**
 
 **1. Where can we use `@Transactional`?**
+
 At the **Method** level or **Class** level. It is commonly placed on the **Service layer**.
 
 **2. Why is `@Transactional` mostly used in the Service layer?**
+
 The **Service layer** contains **business logic** that may involve multiple database operations, which should be executed in a **single transaction**.
 
 **3. Does `@Transactional` roll back for all exceptions?**
+
 **No.** By default, it rolls back only for **unchecked exceptions (`RuntimeException` and `Error`)**. For **checked exceptions**, specify:
 
 ```java
@@ -24745,9 +24748,11 @@ The **Service layer** contains **business logic** that may involve multiple data
 ```
 
 **4. Can a private method be `@Transactional`?**
+
 **No.** Spring uses **AOP proxies**, so **private methods** are not intercepted, and the transaction will not be applied.
 
 **5. What happens if there is no `@Transactional`?**
+
 Each database operation may execute **independently**, so if one operation fails after another has already succeeded, **partial data** may be saved, leading to **data inconsistency**.
 
 **6. What is the difference between `@Transactional(readOnly = true)` and `@Transactional`?**
@@ -24757,8 +24762,6 @@ Each database operation may execute **independently**, so if one operation fails
 
 
 **6. is @Transactional work on Monolothic or Microservice?**
-
-
 
 Yes. **`@Transactional` works in both Monolithic and Microservices architectures**, but the scope is different.
 
@@ -24782,23 +24785,6 @@ public void createOrder() {
 All operations are in the **same application** and **same database transaction**. If one fails, **everything is rolled back**.
 
 **Microservices Example**
-
-Suppose you have:
-
-* **Order Service**
-* **Payment Service**
-* **Inventory Service**
-
-```java
-@Transactional
-public void createOrder() {
-    orderRepository.save(order);
-}
-```
-
-Here, **`@Transactional`** manages only the **Order Service's database transaction**.
-
-It **cannot** roll back changes made in **Payment Service** or **Inventory Service**, because each microservice has its **own database** and **own transaction**.
 
 To maintain consistency across multiple microservices, use patterns like:
 
