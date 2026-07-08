@@ -25044,42 +25044,283 @@ public PaymentResponse makePayment(
 A **UNIQUE constraint** on the **`idempotency_key`** column ensures that the same payment request cannot be stored twice.
 
 
-## 21. What happens if payment is successful but order update fails?
+## 21. How to handle payment fails in microservice using Saga Pattern?
 
-This is handled using **event-driven architecture and retry/compensation (Saga pattern)**. If order creation fails after payment, we retry or trigger refund.
+This is a **Distributed Transaction** problem. Since each **Microservice** has its own **Database**, a normal database transaction cannot roll back changes across services.
 
+The best solution is to use the **Saga Pattern** with **Compensating Transactions**.
 
-**Event + Retry Example**
+**Example**
+
+1. **Order Service** creates the order with **PENDING** status.
+2. **Payment Service** successfully charges the customer.
+3. **Order Service** tries to update the order to **CONFIRMED**.
+4. If the order update fails, the **Saga** triggers a **Compensating Transaction**.
+5. The **Payment Service** refunds the payment, and the order is marked as **FAILED** or **CANCELLED**.
+
+This keeps all services **eventually consistent**.
+
+**Key Features**
+
+* **Distributed Transaction** handling
+* Uses **Saga Pattern**
+* Supports **Compensating Transactions** (Refund/Rollback)
+* Provides **Eventual Consistency**
+* Prevents **Data Inconsistency** across services
+
+**How it works**
+
+* Each service completes its own **Local Transaction**.
+* After success, it publishes an **Event**.
+* If any later step fails, previously completed services execute **Compensating Actions** to undo their work.
+
+**When to use**
+
+* **Microservices** architecture
+* Multiple services with separate databases
+* **Order**, **Payment**, **Inventory**, **Shipping** workflows
+* Long-running business transactions
+
+**Simple Code Example**
+
+Assume we have two microservices:
+
+* **Order Service**
+* **Payment Service**
+
+The **Payment Service** charges the customer successfully. Then the **Order Service** fails while updating the order. The **Saga** sends a **Refund Event** to compensate.
+
+**Step 1: Order Created**
+
+```java
+Order order = new Order();
+order.setId(101L);
+order.setStatus("PENDING");
+
+orderRepository.save(order);
+
+// Publish event
+eventPublisher.publish(new OrderCreatedEvent(order.getId(), 500));
+```
+
+**Step 2: Payment Service Receives Event**
 
 ```java
 @Service
-public class PaymentHandler {
+public class PaymentService {
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Autowired
-    private OrderService orderService;
+    private EventPublisher eventPublisher;
 
-    @Autowired
-    private PaymentService paymentService;
+    @KafkaListener(topics = "order-created")
+    public void processPayment(OrderCreatedEvent event) {
 
-    public void handlePaymentSuccess(Payment payment) {
-        try {
-            orderService.createOrder(payment);
-        } catch (Exception e) {
+        Payment payment = new Payment();
+        payment.setOrderId(event.getOrderId());
+        payment.setAmount(event.getAmount());
+        payment.setStatus("SUCCESS");
 
-            // Retry logic (can be Kafka/RabbitMQ in real systems)
-            retry(payment);
+        paymentRepository.save(payment);
 
-            // Or compensation (refund)
-            paymentService.refund(payment.getTransactionId());
-        }
-    }
-
-    private void retry(Payment payment) {
-        // simple retry logic
-        orderService.createOrder(payment);
+        // Notify Order Service
+        eventPublisher.publish(
+                new PaymentSuccessEvent(event.getOrderId()));
     }
 }
 ```
+
+Payment is stored successfully.
+
+```
+Order Table
+------------------------
+101   PENDING
+
+Payment Table
+------------------------
+101   SUCCESS
+```
+
+---
+
+**Step 3: Order Service Updates Order**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private EventPublisher eventPublisher;
+
+    @KafkaListener(topics = "payment-success")
+    public void confirmOrder(PaymentSuccessEvent event) {
+
+        try {
+
+            Order order = orderRepository
+                    .findById(event.getOrderId())
+                    .orElseThrow();
+
+            // Suppose database crashes here
+            throw new RuntimeException("Database Down");
+
+            //order.setStatus("CONFIRMED");
+            //orderRepository.save(order);
+
+        } catch (Exception e) {
+
+            // Compensation Event
+            eventPublisher.publish(
+                    new RefundPaymentEvent(event.getOrderId()));
+        }
+    }
+}
+```
+
+Order update failed.
+
+```
+Order Table
+------------------------
+101   PENDING
+
+Payment Table
+------------------------
+101   SUCCESS
+```
+
+Now the system is inconsistent.
+
+---
+
+**Step 4: Payment Service Performs Refund**
+
+```java
+@Service
+public class RefundService {
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @KafkaListener(topics = "refund-payment")
+    public void refund(RefundPaymentEvent event) {
+
+        Payment payment = paymentRepository
+                .findByOrderId(event.getOrderId());
+
+        payment.setStatus("REFUNDED");
+
+        paymentRepository.save(payment);
+
+        System.out.println("Payment Refunded");
+    }
+}
+```
+
+Now database becomes
+
+```
+Order Table
+------------------------
+101   PENDING
+
+Payment Table
+------------------------
+101   REFUNDED
+```
+
+The customer is not charged anymore.
+
+---
+
+**Step 5: Order Service Marks Order Failed**
+
+```java
+@KafkaListener(topics = "payment-refunded")
+public void updateOrder(RefundCompletedEvent event) {
+
+    Order order = orderRepository
+            .findById(event.getOrderId())
+            .orElseThrow();
+
+    order.setStatus("FAILED");
+
+    orderRepository.save(order);
+}
+```
+
+Final database state
+
+```
+Order Table
+------------------------
+101   FAILED
+
+Payment Table
+------------------------
+101   REFUNDED
+```
+
+Everything is consistent again.
+
+**Flow**
+
+```text
+Order Created
+      │
+      ▼
+Order Status = PENDING
+      │
+      ▼
+Payment Service
+Payment = SUCCESS
+      │
+      ▼
+PaymentSuccess Event
+      │
+      ▼
+Order Service
+Update Order = FAILED
+      │
+      ▼
+RefundPayment Event
+      │
+      ▼
+Payment Service
+Payment = REFUNDED
+      │
+      ▼
+RefundCompleted Event
+      │
+      ▼
+Order Service
+Order = FAILED
+```
+
+
+**Common Interview Follow-up Questions**
+
+**Q1: Why can't we use `@Transactional` across microservices?**
+Because `@Transactional` works only within a **single database** and **single service**.
+
+**Q2: What is a Compensating Transaction?**
+It is an action that **reverses** a previously completed business operation, such as **refunding a payment**.
+
+**Q3: Can Saga guarantee immediate consistency?**
+No. It provides **Eventual Consistency**, not **Strong Consistency**.
+
+**Q4: What are the two Saga implementation styles?**
+
+* **Choreography** (Event-driven)
+* **Orchestration** (Central Saga Coordinator)
+
+**Q5: What if the refund also fails?**
+The system should use **Retry**, **Dead Letter Queue (DLQ)**, **Idempotency**, and **Monitoring/Alerts** to ensure the compensating transaction eventually succeeds.
+
 
 ## 22. Java 11 HttpClient API, and communication between multiple microservices without event and messaing system?
 
