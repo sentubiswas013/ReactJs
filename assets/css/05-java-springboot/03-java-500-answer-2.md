@@ -1724,30 +1724,6 @@ class Test {
 }
 ```
 
-## 15. Summary Data Types and Variables
-
-**🔹 Data Types**
-
-* **Data Type:** Specifies what type of value a variable can store.
-* **Primitive Data Types:** Basic types that store actual values (int, float, char, boolean).
-* **Non-Primitive Data Types:** Store references to objects (String, Arrays, Classes).
-* **Type Casting:** Converting one data type to another (implicit/explicit).
-
-
-**🔹 Variables**
-
-* **Variable:** A named memory location used to store data.
-* **Local Variable:** Declared inside a method and accessible only within it.
-* **Instance Variable:** Declared inside a class, unique for each object.
-* **Static Variable:** Shared among all objects of a class.
-* **Final Variable:** Value cannot be changed once assigned (constant).
-
-
-**🔹 Memory Concept**
-
-* **Primitive Variables:** Stored directly in stack memory.
-* **Reference Variables:** Stored in stack but point to objects in heap memory.
-
 
 # ✅ 03. Java Classes and Objects
 
@@ -2906,31 +2882,6 @@ class Test {
 // Output:
 Exception in thread "main" java.lang.ExceptionInInitializerError
 ```
-
-## 31. Summary Classes and Objects
-
-**🔹 Class**
-
-* **Class:** A blueprint/template used to create objects.
-* **Fields (Variables):** Represent the state of the object.
-* **Methods:** Define the behavior of the object.
-* **Constructor:** Special method used to initialize object values.
-
-
-**🔹 Object**
-
-* **Object:** Instance of a class with state and behavior.
-* **State:** Represented by variables (data).
-* **Behavior:** Represented by methods (functions).
-* **Memory:** Objects are created in heap memory.
-
-
-**🔹 Key Concepts**
-
-* **Encapsulation:** Wrapping data and methods together and restricting access using private/public.
-* **this keyword:** Refers to the current object.
-* **new keyword:** Used to create an object.
-
 
 
 # ✅ 04. Java Inheritance 
@@ -4302,38 +4253,6 @@ class Circle implements MathConstants {
 System.out.println(MathConstants.PI);       // 3.14159
 System.out.println(MathConstants.MAX_VALUE); // 100
 ```
-
-## 32. Summary Java Inheritance
-
-**🔹 Basics**
-
-* **Inheritance:** Mechanism where one class acquires properties and behavior of another class.
-* **Parent Class (Super Class):** Class whose properties are inherited.
-* **Child Class (Sub Class):** Class that inherits from parent class.
-* **extends keyword:** Used to inherit a class.
-
-
-**🔹 Key Concepts**
-
-* **Code Reusability:** Avoids duplication by reusing existing code.
-* **Method Overriding:** Child class provides its own implementation of parent method.
-* **super keyword:** Used to access parent class methods/constructors.
-* **IS-A Relationship:** Represents inheritance relationship (e.g., Dog is an Animal).
-
-
-**🔹 Types of Inheritance**
-
-* **Single Inheritance:** One parent → one child.
-* **Multilevel Inheritance:** Chain of inheritance (A → B → C).
-* **Hierarchical Inheritance:** One parent → multiple children.
-* **Multiple Inheritance:** Not supported with classes (supported via interfaces).
-
-
-**⚠️ Important Points**
-
-* Constructors are **not inherited**, but can be called using `super()`.
-* Private members are **not directly accessible** in child class.
-
 
 
 # ✅ 05. Java Interface & Abstract Class 
@@ -7263,64 +7182,6 @@ public class Demo {
 
 
 
-## 12. Java Collections Framework
-
-**🔹 Basics**
-
-* **Java Collections Framework (JCF):** A set of classes and interfaces used to store and manipulate groups of data.
-* **Collection Interface:** Root interface for most collection types (List, Set, Queue).
-* **Map Interface:** Stores key-value pairs (not part of Collection interface).
-fWhat is JDBC
-
-**🔹 List (Ordered, Allows Duplicates)**
-
-* **List:** Maintains insertion order and allows duplicate elements.
-* **ArrayList:** Dynamic array, fast for read operations.
-* **LinkedList:** Doubly linked list, fast for insert/delete operations.
-* **Vector:** Thread-safe but slower (legacy).
-
-
-**🔹 Set (No Duplicates)**
-
-* **Set:** Does not allow duplicate elements.
-* **HashSet:** Unordered, fast performance.
-* **LinkedHashSet:** Maintains insertion order.
-* **TreeSet:** Sorted order (uses Red-Black Tree).
-
-
-**🔹 Map (Key-Value Pair)**
-
-* **Map:** Stores data as key-value pairs.
-* **HashMap:** Unordered, allows one null key.
-* **LinkedHashMap:** Maintains insertion order.
-* **TreeMap:** Sorted by keys.
-* **Hashtable:** Thread-safe but legacy.
-
-
-**🔹 Queue**
-
-* **Queue:** Follows FIFO (First In First Out).
-* **PriorityQueue:** Elements processed based on priority.
-* **Deque:** Double-ended queue (add/remove from both ends).
-
-
-**🔹 Important Concepts**
-
-* **Iterator:** Used to traverse collection elements.
-* **Comparable:** Used for natural sorting.
-* **Comparator:** Used for custom sorting.
-* **Collections Class:** Utility methods (sort, reverse, shuffle).
-
-
-**⚠️ Key Differences**
-
-* **List vs Set:** List allows duplicates, Set does not.
-* **ArrayList vs LinkedList:** ArrayList fast read, LinkedList fast insert/delete.
-* **HashMap vs TreeMap:** HashMap unordered, TreeMap sorted.
-
-
-
-
 # ✅ 08. Java Lambda Expres.. & Streams API 
 
 ## 2. What are lambda expressions?
@@ -8324,91 +8185,6 @@ public class GCRootExample {
     }
 }
 ```
-
-
-## 9. Java Memory Management Summary?
-
-
-**🔹 JVM Basics**
-
-* **JVM:** Runtime engine that executes Java bytecode and manages memory.
-* **JDK vs JRE vs JVM:** JDK = development tools, JRE = runtime, JVM = execution engine.
-* **ClassLoader:** Loads class files into memory dynamically at runtime.
-
-
-**📦 Memory Areas**
-
-* **Heap:** Shared memory where objects are stored and managed by GC.
-* **Stack:** Thread-specific memory for method calls and local variables.
-* **Metaspace:** Stores class metadata in native memory (Java 8+).
-* **PC Register:** Holds current executing instruction per thread.
-* **Native Method Stack:** Executes native (C/C++) methods.
-
-
-**🧠 PermGen vs Metaspace**
-
-* **PermGen:** Fixed-size memory (pre-Java 8) for class metadata, prone to memory issues.
-* **Metaspace:** Replaces PermGen, uses native memory and grows dynamically.
-
-
-**⚖️ Heap vs Stack**
-
-* **Heap:** Shared, object storage, GC-managed, slower access.
-* **Stack:** Thread-local, method execution, fast and auto-managed.
-
-
-**🧩 Heap Structure**
-
-* **Young Generation:** Where new objects are created.
-* **Eden Space:** Initial allocation area for new objects.
-* **Survivor Space:** Stores objects that survive minor GC.
-* **Old Generation:** Stores long-lived objects.
-
-
-**♻️ Garbage Collection**
-
-* **GC:** Removes unreachable objects to free memory.
-* **Minor GC:** Cleans Young Generation.
-* **Major GC:** Cleans Old Generation.
-* **Full GC:** Cleans entire heap.
-* **Stop-The-World:** Application pauses during GC execution.
-
-
-**⚙️ GC Algorithms**
-
-* **Serial GC:** Single-threaded, simple but slow.
-* **Parallel GC:** Multi-threaded, high throughput.
-* **G1 GC:** Region-based, low pause time (modern default).
-* **CMS GC:** Low pause but deprecated.
-
-
-**⚙️ JVM Internals**
-
-* **JIT Compiler:** Converts bytecode to native code for faster execution.
-* **Bytecode:** Platform-independent intermediate code.
-* **Interpreter vs JIT:** Interpreter executes line-by-line, JIT optimizes frequently used code.
-
-
-**⚠️ Errors**
-
-* **OutOfMemoryError:** Heap or Metaspace memory exhausted.
-* **StackOverflowError:** Stack memory exceeded (deep recursion).
-
-
-**🔍 Advanced Concepts**
-
-* **Memory Leak:** Objects not GC’d due to active references.
-* **Heap Dump:** Memory snapshot used for debugging.
-* **GC Tuning:** Adjusting JVM parameters for performance.
-
-
-**⚙️ JVM Parameters**
-
-* **-Xms:** Initial heap size.
-* **-Xmx:** Maximum heap size.
-* **-XX:+UseG1GC:** Enables G1 garbage collector.
-* **-XX:MaxMetaspaceSize:** Limits Metaspace size.
-
 
 
 
