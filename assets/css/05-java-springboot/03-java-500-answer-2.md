@@ -26478,7 +26478,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 
 # ✅ 24. Java and Application Security
 
-## 0. What are security vulnerability issues?
+## 0. What are vulnerability issues?
 
 A **Security Vulnerability** is a **weakness or flaw** in an application, system, or code that attackers can exploit to **steal data, gain unauthorized access, or disrupt services**.
 
@@ -27092,7 +27092,7 @@ boolean isValid = signature.verify(digitalSignature);
 ```
 
 
-## 6: What is encryption and decryption in Java?
+## 6: What is encryption and decryption?
 
 
 **Encryption** is the process of converting **plain text (readable data)** into **cipher text (unreadable format)** to protect sensitive information.
@@ -27848,6 +27848,305 @@ A: Implement refresh tokens or require re-authentication when tokens expire.
 **13. Can JWT be revoked?**
 
 A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
+
+
+## 12. How Do You Implement AWS IAM to Control Access to AWS Resources?
+
+**AWS IAM (Identity and Access Management)** controls **who** can access **AWS resources** and **what actions** they can perform.
+
+The recommended approach is to **attach an IAM Role** to your **EC2**, **ECS**, **EKS**, or **Lambda** instead of storing **Access Keys** in your application.
+
+**How it Works**
+
+1. Create an **IAM Policy** with the required permissions.
+2. Create an **IAM Role**.
+3. Attach the **Policy** to the **Role**.
+4. Attach the **Role** to the **EC2**, **ECS**, **EKS**, or **Lambda**.
+5. The **AWS SDK** automatically retrieves **temporary credentials** from the IAM Role.
+6. Your application securely accesses **S3**, **SQS**, **DynamoDB**, or **Secrets Manager**.
+
+**Key Features**
+
+* **Role-Based Access Control (RBAC)**.
+* Uses **IAM Policies** to define permissions.
+* Provides **temporary credentials**.
+* No hardcoded **Access Key** or **Secret Key**.
+* Follows the **Least Privilege Principle**.
+
+**When to Use**
+
+* Access files in **S3**.
+* Send or receive messages from **SQS**.
+* Read or write data in **DynamoDB**.
+* Retrieve secrets from **Secrets Manager**.
+* Any application running on **EC2**, **ECS**, **EKS**, or **Lambda**.
+
+**Example**
+
+**Step 1: Create an IAM Policy**
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": "arn:aws:s3:::my-bucket/*"
+    }
+  ]
+}
+```
+
+**Step 2: Attach the Policy to an IAM Role**
+
+```text
+Role Name : SpringBootS3Role
+
+Permissions:
+- s3:GetObject
+- s3:PutObject
+```
+
+**Step 3: Attach the IAM Role to the EC2 Instance**
+
+```text
+EC2
+ └── IAM Role: SpringBootS3Role
+```
+
+**Step 4: Spring Boot Code**
+
+```java
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import java.nio.file.Paths;
+
+public class S3Service {
+
+    private final S3Client s3Client = S3Client.create();
+
+    public void uploadFile() {
+
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucket("my-bucket")
+                .key("report.pdf")
+                .build();
+
+        s3Client.putObject(request, Paths.get("report.pdf"));
+    }
+}
+```
+
+**How Authentication Happens**
+
+* The application **does not store AWS credentials**.
+* The **AWS SDK** checks for credentials.
+* It automatically retrieves **temporary credentials** from the attached **IAM Role**.
+* AWS verifies the **IAM Policy**.
+* If allowed, access to the resource is granted.
+
+
+**Common Interview Follow-up Questions**
+
+**1. Why use an IAM Role instead of Access Keys?**
+
+**IAM Roles** provide **temporary credentials**, improve security, eliminate hardcoded secrets, and support the **Least Privilege Principle**.
+
+**2. Does the AWS SDK automatically use the IAM Role?**
+
+**Yes.** When running on **EC2**, **ECS**, **EKS**, or **Lambda**, the **AWS SDK** automatically retrieves the temporary credentials from the attached **IAM Role**.
+
+**3. Can one IAM Role access multiple AWS services?**
+
+**Yes.** A single IAM Role can have multiple permissions, such as access to **S3**, **SQS**, **DynamoDB**, and **Secrets Manager**, based on its attached **IAM Policies**.
+
+**4. What happens if the IAM Role does not have permission?**
+
+AWS returns an **AccessDenied** error, and the requested operation is rejected.
+
+
+## 12. How Do You Handle Application Roles (ADMIN, USER, MANAGER) in Spring Boot Using Spring Security??
+
+In **Spring Boot**, **application roles** (such as **ADMIN**, **USER**, **MANAGER**) are typically stored in the **database**. When a user logs in, **Spring Security** loads the user's roles and checks them before allowing access to APIs.
+
+**How it Works**
+
+1. User logs in with **username** and **password**.
+2. **Spring Security** authenticates the user.
+3. It loads the user's **roles** from the **database**.
+4. The roles are converted into **GrantedAuthority** objects.
+5. Before accessing an API, Spring Security checks whether the user has the required role.
+6. If the role matches, access is granted; otherwise, **403 Forbidden** is returned.
+
+**Flow**
+
+```text
+User Login
+     │
+     ▼
+Spring Security Authentication
+     │
+     ▼
+Load User & Roles from Database
+     │
+     ▼
+Convert Roles to GrantedAuthority
+     │
+     ▼
+Check @PreAuthorize / hasRole()
+     │
+ ┌───┴────┐
+ │        │
+Allowed  Forbidden (403)
+```
+
+**Key Features**
+
+* **Role-Based Access Control (RBAC)**.
+* Roles stored in the **database**.
+* Uses **Spring Security** for authorization.
+* Supports **method-level** and **URL-level** security.
+* Easy to add new roles without changing business logic.
+
+**When to Use**
+
+* Applications with multiple user types.
+* **Admin Dashboard**.
+* **HR**, **Banking**, **E-commerce**, **Healthcare** applications.
+* Any application requiring different access levels.
+
+**Database Tables**
+
+**users**
+
+| id | username | password          |
+| -- | -------- | ----------------- |
+| 1  | john     | encryptedPassword |
+
+**roles**
+
+| id | name       |
+| -- | ---------- |
+| 1  | ROLE_ADMIN |
+| 2  | ROLE_USER  |
+
+**user_roles**
+
+| user_id | role_id |
+| ------- | ------- |
+| 1       | 1       |
+
+**Example**
+
+**Role Entity**
+
+```java
+@Entity
+public class Role {
+
+    @Id
+    private Long id;
+
+    private String name;   // ROLE_ADMIN, ROLE_USER
+}
+```
+
+**User Entity**
+
+```java
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+}
+```
+
+**UserDetailsService**
+
+```java
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository repository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+
+        User user = repository.findByUsername(username);
+
+        List<GrantedAuthority> authorities =
+                user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getName()))
+                    .toList();
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                authorities
+        );
+    }
+}
+```
+
+**Secure API**
+
+```java
+@RestController
+public class UserController {
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/users")
+    public String getUsers() {
+        return "Only ADMIN can access";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/reports")
+    public String getReports() {
+        return "ADMIN and MANAGER can access";
+    }
+}
+```
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. Where are roles stored?**
+
+Usually in a **roles** table with a **user_roles** mapping table.
+
+**2. Why use `ROLE_ADMIN` instead of `ADMIN`?**
+
+Spring Security convention is to store roles with the **`ROLE_`** prefix. Then `hasRole("ADMIN")` automatically matches **`ROLE_ADMIN`**.
+
+**3. What is `GrantedAuthority`?**
+
+It is the Spring Security object that represents the **permissions or roles** assigned to an authenticated user.
+
+**4. What is the difference between `hasRole()` and `hasAuthority()`?**
+
+* **`hasRole("ADMIN")`** checks for **`ROLE_ADMIN`** automatically.
+* **`hasAuthority("ROLE_ADMIN")`** checks the exact authority string.
+
+**5. Can one user have multiple roles?**
+
+**Yes.** A user can have multiple roles (for example, **ROLE_USER** and **ROLE_MANAGER**) using a **`@ManyToMany`** relationship.
+
 
 
 ## 12. Difference between JWT and Session?
