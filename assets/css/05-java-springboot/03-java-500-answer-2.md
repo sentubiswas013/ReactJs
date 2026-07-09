@@ -7342,7 +7342,7 @@ fWhat is JDBC
 
 
 
-# ✅ 8. Java Lambda Expressions & Streams API 
+# ✅ 8. Java Lambda Expres.. & Streams API 
 
 ## 2. What are lambda expressions?
 
@@ -7930,6 +7930,507 @@ List<String> list2 = List.of("A", "B", "C");
 // list2.set(0, "X");        // Throws UnsupportedOperationException
 // list2.add("D");           // Throws UnsupportedOperationException
 ```
+
+
+
+# ✅ 10. Java JVM & Memory Management 
+
+## 0. What is Java Memory Model (JMM)?
+
+**Java Memory Model (JMM)** defines how threads interact with memory and ensures that changes made by one thread become visible to other threads in a predictable and safe way.
+
+**Why is JMM Needed?**
+
+In a multithreaded application:
+
+* Each thread can have its own CPU cache.
+* One thread may update a variable, but another thread may not see the latest value immediately.
+* JMM provides rules for **visibility, ordering, and atomicity** to avoid inconsistent behavior.
+
+**Key Concepts**
+
+1. **Visibility** → Changes made by one thread are visible to other threads.
+2. **Atomicity** → Operations happen completely or not at all.
+3. **Ordering** → Instructions execute in the correct order.
+
+`volatile` ensures that when one thread changes `running`, other threads immediately see the updated value.
+
+
+```java id="kuyjci"
+class SharedData {
+
+    private volatile boolean flag = false;
+
+    public void writer() {
+        flag = true;
+    }
+
+    public void reader() {
+        while (!flag) {
+            // waiting
+        }
+        System.out.println("Flag changed");
+    }
+}
+```
+
+**Atomicity :** An operation completes entirely or not at all.
+
+```java id="w6e1oi"
+synchronized void increment() {
+    count++;
+}
+```
+
+**Ordering :** Ensures instructions execute in a predictable order using the "happens-before" relationship.
+
+## 1. What are the different memory areas in JVM?
+
+Java has only one memory that is JVM. and JVM memory is divided into different areas to store objects, class metadata, method execution data, and thread-specific information.
+
+**JVM Memory Areas** manage program execution and memory:
+
+**Easy Way to Remember**
+
+* **Heap** → Objects
+* **Stack** → Method Execution
+* **Metaspace** → Class Metadata
+* **PC Register** → Current Instruction
+* **Native Stack** → Native Code Execution
+
+| Memory Area             | Purpose                                                                              |
+| ----------------------- | ------------------------------------------------------------------------------------ |
+| **Heap**                | Stores objects and instance variables. Shared by all threads.                        |
+| **Stack**               | Stores method calls, local variables, and references. Each thread has its own stack. |
+| **Metaspace**           | Stores class metadata, method information, and static structures.                    |
+| **PC Register**         | Stores the address of the current instruction being executed by a thread.            |
+| **Native Method Stack** | Stores information for native methods written in C/C++ and called through JNI.       |
+
+
+## 2. What is the difference between heap and stack?
+
+**Heap** and **Stack** are two different memory areas in the **JVM**, and each serves a different purpose.
+
+| Feature               | **Stack Memory**                                                   | **Heap Memory**                             |
+| --------------------- | ------------------------------------------------------------------ | ------------------------------------------- |
+| **Stores**            | Local variables, method calls, primitive values, object references | Objects and instance variables              |
+| **Memory Allocation** | Automatic when a method is called                                  | Dynamic using **`new`** keyword             |
+| **Access Speed**      | Very **fast**                                                      | Comparatively **slower**                    |
+| **Thread Scope**      | **Thread-specific** (each thread has its own stack)                | **Shared** among all threads                |
+| **Memory Management** | Automatically removed when method finishes                         | Managed by the **Garbage Collector (GC)**   |
+| **Lifetime**          | Exists only during method execution                                | Exists until object is no longer referenced |
+| **Error**             | **StackOverflowError** (deep recursion)                            | **OutOfMemoryError** (heap full)            |
+
+**How it Works**
+
+* When a method is called, a new **stack frame** is created in the **Stack Memory**.
+* Local variables and references are stored in that stack frame.
+* When an object is created using **`new`**, the actual object is stored in the **Heap Memory**, while its reference is stored in the **Stack**.
+* After the method completes, the stack frame is removed automatically.
+* Objects in the heap remain until the **Garbage Collector** frees the unused memory.
+
+**Why to Use**
+
+* **Stack** provides **fast and efficient** memory management for method execution.
+* **Heap** allows **dynamic object creation** and sharing of objects across methods and threads.
+
+**When to Use**
+
+* Use **Stack** for temporary data like **local variables** and **method execution**.
+* Use **Heap** whenever you create **objects**, **arrays**, or any data that needs to live beyond a single method call.
+
+**Example**
+
+```java
+public class MemoryExample {
+    public static void main(String[] args) {
+        int age = 25;                  // Stored in Stack
+        Person p = new Person();       // Reference 'p' in Stack
+                                      // Object 'Person' in Heap
+        p.name = "John";
+    }
+}
+
+class Person {
+    String name;
+}
+```
+
+**In the above example:**
+
+* **`age`** is stored in the **Stack Memory**.
+* Reference variable **`p`** is stored in the **Stack Memory**.
+* The actual **`Person` object** and its field **`name`** are stored in the **Heap Memory**.
+
+
+
+## 3. What is the difference between PermGen and Metaspace?
+
+**PermGen** (Permanent Generation) is a fixed memory area in Java (up to Java 7) used to store class metadata, method information, and interned strings.
+
+**Characteristics:**
+
+* Fixed size (`-XX:PermSize`, `-XX:MaxPermSize`)
+* Part of JVM memory
+* Can cause `OutOfMemoryError: PermGen space` if full
+
+**Metaspace** (Java 8 onwards) replaces PermGen, storing class metadata in native memory with dynamic sizing, improving memory management.
+* Fixed size (`-XX:PermSize`, `-XX:MaxMetaspaceSize`)
+
+
+| Feature             | **PermGen**                                          | **Metaspace**                               |
+| ------------------- | ---------------------------------------------------- | ------------------------------------------- |
+| **Available In**    | Java 7 and earlier                                   | Java 8 and later                            |
+| **Memory Location** | Part of the **JVM Heap**                             | Uses **Native (OS) Memory**                 |
+| **Stores**          | Class metadata, static variables, method information | Class metadata and method information       |
+| **Size**            | Fixed, manually configured                           | Dynamically grows by default                |
+| **Configuration**   | `-XX:MaxPermSize`                                    | `-XX:MaxMetaspaceSize`                      |
+| **Common Error**    | **`java.lang.OutOfMemoryError: PermGen space`**      | **`java.lang.OutOfMemoryError: Metaspace`** |
+| **Performance**     | More frequent tuning required                        | Better memory management and less tuning    |
+
+**Key Features**
+
+* **PermGen** had a **fixed size**, so applications with many dynamically loaded classes could run out of memory.
+* **Metaspace** uses **native memory**, allowing it to grow automatically as needed.
+* **Metaspace** reduces memory tuning and improves JVM flexibility.
+
+**How it Works**
+
+* When the JVM loads a class, it stores the class metadata (class name, methods, fields, etc.).
+* In **Java 7**, this metadata was stored in **PermGen**.
+* In **Java 8+**, it is stored in **Metaspace**, which allocates memory from the operating system instead of the heap.
+
+
+## 4. What is garbage collection?
+
+**Garbage Collection** is an automatic memory management process in **Java** that removes objects that are no longer being used by the application and frees their memory.
+
+**Key Features**
+
+* **Automatic Memory Management**
+* Managed by the **JVM**
+* Removes unused objects
+* Helps prevent **Memory Leaks**
+* Improves application performance and stability
+
+**How It Works**
+
+The **Garbage Collector** periodically checks objects in memory.
+
+* If an object is still referenced, it remains in memory.
+* If an object is no longer referenced, it becomes eligible for **Garbage Collection**.
+* The JVM reclaims the memory used by that object.
+
+**Code Example**
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        String str = new String("Hello");
+
+        str = null; // Object becomes eligible for GC
+        System.gc(); // Request JVM to run GC
+    }
+}
+```
+
+**Why to Use**
+
+* Eliminates manual memory management
+* Reduces memory-related bugs
+* Prevents memory leaks
+* Improves application reliability
+
+**When to Use**
+
+**Garbage Collection** runs automatically when the JVM determines that memory needs to be reclaimed. Developers do not usually manage memory manually in Java.
+
+
+## 5. What are the types of garbage collectors?
+
+In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaiming memory** used by objects that are no longer needed. Java provides several types of garbage collectors.
+
+
+Java provides different **Garbage Collectors (GCs)**, each optimized for different use cases.
+
+**1. Serial Garbage Collector**
+
+* Uses a **single thread** for garbage collection.
+* Suitable for small applications with low memory usage.
+* Simple and low overhead.
+
+JVM Option:
+
+```bash
+-XX:+UseSerialGC
+```
+
+**2. Parallel Garbage Collector**
+
+* Uses **multiple threads** for garbage collection.
+* Focuses on maximizing **throughput**.
+* Default GC in older Java versions.
+
+JVM Option:
+
+```bash
+-XX:+UseParallelGC
+```
+
+**3. G1 Garbage Collector (Garbage First)**
+
+* Divides the heap into regions.
+* Prioritizes regions with the most garbage.
+* Balances throughput and low pause times.
+* Default GC since **Java 9**.
+
+JVM Option:
+
+```bash
+-XX:+UseG1GC
+```
+
+**4. Z Garbage Collector (ZGC)**
+
+* Designed for very large heaps.
+* Provides extremely low pause times.
+* Suitable for large-scale applications.
+
+JVM Option:
+
+```bash
+-XX:+UseZGC
+```
+
+**5. Shenandoah Garbage Collector**
+
+* Focuses on low pause times.
+* Performs most GC work concurrently with application threads.
+* Suitable for applications requiring high responsiveness.
+
+JVM Option:
+
+```bash
+-XX:+UseShenandoahGC
+```
+
+**Summary Table**
+
+| Garbage Collector | Threads    | Pause Time     | Use Case                   |
+| ----------------- | ---------- | -------------- | -------------------------- |
+| Serial GC         | Single     | Stop-the-world | Small apps, single CPU     |
+| Parallel GC       | Multiple   | Stop-the-world | High throughput apps       |
+| CMS GC            | Concurrent | Low-latency    | Responsive apps            |
+| G1 GC             | Concurrent | Low-medium     | Large heaps, low pause     |
+| ZGC               | Concurrent | Very low       | Very large heaps, scalable |
+| Shenandoah GC     | Concurrent | Very low       | Low-latency applications   |
+
+
+## 6. What is generational garbage collection?
+
+
+**Generational Garbage Collection (GC)** is a JVM memory management technique that divides the **Heap Memory** into different generations because **most objects die young**.
+
+**Key Features**
+
+* **Heap** is divided into:
+
+  * **Young Generation** (Eden + Survivor S0 + Survivor S1)
+  * **Old (Tenured) Generation**
+* Objects are first created in the **Eden Space**.
+* Short-lived objects are removed quickly using **Minor GC**.
+* Long-lived objects are moved (promoted) to the **Old Generation**.
+* **Major/Full GC** cleans the Old Generation.
+
+**How it Works**
+
+1. A new object is created and stored in the **Eden Space**.
+2. When Eden becomes full, a **Minor GC** runs.
+3. Objects that are still in use survive and move to the **Survivor Space**.
+4. After surviving several GC cycles, they are promoted to the **Old Generation**.
+5. When the Old Generation becomes full, a **Major GC** or **Full GC** is triggered to reclaim memory.
+
+**Memory Flow**
+
+```text
+Eden  →  Survivor (S0/S1)  →  Old Generation
+   Minor GC         Minor GC        Major/Full GC
+```
+
+**Why to Use**
+
+* Improves **GC performance** by collecting short-lived objects quickly.
+* Reduces the time spent scanning the entire heap.
+* Minimizes application pause times and improves memory efficiency.
+
+**When to Use**
+
+* Used automatically by the **JVM** in almost all Java applications.
+* Especially beneficial for applications that create many temporary objects, such as **web applications**, **microservices**, and **high-throughput systems**.
+
+**Code Example**
+
+```java
+public class GCExample {
+    public static void main(String[] args) {
+        for (int i = 0; i < 100000; i++) {
+            String str = new String("Java GC"); // Short-lived object
+        }
+        System.out.println("Objects created");
+    }
+}
+```
+
+
+
+## 7. What is the difference between minor GC and major GC?
+
+A **Minor GC** occurs in the **Young Generation** of the heap and cleans up short-lived objects like temporary variables. It happens frequently and is usually very fast, causing minimal pause.
+
+A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
+
+
+```java
+// Objects that survive multiple minor GCs get promoted to Old Generation
+List<String> longLived = new ArrayList<>(); // Eventually moves to Old Gen
+String temp = "temporary"; // Likely collected in minor GC
+```
+
+## 8. What are GC roots?
+
+**GC Roots** are special references from which the **Garbage Collector (GC)** starts checking which objects are still **reachable** in memory. Any object that can be reached from a GC Root is **not eligible for garbage collection**.
+
+**Key Features**
+
+* **Starting point** for GC traversal.
+* Objects reachable from GC Roots are **alive**.
+* Unreachable objects become **eligible for garbage collection**.
+* Helps JVM identify **unused memory**.
+
+**Common GC Roots in Java**
+
+* **Local variables** in active methods (stack references).
+* **Static variables**.
+* **Active threads**.
+* **JNI (Native) references**.
+
+**How It Works**
+
+1. GC starts from all **GC Roots**.
+2. It traverses all referenced objects.
+3. Reachable objects are marked as **live**.
+4. Unreachable objects are considered **garbage** and can be removed.
+
+**Why to Use**
+
+* Prevents accidental deletion of objects still in use.
+* Enables efficient **memory management**.
+* Helps avoid **memory leaks** and **OutOfMemoryError**.
+
+**When to Use**
+
+* Understanding **Garbage Collection** internals.
+* Analyzing **memory leaks**.
+* Debugging JVM memory issues.
+
+**Code Example**
+
+```java
+public class GCRootExample {
+    static Object staticObj = new Object(); // GC Root
+    public static void main(String[] args) {
+        Object localObj = new Object(); // GC Root (local variable)
+
+        localObj = null; // No longer referenced
+    }
+}
+```
+
+
+## 9. Java Memory Management Summary?
+
+
+**🔹 JVM Basics**
+
+* **JVM:** Runtime engine that executes Java bytecode and manages memory.
+* **JDK vs JRE vs JVM:** JDK = development tools, JRE = runtime, JVM = execution engine.
+* **ClassLoader:** Loads class files into memory dynamically at runtime.
+
+
+**📦 Memory Areas**
+
+* **Heap:** Shared memory where objects are stored and managed by GC.
+* **Stack:** Thread-specific memory for method calls and local variables.
+* **Metaspace:** Stores class metadata in native memory (Java 8+).
+* **PC Register:** Holds current executing instruction per thread.
+* **Native Method Stack:** Executes native (C/C++) methods.
+
+
+**🧠 PermGen vs Metaspace**
+
+* **PermGen:** Fixed-size memory (pre-Java 8) for class metadata, prone to memory issues.
+* **Metaspace:** Replaces PermGen, uses native memory and grows dynamically.
+
+
+**⚖️ Heap vs Stack**
+
+* **Heap:** Shared, object storage, GC-managed, slower access.
+* **Stack:** Thread-local, method execution, fast and auto-managed.
+
+
+**🧩 Heap Structure**
+
+* **Young Generation:** Where new objects are created.
+* **Eden Space:** Initial allocation area for new objects.
+* **Survivor Space:** Stores objects that survive minor GC.
+* **Old Generation:** Stores long-lived objects.
+
+
+**♻️ Garbage Collection**
+
+* **GC:** Removes unreachable objects to free memory.
+* **Minor GC:** Cleans Young Generation.
+* **Major GC:** Cleans Old Generation.
+* **Full GC:** Cleans entire heap.
+* **Stop-The-World:** Application pauses during GC execution.
+
+
+**⚙️ GC Algorithms**
+
+* **Serial GC:** Single-threaded, simple but slow.
+* **Parallel GC:** Multi-threaded, high throughput.
+* **G1 GC:** Region-based, low pause time (modern default).
+* **CMS GC:** Low pause but deprecated.
+
+
+**⚙️ JVM Internals**
+
+* **JIT Compiler:** Converts bytecode to native code for faster execution.
+* **Bytecode:** Platform-independent intermediate code.
+* **Interpreter vs JIT:** Interpreter executes line-by-line, JIT optimizes frequently used code.
+
+
+**⚠️ Errors**
+
+* **OutOfMemoryError:** Heap or Metaspace memory exhausted.
+* **StackOverflowError:** Stack memory exceeded (deep recursion).
+
+
+**🔍 Advanced Concepts**
+
+* **Memory Leak:** Objects not GC’d due to active references.
+* **Heap Dump:** Memory snapshot used for debugging.
+* **GC Tuning:** Adjusting JVM parameters for performance.
+
+
+**⚙️ JVM Parameters**
+
+* **-Xms:** Initial heap size.
+* **-Xmx:** Maximum heap size.
+* **-XX:+UseG1GC:** Enables G1 garbage collector.
+* **-XX:MaxMetaspaceSize:** Limits Metaspace size.
+
+
 
 
 # ✅ 08. Java Multithreading & Synchronization 
@@ -10457,504 +10958,6 @@ System.out.println(result);
 | Best for CPU-heavy tasks   | Good for general tasks |
 | Automatically splits tasks | Manual task management |
 
-
-
-# ✅ 10. Java JVM & Memory Management 
-
-## 0. What is Java Memory Model (JMM)?
-
-**Java Memory Model (JMM)** defines how threads interact with memory and ensures that changes made by one thread become visible to other threads in a predictable and safe way.
-
-**Why is JMM Needed?**
-
-In a multithreaded application:
-
-* Each thread can have its own CPU cache.
-* One thread may update a variable, but another thread may not see the latest value immediately.
-* JMM provides rules for **visibility, ordering, and atomicity** to avoid inconsistent behavior.
-
-**Key Concepts**
-
-1. **Visibility** → Changes made by one thread are visible to other threads.
-2. **Atomicity** → Operations happen completely or not at all.
-3. **Ordering** → Instructions execute in the correct order.
-
-`volatile` ensures that when one thread changes `running`, other threads immediately see the updated value.
-
-
-```java id="kuyjci"
-class SharedData {
-
-    private volatile boolean flag = false;
-
-    public void writer() {
-        flag = true;
-    }
-
-    public void reader() {
-        while (!flag) {
-            // waiting
-        }
-        System.out.println("Flag changed");
-    }
-}
-```
-
-**Atomicity :** An operation completes entirely or not at all.
-
-```java id="w6e1oi"
-synchronized void increment() {
-    count++;
-}
-```
-
-**Ordering :** Ensures instructions execute in a predictable order using the "happens-before" relationship.
-
-## 1. What are the different memory areas in JVM?
-
-Java has only one memory that is JVM. and JVM memory is divided into different areas to store objects, class metadata, method execution data, and thread-specific information.
-
-**JVM Memory Areas** manage program execution and memory:
-
-**Easy Way to Remember**
-
-* **Heap** → Objects
-* **Stack** → Method Execution
-* **Metaspace** → Class Metadata
-* **PC Register** → Current Instruction
-* **Native Stack** → Native Code Execution
-
-| Memory Area             | Purpose                                                                              |
-| ----------------------- | ------------------------------------------------------------------------------------ |
-| **Heap**                | Stores objects and instance variables. Shared by all threads.                        |
-| **Stack**               | Stores method calls, local variables, and references. Each thread has its own stack. |
-| **Metaspace**           | Stores class metadata, method information, and static structures.                    |
-| **PC Register**         | Stores the address of the current instruction being executed by a thread.            |
-| **Native Method Stack** | Stores information for native methods written in C/C++ and called through JNI.       |
-
-
-## 2. What is the difference between heap and stack?
-
-**Heap** and **Stack** are two different memory areas in the **JVM**, and each serves a different purpose.
-
-| Feature               | **Stack Memory**                                                   | **Heap Memory**                             |
-| --------------------- | ------------------------------------------------------------------ | ------------------------------------------- |
-| **Stores**            | Local variables, method calls, primitive values, object references | Objects and instance variables              |
-| **Memory Allocation** | Automatic when a method is called                                  | Dynamic using **`new`** keyword             |
-| **Access Speed**      | Very **fast**                                                      | Comparatively **slower**                    |
-| **Thread Scope**      | **Thread-specific** (each thread has its own stack)                | **Shared** among all threads                |
-| **Memory Management** | Automatically removed when method finishes                         | Managed by the **Garbage Collector (GC)**   |
-| **Lifetime**          | Exists only during method execution                                | Exists until object is no longer referenced |
-| **Error**             | **StackOverflowError** (deep recursion)                            | **OutOfMemoryError** (heap full)            |
-
-**How it Works**
-
-* When a method is called, a new **stack frame** is created in the **Stack Memory**.
-* Local variables and references are stored in that stack frame.
-* When an object is created using **`new`**, the actual object is stored in the **Heap Memory**, while its reference is stored in the **Stack**.
-* After the method completes, the stack frame is removed automatically.
-* Objects in the heap remain until the **Garbage Collector** frees the unused memory.
-
-**Why to Use**
-
-* **Stack** provides **fast and efficient** memory management for method execution.
-* **Heap** allows **dynamic object creation** and sharing of objects across methods and threads.
-
-**When to Use**
-
-* Use **Stack** for temporary data like **local variables** and **method execution**.
-* Use **Heap** whenever you create **objects**, **arrays**, or any data that needs to live beyond a single method call.
-
-**Example**
-
-```java
-public class MemoryExample {
-    public static void main(String[] args) {
-        int age = 25;                  // Stored in Stack
-        Person p = new Person();       // Reference 'p' in Stack
-                                      // Object 'Person' in Heap
-        p.name = "John";
-    }
-}
-
-class Person {
-    String name;
-}
-```
-
-**In the above example:**
-
-* **`age`** is stored in the **Stack Memory**.
-* Reference variable **`p`** is stored in the **Stack Memory**.
-* The actual **`Person` object** and its field **`name`** are stored in the **Heap Memory**.
-
-
-
-## 3. What is the difference between PermGen and Metaspace?
-
-**PermGen** (Permanent Generation) is a fixed memory area in Java (up to Java 7) used to store class metadata, method information, and interned strings.
-
-**Characteristics:**
-
-* Fixed size (`-XX:PermSize`, `-XX:MaxPermSize`)
-* Part of JVM memory
-* Can cause `OutOfMemoryError: PermGen space` if full
-
-**Metaspace** (Java 8 onwards) replaces PermGen, storing class metadata in native memory with dynamic sizing, improving memory management.
-* Fixed size (`-XX:PermSize`, `-XX:MaxMetaspaceSize`)
-
-
-| Feature             | **PermGen**                                          | **Metaspace**                               |
-| ------------------- | ---------------------------------------------------- | ------------------------------------------- |
-| **Available In**    | Java 7 and earlier                                   | Java 8 and later                            |
-| **Memory Location** | Part of the **JVM Heap**                             | Uses **Native (OS) Memory**                 |
-| **Stores**          | Class metadata, static variables, method information | Class metadata and method information       |
-| **Size**            | Fixed, manually configured                           | Dynamically grows by default                |
-| **Configuration**   | `-XX:MaxPermSize`                                    | `-XX:MaxMetaspaceSize`                      |
-| **Common Error**    | **`java.lang.OutOfMemoryError: PermGen space`**      | **`java.lang.OutOfMemoryError: Metaspace`** |
-| **Performance**     | More frequent tuning required                        | Better memory management and less tuning    |
-
-**Key Features**
-
-* **PermGen** had a **fixed size**, so applications with many dynamically loaded classes could run out of memory.
-* **Metaspace** uses **native memory**, allowing it to grow automatically as needed.
-* **Metaspace** reduces memory tuning and improves JVM flexibility.
-
-**How it Works**
-
-* When the JVM loads a class, it stores the class metadata (class name, methods, fields, etc.).
-* In **Java 7**, this metadata was stored in **PermGen**.
-* In **Java 8+**, it is stored in **Metaspace**, which allocates memory from the operating system instead of the heap.
-
-
-## 4. What is garbage collection?
-
-**Garbage Collection** is an automatic memory management process in **Java** that removes objects that are no longer being used by the application and frees their memory.
-
-**Key Features**
-
-* **Automatic Memory Management**
-* Managed by the **JVM**
-* Removes unused objects
-* Helps prevent **Memory Leaks**
-* Improves application performance and stability
-
-**How It Works**
-
-The **Garbage Collector** periodically checks objects in memory.
-
-* If an object is still referenced, it remains in memory.
-* If an object is no longer referenced, it becomes eligible for **Garbage Collection**.
-* The JVM reclaims the memory used by that object.
-
-**Code Example**
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        String str = new String("Hello");
-
-        str = null; // Object becomes eligible for GC
-        System.gc(); // Request JVM to run GC
-    }
-}
-```
-
-**Why to Use**
-
-* Eliminates manual memory management
-* Reduces memory-related bugs
-* Prevents memory leaks
-* Improves application reliability
-
-**When to Use**
-
-**Garbage Collection** runs automatically when the JVM determines that memory needs to be reclaimed. Developers do not usually manage memory manually in Java.
-
-
-## 5. What are the types of garbage collectors?
-
-In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaiming memory** used by objects that are no longer needed. Java provides several types of garbage collectors.
-
-
-Java provides different **Garbage Collectors (GCs)**, each optimized for different use cases.
-
-**1. Serial Garbage Collector**
-
-* Uses a **single thread** for garbage collection.
-* Suitable for small applications with low memory usage.
-* Simple and low overhead.
-
-JVM Option:
-
-```bash
--XX:+UseSerialGC
-```
-
-**2. Parallel Garbage Collector**
-
-* Uses **multiple threads** for garbage collection.
-* Focuses on maximizing **throughput**.
-* Default GC in older Java versions.
-
-JVM Option:
-
-```bash
--XX:+UseParallelGC
-```
-
-**3. G1 Garbage Collector (Garbage First)**
-
-* Divides the heap into regions.
-* Prioritizes regions with the most garbage.
-* Balances throughput and low pause times.
-* Default GC since **Java 9**.
-
-JVM Option:
-
-```bash
--XX:+UseG1GC
-```
-
-**4. Z Garbage Collector (ZGC)**
-
-* Designed for very large heaps.
-* Provides extremely low pause times.
-* Suitable for large-scale applications.
-
-JVM Option:
-
-```bash
--XX:+UseZGC
-```
-
-**5. Shenandoah Garbage Collector**
-
-* Focuses on low pause times.
-* Performs most GC work concurrently with application threads.
-* Suitable for applications requiring high responsiveness.
-
-JVM Option:
-
-```bash
--XX:+UseShenandoahGC
-```
-
-**Summary Table**
-
-| Garbage Collector | Threads    | Pause Time     | Use Case                   |
-| ----------------- | ---------- | -------------- | -------------------------- |
-| Serial GC         | Single     | Stop-the-world | Small apps, single CPU     |
-| Parallel GC       | Multiple   | Stop-the-world | High throughput apps       |
-| CMS GC            | Concurrent | Low-latency    | Responsive apps            |
-| G1 GC             | Concurrent | Low-medium     | Large heaps, low pause     |
-| ZGC               | Concurrent | Very low       | Very large heaps, scalable |
-| Shenandoah GC     | Concurrent | Very low       | Low-latency applications   |
-
-
-## 6. What is generational garbage collection?
-
-
-**Generational Garbage Collection (GC)** is a JVM memory management technique that divides the **Heap Memory** into different generations because **most objects die young**.
-
-**Key Features**
-
-* **Heap** is divided into:
-
-  * **Young Generation** (Eden + Survivor S0 + Survivor S1)
-  * **Old (Tenured) Generation**
-* Objects are first created in the **Eden Space**.
-* Short-lived objects are removed quickly using **Minor GC**.
-* Long-lived objects are moved (promoted) to the **Old Generation**.
-* **Major/Full GC** cleans the Old Generation.
-
-**How it Works**
-
-1. A new object is created and stored in the **Eden Space**.
-2. When Eden becomes full, a **Minor GC** runs.
-3. Objects that are still in use survive and move to the **Survivor Space**.
-4. After surviving several GC cycles, they are promoted to the **Old Generation**.
-5. When the Old Generation becomes full, a **Major GC** or **Full GC** is triggered to reclaim memory.
-
-**Memory Flow**
-
-```text
-Eden  →  Survivor (S0/S1)  →  Old Generation
-   Minor GC         Minor GC        Major/Full GC
-```
-
-**Why to Use**
-
-* Improves **GC performance** by collecting short-lived objects quickly.
-* Reduces the time spent scanning the entire heap.
-* Minimizes application pause times and improves memory efficiency.
-
-**When to Use**
-
-* Used automatically by the **JVM** in almost all Java applications.
-* Especially beneficial for applications that create many temporary objects, such as **web applications**, **microservices**, and **high-throughput systems**.
-
-**Code Example**
-
-```java
-public class GCExample {
-    public static void main(String[] args) {
-        for (int i = 0; i < 100000; i++) {
-            String str = new String("Java GC"); // Short-lived object
-        }
-        System.out.println("Objects created");
-    }
-}
-```
-
-
-
-## 7. What is the difference between minor GC and major GC?
-
-A **Minor GC** occurs in the **Young Generation** of the heap and cleans up short-lived objects like temporary variables. It happens frequently and is usually very fast, causing minimal pause.
-
-A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
-
-
-```java
-// Objects that survive multiple minor GCs get promoted to Old Generation
-List<String> longLived = new ArrayList<>(); // Eventually moves to Old Gen
-String temp = "temporary"; // Likely collected in minor GC
-```
-
-## 8. What are GC roots?
-
-**GC Roots** are special references from which the **Garbage Collector (GC)** starts checking which objects are still **reachable** in memory. Any object that can be reached from a GC Root is **not eligible for garbage collection**.
-
-**Key Features**
-
-* **Starting point** for GC traversal.
-* Objects reachable from GC Roots are **alive**.
-* Unreachable objects become **eligible for garbage collection**.
-* Helps JVM identify **unused memory**.
-
-**Common GC Roots in Java**
-
-* **Local variables** in active methods (stack references).
-* **Static variables**.
-* **Active threads**.
-* **JNI (Native) references**.
-
-**How It Works**
-
-1. GC starts from all **GC Roots**.
-2. It traverses all referenced objects.
-3. Reachable objects are marked as **live**.
-4. Unreachable objects are considered **garbage** and can be removed.
-
-**Why to Use**
-
-* Prevents accidental deletion of objects still in use.
-* Enables efficient **memory management**.
-* Helps avoid **memory leaks** and **OutOfMemoryError**.
-
-**When to Use**
-
-* Understanding **Garbage Collection** internals.
-* Analyzing **memory leaks**.
-* Debugging JVM memory issues.
-
-**Code Example**
-
-```java
-public class GCRootExample {
-    static Object staticObj = new Object(); // GC Root
-    public static void main(String[] args) {
-        Object localObj = new Object(); // GC Root (local variable)
-
-        localObj = null; // No longer referenced
-    }
-}
-```
-
-
-## 9. Java Memory Management Summary?
-
-
-**🔹 JVM Basics**
-
-* **JVM:** Runtime engine that executes Java bytecode and manages memory.
-* **JDK vs JRE vs JVM:** JDK = development tools, JRE = runtime, JVM = execution engine.
-* **ClassLoader:** Loads class files into memory dynamically at runtime.
-
-
-**📦 Memory Areas**
-
-* **Heap:** Shared memory where objects are stored and managed by GC.
-* **Stack:** Thread-specific memory for method calls and local variables.
-* **Metaspace:** Stores class metadata in native memory (Java 8+).
-* **PC Register:** Holds current executing instruction per thread.
-* **Native Method Stack:** Executes native (C/C++) methods.
-
-
-**🧠 PermGen vs Metaspace**
-
-* **PermGen:** Fixed-size memory (pre-Java 8) for class metadata, prone to memory issues.
-* **Metaspace:** Replaces PermGen, uses native memory and grows dynamically.
-
-
-**⚖️ Heap vs Stack**
-
-* **Heap:** Shared, object storage, GC-managed, slower access.
-* **Stack:** Thread-local, method execution, fast and auto-managed.
-
-
-**🧩 Heap Structure**
-
-* **Young Generation:** Where new objects are created.
-* **Eden Space:** Initial allocation area for new objects.
-* **Survivor Space:** Stores objects that survive minor GC.
-* **Old Generation:** Stores long-lived objects.
-
-
-**♻️ Garbage Collection**
-
-* **GC:** Removes unreachable objects to free memory.
-* **Minor GC:** Cleans Young Generation.
-* **Major GC:** Cleans Old Generation.
-* **Full GC:** Cleans entire heap.
-* **Stop-The-World:** Application pauses during GC execution.
-
-
-**⚙️ GC Algorithms**
-
-* **Serial GC:** Single-threaded, simple but slow.
-* **Parallel GC:** Multi-threaded, high throughput.
-* **G1 GC:** Region-based, low pause time (modern default).
-* **CMS GC:** Low pause but deprecated.
-
-
-**⚙️ JVM Internals**
-
-* **JIT Compiler:** Converts bytecode to native code for faster execution.
-* **Bytecode:** Platform-independent intermediate code.
-* **Interpreter vs JIT:** Interpreter executes line-by-line, JIT optimizes frequently used code.
-
-
-**⚠️ Errors**
-
-* **OutOfMemoryError:** Heap or Metaspace memory exhausted.
-* **StackOverflowError:** Stack memory exceeded (deep recursion).
-
-
-**🔍 Advanced Concepts**
-
-* **Memory Leak:** Objects not GC’d due to active references.
-* **Heap Dump:** Memory snapshot used for debugging.
-* **GC Tuning:** Adjusting JVM parameters for performance.
-
-
-**⚙️ JVM Parameters**
-
-* **-Xms:** Initial heap size.
-* **-Xmx:** Maximum heap size.
-* **-XX:+UseG1GC:** Enables G1 garbage collector.
-* **-XX:MaxMetaspaceSize:** Limits Metaspace size.
 
 
 
