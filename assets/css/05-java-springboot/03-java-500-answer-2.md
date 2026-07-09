@@ -11701,1258 +11701,1077 @@ Use **reflection** when you need dynamic behavior that cannot be achieved with n
 - When compile-time solutions exist
 
 
-# ✅ 14. Java - Servlets and JSP (Web Development)
 
-## 1. What is servlet in Java?
 
-A **Servlet** is a **Java class** that runs inside a **Servlet Container** (like **Tomcat**) and handles **client HTTP requests** and generates **HTTP responses**. It is the core technology behind many Java web applications.
 
-**Key Features:**
+# ✅ 17. Java Design Patterns 
 
-* **Server-side** Java component.
-* Handles **HTTP GET, POST, PUT, DELETE** requests.
-* Supports **multithreading** (one servlet instance can serve multiple requests).
-* Managed by a **Servlet Container**.
+## 0. What are SOLID principles?
 
-**How it Works:**
+**SOLID** is a set of **five object-oriented design principles** that help developers write **clean, maintainable, scalable, and loosely coupled code**.
 
-1. Client sends an **HTTP request**.
-2. The **Servlet Container** receives the request.
-3. It creates **`HttpServletRequest`** and **`HttpServletResponse`** objects.
-4. The container calls the servlet's **`service()`** method.
-5. Based on the request type, `service()` invokes **`doGet()`**, **`doPost()`**, etc.
-6. The servlet processes the request and sends back an **HTTP response** to the client.
-
-**Servlet Lifecycle:**
-
-* **`init()`** → Called **once** when the servlet is created.
-* **`service()`** → Called for **every incoming request**.
-* **`destroy()`** → Called **once** before the servlet is removed.
-
-**When to Use:**
-
-* To build **Java web applications** and **REST APIs**.
-* When you need to process **HTTP requests** and generate **dynamic web content**.
-* It is the **foundation** on which frameworks like **Spring MVC** and **Spring Boot** work.
-
-**Code Example:**
-
-```java
-import java.io.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.WebServlet;
-
-@WebServlet("/hello")
-public class HelloServlet extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter().write("Hello, Servlet!");
-    }
-}
-```
-
-## 2. What is the servlet lifecycle?
-
-The **Servlet Lifecycle** defines the stages a **Servlet** goes through from **creation** to **destruction**. The **Servlet Container** (like **Tomcat**) manages this lifecycle automatically.
-
-**Lifecycle Methods:**
-
-1. **`init()`**
-
-   * Called **only once** when the servlet is loaded.
-   * Used for **initialization**, such as loading configuration or creating resources.
-
-2. **`service()`**
-
-   * Called for **every client request**.
-   * It processes the request and internally calls methods like **`doGet()`**, **`doPost()`**, **`doPut()`**, etc., based on the HTTP method.
-
-3. **`destroy()`**
-
-   * Called **only once** before the servlet is removed from memory.
-   * Used to **release resources**, such as closing database connections or files.
-
-**How it Works:**
-
-1. The **Servlet Container** loads the servlet.
-2. It creates **one servlet instance**.
-3. Calls **`init()`** once.
-4. For every incoming request, calls **`service()`**.
-5. When the server shuts down or the servlet is undeployed, calls **`destroy()`**.
+| **Principle**                                 | **Meaning**                                                                                                      |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **S - Single Responsibility Principle (SRP)** | A class should have **only one reason to change**, meaning it should have **one responsibility**.                |
+| **O - Open/Closed Principle (OCP)**           | Software entities should be **open for extension but closed for modification**.                                  |
+| **L - Liskov Substitution Principle (LSP)**   | A subclass should be able to **replace its parent class** without changing the program's behavior.               |
+| **I - Interface Segregation Principle (ISP)** | Clients should not be forced to depend on **interfaces they do not use**. Create **small, specific interfaces**. |
+| **D - Dependency Inversion Principle (DIP)**  | High-level modules should depend on **abstractions (interfaces)**, not concrete implementations.                 |
 
 **Key Features:**
 
-* **Managed by the Servlet Container**.
-* **`init()`** and **`destroy()`** are called only once.
-* **`service()`** is called for every request.
-* A **single servlet instance** can handle **multiple requests using multiple threads**.
-
-**When to Use:**
-
-* When building **Java web applications** that process **HTTP requests and responses**.
-* Understanding the lifecycle helps in **resource initialization**, **request handling**, and **resource cleanup**.
-
-**Code Example:**
-
-```java
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.WebServlet;
-import java.io.IOException;
-
-@WebServlet("/demo")
-public class DemoServlet extends HttpServlet {
-
-    @Override
-    public void init() {
-        System.out.println("Servlet initialized");
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp) throws IOException {
-        resp.getWriter().write("Handling GET request");
-    }
-
-    @Override
-    public void destroy() {
-        System.out.println("Servlet destroyed");
-    }
-}
-```
-
-## 3. What is JSP (JavaServer Pages)?
-
-**JSP (JavaServer Pages)** is a **server-side technology** used to create **dynamic web pages** by embedding **Java code** inside **HTML**. It simplifies web development by allowing developers to mix presentation (HTML) with Java logic.
-
-**Key Features:**
-
-* Creates **dynamic web content**.
-* Combines **HTML** and **Java** in a single file.
-* Runs on top of the **Servlet** technology.
-* Supports **Expression Language (EL)** and **JSTL** for cleaner code.
+* Promotes **loose coupling**.
+* Improves **code reusability** and **maintainability**.
+* Makes applications easier to **test** and **extend**.
+* Reduces the impact of future changes.
 
 **How it Works:**
 
-1. A client requests a **`.jsp`** page.
-2. The **Servlet Container** (e.g., Tomcat) translates the JSP into a **Servlet**.
-3. The generated Servlet is **compiled** into a Java class.
-4. The Servlet executes and generates an **HTML response**.
-5. The HTML is sent back to the client browser.
-6. On subsequent requests, the already compiled Servlet is reused unless the JSP file changes.
+* Break responsibilities into smaller classes (**SRP**).
+* Add new features by extending code instead of modifying existing code (**OCP**).
+* Ensure subclasses behave correctly when replacing parent classes (**LSP**).
+* Create focused interfaces instead of large, general ones (**ISP**).
+* Depend on interfaces and use **Dependency Injection** (**DIP**).
 
 **When to Use:**
 
-* To build **dynamic web pages** in traditional **Java web applications**.
-* When you need to display data received from **Servlets** or **backend services**.
-* Commonly used with the **MVC (Model-View-Controller)** pattern as the **View** layer.
+* Designing **object-oriented applications**.
+* Building **Spring Boot** or **enterprise Java** applications.
+* When writing code that needs to be **scalable, testable, and maintainable**.
 
-**Code Example:**
+**Code Example (Dependency Inversion Principle):**
 
-```jsp
-<html>
-<body>
-    <h2>Welcome to JSP!</h2>
-    <p>Current Time: <%= new java.util.Date() %></p>
-</body>
-</html>
-```
-
-
-## 4. What is the difference between servlet and JSP?
-
-| **Feature**                | **Servlet**                                             | **JSP (JavaServer Pages)**                                        |
-| -------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------- |
-| **Purpose**                | Used for **request processing** and **business logic**. | Used for **presentation** and generating **dynamic web pages**.   |
-| **Code Style**             | Written completely in **Java**.                         | Written mainly in **HTML** with embedded **Java/EL/JSTL**.        |
-| **Compilation**            | Directly compiled into **bytecode**.                    | First **translated into a Servlet**, then compiled.               |
-| **Ease of UI Development** | Difficult because HTML is written inside Java code.     | Easy because Java code is embedded inside HTML.                   |
-| **Performance**            | Slightly faster since it is already compiled.           | First request is slower due to JSP-to-Servlet conversion.         |
-| **Role in MVC**            | Usually acts as the **Controller**.                     | Usually acts as the **View**.                                     |
-| **Extension**              | `.java`                                                 | `.jsp`                                                            |
-| **Inheritance**            | Extends **`HttpServlet`**.                              | Internally converted into a class that extends **`HttpServlet`**. |
-
-**Key Difference:**
-
-* **Servlet** is mainly used for **handling requests and implementing business logic**.
-* **JSP** is mainly used for **displaying data and creating dynamic user interfaces**.
-
-**When to Use:**
-
-* Use **Servlet** for **request handling, validation, and controller logic**.
-* Use **JSP** for **rendering dynamic HTML pages**.
-
-
-
-## 5. What is ORM?
-**ORM(Object Relational Mapping)** is a technique that maps **Java Objects** to **Database Tables** and database records to Java objects.
-
-**Key Features**
-
-* Maps objects to database tables
-* Reduces SQL boilerplate code
-* Simplifies database operations
-* Improves code readability and maintainability
-
-**How It Works**
-
-ORM automatically converts Java objects into database records and database records back into Java objects.
-
-For example:
-
-* **Class** → **Table**
-* **Object** → **Row**
-* **Field** → **Column**
-
-**Code Example**
-
-```java
-@Entity
-public class User {
-
-    @Id
-    private Long id;
-
-    private String name;
+```java id="k3m8pq"
+interface MessageService {
+    void send(String message);
 }
-```
 
-```java
-User user = new User();
-user.setName("John");
-
-userRepository.save(user);
-```
-
-ORM automatically generates and executes the SQL needed to save the object.
-
-**Why to Use**
-
-* Reduces manual SQL writing
-* Improves developer productivity
-* Makes code more object-oriented
-* Simplifies CRUD operations
-
-**When to Use**
-
-Use **ORM** when working with relational databases and Java applications that need frequent database operations.
-
-Examples:
-
-* Spring Boot applications
-* Enterprise applications
-* Microservices with databases
-
-## 6. What is JPA?
-
-
-**JPA(Java Persistence API)** is a **Java Specification** for managing and persisting data between Java objects and relational databases. It provides a standard way to perform **ORM (Object Relational Mapping)**.
-
-**Key Features**
-
-* Standard API for database persistence
-* Supports **ORM**
-* Uses annotations such as **@Entity**, **@Id**, and **@Table**
-* Reduces boilerplate JDBC code
-* Database-independent
-
-**How It Works**
-
-JPA maps Java classes to database tables and Java objects to table rows.
-
-* **Class** → **Table**
-* **Object** → **Row**
-* **Field** → **Column**
-
-JPA defines the rules, while frameworks such as **Hibernate** implement those rules.
-
-**Code Example**
-
-```java
-@Entity
-public class User {
-
-    @Id
-    private Long id;
-
-    private String name;
+class EmailService implements MessageService {
+    public void send(String message) {
+        System.out.println("Sending Email: " + message);
+    }
 }
-```
 
-```java
-userRepository.save(user);
-```
+class Notification {
+    private MessageService service;
 
-JPA automatically maps the object and persists it to the database.
+    public Notification(MessageService service) {
+        this.service = service;
+    }
 
-**Why to Use**
-
-* Simplifies database operations
-* Reduces SQL and JDBC code
-* Improves productivity
-* Provides a standard persistence approach
-
-**When to Use**
-
-Use **JPA** when building Java applications that interact with relational databases.
-
-Examples:
-
-* Spring Boot applications
-* Enterprise applications
-* Microservices with databases
-
-## 6. What is Hibernate?
-
-**Hibernate** is an **ORM (Object Relational Mapping) Framework** that simplifies database operations by mapping **Java Objects** to **Database Tables**. It is the most popular implementation of **JPA**.
-
-**Key Features**
-
-* Implements **JPA**
-* Provides **ORM** functionality
-* Automatically generates SQL queries
-* Supports **Caching**
-* Supports **Lazy Loading**
-* Reduces JDBC boilerplate code
-
-**How It Works**
-
-Hibernate maps Java classes to database tables and Java objects to table rows.
-
-* **Class** → **Table**
-* **Object** → **Row**
-* **Field** → **Column**
-
-When you save an object, Hibernate automatically generates and executes the required SQL.
-
-**Code Example**
-
-```java
-@Entity
-public class User {
-
-    @Id
-    private Long id;
-
-    private String name;
-}
-```
-
-```java
-User user = new User();
-user.setName("John");
-
-userRepository.save(user);
-```
-
-Hibernate automatically generates SQL similar to:
-
-```sql
-INSERT INTO user (name) VALUES ('John');
-```
-
-**Why to Use**
-
-* Reduces manual SQL writing
-* Simplifies database interaction
-* Improves productivity
-* Provides advanced ORM features
-* Makes applications easier to maintain
-
-**When to Use**
-
-Use **Hibernate** when working with relational databases in Java applications.
-
-Examples:
-
-* Spring Boot applications
-* Enterprise applications
-* Microservices with databases
-
-
-**Analogy:**
-- **ORM** = "Driving a car" (concept) 🚗
-- **JPA** = "Driver's license test" (standard rules) 📋
-- **Hibernate** = "Toyota Camry" (actual car implementing the rules) 🚙
-
-| Concept   | Analogy                 |
-| --------- | ----------------------- |
-| ORM       | Online shopping concept |
-| Hibernate | Amazon application      |
-
-
-| | ORM | JPA | Hibernate |
-|---|---|---|---|
-| **What it is** | Concept/technique | Java specification | Framework/library |
-| **Who defines it** | General pattern | Oracle / Jakarta EE | Red Hat |
-| **Analogous to** | "web standards" | JDBC interface | A JDBC driver |
-
-
-## 7. Different between ORM, JPA and Hibernate?
-
-| Aspect                 | ORM                                                           | JPA                                                                                                                                              | Hibernate                                                                                                                                                |
-| ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| What it is             | Concept/technique for mapping objects to relational databases | Java specification (API) defining how ORM should work                                                                                            | Framework that implements JPA specification stackoverflow+1                                                                                              |
-| Type                   | Approach/methodology (not a tool)                             | Specification/API (interface only)                                                                                                               | Full ORM framework/provider linkedin+1                                                                                                                   |
-| Framework?             | ❌ No framework (it's the concept)                             | ❌ No framework (just API spec)                                                                                                                   | ✅ Yes - full ORM framework interviewbit+1                                                                                                                |
-| Package                | N/A                                                           | javax.persistence or jakarta.persistence                                                                                                         | org.hibernate geeksforgeeks                                                                                                                              |
-| Key Annotations        | N/A                                                           | @Entity, @Id, @Table, @Column, @OneToMany, @ManyToOne, @Transient, @GeneratedValue geeksforgeeks                                                 | All JPA annotations plus Hibernate-specific: @Lazy, @BatchSize, @Formula, @Where, @Cache geeksforgeeks                                                   |
-| Main Interface         | N/A                                                           | EntityManager, EntityManagerFactory                                                                                                              | SessionFactory, Session (Hibernate-specific) + JPA EntityManager geeksforgeeks                                                                           |
-| Query Language         | N/A                                                           | JPQL (Java Persistence Query Language)                                                                                                           | HQL (Hibernate Query Language) + supports JPQL geeksforgeeks                                                                                             |
-| Setup/Maven Dependency | N/A                                                           | Need implementation (e.g., hibernate-core) + javax.persistence-api                                                                               | org.hibernate:hibernate-core or hibernate-entitymanager geeksforgeeks                                                                                    |
-| Config File            | N/A                                                           | persistence.xml (defines persistence unit)                                                                                                       | hibernate.cfg.xml or persistence.xml (JPA mode) + application.properties in Spring Boot geeksforgeeks                                                    |
-| Spring Boot Setup      | N/A                                                           | Auto-configured via spring-boot-starter-data-jpa                                                                                                 | Auto-configured as default JPA provider in Spring Boot youtube                                                                                           |
-| Example Dependency     | N/A                                                           | xml<br><dependency><br>  <groupId>org.springframework.boot</groupId><br>  <artifactId>spring-boot-starter-data-jpa</artifactId><br></dependency> | xml<br><dependency><br>  <groupId>org.hibernate</groupId><br>  <artifactId>hibernate-core</artifactId><br>  <version>6.x.x</version><br></dependency>    |
-| Entity Example         | N/A                                                           | java<br>@Entity<br>@Table(name="users")<br>public class User {<br>  @Id<br>  @GeneratedValue<br>  private Long id;<br>}                          | Same as JPA plus Hibernate extensions: java<br>@Entity<br>@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)<br>@Lazy(false)<br>public class User { ... } |
-| Additional Features    | N/A                                                           | Standard ORM features only                                                                                                                       | Advanced caching, lazy loading strategies, batch processing, dirty checking, second-level cache, native SQL support stackoverflow+1                      |
-| Switchability          | N/A                                                           | ✅ Easy to switch implementations (portable API)                                                                                                  | ❌ Tied to Hibernate if using Hibernate-specific features stackoverflow                                                                                   |
-
-
-## 8. Difference between `save() and `persist()`
-
-
-Both **`save()`** and **`persist()`** are used to store an entity in the database, but they belong to different APIs and have some behavioral differences.
-
-
-* **Use `save()`** when working directly with **Hibernate `Session`** and you need the **generated ID** immediately.
-
-* **Use `persist()`** when working with **JPA (`EntityManager`)** because it is the **standard JPA method** and is recommended in **Spring Boot/JPA** applications.
-
-
-**Key Features**
-
-| Feature      | **save()**                  | **persist()**               |
-| ------------ | --------------------------- | --------------------------- |
-| API          | **Hibernate** method        | **JPA** standard method     |
-| Return Type  | Returns generated **ID**    | Returns **void**            |
-| Standard     | Hibernate-specific          | JPA-standard                |
-| Entity State | Makes entity **Persistent** | Makes entity **Persistent** |
-| Portability  | Less portable               | More portable               |
-
-**How It Works**
-
-**- save()**
-
-* A method provided by **Hibernate Session**.
-* Saves the entity and returns the generated **primary key**.
-* Can trigger an immediate insert to generate the ID.
-
-```java
-Session session = sessionFactory.openSession();
-
-Employee emp = new Employee();
-emp.setName("John");
-
-Long id = (Long) session.save(emp);
-
-System.out.println(id);
-```
-
-**- persist()**
-
-* A method provided by **JPA EntityManager**.
-* Makes the entity managed by the persistence context.
-* Does not return the generated ID.
-* The actual SQL INSERT usually happens during **flush** or **transaction commit**.
-
-```java
-EntityManager em = entityManagerFactory.createEntityManager();
-
-Employee emp = new Employee();
-emp.setName("John");
-
-em.persist(emp);
-```
-
-**Why Use It**
-
-* Use **`persist()`** when working with **JPA** because it follows the standard specification.
-* Use **`save()`** when directly using **Hibernate APIs** and you need the generated ID immediately.
-
-**When to Use**
-
-**Use `persist()`**
-
-* In **Spring Boot + JPA** applications.
-* When writing **portable code** that can work with different JPA providers.
-* Recommended for modern enterprise applications.
-
-```java
-@Repository
-public class EmployeeRepository {
-
-    @PersistenceContext
-    private EntityManager em;
-
-    public void save(Employee emp) {
-        em.persist(emp);
+    public void notifyUser() {
+        service.send("Hello User");
     }
 }
 ```
 
-**Use `save()`**
+**Easy Memory Trick:**
+**S → One Responsibility**
+**O → Open for Extension, Closed for Modification**
+**L → Subclass should replace Parent**
+**I → Small Specific Interfaces**
+**D → Depend on Interfaces, Not Implementations**
 
-* When working directly with **Hibernate Session**.
-* When you need the generated ID returned immediately.
-
-```java
-Session session = sessionFactory.openSession();
-
-Long id = (Long) session.save(employee);
-```
-
-
-
-## 9. Difference between save() and saveAndFlush()?
-
-
-Both **`save()`** and **`saveAndFlush()`** are methods provided by **Spring Data JPA** to persist entities, but they differ in **when changes are written to the database**.
-
-
-* **`save()`**: Saves the entity in the Persistence Context. The SQL is usually executed later during `flush()` or transaction commit.
-
-* **`saveAndFlush()`**: Saves the entity and immediately flushes the Persistence Context, so the SQL is executed in the database right away.
-
-
-
-**Key Features**
-
-| Feature                   | **save()**                 | **saveAndFlush()**                     |
-| ------------------------- | -------------------------- | -------------------------------------- |
-| Save Entity               | Yes                        | Yes                                    |
-| Flush Persistence Context | No                         | Yes                                    |
-| SQL Execution             | At flush/commit time       | Immediately                            |
-| Return Type               | Saved Entity               | Saved Entity                           |
-| Performance               | Better for bulk operations | Slightly slower due to immediate flush |
-
-**How It Works**
-
-**save()**
-
-* Saves the entity in the **Persistence Context**.
-* SQL query is not necessarily executed immediately.
-* Changes are usually sent to the database during **flush** or **transaction commit**.
-
-```java
-Employee emp = new Employee();
-emp.setName("John");
-
-employeeRepository.save(emp);
-```
-
-**saveAndFlush()**
-
-* Saves the entity and immediately calls **flush()**.
-* Forces Hibernate/JPA to execute the SQL statement right away.
-* Changes become visible in the database immediately within the current transaction.
-
-```java
-Employee emp = new Employee();
-emp.setName("John");
-
-employeeRepository.saveAndFlush(emp);
-```
-
-**Why Use It**
-
-**save()**
-
-* Better performance.
-* Lets Hibernate optimize SQL execution.
-* Recommended for most CRUD operations.
-
-**saveAndFlush()**
-
-* Ensures data is immediately written to the database.
-* Useful when subsequent code depends on the database state.
-
-**When to Use**
-
-**Use `save()`**
-
-* Standard create/update operations.
-* Batch inserts or updates.
-* Most Spring Boot applications.
-
-```java
-employeeRepository.save(employee);
-```
-
-**Use `saveAndFlush()`**
-
-* Need the data immediately available in the database.
-* Calling a stored procedure after saving.
-* Running a query in the same transaction that depends on the newly saved data.
-
-```java
-employeeRepository.saveAndFlush(employee);
-
-Employee result =
-        employeeRepository.findById(employee.getId()).get();
-```
-
-**Example**
-
-```java
-@Transactional
-public void createEmployee() {
-
-    Employee emp = new Employee();
-    emp.setName("John");
-
-    employeeRepository.saveAndFlush(emp);
-
-    // SQL INSERT already executed here
-    System.out.println("Employee saved in DB");
-}
-```
-
-**Common Interview Follow-up Questions**
-
-**1. Does `saveAndFlush()` commit the transaction?**
-
-No. It only **flushes** changes to the database. The transaction is still committed later.
-
-**2. Can the data be rolled back after `saveAndFlush()`?**
-
-Yes. Even though the SQL has been executed, the transaction can still be **rolled back** if it has not been committed.
-
-**3. Which method is faster?**
-
-**`save()`** is generally faster because it avoids an immediate flush and allows Hibernate to optimize database operations.
-
-**4. What is the difference between `flush()` and `commit()`?**
-
-* **`flush()`** → Sends SQL statements to the database but **does not permanently save** the changes.
-* **`commit()`** → Permanently saves the changes by **committing the transaction**.
-
-
-**5. What is `flush()`?**
-
-**A:** **`flush()`** synchronizes the **Persistence Context** with the **database** by executing all pending **INSERT**, **UPDATE**, and **DELETE** SQL statements without committing the transaction.
-
-
-
-| Aspect               | save()                                               | saveAndFlush()                                                     |
-| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
-| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
-| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
-| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
-| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
-| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
-| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
-
-
-
-## 10. What is the difference between DAO and DTO?
-
-**DAO (Data Access Object)** and **DTO (Data Transfer Object)** are common design patterns used in Java applications.
-
-* **DAO** is responsible for **accessing and managing data** in the database.
-* **DTO** is a simple object used to **transfer data** between different layers of an application.
-
-| **Feature**        | **DAO**                                    | **DTO**                                                    |
-| ------------------ | ------------------------------------------ | ---------------------------------------------------------- |
-| **Full Form**      | **Data Access Object**                     | **Data Transfer Object**                                   |
-| **Purpose**        | Interacts with the **database**.           | Transfers **data between layers**.                         |
-| **Contains**       | Database operations like **CRUD**.         | Only **fields, getters, and setters** (no business logic). |
-| **Layer**          | **Persistence/Data Access Layer**.         | Used between **Controller, Service, and DAO** layers.      |
-| **Responsibility** | Fetches, saves, updates, and deletes data. | Carries data from one layer to another.                    |
-
-**How it Works:**
-
-1. The **Controller** receives a request.
-2. The **Service** layer processes the business logic.
-3. The **DAO** fetches or updates data in the database.
-4. The data is mapped to a **DTO**.
-5. The **DTO** is returned to the client without exposing the internal entity.
-
-**Key Features:**
-
-* **DAO** separates **database logic** from business logic.
-* **DTO** reduces unnecessary data transfer and improves security.
-* Together, they help create a **clean and maintainable architecture**.
-
-**When to Use:**
-
-* Use **DAO** when interacting with a **database**.
-* Use **DTO** when sending or receiving data between **application layers** or **REST APIs**.
-
-**Code Example:**
-
-**DTO:**
-
-```java id="j4z8np"
-public class UserDTO {
-    private Long id;
-    private String name;
-
-    // Getters and Setters
-}
-```
-
-**DAO:**
-
-```java id="g6x3tr"
-@Repository
-public class UserDAO {
-
-    @Autowired
-    private UserRepository repository;
-
-    public User save(User user) {
-        return repository.save(user);
-    }
-
-    public User findById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-}
-```
-
-
-## 11. What is the N+1 Query Problem and How Do You Fix It?
-
-The **N+1 Query Problem** is a performance issue in **JPA/Hibernate** where **1 query** is executed to fetch the parent records, and then **N additional queries** are executed to fetch the related child records. This results in **too many database calls** and slower performance.
-
-**Key Features:**
-
-* Commonly occurs with **`LAZY`** loading.
-* Causes **multiple unnecessary SQL queries**.
-* Degrades **application performance**.
-* Frequently seen in **`@OneToMany`** and **`@ManyToOne`** relationships.
-
-**How it Works:**
-
-1. Fetch all parent entities with **1 query**.
-2. Iterate over the parent entities.
-3. Access a lazy-loaded child collection.
-4. Hibernate executes **one extra query for each parent entity**.
-5. Total queries = **1 + N**.
 
 **Example:**
-Suppose there are **10 Users**, and each has a list of **Orders**:
+**S — Single Responsibility Principle (SRP)**
 
-* `SELECT * FROM users;` → **1 query**
-* For each user: `SELECT * FROM orders WHERE user_id = ?;` → **10 queries**
+One class should have only one responsibility.
 
-**Total = 11 queries (1 + N).**
+use case:  
 
-**How to Fix It:**
+❌ Wrong:
 
-* Use **`JOIN FETCH`** in JPQL.
-* Use **`@EntityGraph`** to fetch related entities together.
-* Use **DTO projections** when only specific data is needed.
-* Avoid changing everything to **`EAGER`** fetching, as it can create other performance issues.
+```java
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
 
-**When to Use the Fix:**
-
-* When loading **parent and child entities together**.
-* In APIs or reports where related data is always required.
-* To reduce **database round trips** and improve performance.
-
-**Code Example (Using `JOIN FETCH`):**
-
-```java id="p8v4mq"
-@Query("SELECT u FROM User u JOIN FETCH u.orders")
-List<User> findAllUsersWithOrders();
-```
-
-**Code Example (Problem Scenario):**
-
-```java id="x2n7kr"
-List<User> users = userRepository.findAll();
-
-for (User user : users) {
-    System.out.println(user.getOrders().size()); // Triggers extra query for each user
+    public void sendEmail() {
+        // send email
+    }
 }
 ```
 
-Or use `@EntityGraph`:
+✅ Correct:
 
 ```java
-@EntityGraph(attributePaths = {"customer"})
-List<Order> findAll();
+class OrderService {
+    public void createOrder() {
+        // create order
+    }
+}
+
+class EmailService {
+    public void sendEmail() {
+        // send email
+    }
+}
 ```
 
 
-## 12. What is JPQL vs Native Query?
+**O — Open/Closed Principle (OCP)**
 
-**JPQL (Java Persistence Query Language)** and **Native Query** are two ways to query a database in **JPA/Hibernate**.
+Open for extension, closed for modification.
 
-* **JPQL** is an object-oriented query language that works with **entity classes and their fields**, not database tables and columns.
+```java
+// OCP: Open for extension, closed for modification
 
-* **Native Query** is a database-specific SQL query that works directly with **tables and columns**.
+// This is the abstraction (interface)
+// We can add new payment types without changing existing code
+interface Payment {
+    void pay(); // common method for all payment types
+}
 
-| **Feature**               | **JPQL**                                | **Native Query**                                                    |
-| ------------------------- | --------------------------------------- | ------------------------------------------------------------------- |
-| **Works On**              | **Entity classes and their fields**.    | **Database tables and columns**.                                    |
-| **Syntax**                | Java object-oriented query language.    | Standard SQL syntax.                                                |
-| **Database Independence** | **Database-independent**.               | May be **database-specific**.                                       |
-| **Portability**           | High.                                   | Lower due to SQL dialect differences.                               |
-| **Complex Queries**       | Limited for advanced database features. | Supports all SQL features, joins, functions, and stored procedures. |
+// Concrete implementation 1
+class CardPayment implements Payment {
+    public void pay() {
+        // specific logic for card payment
+        System.out.println("Paid by Card");
+    }
+}
 
-**How it Works:**
+// Concrete implementation 2
+class UpiPayment implements Payment {
+    public void pay() {
+        // specific logic for UPI payment
+        System.out.println("Paid by UPI");
+    }
+}
 
-* **JPQL:** Hibernate translates the JPQL statement into the appropriate SQL for the underlying database.
-* **Native Query:** The SQL query is sent directly to the database without translation.
+// This class uses the abstraction (Payment interface)
+// It does NOT depend on concrete classes like CardPayment or UpiPayment
+class PaymentService {
+
+    // This method is CLOSED for modification
+    // We don't need to change this method when new payment types are added
+    public void processPayment(Payment payment) {
+        // This is OPEN for extension because any new Payment type can be passed here
+        payment.pay();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Create service object
+        PaymentService service = new PaymentService();
+
+        // Using Card payment
+        Payment p1 = new CardPayment();
+        service.processPayment(p1);
+
+        // Using UPI payment
+        Payment p2 = new UpiPayment();
+        service.processPayment(p2);
+
+        // If we add a new payment type (e.g., WalletPayment),
+        // we DO NOT modify PaymentService
+        // We only create a new class implementing Payment
+    }
+}
+
+// Output:
+// Paid by Card
+// Paid by UPI
+```
+
+Now we can add **NetBankingPayment** without changing existing code.
+
+
+**L — Liskov Substitution Principle (LSP)**
+
+Child class should replace parent class without breaking code.
+
+```java
+// LSP: Liskov Substitution Principle
+// Objects of a child class should be able to replace objects of the parent class
+// WITHOUT breaking the expected behavior of the program.
+
+class Bird {
+
+    // Base class method
+    // Defines general behavior that all birds SHOULD follow
+    public void fly() {
+        System.out.println("Bird can fly");
+    }
+}
+
+// Child class extending Bird
+class Sparrow extends Bird {
+
+    // Overriding the parent method
+    // Behavior is consistent with parent (still "fly")
+    @Override
+    public void fly() {
+        System.out.println("Sparrow can fly");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Parent object
+        Bird b = new Bird();
+        b.fly(); 
+        // Output: Bird can fly
+
+        // Child object
+        Sparrow s = new Sparrow();
+        s.fly(); 
+        // Output: Sparrow can fly
+
+        // LSP in action (Runtime Polymorphism)
+        // Parent reference holding child object
+        Bird b2 = new Sparrow();
+
+        // This should NOT break behavior
+        // Even though reference is Bird, actual object is Sparrow
+        b2.fly(); 
+        // Output: Sparrow can fly
+
+        // ✔ This works perfectly → LSP is satisfied
+    }
+}
+
+/*
+Key Interview Points:
+
+1. LSP means:
+   Child class must be substitutable for parent class.
+
+2. In this example:
+   - Sparrow IS-A Bird
+   - Sparrow does not change expected behavior
+   - So it follows LSP
+
+3. Why this is correct:
+   - No exception thrown
+   - No unexpected behavior
+   - Same logical meaning of "fly"
+
+4. When LSP is violated:
+   Example: If we create Penguin extends Bird but override fly() to throw exception
+   → That breaks LSP because Penguin cannot truly replace Bird
+
+5. Real-world idea:
+   If parent says "can fly", child must honor that contract
+*/
+
+
+// Output:
+Bird can fly
+Sparrow can fly
+Sparrow can fly
+```
+
+Bad example: Penguin cannot fly → violates LSP.
+
+
+**I — Interface Segregation Principle (ISP)**
+
+Create small interfaces.
+
+```java
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class Human implements Workable, Eatable {
+    public void work() {
+        System.out.println("Human working");
+    }
+
+    public void eat() {
+        System.out.println("Human eating");
+    }
+}
+
+class Robot implements Workable {
+    public void work() {
+        System.out.println("Robot working");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Workable w1 = new Human();
+        w1.work();
+
+        Eatable e1 = new Human();
+        e1.eat();
+
+        Workable w2 = new Robot();
+        w2.work();
+    }
+}
+
+// Output:
+Human working
+Human eating
+Robot working
+```
+
+Robot does not implement eat() → Correct.
+
+
+**D — Dependency Inversion Principle (DIP)**
+
+Depend on abstraction, not concrete class.
+
+```java
+// DIP: Depend on abstraction, not concrete implementation
+
+// Abstraction
+interface Payment {
+    void pay();
+}
+
+// Concrete implementation
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+// High-level module (business logic)
+class OrderService {
+
+    // Depends on abstraction, not CardPayment directly
+    private Payment payment;
+
+    // Dependency is injected via constructor
+    public OrderService(Payment payment) {
+        this.payment = payment;
+    }
+
+    public void placeOrder() {
+        payment.pay(); // uses abstraction
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Inject concrete implementation at runtime
+        Payment payment = new CardPayment();
+
+        // OrderService is not tightly coupled to CardPayment
+        OrderService orderService = new OrderService(payment);
+
+        orderService.placeOrder(); // Output: Card payment
+    }
+}
+
+/*
+Interview Points (Quick):
+
+- High-level class (OrderService) should NOT depend on low-level class (CardPayment)
+- Both depend on abstraction (Payment)
+- Easy to switch implementation (UPI, Wallet, etc.) without changing OrderService
+*/
+
+//Output:
+Card payment
+```
+
+## 1. What are design patterns?
+
+**Design Patterns** are **proven, reusable solutions** to common software design problems. They are **templates or best practices**, not complete code, that help developers write **clean, maintainable, and scalable** applications.
 
 **Key Features:**
 
-* **JPQL**
+* Provide **standard solutions** to recurring problems.
+* Promote **code reusability** and **loose coupling**.
+* Improve **maintainability** and **readability**.
+* Follow **object-oriented design principles** like **SOLID**.
 
-  * Works with **entities**.
-  * Easy to maintain.
-  * Portable across different databases.
-* **Native Query**
+**Types of Design Patterns:**
 
-  * Uses **raw SQL**.
-  * Better for **complex queries** and database-specific features.
-  * Can provide better performance in some cases.
+| **Category**   | **Purpose**                                   | **Examples**                            |
+| -------------- | --------------------------------------------- | --------------------------------------- |
+| **Creational** | Deals with **object creation**.               | **Singleton**, **Factory**, **Builder** |
+| **Structural** | Deals with **class and object composition**.  | **Adapter**, **Decorator**, **Facade**  |
+| **Behavioral** | Deals with **communication between objects**. | **Strategy**, **Observer**, **Command** |
+
+**How it Works:**
+
+* Identify a common design problem.
+* Apply a suitable design pattern instead of creating a custom solution from scratch.
+* The pattern provides a flexible and maintainable structure for the code.
 
 **When to Use:**
 
-* Use **JPQL** for most CRUD operations and when you want **database-independent** code.
-* Use **Native Query** for **complex SQL**, **stored procedures**, or when you need **database-specific functions**.
+* When building **large or scalable applications**.
+* When the same design problem occurs repeatedly.
+* To improve **code organization**, **extensibility**, and **maintainability**.
+* Commonly used in **Spring Framework**, **Hibernate**, and enterprise Java applications.
+
+**Code Example (Singleton Pattern):**
+
+```java id="m8t2qx"
+public class Singleton {
+
+    private static final Singleton instance = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+```
+
+**Easy Memory Trick:**
+
+* **Creational** → How objects are **created**.
+* **Structural** → How objects are **connected**.
+* **Behavioral** → How objects **communicate**.
+
+
+1️⃣ **Creational Design Patterns**
+* **Singleton** – Only one instance of a class is created.
+* **Factory Method** – Creates objects without exposing creation logic.
+* **Abstract Factory** – Creates families of related objects.
+* **Builder** – Builds complex objects step by step.
+* **Prototype** – Creates object by cloning existing object.
+
+2️⃣ **Structural Design Patterns**
+* **Adapter** – Converts one interface into another.
+* **Bridge** – Separates abstraction from implementation.
+* **Decorator** – Adds behavior dynamically.
+* **Facade** – Provides simplified interface to complex system.
+* **Proxy** – Controls access to an object.
+
+3️⃣ **Behavioral Design Patterns**
+* **Observer** – One-to-many dependency (used in event systems).
+* **Strategy** – Select algorithm at runtime.
+* **Command** – Encapsulates a request as an object.
+* **State** – Changes behavior when state changes.
+* **Template Method** – Defines skeleton of algorithm.
+* **Iterator** – Sequential access to collection.
+
+
+## 2. What is Singleton pattern?
+
+The **Singleton Pattern** is a **Creational Design Pattern** that ensures a class has **only one instance** throughout the application and provides a **global access point** to that instance.
+
+**Key Features:**
+
+* Creates **only one object** of a class.
+* Provides a **single global access point**.
+* Saves **memory and resources**.
+* Can be made **thread-safe** for multithreaded applications.
+
+**How it Works:**
+
+1. Make the **constructor `private`** so no other class can create an object.
+2. Create a **static instance** of the class.
+3. Provide a **public static method** (usually `getInstance()`) to return the single instance.
+
+**When to Use:**
+
+* For **logging** services.
+* For **configuration** or **properties** management.
+* For **cache** managers.
+* When only **one shared instance** is required across the application.
+* Commonly used in **Spring**, where beans are **singleton-scoped by default**.
+
+**Code Example (Eager Initialization):**
+
+```java id="f6w9kp"
+public class Singleton {
+
+    private static final Singleton instance = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+```
+
+**Thread-Safe Lazy Initialization:**
+
+```java id="p4m8xt"
+public class Singleton {
+    private static Singleton instance;
+    private Singleton() {}
+
+    public static synchronized Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1 == s2); // true (same object)
+    }
+}
+```
+
+**Advantages:**
+
+* **Controlled access** to a single instance.
+* **Reduces object creation overhead**.
+* Easy to share common resources across the application.
+
+
+
+## 3. How do you implement thread-safe Singleton?
+
+**Thread-safe Singleton** can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
+
+**Methods:**
+- Synchronized method (simple but slow)
+- Double-checked locking (efficient)
+- Enum singleton (best approach)
+- Static inner class (lazy loading)
+
+```java
+// Double-checked locking
+public class ThreadSafeSingleton {
+    private static volatile ThreadSafeSingleton instance;    
+    private ThreadSafeSingleton() { }
+    
+    public static ThreadSafeSingleton getInstance() {
+        if (instance == null) {
+            synchronized (ThreadSafeSingleton.class) {
+                if (instance == null) {
+                    instance = new ThreadSafeSingleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+// Enum singleton - best approach
+public enum EnumSingleton {
+    INSTANCE;    
+    public void doSomething() { }
+}
+```
+
+## 4. What is Factory pattern?
+
+The **Factory Pattern** is a **Creational Design Pattern** that provides a **centralized way to create objects** without exposing the object creation logic to the client. Instead of using `new` directly, the client asks the **factory** to create the required object.
+
+**Key Features:**
+
+* Encapsulates **object creation logic**.
+* Promotes **loose coupling** between client and implementation classes.
+* Makes code **easier to extend and maintain**.
+* Follows the **Open/Closed Principle (OCP)**.
+
+**How it Works:**
+
+1. Create a **common interface** or abstract class.
+2. Create multiple classes that implement the interface.
+3. Create a **Factory class** that decides which object to create based on input.
+4. The client requests an object from the factory instead of creating it directly.
+
+**When to Use:**
+
+* When the exact type of object is determined **at runtime**.
+* When object creation logic is **complex**.
+* When you want to reduce **tight coupling** between classes.
+* Commonly used in **Spring**, **Hibernate**, and **JDBC DriverManager**.
 
 **Code Example:**
 
-**JPQL:** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
-
-```java id="b7n3kp"
-@Entity
-public class Employee {
-
-    @Id
-    private Long id;
-
-    private String name;
-    private double salary;
-}
-
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-
-    @Query("SELECT e FROM Employee e WHERE e.salary > :salary")
-    List<Employee> findEmployeesBySalary(@Param("salary") double salary);
-}
-
-// Usage
-List<Employee> employees = employeeRepository.findEmployeesBySalary(50000);
-```
-
-**Native Query:** uses actual SQL with real table and column names. Use it when you need database-specific features or complex queries JPQL can't handle.
-
-```java id="m4x8qr"
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-
-    @Query(value = "SELECT * FROM employee WHERE salary > :salary",
-           nativeQuery = true)
-    List<Employee> findEmployeesNative(@Param("salary") double salary);
-}
-
-// Usage
-List<Employee> employees = employeeRepository.findEmployeesNative(50000);
-```
-
-## 13. What are JPA Cascade Types?
-
-Cascade means — *when you do an operation on a parent entity, automatically apply it to child entities too.*
-
-| Type | Behavior |
-|---|---|
-| `PERSIST` | Save child when parent is saved |
-| `MERGE` | Update child when parent is updated |
-| `REMOVE` | Delete child when parent is deleted |
-| `REFRESH` | Refresh child when parent is refreshed |
-| `DETACH` | Detach child when parent is detached |
-| `ALL` | Apply all of the above |
-
 ```java
-@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-private List<OrderItem> items;
-```
-
-Be careful with `REMOVE` — it can delete child records you didn't intend to delete.
-
-
-## 14. What is Database Indexing and When to Use It?
-
-A **Database Index** is a special **data structure** that improves the speed of **data retrieval** operations. It works like the **index of a book**, allowing the database to find rows quickly without scanning the entire table.
-
-**Key Features:**
-
-* Improves **`SELECT`** query performance.
-* Reduces the need for **full table scans**.
-* Can be created on one or more columns.
-* Uses additional **storage space** and slightly slows down **`INSERT`**, **`UPDATE`**, and **`DELETE`** operations.
-
-**How it Works:**
-
-1. An index stores the values of indexed columns in a sorted structure (commonly a **B-Tree**).
-2. When a query searches by an indexed column, the database looks up the index first.
-3. The index quickly points to the required row location, avoiding a full table scan.
-
-**Example:**
-Without an index:
-
-```sql
-SELECT * FROM users WHERE email = 'abc@example.com';
-```
-
-The database may scan the **entire `users` table**.
-
-With an index on the **`email`** column:
-
-```sql
-CREATE INDEX idx_email ON users(email);
-```
-
-The database can directly locate the matching row, making the query much faster.
-
-**When to Use:**
-
-* Columns frequently used in **`WHERE`** conditions.
-* Columns used in **`JOIN`**, **`ORDER BY`**, or **`GROUP BY`** clauses.
-* **Primary Keys** and **Foreign Keys**.
-* Columns with **high search frequency**.
-
-**When to Avoid:**
-
-* Very small tables.
-* Columns that are rarely queried.
-* Columns with frequent updates if read performance is not critical, because indexes add maintenance overhead.
-
-**Code Example (JPA):**
-
-```java id="v3n8qy"
-@Entity
-@Table(name = "users",
-       indexes = {
-           @Index(name = "idx_email", columnList = "email")
-       })
-public class User {
-
-    @Id
-    private Long id;
-
-    private String email;
-}
-```
-
-
-## 16. What is LazyInitializationException?
-
-**`LazyInitializationException`** occurs when Hibernate tries to load a lazily fetched entity or collection after the Hibernate session has already been closed.
-
-
-```java
-@Entity
-class Employee {
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Address> addresses;
-}
-```
-
-```java
-Employee emp = employeeRepository.findById(1L).get();
-// Session closes here
-
-emp.getAddresses().size(); // LazyInitializationException
-```
-
-Since `addresses` is loaded lazily, Hibernate tries to fetch it only when `getAddresses()` is called. But the session is already closed, so it throws `LazyInitializationException`.
-
-**How to Fix It**
-
-    1. Access the lazy data inside a transaction.
-    2. Use `JOIN FETCH` in JPQL.
-       ```java
-       SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = 1
-       ```
-    3. Use DTO projections instead of entities for web layer.
-    4. Use `FetchType.EAGER` only when necessary.
-
-
-## 17. Entity lifecycle states?
-
-| State | Description |
-|---|---|
-| **Transient** | New object, not tracked by JPA |
-| **Managed** | Tracked by persistence context |
-| **Detached** | Was managed, now outside context |
-| **Removed** | Scheduled for deletion |
-
-```java
-User user = new User("John");          // Transient
-
-entityManager.persist(user);           // Managed - changes auto-synced
-
-entityManager.detach(user);            // Detached - changes NOT tracked
-user.setName("Jane");                  // won't be saved
-
-entityManager.merge(user);             // Managed again
-
-entityManager.remove(user);            // Removed
-```
-
-
-## 18. What is dirty checking?
-
-
-**Dirty Checking** is a feature of **Hibernate/JPA** that automatically detects changes made to a managed entity and updates the database without explicitly calling `save()` or `update()`.
-
-**Key Features**
-
-* Automatic change detection
-* Works inside a **Transaction**
-* Reduces boilerplate code
-* Managed by the **Persistence Context**
-* Automatically generates **UPDATE** queries
-
-**How It Works**
-
-1. Hibernate loads an entity from the database.
-2. The entity becomes **Managed** by the **Persistence Context**.
-3. If the entity's data is modified, Hibernate tracks the changes.
-4. At **Transaction Commit**, Hibernate compares the current state with the original state.
-5. If changes are found, Hibernate automatically executes an **UPDATE** statement.
-
-**Code Example**
-
-```java
-@Transactional
-public void updateUser(Long id) {
-
-    User user = userRepository.findById(id).get();
-    // Hibernate creates snapshot: {id: 1, name: "John", salary: 50000}
-
-    user.setName("John Updated");
-
-    // Hibernate marks entity as "dirty"
-    
-    // No need to call employeeRepository.save()!
-    // At transaction commit, Hibernate automatically executes:
-    // UPDATE employee SET name = 'John Updated' WHERE id = 1
-}
-```
-
-No explicit `save()` call is needed.
-
-Hibernate automatically generates:
-
-```sql
-UPDATE users
-SET name = 'John Updated'
-WHERE id = 1;
-```
-
-**Why to Use**
-
-* Reduces manual database updates
-* Simplifies code
-* Improves developer productivity
-* Ensures entity changes are persisted automatically
-
-**When to Use**
-
-Use **Dirty Checking** when working with **managed entities** inside a **@Transactional** method.
-
-
-## 19: What is lazy loading?
-
-**Lazy Loading** is a technique where data or objects are **loaded only when they are actually needed**, instead of loading them immediately. It helps improve **performance** and reduces unnecessary memory usage.
-
-**Key Features**
-
-* Loads data **on demand**.
-* Improves **application performance**.
-* Reduces **memory consumption**.
-* Decreases initial loading time.
-* Commonly used in **Hibernate/JPA** relationships.
-
-**How It Works**
-
-1. The main object is loaded first.
-2. Related objects are not fetched immediately.
-3. When the related data is accessed, Hibernate executes a query and loads it.
-4. Data is fetched only when required.
-
-**Why Use Lazy Loading?**
-
-* Improves performance by avoiding unnecessary database calls.
-* Reduces memory usage.
-* Faster application startup and response time.
-* Efficient for large object graphs.
-
-**When to Use**
-
-* Large datasets.
-* Relationships that are not always needed.
-* Performance-sensitive applications.
-* One-to-Many and Many-to-Many associations.
-
-**Code Example**
-
-```java
-// Lazy loading examples
-@Entity
-public class User {
-    @Id
-    private Long id;
-    private String name;
-    
-    // Lazy loading - orders loaded only when accessed
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Order> orders;
-    // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
-    
-    // Eager loading - always loaded with user
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Department department;
+enum PaymentType {
+    CARD, UPI
 }
 
-@Service
-public class UserService {
-    
-    // Lazy loading in action
-    public void processUser(Long userId) {
-        User user = userRepository.findById(userId);
-        // Orders not loaded yet
-        
-        if (needsOrders(user)) {
-            user.getOrders().size(); // Now orders are loaded
+// Step 1: Interface
+interface Payment {
+    void pay();
+}
+
+// Step 2: Implementations
+class CardPayment implements Payment {
+    public void pay() {
+        System.out.println("Card payment");
+    }
+}
+
+class UpiPayment implements Payment {
+    public void pay() {
+        System.out.println("UPI payment");
+    }
+}
+
+// Step 3: Factory Class
+class PaymentFactory {
+    public static Payment getPayment(PaymentType type) {
+        switch (type) {
+            case CARD:
+                return new CardPayment();
+
+            case UPI:
+                return new UpiPayment();
+
+            default:
+                throw new IllegalArgumentException("Invalid payment type");
         }
     }
-    
-    // Avoid N+1 with explicit fetch
-    public List<User> getUsersWithOrders() {
-        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
+}
+
+// Step 4: Main Class
+class FactoryPatternDemo {
+    public static void main(String[] args) {
+        Payment payment = PaymentFactory.getPayment(PaymentType.UPI);
+        payment.pay();
     }
 }
 ```
 
-**Lazy vs Eager Loading**
+**Advantages:**
 
-| **Lazy Loading**                   | **Eager Loading**                       |
-| ---------------------------------- | --------------------------------------- |
-| Loads data when needed             | Loads data immediately                  |
-| Better performance for unused data | Can load unnecessary data               |
-| Lower memory usage                 | Higher memory usage                     |
-| Default for collections in JPA     | Often used when data is always required |
+* Hides **object creation details**.
+* Improves **code flexibility** and **reusability**.
+* Makes it easier to add new implementations without changing client code.
 
 
-## 20: What is eager loading?
+## 5. What is Observer pattern?
 
+The **Observer Pattern** is a **Behavioral Design Pattern** in which **one object (Subject)** automatically **notifies multiple dependent objects (Observers)** whenever its state changes. It establishes a **one-to-many relationship** between objects.
 
+**Key Features:**
 
+* Supports **one-to-many communication**.
+* Promotes **loose coupling** between the subject and observers.
+* Observers are **automatically updated** when the subject changes.
+* Easy to **add or remove observers** without changing the subject.
 
-**Eager Loading** is a technique where related data is **loaded immediately** along with the main entity in a **single query** or as soon as the entity is fetched.
+**How it Works:**
 
-**Key Features**
+1. A **Subject** maintains a list of registered **Observers**.
+2. Observers **subscribe** to the subject.
+3. When the subject's state changes, it calls the **`update()`** method on all observers.
+4. Each observer performs its own action based on the notification.
 
-* **Loads related objects instantly**
-* Reduces the **N+1 Query Problem**
-* Improves performance when related data is definitely needed
-* May load **extra data** that is not used
+**When to Use:**
 
-**How It Works**
+* **Event-driven systems**.
+* **Notification services** (Email, SMS, Push Notifications).
+* **Stock price** or **weather update** applications.
+* Commonly used in **Spring Event Listeners** and **GUI frameworks**.
 
-When the main entity is fetched, its associated entities are fetched at the same time.
+**Code Example:**
 
-Example:
-
-If you load an **Employee**, the related **Department** is also loaded immediately.
-
-**Why Use It?**
-
-* Reduces the number of database queries
-* Improves performance for frequently accessed relationships
-* Avoids additional database hits later
-
-**When to Use**
-
-* When related data is **always required**
-* For reports, dashboards, and detailed views
-* To avoid repeated database queries
-
-**Example (JPA/Hibernate)**
-```java
-// Eager loading examples
-@Entity
-public class Order {
-    @Id
-    private Long id;
-    
-    // Eager loading - customer always loaded with order
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Customer customer;
-
-     // fetch = FetchType.EAGER means the related entity is loaded immediately along with the parent entity
-    
-    // Lazy loading - items loaded on demand
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> items;
-
-     // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
+```java id="n4v8kp"
+interface Observer {
+    void update(String message);
 }
 
-@Repository
-public class OrderRepository extends JpaRepository<Order, Long> {
-    
-    // Explicit eager loading with fetch join
-    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
-    List<Order> findAllOrdersWithDetails();
-    
-    // Conditional eager loading
-    @EntityGraph(attributePaths = {"customer", "items"})
-    @Query("SELECT o FROM Order o WHERE o.status = :status")
-    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
+class EmailObserver implements Observer {
+    public void update(String message) {
+        System.out.println("Email received: " + message);
+    }
+}
+
+class Subject {
+    private List<Observer> observers = new ArrayList<>();
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.update(message);
+        }
+    }
 }
 ```
 
+**Using the Observer Pattern:**
 
-## 21. What is auditing and How it works in JPA?
+```java id="m7q2tx"
+public class Main {
+    public static void main(String[] args) {
+        Subject subject = new Subject();
+        subject.addObserver(new EmailObserver());
+
+        subject.notifyObservers("Order Placed Successfully!");
+    }
+}
+```
+
+**Advantages:**
+
+* Reduces **tight coupling** between objects.
+* Makes the system **flexible** and **extensible**.
+* Supports **event-based communication**.
 
 
-In Java (especially enterprise applications like Spring Boot), **auditing** means **tracking and recording changes made to data**, such as:
+## 6. What is Strategy pattern?
 
-* **Who** created the record
-* **When** the record was created
-* **Who** updated the record
-* **When** it was last updated
+The **Strategy Pattern** is a **Behavioral Design Pattern** that defines a **family of algorithms**, encapsulates each one in a separate class, and allows them to be **interchanged at runtime** without changing the client code.
 
+**Key Features:**
 
-**How it works**
+* Encapsulates **different algorithms** in separate classes.
+* Allows changing the **behavior at runtime**.
+* Promotes **loose coupling**.
+* Follows the **Open/Closed Principle (OCP)** by allowing new strategies without modifying existing code.
 
-Spring Data JPA provides `@CreatedDate`, `@LastModifiedDate`, `@CreatedBy`, `@LastModifiedBy` via `@EnableJpaAuditing`.
+**How it Works:**
 
-```java
-// 1. Enable auditing
-@SpringBootApplication
-@EnableJpaAuditing
-public class App {}
+1. Define a common **Strategy interface**.
+2. Create multiple classes implementing the interface, each with a different algorithm.
+3. The **Context** class holds a reference to a strategy.
+4. At runtime, the client selects the required strategy, and the context delegates the work to it.
 
-// 2. Auditable base entity
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public abstract class Auditable {
-    @CreatedDate
-    private LocalDateTime createdAt;
+**When to Use:**
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+* When there are **multiple ways to perform the same task**.
+* To avoid large **`if-else`** or **`switch`** statements.
+* When the algorithm needs to be **changed dynamically**.
+* Commonly used for **payment methods**, **sorting algorithms**, and **discount calculations**.
+
+**Code Example:**
+
+```java id="g8n4tx"
+interface PaymentStrategy {
+    void pay(int amount);
 }
 
-// 3. Extend it
-@Entity
-public class User extends Auditable {
-    @Id @GeneratedValue private Long id;
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using Credit Card");
+    }
+}
+
+class UpiPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using UPI");
+    }
+}
+
+class PaymentService {
+    private PaymentStrategy strategy;
+
+    public PaymentService(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void processPayment(int amount) {
+        strategy.pay(amount);
+    }
+}
+```
+
+**Using the Strategy Pattern:**
+
+```java id="d5k9mp"
+public class Main {
+    public static void main(String[] args) {
+        PaymentService service = new PaymentService(new UpiPayment());
+        service.processPayment(1000);
+    }
+}
+```
+
+**Advantages:**
+
+* Eliminates complex **conditional logic**.
+* Makes code **easy to extend and maintain**.
+* Allows **runtime selection** of algorithms.
+
+
+
+## 7. What is Adapter pattern?
+
+The **Adapter Pattern** is a **Structural Design Pattern** that allows **two incompatible interfaces** to work together by acting as a **bridge** between them. It converts the interface of one class into another interface that the client expects.
+
+**Key Features:**
+
+* Connects **incompatible classes** without modifying their code.
+* Promotes **code reusability**.
+* Provides **loose coupling** between client and implementation.
+* Also known as a **Wrapper Pattern**.
+
+**How it Works:**
+
+1. The client expects a specific interface.
+2. An existing class has a different, incompatible interface.
+3. The **Adapter** implements the expected interface and internally calls the existing class.
+4. The client interacts with the adapter without knowing about the incompatible class.
+
+**When to Use:**
+
+* When integrating **third-party libraries** or **legacy systems**.
+* When existing classes cannot be modified.
+* To make incompatible interfaces work together.
+* Commonly used in **Spring**, where adapters convert one API format into another.
+
+**Code Example:**
+
+```java id="w8n4kp"
+interface Charger {
+    void charge();
+}
+
+class MicroUsbCharger {
+    public void microUsbCharge() {
+        System.out.println("Charging with Micro USB");
+    }
+}
+
+class ChargerAdapter implements Charger {
+    private MicroUsbCharger charger = new MicroUsbCharger();
+
+    @Override
+    public void charge() {
+        charger.microUsbCharge();
+    }
+}
+```
+
+**Using the Adapter:**
+
+```java id="t3m7qx"
+public class Main {
+    public static void main(String[] args) {
+        Charger charger = new ChargerAdapter();
+        charger.charge();
+    }
+}
+```
+
+**Advantages:**
+
+* Reuses existing code without modification.
+* Improves **flexibility** and **maintainability**.
+* Simplifies integration with **legacy or external systems**.
+
+
+## 8. What is Decorator pattern?
+
+The **Decorator Pattern** is a **Structural Design Pattern** that allows you to **add new functionality to an object dynamically** without changing its existing code. It works by **wrapping** the original object inside a decorator object.
+
+**Key Features:**
+
+* Adds **new behavior** without modifying the original class.
+* Uses **composition over inheritance**.
+* Promotes **flexibility** and **code reusability**.
+* Follows the **Open/Closed Principle (OCP)**.
+
+**How it Works:**
+
+1. Define a common **interface**.
+2. Create a **base implementation** of that interface.
+3. Create a **Decorator** class that also implements the interface and holds a reference to the original object.
+4. The decorator adds extra behavior before or after delegating the call to the wrapped object.
+
+**When to Use:**
+
+* When you need to **add features dynamically** at runtime.
+* When using inheritance would create too many subclasses.
+* For adding **logging**, **security**, **compression**, or **caching** functionality.
+* Commonly used in Java I/O classes like **`BufferedReader`** and **`BufferedInputStream`**.
+
+**Code Example:**
+
+```java id="x7m4kp"
+interface Coffee {
+    String getDescription();
+}
+
+class SimpleCoffee implements Coffee {
+    public String getDescription() {
+        return "Simple Coffee";
+    }
+}
+
+class MilkDecorator implements Coffee {
+    private Coffee coffee;
+
+    public MilkDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    public String getDescription() {
+        return coffee.getDescription() + " + Milk";
+    }
+}
+```
+
+**Using the Decorator:**
+
+```java id="n5q8tx"
+public class Main {
+    public static void main(String[] args) {
+        Coffee coffee = new MilkDecorator(new SimpleCoffee());
+        System.out.println(coffee.getDescription());
+    }
+}
+```
+
+**Advantages:**
+
+* Adds functionality **without changing existing code**.
+* Avoids creating many subclasses.
+* Makes the system **flexible** and **easy to extend**.
+
+
+## 8. What is Builder pattern?
+
+The **Builder Pattern** is a **Creational Design Pattern** used to **construct complex objects step by step**. It is especially useful when an object has **many optional parameters** and you want to avoid multiple constructors.
+
+**Key Features:**
+
+* Builds objects **step by step**.
+* Handles **many optional fields** cleanly.
+* Creates **immutable objects** easily.
+* Improves **code readability** and **maintainability**.
+* Avoids the **Telescoping Constructor Problem** (too many constructor parameters).
+
+**How it Works:**
+
+1. Create a **Builder** class inside or outside the target class.
+2. The builder contains methods to set each field.
+3. Each method returns the **Builder object** to allow **method chaining**.
+4. Call the **`build()`** method to create the final object.
+
+**When to Use:**
+
+* When a class has **many fields**, especially optional ones.
+* When constructors become too large or confusing.
+* When creating **immutable objects**.
+* Commonly used in **Spring**, **Lombok (`@Builder`)**, and Java libraries.
+
+**Code Example:**
+
+```java id="r8m4kp"
+public class User {
     private String name;
+    private int age;
+
+    private User(Builder builder) {
+        this.name = builder.name;
+        this.age = builder.age;
+    }
+
+    public static class Builder {
+        private String name;
+        private int age;
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
 }
 ```
+
+**Using the Builder:**
+
+```java id="w5q9tx"
+public class Main {
+    public static void main(String[] args) {
+        User user = new User.Builder()
+                        .name("Alice")
+                        .age(25)
+                        .build();
+    }
+}
+```
+
+**Advantages:**
+
+* Makes object creation **clear and readable**.
+* Eliminates constructors with too many parameters.
+* Supports **immutable object creation**.
+* Easy to extend with new optional fields.
+
+
+## 8. What is Prototype pattern?
+
+The **Prototype Pattern** is a **Creational Design Pattern** that creates new objects by **copying (cloning) an existing object** instead of creating a new one from scratch. It is useful when object creation is **expensive or complex**.
+
+**Key Features:**
+
+* Creates objects by **cloning existing instances**.
+* Reduces the cost of **expensive object creation**.
+* Promotes **code reusability**.
+* Supports **shallow copy** and **deep copy**.
+
+**How it Works:**
+
+1. A class implements the **`Cloneable`** interface.
+2. It overrides the **`clone()`** method.
+3. Instead of using `new`, the client calls `clone()` on an existing object.
+4. A new object is created as a copy of the original.
+
+**When to Use:**
+
+* When object creation is **time-consuming** or resource-intensive.
+* When you need **multiple similar objects** with slight modifications.
+* When creating objects from scratch is costly.
+* Commonly used in **caching**, **game development**, and **object templates**.
+
+**Code Example:**
+
+```java id="k4m8xp"
+class Employee implements Cloneable {
+    String name;
+
+    Employee(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Employee clone() throws CloneNotSupportedException {
+        return (Employee) super.clone();
+    }
+}
+```
+
+**Using the Prototype Pattern:**
+
+```java id="v9q3tn"
+public class Main {
+    public static void main(String[] args) throws CloneNotSupportedException {
+
+        Employee emp1 = new Employee("Alice");
+        Employee emp2 = emp1.clone();
+
+        System.out.println(emp2.name);
+    }
+}
+```
+
+**Advantages:**
+
+* Improves performance by avoiding repeated object creation.
+* Simplifies creating **similar objects**.
+* Reduces the need for complex constructors.
 
 
 
@@ -15080,1074 +14899,1258 @@ Incorrect **profile activation or configuration mismatch** can cause production 
 
 
 
-# ✅ 17. Java Design Patterns 
+# ✅ 14. Java - Servlets and JSP 
 
-## 0. What are SOLID principles?
+## 1. What is servlet in Java?
 
-**SOLID** is a set of **five object-oriented design principles** that help developers write **clean, maintainable, scalable, and loosely coupled code**.
-
-| **Principle**                                 | **Meaning**                                                                                                      |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **S - Single Responsibility Principle (SRP)** | A class should have **only one reason to change**, meaning it should have **one responsibility**.                |
-| **O - Open/Closed Principle (OCP)**           | Software entities should be **open for extension but closed for modification**.                                  |
-| **L - Liskov Substitution Principle (LSP)**   | A subclass should be able to **replace its parent class** without changing the program's behavior.               |
-| **I - Interface Segregation Principle (ISP)** | Clients should not be forced to depend on **interfaces they do not use**. Create **small, specific interfaces**. |
-| **D - Dependency Inversion Principle (DIP)**  | High-level modules should depend on **abstractions (interfaces)**, not concrete implementations.                 |
+A **Servlet** is a **Java class** that runs inside a **Servlet Container** (like **Tomcat**) and handles **client HTTP requests** and generates **HTTP responses**. It is the core technology behind many Java web applications.
 
 **Key Features:**
 
-* Promotes **loose coupling**.
-* Improves **code reusability** and **maintainability**.
-* Makes applications easier to **test** and **extend**.
-* Reduces the impact of future changes.
+* **Server-side** Java component.
+* Handles **HTTP GET, POST, PUT, DELETE** requests.
+* Supports **multithreading** (one servlet instance can serve multiple requests).
+* Managed by a **Servlet Container**.
 
 **How it Works:**
 
-* Break responsibilities into smaller classes (**SRP**).
-* Add new features by extending code instead of modifying existing code (**OCP**).
-* Ensure subclasses behave correctly when replacing parent classes (**LSP**).
-* Create focused interfaces instead of large, general ones (**ISP**).
-* Depend on interfaces and use **Dependency Injection** (**DIP**).
+1. Client sends an **HTTP request**.
+2. The **Servlet Container** receives the request.
+3. It creates **`HttpServletRequest`** and **`HttpServletResponse`** objects.
+4. The container calls the servlet's **`service()`** method.
+5. Based on the request type, `service()` invokes **`doGet()`**, **`doPost()`**, etc.
+6. The servlet processes the request and sends back an **HTTP response** to the client.
+
+**Servlet Lifecycle:**
+
+* **`init()`** → Called **once** when the servlet is created.
+* **`service()`** → Called for **every incoming request**.
+* **`destroy()`** → Called **once** before the servlet is removed.
 
 **When to Use:**
 
-* Designing **object-oriented applications**.
-* Building **Spring Boot** or **enterprise Java** applications.
-* When writing code that needs to be **scalable, testable, and maintainable**.
+* To build **Java web applications** and **REST APIs**.
+* When you need to process **HTTP requests** and generate **dynamic web content**.
+* It is the **foundation** on which frameworks like **Spring MVC** and **Spring Boot** work.
 
-**Code Example (Dependency Inversion Principle):**
+**Code Example:**
 
-```java id="k3m8pq"
-interface MessageService {
-    void send(String message);
-}
+```java
+import java.io.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.WebServlet;
 
-class EmailService implements MessageService {
-    public void send(String message) {
-        System.out.println("Sending Email: " + message);
-    }
-}
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
 
-class Notification {
-    private MessageService service;
-
-    public Notification(MessageService service) {
-        this.service = service;
-    }
-
-    public void notifyUser() {
-        service.send("Hello User");
+    @Override
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/plain");
+        resp.getWriter().write("Hello, Servlet!");
     }
 }
 ```
 
-**Easy Memory Trick:**
-**S → One Responsibility**
-**O → Open for Extension, Closed for Modification**
-**L → Subclass should replace Parent**
-**I → Small Specific Interfaces**
-**D → Depend on Interfaces, Not Implementations**
+## 2. What is the servlet lifecycle?
 
+The **Servlet Lifecycle** defines the stages a **Servlet** goes through from **creation** to **destruction**. The **Servlet Container** (like **Tomcat**) manages this lifecycle automatically.
+
+**Lifecycle Methods:**
+
+1. **`init()`**
+
+   * Called **only once** when the servlet is loaded.
+   * Used for **initialization**, such as loading configuration or creating resources.
+
+2. **`service()`**
+
+   * Called for **every client request**.
+   * It processes the request and internally calls methods like **`doGet()`**, **`doPost()`**, **`doPut()`**, etc., based on the HTTP method.
+
+3. **`destroy()`**
+
+   * Called **only once** before the servlet is removed from memory.
+   * Used to **release resources**, such as closing database connections or files.
+
+**How it Works:**
+
+1. The **Servlet Container** loads the servlet.
+2. It creates **one servlet instance**.
+3. Calls **`init()`** once.
+4. For every incoming request, calls **`service()`**.
+5. When the server shuts down or the servlet is undeployed, calls **`destroy()`**.
+
+**Key Features:**
+
+* **Managed by the Servlet Container**.
+* **`init()`** and **`destroy()`** are called only once.
+* **`service()`** is called for every request.
+* A **single servlet instance** can handle **multiple requests using multiple threads**.
+
+**When to Use:**
+
+* When building **Java web applications** that process **HTTP requests and responses**.
+* Understanding the lifecycle helps in **resource initialization**, **request handling**, and **resource cleanup**.
+
+**Code Example:**
+
+```java
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.WebServlet;
+import java.io.IOException;
+
+@WebServlet("/demo")
+public class DemoServlet extends HttpServlet {
+
+    @Override
+    public void init() {
+        System.out.println("Servlet initialized");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws IOException {
+        resp.getWriter().write("Handling GET request");
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("Servlet destroyed");
+    }
+}
+```
+
+## 3. What is JSP (JavaServer Pages)?
+
+**JSP (JavaServer Pages)** is a **server-side technology** used to create **dynamic web pages** by embedding **Java code** inside **HTML**. It simplifies web development by allowing developers to mix presentation (HTML) with Java logic.
+
+**Key Features:**
+
+* Creates **dynamic web content**.
+* Combines **HTML** and **Java** in a single file.
+* Runs on top of the **Servlet** technology.
+* Supports **Expression Language (EL)** and **JSTL** for cleaner code.
+
+**How it Works:**
+
+1. A client requests a **`.jsp`** page.
+2. The **Servlet Container** (e.g., Tomcat) translates the JSP into a **Servlet**.
+3. The generated Servlet is **compiled** into a Java class.
+4. The Servlet executes and generates an **HTML response**.
+5. The HTML is sent back to the client browser.
+6. On subsequent requests, the already compiled Servlet is reused unless the JSP file changes.
+
+**When to Use:**
+
+* To build **dynamic web pages** in traditional **Java web applications**.
+* When you need to display data received from **Servlets** or **backend services**.
+* Commonly used with the **MVC (Model-View-Controller)** pattern as the **View** layer.
+
+**Code Example:**
+
+```jsp
+<html>
+<body>
+    <h2>Welcome to JSP!</h2>
+    <p>Current Time: <%= new java.util.Date() %></p>
+</body>
+</html>
+```
+
+
+## 4. What is the difference between servlet and JSP?
+
+| **Feature**                | **Servlet**                                             | **JSP (JavaServer Pages)**                                        |
+| -------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Purpose**                | Used for **request processing** and **business logic**. | Used for **presentation** and generating **dynamic web pages**.   |
+| **Code Style**             | Written completely in **Java**.                         | Written mainly in **HTML** with embedded **Java/EL/JSTL**.        |
+| **Compilation**            | Directly compiled into **bytecode**.                    | First **translated into a Servlet**, then compiled.               |
+| **Ease of UI Development** | Difficult because HTML is written inside Java code.     | Easy because Java code is embedded inside HTML.                   |
+| **Performance**            | Slightly faster since it is already compiled.           | First request is slower due to JSP-to-Servlet conversion.         |
+| **Role in MVC**            | Usually acts as the **Controller**.                     | Usually acts as the **View**.                                     |
+| **Extension**              | `.java`                                                 | `.jsp`                                                            |
+| **Inheritance**            | Extends **`HttpServlet`**.                              | Internally converted into a class that extends **`HttpServlet`**. |
+
+**Key Difference:**
+
+* **Servlet** is mainly used for **handling requests and implementing business logic**.
+* **JSP** is mainly used for **displaying data and creating dynamic user interfaces**.
+
+**When to Use:**
+
+* Use **Servlet** for **request handling, validation, and controller logic**.
+* Use **JSP** for **rendering dynamic HTML pages**.
+
+
+
+## 5. What is ORM?
+**ORM(Object Relational Mapping)** is a technique that maps **Java Objects** to **Database Tables** and database records to Java objects.
+
+**Key Features**
+
+* Maps objects to database tables
+* Reduces SQL boilerplate code
+* Simplifies database operations
+* Improves code readability and maintainability
+
+**How It Works**
+
+ORM automatically converts Java objects into database records and database records back into Java objects.
+
+For example:
+
+* **Class** → **Table**
+* **Object** → **Row**
+* **Field** → **Column**
+
+**Code Example**
+
+```java
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    private String name;
+}
+```
+
+```java
+User user = new User();
+user.setName("John");
+
+userRepository.save(user);
+```
+
+ORM automatically generates and executes the SQL needed to save the object.
+
+**Why to Use**
+
+* Reduces manual SQL writing
+* Improves developer productivity
+* Makes code more object-oriented
+* Simplifies CRUD operations
+
+**When to Use**
+
+Use **ORM** when working with relational databases and Java applications that need frequent database operations.
+
+Examples:
+
+* Spring Boot applications
+* Enterprise applications
+* Microservices with databases
+
+## 6. What is JPA?
+
+
+**JPA(Java Persistence API)** is a **Java Specification** for managing and persisting data between Java objects and relational databases. It provides a standard way to perform **ORM (Object Relational Mapping)**.
+
+**Key Features**
+
+* Standard API for database persistence
+* Supports **ORM**
+* Uses annotations such as **@Entity**, **@Id**, and **@Table**
+* Reduces boilerplate JDBC code
+* Database-independent
+
+**How It Works**
+
+JPA maps Java classes to database tables and Java objects to table rows.
+
+* **Class** → **Table**
+* **Object** → **Row**
+* **Field** → **Column**
+
+JPA defines the rules, while frameworks such as **Hibernate** implement those rules.
+
+**Code Example**
+
+```java
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    private String name;
+}
+```
+
+```java
+userRepository.save(user);
+```
+
+JPA automatically maps the object and persists it to the database.
+
+**Why to Use**
+
+* Simplifies database operations
+* Reduces SQL and JDBC code
+* Improves productivity
+* Provides a standard persistence approach
+
+**When to Use**
+
+Use **JPA** when building Java applications that interact with relational databases.
+
+Examples:
+
+* Spring Boot applications
+* Enterprise applications
+* Microservices with databases
+
+## 6. What is Hibernate?
+
+**Hibernate** is an **ORM (Object Relational Mapping) Framework** that simplifies database operations by mapping **Java Objects** to **Database Tables**. It is the most popular implementation of **JPA**.
+
+**Key Features**
+
+* Implements **JPA**
+* Provides **ORM** functionality
+* Automatically generates SQL queries
+* Supports **Caching**
+* Supports **Lazy Loading**
+* Reduces JDBC boilerplate code
+
+**How It Works**
+
+Hibernate maps Java classes to database tables and Java objects to table rows.
+
+* **Class** → **Table**
+* **Object** → **Row**
+* **Field** → **Column**
+
+When you save an object, Hibernate automatically generates and executes the required SQL.
+
+**Code Example**
+
+```java
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    private String name;
+}
+```
+
+```java
+User user = new User();
+user.setName("John");
+
+userRepository.save(user);
+```
+
+Hibernate automatically generates SQL similar to:
+
+```sql
+INSERT INTO user (name) VALUES ('John');
+```
+
+**Why to Use**
+
+* Reduces manual SQL writing
+* Simplifies database interaction
+* Improves productivity
+* Provides advanced ORM features
+* Makes applications easier to maintain
+
+**When to Use**
+
+Use **Hibernate** when working with relational databases in Java applications.
+
+Examples:
+
+* Spring Boot applications
+* Enterprise applications
+* Microservices with databases
+
+
+**Analogy:**
+- **ORM** = "Driving a car" (concept) 🚗
+- **JPA** = "Driver's license test" (standard rules) 📋
+- **Hibernate** = "Toyota Camry" (actual car implementing the rules) 🚙
+
+| Concept   | Analogy                 |
+| --------- | ----------------------- |
+| ORM       | Online shopping concept |
+| Hibernate | Amazon application      |
+
+
+| | ORM | JPA | Hibernate |
+|---|---|---|---|
+| **What it is** | Concept/technique | Java specification | Framework/library |
+| **Who defines it** | General pattern | Oracle / Jakarta EE | Red Hat |
+| **Analogous to** | "web standards" | JDBC interface | A JDBC driver |
+
+
+## 7. Different between ORM, JPA and Hibernate?
+
+| Aspect                 | ORM                                                           | JPA                                                                                                                                              | Hibernate                                                                                                                                                |
+| ---------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| What it is             | Concept/technique for mapping objects to relational databases | Java specification (API) defining how ORM should work                                                                                            | Framework that implements JPA specification stackoverflow+1                                                                                              |
+| Type                   | Approach/methodology (not a tool)                             | Specification/API (interface only)                                                                                                               | Full ORM framework/provider linkedin+1                                                                                                                   |
+| Framework?             | ❌ No framework (it's the concept)                             | ❌ No framework (just API spec)                                                                                                                   | ✅ Yes - full ORM framework interviewbit+1                                                                                                                |
+| Package                | N/A                                                           | javax.persistence or jakarta.persistence                                                                                                         | org.hibernate geeksforgeeks                                                                                                                              |
+| Key Annotations        | N/A                                                           | @Entity, @Id, @Table, @Column, @OneToMany, @ManyToOne, @Transient, @GeneratedValue geeksforgeeks                                                 | All JPA annotations plus Hibernate-specific: @Lazy, @BatchSize, @Formula, @Where, @Cache geeksforgeeks                                                   |
+| Main Interface         | N/A                                                           | EntityManager, EntityManagerFactory                                                                                                              | SessionFactory, Session (Hibernate-specific) + JPA EntityManager geeksforgeeks                                                                           |
+| Query Language         | N/A                                                           | JPQL (Java Persistence Query Language)                                                                                                           | HQL (Hibernate Query Language) + supports JPQL geeksforgeeks                                                                                             |
+| Setup/Maven Dependency | N/A                                                           | Need implementation (e.g., hibernate-core) + javax.persistence-api                                                                               | org.hibernate:hibernate-core or hibernate-entitymanager geeksforgeeks                                                                                    |
+| Config File            | N/A                                                           | persistence.xml (defines persistence unit)                                                                                                       | hibernate.cfg.xml or persistence.xml (JPA mode) + application.properties in Spring Boot geeksforgeeks                                                    |
+| Spring Boot Setup      | N/A                                                           | Auto-configured via spring-boot-starter-data-jpa                                                                                                 | Auto-configured as default JPA provider in Spring Boot youtube                                                                                           |
+| Example Dependency     | N/A                                                           | xml<br><dependency><br>  <groupId>org.springframework.boot</groupId><br>  <artifactId>spring-boot-starter-data-jpa</artifactId><br></dependency> | xml<br><dependency><br>  <groupId>org.hibernate</groupId><br>  <artifactId>hibernate-core</artifactId><br>  <version>6.x.x</version><br></dependency>    |
+| Entity Example         | N/A                                                           | java<br>@Entity<br>@Table(name="users")<br>public class User {<br>  @Id<br>  @GeneratedValue<br>  private Long id;<br>}                          | Same as JPA plus Hibernate extensions: java<br>@Entity<br>@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)<br>@Lazy(false)<br>public class User { ... } |
+| Additional Features    | N/A                                                           | Standard ORM features only                                                                                                                       | Advanced caching, lazy loading strategies, batch processing, dirty checking, second-level cache, native SQL support stackoverflow+1                      |
+| Switchability          | N/A                                                           | ✅ Easy to switch implementations (portable API)                                                                                                  | ❌ Tied to Hibernate if using Hibernate-specific features stackoverflow                                                                                   |
+
+
+## 8. Difference between `save() and `persist()`
+
+
+Both **`save()`** and **`persist()`** are used to store an entity in the database, but they belong to different APIs and have some behavioral differences.
+
+
+* **Use `save()`** when working directly with **Hibernate `Session`** and you need the **generated ID** immediately.
+
+* **Use `persist()`** when working with **JPA (`EntityManager`)** because it is the **standard JPA method** and is recommended in **Spring Boot/JPA** applications.
+
+
+**Key Features**
+
+| Feature      | **save()**                  | **persist()**               |
+| ------------ | --------------------------- | --------------------------- |
+| API          | **Hibernate** method        | **JPA** standard method     |
+| Return Type  | Returns generated **ID**    | Returns **void**            |
+| Standard     | Hibernate-specific          | JPA-standard                |
+| Entity State | Makes entity **Persistent** | Makes entity **Persistent** |
+| Portability  | Less portable               | More portable               |
+
+**How It Works**
+
+**- save()**
+
+* A method provided by **Hibernate Session**.
+* Saves the entity and returns the generated **primary key**.
+* Can trigger an immediate insert to generate the ID.
+
+```java
+Session session = sessionFactory.openSession();
+
+Employee emp = new Employee();
+emp.setName("John");
+
+Long id = (Long) session.save(emp);
+
+System.out.println(id);
+```
+
+**- persist()**
+
+* A method provided by **JPA EntityManager**.
+* Makes the entity managed by the persistence context.
+* Does not return the generated ID.
+* The actual SQL INSERT usually happens during **flush** or **transaction commit**.
+
+```java
+EntityManager em = entityManagerFactory.createEntityManager();
+
+Employee emp = new Employee();
+emp.setName("John");
+
+em.persist(emp);
+```
+
+**Why Use It**
+
+* Use **`persist()`** when working with **JPA** because it follows the standard specification.
+* Use **`save()`** when directly using **Hibernate APIs** and you need the generated ID immediately.
+
+**When to Use**
+
+**Use `persist()`**
+
+* In **Spring Boot + JPA** applications.
+* When writing **portable code** that can work with different JPA providers.
+* Recommended for modern enterprise applications.
+
+```java
+@Repository
+public class EmployeeRepository {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public void save(Employee emp) {
+        em.persist(emp);
+    }
+}
+```
+
+**Use `save()`**
+
+* When working directly with **Hibernate Session**.
+* When you need the generated ID returned immediately.
+
+```java
+Session session = sessionFactory.openSession();
+
+Long id = (Long) session.save(employee);
+```
+
+
+
+## 9. Difference between save() and saveAndFlush()?
+
+
+Both **`save()`** and **`saveAndFlush()`** are methods provided by **Spring Data JPA** to persist entities, but they differ in **when changes are written to the database**.
+
+
+* **`save()`**: Saves the entity in the Persistence Context. The SQL is usually executed later during `flush()` or transaction commit.
+
+* **`saveAndFlush()`**: Saves the entity and immediately flushes the Persistence Context, so the SQL is executed in the database right away.
+
+
+
+**Key Features**
+
+| Feature                   | **save()**                 | **saveAndFlush()**                     |
+| ------------------------- | -------------------------- | -------------------------------------- |
+| Save Entity               | Yes                        | Yes                                    |
+| Flush Persistence Context | No                         | Yes                                    |
+| SQL Execution             | At flush/commit time       | Immediately                            |
+| Return Type               | Saved Entity               | Saved Entity                           |
+| Performance               | Better for bulk operations | Slightly slower due to immediate flush |
+
+**How It Works**
+
+**save()**
+
+* Saves the entity in the **Persistence Context**.
+* SQL query is not necessarily executed immediately.
+* Changes are usually sent to the database during **flush** or **transaction commit**.
+
+```java
+Employee emp = new Employee();
+emp.setName("John");
+
+employeeRepository.save(emp);
+```
+
+**saveAndFlush()**
+
+* Saves the entity and immediately calls **flush()**.
+* Forces Hibernate/JPA to execute the SQL statement right away.
+* Changes become visible in the database immediately within the current transaction.
+
+```java
+Employee emp = new Employee();
+emp.setName("John");
+
+employeeRepository.saveAndFlush(emp);
+```
+
+**Why Use It**
+
+**save()**
+
+* Better performance.
+* Lets Hibernate optimize SQL execution.
+* Recommended for most CRUD operations.
+
+**saveAndFlush()**
+
+* Ensures data is immediately written to the database.
+* Useful when subsequent code depends on the database state.
+
+**When to Use**
+
+**Use `save()`**
+
+* Standard create/update operations.
+* Batch inserts or updates.
+* Most Spring Boot applications.
+
+```java
+employeeRepository.save(employee);
+```
+
+**Use `saveAndFlush()`**
+
+* Need the data immediately available in the database.
+* Calling a stored procedure after saving.
+* Running a query in the same transaction that depends on the newly saved data.
+
+```java
+employeeRepository.saveAndFlush(employee);
+
+Employee result =
+        employeeRepository.findById(employee.getId()).get();
+```
+
+**Example**
+
+```java
+@Transactional
+public void createEmployee() {
+
+    Employee emp = new Employee();
+    emp.setName("John");
+
+    employeeRepository.saveAndFlush(emp);
+
+    // SQL INSERT already executed here
+    System.out.println("Employee saved in DB");
+}
+```
+
+**Common Interview Follow-up Questions**
+
+**1. Does `saveAndFlush()` commit the transaction?**
+
+No. It only **flushes** changes to the database. The transaction is still committed later.
+
+**2. Can the data be rolled back after `saveAndFlush()`?**
+
+Yes. Even though the SQL has been executed, the transaction can still be **rolled back** if it has not been committed.
+
+**3. Which method is faster?**
+
+**`save()`** is generally faster because it avoids an immediate flush and allows Hibernate to optimize database operations.
+
+**4. What is the difference between `flush()` and `commit()`?**
+
+* **`flush()`** → Sends SQL statements to the database but **does not permanently save** the changes.
+* **`commit()`** → Permanently saves the changes by **committing the transaction**.
+
+
+**5. What is `flush()`?**
+
+**A:** **`flush()`** synchronizes the **Persistence Context** with the **database** by executing all pending **INSERT**, **UPDATE**, and **DELETE** SQL statements without committing the transaction.
+
+
+
+| Aspect               | save()                                               | saveAndFlush()                                                     |
+| -------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| Repository Interface | CrudRepository                                       | JpaRepository                                                      |
+| Flush Timing         | Delays until flush() or commit()                     | Flushes immediately during execution baeldung+1                    |
+| Database Write       | Adds to transactional buffer (memory)                | Forces database to write changes to disk right away tutorialspoint |
+| Data Visibility      | Changes not visible outside transaction until commit | Changes visible outside the transaction immediately tutorialspoint |
+| Bulk Save            | Supports saveAll() for batch operations              | Doesn't support bulk operations tutorialspoint                     |
+| Performance          | More efficient (allows batching)                     | Less efficient (immediate SQL execution) codemia                   |
+
+
+
+## 10. What is the difference between DAO and DTO?
+
+**DAO (Data Access Object)** and **DTO (Data Transfer Object)** are common design patterns used in Java applications.
+
+* **DAO** is responsible for **accessing and managing data** in the database.
+* **DTO** is a simple object used to **transfer data** between different layers of an application.
+
+| **Feature**        | **DAO**                                    | **DTO**                                                    |
+| ------------------ | ------------------------------------------ | ---------------------------------------------------------- |
+| **Full Form**      | **Data Access Object**                     | **Data Transfer Object**                                   |
+| **Purpose**        | Interacts with the **database**.           | Transfers **data between layers**.                         |
+| **Contains**       | Database operations like **CRUD**.         | Only **fields, getters, and setters** (no business logic). |
+| **Layer**          | **Persistence/Data Access Layer**.         | Used between **Controller, Service, and DAO** layers.      |
+| **Responsibility** | Fetches, saves, updates, and deletes data. | Carries data from one layer to another.                    |
+
+**How it Works:**
+
+1. The **Controller** receives a request.
+2. The **Service** layer processes the business logic.
+3. The **DAO** fetches or updates data in the database.
+4. The data is mapped to a **DTO**.
+5. The **DTO** is returned to the client without exposing the internal entity.
+
+**Key Features:**
+
+* **DAO** separates **database logic** from business logic.
+* **DTO** reduces unnecessary data transfer and improves security.
+* Together, they help create a **clean and maintainable architecture**.
+
+**When to Use:**
+
+* Use **DAO** when interacting with a **database**.
+* Use **DTO** when sending or receiving data between **application layers** or **REST APIs**.
+
+**Code Example:**
+
+**DTO:**
+
+```java id="j4z8np"
+public class UserDTO {
+    private Long id;
+    private String name;
+
+    // Getters and Setters
+}
+```
+
+**DAO:**
+
+```java id="g6x3tr"
+@Repository
+public class UserDAO {
+
+    @Autowired
+    private UserRepository repository;
+
+    public User save(User user) {
+        return repository.save(user);
+    }
+
+    public User findById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+}
+```
+
+
+## 11. What is the N+1 Query Problem and How Do You Fix It?
+
+The **N+1 Query Problem** is a performance issue in **JPA/Hibernate** where **1 query** is executed to fetch the parent records, and then **N additional queries** are executed to fetch the related child records. This results in **too many database calls** and slower performance.
+
+**Key Features:**
+
+* Commonly occurs with **`LAZY`** loading.
+* Causes **multiple unnecessary SQL queries**.
+* Degrades **application performance**.
+* Frequently seen in **`@OneToMany`** and **`@ManyToOne`** relationships.
+
+**How it Works:**
+
+1. Fetch all parent entities with **1 query**.
+2. Iterate over the parent entities.
+3. Access a lazy-loaded child collection.
+4. Hibernate executes **one extra query for each parent entity**.
+5. Total queries = **1 + N**.
 
 **Example:**
-**S — Single Responsibility Principle (SRP)**
+Suppose there are **10 Users**, and each has a list of **Orders**:
 
-One class should have only one responsibility.
+* `SELECT * FROM users;` → **1 query**
+* For each user: `SELECT * FROM orders WHERE user_id = ?;` → **10 queries**
 
-use case:  
+**Total = 11 queries (1 + N).**
 
-❌ Wrong:
+**How to Fix It:**
 
-```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
+* Use **`JOIN FETCH`** in JPQL.
+* Use **`@EntityGraph`** to fetch related entities together.
+* Use **DTO projections** when only specific data is needed.
+* Avoid changing everything to **`EAGER`** fetching, as it can create other performance issues.
 
-    public void sendEmail() {
-        // send email
-    }
+**When to Use the Fix:**
+
+* When loading **parent and child entities together**.
+* In APIs or reports where related data is always required.
+* To reduce **database round trips** and improve performance.
+
+**Code Example (Using `JOIN FETCH`):**
+
+```java id="p8v4mq"
+@Query("SELECT u FROM User u JOIN FETCH u.orders")
+List<User> findAllUsersWithOrders();
+```
+
+**Code Example (Problem Scenario):**
+
+```java id="x2n7kr"
+List<User> users = userRepository.findAll();
+
+for (User user : users) {
+    System.out.println(user.getOrders().size()); // Triggers extra query for each user
 }
 ```
 
-✅ Correct:
+Or use `@EntityGraph`:
 
 ```java
-class OrderService {
-    public void createOrder() {
-        // create order
-    }
-}
-
-class EmailService {
-    public void sendEmail() {
-        // send email
-    }
-}
+@EntityGraph(attributePaths = {"customer"})
+List<Order> findAll();
 ```
 
 
-**O — Open/Closed Principle (OCP)**
+## 12. What is JPQL vs Native Query?
 
-Open for extension, closed for modification.
+**JPQL (Java Persistence Query Language)** and **Native Query** are two ways to query a database in **JPA/Hibernate**.
 
-```java
-// OCP: Open for extension, closed for modification
+* **JPQL** is an object-oriented query language that works with **entity classes and their fields**, not database tables and columns.
 
-// This is the abstraction (interface)
-// We can add new payment types without changing existing code
-interface Payment {
-    void pay(); // common method for all payment types
-}
+* **Native Query** is a database-specific SQL query that works directly with **tables and columns**.
 
-// Concrete implementation 1
-class CardPayment implements Payment {
-    public void pay() {
-        // specific logic for card payment
-        System.out.println("Paid by Card");
-    }
-}
-
-// Concrete implementation 2
-class UpiPayment implements Payment {
-    public void pay() {
-        // specific logic for UPI payment
-        System.out.println("Paid by UPI");
-    }
-}
-
-// This class uses the abstraction (Payment interface)
-// It does NOT depend on concrete classes like CardPayment or UpiPayment
-class PaymentService {
-
-    // This method is CLOSED for modification
-    // We don't need to change this method when new payment types are added
-    public void processPayment(Payment payment) {
-        // This is OPEN for extension because any new Payment type can be passed here
-        payment.pay();
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-
-        // Create service object
-        PaymentService service = new PaymentService();
-
-        // Using Card payment
-        Payment p1 = new CardPayment();
-        service.processPayment(p1);
-
-        // Using UPI payment
-        Payment p2 = new UpiPayment();
-        service.processPayment(p2);
-
-        // If we add a new payment type (e.g., WalletPayment),
-        // we DO NOT modify PaymentService
-        // We only create a new class implementing Payment
-    }
-}
-
-// Output:
-// Paid by Card
-// Paid by UPI
-```
-
-Now we can add **NetBankingPayment** without changing existing code.
-
-
-**L — Liskov Substitution Principle (LSP)**
-
-Child class should replace parent class without breaking code.
-
-```java
-// LSP: Liskov Substitution Principle
-// Objects of a child class should be able to replace objects of the parent class
-// WITHOUT breaking the expected behavior of the program.
-
-class Bird {
-
-    // Base class method
-    // Defines general behavior that all birds SHOULD follow
-    public void fly() {
-        System.out.println("Bird can fly");
-    }
-}
-
-// Child class extending Bird
-class Sparrow extends Bird {
-
-    // Overriding the parent method
-    // Behavior is consistent with parent (still "fly")
-    @Override
-    public void fly() {
-        System.out.println("Sparrow can fly");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-
-        // Parent object
-        Bird b = new Bird();
-        b.fly(); 
-        // Output: Bird can fly
-
-        // Child object
-        Sparrow s = new Sparrow();
-        s.fly(); 
-        // Output: Sparrow can fly
-
-        // LSP in action (Runtime Polymorphism)
-        // Parent reference holding child object
-        Bird b2 = new Sparrow();
-
-        // This should NOT break behavior
-        // Even though reference is Bird, actual object is Sparrow
-        b2.fly(); 
-        // Output: Sparrow can fly
-
-        // ✔ This works perfectly → LSP is satisfied
-    }
-}
-
-/*
-Key Interview Points:
-
-1. LSP means:
-   Child class must be substitutable for parent class.
-
-2. In this example:
-   - Sparrow IS-A Bird
-   - Sparrow does not change expected behavior
-   - So it follows LSP
-
-3. Why this is correct:
-   - No exception thrown
-   - No unexpected behavior
-   - Same logical meaning of "fly"
-
-4. When LSP is violated:
-   Example: If we create Penguin extends Bird but override fly() to throw exception
-   → That breaks LSP because Penguin cannot truly replace Bird
-
-5. Real-world idea:
-   If parent says "can fly", child must honor that contract
-*/
-
-
-// Output:
-Bird can fly
-Sparrow can fly
-Sparrow can fly
-```
-
-Bad example: Penguin cannot fly → violates LSP.
-
-
-**I — Interface Segregation Principle (ISP)**
-
-Create small interfaces.
-
-```java
-interface Workable {
-    void work();
-}
-
-interface Eatable {
-    void eat();
-}
-
-class Human implements Workable, Eatable {
-    public void work() {
-        System.out.println("Human working");
-    }
-
-    public void eat() {
-        System.out.println("Human eating");
-    }
-}
-
-class Robot implements Workable {
-    public void work() {
-        System.out.println("Robot working");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Workable w1 = new Human();
-        w1.work();
-
-        Eatable e1 = new Human();
-        e1.eat();
-
-        Workable w2 = new Robot();
-        w2.work();
-    }
-}
-
-// Output:
-Human working
-Human eating
-Robot working
-```
-
-Robot does not implement eat() → Correct.
-
-
-**D — Dependency Inversion Principle (DIP)**
-
-Depend on abstraction, not concrete class.
-
-```java
-// DIP: Depend on abstraction, not concrete implementation
-
-// Abstraction
-interface Payment {
-    void pay();
-}
-
-// Concrete implementation
-class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Card payment");
-    }
-}
-
-// High-level module (business logic)
-class OrderService {
-
-    // Depends on abstraction, not CardPayment directly
-    private Payment payment;
-
-    // Dependency is injected via constructor
-    public OrderService(Payment payment) {
-        this.payment = payment;
-    }
-
-    public void placeOrder() {
-        payment.pay(); // uses abstraction
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-
-        // Inject concrete implementation at runtime
-        Payment payment = new CardPayment();
-
-        // OrderService is not tightly coupled to CardPayment
-        OrderService orderService = new OrderService(payment);
-
-        orderService.placeOrder(); // Output: Card payment
-    }
-}
-
-/*
-Interview Points (Quick):
-
-- High-level class (OrderService) should NOT depend on low-level class (CardPayment)
-- Both depend on abstraction (Payment)
-- Easy to switch implementation (UPI, Wallet, etc.) without changing OrderService
-*/
-
-//Output:
-Card payment
-```
-
-## 1. What are design patterns?
-
-**Design Patterns** are **proven, reusable solutions** to common software design problems. They are **templates or best practices**, not complete code, that help developers write **clean, maintainable, and scalable** applications.
-
-**Key Features:**
-
-* Provide **standard solutions** to recurring problems.
-* Promote **code reusability** and **loose coupling**.
-* Improve **maintainability** and **readability**.
-* Follow **object-oriented design principles** like **SOLID**.
-
-**Types of Design Patterns:**
-
-| **Category**   | **Purpose**                                   | **Examples**                            |
-| -------------- | --------------------------------------------- | --------------------------------------- |
-| **Creational** | Deals with **object creation**.               | **Singleton**, **Factory**, **Builder** |
-| **Structural** | Deals with **class and object composition**.  | **Adapter**, **Decorator**, **Facade**  |
-| **Behavioral** | Deals with **communication between objects**. | **Strategy**, **Observer**, **Command** |
+| **Feature**               | **JPQL**                                | **Native Query**                                                    |
+| ------------------------- | --------------------------------------- | ------------------------------------------------------------------- |
+| **Works On**              | **Entity classes and their fields**.    | **Database tables and columns**.                                    |
+| **Syntax**                | Java object-oriented query language.    | Standard SQL syntax.                                                |
+| **Database Independence** | **Database-independent**.               | May be **database-specific**.                                       |
+| **Portability**           | High.                                   | Lower due to SQL dialect differences.                               |
+| **Complex Queries**       | Limited for advanced database features. | Supports all SQL features, joins, functions, and stored procedures. |
 
 **How it Works:**
 
-* Identify a common design problem.
-* Apply a suitable design pattern instead of creating a custom solution from scratch.
-* The pattern provides a flexible and maintainable structure for the code.
-
-**When to Use:**
-
-* When building **large or scalable applications**.
-* When the same design problem occurs repeatedly.
-* To improve **code organization**, **extensibility**, and **maintainability**.
-* Commonly used in **Spring Framework**, **Hibernate**, and enterprise Java applications.
-
-**Code Example (Singleton Pattern):**
-
-```java id="m8t2qx"
-public class Singleton {
-
-    private static final Singleton instance = new Singleton();
-
-    private Singleton() {}
-
-    public static Singleton getInstance() {
-        return instance;
-    }
-}
-```
-
-**Easy Memory Trick:**
-
-* **Creational** → How objects are **created**.
-* **Structural** → How objects are **connected**.
-* **Behavioral** → How objects **communicate**.
-
-
-1️⃣ **Creational Design Patterns**
-* **Singleton** – Only one instance of a class is created.
-* **Factory Method** – Creates objects without exposing creation logic.
-* **Abstract Factory** – Creates families of related objects.
-* **Builder** – Builds complex objects step by step.
-* **Prototype** – Creates object by cloning existing object.
-
-2️⃣ **Structural Design Patterns**
-* **Adapter** – Converts one interface into another.
-* **Bridge** – Separates abstraction from implementation.
-* **Decorator** – Adds behavior dynamically.
-* **Facade** – Provides simplified interface to complex system.
-* **Proxy** – Controls access to an object.
-
-3️⃣ **Behavioral Design Patterns**
-* **Observer** – One-to-many dependency (used in event systems).
-* **Strategy** – Select algorithm at runtime.
-* **Command** – Encapsulates a request as an object.
-* **State** – Changes behavior when state changes.
-* **Template Method** – Defines skeleton of algorithm.
-* **Iterator** – Sequential access to collection.
-
-
-## 2. What is Singleton pattern?
-
-The **Singleton Pattern** is a **Creational Design Pattern** that ensures a class has **only one instance** throughout the application and provides a **global access point** to that instance.
+* **JPQL:** Hibernate translates the JPQL statement into the appropriate SQL for the underlying database.
+* **Native Query:** The SQL query is sent directly to the database without translation.
 
 **Key Features:**
 
-* Creates **only one object** of a class.
-* Provides a **single global access point**.
-* Saves **memory and resources**.
-* Can be made **thread-safe** for multithreaded applications.
+* **JPQL**
 
-**How it Works:**
+  * Works with **entities**.
+  * Easy to maintain.
+  * Portable across different databases.
+* **Native Query**
 
-1. Make the **constructor `private`** so no other class can create an object.
-2. Create a **static instance** of the class.
-3. Provide a **public static method** (usually `getInstance()`) to return the single instance.
-
-**When to Use:**
-
-* For **logging** services.
-* For **configuration** or **properties** management.
-* For **cache** managers.
-* When only **one shared instance** is required across the application.
-* Commonly used in **Spring**, where beans are **singleton-scoped by default**.
-
-**Code Example (Eager Initialization):**
-
-```java id="f6w9kp"
-public class Singleton {
-
-    private static final Singleton instance = new Singleton();
-
-    private Singleton() {}
-
-    public static Singleton getInstance() {
-        return instance;
-    }
-}
-```
-
-**Thread-Safe Lazy Initialization:**
-
-```java id="p4m8xt"
-public class Singleton {
-    private static Singleton instance;
-    private Singleton() {}
-
-    public static synchronized Singleton getInstance() {
-        if (instance == null) {
-            instance = new Singleton();
-        }
-        return instance;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Singleton s1 = Singleton.getInstance();
-        Singleton s2 = Singleton.getInstance();
-
-        System.out.println(s1 == s2); // true (same object)
-    }
-}
-```
-
-**Advantages:**
-
-* **Controlled access** to a single instance.
-* **Reduces object creation overhead**.
-* Easy to share common resources across the application.
-
-
-
-## 3. How do you implement thread-safe Singleton?
-
-**Thread-safe Singleton** can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
-
-**Methods:**
-- Synchronized method (simple but slow)
-- Double-checked locking (efficient)
-- Enum singleton (best approach)
-- Static inner class (lazy loading)
-
-```java
-// Double-checked locking
-public class ThreadSafeSingleton {
-    private static volatile ThreadSafeSingleton instance;    
-    private ThreadSafeSingleton() { }
-    
-    public static ThreadSafeSingleton getInstance() {
-        if (instance == null) {
-            synchronized (ThreadSafeSingleton.class) {
-                if (instance == null) {
-                    instance = new ThreadSafeSingleton();
-                }
-            }
-        }
-        return instance;
-    }
-}
-
-// Enum singleton - best approach
-public enum EnumSingleton {
-    INSTANCE;    
-    public void doSomething() { }
-}
-```
-
-## 4. What is Factory pattern?
-
-The **Factory Pattern** is a **Creational Design Pattern** that provides a **centralized way to create objects** without exposing the object creation logic to the client. Instead of using `new` directly, the client asks the **factory** to create the required object.
-
-**Key Features:**
-
-* Encapsulates **object creation logic**.
-* Promotes **loose coupling** between client and implementation classes.
-* Makes code **easier to extend and maintain**.
-* Follows the **Open/Closed Principle (OCP)**.
-
-**How it Works:**
-
-1. Create a **common interface** or abstract class.
-2. Create multiple classes that implement the interface.
-3. Create a **Factory class** that decides which object to create based on input.
-4. The client requests an object from the factory instead of creating it directly.
+  * Uses **raw SQL**.
+  * Better for **complex queries** and database-specific features.
+  * Can provide better performance in some cases.
 
 **When to Use:**
 
-* When the exact type of object is determined **at runtime**.
-* When object creation logic is **complex**.
-* When you want to reduce **tight coupling** between classes.
-* Commonly used in **Spring**, **Hibernate**, and **JDBC DriverManager**.
+* Use **JPQL** for most CRUD operations and when you want **database-independent** code.
+* Use **Native Query** for **complex SQL**, **stored procedures**, or when you need **database-specific functions**.
 
 **Code Example:**
 
-```java
-enum PaymentType {
-    CARD, UPI
-}
+**JPQL:** (Java Persistence Query Language) works with entity class names and field names — not table names. It's database-independent.
 
-// Step 1: Interface
-interface Payment {
-    void pay();
-}
+```java id="b7n3kp"
+@Entity
+public class Employee {
 
-// Step 2: Implementations
-class CardPayment implements Payment {
-    public void pay() {
-        System.out.println("Card payment");
-    }
-}
+    @Id
+    private Long id;
 
-class UpiPayment implements Payment {
-    public void pay() {
-        System.out.println("UPI payment");
-    }
-}
-
-// Step 3: Factory Class
-class PaymentFactory {
-    public static Payment getPayment(PaymentType type) {
-        switch (type) {
-            case CARD:
-                return new CardPayment();
-
-            case UPI:
-                return new UpiPayment();
-
-            default:
-                throw new IllegalArgumentException("Invalid payment type");
-        }
-    }
-}
-
-// Step 4: Main Class
-class FactoryPatternDemo {
-    public static void main(String[] args) {
-        Payment payment = PaymentFactory.getPayment(PaymentType.UPI);
-        payment.pay();
-    }
-}
-```
-
-**Advantages:**
-
-* Hides **object creation details**.
-* Improves **code flexibility** and **reusability**.
-* Makes it easier to add new implementations without changing client code.
-
-
-## 5. What is Observer pattern?
-
-The **Observer Pattern** is a **Behavioral Design Pattern** in which **one object (Subject)** automatically **notifies multiple dependent objects (Observers)** whenever its state changes. It establishes a **one-to-many relationship** between objects.
-
-**Key Features:**
-
-* Supports **one-to-many communication**.
-* Promotes **loose coupling** between the subject and observers.
-* Observers are **automatically updated** when the subject changes.
-* Easy to **add or remove observers** without changing the subject.
-
-**How it Works:**
-
-1. A **Subject** maintains a list of registered **Observers**.
-2. Observers **subscribe** to the subject.
-3. When the subject's state changes, it calls the **`update()`** method on all observers.
-4. Each observer performs its own action based on the notification.
-
-**When to Use:**
-
-* **Event-driven systems**.
-* **Notification services** (Email, SMS, Push Notifications).
-* **Stock price** or **weather update** applications.
-* Commonly used in **Spring Event Listeners** and **GUI frameworks**.
-
-**Code Example:**
-
-```java id="n4v8kp"
-interface Observer {
-    void update(String message);
-}
-
-class EmailObserver implements Observer {
-    public void update(String message) {
-        System.out.println("Email received: " + message);
-    }
-}
-
-class Subject {
-    private List<Observer> observers = new ArrayList<>();
-
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void notifyObservers(String message) {
-        for (Observer observer : observers) {
-            observer.update(message);
-        }
-    }
-}
-```
-
-**Using the Observer Pattern:**
-
-```java id="m7q2tx"
-public class Main {
-    public static void main(String[] args) {
-        Subject subject = new Subject();
-        subject.addObserver(new EmailObserver());
-
-        subject.notifyObservers("Order Placed Successfully!");
-    }
-}
-```
-
-**Advantages:**
-
-* Reduces **tight coupling** between objects.
-* Makes the system **flexible** and **extensible**.
-* Supports **event-based communication**.
-
-
-## 6. What is Strategy pattern?
-
-The **Strategy Pattern** is a **Behavioral Design Pattern** that defines a **family of algorithms**, encapsulates each one in a separate class, and allows them to be **interchanged at runtime** without changing the client code.
-
-**Key Features:**
-
-* Encapsulates **different algorithms** in separate classes.
-* Allows changing the **behavior at runtime**.
-* Promotes **loose coupling**.
-* Follows the **Open/Closed Principle (OCP)** by allowing new strategies without modifying existing code.
-
-**How it Works:**
-
-1. Define a common **Strategy interface**.
-2. Create multiple classes implementing the interface, each with a different algorithm.
-3. The **Context** class holds a reference to a strategy.
-4. At runtime, the client selects the required strategy, and the context delegates the work to it.
-
-**When to Use:**
-
-* When there are **multiple ways to perform the same task**.
-* To avoid large **`if-else`** or **`switch`** statements.
-* When the algorithm needs to be **changed dynamically**.
-* Commonly used for **payment methods**, **sorting algorithms**, and **discount calculations**.
-
-**Code Example:**
-
-```java id="g8n4tx"
-interface PaymentStrategy {
-    void pay(int amount);
-}
-
-class CreditCardPayment implements PaymentStrategy {
-    public void pay(int amount) {
-        System.out.println("Paid " + amount + " using Credit Card");
-    }
-}
-
-class UpiPayment implements PaymentStrategy {
-    public void pay(int amount) {
-        System.out.println("Paid " + amount + " using UPI");
-    }
-}
-
-class PaymentService {
-    private PaymentStrategy strategy;
-
-    public PaymentService(PaymentStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void processPayment(int amount) {
-        strategy.pay(amount);
-    }
-}
-```
-
-**Using the Strategy Pattern:**
-
-```java id="d5k9mp"
-public class Main {
-    public static void main(String[] args) {
-        PaymentService service = new PaymentService(new UpiPayment());
-        service.processPayment(1000);
-    }
-}
-```
-
-**Advantages:**
-
-* Eliminates complex **conditional logic**.
-* Makes code **easy to extend and maintain**.
-* Allows **runtime selection** of algorithms.
-
-
-
-## 7. What is Adapter pattern?
-
-The **Adapter Pattern** is a **Structural Design Pattern** that allows **two incompatible interfaces** to work together by acting as a **bridge** between them. It converts the interface of one class into another interface that the client expects.
-
-**Key Features:**
-
-* Connects **incompatible classes** without modifying their code.
-* Promotes **code reusability**.
-* Provides **loose coupling** between client and implementation.
-* Also known as a **Wrapper Pattern**.
-
-**How it Works:**
-
-1. The client expects a specific interface.
-2. An existing class has a different, incompatible interface.
-3. The **Adapter** implements the expected interface and internally calls the existing class.
-4. The client interacts with the adapter without knowing about the incompatible class.
-
-**When to Use:**
-
-* When integrating **third-party libraries** or **legacy systems**.
-* When existing classes cannot be modified.
-* To make incompatible interfaces work together.
-* Commonly used in **Spring**, where adapters convert one API format into another.
-
-**Code Example:**
-
-```java id="w8n4kp"
-interface Charger {
-    void charge();
-}
-
-class MicroUsbCharger {
-    public void microUsbCharge() {
-        System.out.println("Charging with Micro USB");
-    }
-}
-
-class ChargerAdapter implements Charger {
-    private MicroUsbCharger charger = new MicroUsbCharger();
-
-    @Override
-    public void charge() {
-        charger.microUsbCharge();
-    }
-}
-```
-
-**Using the Adapter:**
-
-```java id="t3m7qx"
-public class Main {
-    public static void main(String[] args) {
-        Charger charger = new ChargerAdapter();
-        charger.charge();
-    }
-}
-```
-
-**Advantages:**
-
-* Reuses existing code without modification.
-* Improves **flexibility** and **maintainability**.
-* Simplifies integration with **legacy or external systems**.
-
-
-## 8. What is Decorator pattern?
-
-The **Decorator Pattern** is a **Structural Design Pattern** that allows you to **add new functionality to an object dynamically** without changing its existing code. It works by **wrapping** the original object inside a decorator object.
-
-**Key Features:**
-
-* Adds **new behavior** without modifying the original class.
-* Uses **composition over inheritance**.
-* Promotes **flexibility** and **code reusability**.
-* Follows the **Open/Closed Principle (OCP)**.
-
-**How it Works:**
-
-1. Define a common **interface**.
-2. Create a **base implementation** of that interface.
-3. Create a **Decorator** class that also implements the interface and holds a reference to the original object.
-4. The decorator adds extra behavior before or after delegating the call to the wrapped object.
-
-**When to Use:**
-
-* When you need to **add features dynamically** at runtime.
-* When using inheritance would create too many subclasses.
-* For adding **logging**, **security**, **compression**, or **caching** functionality.
-* Commonly used in Java I/O classes like **`BufferedReader`** and **`BufferedInputStream`**.
-
-**Code Example:**
-
-```java id="x7m4kp"
-interface Coffee {
-    String getDescription();
-}
-
-class SimpleCoffee implements Coffee {
-    public String getDescription() {
-        return "Simple Coffee";
-    }
-}
-
-class MilkDecorator implements Coffee {
-    private Coffee coffee;
-
-    public MilkDecorator(Coffee coffee) {
-        this.coffee = coffee;
-    }
-
-    public String getDescription() {
-        return coffee.getDescription() + " + Milk";
-    }
-}
-```
-
-**Using the Decorator:**
-
-```java id="n5q8tx"
-public class Main {
-    public static void main(String[] args) {
-        Coffee coffee = new MilkDecorator(new SimpleCoffee());
-        System.out.println(coffee.getDescription());
-    }
-}
-```
-
-**Advantages:**
-
-* Adds functionality **without changing existing code**.
-* Avoids creating many subclasses.
-* Makes the system **flexible** and **easy to extend**.
-
-
-## 8. What is Builder pattern?
-
-The **Builder Pattern** is a **Creational Design Pattern** used to **construct complex objects step by step**. It is especially useful when an object has **many optional parameters** and you want to avoid multiple constructors.
-
-**Key Features:**
-
-* Builds objects **step by step**.
-* Handles **many optional fields** cleanly.
-* Creates **immutable objects** easily.
-* Improves **code readability** and **maintainability**.
-* Avoids the **Telescoping Constructor Problem** (too many constructor parameters).
-
-**How it Works:**
-
-1. Create a **Builder** class inside or outside the target class.
-2. The builder contains methods to set each field.
-3. Each method returns the **Builder object** to allow **method chaining**.
-4. Call the **`build()`** method to create the final object.
-
-**When to Use:**
-
-* When a class has **many fields**, especially optional ones.
-* When constructors become too large or confusing.
-* When creating **immutable objects**.
-* Commonly used in **Spring**, **Lombok (`@Builder`)**, and Java libraries.
-
-**Code Example:**
-
-```java id="r8m4kp"
-public class User {
     private String name;
-    private int age;
-
-    private User(Builder builder) {
-        this.name = builder.name;
-        this.age = builder.age;
-    }
-
-    public static class Builder {
-        private String name;
-        private int age;
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder age(int age) {
-            this.age = age;
-            return this;
-        }
-
-        public User build() {
-            return new User(this);
-        }
-    }
+    private double salary;
 }
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    @Query("SELECT e FROM Employee e WHERE e.salary > :salary")
+    List<Employee> findEmployeesBySalary(@Param("salary") double salary);
+}
+
+// Usage
+List<Employee> employees = employeeRepository.findEmployeesBySalary(50000);
 ```
 
-**Using the Builder:**
+**Native Query:** uses actual SQL with real table and column names. Use it when you need database-specific features or complex queries JPQL can't handle.
 
-```java id="w5q9tx"
-public class Main {
-    public static void main(String[] args) {
-        User user = new User.Builder()
-                        .name("Alice")
-                        .age(25)
-                        .build();
-    }
+```java id="m4x8qr"
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    @Query(value = "SELECT * FROM employee WHERE salary > :salary",
+           nativeQuery = true)
+    List<Employee> findEmployeesNative(@Param("salary") double salary);
 }
+
+// Usage
+List<Employee> employees = employeeRepository.findEmployeesNative(50000);
 ```
 
-**Advantages:**
+## 13. What are JPA Cascade Types?
 
-* Makes object creation **clear and readable**.
-* Eliminates constructors with too many parameters.
-* Supports **immutable object creation**.
-* Easy to extend with new optional fields.
+Cascade means — *when you do an operation on a parent entity, automatically apply it to child entities too.*
+
+| Type | Behavior |
+|---|---|
+| `PERSIST` | Save child when parent is saved |
+| `MERGE` | Update child when parent is updated |
+| `REMOVE` | Delete child when parent is deleted |
+| `REFRESH` | Refresh child when parent is refreshed |
+| `DETACH` | Detach child when parent is detached |
+| `ALL` | Apply all of the above |
+
+```java
+@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+private List<OrderItem> items;
+```
+
+Be careful with `REMOVE` — it can delete child records you didn't intend to delete.
 
 
-## 8. What is Prototype pattern?
+## 14. What is Database Indexing and When to Use It?
 
-The **Prototype Pattern** is a **Creational Design Pattern** that creates new objects by **copying (cloning) an existing object** instead of creating a new one from scratch. It is useful when object creation is **expensive or complex**.
+A **Database Index** is a special **data structure** that improves the speed of **data retrieval** operations. It works like the **index of a book**, allowing the database to find rows quickly without scanning the entire table.
 
 **Key Features:**
 
-* Creates objects by **cloning existing instances**.
-* Reduces the cost of **expensive object creation**.
-* Promotes **code reusability**.
-* Supports **shallow copy** and **deep copy**.
+* Improves **`SELECT`** query performance.
+* Reduces the need for **full table scans**.
+* Can be created on one or more columns.
+* Uses additional **storage space** and slightly slows down **`INSERT`**, **`UPDATE`**, and **`DELETE`** operations.
 
 **How it Works:**
 
-1. A class implements the **`Cloneable`** interface.
-2. It overrides the **`clone()`** method.
-3. Instead of using `new`, the client calls `clone()` on an existing object.
-4. A new object is created as a copy of the original.
+1. An index stores the values of indexed columns in a sorted structure (commonly a **B-Tree**).
+2. When a query searches by an indexed column, the database looks up the index first.
+3. The index quickly points to the required row location, avoiding a full table scan.
+
+**Example:**
+Without an index:
+
+```sql
+SELECT * FROM users WHERE email = 'abc@example.com';
+```
+
+The database may scan the **entire `users` table**.
+
+With an index on the **`email`** column:
+
+```sql
+CREATE INDEX idx_email ON users(email);
+```
+
+The database can directly locate the matching row, making the query much faster.
 
 **When to Use:**
 
-* When object creation is **time-consuming** or resource-intensive.
-* When you need **multiple similar objects** with slight modifications.
-* When creating objects from scratch is costly.
-* Commonly used in **caching**, **game development**, and **object templates**.
+* Columns frequently used in **`WHERE`** conditions.
+* Columns used in **`JOIN`**, **`ORDER BY`**, or **`GROUP BY`** clauses.
+* **Primary Keys** and **Foreign Keys**.
+* Columns with **high search frequency**.
 
-**Code Example:**
+**When to Avoid:**
 
-```java id="k4m8xp"
-class Employee implements Cloneable {
-    String name;
+* Very small tables.
+* Columns that are rarely queried.
+* Columns with frequent updates if read performance is not critical, because indexes add maintenance overhead.
 
-    Employee(String name) {
-        this.name = name;
+**Code Example (JPA):**
+
+```java id="v3n8qy"
+@Entity
+@Table(name = "users",
+       indexes = {
+           @Index(name = "idx_email", columnList = "email")
+       })
+public class User {
+
+    @Id
+    private Long id;
+
+    private String email;
+}
+```
+
+
+## 16. What is LazyInitializationException?
+
+**`LazyInitializationException`** occurs when Hibernate tries to load a lazily fetched entity or collection after the Hibernate session has already been closed.
+
+
+```java
+@Entity
+class Employee {
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Address> addresses;
+}
+```
+
+```java
+Employee emp = employeeRepository.findById(1L).get();
+// Session closes here
+
+emp.getAddresses().size(); // LazyInitializationException
+```
+
+Since `addresses` is loaded lazily, Hibernate tries to fetch it only when `getAddresses()` is called. But the session is already closed, so it throws `LazyInitializationException`.
+
+**How to Fix It**
+
+    1. Access the lazy data inside a transaction.
+    2. Use `JOIN FETCH` in JPQL.
+       ```java
+       SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = 1
+       ```
+    3. Use DTO projections instead of entities for web layer.
+    4. Use `FetchType.EAGER` only when necessary.
+
+
+## 17. Entity lifecycle states?
+
+| State | Description |
+|---|---|
+| **Transient** | New object, not tracked by JPA |
+| **Managed** | Tracked by persistence context |
+| **Detached** | Was managed, now outside context |
+| **Removed** | Scheduled for deletion |
+
+```java
+User user = new User("John");          // Transient
+
+entityManager.persist(user);           // Managed - changes auto-synced
+
+entityManager.detach(user);            // Detached - changes NOT tracked
+user.setName("Jane");                  // won't be saved
+
+entityManager.merge(user);             // Managed again
+
+entityManager.remove(user);            // Removed
+```
+
+
+## 18. What is dirty checking?
+
+
+**Dirty Checking** is a feature of **Hibernate/JPA** that automatically detects changes made to a managed entity and updates the database without explicitly calling `save()` or `update()`.
+
+**Key Features**
+
+* Automatic change detection
+* Works inside a **Transaction**
+* Reduces boilerplate code
+* Managed by the **Persistence Context**
+* Automatically generates **UPDATE** queries
+
+**How It Works**
+
+1. Hibernate loads an entity from the database.
+2. The entity becomes **Managed** by the **Persistence Context**.
+3. If the entity's data is modified, Hibernate tracks the changes.
+4. At **Transaction Commit**, Hibernate compares the current state with the original state.
+5. If changes are found, Hibernate automatically executes an **UPDATE** statement.
+
+**Code Example**
+
+```java
+@Transactional
+public void updateUser(Long id) {
+
+    User user = userRepository.findById(id).get();
+    // Hibernate creates snapshot: {id: 1, name: "John", salary: 50000}
+
+    user.setName("John Updated");
+
+    // Hibernate marks entity as "dirty"
+    
+    // No need to call employeeRepository.save()!
+    // At transaction commit, Hibernate automatically executes:
+    // UPDATE employee SET name = 'John Updated' WHERE id = 1
+}
+```
+
+No explicit `save()` call is needed.
+
+Hibernate automatically generates:
+
+```sql
+UPDATE users
+SET name = 'John Updated'
+WHERE id = 1;
+```
+
+**Why to Use**
+
+* Reduces manual database updates
+* Simplifies code
+* Improves developer productivity
+* Ensures entity changes are persisted automatically
+
+**When to Use**
+
+Use **Dirty Checking** when working with **managed entities** inside a **@Transactional** method.
+
+
+## 19: What is lazy loading?
+
+**Lazy Loading** is a technique where data or objects are **loaded only when they are actually needed**, instead of loading them immediately. It helps improve **performance** and reduces unnecessary memory usage.
+
+**Key Features**
+
+* Loads data **on demand**.
+* Improves **application performance**.
+* Reduces **memory consumption**.
+* Decreases initial loading time.
+* Commonly used in **Hibernate/JPA** relationships.
+
+**How It Works**
+
+1. The main object is loaded first.
+2. Related objects are not fetched immediately.
+3. When the related data is accessed, Hibernate executes a query and loads it.
+4. Data is fetched only when required.
+
+**Why Use Lazy Loading?**
+
+* Improves performance by avoiding unnecessary database calls.
+* Reduces memory usage.
+* Faster application startup and response time.
+* Efficient for large object graphs.
+
+**When to Use**
+
+* Large datasets.
+* Relationships that are not always needed.
+* Performance-sensitive applications.
+* One-to-Many and Many-to-Many associations.
+
+**Code Example**
+
+```java
+// Lazy loading examples
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+    
+    // Lazy loading - orders loaded only when accessed
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Order> orders;
+    // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
+    
+    // Eager loading - always loaded with user
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Department department;
+}
+
+@Service
+public class UserService {
+    
+    // Lazy loading in action
+    public void processUser(Long userId) {
+        User user = userRepository.findById(userId);
+        // Orders not loaded yet
+        
+        if (needsOrders(user)) {
+            user.getOrders().size(); // Now orders are loaded
+        }
     }
-
-    @Override
-    public Employee clone() throws CloneNotSupportedException {
-        return (Employee) super.clone();
+    
+    // Avoid N+1 with explicit fetch
+    public List<User> getUsersWithOrders() {
+        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
     }
 }
 ```
 
-**Using the Prototype Pattern:**
+**Lazy vs Eager Loading**
 
-```java id="v9q3tn"
-public class Main {
-    public static void main(String[] args) throws CloneNotSupportedException {
+| **Lazy Loading**                   | **Eager Loading**                       |
+| ---------------------------------- | --------------------------------------- |
+| Loads data when needed             | Loads data immediately                  |
+| Better performance for unused data | Can load unnecessary data               |
+| Lower memory usage                 | Higher memory usage                     |
+| Default for collections in JPA     | Often used when data is always required |
 
-        Employee emp1 = new Employee("Alice");
-        Employee emp2 = emp1.clone();
 
-        System.out.println(emp2.name);
-    }
+## 20: What is eager loading?
+
+
+
+
+**Eager Loading** is a technique where related data is **loaded immediately** along with the main entity in a **single query** or as soon as the entity is fetched.
+
+**Key Features**
+
+* **Loads related objects instantly**
+* Reduces the **N+1 Query Problem**
+* Improves performance when related data is definitely needed
+* May load **extra data** that is not used
+
+**How It Works**
+
+When the main entity is fetched, its associated entities are fetched at the same time.
+
+Example:
+
+If you load an **Employee**, the related **Department** is also loaded immediately.
+
+**Why Use It?**
+
+* Reduces the number of database queries
+* Improves performance for frequently accessed relationships
+* Avoids additional database hits later
+
+**When to Use**
+
+* When related data is **always required**
+* For reports, dashboards, and detailed views
+* To avoid repeated database queries
+
+**Example (JPA/Hibernate)**
+```java
+// Eager loading examples
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    // Eager loading - customer always loaded with order
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+
+     // fetch = FetchType.EAGER means the related entity is loaded immediately along with the parent entity
+    
+    // Lazy loading - items loaded on demand
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> items;
+
+     // fetch = FetchType.LAZY means the related child data is not loaded immediately. It is fetched only when we access it.
+}
+
+@Repository
+public class OrderRepository extends JpaRepository<Order, Long> {
+    
+    // Explicit eager loading with fetch join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
+    List<Order> findAllOrdersWithDetails();
+    
+    // Conditional eager loading
+    @EntityGraph(attributePaths = {"customer", "items"})
+    @Query("SELECT o FROM Order o WHERE o.status = :status")
+    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
 }
 ```
 
-**Advantages:**
 
-* Improves performance by avoiding repeated object creation.
-* Simplifies creating **similar objects**.
-* Reduces the need for complex constructors.
+## 21. What is auditing and How it works in JPA?
+
+
+In Java (especially enterprise applications like Spring Boot), **auditing** means **tracking and recording changes made to data**, such as:
+
+* **Who** created the record
+* **When** the record was created
+* **Who** updated the record
+* **When** it was last updated
+
+
+**How it works**
+
+Spring Data JPA provides `@CreatedDate`, `@LastModifiedDate`, `@CreatedBy`, `@LastModifiedBy` via `@EnableJpaAuditing`.
+
+```java
+// 1. Enable auditing
+@SpringBootApplication
+@EnableJpaAuditing
+public class App {}
+
+// 2. Auditable base entity
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class Auditable {
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+}
+
+// 3. Extend it
+@Entity
+public class User extends Auditable {
+    @Id @GeneratedValue private Long id;
+    private String name;
+}
+```
 
 
 
