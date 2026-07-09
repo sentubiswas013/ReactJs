@@ -7342,7 +7342,7 @@ fWhat is JDBC
 
 
 
-# ✅ 8. Java Lambda Expres.. & Streams API 
+# ✅ 08. Java Lambda Expres.. & Streams API 
 
 ## 2. What are lambda expressions?
 
@@ -7933,7 +7933,7 @@ List<String> list2 = List.of("A", "B", "C");
 
 
 
-# ✅ 10. Java JVM & Memory Management 
+# ✅ 09. Java JVM & Memory Management 
 
 ## 0. What is Java Memory Model (JMM)?
 
@@ -8433,7 +8433,7 @@ public class GCRootExample {
 
 
 
-# ✅ 08. Java Multithreading & Synchronization 
+# ✅ 10. Java Multithreading & Synchronization 
 
 ## 1. What is thread and what are life cycle?
 
@@ -9589,7 +9589,7 @@ class Counter {
 
 
 
-# ✅ 09. Java Concurrency 
+# ✅ 11. Java Concurrency 
 
 ## 0. What is multithreading?
 
@@ -10961,7 +10961,7 @@ System.out.println(result);
 
 
 
-# ✅ 11. Java Input/Output (I/O) 
+# ✅ 12. Java Input/Output (I/O) 
 
 ## 1. What are the different ways to read a file in Java?
 
@@ -11080,7 +11080,7 @@ Use **NIO** when you need **better performance and scalability**, especially for
 - Rapid development needed
 - Working with small to medium files
 
-# ✅ 12. Java Generics 
+# ✅ 13. Java Generics 
 
 ## 1. What are generics in Java?
 
@@ -11367,7 +11367,7 @@ public class GenericClass<T> {
 }
 ```
 
-# ✅ 13. Java Annotations & Reflection 
+# ✅ 14. Java Annotations & Reflection 
 
 
 ## 1. What are annotations in Java?
@@ -11702,7 +11702,7 @@ Use **reflection** when you need dynamic behavior that cannot be achieved with n
 
 
 
-# ✅ 16. Java JDBC 
+# ✅ 15. Java JDBC 
 
 ## 1. What is JDBC ?
 
@@ -13825,7 +13825,7 @@ Incorrect **profile activation or configuration mismatch** can cause production 
 
 
 
-# ✅ 14. Java - Servlets and JSP 
+# ✅ 16. Java - Servlets and JSP 
 
 ## 1. What is servlet in Java?
 
@@ -15080,7 +15080,7 @@ public class User extends Auditable {
 
 
 
-# ✅ 18. Java Spring Framework 
+# ✅ 17. Java Spring Framework 
 
 ## 2. What is Spring Framework ?
 
@@ -16714,12 +16714,9 @@ In production, we move toward cloud-native and distributed architecture. Kuberne
 
 
 
-
-# ✅ 19. Java Spring Boot 
+# ✅ 18. Java Spring Boot 
 
 ## 1. What is annotations in Java?
-
-
 
 **Annotations** are **special metadata (information about the code)** that provide instructions to the **compiler**, **JVM**, or **frameworks** like Spring. They do not directly change the program logic but help automate configuration and processing.
 
@@ -19145,7 +19142,7 @@ An **Interceptor** is Spring-specific and is mainly used for controller-related 
 
 
 
-# ✅ 20. Java Microservices 
+# ✅ 19. Java Microservices 
 
 ## 1. What are microservices?
 
@@ -22280,7 +22277,7 @@ System.out.println(response.body());
 * Less scalable than **Asynchronous Messaging**
 
 
-# ✅ 21. Java RESTful Services 
+# ✅ 20. Java RESTful Services 
 
 ## 1. What is CORS, and how does it work?
 
@@ -24337,7 +24334,7 @@ try {
 **No.** `@Transactional` works only **within a single service and database**. For distributed transactions across multiple microservices, use the **Saga Pattern** or **Compensating Transactions**.
 
 
-# ✅ 22. Java kafka and RabbitMQ
+# ✅ 21. Java kafka and RabbitMQ
 
 
 ## 1. What is Kafka and How Does It Work?
@@ -24957,7 +24954,7 @@ spec:
 
 
 
-# ✅ 17. Java Design Patterns 
+# ✅ 22. Java Design Patterns 
 
 ## 0. What are SOLID principles?
 
