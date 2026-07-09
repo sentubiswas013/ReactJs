@@ -20209,2064 +20209,7 @@ An **Interceptor** is Spring-specific and is mainly used for controller-related 
 
 
 
-# ✅ 20. Java RESTful Services 
-
-## 1. What is CORS, and how does it work?
-
-**CORS (Cross-Origin Resource Sharing)** is a **browser security mechanism** that allows or blocks a web application from making requests to a **different domain, protocol, or port** than the one from which it was loaded.
-
-For example:
-
-* Frontend: `http://localhost:3000`
-* Backend: `http://localhost:8080`
-
-Since the **ports are different**, they are considered **different origins**, and the browser blocks the request unless **CORS** is enabled.
-
-**Key Features**
-
-* Provides **secure cross-origin communication**.
-* Controlled by **HTTP headers**.
-* Prevents unauthorized websites from accessing resources.
-* Works only in **web browsers** (not between backend services).
-* Supports **Simple Requests** and **Preflight Requests**.
-
-**How it Works**
-
-1. The browser sends a request from the frontend to the backend.
-2. The backend checks whether the origin is allowed.
-3. If allowed, it returns headers like:
-
-   ```text
-   Access-Control-Allow-Origin: http://localhost:3000
-   ```
-4. The browser reads the header and allows the request.
-5. If the header is missing or invalid, the browser blocks the request.
-
-For **POST**, **PUT**, **DELETE**, or custom headers, the browser first sends an **OPTIONS** request called a **Preflight Request** to check whether the actual request is permitted.
-
-**When to Use**
-
-* Frontend and backend are hosted on **different domains or ports**.
-* Building applications with **React**, **Angular**, or **Vue**.
-* When APIs are consumed by external web applications.
-
-**Spring Boot CORS Example**
-
-**Using `@CrossOrigin` Annotation:**
-
-```java
-@RestController
-@CrossOrigin(origins = "http://localhost:3000")
-public class UserController {
-
-    @GetMapping("/users")
-    public String getUsers() {
-        return "User List";
-    }
-}
-```
-
-**Global CORS Configuration:**
-
-```java
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
-    }
-}
-```
-
-**Real-World Example**
-
-A **React** application running on `http://localhost:3000` calls a **Spring Boot API** running on `http://localhost:8080`. Without CORS configuration, the browser blocks the request. By enabling CORS and allowing `http://localhost:3000`, the frontend can securely access the backend API.
-
-
-## 2. What is an API and what are different type of API?
-
-
-**API (Application Programming Interface)** is a set of **rules and protocols** that allows two software applications to **communicate and exchange data** with each other without knowing their internal implementation.
-
-For example, when a mobile app requests user details from a backend server, it uses an **API**.
-
-**Key Features**
-
-* Enables **communication** between different applications.
-* Hides the **internal implementation** of a system.
-* Promotes **reusability** and **modularity**.
-* Supports **platform-independent** integration.
-* Can exchange data in formats like **JSON** or **XML**.
-
-**How it Works**
-
-1. A **Client** sends an API request.
-2. The **Server** processes the request.
-3. The server accesses the database or business logic.
-4. The server returns a **response** to the client, usually in **JSON** format.
-
-Example:
-
-```text
-Client  --->  API Request  --->  Server
-Client  <---  JSON Response <--- Server
-```
-
-**When to Use**
-
-* Building **web**, **mobile**, or **microservices** applications.
-* Integrating with external services like payment gateways or maps.
-* Exposing business functionality to other systems.
-
-**Different Types of API**
-
-| **API Type**      | **Description**                                                                             | **Example**                           |
-| ----------------- | ------------------------------------------------------------------------------------------- | ------------------------------------- |
-| **REST API**      | Uses **HTTP methods** (`GET`, `POST`, `PUT`, `DELETE`) and usually exchanges **JSON** data. | Spring Boot REST API                  |
-| **SOAP API**      | Uses **XML** messages with strict standards and security features.                          | Banking and enterprise systems        |
-| **GraphQL API**   | Client requests only the required data using a single endpoint.                             | Facebook GraphQL                      |
-| **gRPC API**      | High-performance API using **Protocol Buffers** and HTTP/2.                                 | Internal microservices communication  |
-| **WebSocket API** | Provides **real-time, two-way communication** between client and server.                    | Chat applications, live notifications |
-
-**Types of APIs Based on Access**
-
-| **Type**          | **Description**                                    |
-| ----------------- | -------------------------------------------------- |
-| **Public API**    | Available for external developers.                 |
-| **Private API**   | Used only within an organization.                  |
-| **Partner API**   | Shared with authorized business partners.          |
-| **Composite API** | Combines multiple API calls into a single request. |
-
-**Simple Spring Boot REST API Example**
-
-```java
-@RestController
-@RequestMapping("/api")
-public class UserController {
-
-    @GetMapping("/users")
-    public String getUsers() {
-        return "User List";
-    }
-}
-```
-
-Request:
-
-```http
-GET /api/users
-```
-
-Response:
-
-```json
-"User List"
-```
-
-
-
-## 3. What are RESTful web services?
-
-**What are RESTful Web Services?**
-
-**RESTful Web Services** are web services that follow the **REST (Representational State Transfer)** architectural style. They allow applications to communicate over **HTTP** using standard methods like **GET**, **POST**, **PUT**, and **DELETE** to perform operations on resources.
-
-A **resource** can be any data, such as a **User**, **Product**, or **Order**, and it is identified by a **URL**.
-
-**Key Features**
-
-* Uses standard **HTTP protocol**.
-* Follows a **Resource-Based Architecture**.
-* Supports **CRUD operations** using HTTP methods.
-* **Stateless** – the server does not store client session information.
-* Usually exchanges data in **JSON** format (can also support XML).
-* Easy to build, consume, and scale.
-
-**How it Works**
-
-1. The **Client** sends an HTTP request to a URL.
-2. The **REST API** processes the request.
-3. The server performs the required business logic or database operation.
-4. The server returns an HTTP response, usually with **JSON** data.
-
-**Common HTTP Methods**
-
-| **HTTP Method** | **Operation**        | **Example URL** |
-| --------------- | -------------------- | --------------- |
-| **GET**         | Retrieve data        | `/users/1`      |
-| **POST**        | Create new data      | `/users`        |
-| **PUT**         | Update existing data | `/users/1`      |
-| **DELETE**      | Delete data          | `/users/1`      |
-
-
-**When to Use**
-
-* Building **Web APIs** and **Microservices**.
-* Communication between **frontend and backend**.
-* Mobile applications consuming backend services.
-* Integration with third-party systems.
-
-**Simple Spring Boot REST API Example**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.getUser(id);
-    }
-
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.save(user);
-    }
-
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id,
-                           @RequestBody User user) {
-        return userService.update(id, user);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.delete(id);
-    }
-}
-```
-
-**Real-World Example**
-
-In an **E-commerce Application**:
-
-* `GET /products` → Get all products.
-* `GET /products/101` → Get a specific product.
-* `POST /orders` → Create a new order.
-* `PUT /orders/101` → Update an order.
-* `DELETE /orders/101` → Cancel an order.
-
-
-## 4. What are the principles of REST?
-
-REST (Representational State Transfer) is based on six key architectural principles that guide the design of web services.
-
-**REST Principles:**
-- **Stateless:** Each request contains all necessary information
-- **Client-Server:** Separation of concerns between client and server
-- **Cacheable:** Responses can be cached for better performance
-- **Uniform Interface:** Consistent way to interact with resources
-- **Layered System:** Architecture can have multiple layers
-- **Code on Demand:** Optional - server can send executable code
-
-These principles ensure scalability, reliability, and maintainability of web services.
-
-
-## 5: What is XML how to return XML in response?
-
-**XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
-
-It is **verbose**, supports **attributes and namespaces**, is **self-documenting with schema validation**, and is used in **enterprise apps and SOAP services**.
-
-```xml
-<dependency>
-    <groupId>com.fasterxml.jackson.dataformat</groupId>
-    <artifactId>jackson-dataformat-xml</artifactId>
-</dependency>
-```
-```java
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
-@JacksonXmlRootElement(localName = "user")
-public class User {
-    private int id;
-    private String name;
-
-    // getters setters
-}
-```
-```java
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/api")
-public class StudentController {
-
-    @GetMapping(value = "/student", produces = "application/xml")
-    public Student getStudent() {
-        Student s = new Student();
-        s.setId(1);
-        s.setName("John");
-        return s;
-    }
-}
-
-// Result
-// <student>
-//     <id>1</id>
-//     <name>John</name>
-// </student>
-```
-
-
-## 6. What are HTTP methods and their usage?
-
-**HTTP Methods** are standard operations used by a client to communicate with a server in a **RESTful Web Service**. They define what action should be performed on a resource, such as **creating**, **reading**, **updating**, or **deleting** data.
-
-**Key Features**
-
-* Define the **type of operation** to perform.
-* Work over the **HTTP protocol**.
-* Used in **REST APIs** for CRUD operations.
-* Help create **standardized and predictable APIs**.
-* Can be **safe** and **idempotent** depending on the method.
-
-**How it Works**
-
-1. The **Client** sends an HTTP request with a specific method.
-2. The **Server** identifies the method and processes the request.
-3. The server returns an appropriate **HTTP response** with data or status.
-
-For example:
-
-```text
-Client ---- GET /users/1 ----> Server
-Client <--- User Data -------- Server
-```
-
-**Main HTTP Methods and Their Usage**
-
-| **Method**  | **Purpose**                          | **CRUD Operation** | **Example**                         |
-| ----------- | ------------------------------------ | ------------------ | ----------------------------------- |
-| **GET**     | Retrieve data                        | Read               | Get user details                    |
-| **POST**    | Create new data                      | Create             | Create a new user                   |
-| **PUT**     | Update or replace existing data      | Update             | Update user details                 |
-| **PATCH**   | Partially update existing data       | Update             | Update only user's email            |
-| **DELETE**  | Remove data                          | Delete             | Delete a user                       |
-| **OPTIONS** | Returns supported HTTP methods       | N/A                | Used in **CORS Preflight** requests |
-| **HEAD**    | Same as GET but returns only headers | N/A                | Check if a resource exists          |
-
-
-**When to Use**
-
-* Building **RESTful APIs**.
-* Communication between **frontend and backend**.
-* **Microservices** and third-party API integrations.
-* Web and mobile application development.
-
-**Spring Boot Example**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @GetMapping("/{id}")
-    public String getUser(@PathVariable int id) {
-        return "Get User";
-    }
-
-    @PostMapping
-    public String createUser() {
-        return "Create User";
-    }
-
-    @PutMapping("/{id}")
-    public String updateUser(@PathVariable int id) {
-        return "Update User";
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable int id) {
-        return "Delete User";
-    }
-}
-```
-
-
-## 7. What is the difference between PUT and POST?
-
-**PUT:**
-- Updates or replaces entire resource
-- Idempotent (same result when called multiple times)
-- Requires complete resource data
-- Used for updates when you know the resource ID
-
-**POST:**
-- Creates new resources
-- Not idempotent (creates new resource each time)
-- Can send partial data
-- Server typically generates resource ID
-
-```java
-// POST - Create new user (server generates ID)
-POST /users
-{
-    "name": "John",
-    "email": "john@example.com"
-}
-// Response: 201 Created with generated ID
-
-// PUT - Update/replace entire user resource
-PUT /users/123
-{
-    "id": 123,
-    "name": "John Updated",
-    "email": "john.updated@example.com"
-}
-// Response: 200 OK or 204 No Content
-```
-
-## 8. What are HTTP status codes?
-
-**HTTP Status Codes** are **3-digit response codes** returned by a web server to indicate the **result of an HTTP request**. They help the client understand whether the request was **successful**, **redirected**, **invalid**, or **failed**.
-
-**Key Features**
-
-* **Standard HTTP Response Codes**
-* **Indicate Request Status**
-* **Used in REST APIs**
-* **Help in Error Handling**
-* **Improve Client-Server Communication**
-
-**How It Works**
-
-1. A client sends an **HTTP request**.
-2. The server processes the request.
-3. The server returns an **HTTP Status Code** along with the response.
-4. The client uses the status code to decide the next action.
-
-**Architecture Flow**
-
-```text
-Client
-   │
-HTTP Request
-   │
-   ▼
-Server
-   │
-HTTP Status Code + Response
-   │
-   ▼
-Client
-```
-
-**HTTP Status Code Categories**
-
-| **Category** | **Range**   | **Meaning**   |
-| ------------ | ----------- | ------------- |
-| **1xx**      | **100–199** | Informational |
-| **2xx**      | **200–299** | Success       |
-| **3xx**      | **300–399** | Redirection   |
-| **4xx**      | **400–499** | Client Error  |
-| **5xx**      | **500–599** | Server Error  |
-
-**Common HTTP Status Codes**
-
-| **Code**                       | **Meaning**                          | **When Used**               |
-| ------------------------------ | ------------------------------------ | --------------------------- |
-| **200 OK**                     | Request successful                   | GET, PUT                    |
-| **201 Created**                | Resource created                     | POST                        |
-| **204 No Content**             | Success with no response body        | DELETE                      |
-| **301 Moved Permanently**      | Resource moved permanently           | URL changed                 |
-| **302 Found**                  | Temporary redirect                   | Temporary URL change        |
-| **304 Not Modified**           | Cached resource is valid             | Browser caching             |
-| **400 Bad Request**            | Invalid request                      | Invalid input               |
-| **401 Unauthorized**           | Authentication required              | Missing/Invalid token       |
-| **403 Forbidden**              | Access denied                        | User lacks permission       |
-| **404 Not Found**              | Resource not found                   | Invalid URL or ID           |
-| **405 Method Not Allowed**     | HTTP method not supported            | POST on GET endpoint        |
-| **409 Conflict**               | Resource conflict                    | Duplicate record            |
-| **415 Unsupported Media Type** | Invalid content type                 | Wrong Content-Type header   |
-| **429 Too Many Requests**      | Rate limit exceeded                  | Too many API calls          |
-| **500 Internal Server Error**  | Unexpected server error              | Application failure         |
-| **502 Bad Gateway**            | Invalid response from another server | Gateway/Proxy issue         |
-| **503 Service Unavailable**    | Service temporarily unavailable      | Server overload/maintenance |
-| **504 Gateway Timeout**        | Upstream server timeout              | Microservice timeout        |
-
-**When to Use**
-
-* **REST APIs**
-* **Web Applications**
-* **Microservices**
-* **API Error Handling**
-* **Client-Server Communication**
-
-**Spring Boot Example**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @GetMapping("/{id}")
-    public ResponseEntity<String> getUser(@PathVariable Long id) {
-
-        if (id == 1) {
-            return ResponseEntity.ok("User Found");
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                             .body("User Not Found");
-    }
-}
-```
-
-**Possible Responses**
-
-**Success**
-
-```http
-HTTP/1.1 200 OK
-
-User Found
-```
-
-**Failure**
-
-```http
-HTTP/1.1 404 Not Found
-
-User Not Found
-```
-
-**Advantages**
-
-* **Standardized Communication**
-* **Easy Error Handling**
-* **Improves API Readability**
-* **Helps in Debugging**
-* **Widely Supported**
-
-
-**Common Interview Follow-up**
-
-**Q: What is the difference between 401 and 403?**
-
-| **401 Unauthorized**          | **403 Forbidden**                            |
-| ----------------------------- | -------------------------------------------- |
-| User is **not authenticated** | User is **authenticated but not authorized** |
-| Login or valid token required | User lacks permission                        |
-
-**Q: What is the difference between 200 and 201?**
-
-| **200 OK**                     | **201 Created**                   |
-| ------------------------------ | --------------------------------- |
-| Request processed successfully | New resource created successfully |
-| Commonly used for **GET**      | Commonly used for **POST**        |
-
-**Q: What is the difference between 404 and 500?**
-
-| **404 Not Found**                    | **500 Internal Server Error** |
-| ------------------------------------ | ----------------------------- |
-| Resource does not exist              | Unexpected server-side error  |
-| Client requested an invalid resource | Application or server failed  |
-
-**Q: Which HTTP status codes are commonly used in REST APIs?**
-
-* **200 OK** – Successful request
-* **201 Created** – Resource created
-* **204 No Content** – Successful deletion
-* **400 Bad Request** – Invalid request
-* **401 Unauthorized** – Authentication required
-* **403 Forbidden** – Permission denied
-* **404 Not Found** – Resource not found
-* **409 Conflict** – Duplicate or conflicting resource
-* **500 Internal Server Error** – Server error
-
-
-
-## 9. Create API to create communicate in different table?
-
-
-A **REST API** can interact with **multiple database tables** within a **single request**. This is commonly done in the **Service Layer** using **JPA Relationships** and **Transactions** to ensure data consistency.
-
-**Example Scenario**
-
-Create an **Order API** that saves data into:
-
-* **orders** table
-* **order_items** table
-
-When a client creates an order, both tables should be updated together.
-
-**Key Features**
-
-* **Single API** updates multiple tables
-* Uses **JPA Relationships** (`@OneToMany`, `@ManyToOne`)
-* Uses **@Transactional** for **Atomicity**
-* Maintains **Data Consistency**
-* Supports **Rollback** if any operation fails
-
-**How it Works**
-
-1. Client sends a **POST** request.
-2. **Controller** receives the request.
-3. **Service Layer** starts a **Transaction**.
-4. Save data into the **Parent Table**.
-5. Save related data into the **Child Table**.
-6. If all operations succeed, **Commit** the transaction.
-7. If any operation fails, **Rollback** all changes.
-
-**Example API**
-
-```http
-POST /orders
-```
-
-**Request**
-
-```json
-{
-  "customerName": "John",
-  "items": [
-    {
-      "product": "Laptop",
-      "quantity": 1
-    },
-    {
-      "product": "Mouse",
-      "quantity": 2
-    }
-  ]
-}
-```
-
-**Entity Relationship**
-
-```java
-@Entity
-public class Order {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String customerName;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> items;
-}
-```
-
-```java
-@Entity
-public class OrderItem {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String product;
-    private int quantity;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-}
-```
-
-**Service Example**
-
-```java
-@Service
-public class OrderService {
-
-    @Autowired
-    private OrderRepository repository;
-
-    @Transactional
-    public Order save(Order order) {
-        order.getItems().forEach(item -> item.setOrder(order));
-        return repository.save(order);
-    }
-}
-```
-
-**Controller Example**
-
-```java
-@RestController
-@RequestMapping("/orders")
-public class OrderController {
-
-    @Autowired
-    private OrderService service;
-
-    @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return service.save(order);
-    }
-}
-```
-
-**When to Use**
-
-* **Order** and **Order Items**
-* **Employee** and **Address**
-* **Customer** and **Account**
-* **Student** and **Courses**
-* Any **Parent-Child** relationship
-
-**Advantages**
-
-* **Single API** updates multiple tables
-* Ensures **Data Consistency**
-* Automatic **Rollback** on failure
-* Easier maintenance using **JPA Relationships**
-
-
-## 10. Create API for external API call(HttpClient)? 
-
-An API can call an **External API** (Third-Party Service) from the **Service Layer** using **Java 11 HttpClient**, **Spring WebClient**, or **OpenFeign**. The application receives the client request, calls the external service, processes the response, and returns the result to the client.
-
-**Key Features**
-
-* Calls **Third-Party APIs**
-* Supports **GET**, **POST**, **PUT**, and **DELETE**
-* Handles **Timeouts** and **Error Responses**
-* Can use **Authentication** (API Key, **JWT**, **OAuth2**)
-* Supports **Synchronous** and **Asynchronous** communication
-
-**How it Works**
-
-1. Client sends a request to your API.
-2. **Controller** receives the request.
-3. **Service Layer** calls the **External API**.
-4. External API returns the response.
-5. Service processes the response.
-6. Controller returns the final response to the client.
-
-```text
-Client
-   |
-Your API
-   |
-Service Layer
-   |
-HTTP Request
-   |
-External API
-```
-
-**Java 11 HttpClient Example**
-
-```java
-@Service
-public class UserService {
-    public String getUsers() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
-                .GET()
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        return response.body();
-    }
-}
-```
-
-**Controller Example**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @Autowired
-    private UserService service;
-
-    @GetMapping
-    public String getUsers() throws Exception {
-        return service.getUsers();
-    }
-}
-```
-
-**Example Flow**
-
-```text
-Client
-   |
-GET /users
-   |
-User Service
-   |
-Java 11 HttpClient
-   |
-External User API
-   |
-JSON Response
-   |
-Client
-```
-
-**Best Practices**
-
-* Configure **Connection Timeout** and **Read Timeout**
-* Implement **Retry** for temporary failures
-* Use a **Circuit Breaker** to prevent cascading failures
-* Handle **HTTP Status Codes** properly
-* Log **Request** and **Response**
-* Secure APIs using **HTTPS**, **API Keys**, or **OAuth2**
-* Use **Caching** if the data changes infrequently
-
-**When to Use**
-
-* Calling **Payment Gateway APIs**
-* Fetching **Weather Data**
-* Calling **Google Maps API**
-* Integrating with **Banking APIs**
-* Calling other **Microservices**
-* Integrating with any **Third-Party Service**
-
-**Advantages**
-
-* Easy integration with external systems
-* Real-time data retrieval
-* Reusable service layer
-* Supports secure communication
-
-
-
-## 11. Create API for parallel API(Asynchronous) using HttpClient?
-
-**Parallel API calls** allow you to call multiple external services **at the same time** instead of waiting for each one to finish. This improves **performance** and **reduces overall response time**.
-
-**Key Features**
-
-* **Runs multiple API calls concurrently**
-* **Reduces total execution time**
-* **Improves application performance**
-* **Non-blocking** using **CompletableFuture**
-* **Combines multiple API responses** into one result
-
-**How It Works**
-
-1. Receive a client request.
-2. Start multiple API calls using **CompletableFuture.supplyAsync()**.
-3. All APIs execute **in parallel**.
-4. Wait for all responses using **CompletableFuture.allOf()**.
-5. Merge the results and return a single response.
-
-**When to Use**
-
-* Calling **multiple microservices**
-* Fetching data from **different external APIs**
-* Building **dashboard or aggregated responses**
-* Improving **response time** for independent API calls
-
-**Code Example**
-
-**Service Example (Asynchronous)**
-
-```java
-@Service
-public class UserService {
-
-    private final HttpClient client = HttpClient.newHttpClient();
-
-    public CompletableFuture<String> getUsers() {
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
-                .GET()
-                .build();
-
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .exceptionally(ex -> "API Failed: " + ex.getMessage());
-    }
-}
-```
-
-**Controller Example**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @Autowired
-    private UserService service;
-
-    @GetMapping
-    public CompletableFuture<String> getUsers() {
-        return service.getUsers();
-    }
-}
-```
-
-**Multiple External APIs in Parallel**
-
-```java
-@Service
-public class UserService {
-
-    private final HttpClient client = HttpClient.newHttpClient();
-
-    public CompletableFuture<Map<String, String>> getUserDetails() {
-
-        HttpRequest profileRequest = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.example.com/profile"))
-                .GET()
-                .build();
-
-        HttpRequest orderRequest = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.example.com/orders"))
-                .GET()
-                .build();
-
-        CompletableFuture<String> profile =
-                client.sendAsync(profileRequest, HttpResponse.BodyHandlers.ofString())
-                        .thenApply(HttpResponse::body);
-
-        CompletableFuture<String> orders =
-                client.sendAsync(orderRequest, HttpResponse.BodyHandlers.ofString())
-                        .thenApply(HttpResponse::body);
-
-        return CompletableFuture.allOf(profile, orders)
-                .thenApply(v -> {
-                    Map<String, String> result = new HashMap<>();
-                    result.put("profile", profile.join());
-                    result.put("orders", orders.join());
-                    return result;
-                });
-    }
-}
-```
-
-**Controller**
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @Autowired
-    private UserService service;
-
-    @GetMapping("/details")
-    public CompletableFuture<Map<String, String>> getUserDetails() {
-        return service.getUserDetails();
-    }
-}
-```
-
-**Execution Flow**
-
-```text
-Client
-   |
-GET /users/details
-   |
-Controller
-   |
-Service
-   |
-sendAsync()
-   |
------------------------------
-|                           |
-Profile API            Orders API
-|                           |
------------------------------
-        |
-CompletableFuture.allOf()
-        |
-Combined Response
-        |
-Controller
-        |
-Client
-```
-
-**Benefits**
-
-* **Faster response time**
-* **Better resource utilization**
-* **Higher throughput**
-* **Scalable** for microservices
-* **Improved user experience**
-
-
-## 12. Create API for Asynchronous Data Processing?
-
-
-An **Asynchronous API** processes requests in the **Background** without making the client wait for the task to complete. In **Spring Boot**, this is commonly implemented using **@Async** and **CompletableFuture**.
-
-**Key Features**
-
-* **Non-Blocking** request processing
-* Executes tasks in a **Background Thread**
-* Uses **@Async** and **CompletableFuture**
-* Faster **API Response**
-* Improves **Scalability** and **Performance**
-
-**How it Works**
-
-1. Client sends a request.
-2. **Controller** calls the **Service Layer**.
-3. The service method annotated with **@Async** starts processing in a **Background Thread**.
-4. API immediately returns an **Accepted** response.
-5. Background task completes independently.
-
-**Enable Async**
-
-```java
-@SpringBootApplication
-@EnableAsync
-public class Application {
-}
-```
-
-**Service Example**
-
-```java
-@Service
-public class ReportService {
-
-    @Async
-    public CompletableFuture<String> generateReport() throws Exception {
-        Thread.sleep(5000); // Long-running task
-        return CompletableFuture.completedFuture("Report Generated");
-    }
-}
-```
-
-**Controller Example**
-
-```java
-@RestController
-@RequestMapping("/reports")
-public class ReportController {
-
-    @Autowired
-    private ReportService service;
-
-    @GetMapping("/generate")
-    public String generateReport() {
-
-        service.generateReport();
-        return "Report generation started";
-    }
-}
-```
-
-**Best Practices**
-
-* Use **@Async** for long-running tasks
-* Return **CompletableFuture** for asynchronous results
-* Configure a custom **Thread Pool**
-* Handle **Exceptions** properly
-* Monitor background tasks using **Logging**
-* Avoid blocking operations inside asynchronous methods
-
-**When to Use**
-
-* **Report Generation**
-* **File Processing**
-* **Email Notifications**
-* **Data Import/Export**
-* **Large File Uploads**
-* **Long-Running Background Jobs**
-
-**Advantages**
-
-* Faster API response
-* Better **User Experience**
-* Improved **Performance**
-* Better **Resource Utilization**
-* Scalable for long-running tasks
-
-**2. Way to CompletableFuture (Without @Async)**
-
-**How it Works**
-
-* Uses **CompletableFuture.supplyAsync()** with a **Thread Pool**.
-
-**Best For**
-
-* Parallel API calls
-* Parallel database queries
-* CPU-intensive tasks
-
-```java
-ExecutorService executor = Executors.newFixedThreadPool(5);
-
-CompletableFuture<String> future =
-    CompletableFuture.supplyAsync(() -> {
-        return "Processing";
-    }, executor);
-```
-
-**3. Way to ExecutorService**
-
-**How it Works**
-
-* Java's **Thread Pool** executes background tasks.
-
-**Best For**
-
-* Custom thread management
-* Background processing in Core Java
-
-```java
-ExecutorService executor = Executors.newFixedThreadPool(5);
-
-executor.submit(() -> {
-    System.out.println("Background Task");
-});
-```
-
-
-## 13. Create API to handle large data(Millions of records) efficiently?
-
-* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
-* **Use Batch Processing** to process records in chunks and reduce memory consumption
-* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
-* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
-* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
-* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
-* **Use Sharding** when data becomes too large for a single database server
-
-
-**Step 1 — Client Uploads File**
-
-Controller accepts file without loading everything into memory.
-
-```java id="v50d5s"
-@RestController
-@RequestMapping("/files")
-class FileUploadController {
-    private final FileProcessingService service;
-    public FileUploadController(FileProcessingService service) {
-        this.service = service;
-    }
-
-    @PostMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file) throws Exception {
-        service.processFile(file);
-        return "File Accepted";
-    }
-}
-```
-
-
-**Step 2 — Service Layer**
-
-```java id="cx88hj"
-@Service
-class FileProcessingService {
-    private final DataRepository repository;
-    private static final int BATCH_SIZE = 1000;
-
-    public FileProcessingService(DataRepository repository) {
-        this.repository = repository;
-    }
-
-    @Async
-    public CompletableFuture<Void> processFile( MultipartFile file) throws Exception {
-        List<DataEntity> batch = new ArrayList<>();
-
-        try (
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    file.getInputStream()
-                            )
-                    )
-        ) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                DataEntity entity = mapToEntity(line);
-                batch.add(entity);
-                if (batch.size() == BATCH_SIZE) {
-                    saveBatch(batch);
-                    batch.clear();
-                }
-            }
-
-            // remaining records
-            if (!batch.isEmpty()) {
-                saveBatch(batch);
-            }
-        }
-
-        return CompletableFuture.completedFuture(null);
-    }
-
-    private DataEntity mapToEntity(String line) {
-        DataEntity entity = new DataEntity();
-        entity.setName(line);
-        return entity;
-    }
-
-    private void saveBatch(List<DataEntity> batch) {
-        repository.saveAll(batch);
-        System.out.println(
-                "Saved batch size: " + batch.size()
-        );
-    }
-}
-```
-
-
-**Step 3 — Entity**
-
-```java id="zwv22u"
-@Entity
-class DataEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-```
-
-
-**Step 4 — Repository**
-
-```java id="v74d5u"
-@Repository
-interface DataRepository extends JpaRepository<DataEntity, Long> {
-}
-```
-
-
-**Step 5 — Enable Async**
-
-```java id="9vkdpn"
-@EnableAsync
-@SpringBootApplication
-public class Main {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
-    }
-}
-```
-
-
-## 14. Create API to process images into Oracle DB using Java APIs?
-
-In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
-
-**Entity**
-
-```java id="zx5b7g"
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "employee_images")
-public class EmployeeImage {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String fileName;
-
-    @Lob
-    @Column(name = "image_data")
-    private byte[] imageData;
-
-    // getters and setters
-}
-```
-
-**Repository**
-
-```java id="5zj6bi"
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface EmployeeImageRepository
-        extends JpaRepository<EmployeeImage, Long> {
-}
-```
-
-**Service**
-
-```java id="t4p4u4"
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-@Service
-public class EmployeeImageService {
-
-    private final EmployeeImageRepository repository;
-
-    public EmployeeImageService(EmployeeImageRepository repository) {
-        this.repository = repository;
-    }
-
-    public Long uploadImage(MultipartFile file) throws Exception {
-
-        EmployeeImage image = new EmployeeImage();
-        image.setFileName(file.getOriginalFilename());
-        image.setImageData(file.getBytes());
-
-        return repository.save(image).getId();
-    }
-
-    public EmployeeImage getImage(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Image not found"));
-    }
-}
-```
-
-**Controller**
-
-```java id="j72oym"
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-@RestController
-@RequestMapping("/images")
-public class EmployeeImageController {
-
-    private final EmployeeImageService service;
-
-    public EmployeeImageController(EmployeeImageService service) {
-        this.service = service;
-    }
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> upload(
-            @RequestParam("file") MultipartFile file) throws Exception {
-
-        Long id = service.uploadImage(file);
-
-        return ResponseEntity.ok("Image uploaded. ID: " + id);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<byte[]> download(
-            @PathVariable Long id) {
-
-        EmployeeImage image = service.getImage(id);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(image.getImageData());
-    }
-}
-```
-
-**Oracle Table**
-
-```sql id="uvcp58"
-CREATE TABLE employee_images (
-    id NUMBER GENERATED BY DEFAULT AS IDENTITY,
-    file_name VARCHAR2(255),
-    image_data BLOB,
-    PRIMARY KEY(id)
-);
-```
-
-## 15. Create API to handle large files usign spring Batch processing?
-
-
-To handle **large files** efficiently, I use **Spring Batch** for **batch processing** and **Async Processing** to run the job in the background without blocking the API request.
-
-**Key Features**
-
-* **Spring Batch** processes data in **chunks** instead of loading the entire file into memory.
-* **Async Processing** runs the batch job in a separate thread.
-* **Chunk Processing** improves **memory usage** and **performance**.
-* Supports **restart**, **retry**, **skip failed records**, and **job monitoring**.
-* Suitable for processing **millions of records**.
-
-**How It Works**
-
-1. Client uploads a large file.
-2. API stores the file.
-3. API starts a **Spring Batch Job** asynchronously.
-4. **ItemReader** reads records chunk by chunk.
-5. **ItemProcessor** validates/transforms data.
-6. **ItemWriter** saves records in batches.
-7. API immediately returns **Job Started** while processing continues in the background.
-
-**When to Use**
-
-* **CSV/Excel/XML** file processing.
-* **Bulk database insert/update**.
-* **Payroll processing**.
-* **Bank transactions**.
-* **Insurance claim processing**.
-* **Report generation**.
-
-**Architecture**
-
-```
-Client
-   |
-Upload File API
-   |
-JobLauncher (Async)
-   |
-Spring Batch Job
-   |
-Reader -> Processor -> Writer
-   |
-Database
-```
-
-**Step 1: Enable Async**
-
-```java
-@Configuration
-@EnableAsync
-public class AsyncConfig {
-}
-```
-
-**Step 2: Async Job Launcher Service**
-
-```java
-@Service
-public class BatchService {
-
-    @Autowired
-    private JobLauncher jobLauncher;
-
-    @Autowired
-    private Job importJob;
-
-    @Async
-    public void startJob(String fileName) throws Exception {
-
-        JobParameters params = new JobParametersBuilder()
-                .addString("file", fileName)
-                .addLong("time", System.currentTimeMillis())
-                .toJobParameters();
-
-        jobLauncher.run(importJob, params);
-    }
-}
-```
-
-**Step 3: REST API**
-
-```java
-@RestController
-@RequestMapping("/files")
-public class FileController {
-
-    @Autowired
-    private BatchService batchService;
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> upload() throws Exception {
-
-        batchService.startJob("employees.csv");
-
-        return ResponseEntity.ok("Batch Job Started Successfully");
-    }
-}
-```
-
-**Step 4: Spring Batch Configuration**
-
-```java
-@Bean
-public Step step(JobRepository jobRepository,
-                 PlatformTransactionManager transactionManager) {
-
-    return new StepBuilder("step", jobRepository)
-            .<Employee, Employee>chunk(1000, transactionManager)
-            .reader(reader())
-            .processor(processor())
-            .writer(writer())
-            .build();
-}
-```
-
-**Reader**
-
-```java
-@Bean
-public FlatFileItemReader<Employee> reader() {
-    FlatFileItemReader<Employee> reader = new FlatFileItemReader<>();
-    reader.setResource(new FileSystemResource("employees.csv"));
-    return reader;
-}
-```
-
-**Processor**
-
-```java
-@Component
-public class EmployeeProcessor
-        implements ItemProcessor<Employee, Employee> {
-
-    @Override
-    public Employee process(Employee employee) {
-        employee.setName(employee.getName().toUpperCase());
-        return employee;
-    }
-}
-```
-
-**Writer**
-
-```java
-@Bean
-public JdbcBatchItemWriter<Employee> writer(DataSource dataSource) {
-
-    JdbcBatchItemWriter<Employee> writer =
-            new JdbcBatchItemWriter<>();
-
-    writer.setDataSource(dataSource);
-    writer.setSql("INSERT INTO employee(id,name) VALUES(:id,:name)");
-    writer.setItemSqlParameterSourceProvider(
-            new BeanPropertyItemSqlParameterSourceProvider<>());
-
-    return writer;
-}
-```
-
-**Example for Upload and Download**
-
-**Controller for File Upload**
-
-```java
-@RestController
-@RequestMapping("/files")
-public class FileController {
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(
-            @RequestParam("file") MultipartFile file) throws IOException {
-
-        Path path = Paths.get("uploads/" + file.getOriginalFilename());
-
-        try (InputStream in = file.getInputStream();
-             OutputStream out = Files.newOutputStream(path)) {
-
-            byte[] buffer = new byte[8192];
-            int bytesRead;
-
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-        }
-
-        return ResponseEntity.ok("File uploaded successfully");
-    }
-}
-```
-
-**Controller for File Download**
-
-```java
-@GetMapping("/download/{fileName}")
-public ResponseEntity<Resource> downloadFile(
-        @PathVariable String fileName) throws IOException {
-
-    Path path = Paths.get("uploads/" + fileName);
-
-    Resource resource =
-            new InputStreamResource(Files.newInputStream(path));
-
-    return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=" + fileName)
-            .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .body(resource);
-}
-```
-
-
-
-**Why Chunk Processing?**
-
-Suppose the file contains **10 million records**.
-
-* **Without Chunking:** Loads all records into memory, causing **high memory usage** and possible **OutOfMemoryError**.
-* **With Chunk Size = 1000:** Reads **1000 records**, processes them, writes them to the database, clears memory, and continues with the next chunk.
-
-This keeps **memory usage low** and improves **performance**.
-
-**Advantages**
-
-* **Processes very large files efficiently**
-* **Low memory consumption**
-* **Fast batch inserts**
-* **Runs asynchronously**
-* Supports **restart**, **retry**, and **skip logic**
-* Easy to monitor **job status**
-
-
-**Common Interview Follow-up Questions**
-
-**1. Why use Spring Batch instead of normal Java loops?**
-
-Because **Spring Batch** provides **chunk processing**, **restartability**, **retry**, **skip**, **transaction management**, and **job monitoring**, making it suitable for enterprise-scale batch processing.
-
-**2. Why use Async with Spring Batch?**
-
-So the **REST API** returns immediately while the batch job continues in the background, improving **user experience** and avoiding request timeouts.
-
-**3. What is the ideal chunk size?**
-
-It depends on the data and available memory. Common values are **100**, **500**, or **1000** records per chunk.
-
-**4. How do you handle failed records?**
-
-Use **Skip Policy**, **Retry Policy**, and **SkipListener** to skip invalid records, retry transient failures, and log failed records without stopping the entire job.
-
-**5. Can multiple batch jobs run simultaneously?**
-
-Yes. By combining **Spring Batch** with **Async TaskExecutor**, multiple jobs can run in parallel independently.
-
-
-## 16. Create API to Handle Transaction Failure in Microservices Using Saga Pattern?
-
-
-In **Microservices**, a transaction may involve multiple services, each with its own database. Since **`@Transactional`** cannot manage transactions across multiple services, we use the **Saga Pattern** to maintain **Eventual Consistency** using **Compensating Transactions**.
-
-**Key Features**
-
-* **Saga Pattern** for **distributed transactions**
-* **Local Transaction** in each microservice
-* **Compensating Transaction** to undo completed steps on failure
-* **Eventual Consistency**
-* **Retry** and **Circuit Breaker** for fault tolerance
-* **Idempotency** to avoid duplicate processing
-
-**How It Works**
-
-Suppose we have three services:
-
-* **Order Service**
-* **Payment Service**
-* **Inventory Service**
-
-Flow:
-
-1. Client calls **Create Order API**.
-2. **Order Service** creates the order.
-3. **Payment Service** deducts the payment.
-4. **Inventory Service** reserves the stock.
-5. If all succeed, the order status becomes **COMPLETED**.
-6. If any step fails, **Saga** executes **Compensating Transactions**:
-
-   * Refund payment
-   * Release stock
-   * Cancel order
-
-**When to Use**
-
-* **E-commerce Order Processing**
-* **Banking Transactions**
-* **Insurance Claims**
-* **Flight/Hotel Booking**
-* Any **Distributed Microservices** application
-
-**Architecture**
-
-```text
-Client
-   |
-Create Order API
-   |
-Saga Orchestrator
-   |
--------------------------------
-|        |                    |
-Order   Payment          Inventory
-Service  Service          Service
--------------------------------
-        |
-If Failure
-        |
-Refund Payment
-Release Stock
-Cancel Order
-```
-
-**Step 1: Order API**
-
-```java
-@RestController
-@RequestMapping("/orders")
-public class OrderController {
-
-    @Autowired
-    private SagaService sagaService;
-
-    @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody OrderRequest request) {
-
-        sagaService.processOrder(request);
-
-        return ResponseEntity.ok("Order Processing Started");
-    }
-}
-```
-
-**Step 2: Saga Orchestrator**
-
-```java
-@Service
-public class SagaService {
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private PaymentService paymentService;
-
-    @Autowired
-    private InventoryService inventoryService;
-    public void processOrder(OrderRequest request) {
-
-        try {
-
-            orderService.createOrder(request);
-            paymentService.makePayment(request);
-            inventoryService.reserveStock(request);
-            orderService.completeOrder(request.getOrderId());
-
-        } catch (Exception ex) {
-            paymentService.refund(request);
-            inventoryService.releaseStock(request);
-            orderService.cancelOrder(request.getOrderId());
-        }
-    }
-}
-```
-
-**Step 3: Payment Service**
-
-```java
-@Service
-public class PaymentService {
-
-    public void makePayment(OrderRequest request) {
-        System.out.println("Payment Successful");
-    }
-
-    public void refund(OrderRequest request) {
-        System.out.println("Payment Refunded");
-    }
-}
-```
-
-**Step 4: Inventory Service**
-
-```java
-@Service
-public class InventoryService {
-    public void reserveStock(OrderRequest request) {
-        System.out.println("Stock Reserved");
-    }
-
-    public void releaseStock(OrderRequest request) {
-        System.out.println("Stock Released");
-    }
-}
-```
-
-**Step 5: Order Service**
-
-```java
-@Service
-public class OrderService {
-    public void createOrder(OrderRequest request) {
-        System.out.println("Order Created");
-    }
-
-    public void completeOrder(Long orderId) {
-        System.out.println("Order Completed");
-    }
-
-    public void cancelOrder(Long orderId) {
-        System.out.println("Order Cancelled");
-    }
-}
-```
-
-**Failure Example**
-
-Suppose the flow is:
-
-* **Order Created**
-* **Payment Successful**
-* **Inventory Reservation Failed**
-
-Saga automatically performs:
-
-* **Refund Payment**
-* **Cancel Order**
-
-The system remains **consistent** without using a distributed transaction.
-
-**Advantages**
-
-* Supports **distributed transactions**
-* Prevents **partial updates**
-* Improves **fault tolerance**
-* Supports **Eventual Consistency**
-* Easy to scale across multiple microservices
-
-
-**Common Interview Follow-up Questions**
-
-**1. Why use the Saga Pattern instead of `@Transactional`?**
-
-Because **`@Transactional`** works only within a **single database**, whereas the **Saga Pattern** manages **distributed transactions** across multiple microservices.
-
-**2. What is a Compensating Transaction?**
-
-A **reverse operation** that undoes a previously completed transaction, such as **refund payment**, **release stock**, or **cancel an order**.
-
-**3. What is the role of the Saga Orchestrator?**
-
-The **Saga Orchestrator** coordinates the transaction flow, invokes each service in sequence, and triggers **Compensating Transactions** if any step fails.
-
-**4. Can Saga work asynchronously?**
-
-Yes. It is commonly implemented using **Kafka**, **RabbitMQ**, or other **message brokers**, allowing services to communicate through events asynchronously.
-
-**5. What is the difference between Orchestration and Choreography?**
-
-* **Orchestration:** A central **Saga Orchestrator** controls the workflow.
-* **Choreography:** Services communicate through **events**, with no central coordinator.
-
-**6. Which approach is more common in enterprise applications?**
-
-**Saga Orchestration** is commonly used because it provides **centralized control**, **better monitoring**, and **easier error handling** for complex business workflows.
-
-
-**7. What is the Saga Pattern?**
-
-A **distributed transaction pattern** where each service performs a local transaction, and if a later step fails, **Compensating Transactions** undo the completed work.
-
-
-**8. How do you handle temporary service failures?**
-
-Use **Retry**, **Circuit Breaker**, **Timeout**, and **Fallback** mechanisms.
-
-**9. What is Eventual Consistency?**
-
-Instead of all services being updated instantly, the system guarantees that all services become **consistent over time**, even if temporary failures occur.
-
-**10. Orchestration vs Choreography in Saga?**
-
-* **Orchestration:** A central **Saga Orchestrator** controls the transaction flow.
-* **Choreography:** Services communicate through **events** (for example, using **Kafka** or **RabbitMQ**) without a central coordinator.
-
-
-## 17. Create API to roll back @Transaction for fail payment?
-
-**`@Transactional`** ensures that **all database operations are treated as a single transaction**. If the **payment fails** or any exception occurs, **Spring automatically rolls back** all database changes, maintaining **data consistency**.
-
-**Key Features**
-
-* **Automatic Rollback** on exception
-* **Maintains Data Consistency**
-* **Atomic Transaction** (All or Nothing)
-* **Simple to Implement**
-* **Supports ACID Properties**
-
-**How it Works**
-
-1. User places an order.
-2. Save the order to the database.
-3. Process the payment.
-4. If payment is **successful**, the transaction is **committed**.
-5. If payment **fails**, an exception is thrown.
-6. Spring **rolls back** the transaction, so the order is **not saved**.
-
-**When to Use**
-
-* **Order and Payment Processing**
-* **Banking Transactions**
-* **Inventory Management**
-* **Money Transfer**
-* **Any operation requiring data consistency**
-
-**Controller**
-
-```java
-@RestController
-@RequestMapping("/accounts")
-public class AccountController {
-
-    @Autowired
-    private AccountService service;
-
-    @PostMapping("/transfer")
-    public String transfer() {
-        service.transferMoney(1L, 2L, 500);
-        return "Money transferred successfully";
-    }
-}
-```
-
-**Service**
-
-```java
-@Service
-public class AccountService {
-    @Autowired
-    private AccountRepository repository;
-
-    @Transactional
-    public void transferMoney(Long fromId, Long toId, double amount) {
-
-        Account from = repository.findById(fromId)
-                .orElseThrow(() -> new RuntimeException("Sender not found"));
-
-        Account to = repository.findById(toId)
-                .orElseThrow(() -> new RuntimeException("Receiver not found"));
-
-        from.debit(amount);
-        to.credit(amount);
-
-        repository.save(from);
-        repository.save(to);
-    }
-}
-```
-
-**Repository**
-
-```java
-@Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
-}
-```
-
-
-**Entity**
-
-```java
-@Entity
-public class Account {
-
-    @Id
-    private Long id;
-
-    private String name;
-    private double balance;
-
-    // Getters and Setters
-
-    public void debit(double amount) {
-        this.balance -= amount;
-    }
-
-    public void credit(double amount) {
-        this.balance += amount;
-    }
-}
-```
-
-**Flow**
-
-```text
-Client
-   │
-   ▼
-Controller
-   │
-   ▼
-Spring AOP Proxy
-   │
-Transaction Begins
-   │
-   ▼
-transferMoney()
-   │
-Find Accounts
-Debit Account A
-Credit Account B
-Save Changes
-   │
-   ▼
-No Exception?
-   │
- ┌───────┴────────┐
- │                │
-Yes             No
- │                │
-Commit        Rollback
- │                │
- ▼                ▼
-Database      Database Restored
-```
-
-**Important Note**
-
-By default, **Spring rolls back only for unchecked exceptions (`RuntimeException`)**.
-
-To roll back for **checked exceptions**, specify `rollbackFor`.
-
-```java
-@Transactional(rollbackFor = Exception.class)
-public void placeOrder(Order order) {
-    // Business logic
-}
-```
-
-**Common Interview Follow-up Questions**
-
-**1. When does `@Transactional` roll back?**
-
-By default, it rolls back only for **`RuntimeException`** and **`Error`**.
-
-**2. How do you roll back for checked exceptions?**
-
-Use:
-
-```java
-@Transactional(rollbackFor = Exception.class)
-```
-
-**3. Will `@Transactional` roll back if I catch the exception?**
-
-**No.** If you catch the exception and do not rethrow it, Spring considers the transaction successful and **commits** it.
-
-```java
-try {
-    processPayment();
-} catch (Exception e) {
-    // Transaction will NOT roll back unless exception is rethrown
-}
-```
-
-**4. Does `@Transactional` work across Microservices?**
-
-**No.** `@Transactional` works only **within a single service and database**. For distributed transactions across multiple microservices, use the **Saga Pattern** or **Compensating Transactions**.
-
-
-# ✅ 21. Java Microservices 
+# ✅ 20. Java Microservices 
 
 ## 1. What are microservices?
 
@@ -25400,6 +23343,2062 @@ System.out.println(response.body());
 * Failure of one service can impact others
 * Less scalable than **Asynchronous Messaging**
 
+
+# ✅ 21. Java RESTful Services 
+
+## 1. What is CORS, and how does it work?
+
+**CORS (Cross-Origin Resource Sharing)** is a **browser security mechanism** that allows or blocks a web application from making requests to a **different domain, protocol, or port** than the one from which it was loaded.
+
+For example:
+
+* Frontend: `http://localhost:3000`
+* Backend: `http://localhost:8080`
+
+Since the **ports are different**, they are considered **different origins**, and the browser blocks the request unless **CORS** is enabled.
+
+**Key Features**
+
+* Provides **secure cross-origin communication**.
+* Controlled by **HTTP headers**.
+* Prevents unauthorized websites from accessing resources.
+* Works only in **web browsers** (not between backend services).
+* Supports **Simple Requests** and **Preflight Requests**.
+
+**How it Works**
+
+1. The browser sends a request from the frontend to the backend.
+2. The backend checks whether the origin is allowed.
+3. If allowed, it returns headers like:
+
+   ```text
+   Access-Control-Allow-Origin: http://localhost:3000
+   ```
+4. The browser reads the header and allows the request.
+5. If the header is missing or invalid, the browser blocks the request.
+
+For **POST**, **PUT**, **DELETE**, or custom headers, the browser first sends an **OPTIONS** request called a **Preflight Request** to check whether the actual request is permitted.
+
+**When to Use**
+
+* Frontend and backend are hosted on **different domains or ports**.
+* Building applications with **React**, **Angular**, or **Vue**.
+* When APIs are consumed by external web applications.
+
+**Spring Boot CORS Example**
+
+**Using `@CrossOrigin` Annotation:**
+
+```java
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+public class UserController {
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return "User List";
+    }
+}
+```
+
+**Global CORS Configuration:**
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
+    }
+}
+```
+
+**Real-World Example**
+
+A **React** application running on `http://localhost:3000` calls a **Spring Boot API** running on `http://localhost:8080`. Without CORS configuration, the browser blocks the request. By enabling CORS and allowing `http://localhost:3000`, the frontend can securely access the backend API.
+
+
+## 2. What is an API and what are different type of API?
+
+
+**API (Application Programming Interface)** is a set of **rules and protocols** that allows two software applications to **communicate and exchange data** with each other without knowing their internal implementation.
+
+For example, when a mobile app requests user details from a backend server, it uses an **API**.
+
+**Key Features**
+
+* Enables **communication** between different applications.
+* Hides the **internal implementation** of a system.
+* Promotes **reusability** and **modularity**.
+* Supports **platform-independent** integration.
+* Can exchange data in formats like **JSON** or **XML**.
+
+**How it Works**
+
+1. A **Client** sends an API request.
+2. The **Server** processes the request.
+3. The server accesses the database or business logic.
+4. The server returns a **response** to the client, usually in **JSON** format.
+
+Example:
+
+```text
+Client  --->  API Request  --->  Server
+Client  <---  JSON Response <--- Server
+```
+
+**When to Use**
+
+* Building **web**, **mobile**, or **microservices** applications.
+* Integrating with external services like payment gateways or maps.
+* Exposing business functionality to other systems.
+
+**Different Types of API**
+
+| **API Type**      | **Description**                                                                             | **Example**                           |
+| ----------------- | ------------------------------------------------------------------------------------------- | ------------------------------------- |
+| **REST API**      | Uses **HTTP methods** (`GET`, `POST`, `PUT`, `DELETE`) and usually exchanges **JSON** data. | Spring Boot REST API                  |
+| **SOAP API**      | Uses **XML** messages with strict standards and security features.                          | Banking and enterprise systems        |
+| **GraphQL API**   | Client requests only the required data using a single endpoint.                             | Facebook GraphQL                      |
+| **gRPC API**      | High-performance API using **Protocol Buffers** and HTTP/2.                                 | Internal microservices communication  |
+| **WebSocket API** | Provides **real-time, two-way communication** between client and server.                    | Chat applications, live notifications |
+
+**Types of APIs Based on Access**
+
+| **Type**          | **Description**                                    |
+| ----------------- | -------------------------------------------------- |
+| **Public API**    | Available for external developers.                 |
+| **Private API**   | Used only within an organization.                  |
+| **Partner API**   | Shared with authorized business partners.          |
+| **Composite API** | Combines multiple API calls into a single request. |
+
+**Simple Spring Boot REST API Example**
+
+```java
+@RestController
+@RequestMapping("/api")
+public class UserController {
+
+    @GetMapping("/users")
+    public String getUsers() {
+        return "User List";
+    }
+}
+```
+
+Request:
+
+```http
+GET /api/users
+```
+
+Response:
+
+```json
+"User List"
+```
+
+
+
+## 3. What are RESTful web services?
+
+**What are RESTful Web Services?**
+
+**RESTful Web Services** are web services that follow the **REST (Representational State Transfer)** architectural style. They allow applications to communicate over **HTTP** using standard methods like **GET**, **POST**, **PUT**, and **DELETE** to perform operations on resources.
+
+A **resource** can be any data, such as a **User**, **Product**, or **Order**, and it is identified by a **URL**.
+
+**Key Features**
+
+* Uses standard **HTTP protocol**.
+* Follows a **Resource-Based Architecture**.
+* Supports **CRUD operations** using HTTP methods.
+* **Stateless** – the server does not store client session information.
+* Usually exchanges data in **JSON** format (can also support XML).
+* Easy to build, consume, and scale.
+
+**How it Works**
+
+1. The **Client** sends an HTTP request to a URL.
+2. The **REST API** processes the request.
+3. The server performs the required business logic or database operation.
+4. The server returns an HTTP response, usually with **JSON** data.
+
+**Common HTTP Methods**
+
+| **HTTP Method** | **Operation**        | **Example URL** |
+| --------------- | -------------------- | --------------- |
+| **GET**         | Retrieve data        | `/users/1`      |
+| **POST**        | Create new data      | `/users`        |
+| **PUT**         | Update existing data | `/users/1`      |
+| **DELETE**      | Delete data          | `/users/1`      |
+
+
+**When to Use**
+
+* Building **Web APIs** and **Microservices**.
+* Communication between **frontend and backend**.
+* Mobile applications consuming backend services.
+* Integration with third-party systems.
+
+**Simple Spring Boot REST API Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUser(id);
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userService.save(user);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody User user) {
+        return userService.update(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+    }
+}
+```
+
+**Real-World Example**
+
+In an **E-commerce Application**:
+
+* `GET /products` → Get all products.
+* `GET /products/101` → Get a specific product.
+* `POST /orders` → Create a new order.
+* `PUT /orders/101` → Update an order.
+* `DELETE /orders/101` → Cancel an order.
+
+
+## 4. What are the principles of REST?
+
+REST (Representational State Transfer) is based on six key architectural principles that guide the design of web services.
+
+**REST Principles:**
+- **Stateless:** Each request contains all necessary information
+- **Client-Server:** Separation of concerns between client and server
+- **Cacheable:** Responses can be cached for better performance
+- **Uniform Interface:** Consistent way to interact with resources
+- **Layered System:** Architecture can have multiple layers
+- **Code on Demand:** Optional - server can send executable code
+
+These principles ensure scalability, reliability, and maintainability of web services.
+
+
+## 5: What is XML how to return XML in response?
+
+**XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
+
+It is **verbose**, supports **attributes and namespaces**, is **self-documenting with schema validation**, and is used in **enterprise apps and SOAP services**.
+
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+```java
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+@JacksonXmlRootElement(localName = "user")
+public class User {
+    private int id;
+    private String name;
+
+    // getters setters
+}
+```
+```java
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class StudentController {
+
+    @GetMapping(value = "/student", produces = "application/xml")
+    public Student getStudent() {
+        Student s = new Student();
+        s.setId(1);
+        s.setName("John");
+        return s;
+    }
+}
+
+// Result
+// <student>
+//     <id>1</id>
+//     <name>John</name>
+// </student>
+```
+
+
+## 6. What are HTTP methods and their usage?
+
+**HTTP Methods** are standard operations used by a client to communicate with a server in a **RESTful Web Service**. They define what action should be performed on a resource, such as **creating**, **reading**, **updating**, or **deleting** data.
+
+**Key Features**
+
+* Define the **type of operation** to perform.
+* Work over the **HTTP protocol**.
+* Used in **REST APIs** for CRUD operations.
+* Help create **standardized and predictable APIs**.
+* Can be **safe** and **idempotent** depending on the method.
+
+**How it Works**
+
+1. The **Client** sends an HTTP request with a specific method.
+2. The **Server** identifies the method and processes the request.
+3. The server returns an appropriate **HTTP response** with data or status.
+
+For example:
+
+```text
+Client ---- GET /users/1 ----> Server
+Client <--- User Data -------- Server
+```
+
+**Main HTTP Methods and Their Usage**
+
+| **Method**  | **Purpose**                          | **CRUD Operation** | **Example**                         |
+| ----------- | ------------------------------------ | ------------------ | ----------------------------------- |
+| **GET**     | Retrieve data                        | Read               | Get user details                    |
+| **POST**    | Create new data                      | Create             | Create a new user                   |
+| **PUT**     | Update or replace existing data      | Update             | Update user details                 |
+| **PATCH**   | Partially update existing data       | Update             | Update only user's email            |
+| **DELETE**  | Remove data                          | Delete             | Delete a user                       |
+| **OPTIONS** | Returns supported HTTP methods       | N/A                | Used in **CORS Preflight** requests |
+| **HEAD**    | Same as GET but returns only headers | N/A                | Check if a resource exists          |
+
+
+**When to Use**
+
+* Building **RESTful APIs**.
+* Communication between **frontend and backend**.
+* **Microservices** and third-party API integrations.
+* Web and mobile application development.
+
+**Spring Boot Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public String getUser(@PathVariable int id) {
+        return "Get User";
+    }
+
+    @PostMapping
+    public String createUser() {
+        return "Create User";
+    }
+
+    @PutMapping("/{id}")
+    public String updateUser(@PathVariable int id) {
+        return "Update User";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable int id) {
+        return "Delete User";
+    }
+}
+```
+
+
+## 7. What is the difference between PUT and POST?
+
+**PUT:**
+- Updates or replaces entire resource
+- Idempotent (same result when called multiple times)
+- Requires complete resource data
+- Used for updates when you know the resource ID
+
+**POST:**
+- Creates new resources
+- Not idempotent (creates new resource each time)
+- Can send partial data
+- Server typically generates resource ID
+
+```java
+// POST - Create new user (server generates ID)
+POST /users
+{
+    "name": "John",
+    "email": "john@example.com"
+}
+// Response: 201 Created with generated ID
+
+// PUT - Update/replace entire user resource
+PUT /users/123
+{
+    "id": 123,
+    "name": "John Updated",
+    "email": "john.updated@example.com"
+}
+// Response: 200 OK or 204 No Content
+```
+
+## 8. What are HTTP status codes?
+
+**HTTP Status Codes** are **3-digit response codes** returned by a web server to indicate the **result of an HTTP request**. They help the client understand whether the request was **successful**, **redirected**, **invalid**, or **failed**.
+
+**Key Features**
+
+* **Standard HTTP Response Codes**
+* **Indicate Request Status**
+* **Used in REST APIs**
+* **Help in Error Handling**
+* **Improve Client-Server Communication**
+
+**How It Works**
+
+1. A client sends an **HTTP request**.
+2. The server processes the request.
+3. The server returns an **HTTP Status Code** along with the response.
+4. The client uses the status code to decide the next action.
+
+**Architecture Flow**
+
+```text
+Client
+   │
+HTTP Request
+   │
+   ▼
+Server
+   │
+HTTP Status Code + Response
+   │
+   ▼
+Client
+```
+
+**HTTP Status Code Categories**
+
+| **Category** | **Range**   | **Meaning**   |
+| ------------ | ----------- | ------------- |
+| **1xx**      | **100–199** | Informational |
+| **2xx**      | **200–299** | Success       |
+| **3xx**      | **300–399** | Redirection   |
+| **4xx**      | **400–499** | Client Error  |
+| **5xx**      | **500–599** | Server Error  |
+
+**Common HTTP Status Codes**
+
+| **Code**                       | **Meaning**                          | **When Used**               |
+| ------------------------------ | ------------------------------------ | --------------------------- |
+| **200 OK**                     | Request successful                   | GET, PUT                    |
+| **201 Created**                | Resource created                     | POST                        |
+| **204 No Content**             | Success with no response body        | DELETE                      |
+| **301 Moved Permanently**      | Resource moved permanently           | URL changed                 |
+| **302 Found**                  | Temporary redirect                   | Temporary URL change        |
+| **304 Not Modified**           | Cached resource is valid             | Browser caching             |
+| **400 Bad Request**            | Invalid request                      | Invalid input               |
+| **401 Unauthorized**           | Authentication required              | Missing/Invalid token       |
+| **403 Forbidden**              | Access denied                        | User lacks permission       |
+| **404 Not Found**              | Resource not found                   | Invalid URL or ID           |
+| **405 Method Not Allowed**     | HTTP method not supported            | POST on GET endpoint        |
+| **409 Conflict**               | Resource conflict                    | Duplicate record            |
+| **415 Unsupported Media Type** | Invalid content type                 | Wrong Content-Type header   |
+| **429 Too Many Requests**      | Rate limit exceeded                  | Too many API calls          |
+| **500 Internal Server Error**  | Unexpected server error              | Application failure         |
+| **502 Bad Gateway**            | Invalid response from another server | Gateway/Proxy issue         |
+| **503 Service Unavailable**    | Service temporarily unavailable      | Server overload/maintenance |
+| **504 Gateway Timeout**        | Upstream server timeout              | Microservice timeout        |
+
+**When to Use**
+
+* **REST APIs**
+* **Web Applications**
+* **Microservices**
+* **API Error Handling**
+* **Client-Server Communication**
+
+**Spring Boot Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getUser(@PathVariable Long id) {
+
+        if (id == 1) {
+            return ResponseEntity.ok("User Found");
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body("User Not Found");
+    }
+}
+```
+
+**Possible Responses**
+
+**Success**
+
+```http
+HTTP/1.1 200 OK
+
+User Found
+```
+
+**Failure**
+
+```http
+HTTP/1.1 404 Not Found
+
+User Not Found
+```
+
+**Advantages**
+
+* **Standardized Communication**
+* **Easy Error Handling**
+* **Improves API Readability**
+* **Helps in Debugging**
+* **Widely Supported**
+
+
+**Common Interview Follow-up**
+
+**Q: What is the difference between 401 and 403?**
+
+| **401 Unauthorized**          | **403 Forbidden**                            |
+| ----------------------------- | -------------------------------------------- |
+| User is **not authenticated** | User is **authenticated but not authorized** |
+| Login or valid token required | User lacks permission                        |
+
+**Q: What is the difference between 200 and 201?**
+
+| **200 OK**                     | **201 Created**                   |
+| ------------------------------ | --------------------------------- |
+| Request processed successfully | New resource created successfully |
+| Commonly used for **GET**      | Commonly used for **POST**        |
+
+**Q: What is the difference between 404 and 500?**
+
+| **404 Not Found**                    | **500 Internal Server Error** |
+| ------------------------------------ | ----------------------------- |
+| Resource does not exist              | Unexpected server-side error  |
+| Client requested an invalid resource | Application or server failed  |
+
+**Q: Which HTTP status codes are commonly used in REST APIs?**
+
+* **200 OK** – Successful request
+* **201 Created** – Resource created
+* **204 No Content** – Successful deletion
+* **400 Bad Request** – Invalid request
+* **401 Unauthorized** – Authentication required
+* **403 Forbidden** – Permission denied
+* **404 Not Found** – Resource not found
+* **409 Conflict** – Duplicate or conflicting resource
+* **500 Internal Server Error** – Server error
+
+
+
+## 9. Create API to create communicate in different table?
+
+
+A **REST API** can interact with **multiple database tables** within a **single request**. This is commonly done in the **Service Layer** using **JPA Relationships** and **Transactions** to ensure data consistency.
+
+**Example Scenario**
+
+Create an **Order API** that saves data into:
+
+* **orders** table
+* **order_items** table
+
+When a client creates an order, both tables should be updated together.
+
+**Key Features**
+
+* **Single API** updates multiple tables
+* Uses **JPA Relationships** (`@OneToMany`, `@ManyToOne`)
+* Uses **@Transactional** for **Atomicity**
+* Maintains **Data Consistency**
+* Supports **Rollback** if any operation fails
+
+**How it Works**
+
+1. Client sends a **POST** request.
+2. **Controller** receives the request.
+3. **Service Layer** starts a **Transaction**.
+4. Save data into the **Parent Table**.
+5. Save related data into the **Child Table**.
+6. If all operations succeed, **Commit** the transaction.
+7. If any operation fails, **Rollback** all changes.
+
+**Example API**
+
+```http
+POST /orders
+```
+
+**Request**
+
+```json
+{
+  "customerName": "John",
+  "items": [
+    {
+      "product": "Laptop",
+      "quantity": 1
+    },
+    {
+      "product": "Mouse",
+      "quantity": 2
+    }
+  ]
+}
+```
+
+**Entity Relationship**
+
+```java
+@Entity
+public class Order {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String customerName;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items;
+}
+```
+
+```java
+@Entity
+public class OrderItem {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String product;
+    private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+}
+```
+
+**Service Example**
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository repository;
+
+    @Transactional
+    public Order save(Order order) {
+        order.getItems().forEach(item -> item.setOrder(order));
+        return repository.save(order);
+    }
+}
+```
+
+**Controller Example**
+
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    @Autowired
+    private OrderService service;
+
+    @PostMapping
+    public Order createOrder(@RequestBody Order order) {
+        return service.save(order);
+    }
+}
+```
+
+**When to Use**
+
+* **Order** and **Order Items**
+* **Employee** and **Address**
+* **Customer** and **Account**
+* **Student** and **Courses**
+* Any **Parent-Child** relationship
+
+**Advantages**
+
+* **Single API** updates multiple tables
+* Ensures **Data Consistency**
+* Automatic **Rollback** on failure
+* Easier maintenance using **JPA Relationships**
+
+
+## 10. Create API for external API call(HttpClient)? 
+
+An API can call an **External API** (Third-Party Service) from the **Service Layer** using **Java 11 HttpClient**, **Spring WebClient**, or **OpenFeign**. The application receives the client request, calls the external service, processes the response, and returns the result to the client.
+
+**Key Features**
+
+* Calls **Third-Party APIs**
+* Supports **GET**, **POST**, **PUT**, and **DELETE**
+* Handles **Timeouts** and **Error Responses**
+* Can use **Authentication** (API Key, **JWT**, **OAuth2**)
+* Supports **Synchronous** and **Asynchronous** communication
+
+**How it Works**
+
+1. Client sends a request to your API.
+2. **Controller** receives the request.
+3. **Service Layer** calls the **External API**.
+4. External API returns the response.
+5. Service processes the response.
+6. Controller returns the final response to the client.
+
+```text
+Client
+   |
+Your API
+   |
+Service Layer
+   |
+HTTP Request
+   |
+External API
+```
+
+**Java 11 HttpClient Example**
+
+```java
+@Service
+public class UserService {
+    public String getUsers() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return response.body();
+    }
+}
+```
+
+**Controller Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService service;
+
+    @GetMapping
+    public String getUsers() throws Exception {
+        return service.getUsers();
+    }
+}
+```
+
+**Example Flow**
+
+```text
+Client
+   |
+GET /users
+   |
+User Service
+   |
+Java 11 HttpClient
+   |
+External User API
+   |
+JSON Response
+   |
+Client
+```
+
+**Best Practices**
+
+* Configure **Connection Timeout** and **Read Timeout**
+* Implement **Retry** for temporary failures
+* Use a **Circuit Breaker** to prevent cascading failures
+* Handle **HTTP Status Codes** properly
+* Log **Request** and **Response**
+* Secure APIs using **HTTPS**, **API Keys**, or **OAuth2**
+* Use **Caching** if the data changes infrequently
+
+**When to Use**
+
+* Calling **Payment Gateway APIs**
+* Fetching **Weather Data**
+* Calling **Google Maps API**
+* Integrating with **Banking APIs**
+* Calling other **Microservices**
+* Integrating with any **Third-Party Service**
+
+**Advantages**
+
+* Easy integration with external systems
+* Real-time data retrieval
+* Reusable service layer
+* Supports secure communication
+
+
+
+## 11. Create API for parallel API(Asynchronous) using HttpClient?
+
+**Parallel API calls** allow you to call multiple external services **at the same time** instead of waiting for each one to finish. This improves **performance** and **reduces overall response time**.
+
+**Key Features**
+
+* **Runs multiple API calls concurrently**
+* **Reduces total execution time**
+* **Improves application performance**
+* **Non-blocking** using **CompletableFuture**
+* **Combines multiple API responses** into one result
+
+**How It Works**
+
+1. Receive a client request.
+2. Start multiple API calls using **CompletableFuture.supplyAsync()**.
+3. All APIs execute **in parallel**.
+4. Wait for all responses using **CompletableFuture.allOf()**.
+5. Merge the results and return a single response.
+
+**When to Use**
+
+* Calling **multiple microservices**
+* Fetching data from **different external APIs**
+* Building **dashboard or aggregated responses**
+* Improving **response time** for independent API calls
+
+**Code Example**
+
+**Service Example (Asynchronous)**
+
+```java
+@Service
+public class UserService {
+
+    private final HttpClient client = HttpClient.newHttpClient();
+
+    public CompletableFuture<String> getUsers() {
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
+                .GET()
+                .build();
+
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .exceptionally(ex -> "API Failed: " + ex.getMessage());
+    }
+}
+```
+
+**Controller Example**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService service;
+
+    @GetMapping
+    public CompletableFuture<String> getUsers() {
+        return service.getUsers();
+    }
+}
+```
+
+**Multiple External APIs in Parallel**
+
+```java
+@Service
+public class UserService {
+
+    private final HttpClient client = HttpClient.newHttpClient();
+
+    public CompletableFuture<Map<String, String>> getUserDetails() {
+
+        HttpRequest profileRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.example.com/profile"))
+                .GET()
+                .build();
+
+        HttpRequest orderRequest = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.example.com/orders"))
+                .GET()
+                .build();
+
+        CompletableFuture<String> profile =
+                client.sendAsync(profileRequest, HttpResponse.BodyHandlers.ofString())
+                        .thenApply(HttpResponse::body);
+
+        CompletableFuture<String> orders =
+                client.sendAsync(orderRequest, HttpResponse.BodyHandlers.ofString())
+                        .thenApply(HttpResponse::body);
+
+        return CompletableFuture.allOf(profile, orders)
+                .thenApply(v -> {
+                    Map<String, String> result = new HashMap<>();
+                    result.put("profile", profile.join());
+                    result.put("orders", orders.join());
+                    return result;
+                });
+    }
+}
+```
+
+**Controller**
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/details")
+    public CompletableFuture<Map<String, String>> getUserDetails() {
+        return service.getUserDetails();
+    }
+}
+```
+
+**Execution Flow**
+
+```text
+Client
+   |
+GET /users/details
+   |
+Controller
+   |
+Service
+   |
+sendAsync()
+   |
+-----------------------------
+|                           |
+Profile API            Orders API
+|                           |
+-----------------------------
+        |
+CompletableFuture.allOf()
+        |
+Combined Response
+        |
+Controller
+        |
+Client
+```
+
+**Benefits**
+
+* **Faster response time**
+* **Better resource utilization**
+* **Higher throughput**
+* **Scalable** for microservices
+* **Improved user experience**
+
+
+## 12. Create API for Asynchronous Data Processing?
+
+
+An **Asynchronous API** processes requests in the **Background** without making the client wait for the task to complete. In **Spring Boot**, this is commonly implemented using **@Async** and **CompletableFuture**.
+
+**Key Features**
+
+* **Non-Blocking** request processing
+* Executes tasks in a **Background Thread**
+* Uses **@Async** and **CompletableFuture**
+* Faster **API Response**
+* Improves **Scalability** and **Performance**
+
+**How it Works**
+
+1. Client sends a request.
+2. **Controller** calls the **Service Layer**.
+3. The service method annotated with **@Async** starts processing in a **Background Thread**.
+4. API immediately returns an **Accepted** response.
+5. Background task completes independently.
+
+**Enable Async**
+
+```java
+@SpringBootApplication
+@EnableAsync
+public class Application {
+}
+```
+
+**Service Example**
+
+```java
+@Service
+public class ReportService {
+
+    @Async
+    public CompletableFuture<String> generateReport() throws Exception {
+        Thread.sleep(5000); // Long-running task
+        return CompletableFuture.completedFuture("Report Generated");
+    }
+}
+```
+
+**Controller Example**
+
+```java
+@RestController
+@RequestMapping("/reports")
+public class ReportController {
+
+    @Autowired
+    private ReportService service;
+
+    @GetMapping("/generate")
+    public String generateReport() {
+
+        service.generateReport();
+        return "Report generation started";
+    }
+}
+```
+
+**Best Practices**
+
+* Use **@Async** for long-running tasks
+* Return **CompletableFuture** for asynchronous results
+* Configure a custom **Thread Pool**
+* Handle **Exceptions** properly
+* Monitor background tasks using **Logging**
+* Avoid blocking operations inside asynchronous methods
+
+**When to Use**
+
+* **Report Generation**
+* **File Processing**
+* **Email Notifications**
+* **Data Import/Export**
+* **Large File Uploads**
+* **Long-Running Background Jobs**
+
+**Advantages**
+
+* Faster API response
+* Better **User Experience**
+* Improved **Performance**
+* Better **Resource Utilization**
+* Scalable for long-running tasks
+
+**2. Way to CompletableFuture (Without @Async)**
+
+**How it Works**
+
+* Uses **CompletableFuture.supplyAsync()** with a **Thread Pool**.
+
+**Best For**
+
+* Parallel API calls
+* Parallel database queries
+* CPU-intensive tasks
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(5);
+
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(() -> {
+        return "Processing";
+    }, executor);
+```
+
+**3. Way to ExecutorService**
+
+**How it Works**
+
+* Java's **Thread Pool** executes background tasks.
+
+**Best For**
+
+* Custom thread management
+* Background processing in Core Java
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(5);
+
+executor.submit(() -> {
+    System.out.println("Background Task");
+});
+```
+
+
+## 13. Create API to handle large data(Millions of records) efficiently?
+
+* **Use Streaming** (`Stream<T>`, file streaming) instead of loading all records with `findAll()`
+* **Use Batch Processing** to process records in chunks and reduce memory consumption
+* **Use Database Pagination** (`Page<T>`, `Slice<T>`, `Stream<T>`) for large datasets
+* **Use Async / Parallel Processing** (`@Async`, `CompletableFuture`, ExecutorService) for concurrent workloads
+* **Use Caching** (Redis, Caffeine, EhCache, Spring Cache) to reduce repeated database calls
+* **Use JDBC Batch Operations** (`spring.jpa.properties.hibernate.jdbc.batch_size`) for bulk inserts/updates
+* **Use Sharding** when data becomes too large for a single database server
+
+
+**Step 1 — Client Uploads File**
+
+Controller accepts file without loading everything into memory.
+
+```java id="v50d5s"
+@RestController
+@RequestMapping("/files")
+class FileUploadController {
+    private final FileProcessingService service;
+    public FileUploadController(FileProcessingService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/upload")
+    public String upload(@RequestParam("file") MultipartFile file) throws Exception {
+        service.processFile(file);
+        return "File Accepted";
+    }
+}
+```
+
+
+**Step 2 — Service Layer**
+
+```java id="cx88hj"
+@Service
+class FileProcessingService {
+    private final DataRepository repository;
+    private static final int BATCH_SIZE = 1000;
+
+    public FileProcessingService(DataRepository repository) {
+        this.repository = repository;
+    }
+
+    @Async
+    public CompletableFuture<Void> processFile( MultipartFile file) throws Exception {
+        List<DataEntity> batch = new ArrayList<>();
+
+        try (
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    file.getInputStream()
+                            )
+                    )
+        ) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                DataEntity entity = mapToEntity(line);
+                batch.add(entity);
+                if (batch.size() == BATCH_SIZE) {
+                    saveBatch(batch);
+                    batch.clear();
+                }
+            }
+
+            // remaining records
+            if (!batch.isEmpty()) {
+                saveBatch(batch);
+            }
+        }
+
+        return CompletableFuture.completedFuture(null);
+    }
+
+    private DataEntity mapToEntity(String line) {
+        DataEntity entity = new DataEntity();
+        entity.setName(line);
+        return entity;
+    }
+
+    private void saveBatch(List<DataEntity> batch) {
+        repository.saveAll(batch);
+        System.out.println(
+                "Saved batch size: " + batch.size()
+        );
+    }
+}
+```
+
+
+**Step 3 — Entity**
+
+```java id="zwv22u"
+@Entity
+class DataEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+
+**Step 4 — Repository**
+
+```java id="v74d5u"
+@Repository
+interface DataRepository extends JpaRepository<DataEntity, Long> {
+}
+```
+
+
+**Step 5 — Enable Async**
+
+```java id="9vkdpn"
+@EnableAsync
+@SpringBootApplication
+public class Main {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+}
+```
+
+
+## 14. Create API to process images into Oracle DB using Java APIs?
+
+In a **Spring Boot REST API**, images are usually uploaded as **MultipartFile** and stored in an Oracle **BLOB** column. We use **JPA** or **JDBC** to save the image bytes into the database.
+
+**Entity**
+
+```java id="zx5b7g"
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "employee_images")
+public class EmployeeImage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String fileName;
+
+    @Lob
+    @Column(name = "image_data")
+    private byte[] imageData;
+
+    // getters and setters
+}
+```
+
+**Repository**
+
+```java id="5zj6bi"
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeImageRepository
+        extends JpaRepository<EmployeeImage, Long> {
+}
+```
+
+**Service**
+
+```java id="t4p4u4"
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class EmployeeImageService {
+
+    private final EmployeeImageRepository repository;
+
+    public EmployeeImageService(EmployeeImageRepository repository) {
+        this.repository = repository;
+    }
+
+    public Long uploadImage(MultipartFile file) throws Exception {
+
+        EmployeeImage image = new EmployeeImage();
+        image.setFileName(file.getOriginalFilename());
+        image.setImageData(file.getBytes());
+
+        return repository.save(image).getId();
+    }
+
+    public EmployeeImage getImage(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Image not found"));
+    }
+}
+```
+
+**Controller**
+
+```java id="j72oym"
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+@RequestMapping("/images")
+public class EmployeeImageController {
+
+    private final EmployeeImageService service;
+
+    public EmployeeImageController(EmployeeImageService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload(
+            @RequestParam("file") MultipartFile file) throws Exception {
+
+        Long id = service.uploadImage(file);
+
+        return ResponseEntity.ok("Image uploaded. ID: " + id);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> download(
+            @PathVariable Long id) {
+
+        EmployeeImage image = service.getImage(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(image.getImageData());
+    }
+}
+```
+
+**Oracle Table**
+
+```sql id="uvcp58"
+CREATE TABLE employee_images (
+    id NUMBER GENERATED BY DEFAULT AS IDENTITY,
+    file_name VARCHAR2(255),
+    image_data BLOB,
+    PRIMARY KEY(id)
+);
+```
+
+## 15. Create API to handle large files usign spring Batch processing?
+
+
+To handle **large files** efficiently, I use **Spring Batch** for **batch processing** and **Async Processing** to run the job in the background without blocking the API request.
+
+**Key Features**
+
+* **Spring Batch** processes data in **chunks** instead of loading the entire file into memory.
+* **Async Processing** runs the batch job in a separate thread.
+* **Chunk Processing** improves **memory usage** and **performance**.
+* Supports **restart**, **retry**, **skip failed records**, and **job monitoring**.
+* Suitable for processing **millions of records**.
+
+**How It Works**
+
+1. Client uploads a large file.
+2. API stores the file.
+3. API starts a **Spring Batch Job** asynchronously.
+4. **ItemReader** reads records chunk by chunk.
+5. **ItemProcessor** validates/transforms data.
+6. **ItemWriter** saves records in batches.
+7. API immediately returns **Job Started** while processing continues in the background.
+
+**When to Use**
+
+* **CSV/Excel/XML** file processing.
+* **Bulk database insert/update**.
+* **Payroll processing**.
+* **Bank transactions**.
+* **Insurance claim processing**.
+* **Report generation**.
+
+**Architecture**
+
+```
+Client
+   |
+Upload File API
+   |
+JobLauncher (Async)
+   |
+Spring Batch Job
+   |
+Reader -> Processor -> Writer
+   |
+Database
+```
+
+**Step 1: Enable Async**
+
+```java
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+}
+```
+
+**Step 2: Async Job Launcher Service**
+
+```java
+@Service
+public class BatchService {
+
+    @Autowired
+    private JobLauncher jobLauncher;
+
+    @Autowired
+    private Job importJob;
+
+    @Async
+    public void startJob(String fileName) throws Exception {
+
+        JobParameters params = new JobParametersBuilder()
+                .addString("file", fileName)
+                .addLong("time", System.currentTimeMillis())
+                .toJobParameters();
+
+        jobLauncher.run(importJob, params);
+    }
+}
+```
+
+**Step 3: REST API**
+
+```java
+@RestController
+@RequestMapping("/files")
+public class FileController {
+
+    @Autowired
+    private BatchService batchService;
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload() throws Exception {
+
+        batchService.startJob("employees.csv");
+
+        return ResponseEntity.ok("Batch Job Started Successfully");
+    }
+}
+```
+
+**Step 4: Spring Batch Configuration**
+
+```java
+@Bean
+public Step step(JobRepository jobRepository,
+                 PlatformTransactionManager transactionManager) {
+
+    return new StepBuilder("step", jobRepository)
+            .<Employee, Employee>chunk(1000, transactionManager)
+            .reader(reader())
+            .processor(processor())
+            .writer(writer())
+            .build();
+}
+```
+
+**Reader**
+
+```java
+@Bean
+public FlatFileItemReader<Employee> reader() {
+    FlatFileItemReader<Employee> reader = new FlatFileItemReader<>();
+    reader.setResource(new FileSystemResource("employees.csv"));
+    return reader;
+}
+```
+
+**Processor**
+
+```java
+@Component
+public class EmployeeProcessor
+        implements ItemProcessor<Employee, Employee> {
+
+    @Override
+    public Employee process(Employee employee) {
+        employee.setName(employee.getName().toUpperCase());
+        return employee;
+    }
+}
+```
+
+**Writer**
+
+```java
+@Bean
+public JdbcBatchItemWriter<Employee> writer(DataSource dataSource) {
+
+    JdbcBatchItemWriter<Employee> writer =
+            new JdbcBatchItemWriter<>();
+
+    writer.setDataSource(dataSource);
+    writer.setSql("INSERT INTO employee(id,name) VALUES(:id,:name)");
+    writer.setItemSqlParameterSourceProvider(
+            new BeanPropertyItemSqlParameterSourceProvider<>());
+
+    return writer;
+}
+```
+
+**Example for Upload and Download**
+
+**Controller for File Upload**
+
+```java
+@RestController
+@RequestMapping("/files")
+public class FileController {
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        Path path = Paths.get("uploads/" + file.getOriginalFilename());
+
+        try (InputStream in = file.getInputStream();
+             OutputStream out = Files.newOutputStream(path)) {
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+        return ResponseEntity.ok("File uploaded successfully");
+    }
+}
+```
+
+**Controller for File Download**
+
+```java
+@GetMapping("/download/{fileName}")
+public ResponseEntity<Resource> downloadFile(
+        @PathVariable String fileName) throws IOException {
+
+    Path path = Paths.get("uploads/" + fileName);
+
+    Resource resource =
+            new InputStreamResource(Files.newInputStream(path));
+
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=" + fileName)
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(resource);
+}
+```
+
+
+
+**Why Chunk Processing?**
+
+Suppose the file contains **10 million records**.
+
+* **Without Chunking:** Loads all records into memory, causing **high memory usage** and possible **OutOfMemoryError**.
+* **With Chunk Size = 1000:** Reads **1000 records**, processes them, writes them to the database, clears memory, and continues with the next chunk.
+
+This keeps **memory usage low** and improves **performance**.
+
+**Advantages**
+
+* **Processes very large files efficiently**
+* **Low memory consumption**
+* **Fast batch inserts**
+* **Runs asynchronously**
+* Supports **restart**, **retry**, and **skip logic**
+* Easy to monitor **job status**
+
+
+**Common Interview Follow-up Questions**
+
+**1. Why use Spring Batch instead of normal Java loops?**
+
+Because **Spring Batch** provides **chunk processing**, **restartability**, **retry**, **skip**, **transaction management**, and **job monitoring**, making it suitable for enterprise-scale batch processing.
+
+**2. Why use Async with Spring Batch?**
+
+So the **REST API** returns immediately while the batch job continues in the background, improving **user experience** and avoiding request timeouts.
+
+**3. What is the ideal chunk size?**
+
+It depends on the data and available memory. Common values are **100**, **500**, or **1000** records per chunk.
+
+**4. How do you handle failed records?**
+
+Use **Skip Policy**, **Retry Policy**, and **SkipListener** to skip invalid records, retry transient failures, and log failed records without stopping the entire job.
+
+**5. Can multiple batch jobs run simultaneously?**
+
+Yes. By combining **Spring Batch** with **Async TaskExecutor**, multiple jobs can run in parallel independently.
+
+
+## 16. Create API to Handle Transaction Failure in Microservices Using Saga Pattern?
+
+
+In **Microservices**, a transaction may involve multiple services, each with its own database. Since **`@Transactional`** cannot manage transactions across multiple services, we use the **Saga Pattern** to maintain **Eventual Consistency** using **Compensating Transactions**.
+
+**Key Features**
+
+* **Saga Pattern** for **distributed transactions**
+* **Local Transaction** in each microservice
+* **Compensating Transaction** to undo completed steps on failure
+* **Eventual Consistency**
+* **Retry** and **Circuit Breaker** for fault tolerance
+* **Idempotency** to avoid duplicate processing
+
+**How It Works**
+
+Suppose we have three services:
+
+* **Order Service**
+* **Payment Service**
+* **Inventory Service**
+
+Flow:
+
+1. Client calls **Create Order API**.
+2. **Order Service** creates the order.
+3. **Payment Service** deducts the payment.
+4. **Inventory Service** reserves the stock.
+5. If all succeed, the order status becomes **COMPLETED**.
+6. If any step fails, **Saga** executes **Compensating Transactions**:
+
+   * Refund payment
+   * Release stock
+   * Cancel order
+
+**When to Use**
+
+* **E-commerce Order Processing**
+* **Banking Transactions**
+* **Insurance Claims**
+* **Flight/Hotel Booking**
+* Any **Distributed Microservices** application
+
+**Architecture**
+
+```text
+Client
+   |
+Create Order API
+   |
+Saga Orchestrator
+   |
+-------------------------------
+|        |                    |
+Order   Payment          Inventory
+Service  Service          Service
+-------------------------------
+        |
+If Failure
+        |
+Refund Payment
+Release Stock
+Cancel Order
+```
+
+**Step 1: Order API**
+
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    @Autowired
+    private SagaService sagaService;
+
+    @PostMapping
+    public ResponseEntity<String> createOrder(@RequestBody OrderRequest request) {
+
+        sagaService.processOrder(request);
+
+        return ResponseEntity.ok("Order Processing Started");
+    }
+}
+```
+
+**Step 2: Saga Orchestrator**
+
+```java
+@Service
+public class SagaService {
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private InventoryService inventoryService;
+    public void processOrder(OrderRequest request) {
+
+        try {
+
+            orderService.createOrder(request);
+            paymentService.makePayment(request);
+            inventoryService.reserveStock(request);
+            orderService.completeOrder(request.getOrderId());
+
+        } catch (Exception ex) {
+            paymentService.refund(request);
+            inventoryService.releaseStock(request);
+            orderService.cancelOrder(request.getOrderId());
+        }
+    }
+}
+```
+
+**Step 3: Payment Service**
+
+```java
+@Service
+public class PaymentService {
+
+    public void makePayment(OrderRequest request) {
+        System.out.println("Payment Successful");
+    }
+
+    public void refund(OrderRequest request) {
+        System.out.println("Payment Refunded");
+    }
+}
+```
+
+**Step 4: Inventory Service**
+
+```java
+@Service
+public class InventoryService {
+    public void reserveStock(OrderRequest request) {
+        System.out.println("Stock Reserved");
+    }
+
+    public void releaseStock(OrderRequest request) {
+        System.out.println("Stock Released");
+    }
+}
+```
+
+**Step 5: Order Service**
+
+```java
+@Service
+public class OrderService {
+    public void createOrder(OrderRequest request) {
+        System.out.println("Order Created");
+    }
+
+    public void completeOrder(Long orderId) {
+        System.out.println("Order Completed");
+    }
+
+    public void cancelOrder(Long orderId) {
+        System.out.println("Order Cancelled");
+    }
+}
+```
+
+**Failure Example**
+
+Suppose the flow is:
+
+* **Order Created**
+* **Payment Successful**
+* **Inventory Reservation Failed**
+
+Saga automatically performs:
+
+* **Refund Payment**
+* **Cancel Order**
+
+The system remains **consistent** without using a distributed transaction.
+
+**Advantages**
+
+* Supports **distributed transactions**
+* Prevents **partial updates**
+* Improves **fault tolerance**
+* Supports **Eventual Consistency**
+* Easy to scale across multiple microservices
+
+
+**Common Interview Follow-up Questions**
+
+**1. Why use the Saga Pattern instead of `@Transactional`?**
+
+Because **`@Transactional`** works only within a **single database**, whereas the **Saga Pattern** manages **distributed transactions** across multiple microservices.
+
+**2. What is a Compensating Transaction?**
+
+A **reverse operation** that undoes a previously completed transaction, such as **refund payment**, **release stock**, or **cancel an order**.
+
+**3. What is the role of the Saga Orchestrator?**
+
+The **Saga Orchestrator** coordinates the transaction flow, invokes each service in sequence, and triggers **Compensating Transactions** if any step fails.
+
+**4. Can Saga work asynchronously?**
+
+Yes. It is commonly implemented using **Kafka**, **RabbitMQ**, or other **message brokers**, allowing services to communicate through events asynchronously.
+
+**5. What is the difference between Orchestration and Choreography?**
+
+* **Orchestration:** A central **Saga Orchestrator** controls the workflow.
+* **Choreography:** Services communicate through **events**, with no central coordinator.
+
+**6. Which approach is more common in enterprise applications?**
+
+**Saga Orchestration** is commonly used because it provides **centralized control**, **better monitoring**, and **easier error handling** for complex business workflows.
+
+
+**7. What is the Saga Pattern?**
+
+A **distributed transaction pattern** where each service performs a local transaction, and if a later step fails, **Compensating Transactions** undo the completed work.
+
+
+**8. How do you handle temporary service failures?**
+
+Use **Retry**, **Circuit Breaker**, **Timeout**, and **Fallback** mechanisms.
+
+**9. What is Eventual Consistency?**
+
+Instead of all services being updated instantly, the system guarantees that all services become **consistent over time**, even if temporary failures occur.
+
+**10. Orchestration vs Choreography in Saga?**
+
+* **Orchestration:** A central **Saga Orchestrator** controls the transaction flow.
+* **Choreography:** Services communicate through **events** (for example, using **Kafka** or **RabbitMQ**) without a central coordinator.
+
+
+## 17. Create API to roll back @Transaction for fail payment?
+
+**`@Transactional`** ensures that **all database operations are treated as a single transaction**. If the **payment fails** or any exception occurs, **Spring automatically rolls back** all database changes, maintaining **data consistency**.
+
+**Key Features**
+
+* **Automatic Rollback** on exception
+* **Maintains Data Consistency**
+* **Atomic Transaction** (All or Nothing)
+* **Simple to Implement**
+* **Supports ACID Properties**
+
+**How it Works**
+
+1. User places an order.
+2. Save the order to the database.
+3. Process the payment.
+4. If payment is **successful**, the transaction is **committed**.
+5. If payment **fails**, an exception is thrown.
+6. Spring **rolls back** the transaction, so the order is **not saved**.
+
+**When to Use**
+
+* **Order and Payment Processing**
+* **Banking Transactions**
+* **Inventory Management**
+* **Money Transfer**
+* **Any operation requiring data consistency**
+
+**Controller**
+
+```java
+@RestController
+@RequestMapping("/accounts")
+public class AccountController {
+
+    @Autowired
+    private AccountService service;
+
+    @PostMapping("/transfer")
+    public String transfer() {
+        service.transferMoney(1L, 2L, 500);
+        return "Money transferred successfully";
+    }
+}
+```
+
+**Service**
+
+```java
+@Service
+public class AccountService {
+    @Autowired
+    private AccountRepository repository;
+
+    @Transactional
+    public void transferMoney(Long fromId, Long toId, double amount) {
+
+        Account from = repository.findById(fromId)
+                .orElseThrow(() -> new RuntimeException("Sender not found"));
+
+        Account to = repository.findById(toId)
+                .orElseThrow(() -> new RuntimeException("Receiver not found"));
+
+        from.debit(amount);
+        to.credit(amount);
+
+        repository.save(from);
+        repository.save(to);
+    }
+}
+```
+
+**Repository**
+
+```java
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Long> {
+}
+```
+
+
+**Entity**
+
+```java
+@Entity
+public class Account {
+
+    @Id
+    private Long id;
+
+    private String name;
+    private double balance;
+
+    // Getters and Setters
+
+    public void debit(double amount) {
+        this.balance -= amount;
+    }
+
+    public void credit(double amount) {
+        this.balance += amount;
+    }
+}
+```
+
+**Flow**
+
+```text
+Client
+   │
+   ▼
+Controller
+   │
+   ▼
+Spring AOP Proxy
+   │
+Transaction Begins
+   │
+   ▼
+transferMoney()
+   │
+Find Accounts
+Debit Account A
+Credit Account B
+Save Changes
+   │
+   ▼
+No Exception?
+   │
+ ┌───────┴────────┐
+ │                │
+Yes             No
+ │                │
+Commit        Rollback
+ │                │
+ ▼                ▼
+Database      Database Restored
+```
+
+**Important Note**
+
+By default, **Spring rolls back only for unchecked exceptions (`RuntimeException`)**.
+
+To roll back for **checked exceptions**, specify `rollbackFor`.
+
+```java
+@Transactional(rollbackFor = Exception.class)
+public void placeOrder(Order order) {
+    // Business logic
+}
+```
+
+**Common Interview Follow-up Questions**
+
+**1. When does `@Transactional` roll back?**
+
+By default, it rolls back only for **`RuntimeException`** and **`Error`**.
+
+**2. How do you roll back for checked exceptions?**
+
+Use:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+**3. Will `@Transactional` roll back if I catch the exception?**
+
+**No.** If you catch the exception and do not rethrow it, Spring considers the transaction successful and **commits** it.
+
+```java
+try {
+    processPayment();
+} catch (Exception e) {
+    // Transaction will NOT roll back unless exception is rethrown
+}
+```
+
+**4. Does `@Transactional` work across Microservices?**
+
+**No.** `@Transactional` works only **within a single service and database**. For distributed transactions across multiple microservices, use the **Saga Pattern** or **Compensating Transactions**.
 
 
 # ✅ 22. Java kafka and RabbitMQ
