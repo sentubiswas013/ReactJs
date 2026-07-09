@@ -27605,7 +27605,186 @@ A: Implement refresh tokens or require re-authentication when tokens expire.
 A: JWT cannot be revoked by default. Implement token blacklisting or use short expiration times with refresh tokens.
 
 
-## 12. How Do You Implement AWS IAM to Control Access to AWS Resources?
+
+## 13. Implement Roles Base Authentication(RBAC) (ADMIN, USER, MANAGER) in Spring Boot Using Spring Security?
+
+In **Spring Boot**, **application roles** (such as **ADMIN**, **USER**, **MANAGER**) are typically stored in the **database**. When a user logs in, **Spring Security** loads the user's roles and checks them before allowing access to APIs.
+
+**How it Works**
+
+1. User logs in with **username** and **password**.
+2. **Spring Security** authenticates the user.
+3. It loads the user's **roles** from the **database**.
+4. The roles are converted into **GrantedAuthority** objects.
+5. Before accessing an API, Spring Security checks whether the user has the required role.
+6. If the role matches, access is granted; otherwise, **403 Forbidden** is returned.
+
+**Flow**
+
+```text
+User Login
+     │
+     ▼
+Spring Security Authentication
+     │
+     ▼
+Load User & Roles from Database
+     │
+     ▼
+Convert Roles to GrantedAuthority
+     │
+     ▼
+Check @PreAuthorize / hasRole()
+     │
+ ┌───┴────┐
+ │        │
+Allowed  Forbidden (403)
+```
+
+**Key Features**
+
+* **Role-Based Access Control (RBAC)**.
+* Roles stored in the **database**.
+* Uses **Spring Security** for authorization.
+* Supports **method-level** and **URL-level** security.
+* Easy to add new roles without changing business logic.
+
+**When to Use**
+
+* Applications with multiple user types.
+* **Admin Dashboard**.
+* **HR**, **Banking**, **E-commerce**, **Healthcare** applications.
+* Any application requiring different access levels.
+
+**Database Tables**
+
+**users**
+
+| id | username | password          |
+| -- | -------- | ----------------- |
+| 1  | john     | encryptedPassword |
+
+**roles**
+
+| id | name       |
+| -- | ---------- |
+| 1  | ROLE_ADMIN |
+| 2  | ROLE_USER  |
+
+**user_roles**
+
+| user_id | role_id |
+| ------- | ------- |
+| 1       | 1       |
+
+**Example**
+
+**Role Entity**
+
+```java
+@Entity
+public class Role {
+
+    @Id
+    private Long id;
+
+    private String name;   // ROLE_ADMIN, ROLE_USER
+}
+```
+
+**User Entity**
+
+```java
+@Entity
+public class User {
+
+    @Id
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+}
+```
+
+**UserDetailsService**
+
+```java
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository repository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+
+        User user = repository.findByUsername(username);
+
+        List<GrantedAuthority> authorities =
+                user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getName()))
+                    .toList();
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                authorities
+        );
+    }
+}
+```
+
+**Secure API**
+
+```java
+@RestController
+public class UserController {
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/users")
+    public String getUsers() {
+        return "Only ADMIN can access";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @GetMapping("/reports")
+    public String getReports() {
+        return "ADMIN and MANAGER can access";
+    }
+}
+```
+
+
+
+**Common Interview Follow-up Questions**
+
+**1. Where are roles stored?**
+
+Usually in a **roles** table with a **user_roles** mapping table.
+
+**2. Why use `ROLE_ADMIN` instead of `ADMIN`?**
+
+Spring Security convention is to store roles with the **`ROLE_`** prefix. Then `hasRole("ADMIN")` automatically matches **`ROLE_ADMIN`**.
+
+**3. What is `GrantedAuthority`?**
+
+It is the Spring Security object that represents the **permissions or roles** assigned to an authenticated user.
+
+**4. What is the difference between `hasRole()` and `hasAuthority()`?**
+
+* **`hasRole("ADMIN")`** checks for **`ROLE_ADMIN`** automatically.
+* **`hasAuthority("ROLE_ADMIN")`** checks the exact authority string.
+
+**5. Can one user have multiple roles?**
+
+**Yes.** A user can have multiple roles (for example, **ROLE_USER** and **ROLE_MANAGER**) using a **`@ManyToMany`** relationship.
+
+
+## 14. Implement AWS IAM Rolebase Control Access to AWS Resources?
 
 **AWS IAM (Identity and Access Management)** controls **who** can access **AWS resources** and **what actions** they can perform.
 
@@ -27727,10 +27906,7 @@ AWS returns an **AccessDenied** error, and the requested operation is rejected.
 
 
 
-
-
-## 12. Difference between JWT and Session?
-
+## 15. Difference between JWT and Session?
 
 Both are used to **authenticate users**, but they store and manage user authentication differently.
 
@@ -27851,7 +28027,7 @@ Yes. A common approach is to use **Session Authentication** for a web applicatio
 
 
 
-## 12. What is CSRF Protection?
+## 16. What is CSRF Protection?
 
 **CSRF (Cross-Site Request Forgery) Protection** is a **security mechanism** that prevents attackers from tricking an authenticated user into performing unwanted actions on a web application without their consent.
 
@@ -27923,7 +28099,7 @@ SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 }
 ```
 
-## 13. What is XSS Protection?
+## 17. What is XSS Protection?
 
 **XSS (Cross-Site Scripting) Protection** is a **security mechanism** that prevents attackers from injecting and executing **malicious JavaScript code** in a web application. It protects users from attacks such as **cookie theft**, **session hijacking**, and **data manipulation**.
 
@@ -28023,7 +28199,7 @@ Now, `<script>` is displayed as plain text instead of being executed.
 * Keep frameworks and libraries **updated**.
 
 
-## 14. What is Input Validation?
+## 18. What is Input Validation?
 
 **Input Validation** — ensuring data received from the user is correct, safe, and expected before processing it.
 
@@ -28107,7 +28283,7 @@ public class GlobalExceptionHandler {
 ```
 
 
-## 15: What is Filter Chain?
+## 19: What is Filter Chain?
 
 A **Filter Chain** is a sequence of **filters** that process an HTTP request and response **before** it reaches the controller and **after** the response is returned. In **Spring Security**, the filter chain is used to perform tasks like **authentication**, **authorization**, **JWT validation**, and **CSRF protection**.
 
@@ -28187,7 +28363,7 @@ SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 }
 ```
 
-## 16: What is SAML?
+## 20: What is SAML?
 
 **SAML (Security Assertion Markup Language)** is an **XML-based authentication and authorization standard** that enables **Single Sign-On (SSO)**. It allows users to log in once and access multiple applications without entering their credentials again.
 
