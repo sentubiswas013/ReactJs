@@ -7340,6 +7340,598 @@ fWhat is JDBC
 * **HashMap vs TreeMap:** HashMap unordered, TreeMap sorted.
 
 
+
+
+# ✅ 8. Java Lambda Expressions & Streams API 
+
+## 2. What are lambda expressions?
+
+**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
+
+They were introduced in **Java 8** to support **functional programming** and make code more readable and concise.
+
+```java
+(parameters) -> expression
+```
+
+```java
+// Before lambda - anonymous class
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println("Hello");
+    }
+};
+
+// With lambda - concise
+Runnable r2 = () -> System.out.println("Hello");
+
+// Lambda with parameters
+List<String> names = Arrays.asList("John", "Jane");
+names.forEach(name -> System.out.println(name));
+```
+
+## 3. What are method references?
+
+A **Method Reference** is a **shorthand syntax of a lambda expression** that refers to an existing method using `::` operator.
+
+**Types of Method References:**
+- Static method: `ClassName::methodName`
+- Instance method: `object::methodName`
+- Instance method of arbitrary object: `ClassName::methodName`
+- Constructor: `ClassName::new`
+
+```java
+// Lambda expression
+OptionalInt maxAge = studlist.stream()
+        .mapToInt(student -> student.getAge())
+        .max();
+
+// Method reference - more concise
+OptionalInt maxAge = studlist.stream()
+        .mapToInt(Student::getAge)
+        .max();
+
+// Constructor reference
+Supplier<List<String>> listSupplier = ArrayList::new;
+```
+
+## 4. What is the difference between lambda and anonymous class?
+
+**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
+
+**Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
+
+```java
+// Anonymous class - verbose
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println(this.getClass()); // Anonymous class
+    }
+};
+
+// Lambda - concise
+Runnable r2 = () -> {
+    System.out.println(this.getClass()); // Enclosing class
+};
+```
+
+## 5. What is Stream API?
+
+
+The **Stream API** is introduced in Java 8 to process **collections of objects in a functional and declarative way**. It allows operations like **filtering, mapping, and reducing** without modifying the original data source.
+
+
+**Key Features:**
+
+* Supports **functional programming**
+* Works with **Collections, Arrays, I/O**
+* Uses **lambda expressions**
+* Provides **lazy evaluation**
+* Enables **parallel processing**
+* Does not modify the **original data**
+
+
+**How it works:**
+
+* Data source (like **List, Set, Array**) is converted into a **Stream**
+* A sequence of operations is applied:
+
+  * **Intermediate operations** (filter, map)
+  * **Terminal operations** (collect, forEach)
+* Operations are executed only when a **terminal operation is called**
+
+
+**Why to use:**
+
+* To write **clean and readable code**
+* To reduce **boilerplate loops**
+* To improve **performance with parallel processing**
+* To support **functional programming style**
+
+
+**When to use:**
+
+* When processing **collections of data**
+* When applying **filtering, transformation, aggregation**
+* When you want **declarative code instead of loops**
+
+
+**Code Example:**
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(10, 15, 20, 25, 30);
+        List<Integer> result = numbers.stream()
+                .filter(n -> n % 2 == 0)     // filter even numbers
+                .map(n -> n * n)             // square them
+                .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+```
+
+**Key Features Loop and Stream API**
+
+* **For Loop**
+
+  * **Fastest execution**
+  * **Low memory overhead**
+  * Best for **performance-critical** or **simple iterative tasks**
+
+* **Stream API**
+
+  * **More readable** and **declarative**
+  * Supports **functional programming** (`filter`, `map`, `reduce`)
+  * Easy to use with **parallel processing** using `parallelStream()`
+
+**When to Use loops and Stream**
+
+* Use **`for` loops** when:
+
+  * **Maximum performance** is required.
+  * Working with **large datasets** in tight loops.
+  * The logic is simple and straightforward.
+
+* Use **Stream API** when:
+
+  * **Code readability** and **maintainability** are more important.
+  * Performing multiple operations like filtering, mapping, and collecting.
+  * You want to leverage **parallel processing** easily.
+
+## 6. What is parallel streams? 
+
+
+A **Parallel Stream** is a type of **Stream API** that processes data **concurrently using multiple threads**, dividing the task into smaller parts and executing them in parallel to improve performance.
+
+
+**Key Features:**
+
+* Uses **multiple threads (ForkJoinPool framework)**
+* Automatically splits data into **subtasks**
+* Improves **performance for large datasets**
+* Supports **parallel processing**
+* Works with **collections via .parallelStream()**
+* Maintains **functional programming style**
+
+
+**How it works:**
+
+* Source collection is divided into **multiple chunks**
+* Each chunk is processed in **separate threads**
+* Results are combined using **merge operation**
+* Uses **ForkJoin framework internally**
+
+
+**Why to use:**
+
+* To improve **performance on large data sets**
+* To utilize **multi-core CPU power**
+* To reduce **processing time for heavy operations**
+
+
+**When to use:**
+
+* When working with **large collections**
+* When operations are **CPU-intensive**
+* When tasks are **independent and stateless**
+
+
+**Code Example:**
+
+```java id="k3p9qd"
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
+        numbers.parallelStream()
+                .map(n -> {
+                    System.out.println(Thread.currentThread().getName() + " processing " + n);
+                    return n * n;
+                })
+                .forEach(System.out::println);
+    }
+}
+```
+
+## 7. What is the difference between Collection and Stream?
+
+A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
+
+A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
+
+| **Feature**      | **Collection**                                              | **Stream**                                                             |
+| ---------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Purpose**      | Used to **store and manage data**.                          | Used to **process and transform data**.                                |
+| **Data Storage** | **Stores elements** in memory.                              | **Does not store data**; it operates on a data source.                 |
+| **Modification** | Supports **adding, removing, and updating** elements.       | Cannot modify the source; it only **processes** the data.              |
+| **Iteration**    | Uses **external iteration** (e.g., `for` loop, `Iterator`). | Uses **internal iteration** managed by the Stream API.                 |
+| **Reusability**  | Can be traversed **multiple times**.                        | A stream can be **consumed only once**.                                |
+| **Performance**  | Best for **data storage and retrieval**.                    | Best for **filtering, mapping, aggregation, and parallel processing**. |
+
+**How It Works**
+
+* A **Collection** holds objects in memory (e.g., `List`, `Set`, `Map`).
+* A **Stream** takes data from a collection or another source and performs operations like **`filter()`**, **`map()`**, and **`collect()`**.
+
+**When to Use**
+
+* Use **Collection** when you need to **store, update, or manage data**.
+* Use **Stream** when you need to **process data efficiently** using functional-style operations.
+
+**Code Example**
+
+```java
+List<String> names = List.of("Alice", "Bob", "Alex");
+
+// Collection: stores data
+System.out.println(names);
+
+// Stream: processes data
+List<String> result = names.stream()
+                           .filter(name -> name.startsWith("A"))
+                           .map(String::toUpperCase)
+                           .toList();
+
+System.out.println(result);   // [ALICE, ALEX]
+```
+
+```java
+List<String> collection = Arrays.asList("a", "b", "c");
+collection.add("d"); // Modifies collection
+
+Stream<String> stream = collection.stream();
+stream.filter(s -> s.length() > 1); // Doesn't modify collection
+// stream.filter(...); // Error - stream already used
+```
+
+## 8. What are intermediate and terminal operations?
+
+**Intermediate Operations** are operations that **transform** a stream and return **another Stream**. They are **lazy**, meaning they do **not execute immediately**.
+
+**Terminal Operations** are operations that **produce the final result** or **perform an action**. They **trigger the execution** of the entire stream pipeline.
+
+**How it Works**
+
+1. Create a **Stream**.
+2. Apply one or more **Intermediate Operations**.
+3. Call a **Terminal Operation**.
+4. The stream pipeline executes and returns the final result.
+
+```text
+Collection
+    ↓
+Stream
+    ↓
+Intermediate Operations
+(filter → map → sorted)
+    ↓
+Terminal Operation
+(collect / forEach / count)
+    ↓
+Result
+```
+
+**Key Features**
+
+| **Intermediate Operations**              | **Terminal Operations**                    |
+| ---------------------------------------- | ------------------------------------------ |
+| Return a **Stream**                      | Return the **final result**                |
+| **Lazy Execution**                       | **Triggers execution**                     |
+| Can be **chained**                       | Ends the stream pipeline                   |
+| Multiple intermediate operations allowed | Only **one terminal operation** per stream |
+
+**Common Intermediate Operations**
+
+* **filter()** – Filters elements
+* **map()** – Transforms elements
+* **sorted()** – Sorts elements
+* **distinct()** – Removes duplicates
+* **limit()** – Limits the number of elements
+* **skip()** – Skips elements
+* **peek()** – Performs an action while processing (mainly for debugging)
+
+**Common Terminal Operations**
+
+* **collect()** – Collects results into a collection
+* **forEach()** – Performs an action on each element
+* **count()** – Counts elements
+* **reduce()** – Combines elements into one result
+* **findFirst()** – Returns the first element
+* **findAny()** – Returns any matching element
+* **anyMatch()**, **allMatch()**, **noneMatch()** – Match operations
+* **min()**, **max()** – Finds minimum or maximum value
+
+**Example**
+
+```java
+List<String> names = List.of("John", "Alice", "Bob", "David");
+
+List<String> result = names.stream()
+        .filter(name -> name.length() > 3)   // Intermediate
+        .map(String::toUpperCase)            // Intermediate
+        .sorted()                            // Intermediate
+        .collect(Collectors.toList());       // Terminal
+
+System.out.println(result);
+```
+
+**Output**
+
+```text
+[ALICE, DAVID, JOHN]
+```
+
+**Lazy Execution Example**
+
+```java
+Stream.of(1, 2, 3, 4)
+      .filter(n -> {
+          System.out.println(n);
+          return n > 2;
+      });
+```
+
+**Output**
+
+```text
+No Output
+```
+
+Nothing is printed because there is **no Terminal Operation**.
+
+Now add a terminal operation:
+
+```java
+Stream.of(1, 2, 3, 4)
+      .filter(n -> {
+          System.out.println(n);
+          return n > 2;
+      })
+      .count();
+```
+
+**Output**
+
+```text
+1
+2
+3
+4
+```
+
+The **count()** terminal operation triggers the execution.
+
+**When to Use**
+
+**Use Intermediate Operations when:**
+
+* Filtering data
+* Transforming objects
+* Sorting elements
+* Removing duplicates
+* Building a processing pipeline
+
+**Use Terminal Operations when:**
+
+* Collecting results
+* Printing data
+* Counting elements
+* Finding values
+* Performing calculations
+
+
+
+**Common Interview Follow-up Questions**
+
+**Q: Why are Intermediate Operations called lazy?**
+
+Because they **do not execute immediately**. They only execute when a **Terminal Operation** is invoked.
+
+**Q: Can a Stream have multiple Intermediate Operations?**
+
+Yes. You can chain **multiple Intermediate Operations** before calling a **Terminal Operation**.
+
+```java
+list.stream()
+    .filter(...)
+    .map(...)
+    .sorted()
+    .collect(Collectors.toList());
+```
+
+**Q: Can a Stream have multiple Terminal Operations?**
+
+No. A **Stream can have only one Terminal Operation**. After it is executed, the stream is **consumed** and cannot be reused.
+
+```java
+Stream<String> stream = List.of("A", "B").stream();
+
+stream.count();      // OK
+stream.forEach(System.out::println); // Throws IllegalStateException
+```
+
+**Q: Which operation starts the execution of a Stream?**
+
+A **Terminal Operation** starts the execution of the entire stream pipeline.
+
+
+
+## 9. What is the difference between map() and flatMap()?
+
+`map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
+
+`flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
+
+| **Feature**     | **`map()`**                                            | **`flatMap()`**                                                     |
+| --------------- | ------------------------------------------------------ | ------------------------------------------------------------------- |
+| **Purpose**     | Transforms **each element** into another element.      | Transforms and **flattens nested structures** into a single stream. |
+| **Output**      | Returns **one output element for each input element**. | Returns **multiple elements and merges them into one stream**.      |
+| **Use Case**    | Simple data transformation.                            | Working with **nested collections or streams**.                     |
+| **Result Type** | `Stream<T> → Stream<R>`                                | `Stream<T> → Stream<R>` (after flattening nested streams).          |
+
+**How It Works**
+
+* **`map()`** applies a function to each element and returns the transformed result.
+* **`flatMap()`** applies a function that returns a **Stream**, then combines all those streams into a **single stream**.
+
+**When to Use**
+
+* Use **`map()`** when converting one value to another (e.g., convert names to uppercase).
+* Use **`flatMap()`** when dealing with **nested lists, arrays, or streams** and you want a single flattened result.
+
+**Code Example**
+
+```java id="8psr6z"
+List<String> names = List.of("alice", "bob");
+
+// map() - transforms each element
+List<String> upperNames = names.stream()
+                               .map(String::toUpperCase)
+                               .toList();
+
+System.out.println(upperNames);   // [ALICE, BOB]
+
+// flatMap() - flattens nested lists
+List<List<String>> nested = List.of(
+    List.of("A", "B"),
+    List.of("C", "D")
+);
+
+List<String> flatList = nested.stream()
+                              .flatMap(List::stream)
+                              .toList();
+
+System.out.println(flatList);   // [A, B, C, D]
+```
+
+
+## 10. What is Optional class?
+
+**`Optional`** is a **container object** introduced in **Java 8** that can either **hold a value or be empty**. It is mainly used to **avoid `NullPointerException`** and write cleaner, safer code.
+
+**Key Features**
+
+* **Prevents `NullPointerException`** by handling missing values explicitly.
+* Can contain **a value or no value**.
+* Provides utility methods like **`of()`**, **`ofNullable()`**, **`isPresent()`**, **`orElse()`**, and **`ifPresent()`**.
+* Encourages **functional and readable code**.
+
+**How It Works**
+
+* Create an `Optional` object using `of()` or `ofNullable()`.
+* Check or process the value using methods like `isPresent()`, `ifPresent()`, or provide a default value with `orElse()`.
+
+**When to Use**
+
+* Use **`Optional`** as a **return type** when a method may or may not return a value.
+* Use it to **avoid explicit null checks**.
+* Do **not** use it for class fields or method parameters in most cases.
+
+**Code Example**
+
+```java id="j9q4mk"
+Optional<String> name = Optional.ofNullable(getName());
+String result = name.orElse("Default User");
+System.out.println(result);
+```
+
+Another common example:
+
+```java id="l2v7np"
+Optional<String> name = Optional.of("Alice");
+
+name.ifPresent(System.out::println);   // Prints: Alice
+```
+
+```java
+import java.util.Optional;
+
+public class Test {
+    public static void main(String[] args) {
+        String name = null;
+        Optional<String> optional = Optional.ofNullable(name);
+
+        // optional way one
+        if (optional.isPresent()) {
+            System.out.println(optional.get());
+        } else {
+            System.out.println("Value is null");
+        }
+
+        // optional way two
+        System.out.println(optional.orElse("Default Value"));
+    }
+}
+```
+
+## 11. What is diffence between Arrays.asList() vs List.of()?
+
+`Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
+
+`List.of()` creates an **immutable list** that does not allow `null` values. You cannot modify, add, or remove elements from this list.
+
+
+| **Feature**       | **`Arrays.asList()`**                                                          | **`List.of()`**                                                    |
+| ----------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| **Introduced In** | **Java 5**                                                                     | **Java 9**                                                         |
+| **Modifiable**    | **Fixed-size** list (cannot add/remove, but can update elements).              | **Completely immutable** (cannot add, remove, or update elements). |
+| **Null Values**   | **Allows `null`** elements.                                                    | **Does not allow `null`** (throws `NullPointerException`).         |
+| **Backed By**     | Backed by the **original array**, so changes to the array reflect in the list. | Creates an **independent immutable list**.                         |
+| **Best Use Case** | When you need a **fixed-size view of an array**.                               | When you need a **read-only immutable list**.                      |
+
+**How It Works**
+
+* **`Arrays.asList()`** converts an array into a **fixed-size List**.
+* **`List.of()`** creates an **immutable List** with the given elements.
+
+**When to Use**
+
+* Use **`Arrays.asList()`** when you need to work with an existing array and may want to **modify element values**.
+* Use **`List.of()`** when you need a **safe, immutable list** that should not be changed.
+
+**Code Example**
+
+```java id="3s7kqa"
+// Arrays.asList()
+List<String> list1 = Arrays.asList("A", "B", "C");
+list1.set(0, "X");          // Allowed
+// list1.add("D");          // Throws UnsupportedOperationException
+
+// List.of()
+List<String> list2 = List.of("A", "B", "C");
+// list2.set(0, "X");        // Throws UnsupportedOperationException
+// list2.add("D");           // Throws UnsupportedOperationException
+```
+
+
 # ✅ 08. Java Multithreading & Synchronization 
 
 ## 1. What is thread and what are life cycle?
@@ -12360,594 +12952,6 @@ public class User extends Auditable {
 ```
 
 
-# ✅ 15. Java Lambda Expressions & Streams API 
-
-## 2. What are lambda expressions?
-
-**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
-
-They were introduced in **Java 8** to support **functional programming** and make code more readable and concise.
-
-```java
-(parameters) -> expression
-```
-
-```java
-// Before lambda - anonymous class
-Runnable r1 = new Runnable() {
-    public void run() {
-        System.out.println("Hello");
-    }
-};
-
-// With lambda - concise
-Runnable r2 = () -> System.out.println("Hello");
-
-// Lambda with parameters
-List<String> names = Arrays.asList("John", "Jane");
-names.forEach(name -> System.out.println(name));
-```
-
-## 3. What are method references?
-
-A **Method Reference** is a **shorthand syntax of a lambda expression** that refers to an existing method using `::` operator.
-
-**Types of Method References:**
-- Static method: `ClassName::methodName`
-- Instance method: `object::methodName`
-- Instance method of arbitrary object: `ClassName::methodName`
-- Constructor: `ClassName::new`
-
-```java
-// Lambda expression
-OptionalInt maxAge = studlist.stream()
-        .mapToInt(student -> student.getAge())
-        .max();
-
-// Method reference - more concise
-OptionalInt maxAge = studlist.stream()
-        .mapToInt(Student::getAge)
-        .max();
-
-// Constructor reference
-Supplier<List<String>> listSupplier = ArrayList::new;
-```
-
-## 4. What is the difference between lambda and anonymous class?
-
-**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
-
-**Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
-
-```java
-// Anonymous class - verbose
-Runnable r1 = new Runnable() {
-    public void run() {
-        System.out.println(this.getClass()); // Anonymous class
-    }
-};
-
-// Lambda - concise
-Runnable r2 = () -> {
-    System.out.println(this.getClass()); // Enclosing class
-};
-```
-
-## 5. What is Stream API?
-
-
-The **Stream API** is introduced in Java 8 to process **collections of objects in a functional and declarative way**. It allows operations like **filtering, mapping, and reducing** without modifying the original data source.
-
-
-**Key Features:**
-
-* Supports **functional programming**
-* Works with **Collections, Arrays, I/O**
-* Uses **lambda expressions**
-* Provides **lazy evaluation**
-* Enables **parallel processing**
-* Does not modify the **original data**
-
-
-**How it works:**
-
-* Data source (like **List, Set, Array**) is converted into a **Stream**
-* A sequence of operations is applied:
-
-  * **Intermediate operations** (filter, map)
-  * **Terminal operations** (collect, forEach)
-* Operations are executed only when a **terminal operation is called**
-
-
-**Why to use:**
-
-* To write **clean and readable code**
-* To reduce **boilerplate loops**
-* To improve **performance with parallel processing**
-* To support **functional programming style**
-
-
-**When to use:**
-
-* When processing **collections of data**
-* When applying **filtering, transformation, aggregation**
-* When you want **declarative code instead of loops**
-
-
-**Code Example:**
-
-```java
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class Main {
-    public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(10, 15, 20, 25, 30);
-        List<Integer> result = numbers.stream()
-                .filter(n -> n % 2 == 0)     // filter even numbers
-                .map(n -> n * n)             // square them
-                .collect(Collectors.toList());
-
-        System.out.println(result);
-    }
-}
-```
-
-**Key Features Loop and Stream API**
-
-* **For Loop**
-
-  * **Fastest execution**
-  * **Low memory overhead**
-  * Best for **performance-critical** or **simple iterative tasks**
-
-* **Stream API**
-
-  * **More readable** and **declarative**
-  * Supports **functional programming** (`filter`, `map`, `reduce`)
-  * Easy to use with **parallel processing** using `parallelStream()`
-
-**When to Use loops and Stream**
-
-* Use **`for` loops** when:
-
-  * **Maximum performance** is required.
-  * Working with **large datasets** in tight loops.
-  * The logic is simple and straightforward.
-
-* Use **Stream API** when:
-
-  * **Code readability** and **maintainability** are more important.
-  * Performing multiple operations like filtering, mapping, and collecting.
-  * You want to leverage **parallel processing** easily.
-
-## 6. What is parallel streams? 
-
-
-A **Parallel Stream** is a type of **Stream API** that processes data **concurrently using multiple threads**, dividing the task into smaller parts and executing them in parallel to improve performance.
-
-
-**Key Features:**
-
-* Uses **multiple threads (ForkJoinPool framework)**
-* Automatically splits data into **subtasks**
-* Improves **performance for large datasets**
-* Supports **parallel processing**
-* Works with **collections via .parallelStream()**
-* Maintains **functional programming style**
-
-
-**How it works:**
-
-* Source collection is divided into **multiple chunks**
-* Each chunk is processed in **separate threads**
-* Results are combined using **merge operation**
-* Uses **ForkJoin framework internally**
-
-
-**Why to use:**
-
-* To improve **performance on large data sets**
-* To utilize **multi-core CPU power**
-* To reduce **processing time for heavy operations**
-
-
-**When to use:**
-
-* When working with **large collections**
-* When operations are **CPU-intensive**
-* When tasks are **independent and stateless**
-
-
-**Code Example:**
-
-```java id="k3p9qd"
-import java.util.Arrays;
-import java.util.List;
-
-public class Main {
-    public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
-        numbers.parallelStream()
-                .map(n -> {
-                    System.out.println(Thread.currentThread().getName() + " processing " + n);
-                    return n * n;
-                })
-                .forEach(System.out::println);
-    }
-}
-```
-
-## 7. What is the difference between Collection and Stream?
-
-A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
-
-A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
-
-| **Feature**      | **Collection**                                              | **Stream**                                                             |
-| ---------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
-| **Purpose**      | Used to **store and manage data**.                          | Used to **process and transform data**.                                |
-| **Data Storage** | **Stores elements** in memory.                              | **Does not store data**; it operates on a data source.                 |
-| **Modification** | Supports **adding, removing, and updating** elements.       | Cannot modify the source; it only **processes** the data.              |
-| **Iteration**    | Uses **external iteration** (e.g., `for` loop, `Iterator`). | Uses **internal iteration** managed by the Stream API.                 |
-| **Reusability**  | Can be traversed **multiple times**.                        | A stream can be **consumed only once**.                                |
-| **Performance**  | Best for **data storage and retrieval**.                    | Best for **filtering, mapping, aggregation, and parallel processing**. |
-
-**How It Works**
-
-* A **Collection** holds objects in memory (e.g., `List`, `Set`, `Map`).
-* A **Stream** takes data from a collection or another source and performs operations like **`filter()`**, **`map()`**, and **`collect()`**.
-
-**When to Use**
-
-* Use **Collection** when you need to **store, update, or manage data**.
-* Use **Stream** when you need to **process data efficiently** using functional-style operations.
-
-**Code Example**
-
-```java
-List<String> names = List.of("Alice", "Bob", "Alex");
-
-// Collection: stores data
-System.out.println(names);
-
-// Stream: processes data
-List<String> result = names.stream()
-                           .filter(name -> name.startsWith("A"))
-                           .map(String::toUpperCase)
-                           .toList();
-
-System.out.println(result);   // [ALICE, ALEX]
-```
-
-```java
-List<String> collection = Arrays.asList("a", "b", "c");
-collection.add("d"); // Modifies collection
-
-Stream<String> stream = collection.stream();
-stream.filter(s -> s.length() > 1); // Doesn't modify collection
-// stream.filter(...); // Error - stream already used
-```
-
-## 8. What are intermediate and terminal operations?
-
-**Intermediate Operations** are operations that **transform** a stream and return **another Stream**. They are **lazy**, meaning they do **not execute immediately**.
-
-**Terminal Operations** are operations that **produce the final result** or **perform an action**. They **trigger the execution** of the entire stream pipeline.
-
-**How it Works**
-
-1. Create a **Stream**.
-2. Apply one or more **Intermediate Operations**.
-3. Call a **Terminal Operation**.
-4. The stream pipeline executes and returns the final result.
-
-```text
-Collection
-    ↓
-Stream
-    ↓
-Intermediate Operations
-(filter → map → sorted)
-    ↓
-Terminal Operation
-(collect / forEach / count)
-    ↓
-Result
-```
-
-**Key Features**
-
-| **Intermediate Operations**              | **Terminal Operations**                    |
-| ---------------------------------------- | ------------------------------------------ |
-| Return a **Stream**                      | Return the **final result**                |
-| **Lazy Execution**                       | **Triggers execution**                     |
-| Can be **chained**                       | Ends the stream pipeline                   |
-| Multiple intermediate operations allowed | Only **one terminal operation** per stream |
-
-**Common Intermediate Operations**
-
-* **filter()** – Filters elements
-* **map()** – Transforms elements
-* **sorted()** – Sorts elements
-* **distinct()** – Removes duplicates
-* **limit()** – Limits the number of elements
-* **skip()** – Skips elements
-* **peek()** – Performs an action while processing (mainly for debugging)
-
-**Common Terminal Operations**
-
-* **collect()** – Collects results into a collection
-* **forEach()** – Performs an action on each element
-* **count()** – Counts elements
-* **reduce()** – Combines elements into one result
-* **findFirst()** – Returns the first element
-* **findAny()** – Returns any matching element
-* **anyMatch()**, **allMatch()**, **noneMatch()** – Match operations
-* **min()**, **max()** – Finds minimum or maximum value
-
-**Example**
-
-```java
-List<String> names = List.of("John", "Alice", "Bob", "David");
-
-List<String> result = names.stream()
-        .filter(name -> name.length() > 3)   // Intermediate
-        .map(String::toUpperCase)            // Intermediate
-        .sorted()                            // Intermediate
-        .collect(Collectors.toList());       // Terminal
-
-System.out.println(result);
-```
-
-**Output**
-
-```text
-[ALICE, DAVID, JOHN]
-```
-
-**Lazy Execution Example**
-
-```java
-Stream.of(1, 2, 3, 4)
-      .filter(n -> {
-          System.out.println(n);
-          return n > 2;
-      });
-```
-
-**Output**
-
-```text
-No Output
-```
-
-Nothing is printed because there is **no Terminal Operation**.
-
-Now add a terminal operation:
-
-```java
-Stream.of(1, 2, 3, 4)
-      .filter(n -> {
-          System.out.println(n);
-          return n > 2;
-      })
-      .count();
-```
-
-**Output**
-
-```text
-1
-2
-3
-4
-```
-
-The **count()** terminal operation triggers the execution.
-
-**When to Use**
-
-**Use Intermediate Operations when:**
-
-* Filtering data
-* Transforming objects
-* Sorting elements
-* Removing duplicates
-* Building a processing pipeline
-
-**Use Terminal Operations when:**
-
-* Collecting results
-* Printing data
-* Counting elements
-* Finding values
-* Performing calculations
-
-
-
-**Common Interview Follow-up Questions**
-
-**Q: Why are Intermediate Operations called lazy?**
-
-Because they **do not execute immediately**. They only execute when a **Terminal Operation** is invoked.
-
-**Q: Can a Stream have multiple Intermediate Operations?**
-
-Yes. You can chain **multiple Intermediate Operations** before calling a **Terminal Operation**.
-
-```java
-list.stream()
-    .filter(...)
-    .map(...)
-    .sorted()
-    .collect(Collectors.toList());
-```
-
-**Q: Can a Stream have multiple Terminal Operations?**
-
-No. A **Stream can have only one Terminal Operation**. After it is executed, the stream is **consumed** and cannot be reused.
-
-```java
-Stream<String> stream = List.of("A", "B").stream();
-
-stream.count();      // OK
-stream.forEach(System.out::println); // Throws IllegalStateException
-```
-
-**Q: Which operation starts the execution of a Stream?**
-
-A **Terminal Operation** starts the execution of the entire stream pipeline.
-
-
-
-## 9. What is the difference between map() and flatMap()?
-
-`map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
-
-`flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
-
-| **Feature**     | **`map()`**                                            | **`flatMap()`**                                                     |
-| --------------- | ------------------------------------------------------ | ------------------------------------------------------------------- |
-| **Purpose**     | Transforms **each element** into another element.      | Transforms and **flattens nested structures** into a single stream. |
-| **Output**      | Returns **one output element for each input element**. | Returns **multiple elements and merges them into one stream**.      |
-| **Use Case**    | Simple data transformation.                            | Working with **nested collections or streams**.                     |
-| **Result Type** | `Stream<T> → Stream<R>`                                | `Stream<T> → Stream<R>` (after flattening nested streams).          |
-
-**How It Works**
-
-* **`map()`** applies a function to each element and returns the transformed result.
-* **`flatMap()`** applies a function that returns a **Stream**, then combines all those streams into a **single stream**.
-
-**When to Use**
-
-* Use **`map()`** when converting one value to another (e.g., convert names to uppercase).
-* Use **`flatMap()`** when dealing with **nested lists, arrays, or streams** and you want a single flattened result.
-
-**Code Example**
-
-```java id="8psr6z"
-List<String> names = List.of("alice", "bob");
-
-// map() - transforms each element
-List<String> upperNames = names.stream()
-                               .map(String::toUpperCase)
-                               .toList();
-
-System.out.println(upperNames);   // [ALICE, BOB]
-
-// flatMap() - flattens nested lists
-List<List<String>> nested = List.of(
-    List.of("A", "B"),
-    List.of("C", "D")
-);
-
-List<String> flatList = nested.stream()
-                              .flatMap(List::stream)
-                              .toList();
-
-System.out.println(flatList);   // [A, B, C, D]
-```
-
-
-## 10. What is Optional class?
-
-**`Optional`** is a **container object** introduced in **Java 8** that can either **hold a value or be empty**. It is mainly used to **avoid `NullPointerException`** and write cleaner, safer code.
-
-**Key Features**
-
-* **Prevents `NullPointerException`** by handling missing values explicitly.
-* Can contain **a value or no value**.
-* Provides utility methods like **`of()`**, **`ofNullable()`**, **`isPresent()`**, **`orElse()`**, and **`ifPresent()`**.
-* Encourages **functional and readable code**.
-
-**How It Works**
-
-* Create an `Optional` object using `of()` or `ofNullable()`.
-* Check or process the value using methods like `isPresent()`, `ifPresent()`, or provide a default value with `orElse()`.
-
-**When to Use**
-
-* Use **`Optional`** as a **return type** when a method may or may not return a value.
-* Use it to **avoid explicit null checks**.
-* Do **not** use it for class fields or method parameters in most cases.
-
-**Code Example**
-
-```java id="j9q4mk"
-Optional<String> name = Optional.ofNullable(getName());
-String result = name.orElse("Default User");
-System.out.println(result);
-```
-
-Another common example:
-
-```java id="l2v7np"
-Optional<String> name = Optional.of("Alice");
-
-name.ifPresent(System.out::println);   // Prints: Alice
-```
-
-```java
-import java.util.Optional;
-
-public class Test {
-    public static void main(String[] args) {
-        String name = null;
-        Optional<String> optional = Optional.ofNullable(name);
-
-        // optional way one
-        if (optional.isPresent()) {
-            System.out.println(optional.get());
-        } else {
-            System.out.println("Value is null");
-        }
-
-        // optional way two
-        System.out.println(optional.orElse("Default Value"));
-    }
-}
-```
-
-## 11. What is diffence between Arrays.asList() vs List.of()?
-
-`Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
-
-`List.of()` creates an **immutable list** that does not allow `null` values. You cannot modify, add, or remove elements from this list.
-
-
-| **Feature**       | **`Arrays.asList()`**                                                          | **`List.of()`**                                                    |
-| ----------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| **Introduced In** | **Java 5**                                                                     | **Java 9**                                                         |
-| **Modifiable**    | **Fixed-size** list (cannot add/remove, but can update elements).              | **Completely immutable** (cannot add, remove, or update elements). |
-| **Null Values**   | **Allows `null`** elements.                                                    | **Does not allow `null`** (throws `NullPointerException`).         |
-| **Backed By**     | Backed by the **original array**, so changes to the array reflect in the list. | Creates an **independent immutable list**.                         |
-| **Best Use Case** | When you need a **fixed-size view of an array**.                               | When you need a **read-only immutable list**.                      |
-
-**How It Works**
-
-* **`Arrays.asList()`** converts an array into a **fixed-size List**.
-* **`List.of()`** creates an **immutable List** with the given elements.
-
-**When to Use**
-
-* Use **`Arrays.asList()`** when you need to work with an existing array and may want to **modify element values**.
-* Use **`List.of()`** when you need a **safe, immutable list** that should not be changed.
-
-**Code Example**
-
-```java id="3s7kqa"
-// Arrays.asList()
-List<String> list1 = Arrays.asList("A", "B", "C");
-list1.set(0, "X");          // Allowed
-// list1.add("D");          // Throws UnsupportedOperationException
-
-// List.of()
-List<String> list2 = List.of("A", "B", "C");
-// list2.set(0, "X");        // Throws UnsupportedOperationException
-// list2.add("D");           // Throws UnsupportedOperationException
-```
 
 
 # ✅ 16. Java JDBC 
