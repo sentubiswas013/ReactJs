@@ -17010,12 +17010,40 @@ public class RequestBean {
 }
 ```
 
+**Common Interview Follow-up Questions**
 
-## 5. What is @Component vs @Bean?
+**1. What is the default Bean Scope in Spring?**
 
-* **`@Component`**: An annotation used to tell **Spring** to automatically detect and create an object (bean) during **component scanning**.
+**`singleton`**.
+
+**2. What is the difference between `singleton` and `prototype`?**
+
+* **`singleton`** → One shared instance for the entire application.
+* **`prototype`** → A new instance is created every time the bean is requested.
+
+**3. Are Spring `@Service` beans singleton by default?**
+
+**Yes.** All beans annotated with **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`** are **singleton** by default.
+
+**4. Which Bean Scope is used most often?**
+
+**`singleton`**, because service, repository, and controller beans are generally **stateless** and can be safely shared.
+
+**5. Can we inject a `prototype` bean into a `singleton` bean?**
+
+**Yes**, but the **prototype bean is created only once at injection time**. If you need a **new prototype instance on every use**, use **`ObjectProvider`**, **`ObjectFactory`**, or **`@Lookup`**.
+
+
+## 5. What is @Component vs @Bean/Bean?
+
+Both **`@Component`** and **`@Bean`** are used to create and manage **Spring Beans** in the **Spring IoC Container**, but they are used in different situations.
+
+* **`@Component`**: An annotation used to tell **Spring** to automatically detect and create an object (bean) during **component scanning** and used for **our own classes**
 
 * **`@Bean`**: An annotation used inside a **`@Configuration`** class to manually create and register a bean in the Spring container.
+
+* **Java Bean** is a **plain Java class** that follows certain conventions: it has a **no-argument constructor**, **private fields**, and **public getter/setter methods**.
+
 
 **Key Difference**
 
@@ -17031,10 +17059,6 @@ public class RequestBean {
 * With **`@Component`**, Spring scans the package, finds the annotated class, creates an object, and stores it in the **Spring Container**.
 * With **`@Bean`**, Spring loads the **`@Configuration`** class, calls the **`@Bean`** method, and registers the returned object as a bean.
 
-**Why to Use**
-
-* Use **`@Component`** for your own service, repository, and controller classes because it is simple and requires less configuration.
-* Use **`@Bean`** when you need **custom object creation**, complex initialization, or when the class belongs to an **external library** that you cannot modify.
 
 **When to Use**
 
@@ -17051,7 +17075,30 @@ public class RequestBean {
   * Creating objects with **custom constructor arguments**
   * When you need full control over bean creation
 
+* **`Java Bean`**
+* Use **Java Bean** when creating a normal Java object with standard properties.
+
 **Code Example**
+
+**Using `Java Bean`**
+```java
+// Java Bean
+public class Employee {
+
+    private String name;
+
+    public Employee() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
 
 **Using `@Component`**
 
@@ -17082,6 +17129,28 @@ public class AppConfig {
     }
 }
 ```
+
+**Common Interview Follow-up Questions**
+
+**1. Can `@Service`, `@Repository`, and `@Controller` replace `@Component`?**
+
+**Yes.** They are **specialized versions** of **`@Component`** with additional semantic meaning.
+
+**2. Can we use `@Bean` for our own classes?**
+
+**Yes.** Although **`@Component`** is usually simpler, **`@Bean`** is useful when you need custom object creation or configuration.
+
+**3. Why can't we annotate third-party classes with `@Component`?**
+
+Because **we don't own their source code**, so we register them using **`@Bean`**.
+
+**4. Which annotation provides more control over object creation?**
+
+**`@Bean`**, because you explicitly define how the object is created and configured.
+
+**5. Can both `@Component` and `@Bean` create singleton beans?**
+
+**Yes.** By default, both create **singleton** beans unless a different scope (such as **prototype**) is configured.
 
 ## 5. What is Bean and Object?
 
@@ -17126,98 +17195,6 @@ public class StudentService {
 ```java id="v9r2nh"
 @Autowired
 private StudentService studentService; // Spring injects the Bean
-```
-
-## 5. What is Java Bean, @Component and @Bean?
-
-* **Java Bean** is a **plain Java class** that follows certain conventions: it has a **no-argument constructor**, **private fields**, and **public getter/setter methods**.
-* **`@Component`** is a **Spring annotation** used to automatically register a class as a **Spring Bean** through **Component Scanning**.
-* **`@Bean`** is a **Spring annotation** used on a method inside a **`@Configuration`** class to manually create and register a Spring Bean.
-
-**Key Features**
-
-| **Feature**           | **Java Bean**                         | **`@Component`**                       | **`@Bean`**                         |
-| --------------------- | ------------------------------------- | -------------------------------------- | ----------------------------------- |
-| **What it is**        | Java class following bean conventions | Annotation for automatic bean creation | Annotation for manual bean creation |
-| **Managed By**        | JVM                                   | Spring Container                       | Spring Container                    |
-| **Bean Registration** | Not automatic                         | Automatic via component scanning       | Manual via configuration method     |
-| **Best For**          | Data/POJO classes                     | Your own application classes           | Third-party or customized objects   |
-| **Customization**     | N/A                                   | Limited                                | Full control over object creation   |
-
-**How it Works**
-
-1. You create a **Java Bean** by following Java Bean conventions.
-2. If the class is annotated with **`@Component`**, Spring automatically detects and registers it during startup.
-3. If a method is annotated with **`@Bean`**, Spring executes that method and stores the returned object in the **IoC Container**.
-4. The created Spring Beans can be injected into other classes using **Dependency Injection (DI)**.
-
-**Why to Use**
-
-* **Java Bean**: To create reusable and encapsulated data or business objects.
-* **`@Component`**: To reduce manual configuration and let Spring automatically manage your classes.
-* **`@Bean`**: To create beans with custom initialization logic or for classes you cannot modify.
-
-**When to Use**
-
-* Use **Java Bean** when creating a normal Java object with standard properties.
-* Use **`@Component`** for your own classes like **Service**, **Repository**, or **Controller**.
-* Use **`@Bean`** for **third-party libraries** or when bean creation needs custom logic.
-
-**Code Example**
-
-```java
-// Java Bean
-public class Employee {
-
-    private String name;
-
-    public Employee() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-```
-
-```java
-// @Component
-@Component
-public class EmailService {
-
-    public void sendEmail() {
-        System.out.println("Email Sent");
-    }
-}
-```
-
-```java
-// @Bean
-@Configuration
-public class AppConfig {
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-}
-```
-
-```java
-// Dependency Injection
-@Service
-public class UserService {
-
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private RestTemplate restTemplate;
-}
 ```
 
 
