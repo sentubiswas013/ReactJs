@@ -4744,7 +4744,7 @@ public void theLoginShouldBeSuccessful() {
 
 # ✅ 31. Java Architecture
 
-
+## ◆ 0. Architecture Design
 
 ### 1. What happens when a user enters a URL in the browser?
 
