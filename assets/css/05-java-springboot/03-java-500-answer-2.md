@@ -1170,7 +1170,7 @@ A **Target Group** is a group of backend resources (**EC2 instances**, **contain
 
 
 
-## **16. How do you handle rollback strategies?**
+### **16. How do you handle rollback strategies?**
 
 A **Rollback Strategy** is a process of **reverting an application to the last stable version** if a new deployment causes failures or unexpected issues. The goal is to **minimize downtime and restore service quickly**.
 
@@ -1353,7 +1353,7 @@ flyway_schema_history
 ```
 
 
-## **18. How do you ensure zero downtime deployments?**
+### **18. How do you ensure zero downtime deployments?**
 
 **Zero Downtime Deployment** is a deployment approach where a new application version is released **without interrupting service** for users. The old version continues serving requests until the new version is fully ready.
 
@@ -3517,9 +3517,9 @@ spec:
 
 # ✅ 28. Java AWS Cloud
 
-### ✅ **1. AWS Core Concepts**
+## ✅ **1. AWS Core Concepts**
 
-## **1. What is AWS?**
+#### **1. What is AWS?**
 
 **AWS (Amazon Web Services)** is a **cloud computing platform** by Amazon that provides **on-demand IT resources** like servers, storage, databases, and networking over the internet.
 
@@ -3540,7 +3540,7 @@ Hosting a website using **EC2 + S3 + RDS** instead of physical servers.
 
 ---
 
-## **2. What is cloud computing?**
+#### **2. What is cloud computing?**
 
 **Cloud computing** is the delivery of **computing services (servers, storage, databases, networking)** over the internet on a **pay-per-use model**.
 
@@ -3561,7 +3561,7 @@ Using **Google Drive or AWS S3** to store files instead of local storage.
 
 ---
 
-## **3. What is AMI?**
+#### **3. What is AMI?**
 
 An **AMI (Amazon Machine Image)** is a **pre-configured template** used to launch **EC2 instances**.
 
@@ -3581,7 +3581,7 @@ Using a **Linux AMI with Java + Tomcat installed** to launch multiple servers.
 
 ---
 
-## **4. What is EC2?**
+### **4. What is EC2?**
 
 **EC2 (Elastic Compute Cloud)** is a service that provides **virtual servers in the cloud** to run applications.
 
@@ -3602,7 +3602,7 @@ Deploying a **Spring Boot application** on an EC2 Linux instance.
 
 ---
 
-## **5. What is AWS Lambda?**
+### **5. What is AWS Lambda?**
 
 **AWS Lambda** is a **serverless compute service** that runs code without provisioning servers.
 
@@ -3630,9 +3630,9 @@ public class HelloLambda implements RequestHandler<String, String> {
 
 ---
 
-### ✅ **2. IAM & Security**
+## ✅ **2. IAM & Security**
 
-## **1. What is IAM?**
+### **1. What is IAM?**
 
 **IAM (Identity and Access Management)** is an AWS service used to **manage users, groups, roles, and permissions** securely.
 
@@ -3653,7 +3653,7 @@ Giving a developer access only to **S3 read-only** instead of full AWS access.
 
 ---
 
-## **2. What is IAM Role?**
+### **2. What is IAM Role?**
 
 An **IAM Role** is an AWS identity with **temporary permissions** that can be assumed by **users, services, or applications**.
 
@@ -3673,7 +3673,7 @@ EC2 accessing **S3 bucket** without storing access keys.
 
 ---
 
-## **3. What is IAM Policy?**
+### **3. What is IAM Policy?**
 
 An **IAM Policy** is a **JSON document** that defines **permissions (allow/deny)** for AWS resources.
 
@@ -3704,7 +3704,7 @@ Policy is evaluated when a request is made → AWS checks if action is allowed o
 
 ---
 
-## **4. What is MFA in AWS?**
+### **4. What is MFA in AWS?**
 
 **MFA (Multi-Factor Authentication)** adds an extra layer of security requiring **password + second verification factor**.
 
@@ -3724,7 +3724,7 @@ AWS Console login using password + **Google Authenticator OTP**.
 
 ---
 
-## **5. What is AWS STS?**
+### **5. What is AWS STS?**
 
 **AWS STS (Security Token Service)** provides **temporary security credentials** for AWS access.
 
@@ -3757,9 +3757,9 @@ System.out.println(creds.getAccessKeyId());
 
 ---
 
-### ✅ **3. Compute Services**
+## ✅ **3. Compute Services**
 
-## **1. What is EC2 Auto Scaling?**
+### **1. What is EC2 Auto Scaling?**
 
 **EC2 Auto Scaling** is an AWS service that automatically **adds or removes EC2 instances** based on demand to maintain performance and optimize cost.
 
@@ -3780,7 +3780,7 @@ During high traffic (e.g., sale event), EC2 instances increase automatically.
 
 ---
 
-## **2. What is Elastic Beanstalk?**
+### **2. What is Elastic Beanstalk?**
 
 **AWS Elastic Beanstalk** is a **Platform as a Service (PaaS)** that deploys and manages applications automatically.
 
@@ -3801,7 +3801,7 @@ Deploying a **Spring Boot app without manually creating EC2 instances**.
 
 ---
 
-## **3. What is ECS?**
+### **3. What is ECS?**
 
 **Amazon ECS (Elastic Container Service)** is a **container orchestration service** to run **Docker containers** on AWS.
 
@@ -3822,7 +3822,7 @@ Running a **microservice in a Docker container on ECS cluster**.
 
 ---
 
-## **4. What is EKS?**
+### **4. What is EKS?**
 
 **Amazon EKS (Elastic Kubernetes Service)** is a **managed Kubernetes service** to run and manage **containerized applications**.
 
@@ -3843,7 +3843,7 @@ Deploying a **Spring Boot microservice using Kubernetes deployment YAML**.
 
 ---
 
-## **5. What is Fargate?**
+### **5. What is Fargate?**
 
 **AWS Fargate** is a **serverless compute engine for containers** used with ECS and EKS.
 
@@ -3884,9 +3884,9 @@ You define container task → Fargate runs it without provisioning EC2 → AWS m
 
 ---
 
-### ✅ **4. Storage Services**
+## ✅ **4. Storage Services**
 
-## **1. What is Amazon S3?**
+### **1. What is Amazon S3?**
 
 **Amazon S3 (Simple Storage Service)** is an AWS service used to store **objects (files, images, videos, backups)** in a highly scalable and durable way.
 
@@ -3907,7 +3907,7 @@ Storing **user profile images or application backups**.
 
 ---
 
-## **2. What is EBS?**
+### **2. What is EBS?**
 
 **EBS (Elastic Block Store)** provides **persistent block storage** for EC2 instances.
 
@@ -3928,7 +3928,7 @@ Storing **database files on EC2 instance**.
 
 ---
 
-## **3. What is EFS?**
+### **3. What is EFS?**
 
 **EFS (Elastic File System)** is a **shared file storage system** for multiple EC2 instances.
 
@@ -3949,7 +3949,7 @@ Shared uploads folder for **multiple web servers**.
 
 ---
 
-## **4. What is S3 Versioning?**
+### **4. What is S3 Versioning?**
 
 **S3 Versioning** is a feature that keeps **multiple versions of an object** in a bucket.
 
@@ -3969,7 +3969,7 @@ Recovering an accidentally deleted **configuration file**.
 
 ---
 
-## **5. What is S3 Lifecycle Policy?**
+### **5. What is S3 Lifecycle Policy?**
 
 **S3 Lifecycle Policy** automatically manages objects by **moving or deleting them based on rules and time**.
 
@@ -4009,9 +4009,9 @@ You define rules → AWS applies them based on object age or conditions.
 
 ---
 
-### ✅ **5. Networking & VPC**
+## ✅ **5. Networking & VPC**
 
-## **1. What is VPC?**
+### **1. What is VPC?**
 
 **VPC (Virtual Private Cloud)** is a **logically isolated virtual network** in AWS where you can launch and control AWS resources.
 
@@ -4032,7 +4032,7 @@ Running a **secure application network in AWS isolated from other users**.
 
 ---
 
-## **2. What is Subnet?**
+### **2. What is Subnet?**
 A **Subnet** is a **subdivision of a VPC** used to group resources in specific IP ranges.
 
 **Key Features:**
@@ -4052,7 +4052,7 @@ Placing **web servers in public subnet and database in private subnet**.
 
 ---
 
-## **3. What is Internet Gateway?**
+### **3. What is Internet Gateway?**
 An **Internet Gateway (IGW)** is a component that allows **communication between VPC and the internet**.
 
 **Key Features:**
@@ -4072,7 +4072,7 @@ Allowing users to access a **public website hosted on EC2**.
 
 ---
 
-## **4. What is NAT Gateway?**
+### **4. What is NAT Gateway?**
 A **NAT Gateway** allows **private subnet instances to access the internet securely without being exposed**.
 
 **Key Features:**
@@ -4092,7 +4092,7 @@ Private EC2 downloading **software updates from the internet**.
 
 ---
 
-## **5. What is Route 53?**
+### **5. What is Route 53?**
 
 **Amazon Route 53** is a **scalable DNS (Domain Name System) service** that routes users to applications.
 
@@ -4113,7 +4113,7 @@ Mapping **[www.myapp.com](http://www.myapp.com) → EC2 Load Balancer**.
 
 ---
 
-## **6. What is Security Group?**
+### **6. What is Security Group?**
 
 A **Security Group** is a **virtual firewall for EC2 instances** controlling inbound and outbound traffic.
 
@@ -4134,7 +4134,7 @@ Allowing **HTTP (80) and SSH (22)** access to a web server.
 
 ---
 
-## **7. What is NACL?**
+### **7. What is NACL?**
 
 **NACL (Network Access Control List)** is a **subnet-level firewall** that controls inbound and outbound traffic.
 
@@ -4156,9 +4156,9 @@ Blocking traffic from a **specific IP range at subnet level**.
 
 ---
 
-### ✅ **6. Load Balancing**
+## ✅ **6. Load Balancing**
 
-## **1. What is ELB?**
+### **1. What is ELB?**
 
 **ELB (Elastic Load Balancer)** is an AWS service that **distributes incoming traffic across multiple targets (EC2 instances, containers, IPs)** to improve **availability and reliability**.
 
@@ -4179,7 +4179,7 @@ A website handling traffic across **multiple EC2 instances** using ELB.
 
 ---
 
-## **2. What are types of load balancers in AWS?**
+### **2. What are types of load balancers in AWS?**
 AWS provides **three main types of Elastic Load Balancers**:
 
 **1. ALB (Application Load Balancer)**
@@ -4206,7 +4206,7 @@ Traffic enters ELB → ELB chooses target based on type and routing rules → fo
 
 ---
 
-## **3. What is the difference between ALB and NLB?**
+### **3. What is the difference between ALB and NLB?**
 
 **Application Load Balancer (ALB)** vs **Network Load Balancer (NLB)**
 
@@ -4242,9 +4242,9 @@ Client request → ALB/NLB receives traffic → routes to target group based on 
 
 ---
 
-### ✅ **7. Databases**
+## ✅ **7. Databases**
 
-## **1. What is Amazon RDS?**
+### **1. What is Amazon RDS?**
 
 **Amazon RDS (Relational Database Service)** is a **managed relational database service** that supports engines like **MySQL, PostgreSQL, Oracle, SQL Server, and MariaDB**.
 
@@ -4265,7 +4265,7 @@ Running a **Spring Boot application with MySQL database on RDS**.
 
 ---
 
-## **2. What is DynamoDB?**
+### **2. What is DynamoDB?**
 
 **Amazon DynamoDB** is a **fully managed NoSQL database** that provides **fast and predictable performance at any scale**.
 
@@ -4303,7 +4303,7 @@ dynamoDb.putItem(request);
 
 ---
 
-## **3. What is Multi-AZ deployment?**
+### **3. What is Multi-AZ deployment?**
 
 **Multi-AZ (Availability Zone) deployment** is a **high availability feature** where AWS automatically replicates data to a **standby instance in another AZ**.
 
@@ -4324,7 +4324,7 @@ A production **RDS MySQL database running in Multi-AZ for high availability**.
 
 ---
 
-## **4. What is Read Replica?**
+### **4. What is Read Replica?**
 
 A **Read Replica** is a **read-only copy of a primary database** used to handle **read-heavy traffic and improve performance**.
 
@@ -4342,9 +4342,9 @@ Primary DB handles writes → changes are copied to replica → applications sen
 
 ---
 
-### ✅ **8. Messaging & Event-Driven**
+## ✅ **8. Messaging & Event-Driven**
 
-## **1. What is SQS?**
+### **1. What is SQS?**
 
 **Amazon SQS (Simple Queue Service)** is a **fully managed message queue service** used to decouple distributed systems.
 
@@ -4378,7 +4378,7 @@ sqs.sendMessage(request);
 
 ---
 
-## **2. What is SNS?**
+### **2. What is SNS?**
 
 **Amazon SNS (Simple Notification Service)** is a **pub/sub messaging service** used to send notifications to multiple subscribers.
 
@@ -4412,7 +4412,7 @@ sns.publish(request);
 
 ---
 
-## **3. What is EventBridge?**
+### **3. What is EventBridge?**
 
 **Amazon EventBridge** is a **serverless event bus service** used to connect applications using **events in real time**.
 
@@ -4433,7 +4433,7 @@ S3 file upload event triggers **Lambda processing pipeline**.
 
 ---
 
-## **4. What is Kinesis?**
+### **4. What is Kinesis?**
 
 **Amazon Kinesis** is a **real-time data streaming service** used to collect, process, and analyze streaming data.
 
@@ -4469,9 +4469,9 @@ kinesis.putRecord(request);
 
 ---
 
-### ✅ **9. Monitoring & Logging**
+## ✅ **9. Monitoring & Logging**
 
-## **1. What is CloudWatch?**
+### **1. What is CloudWatch?**
 
 **Amazon CloudWatch** is a **monitoring and observability service** used to collect **metrics, logs, and alarms** from AWS resources and applications.
 
@@ -4507,7 +4507,7 @@ aws cloudwatch put-metric-alarm \
 
 ---
 
-## **2. What is CloudTrail?**
+### **2. What is CloudTrail?**
 
 **AWS CloudTrail** is a **governance and auditing service** that records **all API calls and actions** made within an AWS account.
 
