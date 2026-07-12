@@ -448,11 +448,12 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 
 # ✅ 26. Java CI/CD and DevOp
 
-## 1: What is CI/CD (Continuous Integration and Continuous Deployment)?
+## 1: What is CI/CD?
 
-**CI/CD** is a **software development practice** that automates the process of **building, testing, and deploying** applications. It helps teams deliver code changes **quickly, reliably, and with fewer errors**.
+**CI/CD (Continuous Integration and Continuous Deployment)** is a **software development practice** that automates the process of **building, testing, and deploying** applications. It helps teams deliver code changes **quickly, reliably, and with fewer errors**.
 
 * **CI (Continuous Integration):** Developers frequently **merge code changes** into a shared repository, and every commit automatically triggers **builds and tests**.
+
 * **CD (Continuous Deployment/Delivery):** After successful testing, the application is **automatically delivered or deployed** to the target environment.
 
 **Key Features:**
