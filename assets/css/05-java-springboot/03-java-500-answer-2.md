@@ -3519,7 +3519,7 @@ spec:
 
 ## ✅ **1. AWS Core Concepts**
 
-#### **1. What is AWS?**
+### **1. What is AWS?**
 
 **AWS (Amazon Web Services)** is a **cloud computing platform** by Amazon that provides **on-demand IT resources** like servers, storage, databases, and networking over the internet.
 
@@ -3540,7 +3540,7 @@ Hosting a website using **EC2 + S3 + RDS** instead of physical servers.
 
 ---
 
-#### **2. What is cloud computing?**
+### **2. What is cloud computing?**
 
 **Cloud computing** is the delivery of **computing services (servers, storage, databases, networking)** over the internet on a **pay-per-use model**.
 
@@ -3561,7 +3561,7 @@ Using **Google Drive or AWS S3** to store files instead of local storage.
 
 ---
 
-#### **3. What is AMI?**
+### **3. What is AMI?**
 
 An **AMI (Amazon Machine Image)** is a **pre-configured template** used to launch **EC2 instances**.
 
