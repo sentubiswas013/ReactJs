@@ -4003,7 +4003,19 @@ class B extends A {
 ```
 
 
-## 24. Can we change access modifier while overriding?
+## 24. What is access modifier and Can we change it while overriding?
+
+
+**Access Modifiers** control the **visibility** and **accessibility** of **classes, methods, variables, and constructors**.
+
+
+| **Modifier**              | **Same Class** | **Same Package** | **Subclass (Different Package)** | **Different Package** |
+| ------------------------- | -------------- | ---------------- | -------------------------------- | --------------------- |
+| **private**               | ✅              | ❌                | ❌                                | ❌                     |
+| **default (no modifier)** | ✅              | ✅                | ❌                                | ❌                     |
+| **protected**             | ✅              | ✅                | ✅                                | ❌                     |
+| **public**                | ✅              | ✅                | ✅                                | ✅                     |
+
 
 **Yes, but only to increase visibility** (make it more accessible). You cannot reduce the access level.
 
