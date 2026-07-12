@@ -6942,7 +6942,7 @@ Never trust a request just because it passed the API Gateway.
 
 ---
 
-### 7. Cloud, DevOps & Operations
+## ◆ 7. Cloud, DevOps & Operations
 
 ### 1. If Docker works, why use Kubernetes?
 
