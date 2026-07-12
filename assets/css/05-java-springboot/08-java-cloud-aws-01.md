@@ -1018,6 +1018,8 @@ aws cloudtrail create-trail \
   --s3-bucket-name my-cloudtrail-logs
 ```
 
+
+
 # **AWS Scenario-Based Interview Questions (Expanded)**
 
 ---
