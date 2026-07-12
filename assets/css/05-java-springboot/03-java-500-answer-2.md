@@ -3515,8 +3515,13 @@ spec:
 * **Istio = Smart Traffic Controller** 🚦
 
 
+# ✅ 28. Java AWS Cloud
 
-# ✅ 28. Java Testing
+
+# ✅ 29. Java Azure Cloud
+
+
+# ✅ 30. Java Testing
 
 ##  1. What is unit testing in Java?
 Unit testing is a software testing technique where individual components or modules of a software application are tested in isolation
@@ -3716,3 +3721,9 @@ public void theLoginShouldBeSuccessful() {
     assertTrue(loginResult.isSuccess());
 }
 ```
+
+
+# ✅ 31. Java Architecture
+
+
+# ✅ 32. Java Scenario 1
