@@ -4746,3 +4746,18 @@ public void theLoginShouldBeSuccessful() {
 
 
 # ✅ 32. Java Scenario 1
+
+
+# ✅ 33. Java Others
+
+■ **Text here...**
+
+◆ **Text here...**
+
+● **Text here...** 
+
+➤ **Text here...**
+
+★ **Text here...** 
+
+For interview notes, **✔**, **➤**, or **★** **★**
