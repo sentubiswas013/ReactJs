@@ -5802,25 +5802,6 @@ Serverless removes infrastructure management completely and automatically scales
 * Kubernetes → Large Microservices Platform
 * Serverless → Image Processing, Scheduled Jobs, Event Handlers
 
----
-
-## One-Line Architect Summary
-
-| Question                   | Choose When                             |
-| -------------------------- | --------------------------------------- |
-| Java vs Node.js            | Complex enterprise systems              |
-| PostgreSQL vs MySQL        | Advanced SQL and reliability            |
-| MongoDB vs PostgreSQL JSON | Flexible document data                  |
-| NoSQL vs SQL               | Massive horizontal scale                |
-| Memcached vs Redis         | Simple lightweight caching              |
-| GraphQL vs REST            | Client-specific data needs              |
-| gRPC vs REST               | High-performance internal communication |
-| JWT vs OAuth2              | JWT = Token, OAuth2 = Authorization     |
-| On-Premise vs Cloud        | Compliance and full control             |
-| Serverless vs Kubernetes   | No infrastructure management needed     |
-
-**Architect mindset:** There is no "best" technology. Every technology is chosen based on **business requirements, scalability needs, operational complexity, cost, and team expertise.**
-
 
 ## ◆ 2. Architecture & System Design
 
@@ -6041,24 +6022,6 @@ Search      → Elasticsearch
 
 Use the right database for the right problem.
 
----
-
-**Architect-Level Summary** (One-Liners)
-
-| Question                          | Short Answer                                    |
-| --------------------------------- | ----------------------------------------------- |
-| Monolith vs Microservices         | Independent scaling and deployments             |
-| Why start with Monolith           | Simplicity and faster delivery                  |
-| Modular Monolith vs Microservices | Separation without distributed complexity       |
-| REST vs Event-Driven              | Immediate response vs asynchronous processing   |
-| Event-Driven vs Sync              | Real-time response requirements                 |
-| Service Discovery vs API Gateway  | Internal service lookup vs external entry point |
-| Distributed vs Centralized        | Scalability vs consistency                      |
-| One DB vs Polyglot Persistence    | Best database for each workload                 |
-
-**Architecture Golden Rule**
-
-**Don't choose architecture because it is popular. Choose it because it solves a specific business, scalability, reliability, or operational problem.**
 
 
 ## ◆ 3. Messaging & Event Streaming
@@ -6297,18 +6260,6 @@ Fallback
 ```
 
 Used together for resilient microservices.
-
----
-
-**Architect-Level Summary**
-
-| Question                 | Short Answer                                             |
-| ------------------------ | -------------------------------------------------------- |
-| REST vs Kafka            | Request-response vs event streaming                      |
-| Kafka vs REST            | Immediate response vs async processing                   |
-| Kafka vs RabbitMQ        | Event streaming vs message queue                         |
-| Kafka vs Database        | Event history vs current state                           |
-| Retry vs Circuit Breaker | Recover temporary failures vs prevent cascading failures |
 
 
 ## ◆ 4. Database & Data Architecture
@@ -6574,18 +6525,6 @@ ACID works best within one database.
 
 Eventual Consistency works across distributed services.
 
----
-
-**Architect-Level Summary**
-
-| Question                                   | Short Answer                                  |
-| ------------------------------------------ | --------------------------------------------- |
-| Redis vs Database                          | Speed vs persistence                          |
-| Cache vs Query Optimization                | Faster access vs efficient processing         |
-| Read Replica vs Sharding                   | Read scaling vs read/write scaling            |
-| Elasticsearch vs Database                  | Search engine vs source of truth              |
-| Strong Consistency vs Eventual Consistency | Accuracy vs scalability                       |
-| ACID vs Eventual Consistency               | Single DB transactions vs distributed systems |
 
 ## ◆ 5. Scalability & Performance
 
@@ -6777,17 +6716,6 @@ Now fewer resources are needed.
 Auto Scaling treats the symptom.
 
 Code optimization fixes the root cause.
-
----
-
-**Architect-Level Summary**
-
-| Question                          | Short Answer                             |
-| --------------------------------- | ---------------------------------------- |
-| Vertical vs Horizontal Scaling    | Simplicity vs unlimited growth           |
-| Horizontal vs Vertical Scaling    | Scalability vs operational simplicity    |
-| Load Balancer vs CDN              | Traffic distribution vs content delivery |
-| Auto Scaling vs Code Optimization | More servers vs better efficiency        |
 
 
 
@@ -7070,19 +6998,6 @@ CI/CD ensures technical quality.
 
 Release approvals ensure business readiness.
 
----
-
-**Architect-Level Summary**
-
-| Question                        | Short Answer                       |
-| ------------------------------- | ---------------------------------- |
-| JWT vs Session                  | Scalability vs control             |
-| HTTPS vs Encryption at Rest     | Data in transit vs stored data     |
-| API Gateway vs Service Security | First defense vs defense in depth  |
-| Docker vs Kubernetes            | Container runtime vs orchestration |
-| Kubernetes vs VMs               | Scalability vs simplicity          |
-| CI/CD vs Release Approval       | Automation vs governance           |
-
 
 ## ◆ 8. Reliability, Monitoring & Observability
 
@@ -7292,18 +7207,6 @@ Region B ✅
 High Availability prevents outages.
 
 Disaster Recovery recovers from disasters.
-
----
-
-**Architect-Level Summary**
-
-| Question                               | Short Answer                          |
-| -------------------------------------- | ------------------------------------- |
-| Monitoring vs Distributed Tracing      | Detect problem vs locate problem      |
-| Logging vs Observability               | Events vs complete system visibility  |
-| Backup vs Disaster Recovery            | Recover data vs recover entire system |
-| High Availability vs Disaster Recovery | Survive failures vs survive disasters |
-
 
 
 
