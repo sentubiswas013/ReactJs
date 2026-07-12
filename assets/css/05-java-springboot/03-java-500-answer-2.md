@@ -3517,7 +3517,7 @@ spec:
 
 # ✅ 28. Java AWS Cloud
 
-# ✅ **1. AWS Core Concepts**
+### ✅ **1. AWS Core Concepts**
 
 ## **1. What is AWS?**
 
@@ -3630,7 +3630,7 @@ public class HelloLambda implements RequestHandler<String, String> {
 
 ---
 
-# ✅ **2. IAM & Security**
+### ✅ **2. IAM & Security**
 
 ## **1. What is IAM?**
 
@@ -3757,7 +3757,7 @@ System.out.println(creds.getAccessKeyId());
 
 ---
 
-# ✅ **3. Compute Services**
+### ✅ **3. Compute Services**
 
 ## **1. What is EC2 Auto Scaling?**
 
@@ -3884,7 +3884,7 @@ You define container task → Fargate runs it without provisioning EC2 → AWS m
 
 ---
 
-# ✅ **4. Storage Services**
+### ✅ **4. Storage Services**
 
 ## **1. What is Amazon S3?**
 
@@ -4009,7 +4009,7 @@ You define rules → AWS applies them based on object age or conditions.
 
 ---
 
-# ✅ **5. Networking & VPC**
+### ✅ **5. Networking & VPC**
 
 ## **1. What is VPC?**
 
@@ -4156,7 +4156,7 @@ Blocking traffic from a **specific IP range at subnet level**.
 
 ---
 
-# ✅ **6. Load Balancing**
+### ✅ **6. Load Balancing**
 
 ## **1. What is ELB?**
 
@@ -4242,7 +4242,7 @@ Client request → ALB/NLB receives traffic → routes to target group based on 
 
 ---
 
-# ✅ **7. Databases**
+### ✅ **7. Databases**
 
 ## **1. What is Amazon RDS?**
 
@@ -4342,7 +4342,7 @@ Primary DB handles writes → changes are copied to replica → applications sen
 
 ---
 
-# ✅ **8. Messaging & Event-Driven**
+### ✅ **8. Messaging & Event-Driven**
 
 ## **1. What is SQS?**
 
@@ -4469,7 +4469,7 @@ kinesis.putRecord(request);
 
 ---
 
-# ✅ **9. Monitoring & Logging**
+### ✅ **9. Monitoring & Logging**
 
 ## **1. What is CloudWatch?**
 
