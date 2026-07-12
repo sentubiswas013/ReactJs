@@ -7399,7 +7399,7 @@ Disaster Recovery recovers from disasters.
 
 ## ◆ 2. Kafka Debugging
 
-## 8. Messages are being produced but consumers are not receiving them. How do you debug?
+## 1. Messages are being produced but consumers are not receiving them. How do you debug?
 
 **How to Identify:**
 
@@ -7423,7 +7423,7 @@ Disaster Recovery recovers from disasters.
 * Scale consumers or optimize processing to reduce **consumer lag**, then verify that messages are being consumed successfully.
 
 
-## 9. Consumer lag suddenly increases during a sale event. What do you do?
+## 2. Consumer lag suddenly increases during a sale event. What do you do?
 
 **How to Identify:**
 
@@ -7446,7 +7446,7 @@ Disaster Recovery recovers from disasters.
 * Check broker and consumer health, and rebalance partitions if needed.
 * Continuously monitor **consumer lag** and system metrics until it returns to normal.
 
-## 10. Duplicate messages are being processed. How do you prevent this?
+## 3. Duplicate messages are being processed. How do you prevent this?
 
 **How to Identify:**
 
@@ -7468,7 +7468,7 @@ Disaster Recovery recovers from disasters.
 * Commit **offsets** only after successful processing.
 * Use **deduplication mechanisms** or **exactly-once processing** features (if supported by the messaging system).
 
-## 11. One Kafka partition receives significantly more traffic than others. How do you fix this?
+## 4. One Kafka partition receives significantly more traffic than others. How do you fix this?
 
 **How to Identify:**
 
@@ -7495,7 +7495,7 @@ Disaster Recovery recovers from disasters.
 
 ## ◆ 3. Performance Analysis
 
-## 12. API response time increased from 200ms to 5 seconds after deployment. How do you diagnose?
+## 1. API response time increased from 200ms to 5 seconds after deployment. How do you diagnose?
 
 **How to Identify:**
 
@@ -7518,7 +7518,7 @@ Disaster Recovery recovers from disasters.
 * Optimize the new code, fix slow queries, and verify configuration changes.
 * Monitor the application after the fix to ensure the API response time returns to normal.
 
-## 13. CPU usage reaches 95% during peak traffic. How do you investigate and resolve?
+## 2. CPU usage reaches 95% during peak traffic. How do you investigate and resolve?
 
 **How to Identify:**
 
@@ -7541,7 +7541,7 @@ Disaster Recovery recovers from disasters.
 * Scale the application horizontally by adding more instances if needed.
 * Continuously monitor CPU and application metrics to ensure the issue is resolved during peak traffic.
 
-## 14. Application works fine in QA but becomes slow in Production. What differences do you check?
+## 3. Application works fine in QA but becomes slow in Production. What differences do you check?
 
 **How to Identify:**
 
@@ -7564,7 +7564,7 @@ Disaster Recovery recovers from disasters.
 * Increase resources or scale the application to handle production load.
 * Perform **load testing** with production-like data to validate the fix before deployment.
 
-## 15. A Spring Boot endpoint takes 800ms — your target is 100ms. Walk through your optimization process.
+## 4. A Spring Boot endpoint takes 800ms — your target is 100ms. Walk through your optimization process.
 
 **How to Identify:**
 
@@ -7588,7 +7588,7 @@ Disaster Recovery recovers from disasters.
 * Reduce unnecessary processing, use **asynchronous calls** where appropriate, and optimize external API interactions.
 * Re-test with profiling tools and monitor until the endpoint consistently meets the **100ms** target.
 
-## 16. Your application has high CPU usage during seemingly idle periods. Diagnose it.
+## 5. Your application has high CPU usage during seemingly idle periods. Diagnose it.
 
 **How to Identify:**
 
@@ -7611,7 +7611,7 @@ Disaster Recovery recovers from disasters.
 * Tune **JVM/GC settings** and resolve memory leaks.
 * Adjust scheduled task frequency and monitor CPU usage after the changes to confirm the issue is resolved.
 
-## 17. Your REST API endpoint takes 5 seconds to respond. How do you optimize it?
+## 6. Your REST API endpoint takes 5 seconds to respond. How do you optimize it?
 
 **How to Identify:**
 
@@ -7639,7 +7639,7 @@ Disaster Recovery recovers from disasters.
 
 ## ◆ 4. Memory & JVM
 
-## 18. Application memory usage continuously increases and never comes down. How do you debug a memory leak?
+## 1. Application memory usage continuously increases and never comes down. How do you debug a memory leak?
 
 **How to Identify:**
 
@@ -7661,7 +7661,7 @@ Disaster Recovery recovers from disasters.
 * Properly close resources and fix long-lived object retention.
 * Tune **JVM/GC settings** if needed and monitor memory usage after the fix to ensure it remains stable.
 
-## 19. Your Java service OOMs after 3 days. GC logs show full GC every 5 minutes reclaiming less each time. What's wrong?
+## 2. Your Java service OOMs after 3 days. GC logs show full GC every 5 minutes reclaiming less each time. What's wrong?
 
 **How to Identify:**
 
@@ -7685,7 +7685,7 @@ Disaster Recovery recovers from disasters.
 
 
 
-## 20. Your application has 2-second GC pauses affecting user experience. How do you reduce them?
+## 3. Your application has 2-second GC pauses affecting user experience. How do you reduce them?
 
 **How to Identify:**
 
@@ -7707,7 +7707,7 @@ Disaster Recovery recovers from disasters.
 * Fix memory leaks and clear unused caches or collections.
 * Continuously monitor **GC pause times** and heap metrics to ensure the pauses are reduced and user experience improves.
 
-## 21. You're using ThreadLocal in a web application and seeing memory leaks after deployments. Why?
+## 4. You're using ThreadLocal in a web application and seeing memory leaks after deployments. Why?
 
 **How to Identify:**
 
@@ -7729,7 +7729,7 @@ Disaster Recovery recovers from disasters.
 * Verify the fix by checking **heap dumps** and ensuring memory is released correctly after deployments.
 
 
-## 22. You find thousands of threads running in production. How do you investigate?
+## 5. You find thousands of threads running in production. How do you investigate?
 
 **How to Identify:**
 
@@ -7752,7 +7752,7 @@ Disaster Recovery recovers from disasters.
 * Resolve deadlocks or blocking operations, and continuously monitor thread count after the fix.
 
 
-## 23. Your Java application is running slowly and consuming increasing memory over time. How do you diagnose and fix it?
+## 6. Your Java application is running slowly and consuming increasing memory over time. How do you diagnose and fix it?
 
 **How to Identify:**
 
@@ -7775,7 +7775,7 @@ Disaster Recovery recovers from disasters.
 * Continuously monitor **memory usage**, **GC behavior**, and application performance to confirm the issue is resolved.
 
 
-## 24. Your Java application is running out of memory gradually over days. You find heap dumps showing many HashMap instances. What could be the cause and how do you fix it?
+## 7. Your Java application is running out of memory gradually over days. You find heap dumps showing many HashMap instances. What could be the cause and how do you fix it?
 
 **How to Identify:**
 
@@ -7801,7 +7801,7 @@ Disaster Recovery recovers from disasters.
 
 ## ◆ 5. Concurrency & Multithreading
 
-## 25. Your application suddenly stops responding. You suspect a deadlock. How do you detect and fix it?
+## 1. Your application suddenly stops responding. You suspect a deadlock. How do you detect and fix it?
 
 **How to Identify**
 
@@ -7826,7 +7826,7 @@ Disaster Recovery recovers from disasters.
 * Prefer concurrent collections like **ConcurrentHashMap** where possible.
 
 
-## 26. You're using HashMap in a multithreaded application and experiencing data corruption. What's wrong?
+## 2. You're using HashMap in a multithreaded application and experiencing data corruption. What's wrong?
 
 **How to Identify**
 
@@ -7850,7 +7850,7 @@ Disaster Recovery recovers from disasters.
 * Use thread-safe collections from `java.util.concurrent` for concurrent access.
 
 
-## 27. You get `ConcurrentModificationException` while iterating and removing from an ArrayList. How do you fix it?
+## 3. You get `ConcurrentModificationException` while iterating and removing from an ArrayList. How do you fix it?
 
 **How to Identify**
 
@@ -7887,7 +7887,7 @@ list.removeIf(item -> item.equals("test"));
 ```
 
 
-## 28. You're using `stream().parallel()` but it's slower than sequential. Why?
+## 4. You're using `stream().parallel()` but it's slower than sequential. Why?
 
 **How to Identify**
 
@@ -7912,7 +7912,7 @@ list.removeIf(item -> item.equals("test"));
 * For small datasets, prefer a **sequential stream**.
 
 
-## 29. You need to implement a producer-consumer pattern for processing 1 million records efficiently.
+## 5. You need to implement a producer-consumer pattern for processing 1 million records efficiently.
 
 **How to Identify:**
 
@@ -7954,7 +7954,7 @@ for (int i = 0; i < 5; i++) {
 ```
 
 
-## 30. `CompletableFuture.supplyAsync()` for parallel processing performs worse than sequential. What's wrong?
+## 6. `CompletableFuture.supplyAsync()` for parallel processing performs worse than sequential. What's wrong?
 
 **How to Identify:**
 
@@ -7980,7 +7980,7 @@ for (int i = 0; i < 5; i++) {
 
 ## ◆ 6. Spring Boot & Transactions
 
-## 31. You added `@Transactional` to a method but transactions are not being created. What could be the reason?
+## 1. You added `@Transactional` to a method but transactions are not being created. What could be the reason?
 
 **How to Identify**
 
@@ -8007,7 +8007,7 @@ for (int i = 0; i < 5; i++) {
 **Key Point:** `@Transactional` works through **Spring AOP Proxies**. If the call bypasses the proxy, the transaction will not be created.
 
 
-## 32. A `@Transactional` method catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?
+## 2. A `@Transactional` method catches Exception and doesn't rethrow. Transaction doesn't rollback. Why?
 
 **How to Identify**
 
@@ -8050,7 +8050,7 @@ public void process() throws Exception {
 **Key Point:** If an exception is **caught and not rethrown**, Spring sees the transaction as **successful** and performs a **commit instead of a rollback**.
 
 
-## 33. Service A depends on Service B, and Service B depends on Service A. How do you resolve the circular dependency?
+## 3. Service A depends on Service B, and Service B depends on Service A. How do you resolve the circular dependency?
 
 **How to Identify**
 
@@ -8085,7 +8085,7 @@ public class ServiceA {
 **Key Point:** The best solution is usually **refactoring the design** to remove the circular dependency. **@Lazy** can help, but it should not replace a proper architectural fix.
 
 
-## 34. You notice 1000 database queries when loading 100 entities. How do you fix this?
+## 4. You notice 1000 database queries when loading 100 entities. How do you fix this?
 
 **How to Identify**
 
@@ -8118,7 +8118,7 @@ List<Order> findAllWithCustomer();
 **Key Point:** This is usually the **N+1 Query Problem**. Instead of executing **1 + 1000 queries**, use **JOIN FETCH**, **EntityGraph**, or **DTO Projections** to reduce it to **a single optimized query**.
 
 
-## 35. You're using constructor injection and get `BeanCurrentlyInCreationException`. How do you fix it?
+## 5. You're using constructor injection and get `BeanCurrentlyInCreationException`. How do you fix it?
 
 **How to Identify**
 
@@ -8157,7 +8157,7 @@ public class ServiceA {
 
 ## ◆ 7. Database & Connection Pool
 
-## 36. Application throws "Cannot get JDBC connection" errors intermittently. What do you check?
+## 1. Application throws "Cannot get JDBC connection" errors intermittently. What do you check?
 
 **What is the issue?**
 
@@ -8205,7 +8205,7 @@ try (Connection conn = dataSource.getConnection();
 Using **try-with-resources** ensures connections are automatically closed and returned to the pool.
 
 
-## 37. Connection pool becomes exhausted during peak traffic. How do you diagnose and fix?
+## 2. Connection pool becomes exhausted during peak traffic. How do you diagnose and fix?
 
 **Common Symptoms**
 
@@ -8250,7 +8250,7 @@ spring.datasource.hikari.leak-detection-threshold=5000
 
 
 
-## 38. After deployment, database connections continuously increase and never decrease. What's wrong?
+## 3. After deployment, database connections continuously increase and never decrease. What's wrong?
 
 This usually indicates a **database connection leak**, where connections are **opened but not properly closed**, so they are never returned to the **connection pool**.
 
@@ -8278,7 +8278,7 @@ This usually indicates a **database connection leak**, where connections are **o
 * Optimize **slow queries** to release connections faster.
 
 
-## 39. You have a table with 1 billion records and queries take 10+ seconds. How do you optimize?
+## 4. You have a table with 1 billion records and queries take 10+ seconds. How do you optimize?
 
 **How to Identify**
 
@@ -8316,7 +8316,7 @@ This usually indicates a **database connection leak**, where connections are **o
 * **Database Tuning**
 
 
-## 40. You need to add a new column to a table with 1 billion records without downtime. How?
+## 5. You need to add a new column to a table with 1 billion records without downtime. How?
 
 **How to Identify**
 
@@ -8351,7 +8351,7 @@ This usually indicates a **database connection leak**, where connections are **o
 
 ## ◆ 8. Microservices Patterns
 
-## 41. Service A calls Service B, but Service B is down. How do you handle this gracefully?
+## 1. Service A calls Service B, but Service B is down. How do you handle this gracefully?
 
 **How to Identify**
 
@@ -8394,7 +8394,7 @@ If **Order Service** calls **Payment Service** and Payment Service is down:
 * **Queue-Based Processing**
 
 
-## 42. How do you design a circuit breaker for inter-service communication with fallback behavior?
+## 2. How do you design a circuit breaker for inter-service communication with fallback behavior?
 
 A **Circuit Breaker** is a design pattern that **stops calling a failing service** after a certain number of failures and returns a **fallback response** instead. This prevents **cascading failures** and improves system stability.
 
@@ -8445,7 +8445,7 @@ public String fallback(Exception ex) {
 ```
 
 
-## 43. How do you implement the Saga pattern for a distributed order transaction?
+## 3. How do you implement the Saga pattern for a distributed order transaction?
 
 The **Saga Pattern** is used to manage **distributed transactions** across multiple microservices without using a global database transaction. It breaks a transaction into **small local transactions**, and if one step fails, **compensating transactions** are executed to undo the previous successful steps.
 
@@ -8484,7 +8484,7 @@ Create Order → Reserve Inventory → Process Payment → Ship Order
       Cancel Order ← Release Stock ← Refund Payment (if failure)
 ```
 
-## 44. You need to transfer money between two microservices. How do you ensure data consistency?
+## 4. You need to transfer money between two microservices. How do you ensure data consistency?
 
 For **money transfer** between two microservices, I would use the **Saga Pattern** with **local transactions** and **compensating actions** instead of a distributed database transaction. This ensures **data consistency** and avoids partial updates.
 
@@ -8525,7 +8525,7 @@ Debit Account → Publish Event → Credit Account
 ```
 
 
-## 45. How do you implement distributed tracing across 8 microservices, including async Kafka boundaries?
+## 5. How do you implement distributed tracing across 8 microservices, including async Kafka boundaries?
 
 I would use **Distributed Tracing** with a **Trace ID** and **Span ID** that are propagated across all microservices and **Kafka messages**. Tools like **OpenTelemetry**, **Jaeger**, or **Zipkin** help collect and visualize the complete request flow.
 
@@ -8567,7 +8567,7 @@ Client → Service A → Service B → Kafka → Service C → Service D
 
 ## ◆ 9. API Gateway & Service Discovery
 
-## 46. All backend services are healthy, but users receive 502/504 errors. How do you investigate?
+## 1. All backend services are healthy, but users receive 502/504 errors. How do you investigate?
 
 If all backend services are healthy but users see **502/504 errors**, I would first check the **API Gateway**, **Load Balancer**, and **network communication** between services because these errors usually indicate a **gateway or timeout issue**.
 
@@ -8595,7 +8595,7 @@ If all backend services are healthy but users see **502/504 errors**, I would fi
 * Review recent deployments or configuration changes and perform a rollback if needed.
 
 
-## 47. Authentication works directly against the service but fails through the Gateway. Why?
+## 2. Authentication works directly against the service but fails through the Gateway. Why?
 
 If authentication works when calling the service directly but fails through the **API Gateway**, the issue is usually related to **token forwarding**, **gateway security configuration**, or **header propagation**.
 
@@ -8623,7 +8623,7 @@ If authentication works when calling the service directly but fails through the 
 * Test the same request both directly and through the Gateway to identify where it fails.
 
 
-## 48. A service registers successfully in Eureka but cannot be discovered by other services.
+## 3. A service registers successfully in Eureka but cannot be discovered by other services.
 
 If a service is registered in **Eureka** but other services cannot discover it, the problem is usually related to **service registration**, **service discovery configuration**, or **network connectivity**.
 
@@ -8651,7 +8651,7 @@ If a service is registered in **Eureka** but other services cannot discover it, 
 * Review **Eureka server** and **client logs** for registration and discovery errors.
 
 
-## 49. Inter-service communication works locally but fails in Kubernetes. What could be wrong?
+## 4. Inter-service communication works locally but fails in Kubernetes. What could be wrong?
 
 If inter-service communication works locally but fails in **Kubernetes**, the issue is usually related to **service discovery**, **DNS**, **network policies**, or **service configuration**.
 
@@ -8683,7 +8683,7 @@ If inter-service communication works locally but fails in **Kubernetes**, the is
 
 ## ◆ 10. Architecture & System Design
 
-## 50. How would you handle a sudden spike from 10K to 1M RPS? (Black Friday scenario)
+## 1. How would you handle a sudden spike from 10K to 1M RPS? (Black Friday scenario)
 
 **How to Identify**
 
@@ -8710,7 +8710,7 @@ If inter-service communication works locally but fails in **Kubernetes**, the is
 * Apply **Circuit Breakers** and **Graceful Degradation** for dependent services.
 
 
-## 51. Design a rate-limiting system for an API gateway serving 50,000 RPS.
+## 2. Design a rate-limiting system for an API gateway serving 50,000 RPS.
 
 **How to Identify**
 
@@ -8744,7 +8744,7 @@ If inter-service communication works locally but fails in **Kubernetes**, the is
 * Remaining **20** requests receive **HTTP 429**
 
 
-## 52. How would you migrate a monolith to microservices without downtime?
+## 3. How would you migrate a monolith to microservices without downtime?
 
 **How to Identify**
 
@@ -8778,7 +8778,7 @@ If inter-service communication works locally but fails in **Kubernetes**, the is
 5. Remove the corresponding functionality from the monolith.
 
 
-## 53. Design an event-driven notification system for 10 million users with delivery guarantees.
+## 4. Design an event-driven notification system for 10 million users with delivery guarantees.
 
 For a notification system serving **10 million users**, I would use an **event-driven architecture** with a **message broker** like **Kafka** to handle high throughput and reliable delivery.
 
@@ -8819,7 +8819,7 @@ Application → Kafka Topic → Notification Service → Email/SMS/Push Provider
 ```
 
 
-## 54. How do you design an idempotent REST API for payment processing?
+## 5. How do you design an idempotent REST API for payment processing?
 
 An **idempotent REST API** ensures that **multiple identical requests produce the same result** and prevent **duplicate payments**, even if the client retries due to network failures or timeouts.
 
@@ -8864,7 +8864,7 @@ processPayment();
 saveKeyAndResponse();
 ```
 
-## 55. Design a CQRS + Event Sourcing system for an auditable financial ledger.
+## 6. Design a CQRS + Event Sourcing system for an auditable financial ledger.
 
 For an **auditable financial ledger**, I would use **CQRS (Command Query Responsibility Segregation)** with **Event Sourcing**. Instead of storing only the latest balance, every change is stored as an **immutable event**, providing a complete audit trail.
 
@@ -8909,7 +8909,7 @@ Command → Event Store → Kafka → Read Model Database
 
 ## ◆ 11. DevOps & Production
 
-## 56. You deployed a new version but it's causing errors in production. What do you do first?
+## 1. You deployed a new version but it's causing errors in production. What do you do first?
 
 If a new deployment is causing production errors, the **first step** is to **reduce customer impact** by **rolling back** or **switching traffic to the last stable version**, while investigating the root cause.
 
@@ -8936,7 +8936,7 @@ If a new deployment is causing production errors, the **first step** is to **red
 * Fix the issue, test it in a lower environment, and redeploy safely.
 
 
-## 57. Your Kubernetes pods are crashing repeatedly. How do you debug?
+## 2. Your Kubernetes pods are crashing repeatedly. How do you debug?
 
 If **Kubernetes pods** are crashing repeatedly, I would first check the **pod status and logs** to identify the root cause, then verify resource usage and configuration.
 
@@ -8965,7 +8965,7 @@ If **Kubernetes pods** are crashing repeatedly, I would first check the **pod st
 
 
 
-## 58. How do you implement blue-green and canary deployments in a Java microservice fleet?
+## 3. How do you implement blue-green and canary deployments in a Java microservice fleet?
 
 **How to Identify**
 
@@ -9012,7 +9012,7 @@ If **Kubernetes pods** are crashing repeatedly, I would first check the **pod st
 * **Monitoring & Alerting** (Prometheus, Grafana)
 
 
-## 59. Production application suddenly becomes unavailable at midnight every day. How do you diagnose?
+## 4. Production application suddenly becomes unavailable at midnight every day. How do you diagnose?
 
 If an application fails **at the same time every day**, it is usually caused by a **scheduled activity** rather than a random issue.
 
@@ -9043,7 +9043,7 @@ If an application fails **at the same time every day**, it is usually caused by 
 * Perform a **root cause analysis (RCA)** and implement preventive fixes.
 
 
-## 60. Your integration tests are failing intermittently in CI/CD. How do you fix flaky tests?
+## 5. Your integration tests are failing intermittently in CI/CD. How do you fix flaky tests?
 
 **Flaky tests** are tests that **sometimes pass and sometimes fail** without any code changes. The goal is to find and remove the **non-deterministic behavior**.
 
@@ -9077,7 +9077,7 @@ If an application fails **at the same time every day**, it is usually caused by 
 
 ## ◆ 12. Core Java & Design Patterns
 
-## 61. Why does `Integer a = 127 == Integer b = 127` print `true`, but `128` print `false`?
+## 1. Why does `Integer a = 127 == Integer b = 127` print `true`, but `128` print `false`?
 
 
 `Integer` uses **Integer Caching** for values between **-128 and 127**.
@@ -9113,7 +9113,7 @@ System.out.println(a.equals(b)); // true
 ```
 
 
-## 62. You implemented a singleton but multiple instances are created in multithreaded tests. What's wrong?
+## 2. You implemented a singleton but multiple instances are created in multithreaded tests. What's wrong?
 
 If multiple instances are created in a **multithreaded environment**, the singleton implementation is likely **not thread-safe**. Multiple threads may enter the instance creation code at the same time.
 
@@ -9160,7 +9160,7 @@ public class Singleton {
 }
 ```
 
-## 63. You're using a custom object as HashMap key and after modifying a field, you can't retrieve the value. Why?
+## 3. You're using a custom object as HashMap key and after modifying a field, you can't retrieve the value. Why?
 
 A **`HashMap` key should be immutable**. If you modify a field that is used in **`equals()`** or **`hashCode()`** after inserting the key, the hash value changes and the object is placed in the wrong bucket, making retrieval fail.
 
@@ -9202,7 +9202,7 @@ map.put(emp, "Developer");
 ```
 
 
-## 64. You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?
+## 4. You're using Java 8 Streams and get a `NullPointerException`. How do you prevent it?
 
 A `**NullPointerException**` in Java 8 Streams usually happens when the **source collection**, an **element**, or an operation inside the stream is `null`.
 
@@ -9238,7 +9238,7 @@ List<String> names = Optional.ofNullable(list)
 ```
 
 
-## 65. You're using `Optional` but getting `NullPointerException`. What are common mistakes?
+## 5. You're using `Optional` but getting `NullPointerException`. What are common mistakes?
 
 **How to Identify**
 
@@ -9271,7 +9271,7 @@ Optional<String> name = Optional.ofNullable(null);
 String result = name.orElse("Default");
 ```
 
-## 66. After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?
+## 6. After deploying a new version, you get `ClassNotFoundException` for a library that was working before. What's wrong?
 
 **How to Identify**
 
@@ -9298,7 +9298,7 @@ String result = name.orElse("Default");
 * Check application server **classpath conflicts** and remove old libs.
 
 
-## 67. How would you implement reactive programming in a Spring WebFlux service?
+## 7. How would you implement reactive programming in a Spring WebFlux service?
 
 **How to Identify**
 
@@ -9337,7 +9337,7 @@ public Flux<User> getAllUsers() {
 }
 ```
 
-## 68. How do you use Java 21 virtual threads to prevent thread starvation in mixed I/O and CPU workloads?
+## 8. How do you use Java 21 virtual threads to prevent thread starvation in mixed I/O and CPU workloads?
 
 **How to Identify**
 
@@ -9376,7 +9376,7 @@ try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 }
 ```
 
-## 69. Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?
+## 9. Why does `Integer a = 127; Integer b = 127; System.out.println(a == b);` print `true`, but `Integer c = 128; Integer d = 128; System.out.println(c == d);` print `false`?
 
 
 **How to Identify**
