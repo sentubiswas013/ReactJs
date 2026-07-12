@@ -4746,7 +4746,7 @@ public void theLoginShouldBeSuccessful() {
 
 
 
-## 1. What happens when a user enters a URL in the browser?
+### 1. What happens when a user enters a URL in the browser?
 
 When you type a URL in the browser and press Enter, many things happen behind the scenes before the webpage appears.
 
@@ -4887,7 +4887,7 @@ User types: https://www.example.com/products?id=42
 ```
 
 
-## 2. System Design Diagram of your application?
+### 2. System Design Diagram of your application?
 
 Here’s a clean and interview-friendly **Generic System Design Diagram** you can use for most HLD interviews like WhatsApp, Netflix, Uber, Food Delivery, E-commerce, etc.
 
@@ -4966,7 +4966,7 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
 
 
 
-## 3. How to Start System Design From Scratch in High-Level?
+### 3. How to Start System Design From Scratch in High-Level?
 
 When I design a system, I follow a simple step-by-step approach:
 
@@ -5024,7 +5024,7 @@ Low-Level Design
 ```
 
 
-## 4. How to Start System Design From Scratch in details?
+### 4. How to Start System Design From Scratch in details?
 
 **Diagram 1**
 ```text
@@ -5567,7 +5567,7 @@ Start with:
 Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
 ```
 
-## 5. Describe the Architecture of Your Recent Project
+### 5. Describe the Architecture of Your Recent Project
 
 In my recent project, we followed a **Microservices Architecture**.
 
@@ -5600,7 +5600,7 @@ Kafka (Event Communication)
 Redis Cache
 ```
 
-## 6. Core Code Principles in Java
+### 6. Core Code Principles in Java
 
 
 **Definition**
@@ -5664,7 +5664,7 @@ Node.js is excellent for lightweight APIs and real-time applications, but Java i
 
 ---
 
-## 2. If MySQL and PostgreSQL both store data, why choose PostgreSQL?
+### 2. If MySQL and PostgreSQL both store data, why choose PostgreSQL?
 
 **Interview Answer:**
 
@@ -5676,7 +5676,7 @@ MySQL is simpler and faster for basic CRUD applications, but PostgreSQL is more 
 
 ---
 
-## 3. If PostgreSQL supports JSON, why use MongoDB?
+### 3. If PostgreSQL supports JSON, why use MongoDB?
 
 **Interview Answer:**
 
@@ -5691,7 +5691,7 @@ MongoDB is designed for document-based storage where the schema changes frequent
 
 ---
 
-## 4. If SQL databases scale well, why use NoSQL?
+### 4. If SQL databases scale well, why use NoSQL?
 
 **Interview Answer:**
 
@@ -5706,7 +5706,7 @@ NoSQL databases are chosen when we need massive horizontal scaling, flexible sch
 
 ---
 
-## 5. If Redis exists, why use Memcached?
+### 5. If Redis exists, why use Memcached?
 
 **Interview Answer:**
 
@@ -5721,7 +5721,7 @@ Memcached is simpler and consumes less memory for pure key-value caching. If I o
 
 ---
 
-## 6. If GraphQL exists, why still use REST?
+### 6. If GraphQL exists, why still use REST?
 
 **Interview Answer:**
 
@@ -5736,7 +5736,7 @@ REST is simpler, easier to cache, easier to secure, and widely adopted. For stra
 
 ---
 
-## 7. If REST works, why use gRPC?
+### 7. If REST works, why use gRPC?
 
 **Interview Answer:**
 
@@ -5751,7 +5751,7 @@ gRPC uses Protocol Buffers and HTTP/2, making it much faster and more efficient 
 
 ---
 
-## 8. If OAuth2 exists, why use JWT?
+### 8. If OAuth2 exists, why use JWT?
 
 **Interview Answer:**
 
@@ -5768,7 +5768,7 @@ JWT is a token format often used within OAuth2. They solve different problems an
 
 ---
 
-## 9. If Cloud is available, why use On-Premise?
+### 9. If Cloud is available, why use On-Premise?
 
 **Interview Answer:**
 
@@ -5783,7 +5783,7 @@ On-Premise is chosen when organizations require strict security, regulatory comp
 
 ---
 
-## 10. If Kubernetes exists, why use Serverless?
+### 10. If Kubernetes exists, why use Serverless?
 
 **Interview Answer:**
 
@@ -5798,7 +5798,7 @@ Serverless removes infrastructure management completely and automatically scales
 
 ---
 
-## One-Line Architect Summary
+### One-Line Architect Summary
 
 | Question                   | Choose When                             |
 | -------------------------- | --------------------------------------- |
@@ -5816,9 +5816,9 @@ Serverless removes infrastructure management completely and automatically scales
 **Architect mindset:** There is no "best" technology. Every technology is chosen based on **business requirements, scalability needs, operational complexity, cost, and team expertise.**
 
 
-# 2. Architecture & System Design
+## ◆ 2. Architecture & System Design
 
-## 11. If Monolith can handle the business, why choose Microservices?
+### 11. If Monolith can handle the business, why choose Microservices?
 
 **Interview Answer:**
 
@@ -5833,7 +5833,7 @@ A Monolith is simpler and works well initially, but as the system grows, deploym
 
 ---
 
-## 12. If Microservices are modern, why start with a Monolith?
+### 12. If Microservices are modern, why start with a Monolith?
 
 **Interview Answer:**
 
@@ -5854,7 +5854,7 @@ Start simple, evolve when required.
 
 ---
 
-## 13. If Microservices work well, why consider a Modular Monolith?
+### 13. If Microservices work well, why consider a Modular Monolith?
 
 **Interview Answer:**
 
@@ -5877,7 +5877,7 @@ Modular Monolith is often the best middle ground between Monolith and Microservi
 
 ---
 
-## 14. If REST APIs work fine, why choose Event-Driven Architecture?
+### 14. If REST APIs work fine, why choose Event-Driven Architecture?
 
 **Interview Answer:**
 
@@ -5915,7 +5915,7 @@ Notification Service consumes
 
 ---
 
-## 15. If Event-Driven Architecture exists, why use Synchronous Communication?
+### 15. If Event-Driven Architecture exists, why use Synchronous Communication?
 
 **Interview Answer:**
 
@@ -5946,7 +5946,7 @@ Success or Failure
 
 ---
 
-## 16. If Service Discovery exists, why use an API Gateway?
+### 16. If Service Discovery exists, why use an API Gateway?
 
 **Interview Answer:**
 
@@ -5983,7 +5983,7 @@ Service Discovery is for internal communication, API Gateway is for external acc
 
 ---
 
-## 17. If Distributed Systems scale better, why keep some systems centralized?
+### 17. If Distributed Systems scale better, why keep some systems centralized?
 
 **Interview Answer:**
 
@@ -6004,7 +6004,7 @@ Distribute what needs scale; centralize what needs consistency.
 
 ---
 
-## 18. If One Database can store everything, why use Polyglot Persistence?
+### 18. If One Database can store everything, why use Polyglot Persistence?
 
 **Interview Answer:**
 
@@ -6054,9 +6054,9 @@ Use the right database for the right problem.
 
 **Don't choose architecture because it is popular. Choose it because it solves a specific business, scalability, reliability, or operational problem.**
 
-# 3. Messaging & Event Streaming
+## ◆ 3. Messaging & Event Streaming
 
-## 19. If REST APIs are enough, why introduce Kafka?
+### 19. If REST APIs are enough, why introduce Kafka?
 
 **Interview Answer:**
 
@@ -6097,7 +6097,7 @@ REST for request-response. Kafka for event-driven communication.
 
 ---
 
-## 20. If Kafka handles events, why use REST at all?
+### 20. If Kafka handles events, why use REST at all?
 
 **Interview Answer:**
 
@@ -6142,7 +6142,7 @@ Both usually work together.
 
 ---
 
-## 21. If Kafka exists, why use RabbitMQ?
+### 21. If Kafka exists, why use RabbitMQ?
 
 **Interview Answer:**
 
@@ -6192,7 +6192,7 @@ RabbitMQ = Message Queue.
 
 ---
 
-## 22. If Kafka stores messages, why use a Database?
+### 22. If Kafka stores messages, why use a Database?
 
 **Interview Answer:**
 
@@ -6234,7 +6234,7 @@ Database tells us what the current state is.
 
 ---
 
-## 23. If Retries exist, why use Circuit Breakers?
+### 23. If Retries exist, why use Circuit Breakers?
 
 **Interview Answer:**
 
@@ -6303,9 +6303,9 @@ Used together for resilient microservices.
 | Kafka vs Database        | Event history vs current state                           |
 | Retry vs Circuit Breaker | Recover temporary failures vs prevent cascading failures |
 
-# 4. Database & Data Architecture
+## ◆ 4. Database & Data Architecture
 
-## 24. If Database queries work fine, why introduce Redis Cache?
+### 24. If Database queries work fine, why introduce Redis Cache?
 
 **Interview Answer:**
 
@@ -6354,7 +6354,7 @@ Database is for persistence. Redis is for speed.
 
 ---
 
-## 25. If Caching exists, why optimize Database Queries?
+### 25. If Caching exists, why optimize Database Queries?
 
 **Interview Answer:**
 
@@ -6391,7 +6391,7 @@ Cache improves performance; query optimization improves efficiency.
 
 ---
 
-## 26. If Read Replicas exist, why use Sharding?
+### 26. If Read Replicas exist, why use Sharding?
 
 **Interview Answer:**
 
@@ -6436,7 +6436,7 @@ Sharding solves read and write scaling.
 
 ---
 
-## 27. If Elasticsearch stores data, why not use it as the Primary Database?
+### 27. If Elasticsearch stores data, why not use it as the Primary Database?
 
 **Interview Answer:**
 
@@ -6477,7 +6477,7 @@ Elasticsearch is a search engine, not a transactional database.
 
 ---
 
-## 28. If Strong Consistency is better, why use Eventual Consistency?
+### 28. If Strong Consistency is better, why use Eventual Consistency?
 
 **Interview Answer:**
 
@@ -6518,7 +6518,7 @@ for a few seconds is acceptable.
 
 ---
 
-## 29. If ACID Transactions exist, why use Eventual Consistency?
+### 29. If ACID Transactions exist, why use Eventual Consistency?
 
 **Interview Answer:**
 
@@ -6579,9 +6579,9 @@ Eventual Consistency works across distributed services.
 | Strong Consistency vs Eventual Consistency | Accuracy vs scalability                       |
 | ACID vs Eventual Consistency               | Single DB transactions vs distributed systems |
 
-# 5. Scalability & Performance
+## ◆ 5. Scalability & Performance
 
-## 30. If Vertical Scaling is possible, why use Horizontal Scaling?
+### 30. If Vertical Scaling is possible, why use Horizontal Scaling?
 
 **Interview Answer:**
 
@@ -6626,7 +6626,7 @@ Vertical scaling has limits. Horizontal scaling can grow almost indefinitely.
 
 ---
 
-## 31. If Horizontal Scaling is better, why ever scale Vertically?
+### 31. If Horizontal Scaling is better, why ever scale Vertically?
 
 **Interview Answer:**
 
@@ -6664,7 +6664,7 @@ Scale vertically first if it solves the problem quickly. Scale horizontally when
 
 ---
 
-## 32. If Load Balancers exist, why use a CDN?
+### 32. If Load Balancers exist, why use a CDN?
 
 **Interview Answer:**
 
@@ -6718,7 +6718,7 @@ CDN accelerates content delivery.
 
 ---
 
-## 33. If Auto Scaling exists, why optimize code?
+### 33. If Auto Scaling exists, why optimize code?
 
 **Interview Answer:**
 
@@ -6783,9 +6783,9 @@ Code optimization fixes the root cause.
 
 
 
-## 6. Security Architecture
+## ◆ 6. Security Architecture
 
-## 34. If JWT exists, why use Sessions?
+### 34. If JWT exists, why use Sessions?
 
 **Interview Answer:**
 
@@ -6834,7 +6834,7 @@ Sessions improve control and simplicity.
 
 ---
 
-## 35. If HTTPS is enabled, why encrypt data at rest?
+### 35. If HTTPS is enabled, why encrypt data at rest?
 
 **Interview Answer:**
 
@@ -6883,7 +6883,7 @@ Encryption protects data at rest.
 
 ---
 
-## 36. If an API Gateway provides security, why secure services individually?
+### 36. If an API Gateway provides security, why secure services individually?
 
 **Interview Answer:**
 
@@ -6940,9 +6940,9 @@ Never trust a request just because it passed the API Gateway.
 
 ---
 
-## 7. Cloud, DevOps & Operations
+### 7. Cloud, DevOps & Operations
 
-## 37. If Docker works, why use Kubernetes?
+### 37. If Docker works, why use Kubernetes?
 
 **Interview Answer:**
 
@@ -6987,7 +6987,7 @@ Kubernetes orchestrates containers.
 
 ---
 
-## 38. If Kubernetes exists, why deploy directly on VMs?
+### 38. If Kubernetes exists, why deploy directly on VMs?
 
 **Interview Answer:**
 
@@ -7023,7 +7023,7 @@ Use Kubernetes when orchestration benefits outweigh complexity.
 
 ---
 
-## 39. If CI/CD exists, why have Release Approvals?
+### 39. If CI/CD exists, why have Release Approvals?
 
 **Interview Answer:**
 
@@ -7077,9 +7077,9 @@ Release approvals ensure business readiness.
 
 ==============================
 
-## 8. Reliability, Monitoring & Observability
+### 8. Reliability, Monitoring & Observability
 
-## 40. If Monitoring exists, why need Distributed Tracing?
+### 40. If Monitoring exists, why need Distributed Tracing?
 
 **Interview Answer:**
 
@@ -7131,7 +7131,7 @@ Distributed Tracing tells you where the problem is.
 
 ---
 
-## 41. If Logging exists, why use Observability Platforms?
+### 41. If Logging exists, why use Observability Platforms?
 
 **Interview Answer:**
 
@@ -7184,7 +7184,7 @@ Observability explains overall system behavior.
 
 ---
 
-## 42. If Backups exist, why need Disaster Recovery?
+### 42. If Backups exist, why need Disaster Recovery?
 
 **Interview Answer:**
 
@@ -7236,7 +7236,7 @@ Disaster Recovery protects business continuity.
 
 ---
 
-## 43. If High Availability exists, why need Disaster Recovery?
+### 43. If High Availability exists, why need Disaster Recovery?
 
 **Interview Answer:**
 
@@ -7302,7 +7302,7 @@ Disaster Recovery recovers from disasters.
 
 # ✅ 3. Java System Design features
 
-## 1. Load Balancing
+### 1. Load Balancing
 
 **What it is:**
 Load Balancing distributes incoming network traffic across multiple servers to ensure no single server is overwhelmed, improving availability and reliability.
@@ -7341,7 +7341,7 @@ Client → ALB → [Service Instance 1]
 
 ---
 
-## 2. Caching
+### 2. Caching
 
 **What it is:**
 Caching stores frequently accessed data in fast storage (memory) to reduce latency and database load.
@@ -7389,7 +7389,7 @@ public void updateProduct(Long id, Product product) {
 
 ---
 
-## 3. Content Delivery Network (CDN)
+### 3. Content Delivery Network (CDN)
 
 **What it is:**
 A CDN is a geographically distributed network of servers (edge nodes / PoPs) that cache and serve content to users from the nearest location, reducing latency.
@@ -7436,7 +7436,7 @@ ETag / Last-Modified                       → conditional requests
 
 ---
 
-## 4. Message Queue
+### 4. Message Queue
 
 **What it is:**
 A Message Queue is an asynchronous communication mechanism where producers send messages to a queue and consumers process them independently, decoupling services.
@@ -7488,7 +7488,7 @@ public void processOrder(OrderEvent event) {
 
 ---
 
-## 5. Publish-Subscribe (Pub/Sub)
+### 5. Publish-Subscribe (Pub/Sub)
 
 **What it is:**
 Pub/Sub is a messaging pattern where publishers send messages to a topic (not directly to consumers), and all subscribers to that topic receive the message — one-to-many communication.
@@ -7544,7 +7544,7 @@ public void handleOrder(OrderEvent event) {
 
 ---
 
-## 6. API Gateway
+### 6. API Gateway
 
 **What it is:**
 An API Gateway is a single entry point for all client requests to backend microservices. It handles cross-cutting concerns like routing, authentication, rate limiting, and load balancing.
@@ -7604,7 +7604,7 @@ spring:
 
 ---
 
-## 7. Circuit Breaker
+### 7. Circuit Breaker
 
 **What it is:**
 The Circuit Breaker pattern prevents cascading failures in distributed systems by stopping calls to a failing service and providing a fallback response, allowing the service time to recover.
@@ -7660,7 +7660,7 @@ resilience4j:
 
 ---
 
-## 8. Service Discovery
+### 8. Service Discovery
 
 **What it is:**
 Service Discovery is the mechanism by which microservices automatically find and communicate with each other without hardcoded IP addresses or ports, since instances are dynamic in cloud environments.
@@ -7731,7 +7731,7 @@ restTemplate.getForObject("http://payment-service/api/pay", PaymentResponse.clas
 
 ---
 
-## 9. Sharding
+### 9. Sharding
 
 **What it is:**
 Sharding (horizontal partitioning) splits a large database into smaller, faster, more manageable pieces called shards, each holding a subset of the data, distributed across multiple servers.
@@ -7785,7 +7785,7 @@ shard = hash(user_id) % number_of_shards
 
 ---
 
-## 10. Rate Limiting
+### 10. Rate Limiting
 
 **What it is:**
 Rate Limiting controls the number of requests a client can make to an API within a time window, protecting services from abuse, DDoS attacks, and ensuring fair usage.
@@ -7863,7 +7863,7 @@ Headers:
 
 ---
 
-## 11. Consistent Hashing
+### 11. Consistent Hashing
 
 **What it is:**
 Consistent Hashing is a technique that minimizes data redistribution when nodes are added or removed from a distributed system, solving the rebalancing problem of simple modulo hashing.
@@ -7943,7 +7943,7 @@ String getNode(String key) {
 
 ---
 
-## 12. Auto Scaling
+### 12. Auto Scaling
 
 **What it is:**
 Auto Scaling automatically adjusts the number of compute resources (servers/containers) based on current demand, ensuring performance during peaks and cost efficiency during low traffic.
@@ -8041,7 +8041,7 @@ spec:
 
 ---
 
-## 13. Database Replication
+### 13. Database Replication
 
 **What it is:**
 Database Replication is the process of copying data from one database server (primary) to one or more servers (replicas) to improve read performance, availability, and fault tolerance.
@@ -8087,7 +8087,7 @@ Writes → Primary 1 ↔ Primary 2 ← Writes
 
 ---
 
-## 14. Bulkhead Pattern
+### 14. Bulkhead Pattern
 
 **What it is:**
 The Bulkhead pattern isolates different parts of a system into separate resource pools (thread pools, connection pools) so that a failure or overload in one part doesn't cascade and exhaust resources for the entire system.
@@ -8151,7 +8151,7 @@ resilience4j:
 
 ---
 
-## 15. Distributed Tracing
+### 15. Distributed Tracing
 
 **What it is:**
 Distributed Tracing tracks a single request as it flows through multiple microservices, providing end-to-end visibility into latency, errors, and service dependencies.
@@ -8219,7 +8219,7 @@ management:
 
 ---
 
-## 16. Saga Pattern (Distributed Transactions)
+### 16. Saga Pattern (Distributed Transactions)
 
 **What it is:**
 The Saga pattern manages distributed transactions across multiple microservices by breaking them into a sequence of local transactions, each publishing events or messages to trigger the next step, with compensating transactions for rollback.
@@ -8269,7 +8269,7 @@ Saga Orchestrator:
 
 ---
 
-## 17. Idempotency in Distributed Systems
+### 17. Idempotency in Distributed Systems
 
 **What it is:**
 An operation is idempotent if executing it multiple times produces the same result as executing it once. Critical in distributed systems where retries, duplicate messages, and network failures are common.
@@ -8340,7 +8340,7 @@ private Long version;  // JPA optimistic lock — prevents concurrent updates
 
 ---
 
-## 18. Microservices Communication Patterns
+### 18. Microservices Communication Patterns
 
 **What it is:**
 Defines how microservices communicate with each other — synchronous (real-time response needed) or asynchronous (fire and forget / event-driven).
@@ -8395,7 +8395,7 @@ Order Service → publishes OrderPlaced event → Kafka
 
 ---
 
-## 19. Database Indexing Strategies
+### 19. Database Indexing Strategies
 
 **What it is:**
 Database indexes are data structures that improve query performance by allowing the database to find rows without scanning the entire table, at the cost of additional storage and slower writes.
@@ -8459,7 +8459,7 @@ SELECT order_date, total_amount FROM orders WHERE customer_id = 123;
 
 ---
 
-## 20. Designing for Observability (Logs, Metrics, Traces)
+### 20. Designing for Observability (Logs, Metrics, Traces)
 
 **What it is:**
 Observability is the ability to understand the internal state of a system from its external outputs — logs, metrics, and traces (the "three pillars"). It enables teams to detect, diagnose, and resolve issues in production.
@@ -8540,7 +8540,7 @@ Spring Boot App
 
 ---
 
-## 21. Blue-Green and Canary Deployments
+### 21. Blue-Green and Canary Deployments
 
 **What it is:**
 Deployment strategies that minimize downtime and risk when releasing new versions of software to production.
@@ -8605,7 +8605,7 @@ Replace 2 at a time with v2:
 
 ---
 
-## 22. Security in Microservices (JWT, OAuth2, mTLS)
+### 22. Security in Microservices (JWT, OAuth2, mTLS)
 
 **What it is:**
 Securing microservices involves authentication (who are you?), authorization (what can you do?), and securing service-to-service communication.
@@ -8673,6 +8673,9 @@ X-Internal-Api-Key: <secret-key
 - Validate and sanitize all inputs
 - Rate limit authentication endpoints
 - Audit log all sensitive operations
+
+---
+
 
 
 # ✅ 32. Java Scenario 1
