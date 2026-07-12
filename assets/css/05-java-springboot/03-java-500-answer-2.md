@@ -1399,7 +1399,7 @@ spec:
     type: RollingUpdate
 ```
 
-## 9. What is Autoscaling and How is it Implemented??
+## 19. What is Autoscaling and How is it Implemented??
 
 **Autoscaling** is a cloud and microservices feature that automatically **increases** or **decreases** the number of application instances based on traffic, CPU usage, memory usage, or custom metrics.
 
@@ -1486,7 +1486,7 @@ spec:
 * **Efficient Resource Utilization**
 
 
-## 10. What is Horizontal scaling?
+## 20. What is Horizontal scaling?
 
 **Horizontal Scaling (Scale Out)** means **adding more servers/instances** to distribute the application load instead of increasing the resources of a single server.
 
@@ -1579,7 +1579,7 @@ Now, requests sent to **port 80** are automatically distributed across all three
 
 
 
-## 10. How do you implement auto-scaling, Horizontal and vertical scaling?
+## 21. How do you implement auto-scaling, Horizontal and vertical scaling?
 
 **Auto-Scaling** is the process of **automatically increasing or decreasing application resources** based on workload. It is commonly implemented using cloud platforms or **Kubernetes Horizontal Pod Autoscaler (HPA)**.
 
@@ -1635,7 +1635,7 @@ kubectl autoscale deployment my-app \
 This configuration automatically keeps CPU usage around **70%** by scaling the number of Pods between **2 and 10**.
 
 
-## 11. Blue-Green deployment strategy?
+## 22. Blue-Green deployment strategy?
 
 **Blue-Green Deployment** is a deployment technique where two identical production environments are maintained:
 
@@ -1767,7 +1767,7 @@ Using a **Load Balancer**, **Reverse Proxy**, **DNS Switch**, or **Kubernetes Se
 
 
 
-## 12. What is Rate Limiting and how does it work? Where do you implement it?
+## 23. What is Rate Limiting and how does it work? Where do you implement it?
 
 **Rate Limiting** is a technique used to **control the number of requests** a client can make to a service within a specific time period. It helps protect the system from **overload, abuse, and DDoS attacks**.
 
