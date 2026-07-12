@@ -24079,7 +24079,7 @@ try {
 
 
 
-# ✅ 22. Java Design Patterns 
+# ✅ 21. Java Design Patterns 
 
 ## 0. What are SOLID principles?
 
@@ -25151,7 +25151,7 @@ public class Main {
 
 
 
-# ✅ 24. Java and Application Security
+# ✅ 22. Java and Application Security
 
 ## 0. What are vulnerability issues?
 
@@ -27357,7 +27357,7 @@ Access Granted
 ```
 
 
-# ✅ 25. Java Performance and Optimization
+# ✅ 23. Java Performance and Optimization
 
 ## 0: Monitor application performance in Java?
 
@@ -28633,7 +28633,7 @@ java -XX:+PrintCompilation \      # Print compilation events
 ```
 
 
-# ✅ 26. Java Monitoring and Logging
+# ✅ 24. Java Monitoring and Logging
 
 ## 1: What is logging framework?
 
