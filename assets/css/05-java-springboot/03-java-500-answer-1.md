@@ -3819,7 +3819,6 @@ Calls Dog's overridden sound() method
 ## 16. What are rules for method overriding?
 
 
-
 **Method Overriding** happens when a **child class provides a specific implementation** of a method that is already defined in its **parent class**, keeping the **same method signature**.
 
 
