@@ -1170,7 +1170,7 @@ A **Target Group** is a group of backend resources (**EC2 instances**, **contain
 
 
 
-### **16. How do you handle rollback strategies?**
+## **16. How do you handle rollback strategies?**
 
 A **Rollback Strategy** is a process of **reverting an application to the last stable version** if a new deployment causes failures or unexpected issues. The goal is to **minimize downtime and restore service quickly**.
 
@@ -1353,7 +1353,7 @@ flyway_schema_history
 ```
 
 
-### **18. How do you ensure zero downtime deployments?**
+## **18. How do you ensure zero downtime deployments?**
 
 **Zero Downtime Deployment** is a deployment approach where a new application version is released **without interrupting service** for users. The old version continues serving requests until the new version is fully ready.
 
