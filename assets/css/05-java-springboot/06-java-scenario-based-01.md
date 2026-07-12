@@ -2206,3 +2206,5 @@ System.out.println(c == d); // false (different objects)
 ```java id="int3"
 System.out.println(c.equals(d)); // true
 ```
+
+
