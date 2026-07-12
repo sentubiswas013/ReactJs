@@ -14002,7 +14002,12 @@ Examples:
 ## 7. Why do we use Hibernate if we can use SQL?
 
 
-Yes, **everything that Hibernate does can also be done using SQL**. The reason we use **Hibernate** is not because SQL is incapable, but because Hibernate **reduces development effort, improves maintainability, and handles many repetitive tasks automatically**.
+**Hibernate** is an **ORM (Object Relational Mapping) Framework**. **SQL** and **JPQL** are **query languages**, not alternatives to Hibernate.
+
+Think of it this way:
+
+* **Hibernate** = Complete framework to manage database operations.
+* **HQL/JPQL** = Languages used to write custom queries inside Hibernate/JPA.
 
 **Why Hibernate?**
 
