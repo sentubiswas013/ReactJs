@@ -13999,6 +13999,118 @@ Examples:
 | Additional Features    | N/A                                                           | Standard ORM features only                                                                                                                       | Advanced caching, lazy loading strategies, batch processing, dirty checking, second-level cache, native SQL support stackoverflow+1                      |
 | Switchability          | N/A                                                           | ✅ Easy to switch implementations (portable API)                                                                                                  | ❌ Tied to Hibernate if using Hibernate-specific features stackoverflow                                                                                   |
 
+## 7. Why do we use Hibernate if we can use HQL or JPQL?
+
+
+**Hibernate** is an **ORM (Object Relational Mapping) Framework**. **HQL** and **JPQL** are **query languages**, not alternatives to Hibernate.
+
+Think of it this way:
+
+* **Hibernate** = Complete framework to manage database operations.
+* **HQL/JPQL** = Languages used to write custom queries inside Hibernate/JPA.
+
+**Key Features**
+
+* **ORM Framework**
+* Maps **Java Objects** to **Database Tables**
+* Reduces **Boilerplate JDBC Code**
+* Supports **CRUD Operations**
+* Provides **Caching**, **Lazy Loading**, and **Transaction Management**
+* Supports **HQL** and **JPQL** for custom queries
+
+**How it Works**
+
+1. Create an **Entity** class.
+2. Hibernate maps the entity to a database table.
+3. For normal operations, use methods like **save()**, **find()**, **delete()**, and **update()**.
+4. When complex queries are needed, write **HQL** or **JPQL**.
+5. Hibernate converts the HQL/JPQL into **SQL** and executes it on the database.
+
+**What Hibernate Provides**
+
+```java
+User user = new User("John");
+entityManager.persist(user);   // Insert
+
+User u = entityManager.find(User.class, 1); // Select
+
+entityManager.remove(u); // Delete
+```
+
+No **SQL**, **HQL**, or **JPQL** is needed for these basic operations.
+
+**When HQL/JPQL is Used**
+
+Suppose you need all users from a specific department.
+
+```java
+String jpql = "SELECT u FROM User u WHERE u.department = :dept";
+
+List<User> users = entityManager.createQuery(jpql, User.class)
+        .setParameter("dept", "IT")
+        .getResultList();
+```
+
+Here, **JPQL** is used because a **custom query** is required.
+
+**When to Use**
+
+Use **Hibernate** for:
+
+* **CRUD Operations**
+* **Object-Relational Mapping**
+* **Transaction Management**
+* **Caching**
+* **Lazy Loading**
+* **Automatic SQL Generation**
+
+Use **HQL/JPQL** for:
+
+* **Custom Queries**
+* **Filtering**
+* **Joins**
+* **Aggregations**
+* **Sorting**
+* **Complex Data Retrieval**
+
+
+
+**Hibernate vs HQL vs JPQL**
+
+| **Feature**                | **Hibernate**                            | **HQL**                      | **JPQL**                            |
+| -------------------------- | ---------------------------------------- | ---------------------------- | ----------------------------------- |
+| **Type**                   | **ORM Framework**                        | **Hibernate Query Language** | **Java Persistence Query Language** |
+| **Purpose**                | Manages entities and database operations | Custom queries in Hibernate  | Standard JPA queries                |
+| **CRUD Support**           | Yes                                      | No                           | No                                  |
+| **Maps Objects to Tables** | Yes                                      | No                           | No                                  |
+| **Query Language**         | Uses HQL/JPQL internally                 | Yes                          | Yes                                 |
+| **Database Independent**   | Yes                                      | Yes                          | Yes                                 |
+
+
+**Common Interview Follow-up Questions**
+
+**1. Can Hibernate work without HQL or JPQL?**
+
+* **Yes.** Basic **CRUD** operations can be performed using methods like **persist()**, **find()**, **merge()**, and **remove()** without writing queries.
+
+**2. Why use HQL or JPQL instead of SQL?**
+
+* They work with **Entity Objects** instead of database tables, making the application **database-independent**.
+
+**3. What is the difference between HQL and JPQL?**
+
+* **HQL** is **Hibernate-specific** and supports some Hibernate features.
+* **JPQL** is the **standard JPA query language** and is portable across JPA providers.
+
+**4. Does Hibernate convert HQL/JPQL into SQL?**
+
+* **Yes.** Hibernate translates **HQL/JPQL** into the appropriate **SQL** for the underlying database.
+
+**5. Can we use native SQL with Hibernate?**
+
+* **Yes.** Hibernate supports **Native SQL Queries** when database-specific SQL features or optimized queries are required.
+
+
 
 ## 8. Difference between `save() and `persist()`
 
