@@ -18637,7 +18637,6 @@ public class GlobalExceptionHandler {
 
 ## 30. DispatcherServlet, HttpServletRequest, PathVariable, RequestParam, Interceptors, Filter
 
-**DispatcherServlet**
 
 **DispatcherServlet** is the central **Front Controller** in **Spring MVC**. It receives all incoming HTTP requests and manages the request processing flow.
 
@@ -18669,7 +18668,6 @@ When `/users` is called, the request first reaches **DispatcherServlet**, which 
 **DispatcherServlet** is the heart of **Spring MVC**. It handles incoming requests, routes them to the correct controller, and returns the response to the client.
 
 
-**HttpServletRequest**
 
 **HttpServletRequest** is an object that represents an incoming **HTTP request**. It provides access to all request data sent by the client.
 
@@ -18705,7 +18703,6 @@ Response:
 Hello John
 ```
 
-**@PathVariable**
 
 **@PathVariable** is used to get a value directly from the **URL path**.
 
@@ -18817,9 +18814,8 @@ public class LoggingFilter implements Filter {
 A **Filter** works at the **Servlet Container** level and is executed before Spring MVC processes the request.
 
 
-**Interceptor**
 
-An **Interceptor** is a feature of **Spring MVC** that executes between the **DispatcherServlet** and the **Controller**.
+**Interceptor** is a feature of **Spring MVC** that executes between the **DispatcherServlet** and the **Controller**.
 
 It allows us to execute logic:
 
