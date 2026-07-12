@@ -4746,7 +4746,7 @@ public void theLoginShouldBeSuccessful() {
 
 ## ◆ 0. Architecture Design
 
-### 1. What happens when a user enters a URL in the browser?
+## 1. What happens when a user enters a URL in the browser?
 
 When you type a URL in the browser and press Enter, many things happen behind the scenes before the webpage appears.
 
@@ -4887,7 +4887,7 @@ User types: https://www.example.com/products?id=42
 ```
 
 
-### 2. System Design Diagram of your application?
+## 2. System Design Diagram of your application?
 
 Here’s a clean and interview-friendly **Generic System Design Diagram** you can use for most HLD interviews like WhatsApp, Netflix, Uber, Food Delivery, E-commerce, etc.
 
@@ -4966,7 +4966,7 @@ Here’s a clean and interview-friendly **Generic System Design Diagram** you ca
 
 
 
-### 3. How to Start System Design From Scratch in High-Level?
+## 3. How to Start System Design From Scratch in High-Level?
 
 When I design a system, I follow a simple step-by-step approach:
 
@@ -5024,7 +5024,7 @@ Low-Level Design
 ```
 
 
-### 4. How to Start System Design From Scratch in details?
+## 4. How to Start System Design From Scratch in details?
 
 **Diagram 1**
 ```text
@@ -5567,7 +5567,7 @@ Start with:
 Requirements → Scale → HLD → DB → APIs → Scaling → Reliability → Security
 ```
 
-### 5. Describe the Architecture of Your Recent Project
+## 5. Describe the Architecture of Your Recent Project
 
 In my recent project, we followed a **Microservices Architecture**.
 
@@ -5600,7 +5600,7 @@ Kafka (Event Communication)
 Redis Cache
 ```
 
-### 6. Core Code Principles in Java
+## 6. Core Code Principles in Java
 
 
 **Definition**
@@ -5652,7 +5652,7 @@ public class UserService {
 
 ## ◆ 1. Technology Selection
 
-### 1. If Node.js and Java both can build APIs, why choose Java?
+## 1. If Node.js and Java both can build APIs, why choose Java?
 
 **Interview Answer:**
 
@@ -5664,7 +5664,7 @@ Node.js is excellent for lightweight APIs and real-time applications, but Java i
 
 ---
 
-### 2. If MySQL and PostgreSQL both store data, why choose PostgreSQL?
+## 2. If MySQL and PostgreSQL both store data, why choose PostgreSQL?
 
 **Interview Answer:**
 
@@ -5676,7 +5676,7 @@ MySQL is simpler and faster for basic CRUD applications, but PostgreSQL is more 
 
 ---
 
-### 3. If PostgreSQL supports JSON, why use MongoDB?
+## 3. If PostgreSQL supports JSON, why use MongoDB?
 
 **Interview Answer:**
 
@@ -5691,7 +5691,7 @@ MongoDB is designed for document-based storage where the schema changes frequent
 
 ---
 
-### 4. If SQL databases scale well, why use NoSQL?
+## 4. If SQL databases scale well, why use NoSQL?
 
 **Interview Answer:**
 
@@ -5706,7 +5706,7 @@ NoSQL databases are chosen when we need massive horizontal scaling, flexible sch
 
 ---
 
-### 5. If Redis exists, why use Memcached?
+## 5. If Redis exists, why use Memcached?
 
 **Interview Answer:**
 
@@ -5721,7 +5721,7 @@ Memcached is simpler and consumes less memory for pure key-value caching. If I o
 
 ---
 
-### 6. If GraphQL exists, why still use REST?
+## 6. If GraphQL exists, why still use REST?
 
 **Interview Answer:**
 
@@ -5736,7 +5736,7 @@ REST is simpler, easier to cache, easier to secure, and widely adopted. For stra
 
 ---
 
-### 7. If REST works, why use gRPC?
+## 7. If REST works, why use gRPC?
 
 **Interview Answer:**
 
@@ -5751,7 +5751,7 @@ gRPC uses Protocol Buffers and HTTP/2, making it much faster and more efficient 
 
 ---
 
-### 8. If OAuth2 exists, why use JWT?
+## 8. If OAuth2 exists, why use JWT?
 
 **Interview Answer:**
 
@@ -5768,7 +5768,7 @@ JWT is a token format often used within OAuth2. They solve different problems an
 
 ---
 
-### 9. If Cloud is available, why use On-Premise?
+## 9. If Cloud is available, why use On-Premise?
 
 **Interview Answer:**
 
@@ -5783,7 +5783,7 @@ On-Premise is chosen when organizations require strict security, regulatory comp
 
 ---
 
-### 10. If Kubernetes exists, why use Serverless?
+## 10. If Kubernetes exists, why use Serverless?
 
 **Interview Answer:**
 
@@ -5798,7 +5798,7 @@ Serverless removes infrastructure management completely and automatically scales
 
 ---
 
-### One-Line Architect Summary
+## One-Line Architect Summary
 
 | Question                   | Choose When                             |
 | -------------------------- | --------------------------------------- |
@@ -5818,7 +5818,7 @@ Serverless removes infrastructure management completely and automatically scales
 
 ## ◆ 2. Architecture & System Design
 
-### 1. If Monolith can handle the business, why choose Microservices?
+## 1. If Monolith can handle the business, why choose Microservices?
 
 **Interview Answer:**
 
@@ -5833,7 +5833,7 @@ A Monolith is simpler and works well initially, but as the system grows, deploym
 
 ---
 
-### 2. If Microservices are modern, why start with a Monolith?
+## 2. If Microservices are modern, why start with a Monolith?
 
 **Interview Answer:**
 
@@ -5854,7 +5854,7 @@ Start simple, evolve when required.
 
 ---
 
-### 3. If Microservices work well, why consider a Modular Monolith?
+## 3. If Microservices work well, why consider a Modular Monolith?
 
 **Interview Answer:**
 
@@ -5877,7 +5877,7 @@ Modular Monolith is often the best middle ground between Monolith and Microservi
 
 ---
 
-### 4. If REST APIs work fine, why choose Event-Driven Architecture?
+## 4. If REST APIs work fine, why choose Event-Driven Architecture?
 
 **Interview Answer:**
 
@@ -5915,7 +5915,7 @@ Notification Service consumes
 
 ---
 
-### 5. If Event-Driven Architecture exists, why use Synchronous Communication?
+## 5. If Event-Driven Architecture exists, why use Synchronous Communication?
 
 **Interview Answer:**
 
@@ -5946,7 +5946,7 @@ Success or Failure
 
 ---
 
-### 6. If Service Discovery exists, why use an API Gateway?
+## 6. If Service Discovery exists, why use an API Gateway?
 
 **Interview Answer:**
 
@@ -5983,7 +5983,7 @@ Service Discovery is for internal communication, API Gateway is for external acc
 
 ---
 
-### 7. If Distributed Systems scale better, why keep some systems centralized?
+## 7. If Distributed Systems scale better, why keep some systems centralized?
 
 **Interview Answer:**
 
@@ -6004,7 +6004,7 @@ Distribute what needs scale; centralize what needs consistency.
 
 ---
 
-### 8. If One Database can store everything, why use Polyglot Persistence?
+## 8. If One Database can store everything, why use Polyglot Persistence?
 
 **Interview Answer:**
 
@@ -6057,7 +6057,7 @@ Use the right database for the right problem.
 
 ## ◆ 3. Messaging & Event Streaming
 
-### 1. If REST APIs are enough, why introduce Kafka?
+## 1. If REST APIs are enough, why introduce Kafka?
 
 **Interview Answer:**
 
@@ -6098,7 +6098,7 @@ REST for request-response. Kafka for event-driven communication.
 
 ---
 
-### 2. If Kafka handles events, why use REST at all?
+## 2. If Kafka handles events, why use REST at all?
 
 **Interview Answer:**
 
@@ -6143,7 +6143,7 @@ Both usually work together.
 
 ---
 
-### 3. If Kafka exists, why use RabbitMQ?
+## 3. If Kafka exists, why use RabbitMQ?
 
 **Interview Answer:**
 
@@ -6193,7 +6193,7 @@ RabbitMQ = Message Queue.
 
 ---
 
-### 4. If Kafka stores messages, why use a Database?
+## 4. If Kafka stores messages, why use a Database?
 
 **Interview Answer:**
 
@@ -6235,7 +6235,7 @@ Database tells us what the current state is.
 
 ---
 
-### 5. If Retries exist, why use Circuit Breakers?
+## 5. If Retries exist, why use Circuit Breakers?
 
 **Interview Answer:**
 
@@ -6307,7 +6307,7 @@ Used together for resilient microservices.
 
 ## ◆ 4. Database & Data Architecture
 
-### 1. If Database queries work fine, why introduce Redis Cache?
+## 1. If Database queries work fine, why introduce Redis Cache?
 
 **Interview Answer:**
 
@@ -6356,7 +6356,7 @@ Database is for persistence. Redis is for speed.
 
 ---
 
-### 2. If Caching exists, why optimize Database Queries?
+## 2. If Caching exists, why optimize Database Queries?
 
 **Interview Answer:**
 
@@ -6393,7 +6393,7 @@ Cache improves performance; query optimization improves efficiency.
 
 ---
 
-### 3. If Read Replicas exist, why use Sharding?
+## 3. If Read Replicas exist, why use Sharding?
 
 **Interview Answer:**
 
@@ -6438,7 +6438,7 @@ Sharding solves read and write scaling.
 
 ---
 
-### 4. If Elasticsearch stores data, why not use it as the Primary Database?
+## 4. If Elasticsearch stores data, why not use it as the Primary Database?
 
 **Interview Answer:**
 
@@ -6479,7 +6479,7 @@ Elasticsearch is a search engine, not a transactional database.
 
 ---
 
-### 5. If Strong Consistency is better, why use Eventual Consistency?
+## 5. If Strong Consistency is better, why use Eventual Consistency?
 
 **Interview Answer:**
 
@@ -6520,7 +6520,7 @@ for a few seconds is acceptable.
 
 ---
 
-### 6. If ACID Transactions exist, why use Eventual Consistency?
+## 6. If ACID Transactions exist, why use Eventual Consistency?
 
 **Interview Answer:**
 
@@ -6583,7 +6583,7 @@ Eventual Consistency works across distributed services.
 
 ## ◆ 5. Scalability & Performance
 
-### 1. If Vertical Scaling is possible, why use Horizontal Scaling?
+## 1. If Vertical Scaling is possible, why use Horizontal Scaling?
 
 **Interview Answer:**
 
@@ -6628,7 +6628,7 @@ Vertical scaling has limits. Horizontal scaling can grow almost indefinitely.
 
 ---
 
-### 2. If Horizontal Scaling is better, why ever scale Vertically?
+## 2. If Horizontal Scaling is better, why ever scale Vertically?
 
 **Interview Answer:**
 
@@ -6666,7 +6666,7 @@ Scale vertically first if it solves the problem quickly. Scale horizontally when
 
 ---
 
-### 3. If Load Balancers exist, why use a CDN?
+## 3. If Load Balancers exist, why use a CDN?
 
 **Interview Answer:**
 
@@ -6720,7 +6720,7 @@ CDN accelerates content delivery.
 
 ---
 
-### 4. If Auto Scaling exists, why optimize code?
+## 4. If Auto Scaling exists, why optimize code?
 
 **Interview Answer:**
 
@@ -6787,7 +6787,7 @@ Code optimization fixes the root cause.
 
 ## ◆ 6. Security Architecture
 
-### 1. If JWT exists, why use Sessions?
+## 1. If JWT exists, why use Sessions?
 
 **Interview Answer:**
 
@@ -6836,7 +6836,7 @@ Sessions improve control and simplicity.
 
 ---
 
-### 2. If HTTPS is enabled, why encrypt data at rest?
+## 2. If HTTPS is enabled, why encrypt data at rest?
 
 **Interview Answer:**
 
@@ -6885,7 +6885,7 @@ Encryption protects data at rest.
 
 ---
 
-### 3. If an API Gateway provides security, why secure services individually?
+## 3. If an API Gateway provides security, why secure services individually?
 
 **Interview Answer:**
 
@@ -6944,7 +6944,7 @@ Never trust a request just because it passed the API Gateway.
 
 ## ◆ 7. Cloud, DevOps & Operations
 
-### 1. If Docker works, why use Kubernetes?
+## 1. If Docker works, why use Kubernetes?
 
 **Interview Answer:**
 
@@ -6989,7 +6989,7 @@ Kubernetes orchestrates containers.
 
 ---
 
-### 2. If Kubernetes exists, why deploy directly on VMs?
+## 2. If Kubernetes exists, why deploy directly on VMs?
 
 **Interview Answer:**
 
@@ -7025,7 +7025,7 @@ Use Kubernetes when orchestration benefits outweigh complexity.
 
 ---
 
-### 3. If CI/CD exists, why have Release Approvals?
+## 3. If CI/CD exists, why have Release Approvals?
 
 **Interview Answer:**
 
@@ -7080,7 +7080,7 @@ Release approvals ensure business readiness.
 
 ## ◆ 8. Reliability, Monitoring & Observability
 
-### 1. If Monitoring exists, why need Distributed Tracing?
+## 1. If Monitoring exists, why need Distributed Tracing?
 
 **Interview Answer:**
 
@@ -7132,7 +7132,7 @@ Distributed Tracing tells you where the problem is.
 
 ---
 
-### 2. If Logging exists, why use Observability Platforms?
+## 2. If Logging exists, why use Observability Platforms?
 
 **Interview Answer:**
 
@@ -7185,7 +7185,7 @@ Observability explains overall system behavior.
 
 ---
 
-### 3. If Backups exist, why need Disaster Recovery?
+## 3. If Backups exist, why need Disaster Recovery?
 
 **Interview Answer:**
 
@@ -7237,7 +7237,7 @@ Disaster Recovery protects business continuity.
 
 ---
 
-### 4. If High Availability exists, why need Disaster Recovery?
+## 4. If High Availability exists, why need Disaster Recovery?
 
 **Interview Answer:**
 
