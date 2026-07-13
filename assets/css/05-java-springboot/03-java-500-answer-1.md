@@ -7537,7 +7537,8 @@ public class Main {
 | **Purpose**                | Defines the basic operations for all collection types. | Provides utility methods for working with collections, like sorting, reversing, etc. |
 | **Example**                | `List`, `Set`, `Queue` are types of collections. | `Collections.sort()`, `Collections.reverse()`, etc. |
 
-### Example:
+Example:
+
 ```java
 // Collection example (interface)
 Collection<String> collection = new ArrayList<>();
