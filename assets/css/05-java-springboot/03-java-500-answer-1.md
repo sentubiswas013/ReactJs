@@ -7530,6 +7530,25 @@ public class Main {
 
 **`Collections`** is a **utility class** that provides **static methods** to perform operations on collections.
 
+
+| **Property**              | **Collection**                        | **Collections**                          |
+|---------------------------|---------------------------------------|------------------------------------------|
+| **Type**                   | `Collection` is an interface. It is the root interface in the collection framework and is implemented by other interfaces like `List`, `Set`, etc. | `Collections` is a **utility class** that provides static methods for operating on collections (e.g., sorting, searching). |
+| **Purpose**                | Defines the basic operations for all collection types. | Provides utility methods for working with collections, like sorting, reversing, etc. |
+| **Example**                | `List`, `Set`, `Queue` are types of collections. | `Collections.sort()`, `Collections.reverse()`, etc. |
+
+### Example:
+```java
+// Collection example (interface)
+Collection<String> collection = new ArrayList<>();
+collection.add("Apple");
+collection.add("Banana");
+
+// Collections example (utility class)
+Collections.sort(new ArrayList<>(collection));
+Collections.reverse(new ArrayList<>(collection));
+```
+
 **Difference Table**
 
 | **Feature**         | **`Collection`**                              | **`Collections`**                                                      |
@@ -7540,6 +7559,8 @@ public class Main {
 | **Implemented By**  | **`List`**, **`Set`**, **`Queue`**            | Not implemented (contains only static methods)                         |
 | **Object Creation** | Cannot create directly                        | No object creation required                                            |
 | **Methods**         | `add()`, `remove()`, `contains()`, `size()`   | `sort()`, `reverse()`, `shuffle()`, `binarySearch()`, `min()`, `max()` |
+
+
 
 **How it Works**
 
@@ -7974,7 +7995,30 @@ List<String> list2 = List.of("A", "B", "C");
 // list2.add("D");           // Throws UnsupportedOperationException
 ```
 
+## 11. What is diffence between data structures Vector and an ArrayList?
 
+`Vector` and `ArrayList` are both part of the Java collection framework and implement the `List` interface, but there are several differences between them:
+
+| **Property**              | **Vector**                          | **ArrayList**                        |
+|---------------------------|-------------------------------------|--------------------------------------|
+| **Thread-safety**          | Vector is **synchronized**, making it thread-safe (but slower). | ArrayList is **not synchronized**, making it faster in single-threaded scenarios. |
+| **Growth Policy**          | Vector doubles its size when it runs out of space. | ArrayList grows by 50% of its size when it runs out of space. |
+| **Performance**            | Slower due to synchronization and larger size increase. | Faster as it is not synchronized and has a more efficient growth policy. |
+| **Legacy**                 | Vector is considered a **legacy class** and is part of the original version of Java. | ArrayList is more commonly used today and is part of the modern Java collection framework. |
+| **Use Case**               | Used in multi-threaded environments where thread safety is required. | Preferred for single-threaded applications where performance is critical. |
+
+### Example:
+```java
+// Vector example (Thread-safe)
+Vector<Integer> vector = new Vector<>();
+vector.add(10);
+vector.add(20);
+
+// ArrayList example (Not thread-safe)
+ArrayList<Integer> arrayList = new ArrayList<>();
+arrayList.add(10);
+arrayList.add(20);
+```
 
 # ✅ 09. Java JVM & Memory Management 
 
