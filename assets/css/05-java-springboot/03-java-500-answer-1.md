@@ -2673,13 +2673,15 @@ abstract class Animal {
 
 **Key Differences**
 
-| **Feature**        | **Shallow Copy**  | **Deep Copy** |
-| ------------------ | ----------------- | ------------- |
-| **Object Copy**    | New object        | New object    |
-| **Nested Objects** | Shared references | New copies    |
-| **Memory Usage**   | Low               | Higher        |
-| **Performance**    | Faster            | Slower        |
-| **Data Isolation** | No                | Yes           |
+| Feature              | **Shallow Copy**                                                                | **Deep Copy**                                                                   |
+| -------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **Definition**       | Creates a **new object**, but copies only the **references** of nested objects. | Creates a **new object** and also creates **new copies of all nested objects**. |
+| **Memory**           | Parent object is new, child objects are shared.                                 | Both parent and child objects are separate.                                     |
+| **Object Reference** | Shared between original and copied object.                                      | Independent references.                                                         |
+| **Modification**     | Changes in a child object affect both objects.                                  | Changes do not affect the other object.                                         |
+| **Performance**      | Faster and uses less memory.                                                    | Slower and uses more memory.                                                    |
+| **Use Case**         | When shared data is acceptable.                                                 | When complete independence is required.                                         |
+
 
 **How it Works**
 
