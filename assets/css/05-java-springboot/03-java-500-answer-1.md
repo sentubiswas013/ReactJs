@@ -8447,6 +8447,17 @@ public class Main {
 * **wait()** is a method of the **Object class** used for inter-thread communication, where a thread waits until it is notified.
 
 
+| **Feature**                            | **`sleep()`**                          | **`wait()`**                                                       |
+| -------------------------------------- | -------------------------------------- | ------------------------------------------------------------------ |
+| **Class**                              | **`Thread`**                           | **`Object`**                                                       |
+| **Purpose**                            | Pause thread for a specific time       | Wait for another thread's notification                             |
+| **Lock Release**                       | **Does not release** the lock          | **Releases** the lock                                              |
+| **Must be inside synchronized block?** | **No**                                 | **Yes**                                                            |
+| **How Thread Resumes**                 | Automatically after the specified time | After **`notify()`** or **`notifyAll()`** and reacquiring the lock |
+| **Thread State**                       | **TIMED_WAITING**                      | **WAITING** (or **TIMED_WAITING** if timeout is used)              |
+| **Used For**                           | Time delay                             | Inter-thread communication                                         |
+
+
 **sleep() – Key Features**
 
 * Belongs to **Thread class**
@@ -8476,27 +8487,6 @@ public class Main {
 * Waiting thread resumes execution
 
 
-**Why to Use**
-
-* **sleep()** → Delay execution
-* **wait()** → Coordinate between threads
-
-
-**When to Use**
-
-* **sleep()**
-
-  * Adding delay
-  * Retry mechanisms
-  * Timed operations
-
-* **wait()**
-
-  * Producer-consumer problem
-  * Thread communication
-  * Shared resource coordination
-
-
 **Example: sleep()**
 
 ```java id="sl1a2b"
@@ -8521,7 +8511,6 @@ public class Main {
 
 ```java id="wt3c4d"
 class Shared {
-
     synchronized void waitMethod() {
         try {
             System.out.println("Waiting...");
@@ -8540,11 +8529,8 @@ class Shared {
 
 public class Main {
     public static void main(String[] args) {
-
         Shared obj = new Shared();
-
         new Thread(obj::waitMethod).start();
-
         new Thread(() -> {
             try { Thread.sleep(1000); } catch (Exception e) {}
             obj.notifyMethod();
@@ -8552,17 +8538,6 @@ public class Main {
     }
 }
 ```
-
-
-**sleep() vs wait()**
-
-| **sleep()**               | **wait()**                  |
-| ------------------------- | --------------------------- |
-| Thread class method       | Object class method         |
-| Does NOT release lock     | Releases lock               |
-| Fixed time delay          | Waits until notified        |
-| No synchronization needed | Requires synchronized block |
-| Used for pause            | Used for communication      |
 
 
 ## 3. Execute 10 Thread. 
