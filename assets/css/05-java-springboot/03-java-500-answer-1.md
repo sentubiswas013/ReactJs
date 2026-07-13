@@ -7524,13 +7524,93 @@ public class Main {
 }
 ```
 
-## 7. What is the difference between Collection and Stream?
+## 7. What is the difference between Collection and Collections?
+
+**`Collection`** is an **interface** that represents a group of objects.
+
+**`Collections`** is a **utility class** that provides **static methods** to perform operations on collections.
+
+**Difference Table**
+
+| **Feature**         | **`Collection`**                              | **`Collections`**                                                      |
+| ------------------- | --------------------------------------------- | ---------------------------------------------------------------------- |
+| **Type**            | **Interface**                                 | **Utility Class**                                                      |
+| **Package**         | **`java.util`**                               | **`java.util`**                                                        |
+| **Purpose**         | Defines how collections store and manage data | Provides utility methods to manipulate collections                     |
+| **Implemented By**  | **`List`**, **`Set`**, **`Queue`**            | Not implemented (contains only static methods)                         |
+| **Object Creation** | Cannot create directly                        | No object creation required                                            |
+| **Methods**         | `add()`, `remove()`, `contains()`, `size()`   | `sort()`, `reverse()`, `shuffle()`, `binarySearch()`, `min()`, `max()` |
+
+**How it Works**
+
+#**`Collection`**
+
+* It is the **root interface** of the Java Collection Framework.
+* Defines common operations like **adding**, **removing**, and **searching** elements.
+* Extended by interfaces such as **`List`**, **`Set`**, and **`Queue`**.
+
+#**`Collections`**
+
+* It is a **final utility class**.
+* Contains **only static methods**.
+* Used to perform operations like **sorting**, **reversing**, **shuffling**, **finding minimum/maximum**, and creating **synchronized** or **unmodifiable** collections.
+
+**Example**
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Collection Interface
+        Collection<String> names = new ArrayList<>();
+        names.add("John");
+        names.add("Alice");
+        names.add("Bob");
+
+        // Collections Utility Class
+        List<String> list = new ArrayList<>(names);
+
+        Collections.sort(list);
+        Collections.reverse(list);
+
+        System.out.println(list);
+    }
+}
+```
+
+**Output**
+
+```text
+[John, Bob, Alice]
+```
+
+**Common Interview Follow-up Questions**
+
+**1. Is `Collection` a class or an interface?**
+**Answer:** **`Collection`** is an **interface**.
+
+**2. Is `Collections` a class or an interface?**
+**Answer:** **`Collections`** is a **final utility class** with **static methods**.
+
+**3. Does `Map` extend `Collection`?**
+**Answer:** **No.** **`Map`** is part of the Java Collections Framework but **does not extend `Collection`** because it stores **key-value pairs**, not individual elements.
+
+**4. Name some commonly used methods of `Collections`.**
+**Answer:** **`sort()`**, **`reverse()`**, **`shuffle()`**, **`binarySearch()`**, **`min()`**, **`max()`**, **`synchronizedList()`**, **`unmodifiableList()`**.
+
+**5. What is the difference between `Collection` and `Collections` in one line?**
+**Answer:** **`Collection`** is an **interface for storing data**, while **`Collections`** is a **utility class for performing operations on collections**.
+
+
+## 7. What is the difference between Collection and Stream API?
 
 A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
 
 A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
 
-| **Feature**      | **Collection**                                              | **Stream**                                                             |
+| **Feature**      | **Collection**                                              | **Stream API**                                                             |
 | ---------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
 | **Purpose**      | Used to **store and manage data**.                          | Used to **process and transform data**.                                |
 | **Data Storage** | **Stores elements** in memory.                              | **Does not store data**; it operates on a data source.                 |
