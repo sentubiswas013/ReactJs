@@ -8540,6 +8540,112 @@ public class Main {
 ```
 
 
+## 3. How notify() method is different from notifyAll() method?
+
+
+Both **`notify()`** and **`notifyAll()`** are methods of the **`Object`** class used for **inter-thread communication**. They wake up threads that are waiting using the **`wait()`** method.
+
+**Difference Table**
+
+| **Feature**          | **`notify()`**                            | **`notifyAll()`**                         |
+| -------------------- | ----------------------------------------- | ----------------------------------------- |
+| **Threads Woken Up** | Wakes **one** waiting thread              | Wakes **all** waiting threads             |
+| **Thread Selection** | **JVM** chooses one thread                | All waiting threads are awakened          |
+| **Lock Release**     | **Does not release** the lock immediately | **Does not release** the lock immediately |
+| **Performance**      | Faster                                    | Slower (more context switching)           |
+| **Use Case**         | Only one thread needs to continue         | Multiple threads may need to continue     |
+
+**How it Works**
+
+#**`notify()`**
+
+* Wakes **one** thread waiting on the object's monitor.
+* The **JVM** decides which thread to wake.
+* The awakened thread **cannot continue immediately**. It must first **reacquire the lock** after the synchronized block ends.
+
+#**`notifyAll()`**
+
+* Wakes **all** threads waiting on the object's monitor.
+* All awakened threads become **eligible** to run.
+* They **compete for the same lock**, and only one thread acquires it first. The others continue waiting until the lock is available.
+
+**Example**
+
+```java
+class SharedResource {
+    synchronized void waitForSignal() throws InterruptedException {
+        System.out.println(Thread.currentThread().getName() + " is waiting");
+        wait();
+        System.out.println(Thread.currentThread().getName() + " resumed");
+    }
+
+    synchronized void signalOne() {
+        notify();      // Change to notifyAll() to wake all threads
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        SharedResource resource = new SharedResource();
+        Runnable task = () -> {
+            try {
+                resource.waitForSignal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+
+        new Thread(task, "Thread-1").start();
+        new Thread(task, "Thread-2").start();
+        new Thread(task, "Thread-3").start();
+
+        Thread.sleep(1000);
+
+        resource.signalOne();
+    }
+}
+```
+
+**Output**
+
+**Using `notify()`**
+
+```text
+Thread-1 is waiting
+Thread-2 is waiting
+Thread-3 is waiting
+Thread-2 resumed
+```
+
+**Using `notifyAll()`**
+
+```text
+Thread-1 is waiting
+Thread-2 is waiting
+Thread-3 is waiting
+Thread-1 resumed
+Thread-2 resumed
+Thread-3 resumed
+```
+
+**Common Interview Follow-up Questions**
+
+**1. Which class defines `notify()` and `notifyAll()`?**
+**Answer:** Both methods are defined in the **`Object`** class.
+
+**2. Can `notify()` or `notifyAll()` be called outside a synchronized block?**
+**Answer:** **No.** Otherwise, **`IllegalMonitorStateException`** is thrown.
+
+**3. Does `notify()` immediately wake up and run the thread?**
+**Answer:** **No.** It only makes the thread **eligible** to run. The thread must first **reacquire the lock**.
+
+**4. Why is `notifyAll()` considered safer than `notify()`?**
+**Answer:** Because all waiting threads wake up and **recheck the condition**, avoiding **missed notifications** and **thread starvation**.
+
+**5. What is the relationship between `wait()`, `notify()`, and `notifyAll()`?**
+**Answer:** A thread calls **`wait()`** to release the lock and wait. Another thread calls **`notify()`** to wake **one** waiting thread or **`notifyAll()`** to wake **all** waiting threads.
+
+
 ## 3. Execute 10 Thread. 
 
 **Execute Thread Without any scequence**
