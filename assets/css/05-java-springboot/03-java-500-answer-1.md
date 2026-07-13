@@ -8440,7 +8440,7 @@ public class Main {
 ```
 
 
-## 4. What are `sleep()` vs `wait()` in Multithreading?
+## 4. What are sleep() vs wait() in java?
 
 
 * **sleep()** is a method of the **Thread class** used to pause execution of a thread for a fixed time.
@@ -8540,7 +8540,7 @@ public class Main {
 ```
 
 
-## 3. How notify() method is different from notifyAll() method?
+## 3. What are notify() vs notifyAll() in java? 
 
 
 Both **`notify()`** and **`notifyAll()`** are methods of the **`Object`** class used for **inter-thread communication**. They wake up threads that are waiting using the **`wait()`** method.
@@ -8644,6 +8644,95 @@ Thread-3 resumed
 
 **5. What is the relationship between `wait()`, `notify()`, and `notifyAll()`?**
 **Answer:** A thread calls **`wait()`** to release the lock and wait. Another thread calls **`notify()`** to wake **one** waiting thread or **`notifyAll()`** to wake **all** waiting threads.
+
+## 3. How JVM Determines Which Thread Should Wake Up on `notify()`?
+
+
+The **JVM does not guarantee** which waiting thread will wake up when **`notify()`** is called.
+
+If **multiple threads** are waiting on the same object's monitor, the **JVM and Operating System's thread scheduler** choose **one** waiting thread. The selection is **implementation-dependent** and **unpredictable**.
+
+**Key Features**
+
+* **`notify()`** wakes **only one** waiting thread.
+* The **JVM does not follow FIFO, LIFO, or priority order**.
+* The selection depends on the **JVM implementation** and **OS thread scheduler**.
+* The awakened thread becomes **RUNNABLE**, but it must **reacquire the lock** before executing.
+* Therefore, **you should never write code that depends on which thread `notify()` wakes up**.
+
+**How it Works**
+
+1. Multiple threads call **`wait()`** on the same object.
+2. They enter the **WAITING** state.
+3. Another thread enters a **synchronized** block and calls **`notify()`**.
+4. The **JVM randomly (implementation-dependent)** selects **one** waiting thread.
+5. That thread becomes **RUNNABLE**.
+6. It continues execution **only after** it successfully **reacquires the object's lock**.
+
+**Example**
+
+```java
+class Shared {
+    synchronized void waitForSignal() throws InterruptedException {
+        System.out.println(Thread.currentThread().getName() + " is waiting");
+        wait();
+        System.out.println(Thread.currentThread().getName() + " resumed");
+    }
+
+    synchronized void signal() {
+        notify();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Shared shared = new Shared();
+        Runnable task = () -> {
+            try {
+                shared.waitForSignal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+
+        new Thread(task, "Thread-1").start();
+        new Thread(task, "Thread-2").start();
+        new Thread(task, "Thread-3").start();
+
+        Thread.sleep(1000);
+        shared.signal();
+    }
+}
+```
+
+**Possible Output**
+
+```text
+Thread-1 is waiting
+Thread-2 is waiting
+Thread-3 is waiting
+Thread-2 resumed
+```
+
+**Note:** On another execution, **Thread-1** or **Thread-3** may resume instead.
+
+
+**Common Interview Follow-up Questions**
+
+**1. Does `notify()` wake the first thread that called `wait()`?**
+**Answer:** **No.** There is **no FIFO guarantee**.
+
+**2. Does thread priority affect which thread `notify()` wakes?**
+**Answer:** **No guarantee.** Thread priority may influence scheduling after a thread becomes runnable, but it **does not determine** which waiting thread `notify()` selects.
+
+**3. Can the same program wake different threads on different executions?**
+**Answer:** **Yes.** The selected thread can vary between runs.
+
+**4. Why is `notifyAll()` often preferred over `notify()`?**
+**Answer:** Because it wakes **all waiting threads**, allowing each to **recheck its condition**, which helps avoid **missed notifications** and **thread starvation**.
+
+**5. Does the awakened thread execute immediately after `notify()`?**
+**Answer:** **No.** It first becomes **RUNNABLE** and can continue only after **reacquiring the object's lock**.
 
 
 ## 3. Execute 10 Thread. 
