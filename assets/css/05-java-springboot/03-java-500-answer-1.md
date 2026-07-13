@@ -2664,7 +2664,117 @@ abstract class Animal {
 ```
 
 
-## 19. XYZ
+## 19. What is the Difference Between Shallow Copy and Deep Copy in Java?
+
+
+**Shallow Copy** creates a new object, but the **nested objects are shared** between the original and copied object.
+
+**Deep Copy** creates a new object along with **completely new copies of all nested objects**, so both objects are fully independent.
+
+**Key Differences**
+
+| **Feature**        | **Shallow Copy**  | **Deep Copy** |
+| ------------------ | ----------------- | ------------- |
+| **Object Copy**    | New object        | New object    |
+| **Nested Objects** | Shared references | New copies    |
+| **Memory Usage**   | Low               | Higher        |
+| **Performance**    | Faster            | Slower        |
+| **Data Isolation** | No                | Yes           |
+
+**How it Works**
+
+**Shallow Copy**
+
+* Creates a **new parent object**.
+* Copies **primitive values**.
+* Copies **references** of nested objects.
+* Changes to nested objects affect both copies.
+
+**Deep Copy**
+
+* Creates a **new parent object**.
+* Creates **new copies of every nested object**.
+* Changes in one object do **not** affect the other.
+
+**Example**
+
+```java
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+
+    Address(Address other) {      // Deep copy constructor
+        this.city = other.city;
+    }
+}
+
+class Employee {
+    String name;
+    Address address;
+
+    Employee(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    // Shallow Copy
+    Employee(Employee other) {
+        this.name = other.name;
+        this.address = other.address;
+    }
+
+    // Deep Copy
+    Employee(Employee other, boolean deep) {
+        this.name = other.name;
+        this.address = new Address(other.address);
+    }
+}
+```
+
+**Example Usage**
+
+```java
+Address address = new Address("Bangalore");
+
+Employee emp1 = new Employee("John", address);
+
+// Shallow Copy
+Employee emp2 = new Employee(emp1);
+
+emp2.address.city = "Mumbai";
+
+System.out.println(emp1.address.city); // Mumbai
+
+// Deep Copy
+Employee emp3 = new Employee(emp1, true);
+
+emp3.address.city = "Delhi";
+
+System.out.println(emp1.address.city); // Mumbai
+System.out.println(emp3.address.city); // Delhi
+```
+
+
+**Common Interview Follow-up Questions**
+
+**1. Does `Object.clone()` perform a shallow or deep copy?**
+**Answer:** By default, `Object.clone()` performs a **Shallow Copy**.
+
+**2. Why is `String` safe in a shallow copy?**
+**Answer:** Because **String is immutable**, its value cannot be changed after creation.
+
+**3. How can you implement a Deep Copy in Java?**
+**Answer:** By **creating new instances** of all nested objects using **constructors**, **copy constructors**, or **serialization**.
+
+**4. Which copy is faster?**
+**Answer:** **Shallow Copy**, because it copies only object references instead of creating new nested objects.
+
+**5. Which copy should be used for mutable objects?**
+**Answer:** **Deep Copy**, because it prevents shared references and unintended modifications.
+
 
 ## 20. Can a class be both abstract and final? 
 
