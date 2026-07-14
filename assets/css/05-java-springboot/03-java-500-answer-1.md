@@ -27034,7 +27034,7 @@ src/main/java
 
 ---
 
-# **Step 1: Dependency**
+**Step 1: Dependency**
 
 ```xml
 <dependencies>
@@ -27077,7 +27077,7 @@ src/main/java
 
 ---
 
-# **Step 2: User Entity**
+**Step 2: User Entity**
 
 ```java
 @Entity
@@ -27099,7 +27099,7 @@ public class User {
 
 ---
 
-# **Step 3: Repository**
+**Step 3: Repository**
 
 ```java
 @Repository
@@ -27112,7 +27112,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-# **Step 4: UserDetailsService**
+**Step 4: UserDetailsService**
 
 ```java
 @Service
@@ -27141,7 +27141,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 ---
 
-# **Step 5: JWT Utility**
+**Step 5: JWT Utility**
 
 ```java
 @Component
@@ -27183,7 +27183,7 @@ public class JwtUtil {
 
 ---
 
-# **Step 6: JWT Filter**
+**Step 6: JWT Filter**
 
 ```java
 @Component
@@ -27248,7 +27248,7 @@ public class JwtAuthenticationFilter
 
 ---
 
-# **Step 7: Security Configuration**
+**Step 7: Security Configuration**
 
 ```java
 @Configuration
@@ -27326,7 +27326,7 @@ public class SecurityConfig {
 
 ---
 
-# **Step 8: Login DTO**
+**Step 8: Login DTO**
 
 ```java
 public class LoginRequest {
@@ -27341,7 +27341,7 @@ public class LoginRequest {
 
 ---
 
-# **Step 9: JWT Response**
+**Step 9: JWT Response**
 
 ```java
 public class JwtResponse {
@@ -27360,7 +27360,7 @@ public class JwtResponse {
 
 ---
 
-# **Step 10: Authentication Controller**
+**Step 10: Authentication Controller**
 
 ```java
 @RestController
@@ -27393,7 +27393,7 @@ public class AuthController {
 
 ---
 
-# **Step 11: Protected Controller**
+**Step 11: Protected Controller**
 
 ```java
 @RestController
@@ -27415,7 +27415,7 @@ public class UserController {
 
 ---
 
-# **Step 12: Method-Level Authorization**
+**Step 12: Method-Level Authorization**
 
 ```java
 @PreAuthorize("hasRole('ADMIN')")
@@ -27437,7 +27437,7 @@ public String profile(){
 
 ---
 
-# **Step 13: application.properties**
+**Step 13: application.properties**
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/test
@@ -27451,7 +27451,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ---
 
-# **Database Data**
+**Database Data**
 
 Password should be stored **encrypted** using **BCrypt**.
 
@@ -27469,9 +27469,9 @@ System.out.println(encoded);
 
 ---
 
-# **End-to-End Flow**
+**End-to-End Flow**
 
-### **1. Login Request**
+**1. Login Request**
 
 ```http
 POST /auth/login
@@ -27486,7 +27486,7 @@ POST /auth/login
 
 ---
 
-### **2. Server Authenticates**
+**2. Server Authenticates**
 
 ```text
 AuthenticationManager
@@ -27504,7 +27504,7 @@ Generate JWT
 
 ---
 
-### **3. Login Response**
+**3. Login Response**
 
 ```json
 {
@@ -27514,13 +27514,13 @@ Generate JWT
 
 ---
 
-### **4. Client Stores JWT**
+**4. Client Stores JWT**
 
 Typically in an **HttpOnly Secure Cookie** (recommended for web apps) or sends it in the `Authorization` header.
 
 ---
 
-### **5. Subsequent Request**
+**5. Subsequent Request**
 
 ```http
 GET /user/profile
@@ -27529,7 +27529,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
 
 ---
 
-### **6. JWT Filter**
+**6. JWT Filter**
 
 ```text
 Read Authorization Header
@@ -27551,7 +27551,7 @@ Store in SecurityContext
 
 ---
 
-### **7. Authorization**
+**7. Authorization**
 
 Spring Security checks the authenticated user's roles:
 
