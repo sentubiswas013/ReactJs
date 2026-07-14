@@ -10141,12 +10141,6 @@ public class Main {
 3. The waiting thread calls `await()`.
 4. When the count reaches **0**, all waiting threads continue execution.
 
-**Why to Use**
-
-* Wait for multiple tasks to finish
-* Coordinate thread execution
-* Simplify multi-threaded workflows
-
 **When to Use**
 
 * Application startup tasks
@@ -10199,11 +10193,6 @@ public class Main {
 4. Once all arrive, the barrier opens and all threads continue.
 5. The barrier automatically resets for reuse.
 
-**Why to Use**
-
-* Coordinate multiple threads
-* Ensure threads reach the same execution point
-* Useful for phased processing
 
 **When to Use**
 
