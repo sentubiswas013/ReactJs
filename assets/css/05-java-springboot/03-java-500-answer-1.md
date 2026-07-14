@@ -8564,11 +8564,113 @@ public class Main {
 }
 ```
 
+## 2. Difference between Runnable and Callable interface?
+
+**Runnable** is used when a task **does not return a result** and **cannot throw checked exceptions**. It has the **run()** method with a **void** return type.
+
+**Callable** is used when a task **returns a result** or **throws checked exceptions**. It has the **call()** method, is executed using an **ExecutorService**, and the result is retrieved through a **Future** object.
+
+| **Feature**          | **Runnable**                    | **Callable**                    |
+| -------------------- | ------------------------------- | ------------------------------- |
+| **Package**          | `java.lang`                     | `java.util.concurrent`          |
+| **Method**           | `run()`                         | `call()`                        |
+| **Return Type**      | `void`                          | Returns a value (`V`)           |
+| **Throws Exception** | Cannot throw checked exceptions | Can throw checked exceptions    |
+| **Result**           | No result                       | Returns result using **Future** |
+| **Introduced In**    | Java 1.0                        | Java 5                          |
+| **Executed By**      | `Thread` or `ExecutorService`   | `ExecutorService`               |
+
+**Key Features**
+
+**Runnable**
+
+* **Does not return** any value.
+* **Cannot throw** checked exceptions.
+* Can be executed using **Thread** or **ExecutorService**.
+* Best for **fire-and-forget** tasks.
+
+**Callable**
+
+* **Returns** a result.
+* **Can throw** checked exceptions.
+* Executed using **ExecutorService**.
+* Result is obtained through a **Future** object.
+
+**How It Works**
+
+* **Runnable**
+
+  1. Implement the **Runnable** interface.
+  2. Override the **run()** method.
+  3. Execute using **Thread** or **ExecutorService**.
+
+* **Callable**
+
+  1. Implement the **Callable** interface.
+  2. Override the **call()** method.
+  3. Submit to **ExecutorService** using `submit()`.
+  4. Get the result using **Future.get()**.
+
+**When to Use**
+
+Use **Runnable** when:
+
+* You **do not need a return value**.
+* The task is simple, like **logging**, **sending emails**, or **background processing**.
+
+Use **Callable** when:
+
+* You **need a result** from the task.
+* The task may **throw checked exceptions**.
+* You need **asynchronous computation**.
+
+**Runnable Example**
+
+```java
+class MyTask implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Runnable Task");
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        Thread thread = new Thread(new MyTask());
+        thread.start();
+    }
+}
+```
+
+**Callable Example**
+
+```java
+import java.util.concurrent.*;
+
+class MyTask implements Callable<Integer> {
+    @Override
+    public Integer call() {
+        return 100;
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) throws Exception {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        Future<Integer> future = executor.submit(new MyTask());
+
+        System.out.println(future.get()); // 100
+
+        executor.shutdown();
+    }
+}
+```
 
 ## 4. What are sleep() vs wait() in java?
 
-
 * **sleep()** is a method of the **Thread class** used to pause execution of a thread for a fixed time.
+
 * **wait()** is a method of the **Object class** used for inter-thread communication, where a thread waits until it is notified.
 
 
@@ -8669,6 +8771,10 @@ public class Main {
 
 
 Both **`notify()`** and **`notifyAll()`** are methods of the **`Object`** class used for **inter-thread communication**. They wake up threads that are waiting using the **`wait()`** method.
+
+**notify()** wakes up **only one** waiting thread. The thread to wake up is **chosen by the JVM**, so you cannot control which one gets notified.
+
+**notifyAll()** wakes up **all waiting threads**. They all become runnable, but only **one thread at a time** can acquire the lock and continue.
 
 **Difference Table**
 
