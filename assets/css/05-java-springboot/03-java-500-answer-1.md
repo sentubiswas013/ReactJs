@@ -26958,7 +26958,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lIiwiaWF0IjoxNjE2MjM5MDI
 
 
 
-## **Project Flow**
+**Project Flow**
 
 ```text
 User
@@ -27000,7 +27000,7 @@ Spring Security Context
 Authorization (@PreAuthorize / hasRole())
 ```
 
-## **Project Structure**
+**Project Structure**
 
 ```
 src/main/java
