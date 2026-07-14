@@ -27571,6 +27571,25 @@ If the user has the required role, access is granted; otherwise, Spring returns 
 
 ## 12. JWT follow up common Questions?
 
+**0. What is AuthenticationManager in Spring Security?**
+
+**`AuthenticationManager`** is the **main authentication component** in Spring Security. Its job is to **verify the user's username and password** during login.
+
+If the credentials are correct, it returns an **authenticated `Authentication` object**. Otherwise, it throws an exception such as `BadCredentialsException`.
+
+**What Happens Internally?**
+
+1. The client sends **username** and **password**.
+2. `AuthenticationManager.authenticate()` receives a `UsernamePasswordAuthenticationToken`.
+3. It delegates authentication to the configured `AuthenticationProvider`.
+4. `DaoAuthenticationProvider` calls `UserDetailsService.loadUserByUsername()`.
+5. User details are loaded from the database.
+6. `BCryptPasswordEncoder` compares the raw password with the stored encrypted password.
+7. If they match, authentication succeeds and an authenticated `Authentication` object is returned.
+8. If they don't match, a `BadCredentialsException` is thrown.
+9. After successful authentication, the application generates a JWT and returns it to the client.
+
+
 **1. Why is JWT called Stateless?**
 
 Because the **server does not store user sessions**. Every request contains the JWT, and the server validates it independently.
