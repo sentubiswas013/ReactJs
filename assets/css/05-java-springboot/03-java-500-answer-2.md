@@ -5625,8 +5625,6 @@ Redis Cache
 **How it works**
 Developers follow principles like **SOLID, DRY, KISS, YAGNI** while designing classes and methods. This ensures code is **modular, testable, and easy to maintain** in real-world applications.
 
-**Why to use**
-To reduce **bugs**, improve **team collaboration**, increase **code quality**, and make the system **easier to scale and maintain**.
 
 **When to use**
 Use code principles:

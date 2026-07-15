@@ -1471,11 +1471,6 @@ System.out.println(condition.test(9));  // false
 * If two objects have the same `hashCode()`, they **may or may not be equal**.
 * If you **override `equals()`**, you should also **override `hashCode()`**.
 
-**Why to Use**
-
-* To define **logical equality** instead of reference equality.
-* To ensure objects work correctly in **`HashMap`**, **`HashSet`**, and other hash-based collections.
-* To improve lookup performance using hash codes.
 
 **When to Use**
 
@@ -1566,11 +1561,6 @@ The **`hashCode()`** method returns an **integer hash value** for an object. It 
 * When an object is inserted into a **`HashMap`** or **`HashSet`**, Java first calls **`hashCode()`** to find the bucket.
 * If multiple objects have the same hash code, Java uses **`equals()`** to identify the correct object.
 
-**Why to Use**
-
-* Ensures correct behavior of **`HashMap`**, **`HashSet`**, and other hash-based collections.
-* Improves lookup performance.
-* Maintains consistency between **logical equality** and **hash values**.
 
 **When to Use**
 
@@ -1840,12 +1830,6 @@ Example:
 Car car = new Car();
 ```
 
-**Why to Use**
-
-* To represent real-world entities such as **User**, **Car**, or **Employee**.
-* To organize data and behavior together.
-* To support **Object-Oriented Programming (OOP)**.
-* To improve code reusability and maintainability.
 
 **When to Use**
 
@@ -1930,10 +1914,6 @@ An **object** is a **real instance of a class** created in memory.
 **How it works**
 A **class defines structure**, and when we use `new`, Java creates an **object in memory** based on that class structure.
 
-**Why to use**
-
-* **Class** helps in designing structure
-* **Object** allows real-world usage of that structure in programs
 
 **When to use**
 
@@ -1988,12 +1968,6 @@ public class Main {
 **How it works**
 
 Java decides which method to call based on the **method signature (parameters)** during **compile time**.
-
-**Why to use**
-
-* Improves **code readability**
-* Provides **flexibility** to handle different inputs with same operation name
-* Reduces method naming complexity
 
 **When to use**
 
@@ -2093,11 +2067,6 @@ class Student {
 **How it works**
 When a method is called using a **parent reference pointing to a child object**, Java executes the **child class overridden method at runtime**.
 
-**Why to use**
-
-* To provide **specific implementation** in child class
-* To achieve **runtime polymorphism**
-* To extend or modify **parent behavior**
 
 **When to use**
 
@@ -2199,11 +2168,6 @@ When a class is needed, the **ClassLoader loads it into JVM memory** in three st
 
 It follows a **parent delegation model**, meaning request is first sent to **parent ClassLoader**, then to child if not found.
 
-**Why to use**
-
-* To support **dynamic loading of classes**
-* To improve **modularity and flexibility**
-* To separate **system, framework, and user classes**
 
 **When to use**
 
@@ -2380,11 +2344,6 @@ An **immutable class** in Java is a class whose **state (data)** cannot be chang
 **How it works**
 All values are set using a **constructor**, and after object creation, there is **no way to modify the internal state**.
 
-**Why to use**
-
-* Provides **thread safety without synchronization**
-* Ensures **data security and consistency**
-* Useful in **caching, multi-threading, and security-sensitive applications**
 
 **When to use**
 
@@ -2482,11 +2441,6 @@ A **constructor** in Java is a special method used to **initialize objects** whe
 **How it works**
 When we create an object using `new`, Java automatically calls the **constructor** to set initial values for the object’s variables.
 
-**Why to use**
-
-* To ensure **proper initialization** of objects
-* To reduce need for manual setup after object creation
-* To enforce **consistent object state**
 
 **When to use**
 
@@ -2534,10 +2488,6 @@ A **default constructor** is a constructor that is provided by the **Java compil
 **How it works**
 When an object is created and no constructor is written, Java inserts a **default constructor internally** and assigns **default values** to instance variables.
 
-**Why to use**
-
-* To allow object creation even when no initialization logic is written
-* Provides **basic safe object state**
 
 **When to use**
 
@@ -2581,11 +2531,6 @@ The **static keyword** in Java is used to define **class-level members** that be
 **How it works**
 When a class is loaded, all **static members are stored in method area memory**, and all objects share the same **static data**.
 
-**Why to use**
-
-* To share common data across all objects
-* To save memory using **single copy of variable/method**
-* To provide **utility methods (e.g., Math class methods)**
 
 **When to use**
 
@@ -3083,12 +3028,6 @@ dog.eat();   // Inherited method
 dog.bark();  // Own method
 ```
 
-**Why to Use**
-
-* To reuse existing code
-* To create a hierarchy between classes
-* To avoid duplicate code
-* To support polymorphism
 
 **When to Use**
 
@@ -3346,11 +3285,6 @@ The **extends keyword** in Java is used to create **inheritance**, where a **chi
 **How it works**
 When a class uses **extends**, it automatically gets access to the **non-private members (fields and methods)** of the parent class.
 
-**Why to use**
-
-* To achieve **code reusability**
-* To reduce **duplication of code**
-* To implement **inheritance and polymorphism**
 
 **When to use**
 
@@ -3580,11 +3514,6 @@ Here, the **JVM** decides at **runtime** to call `UpiPayment.pay()` because the 
 **How it works**
 If class **Dog extends Animal**, then **Dog IS-A Animal**, meaning Dog inherits all **non-private properties and behaviors** of Animal.
 
-**Why to use**
-
-* To achieve **inheritance and reusability**
-* To build **logical hierarchy of classes**
-* To enable **polymorphism**
 
 **When to use**
 
@@ -3723,13 +3652,6 @@ Because it provides **Loose Coupling**, **Better Flexibility**, and avoids deep 
 
 * In **Composition**, parent class creates and controls the **dependent objects**
 * In **Aggregation**, parent class uses **external objects passed from outside**
-
-
-**Why to use**
-
-* To represent **real-world relationships clearly**
-* To improve **code reusability and modularity**
-* To choose correct **dependency strength (strong vs weak)**
 
 
 **When to use**
@@ -4003,13 +3925,6 @@ Calls Dog's overridden sound() method
 * At runtime, Java calls the method of the **actual object type**
 
 
-**Why to use:**
-
-* To achieve **runtime polymorphism**
-* To provide **specific behavior in child classes**
-* To improve **flexibility and reusability**
-
-
 **When to use:**
 
 * When a **general behavior exists in parent class**
@@ -4228,13 +4143,6 @@ Yes, an **abstract class can have a constructor** in Java. Even though you **can
 * Java automatically calls the **parent (abstract class) constructor first**
 * Then the **child class constructor** executes
 * Used to initialize shared state in parent class
-
-
-**Why to use:**
-
-* To initialize **common properties** for all child classes
-* To reduce **code duplication**
-* To ensure proper **object initialization in inheritance hierarchy**
 
 
 **When to use:**
@@ -4607,12 +4515,6 @@ Vehicle v = new Vehicle();
 
 An **Abstract Class** defines common behavior that can be shared by multiple subclasses. The subclasses inherit from it and provide implementations for the abstract methods.
 
-**Why to Use**
-
-* To provide a common base for related classes
-* To avoid code duplication
-* To enforce certain methods in child classes
-* To support code reusability
 
 **When to Use**
 
@@ -4675,17 +4577,6 @@ Both **Interface** and **Abstract Class** are used to achieve **Abstraction**, b
 * Use an **Interface** when unrelated classes need to follow the same contract.
 * Use an **Abstract Class** when classes share common state and behavior.
 
-**Why to Use Interface**
-
-* To achieve **Loose Coupling**
-* To support **Multiple Inheritance**
-* To define a common contract
-
-**Why to Use Abstract Class**
-
-* To share common code among subclasses
-* To avoid code duplication
-* To provide a common base implementation
 
 **When to Use Interface**
 
@@ -5211,12 +5102,6 @@ try {
 }
 ```
 
-**Why to Use**
-
-* To handle errors gracefully
-* To prevent application termination
-* To improve application reliability
-* To provide meaningful error messages
 
 **When to Use**
 
@@ -5810,10 +5695,6 @@ Both **`ArrayList`** and **`LinkedList`** are implementations of the **`List`** 
   * Stores each element in a **node**.
   * Each node contains the **data**, a **reference to the next node**, and a **reference to the previous node**.
 
-**Why to Use**
-
-* Use **`ArrayList`** when your application performs **frequent reads or searches**.
-* Use **`LinkedList`** when your application performs **frequent insertions or deletions**, especially at the beginning or middle of the list.
 
 **When to Use**
 
@@ -5906,10 +5787,6 @@ Both **`HashMap`** and **`TreeMap`** are implementations of the **`Map`** interf
   * Stores keys in a **Red-Black Tree**.
   * Automatically keeps keys in **ascending order** (or custom order using a `Comparator`).
 
-**Why to Use**
-
-* Use **`HashMap`** when you need **fast access** and do not care about the order of keys.
-* Use **`TreeMap`** when you need **sorted keys** or operations like finding the smallest, largest, or a range of keys.
 
 **When to Use**
 
@@ -6000,10 +5877,6 @@ Both **`HashMap`** and **`Hashtable`** are implementations of the **`Map`** inte
   * Also uses a **hash table**, but all its methods are **synchronized**.
   * Only one thread can access it at a time, making it thread-safe but reducing performance.
 
-**Why to Use**
-
-* Use **`HashMap`** for **single-threaded** applications or when synchronization is handled externally.
-* Use **`Hashtable`** only for maintaining compatibility with legacy code. For modern multi-threaded applications, **`ConcurrentHashMap`** is preferred.
 
 **When to Use**
 
@@ -6224,11 +6097,6 @@ Both entries are stored in **Bucket 3**, creating a **hash collision**.
 
 The **Red-Black Tree** improves worst-case search performance from **O(n)** to **O(log n)**.
 
-**Why to Use Collision Handling**
-
-* Prevents data from being overwritten.
-* Allows multiple keys to coexist in the same bucket.
-* Maintains efficient lookup and insertion performance.
 
 **When Does It Happen?**
 
@@ -6320,11 +6188,6 @@ Both **`Comparable`** and **`Comparator`** are interfaces in Java used for **sor
 
   * A separate class or lambda expression implements the **`Comparator`** interface.
   * Sorting logic is written inside the **`compare()`** method.
-
-**Why to Use**
-
-* Use **`Comparable`** when there is a **single, default sorting order**.
-* Use **`Comparator`** when you need **multiple sorting criteria** or cannot modify the existing class.
 
 **When to Use**
 
@@ -6452,10 +6315,6 @@ A **`WeakHashMap`** is a special implementation of the **`Map`** interface where
 
 * If a key object is no longer used outside the map, GC clears the key and its associated entry.
 
-**Why to Use**
-
-* Prevents **memory leaks**.
-* Useful for **caching** and storing temporary metadata.
 
 **When to Use**
 
@@ -6500,10 +6359,6 @@ String s2 = new String("Java");
 
 Although `s1.equals(s2)` is `true`, `s1 == s2` is `false`, so `IdentityHashMap` treats them as different keys.
 
-**Why to Use**
-
-* When object **identity** is more important than object content.
-* Used internally by frameworks and serialization libraries.
 
 **When to Use**
 
@@ -6543,10 +6398,6 @@ A **`LinkedHashMap`** is a `HashMap` implementation that maintains the **inserti
 
 * Internally uses a **hash table** for fast lookup and a **linked list** to preserve order.
 
-**Why to Use**
-
-* When the order of elements must be preserved.
-* For implementing **LRU (Least Recently Used) caches**.
 
 **When to Use**
 
@@ -6589,10 +6440,6 @@ A **`PriorityQueue`** is a queue implementation that stores elements according t
 * The root element (highest priority) is always available at the front.
 * `poll()` removes the highest-priority element.
 
-**Why to Use**
-
-* Efficient priority-based processing.
-* Frequently used in **scheduling**, **task management**, and **graph algorithms** like Dijkstra's algorithm.
 
 **When to Use**
 
@@ -6852,10 +6699,6 @@ Both **`HashMap`** and **`ConcurrentHashMap`** are implementations of the **`Map
   * In **Java 8+**, it uses **CAS (Compare-And-Swap)** and **bucket-level locking** instead of locking the entire map.
   * Multiple threads can read and update different buckets simultaneously.
 
-**Why to Use**
-
-* Use **`HashMap`** when thread safety is not required and maximum performance is needed.
-* Use **`ConcurrentHashMap`** when multiple threads need to access and modify the map safely.
 
 **When to Use**
 
@@ -6989,12 +6832,6 @@ A **`HashMap`** iterator is **fail-fast** and throws **`ConcurrentModificationEx
 | **`Map`**     | `HashMap`, `LinkedHashMap`, `TreeMap`, `ConcurrentHashMap` |
 | **`Queue`**   | `LinkedList`, `PriorityQueue`, `ArrayDeque`                |
 
-**Why to Use**
-
-* Use **`List`** when order and duplicates matter.
-* Use **`Set`** when uniqueness is required.
-* Use **`Map`** when data should be stored and retrieved using a key.
-* Use **`Queue`** for scheduling, buffering, or task processing.
 
 **When to Use**
 
@@ -7108,10 +6945,6 @@ public class Demo {
   * Implementations like **`ArrayList`** internally use a dynamic array.
   * When capacity is full, a larger array is created and existing elements are copied automatically.
 
-**Why to Use**
-
-* Use **`Array`** when the number of elements is known and fixed.
-* Use **`List`** when the number of elements can change dynamically or when you need collection utility methods.
 
 **When to Use**
 
@@ -7275,11 +7108,6 @@ The loop visits every element once, so the time complexity is **`O(n)`**.
 | **Performance**            | Very Fast          | Slower as input grows |
 | **Example**                | Array index access | Loop through an array |
 
-**Why to Use Big O Notation**
-
-* Measures algorithm efficiency.
-* Helps compare different solutions.
-* Important for designing scalable and high-performance applications.
 
 **When to Use**
 
@@ -7444,13 +7272,6 @@ The **Stream API** is introduced in Java 8 to process **collections of objects i
 * Operations are executed only when a **terminal operation is called**
 
 
-**Why to use:**
-
-* To write **clean and readable code**
-* To reduce **boilerplate loops**
-* To improve **performance with parallel processing**
-* To support **functional programming style**
-
 
 **When to use:**
 
@@ -7530,12 +7351,6 @@ A **Parallel Stream** is a type of **Stream API** that processes data **concurre
 * Results are combined using **merge operation**
 * Uses **ForkJoin framework internally**
 
-
-**Why to use:**
-
-* To improve **performance on large data sets**
-* To utilize **multi-core CPU power**
-* To reduce **processing time for heavy operations**
 
 
 **When to use:**
@@ -8157,10 +7972,6 @@ Java has only one memory that is JVM. and JVM memory is divided into different a
 * After the method completes, the stack frame is removed automatically.
 * Objects in the heap remain until the **Garbage Collector** frees the unused memory.
 
-**Why to Use**
-
-* **Stack** provides **fast and efficient** memory management for method execution.
-* **Heap** allows **dynamic object creation** and sharing of objects across methods and threads.
 
 **When to Use**
 
@@ -8262,12 +8073,6 @@ public class Main {
 }
 ```
 
-**Why to Use**
-
-* Eliminates manual memory management
-* Reduces memory-related bugs
-* Prevents memory leaks
-* Improves application reliability
 
 **When to Use**
 
@@ -8385,11 +8190,6 @@ Eden  →  Survivor (S0/S1)  →  Old Generation
    Minor GC         Minor GC        Major/Full GC
 ```
 
-**Why to Use**
-
-* Improves **GC performance** by collecting short-lived objects quickly.
-* Reduces the time spent scanning the entire heap.
-* Minimizes application pause times and improves memory efficiency.
 
 **When to Use**
 
@@ -8449,12 +8249,6 @@ String temp = "temporary"; // Likely collected in minor GC
 3. Reachable objects are marked as **live**.
 4. Unreachable objects are considered **garbage** and can be removed.
 
-**Why to Use**
-
-* Prevents accidental deletion of objects still in use.
-* Enables efficient **memory management**.
-* Helps avoid **memory leaks** and **OutOfMemoryError**.
-
 **When to Use**
 
 * Understanding **Garbage Collection** internals.
@@ -8509,14 +8303,6 @@ A Java thread goes through different **states** during execution:
 * It may move between **Waiting/Blocked**
 * After completion, it enters **Terminated state**
 
-
-**Why to Use Threads**
-
-* Improve **performance**
-* Enable **concurrent execution**
-* Better CPU utilization
-* Faster task processing
-* Responsive applications
 
 
 **When to Use Threads**
@@ -9196,12 +8982,6 @@ Task 3
 * Other threads must wait until the lock is released.
 * Once execution is complete, the lock is released automatically.
 
-**Why to Use**
-
-* Prevent **data corruption**
-* Ensure **consistency in shared resources**
-* Avoid **race conditions**
-* Maintain correct program behavior in multi-threading
 
 **When to Use**
 
@@ -9324,12 +9104,6 @@ public class Test {
 * So all threads always see the **latest value**
 
 
-**Why to Use**
-
-* Ensure **data visibility** in multi-threading
-* Avoid stale or cached values
-* Lightweight alternative to locks for simple cases
-
 
 **When to Use**
 
@@ -9419,15 +9193,6 @@ public class Test {
 * If no permit is available, the thread waits (**blocked**)
 * After execution, the thread calls **release()** to return the permit
 * This ensures controlled **concurrent access**
-
-
-**Why to Use**
-
-* To manage **limited resources safely**
-* To avoid **system overload**
-* To ensure **controlled concurrency**
-* To improve **resource utilization efficiency**
-
 
 **When to Use**
 
@@ -9929,12 +9694,6 @@ class Counter {
 * The **JVM Thread Scheduler** decides when each thread runs.
 * Threads execute independently but share application resources.
 
-**Why to Use**
-
-* Improve application **performance**
-* Handle multiple tasks simultaneously
-* Reduce user waiting time
-* Better responsiveness in web and desktop applications
 
 **When to Use**
 
@@ -10003,12 +9762,6 @@ public class Main {
 * While one task waits (e.g., for I/O), another task can execute.
 * This creates the illusion that tasks are running together.
 
-**Why to Use**
-
-* Improve application responsiveness
-* Handle many user requests efficiently
-* Better resource utilization
-* Increase overall throughput
 
 **When to Use**
 
@@ -10082,11 +9835,6 @@ public class Main {
 * Reads are usually performed without locking.
 * Only the affected portion of the map is locked during updates, improving performance.
 
-**Why to Use**
-
-* Prevent data corruption in multi-threaded environments
-* Better performance than **Hashtable** or synchronized collections
-* Safe concurrent access to shared data
 
 **When to Use**
 
@@ -10147,12 +9895,6 @@ A **Thread Pool** is a collection of **pre-created worker threads** that are reu
 4. After completion, the thread returns to the pool and waits for the next task.
 5. Threads are reused instead of being created repeatedly.
 
-**Why to Use**
-
-* Improves application performance
-* Reduces memory and CPU overhead
-* Prevents creating too many threads
-* Simplifies concurrent programming
 
 **When to Use**
 
@@ -10217,12 +9959,6 @@ public class Main {
 4. After completion, the thread returns to the pool.
 5. Call `shutdown()` when all tasks are finished.
 
-**Why to Use**
-
-* Avoid manual thread creation
-* Better resource management
-* Improves performance through thread reuse
-* Simplifies concurrent programming
 
 **When to Use**
 
@@ -10412,12 +10148,6 @@ public class Main {
 4. The lock is released using `unlock()`.
 5. Waiting threads can then acquire the lock.
 
-**Why to Use**
-
-* More flexible than **synchronized**
-* Better control over locking behavior
-* Supports timeout and interrupt handling
-* Useful in complex concurrent applications
 
 **When to Use**
 
@@ -10671,12 +10401,6 @@ public class ApiService {
 3. No methods allow modification of the object's state.
 4. Any change requires creating a new object.
 
-**Why to Use**
-
-* Improves **thread safety**
-* Prevents accidental data modification
-* Makes code easier to understand and maintain
-* Reduces synchronization issues
 
 **When to Use**
 
@@ -10760,12 +10484,6 @@ Here, **String** is immutable. The original object is not changed; a new object 
 4. Process the result when the task completes.
 5. Combine multiple tasks if needed.
 
-**Why to Use**
-
-* Improve application performance
-* Avoid blocking the main thread
-* Execute multiple tasks concurrently
-* Simplify asynchronous programming
 
 **When to Use**
 
@@ -11407,12 +11125,6 @@ Use **NIO** when you need **better performance and scalability**, especially for
 * The actual type is specified when creating an object or calling a method.
 * The compiler ensures only the specified type is used.
 
-**Why to Use**
-
-* Prevents **ClassCastException**.
-* Reduces runtime errors.
-* Makes code more reusable and maintainable.
-* Improves compile-time checking.
 
 **When to Use**
 
@@ -11696,11 +11408,6 @@ public class GenericClass<T> {
 * The **compiler**, **JVM**, or a **framework** reads the annotation.
 * Based on the annotation, it performs specific actions automatically.
 
-**Why to Use**
-
-* Reduces boilerplate code and manual configuration.
-* Makes code cleaner and easier to maintain.
-* Enables features like **dependency injection**, **ORM mapping**, and **unit testing**.
 
 **When to Use**
 
@@ -11799,11 +11506,6 @@ These are **meta-annotations**, which means they are **annotations used to defin
 * **`@Documented`** tells the JavaDoc tool to include the annotation in generated documentation.
 * **`@Inherited`** allows a subclass to access the annotation present on its parent class.
 
-**Why to Use**
-
-* Prevents incorrect annotation usage with **`@Target`**.
-* Improves API documentation with **`@Documented`**.
-* Reduces duplicate annotations in inheritance hierarchies with **`@Inherited`**.
 
 **When to Use**
 
@@ -11937,11 +11639,6 @@ public class Main {
 * Based on the selected `RetentionPolicy`, it decides how long the annotation should be kept.
 * If `RUNTIME` is used, the annotation can be accessed using **Reflection API**.
 
-**Why to Use**
-
-* Controls whether an annotation is needed only during compilation or also at runtime.
-* Improves performance by keeping annotations only as long as required.
-* Enables frameworks like **Spring** and **Hibernate** to read annotations dynamically.
 
 **When to Use**
 
@@ -14360,12 +14057,6 @@ userRepository.save(user);
 
 ORM automatically generates and executes the SQL needed to save the object.
 
-**Why to Use**
-
-* Reduces manual SQL writing
-* Improves developer productivity
-* Makes code more object-oriented
-* Simplifies CRUD operations
 
 **When to Use**
 
@@ -14419,12 +14110,6 @@ userRepository.save(user);
 
 JPA automatically maps the object and persists it to the database.
 
-**Why to Use**
-
-* Simplifies database operations
-* Reduces SQL and JDBC code
-* Improves productivity
-* Provides a standard persistence approach
 
 **When to Use**
 
@@ -14484,14 +14169,6 @@ Hibernate automatically generates SQL similar to:
 ```sql
 INSERT INTO user (name) VALUES ('John');
 ```
-
-**Why to Use**
-
-* Reduces manual SQL writing
-* Simplifies database interaction
-* Improves productivity
-* Provides advanced ORM features
-* Makes applications easier to maintain
 
 **When to Use**
 
@@ -15255,12 +14932,6 @@ SET name = 'John Updated'
 WHERE id = 1;
 ```
 
-**Why to Use**
-
-* Reduces manual database updates
-* Simplifies code
-* Improves developer productivity
-* Ensures entity changes are persisted automatically
 
 **When to Use**
 
@@ -16017,12 +15688,6 @@ A **Spring Container** is the **core component of the Spring Framework** that is
 | **`BeanFactory`**        | Basic IoC container with **lazy initialization**.                                                                |
 | **`ApplicationContext`** | Advanced IoC container with features like **AOP, event handling, annotation support, and eager initialization**. |
 
-**Why to Use**
-
-* Eliminates manual object creation using `new`.
-* Promotes **loose coupling** and better maintainability.
-* Simplifies dependency management.
-* Makes applications easier to test and extend.
 
 **When to Use**
 
@@ -16135,10 +15800,6 @@ Both **`BeanFactory`** and **`ApplicationContext`** are **Spring IoC (Inversion 
   * Creates all **singleton beans** during container startup (unless marked `@Lazy`).
   * Provides additional services such as event publishing and resource management.
 
-**Why to Use**
-
-* Use **`BeanFactory`** when you need a lightweight container with lazy initialization.
-* Use **`ApplicationContext`** for almost all enterprise applications because it provides additional Spring features.
 
 **When to Use**
 
@@ -17117,12 +16778,6 @@ In production, we move toward cloud-native and distributed architecture. Kuberne
 3. Based on the annotation, the required action is performed automatically.
 4. For example, Spring scans `@Component` and creates a **Bean** in the Spring Container.
 
-**Why to Use Annotations?**
-
-* Reduces **boilerplate code**.
-* Eliminates complex **XML configurations**.
-* Makes applications easier to configure and maintain.
-* Enables powerful framework features like **Dependency Injection**, **AOP**, and **ORM mapping**.
 
 **When to Use?**
 
@@ -17201,13 +16856,6 @@ Here, Spring reads the annotations and automatically creates the objects and inj
 * **Production-Ready Features** – Provides **Actuator**, health checks, metrics, and monitoring.
 * **Minimal Configuration** – Reduces XML and manual configuration using annotations.
 
-**Why to Use Spring Boot?**
-
-* Reduces **boilerplate code** and configuration.
-* Speeds up application development.
-* Makes deployment easier with a **self-contained JAR**.
-* Simplifies microservices and enterprise application development.
-* Integrates seamlessly with the Spring ecosystem.
 
 **When to Use?**
 
@@ -17412,12 +17060,6 @@ HTTP Response to Client
 * The result flows back through **Repository → Service → Controller**.
 * The **DispatcherServlet** converts the result into an HTTP response (usually JSON) and sends it back to the client.
 
-**Why to Use This Architecture?**
-
-* Promotes **Separation of Concerns (SoC)**.
-* Makes applications **loosely coupled** and **easy to maintain**.
-* Simplifies testing and future enhancements.
-* Supports scalable **layered architecture**.
 
 **When to Use?**
 
@@ -17509,11 +17151,6 @@ The **Bean Lifecycle** is the sequence of steps that a **Spring Bean** goes thro
 
 When the application starts, the **Spring Container** scans and creates beans, injects dependencies, performs initialization callbacks, and makes the bean available for use. When the application stops, it executes the bean's destruction callbacks and removes it from memory.
 
-**Why to Use**
-
-* To perform **resource initialization** (database connections, cache loading, etc.).
-* To execute **cleanup tasks** before bean destruction.
-* To customize bean behavior during **creation** and **destruction**.
 
 **When to Use**
 
@@ -17902,12 +17539,6 @@ When the application starts, the **Spring Container** scans the packages for the
 | **`@Service`**        | Contains **business logic**                            | Service Layer      | Improves code readability and design                                |
 | **`@Repository`**     | Handles **database operations**                        | Persistence Layer  | Automatically translates database exceptions into Spring exceptions |
 
-**Why to Use**
-
-* To follow a **layered architecture**.
-* To make classes **Spring-managed beans**.
-* To separate **presentation**, **business**, and **data access** logic.
-* To get additional Spring features like **exception translation** and **automatic response conversion**.
 
 **When to Use**
 
@@ -18021,10 +17652,6 @@ When the **Spring Container** creates a bean, it looks for `@Autowired` or `@Inj
 | **Qualifier Support**   | `@Qualifier`                                    | `@Named` (or Spring's `@Qualifier`)                    |
 | **Portability**         | Works only with Spring                          | Works across multiple DI frameworks                    |
 
-**Why to Use**
-
-* Use **`@Autowired`** when you are building a **Spring-only** application and want Spring-specific features.
-* Use **`@Inject`** when you want your code to follow the **Java standard** and remain more **framework-independent**.
 
 **When to Use**
 
@@ -18105,11 +17732,6 @@ public class UserService {
 
 When the application starts, Spring checks the **active profile** (configured using `spring.profiles.active`). It creates and registers only those beans whose `@Profile` value matches the active profile.
 
-**Why to Use**
-
-* To maintain **different configurations** for different environments.
-* To avoid changing code manually when moving from **dev** to **test** or **production**.
-* To load only the required beans, improving **maintainability** and **flexibility**.
 
 **When to Use**
 
@@ -18206,11 +17828,6 @@ public class DevDataLoader {
 
 When the application starts, **`ApplicationContext`** reads the configuration, scans for Spring annotations like **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`**, creates the required beans, injects dependencies, and stores them inside the **Spring Container**. Whenever a bean is requested, it returns the managed object.
 
-**Why to Use**
-
-* To let Spring **manage object creation and dependencies**.
-* To avoid manual object creation using the **`new`** keyword.
-* To get advanced Spring features like **AOP**, **events**, and **bean lifecycle management**.
 
 **When to Use**
 
@@ -18325,11 +17942,6 @@ public class EmailService {
 
 Spring loads the `@Configuration` class, executes its `@Bean` methods, and registers the returned objects as beans.
 
-**Why to Use**
-
-* To create beans manually.
-* To configure **third-party or external library classes**.
-
 **When to Use**
 
 * When custom bean creation or configuration is required.
@@ -18437,9 +18049,6 @@ public class UserService {
 
 When a client sends a **PATCH** request to a specific URL, Spring routes the request to the method annotated with `@PatchMapping`.
 
-**Why to Use**
-
-* To update only selected fields instead of replacing the entire object.
 
 **When to Use**
 
