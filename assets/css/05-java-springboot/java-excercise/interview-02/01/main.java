@@ -4,22 +4,16 @@ class main {
 	public static void main(String[] args) {
 		System.out.println("Hello world");
 
-		// Person obj = new Person();
-		User obj = new User();
-		obj.age = 23432;
-		System.out.println(obj.age);
+		Demo obj = new Demo();
+		obj.display();
+		// obj.display();
 	}
 }
 
-// class User extends Person {
+class Demo {
+    static int x = 10;   // static
+    int y = 20;          // non-static
 
-// }
-// class Person {
-//     public final String name = "Sentu vv bb mm";
-//     public String name = "Sentu";
-// }
-
-class User {
-    final int age = 20;
-    // age = 10;  
+    static void show() { System.out.println(x); }   // static method
+    void display()     { System.out.println(y); }   // non-static method
 }

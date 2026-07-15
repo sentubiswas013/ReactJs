@@ -3039,6 +3039,21 @@ Examples:
 * **Car IS-A Vehicle**
 * **Manager IS-An Employee**
 
+**Common Interview Follow-up Questions**
+
+**2. What is the difference between `extends` and `implements`?**
+
+* **`extends`** is used to inherit from a **Class**.
+* **`implements`** is used to implement an **Interface**.
+
+**3. Can a Child Class override Parent Class methods?**
+**Yes.** This is called **Method Overriding**, which enables **Runtime Polymorphism**.
+
+**4. Can Constructors be inherited?**
+**No.** Constructors are **not inherited**, but they can be called using **`super()`**.
+
+**5. Which class is the root of all classes in Java?**
+The **`Object`** class is the **root class**, and every Java class directly or indirectly inherits from it.
 
 
 ## 2. Why doesn't Java support multiple inheritance (with classes)?
@@ -4489,6 +4504,24 @@ public class Main {
 }
 ```
 
+**Common Interview Follow-up Questions**
+
+**1. Can a Functional Interface have multiple methods?**
+**Yes.** It can have **multiple Default** and **Static Methods**, but **only one Abstract Method**.
+
+**2. Is `@FunctionalInterface` mandatory?**
+**No.** It is **optional**, but recommended because it provides **compile-time validation**.
+
+**3. Can a Functional Interface extend another Interface?**
+**Yes.** As long as the resulting interface still has **only one Abstract Method**.
+
+**4. Name some built-in Functional Interfaces in Java.**
+**`Predicate`**, **`Function`**, **`Consumer`**, **`Supplier`**, **`Runnable`**, and **`Callable`**.
+
+**5. What is the main use of a Functional Interface?**
+It is used to support **Lambda Expressions**, **Method References**, and **functional programming** features introduced in **Java 8**.
+
+
 ## 4. What is an Abstract Class?
 
 An **Abstract Class** is a class that cannot be instantiated directly. It is used as a base class for other classes and can contain both **abstract methods** (without implementation) and **concrete methods** (with implementation).
@@ -4557,6 +4590,50 @@ abstract class Animal {
     }
 }
 ```
+
+**Advantages**
+
+* Promotes **Code Reusability**.
+* Supports **Abstraction** by hiding implementation details.
+* Reduces **code duplication**.
+* Provides a **common base** for related classes.
+* Ensures subclasses implement required behavior.
+
+
+
+**Common Interview Follow-up Questions**
+
+**0. Abstract Class vs Interface**
+
+| **Abstract Class**                             | **Interface**                                              |
+| ---------------------------------------------- | ---------------------------------------------------------- |
+| Uses **`abstract`** keyword                    | Uses **`interface`** keyword                               |
+| Can have **Abstract** and **Concrete Methods** | Can have **Abstract**, **Default**, and **Static Methods** |
+| Can have **Instance Variables**                | Can have only **Constants (`public static final`)**        |
+| Supports **Constructors**                      | **No Constructors**                                        |
+| A class can extend **only one** abstract class | A class can implement **multiple interfaces**              |
+
+
+**1. Can we create an object of an Abstract Class?**
+
+**No.** An abstract class **cannot be instantiated**.
+
+**2. Can an Abstract Class have Constructors?**
+
+**Yes.** Constructors are used to initialize the object when a subclass is instantiated.
+
+**3. Can an Abstract Class have Concrete Methods?**
+
+**Yes.** It can contain both **Abstract Methods** and **Concrete Methods**.
+
+**4. Can an Abstract Class have only Concrete Methods?**
+
+**Yes.** A class can still be declared **abstract** even if it has no abstract methods, preventing direct instantiation.
+
+**5. When should you use an Abstract Class instead of an Interface?**
+
+Use an **Abstract Class** when related classes share **common state** and **implementation**. Use an **Interface** when multiple unrelated classes need to implement the same behavior.
+
 
 ## 4. When should you use an interface instead of an abstract class?
 
