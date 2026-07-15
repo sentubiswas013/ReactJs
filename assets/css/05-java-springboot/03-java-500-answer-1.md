@@ -7578,19 +7578,6 @@ Collections.sort(new ArrayList<>(collection));
 Collections.reverse(new ArrayList<>(collection));
 ```
 
-**Difference Table**
-
-| **Feature**         | **`Collection`**                              | **`Collections`**                                                      |
-| ------------------- | --------------------------------------------- | ---------------------------------------------------------------------- |
-| **Type**            | **Interface**                                 | **Utility Class**                                                      |
-| **Package**         | **`java.util`**                               | **`java.util`**                                                        |
-| **Purpose**         | Defines how collections store and manage data | Provides utility methods to manipulate collections                     |
-| **Implemented By**  | **`List`**, **`Set`**, **`Queue`**            | Not implemented (contains only static methods)                         |
-| **Object Creation** | Cannot create directly                        | No object creation required                                            |
-| **Methods**         | `add()`, `remove()`, `contains()`, `size()`   | `sort()`, `reverse()`, `shuffle()`, `binarySearch()`, `min()`, `max()` |
-
-
-
 **How it Works**
 
 #**`Collection`**
