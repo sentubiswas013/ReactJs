@@ -1874,6 +1874,9 @@ public class Main {
 
 **Common Interview Follow-up Questions**
 
+**0. How is an Object created in Java?**
+Using the **`new`** keyword, which allocates memory and calls the **Constructor**.
+
 **1. What is the difference between a Class and an Object?**
 
 | **Class**                          | **Object**                      |
@@ -1882,6 +1885,7 @@ public class Main {
 | Logical entity                     | Physical entity                 |
 | Does not store instance data       | Stores actual data              |
 | No memory for instance data        | Occupies memory in the **Heap** |
+
 **2. Where are Objects stored in Java?**
 
 Objects are stored in the **Heap Memory**, while the **reference variable** is stored in the **Stack Memory** (for local variables).
@@ -1899,10 +1903,15 @@ Student s1 = new Student();
 **Yes.** A single class can create **multiple objects**, and each object has its own independent copy of the instance variables.
 
 
-3. Difference between class and object?
+**4. What are the three characteristics of an Object?**
+**State** (**fields/variables**), **Behavior** (**methods**), and **Identity** (unique reference).
+
+
+## 3. Difference between class and object?
 
 A **class** is a **blueprint or template** used to create objects.
 An **object** is a **real instance of a class** created in memory.
+
 
 **Key Features**
 
