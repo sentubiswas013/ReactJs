@@ -3,21 +3,23 @@ import java.util.*;
 class main {
 	public static void main(String[] args) {
 		System.out.println("Hello world");
-		B st = new B();
-		st.methodA();
+
+		// Person obj = new Person();
+		User obj = new User();
+		obj.age = 23432;
+		System.out.println(obj.age);
 	}
 }
 
-class B extends A {
-	public void methodA() {
-		String name = null;
-		Optional<String> optional = Optional.ofNullable(name);
+// class User extends Person {
 
-		System.out.println("Result " + optional.isPresent());
-		System.out.println("Result " + optional.isEmpty());
-	}
-}
+// }
+// class Person {
+//     public final String name = "Sentu vv bb mm";
+//     public String name = "Sentu";
+// }
 
-abstract class A {
-	abstract void methodA ();
+class User {
+    final int age = 20;
+    // age = 10;  
 }

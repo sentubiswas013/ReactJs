@@ -85,6 +85,13 @@ public class Main {
     public static void immutableClassDemo() {
 
         System.out.println("=========================== immutableClassDemo");
-
+        Person obj = new Person();
+        System.out.println(obj.name);
     }
+
+    static class Person {
+        private String name = "Sentu vv";
+    }
+
+
 }

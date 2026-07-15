@@ -105,6 +105,10 @@ class CollectionsDemo {
         Map<String, Integer> map = new HashMap<>();
         map.put("Java", 1);
         map.put("Spring", 2);
+        
+        map.forEach((key, value) -> {
+            System.out.println("key " + value);
+        });
 
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());

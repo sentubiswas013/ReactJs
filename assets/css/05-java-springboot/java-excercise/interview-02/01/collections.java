@@ -71,6 +71,19 @@ class CollectionsDemo {
     public static void iterateMapDemo() {
 
         System.out.println("=========================== iterateMapDemo");
+        LinkedHashMap<Integer, String> list = new LinkedHashMap<>();
+        list.put(1, "Sentu");
+        list.put(2, "Pintu");
+        list.put(3, "Ranku");
+
+        list.forEach((key, value) -> {
+            System.out.println("key 1 " + value);
+        });
+
+        // for (list.Entry<String, Integer> entry : map.entrySet()) {
+        for (Map.Entry<Integer, String> entry : list.entrySet()) {
+            System.out.println("key 2 " + entry.getKey());
+        }
 
     }
 

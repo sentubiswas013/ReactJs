@@ -1218,7 +1218,6 @@ Both `a` and `b` point to the **same object** in the **String Pool**, which is p
 
 ## 8. What is string pooling in java?
 
-
 **String Pooling** is a Java memory optimization technique where **string literals are stored in a special memory area called the String Pool**. If the same string value already exists in the pool, Java reuses the existing object instead of creating a new one.
 
 
@@ -1290,6 +1289,25 @@ The **`intern()`** method returns the reference from the **String Pool** if it e
 * **String Literal (`"Java"`) = Uses String Pool**
 * **`new String("Java")` = Creates New Object**
 * **`intern()` = Moves or Returns String from the Pool**
+
+**Common Interview Follow-up Questions**
+
+**1. Why is String Pooling possible in Java?**
+Because **String** objects are **immutable**, so multiple references can safely share the same object.
+
+**2. Where is the String Pool stored?**
+The **String Pool** is stored in the **Heap memory** (since Java 7).
+
+**3. What is the difference between `==` and `equals()` for Strings?**
+
+* **`==`** compares **references**.
+* **`equals()`** compares **content**.
+
+**4. What does `intern()` do?**
+It returns the **reference to the pooled String** if it exists; otherwise, it adds the string to the **String Pool** and returns that reference.
+
+**5. Why does `new String("Java")` create a new object?**
+Because the **`new`** keyword always creates a **new object** in the Heap, even if the same value exists in the **String Pool**.
 
 
 ## 9. What is coercion in Java?
@@ -1787,6 +1805,19 @@ public class Main {
 **3. Can we create multiple Objects from one Class?**
 
 **Yes.** A single class can create **any number of objects**, each having its own separate data.
+
+**4. Can a Class have multiple constructors?**
+
+**Yes.** This is called **Constructor Overloading**.
+
+**5. Can a Java file contain multiple classes?**
+
+**Yes.** A Java file can contain multiple classes, but only **one public class**, and the file name must match the **public class** name.
+
+**6. What types of members can a Class contain?**
+
+A class can contain **Fields**, **Methods**, **Constructors**, **Static Members**, **Initialization Blocks**, and **Nested Classes**.
+
 
 
 ## 2. What is an object?
