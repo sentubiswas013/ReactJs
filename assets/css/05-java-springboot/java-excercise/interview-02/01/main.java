@@ -4,16 +4,18 @@ class main {
 	public static void main(String[] args) {
 		System.out.println("Hello world");
 
-		Demo obj = new Demo();
-		obj.display();
-		// obj.display();
+		Parent p = new Child();
+		System.out.println(p.x);   // 10 — reference type (Parent) decides
+
+		Child c = new Child();
+		System.out.println(c.x);   // 20 — reference type (Child) decides
 	}
 }
 
-class Demo {
-    static int x = 10;   // static
-    int y = 20;          // non-static
+class Parent { 
+	int x = 10; 
+}
 
-    static void show() { System.out.println(x); }   // static method
-    void display()     { System.out.println(y); }   // non-static method
+class Child extends Parent  { 
+	int x = 20; 
 }

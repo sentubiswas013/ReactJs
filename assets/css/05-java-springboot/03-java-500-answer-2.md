@@ -138,7 +138,7 @@ Java 8 was a major release that introduced functional programming features and s
 **Key Features:**
 - **Local Variable Type Inference (var):** Enhanced for lambda parameters
 - **HTTP Client API:** Built-in HTTP client
-- **String Methods:** isBlank(), lines(), strip(), repeat()
+- **String Methods:** isBlank(), isPresent(), lines(), strip(), repeat()
 - **Files Methods:** readString(), writeString()
 - **Collection.toArray():** Enhanced method
 - **Nest-Based Access Control:** Better inner class access
