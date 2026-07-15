@@ -5035,6 +5035,22 @@ r.export();     // Exporting to PDF...
 
 ## 26. What access modifiers are allowed in interface?
 
+**Access Modifiers** are keywords that define the **visibility** and **access level** of **Classes**, **Methods**, **Variables**, and **Constructors**.
+
+Java provides **4 Access Modifiers**.
+
+**Types of Access Modifiers**
+
+| **Access Modifier**           | **Same Class** | **Same Package** | **Subclass (Different Package)** | **Different Package** |
+| ----------------------------- | :------------: | :--------------: | :------------------------------: | :-------------------: |
+| **public**                    |        ✅       |         ✅        |                 ✅                |           ✅           |
+| **protected**                 |        ✅       |         ✅        |                 ✅                |           ❌           |
+| **default (package-private)** |        ✅       |         ✅        |                 ❌                |           ❌           |
+| **private**                   |        ✅       |         ❌        |                 ❌                |           ❌           |
+
+
+**Allowed Members in an Interface**
+
 | Member | Default Modifier | Allowed Modifiers |
 |--------|-----------------|-------------------|
 | Abstract methods | `public abstract` | `public` only |
