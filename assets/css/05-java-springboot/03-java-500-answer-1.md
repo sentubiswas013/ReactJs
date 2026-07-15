@@ -5235,6 +5235,39 @@ int[] arr = {1, 2, 3};
 int value = arr[5]; // ArrayIndexOutOfBoundsException
 ```
 
+**Key Differences**
+
+| **Feature**           | **Checked Exception**                                   | **Unchecked Exception**                                                                                     |
+| --------------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Checked At**        | **Compile Time**                                        | **Runtime**                                                                                                 |
+| **Handling Required** | **Yes** (`try-catch` or `throws`)                       | **No** (Optional)                                                                                           |
+| **Superclass**        | **Exception** (excluding `RuntimeException`)            | **RuntimeException**                                                                                        |
+| **Cause**             | External conditions (File, Database, Network)           | Programming errors (Logic or Coding mistakes)                                                               |
+| **Examples**          | `IOException`, `SQLException`, `ClassNotFoundException` | `NullPointerException`, `ArithmeticException`, `ArrayIndexOutOfBoundsException`, `IllegalArgumentException` |
+
+
+**Common Interview Follow-up Questions**
+
+**1. What is the main difference between Checked and Unchecked Exceptions?**
+**Checked Exceptions** are checked at **Compile Time** and must be handled, whereas **Unchecked Exceptions** occur at **Runtime** and handling is optional.
+
+**2. Can we create Custom Checked and Unchecked Exceptions?**
+**Yes.**
+
+* Extend **`Exception`** for a **Checked Exception**.
+* Extend **`RuntimeException`** for an **Unchecked Exception**.
+
+**3. Why are Checked Exceptions required to be handled?**
+Because they represent **recoverable conditions** such as file, database, or network failures.
+
+**4. Should we catch all Unchecked Exceptions?**
+**No.** Only catch them when you can handle them meaningfully. Otherwise, fix the underlying programming issue.
+
+**5. Give examples of Checked and Unchecked Exceptions.**
+
+* **Checked:** `IOException`, `SQLException`, `ClassNotFoundException`
+* **Unchecked:** `NullPointerException`, `ArithmeticException`, `ArrayIndexOutOfBoundsException`, `IllegalArgumentException`
+
 ## 4. What is the difference between throw and throws?
 
 Both **`throw`** and **`throws`** are used in **Exception Handling**, but they serve different purposes.
@@ -5284,6 +5317,35 @@ public void readFile() throws IOException {
 Use **`throw`** when you want to explicitly raise an exception.
 
 Use **`throws`** when a method may produce an exception and you want the caller to handle it.
+
+
+**Common Interview Follow-up Questions**
+
+**1. Can `throw` throw multiple exceptions?**
+
+**No.** It throws **one exception object** at a time.
+
+**2. Can `throws` declare multiple exceptions?**
+
+**Yes.** Multiple exceptions can be declared, separated by commas.
+
+```java
+void process() throws IOException, SQLException {
+}
+```
+
+**3. Is `throws` mandatory for all exceptions?**
+
+**No.** It is mainly required for **Checked Exceptions**. **Unchecked Exceptions** do not need to be declared.
+
+**4. Can we use both `throw` and `throws` together?**
+
+**Yes.** A method can declare an exception using **`throws`** and explicitly throw it using **`throw`**.
+
+**5. What is the difference between Checked and Unchecked Exceptions?**
+
+* **Checked Exceptions** are checked at **compile time** and must be handled or declared using **`throws`**.
+* **Unchecked Exceptions** occur at **runtime** and are **not required** to be handled or declared.
 
 
 ## 5. What is try-catch-finally block?
@@ -5607,6 +5669,24 @@ public class Demo {
 * **`final` = Cannot Change**
 * **`finally` = Always Executes**
 * **`finalize()` = Garbage Collector Cleanup (Deprecated)**
+
+
+**Common Interview Follow-up Questions**
+
+**1. Can a `final` variable be changed?**
+**No.** Once assigned, it cannot be reassigned.
+
+**2. Does the `finally` block always execute?**
+**Yes**, except in rare cases such as calling **`System.exit()`** or when the JVM terminates unexpectedly.
+
+**3. Can a `final` method be overridden?**
+**No.** A **`final`** method cannot be overridden by a subclass.
+
+**4. Why is `finalize()` deprecated?**
+Because its execution is **unpredictable**, may never occur, and it can negatively impact performance. Modern Java recommends **`try-with-resources`** and **`AutoCloseable`** instead.
+
+**5. What is the best alternative to `finalize()`?**
+Use **`try-with-resources`** with classes implementing **`AutoCloseable`** or **`Closeable`** for reliable resource management.
 
 
 
