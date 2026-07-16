@@ -2562,9 +2562,7 @@ All the best!!
 ## Java Basics
 
 
-## 1. What is the difference between
-
-## JDK and JRE?
+## 1. What is the difference between JDK and JRE?
 
 JDK stands for Java Development Kit. It contains the tools and
 libraries for development of Java programs. It also contains
@@ -2575,9 +2573,7 @@ JRE provides libraries and JVM that is required to run a Java
 program.
 
 
-## 2. What is Java Virtual Machine
-
-## (JVM)?
+## 2. What is Java Virtual Machine (JVM)?
 
 Java Virtual Machine (JVM) is an abstract machine that executes
 Java Bytecode. There are different JVM for different hardware and
@@ -2586,9 +2582,7 @@ responsible for loading, verifying and executing the Bytecode on a
 platform.
 
 
-## 3. What are the different types of
-
-## memory areas allocated by JVM?
+## 3. What are the different types of memory areas allocated by JVM?
 
 In java, JVM allocates memory to different processes, methods and
 objects. Some of the memory areas allocated by JVM are:
@@ -2621,9 +2615,7 @@ Java has popularized the use of JIT compiler by including it in
 JVM.
 
 
-## 5. How Java platform is different
-
-## from other platforms?
+## 5. How Java platform is different from other platforms?
 
 Java is a platform independent language. Java compiler converts
 Java code in to byte code that can be interpreted by JVM. There are
@@ -2634,9 +2626,7 @@ Where as other languages require libraries compiled for a specific
 platform to run.
 
 
-## 6. Why people say that Java is 'write
-
-## once and run anywhere' language?
+## 6. Why people say that Java is 'write once and run anywhere' language?
 
 You can write Java code on Windows and compile it in Windows
 platform. The class and jar files that you get from Windows
@@ -2652,9 +2642,7 @@ Java compiler javac compiles java code and JVM java runs that
 code.
 
 
-## 7. How does ClassLoader work in
-
-## Java?
+## 7. How does ClassLoader work in Java?
 
 In Java, ClassLoader is a class that is used to load files in JVM.
 ClassLoader loads files from their physical file locations e.g.
@@ -2673,19 +2661,13 @@ specify your jars in CLASSPATH, then this ClassLoader
 will load them.
 ```
 
-## 8. Do you think ‘main’ used for main
-
-## method is a keyword in Java?
+## 8. Do you think ‘main’ used for main method is a keyword in Java?
 
 No, main is just a name of method. There can be multiple methods
 with same name main in a class file. It is not a keyword in Java.
 
 
-## 9. Can we write main method as
-
-## public void static instead of public
-
-## static void?
+## 9. Can we write main method as public void static instead of public static void?
 
 No, you cannot write it like this. Any method has to first specify the
 modifiers and then the return value. The order of modifiers can
@@ -2695,33 +2677,19 @@ We can write static public void main() instead of public static void
 main().
 
 
-## 10. In Java, if we do not specify any
-
-## value for local variables, then what
-
-## will be the default value of the local
-
-## variables?
+## 10. In Java, if we do not specify any value for local variables, then what will be the default value of the local variables?
 
 Java does not initialize local variables with any default value. So
 these variables will be just null by default.
 
 
-## 11. Let say, we run a java class without
-
-## passing any arguments. What will be
-
-## the value of String array of
-
-## arguments in Main method?
+## 11. Let say, we run a java class without passing any arguments. What will be the value of String array of arguments in Main method?
 
 By default, the value of String array of arguments is empty in Java.
 It is not null.
 
 
-## 12. What is the difference between
-
-## byte and char data types in Java?
+## 12. What is the difference between byte and char data types in Java?
 
 Both byte and char are numeric data types in Java. They are used to
 represent numbers in a specific range.
@@ -2740,9 +2708,7 @@ equivalent to 2 bytes.
 # OOPS
 
 
-## 13. What are the main principles of
-
-## Object Oriented Programming?
+## 13. What are the main principles of Object Oriented Programming?
 
 Main principles of Object Oriented Programming (OOPS) are:
 1. Abstraction
@@ -2751,13 +2717,7 @@ Main principles of Object Oriented Programming (OOPS) are:
 4. Polymorphism
 
 
-## 14. What is the difference between
-
-## Object Oriented Programming
-
-## language and Object Based
-
-## Programming language?
+## 14. What is the difference between Object Oriented Programming language and Object Based Programming language?
 
 Object Oriented Programming languages like Java and C++ follow
 concepts of OOPS like- Encapsulation, Abstraction, Polymorphism
@@ -2773,18 +2733,12 @@ support Encapsulation. These are also known as Prototype-oriented
 languages.
 
 
-## 15. In Java what is the default value of
-
-## an object reference defined as an
-
-## instance variable in an Object?
+## 15. In Java what is the default value of an object reference defined as an instance variable in an Object?
 
 All the instance variable object references in Java are null.
 
 
-## 16. Why do we need constructor in
-
-## Java?
+## 16. Why do we need constructor in Java?
 
 Java is an object-oriented language, in which we create and use
 objects. A constructor is a piece of code similar to a method. It is
@@ -2800,9 +2754,7 @@ we overload a constructor then we have to implement default
 constructor.
 
 
-## 17. Why do we need default
-
-## constructor in Java classes?
+## 17. Why do we need default constructor in Java classes?
 
 Default constructor is the no-argument constructor that is
 automatically generated by Java if no other constructor is defined.
@@ -2821,9 +2773,7 @@ provide default constructor. But it needs default constructor as per
 the specification. So it gives error.
 
 
-## 18. What is the value returned by
-
-## Constructor in Java?
+## 18. What is the value returned by Constructor in Java?
 
 When we call a constructor in Java, it returns the object created by
 it. That is how we create new objects in Java.
@@ -2834,9 +2784,7 @@ it. That is how we create new objects in Java.
 No, Java does not support inheritance of constructor.
 
 
-## 20. Why constructors cannot be final,
-
-## static, or abstract in Java?
+## 20. Why constructors cannot be final, static, or abstract in Java?
 
 If we set a method as final it means we do not want any class to
 override it. But the constructor (as per Java Language
@@ -2856,9 +2804,7 @@ an object. Therefore, there is no use of marking constructor static.
 # Inheritance
 
 
-## 21. What is the purpose of ‘this’
-
-## keyword in java?
+## 21. What is the purpose of ‘this’ keyword in java?
 
 In Java, ‘this’ keyword refers to current instance of the object.
 
@@ -2872,9 +2818,7 @@ In case of method overriding, this is used for falling the method of
 current class.
 
 
-## 22. Explain the concept of
-
-## Inheritance?
+## 22. Explain the concept of Inheritance?
 
 Inheritance is an important concept in Object Oriented
 Programming. Some objects share certain characteristics and
@@ -2889,17 +2833,13 @@ Inheritance promotes, code reuse, method overriding and poly-
 morphism.
 
 
-## 23. Which class in Java is superclass
-
-## of every other class?
+## 23. Which class in Java is superclass of every other class?
 
 Java is an object oriented programming language. In Java, Object
 class is the superclass of every other class.
 
 
-## 24. Why Java does not support
-
-## multiple inheritance?
+## 24. Why Java does not support multiple inheritance?
 
 Multiple Inheritance means that a class can inherit behavior from
 two or more parent classes.
@@ -2922,9 +2862,7 @@ switchOff() TV.
 But you can implement multiple interfaces in Java.
 
 
-## 25. In OOPS, what is meant by
-
-## composition?
+## 25. In OOPS, what is meant by composition?
 
 Composition is also known as “has-a” relationship. In composition,
 “has-a” relation relates two classes. E.g. Class Car has a steering
@@ -2934,9 +2872,7 @@ If a class holds the instance of another class, then it is called
 composition.
 
 
-## 26. How aggregation and composition
-
-## are different concepts?
+## 26. How aggregation and composition are different concepts?
 
 In OOPS, Aggregation and Composition are the types of association
 relations. A composition is a strong relationship. If the composite
@@ -2953,9 +2889,7 @@ Books of a Library cannot exist without the Library. So Book and
 Library are related by Composition.
 
 
-## 27. Why there are no pointers in
-
-## Java?
+## 27. Why there are no pointers in Java?
 
 In Java there are references instead of pointers. These references
 point to objects in memory. But there is no direct access to these
@@ -2968,11 +2902,7 @@ convenience of not getting worried about memory allocation and de-
 allocation.
 
 
-## 28. If there are no pointers in Java,
-
-## then why do we get
-
-## NullPointerException?
+## 28. If there are no pointers in Java, then why do we get NullPointerException?
 
 In Java, the pointer equivalent is Object reference. When we use a.
 it points to object reference. So JVM uses pointers but
@@ -2983,9 +2913,7 @@ access a method or member variable on it, then we get
 NullPointerException.
 
 
-## 29. What is the purpose of ‘super’
-
-## keyword in java?
+## 29. What is the purpose of ‘super’ keyword in java?
 
 ‘super’ keyword is used in the methods or constructor of a child
 class. It refers to immediate parent class of an object.
@@ -2997,18 +2925,14 @@ We can also call the constructor of a parent class from the
 constructor of a child class by using ‘super’ keyword.
 
 
-## 30. Is it possible to use this() and
-
-## super() both in same constructor?
+## 30. Is it possible to use this() and super() both in same constructor?
 
 No, Java does not allow using both super() and this() in same
 constructor. As per Java specification, super() or this() must be the
 first statement in a constructor.
 
 
-## 31. What is the meaning of object
-
-## cloning in Java?
+## 31. What is the meaning of object  cloning in Java?
 
 Object.clone() method is used for creating an exact copy of the
 object in Java. It acts like a copy constructor. It creates and returns
@@ -3022,9 +2946,7 @@ has to be explicitly cast to actual type.
 # Static
 
 
-## 32. In Java, why do we use static
-
-## variable?
+## 32. In Java, why do we use static variable?
 
 Whenever we want to have a common property for all objects of a
 class, we use a class level variable i.e. a static variable.
@@ -3034,9 +2956,7 @@ loading. So it saves memory, since it is not defined per object in
 Java.
 
 
-## 33. Why it is not a good practice to
-
-## create static variables in Java?
+## 33. Why it is not a good practice to create static variables in Java?
 
 Static variables are common to all the objects of a class. If a new
 object is created, there is no need to test the value of static variable.
@@ -3051,9 +2971,7 @@ Also defining static variables is not a good practice because they go
 against the principles of Object Oriented Programming.
 
 
-## 34. What is the purpose of static
-
-## method in Java?
+## 34. What is the purpose of static method in Java?
 
 Java provides the feature of static method to create behavior at the
 class level. The static method is common to all the objects of a
@@ -3066,9 +2984,7 @@ This also helps in keeping the behavior as well as state at the class
 level.
 
 
-## 35. Why do we mark main method as
-
-## static in Java?
+## 35. Why do we mark main method as static in Java?
 
 The main method in Java is marked as static, so that JVM can call it
 to start the program. If main method is not static, then which
@@ -3083,9 +2999,7 @@ So this convention helps in Java process to identify the starting code
 for a program in class that is passed as an argument to java process.
 
 
-## 36. In what scenario do we use a static
-
-## block?
+## 36. In what scenario do we use a static block?
 
 At times, there is a class that has static member variables. These
 variables need some complicated initialization. At this time static
@@ -3098,9 +3012,7 @@ Sometimes, we can also replace static block with a static method of
 class.
 
 
-## 37. Is it possible to execute a program
-
-## without defining a main() method?
+## 37. Is it possible to execute a program without defining a main() method?
 
 No, with Java 7 onwards, you need a main() method to execute a
 program. In earlier versions of Java, there was a workaround
@@ -3108,11 +3020,7 @@ available to use static blocks for execution. But now this gap has
 been closed.
 
 
-## 38. What happens when static
-
-## modifier is not mentioned in the
-
-## signature of main method?
+## 38. What happens when static modifier is not mentioned in the signature of main method?
 
 As per Java specification, main method has to be marked as static.
 It needs only one argument that is an array of String.
@@ -3121,11 +3029,7 @@ A program can compile with a non-static method. But on execution
 it will give NoSuchMethodError.
 
 
-## 39. What is the difference between
-
-## static method and instance method in
-
-## Java?
+## 39. What is the difference between static method and instance method in Java?
 
 Often, there is a need to define a behavior for a class that is not
 dependent on member variables of an object. Such behavior is
@@ -3145,16 +3049,12 @@ variables.
 ## Method Overloading and Overriding
 
 
-## 40. What is the other name of Method
-
-## Overloading?
+## 40. What is the other name of Method Overloading?
 
 Method Overloading is also known as Static Polymorphism.
 
 
-## 41. How will you implement method
-
-## overloading in Java?
+## 41. How will you implement method overloading in Java?
 
 In Java, a class can have multiple methods with same name but
 different arguments. It is called Method Overloading. To implement
@@ -3167,11 +3067,7 @@ in a class and do one/more of the following:
 3. Different sequence of data type of parameters
 ```
 
-## 42. What kinds of argument
-
-## variations are allowed in Method
-
-## Overloading?
+## 42. What kinds of argumentvariations are allowed in Method Overloading?
 
 Method Overloading allows two methods with same name to differ
 in:
@@ -3180,11 +3076,7 @@ in:
 3. Sequence of data type of parameters
 
 
-## 43. Why it is not possible to do
-
-## method overloading by changing
-
-## return type of method in java?
+## 43. Why it is not possible to do method overloading by changing return type of method in java?
 
 If we change the return type of overloaded methods then it will lead
 to ambiguous behavior. How will clients know which method will
@@ -3192,18 +3084,14 @@ return what type. Due to this different return type are not allowed in
 overloaded methods.
 
 
-## 44. Is it allowed to overload main()
-
-## method in Java?
+## 44. Is it allowed to overload main() method in Java?
 
 Yes, Java allows users to create many methods with same name
 ‘main’. But only public static void main(String[] args) method is
 used for execution.
 
 
-## 45. How do we implement method
-
-## overriding in Java?
+## 45. How do we implement method overriding in Java?
 
 To override a method, we just provide a new implementation of a
 method with same name in subclass. So there will be at least two
@@ -3212,18 +3100,14 @@ implementation is in parent class. And another implementation is in
 child class.
 
 
-## 46. Are we allowed to override a static
-
-## method in Java?
+## 46. Are we allowed to override a static method in Java?
 
 No. Java does not allow overriding a static method. If you create a
 static method with same name in subclass, then it is a new method,
 not an overridden method.
 
 
-## 47. Why Java does not allow
-
-## overriding a static method?
+## 47. Why Java does not allow overriding a static method?
 
 To override a method, you need an instance of a class. Static method
 is not associated with any instance of the class. So the concept of
@@ -3232,18 +3116,12 @@ overriding does not apply here.
 Therefore, Java does not allow overriding a static method.
 
 
-## 48. Is it allowed to override an
-
-## overloaded method?
+## 48. Is it allowed to override an overloaded method?
 
 Yes. You can override an overloaded method in Java.
 
 
-## 49. What is the difference between
-
-## method overloading and method
-
-## overriding in Java?
+## 49. What is the difference between method overloading and method overriding in Java?
 
 Differences between method overloading and overriding are:
 
@@ -3266,9 +3144,7 @@ Only class methods and private instance methods are not virtual
 methods in Java.
 
 
-## 51. What is meant by covariant return
-
-## type in Java?
+## 51. What is meant by covariant return type in Java?
 
 A covariant return type of a method is one that can be replaced by a
 "narrower" type when the method is overridden in a subclass.
@@ -3286,7 +3162,7 @@ class and the child class method can return an object that is child of
 object return by parent class method.
 
 
-# Polymorphism
+# ✅ 07. Polymorphism
 
 
 ## 52. What is Runtime Polymorphism?
@@ -3300,19 +3176,13 @@ So at compile time it is not known which method will be called at
 run time.
 
 
-## 53. Is it possible to achieve Runtime
-
-## Polymorphism by data members in
-
-## Java?
+## 53. Is it possible to achieve Runtime Polymorphism by data members in Java?
 
 No. We need to create Runtime Polymorphism by implementing
 methods at two levels of inheritance in Java.
 
 
-## 54. Explain the difference between
-
-## static and dynamic binding?
+## 54. Explain the difference between static and dynamic binding?
 
 In Static binding references are resolved at compile time. In
 Dynamic binding references are resolved at Run time.
@@ -3326,12 +3196,10 @@ public void walk(Object o){
 }
 
 
-# Abstraction
+# ✅ 07. Abstraction
 
 
-## 55. What is Abstraction in Object
-
-## Oriented programming?
+## 55. What is Abstraction in Object Oriented programming?
 
 Abstraction is the process of hiding certain implementation details
 of an object and showing only essential features of the object to
@@ -3344,9 +3212,7 @@ complexity of implementation. It helps us in focusing on the
 interface that we share with the outside world.
 
 
-## 56. How is Abstraction different from
-
-## Encapsulation?
+## 56. How is Abstraction different from Encapsulation?
 
 Abstraction happens at class level design. It results in hiding the
 implementation details. Encapsulation is also known as
@@ -3366,19 +3232,13 @@ methods have to be implemented by a child class. Also Java does
 not allow new instance of Abstract class.
 
 
-## 58. Is it allowed to mark a method
-
-## abstract method without marking the
-
-## class abstract?
+## 58. Is it allowed to mark a method abstract method without marking the class abstract?
 
 No. Java specification says that if there is at least one abstract
 method in a class, the class has to be marked abstract.
 
 
-## 59. Is it allowed to mark a method
-
-## abstract as well as final?
+## 59. Is it allowed to mark a method abstract as well as final?
 
 No. It will be contradictory statement to mark a method abstract as
 well as final.
@@ -3388,9 +3248,7 @@ final method cannot be overridden. Therefore a method can be
 either abstract or final in Java.
 
 
-## 60. Can we instantiate an abstract
-
-## class in Java?
+## 60. Can we instantiate an abstract class in Java?
 
 No. We cannot create an instance of an abstract class in Java.
 
@@ -3404,17 +3262,13 @@ protocol.
 It has method signatures and constant declarations.
 
 
-## 62. Is it allowed to mark an interface
-
-## method as static?
+## 62. Is it allowed to mark an interface method as static?
 
 Yes, from Java 8 onwards, we can define static and default methods
 in an interface. Prior to Java 8, it was not allowed.
 
 
-## 63. Why an Interface cannot be
-
-## marked as final in Java?
+## 63. Why an Interface cannot be marked as final in Java?
 
 A final method cannot be overridden. But an interface method has to
 be implemented by another class. So the interface method cannot be
@@ -3428,16 +3282,12 @@ These interfaces are called Marker interface.
 E.g. Serializable, Cloneable, Remote etc.
 
 
-## 65. What can we use instead of
-
-## Marker interface?
+## 65. What can we use instead of Marker interface?
 
 We can use annotations instead of Marker interface.
 
 
-## 66. How Annotations are better than
-
-## Marker Interfaces?
+## 66. How Annotations are better than Marker Interfaces?
 
 Annotations serve the purpose of conveying metadata about the
 class to its consumers without creating a separate type for it.
@@ -3447,9 +3297,7 @@ programmers to pass more sophisticated information to classes that
 "consume" it.
 
 
-## 67. What is the difference between
-
-## abstract class and interface in Java?
+## 67. What is the difference between abstract class and interface in Java?
 
 Differences between Abstract class and Interface are as follows:
 
@@ -3468,11 +3316,7 @@ class.
 implement more than one interface.
 ```
 
-## 68. Does Java allow us to use private
-
-## and protected modifiers for variables
-
-## in interfaces?
+## 68. Does Java allow us to use private and protected modifiers for variables in interfaces?
 
 No. All the variables in an interface are implicitly public.
 
@@ -3487,36 +3331,28 @@ provides implementation for the methods of that Interface, it is
 allowed to do so as per the rules of Inheritance.
 
 
-# Final
+# ✅ 07. Final
 
 
-## 70. How can you change the value of a
-
-## final variable in Java?
+## 70. How can you change the value of a final variable in Java?
 
 Java does not allow changing the value of a final variable. Once the
 value is set, it cannot be changed.
 
 
-## 71. Can a class be marked final in
-
-## Java?
+## 71. Can a class be marked final in Java?
 
 Yes a class can be marked final in Java. Once a class is marked
 final, it cannot be extended.
 
 
-## 72. How can we create a final method
-
-## in Java?
+## 72. How can we create a final method in Java?
 
 To mark a method, add modifier final to that method. A final method
 can not be overridden by a child class.
 
 
-## 73. How can we prohibit inheritance
-
-## in Java?
+## 73. How can we prohibit inheritance in Java?
 
 If you mark a class final, it cannot be extended. This will prohibit
 the inheritance of that class in Java.
@@ -3529,17 +3365,13 @@ other class can extend it and modify the behavior of Integer
 operations. To avoid this Integer wrapper class is marked as final.
 
 
-## 75. What is a blank final variable in
-
-## Java?
+## 75. What is a blank final variable in Java?
 
 When we declare a final variable without giving any initial value,
 then it is called blank final variable.
 
 
-## 76. How can we initialize a blank final
-
-## variable?
+## 76. How can we initialize a blank final variable?
 
 A blank final instance variable can be initialized in a constructor.
 
@@ -3547,9 +3379,7 @@ A blank final static variable can be initialized in the static block of
 class.
 
 
-## 77. Is it allowed to declare main
-
-## method as final?
+## 77. Is it allowed to declare main method as final?
 
 Yes, we can mark the main method as final.
 
@@ -3557,9 +3387,7 @@ Yes, we can mark the main method as final.
 # Package
 
 
-## 78. What is the purpose of package in
-
-## Java?
+## 78. What is the purpose of package in Java?
 
 A package is used to encapsulate a group of classes, interfaces and
 sub-packages. Often, it is a hierarchical structure of storing
@@ -3580,9 +3408,7 @@ It also contains wrapper classes like- Integer, Boolean, Character
 etc. It provides Math class for mathematical operations.
 
 
-## 80. Which is the most important class
-
-## in Java?
+## 80. Which is the most important class in Java?
 
 It is an open-ended question with many answers. In my view, Object
 class is the most important class of Java programming language. It
@@ -3590,16 +3416,12 @@ is the root of all the classes in Java. It provides some very
 important and fundamental methods.
 
 
-## 81. Is it mandatory to import java.lang
-
-## package every time?
+## 81. Is it mandatory to import java.lang package every time?
 
 No. By default, JVM loads it internally.
 
 
-## 82. Can you import same package or
-
-## class twice in your class?
+## 82. Can you import same package or class twice in your class?
 
 If we import same package multiple times in a class, compiler
 includes it only once. So neither JVM nor Compiler gives any
@@ -3619,18 +3441,14 @@ package qualifier. Static import allows us to import static members
 from a class without using class qualifier.
 
 
-## 84. What is the difference between
-
-## import static com.test.Fooclass and
-
-## import com.test.Fooclass?
+## 84. What is the difference between import static com.test.Fooclass and import com.test.Fooclass?
 
 First import is a static import and the second import is normal
 import of a class. First import allows us to import static members of
 class.
 
 
-# Internationalization
+# ✅ 07. Internationalization
 
 
 ## 85. What is Locale in Java?
@@ -3643,15 +3461,13 @@ region. These conventions can be for formatting the dates, money,
 numbers etc.
 
 
-## 86. How will you use a specific Locale
-
-## in Java?
+## 86. How will you use a specific Locale in Java?
 
 To use a specific Locale, we need to load that Locale. We can use
 ResourceBundle.getBundle("Locale.UK") method to load a Locale.
 
 
-# Serialization
+# ✅ 07. Serialization
 
 
 ## 87. What is the serialization?
@@ -3662,9 +3478,7 @@ object. JVM can use this byte array to transmit/read the object over
 a network.
 
 
-## 88. What is the purpose of
-
-## serialization?
+## 88. What is the purpose of serialization?
 
 Some of the uses of serialization are:
 
@@ -3686,9 +3500,7 @@ Deserialization is the process of reconstructing the object from the
 serialized state. It is the reverse process of serialization.
 
 
-## 90. What is Serialization and
-
-## Deserialization conceptually?
+## 90. What is Serialization and Deserialization conceptually?
 
 Serialization is to convert Object data into a stream of bytes
 
@@ -3696,9 +3508,7 @@ Deserialization is to convert a stream of bytes back into a copy of
 the original object.
 
 
-## 91. Why do we mark a data member
-
-## transient?
+## 91. Why do we mark a data member transient?
 
 Member variables of an object are marked transient to indicate that
 they should not be serialized.
@@ -3707,19 +3517,13 @@ During serialization process the transient variables are not
 considered part of the persistent state of an object.
 
 
-## 92. Is it allowed to mark a method as
-
-## transient?
+## 92. Is it allowed to mark a method as transient?
 
 No, Java does not allow marking a method as transient. The
 transient keyword is valid only for member variables.
 
 
-## 93. How does marking a field as
-
-## transient makes it possible to serialize
-
-## an object?
+## 93. How does marking a field as transient makes it possible to serialize an object?
 
 Let say we have a class ABC that implements Serializable
 interface, but it contains a member variable object of class XYZ
@@ -3731,9 +3535,7 @@ Transient in class ABC. This will allow us to serialize the class
 ABC.
 
 
-## 94. What is Externalizable interface
-
-## in Java?
+## 94. What is Externalizable interface in Java?
 
 Externalizable interface extends Serializable interface in Java. It is
 used for giving the Class control over saving and restoring the
@@ -3743,11 +3545,7 @@ A class implements methods writeExternal() and readExternal() to
 store and restore the object.
 
 
-## 95. What is the difference between
-
-## Serializable and Externalizable
-
-## interface?
+## 95. What is the difference between Serializable and Externalizable interface?
 
 Serializable is a marker interface but Externalizable is not a marker
 interface.
@@ -3776,7 +3574,7 @@ explicitly defined it will be generated automatically based on all the
 fields, methods of the class.
 
 
-# Reflection
+# ✅ 07. Reflection
 
 
 ## 96. What is Reflection in Java?
@@ -3786,9 +3584,7 @@ classes, methods, attributes etc. at Runtime. It helps in examining or
 modifying the Runtime behavior of a class at Runtime.
 
 
-## 97. What are the uses of Reflection in
-
-## Java?
+## 97. What are the uses of Reflection in Java?
 
 Reflection is often used in Testing, Debugging and in Integrated
 Development Environment (IDE).
@@ -3803,11 +3599,7 @@ modern languages like Python etc. also use Reflection.
 JAVA API for XML Parsing (JAXP) also uses Reflection.
 
 
-## 98. How can we access private
-
-## method of a class from outside the
-
-## class?
+## 98. How can we access private method of a class from outside the class?
 
 We can use Reflection to access private method of a class from
 outside the class. IN Java, we use getDeclaredMethod() to get
@@ -3836,21 +3628,17 @@ m.invoke(o, null);
 }
 
 
-## 99. How can we create an Object
-
-## dynamically at Runtime in Java?
+## 99. How can we create an Object dynamically at Runtime in Java?
 
 We can use Reflection to create an Object dynamically at Runtime
 in Java. We can use Class.newInstance() or
 Constructor.newInstance() methods for creating such Objects.
 
 
-# Garbage Collection
+# ✅ 07. Garbage Collection
 
 
-## 100. What is Garbage Collection in
-
-## Java?
+## 100. What is Garbage Collection in Java?
 
 Java has an internal mechanism called Garbage collection to
 reclaim the memory of unused projects at run time.
@@ -3859,9 +3647,7 @@ Garbage collection is also known as automatic memory
 management.
 
 
-## 101. Why Java provides Garbage
-
-## Collector?
+## 101. Why Java provides Garbage Collector?
 
 In Java, there are no pointers. Memory management and allocation
 is done by JVM. Since memory allocation is automated, after some
@@ -3871,9 +3657,7 @@ reclaiming memory, Java provides an automated process called
 Garbage Collector.
 
 
-## 102. What is the purpose of gc() in
-
-## Java?
+## 102. What is the purpose of gc() in Java?
 
 Java provides two methods System.gc() and Runtime.gc() to request
 the JVM to run the garbage collection. By using these methods,
@@ -3882,9 +3666,7 @@ But JVM process can reject this request and wait for some time
 before running the GC.
 
 
-## 103. How does Garbage Collection
-
-## work in Java?
+## 103. How does Garbage Collection work in Java?
 
 Java has an automated process called Garbage Collector for
 Memory Management. It is a daemon in JVM that monitors the
@@ -3894,11 +3676,7 @@ referenced by other objects. These unused objects are cleaned up by
 Garbage Collector daemon in JVM.
 
 
-## 104. When does an object become
-
-## eligible for Garbage Collection in
-
-## Java?
+## 104. When does an object become eligible for Garbage Collection in Java?
 
 An object can be Garbage Collected by JVM, if it is not reachable.
 There are two cases for deciding eligibility of objects for Garbage
@@ -3910,9 +3688,7 @@ Collection:
 reached by any other instance outside that set.
 ```
 
-## 105. Why do we use finalize() method
-
-## in Java?
+## 105. Why do we use finalize() method in Java?
 
 Java provides finalize() method to perform any cleanup before
 Garbage Collection. This method is in Object class, and it is
@@ -3925,9 +3701,7 @@ called.
 This method is never invoked more than once by JVM.
 
 
-## 106. What are the different types of
-
-## References in Java?
+## 106. What are the different types of References in Java?
 
 In Java, there are four types of references:
 
@@ -3938,9 +3712,7 @@ In Java, there are four types of references:
 4. Phantom Reference
 ```
 
-## 107. How can we reference an
-
-## unreferenced object again?
+## 107. How can we reference an unreferenced object again?
 
 We can provide implementation in finalize() method to reference
 and unreferenced object. For an unreferenced object, finalize()
@@ -3949,18 +3721,14 @@ Object can pass its reference ‘this’ to finalize() method and revive
 itself.
 
 
-## 108. What kind of process is the
-
-## Garbage collector thread?
+## 108. What kind of process is the Garbage collector thread?
 
 Garbage Collection is a Daemon process in JVM. It is an internal
 process that keep checking Memory usage and cleans up the
 memory.
 
 
-## 109. What is the purpose of the
-
-## Runtime class?
+## 109. What is the purpose of the Runtime class?
 
 The purpose of the Runtime class is to provide access to the Java
 Runtime system. This class provides certain important methods like:
@@ -3977,17 +3745,13 @@ maximum memory that JVM can use.
 3. Runtime.gc() – This method can invoke garbage collection.
 ```
 
-## 110. How can we invoke an external
-
-## process in Java?
+## 110. How can we invoke an external process in Java?
 
 Java provides the method Runtime.getRuntime().exec() to invoke an
 external process from JVM.
 
 
-## 111. What are the uses of Runtime
-
-## class?
+## 111. What are the uses of Runtime class?
 
 Runtime class in Java provides following benefits:
 
@@ -3998,7 +3762,7 @@ Runtime class in Java provides following benefits:
 application.
 ```
 
-# Inner Classes
+# ✅ 07. Inner Classes
 
 
 ## 112. What is a Nested class?
@@ -4007,9 +3771,7 @@ In Java, a Nested class is a class declared inside another class. We
 can have more than one class declared inside a file.
 
 
-## 113. How many types of Nested classes
-
-## are in Java?
+## 113. How many types of Nested classes are in Java?
 
 Java provides four types of Nested classes:
 
@@ -4047,11 +3809,7 @@ exposed. The helper classes are kept hidden and closer the
 code where it is used by a Top-level class.
 ```
 
-## 115. What is the difference between a
-
-## Nested class and an Inner class in
-
-## Java?
+## 115. What is the difference between a Nested class and an Inner class in Java?
 
 An Inner class in Java is non-static class. It is a type of Nested class
 that is defined in another class but not qualified with a Static
@@ -4071,36 +3829,26 @@ level class. By default it is static.
 A Nested interface is also known as Static interface.
 
 
-## 117. How can we access the non-final
-
-## local variable, inside a Local Inner
-
-## class?
+## 117. How can we access the non-final local variable, inside a Local Inner class?
 
 Java allows a Local Inner class to access only Constant local
 members. So we have to make the non-final local variable as final
 constant to access it inside a Local Inner class.
 
 
-## 118. Can an Interface be defined in a
-
-## Class?
+## 118. Can an Interface be defined in a Class?
 
 Yes, we can define a Static Nested interface within a class. Only the
 enclosing class can access it.
 
 
-## 119. Do we have to explicitly mark a
-
-## Nested Interface public static?
+## 119. Do we have to explicitly mark a Nested Interface public static?
 
 A Nested Interface is implicitly public static. So the modifiers
 public and static are redundant in declaration.
 
 
-## 120. Why do we use Static Nested
-
-## interface in Java?
+## 120. Why do we use Static Nested interface in Java?
 
 Only the enclosing class can access a Static Nested interface.
 Consider following code in which interface Xyz is enclosed in
@@ -4126,14 +3874,10 @@ So the purpose of declaring an Inner interface is to restrict its
 access from outside world.
 
 
-## String
+# ✅ 07. String
 
 
-## 121. What is the meaning of
-
-## Immutable in the context of String
-
-## class in Java?
+## 121. What is the meaning of Immutable in the context of String class in Java?
 
 An Immutable object cannot be modified or changed in Java. String
 is an Immutable class in Java.
@@ -4142,9 +3886,7 @@ Once a String object is created, it cannot be changed. When we
 assign the String to a new value, a new object is created.
 
 
-## 122. Why a String object is considered
-
-## immutable in java?
+## 122. Why a String object is considered immutable in java?
 
 Java language uses String for a variety of purposes. For this it has
 marked String Immutable.
@@ -4161,9 +3903,7 @@ new String literal with “RealData” is created and A will point to
 new String literal. While B will keep pointing to “TestData”
 
 
-## 123. How many objects does following
-
-## code create?
+## 123. How many objects does following code create?
 
 Code:
 String s1="HelloWorld";
@@ -4175,17 +3915,13 @@ String Literal “HelloWorld” created, all the references point to
 same object.
 
 
-## 124. How many ways are there in
-
-## Java to create a String object?
+## 124. How many ways are there in Java to create a String object?
 
 Java provides two ways to create a String object. One is by using
 String Literal, the other is by using new operator.
 
 
-## 125. How many objects does
-
-## following code create?
+## 125. How many objects does following code create?
 
 Code:
 String s = new String("HelloWorld");
@@ -4204,29 +3940,21 @@ Time as well as Space complexity. But it introduces extra time in
 creation of String.
 
 
-## 127. Why Java uses String literal
-
-## concept?
+## 127. Why Java uses String literal concept?
 
 Java uses String literal concept to make Java more efficient in
 memory. If same String already exists in String constant pool, it can
 be reused. This saves memory usage.
 
 
-## 128. What is the basic difference
-
-## between a String and StringBuffer
-
-## object?
+## 128. What is the basic difference between a String and StringBuffer object?
 
 String is an immutable object. Its value cannot change after creation.
 StringBuffer is a mutable object. We can keep appending or
 modifying the contents of a StringBuffer in Java.
 
 
-## 129. How will you create an immutable
-
-## class in Java?
+## 129. How will you create an immutable class in Java?
 
 In Java, we can declare a class final to make it immutable. There
 are following detailed steps to make it Immutable:
@@ -4244,9 +3972,7 @@ only once
 actual object reference
 ```
 
-## 130. What is the use of toString()
-
-## method in java?
+## 130. What is the use of toString() method in java?
 
 In Java, Object class has toString() method. This method can be
 used to return the String representation of an Object. When we print
@@ -4257,13 +3983,7 @@ we can override this method to return the format that we want to
 print.
 
 
-## 131. Arrange the three classes String,
-
-## StringBuffer and StringBuilder in the
-
-## order of efficiency for String
-
-## processing operations?
+## 131. Arrange the three classes String, StringBuffer and StringBuilder in the order of efficiency for String processing operations?
 
 StringBuilder is the most efficient class. It does not have the
 overhead of Synchronization. StringBuffer is a Synchronized class.
@@ -4276,12 +3996,10 @@ So the decreasing order of efficiency is: StringBuilder, StringBuffer,
 String
 
 
-# Exception Handling
+# ✅ 07. Exception Handling
 
 
-## 132. What is Exception Handling in
-
-## Java?
+## 132. What is Exception Handling in Java?
 
 Java provides Exception Handling mechanism to handle Runtime
 errors that occur in JVM. There are checked exceptions in a
@@ -4291,9 +4009,7 @@ Exception handling mechanism catches these checked exceptions
 and takes relevant actions.
 
 
-## 133. In Java, what are the differences
-
-## between a Checked and Unchecked?
+## 133. In Java, what are the differences between a Checked and Unchecked?
 
 Checked Exceptions extend Throwable class, but they do not extend
 RuntimeException or Error classes. UncheckedException extend
@@ -4308,9 +4024,7 @@ Exceptions. NullPointerException, ArithmeticException etc. are
 examples of Unchecked Exceptions.
 
 
-## 134. What is the base class for
-
-## Error and Exception classes in Java?
+## 134. What is the base class for Error and Exception classes in Java?
 
 Error as well as Exception class is derived from Throwable class
 in Java.
@@ -4323,9 +4037,7 @@ block. But finally block is always executed after the execution of try
 block.
 
 
-## 136. What is the use of finally block in
-
-## Java?
+## 136. What is the use of finally block in Java?
 
 As per Java specification, a finally block is always executed,
 whether an error occurs or not, whether an exception is handled or
@@ -4333,17 +4045,13 @@ not. It helps in doing the cleanup like- Rollback Transaction, Close
 Connection, Close a file etc.
 
 
-## 137. Can we create a finally block
-
-## without creating a catch block?
+## 137. Can we create a finally block without creating a catch block?
 
 Yes. A finally block can follow a try block or catch block. So we
 can defined a finally block just after a try block.
 
 
-## 138. Do we have to always put a catch
-
-## block after a try block?
+## 138. Do we have to always put a catch block after a try block?
 
 Java does not enforce the rule to put a catch block after try block.
 We can write catch block or finally block after a try block.
@@ -4351,9 +4059,7 @@ We can write catch block or finally block after a try block.
 Any exception that we want to catch is mentioned in catch block.
 
 
-## 139. In what scenarios, a finally block
-
-## will not be executed?
+## 139. In what scenarios, a finally block will not be executed?
 
 There are two main scenarios in which finally block is not
 executed:
@@ -4363,16 +4069,12 @@ executed:
 2. A fatal error causes JVM to crash.
 ```
 
-## 140. Can we re-throw an Exception
-
-## in Java?
+## 140. Can we re-throw an Exception in Java?
 
 Yes, Java allows to re-throw an Exception.
 
 
-## 141. What is the difference between
-
-## throw and throws in Java?
+## 141. What is the difference between throw and throws in Java?
 
 Java provides throw keyword to throw an exception from a method
 or a static block. Java provides throws keyword to mention the
@@ -4394,9 +4096,7 @@ We can throw only one exception at a time. But we can mention as
 many exceptions in throws clause.
 
 
-## 142. What is the concept of
-
-## Exception Propagation?
+## 142. What is the concept of Exception Propagation?
 
 In Exception Propagation, uncaught exceptions are propagated in the
 call stack until stack becomes empty. This propagation is called
@@ -4408,27 +4108,17 @@ an exception, the exception will propagate from D to C to B to A,
 unless one of the methods catches the exception.
 
 
-## 143. When we override a method in
-
-## a Child class, can we throw an
-
-## additional Exception that is not
-
-## thrown by the Parent class method?
+## 143. When we override a method in a Child class, can we throw an additional Exception that is not thrown by the Parent class method?
 
 Yes, Java allows us to throw additional Exception in a child class,
 but the additional exception should be an unchecked exception
 (RuntimeException).
 
 
-# Java Collection
+# ✅ 07. Java Collection
 
 
-## 144. What is the difference between
-
-## Collection and Collections
-
-## Framework in Java?
+## 144. What is the difference between Collection and Collections Framework in Java?
 
 In Java, a Collection is an object that contains multiple elements of
 same type in a single unit. These multiple elements can be accessed
@@ -4441,9 +4131,7 @@ that are frequently used by developers for working on a Collection
 object.
 
 
-## 145. What are the main benefits of
-
-## Collections Framework in Java?
+## 145. What are the main benefits of Collections Framework in Java?
 
 Main benefits of Collections Framework in Java are as follows:
 
@@ -4472,9 +4160,7 @@ with the help of Java Collections framework. One
 developer can easily pick the code of previous developer.
 ```
 
-## 146. What is the root interface of
-
-## Collection hierarchy in Java?
+## 146. What is the root interface of Collection hierarchy in Java?
 
 The root interface of Collection hierarchy in Java is Collection
 interface.
@@ -4494,9 +4180,7 @@ Due to this Collection interface is the root of Collections
 Framework.
 
 
-## 147. What are the main differences
-
-## between Collection and Collections?
+## 147. What are the main differences between Collection and Collections?
 
 Main differences between Collection and Collections are as
 follows:
@@ -4516,11 +4200,7 @@ that are used for operations like access, find etc. on a
 Collection.
 ```
 
-## 148. What are the Thread-safe
-
-## classes in Java Collections
-
-## framework?
+## 148. What are the Thread-safe classes in Java Collections framework?
 
 The Thread-safe classes in Java Collections framework are:
 
@@ -4534,11 +4214,7 @@ ConcurrentMap
 ConcurrentNavigableMap
 ```
 
-## 149. How will you efficiently
-
-## remove elements while iterating a
-
-## Collection?
+## 149. How will you efficiently remove elements while iterating a Collection?
 
 The right way to remove elements from a collection while iterating
 is by using ListIterator.remove() method.
@@ -4568,9 +4244,7 @@ another thread is iterating it. ListIterator provides the capability of
 removing an object during traversal.
 
 
-## 150. How will you convert a List into
-
-## an array of integers like- int[]?
+## 150. How will you convert a List into an array of integers like- int[]?
 
 We can use ArrayUtils class in Apache Commons Lang library.
 
@@ -4588,11 +4262,7 @@ intArray [i] = myList.get(i);
 }
 
 
-## 151. How will you convert an array of
-
-## primitive integers int[] to a List
-
-## collection?
+## 151. How will you convert an array of primitive integers int[] to a List collection?
 
 We can use ArrayUtils in Apache Commons Lang library for this
 purpose.
@@ -4613,9 +4283,7 @@ intList.add(i);
 }
 
 
-## 152. How will you run a filter on a
-
-## Collection?
+## 152. How will you run a filter on a Collection?
 
 We can use CollectionUtils of Apache for this purpose. We will
 have to create a Predicate that will define the condition for our
@@ -4643,9 +4311,7 @@ In Java 8, we can use Predicate to filter a Collection through
 Stream.
 
 
-## 153. How will you convert a List to a
-
-## Set?
+## 153. How will you convert a List to a Set?
 
 There are two ways to convert a List to a Set in Java.
 
@@ -4663,9 +4329,7 @@ Set<Integer> mySet = new TreeSet<Integer>(myComparator);
 mySet.addAll(myList);
 
 
-## 154. How will you remove duplicate
-
-## elements from an ArrayList?
+## 154. How will you remove duplicate elements from an ArrayList?
 
 The trick in this question is to use a collection that does not allow
 duplicate elements. So we use a Set for this purpose.
@@ -4692,11 +4356,7 @@ myList.clear();
 myList.addAll(mySet);
 
 
-## 155. How can you maintain a
-
-## Collection with elements in Sorted
-
-## order?
+## 155. How can you maintain a Collection with elements in Sorted order?
 
 In Java, there are many ways to maintain a Collection with elements
 in sorted order.
@@ -4723,11 +4383,7 @@ We can use TreeSet to maintain sorted order of elements in
 collection if there are no duplicate elements in collection.
 
 
-## 156. What are the differences between
-
-## the two data structures: a Vector and
-
-## an ArrayList?
+## 156. What are the differences between the two data structures: a Vector and an ArrayList?
 
 An ArrayList is a newer class than a Vector. A Vector is considered a
 legacy class in Java. The differences are:
@@ -4742,9 +4398,7 @@ increases its size by 50% of the array size. Whereas a
 Vector increases it by doubling the underlying array size.
 ```
 
-## 157. What are the differences between
-
-## Collection and Collections in Java?
+## 157. What are the differences between Collection and Collections in Java?
 
 Main differences between Collection and Collections are:
 
@@ -4761,9 +4415,7 @@ instance level. Collections class has mainly static methods
 that can work on an instance of Collection.
 ```
 
-## 158. In which scenario, LinkedList
-
-## is better than ArrayList in Java?
+## 158. In which scenario, LinkedList is better than ArrayList in Java?
 
 ArrayList is more popular than LinkedList in Java due to its ease of
 use and random access to elements feature.
@@ -4773,9 +4425,7 @@ random access to elements or there are a lot of insertion, deletion of
 elements.
 
 
-## 159. What are the differences between
-
-## a List and Set collection in Java?
+## 159. What are the differences between a List and Set collection in Java?
 
 Main differences between a List and a Set are:
 
@@ -4795,11 +4445,7 @@ worrying about order.
 can hold only unique elements.
 ```
 
-## 160. What are the differences between
-
-## a HashSet and TreeSet collection in
-
-## Java?
+## 160. What are the differences between a HashSet and TreeSet collection in Java?
 
 Main differences between a HashSet and TreeSet are:
 
@@ -4841,9 +4487,7 @@ comparison. A TreeSet uses compareTo() method for
 comparison to maintain ordering of elements.
 
 
-## 161. In Java, how will you decide when
-
-## to use a List, Set or a Map collection?
+## 161. In Java, how will you decide when to use a List, Set or a Map collection?
 
 ```
 1. If we want a Collection that does not store duplicate
@@ -4865,9 +4509,7 @@ use a HashMap based collection.
 we use a TreeSet based collection.
 ```
 
-## 162. What are the differences between
-
-## a HashMap and a Hashtable in Java?
+## 162. What are the differences between a HashMap and a Hashtable in Java?
 
 Main differences between a HashMap and a Hashtable are:
 
@@ -4910,9 +4552,7 @@ element except iterator’s own remove() method.
 Enumerator of the Hashtable is not fail-fast.
 
 
-## 163. What are the differences between
-
-## a HashMap and a TreeMap?
+## 163. What are the differences between a HashMap and a TreeMap?
 
 Main differences between a HashMap and a TreeMap in Java are:
 
@@ -4957,11 +4597,7 @@ tailMap() , firstKey() , lastKey() etc. that are not provided
 by a HashMap.
 
 
-## 164. What are the differences
-
-## between Comparable and
-
-## Comparator?
+## 164. What are the differences between Comparable and Comparator?
 
 Main differences between Comparable and Comparator are:
 
@@ -4999,9 +4635,7 @@ in java.lang package. Comparator interface in Java is
 defined in java.util package.
 ```
 
-## 165. In Java, what is the purpose of
-
-## Properties file?
+## 165. In Java, what is the purpose of Properties file?
 
 A Properties file in Java is a list of key-value pairs that can be
 parsed by java.util.Properties class.
@@ -5017,9 +4651,7 @@ need to recompile the Java application. So it provides benefit of
 changing values at runtime.
 
 
-## 166. What is the reason for overriding
-
-## equals() method?
+## 166. What is the reason for overriding equals() method?
 
 The equals() method in Object class is used to check whether two
 objects are same or not. If we want a custom implementation we can
@@ -5034,9 +4666,7 @@ Generally in HashMap implementation, if we want to use an object
 as key, then we override equals() method.
 
 
-## 167. How does hashCode() method
-
-## work in Java?
+## 167. How does hashCode() method work in Java?
 
 Object class in Java has hashCode() method. This method returns a
 hash code value, which is an integer.
@@ -5051,9 +4681,7 @@ object.
 If two objects are same then their hashCode() is also same.
 
 
-## 168. Is it a good idea to use Generics
-
-## in collections?
+## 168. Is it a good idea to use Generics in collections?
 
 Yes. A collection is a group of elements put together in an order or
 based on a property. Often the type of element can vary. But the
@@ -5062,11 +4690,7 @@ is good to create a Collection with Generics so that it is type-safe
 and it can be used with wide variety of elements.
 
 
-## 169. What is the difference between
-
-## Collections.emptyList() and creating
-
-## new instance of Collection?
+## 169. What is the difference between Collections.emptyList() and creating new instance of Collection?
 
 In both the approaches, we get an empty list. But
 Collections.emptyList() returns an Immutable list. We cannot add
@@ -5080,9 +4704,7 @@ Therefore, Collections.emptylist() gives better performance if we
 need to get an emptyList multiple times.
 
 
-## 170. How will you copy elements from
-
-## a Source List to another list?
+## 170. How will you copy elements from a Source List to another list?
 
 There are two options to copy a Source List to another list.
 
@@ -5111,9 +4733,7 @@ One limitation of Collections.copy() is that it can accept only List
 as source and destination parameters.
 
 
-## 171. What are the Java Collection
-
-## classes that implement List interface?
+## 171. What are the Java Collection classes that implement List interface?
 
 Java classes that implement List interface are:
 
@@ -5130,9 +4750,7 @@ Stack
 Vector
 ```
 
-## 172. What are the Java Collection
-
-## classes that implement Set interface?
+## 172. What are the Java Collection classes that implement Set interface?
 
 Java classes that implement Set interface are:
 
@@ -5147,9 +4765,7 @@ LinkedHashSet
 TreeSet
 ```
 
-## 173. What is the difference between an
-
-## Iterator and ListIterator in Java?
+## 173. What is the difference between an Iterator and ListIterator in Java?
 
 Iterator and ListIterator are two interfaces in Java to traverse data
 structures. The differences between these two are:
@@ -5183,9 +4799,7 @@ the value of last element returned by next() or previous()
 methods.
 ```
 
-## 174. What is the difference between
-
-## Iterator and Enumeration?
+## 174. What is the difference between Iterator and Enumeration?
 
 Both Iterator and Enumeration are interfaces in Java to access Data
 Structures. The main differences between these are:
@@ -5214,11 +4828,7 @@ Enumeration is not fail-fast.
 Enumeration.
 ```
 
-## 175. What is the difference between an
-
-## ArrayList and a LinkedList data
-
-## structure?
+## 175. What is the difference between an ArrayList and a LinkedList data structure?
 
 Main differences between ArrayList and LinkedList data structures
 are:
@@ -5249,9 +4859,7 @@ since we have to traverse the list one by one to access the
 right location.
 ```
 
-## 176. What is the difference between a
-
-## Set and a Map in Java?
+## 176. What is the difference between a Set and a Map in Java?
 
 Main differences between a Set and a Map in Java are:
 
@@ -5275,9 +4883,7 @@ TreeMap store elements of the map in ascending order of
 keys.
 ```
 
-## 177. What is the use of a Dictionary
-
-## class?
+## 177. What is the use of a Dictionary class?
 
 The Dictionary class in Java is used to store key-value pairs. Any
 non-null object can be used for key or value. But we cannot insert a
@@ -5287,18 +4893,12 @@ Dictionary class is deprecated now. So it should not be used in
 newer implementations.
 
 
-## 178. What is the default size of load
-
-## factor in a HashMap collection in
-
-## Java?
+## 178. What is the default size of load factor in a HashMap collection in Java?
 
 Default value of load factor in a HashMap is 0.75.
 
 
-## 179. What is the significance of load
-
-## factor in a HashMap in Java?
+## 179. What is the significance of load factor in a HashMap in Java?
 
 A HashMap in Java has default initial capacity 16 and the load
 factor is 0.75f (i.e. 75% of current map size). The load factor of a
@@ -5310,9 +4910,7 @@ after storing the 12th key– value pair (16 * .75 = 12) into HashMap,
 its capacity becomes 32.
 
 
-## 180. What are the major differences
-
-## between a HashSet and a HashMap?
+## 180. What are the major differences between a HashSet and a HashMap?
 
 The main difference between a HashSet and a HashMap are:
 
@@ -5346,9 +4944,7 @@ value pairs).
 But a HashMap has to be converted into Set for iteration.
 ```
 
-## 181. What are the similarities between
-
-## a HashSet and a HashMap in Java?
+## 181. What are the similarities between a HashSet and a HashMap in Java?
 
 As the name suggests, HashSet and HashMap are Hashing based
 collections. Similarities between HashSet and HashMap are:
@@ -5374,9 +4970,7 @@ time performance for basic operations such as insertion
 and removal of elements.
 ```
 
-## 182. What is the reason for
-
-## overriding equals() method?
+## 182. What is the reason for overriding equals() method?
 
 The equals() method in Object class is used to check whether two
 objects are same or not. If we want a custom implementation we can
@@ -5391,9 +4985,7 @@ Generally in HashMap implementation, if we want to use an object
 as key, then we override equals() method.
 
 
-## 183. How can we synchronize the
-
-## elements of a List, a Set or a Map?
+## 183. How can we synchronize the elements of a List, a Set or a Map?
 
 Sometimes we need to make collections Thread-safe for use in
 Multi-threading environment. In Java, Collections class provides
@@ -5427,11 +5019,7 @@ Returns a synchronized (thread-safe) sorted set backed by the
 specified sorted set.
 
 
-## 184. What is Hash Collision? How
-
-## Java handles hash-collision in
-
-## HashMap?
+## 184. What is Hash Collision? How Java handles hash-collision in HashMap?
 
 In a Hashing scenario, at times two different objects may have same
 HashCode but they may not be equal. Therefore, Java will face
@@ -5443,9 +5031,7 @@ Collision. But in HashMap, Java simply replaces the Object at old
 Key with new Object in case of Hash Collision.
 
 
-## 185. What are the Hash Collision
-
-## resolution techniques?
+## 185. What are the Hash Collision resolution techniques?
 
 To resolve a Hash Collision we can use one of the following
 techniques:
@@ -5459,9 +5045,7 @@ Hopscotch Hashing
 Robinhood Hashing
 ```
 
-## 186. What is the difference between
-
-## Queue and Stack data structures?
+## 186. What is the difference between Queue and Stack data structures?
 
 Queue is a FIFO data structure. FIFO stands for First In First Out. It
 means the element added first will be removed first from the queue.
@@ -5489,9 +5073,7 @@ also access the objects in the container. A container of objects is a
 Collection class in Java.
 
 
-## 188. What is the difference between
-
-## Iterator and Enumeration in Java?
+## 188. What is the difference between Iterator and Enumeration in Java?
 
 Main differences between Iterator and Enumeration in Java are:
 
@@ -5536,11 +5118,7 @@ modification of a collection by other threads, it is
 considered safer than Enumeration.
 
 
-## 189. What is the design pattern
-
-## used in the implementation of
-
-## Enumeration in Java?
+## 189. What is the design pattern used in the implementation of Enumeration in Java?
 
 Enumeration is based on Iterator design pattern. Iterator design
 pattern provides a common interface with methods to traverse the
@@ -5548,20 +5126,14 @@ collection of objects. It hides the underlying implementation details
 of the collection.
 
 
-## 190. Which methods do we need to
-
-## override to use an object as key in a
-
-## HashMap?
+## 190. Which methods do we need to override to use an object as key in a HashMap?
 
 If we want to use an object as a key in a HashMap in Java, then we
 have to make sure that it has the implementation of equals() and
 hashCode() methods.
 
 
-## 191. How will you reverse a List in
-
-## Java?
+## 191. How will you reverse a List in Java?
 
 In Collections class, Java provides a method reverse(List list) that
 can be used to reverse a List.
@@ -5570,9 +5142,7 @@ E.g.
 Collections.reverse(myList);
 
 
-## 192. How will you convert an array of
-
-## String objects into a List?
+## 192. How will you convert an array of String objects into a List?
 
 Java provides Arrays class in java.util package. Arrays class has a
 method asList() that accepts an Array as input and returns a List as
@@ -5584,11 +5154,7 @@ String[] myArray = {"George" , "Jack" , "Ryan"};
 List myList = Arrays.asList(myArray);
 
 
-## 193. What is the difference between
-
-## peek(), poll() and remove() methods of
-
-## Queue interface in java?
+## 193. What is the difference between peek(), poll() and remove() methods of Queue interface in java?
 
 In a Java Queue, poll() and remove() methods can be used for
 removing the head object of Queue. The main difference arises in
@@ -5602,9 +5168,7 @@ does not remove it. If queue is empty then peek() method returns
 null value.
 
 
-## 194. What is the difference between
-
-## Array and ArrayList in Java?
+## 194. What is the difference between Array and ArrayList in Java?
 
 The main differences between Array and ArrayList in Java are:
 
@@ -5663,11 +5227,7 @@ used for adding elements.
 ArrayList is always of single dimension.
 
 
-## 195. How will you insert, delete and
-
-## retrieve elements from a HashMap
-
-## collection in Java?
+## 195. How will you insert, delete and retrieve elements from a HashMap collection in Java?
 
 We use following methods to insert, delete and retrieve elements in
 a HashMap.
@@ -5688,11 +5248,7 @@ from the HashMap.
 Value remove(Object key)
 ```
 
-## 196. What are the main differences
-
-## between HashMap and
-
-## ConcurrentHashMap in Java?
+## 196. What are the main differences between HashMap and ConcurrentHashMap in Java?
 
 Main differences between HashMap and ConcurrentHashMap are:
 
@@ -5706,11 +5262,7 @@ null keys or null values.
 multi-threading environment.
 ```
 
-## 197. What is the increasing order of
-
-## performance for following collection
-
-## classes in Java?
+## 197. What is the increasing order of performance for following collection classes in Java?
 
 The increasing order of performance is:
 
@@ -5724,9 +5276,7 @@ Hashtable has the worst performance and HashMap has the best
 performance.
 
 
-## 198. Why does Map interface not
-
-## extend Collection interface in Java?
+## 198. Why does Map interface not extend Collection interface in Java?
 
 A Map is a collection objects. But Map interface is not compatible
 with Collection interface in Java.
@@ -5742,9 +5292,7 @@ These methods are specific to Map collection. Where as methods in
 Collection interface can be reused by a List, Set, Queue etc.
 
 
-## 199. What are the different ways to
-
-## iterate elements of a list in Java?
+## 199. What are the different ways to iterate elements of a list in Java?
 
 There are mainly two ways to iterate the elements of list in Java:
 
@@ -5757,11 +5305,7 @@ the objects of the list.
 the elements of a list.
 ```
 
-## 200. What is
-
-## CopyOnWriteArrayList? How it is
-
-## different from ArrayList in Java?
+## 200. What is CopyOnWriteArrayList? How it is different from ArrayList in Java?
 
 CopyOnWriteArrayList was introduced in Java 5 version. It is a
 thread-safe collection. It is similar to an ArrayList.
@@ -5777,9 +5321,7 @@ created.
 All elements including null are permitted in CopyOnWriteArrayList.
 
 
-## 201. How remove() method is
-
-## implemented in a HashMap?
+## 201. How remove() method is implemented in a HashMap?
 
 Remove() method in HashMap uses logic similar to the one used in
 get() method. First we locate the correct bucket in HashMap for an
@@ -5791,9 +5333,7 @@ element of Hash to e.next. Else we set the next field of the element
 just before e to e.next.
 
 
-## 202. What is BlockingQueue in
-
-## Java Collections?
+## 202. What is BlockingQueue in Java Collections?
 
 BlockingQueue was introduced in Java 1.5. It extends Queue
 interface in Java.
@@ -5814,9 +5354,7 @@ It does not support any kind of "close" or "shutdown"
 operation to indicate that no more items will be added.
 ```
 
-## 203. How is TreeMap class
-
-## implemented in Java?
+## 203. How is TreeMap class implemented in Java?
 
 Internally, a TreeMap class in Java uses Red-Black tree.
 
@@ -5826,11 +5364,7 @@ can use a Comparator supplied at the creation time.
 The implementation of TreeMap is not synchronized in Java.
 
 
-## 204. What is the difference between
-
-## Fail-fast and Fail-safe iterator in
-
-## Java?
+## 204. What is the difference between Fail-fast and Fail-safe iterator in Java?
 
 Differences between Fail-fast and Fail-safe iterators are as
 follows:
@@ -5846,9 +5380,7 @@ encounters failure. A Fail-safe Iterator works on a copy of
 collection instead of original collection.
 
 
-## 205. How does
-
-## ConcurrentHashMap work in Java?
+## 205. How does ConcurrentHashMap work in Java?
 
 ConcurrentHashMap extends AbstractMap in Java. It was
 introduced in Java 1.5. It provides concurrency in a collection
@@ -5866,9 +5398,7 @@ It also supports a set of sequential and bulk operations. These
 operations accept parallelismThreshold argument.
 
 
-## 206. What is the importance of
-
-## hashCode() and equals() methods?
+## 206. What is the importance of hashCode() and equals() methods?
 
 In a HashMap collection it is very important for a key object to
 implement hashCode() method and equals() method. If hashCode()
@@ -5885,11 +5415,7 @@ So it is important to implement hashCode() and equals() methods
 correctly for an efficient HashMap collection.
 
 
-## 207. What is the contract of
-
-## hashCode() and equals() methods in
-
-## Java?
+## 207. What is the contract of hashCode() and equals() methods in Java?
 
 Contract of hashCode() and equals() methods is as follows in Java:
 
@@ -5937,9 +5463,7 @@ synchronized.
 “bit flags” implementation.
 ```
 
-## 209. What are the main Concurrent
-
-## Collection classes in Java?
+## 209. What are the main Concurrent Collection classes in Java?
 
 Java 1.5 has provided new package java.util.concurrent. This
 package contains thread-safe collection classed. These collection
@@ -5960,9 +5484,7 @@ LinkedBlockingDeque
 PriorityBlockingQueue
 ```
 
-## 210. How will you convert a Collection
-
-## to SynchronizedCollection in Java?
+## 210. How will you convert a Collection to SynchronizedCollection in Java?
 
 Java provides an easy method in java.utils.Collections class to
 create a ThreadSafe collection from a regular collection.
@@ -5975,9 +5497,7 @@ static <T> Collection<T>synchronizedCollection(Collection<T>
 c)
 
 
-## 211. How IdentityHashMap is
-
-## different from a regular Map in Java?
+## 211. How IdentityHashMap is different from a regular Map in Java?
 
 IndentityHashMap in Java implements Map interface. But it is not a
 general purpose implementation. It violates the general contract of
@@ -5993,9 +5513,7 @@ equality in place of object-equality when comparing keys (and
 values).
 
 
-## 212. What is the main use of
-
-## IdentityHashMap?
+## 212. What is the main use of IdentityHashMap?
 
 Main uses of IdentityHashMap are:
 
@@ -6018,9 +5536,7 @@ proxy object for each object in the program being
 debugged.
 ```
 
-## 213. How can we improve the
-
-## performance of IdentityHashMap?
+## 213. How can we improve the performance of IdentityHashMap?
 
 IdentityHashMap class has one tuning parameter for performance
 improvement: expectedMaxSize.
@@ -6048,9 +5564,7 @@ Therefore the value of expectedMaxSize should be set in
 consideration with both of these aspects.
 
 
-## 214. Is IdentityHashMap thread-
-
-## safe?
+## 214. Is IdentityHashMap thread- safe?
 
 The implementation of IdentityHashMap is not thread-safe, since its
 methods are not synchronized.
@@ -6063,9 +5577,7 @@ Since the Iterator is fail-fast, it throws
 ConcurrentModificationException.
 
 
-## 215. What is a WeakHashMap in
-
-## Java?
+## 215. What is a WeakHashMap in Java?
 
 WeakHashMap is a class similar to IdentityHashMap.
 
@@ -6083,9 +5595,7 @@ from being discarded by the garbage collector.
 WeakHashMap also permits null keys and null values.
 
 
-## 216. How can you make a Collection
-
-## class read Only in Java?
+## 216. How can you make a Collection class read Only in Java?
 
 In Java, there are useful methods to make a Collection class read
 Only. We can make the Collection read Only by using one of the
@@ -6098,11 +5608,7 @@ Collections.unmodifiableSet(Set s)
 Collections.unmodifiableCollection(Collection c)
 ```
 
-## 217. When is
-
-## UnsupportedOperationException
-
-## thrown in Java?
+## 217. When is UnsupportedOperationException thrown in Java?
 
 In a Java collection UnsupportedOperationException is thrown
 when the requested operation is not supported by the collection.
@@ -6113,19 +5619,7 @@ If there is an optional add() or remove() methods in a read only
 collection, then this exception can be thrown.
 
 
-## 218. Let say there is a Customer
-
-## class. We add objects of Customer
-
-## class to an ArrayList. How can we
-
-## sort the Customer objects in
-
-## ArrayList by using customer
-
-## firstName attribute of Customer
-
-## class?
+## 218. Let say there is a Customer class. We add objects of Customer class to an ArrayList. How can we sort the Customer objects in ArrayList by using customer firstName attribute of Customer class?
 
 There are two ways to handle this scenario. We can use these
 options:
@@ -6137,11 +5631,7 @@ objects on the basis of firstName attribute. Then use this comparator
 object in sort method of Collections class.
 
 
-## 219. What is the difference between
-
-## Synchronized Collection and
-
-## Concurrent Collection?
+## 219. What is the difference between Synchronized Collection and Concurrent Collection?
 
 In Java 1.5 many Concurrent collection classes were added in SDK.
 These are ConcurrentHashMap, CopyOnWriteArrayList,
@@ -6158,9 +5648,7 @@ classes because they lock only a portion of the class to achieve
 concurrency and thread-safety.
 
 
-## 220. What is the scenario to use
-
-## ConcurrentHashMap in Java?
+## 220. What is the scenario to use ConcurrentHashMap in Java?
 
 ConcurrentHashMap is more suited for scenarios where we have
 multiple reader threads and one writer thread. In this case map is
@@ -6171,9 +5659,7 @@ ConcurrentHashMap performance is similar to a Hashtable or a
 synchronized HashMap.
 
 
-## 221. How will you create an empty
-
-## Map in Java?
+## 221. How will you create an empty Map in Java?
 
 There are two ways to create an empty Map in Java.
 
@@ -6191,11 +5677,7 @@ code by using new method:
 myMap = new HashMap();
 
 
-## 222. What is the difference between
-
-## remove() method of Collection and
-
-## remove() method of Iterator?
+## 222. What is the difference between remove() method of Collection and remove() method of Iterator?
 
 In Collection interface remove(Object o) method is used to remove
 objects from a Collection.
@@ -6215,11 +5697,7 @@ Therefore, it is recommended to use remove() method of Iterator
 during the traversal of a Collection by an Iterator.
 
 
-## 223. Between an Array and
-
-## ArrayList, which one is the preferred
-
-## collection for storing objects?
+## 223. Between an Array and ArrayList, which one is the preferred collection for storing objects?
 
 An ArrayList is backed up by array internally. There are many
 usability advantages of using an ArrayList over an array in Java.
@@ -6243,11 +5721,7 @@ If we know the size in advance and do not need re-sizing the
 collection then Array should be used in place of an ArrayList.
 
 
-## 224. Is it possible to replace
-
-## Hashtable with ConcurrentHashMap
-
-## in Java?
+## 224. Is it possible to replace Hashtable with ConcurrentHashMap in Java?
 
 Yes, a ConcurrentHashMap can be replaced with Hashtable in Java.
 
@@ -6262,11 +5736,7 @@ In a ConcurrentHashMap we use putIfAbsent() method for such a
 scenario.
 
 
-## 225. How CopyOnWriteArrayList
-
-## class is different from ArrayList and
-
-## Vector classes?
+## 225. How CopyOnWriteArrayList class is different from ArrayList and Vector classes?
 
 CopyOnWriteArrayList was introduced in Java 1.5. It implements
 List interface.
@@ -6287,9 +5757,7 @@ CopyOnWriteArrayList provides better Concurrency by reducing
 contention among readers and writers.
 
 
-## 226. Why ListIterator has add()
-
-## method but Iterator does not have?
+## 226. Why ListIterator has add() method but Iterator does not have?
 
 ListIterator can iterate in the both directions of a Collection. It
 maintains two pointer for previous and next element. In ListIterator
@@ -6303,11 +5771,7 @@ In Iterator we can only traverse in one direction. So there is no
 purpose of add() method there.
 
 
-## 227. Why do we sometime get
-
-## ConcurrentModificationException
-
-## during iteration?
+## 227. Why do we sometime get ConcurrentModificationException during iteration?
 
 When we remove an object by using remove() method of a
 Collection or List while an Iterator thread is traversing it, we get
@@ -6316,9 +5780,7 @@ structural change in Collection it can throw
 ConcurrentModificationException.
 
 
-## 228. How will you convert a Map to
-
-## a List in Java?
+## 228. How will you convert a Map to a List in Java?
 
 In Java, a Map has three collection sets:
 
@@ -6335,9 +5797,7 @@ List valueList = new ArrayList(map.values());
 List entryList = new ArrayList(map.entrySet());
 
 
-## 229. How can we create a Map with
-
-## reverse view and lookup in Java?
+## 229. How can we create a Map with reverse view and lookup in Java?
 
 In a Map we can lookup for a value by using a distinct key. In a Map
 with reverse view and lookup, even the values are distinct. So there
@@ -6355,9 +5815,7 @@ BiMap. Both of these data structure enforce the constraint of one to
 one mapping between keys and values.
 
 
-## 230. How will you create a shallow
-
-## copy of a Map?
+## 230. How will you create a shallow copy of a Map?
 
 In Java, most implementations of Map interface provide a
 constructor to create copy of another map. But the copy method is
@@ -6374,9 +5832,7 @@ Another way of to create a shallow copy is by using clone() method.
 But it is not considered as a recommended approach.
 
 
-## 231. Why we cannot create a generic
-
-## array in Java?
+## 231. Why we cannot create a generic array in Java?
 
 Java does not allow creation of array with generics as elements.
 
@@ -6392,9 +5848,7 @@ runtime by Type Erasure. Due to this array cannot use generics as
 elements.
 
 
-## 232. What is a PriorityQueue in
-
-## Java?
+## 232. What is a PriorityQueue in Java?
 
 A PriorityQueue is data structure based on Queue. Unlike Queue,
 the elements on PriorityQueue are not returned in FIFO order.
@@ -6412,11 +5866,7 @@ PriorityQueue in Java is not thread-safe.
 It gives O(log n) time for enqueing and dequeing operations.
 
 
-## 233. What are the important points
-
-## to remember while using Java
-
-## Collections Framework?
+## 233. What are the important points to remember while using Java Collections Framework?
 
 Some of the important points to remember while using Java
 Collections Framework are:
@@ -6458,13 +5908,7 @@ resizing.
 as key elements in a Map.
 
 
-## 234. How can we pass a Collection
-
-## as an argument to a method and
-
-## ensure that method will not be able to
-
-## modify it?
+## 234. How can we pass a Collection as an argument to a method and ensure that method will not be able to modify it?
 
 To ensure that a method is not able to modify a Collection passed as
 an argument, we have to make the Collection read only.
@@ -6476,9 +5920,7 @@ This will make sure that any operation to change the collection will
 throw UnsupportedOperationException.
 
 
-## 235. Can you explain how
-
-## HashMap works in Java?
+## 235. Can you explain how HashMap works in Java?
 
 In Java, a HashMap works on the concept of hashing.
 
@@ -6503,9 +5945,7 @@ to find the exact Key object. Once the exact Key object is found we
 use it to get Value object.
 
 
-## 236. Can you explain how HashSet
-
-## is implemented in Java?
+## 236. Can you explain how HashSet is implemented in Java?
 
 Internally, a HashSet uses a HashMap to store the elements and to
 maintain the uniqueness of elements.
@@ -6517,9 +5957,7 @@ When we insert an element in HashSet, it inserts it into
 corresponding HashMap.
 
 
-## 237. What is a NavigableMap in
-
-## Java?
+## 237. What is a NavigableMap in Java?
 
 As the name suggests, NavigableMap provides the capability to
 navigate the keys of a Map in Java. A NavigableMap extends
@@ -6529,13 +5967,7 @@ Some of the interesting methods of a NavigableMap are
 descendingKeySet(), descendingMap(), headMap() and tailMap().
 
 
-## 238. What is the difference between
-
-## descendingKeySet() and
-
-## descendingMap() methods of
-
-## NavigableMap?
+## 238. What is the difference between descendingKeySet() and descendingMap() methods of NavigableMap?
 
 The descendingKeySet() method of NavigableMap returns a
 NavigableSet in which the elements are stored in reversed order as
@@ -6555,9 +5987,7 @@ elements in original map. Any changes to this view are also
 reflected in the original map.
 
 
-## 239. What is the advantage of
-
-## NavigableMap over Map?
+## 239. What is the advantage of NavigableMap over Map?
 
 The main advantage of NavigableMap over Map is the Navigation
 capability.
@@ -6577,11 +6007,7 @@ only the associated keys. All of these methods are designed for
 locating, not traversing entries.
 
 
-## 240. What is the difference between
-
-## headMap(), tailMap() and subMap()
-
-## methods of NavigableMap?
+## 240. What is the difference between headMap(), tailMap() and subMap() methods of NavigableMap?
 
 The headMap() method returns a view of the original
 NavigableMap that contains the elements that are less than a given
@@ -6609,9 +6035,7 @@ All the three methods return a subset of the original map in a view
 form.
 
 
-## 241. How will you sort objects by
-
-## Natural order in a Java List?
+## 241. How will you sort objects by Natural order in a Java List?
 
 We can use Collections.sort method to sort the elements of a List in
 natural order. To use this method, we have to make sure that element
@@ -6622,18 +6046,14 @@ elements of a List. Then we can use this Custom Comparator in sort
 method of Collections class.
 
 
-## 242. How can we get a Stream from
-
-## a List in Java?
+## 242. How can we get a Stream from a List in Java?
 
 From Java 8 onwards it is a very easy to get a Stream from a List.
 We can just use stream() method to get a stream from a list of
 elements.
 
 
-## 243. Can we get a Map from a
-
-## Stream in Java?
+## 243. Can we get a Map from a Stream in Java?
 
 Yes, we can create a Map from the elements of a Stream. We can
 use map() method to get a Map.
@@ -6647,9 +6067,7 @@ mapped to its LowerCase equivalent.
 This is also used in Map-Reduce implementation on a Stream.
 
 
-## 244. What are the popular
-
-## implementations of Deque in Java?
+## 244. What are the popular implementations of Deque in Java?
 
 The two most popular implementation of Deque interface in Java
 are:
@@ -6668,7 +6086,7 @@ is not thread-safe. It mainly provides functionality of a
 doubly linked list.
 ```
 
-# Multi-threading
+# ✅ 07. Multi-threading
 
 
 ## 245. What is a Thread in Java?
@@ -6683,11 +6101,7 @@ When we start JVM, Java starts one thread. This thread calls the
 main method of the class passed in argument to java call.
 
 
-## 246. What is the priority of a
-
-## Thread and how it is used in
-
-## scheduling?
+## 246. What is the priority of a Thread and how it is used in scheduling?
 
 In Java, every Thread has a priority. This priority is specified as a
 number between 1 to 10.
@@ -6699,9 +6113,7 @@ The thread with higher priority gets preference in execution over a
 thread with lower priority.
 
 
-## 247. What is the default priority of
-
-## a thread in Java?
+## 247. What is the default priority of a thread in Java?
 
 In Java, a new thread gets the same priority as the priority of the
 parent thread that creates it.
@@ -6709,11 +6121,7 @@ parent thread that creates it.
 Default priority of a thread is 5 (NORM_PRIORITY).
 
 
-## 248. What are the three different
-
-## priorities that can be set on a Thread
-
-## in Java?
+## 248. What are the three different priorities that can be set on a Thread in Java?
 
 We can set following three priorities on a Thread object in Java:
 
@@ -6733,9 +6141,7 @@ Default priority of a thread is 5 NORM_PRIORITY. The value of
 MIN_PRIORITY is 1 and the value of MAX_PRIORITY is 10.
 
 
-## 249. What is the purpose of join()
-
-## method in Thread class?
+## 249. What is the purpose of join() method in Thread class?
 
 In Java, Thread Scheduler controls thread scheduling. But we can
 use join() method on a thread to make current thread to wait for
@@ -6776,11 +6182,7 @@ finish and then it moves to Line 3. So currentThread at Line 3 will
 not start till the importantThread has finished.
 
 
-## 250. What is the fundamental
-
-## difference between wait() and sleep()
-
-## methods?
+## 250. What is the fundamental difference between wait() and sleep() methods?
 
 The main difference between wait() and sleep() is that wait is an
 Object level method, whereas sleep() is a static method in Thread
@@ -6799,18 +6201,14 @@ In case of sleep() current thread does not release the monitor or
 locks. It just sleeps for some pre-defined time period.
 
 
-## 251. Is it possible to call run() method
-
-## instead of start() on a thread in Java?
+## 251. Is it possible to call run() method instead of start() on a thread in Java?
 
 Yes. We can call run() method of a thread. But it does not work as a
 separate thread. It will just work as a normal object in main thread
 and there will not be context switching between the threads.
 
 
-## 252. How Multi-threading works in
-
-## Java?
+## 252. How Multi-threading works in Java?
 
 Java provides support for Multithreading. In a Multithreading
 environment, one process can execute multiple threads in parallel at
@@ -6824,9 +6222,7 @@ Java provides methods like- start(), notify(), wait(), sleep() etc. to
 maintain a multi-threading environment.
 
 
-## 253. What are the advantages of
-
-## Multithreading?
+## 253. What are the advantages of Multithreading?
 
 Main advantages of Multithreading are:
 
@@ -6843,9 +6239,7 @@ process can spawn multiple threads.
 code multiple threads than managing it from same thread.
 ```
 
-## 254. What are the disadvantages of
-
-## Multithreading?
+## 254. What are the disadvantages of Multithreading?
 
 There are certain downsides to Multithreading. These are:
 
@@ -6870,9 +6264,7 @@ By default Java starts one thread when the main method of a class is
 called.
 
 
-## 256. What is a Thread’s priority
-
-## and how it is used in scheduling?
+## 256. What is a Thread’s priority and how it is used in scheduling?
 
 In Java, every Thread has a priority. This priority is specified as an
 integer value. The priority value is used in scheduling to pick up the
@@ -6884,13 +6276,7 @@ The task scheduler schedules the higher priority threads first,
 followed by the lower priority threads.
 
 
-## 257. What are the differences
-
-## between Pre-emptive Scheduling
-
-## Scheduler and Time Slicing
-
-## Scheduler?
+## 257. What are the differences between Pre-emptive Scheduling Scheduler and Time Slicing Scheduler?
 
 In Pre-emptive scheduling, the highest priority task will keep getting
 time to execute until it goes to waiting state or dead state or a task
@@ -6902,22 +6288,14 @@ execution. The scheduler picks up the next task for execution, based
 on priority and various other factors.
 
 
-## 258. Is it possible to call run()
-
-## method instead of start() on a thread
-
-## in Java​?
+## 258. Is it possible to call run() method instead of start() on a thread in Java​?
 
 Yes. We can call run() method of a thread. But it does not work as a
 separate thread. It will just work as a normal object in main thread
 and there will not be context-switching between the threads.
 
 
-## 259. How will you make a user
-
-## thread into daemon thread if it has
-
-## already started?
+## 259. How will you make a user thread into daemon thread if it has already started?
 
 No. We cannot make a user thread to daemon thread once it has
 already started.
@@ -6926,79 +6304,59 @@ If we do it by calling setDaemon(), it will throw
 IllegalThreadStateException
 
 
-## 260. Can we start a thread two
-
-## times in Java?
+## 260. Can we start a thread two times in Java?
 
 No. We can call start() method only once on a thread in Java. If we
 call it twice, it will give us exception.
 
 
-## 261. In what scenarios can we
-
-## interrupt a thread?
+## 261. In what scenarios can we interrupt a thread?
 
 We can interrupt a thread if we want to wake it up from the sleep or
 wait state.
 
 
-## 262. In Java, is it possible to lock an
-
-## object for exclusive use by a thread?
+## 262. In Java, is it possible to lock an object for exclusive use by a thread?
 
 Yes. We can use synchronized block to lock an object. The locked
 object is inaccessible to any other thread. Only the thread that has
 locked it can access it.
 
 
-## 263. How notify() method is
-
-## different from notifyAll() method?
+## 263. How notify() method is different from notifyAll() method?
 
 In Java, notify() method is used to unblock a specific thread that is
 in waiting stated. Whereas, notifyAll() method is used to unblock
 all the threads that are in waiting state.
 
 
-## 264. What is a daemon thread in
-
-## Java?
+## 264. What is a daemon thread in Java?
 
 A daemon thread in Java is a low priority thread that does not
 prevent the JVM from exiting when the program finishes. The thread
 keeps running. Garbage Collection is an example of daemon thread.
 
 
-## 265. How can we make a regular
-
-## thread Daemon thread in Java?
+## 265. How can we make a regular thread Daemon thread in Java?
 
 We can call setDaemon(boolean) method to change a thread to
 daemon thread before the thread starts.
 
 
-## 266. How will you make a user
-
-## thread into daemon thread if it has
-
-## already started?
+## 266. How will you make a user thread into daemon thread if it has already started?
 
 No. We cannot make a user thread to daemon thread once it has
 already started. If we do it by calling setDaemon(), it will throw
 IllegalThreadStateException
 
 
-## 267. Can we start a thread two
-
-## times in Java?
+## 267. Can we start a thread two times in Java?
 
 No. We can call start() method only once on a thread in Java. If we
 call it twice, it will give us exception.
 
 
-## 268. What is a Shutdown hook in
-
-## Java?
+## 268. What is a Shutdown hook in Java?
 
 The shutdown hook is a thread that is invoked implicitly by JVM
 just before the shut down. It can be used to clean up unused
@@ -7008,9 +6366,7 @@ We can use java.lang.Runtime.addShutdownHook(Thread hook)
 method to register a new virtual-machine shutdown hook.
 
 
-## 269. What is synchronization in
-
-## Java?
+## 269. What is synchronization in Java?
 
 The concept of Synchronization in Java is used in Multi-threading
 programming.
@@ -7021,9 +6377,7 @@ threads to a shared resource.
 It is used to prevent Deadlock between multiple threads.
 
 
-## 270. What is the purpose of
-
-## Synchronized block in Java?
+## 270. What is the purpose of Synchronized block in Java?
 
 Synchronized block has many uses in Java multi-threading
 environment. Some of the uses are:
@@ -7054,9 +6408,7 @@ At times there is a circular wait when more than two threads are
 waiting on each other’s resources.
 
 
-## 273. What is the meaning of
-
-## concurrency?
+## 273. What is the meaning of concurrency?
 
 Concurrency is the ability of a program to execute several programs
 simultaneously. This is achieved by distributing computations over
@@ -7067,9 +6419,7 @@ It can increase the speed of execution of the overall program in
 multi-processor or multi-core system.
 
 
-## 274. What is the main difference
-
-## between process and thread?
+## 274. What is the main difference between process and thread?
 
 As such both process and thread are independent sequences of
 execution.
@@ -7089,9 +6439,7 @@ thread more suitable for tasks where performance is a significant
 factor.
 
 
-## 275. What is a process and thread
-
-## in the context of Java?
+## 275. What is a process and thread in the context of Java?
 
 In Java, a process refers to the running of Java Virtual Machine
 (JVM). But a thread lives within a JVM and it can be created or
@@ -7110,18 +6458,14 @@ process/thread will get a reasonable time frame to access the
 requested resource exclusively.
 
 
-## 277. What is the minimum number
-
-## of Threads in a Java program?
+## 277. What is the minimum number of Threads in a Java program?
 
 In a JVM, each Java program is executed within the main process
 that starts with java.exe. Therefore each Java application has at
 least one thread.
 
 
-## 278. What are the properties of a
-
-## Java thread?
+## 278. What are the properties of a Java thread?
 
 Each Java thread has following properties:
 
@@ -7134,9 +6478,7 @@ the JVM
 5. Group : A thread group the thread belongs to
 ```
 
-## 279. What are the different states of
-
-## a Thread in Java?
+## 279. What are the different states of a Thread in Java?
 
 Following are the different states of a Thread in Java:
 
@@ -7165,9 +6507,7 @@ Timed_waiting state.
 state.
 ```
 
-## 280. How will you set the priority
-
-## of a thread in Java?
+## 280. How will you set the priority of a thread in Java?
 
 The priority of a thread in Java can be set by using setPriority(int
 priority) method.
@@ -7182,9 +6522,7 @@ Or we can use constant Thread.NORM_PRIORITY to set the default
 priority of a thread.
 
 
-## 281. What is the purpose of Thread
-
-## Groups in Java?
+## 281. What is the purpose of Thread Groups in Java?
 
 In Java, every thread belongs to a group of threads.
 
@@ -7198,9 +6536,7 @@ So a thread group is used for taking collective actions on a group of
 threads.
 
 
-## 282. Why we should not stop a
-
-## thread by calling its stop() method?
+## 282. Why we should not stop a thread by calling its stop() method?
 
 The stop() method in Thread class is a deprecated method. Its use is
 not recommended.
@@ -7215,9 +6551,7 @@ inconsistent object.
 So calling stop() method to stop a thread is not advisable.
 
 
-## 283. How will you create a Thread
-
-## in Java?
+## 283. How will you create a Thread in Java?
 
 There are two main ways to create a thread in Java.
 
@@ -7233,9 +6567,7 @@ object to the constructor of java.lang.Thread class. On
 calling start() it will start a new thread.
 ```
 
-## 284. How can we stop a thread in
-
-## the middle of execution in Java?
+## 284. How can we stop a thread in the middle of execution in Java?
 
 We can use a volatile variable as an indicator to stop the thread.
 
@@ -7271,14 +6603,12 @@ Thread.sleep(100);
 }
 
 
-#### }
+}
 
-#### }
+}
 
 
-## 285. How do you access the current
-
-## thread in a Java program?
+## 285. How do you access the current thread in a Java program?
 
 We can access the current thread in Java by calling the static method
 currentThread() of java.lang.Thread class.
@@ -7297,9 +6627,7 @@ String name = Thread.currentThread().getName();
 }
 
 
-## 286. What is Busy waiting in Multi-
-
-## threading?
+## 286. What is Busy waiting in Multi- threading?
 
 Busy waiting is also known as busy-looping or spinning. It is a
 multi-threading technique in which a process repeatedly checks if a
@@ -7327,9 +6655,7 @@ currentTime = System.currentTimeMillis();
 });
 
 
-## 287. How can we prevent busy
-
-## waiting in Java?
+## 287. How can we prevent busy waiting in Java?
 
 There is a simple way to prevent busy-waiting in Java. We can just
 put the current thread to sleep for given amount of time.
@@ -7339,11 +6665,7 @@ We can pass the number of milliseconds to sleep() method as an
 argument.
 
 
-## 288. Can we use Thread.sleep()
-
-## method for real-time processing in
-
-## Java?
+## 288. Can we use Thread.sleep() method for real-time processing in Java?
 
 Java does not guarantee that Thread.sleep() will cause the thread to
 sleep for exactly N number of milliseconds. Sometime the thread
@@ -7356,11 +6678,7 @@ Therefore the invocation of Thread.sleep() method is not
 recommended for use in real-time processing.
 
 
-## 289. Can we wake up a thread that
-
-## has been put to sleep by using
-
-## Thread.sleep() method?
+## 289. Can we wake up a thread that has been put to sleep by using Thread.sleep() method?
 
 We can use interrupt() method of java.lang.Thread class to interrupt
 a thread that is in sleep state. It will get InterruptedException to
@@ -7390,11 +6708,7 @@ myThread.interrupt();
 }
 
 
-## 290. What are the two ways to
-
-## check if a Thread has been
-
-## interrupted?
+## 290. What are the two ways to check if a Thread has been interrupted?
 
 These are the two ways to check for thread interruption:
 
@@ -7407,11 +6721,7 @@ check if it has been interrupted or not.
 Thread class to check if it has been interrupted or not.
 ```
 
-## 291. How can we make sure that
-
-## Parent thread waits for termination of
-
-## Child thread?
+## 291. How can we make sure that Parent thread waits for termination of Child thread?
 
 We can use join() method for this purpose. On calling join() method,
 current thread waits for the child thread to which it joins to finish.
@@ -7428,9 +6738,7 @@ myThread.start();
 myThread.join();
 
 
-## 292. How will you handle
-
-## InterruptedException in Java?
+## 292. How will you handle InterruptedException in Java?
 
 In Java we can get InterruptedException from sleep() or join()
 methods. Throwing InterruptedException is way to inform that
@@ -7451,11 +6759,7 @@ method should check and handle this exception by itself and take
 appropriate action.
 
 
-## 293. Which intrinsic lock is
-
-## acquired by a synchronized method in
-
-## Java?
+## 293. Which intrinsic lock is acquired by a synchronized method in Java?
 
 When we mark a method as synchronized and then call this method,
 then this method will first acquire the intrinsic lock of the object in
@@ -7474,9 +6778,7 @@ synchronized(this) {
 }
 
 
-## 294. Can we mark a constructor as
-
-## synchronized in Java?
+## 294. Can we mark a constructor as synchronized in Java?
 
 No. We cannot mark a constructor as synchronized.
 
@@ -7486,17 +6788,13 @@ The reasoning behind this is that, in this case, only the constructing
 thread would have access to the object being constructed.
 
 
-## 295. Can we use primitive values
-
-## for intrinsic locks?
+## 295. Can we use primitive values for intrinsic locks?
 
 No. Java does not allow primitive values to be used for intrinsic
 locks.
 
 
-## 296. Do we have re-entrant
-
-## property in intrinsic locks?
+## 296. Do we have re-entrant property in intrinsic locks?
 
 Yes. An intrinsic lock can be accessed by the same thread multiple
 times. So an Intrinsic lock is re-entrant.
@@ -7515,9 +6813,7 @@ An Atomic operation is either executed completely or not at all.
 There is no halfway mark in Atomic operation.
 
 
-## 298. Can we consider the statement
-
-## i++ as an atomic operation in Java?
+## 298. Can we consider the statement i++ as an atomic operation in Java?
 
 No. The statement i++ is not an Atomic operation. It has more than
 one operation.
@@ -7530,9 +6826,7 @@ between any of the above-mentioned three steps. Therefore it is not
 an atomic operation.
 
 
-## 299. What are the Atomic
-
-## operations in Java?
+## 299. What are the Atomic operations in Java?
 
 Java language provides some basic Atomic operations. These
 operations can be used to make sure that concurrent threads always
@@ -7555,9 +6849,7 @@ variables (except long and double)
 4. Write operations on all variables declared as volatile
 ```
 
-## 300. Can you check if following
-
-## code is thread-safe?
+## 300. Can you check if following code is thread-safe?
 
 public class SingletonDoubleCheck {
 private SingletonDoubleCheck instance = null;
@@ -7592,11 +6884,7 @@ Any variables that is marked as volatile will be visible to other
 threads only after the completion of the constructor of the object.
 
 
-## 301. What are the minimum
-
-## requirements for a Deadlock situation
-
-## in a program?
+## 301. What are the minimum requirements for a Deadlock situation in a program?
 
 For a deadlock to occur following are the minimum requirements:
 
@@ -7621,9 +6909,7 @@ each other’s resource to get free. This causes circular wait
 among threads for same set of resources.
 ```
 
-## 302. How can we prevent a
-
-## Deadlock?
+## 302. How can we prevent a Deadlock?
 
 To prevent a Deadlock from occurring at least one requirement for a
 deadlock has to be removed:
@@ -7647,9 +6933,7 @@ does not occur, when all exclusive locks have been
 acquired by all the threads in the same sequence.
 ```
 
-## 303. How can we detect a Deadlock
-
-## situation?
+## 303. How can we detect a Deadlock situation?
 
 We can use ThreadMXBean.findDeadlockedThreads() method to
 detect deadlocks in Java program. This bean comes with JDK:
@@ -7705,9 +6989,7 @@ priority would starve. It will remain away from the threads with
 higher priority.
 
 
-## 306. How can a synchronized block
-
-## cause Thread starvation in Java?
+## 306. How can a synchronized block cause Thread starvation in Java?
 
 It is not defined for synchronization that which thread will enter a
 synchronized block. It may happen that if many threads are waiting
@@ -7743,9 +7025,7 @@ y = x * 5; // Act
 }
 
 
-## 308. What is a Fair lock in multi-
-
-## threading?
+## 308. What is a Fair lock in multi- threading?
 
 In Java there is a class ReentrantLock that is used for implementing
 Fair lock. This class accepts an optional parameter fairness. When
@@ -7765,11 +7045,7 @@ ReentrantLock. This method does not honor the value of fairness
 parameter.
 
 
-## 309. Which two methods of Object
-
-## class can be used to implement a
-
-## Producer Consumer scenario?
+## 309. Which two methods of Object class can be used to implement a Producer Consumer scenario?
 
 In a Producer Consumer scenario, one thread is a Producer and
 another thread is a Consumer.
@@ -7784,9 +7060,7 @@ In this way the processor time between produce and consume
 operations is freed due to the use of wait() and notify() methods.
 
 
-## 310. How JVM determines which
-
-## thread should wake up on notify()?
+## 310. How JVM determines which thread should wake up on notify()?
 
 If multiple threads are waiting on an object’s monitor, JVM
 awakens one of them. As per Java specification the choice of this
@@ -7795,11 +7069,7 @@ So there is no guarantee of rule that a specific thread will be
 awakened by JVM on notify() method call.
 
 
-## 311. Check if following code is thread-
-
-## safe for retrieving an integer value
-
-## from a Queue?
+## 311. Check if following code is thread- safe for retrieving an integer value from a Queue?
 
 public class QueueCheck {
 Queue queue;
@@ -7840,9 +7110,7 @@ make it empty. The second thread will poll on an empty queue and it
 will not get any non-null return value.
 
 
-## 312. How can we check if a thread has
-
-## a monitor lock on a given object?
+## 312. How can we check if a thread has a monitor lock on a given object?
 
 In Java, Thread class has a static method holdsLock(Object
 objToCheck) to check whether thread has a lock on objToLock
@@ -7852,9 +7120,7 @@ This method will return true if current thread holds the lock on the
 objToLock object that was passed as an argument to this method.
 
 
-## 313. What is the use of yield() method
-
-## in Thread class?
+## 313. What is the use of yield() method in Thread class?
 
 The yield() method of Thread class is used to give a hint to
 scheduler that the current thread wants to free the processor.
@@ -7867,11 +7133,7 @@ It can be used for debugging or testing purposes. But there is rarely
 any concrete use of this method.
 
 
-## 314. What is an important point to
-
-## consider while passing an object from
-
-## one thread to another thread?
+## 314. What is an important point to consider while passing an object from one thread to another thread?
 
 This is a multi-threading scenario. In a multi-threading scenario, the
 most important point is to check whether two threads can update
@@ -7884,9 +7146,7 @@ So it is recommended to make the object Immutable. This will help
 in avoiding any concurrency issues on this object.
 
 
-## 315. What are the rules for creating
-
-## Immutable Objects?
+## 315. What are the rules for creating Immutable Objects?
 
 As per Java specification, following are the rules for creating an
 Immutable object:
@@ -7913,9 +7173,7 @@ Similarly, create copies of your internal mutable objects when
 necessary to avoid returning the originals in your methods.
 
 
-## 316. What is the use of ThreadLocal
-
-## class?
+## 316. What is the use of ThreadLocal class?
 
 ThreadLocal class provides thread-local variables. Each thread
 accesses only its own local variables. It has its own copy of the
@@ -7930,9 +7188,7 @@ Typically, ThreadLocal instances are private static fields that are
 associated with the state of a thread.
 
 
-## 317. What are the scenarios suitable
-
-## for using ThreadLocal class?
+## 317. What are the scenarios suitable for using ThreadLocal class?
 
 We can use instance of ThreadLocal class to transport information
 within an application.
@@ -7944,11 +7200,7 @@ Another use case is to transport transaction information across an
 application, without using the method-to-method communication.
 
 
-## 318. How will you improve the
-
-## performance of an application by
-
-## multi-threading?
+## 318. How will you improve the performance of an application by multi-threading?
 
 In an environment with more than one CPU, we can parallelize the
 computation tasks on multiple CPUs. This leads to parallel
@@ -7965,9 +7217,7 @@ work is happening in 10 parallel threads, the time taken will be
 around 500 minutes.
 
 
-## 319. What is scalability in a Software
-
-## program?
+## 319. What is scalability in a Software program?
 
 Scalability is the capability of a program to handle growing amount
 of work or its potential to be enlarged in order to accommodate
@@ -7981,11 +7231,7 @@ When we say a program does not scale, it means that program fails
 on increasing the size of task.
 
 
-## 320. How will you calculate the
-
-## maximum speed up of an application
-
-## by using multiple processors?
+## 320. How will you calculate the maximum speed up of an application by using multiple processors?
 
 Amdahl’s law gives the theoretical speedup in latency of the
 execution of a task at fixed workload.
@@ -8010,9 +7256,7 @@ means the lower this fraction is, the more theoretical speedup can
 be achieved.
 
 
-## 321. What is Lock contention in multi-
-
-## threading?
+## 321. What is Lock contention in multi- threading?
 
 Lock contention is the situation when one thread is waiting for a
 lock/object that being held by another thread. The waiting thread
@@ -8027,9 +7271,7 @@ If locking is implemented correctly it reduces the occurrence of
 contention between multiple threads.
 
 
-## 322. What are the techniques to
-
-## reduce Lock contention?
+## 322. What are the techniques to reduce Lock contention?
 
 There are following main techniques to reduce Lock contention:
 
@@ -8042,11 +7284,7 @@ There are following main techniques to reduce Lock contention:
 of synchronization.
 ```
 
-## 323. What technique can be used in
-
-## following code to reduce Lock
-
-## contention?
+## 323. What technique can be used in following code to reduce Lock contention?
 
 synchronized (map) {
 Random r = new Random();
@@ -8070,9 +7308,7 @@ map.put(key, value);
 }
 
 
-## 324. What is Lock splitting
-
-## technique?
+## 324. What is Lock splitting technique?
 
 Lock splitting is a technique to reduce Lock contention in multi-
 threading. It is applicable in scenario when one lock is used to
@@ -8087,11 +7323,7 @@ array elements. In this way we can reduced the chance of Lock
 contention. This is Lock splitting technique.
 
 
-## 325. Which technique is used in
-
-## ReadWriteLock class for reducing
-
-## Lock contention?
+## 325. Which technique is used in ReadWriteLock class for reducing Lock contention?
 
 ReadWriteLock uses two locks. One lock for read-only operations,
 another lock for write operations.
@@ -8146,9 +7378,7 @@ update it.
 This is an example of optimistic locking.
 
 
-## 328. Which Java classes use CAS
-
-## operation?
+## 328. Which Java classes use CAS operation?
 
 Java classes like AtomicInteger or AtomicBoolean internally use
 CAS operations to support multi-threading.
@@ -8156,11 +7386,7 @@ CAS operations to support multi-threading.
 These classes are in package java.util.concurrent.atomic.
 
 
-## 329. Is it always possible to improve
-
-## performance by object pooling in a
-
-## multi-threading application?
+## 329. Is it always possible to improve performance by object pooling in a multi-threading application?
 
 By using Object pools in an application we limit the number of new
 objects to be created for a class. In a single thread operation, it can
@@ -8177,15 +7403,7 @@ Therefore using an Object pool may not always improve the
 performance in a multi-threading application.
 
 
-## 330. How can techniques used for
-
-## performance improvement in a single
-
-## thread application may degrade the
-
-## performance in a multi-threading
-
-## application?
+## 330. How can techniques used for performance improvement in a single thread application may degrade the performance in a multi-threading application?
 
 In a single thread applications we can use Object pool for
 performance optimization. Where as in multi-threading environment,
@@ -8206,11 +7424,7 @@ element in a list. The additional cost of lock on this variable can
 outweigh the benefit gained by it in a multi-threading application.
 
 
-## 331. What is the relation between
-
-## Executor and ExecutorService
-
-## interface?
+## 331. What is the relation between Executor and ExecutorService interface?
 
 Executor interface has only execute(Runnable) method. The
 implementing class of this interface has to execute the given
@@ -8224,22 +7438,14 @@ the thread so that further requests can be rejected. Also it provides
 ability to invoke a collection of Callable tasks.
 
 
-## 332. What will happen on calling
-
-## submit() method of an
-
-## ExecutorService instance whose
-
-## queue is already full?
+## 332. What will happen on calling submit() method of an ExecutorService instance whose queue is already full?
 
 The implementation of ExecutorService will throw
 RejectedExecutionException, when its queue is already full and a
 new task is submitted by calling submit() method.
 
 
-## 333. What is a
-
-## ScheduledExecutorService?
+## 333. What is a ScheduledExecutorService?
 
 ScheduledExecutorService interface extends the interface
 ExecutorService. It provides various schedule() methods that can be
@@ -8256,9 +7462,7 @@ scheduleWithFixedDelay() methods that can execute an action at a
 periodic interval of time.
 
 
-## 334. How will you create a Thread
-
-## pool in Java?
+## 334. How will you create a Thread pool in Java?
 
 In Java, Executors framework provides a method
 newFixedThreadPool(int nThreads) that can be used to create a
@@ -8285,11 +7489,7 @@ myService.shutdown();
 }
 
 
-## 335. What is the main difference
-
-## between Runnable and Callable
-
-## interface?
+## 335. What is the main difference between Runnable and Callable interface?
 
 Runnable interface defines run() method that does not return any
 value.
@@ -8300,9 +7500,7 @@ an error. Also Callable is a newer addition to Java since version
 1.5.
 
 
-## 336. What are the uses of Future
-
-## interface in Java?
+## 336. What are the uses of Future interface in Java?
 
 We can use Future interface to represent the result of an
 asynchronous computation.
@@ -8319,11 +7517,7 @@ Future also provides cancel() method to attempt the cancellation of
 a task.
 
 
-## 337. What is the difference in
-
-## concurrency in HashMap and in
-
-## Hashtable?
+## 337. What is the difference in concurrency in HashMap and in Hashtable?
 
 In a Hashtable class all methods are synchronized.
 
@@ -8336,11 +7530,7 @@ In a multi-threading it is not advisable to use regular HashMap. We
 can use ConcurrentHashMap class in multi-threading applications.
 
 
-## 338. How will you create
-
-## synchronized instance of List or Map
-
-## Collection?
+## 338. How will you create synchronized instance of List or Map Collection?
 
 In Java, Collections class provides methods to synchronize any
 collection.
@@ -8375,9 +7565,7 @@ Once a thread has finished its work, we can use release() method to
 release the permits.
 
 
-## 340. What is a CountDownLatch in
-
-## Java?
+## 340. What is a CountDownLatch in Java?
 
 CountDownLatch class helps in implementing synchronization in
 Java. It is used to implement the scenarios in which one or more
@@ -8394,9 +7582,7 @@ threads invoking await() method wait at the gate until it is opened
 by a thread invoking countdown() method.
 
 
-## 341. What is the difference between
-
-## CountDownLatch and CyclicBarrier?
+## 341. What is the difference between CountDownLatch and CyclicBarrier?
 
 CyclicBarrier takes an optional Runnable task that is run once the
 common barrier condition is achieved.
@@ -8412,9 +7598,7 @@ scenarios in which threads have to wait for each other multiple
 times.
 
 
-## 342. What are the scenarios suitable
-
-## for using Fork/Join framework?
+## 342. What are the scenarios suitable for using Fork/Join framework?
 
 ForkJoinPool class is in the center of Fork/Join framework. It is a
 thread pool that can execute instances of ForkJoinTask.
@@ -8427,11 +7611,7 @@ Therefore, divide-and-conquer algorithms can be easily
 implemented with Fork/Join framework.
 
 
-## 343. What is the difference between
-
-## RecursiveTask and RecursiveAction
-
-## class?
+## 343. What is the difference between RecursiveTask and RecursiveAction class?
 
 RecursiveAction class has compute() method that does not have to
 return a value.
@@ -8447,11 +7627,7 @@ Both RecursiveTask and RecursiveAction classes are used in
 ForkJoinTask implementations.
 
 
-## 344. In Java 8, can we process
-
-## stream operations with a Thread
-
-## pool?
+## 344. In Java 8, can we process stream operations with a Thread pool?
 
 In Java 8, Collections provide parallelStream() method to create a
 stream that can be processed by a Thread pool.
@@ -8460,9 +7636,7 @@ We can also call the intermediate method parallel() on a given
 stream to convert it into a sequential stream of parallel tasks.
 
 
-## 345. What are the scenarios to use
-
-## parallel stream in Java 8?
+## 345. What are the scenarios to use parallel stream in Java 8?
 
 A parallel stream in Java 8 has a much higher overhead compared
 to a sequential one.
@@ -8479,9 +7653,7 @@ thread environment. If there is already a multi-threading
 environment, adding parallel stream can degrade the performance.
 
 
-## 346. How Stack and Heap work in
-
-## Java multi-threading environment?
+## 346. How Stack and Heap work in Java multi-threading environment?
 
 In Java, Stack and heap are memory areas available to an
 application. Every thread has its own stack. It is used to store local
@@ -8502,9 +7674,7 @@ variable volatile. For a volatile variable the thread always reads
 the value from main memory.
 
 
-## 347. How can we take Thread dump
-
-## in Java?
+## 347. How can we take Thread dump in Java?
 
 The steps to take Thread dump of Java process depends on the
 operating system.
@@ -8523,24 +7693,14 @@ of Thread in Java. You can see this list of JVM options to learn
 more about this parameter.
 
 
-## 348. Which parameter can be used
-
-## to control stack size of a thread in
-
-## Java?
+## 348. Which parameter can be used to control stack size of a thread in Java?
 
 We use –Xss parameter to control the stack size of a thread in Java.
 
 If we set it as 1 MB, then every thread will get 1MB of stack size.
 
 
-## 349. There are two threads T1 and
-
-## T2? How will you ensure that these
-
-## threads run in sequence T1, T2 in
-
-## Java?
+## 349. There are two threads T1 and T2? How will you ensure that these threads run in sequence T1, T2 in Java?
 
 In Java there are multiple ways to execute threads in a sequence.
 
@@ -8559,12 +7719,10 @@ thread T2 waits for thread T1 to finish execution.
 Once T1 completes execution, T2 thread starts executing.
 
 
-# Java 8
+# ✅ 07. Java 8
 
 
-## 350. What are the new features
-
-## released in Java 8?
+## 350. What are the new features released in Java 8?
 
 The new features released in Java 8 are:
 
@@ -8587,9 +7745,7 @@ The new features released in Java 8 are:
 16. JVM Parameter Changes
 ```
 
-## 351. What are the main benefits of
-
-## new features introduced in Java 8?
+## 351. What are the main benefits of new features introduced in Java 8?
 
 The main benefits of Java 8 features are:
 
@@ -8605,9 +7761,7 @@ Streams
 8. Faster execution with Nashorn JavaScript engine support
 ```
 
-## 352. What is a Lambda expression
-
-## in Java 8?
+## 352. What is a Lambda expression in Java 8?
 
 Lambda expression is an anonymous function. It is like a method
 that does not need any access modifiers, name or return value
@@ -8618,9 +7772,7 @@ we can treat code in Lambda expression as data. This piece of code
 can be passed to other objects and methods.
 
 
-## 353. What are the three main parts
-
-## of a Lambda expression in Java?
+## 353. What are the three main parts of a Lambda expression in Java?
 
 Three main parts of a Lambda expression are:
 
@@ -8646,9 +7798,7 @@ Arrow = ->
 Body = System.out.println( e )
 
 
-## 354. What is the data type of a
-
-## Lambda expression?
+## 354. What is the data type of a Lambda expression?
 
 A Lambda expression fulfills the purpose of passing code as data.
 
@@ -8657,9 +7807,7 @@ The data type of a Lambda expression is a Functional interface.
 In most of the cases this is java.lang.Runnable interface.
 
 
-## 355. What is the meaning of
-
-## following lambda expression?
+## 355. What is the meaning of following lambda expression?
 
 ( e -> System.out.println( e ) );
 
@@ -8667,9 +7815,7 @@ This Lambda expression takes a parameter e and prints it via
 System.out.
 
 
-## 356. Why did Oracle release a new
-
-## version of Java like Java 8?
+## 356. Why did Oracle release a new version of Java like Java 8?
 
 The main theme of Java 8 is support for functional programming.
 With increase in Database size and growth of multi-code CPU
@@ -8687,9 +7833,7 @@ library for handling the exceptional cases. This has made programs
 more robust with support for edge cases.
 
 
-## 357. What are the advantages of a
-
-## lambda expression?
+## 357. What are the advantages of a lambda expression?
 
 We can pass a lambda expression as an object to a method. This
 reduces the overhead involved in passing an anonymous class.
@@ -8698,9 +7842,7 @@ We can also pass a method as a parameter to another method using
 lambda expressions.
 
 
-## 358. What is a Functional interface
-
-## in Java 8?
+## 358. What is a Functional interface in Java 8?
 
 A Functional interface in Java is an interface that has exactly one
 abstract method.
@@ -8712,17 +7854,13 @@ In Java 8, java.lang.Runnable and java.util.concurrent.Callable are
 two very popular Functional interfaces.
 
 
-## 359. What is a Single Abstract
-
-## Method (SAM) interface in Java 8?
+## 359. What is a Single Abstract Method (SAM) interface in Java 8?
 
 A Functional interface is also known as Single Abstract Method
 Interface, since it has exactly one abstract method.
 
 
-## 360. How can we define a
-
-## Functional interface in Java 8?
+## 360. How can we define a Functional interface in Java 8?
 
 To define a Functional interface in Java 8, we can create an
 Interface with exactly one abstract method.
@@ -8736,9 +7874,7 @@ java.lang.Object class’s method as an abstract method, then it does
 not count as an abstract method.
 
 
-## 361. Why do we need Functional
-
-## interface in Java?
+## 361. Why do we need Functional interface in Java?
 
 Functional Interfaces are mainly used in Lambda expressions,
 Method reference and constructor references.
@@ -8753,13 +7889,7 @@ implementation of that method becomes the code that gets passed as
 an argument to another method.
 
 
-## 362. Is it mandatory to use
-
-## @FunctionalInterface annotation to
-
-## define a Functional interface in Java
-
-## 8?
+## 362. Is it mandatory to use @FunctionalInterface annotation to define a Functional interface in Java 8?
 
 No, it is not mandatory to mark a Functional interface with
 @FunctionalInterface annotation.
@@ -8771,11 +7901,7 @@ then Java Compiler will give us error in case we define more than
 one abstract method inside that interface.
 
 
-## 363. What are the differences
-
-## between Collection and Stream API in
-
-## Java 8?
+## 363. What are the differences between Collection and Stream API in Java 8?
 
 Main differences between Collection and Stream API in Java 8 are:
 
@@ -8797,9 +7923,7 @@ times. With Stream API we can consume or iterate
 elements only once.
 ```
 
-## 364. What are the main uses of
-
-## Stream API in Java 8?
+## 364. What are the main uses of Stream API in Java 8?
 
 Main uses of Stream API in Java 8 are:
 
@@ -8817,11 +7941,7 @@ style.
 6. It provides parallel processing of data.
 ```
 
-## 365. What are the differences
-
-## between Intermediate and Terminal
-
-## Operations in Java 8 Streams?
+## 365. What are the differences between Intermediate and Terminal Operations in Java 8 Streams?
 
 Main differences between Intermediate and Terminal Stream
 operations are as follows:
@@ -8843,9 +7963,7 @@ a Stream operation. There can be only one Terminal
 operation in Stream processing statement.
 ```
 
-## 366. What is a Spliterator in Java
-
-## 8?
+## 366. What is a Spliterator in Java 8?
 
 A Spliterator is a special type of Iterator to traverse and partition
 the elements of a source in Java. A source can be a collection, an IO
@@ -8855,11 +7973,7 @@ A Spliterator may traverse elements individually or sequentially in
 bulk.
 
 
-## 367. What are the differences
-
-## between Iterator and Spliterator in
-
-## Java 8?
+## 367. What are the differences between Iterator and Spliterator in Java 8?
 
 Main differences between Iterator and Spliterator are as follows:
 
@@ -8875,9 +7989,7 @@ manner.
 bulk. Iterator only iterates elements individually.
 ```
 
-## 368. What is Type Inference in Java
-
-## 8?
+## 368. What is Type Inference in Java 8?
 
 A Java compiler can see each method’s invocation and it
 declaration to determine what are type arguments required for
@@ -8890,18 +8002,14 @@ Type inference algorithm also tries to find the most specific type
 that can work with all types of arguments.
 
 
-## 369. Does Java 7 support Type
-
-## Inference?
+## 369. Does Java 7 support Type Inference?
 
 Yes, Java 7 supports Type Inference. In Java 8, Oracle has enhanced
 the Type Inference concept. Now it can be used to define Lambda
 expressions, functions and Method references.
 
 
-## 370. How does Internal Iteration
-
-## work in Java 8?
+## 370. How does Internal Iteration work in Java 8?
 
 In an Iterator, the fundamental question is that which party controls
 the iteration. Is it Iterator or the Collection on which iterator runs.
@@ -8918,11 +8026,7 @@ Internal Iteration is easier to implement, since the Iterator does not
 have to store the state of the collection.
 
 
-## 371. What are the main differences
-
-## between Internal and External
-
-## Iterator?
+## 371. What are the main differences between Internal and External Iterator?
 
 Main differences between Internal and External Iterator are as
 follows:
@@ -8943,11 +8047,7 @@ Iterator follows imperative style OOPS programming.
 than that of External Iterator.
 ```
 
-## 372. What are the main advantages
-
-## of Internal Iterator over External
-
-## Iterator in Java 8?
+## 372. What are the main advantages of Internal Iterator over External Iterator in Java 8?
 
 Some of the main advantages of Internal Iterator are:
 
@@ -8961,11 +8061,7 @@ Iterator.
 processing.
 ```
 
-## 373. What are the applications in
-
-## which we should use Internal
-
-## Iteration?
+## 373. What are the applications in which we should use Internal Iteration?
 
 We need Internal Iterator in applications that require high
 performance, parallel processing, fast iteration and bulk operations
@@ -8976,11 +8072,7 @@ over iteration. The other features like parallel processing etc.
 become more important.
 
 
-## 374. What is the main disadvantage
-
-## of Internal Iteration over External
-
-## Iteration?
+## 374. What is the main disadvantage of Internal Iteration over External Iteration?
 
 Internal Iteration has many advantages over External Iteration. But it
 has one big disadvantage. Since Java API is responsible for
@@ -8988,11 +8080,7 @@ iterating in Internal iterator, developer does not get any control over
 iteration.
 
 
-## 375. Can we provide
-
-## implementation of a method in a Java
-
-## Interface?
+## 375. Can we provide implementation of a method in a Java Interface?
 
 Before Java 8, it was not allowed to provide implementation of a
 method in an Interface.
@@ -9007,9 +8095,7 @@ method.
 interface and provide implementation.
 ```
 
-## 376. What is a Default Method in
-
-## an Interface?
+## 376. What is a Default Method in an Interface?
 
 In Java 8, we can provide implementation of a method in an
 Interface and mark this method with Default keyword.
@@ -9018,9 +8104,7 @@ In this way, this implementation of the method becomes default
 behavior for any class implementing the interface.
 
 
-## 377. Why do we need Default
-
-## method in a Java 8 Interface?
+## 377. Why do we need Default method in a Java 8 Interface?
 
 Default methods in an Interface provide backward compatibility
 feature in Java 8.
@@ -9034,9 +8118,7 @@ so that cars with no flying capability can continue to implement the
 original Car interface.
 
 
-## 378. What is the purpose of a Static
-
-## method in an Interface in Java 8?
+## 378. What is the purpose of a Static method in an Interface in Java 8?
 
 A Static method in an Interface is utility or helper method. This is
 not an object level instance method. Some of the uses of Static
@@ -9054,9 +8136,7 @@ a collection ArrayList, we get all the methods. We need not
 extend Collections class also.
 ```
 
-## 379. What are the core ideas behind
-
-## the Date/Time API of Java 8?
+## 379. What are the core ideas behind the Date/Time API of Java 8?
 
 There are three core ideas behind the Date/Time API of Java 8:
 
@@ -9081,11 +8161,7 @@ of users in different areas of the world likes Japan or
 Thailand that don’t follow ISO-8601.
 ```
 
-## 380. What are the advantages of
-
-## new Date and Time API in Java 8 over
-
-## old Date API?
+## 380. What are the advantages of new Date and Time API in Java 8 over old Date API?
 
 Some of the advantages of Java 8 Date Time API over existing Date
 API are:
@@ -9107,11 +8183,7 @@ Date/Time API comparable. Now we can use the Java API instead
 of using 3rd party libraries.
 
 
-## 381. What are the main differences
-
-## between legacy Date/Time API in Java
-
-## and Date/Time API of Java 8?
+## 381. What are the main differences between legacy Date/Time API in Java and Date/Time API of Java 8?
 
 Main difference between legacy Date/Time API and Java 8
 Date/Time API are:
@@ -9128,9 +8200,7 @@ API is very well designed and is more readable.
 months from 1 to 12.
 ```
 
-## 382. How can we get duration
-
-## between two dates or time in Java 8?
+## 382. How can we get duration between two dates or time in Java 8?
 
 In Java8, we have a new class Duration that provides the utility of
 computing duration between two dates.
@@ -9139,11 +8209,7 @@ We can call the static method Duration.between(date1, date2) to get
 the time period in hours, mins, days etc. between date1 and date2.
 
 
-## 383. What is the new method family
-
-## introduced in Java 8 for processing of
-
-## Arrays on multi core machines?
+## 383. What is the new method family introduced in Java 8 for processing of Arrays on multi core machines?
 
 Java 8 has enhanced the Arrays class with methods that can run
 efficiently on multi core machines.
@@ -9155,11 +8221,7 @@ This parallel set of methods provides parallel processing of Arrays
 that can run Java code very fast on a multi core machine.
 
 
-## 384. How does Java 8 solve
-
-## Diamond problem of Multiple
-
-## Inheritance?
+## 384. How does Java 8 solve Diamond problem of Multiple Inheritance?
 
 In Multiple Inheritance if a class extends more than one classes with
 two different implementation of same method then it causes
@@ -9208,11 +8270,7 @@ The method invocation at BaseOne.super.display(); solves the
 Diamond problem as it resolves the confusion for compiler.
 
 
-## 385. What are the differences
-
-## between Predicate, Supplier and
-
-## Consumer in Java 8?
+## 385. What are the differences between Predicate, Supplier and Consumer in Java 8?
 
 The subtle difference between Predicate, Supplier and Consumer in
 Java 8 is as follows:
@@ -9227,13 +8285,7 @@ Consumer is an anonymous function that accepts one argument and
 returns no result.
 
 
-## 386. Is it possible to have default
-
-## method definition in an interface
-
-## without marking it with default
-
-## keyword?
+## 386. Is it possible to have default method definition in an interface without marking it with default keyword?
 
 No, we have to always mark a default method in interface with
 default keyword.
@@ -9242,13 +8294,7 @@ If we create a method with implementation in an interface, but do
 not mark it as default, then we will get compile time error.
 
 
-## 387. Can we create a class that
-
-## implements two Interfaces with
-
-## default methods of same name and
-
-## signature?
+## 387. Can we create a class that implements two Interfaces with default methods of same name and signature?
 
 No, it is not allowed to create a class that implements interfaces
 with same name default methods.
@@ -9256,9 +8302,7 @@ with same name default methods.
 It will give us compile time error for duplicate default methods.
 
 
-## 388. How Java 8 supports Multiple
-
-## Inheritance?
+## 388. How Java 8 supports Multiple Inheritance?
 
 In Multiple Inheritance a class can inherit behavior from more than
 one parent classes.
@@ -9274,55 +8318,23 @@ multiple abstract classes. That is how we get Multiple Inheritance
 in Java 8.
 
 
-## 389. In case we create a class that
-
-## extends a base class and implements
-
-## an interface. If both base class and
-
-## interface have a default method with
-
-## same name and arguments, then
-
-## which definition will be picked by
-
-## JVM?
+## 389. In case we create a class that extends a base class and implements an interface. If both base class and interface have a default method with same name and arguments, then which definition will be picked by JVM?
 
 In such a scenario, JVM will pick the definition in base class.
 
 
-## 390. If we create same method and
-
-## define it in a class , in its parent class
-
-## and in an interface implemented by
-
-## the class, then definition will be
-
-## invoked if we access it using the
-
-## reference of Interface and the object
-
-## of class?
+## 390. If we create same method and define it in a class , in its parent class and in an interface implemented by the class, then definition will be invoked if we access it using the reference of Interface and the object of class?
 
 In all the cases, method defined in the class will be invoked.
 
 
-## 391. Can we access a static method of
-
-## an interface by using reference of the
-
-## interface?
+## 391. Can we access a static method of an interface by using reference of the interface?
 
 No, a static method of interface has to be invoked by using the name
 of the interface.
 
 
-## 392. How can you get the name of
-
-## Parameter in Java by using
-
-## reflection?
+## 392. How can you get the name of Parameter in Java by using reflection?
 
 Java 8 has introduced a method Parameter.getName() to get the
 name of a parameter by using reflection.
@@ -9361,20 +8373,14 @@ Optional can also be used to handle default case for data when a
 value is null.
 
 
-## 395. Which method in Optional
-
-## provides the fallback mechanism in
-
-## case of null value?
+## 395. Which method in Optional provides the fallback mechanism in case of null value?
 
 In case, an Optional has null value, we can use orElseGet() method
 as fallback mechanism. If we implement orElseGet() method, it will
 be invoked when the value of Optional is null.
 
 
-## 396. How can we get current time
-
-## by using Date/Time API of Java 8?
+## 396. How can we get current time by using Date/Time API of Java 8?
 
 In Java 8 we can use Clock class to get the current time. Instead of
 using old method System.currentTimeMillis(), we can create a
@@ -9385,18 +8391,12 @@ We can also call instant() method on Clock object to get the current
 time in a readable format.
 
 
-## 397. Is it possible to define a static
-
-## method in an Interface?
+## 397. Is it possible to define a static method in an Interface?
 
 Yes, from Java 8, an Interface can also has a static method.
 
 
-## 398. How can we analyze the
-
-## dependencies in Java classes and
-
-## packages?
+## 398. How can we analyze the dependencies in Java classes and packages?
 
 Java 8 comes with a new command line tool jdeps that can help in
 analyzing the package-level and class-level dependencies.
@@ -9405,9 +8405,7 @@ We can pass a jar file name or a class name as an argument to this
 tool. It will list all the dependencies of that jar or class.
 
 
-## 399. What are the new JVM
-
-## arguments introduced by Java 8?
+## 399. What are the new JVM arguments introduced by Java 8?
 
 In Java 8, PermGen space of ClassLoader is removed. It has been
 replaced with MetaSpace.
@@ -9419,9 +8417,7 @@ replaced by -XX:MetaSpaceSize and -XX:MaxMetaspaceSize
 respectively in Java 8.
 
 
-## 400. What are the popular
-
-## annotations introduced in Java 8?
+## 400. What are the popular annotations introduced in Java 8?
 
 Some of the popular annotations introduced in Java 8 are:
 
@@ -9434,9 +8430,7 @@ annotation. It indicates that the marked annotation can be applied
 multiple times on a type.
 
 
-## 401. What is a StringJoiner in Java
-
-## 8?
+## 401. What is a StringJoiner in Java 8?
 
 StringJoiner is a new class in Java 8 that can be used to create a
 String. It can construct a sequence of characters separated by a
@@ -9451,9 +8445,7 @@ sj.add("One").add("Two").add("Three");
 String desiredString = sj.toString();
 
 
-## 402. What is the type of a Lambda
-
-## expression in Java 8?
+## 402. What is the type of a Lambda expression in Java 8?
 
 The type of a lambda expression depends on the context it is being
 used.
@@ -9464,9 +8456,7 @@ own.
 Generally, a Lambda is an instance of a Functional Interface.
 
 
-## 403. What is the target type of a
-
-## lambda expression?
+## 403. What is the target type of a lambda expression?
 
 The target type of a lambda expression represents a type to which
 the expression can be converted.
@@ -9478,13 +8468,7 @@ parameter in the function of the interface. It must also return a type
 compatible with the return type of function.
 
 
-## 404. What are the main differences
-
-## between an interface with default
-
-## method and an abstract class in Java
-
-## 8?
+## 404. What are the main differences between an interface with default method and an abstract class in Java 8?
 
 An interface with a default method appears same as an Abstract
 class in Java. But there are subtle differences between two.
@@ -9505,9 +8489,7 @@ used for lambda expression.
 # Java Tricky Questions
 
 
-## 405. Is there any difference between
-
-## a = a + b and a += b expressions?
+## 405. Is there any difference between a = a + b and a += b expressions?
 
 When we add two integral variables e.g. variables of type byte,
 short, or int in Java, then they are first promoted to int type, and then
@@ -9529,11 +8511,7 @@ a return statement in the try block or catch block. But finally block
 does not execute if you call System.exit() from try or catch block.
 
 
-## 406. What does the expression 1.0 /
-
-## 0.0 return? Will there be any
-
-## compilation error?
+## 406. What does the expression 1.0 / 0.0 return? Will there be any compilation error?
 
 Double class is the source of many tricky interview questions. You
 may know about the double primitive type and Double class. But
@@ -9548,9 +8526,7 @@ return Double.INFINITY.
 .
 
 
-## 407. Can we use multiple main
-
-## methods in multiple classes?
+## 407. Can we use multiple main methods in multiple classes?
 
 Yes. When we start an application in Java, we just mention the class
 name to be run to java command. The JVM looks for the main
@@ -9559,9 +8535,7 @@ Therefore, there is no conflict amongst the multiple classes having
 main method.
 
 
-## 408. Does Java allow you to
-
-## override a private or static method?
+## 408. Does Java allow you to override a private or static method?
 
 The question is tricky but the answer is very simple. You cannot
 override a private or static method in Java. If we create a similar
@@ -9578,11 +8552,7 @@ So in both the cases, it is not method overriding. It is either method
 hiding or a new method.
 
 
-## 409. What happens when you put a
-
-## key object in a HashMap that is
-
-## already present?
+## 409. What happens when you put a key object in a HashMap that is already present?
 
 In a HashMap there are buckets in which objects are stored. Key
 objects with same HashCode go to same bucket.
@@ -9593,11 +8563,7 @@ same key will have same HashCode as previous key object. Due to
 same HashCode, it will be stored at the same position in the bucket.
 
 
-## 410. How can you make sure that N
-
-## threads can access N resources
-
-## without deadlock?
+## 410. How can you make sure that N threads can access N resources without deadlock?
 
 This question checks your knowledge of writing multi-threading
 code. If you have experience with deadlock and race conditions,
@@ -9614,9 +8580,7 @@ required by first thread. If both of them release the resources in right
 order, one of them can acquire it to finish the work.
 
 
-## 411. How can you determine if JVM is
-
-## 32-bit or 64-bit from Java Program?
+## 411. How can you determine if JVM is 32-bit or 64-bit from Java Program?
 
 We can find JVM bit size 32 bit or 64 bit by running java command
 from the command prompt.
@@ -9633,11 +8597,7 @@ We can use System.getProperty("sun.arch.data.model") to determine
 if it is 32/64 bit from Java program.
 
 
-## 412. What is the right data type to
-
-## represent Money (like Dollar/Pound)
-
-## in Java?
+## 412. What is the right data type to represent Money (like Dollar/Pound) in Java?
 
 To represent money you need decimal points in the numbers like
 $1.99.
@@ -9651,9 +8611,7 @@ We can also use double with predefined precision. But calculation
 on double can give erroneous results.
 
 
-## 413. How can you do multiple
-
-## inheritances in Java?
+## 413. How can you do multiple inheritances in Java?
 
 This is a question to trick people coming from C++ and Scala
 background to Java. There are many Object Oriented languages that
@@ -9669,9 +8627,7 @@ But in Java 8, the default method breaks the rule of multiple
 inheritances behavior.
 
 
-## 414. Is ++ operation thread-safe in
-
-## Java?
+## 414. Is ++ operation thread-safe in Java?
 
 No, ++ operator is not a thread safe operation. It involves multiple
 instructions like- reading a value, incrementing it and storing it back
@@ -9679,9 +8635,7 @@ into memory. These instructions can overlap between multiple
 threads. So it can cause issues in multi-threading.
 
 
-## 415. How can you access a non-
-
-## static variable from the static context?
+## 415. How can you access a non- static variable from the static context?
 
 We cannot access a non-static variable from the static context in
 Java. If you write a code like that, then you will get compile time
@@ -9695,15 +8649,7 @@ is to create an instance of the object and then access the instance
 variables.
 
 
-## 416. Let say there is a method that
-
-## throws NullPointerException in the
-
-## superclass. Can we override it with a
-
-## method that throws
-
-## RuntimeException?
+## 416. Let say there is a method that throws NullPointerException in the superclass. Can we override it with a method that throws RuntimeException?
 
 This question is checking your understanding of the concepts of
 method overloading and overriding in Java.
@@ -9712,9 +8658,7 @@ We can throw superclass of RuntimeException in an overridden
 method, but we cannot do the same if it is a checked Exception.
 
 
-## 417. How can you mark an array
-
-## volatile in Java?
+## 417. How can you mark an array volatile in Java?
 
 If you know multi-threading well then you can easily answer it.
 
@@ -9727,9 +8671,7 @@ threads are changing individual array elements, they won't be having
 same reference due to the reference itself being volatile.
 
 
-## 418. What is a thread local variable
-
-## in Java?
+## 418. What is a thread local variable in Java?
 
 Thread-local variable is a variable restricted to a specific thread. It
 is like thread's own copy of variable that is not shared among
@@ -9740,9 +8682,7 @@ it is always good to remove a thread-local variable, once its work
 is done.
 
 
-## 419. What is the difference between
-
-## sleep() and wait() methods in Java?
+## 419. What is the difference between sleep() and wait() methods in Java?
 
 In Java, we use these methods to pause currently running thread.
 There is a simple difference between these.
@@ -9755,9 +8695,7 @@ can be acquired by another thread to change the condition on which
 it is waiting.
 
 
-## 420. Can you create an Immutable
-
-## object that contains a mutable object?
+## 420. Can you create an Immutable object that contains a mutable object?
 
 In Java, it is possible to create an Immutable object that contains a
 mutable object.
@@ -9767,9 +8705,7 @@ inside an immutable object. Instead, we can return a copy of it to
 other methods.
 
 
-## 421. How can you convert an Array
-
-## of bytes to String?
+## 421. How can you convert an Array of bytes to String?
 
 You can convert an Array of bytes to String object by using the
 String constructor that accepts byte[]. We need to make sure that
@@ -9777,11 +8713,7 @@ right character encoding is used. Else we may get different results
 after conversion.
 
 
-## 422. What is difference between
-
-## CyclicBarrier and CountDownLatch
-
-## class?
+## 422. What is difference between CyclicBarrier and CountDownLatch class?
 
 CyclicBarrier and CountDownLatch classes were introduced from
 Java 5.
@@ -9790,9 +8722,7 @@ We can reuse CyclicBarrier even if it is broken, but we cannot reuse
 CountDownLatch in Java.
 
 
-## 423. What is the difference between
-
-## StringBuffer and StringBuilder?
+## 423. What is the difference between StringBuffer and StringBuilder?
 
 StringBuilder was introduced in Java 5. The main difference
 between both of them is that StringBuffer methods e.g. length(),
@@ -9805,18 +8735,14 @@ StringBuffer, because, in most of the scenarios, we perform string
 concatenation in the same thread.
 
 
-## 424. Which class contains clone
-
-## method? Cloneable or Object class?
+## 424. Which class contains clone method? Cloneable or Object class?
 
 It is a very basic trick question. clone() method is defined in Object
 class. Cloneable is a marker interface that doesn't contain any
 method.
 
 
-## 425. How will you take thread dump
-
-## in Java?
+## 425. How will you take thread dump in Java?
 
 There are platform specific commands to take thread dump in Java.
 
@@ -9828,11 +8754,7 @@ thread dump in standard out or err. It can also go to console or log
 file depending upon your application configuration.
 
 
-## 426. Can you cast an int variable
-
-## into a byte variable? What happens if
-
-## the value of int is larger than byte?
+## 426. Can you cast an int variable into a byte variable? What happens if the value of int is larger than byte?
 
 An int is 32 bit in Java. But a byte is just 8 bit in Java. We can cast
 an int to byte. But we will lose higher 24 bits of int while casting.
@@ -9840,11 +8762,7 @@ Because a byte can hold only first 8 bits of int. Remaining 24 bits
 (32-8 = 24) will be lost.
 
 
-## 427. In Java, can we store a double
-
-## value in a long variable without
-
-## explicit casting?
+## 427. In Java, can we store a double value in a long variable without explicit casting?
 
 No, we cannot store a double value into a long variable without
 casting it to long. The range of double is more than that of long. So
@@ -9854,17 +8772,13 @@ To answer this question, just remember which one is bigger
 between double and long in Java.
 
 
-## 428. What will this return 5*0.1 ==
-
-## 0.5? true or false?
+## 428. What will this return 5*0.1 == 0.5? true or false?
 
 The answer is false because floating point numbers can not be
 represented exactly in Java, so 5*0.1 is not same as 0.5.
 
 
-## 429. Out of an int and Integer,
-
-## which one takes more memory?
+## 429. Out of an int and Integer, which one takes more memory?
 
 An Integer object takes more memory than an int in Java. An Integer
 is an object and it stores meta-data overhead about the object. An
@@ -9872,18 +8786,14 @@ int is a primitive type so its takes less memory and there is no meta-
 data overhead.
 
 
-## 430. Can we use String in the switch
-
-## case statement in Java?
+## 430. Can we use String in the switch case statement in Java?
 
 Yes. From Java 7 onwards, String can be used in switch case
 statement. This gives convenience to programmer. But internally
 hash code of String is used for the switch statement.
 
 
-## 431. Can we use multiple main
-
-## methods in same class?
+## 431. Can we use multiple main methods in same class?
 
 Yes. You can have multiple methods with name main in the same
 class. But there should be only one main method with the signature
@@ -9892,11 +8802,7 @@ signature only. Other methods with name main in same class are just
 ignored.
 
 
-## 432. When creating an abstract
-
-## class, is it a good idea to call abstract
-
-## methods inside its constructor?
+## 432. When creating an abstract class, is it a good idea to call abstract methods inside its constructor?
 
 No, we should avoid calling abstract methods in the constructor of
 an abstract class. Because, it can restrict how these abstract
@@ -9912,9 +8818,7 @@ method in superclass, the overridden method of subclass is called
 when the subclass is not fully initialized.
 
 
-## 433. How can you do constructor
-
-## chaining in Java?
+## 433. How can you do constructor chaining in Java?
 
 When we call one constructor from another constructor of the same
 class, then it is known as constructor chaining in Java. When you
@@ -9922,9 +8826,7 @@ have multiple overloaded constructors in a class, you can do
 constructor chaining.
 
 
-## 434. How can we find the memory
-
-## usage of JVM from Java code?
+## 434. How can we find the memory usage of JVM from Java code?
 
 We can use memory management related methods provided in
 java.lang.Runtime class to get the free memory, total memory and
@@ -9938,11 +8840,7 @@ Runtime.totalMemory() returns total memory in bytes.
 Runtime.maxMemory() returns maximum memory in bytes.
 
 
-## 435. What is the difference between
-
-## x == y and x.equals(y) expressions in
-
-## Java?
+## 435. What is the difference between x == y and x.equals(y) expressions in Java?
 
 The x == y expression does object reference matching if both a and
 b are an object and only returns true if both are pointing to the same
@@ -9957,9 +8855,7 @@ Book, but it is a different object which will be false while doing x
 == y.
 
 
-## 436. How can you guarantee that
-
-## the garbage collection takes place?
+## 436. How can you guarantee that the garbage collection takes place?
 
 No. We cannot guarantee the garbage collection in Java. Java
 documentation explicitly says that GarbageCollection is not
@@ -9969,11 +8865,7 @@ You can call System.gc() to request garbage collection, however,
 that's what it is - a request. It is upto GC's discretion to run.
 
 
-## 437. What is the relation between
-
-## x.hashCode() method and x.equals(y)
-
-## method of Object class?
+## 437. What is the relation between x.hashCode() method and x.equals(y) method of Object class?
 
 x.hashCode() method returns an int hash value corresponding to an
 object instance.
@@ -9991,9 +8883,7 @@ equal to each other. But two equal objects should have same hash
 code.
 
 
-## 438. What is a compile time
-
-## constant in Java?
+## 438. What is a compile time constant in Java?
 
 A compile time constant is public static final variable. The public
 modifier is optional here. At compile time, they are replaced with
@@ -10002,9 +8892,7 @@ also knows that it cannot be changed during run-time. So they are
 constants.
 
 
-## 439. Explain the difference between
-
-## fail-fast and fail-safe iterators?
+## 439. Explain the difference between fail-fast and fail-safe iterators?
 
 The main difference between fail-fast and fail-safe iterators is
 whether or not the collection can be modified while it is being
@@ -10026,13 +8914,7 @@ iteration.
 Eg. ConcurrentHashMap, CopyOnWriteArrayList are fail-safe.
 
 
-## 440. You have a character array
-
-## and a String. Which one is more
-
-## secure to store sensitive data (like
-
-## password, date of birth, etc.)?
+## 440. You have a character array and a String. Which one is more secure to store sensitive data (like password, date of birth, etc.)?
 
 Short answer is, it is safe to store sensitive information in character
 array.
@@ -10048,9 +8930,7 @@ the value, you can set it to blank once you are done with it. Once it
 is made blank it cannot be used by anyone else.
 
 
-## 441. Why do you use volatile
-
-## keyword in Java?
+## 441. Why do you use volatile keyword in Java?
 
 The volatile keyword guarantees global ordering on reads and
 writes to a variable. This implies that every thread accessing a
@@ -10062,11 +8942,7 @@ cached thread-locally. All reads and writes will go straight to main
 memory of Java.
 
 
-## 442. What is the difference between
-
-## poll() and remove() methods of Queue
-
-## in Java?
+## 442. What is the difference between poll() and remove() methods of Queue in Java?
 
 It is a basic question to know the understanding of Queue data
 structure. Both poll() and remove() methods remove and return the
@@ -10076,9 +8952,7 @@ When Queue is empty, poll() method fails and it returns null, but
 remove() method fails and throws Exception.
 
 
-## 443. Can you catch an exception
-
-## thrown by another thread in Java?
+## 443. Can you catch an exception thrown by another thread in Java?
 
 Yes, it can be done by using Thread.UncaughtExceptionHandler.
 
@@ -10090,11 +8964,7 @@ will invoke the handler's uncaughtException method, passing the
 thread and the exception as arguments.”
 
 
-## 444. How do you decide which type
-
-## of Inner Class – Static or Non-Static
-
-## to use in Java?
+## 444. How do you decide which type of Inner Class – Static or Non-Static to use in Java?
 
 An inner class has full access to the fields and methods of the
 enclosing class. This is convenient for event handlers, but comes at
@@ -10110,9 +8980,7 @@ At times, due to their “hidden” reference to enclosing class, Inner
 classes are harder to construct via reflection.
 
 
-## 445. What are the different types of
-
-## Classloaders in Java?
+## 445. What are the different types of Classloaders in Java?
 
 Java Classloader is the part of the Java Runtime Environment (JRE)
 that loads classes on demand into Java Virtual Machine (JVM).
@@ -10129,11 +8997,7 @@ Classes may be loaded from the local file system, a remote file
 system, or even the web.
 
 
-## 446. What are the situations in
-
-## which you choose HashSet or
-
-## TreeSet?
+## 446. What are the situations in which you choose HashSet or TreeSet?
 
 HashSet is better than TressSet in almost every way. It gives O(1)
 for add(), remove() and contains() operations. Whereas, TressSet
@@ -10147,9 +9011,7 @@ there are enough read operations to offset the increased cost of
 write operations.
 
 
-## 447. What is the use of method
-
-## references in Java?
+## 447. What is the use of method references in Java?
 
 Java 8 has introduced Method references. It allows constructors and
 methods to be used as lambdas.
@@ -10158,11 +9020,7 @@ The main uses of Method reference are to improve code
 organization, clarity and terseness.
 
 
-## 448. Do you think Java Enums are
-
-## more powerful than integer
-
-## constants?
+## 448. Do you think Java Enums are more powerful than integer constants?
 
 Yes. Java Enums provide many features that integer constants
 cannot. Enums can be considered as final classes with a fixed
@@ -10178,9 +9036,7 @@ values are typesafe, where as integer constants are not.
 You can also define custom behavior in enum values.
 
 
-## 449. Why do we use static
-
-## initializers in Java?
+## 449. Why do we use static initializers in Java?
 
 In Java, a static initializer can run code during the initial loading of
 a class and it guarantees that this code will only run once. Also the
@@ -10194,21 +9050,7 @@ have to think about synchronization or races conditions for work in
 static block not initialized from static context.
 
 
-## 450. Your client is complaining that
-
-## your code is throwing
-
-## NoClassDefFoundError or
-
-## NoSuchMethodError, even though
-
-## you are able to compile your code
-
-## without error and method exists in
-
-## your code. What could be the reason
-
-## behind this?
+## 450. Your client is complaining that your code is throwing NoClassDefFoundError or NoSuchMethodError, even though you are able to compile your code without error and method exists in your code. What could be the reason behind this?
 
 Sometimes we upgrade our libraries even with same method name.
 But we forget to let the client know about the new version. Due this
@@ -10222,11 +9064,7 @@ upgrading the library that depends on the older JAR resolve the
 issue.
 
 
-## 451. How can you check if a String
-
-## is a number by using regular
-
-## expression?
+## 451. How can you check if a String is a number by using regular expression?
 
 Regex is a powerful tool for matching patterns and searching
 patterns.
@@ -10238,15 +9076,7 @@ expression for these two rules. One simple example is as follows:
 Pattern pattern = Pattern.compile(".*\\D.*");
 
 
-## 452. What is the difference between
-
-## the expressions String s =
-
-## "Temporary" and String s = new
-
-## String("Temporary ")? Which one is
-
-## better and more efficient?
+## 452. What is the difference between the expressions String s = "Temporary" and String s = new String("Temporary ")? Which one is better and more efficient?
 
 In general, String s = " Temporary " is more efficient to use than
 String s = new String("Temporary ").
@@ -10269,18 +9099,14 @@ rather than just reusing the same String object from the String pool.
 So String s = “Temporary” is always an efficient way.
 
 
-## 453. In Java, can two equal objects
-
-## have the different hash code?
+## 453. In Java, can two equal objects have the different hash code?
 
 No. It is not possible for two equal objects to have different
 hashcode. But two objects with same hashcode may or may not be
 equal.
 
 
-## 454. How can we print an Array in
-
-## Java?
+## 454. How can we print an Array in Java?
 
 We can print an array by using methods of Arrays class. We can
 either use Arrays.toString() method or we can use
@@ -10291,11 +9117,7 @@ passing an array to System.out.println() will not print its contents.
 But we can use Arrays.toString() to print each element of an array.
 
 
-## 455. Is it ok to use random numbers
-
-## in the implementation of hashcode()
-
-## method in Java?
+## 455. Is it ok to use random numbers in the implementation of hashcode() method in Java?
 
 No. The hashcode of an object should be always same. If you use
 random number in hashcode() method, then you may get a different
@@ -10303,13 +9125,7 @@ value of hashcode for same object. This will break the hashcode
 contract.
 
 
-## 456. Between two types of
-
-## dependency injections, constructor
-
-## injection and setter dependency
-
-## injection, which one is better?
+## 456. Between two types of dependency injections, constructor injection and setter dependency injection, which one is better?
 
 Constructor injection guarantees that a class will be initialized with
 all its dependencies during creation. But setter injection provides
@@ -10323,9 +9139,7 @@ mandatory dependencies and use setter injection for optional
 dependencies.
 
 
-## 457. What is the difference between
-
-## DOM and SAX parser in Java?
+## 457. What is the difference between DOM and SAX parser in Java?
 
 In Java, Document Object Model (DOM) parser loads the whole
 XML into memory and creates a tree based on DOM model. This
@@ -10338,11 +9152,7 @@ this reason DOM is faster than SAX but require more memory and
 is not suitable to parse large XML files.
 
 
-## 458. Between Enumeration and
-
-## Iterator, which one has better
-
-## performance in Java?
+## 458. Between Enumeration and Iterator, which one has better performance in Java?
 
 Enumeration interface is a read-only interface. It has better
 performance than Iterator. It is almost twice as fast as compared to
@@ -10355,9 +9165,7 @@ If a collection is altered while an Iterator is iterating, then it throws
 ConcurrentModificationException.
 
 
-## 459. What is the difference between
-
-## pass by reference and pass by value?
+## 459. What is the difference between pass by reference and pass by value?
 
 Whenever an object is passed by value, it means that a copy of the
 object is passed. Even if changes are made to that object, it doesn’t
@@ -10369,9 +9177,7 @@ Therefore, any changes made by an external method, are also
 reflected in the actual object and its reference.
 
 
-## 460. What are the different ways to
-
-## sort a collection in Java?
+## 460. What are the different ways to sort a collection in Java?
 
 The most popular way to sort a collection in Java is by calling
 Collections.sort() method. You can provide your custom
@@ -10383,11 +9189,7 @@ that stores the information in a sorted order and then you can
 convert it to a List.
 
 
-## 461. Why Collection interface
-
-## doesn’t extend Cloneable and
-
-## Serializable interfaces?
+## 461. Why Collection interface doesn’t extend Cloneable and Serializable interfaces?
 
 Collection interface just specifies groups of objects known as
 elements. Each concrete implementation of a Collection can choose
@@ -10406,9 +9208,7 @@ implementation. Therefore, the concrete implementations of
 collections should decide how they can be cloned or serialized.
 
 
-## 462. What is the difference between
-
-## a process and a thread in Java?
+## 462. What is the difference between a process and a thread in Java?
 
 A process is simply an execution of a program.
 
@@ -10418,9 +9218,7 @@ A process may contain multiple threads. A Thread is also called as
 a lightweight process.
 
 
-## 463. What are the benefits of using
-
-## an unordered array over an ordered
+## 463. What are the benefits of using an unordered array over an ordered
 
 ## array?
 
@@ -10435,11 +9233,7 @@ Therefore, when we have more writes than reads, it is preferable to
 use an unordered array.
 
 
-## 464. Between HashSet and TreeSet
-
-## collections in Java, which one is
-
-## better?
+## 464. Between HashSet and TreeSet collections in Java, which one is better?
 
 A HashSet is Implemented using a HashTable. Therefore, its
 elements are stored in a random order. The add(), remove(), and
@@ -10455,9 +9249,7 @@ than TreeSet. But if you want to store elements in a natural sorting
 order, then TreeSet is a better collection.
 
 
-## 465. When does JVM call the
-
-## finalize() method?
+## 465. When does JVM call the finalize() method?
 
 JVM instructs the Garbage Collector to call the finalize method, just
 before releasing an object from the memory. A programmer can
@@ -10466,11 +9258,7 @@ by the object. This will help in better memory management and
 avoid any memory leaks.
 
 
-## 466. When would you use Serial
-
-## Garabage collector or Throughput
-
-## Garbage collector in Java?
+## 466. When would you use Serial Garabage collector or Throughput Garbage collector in Java?
 
 The Serial Garbage collector is used for small applications that
 require heap memory upto 100 MB.
@@ -10479,13 +9267,7 @@ The Throughput Garbage collector is used in medium to large size
 Java applications.
 
 
-## 467. In Java, if you set an object
-
-## reference to null, will the Garbage
-
-## Collector immediately free the
-
-## memory held by that object?
+## 467. In Java, if you set an object reference to null, will the Garbage Collector immediately free the memory held by that object?
 
 No. JVM decides to run the Garbage Collector whenever it is low
 on memory. When Garbage Collector runs, it looks for objects that
@@ -10496,11 +9278,7 @@ So just setting an Object reference null makes it eligible for
 Garbage Collection, but it does not immediately free the memory.
 
 
-## 468. How can you make an Object
-
-## eligible for Garbage collection in
-
-## Java?
+## 468. How can you make an Object eligible for Garbage collection in Java?
 
 To make an Object eligible for Garbage collection, just make sure
 that it is unreachable to the program in which it is currently defined
@@ -10509,11 +9287,7 @@ sure no other object refers it. Once the object cannot be reached,
 Garbage Collection can clean it during the next run.
 
 
-## 469. When do you use Exception or
-
-## Error in Java? What is the difference
-
-## between these two?
+## 469. When do you use Exception or Error in Java? What is the difference between these two?
 
 Throwable class is the superclass of Exception and Error classes in
 Java.
@@ -10527,11 +9301,7 @@ class in Java. Also recovering from Error is not possible in most of
 cases. So it is better to terminate the program.
 
 
-## 470. What is the advantage of
-
-## PreparedStatement over Statement
-
-## class in Java?
+## 470. What is the advantage of PreparedStatement over Statement class in Java?
 
 PreparedStatements are precompiled statements for database
 queries. Due to this their performance is much better. Also, we can
@@ -10541,9 +9311,7 @@ same query.
 Where as, Statement class does not provide these features.
 
 
-## 471. In Java, what is the difference
-
-## between throw and throws keywords?
+## 471. In Java, what is the difference between throw and throws keywords?
 
 When we want to raise an exception in our code, we use the throw
 keyword with the name of the exception to be raised.
@@ -10558,22 +9326,14 @@ exception, but throws can be used with comma-separated list of
 multiple exceptions.
 
 
-## 472. What happens to the Exception
-
-## object after the exception handling is
-
-## done?
+## 472. What happens to the Exception object after the exception handling is done?
 
 Once the exception handling is complete, the Exception object is not
 reachable. Then it is garbage collected in the next run of Garbage
 Collector.
 
 
-## 473. How do you find which client
-
-## machine is sending request to your
-
-## servlet in Java?
+## 473. How do you find which client machine is sending request to your servlet in Java?
 
 We can use the ServletRequest class to find the IP address or host
 name of the client machine.
@@ -10583,11 +9343,7 @@ client machine and getRemoteHost() to get the host name of the
 client machine.
 
 
-## 474. What is the difference between
-
-## a Cookie and a Session object in
-
-## Java?
+## 474. What is the difference between a Cookie and a Session object in Java?
 
 Both Cookie and Session are used during communication between
 Client and Server. The Client can disable a Cookie. Due to which
@@ -10599,11 +9355,7 @@ Also a Session can store any Java object. But the Cookie can only
 store small information in a String object.
 
 
-## 475. Which protocol does Browser
-
-## and Servlet use to communicate with
-
-## each other?
+## 475. Which protocol does Browser and Servlet use to communicate with each other?
 
 HTTP protocol. The Browser and Servlet communicate with each
 other by using the HTTP protocol.
@@ -10619,9 +9371,7 @@ other protocol requests as HTTP requests is known as HTTP
 Tunneling.
 
 
-## 477. Why do we use JSP instead of
-
-## Servlet in Java?
+## 477. Why do we use JSP instead of Servlet in Java?
 
 Since JSP pages are dynamically compiled into servlets, the
 programmers can easily make updates to the presentation layer
@@ -10636,18 +9386,14 @@ In addition, programmers can make logic changes at the class level,
 without editing the JSP pages that use the class logic.
 
 
-## 478. Is empty ‘.java’ file name a
-
-## valid source file name in Java?
+## 478. Is empty ‘.java’ file name a valid source file name in Java?
 
 Yes. You can create a class and store it in a file with name .java.
 You can try it yourself, by creating, compiling and running such a
 file. It will run correctly.
 
 
-## 479. How do you implement Servlet
-
-## Chaining in Java?
+## 479. How do you implement Servlet Chaining in Java?
 
 To implement, Servlet Chaining, there has to be more than one
 servlet. The output of one servlet has to be sent to a second servlet.
@@ -10669,9 +9415,7 @@ No, this class cannot be instantiated, since it will result in
 recursively calling its constructor.
 
 
-## 481. Why Java does not support
-
-## operator overloading?
+## 481. Why Java does not support operator overloading?
 
 Java supports Method overloading but does not support operator
 overloading. It would make the design more complex by adding
@@ -10682,9 +9426,7 @@ operator overloading, since JCM has to do extra work to find the
 real meaning of overloaded operators at run time.
 
 
-## 482. Why String class is Immutable
-
-## or Final in Java?
+## 482. Why String class is Immutable or Final in Java?
 
 Since String objects are cached in a String pool, it makes sense to
 make the String immutable. The cached String literals are shared
@@ -10698,9 +9440,7 @@ change the hostname. Due to this reason, it makes sense to make
 String final as soon as it is created.
 
 
-## 483. What is the difference between
-
-## sendRedirect and forward methods?
+## 483. What is the difference between sendRedirect and forward methods?
 
 When you use sendRedirect method, it creates a new request. When
 you use the forward method, it just forwards a request to a new
@@ -10716,11 +9456,7 @@ Also the sendRedirect method is considered slower than the
 forward method.
 
 
-## 484. How do you fix your
-
-## Serializable class, if it contains a
-
-## member that is not serializable?
+## 484. How do you fix your Serializable class, if it contains a member that is not serializable?
 
 If you want to make a class Serializable, but find that this class
 contains members that are not Serializable, then you have to mark
@@ -10731,9 +9467,7 @@ Therefore, Transient keyword of Java comes to help in this
 scenario.
 
 
-## 485. What is the use of run time
-
-## polymorphism in Java?
+## 485. What is the use of run time polymorphism in Java?
 
 During the run time the behavior of an Object can change based on
 its run time state. Due to this run time polymorphism is introduced
@@ -10743,11 +9477,7 @@ compile time. But at the run time, JVM decides which method will
 be called based on the class of the Object.
 
 
-## 486. What are the rules of method
-
-## overloading and method overriding in
-
-## Java?
+## 486. What are the rules of method overloading and method overriding in Java?
 
 When we want to overload a method, we need to make sure that the
 method name remains same. But method signature can vary in the
@@ -10761,9 +9491,7 @@ method name, arguments and return type remain the same.
 Also we cannot override Static and Final methods in Java.
 
 
-## 487. What is the difference between
-
-## a class and an object in Java?
+## 487. What is the difference between a class and an object in Java?
 
 A Class is a template or a blue print of an Object to be created. An
 Object is an instance of a Class. A Class defines the methods and
@@ -10778,9 +9506,7 @@ Most of the OOPS concepts are valid only when an Object is
 created.
 
 
-## 488. Can we create an abstract class
-
-## that extends another abstract class?
+## 488. Can we create an abstract class that extends another abstract class?
 
 Yes. An abstract class can extend another abstract class. It does not
 need to define the methods of parent abstract class. Only the last
@@ -10788,9 +9514,7 @@ non-abstract class has to define the abstract methods of a parent
 abstract class.
 
 
-## 489. Why do you use Upcasting or
-
-## Downcasting in Java?
+## 489. Why do you use Upcasting or Downcasting in Java?
 
 When we want to cast a Sub class to Super class, we use Upcasting.
 It is also known as widening. Upcasting is always allowed in Java.
@@ -10802,11 +9526,7 @@ At times, Downcasting can throw the ClassCastException if it fails
 the type check.
 
 
-## 490. What is the reason to organize
-
-## classes and interfaces in a package in
-
-## Java?
+## 490. What is the reason to organize classes and interfaces in a package in Java?
 
 As the name suggests, a package contains a collection of classes. It
 helps in setting the category of a file. Like- whether it is a Data
@@ -10818,9 +9538,7 @@ Also we can introduce access restriction by using package and the
 right modifiers on a class and its methods.
 
 
-## 491. What is information hiding in
-
-## Java?
+## 491. What is information hiding in Java?
 
 Information hiding is OOPS concept. In Java you can use
 encapsulation to do Information hiding. An object can use the access
@@ -10832,9 +9550,7 @@ By using Information hiding, an object can change its internal
 implementation without impacting the outside calling client’s code.
 
 
-## 492. Why does Java provide default
-
-## constructor?
+## 492. Why does Java provide default constructor?
 
 In Java all the interaction takes place between Object instances. To
 create an Object instance, JVM needs a constructor. Java does not
@@ -10847,9 +9563,7 @@ object. Default constructor also initializes member variables with
 their default values.
 
 
-## 493. What is the difference between
-
-## super and this keywords in Java?
+## 493. What is the difference between super and this keywords in Java?
 
 We use super keyword to access the methods of the super class from
 child class.
@@ -10857,9 +9571,7 @@ child class.
 We use this keyword to access methods of the same class.
 
 
-## 494. What is the advantage of using
-
-## Unicode characters in Java?
+## 494. What is the advantage of using Unicode characters in Java?
 
 Unicode characters have much larger number of characters in the
 specification.
@@ -10870,17 +9582,13 @@ Most of the modern technologies, websites and browsers support
 these Unicode characters.
 
 
-## 495. Can you override an
-
-## overloaded method in Java?
+## 495. Can you override an overloaded method in Java?
 
 Yes. Java allows to override an overloaded method, if that method
 is not a static or final method.
 
 
-## 496. How can we change the heap
-
-## size of a JVM?
+## 496. How can we change the heap size of a JVM?
 
 Java provides the command line parameters to set the heap size for
 JVM.
@@ -10888,9 +9596,7 @@ You can specify the values in –Xms and –Xmx parameters. These
 parameters stand for initial and maximum heap size of JVM.
 
 
-## 497. Why should you define a
-
-## default constructor in Java?
+## 497. Why should you define a default constructor in Java?
 
 In general, Java provides a default constructor with each class. But
 there are certain cases when we want to define our own version of
@@ -10904,9 +9610,7 @@ other class cannot create an instance of our class. This technique is
 generally used in Singleton design pattern.
 
 
-## 498. How will you make an Object
-
-## Immutable in Java?
+## 498. How will you make an Object Immutable in Java?
 
 To make an object immutable follow these two rules. One, do not
 use any setter methods that can change the fields of your class. Two,
@@ -10916,9 +9620,7 @@ that member variables of an Object do not change. And thus the
 Object will be considered Immutable.
 
 
-## 499. How can you prevent SQL
-
-## Injection in Java Code?
+## 499. How can you prevent SQL Injection in Java Code?
 
 In Java, you can use PreparedStatement to prevent SQL injection. In
 a PreparedStatement you can pass the precompiled SQL queries
@@ -10927,11 +9629,7 @@ parameters to SQL queries. So it protects your code from SQL
 injection attacks.
 
 
-## 500. Which two methods should be
-
-## always implemented by HashMap key
-
-## Object?
+## 500. Which two methods should be always implemented by HashMap key Object?
 
 Any object that we want to use as key for HashMap or in any other
 hash based collection data structure e.g. Hashtable, or
@@ -10939,9 +9637,7 @@ ConcurrentHashMap must implement equals() and hashCode()
 method.
 
 
-## 501. Why an Object used as Key in
-
-## HashMap should be Immutable?
+## 501. Why an Object used as Key in HashMap should be Immutable?
 
 The Key object should be immutable so that hashCode() method
 always return the same value for that object.
@@ -10963,9 +9659,7 @@ Although, the compiler does not enforce this rule, a good
 programmer always remembers this rule.
 
 
-## 502. How can we share an object
-
-## between multiple threads?
+## 502. How can we share an object between multiple threads?
 
 There are many ways to share same object between multiple
 threads. You can use a BlockingQueue to pass an object from one
@@ -10976,9 +9670,7 @@ a bidirectional form of a SynchronousQueue in Java. You can use it
 to swap the objects as well.
 
 
-## 503. How can you determine if your
-
-## program has a deadlock?
+## 503. How can you determine if your program has a deadlock?
 
 If we suspect that our application is stuck due to a Deadlock, then
 we just take a thread dump by using the command specific to
@@ -10996,7 +9688,7 @@ If you don't need programmatic detection you can do this via
 JConsole. On the thread tab there is a "detect deadlock" button.
 
 
-# Mixed Questions
+# ✅ 07. Mixed Questions
 
 
 ## 1. What are Wrapper classes in Java?
@@ -11025,9 +9717,7 @@ System.out.println(count+" "+i+" "+j);
 }}
 
 
-## 2. What is the purpose of native
-
-## method in Java?
+## 2. What is the purpose of native method in Java?
 
 The native keyword is used for applying to a method to indicate that
 the method is implemented in native code using JNI(Java Native
@@ -11048,9 +9738,7 @@ The purpose of System class is to provide access to system
 resources.
 
 
-## 4. What is System, out and println in
-
-## System.out.println method call?
+## 4. What is System, out and println in System.out.println method call?
 
 System is a final class provided by java.lang package.
 
@@ -11059,19 +9747,13 @@ out refers to PrintStream class and a static member of System class.
 println is a method of PrintStream class.
 
 
-## 5. What is the other name of Shallow
-
-## Copy in Java?
+## 5. What is the other name of Shallow Copy in Java?
 
 Object Cloning. A Shallow Copy just copies the values of references in a
 Class.
 
 
-## 6. What is the difference between
-
-## Shallow Copy and Deep Copy in
-
-## Java?
+## 6. What is the difference between Shallow Copy and Deep Copy in Java?
 
 A Shallow copy just copies the values of the references in the class.
 A Deep copy copies the values of the objects as well.
@@ -11085,9 +9767,7 @@ in such a way that it never creates more than one object of same
 class.
 
 
-## 8. What is the difference between
-
-## Singleton class and Static class?
+## 8. What is the difference between Singleton class and Static class?
 
 A static class in Java has only static methods. It is a container of
 functions. It is created based on procedural programming design.
@@ -11098,12 +9778,10 @@ implemented in such a way that there is always only one instance of
 that class present in JVM.
 
 
-# JSP
+# ✅ 07. JSP
 
 
-## 9. What are the implicit objects in
-
-## JSP?
+## 9. What are the implicit objects in JSP?
 
 JSP has following implicit objects:
 
@@ -11122,21 +9800,13 @@ JSP has following implicit objects:
 We can extend JSP code by using Tag libraries and Custom actions.
 
 
-## 11. How will you handle runtime
-
-## exceptions in JSP?
+## 11. How will you handle runtime exceptions in JSP?
 
 We use Errorpage attribute in JSP to catch runtime exceptions. This
 attribute forwards user request to the error page automatically.
 
 
-## 12. How will you prevent multiple
-
-## submits of a page that come by
-
-## clicking refresh button multiple
-
-## times?
+## 12. How will you prevent multiple submits of a page that come by clicking refresh button multiple times?
 
 We can use Post Redirect Get (PRG) pattern to solve the issue of
 multiple submission of same data. It works as follows:
@@ -11152,9 +9822,7 @@ submits. The code that processes the request is idempotent. So it
 does not do same action twice for same request.
 
 
-## 13. How will you implement a thread
-
-## safe JSP page?
+## 13. How will you implement a thread safe JSP page?
 
 We can use SingleThreadModel Interface to implement a thread safe
 JSP page.
@@ -11163,9 +9831,7 @@ We can also add <%@page isThreadSafe=”false” %> directive in
 JSP page to make it thread safe.
 
 
-## 14. How will you include a static file in
-
-## a JSP page?
+## 14. How will you include a static file in a JSP page?
 
 We can use include directive of JSP to include a Static page in JSP.
 In this approach, we use translation phase to include a static page.
@@ -11175,9 +9841,7 @@ attribute in this directive.
 E.g. <%@ include file="footer.html" %>
 
 
-## 15. What are the lifecycle methods of a
-
-## JSP?
+## 15. What are the lifecycle methods of a JSP?
 
 A JSP has following lifecycle methods:
 
@@ -11196,9 +9860,7 @@ we call this method. It is used for cleanup of resources like
 Database connections etc.
 ```
 
-## 16. What are the advantages of using
-
-## JSP in web architecture?
+## 16. What are the advantages of using JSP in web architecture?
 
 We get following advantages by using JSP in web architecture:
 
@@ -11223,9 +9885,7 @@ with mock data and developers can later provide
 implementation of dynamic data.
 ```
 
-## 17. What is the advantage of JSP over
-
-## Javascript?
+## 17. What is the advantage of JSP over Javascript?
 
 In JSP we can write Java code seamlessly. It allows for writing
 code that can interact with the rest of the application.
@@ -11272,9 +9932,7 @@ page.
 E.g. <%= expression =%>
 
 
-## 20. What are the different types of
-
-## directive tags in JSP?
+## 20. What are the different types of directive tags in JSP?
 
 JSP has following directive tags:
 
@@ -11311,9 +9969,7 @@ do not want to use HTTP session in JSP, then we set this attribute to
 false. If it is set to true, we can use built in session object in JSP.
 
 
-## 22. What are the different scopes of a
-
-## JSP object?
+## 22. What are the different scopes of a JSP object?
 
 A JSP object, implicit or explicit, can have one of the following
 scopes:
@@ -11347,9 +10003,7 @@ It is an instance of the PageContext class from javax.servlet.jsp
 package.
 
 
-## 24. What is the use of jsp:useBean in
-
-## JSP?
+## 24. What is the use of jsp:useBean in JSP?
 
 We use jsp:useBean to invoke the methods of a Java Bean class.
 The Java Bean class has some data and setter/getters to access the
@@ -11360,11 +10014,7 @@ already loaded then it will create an instance of a bean and load it.
 Later this bean can be used in expressions or JSP code.
 
 
-## 25. What is difference between
-
-## include Directive and include Action
-
-## of JSP?
+## 25. What is difference between include Directive and include Action of JSP?
 
 Some of the main differences between include Directive and
 include Action are as follows:
@@ -11385,9 +10035,7 @@ Include action will dynamically process the resource being
 called and then include it in the JSP page.
 ```
 
-## 26. How will you use other Java files
-
-## of your application in JSP code?
+## 26. How will you use other Java files of your application in JSP code?
 
 We can use import tag to import a Java file in JSP code. Once a file
 is imported, it can be used by JSP code. It is a very convenient
@@ -11397,9 +10045,7 @@ For better organization of Java code, we should create a package of
 classes that we are planning to use in JSP code.
 
 
-## 27. How will you use an existing class
-
-## and extend it to use in the JSP?
+## 27. How will you use an existing class and extend it to use in the JSP?
 
 We can use extends attribute in include tag to use an existing class
 and extend it in the current JSP.
@@ -11409,9 +10055,7 @@ E.g.
 <%@ include page extends=“parent_class” %>
 
 
-## 28. Why _jspService method starts
-
-## with _ symbol in JSP?
+## 28. Why _jspService method starts with _ symbol in JSP?
 
 All the code that we write in a JSP goes into _jspService method
 during translation phase. We cannot override this method. Where as
@@ -11436,9 +10080,7 @@ Another benefit of taglib is reusability of the code. This promotes
 writing code only once and using is multiple times.
 
 
-## 30. What is the different type of tag
-
-## library groups in JSTL?
+## 30. What is the different type of tag library groups in JSTL?
 
 JSTL stands for JavaServer Pages Standard Tag Library. In JSTL,
 we have a collection of JSP tags that can be used in different
@@ -11452,9 +10094,7 @@ scenarios. There are following main groups of tags in JSTL:
 5. JSTL Functions
 ```
 
-## 31. How will you pass information
-
-## from one JSP to another JSP?
+## 31. How will you pass information from one JSP to another JSP?
 
 We can pass information from one JSP to another by using implicit
 objects. If different JSP are called in same session, we can use
@@ -11465,9 +10105,7 @@ included in the main JSP, then we can use jsp:param to pass this
 information.
 
 
-## 32. How will you call a stored
-
-## procedure from JSP?
+## 32. How will you call a stored procedure from JSP?
 
 JSP allows running Java code from a .jsp file. We can call a stored
 procedure by using JDBC code.
@@ -11479,9 +10117,7 @@ If we are using Spring framework, then we can use JdbcTemplate
 class to invoke stored procedure from a JSP.
 
 
-## 33. Can we override _jspService()
-
-## method in JSP?
+## 33. Can we override _jspService() method in JSP?
 
 No, JSP specification does not allow overriding of _jspService
 method in JSP. We can override other methods like jspInit() and
@@ -11504,9 +10140,7 @@ Some of the important directives in JSP are: page, include and
 taglib.
 
 
-## 35. How will you implement Session
-
-## tracking in JSP?
+## 35. How will you implement Session tracking in JSP?
 
 We can use different mechanisms to implement Session tracking
 JSP. Some these mechanisms are as follows:
@@ -11544,9 +10178,7 @@ Once we link IDE debugger to JSP Engine, we can use standard
 operations of debugging like breakpoint, step through etc.
 
 
-## 37. How will you implement error
-
-## page in JSP?
+## 37. How will you implement error page in JSP?
 
 To implement an error-handling page in JSP, we first create a JSP
 with error page handling information. In most of the cases we
@@ -11569,9 +10201,7 @@ it to errorPage.
 <% page errorPage=”ErrorPage.jsp” %>
 
 
-## 38. How will you send XML data from
-
-## a JSP?
+## 38. How will you send XML data from a JSP?
 
 In general, JSP is used to pass HTML data to web browser. If we
 want to send data in XML format, we can easily do it by setting
@@ -11580,9 +10210,7 @@ contentType=”text/xml” in page directive.
 E.g. <%@page contentType=”text/xml” %>
 
 
-## 39. What happens when we request
-
-## for a JSP page from web browser?
+## 39. What happens when we request for a JSP page from web browser?
 
 When a user calls JSP page from web browser, the request first
 comes to web server. Web server checks for .jsp extension of page
@@ -11599,9 +10227,7 @@ The _jspService() method will create the output that will be sent by
 JSP container to client browser.
 
 
-## 40. How will you implement Auto
-
-## Refresh of page in JSP?
+## 40. How will you implement Auto Refresh of page in JSP?
 
 We can use setIntHeader() method to set the refresh frequency with
 which we want to auto-refresh a JSP page.
@@ -11612,9 +10238,7 @@ of the JSP page.
 E.g. response.setIntHeader(“Refresh”,10)
 
 
-## 41. What are the important status
-
-## codes in HTTP?
+## 41. What are the important status codes in HTTP?
 
 Every HTTP request comes back with a status code from the server.
 The important status codes in HTTP are as follows:
@@ -11627,9 +10251,7 @@ The important status codes in HTTP are as follows:
 5. 503: It means the service is not available.
 ```
 
-## 42. What is the meaning of Accept
-
-## attribute in HTTP header?
+## 42. What is the meaning of Accept attribute in HTTP header?
 
 In HTTP header, Accept attribute is used to specify the MIME types
 that a HTTP client or browser can handle. MIME type is the
@@ -11637,9 +10259,7 @@ identifier for specifying the type of file/data that we are planning to
 pass over the internet.
 
 
-## 43. What is the difference between
-
-## Expression and Scriptlet in JSP?
+## 43. What is the difference between Expression and Scriptlet in JSP?
 
 We use Expression in a JSP to return a value and display it at a
 specific location. It is generally used for dynamically print
@@ -11650,9 +10270,7 @@ methods etc in a Scriptlet. A Scriptlet can handle much more
 complex code and can be also reused.
 
 
-## 44. How will you delete a Cookie in
-
-## JSP?
+## 44. How will you delete a Cookie in JSP?
 
 We can use following options to delete a Cookie in JSP:
 
@@ -11690,9 +10308,7 @@ In this way we can use Cookie to set some information at client side
 and retrieve its value.
 
 
-## 46. What is the main difference
-
-## between a Session and Cookie in JSP?
+## 46. What is the main difference between a Session and Cookie in JSP?
 
 A Session is always stored at the Server side. In JSP, session is a
 built-in object in JSP container.
@@ -11704,9 +10320,7 @@ method needs permission from user for storing cookie at the client
 location.
 
 
-## 47. How will you prevent creation of
-
-## session in JSP?
+## 47. How will you prevent creation of session in JSP?
 
 We can simply set the session attribute as false in page directive to
 prevent creation of session object.
@@ -11714,9 +10328,7 @@ prevent creation of session object.
 E.g. <% @page session=”false” %>
 
 
-## 48. What is an output comment in
-
-## JSP?
+## 48. What is an output comment in JSP?
 
 We can write output in JSP in such a way that it becomes a comment
 in HTML code. This comment will not be visible in the web
@@ -11730,11 +10342,7 @@ An HTML comment is of following format:
 If we output comment in above format, it will be visible to client.
 
 
-## 49. How will you prevent caching of
-
-## HTML output by web browser in
-
-## JSP?
+## 49. How will you prevent caching of HTML output by web browser in JSP?
 
 We can use set the header in response object for Cache-Control to
 specify no caching.
@@ -11745,9 +10353,7 @@ response.setHeader(“Cache-Control”, “no-store”);
 response.setDateHeader(“Expires”,”0”);
 
 
-## 50. How will you redirect request to
-
-## another page in browser in JSP code?
+## 50. How will you redirect request to another page in browser in JSP code?
 
 We can use sendRedirect() method in JSP to redirect the request to
 another location or page.
@@ -11760,9 +10366,7 @@ Sample code is as follows:
 <% response.sendRedirect(URL); %>
 
 
-## 51. What is the difference between
-
-## sendRedirect and forward in a JSP?
+## 51. What is the difference between sendRedirect and forward in a JSP?
 
 Both forward and sendRedirect are mechanisms of sending a client
 to another page. The main difference between these two are as
@@ -11789,18 +10393,14 @@ Where as sendRedirect is declared in
 HttpServletResponse object.
 ```
 
-## 52. What is the use of config implicit
-
-## object in JSP?
+## 52. What is the use of config implicit object in JSP?
 
 In JSP, config object is of type ServletConfig. This object is created
 by Servlet Container for each JSP page. It is used for setting
 initialization parameters for a specific JSP page.
 
 
-## 53. What is the difference between
-
-## init-param and context-param?
+## 53. What is the difference between init-param and context-param?
 
 We can specify both init-param and context-param in web.xml file.
 
@@ -11812,9 +10412,7 @@ application scope. This information does not change easily. It can
 be used by all the JSP/Servlet in that Container.
 
 
-## 54. What is the purpose of
-
-## RequestDispatcher?
+## 54. What is the purpose of RequestDispatcher?
 
 We use RequestDispatcher interface to forward requests to other
 resources like HTML, JSP etc.
@@ -11827,9 +10425,7 @@ We have to first get the RequestDispatcher object from the container
 and then we can call include or forward method on this object.
 
 
-## 55. How can be read data from a
-
-## Form in a JSP?
+## 55. How can be read data from a Form in a JSP?
 
 There is a built-in request object in a JSP that provides methods to
 read Form data. Some of the methods are as follows::
@@ -11867,9 +10463,7 @@ the filter.
 JSP Engine loads all the filters in when we start the server.
 
 
-## 57. How can you upload a large file in
-
-## JSP?
+## 57. How can you upload a large file in JSP?
 
 To upload a file by JSP we can use <input type=”file”> in the Form
 data being passed from HTML.
@@ -11884,11 +10478,7 @@ mulitpart data in doPost() method of JSP. There are methods in JSP
 framework to read large files via this method.
 
 
-## 58. In which scenario, Container
-
-## initializes multiple JSP/Servlet
-
-## objects?
+## 58. In which scenario, Container initializes multiple JSP/Servlet objects?
 
 To initialize multiple JSP objects, we have to specify same Servlet
 object multiple times in web.xml.
@@ -11898,12 +10488,10 @@ object for each element. Each of the Servlet instance will have its
 own ServletConfig object and parameters.
 
 
-# Java Design Patterns
+# ✅ 07. Java Design Patterns
 
 
-## 59. When will you use Strategy Design
-
-## Pattern in Java?
+## 59. When will you use Strategy Design Pattern in Java?
 
 Strategy pattern is very useful for implementing a family of
 algorithms. It is a behavioral design pattern.
@@ -11946,9 +10534,7 @@ The subject holds a strong reference to observers. If observers are
 not de-registered in time, it can lead to memory leak.
 
 
-## 61. What are the examples of
-
-## Observer design pattern in JDK?
+## 61. What are the examples of Observer design pattern in JDK?
 
 In JDK there are many places where Observer design pattern is
 used. Some of these are as follows:
@@ -11970,11 +10556,7 @@ Swing packages
 5. javax.faces.event.PhaseListener
 ```
 
-## 62. How Strategy design pattern is
-
-## different from State design pattern in
-
-## Java?
+## 62. How Strategy design pattern is different from State design pattern in Java?
 
 State design pattern is a behavioral design pattern that is use for
 defining the state machine for an object. Each state of an object is
@@ -12002,9 +10584,7 @@ State pattern is very useful in increasing the maintainability of the
 code in a large code-base.
 
 
-## 63. Can you explain Decorator design
-
-## pattern with an example in Java?
+## 63. Can you explain Decorator design pattern with an example in Java?
 
 Some people call Decorator pattern as Wrapper pattern as well. It
 is used to add the behavior to an object, without changing the
@@ -12040,9 +10620,7 @@ additional behavior.
 
 
 
-## 64. What is a good scenario for using
-
-## Composite design Pattern in Java?
+## 64. What is a good scenario for using Composite design Pattern in Java?
 
 Some of the good scenarios where Composite design pattern can be
 used are as follows:
@@ -12070,9 +10648,7 @@ higher-level groups of smaller groups of shapes to complete the
 graphics to be displayed on screen.
 
 
-## 65. Have you used Singleton design
-
-## pattern in your Java project?
+## 65. Have you used Singleton design pattern in your Java project?
 
 Yes. Singleton is one of the most popular design patterns in
 enterprise level Java applications. Almost in every project we see
@@ -12085,11 +10661,7 @@ This helps in storing properties that have to be used in the
 application in a unique location.
 
 
-## 66. What are the main uses of
-
-## Singleton design pattern in Java
-
-## project?
+## 66. What are the main uses of Singleton design pattern in Java project?
 
 ```
 Some of the main uses of Singleton design pattern in Java are as
@@ -12114,9 +10686,7 @@ container. But Spring also provides options to make the scope of a
 bean prototype in a container.
 
 
-## 67. Why java.lang.Runtime is a
-
-## Singleton in Java?
+## 67. Why java.lang.Runtime is a Singleton in Java?
 
 In Java, java.lang.Runtime is implemented on Singleton design
 pattern.
@@ -12142,11 +10712,7 @@ To ensure single copy of Runtime, it is implemented as a Singleton
 in Java.
 
 
-## 68. What is the way to implement a
-
-## thread-safe Singleton design pattern
-
-## in Java?
+## 68. What is the way to implement a thread-safe Singleton design pattern in Java?
 
 In Java there are many options to implement a thread-safe Singleton
 pattern. Some of these are as follows:
@@ -12225,9 +10791,7 @@ public static void doImplementation(){
 }
 
 
-## 69. What are the examples of
-
-## Singleton design pattern in JDK?
+## 69. What are the examples of Singleton design pattern in JDK?
 
 In JDK there are many places where Singleton design pattern is
 used. Some of these are as follows:
@@ -12244,9 +10808,7 @@ returns a SecurityManager for the current platform.
 java.awt.Desktop.getDesktop()
 ```
 
-## 70. What is Template Method design
-
-## pattern in Java?
+## 70. What is Template Method design pattern in Java?
 
 It is a behavioral design pattern. We can use it to create an outline
 for an algorithm or a complex operation. We first create the skeleton
@@ -12274,9 +10836,7 @@ implementation. And our users can customize our core class in their
 custom subclasses.
 
 
-## 71. What are the examples of Template
-
-## method design pattern in JDK?
+## 71. What are the examples of Template method design pattern in JDK?
 
 In JDK there are many places where Template method design
 pattern is used. Some of these are as follows:
@@ -12302,11 +10862,7 @@ These methods are implementation of Template method
 design pattern.
 ```
 
-## 72. Can you tell some examples of
-
-## Factory Method design pattern
-
-## implementation in Java?
+## 72. Can you tell some examples of Factory Method design pattern implementation in Java?
 
 Factory Method pattern is a creational design pattern. A Factory is
 an object that is used to create more objects.
@@ -12328,11 +10884,7 @@ java.util.EnumSet.of()
 javax.xml.bind.JAXBContext.createMarshaller()
 ```
 
-## 73. What is the benefit we get by
-
-## using static factory method to create
-
-## object?
+## 73. What is the benefit we get by using static factory method to create object?
 
 By using Static Factory Method we encapsulate the creation process
 of an object. We can use new() to create an Object from its
@@ -12357,9 +10909,7 @@ is the factory. Clients call static method
 ConnectionPool.getConnection().
 
 
-## 74. What are the examples of Builder
-
-## design pattern in JDK?
+## 74. What are the examples of Builder design pattern in JDK?
 
 In JDK there are many places where Builder design pattern is used.
 Some of these are as follows:
@@ -12387,11 +10937,7 @@ StringBuilder and it is also based on Builder design
 pattern.
 ```
 
-## 75. What are the examples of
-
-## Abstract Factory design pattern in
-
-## JDK?
+## 75. What are the examples of Abstract Factory design pattern in JDK?
 
 In JDK there are many places where Abstract Factory design pattern
 is used. Some of these are as follows:
@@ -12406,9 +10952,7 @@ javax.xml.parsers.DocumentBuilderFactory.newInstance()
 javax.xml.transform.TransformerFactory.newInstance()
 ```
 
-## 76. What are the examples of
-
-## Decorator design pattern in JDK?
+## 76. What are the examples of Decorator design pattern in JDK?
 
 In JDK there are many places where Decorator design pattern is
 used. Some of these are as follows:
@@ -12434,9 +10978,7 @@ HttpServletResponseWrapper that are based on Decorator
 design pattern.
 ```
 
-## 77. What are the examples of Proxy
-
-## design pattern in JDK?
+## 77. What are the examples of Proxy design pattern in JDK?
 
 Proxy design pattern provides an extra level of indirection for
 providing access to another object. It can also protect a real object
@@ -12461,9 +11003,7 @@ javax.ejb.EJB
 javax.persistence.PersistenceContext
 ```
 
-## 78. What are the examples of Chain of
-
-## Responsibility design pattern in JDK?
+## 78. What are the examples of Chain of Responsibility design pattern in JDK?
 
 In JDK there are many places where Chain of Responsibility design
 pattern is used. Some of these are as follows:
@@ -12485,9 +11025,7 @@ method to allow the Filter to pass on the request and
 response to the next level in the chain.
 ```
 
-## 79. What are the main uses of
-
-## Command design pattern?
+## 79. What are the main uses of Command design pattern?
 
 Command design pattern is a behavioral design pattern. We use it to
 encapsulate all the information required to trigger an event. Some of
@@ -12535,9 +11073,7 @@ transaction. In such a scenario each step is implemented as
 separate Command.
 
 
-## 80. What are the examples of
-
-## Command design pattern in JDK?
+## 80. What are the examples of Command design pattern in JDK?
 
 In JDK there are many places where Command design pattern is
 used. Some of these are as follows:
@@ -12549,9 +11085,7 @@ All implementations of java.lang.Runnable
 All implementations of javax.swing.Action
 ```
 
-## 81. What are the examples of
-
-## Interpreter design pattern in JDK?
+## 81. What are the examples of Interpreter design pattern in JDK?
 
 Interpreter design pattern is used to evaluate sentences in a
 language. E.g. In SQL we can use it to evaluate a query by
@@ -12580,9 +11114,7 @@ Subclasses of javax.el.ELResolver: ArrayELResolver,
 MapELResolver, CompositeELResolver etc.
 ```
 
-## 82. What are the examples of
-
-## Mediator design pattern in JDK?
+## 82. What are the examples of Mediator design pattern in JDK?
 
 By using Mediator pattern we can decouple the multiple objects that
 interact with each other. With a Mediator object we can create
@@ -12614,9 +11146,7 @@ schedule() method and its variants are Mediator pattern
 implementations.
 ```
 
-## 83. What are the examples of Strategy
-
-## design pattern in JDK?
+## 83. What are the examples of Strategy design pattern in JDK?
 
 In JDK there are many places where Strategy design pattern is used.
 Some of these are as follows:
@@ -12634,9 +11164,7 @@ implementor of Servlet processes it based on the strategy it
 selects.
 ```
 
-## 84. What are the examples of Visitor
-
-## design pattern in JDK?
+## 84. What are the examples of Visitor design pattern in JDK?
 
 By using Visitor design pattern we can add new virtual methods to
 existing classes without modifying their core structure.
@@ -12662,9 +11190,7 @@ javax.faces.component.visit.VisitContext and
 VisitCallback
 ```
 
-## 85. How Decorator design pattern is
-
-## different from Proxy pattern?
+## 85. How Decorator design pattern is different from Proxy pattern?
 
 Main differences between Decorator and Proxy design pattern are:
 
@@ -12692,13 +11218,7 @@ Decorator is mostly used for building a variety of objects.
 Proxy is mainly used for access to another object.
 ```
 
-## 86. What are the different scenarios
-
-## to use Setter and Constructor based
-
-## injection in Dependency Injection
-
-## (DI) design pattern?
+## 86. What are the different scenarios to use Setter and Constructor based injection in Dependency Injection (DI) design pattern?
 
 We use Setter injection to provide optional dependencies of an
 object. Constructor injection is used to provide mandatory
@@ -12709,9 +11229,7 @@ to differentiate between the scenario suitable for Setter based and
 Constructor based dependency injection.
 
 
-## 87. What are the different scenarios
-
-## for using Proxy design pattern?
+## 87. What are the different scenarios for using Proxy design pattern?
 
 Proxy design pattern can be used in a wide variety of scenario in
 Java. Some of these are as follows:
@@ -12743,11 +11261,7 @@ deny access to an object if the number of requests is
 greater than a threshold.
 ```
 
-## 88. What is the main difference
-
-## between Adapter and Proxy design
-
-## pattern?
+## 88. What is the main difference between Adapter and Proxy design pattern?
 
 Adapter pattern provides a different interface to an object. But the
 Proxy always provides same interface to the object.
@@ -12761,9 +11275,7 @@ plug with built-in surge protector. The interface for plug and the
 original device remains same.
 
 
-## 89. When will you use Adapter design
-
-## pattern in Java?
+## 89. When will you use Adapter design pattern in Java?
 
 If we have two classes with incompatible interfaces, we use
 Adapter pattern to make it work. We create an Adapter object that
@@ -12775,9 +11287,7 @@ any change in third party code we have to just change the Adapter
 code. Rest of our code can remain same and just take to Adapter.
 
 
-## 90. What are the examples of Adapter
-
-## design pattern in JDK?
+## 90. What are the examples of Adapter design pattern in JDK?
 
 In JDK there are many places where Adapter design pattern is used.
 Some of these are as follows:
@@ -12806,11 +11316,7 @@ adapts an OutputStream to Writer class.
 javax.xml.bind.annotation.adapters.XmlAdapter.marshal()
 ```
 
-## 91. What is the difference between
-
-## Factory and Abstract Factory design
-
-## pattern?
+## 91. What is the difference between Factory and Abstract Factory design pattern?
 
 With Factory design pattern we can create concrete products of a
 type that Factory can manufacture. E.g. If it is CarFactory, we can
@@ -12828,9 +11334,7 @@ design pattern. One way to remember is that within Abstract Factory
 pattern, Factory pattern is already implemented.
 
 
-## 92. What is Open/closed design
-
-## principle in Software engineering?
+## 92. What is Open/closed design principle in Software engineering?
 
 Open/closed design principle states “software entities (classes,
 modules, functions, etc.) should be open for extension, but closed
@@ -12891,11 +11395,7 @@ Main feature of Builder pattern is step-by-step building of a
 complex object with multiple options.
 
 
-## 95. What are the different categories
-
-## of Design Patterns used in Object
-
-## Oriented Design?
+## 95. What are the different categories of Design Patterns used in Object Oriented Design?
 
 In Object Oriented design mainly three categories of design patterns
 are used. These categories are:
@@ -12932,11 +11432,7 @@ Interpreter
 ```
 
 
-## 96. What is the design pattern
-
-## suitable to access elements of a
-
-## Collection?
+## 96. What is the design pattern suitable to access elements of a Collection?
 
 We can use Iterator design pattern to access the individual elements
 of a Collection. In case of an ordered collection we can get Iterator
@@ -12947,9 +11443,7 @@ package. We have iterators like- Spliterator, ListIterator etc. that
 implement Iterator pattern.
 
 
-## 97. How can we implement Producer
-
-## Consumer design pattern in Java?
+## 97. How can we implement Producer Consumer design pattern in Java?
 
 We can use BlockingQueue in Java to implement Producer
 Consumer design pattern.
@@ -12957,11 +11451,7 @@ Consumer design pattern.
 It is a concurrent design pattern.
 
 
-## 98. What design pattern is suitable to
-
-## add new features to an existing
-
-## object?
+## 98. What design pattern is suitable to add new features to an existing object?
 
 We can use Decorator design pattern to add new features to an
 existing object. With a Decorator we work on same object and
@@ -12970,11 +11460,7 @@ object remains same since all the decorated versions of object
 implement same interface.
 
 
-## 99. Which design pattern can be used
-
-## when to decouple abstraction from the
-
-## implementation?
+## 99. Which design pattern can be used when to decouple abstraction from the implementation?
 
 We can use Bridge design pattern to detach the implementation from
 the abstraction.
@@ -12999,9 +11485,7 @@ hierarchy. In this way we can create multiple types of shapes with
 multiple colors with Bridge design pattern.
 
 
-## 100. Which is the design pattern used
-
-## in Android applications?
+## 100. Which is the design pattern used in Android applications?
 
 Android applications predominantly use Model View Presenter
 design pattern.
@@ -13028,13 +11512,7 @@ data from model and only give headline to view. In this
 way view remains very light in this design pattern.
 ```
 
-## 101. How can we prevent users from
-
-## creating more than one instance of
-
-## singleton object by using clone()
-
-## method?
+## 101. How can we prevent users from creating more than one instance of singleton object by using clone() method?
 
 First we should not implement the Cloneable interface by the object
 that is a Singleton.
@@ -13046,9 +11524,7 @@ This will ensure that no one can use clone() method or Cloneable
 interface to create more than one instance of Singleton object.
 
 
-## 102. What is the use of Interceptor
-
-## design pattern?
+## 102. What is the use of Interceptor design pattern?
 
 Interceptor design pattern is used for intercepting a request. Primary
 use of this pattern is in Security policy implementation.
@@ -13063,9 +11539,7 @@ This pattern is also used in Spring framework in HandlerInterceptor
 and MVC interceptor.
 
 
-## 103. What are the Architectural
-
-## patterns that you have used?
+## 103. What are the Architectural patterns that you have used?
 
 Architectural patterns are used to define the architecture of a
 Software system. Some of the patterns are as follows:
@@ -13111,9 +11585,7 @@ to increase the modularity of an application. We keep the
 objects loosely coupled with Dependency Injection.
 
 
-## 104. What are the popular uses of
-
-## Façade design pattern?
+## 104. What are the popular uses of Façade design pattern?
 
 Some of the popular uses of Façade design pattern are as follows:
 
@@ -13130,11 +11602,7 @@ complex and difficult to use. It can simplify the usage of
 complex system.
 ```
 
-## 105. What is the difference between
-
-## Builder design pattern and Factory
-
-## design pattern?
+## 105. What is the difference between Builder design pattern and Factory design pattern?
 
 Both Factory and Builder patterns are creational design patterns.
 They are similar in nature but Factory pattern is a simplified generic
@@ -13156,9 +11624,7 @@ an object. But a Factory can create a broader range of known
 subtypes of an object.
 
 
-## 106. What is Memento design
-
-## pattern?
+## 106. What is Memento design pattern?
 
 ```
 Memento design pattern is used to implement rollback
@@ -13223,9 +11689,7 @@ multiple times rather than writing generic code that can be
 parameterized.
 ```
 
-## 108. What is a Data Access Object
-
-## (DAO) design pattern?
+## 108. What is a Data Access Object (DAO) design pattern?
 
 DAO design pattern is used in the data persistent layer of a Java
 application. It mainly uses OOPS principle of Encapsulation.
@@ -13243,7 +11707,7 @@ Recently we can combine DAO with Spring framework to inject any
 DB implementation.
 
 
-# Spring
+# ✅ 07. Spring
 
 
 ## 109. What is Spring framework?
@@ -13263,9 +11727,7 @@ Dependency Injection, Aspect oriented programming for developing
 extensible feature rich software.
 
 
-## 110. What are the benefits of Spring
-
-## framework in software development?
+## 110. What are the benefits of Spring framework in software development?
 
 Many benefits of Spring framework are:
 
@@ -13306,9 +11768,7 @@ handle exceptions in various technologies like- Hibernate, JDBC
 etc.
 
 
-## 111. What are the modules in Core
-
-## Container of Spring framework?
+## 111. What are the modules in Core Container of Spring framework?
 
 Spring framework has a Core Container. Modules in Core Container
 are:
@@ -13319,11 +11779,7 @@ Context module
 Spring Expression Language module
 
 
-## 112. What are the modules in Data
-
-## Access/Integration layer of Spring
-
-## framework?
+## 112. What are the modules in Data Access/Integration layer of Spring framework?
 
 Modules in Data Access/Integration Layer of Spring framework are:
 
@@ -13337,9 +11793,7 @@ consuming messages.
 Transactions module: Transaction Management for POJO classes
 
 
-## 113. What are the modules in Web
-
-## layer of Spring framework?
+## 113. What are the modules in Web layer of Spring framework?
 
 Modules in Web Layer of Spring framework are:
 
@@ -13349,11 +11803,7 @@ WebSocket module: Support for Web Socket style messaging.
 Portlet module: MVC implementation for Portlet environment.
 
 
-## 114. What is the main use of Core
-
-## Container module in Spring
-
-## framework?
+## 114. What is the main use of Core Container module in Spring framework?
 
 As the name suggests, Spring Core Container is the core of Spring
 framework. It gives the basic functionality of the Spring. All the
@@ -13363,9 +11813,7 @@ Its main use is to provide Dependency Injection (DI) and Inversion
 of control (IOC) features.
 
 
-## 115. What kind of testing can be done
-
-## in Spring Test Module?
+## 115. What kind of testing can be done in Spring Test Module?
 
 Spring Test Module provides support for Unit testing as well as
 Integration testing of Spring components. It allows using JUnit or
@@ -13373,9 +11821,7 @@ TestNG testing frameworks. It also gives ability to mock objects to
 use the test code.
 
 
-## 116. What is the use of BeanFactory in
-
-## Spring framework?
+## 116. What is the use of BeanFactory in Spring framework?
 
 BeanFactory is the main class that helps in implementing Inversion
 of Control pattern in Spring. It is based on the factory design
@@ -13386,19 +11832,13 @@ Implementations of BeanFactory like XmlBeanFactory class are
 used by applications built with Spring.
 
 
-## 117. Which is the most popular
-
-## implementation of BeanFactory in
-
-## Spring?
+## 117. Which is the most popular implementation of BeanFactory in Spring?
 
 XMLBeanFactory is the most popular implementation of
 BeanFactory in Spring.
 
 
-## 118. What is XMLBeanFactory in
-
-## Spring framework?
+## 118. What is XMLBeanFactory in Spring framework?
 
 XMLBeanFactory is one of the most useful implementation of
 BeanFactory in Spring. This factory loads its beans based on the
@@ -13409,9 +11849,7 @@ file and creates a fully configured application with the help of
 XMLBeanFactory class.
 
 
-## 119. What are the uses of AOP module
-
-## in Spring framework?
+## 119. What are the uses of AOP module in Spring framework?
 
 AOP module is also known as Aspect Oriented Programming
 module. Its uses are:
@@ -13422,11 +11860,7 @@ frameworks
 Supports metadata programming to Spring
 
 
-## 120. What are the benefits of JDBC
-
-## abstraction layer module in Spring
-
-## framework?
+## 120. What are the benefits of JDBC abstraction layer module in Spring framework?
 
 Spring provides JDBC abstraction layer module. Main benefits of
 this module are:
@@ -13441,11 +11875,7 @@ Provides transaction management services for objects in a Spring
 application
 
 
-## 121. How does Spring support Object
-
-## Relational Mapping (ORM)
-
-## integration?
+## 121. How does Spring support Object Relational Mapping (ORM) integration?
 
 Spring supports Object Relational Mapping (ORM) by providing
 ORM Module. This module helps in integrating with popular ORM
@@ -13455,9 +11885,7 @@ Transaction Management module of Spring framework supports all
 of these ORM frameworks as well as JDBC.
 
 
-## 122. How does Web module work in
-
-## Spring framework?
+## 122. How does Web module work in Spring framework?
 
 Spring provides support for developing web application by using
 Web module. This module is built on application context module
@@ -13472,9 +11900,7 @@ This module also supports integration with popular web
 frameworks like Jakarta Struts, JSF, and Tapestry etc.
 
 
-## 123. What are the main uses of Spring
-
-## MVC module?
+## 123. What are the main uses of Spring MVC module?
 
 Spring-webmvc module is also known as Web-servlet module. It is
 based on Web Model View Controller pattern.
@@ -13490,9 +11916,7 @@ Allows developers to declaratively bind request parameters to
 business objects
 
 
-## 124. What is the purpose of Spring
-
-## configuration file?
+## 124. What is the purpose of Spring configuration file?
 
 Spring application can be configured by an XML file. This file
 contains information of classes and how these classes are
@@ -13508,9 +11932,7 @@ The other ways of specifying configuration metadata are Java based
 configuration and Annotation based configuration.
 
 
-## 125. What is the purpose of Spring
-
-## IoC container?
+## 125. What is the purpose of Spring IoC container?
 
 The Spring IoC Container is responsible for:
 
@@ -13522,9 +11944,7 @@ Wiring the objects together
 Managing complete lifecycle of objects
 
 
-## 126. What is the main benefit of
-
-## Inversion of Control (IOC) principle?
+## 126. What is the main benefit of Inversion of Control (IOC) principle?
 
 Inversion of Control (IOC) principle is the base of Spring
 framework. It supports dependency injection in an application. With
@@ -13536,19 +11956,13 @@ objects. With loose coupling it is easier to change the application
 with new requirements.
 
 
-## 127. Does IOC containers support
-
-## Eager Instantiation or Lazy loading of
-
-## beans?
+## 127. Does IOC containers support Eager Instantiation or Lazy loading of beans?
 
 IOC Container in Spring supports both the approaches. Eager
 instantiation as well as lazy loading of beans.
 
 
-## 128. What are the benefits of
-
-## ApplicationContext in Spring?
+## 128. What are the benefits of ApplicationContext in Spring?
 
 ApplicationContext in Spring provides following benefits:
 
@@ -13562,11 +11976,7 @@ internationalization
 Parent Context: Ability to inherit from a parent context
 
 
-## 129. How will you implement
-
-## ApplicationContext in Spring
-
-## framework?
+## 129. How will you implement ApplicationContext in Spring framework?
 
 ApplicationContext in Spring can be implemented in one of the
 following three ways:
@@ -13586,11 +11996,7 @@ application is running, it is read only. But it can be reloaded if
 underlying application supports it.
 
 
-## 130. Explain the difference between
-
-## ApplicationContext and BeanFactory
-
-## in Spring?
+## 130. Explain the difference between ApplicationContext and BeanFactory in Spring?
 
 Main differences between ApplicationContext and BeanFactory are:
 
@@ -13611,20 +12017,14 @@ BeanFactory. But ApplicationContext provides ability to publish
 ApplicationEvent.
 
 
-## 131. Between ApplicationContext and
-
-## BeanFactory which one is preferable
-
-## to use in Spring?
+## 131. Between ApplicationContext and BeanFactory which one is preferable to use in Spring?
 
 Spring documentation recommends using ApplicationContext in
 almost all the cases. ApplicationContext has all the functionality of
 BeanFactory.
 
 
-## 132. What are the main components of
-
-## a typical Spring based application?
+## 132. What are the main components of a typical Spring based application?
 
 In a Spring based application, main components are:
 Spring configuration XML file: This is used to configure Spring
@@ -13636,9 +12036,7 @@ Aspects: Spring Aspects implemented by application
 Client: Application at client side that is used for accessing functions
 
 
-## 133. Explain Dependency Injection
-
-## (DI) concept in Spring framework?
+## 133. Explain Dependency Injection (DI) concept in Spring framework?
 
 Dependency Injection is a software design pattern. It is used to
 implement Inversion of Control (IOC) in Spring framework. As per
@@ -13651,9 +12049,7 @@ container can call injecting code and wire the objects as per the
 configuration at runtime.
 
 
-## 134. What are the different roles in
-
-## Dependency Injection (DI)?
+## 134. What are the different roles in Dependency Injection (DI)?
 
 There are four roles in Dependency Injection:
 
@@ -13664,11 +12060,7 @@ Injector responsible for constructing services and injecting them
 into client
 
 
-## 135. Spring framework provides what
-
-## kinds of Dependency Injection
-
-## mechanism?
+## 135. Spring framework provides what kinds of Dependency Injection mechanism?
 
 Spring framework provides two types of Dependency Injection
 mechanism:
@@ -13682,13 +12074,7 @@ method on a bean after creating it with a no-argument constructor or
 no-argument static factory method to instantiate another bean.
 
 
-## 136. In Spring framework, which
-
-## Dependency Injection is better?
-
-## Constructor-based DI or Setter-based
-
-## DI?
+## 136. In Spring framework, which Dependency Injection is better? Constructor-based DI or Setter-based DI?
 
 Spring framework provides support for both Constructor-based and
 Setter-based Dependency Injection. There are different scenarios in
@@ -13699,9 +12085,7 @@ dependencies. Whereas Setter-based DI is used for optional
 dependencies.
 
 
-## 137. What are the advantages of
-
-## Dependency Injection (DI)?
+## 137. What are the advantages of Dependency Injection (DI)?
 
 Dependency Injection (DI) pattern has following advantages:
 
@@ -13731,9 +12115,7 @@ and implementation changes. Therefore, it promotes reusability,
 testability and maintainability.
 
 
-## 138. What are the disadvantages of
-
-## Dependency Injection (DI)?
+## 138. What are the disadvantages of Dependency Injection (DI)?
 
 Dependency Injection (DI) pattern has following disadvantages:
 
@@ -13772,9 +12154,7 @@ By default the value of this attribute is true. Therefore, by default all
 the beans in spring framework are singleton in nature.
 
 
-## 140. What does the definition of a
-
-## Spring Bean contain?
+## 140. What does the definition of a Spring Bean contain?
 
 A Spring Bean definition contains configuration metadata for bean.
 This configuration metadata is used by Spring container to:
@@ -13784,11 +12164,7 @@ Manage its lifecycle
 Resolve its dependencies
 
 
-## 141. What are the different ways to
-
-## provide configuration metadata to a
-
-## Spring Container?
+## 141. What are the different ways to provide configuration metadata to a Spring Container?
 
 Spring supports three ways to provide configuration metadata to
 Spring Container:
@@ -13804,9 +12180,7 @@ can embed annotations like @Bean, @Import, @Configuration in
 Java code to specify configuration metadata.
 
 
-## 142. What are the different scopes
-
-## of a Bean supported by Spring?
+## 142. What are the different scopes of a Bean supported by Spring?
 
 Spring framework support seven types of scopes for a Bean. Out of
 these only five scopes are available for a web-aware
@@ -13843,9 +12217,7 @@ aware Spring ApplicationContext.
 
 
 
-## 143. How will you define the scope
-
-## of a bean in Spring?
+## 143. How will you define the scope of a bean in Spring?
 
 In configuration xml, we can specify the scope of bean in its
 definition. This is used by container to decide the scope of bean in
@@ -13857,11 +12229,7 @@ scope="prototype"/>
 This is an example of userService bean with prototype scope.
 
 
-## 144. Is it safe to assume that a
-
-## Singleton bean is thread safe in Spring
-
-## Framework?
+## 144. Is it safe to assume that a Singleton bean is thread safe in Spring Framework?
 
 No, Spring framework does not guarantee anything related to multi-
 threaded behavior of a singleton bean. Developer is responsible for
@@ -13869,9 +12237,7 @@ dealing with concurrency issues and maintaining thread safety of a
 singleton bean.
 
 
-## 145. What are the design-patterns
-
-## used in Spring framework?
+## 145. What are the design-patterns used in Spring framework?
 
 Spring framework uses many Design patterns. Some of these
 patterns are:
@@ -13900,9 +12266,7 @@ from presentation in views. Like- Custom JSP tags, Velocity macros
 etc.
 
 
-## 146. What is the lifecycle of a Bean
-
-## in Spring framework?
+## 146. What is the lifecycle of a Bean in Spring framework?
 
 A Bean in Spring framework goes through following phases in its
 lifecycle.
@@ -13928,9 +12292,7 @@ Destruction: During the destruction of a bean, if bean implements
 DisposableBean, Spring calls destroy() method.
 
 
-## 147. What are the two main groups
-
-## of methods in a Bean’s lifecycle?
+## 147. What are the two main groups of methods in a Bean’s lifecycle?
 
 A Bean in Spring has two main groups of lifecycle methods.
 
@@ -13948,18 +12310,14 @@ Recent recommendation from Spring is to not use these methods,
 since it can strongly couple your code to Spring code.
 
 
-## 148. Can we override main lifecycle
-
-## methods of a Bean in Spring?
+## 148. Can we override main lifecycle methods of a Bean in Spring?
 
 Yes, Spring framework allows developers to override the lifecycle
 methods of a Bean. This is used for writing any custom behavior for
 Bean.
 
 
-## 149. What are Inner beans in
-
-## Spring?
+## 149. What are Inner beans in Spring?
 
 A bean that is used as a property of another bean is known as Inner
 bean. It can be defined as a <bean/> element in <property/> or
@@ -13972,9 +12330,7 @@ Inner bean does not need a scope. By default it is of prototype
 scope.
 
 
-## 150. How can we inject a Java
-
-## Collection in Spring framework?
+## 150. How can we inject a Java Collection in Spring framework?
 
 Spring promotes Dependency Injection (DI) in code. It gives
 support for injecting not only objects but also collection of objects.
@@ -13993,9 +12349,7 @@ map. Name and value can be of any type that is allowed for a map.
 
 <props> : This type is used to inject a collection of String based
 name-value. It is like a properties file.
-
-
-## 151. What is Bean wiring in Spring?
+ 151. What is Bean wiring in Spring?
 
 A Spring container is responsible for injecting dependencies
 between beans. This process of connecting beans is called wiring.
@@ -14003,9 +12357,7 @@ between beans. This process of connecting beans is called wiring.
 Developer mentions in configuration file, the dependencies between
 beans. And Spring container reads these dependencies and wires
 the beans on creation.
-
-
-## 152. What is Autowiring in Spring?
+ 152. What is Autowiring in Spring?
 
 Autowiring is a feature of Spring in which container can
 automatically wire/connect the beans by reading the configuration
@@ -14017,9 +12369,7 @@ Spring resolves the dependencies automatically by looking at this
 attribute of beans that are autowired.
 
 
-## 153. What are the different modes of
-
-## Autowiring supported by Spring?
+## 153. What are the different modes of Autowiring supported by Spring?
 
 There are five modes of Autowiring supported by Spring
 framework:
@@ -14080,11 +12430,7 @@ autowire="autodetect" />
 <bean id="manager" class="com.dept.Manager" />
 
 
-## 154. What are the cases in which
-
-## Autowiring may not work in Spring
-
-## framework?
+## 154. What are the cases in which Autowiring may not work in Spring framework?
 
 Autowiring is a great feature in Spring. It can be used in most of the
 cases. But there are certain scenarios in which Autowiring may not
@@ -14099,16 +12445,12 @@ Primitive Data types: Autowiring does not allow wiring of
 properties that are based on primitive data types like- int, float etc.
 
 
-## 155. Is it allowed to inject null or
-
-## empty String values in Spring?
+## 155. Is it allowed to inject null or empty String values in Spring?
 
 Yes, Spring allows injecting null or empty String values.
 
 
-## 156. What is a Java-based
-
-## Configuration in Spring?
+## 156. What is a Java-based Configuration in Spring?
 
 Spring allows for Java-based configuration in which a developer
 can specify configuration by using Java-based annotations. This
@@ -14118,20 +12460,14 @@ You can use annotations like- @Configuration, @Bean, @Import
 and @DependsOn in Java classes for specifying the configuration.
 
 
-## 157. What is the purpose of
-
-## @Configuration annotation?
+## 157. What is the purpose of @Configuration annotation?
 
 This annotation is used in a class to indicate that this is class is the
 primary source of bean definitions. This class can also contain
 inter-bean dependencies that are annotated by @Bean annotation.
 
 
-## 158. What is the difference between
-
-## Full @Configuration and 'lite'
-
-## @Beans mode?
+## 158. What is the difference between Full @Configuration and 'lite' @Beans mode?
 
 Spring allows for using @Bean annotation on methods that are
 declared in classes not annotated with @Configuration. This is
@@ -14149,11 +12485,7 @@ Spring recommends that @Bean methods declared within
 kind of full mode can prevent many bugs.
 
 
-## 159. In Spring framework, what is
-
-## Annotation-based container
-
-## configuration?
+## 159. In Spring framework, what is Annotation-based container configuration?
 
 From Spring 2.5 version it is possible to provide configuration by
 using annotation.
@@ -14167,9 +12499,7 @@ Spring container can use this information from annotation for
 creating and wiring the beans.
 
 
-## 160. How will you switch on
-
-## Annotation based wiring in Spring?
+## 160. How will you switch on Annotation based wiring in Spring?
 
 To use Annotation based wiring, we need to turn on Annotation
 based configuration in Spring.
@@ -14205,11 +12535,7 @@ When we use @Required annotation, we have to register
 RequiredAnnotationBeanPostProcessor in Spring config file.
 
 
-## 163. What are the two ways to enable
-
-## RequiredAnnotationBeanPostProcessor
-
-## in Spring?
+## 163. What are the two ways to enable RequiredAnnotationBeanPostProcessor in Spring?
 
 RequiredAnnotationBeanPostProcessor can be enabled in two ways
 in Spring:
@@ -14259,18 +12585,14 @@ class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostPr
 </beans>
 
 
-## 164. What is @Qualifier annotation
-
-## in Spring?
+## 164. What is @Qualifier annotation in Spring?
 
 We use @Qualifier annotation to mark a bean as ready for auto
 wiring. This annotation is used along with @Autowired annotation
 to specify the exact bean for auto wiring by Spring container.
 
 
-## 165. How Spring framework makes
-
-## JDBC coding easier for developers?
+## 165. How Spring framework makes JDBC coding easier for developers?
 
 Spring provides a mature JDBC framework to provide support for
 JDBC coding. Spring JDBC handled resource management as well
@@ -14281,9 +12603,7 @@ They just have to write queries and related statements to fetch the
 data or to store the data in database.
 
 
-## 166. What is the purpose of
-
-## JdbcTemplate?
+## 166. What is the purpose of JdbcTemplate?
 
 Spring framework provides JdbcTemplate class that contains many
 convenient methods for regular tasks like- converting data into
@@ -14294,9 +12614,7 @@ Application and it also provides good support for custom error
 handling in database access code.
 
 
-## 167. What are the benefits of using
-
-## Spring DAO?
+## 167. What are the benefits of using Spring DAO?
 
 Some of the benefits of using Spring DAO are:
 
@@ -14309,9 +12627,7 @@ persistence frameworks.
 No need for catching framework specific exceptions.
 
 
-## 168. What are the different ways to
-
-## use Hibernate in Spring?
+## 168. What are the different ways to use Hibernate in Spring?
 
 Spring provides two ways to use Hibernate:
 
@@ -14321,11 +12637,7 @@ We can also use HibernateTemplate and Callback to access
 Hibernate. This is based on Inversion of Control.
 
 
-## 169. What types of Object Relational
-
-## Mapping (ORM) are supported by
-
-## Spring?
+## 169. What types of Object Relational Mapping (ORM) are supported by Spring?
 
 Spring supports following Object Relational Mapping (ORM)
 frameworks:
@@ -14337,11 +12649,7 @@ Java Data Objects (JDO)
 Apache Object Relational Bridge (ORB)
 
 
-## 170. How will you integrate Spring
-
-## and Hibernate by using
-
-## HibernateDaoSupport?
+## 170. How will you integrate Spring and Hibernate by using HibernateDaoSupport?
 
 We can use following steps for integrating Spring and Hibernate:
 
@@ -14350,11 +12658,7 @@ Implement DAO from HibernateDaoSupport
 Use Hibernate functions via getHibernateTemplate() method
 
 
-## 171. What are the different types of
-
-## the Transaction Management
-
-## supported by Spring framework?
+## 171. What are the different types of the Transaction Management supported by Spring framework?
 
 Spring framework provides support for two types of Transaction
 Management:
@@ -14369,11 +12673,7 @@ annotations or XML based configuration to manage the transactions
 in declarative approach.
 
 
-## 172. What are the benefits provided by
-
-## Spring Framework’s Transaction
-
-## Management?
+## 172. What are the benefits provided by Spring Framework’s Transaction Management?
 
 Main benefits provided by Spring Transaction Management are:
 
@@ -14391,13 +12691,7 @@ Integration: Spring Transaction management is easier to integrate
 with other data access abstractions of Spring.
 
 
-## 173. Given a choice between
-
-## declarative and programmatic
-
-## Transaction Management, which
-
-## method will you choose?
+## 173. Given a choice between declarative and programmatic Transaction Management, which method will you choose?
 
 In Spring, Declarative Transaction Management is the preferred
 choice. This method is very less invasive and it has very less
@@ -14408,9 +12702,7 @@ Programmatic method, it is simpler to use and easier to maintain in
 long run.
 
 
-## 174. What is Aspect Oriented
-
-## Programming (AOP)
+## 174. What is Aspect Oriented Programming (AOP)
 
 Aspect Oriented Programming (AOP) is a programming paradigm
 that promotes programmers to develop code in different modules
@@ -14444,11 +12736,7 @@ An Aspect can be implemented by using annotation @Aspect on a
 class.
 
 
-## 176. In Spring AOP, what is the main
-
-## difference between a Concern and a
-
-## Cross cutting concern?
+## 176. In Spring AOP, what is the main difference between a Concern and a Cross cutting concern?
 
 A Concern in Spring is the behavior or expectation from an
 application. It can be the main feature that we want to implement in
@@ -14461,9 +12749,7 @@ E.g. Security, Logging, Transaction Management etc. are cross
 cutting concerns in an application.
 
 
-## 177. What is a Joinpoint in Spring
-
-## AOP?
+## 177. What is a Joinpoint in Spring AOP?
 
 In Spring AOP, Joinpoint refers to a candidate point in application
 where we can plug in an Aspect.
@@ -14475,9 +12761,7 @@ This is the place where the code of an Aspect is inserted to add new
 behavior in the existing execution flow.
 
 
-## 178. What is an Advice in Spring
-
-## AOP?
+## 178. What is an Advice in Spring AOP?
 
 An Advice in Spring AOP, is an object containing the actual action
 that an Aspect introduces.
@@ -14487,9 +12771,7 @@ An Advice is the code of cross cutting concern that gets executed.
 There are multiple types of Advice in Spring AOP.
 
 
-## 179. What are the different types of
-
-## Advice in Spring AOP?
+## 179. What are the different types of Advice in Spring AOP?
 
 Spring AOP provides five kinds of Advice:
 
@@ -14518,9 +12800,7 @@ the method is invoked. We use @Around annotation for
 this.
 ```
 
-## 180. What is a Pointcut in Spring
-
-## AOP?
+## 180. What is a Pointcut in Spring AOP?
 
 A Pointcut in Spring AOP refers to the group of one or more
 Joinpoints where an advice can be applied.
@@ -14533,9 +12813,7 @@ We can use class names, method names or regular expressions to
 specify the Pointcuts for an Advice.
 
 
-## 181. What is an Introduction in
-
-## Spring AOP?
+## 181. What is an Introduction in Spring AOP?
 
 In Spring AOP we can declare additional methods or fields on
 behalf of a type. To do this we use an Introduction. It is also known
@@ -14545,9 +12823,7 @@ E.g. We can use an Introduction for making a bean implement
 IsModified interface.
 
 
-## 182. What is a Target object in
-
-## Spring AOP?
+## 182. What is a Target object in Spring AOP?
 
 A Target object is the object that gets Advice from one or more
 Aspects.
@@ -14564,9 +12840,7 @@ to implement Aspect contracts. It is generally a JDK dynamic proxy
 or CGLIB proxy.
 
 
-## 184. What are the different types of
-
-## AutoProxy creators in Spring?
+## 184. What are the different types of AutoProxy creators in Spring?
 
 Spring AOP provides following standard types of Autoproxy
 creators:
@@ -14588,9 +12862,7 @@ class of DefaultAdvisorAutoProxyCreator. We can create
 our own auto-proxy creators by extending this class.
 ```
 
-## 185. What is Weaving in Spring
-
-## AOP?
+## 185. What is Weaving in Spring AOP?
 
 In Aspect oriented programming, linking Aspects with the other
 application types creates an Advised object. This process is known
@@ -14602,16 +12874,12 @@ makes use realize full potential of the AOP.
 Weaving can be done at compile time, load time or at run time.
 
 
-## 186. In Spring AOP, Weaving is done
-
-## at compile time or run time?
+## 186. In Spring AOP, Weaving is done at compile time or run time?
 
 Spring container performs Weaving at run time.
 
 
-## 187. What is XML Schema-based
-
-## Aspect implementation?
+## 187. What is XML Schema-based Aspect implementation?
 
 Spring allows for implementing Aspect by using regular classes and
 XML based configurations. This is different from Annotation based
@@ -14635,11 +12903,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 ">
 
 
-## 188. What is Annotation-based
-
-## aspect implementation in Spring
-
-## AOP?
+## 188. What is Annotation-based aspect implementation in Spring AOP?
 
 This is a declarative style AOP implementation. In this case, we use
 annotations like @Aspect, @Pointcut, @Joinpoint etc. to annotate
@@ -14649,9 +12913,7 @@ This can be used Java 5 onwards, when the support for Annotations
 was introduced.
 
 
-## 189. How does Spring MVC
-
-## framework work?
+## 189. How does Spring MVC framework work?
 
 Spring provides its own Model View Controller (MVC) framework
 for developing web applications.
@@ -14681,9 +12943,7 @@ In case of RMI invocation, it sends back response to the client
 application.
 
 
-## 191. Can we have more than one
-
-## DispatcherServlet in Spring MVC?
+## 191. Can we have more than one DispatcherServlet in Spring MVC?
 
 Yes, a Spring MVC web application can have more than one
 DispatcherServlets.
@@ -14694,9 +12954,7 @@ Only the root application context will be shared among these
 Servlets.
 
 
-## 192. What is WebApplicationContext
-
-## in Spring MVC?
+## 192. What is WebApplicationContext in Spring MVC?
 
 WebApplicationContext is the child of plain ApplicationContext. It
 is used in web applications. It provides features to deal with web-
@@ -14709,9 +12967,7 @@ Each DispatcherServlet is associated with one
 WebApplicationContext.
 
 
-## 193. What is Controller in Spring
-
-## MVC framework?
+## 193. What is Controller in Spring MVC framework?
 
 Controller is an interface in Spring MVC. It receives
 HttpServletRequest and HttpServletResponse in web app just like
@@ -14740,9 +12996,7 @@ The dispatcher in Spring scans for @Controller annotated classes
 for mapped methods and detects @RequestMapping.
 
 
-## 194. What is @RequestMapping
-
-## annotation in Spring?
+## 194. What is @RequestMapping annotation in Spring?
 
 In Spring MVC, we use @RequestMapping annotation to map a web
 request to either a class or a handler method.
@@ -14762,9 +13016,7 @@ method = GET,
 headers = "Accept=application/json")
 
 
-## 195. What are the main features of
-
-## Spring MVC?
+## 195. What are the main features of Spring MVC?
 
 Spring MVC has following main features:
 
@@ -14801,11 +13053,7 @@ Spring MVC supports customization in locale, timezone
 etc.
 ```
 
-## 196. What is the difference between a
-
-## Singleton and Prototype bean in
-
-## Spring?
+## 196. What is the difference between a Singleton and Prototype bean in Spring?
 
 Every bean in Spring has a scope that defines its existence
 timeframe in the application.
@@ -14828,11 +13076,7 @@ instance of the object every time a request for that specific bean is
 made.
 
 
-## 197. How will you decide which scope-
-
-## Prototype or Singleton to use for a
-
-## bean in Spring?
+## 197. How will you decide which scope- Prototype or Singleton to use for a bean in Spring?
 
 In general, we use prototype scope for all stateful beans and
 singleton scope for stateless beans.
@@ -14847,13 +13091,7 @@ call. A Prototype scope bean ensures that we get a new instance
 each time we request for the object.
 
 
-## 198. What is the difference between
-
-## Setter and Constructor based
-
-## Dependency Injection (DI) in Spring
-
-## framework?
+## 198. What is the difference between Setter and Constructor based Dependency Injection (DI) in Spring framework?
 
 Main differences between Setter and Constructor based
 Dependency Injection (DI) in Spring are:
@@ -14879,11 +13117,7 @@ injection. Generally Setter method name is similar to dependency
 class being used in setter method.
 
 
-## 199. What are the drawbacks of Setter
-
-## based Dependency Injection (DI) in
-
-## Spring?
+## 199. What are the drawbacks of Setter based Dependency Injection (DI) in Spring?
 
 Although Setter based Dependency Injection has higher priority than
 Constructor based DI, there are some disadvantages of it.
@@ -14902,11 +13136,7 @@ throw ObjectCurrentlyInCreationException if there is a circular
 dependency during the creation of an object.
 
 
-## 200. What are the differences
-
-## between Dependency Injection (DI)
-
-## and Factory Pattern?
+## 200. What are the differences between Dependency Injection (DI) and Factory Pattern?
 
 Main differences between Dependency Injection (DI) and Factory
 Pattern are:
@@ -14933,13 +13163,7 @@ Cleaner Code: DI code is much cleaner than Factory pattern based
 code. In DI, we do not need to add extra code for factory methods.
 
 
-## 201. In Spring framework, what is the
-
-## difference between
-
-## FileSystemResource and
-
-## ClassPathResource?
+## 201. In Spring framework, what is the difference between FileSystemResource and ClassPathResource?
 
 In Spring we can specify configuration by using a file or classpath.
 
@@ -14955,11 +13179,7 @@ whereas FileSystemResource looks for configuration file in file
 system.
 
 
-## 202. Name some popular Spring
-
-## framework annotations that you use
-
-## in your project?
+## 202. Name some popular Spring framework annotations that you use in your project?
 
 Spring has many Annotations to serve different purposes. For
 regular use we refer following popular Spring annotations:
@@ -14990,9 +13210,7 @@ configuration.
 These are the annotations in Spring for AspectJ AOP.
 
 
-## 203. How can you upload a file in
-
-## Spring MVC Application?
+## 203. How can you upload a file in Spring MVC Application?
 
 In Spring MVC framework we can use MultipartResolver interface
 to upload a file. We need to make configuration changes to make it
@@ -15000,11 +13218,7 @@ work. After uploading the file, we have to create Controller handler
 method to process the uploaded file in application.
 
 
-## 204. What are the different types of
-
-## events provided by Spring
-
-## framework?
+## 204. What are the different types of events provided by Spring framework?
 
 Spring framework provides following five events for Context:
 
@@ -15032,11 +13246,7 @@ RequestHandledEvent: This is a web specific event that informs to
 all beans that an HTTP request has been serviced.
 
 
-## 205. What is the difference between
-
-## DispatcherServlet and
-
-## ContextLoaderListener in Spring?
+## 205. What is the difference between DispatcherServlet and ContextLoaderListener in Spring?
 
 DispatcherServlet is the core of Spring MVC application. It loads
 Spring bean configuration file and initialize all the beans mentioned
@@ -15054,11 +13264,7 @@ can also be used to define shared beans used across different spring
 contexts.
 
 
-## 206. How will you handle
-
-## exceptions in Spring MVC
-
-## Framework?
+## 206. How will you handle exceptions in Spring MVC Framework?
 
 Spring MVC Framework provides following mechanisms to help us
 achieve exception handling:
@@ -15076,9 +13282,7 @@ provides HandlerExceptionResolver interface that can be
 implemented to create a global exception handler.
 
 
-## 207. What are the best practices of
-
-## Spring Framework?
+## 207. What are the best practices of Spring Framework?
 
 In Spring Framework, following are some of the best practices:
 
@@ -15131,12 +13335,10 @@ It does not require any code generation or xml configuration. It is an
 easy solution to create applications that can run stand-alone.
 
 
-# Hibernate
+# ✅ 07. Hibernate
 
 
-## 209. What is Hibernate
-
-## framework?
+## 209. What is Hibernate framework?
 
 Hibernate is a popular Object Relational Mapping (ORM)
 framework of Java. It helps in mapping the Object Oriented Domain
@@ -15151,9 +13353,7 @@ In simple words, it is a framework to retrieve and store data from
 database tables from Java.
 
 
-## 210. What is an Object Relational
-
-## Mapping (ORM)?
+## 210. What is an Object Relational Mapping (ORM)?
 
 Object Relational Mapping (ORM) is a programming technique to
 map data from a relational database to Object oriented domain
@@ -15168,11 +13368,7 @@ RDBMS. It reduces the effort of developers in writing queries to
 access and insert data.
 
 
-## 211. What is the purpose of
-
-## Configuration Interface in
-
-## Hibernate?
+## 211. What is the purpose of Configuration Interface in Hibernate?
 
 Configuration interface can be implemented in an application to
 specify the properties and mapping documents for creating a
@@ -15188,9 +13384,7 @@ In short, Configuration interface is used for configuring Hibernate
 framework in an application.
 
 
-## 212. What is Object Relational
-
-## Impedance Mismatch?
+## 212. What is Object Relational Impedance Mismatch?
 
 Object Relational Impedance Mismatch (ORIM) is also known as
 paradigm mismatch. It means that Object model and Relational
@@ -15204,11 +13398,7 @@ Mixing these two models leads to various problems. The common
 name for these issues is Object Relational Impedance Mismatch.
 
 
-## 213. What are the main problems of
-
-## Object Relational Impedance
-
-## Mismatch?
+## 213. What are the main problems of Object Relational Impedance Mismatch?
 
 Object model and Relational models (RDBMS) have following
 problems that are part of Object Relational Impedance Mismatch:
@@ -15236,9 +13426,7 @@ in the department object. In RDBMS, we try to minimize the SQL
 calls, so we get all the data by using joins.
 
 
-## 214. What are the key
-
-## characteristics of Hibernate?
+## 214. What are the key characteristics of Hibernate?
 
 Hibernate has following key characteristics:
 
@@ -15272,9 +13460,7 @@ Extensible: Hibernate is quite generic in nature. It can be configured
 and extended as per the use case of application.
 
 
-## 215. Can you tell us about the core
-
-## interfaces of Hibernate framework?
+## 215. Can you tell us about the core interfaces of Hibernate framework?
 
 The core interfaces of Hibernate framework are as follows:
 
@@ -15307,11 +13493,7 @@ Criterion objects. It is very easy to use for creating Search like
 features.
 
 
-## 216. How will you map the columns of
-
-## a DB table to the properties of a Java
-
-## class in Hibernate?
+## 216. How will you map the columns of a DB table to the properties of a Java class in Hibernate?
 
 We can map the class properties and table columns by using one of
 the two ways:
@@ -15323,20 +13505,14 @@ Annotation: We can also use annotations @Entity and @Table to
 map a column to the property of a class.
 
 
-## 217. Does Hibernate make it
-
-## mandatory for a mapping file to have
-
-## .hbm.xml extension?
+## 217. Does Hibernate make it mandatory for a mapping file to have .hbm.xml extension?
 
 No. It is a convention to have.hbm.xml extension in the name of a
 mapping file. It is not a requirement enforced by Hibernate. We can
 use any other extension of our convenience for this.
 
 
-## 218. What are the steps for creating
-
-## a SessionFactory in Hibernate?
+## 218. What are the steps for creating a SessionFactory in Hibernate?
 
 Steps to create a SessionFactory in Hibernate are:
 
@@ -15354,9 +13530,7 @@ config.setProperties( System.getProperties() );
 SessionFactory sessions = config.buildSessionFactory();
 
 
-## 219. Why do we use POJO in
-
-## Hibernate?
+## 219. Why do we use POJO in Hibernate?
 
 POJO stands for Plain Old Java Objects. A POJO is java bean with
 getter and setter methods for each property of the bean.
@@ -15376,9 +13550,7 @@ POJO also comes with a default constructor that makes it easier to
 persist with a default constructor.
 
 
-## 220. What is Hibernate Query
-
-## Language (HQL)?
+## 220. What is Hibernate Query Language (HQL)?
 
 Hibernate Query Language is also known as HQL. It is an Object
 Oriented language. But it is similar to SQL.
@@ -15393,9 +13565,7 @@ HQL supports direct running of native SQL queries also. But it
 creates an issue in Database portability.
 
 
-## 221. How will you call a stored
-
-## procedure in Hibernate?
+## 221. How will you call a stored procedure in Hibernate?
 
 Hibernate supports executing not only simple queries but also
 stored procedure of database. There are three ways to call a stored
@@ -15485,9 +13655,7 @@ System.out.println(employee.getEmployeeCode());
 }
 
 
-## 222. What is Criteria API in
-
-## Hibernate?
+## 222. What is Criteria API in Hibernate?
 
 Criteria is a simplified API in Hibernate to get entities from
 database by creating Criterion objects.
@@ -15500,18 +13668,14 @@ Criterion instances are obtained through factory methods on
 Restrictions.
 
 
-## 223. Why do we use
-
-## HibernateTemplate?
+## 223. Why do we use HibernateTemplate?
 
 This is a trap question. HibernateTemplate has been deprecated.
 There were earlier good reasons to use HibernateTemplate. But
 now the trend has changed towards not using it anymore.
 
 
-## 224. How can you see SQL code
-
-## generated by Hibernate on console?
+## 224. How can you see SQL code generated by Hibernate on console?
 
 To display the SQL generated by Hibernate, we have to turn on the
 show_sql flag.
@@ -15521,9 +13685,7 @@ This can be done in Hibernate configuration as follows:
 <property name=”show_sql”>true</property>
 
 
-## 225. What are the different types of
-
-## collections supported by Hibernate?
+## 225. What are the different types of collections supported by Hibernate?
 
 Hibernate supports following two types of collections:
 
@@ -15531,13 +13693,7 @@ Indexed Collections: List and Maps
 Sorted Collections: java.util.SortedMap and java.util.SortedSet
 
 
-## 226. What is the difference between
-
-## session.save() and
-
-## session.saveOrUpdate() methods in
-
-## Hibernate?
+## 226. What is the difference between session.save() and session.saveOrUpdate() methods in Hibernate?
 
 Save method first stores an object in the database. Then it persists
 the given transient instance by assigning a generated identifier.
@@ -15551,9 +13707,7 @@ there is no identifier for the entity then save() method is called as
 mentioned earlier.
 
 
-## 227. What are the advantages of
-
-## Hibernate framework over JDBC?
+## 227. What are the advantages of Hibernate framework over JDBC?
 
 Main advantages of Hibernate over JDBC are as follows:
 
@@ -15571,9 +13725,7 @@ expertise in writing complex SQL queries. In JDBC application
 developer writes most of the queries.
 
 
-## 228. How can we get statistics of a
-
-## SessionFactory in Hibernate?
+## 228. How can we get statistics of a SessionFactory in Hibernate?
 
 In Hibernate we can get the statistics of a SessionFactory by using
 Statistics interface. We can get information like Close Statement
@@ -15581,9 +13733,7 @@ count, Collection Fetch count, Collection Load count, Entity insert
 count etc.
 
 
-## 229. What is the Transient state of
-
-## an object in Hibernate?
+## 229. What is the Transient state of an object in Hibernate?
 
 When an object is just instantiated using the new operator but is not
 associated with a Hibernate Session, then the object is in Transient
@@ -15597,9 +13747,7 @@ An object in Transient state can be garbage collected if there is no
 reference pointing to it.
 
 
-## 230. What is the Detached state of
-
-## an object in Hibernate?
+## 230. What is the Detached state of an object in Hibernate?
 
 An object is in detached state if it was persistent earlier but its
 Session is closed now.
@@ -15612,9 +13760,7 @@ Detached state is very useful in application transactions where a
 user takes some time to finish the work.
 
 
-## 231. What is the use of Dirty Checking
-
-## in Hibernate?
+## 231. What is the use of Dirty Checking in Hibernate?
 
 Dirty Checking is very useful feature of Hibernate for write to
 database operations. Hibernate monitors all the persistent objects
@@ -15625,9 +13771,7 @@ require any change in them. It reduces the time-consuming database
 write operations.
 
 
-## 232. What is the purpose of
-
-## Callback interface in Hibernate?
+## 232. What is the purpose of Callback interface in Hibernate?
 
 Callback interface in Hibernate is mainly used for receiving
 notifications of different events from an object.
@@ -15636,9 +13780,7 @@ Egg. We can use Callback to get the notification when an object is
 loaded into or removed from database.
 
 
-## 233. What are the different ORM
-
-## levels in Hibernate?
+## 233. What are the different ORM levels in Hibernate?
 
 There are following four different ORM levels in Hibernate:
 
@@ -15664,9 +13806,7 @@ base class at this level. There are efficient fetching and caching
 strategies implemented transparently to the application.
 
 
-## 234. What are the different ways to
-
-## configure a Hibernate application?
+## 234. What are the different ways to configure a Hibernate application?
 
 There are mainly two ways to configure Hibernate application:
 
@@ -15677,9 +13817,7 @@ Programming based: We can also use code logic to configure
 Hibernate in our application.
 
 
-## 235. What is Query Cache in
-
-## Hibernate?
+## 235. What is Query Cache in Hibernate?
 
 Hibernate provides Query Cache to improve the performance of
 queries that run multiple times with same parameters.
@@ -15692,11 +13830,7 @@ It has to be used based on the benefits gained by it in performance
 of the queries in an application.
 
 
-## 236. What are the different types of
-
-## Association mappings supported by
-
-## Hibernate?
+## 236. What are the different types of Association mappings supported by Hibernate?
 
 Hibernate supports following four types of Association mappings:
 
@@ -15708,11 +13842,7 @@ directions.
 Bidirectional association with join tables
 
 
-## 237. What are the different types of
-
-## Unidirectional Association mappings
-
-## in Hibernate?
+## 237. What are the different types of Unidirectional Association mappings in Hibernate?
 
 In Hibernate there can be following three types of Unidirectional
 Association mappings:
@@ -15722,9 +13852,7 @@ One to one
 One to many
 
 
-## 238. What is Unit of Work design
-
-## pattern?
+## 238. What is Unit of Work design pattern?
 
 Unit of Work is a design pattern to define business transactions.
 
@@ -15741,9 +13869,7 @@ sequence. Both these operations should happen together and in right
 sequence.
 
 
-## 239. In Hibernate, how can an
-
-## object go in Detached state?
+## 239. In Hibernate, how can an object go in Detached state?
 
 Once the session attached to an Object is closed, the object goes
 into Detached state. An Object in Detached state can be attached to
@@ -15753,9 +13879,7 @@ This state is quite useful in concurrent applications that have long
 unit of work.
 
 
-## 240. How will you order the results
-
-## returned by a Criteria in Hibernate?
+## 240. How will you order the results returned by a Criteria in Hibernate?
 
 Hibernate provides an Order criterion that can be used to order the
 results. This can be order objects based on their property in
@@ -15775,9 +13899,7 @@ List employees = session.createCriteria(Employee.class)
 .list();
 
 
-## 241. How does Example criterion
-
-## work in Hibernate?
+## 241. How does Example criterion work in Hibernate?
 
 In Hibernate, we can create an object with desired properties. Then
 we can use this object to search for objects with similar object. For
@@ -15794,9 +13916,7 @@ List results = session.createCriteria(Book.class)
 .list();
 
 
-## 242. How does Transaction
-
-## management work in Hibernate?
+## 242. How does Transaction management work in Hibernate?
 
 In Hibernate we use Session interface to get a new transaction.
 Once we get the transaction we can run business operations in that
@@ -15820,11 +13940,7 @@ s.close();
 }
 
 
-## 243. How can we mark an
-
-## entity/collection as immutable in
-
-## Hibernate?
+## 243. How can we mark an entity/collection as immutable in Hibernate?
 
 In Hibernate, by default an entity or collection is mutable. We can
 add, delete or update an entity/collection.
@@ -15839,11 +13955,7 @@ XML file: We can also set the property mutable=false in the XML
 file for an entity to make it immutable.
 
 
-## 244. What are the different options
-
-## to retrieve an object from database in
-
-## Hibernate?
+## 244. What are the different options to retrieve an object from database in Hibernate?
 
 In Hibernate, we can use one of the following options to retrieve
 objects from database:
@@ -15861,9 +13973,7 @@ Native SQL: We can write native SQL query for a database and just
 execute it to get the data we want and convert it into desired object.
 
 
-## 245. How can we auto-generate
-
-## primary key in Hibernate?
+## 245. How can we auto-generate primary key in Hibernate?
 
 We can use the primary key generation strategy of type
 GenerationType.AUTO to auto-generate primary key while
@@ -15880,20 +13990,14 @@ Sometimes, AUTO strategy refers to a SEQUENCE instead of an
 IDENTITY.
 
 
-## 246. How will you re-attach an
-
-## object in Detached state in
-
-## Hibernate?
+## 246. How will you re-attach an object in Detached state in Hibernate?
 
 We can call one of the methods Session.update(),
 Session.saveOrUpdate(), or Session.merge() to re-attach an object
 in detached state with another session in Hibernate.
 
 
-## 247. What is the first level of cache
-
-## in Hibernate?
+## 247. What is the first level of cache in Hibernate?
 
 A Hibernate Session is the first level of cache for persistent data in
 a transaction.
@@ -15901,9 +14005,7 @@ a transaction.
 The second level of cache is at JVM or SessionFactory level.
 
 
-## 248. What are the different second
-
-## level caches available in Hibernate?
+## 248. What are the different second level caches available in Hibernate?
 
 In Hibernate, we can use different cache providers for implementing
 second level cache at JVM/SessionFactory level.
@@ -15918,18 +14020,14 @@ JBoss Cache 1.x
 JBoss Cache 2
 
 
-## 249. Which is the default
-
-## transaction factory in Hibernate?
+## 249. Which is the default transaction factory in Hibernate?
 
 In Hibernate, default transaction factory is
 JDBCTransactionFactory. But we can change it by setting the
 property hibernate.transaction.factory_class.
 
 
-## 250. What are the options to disable
-
-## second level cache in Hibernate?
+## 250. What are the options to disable second level cache in Hibernate?
 
 This is a trick question. By default Second level cache is already
 disabled in Hibernate.
@@ -15943,9 +14041,7 @@ session and second-level cache. Session will interact with cache
 only to invalidate cache items when updates occur
 
 
-## 251. What are the different fetching
-
-## strategies in Hibernate?
+## 251. What are the different fetching strategies in Hibernate?
 
 Hibernate 3 onwards there are following fetching strategies to
 retrieve associated objects:
@@ -15968,11 +14064,7 @@ list of primary or foreign keys. This is a very good performance
 optimization strategy for select fetching.
 
 
-## 252. What is the difference between
-
-## Immediate fetching and Lazy
-
-## collection fetching?
+## 252. What is the difference between Immediate fetching and Lazy collection fetching?
 
 In Immediate fetching an association, collection or attribute is
 retrieved at the same time when the owner is loaded.
@@ -15984,9 +14076,7 @@ This is the default fetching strategy for collections in Hibernate.
 Lazy fetching is better from performance perspective.
 
 
-## 253. What is ‘Extra lazy fetching’ in
-
-## Hibernate?
+## 253. What is ‘Extra lazy fetching’ in Hibernate?
 
 In Extra lazy fetching, only individual elements of a collection are
 fetched from the database when they are required.
@@ -15997,11 +14087,7 @@ memory unless it is essential.
 It is a good fetching strategy for large collections of objects.
 
 
-## 254. How can we check is a
-
-## collection is initialized or not under
-
-## Lazy Initialization strategy?
+## 254. How can we check is a collection is initialized or not under Lazy Initialization strategy?
 
 Hibernate provides two convenient methods, Hibernate.initialize()
 and Hibernate.isInitialized() to check whether a collection is
@@ -16011,11 +14097,7 @@ By using Hibernate.initialize() we can force the initialization of a
 collection in Hibernate.
 
 
-## 255. What are the different
-
-## strategies for cache mapping in
-
-## Hibernate?
+## 255. What are the different strategies for cache mapping in Hibernate?
 
 Hibernate provides following strategies for cache mapping:
 
@@ -16042,9 +14124,7 @@ Transactional: This strategy supports full transactional cache
 providers like JBoss TreeCache.
 
 
-## 256. What is the difference between
-
-## a Set and a Bag in Hibernate?
+## 256. What is the difference between a Set and a Bag in Hibernate?
 
 A Bag in Hibernate is an unordered collection. It can have duplicate
 elements. When we persist an object in a bag, there is no guarantee
@@ -16055,11 +14135,7 @@ element to set second time, it just replaces the old one. By default a
 Set is unordered collection in Hibernate.
 
 
-## 257. How can we monitor the
-
-## performance of Hibernate in an
-
-## application?
+## 257. How can we monitor the performance of Hibernate in an application?
 
 We can use following ways to monitor Hibernate performance:
 
@@ -16080,11 +14156,7 @@ We can tune Hibernate settings and strategies based on these
 metrics.
 
 
-## 258. How can we check if an Object
-
-## is in Persistent, Detached or Transient
-
-## state in Hibernate?
+## 258. How can we check if an Object is in Persistent, Detached or Transient state in Hibernate?
 
 We can use following methods to check the state of an object in
 Hibernate:
@@ -16103,9 +14175,7 @@ We can get access to PersistenceUnitUtil from the
 EntityManagerFactory in Hibernate.
 
 
-## 259. What is ‘the inverse side of
-
-## association’ in a mapping?
+## 259. What is ‘the inverse side of association’ in a mapping?
 
 Let us consider an example in which a customer can have multiple
 orders and for every order there has to be a customer.
@@ -16137,9 +14207,7 @@ using ClassMetadata and CollectionMetadata interfaces and Type
 hierarchy.
 
 
-## 261. What is the difference between
-
-## load() and get() method in Hibernate?
+## 261. What is the difference between load() and get() method in Hibernate?
 
 In Hibernate, load() and get() methods are quite similar in
 functionality.
@@ -16155,11 +14223,7 @@ It is recommended that we should use load() method only when we
 are sure that object exists in database.
 
 
-## 262. When should we use get()
-
-## method or load() method in
-
-## Hibernate?
+## 262. When should we use get() method or load() method in Hibernate?
 
 As a thumb rule we can follow these guidelines:
 
@@ -16168,9 +14232,7 @@ We should use load() method when we need a reference to an object
 without running extra SQL queries.
 
 
-## 263. What is a derived property in
-
-## Hibernate?
+## 263. What is a derived property in Hibernate?
 
 In Hibernate, a derived property is not mapped to any column of a
 database table.
@@ -16187,9 +14249,7 @@ buyPrice.
 i.buyPrice) FROM item i WHERE i.Id = Id)"/>
 
 
-## 264. How can we use Named Query
-
-## in Hibernate?
+## 264. How can we use Named Query in Hibernate?
 
 A Named SQL query is the HQL query that is associated with a
 string name and can be referenced in the application by name.
@@ -16212,9 +14272,7 @@ query = "from Book s where s.author = :author”
 })
 
 
-## 265. What are the two locking
-
-## strategies in Hibernate?
+## 265. What are the two locking strategies in Hibernate?
 
 There are two popular locking strategies that can be used in
 Hibernate:
@@ -16236,9 +14294,7 @@ The other transaction can proceed with same resource only after the
 lock has been released by previous transaction.
 
 
-## 266. What is the use of version
-
-## number in Hibernate?
+## 266. What is the use of version number in Hibernate?
 
 Version number is used in optimistic locking in Hibernate. When a
 transaction modifies an object, it increments its version. Based on
@@ -16250,9 +14306,7 @@ version number at the time of read, then we should not commit the
 transaction.
 
 
-## 267. What is the use of
-
-## session.lock() method in Hibernate?
+## 267. What is the use of session.lock() method in Hibernate?
 
 Session.lock() is a deprecated method in Hibernate. We should not
 use it.
@@ -16262,11 +14316,7 @@ buildLockRequest(LockMode).lock(entityName, object) method in
 Hibernate.
 
 
-## 268. What inheritance mapping
-
-## strategies are supported by
-
-## Hibernate?
+## 268. What inheritance mapping strategies are supported by Hibernate?
 
 Hibernate supports following inheritance mapping strategies
 between classes and tables:
@@ -16288,7 +14338,7 @@ properties defined inside each table. There is no parent table Book
 for Book class, since it is not a concrete class.
 
 
-# Maven
+# ✅ 07. Maven
 
 ## 269. What is Maven?
 
@@ -16301,9 +14351,7 @@ It is used for building, reporting and documenting a Software
 project. It is mainly based on POM (Project Object Model).
 ```
 
-## 270. What are the main features of
-
-## Maven?
+## 270. What are the main features of Maven?
 
 Some of the main features of Maven are:
 
@@ -16343,9 +14391,7 @@ core functionality.
 new features with very less configuration.
 ```
 
-## 271. What areas of a Project can you
-
-## manage by using Maven?
+## 271. What areas of a Project can you manage by using Maven?
 
 Maven can help us manage following areas of a project:
 
@@ -16359,9 +14405,7 @@ Maven can help us manage following areas of a project:
 7. Distribution
 ```
 
-## 272. What are the main advantages
-
-## of Maven?
+## 272. What are the main advantages of Maven?
 
 Maven has a long list of advantages for Software development.
 Some of the main advantages are:
@@ -16394,9 +14438,7 @@ and build/release are handled by Maven. So a developer
 can focus on core work of developing software.
 ```
 
-## 273. Why do we say “Maven uses
-
-## convention over configuration”?
+## 273. Why do we say “Maven uses convention over configuration”?
 
 Convention over configuration is a Software Design Paradigm that
 decreases the number of decisions made by a software developer,
@@ -16414,9 +14456,7 @@ options. Maven uses default options from best practices and
 provides right conventions for Software development.
 
 
-## 274. What are the responsibilities of
-
-## a Build tool like Maven?
+## 274. What are the responsibilities of a Build tool like Maven?
 
 A Build tool like Maven helps us with following tasks:
 
@@ -16441,9 +14481,7 @@ deployable file like- jar, zip war etc.
 by using a Build tool.
 ```
 
-## 275. What are the differences
-
-## between Ant and Maven?
+## 275. What are the differences between Ant and Maven?
 
 Key differences between Ant and Maven are:
 
@@ -16486,17 +14524,13 @@ of lifecycle for goal and parameters required by goal.
 A Maven plugin can contain multiple MOJOs.
 
 
-## 277. What is a Repository in
-
-## Maven?
+## 277. What is a Repository in Maven?
 
 A repository is a location on file system where build artifacts, jars,
 dependencies and pom.xml files are stored.
 
 
-## 278. What are the different types of
-
-## repositories in Maven?
+## 278. What are the different types of repositories in Maven?
 
 There are mainly two types of repositories in Maven:
 
@@ -16518,9 +14552,7 @@ available for download and use. Like- Hibernate, Spring
 libraries etc.
 ```
 
-## 279. What is a local repository in
-
-## Maven?
+## 279. What is a local repository in Maven?
 
 Maven local repository is a folder in your local files system in
 which your project’s installation, dependency jars, plugins etc. are
@@ -16533,9 +14565,7 @@ Windows – C:\Documents and Settings\{ username}\.m2
 Unix/Linux/Mac – ~/.m2
 
 
-## 280. What is a central repository in
-
-## Maven?
+## 280. What is a central repository in Maven?
 
 Maven central repository is a truly remote repository that is located
 on repo.maven.apache.org or uk.maven.org or any other third party
@@ -16549,9 +14579,7 @@ not allowed to scrape the whole site. But you can use the relevant
 jars that you want for download and use in your Maven project.
 
 
-## 281. What is a Remote repository
-
-## in Maven?
+## 281. What is a Remote repository in Maven?
 
 A Remote repository is a remote location on the internet where the
 jars and dependencies from different vendors are stored.
@@ -16563,11 +14591,7 @@ or locations inside your organization that contains the relevant jars
 required by your project.
 
 
-## 282. Why we should not store jars
-
-## in CVS or any other version control
-
-## system instead of Maven repository?
+## 282. Why we should not store jars in CVS or any other version control system instead of Maven repository?
 
 Maven recommends storing jars in local repository instead of CVS
 or any other version control system. There are following advantages
@@ -16586,9 +14610,7 @@ No need for versioning: There is no need to version JARS since
 external dependencies do not change so often.
 
 
-## 283. Can anyone upload JARS or
-
-## artifacts to Central Repository?
+## 283. Can anyone upload JARS or artifacts to Central Repository?
 
 No, we need special permissions to upload JARS and artifacts to
 Central Maven Repository?
@@ -16612,9 +14634,7 @@ Super POM is Maven’s default POM. All the POM files extend
 from Super POM.
 
 
-## 286. What are the main required
-
-## elements in POM file?
+## 286. What are the main required elements in POM file?
 
 Every POM file should have following required elements:
 
@@ -16627,9 +14647,7 @@ Every POM file should have following required elements:
 group
 ```
 
-## 287. What are the phases in Build
-
-## lifecycle in Maven?
+## 287. What are the phases in Build lifecycle in Maven?
 
 In Maven, each build lifecycle consists of many phases. Default
 build lifecycle has following phases:
@@ -16667,9 +14685,7 @@ package to the remote repository for sharing with other
 developers and projects.
 ```
 
-## 288. What command will you use to
-
-## package your Maven project?
+## 288. What command will you use to package your Maven project?
 
 To package a project into a distributable format we use following
 command:
@@ -16677,11 +14693,7 @@ command:
 mvn -package
 
 
-## 289. What is the format of fully
-
-## qualified artifact name of a Maven
-
-## project?
+## 289. What is the format of fully qualified artifact name of a Maven project?
 
 A Maven project has artifact name with following format:
 
@@ -16708,9 +14720,7 @@ org.Orgname.Projectname:org.Orgname.Projectname.Modulename-
 1.0.0.jar
 
 
-## 290. What is an Archetype in
-
-## Maven?
+## 290. What is an Archetype in Maven?
 
 As per official definition, an Archetype is a Maven project
 templating toolkit.
@@ -16724,9 +14734,7 @@ working on a project. It also helps in reducing the ramp up time for
 new developers to come on board on a project.
 
 
-## 291. What is the command in Maven
-
-## to generate an Archetype?
+## 291. What is the command in Maven to generate an Archetype?
 
 In Maven, we can use following command to generate an
 Archetype:
@@ -16734,9 +14742,7 @@ Archetype:
 mvn archetype:generate
 
 
-## 292. What are the three main build
-
-## lifecycles of Maven?
+## 292. What are the three main build lifecycles of Maven?
 
 Maven has following three build lifecycles that further contain
 multiple phases:
@@ -16755,9 +14761,7 @@ compile, test, package inside it.
 site in this phase.
 ```
 
-## 293. What are the main uses of a
-
-## Maven plugin?
+## 293. What are the main uses of a Maven plugin?
 
 Maven is mainly a plugin execution framework. At the code of
 Maven all the work is done by plugins. A Maven plugin can be used
@@ -16775,9 +14779,7 @@ for following purposes:
 9. Generate a checkstyle report
 ```
 
-## 294. How will you find the version
-
-## of a plugin being used?
+## 294. How will you find the version of a plugin being used?
 
 Maven Help Plugin has a describe goal. This can be used for listing
 the version of a plugin. Sample command for this is:
@@ -16788,11 +14790,7 @@ Note: In the above command replace Dplugin with the plugin prefix
 as the argument. Do not use the artifact ID of plugin here.
 
 
-## 295. What are the different types of
-
-## profile in Maven? Where will you
-
-## define these profiles?
+## 295. What are the different types of profile in Maven? Where will you define these profiles?
 
 In Maven, we can have following types of Profile:
 
@@ -16812,11 +14810,7 @@ Descriptor is located in project basedir (profiles.xml) (It is not
 supported in Maven 3.0)
 
 
-## 296. What are the different setting
-
-## files in Maven? Where will you find
-
-## these files?
+## 296. What are the different setting files in Maven? Where will you find these files?
 
 Maven is very simple to use. At the core it has a setting file names
 settings.xml. This file contains the setting element that is used to
@@ -16829,9 +14823,7 @@ Maven Installation directory: ${maven.home}/conf/settings.xml
 User Home directory: ${user.home}/ .m2 / settings.xml
 
 
-## 297. What are the main elements we
-
-## can find in settings.xml?
+## 297. What are the main elements we can find in settings.xml?
 
 In settings.xml we can have all the configuration information for
 Maven. Some of the important elements are:
@@ -16857,9 +14849,7 @@ servers that cannot connect to a remote repository due to network
 setup or security reasons.
 
 
-## 298. How will you check the version
-
-## of Maven in your system?
+## 298. How will you check the version of Maven in your system?
 
 We can use following command in console to check the version of
 Maven in our system.
@@ -16867,9 +14857,7 @@ Maven in our system.
 mvn -version
 
 
-## 299. How will you verify if Maven is
-
-## installed on Windows?
+## 299. How will you verify if Maven is installed on Windows?
 
 To check this, type mvn –version in cmd prompt of Windows. This
 will give you the version of Maven installed on Windows.
@@ -16889,9 +14877,7 @@ string. These three attributes uniquely identify an artifact.
 In Maven, we specify a project's dependencies as artifacts.
 
 
-## 301. What are the different
-
-## dependency scopes in Maven?
+## 301. What are the different dependency scopes in Maven?
 
 Maven supports following dependency scopes:
 
@@ -16930,9 +14916,7 @@ has to be replaced with the dependencies in that POM's
 Maven 2.0.9 or later.
 
 
-## 302. How can we exclude a
-
-## dependency in Maven?
+## 302. How can we exclude a dependency in Maven?
 
 To exclude a dependency we can add the <exclusions> tag under the
 <dependency> section of the pom.
@@ -16955,9 +14939,7 @@ E.g.
 </dependencies>
 
 
-## 303. How Maven searches for JAR
-
-## corresponding to a dependency?
+## 303. How Maven searches for JAR corresponding to a dependency?
 
 Maven first looks for a JAR related to a dependency in the local
 repository. If it finds it there then it stops.
@@ -16967,9 +14949,7 @@ repository and downloads the corresponding version of JAR file.
 From remote repository it stores the JAR into local repository.
 
 
-## 304. What is a transitive
-
-## dependency in Maven?
+## 304. What is a transitive dependency in Maven?
 
 Let say you have a Project A that depends on dependency B. The
 dependency B further depends on dependency C. So your
@@ -16983,9 +14963,7 @@ Maven takes care of resolving the Transitive dependencies and
 includes them automatically.
 
 
-## 305. What are Excluded
-
-## dependencies in Maven?
+## 305. What are Excluded dependencies in Maven?
 
 Let say a project A depends on project B, and project B depends on
 project C. The developers of project A can explicitly exclude
@@ -16995,9 +14973,7 @@ exclude it.
 Such dependencies are called Excluded dependencies in Maven.
 
 
-## 306. What are Optional
-
-## dependencies in Maven?
+## 306. What are Optional dependencies in Maven?
 
 Let say a project B depends on project C. The developers of project
 B can mark project C as an optional dependency by using the
@@ -17011,11 +14987,7 @@ on C. The dependency of B on C is known as Optional dependency
 in Maven.
 
 
-## 307. Where will you find the class
-
-## files after compiling a Maven project
-
-## successfully?
+## 307. Where will you find the class files after compiling a Maven project successfully?
 
 Once Maven completes the compilation successfully, it stores the
 files in target folder. The default location for class files is:
@@ -17023,11 +14995,7 @@ files in target folder. The default location for class files is:
 ${basedir}/target/classes/
 
 
-## 308. What are the default locations
-
-## for source, test and build directories
-
-## in Maven?
+## 308. What are the default locations for source, test and build directories in Maven?
 
 The default locations are as follows:
 
@@ -17036,9 +15004,7 @@ Test: src/main/test
 Build: Target
 
 
-## 309. What is the result of jar:jar
-
-## goal in Maven?
+## 309. What is the result of jar:jar goal in Maven?
 
 In Maven, jar:jar goal creates a jar file in the Maven build
 directory. Jar file is create with the name format ${project.id}-
@@ -17051,11 +15017,7 @@ jar:jar does not recompile sources. It just creates a jar from already
 compiled classes.
 
 
-## 310. How can we get the debug or
-
-## error messages from the execution of
-
-## Maven?
+## 310. How can we get the debug or error messages from the execution of Maven?
 
 At times, project build or compile fails in Maven. At this time it is
 very helpful to see the debug or error messages from Maven
@@ -17067,11 +15029,7 @@ To get the error/exception messages we can call Maven with -e
 option.
 
 
-## 311. What is the difference between a
-
-## Release version and SNAPSHOT
-
-## version in Maven?
+## 311. What is the difference between a Release version and SNAPSHOT version in Maven?
 
 A SNAPSHOT version in Maven is the one that has not been
 released.
@@ -17088,9 +15046,7 @@ But release version always gives exactly same set files with each
 download.
 
 
-## 312. How will you run test classes in
-
-## Maven?
+## 312. How will you run test classes in Maven?
 
 We need Surefire plugin to run the test classes in Maven.
 
@@ -17107,11 +15063,7 @@ or
 mvn -Dtest=TestCaseA,TestCaseB,TestImportant* test
 
 
-## 313. Sometimes Maven compiles the
-
-## test classes but doesn't run them?
-
-## What could be the reason for it?
+## 313. Sometimes Maven compiles the test classes but doesn't run them? What could be the reason for it?
 
 In Maven, Surefire plugin is used for running the Tests.
 
@@ -17129,9 +15081,7 @@ We need to look for following in pom.xml/settings.xml and fix it:
 </properties>
 
 
-## 314. How can we skip the running
-
-## of tests in Maven?
+## 314. How can we skip the running of tests in Maven?
 
 We can use the parameter -Dmaven.test.skip=true or -
 DskipTests=true in the command line for skipping the tests.
@@ -17144,9 +15094,7 @@ The parameter -DskipTests=true skips the execution of tests
 Surefire plugin of Maven honors these parameters.
 
 
-## 315. Can we create our own directory
-
-## structure for a project in Maven?
+## 315. Can we create our own directory structure for a project in Maven?
 
 Yes, Maven gives us the flexibility of creating our own directory
 structure. We just need to configure the elements like
@@ -17154,9 +15102,7 @@ structure. We just need to configure the elements like
 pom.xml.
 
 
-## 316. What are the differences between
-
-## Gradle and Maven?
+## 316. What are the differences between Gradle and Maven?
 
 Gradle is nowadays getting more popular. Google uses it for
 Android development and release. Companies like LinkedIn also
@@ -17172,11 +15118,7 @@ Maven is mainly used for Java based systems. Gradle is used for a
 variety of languages. It is a Polyglot build tool.
 
 
-## 317. What is the difference between
-
-## Inheritance and Multi-module in
-
-## Maven?
+## 317. What is the difference between Inheritance and Multi-module in Maven?
 
 In Maven, we can create a parent project that will pass its values to
 its children projects.
@@ -17194,9 +15136,7 @@ definition of a specific project. In this case a child’s pom is derived
 from its parent’s pom.
 
 
-## 318. What is Build portability in
-
-## Maven?
+## 318. What is Build portability in Maven?
 
 In Maven, the portability of a build is the measure of how easy it is
 to take a particular project and build it in different environments.
@@ -17211,9 +15151,7 @@ portable projects. These build can work just out of the box.
 
 # GIT
 
-## 319. How can we see n most recent
-
-## commits in GIT?
+## 319. How can we see n most recent commits in GIT?
 
 ```
 We can use git log command to see the latest commits. To see the
@@ -17223,9 +15161,7 @@ three most recent commits we use following command:
 git log -3
 ```
 
-## 320. How can we know if a branch
-
-## is already merged into master in GIT?
+## 320. How can we know if a branch is already merged into master in GIT?
 
 We can use following commands for this purpose:
 
@@ -17245,9 +15181,7 @@ We can use -a flag to show both local and remote branches.
 Or we can use -r flag to show only the remote branches.
 
 
-## 321. What is the purpose of git stash
-
-## drop?
+## 321. What is the purpose of git stash drop?
 
 In case we do not need a specific stash, we use git stash drop
 command to remove it from the list of stashes.
@@ -17268,9 +15202,7 @@ At any given time, one head is selected as the ‘current head’ This
 head is also known as HEAD (always in uppercase).
 
 
-## 323. What is the most popular
-
-## branching strategy in GIT?
+## 323. What is the most popular branching strategy in GIT?
 
 There are many ways to do branching in GIT. One of the popular
 ways is to maintain two branches:
@@ -17299,9 +15231,7 @@ SubGit also takes care of synchronization between Git and
 Subversion.
 
 
-## 325. What is the use of git
-
-## instaweb?
+## 325. What is the use of git instaweb?
 
 Git-instaweb is a script by which we can browse a git repository in
 a web browser.
@@ -17347,9 +15277,7 @@ In .git, GIT stores all the metadata for the repository. The contents
 of .git directory are of internal use to GIT.
 
 
-## 329. What are the main benefits of
-
-## GIT?
+## 329. What are the main benefits of GIT?
 
 There are following main benefits of GIT:
 
@@ -17374,9 +15302,7 @@ which collaboration is required. Many popular open
 source software across the globe use GIT.
 ```
 
-## 330. What are the disadvantages of
-
-## GIT?
+## 330. What are the disadvantages of GIT?
 
 GIT has very few disadvantages. These are the scenarios when GIT
 is difficult to use. Some of these are:
@@ -17393,9 +15319,7 @@ repositories in slow due to network latency. Still GIT is
 better than other VCS in speed.
 ```
 
-## 331. What are the main differences
-
-## between GIT and SVN?
+## 331. What are the main differences between GIT and SVN?
 
 The main differences between GIT and SVN are:
 
@@ -17424,9 +15348,7 @@ creates .svn directory in each folder.
 good user interfaces.
 ```
 
-## 332. How will you start GIT for
-
-## your project?
+## 332. How will you start GIT for your project?
 
 We use git init command in an existing project directory to start
 version control for our project.
@@ -17470,9 +15392,7 @@ Existing Project: To work on an existing repository we use git clone
 command.
 
 
-## 336. GIT is written in which
-
-## language?
+## 336. GIT is written in which language?
 
 Most of the GIT distributions are written in C language with Bourne
 shell. Some of the commands are written in Perl language.
@@ -17526,9 +15446,7 @@ At times we are in the middle of some work and do not want to lose
 the unfinished work, we use git stash command.
 
 
-## 340. What is the meaning of ‘stage’
-
-## in GIT?
+## 340. What is the meaning of ‘stage’ in GIT?
 
 In GIT, stage is a step before commit. To stage means that the files
 are ready for commit.
@@ -17541,35 +15459,25 @@ that is ready and commit that part. Second feature will remain as
 work in progress.
 
 
-## 341. What is the purpose of git
-
-## config command?
+## 341. What is the purpose of git config command?
 
 We can set the configuration options for GIT installation by using git
 config command.
 
 
-## 342. How can we see the
-
-## configuration settings of GIT
-
-## installation?
+## 342. How can we see the configuration settings of GIT installation?
 
 We can use ‘git config --list’ command to print all the GIT
 configuration settings in GIT installation.
 
 
-## 343. How will you write a message
-
-## with commit command in GIT?
+## 343. How will you write a message with commit command in GIT?
 
 We call following command for commit with a message:
 $/> git commit –m <message>
 
 
-## 344. What is stored inside a commit
-
-## object in GIT?
+## 344. What is stored inside a commit object in GIT?
 
 GIT commit object contains following information:
 
@@ -17579,9 +15487,7 @@ point of time
 Reference: Any reference to parent commit objects
 
 
-## 345. How many heads can you
-
-## create in a GIT repository?
+## 345. How many heads can you create in a GIT repository?
 
 There can be any number of heads in a repository.
 
@@ -17589,9 +15495,7 @@ By default there is one head known as HEAD in each repository in
 GIT.
 
 
-## 346. Why do we create branches in
-
-## GIT?
+## 346. Why do we create branches in GIT?
 
 If we are simultaneously working on multiple tasks, projects,
 defects or features, we need multiple branches. In GIT we can
@@ -17606,9 +15510,7 @@ So working on multiple tasks is the main reason for using multiple
 branches.
 
 
-## 347. What are the different kinds of
-
-## branches that can be created in GIT?
+## 347. What are the different kinds of branches that can be created in GIT?
 
 We can create different kinds of branches for following purposes in
 GIT:
@@ -17621,18 +15523,14 @@ Hotfix branches: These are used for releasing a hotfix to production
 for a defect or emergency fix.
 
 
-## 348. How will you create a new
-
-## branch in GIT?
+## 348. How will you create a new branch in GIT?
 
 We use following command to create a new branch in GIT:
 
 $/> git checkout –b <branchname>
 
 
-## 349. How will you add a new feature
-
-## to the main branch?
+## 349. How will you add a new feature to the main branch?
 
 We do the development work on a feature branch that is created
 from master branch. Once the development work is ready we use git
@@ -17659,9 +15557,7 @@ conflict. It means merge is not successful. We may have to manually
 check and resolve the merge conflict.
 
 
-## 352. How can we resolve a merge
-
-## conflict in GIT?
+## 352. How can we resolve a merge conflict in GIT?
 
 When GIT reports merge conflict in a file, it marks the lines as
 follows:
@@ -17682,9 +15578,7 @@ commit command. Since GIT is aware that it was merge conflict, it
 links this change to the correct commit.
 
 
-## 353. What command will you use to
-
-## delete a branch?
+## 353. What command will you use to delete a branch?
 
 After the successful merge of feature branch in main branch, we do
 not need the feature branch.
@@ -17694,11 +15588,7 @@ To delete an unwanted branch we use following command:
 git branch –d <branchname>
 
 
-## 354. What command will you use to
-
-## delete a branch that has unmerged
-
-## changes?
+## 354. What command will you use to delete a branch that has unmerged changes?
 
 To forcibly delete an unwanted branch with unmerged changes, we
 use following command:
@@ -17706,9 +15596,7 @@ use following command:
 git branch –D <branchname>
 
 
-## 355. What is the alternative
-
-## command to merging in GIT?
+## 355. What is the alternative command to merging in GIT?
 
 Another alternative of merging in GIT is rebasing. It is done by git
 rebase command.
@@ -17726,9 +15614,7 @@ Once the commits are pushed to a public repository, it is not a good
 practice to use Rebasing.
 
 
-## 357. What is the ‘Golden Rule of
-
-## Rebasing’ in GIT?
+## 357. What is the ‘Golden Rule of Rebasing’ in GIT?
 
 The golden rule of Rebasing is that we should never use git rebase
 on public branches. If other people are using the same branch then
@@ -17739,9 +15625,7 @@ Therefore, it is not recommended to do rebasing on a public branch
 that is also used by other collaborators.
 
 
-## 358. Why do we use Interactive
-
-## Rebasing in place of Auto Rebasing?
+## 358. Why do we use Interactive Rebasing in place of Auto Rebasing?
 
 By using Interactive rebasing we can alter the commits before
 moving them to a new branch.
@@ -17753,18 +15637,14 @@ Generally, we use Interactive Rebasing to clean up the messy
 history of commits just before merging a feature branch into master.
 
 
-## 359. What is the command for
-
-## Rebasing in Git?
+## 359. What is the command for Rebasing in Git?
 
 Git command for rebasing is:
 
 git rebase <new-commit>
 
 
-## 360. What is the main difference
-
-## between git clone and git remote?
+## 360. What is the main difference between git clone and git remote?
 
 The main difference between git clone and git remote is that git
 clone is used to create a new local repository whereas git remote is
@@ -17791,9 +15671,7 @@ version control. Any bug introduced by a change can be discovered
 and reverted back by going back to a working version.
 
 
-## 362. What GUI do you use for
-
-## working on GIT?
+## 362. What GUI do you use for working on GIT?
 
 There are many GUI for GIT that we can use. Some of these are:
 
@@ -17807,9 +15685,7 @@ SmartGit
 GitUp
 
 
-## 363. What is the use of git diff
-
-## command in GIT?
+## 363. What is the use of git diff command in GIT?
 
 In GIT, git diff command is used to display the differences between
 2 versions, or between working directory and an index, or between
@@ -17832,9 +15708,7 @@ conflict. The next time GIT sees the same conflict, it can
 automatically resolve it for us.
 
 
-## 365. What are the three most
-
-## popular version of git diff command?
+## 365. What are the three most popular version of git diff command?
 
 Three most popular git diff commands are as follows:
 
@@ -17848,9 +15722,7 @@ git diff HEAD: It displays the differences between working
 directory and the most recent commit
 
 
-## 366. What is the use of git status
-
-## command?
+## 366. What is the use of git status command?
 
 In GIT, git status command mainly shows the status of working tree.
 
@@ -17872,9 +15744,7 @@ using git commit command. Item two and three can be committed
 only after running git add command.
 
 
-## 367. What is the main difference
-
-## between git diff and git status?
+## 367. What is the main difference between git diff and git status?
 
 In GIT, git diff shows the differences between different commits or
 between the working directory and index.
@@ -17883,9 +15753,7 @@ Whereas, git status command just shows the current status of
 working tree.
 
 
-## 368. What is the use of git rm
-
-## command in GIT?
+## 368. What is the use of git rm command in GIT?
 
 In GIT, git rm command is used for removing a file from the
 working tree and the index.
@@ -17894,9 +15762,7 @@ We use git rm –r to recursively remove all files from a leading
 directory.
 
 
-## 369. What is the command to apply
-
-## a stash?
+## 369. What is the command to apply a stash?
 
 Sometimes we want to save our unfinished work. For this purpose
 we use git stash command. Once we want to come back and
@@ -17911,9 +15777,7 @@ Or we can use
 git stash apply <stashname>
 
 
-## 370. Why do we use git log
-
-## command?
+## 370. Why do we use git log command?
 
 We use git log command to search for specific commits in project
 history.
@@ -17922,9 +15786,7 @@ We can search git history by author, date or content. It can even list
 the commits that were done x days before or after a specific date.
 
 
-## 371. Why do we need git add
-
-## command in GIT?
+## 371. Why do we need git add command in GIT?
 
 GIT gives us a very good feature of staging our changes before
 commit. To stage the changes we use git add command. This adds
@@ -17935,9 +15797,7 @@ the finished tasks, we first add finished changes to staging area and
 then commit it. At this time git add command is very helpful.
 
 
-## 372. Why do we use git reset
-
-## command?
+## 372. Why do we use git reset command?
 
 We use git reset command to reset current HEAD to a specific state.
 By default it reverses the action of git add command.
@@ -17946,9 +15806,7 @@ So we use git reset command to undo the changes of git add
 command.
 
 
-## 373. What does a commit object
-
-## contain?
+## 373. What does a commit object contain?
 
 Whenever we do a commit in GIT by using git commit command,
 GIT creates a new commit object. This commit objects is saved to
@@ -17964,9 +15822,7 @@ Comment: Some text messages that contains the reason for the
 commit.
 
 
-## 374. How can we convert git log
-
-## messages to a different format?
+## 374. How can we convert git log messages to a different format?
 
 We can use pretty option in git log command for this.
 
@@ -17981,11 +15837,7 @@ E.g. git log --pretty=format:"%h - %an, %ar : %s"
 ba72a6c - Dave Adams, 3 years ago : changed the version number
 
 
-## 375. What are the programming
-
-## languages in which git hooks can be
-
-## written?
+## 375. What are the programming languages in which git hooks can be written?
 
 Git hooks are generally written in shell and PERL scripts. But these
 can be written in any other language as long as it has an executable.
@@ -17993,9 +15845,7 @@ can be written in any other language as long as it has an executable.
 Git hooks can also be written in Python script.
 
 
-## 376. What is a commit message in
-
-## GIT?
+## 376. What is a commit message in GIT?
 
 A commit message is a comment that we add to a commit. We can
 provide meaningful information about the reason for commit by
@@ -18008,9 +15858,7 @@ Often, commit messages contain JIRA ticket, bug id, defect id etc.
 for a project.
 
 
-## 377. How GIT protects the code in
-
-## a repository?
+## 377. How GIT protects the code in a repository?
 
 GIT is made very secure since it contains the source code of an
 organization. All the objects in a GIT repository are encrypted with
@@ -18023,9 +15871,7 @@ This algorithm also maintains the integrity of GIT repository by
 protecting the change history against accidental changes.
 
 
-## 378. How GIT provides flexibility in
-
-## version control?
+## 378. How GIT provides flexibility in version control?
 
 GIT is very flexible version control system. It supports non-linear
 development workflows. It supports flows that are compatible with
@@ -18035,9 +15881,7 @@ GIT also supports both branching and tagging that promotes multiple
 kinds of workflows in version control.
 
 
-## 379. How can we change a commit
-
-## message in GIT?
+## 379. How can we change a commit message in GIT?
 
 If a commit has not been pushed to GitHub, we can use git commit --
 ammend command to change the commit message.
@@ -18045,11 +15889,7 @@ ammend command to change the commit message.
 When we push the commit, a new message appears on GitHub.
 
 
-## 380. Why is it advisable to create an
-
-## additional commit instead of
-
-## amending an existing commit?
+## 380. Why is it advisable to create an additional commit instead of amending an existing commit?
 
 Git amend internally creates a new commit and replaces the old
 commit. If commits have already been pushed to central repository,
@@ -18077,9 +15917,7 @@ There is no working tree in bare repository, since no one directly
 edits files in a bare repository.
 
 
-## 382. How do we put a local
-
-## repository on GitHub server?
+## 382. How do we put a local repository on GitHub server?
 
 To put a local repository on GitHub, we first add all the files of
 working directory into local repository and commit the changes.
@@ -18090,9 +15928,7 @@ Once it is added, we use git push command to push the contents of
 local repository to remote GitHub server.
 
 
-## 383. How will you delete a branch
-
-## in GIT?
+## 383. How will you delete a branch in GIT?
 
 We use git branch –d <branchname> command to delete a branch in
 GIT.
@@ -18101,11 +15937,7 @@ In case a local branch is not fully merged, but we want to delete it
 by force, then we use git branch –D <branchname> command.
 
 
-## 384. How can we set up a Git
-
-## repository to run code sanity checks
-
-## and UAT tests just before a commit?
+## 384. How can we set up a Git repository to run code sanity checks and UAT tests just before a commit?
 
 We can use git hooks for this kind of purpose. We can write the code
 sanity checks in script. This script can be called by pre-commit
@@ -18114,11 +15946,7 @@ hook of the repository.
 If this hook passes, then only commit will be successful.
 
 
-## 385. How can we revert a commit
-
-## that was pushed earlier and is public
-
-## now?
+## 385. How can we revert a commit that was pushed earlier and is public now?
 
 We can use git revert command for this purpose.
 
@@ -18129,9 +15957,7 @@ The other option is to checkout a previous commit version and then
 commit it as a new commit.
 
 
-## 386. In GIT, how will you compress
-
-## last n commits into a single commit?
+## 386. In GIT, how will you compress last n commits into a single commit?
 
 Tom compress last n commits a single commit, we use git rebase
 command. This command compresses multiple commits and creates
@@ -18140,19 +15966,13 @@ a new commit. It overwrites the history of commits.
 It should be done carefully, since it can lead to unexpected results.
 
 
-## 387. How will you switch from one
-
-## branch to a new branch in GIT?
+## 387. How will you switch from one branch to a new branch in GIT?
 
 In GIT, we can use git checkout <new branchname> command to
 switch to a new branch.
 
 
-## 388. How can we clean unwanted
-
-## files from our working directory in
-
-## GIT?
+## 388. How can we clean unwanted files from our working directory in GIT?
 
 GIT provides git clean command to recursively clean the working
 tree. It removes the files that are not under version control in GIT.
@@ -18160,9 +15980,7 @@ tree. It removes the files that are not under version control in GIT.
 If we use git clean –x, then ignored files are also removed.
 
 
-## 389. What is the purpose of git tag
-
-## command?
+## 389. What is the purpose of git tag command?
 
 We use git tag command to add, delete, list or verify a tag object in
 GIT.
@@ -18191,11 +16009,7 @@ The output of git shortlog is in a format suitable for release
 announcements.
 
 
-## 392. How can you find the names of
-
-## files that were changed in a specific
-
-## commit?
+## 392. How can you find the names of files that were changed in a specific commit?
 
 Every commit in GIT has a hash code. This hash code uniquely
 represents the GIT commit object.
@@ -18209,11 +16023,7 @@ git diff-tree -r <hash of commit>
 By using -r flag, we just get the list of individual files.
 
 
-## 393. How can we attach an
-
-## automated script to run on the event
-
-## of a new commit by push command?
+## 393. How can we attach an automated script to run on the event of a new commit by push command?
 
 In GIT we can use a hook to run an automated script on a specific
 event. We can choose between pre-receive, update or post-receive
@@ -18223,11 +16033,7 @@ GIT will automatically run the script on the event of any of these
 hooks.
 
 
-## 394. What is the difference between
-
-## pre-receive, update and post-receive
-
-## hooks in GIT?
+## 394. What is the difference between pre-receive, update and post-receive hooks in GIT?
 
 Pre-receive hook is invoked when a commit is pushed to a
 destination repository. Any script attached to this hook is executed
@@ -18245,9 +16051,7 @@ Integration (CI) systems and send notification emails to relevant
 parties of a repository.
 
 
-## 395. Do we have to store Scripts for
-
-## GIT hooks within same repository?
+## 395. Do we have to store Scripts for GIT hooks within same repository?
 
 A Hook is local to a GIT repository. But the script attached to a
 hook can be created either inside the hooks directory or it can be
@@ -18262,11 +16066,7 @@ can reuse same scripts for different purposes in multiple
 repositories.
 
 
-## 396. How can we determine the
-
-## commit that is the source of a bug in
-
-## GIT?
+## 396. How can we determine the commit that is the source of a bug in GIT?
 
 In GIT we can use git bisect command to find the commit that has
 introduced a bug in the system.
@@ -18284,9 +16084,7 @@ It continues to narrow down the range until it discovers the exact
 commit responsible for introducing the bug.
 
 
-## 397. How can we see differences
-
-## between two commits in GIT?
+## 397. How can we see differences between two commits in GIT?
 
 We can use git diff command to see the differences between two
 commits. The syntax for a simple git diff command to compare two
@@ -18295,9 +16093,7 @@ commits is:
 git diff <commit#1> <commit#2>
 
 
-## 398. What are the different ways to
-
-## identify a commit in GIT?
+## 398. What are the different ways to identify a commit in GIT?
 
 Each commit object in GIT has a unique hash. This hash is a 40
 characters checksum hash. It is based on SHA1 hashing algorithm.
@@ -18309,11 +16105,7 @@ be used to identify a commit. Some of the special tags in GIT are
 HEAD, FETCH_HEAD and MERGE_HEAD.
 
 
-## 399. When we run git branch
-
-## <branchname>, how does GIT know
-
-## the SHA-1 of the last commit?
+## 399. When we run git branch <branchname>, how does GIT know the SHA-1 of the last commit?
 
 GIT uses the reference named HEAD for this purpose. The HEAD
 file in GIT is a symbolic reference to the current branch we are
@@ -18333,9 +16125,7 @@ $ cat .git/HEAD
 ref: refs/heads/branchA
 
 
-## 400. What are the different types of
-
-## Tags you can create in GIT?
+## 400. What are the different types of Tags you can create in GIT?
 
 In GIT, we can create two types of Tags.
 
@@ -18355,9 +16145,7 @@ $ git tag -a v1.1 1d410eabc13591cb07496601ebc7c059dd55bfe9 -
 m 'test tag'
 
 
-## 401. How can we rename a remote
-
-## repository?
+## 401. How can we rename a remote repository?
 
 We can use command git remote rename for changing the name of a
 remote repository. This changes the short name associated with a
@@ -18366,11 +16154,7 @@ remote repository in your local. Command would look as follows:
 git remote rename repoOldName repoNewName
 
 
-## 402. Some people use git checkout
-
-## and some use git co for checkout. How
-
-## is that possible?
+## 402. Some people use git checkout and some use git co for checkout. How is that possible?
 
 We can create aliases in GIT for commands by modifying the git
 configuration.
@@ -18384,11 +16168,7 @@ So the people using git co have made the alias for git checkout in
 their own environment.
 
 
-## 403. How can we see the last
-
-## commit on each of our branch in
-
-## GIT?
+## 403. How can we see the last commit on each of our branch in GIT?
 
 When we run git branch command, it lists all the branches in our
 local repository. To see the latest commit associated with each
@@ -18405,9 +16185,7 @@ issue75 83b576c fix issue
 testing 972ac34 add dave to the developer list
 
 
-## 404. Is origin a special branch in
-
-## GIT?
+## 404. Is origin a special branch in GIT?
 
 No, origin is not a special branch in GIT.
 
@@ -18422,9 +16200,7 @@ command. If we run git clone -o myOrigin instead, then we will
 have myOrigin/master as our default remote branch.
 
 
-## 405. How can we configure GIT to
-
-## not ask for password every time?
+## 405. How can we configure GIT to not ask for password every time?
 
 When we use HTTPS URL to push, the GIT server asks for
 username and password for authentication. It prompts us on the
@@ -18438,11 +16214,7 @@ It is kept in memory for a few minutes. We can set it by running:
 git config --global credential.helper cache
 
 
-## 406. What are the four major
-
-## protocols used by GIT for data
-
-## transfer?
+## 406. What are the four major protocols used by GIT for data transfer?
 
 GIT uses following major protocols for data transfer:
 
@@ -18465,9 +16237,7 @@ So on plus side, this is a very fast network transfer protocol. But it
 lacks authentication.
 
 
-## 408. How can we work on a project
-
-## where we do not have push access?
+## 408. How can we work on a project where we do not have push access?
 
 In case of projects where we do not have push access, we can just
 fork the repository. By running git fork command, GIT will create a
@@ -18485,17 +16255,13 @@ working directory.
 By default, it works on the files in your current working directory.
 
 
-## 410. How can your reorder
-
-## commits in GIT?
+## 410. How can your reorder commits in GIT?
 
 We can use git rebase command to reorder commits in GIT. It can
 work interactively and you can also select the ordering of commits.
 
 
-## 411. How will you split a commit into
-
-## multiple commits?
+## 411. How will you split a commit into multiple commits?
 
 To split a commit, we have to use git rebase command in interactive
 mode. Once we reach the commit that needs to be split, we reset
@@ -18516,9 +16282,7 @@ You can even set you name and email in the commit history by using
 filter-branch.
 
 
-## 413. What are the three main trees
-
-## maintained by GIT?
+## 413. What are the three main trees maintained by GIT?
 
 GIT maintains following three trees:
 
@@ -18527,9 +16291,7 @@ Index: This is the proposed next commit snapshot.
 Working Directory: This is the sandbox for doing changes.
 
 
-## 414. What are the three main steps
-
-## of working GIT?
+## 414. What are the three main steps of working GIT?
 
 GIT has following three main steps in a simple workflow:
 
@@ -18539,9 +16301,7 @@ GIT has following three main steps in a simple workflow:
 3. Commit the changes from Index to HEAD.
 ```
 
-## 415. What are ours and theirs
-
-## merge options in GIT?
+## 415. What are ours and theirs merge options in GIT?
 
 In GIT, we get two simple options for resolving merge conflicts:
 ours and theirs
@@ -18554,9 +16314,7 @@ As the name suggests, in ours, the changes in our branch are favored
 over the other branch during a merge conflict.
 
 
-## 416. How can we ignore merge
-
-## conflicts due to Whitespace?
+## 416. How can we ignore merge conflicts due to Whitespace?
 
 GIT provides an option ignore-space-change in git merge command
 to ignore the conflicts related to whitespaces.
@@ -18601,11 +16359,9 @@ It allows us to keep our commits to submodule separate from the
 commits to main Git repository.
 
 
-# AWS
+# ✅ 07. AWS
 
-## 419. What do you know about AWS
-
-## Region?
+## 419. What do you know about AWS Region?
 
 ```
 An AWS Region is a completely independent entity in a
@@ -18625,9 +16381,7 @@ For launching an EC2 instance, we have to select an AMI within the
 same region.
 ```
 
-## 420. What are the important
-
-## components of IAM?
+## 420. What are the important components of IAM?
 
 The important components of IAM are as follows:
 
@@ -18666,9 +16420,7 @@ document is in JSON format. We can attach a Policy to an
 IAM User or Group.
 ```
 
-## 421. What are the important points
-
-## about AWS IAM?
+## 421. What are the important points about AWS IAM?
 
 Some of the important points about AWS IAM are as follows:
 
@@ -18685,9 +16437,7 @@ AWS.
 complete Admin access.
 ```
 
-## 422. What are the important
-
-## features of Amazon S3?
+## 422. What are the important features of Amazon S3?
 
 Some of the important features of Amazon S3 are as follows:
 
@@ -18699,17 +16449,13 @@ Some of the important features of Amazon S3 are as follows:
 5. Amazon S3 is Object Based storage.
 ```
 
-## 423. What is the scale of durability
-
-## in Amazon S3?
+## 423. What is the scale of durability in Amazon S3?
 
 Amazon S3 supports durability at the scale of 99.999999999% of time. This is
 9 nines after decimal.
 
 
-## 424. What are the Consistency
-
-## levels supported by Amazon S3?
+## 424. What are the Consistency levels supported by Amazon S3?
 
 Amazon S3 supports Read after Write consistency when we create a new
 object by PUT. It means as soon as we Write a new object, we can access it.
@@ -18722,9 +16468,7 @@ For deletion of an object, Amazon S3 supports Eventual Consistency after
 DELETE.
 
 
-## 425. What are the different tiers in
-
-## Amazon S3 storage?
+## 425. What are the different tiers in Amazon S3 storage?
 
 Different Storage tiers in Amazon S3 are as follows:
 
@@ -18744,11 +16488,7 @@ this case data is copied to multiple locations but not on as many
 locations as standard S3.
 ```
 
-## 426. How will you upload a file
-
-## greater than 100 megabytes in
-
-## Amazon S3?
+## 426. How will you upload a file greater than 100 megabytes in Amazon S3?
 
 Amazon S3 supports storing objects or files up to 5 terabytes. To upload a file
 greater than 100 megabytes, we have to use Multipart upload utility from AWS.
@@ -18760,9 +16500,7 @@ overall time. Once all the parts are uploaded, this utility makes these as one
 single object or file from which the parts were created.
 
 
-## 427. What happens to an Object
-
-## when we delete it from Amazon S3?
+## 427. What happens to an Object when we delete it from Amazon S3?
 
 Amazon S3 provides DELETE API to delete an object.
 
@@ -18778,9 +16516,7 @@ In case the bucket is Multi-factor authentication (MFA) enabled, then the
 DELETE request will fail if we do not specify a MFA token.
 
 
-## 428. What is the use of Amazon
-
-## Glacier?
+## 428. What is the use of Amazon Glacier?
 
 Amazon Glacier is an extremely low cost cloud based storage service
 provided by Amazon.
@@ -18798,11 +16534,7 @@ One use case is for storing certificates that can be issued only once and only
 the original person keeps the main copy.
 
 
-## 429. Can we disable versioning on a
-
-## version-enabled bucket in Amazon
-
-## S3?
+## 429. Can we disable versioning on a version-enabled bucket in Amazon S3?
 
 No, we cannot disable versioning on a version-enabled bucket in Amazon S3.
 We can just suspend the versioning on a bucket in S3.
@@ -18816,11 +16548,7 @@ will be no more new versions of the same object except for the null version ID
 object.
 
 
-## 430. What are the use cases of
-
-## Cross Region Replication Amazon
-
-## S3?
+## 430. What are the use cases of Cross Region Replication Amazon S3?
 
 We can use Cross Region Replication Amazon S3 to make copies of an object
 across buckets in different AWS Regions. This copying takes place
@@ -18847,21 +16575,13 @@ to replicate objects in the geographical Regions that are closer to end
 customer. This helps in reducing the latency.
 ```
 
-## 431. Can we do Cross Region
-
-## replication in Amazon S3 without
-
-## enabling versioning on a bucket?
+## 431. Can we do Cross Region replication in Amazon S3 without enabling versioning on a bucket?
 
 No, we have to enable versioning on a bucket to perform Cross Region
 Replication.
 
 
-## 432. What are the different types of
-
-## actions in Object Lifecycle
-
-## Management in Amazon S3?
+## 432. What are the different types of actions in Object Lifecycle Management in Amazon S3?
 
 There are mainly two types of Object Lifecycle Management actions in
 Amazon S3.
@@ -18879,11 +16599,7 @@ Object expires. We can ask S3 to delete an object completely on
 expiration.
 ```
 
-## 433. How do we get higher
-
-## performance in our application by
-
-## using Amazon CloudFront?
+## 433. How do we get higher performance in our application by using Amazon CloudFront?
 
 If our application is content rich and used across multiple locations, we can
 use Amazon CloudFront to increase its performance. Some of the techniques
@@ -18905,11 +16621,7 @@ techniques like TCP initial congestion window etc to deliver high performance
 experience.
 
 
-## 434. What is the mechanism behind
-
-## Regional Edge Cache in Amazon
-
-## CloudFront?
+## 434. What is the mechanism behind Regional Edge Cache in Amazon CloudFront?
 
 A Regional Edge Cache location lies between the main webserver and the
 global edge location. When the popularity of an object/content decreases, the
@@ -18924,9 +16636,7 @@ This improves the performance for serving content to our users in Amazon
 CloudFront.
 
 
-## 435. What are the benefits of
-
-## Streaming content?
+## 435. What are the benefits of Streaming content?
 
 We can get following benefits by Streaming content:
 
@@ -18947,9 +16657,7 @@ is available for viewing. This saves costs since we do not have to
 download a large media file before starting each viewing session.
 ```
 
-## 436. What is Lambda@Edge in
-
-## AWS?
+## 436. What is Lambda@Edge in AWS?
 
 In AWS, we can use Lambda@Edge utility to solve the problem of low
 network latency for end users.
@@ -18965,11 +16673,7 @@ This is a very good option for scaling up the operations in CloudFront without
 managing servers.
 
 
-## 437. What are the different types of
-
-## events triggered by Amazon
-
-## CloudFront?
+## 437. What are the different types of events triggered by Amazon CloudFront?
 
 Different types of events triggered by Amazon CloudFront are as follows:
 
@@ -18986,9 +16690,7 @@ server. At this time this event is triggered.
 receives the response from Origin server, this event is triggered.
 ```
 
-## 438. What is Geo Targeting in
-
-## Amazon CloudFront?
+## 438. What is Geo Targeting in Amazon CloudFront?
 
 In Amazon CloudFront we can detect the country from where end users are
 requesting our content. This information can be passed to our Origin server by
@@ -19002,9 +16704,7 @@ In this way we are able to target our end users based on their geographic
 locations.
 
 
-## 439. What are the main features of
-
-## Amazon CloudFront?
+## 439. What are the main features of Amazon CloudFront?
 
 Some of the main features of Amazon CloudFront are as follows:
 
@@ -19020,9 +16720,7 @@ Some of the main features of Amazon CloudFront are as follows:
 9. Custom SSL
 ```
 
-## 440. What are the security
-
-## mechanisms available in Amazon S3?
+## 440. What are the security mechanisms available in Amazon S3?
 
 Amazon S3 is a very secure storage service. Some of the main security
 mechanisms available in Amazon S3 are as follows:
@@ -19048,11 +16746,9 @@ upload and download data from cloud.
 Amazon S3 to encrypt data.
 ```
 
-# Cloud Computing
+# ✅ 07. Cloud Computing
 
-## 441. What are the benefits of Cloud
-
-## Computing?
+## 441. What are the benefits of Cloud Computing?
 
 There are ten main benefits of Cloud Computing:
 
@@ -19099,9 +16795,7 @@ Environment Friendly: Cloud computing saves precious environmental
 resources also. By not blocking the resources and bandwidth.
 
 
-## 442. What is On-demand computing
-
-## in Cloud Computing?
+## 442. What is On-demand computing in Cloud Computing?
 
 On-demand Computing is the latest model in enterprise systems. It is related to
 Cloud computing. It means IT resources can be provided on demand by a
@@ -19121,9 +16815,7 @@ computing etc. that are similar to on-demand computing.
 This is the most popular trend in computing model as of now.
 
 
-## 443. What are the different layers of
-
-## Cloud computing?
+## 443. What are the different layers of Cloud computing?
 
 Three main layers of Cloud computing are as follows:
 
@@ -19148,11 +16840,7 @@ interface to work on the system. Behind the scenes the version of Software can
 be easily changed.
 
 
-## 444. What resources are provided
-
-## by Infrastructure as a Service (IAAS)
-
-## provider?
+## 444. What resources are provided by Infrastructure as a Service (IAAS) provider?
 
 An IAAS provider can give physical, virtual or both kinds of resources. These
 resources are used to build cloud.
@@ -19165,9 +16853,7 @@ The main resources in IAAS are servers, storage, routers, switches and other
 related hardware etc.
 
 
-## 445. What is the benefit of Platform
-
-## as a Service?
+## 445. What is the benefit of Platform as a Service?
 
 Platform as a service (PaaS) is a kind of cloud computing service. A PaaS
 provider offers a platform on which clients can develop, run and manage
@@ -19177,9 +16863,7 @@ In PAAS clients save time by not creating and managing infrastructure
 environment associated with the app that they want to develop.
 
 
-## 446. What are the main advantages
-
-## of PaaS?
+## 446. What are the main advantages of PaaS?
 
 The advantages of PaaS are:
 
@@ -19195,9 +16879,7 @@ It is suitable for situations in which multiple developers work on a single
 project but are not co-located.
 
 
-## 447. What is the main disadvantage
-
-## of PaaS?
+## 447. What is the main disadvantage of PaaS?
 
 Biggest disadvantage of PaaS is that a developer can only use the tools that
 PaaS provider makes available. A developer cannot use the full range of
@@ -19207,11 +16889,7 @@ Some PaaS providers lock in the clients in their platform. This also decreases
 the flexibility of clients using PaaS.
 
 
-## 448. What are the different
-
-## deployment models in Cloud
-
-## computing?
+## 448. What are the different deployment models in Cloud computing?
 
 Cloud computing supports following deployment models:
 
@@ -19245,9 +16923,7 @@ Hybrid cloud an organization can create its own cloud as well as they can pass
 the control of their cloud to another third party.
 
 
-## 449. What is the difference between
-
-## Scalability and Elasticity?
+## 449. What is the difference between Scalability and Elasticity?
 
 Scalability is the ability of a system to handle the increased load on its current
 hardware and software resources. In a highly scalable system it is possible to
@@ -19286,9 +16962,7 @@ current needs. And client does not need to install or maintain any software on
 its premises to use this software.
 
 
-## 451. What are the different types of
-
-## Datacenters in Cloud computing?
+## 451. What are the different types of Datacenters in Cloud computing?
 
 Cloud computing consists of different types of Datacenters linked in a grid
 structure. The main types of Datacenters in Cloud computing are:
@@ -19310,11 +16984,7 @@ heat and power management is done. To reach high level of performance, we
 have to optimize the number of servers’ in the datacenter.
 
 
-## 452. Explain the various modes of
-
-## Software as a Service (SaaS) cloud
-
-## environment?
+## 452. Explain the various modes of Software as a Service (SaaS) cloud environment?
 
 Software as a Service (SaaS) is used to offer different kinds of software
 applications in a Cloud environment. Generally these are offered on
@@ -19333,11 +17003,7 @@ computing resources are shared. Also it is easier and quicker to scale up the
 SaaS implementation for different clients.
 
 
-## 453. What are the important things
-
-## to care about in Security in a cloud
-
-## environment?
+## 453. What are the important things to care about in Security in a cloud environment?
 
 In a cloud-computing environment, security is one of the most important
 aspects.
@@ -19354,9 +17020,7 @@ copy of the data. So it becomes important to encrypt the data during transit as
 well as during rest to protect it from unwanted hackers.
 
 
-## 454. Why do we use API in cloud
-
-## computing environment?
+## 454. Why do we use API in cloud computing environment?
 
 Application Programming Interfaces (API) is used in cloud computing
 environment for accessing many services. APIs are very easy to use. They
@@ -19370,9 +17034,7 @@ serve different needs of multiple clients with APIs in cloud computing
 environment.
 
 
-## 455. What are the different areas of
-
-## Security Management in cloud?
+## 455. What are the different areas of Security Management in cloud?
 
 Different areas of Security management in cloud are as follows:
 
@@ -19392,9 +17054,7 @@ user or role. If a user is authorized to access a service, they are allowed to u
 it in the cloud environment.
 
 
-## 456. What are the main cost factors
-
-## of cloud based data center?
+## 456. What are the main cost factors of cloud based data center?
 
 Costs in a Cloud based data center are different from a traditional data center.
 Main cost factors of cloud based data center are as follows:
@@ -19412,9 +17072,7 @@ to Cloud provider for giving us computing resources. This cost is much higher
 compared to the labor or power costs.
 
 
-## 457. How can we measure the
-
-## cloud-based services?
+## 457. How can we measure the cloud-based services?
 
 In a cloud-computing environment we pay for the services that we use. So main
 criteria to measure a cloud based service its usage.
@@ -19430,9 +17088,7 @@ cloud provider has to specify the service level agreement (SLA) for the time
 for which service will be available in cloud.
 
 
-## 458. How a traditional datacenter is
-
-## different from a cloud environment?
+## 458. How a traditional datacenter is different from a cloud environment?
 
 In a traditional datacenter the cost of increasing the scale of computing
 environment is much higher than a Cloud computing environment. Also in a
@@ -19449,11 +17105,7 @@ With a traditional datacenter, people cost is very high since we have to hire a
 large number of technical operation people for in-house datacenter.
 
 
-## 459. How will you optimize
-
-## availability of your application in a
-
-## Cloud environment?
+## 459. How will you optimize availability of your application in a Cloud environment?
 
 In a Cloud environment, it is important to optimize the availability of an
 application by implementing disaster recovery strategy. For disaster recovery
@@ -19467,9 +17119,7 @@ we just kill the slow server and restart another server to handle the traffic
 seamlessly.
 
 
-## 460. What are the requirements for
-
-## implementing IaaS strategy in Cloud?
+## 460. What are the requirements for implementing IaaS strategy in Cloud?
 
 Main requirements to implement IAAS are as follows:
 
@@ -19483,7 +17133,7 @@ Cloud Model: We have to select the right cloud model for implementing IaaS
 strategy. It can be SaaS, PaaS or CaaS.
 
 
-# DOCKER
+# ✅ 07. DOCKER
 
 
 ## 461. What is Docker?
@@ -19499,9 +17149,7 @@ software code, runtime environment, system tools, & libraries that
 are required to install and run the software on a server.
 
 
-## 462. What is the difference between
-
-## Docker image and Docker container?
+## 462. What is the difference between Docker image and Docker container?
 
 Docker container is simply an instance of Docker image.
 
@@ -19514,9 +17162,7 @@ In programming language, an Image is a Class and a Container is an
 instance of the class.
 
 
-## 463. How will you remove an image
-
-## from Docker?
+## 463. How will you remove an image from Docker?
 
 We can use docker rmi command to delete an image from our local
 system.
@@ -19536,9 +17182,7 @@ command.
 % docker rm <Container Id>
 
 
-## 464. How is a Docker container
-
-## different from a hypervisor?
+## 464. How is a Docker container different from a hypervisor?
 
 In a Hypervisor environment we first create a Virtual Machine and
 then install an Operating System on it. After that we deploy the
@@ -19553,9 +17197,7 @@ In a way, Docker container and hypervisor are complementary to
 each other.
 
 
-## 465. Can we write compose file in
-
-## json file instead of yaml?
+## 465. Can we write compose file in json file instead of yaml?
 
 Yes. Yaml format is a superset of json format. Therefore any json
 file is also a valid Yaml file.
@@ -19566,9 +17208,7 @@ we are using a json file as follows:
 % docker-compose -f docker-compose.json up
 
 
-## 466. Can we run multiple apps on
-
-## one server with Docker?
+## 466. Can we run multiple apps on one server with Docker?
 
 Yes, theoretically we can run multiples apps on one Docker server.
 But in practice, it is better to run different components on separate
@@ -19578,9 +17218,7 @@ With this we get cleaner environment and it can be used for multiple
 uses.
 
 
-## 467. What are the common use
-
-## cases of Docker?
+## 467. What are the common use cases of Docker?
 
 Some of the common use cases of Docker are as follows:
 
@@ -19599,9 +17237,7 @@ and process that will be used for doing the production
 deployment.
 ```
 
-## 468. What are the main features of
-
-## Docker-compose?
+## 468. What are the main features of Docker-compose?
 
 Some of the main features of Docker-compose are as follows:
 
@@ -19618,9 +17254,7 @@ variables in compose file. In this way we can create
 variations of our containers.
 ```
 
-## 469. What is the most popular use
-
-## of Docker?
+## 469. What is the most popular use of Docker?
 
 The most popular use of Docker is in build pipeline. With the use of
 Docker it is much easier to automate the development to deployment
@@ -19630,11 +17264,7 @@ We use Docker for the complete build flow from development
 work, test run and deployment to production environment.
 
 
-## 470. What is the role of open source
-
-## development in the popularity of
-
-## Docker?
+## 470. What is the role of open source development in the popularity of Docker?
 
 Since Linux was an open source operating system, it opened new
 opportunities for developers who want to contribute to open source
@@ -19647,16 +17277,10 @@ Docker has wide acceptance due to its usability as well as its open
 source approach of integrating with different systems.
 
 
-# UNIX Shell
+# ✅ 07. UNIX Shell
 
 
-## 471. How will you remove all files
-
-## in current directory? Including the
-
-## files that are two levels down in a sub-
-
-## directory.
+## 471. How will you remove all files in current directory? Including the files that are two levels down in a sub- directory.
 
 In Unix we have rm command to remove files and sub-directories.
 With rm command we have –r option that stands for recursive. The
@@ -19679,11 +17303,7 @@ The asterisk (*) is a wild card character that stands for all the files
 with any name.
 
 
-## 472. What is the difference between
-
-## the –v and –x options in Bash shell
-
-## scripts?
+## 472. What is the difference between the –v and –x options in Bash shell scripts?
 
 In a BASH Unix shell we can specify the options –v and –x on top
 of a script as follows:
@@ -19704,9 +17324,7 @@ then executes. If we run the script interactively, it shows each
 command after pressing enter.
 
 
-## 473. What is a Filter in Unix
-
-## command?
+## 473. What is a Filter in Unix command?
 
 In Unix there are many Filter commands like- cat, awk, grep, head,
 tail cut etc.
@@ -19726,9 +17344,7 @@ Even Data scientists use Unix filters to get the overview of data
 stored in the files.
 
 
-## 474. What is Kernel in Unix
-
-## operating system?
+## 474. What is Kernel in Unix operating system?
 
 Kernel is the central core component of a Unix operating system
 (OS).
@@ -19770,9 +17386,7 @@ Some of the popular Shells on Unix are: Korn shell, BASH, C shell
 etc.
 
 
-## 476. What are the different shells in
-
-## Unix that you know about?
+## 476. What are the different shells in Unix that you know about?
 
 Unix has many flavors of Shell. Some of these are as follows:
 
@@ -19784,11 +17398,7 @@ C shell: We use csh to run C shell.
 Enhanced C shell: tcsh is the command for enhanced C shell.
 
 
-## 477.
-
-## What is the first character of the output
-
-## in ls –l command?
+## 477. What is the first character of the output in ls –l command?
 
 We use ls -l command to list the files and directories in a directory.
 With -l option we get long listing format.
@@ -19808,11 +17418,7 @@ p FIFO
 In general we see d for directory and - for a regular file.
 
 
-## 478. What is the difference between
-
-## Multi-tasking and Multi-user
-
-## environment?
+## 478. What is the difference between Multi-tasking and Multi-user environment?
 
 In a Multi-tasking environment, same user can submit more than one
 tasks and operating system will execute them at the same time.
@@ -19821,9 +17427,7 @@ In a Multi-user environment, more than one user can interact with
 the operating system at the same time.
 
 
-## 479. What is Command
-
-## Substitution in Unix?
+## 479. What is Command Substitution in Unix?
 
 Command substitution is a mechanism by which Shell passes the
 output of a command as an argument to another command. We can
@@ -19849,11 +17453,7 @@ uses Inode number to access the contents of an Inode.
 We can use ls -i command to get the inode number of a file.
 
 
-## 481. What is the difference between
-
-## absolute path and relative path in
-
-## Unix file system?
+## 481. What is the difference between absolute path and relative path in Unix file system?
 
 Absolute path is the complete path of a file or directory from the
 root directory. In general root directory is represented by / symbol.
@@ -19870,9 +17470,7 @@ Absolute path of mail folder is /var/user/kevin/mail. For mail
 folder ./mail is the relative path of mail directory from kevin folder.
 
 
-## 482. What are the main
-
-## responsibilities of a Unix Shell?
+## 482. What are the main responsibilities of a Unix Shell?
 
 Some of the main responsibilities of a Unix Shell are as follows:
 
@@ -19915,7 +17513,7 @@ variable name.
 E.g. echo $max_threads
 
 
-# Microservices
+# ✅ 07. Microservices
 
 ## 484. What is a Microservice?
 
@@ -19932,9 +17530,7 @@ with technology-agnostic APIs.
 Ideally, it does not share database with any other service.
 ```
 
-## 485. What are the benefits of
-
-## Microservices architecture?
+## 485. What are the benefits of Microservices architecture?
 
 Microservices provide many benefits. Some of the key benefits are:
 1. Scaling: Since there are multiple Microservices instead of
@@ -19966,9 +17562,7 @@ If anything goes wrong, it can be rolled back easily and
 quickly in Microservices.
 
 
-## 486. What is the role of architect in
-
-## Microservices architecture?
+## 486. What is the role of architect in Microservices architecture?
 
 Architects, in Microservices architecture, play the role of Town
 planners. They decide in broad strokes about the layout of the
@@ -19989,13 +17583,7 @@ At times they work as custodians of overall Microservices
 architecture.
 
 
-## 487. What is the advantage of
-
-## Microservices architecture over
-
-## Service Oriented Architecture
-
-## (SOA)?
+## 487. What is the advantage of Microservices architecture over Service Oriented Architecture (SOA)?
 
 Service Oriented Architecture (SOA) is an approach to develop
 software by creating multiple services. It creates small parts of
@@ -20010,13 +17598,7 @@ Microservices architecture also provides more flexibility, stability
 and speed of development over SOA architecture.
 
 
-## 488. Is it a good idea to provide a
-
-## Tailored Service Template for
-
-## Microservices development in an
-
-## organization?
+## 488. Is it a good idea to provide a Tailored Service Template for Microservices development in an organization?
 
 If your organization is using similar set of technologies, then it is a
 good idea to provide a Service Template that can be tailored by
@@ -20036,11 +17618,7 @@ Also remember that template code should not promote shared code.
 This can lead to tight coupling between Microservices.
 
 
-## 489. What are the disadvantages of
-
-## using Shared libraries approach to
-
-## decompose a monolith application?
+## 489. What are the disadvantages of using Shared libraries approach to decompose a monolith application?
 
 You can create shared libraries to increase reuse and sharing of
 features among teams. But there are some downsides to it.
@@ -20054,9 +17632,7 @@ Shared libraries introduce shared code that can increase coupling in
 software.
 
 
-## 490. What are the characteristics of
-
-## a Good Microservice?
+## 490. What are the characteristics of a Good Microservice?
 
 Good Microservices have these characteristics:
 1. Loose coupling: A Microservice knows little about any
@@ -20084,11 +17660,7 @@ vaccination, Out patient treatment etc. Within each bounded context,
 each sub-system can be independently designed and implemented.
 
 
-## 492. What are the points to
-
-## remember during integration of
-
-## Microservices?
+## 492. What are the points to remember during integration of Microservices?
 
 Some of the important points to remember during integration of
 Microservices are:
@@ -20113,11 +17685,7 @@ consumer, so that the integration points are simpler. It should allow
 clients to choose their own technology stack.
 
 
-## 493. Is it a good idea for
-
-## Microservices to share a common
-
-## database?
+## 493. Is it a good idea for Microservices to share a common database?
 
 Sharing a common database between multiple Microservices
 increases coupling between them. One service can start accessing
@@ -20126,13 +17694,7 @@ bounded context. So it is not a good idea to share a common
 database between Microservices.
 
 
-## 494. What is the preferred type of
-
-## communication between
-
-## Microservices? Synchronous or
-
-## Asynchronous?
+## 494. What is the preferred type of communication between Microservices? Synchronous or Asynchronous?
 
 Synchronous communication is a blocking call in which client
 blocks itself from doing anything else, till the response comes back.
@@ -20151,11 +17713,7 @@ Microservices can choose synchronous or asynchronous form of
 communication.
 
 
-## 495. What is the difference between
-
-## Orchestration and Choreography in
-
-## Microservices architecture?
+## 495. What is the difference between Orchestration and Choreography in Microservices architecture?
 
 In Orchestration, we rely on a central system to control and call
 various Microservices to complete a task. In Choreography, each
