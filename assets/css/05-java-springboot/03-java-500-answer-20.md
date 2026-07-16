@@ -2513,6 +2513,1191 @@ SELECT name FROM employee_us;
 Use `UNION ALL` when you know there are no duplicates or you want all rows — it's faster because it skips the deduplication step.
 
 
+## 12. Why are indexes needed?
+
+An **Index** is a special **database object** that helps the database **find rows faster** without scanning the entire table. It improves the performance of **`SELECT`** queries.
+
+Without an **Index**, the database performs a **Full Table Scan**, which is slower for large tables.
+
+**Why Are Indexes Needed?**
+
+1. **Faster Data Retrieval** – Speeds up **`SELECT`** queries.
+2. **Reduces Full Table Scans** – The database searches only the indexed data instead of the entire table.
+3. **Improves `WHERE`, `JOIN`, `ORDER BY`, and `GROUP BY`** performance.
+4. **Suitable for Large Tables** – Provides significant performance improvements when millions of records exist.
+5. **Trade-off** – **`INSERT`**, **`UPDATE`**, and **`DELETE`** operations become slightly slower because indexes must also be updated.
+
+**Code Example**
+
+**Without Index**
+
+```sql
+SELECT * FROM Employee
+WHERE email = 'john@example.com';
+```
+
+The database may perform a **Full Table Scan**.
+
+**Create an Index**
+
+```sql
+CREATE INDEX idx_employee_email
+ON Employee(email);
+```
+
+Now the same query uses the **Index** to find the record much faster.
+
+
+## 12. How does a B-tree index work?
+
+A **B-Tree (Balanced Tree)** is the **default index structure** used by most databases. It stores **sorted values** in a tree structure, allowing the database to quickly locate data instead of scanning the entire table.
+
+Instead of checking every row, the database **traverses the tree** from the **Root** → **Intermediate Nodes** → **Leaf Nodes**, making searches much faster.
+
+**How Does a B-Tree Index Work?**
+
+1. **Stores Data in Sorted Order** – Indexed values are kept in **ascending order**.
+2. **Tree Structure** – Consists of **Root Node**, **Intermediate Nodes**, and **Leaf Nodes**.
+3. **Fast Searching** – The database follows the correct path through the tree instead of scanning every row.
+4. **Efficient Range Queries** – Excellent for **`BETWEEN`**, **`>`, `<`**, **`ORDER BY`**, and **`LIKE 'text%'`** queries.
+5. **Time Complexity** – Search, insert, and delete operations typically take **O(log n)** time.
+
+**Code Example**
+
+**Create a B-Tree Index**
+
+```sql
+CREATE INDEX idx_employee_salary
+ON Employee(salary);
+```
+
+**Query Using the Index**
+
+```sql
+SELECT *
+FROM Employee
+WHERE salary = 50000;
+```
+
+The database navigates the **B-Tree** to quickly locate the matching salary instead of performing a **Full Table Scan**.
+
+**Range Query Example**
+
+```sql
+SELECT *
+FROM Employee
+WHERE salary BETWEEN 40000 AND 60000;
+```
+
+The database finds the **starting value** in the **B-Tree** and then reads the matching **Leaf Nodes**, making range searches very efficient.
+
+
+## 12. What is a composite index?
+
+A **Composite Index** is an **index created on two or more columns** of a table. It improves query performance when the query searches or sorts using **multiple columns together**.
+
+The **order of columns** in a composite index is very important because the database follows the **Leftmost Prefix Rule**.
+
+**Why Is a Composite Index Needed?**
+
+1. **Faster Searches** – Speeds up queries that filter using **multiple columns**.
+2. **Improves `WHERE` and `JOIN`** – Efficient when multiple columns are used together.
+3. **Optimizes `ORDER BY`** – Helps when sorting by the indexed columns.
+4. **Reduces Full Table Scans** – The database can quickly locate matching rows.
+5. **Column Order Matters** – The index works best when queries start with the **leftmost column(s)**.
+
+**Code Example**
+
+**Create a Composite Index**
+
+```sql
+CREATE INDEX idx_employee_dept_salary
+ON Employee(department, salary);
+```
+
+**Uses the Composite Index**
+
+```sql
+SELECT *
+FROM Employee
+WHERE department = 'IT'
+  AND salary > 50000;
+```
+
+The database uses the **Composite Index** because the query starts with the **leftmost column (`department`)**.
+
+**Also Uses the Index**
+
+```sql
+SELECT *
+FROM Employee
+WHERE department = 'IT';
+```
+
+The index is still used because the query filters on the **first column**.
+
+**May Not Use the Index Efficiently**
+
+```sql
+SELECT *
+FROM Employee
+WHERE salary > 50000;
+```
+
+Since the query skips the **leftmost column (`department`)**, the **Composite Index** is generally **not used efficiently**.
+
+
+## 12. When should you create an index?
+
+You should create an **Index** when a column is **frequently used for searching, filtering, joining, or sorting**. An index improves **`SELECT`** query performance by allowing the database to find rows quickly instead of performing a **Full Table Scan**.
+
+**When Should You Create an Index?**
+
+1. **Frequently Used in `WHERE`** – Speeds up filtering conditions.
+2. **Frequently Used in `JOIN`** – Improves table join performance.
+3. **Frequently Used in `ORDER BY`** – Makes sorting faster.
+4. **Frequently Used in `GROUP BY`** – Helps with grouping operations.
+5. **Primary Key and Unique Columns** – These are usually **indexed automatically**.
+6. **Large Tables** – Provides significant performance improvements when tables contain **many records**.
+7. **Frequently Queried Columns** – Ideal for columns that are read often but updated less frequently.
+
+**Code Example**
+
+**Without Index**
+
+```sql
+SELECT *
+FROM Employee
+WHERE email = 'john@example.com';
+```
+
+The database may perform a **Full Table Scan**.
+
+**Create an Index**
+
+```sql
+CREATE INDEX idx_employee_email
+ON Employee(email);
+```
+
+Now the database can quickly locate the matching row using the **Index**.
+
+
+
+## 12. What are the disadvantages of indexes?
+
+Although **Indexes** improve **`SELECT`** query performance, they also have some drawbacks. Every index must be maintained whenever the table data changes.
+
+**Disadvantages of Indexes**
+
+1. **Slower `INSERT` Operations** – The database must update the **Index** whenever a new row is added.
+2. **Slower `UPDATE` Operations** – If an indexed column changes, the **Index** must also be updated.
+3. **Slower `DELETE` Operations** – The database must remove the corresponding index entries.
+4. **Extra Storage Space** – Indexes require additional disk space.
+5. **Maintenance Overhead** – Too many indexes increase database maintenance and can reduce overall performance.
+6. **Not Useful for Small Tables** – A **Full Table Scan** may be faster than using an index.
+
+**Code Example**
+
+**Create an Index**
+
+```sql
+CREATE INDEX idx_employee_email
+ON Employee(email);
+```
+
+**Insert a Record**
+
+```sql
+INSERT INTO Employee(id, name, email)
+VALUES (101, 'John', 'john@example.com');
+```
+
+During the **`INSERT`**, the database stores the new row **and** updates the **Index**, which makes write operations slightly slower.
+
+**Common Interview Follow-up**
+
+1. **Why do indexes slow down `INSERT`, `UPDATE`, and `DELETE`?**
+   Because the database must **maintain the index** whenever the data changes.
+
+2. **Do indexes consume storage?**
+   **Yes.** Every index requires **additional disk space**.
+
+3. **Should every column have an index?**
+   **No.** Too many indexes can **reduce write performance** and increase maintenance.
+
+4. **Are indexes useful for small tables?**
+   **Usually No.** A **Full Table Scan** is often fast enough.
+
+5. **What is the main trade-off of indexes?**
+   **Faster reads** but **slower writes** due to index maintenance.
+
+
+
+## 12. What is index cardinality?
+
+**Index Cardinality** is the **number of unique values** in an indexed column. It helps the database decide whether using an **Index** will be faster than performing a **Full Table Scan**.
+
+A column with **high cardinality** is usually a **good candidate** for indexing, while a column with **low cardinality** may not benefit much from an index.
+
+**Types of Index Cardinality**
+
+1. **High Cardinality** – Contains **many unique values** (for example, **Email**, **Employee ID**). These columns benefit greatly from an **Index**.
+2. **Low Cardinality** – Contains **few unique values** (for example, **Gender**, **Status**). These columns usually benefit less from an **Index**.
+3. **Used by the Query Optimizer** – The database uses cardinality to choose the **most efficient execution plan**.
+
+**Code Example**
+
+**High Cardinality Column**
+
+```sql id="ixz0g9"
+CREATE INDEX idx_employee_email
+ON Employee(email);
+
+SELECT *
+FROM Employee
+WHERE email = 'john@example.com';
+```
+
+Since **`email`** has **unique values**, the database efficiently uses the **Index**.
+
+**Low Cardinality Column**
+
+```sql id="9k8x9r"
+CREATE INDEX idx_employee_gender
+ON Employee(gender);
+
+SELECT *
+FROM Employee
+WHERE gender = 'Male';
+```
+
+Since **`gender`** has only a few distinct values, the database may choose a **Full Table Scan** instead of using the **Index**.
+
+
+## 12. What types of JOIN exist?
+
+A **JOIN** is used to **combine rows from two or more tables** based on a **related column**. It allows you to retrieve data stored across multiple tables.
+
+**Types of JOIN**
+
+1. **INNER JOIN** – Returns **only the matching rows** from both tables.
+2. **LEFT JOIN (LEFT OUTER JOIN)** – Returns **all rows from the left table** and the matching rows from the right table. If there is no match, **`NULL`** is returned for the right table.
+3. **RIGHT JOIN (RIGHT OUTER JOIN)** – Returns **all rows from the right table** and the matching rows from the left table. If there is no match, **`NULL`** is returned for the left table.
+4. **FULL JOIN (FULL OUTER JOIN)** – Returns **all rows from both tables**. If there is no match, **`NULL`** is returned for the missing side.
+5. **CROSS JOIN** – Returns the **Cartesian Product**, meaning **every row** from the first table is combined with **every row** from the second table.
+6. **SELF JOIN** – A table is **joined with itself** using different aliases.
+
+**Code Example**
+
+**INNER JOIN**
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee e
+INNER JOIN Department d
+ON e.department_id = d.id;
+```
+
+Returns **only employees** who have a matching **department**.
+
+**LEFT JOIN**
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee e
+LEFT JOIN Department d
+ON e.department_id = d.id;
+```
+
+Returns **all employees**, even if they do not belong to a department.
+
+**RIGHT JOIN**
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee e
+RIGHT JOIN Department d
+ON e.department_id = d.id;
+```
+
+Returns **all departments**, even if they have no employees.
+
+**FULL JOIN**
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee e
+FULL OUTER JOIN Department d
+ON e.department_id = d.id;
+```
+
+Returns **all employees and all departments**, including unmatched rows from both tables.
+
+**CROSS JOIN**
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee e
+CROSS JOIN Department d;
+```
+
+Returns **every possible combination** of employees and departments.
+
+**SELF JOIN**
+
+```sql
+SELECT e1.name AS Employee,
+       e2.name AS Manager
+FROM Employee e1
+JOIN Employee e2
+ON e1.manager_id = e2.id;
+```
+
+Returns each **employee** along with their **manager** from the same table.
+
+
+## 12. What is the difference between INNER JOIN and LEFT JOIN?
+
+Both **INNER JOIN** and **LEFT JOIN** are used to **combine rows from two tables**, but they differ in how they handle **unmatched rows**.
+
+**Key Differences**
+
+| **INNER JOIN**                                   | **LEFT JOIN**                                                                        |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| Returns **only matching rows** from both tables. | Returns **all rows from the left table** and the matching rows from the right table. |
+| **Unmatched rows are excluded.**                 | **Unmatched rows are included** with **`NULL`** values for the right table columns.  |
+| Best when you need **only matching records**.    | Best when you need **all records from the left table**, even if no match exists.     |
+
+**Code Example**
+
+**INNER JOIN**
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee e
+INNER JOIN Department d
+ON e.department_id = d.id;
+```
+
+**Result:** Returns **only employees** who have a matching **department**.
+
+**LEFT JOIN**
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee e
+LEFT JOIN Department d
+ON e.department_id = d.id;
+```
+
+**Result:** Returns **all employees**. If an employee has no matching department, **`department_name`** is **`NULL`**.
+
+
+## 12. Which is better: JOIN or subquery?
+
+There is no single answer that **JOIN** is always better than a **Subquery**. The choice depends on the **query requirement**, **data size**, and **database optimizer**. In most cases, **JOIN** is preferred for combining data from multiple tables because it is usually more efficient and easier to optimize.
+
+**Difference Between JOIN and Subquery**
+
+| **JOIN**                                                                     | **Subquery**                                                 |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Combines data from **multiple tables** in a single query.                    | A query written **inside another query**.                    |
+| Usually provides better performance for **large datasets**.                  | Can be simpler for certain filtering conditions.             |
+| Easier for the database optimizer to create an efficient **execution plan**. | May be slower if the inner query is executed multiple times. |
+| Best for retrieving related data from tables.                                | Best for temporary calculations or checking existence.       |
+
+**Code Example**
+
+**Using JOIN**
+
+```sql id="w1m1ve"
+SELECT e.name, d.department_name
+FROM Employee e
+JOIN Department d
+ON e.department_id = d.id;
+```
+
+The **JOIN** directly combines data from both tables.
+
+**Using Subquery**
+
+```sql id="x5h7vo"
+SELECT name
+FROM Employee
+WHERE department_id IN (
+    SELECT id
+    FROM Department
+    WHERE department_name = 'IT'
+);
+```
+
+The **Subquery** first finds the department IDs and then retrieves employees.
+
+**When to Use JOIN?**
+
+1. When retrieving data from **multiple related tables**.
+2. When working with **large datasets**.
+3. When performance and query optimization are important.
+
+**When to Use Subquery?**
+
+1. When the query logic is easier to understand using a nested query.
+2. When checking **existence** using **`EXISTS`**.
+3. When performing calculations before the main query.
+
+**Common Interview Follow-up**
+
+1. **Which is faster: JOIN or Subquery?**
+   Usually **JOIN** performs better, especially for **large datasets**, but the **query optimizer** decides the final execution plan.
+
+2. **Can every subquery be replaced by a JOIN?**
+   Many **subqueries** can be rewritten using **JOIN**, but not all cases are equivalent.
+
+3. **When should you use EXISTS instead of JOIN?**
+   Use **EXISTS** when you only need to check whether a related record exists.
+
+4. **Why are JOINs often preferred?**
+   Because they allow the database optimizer to create better **execution plans**.
+
+5. **Which is more readable: JOIN or Subquery?**
+   It depends on the query. Use the one that provides **better clarity and maintainability**.
+
+
+## 12. What is a correlated subquery?
+
+A **Correlated Subquery** is a **subquery that depends on the outer query**. It uses values from the **outer query** and executes **once for each row** processed by the outer query.
+
+Unlike a normal subquery, a **Correlated Subquery cannot run independently** because it needs data from the outer query.
+
+**How Does a Correlated Subquery Work?**
+
+1. The **outer query** processes one row.
+2. The **inner query (subquery)** uses a value from that row.
+3. The subquery executes and returns a result.
+4. The process repeats for each row of the outer query.
+
+**Code Example**
+
+**Find employees whose salary is greater than the average salary of their department**
+
+```sql id="s7q9yx"
+SELECT e.name, e.salary, e.department_id
+FROM Employee e
+WHERE e.salary > (
+    SELECT AVG(e2.salary)
+    FROM Employee e2
+    WHERE e2.department_id = e.department_id
+);
+```
+
+Here:
+
+* The **outer query** selects employees.
+* The **subquery** calculates the average salary for the employee's department.
+* The subquery uses **`e.department_id`** from the outer query, making it a **Correlated Subquery**.
+
+**Normal Subquery vs Correlated Subquery**
+
+| **Normal Subquery**                     | **Correlated Subquery**                            |
+| --------------------------------------- | -------------------------------------------------- |
+| Executes **once** and returns a result. | Executes **once for each row** of the outer query. |
+| Can run independently.                  | Depends on the outer query.                        |
+| Usually faster.                         | Can be slower for large datasets.                  |
+
+
+## 12. What is the difference between WHERE and HAVING?
+
+Both **`WHERE`** and **`HAVING`** are used to **filter data**, but the main difference is **when the filtering happens**.
+
+**Key Differences**
+
+| **WHERE**                                                                                 | **HAVING**                           |
+| ----------------------------------------------------------------------------------------- | ------------------------------------ |
+| Filters **rows before grouping**.                                                         | Filters **groups after `GROUP BY`**. |
+| Cannot be used with **aggregate functions** like **`COUNT()`**, **`SUM()`**, **`AVG()`**. | Used with **aggregate functions**.   |
+| Works on **individual rows**.                                                             | Works on **grouped results**.        |
+| Executes before **`GROUP BY`**.                                                           | Executes after **`GROUP BY`**.       |
+
+**Execution Order**
+
+```text
+FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY
+```
+
+**Code Example**
+
+**Using WHERE**
+
+```sql id="8w1c3t"
+SELECT *
+FROM Employee
+WHERE salary > 50000;
+```
+
+The **`WHERE`** clause filters individual employees before any grouping happens.
+
+**Using HAVING**
+
+```sql id="o6q5pj"
+SELECT department_id, AVG(salary) AS avg_salary
+FROM Employee
+GROUP BY department_id
+HAVING AVG(salary) > 50000;
+```
+
+The **`HAVING`** clause filters departments after calculating the **average salary** for each group.
+
+**Using WHERE and HAVING Together**
+
+```sql id="9l3d2m"
+SELECT department_id, COUNT(*) AS employee_count
+FROM Employee
+WHERE salary > 30000
+GROUP BY department_id
+HAVING COUNT(*) > 5;
+```
+
+Flow:
+
+1. **`WHERE`** removes employees with salary less than or equal to **30000**.
+2. **`GROUP BY`** groups remaining employees by department.
+3. **`HAVING`** returns only departments having more than **5 employees**.
+
+
+## 12. What does GROUP BY do?
+
+**`GROUP BY`** is used to **combine rows with the same values** into groups. It is mainly used with **aggregate functions** like **`COUNT()`**, **`SUM()`**, **`AVG()`**, **`MAX()`**, and **`MIN()`** to perform calculations on each group.
+
+**Why Is GROUP BY Used?**
+
+1. **Groups Similar Data** – Combines rows having the same column values.
+2. **Works with Aggregate Functions** – Helps calculate values for each group.
+3. **Generates Summary Data** – Useful for reports and data analysis.
+4. **Used with HAVING** – Filters groups after aggregation.
+
+**Code Example**
+
+**Count Employees by Department**
+
+```sql id="z9d7a8"
+SELECT department_id, COUNT(*) AS employee_count
+FROM Employee
+GROUP BY department_id;
+```
+
+**Explanation:**
+
+* **`GROUP BY department_id`** creates separate groups for each department.
+* **`COUNT(*)`** calculates the number of employees in each department.
+
+**Using GROUP BY with HAVING**
+
+```sql id="p8j4kx"
+SELECT department_id, AVG(salary) AS average_salary
+FROM Employee
+GROUP BY department_id
+HAVING AVG(salary) > 50000;
+```
+
+Here:
+
+1. **`GROUP BY`** creates groups by department.
+2. **`AVG()`** calculates the average salary.
+3. **`HAVING`** filters departments with an average salary greater than **50000**.
+
+
+## 12. When to use HAVING?
+
+**`HAVING`** is used to **filter grouped data after applying `GROUP BY`**. It is mainly used when we need to filter results based on **aggregate functions** like **`COUNT()`**, **`SUM()`**, **`AVG()`**, **`MAX()`**, and **`MIN()`**.
+
+**When Should You Use HAVING?**
+
+1. **Filtering Aggregate Results** – Use **`HAVING`** when the condition depends on calculated values.
+2. **After GROUP BY** – Used to filter **groups**, not individual rows.
+3. **With Aggregate Functions** – Required when using conditions on **`COUNT()`**, **`SUM()`**, **`AVG()`**, etc.
+4. **Generating Reports** – Useful for filtering summarized data.
+
+**Code Example**
+
+**Find Departments Having More Than 5 Employees**
+
+```sql id="q7v3ph"
+SELECT department_id, COUNT(*) AS employee_count
+FROM Employee
+GROUP BY department_id
+HAVING COUNT(*) > 5;
+```
+
+**Explanation:**
+
+1. **`GROUP BY department_id`** creates groups based on departments.
+2. **`COUNT(*)`** calculates the number of employees in each department.
+3. **`HAVING COUNT(*) > 5`** returns only departments with more than 5 employees.
+
+**Using WHERE and HAVING Together**
+
+```sql id="g9v4mx"
+SELECT department_id, AVG(salary) AS avg_salary
+FROM Employee
+WHERE salary > 30000
+GROUP BY department_id
+HAVING AVG(salary) > 50000;
+```
+
+Execution flow:
+
+1. **`WHERE`** filters individual rows.
+2. **`GROUP BY`** creates groups.
+3. **`HAVING`** filters the final grouped results.
+
+
+## 12. What are window functions?
+
+**Window Functions** are SQL functions that perform calculations across a set of related rows without combining them into a single result row. They allow you to perform calculations while **keeping the original rows** in the output.
+
+Unlike **`GROUP BY`**, window functions do not reduce multiple rows into one row.
+
+**Why Are Window Functions Used?**
+
+1. **Perform Calculations Across Rows** – Calculates values based on related rows.
+2. **Keep Original Data** – Returns calculated values along with each original row.
+3. **Ranking Data** – Used for **`ROW_NUMBER()`**, **`RANK()`**, and **`DENSE_RANK()`**.
+4. **Running Calculations** – Used for running totals, averages, and comparisons.
+5. **Data Analysis and Reporting** – Useful for reports and analytics.
+
+**Common Window Functions**
+
+1. **`ROW_NUMBER()`** – Assigns a unique number to each row.
+2. **`RANK()`** – Assigns ranks with gaps for duplicate values.
+3. **`DENSE_RANK()`** – Assigns ranks without gaps.
+4. **`SUM() OVER()`** – Calculates running totals.
+5. **`AVG() OVER()`** – Calculates averages across rows.
+
+**Code Example**
+
+**Find Employee Rank Based on Salary**
+
+```sql id="7j2h1v"
+SELECT 
+    name,
+    salary,
+    RANK() OVER (ORDER BY salary DESC) AS salary_rank
+FROM Employee;
+```
+
+**Explanation:**
+
+* **`RANK() OVER()`** creates a ranking based on salary.
+* **`ORDER BY salary DESC`** sorts employees from highest to lowest salary.
+* The original employee rows are still returned.
+
+**Running Total Example**
+
+```sql id="f6k8vz"
+SELECT 
+    name,
+    salary,
+    SUM(salary) OVER (ORDER BY id) AS running_total
+FROM Employee;
+```
+
+The **`SUM() OVER()`** calculates a running total while keeping every employee row.
+
+**GROUP BY vs Window Function**
+
+| **GROUP BY**                                  | **Window Function**                                          |
+| --------------------------------------------- | ------------------------------------------------------------ |
+| Combines rows into a single result per group. | Keeps all original rows.                                     |
+| Used for summary calculations.                | Used for row-level calculations with additional information. |
+| Example: Total salary per department.         | Example: Employee ranking within department.                 |
+
+
+## 12. What does ROW_NUMBER() do?
+
+**`ROW_NUMBER()`** is a **window function** that assigns a **unique sequential number** to each row within a result set. The numbering starts from **1** and is based on the order defined in the **`ORDER BY`** clause inside **`OVER()`**.
+
+**Why Is ROW_NUMBER() Used?**
+
+1. **Assign Unique Row Numbers** – Gives each row a unique sequence number.
+2. **Ranking Data** – Used to create rankings based on specific columns.
+3. **Remove Duplicate Records** – Helps identify and delete duplicate rows.
+4. **Pagination** – Used to fetch data page by page.
+5. **Top N Records** – Helps retrieve the first N records from each group.
+
+**Code Example**
+
+**Assign Row Number Based on Salary**
+
+```sql
+SELECT 
+    name,
+    salary,
+    ROW_NUMBER() OVER (ORDER BY salary DESC) AS row_num
+FROM Employee;
+```
+
+**Result Example**
+
+| **name** | **salary** | **row_num** |
+| -------- | ---------: | ----------: |
+| John     |      90000 |           1 |
+| Alice    |      80000 |           2 |
+| Bob      |      70000 |           3 |
+
+**ROW_NUMBER() vs RANK() vs DENSE_RANK()**
+
+| **Function**     | **Duplicate Values**     | **Ranking Behavior** |
+| ---------------- | ------------------------ | -------------------- |
+| **ROW_NUMBER()** | Gets unique numbers      | 1, 2, 3, 4           |
+| **RANK()**       | Same rank for duplicates | 1, 2, 2, 4           |
+| **DENSE_RANK()** | Same rank for duplicates | 1, 2, 2, 3           |
+
+
+## 12. What do RANK() and DENSE_RANK() do?
+
+**`RANK()`** and **`DENSE_RANK()`** are **window functions** used to assign **rank numbers** to rows based on a specified column. They are commonly used for **ranking**, **leaderboards**, and **data analysis**.
+
+The main difference is how they handle **duplicate values**.
+
+**RANK()**
+
+**`RANK()`** assigns the **same rank to duplicate values**, but it **skips the next rank number**.
+
+**Code Example**
+
+```sql
+SELECT 
+    name,
+    salary,
+    RANK() OVER (ORDER BY salary DESC) AS salary_rank
+FROM Employee;
+```
+
+**Result**
+
+| **name** | **salary** | **salary_rank** |
+| -------- | ---------: | --------------: |
+| John     |      90000 |               1 |
+| Alice    |      80000 |               2 |
+| Bob      |      80000 |               2 |
+| David    |      70000 |               4 |
+
+Here, Alice and Bob have the same salary, so both get **rank 2**. The next rank becomes **4** because **rank 3 is skipped**.
+
+**DENSE_RANK()**
+
+**`DENSE_RANK()`** assigns the **same rank to duplicate values**, but it **does not skip rank numbers**.
+
+**Code Example**
+
+```sql
+SELECT 
+    name,
+    salary,
+    DENSE_RANK() OVER (ORDER BY salary DESC) AS salary_rank
+FROM Employee;
+```
+
+**Result**
+
+| **name** | **salary** | **salary_rank** |
+| -------- | ---------: | --------------: |
+| John     |      90000 |               1 |
+| Alice    |      80000 |               2 |
+| Bob      |      80000 |               2 |
+| David    |      70000 |               3 |
+
+Here, Alice and Bob have the same salary, so both get **rank 2**, and the next rank is **3**.
+
+## 12. How does MVCC work in PostgreSQL?
+
+**MVCC (Multi-Version Concurrency Control)** is a PostgreSQL mechanism that allows **multiple transactions to access the same data simultaneously** without blocking each other.
+
+Instead of locking rows for every read, PostgreSQL keeps **multiple versions of a row**. Each transaction sees a **consistent snapshot** of the database based on its transaction start time.
+
+**Why Is MVCC Needed?**
+
+1. **Improves Concurrency** – Multiple users can read and write data at the same time.
+2. **Reduces Locking** – Read operations do not block write operations.
+3. **Provides Transaction Isolation** – Each transaction sees a consistent view of data.
+4. **Prevents Dirty Reads** – Transactions cannot see uncommitted changes.
+
+**How Does MVCC Work?**
+
+1. **Every Row Has Metadata** – PostgreSQL stores transaction information with each row:
+
+   * **`xmin`** – Transaction ID that created the row.
+   * **`xmax`** – Transaction ID that deleted or updated the row.
+
+2. **UPDATE Creates a New Row Version** – PostgreSQL does not overwrite the old row. It creates a **new version** of the row.
+
+3. **Transactions See Their Own Snapshot** – Each transaction only sees rows that were committed before its snapshot time.
+
+4. **Old Versions Are Removed by VACUUM** – PostgreSQL uses **VACUUM** to clean up old row versions that are no longer needed.
+
+**Code Example**
+
+Assume we have an Employee table:
+
+```sql
+CREATE TABLE Employee (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    salary INT
+);
+```
+
+**Transaction 1**
+
+```sql
+BEGIN;
+
+UPDATE Employee
+SET salary = 60000
+WHERE id = 1;
+```
+
+PostgreSQL creates a **new version** of the row instead of replacing the old one.
+
+**Transaction 2**
+
+```sql
+BEGIN;
+
+SELECT salary
+FROM Employee
+WHERE id = 1;
+```
+
+Transaction 2 can still see the **old committed salary value** until Transaction 1 commits.
+
+**After Commit**
+
+```sql
+COMMIT;
+```
+
+New transactions will see the **updated row version**.
+
+**MVCC Example Flow**
+
+| **Action**            | **Row Version**            |
+| --------------------- | -------------------------- |
+| Insert salary = 50000 | Old version created        |
+| Update salary = 60000 | New version created        |
+| Old version           | Marked with **xmax**       |
+| VACUUM                | Removes unused old version |
+
+**MVCC vs Traditional Locking**
+
+| **MVCC**                      | **Traditional Locking**       |
+| ----------------------------- | ----------------------------- |
+| Readers do not block writers. | Readers may block writers.    |
+| Uses multiple row versions.   | Uses locks to control access. |
+| Provides better concurrency.  | Can cause more blocking.      |
+
+**Common Interview Follow-up**
+
+1. **What is MVCC?**
+   **Multi-Version Concurrency Control** allows multiple transactions to access data without blocking each other.
+
+2. **Does PostgreSQL update rows in place?**
+   **No.** PostgreSQL creates a **new row version** during updates.
+
+3. **What are xmin and xmax in PostgreSQL?**
+   **xmin** stores the creating transaction ID, and **xmax** stores the deleting/updating transaction ID.
+
+4. **Why is VACUUM needed in PostgreSQL?**
+   To remove **old row versions** created by MVCC.
+
+5. **Does MVCC eliminate all locks?**
+   **No.** PostgreSQL still uses locks for operations like **updates**, **schema changes**, and **transaction coordination**.
+
+
+## 12. What is VACUUM in PostgreSQL?
+
+**`VACUUM`** is a PostgreSQL maintenance operation that **removes dead row versions** created by **MVCC (Multi-Version Concurrency Control)** and frees space for reuse.
+
+When rows are **updated** or **deleted**, PostgreSQL does not immediately remove the old versions. These old versions are called **dead tuples**. **VACUUM** cleans them up and keeps the database healthy.
+
+**Why Is VACUUM Needed?**
+
+1. **Removes Dead Tuples** – Cleans up old row versions created by **UPDATE** and **DELETE** operations.
+2. **Prevents Table Bloat** – Stops tables from growing unnecessarily.
+3. **Improves Query Performance** – Helps the database scan tables efficiently.
+4. **Updates Statistics** – Helps the **Query Planner** choose better execution plans.
+5. **Reuses Storage Space** – Makes deleted row space available for future inserts.
+
+**How Does VACUUM Work?**
+
+1. A row is **updated or deleted**.
+2. PostgreSQL keeps the old row version because other transactions may still need it.
+3. The old version becomes a **dead tuple** after no transaction needs it.
+4. **VACUUM** removes these dead tuples and marks the space as reusable.
+
+**Code Example**
+
+**Normal VACUUM**
+
+```sql
+VACUUM Employee;
+```
+
+Removes dead tuples and frees space for reuse.
+
+**VACUUM ANALYZE**
+
+```sql
+VACUUM ANALYZE Employee;
+```
+
+Performs:
+
+* **VACUUM** → Removes dead tuples.
+* **ANALYZE** → Updates table statistics for the query optimizer.
+
+**VACUUM FULL**
+
+```sql
+VACUUM FULL Employee;
+```
+
+Rewrites the entire table and releases unused disk space back to the operating system.
+
+**VACUUM vs VACUUM FULL**
+
+| **VACUUM**                                 | **VACUUM FULL**                             |
+| ------------------------------------------ | ------------------------------------------- |
+| Removes dead tuples and reuses space.      | Rewrites the table and releases disk space. |
+| Allows normal operations during execution. | Requires an exclusive table lock.           |
+| Faster and commonly used.                  | Slower and used when table bloat is high.   |
+
+**Example Scenario**
+
+```sql
+UPDATE Employee
+SET salary = 70000
+WHERE id = 1;
+```
+
+PostgreSQL creates a **new row version** instead of replacing the old one.
+
+Old version:
+
+```
+salary = 60000  → dead tuple
+```
+
+New version:
+
+```
+salary = 70000  → active row
+```
+
+**VACUUM** removes the unused old version.
+
+**Common Interview Follow-up**
+
+1. **Why is VACUUM required in PostgreSQL?**
+   Because **MVCC creates old row versions**, and VACUUM removes those unused versions.
+
+2. **What are dead tuples?**
+   Old row versions that are no longer visible to any transaction.
+
+3. **Does DELETE immediately remove data in PostgreSQL?**
+   **No.** DELETE only marks rows as deleted; VACUUM removes them later.
+
+4. **Difference between VACUUM and VACUUM FULL?**
+   **VACUUM** reuses space, while **VACUUM FULL** rewrites the table and releases disk space.
+
+5. **Is VACUUM automatically executed in PostgreSQL?**
+   **Yes.** PostgreSQL uses **Autovacuum** to automatically clean dead tuples.
+
+
+## 12. Why is ANALYZE needed?
+
+**`ANALYZE`** is a PostgreSQL command that collects **statistics about tables and columns** and stores them in the system catalog. These statistics help the **Query Planner** choose the most efficient **execution plan** for SQL queries.
+
+Without updated statistics, PostgreSQL may choose an inefficient plan, causing slower query performance.
+
+**Why Is ANALYZE Needed?**
+
+1. **Improves Query Performance** – Helps PostgreSQL select the best execution plan.
+2. **Updates Table Statistics** – Collects information about data distribution, row count, and column values.
+3. **Helps Index Selection** – Allows the optimizer to decide whether using an **Index** or **Full Table Scan** is faster.
+4. **Improves JOIN Performance** – Helps choose the best **JOIN strategy**.
+5. **Useful After Data Changes** – Needed after large **`INSERT`**, **`UPDATE`**, or **`DELETE`** operations.
+
+**How Does ANALYZE Work?**
+
+1. PostgreSQL scans a sample of table data.
+2. It collects statistics such as:
+
+   * **Number of rows**
+   * **Number of distinct values**
+   * **Data distribution**
+   * **Most common values**
+3. The **Query Planner** uses these statistics to create an optimized query plan.
+
+**Code Example**
+
+**Run ANALYZE on a Table**
+
+```sql id="q8k3mp"
+ANALYZE Employee;
+```
+
+Updates statistics for the **Employee** table.
+
+**Run VACUUM with ANALYZE**
+
+```sql id="7m9x1d"
+VACUUM ANALYZE Employee;
+```
+
+Performs two tasks:
+
+1. **VACUUM** → Removes dead tuples created by **MVCC**.
+2. **ANALYZE** → Updates statistics for the **Query Planner**.
+
+**Example Scenario**
+
+Before ANALYZE:
+
+```sql id="u9n3x2"
+SELECT *
+FROM Employee
+WHERE department = 'IT';
+```
+
+PostgreSQL may incorrectly estimate the number of matching rows and choose a poor execution plan.
+
+After ANALYZE:
+
+```sql id="s4x8qp"
+ANALYZE Employee;
+```
+
+PostgreSQL gets updated statistics and can choose a better plan, such as using an **Index Scan** instead of a **Sequential Scan**.
+
+**ANALYZE vs VACUUM**
+
+| **ANALYZE**                    | **VACUUM**                          |
+| ------------------------------ | ----------------------------------- |
+| Updates **statistics**.        | Removes **dead tuples**.            |
+| Helps the **Query Planner**.   | Cleans storage created by **MVCC**. |
+| Improves query plan selection. | Prevents table bloat.               |
+
+
+## 12. What is explain plan?
+
+**`EXPLAIN PLAN`** is a tool used to understand how the **database executes a SQL query**. It shows the **execution plan** chosen by the **Query Optimizer**, including whether the database uses an **Index Scan**, **Sequential Scan**, **JOIN strategy**, and estimated costs.
+
+It helps developers identify and improve **slow queries**.
+
+**Why Is EXPLAIN PLAN Needed?**
+
+1. **Analyze Query Performance** – Shows how the database executes a query.
+2. **Identify Slow Operations** – Helps find expensive operations like **Full Table Scan**.
+3. **Check Index Usage** – Shows whether an **Index** is being used.
+4. **Optimize Queries** – Helps improve SQL performance.
+5. **Understand JOIN Operations** – Shows how tables are joined.
+
+**Code Example**
+
+**Using EXPLAIN**
+
+```sql id="wq2f7n"
+EXPLAIN
+SELECT *
+FROM Employee
+WHERE email = 'john@example.com';
+```
+
+**Example Output**
+
+```text id="3q8n1m"
+Index Scan using idx_employee_email
+on Employee
+
+Cost: 0.15..8.20
+Rows: 1
+```
+
+**Explanation:**
+
+* **Index Scan** → PostgreSQL is using an **Index** to find the data.
+* **Cost** → Estimated cost of executing the query.
+* **Rows** → Estimated number of rows returned.
+
+**EXPLAIN ANALYZE**
+
+```sql id="v6m2xk"
+EXPLAIN ANALYZE
+SELECT *
+FROM Employee
+WHERE department_id = 10;
+```
+
+**`EXPLAIN ANALYZE`** actually executes the query and shows:
+
+1. **Estimated Cost** – Expected execution cost.
+2. **Actual Time** – Real execution time.
+3. **Actual Rows** – Actual number of rows processed.
+4. **Execution Plan** – Real operations performed.
+
+**Common Execution Operations**
+
+1. **Seq Scan** – Reads the entire table (**Full Table Scan**).
+2. **Index Scan** – Uses an **Index** to find rows.
+3. **Bitmap Index Scan** – Uses an index for many matching rows.
+4. **Nested Loop Join** – Joins tables by scanning one table for each row of another.
+5. **Hash Join** – Uses a hash table for efficient joins.
+6. **Sort** – Sorts data for operations like **`ORDER BY`**.
+
+**EXPLAIN vs EXPLAIN ANALYZE**
+
+| **EXPLAIN**                         | **EXPLAIN ANALYZE**                              |
+| ----------------------------------- | ------------------------------------------------ |
+| Shows the estimated execution plan. | Executes the query and shows actual performance. |
+| Does not run the query.             | Actually runs the query.                         |
+| Safer for production use.           | Use carefully on large tables.                   |
+
+
+## 12. How to optimize slow queries?
+
+**Query Optimization** is the process of improving SQL queries so that they execute **faster** and use fewer **database resources**. The goal is to reduce **execution time**, **CPU usage**, and **disk I/O**.
+
+**Steps to Optimize Slow Queries**
+
+1. **Analyze Query Execution Plan** – Use **`EXPLAIN`** or **`EXPLAIN ANALYZE`** to understand how the database executes the query.
+
+2. **Create Proper Indexes** – Add **Indexes** on columns frequently used in **`WHERE`**, **`JOIN`**, **`ORDER BY`**, and **`GROUP BY`** clauses.
+
+3. **Avoid SELECT *** – Retrieve only required columns instead of fetching unnecessary data.
+
+4. **Optimize JOINs** – Ensure **JOIN columns are indexed** and avoid unnecessary joins.
+
+5. **Filter Data Early** – Use **`WHERE`** conditions to reduce the number of rows processed.
+
+6. **Update Statistics** – Run **`ANALYZE`** so the **Query Optimizer** has accurate information.
+
+7. **Avoid Unnecessary Subqueries** – Replace complex subqueries with **JOINs** when appropriate.
+
+8. **Use Pagination for Large Data** – Avoid loading millions of records at once.
+
+9. **Optimize Database Design** – Use proper **normalization**, **partitioning**, and appropriate data types.
+
+10. **Remove Unused Indexes** – Too many indexes slow down **`INSERT`**, **`UPDATE`**, and **`DELETE`** operations.
+
+
+Look for:
+
+* **Index Scan** → Query is using an index.
+* **Seq Scan** → Database scans the entire table.
+* **Execution Time** → Actual query performance.
+
 
 ## 12. What is SQL injection and how to prevent it?
 
@@ -3445,8 +4630,6 @@ props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");
 ```
 
 ## 13. What is an offset in Kafka?
-
-**What is an Offset in Kafka?**
 
 An **Offset** is a **unique sequential number** assigned to each message **within a Partition**. It identifies the **position** of a message and helps Kafka track which messages have been **consumed**.
 
