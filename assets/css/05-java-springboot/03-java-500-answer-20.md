@@ -2961,9 +2961,172 @@ public void consume(String message) {
 ```
 
 ## 2. What is a topic in Kafka?
+
+A **Topic** in **Apache Kafka** is a **logical channel (or category)** used to **store and organize messages (events)**. **Producers** publish messages to a topic, and **Consumers** subscribe to the topic to read those messages.
+
+For example, an e-commerce application may have topics like **`orders`**, **`payments`**, and **`notifications`**.
+
+**Key Features**
+
+1. **Logical Channel** – Stores and organizes related messages.
+2. **Producer Writes** – **Producers** publish messages to the topic.
+3. **Consumer Reads** – **Consumers** subscribe to the topic and process messages.
+4. **Partitioned** – A topic is divided into **Partitions** for **parallel processing** and **scalability**.
+5. **Offset-Based** – Each message has a unique **Offset** within its partition.
+6. **Message Retention** – Messages are stored for the configured **Retention Period**, even after they are consumed.
+
+**Code Example**
+
+**Producer**
+
+```java
+ProducerRecord<String, String> record =
+        new ProducerRecord<>("orders", "Order Created");
+
+producer.send(record);
+```
+
+**Consumer**
+
+```java
+consumer.subscribe(Arrays.asList("orders"));
+
+while (true) {
+    ConsumerRecords<String, String> records =
+            consumer.poll(Duration.ofMillis(100));
+
+    for (ConsumerRecord<String, String> record : records) {
+        System.out.println(record.value());
+    }
+}
+```
+
+
 ## 3. What is a partition and why is it needed?
+
+A **Partition** is a **subdivision of a Kafka Topic** that stores a portion of the topic's messages. Instead of storing all messages in one place, Kafka splits them across multiple **Partitions**.
+
+**Why is it Needed?**
+
+1. **Parallel Processing** – Multiple **Consumers** can process different partitions at the same time.
+2. **Scalability** – More partitions allow Kafka to handle a larger volume of messages.
+3. **High Throughput** – Multiple **Producers** and **Consumers** can work simultaneously.
+4. **Fault Tolerance** – Partitions can be **replicated** across brokers to prevent data loss.
+5. **Message Ordering** – Kafka guarantees the order of messages **within a partition**.
+
+**Code Example**
+
+**Create a Topic with 3 Partitions**
+
+```java
+@Bean
+public NewTopic ordersTopic() {
+    return TopicBuilder.name("orders")
+            .partitions(3)
+            .replicas(1)
+            .build();
+}
+```
+
+**Producer**
+
+```java
+ProducerRecord<String, String> record =
+        new ProducerRecord<>("orders", "Order Created");
+
+producer.send(record);
+```
 ## 4. How is data distributed across partitions?
+
+Kafka distributes data across **Partitions** based on the **Message Key**.
+
+1. **With a Key** – Kafka applies a **Hash Function** to the **Key** and always sends messages with the **same key** to the **same partition**. This preserves the **order** of related messages.
+
+2. **Without a Key** – Kafka distributes messages across partitions using a **Sticky Partitioner** (default in modern Kafka clients), which balances the load across partitions for better performance.
+
+**Example**
+
+Suppose a topic has **3 Partitions**.
+
+```text
+Topic: orders
+
+Key = User1  → Partition 2
+Key = User2  → Partition 1
+Key = User1  → Partition 2
+Key = User3  → Partition 0
+```
+
+Here, all messages with **Key = User1** always go to **Partition 2**, maintaining their order.
+
+**Producer Code Example**
+
+**With a Key**
+
+```java
+ProducerRecord<String, String> record =
+        new ProducerRecord<>("orders", "User1", "Order Created");
+
+producer.send(record);
+```
+
+**Without a Key**
+
+```java
+ProducerRecord<String, String> record =
+        new ProducerRecord<>("orders", "Order Created");
+
+producer.send(record);
+```
+
+
+
 ## 5. What is a message key and how does it affect partitioning?
+
+A **Message Key** is an optional value associated with a Kafka message. Kafka uses the **Key** to decide **which Partition** the message should be stored in.
+
+If two messages have the **same Key**, Kafka sends them to the **same Partition**, ensuring their **order** is maintained.
+
+**How Does It Affect Partitioning?**
+
+1. **Same Key** – Messages with the **same Key** always go to the **same Partition**.
+2. **Different Keys** – Messages with different keys may be stored in **different Partitions**.
+3. **No Key** – Kafka uses the **Sticky Partitioner** to distribute messages across partitions for balanced load.
+4. **Maintains Order** – Kafka guarantees the order of messages **within the same Partition**.
+
+**Example**
+
+Suppose the **`orders`** topic has **3 Partitions**.
+
+```text
+Key = User1  → Partition 2
+Key = User2  → Partition 0
+Key = User1  → Partition 2
+Key = User3  → Partition 1
+```
+
+Here, all messages with **Key = User1** always go to **Partition 2**, so they are processed in the correct order.
+
+**Code Example**
+
+**With a Message Key**
+
+```java
+ProducerRecord<String, String> record =
+        new ProducerRecord<>("orders", "User1", "Order Created");
+
+producer.send(record);
+```
+
+**Without a Message Key**
+
+```java
+ProducerRecord<String, String> record =
+        new ProducerRecord<>("orders", "Order Created");
+
+producer.send(record);
+```
+
 ## 6. What is a Consumer Group?
 ## 7. How does consumer load balancing work within a group?
 ## 8. Can you have more consumers than partitions?
