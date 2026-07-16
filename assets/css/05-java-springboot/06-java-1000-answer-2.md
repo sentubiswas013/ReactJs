@@ -32,7 +32,7 @@ To our readers!
 
 ### CONTENTS
 
-**Java Basics**
+# ✅ 01. **Java Basics**
 
 **1. What is the difference between JDK and JRE?
 2. What is Java Virtual Machine (JVM)?
@@ -44,7 +44,7 @@ To our readers!
 8. Do you think ‘main’ used for main method is a keyword in Java?
 9. Can we write main method as public void static instead of public static**
 
-**void?**
+# ✅ 01. **void?**
 
 **10. In Java, if we do not specify any value for local variables, then what**
 
@@ -56,7 +56,7 @@ To our readers!
 
 **12. What is the difference between byte and char data types in Java?**
 
-**OOPS**
+# ✅ 01. **OOPS**
 
 **13. What are the main principles of Object Oriented Programming?
 14. What is the difference between Object Oriented Programming**
@@ -66,7 +66,7 @@ To our readers!
 **15. In Java what is the default value of an object reference defined as an**
 
 
-**instance variable in an Object?**
+# ✅ 01. **instance variable in an Object?**
 
 **16. Why do we need constructor in Java?
 17. Why do we need default constructor in Java classes?
@@ -74,7 +74,7 @@ To our readers!
 19. Can we inherit a Constructor?
 20. Why constructors cannot be final, static, or abstract in Java?**
 
-**Inheritance**
+# ✅ 01. **Inheritance**
 
 **21. What is the purpose of ‘this’ keyword in java?
 22. Explain the concept of Inheritance?
@@ -93,7 +93,7 @@ NullPointerException?**
 30. Is it possible to use this() and super() both in same constructor?
 31. What is the meaning of object cloning in Java?**
 
-**Static**
+# ✅ 01. **Static**
 
 **32. In Java, why do we use static variable?
 33. Why it is not a good practice to create static variables in Java?**
@@ -106,11 +106,9 @@ NullPointerException?**
 37. Is it possible to execute a program without defining a main() method?
 38. What happens when static modifier is not mentioned in the signature
 of main method?
-39. What is the difference between static method and instance method in**
+39. What is the difference between static method and instance method in Java?**
 
-**Java?**
-
-**Method Overloading and Overriding**
+# ✅ 01. **Method Overloading and Overriding**
 
 **40.What is the other name of Method Overloading?**
 
@@ -119,9 +117,7 @@ of main method?
 **42.What kinds of argument variations are allowed in Method
 Overloading?**
 
-**43.Why it is not possible to do method overloading by changing return**
-
-**type of method in java?**
+**43.Why it is not possible to do method overloading by changing return type of method in java?**
 
 **44.Is it allowed to overload main() method in Java?**
 
@@ -133,32 +129,30 @@ Overloading?**
 
 **48.Is it allowed to override an overloaded method?**
 
-**49.What is the difference between method overloading and method**
+**49.What is the difference between method overloading and method overriding in Java?**
 
-**overriding in Java?**
+**50. Does Java allow virtual functions?**
 
-**50. Does Java allow virtual functions?
-51. What is meant by covariant return type in Java?**
+**51. What is meant by covariant return type in Java?**
 
-**Polymorphism**
+# ✅ 01. **Polymorphism**
 
 
-**52. What is Runtime Polymorphism?
-53. Is it possible to achieve Runtime Polymorphism by data members in**
+**52. What is Runtime Polymorphism?**
 
-**Java?**
+**53. Is it possible to achieve Runtime Polymorphism by data members in Java?**
 
 **54.Explain the difference between static and dynamic binding?**
 
-**Abstraction**
+# ✅ 01. **Abstraction**
 
-**55. What is Abstraction in Object Oriented programming?
-56. How is Abstraction different from Encapsulation?
-57. What is an abstract class in Java?**
+**55. What is Abstraction in Object Oriented programming?**
 
-**58.Is it allowed to mark a method abstract method without marking the**
+**56. How is Abstraction different from Encapsulation?**
 
-**class abstract?**
+**57. What is an abstract class in Java?**
+
+**58. Is it allowed to mark a method abstract method without marking the class abstract?**
 
 **59. Is it allowed to mark a method abstract as well as final?
 60. Can we instantiate an abstract class in Java?
@@ -191,7 +185,7 @@ variables in interfaces?**
 76. How can we initialize a blank final variable?
 77. Is it allowed to declare main method as final?**
 
-**Package**
+# ✅ 01. **Package**
 
 **78. What is the purpose of package in Java?
 79. What is java.lang package?**
@@ -208,13 +202,13 @@ variables in interfaces?**
 
 **import com.test.Fooclass?**
 
-**Internationalization**
+# ✅ 01. **Internationalization**
 
 **85.What is Locale in Java?**
 
 **86.How will you use a specific Locale in Java?**
 
-**Serialization**
+# ✅ 01. **Serialization**
 
 **87. What is the serialization?**
 
@@ -236,7 +230,7 @@ variables in interfaces?**
 
 **interface?**
 
-**Reflection**
+# ✅ 01. **Reflection**
 
 **96. What is Reflection in Java?
 97. What are the uses of Reflection in Java?**
@@ -245,7 +239,7 @@ variables in interfaces?**
 
 **99. How can we create an Object dynamically at Runtime in Java?**
 
-**Garbage Collection**
+# ✅ 01. **Garbage Collection**
 
 **100.What is Garbage Collection in Java?**
 
@@ -272,7 +266,7 @@ variables in interfaces?**
 
 **111.What are the uses of Runtime class?**
 
-**Inner Classes**
+# ✅ 01. **Inner Classes**
 
 **112.What is a Nested class?**
 
@@ -316,7 +310,7 @@ Java?**
 
 **128.What is the basic difference between a String and StringBuffer**
 
-**object?**
+# ✅ 01. **object?**
 
 **129.How will you create an immutable class in Java?**
 
@@ -326,7 +320,7 @@ Java?**
 
 **the order of efficiency for String processing operations?**
 
-**Exception Handling**
+# ✅ 01. **Exception Handling**
 
 **132.What is Exception Handling in Java?**
 
@@ -355,7 +349,7 @@ Unchecked?**
 
 **additional Exception that is not thrown by the Parent class method?**
 
-**Multi-threading**
+# ✅ 01. **Multi-threading**
 
 
 **144.How Multi-threading works in Java?**
@@ -404,7 +398,7 @@ in Java?**
 **161.In Java, how will you decide when to use a List, Set or a Map**
 
 
-**collection?**
+# ✅ 01. **collection?**
 
 **162.What are the differences between a HashMap and a Hashtable in**
 
@@ -422,7 +416,7 @@ in Java?**
 
 **168.Is it a good idea to use Generics in collections?**
 
-**Mixed Questions**
+# ✅ 01. **Mixed Questions**
 
 **169.What are Wrapper classes in Java?**
 
