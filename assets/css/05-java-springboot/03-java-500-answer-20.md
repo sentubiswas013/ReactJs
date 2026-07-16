@@ -3127,32 +3127,1132 @@ ProducerRecord<String, String> record =
 producer.send(record);
 ```
 
-## 6. What is a Consumer Group?
+## 6. What is a Consumer Group in Kafka?
+
+A **Consumer Group** is a group of **Consumers** that work together to read messages from the same **Topic**. Kafka distributes the **Partitions** among the consumers so that **each partition is consumed by only one consumer within the group**.
+
+This enables **parallel processing**, **load balancing**, and **high scalability**.
+
+**How It Works**
+
+1. Multiple **Consumers** join the same **Consumer Group** using the same **Group ID**.
+2. Kafka assigns **Partitions** to the consumers.
+3. Each **Partition** is assigned to **only one Consumer** in the group.
+4. If a consumer fails, Kafka automatically reassigns its partitions to other consumers in the group (**Rebalancing**).
+5. Different **Consumer Groups** can independently read the same topic.
+
+**Example**
+
+Suppose the **`orders`** topic has **3 Partitions**.
+
+```text id="cpjlwm"
+Consumer Group: order-group
+
+Partition 0 → Consumer 1
+Partition 1 → Consumer 2
+Partition 2 → Consumer 3
+```
+
+Each consumer processes a different partition in parallel.
+
+**Code Example**
+
+**Consumer Configuration**
+
+```java id="vk0yjo"
+@KafkaListener(
+    topics = "orders",
+    groupId = "order-group"
+)
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
+**Producer**
+
+```java id="r2j0r6"
+kafkaTemplate.send("orders", "Order Created");
+```
+
 ## 7. How does consumer load balancing work within a group?
+
+**Consumer Load Balancing** is the process where Kafka automatically distributes **Partitions** of a **Topic** among the **Consumers** in the same **Consumer Group**. This ensures that the workload is shared evenly and each partition is processed by **only one Consumer** within the group.
+
+**How It Works**
+
+1. All **Consumers** join the same **Consumer Group** using the same **Group ID**.
+2. Kafka automatically assigns **Partitions** to the consumers.
+3. **Each Partition** is assigned to **only one Consumer** within the group.
+4. If a new consumer joins or an existing consumer leaves, Kafka performs **Rebalancing** and redistributes the partitions.
+5. This ensures **parallel processing**, **load balancing**, and **fault tolerance**.
+
+**Example**
+
+Suppose the **`orders`** topic has **4 Partitions** and **2 Consumers**.
+
+```text id="j2xrdz"
+Consumer Group: order-group
+
+Partition 0 → Consumer 1
+Partition 1 → Consumer 2
+Partition 2 → Consumer 1
+Partition 3 → Consumer 2
+```
+
+If **Consumer 2** stops, Kafka rebalances the partitions:
+
+```text id="zhv0r5"
+Consumer Group: order-group
+
+Partition 0 → Consumer 1
+Partition 1 → Consumer 1
+Partition 2 → Consumer 1
+Partition 3 → Consumer 1
+```
+
+**Code Example**
+
+```java id="q5sjcs"
+@KafkaListener(
+    topics = "orders",
+    groupId = "order-group"
+)
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
+If multiple application instances use the same **`groupId`**, Kafka automatically distributes the partitions among them.
+
+
 ## 8. Can you have more consumers than partitions?
+
+**Yes**, you can have **more Consumers than Partitions**, but **only one Consumer** in a **Consumer Group** can read a **Partition** at a time.
+
+If there are **more Consumers than Partitions**, the extra consumers remain **idle** because there are no partitions available to assign to them.
+
+**How It Works**
+
+1. Kafka assigns **one Partition** to **only one Consumer** within a **Consumer Group**.
+2. If the number of **Consumers = Partitions**, every consumer gets one partition.
+3. If the number of **Consumers < Partitions**, some consumers process multiple partitions.
+4. If the number of **Consumers > Partitions**, the extra consumers remain **idle**.
+
+**Example**
+
+Suppose the **`orders`** topic has **3 Partitions** and **5 Consumers**.
+
+```text id="h4wgfs"
+Partition 0 → Consumer 1
+Partition 1 → Consumer 2
+Partition 2 → Consumer 3
+Consumer 4 → Idle
+Consumer 5 → Idle
+```
+
+Only **3 Consumers** receive partitions, while **2 Consumers** remain idle.
+
+**Code Example**
+
+```java id="up2ghk"
+@KafkaListener(
+    topics = "orders",
+    groupId = "order-group"
+)
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
+If **5 application instances** use the same **`groupId`** and the topic has only **3 Partitions**, Kafka assigns partitions to only **3 instances**. The remaining **2 instances** stay idle.
+
 ## 9. What happens when a new consumer is added to a group?
+
+When a **new Consumer** joins a **Consumer Group**, Kafka automatically performs **Rebalancing**. During rebalancing, Kafka redistributes the **Partitions** among all the consumers so the workload is shared more evenly.
+
+**How It Works**
+
+1. A new **Consumer** joins the existing **Consumer Group**.
+2. Kafka detects the membership change.
+3. Kafka temporarily pauses message consumption.
+4. Kafka performs **Rebalancing** and redistributes the **Partitions** among all consumers.
+5. After rebalancing is complete, all consumers resume processing their newly assigned partitions.
+
+**Example**
+
+Before adding a new consumer:
+
+```text id="95mjlwm"
+Topic: orders (4 Partitions)
+
+Consumer 1 → Partition 0, 1
+Consumer 2 → Partition 2, 3
+```
+
+After adding **Consumer 3**:
+
+```text id="m9v6k2"
+Topic: orders (4 Partitions)
+
+Consumer 1 → Partition 0, 1
+Consumer 2 → Partition 2
+Consumer 3 → Partition 3
+```
+
+Kafka automatically redistributes the partitions.
+
+**Code Example**
+
+```java id="2j6gfd"
+@KafkaListener(
+    topics = "orders",
+    groupId = "order-group"
+)
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
+If you start another application instance with the same **`groupId`**, Kafka automatically performs **Rebalancing** and assigns partitions to the new consumer.
+
+
 ## 10. What delivery guarantees does Kafka provide?
+
+Kafka provides **three delivery guarantees** to ensure reliable message delivery between **Producers** and **Consumers**.
+
+1. **At Most Once**
+
+   * A message is delivered **zero or one time**.
+   * Messages are **never duplicated**, but they **may be lost** if a failure occurs.
+
+2. **At Least Once**
+
+   * A message is delivered **one or more times**.
+   * Messages are **not lost**, but **duplicate messages** may occur.
+   * This is the **default and most commonly used** delivery guarantee.
+
+3. **Exactly Once**
+
+   * A message is delivered **exactly one time**.
+   * There is **no message loss** and **no duplicate processing**.
+   * Achieved using **Idempotent Producers** and **Kafka Transactions**.
+
+**Code Example**
+
+**Enable Idempotent Producer (Exactly Once)**
+
+```java
+Properties props = new Properties();
+props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+```
+
+**Consumer**
+
+```java
+@KafkaListener(topics = "orders", groupId = "order-group")
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
 ## 11. What is the difference between at-most-once, at-least-once and exactly-once?
+
+These are **Kafka Delivery Guarantees** that define how reliably messages are delivered from **Producers** to **Consumers**.
+
+| **Feature**            | **At Most Once** | **At Least Once**               | **Exactly Once**    |
+| ---------------------- | ---------------- | ------------------------------- | ------------------- |
+| **Message Delivery**   | **0 or 1 time**  | **1 or more times**             | **Exactly 1 time**  |
+| **Message Loss**       | **Possible**     | **No**                          | **No**              |
+| **Duplicate Messages** | **No**           | **Possible**                    | **No**              |
+| **Performance**        | **Fastest**      | **Good**                        | **Slightly Slower** |
+| **Use Case**           | Logging, Metrics | Order Processing, Notifications | Banking, Payments   |
+
+**Code Example**
+
+**Enable Exactly Once**
+
+```java
+Properties props = new Properties();
+props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+```
+
+**Consumer**
+
+```java
+@KafkaListener(topics = "orders", groupId = "order-group")
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
 ## 12. How to configure exactly-once semantics?
+
+**Exactly-Once Semantics (EOS)** ensures that a message is **processed exactly one time** with **no message loss** and **no duplicate processing**.
+
+**Configuration Steps**
+
+1. **Enable Idempotence** on the **Producer** to prevent duplicate messages.
+
+2. **Set `acks=all`** so the producer waits for acknowledgment from all **In-Sync Replicas (ISR)**.
+
+3. **Configure Retries** to allow Kafka to retry sending messages if a failure occurs.
+
+4. **Set a `transactional.id`** to enable **Kafka Transactions**.
+
+5. **Use Transactions** to send multiple messages atomically. Either **all messages are committed** or **all are rolled back**.
+
+6. **Configure the Consumer** with **`isolation.level=read_committed`** so it reads only **committed messages**.
+
+**Code Example**
+
+**Producer Configuration**
+
+```java id="hnc6c0"
+Properties props = new Properties();
+
+props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+props.put(ProducerConfig.ACKS_CONFIG, "all");
+props.put(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE);
+props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "order-tx-1");
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+
+producer.initTransactions();
+```
+
+**Using Transactions**
+
+```java id="4vtz5x"
+producer.beginTransaction();
+
+producer.send(new ProducerRecord<>("orders", "Order Created"));
+
+producer.commitTransaction();
+```
+
+**Consumer Configuration**
+
+```java id="bpn7l5"
+props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");
+```
+
 ## 13. What is an offset in Kafka?
+
+**What is an Offset in Kafka?**
+
+An **Offset** is a **unique sequential number** assigned to each message **within a Partition**. It identifies the **position** of a message and helps Kafka track which messages have been **consumed**.
+
+**Key Points**
+
+1. **Unique per Partition** – Each message has a unique **Offset** within its partition.
+2. **Maintains Order** – Messages are read in **Offset order** within a partition.
+3. **Tracks Progress** – Consumers store the last processed **Offset** to know where to continue reading.
+4. **Resume Processing** – If a consumer restarts, it resumes reading from the last **committed Offset**.
+5. **Not Global** – Offsets are **not unique across the entire topic**; they are unique **only within each partition**.
+
+**Example**
+
+```text
+Topic: orders
+
+Partition 0
+Offset 0 → Order 101
+Offset 1 → Order 102
+Offset 2 → Order 103
+
+Partition 1
+Offset 0 → Order 201
+Offset 1 → Order 202
+```
+
+Notice that **Partition 0** and **Partition 1** both start with **Offset 0**.
+
+**Code Example**
+
+```java
+@KafkaListener(topics = "orders", groupId = "order-group")
+public void consume(ConsumerRecord<String, String> record) {
+
+    System.out.println("Offset: " + record.offset());
+    System.out.println("Message: " + record.value());
+}
+```
 ## 14. How does commit offset work?
+
+**How Does Commit Offset Work in Kafka?**
+
+An **Offset Commit** is the process of saving the **last successfully processed Offset**. Kafka uses the committed offset to know **where the Consumer should resume** reading after a restart or failure.
+
+**How It Works**
+
+1. A **Consumer** reads messages from a **Partition**.
+2. After successfully processing the messages, it **commits the Offset**.
+3. Kafka stores the committed **Offset** for the **Consumer Group**.
+4. If the consumer restarts or fails, Kafka resumes reading **from the next Offset**, avoiding reprocessing of already committed messages.
+
+**Example**
+
+```text id="xtm7f9"
+Partition 0
+
+Offset 0 → Processed
+Offset 1 → Processed
+Offset 2 → Processed (Committed)
+Offset 3 → Next message to read
+```
+
+If the consumer restarts, it starts reading from **Offset 3**.
+
+**Code Example**
+
+**Automatic Offset Commit**
+
+```java id="qghxjf"
+props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
+```
+
+**Manual Offset Commit**
+
+```java id="y8p0mj"
+ConsumerRecords<String, String> records =
+        consumer.poll(Duration.ofMillis(100));
+
+for (ConsumerRecord<String, String> record : records) {
+    System.out.println(record.value());
+}
+
+consumer.commitSync();
+```
+
 ## 15. What is the difference between auto commit and manual commit?
+
+
+**Offset Commit** tells Kafka which messages have been **successfully processed** by a **Consumer**.
+
+| **Feature**                   | **Auto Commit**                                 | **Manual Commit**                                  |
+| ----------------------------- | ----------------------------------------------- | -------------------------------------------------- |
+| **Who Commits Offset?**       | **Kafka Automatically**                         | **Application (Developer)**                        |
+| **When is Offset Committed?** | At a fixed interval                             | After successful message processing                |
+| **Control**                   | **Less**                                        | **Full**                                           |
+| **Risk**                      | Message **loss** if committed before processing | **Safer**, as commit happens only after processing |
+| **Use Case**                  | Simple applications                             | Production applications requiring reliability      |
+
+**Code Example**
+
+**Auto Commit**
+
+```java id="n0mjlwm"
+Properties props = new Properties();
+props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
+```
+
+**Manual Commit**
+
+```java id="iixnny"
+Properties props = new Properties();
+props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+
+ConsumerRecords<String, String> records =
+        consumer.poll(Duration.ofMillis(100));
+
+for (ConsumerRecord<String, String> record : records) {
+    System.out.println(record.value());
+}
+
+consumer.commitSync();
+```
+
+
 ## 16. What is rebalancing and when does it happen?
+
+**Rebalancing** is the process where Kafka **redistributes Partitions** among the **Consumers** in a **Consumer Group**. It ensures that the workload is **evenly distributed** and that every partition is assigned to **only one Consumer** within the group.
+
+**When Does Rebalancing Happen?**
+
+1. A **new Consumer** joins the **Consumer Group**.
+2. An existing **Consumer** leaves or crashes.
+3. The number of **Partitions** in a topic changes.
+4. A **Consumer** fails to send **Heartbeats** within the configured timeout.
+
+**Example**
+
+Before rebalancing:
+
+```text id="1i4gku"
+Topic: orders (4 Partitions)
+
+Consumer 1 → Partition 0, 1
+Consumer 2 → Partition 2, 3
+```
+
+After **Consumer 3** joins:
+
+```text id="k3p54k"
+Topic: orders (4 Partitions)
+
+Consumer 1 → Partition 0, 1
+Consumer 2 → Partition 2
+Consumer 3 → Partition 3
+```
+
+Kafka automatically redistributes the partitions.
+
+**Code Example**
+
+```java id="wqk50r"
+@KafkaListener(
+    topics = "orders",
+    groupId = "order-group"
+)
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
+If you start another application instance with the same **`groupId`**, Kafka automatically performs **Rebalancing** and assigns partitions to the new consumer.
+
+
 ## 17. What is replication in Kafka?
+
+**Replication** is the process of creating **multiple copies of a Partition** across different **Kafka Brokers**. It ensures **high availability**, **fault tolerance**, and **data durability**.
+
+If one broker fails, another broker with a replica can continue serving the data without losing messages.
+
+**How It Works**
+
+1. Each **Partition** has one **Leader Replica** and one or more **Follower Replicas**.
+2. **Producers** and **Consumers** communicate only with the **Leader Replica**.
+3. **Follower Replicas** continuously copy data from the **Leader Replica**.
+4. If the **Leader Broker** fails, Kafka automatically promotes one of the **Follower Replicas** as the new **Leader**.
+
+**Example**
+
+```text id="fjlwm1"
+Topic: orders
+Replication Factor = 3
+
+Broker 1 → Partition 0 (Leader)
+Broker 2 → Partition 0 (Follower)
+Broker 3 → Partition 0 (Follower)
+```
+
+If **Broker 1** fails, Kafka elects either **Broker 2** or **Broker 3** as the new **Leader**.
+
+**Code Example**
+
+**Create a Topic with Replication Factor 3**
+
+```java id="dwdcz5"
+@Bean
+public NewTopic ordersTopic() {
+    return TopicBuilder.name("orders")
+            .partitions(3)
+            .replicas(3)
+            .build();
+}
+```
+
 ## 18. What are leader and follower replicas?
+
+**What are Leader and Follower Replicas in Kafka?**
+
+In Kafka, every **Partition** has one **Leader Replica** and one or more **Follower Replicas**. They work together to provide **high availability** and **fault tolerance**.
+
+**How They Work**
+
+1. **Leader Replica**
+
+   * Handles all **read** and **write** requests.
+   * **Producers** send messages to the **Leader**.
+   * **Consumers** read messages from the **Leader**.
+
+2. **Follower Replica**
+
+   * Continuously copies data from the **Leader Replica**.
+   * Does **not** handle client read or write requests.
+   * If the **Leader** fails, one **Follower Replica** is promoted as the new **Leader**.
+
+**Example**
+
+```text id="hzyw1r"
+Topic: orders
+Replication Factor = 3
+
+Broker 1 → Partition 0 (Leader)
+Broker 2 → Partition 0 (Follower)
+Broker 3 → Partition 0 (Follower)
+```
+
+If **Broker 1** fails, Kafka automatically promotes either **Broker 2** or **Broker 3** as the new **Leader**.
+
+**Code Example**
+
+```java id="4s0uw4"
+@Bean
+public NewTopic ordersTopic() {
+    return TopicBuilder.name("orders")
+            .partitions(3)
+            .replicas(3)
+            .build();
+}
+```
+
+This creates a topic with **3 Partitions** and a **Replication Factor** of **3**, where each partition has **1 Leader Replica** and **2 Follower Replicas**.
+
+
 ## 19. What is ISR (In-Sync Replicas)?
+
+**ISR (In-Sync Replicas)** is the set of **Replica Brokers** that are **fully synchronized** with the **Leader Replica**. These replicas have the latest data and are eligible to become the **Leader** if the current leader fails.
+
+**How It Works**
+
+1. Every **Partition** has one **Leader Replica** and one or more **Follower Replicas**.
+2. **Follower Replicas** continuously copy data from the **Leader**.
+3. If a follower stays up-to-date with the leader, it becomes part of the **ISR**.
+4. If a follower falls too far behind, Kafka removes it from the **ISR**.
+5. If the **Leader** fails, Kafka elects a new **Leader** from the **ISR**.
+
+**Example**
+
+```text id="9jlwmx"
+Topic: orders
+Replication Factor = 3
+
+Broker 1 → Leader (ISR)
+Broker 2 → Follower (ISR)
+Broker 3 → Follower (Out of Sync)
+
+ISR = {Broker 1, Broker 2}
+```
+
+If **Broker 1** fails, **Broker 2** can immediately become the new **Leader** because it is part of the **ISR**.
+
+**Code Example**
+
+**Create a Topic with Replication Factor 3**
+
+```java id="d1k0f2"
+@Bean
+public NewTopic ordersTopic() {
+    return TopicBuilder.name("orders")
+            .partitions(3)
+            .replicas(3)
+            .build();
+}
+```
+
 ## 20. How does Kafka ensure fault tolerance?
+
+**How Does Kafka Ensure Fault Tolerance?**
+
+Kafka ensures **Fault Tolerance** by using **Replication**, **Leader-Follower Replicas**, and **ISR (In-Sync Replicas)**. If a broker fails, Kafka automatically switches to another replica without losing data.
+
+**How It Works**
+
+1. Each **Partition** is replicated across multiple **Brokers**.
+2. One replica acts as the **Leader**, and the others are **Follower Replicas**.
+3. **Follower Replicas** continuously synchronize data from the **Leader**.
+4. Kafka maintains an **ISR (In-Sync Replicas)** containing replicas that are fully synchronized.
+5. If the **Leader Broker** fails, Kafka automatically elects a new **Leader** from the **ISR**.
+6. **Producers** can use **`acks=all`** to ensure messages are acknowledged only after all **ISR** replicas receive them.
+
+**Example**
+
+```text id="7wfxmi"
+Topic: orders
+Replication Factor = 3
+
+Broker 1 → Leader
+Broker 2 → Follower (ISR)
+Broker 3 → Follower (ISR)
+
+If Broker 1 fails,
+Broker 2 becomes the new Leader.
+```
+
+**Code Example**
+
+```java id="nmmwlc"
+Properties props = new Properties();
+
+props.put(ProducerConfig.ACKS_CONFIG, "all");
+props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+```
+
+The **`acks=all`** setting ensures the producer receives an acknowledgment only after all **ISR** replicas have successfully replicated the message.
+
+
 ## 21. What is producer acknowledgment and  What modes exist (acks=0,1,all)?
+
+**Producer Acknowledgment (`acks`)** determines **when the Producer considers a message successfully sent**. It controls the balance between **performance** and **reliability**.
+
+| **Mode**       | **How It Works**                                                             | **Performance** | **Reliability**                   |
+| -------------- | ---------------------------------------------------------------------------- | --------------- | --------------------------------- |
+| **`acks=0`**   | Producer does **not wait** for any acknowledgment from the broker.           | **Fastest**     | **Lowest** (messages may be lost) |
+| **`acks=1`**   | Producer waits for acknowledgment from the **Leader Replica** only.          | **Good**        | **Medium**                        |
+| **`acks=all`** | Producer waits until **all In-Sync Replicas (ISR)** acknowledge the message. | **Slowest**     | **Highest**                       |
+
+**Code Example**
+
+**`acks=0`**
+
+```java
+props.put(ProducerConfig.ACKS_CONFIG, "0");
+```
+
+**`acks=1`**
+
+```java
+props.put(ProducerConfig.ACKS_CONFIG, "1");
+```
+
+**`acks=all`**
+
+```java
+props.put(ProducerConfig.ACKS_CONFIG, "all");
+```
+
+**Complete Producer Configuration**
+
+```java
+Properties props = new Properties();
+
+props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+        StringSerializer.class.getName());
+props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+        StringSerializer.class.getName());
+
+props.put(ProducerConfig.ACKS_CONFIG, "all");
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+```
+
+
 ## 22. What is a batch in Kafka producer?
+
+**What is a Batch in Kafka Producer?**
+
+A **Batch** is a group of **multiple messages** that a **Kafka Producer** combines and sends to the broker in a **single request** instead of sending each message individually.
+
+Batching improves **performance**, **throughput**, and **network efficiency**.
+
+**How It Works**
+
+1. The **Producer** collects multiple messages in memory.
+2. Messages are grouped into a **Batch** for the same **Partition**.
+3. The batch is sent when it reaches the configured **`batch.size`** or when the **`linger.ms`** timeout expires.
+4. The broker receives and stores all messages in the batch together.
+
+**Example**
+
+Instead of sending:
+
+```text id="ztx9u6"
+Order1
+Order2
+Order3
+```
+
+Kafka sends them as **one batch**:
+
+```text id="bdrjlwm"
+Batch
+ ├── Order1
+ ├── Order2
+ └── Order3
+```
+
+This reduces the number of **network requests** and improves performance.
+
+**Code Example**
+
+```java id="j9u8n1"
+Properties props = new Properties();
+
+props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384); // 16 KB
+props.put(ProducerConfig.LINGER_MS_CONFIG, 5);      // Wait up to 5 ms
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+```
+
+
 ## 23. How does message compression work?
+
+**How Does Message Compression Work in Kafka?**
+
+**Message Compression** reduces the **size of messages** before they are sent from the **Producer** to the **Broker**. Kafka compresses **entire batches of messages**, which reduces **network bandwidth**, **storage usage**, and improves **throughput**.
+
+**How It Works**
+
+1. The **Producer** groups messages into a **Batch**.
+2. The entire **Batch** is compressed using a compression algorithm.
+3. The **Broker** stores the compressed batch.
+4. The **Consumer** automatically decompresses the batch while reading the messages.
+
+**Supported Compression Types**
+
+1. **`gzip`** – **High compression**, slower performance.
+2. **`snappy`** – **Fast compression** with good performance.
+3. **`lz4`** – **Very fast** compression and decompression.
+4. **`zstd`** – **Best compression ratio** with excellent performance (recommended for most use cases).
+
+**Code Example**
+
+```java id="6z84cr"
+Properties props = new Properties();
+
+props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "zstd");
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+```
+
+You can also use:
+
+```java id="gl4qj6"
+props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "gzip");
+// or "snappy", "lz4", "zstd"
+```
+
 ## 24. What is an idempotent producer?
+
+An **Idempotent Producer** is a Kafka **Producer** that ensures a message is **written only once**, even if it is **retried** due to network failures or broker issues. This prevents **duplicate messages**.
+
+**How It Works**
+
+1. The **Producer** sends a message to the **Broker**.
+2. If an acknowledgment is not received, the producer **retries** sending the message.
+3. Kafka assigns a unique **Producer ID (PID)** and **Sequence Number** to each message.
+4. The broker uses the **PID** and **Sequence Number** to detect and discard **duplicate messages**.
+5. This guarantees **Exactly-Once Delivery** at the producer level.
+
+**Code Example**
+
+```java id="3fjk6e"
+Properties props = new Properties();
+
+props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
+props.put(ProducerConfig.ACKS_CONFIG, "all");
+
+KafkaProducer<String, String> producer =
+        new KafkaProducer<>(props);
+```
+
 ## 25. How to handle errors when reading messages?
+
+When a **Consumer** fails to process a message, it should **handle the error**, **retry if needed**, and avoid stopping the entire application.
+
+**Common Error Handling Approaches**
+
+1. **Retry** – Retry processing the message a few times before giving up.
+2. **Dead Letter Topic (DLT)** – If processing still fails, send the message to a **Dead Letter Topic** for later analysis.
+3. **Log the Error** – Record the exception for debugging and monitoring.
+4. **Manual Offset Commit** – Commit the **Offset** only after the message is processed successfully to avoid losing messages.
+
+**Code Example**
+
+**Consumer**
+
+```java
+@KafkaListener(topics = "orders", groupId = "order-group")
+public void consume(String message) {
+    try {
+        System.out.println("Processing: " + message);
+
+        // Business logic
+
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+
+        // Retry or send to Dead Letter Topic (DLT)
+    }
+}
+```
+
+**Dead Letter Topic Configuration (Spring Kafka)**
+
+```java
+@Bean
+public DefaultErrorHandler errorHandler(KafkaTemplate<Object, Object> kafkaTemplate) {
+    return new DefaultErrorHandler(
+            new DeadLetterPublishingRecoverer(kafkaTemplate));
+}
+```
+
+
 ## 26. What is DLQ (Dead Letter Queue)?
+
+A **Dead Letter Queue (DLQ)** or **Dead Letter Topic (DLT)** is a **special Kafka Topic** where messages are sent **after they fail processing multiple times**. This prevents failed messages from blocking the processing of other messages.
+
+**How It Works**
+
+1. A **Consumer** reads a message from a **Topic**.
+2. If processing fails, Kafka **retries** the message based on the configured retry policy.
+3. If all retries fail, the message is sent to the **DLQ (Dead Letter Topic)**.
+4. Developers can later analyze, fix, and reprocess the failed messages.
+
+**Example**
+
+```text id="9xvkzq"
+orders Topic
+      │
+      ▼
+Consumer
+      │
+      ├── Success → Process Message
+      │
+      └── Failed After Retries
+                │
+                ▼
+        orders.DLT
+```
+
+**Code Example**
+
+```java id="5pjf1k"
+@Bean
+public DefaultErrorHandler errorHandler(
+        KafkaTemplate<Object, Object> kafkaTemplate) {
+
+    return new DefaultErrorHandler(
+            new DeadLetterPublishingRecoverer(kafkaTemplate));
+}
+```
+
+Failed messages are automatically published to a **Dead Letter Topic (DLT)**.
+
+
 ## 27. How to monitor consumer lag?
+
+**Consumer Lag** is the **difference between the latest Offset in a Partition and the Consumer's committed Offset**. It indicates **how far behind** a consumer is in processing messages.
+
+**How to Monitor Consumer Lag**
+
+1. Use the **`kafka-consumer-groups.sh`** command to view the lag for a **Consumer Group**.
+2. Use monitoring tools like **Prometheus** and **Grafana** to track lag in real time.
+3. Set alerts when the **Consumer Lag** exceeds a defined threshold.
+
+**Example**
+
+```text
+Latest Offset      = 100
+Committed Offset   = 80
+
+Consumer Lag = 100 - 80 = 20
+```
+
+The consumer is **20 messages behind**.
+
+**Code Example**
+
+**Using Kafka Command**
+
+```bash
+kafka-consumer-groups.sh \
+--bootstrap-server localhost:9092 \
+--group order-group \
+--describe
+```
+
+**Sample Output**
+
+```text
+TOPIC    PARTITION   CURRENT-OFFSET   LOG-END-OFFSET   LAG
+orders   0           80               100              20
+```
+
+
 ## 28. What is a retention policy?
+
+A **Retention Policy** defines **how long** or **how much data** Kafka keeps in a **Topic** before automatically deleting it. Messages are retained **even after they are consumed**.
+
+**How It Works**
+
+1. A **Producer** sends messages to a **Topic**.
+2. Kafka stores the messages on the broker.
+3. Kafka keeps the messages based on the configured **Retention Time** or **Retention Size**.
+4. Once the retention limit is reached, Kafka automatically deletes the old messages.
+
+**Types of Retention**
+
+1. **Time-Based Retention** – Messages are retained for a specified time (for example, **7 days**).
+2. **Size-Based Retention** – Messages are retained until the topic reaches a specified size.
+
+**Code Example**
+
+**Configure Retention Time (7 Days)**
+
+```properties
+retention.ms=604800000
+```
+
+**Create a Topic with Retention Configuration**
+
+```java
+@Bean
+public NewTopic ordersTopic() {
+    return TopicBuilder.name("orders")
+            .partitions(3)
+            .replicas(3)
+            .config("retention.ms", "604800000")
+            .build();
+}
+```
+
 ## 29. How are old messages deleted from a topic?
+
+Kafka automatically deletes **old messages** based on the configured **Retention Policy**. Messages are removed **even if they have not been consumed**, once the retention limit is reached.
+
+**How It Works**
+
+1. A **Producer** sends messages to a **Topic**.
+2. Kafka stores the messages in **Log Segments**.
+3. Kafka checks the configured **Retention Time** or **Retention Size**.
+4. If a **Log Segment** exceeds the retention limit, Kafka automatically deletes the **entire segment**.
+5. The remaining messages continue to be available for consumers.
+
+**Example**
+
+Suppose the retention period is **7 days**.
+
+```text id="n0v1qc"
+Day 1 → Messages Stored
+Day 5 → Messages Stored
+Day 7 → Messages Stored
+Day 8 → Day 1 Log Segment Deleted
+```
+
+Kafka deletes the **entire log segment**, not individual messages.
+
+**Code Example**
+
+**Configure Retention Time**
+
+```properties id="5cn8a6"
+retention.ms=604800000
+```
+
+**Create a Topic with Retention Policy**
+
+```java id="tjlwm6"
+@Bean
+public NewTopic ordersTopic() {
+    return TopicBuilder.name("orders")
+            .partitions(3)
+            .replicas(3)
+            .config("retention.ms", "604800000")
+            .build();
+}
+```
+
 ## 30. Can you read messages from a specific partition?
+
+**Yes**, Kafka allows a **Consumer** to read messages from a **specific Partition**. This is useful when you want to process messages from a particular partition or maintain **message ordering**.
+
+**How It Works**
+
+1. The **Consumer** is assigned a specific **Partition**.
+2. It reads messages only from that **Partition**.
+3. Messages are read in **Offset order**, preserving their sequence.
+4. The consumer can also start reading from a specific **Offset** if required.
+
+**Code Example**
+
+**Read from Partition 0**
+
+```java id="u4x6jv"
+@KafkaListener(
+    topicPartitions = @TopicPartition(
+        topic = "orders",
+        partitions = {"0"}
+    )
+)
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
+**Read from a Specific Offset**
+
+```java id="10zc79"
+@KafkaListener(
+    topicPartitions = @TopicPartition(
+        topic = "orders",
+        partitions = {"0"},
+        partitionOffsets = @PartitionOffset(
+            partition = "0",
+            initialOffset = "10"
+        )
+    )
+)
+public void consume(String message) {
+    System.out.println(message);
+}
+```
+
 ## 31. How to implement message filtering on the consumer side?
+
+**Message Filtering** allows a **Consumer** to process only the messages that match a specific condition and ignore the rest.
+
+**How It Works**
+
+1. The **Consumer** reads messages from a **Topic**.
+2. It checks each message against a **filter condition**.
+3. If the condition matches, the message is **processed**.
+4. Otherwise, the message is **ignored**.
+
+**Code Example**
+
+**Filter Inside the Consumer**
+
+```java
+@KafkaListener(topics = "orders", groupId = "order-group")
+public void consume(String message) {
+
+    if (message.contains("PAID")) {
+        System.out.println("Processing: " + message);
+    } else {
+        System.out.println("Ignoring: " + message);
+    }
+}
+```
+
+**Using Spring Kafka `RecordFilterStrategy`**
+
+```java
+@Bean
+public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(
+        ConsumerFactory<String, String> consumerFactory) {
+
+    ConcurrentKafkaListenerContainerFactory<String, String> factory =
+            new ConcurrentKafkaListenerContainerFactory<>();
+
+    factory.setConsumerFactory(consumerFactory);
+
+    factory.setRecordFilterStrategy(record ->
+            !record.value().contains("PAID"));
+
+    return factory;
+}
+```
+
+In this example, only messages containing **`PAID`** are processed. All other messages are filtered out.
+
+
 ## 32. What is RabbitMQ and When to Use It Over Kafka?
 
 **RabbitMQ** is an **open-source message broker** that enables applications to communicate by sending and receiving messages through **queues**. It is designed for **reliable message delivery** and **task-based communication**.
