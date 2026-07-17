@@ -5168,6 +5168,9 @@ new Student()   // Object
 * **Partial Abstraction:** Supports both implemented and unimplemented methods.
 
 
+# ✅ 06. Java String 
+
+
 # ✅ 06. Java Exception Handling 
 
 ## 1. What is an exception in Java?

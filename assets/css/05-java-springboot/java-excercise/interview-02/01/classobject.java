@@ -1,97 +1,227 @@
-public class Main {
-
+class Main {
     public static void main(String[] args) {
-
-        // 01. Class, Constructor + Static + Final Variable
-        classConstructorDemo();
-
-        // 02. Final Variable + Final Method
-        finalVariableMethodDemo();
-
-        // 03. Final Class (cannot be extended)
-        finalClassDemo();
-
-        // 04. Interface
-        interfaceDemo();
-
-        // 05. this & super
-        thisAndSuper();
-
-        // 06. Immutable Class
-        immutableClassDemo();
+        ConstructStaticDemo();
+        FinalVariableMethodDemo();
+        FinalClassDemo();
+        InterfaceDemo();
+        SuperThisDemo();
+        ImmutableDemo();
     }
 
-    // ============================================================
-    // 01. Class, Constructor + Static + Final Variable
-    // ============================================================
+// ============================================================
+// Class, Constructor + Static + Final Variable
+// ============================================================
+public static void ConstructStaticDemo() {
+    System.out.println("=========================== InterfaceDemo");
+    // Creating objects
+    Student s1 = new Student("Pintu", 25);
+    Student s2 = new Student("Raju", 22);
+    Student s3 = new Student(); // default constructor
 
-    public static void classConstructorDemo() {
+    // Display student info
+    s1.display();
+    s2.display();
+    s3.display();
 
-        System.out.println("=========================== classConstructorDemo");
+    // Show total count
+    Student.showCount();
 
+    // Access static nested class (no need to create outer object)
+    Student.StaticHelper helper = new Student.StaticHelper();
+    helper.showMessage();
+}
+
+
+static class Student {
+    private String name;
+    private int age;
+
+    private static int count = 0; // encapsulated
+
+    // Static block
+    static {
+        System.out.println("Static block executed");
     }
 
-    // ============================================================
-    // 02. Final Variable + Final Method
-    // ============================================================
-
-    public static void finalVariableMethodDemo() {
-
-        System.out.println("=========================== finalVariableMethodDemo");
-
+    // Default constructor
+    Student() {
+        this("Default", 0);
     }
 
-    // ============================================================
-    // 03. Final Class (cannot be extended)
-    // ============================================================
-
-    public static void finalClassDemo() {
-
-        System.out.println("=========================== finalClassDemo");
-
+    // Parameterized constructor
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+        count++;
     }
 
-    // ============================================================
-    // 04. Interface
-    // ============================================================
-
-    public static void interfaceDemo() {
-
-        System.out.println("=========================== interfaceDemo");
-
+    // Display method
+    void display() {
+        System.out.println("Student: " + name + ", " + age);
     }
 
-    // ============================================================
-    // 05. this & super
-    // ============================================================
-
-    public static void thisAndSuper() {
-
-        System.out.println("=========================== thisAndSuper");
-        
+    // Static method
+    static void showCount() {
+        System.out.println("Total Students: " + count);
     }
 
+    // Static Nested Class
+    static class StaticHelper {
+        void showMessage() {
+            System.out.println("Inside Static Nested Class");
+        }
+    }
+}
 
-    // Output
-    // Parent Constructor
-    // this.msg: Child
-    // super.msg: Parent
+// Output: 
+// Static block executed
+// Student: Pintu, 25
+// Student: Raju, 22
+// Student: Default, 0
+// Total Students: 3
+// Inside Static Nested Class
 
-    // ============================================================
-    // 06. Immutable class is a class whose object state
-    // cannot be changed after it is created.
-    // ============================================================
 
-    public static void immutableClassDemo() {
 
-        System.out.println("=========================== immutableClassDemo");
-        Person obj = new Person();
-        System.out.println(obj.name);
+// ============================================================
+// Final Variable Once assigned, value cannot be changed.
+// Final method cannot be overridden
+// ============================================================
+public static void FinalVariableMethodDemo() {
+    System.out.println("=========================== FinalVariableMethodDemo");
+}
+static class FinalVariableMethodDemo {
+
+    // final variable (constant)
+    final int MAX_VALUE = 100;
+
+    void show() {
+        System.out.println("Final variable: " + MAX_VALUE);
     }
 
-    static class Person {
-        private String name = "Sentu vv";
+    // final method (cannot be overridden)
+    final void displayMessage() {
+        System.out.println("This is a final method");
+    }
+}
+
+
+// Trying to override final method → NOT allowed
+static class FinalChild extends FinalVariableMethodDemo {
+
+    // ❌ This will give compile error if uncommented
+    /*
+    void displayMessage() {
+        System.out.println("Overriding not allowed");
+    }
+    */
+}
+
+
+// ============================================================
+// Final Class: cannot be extended to(subclassed). it is Used to Prevent inheritance for security (e.g., String, Integer) and Ensure immutability
+// ============================================================
+public static void FinalClassDemo() {
+    System.out.println("=========================== FinalClassDemo");
+}
+
+final class FinalClassDemo {
+    void show() {
+        System.out.println("Final class method");
+    }
+}
+
+// ❌ Not allowed
+// static class Test extends FinalClassDemo {
+// }
+
+
+
+// ============================================================
+// Interface: An Interface in Java is a blueprint of a class that defines a set of abstract methods which implementing classes must provide. It is mainly used to achieve abstraction and multiple inheritance.
+// ============================================================
+public static void InterfaceDemo() {
+    System.out.println("=========================== InterfaceDemo");
+    Car car = new Car();
+    car.start();
+}
+
+interface Vehicle {
+    void start();
+}
+
+static class Car implements Vehicle {
+    public void start() {
+        System.out.println("Car starts");
+    }
+}
+
+
+// ============================================================
+// this refers to the current object instance,
+// super refers to the immediate parent class object.
+// ============================================================
+public static void SuperThisDemo() {
+    System.out.println("=========================== SuperThisDemo");
+    Child c = new Child();
+    c.show();
+}
+
+
+static class Parent {
+    String msg = "Parent";
+
+    Parent() {
+        System.out.println("Parent Constructor");
+    }
+}
+
+static class Child extends Parent {
+    String msg = "Child";
+
+    Child() {
+        super(); // calls Parent constructor
     }
 
+    void show() {
+        System.out.println("this.msg: " + this.msg);
+        System.out.println("super.msg: " + super.msg);
+    }
+}
+
+
+// Output
+// Parent Constructor
+// this.msg: Child
+// super.msg: Parent
+
+
+// ============================================================
+// Immutable class is a class whose object state cannot be changed after it is created.
+// ============================================================
+public static void ImmutableDemo() {
+    System.out.println("=========================== ImmutableDemo");
+    Person p = new Person("Pintu");
+
+    System.out.println(p.getName()); // Pintu
+
+    // p.name = "Raju"; ❌ Not allowed
+    // No setter method ❌
+}
+
+static final class Person {
+
+    private final String name;
+
+    // Constructor
+    public Person(String name) {
+        this.name = name;
+    }
+
+    // Getter only (no setter)
+    public String getName() {
+        return name;
+    }
+}
 
 }

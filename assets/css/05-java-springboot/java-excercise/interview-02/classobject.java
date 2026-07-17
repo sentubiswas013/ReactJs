@@ -1,29 +1,38 @@
+class Main {
+    public static void main(String[] args) {
+        ConstructStaticDemo();
+        FinalVariableMethodDemo();
+        FinalClassDemo();
+        InterfaceDemo();
+        SuperThisDemo();
+        ImmutableDemo();
+    }
+
 // ============================================================
 // Class, Constructor + Static + Final Variable
 // ============================================================
-class Main {
-    public static void main(String[] args) {
+public static void ConstructStaticDemo() {
+    System.out.println("=========================== InterfaceDemo");
+    // Creating objects
+    Student s1 = new Student("Pintu", 25);
+    Student s2 = new Student("Raju", 22);
+    Student s3 = new Student(); // default constructor
 
-        // Creating objects
-        Student s1 = new Student("Pintu", 25);
-        Student s2 = new Student("Raju", 22);
-        Student s3 = new Student(); // default constructor
+    // Display student info
+    s1.display();
+    s2.display();
+    s3.display();
 
-        // Display student info
-        s1.display();
-        s2.display();
-        s3.display();
+    // Show total count
+    Student.showCount();
 
-        // Show total count
-        Student.showCount();
-
-        // Access static nested class (no need to create outer object)
-        Student.StaticHelper helper = new Student.StaticHelper();
-        helper.showMessage();
-    }
+    // Access static nested class (no need to create outer object)
+    Student.StaticHelper helper = new Student.StaticHelper();
+    helper.showMessage();
 }
 
-class Student {
+
+static class Student {
     private String name;
     private int age;
 
@@ -75,9 +84,13 @@ class Student {
 
 
 // ============================================================
-// Final Variable + Final Method
+// Final Variable Once assigned, value cannot be changed.
+// Final method cannot be overridden
 // ============================================================
-class FinalExample {
+public static void FinalVariableMethodDemo() {
+    System.out.println("=========================== FinalVariableMethodDemo");
+}
+static class FinalVariableMethodDemo {
 
     // final variable (constant)
     final int MAX_VALUE = 100;
@@ -94,7 +107,7 @@ class FinalExample {
 
 
 // Trying to override final method → NOT allowed
-class FinalChild extends FinalExample {
+static class FinalChild extends FinalVariableMethodDemo {
 
     // ❌ This will give compile error if uncommented
     /*
@@ -106,54 +119,56 @@ class FinalChild extends FinalExample {
 
 
 // ============================================================
-// Final Class (cannot be extended)
+// Final Class: cannot be extended to(subclassed). it is Used to Prevent inheritance for security (e.g., String, Integer) and Ensure immutability
 // ============================================================
-final class FinalClass {
+public static void FinalClassDemo() {
+    System.out.println("=========================== FinalClassDemo");
+}
+
+final class FinalClassDemo {
     void show() {
         System.out.println("Final class method");
     }
 }
 
 // ❌ Not allowed
-/*
-class Test extends FinalClass {
+// static class Test extends FinalClassDemo {
+// }
+
+
+
+// ============================================================
+// Interface: An Interface in Java is a blueprint of a class that defines a set of abstract methods which implementing classes must provide. It is mainly used to achieve abstraction and multiple inheritance.
+// ============================================================
+public static void InterfaceDemo() {
+    System.out.println("=========================== InterfaceDemo");
+    Car car = new Car();
+    car.start();
 }
-*/
 
-
-// ============================================================
-// Interface
-// ============================================================
 interface Vehicle {
     void start();
 }
 
-class Car implements Vehicle {
+static class Car implements Vehicle {
     public void start() {
         System.out.println("Car starts");
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        Car car = new Car();
-        car.start();
-    }
+
+// ============================================================
+// this refers to the current object instance,
+// super refers to the immediate parent class object.
+// ============================================================
+public static void SuperThisDemo() {
+    System.out.println("=========================== SuperThisDemo");
+    Child c = new Child();
+    c.show();
 }
 
 
-// ============================================================
-// this & super
-// ============================================================
-
-class Main {
-    public static void main(String[] args) {
-        Child c = new Child();
-        c.show();
-    }
-}
-
-class Parent {
+static class Parent {
     String msg = "Parent";
 
     Parent() {
@@ -161,7 +176,7 @@ class Parent {
     }
 }
 
-class Child extends Parent {
+static class Child extends Parent {
     String msg = "Child";
 
     Child() {
@@ -184,41 +199,17 @@ class Child extends Parent {
 // ============================================================
 // Immutable class is a class whose object state cannot be changed after it is created.
 // ============================================================
-// **Immutable Class Rules**
+public static void ImmutableDemo() {
+    System.out.println("=========================== ImmutableDemo");
+    Person p = new Person("Pintu");
 
-// * ✔ **Make the class `final`**
-//   → Prevents subclassing (so no one can override behavior)
+    System.out.println(p.getName()); // Pintu
 
-// * ✔ **Make all fields `private`**
-//   → Data cannot be accessed directly from outside
-
-// * ✔ **Make all fields `final`**
-//   → Values can be assigned only once (during object creation)
-
-// * ✔ **Initialize fields through constructor only**
-//   → No other way to set values
-
-// * ✔ **Do NOT provide setter methods**
-//   → Prevents modification after object creation
-
-// * ✔ **Provide only getter methods**
-//   → To read data safely
-
-// * ✔ **For mutable objects, return a copy (defensive copy)**
-//   → Avoid exposing internal state
-//   Example: return new List instead of original
-
-class Main {
-    public static void main(String[] args) {
-        Person p = new Person("Pintu");
-
-        System.out.println(p.getName()); // Pintu
-
-        // p.name = "Raju"; ❌ Not allowed
-        // No setter method ❌
-    }
+    // p.name = "Raju"; ❌ Not allowed
+    // No setter method ❌
 }
-final class Person {
+
+static final class Person {
 
     private final String name;
 
@@ -233,3 +224,4 @@ final class Person {
     }
 }
 
+}

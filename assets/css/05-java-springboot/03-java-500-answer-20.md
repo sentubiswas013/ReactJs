@@ -6719,6 +6719,68 @@ spec:
 * **Istio = Smart Traffic Controller** 🚦
 
 
+# ✅ 28. Docker / Kubernetes
+
+### **What is Containerization and Why is it Needed?**
+
+**Containerization** is a technology that packages an **application**, along with all its **dependencies**, **libraries**, and **configuration files**, into a single **container**. This ensures the application runs the **same way** in every environment, such as **development**, **testing**, and **production**.
+
+### **Why is Containerization Needed?**
+
+1. **Consistency** – The application behaves the same in every environment.
+2. **Portability** – Containers can run on any system that supports a container runtime like **Docker**.
+3. **Isolation** – Each container has its own dependencies, avoiding conflicts with other applications.
+4. **Fast Deployment** – Containers start much faster than virtual machines.
+5. **Efficient Resource Usage** – Containers share the host operating system, so they use less **CPU** and **memory** than virtual machines.
+6. **Easy Scaling** – Multiple container instances can be started quickly to handle increased traffic.
+
+### **Simple Interview Example**
+
+Suppose your application works on your laptop but fails on the production server because it uses a different **Java** version.
+
+By packaging the application with the required **Java version** and dependencies inside a **container**, it runs exactly the same on every machine.
+
+### **Common Tools**
+
+* **Docker** – Creates and runs containers.
+* **Kubernetes** – Manages, scales, and orchestrates containers.
+
+
+## 02. What is the difference between a container and a virtual machine?
+
+| **Container**                                                              | **Virtual Machine (VM)**                                               |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Shares the **host operating system kernel**.                               | Has its own **guest operating system**.                                |
+| **Lightweight** and uses fewer resources.                                  | **Heavier** because each VM includes a full OS.                        |
+| Starts in **seconds**.                                                     | Takes **minutes** to boot.                                             |
+| Uses **less CPU, memory, and storage**.                                    | Uses **more CPU, memory, and storage**.                                |
+| Best for **microservices**, **cloud-native**, and **DevOps** applications. | Best for running **different operating systems** on the same hardware. |
+| Example: **Docker Container**                                              | Example: **VMware**, **VirtualBox**                                    |
+
+
+## 03. What is a Dockerfile?
+## 04. What are the main instructions used in a Dockerfile?
+## 05. What is the difference between CMD and ENTRYPOINT?
+## 06. What is multi-stage build?
+## 07. What is Docker Compose?
+## 08. What is Kubernetes and why is it needed?
+## 09. What is a Pod in Kubernetes?
+## 10. What is a Node in Kubernetes?
+## 11. What is a Service in Kubernetes?
+## 12. What types of Service exist (ClusterIP, NodePort, LoadBalancer)?
+## 13. What is a ReplicaSet?
+## 14. How does scaling work in Kubernetes?
+## 15. What is HorizontalPodAutoscaler?
+## 16. What is the difference between ConfigMap and Secret?
+## 17. What is a liveness probe?
+## 18. What is a readiness probe?
+## 19. Why are health checks needed?
+## 20. What is Ingress in Kubernetes?
+## 21. What is a namespace?
+## 22. How to organize a rolling update in Kubernetes?
+## 23. What is a StatefulSet and when to use it?
+## 24. How to monitor applications in Kubernetes?
+
 
 # ✅ 28. Java AWS Cloud
 
