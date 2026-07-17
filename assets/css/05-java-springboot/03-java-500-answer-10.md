@@ -2748,18 +2748,23 @@ System.out.println(emp3.address.city); // Delhi
 **Common Interview Follow-up Questions**
 
 **1. Does `Object.clone()` perform a shallow or deep copy?**
+
 **Answer:** By default, `Object.clone()` performs a **Shallow Copy**.
 
 **2. Why is `String` safe in a shallow copy?**
+
 **Answer:** Because **String is immutable**, its value cannot be changed after creation.
 
 **3. How can you implement a Deep Copy in Java?**
+
 **Answer:** By **creating new instances** of all nested objects using **constructors**, **copy constructors**, or **serialization**.
 
 **4. Which copy is faster?**
+
 **Answer:** **Shallow Copy**, because it copies only object references instead of creating new nested objects.
 
 **5. Which copy should be used for mutable objects?**
+
 **Answer:** **Deep Copy**, because it prevents shared references and unintended modifications.
 
 
