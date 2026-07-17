@@ -8031,7 +8031,6 @@ List<String> list2 = List.of("A", "B", "C");
 | **Legacy**                 | Vector is considered a **legacy class** and is part of the original version of Java. | ArrayList is more commonly used today and is part of the modern Java collection framework. |
 | **Use Case**               | Used in multi-threaded environments where thread safety is required. | Preferred for single-threaded applications where performance is critical. |
 
-### Example:
 ```java
 // Vector example (Thread-safe)
 Vector<Integer> vector = new Vector<>();

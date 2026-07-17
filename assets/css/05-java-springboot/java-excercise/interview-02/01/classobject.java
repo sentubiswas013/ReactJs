@@ -6,6 +6,7 @@ class Main {
         InterfaceDemo();
         SuperThisDemo();
         ImmutableDemo();
+        ShallowAndDeepCopy();
     }
 
 // ============================================================
@@ -210,7 +211,6 @@ public static void ImmutableDemo() {
 }
 
 static final class Person {
-
     private final String name;
 
     // Constructor
@@ -224,4 +224,69 @@ static final class Person {
     }
 }
 
+// ============================================================
+//Shallow Copy creates a new object, but the nested objects are shared between the original and copied object.
+// Deep Copy creates a new object along with completely new copies of all nested objects, so both objects are fully independent.
+//============================================================
+public static void ShallowAndDeepCopy() {
+    System.out.println("=========================== ShallowAndDeepCopy");
+    
+    Address address = new Address("Bangalore");
+    Employee emp1 = new Employee("John", address);
+
+    // Shallow Copy
+    Employee emp2 = new Employee(emp1);
+    emp2.address.city = "Mumbai";
+
+    System.out.println(emp1.address.city); // Mumbai
+
+    // Deep Copy
+    Employee emp3 = new Employee(emp1, true);
+    emp3.address.city = "Delhi";
+
+    System.out.println(emp1.address.city); // Mumbai
+    System.out.println(emp3.address.city); // Delhi
 }
+
+static class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+
+    Address(Address other) {      // Deep copy constructor
+        this.city = other.city;
+    }
+}
+
+static class Employee {
+    String name;
+    Address address;
+
+    Employee(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    // Shallow Copy
+    Employee(Employee other) {
+        this.name = other.name;
+        this.address = other.address;
+    }
+
+    // Deep Copy
+    Employee(Employee other, boolean deep) {
+        this.name = other.name;
+        this.address = new Address(other.address);
+    }
+}
+
+
+
+
+}
+
+
+
+
