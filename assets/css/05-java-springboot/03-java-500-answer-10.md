@@ -8232,8 +8232,8 @@ public class Main {
   * Performing multiple operations like filtering, mapping, and collecting.
   * You want to leverage **parallel processing** easily.
 
-## 6. What is parallel streams? 
 
+## 6. What is parallel streams? 
 
 A **Parallel Stream** is a type of **Stream API** that processes data **concurrently using multiple threads**, dividing the task into smaller parts and executing them in parallel to improve performance.
 
@@ -8254,7 +8254,6 @@ A **Parallel Stream** is a type of **Stream API** that processes data **concurre
 * Each chunk is processed in **separate threads**
 * Results are combined using **merge operation**
 * Uses **ForkJoin framework internally**
-
 
 
 **When to use:**
@@ -8282,6 +8281,33 @@ public class Main {
     }
 }
 ```
+
+**Common Problems of Parallel Streams**
+
+1. **Overhead for Small Datasets**
+
+   * Creating and managing multiple threads adds overhead.
+   * For **small collections**, **`stream()`** is often faster than **`parallelStream()`**.
+
+2. **Unpredictable Processing Order**
+
+   * Elements may be processed in **any order**.
+   * If order matters, use **`forEachOrdered()`** instead of **`forEach()`**.
+
+3. **Thread Safety Issues**
+
+   * Modifying **shared mutable data** can cause **race conditions** and incorrect results.
+
+4. **Poor Performance for I/O Operations**
+
+   * **Database calls**, **REST APIs**, and **file operations** do not benefit much from parallel streams.
+   * They are best suited for **CPU-intensive** tasks.
+
+5. **Uses Shared `ForkJoinPool`**
+
+   * Parallel streams use the **common `ForkJoinPool`**.
+   * Heavy parallel tasks can affect the performance of other tasks using the same pool.
+
 
 
 ## 7. What is the difference between Collection and Stream API?
