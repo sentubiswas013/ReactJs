@@ -15973,6 +15973,69 @@ Examples:
 | **Analogous to** | "web standards" | JDBC interface | A JDBC driver |
 
 
+## 7. What is Projection in JPA?
+
+**Projection** in JPA means **fetching only the required fields** instead of loading the entire **Entity**. This improves **performance** by reducing the amount of data retrieved from the database.
+
+**Why Use Projection?**
+
+1. **Fetches only required columns**.
+2. **Improves performance**.
+3. **Reduces memory usage**.
+4. Ideal for **read-only** queries.
+
+**Example**
+
+**Entity**
+
+```java
+@Entity
+public class Student {
+
+    @Id
+    private Long id;
+
+    private String name;
+    private int age;
+    private String email;
+}
+```
+
+**DTO Projection**
+
+```java
+public class StudentDto {
+
+    private String name;
+    private String email;
+
+    public StudentDto(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+}
+```
+
+**JPQL Query**
+
+```java
+List<StudentDto> students = entityManager.createQuery(
+    "SELECT new com.example.StudentDto(s.name, s.email) " +
+    "FROM Student s",
+    StudentDto.class
+).getResultList();
+```
+
+Only **`name`** and **`email`** are fetched instead of the entire **Student** entity.
+
+**Types of Projection**
+
+1. **DTO Projection** – Returns a **custom DTO** using the **`new`** keyword.
+2. **Interface Projection** – Returns data through an **interface** (commonly used in **Spring Data JPA**).
+3. **Scalar Projection** – Returns selected values such as **`Object[]`** or **`Tuple`**.
+4. **Entity Projection** – Returns the **entire Entity**.
+
+
 ## 7. Different between ORM, JPA and Hibernate?
 
 | Aspect                 | ORM                                                           | JPA                                                                                                                                              | Hibernate                                                                                                                                                |
@@ -16065,6 +16128,42 @@ Hibernate automatically generates the required SQL behind the scenes.
 
    * **Faster development**, **less boilerplate code**, **automatic ORM mapping**, and **better maintainability**.
 
+
+## 8. What Does `@BatchSize` Annotation Do?
+
+**`@BatchSize`** is a Hibernate annotation that **reduces the N+1 Query Problem** by **loading multiple lazy entities or collections in a single query** instead of executing one query for each entity.
+
+**Why Use `@BatchSize`?**
+
+1. **Reduces the number of SQL queries**.
+2. **Improves performance** when using **Lazy Loading**.
+3. Helps minimize the **N+1 Query Problem**.
+
+**Example**
+
+```java id="7rv70q"
+@Entity
+public class Department {
+
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @BatchSize(size = 10)
+    private List<Employee> employees;
+}
+```
+
+If you load **20 Departments** and access their **employees**:
+
+* **Without `@BatchSize`** → **1 + 20 queries** (N+1 problem).
+* **With `@BatchSize(size = 10)`** → **1 + 2 queries** to load employees in batches of **10**.
+
+**How It Works**
+
+* Hibernate collects multiple **lazy-loaded entities or collections**.
+* It loads them in **batches** using **`IN (...)`** queries.
+* The **`size`** defines the **maximum number of entities** loaded in one batch.
 
 
 ## 8. Difference between `save() and `persist()`
@@ -16509,6 +16608,50 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 // Usage
 List<Employee> employees = employeeRepository.findEmployeesNative(50000);
 ```
+
+## 12. What is JPQL and How Does It Differ from SQL??
+
+
+**JPQL (Java Persistence Query Language)** is a **database-independent query language** used in **JPA/Hibernate**. It queries **Entity objects** instead of **database tables**.
+
+**Example JPQL**
+
+```java
+String jpql = "SELECT s FROM Student s WHERE s.name = :name";
+
+List<Student> students = entityManager
+        .createQuery(jpql, Student.class)
+        .setParameter("name", "John")
+        .getResultList();
+```
+
+**Equivalent SQL**
+
+```sql
+SELECT * 
+FROM student
+WHERE name = 'John';
+```
+
+**JPQL vs SQL**
+
+| **JPQL**                                  | **SQL**                                   |
+| ----------------------------------------- | ----------------------------------------- |
+| Works with **Entities**                   | Works with **Tables**                     |
+| Uses **Entity names** and **field names** | Uses **Table names** and **column names** |
+| **Database-independent**                  | **Database-specific**                     |
+| Returns **Java objects**                  | Returns **Rows and columns**              |
+| Used with **JPA/Hibernate**               | Used directly on the **Database**         |
+
+**When to Use JPQL**
+
+* Use **JPQL** when working with **JPA/Hibernate Entities**.
+* Use **SQL (Native Query)** when you need:
+
+  * **Database-specific features**
+  * **Complex joins or functions**
+  * **Better performance** for certain queries
+
 
 ## 13. What are JPA Cascade Types?
 
