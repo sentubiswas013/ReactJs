@@ -8508,7 +8508,7 @@ In this example, **`parallelStream()`** uses the **common `ForkJoinPool`** to pr
 * Tasks that can be **split into independent subtasks**.
 
 
-# 7. What is Lazy Evaluation in Stream?
+## 7. What is Lazy Evaluation in Stream?
 
 **Lazy Evaluation** means that **Stream intermediate operations** are **not executed immediately**. They are executed **only when a terminal operation is called**.
 
