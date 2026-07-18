@@ -5719,6 +5719,569 @@ Use **`try-with-resources`** with classes implementing **`AutoCloseable`** or **
 
 
 
+## 0. **What is exception wrapping?**
+
+**Exception wrapping** is the practice of **catching one exception and throwing another**, while preserving the **original exception** as the **cause**.
+
+It is commonly used to:
+
+* Hide **low-level implementation details**.
+* Throw a **more meaningful exception** at a higher layer.
+* Preserve the **original exception** for debugging.
+
+**Key Features:**
+
+1. Preserves the **root cause** of the error.
+2. Provides a **higher-level, meaningful exception**.
+3. Improves **abstraction** between application layers.
+4. Uses the **exception constructor** that accepts a **cause**.
+
+**Example:**
+
+```java id="aqpsuz"
+public void readData() {
+    try {
+        // Simulate a low-level exception
+        throw new java.io.IOException("File not found");
+    } catch (java.io.IOException e) {
+        throw new RuntimeException("Failed to read data", e);
+    }
+}
+```
+
+**Retrieve the Original Cause:**
+
+```java id="qdk4my"
+try {
+    readData();
+} catch (RuntimeException e) {
+    System.out.println(e.getMessage());          // Failed to read data
+    System.out.println(e.getCause().getMessage()); // File not found
+}
+```
+
+**When to Use:**
+
+* Convert **low-level exceptions** into **business exceptions**.
+* Hide implementation details between **layers** (DAO → Service → Controller).
+* Add more context while **preserving the original exception**.
+
+
+
+## 0. **Why shouldn't you swallow exceptions (empty `catch`)?**
+
+**Swallowing an exception** means catching it but **doing nothing** with it, such as using an **empty `catch` block**. This is considered a **bad practice** because it hides errors and makes debugging difficult.
+
+**Bad Example:**
+
+```java id="fwpf9d"
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    // Do nothing
+}
+```
+
+**Why is it a problem?**
+
+1. **Hides errors** – The exception is ignored.
+2. Makes **debugging difficult** because there is no error information.
+3. Can leave the application in an **inconsistent state**.
+4. May cause **unexpected behavior** later in the program.
+
+**Good Example:**
+
+```java id="qv9rtn"
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.err.println("Error: " + e.getMessage());
+    // or log the exception using a logging framework
+}
+```
+
+**Best Practices:**
+
+* **Handle** the exception if you can recover.
+* **Log** the exception if it needs to be recorded.
+* **Rethrow** or **wrap** it if a higher layer should handle it.
+* Avoid empty `catch` blocks unless there is a **well-justified reason**, and document why.
+
+
+
+## 0. **What does the `throws` keyword do?**
+
+The **`throws`** keyword is used in a **method declaration** to indicate that the method **may throw one or more exceptions**. It passes the responsibility of handling those exceptions to the **caller**.
+
+**Key Features:**
+
+1. Declares the exceptions a method can throw.
+2. Used mainly with **checked exceptions**.
+3. Transfers exception handling to the **calling method**.
+4. Multiple exceptions can be declared, separated by commas.
+
+**Syntax:**
+
+```java id="krhjz8"
+public void readFile() throws IOException {
+    // code
+}
+```
+
+**Example:**
+
+```java id="g1w8zo"
+import java.io.*;
+
+public class Main {
+
+    public static void readFile() throws IOException {
+        FileReader file = new FileReader("test.txt");
+    }
+
+    public static void main(String[] args) {
+        try {
+            readFile();
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
+    }
+}
+```
+
+**`throw` vs `throws`:**
+
+| **`throw`**                                | **`throws`**                                            |
+| ------------------------------------------ | ------------------------------------------------------- |
+| Used to **explicitly throw** an exception. | Used to **declare** that a method may throw exceptions. |
+| Used **inside** a method.                  | Used in the **method signature**.                       |
+| Throws **one exception object**.           | Can declare **multiple exception types**.               |
+
+**Example of `throw`:**
+
+```java id="2o8vf5"
+if (age < 18) {
+    throw new IllegalArgumentException("Age must be at least 18");
+}
+```
+
+
+
+## 0. **Can you throw a checked exception from a method without `throws`?**
+
+**No.** A method **cannot throw a checked exception** unless it either:
+
+1. **Handles** it using a `try-catch` block, or
+2. **Declares** it using the **`throws`** keyword.
+
+Otherwise, the code **will not compile**.
+
+**Incorrect Example (Compilation Error):**
+
+```java id="egxqhh"
+import java.io.IOException;
+
+public void readFile() {
+    throw new IOException("File not found"); // Compilation error
+}
+```
+
+**Correct Example (`throws`):**
+
+```java id="7hnb3t"
+import java.io.IOException;
+
+public void readFile() throws IOException {
+    throw new IOException("File not found");
+}
+```
+
+**Correct Example (`try-catch`):**
+
+```java id="qjlwm2"
+import java.io.IOException;
+
+public void readFile() {
+    try {
+        throw new IOException("File not found");
+    } catch (IOException e) {
+        System.out.println(e.getMessage());
+    }
+}
+```
+
+**Note:** You **can** throw an **unchecked exception** (a subclass of **`RuntimeException`**) without using `throws`.
+
+```java id="rkp9qa"
+public void validate(int age) {
+    if (age < 18) {
+        throw new IllegalArgumentException("Invalid age");
+    }
+}
+```
+
+
+
+## 0. **What happens if an exception also occurs in the `finally` block?**
+
+If an exception is thrown in the **`finally`** block, it **overrides** any exception thrown in the `try` or `catch` block.
+
+As a result:
+
+* The **original exception is lost** (unless it is explicitly preserved).
+* The exception from the **`finally`** block is the one that propagates to the caller.
+
+**Example:**
+
+```java id="3h4x8v"
+public class Main {
+    public static void main(String[] args) {
+        try {
+            throw new RuntimeException("Exception from try");
+        } finally {
+            throw new RuntimeException("Exception from finally");
+        }
+    }
+}
+```
+
+**Output:**
+
+```text id="c6r5ta"
+Exception in thread "main" java.lang.RuntimeException: Exception from finally
+```
+
+The exception from the `try` block is **not propagated**.
+
+**How Java 7+ Handles This (try-with-resources):**
+
+With **try-with-resources**, if both the `try` block and `close()` throw exceptions:
+
+* The exception from the **`try`** block becomes the **main exception**.
+* The exception from `close()` is stored as a **suppressed exception**.
+
+**Example:**
+
+```java id="u2q9mk"
+try (MyResource r = new MyResource()) {
+    throw new Exception("Main exception");
+}
+```
+
+You can retrieve suppressed exceptions using:
+
+```java id="q8n2yb"
+exception.getSuppressed();
+```
+
+**Best Practice:**
+
+* Avoid throwing exceptions from a **`finally`** block.
+* Use **try-with-resources** for automatic resource cleanup, as it preserves the original exception.
+
+
+
+## 0. **What are suppressed exceptions?**
+
+**Suppressed exceptions** are exceptions that occur during **resource cleanup** (such as in `close()`) when another exception has already been thrown in the `try` block.
+
+Introduced in **Java 7**, they are mainly used with **try-with-resources** to **preserve the original exception**.
+
+**How It Works:**
+
+1. The **`try`** block throws an exception.
+2. While closing the resource, **`close()`** also throws an exception.
+3. The exception from the **`try`** block becomes the **main exception**.
+4. The exception from **`close()`** is stored as a **suppressed exception**.
+
+**Example:**
+
+```java id="9m3l1w"
+class MyResource implements AutoCloseable {
+    @Override
+    public void close() throws Exception {
+        throw new Exception("Exception while closing");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        try (MyResource r = new MyResource()) {
+            throw new Exception("Exception in try block");
+        } catch (Exception e) {
+            System.out.println("Main: " + e.getMessage());
+
+            for (Throwable t : e.getSuppressed()) {
+                System.out.println("Suppressed: " + t.getMessage());
+            }
+        }
+    }
+}
+```
+
+**Output:**
+
+```text id="r2m0yb"
+Main: Exception in try block
+Suppressed: Exception while closing
+```
+
+**Useful Methods:**
+
+* **`getSuppressed()`** – Returns all suppressed exceptions.
+* **`addSuppressed(Throwable)`** – Adds a suppressed exception manually.
+
+**Why Are They Important?**
+
+* Preserve the **original exception**.
+* Prevent cleanup exceptions from **hiding the real cause**.
+* Make **debugging easier**.
+
+
+
+## 0. **Can you have multiple `catch` blocks for a single `try`?**
+
+**Yes.** A single **`try`** block can have **multiple `catch` blocks** to handle **different types of exceptions**.
+
+Java checks the `catch` blocks **from top to bottom**. The **first matching** `catch` block is executed, and the rest are skipped.
+
+**Example:**
+
+```java id="v8n3qy"
+try {
+    String s = null;
+    System.out.println(s.length());
+} catch (ArithmeticException e) {
+    System.out.println("Arithmetic error");
+} catch (NullPointerException e) {
+    System.out.println("Null pointer error");
+} catch (Exception e) {
+    System.out.println("General exception");
+}
+```
+
+**Output:**
+
+```text id="j5r9cb"
+Null pointer error
+```
+
+**Rules:**
+
+1. You can have **multiple `catch` blocks** for one `try`.
+2. Catch **more specific exceptions first**.
+3. Catch **more general exceptions** (like `Exception`) **last**.
+4. Otherwise, the code **will not compile** because later `catch` blocks become unreachable.
+
+**Incorrect Example:**
+
+```java id="w7m1xp"
+try {
+    // code
+} catch (Exception e) {
+    // Handles all exceptions
+} catch (ArithmeticException e) { // Compilation error
+    // Unreachable code
+}
+```
+
+
+
+## 0. **What is multi-catch?**
+
+**Multi-catch** is a Java feature (introduced in **Java 7**) that allows **one `catch` block to handle multiple exception types**.
+
+It reduces **duplicate code** when the handling logic is the same for different exceptions.
+
+**Syntax:**
+
+```java id="8b1xqt"
+catch (ExceptionType1 | ExceptionType2 e) {
+    // Handle both exceptions
+}
+```
+
+**Example:**
+
+```java id="u0q6ps"
+try {
+    String s = null;
+    System.out.println(s.length());
+} catch (NullPointerException | ArithmeticException e) {
+    System.out.println("Exception occurred: " + e.getMessage());
+}
+```
+
+**Rules:**
+
+1. Separate exception types with the **`|`** operator.
+2. The exception types **must not** have a **parent-child relationship**.
+3. The exception variable (`e`) is **implicitly final**, so it **cannot be reassigned**.
+
+**Incorrect Example:**
+
+```java id="0xpkdh"
+try {
+    // code
+} catch (Exception | IOException e) { // Compilation error
+}
+```
+
+This is invalid because **`IOException`** is a subclass of **`Exception`**.
+
+**When to Use:**
+
+* When **multiple exceptions** require the **same handling logic**.
+* To make the code **cleaner** and avoid duplicate `catch` blocks.
+
+
+
+## 0. **In what order should you arrange `catch` blocks?**
+
+`catch` blocks should be arranged from **most specific** exception to **most general** exception.
+
+Java checks the `catch` blocks **from top to bottom** and executes the **first matching** one.
+
+If a **general exception** is placed before a **specific exception**, the specific `catch` block becomes **unreachable**, causing a **compilation error**.
+
+**Correct Order:**
+
+```java id="9n5mzk"
+try {
+    String s = null;
+    System.out.println(s.length());
+} catch (NullPointerException e) {
+    System.out.println("Null pointer");
+} catch (RuntimeException e) {
+    System.out.println("Runtime exception");
+} catch (Exception e) {
+    System.out.println("General exception");
+}
+```
+
+**Incorrect Order:**
+
+```java id="m7x4qc"
+try {
+    String s = null;
+    System.out.println(s.length());
+} catch (Exception e) {
+    System.out.println("General exception");
+} catch (NullPointerException e) { // Compilation error
+    System.out.println("Null pointer");
+}
+```
+
+**Why?**
+
+* `Exception` catches **all exceptions**, including `NullPointerException`.
+* Therefore, the second `catch` block can **never be reached**.
+
+**Rule to Remember:**
+
+1. **Most specific** exceptions first.
+2. **More general** exceptions next.
+3. **`Exception`** (or **`Throwable`**, if used) **last**.
+
+
+
+## 0. **Can you re-throw an exception?**
+
+**Yes.** You can **re-throw an exception** after catching it using the **`throw`** keyword.
+
+This is useful when:
+
+* You want to **log** the exception first.
+* You want a **higher layer** to handle it.
+* You want to **wrap** it in another exception.
+
+**Example (Re-throw the Same Exception):**
+
+```java id="5q8wzc"
+public void process() throws Exception {
+    try {
+        throw new Exception("Something went wrong");
+    } catch (Exception e) {
+        System.out.println("Logging: " + e.getMessage());
+        throw e; // Re-throw the same exception
+    }
+}
+```
+
+**Example (Wrap and Re-throw):**
+
+```java id="9j2lkm"
+try {
+    throw new java.io.IOException("File not found");
+} catch (java.io.IOException e) {
+    throw new RuntimeException("Failed to process file", e);
+}
+```
+
+**Why Re-throw an Exception?**
+
+1. **Log** the exception before propagating it.
+2. Let a **higher layer** handle it.
+3. Add **more context** by wrapping it in another exception.
+4. Preserve the **original cause** for debugging.
+
+
+## 0. **What is exception chaining?**
+
+**Exception chaining** is the process of **linking one exception to another** by storing the **original exception as the cause** of a new exception.
+
+It helps preserve the **root cause** while providing a **higher-level, more meaningful exception**.
+
+**Key Features:**
+
+1. Preserves the **original exception**.
+2. Adds **more context** for higher application layers.
+3. Improves **debugging**.
+4. Uses the exception constructor that accepts a **cause**.
+
+**Example:**
+
+```java id="w4n7kp"
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            try {
+                throw new IOException("File not found");
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to process file", e);
+            }
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());              // Failed to process file
+            System.out.println(e.getCause().getMessage());   // File not found
+        }
+    }
+}
+```
+
+**Useful Methods:**
+
+* **`getCause()`** – Returns the original exception.
+* **`initCause()`** – Sets the cause (rarely used; constructors are preferred).
+
+**When to Use:**
+
+* Convert **low-level exceptions** into **business exceptions**.
+* Add meaningful context between **DAO**, **Service**, and **Controller** layers.
+* Preserve the **root cause** for troubleshooting.
+
+**Exception Chaining vs Exception Wrapping:**
+
+| **Exception Chaining**                                               | **Exception Wrapping**                                                        |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Links a new exception to the original exception using the **cause**. | Catches one exception and throws another, usually while preserving the cause. |
+| Focuses on maintaining the **cause relationship**.                   | Focuses on converting one exception into a more appropriate one.              |
+| Uses **`getCause()`** to access the original exception.              | Typically implemented using **exception chaining**.                           |
+
+
+
+
 # ✅ 07. Java Collections Framework
 
 ## 0. What is Java Collections?
