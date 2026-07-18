@@ -16739,6 +16739,52 @@ Session session = entityManager.unwrap(Session.class);
 * Use **`EntityManager`** for **portable JPA applications**.
 * Use **`Session`** only when you need **Hibernate-specific features**.
 
+## 14. **What is `@Version` and Why Is It Needed?**
+
+**`@Version`** is a JPA annotation used for **Optimistic Locking**. It prevents **lost updates** when **multiple users** try to update the same entity at the same time.
+
+**Why Use `@Version`?**
+
+1. Prevents **concurrent update conflicts**.
+2. Ensures **data consistency**.
+3. Automatically detects if another transaction has already modified the entity.
+
+**Example**
+
+```java id="gwgbf2"
+@Entity
+public class Product {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    @Version
+    private Long version;
+}
+```
+
+**How It Works**
+
+1. Two users load the **same Entity** (version = **1**).
+2. **User A** updates and saves it.
+3. Hibernate updates the row and increments the version to **2**.
+4. **User B** tries to save using version **1**.
+5. Hibernate throws an **`OptimisticLockException`** because the entity was already modified.
+
+**Example**
+
+```java id="oof3k4"
+Product product = entityManager.find(Product.class, 1L);
+
+product.setName("Laptop");
+
+entityManager.merge(product);
+```
+
+Hibernate automatically checks the **version** before updating.
+
 
 ## 14. What is Database Indexing and When to Use It?
 
