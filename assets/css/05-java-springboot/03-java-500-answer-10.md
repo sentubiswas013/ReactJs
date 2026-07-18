@@ -5805,6 +5805,11 @@ Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs w
 ArrayList : add(), get(), set(), and remove() to manage your list of elements.
 LinkedList
 
+**What operations does the Collection interface support?**
+
+The **`Collection`** interface provides common operations such as **adding**, **removing**, **searching**, **iterating**, **checking size**, **clearing**, and **converting** collections, making it the **root interface** for most collection types in Java.
+
+
 ## 0. Main Interfaces of the Collection Framework?
 
 The **Java Collection Framework** provides a set of **interfaces** for storing and manipulating groups of objects. Each interface is designed for a specific type of data structure.
@@ -6153,7 +6158,6 @@ public class Demo {
 ## 5. How does HashMap work internally?
 
 
-
 A **`HashMap`** is a data structure in Java that stores data as **key-value pairs**. Internally, it uses a **hash table** to provide very fast **insertion**, **deletion**, and **lookup** operations.
 
 
@@ -6272,9 +6276,110 @@ public class Demo {
 | **`remove()`** | O(1)             | O(log n) (after treeification) |
 
 
+
+## 5. Difference between HashSet, LinkedHashSet and TreeSet?
+
+All three implement the **`Set`** interface and store **unique elements**, but they differ in **ordering**, **performance**, and **implementation**.
+
+| **`HashSet`**                                               | **`LinkedHashSet`**                                | **`TreeSet`**                        |
+| ----------------------------------------------------------- | -------------------------------------------------- | ------------------------------------ |
+| Uses a **Hash Table**.                                      | Uses a **Hash Table + Linked List**.               | Uses a **Red-Black Tree**.           |
+| **No insertion order** is maintained.                       | Maintains **insertion order**.                     | Stores elements in **sorted order**. |
+| **Fastest** for add, remove, and search (**O(1)** average). | Slightly slower than `HashSet` (**O(1)** average). | Slower operations (**O(log n)**).    |
+| Allows **one `null`** element.                              | Allows **one `null`** element.                     | Does **not allow `null`** elements.  |
+
+**Example**
+
+```java id="t3n8yu"
+import java.util.*;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        Set<Integer> hashSet = new HashSet<>();
+        hashSet.add(30);
+        hashSet.add(10);
+        hashSet.add(20);
+
+        Set<Integer> linkedHashSet = new LinkedHashSet<>();
+        linkedHashSet.add(30);
+        linkedHashSet.add(10);
+        linkedHashSet.add(20);
+
+        Set<Integer> treeSet = new TreeSet<>();
+        treeSet.add(30);
+        treeSet.add(10);
+        treeSet.add(20);
+
+        System.out.println(hashSet);       // Order not guaranteed
+        System.out.println(linkedHashSet); // [30, 10, 20]
+        System.out.println(treeSet);       // [10, 20, 30]
+    }
+}
+```
+
+**When to Use**
+
+* Use **`HashSet`** when you need **fast performance** and **order does not matter**.
+* Use **`LinkedHashSet`** when you need to **preserve insertion order**.
+* Use **`TreeSet`** when you need **automatically sorted** elements.
+
+
+## 6. What is TreeSet and how does it work internally
+
+
+**`TreeSet`** is a **Set** implementation that stores **unique elements** in **sorted order**. Internally, it uses a **Red-Black Tree**, which is a **self-balancing Binary Search Tree (BST)**.
+
+**How It Works Internally**
+
+1. When an element is added, **`TreeSet`** inserts it into a **Red-Black Tree**.
+2. The tree automatically keeps elements **sorted** using their **natural ordering** or a **`Comparator`**.
+3. If a duplicate element is added, it is **ignored** because a **Set** does not allow duplicates.
+4. After every insertion or deletion, the **Red-Black Tree** rebalances itself to maintain efficient performance.
+
+**Key Features**
+
+* Stores **unique** elements.
+* Maintains **sorted order**.
+* Uses a **Red-Black Tree** internally.
+* **Does not allow `null`** elements.
+* **Add**, **Remove**, and **Search** operations take **O(log n)** time.
+
+**Example**
+
+```java
+import java.util.TreeSet;
+
+public class Demo {
+    public static void main(String[] args) {
+        TreeSet<Integer> set = new TreeSet<>();
+
+        set.add(30);
+        set.add(10);
+        set.add(20);
+        set.add(10); // Duplicate
+
+        System.out.println(set);
+    }
+}
+```
+
+**Output**
+
+```text
+[10, 20, 30]
+```
+
+The elements are automatically **sorted**, and the duplicate **`10`** is ignored.
+
+**When to Use**
+
+* When you need **unique** elements.
+* When data must always remain **sorted**.
+* When you need operations like **`first()`**, **`last()`**, **`higher()`**, **`lower()`**, **`ceiling()`**, and **`floor()`**.
+
+
 ## 6. What is hash collision and how is it handled?
-
-
 
 A **Hash Collision** occurs when **two different keys generate the same hash code or map to the same bucket** in a **`HashMap`**.
 
@@ -7390,7 +7495,6 @@ public class Demo {
 ## 17. What is `CopyOnWriteArrayList`?
 
 
-
 **`CopyOnWriteArrayList`** is a **thread-safe** implementation of the **`List`** interface in Java. Whenever an element is **added**, **updated**, or **removed**, it creates a **new copy** of the underlying array. This allows multiple threads to **read safely** without locking.
 
 **How It Works**
@@ -7446,6 +7550,185 @@ Spring
 
 The loop iterates over the **original snapshot**, so no **`ConcurrentModificationException`** occurs.
 
+
+## 17. What is ConcurrentModificationException?
+
+
+**`ConcurrentModificationException`** is a **runtime exception** that occurs when a collection is **modified while it is being iterated**, except through the iterator's own methods.
+
+**How It Happens**
+
+1. An **Iterator** starts traversing a collection.
+2. The collection is modified using methods like **`add()`** or **`remove()`** directly on the collection.
+3. The iterator detects the modification and throws **`ConcurrentModificationException`**.
+
+**Example (Throws Exception)**
+
+```java
+import java.util.*;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+
+        list.add("Java");
+        list.add("Spring");
+        list.add("Docker");
+
+        for (String item : list) {
+            if (item.equals("Spring")) {
+                list.remove(item); // Throws ConcurrentModificationException
+            }
+        }
+    }
+}
+```
+
+**Correct Way Using `Iterator`**
+
+```java
+import java.util.*;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+
+        list.add("Java");
+        list.add("Spring");
+        list.add("Docker");
+
+        Iterator<String> iterator = list.iterator();
+
+        while (iterator.hasNext()) {
+            if (iterator.next().equals("Spring")) {
+                iterator.remove(); // Safe removal
+            }
+        }
+
+        System.out.println(list);
+    }
+}
+```
+
+**Output**
+
+```text
+[Java, Docker]
+```
+
+**How to Avoid It**
+
+1. Use **`Iterator.remove()`** instead of **`Collection.remove()`** during iteration.
+2. Use **`CopyOnWriteArrayList`** for **read-heavy, multi-threaded** applications.
+3. Collect elements to remove and delete them **after** iteration.
+
+## 21. How to properly remove elements during iteration?
+
+The **safe** way to remove elements during iteration is to use the **`Iterator.remove()`** method. Removing elements directly using **`Collection.remove()`** while iterating can cause a **`ConcurrentModificationException`**.
+
+**Using `Iterator.remove()` (Recommended)**
+
+```java
+import java.util.*;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+
+        list.add("Java");
+        list.add("Spring");
+        list.add("Docker");
+
+        Iterator<String> iterator = list.iterator();
+
+        while (iterator.hasNext()) {
+            String item = iterator.next();
+
+            if (item.equals("Spring")) {
+                iterator.remove(); // Safe removal
+            }
+        }
+
+        System.out.println(list);
+    }
+}
+```
+
+**Output**
+
+```text
+[Java, Docker]
+```
+
+**Using `removeIf()` (Java 8+)**
+
+```java
+List<String> list = new ArrayList<>();
+
+list.add("Java");
+list.add("Spring");
+list.add("Docker");
+
+list.removeIf(item -> item.equals("Spring"));
+
+System.out.println(list);
+```
+
+**Output**
+
+```text
+[Java, Docker]
+```
+
+
+## 23. What is the difference between Iterator and ListIterator?
+
+**`Iterator`** is used to **traverse any Collection in the forward direction**, 
+
+**`ListIterator`** works **only with `List`**, supports **forward and backward traversal**, and allows **adding**, **updating**, and **removing** elements during iteration.
+
+| **`Iterator`**                                          | **`ListIterator`**                                                                                                       |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Works with **all Collection** types.                    | Works **only with `List`** implementations.                                                                              |
+| Traverses **only in the forward direction**.            | Traverses **both forward and backward**.                                                                                 |
+| Supports **`remove()`** operation.                      | Supports **`remove()`**, **`add()`**, and **`set()`** operations.                                                        |
+| Methods: **`hasNext()`**, **`next()`**, **`remove()`**. | Methods: **`hasNext()`**, **`next()`**, **`hasPrevious()`**, **`previous()`**, **`remove()`**, **`add()`**, **`set()`**. |
+
+**Example Using `Iterator`**
+
+```java id="a7d4pl"
+import java.util.*;
+
+List<String> list = new ArrayList<>();
+list.add("Java");
+list.add("Spring");
+
+Iterator<String> iterator = list.iterator();
+
+while (iterator.hasNext()) {
+    System.out.println(iterator.next());
+}
+```
+
+**Example Using `ListIterator`**
+
+```java id="2n4gkx"
+import java.util.*;
+
+List<String> list = new ArrayList<>();
+list.add("Java");
+list.add("Spring");
+
+ListIterator<String> iterator = list.listIterator();
+
+while (iterator.hasNext()) {
+    System.out.println(iterator.next());
+}
+
+while (iterator.hasPrevious()) {
+    System.out.println(iterator.previous());
+}
+```
 
 
 # ✅ 08. Java Lambda Expres.. & Streams API 
