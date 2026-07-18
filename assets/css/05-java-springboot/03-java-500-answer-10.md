@@ -5698,18 +5698,23 @@ public class Demo {
 **Common Interview Follow-up Questions**
 
 **1. Can a `final` variable be changed?**
+
 **No.** Once assigned, it cannot be reassigned.
 
 **2. Does the `finally` block always execute?**
+
 **Yes**, except in rare cases such as calling **`System.exit()`** or when the JVM terminates unexpectedly.
 
 **3. Can a `final` method be overridden?**
+
 **No.** A **`final`** method cannot be overridden by a subclass.
 
 **4. Why is `finalize()` deprecated?**
+
 Because its execution is **unpredictable**, may never occur, and it can negatively impact performance. Modern Java recommends **`try-with-resources`** and **`AutoCloseable`** instead.
 
 **5. What is the best alternative to `finalize()`?**
+
 Use **`try-with-resources`** with classes implementing **`AutoCloseable`** or **`Closeable`** for reliable resource management.
 
 
