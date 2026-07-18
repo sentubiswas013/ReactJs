@@ -8307,6 +8307,70 @@ public class Main {
   * You want to leverage **parallel processing** easily.
 
 
+## 7. What are Side Effects in Stream??
+
+**Side Effects** are **changes to external state** made inside a **Stream** operation. This includes modifying external variables, collections, or objects while processing the stream.
+
+Streams are designed to be **stateless** and **side-effect free**.
+
+**Examples of Side Effects**
+
+* Modifying an external **List**.
+* Updating a **variable** outside the stream.
+* Writing to a **file** or **database** inside stream operations.
+* Printing to the console using **`forEach()`** (acceptable for debugging, but not for business logic).
+
+**Bad Example (Side Effect)**
+
+```java id="cldhgl"
+import java.util.*;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> result = new ArrayList<>();
+
+        numbers.stream()
+               .filter(n -> n % 2 == 0)
+               .forEach(result::add); // Side effect
+
+        System.out.println(result);
+    }
+}
+```
+
+**Good Example (No Side Effect)**
+
+```java id="zwk24m"
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        List<Integer> result = numbers.stream()
+                                      .filter(n -> n % 2 == 0)
+                                      .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+```
+
+**Why Avoid Side Effects?**
+
+1. Improves **readability** and **maintainability**.
+2. Prevents **race conditions** in **Parallel Streams**.
+3. Makes stream operations **predictable** and **thread-safe**.
+4. Follows the **functional programming** style.
+
+**When to Use Side Effects**
+
+* **Logging** or **debugging** using **`forEach()`**.
+* Avoid using side effects for **business logic** or **data processing**.
+
+
 ## 6. What is parallel streams? 
 
 A **Parallel Stream** is a type of **Stream API** that processes data **concurrently using multiple threads**, dividing the task into smaller parts and executing them in parallel to improve performance.
@@ -8382,6 +8446,8 @@ public class Main {
    * Parallel streams use the **common `ForkJoinPool`**.
    * Heavy parallel tasks can affect the performance of other tasks using the same pool.
 
+
+
 ## 7. What is ForkJoinPool and how is it related to parallel streams?
 
 **`ForkJoinPool`** is a **thread pool** introduced in **Java 7** for executing tasks in **parallel**. It follows the **Fork/Join** framework, where a large task is **split (fork)** into smaller tasks, processed by multiple threads, and then **combined (join)** to produce the final result.
@@ -8442,6 +8508,72 @@ In this example, **`parallelStream()`** uses the **common `ForkJoinPool`** to pr
 * Tasks that can be **split into independent subtasks**.
 
 
+# 7. What is Lazy Evaluation in Stream?
+
+**Lazy Evaluation** means that **Stream intermediate operations** are **not executed immediately**. They are executed **only when a terminal operation is called**.
+
+This improves **performance** by processing only the required elements.
+
+**How It Works**
+
+1. A **Stream** is created.
+2. **Intermediate operations** like **`filter()`**, **`map()`**, and **`sorted()`** are defined.
+3. No processing happens until a **terminal operation** such as **`collect()`**, **`forEach()`**, **`count()`**, or **`reduce()`** is called.
+4. When the terminal operation is executed, the entire pipeline is processed.
+
+**Key Features**
+
+1. **Execution is delayed** until a **terminal operation** is invoked.
+2. Improves **performance** by avoiding unnecessary processing.
+3. Processes elements **on demand**.
+4. Supports **pipeline optimization**.
+
+**Example**
+
+```java id="jlwmwo"
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Java", "Spring", "Docker");
+
+        List<String> result = names.stream()
+                .filter(name -> {
+                    System.out.println("Filtering: " + name);
+                    return name.startsWith("J");
+                })
+                .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+```
+
+**Output**
+
+```text id="yqisv9"
+Filtering: Java
+Filtering: Spring
+Filtering: Docker
+[Java]
+```
+
+The **`filter()`** operation runs **only when** **`collect()`** is called.
+
+**Example Without a Terminal Operation**
+
+```java id="p6xsn6"
+List<String> names = Arrays.asList("Java", "Spring", "Docker");
+
+names.stream()
+     .filter(name -> name.startsWith("J"));
+
+// Nothing happens because there is no terminal operation.
+```
+
+
 ## 7. Can you modify the state of external variables in Stream operations?
 
 **Yes, but it is not recommended.** Stream operations should be **stateless** and **side-effect free**. Modifying external variables can lead to **incorrect results**, especially when using **Parallel Streams**.
@@ -8452,6 +8584,7 @@ In this example, **`parallelStream()`** uses the **common `ForkJoinPool`** to pr
 2. Makes the code harder to **understand** and **maintain**.
 3. Breaks the **functional programming** style of Streams.
 4. May produce **unexpected results**.
+
 
 ## 7. What is the difference between Collection and Stream API?
 
@@ -8503,6 +8636,7 @@ Stream<String> stream = collection.stream();
 stream.filter(s -> s.length() > 1); // Doesn't modify collection
 // stream.filter(...); // Error - stream already used
 ```
+
 
 ## 8. What are intermediate and terminal operations?
 
@@ -8783,6 +8917,73 @@ public class Test {
     }
 }
 ```
+
+
+## 10. What is the difference between reduce() and collect()?
+
+Both **`reduce()`** and **`collect()`** are **terminal operations** in the Java Stream API, but they are used for different purposes.
+
+| **`reduce()`**                                                                      | **`collect()`**                                                                                |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Combines stream elements into **a single result**.                                  | Collects stream elements into **a collection or another container**.                           |
+| Used for **aggregation** such as **sum**, **product**, **minimum**, or **maximum**. | Used to create **`List`**, **`Set`**, **`Map`**, or perform **grouping** and **partitioning**. |
+| Returns a **single value** (or `Optional`).                                         | Returns a **mutable result container**.                                                        |
+| Best for **mathematical** or **aggregation** operations.                            | Best for collecting and organizing data.                                                       |
+
+**Example Using `reduce()`**
+
+```java id="pm6jlwm"
+import java.util.Arrays;
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        int sum = numbers.stream()
+                         .reduce(0, Integer::sum);
+
+        System.out.println(sum);
+    }
+}
+```
+
+**Output**
+
+```text id="2ab0sl"
+15
+```
+
+**Example Using `collect()`**
+
+```java id="4kxy6e"
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Java", "Spring", "Docker");
+
+        List<String> result = names.stream()
+                                   .filter(name -> name.length() > 5)
+                                   .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+```
+
+**Output**
+
+```text id="pv9d9l"
+[Spring, Docker]
+```
+
+**When to Use**
+
+* Use **`reduce()`** when you need **one final value**, such as **sum**, **maximum**, **minimum**, or **product**.
+* Use **`collect()`** when you need to **store**, **group**, or **transform** stream elements into a **List**, **Set**, **Map**, or another collection.
 
 
 
