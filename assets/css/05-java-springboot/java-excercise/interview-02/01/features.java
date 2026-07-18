@@ -3,6 +3,7 @@ import java.util.function.*;
 import java.util.stream.*;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 // ============================================================
 // 39–43 + Extra: Java 8 Features (Interview Ready)
@@ -22,6 +23,7 @@ class Main {
         ParallelStreamDemo();
         MapDemo();
         flatMapDemo();
+        CopyOnWriteArrayList();
     }
 
     //=============================================
@@ -224,4 +226,26 @@ class Main {
 
         System.out.println("FlatMap: " + flatList);
     }
+
+    // ============================================================
+    // CopyOnWriteArrayList() is a thread-safe implementation of the List interface. Whenever an element is added, updated, or removed, it creates a new copy of the underlying array instead of modifying the existing one.
+    // ============================================================
+    static void CopyOnWriteArrayList() {
+        System.out.println("=========================== CopyOnWriteArrayList");
+
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+
+        list.add("Java");
+        list.add("Spring");
+
+        for (String item : list) {
+            System.out.println(item);
+
+            // Safe modification during iteration
+            list.add("Docker");
+        }
+
+        System.out.println("Result: " + list);
+    }
+
 }
