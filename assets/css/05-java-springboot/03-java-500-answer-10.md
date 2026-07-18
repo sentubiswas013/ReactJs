@@ -16786,6 +16786,119 @@ entityManager.merge(product);
 Hibernate automatically checks the **version** before updating.
 
 
+
+## 14. **What Are the Peculiarities of Bidirectional Relationships?**
+
+A **Bidirectional Relationship** means **both Entities reference each other**, allowing navigation from **parent to child** and **child to parent**.
+
+**Example**
+
+```java id="fj4x8t"
+@Entity
+public class Department {
+
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees = new ArrayList<>();
+}
+```
+
+```java id="d5y92m"
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+}
+```
+
+**Important Peculiarities**
+
+1. **One side must be the Owning Side**.
+
+   * The **Owning Side** contains **`@JoinColumn`**.
+   * It is responsible for updating the **Foreign Key**.
+
+2. **The other side is the Inverse Side**.
+
+   * Uses **`mappedBy`**.
+   * It does **not** update the Foreign Key.
+
+3. **Keep both sides synchronized**.
+
+   * Update both references in code to avoid inconsistent object state.
+
+```java id="md1f2z"
+Department department = new Department();
+Employee employee = new Employee();
+
+employee.setDepartment(department);
+department.getEmployees().add(employee);
+```
+
+
+## 14. **How to Avoid Infinite Recursion During Entity Serialization?**
+
+**Infinite Recursion** happens when **bidirectional relationships** reference each other during **JSON serialization**.
+
+For example:
+
+* **Department** → **Employee**
+* **Employee** → **Department**
+
+Jackson keeps serializing both objects repeatedly, causing a **StackOverflowError**.
+
+**Solution 1: `@JsonManagedReference` and `@JsonBackReference`**
+
+* **`@JsonManagedReference`** → Parent side.
+* **`@JsonBackReference`** → Child side (ignored during serialization).
+
+```java
+@Entity
+public class Department {
+
+    @OneToMany(mappedBy = "department")
+    @JsonManagedReference
+    private List<Employee> employees;
+}
+```
+
+```java
+@Entity
+public class Employee {
+
+    @ManyToOne
+    @JsonBackReference
+    private Department department;
+}
+```
+
+**Solution 2: `@JsonIgnore`**
+
+Ignore one side of the relationship.
+
+```java
+@ManyToOne
+@JsonIgnore
+private Department department;
+```
+
+**Solution 3: Use DTOs (Recommended)**
+
+Instead of returning **Entities**, return **DTOs** containing only the required fields.
+
+```java
+public record EmployeeDto(Long id, String name) {}
+```
+
+
+
 ## 14. What is Database Indexing and When to Use It?
 
 A **Database Index** is a special **data structure** that improves the speed of **data retrieval** operations. It works like the **index of a book**, allowing the database to find rows quickly without scanning the entire table.
