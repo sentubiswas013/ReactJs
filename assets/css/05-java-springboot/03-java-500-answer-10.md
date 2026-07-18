@@ -7492,8 +7492,98 @@ public class Demo {
 * **Full Traversal → `O(n)`**
 
 
-## 17. What is `CopyOnWriteArrayList`?
 
+## 7. What is the difference between Collection and Collections?
+
+**`Collection`** is an **interface** that represents a group of objects.
+
+**`Collections`** is a **utility class** that provides **static methods** to perform operations on collections.
+
+
+| **Property**              | **Collection**                        | **Collections**                          |
+|---------------------------|---------------------------------------|------------------------------------------|
+| **Type**                   | `Collection` is an interface. It is the root interface in the collection framework and is implemented by other interfaces like `List`, `Set`, etc. | `Collections` is a **utility class** that provides static methods for operating on collections (e.g., sorting, searching). |
+| **Purpose**                | Defines the basic operations for all collection types. | Provides utility methods for working with collections, like sorting, reversing, etc. |
+| **Example**                | `List`, `Set`, `Queue` are types of collections. | `Collections.sort()`, `Collections.reverse()`, etc. |
+
+Example:
+
+```java
+// Collection example (interface)
+Collection<String> collection = new ArrayList<>();
+collection.add("Apple");
+collection.add("Banana");
+
+// Collections example (utility class)
+Collections.sort(new ArrayList<>(collection));
+Collections.reverse(new ArrayList<>(collection));
+```
+
+**How it Works**
+
+#**`Collection`**
+
+* It is the **root interface** of the Java Collection Framework.
+* Defines common operations like **adding**, **removing**, and **searching** elements.
+* Extended by interfaces such as **`List`**, **`Set`**, and **`Queue`**.
+
+#**`Collections`**
+
+* It is a **final utility class**.
+* Contains **only static methods**.
+* Used to perform operations like **sorting**, **reversing**, **shuffling**, **finding minimum/maximum**, and creating **synchronized** or **unmodifiable** collections.
+
+**Example**
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Collection Interface
+        Collection<String> names = new ArrayList<>();
+        names.add("John");
+        names.add("Alice");
+        names.add("Bob");
+
+        // Collections Utility Class
+        List<String> list = new ArrayList<>(names);
+
+        Collections.sort(list);
+        Collections.reverse(list);
+
+        System.out.println(list);
+    }
+}
+```
+
+**Output**
+
+```text
+[John, Bob, Alice]
+```
+
+**Common Interview Follow-up Questions**
+
+**1. Is `Collection` a class or an interface?**
+**Answer:** **`Collection`** is an **interface**.
+
+**2. Is `Collections` a class or an interface?**
+**Answer:** **`Collections`** is a **final utility class** with **static methods**.
+
+**3. Does `Map` extend `Collection`?**
+**Answer:** **No.** **`Map`** is part of the Java Collections Framework but **does not extend `Collection`** because it stores **key-value pairs**, not individual elements.
+
+**4. Name some commonly used methods of `Collections`.**
+**Answer:** **`sort()`**, **`reverse()`**, **`shuffle()`**, **`binarySearch()`**, **`min()`**, **`max()`**, **`synchronizedList()`**, **`unmodifiableList()`**.
+
+**5. What is the difference between `Collection` and `Collections` in one line?**
+**Answer:** **`Collection`** is an **interface for storing data**, while **`Collections`** is a **utility class for performing operations on collections**.
+
+
+
+## 17. What is CopyOnWriteArrayList?
 
 **`CopyOnWriteArrayList`** is a **thread-safe** implementation of the **`List`** interface in Java. Whenever an element is **added**, **updated**, or **removed**, it creates a **new copy** of the underlying array. This allows multiple threads to **read safely** without locking.
 
@@ -8192,94 +8282,6 @@ public class Main {
     }
 }
 ```
-
-## 7. What is the difference between Collection and Collections?
-
-**`Collection`** is an **interface** that represents a group of objects.
-
-**`Collections`** is a **utility class** that provides **static methods** to perform operations on collections.
-
-
-| **Property**              | **Collection**                        | **Collections**                          |
-|---------------------------|---------------------------------------|------------------------------------------|
-| **Type**                   | `Collection` is an interface. It is the root interface in the collection framework and is implemented by other interfaces like `List`, `Set`, etc. | `Collections` is a **utility class** that provides static methods for operating on collections (e.g., sorting, searching). |
-| **Purpose**                | Defines the basic operations for all collection types. | Provides utility methods for working with collections, like sorting, reversing, etc. |
-| **Example**                | `List`, `Set`, `Queue` are types of collections. | `Collections.sort()`, `Collections.reverse()`, etc. |
-
-Example:
-
-```java
-// Collection example (interface)
-Collection<String> collection = new ArrayList<>();
-collection.add("Apple");
-collection.add("Banana");
-
-// Collections example (utility class)
-Collections.sort(new ArrayList<>(collection));
-Collections.reverse(new ArrayList<>(collection));
-```
-
-**How it Works**
-
-#**`Collection`**
-
-* It is the **root interface** of the Java Collection Framework.
-* Defines common operations like **adding**, **removing**, and **searching** elements.
-* Extended by interfaces such as **`List`**, **`Set`**, and **`Queue`**.
-
-#**`Collections`**
-
-* It is a **final utility class**.
-* Contains **only static methods**.
-* Used to perform operations like **sorting**, **reversing**, **shuffling**, **finding minimum/maximum**, and creating **synchronized** or **unmodifiable** collections.
-
-**Example**
-
-```java
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) {
-
-        // Collection Interface
-        Collection<String> names = new ArrayList<>();
-        names.add("John");
-        names.add("Alice");
-        names.add("Bob");
-
-        // Collections Utility Class
-        List<String> list = new ArrayList<>(names);
-
-        Collections.sort(list);
-        Collections.reverse(list);
-
-        System.out.println(list);
-    }
-}
-```
-
-**Output**
-
-```text
-[John, Bob, Alice]
-```
-
-**Common Interview Follow-up Questions**
-
-**1. Is `Collection` a class or an interface?**
-**Answer:** **`Collection`** is an **interface**.
-
-**2. Is `Collections` a class or an interface?**
-**Answer:** **`Collections`** is a **final utility class** with **static methods**.
-
-**3. Does `Map` extend `Collection`?**
-**Answer:** **No.** **`Map`** is part of the Java Collections Framework but **does not extend `Collection`** because it stores **key-value pairs**, not individual elements.
-
-**4. Name some commonly used methods of `Collections`.**
-**Answer:** **`sort()`**, **`reverse()`**, **`shuffle()`**, **`binarySearch()`**, **`min()`**, **`max()`**, **`synchronizedList()`**, **`unmodifiableList()`**.
-
-**5. What is the difference between `Collection` and `Collections` in one line?**
-**Answer:** **`Collection`** is an **interface for storing data**, while **`Collections`** is a **utility class for performing operations on collections**.
 
 
 ## 7. What is the difference between Collection and Stream API?
