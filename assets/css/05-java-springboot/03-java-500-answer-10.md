@@ -7229,7 +7229,6 @@ String name = map.get(101);
 ## 16. What is O(1) and  O(n)?
 
 
-
 **`O(1)`** and **`O(n)`** are examples of **Big O Notation**, which is used to describe the **time complexity** of an algorithm. It tells us how the execution time grows as the input size (`n`) increases.
 
 **What is `O(1)`?**
@@ -7356,6 +7355,65 @@ public class Demo {
 * **Fast Lookup → `O(1)`**
 * **Full Traversal → `O(n)`**
 
+
+## 17. What is `CopyOnWriteArrayList`?
+
+
+
+**`CopyOnWriteArrayList`** is a **thread-safe** implementation of the **`List`** interface in Java. Whenever an element is **added**, **updated**, or **removed**, it creates a **new copy** of the underlying array. This allows multiple threads to **read safely** without locking.
+
+**How It Works**
+
+1. **Read operations** use the existing array without locking.
+2. **Write operations** create a **new copy** of the array, apply the change, and replace the old array.
+3. Readers continue using the old array until the new one is ready.
+
+**Key Features**
+
+* **Thread-safe** without explicit synchronization.
+* **Fast reads** because no locking is required.
+* **Slow writes** because the entire array is copied on every modification.
+* **Safe iteration** without **`ConcurrentModificationException`**.
+
+**When to Use**
+
+* When **read operations are much more frequent than write operations**.
+* When multiple threads need to **iterate** over a list safely.
+* Examples: **configuration data**, **cache entries**, **registered listeners**, or **read-mostly collections**.
+
+**Example**
+
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Demo {
+    public static void main(String[] args) {
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+
+        list.add("Java");
+        list.add("Spring");
+
+        for (String item : list) {
+            System.out.println(item);
+
+            // Safe modification during iteration
+            list.add("Docker");
+        }
+
+        System.out.println(list);
+    }
+}
+```
+
+**Output:**
+
+```text
+Java
+Spring
+[Java, Spring, Docker, Docker]
+```
+
+The loop iterates over the **original snapshot**, so no **`ConcurrentModificationException`** occurs.
 
 
 
