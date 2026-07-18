@@ -7732,6 +7732,261 @@ while (iterator.hasPrevious()) {
 ```
 
 
+
+## 11. What is diffence between Arrays.asList() vs List.of()?
+
+`Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
+
+`List.of()` creates an **immutable list** that does not allow `null` values. You cannot modify, add, or remove elements from this list.
+
+
+| **Feature**       | **`Arrays.asList()`**                                                          | **`List.of()`**                                                    |
+| ----------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| **Introduced In** | **Java 5**                                                                     | **Java 9**                                                         |
+| **Modifiable**    | **Fixed-size** list (cannot add/remove, but can update elements).              | **Completely immutable** (cannot add, remove, or update elements). |
+| **Null Values**   | **Allows `null`** elements.                                                    | **Does not allow `null`** (throws `NullPointerException`).         |
+| **Backed By**     | Backed by the **original array**, so changes to the array reflect in the list. | Creates an **independent immutable list**.                         |
+| **Best Use Case** | When you need a **fixed-size view of an array**.                               | When you need a **read-only immutable list**.                      |
+
+**How It Works**
+
+* **`Arrays.asList()`** converts an array into a **fixed-size List**.
+* **`List.of()`** creates an **immutable List** with the given elements.
+
+**When to Use**
+
+* Use **`Arrays.asList()`** when you need to work with an existing array and may want to **modify element values**.
+* Use **`List.of()`** when you need a **safe, immutable list** that should not be changed.
+
+**Code Example**
+
+```java id="3s7kqa"
+// Arrays.asList()
+List<String> list1 = Arrays.asList("A", "B", "C");
+list1.set(0, "X");          // Allowed
+// list1.add("D");          // Throws UnsupportedOperationException
+
+// List.of()
+List<String> list2 = List.of("A", "B", "C");
+// list2.set(0, "X");        // Throws UnsupportedOperationException
+// list2.add("D");           // Throws UnsupportedOperationException
+```
+
+## 11. What is diffence between data structures Vector and an ArrayList?
+
+`Vector` and `ArrayList` are both part of the Java collection framework and implement the `List` interface, but there are several differences between them:
+
+| **Property**              | **Vector**                          | **ArrayList**                        |
+|---------------------------|-------------------------------------|--------------------------------------|
+| **Thread-safety**          | Vector is **synchronized**, making it thread-safe (but slower). | ArrayList is **not synchronized**, making it faster in single-threaded scenarios. |
+| **Growth Policy**          | Vector doubles its size when it runs out of space. | ArrayList grows by 50% of its size when it runs out of space. |
+| **Performance**            | Slower due to synchronization and larger size increase. | Faster as it is not synchronized and has a more efficient growth policy. |
+| **Legacy**                 | Vector is considered a **legacy class** and is part of the original version of Java. | ArrayList is more commonly used today and is part of the modern Java collection framework. |
+| **Use Case**               | Used in multi-threaded environments where thread safety is required. | Preferred for single-threaded applications where performance is critical. |
+
+```java
+// Vector example (Thread-safe)
+Vector<Integer> vector = new Vector<>();
+vector.add(10);
+vector.add(20);
+
+// ArrayList example (Not thread-safe)
+ArrayList<Integer> arrayList = new ArrayList<>();
+arrayList.add(10);
+arrayList.add(20);
+```
+
+
+## 1. **What is `Stack`?**
+
+A **`Stack`** is a **Linear Data Structure** that follows the **LIFO (Last In, First Out)** principle, meaning the **last element added is the first one removed**.
+
+In Java, **`Stack`** is a class that extends **`Vector`**.
+
+**How It Works**
+
+1. **`push()`** – Adds an element to the **top** of the stack.
+2. **`pop()`** – Removes and returns the **top** element.
+3. **`peek()`** – Returns the **top** element without removing it.
+4. **`isEmpty()`** – Checks if the stack is empty.
+5. **`search()`** – Returns the position of an element from the top of the stack.
+
+**Example**
+
+```java
+import java.util.Stack;
+
+public class Demo {
+    public static void main(String[] args) {
+        Stack<String> stack = new Stack<>();
+
+        stack.push("Java");
+        stack.push("Spring");
+        stack.push("Docker");
+
+        System.out.println(stack.peek()); // Docker
+        System.out.println(stack.pop());  // Docker
+        System.out.println(stack);        // [Java, Spring]
+    }
+}
+```
+
+**Output**
+
+```text
+Docker
+Docker
+[Java, Spring]
+```
+
+**When to Use**
+
+* **Undo/Redo** functionality.
+* **Browser Back/Forward** navigation.
+* **Expression evaluation**.
+* **Function call stack** in Java.
+
+
+## 1. **What is `Queue` and What Implementations Exist?**
+
+A **`Queue`** is a **Collection** that stores elements in **FIFO (First In, First Out)** order, meaning the **first element added is the first one removed**.
+
+The **`Queue`** interface is commonly used for **task scheduling**, **message processing**, and **request handling**.
+
+**Main Operations**
+
+* **`offer()`** – Adds an element to the queue.
+* **`poll()`** – Removes and returns the front element.
+* **`peek()`** – Returns the front element without removing it.
+
+**Common Implementations**
+
+1. **`LinkedList`**
+
+   * Implements the **`Queue`** interface.
+   * Maintains **FIFO** order.
+   * Suitable for general-purpose queue operations.
+
+2. **`PriorityQueue`**
+
+   * Stores elements based on their **priority** (natural ordering or a **`Comparator`**).
+   * Does **not** maintain insertion order.
+   * The **smallest** (or highest-priority) element is removed first.
+
+3. **`ArrayDeque`**
+
+   * Implements the **`Deque`** interface.
+   * Can be used as both a **Queue** and a **Stack**.
+   * Faster than **`LinkedList`** for most queue operations.
+
+4. **`ConcurrentLinkedQueue`**
+
+   * A **thread-safe**, **non-blocking** queue.
+   * Suitable for **multi-threaded** applications.
+
+**Example**
+
+```java id="1hylq4"
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Demo {
+    public static void main(String[] args) {
+        Queue<String> queue = new LinkedList<>();
+
+        queue.offer("Java");
+        queue.offer("Spring");
+        queue.offer("Docker");
+
+        System.out.println(queue.peek()); // Java
+        System.out.println(queue.poll()); // Java
+        System.out.println(queue);        // [Spring, Docker]
+    }
+}
+```
+
+**Output**
+
+```text id="k8zjtu"
+Java
+Java
+[Spring, Docker]
+```
+
+**When to Use**
+
+* **`LinkedList`** – General **FIFO** queue.
+* **`PriorityQueue`** – When elements must be processed by **priority**.
+* **`ArrayDeque`** – High-performance **Queue** or **Stack**.
+* **`ConcurrentLinkedQueue`** – **Thread-safe** queue for concurrent applications.
+
+
+## 1. **What is `Deque`?**
+
+**`Deque`** (**Double-Ended Queue**) is an interface in the Java Collection Framework that allows elements to be **added** and **removed** from **both the front and the rear** of the collection.
+
+It can work as both a **Queue (FIFO)** and a **Stack (LIFO)**.
+
+**How It Works**
+
+1. Add elements at the **front** or **rear**.
+2. Remove elements from the **front** or **rear**.
+3. Supports both **FIFO** and **LIFO** operations.
+
+**Main Methods**
+
+* **`offerFirst()`** – Adds an element at the front.
+* **`offerLast()`** – Adds an element at the rear.
+* **`pollFirst()`** – Removes and returns the front element.
+* **`pollLast()`** – Removes and returns the rear element.
+* **`peekFirst()`** – Returns the front element without removing it.
+* **`peekLast()`** – Returns the rear element without removing it.
+
+**Common Implementations**
+
+* **`ArrayDeque`** – Fast and recommended implementation for most use cases.
+* **`LinkedList`** – Can also be used as a **Deque**.
+
+**Example**
+
+```java id="vz5z6u"
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class Demo {
+    public static void main(String[] args) {
+        Deque<String> deque = new ArrayDeque<>();
+
+        deque.offerFirst("Java");
+        deque.offerLast("Spring");
+        deque.offerLast("Docker");
+
+        System.out.println(deque);          // [Java, Spring, Docker]
+
+        System.out.println(deque.pollFirst()); // Java
+        System.out.println(deque.pollLast());  // Docker
+
+        System.out.println(deque);          // [Spring]
+    }
+}
+```
+
+**Output**
+
+```text id="zwsigx"
+[Java, Spring, Docker]
+Java
+Docker
+[Spring]
+```
+
+**When to Use**
+
+* As a **Queue (FIFO)**.
+* As a **Stack (LIFO)**.
+* When you need to **insert** or **remove** elements from **both ends** efficiently.
+
+
 # ✅ 08. Java Lambda Expres.. & Streams API 
 
 ## 2. What are lambda expressions?
@@ -8357,259 +8612,6 @@ public class Test {
     }
 }
 ```
-
-## 11. What is diffence between Arrays.asList() vs List.of()?
-
-`Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
-
-`List.of()` creates an **immutable list** that does not allow `null` values. You cannot modify, add, or remove elements from this list.
-
-
-| **Feature**       | **`Arrays.asList()`**                                                          | **`List.of()`**                                                    |
-| ----------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| **Introduced In** | **Java 5**                                                                     | **Java 9**                                                         |
-| **Modifiable**    | **Fixed-size** list (cannot add/remove, but can update elements).              | **Completely immutable** (cannot add, remove, or update elements). |
-| **Null Values**   | **Allows `null`** elements.                                                    | **Does not allow `null`** (throws `NullPointerException`).         |
-| **Backed By**     | Backed by the **original array**, so changes to the array reflect in the list. | Creates an **independent immutable list**.                         |
-| **Best Use Case** | When you need a **fixed-size view of an array**.                               | When you need a **read-only immutable list**.                      |
-
-**How It Works**
-
-* **`Arrays.asList()`** converts an array into a **fixed-size List**.
-* **`List.of()`** creates an **immutable List** with the given elements.
-
-**When to Use**
-
-* Use **`Arrays.asList()`** when you need to work with an existing array and may want to **modify element values**.
-* Use **`List.of()`** when you need a **safe, immutable list** that should not be changed.
-
-**Code Example**
-
-```java id="3s7kqa"
-// Arrays.asList()
-List<String> list1 = Arrays.asList("A", "B", "C");
-list1.set(0, "X");          // Allowed
-// list1.add("D");          // Throws UnsupportedOperationException
-
-// List.of()
-List<String> list2 = List.of("A", "B", "C");
-// list2.set(0, "X");        // Throws UnsupportedOperationException
-// list2.add("D");           // Throws UnsupportedOperationException
-```
-
-## 11. What is diffence between data structures Vector and an ArrayList?
-
-`Vector` and `ArrayList` are both part of the Java collection framework and implement the `List` interface, but there are several differences between them:
-
-| **Property**              | **Vector**                          | **ArrayList**                        |
-|---------------------------|-------------------------------------|--------------------------------------|
-| **Thread-safety**          | Vector is **synchronized**, making it thread-safe (but slower). | ArrayList is **not synchronized**, making it faster in single-threaded scenarios. |
-| **Growth Policy**          | Vector doubles its size when it runs out of space. | ArrayList grows by 50% of its size when it runs out of space. |
-| **Performance**            | Slower due to synchronization and larger size increase. | Faster as it is not synchronized and has a more efficient growth policy. |
-| **Legacy**                 | Vector is considered a **legacy class** and is part of the original version of Java. | ArrayList is more commonly used today and is part of the modern Java collection framework. |
-| **Use Case**               | Used in multi-threaded environments where thread safety is required. | Preferred for single-threaded applications where performance is critical. |
-
-```java
-// Vector example (Thread-safe)
-Vector<Integer> vector = new Vector<>();
-vector.add(10);
-vector.add(20);
-
-// ArrayList example (Not thread-safe)
-ArrayList<Integer> arrayList = new ArrayList<>();
-arrayList.add(10);
-arrayList.add(20);
-```
-
-
-## 1. **What is `Stack`?**
-
-A **`Stack`** is a **Linear Data Structure** that follows the **LIFO (Last In, First Out)** principle, meaning the **last element added is the first one removed**.
-
-In Java, **`Stack`** is a class that extends **`Vector`**.
-
-**How It Works**
-
-1. **`push()`** – Adds an element to the **top** of the stack.
-2. **`pop()`** – Removes and returns the **top** element.
-3. **`peek()`** – Returns the **top** element without removing it.
-4. **`isEmpty()`** – Checks if the stack is empty.
-5. **`search()`** – Returns the position of an element from the top of the stack.
-
-**Example**
-
-```java
-import java.util.Stack;
-
-public class Demo {
-    public static void main(String[] args) {
-        Stack<String> stack = new Stack<>();
-
-        stack.push("Java");
-        stack.push("Spring");
-        stack.push("Docker");
-
-        System.out.println(stack.peek()); // Docker
-        System.out.println(stack.pop());  // Docker
-        System.out.println(stack);        // [Java, Spring]
-    }
-}
-```
-
-**Output**
-
-```text
-Docker
-Docker
-[Java, Spring]
-```
-
-**When to Use**
-
-* **Undo/Redo** functionality.
-* **Browser Back/Forward** navigation.
-* **Expression evaluation**.
-* **Function call stack** in Java.
-
-
-## 1. **What is `Queue` and What Implementations Exist?**
-
-A **`Queue`** is a **Collection** that stores elements in **FIFO (First In, First Out)** order, meaning the **first element added is the first one removed**.
-
-The **`Queue`** interface is commonly used for **task scheduling**, **message processing**, and **request handling**.
-
-**Main Operations**
-
-* **`offer()`** – Adds an element to the queue.
-* **`poll()`** – Removes and returns the front element.
-* **`peek()`** – Returns the front element without removing it.
-
-**Common Implementations**
-
-1. **`LinkedList`**
-
-   * Implements the **`Queue`** interface.
-   * Maintains **FIFO** order.
-   * Suitable for general-purpose queue operations.
-
-2. **`PriorityQueue`**
-
-   * Stores elements based on their **priority** (natural ordering or a **`Comparator`**).
-   * Does **not** maintain insertion order.
-   * The **smallest** (or highest-priority) element is removed first.
-
-3. **`ArrayDeque`**
-
-   * Implements the **`Deque`** interface.
-   * Can be used as both a **Queue** and a **Stack**.
-   * Faster than **`LinkedList`** for most queue operations.
-
-4. **`ConcurrentLinkedQueue`**
-
-   * A **thread-safe**, **non-blocking** queue.
-   * Suitable for **multi-threaded** applications.
-
-**Example**
-
-```java id="1hylq4"
-import java.util.LinkedList;
-import java.util.Queue;
-
-public class Demo {
-    public static void main(String[] args) {
-        Queue<String> queue = new LinkedList<>();
-
-        queue.offer("Java");
-        queue.offer("Spring");
-        queue.offer("Docker");
-
-        System.out.println(queue.peek()); // Java
-        System.out.println(queue.poll()); // Java
-        System.out.println(queue);        // [Spring, Docker]
-    }
-}
-```
-
-**Output**
-
-```text id="k8zjtu"
-Java
-Java
-[Spring, Docker]
-```
-
-**When to Use**
-
-* **`LinkedList`** – General **FIFO** queue.
-* **`PriorityQueue`** – When elements must be processed by **priority**.
-* **`ArrayDeque`** – High-performance **Queue** or **Stack**.
-* **`ConcurrentLinkedQueue`** – **Thread-safe** queue for concurrent applications.
-
-
-## 1. **What is `Deque`?**
-
-**`Deque`** (**Double-Ended Queue**) is an interface in the Java Collection Framework that allows elements to be **added** and **removed** from **both the front and the rear** of the collection.
-
-It can work as both a **Queue (FIFO)** and a **Stack (LIFO)**.
-
-**How It Works**
-
-1. Add elements at the **front** or **rear**.
-2. Remove elements from the **front** or **rear**.
-3. Supports both **FIFO** and **LIFO** operations.
-
-**Main Methods**
-
-* **`offerFirst()`** – Adds an element at the front.
-* **`offerLast()`** – Adds an element at the rear.
-* **`pollFirst()`** – Removes and returns the front element.
-* **`pollLast()`** – Removes and returns the rear element.
-* **`peekFirst()`** – Returns the front element without removing it.
-* **`peekLast()`** – Returns the rear element without removing it.
-
-**Common Implementations**
-
-* **`ArrayDeque`** – Fast and recommended implementation for most use cases.
-* **`LinkedList`** – Can also be used as a **Deque**.
-
-**Example**
-
-```java id="vz5z6u"
-import java.util.ArrayDeque;
-import java.util.Deque;
-
-public class Demo {
-    public static void main(String[] args) {
-        Deque<String> deque = new ArrayDeque<>();
-
-        deque.offerFirst("Java");
-        deque.offerLast("Spring");
-        deque.offerLast("Docker");
-
-        System.out.println(deque);          // [Java, Spring, Docker]
-
-        System.out.println(deque.pollFirst()); // Java
-        System.out.println(deque.pollLast());  // Docker
-
-        System.out.println(deque);          // [Spring]
-    }
-}
-```
-
-**Output**
-
-```text id="zwsigx"
-[Java, Spring, Docker]
-Java
-Docker
-[Spring]
-```
-
-**When to Use**
-
-* As a **Queue (FIFO)**.
-* As a **Stack (LIFO)**.
-* When you need to **insert** or **remove** elements from **both ends** efficiently.
 
 
 
