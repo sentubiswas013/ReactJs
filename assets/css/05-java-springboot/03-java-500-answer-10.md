@@ -8986,6 +8986,245 @@ public class Demo {
 * Use **`collect()`** when you need to **store**, **group**, or **transform** stream elements into a **List**, **Set**, **Map**, or another collection.
 
 
+## 10. What is the peek() operation and when to use it??
+
+**`peek()`** is an **intermediate operation** in the Java Stream API that allows you to **inspect** or **perform an action** on each element as it passes through the stream **without modifying** the stream.
+
+It is mainly used for **debugging** and **logging**.
+
+**Key Features**
+
+1. **Intermediate operation** – Executes only when a **terminal operation** is called.
+2. Does **not modify** the stream elements.
+3. Returns the **same stream** for further processing.
+4. Mainly used for **debugging** and **logging**.
+
+**How It Works**
+
+1. Each element passes through **`peek()`**.
+2. The specified action (such as printing) is performed.
+3. The element continues through the remaining stream pipeline unchanged.
+
+**Example**
+
+```java id="2b0uhw"
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> result = Arrays.asList("Java", "Spring", "Docker")
+                .stream()
+                .peek(System.out::println)
+                .filter(name -> name.startsWith("J"))
+                .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+```
+
+**Output**
+
+```text id="jlwmak"
+Java
+Spring
+Docker
+[Java]
+```
+
+**When to Use**
+
+* **Debugging** stream pipelines.
+* **Logging** elements as they flow through the stream.
+* Understanding how intermediate operations are executed.
+
+**When Not to Use**
+
+* Do **not** use **`peek()`** to **modify** elements or update external state.
+* Use **`map()`** to transform elements.
+* Avoid using **`peek()`** for business logic.
+
+
+## 0. How to collect a Stream into a Map?
+
+To collect a **Stream** into a **`Map`**, use the **`Collectors.toMap()`** method. It converts stream elements into **key-value pairs**.
+
+**Key Features**
+
+1. Uses **`Collectors.toMap()`**.
+2. Converts stream elements into **key-value pairs**.
+3. **Keys must be unique**. If duplicate keys exist, provide a **merge function**.
+4. Returns a **`Map`**.
+
+**Syntax**
+
+```java
+Collectors.toMap(keyMapper, valueMapper)
+```
+
+**Example**
+
+```java id="0w0wfw"
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Java", "Spring", "Docker");
+
+        Map<String, Integer> map = names.stream()
+                .collect(Collectors.toMap(
+                        name -> name,
+                        name -> name.length()
+                ));
+
+        System.out.println(map);
+    }
+}
+```
+
+**Output**
+
+```text
+{Java=4, Spring=6, Docker=6}
+```
+
+**Handling Duplicate Keys**
+
+```java id="5czvjy"
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Java", "Java", "Spring");
+
+        Map<String, Integer> map = names.stream()
+                .collect(Collectors.toMap(
+                        name -> name,
+                        name -> name.length(),
+                        (oldValue, newValue) -> oldValue
+                ));
+
+        System.out.println(map);
+    }
+}
+```
+
+**Output**
+
+```text
+{Java=4, Spring=6}
+```
+
+**When to Use**
+
+* Convert a **List** into a **Map**.
+* Create **lookup tables**.
+* Map an object to one of its properties.
+
+
+## 0. What to do with key collisions when collecting into a Map?
+
+A **key collision** occurs when **`Collectors.toMap()`** generates the **same key** for multiple elements. By default, this throws an **`IllegalStateException`**.
+
+To handle duplicate keys, provide a **merge function**.
+
+**Key Features**
+
+1. **Duplicate keys** cause an **`IllegalStateException`** by default.
+2. Use a **merge function** to resolve duplicate keys.
+3. The merge function decides which value to **keep** or **combine**.
+
+**Example (Without Merge Function)**
+
+```java id="8es6qk"
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Java", "Java", "Spring");
+
+        Map<String, Integer> map = names.stream()
+                .collect(Collectors.toMap(
+                        name -> name,
+                        name -> name.length()
+                ));
+    }
+}
+```
+
+**Result:** Throws **`IllegalStateException`** because the key **`Java`** appears twice.
+
+**Example (Keep the First Value)**
+
+```java id="66djlwm"
+Map<String, Integer> map = names.stream()
+        .collect(Collectors.toMap(
+                name -> name,
+                name -> name.length(),
+                (oldValue, newValue) -> oldValue
+        ));
+```
+
+**Example (Keep the Latest Value)**
+
+```java id="gjowrf"
+Map<String, Integer> map = names.stream()
+        .collect(Collectors.toMap(
+                name -> name,
+                name -> name.length(),
+                (oldValue, newValue) -> newValue
+        ));
+```
+
+**Example (Combine Values)**
+
+```java id="u8y31n"
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<String> words = Arrays.asList("Java", "Java", "Spring");
+
+        Map<String, Integer> map = words.stream()
+                .collect(Collectors.toMap(
+                        word -> word,
+                        word -> 1,
+                        Integer::sum
+                ));
+
+        System.out.println(map);
+    }
+}
+```
+
+**Output**
+
+```text id="qzjlwm"
+{Java=2, Spring=1}
+```
+
+**When to Use**
+
+* Keep the **first value**: **`(oldValue, newValue) -> oldValue`**
+* Keep the **latest value**: **`(oldValue, newValue) -> newValue`**
+* **Combine values**: Use a merge function such as **`Integer::sum`**
+
+
+
 
 # ✅ 09. Java JVM & Memory Management 
 
