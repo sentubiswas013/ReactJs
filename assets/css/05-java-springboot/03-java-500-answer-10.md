@@ -16653,25 +16653,91 @@ WHERE name = 'John';
   * **Better performance** for certain queries
 
 
-## 13. What are JPA Cascade Types?
+## 13. What is JPA Cascade?
 
-Cascade means — *when you do an operation on a parent entity, automatically apply it to child entities too.*
 
-| Type | Behavior |
-|---|---|
-| `PERSIST` | Save child when parent is saved |
-| `MERGE` | Update child when parent is updated |
-| `REMOVE` | Delete child when parent is deleted |
-| `REFRESH` | Refresh child when parent is refreshed |
-| `DETACH` | Detach child when parent is detached |
-| `ALL` | Apply all of the above |
+**Cascade** in JPA means that an operation performed on a **parent Entity** is **automatically applied** to its **child Entities**.
+
+**Why Use Cascade?**
+
+1. **Automatically propagates operations** from parent to child.
+2. **Reduces boilerplate code**.
+3. Keeps related entities **consistent**.
+
+**Example**
 
 ```java
-@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-private List<OrderItem> items;
+@Entity
+public class Department {
+
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "department",
+               cascade = CascadeType.ALL)
+    private List<Employee> employees;
+}
 ```
 
-Be careful with `REMOVE` — it can delete child records you didn't intend to delete.
+```java
+Department department = new Department();
+Employee employee = new Employee();
+
+department.setEmployees(List.of(employee));
+
+entityManager.persist(department);
+```
+
+Because of **`CascadeType.ALL`**, the **Employee** is also saved automatically.
+
+**Cascade Types**
+
+1. **`PERSIST`** – Saves the child when the parent is saved.
+2. **`MERGE`** – Updates the child when the parent is updated.
+3. **`REMOVE`** – Deletes the child when the parent is deleted.
+4. **`REFRESH`** – Reloads the child from the database.
+5. **`DETACH`** – Detaches the child from the Persistence Context.
+6. **`ALL`** – Applies **all** cascade operations.
+
+
+## 14. **What is EntityManager and How Does It Differ from Session?**
+
+**`EntityManager`** is the **JPA interface** used to manage **Entity lifecycle**, perform **CRUD operations**, execute **JPQL queries**, and manage the **Persistence Context**.
+
+**`Session`** is the **Hibernate-specific implementation** that provides all `EntityManager` features plus additional Hibernate-specific functionality.
+
+**Example**
+
+```java
+@PersistenceContext
+private EntityManager entityManager;
+
+Student student = new Student();
+student.setName("John");
+
+entityManager.persist(student);
+```
+
+**EntityManager vs Session**
+
+| **EntityManager**                  | **Session**                                    |
+| ---------------------------------- | ---------------------------------------------- |
+| **JPA standard interface**         | **Hibernate-specific interface**               |
+| **Database-independent**           | **Hibernate-specific**                         |
+| Used in **JPA applications**       | Used in **Hibernate applications**             |
+| Supports **standard JPA features** | Supports **JPA + Hibernate-specific features** |
+| Can be **unwrapped** to `Session`  | Can be used directly                           |
+
+**Getting Session from EntityManager**
+
+```java
+Session session = entityManager.unwrap(Session.class);
+```
+
+**When to Use?**
+
+* Use **`EntityManager`** for **portable JPA applications**.
+* Use **`Session`** only when you need **Hibernate-specific features**.
 
 
 ## 14. What is Database Indexing and When to Use It?
