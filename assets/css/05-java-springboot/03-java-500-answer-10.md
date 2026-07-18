@@ -23918,6 +23918,180 @@ No. It provides **Eventual Consistency**, not **Strong Consistency**.
 The system should use **Retry**, **Dead Letter Queue (DLQ)**, **Idempotency**, and **Monitoring/Alerts** to ensure the compensating transaction eventually succeeds.
 
 
+
+## 22. **What is the difference between Choreography and Orchestration in Saga?**
+
+A **Saga** is a pattern for managing **distributed transactions** in **microservices**. It ensures data consistency by executing a sequence of **local transactions** and **compensating transactions** if something fails.
+
+| **Choreography**                            | **Orchestration**                                  |
+| ------------------------------------------- | -------------------------------------------------- |
+| No **central coordinator**.                 | Has a **central orchestrator**.                    |
+| Services communicate using **events**.      | Services communicate through the **orchestrator**. |
+| Each service decides **what to do next**.   | The orchestrator decides **the workflow**.         |
+| More **decentralized** and loosely coupled. | More **centralized** and easier to control.        |
+| Harder to understand in large systems.      | Easier to monitor and debug.                       |
+
+**Choreography Flow:**
+
+```text id="jlwmg0"
+Order Service
+      │
+      ▼
+OrderCreated Event
+      │
+      ▼
+Payment Service
+      │
+      ▼
+PaymentCompleted Event
+      │
+      ▼
+Inventory Service
+      │
+      ▼
+InventoryReserved Event
+      │
+      ▼
+Shipping Service
+```
+
+Each service listens for events and triggers the next step.
+
+**Orchestration Flow:**
+
+```text id="jmbfy5"
+        Saga Orchestrator
+              │
+      ┌───────┼────────┐
+      ▼       ▼        ▼
+ Order   Payment   Inventory
+ Service  Service   Service
+              │
+              ▼
+         Shipping Service
+```
+
+The orchestrator tells each service what to do next.
+
+**When to Use:**
+
+**Choreography**
+
+* Small or medium-sized workflows.
+* Event-driven architectures (e.g., **Kafka**).
+* Fewer services and simpler business flows.
+
+**Orchestration**
+
+* Complex business processes.
+* Many microservices.
+* Need for centralized monitoring, retries, and compensation logic.
+
+
+## 22. **What are compensating transactions?**
+
+**Compensating transactions** are **undo operations** used in the **Saga pattern** to **reverse previously completed local transactions** when a later step in the workflow fails.
+
+Unlike a traditional database transaction, a **Saga** cannot perform a single rollback across multiple microservices. Instead, each completed step has a corresponding **compensating transaction** to restore the system to a consistent state.
+
+**Key Features:**
+
+1. **Undo** previously completed local transactions.
+2. Used in **Saga** for **distributed transactions**.
+3. Executed when a later step **fails**.
+4. Help maintain **data consistency** across microservices.
+
+**Example: Order Processing Saga**
+
+```text id="fwl8ux"
+1. Order Service      → Create Order ✅
+2. Payment Service    → Charge Payment ✅
+3. Inventory Service  → Reserve Stock ❌ (Fails)
+
+Compensating Transactions:
+← Refund Payment
+← Cancel Order
+```
+
+Since **Inventory Service** failed:
+
+* **Payment Service** performs a **refund**.
+* **Order Service** **cancels** the order.
+
+**Example (Pseudo Code):**
+
+```java id="u52drk"
+try {
+    orderService.createOrder();
+    paymentService.chargePayment();
+    inventoryService.reserveStock();
+} catch (Exception e) {
+    paymentService.refundPayment(); // Compensating transaction
+    orderService.cancelOrder();     // Compensating transaction
+}
+```
+
+**Common Compensating Transactions:**
+
+* **Refund payment**
+* **Cancel order**
+* **Release reserved inventory**
+* **Cancel hotel booking**
+* **Cancel flight reservation**
+
+**Benefits:**
+
+* Maintains **data consistency**.
+* Avoids **distributed database transactions**.
+* Supports **failure recovery** in microservices.
+* Keeps services **independent**.
+
+
+## 22. **What is the difference between Sharding and Partitioning?**
+
+Both **Sharding** and **Partitioning** split data into smaller parts, but they differ in **where the data is stored**.
+
+| **Partitioning**                                                        | **Sharding**                                                                  |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Splits a table into **partitions** within the **same database/server**. | Splits data across **multiple databases/servers**.                            |
+| Managed by the **database**.                                            | Managed by the **application** or middleware.                                 |
+| Improves **query performance** and maintenance.                         | Improves **scalability**, performance, and storage capacity.                  |
+| All partitions remain in **one database**.                              | Each shard is an **independent database**.                                    |
+| Example: Partition orders by **month** or **year**.                     | Example: Store users by **region** or **user ID range** on different servers. |
+
+**Partitioning Example:**
+
+```text id="zjlwmr"
+Database
+   │
+Orders Table
+   ├── Partition 2024
+   ├── Partition 2025
+   └── Partition 2026
+```
+
+All partitions are stored in the **same database**.
+
+**Sharding Example:**
+
+```text id="8y3dwm"
+Users
+   │
+   ├── Shard 1 (User ID 1–10000)   → Server A
+   ├── Shard 2 (User ID 10001–20000) → Server B
+   └── Shard 3 (User ID 20001+)      → Server C
+```
+
+Each shard is stored on a **different server**.
+
+**When to Use:**
+
+* **Partitioning**: Large tables in a **single database** where you want faster queries and easier maintenance.
+* **Sharding**: Very large applications that need **horizontal scaling** across multiple servers.
+
+
+
+
 ## 22. Java 11 HttpClient API, and communication between multiple microservices without event and messaing system?
 
 **Java 11 HttpClient API**
