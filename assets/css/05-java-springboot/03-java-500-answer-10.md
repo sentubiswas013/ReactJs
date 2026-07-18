@@ -12511,74 +12511,6 @@ System.out.println(future.get());
 ```
 
 
-## 11. What is Optimistic vs Pessimistic Locking?
-
-**Optimistic Locking** and **Pessimistic Locking** are concurrency control mechanisms used to prevent **data inconsistency** when multiple users or threads update the same data simultaneously.
-
-**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
-
-
-**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
-
-
-| **Feature**          | **Optimistic Locking**                                                           | **Pessimistic Locking**                                 |
-| -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| **Approach**         | Assumes **conflicts are rare**.                                                  | Assumes **conflicts are likely**.                       |
-| **Locking**          | **Does not lock** the record while reading.                                      | **Locks** the record immediately.                       |
-| **Performance**      | Better for **high-read, low-write** applications.                                | Better for **high-conflict** scenarios.                 |
-| **Concurrency**      | Allows multiple users to read and update simultaneously.                         | Prevents other users from modifying the locked data.    |
-| **Failure Handling** | Throws **`OptimisticLockException`** if data was changed by another transaction. | Other transactions **wait** until the lock is released. |
-
-**How it Works:**
-
-**Optimistic Locking:**
-
-1. Read the record with a **version number**.
-2. Modify the data.
-3. Before updating, check if the **version is unchanged**.
-4. If the version changed, the update fails and an exception is thrown.
-
-**Pessimistic Locking:**
-
-1. Read and **lock the record**.
-2. No other transaction can update it until the lock is released.
-3. Update the data and commit the transaction.
-
-**Key Features:**
-
-* **Optimistic Locking:** Uses a **`@Version`** field, provides **better performance**, and avoids unnecessary locks.
-* **Pessimistic Locking:** Uses **database-level locks**, ensures strong consistency, but may reduce concurrency.
-
-**When to Use:**
-
-* Use **Optimistic Locking** when **read operations are frequent** and update conflicts are rare (e.g., **e-commerce product catalog**).
-* Use **Pessimistic Locking** when **data conflicts are common** and consistency is critical (e.g., **banking transactions**).
-
-**Code Example:**
-
-**Optimistic Locking (JPA):**
-
-```java
-@Entity
-public class Product {
-
-    @Id
-    private Long id;
-
-    @Version
-    private Integer version;
-
-    private String name;
-}
-```
-
-**Pessimistic Locking (JPA):**
-
-```java
-@Lock(LockModeType.PESSIMISTIC_WRITE)
-@Query("SELECT p FROM Product p WHERE p.id = :id")
-Product findByIdForUpdate(Long id);
-```
 
 ## 12. Synchronous (Sync) and Asynchronous (Async)?
 
@@ -15668,8 +15600,8 @@ It ensures **consistency**, reduces **deployment issues**, and avoids **code dup
 Incorrect **profile activation or configuration mismatch** can cause production issues.
 
 
+# ✅ 16. Java - Servlets and JSP
 
-# ✅ 16. Java - Servlets and JSP 
 
 ## 1. What is servlet in Java?
 
@@ -15854,6 +15786,8 @@ public class DemoServlet extends HttpServlet {
 
 
 
+# ✅ 16. Java - Hibernate / JPA 
+
 ## 5. What is ORM?
 **ORM(Object Relational Mapping)** is a technique that maps **Java Objects** to **Database Tables** and database records to Java objects.
 
@@ -15907,8 +15841,8 @@ Examples:
 * Enterprise applications
 * Microservices with databases
 
-## 6. What is JPA?
 
+## 6. What is JPA?
 
 **JPA(Java Persistence API)** is a **Java Specification** for managing and persisting data between Java objects and relational databases. It provides a standard way to perform **ORM (Object Relational Mapping)**.
 
@@ -15959,6 +15893,7 @@ Examples:
 * Spring Boot applications
 * Enterprise applications
 * Microservices with databases
+
 
 ## 6. What is Hibernate?
 
@@ -16134,7 +16069,6 @@ Hibernate automatically generates the required SQL behind the scenes.
 
 ## 8. Difference between `save() and `persist()`
 
-
 Both **`save()`** and **`persist()`** are used to store an entity in the database, but they belong to different APIs and have some behavioral differences.
 
 
@@ -16226,9 +16160,7 @@ Long id = (Long) session.save(employee);
 ```
 
 
-
 ## 9. Difference between save() and saveAndFlush()?
-
 
 Both **`save()`** and **`saveAndFlush()`** are methods provided by **Spring Data JPA** to persist entities, but they differ in **when changes are written to the database**.
 
@@ -16698,6 +16630,7 @@ Since `addresses` is loaded lazily, Hibernate tries to fetch it only when `getAd
     4. Use `FetchType.EAGER` only when necessary.
 
 
+
 ## 17. Entity lifecycle states?
 
 | State | Description |
@@ -16860,10 +16793,8 @@ public class UserService {
 | Default for collections in JPA     | Often used when data is always required |
 
 
+
 ## 20: What is eager loading?
-
-
-
 
 **Eager Loading** is a technique where related data is **loaded immediately** along with the main entity in a **single query** or as soon as the entity is fetched.
 
@@ -16930,8 +16861,77 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 ```
 
 
-## 21. What is auditing and How it works in JPA?
+## 11. What is Optimistic vs Pessimistic Locking?
 
+**Optimistic Locking** and **Pessimistic Locking** are concurrency control mechanisms used to prevent **data inconsistency** when multiple users or threads update the same data simultaneously.
+
+**Optimistic locking** assumes **conflicts are rare**, so users can read and modify data without locking it immediately. Before updating, the system checks whether another transaction has already changed the data.
+
+
+**Pessimistic Locking** — locking assumes **conflicts are common**, so data is locked immediately to prevent other transactions from modifying it until completion."
+
+
+| **Feature**          | **Optimistic Locking**                                                           | **Pessimistic Locking**                                 |
+| -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **Approach**         | Assumes **conflicts are rare**.                                                  | Assumes **conflicts are likely**.                       |
+| **Locking**          | **Does not lock** the record while reading.                                      | **Locks** the record immediately.                       |
+| **Performance**      | Better for **high-read, low-write** applications.                                | Better for **high-conflict** scenarios.                 |
+| **Concurrency**      | Allows multiple users to read and update simultaneously.                         | Prevents other users from modifying the locked data.    |
+| **Failure Handling** | Throws **`OptimisticLockException`** if data was changed by another transaction. | Other transactions **wait** until the lock is released. |
+
+**How it Works:**
+
+**Optimistic Locking:**
+
+1. Read the record with a **version number**.
+2. Modify the data.
+3. Before updating, check if the **version is unchanged**.
+4. If the version changed, the update fails and an exception is thrown.
+
+**Pessimistic Locking:**
+
+1. Read and **lock the record**.
+2. No other transaction can update it until the lock is released.
+3. Update the data and commit the transaction.
+
+**Key Features:**
+
+* **Optimistic Locking:** Uses a **`@Version`** field, provides **better performance**, and avoids unnecessary locks.
+* **Pessimistic Locking:** Uses **database-level locks**, ensures strong consistency, but may reduce concurrency.
+
+**When to Use:**
+
+* Use **Optimistic Locking** when **read operations are frequent** and update conflicts are rare (e.g., **e-commerce product catalog**).
+* Use **Pessimistic Locking** when **data conflicts are common** and consistency is critical (e.g., **banking transactions**).
+
+**Code Example:**
+
+**Optimistic Locking (JPA):**
+
+```java
+@Entity
+public class Product {
+
+    @Id
+    private Long id;
+
+    @Version
+    private Integer version;
+
+    private String name;
+}
+```
+
+**Pessimistic Locking (JPA):**
+
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT p FROM Product p WHERE p.id = :id")
+Product findByIdForUpdate(Long id);
+```
+
+
+## 21. What is auditing and How it works in JPA?
 
 In Java (especially enterprise applications like Spring Boot), **auditing** means **tracking and recording changes made to data**, such as:
 
