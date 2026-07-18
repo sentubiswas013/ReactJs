@@ -8444,7 +8444,14 @@ In this example, **`parallelStream()`** uses the **common `ForkJoinPool`** to pr
 
 ## 7. Can you modify the state of external variables in Stream operations?
 
+**Yes, but it is not recommended.** Stream operations should be **stateless** and **side-effect free**. Modifying external variables can lead to **incorrect results**, especially when using **Parallel Streams**.
 
+**Why is it Not Recommended?**
+
+1. Can cause **race conditions** in **Parallel Streams**.
+2. Makes the code harder to **understand** and **maintain**.
+3. Breaks the **functional programming** style of Streams.
+4. May produce **unexpected results**.
 
 ## 7. What is the difference between Collection and Stream API?
 
