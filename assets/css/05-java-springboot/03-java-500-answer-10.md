@@ -5735,18 +5735,6 @@ Instead of using arrays with fixed size, Collections provide flexible data struc
 * Improves code reusability
 * Provides high-performance implementations
 
-**How it Works**
-
-The Collection Framework provides **interfaces** and their **implementations**:
-
-| Interface | Implementation Examples   |
-| --------- | ------------------------- |
-| **List**  | ArrayList, LinkedList     |
-| **Set**   | HashSet, TreeSet          |
-| **Queue** | PriorityQueue, LinkedList |
-| **Map**   | HashMap, TreeMap          |
-
-You program against the interface and use a specific implementation based on your requirement.
 
 **Why Use Collections?**
 
@@ -5816,6 +5804,49 @@ Map          | HashMap, TreeMap, LinkedHashMap        | Stores key-value pairs w
 
 ArrayList : add(), get(), set(), and remove() to manage your list of elements.
 LinkedList
+
+## 0. Main Interfaces of the Collection Framework?
+
+The **Java Collection Framework** provides a set of **interfaces** for storing and manipulating groups of objects. Each interface is designed for a specific type of data structure.
+
+**Main Interfaces**
+
+1. **`Collection`** – The **root interface** of the Collection Framework. It represents a group of objects.
+2. **`List`** – Stores **ordered** elements, allows **duplicates**, and supports **index-based access**.
+3. **`Set`** – Stores **unique** elements and does **not allow duplicates**.
+4. **`Queue`** – Stores elements for processing, usually in **FIFO (First In, First Out)** order.
+5. **`Deque`** – A **double-ended queue** that allows insertion and removal from **both ends**.
+6. **`Map`** – Stores data as **key-value pairs**. **Keys are unique**, while **values can be duplicated**. *(Note: `Map` is part of the Collection Framework but does **not** extend the `Collection` interface.)*
+
+**Common Implementations**
+
+| **Interface** | **Common Implementations**                                                 |
+| ------------- | -------------------------------------------------------------------------- |
+| **`List`**    | **`ArrayList`**, **`LinkedList`**, **`Vector`**                            |
+| **`Set`**     | **`HashSet`**, **`LinkedHashSet`**, **`TreeSet`**                          |
+| **`Queue`**   | **`PriorityQueue`**, **`LinkedList`**                                      |
+| **`Deque`**   | **`ArrayDeque`**, **`LinkedList`**                                         |
+| **`Map`**     | **`HashMap`**, **`LinkedHashMap`**, **`TreeMap`**, **`ConcurrentHashMap`** |
+
+**Example**
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        Set<String> set = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        Map<Integer, String> map = new HashMap<>();
+
+        list.add("Java");
+        set.add("Spring");
+        queue.offer("Docker");
+        map.put(1, "Kubernetes");
+    }
+}
+```
 
 ## 1. Java Collections Use Cases?
 
