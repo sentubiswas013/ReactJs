@@ -7583,6 +7583,80 @@ public class Main {
 
 
 
+## 13. What is fail-fast and fail-safe iterators?
+
+
+**Fail-Fast** and **Fail-Safe** are behaviors of java collections when they are modified while being iterated.
+
+* **Fail-Fast**: Immediately throws an exception if the collection is modified during iteration.
+* **Fail-Safe**: Works on a copy of the collection, so modifications do not cause exceptions.
+
+
+| **Feature**     | **Fail-Fast**                                                      | **Fail-Safe**                                                |
+| --------------- | ------------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Behavior**    | Throws an exception if the collection is modified during iteration | Works on a copy of the collection, so no exception is thrown |
+| **Exception**   | **`ConcurrentModificationException`**                              | No exception                                                 |
+| **Data Access** | Iterates over the **original collection**                          | Iterates over a **cloned/copy collection**                   |
+| **Performance** | Faster, no extra memory needed                                     | Slightly slower, uses extra memory for the copy              |
+| **Examples**    | `ArrayList`, `HashMap`, `HashSet`                                  | `CopyOnWriteArrayList`, `ConcurrentHashMap`                  |
+
+**How Fail-Fast Works**
+
+* The iterator keeps track of a **modification count (`modCount`)**.
+* If the collection is structurally modified after the iterator is created (except through the iterator's own `remove()` method), the iterator detects the change and throws a **`ConcurrentModificationException`**.
+
+**Code Example (Fail-Fast)**
+
+```java
+List<String> list = new ArrayList<>();
+list.add("A");
+list.add("B");
+
+for (String s : list) {
+    list.add("C");   // Throws ConcurrentModificationException
+}
+```
+
+**How Fail-Safe Works**
+
+* The iterator works on a **snapshot (copy)** of the collection.
+* Changes made to the original collection during iteration do not affect the iterator, so no exception occurs.
+
+**Code Example (Fail-Safe)**
+
+```java
+CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+list.add("A");
+list.add("B");
+
+for (String s : list) {
+    list.add("C");   // No exception
+    System.out.println(s);
+}
+```
+
+**Key Features**
+
+* **Fail-Fast**
+
+  * Detects concurrent modifications quickly.
+  * Prevents unpredictable behavior.
+  * Does **not guarantee thread safety**.
+
+* **Fail-Safe**
+
+  * Safe for concurrent modifications.
+  * Suitable for **multi-threaded environments**.
+  * Uses extra memory because it creates a copy.
+
+**When to Use**
+
+* Use **Fail-Fast** for **single-threaded applications** where modifications during iteration should be detected immediately.
+
+* Use **Fail-Safe** for **multi-threaded applications** where collections may be modified while iterating.
+
+
+
 ## 17. What is CopyOnWriteArrayList?
 
 **`CopyOnWriteArrayList`** is a **thread-safe** implementation of the **`List`** interface in Java. Whenever an element is **added**, **updated**, or **removed**, it creates a **new copy** of the underlying array. This allows multiple threads to **read safely** without locking.
@@ -8307,6 +8381,68 @@ public class Main {
 
    * Parallel streams use the **common `ForkJoinPool`**.
    * Heavy parallel tasks can affect the performance of other tasks using the same pool.
+
+## 7. What is ForkJoinPool and how is it related to parallel streams?
+
+**`ForkJoinPool`** is a **thread pool** introduced in **Java 7** for executing tasks in **parallel**. It follows the **Fork/Join** framework, where a large task is **split (fork)** into smaller tasks, processed by multiple threads, and then **combined (join)** to produce the final result.
+
+**How It Works**
+
+1. A large task is **split** into smaller subtasks (**Fork**).
+2. Multiple threads execute the subtasks **concurrently**.
+3. The results of all subtasks are **combined** (**Join**).
+4. It uses **Work Stealing**, where an idle thread can "steal" tasks from a busy thread, improving CPU utilization.
+
+**How is it Related to Parallel Streams?**
+
+* **`parallelStream()`** automatically uses the **common `ForkJoinPool`**.
+* The collection is divided into **smaller tasks**.
+* Multiple threads process the tasks in **parallel**.
+* The results are merged and returned.
+
+**Example**
+
+```java id="qbgvbq"
+import java.util.Arrays;
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        int sum = numbers.parallelStream()
+                         .mapToInt(n -> n * 2)
+                         .sum();
+
+        System.out.println(sum);
+    }
+}
+```
+
+**Output**
+
+```text id="1zv0tz"
+30
+```
+
+In this example, **`parallelStream()`** uses the **common `ForkJoinPool`** to process the elements using **multiple threads**.
+
+**Key Features**
+
+* Uses a **pool of worker threads**.
+* Supports **Fork/Join** processing.
+* Uses **Work Stealing** for better performance.
+* Used automatically by **Parallel Streams**.
+* Best for **CPU-intensive** tasks.
+
+**When to Use**
+
+* **Large datasets**.
+* **CPU-intensive** computations.
+* Tasks that can be **split into independent subtasks**.
+
+
+## 7. Can you modify the state of external variables in Stream operations?
 
 
 
@@ -11542,80 +11678,6 @@ public class UserController {
     }
 }
 ```
-
-
-## 13. What is fail-fast and fail-safe iterators?
-
-
-**Fail-Fast** and **Fail-Safe** are behaviors of java collections when they are modified while being iterated.
-
-* **Fail-Fast**: Immediately throws an exception if the collection is modified during iteration.
-* **Fail-Safe**: Works on a copy of the collection, so modifications do not cause exceptions.
-
-
-| **Feature**     | **Fail-Fast**                                                      | **Fail-Safe**                                                |
-| --------------- | ------------------------------------------------------------------ | ------------------------------------------------------------ |
-| **Behavior**    | Throws an exception if the collection is modified during iteration | Works on a copy of the collection, so no exception is thrown |
-| **Exception**   | **`ConcurrentModificationException`**                              | No exception                                                 |
-| **Data Access** | Iterates over the **original collection**                          | Iterates over a **cloned/copy collection**                   |
-| **Performance** | Faster, no extra memory needed                                     | Slightly slower, uses extra memory for the copy              |
-| **Examples**    | `ArrayList`, `HashMap`, `HashSet`                                  | `CopyOnWriteArrayList`, `ConcurrentHashMap`                  |
-
-**How Fail-Fast Works**
-
-* The iterator keeps track of a **modification count (`modCount`)**.
-* If the collection is structurally modified after the iterator is created (except through the iterator's own `remove()` method), the iterator detects the change and throws a **`ConcurrentModificationException`**.
-
-**Code Example (Fail-Fast)**
-
-```java
-List<String> list = new ArrayList<>();
-list.add("A");
-list.add("B");
-
-for (String s : list) {
-    list.add("C");   // Throws ConcurrentModificationException
-}
-```
-
-**How Fail-Safe Works**
-
-* The iterator works on a **snapshot (copy)** of the collection.
-* Changes made to the original collection during iteration do not affect the iterator, so no exception occurs.
-
-**Code Example (Fail-Safe)**
-
-```java
-CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
-list.add("A");
-list.add("B");
-
-for (String s : list) {
-    list.add("C");   // No exception
-    System.out.println(s);
-}
-```
-
-**Key Features**
-
-* **Fail-Fast**
-
-  * Detects concurrent modifications quickly.
-  * Prevents unpredictable behavior.
-  * Does **not guarantee thread safety**.
-
-* **Fail-Safe**
-
-  * Safe for concurrent modifications.
-  * Suitable for **multi-threaded environments**.
-  * Uses extra memory because it creates a copy.
-
-**When to Use**
-
-* Use **Fail-Fast** for **single-threaded applications** where modifications during iteration should be detected immediately.
-
-* Use **Fail-Safe** for **multi-threaded applications** where collections may be modified while iterating.
-
 
 
 ## 14. What happens if the thread pool is exhausted?
