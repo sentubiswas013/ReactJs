@@ -13967,7 +13967,7 @@ Use **NIO** when you need **better performance and scalability**, especially for
 - Rapid development needed
 - Working with small to medium files
 
-# ✅ 13. Java Generics 
+# ✅ 13. Java Records & Generics 
 
 ## 1. What are generics in Java?
 
