@@ -16897,8 +16897,6 @@ Instead of returning **Entities**, return **DTOs** containing only the required 
 public record EmployeeDto(Long id, String name) {}
 ```
 
-
-
 ## 14. What is Database Indexing and When to Use It?
 
 A **Database Index** is a special **data structure** that improves the speed of **data retrieval** operations. It works like the **index of a book**, allowing the database to find rows quickly without scanning the entire table.
@@ -17336,6 +17334,315 @@ public class User extends Auditable {
     @Id @GeneratedValue private Long id;
     private String name;
 }
+```
+
+
+## 14. **Describe the Entity Lifecycle in Hibernate**
+
+An **Entity** in Hibernate goes through **4 lifecycle states** from creation until deletion.
+
+**1. Transient**
+
+* The object is created using **`new`**.
+* It is **not managed** by Hibernate.
+* It does **not exist** in the database.
+
+```java id="kzk3px"
+Student student = new Student();
+student.setName("John");
+```
+
+**2. Persistent**
+
+* The entity is **managed** by Hibernate.
+* It exists in the **Persistence Context**.
+* Changes are **automatically saved** to the database during **commit** or **flush**.
+
+```java id="j6t3rf"
+entityManager.persist(student);
+```
+
+**3. Detached**
+
+* The entity was **managed before**, but is **no longer attached** to the Persistence Context.
+* Changes are **not saved** automatically.
+* Use **`merge()`** to attach it again.
+
+```java id="wscwdi"
+entityManager.detach(student);
+```
+
+```java id="uz8fx2"
+student.setName("Mike");
+entityManager.merge(student);
+```
+
+**4. Removed**
+
+* The entity is marked for **deletion**.
+* It is deleted from the database when the transaction is **committed**.
+
+```java id="04up4x"
+entityManager.remove(student);
+```
+
+**Entity Lifecycle Flow**
+
+**Transient** → **Persistent** → **Detached** → **Persistent (using `merge()`)** → **Removed**
+
+
+
+## 14. **What Is the First-Level Cache in Hibernate?**
+
+The **First-Level Cache** is a **session-level cache** that is **enabled by default**. Every **`Session`** (or **`EntityManager`**) has its own cache and stores loaded entities during the session.
+
+**Why Use First-Level Cache?**
+
+1. **Reduces database queries**.
+2. **Improves performance**.
+3. Ensures the **same Entity instance** is returned within the same session.
+
+**Example**
+
+```java
+Session session = sessionFactory.openSession();
+
+Student s1 = session.get(Student.class, 1L);
+Student s2 = session.get(Student.class, 1L);
+
+System.out.println(s1 == s2); // true
+```
+
+The **first `get()`** executes a SQL query and stores the entity in the **First-Level Cache**.
+
+The **second `get()`** returns the entity from the **cache**, so **no SQL query** is executed.
+
+**When Is the Cache Cleared?**
+
+* When the **Session** is **closed**.
+* When **`session.clear()`** is called.
+* When a specific entity is removed using **`session.evict(entity)`**.
+
+
+## 14. **What Is the Second-Level Cache and When to Use It?**
+
+The **Second-Level Cache** is a **SessionFactory-level cache** shared across **multiple Sessions**. Unlike the **First-Level Cache**, it is **disabled by default** and must be configured explicitly.
+
+**Why Use Second-Level Cache?**
+
+1. **Reduces database queries** across multiple sessions.
+2. **Improves application performance**.
+3. Stores **frequently accessed** and **rarely changing** data.
+
+**Example**
+
+```java id="d1f4kx"
+@Entity
+@Cacheable
+@org.hibernate.annotations.Cache(
+    usage = CacheConcurrencyStrategy.READ_WRITE
+)
+public class Product {
+
+    @Id
+    private Long id;
+
+    private String name;
+}
+```
+
+When one session loads a **Product**, it is stored in the **Second-Level Cache**. Another session requesting the same product can retrieve it from the **cache** instead of querying the database.
+
+**When to Use It?**
+
+* **Reference data** (Countries, Cities).
+* **Product Catalogs**.
+* **Configuration data**.
+* Data that is **read frequently** but **changes rarely**.
+
+**When Not to Use It?**
+
+* **Frequently updated** data.
+* **Highly transactional** data.
+* Data with **constant writes**, where cache synchronization becomes expensive.
+
+
+## 14. **How to Configure the Second-Level Cache?**
+
+To use the **Second-Level Cache** in Hibernate, you need to:
+
+1. Add a **cache provider** (e.g., **Ehcache**, **Caffeine**, **Infinispan**).
+2. Enable the **Second-Level Cache** in Hibernate.
+3. Mark the required **Entities** as cacheable.
+
+**Step 1: Enable Second-Level Cache**
+
+```properties
+spring.jpa.properties.hibernate.cache.use_second_level_cache=true
+spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.jcache.JCacheRegionFactory
+```
+
+**Step 2: Mark the Entity as Cacheable**
+
+```java
+@Entity
+@Cacheable
+@org.hibernate.annotations.Cache(
+    usage = CacheConcurrencyStrategy.READ_WRITE
+)
+public class Product {
+
+    @Id
+    private Long id;
+
+    private String name;
+}
+```
+
+**Step 3: Use a Cache Provider**
+
+Common providers:
+
+- **Ehcache**
+- **Caffeine**
+- **Infinispan**
+
+**Cache Concurrency Strategies**
+
+1. **`READ_ONLY`** – For data that **never changes**.
+2. **`READ_WRITE`** – For data that **can be updated**.
+3. **`NONSTRICT_READ_WRITE`** – Allows occasional stale data for **better performance**.
+4. **`TRANSACTIONAL`** – For **transaction-aware** cache providers.
+
+
+## 14. **What Are the Peculiarities of Bidirectional Relationships?**
+
+A **Bidirectional Relationship** means **both Entities reference each other**, so you can navigate from **parent to child** and from **child to parent**.
+
+**Example**
+
+```java
+@Entity
+public class Department {
+
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees = new ArrayList<>();
+}
+```
+
+```java
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+}
+```
+
+**Peculiarities**
+
+1. **One side is the Owning Side**
+
+   * Contains **`@JoinColumn`**.
+   * Updates the **Foreign Key** in the database.
+   * In this example, **`Employee`** is the owning side.
+
+2. **One side is the Inverse Side**
+
+   * Uses **`mappedBy`**.
+   * Does **not** update the Foreign Key.
+   * In this example, **`Department`** is the inverse side.
+
+3. **Keep Both Sides Synchronized**
+
+   * Always update both sides of the relationship in your code.
+
+```java
+Department department = new Department();
+Employee employee = new Employee();
+
+employee.setDepartment(department);
+department.getEmployees().add(employee);
+```
+
+4. **Can Cause Infinite Recursion**
+
+   * During **JSON serialization**, parent and child may reference each other indefinitely.
+   * Use **`@JsonManagedReference`**, **`@JsonBackReference`**, **`@JsonIgnore`**, or **DTOs**.
+
+
+## 14. **How to Avoid Infinite Recursion During Entity Serialization?**
+
+**Infinite Recursion** occurs when **bidirectional Entities** reference each other during **JSON serialization**, causing Jackson to serialize them repeatedly until a **`StackOverflowError`** occurs.
+
+**Example**
+
+```java
+Department → Employee → Department → Employee ...
+```
+
+**Solution 1: `@JsonManagedReference` and `@JsonBackReference`**
+
+* **`@JsonManagedReference`** → Parent side.
+* **`@JsonBackReference`** → Child side (ignored during serialization).
+
+```java
+@Entity
+public class Department {
+
+    @OneToMany(mappedBy = "department")
+    @JsonManagedReference
+    private List<Employee> employees;
+}
+```
+
+```java
+@Entity
+public class Employee {
+
+    @ManyToOne
+    @JsonBackReference
+    private Department department;
+}
+```
+
+**Solution 2: `@JsonIgnore`**
+
+Ignore one side of the relationship.
+
+```java
+@ManyToOne
+@JsonIgnore
+private Department department;
+```
+
+**Solution 3: `@JsonIdentityInfo`**
+
+Serialize each entity only once and use its **ID** for subsequent references.
+
+```java
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
+@Entity
+public class Department {
+}
+```
+
+**Solution 4: Use DTOs (Recommended)**
+
+Return **DTOs** instead of **Entities** from your REST API.
+
+```java
+public record EmployeeDto(Long id, String name) {}
 ```
 
 
