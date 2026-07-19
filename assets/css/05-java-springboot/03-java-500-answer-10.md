@@ -14052,7 +14052,7 @@ public record Employee(Long id, String name) {
 ## 1. **What are the main differences between Record and a regular class?**
 
 | **Record**                                                                            | **Regular Class**                       |
-| - |  |
+| ------------------------------------------------------------------------------------- | --------------------------------------- |
 | Designed for **immutable data**                                                       | Can be mutable or immutable             |
 | Automatically generates **constructor**, **equals()**, **hashCode()**, **toString()** | You write them manually                 |
 | Fields are **private final**                                                          | Fields can be mutable                   |
@@ -14060,6 +14060,8 @@ public record Employee(Long id, String name) {
 | Accessor methods like `name()`                                                        | Usually getter methods like `getName()` |
 | Less boilerplate                                                                      | More boilerplate                        |
 | Best for **DTOs** and value objects                                                   | Suitable for any business logic         |
+
+
 
 **Record Example**
 
