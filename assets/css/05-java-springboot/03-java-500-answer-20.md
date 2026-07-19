@@ -3605,6 +3605,829 @@ if (bucket.tryConsume(1)) {
 
 
 
+## 1. **What is Containerization and Why Is It Needed?**
+
+**Containerization** is the process of packaging an **application**, its **libraries**, **dependencies**, and **configuration** into a **container** so it runs the same way in every environment.
+
+**Why is it Needed?**
+
+* **Consistency** – Runs the same in **development, testing, and production**.
+* **Portability** – Can run on any machine that supports **Docker**.
+* **Fast Deployment** – Containers start in **seconds**.
+* **Lightweight** – Shares the **host OS kernel**, so it uses fewer resources.
+* **Scalability** – Easy to create multiple container instances.
+* **Isolation** – Each application runs independently.
+
+**Example**
+
+```dockerfile
+FROM openjdk:21
+COPY app.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+
+
+## 1. **What Is the Difference Between a Container and a Virtual Machine?**
+
+A **Container** is a lightweight package that includes an application and its dependencies but **shares the host operating system kernel**.
+
+A **Virtual Machine (VM)** is a complete virtual computer that includes its own **Guest Operating System**, running on top of a **Hypervisor**.
+
+| **Feature**        | **Container**                         | **Virtual Machine (VM)**               |
+| ------------------ | ------------------------------------- | -------------------------------------- |
+| **OS**             | Shares the **Host OS Kernel**         | Has its own **Guest OS**               |
+| **Startup Time**   | **Seconds**                           | **Minutes**                            |
+| **Performance**    | **Faster**                            | **Slower**                             |
+| **Resource Usage** | **Lightweight**                       | **Heavier**                            |
+| **Isolation**      | Process-level isolation               | Full machine isolation                 |
+| **Size**           | Usually **MBs**                       | Usually **GBs**                        |
+| **Use Case**       | **Microservices, Cloud applications** | **Multiple OSes, Legacy applications** |
+
+**Architecture**
+
+**Container**
+
+```text
+Application
+Dependencies
+Container Runtime (Docker)
+Host Operating System
+Infrastructure
+```
+
+**Virtual Machine**
+
+```text
+Application
+Dependencies
+Guest Operating System
+Hypervisor
+Host Operating System
+Infrastructure
+```
+
+
+## 1. **What Is a Dockerfile?**
+
+A **Dockerfile** is a **text file** that contains instructions for building a **Docker image**. It automates the image creation process so every build is **consistent and repeatable**.
+
+**Common Dockerfile Instructions**
+
+* **FROM** – Specifies the base image.
+* **WORKDIR** – Sets the working directory.
+* **COPY** – Copies files into the image.
+* **RUN** – Executes commands during image build.
+* **EXPOSE** – Documents the port the application uses.
+* **ENTRYPOINT** – Defines the main command to run when the container starts.
+* **CMD** – Provides default arguments for the application.
+
+**Example Dockerfile**
+
+```dockerfile
+FROM openjdk:21
+
+WORKDIR /app
+
+COPY target/app.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+**Build and Run**
+
+```bash
+docker build -t my-app .
+```
+
+```bash
+docker run -p 8080:8080 my-app
+```
+
+
+
+## 1. **What Are the Main Instructions Used in a Dockerfile?**
+
+A **Dockerfile** contains instructions to build a **Docker image**.
+
+**Common Instructions**
+
+| **Instruction** | **Purpose**                                                  |
+| --------------- | ------------------------------------------------------------ |
+| **FROM**        | Specifies the **base image**.                                |
+| **WORKDIR**     | Sets the **working directory**.                              |
+| **COPY**        | Copies files from the host to the image.                     |
+| **ADD**         | Copies files and can also extract archives or download URLs. |
+| **RUN**         | Executes commands while building the image.                  |
+| **ENV**         | Sets **environment variables**.                              |
+| **EXPOSE**      | Documents the port used by the application.                  |
+| **CMD**         | Specifies the **default command** to run.                    |
+| **ENTRYPOINT**  | Specifies the **main executable** of the container.          |
+| **LABEL**       | Adds metadata to the image.                                  |
+| **ARG**         | Defines build-time variables.                                |
+
+**Example**
+
+```dockerfile
+FROM openjdk:21
+
+WORKDIR /app
+
+COPY target/app.jar app.jar
+
+ENV APP_NAME=DemoApp
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+
+## 1. **What Is the Difference Between CMD and ENTRYPOINT?**
+
+Both define what runs when a container starts, but they serve different purposes.
+
+| **Feature**           | **CMD**                                       | **ENTRYPOINT**                        |
+| --------------------- | --------------------------------------------- | ------------------------------------- |
+| **Purpose**           | Provides the **default command or arguments** | Defines the **main executable**       |
+| **Can Be Overridden** | **Yes**, easily overridden by `docker run`    | **No**, unless `--entrypoint` is used |
+| **Use Case**          | Default parameters                            | Fixed application to run              |
+
+**Example**
+
+**Using CMD**
+
+```dockerfile
+FROM openjdk:21
+COPY app.jar app.jar
+CMD ["java", "-jar", "app.jar"]
+```
+
+Override at runtime:
+
+```bash
+docker run my-app java -version
+```
+
+**Using ENTRYPOINT**
+
+```dockerfile
+FROM openjdk:21
+COPY app.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+Pass additional arguments:
+
+```bash
+docker run my-app --server.port=9090
+```
+
+
+## 1. **What Is Multi-Stage Build?**
+
+A **Multi-Stage Build** is a Docker build technique that uses **multiple `FROM` statements** to separate the **build environment** from the **runtime environment**.
+
+This creates **smaller**, **more secure**, and **optimized** Docker images because only the final application is included.
+
+**Example**
+
+```dockerfile
+FROM maven:3.9-eclipse-temurin-21 AS builder
+
+WORKDIR /app
+COPY . .
+RUN mvn clean package
+
+FROM eclipse-temurin:21-jre
+
+COPY --from=builder /app/target/app.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+**Benefits**
+
+* **Smaller image size**
+* **Faster deployment**
+* **Improved security**
+* **No unnecessary build tools** in the final image
+
+
+
+## 1. **What Is Docker Compose?**
+
+**Docker Compose** is a tool used to define and run **multiple Docker containers** using a single **`docker-compose.yml`** (or **`compose.yaml`**) file.
+
+It is commonly used for applications with multiple services, such as a **Spring Boot application**, **MySQL database**, and **Redis cache**.
+
+**Example**
+
+```yaml
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+```
+
+**Common Commands**
+
+```bash
+docker compose up
+```
+
+Starts all services.
+
+```bash
+docker compose down
+```
+
+Stops and removes all services.
+
+
+
+## 1. **What Is Kubernetes and Why Is It Needed?**
+
+**Kubernetes (K8s)** is an **open-source container orchestration platform** used to **deploy, manage, scale, and monitor** containerized applications.
+
+It automates the management of containers running across multiple servers.
+
+**Why Is It Needed?**
+
+* **Automatic Scaling** – Increases or decreases application instances based on demand.
+* **Self-Healing** – Restarts failed containers automatically.
+* **Load Balancing** – Distributes traffic across multiple containers.
+* **Rolling Updates** – Updates applications with little or no downtime.
+* **Service Discovery** – Helps containers communicate with each other.
+* **High Availability** – Keeps applications running even if a server fails.
+
+**Example**
+
+```bash
+kubectl apply -f deployment.yaml
+```
+
+This deploys an application to a **Kubernetes cluster**.
+
+
+
+## 1. **What Is a Pod in Kubernetes?**
+
+A **Pod** is the **smallest deployable unit** in Kubernetes.
+
+A Pod contains **one or more containers** that **share the same network, IP address, and storage**.
+
+Usually, one application runs in one Pod.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+```
+
+
+## 1. **What Is a Node in Kubernetes?**
+
+A **Node** is a **physical or virtual machine** that runs **Pods**.
+
+Each Node contains the required components to run containers and is managed by the **Control Plane**.
+
+**Types of Nodes**
+
+* **Worker Node** – Runs application Pods.
+* **Control Plane Node** – Manages the Kubernetes cluster.
+
+**Architecture**
+
+```text
+Control Plane
+      │
+ ┌────┴────┐
+ │         │
+Node 1   Node 2
+ │         │
+Pods      Pods
+```
+
+
+
+## 1. **What Is a Service in Kubernetes?**
+
+A **Service** is a Kubernetes object that provides a **stable IP address and DNS name** to access one or more **Pods**.
+
+Since Pods are **temporary** and their IP addresses can change, a Service provides a **permanent endpoint**.
+
+**Common Service Types**
+
+| **Type**         | **Purpose**                                                     |
+| ---------------- | --------------------------------------------------------------- |
+| **ClusterIP**    | Internal communication within the cluster.                      |
+| **NodePort**     | Exposes the application on a port of each Node.                 |
+| **LoadBalancer** | Exposes the application externally using a cloud load balancer. |
+| **ExternalName** | Maps the Service to an external DNS name.                       |
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+
+spec:
+  selector:
+    app: demo
+
+  ports:
+    - port: 80
+      targetPort: 8080
+
+  type: ClusterIP
+```
+
+
+
+## 1. **What Types of Kubernetes Services Exist?**
+
+A **Service** provides a **stable IP address and DNS name** to access **Pods**.
+
+**Service Types**
+
+| **Service Type** | **Purpose**                                                                                                |
+| ---------------- | ---------------------------------------------------------------------------------------------------------- |
+| **ClusterIP**    | Default type. Exposes the application **only inside the Kubernetes cluster**.                              |
+| **NodePort**     | Exposes the application on a **port of every Node**, allowing external access using `<NodeIP>:<NodePort>`. |
+| **LoadBalancer** | Exposes the application externally using a **cloud provider's load balancer** and provides a public IP.    |
+| **ExternalName** | Maps the Service to an **external DNS name**.                                                              |
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+
+spec:
+  selector:
+    app: demo
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
+```
+
+
+
+## 1. **What Is a ReplicaSet?**
+
+A **ReplicaSet** is a Kubernetes object that ensures a **specified number of Pod replicas** are always running.
+
+If a Pod **fails or is deleted**, the ReplicaSet **automatically creates a new Pod**.
+
+In practice, a **Deployment** manages the ReplicaSet, and users typically work with **Deployments** instead of creating ReplicaSets directly.
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: app-rs
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: demo
+
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: app
+          image: nginx
+```
+
+
+## 1. **How Does Scaling Work in Kubernetes?**
+
+**Scaling** means **increasing or decreasing the number of Pod replicas** based on application demand.
+
+**Types of Scaling**
+
+* **Manual Scaling** – The number of replicas is changed manually.
+
+```bash
+kubectl scale deployment my-app --replicas=5
+```
+
+* **Automatic Scaling (Horizontal Pod Autoscaler - HPA)** – Kubernetes automatically adjusts the number of Pods based on **CPU**, **memory**, or **custom metrics**.
+
+**Example Deployment**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+
+spec:
+  replicas: 3
+```
+
+This deployment starts **3 Pod replicas**.
+
+
+
+## 1. **What Is HorizontalPodAutoscaler (HPA)?**
+
+**HorizontalPodAutoscaler (HPA)** is a Kubernetes resource that **automatically increases or decreases the number of Pod replicas** based on metrics such as **CPU utilization**, **memory usage**, or **custom metrics**.
+
+It helps applications handle changing workloads automatically.
+
+**How It Works**
+
+1. Monitors **CPU**, **memory**, or **custom metrics**.
+2. If usage exceeds the configured threshold, it **adds more Pods**.
+3. If usage decreases, it **removes unnecessary Pods**.
+
+**Example**
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: app-hpa
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-app
+
+  minReplicas: 2
+  maxReplicas: 10
+
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+```
+
+
+## 1. **What Is the Difference Between ConfigMap and Secret?**
+
+Both **ConfigMap** and **Secret** are used to store application configuration, but they are intended for different types of data.
+
+| **Feature**  | **ConfigMap**                               | **Secret**                                     |
+| ------------ | ------------------------------------------- | ---------------------------------------------- |
+| **Purpose**  | Stores **non-sensitive configuration**      | Stores **sensitive data**                      |
+| **Examples** | Application properties, URLs, feature flags | Passwords, API keys, tokens, certificates      |
+| **Storage**  | Plain text                                  | Base64-encoded (can also be encrypted at rest) |
+| **Security** | Not designed for sensitive data             | Designed for sensitive data                    |
+
+**Example ConfigMap**
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+
+data:
+  APP_NAME: DemoApp
+```
+
+**Example Secret**
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+
+type: Opaque
+
+data:
+  password: cm9vdA==
+```
+
+
+## 1. **What Is a Liveness Probe?**
+
+A **Liveness Probe** is a Kubernetes health check that determines whether a **container is still running correctly**.
+
+If the probe **fails repeatedly**, Kubernetes **restarts the container** automatically.
+
+It helps recover applications that are **stuck or unresponsive**.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+
+spec:
+  containers:
+    - name: app
+      image: nginx
+
+      livenessProbe:
+        httpGet:
+          path: /
+          port: 80
+        initialDelaySeconds: 10
+        periodSeconds: 5
+```
+
+
+## 1. **What Is a Readiness Probe?**
+
+A **Readiness Probe** checks whether a **container is ready to accept traffic**.
+
+If the readiness probe **fails**, Kubernetes **does not send requests** to that Pod, but **does not restart it**.
+
+It is commonly used when an application needs time to **start**, **load data**, or **connect to a database**.
+
+**Example**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+
+spec:
+  containers:
+    - name: app
+      image: nginx
+
+      readinessProbe:
+        httpGet:
+          path: /
+          port: 80
+        initialDelaySeconds: 10
+        periodSeconds: 5
+```
+
+
+## 1. **Why Are Health Checks Needed?**
+
+**Health checks** allow Kubernetes to determine whether an application is **running correctly** and **ready to serve requests**.
+
+**Benefits**
+
+* **Detect failed or unhealthy containers**
+* **Automatically restart crashed applications**
+* **Prevent traffic from reaching unready Pods**
+* **Improve availability and reliability**
+* **Reduce downtime**
+
+**Types of Health Checks**
+
+| **Probe**           | **Purpose**                                                                                                                                  |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Liveness Probe**  | Checks if the container is **alive**. If it fails, Kubernetes **restarts** the container.                                                    |
+| **Readiness Probe** | Checks if the container is **ready** to receive traffic. If it fails, traffic is **stopped**, but the container is **not restarted**.        |
+| **Startup Probe**   | Checks whether a **slow-starting application** has finished starting. Until it succeeds, **Liveness** and **Readiness** probes are disabled. |
+
+
+## 1. **What Is Ingress in Kubernetes?**
+
+**Ingress** is a Kubernetes resource that manages **external HTTP and HTTPS traffic** to services inside the cluster.
+
+Instead of exposing every Service with a separate **LoadBalancer**, a single **Ingress Controller** can route requests to different Services based on the **URL path** or **host name**.
+
+**Example**
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-service
+            port:
+              number: 80
+```
+
+**Benefits**
+
+* **Single entry point** for multiple applications
+* **Host-based routing** (e.g., `api.example.com`)
+* **Path-based routing** (e.g., `/users`, `/orders`)
+* **SSL/TLS termination**
+* **Reduced cloud load balancer costs**
+
+
+## 1. **What Is a Namespace?**
+
+A **Namespace** is a logical partition inside a Kubernetes cluster used to **organize and isolate resources**.
+
+Multiple teams or applications can share the same cluster while keeping their resources separate.
+
+**Common Namespaces**
+
+* **default** – Default namespace for user applications.
+* **kube-system** – Contains Kubernetes system components.
+* **kube-public** – Publicly readable resources.
+* **kube-node-lease** – Stores node heartbeat information.
+
+**Example**
+
+```bash
+kubectl create namespace development
+```
+
+Deploy to a namespace:
+
+```bash
+kubectl apply -f app.yaml -n development
+```
+
+
+
+## 1. **How to Organize a Rolling Update in Kubernetes?**
+
+A **Rolling Update** gradually replaces **old Pods** with **new Pods** without stopping the application, ensuring **zero or minimal downtime**.
+
+Kubernetes updates Pods **one by one** while keeping the application available.
+
+**Example Deployment**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+
+spec:
+  replicas: 3
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+
+  selector:
+    matchLabels:
+      app: my-app
+
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app
+        image: my-app:v2
+```
+
+**Update Command**
+
+```bash
+kubectl set image deployment/my-app app=my-app:v2
+```
+
+**Benefits**
+
+* **Zero or minimal downtime**
+* **Gradual deployment**
+* **Easy rollback**
+* **No service interruption**
+
+
+## 1. **What Is a StatefulSet and When to Use It?**
+
+A **StatefulSet** is a Kubernetes workload resource used to manage **stateful applications** that require **stable identities** and **persistent storage**.
+
+Unlike a **Deployment**, each Pod has a **unique name**, **stable network identity**, and its own **persistent volume**.
+
+**Use Cases**
+
+* **Databases** (**MySQL**, **PostgreSQL**, **MongoDB**)
+* **Apache Kafka**
+* **ZooKeeper**
+* **Redis Cluster**
+* Any application that requires **persistent data** and **stable Pod identities**
+
+**Deployment vs StatefulSet**
+
+| **Feature**            | **Deployment**         | **StatefulSet**              |
+| ---------------------- | ---------------------- | ---------------------------- |
+| **Pod Identity**       | Random                 | **Stable**                   |
+| **Persistent Storage** | Shared or optional     | **Dedicated per Pod**        |
+| **Pod Names**          | Dynamic                | **Fixed** (`app-0`, `app-1`) |
+| **Use Case**           | Stateless applications | Stateful applications        |
+
+**Example**
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+
+spec:
+  serviceName: mysql
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: mysql
+
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8
+```
+
+
+## 1. **How to Monitor Applications in Kubernetes?**
+
+Application monitoring helps track the **health**, **performance**, and **resource usage** of applications and the Kubernetes cluster.
+
+**Common Monitoring Tools**
+
+| **Tool**                                        | **Purpose**                                    |
+| ----------------------------------------------- | ---------------------------------------------- |
+| **Prometheus**                                  | Collects application and cluster metrics       |
+| **Grafana**                                     | Visualizes metrics using dashboards            |
+| **Metrics Server**                              | Provides CPU and memory metrics for Kubernetes |
+| **ELK Stack (Elasticsearch, Logstash, Kibana)** | Centralized logging                            |
+| **Loki**                                        | Log aggregation                                |
+| **Jaeger**                                      | Distributed tracing for microservices          |
+
+**Useful Commands**
+
+Check Pod status:
+
+```bash
+kubectl get pods
+```
+
+View Pod details:
+
+```bash
+kubectl describe pod <pod-name>
+```
+
+View application logs:
+
+```bash
+kubectl logs <pod-name>
+```
+
+Check resource usage:
+
+```bash
+kubectl top pods
+```
+
+
+
+
 # ✅ 27. Java SQL
 
 ## 1. What is SQL?
