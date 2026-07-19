@@ -10913,58 +10913,6 @@ Open the **`.hprof`** file in tools such as:
 These tools help identify **Memory Leaks**, **large objects**, and **retained memory**.
 
 
-
-## 2. **What are GC Roots?**
-
-**GC Roots (Garbage Collection Roots)** are the **starting points** used by the **Garbage Collector (GC)** to determine which objects are **still reachable** and should **not** be removed.
-
-If an object **can be reached** from a **GC Root**, it is **alive**. If it **cannot be reached**, it becomes **eligible for Garbage Collection**.
-
-**Common GC Roots**
-
-1. **Local Variables**
-
-   * Objects referenced by variables in the **stack frames** of running methods.
-
-2. **Static Variables**
-
-   * Objects referenced by **static fields**.
-
-3. **Active Threads**
-
-   * Objects referenced by **running threads**.
-
-4. **JNI References**
-
-   * Objects referenced by **native (JNI)** code.
-
-**Example**
-
-```java
-public class GCRootExample {
-
-    static Object staticObj = new Object(); // GC Root through static reference
-
-    public static void main(String[] args) {
-        Object localObj = new Object(); // GC Root through local variable
-
-        localObj = null; // No longer referenced
-    }
-}
-```
-
-**Explanation**
-
-* **`staticObj`** is reachable through a **static variable**, so it is **not collected**.
-* After **`localObj = null`**, the object has **no references**. If no other reference exists, it becomes **eligible for Garbage Collection**.
-
-**Why are GC Roots Important?**
-
-* Help the **Garbage Collector (GC)** identify **live objects**.
-* Prevent **objects still in use** from being removed.
-* Help detect **Memory Leaks** during **Heap Dump** analysis.
-
-
 ## 2. **What is Reachability in the Context of GC?**
 
 **Reachability** means whether an object can still be **accessed** through a chain of references starting from a **GC Root**.
