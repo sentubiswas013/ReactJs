@@ -20414,6 +20414,43 @@ Bean Ready for Use
 Bean Removed
 ```
 
+## 4. What is BeanPostProcessor?
+
+A **BeanPostProcessor** is a Spring interface that allows you to **customize or modify a bean** before and after its initialization.
+
+It is commonly used for:
+
+1. **Logging**
+2. **Validation**
+3. **Creating proxies (AOP)**
+4. **Injecting additional behavior**
+
+Spring automatically calls these two methods for every bean:
+
+* **postProcessBeforeInitialization()** – Runs **before** initialization methods (such as **`@PostConstruct`**).
+* **postProcessAfterInitialization()** – Runs **after** initialization and can return a **modified or proxied bean**.
+
+**Example**
+
+```java
+@Component
+public class MyBeanPostProcessor implements BeanPostProcessor {
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) {
+        System.out.println("Before Initialization: " + beanName);
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) {
+        System.out.println("After Initialization: " + beanName);
+        return bean;
+    }
+}
+```
+
+
 ## 4. What is Bean Scope in Spring?
 
 **Bean Scope** defines the **lifecycle** and **visibility** of a Spring bean. It determines **how many instances** of a bean Spring creates and **how long** they live in the Spring container.
@@ -20718,10 +20755,163 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 8.  @Controller, @RestController, @Service, @Repository annotations?
+
+
+## 8. **What is a Starter in Spring Boot?**
+
+A **Spring Boot Starter** is a **predefined dependency package** that includes all the required libraries for a specific feature.
+
+Instead of adding many dependencies manually, you add **one starter**, and Spring Boot brings the required libraries automatically.
+
+**Common Starters**
+
+1. **spring-boot-starter-web**
+
+   * For building **REST APIs** and web applications.
+
+2. **spring-boot-starter-data-jpa**
+
+   * For **JPA**, **Hibernate**, and database access.
+
+3. **spring-boot-starter-security**
+
+   * For **authentication** and **authorization**.
+
+4. **spring-boot-starter-test**
+
+   * For **JUnit**, **Mockito**, and testing.
+
+**Example**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+
+**Common Interview Follow-up Questions**
+
+1. **Why are starters useful?**
+
+   * They **simplify dependency management** and ensure **compatible library versions**.
+
+2. **Can you create a custom starter?**
+
+   * **Yes**, Spring Boot allows creating **custom starters** for reusable configurations.
+
+3. **Do starters contain code?**
+
+   * They mainly contain **dependencies and configuration**, not business logic.
 
 
 
+## 8. **What is Auto-Configuration in Spring Boot?**
+
+**Auto-Configuration** is a feature that **automatically configures Spring Beans** based on:
+
+* **Dependencies** available on the classpath.
+* **Configuration properties** (such as `application.properties` or `application.yml`).
+
+This reduces the need for manual configuration.
+
+**Example**
+
+If **`spring-boot-starter-web`** is on the classpath, Spring Boot automatically configures:
+
+* **DispatcherServlet**
+* **Tomcat**
+* **Jackson**
+* **Spring MVC**
+
+without writing configuration code.
+
+**Example**
+
+```java
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+`@SpringBootApplication` includes **`@EnableAutoConfiguration`**, which enables auto-configuration.
+
+
+**Common Interview Follow-up Questions**
+
+1. **Which annotation enables auto-configuration?**
+
+   * **`@EnableAutoConfiguration`**.
+
+2. **How can you disable an auto-configuration?**
+
+   * Use:
+
+   ```java
+   @SpringBootApplication(
+       exclude = DataSourceAutoConfiguration.class
+   )
+   ```
+
+3. **Does auto-configuration override your custom beans?**
+
+   * **No.** If you define your own bean, Spring Boot **backs off** and uses your bean instead.
+
+
+
+## 8. **What does the @ComponentScan annotation do?**
+
+**`@ComponentScan`** tells Spring **where to search for Beans**.
+
+It scans the specified packages and automatically registers classes annotated with:
+
+* **`@Component`**
+* **`@Service`**
+* **`@Repository`**
+* **`@Controller`**
+* **`@RestController`**
+
+into the **Spring IoC Container**.
+
+**Example**
+
+```java
+@ComponentScan("com.example.service")
+@Configuration
+public class AppConfig {
+}
+```
+
+Spring scans the **`com.example.service`** package and registers all eligible beans.
+
+**Default Behavior**
+
+If no package is specified, Spring scans:
+
+* The package containing the **main application class**.
+* All its **sub-packages**.
+
+
+**Common Interview Follow-up Questions**
+
+1. **Which annotations are detected by `@ComponentScan`?**
+
+   * **`@Component`**, **`@Service`**, **`@Repository`**, **`@Controller`**, and **`@RestController`**.
+
+2. **What happens if a package is outside the scan path?**
+
+   * Spring **does not detect or register** its beans.
+
+3. **Does `@SpringBootApplication` include `@ComponentScan`?**
+
+   * **Yes.** `@SpringBootApplication` includes **`@ComponentScan`**, **`@EnableAutoConfiguration`**, and **`@SpringBootConfiguration`**.
+
+
+## 8. @Controller, @RestController, @Service, @Repository annotations?
 
 These are **Spring Stereotype Annotations** used to mark different layers of an application. They help the **Spring Container** automatically detect and manage classes as **beans** during **component scanning**.
 
