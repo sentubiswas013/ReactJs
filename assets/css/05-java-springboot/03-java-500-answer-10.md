@@ -10306,6 +10306,25 @@ public class Main {
 }
 ```
 
+## 2. What is the difference between Thread and Runnable?
+
+Both **`Thread`** and **`Runnable`** are used to create **multithreaded applications** in Java, but they have different responsibilities.
+
+* **`Thread`** represents the **actual thread of execution**.
+* **`Runnable`** represents **only the task** to be executed by a thread.
+
+**Key Differences**
+
+| **Thread**                                                                | **Runnable**                                                              |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Represents a **thread of execution**.                                     | Represents a **task** to be executed.                                     |
+| Created by **extending the `Thread` class**.                              | Created by **implementing the `Runnable` interface**.                     |
+| Cannot extend another class because Java supports **single inheritance**. | Can still extend another class because it is an interface.                |
+| Task and thread are **tightly coupled**.                                  | Task and thread are **separated**.                                        |
+| Less flexible and less reusable.                                          | More flexible and reusable.                                               |
+| Can be executed only by starting the thread.                              | Can be executed by a **Thread**, **ExecutorService**, or **Thread Pool**. |
+
+
 ## 2. Difference between Runnable and Callable interface?
 
 **Runnable** is used when a task **does not return a result** and **cannot throw checked exceptions**. It has the **run()** method with a **void** return type.
