@@ -14054,7 +14054,9 @@ public record Employee(Long id, String name) {
 | **Record**                                                                            | **Regular Class**                       |
 | ------------------------------------------------------------------------------------- | --------------------------------------- |
 | Designed for **immutable data**                                                       | Can be mutable or immutable             |
-| Automatically generates **constructor**, **equals()**, **hashCode()**, **toString()** | You write them manually                 |
+| Automatically generates **constructor**, 
+**equals()**, **hashCode()**, 
+**toString()** | You write them manually                 |
 | Fields are **private final**                                                          | Fields can be mutable                   |
 | Class is **final**                                                                    | Can be final or non-final               |
 | Accessor methods like `name()`                                                        | Usually getter methods like `getName()` |
