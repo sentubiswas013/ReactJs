@@ -5173,6 +5173,9 @@ new Student()   // Object
 * **Partial Abstraction:** Supports both implemented and unimplemented methods.
 
 
+# ✅ 06. Java Immutability 
+
+
 # ✅ 06. Java String 
 
 
@@ -11076,14 +11079,24 @@ public class Test {
 }
 ```
 
-**volatile vs synchronized**
+**What is the difference between `synchronized` and `volatile`?**
 
-| **volatile**                            | **synchronized**               |
-| --------------------------------------- | ------------------------------ |
-| Ensures visibility only                 | Ensures visibility + atomicity |
-| No locking                              | Uses locks                     |
-| Faster                                  | Slower                         |
-| Not thread-safe for compound operations | Fully thread-safe              |
+Both **`synchronized`** and **`volatile`** are used in **multithreading**, but they solve different problems.
+
+* **`volatile`** ensures **visibility** of changes across threads.
+* **`synchronized`** ensures **visibility**, **mutual exclusion**, and **thread safety**.
+
+**Key Differences**
+
+| **synchronized**                                                      | **volatile**                                           |
+| --------------------------------------------------------------------- | ------------------------------------------------------ |
+| Provides **mutual exclusion** (only one thread can access at a time). | Does **not** provide mutual exclusion.                 |
+| Ensures **visibility** and **atomicity**.                             | Ensures only **visibility**.                           |
+| Prevents **race conditions**.                                         | Does **not** prevent race conditions.                  |
+| Can be applied to **methods** or **code blocks**.                     | Can be applied only to **variables**.                  |
+| Slower due to **locking**.                                            | Faster because there is **no locking**.                |
+| Best for updating **shared mutable state**.                           | Best for **status flags** or **configuration values**. |
+
 
 
 ## 7. What is Semaphore and how it works?
@@ -11550,6 +11563,56 @@ class Counter {
 }
 ```
 
+## 11. Difference between a synchronized method and a synchronized block??
+
+Both **`synchronized` methods** and **`synchronized` blocks** provide **thread safety** by allowing only one thread to execute the protected code at a time. The main difference is **how much code is locked** and **which object is used as the lock**.
+
+**Key Differences**
+
+| **Synchronized Method**                                                | **Synchronized Block**                                           |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Locks the **entire method**.                                           | Locks **only a specific block of code**.                         |
+| Simpler to write.                                                      | More flexible.                                                   |
+| Uses the **current object (`this`)** as the lock for instance methods. | Can lock **any object**.                                         |
+| May reduce performance because the whole method is locked.             | Better performance because only the critical section is locked.  |
+| Suitable when the **entire method** needs synchronization.             | Suitable when **only part of the method** needs synchronization. |
+
+**How does a synchronized method work?**
+
+When a thread enters a **synchronized method**, it acquires the object's **monitor lock**. Other threads must wait until the method finishes and the lock is released.
+
+```java
+class Counter {
+    private int count = 0;
+
+    public synchronized void increment() {
+        count++;
+    }
+}
+```
+
+**How does a synchronized block work?**
+
+Only the code inside the **synchronized block** is locked. The rest of the method can execute without holding the lock.
+
+```java
+class Counter {
+    private int count = 0;
+    private final Object lock = new Object();
+
+    public void increment() {
+        // Non-critical code
+
+        synchronized (lock) {
+            count++;
+        }
+
+        // Non-critical code
+    }
+}
+```
+
+
 ## 12. Multithreading and Concurrency Summary?
 
 **Thread** is the smallest unit of execution in a program that allows multiple tasks to run simultaneously.
@@ -11915,6 +11978,219 @@ public class Main {
 | New thread per task          | Reuses threads              |
 | Less efficient               | More efficient              |
 | Difficult to manage at scale | Easy to manage at scale     |
+
+
+## 5. Difference between Executors.newFixedThreadPool() and newCachedThreadPool()?
+
+Both **`newFixedThreadPool()`** and **`newCachedThreadPool()`** create a **Thread Pool**, but they differ in **how they manage threads**.
+
+* **`newFixedThreadPool()`** creates a **fixed number of threads**.
+* **`newCachedThreadPool()`** creates **threads as needed** and reuses idle threads.
+
+**Key Differences**
+
+| **newFixedThreadPool()**                                 | **newCachedThreadPool()**                                      |
+| -------------------------------------------------------- | -------------------------------------------------------------- |
+| Creates a **fixed number of threads**.                   | Creates **new threads as needed**.                             |
+| Uses a **fixed-size** thread pool.                       | Uses a **dynamic-size** thread pool.                           |
+| Extra tasks wait in a **queue** if all threads are busy. | No task queue. If needed, new threads are created immediately. |
+| Prevents creating too many threads.                      | Can create **a very large number of threads**.                 |
+| Better for **predictable workloads**.                    | Better for **many short-lived asynchronous tasks**.            |
+
+**How does `newFixedThreadPool()` work?**
+
+* Creates a fixed number of worker threads.
+* If all threads are busy, new tasks are placed in a **queue**.
+* Threads are reused for future tasks.
+
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class FixedThreadPoolExample {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        for (int i = 1; i <= 5; i++) {
+            int task = i;
+            executor.submit(() ->
+                System.out.println("Task " + task +
+                        " : " + Thread.currentThread().getName()));
+        }
+        executor.shutdown();
+    }
+}
+```
+
+**How does `newCachedThreadPool()` work?**
+
+* Reuses existing idle threads.
+* Creates a new thread if no idle thread is available.
+* Idle threads are removed after about **60 seconds**.
+* There is **no fixed upper limit** on the number of threads.
+
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class CachedThreadPoolExample {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        for (int i = 1; i <= 5; i++) {
+            int task = i;
+            executor.submit(() ->
+                System.out.println("Task " + task +
+                        " : " + Thread.currentThread().getName()));
+        }
+        executor.shutdown();
+    }
+}
+```
+
+**When to use `newFixedThreadPool()`?**
+
+* **Web servers**
+* **Database operations**
+* **Microservices**
+* Long-running tasks
+* When you want to **limit resource usage**
+
+**When to use `newCachedThreadPool()`?**
+
+* Many **short-lived** tasks
+* Asynchronous processing
+* Applications with **bursty traffic**
+* When the number of concurrent tasks is unpredictable
+
+**Advantages**
+
+**`newFixedThreadPool()`**
+
+* Predictable memory usage
+* Prevents excessive thread creation
+* Stable performance
+
+**`newCachedThreadPool()`**
+
+* Creates threads only when needed
+* Reuses idle threads
+* Good for lightweight, short tasks
+
+**Disadvantages**
+
+**`newFixedThreadPool()`**
+
+* Tasks may wait in the queue if all threads are busy.
+
+**`newCachedThreadPool()`**
+
+* May create **too many threads**, increasing memory usage and CPU context switching under heavy load.
+
+
+## 5. What is Virtual Threads in Java 21 and difference Virtual Threads over regular threads?
+
+**Virtual Threads** are **lightweight threads** introduced in **Java 21** as part of **Project Loom**. They are managed by the **JVM** instead of the **Operating System (OS)**, allowing applications to create **millions of concurrent threads** with very low memory usage.
+
+Unlike **Platform Threads (Regular Threads)**, which map **1:1** to OS threads, many **Virtual Threads** can run on a small number of **Platform Threads (Carrier Threads)**.
+
+**Key Features**
+
+* **Lightweight** and consume very little memory.
+* Managed by the **JVM**, not directly by the **OS**.
+* Can create **millions of concurrent threads**.
+* Best for **I/O-bound** tasks such as **HTTP calls**, **database operations**, and **file I/O**.
+* Simplifies concurrent programming without complex asynchronous code.
+
+**How does it work?**
+
+1. A **Virtual Thread** is created.
+2. The **JVM** schedules it on a **Carrier Thread** (a Platform Thread).
+3. If the Virtual Thread performs a blocking **I/O** operation, it is **suspended**.
+4. The **Carrier Thread** is immediately reused to execute another Virtual Thread.
+5. When the I/O operation completes, the Virtual Thread resumes execution.
+
+This allows thousands or even millions of Virtual Threads to share a much smaller number of Platform Threads efficiently.
+
+**Virtual Threads vs Regular Threads**
+
+| **Virtual Threads**                                  | **Regular (Platform) Threads**        |
+| ---------------------------------------------------- | ------------------------------------- |
+| Managed by the **JVM**                               | Managed by the **Operating System**   |
+| **Lightweight**                                      | **Heavyweight**                       |
+| Can create **millions** of threads                   | Limited by OS resources               |
+| Low memory usage                                     | Higher memory usage                   |
+| Many Virtual Threads share a few **Carrier Threads** | One Java thread maps to one OS thread |
+| Best for **I/O-bound** tasks                         | Better for **CPU-bound** tasks        |
+| Faster thread creation                               | Slower thread creation                |
+| High scalability                                     | Limited scalability                   |
+
+**When to use Virtual Threads?**
+
+* **REST APIs**
+* **Database operations**
+* **HTTP client calls**
+* **File processing**
+* High-concurrency server applications
+* Applications with many **I/O-bound** tasks
+
+**When not to use Virtual Threads?**
+
+* **CPU-bound** tasks with heavy computations.
+* Intensive parallel calculations where **ForkJoinPool** or a fixed **Thread Pool** is more appropriate.
+
+**Code Example**
+
+```java
+public class VirtualThreadExample {
+
+    public static void main(String[] args) {
+
+        Thread.startVirtualThread(() -> {
+            System.out.println("Running in: " + Thread.currentThread());
+        });
+
+        System.out.println("Main Thread");
+    }
+}
+```
+
+**Creating Multiple Virtual Threads**
+
+```java
+import java.util.concurrent.Executors;
+
+public class Example {
+
+    public static void main(String[] args) {
+
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+
+            for (int i = 1; i <= 5; i++) {
+                int taskId = i;
+
+                executor.submit(() -> {
+                    System.out.println("Task " + taskId +
+                            " executed by " + Thread.currentThread());
+                    return null;
+                });
+            }
+        }
+    }
+}
+```
+
+**Advantages**
+
+* **Very low memory usage**
+* **Highly scalable**
+* Supports **millions of concurrent tasks**
+* Simpler synchronous programming model
+* No need for large **Thread Pools**
+* Excellent for **I/O-bound** applications
+
+**Disadvantages**
+
+* Not ideal for **CPU-bound** tasks.
+* Blocking operations that **pin** the carrier thread (e.g., some native calls or synchronized sections) can reduce scalability.
 
 
 ## 5. What is CountDownLatch and CyclicBarrier?
