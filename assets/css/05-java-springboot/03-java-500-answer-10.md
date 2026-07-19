@@ -1440,9 +1440,93 @@ System.out.println(condition.test(9));  // false
 * **Main Method = `test()`**
 
 
+
+## 14. What is `var` keyword in Java(10)?
+
+**var** is a feature introduced in **Java 10** that allows **Local Variable Type Inference**, meaning the compiler automatically determines the variable's type from the assigned value.
+
+**Key Features**
+
+* **Reduces boilerplate code**.
+* Type is inferred at **compile time**.
+* Works only with **local variables**.
+* Improves code readability when the type is obvious.
+* Still maintains **strong typing**.
+
+**How It Works**
+
+The compiler looks at the value assigned to the variable and automatically determines its type.
+
+```java
+var name = "John";    // String
+var age = 25;         // int
+var salary = 5000.50; // double
+```
+
+The compiler internally treats them as:
+
+```java
+String name = "John";
+int age = 25;
+double salary = 5000.50;
+```
+
+**Why Use**
+
+* Makes code shorter and cleaner.
+* Useful when the type is long or obvious.
+* Improves readability in loops and collections.
+
+**When to Use**
+
+* Local variables inside methods.
+* Loop variables.
+* Collection and Stream operations.
+* When the variable type is clear from the assignment.
+
+**Code Example**
+
+```java
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        var name = "Java";
+        var version = 21;
+
+        List<String> languages =
+                List.of("Java", "Python");
+
+        for (var language : languages) {
+            System.out.println(language);
+        }
+    }
+}
+```
+
+**Limitations**
+
+**var** cannot be used for:
+
+* Instance variables.
+* Static variables.
+* Method parameters.
+* Method return types.
+* Variables without initialization.
+
+```java
+var x;        // Compilation Error
+
+class Test {
+    var name = "John"; // Compilation Error
+}
+```
+
+
+# ✅ 03. HashMap / equals / hashCode
+
 ## 12. What are `equals()` and `hashCode()` in Java??
-
-
 
 * **`equals()`** is a method from the `Object` class used to compare the **content or logical equality** of two objects.
 
@@ -1543,8 +1627,6 @@ This works correctly because both **`equals()`** and **`hashCode()`** are overri
 
 
 ## 13. How to Override the hashCode Method Properly in Java?
-
-
 
 The **`hashCode()`** method returns an **integer hash value** for an object. It is mainly used by **hash-based collections** like **`HashMap`**, **`HashSet`**, and **`Hashtable`** for fast storage and retrieval.
 
@@ -1650,87 +1732,447 @@ This breaks the **`equals()`-`hashCode()` contract** and causes incorrect behavi
 * **Override Both Together**
 
 
-## 14. What is `var` keyword in Java(10)?
+## 20. **What is a bucket in HashMap?**
 
-**var** is a feature introduced in **Java 10** that allows **Local Variable Type Inference**, meaning the compiler automatically determines the variable's type from the assigned value.
+A **bucket** is a place inside a **HashMap** where **key-value pairs** are stored.
 
-**Key Features**
+* A **HashMap** consists of an **array of buckets**.
+* Each bucket can store **one or more entries**.
+* If multiple entries end up in the same bucket, they are stored together.
 
-* **Reduces boilerplate code**.
-* Type is inferred at **compile time**.
-* Works only with **local variables**.
-* Improves code readability when the type is obvious.
-* Still maintains **strong typing**.
-
-**How It Works**
-
-The compiler looks at the value assigned to the variable and automatically determines its type.
+**Example**
 
 ```java
-var name = "John";    // String
-var age = 25;         // int
-var salary = 5000.50; // double
+Map<Integer, String> map = new HashMap<>();
+
+map.put(1, "Apple");
+map.put(2, "Banana");
+map.put(3, "Orange");
 ```
 
-The compiler internally treats them as:
+Each key is placed into a bucket based on its **hash value**.
 
-```java
-String name = "John";
-int age = 25;
-double salary = 5000.50;
+
+## 20. **How does HashMap determine which bucket to put an element in?**
+
+A **HashMap** uses the key's **hashCode()** to calculate the bucket index.
+
+**Steps**
+
+1. Call **hashCode()** on the key.
+2. Process the hash value internally.
+3. Calculate the **bucket index** using the hash and the current array size.
+4. Store the entry in that bucket.
+
+**Simplified Formula**
+
+```text
+bucketIndex = hashCode % numberOfBuckets
 ```
 
-**Why Use**
-
-* Makes code shorter and cleaner.
-* Useful when the type is long or obvious.
-* Improves readability in loops and collections.
-
-**When to Use**
-
-* Local variables inside methods.
-* Loop variables.
-* Collection and Stream operations.
-* When the variable type is clear from the assignment.
-
-**Code Example**
+In reality, Java uses a more optimized calculation:
 
 ```java
-import java.util.List;
+index = (n - 1) & hash
+```
 
-public class Demo {
-    public static void main(String[] args) {
+where **n** is the number of buckets.
 
-        var name = "Java";
-        var version = 21;
+**Example**
 
-        List<String> languages =
-                List.of("Java", "Python");
+```java
+Map<String, Integer> map = new HashMap<>();
 
-        for (var language : languages) {
-            System.out.println(language);
-        }
+map.put("Java", 1);
+```
+
+The **hashCode()** of `"Java"` is calculated, and the result determines which bucket stores the entry.
+
+## 20. **What is a collision in HashMap?**
+
+A **collision** happens when **two different keys** are assigned to the **same bucket**.
+
+This does **not** mean the keys are equal. It only means their calculated bucket index is the same.
+
+**Example**
+
+```java
+Map<Integer, String> map = new HashMap<>();
+
+map.put(1, "Apple");
+map.put(17, "Banana"); // Assume both map to the same bucket
+```
+
+Both entries are stored in the same bucket.
+
+In Java:
+
+* Before **Java 8**, collided entries were stored as a **Linked List**.
+* Since **Java 8**, if a bucket becomes large (more than **8** entries and the table is large enough), it is converted into a **Red-Black Tree**, improving lookup from **O(n)** to **O(log n)**.
+
+
+## 20. **How does HashMap handle collisions?**
+
+A **collision** happens when **different keys** are placed in the **same bucket**.
+
+**HashMap** handles collisions by storing multiple entries in the same bucket.
+
+* **Java 7 and earlier:** Entries are stored in a **Linked List**.
+* **Java 8+:** Entries start in a **Linked List**. If the bucket becomes too large, it is converted into a **Red-Black Tree** for faster searching.
+
+**Example**
+
+```java
+Map<Integer, String> map = new HashMap<>();
+
+map.put(1, "Apple");
+map.put(17, "Banana"); // Assume same bucket
+```
+
+Both entries are stored in the same bucket and are distinguished using **equals()**.
+
+
+## 20. **What happens when 8 elements are reached in one bucket?**
+
+In **Java 8+**, if a bucket contains **more than 8 entries** and the **HashMap capacity is at least 64**, the bucket is converted from a **Linked List** to a **Red-Black Tree**.
+
+This process is called **Treeification**.
+
+**Why?**
+
+* **Linked List** search: **O(n)**
+* **Red-Black Tree** search: **O(log n)**
+
+This improves performance when many collisions occur.
+
+If the table size is **less than 64**, **HashMap** first **resizes** instead of treeifying.
+
+
+## 20. **What is the equals() and hashCode() contract?**
+
+The **equals()** and **hashCode()** methods must work together correctly.
+
+**Rules**
+
+* If **two objects are equal** using **equals()**, they **must have the same hashCode()**.
+* If **two objects have the same hashCode()**, they are **not necessarily equal**.
+* If you override **equals()**, you should also override **hashCode()**.
+
+**Example**
+
+```java
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Person)) return false;
+        Person p = (Person) obj;
+        return name.equals(p.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }
 ```
 
-**Limitations**
-
-**var** cannot be used for:
-
-* Instance variables.
-* Static variables.
-* Method parameters.
-* Method return types.
-* Variables without initialization.
+**Usage**
 
 ```java
-var x;        // Compilation Error
+Map<Person, String> map = new HashMap<>();
 
-class Test {
-    var name = "John"; // Compilation Error
-}
+map.put(new Person("John"), "Developer");
+
+System.out.println(map.get(new Person("John"))); // Developer
 ```
+
+Without overriding both methods correctly, the lookup may fail.
+
+
+
+## 20. **If two objects are equal by equals(), what can you say about their hashCode()?**
+
+If **two objects are equal** according to **equals()**, they **must have the same hashCode()**.
+
+This is a requirement of the **equals() / hashCode() contract**.
+
+**Example**
+
+```java
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Person &&
+               name.equals(((Person) obj).name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+}
+
+Person p1 = new Person("John");
+Person p2 = new Person("John");
+
+System.out.println(p1.equals(p2));              // true
+System.out.println(p1.hashCode() == p2.hashCode()); // true
+```
+
+
+## 20. **If two objects have the same hashCode(), are they necessarily equal by equals()?**
+
+**No.**
+
+Two different objects can have the **same hashCode()**, but **equals()** can still return **false**.
+
+This situation is called a **hash collision**.
+
+**Example**
+
+```java
+String s1 = "FB";
+String s2 = "Ea";
+
+System.out.println(s1.hashCode()); // Same hash
+System.out.println(s2.hashCode()); // Same hash
+
+System.out.println(s1.equals(s2)); // false
+```
+
+
+## 20. **What happens if you override equals() but not hashCode()?**
+
+If you override **equals()** but **do not override hashCode()**, objects that are **equal** may have **different hash codes**.
+
+This **breaks the equals() / hashCode() contract**.
+
+As a result, collections like **HashMap** and **HashSet** may not find the object correctly.
+
+**Example**
+
+```java
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Person &&
+               name.equals(((Person) obj).name);
+    }
+    // hashCode() not overridden
+}
+
+Map<Person, String> map = new HashMap<>();
+
+map.put(new Person("John"), "Developer");
+
+System.out.println(map.get(new Person("John"))); // null
+```
+
+Although the two objects are **equal**, they have **different hash codes**, so **HashMap** looks in a different bucket.
+
+
+## 20. **What happens if you override hashCode() but not equals()?**
+
+If you override **hashCode()** but **do not override equals()**, objects may have the **same hash code**, but they are still compared using the default **equals()** from **Object**, which compares **memory addresses**.
+
+As a result, logically identical objects are treated as **different**.
+
+**Example**
+
+```java
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+    // equals() not overridden
+}
+
+Person p1 = new Person("John");
+Person p2 = new Person("John");
+
+System.out.println(p1.equals(p2)); // false
+```
+
+Even though both objects have the same **hashCode()**, they are **not equal** because **Object.equals()** checks reference equality.
+
+
+
+## 20. **What is load factor in HashMap?**
+
+The **load factor** determines **when a HashMap should resize**.
+
+* The **default load factor** is **0.75**.
+* It represents how full the **HashMap** can become before increasing its capacity.
+
+**Formula**
+
+```text
+Threshold = Capacity × Load Factor
+```
+
+**Example**
+
+```java id="mowvqu"
+Map<Integer, String> map = new HashMap<>(16, 0.75f);
+```
+
+* **Capacity** = 16
+* **Load Factor** = 0.75
+* **Threshold** = 16 × 0.75 = 12
+
+When the **13th element** is added, the **HashMap** resizes.
+
+
+
+## 20. **What is capacity in HashMap?**
+
+**Capacity** is the **number of buckets** in a **HashMap**.
+
+* The **default capacity** is **16**.
+* Capacity increases automatically when needed.
+* It is usually **doubled** during resizing.
+
+**Example**
+
+```java id="ibmav7"
+Map<Integer, String> map = new HashMap<>(32);
+```
+
+This creates a **HashMap** with an initial **capacity of 32 buckets**.
+
+**Interview Answer**
+
+The **capacity** is the **number of buckets** in a **HashMap**. The default capacity is **16**, and it usually **doubles** when the map is resized.
+
+**When does rehashing occur in HashMap?**
+
+**Rehashing** occurs when the number of stored elements **exceeds the threshold**.
+
+The threshold is calculated as:
+
+```text
+Threshold = Capacity × Load Factor
+```
+
+With the default settings:
+
+* **Capacity** = 16
+* **Load Factor** = 0.75
+* **Threshold** = 12
+
+Adding the **13th element** triggers **rehashing**.
+
+
+
+## 20. **What happens during rehashing?**
+
+During **rehashing**:
+
+1. A **new bucket array** is created, usually with **double the capacity**.
+2. All existing entries are **recalculated**.
+3. Each entry is placed into its **new bucket** based on the new capacity.
+
+**Example**
+
+```java id="xhk8rm"
+Map<Integer, String> map = new HashMap<>(4);
+
+map.put(1, "A");
+map.put(2, "B");
+map.put(3, "C");
+map.put(4, "D"); // May trigger resizing
+```
+
+After resizing, the entries are redistributed across the new buckets.
+
+**Interview Answer**
+
+During **rehashing**, **HashMap** creates a **larger bucket array** (usually **double** the capacity), recalculates the bucket index for every entry, and moves all entries into their new buckets. This reduces **collisions** and maintains good performance.
+
+
+## 20. **What is the difference between HashMap and Hashtable?**
+
+| **Feature**       | **HashMap**                           | **Hashtable**                         |
+| ----------------- | ------------------------------------- | ------------------------------------- |
+| **Thread Safety** | **Not synchronized**                  | **Synchronized**                      |
+| **Performance**   | **Faster**                            | **Slower** because of synchronization |
+| **Null Keys**     | **One null key** allowed              | **Not allowed**                       |
+| **Null Values**   | **Multiple null values** allowed      | **Not allowed**                       |
+| **Introduced**    | Part of the **Collections Framework** | Legacy class from early Java          |
+
+**Example**
+
+```java id="v0f7pd"
+Map<Integer, String> hashMap = new HashMap<>();
+hashMap.put(null, "Java");     // Allowed
+
+Map<Integer, String> hashtable = new Hashtable<>();
+// hashtable.put(null, "Java"); // Throws NullPointerException
+```
+
+
+## 20. **How does HashMap work in a multi-threaded environment?**
+
+A **HashMap** is **not thread-safe**.
+
+If multiple threads **read and modify** a **HashMap** at the same time, it can lead to:
+
+* **Data inconsistency**
+* **Lost updates**
+* **Unexpected behavior**
+
+**Unsafe Example**
+
+```java id="vwdak2"
+Map<Integer, String> map = new HashMap<>();
+
+Thread t1 = new Thread(() -> map.put(1, "A"));
+Thread t2 = new Thread(() -> map.put(2, "B"));
+
+t1.start();
+t2.start();
+```
+
+This code is **not safe** if multiple threads modify the map simultaneously.
+
+For concurrent access, use **ConcurrentHashMap**.
+
+**Safe Example**
+
+```java id="aykgzy"
+Map<Integer, String> map = new ConcurrentHashMap<>();
+
+map.put(1, "A");
+map.put(2, "B");
+```
+
+
 
 
 # ✅ 03. Java Classes and Objects
