@@ -10185,6 +10185,411 @@ public class GCRootExample {
 ```
 
 
+## 2. **What are `-Xms` and `-Xmx` Parameters?**
+
+**`-Xms`** and **`-Xmx`** are **JVM Heap Memory** settings that control how much memory is allocated to a Java application.
+
+**`-Xms` (Initial Heap Size)**
+
+* Defines the **initial heap memory** allocated when the application starts.
+* Example: `-Xms512m` starts the JVM with **512 MB** of heap memory.
+
+**`-Xmx` (Maximum Heap Size)**
+
+* Defines the **maximum heap memory** the JVM can use.
+* The JVM **cannot allocate more heap** than this limit.
+* Example: `-Xmx2g` allows the JVM to use up to **2 GB** of heap memory.
+
+**Example**
+
+```bash
+java -Xms512m -Xmx2g MyApplication
+```
+
+**Explanation**
+
+* **`-Xms512m`** → JVM starts with **512 MB** of heap memory.
+* **`-Xmx2g`** → JVM can grow the heap up to **2 GB** if needed.
+
+**Why are they important?**
+
+* **`-Xms`** avoids frequent heap expansion at startup.
+* **`-Xmx`** prevents the application from using unlimited memory.
+* Proper values help improve **performance** and **memory management**.
+
+
+
+## 2. **What happens on `OutOfMemoryError`?**
+
+An **`OutOfMemoryError (OOM)`** occurs when the **JVM** cannot allocate more memory because the **Heap**, **Metaspace**, or another memory area has reached its limit and **Garbage Collection (GC)** cannot free enough memory.
+
+**What happens when it occurs?**
+
+1. The **JVM** tries to free memory by running **Garbage Collection (GC)**.
+2. If there is still **not enough memory**, it throws an **`OutOfMemoryError`**.
+3. If the error is **not handled**, the application may **crash** or stop working correctly.
+
+**Common Causes**
+
+* **Memory Leak** (objects are no longer needed but are still referenced)
+* Creating **too many objects**
+* **Heap size (`-Xmx`)** is too small
+* Loading **too many classes** (Metaspace exhaustion)
+
+**Example**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class OOMExample {
+    public static void main(String[] args) {
+        List<byte[]> list = new ArrayList<>();
+
+        while (true) {
+            list.add(new byte[1024 * 1024]); // Allocate 1 MB repeatedly
+        }
+    }
+}
+```
+
+Run with a small heap:
+
+```bash
+java -Xmx32m OOMExample
+```
+
+**Output:**
+
+```text
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+```
+
+**How to Prevent It**
+
+* **Fix memory leaks**
+* Remove **unused object references**
+* Use **efficient data structures**
+* Increase **Heap Size (`-Xmx`)** if needed
+* Analyze memory usage with **Heap Dumps** and **Profiling Tools**
+
+
+
+## 2. **What types of `OutOfMemoryError` exist?**
+
+**`OutOfMemoryError`** has several types depending on **which JVM memory area is exhausted**.
+
+**Common Types of `OutOfMemoryError`**
+
+1. **`Java heap space`**
+
+   * The **Heap Memory** is full.
+   * Usually caused by **memory leaks**, creating **too many objects**, or a **small `-Xmx`**.
+
+2. **`GC overhead limit exceeded`**
+
+   * The **Garbage Collector (GC)** spends almost all its time cleaning memory but frees very little.
+   * Usually indicates the application is running **out of heap memory**.
+
+3. **`Metaspace`**
+
+   * The **Metaspace** is full.
+   * Usually caused by loading **too many classes** or **class loader leaks**.
+
+4. **`Unable to create new native thread`**
+
+   * The JVM cannot create more **threads**.
+   * Usually caused by creating **too many threads** or reaching the **OS thread limit**.
+
+5. **`Direct buffer memory`**
+
+   * The JVM runs out of **Direct (Off-Heap) Memory**.
+   * Usually caused by excessive use of **`ByteBuffer.allocateDirect()`**.
+
+**Example**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class HeapOOMExample {
+    public static void main(String[] args) {
+        List<byte[]> list = new ArrayList<>();
+
+        while (true) {
+            list.add(new byte[1024 * 1024]); // Allocate 1 MB repeatedly
+        }
+    }
+}
+```
+
+Run with a small heap:
+
+```bash
+java -Xmx32m HeapOOMExample
+```
+
+**Output**
+
+```text
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+```
+
+
+## 2. **What is a Memory Leak and How to Detect It?**
+
+A **Memory Leak** happens when **objects are no longer needed but are still referenced**, so the **Garbage Collector (GC)** cannot remove them. As a result, **Heap Memory** keeps growing and may eventually cause an **`OutOfMemoryError`**.
+
+**Common Causes**
+
+1. **Unused objects** are still stored in **Collections**.
+2. **Static variables** keep references for the entire application lifetime.
+3. **Listeners** or **callbacks** are registered but never removed.
+4. Resources are not properly **closed**.
+
+**Example**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class MemoryLeakExample {
+    private static final List<byte[]> cache = new ArrayList<>();
+
+    public static void main(String[] args) {
+        while (true) {
+            cache.add(new byte[1024 * 1024]); // Objects are never removed
+        }
+    }
+}
+```
+
+Here, the **static List** keeps references to all objects, so the **GC** cannot free them.
+
+**How to Detect a Memory Leak?**
+
+1. Monitor **Heap Memory** usage.
+2. Generate a **Heap Dump** when memory usage is high.
+3. Analyze the **Heap Dump** using tools like **Eclipse MAT**, **VisualVM**, or **JProfiler**.
+4. Look for objects that **keep growing** or are **unexpectedly retained**.
+
+**How to Prevent It?**
+
+* Remove **unused references**.
+* Clear **Collections** when they are no longer needed.
+* Close resources using **try-with-resources**.
+* Avoid unnecessary **static references**.
+* Remove **listeners** when they are no longer used.
+
+
+
+## 2. **What Tools Help Analyze Memory?**
+
+Several tools help analyze **JVM Memory**, detect **Memory Leaks**, and troubleshoot **OutOfMemoryError** issues.
+
+**Common Memory Analysis Tools**
+
+1. **VisualVM**
+
+   * Monitors **Heap Memory**, **Threads**, **CPU**, and **Garbage Collection (GC)**.
+   * Can capture and analyze **Heap Dumps**.
+
+2. **Eclipse Memory Analyzer (MAT)**
+
+   * Analyzes **Heap Dumps** to find **Memory Leaks**.
+   * Shows which objects consume the most memory and why they are retained.
+
+3. **JConsole**
+
+   * Monitors **Heap Usage**, **GC**, **Threads**, and **JVM Performance** using **JMX**.
+
+4. **JProfiler**
+
+   * Commercial **JVM Profiler**.
+   * Analyzes **Memory**, **CPU**, **Threads**, and **Heap Usage**.
+   * Helps identify **Memory Leaks** and performance bottlenecks.
+
+5. **Java Flight Recorder (JFR)** and **Java Mission Control (JMC)**
+
+   * Built into the **JDK**.
+   * Records **Memory**, **GC**, **CPU**, and **Thread** events with low overhead.
+   * Used for production performance analysis.
+
+**Example**
+
+Generate a **Heap Dump** when an **`OutOfMemoryError`** occurs:
+
+```bash
+java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof MyApplication
+```
+
+Then open **`heap.hprof`** in **Eclipse MAT** or **VisualVM** to analyze memory usage.
+
+
+
+## 2. **What is a Heap Dump and How to Get a Heap Dump?**
+
+A **Heap Dump** is a **snapshot of the JVM Heap Memory** at a specific moment. It contains information about **all objects**, their **references**, and the **memory they occupy**. It is mainly used to analyze **Memory Leaks** and **OutOfMemoryError**.
+
+**How to Get a Heap Dump?**
+
+1. **Automatically** when an **`OutOfMemoryError`** occurs.
+
+```bash
+java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof MyApplication
+```
+
+2. **Using `jmap`**
+
+```bash
+jmap -dump:live,format=b,file=heap.hprof <PID>
+```
+
+* **`live`** → Dumps only **live objects**.
+* **`<PID>`** → Process ID of the running Java application.
+
+3. **Using `jcmd`** (Recommended)
+
+```bash
+jcmd <PID> GC.heap_dump heap.hprof
+```
+
+4. **Using VisualVM**
+
+* Connect to the running **JVM**.
+* Click **Heap Dump**.
+* Save the generated **`.hprof`** file.
+
+**How to Analyze It?**
+
+Open the **`.hprof`** file in tools such as:
+
+* **Eclipse MAT**
+* **VisualVM**
+* **JProfiler**
+
+These tools help identify **Memory Leaks**, **large objects**, and **retained memory**.
+
+
+
+## 2. **What are GC Roots?**
+
+**GC Roots (Garbage Collection Roots)** are the **starting points** used by the **Garbage Collector (GC)** to determine which objects are **still reachable** and should **not** be removed.
+
+If an object **can be reached** from a **GC Root**, it is **alive**. If it **cannot be reached**, it becomes **eligible for Garbage Collection**.
+
+**Common GC Roots**
+
+1. **Local Variables**
+
+   * Objects referenced by variables in the **stack frames** of running methods.
+
+2. **Static Variables**
+
+   * Objects referenced by **static fields**.
+
+3. **Active Threads**
+
+   * Objects referenced by **running threads**.
+
+4. **JNI References**
+
+   * Objects referenced by **native (JNI)** code.
+
+**Example**
+
+```java
+public class GCRootExample {
+
+    static Object staticObj = new Object(); // GC Root through static reference
+
+    public static void main(String[] args) {
+        Object localObj = new Object(); // GC Root through local variable
+
+        localObj = null; // No longer referenced
+    }
+}
+```
+
+**Explanation**
+
+* **`staticObj`** is reachable through a **static variable**, so it is **not collected**.
+* After **`localObj = null`**, the object has **no references**. If no other reference exists, it becomes **eligible for Garbage Collection**.
+
+**Why are GC Roots Important?**
+
+* Help the **Garbage Collector (GC)** identify **live objects**.
+* Prevent **objects still in use** from being removed.
+* Help detect **Memory Leaks** during **Heap Dump** analysis.
+
+
+## 2. **What is Reachability in the Context of GC?**
+
+**Reachability** means whether an object can still be **accessed** through a chain of references starting from a **GC Root**.
+
+* If an object is **reachable**, it is **alive** and **will not** be garbage collected.
+* If an object is **unreachable**, it becomes **eligible for Garbage Collection**.
+
+**Example**
+
+```java
+public class ReachabilityExample {
+    public static void main(String[] args) {
+        Object obj = new Object();
+
+        obj = null; // Object becomes unreachable
+    }
+}
+```
+
+After **`obj = null`**, the object has **no references** from any **GC Root**, so it is **eligible for Garbage Collection**.
+
+
+
+## 2. **Can You Manually Invoke GC?**
+
+**Yes**, you can **request** the JVM to run **Garbage Collection** using:
+
+* **`System.gc()`**
+* **`Runtime.getRuntime().gc()`**
+
+However, these methods only **request** GC. The **JVM is not required** to run it immediately and may **ignore the request**.
+
+**Example**
+
+```java
+public class GCExample {
+    public static void main(String[] args) {
+        System.gc(); // Requests Garbage Collection
+    }
+}
+```
+
+
+## 2. **Why Shouldn't You Call `System.gc()`?**
+
+In most applications, you **should not** call **`System.gc()`** because the **JVM's Garbage Collector** is better at deciding **when to run GC**.
+
+**Reasons**
+
+1. **Only a Request**
+
+   * The JVM may **ignore** the request.
+
+2. **Performance Impact**
+
+   * Running **GC** can **pause** the application and reduce performance.
+
+3. **JVM Optimizes GC**
+
+   * Modern **GC algorithms** automatically choose the best time to collect memory.
+
+4. **Usually Unnecessary**
+
+   * Frequent calls to **`System.gc()`** rarely improve memory usage and may even make performance worse.
+
+
+
 
 # ✅ 10. Java Multithreading & Synchronization 
 
