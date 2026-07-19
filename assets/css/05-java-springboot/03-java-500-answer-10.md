@@ -13969,6 +13969,485 @@ Use **NIO** when you need **better performance and scalability**, especially for
 
 # ✅ 13. Java Records & Generics 
 
+
+
+## 1. **What is Record in Java?**
+
+A **Record** is a special type of **class** introduced in **Java 16** (preview in Java 14) that is designed to store **immutable data**.
+
+It automatically generates common boilerplate code such as:
+
+* **Constructor**
+* **Getter methods** (called accessor methods)
+* **equals()**
+* **hashCode()**
+* **toString()**
+
+A Record is ideal for **DTOs (Data Transfer Objects)**, **API responses**, **configuration objects**, and any class whose main purpose is to hold data.
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+}
+```
+
+Java automatically generates code similar to:
+
+```java
+public final class Employee {
+    private final Long id;
+    private final String name;
+
+    public Employee(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    // equals(), hashCode(), toString()
+}
+```
+
+**Usage**
+
+```java
+Employee emp = new Employee(1L, "John");
+
+System.out.println(emp.id());      // 1
+System.out.println(emp.name());    // John
+System.out.println(emp);
+```
+
+**Key Features**
+
+* **Immutable** by default.
+* Automatically generates **constructor**, **equals()**, **hashCode()**, and **toString()**.
+* Fields are **private final**.
+* Accessor methods have the **same name as the field** (not `getName()`).
+* Can contain **methods**, **static fields**, and **validation** in a compact constructor.
+
+**Example with validation**
+
+```java
+public record Employee(Long id, String name) {
+
+    public Employee {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+    }
+}
+```
+
+
+
+## 1. **What are the main differences between Record and a regular class?**
+
+| **Record**                                                                            | **Regular Class**                       |
+| - |  |
+| Designed for **immutable data**                                                       | Can be mutable or immutable             |
+| Automatically generates **constructor**, **equals()**, **hashCode()**, **toString()** | You write them manually                 |
+| Fields are **private final**                                                          | Fields can be mutable                   |
+| Class is **final**                                                                    | Can be final or non-final               |
+| Accessor methods like `name()`                                                        | Usually getter methods like `getName()` |
+| Less boilerplate                                                                      | More boilerplate                        |
+| Best for **DTOs** and value objects                                                   | Suitable for any business logic         |
+
+**Record Example**
+
+```java
+public record Person(String name, int age) {
+}
+```
+
+**Regular Class Example**
+
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    // equals(), hashCode(), toString()
+}
+```
+
+**When to use Record**
+
+* **DTOs**
+* **API request/response objects**
+* **Configuration objects**
+* **Event objects**
+* **Value objects**
+
+**When to use a Regular Class**
+
+* Objects with **mutable state**
+* Complex **business logic**
+* Need to **extend another class**
+* Need **custom getters/setters**
+
+
+## 1. **Can you inherit from Record or extend Record from another class?**
+
+**No.**
+
+A **Record cannot extend another class**, and **no class can extend a Record** because every Record is implicitly **final**.
+
+However, a Record **can implement interfaces**.
+
+**Not Allowed**
+
+```java
+record Employee(Long id, String name) extends Person {
+}
+```
+
+```java
+class Manager extends Employee {
+}
+```
+
+Both will cause a **compile-time error**.
+
+**Allowed**
+
+```java
+interface Printable {
+    void print();
+}
+
+public record Employee(Long id, String name)
+        implements Printable {
+
+    @Override
+    public void print() {
+        System.out.println(name);
+    }
+}
+```
+
+**Why?**
+
+* Every Record automatically extends **`java.lang.Record`**.
+* Java supports **single inheritance**, so it cannot extend any other class.
+* Since a Record is **final**, it cannot be subclassed.
+
+
+
+## 1. **Can you add additional methods to Record?**
+
+**Yes.**
+
+A **Record** can contain:
+
+* **Custom methods**
+* **Static methods**
+* **Static fields**
+* **Validation logic**
+* **Implemented interface methods**
+
+The only restriction is that the record's fields remain **immutable**.
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+
+    public String getDisplayName() {
+        return id + " - " + name;
+    }
+
+    public static Employee empty() {
+        return new Employee(0L, "Unknown");
+    }
+}
+```
+
+**Usage**
+
+```java
+Employee emp = new Employee(1L, "John");
+
+System.out.println(emp.getDisplayName()); // 1 - John
+System.out.println(Employee.empty());     // Employee[id=0, name=Unknown]
+```
+
+
+## 1. **Which methods are automatically generated for Record?**
+
+Java automatically generates the following methods:
+
+* **Canonical constructor**
+* **Accessor methods** (one for each component)
+* **equals()**
+* **hashCode()**
+* **toString()**
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+}
+```
+
+Java generates code similar to:
+
+```java
+public Employee(Long id, String name) { ... }
+
+public Long id() { ... }
+
+public String name() { ... }
+
+public boolean equals(Object obj) { ... }
+
+public int hashCode() { ... }
+
+public String toString() { ... }
+```
+
+**Example Usage**
+
+```java
+Employee e1 = new Employee(1L, "John");
+Employee e2 = new Employee(1L, "John");
+
+System.out.println(e1.id());          // 1
+System.out.println(e1.name());        // John
+System.out.println(e1.equals(e2));    // true
+System.out.println(e1.hashCode());
+System.out.println(e1);
+```
+
+
+## 1. **Can you override the constructor in Record?**
+
+**Yes.**
+
+A Record supports two types of constructors:
+
+* **Compact constructor** (recommended for validation)
+* **Canonical constructor** (full constructor)
+
+**1. Compact Constructor**
+
+You don't declare the parameters because they are taken from the record components automatically.
+
+```java
+public record Employee(Long id, String name) {
+
+    public Employee {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+    }
+}
+```
+
+Java automatically assigns the fields after the validation.
+
+**2. Canonical Constructor**
+
+You explicitly declare all record components as parameters.
+
+```java
+public record Employee(Long id, String name) {
+
+    public Employee(Long id, String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+
+        this.id = id;
+        this.name = name;
+    }
+}
+```
+
+The parameter list **must exactly match** the record components.
+
+
+
+## 1. **What is a compact constructor in Record?**
+
+A **compact constructor** is a special constructor in a **Record** where you **do not declare the parameters**. Java automatically uses the record components as constructor parameters.
+
+It is mainly used for **validation** or **normalizing data** before the fields are assigned.
+
+**Syntax**
+
+```java
+public record Employee(Long id, String name) {
+
+    public Employee {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+
+        name = name.trim(); // Normalize input
+    }
+}
+```
+
+Java automatically performs:
+
+```java
+this.id = id;
+this.name = name;
+```
+
+after the compact constructor finishes.
+
+**Usage**
+
+```java
+Employee emp = new Employee(1L, " John ");
+
+System.out.println(emp.name()); // John
+```
+
+**When to use**
+
+* **Validate** input
+* **Normalize** values
+* Enforce **business rules**
+
+
+
+## 1. **Can you declare static fields and methods in Record?**
+
+**Yes.**
+
+A Record can contain:
+
+* **Static fields**
+* **Static methods**
+* **Static constants**
+
+Just like a regular class.
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+
+    public static final String COMPANY = "OpenAI";
+
+    public static Employee createDefault() {
+        return new Employee(0L, "Unknown");
+    }
+}
+```
+
+**Usage**
+
+```java
+System.out.println(Employee.COMPANY);
+
+Employee emp = Employee.createDefault();
+System.out.println(emp);
+```
+
+
+## 1. **Are Record fields final?**
+
+**Yes.**
+
+All Record components become **private final** fields automatically.
+
+This makes a Record **immutable**.
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+}
+```
+
+Internally, Java creates something similar to:
+
+```java
+private final Long id;
+private final String name;
+```
+
+Trying to modify a field is **not allowed**.
+
+```java
+Employee emp = new Employee(1L, "John");
+
+// Compile-time error
+emp.name = "Mike";
+```
+
+You also cannot reassign the fields inside methods.
+
+
+
+## 1. **Can you use Record as a key in HashMap?**
+
+**Yes.**
+
+In fact, Records are **excellent keys** for a **HashMap** because Java automatically generates correct **equals()** and **hashCode()** methods based on all record components.
+
+**Example**
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public record Employee(Long id, String name) {}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Map<Employee, String> map = new HashMap<>();
+
+        map.put(new Employee(1L, "John"), "Developer");
+
+        System.out.println(map.get(new Employee(1L, "John")));
+    }
+}
+```
+
+**Output**
+
+```text
+Developer
+```
+
+The lookup works because both `Employee` objects have the same component values, so their **equals()** and **hashCode()** are equal.
+
+**Why are Records good HashMap keys?**
+
+* **Immutable** (key doesn't change after insertion)
+* Automatically generated **equals()**
+* Automatically generated **hashCode()**
+* Less chance of bugs caused by mutable keys
+
+
+
 ## 1. What are generics in Java?
 
 **Generics** allow you to write **type-safe** classes, interfaces, and methods by specifying the **data type** at compile time. They help prevent type-casting errors and improve code reusability.
