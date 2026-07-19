@@ -25212,6 +25212,148 @@ ROLLBACK;
 ```
 
 
+## 8. **What is Rollback in Transactions?**
+
+**Rollback** means **undoing all changes** made during a transaction when an error occurs.
+
+It ensures the **database remains consistent** by restoring the data to its previous state.
+
+**Example**
+
+```java
+@Transactional
+public void transferMoney() {
+    withdraw();
+    deposit();
+
+    throw new RuntimeException("Transfer failed");
+}
+```
+
+If the exception occurs, both **`withdraw()`** and **`deposit()`** are **rolled back**, so no partial changes are saved.
+
+
+
+**Common Interview Follow-up Questions**
+
+1. **Why is rollback important?**
+
+   * It prevents **partial updates** and maintains **data consistency**.
+
+2. **When does rollback happen?**
+
+   * When the transaction **fails** due to an exception configured for rollback.
+
+3. **Can a rollback undo committed data?**
+
+   * **No.** Once a transaction is **committed**, it cannot be rolled back.
+
+
+
+## 8. **Which Exceptions Trigger Rollback by Default?**
+
+By default, Spring rolls back a transaction only for:
+
+1. **Unchecked exceptions (`RuntimeException`)**
+2. **`Error`**
+
+It **does not roll back** for **checked exceptions (`Exception`)** by default.
+
+**Example**
+
+```java
+@Transactional
+public void saveData() {
+    throw new RuntimeException("Rollback");
+}
+```
+
+**Result:** Transaction is **rolled back**.
+
+```java
+@Transactional
+public void saveData() throws Exception {
+    throw new Exception("Checked Exception");
+}
+```
+
+**Result:** By default, the transaction is **not rolled back**.
+
+
+**Common Interview Follow-up Questions**
+
+1. **Does `NullPointerException` trigger rollback?**
+
+   * **Yes**, because it is a **`RuntimeException`**.
+
+2. **Does `IOException` trigger rollback by default?**
+
+   * **No**, because it is a **checked exception**.
+
+3. **Why doesn't Spring roll back checked exceptions by default?**
+
+   * Because checked exceptions often represent **recoverable business conditions**, while unchecked exceptions usually indicate **programming or system failures**.
+
+
+
+## 8. **How to Configure Rollback for Checked Exceptions?**
+
+Use the **`rollbackFor`** attribute of **`@Transactional`**.
+
+**Example**
+
+```java
+@Transactional(rollbackFor = Exception.class)
+public void saveData() throws Exception {
+    throw new Exception("Checked Exception");
+}
+```
+
+Now the transaction **will be rolled back** even for a checked exception.
+
+You can also specify a specific checked exception:
+
+```java
+@Transactional(rollbackFor = IOException.class)
+public void processFile() throws IOException {
+    throw new IOException("File error");
+}
+```
+
+Example:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+This tells Spring to **roll back** even when a **checked exception** is thrown.
+
+**Common Interview Follow-up Questions**
+
+1. **How do you prevent rollback for a `RuntimeException`?**
+
+   * Use:
+
+   ```java
+   @Transactional(noRollbackFor = RuntimeException.class)
+   ```
+
+2. **Can `rollbackFor` accept multiple exceptions?**
+
+   * **Yes.**
+
+   ```java
+   @Transactional(
+       rollbackFor = {IOException.class, SQLException.class}
+   )
+   ```
+
+3. **What is the difference between `rollbackFor` and `noRollbackFor`?**
+
+   * **`rollbackFor`** specifies exceptions that **should trigger rollback**.
+   * **`noRollbackFor`** specifies exceptions that **should not trigger rollback**, even if they are normally rolled back.
+
+
 ## 20. How do you Prevent duplicate payment(idempotency)?
 
 **Idempotency** is a technique that ensures **multiple identical requests produce the same result**. In payment systems, it prevents a customer from being **charged more than once** if the same request is retried due to network failures or timeouts.
