@@ -1,6 +1,41 @@
 
 # ✅ 21. Java Design Patterns 
 
+
+## 2. **What Is Delegation in OOP?**
+
+**Delegation** is an OOP technique where **one object delegates (passes)** a task to **another object** instead of implementing the logic itself.
+
+It promotes **code reuse**, **composition**, and **loose coupling**.
+
+**Example**
+
+```java
+class Printer {
+    void print() {
+        System.out.println("Printing...");
+    }
+}
+
+class Computer {
+    private Printer printer = new Printer();
+
+    void printDocument() {
+        printer.print(); // Delegates the work
+    }
+}
+```
+
+When **`printDocument()`** is called, the **`Computer`** does not print itself. It **delegates** the task to the **`Printer`** object.
+
+**Why Use Delegation?**
+
+1. **Reuses existing code**.
+2. Promotes **Composition over Inheritance**.
+3. Creates **loosely coupled** classes.
+4. Makes code easier to **maintain** and **test**.
+
+
 ## 0. What are SOLID principles?
 
 **SOLID** is a set of **five object-oriented design principles** that help developers write **clean, maintainable, scalable, and loosely coupled code**.
