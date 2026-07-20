@@ -14641,54 +14641,6 @@ System.out.println(result.join()); // Hello World
 ```
 
 
-## 7. **What does `allOf()` method do and when to use it?**
-
-**`CompletableFuture.allOf()`** creates a new **CompletableFuture** that completes only when **all** the given futures have finished.
-
-It does **not** return their results directly. After completion, you retrieve each result using **join()** or **get()**.
-
-**Use it when:**
-
-* Running **multiple tasks in parallel**
-* You need **all results** before continuing
-
-**Example:**
-
-```java
-CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> "Java");
-CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> "Spring");
-
-CompletableFuture.allOf(f1, f2).join();
-
-System.out.println(f1.join()); // Java
-System.out.println(f2.join()); // Spring
-```
-
-
-## 7. **What does `anyOf()` method do and in which cases is it useful?**
-
-**`CompletableFuture.anyOf()`** returns a new **CompletableFuture** that completes as soon as **any one** of the given futures completes.
-
-The result is the value of the **first completed** future.
-
-**Use it when:**
-
-* You only need the **fastest response**
-* Calling **multiple services** and using the first available result
-* Implementing **fallback** or **race** strategies
-
-**Example:**
-
-```java
-CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> "Service A");
-CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> "Service B");
-
-Object result = CompletableFuture.anyOf(f1, f2).join();
-
-System.out.println(result);
-```
-
-
 
 
 
