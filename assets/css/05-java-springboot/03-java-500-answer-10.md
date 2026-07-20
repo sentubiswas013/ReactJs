@@ -5169,6 +5169,822 @@ new Student()   // Object
 # ✅ 06. Java Immutability 
 
 
+## 1. **What is an Immutable (Unchangeable) Object?**
+
+An **immutable object** is an object whose **state cannot be changed** after it is created.
+
+If you want different data, you create a **new object** instead of modifying the existing one.
+
+**Example:**
+
+```java
+String s1 = "Hello";
+String s2 = s1.concat(" World");
+
+System.out.println(s1); // Hello
+System.out.println(s2); // Hello World
+```
+
+Here, `s1` is **not modified**. `concat()` creates a **new String**.
+
+**Advantages of Immutable Objects**
+
+**Immutability** provides several benefits:
+
+* **Thread-safe** – Multiple threads can use the same object without synchronization.
+* **Safe to share** – No one can accidentally modify the object.
+* **Easy to cache** – Good for use as **HashMap keys**.
+* **Simpler code** – No unexpected state changes.
+* **More secure** – Sensitive data cannot be altered after creation.
+
+**How to Create an Immutable Class in Java?**
+
+Follow these rules:
+
+* Make the class **final**.
+* Make all fields **private** and **final**.
+* Initialize fields through the **constructor**.
+* Do **not** provide **setter** methods.
+* Return **defensive copies** of mutable objects.
+
+**Example:**
+
+```java
+public final class Employee {
+
+    private final int id;
+    private final String name;
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+```
+
+Usage:
+
+```java
+Employee emp = new Employee(101, "John");
+
+// emp.setName("Mike"); // Not possible
+```
+
+## 1. **Why is the String Class Immutable?**
+
+**String** is immutable for **performance, security, and thread safety**.
+
+Reasons:
+
+* **String Pool** works because Strings cannot change.
+* **Thread-safe** without synchronization.
+* **Secure** for passwords, file paths, URLs, and class loading.
+* **Hash code** is cached, making lookups in **HashMap** faster.
+
+**Example:**
+
+```java
+String s = "Java";
+s.concat(" 21");
+
+System.out.println(s); // Java
+```
+
+`concat()` creates a **new String**, so the original object remains unchanged.
+
+
+
+## 1. **What are the Consequences of String Immutability?**
+
+Because **String** is **immutable**, once created its value **cannot be changed**.
+
+**Consequences:**
+
+* **Thread-safe** – Safe to share between multiple threads.
+* **Secure** – Values like passwords, URLs, and file paths cannot be modified.
+* **String Pool** – Multiple variables can reuse the same String object, saving memory.
+* **Hash code caching** – Improves performance in collections like **HashMap**.
+* **Every modification creates a new object**, which may increase memory usage if many changes are made.
+
+**Example:**
+
+```java
+String s = "Java";
+s.concat(" 21");
+
+System.out.println(s); // Java
+```
+
+A **new String** is created, while the original remains unchanged.
+
+**Why are Immutable Objects Thread-Safe?**
+
+An **immutable object** cannot change after it is created.
+
+Since **no thread can modify its state**, multiple threads can safely read the same object **without synchronization**.
+
+**Example:**
+
+```java
+String message = "Hello";
+
+// Thread 1
+System.out.println(message);
+
+// Thread 2
+System.out.println(message);
+```
+
+Both threads read the same object safely because it **never changes**.
+
+**What is the `final` Keyword and How Does It Help Create Immutable Classes?**
+
+The **final** keyword prevents changes.
+
+It can be used in three ways:
+
+* **final variable** → Value can be assigned only once.
+* **final method** → Cannot be overridden.
+* **final class** → Cannot be extended.
+
+For **immutable classes**, making the class **final** prevents subclasses from changing its behavior.
+
+**Example:**
+
+```java
+public final class Employee {
+
+    private final int id;
+
+    public Employee(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+}
+```
+
+Here:
+
+* **final class** → Cannot be inherited.
+* **final field** → Cannot be reassigned.
+
+**Is Making All Fields `final` Sufficient for Immutability?**
+
+**No.**
+
+Making all fields **final** only prevents **reassigning the references**. It does **not** prevent changing the contents of **mutable objects**.
+
+**Wrong Example:**
+
+```java
+class Employee {
+    private final List<String> skills = new ArrayList<>();
+}
+```
+
+The reference is final, but the list can still be modified.
+
+```java
+employee.getSkills().add("Java");
+```
+
+The object's state changes, so it is **not immutable**.
+
+**Correct Approach:**
+
+```java
+public final class Employee {
+
+    private final List<String> skills;
+
+    public Employee(List<String> skills) {
+        this.skills = List.copyOf(skills);
+    }
+
+    public List<String> getSkills() {
+        return List.copyOf(skills);
+    }
+}
+```
+
+Here, **defensive copies** prevent external modification.
+
+
+
+## 1. **What to Do if a Class Field References a Mutable Object?**
+
+If a field references a **mutable object** (like `List`, `Date`, or an array), do **not** expose the original object.
+
+Instead:
+
+* Make a **defensive copy** in the **constructor**.
+* Return a **defensive copy** from the **getter**.
+
+**Example:**
+
+```java
+public final class Employee {
+
+    private final List<String> skills;
+
+    public Employee(List<String> skills) {
+        this.skills = List.copyOf(skills);
+    }
+
+    public List<String> getSkills() {
+        return List.copyOf(skills);
+    }
+}
+```
+
+This prevents external code from modifying the object's state.
+
+
+## 1. **What is a Defensive Copy?**
+
+A **defensive copy** is a **new copy** of a mutable object created to protect the original object from modification.
+
+**Example:**
+
+```java
+List<String> list = new ArrayList<>();
+list.add("Java");
+
+List<String> copy = List.copyOf(list);
+```
+
+Changes to `list` do **not** affect `copy`.
+
+
+## 1. **When Do You Need to Make a Defensive Copy?**
+
+Create a **defensive copy** whenever your class contains **mutable objects**.
+
+Common cases:
+
+* **Constructor** – Copy incoming mutable objects.
+* **Getter** – Return a copy instead of the original.
+* **Setter** (if used) – Store a copy instead of the passed object.
+
+**Example:**
+
+```java
+public Employee(List<String> skills) {
+    this.skills = List.copyOf(skills);
+}
+```
+
+This ensures the original list cannot change the object's state.
+
+**How to Protect a Collection from Modifications?**
+
+There are two common approaches:
+
+**1. Return an Unmodifiable Collection**
+
+```java
+private final List<String> skills = new ArrayList<>();
+
+public List<String> getSkills() {
+    return Collections.unmodifiableList(skills);
+}
+```
+
+Attempting to modify it throws an exception.
+
+```java
+employee.getSkills().add("Spring");
+// UnsupportedOperationException
+```
+
+**2. Return a Defensive Copy (Recommended for Immutable Classes)**
+
+```java
+public List<String> getSkills() {
+    return List.copyOf(skills);
+}
+```
+
+This returns a **new immutable copy**, keeping the original collection safe.
+
+
+
+## 1. **What is `Collections.unmodifiableList()` and How Does It Work?**
+
+**`Collections.unmodifiableList()`** returns a **read-only view** of a list.
+
+* You can **read** elements.
+* You **cannot modify** the returned list.
+* If the **original list changes**, the unmodifiable view also reflects those changes.
+
+**Example:**
+
+```java
+List<String> list = new ArrayList<>();
+list.add("Java");
+
+List<String> readOnly = Collections.unmodifiableList(list);
+
+System.out.println(readOnly); // [Java]
+
+// readOnly.add("Spring"); // UnsupportedOperationException
+
+list.add("Spring");
+System.out.println(readOnly); // [Java, Spring]
+```
+
+
+
+## 19. What is the Difference Between Shallow Copy and Deep Copy in Java?
+
+
+**Shallow Copy** creates a new object, but the **nested objects are shared** between the original and copied object.
+
+**Deep Copy** creates a new object along with **completely new copies of all nested objects**, so both objects are fully independent.
+
+**Key Differences**
+
+| Feature              | **Shallow Copy**                                                                | **Deep Copy**                                                                   |
+| -------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **Definition**       | Creates a **new object**, but copies only the **references** of nested objects. | Creates a **new object** and also creates **new copies of all nested objects**. |
+| **Memory**           | Parent object is new, child objects are shared.                                 | Both parent and child objects are separate.                                     |
+| **Object Reference** | Shared between original and copied object.                                      | Independent references.                                                         |
+| **Modification**     | Changes in a child object affect both objects.                                  | Changes do not affect the other object.                                         |
+| **Performance**      | Faster and uses less memory.                                                    | Slower and uses more memory.                                                    |
+| **Use Case**         | When shared data is acceptable.                                                 | When complete independence is required.                                         |
+
+
+**How it Works**
+
+**Shallow Copy**
+
+* Creates a **new parent object**.
+* Copies **primitive values**.
+* Copies **references** of nested objects.
+* Changes to nested objects affect both copies.
+
+**Deep Copy**
+
+* Creates a **new parent object**.
+* Creates **new copies of every nested object**.
+* Changes in one object do **not** affect the other.
+
+**Example**
+
+```java
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+
+    Address(Address other) {      // Deep copy constructor
+        this.city = other.city;
+    }
+}
+
+class Employee {
+    String name;
+    Address address;
+
+    Employee(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    // Shallow Copy
+    Employee(Employee other) {
+        this.name = other.name;
+        this.address = other.address;
+    }
+
+    // Deep Copy
+    Employee(Employee other, boolean deep) {
+        this.name = other.name;
+        this.address = new Address(other.address);
+    }
+}
+```
+
+**Example Usage**
+
+```java
+Address address = new Address("Bangalore");
+
+Employee emp1 = new Employee("John", address);
+
+// Shallow Copy
+Employee emp2 = new Employee(emp1);
+
+emp2.address.city = "Mumbai";
+
+System.out.println(emp1.address.city); // Mumbai
+
+// Deep Copy
+Employee emp3 = new Employee(emp1, true);
+
+emp3.address.city = "Delhi";
+
+System.out.println(emp1.address.city); // Mumbai
+System.out.println(emp3.address.city); // Delhi
+```
+
+
+**Common Interview Follow-up Questions**
+
+**1. Does `Object.clone()` perform a shallow or deep copy?**
+
+**Answer:** By default, `Object.clone()` performs a **Shallow Copy**.
+
+**2. Why is `String` safe in a shallow copy?**
+
+**Answer:** Because **String is immutable**, its value cannot be changed after creation.
+
+**3. How can you implement a Deep Copy in Java?**
+
+**Answer:** By **creating new instances** of all nested objects using **constructors**, **copy constructors**, or **serialization**.
+
+**4. Which copy is faster?**
+
+**Answer:** **Shallow Copy**, because it copies only object references instead of creating new nested objects.
+
+**5. Which copy should be used for mutable objects?**
+
+**Answer:** **Deep Copy**, because it prevents shared references and unintended modifications.
+
+
+
+## 1. **Why Must an Immutable Class Be `final`?**
+
+An immutable class should be **final** so that **no subclass can change its behavior or state**.
+
+Without `final`, a subclass could:
+
+* Add **mutable fields**.
+* Override methods.
+* Break the **immutability** guarantee.
+
+**Example (Problem):**
+
+```java
+class Employee {
+    public String getName() {
+        return "John";
+    }
+}
+
+class Manager extends Employee {
+    private String name = "Mike";
+
+    @Override
+    public String getName() {
+        return name;
+    }
+}
+```
+
+The subclass changes the behavior, so the original class is no longer truly immutable.
+
+
+
+## 1. **What Happens if You Override a Getter in a Subclass of an Immutable Class?**
+
+If an immutable class is **not `final`**, a subclass can **override getters** and return different or mutable values, breaking **immutability**.
+
+**Example:**
+
+```java
+class Person {
+    public String getName() {
+        return "John";
+    }
+}
+
+class Employee extends Person {
+    @Override
+    public String getName() {
+        return "Mike";
+    }
+}
+```
+
+The subclass changes the behavior, so the class is **no longer truly immutable**.
+
+**Solution:** Make the immutable class **final**.
+
+**How Does String Pool Work and How Is It Related to Immutability?**
+
+The **String Pool** is a special memory area that stores **one copy** of each unique String literal.
+
+If the same String is created again, Java reuses the existing object.
+
+**Example:**
+
+```java
+String s1 = "Java";
+String s2 = "Java";
+
+System.out.println(s1 == s2); // true
+```
+
+Both variables point to the **same object**.
+
+This is safe only because **String is immutable**. If Strings could change, modifying one reference would affect all others sharing the same object.
+
+
+## 1. **Can You Change a String Value via Reflection?**
+
+**Technically yes (in older Java versions), but it is strongly discouraged.**
+
+In modern Java (Java 9+), this is **much more difficult** due to stronger encapsulation and internal changes, and it should **never** be done in production code.
+
+**Example (Old Java):**
+
+```java
+String s = "Hello";
+
+// Using reflection to modify internal value
+// Possible in older Java versions
+// Not recommended
+```
+
+Reflection can break Java's assumptions and lead to **unexpected behavior**.
+
+
+## 1. **What is Record and How Does It Help Create Immutable Classes?**
+
+A **Record** is a special Java class (introduced in **Java 16**) designed to hold **immutable data**.
+
+By default, a Record:
+
+* Has **private final fields**.
+* Generates **constructor**, **getters**, `equals()`, `hashCode()`, and `toString()`.
+* Does **not** generate setters.
+
+**Example:**
+
+```java
+public record Employee(int id, String name) {
+}
+```
+
+Usage:
+
+```java
+Employee emp = new Employee(101, "John");
+
+System.out.println(emp.id());   // 101
+System.out.println(emp.name()); // John
+```
+
+Records greatly reduce boilerplate and make creating **immutable data classes** simple and concise.
+
+
+
+## 1. **Why are `LocalDate` and `LocalDateTime` Immutable?**
+
+`**LocalDate**` and `**LocalDateTime**` are **immutable** because date and time values should **never change** after creation.
+
+Methods like `plusDays()` or `minusMonths()` create a **new object** instead of modifying the existing one.
+
+**Example:**
+
+```java
+LocalDate date1 = LocalDate.of(2026, 7, 20);
+
+LocalDate date2 = date1.plusDays(5);
+
+System.out.println(date1); // 2026-07-20
+System.out.println(date2); // 2026-07-25
+```
+
+The original object remains unchanged.
+
+**Advantages of Immutable Objects for Caching**
+
+**Immutable objects** are ideal for **caching** because their state **never changes**.
+
+**Benefits:**
+
+* **Safe to reuse** the same object.
+* **No synchronization** is needed.
+* **No risk** of cached data being modified.
+* **Improves performance** by avoiding unnecessary object creation.
+
+**Example:**
+
+```java
+Map<Integer, String> cache = new HashMap<>();
+
+cache.put(1, "Java");
+
+String value = cache.get(1);
+```
+
+The cached value is safe because a **String is immutable**.
+
+**How Does Immutability Affect Performance?**
+
+**Advantages:**
+
+* **Thread-safe** without synchronization.
+* **String Pool** reduces memory usage.
+* **Hash code caching** improves lookup performance.
+* **Safe object sharing** reduces copying.
+
+**Disadvantages:**
+
+* Every modification creates a **new object**.
+* Frequent updates can create **more objects**, increasing **memory usage** and **GC activity**.
+
+**Example:**
+
+```java
+String s = "Java";
+
+s = s + " 21";
+s = s + " LTS";
+```
+
+Each concatenation creates a **new String**.
+
+
+
+## 1. **What are Persistent Data Structures?**
+
+**Persistent data structures** are **immutable data structures** where every update creates a **new version**, while **sharing unchanged data** with the old version.
+
+This avoids copying the entire structure and saves memory.
+
+**Example:**
+
+```java
+List<String> list1 = List.of("Java", "Spring");
+
+List<String> list2 = new ArrayList<>(list1);
+list2.add("Docker");
+```
+
+Here, `list1` remains unchanged, while `list2` is a new version.
+
+Persistent data structures are commonly used in **functional programming** because they are **immutable**, **thread-safe**, and **efficient**.
+
+
+
+## 1. **Are There Any Disadvantages to Immutable Objects?**
+
+Yes. Although **immutable objects** have many benefits, they also have some drawbacks.
+
+**Disadvantages:**
+
+* **More objects are created** because every modification creates a new object.
+* **Higher memory usage** if many objects are created.
+* **More GC (Garbage Collection)** may be needed.
+* **Not ideal** for objects that change frequently.
+
+**Example:**
+
+```java
+String s = "Java";
+
+s = s + " 21";
+s = s + " LTS";
+```
+
+Each concatenation creates a **new String**.
+
+**How to Implement Builder Pattern for an Immutable Class?**
+
+The **Builder Pattern** lets you create an immutable object step by step.
+
+**Example:**
+
+```java
+public final class Employee {
+
+    private final int id;
+    private final String name;
+
+    private Employee(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+    }
+
+    public static class Builder {
+        private int id;
+        private String name;
+
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Employee build() {
+            return new Employee(this);
+        }
+    }
+}
+```
+
+**Usage:**
+
+```java
+Employee emp = new Employee.Builder()
+        .id(101)
+        .name("John")
+        .build();
+```
+
+
+## 1. **Can You Use Immutable Objects as Keys in HashMap?**
+
+**Yes.** In fact, **immutable objects are the best choice** for **HashMap** keys.
+
+Because their **state** and **hashCode()** never change, the key can always be found correctly.
+
+**Example:**
+
+```java
+Map<String, Integer> map = new HashMap<>();
+
+map.put("Java", 1);
+
+System.out.println(map.get("Java")); // 1
+```
+
+`String` is an ideal key because it is **immutable**.
+
+
+## 1. **What Happens if You Change a Mutable Key in HashMap?**
+
+If a **mutable key** changes after being added to a **HashMap**, its **hashCode()** may also change.
+
+As a result, the map **cannot find the key**.
+
+**Example:**
+
+```java
+Map<StringBuilder, Integer> map = new HashMap<>();
+
+StringBuilder key = new StringBuilder("Java");
+map.put(key, 1);
+
+key.append(" 21");
+
+System.out.println(map.get(key)); // May return null
+```
+
+The key changed after insertion, so lookup may fail.
+
+**How to Properly Work with Collections in Immutable Classes?**
+
+To keep an immutable class truly immutable:
+
+* Make the collection field **private final**.
+* Create a **defensive copy** in the constructor.
+* Return a **defensive copy** or **immutable collection** from the getter.
+* Never expose the original mutable collection.
+
+**Example:**
+
+```java
+public final class Employee {
+
+    private final List<String> skills;
+
+    public Employee(List<String> skills) {
+        this.skills = List.copyOf(skills);
+    }
+
+    public List<String> getSkills() {
+        return List.copyOf(skills);
+    }
+}
+```
+
+This prevents external code from modifying the collection.
+
+
+
+
+
 # ✅ 06. Java String 
 
 ## 4. What is the difference between == and equals() method?
