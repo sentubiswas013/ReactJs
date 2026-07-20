@@ -14557,6 +14557,236 @@ System.out.println(result.join()); // Hello World
 
 
 
+## 7. **What does `allOf()` method do and when to use it?**
+
+**`CompletableFuture.allOf()`** creates a new **CompletableFuture** that completes only when **all** the given futures have finished.
+
+It does **not** return their results directly. After completion, you retrieve each result using **join()** or **get()**.
+
+**Use it when:**
+
+* Running **multiple tasks in parallel**
+* You need **all results** before continuing
+
+**Example:**
+
+```java
+CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> "Java");
+CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> "Spring");
+
+CompletableFuture.allOf(f1, f2).join();
+
+System.out.println(f1.join()); // Java
+System.out.println(f2.join()); // Spring
+```
+
+
+## 7. **What does `anyOf()` method do and in which cases is it useful?**
+
+**`CompletableFuture.anyOf()`** returns a new **CompletableFuture** that completes as soon as **any one** of the given futures completes.
+
+The result is the value of the **first completed** future.
+
+**Use it when:**
+
+* You only need the **fastest response**
+* Calling **multiple services** and using the first available result
+* Implementing **fallback** or **race** strategies
+
+**Example:**
+
+```java
+CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> "Service A");
+CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> "Service B");
+
+Object result = CompletableFuture.anyOf(f1, f2).join();
+
+System.out.println(result);
+```
+
+
+## 7. **What is the difference between `thenApply()` and `thenCompose()`?**
+
+Both methods process the result of a **CompletableFuture**, but they are used in different situations.
+
+* **`thenApply()`** transforms the result into another value.
+* **`thenCompose()`** chains another **CompletableFuture** and **flattens** the result (similar to `flatMap`).
+
+**Example using `thenApply()`:**
+
+```java
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(() -> "Java")
+                     .thenApply(s -> s.toUpperCase());
+
+System.out.println(future.join()); // JAVA
+```
+
+**Example using `thenCompose()`:**
+
+```java
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(() -> "Java")
+                     .thenCompose(s ->
+                         CompletableFuture.supplyAsync(() -> s + " Spring"));
+
+System.out.println(future.join()); // Java Spring
+```
+
+
+## 7. **What do methods `thenAccept()` and `thenRun()` do?**
+
+Both methods execute an action after a **CompletableFuture** completes.
+
+* **`thenAccept()`** receives the previous result but **returns no value**.
+* **`thenRun()`** does **not receive the result** and simply runs a task.
+
+**Example:**
+
+```java
+CompletableFuture.supplyAsync(() -> "Java")
+    .thenAccept(System.out::println);   // Prints: Java
+
+CompletableFuture.supplyAsync(() -> "Java")
+    .thenRun(() -> System.out.println("Completed"));
+```
+
+
+## 7. **How to handle exceptions in a `CompletableFuture` chain?**
+
+You can handle exceptions using **`exceptionally()`**, **`handle()`**, or **`whenComplete()`**.
+
+**Example:**
+
+```java
+CompletableFuture<Integer> future =
+    CompletableFuture.supplyAsync(() -> 10 / 0)
+                     .exceptionally(ex -> {
+                         System.out.println(ex.getMessage());
+                         return 0;
+                     });
+
+System.out.println(future.join()); // 0
+```
+
+
+## 7. **What is the difference between `handle()`, `exceptionally()` and `whenComplete()`?**
+
+| **Method**            | **Called on Success** | **Called on Failure** | **Can Change Result?** |
+| --------------------- | --------------------- | --------------------- | ---------------------- |
+| **`handle()`**        | ✅ Yes                 | ✅ Yes                 | ✅ Yes                  |
+| **`exceptionally()`** | ❌ No                  | ✅ Yes                 | ✅ Yes                  |
+| **`whenComplete()`**  | ✅ Yes                 | ✅ Yes                 | ❌ No                   |
+
+**Example of `handle()`:**
+
+```java
+CompletableFuture<Integer> future =
+    CompletableFuture.supplyAsync(() -> 10 / 0)
+                     .handle((result, ex) -> ex == null ? result : 0);
+
+System.out.println(future.join()); // 0
+```
+
+**Example of `exceptionally()`:**
+
+```java
+CompletableFuture<Integer> future =
+    CompletableFuture.supplyAsync(() -> 10 / 0)
+                     .exceptionally(ex -> 0);
+```
+
+**Example of `whenComplete()`:**
+
+```java
+CompletableFuture.supplyAsync(() -> "Java")
+    .whenComplete((result, ex) -> {
+        System.out.println("Result: " + result);
+    });
+```
+
+
+
+## 7. **How to implement timeout for `CompletableFuture`?**
+
+Starting from **Java 9**, you can use **`orTimeout()`** or **`completeOnTimeout()`**.
+
+* **`orTimeout()`** – Throws a **`TimeoutException`** if the task does not finish in time.
+* **`completeOnTimeout()`** – Returns a **default value** if the timeout is reached.
+
+**Example using `orTimeout()`:**
+
+```java
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(() -> {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {}
+        return "Done";
+    }).orTimeout(2, TimeUnit.SECONDS);
+
+future.join(); // Throws CompletionException (caused by TimeoutException)
+```
+
+**Example using `completeOnTimeout()`:**
+
+```java
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(() -> {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {}
+        return "Done";
+    }).completeOnTimeout("Timeout", 2, TimeUnit.SECONDS);
+
+System.out.println(future.join()); // Timeout
+```
+
+
+## 7. **How to cancel `CompletableFuture` execution?**
+
+Use the **`cancel()`** method.
+
+If the task has not completed yet, it is marked as **cancelled**, and calls to **`get()`** or **`join()`** will throw a **`CancellationException`**.
+
+**Example:**
+
+```java
+CompletableFuture<String> future =
+    CompletableFuture.supplyAsync(() -> {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {}
+        return "Done";
+    });
+
+future.cancel(true);
+
+System.out.println(future.isCancelled()); // true
+```
+
+
+## 7. **What happens if an exception occurs in a `CompletableFuture` chain?**
+
+If a stage throws an **exception**, the **remaining dependent stages are skipped** unless the exception is handled.
+
+You can recover using **`exceptionally()`** or **`handle()`**.
+
+**Example:**
+
+```java
+CompletableFuture<Integer> future =
+    CompletableFuture.supplyAsync(() -> 10 / 0)
+        .thenApply(x -> x * 2) // Skipped
+        .exceptionally(ex -> 0);
+
+System.out.println(future.join()); // 0
+```
+
+
+
+
+
 ## 12. Synchronous (Sync) and Asynchronous (Async)?
 
 **Synchronous (Sync)** means a task waits for the current task to finish before starting the next one.
