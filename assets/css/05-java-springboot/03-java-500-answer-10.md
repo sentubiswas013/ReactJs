@@ -2477,26 +2477,6 @@ class Employee {
 ```
 
 
-
-## 9. How to create a class and object?
-
-We create a class using `class` keyword and object using `new` keyword.
-
-```java
-class Student {
-    String name;
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Student s = new Student(); // object created
-        s.name = "John";
-        System.out.println(s.name);
-    }
-}
-```
-
-
 ## 10. What are instance variables and methods?
 
 - **Instance variables** — fields declared inside a class but outside methods. Each object gets its own copy.
