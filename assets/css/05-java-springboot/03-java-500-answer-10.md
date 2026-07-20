@@ -14314,7 +14314,7 @@ public class Main {
 | More flexible                    | Simpler to use      |
 
 
-## 7. How to call three APIs concurrently?
+## 7. How to call three APIs concurrently using CompletableFuture/ExecutorService?
 
 To call **three APIs concurrently**, we execute all API requests at the same time instead of waiting for one request to finish before starting the next. In Java, this is commonly done using **CompletableFuture**.
 
