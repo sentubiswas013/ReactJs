@@ -14477,6 +14477,264 @@ public class GenericClass<T> {
 }
 ```
 
+
+
+
+## 1. **Which methods are automatically generated for Record?**
+
+Java automatically generates the following methods:
+
+* **Canonical constructor**
+* **Accessor methods** (one for each component)
+* **equals()**
+* **hashCode()**
+* **toString()**
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+}
+```
+
+Java generates code similar to:
+
+```java
+public Employee(Long id, String name) { ... }
+
+public Long id() { ... }
+
+public String name() { ... }
+
+public boolean equals(Object obj) { ... }
+
+public int hashCode() { ... }
+
+public String toString() { ... }
+```
+
+**Example Usage**
+
+```java
+Employee e1 = new Employee(1L, "John");
+Employee e2 = new Employee(1L, "John");
+
+System.out.println(e1.id());          // 1
+System.out.println(e1.name());        // John
+System.out.println(e1.equals(e2));    // true
+System.out.println(e1.hashCode());
+System.out.println(e1);
+```
+
+
+## 1. **Can you override the constructor in Record?**
+
+**Yes.**
+
+A Record supports two types of constructors:
+
+* **Compact constructor** (recommended for validation)
+* **Canonical constructor** (full constructor)
+
+**1. Compact Constructor**
+
+You don't declare the parameters because they are taken from the record components automatically.
+
+```java
+public record Employee(Long id, String name) {
+
+    public Employee {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+    }
+}
+```
+
+Java automatically assigns the fields after the validation.
+
+**2. Canonical Constructor**
+
+You explicitly declare all record components as parameters.
+
+```java
+public record Employee(Long id, String name) {
+
+    public Employee(Long id, String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+
+        this.id = id;
+        this.name = name;
+    }
+}
+```
+
+The parameter list **must exactly match** the record components.
+
+
+
+## 1. **What is a compact constructor in Record?**
+
+A **compact constructor** is a special constructor in a **Record** where you **do not declare the parameters**. Java automatically uses the record components as constructor parameters.
+
+It is mainly used for **validation** or **normalizing data** before the fields are assigned.
+
+**Syntax**
+
+```java
+public record Employee(Long id, String name) {
+
+    public Employee {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+
+        name = name.trim(); // Normalize input
+    }
+}
+```
+
+Java automatically performs:
+
+```java
+this.id = id;
+this.name = name;
+```
+
+after the compact constructor finishes.
+
+**Usage**
+
+```java
+Employee emp = new Employee(1L, " John ");
+
+System.out.println(emp.name()); // John
+```
+
+**When to use**
+
+* **Validate** input
+* **Normalize** values
+* Enforce **business rules**
+
+
+
+## 1. **Can you declare static fields and methods in Record?**
+
+**Yes.**
+
+A Record can contain:
+
+* **Static fields**
+* **Static methods**
+* **Static constants**
+
+Just like a regular class.
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+
+    public static final String COMPANY = "OpenAI";
+
+    public static Employee createDefault() {
+        return new Employee(0L, "Unknown");
+    }
+}
+```
+
+**Usage**
+
+```java
+System.out.println(Employee.COMPANY);
+
+Employee emp = Employee.createDefault();
+System.out.println(emp);
+```
+
+
+## 1. **Are Record fields final?**
+
+**Yes.**
+
+All Record components become **private final** fields automatically.
+
+This makes a Record **immutable**.
+
+**Example**
+
+```java
+public record Employee(Long id, String name) {
+}
+```
+
+Internally, Java creates something similar to:
+
+```java
+private final Long id;
+private final String name;
+```
+
+Trying to modify a field is **not allowed**.
+
+```java
+Employee emp = new Employee(1L, "John");
+
+// Compile-time error
+emp.name = "Mike";
+```
+
+You also cannot reassign the fields inside methods.
+
+
+
+## 1. **Can you use Record as a key in HashMap?**
+
+**Yes.**
+
+In fact, Records are **excellent keys** for a **HashMap** because Java automatically generates correct **equals()** and **hashCode()** methods based on all record components.
+
+**Example**
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public record Employee(Long id, String name) {}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Map<Employee, String> map = new HashMap<>();
+
+        map.put(new Employee(1L, "John"), "Developer");
+
+        System.out.println(map.get(new Employee(1L, "John")));
+    }
+}
+```
+
+**Output**
+
+```text
+Developer
+```
+
+The lookup works because both `Employee` objects have the same component values, so their **equals()** and **hashCode()** are equal.
+
+**Why are Records good HashMap keys?**
+
+* **Immutable** (key doesn't change after insertion)
+* Automatically generated **equals()**
+* Automatically generated **hashCode()**
+* Less chance of bugs caused by mutable keys
+
+
+
+
 # ✅ 14. Java Annotations & Reflection 
 
 
@@ -31409,1279 +31667,4 @@ Service Provider Validates Assertion
 Access Granted
 ```
 
-
-# ✅ 23. Java Performance and Optimization
-
-## 0: Monitor application performance in Java?
-
-**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
-
-It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
-
-**Production Monitoring Tools (Simple Detailed Table)**
-
-| Tool                 | Type                | Why We Use It                                 | What It Monitors                                      | Example                     |
-| -------------------- | ------------------- | --------------------------------------------- | ----------------------------------------------------- | --------------------------- |
-| Prometheus           | Metrics             | Collect metrics from application              | CPU, Memory, Request count, Error rate, Response time | API response time = 200ms   |
-| Grafana              | Dashboard           | Show metrics in graphs                        | Dashboards, Alerts, Charts                            | CPU usage graph             |
-| Micrometer           | Metrics Library     | Send metrics from Spring Boot to Prometheus   | JVM, Custom metrics                                   | Heap memory                 |
-| ELK Stack            | Logging             | Store and search logs                         | Error logs, Application logs                          | Exception logs              |
-| Splunk               | Logging / Analytics | Advanced log analysis & monitoring            | Logs, Events, Security data                           | Payment failure logs        |
-| Spring Boot Admin    | Monitoring          | Monitor Spring Boot apps                      | Health, Beans, Endpoints                              | App status UP/DOWN          |
-| Spring Boot Actuator | Monitoring          | Expose application health & metrics endpoints | Health, Metrics, Info, Thread dump                    | `/actuator/health`          |
-| Zipkin               | Tracing             | Track request flow between services           | Service call flow                                     | Order → Payment → Inventory |
-| Jaeger               | Tracing             | Track microservice request                    | API calls                                             | Request time per service    |
-| Datadog              | APM                 | Full system monitoring                        | Infra, Logs, APIs                                     | Server CPU                  |
-| New Relic            | APM                 | Application performance monitoring            | Slow API, DB calls                                    | Slow query                  |
-| Dynatrace            | APM                 | AI-based full stack monitoring                | Full stack                                            | Root cause detection        |
-| AWS CloudWatch       | Cloud               | Monitor AWS services                          | EC2, RDS, Logs                                        | EC2 CPU                     |
-
-
-
-**What We Monitor in Production (Simple Table)**
-
-| Area          | What We Monitor           | Example Alert       |
-| ------------- | ------------------------- | ------------------- |
-| Server        | CPU, Memory, Disk         | CPU > 80%           |
-| Application   | Request count, Error rate | Error rate > 5%     |
-| API           | Response time             | API > 3 sec         |
-| Database      | Query time                | Query > 2 sec       |
-| JVM           | Heap memory, GC           | Memory > 80%        |
-| Logs          | Errors                    | Too many exceptions |
-| Microservices | Service response          | Service down        |
-| Business      | Orders, Payments          | Payment failure     |
-
-
-## 1. What are performance issues and solutions?
-
-
-* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
-* **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
-* **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
-* **Database Issues** – Slow queries or poor connection pool management delay database responses.
-* **Thread Contention** – Multiple threads compete for the same resource, causing delays and blocking.
-* **Too Many Object Creations** – Creating many objects increases memory usage and garbage collection work.
-* **Garbage Collection Overhead** – Frequent garbage collection pauses the application and affects performance.
-* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
-* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
-* **Blocking I/O Operations** – File, network, or API calls block threads and reduce application throughput.
-
-
-```java
-// Memory leak example
-public class LeakExample {
-    private static List<String> cache = new ArrayList<>();
-    
-    public void addToCache(String data) {
-        cache.add(data); // Never cleared - memory leak
-    }
-}
-```
-
-**Steps to Improve Performance(optimize)**
-
-Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
-
-1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
-2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
-3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
-4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
-5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
-6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
-7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
-8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
-9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
-10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
-11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
-12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
-
-**Tools Used:**
-
-* VisualVM
-* JConsole
-* Eclipse Memory Analyzer
-
-**I usually:**
-
-1. Check heap usage.
-2. Analyze GC logs.
-3. Take heap dumps.
-4. Find large object retainers and memory leaks.
-
-
-## 2. What are Java Memory Leak Issues?
-
-A **Memory Leak** in Java occurs when **objects are no longer needed but are still referenced**, so the **Garbage Collector (GC)** cannot remove them. Over time, unused objects accumulate, increasing memory usage and may eventually cause an **OutOfMemoryError**.
-
-**Symptoms**
-
-* Increasing heap memory usage
-* Frequent Full GC
-* Application slowdown
-* High memory consumption
-* `OutOfMemoryError`
-
-**Key Features**
-
-* Caused by **unused objects** that are still referenced.
-* **Garbage Collector** cannot reclaim their memory.
-* Increases **heap memory** usage over time.
-* Can lead to **performance issues** and **OutOfMemoryError**.
-* Common in **long-running applications**.
-
-**How It Works**
-
-1. An object is created in the **Heap**.
-2. The application no longer needs the object.
-3. A reference to the object still exists.
-4. **Garbage Collector** considers the object reachable.
-5. The object remains in memory, causing a **Memory Leak**.
-
-**Example**
-
-**Memory Leak**
-
-```java
-import java.util.ArrayList;
-import java.util.List;
-
-public class MemoryLeakExample {
-    private static final List<String> cache = new ArrayList<>();
-    public static void main(String[] args) {
-        while (true) {
-            cache.add("Java"); // Objects are never removed
-        }
-    }
-}
-```
-
-**Why it leaks?**
-
-* The **static List** always holds references to the objects.
-* Since the references exist, the **Garbage Collector** cannot free the memory.
-* Eventually, the application throws **OutOfMemoryError**.
-
-**Fixed Example**
-
-```java
-import java.util.ArrayList;
-import java.util.List;
-
-public class MemoryLeakFixed {
-    public static void main(String[] args) {
-        List<String> cache = new ArrayList<>();
-
-        cache.add("Java");
-        cache.add("Spring");
-
-        cache.clear(); // Remove references
-    }
-}
-```
-
-**Common Causes of Memory Leaks**
-
-1. **Static Collections** – Objects stored in **static** `List`, `Map`, or `Set` remain referenced for the lifetime of the application, preventing **Garbage Collection (GC)**.
-
-2. **Improper Cache Management** – Caches grow indefinitely when **TTL (Time-to-Live)**, **size limits**, or **eviction policies** are not configured, leading to excessive memory usage.
-
-3. **Unclosed Resources** – Database connections, file streams, sockets, or other resources are not properly closed, causing memory and resource leaks. Use **try-with-resources** whenever possible.
-
-4. **ThreadLocal Misuse** – `ThreadLocal` values are not removed after use. In **thread pools**, the values remain attached to reused threads, causing memory leaks.
-
-5. **Event Listener Leaks** – Event listeners, callbacks, or observers are registered but never deregistered, keeping objects referenced and preventing **Garbage Collection (GC)**.
-
-
-**How to Prevent Memory Leaks**
-
-* Remove unused objects from **collections**.
-* Close resources using **try-with-resources**.
-* Deregister **listeners** when no longer needed.
-* Call **ThreadLocal.remove()** after use.
-* Avoid unnecessary **static** references.
-* Use **WeakReference** when appropriate.
-* Monitor memory using profiling tools.
-
-**Common Interview Follow-up Questions**
-
-**1. Does Java have memory leaks even with Garbage Collection?**
-
-**Yes.** **Garbage Collection** removes only **unreachable objects**. If an unused object is still referenced, it cannot be collected, resulting in a **Memory Leak**.
-
-**2. What is the difference between Memory Leak and OutOfMemoryError?**
-
-| **Memory Leak**                           | **OutOfMemoryError**                                              |
-| ----------------------------------------- | ----------------------------------------------------------------- |
-| Unused objects remain referenced          | JVM cannot allocate more memory                                   |
-| Memory usage gradually increases          | Application fails due to insufficient memory                      |
-| Can eventually cause **OutOfMemoryError** | Often the result of severe memory leaks or insufficient heap size |
-
-**3. How do you detect Memory Leaks?**
-
-Common tools include:
-
-* **JVisualVM**
-* **JConsole**
-* **Eclipse Memory Analyzer (MAT)**
-* **Java Flight Recorder (JFR)**
-* **Java Mission Control (JMC)**
-
-## 3. What are Latency isuue in java?
-
-A **Latency Issue** is a **delay in processing or responding to a request**. It occurs when an application takes **longer than expected** to complete an operation, resulting in **slow response times**.
-
-**Key Features**
-
-* Increases **response time**.
-* Reduces application **performance**.
-* Can affect **user experience**.
-* May occur due to **CPU**, **Memory**, **Database**, **Network**, or **External APIs**.
-* Common in **high-traffic** applications.
-
-**How It Works**
-
-1. A client sends a request.
-2. The application processes the request.
-3. One or more operations become slow (Database, API, Disk I/O, GC, etc.).
-4. The response is delayed, increasing **latency**.
-
-**Common Causes**
-
-* **Slow Database Queries**
-* **Long Garbage Collection (GC) pauses**
-* **Blocking I/O** operations
-* **Slow External API** calls
-* **Network latency**
-* **Thread contention** or **deadlocks**
-* **Insufficient Thread Pool** size
-* **Large file processing**
-* **CPU** or **Memory** bottlenecks
-
-**Example**
-
-**Latency Due to Synchronous API Calls**
-
-```java
-public String getUserDetails() {
-    User user = userService.getUser();
-    // Slow external API call
-    Address address = addressService.getAddress();
-
-    return user.getName() + " - " + address.getCity();
-}
-```
-
-If `getAddress()` takes **5 seconds**, the entire request waits **5 seconds** before responding.
-
-**Better Approach (Asynchronous Processing)**
-
-```java
-CompletableFuture<User> userFuture = CompletableFuture.supplyAsync(() -> userService.getUser());
-
-CompletableFuture<Address> addressFuture = CompletableFuture.supplyAsync(() -> addressService.getAddress());
-
-CompletableFuture.allOf(userFuture, addressFuture).join();
-
-System.out.println(userFuture.join().getName() + " - " +
-                   addressFuture.join().getCity());
-```
-
-Both API calls execute **in parallel**, reducing overall response time.
-
-**How to Reduce Latency**
-
-* Optimize **SQL queries** and add **Indexes**.
-* Use **Caching** (Redis, Caffeine, etc.).
-* Execute independent tasks using **CompletableFuture**.
-* Use **Connection Pooling** for databases.
-* Tune the **JVM** and **Garbage Collector**.
-* Increase or tune the **Thread Pool** size.
-* Avoid unnecessary **blocking** operations.
-* Compress large responses and use **pagination**.
-* Monitor application performance using **APM tools**.
-
-**Common Interview Follow-up Questions**
-
-**1. What is the difference between Latency and Throughput?**
-
-| **Latency**                            | **Throughput**                                                         |
-| -------------------------------------- | ---------------------------------------------------------------------- |
-| Time taken to complete **one request** | Number of requests processed **per second**                            |
-| Measured in **milliseconds (ms)**      | Measured in **Requests/Second (RPS)** or **Transactions/Second (TPS)** |
-| Lower is better                        | Higher is better                                                       |
-
-**2. How do you identify latency issues?**
-
-Use monitoring and profiling tools such as:
-
-* **JVisualVM**
-* **Java Flight Recorder (JFR)**
-* **Java Mission Control (JMC)**
-* **Prometheus + Grafana**
-* **New Relic**, **Dynatrace**, or **AppDynamics**
-
-Check:
-
-* **GC logs**
-* **Thread dumps**
-* **Heap dumps**
-* **Slow SQL queries**
-* **API response times**
-* **CPU** and **Memory** usage
-
-**3. How does Caching reduce latency?**
-
-**Caching** stores frequently accessed data in memory, reducing repeated **database** or **API** calls and providing much faster responses.
-
-
-## 4: What is database optimization?
-
-**Database optimization** is the process of improving database performance and query speed.
-
-It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
-
-
-```java
-// Database optimization techniques
-@Repository
-public class OptimizedUserRepository {
-    
-    // Use indexes effectively
-    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
-    User findByEmail(@Param("email") String email);
-    
-    // Batch operations
-    @Modifying
-    @Query("UPDATE User u SET u.lastLogin = :now WHERE u.id IN :ids")
-    void updateLastLogin(@Param("ids") List<Long> ids, @Param("now") LocalDateTime now);
-    
-    // Pagination for large datasets
-    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
-    Page<User> findAllUsers(Pageable pageable);
-    
-    // Fetch joins to avoid N+1 queries
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :id")
-    User findUserWithOrders(@Param("id") Long id);
-}
-```
-
-
-## 5: What is query optimization?
-
-**Query optimization** is the process of improving SQL query performance so that data is retrieved faster and database resources are used efficiently.
-
-Common techniques include creating proper indexes, writing efficient JOIN and WHERE clauses, avoiding SELECT *, fetching only required data, using pagination for large datasets, and analyzing execution plans.
-
-For example, if users are frequently searched by email, adding an index on the email column can significantly reduce query execution time.
-
-```java
-// Query optimization examples
-@Repository
-public class OptimizedQueryRepository {
-    
-    // Bad: N+1 query problem
-    // List<Order> orders = orderRepository.findAll();
-    // orders.forEach(order -> order.getCustomer().getName()); // N queries
-    
-    // Use indexes effectively
-    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
-    User findByEmail(@Param("email") String email);
-
-    // Good: Single query with join
-    @Query("SELECT o FROM Order o JOIN FETCH o.customer")
-    List<Order> findAllOrdersWithCustomers();
-    
-    // Use specific columns instead of SELECT *
-    @Query("SELECT new com.example.UserDto(u.id, u.name, u.email) FROM User u")
-    List<UserDto> findUserSummaries();
-    
-    // Optimize with proper WHERE conditions
-    @Query("SELECT u FROM User u WHERE u.active = true AND u.createdAt > :date")
-    List<User> findActiveUsersAfter(@Param("date") LocalDateTime date);
-    
-    // Use native query for complex optimizations
-    @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
-           nativeQuery = true)
-    List<User> findAboveAverageUsers();
-}
-```
-
-
-## 6: What is pagination?
-
-**Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
-
-It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
-
-```java
-// Pagination implementation
-@RestController
-public class UserController {
-    
-    // Basic pagination
-    @GetMapping("/users")
-    public Page<User> getUsers(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "20") int size,
-        @RequestParam(defaultValue = "id") String sortBy) {
-        
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return userService.findAll(pageable);
-    }
-    
-    // Cursor-based pagination for better performance
-    @GetMapping("/users/cursor")
-    public List<User> getUsersCursor(
-        @RequestParam(required = false) Long lastId,
-        @RequestParam(defaultValue = "20") int limit) {
-        
-        return userService.findUsersAfter(lastId, limit);
-    }
-}
-
-@Repository
-public class UserRepository extends JpaRepository<User, Long> {
-    
-    // Cursor pagination query
-    @Query("SELECT u FROM User u WHERE (:lastId IS NULL OR u.id > :lastId) ORDER BY u.id")
-    List<User> findUsersAfter(@Param("lastId") Long lastId, Pageable pageable);
-}
-```
-
-
-## 7. What are common 10 Production Issues?
-
-**1. 🔴 Memory Leaks**
-**Symptom:** Heap memory keeps growing over time, leads to frequent Full GC and `OutOfMemoryError`
-
-**Causes:**
-- Unreleased object references
-- Static collections holding objects
-- `ThreadLocal` leaks
-
-
-**2. 🗄️ Connection Pool Exhaustion**
-**Symptom:** All DB connections are used up; requests start waiting and eventually fail
-
-**Causes:**
-- Too many concurrent DB requests
-- Connections not released properly
-- Pool size too small for the load
-
-
-**3. ⏱️ High GC Pause Time**
-**Symptom:** Application becomes slow or unresponsive
-
-**Causes:**
-- JVM spends too much time in Garbage Collection
-- Large heap with too many short-lived objects
-- Wrong GC algorithm for the workload
-
-
-**4. 🔒 Deadlocks**
-**Symptom:** No progress in the system; threads hang forever
-
-**Causes:**
-- Two or more threads waiting for each other's locks
-- Inconsistent lock acquisition order
-- `T1` holds lock A waiting for B, `T2` holds lock B waiting for A
-
-
-**5. 🧵 Thread Pool Starvation**
-**Symptom:** New tasks keep waiting in the queue indefinitely
-
-**Causes:**
-- All worker threads are busy or blocked
-- Pool size too small
-- Blocking I/O inside thread pool tasks
-
-
-**6. 🐢 Slow SQL Queries**
-**Symptom:** Increased response time, locked tables, degraded throughput
-
-**Causes:**
-- Unoptimized or inefficient queries
-- Missing indexes
-- Full table scans on large datasets
-
-
-**7. 📨 Kafka Consumer Lag**
-**Symptom:** Consumers can't keep up with incoming messages; data delays increase
-
-**Causes:**
-- Consumers too slow to process messages
-- Insufficient consumer instances
-- Heavy processing logic inside consumers
-
-
-**8. 📈 CPU Spikes**
-**Symptom:** Overall system performance degrades suddenly
-
-**Causes:**
-- Infinite loops in code
-- Heavy or excessive logging
-- Bad algorithms with high time complexity
-- GC thrashing
-
-
-**9. 🌊 Cascading Failures**
-**Symptom:** System instability spreads across multiple services
-
-**Causes:**
-- One failing service impacts multiple downstream services
-- No circuit breakers in place
-- Retry storms amplifying the failure
-
-
-**10. 🔕 Missing Monitoring & Alerts**
-**Symptom:** Issues exist but nobody notices early; small problems become major outages
-
-**Causes:**
-- No alerting configured for key metrics
-- Lack of observability (logs, metrics, traces)
-- No dashboards tracking system health
-
-
-## 8. What are Java concurrency issues?
-
-Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
-
-1. **race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
-2. **Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
-3. **Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
-4. **Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
-5. **Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
-6. **Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
-7. **Improper Synchronization**
-Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
-
-
-```java
-// Race condition fix
-private volatile boolean flag = false;
-private final Object lock = new Object();
-
-public void safeMethod() {
-    synchronized(lock) {
-        // Thread-safe operation
-        flag = !flag;
-    }
-}
-```
-
-
-## 9: What is JVM tuning and parameters for performance tuning?
-
-**JVM Tuning** is the process of **configuring JVM parameters** to improve **application performance**, **reduce Garbage Collection (GC) pauses**, **optimize memory usage**, and **increase throughput**.
-
-**Key Features**
-
-* **Optimizes Heap Memory** allocation.
-* **Reduces GC pause time**.
-* **Improves application response time**.
-* **Prevents OutOfMemoryError**.
-* **Increases CPU and memory efficiency**.
-
-**How It Works**
-
-1. JVM starts with **default settings**.
-2. We configure **JVM startup parameters** based on application requirements.
-3. JVM uses these settings for **memory allocation**, **GC**, and **thread management**.
-4. Proper tuning results in **better performance** and **stable memory usage**.
-
-**Common JVM Performance Tuning Parameters**
-
-| **Parameter**                       | **Purpose**                  | **Example**                       |
-| ----------------------------------- | ---------------------------- | --------------------------------- |
-| **-Xms**                            | Initial Heap Size            | `-Xms512m`                        |
-| **-Xmx**                            | Maximum Heap Size            | `-Xmx2g`                          |
-| **-Xss**                            | Thread Stack Size            | `-Xss1m`                          |
-| **-XX:+UseG1GC**                    | Enable G1 Garbage Collector  | `-XX:+UseG1GC`                    |
-| **-XX:MaxGCPauseMillis**            | Target Maximum GC Pause Time | `-XX:MaxGCPauseMillis=200`        |
-| **-XX:ParallelGCThreads**           | Number of GC Threads         | `-XX:ParallelGCThreads=8`         |
-| **-XX:+HeapDumpOnOutOfMemoryError** | Generate Heap Dump on OOM    | `-XX:+HeapDumpOnOutOfMemoryError` |
-| **-XX:HeapDumpPath**                | Heap Dump Location           | `-XX:HeapDumpPath=/logs`          |
-| **-XX:+PrintGCDetails** *(Java 8)*  | Print GC Logs                | `-XX:+PrintGCDetails`             |
-| **-Xlog:gc** *(Java 9+)*            | Enable GC Logging            | `-Xlog:gc`                        |
-
-**Most Common JVM Startup Example**
-
-```bash
-java -Xms512m -Xmx2g -Xss1m \
-     -XX:+UseG1GC \
-     -XX:MaxGCPauseMillis=200 \
-     -jar application.jar
-```
-
-**Explanation**
-
-* **-Xms512m** → JVM starts with **512 MB Heap**.
-* **-Xmx2g** → Maximum Heap is **2 GB**.
-* **-Xss1m** → Each thread gets **1 MB Stack**.
-* **UseG1GC** → Uses the **G1 Garbage Collector**.
-* **MaxGCPauseMillis=200** → Tries to keep GC pauses around **200 ms**.
-
-**When to Use JVM Tuning**
-
-* **Spring Boot** applications.
-* **Microservices**.
-* **High-traffic web applications**.
-* **Large enterprise applications**.
-* Applications with **high memory usage** or **frequent GC**.
-* Systems requiring **low response time**.
-
-**Common Performance Tuning Areas**
-
-**1. Heap Memory Tuning**
-
-* Configure **-Xms** and **-Xmx** properly.
-* Keep **Xms = Xmx** in production to avoid heap resizing.
-
-**2. Garbage Collector Tuning**
-
-* Choose the right **GC algorithm**.
-* **G1GC** is the default and recommended for most applications.
-* Tune **MaxGCPauseMillis** if low latency is important.
-
-**3. Thread Tuning**
-
-* Configure **-Xss** based on thread count.
-* Too many threads with large stacks can consume excessive memory.
-
-**4. GC Logging**
-
-Enable GC logs to analyze memory behavior.
-
-**Java 17 Example**
-
-```bash
--Xlog:gc
-```
-
-**Code Example (Setting JVM Options in Spring Boot)**
-
-```bash
-java -Xms1g -Xmx2g \
-     -XX:+UseG1GC \
-     -XX:MaxGCPauseMillis=200 \
-     -jar springboot-app.jar
-```
-
-**Popular Garbage Collectors**
-
-| **Garbage Collector** | **Best For**                     |
-| --------------------- | -------------------------------- |
-| **Serial GC**         | Small applications               |
-| **Parallel GC**       | High throughput                  |
-| **G1 GC**             | Most enterprise applications     |
-| **ZGC**               | Very low latency and large heaps |
-| **Shenandoah GC**     | Low pause-time applications      |
-
-**Best Practices**
-
-* Set **-Xms** and **-Xmx** appropriately.
-* Use **G1GC** for most production workloads.
-* Enable **GC logging** for analysis.
-* Monitor **Heap**, **GC**, and **CPU** usage regularly.
-* Avoid allocating unnecessary objects.
-* Analyze **Heap Dumps** if memory usage keeps increasing.
-
-
-**Common Interview Follow-up Questions**
-
-**1. What is the difference between `-Xms` and `-Xmx`?**
-
-* **-Xms** → **Initial Heap Size**.
-* **-Xmx** → **Maximum Heap Size**.
-
-**2. Why is G1GC commonly used?**
-
-Because it provides **predictable GC pause times**, handles **large heaps efficiently**, and offers a good balance between **throughput** and **low latency**.
-
-**3. Why keep `-Xms` and `-Xmx` the same in production?**
-
-It avoids **heap resizing**, reducing GC overhead and improving application stability.
-
-**4. How do you identify JVM performance issues?**
-
-By monitoring:
-
-* **Heap usage**
-* **GC logs**
-* **CPU utilization**
-* **Thread dumps**
-* **Heap dumps**
-
-using tools like **VisualVM**, **Java Flight Recorder (JFR)**, **Java Mission Control (JMC)**, and **Eclipse Memory Analyzer (MAT)**.
-
-**5. Does increasing `-Xmx` always improve performance?**
-
-**No.** A larger heap can reduce GC frequency but may increase **GC pause times**. The heap size should be tuned based on the application's memory usage and workload.
-
-
-
-## 10. What is Distributed Tracing?
-
-**Distributed Tracing** is a **monitoring technique** used in **microservices architecture** to track a request as it travels across multiple services. It helps developers understand the complete path of a request and quickly identify **performance bottlenecks** or **failures**.
-
-**Example:** A request to place an order may go through **API Gateway → Order Service → Payment Service → Inventory Service → Notification Service**. Distributed tracing shows the complete flow of that request.
-
-**Key Features:**
-
-* Tracks a request across **multiple microservices**.
-* Uses a unique **Trace ID** and **Span ID**.
-* Helps identify **slow services** and **errors**.
-* Improves **debugging** and **performance monitoring**.
-* Integrates with tools like **Zipkin**, **Jaeger**, and **OpenTelemetry**.
-
-**How It Works:**
-
-1. A client sends a request to the application.
-2. The first service generates a unique **Trace ID**.
-3. As the request moves between services, the same Trace ID is propagated.
-4. Each service creates a **Span** representing its individual operation.
-5. All spans are collected and sent to a tracing system (e.g., Zipkin or Jaeger).
-6. Developers can view the complete request flow and timing information.
-
-**Important Terms:**
-
-* **Trace ID** – A unique identifier for the entire request.
-* **Span** – A single operation or unit of work within the trace.
-* **Span ID** – A unique identifier for an individual span.
-
-**When to Use:**
-
-* **Microservices architecture**.
-* Debugging **service-to-service communication**.
-* Finding **latency issues** and **bottlenecks**.
-* Monitoring **distributed systems** and **cloud-native applications**.
-
-
-**Spring Boot Example with Micrometer Tracing**
-
-**Maven Dependency**
-
-```xml id="jzptg7"
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-tracing-bridge-brave</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>io.zipkin.reporter2</groupId>
-    <artifactId>zipkin-reporter-brave</artifactId>
-</dependency>
-```
-
-**application.yml**
-
-```yaml id="dt1k8p"
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-```
-
-**Service Class**
-
-```java id="d36xf8"
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-@Service
-public class OrderService {
-    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
-    public void createOrder() {
-        logger.info("Creating order");
-        // Business Logic
-        logger.info("Order created successfully");
-    }
-}
-```
-
-**application.properties**
-
-```properties id="6fzpxt"
-management.tracing.sampling.probability=1.0
-management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
-```
-
-**Sample Log Output**
-
-```text
-2026-06-09 10:00:00
-[traceId=abc123 spanId=xyz789]
-Creating order
-```
-
-The **Trace ID** and **Span ID** automatically appear in logs, making it easy to track requests across services.
-
-With **Spring Boot 3+** and **Micrometer Tracing/OpenTelemetry**, each request automatically gets a **Trace ID** that is propagated across services.
-
-**Distributed Tracing Flow:**
-
-```text id="dtr8w2"
-Client Request
-      │
-      ▼
-API Gateway
-      │
-      ▼
-Order Service
-      │
-      ▼
-Payment Service
-      │
-      ▼
-Inventory Service
-      │
-      ▼
-Notification Service
-      │
-      ▼
-Response to Client
-      │
-      ▼
-All Services Share the Same Trace ID
-```
-
-
-**Common Tools**
-
-* **OpenTelemetry**
-* **Zipkin**
-* **Jaeger**
-* **Micrometer Tracing**
-* **Spring Boot Actuator**
-
-
-## 11. What is Zipkin and how it Works?
-
-**Zipkin** is a **distributed tracing tool** used in **microservices architecture** to track and monitor requests as they travel across multiple services.
-
-It helps developers identify **latency issues**, **performance bottlenecks**, and **service failures**.
-
-**Key Features**
-
-* **Distributed Tracing**
-* Tracks requests across multiple microservices
-* Shows complete request flow
-* Measures response time of each service
-* Helps in debugging and performance monitoring
-* Provides a visual trace through a web UI
-
-**How It Works**
-
-1. A request enters a microservice.
-2. A unique **Trace ID** is generated.
-3. Each service creates a **Span** (a unit of work).
-4. Trace and span information are propagated to downstream services.
-5. Services send tracing data to **Zipkin Server**.
-6. Zipkin collects and displays the complete request journey.
-
-**Example Flow**
-
-```text
-Client Request
-      │
-      ▼
-Service A ──► Service B ──► Service C
-  Span 1        Span 2        Span 3
-
-      Same Trace ID: abc123
-```
-
-All services share the same **Trace ID**, while each service has its own **Span ID**.
-
-**Important Terms**
-
-* **Trace**: Complete journey of a request.
-* **Span**: Single operation within a trace.
-* **Trace ID**: Unique identifier for the entire request.
-* **Span ID**: Unique identifier for a specific operation.
-
-**When to Use**
-
-* Microservices applications
-* Debugging service-to-service communication
-* Finding slow APIs
-* Monitoring distributed systems
-* Performance analysis and troubleshooting
-
-**Spring Boot Example**
-
-**Dependency**
-
-```xml
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-tracing-bridge-brave</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>io.zipkin.reporter2</groupId>
-    <artifactId>zipkin-reporter-brave</artifactId>
-</dependency>
-```
-
-**application.properties**
-
-```properties
-management.tracing.sampling.probability=1.0
-management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
-```
-
-After starting the application, trace data is automatically sent to Zipkin.
-
-
-
-## 12: What is profiling in Java?
-
-**Profiling in Java** is the process of **analyzing the runtime behavior** of a Java application to identify **performance bottlenecks**, **high CPU usage**, **memory leaks**, and **slow methods**. It helps developers optimize application performance.
-
-**Key Features:**
-
-* Monitors **CPU usage**.
-* Tracks **memory allocation** and **garbage collection (GC)**.
-* Identifies **slow or frequently called methods**.
-* Detects **memory leaks** and **thread issues**.
-* Helps improve **application performance** and **resource utilization**.
-
-**How It Works:**
-
-1. A **Java Profiler** is attached to the running application.
-2. The profiler collects runtime metrics such as CPU time, memory usage, thread activity, and method execution.
-3. The collected data is analyzed to find bottlenecks.
-4. Developers optimize the code based on the profiling results.
-
-**Common Metrics Collected:**
-
-* **CPU Usage** – Which methods consume the most CPU time.
-* **Memory Usage** – How much memory objects occupy.
-* **Heap Analysis** – Detects unnecessary object retention.
-* **Thread Activity** – Finds blocked or deadlocked threads.
-* **Garbage Collection (GC)** – Measures GC frequency and pause times.
-
-**Popular Java Profiling Tools:**
-
-* **JVisualVM**
-* **JConsole**
-* **Java Flight Recorder (JFR)**
-* **YourKit Java Profiler**
-* **JProfiler**
-
-**When to Use:**
-
-* Application is running **slowly**.
-* Investigating **memory leaks**.
-* High **CPU** or **heap memory** usage.
-* Performance tuning before **production deployment**.
-* Analyzing **thread contention** or **deadlocks**.
-
-**Simple Example:**
-
-```java id="jp7x2m"
-public class Demo {
-    public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-
-        for (int i = 0; i < 1000000; i++) {
-            Math.sqrt(i);
-        }
-
-        long end = System.currentTimeMillis();
-        System.out.println("Execution Time: " + (end - start) + " ms");
-    }
-}
-```
-
-A **Java Profiler** can analyze this program and show how much **CPU time** is spent inside the loop and whether there are any performance issues.
-
-
-## 13: What is memory profiling?
-
-**Memory Profiling** is the process of **analyzing how a Java application uses memory** during execution. It helps identify **memory leaks**, **excessive object creation**, and **high heap usage** to improve application performance and stability.
-
-**Key Features:**
-
-* Monitors **heap memory usage**.
-* Tracks **object creation and allocation**.
-* Detects **memory leaks**.
-* Analyzes **Garbage Collection (GC)** behavior.
-* Identifies objects that occupy the most memory.
-
-**How It Works:**
-
-1. A **memory profiler** is attached to the running Java application.
-2. It collects information about **heap usage**, **object allocation**, and **GC activity**.
-3. The profiler shows which objects are consuming memory and whether they are being released correctly.
-4. Developers analyze the data to optimize memory usage and fix leaks.
-
-**Common Metrics Monitored:**
-
-* **Heap Memory Usage**
-* **Object Allocation Rate**
-* **Live Objects Count**
-* **Garbage Collection Frequency**
-* **Memory Leak Detection**
-
-**Popular Memory Profiling Tools:**
-
-* **JVisualVM**
-* **Java Flight Recorder (JFR)**
-* **JProfiler**
-* **YourKit Java Profiler**
-* **Eclipse Memory Analyzer (MAT)**
-
-**When to Use:**
-
-* Application is consuming **too much memory**.
-* Investigating **OutOfMemoryError**.
-* Finding **memory leaks**.
-* Optimizing **heap usage** and **GC performance**.
-* Performance tuning before **production deployment**.
-
-**Simple Example:**
-
-```java id="mp6r2k"
-import java.util.ArrayList;
-import java.util.List;
-
-public class MemoryDemo {
-    public static void main(String[] args) {
-        List<byte[]> list = new ArrayList<>();
-
-        for (int i = 0; i < 100; i++) {
-            list.add(new byte[1024 * 1024]); // Allocate 1 MB
-        }
-
-        System.out.println("Objects created: " + list.size());
-    }
-}
-```
-
-A **memory profiler** can analyze this program and show how the `byte[]` objects are allocated in the **heap** and whether they are properly released by the **Garbage Collector**.
-
-
-## 14: What is CPU profiling?
-
-**CPU Profiling** is the process of **analyzing how a Java application uses CPU resources** during execution. It helps identify **slow methods**, **performance bottlenecks**, and **high CPU-consuming code** so that the application can be optimized.
-
-**Key Features:**
-
-* Monitors **CPU usage** of the application.
-* Identifies **slow or frequently executed methods**.
-* Detects **performance bottlenecks**.
-* Tracks **method execution time** and **call frequency**.
-* Helps improve **application speed** and **efficiency**.
-
-**How It Works:**
-
-1. A **CPU profiler** is attached to the running Java application.
-2. The profiler records **method calls**, **execution time**, and **CPU consumption**.
-3. It generates a report showing which methods consume the most CPU time.
-4. Developers analyze the report and optimize the expensive code paths.
-
-**Common Metrics Monitored:**
-
-* **CPU Usage Percentage**
-* **Method Execution Time**
-* **Method Call Count**
-* **Hotspots** (methods using the most CPU)
-* **Thread CPU Utilization**
-
-**Popular CPU Profiling Tools:**
-
-* **JVisualVM**
-* **Java Flight Recorder (JFR)**
-* **JProfiler**
-* **YourKit Java Profiler**
-* **Async Profiler**
-
-**When to Use:**
-
-* Application is running **slowly**.
-* Investigating **high CPU utilization**.
-* Finding **performance bottlenecks**.
-* Optimizing **algorithms** and **business logic**.
-* Performance tuning before **production deployment**.
-
-**Simple Example:**
-
-```java id="cpu4x8"
-public class CpuDemo {
-    public static void main(String[] args) {
-        long sum = 0;
-
-        for (int i = 0; i < 10000000; i++) {
-            sum += Math.sqrt(i);
-        }
-
-        System.out.println("Result: " + sum);
-    }
-}
-```
-
-A **CPU profiler** can analyze this program and show that the loop and the `Math.sqrt()` method consume most of the CPU time, helping developers optimize the code.
-
-
-
-## 16: How do you find Security Vulnerabilities in Production? Which tools do you use?
-
-
-In **Production**, we identify **Security Vulnerabilities** using **security monitoring**, **dependency scanning**, **code analysis**, **application security testing**, and **log analysis**. These tools help detect vulnerabilities early so they can be fixed before they are exploited.
-
-**Key Features**
-
-* Monitor **Security Logs** and **Alerts**.
-* Scan **Dependencies** for known **CVEs**.
-* Perform **Static (SAST)** and **Dynamic (DAST)** security testing.
-* Monitor **Authentication** failures and suspicious activities.
-* Continuously scan **Containers** and **Cloud Infrastructure**.
-* Integrate security scans into the **CI/CD Pipeline**.
-
-**How it works**
-
-1. **Monitor logs** for failed logins, unauthorized access, and suspicious requests.
-2. **Scan dependencies** to identify vulnerable libraries.
-3. Run **SAST** tools to detect security issues in source code.
-4. Run **DAST** tools to test the running application.
-5. Monitor **SIEM dashboards** for security alerts.
-6. Patch vulnerable libraries or fix the code.
-7. Test the fix and deploy it to production.
-
-**Common Tools Used in Production**
-
-| **Category**                        | **Tools**                                                                 | **Purpose**                                      |
-| ----------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ |
-| **Dependency Scanning**             | **OWASP Dependency-Check**, **Snyk**, **Mend (WhiteSource)**              | Detect vulnerable libraries and **CVEs**         |
-| **Static Code Analysis (SAST)**     | **SonarQube**, **Checkmarx**, **Fortify**                                 | Find security issues in source code              |
-| **Dynamic Security Testing (DAST)** | **OWASP ZAP**, **Burp Suite**                                             | Find vulnerabilities in a running application    |
-| **Container Scanning**              | **Trivy**, **Clair**                                                      | Scan Docker images for vulnerabilities           |
-| **Cloud Security**                  | **AWS Inspector**, **AWS Security Hub**, **Microsoft Defender for Cloud** | Detect cloud security issues                     |
-| **Monitoring / SIEM**               | **Splunk**, **ELK Stack**, **IBM QRadar**                                 | Detect suspicious activities and security alerts |
-
-**Example: Scan Dependencies**
-
-**Maven Plugin**
-
-```xml
-<plugin>
-    <groupId>org.owasp</groupId>
-    <artifactId>dependency-check-maven</artifactId>
-    <version>12.1.8</version>
-</plugin>
-```
-
-**Run Scan**
-
-```bash
-mvn dependency-check:check
-```
-
-The scan generates a report showing **vulnerable dependencies**, **CVE IDs**, and recommended fixes.
-
-**Real-Time Example**
-
-**Issue:** A new **Log4j** vulnerability (**CVE**) is announced.
-
-**Steps:**
-
-1. Run **OWASP Dependency-Check** or **Snyk**.
-2. Verify whether the application uses the vulnerable **Log4j** version.
-3. Check **Splunk/ELK** for any exploit attempts.
-4. Upgrade to the patched version.
-5. Test the application.
-6. Deploy the fix and continue monitoring.
-
-**When to use**
-
-* Before every **Production Release**.
-* During the **CI/CD Pipeline**.
-* After a new **CVE** is published.
-* During **Security Audits**.
-* When suspicious activity is detected in production.
-
-
-
-**Common Interview Follow-up Questions**
-
-**1. Which tools have you used for security scanning?**
-
-* **OWASP Dependency-Check**
-* **Snyk**
-* **SonarQube**
-* **OWASP ZAP**
-* **Burp Suite**
-* **Splunk**
-* **ELK Stack**
-
-**2. What is a CVE?**
-
-A **CVE (Common Vulnerabilities and Exposures)** is a publicly disclosed security vulnerability with a unique identifier.
-
-**3. What is the difference between SAST and DAST?**
-
-* **SAST** scans the **source code** without running the application.
-* **DAST** tests the **running application** by simulating real attacks.
-
-**4. Which tool is most commonly used in Spring Boot projects?**
-
-**SonarQube** for code quality and security, **OWASP Dependency-Check** or **Snyk** for dependency scanning, and **OWASP ZAP** for API security testing.
-
-**5. What do you do if a vulnerability is found in production?**
-
-Analyze the impact, identify the affected component, apply the security patch or upgrade the vulnerable dependency, validate the fix in QA, deploy it to production, and continue monitoring to ensure the issue is resolved.
-
-
-
-## 17. What is JIT compilation?
-
-
-**JIT (Just-In-Time) Compilation** is a feature of the **JVM** that **converts bytecode into native machine code at runtime** to make Java programs faster.
-
-Java normally works like this:
-
-```
-.java → compiled → .class (bytecode) → JVM → Machine Code → Run
-```
-
-**How JIT Works**
-
-1. Java code compiled → Bytecode
-2. JVM runs bytecode
-3. JIT finds frequently used code (hotspot)
-4. JIT converts it to machine code
-5. Execution becomes faster
-
-
-**JIT vs Interpreter**
-
-| Interpreter            | JIT                      |
-| ---------------------- | ------------------------ |
-| Line by line execution | Compiles to machine code |
-| Slower                 | Faster                   |
-| Starts fast            | Gets faster over time    |
-
-```java
-// JIT compilation example
-public class JITExample {
-    public static void main(String[] args) {
-        // This loop will trigger JIT compilation
-        for (int i = 0; i < 100000; i++) {
-            calculateSum(i); // Method becomes "hot" and gets compiled
-        }
-    }
-    
-    private static int calculateSum(int n) {
-        return n * (n + 1) / 2; // Simple calculation
-    }
-}
-
-// JIT compilation flags
-java -XX:+PrintCompilation \      # Print compilation events
-     -XX:CompileThreshold=1000 \  # Compilation threshold
-     JITExample
-```
 
