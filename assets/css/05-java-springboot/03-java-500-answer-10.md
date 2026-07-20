@@ -15193,7 +15193,6 @@ System.out.println(Employee.empty());     // Employee[id=0, name=Unknown]
 
 
 
-
 ## 1. What are generics in Java?
 
 **Generics** allow you to write **type-safe** classes, interfaces, and methods by specifying the **data type** at compile time. They help prevent type-casting errors and improve code reusability.
@@ -15217,6 +15216,33 @@ System.out.println(Employee.empty());     // Employee[id=0, name=Unknown]
 * Working with **Collections** like `List`, `Set`, and `Map`.
 * Creating reusable classes and methods.
 * When the same logic should work with different data types.
+
+**Why were generics introduced?**
+
+Generics were introduced to provide compile-time type safety, eliminate casting, and enable programmers to write more robust and readable code.
+
+
+**Main Benefits:**
+
+- **Type Safety:** Catch type errors at compile time
+- **Eliminate Casting:** No need for explicit type casting
+- **Code Reusability:** Same code works with different types
+- **Better Performance:** No boxing/unboxing overhead
+- **Clearer APIs:** Self-documenting code
+
+```java
+// Before generics - runtime error possible
+List list = new ArrayList();
+list.add("String");
+list.add(123);
+String str = (String) list.get(1); // ClassCastException at runtime
+
+// With generics - compile-time error
+List<String> list = new ArrayList<>();
+list.add("String");
+list.add(123); // Compile error - type mismatch
+```
+
 
 **Code Example**
 
@@ -15260,30 +15286,6 @@ public class Main {
 }
 ```
 
-
-## 2. Why were generics introduced?
-
-Generics were introduced to provide compile-time type safety, eliminate casting, and enable programmers to write more robust and readable code.
-
-**Main Benefits:**
-- **Type Safety:** Catch type errors at compile time
-- **Eliminate Casting:** No need for explicit type casting
-- **Code Reusability:** Same code works with different types
-- **Better Performance:** No boxing/unboxing overhead
-- **Clearer APIs:** Self-documenting code
-
-```java
-// Before generics - runtime error possible
-List list = new ArrayList();
-list.add("String");
-list.add(123);
-String str = (String) list.get(1); // ClassCastException at runtime
-
-// With generics - compile-time error
-List<String> list = new ArrayList<>();
-list.add("String");
-list.add(123); // Compile error - type mismatch
-```
 
 ## 3. What is Type Erasure in Java?
 
