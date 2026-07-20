@@ -2565,6 +2565,20 @@ public class Main {
 }
 ```
 
+
+## 28. What happens if a class has no constructor?
+
+Java automatically provides a **default no-argument constructor** that calls `super()` implicitly. All fields are initialized to their default values (`0`, `null`, `false`).
+
+```java
+class Box { int width; }       // Java adds: Box() { super(); }
+
+Box b = new Box();             // works fine
+System.out.println(b.width);  // 0
+```
+
+
+
 ## 5. What is the static keyword?
 
 The **static keyword** in Java is used to define **class-level members** that belong to the **class itself rather than any object**.
@@ -2804,17 +2818,6 @@ class A implements Cloneable {
 }
 ```
 
-
-## 28. What happens if a class has no constructor?
-
-Java automatically provides a **default no-argument constructor** that calls `super()` implicitly. All fields are initialized to their default values (`0`, `null`, `false`).
-
-```java
-class Box { int width; }       // Java adds: Box() { super(); }
-
-Box b = new Box();             // works fine
-System.out.println(b.width);  // 0
-```
 
 
 ## 29. Can a class be private or protected?
