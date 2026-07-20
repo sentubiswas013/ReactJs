@@ -5621,7 +5621,7 @@ new Student()   // Object
 # ✅ 06. Java String 
 
 
-## 1. **How does the String Pool work?**
+## 1. How does the String Pool work ?
 
 The **String Pool** (also called the **String Constant Pool**) is a special area in the **Heap** where Java stores **String literals**. If the same literal already exists in the pool, Java reuses the existing object instead of creating a new one.
 
@@ -5650,7 +5650,7 @@ Only **one** `"Hello"` object is created, and both `s1` and `s2` reference it.
 
 ---
 
-## 1. **What is the difference between creating a String via literal and via `new`?**
+## 1. What is the difference between creating a String via literal and via `new` ?
 
 | **String Literal**                  | **new String()**                     |
 | ----------------------------------- | ------------------------------------ |
@@ -5673,7 +5673,7 @@ System.out.println(s1.equals(s3)); // true
 
 ---
 
-## 1. **When should you use `intern()`?**
+## 1. When should you use `intern()` ?
 
 The **`intern()`** method returns the reference to the String from the **String Pool**. If the String is not already in the pool, it is added.
 
@@ -5701,7 +5701,7 @@ System.out.println(s1 == s3); // false
 
 
 
-## 1. **Why is String immutable?**
+## 1. Why is String immutable ?
 
 A **String is immutable**, meaning its value **cannot be changed** after it is created. Any modification creates a **new String object**.
 
@@ -5725,7 +5725,7 @@ The original `"Java"` object remains unchanged.
 * **Reliability** – Once created, the value remains consistent throughout the program.
 
 
-## 1. **When to use `StringBuilder` vs `StringBuffer`?**
+## 1. When to use `StringBuilder` vs `StringBuffer` ?
 
 Both **`StringBuilder`** and **`StringBuffer`** are mutable classes used to modify strings efficiently.
 
@@ -5758,7 +5758,7 @@ System.out.println(sb); // Java 21
 
 
 
-## 1. **Why is `StringBuffer` slower than `StringBuilder`?**
+## 1. Why is `StringBuffer` slower than `StringBuilder` ?
 
 `StringBuffer` is slower because all its methods are **synchronized**, which ensures that only one thread can access them at a time.
 
@@ -5776,7 +5776,7 @@ builder.append("Hello"); // not synchronized
 * Reduces performance when thread safety isn't needed.
 
 
-## 1. **What happens when concatenating strings via the `+` operator?**
+## 1. What happens when concatenating strings via the `+` operator ?
 
 The `+` operator creates a **new String** because **String is immutable**.
 
@@ -5824,7 +5824,7 @@ String result = sb.toString();
 ```
 
 
-## 1. **How does the Java compiler optimize string concatenation?**
+## 1. How does the Java compiler optimize string concatenation ?
 
 The Java compiler automatically converts most `+` concatenations into **`StringBuilder`** operations.
 
@@ -5863,7 +5863,7 @@ No `StringBuilder` is created.
 
 
 
-## 1. **Can you use `==` to compare Strings?**
+## 1. Can you use `==` to compare Strings ?
 
 Yes, but **only if you want to compare object references**, not the actual String content.
 
@@ -5882,7 +5882,7 @@ System.out.println(s1 == s3); // false
 ```
 
 
-## 1. **What is the difference between `==` and `equals()` for String?**
+## 1. What is the difference between `==` and `equals()` for String ?
 
 | **`==`**                                           | **`equals()`**                                     |
 | -------------------------------------------------- | -------------------------------------------------- |
@@ -5901,7 +5901,7 @@ System.out.println(s1.equals(s2)); // true
 ```
 
 
-## 1. **Where is the String Pool stored (in which memory area)?**
+## 1. Where is the String Pool stored (in which memory area) ?
 
 The **String Pool** is stored in the **Heap memory**.
 
@@ -5913,7 +5913,7 @@ The **String Pool** is stored in the **Heap memory**.
 
 
 
-## 1. **Can String Pool cause `OutOfMemoryError`?**
+## 1. Can String Pool cause `OutOfMemoryError` ?
 
 Yes.
 
@@ -5938,7 +5938,7 @@ This continuously adds unique Strings to the String Pool until the heap is full.
 * Increase the heap size if appropriate using **`-Xmx`**.
 
 
-## 1. **What does the `substring()` method do and how did it work before Java 7?**
+## 1. What does the `substring()` method do and how did it work before Java 7 ?
 
 The **`substring()`** method returns a **part of a String**.
 
@@ -5983,7 +5983,7 @@ Both `large` and `small` pointed to the same `char[]`.
 
 ---
 
-## 1. **Why was the `substring()` implementation changed in Java 7?**
+## 1. Why was the `substring()` implementation changed in Java 7 ?
 
 Starting with **Java 7**, `substring()` creates a **new character array** for the substring instead of sharing the original one.
 
@@ -6011,7 +6011,7 @@ Even if `large` was no longer used, the entire **100 MB** character array stayed
 
 ---
 
-## 1. **How does the `split()` method work?**
+## 1. How does the `split()` method work ?
 
 The **`split()`** method divides a String into an array using a **regular expression (regex)** as the delimiter.
 
@@ -6052,7 +6052,7 @@ String[] arr = s.split("\\s+");
 This splits on one or more whitespace characters.
 
 
-## 1. **What is the difference between `replace()` vs `replaceAll()`?**
+## 1. What is the difference between `replace()` vs `replaceAll()` ?
 
 | **`replace()`**                     | **`replaceAll()`**                                   |
 | ----------------------------------- | ---------------------------------------------------- |
@@ -6091,7 +6091,7 @@ JavaSpring
 Here, `\\d+` is a regex that matches one or more digits.
 
 
-## 1. **What is String encoding?**
+## 1. What is String encoding ?
 
 **String encoding** is the process of converting characters into **bytes** using a specific **character set (charset)**.
 
@@ -6113,7 +6113,7 @@ byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
 Different encodings produce different byte sequences.
 
 
-## 1. **How to properly convert a String to `byte[]` and back?**
+## 1. How to properly convert a String to `byte[]` and back ?
 
 Use the **same charset** for both encoding and decoding.
 
@@ -6148,7 +6148,7 @@ This may produce incorrect characters.
 
 
 
-## 1. **What are Compact Strings in Java 9+?**
+## 1. What are Compact Strings in Java 9+ ?
 
 **Compact Strings** are a JVM optimization introduced in **Java 9** to reduce memory usage.
 
@@ -6179,7 +6179,7 @@ String s2 = "你好";    // Stored as UTF16 (2 bytes/char)
 * **No API changes**—completely transparent to developers.
 
 
-## 1. **How to find out how much memory a String occupies?**
+## 1. How to find out how much memory a String occupies ?
 
 There is **no built-in Java API** that returns the exact memory used by a `String`.
 
@@ -6213,7 +6213,7 @@ This returns the shallow size of the `String` object, not the memory of referenc
 * **YourKit**
 
 
-## 1. **Can you change the content of a String via reflection?**
+## 1. Can you change the content of a String via reflection ?
 
 **Normally, no.** `String` is designed to be **immutable**, and modern Java strongly protects its internal state.
 
@@ -6233,7 +6233,7 @@ This could change the contents of a `String`, breaking immutability and potentia
 Java introduced **stronger encapsulation** (module system), and `String` now stores its data in a **`byte[]`** instead of `char[]` (Compact Strings). Accessing or modifying internal fields via reflection is much more restricted and may throw an exception unless special JVM options (such as `--add-opens`) are used.
 
 
-## 1. **What is String deduplication in G1 GC?**
+## 1. What is String deduplication in G1 GC ?
 
 **String Deduplication** is a feature of the **G1 Garbage Collector** introduced in **Java 8 Update 20**.
 
@@ -6270,7 +6270,7 @@ With G1 String Deduplication:
 ```
 
 
-## 1. **Why does String implement `Comparable` and `CharSequence`?**
+## 1. Why does String implement `Comparable` and `CharSequence` ?
 
 **1. `Comparable<String>`**
 
@@ -9679,7 +9679,7 @@ arrayList.add(20);
 ```
 
 
-## 1. **What is `Stack`?**
+## 1. What is `Stack`?**
 
 A **`Stack`** is a **Linear Data Structure** that follows the **LIFO (Last In, First Out)** principle, meaning the **last element added is the first one removed**.
 
@@ -9729,7 +9729,7 @@ Docker
 * **Function call stack** in Java.
 
 
-## 1. **What is `Queue` and What Implementations Exist?**
+## 1. What is `Queue` and What Implementations Exist?**
 
 A **`Queue`** is a **Collection** that stores elements in **FIFO (First In, First Out)** order, meaning the **first element added is the first one removed**.
 
@@ -9803,7 +9803,7 @@ Java
 * **`ConcurrentLinkedQueue`** – **Thread-safe** queue for concurrent applications.
 
 
-## 1. **What is `Deque`?**
+## 1. What is `Deque`?**
 
 **`Deque`** (**Double-Ended Queue**) is an interface in the Java Collection Framework that allows elements to be **added** and **removed** from **both the front and the rear** of the collection.
 
@@ -14681,7 +14681,7 @@ Use **NIO** when you need **better performance and scalability**, especially for
 
 
 
-## 1. **What is Record in Java?**
+## 1. What is Record in Java?**
 
 A **Record** is a special type of **class** introduced in **Java 16** (preview in Java 14) that is designed to store **immutable data**.
 
@@ -14759,7 +14759,7 @@ public record Employee(Long id, String name) {
 
 
 
-## 1. **What are the main differences between Record and a regular class?**
+## 1. What are the main differences between Record and a regular class?**
 
 | **Record**                                                                            | **Regular Class**                       |
 | ------------------------------------------------------------------------------------- | --------------------------------------- |
@@ -14820,7 +14820,7 @@ public class Person {
 * Need **custom getters/setters**
 
 
-## 1. **Can you inherit from Record or extend Record from another class?**
+## 1. Can you inherit from Record or extend Record from another class?**
 
 **No.**
 
@@ -14867,7 +14867,7 @@ public record Employee(Long id, String name)
 
 
 
-## 1. **Can you add additional methods to Record?**
+## 1. Can you add additional methods to Record?**
 
 **Yes.**
 
@@ -15190,7 +15190,7 @@ public class GenericClass<T> {
 
 
 
-## 1. **Which methods are automatically generated for Record?**
+## 1. Which methods are automatically generated for Record?**
 
 Java automatically generates the following methods:
 
@@ -15237,7 +15237,7 @@ System.out.println(e1);
 ```
 
 
-## 1. **Can you override the constructor in Record?**
+## 1. Can you override the constructor in Record?**
 
 **Yes.**
 
@@ -15285,7 +15285,7 @@ The parameter list **must exactly match** the record components.
 
 
 
-## 1. **What is a compact constructor in Record?**
+## 1. What is a compact constructor in Record?**
 
 A **compact constructor** is a special constructor in a **Record** where you **do not declare the parameters**. Java automatically uses the record components as constructor parameters.
 
@@ -15331,7 +15331,7 @@ System.out.println(emp.name()); // John
 
 
 
-## 1. **Can you declare static fields and methods in Record?**
+## 1. Can you declare static fields and methods in Record?**
 
 **Yes.**
 
@@ -15366,7 +15366,7 @@ System.out.println(emp);
 ```
 
 
-## 1. **Are Record fields final?**
+## 1. Are Record fields final?**
 
 **Yes.**
 
@@ -15401,7 +15401,7 @@ You also cannot reassign the fields inside methods.
 
 
 
-## 1. **Can you use Record as a key in HashMap?**
+## 1. Can you use Record as a key in HashMap?**
 
 **Yes.**
 
