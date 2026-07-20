@@ -3678,6 +3678,10 @@ class Student {
 | Multiple | Not supported with classes; supported via interfaces |
 | Hybrid | Combination — only via interfaces |
 
+**Multilevel Inheritance :** When a class inherits from a class, which already inherits another class.
+
+**Hierarchical Inheritance :** Multiple child classes inherit from one parent class.
+
 ```java
 // Single
 class A { }  
@@ -3701,37 +3705,6 @@ class E extends A { }
 ✅ But it supports it using **interfaces**.
 
 
-## 10. What is Multilevel Inheritance?
-
-When a class inherits from a class, which already inherits another class.
-
-```java
-class Animal {
-    void eat() {}
-}
-
-class Dog extends Animal {
-    void bark() {}
-}
-
-class Puppy extends Dog {
-    void weep() {}
-}
-```
-
-
-## 11. What is Hierarchical Inheritance?
-
-Multiple child classes inherit from one parent class.
-
-```java
-class Animal {
-    void eat() {}
-}
-
-class Dog extends Animal {}
-class Cat extends Animal {}
-```
 
 ## 12. Can we override static methods?
 
