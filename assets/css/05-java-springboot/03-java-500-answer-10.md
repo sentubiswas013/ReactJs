@@ -2496,59 +2496,6 @@ class Employee {
 ```
 
 
-## 6. How do you create an immutable class in Java?
-
-An **immutable class** in Java is a class whose **state (data)** cannot be changed after they are created. To create an immutable class:
-
-
-**Key Features**
-
-* Object state is **final and unchangeable** after creation
-* Class is usually marked as **final**
-* Fields are **private and final**
-* No **setter methods**
-* Only **getter methods** are provided
-* Ensures **thread-safety by default**
-
-**How it works**
-All values are set using a **constructor**, and after object creation, there is **no way to modify the internal state**.
-
-
-**When to use**
-
-* When object data should remain **constant after creation**
-* In classes like **String, Wrapper classes, Date-Time APIs**
-
-**Code Example**
-
-```java id="1i6tx1"
-final class Student {
-    private final String name;
-    private final int age;
-
-    public Student(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Student s1 = new Student("Rahul", 22);
-
-        System.out.println(s1.getName());
-        System.out.println(s1.getAge());
-    }
-}
-```
 
 ## 9. How to create a class and object?
 
@@ -5165,7 +5112,7 @@ new Student()   // Object
 # ✅ 06. Java Immutability 
 
 
-## 1. **What is an Immutable (Unchangeable) Object?**
+## 1. **What is an Immutable class (Unchangeable) Object?**
 
 An **immutable object** is an object whose **state cannot be changed** after it is created.
 
@@ -5233,6 +5180,40 @@ Employee emp = new Employee(101, "John");
 
 // emp.setName("Mike"); // Not possible
 ```
+
+
+
+## 1. **Why Must an Immutable Class Be `final`?**
+
+An immutable class should be **final** so that **no subclass can change its behavior or state**.
+
+Without `final`, a subclass could:
+
+* Add **mutable fields**.
+* Override methods.
+* Break the **immutability** guarantee.
+
+**Example (Problem):**
+
+```java
+class Employee {
+    public String getName() {
+        return "John";
+    }
+}
+
+class Manager extends Employee {
+    private String name = "Mike";
+
+    @Override
+    public String getName() {
+        return name;
+    }
+}
+```
+
+The subclass changes the behavior, so the original class is no longer truly immutable.
+
 
 ## 1. **Why is the String Class Immutable?**
 
@@ -5620,38 +5601,6 @@ System.out.println(emp3.address.city); // Delhi
 
 **Answer:** **Deep Copy**, because it prevents shared references and unintended modifications.
 
-
-
-## 1. **Why Must an Immutable Class Be `final`?**
-
-An immutable class should be **final** so that **no subclass can change its behavior or state**.
-
-Without `final`, a subclass could:
-
-* Add **mutable fields**.
-* Override methods.
-* Break the **immutability** guarantee.
-
-**Example (Problem):**
-
-```java
-class Employee {
-    public String getName() {
-        return "John";
-    }
-}
-
-class Manager extends Employee {
-    private String name = "Mike";
-
-    @Override
-    public String getName() {
-        return name;
-    }
-}
-```
-
-The subclass changes the behavior, so the original class is no longer truly immutable.
 
 
 
