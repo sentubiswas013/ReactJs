@@ -6003,29 +6003,6 @@ class InsufficientBalanceException extends RuntimeException {
 }
 ```
 
-## 7. What is exception chaining?
-
-**Exception chaining** links exceptions together, preserving the original cause when wrapping exceptions. It helps maintain the complete error trail for better debugging.
-
-- Preserves original exception information
-- Uses initCause() method or constructor parameter
-- Helps in debugging complex error scenarios
-- Maintains exception stack trace
-
-```java
-try {
-    // Some database operation
-    connectToDatabase();
-} catch (SQLException e) {
-    // Chain the original exception
-    throw new ServiceException("Service failed", e);
-}
-
-// Or using initCause()
-RuntimeException re = new RuntimeException("Wrapper exception");
-re.initCause(originalException);
-throw re;
-```
 
 ## 8. How do you Handle Global Exception?
 
@@ -8439,17 +8416,6 @@ String[] arr = names.toArray(new String[0]);
 
 The JVM creates an array of the correct size automatically.
 
-## 15. How does map.get(key) work internally?
-
-`map.get(key)` first calculates the key's `hashCode()` to find the bucket. Then it uses `equals()` to locate the exact key in that bucket and returns the associated value. This is why HashMap retrieval is usually O(1).
-
-```java
-Map<Integer, String> map = new HashMap<>();
-
-map.put(101, "John");
-
-String name = map.get(101);
-```
 
 ## 16. What is O(1) and  O(n)?
 
