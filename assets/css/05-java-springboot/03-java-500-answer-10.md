@@ -798,7 +798,7 @@ password = null;
 
 # ✅ 02. Java Data Types and Variables
 
-## 1. What are data types in Java?
+## 1. What are data types(Primitive,Non-Primitive) in Java?
 
 **Answer:**
 There is two type of data Primitive Data and Non-Primitive Data
@@ -828,7 +828,8 @@ boolean isActive = true;
 long population = 1000000L;
 ```
 
-## 2. What is the difference between primitive and non primitive(reference types)?
+**Difference between primitive and non primitive(reference types)?**
+
 **Primitive types** in Java, like int, double, and boolean, store actual values in memory and are stored on the stack. They are fast and have a fixed size.
 
 **Reference types**, like objects, arrays, and strings, store a reference or memory address pointing to the actual data in the heap. They can have methods, support polymorphism, and are generally more flexible but slightly slower.
