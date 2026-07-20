@@ -2655,13 +2655,9 @@ A **default constructor** is a constructor that is provided by the **Java compil
 * Always has the **same name as the class**
 
 **How it works**
+
 When an object is created and no constructor is written, Java inserts a **default constructor internally** and assigns **default values** to instance variables.
 
-
-**When to use**
-
-* When no custom initialization is needed
-* When we want objects with **default values only**
 
 **Code Example**
 
