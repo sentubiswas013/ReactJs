@@ -569,181 +569,6 @@ public class Helper {
 }
 ```
 
-## 5. Normal, final, static, static final, volatile, abstract, transient, Serializable?
-
-**Normal Variable** Declared inside a class but outside methods.
-```java
-class Student {
-    int age = 20;   // normal variable
-}
-```
-
-**final** Once assigned, value cannot be changed.
-```java
-class Student {
-    final int age = 20;
-    age = 10;  // allowed only once
-}
-```
-
-**static** Belongs to class, not object. Only one copy in memory.
-```java
-class Student {
-    static String college = "IIT";
-}
-```
-
-**static final** Variable (Constant) in Class-level
-```java
-class Student {
-    static final double PI = 3.14;
-}
-```
-
-**volatile** is a keyword used in multithreading. it ensures variable changes are immediately visible to all threads (prevents caching issues)
-```java
-class Test {
-    volatile boolean flag = true;
-}
-```
-
-**Abstract** Abstract is only for: Classes and  Methods
-```java
-abstract class Animal {
-    abstract void sound();
-}
-```
-
-**transient** Used for serialization and but not saved. Used for sensitive data.
-```java
-public class Student implements Serializable { 
-    private String username;
-    private transient String password; // If you do NOT want a field to serialize:
-    // `transient` is a serialization keyword in Java. password will NOT be saved.
-}
-```
-
-**Serializable** is a marker interface in Java used to convert an object into a byte stream so that it can be stored, transferred, or reconstructed later.
-
-**Serialize Object**
-```java
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
-class Employee implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    int id;
-    String name;
-
-    Employee(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Employee emp = new Employee(101, "John");
-        FileOutputStream file = new FileOutputStream("employee.txt");
-
-        ObjectOutputStream out = new ObjectOutputStream(file);
-        out.writeObject(emp);
-
-        out.close();
-        file.close();
-
-        System.out.println("Object Serialized");
-    }
-}
-```
-
-**Deserialize** is the reverse process of converting the Byte Stream back into a Java Object.
-
-```java
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-
-public class ReadData {
-    public static void main(String[] args) throws Exception {
-
-        FileInputStream file = new FileInputStream("employee.txt");
-
-        ObjectInputStream in = new ObjectInputStream(file);
-        Employee emp = (Employee) in.readObject();
-
-        System.out.println(emp.id);
-        System.out.println(emp.name);
-
-        in.close();
-        file.close();
-    }
-}
-```
-
-
-
-**Difference between `transient` and `volatile`**
-
-| Feature       | `transient`                                      | `volatile`                                          |
-|---------------|--------------------------------------------------|-----------------------------------------------------|
-| Purpose       | Excludes field from **serialization**            | Ensures **visibility** of field across threads      |
-| Context       | Used with Java Serialization (`Serializable`)    | Used in multi-threaded programming                  |
-| Effect        | Field is skipped when object is serialized       | Field is always read/written from main memory       |
-| Thread safety | No effect on threads                             | Provides visibility guarantee (not atomicity)       |
-
-
-## 6. What is Instance, Static, Abstract, and Final Methods?
-
-**Instance Method:** A method that belongs to an object and is called using an instance of the class.
-```java
-class Student {
-    void study() {   // Instance method
-        System.out.println("Studying...");
-    }
-}
-
-Student s = new Student();
-s.study();   // Called using object
-```
-
-**Static Method:** A method that belongs to the class and is called using the class name.
-```java
-class Student {
-    static void schoolName() {   // Static method
-        System.out.println("ABC School");
-    }
-}
-
-Student.schoolName();   // Called using class name
-```
-
-**Abstract Method:** A method declared without a body that must be implemented by a subclass.
-```java
-abstract class Animal {
-    abstract void sound();   // Abstract method
-}
-
-class Dog extends Animal {
-    void sound() {
-        System.out.println("Bark");
-    }
-}
-```
-
-**Final Method:** A method that cannot be overridden by a subclass.
-```java
-class Animal {
-    final void breathe() {   // Final method
-        System.out.println("Breathing...");
-    }
-}
-
-class Dog extends Animal {
-    // void breathe() {}  ❌ Not allowed (Compile-time error)
-}
-```
 
 ## 7. How do you read user input from the console in Java?
 ```java
@@ -1012,6 +837,7 @@ long population = 1000000L;
 int x = 10;        // primitive - stores value 10
 String name = "John"; // reference - stores address to "John" object
 ```
+
 ## 3. What is autoboxing and unboxing and Casting?
 
 **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
@@ -1032,6 +858,184 @@ double a = 10.5;
 int b = (int) a;  // Manual casting
 System.out.println(b); // 10
 ```
+
+
+## 5. Normal, final, static, static final, volatile, abstract, transient, Serializable?
+
+**Normal Variable** Declared inside a class but outside methods.
+```java
+class Student {
+    int age = 20;   // normal variable
+}
+```
+
+**final** Once assigned, value cannot be changed.
+```java
+class Student {
+    final int age = 20;
+    age = 10;  // allowed only once
+}
+```
+
+**static** Belongs to class, not object. Only one copy in memory.
+```java
+class Student {
+    static String college = "IIT";
+}
+```
+
+**static final** Variable (Constant) in Class-level
+```java
+class Student {
+    static final double PI = 3.14;
+}
+```
+
+**volatile** is a keyword used in multithreading. it ensures variable changes are immediately visible to all threads (prevents caching issues)
+```java
+class Test {
+    volatile boolean flag = true;
+}
+```
+
+**Abstract** Abstract is only for: Classes and  Methods
+```java
+abstract class Animal {
+    abstract void sound();
+}
+```
+
+**transient** Used for serialization and but not saved. Used for sensitive data.
+```java
+public class Student implements Serializable { 
+    private String username;
+    private transient String password; // If you do NOT want a field to serialize:
+    // `transient` is a serialization keyword in Java. password will NOT be saved.
+}
+```
+
+**Serializable** is a marker interface in Java used to convert an object into a byte stream so that it can be stored, transferred, or reconstructed later.
+
+**Serialize Object**
+```java
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Employee emp = new Employee(101, "John");
+        FileOutputStream file = new FileOutputStream("employee.txt");
+
+        ObjectOutputStream out = new ObjectOutputStream(file);
+        out.writeObject(emp);
+
+        out.close();
+        file.close();
+
+        System.out.println("Object Serialized");
+    }
+}
+```
+
+**Deserialize** is the reverse process of converting the Byte Stream back into a Java Object.
+
+```java
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+
+public class ReadData {
+    public static void main(String[] args) throws Exception {
+
+        FileInputStream file = new FileInputStream("employee.txt");
+
+        ObjectInputStream in = new ObjectInputStream(file);
+        Employee emp = (Employee) in.readObject();
+
+        System.out.println(emp.id);
+        System.out.println(emp.name);
+
+        in.close();
+        file.close();
+    }
+}
+```
+
+
+
+**Difference between `transient` and `volatile`**
+
+| Feature       | `transient`                                      | `volatile`                                          |
+|---------------|--------------------------------------------------|-----------------------------------------------------|
+| Purpose       | Excludes field from **serialization**            | Ensures **visibility** of field across threads      |
+| Context       | Used with Java Serialization (`Serializable`)    | Used in multi-threaded programming                  |
+| Effect        | Field is skipped when object is serialized       | Field is always read/written from main memory       |
+| Thread safety | No effect on threads                             | Provides visibility guarantee (not atomicity)       |
+
+
+## 6. What is Instance, Static, Abstract, and Final Methods?
+
+**Instance Method:** A method that belongs to an object and is called using an instance of the class.
+```java
+class Student {
+    void study() {   // Instance method
+        System.out.println("Studying...");
+    }
+}
+
+Student s = new Student();
+s.study();   // Called using object
+```
+
+**Static Method:** A method that belongs to the class and is called using the class name.
+```java
+class Student {
+    static void schoolName() {   // Static method
+        System.out.println("ABC School");
+    }
+}
+
+Student.schoolName();   // Called using class name
+```
+
+**Abstract Method:** A method declared without a body that must be implemented by a subclass.
+```java
+abstract class Animal {
+    abstract void sound();   // Abstract method
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+**Final Method:** A method that cannot be overridden by a subclass.
+```java
+class Animal {
+    final void breathe() {   // Final method
+        System.out.println("Breathing...");
+    }
+}
+
+class Dog extends Animal {
+    // void breathe() {}  ❌ Not allowed (Compile-time error)
+}
+```
+
 
 ## 9. What is coercion in Java?
 
@@ -5444,87 +5448,6 @@ System.out.println(builder);
 * **String = Immutable + Safe + Slow for updates**
 * **StringBuilder = Mutable + Fast + Single Thread**
 * **StringBuffer = Mutable + Thread-Safe + Multi Thread**
-
-
-## 6. Why strings is immutable in Java?
-
-
-
-A **`String`** in Java is **immutable**, which means **once a `String` object is created, its value cannot be changed**. If you modify a string, Java creates a **new object** instead of changing the existing one.
-
-**How It Works**
-
-When you modify a string, Java does not update the existing object. Instead, it creates a **new object** with the updated value.
-
-```java
-String str = "Hello";
-str = str + " World";
-```
-
-**Internally:**
-
-1. `"Hello"` object is created.
-2. `str + " World"` creates a **new object** `"Hello World"`.
-3. The variable `str` now points to the new object.
-
-**Key Features**
-
-* **Immutable**: Value cannot be changed after creation.
-* **Thread-Safe**: Multiple threads can safely share the same string object.
-* **Memory Efficient**: Supports the **String Pool**, where identical string literals share the same object.
-* **Secure**: Used for sensitive data like **class names, file paths, and URLs** because values cannot be altered.
-
-**Why is String Immutable?**
-
-1. **Security**
-
-   * Prevents accidental or malicious modification of important values such as file paths, network connections, and class loading information.
-
-2. **Thread Safety**
-
-   * Since the object never changes, multiple threads can use the same string without synchronization.
-
-3. **String Pool Optimization**
-
-   * Java stores string literals in the **String Pool** and reuses them, saving memory.
-
-4. **Caching**
-
-   * Methods like `hashCode()` can cache their result because the string value never changes.
-
-**When to Use**
-
-* Use **`String`** for **fixed or constant text**.
-* Use **`StringBuilder`** or **`StringBuffer`** when frequent modifications are required.
-
-**Code Example**
-
-```java
-String s1 = "Java";
-String s2 = s1.concat(" Programming");
-
-System.out.println(s1); // Java
-System.out.println(s2); // Java Programming
-```
-
-In the above example, `concat()` does **not** change `s1`. It creates a **new object** and stores it in `s2`.
-
-**String Pool Example**
-
-```java
-String a = "Hello";
-String b = "Hello";
-
-System.out.println(a == b); // true
-```
-
-Both `a` and `b` point to the **same object** in the **String Pool**, which is possible because strings are immutable.
-
-**Easy Way to Remember**
-
-* **Immutable = Cannot Change**
-* **Any modification = New Object Created**
-* **Original String Always Remains Unchanged**
 
 
 
