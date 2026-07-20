@@ -1033,283 +1033,6 @@ int b = (int) a;  // Manual casting
 System.out.println(b); // 10
 ```
 
-## 4. What is the difference between == and equals() method?
-
-**`==` operator:**
-The `==` operator is used to compare **references** of two objects. It checks whether both variables point to the **same memory location**. For primitive data types, it compares the **actual values**.
-
-**`equals()` method:**
-The `equals()` method is used to compare the **content or logical value** of two objects. It is defined in the `Object` class and can be **overridden** by classes (like `String`) to provide meaningful value-based comparison.
-
-
-**Examples:**
-
-```java
-// Using ==
-String s1 = new String("Hello");
-String s2 = new String("Hello");
-System.out.println(s1 == s2); // false, different objects
-
-// Using equals()
-System.out.println(s1.equals(s2)); // true, content is the same
-
-// With primitives
-int a = 5, b = 5;
-System.out.println(a == b); // true, values are equal
-```
-
-## 5. What is the difference between String, StringBuilder, and StringBuffer?
-
-All three are used to handle **text (sequence of characters)** in Java, but they differ in **mutability**, **performance**, and **thread safety**.
-
-* **String**: **Immutable** (cannot be changed after creation).
-* **StringBuilder**: **Mutable** and **not thread-safe**.
-* **StringBuffer**: **Mutable** and **thread-safe** because its methods are **synchronized**.
-
-
-**Key Differences**
-
-| **Feature**       | **String**                         | **StringBuilder**                   | **StringBuffer**                   |
-| ----------------- | ---------------------------------- | ----------------------------------- | ---------------------------------- |
-| **Mutability**    | Immutable                          | Mutable                             | Mutable                            |
-| **Thread Safety** | Yes (because immutable)            | No                                  | Yes (synchronized)                 |
-| **Performance**   | Slow for frequent modifications    | Fastest                             | Slower than `StringBuilder`        |
-| **Memory Usage**  | Creates new object on every change | Reuses same object                  | Reuses same object                 |
-| **Use Case**      | Fixed text                         | Single-threaded string manipulation | Multi-threaded string manipulation |
-
-**How It Works**
-
-* **String**: Every operation like `+` or `concat()` creates a **new object** in memory.
-* **StringBuilder**: Methods like `append()` and `insert()` modify the **same object**, avoiding unnecessary object creation.
-* **StringBuffer**: Works like `StringBuilder`, but methods are **synchronized**, making it safe for multiple threads.
-
-**When to Use**
-
-| **Scenario**                                             | **Best Choice**   |
-| -------------------------------------------------------- | ----------------- |
-| Fixed message or constant value                          | **String**        |
-| Building SQL queries, loops, or large text in one thread | **StringBuilder** |
-| Shared string object modified by multiple threads        | **StringBuffer**  |
-
-**Code Example**
-
-```java
-// String (Immutable)
-String str = "Hello";
-str = str + " World";   // Creates a new object
-System.out.println(str);
-
-// StringBuilder (Mutable, Fast)
-StringBuilder sb = new StringBuilder("Hello");
-sb.append(" World");    // Modifies same object
-System.out.println(sb);
-
-// StringBuffer (Mutable, Thread-safe)
-StringBuffer sf = new StringBuffer("Hello");
-sf.append(" World");    // Modifies same object with synchronization
-System.out.println(sf);
-```
-
-**Performance Example**
-
-```java
-// Not efficient for repeated updates
-String result = "";
-for (int i = 0; i < 5; i++) {
-    result += i;
-}
-
-// Efficient for repeated updates
-StringBuilder builder = new StringBuilder();
-for (int i = 0; i < 5; i++) {
-    builder.append(i);
-}
-System.out.println(builder);
-```
-
-**Easy Way to Remember**
-
-* **String = Immutable + Safe + Slow for updates**
-* **StringBuilder = Mutable + Fast + Single Thread**
-* **StringBuffer = Mutable + Thread-Safe + Multi Thread**
-
-
-## 6. Why strings is immutable in Java?
-
-
-
-A **`String`** in Java is **immutable**, which means **once a `String` object is created, its value cannot be changed**. If you modify a string, Java creates a **new object** instead of changing the existing one.
-
-**How It Works**
-
-When you modify a string, Java does not update the existing object. Instead, it creates a **new object** with the updated value.
-
-```java
-String str = "Hello";
-str = str + " World";
-```
-
-**Internally:**
-
-1. `"Hello"` object is created.
-2. `str + " World"` creates a **new object** `"Hello World"`.
-3. The variable `str` now points to the new object.
-
-**Key Features**
-
-* **Immutable**: Value cannot be changed after creation.
-* **Thread-Safe**: Multiple threads can safely share the same string object.
-* **Memory Efficient**: Supports the **String Pool**, where identical string literals share the same object.
-* **Secure**: Used for sensitive data like **class names, file paths, and URLs** because values cannot be altered.
-
-**Why is String Immutable?**
-
-1. **Security**
-
-   * Prevents accidental or malicious modification of important values such as file paths, network connections, and class loading information.
-
-2. **Thread Safety**
-
-   * Since the object never changes, multiple threads can use the same string without synchronization.
-
-3. **String Pool Optimization**
-
-   * Java stores string literals in the **String Pool** and reuses them, saving memory.
-
-4. **Caching**
-
-   * Methods like `hashCode()` can cache their result because the string value never changes.
-
-**When to Use**
-
-* Use **`String`** for **fixed or constant text**.
-* Use **`StringBuilder`** or **`StringBuffer`** when frequent modifications are required.
-
-**Code Example**
-
-```java
-String s1 = "Java";
-String s2 = s1.concat(" Programming");
-
-System.out.println(s1); // Java
-System.out.println(s2); // Java Programming
-```
-
-In the above example, `concat()` does **not** change `s1`. It creates a **new object** and stores it in `s2`.
-
-**String Pool Example**
-
-```java
-String a = "Hello";
-String b = "Hello";
-
-System.out.println(a == b); // true
-```
-
-Both `a` and `b` point to the **same object** in the **String Pool**, which is possible because strings are immutable.
-
-**Easy Way to Remember**
-
-* **Immutable = Cannot Change**
-* **Any modification = New Object Created**
-* **Original String Always Remains Unchanged**
-
-
-
-## 8. What is string pooling in java?
-
-**String Pooling** is a Java memory optimization technique where **string literals are stored in a special memory area called the String Pool**. If the same string value already exists in the pool, Java reuses the existing object instead of creating a new one.
-
-
-**How It Works**
-
-* When a string literal is created using double quotes (`""`), Java first checks the **String Pool**.
-* If the value already exists, Java returns a reference to the existing object.
-* If it does not exist, Java creates a new object and stores it in the pool.
-
-```java id="4skp0r"
-String s1 = "Java";
-String s2 = "Java";
-```
-
-Here, only **one object** `"Java"` is created in the **String Pool**, and both `s1` and `s2` point to the same object.
-
-**Key Features**
-
-* **Stores only one copy** of identical string literals.
-* **Reduces memory usage** by avoiding duplicate objects.
-* **Improves performance** because object creation is minimized.
-* Works because **`String` is immutable**.
-
-**When to Use**
-
-* Whenever you create strings using **string literals** (`"Hello"`), Java automatically uses the String Pool.
-* For dynamically created strings using `new String()`, use **`intern()`** if you want to place them into the String Pool.
-
-**Code Example**
-
-```java id="cwlfzr"
-String s1 = "Hello";
-String s2 = "Hello";
-
-System.out.println(s1 == s2); // true
-```
-
-Both variables point to the **same pooled object**, so `==` returns `true`.
-
-**Using `new String()`**
-
-```java id="b5q7to"
-String s1 = "Hello";
-String s2 = new String("Hello");
-
-System.out.println(s1 == s2); // false
-System.out.println(s1.equals(s2)); // true
-```
-
-Here:
-
-* `s1` points to the object in the **String Pool**.
-* `s2` points to a **new object** created in the heap.
-* `==` compares **references**, while `equals()` compares **content**.
-
-**Using `intern()`**
-
-```java id="t0odqg"
-String s1 = new String("Java");
-String s2 = s1.intern();
-
-System.out.println(s2 == "Java"); // true
-```
-
-The **`intern()`** method returns the reference from the **String Pool** if it exists, or adds the string to the pool if it does not.
-
-**Easy Way to Remember**
-
-* **String Literal (`"Java"`) = Uses String Pool**
-* **`new String("Java")` = Creates New Object**
-* **`intern()` = Moves or Returns String from the Pool**
-
-**Common Interview Follow-up Questions**
-
-**1. Why is String Pooling possible in Java?**
-Because **String** objects are **immutable**, so multiple references can safely share the same object.
-
-**2. Where is the String Pool stored?**
-The **String Pool** is stored in the **Heap memory** (since Java 7).
-
-**3. What is the difference between `==` and `equals()` for Strings?**
-
-* **`==`** compares **references**.
-* **`equals()`** compares **content**.
-
-**4. What does `intern()` do?**
-It returns the **reference to the pooled String** if it exists; otherwise, it adds the string to the **String Pool** and returns that reference.
-
-**5. Why does `new String("Java")` create a new object?**
-Because the **`new`** keyword always creates a **new object** in the Heap, even if the same value exists in the **String Pool**.
-
-
 ## 9. What is coercion in Java?
 
 **Coercion in Java** is the process of converting a value from one data type to another, either automatically by the compiler or manually by the programmer, to make data types compatible in expressions or assignments.
@@ -5619,6 +5342,285 @@ new Student()   // Object
 
 
 # ✅ 06. Java String 
+
+
+
+## 4. What is the difference between == and equals() method?
+
+**`==` operator:**
+The `==` operator is used to compare **references** of two objects. It checks whether both variables point to the **same memory location**. For primitive data types, it compares the **actual values**.
+
+**`equals()` method:**
+The `equals()` method is used to compare the **content or logical value** of two objects. It is defined in the `Object` class and can be **overridden** by classes (like `String`) to provide meaningful value-based comparison.
+
+
+**Examples:**
+
+```java
+// Using ==
+String s1 = new String("Hello");
+String s2 = new String("Hello");
+System.out.println(s1 == s2); // false, different objects
+
+// Using equals()
+System.out.println(s1.equals(s2)); // true, content is the same
+
+// With primitives
+int a = 5, b = 5;
+System.out.println(a == b); // true, values are equal
+```
+
+## 5. What is the difference between String, StringBuilder, and StringBuffer?
+
+All three are used to handle **text (sequence of characters)** in Java, but they differ in **mutability**, **performance**, and **thread safety**.
+
+* **String**: **Immutable** (cannot be changed after creation).
+* **StringBuilder**: **Mutable** and **not thread-safe**.
+* **StringBuffer**: **Mutable** and **thread-safe** because its methods are **synchronized**.
+
+
+**Key Differences**
+
+| **Feature**       | **String**                         | **StringBuilder**                   | **StringBuffer**                   |
+| ----------------- | ---------------------------------- | ----------------------------------- | ---------------------------------- |
+| **Mutability**    | Immutable                          | Mutable                             | Mutable                            |
+| **Thread Safety** | Yes (because immutable)            | No                                  | Yes (synchronized)                 |
+| **Performance**   | Slow for frequent modifications    | Fastest                             | Slower than `StringBuilder`        |
+| **Memory Usage**  | Creates new object on every change | Reuses same object                  | Reuses same object                 |
+| **Use Case**      | Fixed text                         | Single-threaded string manipulation | Multi-threaded string manipulation |
+
+**How It Works**
+
+* **String**: Every operation like `+` or `concat()` creates a **new object** in memory.
+* **StringBuilder**: Methods like `append()` and `insert()` modify the **same object**, avoiding unnecessary object creation.
+* **StringBuffer**: Works like `StringBuilder`, but methods are **synchronized**, making it safe for multiple threads.
+
+**When to Use**
+
+| **Scenario**                                             | **Best Choice**   |
+| -------------------------------------------------------- | ----------------- |
+| Fixed message or constant value                          | **String**        |
+| Building SQL queries, loops, or large text in one thread | **StringBuilder** |
+| Shared string object modified by multiple threads        | **StringBuffer**  |
+
+**Code Example**
+
+```java
+// String (Immutable)
+String str = "Hello";
+str = str + " World";   // Creates a new object
+System.out.println(str);
+
+// StringBuilder (Mutable, Fast)
+StringBuilder sb = new StringBuilder("Hello");
+sb.append(" World");    // Modifies same object
+System.out.println(sb);
+
+// StringBuffer (Mutable, Thread-safe)
+StringBuffer sf = new StringBuffer("Hello");
+sf.append(" World");    // Modifies same object with synchronization
+System.out.println(sf);
+```
+
+**Performance Example**
+
+```java
+// Not efficient for repeated updates
+String result = "";
+for (int i = 0; i < 5; i++) {
+    result += i;
+}
+
+// Efficient for repeated updates
+StringBuilder builder = new StringBuilder();
+for (int i = 0; i < 5; i++) {
+    builder.append(i);
+}
+System.out.println(builder);
+```
+
+**Easy Way to Remember**
+
+* **String = Immutable + Safe + Slow for updates**
+* **StringBuilder = Mutable + Fast + Single Thread**
+* **StringBuffer = Mutable + Thread-Safe + Multi Thread**
+
+
+## 6. Why strings is immutable in Java?
+
+
+
+A **`String`** in Java is **immutable**, which means **once a `String` object is created, its value cannot be changed**. If you modify a string, Java creates a **new object** instead of changing the existing one.
+
+**How It Works**
+
+When you modify a string, Java does not update the existing object. Instead, it creates a **new object** with the updated value.
+
+```java
+String str = "Hello";
+str = str + " World";
+```
+
+**Internally:**
+
+1. `"Hello"` object is created.
+2. `str + " World"` creates a **new object** `"Hello World"`.
+3. The variable `str` now points to the new object.
+
+**Key Features**
+
+* **Immutable**: Value cannot be changed after creation.
+* **Thread-Safe**: Multiple threads can safely share the same string object.
+* **Memory Efficient**: Supports the **String Pool**, where identical string literals share the same object.
+* **Secure**: Used for sensitive data like **class names, file paths, and URLs** because values cannot be altered.
+
+**Why is String Immutable?**
+
+1. **Security**
+
+   * Prevents accidental or malicious modification of important values such as file paths, network connections, and class loading information.
+
+2. **Thread Safety**
+
+   * Since the object never changes, multiple threads can use the same string without synchronization.
+
+3. **String Pool Optimization**
+
+   * Java stores string literals in the **String Pool** and reuses them, saving memory.
+
+4. **Caching**
+
+   * Methods like `hashCode()` can cache their result because the string value never changes.
+
+**When to Use**
+
+* Use **`String`** for **fixed or constant text**.
+* Use **`StringBuilder`** or **`StringBuffer`** when frequent modifications are required.
+
+**Code Example**
+
+```java
+String s1 = "Java";
+String s2 = s1.concat(" Programming");
+
+System.out.println(s1); // Java
+System.out.println(s2); // Java Programming
+```
+
+In the above example, `concat()` does **not** change `s1`. It creates a **new object** and stores it in `s2`.
+
+**String Pool Example**
+
+```java
+String a = "Hello";
+String b = "Hello";
+
+System.out.println(a == b); // true
+```
+
+Both `a` and `b` point to the **same object** in the **String Pool**, which is possible because strings are immutable.
+
+**Easy Way to Remember**
+
+* **Immutable = Cannot Change**
+* **Any modification = New Object Created**
+* **Original String Always Remains Unchanged**
+
+
+
+## 8. What is string pooling in java?
+
+**String Pooling** is a Java memory optimization technique where **string literals are stored in a special memory area called the String Pool**. If the same string value already exists in the pool, Java reuses the existing object instead of creating a new one.
+
+
+**How It Works**
+
+* When a string literal is created using double quotes (`""`), Java first checks the **String Pool**.
+* If the value already exists, Java returns a reference to the existing object.
+* If it does not exist, Java creates a new object and stores it in the pool.
+
+```java id="4skp0r"
+String s1 = "Java";
+String s2 = "Java";
+```
+
+Here, only **one object** `"Java"` is created in the **String Pool**, and both `s1` and `s2` point to the same object.
+
+**Key Features**
+
+* **Stores only one copy** of identical string literals.
+* **Reduces memory usage** by avoiding duplicate objects.
+* **Improves performance** because object creation is minimized.
+* Works because **`String` is immutable**.
+
+**When to Use**
+
+* Whenever you create strings using **string literals** (`"Hello"`), Java automatically uses the String Pool.
+* For dynamically created strings using `new String()`, use **`intern()`** if you want to place them into the String Pool.
+
+**Code Example**
+
+```java id="cwlfzr"
+String s1 = "Hello";
+String s2 = "Hello";
+
+System.out.println(s1 == s2); // true
+```
+
+Both variables point to the **same pooled object**, so `==` returns `true`.
+
+**Using `new String()`**
+
+```java id="b5q7to"
+String s1 = "Hello";
+String s2 = new String("Hello");
+
+System.out.println(s1 == s2); // false
+System.out.println(s1.equals(s2)); // true
+```
+
+Here:
+
+* `s1` points to the object in the **String Pool**.
+* `s2` points to a **new object** created in the heap.
+* `==` compares **references**, while `equals()` compares **content**.
+
+**Using `intern()`**
+
+```java id="t0odqg"
+String s1 = new String("Java");
+String s2 = s1.intern();
+
+System.out.println(s2 == "Java"); // true
+```
+
+The **`intern()`** method returns the reference from the **String Pool** if it exists, or adds the string to the pool if it does not.
+
+**Easy Way to Remember**
+
+* **String Literal (`"Java"`) = Uses String Pool**
+* **`new String("Java")` = Creates New Object**
+* **`intern()` = Moves or Returns String from the Pool**
+
+**Common Interview Follow-up Questions**
+
+**1. Why is String Pooling possible in Java?**
+Because **String** objects are **immutable**, so multiple references can safely share the same object.
+
+**2. Where is the String Pool stored?**
+The **String Pool** is stored in the **Heap memory** (since Java 7).
+
+**3. What is the difference between `==` and `equals()` for Strings?**
+
+* **`==`** compares **references**.
+* **`equals()`** compares **content**.
+
+**4. What does `intern()` do?**
+It returns the **reference to the pooled String** if it exists; otherwise, it adds the string to the **String Pool** and returns that reference.
+
+**5. Why does `new String("Java")` create a new object?**
+Because the **`new`** keyword always creates a **new object** in the Heap, even if the same value exists in the **String Pool**.
+
 
 
 ## 1. **How does the String Pool work?**
