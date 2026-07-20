@@ -5621,6 +5621,716 @@ new Student()   // Object
 # ✅ 06. Java String 
 
 
+## 1. **How does the String Pool work?**
+
+The **String Pool** (also called the **String Constant Pool**) is a special area in the **Heap** where Java stores **String literals**. If the same literal already exists in the pool, Java reuses the existing object instead of creating a new one.
+
+**How it works:**
+
+1. Java checks whether the String literal already exists in the pool.
+2. If it exists, it returns the existing reference.
+3. If it doesn't exist, Java creates the String in the pool and returns its reference.
+
+**Example:**
+
+```java
+String s1 = "Hello";
+String s2 = "Hello";
+
+System.out.println(s1 == s2); // true
+```
+
+Only **one** `"Hello"` object is created, and both `s1` and `s2` reference it.
+
+**Benefits:**
+
+* **Saves memory**
+* **Improves performance**
+* **Avoids duplicate String objects**
+
+---
+
+## 1. **What is the difference between creating a String via literal and via `new`?**
+
+| **String Literal**                  | **new String()**                     |
+| ----------------------------------- | ------------------------------------ |
+| Stored in the **String Pool**       | Creates a **new object** in the heap |
+| Reuses existing object if available | Always creates a new object          |
+| Memory efficient                    | Uses more memory                     |
+| Faster                              | Slightly slower                      |
+
+**Example:**
+
+```java
+String s1 = "Java";
+String s2 = "Java";
+String s3 = new String("Java");
+
+System.out.println(s1 == s2); // true
+System.out.println(s1 == s3); // false
+System.out.println(s1.equals(s3)); // true
+```
+
+---
+
+## 1. **When should you use `intern()`?**
+
+The **`intern()`** method returns the reference to the String from the **String Pool**. If the String is not already in the pool, it is added.
+
+**Use `intern()` when:**
+
+* You have many duplicate Strings created with `new`.
+* You want to **reduce memory usage**.
+* You need **reference equality (`==`)** for identical String values.
+
+**Example:**
+
+```java
+String s1 = new String("Java");
+String s2 = s1.intern();
+String s3 = "Java";
+
+System.out.println(s2 == s3); // true
+```
+
+Without `intern()`:
+
+```java
+System.out.println(s1 == s3); // false
+```
+
+
+
+## 1. **Why is String immutable?**
+
+A **String is immutable**, meaning its value **cannot be changed** after it is created. Any modification creates a **new String object**.
+
+**Example:**
+
+```java
+String s = "Java";
+s = s.concat(" 21");
+
+System.out.println(s); // Java 21
+```
+
+The original `"Java"` object remains unchanged.
+
+**Why Java made String immutable:**
+
+* **Security** – Prevents modification of sensitive values like file paths, URLs, and class names.
+* **Thread Safety** – Multiple threads can safely share the same String without synchronization.
+* **String Pool** – Safe object sharing is possible because String contents never change.
+* **Caching** – `hashCode()` can be cached, improving the performance of collections like **HashMap**.
+* **Reliability** – Once created, the value remains consistent throughout the program.
+
+
+## 1. **When to use `StringBuilder` vs `StringBuffer`?**
+
+Both **`StringBuilder`** and **`StringBuffer`** are mutable classes used to modify strings efficiently.
+
+| **StringBuilder**                   | **StringBuffer**                   |
+| ----------------------------------- | ---------------------------------- |
+| **Not thread-safe**                 | **Thread-safe**                    |
+| Faster                              | Slower                             |
+| No synchronization                  | Methods are synchronized           |
+| Use in single-threaded applications | Use in multi-threaded applications |
+
+**Use `StringBuilder` when:**
+
+* Performance is important.
+* Only one thread modifies the string.
+
+**Use `StringBuffer` when:**
+
+* Multiple threads modify the same string.
+* Thread safety is required.
+
+**Example:**
+
+```java
+StringBuilder sb = new StringBuilder();
+sb.append("Java");
+sb.append(" 21");
+
+System.out.println(sb); // Java 21
+```
+
+
+
+## 1. **Why is `StringBuffer` slower than `StringBuilder`?**
+
+`StringBuffer` is slower because all its methods are **synchronized**, which ensures that only one thread can access them at a time.
+
+Example:
+
+```java
+buffer.append("Hello"); // synchronized
+builder.append("Hello"); // not synchronized
+```
+
+**Why synchronization adds overhead:**
+
+* Acquires and releases locks.
+* Performs thread-safety checks.
+* Reduces performance when thread safety isn't needed.
+
+
+## 1. **What happens when concatenating strings via the `+` operator?**
+
+The `+` operator creates a **new String** because **String is immutable**.
+
+Example:
+
+```java
+String s = "Java";
+s = s + " 21";
+```
+
+The JVM effectively performs:
+
+```java
+StringBuilder sb = new StringBuilder();
+sb.append("Java");
+sb.append(" 21");
+s = sb.toString();
+```
+
+A new String object is created for the result.
+
+**Interview Tip:**
+Using `+` inside a loop creates many temporary String objects, reducing performance.
+
+**Bad Example:**
+
+```java
+String result = "";
+
+for (int i = 0; i < 1000; i++) {
+    result += i;
+}
+```
+
+**Good Example:**
+
+```java
+StringBuilder sb = new StringBuilder();
+
+for (int i = 0; i < 1000; i++) {
+    sb.append(i);
+}
+
+String result = sb.toString();
+```
+
+
+## 1. **How does the Java compiler optimize string concatenation?**
+
+The Java compiler automatically converts most `+` concatenations into **`StringBuilder`** operations.
+
+**Source code:**
+
+```java
+String s = "Hello " + name;
+```
+
+**Compiler-generated equivalent:**
+
+```java
+String s = new StringBuilder()
+        .append("Hello ")
+        .append(name)
+        .toString();
+```
+
+This avoids creating multiple intermediate String objects.
+
+**Compile-time optimization for constants:**
+
+If all values are **compile-time constants**, the compiler performs **constant folding** and creates a single String.
+
+```java
+String s = "Hello" + " World";
+```
+
+Becomes:
+
+```java
+String s = "Hello World";
+```
+
+No `StringBuilder` is created.
+
+
+
+## 1. **Can you use `==` to compare Strings?**
+
+Yes, but **only if you want to compare object references**, not the actual String content.
+
+* `==` checks whether two references point to the **same object**.
+* It does **not** compare the characters inside the String.
+
+**Example:**
+
+```java
+String s1 = "Java";
+String s2 = "Java";
+String s3 = new String("Java");
+
+System.out.println(s1 == s2); // true
+System.out.println(s1 == s3); // false
+```
+
+
+## 1. **What is the difference between `==` and `equals()` for String?**
+
+| **`==`**                                           | **`equals()`**                                     |
+| -------------------------------------------------- | -------------------------------------------------- |
+| Compares **references**                            | Compares **content**                               |
+| Checks if both references point to the same object | Checks if both Strings contain the same characters |
+| Can return `false` even if contents are identical  | Returns `true` if contents are identical           |
+
+**Example:**
+
+```java
+String s1 = new String("Java");
+String s2 = new String("Java");
+
+System.out.println(s1 == s2);      // false
+System.out.println(s1.equals(s2)); // true
+```
+
+
+## 1. **Where is the String Pool stored (in which memory area)?**
+
+The **String Pool** is stored in the **Heap memory**.
+
+**Java versions:**
+
+* **Java 6 and earlier:** String Pool was stored in the **PermGen (Permanent Generation)**.
+* **Java 7 and later:** String Pool was moved to the **Heap**.
+* **Java 8+:** PermGen was removed and replaced by **Metaspace**, while the **String Pool remains in the Heap**.
+
+
+
+## 1. **Can String Pool cause `OutOfMemoryError`?**
+
+Yes.
+
+Since the **String Pool is stored in the Heap**, creating or interning a very large number of unique Strings can eventually exhaust heap memory and cause an **`OutOfMemoryError: Java heap space`**.
+
+**Example:**
+
+```java
+List<String> list = new ArrayList<>();
+
+while (true) {
+    list.add(UUID.randomUUID().toString().intern());
+}
+```
+
+This continuously adds unique Strings to the String Pool until the heap is full.
+
+**How to avoid it:**
+
+* Avoid calling **`intern()`** on a large number of unique Strings.
+* Remove unnecessary references so unused Strings can be garbage collected.
+* Increase the heap size if appropriate using **`-Xmx`**.
+
+
+## 1. **What does the `substring()` method do and how did it work before Java 7?**
+
+The **`substring()`** method returns a **part of a String**.
+
+**Syntax:**
+
+```java
+substring(beginIndex)
+substring(beginIndex, endIndex)
+```
+
+* `beginIndex` → Inclusive
+* `endIndex` → Exclusive
+
+**Example:**
+
+```java
+String s = "Hello World";
+
+System.out.println(s.substring(6));     // World
+System.out.println(s.substring(0, 5));  // Hello
+```
+
+**Before Java 7**
+
+`substring()` **did not create a new character array**. Instead, it shared the **same internal `char[]`** with the original String and only stored a different offset and length.
+
+```java
+String large = "Very large text...";
+String small = large.substring(5, 10);
+```
+
+Both `large` and `small` pointed to the same `char[]`.
+
+**Advantage:**
+
+* Fast
+* Memory efficient for large Strings
+
+**Disadvantage:**
+
+* A small substring could keep a very large original `char[]` in memory.
+
+---
+
+## 1. **Why was the `substring()` implementation changed in Java 7?**
+
+Starting with **Java 7**, `substring()` creates a **new character array** for the substring instead of sharing the original one.
+
+**Reason:**
+To prevent **memory leaks**.
+
+**Old behavior:**
+
+```java
+String large = loadLargeFile();   // 100 MB
+String small = large.substring(0, 10);
+```
+
+Even if `large` was no longer used, the entire **100 MB** character array stayed in memory because `small` referenced it.
+
+**New behavior (Java 7+):**
+
+* A new `char[]` containing only the substring is created.
+* The original large array can be garbage collected.
+
+**Interview Tip:**
+
+* **Java 6:** Shared `char[]`
+* **Java 7+:** Copies characters into a new `char[]`
+
+---
+
+## 1. **How does the `split()` method work?**
+
+The **`split()`** method divides a String into an array using a **regular expression (regex)** as the delimiter.
+
+**Syntax:**
+
+```java
+String[] split(String regex)
+```
+
+**Example:**
+
+```java
+String s = "Java,Spring,Docker";
+
+String[] arr = s.split(",");
+
+for (String str : arr) {
+    System.out.println(str);
+}
+```
+
+**Output:**
+
+```text
+Java
+Spring
+Docker
+```
+
+**Example using regex:**
+
+```java
+String s = "Java  Spring   Docker";
+
+String[] arr = s.split("\\s+");
+```
+
+This splits on one or more whitespace characters.
+
+
+## 1. **What is the difference between `replace()` vs `replaceAll()`?**
+
+| **`replace()`**                     | **`replaceAll()`**                                   |
+| ----------------------------------- | ---------------------------------------------------- |
+| Replaces literal text or characters | Replaces text using a **regular expression (regex)** |
+| Does **not** interpret regex        | Interprets the first argument as a regex             |
+| Faster                              | Slightly slower because of regex processing          |
+
+**`replace()` Example:**
+
+```java
+String s = "Java Java";
+
+System.out.println(s.replace("Java", "Spring"));
+```
+
+**Output:**
+
+```text
+Spring Spring
+```
+
+**`replaceAll()` Example:**
+
+```java
+String s = "Java123Spring456";
+
+System.out.println(s.replaceAll("\\d+", ""));
+```
+
+**Output:**
+
+```text
+JavaSpring
+```
+
+Here, `\\d+` is a regex that matches one or more digits.
+
+
+## 1. **What is String encoding?**
+
+**String encoding** is the process of converting characters into **bytes** using a specific **character set (charset)**.
+
+Common encodings:
+
+* **UTF-8** – Most commonly used, variable-length (1–4 bytes per character)
+* **UTF-16** – Java's internal character representation before Java 9
+* **ISO-8859-1** – Single-byte encoding for Western European characters
+* **US-ASCII** – 7-bit encoding for English characters
+
+**Example:**
+
+```java
+String s = "Hello";
+
+byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+```
+
+Different encodings produce different byte sequences.
+
+
+## 1. **How to properly convert a String to `byte[]` and back?**
+
+Use the **same charset** for both encoding and decoding.
+
+**String → `byte[]`:**
+
+```java
+import java.nio.charset.StandardCharsets;
+
+String s = "Hello";
+
+byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+```
+
+**`byte[]` → String:**
+
+```java
+String result = new String(bytes, StandardCharsets.UTF_8);
+
+System.out.println(result); // Hello
+```
+
+**Incorrect Example:**
+
+```java
+byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+
+// Wrong charset
+String result = new String(bytes, StandardCharsets.ISO_8859_1);
+```
+
+This may produce incorrect characters.
+
+
+
+## 1. **What are Compact Strings in Java 9+?**
+
+**Compact Strings** are a JVM optimization introduced in **Java 9** to reduce memory usage.
+
+**Before Java 9:**
+
+* Every `String` stored characters in a **`char[]`**.
+* Each character used **2 bytes (UTF-16)**, even for simple ASCII text.
+
+**Java 9+:**
+
+* `String` stores characters in a **`byte[]`**.
+* A small internal flag (`coder`) indicates the encoding:
+
+  * **LATIN1 (1 byte per character)** for ASCII/Latin-1 characters.
+  * **UTF16 (2 bytes per character)** for characters that require it.
+
+**Example:**
+
+```java
+String s1 = "Hello"; // Stored as LATIN1 (1 byte/char)
+String s2 = "你好";    // Stored as UTF16 (2 bytes/char)
+```
+
+**Benefits:**
+
+* **Reduces memory usage** for most Strings.
+* **Improves cache efficiency**.
+* **No API changes**—completely transparent to developers.
+
+
+## 1. **How to find out how much memory a String occupies?**
+
+There is **no built-in Java API** that returns the exact memory used by a `String`.
+
+**Approximate size:**
+
+**Java 8:**
+
+* Characters: `2 × length` bytes (`char[]`)
+* Plus object headers and references.
+
+**Java 9+:**
+
+* ASCII/Latin-1 Strings: about `1 × length` bytes (`byte[]`)
+* UTF-16 Strings: about `2 × length` bytes
+* Plus object headers, references, and the `coder` field.
+
+**Using Instrumentation API:**
+
+```java
+long size = instrumentation.getObjectSize(str);
+```
+
+This returns the shallow size of the `String` object, not the memory of referenced objects.
+
+**Using tools:**
+
+* **JOL (Java Object Layout)** – Inspect object memory layout.
+* **VisualVM**
+* **Eclipse Memory Analyzer (MAT)**
+* **JProfiler**
+* **YourKit**
+
+
+## 1. **Can you change the content of a String via reflection?**
+
+**Normally, no.** `String` is designed to be **immutable**, and modern Java strongly protects its internal state.
+
+**Before Java 9**
+
+It was possible (though strongly discouraged) to modify a `String` using reflection by accessing its internal `char[]`.
+
+```java
+Field field = String.class.getDeclaredField("value");
+field.setAccessible(true);
+```
+
+This could change the contents of a `String`, breaking immutability and potentially causing unexpected behavior.
+
+**Java 9+**
+
+Java introduced **stronger encapsulation** (module system), and `String` now stores its data in a **`byte[]`** instead of `char[]` (Compact Strings). Accessing or modifying internal fields via reflection is much more restricted and may throw an exception unless special JVM options (such as `--add-opens`) are used.
+
+
+## 1. **What is String deduplication in G1 GC?**
+
+**String Deduplication** is a feature of the **G1 Garbage Collector** introduced in **Java 8 Update 20**.
+
+Its purpose is to **reduce memory usage** by making multiple `String` objects with the same content share the **same internal character data**.
+
+**Example:**
+
+```java
+String s1 = new String("Java");
+String s2 = new String("Java");
+```
+
+Without deduplication:
+
+* `s1` and `s2` are different objects.
+* Each has its own internal character storage.
+
+With G1 String Deduplication:
+
+* `s1` and `s2` remain different `String` objects.
+* They share the same internal `byte[]` (Java 9+) or `char[]` (Java 8).
+
+**Benefits:**
+
+* **Reduces heap memory usage**
+* **Lowers GC pressure**
+* Useful for applications with many duplicate Strings
+
+**Enable it:**
+
+```text
+-XX:+UseG1GC
+-XX:+UseStringDeduplication
+```
+
+
+## 1. **Why does String implement `Comparable` and `CharSequence`?**
+
+**1. `Comparable<String>`**
+
+`String` implements **`Comparable<String>`** so Strings can be **sorted naturally** in **lexicographical (dictionary) order**.
+
+**Example:**
+
+```java
+List<String> list = List.of("Banana", "Apple", "Orange");
+
+Collections.sort(list);
+
+System.out.println(list);
+```
+
+**Output:**
+
+```text
+[Apple, Banana, Orange]
+```
+
+The `compareTo()` method compares Strings character by character using Unicode values.
+
+
+**2. `CharSequence`**
+
+`CharSequence` is an interface that represents a **read-only sequence of characters**.
+
+It allows APIs to work with different character-based classes, not just `String`.
+
+Other classes implementing `CharSequence` include:
+
+* `String`
+* `StringBuilder`
+* `StringBuffer`
+* `CharBuffer`
+
+**Example:**
+
+```java
+public void print(CharSequence text) {
+    System.out.println(text);
+}
+
+print("Java");
+print(new StringBuilder("Spring"));
+```
+
+Both calls work because both classes implement `CharSequence`.
+
+**Main methods of `CharSequence`:**
+
+* `length()`
+* `charAt()`
+* `subSequence()`
+* `toString()`
+
+
+
+
 # ✅ 06. Java Exception Handling 
 
 ## 1. What is an exception in Java?
