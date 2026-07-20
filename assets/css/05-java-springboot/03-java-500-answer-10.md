@@ -2365,6 +2365,82 @@ public class Main {
 ```
 
 
+## 8. Difference between runtime vs compile-time class loading? 
+
+**Compile-time class loading** happens when classes are loaded during **program compilation and startup preparation**
+
+**Runtime class loading** happens when classes are loaded **dynamically during program execution**.
+
+
+**Compile-time Class Loading**
+
+**Key Features**
+
+* Classes are loaded at **startup or early JVM phase**
+* Done using **static linking by JVM**
+* All required classes must be **available before execution**
+* No dynamic behavior
+
+**How it works**
+JVM loads required classes during **program start**, before execution begins, using **ClassLoader chain automatically**.
+
+**Why / When to use**
+
+* When all dependencies are **known in advance**
+* For **simple applications** with static structure
+* Faster and predictable loading
+
+
+**Runtime Class Loading**
+
+**Key Features**
+
+* Classes are loaded **during execution**
+* Uses methods like **Class.forName() or custom ClassLoader**
+* Supports **dynamic behavior and plugins**
+* More flexible but slightly slower
+
+**How it works**
+JVM loads class **only when it is first referenced or explicitly requested** during execution.
+
+**Why / When to use**
+
+* When classes are **not known at compile time**
+* In frameworks like **Spring, JDBC drivers, plugin systems**
+* For **dynamic module loading**
+
+
+**Difference Table**
+
+| **Compile-time Loading**        | **Runtime Loading**                      |
+| ------------------------------- | ---------------------------------------- |
+| Happens before execution starts | Happens during execution                 |
+| Static and fixed                | Dynamic and flexible                     |
+| All classes must be known       | Classes can be unknown initially         |
+| Faster startup                  | Slightly slower due to on-demand loading |
+| No late binding                 | Supports late binding                    |
+
+
+**Code Example**
+
+```java id="1i6tx1"
+class Demo {
+    static {
+        System.out.println("Class Loaded");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        // Runtime class loading
+        Class.forName("Demo");
+
+        System.out.println("Main executed");
+    }
+}
+```
+
 
 ## 9. How do you load a class dynamically in Java? 
 
@@ -2392,8 +2468,8 @@ Class.forName("com.mysql.cj.jdbc.Driver");
 ```
 This loads the MySQL driver at runtime.
 
-
 ## 10. What happens internally when you create an object using new? 
+
 
 When we create an object using the `new` keyword, JVM first checks whether the class is loaded. If not, it loads the class into memory. Then it allocates memory in the Heap, initializes instance variables with default values, executes the constructor, and finally returns the object reference.
 
@@ -2905,20 +2981,41 @@ Examples:
 * **Car IS-A Vehicle**
 * **Manager IS-An Employee**
 
+
+**Why do we use Inheritance?**
+
+**Inheritance** is an OOP concept where a **child class acquires properties and behaviors of a parent class** using the **extends keyword**.
+
+**Key Features**
+
+* Promotes **code reusability**
+* Supports **method overriding (runtime polymorphism)**
+* Establishes an **IS-A relationship**
+* Reduces **code duplication**
+* Improves **maintainability and scalability**
+* To avoid **repeated code writing**
+* To support **OOP principles like polymorphism**
+
+
+
 **Common Interview Follow-up Questions**
 
 **2. What is the difference between `extends` and `implements`?**
 
 * **`extends`** is used to inherit from a **Class**.
+
 * **`implements`** is used to implement an **Interface**.
 
 **3. Can a Child Class override Parent Class methods?**
+
 **Yes.** This is called **Method Overriding**, which enables **Runtime Polymorphism**.
 
 **4. Can Constructors be inherited?**
+
 **No.** Constructors are **not inherited**, but they can be called using **`super()`**.
 
 **5. Which class is the root of all classes in Java?**
+
 The **`Object`** class is the **root class**, and every Java class directly or indirectly inherits from it.
 
 
@@ -3098,54 +3195,6 @@ class C implements A, B {
     @Override
     public void method() {
         A.super.method(); // Explicitly choose which to call
-    }
-}
-```
-
-
-## 4. Why do we use Inheritance?
-
-**Inheritance** is an OOP concept where a **child class acquires properties and behaviors of a parent class** using the **extends keyword**.
-
-**Key Features**
-
-* Promotes **code reusability**
-* Supports **method overriding (runtime polymorphism)**
-* Establishes an **IS-A relationship**
-* Reduces **code duplication**
-* Improves **maintainability and scalability**
-* To avoid **repeated code writing**
-* To support **OOP principles like polymorphism**
-
-**How it works**
-A **child class inherits fields and methods of a parent class**, and can also **extend or override behavior**.
-
-
-**When to use**
-
-* When there is a clear **IS-A relationship (Dog IS-A Animal)**
-* When multiple classes share **common behavior or properties**
-
-**Code Example**
-
-```java id="1i6tx1"
-class Animal {
-    void eat() {
-        System.out.println("Animal is eating");
-    }
-}
-
-class Dog extends Animal {
-    void bark() {
-        System.out.println("Dog is barking");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Dog d = new Dog();
-        d.eat();  // inherited method
-        d.bark(); // child method
     }
 }
 ```
