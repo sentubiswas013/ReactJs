@@ -1844,26 +1844,6 @@ After resizing, the entries are redistributed across the new buckets.
 During **rehashing**, **HashMap** creates a **larger bucket array** (usually **double** the capacity), recalculates the bucket index for every entry, and moves all entries into their new buckets. This reduces **collisions** and maintains good performance.
 
 
-## 20. **What is the difference between HashMap and Hashtable?**
-
-| **Feature**       | **HashMap**                           | **Hashtable**                         |
-| ----------------- | ------------------------------------- | ------------------------------------- |
-| **Thread Safety** | **Not synchronized**                  | **Synchronized**                      |
-| **Performance**   | **Faster**                            | **Slower** because of synchronization |
-| **Null Keys**     | **One null key** allowed              | **Not allowed**                       |
-| **Null Values**   | **Multiple null values** allowed      | **Not allowed**                       |
-| **Introduced**    | Part of the **Collections Framework** | Legacy class from early Java          |
-
-**Example**
-
-```java id="v0f7pd"
-Map<Integer, String> hashMap = new HashMap<>();
-hashMap.put(null, "Java");     // Allowed
-
-Map<Integer, String> hashtable = new Hashtable<>();
-// hashtable.put(null, "Java"); // Throws NullPointerException
-```
-
 
 ## 20. **How does HashMap work in a multi-threaded environment?**
 
