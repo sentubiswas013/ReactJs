@@ -2365,82 +2365,6 @@ public class Main {
 ```
 
 
-## 8. Difference between runtime vs compile-time class loading? 
-
-**Compile-time class loading** happens when classes are loaded during **program compilation and startup preparation**
-
-**Runtime class loading** happens when classes are loaded **dynamically during program execution**.
-
-
-**Compile-time Class Loading**
-
-**Key Features**
-
-* Classes are loaded at **startup or early JVM phase**
-* Done using **static linking by JVM**
-* All required classes must be **available before execution**
-* No dynamic behavior
-
-**How it works**
-JVM loads required classes during **program start**, before execution begins, using **ClassLoader chain automatically**.
-
-**Why / When to use**
-
-* When all dependencies are **known in advance**
-* For **simple applications** with static structure
-* Faster and predictable loading
-
-
-**Runtime Class Loading**
-
-**Key Features**
-
-* Classes are loaded **during execution**
-* Uses methods like **Class.forName() or custom ClassLoader**
-* Supports **dynamic behavior and plugins**
-* More flexible but slightly slower
-
-**How it works**
-JVM loads class **only when it is first referenced or explicitly requested** during execution.
-
-**Why / When to use**
-
-* When classes are **not known at compile time**
-* In frameworks like **Spring, JDBC drivers, plugin systems**
-* For **dynamic module loading**
-
-
-**Difference Table**
-
-| **Compile-time Loading**        | **Runtime Loading**                      |
-| ------------------------------- | ---------------------------------------- |
-| Happens before execution starts | Happens during execution                 |
-| Static and fixed                | Dynamic and flexible                     |
-| All classes must be known       | Classes can be unknown initially         |
-| Faster startup                  | Slightly slower due to on-demand loading |
-| No late binding                 | Supports late binding                    |
-
-
-**Code Example**
-
-```java id="1i6tx1"
-class Demo {
-    static {
-        System.out.println("Class Loaded");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-
-        // Runtime class loading
-        Class.forName("Demo");
-
-        System.out.println("Main executed");
-    }
-}
-```
-
 
 ## 9. How do you load a class dynamically in Java? 
 
@@ -2468,8 +2392,8 @@ Class.forName("com.mysql.cj.jdbc.Driver");
 ```
 This loads the MySQL driver at runtime.
 
-## 10. What happens internally when you create an object using new? 
 
+## 10. What happens internally when you create an object using new? 
 
 When we create an object using the `new` keyword, JVM first checks whether the class is loaded. If not, it loads the class into memory. Then it allocates memory in the Heap, initializes instance variables with default values, executes the constructor, and finally returns the object reference.
 
