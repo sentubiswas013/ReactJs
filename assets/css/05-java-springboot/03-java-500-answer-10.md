@@ -2504,8 +2504,9 @@ A **constructor** in Java is a special method used to **initialize objects** whe
 
 **constructor two Types:**
 
-* Default
-* Parameterized
+* Default : A default constructor is a no-argument constructor. If you do not write any constructor, the Java compiler automatically provides one.
+
+* Parameterized: A parameterized constructor accepts arguments to initialize an object with specific values.
 
 **Key Features**
 
@@ -2524,70 +2525,45 @@ When we create an object using `new`, Java automatically calls the **constructor
 * When an object needs **initial values at creation time**
 * When we want to **prepare object state automatically**
 
-**Code Example**
+**Default Constructor**
 
 ```java
-class Student {
+class Employee {
+    Employee() {
+        System.out.println("Default Constructor");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee e = new Employee();
+    }
+}
+```
+
+
+**Parameterized Constructor**
+
+```java
+class Employee {
     String name;
     int age;
 
-    // Constructor
-    Student(String name, int age) {
+    Employee(String name, int age) {
         this.name = name;
         this.age = age;
     }
-
-    void display() {
-        System.out.println(name + " " + age);
-    }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Student s1 = new Student("Rahul", 22);
-        s1.display();
+        Employee e = new Employee("John", 30);
+
+        System.out.println(e.name); // John
+        System.out.println(e.age);  // 30
     }
 }
 ```
-
-## 12. What is default constructor?
-
-A **default constructor** is a constructor that is provided by the **Java compiler automatically** if no constructor is defined in the class. It initializes the object with **default values**.
-
-**Key Features**
-
-* Created **automatically by compiler** if no constructor exists
-* Has **no parameters**
-* Initializes variables with **default values (0, null, false)**
-* Can be **explicitly defined by developer**
-* Always has the **same name as the class**
-
-**How it works**
-
-When an object is created and no constructor is written, Java inserts a **default constructor internally** and assigns **default values** to instance variables.
-
-
-**Code Example**
-
-```java id="1i6tx1"
-class Student {
-    String name;
-    int age;
-
-    // No constructor defined → compiler adds default constructor
-    void display() {
-        System.out.println(name + " " + age);
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Student s1 = new Student(); // default constructor called
-        s1.display(); // null 0
-    }
-}
-```
-
 
 ## 5. What is the static keyword?
 
