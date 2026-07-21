@@ -3804,6 +3804,43 @@ class Child extends Parent {
 ```
 
 
+## 24. What is access modifier and Can we change it while overriding?
+
+
+**Access Modifiers** control the **visibility** and **accessibility** of **classes, methods, variables, and constructors**.
+
+
+| **Modifier**              | **Same Class** | **Same Package** | **Subclass (Different Package)** | **Different Package** |
+| ------------------------- | -------------- | ---------------- | -------------------------------- | --------------------- |
+| **private**               | ✅              | ❌                | ❌                                | ❌                     |
+| **default (no modifier)** | ✅              | ✅                | ❌                                | ❌                     |
+| **protected**             | ✅              | ✅                | ✅                                | ❌                     |
+| **public**                | ✅              | ✅                | ✅                                | ✅                     |
+
+
+**Yes, but only to increase visibility** (make it more accessible). You cannot reduce the access level.
+
+| Parent Modifier | Allowed in Child |
+|----------------|-----------------|
+| `private` | Cannot override |
+| `default` | `default`, `protected`, `public` |
+| `protected` | `protected`, `public` |
+| `public` | `public` only |
+
+```java
+class Parent {
+    protected void show() { }
+}
+
+class Child extends Parent {
+    @Override
+    public void show() { }    // ✅ widened from protected to public
+
+    // private void show() { }  // ❌ narrowed — compile error
+}
+```
+
+
 ## 17. What is covariant return type?
 
 Child class can return a more specific type than parent method.
@@ -3925,43 +3962,6 @@ class A {
 
 class B extends A {
     // void show() {} ❌ not overriding, new method
-}
-```
-
-
-## 24. What is access modifier and Can we change it while overriding?
-
-
-**Access Modifiers** control the **visibility** and **accessibility** of **classes, methods, variables, and constructors**.
-
-
-| **Modifier**              | **Same Class** | **Same Package** | **Subclass (Different Package)** | **Different Package** |
-| ------------------------- | -------------- | ---------------- | -------------------------------- | --------------------- |
-| **private**               | ✅              | ❌                | ❌                                | ❌                     |
-| **default (no modifier)** | ✅              | ✅                | ❌                                | ❌                     |
-| **protected**             | ✅              | ✅                | ✅                                | ❌                     |
-| **public**                | ✅              | ✅                | ✅                                | ✅                     |
-
-
-**Yes, but only to increase visibility** (make it more accessible). You cannot reduce the access level.
-
-| Parent Modifier | Allowed in Child |
-|----------------|-----------------|
-| `private` | Cannot override |
-| `default` | `default`, `protected`, `public` |
-| `protected` | `protected`, `public` |
-| `public` | `public` only |
-
-```java
-class Parent {
-    protected void show() { }
-}
-
-class Child extends Parent {
-    @Override
-    public void show() { }    // ✅ widened from protected to public
-
-    // private void show() { }  // ❌ narrowed — compile error
 }
 ```
 
@@ -5304,11 +5304,10 @@ list.add("Java");
 
 List<String> copy = List.copyOf(list);
 ```
-
 Changes to `list` do **not** affect `copy`.
 
 
-## 1. **When Do You Need to Make a Defensive Copy?**
+**When Do You Need to Make a Defensive Copy**
 
 Create a **defensive copy** whenever your class contains **mutable objects**.
 
