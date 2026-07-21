@@ -839,6 +839,88 @@ int x = 10;        // primitive - stores value 10
 String name = "John"; // reference - stores address to "John" object
 ```
 
+## 14. What is `var` keyword in Java(10)?
+
+**var** is a feature introduced in **Java 10** that allows **Local Variable Type Inference**, meaning the compiler automatically determines the variable's type from the assigned value.
+
+**Key Features**
+
+* **Reduces boilerplate code**.
+* Type is inferred at **compile time**.
+* Works only with **local variables**.
+* Improves code readability when the type is obvious.
+* Still maintains **strong typing**.
+
+**How It Works**
+
+The compiler looks at the value assigned to the variable and automatically determines its type.
+
+```java
+var name = "John";    // String
+var age = 25;         // int
+var salary = 5000.50; // double
+```
+
+The compiler internally treats them as:
+
+```java
+String name = "John";
+int age = 25;
+double salary = 5000.50;
+```
+
+**Why Use**
+
+* Makes code shorter and cleaner.
+* Useful when the type is long or obvious.
+* Improves readability in loops and collections.
+
+**When to Use**
+
+* Local variables inside methods.
+* Loop variables.
+* Collection and Stream operations.
+* When the variable type is clear from the assignment.
+
+**Code Example**
+
+```java
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args) {
+
+        var name = "Java";
+        var version = 21;
+
+        List<String> languages =
+                List.of("Java", "Python");
+
+        for (var language : languages) {
+            System.out.println(language);
+        }
+    }
+}
+```
+
+**Limitations**
+
+**var** cannot be used for:
+
+* Instance variables.
+* Static variables.
+* Method parameters.
+* Method return types.
+* Variables without initialization.
+
+```java
+var x;        // Compilation Error
+
+class Test {
+    var name = "John"; // Compilation Error
+}
+```
+
 ## 3. What is autoboxing and unboxing and Casting?
 
 **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
@@ -1169,90 +1251,8 @@ System.out.println(condition.test(9));  // false
 
 
 
-## 14. What is `var` keyword in Java(10)?
 
-**var** is a feature introduced in **Java 10** that allows **Local Variable Type Inference**, meaning the compiler automatically determines the variable's type from the assigned value.
-
-**Key Features**
-
-* **Reduces boilerplate code**.
-* Type is inferred at **compile time**.
-* Works only with **local variables**.
-* Improves code readability when the type is obvious.
-* Still maintains **strong typing**.
-
-**How It Works**
-
-The compiler looks at the value assigned to the variable and automatically determines its type.
-
-```java
-var name = "John";    // String
-var age = 25;         // int
-var salary = 5000.50; // double
-```
-
-The compiler internally treats them as:
-
-```java
-String name = "John";
-int age = 25;
-double salary = 5000.50;
-```
-
-**Why Use**
-
-* Makes code shorter and cleaner.
-* Useful when the type is long or obvious.
-* Improves readability in loops and collections.
-
-**When to Use**
-
-* Local variables inside methods.
-* Loop variables.
-* Collection and Stream operations.
-* When the variable type is clear from the assignment.
-
-**Code Example**
-
-```java
-import java.util.List;
-
-public class Demo {
-    public static void main(String[] args) {
-
-        var name = "Java";
-        var version = 21;
-
-        List<String> languages =
-                List.of("Java", "Python");
-
-        for (var language : languages) {
-            System.out.println(language);
-        }
-    }
-}
-```
-
-**Limitations**
-
-**var** cannot be used for:
-
-* Instance variables.
-* Static variables.
-* Method parameters.
-* Method return types.
-* Variables without initialization.
-
-```java
-var x;        // Compilation Error
-
-class Test {
-    var name = "John"; // Compilation Error
-}
-```
-
-
-# ✅ 03. HashMap / equals / hashCode
+# ✅ 03. Java HashMap/equals/hashCode
 
 ## 12. What are `equals()` and `hashCode()` in Java??
 
