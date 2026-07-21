@@ -590,17 +590,35 @@ public class Main {
 ```
 
 ## 8. How do you iterate through a collection in Java?
+
 ```java
 // Example using for-each loop:
 List<String> fruits = Arrays.asList("Apple", "Banana", "Orange");
 for (String fruit : fruits) {
    System.out.println(fruit);
 }
+
 // Example using regular for loop:
 for (int i = 0; i < fruits.size(); i++) {
    System.out.println(fruits.get(i));
 }
+
+
+Map<String, Integer> map = new HashMap<>();
+map.put("Java", 1);
+map.put("Spring", 2);
+
+// Example using forEach
+map.forEach((key, value) -> {
+    System.out.println("key " + value);
+});
+
+// Example using for and Map.Entry
+for (Map.Entry<String, Integer> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + " -> " + entry.getValue());
+}
 ```
+
 
 ## 8.  Serialization and Deserialization in Java?
 
