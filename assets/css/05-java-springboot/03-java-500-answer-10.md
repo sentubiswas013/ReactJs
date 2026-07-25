@@ -4306,7 +4306,7 @@ class Bank {
 }
 ```
 
-## 2. What is a Functional Interface?
+## 3. What is a Functional Interface?
 
 A **Functional Interface** is an interface that contains **exactly one abstract method (SAM - Single Abstract Method)**. It was introduced in **Java 8** and is mainly used with **Lambda Expressions** and **Method References**.
 
@@ -4477,7 +4477,7 @@ abstract class Animal {
 Use an **Abstract Class** when related classes share **common state** and **implementation**. Use an **Interface** when multiple unrelated classes need to implement the same behavior.
 
 
-## 4. When should you use an interface instead of an abstract class?
+## 5. When should you use an interface instead of an abstract class?
 
 
 Both **Interface** and **Abstract Class** are used to achieve **Abstraction**, but they serve different purposes.
@@ -4538,7 +4538,7 @@ class Dog extends Animal {
 ```
 
 
-## 5. What are static methods in interfaces?
+## 6. What are static methods in interfaces?
 
 **Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
 They **belong to the interface itself and are called using the interface name**, not by implementing classes.
@@ -4560,7 +4560,7 @@ public class Test {
 
 
 
-## 6. Can we create object of interface or abstract class?
+## 7. Can we create object of interface or abstract class?
 
 No, we cannot create objects of interface or abstract class directly. But we can create objects using their implementing or child classes.
 
@@ -4568,7 +4568,7 @@ No, we cannot create objects of interface or abstract class directly. But we can
 Animal a = new Dog(); // valid
 ```
 
-## 7. Can an interface have methods with implementation? (Java 8+)
+## 8. Can an interface have methods with implementation? (Java 8+)
 Yes, from Java 8 onwards, interfaces can have methods with implementation using default and static keywords.
 
 ```java
@@ -4579,7 +4579,7 @@ interface Animal {
 }
 ```
 
-## 8. What are default and static methods in interface?
+## 9. What are default and static methods in interface?
 
 Default methods are instance methods with implementation that can be overridden. Static methods belong to the interface and cannot be overridden.
 
@@ -4605,7 +4605,7 @@ public class Test {
 }
 ```
 
-## 9. Can abstract class have constructor? Why?
+## 10. Can abstract class have constructor? Why?
 
 Yes, abstract class can have a constructor because it is used to initialize common properties when a subclass object is created.
 
@@ -4623,7 +4623,7 @@ class Dog extends Animal {
 }
 ```
 
-## 10. Can abstract class have both abstract and concrete methods?
+## 11. Can abstract class have both abstract and concrete methods?
 
 Yes, abstract class can have both abstract methods and concrete methods, which is why it provides partial abstraction.
 
@@ -4637,7 +4637,7 @@ abstract class Animal {
 }
 ```
 
-## 11. Can interface have variables? What type?
+## 12. Can interface have variables? What type?
 
 Yes, interface can have variables, but they are by default public, static, and final constants.
 
@@ -4647,11 +4647,11 @@ interface Animal {
 }
 ```
 
-## 12. When should we use interface vs abstract class?
+## 13. When should we use interface vs abstract class?
 
 Use interface when we need 100% abstraction and multiple inheritance. Use abstract class when we need partial abstraction with shared code.
 
-## 13. Can a class implement multiple interfaces?
+## 14. Can a class implement multiple interfaces?
 
 Yes, a class can implement multiple interfaces to achieve multiple inheritance.
 
@@ -4665,7 +4665,7 @@ class C implements A, B {
 }
 ```
 
-## 14. Can an abstract class implement an interface?
+## 15. Can an abstract class implement an interface?
 
 Yes, abstract class can implement interface and may or may not provide implementation.
 
@@ -4679,7 +4679,7 @@ abstract class B implements A {
 }
 ```
 
-## 15. Can an interface extend another interface?
+## 16. Can an interface extend another interface?
 
 Yes, interface can extend one or more interfaces.
 
@@ -4694,7 +4694,7 @@ interface B extends A {
 ```
 
 
-## 16. Can an interface extend a class? (Tricky)
+## 17. Can an interface extend a class? (Tricky)
 
 **No.** An interface cannot extend a class. An interface can only extend another **interface**. A class uses `implements` for interfaces and `extends` for classes.
 
@@ -4707,7 +4707,7 @@ interface B extends A { void methodB(); }       // ✅ interface extends interfa
 ```
 
 
-## 17. Can a class extend multiple abstract classes?
+## 18. Can a class extend multiple abstract classes?
 
 **No.** Java does not support multiple class inheritance — a class can only `extend` **one** class (abstract or concrete). Use interfaces for multiple inheritance of behavior.
 
@@ -4726,7 +4726,7 @@ class C implements IA, IB {   // ✅ multiple interfaces allowed
 ```
 
 
-## 18. Can interface have constructor?
+## 19. Can interface have constructor?
 
 **No.** Interfaces cannot have constructors because they cannot be instantiated. There is no object state to initialize. Only the implementing class is instantiated.
 
@@ -4738,7 +4738,7 @@ interface Vehicle {
 ```
 
 
-## 19. Can abstract class have constructor?
+## 20. Can abstract class have constructor?
 
 **Yes.** Abstract classes can have constructors. They are invoked when a subclass object is created via `super()`. Used to initialize common fields.
 
@@ -4764,7 +4764,7 @@ class Developer extends Employee {
 ```
 
 
-## 20. Can interface have private methods?
+## 21. Can interface have private methods?
 
 **Yes**, from **Java 9** onwards. Private methods in interfaces are used as **helper methods** for `default` or `static` methods to avoid code duplication. They cannot be accessed by implementing classes.
 
@@ -4780,7 +4780,7 @@ interface Logger {
 ```
 
 
-## 21. Can we override static methods in interface?
+## 22. Can we override static methods in interface?
 
 **No.** Static methods in interfaces belong to the interface itself and **cannot be overridden** by implementing classes. If a class defines a method with the same name, it is a completely separate method — not an override.
 
@@ -4802,7 +4802,7 @@ MyPrinter.print();      // Class print
 ```
 
 
-## 22. What if two interfaces have same default method?
+## 23. What if two interfaces have same default method?
 
 Java gives a **compile-time error**. The implementing class **must override** the conflicting method. It can then choose which interface's default to call using `InterfaceName.super.method()`.
 
@@ -4821,7 +4821,7 @@ new C().greet();   // Hello from A
 ```
 
 
-## 23. Can abstract class be final?
+## 24. Can abstract class be final?
 
 **No.** `abstract` requires the class to be subclassed (to implement abstract methods), while `final` prevents subclassing. They directly contradict each other — Java gives a compile error.
 
@@ -4830,7 +4830,7 @@ new C().greet();   // Hello from A
 ```
 
 
-## 24. Can interface have main method?
+## 25. Can interface have main method?
 
 **Yes**, from **Java 8** onwards. Since interfaces can have `static` methods, they can have a `main` method. The JVM can execute it directly.
 
@@ -4844,7 +4844,7 @@ interface App {
 ```
 
 
-## 25. Can we use both interface and abstract class together?
+## 26. Can we use both interface and abstract class together?
 
 **Yes.** This is a very common pattern. An abstract class implements an interface partially, and concrete subclasses complete the implementation.
 
@@ -4875,7 +4875,7 @@ r.export();     // Exporting to PDF...
 ```
 
 
-## 26. What access modifiers are allowed in interface?
+## 27. What access modifiers are allowed in interface?
 
 **Access Modifiers** are keywords that define the **visibility** and **access level** of **Classes**, **Methods**, **Variables**, and **Constructors**.
 
@@ -4912,7 +4912,7 @@ interface Demo {
 ```
 
 
-## 27. Can we instantiate interface using lambda?
+## 28. Can we instantiate interface using lambda?
 
 **Yes**, but only for **functional interfaces** (interfaces with exactly one abstract method). A lambda expression provides the implementation of that single abstract method inline.
 
@@ -4933,7 +4933,7 @@ r.run();
 
 
 
-## 9. What is `.class` and When do we use in Java?
+## 29. What is `.class` and When do we use in Java?
 
 We use .class when we need to pass class metadata, for example in Spring configuration, exception handling, reflection, and getting beans from the Spring container.
 
@@ -4990,28 +4990,8 @@ Student.class   // Class info
 new Student()   // Object
 ```
 
-## 10.  Summary Java Interface & Abstract Class
-
-**🔹 Interface**
-
-* **Interface:** A contract that defines methods a class must implement.
-* **Methods:** By default abstract (Java 8+ supports default & static methods).
-* **implements keyword:** Used to implement an interface.
-* **Multiple Inheritance:** Supported via interfaces.
-* **No Constructors:** Interfaces cannot have constructors.
-* **Variables:** By default `public static final` (constants).
-
-**🔹 Abstract Class**
-
-* **Abstract Class:** A class that can have both abstract and concrete methods.
-* **abstract keyword:** Used to declare abstract class/method.
-* **Constructor:** Allowed and used for initialization.
-* **Single Inheritance:** A class can extend only one abstract class.
-* **Partial Abstraction:** Supports both implemented and unimplemented methods.
-
 
 # ✅ 06. Java Immutability 
-
 
 ## 1. **What is an Immutable class (Unchangeable) Object?**
 
@@ -5084,7 +5064,7 @@ Employee emp = new Employee(101, "John");
 
 
 
-## 1. **Why Must an Immutable Class Be `final`?**
+## 2. **Why Must an Immutable Class Be `final`?**
 
 An immutable class should be **final** so that **no subclass can change its behavior or state**.
 
@@ -5116,7 +5096,7 @@ class Manager extends Employee {
 The subclass changes the behavior, so the original class is no longer truly immutable.
 
 
-## 1. **Why is the String Class Immutable?**
+## 3. **Why is the String Class Immutable?**
 
 **String** is immutable for **performance, security, and thread safety**.
 
@@ -5140,7 +5120,7 @@ System.out.println(s); // Java
 
 
 
-## 1. **What are the Consequences of String Immutability?**
+## 4. **What are the Consequences of String Immutability?**
 
 Because **String** is **immutable**, once created its value **cannot be changed**.
 
@@ -5260,7 +5240,7 @@ Here, **defensive copies** prevent external modification.
 
 
 
-## 1. **What to Do if a Class Field References a Mutable Object?**
+## 5. **What to Do if a Class Field References a Mutable Object?**
 
 If a field references a **mutable object** (like `List`, `Date`, or an array), do **not** expose the original object.
 
@@ -5289,7 +5269,7 @@ public final class Employee {
 This prevents external code from modifying the object's state.
 
 
-## 1. **What is a Defensive Copy?**
+## 6. **What is a Defensive Copy?**
 
 A **defensive copy** is a **new copy** of a mutable object created to protect the original object from modification.
 
@@ -5357,7 +5337,7 @@ This returns a **new immutable copy**, keeping the original collection safe.
 
 
 
-## 1. **What is `Collections.unmodifiableList()` and How Does It Work?**
+## 7. **What is `Collections.unmodifiableList()` and How Does It Work?**
 
 **`Collections.unmodifiableList()`** returns a **read-only view** of a list.
 
@@ -5383,7 +5363,7 @@ System.out.println(readOnly); // [Java, Spring]
 
 
 
-## 19. What is the Difference Between Shallow Copy and Deep Copy in Java?
+## 8. What is the Difference Between Shallow Copy and Deep Copy in Java?
 
 
 **Shallow Copy** creates a new object, but the **nested objects are shared** between the original and copied object.
@@ -5504,7 +5484,7 @@ System.out.println(emp3.address.city); // Delhi
 
 
 
-## 1. **What Happens if You Override a Getter in a Subclass of an Immutable Class?**
+## 9. **What Happens if You Override a Getter in a Subclass of an Immutable Class?**
 
 If an immutable class is **not `final`**, a subclass can **override getters** and return different or mutable values, breaking **immutability**.
 
@@ -5549,7 +5529,7 @@ Both variables point to the **same object**.
 This is safe only because **String is immutable**. If Strings could change, modifying one reference would affect all others sharing the same object.
 
 
-## 1. **Can You Change a String Value via Reflection?**
+## 10. **Can You Change a String Value via Reflection?**
 
 **Technically yes (in older Java versions), but it is strongly discouraged.**
 
@@ -5568,7 +5548,7 @@ String s = "Hello";
 Reflection can break Java's assumptions and lead to **unexpected behavior**.
 
 
-## 1. **What is Record and How Does It Help Create Immutable Classes?**
+## 11. **What is Record and How Does It Help Create Immutable Classes?**
 
 A **Record** is a special Java class (introduced in **Java 16**) designed to hold **immutable data**.
 
@@ -5598,7 +5578,7 @@ Records greatly reduce boilerplate and make creating **immutable data classes** 
 
 
 
-## 1. **Why are `LocalDate` and `LocalDateTime` Immutable?**
+## 12. **Why are `LocalDate` and `LocalDateTime` Immutable?**
 
 `**LocalDate**` and `**LocalDateTime**` are **immutable** because date and time values should **never change** after creation.
 
@@ -5668,7 +5648,7 @@ Each concatenation creates a **new String**.
 
 
 
-## 1. **What are Persistent Data Structures?**
+## 13. **What are Persistent Data Structures?**
 
 **Persistent data structures** are **immutable data structures** where every update creates a **new version**, while **sharing unchanged data** with the old version.
 
@@ -5689,7 +5669,7 @@ Persistent data structures are commonly used in **functional programming** becau
 
 
 
-## 1. **Are There Any Disadvantages to Immutable Objects?**
+## 14. **Are There Any Disadvantages to Immutable Objects?**
 
 Yes. Although **immutable objects** have many benefits, they also have some drawbacks.
 
@@ -5759,7 +5739,7 @@ Employee emp = new Employee.Builder()
 ```
 
 
-## 1. **Can You Use Immutable Objects as Keys in HashMap?**
+## 15. **Can You Use Immutable Objects as Keys in HashMap?**
 
 **Yes.** In fact, **immutable objects are the best choice** for **HashMap** keys.
 
@@ -5778,7 +5758,7 @@ System.out.println(map.get("Java")); // 1
 `String` is an ideal key because it is **immutable**.
 
 
-## 1. **What Happens if You Change a Mutable Key in HashMap?**
+## 16. **What Happens if You Change a Mutable Key in HashMap?**
 
 If a **mutable key** changes after being added to a **HashMap**, its **hashCode()** may also change.
 
@@ -5830,10 +5810,9 @@ This prevents external code from modifying the collection.
 
 
 
-
 # ✅ 06. Java String 
 
-## 4. What is the difference between == and equals() method?
+## 1. What is the difference between == and equals() method?
 
 **`==` operator:**
 The `==` operator is used to compare **references** of two objects. It checks whether both variables point to the **same memory location**. For primitive data types, it compares the **actual values**.
@@ -5858,7 +5837,7 @@ int a = 5, b = 5;
 System.out.println(a == b); // true, values are equal
 ```
 
-## 5. What is the difference between String, StringBuilder, and StringBuffer?
+## 2. What is the difference between String, StringBuilder, and StringBuffer?
 
 All three are used to handle **text (sequence of characters)** in Java, but they differ in **mutability**, **performance**, and **thread safety**.
 
@@ -5935,7 +5914,7 @@ System.out.println(builder);
 
 
 
-## 8. What is string pooling in java?
+## 3. What is string pooling in java?
 
 **String Pooling** is a Java memory optimization technique where **string literals are stored in a special memory area called the String Pool**. If the same string value already exists in the pool, Java reuses the existing object instead of creating a new one.
 
@@ -6030,7 +6009,7 @@ Because the **`new`** keyword always creates a **new object** in the Heap, even 
 
 
 
-## 1. **How does the String Pool work?**
+## 4. **How does the String Pool work?**
 
 The **String Pool** (also called the **String Constant Pool**) is a special area in the **Heap** where Java stores **String literals**. If the same literal already exists in the pool, Java reuses the existing object instead of creating a new one.
 
@@ -6057,9 +6036,8 @@ Only **one** `"Hello"` object is created, and both `s1` and `s2` reference it.
 * **Improves performance**
 * **Avoids duplicate String objects**
 
----
 
-## 1. **What is the difference between creating a String via literal and via `new`?**
+## 5. **What is the difference between creating a String via literal and via `new`?**
 
 | **String Literal**                  | **new String()**                     |
 | ----------------------------------- | ------------------------------------ |
@@ -6080,9 +6058,8 @@ System.out.println(s1 == s3); // false
 System.out.println(s1.equals(s3)); // true
 ```
 
----
 
-## 1. **When should you use `intern()`?**
+## 6. **When should you use `intern()`?**
 
 The **`intern()`** method returns the reference to the String from the **String Pool**. If the String is not already in the pool, it is added.
 
@@ -6109,8 +6086,7 @@ System.out.println(s1 == s3); // false
 ```
 
 
-
-## 1. **Why is String immutable?**
+## 7. **Why is String immutable?**
 
 A **String is immutable**, meaning its value **cannot be changed** after it is created. Any modification creates a **new String object**.
 
@@ -6134,7 +6110,7 @@ The original `"Java"` object remains unchanged.
 * **Reliability** – Once created, the value remains consistent throughout the program.
 
 
-## 1. **When to use `StringBuilder` vs `StringBuffer`?**
+## 8. **When to use `StringBuilder` vs `StringBuffer`?**
 
 Both **`StringBuilder`** and **`StringBuffer`** are mutable classes used to modify strings efficiently.
 
@@ -6167,7 +6143,7 @@ System.out.println(sb); // Java 21
 
 
 
-## 1. **Why is `StringBuffer` slower than `StringBuilder`?**
+## 9. **Why is `StringBuffer` slower than `StringBuilder`?**
 
 `StringBuffer` is slower because all its methods are **synchronized**, which ensures that only one thread can access them at a time.
 
@@ -6185,7 +6161,7 @@ builder.append("Hello"); // not synchronized
 * Reduces performance when thread safety isn't needed.
 
 
-## 1. **What happens when concatenating strings via the `+` operator?**
+## 10. **What happens when concatenating strings via the `+` operator?**
 
 The `+` operator creates a **new String** because **String is immutable**.
 
@@ -6233,7 +6209,7 @@ String result = sb.toString();
 ```
 
 
-## 1. **How does the Java compiler optimize string concatenation?**
+## 11. **How does the Java compiler optimize string concatenation?**
 
 The Java compiler automatically converts most `+` concatenations into **`StringBuilder`** operations.
 
@@ -6272,7 +6248,7 @@ No `StringBuilder` is created.
 
 
 
-## 1. **Can you use `==` to compare Strings?**
+## 12. **Can you use `==` to compare Strings?**
 
 Yes, but **only if you want to compare object references**, not the actual String content.
 
@@ -6291,7 +6267,7 @@ System.out.println(s1 == s3); // false
 ```
 
 
-## 1. **What is the difference between `==` and `equals()` for String?**
+## 13. **What is the difference between `==` and `equals()` for String?**
 
 | **`==`**                                           | **`equals()`**                                     |
 | -------------------------------------------------- | -------------------------------------------------- |
@@ -6310,7 +6286,7 @@ System.out.println(s1.equals(s2)); // true
 ```
 
 
-## 1. **Where is the String Pool stored (in which memory area)?**
+## 14. **Where is the String Pool stored (in which memory area)?**
 
 The **String Pool** is stored in the **Heap memory**.
 
@@ -6322,7 +6298,7 @@ The **String Pool** is stored in the **Heap memory**.
 
 
 
-## 1. **Can String Pool cause `OutOfMemoryError`?**
+## 15. **Can String Pool cause `OutOfMemoryError`?**
 
 Yes.
 
@@ -6347,7 +6323,7 @@ This continuously adds unique Strings to the String Pool until the heap is full.
 * Increase the heap size if appropriate using **`-Xmx`**.
 
 
-## 1. **What does the `substring()` method do and how did it work before Java 7?**
+## 16. **What does the `substring()` method do and how did it work before Java 7?**
 
 The **`substring()`** method returns a **part of a String**.
 
@@ -6390,9 +6366,8 @@ Both `large` and `small` pointed to the same `char[]`.
 
 * A small substring could keep a very large original `char[]` in memory.
 
----
 
-## 1. **Why was the `substring()` implementation changed in Java 7?**
+## 17. **Why was the `substring()` implementation changed in Java 7?**
 
 Starting with **Java 7**, `substring()` creates a **new character array** for the substring instead of sharing the original one.
 
@@ -6419,7 +6394,7 @@ Even if `large` was no longer used, the entire **100 MB** character array stayed
 * **Java 7+:** Copies characters into a new `char[]`
 
 
-## 1. **How does the `split()` method work?**
+## 18. **How does the `split()` method work?**
 
 The **`split()`** method divides a String into an array using a **regular expression (regex)** as the delimiter.
 
@@ -6460,7 +6435,7 @@ String[] arr = s.split("\\s+");
 This splits on one or more whitespace characters.
 
 
-## 1. **What is the difference between `replace()` vs `replaceAll()`?**
+## 19. **What is the difference between `replace()` vs `replaceAll()`?**
 
 | **`replace()`**                     | **`replaceAll()`**                                   |
 | ----------------------------------- | ---------------------------------------------------- |
@@ -6499,7 +6474,7 @@ JavaSpring
 Here, `\\d+` is a regex that matches one or more digits.
 
 
-## 1. **What is String encoding?**
+## 20. **What is String encoding?**
 
 **String encoding** is the process of converting characters into **bytes** using a specific **character set (charset)**.
 
@@ -6521,7 +6496,7 @@ byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
 Different encodings produce different byte sequences.
 
 
-## 1. **How to properly convert a String to `byte[]` and back?**
+## 21. **How to properly convert a String to `byte[]` and back?**
 
 Use the **same charset** for both encoding and decoding.
 
@@ -6556,7 +6531,7 @@ This may produce incorrect characters.
 
 
 
-## 1. **What are Compact Strings in Java 9+?**
+## 22. **What are Compact Strings in Java 9+?**
 
 **Compact Strings** are a JVM optimization introduced in **Java 9** to reduce memory usage.
 
@@ -6587,7 +6562,7 @@ String s2 = "你好";    // Stored as UTF16 (2 bytes/char)
 * **No API changes**—completely transparent to developers.
 
 
-## 1. **How to find out how much memory a String occupies?**
+## 23. **How to find out how much memory a String occupies?**
 
 There is **no built-in Java API** that returns the exact memory used by a `String`.
 
@@ -6621,7 +6596,7 @@ This returns the shallow size of the `String` object, not the memory of referenc
 * **YourKit**
 
 
-## 1. **Can you change the content of a String via reflection?**
+## 24. **Can you change the content of a String via reflection?**
 
 **Normally, no.** `String` is designed to be **immutable**, and modern Java strongly protects its internal state.
 
@@ -6641,7 +6616,7 @@ This could change the contents of a `String`, breaking immutability and potentia
 Java introduced **stronger encapsulation** (module system), and `String` now stores its data in a **`byte[]`** instead of `char[]` (Compact Strings). Accessing or modifying internal fields via reflection is much more restricted and may throw an exception unless special JVM options (such as `--add-opens`) are used.
 
 
-## 1. **What is String deduplication in G1 GC?**
+## 25. **What is String deduplication in G1 GC?**
 
 **String Deduplication** is a feature of the **G1 Garbage Collector** introduced in **Java 8 Update 20**.
 
@@ -6678,7 +6653,7 @@ With G1 String Deduplication:
 ```
 
 
-## 1. **Why does String implement `Comparable` and `CharSequence`?**
+## 26. **Why does String implement `Comparable` and `CharSequence`?**
 
 **1. `Comparable<String>`**
 
@@ -6735,8 +6710,6 @@ Both calls work because both classes implement `CharSequence`.
 * `charAt()`
 * `subSequence()`
 * `toString()`
-
-
 
 
 
@@ -6982,7 +6955,7 @@ class InsufficientBalanceException extends RuntimeException {
 ```
 
 
-## 8. How do you Handle Global Exception?
+## 7. How do you Handle Global Exception?
 
 In Spring Boot, we handle exceptions using `@RestControllerAdvice` for global exception handling and `@ExceptionHandler` to catch specific exceptions. When an exception occurs in the controller, it is handled in one central place instead of writing try-catch everywhere.
 
@@ -7071,7 +7044,7 @@ public class GlobalExceptionHandler {
 }
 ```
 
-## 9. Difference between ClassNotFoundException vs NoClassDefFoundError?
+## 8. Difference between ClassNotFoundException vs NoClassDefFoundError?
 
 
 `ClassNotFoundException` occurs when JVM tries to load a class dynamically using `Class.forName()`, but the class is not found in the classpath.
@@ -7105,7 +7078,7 @@ NoClassDefFoundError
 ```
 
 
-## 10. What happens if a class is missing in a JAR during deployment?
+## 9. What happens if a class is missing in a JAR during deployment?
 
 If a class is available during compilation but missing in the deployed JAR, the application will fail at runtime with a `NoClassDefFoundError`.
 
@@ -7132,7 +7105,7 @@ com/company/Employee
 * Classpath configuration issue
 
 
-## 11. What is the difference between final, finally, and finalize?
+## 10. What is the difference between final, finally, and finalize?
 
 
 Although they sound similar, **`final`**, **`finally`**, and **`finalize()`** are completely different concepts in Java.
@@ -7258,7 +7231,7 @@ Use **`try-with-resources`** with classes implementing **`AutoCloseable`** or **
 
 
 
-## 0. **What is exception wrapping?**
+## 11. **What is exception wrapping?**
 
 **Exception wrapping** is the practice of **catching one exception and throwing another**, while preserving the **original exception** as the **cause**.
 
@@ -7307,7 +7280,7 @@ try {
 
 
 
-## 0. **Why shouldn't you swallow exceptions (empty `catch`)?**
+## 12. **Why shouldn't you swallow exceptions (empty `catch`)?**
 
 **Swallowing an exception** means catching it but **doing nothing** with it, such as using an **empty `catch` block**. This is considered a **bad practice** because it hides errors and makes debugging difficult.
 
@@ -7348,7 +7321,7 @@ try {
 
 
 
-## 0. **Can you throw a checked exception from a method without `throws`?**
+## 13. **Can you throw a checked exception from a method without `throws`?**
 
 **No.** A method **cannot throw a checked exception** unless it either:
 
@@ -7403,7 +7376,7 @@ public void validate(int age) {
 
 
 
-## 0. **What happens if an exception also occurs in the `finally` block?**
+## 14. **What happens if an exception also occurs in the `finally` block?**
 
 If an exception is thrown in the **`finally`** block, it **overrides** any exception thrown in the `try` or `catch` block.
 
@@ -7462,7 +7435,7 @@ exception.getSuppressed();
 
 
 
-## 0. **What are suppressed exceptions?**
+## 15. **What are suppressed exceptions?**
 
 **Suppressed exceptions** are exceptions that occur during **resource cleanup** (such as in `close()`) when another exception has already been thrown in the `try` block.
 
@@ -7520,7 +7493,7 @@ Suppressed: Exception while closing
 
 
 
-## 0. **Can you have multiple `catch` blocks for a single `try`?**
+## 16. **Can you have multiple `catch` blocks for a single `try`?**
 
 **Yes.** A single **`try`** block can have **multiple `catch` blocks** to handle **different types of exceptions**.
 
@@ -7568,7 +7541,7 @@ try {
 
 
 
-## 0. **What is multi-catch?**
+## 17. **What is multi-catch?**
 
 **Multi-catch** is a Java feature (introduced in **Java 7**) that allows **one `catch` block to handle multiple exception types**.
 
@@ -7617,7 +7590,7 @@ This is invalid because **`IOException`** is a subclass of **`Exception`**.
 
 
 
-## 0. **In what order should you arrange `catch` blocks?**
+## 18. **In what order should you arrange `catch` blocks?**
 
 `catch` blocks should be arranged from **most specific** exception to **most general** exception.
 
@@ -7666,7 +7639,7 @@ try {
 
 
 
-## 0. **Can you re-throw an exception?**
+## 19. **Can you re-throw an exception?**
 
 **Yes.** You can **re-throw an exception** after catching it using the **`throw`** keyword.
 
@@ -7707,7 +7680,7 @@ try {
 4. Preserve the **original cause** for debugging.
 
 
-## 0. **What is exception chaining?**
+## 20. **What is exception chaining?**
 
 **Exception chaining** is the process of **linking one exception to another** by storing the **original exception as the cause** of a new exception.
 
@@ -7765,7 +7738,7 @@ public class Main {
 
 # ✅ 07. Java Collections Framework
 
-## 0. What is Java Collections?
+## 1. What is Java Collections?
 
 **Java Collections Framework (JCF)** is a set of **classes** and **interfaces** used to store, manage, and manipulate groups of objects dynamically.
 
@@ -7854,7 +7827,7 @@ LinkedList
 The **`Collection`** interface provides common operations such as **adding**, **removing**, **searching**, **iterating**, **checking size**, **clearing**, and **converting** collections, making it the **root interface** for most collection types in Java.
 
 
-## 0. Main Interfaces of the Collection Framework?
+## 2. Main Interfaces of the Collection Framework?
 
 The **Java Collection Framework** provides a set of **interfaces** for storing and manipulating groups of objects. Each interface is designed for a specific type of data structure.
 
@@ -7897,7 +7870,7 @@ public class Main {
 }
 ```
 
-## 1. Java Collections Use Cases?
+## 3. Java Collections Use Cases?
 
 | **Requirement**                         | **Best Collection**   | **Why?**                                                                | **Mostly Used In**                                                                    |
 | --------------------------------------- | --------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
@@ -7928,7 +7901,7 @@ public class Main {
 
 
 
-## 2. What is the difference between ArrayList and LinkedList?
+## 4. What is the difference between ArrayList and LinkedList?
 
 
 Both **`ArrayList`** and **`LinkedList`** are implementations of the **`List`** interface in the Java Collections Framework, but they use different internal data structures.
@@ -8019,7 +7992,7 @@ public class Demo {
   * No need to resize an internal array.
 
 
-## 3. What is the difference between HashMap and TreeMap?
+## 4. What is the difference between HashMap and TreeMap?
 
 
 Both **`HashMap`** and **`TreeMap`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ in how they store and organize data.
@@ -8112,7 +8085,7 @@ public class Demo {
   * Uses **natural ordering** or a custom **`Comparator`**.
 
 
-## 4. What is the difference between HashMap Hashtable?
+## 5. What is the difference between HashMap Hashtable?
 
 
 Both **`HashMap`** and **`Hashtable`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ mainly in **thread safety**, **performance**, and **handling of `null` values**.
@@ -8199,7 +8172,7 @@ public class Demo {
   * Considered a **legacy class**.
 
 
-## 5. How does HashMap work internally?
+## 6. How does HashMap work internally?
 
 
 A **`HashMap`** is a data structure in Java that stores data as **key-value pairs**. Internally, it uses a **hash table** to provide very fast **insertion**, **deletion**, and **lookup** operations.
@@ -8321,7 +8294,7 @@ public class Demo {
 
 
 
-## 5. Difference between HashSet, LinkedHashSet and TreeSet?
+## 7. Difference between HashSet, LinkedHashSet and TreeSet?
 
 All three implement the **`Set`** interface and store **unique elements**, but they differ in **ordering**, **performance**, and **implementation**.
 
@@ -8369,7 +8342,7 @@ public class Demo {
 * Use **`TreeSet`** when you need **automatically sorted** elements.
 
 
-## 6. What is TreeSet and how does it work internally
+## 8. What is TreeSet and how does it work internally
 
 
 **`TreeSet`** is a **Set** implementation that stores **unique elements** in **sorted order**. Internally, it uses a **Red-Black Tree**, which is a **self-balancing Binary Search Tree (BST)**.
@@ -8423,7 +8396,7 @@ The elements are automatically **sorted**, and the duplicate **`10`** is ignored
 * When you need operations like **`first()`**, **`last()`**, **`higher()`**, **`lower()`**, **`ceiling()`**, and **`floor()`**.
 
 
-## 6. What is hash collision and how is it handled?
+## 9. What is hash collision and how is it handled?
 
 A **Hash Collision** occurs when **two different keys generate the same hash code or map to the same bucket** in a **`HashMap`**.
 
@@ -8521,15 +8494,12 @@ In this example, both objects have the **same hash code**, causing a **hash coll
 * **Java 8+ = Linked List + Red-Black Tree**
 
 
-## 7. What is the difference between Comparable and Comparator?
-
-
+## 10. What is the difference between Comparable and Comparator?
 
 Both **`Comparable`** and **`Comparator`** are interfaces in Java used for **sorting objects**, but they differ in where and how the sorting logic is defined.
 
 * **`Comparable`** defines the **natural/default ordering** of an object.
 * **`Comparator`** defines a **custom ordering** and allows multiple sorting strategies.
-
 
 
 **Key Differences**
@@ -8660,12 +8630,9 @@ public interface Comparator<T> {
   * Uses **`compare()`** and works well with **lambda expressions**.
 
 
-
-## 8. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
+## 11. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
 **`WeakHashMap`**
-
-
 
 A **`WeakHashMap`** is a special implementation of the **`Map`** interface where the **keys are stored as weak references**. If a key is no longer referenced anywhere else, the **Garbage Collector (GC)** can automatically remove the entry from the map.
 
@@ -8845,7 +8812,7 @@ System.out.println(pq.poll()); // 20
 * **`PriorityQueue` = Heap + Priority-Based Retrieval**
 
 
-## 9. How to Implement LRU, LFU and TTL Cache
+## 12. How to Implement LRU, LFU and TTL Cache
 
 **# 1. LRU Cache (Least Recently Used) :** Removes the least recently accessed item.
 
@@ -9028,10 +8995,7 @@ class TTLCache {
 
 
 
-## 10. Difference between ConcurrentHashMap and HashMap, and when to use what?
-
-
-
+## 13. Difference between ConcurrentHashMap and HashMap, and when to use what?
 
 Both **`HashMap`** and **`ConcurrentHashMap`** are implementations of the **`Map`** interface used to store **key-value pairs**, but they differ mainly in **thread safety** and **concurrent access handling**.
 
@@ -9144,8 +9108,7 @@ A **`HashMap`** iterator is **fail-fast** and throws **`ConcurrentModificationEx
 * **Multiple Threads → `ConcurrentHashMap`**
 
 
-## 12. Difference between `List`, `Set`, `Map`, and `Queue`? 
-
+## 14. Difference between `List`, `Set`, `Map`, and `Queue`? 
 
 
 **`List`**, **`Set`**, **`Map`**, and **`Queue`** are the main interfaces in the **Java Collections Framework** used to store and manage data in different ways.
@@ -9278,9 +9241,7 @@ public class Demo {
 * **`Queue` = FIFO Processing**
 
 
-## 13. Difference between List and Array? 
-
-
+## 15. Difference between List and Array? 
 
 * **`Array`** is a built-in data structure in Java that stores a **fixed-size collection** of elements of the same type.
 
@@ -9381,8 +9342,7 @@ The equivalent operation is not possible directly with a fixed-size array.
 * **Variable Size → `List`**
 
 
-
-## 14. How do you convert a List to an Array? 
+## 15. How do you convert a List to an Array? 
 
 ```java
 List<String> names = List.of("John", "David", "Mike");
@@ -9526,7 +9486,7 @@ public class Demo {
 
 
 
-## 7. What is the difference between Collection and Collections?
+## 17. What is the difference between Collection and Collections?
 
 **`Collection`** is an **interface** that represents a group of objects.
 
@@ -9616,7 +9576,7 @@ public class Main {
 
 
 
-## 13. What is fail-fast and fail-safe iterators?
+## 18. What is fail-fast and fail-safe iterators?
 
 
 **Fail-Fast** and **Fail-Safe** are behaviors of java collections when they are modified while being iterated.
@@ -9690,7 +9650,7 @@ for (String s : list) {
 
 
 
-## 17. What is CopyOnWriteArrayList?
+## 19. What is CopyOnWriteArrayList?
 
 **`CopyOnWriteArrayList`** is a **thread-safe** implementation of the **`List`** interface in Java. Whenever an element is **added**, **updated**, or **removed**, it creates a **new copy** of the underlying array. This allows multiple threads to **read safely** without locking.
 
@@ -9748,7 +9708,7 @@ Spring
 The loop iterates over the **original snapshot**, so no **`ConcurrentModificationException`** occurs.
 
 
-## 17. What is ConcurrentModificationException?
+## 20. What is ConcurrentModificationException?
 
 
 **`ConcurrentModificationException`** is a **runtime exception** that occurs when a collection is **modified while it is being iterated**, except through the iterator's own methods.
@@ -9879,7 +9839,7 @@ System.out.println(list);
 ```
 
 
-## 23. What is the difference between Iterator and ListIterator?
+## 22. What is the difference between Iterator and ListIterator?
 
 **`Iterator`** is used to **traverse any Collection in the forward direction**, 
 
@@ -9929,8 +9889,7 @@ while (iterator.hasPrevious()) {
 ```
 
 
-
-## 11. What is diffence between Arrays.asList() vs List.of()?
+## 23. What is diffence between Arrays.asList() vs List.of()?
 
 `Arrays.asList()` creates a **fixed-size list** backed by the original array. You can modify the elements but cannot add or remove them. It allows `null` values.
 
@@ -9969,7 +9928,7 @@ List<String> list2 = List.of("A", "B", "C");
 // list2.add("D");           // Throws UnsupportedOperationException
 ```
 
-## 11. What is diffence between data structures Vector and an ArrayList?
+## 24. What is diffence between data structures Vector and an ArrayList?
 
 `Vector` and `ArrayList` are both part of the Java collection framework and implement the `List` interface, but there are several differences between them:
 
@@ -9994,7 +9953,7 @@ arrayList.add(20);
 ```
 
 
-## 1. **What is `Stack`?**
+## 25. **What is `Stack`?**
 
 A **`Stack`** is a **Linear Data Structure** that follows the **LIFO (Last In, First Out)** principle, meaning the **last element added is the first one removed**.
 
@@ -10044,7 +10003,7 @@ Docker
 * **Function call stack** in Java.
 
 
-## 1. **What is `Queue` and What Implementations Exist?**
+## 26. **What is `Queue` and What Implementations Exist?**
 
 A **`Queue`** is a **Collection** that stores elements in **FIFO (First In, First Out)** order, meaning the **first element added is the first one removed**.
 
@@ -10118,7 +10077,7 @@ Java
 * **`ConcurrentLinkedQueue`** – **Thread-safe** queue for concurrent applications.
 
 
-## 1. **What is `Deque`?**
+## 27. **What is `Deque`?**
 
 **`Deque`** (**Double-Ended Queue**) is an interface in the Java Collection Framework that allows elements to be **added** and **removed** from **both the front and the rear** of the collection.
 
