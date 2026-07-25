@@ -12,6 +12,7 @@ class CollectionsDemo {
         linkedListDemo();
         setDemo();
         mapDemo();
+        flatMapDemo();
         iterateMapDemo();
         queueDemo();
         stackDemo();
@@ -58,7 +59,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 3. Set
+    // 3. Set: Stores unique elements and does not allow duplicates.
     // ============================================================
 
     static void setDemo() {
@@ -96,9 +97,26 @@ class CollectionsDemo {
         System.out.println("LinkedHashMap: " + linkedMap);
         System.out.println("Hashtable: " + hashtable);
     }
+    
+ // ============================================================
+    // 4. FlatMap: is used when each element produces another stream or collection. It flattens those nested streams into a single stream, so you don’t end up with a stream of streams.
+    // ============================================================
+
+    static void flatMapDemo() {
+    	List<List<String>> nested = List.of(
+		    List.of("A", "B"),
+		    List.of("C", "D")
+		);
+
+		List<String> flatList = nested.stream()
+		                              .flatMap(List::stream)
+		                              .toList();
+
+		System.out.println(flatList);   // [A, B, C, D]
+    }
 
     // ============================================================
-    // 5. Iterate Map
+    // 5. Iterate Map: Stores data as key-value pairs. Keys are unique, while values can be duplicated.
     // ============================================================
 
     static void iterateMapDemo() {
