@@ -812,6 +812,7 @@ password = null;
 
 
 
+
 # ✅ 02. Java Data Types and Variables
 
 ## 1. What are data types(Primitive,Non-Primitive) in Java?
@@ -1265,6 +1266,26 @@ System.out.println(condition.test(9));  // false
 * **Used for Filtering and Validation**
 * **Main Method = `test()`**
 
+
+## 9. What are instance variables and methods?
+
+- **Instance variables** — fields declared inside a class but outside methods. Each object gets its own copy.
+- **Instance methods** — methods that operate on instance variables. Require an object to be called.
+
+```java
+class Employee {
+    String name;    // instance variable
+    int salary;     // instance variable
+
+    void work() {   // instance method
+        System.out.println(name + " is working");
+    }
+}
+
+Employee e = new Employee();
+e.name = "Bob";
+e.work();   // Bob is working
+```
 
 
 
@@ -1895,28 +1916,6 @@ Map<Integer, String> map = new ConcurrentHashMap<>();
 map.put(1, "A");
 map.put(2, "B");
 ```
-
-
-## 10. What are instance variables and methods?
-
-- **Instance variables** — fields declared inside a class but outside methods. Each object gets its own copy.
-- **Instance methods** — methods that operate on instance variables. Require an object to be called.
-
-```java
-class Employee {
-    String name;    // instance variable
-    int salary;     // instance variable
-
-    void work() {   // instance method
-        System.out.println(name + " is working");
-    }
-}
-
-Employee e = new Employee();
-e.name = "Bob";
-e.work();   // Bob is working
-```
-
 
 
 
