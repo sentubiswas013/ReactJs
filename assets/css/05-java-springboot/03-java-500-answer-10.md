@@ -7903,11 +7903,9 @@ public class Main {
 
 ## 4. What is the difference between ArrayList and LinkedList?
 
+* **`ArrayList`** is a class in the java.util package that implements the List interface. It is a dynamic array, meaning it can grow and shrink automatically as elements are added or removed.
 
-Both **`ArrayList`** and **`LinkedList`** are implementations of the **`List`** interface in the Java Collections Framework, but they use different internal data structures.
-
-* **`ArrayList`** uses a **dynamic array**.
-* **`LinkedList`** uses a **doubly linked list**.
+* **`LinkedList`** is a class in the java.util package that implements the List and Deque interfaces. It stores elements as nodes, where each node contains:
 
 
 **Key Differences**

@@ -10,6 +10,10 @@ class Main {
 
 // ============================================================
 // Class, Constructor + Static + Final Variable
+// A Class in Java is a blueprint or template used to create objects. It defines the properties (fields/variables) and behaviors (methods) that an object will have.
+// A constructor in Java is a special method used to initialize objects when a class is instantiated.
+// Static Method: A method that belongs to the class and is called using the class name.
+// final Once assigned, value cannot be changed.
 // ============================================================
 public static void ConstructStaticDemo() {
     System.out.println("=========================== InterfaceDemo");
@@ -226,7 +230,7 @@ static final class Person {
 
 
 // ============================================================
-//Shallow Copy creates a new object, but the nested objects are shared between the original and copied object.
+// Shallow Copy creates a new object, but the nested objects are shared between the original and copied object.
 // Deep Copy creates a new object along with completely new copies of all nested objects, so both objects are fully independent.
 //============================================================
 

@@ -30,8 +30,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 1. ArrayList
-    // ArrayList uses a dynamic array, so it gives fast random access (O(1)), but slow insertions/deletions in the middle due to shifting.
+    // An ArrayList is a class in the java.util package that implements the List interface. It is a dynamic array, meaning it can grow and shrink automatically as elements are added or removed.
     // ============================================================
 
     static void arrayListDemo() {
@@ -45,8 +44,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 2. LinkedList
-    // LinkedList uses a doubly linked list, so it has slower access (O(n)), but faster insertions/deletions since no shifting is required.
+    // 2. LinkedList is a class in the java.util package that implements the List and Deque interfaces. It stores elements as nodes, where each node contains:
     // ============================================================
 
     static void linkedListDemo() {
@@ -77,8 +75,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 4. Map
-    // map() is used to transform each element in a stream into another form. It returns one output for each input, so the structure of the stream stays the same.
+    // Map() is used to transform each element in a stream into another form. It returns one output for each input, so the structure of the stream stays the same.
     // ============================================================
 
     static void mapDemo() {
@@ -140,7 +137,6 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 6. Queue
     // Queue is a First-In-First-Out (FIFO) data structure where the first element added is the first one to be removed. It supports two main operations: offer (to add an element) and poll (to remove the front element).
     // ============================================================
 
@@ -155,7 +151,6 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 7. Stack
     // Stack is a Last-In-First-Out (LIFO) data structure where the last element added is the first one to be removed. It supports two main operations: push (to add an element) and pop (to remove the top element).
     // ============================================================
 
@@ -181,31 +176,22 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 9. WeakHashMap
-    // A map where keys are stored with weak references, so entries can be removed automatically by the Java Garbage Collector when keys are no longer used.
+    // 9. WeakHashMap: is a map where keys are stored with weak references, so entries can be removed automatically by the Java Garbage Collector when keys are no longer used.
     // ============================================================
 
     static void weakHashMapDemo() throws Exception {
         Map<String, Integer> weakMap = new WeakHashMap<>();
-
         String key = new String("Java");
-
         weakMap.put(key, 100);
-
         System.out.println("Before GC: " + weakMap);
-
         key = null;
-
         System.gc();
-
         Thread.sleep(2000);
-
         System.out.println("After GC: " + weakMap);
     }
 
     // ============================================================
-    // 10. IdentityHashMap
-    // A map that compares keys using reference equality (==) instead of equals().
+    // 10. IdentityHashMap: is a map that compares keys using reference equality (==) instead of equals().
     // ============================================================
 
     static void identityHashMapDemo() {
@@ -221,8 +207,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 11. LinkedHashMap
-    //  A map that maintains insertion order using a linked list along with a hash table.
+    // 11. LinkedHashMap: is a map that maintains insertion order using a linked list along with a hash table.
     // ============================================================
 
     static void linkedHashMapDemo() {
@@ -236,8 +221,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 12. PriorityQueue
-    //  A queue that orders elements based on priority (natural order or comparator) instead of insertion order.
+    // 12. PriorityQueue is a queue that orders elements based on priority (natural order or comparator) instead of insertion order.
     // ============================================================
 
     static void priorityQueueDemo() {
@@ -254,7 +238,7 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 13. Max Heap
+    // 13. Max Heap is a complete binary tree where the value of every parent node is greater than or equal to its children. Therefore, the largest element is always at the root.
     // ============================================================
 
     static void maxHeapDemo() {
@@ -270,7 +254,6 @@ class CollectionsDemo {
     }
 
     // ============================================================
-    // 14. LRU Cache
     // LRU (Least Recently Used) cache is a data structure that evicts the least recently used items when it reaches its capacity. It can be implemented using LinkedHashMap in Java.
     // ============================================================
     // **# 2. LRU Cache way 
@@ -405,7 +388,6 @@ class CollectionsDemo {
         }
 
         private Map<Integer, CacheObject> cache = new HashMap<>();
-
         public void put(int key, String value, long ttlMillis) {
             cache.put(key, new CacheObject(value, ttlMillis));
         }
@@ -429,7 +411,5 @@ class CollectionsDemo {
     // Java
     // null
     // After 3 seconds, value expires.
-
-
 }
 
