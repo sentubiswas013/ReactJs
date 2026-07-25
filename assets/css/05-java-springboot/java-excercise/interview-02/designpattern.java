@@ -2,33 +2,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 // ============================================================
-// 1. Singleton Pattern (Thread-safe, Double-Checked Locking) Ex: Logger, Configuration Manager
-// Singleton Pattern Creational Design Patterns that ensures a class has only one object (instance) and provides a global access point to that instance.
+// The Singleton Pattern is a Creational Design Pattern that ensures a class has only one instance throughout the application and provides a global access point to that instance.
 
-// Rules to create Singleton Pattern:
-// 1. Make Constructor private
-// 2. Create Static Instance Variable
-// 3. Provide Public Static Method getInstance()
-// 4. null check -> synchronized
-// 5. Return Same Object Every Time
-
-// When to use Singleton Pattern in real life:
-// 1. When you want to control access to a shared resource (like a database connection).
-// 2. When you want to ensure that only one instance of a class is created and used throughout the application (like a configuration manager).
-// 3. When you want to implement a global point of access to a resource (like a logging service).   
+// Make the constructor private so no other class can create an object.
+// Create a static instance of the class.
+// Provide a public static method (usually getInstance()) to return the single instance.
 // ============================================================
 
 class Singleton {
     private static volatile Singleton instance;
-    // volatile ensures visibility of changes across threads and prevents multiple threads from creating separate objects
-    // during Singleton initialization.
-
-    // volatile makes Singleton thread-safe
-    // Singleton is the datatype/class type of the variable.
-    // 'instance' stores the single object of Singleton class.
-
     private Singleton() {
-        System.out.println("Singleton instance created: " + this.hashCode());
+        // System.out.println("Singleton instance created: " + this.hashCode());
     }
 
     public static Singleton getInstance() {
@@ -45,7 +29,6 @@ class Singleton {
 
 class SingletonDemo {
     public static void main(String[] args) {
-
         // Create multiple threads to test thread safety
         Runnable task = () -> {
             Singleton instance = Singleton.getInstance();
@@ -69,29 +52,9 @@ class SingletonDemo {
 
 
 // ============================================================
-// 2. Factory Pattern (Best Practice using Enum) : Ex: Payment System
-// **Factory Pattern** is a creational design pattern used to: Create objects without exposing object creation logic to the client. Instead of creating objects directly using **new**, the client asks the factory to create the required object.
+// The Factory Pattern is a Creational Design Pattern that provides a centralized way to create objects without exposing the object creation logic to the client. Instead of using new directly, the client asks the factory to create the required object.
 
 // Flow:: Client  -----> Factory (Creates CARD / UPI object) ----> Required Object ("Give me CARD payment object")
-
-// Rules to create :: Payment:: 
-// step 0: Define an enum for the Payment types 
-// Step 1: Interface or Abstract Class :: payment interface with a method pay()
-// Step 2: Concrete Implementations :: CardPayment, UpiPayment classes that implement the Payment interface
-// Step 3: Factory Class with a static method to create objects based on input :: PaymentFactory with a static method getPayment(String type)
-
-// Advantages   : -----------
-// Loose coupling
-// Hides object creation logic
-// Easy maintenance
-// Easy to extend
-
-// 👉 Real use : -----------
-// - Payment systems
-// - Notification services
-// - Logger creation
-// - Database drivers
-// - Spring BeanFactory
 // ============================================================
 enum PaymentType {
     CARD, UPI
@@ -139,36 +102,18 @@ class FactoryPatternDemo {
     }
 }
 
-
 // Output:
 // UPI payment
 
 
 // ============================================================
-// 3. Observer Pattern (Best Practice using Enum) : Ex: News Agency
-// **Observer pattern** (Behavioral Design Patterns) is defines a one-to-many dependency between objects. When one object changes state, it notified all dependent objects and updated automatically.
+// The Observer Pattern is a Behavioral Design Pattern in which one object (Subject) automatically notifies multiple dependent objects (Observers) whenever its state changes. It establishes a one-to-many relationship between objects.
 
 // Rules to create :: (exmaple News Agency):
 // News agency - > News Channel -> Observer Pattern
-
-// 1. Create an Observer interface with an update() method.
-// 2. Create a Subject class that maintains a list of observers and has methods to attach/detach observers and notify them of changes.
-// 3. Create concrete Observer classes that implement the Observer interface and define the update() method to react to changes in the Subject.
-
-// Flow:
-// News Changed  ---> Publisher Notifies Everyone ---> Subscribers Receive Update  ---> When to use Observer Pattern:
-
-// 👉 Real use:
-// - YouTube Notifications
-// - News Channel System, 
-// - Stock Market Apps
-// - Kafka / RabbitMQ Consumers
-
-
 // ============================================================
 // import java.util.*;
 
-// Observer interface
 // Step 1: Observer Interface
 interface Observer {
     void update(String message);
@@ -209,7 +154,6 @@ class NewsAgency {
 // Step 4: Main Class
 class ObserverPatternExp {
     public static void main(String[] args) {
-
         NewsAgency agency = new NewsAgency();
 
         // Create observers
@@ -232,16 +176,10 @@ class ObserverPatternExp {
 // CNN received: Observer pattern in action!
 // BBC received: Observer pattern in action!
 
-
-
-
 // ============================================================
-// 4. Strategy Pattern Example: Notification System
-// Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
-// Real-time Example:
-// Different ways to send notifications (Email, SMS, Push)
-// We can add new notification types without modifying existing code.
-// Open for extension, closed for modification.
+// The Strategy Pattern is a Behavioral Design Pattern that defines a family of algorithms, encapsulates each one in a separate class, and allows them to be interchanged at runtime without changing the client code.
+
+// Real-time Example: to send email notifications
 // ============================================================
 
 // Strategy Interface
@@ -306,19 +244,14 @@ class StrategyPatternDemo {
         service.notifyUser("Flash sale starts in 10 minutes!");
     }
 }
-
-
 // Output:
 // Sending EMAIL: Your order has been placed!
 // Sending SMS: OTP is 4589
 // Sending PUSH Notification: Flash sale starts in 10 minutes!
 
-
-
-
 // ============================================================
 // 5. Adapter pattern: Ex: Media Player
-// Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+// The Adapter Pattern is a Structural Design Pattern that allows two incompatible interfaces to work together by acting as a bridge between them. It converts the interface of one class into another interface that the client expects.
 // ============================================================
 // Target interface (what client expects)
 interface MediaPlayer {
@@ -368,28 +301,13 @@ class AdapterPatternDemo {
     }
 }
 
-
 // Output::
 // Playing vlc file: movie.vlc
 // Playing mp4 file: video.mp4
 
 // ============================================================
-// 6. Builder Pattern (Immutable Object - BEST PRACTICE) : Ex: Employee Object Creation
-// Builder Pattern(Creational Design Patterns) is  is used to create complex objects step by step, especially when an object has many optional parameters.
-
-// Rules to create Builder Pattern:
-// 1. Create a static nested Builder class inside the main class.
-// 2. The Builder class should have the same fields as the main class.
-// 3. The Builder class should have setter-like methods that return the Builder instance (for chaining).
-// 4. Create a build() method in the Builder class that returns the final object.
-
-// When to use Builder Pattern:
-// 1. When you have a class with many parameters (especially optional ones) and want to avoid constructor overloading.
-// 2. When you want to create immutable objects with many parameters.
-
-// Use case: Employee class with id, name, age, department, and salary.
-
-// Real use: API Request Objects, Complex DTO / Response Objects, Lombok @Builder, etc.
+// The Builder Pattern is a Creational Design Pattern used to construct complex objects step by step. It is especially useful when an object has many optional parameters and you want to avoid multiple constructors.
+// Real Example: Employee Object Creation
 // ============================================================
 // ❌ Problem Without Builder
 // Employee e = new Employee(1, "Rahul", 25, "Bangalore", "Developer");
@@ -454,17 +372,9 @@ class BuilderPatternDemo {
 
 
 // ============================================================
-// 7. Prototype Pattern (Cloning) :Ex Student Object Creation
-// Prototype Pattern is a Creational Design Pattern used to create new objects by copying (cloning) an existing object, instead of creating a new object from scratch.
+// The Prototype Pattern is a Creational Design Pattern that creates new objects by copying (cloning) an existing object instead of creating a new one from scratch. It is useful when object creation is expensive or complex.
 
-// Rules to create Prototype Pattern:
-// 1. Implement the Cloneable interface in the class you want to clone.
-// 2. Override the clone() method to return a copy of the object.
-// 3. Use the clone() method to create new objects by copying existing ones.    
-
-// When to use Prototype Pattern:
-// 1. When object creation is expensive and you want to create new objects by copying existing ones.
-// 2. When you want to hide the creation logic from the client code.
+// Real-time Example: Student Object Creation
 // ============================================================
 class PrototypeDemo {
     public static void main(String[] args) throws Exception {
@@ -489,7 +399,6 @@ class Student implements Cloneable {
         return super.clone();
     }
 }
-
 // Output:
 // John
 // John
