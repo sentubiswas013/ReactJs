@@ -203,9 +203,7 @@ Bytecode Verifier
       Output
 ```
 
-## 3. **Difference Between `JAR`, `WAR`, and `EAR`**
-
-
+## 4. **Difference Between `JAR`, `WAR`, and `EAR`**
 
 
 **`JAR`**, **`WAR`**, and **`EAR`** are Java packaging formats used to bundle and deploy applications.
@@ -335,9 +333,7 @@ myapp.ear
 * **Traditional Web App → Usually `WAR`**
 
 
-## 3. What is the difference between Structured Programming and OOP?
-
-
+## 5. What is the difference between Structured Programming and OOP?
 
 
 * **Structured Programming** is a programming paradigm that organizes code into **functions or procedures** and follows a **top-down approach**.
@@ -451,7 +447,7 @@ public class Demo {
 
 
 
-## 3. What are the main principles of Object-Oriented Programming?
+## 6. What are the main principles of Object-Oriented Programming?
 
 **Object-Oriented Programming** is based on four fundamental principles that promote code reusability, maintainability, and modularity.
 
@@ -556,7 +552,8 @@ public class Main {
 }
 ```
 
-## 4. What is a package in Java? 
+## 7. What is a package in Java? 
+
 In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
 
 ```java
@@ -570,7 +567,8 @@ public class Helper {
 ```
 
 
-## 7. How do you read user input from the console in Java?
+## 8. How do you read user input from the console in Java?
+
 ```java
 import java.util.Scanner;
 
@@ -589,7 +587,7 @@ public class Main {
 }
 ```
 
-## 8. How do you iterate through a collection in Java?
+## 9. How do you iterate through a collection in Java?
 
 ```java
 // Example using for-each loop:
@@ -620,7 +618,7 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {
 ```
 
 
-## 8.  Serialization and Deserialization in Java?
+## 10.  Serialization and Deserialization in Java?
 
 **Serialization** is the process of **converting a Java object into a byte stream** so it can be **stored in a file**, **saved to a database**, or **transmitted over a network**. 
 
