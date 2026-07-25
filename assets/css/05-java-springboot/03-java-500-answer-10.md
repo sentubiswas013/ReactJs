@@ -857,7 +857,7 @@ int x = 10;        // primitive - stores value 10
 String name = "John"; // reference - stores address to "John" object
 ```
 
-## 14. What is `var` keyword in Java(10)?
+## 2. What is `var` keyword in Java(10)?
 
 **var** is a feature introduced in **Java 10** that allows **Local Variable Type Inference**, meaning the compiler automatically determines the variable's type from the assigned value.
 
@@ -961,7 +961,7 @@ System.out.println(b); // 10
 ```
 
 
-## 5. Normal, final, static, static final, volatile, abstract, transient, Serializable?
+## 4. Normal, final, static, static final, volatile, abstract, transient, Serializable?
 
 **Normal Variable** Declared inside a class but outside methods.
 ```java
@@ -1086,7 +1086,7 @@ public class ReadData {
 | Thread safety | No effect on threads                             | Provides visibility guarantee (not atomicity)       |
 
 
-## 6. What is Instance, Static, Abstract, and Final Methods?
+## 5. What is Instance, Static, Abstract, and Final Methods?
 
 **Instance Method:** A method that belongs to an object and is called using an instance of the class.
 ```java
@@ -1138,7 +1138,7 @@ class Dog extends Animal {
 ```
 
 
-## 9. What is coercion in Java?
+## 6. What is coercion in Java?
 
 **Coercion in Java** is the process of converting a value from one data type to another, either automatically by the compiler or manually by the programmer, to make data types compatible in expressions or assignments.
 
@@ -1151,7 +1151,7 @@ double d = 10.5;
 int i = (int) d; // Explicit casting required - double to int
 ```
 
-## 10. What is instance of in java
+## 7. What is instance of in java
 
 **`instanceof`** in Java is an **operator** used to check whether an object is an **instance of a specific class or interface**. it is introduce in Java 16+
 
@@ -1166,7 +1166,7 @@ System.out.println(a instanceof Dog);    // true
 System.out.println(a instanceof Animal); // true
 ```
 
-## 11. What is Predicate in java?
+## 8. What is Predicate in java?
 
 
 
@@ -1272,7 +1272,7 @@ System.out.println(condition.test(9));  // false
 
 # ✅ 03. Java HashMap/equals/hashCode
 
-## 12. What are `equals()` and `hashCode()` in Java??
+## 1. What are `equals()` and `hashCode()` in Java??
 
 * **`equals()`** is a method from the `Object` class used to compare the **content or logical equality** of two objects.
 
@@ -1372,7 +1372,7 @@ This works correctly because both **`equals()`** and **`hashCode()`** are overri
 * **Always override both together**
 
 
-## 13. How to Override the hashCode Method Properly in Java?
+## 2. How to Override the hashCode Method Properly in Java?
 
 The **`hashCode()`** method returns an **integer hash value** for an object. It is mainly used by **hash-based collections** like **`HashMap`**, **`HashSet`**, and **`Hashtable`** for fast storage and retrieval.
 
@@ -1478,7 +1478,7 @@ This breaks the **`equals()`-`hashCode()` contract** and causes incorrect behavi
 * **Override Both Together**
 
 
-## 20. **What is a bucket in HashMap?**
+## 3. **What is a bucket in HashMap?**
 
 A **bucket** is a place inside a **HashMap** where **key-value pairs** are stored.
 
@@ -1499,7 +1499,7 @@ map.put(3, "Orange");
 Each key is placed into a bucket based on its **hash value**.
 
 
-## 20. **How does HashMap determine which bucket to put an element in?**
+## 4. **How does HashMap determine which bucket to put an element in?**
 
 A **HashMap** uses the key's **hashCode()** to calculate the bucket index.
 
@@ -1534,7 +1534,7 @@ map.put("Java", 1);
 
 The **hashCode()** of `"Java"` is calculated, and the result determines which bucket stores the entry.
 
-## 20. **What is a collision in HashMap?**
+## 5. **What is a collision in HashMap?**
 
 A **collision** happens when **two different keys** are assigned to the **same bucket**.
 
@@ -1557,7 +1557,7 @@ In Java:
 * Since **Java 8**, if a bucket becomes large (more than **8** entries and the table is large enough), it is converted into a **Red-Black Tree**, improving lookup from **O(n)** to **O(log n)**.
 
 
-## 20. **How does HashMap handle collisions?**
+## 6. **How does HashMap handle collisions?**
 
 A **collision** happens when **different keys** are placed in the **same bucket**.
 
@@ -1578,7 +1578,7 @@ map.put(17, "Banana"); // Assume same bucket
 Both entries are stored in the same bucket and are distinguished using **equals()**.
 
 
-## 20. **What happens when 8 elements are reached in one bucket?**
+## 7. **What happens when 8 elements are reached in one bucket?**
 
 In **Java 8+**, if a bucket contains **more than 8 entries** and the **HashMap capacity is at least 64**, the bucket is converted from a **Linked List** to a **Red-Black Tree**.
 
@@ -1594,7 +1594,7 @@ This improves performance when many collisions occur.
 If the table size is **less than 64**, **HashMap** first **resizes** instead of treeifying.
 
 
-## 20. **What is the equals() and hashCode() contract?**
+## 8. **What is the equals() and hashCode() contract?**
 
 The **equals()** and **hashCode()** methods must work together correctly.
 
@@ -1643,7 +1643,7 @@ Without overriding both methods correctly, the lookup may fail.
 
 
 
-## 20. **If two objects are equal by equals(), what can you say about their hashCode()?**
+## 9. **If two objects are equal by equals(), what can you say about their hashCode()?**
 
 If **two objects are equal** according to **equals()**, they **must have the same hashCode()**.
 
@@ -1679,7 +1679,7 @@ System.out.println(p1.hashCode() == p2.hashCode()); // true
 ```
 
 
-## 20. **If two objects have the same hashCode(), are they necessarily equal by equals()?**
+## 10. **If two objects have the same hashCode(), are they necessarily equal by equals()?**
 
 **No.**
 
@@ -1700,7 +1700,7 @@ System.out.println(s1.equals(s2)); // false
 ```
 
 
-## 20. **What happens if you override equals() but not hashCode()?**
+## 11. **What happens if you override equals() but not hashCode()?**
 
 If you override **equals()** but **do not override hashCode()**, objects that are **equal** may have **different hash codes**.
 
@@ -1736,7 +1736,7 @@ System.out.println(map.get(new Person("John"))); // null
 Although the two objects are **equal**, they have **different hash codes**, so **HashMap** looks in a different bucket.
 
 
-## 20. **What happens if you override hashCode() but not equals()?**
+## 12. **What happens if you override hashCode() but not equals()?**
 
 If you override **hashCode()** but **do not override equals()**, objects may have the **same hash code**, but they are still compared using the default **equals()** from **Object**, which compares **memory addresses**.
 
@@ -1769,7 +1769,7 @@ Even though both objects have the same **hashCode()**, they are **not equal** be
 
 
 
-## 20. **What is load factor in HashMap?**
+## 13. **What is load factor in HashMap?**
 
 The **load factor** determines **when a HashMap should resize**.
 
@@ -1796,7 +1796,7 @@ When the **13th element** is added, the **HashMap** resizes.
 
 
 
-## 20. **What is capacity in HashMap?**
+## 14. **What is capacity in HashMap?**
 
 **Capacity** is the **number of buckets** in a **HashMap**.
 
@@ -1836,7 +1836,7 @@ Adding the **13th element** triggers **rehashing**.
 
 
 
-## 20. **What happens during rehashing?**
+## 15. **What happens during rehashing?**
 
 During **rehashing**:
 
@@ -1863,7 +1863,7 @@ During **rehashing**, **HashMap** creates a **larger bucket array** (usually **d
 
 
 
-## 20. **How does HashMap work in a multi-threaded environment?**
+## 16. **How does HashMap work in a multi-threaded environment?**
 
 A **HashMap** is **not thread-safe**.
 
@@ -1899,11 +1899,32 @@ map.put(2, "B");
 ```
 
 
+## 10. What are instance variables and methods?
+
+- **Instance variables** — fields declared inside a class but outside methods. Each object gets its own copy.
+- **Instance methods** — methods that operate on instance variables. Require an object to be called.
+
+```java
+class Employee {
+    String name;    // instance variable
+    int salary;     // instance variable
+
+    void work() {   // instance method
+        System.out.println(name + " is working");
+    }
+}
+
+Employee e = new Employee();
+e.name = "Bob";
+e.work();   // Bob is working
+```
+
+
 
 
 # ✅ 03. Java Classes and Objects
 
-## 4. What is a class in Java?
+## 1. What is a class in Java?
 
 A **Class** in Java is a **blueprint or template** used to create **objects**. It defines the **properties (fields/variables)** and **behaviors (methods)** that an object will have.
 
@@ -2494,26 +2515,6 @@ class Employee {
 }
 ```
 
-
-## 10. What are instance variables and methods?
-
-- **Instance variables** — fields declared inside a class but outside methods. Each object gets its own copy.
-- **Instance methods** — methods that operate on instance variables. Require an object to be called.
-
-```java
-class Employee {
-    String name;    // instance variable
-    int salary;     // instance variable
-
-    void work() {   // instance method
-        System.out.println(name + " is working");
-    }
-}
-
-Employee e = new Employee();
-e.name = "Bob";
-e.work();   // Bob is working
-```
 
 ## 11. What is a constructor? Types?
 
