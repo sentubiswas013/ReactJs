@@ -3137,7 +3137,7 @@ public class Main {
 
 If classes B and C both override a method from A, and D inherits from both B and C, which version should D use? This creates confusion and compilation errors.
 
-## 3. How does Java solve the diamond problem?
+## 4. How does Java solve the diamond problem?
 
 Java solves the **diamond problem** by not allowing multiple class inheritance but supporting multiple interface inheritance with **default methods**.
 
@@ -3201,7 +3201,7 @@ public class Main {
 ```
 
 
-## 14. What is polymorphism?
+## 6. What is polymorphism?
 
 **Polymorphism** is one of the **four pillars of Object-Oriented Programming (OOP)**. It means **"one object, many forms."**
 
@@ -3294,7 +3294,7 @@ public class Main {
 It allows the program to choose the correct method **during execution**, making applications **flexible**, **scalable**, and easier to extend without changing existing code.
 
 
-## 14. What is Dynamic Method Dispatch?
+## 7. What is Dynamic Method Dispatch?
 
 **Dynamic Method Dispatch** is the mechanism by which **Java decides at runtime** which **overridden method** to execute.
 
@@ -3383,8 +3383,8 @@ Here, the **JVM** decides at **runtime** to call `UpiPayment.pay()` because the 
 
 **No.** **Private** and **final** methods cannot be overridden, so they cannot participate in **Dynamic Method Dispatch**.
 
-## 6. What is IS-A Relationship?
 
+## 8. What is IS-A Relationship?
 
 **IS-A** is an inheritance relationship — it means **one object is a type of another**. Implemented using `extends` or `implements`. Used to check with `instanceof`.
 
@@ -3429,7 +3429,7 @@ public class Main {
 }
 ```
 
-## 6. What is HAS-A (Composition) Relationship?
+## 9. What is HAS-A (Composition) Relationship?
 
 A **HAS-A Relationship** is an **Object-Oriented Programming (OOP)** concept where one class **contains** an object of another class. It represents a **part-of** or **ownership** relationship and is implemented using **Composition** or **Aggregation**.
 
@@ -3508,7 +3508,7 @@ public class Main {
 Because it provides **Loose Coupling**, **Better Flexibility**, and avoids deep inheritance hierarchies.
 
 
-## 7. Composition and Aggregation?
+## 10. Composition and Aggregation?
 
 **Composition** and **Aggregation** are two types of **HAS-A relationships** in Java used to build objects using other objects.
 
@@ -3597,7 +3597,7 @@ class Student {
 ```
 
 
-## 8. Types of Inheritance(Single, Multilevel, Hierarchical) in Java
+## 11. Types of Inheritance(Single, Multilevel, Hierarchical) in Java
 
 | Type | Description |
 |------|-------------|
@@ -3625,7 +3625,7 @@ class E extends A { }
 ```
 
 
-## 9. Does Java support Multiple Inheritance? Why?
+## 12. Does Java support Multiple Inheritance? Why?
 
 ❌ No, Java does not support multiple inheritance with classes.
 
@@ -3635,7 +3635,7 @@ class E extends A { }
 
 
 
-## 12. Can we override static methods?
+## 13. Can we override static methods?
 
 ❌ No, Static methods are **not overridden**, they are **hidden**.
 
@@ -3657,7 +3657,7 @@ p.show();   // Parent — reference type decides, not object type
 ```
 
 
-## 13. Can we override final methods?
+## 14. Can we override final methods?
 
 ❌ No, Final methods cannot be changed in child class.
 
@@ -3748,8 +3748,8 @@ JVM checks actual object type at runtime
 Calls Dog's overridden sound() method
 ```
 
-## 16. What are rules for method overriding?
 
+## 16. What are rules for method overriding?
 
 **Method Overriding** happens when a **child class provides a specific implementation** of a method that is already defined in its **parent class**, keeping the **same method signature**.
 
@@ -3802,7 +3802,7 @@ class Child extends Parent {
 ```
 
 
-## 24. What is access modifier and Can we change it while overriding?
+## 17. What is access modifier and Can we change it while overriding?
 
 
 **Access Modifiers** control the **visibility** and **accessibility** of **classes, methods, variables, and constructors**.
@@ -3839,7 +3839,7 @@ class Child extends Parent {
 ```
 
 
-## 17. What is covariant return type?
+## 18. What is covariant return type?
 
 Child class can return a more specific type than parent method.
 
@@ -3857,7 +3857,7 @@ class Child extends Parent {
 ```
 
 
-## 18. Can constructors be inherited?
+## 19. Can constructors be inherited?
 
 **No.** Constructors are not inherited because they are tied to the class they belong to. 
 However, a child class can **call the parent constructor** using `super()`.
@@ -3876,7 +3876,7 @@ class Dog extends Animal {
 ```
 
 
-## 19. What is the order of constructor execution?
+## 20. What is the order of constructor execution?
 
 Parent constructor executes first, then child constructor.
 
@@ -3895,7 +3895,7 @@ Child
 ```
 
 
-## 20. What happens if parent constructor is not called?
+## 21. What happens if parent constructor is not called?
 
 Java automatically calls default parent constructor using super().
 
@@ -3913,7 +3913,7 @@ class B extends A {
 ```
 
 
-## 21. Can we extend multiple classes in Java?
+## 22. Can we extend multiple classes in Java?
 
 **No.** Java does not support extending multiple classes. A class can only extend **one** class. For multiple inheritance of behavior, use **interfaces**.
 
@@ -3930,7 +3930,7 @@ class C implements A, B {    // ✅ multiple interfaces allowed
 ```
 
 
-## 22. Can we inherit private members?
+## 23. Can we inherit private members?
 
 **Yes, they are inherited** but **not directly accessible** in the child class. They can be accessed indirectly through `public` or `protected` getter/setter methods.
 
@@ -3949,7 +3949,7 @@ class Child extends Parent {
 ```
 
 
-## 23. Can we override private methods?
+## 24. Can we override private methods?
 
 “No, private methods are not visible, so they cannot be overridden.
 
@@ -3982,7 +3982,6 @@ System.out.println(c.x);   // 20 — reference type (Child) decides
 ## 26. Can abstract class have constructor?
 
 
-**Answer:**
 Yes, an **abstract class can have a constructor** in Java. Even though you **cannot instantiate an abstract class directly**, its constructor is called when a **child class object is created**.
 
 
@@ -4057,7 +4056,7 @@ public class Main {
 ```
 
 
-## 27. Can an interface extend another interface?
+## 28. Can an interface extend another interface?
 
 Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
 A child interface inherits all methods from the parent interface.
@@ -4073,7 +4072,7 @@ interface B extends A {
 ```
 
 
-## 28. Can class extend interface?
+## 29. Can class extend interface?
 
 **No.** A class cannot `extend` an interface. A class must use `implements` to use an interface.
 
@@ -4087,7 +4086,7 @@ class Doc implements Printable {       // ✅ correct
 }
 ```
 
-## 29. Which type of polymorphism does method overloading represent?
+## 30. Which type of polymorphism does method overloading represent?
 
 **Method overloading** represents **compile-time polymorphism** (also called static polymorphism or early binding).
 
@@ -4106,7 +4105,7 @@ c.add(1.0, 2.0);   // calls double version
 ```
 
 
-## 30. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
+## 31. If a class implements two interfaces with the same default method, what happens and how do you resolve it?
 
 Java gives a **compile-time error** — the class must **override** the conflicting default method to resolve the ambiguity.
 
@@ -4133,7 +4132,7 @@ class C implements A, B {
 }
 ```
 
-## 31. Can an interface have a constructor in Java, and why or why not?
+## 32. Can an interface have a constructor in Java, and why or why not?
 
 **No.** Interfaces cannot have constructors.
 
@@ -4157,7 +4156,7 @@ class Dog implements Animal {
 ```
 
 
-## 31. Can an interface have instance variables in Java, and if not, what type of variables can it have?
+## 33. Can an interface have instance variables in Java, and if not, what type of variables can it have?
 
 **No.** Interfaces cannot have instance variables.
 
