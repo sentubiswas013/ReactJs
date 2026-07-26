@@ -7,8 +7,7 @@ class Main {
         SuperThisDemo();
         ImmutableDemo();
 
-        functionalInterfaceDemo();        
-        methodReferenceDemo();
+        
         optionalDemo();
         HascodeEqualsDemo();
     }
@@ -291,57 +290,6 @@ static class Employee {
         this.address = new Address(other.address);
     }
 }
-
-//=============================================
-    // A Functional Interface is an interface that contains exactly one abstract method 
-    // Predicate, Function, Consumer
-    //=============================================
-    static void functionalInterfaceDemo() {
-        System.out.println("=========================== functionalInterfaceDemo");
-
-        Predicate<Integer> isEven = n -> n % 2 == 0;
-        System.out.println("Is 10 even? " + isEven.test(10));
-
-        Function<Integer, Integer> square = n -> n * n;
-        System.out.println("Square: " + square.apply(5));
-
-        Consumer<String> print = s -> System.out.println("Hello " + s);
-        print.accept("Java");
-
-        // Way 1
-        CalculatorFunc add = (a, b) -> a + b;
-        System.out.println("Sum " + add.calculate(5,6));
-    }
-
-    interface CalculatorFunc {
-        int calculate (int a, int b);
-    }
-
-    //=============================================
-    // A Method Reference is a shorthand syntax of a lambda expression that refers to an existing method using :: operator.
-    //=============================================
-    static void methodReferenceDemo() {
-        System.out.println("=========================== methodReferenceDemo");
-
-        List<Student> studlist = Arrays.asList(
-            new Student("Alice", 22),
-            new Student("Bob", 20),
-            new Student("Charlie", 23)
-        );
-
-        // Lambda expression
-        OptionalInt maxAge = studlist.stream()
-                .mapToInt(student -> student.getAge())
-                .max();
-
-        // Method reference - more concise
-        OptionalInt maxAge = studlist.stream()
-                .mapToInt(Student::getAge)
-                .max();
-
-        // Constructor reference
-        Supplier<List<String>> listSupplier = ArrayList::new;
-    }
 
     //=============================================
     // Optional Class is a container object introduced in Java 8 that can either hold a value or be empty. It is mainly used to avoid NullPointerException and write cleaner, safer code.
