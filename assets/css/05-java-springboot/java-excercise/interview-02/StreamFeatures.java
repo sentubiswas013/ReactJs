@@ -1,9 +1,6 @@
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 // ============================================================
 // 39–43 + Extra: Java 8 Features (Interview Ready)
@@ -45,7 +42,7 @@ class Main {
 
         // Way 1
         Calculator add = (a, b) -> a + b;
-        System.out.println("Sum " + add.calculate(5,6));
+        System.out.println("Sum: " + add.calculate(5, 6));
 
         // Way 2
         Runnable r = () -> System.out.println("Lambda Running");
@@ -88,28 +85,38 @@ class Main {
         System.out.println("=========================== methodReferenceDemo");
 
         List<Student> studlist = Arrays.asList(
-            new Student("Alice", 22),
-            new Student("Bob", 20),
-            new Student("Charlie", 23)
+                new Student("Alice", 22),
+                new Student("Bob", 20),
+                new Student("Charlie", 23)
         );
 
-        // Lambda expression
-        OptionalInt maxAge = studlist.stream()
+        // Lambda Expression
+        OptionalInt maxAge1 = studlist.stream()
                 .mapToInt(student -> student.getAge())
                 .max();
 
-        // Method reference - more concise
-        OptionalInt maxAge = studlist.stream()
+        System.out.println("Max Age (Lambda): " + maxAge1.getAsInt());
+
+        // Method Reference
+        OptionalInt maxAge2 = studlist.stream()
                 .mapToInt(Student::getAge)
                 .max();
 
-        // Constructor reference
+        System.out.println("Max Age (Method Reference): " + maxAge2.getAsInt());
+
+        // Constructor Reference
         Supplier<List<String>> listSupplier = ArrayList::new;
+
+        List<String> list = listSupplier.get();
+        list.add("Java");
+        list.add("Spring");
+
+        System.out.println("Constructor Reference: " + list);
     }
     
 
     // ============================================================
-    // Comparator
+    // Comparator using Lambda
     // ============================================================
     static void comparatorLambdaDemo() {
         System.out.println("=========================== comparatorLambdaDemo");
@@ -159,7 +166,25 @@ class Main {
             .forEach(System.out::println);
     }
 
+    //=============================================
+    // Student Class
+    //=============================================
+    static class Student {
 
-    
+        private String name;
+        private int age;
 
+        Student(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+    }
 }
