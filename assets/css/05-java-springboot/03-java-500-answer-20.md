@@ -6939,7 +6939,7 @@ if (bucket.tryConsume(1)) {
 
 
 
-## 1. **What is Containerization and Why Is It Needed?**
+## 24. **What is Containerization and Why Is It Needed?**
 
 **Containerization** is the process of packaging an **application**, its **libraries**, **dependencies**, and **configuration** into a **container** so it runs the same way in every environment.
 
@@ -6962,7 +6962,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 
 
-## 1. **What Is the Difference Between a Container and a Virtual Machine?**
+## 25. **What Is the Difference Between a Container and a Virtual Machine?**
 
 A **Container** is a lightweight package that includes an application and its dependencies but **shares the host operating system kernel**.
 
@@ -7002,7 +7002,7 @@ Infrastructure
 ```
 
 
-## 1. **What Is a Dockerfile?**
+## 26. **What Is a Dockerfile?**
 
 A **Dockerfile** is a **text file** that contains instructions for building a **Docker image**. It automates the image creation process so every build is **consistent and repeatable**.
 
@@ -7042,7 +7042,7 @@ docker run -p 8080:8080 my-app
 
 
 
-## 1. **What Are the Main Instructions Used in a Dockerfile?**
+## 27. **What Are the Main Instructions Used in a Dockerfile?**
 
 A **Dockerfile** contains instructions to build a **Docker image**.
 
@@ -7079,7 +7079,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
 
-## 1. **What Is the Difference Between CMD and ENTRYPOINT?**
+## 28. **What Is the Difference Between CMD and ENTRYPOINT?**
 
 Both define what runs when a container starts, but they serve different purposes.
 
@@ -7120,7 +7120,7 @@ docker run my-app --server.port=9090
 ```
 
 
-## 1. **What Is Multi-Stage Build?**
+## 29. **What Is Multi-Stage Build?**
 
 A **Multi-Stage Build** is a Docker build technique that uses **multiple `FROM` statements** to separate the **build environment** from the **runtime environment**.
 
@@ -7151,7 +7151,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 
 
-## 1. **What Is Docker Compose?**
+## 30. **What Is Docker Compose?**
 
 **Docker Compose** is a tool used to define and run **multiple Docker containers** using a single **`docker-compose.yml`** (or **`compose.yaml`**) file.
 
@@ -7190,7 +7190,7 @@ Stops and removes all services.
 
 
 
-## 1. **What Is Kubernetes and Why Is It Needed?**
+## 31. **What Is Kubernetes and Why Is It Needed?**
 
 **Kubernetes (K8s)** is an **open-source container orchestration platform** used to **deploy, manage, scale, and monitor** containerized applications.
 
@@ -7215,7 +7215,7 @@ This deploys an application to a **Kubernetes cluster**.
 
 
 
-## 1. **What Is a Pod in Kubernetes?**
+## 32. **What Is a Pod in Kubernetes?**
 
 A **Pod** is the **smallest deployable unit** in Kubernetes.
 
@@ -7238,7 +7238,7 @@ spec:
 ```
 
 
-## 1. **What Is a Node in Kubernetes?**
+## 33. **What Is a Node in Kubernetes?**
 
 A **Node** is a **physical or virtual machine** that runs **Pods**.
 
@@ -7263,7 +7263,7 @@ Pods      Pods
 
 
 
-## 1. **What Is a Service in Kubernetes?**
+## 34. **What Is a Service in Kubernetes?**
 
 A **Service** is a Kubernetes object that provides a **stable IP address and DNS name** to access one or more **Pods**.
 
@@ -7299,7 +7299,7 @@ spec:
 
 
 
-## 1. **What Types of Kubernetes Services Exist?**
+## 35. **What Types of Kubernetes Services Exist?**
 
 A **Service** provides a **stable IP address and DNS name** to access **Pods**.
 
@@ -7331,7 +7331,7 @@ spec:
 
 
 
-## 1. **What Is a ReplicaSet?**
+## 36. **What Is a ReplicaSet?**
 
 A **ReplicaSet** is a Kubernetes object that ensures a **specified number of Pod replicas** are always running.
 
@@ -7365,7 +7365,7 @@ spec:
 ```
 
 
-## 1. **How Does Scaling Work in Kubernetes?**
+## 37. **How Does Scaling Work in Kubernetes?**
 
 **Scaling** means **increasing or decreasing the number of Pod replicas** based on application demand.
 
@@ -7395,7 +7395,7 @@ This deployment starts **3 Pod replicas**.
 
 
 
-## 1. **What Is HorizontalPodAutoscaler (HPA)?**
+## 38. **What Is HorizontalPodAutoscaler (HPA)?**
 
 **HorizontalPodAutoscaler (HPA)** is a Kubernetes resource that **automatically increases or decreases the number of Pod replicas** based on metrics such as **CPU utilization**, **memory usage**, or **custom metrics**.
 
@@ -7434,7 +7434,7 @@ spec:
 ```
 
 
-## 1. **What Is the Difference Between ConfigMap and Secret?**
+## 40. **What Is the Difference Between ConfigMap and Secret?**
 
 Both **ConfigMap** and **Secret** are used to store application configuration, but they are intended for different types of data.
 
@@ -7472,7 +7472,7 @@ data:
 ```
 
 
-## 1. **What Is a Liveness Probe?**
+## 41. **What Is a Liveness Probe?**
 
 A **Liveness Probe** is a Kubernetes health check that determines whether a **container is still running correctly**.
 
@@ -7502,7 +7502,7 @@ spec:
 ```
 
 
-## 1. **What Is a Readiness Probe?**
+## 42. **What Is a Readiness Probe?**
 
 A **Readiness Probe** checks whether a **container is ready to accept traffic**.
 
@@ -7532,7 +7532,7 @@ spec:
 ```
 
 
-## 1. **Why Are Health Checks Needed?**
+## 43. **Why Are Health Checks Needed?**
 
 **Health checks** allow Kubernetes to determine whether an application is **running correctly** and **ready to serve requests**.
 
@@ -7553,7 +7553,7 @@ spec:
 | **Startup Probe**   | Checks whether a **slow-starting application** has finished starting. Until it succeeds, **Liveness** and **Readiness** probes are disabled. |
 
 
-## 1. **What Is Ingress in Kubernetes?**
+## 44. **What Is Ingress in Kubernetes?**
 
 **Ingress** is a Kubernetes resource that manages **external HTTP and HTTPS traffic** to services inside the cluster.
 
@@ -7590,7 +7590,7 @@ spec:
 * **Reduced cloud load balancer costs**
 
 
-## 1. **What Is a Namespace?**
+## 45. **What Is a Namespace?**
 
 A **Namespace** is a logical partition inside a Kubernetes cluster used to **organize and isolate resources**.
 
@@ -7617,7 +7617,7 @@ kubectl apply -f app.yaml -n development
 
 
 
-## 1. **How to Organize a Rolling Update in Kubernetes?**
+## 46. **How to Organize a Rolling Update in Kubernetes?**
 
 A **Rolling Update** gradually replaces **old Pods** with **new Pods** without stopping the application, ensuring **zero or minimal downtime**.
 
@@ -7668,7 +7668,7 @@ kubectl set image deployment/my-app app=my-app:v2
 * **No service interruption**
 
 
-## 1. **What Is a StatefulSet and When to Use It?**
+## 47. **What Is a StatefulSet and When to Use It?**
 
 A **StatefulSet** is a Kubernetes workload resource used to manage **stateful applications** that require **stable identities** and **persistent storage**.
 
@@ -7718,7 +7718,7 @@ spec:
 ```
 
 
-## 1. **How to Monitor Applications in Kubernetes?**
+## 48. **How to Monitor Applications in Kubernetes?**
 
 Application monitoring helps track the **health**, **performance**, and **resource usage** of applications and the Kubernetes cluster.
 
@@ -7758,7 +7758,6 @@ Check resource usage:
 ```bash
 kubectl top pods
 ```
-
 
 
 
