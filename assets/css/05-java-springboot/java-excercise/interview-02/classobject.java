@@ -6,6 +6,11 @@ class Main {
         InterfaceDemo();
         SuperThisDemo();
         ImmutableDemo();
+
+        functionalInterfaceDemo();        
+        methodReferenceDemo();
+        optionalDemo();
+        HascodeEqualsDemo();
     }
 
 // ============================================================
@@ -286,6 +291,111 @@ static class Employee {
         this.address = new Address(other.address);
     }
 }
+
+//=============================================
+    // A Functional Interface is an interface that contains exactly one abstract method 
+    // Predicate, Function, Consumer
+    //=============================================
+    static void functionalInterfaceDemo() {
+        System.out.println("=========================== functionalInterfaceDemo");
+
+        Predicate<Integer> isEven = n -> n % 2 == 0;
+        System.out.println("Is 10 even? " + isEven.test(10));
+
+        Function<Integer, Integer> square = n -> n * n;
+        System.out.println("Square: " + square.apply(5));
+
+        Consumer<String> print = s -> System.out.println("Hello " + s);
+        print.accept("Java");
+
+        // Way 1
+        CalculatorFunc add = (a, b) -> a + b;
+        System.out.println("Sum " + add.calculate(5,6));
+    }
+
+    interface CalculatorFunc {
+        int calculate (int a, int b);
+    }
+
+    //=============================================
+    // A Method Reference is a shorthand syntax of a lambda expression that refers to an existing method using :: operator.
+    //=============================================
+    static void methodReferenceDemo() {
+        System.out.println("=========================== methodReferenceDemo");
+
+        List<Student> studlist = Arrays.asList(
+            new Student("Alice", 22),
+            new Student("Bob", 20),
+            new Student("Charlie", 23)
+        );
+
+        // Lambda expression
+        OptionalInt maxAge = studlist.stream()
+                .mapToInt(student -> student.getAge())
+                .max();
+
+        // Method reference - more concise
+        OptionalInt maxAge = studlist.stream()
+                .mapToInt(Student::getAge)
+                .max();
+
+        // Constructor reference
+        Supplier<List<String>> listSupplier = ArrayList::new;
+    }
+
+    //=============================================
+    // Optional Class is a container object introduced in Java 8 that can either hold a value or be empty. It is mainly used to avoid NullPointerException and write cleaner, safer code.
+    //=============================================
+    static void optionalDemo() {
+        System.out.println("=========================== optionalDemo");
+
+        Optional<String> name = Optional.ofNullable(null);
+
+        // default value
+        System.out.println(name.orElse("Default Name"));
+
+        // check value
+        name.ifPresent(System.out::println);
+    }
+
+    //=============================================
+    // 43. Hashcode and Equals and Objects Utility
+    //=============================================
+    public static void HascodeEqualsDemo() {
+        System.out.println("=========================== HascodeEqualsDemo");
+
+        Person p1 = new Person("Banani");
+        Person p2 = new Person("Banani");
+
+        System.out.println(p1.equals(p2));
+
+        System.out.println(p1.hashCode());
+        System.out.println(p2.hashCode());
+    }
+    
+    // import java.util.Objects;
+    static class Person {
+        private String name;
+        Person(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (this == object)
+                return true;
+
+            if (!(object instanceof Person person))
+                return false;
+
+            return Objects.equals(name, person.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name);
+        }
+    }
 
 
 }
