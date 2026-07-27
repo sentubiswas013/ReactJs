@@ -11449,7 +11449,7 @@ public void receive(String message) {
 
 
 
-## 9. What is gRPC and How Does It Differ from REST ?
+## 33. What is gRPC and How Does It Differ from REST ?
 
 **gRPC (Google Remote Procedure Call)** is a **high-performance communication framework** that allows one service to call methods on another service as if they were local. It uses **HTTP/2** for transport and **Protocol Buffers (Protobuf)** for efficient binary data serialization.
 
@@ -11517,7 +11517,7 @@ message UserResponse {
 * **REST = Simple + JSON + HTTP + Public APIs** 🌐
 
 
-## 10. What is a Service Mesh (Istio)?
+## 34. What is a Service Mesh (Istio)?
 
 A **Service Mesh** is an infrastructure layer that **manages communication between microservices**. **Istio** is one of the most popular service mesh implementations, providing features like **traffic management**, **security**, **load balancing**, and **monitoring** without changing application code.
 
