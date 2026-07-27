@@ -1,3 +1,6 @@
+import java.util.Objects;
+import java.util.Optional;
+
 class Main {
     public static void main(String[] args) {
         ConstructStaticDemo();
@@ -6,7 +9,7 @@ class Main {
         InterfaceDemo();
         SuperThisDemo();
         ImmutableDemo();
-
+        ShallowAndDeepyCopy();
         
         optionalDemo();
         HascodeEqualsDemo();
@@ -209,7 +212,7 @@ static class Child extends Parent {
 // ============================================================
 public static void ImmutableDemo() {
     System.out.println("=========================== ImmutableDemo");
-    Person p = new Person("Pintu");
+    StudentImt p = new StudentImt("Pintu");
 
     System.out.println(p.getName()); // Pintu
 
@@ -217,12 +220,11 @@ public static void ImmutableDemo() {
     // No setter method ❌
 }
 
-static final class Person {
-
+static final class StudentImt {
     private final String name;
 
     // Constructor
-    public Person(String name) {
+    public StudentImt(String name) {
         this.name = name;
     }
 
@@ -239,7 +241,7 @@ static final class Person {
 //============================================================
 
 
-public static void () {
+public static void ShallowAndDeepyCopy() {
     Address address = new Address("Bangalore");
     Employee emp1 = new Employee("John", address);
 
