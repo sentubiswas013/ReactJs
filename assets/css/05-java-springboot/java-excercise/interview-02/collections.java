@@ -12,21 +12,23 @@ class CollectionsDemo {
         arrayListDemo();
         linkedListDemo();
         setDemo();
+
         mapDemo();
         flatMapDemo();
         CopyOnWriteArrayList();
         iterateMapDemo();
+
         queueDemo();
         stackDemo();
         sortingDemo();
         weakHashMapDemo();
         identityHashMapDemo();
         linkedHashMapDemo();
-        lruCacheDemo();
         priorityQueueDemo();
         maxHeapDemo();
-        lruCacheDemo();
-        LRUCacheDemo();
+
+        lruCacheDemoOne();
+        LRUCacheDemoTwo();
         LFUCacheDemo();
         TTLCacheDemo();
     }
@@ -36,6 +38,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void arrayListDemo() {
+        System.out.println("=========================== arrayListDemo");
+
         List<String> list = new ArrayList<>();
         list.add("Java");
         list.add("Spring");
@@ -50,6 +54,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void linkedListDemo() {
+        System.out.println("=========================== linkedListDemo");
+
         LinkedList<Integer> list = new LinkedList<>();
         list.add(10);
         list.add(20);
@@ -63,6 +69,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void setDemo() {
+        System.out.println("=========================== setDemo");
+
         Set<Integer> hashSet = new HashSet<>();
         hashSet.add(3);
         hashSet.add(1);
@@ -81,6 +89,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void mapDemo() {
+        System.out.println("=========================== mapDemo");
+
         Map<String, Integer> hashMap = new HashMap<>();
         hashMap.put("A", 1);
         hashMap.put("B", 2);
@@ -102,6 +112,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void flatMapDemo() {
+        System.out.println("=========================== flatMapDemo");
+
     	List<List<String>> nested = List.of(
 		    List.of("A", "B"),
 		    List.of("C", "D")
@@ -140,6 +152,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void iterateMapDemo() {
+        System.out.println("=========================== iterateMapDemo");
+
         Map<String, Integer> map = new HashMap<>();
         map.put("Java", 1);
         map.put("Spring", 2);
@@ -164,6 +178,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void queueDemo() {
+        System.out.println("=========================== queueDemo");
+
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(1);
         queue.offer(2);
@@ -178,6 +194,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void stackDemo() {
+        System.out.println("=========================== stackDemo");
+
         Stack<Integer> stack = new Stack<>();
         stack.push(10);
         stack.push(20);
@@ -191,10 +209,10 @@ class CollectionsDemo {
     // ============================================================
 
     static void sortingDemo() {
+        System.out.println("=========================== sortingDemo");
+        
         List<Integer> list = new ArrayList<>(Arrays.asList(3, 1, 2));
-
         Collections.sort(list);
-
         System.out.println("Sorted List: " + list);
     }
 
@@ -203,6 +221,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void weakHashMapDemo() throws Exception {
+        System.out.println("=========================== weakHashMapDemo");
+
         Map<String, Integer> weakMap = new WeakHashMap<>();
         String key = new String("Java");
         weakMap.put(key, 100);
@@ -218,6 +238,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void identityHashMapDemo() {
+        System.out.println("=========================== identityHashMapDemo");
+
         Map<String, Integer> identityMap = new IdentityHashMap<>();
 
         String s1 = new String("Java");
@@ -234,6 +256,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void linkedHashMapDemo() {
+        System.out.println("=========================== linkedHashMapDemo");
+
         Map<Integer, String> linkedMap = new LinkedHashMap<>();
 
         linkedMap.put(3, "Java");
@@ -248,6 +272,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void priorityQueueDemo() {
+        System.out.println("=========================== priorityQueueDemo");
+
         Queue<Integer> priorityQueue = new PriorityQueue<>();
 
         priorityQueue.offer(30);
@@ -265,6 +291,8 @@ class CollectionsDemo {
     // ============================================================
 
     static void maxHeapDemo() {
+        System.out.println("=========================== maxHeapDemo");
+
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
 
         maxHeap.offer(10);
@@ -279,8 +307,10 @@ class CollectionsDemo {
     // ============================================================
     // LRU (Least Recently Used) cache is a data structure that evicts the least recently used items when it reaches its capacity. It can be implemented using LinkedHashMap in Java.
     // ============================================================
-    // **# 2. LRU Cache way 
-    static void lruCacheDemo() {
+    // **# 2. LRU Cache way one
+    static void lruCacheDemoOne() {
+        System.out.println("=========================== lruCacheDemoOne");
+
         LinkedHashMap<Integer, String> cache =  new LinkedHashMap<Integer, String>(3, 0.75f, true) {
             @Override
             protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest) {
@@ -299,8 +329,10 @@ class CollectionsDemo {
         System.out.println(cache);
     }
 
-    // **# 2. LRU Cache way 2
-     static void LRUCacheDemo() {
+    // **# 2. LRU Cache way two
+     static void LRUCacheDemoTwo() {
+        System.out.println("=========================== LRUCacheDemoTwo");
+
         LRUCache<Integer, String> cache = new LRUCache<>(3);
 
         cache.put(1, "A");
@@ -333,6 +365,8 @@ class CollectionsDemo {
     // import java.util.HashMap;
     // import java.util.Map;
     static void LFUCacheDemo() {
+        System.out.println("=========================== LFUCacheDemo");
+
         LFUCache cache = new LFUCache();
 
         cache.put(1, "A");
@@ -392,6 +426,8 @@ class CollectionsDemo {
     // import java.util.HashMap;
     // import java.util.Map;
     static void TTLCacheDemo() {
+        System.out.println("=========================== TTLCacheDemo");
+        
         TTLCache cache = new TTLCache();
         cache.put(1, "Java", 3000);
         System.out.println(cache.get(1));
