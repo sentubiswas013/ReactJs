@@ -102,7 +102,6 @@ public static void FinalVariableMethodDemo() {
     System.out.println("=========================== FinalVariableMethodDemo");
 }
 static class FinalVariableMethodDemo {
-
     // final variable (constant)
     final int MAX_VALUE = 100;
 
@@ -119,7 +118,6 @@ static class FinalVariableMethodDemo {
 
 // Trying to override final method → NOT allowed
 static class FinalChild extends FinalVariableMethodDemo {
-
     // ❌ This will give compile error if uncommented
     /*
     void displayMessage() {
@@ -346,6 +344,5 @@ static class Employee {
             return Objects.hash(name);
         }
     }
-
 
 }

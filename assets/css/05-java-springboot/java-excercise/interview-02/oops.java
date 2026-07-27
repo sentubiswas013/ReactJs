@@ -1,13 +1,15 @@
+class Oops {
+    public static void main(String[] args) {
+        EncapsulationDemo();
+        InheritanceDemo();
+        PolymorphismDemo();
+        AbstractClassDemo();
+    }
+
 // ============================================================
 // Encapsulation:: Data is private and accessed using getter and setter methods. 👉 Hide data and control access. Keep data safe and access it through methods
-
-// Rules for Encapsulation:
-// 1. Make all fields private
-// 2. Provide public getter and setter methods
-// 3. Use read-only or write-only access when needed
-// 4. Optionally, make the class final to prevent subclassing
 // ============================================================
-class Person {
+static class Person {
     private String name;   // private variable
 
     public void setName(String name) {   // setter
@@ -19,54 +21,42 @@ class Person {
     }
 }
 
-class EncapsulationDemo {
-    public static void main(String[] args) {
-        Person p = new Person();
-        p.setName("John");
-        System.out.println(p.getName());
-    }
+public static void EncapsulationDemo() {
+    System.out.println("=========================== EncapsulationDemo");
+    Person p = new Person();
+    p.setName("John");
+    System.out.println(p.getName());
 }
+
 
 
 // ============================================================
 // Inheritance :: Child class inherits properties from parent class using extends. 👉 Reuse parent properties in child. Child gets features from parent
-
-// Rules for Inheritance:
-// 1. Use `extends` keyword to create a child class
-// 2. Child class inherits all non-private members of parent class
-// 3. Child class can override parent methods to provide specific implementation
 // ============================================================
-
-class Animal {
+static class Animal {
     void eat() {
         System.out.println("Animal is eating");
     }
 }
 
-class Dog extends Animal {
+static class Dog extends Animal {
     void bark() {
         System.out.println("Dog is barking");
     }
 }
 
-class InheritanceDemo {
-    public static void main(String[] args) {
-        Dog d = new Dog();
-        d.eat();   // inherited method
-        d.bark();
-    }
+public static void InheritanceDemo() {
+    System.out.println("=========================== InheritanceDemo");
+    Dog d = new Dog();
+    d.eat();   // inherited method
+    d.bark();
 }
 
 
 // ============================================================
 // Polymorphism :: Method Overloading 👉 Same method, different behavior. One thing, many forms
-
-// Rules for Polymorphism:
-// 1. Method Overloading: Same method name with different parameters in the same class.
-// 2. Method Overriding: Same method name and parameters in parent and child class, but different implementation in child class.
-// 3. Runtime Polymorphism: Parent reference can point to child object, and overridden method will be called at runtime.
 // ============================================================
-class Calculator {
+static class Calculator {
     int add(int a, int b) {
         return a + b;
     }
@@ -76,63 +66,45 @@ class Calculator {
     }
 }
 
-class PolymorphismDemo {
-    public static void main(String[] args) {
-        Calculator c = new Calculator();
-        System.out.println(c.add(5, 10));
-        System.out.println(c.add(5, 10, 15));
-    }
+public static void PolymorphismDemo() {
+    System.out.println("=========================== PolymorphismDemo");
+    Calculator c = new Calculator();
+    System.out.println(c.add(5, 10));
+    System.out.println(c.add(5, 10, 15));
 }
+
 
 
 // ============================================================
 // Abstraction :: abstract class or interface 👉 Hide complexity, show only needed parts. Show what is needed, hide the rest.
-
-// Rules for Abstraction:
-// 1. Use `abstract` keyword to create an abstract class or method.
-// 2. Abstract class can have both abstract and non-abstract methods, while interface can only have
-
-// Why Use Abstraction?
-// Hides complexity
-// Improves security
-// Makes code flexible & maintainable
 // ============================================================
-// 1. Abstract Class (0–100% abstraction)
-// Use cases:
-// You want some methods implemented, some not
-// You want to reuse code
-// You need instance variables (state)
-abstract class Vehicle {
+static abstract class Vehicle {
     abstract void start();   // abstract method
 }
 
-class Car extends Vehicle {
+static class Car extends Vehicle {
     void start() {
         System.out.println("Car starts with key");
     }
 }
 
-class AbstractClassDemo {
-    public static void main(String[] args) {
-        Vehicle v = new Car();
-        v.start();
-    }
+
+public static void AbstractClassDemo() {
+    System.out.println("=========================== AbstractClassDemo");
+    Vehicle v = new Car();
+    v.start();
 }
 
-// 2. Interface (100% abstraction – mostly)
-// Use cases:
-// Multiple classes need to follow same behavior
-// No shared state needed
-// You want multiple inheritance
+
 
 interface VehicleB {
     void sound();
 }
 
-class CarV implements VehicleB {
+static class CarV implements VehicleB {
     public void sound() {
         System.out.println("Car makes engine sound");
     }
 }
 
-
+}
