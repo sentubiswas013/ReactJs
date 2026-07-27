@@ -4009,7 +4009,7 @@ public class Demo {
 # ✅ 21. Java Design Patterns 
 
 
-## 2. **What Is Delegation in OOP?**
+## 1. **What Is Delegation in OOP?**
 
 **Delegation** is an OOP technique where **one object delegates (passes)** a task to **another object** instead of implementing the logic itself.
 
@@ -4043,7 +4043,7 @@ When **`printDocument()`** is called, the **`Computer`** does not print itself. 
 4. Makes code easier to **maintain** and **test**.
 
 
-## 0. What are SOLID principles?
+## 2. What are SOLID principles?
 
 **SOLID** is a set of **five object-oriented design principles** that help developers write **clean, maintainable, scalable, and loosely coupled code**.
 
@@ -4417,7 +4417,7 @@ Interview Points (Quick):
 Card payment
 ```
 
-## 1. What are design patterns?
+## 3. What are design patterns?
 
 **Design Patterns** are **proven, reusable solutions** to common software design problems. They are **templates or best practices**, not complete code, that help developers write **clean, maintainable, and scalable** applications.
 
@@ -4494,7 +4494,7 @@ public class Singleton {
 * **Iterator** – Sequential access to collection.
 
 
-## 2. What is Singleton pattern?
+## 4. What is Singleton pattern?
 
 The **Singleton Pattern** is a **Creational Design Pattern** that ensures a class has **only one instance** throughout the application and provides a **global access point** to that instance.
 
@@ -4567,7 +4567,7 @@ public class Main {
 
 
 
-## 3. How do you implement thread-safe Singleton?
+## 5. How do you implement thread-safe Singleton?
 
 **Thread-safe Singleton** can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
 
@@ -4602,7 +4602,7 @@ public enum EnumSingleton {
 }
 ```
 
-## 4. What is Factory pattern?
+## 6. What is Factory pattern?
 
 The **Factory Pattern** is a **Creational Design Pattern** that provides a **centralized way to create objects** without exposing the object creation logic to the client. Instead of using `new` directly, the client asks the **factory** to create the required object.
 
@@ -4684,7 +4684,7 @@ class FactoryPatternDemo {
 * Makes it easier to add new implementations without changing client code.
 
 
-## 5. What is Observer pattern?
+## 7. What is Observer pattern?
 
 The **Observer Pattern** is a **Behavioral Design Pattern** in which **one object (Subject)** automatically **notifies multiple dependent objects (Observers)** whenever its state changes. It establishes a **one-to-many relationship** between objects.
 
@@ -4757,7 +4757,7 @@ public class Main {
 * Supports **event-based communication**.
 
 
-## 6. What is Strategy pattern?
+## 8. What is Strategy pattern?
 
 The **Strategy Pattern** is a **Behavioral Design Pattern** that defines a **family of algorithms**, encapsulates each one in a separate class, and allows them to be **interchanged at runtime** without changing the client code.
 
@@ -4833,7 +4833,7 @@ public class Main {
 
 
 
-## 7. What is Adapter pattern?
+## 9. What is Adapter pattern?
 
 The **Adapter Pattern** is a **Structural Design Pattern** that allows **two incompatible interfaces** to work together by acting as a **bridge** between them. It converts the interface of one class into another interface that the client expects.
 
@@ -4899,7 +4899,7 @@ public class Main {
 * Simplifies integration with **legacy or external systems**.
 
 
-## 8. What is Decorator pattern?
+## 10. What is Decorator pattern?
 
 The **Decorator Pattern** is a **Structural Design Pattern** that allows you to **add new functionality to an object dynamically** without changing its existing code. It works by **wrapping** the original object inside a decorator object.
 
@@ -4968,7 +4968,7 @@ public class Main {
 * Makes the system **flexible** and **easy to extend**.
 
 
-## 8. What is Builder pattern?
+## 11. What is Builder pattern?
 
 The **Builder Pattern** is a **Creational Design Pattern** used to **construct complex objects step by step**. It is especially useful when an object has **many optional parameters** and you want to avoid multiple constructors.
 
@@ -5048,7 +5048,7 @@ public class Main {
 * Easy to extend with new optional fields.
 
 
-## 8. What is Prototype pattern?
+## 12. What is Prototype pattern?
 
 The **Prototype Pattern** is a **Creational Design Pattern** that creates new objects by **copying (cloning) an existing object** instead of creating a new one from scratch. It is useful when object creation is **expensive or complex**.
 
@@ -8424,7 +8424,7 @@ A **Foreign Key** is a column that **references the Primary Key** of another tab
 | References       | Own table                                   | **Primary Key** (or **Unique Key**) of another table |
 
 
-## 12. What is the Difference Between UNION and UNION ALL?
+## 13. What is the Difference Between UNION and UNION ALL?
 
 Both combine results of two SELECT queries — but handle duplicates differently.
 
@@ -8450,7 +8450,7 @@ SELECT name FROM employee_us;
 Use `UNION ALL` when you know there are no duplicates or you want all rows — it's faster because it skips the deduplication step.
 
 
-## 12. Why are indexes needed?
+## 14. Why are indexes needed?
 
 An **Index** is a special **database object** that helps the database **find rows faster** without scanning the entire table. It improves the performance of **`SELECT`** queries.
 
@@ -8485,7 +8485,7 @@ ON Employee(email);
 Now the same query uses the **Index** to find the record much faster.
 
 
-## 12. How does a B-tree index work?
+## 15. How does a B-tree index work?
 
 A **B-Tree (Balanced Tree)** is the **default index structure** used by most databases. It stores **sorted values** in a tree structure, allowing the database to quickly locate data instead of scanning the entire table.
 
@@ -8529,7 +8529,7 @@ WHERE salary BETWEEN 40000 AND 60000;
 The database finds the **starting value** in the **B-Tree** and then reads the matching **Leaf Nodes**, making range searches very efficient.
 
 
-## 12. What is a composite index?
+## 16. What is a composite index?
 
 A **Composite Index** is an **index created on two or more columns** of a table. It improves query performance when the query searches or sorts using **multiple columns together**.
 
@@ -8584,7 +8584,7 @@ WHERE salary > 50000;
 Since the query skips the **leftmost column (`department`)**, the **Composite Index** is generally **not used efficiently**.
 
 
-## 12. When should you create an index?
+## 17. When should you create an index?
 
 You should create an **Index** when a column is **frequently used for searching, filtering, joining, or sorting**. An index improves **`SELECT`** query performance by allowing the database to find rows quickly instead of performing a **Full Table Scan**.
 
@@ -8621,7 +8621,7 @@ Now the database can quickly locate the matching row using the **Index**.
 
 
 
-## 12. What are the disadvantages of indexes?
+## 18. What are the disadvantages of indexes?
 
 Although **Indexes** improve **`SELECT`** query performance, they also have some drawbacks. Every index must be maintained whenever the table data changes.
 
@@ -8671,7 +8671,7 @@ During the **`INSERT`**, the database stores the new row **and** updates the **I
 
 
 
-## 12. What is index cardinality?
+## 19. What is index cardinality?
 
 **Index Cardinality** is the **number of unique values** in an indexed column. It helps the database decide whether using an **Index** will be faster than performing a **Full Table Scan**.
 
@@ -8712,7 +8712,7 @@ WHERE gender = 'Male';
 Since **`gender`** has only a few distinct values, the database may choose a **Full Table Scan** instead of using the **Index**.
 
 
-## 12. What types of JOIN exist?
+## 20. What types of JOIN exist?
 
 A **JOIN** is used to **combine rows from two or more tables** based on a **related column**. It allows you to retrieve data stored across multiple tables.
 
@@ -8794,7 +8794,7 @@ ON e1.manager_id = e2.id;
 Returns each **employee** along with their **manager** from the same table.
 
 
-## 12. What is the difference between INNER JOIN and LEFT JOIN?
+## 21. What is the difference between INNER JOIN and LEFT JOIN?
 
 Both **INNER JOIN** and **LEFT JOIN** are used to **combine rows from two tables**, but they differ in how they handle **unmatched rows**.
 
@@ -8831,7 +8831,7 @@ ON e.department_id = d.id;
 **Result:** Returns **all employees**. If an employee has no matching department, **`department_name`** is **`NULL`**.
 
 
-## 12. Which is better: JOIN or subquery?
+## 22. Which is better: JOIN or subquery?
 
 There is no single answer that **JOIN** is always better than a **Subquery**. The choice depends on the **query requirement**, **data size**, and **database optimizer**. In most cases, **JOIN** is preferred for combining data from multiple tables because it is usually more efficient and easier to optimize.
 
@@ -8901,7 +8901,7 @@ The **Subquery** first finds the department IDs and then retrieves employees.
    It depends on the query. Use the one that provides **better clarity and maintainability**.
 
 
-## 12. What is a correlated subquery?
+## 23. What is a correlated subquery?
 
 A **Correlated Subquery** is a **subquery that depends on the outer query**. It uses values from the **outer query** and executes **once for each row** processed by the outer query.
 
@@ -8943,7 +8943,7 @@ Here:
 | Usually faster.                         | Can be slower for large datasets.                  |
 
 
-## 12. What is the difference between WHERE and HAVING?
+## 24. What is the difference between WHERE and HAVING?
 
 Both **`WHERE`** and **`HAVING`** are used to **filter data**, but the main difference is **when the filtering happens**.
 
@@ -9002,7 +9002,7 @@ Flow:
 3. **`HAVING`** returns only departments having more than **5 employees**.
 
 
-## 12. What does GROUP BY do?
+## 25. What does GROUP BY do?
 
 **`GROUP BY`** is used to **combine rows with the same values** into groups. It is mainly used with **aggregate functions** like **`COUNT()`**, **`SUM()`**, **`AVG()`**, **`MAX()`**, and **`MIN()`** to perform calculations on each group.
 
@@ -9044,7 +9044,7 @@ Here:
 3. **`HAVING`** filters departments with an average salary greater than **50000**.
 
 
-## 12. When to use HAVING?
+## 26. When to use HAVING?
 
 **`HAVING`** is used to **filter grouped data after applying `GROUP BY`**. It is mainly used when we need to filter results based on **aggregate functions** like **`COUNT()`**, **`SUM()`**, **`AVG()`**, **`MAX()`**, and **`MIN()`**.
 
@@ -9089,7 +9089,7 @@ Execution flow:
 3. **`HAVING`** filters the final grouped results.
 
 
-## 12. What are window functions?
+## 27. What are window functions?
 
 **Window Functions** are SQL functions that perform calculations across a set of related rows without combining them into a single result row. They allow you to perform calculations while **keeping the original rows** in the output.
 
@@ -9150,7 +9150,7 @@ The **`SUM() OVER()`** calculates a running total while keeping every employee r
 | Example: Total salary per department.         | Example: Employee ranking within department.                 |
 
 
-## 12. What does ROW_NUMBER() do?
+## 28. What does ROW_NUMBER() do?
 
 **`ROW_NUMBER()`** is a **window function** that assigns a **unique sequential number** to each row within a result set. The numbering starts from **1** and is based on the order defined in the **`ORDER BY`** clause inside **`OVER()`**.
 
@@ -9191,7 +9191,7 @@ FROM Employee;
 | **DENSE_RANK()** | Same rank for duplicates | 1, 2, 2, 3           |
 
 
-## 12. What do RANK() and DENSE_RANK() do?
+## 29. What do RANK() and DENSE_RANK() do?
 
 **`RANK()`** and **`DENSE_RANK()`** are **window functions** used to assign **rank numbers** to rows based on a specified column. They are commonly used for **ranking**, **leaderboards**, and **data analysis**.
 
@@ -9247,7 +9247,8 @@ FROM Employee;
 
 Here, Alice and Bob have the same salary, so both get **rank 2**, and the next rank is **3**.
 
-## 12. How does MVCC work in PostgreSQL?
+
+## 30. How does MVCC work in PostgreSQL?
 
 **MVCC (Multi-Version Concurrency Control)** is a PostgreSQL mechanism that allows **multiple transactions to access the same data simultaneously** without blocking each other.
 
@@ -9352,7 +9353,7 @@ New transactions will see the **updated row version**.
    **No.** PostgreSQL still uses locks for operations like **updates**, **schema changes**, and **transaction coordination**.
 
 
-## 12. What is VACUUM in PostgreSQL?
+## 21. What is VACUUM in PostgreSQL?
 
 **`VACUUM`** is a PostgreSQL maintenance operation that **removes dead row versions** created by **MVCC (Multi-Version Concurrency Control)** and frees space for reuse.
 
@@ -9452,7 +9453,7 @@ salary = 70000  → active row
    **Yes.** PostgreSQL uses **Autovacuum** to automatically clean dead tuples.
 
 
-## 12. Why is ANALYZE needed?
+## 32. Why is ANALYZE needed?
 
 **`ANALYZE`** is a PostgreSQL command that collects **statistics about tables and columns** and stores them in the system catalog. These statistics help the **Query Planner** choose the most efficient **execution plan** for SQL queries.
 
@@ -9527,7 +9528,7 @@ PostgreSQL gets updated statistics and can choose a better plan, such as using a
 | Improves query plan selection. | Prevents table bloat.               |
 
 
-## 12. What is explain plan?
+## 33. What is explain plan?
 
 **`EXPLAIN PLAN`** is a tool used to understand how the **database executes a SQL query**. It shows the **execution plan** chosen by the **Query Optimizer**, including whether the database uses an **Index Scan**, **Sequential Scan**, **JOIN strategy**, and estimated costs.
 
@@ -9602,7 +9603,7 @@ WHERE department_id = 10;
 | Safer for production use.           | Use carefully on large tables.                   |
 
 
-## 12. How to optimize slow queries?
+## 34. How to optimize slow queries?
 
 **Query Optimization** is the process of improving SQL queries so that they execute **faster** and use fewer **database resources**. The goal is to reduce **execution time**, **CPU usage**, and **disk I/O**.
 
@@ -9636,7 +9637,7 @@ Look for:
 * **Execution Time** → Actual query performance.
 
 
-## 12. What is SQL injection and how to prevent it?
+## 35. What is SQL injection and how to prevent it?
 
 **SQL Injection** is a **security vulnerability** where an attacker injects malicious SQL code into application queries, to **manipulate or access the database illegally**.
 
@@ -9657,7 +9658,7 @@ ResultSet rs = pstmt.executeQuery();
 ```
 
 
-## 13. What is a Cursor in SQL and when should it be used ?
+## 36. What is a Cursor in SQL and when should it be used ?
 
 A **Cursor** is used to **process database rows one by one** instead of all at once.
 It is useful when we need **row-by-row processing**, but it should be used carefully because it can be **slower than set-based queries**
@@ -9709,7 +9710,7 @@ public void processProducts() {
 }
 ```
 
-## 14. What is Batch Processing?
+## 37. What is Batch Processing?
 
 **Batch Processing** is a technique where a **large number of records** are **processed together as a single batch** instead of processing each record individually. It is commonly used for **scheduled**, **repetitive**, and **high-volume** data processing.
 
@@ -9812,7 +9813,7 @@ public class EmployeeProcessor
 | Example: **Payroll**, **ETL**, **Invoice Generation**. | Example: **Fraud Detection**, **Live Notifications**, **Stock Trading**. |
 
 
-## 15. What is sharding in databases?
+## 38. What is sharding in databases?
 
 **Sharding** is a **database scaling technique** where a large database is **split into smaller, independent databases (called shards)**. Each shard stores a **portion of the data**, allowing the system to handle more users and data efficiently.
 
@@ -9914,7 +9915,7 @@ switch (shardId) {
 | Used for **very large, distributed systems**.             | Used for **managing large tables** within one database.         |
 
 
-## 15. What is stored procedure in sql?
+## 39. What is stored procedure in sql?
 
 
 A **Stored Procedure** is a **precompiled collection of SQL statements** stored in the database that performs a **specific task**. It can accept **input parameters**, execute **multiple SQL operations**, and optionally return **output values**.
