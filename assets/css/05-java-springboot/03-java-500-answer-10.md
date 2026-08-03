@@ -16122,8 +16122,6 @@ Use **reflection** when you need dynamic behavior that cannot be achieved with n
 
 ## 1. What is JDBC ?
 
-**What is JDBC?**
-
 **JDBC (Java Database Connectivity)** is a **Java API** that allows Java applications to **connect to a database, execute SQL queries, and retrieve or update data**.
 
 **Key Features**
@@ -16195,6 +16193,365 @@ ResultSet rs = stmt.executeQuery("SELECT * FROM users");
 // Step 5: Close resources
 rs.close(); stmt.close(); conn.close();
 ```
+
+## 3. What is JDBC Template and how it works?
+
+
+
+**JDBC Template** is a **Spring Framework** class that simplifies working with **JDBC**. It removes repetitive code like opening connections, creating statements, handling exceptions, and closing resources, allowing developers to focus only on writing **SQL queries**.
+
+**Key Features**
+
+* **Simplifies JDBC** operations.
+* Automatically manages **Connection**, **Statement**, and **ResultSet**.
+* Handles **exceptions** by converting SQL exceptions into Spring exceptions.
+* Supports **CRUD** operations easily.
+* Improves **code readability** and **maintainability**.
+
+**How it Works**
+
+1. Inject **JdbcTemplate** into your class.
+2. Write the **SQL query**.
+3. Call methods like **query()**, **queryForObject()**, **update()**, or **batchUpdate()**.
+4. Spring automatically handles database resources and exception handling.
+
+**Common Methods**
+
+* **query()** – Retrieve multiple records.
+* **queryForObject()** – Retrieve a single record.
+* **update()** – Insert, Update, or Delete data.
+* **batchUpdate()** – Execute multiple updates together.
+
+**When to Use**
+
+* When writing **simple SQL-based** applications.
+* When you want **better performance** than ORM frameworks like Hibernate.
+* When you need **full control** over SQL queries.
+* Suitable for **small to medium** database operations.
+
+**Advantages**
+
+* Less **boilerplate code**.
+* Better **performance** than ORM for simple queries.
+* Easy to learn and use.
+* Automatic **resource management**.
+* Built-in **exception handling**.
+
+**Code Example**
+
+```java
+
+Suppose we have an **Employee** table.
+
+**Database Table**
+
+```sql
+CREATE TABLE employee (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    salary DOUBLE
+);
+```
+
+**1. Configuration**
+
+Spring Boot automatically creates the **JdbcTemplate** bean if you add the dependency and configure the database.
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/company
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+```
+
+**2. Employee Model**
+
+```java
+public class Employee {
+
+    private int id;
+    private String name;
+    private double salary;
+
+    public Employee() {
+    }
+
+    public Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    // Getters and Setters
+}
+```
+
+**3. Repository using JdbcTemplate**
+
+```java
+@Repository
+public class EmployeeRepository {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    // INSERT
+    public int save(Employee employee) {
+
+        String sql = "INSERT INTO employee(id, name, salary) VALUES (?, ?, ?)";
+
+        return jdbcTemplate.update(
+                sql,
+                employee.getId(),
+                employee.getName(),
+                employee.getSalary()
+        );
+    }
+
+    // GET ALL
+    public List<Employee> findAll() {
+
+        String sql = "SELECT * FROM employee";
+
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                new Employee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("salary")
+                )
+        );
+    }
+
+    // GET BY ID
+    public Employee findById(int id) {
+
+        String sql = "SELECT * FROM employee WHERE id = ?";
+
+        return jdbcTemplate.queryForObject(
+                sql,
+                (rs, rowNum) ->
+                        new Employee(
+                                rs.getInt("id"),
+                                rs.getString("name"),
+                                rs.getDouble("salary")
+                        ),
+                id
+        );
+    }
+
+    // UPDATE
+    public int update(Employee employee) {
+
+        String sql = "UPDATE employee SET name = ?, salary = ? WHERE id = ?";
+
+        return jdbcTemplate.update(
+                sql,
+                employee.getName(),
+                employee.getSalary(),
+                employee.getId()
+        );
+    }
+
+    // DELETE
+    public int delete(int id) {
+
+        String sql = "DELETE FROM employee WHERE id = ?";
+
+        return jdbcTemplate.update(sql, id);
+    }
+}
+```
+
+**4. Service Layer**
+
+```java
+@Service
+public class EmployeeService {
+
+    @Autowired
+    private EmployeeRepository repository;
+
+    public void addEmployee(Employee employee) {
+        repository.save(employee);
+    }
+
+    public List<Employee> getEmployees() {
+        return repository.findAll();
+    }
+
+    public Employee getEmployee(int id) {
+        return repository.findById(id);
+    }
+
+    public void updateEmployee(Employee employee) {
+        repository.update(employee);
+    }
+
+    public void deleteEmployee(int id) {
+        repository.delete(id);
+    }
+}
+```
+
+**5. Controller**
+
+```java
+@RestController
+@RequestMapping("/employees")
+public class EmployeeController {
+
+    @Autowired
+    private EmployeeService service;
+
+    @PostMapping
+    public String save() {
+        Employee employee = new Employee(1, "John", 50000);
+        service.addEmployee(employee);
+        return "Employee Saved";
+    }
+
+    @GetMapping
+    public List<Employee> getAll() {
+        return service.getEmployees();
+    }
+
+    @GetMapping("/{id}")
+    public Employee getById(@PathVariable int id) {
+        return service.getEmployee(id);
+    }
+
+    @PutMapping
+    public String update() {
+
+        Employee employee = new Employee(1, "David", 70000);
+
+        service.updateEmployee(employee);
+
+        return "Employee Updated";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable int id) {
+        service.deleteEmployee(id);
+
+        return "Employee Deleted";
+    }
+}
+```
+
+**What Happens Internally?**
+
+When you call:
+
+```java
+repository.findById(1);
+```
+
+The following happens:
+
+1. **JdbcTemplate** gets a **Connection** from the **DataSource**.
+2. It creates a **PreparedStatement** for:
+
+   ```sql
+   SELECT * FROM employee WHERE id = ?
+   ```
+3. It sets the parameter:
+
+   ```java
+   id = 1
+   ```
+4. It executes the SQL.
+5. It receives a **ResultSet**.
+6. The **RowMapper** converts each row into an **Employee** object.
+7. It closes the **ResultSet**, **PreparedStatement**, and **Connection** automatically.
+8. It returns the **Employee** object.
+
+**Understanding the Lambda (RowMapper)**
+
+```java
+return jdbcTemplate.query(sql, (rs, rowNum) ->
+        new Employee(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getDouble("salary")
+        )
+);
+```
+
+This lambda is a **RowMapper<Employee>**.
+
+For every row in the **ResultSet**, Spring executes:
+
+```java
+Employee employee = new Employee(
+        rs.getInt("id"),
+        rs.getString("name"),
+        rs.getDouble("salary")
+);
+
+return employee;
+```
+
+If the table contains:
+
+| id | name  | salary |
+| -: | ----- | -----: |
+|  1 | John  |  50000 |
+|  2 | Alice |  60000 |
+|  3 | Bob   |  70000 |
+
+Spring creates:
+
+```java
+Employee e1 = new Employee(1, "John", 50000);
+Employee e2 = new Employee(2, "Alice", 60000);
+Employee e3 = new Employee(3, "Bob", 70000);
+
+List<Employee> employees = List.of(e1, e2, e3);
+```
+
+**Why `update()` for Insert, Update, and Delete?**
+
+All three SQL operations **modify data** rather than return rows, so **JdbcTemplate** uses the same method:
+
+```java
+jdbcTemplate.update(sql, params);
+```
+
+Examples:
+
+**Insert**
+
+```java
+jdbcTemplate.update(
+    "INSERT INTO employee VALUES (?, ?, ?)",
+    1,
+    "John",
+    50000
+);
+```
+
+**Update**
+
+```java
+jdbcTemplate.update(
+    "UPDATE employee SET salary=? WHERE id=?",
+    60000,
+    1
+);
+```
+
+**Delete**
+
+```java
+jdbcTemplate.update(
+    "DELETE FROM employee WHERE id=?",
+    1
+);
+```
+
+```
+
 
 ## 3. What is the difference between Statement and PreparedStatement?
 
