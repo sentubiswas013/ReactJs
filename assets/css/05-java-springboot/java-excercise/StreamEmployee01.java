@@ -127,13 +127,19 @@ static class Employee {
                 .filter(e -> e.getFirstName().startsWith("A"))
                 .collect(Collectors.toList());
 
+         List<Employee> result = empList.stream()
+                .filter(e -> e.getFirstName().startsWith("A"))
+                .collect(Collectors.toList());
+
         System.out.println("\n1. Employees whose name starts with A: " + employeeNameA);
+        System.out.println("\n1. Employees whose name starts with B: " + result);
 
         // Output:
         // 1. Employees whose name starts with A:
         // [Employee [id=3, firstName=Ankit, lastName=Patil, age=25,
         // gender=Female, departmentName=Mechanical, joinedYear=2019,
         // city=Kerala, salary=45000]]
+
 
 
 
